@@ -6,8 +6,8 @@ Redesign of MyCasaParticular.com
 Installation
 ------------
 
-1. First clone this repository using the git clone command
-2. Checkout the develop branch with "git checkout develop"
+1. First clone this repository using the git clone command (git clone https://github.com/ABUC/MyCP.git)
+2. Change to project root directory and checkout the develop branch with "git checkout develop"
 3. Copy app/config/parameters.yml.template to app/config/parameters.yml
 4. Edit app/config/parameters.yml according to your local settings
 5. Run "composer install" in the project's root directory
