@@ -1,0 +1,3 @@
+frontend_review_reservation:
+    pattern:  /review/
+    defaults: { _controller: frontEndBundle:reservation:review }

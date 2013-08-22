@@ -1,0 +1,13 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li class="active">Administración</li>
+</ul>
+{% endblock %}
+{% block content %}
+<h1>Bienvenido usuario {% if app.user.getUserName is defined %}{{app.user.getUserName}}{% endif %}</h1>
+<p>
+    <div class="alert alert-block">Visite las secciones que se encuentran en el menú de la izquierda para realizar las tareas administrativas correspondiente a su rol.</div>
+</p>
+{% endblock %}

@@ -1,0 +1,8 @@
+<select id="select_municipalities" {%if mun_total == 0%}disabled="true"{%endif%}>
+    <option value="-1">{{"ALL_ITEMS_M" | trans}}</option>
+{%for mun in municipalities%}
+    {%if total_destination_mun[mun.munid] > 0%}
+<option value="{{mun.munid}}">{{mun}}  <span>({{total_destination_mun[mun.munid]}})</span></option>
+    {%endif%}
+{%endfor%}
+</select>

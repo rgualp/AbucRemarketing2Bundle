@@ -1,0 +1,5 @@
+{% for municipality in municipalities %}
+<label class="checkbox">
+    <input type="checkbox" {% if(data['municipality_'~municipality.getMunId] is defined) %} checked="TRUE" {% endif %} name="municipality_{{ municipality.getMunId }}" value="{{ municipality.getMunId }}"/> {{ municipality.getMunName }}<br/>
+</label>
+{% endfor %}

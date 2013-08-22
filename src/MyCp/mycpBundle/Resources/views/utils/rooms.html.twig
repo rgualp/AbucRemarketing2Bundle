@@ -1,0 +1,6 @@
+<option value=""></option>
+{% set a = 1%}
+{% for room in rooms %}
+<option {% if selected_room is defined and  selected_room== room.getRoomId %} selected="TRUE" {% endif %} value="{{ room.getRoomId }}">Habitación {{a}}</option>
+{% set a = a +1 %}
+{% endfor %}

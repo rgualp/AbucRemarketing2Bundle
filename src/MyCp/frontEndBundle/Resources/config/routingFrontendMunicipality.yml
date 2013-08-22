@@ -1,0 +1,7 @@
+frontend_find_municipality:
+    pattern:  /find_municipality/
+    defaults: { _controller: frontEndBundle:municipality:find }
+    
+frontend_find_for_destinations_municipality:
+    pattern:  /find_for_destinations_municipality/
+    defaults: { _controller: frontEndBundle:municipality:find_for_destinations }

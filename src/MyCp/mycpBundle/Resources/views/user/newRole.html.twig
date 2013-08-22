@@ -1,0 +1,78 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_users') }}">Usuarios</a> <span class="divider">/</span></li>
+    <li class="active">Adicionar rol {{role.getRoleName}}</li>
+    <li class="pull-right"><a href="{{ path('mycp_list_users') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+{% endblock %}
+{% block form_actions %}
+<div class="form-actions">
+    <button class="btn btn-primary" type="submit">Guardar</button>
+    <a class="btn" href="{{ path('mycp_list_users') }}">Cancelar</a>
+</div>
+</form>
+{% endblock %}
+{% block content %}
+<h2>Adicionar rol {{role.getRoleName}}</h2>
+<hr/>
+{% if data['error'] is defined %}<div class="alert alert-error">{{data['error']}}</div> {% endif %}
+<form class="" action="{{ path('mycp_new_role' ,{'id_role':role.getRoleId}) }}" method="POST" novalidate="true">
+    <label>Nombre del rol:</label>
+    {% if data['error_name'] is defined%}<label class="error">{{data['error_name']}}</label>{% endif %}
+    {{role.getRoleName}}_ <input required="required" type="text" name="role_name" value="{% if post['role_name'] is defined%}{{post['role_name']}}{%endif%}"/>
+    <h3 class="title">Acceso a módulos</h3>
+    {% if permissions %}
+    {% if data['error_checkbox'] is defined %}<label class="error">{{data['error_checkbox']}}</label>{% endif %}
+    <div class="row-fluid">
+    <div class="span3">
+
+    {% set pos_array=0 %}
+    {% set count_div=0 %}
+    {% set flag=0 %}
+    {% for permission in permissions%}
+    {% set count_items=data['array_count'][pos_array] %}
+        {% if flag==0 %}
+        <label class="checkbox"><input {% if post['all_select_'~permission.getRpPermission.getPermCategory] is defined %}checked="checked" {% endif %} name="all_select_{{permission.getRpPermission.getPermCategory}}" class="all_select {{permission.getRpPermission.getPermCategory}}" type="checkbox"/>{{permission.getRpPermission.getPermCategory}}</label>
+        {% endif %}
+        <label class="checkbox permission">
+            <input class="{{permission.getRpPermission.getPermCategory}}" {% if post['permission_'~permission.getRpPermission.getPermId] is defined %}checked="checked" {% endif %} id="{{'permission_'~permission.getRpPermission.getPermId}}" type="checkbox" name="{{'permission_'~permission.getRpPermission.getPermId}}"/>
+            {{permission.getRpPermission.getPermDescription}}
+        </label>
+        {% set flag=flag+1 %}
+        {% if flag == count_items%}
+        {% set pos_array=pos_array+1 %}
+            {% set flag=0 %}
+            {% set count_div=count_div+1 %}
+            </div>
+            {% if count_div == 4%}
+                {% set count_div=0 %}
+                </div>
+                <div class="row-fluid permissions">
+            {% endif %}
+            <div class="span3">
+        {% endif %}
+    {% endfor %}
+    </div>
+    </div>
+    <script type="text/javascript">
+        $(".all_select").change(function(){
+            class_name=this.className;
+            array_class_name=class_name.split(' ');
+            if(this.checked)
+            {
+                $("input:checkbox."+array_class_name[1]).attr('checked','checked');
+            }
+            else
+            {
+                $("input:checkbox."+array_class_name[1]).removeAttr('checked');
+            }
+        })
+    </script>
+    {%else%}
+    <div class="alert alert-block">No hay Permisos disponibles para este rol.</div>
+    {%endif%}
+
+{% endblock %}

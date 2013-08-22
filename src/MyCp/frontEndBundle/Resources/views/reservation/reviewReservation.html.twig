@@ -1,0 +1,82 @@
+{% extends 'frontEndBundle:layout:base.html.twig' %}
+{% block title %}
+{{"POPULAR_DESTINATIONS_PAGE_TITLE" | trans}}
+{% endblock %}
+
+{% set main_tab = 2 %}
+{% block content_nav_top_body %}
+destinos
+{% endblock %}
+
+{% block body %}
+<ul class="breadcrumb">
+    <li><a href="{{ path('frontend_welcome') }}" title="{{"GO_HOME_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a> <span class="divider">»</span></li>
+    <li><a href="{{ path('frontend_details_ownership',{'owner_id':ownership.getOwnId}) }}" title="">{{ ownership.getOwnName }}</a> <span class="divider">»</span></li>
+    <li class="active">{{'RESETVATION_BREADCRUMB' | trans}}</li>
+</ul>
+
+<div class="row-fluid">
+    <div class="thumbnail">
+        <div class="row-fluid">
+            <div class="span3"><div class="alert alert-info">{{'RESERVATION_REVIEW' | trans}}</div></div>
+            <div class="span3"><div class="alert alert-info transparent">{{'RESERVATION_RESERVE' | trans}}</div></div>
+            <div class="span3"><div class="alert alert-info transparent">{{'RESERVATION_PAYMENT' | trans}}</div></div>
+            <div class="span3"><div class="alert alert-info transparent">{{'RESERVATION_CONFIRMATION' | trans}}</div></div>
+        </div>
+        <h3>1. {{'RESERVATION_REVIEW' | trans}}</h3>
+        <hr/>
+        <h4>{{'RESERVATION_OWNERSHIP' | trans}} {{ ownership.getOwnName }}</h4>
+        {{'FROM_PRICES' | trans}} {{from_date}} {{'TO_PRICES' | trans}} {{to_date}}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>{{'RESERVATION_DATE' | trans}}</th>
+                    <th>{{'RESERVATION_ROOM' | trans}}</th>
+                    <th>{{'RESERVATION_GUESTS' | trans}}</th>
+                    <th>{{'RESERVATION_BYBED' | trans}}</th>
+                    <th>{{'RESERVATION_TOTAL' | trans}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for date in array_dates%}
+                <tr>
+                    <td>{{ date |date('d/m/Y') }}</td>
+                    <td>
+                        {% for room in array_rooms %}
+                            {{room.getRoomType}}<br/>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for guest in guests %}
+                        {{guest}}<br/>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for room in array_rooms %}
+                        {{room.getRoomPriceUpFrom}}<br/>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for i in 0..array_rooms|length-1 %}
+                            {{array_rooms[i].getRoomPriceUpFrom * guests[i]}}
+                        <br/>
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="row-fluid">
+        <div class="span8"></div>
+        <div class="span4" style="text-align: right">
+            <label style="font-size: 10px;">{{'RESERVATION_TRIPLE_ROOM_SURCHARGE' | trans}}</label>
+            <hr/>
+            <b style="font-size: 16px">{{'RESERVATION_TOTAL_PRICE' | trans}} {{ total_price }}</b>
+            <hr/>
+            <button type="submit" class="btn-block btn orange_button">{{'RESERVATION_CHECK_AVAILABILITY' | trans}}</button>
+        </div>
+        </div>
+        <br/>
+    </div>
+</div>
+{% endblock %}

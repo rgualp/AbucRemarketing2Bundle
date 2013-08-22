@@ -1,0 +1,68 @@
+jms_security_extra:
+    secure_all_services: false
+    expressions: true
+
+security:
+    encoders:
+            MyCp\mycpBundle\Entity\user: sha512
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    providers:
+        frontend:
+            entity: { class: mycpBundle:user, property: user_email }
+        backend:
+            entity: { class: mycpBundle:user, property: user_name }
+
+    firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        login:
+            pattern:  ^/login$
+            anonymous: ~
+
+        backend:
+            pattern:    ^/backend
+            provider: backend
+            form_login:
+                check_path: /backend/login_check
+                login_path: /backend/login
+            remember_me:
+                key: 7dsa7ydasdy872187yegwhqeg9yw91hjsaa00
+                lifetime: 86400
+            logout:
+                path:   /backend/logout
+                target: /welcome
+            anonymous: ~
+
+        frontend:
+            pattern:    ^/
+            provider: frontend
+            form_login:
+                check_path: /check
+                login_path: /login
+            remember_me:
+                key: 7dsa7ydasdy872187yegwhqeg9yw91hjsaa00
+                lifetime: 86400
+            logout:
+                path:   /logout
+                target: /welcome
+            anonymous: ~
+
+
+            #http_basic:
+            #    realm: "Secured Demo Area"
+
+    access_control:
+         - { path: ^/backend/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/backend, roles: [ROLE_CLIENT_STAFF] }
+        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        #
+        # You must uncomment the two following rules to restrict access to paths
+        # starting with the /_internal prefix to only localhost
+        #- { path: ^/_internal/secure, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }
+        #- { path: ^/_internal/secure, roles: ROLE_NO_ACCESS }

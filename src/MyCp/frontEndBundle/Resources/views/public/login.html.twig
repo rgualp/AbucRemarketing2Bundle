@@ -1,0 +1,44 @@
+{% extends 'frontEndBundle:layout:base.html.twig' %}
+{% block title %}{{"LOG_IN" | trans }}{% endblock %}
+
+{% block body %}
+<ul class="breadcrumb">
+    <li><a title="Ir a la portada" href="/mycponline/web/app_dev.php/es/welcome/">Inicio</a> <span
+            class="divider">»</span></li>
+    <li class="active">{{"LOG_IN" | trans }}</li>
+</ul>
+<div class="row-fluid ">
+    <div class="span6 offset3">
+        <div class="thumbnail">
+            <div class="cont" style="padding: 6px 20px 0 20px">
+                <h2 class="form big_price" style="font-size: 30px;">{{"LOG_IN" | trans }}</h2>
+                <hr/>
+                {% if error %}
+                <div class="alert alert-error">{{ error.message }}</div>
+                {% endif %}
+                <form action="{{ path("frontend_ckeck") }}" method="post">
+                    <label class="control-label" for="inputUsername">Email</label>
+                    <input type="text" class="input-block-level" id="inputUsername" name="_username"
+                           value="{{ last_username }}"/>
+                    <label class="control-label" for="inputPassword">Contraseña</label>
+                    <input type="password" class="input-block-level" id="inputPassword" name="_password"/>
+                    <label class="checkbox">
+                        <input type="checkbox" name="_remember_me"> Recuérdame en este ordenador
+                    </label>
+                    <br/>
+                    <button type="submit" class="btn btn-block btn-large">Identificarse</button>
+                    <br/>
+
+                    <div class="row-fluid" style="text-align: center; text-decoration: underline">
+                        <div class="span6"><a href="{{ path('frontend_restore_password_user') }}" style="text-decoration: underline" href="">¿Has olvidado tu
+                            contraseña?</a></div>
+                        <div class="span6"><a href="{{ path('frontend_register_confirmation_user') }}" style="text-decoration: underline" href="">¿No has recibido la
+                            confirmación?</a></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <a href="{{ path('frontend_register_user') }}" class="btn btn-block orange_button btn-large">¿No estás registrado? ¡Regístrate aquí!</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,8 @@
+
+<select id="mun_prov" disabled="{%if mun_total == 0%}true{%else%}false{%endif%}" multiple>
+{%for mun in municipalities%}
+    {%if mun_total_owns[mun.munid] > 0%}
+<option value="{{mun.munid}}">{{mun}}  <span>({{mun_total_owns[mun.munid]}})</span></option>
+    {%endif%}
+{%endfor%}
+</select>

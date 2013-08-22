@@ -1,0 +1,47 @@
+{%if show_comments_and_friends > 0%}
+        <div class="third_tab secondary_tab row-fluid">
+            <div class="nav-tabs_cont">
+                <ul class="nav nav-tabs">
+                    {%if comments|length%}
+                    <li class="active"><a data-toggle="tab" href="#">{{"USER_COMMENTS_TAB" | trans}} ({{comments | length}})</a></li>
+                    {%endif%}
+                </ul>
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane user_comment fade in active">
+                    {%for comment in comments%}
+                    <div class="row-fluid">
+                        <div class="span2">
+                            <img class="img-polaroid" src="{{ asset('bundles/frontend/images/user_no_photo.gif') }}" alt="">
+                            <label class="name">{{comment.commentusername}}</label>
+                            <div class="rating_star">
+                                {%if comment.commentrating > 0%}
+                                        {%for i in 1..comment.commentrating%}
+                                    <img src="{{ asset('bundles/frontend/images/star_on.png')}}" align="absmiddle"/>
+                                {%endfor%}
+                                        {%endif%}
+
+                                        {%if comment.commentrating < 5%}
+                                        {%for i in 1..(5-comment.commentrating)%}
+                                    <img src="{{ asset('bundles/frontend/images/star_off.png')}}" align="absmiddle"/>
+                                    {%endfor%}
+                                        {%endif%}
+                            </div>
+                        </div>
+                        <div class="span10">
+                            <div class="popover right">
+                                <div class="arrow"></div>
+                                <div class="popover-content">
+                                    <p>
+                                        {{comment.comments}}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {%endfor%}
+
+                </div>
+            </div>
+        </div>
+       {%endif%}

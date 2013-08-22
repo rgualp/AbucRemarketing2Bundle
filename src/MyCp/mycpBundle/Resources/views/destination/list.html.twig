@@ -1,0 +1,209 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li class="active">Destinos</li>
+</ul>
+{% endblock %}
+{% block content %}
+<h2>Destinos</h2>
+<hr/>
+<a class="btn" href="{{ path('mycp_new_destination') }}"><i class="icon-plus"></i> Adicionar destino</a>
+<br/><br/>
+{% for message in app.session.flashbag.get('message_error_local') %}
+<div class="alert alert-error">{{ message }}</div>
+{% endfor %}
+<form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_list_destination')}}">
+<div class="well well-small">
+    <div class="row-fluid">
+    <div class="span3">
+        <label>Nombre destino:</label>
+        <input id="filter_name" value="{{filter_name}}" class="input-block-level" name="filter_name" type="text"/>
+    </div>
+    <div class="span2">
+        <label>Provincia:</label>
+        <select class="input-block-level" name="filter_province" id="filter_province"/>
+        {% render 'mycpBundle:Public:get_provinces' with{'post':{'ownership_address_province':filter_province}} %}
+        </select>
+    </div>
+    <div class="span3">
+        <label>Municipio:</label>
+        <select class="input-block-level" name="filter_municipality" id="filter_municipality"/>
+        {% render 'mycpBundle:Public:get_mun' with{'post':{'ownership_address_municipality':filter_municipality}}%}
+        </select>
+    </div>
+    <div class="span2">
+        <label>Estado:</label>
+        <select id="filter_active" class="input-block-level" name="filter_active">
+            {% render 'mycpBundle:BackendUtils:get_active_list' with{'selected':filter_active} %}
+        </select>
+    </div>
+    <div class="span2"><label>&nbsp;</label><a href="javascript:action_submit();" class="btn btn-block btn-success"><i class="icon-filter icon-white"></i> Filtrar</a></div>
+    </div>
+</div>
+</form>
+{% if destinations %}
+<div class="alert">
+    <div class="row-fluid">
+    <div class="pull-left">
+       Mostrando del {{items_per_page * current_page - items_per_page}} al {% if items_per_page * current_page >  total_items%}{{total_items }}{% else %}{{ items_per_page * current_page }}{% endif %} de {{total_items}} registros
+    </div>
+    <div class="pull-right">
+        Mostrar:
+            <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_destination',{'items_per_page':100})}}">100</a>
+            <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_destination',{'items_per_page':300})}}">300</a>
+            <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_destination',{'items_per_page':500})}}">500</a>
+         <input class="hidden" name="items_per_page" value="100">
+    </div>
+
+    <div class="pull-right" style="margin-right: 30px;">
+        Organizar:
+        {% if filter_name ==''%}{% set filter_name='null'%}{%endif%}
+        {% if filter_active ==''%}{% set filter_active='null'%}{%endif%}
+        {% if filter_province ==''%}{% set filter_province='null'%}{%endif%}
+        {% if filter_municipality ==''%}{% set filter_municipality='null'%}{%endif%}
+        <a class="{% if sort_by == '0' %}selected{% endif %}" href="{{ path('mycp_list_destination',{'items_per_page':items_per_page,'filter_name':filter_name,'filter_active':filter_active,'filter_province':filter_province,'filter_municipality':filter_municipality,'sort_by':'0'})}}">Órden</a>
+        <a class="{% if sort_by == '1' %}selected{% endif %}" href="{{ path('mycp_list_destination',{'items_per_page':items_per_page,'filter_name':filter_name,'filter_active':filter_active,'filter_province':filter_province,'filter_municipality':filter_municipality,'sort_by':'1'})}}">A-Z</a>
+        <a class="{% if sort_by == '2' %}selected{% endif %}" href="{{ path('mycp_list_destination',{'items_per_page':items_per_page,'filter_name':filter_name,'filter_active':filter_active,'filter_province':filter_province,'filter_municipality':filter_municipality,'sort_by':'2'})}}">Z-A</a>
+        <a class="{% if sort_by == '3' %}selected{% endif %}" href="{{ path('mycp_list_destination',{'items_per_page':items_per_page,'filter_name':filter_name,'filter_active':filter_active,'filter_province':filter_province,'filter_municipality':filter_municipality,'sort_by':'3'})}}">Prov</a>
+        <a class="{% if sort_by == '4' %}selected{% endif %}" href="{{ path('mycp_list_destination',{'items_per_page':items_per_page,'filter_name':filter_name,'filter_active':filter_active,'filter_province':filter_province,'filter_municipality':filter_municipality,'sort_by':'4'})}}">Mun</a>
+
+    </div>
+    </div>
+</div>
+<div class="paginator-cont span11">
+    {% if filter_name ==''%}{% set filter_name='null'%}{%endif%}
+    {{ simple_paginator_render('mycp_list_destination',null,{
+'container_class': 'paginator',
+'previousPageText': '«',
+'nextPageText': '»',
+'currentClass': 'current',
+'firstPageText': 'Primera',
+'lastPageText': 'Última',
+'route_params': {'items_per_page':items_per_page,'filter_name':filter_name,'filter_active':filter_active,'filter_province':filter_province,'filter_municipality':filter_municipality,'sort_by':sort_by}
+}) }}
+</div>
+<div class="row-fluid">
+    <div class="span2"><b>Destino</b></div>
+    <div class="span2"><b>Provincia</b></div>
+    <div class="span2"><b>Municipio</b></div>
+    <div class="span2"><b>Estado</b></div>
+    <div class="span2"><b>Fotografías</b></div>
+    <div class="span2" style="text-align: right"><b>Acciones</b></div>
+</div>
+
+<ul id="sortable" class="ui-sortable">
+    {% set cont=0 %}
+    {% for destination in destinations %}
+    <li id="{{destination.getDesLocDestination.getDesId}}" {% if cont ==0 %}class="grey"{% set cont=1 %}{% else %}{% set cont=0 %}{% endif %}>
+        <div class="row-fluid">
+            <div class="span2">
+                {{destination.getDesLocDestination.getDesName}}
+            </div>
+            <div class="span2">
+                {% if destination.getDesLocProvince.getProvName %}{{destination.getDesLocProvince.getProvName}}{%endif%}
+            </div>
+            <div class="span2">
+                {% if destination.getDesLocMunicipality.getMunName is defined %}{{destination.getDesLocMunicipality.getMunName}}{%endif%}
+            </div>
+            <div class="span2">
+                {% if destination.getDesLocDestination.getDesActive==0%}<span class="label label-important">No activo</span>{% else %} <span class="label label-success">Activo</span>{% endif %}
+            </div>
+            <div class="span2">
+                <a href="{{ path('mycp_list_photos_destination',{'id_destination':destination.getDesLocDestination.getDesId}) }}">({{ photo_count[destination.getDesLocDestination.getDesId~'_photo_count'] }}) Fotografías</a>
+            </div>
+            <div class="span2">
+                <a class="btn btn-mini" href="{{ path('mycp_edit_destination',{'id_destination':destination.getDesLocDestination.getDesId}) }}">Editar</a> <a class="btn btn-mini btn-danger" href="{{ path('mycp_delete_destination',{'id_destination':destination.getDesLocDestination.getDesId}) }}">Eliminar</a>
+            </div>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+
+
+<div class="paginator-cont span11">
+{% if filter_name ==''%}{% set filter_name='null'%}{%endif%}
+{{ simple_paginator_render('mycp_list_destination',null,{
+'container_class': 'paginator',
+'previousPageText': '«',
+'nextPageText': '»',
+'currentClass': 'current',
+'firstPageText': 'Primera',
+'lastPageText': 'Última',
+'route_params': {'items_per_page':items_per_page,'filter_name':filter_name,'filter_active':filter_active,'filter_province':filter_province,'filter_municipality':filter_municipality,'sort_by':sort_by}
+}) }}
+</div>
+<script>
+    $(function() {
+        $( "#sortable" ).sortable({
+            stop: function(event, ui) {
+
+                var result = $('#sortable').sortable('toArray');
+                //alert(result);
+                url = "{{ path('mycp_set_order_destination', { 'ids': '' }) }}"
+                $.ajax({
+                    type:"POST",
+                    url:url + '/' + result,
+                    success:function (msg) {
+                    }
+                });
+            }
+
+        });
+        $( "#sortable" ).disableSelection();
+    });
+</script>
+<script src="{{ asset('bundles/mycp/js/jquery.ui/jquery.ui.core.js') }}" type="text/javascript"></script>
+<script src="{{ asset('bundles/mycp/js/jquery.ui/jquery.ui.widget.js') }}" type="text/javascript"></script>
+<script src="{{ asset('bundles/mycp/js/jquery.ui/jquery.ui.mouse.js') }}" type="text/javascript"></script>
+<script src="{{ asset('bundles/mycp/js/jquery.ui/jquery.ui.sortable.js') }}" type="text/javascript"></script>
+{% else %}
+       <p> <div class="alert alert-block">No hay Destinos disponibles.</div></p>
+{% endif %}
+<script type="text/javascript">
+
+    url = "{{ path('mycp_get_mun_by_prov', { 'country_code': '' }) }}",
+            $('#filter_province').change(function(){
+                code = $('#filter_province').val();
+                if(code!='')
+                {
+                    $('#filter_municipality').html('<option value="">Cargando...</option>');
+
+
+                    $.ajax({
+                        type:"POST",
+                        url:url + '/' + code,
+                        success:function (msg) {
+
+                            $('#filter_municipality').html(msg);
+                        }
+                    });
+                }
+            });
+
+    function submit_filters(e)
+    {
+        if(e.keyCode==13)
+        {
+            action_submit();
+        }
+    }
+
+    function action_submit()
+    {
+        items_per_page={{items_per_page}};
+        filter_name=$('#filter_name').val();
+        if(filter_name=='')filter_name='null';
+        filter_active=$('#filter_active').val();
+        filter_province=$('#filter_province').val();
+        if(filter_province=='')filter_province='null';
+        filter_municipality=$('#filter_municipality').val();
+        if(filter_municipality=='')filter_municipality='null';
+        url_submit=$('#filter').attr('action');
+        url_submit=url_submit+'/'+items_per_page+'/'+filter_name+'/'+filter_active+'/'+filter_province+'/'+filter_municipality;
+        $('#filter').attr('action',url_submit);
+        $('#filter').submit();
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li class="active">Informaciones Generales</li>
+</ul>
+{% endblock %}
+{% block content %}
+<h2>Informaciones Generales</h2>
+<hr/>
+<a class="btn" href="{{ path('mycp_new_information') }}"><i class="icon-plus"></i> Adicionar información general</a>
+<br/><br/>
+{% for message in app.session.flashbag.get('message_error_local') %}
+<div class="alert alert-error">{{ message }}</div>
+{% endfor %}
+
+{% if informations %}
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th>Nombre</th>
+        <th>Contenido</th>
+        <th>Tipo</th>
+        <th style="text-align: right">Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for information in informations%}
+    <tr>
+        <td>{{information.getInfoLangName}}</td>
+        <td>{{information.getInfoLangContent |striptags|slice(0, 60)}}</td>
+        <td>{% if information.getInfoLangInfo.getInfoFixed ==1%}<span class="label label-important">Estático</span>{% else %}<span class="label label-success">No estático</span> {% endif %}</td>
+        <td style="text-align: right">
+            <a class="btn btn-mini" href="{{ path('mycp_edit_information',{'id_information':information.getInfoLangInfo.getInfoId}) }}">Editar</a>
+            <a class="btn btn-mini btn-danger" href="{{ path('mycp_delete_information',{'id_information':information.getInfoLangInfo.getInfoId}) }}">Eliminar</a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}

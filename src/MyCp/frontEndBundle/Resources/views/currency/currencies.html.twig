@@ -1,0 +1,3 @@
+{% for currency in currencies %}
+<li><a href="#" title="{{currency.currname}}">{{ currency.getCurrCode |upper }}</a></li>
+{% endfor %}

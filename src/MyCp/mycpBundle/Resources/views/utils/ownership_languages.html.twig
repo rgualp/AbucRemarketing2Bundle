@@ -1,0 +1,5 @@
+{% for language in languages %}
+<label class="checkbox" style="float: left; margin-right: 10px;">
+    <input type="checkbox" {% if(data['ownership_language_'~language.getLangId] is defined) %} checked="TRUE" {% endif %} name="ownership_language_{{ language.getLangId }}" value="{{ language.getLangId }}"/> {{ language.getLangName }}
+</label>
+{% endfor %}

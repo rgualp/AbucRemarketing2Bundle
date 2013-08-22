@@ -1,0 +1,12 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="#">Administración</a></li>
+</ul>
+{% endblock %}
+{% block content %}
+<h2>Acceso denegado</h2>
+<hr/>
+<div class="alert alert-danger"> Sus privilegios no son suficientes para acceder a esta sección.</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_albums') }}">Álbumes</a> <span class="divider">/</span></li>
+    {% if data['edit_album'] is defined %}
+    <li class="active">Editar álbum</li>
+    {% else %}
+    <li class="active">Adicionar álbum</li>
+    {% endif %}
+    <li class="pull-right"><a href="{{ path('mycp_list_albums') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+{% endblock %}
+{% block form_actions %}
+<div class="form-actions">
+    <button class="btn btn-primary" type="submit">Guardar</button>
+    <a class="btn" href="{{ path('mycp_list_albums') }}">Cancelar</a>
+</div>
+</form>
+{% endblock %}
+{% block content %}
+<h2>{% if data['edit_album'] is defined %}Editar álbum ({{data['name_album']}}){% else %} Adicionar álbum {% endif %}</h2>
+        <hr/>
+{% if errors %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
+<form action="{{ path('mycp_new_album')}}" method="POST">
+{% if data['edit_album'] is defined %}<input style="display: none;" name="edit_album" value="{{data['id_album']}}"> {% endif %}
+<label>Categoría:</label>{% if errors['name'] is defined %}<label class="error">{{errors['name']|trim(':')}}</label>{%endif%}
+    {%if errors["category"] is defined %}<label class="error">{{errors["category"]|trim(':')}}</label>{%endif%}
+    {% render 'mycpBundle:BackendAlbum:get_all_categories' with{'data':data}%}
+    <br/>
+    <h3 class="title">Nombre</h3>
+{% for language in languages %}
+    <label>{{language.lang_name |title}}:</label>
+    {%if errors["name_"~language.lang_id] is defined %}<label class="error">{{errors["name_"~language.lang_id]|trim(':')}}</label>{%endif%}
+    <input type="text" class="span12" name="name_{{language.lang_id}}" value="{%if data["name_"~language.lang_id] is defined %}{{data["name_"~language.lang_id]}}{%endif%}"/><br/>
+{% endfor %}
+    <h3 class="title">Descripción breve</h3>
+    {% for language in languages %}
+    <label>{{language.lang_name |title}}:</label>
+    {%if errors["brief_desc_"~language.lang_id] is defined %}<label class="error">{{errors["brief_desc_"~language.lang_id]|trim(':')}}</label>{%endif%}
+    <textarea class="textarea span12" name="brief_desc_{{language.lang_id}}">{%if data["brief_desc_"~language.lang_id] is defined %}{{data["brief_desc_"~language.lang_id]}}{%endif%}</textarea><br/>
+    {% endfor %}
+    <h3 class="title">Publicado</h3>
+    <label class="checkbox">
+        <input type="checkbox" {% if(data['public'] is defined) %} checked="TRUE" {% endif %} name="public"> Publicado en el sitio
+    </label>
+
+    <script src="{{ asset('bundles/mycp/js/wysihtml5-0.3.0.min.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        var url_css_color="{{ asset('bundles/mycp/css/wysiwyg-color.css') }}";
+    </script>
+    <script src="{{ asset('bundles/mycp/js/bootstrap-wysihtml5.js') }}" type="text/javascript"></script>
+    <link href="{{ asset('bundles/mycp/css/bootstrap-wysihtml5.css') }}" rel="stylesheet" type="text/css" />
+    <script>
+        $('.textarea').wysihtml5();
+    </script>
+{% endblock %}

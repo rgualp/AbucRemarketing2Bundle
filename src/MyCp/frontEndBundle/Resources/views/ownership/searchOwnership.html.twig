@@ -1,0 +1,98 @@
+{% extends 'frontEndBundle:layout:base.html.twig' %}
+{% block title %}
+{{"SEARCH_RESULTS_PAGE_TITLE" | trans}}
+{% endblock %}
+{% set main_tab = 5 %}
+{% block content_nav_top_body %}
+{{"SEARCH_DESCRIPTION_MAIN_MENU" | trans}}
+{% endblock %}
+
+{% block body %}
+<ul class="breadcrumb">
+    <li><a href="{{ path('frontend_welcome') }}" title="{{"GO_HOME_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a> <span class="divider">»</span></li>
+    <li class="active">{{"SEARCHER_BREADCRUMB" | trans}}</li>
+</ul>
+<div class="row-fluid filter_1">
+
+</div>
+<div id="loading" class="alert alert-info hidden"> <img src="{{ asset('bundles/frontend/images/loading.gif') }}"/> {{"LOADING_MESSAGE" | trans}}</div>
+<div class="green_bar">
+    <table width="100%">
+        <tr>
+            <td width="35%" align="right">{{"SEARCH_RESULT_ORDER_BY" | trans}}:&nbsp;&nbsp;</td>
+            <td width="33%">
+                <select id="select_change_order" data-url="{{ path('frontend_order_search_results_ownership') }}">
+                    <option value="PRICE_LOW_HIGH" {%if order == 'PRICE_LOW_HIGH'%} selected {%endif%}>{{"PRICE_LH_ORDER_BY" | trans}}</option>
+                                <option value="PRICE_HIGH_LOW" {%if order == 'PRICE_HIGH_LOW'%} selected {%endif%}>{{"PRICE_HL_ORDER_BY" | trans}}</option>
+                                <option value="BEST_VALUED" {%if order == 'BEST_VALUED'%} selected {%endif%}>{{"BEST_VALUED_ORDER_BY" | trans}}</option>
+                                <option value="WORST_VALUED" {%if order == 'WORST_VALUED'%} selected {%endif%}>{{"WORST_VALUED_ORDER_BY" | trans}}</option>
+                                <option value="A_Z" {%if order == 'A_Z'%} selected {%endif%}>{{"ALPHABETICAL_AZ_ORDER_BY" | trans}}</option>
+                                <option value="Z_A" {%if order == 'Z_A'%} selected {%endif%}>{{"ALPHABETICAL_ZA_ORDER_BY" | trans}}</option>
+                </select>
+            </td>
+            <td align="right">
+                <a id="change_view_to_map" title="{{"MAP_VIEW_RESULTS" | trans}}" class="map" href="#" data-url="{{ path('frontend_change_view_ownership') }}">&nbsp;</a>
+                <a id="change_view_to_photo" title="{{"PHOTO_VIEW_RESULTS" | trans}}" class="photo" href="#" data-url="{{ path('frontend_change_view_ownership') }}">&nbsp;</a>
+                <a id="change_view_to_list" title="{{"LIST_VIEW_RESULTS" | trans}}" class="list" href="#" data-url="{{ path('frontend_change_view_ownership') }}">&nbsp;</a>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="row-fluid menu_left">
+    <div class="filters span3">
+        {%if view_results != 'MAP'%}
+        <div id="map" style="width:100%;height:150px;" class="google-maps"></div>
+        {%endif%}
+        <div id="json_source" data-url="{{path("frontend_map_markers_ownership")}}" data-icon1="http://www.mycasaparticular.com/maps.png"
+         data-icon-small="http://{{app.request.host}}{{asset('/web/bundles/frontend/images/map_small.png')}}" data-icon="http://{{app.request.host}}{{asset('/web/bundles/frontend/images/map.png')}}"></div>
+        <div class="search">
+            <h5>{{"ACCOMMODATION_SEARCH_TITLE" | trans}}</h5>
+            <input placeholder="{{"PLACE_WATERMARK" | trans}}" id="input_text" type="text" autocomplete="off" data-highlighter="null" class="input-block-level" data-items="5" data- data-provide="typeahead" data-source='{{autocomplete_text_list}}'>
+            <input placeholder="{{"ARRIVAL_WATERMARK" | trans}}" id="input_arrival_date" type="text" class="input-block-level start" data-localization='{{locale}}'>
+            <input placeholder="{{"DEPARTURE_WATERMARK" | trans}}" id="input_departure_date" type="text" class="input-block-level end" data-localization='{{locale}}'>
+            <input placeholder="{{"GUEST_WATERMARK" | trans}}" id="input_guests" type="text" class="input-block-level guest numeric">
+            <button id="button_research" class="btn orange_button" data-url="{{ path('frontend_research_ownership') }}">{{"SEARCH" | trans}}</button>
+        </div>
+        <div class="filter">            
+            <div id="filters" data-url-statistics="{{ path('frontend_filter_statistics_ownership') }}" data-url-filter="{{ path('frontend_filter_ownership') }}">
+                {{ include('frontEndBundle:ownership:filters.html.twig', 
+                        {'own_statistics': own_statistics}) }} 
+                </div>
+        </div>
+    </div>
+    <div class="span9 body_right">
+        <div id="div_result">
+            {%if view_results == 'LIST'%}
+                {{ include('frontEndBundle:ownership:searchListOwnership.html.twig', 
+                {'list': list,
+                 'photos':photos, 
+                 'rooms': rooms}) }}  
+            {%else%}
+                {%if view_results == 'PHOTOS'%}
+                    {{ include('frontEndBundle:ownership:searchMosaicOwnership.html.twig', 
+                    {'list': list,
+                     'photos':photos, 
+                     'rooms': rooms}) }} 
+                    {%else %}
+                        {%if view_results == 'MAP'%}
+                         {{ include('frontEndBundle:ownership:searchMapOwnership.html.twig', 
+                         {'list': list,
+                          'photos':photos, 
+                          'rooms': rooms}) }} 
+                       {%endif%}
+                {%endif%}
+              {%endif%}
+        </div>
+    </div>
+</div>
+ {% block include_javascripts %}
+    <script src="http://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script> 
+    <script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.js') }}"></script>
+    <script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.infobox.js') }}"></script>
+    <script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.markerclusterer.js') }}"></script>    
+    <script src="{{ asset('bundles/frontend/js/bootstrap/bootstrap-datepicker.js') }}"></script>
+    <script src="{{ asset('bundles/frontend/js/bootstrap/bootstrap-datepicker.es.js') }}"></script>
+    <script src="{{ asset('bundles/frontend/js/search_ownership.js') }}"></script>    
+    <link href="{{ asset('bundles/frontend/css/customMap.css') }}" rel="stylesheet" media="screen">
+{% endblock %}
+{% endblock %}

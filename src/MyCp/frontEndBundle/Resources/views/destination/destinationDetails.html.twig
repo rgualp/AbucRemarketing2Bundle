@@ -1,0 +1,107 @@
+{% extends 'frontEndBundle:layout:base.html.twig' %}
+{% block title %}
+{{destination.desname}}
+{% endblock %}
+
+{% set main_tab = 2 %}
+{% block content_nav_top_body %}
+<h4>{{destination.desName}}</h4>
+<label class="place">{{location}}</label>
+{% endblock %}
+
+{% block body %}
+<ul class="breadcrumb">
+    <li><a href="{{ path('frontend_welcome') }}"  title="{{"GO_HOME_TITLE" | trans}}" >{{"HOME_MAIN_MENU" | trans}}</a> <span class="divider">»</span></li>
+    <li class="active"><a href="{{ path('frontend_list_destinations') }}"  title="{{"GO_DESTINATION_TITLE" | trans}}" >{{"DESTINATIONS_MAIN_MENU" | trans}}</a></li>
+</ul>
+<div class="paragraph">
+    {{description | raw}}
+</div>
+<div class="row-fluid">
+    <div class="span8">
+{%if owns_nearby | length%}
+<div class="third_tab secondary_tab row-fluid">
+    <div class="nav-tabs_cont">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#">{{"NEARBY_HOUSES_DETAILS" | trans}}</a></li>
+        </ul>
+    </div>
+    <div class="tab-content">
+        <div id="" class="tab-pane fade in active">
+            <div class="row-fluid">
+                {%for own in owns_nearby%}
+                <div class="span3">
+                    <a href="{{ path('frontend_details_ownership',{'owner_id':own.ownid}) }}" title="{{"MORE_INFO_PREFFIX" | trans}} {{own.ownName}}">
+                        <img src="{{ asset("uploads/ownershipImages/" ~ owns_nearby_photos[own.ownid])}}"/>
+                        <label>{{own.ownname}}</label>
+                    </a>
+                    <label class="place">{{own.ownaddressprovince}}</label>
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+</div>
+{%endif%}
+             </div>
+     {%if total_other_destinations_in_municipality > 0 or total_other_destinations_in_province > 0%}
+    <div class="span4">
+        {%if total_other_destinations_in_municipality > 0%}
+        <div class="thumbnail head">
+            <div class="header">{{"MORE_IN_DETAILS" | trans}} {{location.desLocMunicipality}}</div>
+            <div class="subheader">
+                <a href=""></a>
+            </div>
+            <div class="content">
+                {%for destination in other_destinations_in_municipality%}
+                <div class="item row-fluid">
+                    <div class="span4">
+                        <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}">
+                            <img src="{{ asset("uploads/destinationImages/" ~ other_destinations_in_municipality_photos[destination.desid])}}">
+                        </a>
+                        </div>
+                    <div class="span8">
+                        <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}">{{destination.desName}}</a>
+                        <br/>
+                        {{other_destinations_in_municipality_description[destination.desid].desLangDesc | striptags | slice(0, 100)}}
+                        {%if other_destinations_in_municipality_description[destination.desid].desLangDesc | striptags | length > 100%}
+                        ...
+                    {%endif%}
+                    </div>
+                </div>
+               {%endfor%}
+            </div>
+        </div>
+        {%endif%}  
+        {%if total_other_destinations_in_province > 0%}    
+        <div class="thumbnail head">
+            <div class="header">{{"MORE_IN_DETAILS" | trans}} {{location.desLocProvince}}</div>
+            <div class="subheader">
+                <a href=""></a>
+            </div>
+            <div class="content">
+                {%for destination in other_destinations_in_province%}
+                <div class="item row-fluid">
+                    <div class="span4">
+                        <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}">
+                            <img src="{{ asset("uploads/destinationImages/" ~ other_destinations_in_province_photos[destination.desid])}}"></a>
+                    </div>
+                    <div class="span8">
+                        <a {{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}} href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}">{{destination.desName}}</a>
+                        <br/>
+                        {{other_destinations_in_province_description[destination.desid].desLangDesc | striptags | slice(0, 100)}}
+                        {%if other_destinations_in_province_description[destination.desid].desLangDesc | striptags | length > 100%}
+                        ...
+                    {%endif%}
+                    </div>
+                </div>
+                    {%endfor%}
+            </div>
+        </div>
+            {%endif%}
+    </div>
+        {%endif%}
+    </div>
+{% block include_javascripts %}
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,71 @@
+mycp_destinations:
+    resource: "@mycpBundle/Resources/config/routingBackendDestinations.yml"
+    prefix:   backend/destination/
+
+mycp_general_informations:
+    resource: "@mycpBundle/Resources/config/routingBackendGeneralInformation.yml"
+    prefix:   backend/general_information/
+
+mycp_reservations:
+    resource: "@mycpBundle/Resources/config/routingBackendReservations.yml"
+    prefix:   backend/reservation/
+
+mycp_faqs:
+    resource: "@mycpBundle/Resources/config/routingBackendFAQs.yml"
+    prefix:   backend/faqs/
+
+mycp_album:
+    resource: "@mycpBundle/Resources/config/routingBackendAlbum.yml"
+    prefix:   backend/album/
+
+mycp_ownership:
+    resource: "@mycpBundle/Resources/config/routingBackendOwnership.yml"
+    prefix:   backend/ownership/
+
+mycp_user:
+    resource: "@mycpBundle/Resources/config/routingBackendUser.yml"
+    prefix:   backend/user/
+
+mycp_currency:
+    resource: "@mycpBundle/Resources/config/routingBackendCurrency.yml"
+    prefix:   backend/currency/
+
+mycp_language:
+    resource: "@mycpBundle/Resources/config/routingBackendLanguage.yml"
+    prefix:   backend/language/
+
+mycp_log:
+    resource: "@mycpBundle/Resources/config/routingBackendLog.yml"
+    prefix:   backend/log/
+
+mycp_utils:
+    resource: "@mycpBundle/Resources/config/routingBackendUtils.yml"
+    prefix:   backend/utils/
+
+mycp_login:
+    pattern:  /login/
+    defaults: { _controller: frontEndBundle:public:login }
+
+
+mycp_check:
+  pattern: /check
+
+
+mycp_logout:
+  pattern: /logout
+
+mycp_get_mun_by_prov:
+    pattern:  /get_cities/{country_code}/{selected}
+    defaults: { _controller: mycpBundle:Public:get_mun_by_prov,selected:null}
+
+mycp_access_denied:
+    pattern:  /access_denied
+    defaults: { _controller: mycpBundle:Public:access_denied}
+
+mycp_get_cities_by_country:
+    pattern:  /get_cities_by_country/{country_code}
+    defaults: { _controller: mycpBundle:Public:get_cities_by_country}
+
+mycp_backend_front:
+    pattern:  /backend/
+    defaults: { _controller: mycpBundle:Backend:backend_front}

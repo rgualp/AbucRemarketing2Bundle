@@ -1,0 +1,5 @@
+{% for language in languages %}
+<li>
+    <a href="{{ path('frontend_welcome', { '_locale': language.langcode | lower}) }}">{{language.langname}}</a>
+</li>
+{% endfor %}

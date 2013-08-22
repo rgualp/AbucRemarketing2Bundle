@@ -1,0 +1,31 @@
+mycp_list_ownerships:
+    pattern:  /list/{items_per_page}/{filter_code}/{filter_active}/{filter_category}/{filter_province}/{filter_municipality}/{filter_type}/{filter_name}
+    defaults: { _controller: mycpBundle:BackendOwnership:list_ownerships, items_per_page: 100,filter_code:'',filter_active:'',filter_category:'',filter_province:'',filter_municipality:'',filter_type:'',filter_name:''}
+
+mycp_new_ownership:
+    pattern:  /new/
+    defaults: { _controller: mycpBundle:BackendOwnership:new_ownership }
+
+mycp_edit_ownership:
+    pattern:  /edit/{id_ownership}
+    defaults: { _controller: mycpBundle:BackendOwnership:edit_ownership }
+
+mycp_delete_ownership:
+    pattern:  /delete/{id_ownership}
+    defaults: { _controller: mycpBundle:BackendOwnership:delete_ownership }
+
+mycp_new_photos_ownership:
+    pattern:   /photos/new/{id_ownership}
+    defaults: { _controller: mycpBundle:BackendOwnership:new_photos}
+
+mycp_list_photos_ownership:
+    pattern:  /photos/{id_ownership}/{items_per_page}
+    defaults: { _controller: mycpBundle:BackendOwnership:list_photos , items_per_page:10}
+
+mycp_delete_photos_ownership:
+    pattern:  /delete_photo/{id_ownership}/{id_photo}
+    defaults: { _controller: mycpBundle:BackendOwnership:delete_photo }
+
+mycp_edit_photos_ownership:
+    pattern:  /edit_photo/{id_photo}/{id_ownership}
+    defaults: { _controller: mycpBundle:BackendOwnership:edit_photo }

@@ -1,0 +1,22 @@
+frontend_welcome:
+    pattern:  /welcome/
+    defaults: { _controller: frontEndBundle:public:welcome }
+
+frontend_destination:
+    resource: "@frontEndBundle/Resources/config/routingFrontendDestination.yml"
+
+frontend_municipality:
+    resource: "@frontEndBundle/Resources/config/routingFrontendMunicipality.yml"
+
+frontend_ownership:
+    resource: "@frontEndBundle/Resources/config/routingFrontendOwnership.yml"
+    
+frontend_comment:
+    resource: "@frontEndBundle/Resources/config/routingFrontendComment.yml"
+    
+frontend_user:
+    resource: "@frontEndBundle/Resources/config/routingFrontendUser.yml"
+
+frontend_reservation:
+    resource: "@frontEndBundle/Resources/config/routingFrontendReservation.yml"
+    prefix:   /reservation/
