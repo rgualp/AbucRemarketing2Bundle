@@ -55,4 +55,42 @@ class commentRepository extends EntityRepository
 
         return $em->createQuery($query_string)->getResult();
     }
+
+    function get_all_comment($filter_ownership,$filter_user,$filter_keyword, $filter_rate,$sort_by)
+    {
+        $string='';
+        if($filter_user!='null' && $filter_user!='')
+        {
+            $string="AND c.com_user = '$filter_user'";
+        }
+
+        $string2='';
+        if($filter_keyword!='null' && $filter_keyword!='')
+        {
+            $string2="AND c.com_comments LIKE '%$filter_keyword%'";
+        }
+        $string3='';
+        if($filter_rate!='null' && $filter_rate!='')
+        {
+            $string3="AND c.com_rate = '$filter_rate'";
+        }
+
+
+        $string4='';
+        switch($sort_by){
+            case 0:
+                $string4="ORDER BY own.own_mcp_code ASC";
+                break;
+
+            case 1:
+                $string4="ORDER BY own.own_mcp_code DESC";
+                break;
+
+
+        }
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT c,own,us FROM mycpBundle:comment c
+        JOIN c.com_ownership own JOIN c.com_user us WHERE own.own_mcp_code LIKE '%$filter_ownership%' $string $string2 $string3 $string4 ");
+        return $query->getResult();
+    }
 }

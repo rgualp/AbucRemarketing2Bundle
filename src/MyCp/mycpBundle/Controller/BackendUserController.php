@@ -176,13 +176,18 @@ class BackendUserController extends Controller
                 $this->get('session')->setFlash('message_ok',$message);
                 $service_log= $this->get('log');
                 $service_log->save_log('Edit entity for user '.$request_form['user_name'],8);
-                return $this->redirect($this->generateUrl('mycp_list_users'));
+                $user = $this->get('security.context')->getToken()->getUser();
+                if($user->getUserRole()=='ROLE_CLIENT_STAFF')
+                    return $this->redirect($this->generateUrl('mycp_list_users'));
+                else
+                    return $this->redirect($this->generateUrl('mycp_backend_front'));
             }
         }
         else
         {
             $user_casa=new userCasa();
             $user_casa=$em->getRepository('mycpBundle:userCasa')->findBy(array('user_casa_user'=>$id_user));
+            //var_dump($id_user); exit();
             $user_casa=$user_casa[0];
             $data_user['user_name']=$user_casa->getUserCasaUser()->getUserName();
             $data_user['address']=$user_casa->getUserCasaUser()->getUserAddress();
@@ -458,10 +463,22 @@ class BackendUserController extends Controller
             $user=$em->getRepository('mycpBundle:user')->find($id_user);
             $user_casa=$em->getRepository('mycpBundle:userCasa')->findBy(array('user_casa_user'=>$id_user));
             $user_logs=$em->getRepository('mycpBundle:log')->findBy(array('log_user'=>$id_user));
+            $general_reservations=$em->getRepository('mycpBundle:generalReservation')->findBy(array('gen_res_user_id'=>$id_user));
+
 
             foreach($user_logs as $log)
             {
                 $em->remove($log);
+            }
+
+            foreach($general_reservations as $gres)
+            {
+                $reservations=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id'=>$gres));
+                foreach($reservations as $res)
+                {
+                    $em->remove($res);
+                }
+                $em->remove($gres);
             }
 
             if($user_casa)
@@ -655,6 +672,20 @@ class BackendUserController extends Controller
 
         return $this->render('mycpBundle:utils:users_casa.html.twig',array('users'=>$users_casa,'post'=>$post));
     }
+
+    function get_all_usersAction($post)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $users=$em->getRepository('mycpBundle:user')->findAll();
+        $selected='';
+        if(isset($post['selected']))
+        {
+            $selected=$post['selected'];
+        }
+        return $this->render('mycpBundle:utils:users.html.twig',array('selected'=>$selected,'users'=>$users));
+    }
+
+
 
     function get_roles_staffAction()
     {

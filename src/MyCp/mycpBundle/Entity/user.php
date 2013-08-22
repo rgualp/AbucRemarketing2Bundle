@@ -479,4 +479,11 @@ class user implements UserInterface,  \Serializable
     {
         return $this->user_newsletters;
     }
+
+    public function __toString()
+    {
+        return $this->user_name;
+    }
+
+    
 }

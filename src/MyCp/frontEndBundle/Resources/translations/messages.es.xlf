@@ -1223,26 +1223,186 @@
                 <target>Total</target>
             </trans-unit>
             <trans-unit id="315">
-                <source></source>
-                <target></target>
+                <source>CUC_NAME</source>
+                <target>Peso Cubano Convertible</target>
             </trans-unit>
             <trans-unit id="316">
-                <source></source>
-                <target></target>
+                <source>ABOUT_US</source>
+                <target>Quiénes Somos</target>
             </trans-unit>
             <trans-unit id="317">
-                <source></source>
-                <target></target>
+                <source>ABOUT_US_CONTENT</source>
+                <target>Descripción para Quienes Somos</target>
             </trans-unit>
             <trans-unit id="318">
-                <source></source>
-                <target></target>
+                <source>LEGAL_TERMS_CONTENT</source>
+                <target>Descripción para Términos Legales</target>
             </trans-unit>
             <trans-unit id="319">
+                <source>TERM_COND</source>
+                <target>Términos y Condiciones</target>
+            </trans-unit>
+            <trans-unit id="320">
+                <source>TERM_COND_CONTENT</source>
+                <target>Descripción para Términos y Condiciones</target>
+            </trans-unit>
+            <trans-unit id="321">
+                <source>SEC_PRIV</source>
+                <target>Seguridad y Privacidad</target>
+            </trans-unit>
+            <trans-unit id="322">
+                <source>SEC_PRIV_CONTENT</source>
+                <target>Descripcion para Seguridad y Privacidad</target>
+            </trans-unit>
+            <trans-unit id="323">
+                <source>FAQ_PAGE_TITLE</source>
+                <target>Preguntas Frecuentes</target>
+            </trans-unit>
+            <trans-unit id="324">
+                <source>FAQ_PAGE_CONTENT</source>
+                <target>Contenido para Preguntas Frecuentes</target>
+            </trans-unit>
+            <trans-unit id="325">
+                <source>TOP_OWNERSHIP_TITLE</source>
+                <target>Las mejores casas</target>
+            </trans-unit>
+            <trans-unit id="326">
+                <source>VOTING</source>
+                <target>Votaciones</target>
+            </trans-unit>
+            <trans-unit id="327">
+                <source>TOP_OWNERSHIP</source>
+                <target>Las mejores casas</target>
+            </trans-unit>
+            <trans-unit id="328">
+                <source>TOP_RATED_TITLE</source>
+                <target>Mejores Votadas</target>
+            </trans-unit>
+            <trans-unit id="329">
+                <source>TOP_RATED</source>
+                <target>Mejores Votadas</target>
+            </trans-unit>
+            <trans-unit id="330">
+                <source>ABOUT_MYCP</source>
+                <target>Sobre Nosotros</target>
+            </trans-unit>
+             <trans-unit id="331">
+                <source>TESTIMONIES</source>
+                <target>Testimonios</target>
+            </trans-unit>
+             <trans-unit id="332">
+                <source>PRESS</source>
+                <target>Prensa</target>
+            </trans-unit>
+             <trans-unit id="333">
+                <source>PARTNERS</source>
+                <target>Socios</target>
+            </trans-unit>
+             <trans-unit id="334">
+                <source>JOBS</source>
+                <target>Empleos</target>
+            </trans-unit>
+             <trans-unit id="335">
+                <source>OUR_SERVICES</source>
+                <target>Nuestros servicios</target>
+            </trans-unit>
+             <trans-unit id="336">
+                <source>SERVICE_GUARANTEE</source>
+                <target>Garantía de servicio</target>
+            </trans-unit>
+             <trans-unit id="337">
                 <source></source>
                 <target></target>
             </trans-unit>
-            <trans-unit id="320">
+             <trans-unit id="338">
+                <source></source>
+                <target></target>
+            </trans-unit>
+             <trans-unit id="339">
+                <source></source>
+                <target></target>
+            </trans-unit>
+             <trans-unit id="340">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="341">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="342">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="343">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="344">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="345">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="346">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="347">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="348">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="349">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="350">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="351">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="352">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="353">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="354">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="355">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="356">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="357">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="358">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="359">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="360">
                 <source></source>
                 <target></target>
             </trans-unit>

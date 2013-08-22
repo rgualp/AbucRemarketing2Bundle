@@ -42,19 +42,32 @@
             <label>Fecha fin:</label>
             <input id="to_date" value="{% if post['to_date'] is defined %}{{ post['to_date'] }}{% endif %}" class="input-block-level datepicker" name="to_date" type="text"/>
         </div>
-        <div class="span2"><label>&nbsp;</label><a href="javascript:action_submit();" class="btn btn-block btn-success"><i class="icon-list-alt icon-white"></i> Informe log</a></div>
+        <div class="span2">
+            <label>&nbsp;</label>
+
+            <div class="row-fluid">
+                <div class="span6">
+                    <a rel="tooltip" title="Filtrar listado" href="javascript:action_submit();" class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
+                </div>
+                <div class="span6">
+                    <a rel="tooltip" title="Resetear filtrado " href="{{ path('mycp_list_logs') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </form>
 
 <div class="row-fluid">
     <div class="span12">
-        <textarea class="input-block-level" style="height: 300px; font-size: 12px">{% if logs %}Logs{{'\n'}}-----------------------------------------------------{{'\n'}}{%endif%}{% for log in logs %}- {{log.getLogDescription}} {% if log.getLogDescription != 'Login'%}in module{% else %}into {% endif %}({% if log.getLogModule==0 %}MyCp{% endif %}{% if log.getLogModule==1 %}Destination{% endif %}{% if log.getLogModule==2 %}FAQ{% endif %}{% if log.getLogModule==3 %}Album{% endif %}{% if log.getLogModule==4 %}Ownership{% endif %}{% if log.getLogModule==5 %}Currency{% endif %}{% if log.getLogModule==6 %}Language{% endif %}{% if log.getLogModule==7 %}Reservation{% endif %}{% if log.getLogModule==8 %}User{% endif %}{% if log.getLogModule==9 %}General Information{% endif %}) by {{log.getlogUser.getUserName}} in date {{ log.getLogDate|date("d/m/Y") }} on time {{ log.getLogTime }}{{'\n'}}{% endfor %}</textarea>
+        <textarea class="input-block-level" style="height: 300px; font-size: 12px">{% if logs %}Logs{{'\n'}}-----------------------------------------------------{{'\n'}}{%endif%}{% for log in logs %}- {{log.getLogDescription}} {% if log.getLogDescription != 'Login'%}in module{% else %}into {% endif %}({% if log.getLogModule==0 %}MyCp{% endif %}{% if log.getLogModule==1 %}Destination{% endif %}{% if log.getLogModule==2 %}FAQ{% endif %}{% if log.getLogModule==3 %}Album{% endif %}{% if log.getLogModule==4 %}Ownership{% endif %}{% if log.getLogModule==5 %}Currency{% endif %}{% if log.getLogModule==6 %}Language{% endif %}{% if log.getLogModule==7 %}Reservation{% endif %}{% if log.getLogModule==8 %}User{% endif %}{% if log.getLogModule==9 %}General Information{% endif %}{% if log.getLogModule==10 %}Comment{% endif %}) by {{log.getlogUser.getUserName}} in date {{ log.getLogDate|date("d/m/Y") }} on time {{ log.getLogTime }}{{'\n'}}{% endfor %}</textarea>
     </div>
 </div>
 <div class="row-fluid">
     <div class="span9"></div>
-    <div class="span3"><a href="{{ path('mycp_delete_logs') }}" class="btn btn-block btn-danger"><i class="icon-remove icon-white"></i>Limpiar informes de logs</a></div>
+    <div class="span3">
+        <button data='{{ path('mycp_delete_logs') }}' class="btn btn-block btn-danger delete"><i class="icon-remove icon-white"></i> Limpiar informes de logs</button>
+    </div>
 </div>
 <link href="{{ asset('bundles/mycp/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
 <script src="{{ asset('bundles/mycp/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
@@ -96,5 +109,8 @@
         $('#form_logs').submit();
     }
 </script>
-
+{% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea eliminar los elementos?','confirmation_action_label':'Eliminar'}%}
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('bundles/mycp/js/common_list.js') }}"></script>
 {% endblock %}

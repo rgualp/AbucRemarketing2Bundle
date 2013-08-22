@@ -1,0 +1,3 @@
+frontend_change_currency:
+    pattern:  /change_currency/
+    defaults: { _controller: frontEndBundle:currency:change }

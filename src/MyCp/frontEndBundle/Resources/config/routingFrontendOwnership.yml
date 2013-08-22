@@ -51,3 +51,7 @@ frontend_map_details_ownership:
 frontend_map_resized_ownership:
     pattern:  /map_resized/
     defaults: { _controller: frontEndBundle:ownership:map_resized }
+    
+frontend_voted_best_list_ownership:
+    pattern:  /voted_best_list/
+    defaults: { _controller: frontEndBundle:ownership:voted_best_list }

@@ -73,6 +73,9 @@ class Logs
                     case 'general information':
                         $module_number=9;
                         break;
+                    case 'comment':
+                        $module_number=10;
+                        break;
                 }
             }
             else

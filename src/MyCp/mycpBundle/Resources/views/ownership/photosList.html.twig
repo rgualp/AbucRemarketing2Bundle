@@ -8,6 +8,14 @@
     <li class="pull-right"><a href="{{ path('mycp_list_ownerships') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 {% endblock %}
+{% block form_actions %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_ownerships') }}">Propiedades</a> <span class="divider">/</span></li>
+    <li class="active">Fotografías </li>
+    <li class="pull-right"><a href="{{ path('mycp_list_ownerships') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+{% endblock %}
 {% block content %}
 <h2>Propiedades (Fotografías '{{ownership.getOwnName}}')</h2>
 <hr/>

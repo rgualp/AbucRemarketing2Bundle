@@ -7,7 +7,17 @@
 {% endblock %}
 {% block content %}
 <h1>Bienvenido usuario {% if app.user.getUserName is defined %}{{app.user.getUserName}}{% endif %}</h1>
-<p>
-    <div class="alert alert-block">Visite las secciones que se encuentran en el menú de la izquierda para realizar las tareas administrativas correspondiente a su rol.</div>
-</p>
+<div class="row-fluid">
+    <div class="span2">
+        {% if photo %}
+        <img width="130px" src="{{ asset('uploads/userImages/')}}{{photo.getPhoName}}" class="img-polaroid"/>
+        {% else %}
+        <img width="130px" src="{{ asset('bundles/frontend/images/user_no_photo.gif')}}" class="img-polaroid" />
+        {% endif %}
+    </div>
+    <div class="span10">
+        <div class="alert alert-block">Visite las secciones que se encuentran en el menú de la izquierda para realizar las tareas administrativas correspondiente a su rol.</div>
+    </div>
+</div>
+        <br/>
 {% endblock %}

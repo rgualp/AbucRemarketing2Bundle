@@ -13,6 +13,16 @@
 </ul>
 {% endblock %}
 {% block form_actions %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_albums') }}">Álbumes</a> <span class="divider">/</span></li>
+    {% if data['edit_album'] is defined %}
+    <li class="active">Editar álbum</li>
+    {% else %}
+    <li class="active">Adicionar álbum</li>
+    {% endif %}
+    <li class="pull-right"><a href="{{ path('mycp_list_albums') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
 <div class="form-actions">
     <button class="btn btn-primary" type="submit">Guardar</button>
     <a class="btn" href="{{ path('mycp_list_albums') }}">Cancelar</a>

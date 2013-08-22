@@ -1,0 +1,43 @@
+{% extends 'frontEndBundle:layout:base.html.twig' %}
+{% block title %}Contactenos{% endblock %}
+{% block body %}
+<ul class="breadcrumb">
+    <li><a title="Ir a la portada" href="{{path('frontend_welcome')}}">Inicio</a> <span
+            class="divider">»</span></li>
+    <li class="active">Contacteno</li>
+</ul>
+<div class="row-fluid ">
+    <div class="span6 offset3">
+        <div class="thumbnail">
+            <div class="cont" style="padding: 6px 20px 0 20px">
+        <h2 class="form big_price" style="font-size: 20px;">Contactenos</h2>
+        <hr/>
+        <form novalidate class="sfgen" method="POST" action="{{ path('frontend_contact_user') }}">
+            {% if errors['no_email'] is defined%}<div class="alert alert-error">{{errors['no_email']}}</div>{% endif %}
+            {{form_widget(form_tourist)}}
+            <br/>
+            <input class="btn btn-block btn-large" style="margin: auto" type="submit" value="Enviar" name="btn_tourist_contact"/>
+        </form>
+        </div>
+        </div>
+    </div>
+        
+        <div class="span6 offset3">
+        <div class="thumbnail">
+            <div class="cont" style="padding: 6px 20px 0 20px">
+        <h2 class="form big_price" style="font-size: 20px;">Contactenos</h2>
+        <hr/>
+        <form novalidate class="sfgen" method="POST" action="{{ path('frontend_contact_user') }}">
+            {% if errors['no_email'] is defined%}<div class="alert alert-error">{{errors['no_email']}}</div>{% endif %}
+            {{form_widget(form_owner)}}
+            <br/>
+                <input class="btn btn-block btn-large" style="margin: auto" type="submit" value="Enviar" name="btn_owner_contact"/>
+        </form>
+        </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('.sfgen input').addClass('input-block-level')
+</script>
+{%endblock%}

@@ -1,0 +1,250 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_reservations') }}">Reservas</a> <span class="divider">/</span></li>
+    <li class="active">Detalles de reserva</li>
+    <li class="pull-right"><a href="{{ path('mycp_list_reservations') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+{% endblock %}
+{% block form_actions %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_reservations') }}">Reservas</a> <span class="divider">/</span></li>
+    <li class="active">Detalles de reserva</li>
+    <li class="pull-right"><a href="{{ path('mycp_list_reservations') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+<div class="form-actions">
+    <button class="btn btn-primary" type="submit">Guardar</button>
+    <button class="btn" type="reset">Cancelar</button>
+    &nbsp;&nbsp;&nbsp;
+    <button type="button" {% if reservation.getGenResSaved==0 %}disabled="disabled"{% endif %} class="btn btn-danger">Enviar</button>
+
+</div>
+</form>
+{% endblock %}
+{% block content %}
+<h2>Detalles de Reserva: CAS.{{reservation.getGenResOwnId.getOwnMcpCode}}</h2>
+<hr/>
+{% if errors %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
+<form action="{{ path('mycp_details_reservation', { 'id_reservation' : id_reservation } ) }}" method="POST">
+<div class="row-fluid">
+    <div class="span6">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#reservas" data-toggle="tab">Info: Casa</a>
+            </li>
+        </ul>
+            <table class="table table-striped" style="font-size: 12px">
+                <tr>
+                    <td><b>ID Casa:</b></td>
+                    <td>{{ reservation.getGenResOwnId.getOwnMcpCode }} {{ reservation.getGenResOwnId.getOwnName }}</td>
+                </tr>
+                <tr>
+                    <td><b>Tipo de propiedad:</b></td>
+                    <td>{{ reservation.getGenResOwnId.getOwnType }}</td>
+                </tr>
+                <tr>
+                    <td><b>Propietario:</b></td>
+                    <td>{{ reservation.getGenResOwnId.getOwnHomeowner1 }}</td>
+                </tr>
+                <tr>
+                    <td><b>Dirección:</b></td>
+                    <td>{{ reservation.getGenResOwnId.getOwnAddressStreet }} {{ reservation.getGenResOwnId.getOwnAddressNumber }} e/ {{ reservation.getGenResOwnId.getOwnAddressBetweenStreet1 }} y {{ reservation.getGenResOwnId.getOwnAddressBetweenStreet2 }} {{ reservation.getGenResOwnId.getOwnAddressMunicipality }}</td>
+                </tr>
+                <tr>
+                    <td><b>Teléfono:</b></td>
+                    <td>{{ reservation.getGenResOwnId.getOwnPhoneCode }} {{ reservation.getGenResOwnId.getOwnPhoneNumber }}</td>
+                </tr>
+            </table>
+    </div>
+    <div class="span6">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#reservas" data-toggle="tab">Info: Cliente Tourist</a>
+            </li>
+        </ul>
+        <table class="table table-striped" style="font-size: 12px">
+            <tr>
+                <td><b>Nombre:</b></td>
+                <td colspan="3">{{ reservation.getGenResUserId.getUserUserName }} {{ reservation.getGenResUserId.getUserLastName }}</td>
+            </tr>
+            <tr>
+                <td><b>Dirección:</b></td>
+                <td colspan="3">{{ reservation.getGenResUserId.getUserAddress }}</td>
+            </tr>
+            <tr>
+                <td><b>Ciudad:</b></td>
+                <td>{{ reservation.getGenResUserId.getUserCity }}</td>
+                <td><b>País:</b></td>
+                <td>{{ reservation.getGenResUserId.getUserCountry }}</td>
+            </tr>
+            <tr>
+                <td><b>Email:</b></td>
+                <td colspan="3">{{ reservation.getGenResUserId.getUserEmail }}</td>
+            </tr>
+            <tr>
+                <td><b>Idioma:</b></td>
+                <td>{{ user[0].getUserTouristLanguage.getLangName }}</td>
+                <td><b>Moneda:</b></td>
+                <td>{{ user[0].getUserTouristCurrency.getCurrName }}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="row-fluid">
+    <div class="span12">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a href="#reservas" data-toggle="tab">Servicio: Alojamiento</a>
+        </li>
+    </ul>
+    <table class="table table-striped" style="font-size: 12px">
+        <thead>
+        <tr>
+            <th>Habitación</th>
+            <th>Adultos</th>
+            <th>Niños</th>
+            <th>Entrada</th>
+            <th>Salida</th>
+            <th>Noches</th>
+            <th>Precio</th>
+            <th>Comisión</th>
+            <th>Total</th>
+            <th>Estado</th>
+        </tr>
+        </thead>
+        {% set flag = 0 %}
+        {% set total_adults = 0 %}
+        {% set total_childrens = 0 %}
+        {% set total_nigths = 0 %}
+        {% set total_price_own_res = 0%}
+
+        {% for reservation_rooms in reservations%}
+
+        {% set total_adults = total_adults +  reservation_rooms.getOwnResCountAdults %}
+        {% set total_childrens = total_childrens +  reservation_rooms.getOwnResCountChildrens %}
+
+        <tr>
+            {% set res_type ='' %}
+            {% if reservation_rooms.getOwnResRoomType %}
+            {% set res_type = reservation_rooms.getOwnResRoomType %}
+            {% else %}
+            {% set res_type = rooms[flag].getRoomType %}
+            {% endif %}
+            <td><select name="service_room_type_{{reservation_rooms.getOwnResId}}" class="input-block-level">
+                {% if post['service_room_type_'~reservation_rooms.getOwnResId] is defined %}{% set res_type = post['service_room_type_'~reservation_rooms.getOwnResId] %}{% endif %}
+                {% render 'mycpBundle:BackendOwnership:get_room_type_list' with{'post':{'service_room_type':res_type, 'not_blank':1},'id':0}%}
+            </select></td>
+            <td><select name="service_room_count_adults_{{reservation_rooms.getOwnResId}}" class="input-block-level">
+                {% if post['service_room_count_adults_'~reservation_rooms.getOwnResId] is defined %}
+                    {% render 'mycpBundle:BackendReservation:get_numeric_list' with{'post':{'selected':post['service_room_count_adults_'~reservation_rooms.getOwnResId]}}%}
+                {% else %}
+                    {% render 'mycpBundle:BackendReservation:get_numeric_list' with{'post':{'selected':reservation_rooms.getOwnResCountAdults}}%}
+                {% endif %}
+            </select></td>
+            <td><select name="service_room_count_childrens_{{reservation_rooms.getOwnResId}}" class="input-block-level">
+                {% if post['service_room_count_childrens_'~reservation_rooms.getOwnResId] is defined %}
+                    {% render 'mycpBundle:BackendReservation:get_numeric_list_0' with{'post':{'selected':post['service_room_count_childrens_'~reservation_rooms.getOwnResId]}}%}
+                {% else %}
+                    {% render 'mycpBundle:BackendReservation:get_numeric_list_0' with{'post':{'selected':reservation_rooms.getOwnResCountChildrens}}%}
+                {% endif %}
+            </select></td>
+            <td>{{ reservation.getGenResFromDate | date("d/m/Y") }}</td>
+            <td>{{ reservation.getGenResToDate | date("d/m/Y") }}</td>
+            <td>{{ total_nights }}</td>
+            <td style="width: 7%">
+                {% set price_own_res =0%}
+
+                {% if post['service_room_price_'~reservation_rooms.getOwnResId] is defined %}
+                    {% set price_own_res=post['service_room_price_'~reservation_rooms.getOwnResId] %}
+                {% else %}
+                    {% set price_own_res=reservation_rooms.getOwnResNightPrice %}
+                {% endif %}
+                <input type="text" class="input-block-level" value="{{ price_own_res }}" name="service_room_price_{{reservation_rooms.getOwnResId}}"/>
+            </td>
+            <td>{{ reservation.genResOwnId.getOwnCommissionPercent }}%</td>
+            <td>{{ total_nights*price_own_res }} CUC</td>
+            {% set total_price_own_res = total_price_own_res +  total_nights*price_own_res %}
+            <td>
+            <select class="input-block-level" name="service_own_res_status_{{reservation_rooms.getOwnResId}}">
+                {% if post['service_own_res_status_'~reservation_rooms.getOwnResId] is defined %}
+                    {% render 'mycpBundle:BackendReservation:get_reservation_status' with{'post':{'selected':post['service_own_res_status_'~reservation_rooms.getOwnResId]}}%}
+                {% else %}
+                    {% render 'mycpBundle:BackendReservation:get_reservation_status' with{'post':{'selected':reservation_rooms.getOwnResStatus}}%}
+                {% endif %}
+            </select>
+            </td>
+        </tr>
+        {% set flag = flag + 1%}
+        {% endfor %}
+    </table>
+    </div>
+    </div>
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a href="#reservas" data-toggle="tab">Resumen de Reserva</a>
+        </li>
+    </ul>
+    <table class="table" style="font-size: 12px;">
+        <thead>
+        <tr>
+            <th>Habitación</th>
+            <th>Adultos</th>
+            <th>Niños</th>
+            <th>Noches</th>
+            <th>Precio Total</th>
+            <th>Prepago</th>
+            <th>Pago en casa</th>
+            <th>T. de Crédito</th>
+            <th>Anticipo total a pagar</th>
+        </tr>
+        </thead>
+        <tr>
+            <td>{{ reservations | length}}</td>
+            <td>{{ total_adults }}</td>
+            <td>{{ total_childrens }}</td>
+            <td>{{ total_nights }}</td>
+            <td>{{ total_price_own_res }} CUC</td>
+            {% set pre_pay =  total_price_own_res * reservation.genResOwnId.getOwnCommissionPercent / 100 %}
+            {% set pay_in_house = total_price_own_res - pre_pay %}
+            {% set total_pre_pay = pre_pay + 10 %}
+            <td>{{ pre_pay }} CUC</td>
+            <td>{{ pay_in_house }} cuc</td>
+            <td>10 CUC</td>
+            <td>{{ total_pre_pay }} CUC ({{ total_pre_pay * user[0].getUserTouristCurrency.getCurrCucChange }} {{ user[0].getUserTouristCurrency.getCurrCode|upper }})</td>
+        </tr>
+    </table>
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a href="#new_message" data-toggle="tab">Nuevo mensaje el cliente</a>
+        </li>
+        <li class="">
+            <a href="#client_messages" data-toggle="tab">Mensajes al cliente</a>
+        </li>
+        <li class="">
+            <a href="#comment" data-toggle="tab">Comentarios</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="">
+        <div id="new_message" class="tab-pane fade in active">
+            <textarea class="span12 textarea" name=""></textarea>
+        </div>
+        <div id="client_messages" class="tab-pane fade">
+
+        </div>
+        <div id="comment" class="tab-pane fade">
+
+        </div>
+    </div>
+</div>
+    <script src="{{ asset('bundles/mycp/js/wysihtml5-0.3.0.min.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        var url_css_color="{{ asset('bundles/mycp/css/wysiwyg-color.css') }}";
+    </script>
+    <script src="{{ asset('bundles/mycp/js/bootstrap-wysihtml5.js') }}" type="text/javascript"></script>
+    <link href="{{ asset('bundles/mycp/css/bootstrap-wysihtml5.css') }}" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+        $('.textarea').wysihtml5();
+    </script>
+{% endblock %}

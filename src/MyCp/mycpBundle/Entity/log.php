@@ -37,7 +37,7 @@ class log
     /**
      * @var string
      *
-     * @ORM\Column(name="log_description", type="string", length=255)
+     * @ORM\Column(name="log_description", type="text")
      */
     private $log_description;
 

@@ -8,6 +8,14 @@
     <li class="pull-right"><a href="{{ path('mycp_list_destination') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 {% endblock %}
+{% block form_actions %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_destination') }}">Destinos</a> <span class="divider">/</span></li>
+    <li class="active">Fotografías</li>
+    <li class="pull-right"><a href="{{ path('mycp_list_destination') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+{% endblock %}
 {% block content %}
 <h2>Destinos (Fotografías '{{destination.getDesName}}')</h2>
 <hr/>
@@ -68,6 +76,7 @@
 'route_params': {'id_destination':id_destination,'items_per_page':items_per_page}
 }) }}
 </div>
+
 <script src="{{ asset('bundles/mycp/js/jquery.ui/jquery.ui.core.js') }}" type="text/javascript"></script>
 <script src="{{ asset('bundles/mycp/js/jquery.ui/jquery.ui.widget.js') }}" type="text/javascript"></script>
 <script src="{{ asset('bundles/mycp/js/jquery.ui/jquery.ui.mouse.js') }}" type="text/javascript"></script>

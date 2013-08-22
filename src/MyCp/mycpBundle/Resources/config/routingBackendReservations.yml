@@ -7,12 +7,28 @@ mycp_delete_reservation:
     defaults: { _controller: mycpBundle:BackendReservation:delete_reservation }
 
 mycp_list_reservations:
-    pattern:  /list/{items_per_page}/{filter_date_reserve}/{filter_offer_number}/{filter_reference}/{filter_date_from}/{filter_date_to}
-    defaults: { _controller: mycpBundle:BackendReservation:list_reservations,items_per_page:100,filter_date_reserve:'',filter_offer_number:'',filter_reference:'',filter_date_from:'',filter_date_to:''}
+    pattern:  /list/{items_per_page}/{filter_date_reserve}/{filter_offer_number}/{filter_reference}/{filter_date_from}/{filter_date_to}/{sort_by}
+    defaults: { _controller: mycpBundle:BackendReservation:list_reservations,items_per_page:100,filter_date_reserve:'',filter_offer_number:'',filter_reference:'',filter_date_from:'',filter_date_to:'',sort_by:0}
+
+mycp_list_reservations_user:
+    pattern:  /list_user/{items_per_page}/{filter_date_reserve}/{filter_offer_number}/{filter_reference}/{filter_date_from}/{filter_date_to}/{sort_by}
+    defaults: { _controller: mycpBundle:BackendReservation:list_reservations_user,items_per_page:100,filter_date_reserve:'',filter_offer_number:'',filter_reference:'',filter_date_from:'',filter_date_to:'',sort_by:0}
 
 mycp_edit_reservation:
     pattern:  /edit/{id_reservation}
     defaults: { _controller: mycpBundle:BackendReservation:edit_reservation }
+
+mycp_details_reservation:
+    pattern:  /details/{id_reservation}
+    defaults: { _controller: mycpBundle:BackendReservation:details_reservation }
+
+mycp_details_reservation_partial:
+    pattern:  /details_partial/{id_reservation}
+    defaults: { _controller: mycpBundle:BackendReservation:details_reservation_partial }
+
+mycp_details_client_reservation:
+    pattern:  /details_client/{id_client}
+    defaults: { _controller: mycpBundle:BackendReservation:details_client_reservation }
 
 mycp_get_rooms_by_ownership:
     pattern:  /get_rooms/{id_ownership}/{selected_room}

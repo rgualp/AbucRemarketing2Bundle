@@ -14,8 +14,12 @@ use MyCp\mycpBundle\Entity\ownership;
  */
 class ownershipReservationRepository extends EntityRepository
 {
-    function get_all_reservations($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from,$filter_date_to)
+    function get_all_reservations($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from,$filter_date_to,$sort_by)
     {
+        $filter_offer_number=strtolower($filter_offer_number);
+        $filter_offer_number=str_replace('cas.','',$filter_offer_number);
+        $filter_offer_number=str_replace('cas','',$filter_offer_number);
+        $filter_offer_number=str_replace('.','',$filter_offer_number);
         $array_date_reserve=explode('/',$filter_date_reserve);
         $array_date_from=explode('/',$filter_date_from);
         $array_date_to=explode('/',$filter_date_to);
@@ -26,12 +30,27 @@ class ownershipReservationRepository extends EntityRepository
         if(count($array_date_to)>1)
             $filter_date_to=$array_date_to[2].'-'.$array_date_to[1].'-'.$array_date_to[0];
 
+        $string_order='';
+        switch($sort_by){
+            case 1:
+                $string_order="ORDER BY ore.own_res_reservation_date ASC";
+                break;
+            case 2:
+                $string_order="ORDER BY ore.own_res_own_id ASC";
+                break;
+            case 3:
+                $string_order="ORDER BY ore.own_res_reservation_from_date ASC";
+                break;
+            case 4:
+                $string_order="ORDER BY ore.own_res_reservation_status ASC";
+                break;
+        }
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT ore,gre,ow FROM mycpBundle:ownershipReservation ore JOIN ore.own_res_gen_res_id gre
         JOIN ore.own_res_own_id ow
-        WHERE ore.own_res_reservation_date LIKE '%$filter_date_reserve%' AND gre.gen_res_id LIKE '%$filter_offer_number%'
+        WHERE ore.own_res_reservation_date LIKE '%$filter_date_reserve%' AND ore.own_res_id LIKE '%$filter_offer_number%'
         AND ow.own_mcp_code LIKE '%$filter_reference%' AND ore.own_res_reservation_from_date LIKE '%$filter_date_from%'
-        AND ore.own_res_reservation_to_date LIKE '%$filter_date_to%'");
+        AND ore.own_res_reservation_to_date LIKE '%$filter_date_to%' $string_order");
         return $query->getArrayResult();
     }
 
@@ -46,10 +65,10 @@ class ownershipReservationRepository extends EntityRepository
     function get_reservation_by_id($id_reservation)
     {
         $em = $this->getEntityManager();
-        $query = $em->createQuery("SELECT ore,gre,us,curr, ow,owm,owp,up,uc FROM mycpBundle:ownershipReservation ore
-        JOIN ore.own_res_gen_res_id gre JOIN gre.gen_res_user_id us JOIN us.user_currency curr JOIN ore.own_res_own_id ow
+        $query = $em->createQuery("SELECT ore,gre,us, ow,owm,owp,uc FROM mycpBundle:ownershipReservation ore
+        JOIN ore.own_res_gen_res_id gre JOIN gre.gen_res_user_id us JOIN ore.own_res_own_id ow
         JOIN ow.own_address_municipality owm JOIN ow.own_address_province owp
-        JOIN us.user_city up JOIN us.user_country uc
+        JOIN us.user_country uc
         WHERE ore.own_res_id=$id_reservation");
         return $query->getArrayResult();
     }

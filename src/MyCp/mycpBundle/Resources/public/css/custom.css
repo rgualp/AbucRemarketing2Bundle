@@ -1,5 +1,5 @@
 body{background-color: #EAEAEA;}
-.container{width: 80%; }
+.container{width: 95%; }
 .body{background-color: #fff;padding: 15px 15px 10px 15px;border-radius: 5px; box-shadow: 0 1px 8px #ccc; margin-top: 18px }
 h3.title{border-bottom: 1px solid #DBDBDB;color: #666666;font-size: 18px;line-height: 22px; margin: 0px 0 10px;}
 h2{margin-top: -10px!important;text-transform: uppercase; margin-bottom: -20px; font-size: 22px}
@@ -32,6 +32,7 @@ ul.paginator > li > a{text-decoration: none}
 ul.paginator{border-radius: 4px 4px 4px 4px;box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     display: inline-block;margin: 20px 0px; margin-top: 10px; margin-bottom: 10px;}
 div.paginator-cont{text-align: center;}
+.paginator li{color: #000000!important;}
 
 .ui-sortable {margin: 0;}
 .ui-sortable li{ display: block; list-style-type: none;border-top: 1px solid #DDDDDD; background-color:#fff }
@@ -57,3 +58,9 @@ form ul li{list-style: none}
 .file-input-name{font-size: 12px;}
 .permissions{margin-top: 20px;}
 label.permission{margin-left: 15px;}
+
+.dropdown-menu.user_menu{font-size: 12px;}
+
+.red_row td{background-color: #F2DEDE!important;}
+.no_link{text-decoration: none!important; cursor: pointer}
+.tab_errors{color: #BF0000!important;}

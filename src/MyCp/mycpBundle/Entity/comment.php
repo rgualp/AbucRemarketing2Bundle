@@ -3,6 +3,7 @@
 namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * comment
@@ -24,6 +25,7 @@ class comment
     /**
      * @ORM\ManyToOne(targetEntity="user")
      * @ORM\JoinColumn(name="com_user", referencedColumnName="user_id", nullable=true)
+     * @Assert\NotBlank()
      */
     private $com_user;
     
@@ -31,27 +33,14 @@ class comment
     /**
      * @ORM\ManyToOne(targetEntity="ownership")
      * @ORM\JoinColumn(name="com_ownership", referencedColumnName="own_id")
+     * @Assert\NotBlank()
      */
     private $com_ownership;
-    
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="com_username", type="string", nullable=true)
-     */
-    private $com_username;  
-    
-     /**
-     * @var string
-     *
-     * @ORM\Column(name="com_email", type="string", nullable=true)
-     */
-    private $com_email;  
 
     /**
      * @var datetime
      *
-     * @ORM\Column(name="com_date", type="datetime")
+     * @ORM\Column(name="com_date", type="datetime", nullable=true)
      */
     private $com_date;
 
@@ -59,6 +48,7 @@ class comment
      * @var integer
      *
      * @ORM\Column(name="com_rate", type="integer")
+     * @Assert\NotBlank()
      */
     private $com_rate;
     
@@ -72,209 +62,12 @@ class comment
     /**
      * @var string
      *
-     * @ORM\Column(name="com_comments", type="string", length=800)
+     * @ORM\Column(name="com_comments", type="text")
+     * @Assert\NotBlank()
+     * @Assert\MinLength(6)
      */
     private $com_comments;
-    
-    
-    /**
-     * Get com_id
-     *
-     * @return integer 
-     */
-    public function getCommentId()
-    {
-        return $this->com_id;
-    }
 
-    /**
-     * Set com_user
-     *
-     * @param \MyCp\mycpBundle\Entity\user $comUser
-     * @return comment
-     */
-    public function setCommentUser($comUser)
-    {
-        $this->com_user = $comUser;
-    
-        return $this;
-    }
-
-    /**
-     * Get com_user
-     *
-     * @return \MyCp\mycpBundle\Entity\user 
-     */
-    public function getCommentUser()
-    {
-        return $this->com_user;
-    }
-    
-    /**
-     * Set com_ownership
-     *
-     * @param \MyCp\mycpBundle\Entity\ownership $comOwnership
-     * @return comment
-     */
-    public function setCommentOwnership($comOwnership)
-    {
-        $this->com_ownership = $comOwnership;
-    
-        return $this;
-    }
-
-    /**
-     * Get com_ownership
-     *
-     * @return \MyCp\mycpBundle\Entity\ownership 
-     */
-    public function getCommentOwnership()
-    {
-        return $this->com_ownership;
-    }
-    
-    
-    /**
-     * Set com_username
-     *
-     * @param string $comUserName
-     * @return comment
-     */
-    public function setCommentUserName($comUserName)
-    {
-        $this->com_username = $comUserName;
-    
-        return $this;
-    }
-
-    /**
-     * Get com_username
-     *
-     * @return string 
-     */
-    public function getCommentUserName()
-    {
-        return $this->com_username;
-    }
-    
-    
-    /**
-     * Set com_date
-     *
-     * @param datetime $comDate
-     * @return comment
-     */
-    public function setCommentDate($comDate)
-    {
-        $this->com_date = $comDate;
-    
-        return $this;
-    }
-
-    /**
-     * Get com_date
-     *
-     * @return datetime 
-     */
-    public function getCommentDate()
-    {
-        return $this->com_date;
-    }
-    
-    /**
-     * Set com_rate
-     *
-     * @param integer $comRate
-     * @return comment
-     */
-    public function setCommentRating($comRate)
-    {
-        $this->com_rate = $comRate;
-    
-        return $this;
-    }
-
-    /**
-     * Get com_rate
-     *
-     * @return integer 
-     */
-    public function getCommentRating()
-    {
-        return $this->com_rate;
-    }
-    
-    
-    /**
-     * Set com_comment
-     *
-     * @param string $comComment
-     * @return comment
-     */
-    public function setComments($comComment)
-    {
-        $this->com_comments = $comComment;
-    
-        return $this;
-    }
-
-    /**
-     * Get com_comment
-     *
-     * @return string 
-     */
-    public function getComments()
-    {
-        return $this->com_comments;
-    }
-    
-    
-    /**
-     * Set com_email
-     *
-     * @param string $comEmail
-     * @return comment
-     */
-    public function setEmail($comEmail)
-    {
-        $this->com_email = $comEmail;
-    
-        return $this;
-    }
-
-    /**
-     * Get com_email
-     *
-     * @return string 
-     */
-    public function getEmail()
-    {
-        return $this->com_email;
-    }
-    
-    /**
-     * Set com_public
-     *
-     * @param string $comPublic
-     * @return comment
-     */
-    public function setPublic($comPublic)
-    {
-        $this->com_public = $comPublic;
-    
-        return $this;
-    }
-
-    /**
-     * Get com_public
-     *
-     * @return string 
-     */
-    public function getPublic()
-    {
-        return $this->com_public;
-    }
-        
 
     /**
      * Get com_id
@@ -284,52 +77,6 @@ class comment
     public function getComId()
     {
         return $this->com_id;
-    }
-
-    /**
-     * Set com_username
-     *
-     * @param string $comUsername
-     * @return comment
-     */
-    public function setComUsername($comUsername)
-    {
-        $this->com_username = $comUsername;
-    
-        return $this;
-    }
-
-    /**
-     * Get com_username
-     *
-     * @return string 
-     */
-    public function getComUsername()
-    {
-        return $this->com_username;
-    }
-
-    /**
-     * Set com_email
-     *
-     * @param string $comEmail
-     * @return comment
-     */
-    public function setComEmail($comEmail)
-    {
-        $this->com_email = $comEmail;
-    
-        return $this;
-    }
-
-    /**
-     * Get com_email
-     *
-     * @return string 
-     */
-    public function getComEmail()
-    {
-        return $this->com_email;
     }
 
     /**

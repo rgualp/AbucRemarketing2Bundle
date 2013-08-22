@@ -33,11 +33,15 @@
         <td>{% if information.getInfoLangInfo.getInfoFixed ==1%}<span class="label label-important">Estático</span>{% else %}<span class="label label-success">No estático</span> {% endif %}</td>
         <td style="text-align: right">
             <a class="btn btn-mini" href="{{ path('mycp_edit_information',{'id_information':information.getInfoLangInfo.getInfoId}) }}">Editar</a>
-            <a class="btn btn-mini btn-danger" href="{{ path('mycp_delete_information',{'id_information':information.getInfoLangInfo.getInfoId}) }}">Eliminar</a>
+            <button data='{{ path('mycp_delete_information',{'id_information':information.getInfoLangInfo.getInfoId}) }}' class="btn btn-mini btn-danger delete">Eliminar</button>
         </td>
     </tr>
     {% endfor %}
     </tbody>
 </table>
 {% endif %}
+{% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea eliminar el elemento?','confirmation_action_label':'Eliminar'}%}
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('bundles/mycp/js/common_list.js') }}"></script>
 {% endblock %}

@@ -19,4 +19,13 @@ frontend_user:
 
 frontend_reservation:
     resource: "@frontEndBundle/Resources/config/routingFrontendReservation.yml"
-    prefix:   /reservation/
+    prefix:   user/reservation/
+    
+frontend_currency:
+    resource: "@frontEndBundle/Resources/config/routingFrontendCurrency.yml"
+
+frontend_information:
+    resource: "@frontEndBundle/Resources/config/routingFrontendInformation.yml"
+    
+frontend_faq:
+    resource: "@frontEndBundle/Resources/config/routingFrontendFaq.yml"

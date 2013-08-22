@@ -19,10 +19,17 @@
     <img src="{{ asset('bundles/mycp/images/logo.jpg')}}"/>
     <ul class="nav nav-pills pull-right">
         {% if app.user.getUserUserName is defined %}
-        <li><a href="{{ path('backend_logout') }}"><i class="icon-off icon-blue"></i> Cerrar sesión {{app.user.getUserUserName}}</a></li>
+        <li class="dropdown pull-right">
+            <a data-toggle="dropdown" class="dropdown-toggle" role="button" id="drop2" href="#">{{app.user.getUserUserName}} {{app.user.getUserLastName}} <b class="caret"></b></a>
+            <ul aria-labelledby="drop2" role="menu" class="dropdown-menu user_menu">
+                {% set user_auth = app.user %}
+                <li role="presentation"><a href="{% if user_auth.getUserRole =='ROLE_CLIENT_STAFF'%}{{ path('mycp_edit_user_staff',{'id_user':user_auth.getUserId})}}{% endif %}{% if user_auth.getUserRole =='ROLE_CLIENT_CASA'%}{{ path('mycp_edit_user_casa',{'id_user':user_auth.getUserId})}}{% endif %}{% if user_auth.getUserRole =='ROLE_CLIENT_TOURIST'%}{{ path('mycp_edit_user_tourist',{'id_user':user_auth.getUserId})}}{% endif %}{% if user_auth.getUserRole =='ROLE_CLIENT_PARTNER'%}{{ path('mycp_edit_user_partner',{'id_user':user_auth.getUserId})}}{% endif %}"><i class="icon-pencil"></i> Editar usuario</a></li>
+                <li role="presentation"><a href="{{ path('backend_logout') }}"><i class="icon-off"></i> Cerrar sesión</a></li>
+            </ul>
+        </li>
         {% endif %}
-        <!--<li><a href=""><i class="icon-edit icon-blue"></i> Registrarse</a></li>-->
     </ul>
+
 </header>
 
 
@@ -37,4 +44,6 @@
     <a href="">MyCasaParticular.com</a> Todos los derechos reservados.
 </footer>
 </div>
+{% block javascripts %}
+{% endblock %}
 </body>

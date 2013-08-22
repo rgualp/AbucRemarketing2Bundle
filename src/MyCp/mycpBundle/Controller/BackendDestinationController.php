@@ -31,13 +31,24 @@ class BackendDestinationController extends Controller
             $array_keys=array_keys($post);
             $count=$errors_validation=$count_errors= 0;
 
-            foreach ($post as $item) {
-                if($array_keys[$count]!='ownership_address_municipality')
-                {
-                    $errors[$array_keys[$count]] = $errors_validation=$this->get('validator')->validateValue($item, $not_blank_validator);
-                    $count_errors+=count($errors_validation);
+            if($request->get('public')=='on')
+            {
+                foreach ($post as $item) {
+                    if($array_keys[$count]!='ownership_address_municipality')
+                    {
+                        $errors[$array_keys[$count]] = $errors_validation=$this->get('validator')->validateValue($item, $not_blank_validator);
+                        $count_errors+=count($errors_validation);
+                    }
+                    $count++;
                 }
-                $count++;
+            }
+            else
+            {
+                $errors['name'] = $errors_validation=$this->get('validator')->validateValue($request->get('name'), $not_blank_validator);
+                $count_errors+=count($errors_validation);
+
+                $errors['ownership_address_province'] = $errors_validation=$this->get('validator')->validateValue($request->get('ownership_address_province'), $not_blank_validator);
+                $count_errors+=count($errors_validation);
             }
 
 

@@ -1,3 +1,7 @@
 frontend_review_reservation:
-    pattern:  /review/
+    pattern:  /review/{id_ownership}/{from_date}/{to_date}/{ids_rooms}/{count_guests}/{total_price}
     defaults: { _controller: frontEndBundle:reservation:review }
+
+frontend_review_confirm_reservation:
+    pattern:  /check/{id_ownership}/{from_date}/{to_date}/{ids_rooms}/{count_guests}/{total_price}
+    defaults: { _controller: frontEndBundle:reservation:review_confirm }

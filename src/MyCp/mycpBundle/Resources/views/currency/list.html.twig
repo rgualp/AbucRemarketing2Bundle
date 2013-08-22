@@ -63,7 +63,7 @@
         <td>{{ currency.getCurrCucChange }}</td>
         <td style="text-align: right">
             <a class="btn btn-mini" href="{{ path('mycp_edit_currency',{'id_currency':currency.getCurrId}) }}">Editar</a>
-            <a class="btn btn-mini btn-danger" href="{{ path('mycp_delete_currency',{'id_currency':currency.getCurrId}) }}">Eliminar</a>
+            <button data='{{ path('mycp_delete_currency',{'id_currency':currency.getCurrId}) }}' class="btn btn-mini btn-danger delete">Eliminar</button>
         </td>
     </tr>
     {% endfor %}
@@ -108,4 +108,8 @@
         });
     })
 </script>
+{% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea eliminar el elemento?','confirmation_action_label':'Eliminar'}%}
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('bundles/mycp/js/common_list.js') }}"></script>
 {% endblock %}

@@ -8,6 +8,14 @@
     <li class="pull-right"><a href="{{ path('mycp_list_albums') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 {% endblock %}
+{% block form_actions %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_albums') }}">Álbumes</a> <span class="divider">/</span></li>
+    <li class="active">Categorías</li>
+    <li class="pull-right"><a href="{{ path('mycp_list_albums') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+{% endblock %}
 {% block content %}
 <h2>Categorías</h2>
 <hr/>
@@ -52,7 +60,10 @@
     {% for category in categories %}
     <tr>
         <td>{{category['album_cat_description']}}</td>
-        <td style="text-align: right"><a class="btn btn-mini btn-danger" href="{{ path('mycp_delete_category_album',{'id_category':category['album_cat_id_cat']['alb_cat_id']}) }}">Eliminar</a></td>
+        <td style="text-align: right">
+            <a class="btn btn-mini" href="{{ path('mycp_edit_category_album',{'id_category':category['album_cat_id_cat']['alb_cat_id']}) }}">Editar</a>
+            <button data='{{ path('mycp_delete_category_album',{'id_category':category['album_cat_id_cat']['alb_cat_id']}) }}' class="btn btn-mini btn-danger delete">Eliminar</button>
+        </td>
     </tr>
     {% endfor %}
     </tbody>
@@ -71,5 +82,8 @@
 {% else %}
 <p> <div class="alert alert-block">No hay Categorías disponibles.</div></p>
 {% endif %}
-
+{% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea eliminar el elemento?','confirmation_action_label':'Eliminar'}%}
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('bundles/mycp/js/common_list.js') }}"></script>
 {% endblock %}

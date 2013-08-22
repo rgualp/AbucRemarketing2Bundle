@@ -1,0 +1,237 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_reservations') }}">Reservas</a> <span class="divider">/</span></li>
+    <li class="active">Detalles de cliente</li>
+    <li class="pull-right"><a href="{{ path('mycp_list_reservations_user') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+{% endblock %}
+{% block form_actions %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_reservations') }}">Reservas</a> <span class="divider">/</span></li>
+    <li class="active">Detalles de reserva</li>
+    <li class="pull-right"><a href="{{ path('mycp_list_reservations_user') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+<div class="form-actions">
+    <a class="btn btn-primary" href="javascript:submit()">Guardar</a>
+    <button class="btn" type="reset">Cancelar</button>
+    &nbsp;&nbsp;&nbsp;
+    <button type="button" class="btn btn-danger">Enviar</button>
+
+</div>
+</form>
+{% endblock %}
+{% block content %}
+<h2>Detalles de cliente: {{client.getUserUserName}} {{client.getUserLastName}}</h2>
+<hr/>
+{% if errors %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
+<form id="form" action="{{ path('mycp_details_client_reservation',{'id_client':client.getUserId}) }}" method="POST">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a href="#reservas" data-toggle="tab">Info: Client Tourist</a>
+        </li>
+    </ul>
+    <table class="table table-striped" style="font-size: 12px;">
+        <tr>
+            <td style="width: 20%"><b>Nombre:</b></td>
+            <td>{{client.getUserUserName}} {{client.getUserLastName}}</td>
+        </tr>
+        <tr>
+            <td><b>Dirección:</b></td>
+            <td>{{client.getUserAddress}}</td>
+        </tr>
+        <tr>
+            <td><b>Ciudad:</b></td>
+            <td>{{client.getUserCity}}</td>
+        </tr>
+        <tr>
+            <td><b>País:</b></td>
+            <td>{{client.getUserCountry.getCoName}}</td>
+        </tr>
+        <tr>
+            <td><b>Email:</b></td>
+            <td>{{client.getUserEmail}}</td>
+        </tr>
+    </table>
+    <ul class="nav nav-tabs reserves">
+        <li id="li_res" class="active">
+            <a href="#res" data-toggle="tab">Resumen de reserva de cliente</a>
+        </li>
+
+    </ul>
+    <div class="tab-content tabs_cont">
+        <div class="tab-pane active" id="res">
+            <table class="table table-striped table-hover" style="font-size: 12px;">
+                <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Fecha</th>
+                    <th>ID Reserva</th>
+                    <th>ID Casa</th>
+                    <th>Habitaciones</th>
+                    <th>Adultos</th>
+                    <th>Niños</th>
+                    <th>Noches</th>
+                    <th>Precio</th>
+                    <th>Estado</th>
+                    <th style="text-align: right">Acciones</th>
+                </tr>
+                </thead>
+                {% set flag=1 %}
+                {% set flag_2=0 %}
+                {% for reservation in reservations %}
+                <tr>
+                    <td>{{ flag }}</td>
+                    <td>{{ reservation[0]['gen_res_date']|date("d/m/Y") }}</td>
+                    <td>CAS.{{reservation[0].gen_res_id}}</td>
+                    <td>{{reservation[0]['gen_res_own_id']['own_mcp_code']}}</td>
+                    <td>{{reservation['rooms']}}</td>
+                    <td>{{reservation['adults']}}</td>
+                    <td>{{reservation['childrens']}}</td>
+                    <td>{{total_nights[flag_2]}}</td>
+                    <td>{{total_prices[flag_2]}}</td>
+                    <td>
+                        <select name="resume_status_res_{{reservation[0]['gen_res_id']}}" class="input-block-level">
+                            {% render 'mycpBundle:BackendReservation:get_reservation_status' with{'post':{'selected':reservation[0]['gen_res_status']}}%}
+                        </select>
+                    </td>
+                    <td style="text-align: right">
+                        <button data_res_id="{{reservation[0].gen_res_id}}" data_name_id="{{reservation[0].gen_res_id}}tab" data_name="CAS.{{reservation[0].gen_res_id}}" type="button" class="reserve_details btn btn-mini" href="">Detalles</button>
+                    </td>
+                </tr>
+                {% set flag = flag + 1 %}
+                {% set flag_2 = flag_2 + 1 %}
+                {% endfor %}
+            </table>
+        </div>
+
+    </div>
+
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a href="#new_message" data-toggle="tab">Nuevo mensaje el cliente</a>
+        </li>
+        <li class="">
+            <a href="#client_messages" data-toggle="tab">Mensajes al cliente</a>
+        </li>
+        <li class="">
+            <a href="#comment" data-toggle="tab">Comentarios</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="">
+        <div id="new_message" class="tab-pane fade in active">
+            <textarea class="span12 textarea" name=""></textarea>
+        </div>
+        <div id="client_messages" class="tab-pane fade">
+
+        </div>
+        <div id="comment" class="tab-pane fade">
+
+        </div>
+    </div>
+    <script src="{{ asset('bundles/mycp/js/wysihtml5-0.3.0.min.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        var url_css_color="{{ asset('bundles/mycp/css/wysiwyg-color.css') }}";
+    </script>
+    <script src="{{ asset('bundles/mycp/js/bootstrap-wysihtml5.js') }}" type="text/javascript"></script>
+    <link href="{{ asset('bundles/mycp/css/bootstrap-wysihtml5.css') }}" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+        $('.textarea').wysihtml5();
+
+        count=0;
+        visibles=[];
+
+        $('.reserve_details').click(function(){
+            flag_insert=1;
+
+           $('.reserves li').each(function(index,value) {
+                //alert(valor);
+            });
+            tab_name=$(this).attr('data_name');
+            tab_name_id=$(this).attr('data_name_id');
+            res_id=$(this).attr('data_res_id');
+
+            for(a=0; a < visibles.length; a++)
+            {
+                if(visibles[a]==tab_name)
+                {
+                    flag_insert=0;
+                }
+            }
+
+            if(flag_insert==1)
+            {
+                visibles[count]=tab_name;
+                count++;
+                new_tab='<li id="tab'+res_id+'li" class=""><a href="#'+tab_name_id+'" data-toggle="tab">ID Reserva '+tab_name+'</a></li>';
+                new_cont=document.createElement("div");
+                new_cont.setAttribute("class","tab-pane");
+                new_cont.setAttribute("id",tab_name_id);
+                $(".reserve_details").attr('disabled','disabled');
+                new_cont.innerHTML='<p style="font-size: 12px;">Cargando...<br/><br/></p>';
+                $.ajax({
+                    url: "{{ path('mycp_details_reservation_partial',{'id_reservation':''})}}/"+res_id
+                }).done(function(resp) {
+                    $(".reserve_details").removeAttr('disabled');
+                    new_cont.innerHTML=resp;
+                });
+                $('.reserves').html($('.reserves').html() + new_tab);
+                $('.tabs_cont').append(new_cont);
+            }
+        })
+
+        function close_tab( id_tab )
+        {
+
+            for(a=0; a < visibles.length; a++)
+            {
+                if(visibles[a]=="CAS."+id_tab)
+                {
+                    delete visibles[a];
+                    break;
+                }
+            }
+
+            $('#res').attr('class',$('#res').attr('class')+' active');
+            $('#li_res').attr('class','active');
+            $('#tab'+id_tab+'li').remove();
+            $('#'+id_tab+'tab').remove();
+
+        }
+
+        function submit()
+        {
+            errors=0;
+            $('.price_offer').each(function(index,value) {
+                if(!$.isNumeric($(value).val()) || $(value).val()==0 )
+                {
+                    errors++;
+                }
+            });
+            if(errors > 0)
+            {
+                $('#modal_error').modal('show');
+            }
+            else
+            {
+                $('#form').submit();
+            }
+
+        }
+    </script>
+    <div class="modal hide fade" id="modal_error" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Error en precios</h3>
+        </div>
+        <div class="modal-body">
+            <p>Los precios de las reservaciones deben ser solo números mayores que 0.</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Aceptar</button>
+        </div>
+    </div>
+{% endblock %}

@@ -141,6 +141,7 @@ class BackendOwnershipController extends Controller
         $service_security->verify_access();
         $page=1;
         $filter_active=$request->get('filter_active');
+
         $filter_province=$request->get('filter_province');
         $filter_name=$request->get('filter_name');
         $filter_municipality=$request->get('filter_municipality');
@@ -165,7 +166,6 @@ class BackendOwnershipController extends Controller
         $ownerships= $paginator->paginate($em->getRepository('mycpBundle:ownership')->get_all_ownerships(
             $filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality, $filter_type,$filter_name
         ))->getResult();
-
         $data=array();
         foreach($ownerships as $ownership)
         {
@@ -255,6 +255,8 @@ class BackendOwnershipController extends Controller
         $post['ownership_email_2']=$ownership->getOwnEmail2();
         $post['ownership_category']=$ownership->getOwnCategory();
         $post['ownership_type']=$ownership->getOwnType();
+        $post['comment']=$ownership->getOwnComment();
+        $post['ownership_percent_commission']=$ownership->getOwnCommissionPercent();
 
         $langs=$ownership->getOwnLangs();
         if($langs[0]==1)
@@ -282,6 +284,7 @@ class BackendOwnershipController extends Controller
         $post['geolocate_y']=$ownership->getOwnGeolocateY();
         $post['top_20']=$ownership->getOwnTop20();
         $data['country_code']=$ownership->getOwnAddressProvince()->getProvId();
+        $post['status']=$ownership->getOwnStatus()->getStatusId();
 
         if($post['top_20']==false)
             $post['top_20']=0;
@@ -303,10 +306,10 @@ class BackendOwnershipController extends Controller
         else
             $post['facilities_parking']=1;
 
-        if($ownership->getOwnPublic()==1)
+        /*if($ownership->getOwnPublic()==1)
         {
             $post['public']=TRUE;
-        }
+        }*/
 
         if($ownership->getOwnWaterJacuzee()==1)
         {
@@ -371,6 +374,7 @@ class BackendOwnershipController extends Controller
                 $post['room_smoker_'.$a]=1;
         }
 
+        $post['edit_ownership']=TRUE;
         $data['edit_ownership']=TRUE;
         $data['id_ownership']=$id_ownership;
         $data['name_ownership']=$ownership->getOwnName();
@@ -390,7 +394,13 @@ class BackendOwnershipController extends Controller
         $ownershipRooms=$em->getRepository('mycpBundle:room')->findBy(array('room_ownership'=>$id_ownership));
         $ownershipPhotos=$em->getRepository('mycpBundle:ownershipPhoto')->findBy(array('own_pho_own'=>$id_ownership));
         $ownershipReservations=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_own_id'=>$id_ownership));
+        $ownershipComments=$em->getRepository('mycpBundle:comment')->findBy(array('com_ownership'=>$id_ownership));
         $userscasa=$em->getRepository('mycpBundle:userCasa')->findBy(array('user_casa_ownership'=>$id_ownership));
+
+        foreach($ownershipComments as $ownershipComment)
+        {
+            $em->remove($ownershipComment);
+        }
 
         foreach($ownershipGeneralLangs as $ownershipgLang)
         {
@@ -441,6 +451,7 @@ class BackendOwnershipController extends Controller
 
     public function new_ownershipAction(Request $request)
     {
+
         $service_security= $this->get('Secure');
         $service_security->verify_access();
         $em = $this->getDoctrine()->getEntityManager();
@@ -452,7 +463,6 @@ class BackendOwnershipController extends Controller
         $data['count_errors']=0;
         if ($request->getMethod() == 'POST')
         {
-
             if($request->request->get('new_room')==1)
             {
                 $count_rooms=$request->request->get('count_rooms')+1;
@@ -460,6 +470,7 @@ class BackendOwnershipController extends Controller
             }
             else
             {
+
                 $not_blank_validator = new NotBlank();
                 $not_blank_validator->message="Este campo no puede estar vacío.";
                 $emailConstraint = new Email();
@@ -473,6 +484,7 @@ class BackendOwnershipController extends Controller
                     if(strpos($array_keys[$count], 'ownership_')!==false)
                     {
                         if($array_keys[$count]!='ownership_licence_number' &&
+                           $array_keys[$count]!='ownership_email_1' &&
                            $array_keys[$count]!='ownership_address_between_street_1' &&
                            $array_keys[$count]!='ownership_address_between_street_2' &&
                            $array_keys[$count]!='ownership_mobile_number' &&
@@ -556,6 +568,7 @@ class BackendOwnershipController extends Controller
                 }*/
 
                 $errors['facilities_breakfast'] = $this->get('validator')->validateValue($post['facilities_breakfast'],$not_blank_validator);
+                $errors['status'] = $this->get('validator')->validateValue($post['status'],$not_blank_validator);
                 $errors['facilities_dinner'] = $this->get('validator')->validateValue($post['facilities_dinner'],$not_blank_validator);
                 $errors['facilities_parking'] = $this->get('validator')->validateValue($post['facilities_parking'],$not_blank_validator);
                 $errors['geolocate_x'] = $this->get('validator')->validateValue($post['geolocate_x'],$not_blank_validator);
@@ -577,8 +590,112 @@ class BackendOwnershipController extends Controller
                     // insert into database
                     if($request->request->get('edit_ownership'))
                     {
+                        $id_own=$request->request->get('edit_ownership');
+                        if($request->request->get('status')==4)
+                        {
+                            return $this->redirect($this->generateUrl('mycp_delete_ownership',array('id_ownership'=>$id_own)));
+                        }
                         $service_log= $this->get('log');
-                        $service_log->save_log('Edit entity '.$post['ownership_mcp_code'],4);
+                        $db_ownership=$em->getRepository('mycpBundle:ownership')->find($id_own);
+                        $old_status=$db_ownership->getOwnStatus()->getStatusId();
+                        $new_status=$request->request->get('status');
+                        $new_status_db=$em->getRepository('mycpBundle:ownershipStatus')->find($new_status)->getStatusName();
+                        $any_edit=false;
+                        if($old_status!=$new_status)
+                        {
+                            $service_log->save_log('Edit entity (Change status. From '.$db_ownership->getOwnStatus()->getStatusName().' to '.$new_status_db.' ) '.$post['ownership_mcp_code'],4);
+                            $any_edit=true;
+                        }
+
+                        $rooms_db=$em->getRepository('mycpBundle:room')->findBy(array('room_ownership'=>$id_own));
+
+                        $flag=1;
+                        $string_rooms_change_price='';
+                        if($post['status']==1)
+                        foreach($rooms_db as $room)
+                        {
+                            $db_price_up_from= $room->getRoomPriceUpFrom();
+                            $post_price_up_from= $post['room_price_up_from_'.$flag];
+
+                            $db_price_up_to= $room->getRoomPriceUpTo();
+                            $post_price_up_to= $post['room_price_up_to_'.$flag];
+
+                            $db_price_down_from= $room->getRoomPriceDownFrom();
+                            $post_price_down_from= $post['room_price_down_from_'.$flag];
+
+                            $db_price_down_to= $room->getRoomPriceDownTo();
+                            $post_price_down_to= $post['room_price_down_to_'.$flag];
+
+                            if($db_price_up_from!=$post_price_up_from)
+                            {
+                                $string_rooms_change_price.=' Room '.$flag.' changed price (High season "FROM") from '.$db_price_up_from.' to '.$post_price_up_from.'.';
+                            }
+
+                            if($db_price_up_to!=$post_price_up_to)
+                            {
+                                $string_rooms_change_price.=' Room '.$flag.' changed price (High season "TO") from '.$db_price_up_to.' to '.$post_price_up_to.'.';
+                            }
+
+                            if($db_price_down_from!=$post_price_down_from)
+                            {
+                                $string_rooms_change_price.=' Room '.$flag.' changed price (Low season "FROM") from '.$db_price_down_from.' to '.$post_price_down_from.'.';
+                            }
+
+                            if($db_price_down_to!=$post_price_down_to)
+                            {
+                                $string_rooms_change_price.=' Room '.$flag.' changed price (Low season "TO") from '.$db_price_down_to.' to '.$post_price_down_to.'.';
+                            }
+
+                            $flag++;
+
+                        }
+
+                        if($string_rooms_change_price!='')
+                        {
+                            $service_log->save_log('Edit entity. '.$string_rooms_change_price.' '.$post['ownership_mcp_code'],4);
+                            $any_edit=true;
+                        }
+
+                        $old_address_street=$db_ownership->getOwnAddressStreet();
+                        $new_address_street=$request->request->get('ownership_address_street');
+
+                        $old_number=$db_ownership->getOwnAddressNumber();
+                        $new_number=$request->request->get('ownership_address_number');
+
+                        $old_between_street_1=$db_ownership->getOwnAddressBetweenStreet1();
+                        $new_between_street_1=$request->request->get('ownership_address_between_street_1');
+
+                        $old_between_street_2=$db_ownership->getOwnAddressBetweenStreet2();
+                        $new_between_street_2=$request->request->get('ownership_address_between_street_2');
+
+                        if($old_address_street!= $new_address_street
+                            OR $old_number != $new_number
+                            OR $old_between_street_1 != $new_between_street_1
+                            OR $old_between_street_2 != $new_between_street_2)
+                        {
+                            $any_edit=true;
+                            $service_log->save_log('Edit entity. Change address from '. $old_address_street .' street #'.$old_number .' between '. $old_between_street_1. ' and '.$old_between_street_2.
+                                ' to '. $new_address_street .' street #'.$new_number .' between '. $new_between_street_1. ' and '.$new_between_street_2,4);
+                        }
+
+                        $old_phone_number=$db_ownership->getOwnPhoneNumber();
+                        $new_phone_number=$request->request->get('ownership_phone_number');
+
+                        $old_phone_code=$db_ownership->getOwnPhoneCode();
+                        $new_phone_code=$request->request->get('ownership_phone_code');
+
+                        if($old_phone_number != $new_phone_number OR $old_phone_code !=$new_phone_code)
+                        {
+                            $any_edit=true;
+                            $service_log->save_log('Edit entity. Change phone number from '.$old_phone_code.' '.$old_phone_number. ' to '
+                                .$new_phone_code.' '.$new_phone_number,4);
+                        }
+
+                        if($any_edit==false)
+                        {
+                            $service_log->save_log('Edit entity '.$post['ownership_mcp_code'],4);
+                        }
+
                         $em->getRepository('mycpBundle:ownership')->edit_ownership($post);
                         $message='Propiedad actualizada satisfactoriamente.';
                     }
@@ -595,7 +712,16 @@ class BackendOwnershipController extends Controller
                         $service_log->save_log('Create entity '.$post['ownership_mcp_code'],4);
                     }
                     $this->get('session')->setFlash('message_ok',$message);
-                    return $this->redirect($this->generateUrl('mycp_list_ownerships'));
+                    if($request->get('save_reset_input')==1)
+                    {
+                        return $this->redirect($this->generateUrl('mycp_new_ownership'));
+                    }
+                    else
+                    {
+                        return $this->redirect($this->generateUrl('mycp_list_ownerships'));
+                    }
+
+
                 }
         }
             if($request->request->get('edit_ownership'))
@@ -607,9 +733,57 @@ class BackendOwnershipController extends Controller
                 $data['id_ownership']=$id_ownership;
             }
         }
+
+        $errors_keys=array_keys($errors);
+        $errors_temp=array();
+        $flag=0;
+        foreach($errors as $error)
+        {
+            if($error->__toString()!='')
+            {
+                array_push($errors_temp,$errors_keys[$flag]);
+            }
+            $flag++;
+        }
+
+        $errors_tab=array();
+        foreach($errors_temp as $error)
+        {
+
+            if(strpos($error,'ownership')===0)
+            {
+                $errors_tab['general_tab']=true;
+            }
+
+            if(strpos($error,'room')===0)
+            {
+                $errors_tab['room_tab']=true;
+            }
+
+            /*if(strpos($error,'facilities')===0)
+            {
+                $errors_tab['facilities_tab']=true;
+            }*/
+
+            if(strpos($error,'geolocate')===0)
+            {
+                $errors_tab['house_tab']=true;
+            }
+
+            if(strpos($error,'status')===0)
+            {
+                $errors_tab['house_tab']=true;
+            }
+
+            if(strpos($error,'match_password')===0)
+            {
+                $errors_tab['user_tab']=true;
+            }
+        }
+
         $post['ownership_address_municipality']='';
         $languages = $em->getRepository('mycpBundle:lang')->get_all_languages();
-        return $this->render('mycpBundle:ownership:new.html.twig',array('languages' => $languages,'count_rooms'=>$count_rooms,'post'=>$post,'data'=>$data,'errors'=>$errors));
+        return $this->render('mycpBundle:ownership:new.html.twig',array('languages' => $languages,'count_rooms'=>$count_rooms,'post'=>$post,'data'=>$data,'errors'=>$errors,'errors_tab'=>$errors_tab));
 
     }
 
@@ -807,9 +981,14 @@ class BackendOwnershipController extends Controller
     public function get_room_type_listAction($post,$id)
     {
         $selected='';
+        $not_blank=0;
         if(isset($post['room_type_'.$id]))
             $selected=$post['room_type_'.$id];
-        return $this->render('mycpBundle:utils:ownership_room_type.html.twig',array('selected'=>$selected));
+        if(isset($post['service_room_type']))
+            $selected=$post['service_room_type'];
+        if(isset($post['not_blank']) && $post['not_blank']==1)
+            $not_blank=1;
+        return $this->render('mycpBundle:utils:ownership_room_type.html.twig',array('selected'=>$selected,'not_blank'=>$not_blank));
     }
 
     public function get_languagesAction($data)
@@ -861,5 +1040,19 @@ class BackendOwnershipController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $ownerships= $em->getRepository('mycpBundle:ownership')->findAll();
         return $this->render('mycpBundle:utils:ownership_names.html.twig',array('ownerships'=>$ownerships));
+    }
+
+    public function get_statusAction($post)
+    {
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $selected='';
+        if(!is_array($post))
+            $selected=$post;
+        if(isset($post['status']))
+            $selected=$post['status'];
+
+        $status= $em->getRepository('mycpBundle:ownershipStatus')->findAll();
+        return $this->render('mycpBundle:utils:ownership_status.html.twig',array('status'=>$status,'selected'=>$selected,'post'=>$post));
     }
 }

@@ -28,17 +28,11 @@ class ownershipReservation
     private $own_res_gen_res_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ownership",inversedBy="ownResOwnership")
-     * @ORM\JoinColumn(name="own_res_own_id",referencedColumnName="own_id")
-     */
-    private $own_res_own_id;
-
-    /**
      * @var integer
      *
-     * @ORM\Column(name="own_res_selected_room", type="integer")
+     * @ORM\Column(name="own_res_selected_room_id", type="integer")
      */
-    private $own_res_selected_room;
+    private $own_res_selected_room_id;
 
     /**
      * @var integer
@@ -55,41 +49,6 @@ class ownershipReservation
     private $own_res_count_childrens;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="own_res_reservation_date", type="date")
-     */
-    private $own_res_reservation_date;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="own_res_reservation_from_date", type="date")
-     */
-    private $own_res_reservation_from_date;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="own_res_reservation_to_date", type="date")
-     */
-    private $own_res_reservation_to_date;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="own_res_reservation_status", type="integer")
-     */
-    private $own_res_reservation_status;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="own_res_reservation_status_date", type="date")
-     */
-    private $own_res_reservation_status_date;
-
-    /**
      * @var integer
      *
      * @ORM\Column(name="own_res_night_price", type="integer")
@@ -99,18 +58,21 @@ class ownershipReservation
     /**
      * @var integer
      *
-     * @ORM\Column(name="own_res_commission_percent", type="integer")
+     * @ORM\Column(name="own_res_status", type="integer")
      */
-    private $own_res_commission_percent;
+    private $own_res_status;
 
-
-
-   
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="own_res_room_type", type="string", length=255, nullable=true)
+     */
+    private $own_res_room_type;
 
     /**
      * Get own_res_id
      *
-     * @return integer 
+     * @return integer
      */
     public function getOwnResId()
     {
@@ -118,26 +80,26 @@ class ownershipReservation
     }
 
     /**
-     * Set own_res_selected_room
+     * Set own_res_selected_room_id
      *
-     * @param integer $ownResSelectedRoom
+     * @param integer $ownResSelectedRoomId
      * @return ownershipReservation
      */
-    public function setOwnResSelectedRoom($ownResSelectedRoom)
+    public function setOwnResSelectedRoomId($ownResSelectedRoomId)
     {
-        $this->own_res_selected_room = $ownResSelectedRoom;
+        $this->own_res_selected_room_id = $ownResSelectedRoomId;
     
         return $this;
     }
 
     /**
-     * Get own_res_selected_room
+     * Get own_res_selected_room_id
      *
      * @return integer 
      */
-    public function getOwnResSelectedRoom()
+    public function getOwnResSelectedRoomId()
     {
-        return $this->own_res_selected_room;
+        return $this->own_res_selected_room_id;
     }
 
     /**
@@ -187,121 +149,6 @@ class ownershipReservation
     }
 
     /**
-     * Set own_res_reservation_date
-     *
-     * @param \DateTime $ownResReservationDate
-     * @return ownershipReservation
-     */
-    public function setOwnResReservationDate($ownResReservationDate)
-    {
-        $this->own_res_reservation_date = $ownResReservationDate;
-    
-        return $this;
-    }
-
-    /**
-     * Get own_res_reservation_date
-     *
-     * @return \DateTime 
-     */
-    public function getOwnResReservationDate()
-    {
-        return $this->own_res_reservation_date;
-    }
-
-    /**
-     * Set own_res_reservation_from_date
-     *
-     * @param \DateTime $ownResReservationFromDate
-     * @return ownershipReservation
-     */
-    public function setOwnResReservationFromDate($ownResReservationFromDate)
-    {
-        $this->own_res_reservation_from_date = $ownResReservationFromDate;
-    
-        return $this;
-    }
-
-    /**
-     * Get own_res_reservation_from_date
-     *
-     * @return \DateTime 
-     */
-    public function getOwnResReservationFromDate()
-    {
-        return $this->own_res_reservation_from_date;
-    }
-
-    /**
-     * Set own_res_reservation_to_date
-     *
-     * @param \DateTime $ownResReservationToDate
-     * @return ownershipReservation
-     */
-    public function setOwnResReservationToDate($ownResReservationToDate)
-    {
-        $this->own_res_reservation_to_date = $ownResReservationToDate;
-    
-        return $this;
-    }
-
-    /**
-     * Get own_res_reservation_to_date
-     *
-     * @return \DateTime 
-     */
-    public function getOwnResReservationToDate()
-    {
-        return $this->own_res_reservation_to_date;
-    }
-
-    /**
-     * Set own_res_reservation_status
-     *
-     * @param integer $ownResReservationStatus
-     * @return ownershipReservation
-     */
-    public function setOwnResReservationStatus($ownResReservationStatus)
-    {
-        $this->own_res_reservation_status = $ownResReservationStatus;
-    
-        return $this;
-    }
-
-    /**
-     * Get own_res_reservation_status
-     *
-     * @return integer 
-     */
-    public function getOwnResReservationStatus()
-    {
-        return $this->own_res_reservation_status;
-    }
-
-    /**
-     * Set own_res_reservation_status_date
-     *
-     * @param \DateTime $ownResReservationStatusDate
-     * @return ownershipReservation
-     */
-    public function setOwnResReservationStatusDate($ownResReservationStatusDate)
-    {
-        $this->own_res_reservation_status_date = $ownResReservationStatusDate;
-    
-        return $this;
-    }
-
-    /**
-     * Get own_res_reservation_status_date
-     *
-     * @return \DateTime 
-     */
-    public function getOwnResReservationStatusDate()
-    {
-        return $this->own_res_reservation_status_date;
-    }
-
-    /**
      * Set own_res_night_price
      *
      * @param integer $ownResNightPrice
@@ -322,29 +169,6 @@ class ownershipReservation
     public function getOwnResNightPrice()
     {
         return $this->own_res_night_price;
-    }
-
-    /**
-     * Set own_res_commission_percent
-     *
-     * @param integer $ownResCommissionPercent
-     * @return ownershipReservation
-     */
-    public function setOwnResCommissionPercent($ownResCommissionPercent)
-    {
-        $this->own_res_commission_percent = $ownResCommissionPercent;
-    
-        return $this;
-    }
-
-    /**
-     * Get own_res_commission_percent
-     *
-     * @return integer 
-     */
-    public function getOwnResCommissionPercent()
-    {
-        return $this->own_res_commission_percent;
     }
 
     /**
@@ -370,26 +194,52 @@ class ownershipReservation
         return $this->own_res_gen_res_id;
     }
 
+
+
     /**
-     * Set own_res_own_id
+     * Set own_res_status
      *
-     * @param \MyCp\mycpBundle\Entity\ownership $ownResOwnId
+     * @param integer $ownResStatus
      * @return ownershipReservation
      */
-    public function setOwnResOwnId(\MyCp\mycpBundle\Entity\ownership $ownResOwnId = null)
+    public function setOwnResStatus($ownResStatus)
     {
-        $this->own_res_own_id = $ownResOwnId;
+        $this->own_res_status = $ownResStatus;
     
         return $this;
     }
 
     /**
-     * Get own_res_own_id
+     * Get own_res_status
      *
-     * @return \MyCp\mycpBundle\Entity\ownership 
+     * @return integer 
      */
-    public function getOwnResOwnId()
+    public function getOwnResStatus()
     {
-        return $this->own_res_own_id;
+        return $this->own_res_status;
     }
+
+    /**
+     * Set own_res_room_type
+     *
+     * @param string $ownResRoomType
+     * @return ownershipReservation
+     */
+    public function setOwnResRoomType($ownResRoomType)
+    {
+        $this->own_res_room_type = $ownResRoomType;
+    
+        return $this;
+    }
+
+    /**
+     * Get own_res_room_type
+     *
+     * @return string 
+     */
+    public function getOwnResRoomType()
+    {
+        return $this->own_res_room_type;
+    }
+
 }

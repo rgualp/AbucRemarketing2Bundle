@@ -100,7 +100,7 @@ class BackendCurrencyController extends Controller
         $service_security->verify_access();
         $em = $this->getDoctrine()->getEntityManager();
         $currency=$em->getRepository('mycpBundle:currency')->find($id_currency);
-        $user=$em->getRepository('mycpBundle:user')->findBy(array('user_currency'=>$currency));
+        $user=$em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_currency'=>$currency));
         if($user)
         {
             $message='No se puede eliminar la moneda, está siendo utilizada por un usuario.';

@@ -56,7 +56,17 @@
             <div class="span3"><label>Nombre</label><input id="filter_name" value="{{filter_name}}" class="input-block-level" name="filter_name" type="text"/></div>
             <div class="span4"><label>Apellido</label><input id="filter_last_name" value="{{filter_last_name}}" class="input-block-level" name="filter_last_name" type="text"/></div>
             <div class="span3"><label>Email</label><input id="filter_email" value="{{filter_email}}" class="input-block-level" name="filter_email" type="text"/></div>
-            <div class="span2"><label>&nbsp;</label><a href="javascript:action_submit();" class="btn btn-block btn-success"><i class="icon-filter icon-white"></i> Filtrar</a></div>
+            <div class="span2">
+                <label>&nbsp;</label>
+                <div class="row-fluid">
+                    <div class="span6">
+                        <a rel="tooltip" title="Filtrar listado" href="javascript:action_submit();" class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
+                    </div>
+                    <div class="span6">
+                        <a rel="tooltip" title="Resetear filtrado " href="{{ path('mycp_list_users') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </form>
@@ -72,10 +82,6 @@
             <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_users',{'items_per_page':300})}}">300</a>
             <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_users',{'items_per_page':500})}}">500</a>
             <input class="hidden" name="items_per_page" value="100">
-        </div>
-
-        <div class="pull-right" style="margin-right: 30px;">
-            Organizar:
         </div>
     </div>
 </div>
@@ -111,7 +117,9 @@
         <td>{% if user.getUserSubrole.getRoleName is defined %}{{user.getUserSubrole.getRoleName}}{%else%}{{user.getUserRole}}{%endif%}</td>
         <td>{{user.getUserCity}}</td>
         <td>{{user.getUserCountry.getCoName}}</td>
-        <td style="text-align: right"><a class="btn btn-mini" href="{% if user.getUserRole =='ROLE_CLIENT_STAFF'%}{{ path('mycp_edit_user_staff',{'id_user':user.getUserId})}}{% endif %}{% if user.getUserRole =='ROLE_CLIENT_CASA'%}{{ path('mycp_edit_user_casa',{'id_user':user.getUserId})}}{% endif %}{% if user.getUserRole =='ROLE_CLIENT_TOURIST'%}{{ path('mycp_edit_user_tourist',{'id_user':user.getUserId})}}{% endif %}{% if user.getUserRole =='ROLE_CLIENT_PARTNER'%}{{ path('mycp_edit_user_partner',{'id_user':user.getUserId})}}{% endif %}">Editar</a> <a class="btn btn-mini btn-danger" href="{{ path('mycp_delete_user',{'id_user':user.getUserId}) }}">Eliminar</a></td>
+        <td style="text-align: right"><a class="btn btn-mini" href="{% if user.getUserRole =='ROLE_CLIENT_STAFF'%}{{ path('mycp_edit_user_staff',{'id_user':user.getUserId})}}{% endif %}{% if user.getUserRole =='ROLE_CLIENT_CASA'%}{{ path('mycp_edit_user_casa',{'id_user':user.getUserId})}}{% endif %}{% if user.getUserRole =='ROLE_CLIENT_TOURIST'%}{{ path('mycp_edit_user_tourist',{'id_user':user.getUserId})}}{% endif %}{% if user.getUserRole =='ROLE_CLIENT_PARTNER'%}{{ path('mycp_edit_user_partner',{'id_user':user.getUserId})}}{% endif %}">Editar</a>
+            <button data='{{ path('mycp_delete_user',{'id_user':user.getUserId}) }}' class="btn btn-mini btn-danger delete">Eliminar</button>
+        </td>
     </tr>
     {% endfor %}
     </tbody>
@@ -213,4 +221,8 @@
     }
 
 </script>
+{% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea eliminar el elemento?','confirmation_action_label':'Eliminar'}%}
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('bundles/mycp/js/common_list.js') }}"></script>
 {% endblock %}

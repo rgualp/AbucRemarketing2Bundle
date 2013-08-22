@@ -1,9 +1,15 @@
-$(document).ready(start)
+$(document).ready(start);
 
 function start(){
 
     $('#btn_insert_comment').click(insert_comment);
     initialize_map();
+    
+    /*$('#ownTabs a[href="#map"]').on('shown', function (e) {
+        document.getElementById('mapContent').innerHTML = "<iframe width='425' height='350' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' src='{{ path('frontend_map_details_ownership',{'ownGeolocateX':ownership.OwnGeolocateX,'ownGeolocateY':ownership.OwnGeolocateY,'ownName':ownership.ownName,'description': ''})}}'></iframe>";//'<iframe runat="server" id="mm" width="600" height="450" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="minimap2.aspx?lat=39.86887222271858&long=-75.35767078399658&desc=just%26a%26sample"></iframe><br />';
+        initialize_map();
+});*/
+    
     $('#filter_date_from').datepicker({
         format:'dd/mm/yyyy',
         todayBtn:'linked',
@@ -32,37 +38,24 @@ function start(){
                     $('#rooms_selected').css({display: 'none'})
                     $('#button_availability').css({display: 'none'})
                 }
+
+                total_price();
             }
             else
             {
                 value=0;
                 if(this.parentNode.parentNode.cells[1].innerHTML=='Habitación Triple')
                 {
-                    value=this.value*this.parentNode.parentNode.cells[2].innerHTML*cont_array_dates+10;
+                    value=this.parentNode.parentNode.cells[2].innerHTML*(cont_array_dates-1)+((cont_array_dates-1)*10);
                 }
                 else
                 {
-                    value=this.value*this.parentNode.parentNode.cells[2].innerHTML*cont_array_dates;
+                    value=this.parentNode.parentNode.cells[2].innerHTML*(cont_array_dates-1);
                 }
                 $('#'+$(this).attr('name')).html(this.value);
                 $('#price_'+$(this).attr('name')).html(value);
 
-                total_price=0;
-                $('.price').each(function() {
-                    total_price=total_price+parseInt(this.innerHTML)});
-
-                ids_rooms='';
-                $('.id_room').each(function() {
-                    ids_rooms=ids_rooms+','+(this.innerHTML)});
-                $('#ids_rooms').val(ids_rooms);
-
-                count_guests='';
-                $('.guest').each(function() {
-                    count_guests=count_guests+','+(this.innerHTML)});
-                $('#guests').val(count_guests);
-
-                $('#total_price').html(total_price);
-                $('#total_price_submit').val(total_price);
+                total_price();
 
             }
         }
@@ -71,11 +64,11 @@ function start(){
             value=0;
             if(this.parentNode.parentNode.cells[1].innerHTML=='Habitación Triple')
             {
-                value=this.value*this.parentNode.parentNode.cells[2].innerHTML*cont_array_dates+10;
+                value=this.parentNode.parentNode.cells[2].innerHTML*(cont_array_dates-1)+((cont_array_dates-1)*10);
             }
             else
             {
-                value=this.value*this.parentNode.parentNode.cells[2].innerHTML*cont_array_dates;
+                value=this.parentNode.parentNode.cells[2].innerHTML*(cont_array_dates-1);
             }
 
 
@@ -89,27 +82,34 @@ function start(){
                 '<td class="guest" id="'+$(this).attr('name')+'">'+this.value+'</td>'+
                 '<td class="price" id="price_'+$(this).attr('name')+'">'+value+'</td>');
 
+            total_price();
+        }
+        
+        function total_price()
+        {
             total_price=0;
             $('.price').each(function() {
                 total_price=total_price+parseInt(this.innerHTML)});
 
             ids_rooms='';
             $('.id_room').each(function() {
-                ids_rooms=ids_rooms+','+(this.innerHTML)});
-            $('#ids_rooms').val(ids_rooms);
+                ids_rooms=ids_rooms+'&'+(this.innerHTML)});
 
             count_guests='';
             $('.guest').each(function() {
-                count_guests=count_guests+','+(this.innerHTML)});
-            $('#guests').val(count_guests);
+                count_guests=count_guests+'&'+(this.innerHTML)});
 
+            string_url=$('#link_button').attr('data');
+            string_url=string_url.substring(0,string_url.length-5);
+
+            string_url+=ids_rooms+'/'+count_guests+'/'+total_price;
+            $('#link_button').attr('href',string_url);
             $('#total_price').html(total_price);
-            $('#total_price_submit').val(total_price);
         }
     });
     // fin ernesto code
-
 }
+
 
 function initialize_map()
 {
@@ -138,7 +138,7 @@ function initialize_map()
         //icon: icon
         });
         
-        big_map_details.setCenter(marker.getPosition());
+        
     
         var boxText = document.createElement("div");
         boxText.style.cssText = "border: 1px solid #ccc; margin-top: 8px; background: #fff; padding: 5px; font-size:11px";

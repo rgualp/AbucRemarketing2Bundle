@@ -44,7 +44,7 @@
                 </td>
                 <td align="right">
                     <label class="per_night">{{"FROM_PRICES" | trans}}</label>
-                    <label class="big_price">&euro;{{own.ownMinimumPrice}} </label>
+                    <label class="big_price">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{own.ownMinimumPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</label>
                     <label class="per_night">{{"BYNIGHTS_PRICES" | trans | lower}}</label>
                     <button class="btn btn-small">{{"ADD_TO_FAVORITIES" | trans}} <img src="{{ asset("bundles/frontend/images/heart_3.png")}}"/></button>
                 </td>

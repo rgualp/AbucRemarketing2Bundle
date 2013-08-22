@@ -78,6 +78,56 @@ class BackendAlbumController extends Controller
         ));
     }
 
+    function edit_categoryAction($id_category, Request $request)
+    {
+        $service_security= $this->get('Secure');
+        $service_security->verify_access();
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $languages=$em->getRepository('mycpBundle:lang')->findAll();
+        $album_cat_langs=$em->getRepository('mycpBundle:albumCategoryLang')->get_categories();
+        if($request->getMethod() == 'POST')
+        {
+            $form = $this->createForm(new categoryType(array('languages'=>$languages)));
+
+        }
+        else
+        {
+            $album_cat_lang=$em->getRepository('mycpBundle:albumCategoryLang')->findBy(array('album_cat_id_cat'=>$id_category));
+            $form = $this->createForm(new categoryType(array('languages'=>$languages,'album_cat_lang'=>$album_cat_lang)));
+        }
+
+
+        if ($request->getMethod() == 'POST') {
+            $form->bind($request);
+            if ($form->isValid()) {
+
+                $post=$form->getData();
+
+                foreach($languages as $language)
+                {
+                    $album_cat_lang=new albumCategoryLang();
+                    $album_cat_lang=$em->getRepository('mycpBundle:albumCategoryLang')->findBy(array('album_cat_id_lang'=>$language));
+                    $album_cat_lang[0]->setAlbumCatDescription($post['lang'.$language->getLangId()]);
+                    $em->persist($album_cat_lang[0]);
+                }
+                $em->flush();
+                $message='Categoría actualizada satisfactoriamente.';
+                $this->get('session')->setFlash('message_ok',$message);
+
+                $service_log= $this->get('log');
+                $service_log->save_log('Edit category, '.$post['lang'.$languages[0]->getLangId()],3);
+
+                return $this->redirect($this->generateUrl('mycp_list_category_album'));
+            }
+        }
+
+        return $this->render('mycpBundle:album:categoryNew.html.twig',array(
+            'form' => $form->createView(), 'edit_category'=>$id_category, 'name_category'=>$album_cat_langs[0]['album_cat_description']
+
+        ));
+    }
+
     function delete_categoryAction($id_category)
     {
         $service_security= $this->get('Secure');

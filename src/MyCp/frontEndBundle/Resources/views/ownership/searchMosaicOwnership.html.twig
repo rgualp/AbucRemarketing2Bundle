@@ -43,11 +43,11 @@
                 </table>
                     </div>
                     <div class="span7" style="text-align: right">
-                        <div class="big_price small_price small_price_2">&euro; 
+                        <div class="big_price small_price small_price_2">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} 
                         {%if own.ownMinimumPrice != own.ownMaximumPrice%}
-                                   {{own.ownMinimumPrice}}/{{own.ownMaximumPrice}}
+                                   {{own.ownMinimumPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}/{{own.ownMaximumPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}
                                  {%else%}
-                                    {{own.ownMinimumPrice}}
+                                    {{own.ownMinimumPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}
                                  {%endif%}
                         </div>
                     </div>

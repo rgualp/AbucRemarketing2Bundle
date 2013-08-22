@@ -1,0 +1,3 @@
+frontend_list_information:
+    pattern:  /information/{information_type}
+    defaults: { _controller: frontEndBundle:information:list }

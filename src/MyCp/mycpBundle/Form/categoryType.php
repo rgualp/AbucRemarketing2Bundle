@@ -19,12 +19,44 @@ class categoryType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
-        foreach($this->data['languages'] as $language)
+        if(isset($this->data['album_cat_lang']))
         {
-            $builder->add('lang'.$language->getLangId(), 'text',array(
-                'attr' => array('class'=>'span6'),
-                'data'=>'','label'=>'Nombre en '.$language->getLangName().':'));
+            $a=0;
+            $array_langs_text=$this->data['album_cat_lang'];
+            foreach($this->data['languages'] as $language)
+            {
+                $builder->add('lang'.$language->getLangId(), 'text',array(
+                    'attr' => array('class'=>'span6','value'=>$array_langs_text[$a]->getAlbumCatDescription()),
+                    'data'=>'','label'=>'Nombre en '.$language->getLangName().':'));
+                $a++;
+            }
+        }
+        else if(isset($this->data['faq_cat_lang']))
+        {
+            $a=0;
+            $array_langs_text=$this->data['faq_cat_lang'];
+            foreach($this->data['languages'] as $language)
+            {
+                $value='';
+                if(isset($array_langs_text[$a]))
+                {
+                   $value= $array_langs_text[$a]->getFaqCatDescription();
+                }
+                $builder->add('lang'.$language->getLangId(), 'text',array(
+                    'attr' => array('class'=>'span6','value'=>$value),
+                    'data'=>'','label'=>'Nombre en '.$language->getLangName().':'));
+                $a++;
+            }
+        }
+        else
+        {
+            foreach($this->data['languages'] as $language)
+            {
+                $builder->add('lang'.$language->getLangId(), 'text',array(
+                    'attr' => array('class'=>'span6'),
+                    'data'=>'','label'=>'Nombre en '.$language->getLangName().':'));
+
+            }
         }
     }
 

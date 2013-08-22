@@ -39,7 +39,18 @@
             {% render 'mycpBundle:BackendUtils:get_active_list' with{'selected':filter_active} %}
         </select>
     </div>
-    <div class="span2"><label>&nbsp;</label><a href="javascript:action_submit();" class="btn btn-block btn-success"><i class="icon-filter icon-white"></i> Filtrar</a></div>
+    <div class="span2">
+        <label>&nbsp;</label>
+        <div class="row-fluid">
+            <div class="span6">
+                <a rel="tooltip" title="Filtrar listado" href="javascript:action_submit();" class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
+            </div>
+            <div class="span6">
+                <a rel="tooltip" title="Resetear filtrado " href="{{ path('mycp_list_destination') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
+            </div>
+
+        </div>
+    </div>
     </div>
 </div>
 </form>
@@ -114,7 +125,8 @@
                 <a href="{{ path('mycp_list_photos_destination',{'id_destination':destination.getDesLocDestination.getDesId}) }}">({{ photo_count[destination.getDesLocDestination.getDesId~'_photo_count'] }}) Fotografías</a>
             </div>
             <div class="span2">
-                <a class="btn btn-mini" href="{{ path('mycp_edit_destination',{'id_destination':destination.getDesLocDestination.getDesId}) }}">Editar</a> <a class="btn btn-mini btn-danger" href="{{ path('mycp_delete_destination',{'id_destination':destination.getDesLocDestination.getDesId}) }}">Eliminar</a>
+                <a class="btn btn-mini" href="{{ path('mycp_edit_destination',{'id_destination':destination.getDesLocDestination.getDesId}) }}">Editar</a>
+                <button data='{{ path('mycp_delete_destination',{'id_destination':destination.getDesLocDestination.getDesId}) }}' class="btn btn-mini btn-danger delete">Eliminar</button>
             </div>
         </div>
     </li>
@@ -206,4 +218,8 @@
         $('#filter').submit();
     }
 </script>
+{% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea eliminar el elemento?','confirmation_action_label':'Eliminar'}%}
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('bundles/mycp/js/common_list.js') }}"></script>
 {% endblock %}

@@ -10,6 +10,10 @@ mycp_edit_faq:
     pattern:  /edit/{id_faq}
     defaults: { _controller: mycpBundle:BackendFAQS:edit_faq }
 
+mycp_edit_category_faq:
+    pattern:  /edit_category/{id_category}
+    defaults: { _controller: mycpBundle:BackendFAQS:edit_category }
+
 mycp_delete_faq:
     pattern:  /delete/{id_faq}
     defaults: { _controller: mycpBundle:BackendFAQS:delete_faq }

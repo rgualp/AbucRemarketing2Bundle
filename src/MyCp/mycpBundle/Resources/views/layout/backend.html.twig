@@ -19,21 +19,24 @@
             </div>
             {% set temp = app.request.attributes.get('_controller')|split("\\")[3] %}
             {% set temp = temp|split("::")[0] %}
-            <div id="collapseOne" class="accordion-body collapse {%if  temp == 'BackendGeneralInformationController' or temp == 'BackendDestinationController' or temp == 'BackendAlbumController' or temp == 'BackendFAQSController' or temp == 'BackendOwnershipController' %}in{%endif%}">
+            <div id="collapseOne" class="accordion-body collapse {%if  temp == 'BackendGeneralInformationController' or temp == 'BackendCommentController' or temp == 'BackendDestinationController' or temp == 'BackendAlbumController' or temp == 'BackendFAQSController' or temp == 'BackendOwnershipController' %}in{%endif%}">
                 <div class="accordion-inner">
                     <a href="{{ path('mycp_list_destination') }}"><i class="icon-briefcase"></i> Destinos</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_faqs') }}"><i class="icon-question-sign"></i> Preguntas frecuentes</a>
-                </div>
-                <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_albums') }}"><i class="icon-picture"></i> Álbumes</a>
                 </div>
                 <div class="accordion-inner">
                     <a href="{{ path('mycp_list_ownerships') }}"><i class="icon-home"></i> Propiedades</a>
                 </div>
                 <div class="accordion-inner">
+                    <a href="{{ path('mycp_list_albums') }}"><i class="icon-picture"></i> Álbumes</a>
+                </div>
+                <div class="accordion-inner">
+                    <a href="{{ path('mycp_list_faqs') }}"><i class="icon-question-sign"></i> Preguntas frecuentes</a>
+                </div>
+                <div class="accordion-inner">
                     <a href="{{ path('mycp_list_informations') }}"><i class="icon-th-list"></i> Informaciónes Generales</a>
+                </div>
+                <div class="accordion-inner">
+                    <a href="{{ path('mycp_list_comments') }}"><i class="icon-bullhorn"></i> Comentarios</a>
                 </div>
             </div>
         </div>

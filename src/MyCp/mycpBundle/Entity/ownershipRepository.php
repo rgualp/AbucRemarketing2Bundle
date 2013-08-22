@@ -35,9 +35,6 @@ class ownershipRepository extends EntityRepository {
         else
             $data['facilities_parking'] = 1;
 
-        $active = 0;
-        if (isset($data['public']))
-            $active = 1;
         $active_top_20 = 0;
         if (isset($data['top_20']))
             $active_top_20 = 1;
@@ -77,8 +74,8 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnMobileNumber($data['ownership_mobile_number']);
         $ownership->setOwnHomeowner1($data['ownership_homeowner_1']);
         $ownership->setOwnHomeowner2($data['ownership_homeowner_2']);
-        $ownership->setOwnPhoneCode('(+53) ' . $prov->getProvPhoneCode());
-        $phone = '(+53) ' . $prov->getProvPhoneCode() . ' ' . $data['ownership_phone_number'];
+        $ownership->setOwnPhoneCode('(+53' . $prov->getProvPhoneCode().')');
+        $phone = '(+53' . $prov->getProvPhoneCode() . ') ' . $data['ownership_phone_number'];
         $ownership->setOwnPhoneNumber($data['ownership_phone_number']);
         $ownership->setOwnEmail1($data['ownership_email_1']);
         $ownership->setOwnEmail2($data['ownership_email_2']);
@@ -99,7 +96,13 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnGeolocateX($data['geolocate_x']);
         $ownership->setOwnGeolocateY($data['geolocate_y']);
         $ownership->setOwnTop20($active_top_20);
-        $ownership->setOwnPublic($active);
+        $status = $em->getRepository('mycpBundle:ownershipStatus')->find($data['status']);
+        $ownership->setOwnStatus($status);
+        $ownership->setOwnRoomsTotal($data['count_rooms']);
+        $ownership->setOwnComment($data['comment']);
+        $ownership->setOwnCommissionPercent($data['ownership_percent_commission']);
+        //var_dump($data);
+        //exit();
 
         /**
          * Codigo Yanet - Inicio
@@ -245,8 +248,6 @@ class ownershipRepository extends EntityRepository {
         $ownership = new ownership();
         $id_ownership = $data['edit_ownership'];
         $active = 0;
-        if (isset($data['public']))
-            $active = 1;
 
         $active_top_20 = 0;
         if (isset($data['top_20']))
@@ -287,7 +288,7 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnMobileNumber($data['ownership_mobile_number']);
         $ownership->setOwnHomeowner1($data['ownership_homeowner_1']);
         $ownership->setOwnHomeowner2($data['ownership_homeowner_2']);
-        $ownership->setOwnPhoneCode('(+53) ' . $prov->getProvPhoneCode());
+        $ownership->setOwnPhoneCode('(+53' . $prov->getProvPhoneCode().')');
         $ownership->setOwnPhoneNumber($data['ownership_phone_number']);
         $ownership->setOwnEmail1($data['ownership_email_1']);
         $ownership->setOwnEmail2($data['ownership_email_2']);
@@ -308,8 +309,11 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnGeolocateX($data['geolocate_x']);
         $ownership->setOwnGeolocateY($data['geolocate_y']);
         $ownership->setOwnTop20($active_top_20);
-        $ownership->setOwnPublic($active);
+        $status = $em->getRepository('mycpBundle:ownershipStatus')->find($data['status']);
+        $ownership->setOwnStatus($status);
+        $ownership->setOwnComment($data['comment']);
         $old_rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $data['edit_ownership']));
+        $ownership->setOwnCommissionPercent($data['ownership_percent_commission']);
 
         /**
          * Codigo Yanet - Inicio
@@ -371,9 +375,6 @@ class ownershipRepository extends EntityRepository {
 
         //var_dump($old_rooms); exit();
         //exit();
-
-
-
         for ($e = 1; $e <= $data['count_rooms']; $e++) {
             $room = new room();
             if (isset($old_rooms[$e - 1])) {
@@ -423,9 +424,10 @@ class ownershipRepository extends EntityRepository {
     }
 
     function get_all_ownerships($filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality, $filter_type) {
+
         $string = '';
         if ($filter_active != 'null' && $filter_active != '') {
-            $string = "AND ow.own_public = '$filter_active'";
+            $string = "AND ow.own_status = '$filter_active'";
         }
 
         $string2 = '';
@@ -476,7 +478,7 @@ class ownershipRepository extends EntityRepository {
         } else {
             $query_string = "SELECT r FROM mycpBundle:room r JOIN r.room_ownership o JOIN o.own_address_province p";
         }
-        $where = ' WHERE o.own_public <> 0 ';
+        $where = ' WHERE o.own_status = 1';
         if ($text != null && $text != '' && $text != 'null')
             $where = $where . ($where != '' ? " AND " : " WHERE ") . "p.prov_name LIKE '%$text%' OR " . "o.own_name LIKE '%$text%' OR o.own_mcp_code LIKE '%$text%' OR m.mun_name LIKE '%$text%'";
 
@@ -714,7 +716,7 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $query_string = "SELECT o FROM mycpBundle:ownership o
                          WHERE o.own_top_20=1
-                           AND o.own_public <> 0
+                           AND o.own_status = 1
                          ORDER BY o.own_rating DESC";
 
         return $em->createQuery($query_string)->setMaxResults(8)->getResult();
@@ -729,11 +731,11 @@ class ownershipRepository extends EntityRepository {
         
         if($own_ids != null)
             $query_string = "SELECT DISTINCT o.own_category FROM mycpBundle:ownership o
-                            WHERE o.own_public = 1 AND o.own_id IN ($own_ids)
+                            WHERE o.own_status = 1 AND o.own_id IN ($own_ids)
                             ORDER BY o.own_category";
         else
             $query_string = "SELECT DISTINCT o.own_category FROM mycpBundle:ownership o
-                             WHERE o.own_public = 1
+                             WHERE o.own_status = 1
                              ORDER BY o.own_category";
 
         $owns_categories = $em->createQuery($query_string)->getResult();
@@ -742,10 +744,10 @@ class ownershipRepository extends EntityRepository {
         foreach ($owns_categories as $category) {
             if($own_ids != null)
                 $query_string = "SELECT count(o.own_type) FROM mycpBundle:ownership o
-                         WHERE o.own_public = 1 AND o.own_id IN ($own_ids) AND o.own_category='" . $category['own_category'] . "'";
+                         WHERE o.own_status = 1 AND o.own_id IN ($own_ids) AND o.own_category='" . $category['own_category'] . "'";
             else
                 $query_string = "SELECT count(o.own_type) FROM mycpBundle:ownership o
-                         WHERE o.own_public = 1 AND o.own_category='" . $category['own_category'] . "'";
+                         WHERE o.own_status = 1 AND o.own_category='" . $category['own_category'] . "'";
             $count = $em->createQuery($query_string)->getSingleScalarResult();
 
             $categories[] = array(trim($category['own_category']), $count);
@@ -772,10 +774,10 @@ class ownershipRepository extends EntityRepository {
         foreach ($prices as $price) {
             if($own_ids != null)
                 $query_string = "SELECT count(o.own_maximum_price) FROM mycpBundle:ownership o
-                         WHERE o.own_public = 1 AND o.own_id IN ($own_ids) AND ((o.own_minimum_price<" . $price . " AND o.own_minimum_price >=$minimun_price))";
+                         WHERE o.own_status = 1 AND o.own_id IN ($own_ids) AND ((o.own_minimum_price<" . $price . " AND o.own_minimum_price >=$minimun_price))";
             else
                 $query_string = "SELECT count(o.own_maximum_price) FROM mycpBundle:ownership o
-                         WHERE o.own_public = 1 AND ((o.own_minimum_price<" . $price . " AND o.own_minimum_price >=$minimun_price))";
+                         WHERE o.own_status = 1 AND ((o.own_minimum_price<" . $price . " AND o.own_minimum_price >=$minimun_price))";
             $count = $em->createQuery($query_string)->getSingleScalarResult();
 
             $prices_result[] = array($minimun_price, $price, $count);
@@ -794,11 +796,11 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
         if($own_ids != null)
             $query_string = "SELECT DISTINCT o.own_type FROM mycpBundle:ownership o
-                             WHERE o.own_public = 1 AND o.own_id IN ($own_ids)
+                             WHERE o.own_status = 1 AND o.own_id IN ($own_ids)
                              ORDER BY o.own_type";
         else 
             $query_string = "SELECT DISTINCT o.own_type FROM mycpBundle:ownership o
-                             WHERE o.own_public = 1
+                             WHERE o.own_status = 1
                              ORDER BY o.own_type";
 
         $owns_types = $em->createQuery($query_string)->getResult();
@@ -807,10 +809,10 @@ class ownershipRepository extends EntityRepository {
         foreach ($owns_types as $type) {
             if($own_ids != null)
                 $query_string = "SELECT count(o.own_type) FROM mycpBundle:ownership o
-                                 WHERE o.own_public = 1 AND o.own_id IN ($own_ids) AND o.own_type='" . $type['own_type'] . "'";
+                                 WHERE o.own_status = 1 AND o.own_id IN ($own_ids) AND o.own_type='" . $type['own_type'] . "'";
             else
                 $query_string = "SELECT count(o.own_type) FROM mycpBundle:ownership o
-                                 WHERE o.own_public = 1 AND o.own_type='" . $type['own_type'] . "'";
+                                 WHERE o.own_status = 1 AND o.own_type='" . $type['own_type'] . "'";
             
             $count = $em->createQuery($query_string)->getSingleScalarResult();
 
@@ -1152,7 +1154,7 @@ class ownershipRepository extends EntityRepository {
     function lastAdded($results_total = null) {
         $em = $this->getEntityManager();
         $query_string = "SELECT o FROM mycpBundle:ownership o
-                         WHERE o.own_public <> 0
+                         WHERE o.own_status = 1
                          ORDER BY o.own_id DESC";
         return ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult();
     }
@@ -1164,12 +1166,12 @@ class ownershipRepository extends EntityRepository {
         if ($exclude_id == null)
             $query_string = "SELECT o FROM mycpBundle:ownership o
                          WHERE o.own_category='$category'
-                           AND o.own_public <> 0
+                           AND o.own_status = 1
                          ORDER BY o.own_rating DESC";
         else
             $query_string = "SELECT o FROM mycpBundle:ownership o
                          WHERE o.own_category='$category'
-                           AND o.own_public <> 0
+                           AND o.own_status = 1
                            AND o.own_id <> $exclude_id
                          ORDER BY o.own_rating DESC";
 
@@ -1217,7 +1219,7 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
 
         $query = $em->createQuery("SELECT o FROM mycpBundle:ownership o
-        WHERE o.own_name LIKE '%$own_part_name%' AND o.own_public=1 ORDER BY o.own_name ASC");
+        WHERE o.own_name LIKE '%$own_part_name%' AND o.own_status=1 ORDER BY o.own_name ASC");
         return $query->getResult();
     }
 
@@ -1225,7 +1227,7 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
 
         $query = $em->createQuery("SELECT o FROM mycpBundle:ownership o
-        WHERE o.own_mcp_code LIKE '%$own_part_name%' AND o.own_public=1 ORDER BY o.own_mcp_code ASC");
+        WHERE o.own_mcp_code LIKE '%$own_part_name%' AND o.own_status=1 ORDER BY o.own_mcp_code ASC");
         return $query->getResult();
     }
 
@@ -1233,7 +1235,7 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
 
         $query = $em->createQuery("SELECT o FROM mycpBundle:ownership o
-        WHERE o.own_public=1 ORDER BY o.own_name ASC");
+        WHERE o.own_status=1 ORDER BY o.own_name ASC");
         return $query->getResult();
     }
     

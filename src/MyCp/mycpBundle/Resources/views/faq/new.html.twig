@@ -13,6 +13,16 @@
 </ul>
 {% endblock %}
 {% block form_actions %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_faqs') }}">Preguntas frecuentes</a> <span class="divider">/</span></li>
+    {% if data['edit_faq'] is defined %}
+    <li class="active">Editar pregunta frecuente</li>
+    {% else %}
+    <li class="active">Adicionar pregunta frecuente</li>
+    {% endif %}
+    <li class="pull-right"><a href="{{ path('mycp_list_faqs') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
 <div class="form-actions">
     <button class="btn btn-primary" type="submit">Guardar</button>
     <a class="btn" href="{{ path('mycp_list_faqs') }}">Cancelar</a>

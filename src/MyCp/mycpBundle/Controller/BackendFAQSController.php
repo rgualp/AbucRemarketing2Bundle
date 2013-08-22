@@ -73,6 +73,55 @@ class BackendFAQSController extends Controller
         ));
     }
 
+    function edit_categoryAction($id_category, Request $request)
+    {
+        $service_security= $this->get('Secure');
+        $service_security->verify_access();
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $languages=$em->getRepository('mycpBundle:lang')->findAll();
+        $faq_cat_langs=$em->getRepository('mycpBundle:faqCategoryLang')->get_categories();
+        if($request->getMethod() == 'POST')
+        {
+            $form = $this->createForm(new categoryType(array('languages'=>$languages)));
+
+        }
+        else
+        {
+            $faq_cat_lang=$em->getRepository('mycpBundle:faqCategoryLang')->findBy(array('faq_cat_id_cat'=>$id_category));
+            $form = $this->createForm(new categoryType(array('languages'=>$languages,'faq_cat_lang'=>$faq_cat_lang)));
+        }
+
+        if ($request->getMethod() == 'POST') {
+            $form->bind($request);
+            if ($form->isValid()) {
+
+                $post=$form->getData();
+
+                foreach($languages as $language)
+                {
+                    $faq_cat_lang=new faqCategoryLang();
+                    $faq_cat_lang=$em->getRepository('mycpBundle:faqCategoryLang')->findBy(array('faq_cat_id_lang'=>$language));
+                    $faq_cat_lang[0]->setFaqCatDescription($post['lang'.$language->getLangId()]);
+                    $em->persist($faq_cat_lang[0]);
+                }
+                $em->flush();
+                $message='Categoría actualizada satisfactoriamente.';
+                $this->get('session')->setFlash('message_ok',$message);
+
+                $service_log= $this->get('log');
+                $service_log->save_log('Edit category, '.$post['lang'.$languages[0]->getLangId()],2);
+
+                return $this->redirect($this->generateUrl('mycp_list_category_faq'));
+            }
+        }
+
+        return $this->render('mycpBundle:faq:categoryNew.html.twig',array(
+            'form' => $form->createView(), 'edit_category'=>$id_category, 'name_category'=>$faq_cat_langs[0]['faq_cat_description']
+
+        ));
+    }
+
     public function new_faqAction(Request $request)
     {
         $service_security= $this->get('Secure');

@@ -382,10 +382,17 @@ class userRepository extends EntityRepository
         $file = $request->files->get('mycp_mycpbundle_client_stafftype');
         if(isset($file['user_photo']))
         {
-            $photo_old=$em->getRepository('mycpBundle:photo')->find($user->getUserPhoto()->getPhoId());
-            if($photo_old)
-                $em->remove($photo_old);
-            @unlink($dir.$user->getUserPhoto()->getPhoName());
+            //var_dump($user->getUserPhoto());
+
+            if($user->getUserPhoto()!=null)
+            {
+                $photo_old=$em->getRepository('mycpBundle:photo')->find($user->getUserPhoto()->getPhoId());
+                if($photo_old)
+                    $em->remove($photo_old);
+                @unlink($dir.$user->getUserPhoto()->getPhoName());
+            }
+
+
             $photo= new photo();
             $fileName = uniqid('user-').'-photo.jpg';
             $file['user_photo']->move($dir, $fileName);

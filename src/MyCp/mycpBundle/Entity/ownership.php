@@ -121,7 +121,7 @@ class ownership
     /**
      * @var string
      *
-     * @ORM\Column(name="own_email_1", type="string", length=255)
+     * @ORM\Column(name="own_email_1", type="string", length=255, nullable=true)
      */
     private $own_email_1;
 
@@ -285,11 +285,24 @@ class ownership
     private $own_top_20;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="own_public", type="boolean")
+     * @ORM\ManyToOne(targetEntity="ownershipStatus")
+     * @ORM\JoinColumn(name="own_status", referencedColumnName="status_id")
      */
-    private $own_public;
+    private $own_status;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="own_commission_percent", type="integer")
+     */
+    private $own_commission_percent;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="own_comment", type="string", length=255, nullable=true)
+     */
+    private $own_comment;
 
     /**
      * Codigo Yanet - Inicio
@@ -1131,29 +1144,7 @@ class ownership
         return $this->own_top_20;
     }
 
-    /**
-     * Set own_public
-     *
-     * @param boolean $ownPublic
-     * @return ownership
-     */
-    public function setOwnPublic($ownPublic)
-    {
-        $this->own_public = $ownPublic;
-    
-        return $this;
-    }
-
-    /**
-     * Get own_public
-     *
-     * @return boolean 
-     */
-    public function getOwnPublic()
-    {
-        return $this->own_public;
-    }
-
+   
 
     /**
      * Codigo Yanet - Inicio
@@ -1448,5 +1439,74 @@ class ownership
     public function getOwnPhoneCode()
     {
         return $this->own_phone_code;
+    }
+
+    /**
+     * Set own_status
+     *
+     * @param \MyCp\mycpBundle\Entity\ownershipStatus $ownStatus
+     * @return ownership
+     */
+    public function setOwnStatus(\MyCp\mycpBundle\Entity\ownershipStatus $ownStatus = null)
+    {
+        $this->own_status = $ownStatus;
+    
+        return $this;
+    }
+
+    /**
+     * Get own_status
+     *
+     * @return \MyCp\mycpBundle\Entity\ownershipStatus 
+     */
+    public function getOwnStatus()
+    {
+        return $this->own_status;
+    }
+
+    /**
+     * Set own_comment
+     *
+     * @param string $ownComment
+     * @return ownership
+     */
+    public function setOwnComment($ownComment)
+    {
+        $this->own_comment = $ownComment;
+    
+        return $this;
+    }
+
+    /**
+     * Get own_comment
+     *
+     * @return string 
+     */
+    public function getOwnComment()
+    {
+        return $this->own_comment;
+    }
+
+    /**
+     * Set own_commission_percent
+     *
+     * @param integer $ownCommissionPercent
+     * @return ownership
+     */
+    public function setOwnCommissionPercent($ownCommissionPercent)
+    {
+        $this->own_commission_percent = $ownCommissionPercent;
+    
+        return $this;
+    }
+
+    /**
+     * Get own_commission_percent
+     *
+     * @return integer 
+     */
+    public function getOwnCommissionPercent()
+    {
+        return $this->own_commission_percent;
     }
 }

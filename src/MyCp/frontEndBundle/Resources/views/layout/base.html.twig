@@ -30,9 +30,9 @@
                                     <a href="#">{{"HOW_IT_WORKS" | trans }}</a>
                                 </li>
                                 <li class="divider-vertical"></li>
-                                <li>
+                                <!--li>
                                     <a href="#">{{"REGISTER" | trans }}</a>
-                                </li>
+                                </li-->
                                 <li class="divider-vertical"></li>
                                 <li>
                                     <a href="#" title="{{"FAVORITIES" | trans}}"><img src="{{ asset('bundles/frontend/images/heart.gif') }}"/> {{"FAVORITIES" | trans }}</a>
@@ -48,7 +48,7 @@
                                 <li class="divider-vertical"></li>
                                 </ul>
                                 <ul class="nav pull-right">
-                                    <li class="divider-vertical"></li>
+                                    <!--li class="divider-vertical"></li>
                                     <li class="dropdown">
                                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">{{"HELP" | trans }} <b class="caret"></b></a>
                                         <ul class="dropdown-menu top">
@@ -56,12 +56,12 @@
                                             <li><a href="#">{{"HELP" | trans }} 2</a></li>
                                             <li><a href="#">{{"HELP" | trans }} 3</a></li>
                                         </ul>
-                                    </li>
+                                    </li-->
                                     <li class="divider-vertical"></li>
                                     <li class="dropdown">
                                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                             <img src="{{ asset('bundles/frontend/images/currency.gif') }}" title="{{"CURRENCY" | trans }}"/>
-                                            {{"CURRENCY" | trans }} <b class="caret"></b>
+                                            {{(app.session.get('curr_acronym') == null or app.session.get('curr_acronym') == "") ? "CUC" : app.session.get('curr_acronym')|upper}}{#{{"CURRENCY" | trans }}#} <b class="caret"></b>
                                         </a>
                                         <ul class="dropdown-menu top">
                                 {% render 'frontEndBundle:currency:get_currencies' %}
@@ -86,12 +86,17 @@
 {% block big_banner %}
 {% endblock %}
                     <div class="main_cont container body">
+
     {{ include('frontEndBundle:utils:nav_top_body.html.twig') }}
                             <div class="tab-content main_tab">
                                 <div class="tab-pane active">
             {% block content_nav_top_body %}{% endblock %}
                                     </div>
                                 </div>
+                        {% for message in app.session.flashbag.get('message_global_success') %}
+                        <br/>
+                        <div class="alert alert-info">{{ message }}</div>
+                        {% endfor %}
     {% block body %}{% endblock %}
                                 <a href="#" title="{{"GO_UP" | trans}}"><img src="{{ asset('bundles/frontend/images/translations/'~app.request.locale~'/go_to_top.gif') }}" id="go_to_top"/></a>
                             </div>
@@ -103,8 +108,8 @@
                                                 <li>{{"DESTINATIONS" | trans}}</li>
                                                 <li><a href="{{ path('frontend_list_destinations')}}">{{"DESTINATIONS" | trans}}</a></li>
                                                 <li><a href="">{{"MOST_VISITED_CITIES" | trans}}</a></li>
-                                                <li><a href="">{{"GALLERIES" | trans}}</a></li>
-                                                <li><a href="">{{"YOUR_PHOTOS" | trans}}</a></li>
+                                                <!--li><a href="">{{"GALLERIES" | trans}}</a></li>
+                                                <li><a href="">{{"YOUR_PHOTOS" | trans}}</a></li-->
                                             </ul>
                                         </div>
                                     </div>
@@ -112,12 +117,17 @@
                                         <div>
                                             <ul>
                                                 <li>{{"ACCOMMODATION" | trans}}</li>
-                                                <li><a href="{{ path('frontend_category_ownership',{'category':'economy'})}}">{{"ECONOMICS_OWNS" | trans}}</a></li>
+                                                <!--li><a href="{{ path('frontend_category_ownership',{'category':'economy'})}}">{{"ECONOMICS_OWNS" | trans}}</a></li>
                                                 <li><a href="{{ path('frontend_category_ownership',{'category':'rango_medio'})}}">{{"MIDRANGE_OWNS" | trans}}</a></li>
-                                                <li><a href="{{ path('frontend_category_ownership',{'category':'premium'})}}">{{"PREMIUM_OWNS" | trans}}</a></li>
-                                                <li><a href="">{{"TOP_OWNS" | trans}}</a></li>
-                                                <li><a href="">{{"TOP_RATED" | trans}}</a></li>
-                                                <li><a href="">{{"RATINGS" | trans}}</a></li>
+                                                <li><a href="{{ path('frontend_category_ownership',{'category':'premium'})}}">{{"PREMIUM_OWNS" | trans}}</a></li-->
+                                                <!--li><a href="{#{ path('frontend_best_list_ownership')}}">{{"TOP_OWNS" | trans}#}</a></li-->
+                                                <li><a href="{{ path('frontend_voted_best_list_ownership')}}">{{"TOP_RATED" | trans}}</a></li>
+                                                <!--li><a href="">{{"RATINGS" | trans}}</a></li-->
+                                                <li><a href="">{{"Penthouse" | trans}}</a></li>
+                                                <li><a href="">{{"Villa con piscina" | trans}}</a></li>
+                                                <li><a href="">{{"Apartamento" | trans}}</a></li>
+                                                <li><a href="">{{"Casa particular" | trans}}</a></li>
+                                                <li><a href="">{{"Propiedad completa" | trans}}</a></li>
 
                                             </ul>
                                         </div>
@@ -125,13 +135,25 @@
                                     <div class="menu">
                                         <div>
                                             <ul>
-                                                <li>{{"COMPANY" | trans}}</li>
-                                                <li><a href="">{{"WHO_ARE_WE" | trans}}</a></li>
-                                                <li><a href="">{{"FAQ" | trans }}</a></li>
-                                                <li><a href="">{{"LEGAL_TERMS" | trans}}</a></li>
-                                                <li><a href="">{{"SECURITY_AND_PRIVACY" | trans}}</a></li>
-                                                <li><a href="">{{"CONTACT_US" | trans}}</a></li>
-                                                <li><a href="">{{"SITE_MAP" | trans}}</a></li>
+                                                <li>{{"ABOUT_MYCP" | trans}}</li>
+                                                <li><a href="{{ path('frontend_list_information',{'information_type':'ABOUT_US'})}}">{{"WHO_ARE_WE" | trans}}</a></li>
+                                                <li><a href="">{{"TESTIMONIES" | trans}}</a></li>
+                                                <li><a href="">{{"PRESS" | trans }}</a></li>
+                                                <li><a href="">{{"PARTNERS" | trans}}</a></li>
+                                                <li><a href="">{{"JOBS" | trans}}</a></li>
+                                                <li><a href="{{path('frontend_contact_user')}}">{{"CONTACT_US" | trans}}</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                        <div class="menu">
+                                        <div>
+                                            <ul>
+                                                <li>{{"OUR_SERVICES" | trans}}</li>                                                
+                                                <li><a href="{{ path('frontend_list_faq')}}">{{"FAQ" | trans }}</a></li>
+                                                <li><a href="">{{"SERVICE_GUARANTEE" | trans }}</a></li>
+                                                <li><a href="{{ path('frontend_list_information',{'information_type':'LEGAL_TERMS'})}}">{{"LEGAL_TERMS" | trans}}</a></li>
+                                                <li><a href="{{ path('frontend_list_information',{'information_type':'SEC_PRIV'})}}">{{"SECURITY_AND_PRIVACY" | trans}}</a></li>
+                                               <li><a href="">{{"SITE_MAP" | trans}}</a></li>
                                             </ul>
                                         </div>
                                     </div>

@@ -28,14 +28,22 @@ body{margin-top: 20px; background: url("../images/body_bg.gif"); background-repe
 .info_message.banner{position: absolute; margin-top: 150px;width: 500px; }
 
 @media screen and (max-width:1198px) {.menu_left .body_right{width: 75.8%!important;} }
-@media screen and (max-width:980px) {.top_rated_items .item{width: 160px!important;}.top_rated_items div.image{ width: 160px!important; height:104px!important; background-size: 160px 104px!important; } .info_message.banner{margin-top: 65px;}.main_nav .dropdown-toggle{border: none;} #main_tab.nav-tabs li a{padding: 10px 20px 0px 20px!important;}}
+@media screen and (max-width:980px) {.top_rated_items .item{width: 160px!important;}.top_rated_items div.image, .top_rated_items div.image_tab{ width: 160px!important; height:104px!important; background-size: 160px 104px!important; } .info_message.banner{margin-top: 65px;}.main_nav .dropdown-toggle{border: none;} #main_tab.nav-tabs li a{padding: 10px 20px 0px 20px!important;}}
 @media screen and (max-width:900px) {.info_message.banner{margin-top: 65px;}  .main_nav .dropdown-toggle{border: none; margin: 0px 2px; }}
-@media screen and (max-width:800px) {.ownerships_mosaic .span4{float: left!important;} .ownerships_list .big_price{margin-top: 10px;} .secondary_tab .tab-pane .span3{ width: 23%!important; float: left!important; margin-right: 10px!important;} .top_rated_items .item{width: 140px!important;}.top_rated_items div.image{ width: 140px!important; height:91px!important; background-size: 140px 91px!important;} .destinations{padding: 0!important;} .destinations ul{margin: 10px 0 0!important;} .destinations ul li{display: inline; margin-right: 10px}  .info_message.banner{margin: 35px 10px;} .rsBullets{bottom: 40px!important;}}
+@media screen and (max-width:800px) {.ownerships_mosaic .span4{float: left!important;} .ownerships_list .big_price{margin-top: 10px;} .secondary_tab .tab-pane .span3{ width: 23%!important; float: left!important; margin-right: 10px!important;} .top_rated_items .item{width: 140px!important;}.top_rated_items div.image, .top_rated_items div.image_tab{ width: 140px!important; height:91px!important; background-size: 140px 91px!important;} .destinations{padding: 0!important;} .destinations ul{margin: 10px 0 0!important;} .destinations ul li{display: inline; margin-right: 10px}  .info_message.banner{margin: 35px 10px;} .rsBullets{bottom: 40px!important;}}
 @media screen and (max-width:767px) {.menu_left .body_right{ margin-left: 0!important; width: 100%!important;} }
-@media screen and (max-width:700px) { .secondary_tab .tab-pane img{height: 100px!important;}.perc_40{width: 100%!important;} .perc_40 input{width: 100%!important;}.perc_15{width: 100%!important;} .perc_15 input{width: 100%!important;} .secondary_tab .nav-tabs li a{ padding: 10px 2px!important; font-size: 11px!important;} .hide_small_screen{display: none;} .top_rated_items .item{width: 120px!important;}.top_rated_items div.image{ width: 120px!important; height:78px!important; background-size: 120px 78px!important;} .info_message.banner{font-size: 20px; line-height: 20px} #main_tab.nav-tabs li a{padding: 10px!important;}}
-@media screen and (max-width:620px) {#logo_base{display: none;} footer .secondary_tab .nav-tabs li a{font-size: 9px!important;} .head_menu_top_rated{font-size: 23px!important;} .top_rated_items .item{width: 104px!important;}.top_rated_items div.image{ width: 104px!important; height:67px!important;background-size: 104px 67px!important; }.info_message.banner .message{display: none;} .banner_map_cont{margin-top: 40px!important;}}
-@media screen and (max-width:550px) {.secondary_tab .tab-pane img{height: 70px!important;}.secondary_tab .tab-pane .span3{ margin-right: 6px!important;} #site_base .span3{display: none;} .head_menu_top_rated{font-size: 20px!important;} .top_rated_items .item{width: 90px!important; margin-right: 15px!important;}.top_rated_items div.image{ width: 90px!important; height:64px!important; background-size: 110px 64px!important;}.info_message.banner{font-size: 15px; line-height: 15px; margin-top: 45px!important;} #main_tab.nav-tabs li a{padding: 2px 5px!important; font-size: 12px!important;}}
-@media screen and (max-width:480px) {.head_menu_top_rated{font-size: 18px!important;} .top_rated_items .item{margin-right: 10px!important; width: 80px!important;} .top_rated_items div.image{ width: 80px!important;} .top_rated_items .item:last-child{margin-right: 0px!important;}.info_message.banner {display: none;}.royalSlider{display: none!important;}}
+@media screen and (max-width:700px) { .secondary_tab .tab-pane img{height: 100px!important;}.perc_40{width: 100%!important;} .perc_40 input{width: 100%!important;}.perc_15{width: 100%!important;} .perc_15 input{width: 100%!important;} .secondary_tab .nav-tabs li a{ padding: 10px 2px!important; font-size: 11px!important;} .hide_small_screen{display: none;} .top_rated_items .item{width: 120px!important;}.top_rated_items div.image, .top_rated_items div.image_tab{ width: 120px!important; height:78px!important; background-size: 120px 78px!important;} .info_message.banner{font-size: 20px; line-height: 20px} #main_tab.nav-tabs li a{padding: 10px!important;}}
+@media screen and (max-width:620px) {#logo_base{display: none;} footer .secondary_tab .nav-tabs li a{font-size: 9px!important;} .head_menu_top_rated{font-size: 23px!important;} .top_rated_items .item{width: 104px!important;}.top_rated_items div.image, .top_rated_items div.image_tab{ width: 104px!important; height:67px!important;background-size: 104px 67px!important; }.info_message.banner .message{display: none;} .banner_map_cont{margin-top: 40px!important;}}
+@media screen and (max-width:550px) {.secondary_tab .tab-pane img{height: 70px!important;}.secondary_tab .tab-pane .span3{ margin-right: 6px!important;} #site_base .span3{display: none;} .head_menu_top_rated{font-size: 20px!important;} .top_rated_items .item{width: 90px!important; margin-right: 15px!important;}.top_rated_items div.image, .top_rated_items div.image_tab{ width: 90px!important; height:64px!important; background-size: 110px 64px!important;}.info_message.banner{font-size: 15px; line-height: 15px; margin-top: 45px!important;} #main_tab.nav-tabs li a{padding: 2px 5px!important; font-size: 12px!important;}}
+@media screen and (max-width:480px) {.head_menu_top_rated{font-size: 18px!important;} .top_rated_items .item{margin-right: 10px!important; width: 80px!important;} .top_rated_items div.image, .top_rated_items div.image_tab{ width: 80px!important;} .top_rated_items .item:last-child{margin-right: 0px!important;}.info_message.banner {display: none;}.royalSlider{display: none!important;}}
+
+@media screen and (max-width:980px) {.last_added_items .item{width: 140px!important;}.last_added_items div.image{ width: 140px!important; height:104px!important; background-size: 140px 104px!important; }}
+@media screen and (max-width:800px) {.last_added_items .item{width: 120px!important;}.last_added_items div.image{ width: 120px!important; height:91px!important; background-size: 120px 91px!important;}}
+@media screen and (max-width:700px) {.last_added_items .item{width: 100px!important;}.last_added_items div.image{ width: 100px!important; height:78px!important; background-size: 100px 78px!important;}}
+@media screen and (max-width:620px) {.last_added_items .item{width: 84px!important;}.last_added_items div.image{ width: 84px!important; height:67px!important;background-size: 84px 67px!important; }}
+@media screen and (max-width:550px) {.last_added_items .item{width: 90px!important; margin-right: 15px!important;}.last_added_items div.image{ width: 90px!important; height:64px!important; background-size: 110px 64px!important;}}
+@media screen and (max-width:480px) {.last_added_items .item{margin-right: 10px!important; width: 80px!important;} .last_added_items div.image{ width: 80px!important;} .last_added_items .item:last-child{margin-right: 0px!important;}}
+
 
 @-moz-document url-prefix() {.rsOverflow {margin-top: -32px;}}
 .body{margin-top: 30px;}
@@ -58,6 +66,7 @@ ul.nav-tabs{margin-bottom: 0; border-bottom: solid 1px #CFE0EA;}
 
 .head_menu_top_rated{background: url("../images/head_menu_bg_1.png") no-repeat; color: #ffffff; font-size: 26px; padding: 10px 22px; margin: 46px 0 0;}
 .top_rated_items div.image{border: solid 2px #E6E4E5; border-radius: 0px 20px; width: 210px; height: 137px; background-size: 234px 152px;}
+.top_rated_items div.image_tab{border: solid 2px #E6E4E5; border-radius: 0px 20px; width: 180px; height: 137px; background-size: 234px 152px;}
 .top_rated_items .item{float: left; margin: 18px 25px 0 0; width: 210px;}
 .top_rated_items .item a{ text-decoration: none}
 .top_rated_items .item:last-child{margin-right: 0px;}
@@ -72,13 +81,29 @@ ul.nav-tabs{margin-bottom: 0; border-bottom: solid 1px #CFE0EA;}
 .top_rated_tools .tool img{margin-left: 10px;}
 .top_rated_tools .btn-primary{background-image: none; background-color: transparent; border: solid 1px #ffffff; padding: 2px 8px; font-size: 13px!important;}
 
+.last_added_items{padding:0px; border-top-right-radius: 20px;}
+.last_added_items div.image{border-radius: 0px 20px; /*width: 197px;*/ height: 137px; background-size: 234px 152px;}
+.last_added_items .item{float: left; margin: 0; width: 210px;}
+.last_added_items .item a{ text-decoration: none}
+.last_added_items .item:last-child{margin-right: 0px;}
+.last_added_items .title{font-size: 13px; color: #0188CA; font-weight: bold;margin-top: 5px; text-align: left;}
+.last_added_items .title .place{color: #144763; font-size: 12px}
+.last_added_items .favorite{margin-top: 5px; text-align: right;}
+.last_added_items .favorite a.favorite_off{  width: 30px; height: 50px;}
+.last_added_items .favorite a.favorite_off img{background: url('../images/favorites_empty.png') no-repeat top right; width: 50px; vertical-align: top; height: 30px;}
+.last_added_items .item .title_row{background: #fff;border-bottom: solid 2px #E4E5E7; margin-left: 3px;margin-right: 3px; width: 97%;}
+.last_added_items .place{ text-align: left;  margin-left: 3px;}
+.last_added_items .rating_stars{margin-left: 3px;}
+.last_added_items .rating_stars img.rating_star{ width: 16px; height: 16px;}
+.last_added_items .price{font-size: 13px; color: #0188CA; font-weight: bold; margin-right: 3px;}
+
 .secondary_tab{float: left;}
 .secondary_tab .nav-tabs_cont{border-bottom: none!important; border: solid 1px #DDDDDD; padding: 10px 10px 0; border-radius: 20px 20px 0 0; background: url("../images/line_bg_1.gif") repeat-x; background-position:bottom }
 .secondary_tab .nav-tabs li a{border-radius: 15px 15px 0 0; background-color: #E5E5E5; color: #434343; font-weight: bold; font-size: 12px}
 .secondary_tab .nav-tabs{border: none;}
 .secondary_tab .nav-tabs li.active a{border-bottom: solid 7px #A2CB38; background-color: #ffffff;color: #105B80;}
 .secondary_tab .tab-pane{padding: 10px;  border: solid 1px #DDDDDD; border-top: none; font-size: 12px;}
-.secondary_tab .tab-pane .item{margin-bottom: 20px;}
+.secondary_tab .tab-pane .item{/*margin-bottom: 20px;*/background: #fff; width: 100%;border-top-right-radius: 20px;}
 .secondary_tab .tab-pane .span3{ background-color: #E4E5E7; padding: 3px; text-align: center;}
 .secondary_tab .no_tab .span3{ background-color: #ffffff; padding: 0px; text-align: left}
 .secondary_tab .no_tab label{color: #4E4E4E!important; font-size: 11px; font-weight: bold;}
@@ -91,7 +116,7 @@ ul.nav-tabs{margin-bottom: 0; border-bottom: solid 1px #CFE0EA;}
 .third_tab{margin-bottom: 20px;}
 
 footer{width: 100%; height: 250px; background: url("../images/footer_bg.png") repeat-x #1E4A93; margin-top: 22px; padding: 25px 0 0;}
-footer .menu{width: 23%;float: left; padding-left: 2%}
+footer .menu{width: 18%;float: left; padding-left: 2%}
 footer .menu.seal{text-align: right; padding: 0 2% 0 0; }
 footer .menu a{color: #ffffff; font-size: 12px; font-weight:bold;}
 footer .menu li{list-style: none; color: #ffffff; font-size: 16px;line-height: 16px }
@@ -185,7 +210,7 @@ hr{margin: 5px 0;}
 .menu_left .filter{padding: 10px 5px; font-size: 12px;}
 .menu_left .filter label{font-size: 12px;}
 
-.ownerships_mosaic div.image{;border: solid 1px #E6E4E5; border-radius: 0px 20px; width: 99%; height: 152px; background-size: 234px 152px;}
+.ownerships_mosaic div.image{border: solid 1px #E6E4E5; border-radius: 0px 20px; width: 99%; height: 152px; background-size: 234px 152px;}
 .ownerships_mosaic .rating{margin-top: -2px!important;}
 .ownerships_mosaic .title{color: #0088CC;font-weight: bold!important; font-size: 12px; margin-top: 6px; line-height: 13px}
 .ownerships_mosaic img{margin-top: -10px;}

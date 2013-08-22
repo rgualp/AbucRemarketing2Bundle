@@ -10,6 +10,10 @@ mycp_new_category_album:
     pattern:  /categories/new
     defaults: { _controller: mycpBundle:BackendAlbum:new_category }
 
+mycp_edit_category_album:
+    pattern:  /edit_category/{id_category}
+    defaults: { _controller: mycpBundle:BackendAlbum:edit_category }
+
 mycp_delete_category_album:
     pattern:  /delete_category/{id_category}
     defaults: { _controller: mycpBundle:BackendAlbum:delete_category }

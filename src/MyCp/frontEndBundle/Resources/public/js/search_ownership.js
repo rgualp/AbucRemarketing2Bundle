@@ -197,6 +197,7 @@ function research()
         'text':text
     },function(data){
         result.html(data);
+        filter_by_others();  
         initialize_map();    
         hide_loading();
     });

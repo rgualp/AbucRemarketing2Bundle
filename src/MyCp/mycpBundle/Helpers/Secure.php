@@ -38,6 +38,7 @@ class Secure
         if($this->container->get('session')->get('permissions'))
         {
             $route=$this->container->get('request')->attributes->all();
+
             $route=$route['_route'];
             $access=false;
             foreach($this->container->get('session')->get('permissions') as $permission)
