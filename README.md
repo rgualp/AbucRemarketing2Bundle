@@ -7,13 +7,14 @@ Installation
 ------------
 
 1. First clone this repository using the git clone command
-2. Copy app/config/parameters.yml.template to app/config/parameters.yml
-3. Edit app/config/parameters.yml according to your local settings
-4. Run "composer install" in the project's root directory
-5. Wait some minutes until composer downloaded and installed all libraries/packages/bundles needed
-6. Configure your local web server to be able to access web/app_dev.php
-7. Open a browser and open app_dev.php (e.g. http://mycasaparticular.local/app_dev.php)
-8. Enjoy!
+2. Checkout the develop branch with "git checkout develop"
+3. Copy app/config/parameters.yml.template to app/config/parameters.yml
+4. Edit app/config/parameters.yml according to your local settings
+5. Run "composer install" in the project's root directory
+6. Wait some minutes until composer downloaded and installed all libraries/packages/bundles needed
+7. Configure your local web server to be able to access web/app_dev.php
+8. Open a browser and open app_dev.php (e.g. http://mycasaparticular.local/app_dev.php)
+9. Enjoy!
 
 Working with this repository
 ----------------------------
