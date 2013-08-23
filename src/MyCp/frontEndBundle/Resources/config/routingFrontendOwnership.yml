@@ -1,0 +1,57 @@
+frontend_details_ownership:
+    pattern:  /details_ownership/{owner_id}
+    defaults: { _controller: frontEndBundle:ownership:details }
+
+frontend_last_added_ownership:
+    pattern:  /frontend_last_added_ownership/
+    defaults: { _controller: frontEndBundle:ownership:last_added_list }
+
+frontend_category_ownership:
+    pattern:  /detailscategory/{category}
+    defaults: { _controller: frontEndBundle:ownership:category }
+
+frontend_search_ownership:
+    pattern:  /search/{text}/{arrival}/{departure}/{guests}/
+    defaults: { _controller: frontEndBundle:ownership:search }
+
+frontend_order_search_results_ownership:
+    pattern:  /order_results/
+    defaults: { _controller: frontEndBundle:ownership:search_order_results }
+
+frontend_change_view_ownership:
+    pattern:  /change_results_view/
+    defaults: { _controller: frontEndBundle:ownership:search_change_view_results }
+
+frontend_research_ownership:
+  pattern: /research/
+  defaults: {_controller: frontEndBundle:ownership:research }
+  requirements:
+        _method:  GET|POST
+
+frontend_filter_ownership:
+    pattern:  /filter/
+    defaults: { _controller: frontEndBundle:ownership:filter }
+
+frontend_filter_statistics_ownership:
+    pattern:  /filter_statistics/
+    defaults: { _controller: frontEndBundle:ownership:get_filters_statistics }
+
+frontend_map_markers_ownership:
+    pattern:  /map_markers/
+    defaults: { _controller: frontEndBundle:ownership:map_markers_list }
+
+frontend_update_rating_ownership:
+    pattern:  /update_rating/{ownid}
+    defaults: { _controller: frontEndBundle:ownership:update_rating }
+
+frontend_map_details_ownership:
+    pattern:  /map_details_ownership/{ownGeolocateX}/{ownGeolocateY}/{ownName}/{description}/{image}
+    defaults: { _controller: frontEndBundle:ownership:map_details_ownership }
+    
+frontend_map_resized_ownership:
+    pattern:  /map_resized/
+    defaults: { _controller: frontEndBundle:ownership:map_resized }
+    
+frontend_voted_best_list_ownership:
+    pattern:  /voted_best_list/
+    defaults: { _controller: frontEndBundle:ownership:voted_best_list }

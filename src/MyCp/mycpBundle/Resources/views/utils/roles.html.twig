@@ -1,0 +1,4 @@
+<option></option>
+{% for role in roles %}
+<option {%if selected == role.getRoleName%} selected="selected" {%endif%}class="{{role.getRoleId}}" value="{{ role.getRoleName }}">{{ role.getRoleName }}</option>
+{% endfor %}

@@ -1,0 +1,50 @@
+mycp_list_albums:
+    pattern:  /list/{items_per_page}/{filter_name}/{filter_active}/{filter_category}
+    defaults: { _controller: mycpBundle:BackendAlbum:list_albums, items_per_page: 100,filter_name:'',filter_active:'',filter_category:''}
+
+mycp_list_category_album:
+    pattern:  /list_categories/{items_per_page}
+    defaults: { _controller: mycpBundle:BackendAlbum:list_category ,items_per_page: 10}
+
+mycp_new_category_album:
+    pattern:  /categories/new
+    defaults: { _controller: mycpBundle:BackendAlbum:new_category }
+
+mycp_edit_category_album:
+    pattern:  /edit_category/{id_category}
+    defaults: { _controller: mycpBundle:BackendAlbum:edit_category }
+
+mycp_delete_category_album:
+    pattern:  /delete_category/{id_category}
+    defaults: { _controller: mycpBundle:BackendAlbum:delete_category }
+
+
+mycp_new_album:
+    pattern:  /new/
+    defaults: { _controller: mycpBundle:BackendAlbum:new_album }
+
+mycp_delete_album:
+    pattern:  /delete_album/{id_album}
+    defaults: { _controller: mycpBundle:BackendAlbum:delete_album }
+
+mycp_edit_album:
+    pattern:  /edit/{id_album}
+    defaults: { _controller: mycpBundle:BackendAlbum:edit_album }
+
+mycp_new_photos_album:
+    pattern:   /photos/new/{id_album}
+    defaults: { _controller: mycpBundle:BackendAlbum:new_photos}
+
+mycp_list_photos_album:
+    pattern:  /photos/{id_album}/{items_per_page}
+    defaults: { _controller: mycpBundle:BackendAlbum:list_photos, items_per_page:10}
+
+
+
+mycp_delete_photos_album:
+    pattern:  /delete_photo/{id_album}/{id_photo}
+    defaults: { _controller: mycpBundle:BackendAlbum:delete_photo }
+
+mycp_edit_photos_album:
+    pattern:  /edit_photo/{id_photo}/{id_album}
+    defaults: { _controller: mycpBundle:BackendAlbum:edit_photo }

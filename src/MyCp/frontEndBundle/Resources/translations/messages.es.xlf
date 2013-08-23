@@ -1,0 +1,1411 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="es" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1">
+                <source>HOW_IT_WORKS</source>
+                <target>Cómo Funciona</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>REGISTER</source>
+                <target>Regístrate</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>LOG_IN</source>
+                <target>Iniciar Sesión</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>FAVORITIES</source>
+                <target>Favoritos</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>HELP</source>
+                <target>Ayuda</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>CURRENCY</source>
+                <target>Moneda</target>
+            </trans-unit>
+            <trans-unit id="7">
+                <source>LANGUAGE</source>
+                <target>Idioma</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>LOG_OUT</source>
+                <target>Cerrar Sesión</target>
+            </trans-unit>
+            <trans-unit id="9">
+                <source>HOMEPAGE_TITLE</source>
+                <target>My Casa Particular - Portada</target>
+            </trans-unit>
+            <trans-unit id="10">
+                <source>GO_UP</source>
+                <target>Ir arriba</target>
+            </trans-unit>
+            <trans-unit id="11">
+                <source>DESTINATIONS</source>
+                <target>Destinos</target>
+            </trans-unit>
+            <trans-unit id="12">
+                <source>MOST_VISITED_CITIES</source>
+                <target>Ciudades Más Visitadas</target>
+            </trans-unit>
+            <trans-unit id="13">
+                <source>LOCAL_FESTIVALS_AND_FUN</source>
+                <target>Fiestas Locales y Diversión</target>
+            </trans-unit>
+            <trans-unit id="14">
+                <source>GALLERIES</source>
+                <target>GalerÍaS de fotos</target>
+            </trans-unit>
+            <trans-unit id="15">
+                <source>YOUR_PHOTOS</source>
+                <target>Tus fotos</target>
+            </trans-unit>
+            <trans-unit id="16">
+                <source>ACCOMMODATION</source>
+                <target>Alojamientos</target>
+            </trans-unit>
+            <trans-unit id="17">
+                <source>ECONOMICS_OWNS</source>
+                <target>Casas Económicas</target>
+            </trans-unit>
+            <trans-unit id="18">
+                <source>MIDRANGE_OWNS</source>
+                <target>Casas Rango Medio</target>
+            </trans-unit>
+            <trans-unit id="19">
+                <source>PREMIUM_OWNS</source>
+                <target>Casas Premium</target>
+            </trans-unit>
+            <trans-unit id="20">
+                <source>TOP_OWNS</source>
+                <target>Las mejores casas</target>
+            </trans-unit>
+            <trans-unit id="21">
+                <source>TOP_RATED</source>
+                <target>Más Votadas</target>
+            </trans-unit>
+            <trans-unit id="22">
+                <source>RATINGS</source>
+                <target>Votaciones</target>
+            </trans-unit>
+            <trans-unit id="23">
+                <source>COMPANY</source>
+                <target>Empresa</target>
+            </trans-unit>
+            <trans-unit id="24">
+                <source>WHO_ARE_WE</source>
+                <target>Quiénes Somos</target>
+            </trans-unit>
+            <trans-unit id="25">
+                <source>FAQ</source>
+                <target>Preguntas Frecuentes</target>
+            </trans-unit>
+            <trans-unit id="26">
+                <source>LEGAL_TERMS</source>
+                <target>Términos Legales</target>
+            </trans-unit>
+            <trans-unit id="27">
+                <source>SECURITY_AND_PRIVACY</source>
+                <target>Seguridad y Privacidad</target>
+            </trans-unit>
+            <trans-unit id="28">
+                <source>CONTACT_US</source>
+                <target>Contáctenos</target>
+            </trans-unit>
+            <trans-unit id="29">
+                <source>SITE_MAP</source>
+                <target>Mapa del Sitio</target>
+            </trans-unit>
+            <trans-unit id="30">
+                <source>FOLLOW_US_FACEBOOK</source>
+                <target>Síguenos en Facebook</target>
+            </trans-unit>
+            <trans-unit id="31">
+                <source>FOLLOW_US_TWITTER</source>
+                <target>Síguenos en Twitter</target>
+            </trans-unit>
+            <trans-unit id="32">
+                <source>FOOTER_COPYRIGHT</source>
+                <target>Un producto de ABUC Media Network GmbH. Todos los derechos reservados</target>
+            </trans-unit>
+            <trans-unit id="33">
+                <source>WELCOMEPAGE_TITLE</source>
+                <target>Bienvenidos</target>
+            </trans-unit>
+            <trans-unit id="34">
+                <source>PLACE_WATERMARK</source>
+                <target>¿A dónde te apetece ir?...</target>
+            </trans-unit>
+            <trans-unit id="35">
+                <source>ARRIVAL_WATERMARK</source>
+                <target>Llegada</target>
+            </trans-unit>
+            <trans-unit id="36">
+                <source>DEPARTURE_WATERMARK</source>
+                <target>Salida</target>
+            </trans-unit>
+            <trans-unit id="37">
+                <source>GUEST_WATERMARK</source>
+                <target>1 Huesped</target>
+            </trans-unit>
+            <trans-unit id="38">
+                <source>SEARCH</source>
+                <target>buscar</target>
+            </trans-unit>
+            <trans-unit id="39">
+                <source>SLOGAN_1</source>
+                <target>Como en my casa,...</target>
+            </trans-unit>
+            <trans-unit id="40">
+                <source>SLOGAN_2</source>
+                <target>en ninguna parte</target>
+            </trans-unit>
+            <trans-unit id="41">
+                <source>SLOGAN_3</source>
+                <target>su primera dirección en Cuba</target>
+            </trans-unit>
+            <trans-unit id="42">
+                <source>HOME_MAIN_MENU</source>
+                <target>Inicio</target>
+            </trans-unit>
+            <trans-unit id="43">
+                <source>HOME_DESCRIPTION_MAIN_MENU</source>
+                <target>Informacion para el inicio, Informacion para el inicio, Informacion para el inicio, Informacion para el inicio, Informacion para el inicio, Informacion para el inicio, Informacion para el inicio, Informacion para el inicio, Informacion para el inicio, Informacion para el inicio, Informacion para el inicio, Informacion para el inicio, Informacion para el inicio</target>
+            </trans-unit>
+            <trans-unit id="44">
+                <source>DESTINATIONS_MAIN_MENU</source>
+                <target>Destinos</target>
+            </trans-unit>
+            <trans-unit id="45">
+                <source>DESTINATIONS_DESCRIPTION_MAIN_MENU</source>
+                <target>Destinos...Destinos...Destinos...Destinos...Destinos...Destinos...Destinos...Destinos...Destinos...Destinos...Destinos...Destinos...Destinos...Destinos...Destinos...</target>
+            </trans-unit>
+            <trans-unit id="46">
+                <source>OFFERS_MAIN_MENU</source>
+                <target>Ofertas</target>
+            </trans-unit>
+            <trans-unit id="47">
+                <source>OFFERS_DESCRIPTION_MAIN_MENU</source>
+                <target>Ofertas...Ofertas...Ofertas...Ofertas...Ofertas...</target>
+            </trans-unit>
+            <trans-unit id="48">
+                <source>INFO_MAIN_MENU</source>
+                <target>Guía e Información</target>
+            </trans-unit>
+            <trans-unit id="49">
+                <source>INFO_DESCRIPTION_MAIN_MENU</source>
+                <target>Guia e Informacion...Guia e Informacion...Guia e Informacion...Guia e Informacion...Guia e Informacion</target>
+            </trans-unit>
+            <trans-unit id="50">
+                <source>SEARCH_MAIN_MENU</source>
+                <target>Buscar</target>
+            </trans-unit>
+            <trans-unit id="51">
+                <source>SEARCH_DESCRIPTION_MAIN_MENU</source>
+                <target>buscador....buscador...buscador...</target>
+            </trans-unit>
+            <trans-unit id="52">
+                <source>GO_HOME_TITLE</source>
+                <target>Ir a la portada</target>
+            </trans-unit>
+            <trans-unit id="53">
+                <source>SEARCHER_BREADCRUMB</source>
+                <target>Buscador</target>
+            </trans-unit>
+            <trans-unit id="54">
+                <source>HOMEPAGE_SUBTITLE_1</source>
+                <target>¿Por qué alojarse en una casa particular?</target>
+            </trans-unit>
+            <trans-unit id="55">
+                <source>HOMEPAGE_SUBTITLE_2</source>
+                <target>Conocer Cuba, vivir Cuba!!</target>
+            </trans-unit>
+            <trans-unit id="56">
+                <source>HOMEPAGE_TEXT</source>
+                <target>Alojarse en una casa particular puede ser una de las experiencias más interesantes que usted puede disfrutar durante su viaje a Cuba. Aparte de tener la posibilidad de conocer a viajeros de todo el mundo, podrá conocer la realidad cubana desde adentro. Otro argumento muy importante es el precio. Las casas particulares son la opción más económica para su estancia en Cuba.</target>
+            </trans-unit>
+            <trans-unit id="57">
+                <source>TOP_HOUSES_HOME_TITLE</source>
+                <target>Casas Mejor Valoradas</target>
+            </trans-unit>
+            <trans-unit id="58">
+                <source>MORE_INFO_PREFFIX</source>
+                <target>Ver más información de</target>
+            </trans-unit>
+            <trans-unit id="59">
+                <source>VISUALIZE</source>
+                <target>Visualizar</target>
+            </trans-unit>
+            <trans-unit id="60">
+                <source>PAGER</source>
+                <target>Paginador</target>
+            </trans-unit>
+            <trans-unit id="61">
+                <source>TELL_A_FRIEND</source>
+                <target>Recomendar a un amigo</target>
+            </trans-unit>
+            <trans-unit id="62">
+                <source>POPULAR_DESTINATIONS_HOME_TABS</source>
+                <target>Destinos Populares</target>
+            </trans-unit>
+            <trans-unit id="63">
+                <source>LAST_ADDED_HOME_TABS</source>
+                <target>Últimas Añadidas</target>
+            </trans-unit>
+            <trans-unit id="64">
+                <source>OFFERS_HOME_TABS</source>
+                <target>Ofertas</target>
+            </trans-unit>
+            <trans-unit id="65">
+                <source>ECONOMIC_HOME_TABS</source>
+                <target>Económicas</target>
+            </trans-unit>
+            <trans-unit id="66">
+                <source>MIDRANGE_HOME_TABS</source>
+                <target>Rango Medio</target>
+            </trans-unit>
+            <trans-unit id="67">
+                <source>PREMIUM_HOME_TABS</source>
+                <target>Premium</target>
+            </trans-unit>
+            <trans-unit id="68">
+                <source>SEEMORE_LINK_TEXT</source>
+                <target>Ver [+]</target>
+            </trans-unit>
+            <trans-unit id="69">
+                <source>POPULAR_DESTINATIONS_TOOLTIP_HOME_TAB</source>
+                <target>Ver más destinos populares</target>
+            </trans-unit>
+            <trans-unit id="70">
+                <source>LAST_ADDED_TOOLTIP_HOME_TAB</source>
+                <target>Ver más casas últimas añadidas</target>
+            </trans-unit>
+            <trans-unit id="71">
+                <source>OFFERS_TOOLTIP_HOME_TAB</source>
+                <target>Ver más ofertas</target>
+            </trans-unit>
+            <trans-unit id="72">
+                <source>ECONOMIC_TOOLTIP_HOME_TAB</source>
+                <target>Ver más casas económicas</target>
+            </trans-unit>
+            <trans-unit id="73">
+                <source>MIDRANGE_TOOLTIP_HOME_TAB</source>
+                <target>Ver más casas rango medio</target>
+            </trans-unit>
+            <trans-unit id="74">
+                <source>PREMIUM_TOOLTIP_HOME_TAB</source>
+                <target>Ver más casas premium</target>
+            </trans-unit>
+            <trans-unit id="75">
+                <source>FILTER_RANGE_PRICE</source>
+                <target>Por rango / precio</target>
+            </trans-unit>
+            <trans-unit id="76">
+                <source>ACCOMMODATION_SEARCH_TITLE</source>
+                <target>BUSCAR ALOJAMIENTO</target>
+            </trans-unit>
+            <trans-unit id="77">
+                <source>SELECT_OPTION</source>
+                <target>(Seleccione)</target>
+            </trans-unit>
+            <trans-unit id="78">
+                <source>FILTER_TYPE</source>
+                <target>Por tipo</target>
+            </trans-unit>
+            <trans-unit id="79">
+                <source>LOADING_MESSAGE</source>
+                <target>Espere, por favor. Su petición está siendo procesada</target>
+            </trans-unit>
+            <trans-unit id="80">
+                <source>SEARCH_RESULT_ORDER_BY</source>
+                <target>Ordenar por</target>
+            </trans-unit>
+            <trans-unit id="81">
+                <source>PRICE_LH_ORDER_BY</source>
+                <target>Precio /Menor a Mayor</target>
+            </trans-unit>
+            <trans-unit id="82">
+                <source>PRICE_HL_ORDER_BY</source>
+                <target>Precio /Mayor a Menor</target>
+            </trans-unit>
+            <trans-unit id="83">
+                <source>BEST_VALUED_ORDER_BY</source>
+                <target>Mejor Valorada</target>
+            </trans-unit>
+            <trans-unit id="84">
+                <source>WORST_VALUED_ORDER_BY</source>
+                <target>Peor Valorada</target>
+            </trans-unit>
+            <trans-unit id="85">
+                <source>ALPHABETICAL_AZ_ORDER_BY</source>
+                <target>Alfabéticamente /A - Z</target>
+            </trans-unit>
+            <trans-unit id="86">
+                <source>ALPHABETICAL_ZA_ORDER_BY</source>
+                <target>Alfabéticamente /Z - A</target>
+            </trans-unit>
+             <trans-unit id="87">
+                <source>LIST_VIEW_RESULTS</source>
+                <target>Ver resultados en forma de lista</target>
+            </trans-unit>
+            <trans-unit id="88">
+                <source>PHOTO_VIEW_RESULTS</source>
+                <target>Ver resultados en forma de galería de fotos</target>
+            </trans-unit>
+            <trans-unit id="89">
+                <source>MAP_VIEW_RESULTS</source>
+                <target>Ver resultados ubicados en el mapa</target>
+            </trans-unit>
+            <trans-unit id="90">
+                <source>LAST_ADDED_BREADCRUMB</source>
+                <target>Últimas Añadidas</target>
+            </trans-unit>
+            <trans-unit id="100">
+                <source>LIST_BY_CATEGORIES_BREADCRUMB</source>
+                <target>Listado por Categorías</target>
+            </trans-unit>
+             <trans-unit id="101">
+                <source>PHOTO_TAB_DETAILS</source>
+                <target>Fotos</target>
+            </trans-unit>
+            <trans-unit id="102">
+                <source>NEARBY_HOUSES_DETAILS</source>
+                <target>Propiedades Cercanas</target>
+            </trans-unit>
+            <trans-unit id="103">
+                <source>MORE_IN_DETAILS</source>
+                <target>Más en</target>
+            </trans-unit>
+            <trans-unit id="104">
+                <source>MORE_DESTINATIONS_DETAILS</source>
+                <target>Ver más destinos en</target>
+            </trans-unit>
+            <trans-unit id="105">
+                <source>SEE_ALL_DETAILS</source>
+                <target>(ver todos)</target>
+            </trans-unit>
+             <trans-unit id="106">
+                <source>MAPS_TAB_DETAILS</source>
+                <target>Mapas</target>
+            </trans-unit>
+            <trans-unit id="107">
+                <source>DESCRIPTION_TAB_DETAILS</source>
+                <target>Descripción</target>
+            </trans-unit>
+            <trans-unit id="108">
+                <source>SERVICES_TAB_DETAILS</source>
+                <target>Servicios</target>
+            </trans-unit>
+            <trans-unit id="109">
+                <source>ROOMS_TAB_DETAILS</source>
+                <target>Habitaciones</target>
+            </trans-unit>
+            <trans-unit id="110">
+                <source>TYPE_TAB_DESCRIPTION</source>
+                <target>Tipo</target>
+            </trans-unit>
+             <trans-unit id="111">
+                <source>CAPACITY_TAB_DESCRIPTION</source>
+                <target>Capacidad</target>
+            </trans-unit>
+            <trans-unit id="112">
+                <source>BEDROOMS_TAB_DESCRIPTION</source>
+                <target>Dormitorios</target>
+            </trans-unit>
+            <trans-unit id="113">
+                <source>CITY_TAB_DESCRIPTION</source>
+                <target>Ciudad</target>
+            </trans-unit>
+            <trans-unit id="114">
+                <source>PROVINCE_TAB_DESCRIPTION</source>
+                <target>Provincia</target>
+            </trans-unit>
+            <trans-unit id="115">
+                <source>SERVICES_TAB_DESCRIPTION</source>
+                <target>Servicios</target>
+            </trans-unit>
+             <trans-unit id="116">
+                <source>BREAKFAST_TAB_DESCRIPTION</source>
+                <target>Desayuno</target>
+            </trans-unit>
+            <trans-unit id="117">
+                <source>YES</source>
+                <target>Sí</target>
+            </trans-unit>
+            <trans-unit id="118">
+                <source>DINNER_TAB_DESCRIPTION</source>
+                <target>Cena</target>
+            </trans-unit>
+            <trans-unit id="119">
+                <source>PARKING_TAB_DESCRIPTION</source>
+                <target>Parqueo</target>
+            </trans-unit>
+            <trans-unit id="120">
+                <source>BIKE_PARKING_TAB_DESCRIPTION</source>
+                <target>Parqueo para Bicicletas</target>
+            </trans-unit>
+             <trans-unit id="121">
+                <source>PETS_TAB_DESCRIPTION</source>
+                <target>Mascotas</target>
+            </trans-unit>
+            <trans-unit id="122">
+                <source>LAUNDRY_TAB_DESCRIPTION</source>
+                <target>Lavado</target>
+            </trans-unit>
+            <trans-unit id="123">
+                <source>INTERNET_TAB_DESCRIPTION</source>
+                <target>Internet / Correo</target>
+            </trans-unit>
+            <trans-unit id="124">
+                <source>JACUZEE_TAB_DESCRIPTION</source>
+                <target>Jacuzee</target>
+            </trans-unit>
+            <trans-unit id="125">
+                <source>SAUNA_TAB_DESCRIPTION</source>
+                <target>Sauna</target>
+            </trans-unit>
+             <trans-unit id="126">
+                <source>POOL_TAB_DESCRIPTION</source>
+                <target>Piscina</target>
+            </trans-unit>
+            <trans-unit id="127">
+                <source>UP_SEASON_ROOMS</source>
+                <target>Alta</target>
+            </trans-unit>
+            <trans-unit id="128">
+                <source>DOWN_SEASON_ROOMS</source>
+                <target>Baja</target>
+            </trans-unit>
+            <trans-unit id="129">
+                <source>BEDS_ROOMS</source>
+                <target>Camas</target>
+            </trans-unit>
+            <trans-unit id="130">
+                <source>MAIN_FEATURES_ROOMS</source>
+                <target>Características Principales</target>
+            </trans-unit>
+             <trans-unit id="131">
+                <source>CLIMATIZATION_ROOMS</source>
+                <target>Climatización</target>
+            </trans-unit>
+            <trans-unit id="132">
+                <source>WINDOWS_ROOMS</source>
+                <target>Ventanas</target>
+            </trans-unit>
+            <trans-unit id="133">
+                <source>BALCONY_ROOMS</source>
+                <target>Balcón</target>
+            </trans-unit>
+            <trans-unit id="134">
+                <source>TERRACE_ROOMS</source>
+                <target>Terraza</target>
+            </trans-unit>
+            <trans-unit id="135">
+                <source>YARD_ROOMS</source>
+                <target>Patio</target>
+            </trans-unit>
+             <trans-unit id="136">
+                 <source>NO</source>
+                <target>No</target>
+            </trans-unit>
+            <trans-unit id="137">
+                <source>AUDIOVISUALS_ROOMS</source>
+                <target>Audiovisuales</target>
+            </trans-unit>
+            <trans-unit id="138">
+                <source>BATHROOM_ROOMS</source>
+                <target>Baño</target>
+            </trans-unit>
+            <trans-unit id="139">
+                <source>OTHERS_ROOMS</source>
+                <target>Otras</target>
+            </trans-unit>
+            <trans-unit id="140">
+                <source>SMOKER_ROOMS</source>
+                <target>Fumador</target>
+            </trans-unit>
+            <trans-unit id="141">
+                <source>SAFE_ROOMS</source>
+                <target>Caja Fuerte</target>
+            </trans-unit>
+            <trans-unit id="142">
+                <source>STEREO_ROOMS</source>
+                <target>Estéreo</target>
+            </trans-unit>
+            <trans-unit id="143">
+                <source>KIDS_ROOMS</source>
+                <target>Niños</target>
+            </trans-unit>
+            <trans-unit id="144">
+                <source>FROM_PRICES</source>
+                <target>Desde</target>
+            </trans-unit>
+            <trans-unit id="145">
+                <source>BYNIGHTS_PRICES</source>
+                <target>Por noches</target>
+            </trans-unit>
+             <trans-unit id="146">
+                <source>ARRIVAL_RESERVATION</source>
+                <target>Llegada</target>
+            </trans-unit>
+            <trans-unit id="147">
+                <source>DEPARTURE_RESERVATION</source>
+                <target>Salida</target>
+            </trans-unit>
+            <trans-unit id="148">
+                <source>GUESTS_RESERVATION</source>
+                <target>Huéspedes</target>
+            </trans-unit>
+            <trans-unit id="149">
+                <source>SUBTOTAL_RESERVATION</source>
+                <target>Subtotal</target>
+            </trans-unit>
+            <trans-unit id="150">
+                <source>RESERVE_RESERVATION</source>
+                <target>Resérvalo</target>
+            </trans-unit>
+            <trans-unit id="151">
+                <source>CLEANING_TAX_RESERVATION</source>
+                <target>Incluye tarifa de limpieza</target>
+            </trans-unit>
+            <trans-unit id="152">
+                <source>ADD_FAVORITIES_DETAILS</source>
+                <target>Añadir a Mis Favoritas</target>
+            </trans-unit>
+            <trans-unit id="153">
+                <source>NAME_COMMENTS_DETAILS</source>
+                <target>Nombre</target>
+            </trans-unit>
+            <trans-unit id="154">
+                <source>MAIL_COMMENTS_DETAILS</source>
+                <target>Correo</target>
+            </trans-unit>
+            <trans-unit id="155">
+                <source>TEXT_COMMENTS_DETAILS</source>
+                <target>Opinión</target>
+            </trans-unit>
+            <trans-unit id="156">
+                <source>REQUIERED_TEXT_VALIDATOR_COMMENTS_DETAILS</source>
+                <target>Los campos marcados con (*) son obligatorios.</target>
+            </trans-unit>
+            <trans-unit id="157">
+                <source>QUEST_COMMENTS_DETAILS</source>
+                <target>¿Recomendaría este alojamiento para ir de vacaciones?</target>
+            </trans-unit>
+            <trans-unit id="158">
+                <source>5_STARS_COMMENTS_DETAILS</source>
+                <target>Un alojamiento excelente!!</target>
+            </trans-unit>
+            <trans-unit id="159">
+                <source>4_STARS_COMMENTS_DETAILS</source>
+                <target>Sí, me gustó.</target>
+            </trans-unit>
+            <trans-unit id="160">
+                <source>3_STARS_COMMENTS_DETAILS</source>
+                <target>Normal.</target>
+            </trans-unit>
+            <trans-unit id="161">
+                <source>2_STARS_COMMENTS_DETAILS</source>
+                <target>No me gustó.</target>
+            </trans-unit>
+            <trans-unit id="162">
+                <source>1_STARS_COMMENTS_DETAILS</source>
+                <target>No lo recomendaría.</target>
+            </trans-unit>
+            <trans-unit id="163">
+                <source>SEND_COMMENT_DETAILS</source>
+                <target>Enviar</target>
+            </trans-unit>
+            <trans-unit id="164">
+                <source>SIMILAR_OWNERSHIPS_DETAILS</source>
+                <target>Propiedades Similares</target>
+            </trans-unit>
+            <trans-unit id="165">
+                <source>LISTINGS_TEXT_DETAILS</source>
+                <target>elementos</target>
+            </trans-unit>
+            <trans-unit id="166">
+                <source>SEE_MORE_OWNERSHIPS_DETAILS</source>
+                <target>Ver más propiedades</target>
+            </trans-unit>
+            <trans-unit id="167">
+                <source>IN</source>
+                <target>en</target>
+            </trans-unit>
+            <trans-unit id="168">
+                <source>ROOM_SINGULAR</source>
+                <target>habitación</target>
+            </trans-unit>
+            <trans-unit id="169">
+                <source>ROOM_PLURAL</source>
+                <target>habitaciones</target>
+            </trans-unit>
+            <trans-unit id="170">
+                <source>NIGHT_PER_ROOM</source>
+                <target>noche/habitación</target>
+            </trans-unit>
+            <trans-unit id="171">
+                <source>LAST_ADDED_PAGE_TITLE</source>
+                <target>Últimas Añadidas</target>
+            </trans-unit>
+            <trans-unit id="172">
+                <source>OWNERSHIP_ECONOMY_CATEGORYPAGE_TITLE</source>
+                <target>Listado de Propiedades Económicas</target>
+            </trans-unit>
+            <trans-unit id="173">
+                <source>OWNERSHIP_RANGO_MEDIO_CATEGORYPAGE_TITLE</source>
+                <target>Listado de Propiedades de Rango Medio</target>
+            </trans-unit>
+            <trans-unit id="174">
+                <source>OWNERSHIP_PREMIUM_CATEGORYPAGE_TITLE</source>
+                <target>Listado de Propiedades Premium</target>
+            </trans-unit>
+            <trans-unit id="175">
+                <source>RANGO_MEDIO_OWNERSHIP</source>
+                <target>Rango Medio</target>
+            </trans-unit>
+            <trans-unit id="176">
+                <source>ECONOMY_OWNERSHIP</source>
+                <target>Económicas</target>
+            </trans-unit>
+            <trans-unit id="177">
+                <source>PREMIUM_OWNERSHIP</source>
+                <target>Premium</target>
+            </trans-unit>
+            <trans-unit id="178">
+                <source>OFFERS_PAGE_TITLE</source>
+                <target>Ofertas</target>
+            </trans-unit>
+            <trans-unit id="179">
+                <source>POPULAR_DESTINATIONS_PAGE_TITLE</source>
+                <target>Destinos Populares</target>
+            </trans-unit>
+            <trans-unit id="180">
+                <source>ALL_ITEMS</source>
+                <target>(Todas)</target>
+            </trans-unit>
+            <trans-unit id="181">
+                <source>SEARCH_RESULTS_PAGE_TITLE</source>
+                <target>Resultados de la Búsqueda</target>
+            </trans-unit>
+            <trans-unit id="182">
+                <source>ROOM_FEATURES_HEADING_FILTER</source>
+                <target>Características de la habitación</target>
+            </trans-unit>
+            <trans-unit id="183">
+                <source>SINGLE_ROOM_FILTER</source>
+                <target>Individual</target>
+            </trans-unit>
+            <trans-unit id="184">
+                <source>DOUBLE_ROOM_FILTER</source>
+                <target>Doble</target>
+            </trans-unit>
+            <trans-unit id="185">
+                <source>DOUBLE_2_BEDS_FILTER</source>
+                <target>Doble (dos camas)</target>
+            </trans-unit>
+            <trans-unit id="186">
+                <source>TRIPLE_ROOM_FILTER</source>
+                <target>Triple</target>
+            </trans-unit>
+            <trans-unit id="187">
+                <source>AIR_CONDITIONING_FILTER</source>
+                <target>Climatización</target>
+            </trans-unit>
+            <trans-unit id="188">
+                <source>AUDIOVISUALS_FILTER</source>
+                <target>Audiovisuales</target>
+            </trans-unit>
+            <trans-unit id="189">
+                <source>KIDS_FILTER</source>
+                <target>Facilidades para niños</target>
+            </trans-unit>
+            <trans-unit id="190">
+                <source>SMOKER_FILTER</source>
+                <target>Fumador</target>
+            </trans-unit>
+            <trans-unit id="191">
+                <source>SAFE_FILTER</source>
+                <target>Caja de Seguridad</target>
+            </trans-unit>
+            <trans-unit id="192">
+                <source>BREAKFAST_FILTER</source>
+                <target>Desayuno incluido</target>
+            </trans-unit>
+            <trans-unit id="193">
+                <source>WINDOWS_FILTER</source>
+                <target>Ventanas</target>
+            </trans-unit>
+            <trans-unit id="194">
+                <source>BALCONY_FILTER</source>
+                <target>Balcón</target>
+            </trans-unit>
+            <trans-unit id="195">
+                <source>TERRACE_FILTER</source>
+                <target>Terraza</target>
+            </trans-unit>
+            <trans-unit id="196">
+                <source>COURTYARD_FILTER</source>
+                <target>Patio</target>
+            </trans-unit>
+            <trans-unit id="197">
+                <source>BATHROOM_TYPES_HEADING_FILTER</source>
+                <target>Baños</target>
+            </trans-unit>
+            <trans-unit id="198">
+                <source>INNER_PRIVATE_BATHROOM_FILTER</source>
+                <target>Interior Privado</target>
+            </trans-unit>
+            <trans-unit id="199">
+                <source>OUTER_PRIVATE_BATHROOM_FILTER</source>
+                <target>Exterior Privado</target>
+            </trans-unit>
+            <trans-unit id="200">
+                <source>SHARED_BATHROOM_FILTER</source>
+                <target>Exterior Compartido</target>
+            </trans-unit>
+            <trans-unit id="201">
+                <source>SAUNA_BATHROOM_FILTER</source>
+                <target>Sauna</target>
+            </trans-unit>
+            <trans-unit id="202">
+                <source>JACUZZI_BATROOM_FILTER</source>
+                <target>Jacuzzi</target>
+            </trans-unit>
+            <trans-unit id="203">
+                <source>OTHER_SERVICES_HEADING_FILTER</source>
+                <target>Otros Servicios</target>
+            </trans-unit>
+            <trans-unit id="204">
+                <source>DINNER_OTHERS_FILTER</source>
+                <target>Cena</target>
+            </trans-unit>
+            <trans-unit id="205">
+                <source>PARKING_THERS_FILTER</source>
+                <target>Parqueo</target>
+            </trans-unit>
+            <trans-unit id="206">
+                <source>PETS_OTHERS_FILTER</source>
+                <target>Mascotas</target>
+            </trans-unit>
+            <trans-unit id="207">
+                <source>LAUNDRY_OTHERS_FILTER</source>
+                <target>Lavandería</target>
+            </trans-unit>
+            <trans-unit id="208">
+                <source>POOL_OTHERS_FILTER</source>
+                <target>Piscina</target>
+            </trans-unit>
+            <trans-unit id="209">
+                <source>INTERNET_OTHERS_FILTER</source>
+                <target>Internet / correo electrónico</target>
+            </trans-unit>
+            <trans-unit id="210">
+                <source>ALL_ITEMS_M</source>
+                <target>(Todas)</target>
+            </trans-unit>
+            <trans-unit id="211">
+                <source>USER_COMMENTS_TAB</source>
+                <target>Comentarios de los usuarios</target>
+            </trans-unit>
+            <trans-unit id="212">
+                <source>FRIENDS_COMMENTS_TAB</source>
+                <target>Amigos</target>
+            </trans-unit>
+            <trans-unit id="213">
+                <source>RATINGS_TEXT_1</source>
+                <target>Valoración</target>
+            </trans-unit>
+            <trans-unit id="214">
+                <source>RATINGS_TEXT_2</source>
+                <target>de esta propiedad</target>
+            </trans-unit>
+            <trans-unit id="215">
+                <source>RECOMENDS_RATINGS</source>
+                <target>Recomendaciones</target>
+            </trans-unit>
+            <trans-unit id="216">
+                <source>TOTAL_RECOMENDS_RATING</source>
+                <target>Esta propiedad tiene un total de %total_recomends% recomendaciones</target>
+            </trans-unit>
+            <trans-unit id="217">
+                <source>PASSWORD_RECOVERY_PAGE_TITLE</source>
+                <target>Recuperar contraseña</target>
+            </trans-unit>
+            <trans-unit id="218">
+                <source>PASSWORD_RECOVERY_SUBTITLE</source>
+                <target>Recuperar contraseña</target>
+            </trans-unit>
+            <trans-unit id="219">
+                <source>PASSWORD_RECOVERY_BUTTON_TEXT</source>
+                <target>Resetear mi contraseña</target>
+            </trans-unit>
+            <trans-unit id="220">
+                <source>USER_REGISTRATION_PAGE_TITLE</source>
+                <target>Regístrate</target>
+            </trans-unit>
+            <trans-unit id="221">
+                <source>USER_REGISTRATION_SUBTITLE</source>
+                <target>Regístrate</target>
+            </trans-unit>
+            <trans-unit id="222">
+                <source>PRIVATE_POLICY_USER_REGISTRATION</source>
+                <target>Acepto las políticas de privacidad de MyCasaParticular</target>
+            </trans-unit>
+            <trans-unit id="223">
+                <source>NEWSLETTER_USER_REGISTRATION</source>
+                <target>Deseo recibir los boletines de MyCasaParticular</target>
+            </trans-unit>
+            <trans-unit id="224">
+                <source>REGISTER_USER_REGISTRATION</source>
+                <target>Registrarse</target>
+            </trans-unit>
+            <trans-unit id="225">
+                <source>REGISTER_LOGIN_USER_REGISTRATION</source>
+                <target>¿Ya estás registrado? ¡Identifícate aquí!</target>
+            </trans-unit>
+            <trans-unit id="226">
+                <source>REGISTER_CONFIRMATION_PAGE_TITLE</source>
+                <target>Reenviar instrucciones de confirmación</target>
+            </trans-unit>
+            <trans-unit id="227">
+                <source>REGISTER_CONFIRMATION_SUBTITLE</source>
+                <target>Reenviar instrucciones de confirmación</target>
+            </trans-unit>
+            <trans-unit id="228">
+                <source>REGISTER_CONFIRMATION_BUTTON</source>
+                <target>Resetear mi contraseña</target>
+            </trans-unit>
+            <trans-unit id="229">
+                <source>FORGOT_PASSWORD_PAGE_TITLE</source>
+                <target>¿Has olvidado tu contraseña?</target>
+            </trans-unit>
+            <trans-unit id="230">
+                <source>FORGOT_PASSWORD_SUBTITLE</source>
+                <target>¿Has olvidado tu contraseña?</target>
+            </trans-unit>
+            <trans-unit id="231">
+                <source>FORGOT_PASSWORD_BUTTON</source>
+                <target>Resetear mi contraseña</target>
+            </trans-unit>
+            <trans-unit id="232">
+                <source>EMPTY_LIST</source>
+                <target>No hay resultados para su búsqueda</target>
+            </trans-unit>
+            <trans-unit id="233">
+                <source>ADD_TO_FAVORITIES</source>
+                <target>Agregar a Favoritas</target>
+            </trans-unit>
+            <trans-unit id="234">
+                <source>Económica</source>
+                <target>Económica</target>
+            </trans-unit>
+            <trans-unit id="235">
+                <source>Rango medio</source>
+                <target>Rango medio</target>
+            </trans-unit>
+            <trans-unit id="236">
+                <source>Premium</source>
+                <target>Premium</target>
+            </trans-unit>
+            <trans-unit id="237">
+                <source>TV</source>
+                <target>TV</target>
+            </trans-unit>
+            <trans-unit id="238">
+                <source>TV+DVD / Video</source>
+                <target>TV+DVD / Video</target>
+            </trans-unit>
+            <trans-unit id="239">
+                <source>TV cable</source>
+                <target>TV cable</target>
+            </trans-unit>
+            <trans-unit id="240">
+                <source>Interior privado</source>
+                <target>Interior privado</target>
+            </trans-unit>
+            <trans-unit id="241">
+                <source>Exterior privado</source>
+                <target>Exterior privado</target>
+            </trans-unit>
+            <trans-unit id="242">
+                <source>Compartido</source>
+                <target>Compartido</target>
+            </trans-unit>
+            <trans-unit id="243">
+                <source>Natural</source>
+                <target>Natural</target>
+            </trans-unit>
+            <trans-unit id="244">
+                <source>Ventilador</source>
+                <target>Ventilador</target>
+            </trans-unit>
+            <trans-unit id="245">
+                <source>Aire acondicionado</source>
+                <target>Aire acondicionado</target>
+            </trans-unit>
+            <trans-unit id="246">
+                <source>Habitación individual</source>
+                <target>Habitación individual</target>
+            </trans-unit>
+            <trans-unit id="247">
+                <source>Habitación doble</source>
+                <target>Habitación doble</target>
+            </trans-unit>
+            <trans-unit id="248">
+                <source>Habitación doble (Dos camas)</source>
+                <target>Habitación doble (Dos camas)</target>
+            </trans-unit>
+            <trans-unit id="249">
+                <source>Habitación Triple</source>
+                <target>Habitación Triple</target>
+            </trans-unit>
+            <trans-unit id="250">
+                <source>Penthouse</source>
+                <target>Penthouse</target>
+            </trans-unit>
+            <trans-unit id="251">
+                <source>Villa con piscina</source>
+                <target>Villa con piscina</target>
+            </trans-unit>
+            <trans-unit id="252">
+                <source>Apartamento</source>
+                <target>Apartamento</target>
+            </trans-unit>
+            <trans-unit id="253">
+                <source>Propiedad completa</source>
+                <target>Propiedad completa</target>
+            </trans-unit>
+            <trans-unit id="254">
+                <source>Casa particular</source>
+                <target>Casa particular</target>
+            </trans-unit>
+            <trans-unit id="255">
+                <source>REMOVE_FAVORITIES_DETAILS</source>
+                <target>Eliminar de Favoritas</target>
+            </trans-unit>
+            <trans-unit id="256">
+                <source>TO_PRICES</source>
+                <target>hasta</target>
+            </trans-unit>
+            <trans-unit id="257">
+                <source>CATEGORY_TAB_DESCRIPTION</source>
+                <target>Categoría</target>
+            </trans-unit>
+            <trans-unit id="258">
+                <source>CATEGORY</source>
+                <target>Categoría</target>
+            </trans-unit>
+            <trans-unit id="259">
+                <source>GO_DESTINATION_TITLE</source>
+                <target>Ver listado de destinos</target>
+            </trans-unit>
+            <trans-unit id="260">
+                <source>NAME_REQUIERED_MESSAGE</source>
+                <target>El nombre no puede estar vacío</target>
+            </trans-unit>
+            <trans-unit id="261">
+                <source>EMAIL_REQUIERED_MESSAGE</source>
+                <target>El correo no puede estar vacío</target>
+            </trans-unit>
+            <trans-unit id="262">
+                <source>EMAIL_INVALID_MESSAGE</source>
+                <target>La dirección de correo no es válida</target>
+            </trans-unit>
+            <trans-unit id="263">
+                <source>COMMENTTEXT_REQUIERED_MESSAGE</source>
+                <target>El comentario no puede estar vacío</target>
+            </trans-unit>
+            <trans-unit id="264">
+                <source>COMMENT_INSERTED</source>
+                <target>El comentario ha sido insertado</target>
+            </trans-unit>
+            <trans-unit id="265">
+                <source>OWNERSHIP_FEATURES_HEADING_FILTER</source>
+                <target>Características del Alojamiento</target>
+            </trans-unit>
+            <trans-unit id="266">
+                <source>SELECT_RESERVATION_TYPE_OPTION</source>
+                <target>(Forma de reservar)</target>
+            </trans-unit>
+            <trans-unit id="267">
+                <source>SELECT_OWNERSHIP_TYPE_OPTION</source>
+                <target>Tipo de Propiedad</target>
+            </trans-unit>
+            <trans-unit id="268">
+                <source>SELECT_OWSERSHIP_CATEGORY_OPTION</source>
+                <target>Categoría de la Casa</target>
+            </trans-unit>
+            <trans-unit id="269">
+                <source>SELECT_OWNERSHIP_PRICES_OPTION</source>
+                <target>Precio</target>
+            </trans-unit>
+            <trans-unit id="270">
+                <source>ROOM_TOTAL_WATERMARK</source>
+                <target>Número de habitaciones</target>
+            </trans-unit>
+            <trans-unit id="271">
+                <source>SELECT_ROOM_TYPE_OPTION</source>
+                <target>Tipo de Habitación</target>
+            </trans-unit>
+            <trans-unit id="272">
+                <source>ROOM_WINDOWS</source>
+                <target>Ventanas</target>
+            </trans-unit>
+            <trans-unit id="273">
+                <source>ROOM_BEDS</source>
+                <target>Número de camas</target>
+            </trans-unit>
+            <trans-unit id="274">
+                <source>SELECT_BATHROOM_TYPE_OPTION</source>
+                <target>Tipo de baño</target>
+            </trans-unit>
+            <trans-unit id="275">
+                <source>OTHER_HEADING_FILTER</source>
+                <target>Otras del alojamiento</target>
+            </trans-unit>
+            <trans-unit id="276">
+                <source>SELECT_OTHER_LANGUAGE_OPTION</source>
+                <target>Idiomas que hablan en la casa</target>
+            </trans-unit>
+            <trans-unit id="277">
+                <source>LANG_ENGLISH</source>
+                <target>Inglés</target>
+            </trans-unit>
+            <trans-unit id="278">
+                <source>LANG_FRENCH</source>
+                <target>Francés</target>
+            </trans-unit>
+            <trans-unit id="279">
+                <source>LANG_GERMAN</source>
+                <target>Alemán</target>
+            </trans-unit>
+            <trans-unit id="280">
+                <source>LANG_ITALIAN</source>
+                <target>Italiano</target>
+            </trans-unit>
+            <trans-unit id="281">
+                <source>SELECT_INCLUDE_IN_PRICE_OPTION</source>
+                <target>Facilidades incluidas en el precio</target>
+            </trans-unit>
+            <trans-unit id="282">
+                <source>SELECT_NOT_INCLUDE_IN_PRICE_OPTION</source>
+                <target>Facilidades no incluidas en el precio</target>
+            </trans-unit>
+            <trans-unit id="283">
+                <source>SELECT_ROOM_OTHER</source>
+                <target>Otras</target>
+            </trans-unit>
+            <trans-unit id="284">
+                <source>RESETVATION_BREADCRUMB</source>
+                <target>Reservación</target>
+            </trans-unit>
+            <trans-unit id="285">
+                <source>RESERVATION_REVIEW</source>
+                <target>Revisión</target>
+            </trans-unit>
+            <trans-unit id="286">
+                <source>RESERVATION_RESERVE</source>
+                <target>Reservar</target>
+            </trans-unit>
+            <trans-unit id="287">
+                <source>RESERVATION_PAYMENT</source>
+                <target>Pago</target>
+            </trans-unit>
+            <trans-unit id="288">
+                <source>RESERVATION_CONFIRMATION</source>
+                <target>Confirmación</target>
+            </trans-unit>
+            <trans-unit id="289">
+                <source>RESERVATION_OWNERSHIP</source>
+                <target>Propiedad</target>
+            </trans-unit>
+            <trans-unit id="290">
+                <source>RESERVATION_DATE</source>
+                <target>Fecha</target>
+            </trans-unit>
+            <trans-unit id="291">
+                <source>RESERVATION_ROOM</source>
+                <target>Habitación</target>
+            </trans-unit>
+            <trans-unit id="292">
+                <source>RESERVATION_GUESTS</source>
+                <target>Huéspedes</target>
+            </trans-unit>
+            <trans-unit id="293">
+                <source>RESERVATION_BYBED</source>
+                <target>Por cama</target>
+            </trans-unit>
+            <trans-unit id="294">
+                <source>RESERVATION_TOTAL</source>
+                <target>Total</target>
+            </trans-unit>
+            <trans-unit id="295">
+                <source>RESERVATION_TRIPLE_ROOM_SURCHARGE</source>
+                <target>Las Habitaciones triples tienen un recargo de $10</target>
+            </trans-unit>
+            <trans-unit id="296">
+                <source>RESERVATION_TOTAL_PRICE</source>
+                <target>Precio total:</target>
+            </trans-unit>
+            <trans-unit id="297">
+                <source>RESERVATION_CHECK_AVAILABILITY</source>
+                <target>Consultar disponibilidad</target>
+            </trans-unit>
+            <trans-unit id="298">
+                <source>RESERVATION_TITLE</source>
+                <target>Reservaciones</target>
+            </trans-unit>
+            <trans-unit id="299">
+                <source>RESERVATION_ROOMS</source>
+                <target>Habitaciones</target>
+            </trans-unit>
+            <trans-unit id="300">
+                <source>RESERVATION_PRICES_FOR</source>
+                <target>Precios para</target>
+            </trans-unit>
+            <trans-unit id="301">
+                <source>RESERVATION_ROOM_TYPE</source>
+                <target>Tipo de habitación</target>
+            </trans-unit>
+            <trans-unit id="302">
+                <source>RESERVATION_SELECTED_ROOM</source>
+                <target>Habitaciones seleccionadas</target>
+            </trans-unit>
+            <trans-unit id="303">
+                <source>RESERVATION_TYPE</source>
+                <target>Tipo</target>
+            </trans-unit>
+            <trans-unit id="304">
+                <source>RESERVATION_ROOM_NUMBER</source>
+                <target>No. de habitaciones</target>
+            </trans-unit>
+            <trans-unit id="305">
+                <source>RESERVATION_PRICE</source>
+                <target>Precio</target>
+            </trans-unit>
+            <trans-unit id="306">
+                <source>Tue</source>
+                <target>Mar</target>
+            </trans-unit>
+            <trans-unit id="307">
+                <source>Wed</source>
+                <target>Miér</target>
+            </trans-unit>
+            <trans-unit id="308">
+                <source>Thu</source>
+                <target>Jue</target>
+            </trans-unit>
+            <trans-unit id="309">
+                <source>Fri</source>
+                <target>Vie</target>
+            </trans-unit>
+            <trans-unit id="310">
+                <source>Sat</source>
+                <target>Sáb</target>
+            </trans-unit>
+            <trans-unit id="311">
+                <source>Sun</source>
+                <target>Dom</target>
+            </trans-unit>
+            <trans-unit id="312">
+                <source>Mon</source>
+                <target>Lun</target>
+            </trans-unit>
+            <trans-unit id="313">
+                <source>RESERVATION_SEE_PRICES</source>
+                <target>Ver precios</target>
+            </trans-unit>
+            <trans-unit id="314">
+                <source>TOTAL</source>
+                <target>Total</target>
+            </trans-unit>
+            <trans-unit id="315">
+                <source>CUC_NAME</source>
+                <target>Peso Cubano Convertible</target>
+            </trans-unit>
+            <trans-unit id="316">
+                <source>ABOUT_US</source>
+                <target>Quiénes Somos</target>
+            </trans-unit>
+            <trans-unit id="317">
+                <source>ABOUT_US_CONTENT</source>
+                <target>Descripción para Quienes Somos</target>
+            </trans-unit>
+            <trans-unit id="318">
+                <source>LEGAL_TERMS_CONTENT</source>
+                <target>Descripción para Términos Legales</target>
+            </trans-unit>
+            <trans-unit id="319">
+                <source>TERM_COND</source>
+                <target>Términos y Condiciones</target>
+            </trans-unit>
+            <trans-unit id="320">
+                <source>TERM_COND_CONTENT</source>
+                <target>Descripción para Términos y Condiciones</target>
+            </trans-unit>
+            <trans-unit id="321">
+                <source>SEC_PRIV</source>
+                <target>Seguridad y Privacidad</target>
+            </trans-unit>
+            <trans-unit id="322">
+                <source>SEC_PRIV_CONTENT</source>
+                <target>Descripcion para Seguridad y Privacidad</target>
+            </trans-unit>
+            <trans-unit id="323">
+                <source>FAQ_PAGE_TITLE</source>
+                <target>Preguntas Frecuentes</target>
+            </trans-unit>
+            <trans-unit id="324">
+                <source>FAQ_PAGE_CONTENT</source>
+                <target>Contenido para Preguntas Frecuentes</target>
+            </trans-unit>
+            <trans-unit id="325">
+                <source>TOP_OWNERSHIP_TITLE</source>
+                <target>Las mejores casas</target>
+            </trans-unit>
+            <trans-unit id="326">
+                <source>VOTING</source>
+                <target>Votaciones</target>
+            </trans-unit>
+            <trans-unit id="327">
+                <source>TOP_OWNERSHIP</source>
+                <target>Las mejores casas</target>
+            </trans-unit>
+            <trans-unit id="328">
+                <source>TOP_RATED_TITLE</source>
+                <target>Mejores Votadas</target>
+            </trans-unit>
+            <trans-unit id="329">
+                <source>TOP_RATED</source>
+                <target>Mejores Votadas</target>
+            </trans-unit>
+            <trans-unit id="330">
+                <source>ABOUT_MYCP</source>
+                <target>Sobre Nosotros</target>
+            </trans-unit>
+             <trans-unit id="331">
+                <source>TESTIMONIES</source>
+                <target>Testimonios</target>
+            </trans-unit>
+             <trans-unit id="332">
+                <source>PRESS</source>
+                <target>Prensa</target>
+            </trans-unit>
+             <trans-unit id="333">
+                <source>PARTNERS</source>
+                <target>Socios</target>
+            </trans-unit>
+             <trans-unit id="334">
+                <source>JOBS</source>
+                <target>Empleos</target>
+            </trans-unit>
+             <trans-unit id="335">
+                <source>OUR_SERVICES</source>
+                <target>Nuestros servicios</target>
+            </trans-unit>
+             <trans-unit id="336">
+                <source>SERVICE_GUARANTEE</source>
+                <target>Garantía de servicio</target>
+            </trans-unit>
+             <trans-unit id="337">
+                <source></source>
+                <target></target>
+            </trans-unit>
+             <trans-unit id="338">
+                <source></source>
+                <target></target>
+            </trans-unit>
+             <trans-unit id="339">
+                <source></source>
+                <target></target>
+            </trans-unit>
+             <trans-unit id="340">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="341">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="342">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="343">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="344">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="345">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="346">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="347">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="348">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="349">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="350">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="351">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="352">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="353">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="354">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="355">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="356">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="357">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="358">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="359">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="360">
+                <source></source>
+                <target></target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

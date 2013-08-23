@@ -1,0 +1,8 @@
+{%if app.session.get('curr_acronym') != null and app.session.get('curr_acronym') != "" and app.session.get('curr_acronym')|upper != "CUC"%}
+<li><a href="#" title="{{"CUC_NAME" | trans}}" class="currency_link" data-refresh-url="{{ app.request.uri }}" data-currency-id="0" data-url="{{path('frontend_change_currency')}}">CUC</a></li>
+{%endif%}
+{% for currency in currencies %}
+    {%if app.session.get('curr_acronym')|upper != currency.getCurrCode |upper%}
+        <li><a href="#" title="{{currency.currname}}" class="currency_link" data-refresh-url="{{ app.request.uri }}" data-currency-id="{{currency.currid}}" data-url="{{path('frontend_change_currency')}}">{{ currency.getCurrCode |upper }}</a></li>
+    {%endif%}
+{% endfor %}

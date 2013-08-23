@@ -1,0 +1,11 @@
+{% if ownerships %}
+{% set string ='[' %}
+{% for ownership in ownerships %}
+{% if loop.last %}
+{% set string = string ~ '"'~ownership.getOwnName~'"' %}
+{% else %}
+{% set string = string ~ '"'~ownership.getOwnName~'",' %}
+{% endif %}
+{% endfor %}
+{% set string = string ~ ']' %}
+{{string}}{% endif %}

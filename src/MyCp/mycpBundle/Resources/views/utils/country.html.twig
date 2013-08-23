@@ -1,0 +1,4 @@
+<option value=""></option>
+{% for country in countries %}
+<option {% if selected== country.getCoId %} selected="TRUE" {% endif %} value="{{ country.getCoId }}">{{ country.getCoName }}</option>
+{% endfor %}

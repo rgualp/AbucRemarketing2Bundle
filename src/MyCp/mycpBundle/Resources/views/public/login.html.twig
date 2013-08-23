@@ -1,0 +1,53 @@
+{% extends 'mycpBundle:layout:base.html.twig' %}
+{% block title %}Autenticarse{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="#">Inicio</a> <span class="divider">/</span></li>
+    <li class="active">Autenticarse</li>
+</ul>
+{% endblock %}
+{% block body %}
+
+
+<div class="row-fluid ">
+
+    <div class="span6 offset3">
+        <div class="well ">
+        <h2 class="form">Autenticarse</h2>
+        <hr/>
+        {% for message in app.session.flashbag.get('message_ok') %}
+        <div class="alert alert-info">{{ message }}</div>
+        {% endfor %}
+        {% if error %}
+        <div class="alert alert-error">{{ error.message }}</div>
+        {% endif %}
+<form class="form-horizontal" action="{{ path("backend_login_check") }}" method="post" id="login">
+    <div class="control-group">
+        <label class="control-label" for="inputUsername">Usuario</label>
+        <div class="controls">
+            <input type="text" class="span9" id="inputUsername" placeholder="Usuario" name="_username" value="{{ last_username }}"/>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="inputPassword">Contraseña</label>
+        <div class="controls">
+            <input type="password" class="span9" placeholder="Contraseña" id="inputPassword" name="_password"/>
+            <br/><br/>
+            <label class="checkbox">
+                <input type="checkbox" name="_remember_me"> Recuérdame en este ordenador
+            </label>
+
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="controls">
+            <button type="submit" class="btn btn-primary">Autenticarse</button>
+        </div>
+    </div>
+
+    </div>
+</form>
+</div>
+
+</div>
+{% endblock %}

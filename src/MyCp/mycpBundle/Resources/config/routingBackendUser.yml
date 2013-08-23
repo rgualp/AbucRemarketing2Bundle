@@ -1,0 +1,47 @@
+mycp_new_user_tourist:
+    pattern:  /new/client_tourist/{id_role}
+    defaults: { _controller: mycpBundle:BackendUser:new_user_tourist }
+
+mycp_edit_user_tourist:
+    pattern:  /edit/client_tourist/{id_user}
+    defaults: { _controller: mycpBundle:BackendUser:edit_user_tourist }
+
+mycp_new_user_casa:
+    pattern:  /new/client_casa/{id_role}
+    defaults: { _controller: mycpBundle:BackendUser:new_user_casa }
+
+mycp_edit_user_casa:
+    pattern:  /edit/client_casa/{id_user}
+    defaults: { _controller: mycpBundle:BackendUser:edit_user_casa }
+
+mycp_new_user_partner:
+    pattern:  /new/client_partner/{id_role}
+    defaults: { _controller: mycpBundle:BackendUser:new_user_partner }
+
+mycp_edit_user_partner:
+    pattern:  /edit/client_partner/{id_user}
+    defaults: { _controller: mycpBundle:BackendUser:edit_user_partner }
+
+mycp_new_user_staff:
+    pattern:  /new/client_staff/{id_role}
+    defaults: { _controller: mycpBundle:BackendUser:new_user_staff }
+
+mycp_edit_user_staff:
+    pattern:  /edit/client_staff/{id_user}
+    defaults: { _controller: mycpBundle:BackendUser:edit_user_staff }
+
+mycp_new_role:
+    pattern:  /new_role/{id_role}
+    defaults: { _controller: mycpBundle:BackendUser:new_role }
+
+mycp_delete_role:
+    pattern:  /delete_role/{id_role}
+    defaults: { _controller: mycpBundle:BackendUser:delete_role }
+
+mycp_list_users:
+    pattern:  /list/{items_per_page}/{filter_user_name}/{filter_role}/{filter_city}/{filter_country}/{filter_name}/{filter_last_name}/{filter_email}/{sort_by}
+    defaults: { _controller: mycpBundle:BackendUser:list_user, items_per_page: 100,filter_user_name:'',filter_role:'',filter_city:'',filter_country:'',filter_name:'',filter_last_name:'',filter_email:'',sort_by:'0'}
+
+mycp_delete_user:
+    pattern:  /delete/{id_user}
+    defaults: { _controller: mycpBundle:BackendUser:delete_user }

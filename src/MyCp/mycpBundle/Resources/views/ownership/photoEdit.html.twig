@@ -1,0 +1,35 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_ownerships') }}">Propiedades</a> <span class="divider">/</span></li>
+    <li class="active">Fotografías</li>
+    <li class="pull-right"><a href="{{ path('mycp_list_photos_ownership',{'id_ownership':id_ownership }) }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+{% endblock %}
+{% block form_actions %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_ownerships') }}">Propiedades</a> <span class="divider">/</span></li>
+    <li class="active">Fotografías</li>
+    <li class="pull-right"><a href="{{ path('mycp_list_photos_ownership',{'id_ownership':id_ownership }) }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+<div class="form-actions">
+    <button class="btn btn-primary" type="submit">Guardar</button>
+    <a class="btn" href="{{path('mycp_list_photos_ownership',{'id_ownership':id_ownership }) }}">Cancelar</a>
+</div>
+</form>
+{% endblock %}
+{% block content %}
+<h2>Propiedades (Editar fotografía)</h2>
+<hr/>
+{% if errors %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
+<form action="{{ path('mycp_edit_photos_ownership',{'id_photo':id_photo,'id_ownership':id_ownership}) }}" method="POST" enctype="multipart/form-data">
+    <img src="{{ asset('uploads/ownershipImages/'~photo.getPhoName)}}" style="margin: -50px 0px 10px 0px; width: 100px; height: 100px;" class="img-polaroid pull-right"  alt=""/>
+    {% for language in data['languages'] %}
+    <label>{{language.lang_name |title}}:</label>
+    {%if errors["description_"~language.lang_id] is defined %}<label class="error">{{errors["description_"~language.lang_id]|trim(':')}}</label>{%endif%}
+    <input type="text" class="span12 textarea" name="description_{{language.lang_id}}" value="{%if post["description_"~language.lang_id] is defined %}{{post["description_"~language.lang_id]}}{% else %}{%if data["description_"~language.lang_id] is defined %}{{data["description_"~language.lang_id]}}{%endif%}{%endif%}"/><br/>
+    {% endfor %}
+{% endblock %}

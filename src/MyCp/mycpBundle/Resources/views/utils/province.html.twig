@@ -1,0 +1,4 @@
+<option value=""></option>
+{% for province in provinces %}
+<option {% if selected== province.getProvId %} selected="TRUE" {% endif %} class="{{ province.getProvPhoneCode }}" value="{{ province.getProvId }}">{{ province.getProvName }}</option>
+{% endfor %}

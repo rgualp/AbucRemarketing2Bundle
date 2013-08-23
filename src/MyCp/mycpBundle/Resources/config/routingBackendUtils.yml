@@ -1,0 +1,3 @@
+mycp_set_img_order_utils:
+    pattern:  /set_img_order/{ids}
+    defaults: { _controller: mycpBundle:BackendUtils:set_img_order}

@@ -1,0 +1,4 @@
+<option></option>
+{% for user in users %}
+<option {% if post['user_selected'] is defined  and post['user_selected']==user.getUserCasaId %}selected="selected" {% endif %} value="{{user.getUserCasaId}}">{{ user.getUserCasaUser.getUserName }}</option>
+{% endfor %}

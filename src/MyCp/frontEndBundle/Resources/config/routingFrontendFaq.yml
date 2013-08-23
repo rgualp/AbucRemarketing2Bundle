@@ -1,0 +1,7 @@
+frontend_list_faq:
+    pattern:  /faq_list
+    defaults: { _controller: frontEndBundle:faq:list }
+    
+frontend_filter_faq:
+    pattern:  /filter_faqs/
+    defaults: { _controller: frontEndBundle:faq:filter }

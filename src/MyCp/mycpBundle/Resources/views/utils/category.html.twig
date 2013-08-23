@@ -1,0 +1,6 @@
+<select id="category" name="category" class="input-block-level">
+<option value=""></option>
+{% for category in categories %}
+<option {% if(data['category'] is defined and  data['category']== category['album_cat_id_cat']['alb_cat_id']) %} selected="TRUE" {% endif %} value="{{ category['album_cat_id_cat']['alb_cat_id'] }}">{{ category['album_cat_description'] }}</option>
+{% endfor %}
+</select>

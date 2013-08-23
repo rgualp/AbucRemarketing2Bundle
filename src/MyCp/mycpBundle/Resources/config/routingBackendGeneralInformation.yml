@@ -1,0 +1,15 @@
+mycp_list_informations:
+    pattern:  /list
+    defaults: { _controller: mycpBundle:BackendGeneralInformation:list_informations}
+
+mycp_new_information:
+    pattern:  /new
+    defaults: { _controller: mycpBundle:BackendGeneralInformation:new_information}
+
+mycp_edit_information:
+    pattern:  /edit/{id_information}
+    defaults: { _controller: mycpBundle:BackendGeneralInformation:edit_information}
+
+mycp_delete_information:
+    pattern:  /delete/{id_information}
+    defaults: { _controller: mycpBundle:BackendGeneralInformation:delete_information}

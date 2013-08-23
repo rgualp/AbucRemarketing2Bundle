@@ -1,0 +1,28 @@
+frontend_register_user:
+    pattern:  /register_user/
+    defaults: { _controller: frontEndBundle:user:register }
+
+
+frontend_enable_user:
+    pattern:  /enable_user/{string}
+    defaults: { _controller: frontEndBundle:user:enable }
+
+frontend_restore_password_user:
+    pattern:  /restore_password/
+    defaults: { _controller: frontEndBundle:user:restore_password }
+
+frontend_change_password_user:
+    pattern:  /change_password/{string}
+    defaults: { _controller: frontEndBundle:user:change_password }
+
+frontend_register_confirmation_user:
+    pattern:  /register_confirmation/
+    defaults: { _controller: frontEndBundle:user:register_user_confirmation }
+    
+frontend_contact_user:
+    pattern:  /contact/
+    defaults: { _controller: frontEndBundle:user:contact }
+    
+frontend_contact_tourist_user:
+    pattern:  /contact_tourist/
+    defaults: { _controller: frontEndBundle:user:contactTourist }

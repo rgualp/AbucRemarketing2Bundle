@@ -1,0 +1,11 @@
+mycp_list_logs:
+    pattern:  /list
+    defaults: { _controller: mycpBundle:BackendLog:list_logs}
+
+mycp_delete_logs:
+    pattern:  /delete
+    defaults: { _controller: mycpBundle:BackendLog:delete_logs}
+
+mycp_get_users_logs:
+    pattern:  /get_users/{selected}/{role}
+    defaults: { _controller: mycpBundle:BackendLog:get_users}

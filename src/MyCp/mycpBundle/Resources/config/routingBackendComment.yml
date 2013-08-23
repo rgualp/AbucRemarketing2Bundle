@@ -1,0 +1,15 @@
+mycp_list_comments:
+    pattern:  /list/{items_per_page}/{filter_ownership}/{filter_user}/{filter_keyword}/{filter_rate}/{sort_by}
+    defaults: { _controller: mycpBundle:BackendComment:list_comment, items_per_page: 100,filter_ownership:'',filter_user:'',filter_keyword:'',filter_rate:'',sort_by:'0'}
+
+mycp_edit_comment:
+    pattern:  /edit/{id_comment}
+    defaults: { _controller: mycpBundle:BackendComment:edit_comment }
+
+mycp_delete_comment:
+    pattern:  /delete_comment/{id_comment}
+    defaults: { _controller: mycpBundle:BackendComment:delete_comment }
+
+mycp_new_comment:
+    pattern:  /new/
+    defaults: { _controller: mycpBundle:BackendComment:new_comment }

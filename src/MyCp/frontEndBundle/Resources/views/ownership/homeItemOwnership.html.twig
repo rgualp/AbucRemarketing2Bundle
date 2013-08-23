@@ -1,0 +1,52 @@
+<div class="span3 last_added_items">
+    <div class="item">
+        <a href="{{ path('frontend_details_ownership',{'owner_id':ownership.ownid}) }}" title="{{"MORE_INFO_PREFFIX" | trans}} {{ownership.ownname}}">
+            <div class="image" style="background-image: url('{{ asset("uploads/ownershipImages/" ~ last_added_photos[ownership.ownid])}}');">
+                <div class="rating">{%if ownership.owncommentstotal > 0%}+{%endif%}{{ownership.owncommentstotal}}</div></div>
+            <div class="row-fluid title_row">
+                <div class="title span9"> {{ownership.ownName | title | slice(0, 27)}}
+                                                                        {%if ownership.ownName | length > 27%}
+                        ...
+                                                                        {%endif%}</div>
+                    <div class="favorite span2">
+                        <a class="favorite_off">
+                            <img src="{{ asset("bundles/frontend/images/empty.png")}}">
+                        </a>
+                    </div>            
+                </div>
+                <div class="row-fluid place">{{ownership.ownaddressprovince}}</div>
+                <div class="row-fluid">
+                    <div class="span5 rating_stars">
+                        <table>
+                            <tr>
+                                                                            {%if ownership.ownRating > 0%}
+                                                                            {%for i in 1..ownership.ownRating%}
+                                    <td><img src="{{ asset('bundles/frontend/images/star_on.png')}}" align="absmiddle" class="rating_star"/></td>
+                                                                            {%endfor%}
+                                                                            {%endif%}
+
+                                                                            {%if ownership.ownRating < 5%}
+                                                                            {%for i in 1..(5-ownership.ownRating)%}
+                                        <td><img src="{{ asset('bundles/frontend/images/star_off.png')}}" align="absmiddle" class="rating_star"/></td>
+                                                                            {%endfor%}
+                                                                            {%endif%}
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="span7" style="text-align: right">
+                                    <div class="price">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} 
+                                                                    {%if ownership.ownMinimumPrice != ownership.ownMaximumPrice%}
+                                                                               {{ownership.ownMinimumPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}/{{ownership.ownMaximumPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}
+                                                                             {%else%}
+                                                                                {{ownership.ownMinimumPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}
+                                                                             {%endif%}
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+
+
+

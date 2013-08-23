@@ -1,0 +1,28 @@
+{% extends 'frontEndBundle:layout:base.html.twig' %}
+{% block title %}
+{{"POPULAR_DESTINATIONS_PAGE_TITLE" | trans}}
+{% endblock %}
+
+{% set main_tab = 2 %}
+{% block content_nav_top_body %}
+destinos
+{% endblock %}
+
+{% block body %}
+<ul class="breadcrumb">
+    <li><a href="{{ path('frontend_welcome') }}" title="{{"GO_HOME_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a> <span class="divider">»</span></li>
+    <li class="active">Confirmación de reservation</li>
+</ul>
+
+<div class="row-fluid">
+    <div class="thumbnail">
+        <div class="row-fluid">
+            <div class="span3"><div class="alert alert-info">Review</div></div>
+            <div class="span3"><div class="alert alert-info transparent">Reserve</div></div>
+            <div class="span3"><div class="alert alert-info transparent">Payment</div></div>
+            <div class="span3"><div class="alert alert-info transparent">Confirmation</div></div>
+        </div>
+        <h3>Su consulta de reservación ha sido enviada</h3>
+    </div>
+</div>
+{% endblock %}

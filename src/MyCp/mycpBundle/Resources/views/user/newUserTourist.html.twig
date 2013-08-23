@@ -1,0 +1,57 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_users') }}">Usuarios</a> <span class="divider">/</span></li>
+    <li class="active">{%if(edit_user is defined)%}Editar usuario{%else%}Adicionar usuario{%endif%} client_tourist</li>
+    <li class="pull-right"><a href="{{ path('mycp_list_users') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+{% endblock %}
+{% block form_actions %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_users') }}">Usuarios</a> <span class="divider">/</span></li>
+    <li class="active">{%if(edit_user is defined)%}Editar usuario{%else%}Adicionar usuario{%endif%} client_tourist</li>
+    <li class="pull-right"><a href="{{ path('mycp_list_users') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+<div class="form-actions">
+    <button class="btn btn-primary" type="submit">Guardar</button>
+    <a class="btn" href="{{ path('mycp_list_users') }}">Cancelar</a>
+</div>
+</form>
+{% endblock %}
+{% block content %}
+<h2>{%if(edit_user is defined)%}Editar usuario{%else%}Adicionar usuario{%endif%} client_tourist</h2>
+<hr/>
+{% if data['error'] is defined %}<div class="alert alert-error">{{data['error']}}</div>{%endif%}
+<form class="sfgen" {{form_enctype(form)}} method="POST" action="{% if edit_user is defined%}{{ path('mycp_edit_user_tourist',{'id_user':edit_user}) }}{% else %}{{ path('mycp_new_user_tourist',{'id_role':id_role})}}{% endif %}" novalidate="true">
+    <div class="row-fluid">
+        <div class="span3">{{form_row(form.user_name)}}</div>
+        <div class="span3">{{form_row(form.name)}}</div>
+        <div class="span3">{{form_row(form.last_name)}}</div>
+        <div class="span3">{{form_row(form.photo)}}</div>
+    </div>
+    <div class="row-fluid">
+        <div class="span6">{{form_row(form.email)}}</div>
+        <div class="span6">{{form_row(form.phone)}}</div>
+    </div>
+    <div class="row-fluid">
+        <div class="span4">{{form_row(form.address)}}</div>
+        <div class="span4">{{form_row(form.city)}}</div>
+        <div class="span4">{{form_row(form.country)}}</div>
+    </div>
+    <div class="row-fluid">
+        <div class="span3">{{form_row(form.currency)}}</div>
+        <div class="span3">{{form_row(form.language)}}</div>
+        <div class="span3">{{form_row(form.user_password['Clave:'])}}</div>
+        <div class="span3">{{form_row(form.user_password['Repetir_clave:'])}}</div>
+    </div>
+    {{form_rest(form)}}
+    {{form_errors(form)}}
+    <script type="text/javascript">
+        $('.sfgen input').addClass('input-block-level')
+        $('.sfgen select').addClass('input-block-level')
+    </script>
+    <script src="{{ asset('bundles/mycp/js/bootstrap-fileinput.js') }}" type="text/javascript"></script>
+{% endblock %}

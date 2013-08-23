@@ -1,0 +1,107 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_albums') }}">Álbumes</a> <span class="divider">/</span></li>
+    <li class="active">Fotografías </li>
+    <li class="pull-right"><a href="{{ path('mycp_list_albums') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+{% endblock %}
+{% block form_actions %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_albums') }}">Álbumes</a> <span class="divider">/</span></li>
+    <li class="active">Fotografías </li>
+    <li class="pull-right"><a href="{{ path('mycp_list_albums') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+{% endblock %}
+{% block content %}
+<h2>Álbumes (Fotografías '{{album.getAlbumName}}')</h2>
+<hr/>
+<a class="btn" href="{{ path('mycp_new_photos_album',{'id_album':id_album}) }}"><i class="icon-plus"></i> Adicionar fotografía</a>
+<br/><br/>
+{% if photos %}
+<div class="alert">
+    <div class="row-fluid">
+        <div class="pull-left">
+            Mostrando del {{items_per_page * current_page - items_per_page}} al {% if items_per_page * current_page >  total_items%}{{total_items }}{% else %}{{ items_per_page * current_page }}{% endif %} de {{total_items}} registros
+        </div>
+        <div class="pull-right">
+            Mostrar:
+            <a class="{% if items_per_page == 10 %}selected{% endif %}" href="{{ path('mycp_list_photos_album',{'items_per_page':10, 'id_album':id_album})}}">10</a>
+            <a class="{% if items_per_page == 50 %}selected{% endif %}" href="{{ path('mycp_list_photos_album',{'items_per_page':50, 'id_album':id_album})}}">50</a>
+            <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_photos_album',{'items_per_page':100, 'id_album':id_album})}}">100</a>
+        </div>
+    </div>
+</div>
+<div class="paginator-cont span11">
+{{ simple_paginator_render('mycp_list_photos_album',null,{
+'container_class': 'paginator',
+'previousPageText': '«',
+'nextPageText': '»',
+'currentClass': 'current',
+'firstPageText': 'Primera',
+'lastPageText': 'Última',
+'route_params': {'id_album':id_album,'items_per_page':items_per_page}
+}) }}
+</div>
+<div class="row-fluid">
+    <div class="span10"><b>Nombre</b></div>
+    <div class="span2" style="text-align: right"><b>Acciones</b></div>
+</div>
+<ul id="sortable" class="ui-sortable">
+    {% set cont=0 %}
+    {% for item in photos %}
+    <li id="{{item.getAlbPhoPhoto.getPhoId}}" {% if cont ==0 %}class="grey"{% set cont=1 %}{% else %}{% set cont=0 %}{% endif %}>
+        <div class="row-fluid">
+            <div class="span2"><img src="{{ asset('uploads/albumImages/'~item.getAlbPhoPhoto.getPhoName)}}" class="img-polaroid" width="100" alt=""/></div>
+            <div class="span7">
+                {% for desc in data['description_photo_'~item.getAlbPhoPhoto.getPhoId] %}- {{ desc.getPhoLangDescription |slice(0,60) |capitalize}}...<br/>{% endfor %}
+            </div>
+            <div class="span3 actions">
+                <a class="btn btn-mini" style="margin: 0" href="{{ path('mycp_edit_photos_album',{'id_photo':item.getAlbPhoPhoto.getPhoId,'id_album':id_album}) }}">Editar</a>
+                <a class="btn btn-mini btn-danger" href="{{ path('mycp_delete_photos_album',{'id_album':id_album,'id_photo':item.getAlbPhoPhoto.getPhoId}) }}">Eliminar</a>
+            </div>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+<div class="paginator-cont span11">
+    {{ simple_paginator_render('mycp_list_photos_album',null,{
+'container_class': 'paginator',
+'previousPageText': '«',
+'nextPageText': '»',
+'currentClass': 'current',
+'firstPageText': 'Primera',
+'lastPageText': 'Última',
+'route_params': {'id_album':id_album,'items_per_page':items_per_page}
+}) }}
+</div>
+<script src="{{ asset('bundles/mycp/js/jquery.ui/jquery.ui.core.js') }}" type="text/javascript"></script>
+<script src="{{ asset('bundles/mycp/js/jquery.ui/jquery.ui.widget.js') }}" type="text/javascript"></script>
+<script src="{{ asset('bundles/mycp/js/jquery.ui/jquery.ui.mouse.js') }}" type="text/javascript"></script>
+<script src="{{ asset('bundles/mycp/js/jquery.ui/jquery.ui.sortable.js') }}" type="text/javascript"></script>
+<script>
+    $(function() {
+        $( "#sortable" ).sortable({
+            stop: function(event, ui) {
+                var result = $('#sortable').sortable('toArray');
+                url = "{{ path('mycp_set_img_order_utils', { 'ids': '' }) }}"
+
+                $.ajax({
+                    type:"POST",
+                    url:url + '/' + result,
+                    success:function (msg) {
+                    }
+                });
+            }
+
+        });
+        $( "#sortable" ).disableSelection();
+    });
+</script>
+{% else %}
+<p> <div class="alert alert-block">No hay Fotografías disponibles.</div></p>
+{% endif %}
+{% endblock %}

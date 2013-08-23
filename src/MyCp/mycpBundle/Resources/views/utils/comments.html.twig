@@ -1,0 +1,22 @@
+{% if comments %}
+{% for comment in comments %}
+<div class="row-fluid" style="background-color: #ffffff">
+   <div class="span12">
+    <div class="span2">
+        <img class="img-polaroid" style="margin-bottom: 10px;" src="{{ asset('bundles/frontend/images/user_no_photo.gif') }}" alt="">
+        <label class="name">{{ comment.getComUser.getUserName }}</label>
+        <div class="rating_star">
+            {% for i in 1 .. 5 %}{% if i <= comment.getComRate %}<img src="{{ asset('bundles/frontend/images/star_on.png')}}"/>{% else %}<img src="{{ asset('bundles/frontend/images/star_off.png')}}"/>{% endif %} {% endfor %}
+        </div>
+    </div>
+    <div class="span10" style="font-size: 12px;">
+        {{ comment.getComComments }}
+        <a style="margin-top: 25px" href="{{ path('mycp_edit_comment',{'id_comment':comment.getComId }) }}" class="btn btn-mini pull-right">Editar comentario</a>
+    </div>
+   </div>
+</div>
+{% if not loop.last %}<hr/>{% endif %}
+{% endfor %}
+{% else %}
+<div class="alert alert-block">No hay comentarios disponibles.</div>
+{% endif %}

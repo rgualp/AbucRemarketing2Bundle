@@ -1,0 +1,56 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li class="active">Adicionar información general</li>
+    <li class="pull-right"><a href="{{ path('mycp_list_informations') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+{% endblock %}
+{% block form_actions %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li class="active">Adicionar información general</li>
+    <li class="pull-right"><a href="{{ path('mycp_list_informations') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+<div class="form-actions">
+    <button class="btn btn-primary" type="submit">Guardar</button>
+    <a class="btn" href="{{ path('mycp_list_informations') }}">Cancelar</a>
+</div>
+</form>
+{% endblock %}
+{% block content %}
+<h2>Adicionar información general</h2>
+<hr/>
+{% for message in app.session.flashbag.get('message_error_local') %}
+<div class="alert alert-error">{{ message }}</div>
+{% endfor %}
+<form action="{{ path('mycp_new_information')}}" method="POST" novalidate="true">
+    {% if edit_information is defined %}<input name="edit_information"  value="{{edit_information}}" class="hidden"/>{% endif %}
+    {% for language in languages %}
+    <div class="row-fluid">
+        <div class="span12">
+            <label>Nombre en {{language.getLangName|title}}:</label>
+            {%if errors["info_name_"~language.getlangId] is defined %}<label class="error">{{errors["info_name_"~language.getlangId]|trim(':')}}</label>{%endif%}
+            <input value="{% if post["info_name_"~language.getlangId] is defined %}{{post["info_name_"~language.getlangId]}}{% endif %}" name="info_name_{{language.getLangId}}" type="text" class="input-block-level"/>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span12">
+            <label>Contenido en {{language.getLangName|title}}:</label>
+            {%if errors["info_content_"~language.getlangId] is defined %}<label class="error">{{errors["info_content_"~language.getlangId]|trim(':')}}</label>{%endif%}
+            <textarea class="textarea input-block-level" name="info_content_{{language.getLangId}}">{% if post["info_content_"~language.getlangId] is defined %}{{post["info_content_"~language.getlangId]}}{% endif %}</textarea>
+        </div>
+    </div>
+    <br/>
+    {% endfor %}
+    <script src="{{ asset('bundles/mycp/js/wysihtml5-0.3.0.min.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        var url_css_color="{{ asset('bundles/mycp/css/wysiwyg-color.css') }}";
+    </script>
+    <script src="{{ asset('bundles/mycp/js/bootstrap-wysihtml5.js') }}" type="text/javascript"></script>
+    <link href="{{ asset('bundles/mycp/css/bootstrap-wysihtml5.css') }}" rel="stylesheet" type="text/css" />
+    <script>
+        $('.textarea').wysihtml5();
+    </script>
+{% endblock %}

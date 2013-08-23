@@ -1,0 +1,3 @@
+{% for ownership in ownerships %}
+    <option{% if( data['ownership'] is defined and data['ownership'] == ownership.getOwnId) %} selected="TRUE" {% endif %} value="{{ ownership.getOwnId }}"> {{ ownership.getOwnName }}</option>
+{% endfor %}

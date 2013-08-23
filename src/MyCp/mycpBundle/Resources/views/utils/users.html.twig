@@ -1,0 +1,6 @@
+{% if users %}
+<option value=""></option>
+{% for user in users %}
+    <option class="{{user.getUserSubrole.getRoleName}}" {% if( selected == user.getUserId) %} selected="TRUE" {% endif %} value="{{ user.getUserId }}"> {{ user.getUserName }}</option>
+{% endfor %}
+{% endif %}

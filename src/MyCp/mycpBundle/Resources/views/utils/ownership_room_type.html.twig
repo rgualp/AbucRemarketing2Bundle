@@ -1,0 +1,7 @@
+{% if not_blank == 0  %}
+<option value=""></option>
+{% endif %}
+<option {% if selected== 'Habitación individual' %} selected="TRUE" {% endif %} value="Habitación individual">Habitación individual</option>
+<option {% if selected== 'Habitación doble' %} selected="TRUE" {% endif %} value="Habitación doble">Habitación doble</option>
+<option {% if selected== 'Habitación doble (Dos camas)' %} selected="TRUE" {% endif %} value="Habitación doble (Dos camas)">Habitación doble (Dos camas)</option>
+<option {% if selected== 'Habitación Triple' %} selected="TRUE" {% endif %} value="Habitación Triple">Habitación Triple</option>

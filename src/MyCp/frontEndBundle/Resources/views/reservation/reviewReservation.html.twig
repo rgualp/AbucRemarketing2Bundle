@@ -1,0 +1,118 @@
+{% extends 'frontEndBundle:layout:base.html.twig' %}
+{% block title %}
+{{"POPULAR_DESTINATIONS_PAGE_TITLE" | trans}}
+{% endblock %}
+
+{% set main_tab = 2 %}
+{% block content_nav_top_body %}
+destinos
+{% endblock %}
+
+{% block body %}
+<ul class="breadcrumb">
+    <li><a href="{{ path('frontend_welcome') }}" title="{{"GO_HOME_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a> <span class="divider">»</span></li>
+    <li><a href="{{ path('frontend_details_ownership',{'owner_id':ownership.getOwnId}) }}" title="">{{ ownership.getOwnName }}</a> <span class="divider">»</span></li>
+    <li class="active">Reservation</li>
+</ul>
+
+<div class="row-fluid">
+    <div class="thumbnail">
+        <div class="row-fluid">
+            <div class="span3"><div class="alert alert-info">Review</div></div>
+            <div class="span3"><div class="alert alert-info transparent">Reserve</div></div>
+            <div class="span3"><div class="alert alert-info transparent">Payment</div></div>
+            <div class="span3"><div class="alert alert-info transparent">Confirmation</div></div>
+        </div>
+        <h3>1. Review</h3>
+        <hr/>
+        <h4>Propiedad {{ ownership.getOwnName }}</h4>
+        Desde {{from_date |replace('&','/')}} hasta {{to_date|replace('&','/')}}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Habitación</th>
+                <th>Huéspedes</th>
+                <th>Por cama</th>
+                <th>Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for date in array_dates%}
+            {% if loop.last %}
+            <tr>
+                <td>{{ date |date('d/m/Y') }}</td>
+                <td>
+                    {% for room in array_rooms %}
+                    {{room.getRoomType}}<br/>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for guest in guests %}
+                    {{guest}}<br/>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for room in array_rooms %}
+                    -<br/>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for i in 0..array_rooms|length-1 %}
+                    -
+                    <br/>
+                    {% endfor %}
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td>{{ date |date('d/m/Y') }}</td>
+                <td>
+                    {% for room in array_rooms %}
+                    {{room.getRoomType}}<br/>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for guest in guests %}
+                    {{guest}}<br/>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for room in array_rooms %}
+                    {{room.getRoomPriceUpFrom * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}<br/>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for i in 0..array_rooms|length-1 %}
+                    {% if array_rooms[i].getRoomType == 'Habitación Triple'%}
+                    {{(array_rooms[i].getRoomPriceUpFrom +10) * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}
+                    {% else %}
+                    {{array_rooms[i].getRoomPriceUpFrom * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}
+                    {% endif %}
+                    <br/>
+                    {% endfor %}
+                </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="row-fluid">
+            <div class="span8"></div>
+            <div class="span4" style="text-align: right">
+                <label style="font-size: 10px;">Las Habitaciones triples tienen un recargo de {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} {{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</label>
+                <hr/>
+                <b style="font-size: 16px">Precio total: {{ total_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</b>
+                <hr/>
+                <input name="ids_rooms" class="hidden" value="{{rooms_string}}"/>
+                <input name="guests" class="hidden" value="{{ guests_string }}"/>
+                <input name="ownership" class="hidden" value="{{ownership.getOwnId}}"/>
+                <input name="from_date" class="hidden" value="{{from_date}}"/>
+                <input name="to_date" class="hidden" value="{{to_date}}"/>
+                <a href="{{ path('frontend_review_confirm_reservation',{'id_ownership':ownership.getOwnId,'from_date':from_date,'to_date':to_date,'ids_rooms':rooms_string,'count_guests':guests_string,'total_price':total_price}) }}" class="btn-block btn orange_button">Chequear datos de consulta</a>
+            </div>
+        </div>
+        <br/>
+    </div>
+</div>
+{% endblock %}

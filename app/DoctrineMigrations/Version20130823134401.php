@@ -1,0 +1,236 @@
+<?php
+
+namespace Application\Migrations;
+
+use Doctrine\DBAL\Migrations\AbstractMigration,
+    Doctrine\DBAL\Schema\Schema;
+
+/**
+ * Auto-generated Migration: Please modify to your needs!
+ */
+class Version20130823134401 extends AbstractMigration
+{
+    public function up(Schema $schema)
+    {
+        // this up() migration is auto-generated, please modify it to your needs
+        $this->abortIf($this->connection->getDatabasePlatform()->getName() != "mysql", "Migration can only be executed safely on 'mysql'.");
+        
+        $this->addSql("CREATE TABLE user (user_id INT AUTO_INCREMENT NOT NULL, user_country INT DEFAULT NULL, user_subrole INT DEFAULT NULL, user_photo INT DEFAULT NULL, user_name VARCHAR(255) NOT NULL, user_user_name VARCHAR(255) NOT NULL, user_last_name VARCHAR(255) NOT NULL, user_email VARCHAR(255) NOT NULL, user_address VARCHAR(255) NOT NULL, user_city VARCHAR(255) NOT NULL, user_enabled TINYINT(1) DEFAULT NULL, user_newsletters TINYINT(1) DEFAULT NULL, user_phone VARCHAR(255) NOT NULL, user_role VARCHAR(255) NOT NULL, user_password VARCHAR(255) NOT NULL, INDEX IDX_8D93D649B7ED76C (user_country), INDEX IDX_8D93D649D6D1E6EB (user_subrole), INDEX IDX_8D93D649F6757F40 (user_photo), PRIMARY KEY(user_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE usercasa (user_casa_id INT AUTO_INCREMENT NOT NULL, user_casa_user INT DEFAULT NULL, user_casa_ownership INT DEFAULT NULL, INDEX IDX_D918256C97FAC308 (user_casa_user), INDEX IDX_D918256CEDEF30B4 (user_casa_ownership), PRIMARY KEY(user_casa_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE userpartner (user_partner_id INT AUTO_INCREMENT NOT NULL, user_partner_currency INT DEFAULT NULL, user_partner_language INT DEFAULT NULL, user_partner_user INT DEFAULT NULL, user_partner_company_code VARCHAR(255) NOT NULL, user_partner_company_name VARCHAR(255) NOT NULL, user_partner_contact_person VARCHAR(255) NOT NULL, INDEX IDX_AD4AC2A877824C58 (user_partner_currency), INDEX IDX_AD4AC2A8CA0FB5D2 (user_partner_language), INDEX IDX_AD4AC2A85D6B9953 (user_partner_user), PRIMARY KEY(user_partner_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE usertourist (user_tourist_id INT AUTO_INCREMENT NOT NULL, user_tourist_currency INT DEFAULT NULL, user_tourist_language INT DEFAULT NULL, user_tourist_user INT DEFAULT NULL, INDEX IDX_4F00260B42DFAF7 (user_tourist_currency), INDEX IDX_4F002609A0037D (user_tourist_language), INDEX IDX_4F00260454FA829 (user_tourist_user), PRIMARY KEY(user_tourist_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE album (album_id INT AUTO_INCREMENT NOT NULL, album_alb_cat_id INT DEFAULT NULL, album_name VARCHAR(255) NOT NULL, album_order INT NOT NULL, album_active TINYINT(1) NOT NULL, INDEX IDX_39986E437FC450D5 (album_alb_cat_id), PRIMARY KEY(album_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE albumcategory (alb_cat_id INT AUTO_INCREMENT NOT NULL, PRIMARY KEY(alb_cat_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE albumcategorylang (album_cat_id INT AUTO_INCREMENT NOT NULL, album_cat_id_lang INT DEFAULT NULL, album_cat_id_cat INT DEFAULT NULL, album_cat_description VARCHAR(255) NOT NULL, INDEX IDX_4C115668D194CE62 (album_cat_id_lang), INDEX IDX_4C115668D6FD5DA2 (album_cat_id_cat), PRIMARY KEY(album_cat_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE albumlang (album_lang_id INT AUTO_INCREMENT NOT NULL, album_lang_album_id INT DEFAULT NULL, album_lang_lang_id INT DEFAULT NULL, album_lang_name VARCHAR(255) NOT NULL, album_lang_brief_description VARCHAR(255) NOT NULL, INDEX IDX_1C7C1D819FC498E7 (album_lang_album_id), INDEX IDX_1C7C1D8146FDEE39 (album_lang_lang_id), PRIMARY KEY(album_lang_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE albumphoto (alb_pho_id INT AUTO_INCREMENT NOT NULL, alb_pho_pho_id INT DEFAULT NULL, alb_pho_alb_id INT DEFAULT NULL, INDEX IDX_2D994243EE8EE81F (alb_pho_pho_id), INDEX IDX_2D99424321EE473C (alb_pho_alb_id), PRIMARY KEY(alb_pho_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE city (cit_id INT AUTO_INCREMENT NOT NULL, cit_name VARCHAR(255) NOT NULL, cit_co_code VARCHAR(255) NOT NULL, PRIMARY KEY(cit_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE comment (com_id INT AUTO_INCREMENT NOT NULL, com_user INT DEFAULT NULL, com_ownership INT DEFAULT NULL, com_date DATETIME DEFAULT NULL, com_rate INT NOT NULL, com_public TINYINT(1) NOT NULL, com_comments LONGTEXT NOT NULL, INDEX IDX_9474526CE44609F6 (com_user), INDEX IDX_9474526CCB4DFDAB (com_ownership), PRIMARY KEY(com_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE config (conf_id INT AUTO_INCREMENT NOT NULL, conf_service_cost VARCHAR(255) NOT NULL, PRIMARY KEY(conf_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE country (co_id INT AUTO_INCREMENT NOT NULL, co_code VARCHAR(255) NOT NULL, co_name VARCHAR(255) NOT NULL, PRIMARY KEY(co_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE currency (curr_id INT AUTO_INCREMENT NOT NULL, curr_name VARCHAR(255) NOT NULL, curr_code VARCHAR(5) NOT NULL, curr_symbol VARCHAR(5) NOT NULL, curr_cuc_change NUMERIC(10, 2) NOT NULL, PRIMARY KEY(curr_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE destination (des_id INT AUTO_INCREMENT NOT NULL, des_name VARCHAR(255) NOT NULL, des_order INT NOT NULL, des_active TINYINT(1) NOT NULL, PRIMARY KEY(des_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE destinationlang (des_lang_id INT AUTO_INCREMENT NOT NULL, des_lang_des_id INT DEFAULT NULL, des_lang_lang_id INT DEFAULT NULL, des_lang_brief LONGTEXT NOT NULL, des_lang_desc LONGTEXT NOT NULL, INDEX IDX_61EBD8FA83FAB04E (des_lang_des_id), INDEX IDX_61EBD8FA99E3B488 (des_lang_lang_id), PRIMARY KEY(des_lang_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE destinationlocation (des_loc_id INT AUTO_INCREMENT NOT NULL, des_loc_des_id INT DEFAULT NULL, des_loc_mun_id INT DEFAULT NULL, des_loc_prov_id INT DEFAULT NULL, INDEX IDX_44EF57CEE4158F2 (des_loc_des_id), INDEX IDX_44EF57CEEBDD11FA (des_loc_mun_id), INDEX IDX_44EF57CEAB406F02 (des_loc_prov_id), PRIMARY KEY(des_loc_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE destinationphoto (des_pho_id INT AUTO_INCREMENT NOT NULL, des_pho_pho_id INT DEFAULT NULL, des_pho_des_id INT DEFAULT NULL, INDEX IDX_EA337D327A052D09 (des_pho_pho_id), INDEX IDX_EA337D321D4112 (des_pho_des_id), PRIMARY KEY(des_pho_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE faq (faq_id INT AUTO_INCREMENT NOT NULL, faq_faq_cat_id INT DEFAULT NULL, faq_order INT NOT NULL, faq_active TINYINT(1) NOT NULL, INDEX IDX_E8FF75CC5781BB9A (faq_faq_cat_id), PRIMARY KEY(faq_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE faqcategory (faq_cat_id INT AUTO_INCREMENT NOT NULL, PRIMARY KEY(faq_cat_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE faqcategorylang (faq_cat_id INT AUTO_INCREMENT NOT NULL, faq_cat_id_lang INT DEFAULT NULL, faq_cat_id_cat INT DEFAULT NULL, faq_cat_description VARCHAR(255) NOT NULL, INDEX IDX_E3D2AF057E57370F (faq_cat_id_lang), INDEX IDX_E3D2AF051F1F7C0B (faq_cat_id_cat), PRIMARY KEY(faq_cat_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE faqlang (faq_lang_id INT AUTO_INCREMENT NOT NULL, faq_lang_faq_id INT DEFAULT NULL, faq_lang_lang_id INT DEFAULT NULL, faq_lang_question LONGTEXT NOT NULL, faq_lang_answer LONGTEXT NOT NULL, INDEX IDX_625DE85F40CDF4CF (faq_lang_faq_id), INDEX IDX_625DE85F75513025 (faq_lang_lang_id), PRIMARY KEY(faq_lang_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE generalreservation (gen_res_id INT AUTO_INCREMENT NOT NULL, gen_res_user_id INT DEFAULT NULL, gen_res_own_id INT DEFAULT NULL, gen_res_date DATE NOT NULL, gen_res_from_date DATE NOT NULL, gen_res_to_date DATE NOT NULL, gen_res_status INT NOT NULL, gen_res_saved TINYINT(1) NOT NULL, gen_res_status_date DATE NOT NULL, INDEX IDX_52BC9BBC52C28D5E (gen_res_user_id), INDEX IDX_52BC9BBCE2F120B6 (gen_res_own_id), PRIMARY KEY(gen_res_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE information (info_id INT AUTO_INCREMENT NOT NULL, info_id_nom INT DEFAULT NULL, info_fixed TINYINT(1) NOT NULL, INDEX IDX_297918833F17E2B9 (info_id_nom), PRIMARY KEY(info_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE informationlang (info_lang_id INT AUTO_INCREMENT NOT NULL, info_lang_info INT DEFAULT NULL, info_lang_lang INT DEFAULT NULL, info_lang_name LONGTEXT NOT NULL, info_lang_content LONGTEXT NOT NULL, INDEX IDX_609F35AC7399C50D (info_lang_info), INDEX IDX_609F35AC89197038 (info_lang_lang), PRIMARY KEY(info_lang_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE lang (lang_id INT AUTO_INCREMENT NOT NULL, lang_name VARCHAR(255) NOT NULL, lang_code VARCHAR(5) NOT NULL, lang_active TINYINT(1) NOT NULL, PRIMARY KEY(lang_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE langflag (lang_flag_id INT AUTO_INCREMENT NOT NULL, lang_flag_photo INT DEFAULT NULL, lang_flag_lang_id INT DEFAULT NULL, INDEX IDX_26FBDC3D99E0E6DA (lang_flag_photo), INDEX IDX_26FBDC3D5151074B (lang_flag_lang_id), PRIMARY KEY(lang_flag_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE log (log_id INT AUTO_INCREMENT NOT NULL, log_user INT DEFAULT NULL, log_module INT NOT NULL, log_description LONGTEXT NOT NULL, log_date DATE NOT NULL, log_time VARCHAR(255) NOT NULL, INDEX IDX_8F3F68C59CFD383C (log_user), PRIMARY KEY(log_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE municipality (mun_id INT AUTO_INCREMENT NOT NULL, mun_prov_id INT DEFAULT NULL, mun_name VARCHAR(255) NOT NULL, INDEX IDX_C6F566289EB4E04C (mun_prov_id), PRIMARY KEY(mun_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE nomenclator (nom_id INT AUTO_INCREMENT NOT NULL, nom_name VARCHAR(255) NOT NULL, nom_category VARCHAR(255) NOT NULL, PRIMARY KEY(nom_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE nomenclatorLang (nom_lang_id INT AUTO_INCREMENT NOT NULL, nom_lang_id_lang INT DEFAULT NULL, nom_lang_id_nomenclator INT DEFAULT NULL, nom_lang_description VARCHAR(255) DEFAULT NULL, INDEX IDX_17751A16167EBD9A (nom_lang_id_lang), INDEX IDX_17751A16FB3AF512 (nom_lang_id_nomenclator), PRIMARY KEY(nom_lang_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE ownership (own_id INT AUTO_INCREMENT NOT NULL, own_address_province INT DEFAULT NULL, own_address_municipality INT DEFAULT NULL, own_status INT DEFAULT NULL, own_name VARCHAR(255) NOT NULL, own_licence_number VARCHAR(255) NOT NULL, own_mcp_code VARCHAR(255) NOT NULL, own_address_street VARCHAR(255) NOT NULL, own_address_number VARCHAR(255) NOT NULL, own_address_between_street_1 VARCHAR(255) NOT NULL, own_address_between_street_2 VARCHAR(255) NOT NULL, own_mobile_number VARCHAR(255) NOT NULL, own_homeowner_1 VARCHAR(255) NOT NULL, own_homeowner_2 VARCHAR(255) NOT NULL, own_phone_code VARCHAR(255) DEFAULT NULL, own_phone_number VARCHAR(255) NOT NULL, own_email_1 VARCHAR(255) DEFAULT NULL, own_email_2 VARCHAR(255) NOT NULL, own_category VARCHAR(255) NOT NULL, own_type VARCHAR(255) NOT NULL, own_facilities_breakfast TINYINT(1) NOT NULL, own_facilities_breakfast_price VARCHAR(255) NOT NULL, own_facilities_dinner TINYINT(1) NOT NULL, own_facilities_dinner_price_from VARCHAR(255) NOT NULL, own_facilities_dinner_price_to VARCHAR(255) NOT NULL, own_facilities_parking TINYINT(1) NOT NULL, own_facilities_parking_price VARCHAR(255) NOT NULL, own_facilities_notes LONGTEXT DEFAULT NULL, own_langs VARCHAR(4) NOT NULL, own_water_jacuzee TINYINT(1) DEFAULT NULL, own_water_sauna TINYINT(1) DEFAULT NULL, own_water_piscina TINYINT(1) DEFAULT NULL, own_description_bicycle_parking TINYINT(1) NOT NULL, own_description_pets TINYINT(1) NOT NULL, own_description_laundry TINYINT(1) NOT NULL, own_description_internet TINYINT(1) NOT NULL, own_geolocate_x VARCHAR(255) NOT NULL, own_geolocate_y VARCHAR(255) NOT NULL, own_top_20 TINYINT(1) NOT NULL, own_commission_percent INT NOT NULL, own_comment VARCHAR(255) DEFAULT NULL, own_rating NUMERIC(10, 0) NOT NULL, own_maximun_number_guests INT NOT NULL, own_minimum_price NUMERIC(10, 0) NOT NULL, own_maximum_price NUMERIC(10, 0) NOT NULL, own_comments_total INT NOT NULL, own_rooms_total INT NOT NULL, INDEX IDX_1890EC9444234596 (own_address_province), INDEX IDX_1890EC9457C8FA65 (own_address_municipality), INDEX IDX_1890EC948D9A76FF (own_status), PRIMARY KEY(own_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE ownershipdescriptionlang (odl_id INT AUTO_INCREMENT NOT NULL, odl_id_lang INT DEFAULT NULL, odl_id_ownership INT DEFAULT NULL, odl_description VARCHAR(255) NOT NULL, odl_brief_description VARCHAR(255) NOT NULL, INDEX IDX_766031F361B3A3DC (odl_id_lang), INDEX IDX_766031F3F8F0EBF4 (odl_id_ownership), PRIMARY KEY(odl_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE ownershipgenerallang (ogl_id INT AUTO_INCREMENT NOT NULL, ogl_id_lang INT DEFAULT NULL, ogl_id_ownership INT DEFAULT NULL, INDEX IDX_FC07D2CC8A8418DF (ogl_id_lang), INDEX IDX_FC07D2CCE98D818D (ogl_id_ownership), PRIMARY KEY(ogl_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE ownershipkeywordlang (okl_id INT AUTO_INCREMENT NOT NULL, okl_id_lang INT DEFAULT NULL, okl_id_ownership INT DEFAULT NULL, okl_keywords VARCHAR(255) NOT NULL, INDEX IDX_B3199F1F90B8F851 (okl_id_lang), INDEX IDX_B3199F1FAC782869 (okl_id_ownership), PRIMARY KEY(okl_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE ownershipphoto (own_pho_id INT AUTO_INCREMENT NOT NULL, own_pho_pho_id INT DEFAULT NULL, own_pho_own_id INT DEFAULT NULL, INDEX IDX_D390DBE173D1E967 (own_pho_pho_id), INDEX IDX_D390DBE1DB5D3E1F (own_pho_own_id), PRIMARY KEY(own_pho_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE ownershipreservation (own_res_id INT AUTO_INCREMENT NOT NULL, own_res_gen_res_id INT DEFAULT NULL, own_res_selected_room_id INT NOT NULL, own_res_count_adults INT NOT NULL, own_res_count_childrens INT NOT NULL, own_res_night_price INT NOT NULL, own_res_status INT NOT NULL, own_res_room_type VARCHAR(255) DEFAULT NULL, INDEX IDX_63134EDC93959E1F (own_res_gen_res_id), PRIMARY KEY(own_res_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE ownershipstatus (status_id INT AUTO_INCREMENT NOT NULL, status_name VARCHAR(255) NOT NULL, PRIMARY KEY(status_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE permission (perm_id INT AUTO_INCREMENT NOT NULL, perm_description VARCHAR(255) NOT NULL, perm_category VARCHAR(255) NOT NULL, perm_route VARCHAR(255) DEFAULT NULL, PRIMARY KEY(perm_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE photo (pho_id INT AUTO_INCREMENT NOT NULL, pho_name VARCHAR(255) NOT NULL, pho_order INT DEFAULT NULL, PRIMARY KEY(pho_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE photolang (pho_lang_id INT AUTO_INCREMENT NOT NULL, pho_lang_id_lang INT DEFAULT NULL, pho_lang_id_photo INT DEFAULT NULL, pho_lang_description VARCHAR(255) DEFAULT NULL, INDEX IDX_F3C6A44CAAB4BE18 (pho_lang_id_lang), INDEX IDX_F3C6A44CA4FCA100 (pho_lang_id_photo), PRIMARY KEY(pho_lang_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE province (prov_id INT AUTO_INCREMENT NOT NULL, prov_name VARCHAR(255) NOT NULL, prov_phone_code VARCHAR(255) NOT NULL, PRIMARY KEY(prov_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE role (role_id INT AUTO_INCREMENT NOT NULL, role_name VARCHAR(255) NOT NULL, role_parent INT NOT NULL, role_fixed TINYINT(1) NOT NULL, PRIMARY KEY(role_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE rolepermission (rp_id INT AUTO_INCREMENT NOT NULL, rp_role INT DEFAULT NULL, rp_permission INT DEFAULT NULL, INDEX IDX_FC21E06B21D71ED1 (rp_role), INDEX IDX_FC21E06B1913DD87 (rp_permission), PRIMARY KEY(rp_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("CREATE TABLE room (room_id INT AUTO_INCREMENT NOT NULL, room_ownership INT DEFAULT NULL, room_type VARCHAR(255) NOT NULL, room_beds INT NOT NULL, room_price_up_from VARCHAR(255) NOT NULL, room_price_up_to VARCHAR(255) NOT NULL, room_price_down_from VARCHAR(255) NOT NULL, room_price_down_to VARCHAR(255) NOT NULL, room_climate VARCHAR(255) NOT NULL, room_audiovisual VARCHAR(255) NOT NULL, room_smoker TINYINT(1) NOT NULL, room_safe TINYINT(1) NOT NULL, room_baby TINYINT(1) NOT NULL, room_bathroom VARCHAR(255) NOT NULL, room_stereo TINYINT(1) NOT NULL, room_windows INT NOT NULL, room_balcony INT NOT NULL, room_terrace TINYINT(1) NOT NULL, room_yard TINYINT(1) NOT NULL, INDEX IDX_729F519B84390CFD (room_ownership), PRIMARY KEY(room_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB");
+        $this->addSql("ALTER TABLE user ADD CONSTRAINT FK_8D93D649B7ED76C FOREIGN KEY (user_country) REFERENCES country (co_id)");
+        $this->addSql("ALTER TABLE user ADD CONSTRAINT FK_8D93D649D6D1E6EB FOREIGN KEY (user_subrole) REFERENCES role (role_id)");
+        $this->addSql("ALTER TABLE user ADD CONSTRAINT FK_8D93D649F6757F40 FOREIGN KEY (user_photo) REFERENCES photo (pho_id)");
+        $this->addSql("ALTER TABLE usercasa ADD CONSTRAINT FK_D918256C97FAC308 FOREIGN KEY (user_casa_user) REFERENCES user (user_id)");
+        $this->addSql("ALTER TABLE usercasa ADD CONSTRAINT FK_D918256CEDEF30B4 FOREIGN KEY (user_casa_ownership) REFERENCES ownership (own_id)");
+        $this->addSql("ALTER TABLE userpartner ADD CONSTRAINT FK_AD4AC2A877824C58 FOREIGN KEY (user_partner_currency) REFERENCES currency (curr_id)");
+        $this->addSql("ALTER TABLE userpartner ADD CONSTRAINT FK_AD4AC2A8CA0FB5D2 FOREIGN KEY (user_partner_language) REFERENCES lang (lang_id)");
+        $this->addSql("ALTER TABLE userpartner ADD CONSTRAINT FK_AD4AC2A85D6B9953 FOREIGN KEY (user_partner_user) REFERENCES user (user_id)");
+        $this->addSql("ALTER TABLE usertourist ADD CONSTRAINT FK_4F00260B42DFAF7 FOREIGN KEY (user_tourist_currency) REFERENCES currency (curr_id)");
+        $this->addSql("ALTER TABLE usertourist ADD CONSTRAINT FK_4F002609A0037D FOREIGN KEY (user_tourist_language) REFERENCES lang (lang_id)");
+        $this->addSql("ALTER TABLE usertourist ADD CONSTRAINT FK_4F00260454FA829 FOREIGN KEY (user_tourist_user) REFERENCES user (user_id)");
+        $this->addSql("ALTER TABLE album ADD CONSTRAINT FK_39986E437FC450D5 FOREIGN KEY (album_alb_cat_id) REFERENCES albumcategory (alb_cat_id)");
+        $this->addSql("ALTER TABLE albumcategorylang ADD CONSTRAINT FK_4C115668D194CE62 FOREIGN KEY (album_cat_id_lang) REFERENCES lang (lang_id)");
+        $this->addSql("ALTER TABLE albumcategorylang ADD CONSTRAINT FK_4C115668D6FD5DA2 FOREIGN KEY (album_cat_id_cat) REFERENCES albumcategory (alb_cat_id)");
+        $this->addSql("ALTER TABLE albumlang ADD CONSTRAINT FK_1C7C1D819FC498E7 FOREIGN KEY (album_lang_album_id) REFERENCES album (album_id)");
+        $this->addSql("ALTER TABLE albumlang ADD CONSTRAINT FK_1C7C1D8146FDEE39 FOREIGN KEY (album_lang_lang_id) REFERENCES lang (lang_id)");
+        $this->addSql("ALTER TABLE albumphoto ADD CONSTRAINT FK_2D994243EE8EE81F FOREIGN KEY (alb_pho_pho_id) REFERENCES photo (pho_id)");
+        $this->addSql("ALTER TABLE albumphoto ADD CONSTRAINT FK_2D99424321EE473C FOREIGN KEY (alb_pho_alb_id) REFERENCES album (album_id)");
+        $this->addSql("ALTER TABLE comment ADD CONSTRAINT FK_9474526CE44609F6 FOREIGN KEY (com_user) REFERENCES user (user_id)");
+        $this->addSql("ALTER TABLE comment ADD CONSTRAINT FK_9474526CCB4DFDAB FOREIGN KEY (com_ownership) REFERENCES ownership (own_id)");
+        $this->addSql("ALTER TABLE destinationlang ADD CONSTRAINT FK_61EBD8FA83FAB04E FOREIGN KEY (des_lang_des_id) REFERENCES destination (des_id)");
+        $this->addSql("ALTER TABLE destinationlang ADD CONSTRAINT FK_61EBD8FA99E3B488 FOREIGN KEY (des_lang_lang_id) REFERENCES lang (lang_id)");
+        $this->addSql("ALTER TABLE destinationlocation ADD CONSTRAINT FK_44EF57CEE4158F2 FOREIGN KEY (des_loc_des_id) REFERENCES destination (des_id)");
+        $this->addSql("ALTER TABLE destinationlocation ADD CONSTRAINT FK_44EF57CEEBDD11FA FOREIGN KEY (des_loc_mun_id) REFERENCES municipality (mun_id)");
+        $this->addSql("ALTER TABLE destinationlocation ADD CONSTRAINT FK_44EF57CEAB406F02 FOREIGN KEY (des_loc_prov_id) REFERENCES province (prov_id)");
+        $this->addSql("ALTER TABLE destinationphoto ADD CONSTRAINT FK_EA337D327A052D09 FOREIGN KEY (des_pho_pho_id) REFERENCES photo (pho_id)");
+        $this->addSql("ALTER TABLE destinationphoto ADD CONSTRAINT FK_EA337D321D4112 FOREIGN KEY (des_pho_des_id) REFERENCES destination (des_id)");
+        $this->addSql("ALTER TABLE faq ADD CONSTRAINT FK_E8FF75CC5781BB9A FOREIGN KEY (faq_faq_cat_id) REFERENCES faqcategory (faq_cat_id)");
+        $this->addSql("ALTER TABLE faqcategorylang ADD CONSTRAINT FK_E3D2AF057E57370F FOREIGN KEY (faq_cat_id_lang) REFERENCES lang (lang_id)");
+        $this->addSql("ALTER TABLE faqcategorylang ADD CONSTRAINT FK_E3D2AF051F1F7C0B FOREIGN KEY (faq_cat_id_cat) REFERENCES faqcategory (faq_cat_id)");
+        $this->addSql("ALTER TABLE faqlang ADD CONSTRAINT FK_625DE85F40CDF4CF FOREIGN KEY (faq_lang_faq_id) REFERENCES faq (faq_id)");
+        $this->addSql("ALTER TABLE faqlang ADD CONSTRAINT FK_625DE85F75513025 FOREIGN KEY (faq_lang_lang_id) REFERENCES lang (lang_id)");
+        $this->addSql("ALTER TABLE generalreservation ADD CONSTRAINT FK_52BC9BBC52C28D5E FOREIGN KEY (gen_res_user_id) REFERENCES user (user_id)");
+        $this->addSql("ALTER TABLE generalreservation ADD CONSTRAINT FK_52BC9BBCE2F120B6 FOREIGN KEY (gen_res_own_id) REFERENCES ownership (own_id)");
+        $this->addSql("ALTER TABLE information ADD CONSTRAINT FK_297918833F17E2B9 FOREIGN KEY (info_id_nom) REFERENCES nomenclator (nom_id)");
+        $this->addSql("ALTER TABLE informationlang ADD CONSTRAINT FK_609F35AC7399C50D FOREIGN KEY (info_lang_info) REFERENCES information (info_id)");
+        $this->addSql("ALTER TABLE informationlang ADD CONSTRAINT FK_609F35AC89197038 FOREIGN KEY (info_lang_lang) REFERENCES lang (lang_id)");
+        $this->addSql("ALTER TABLE langflag ADD CONSTRAINT FK_26FBDC3D99E0E6DA FOREIGN KEY (lang_flag_photo) REFERENCES photo (pho_id)");
+        $this->addSql("ALTER TABLE langflag ADD CONSTRAINT FK_26FBDC3D5151074B FOREIGN KEY (lang_flag_lang_id) REFERENCES lang (lang_id)");
+        $this->addSql("ALTER TABLE log ADD CONSTRAINT FK_8F3F68C59CFD383C FOREIGN KEY (log_user) REFERENCES user (user_id)");
+        $this->addSql("ALTER TABLE municipality ADD CONSTRAINT FK_C6F566289EB4E04C FOREIGN KEY (mun_prov_id) REFERENCES province (prov_id)");
+        $this->addSql("ALTER TABLE nomenclatorLang ADD CONSTRAINT FK_17751A16167EBD9A FOREIGN KEY (nom_lang_id_lang) REFERENCES lang (lang_id)");
+        $this->addSql("ALTER TABLE nomenclatorLang ADD CONSTRAINT FK_17751A16FB3AF512 FOREIGN KEY (nom_lang_id_nomenclator) REFERENCES nomenclator (nom_id)");
+        $this->addSql("ALTER TABLE ownership ADD CONSTRAINT FK_1890EC9444234596 FOREIGN KEY (own_address_province) REFERENCES province (prov_id)");
+        $this->addSql("ALTER TABLE ownership ADD CONSTRAINT FK_1890EC9457C8FA65 FOREIGN KEY (own_address_municipality) REFERENCES municipality (mun_id)");
+        $this->addSql("ALTER TABLE ownership ADD CONSTRAINT FK_1890EC948D9A76FF FOREIGN KEY (own_status) REFERENCES ownershipstatus (status_id)");
+        $this->addSql("ALTER TABLE ownershipdescriptionlang ADD CONSTRAINT FK_766031F361B3A3DC FOREIGN KEY (odl_id_lang) REFERENCES lang (lang_id)");
+        $this->addSql("ALTER TABLE ownershipdescriptionlang ADD CONSTRAINT FK_766031F3F8F0EBF4 FOREIGN KEY (odl_id_ownership) REFERENCES ownership (own_id)");
+        $this->addSql("ALTER TABLE ownershipgenerallang ADD CONSTRAINT FK_FC07D2CC8A8418DF FOREIGN KEY (ogl_id_lang) REFERENCES lang (lang_id)");
+        $this->addSql("ALTER TABLE ownershipgenerallang ADD CONSTRAINT FK_FC07D2CCE98D818D FOREIGN KEY (ogl_id_ownership) REFERENCES ownership (own_id)");
+        $this->addSql("ALTER TABLE ownershipkeywordlang ADD CONSTRAINT FK_B3199F1F90B8F851 FOREIGN KEY (okl_id_lang) REFERENCES lang (lang_id)");
+        $this->addSql("ALTER TABLE ownershipkeywordlang ADD CONSTRAINT FK_B3199F1FAC782869 FOREIGN KEY (okl_id_ownership) REFERENCES ownership (own_id)");
+        $this->addSql("ALTER TABLE ownershipphoto ADD CONSTRAINT FK_D390DBE173D1E967 FOREIGN KEY (own_pho_pho_id) REFERENCES photo (pho_id)");
+        $this->addSql("ALTER TABLE ownershipphoto ADD CONSTRAINT FK_D390DBE1DB5D3E1F FOREIGN KEY (own_pho_own_id) REFERENCES ownership (own_id)");
+        $this->addSql("ALTER TABLE ownershipreservation ADD CONSTRAINT FK_63134EDC93959E1F FOREIGN KEY (own_res_gen_res_id) REFERENCES generalreservation (gen_res_id)");
+        $this->addSql("ALTER TABLE photolang ADD CONSTRAINT FK_F3C6A44CAAB4BE18 FOREIGN KEY (pho_lang_id_lang) REFERENCES lang (lang_id)");
+        $this->addSql("ALTER TABLE photolang ADD CONSTRAINT FK_F3C6A44CA4FCA100 FOREIGN KEY (pho_lang_id_photo) REFERENCES photo (pho_id)");
+        $this->addSql("ALTER TABLE rolepermission ADD CONSTRAINT FK_FC21E06B21D71ED1 FOREIGN KEY (rp_role) REFERENCES role (role_id)");
+        $this->addSql("ALTER TABLE rolepermission ADD CONSTRAINT FK_FC21E06B1913DD87 FOREIGN KEY (rp_permission) REFERENCES permission (perm_id)");
+        $this->addSql("ALTER TABLE room ADD CONSTRAINT FK_729F519B84390CFD FOREIGN KEY (room_ownership) REFERENCES ownership (own_id)");
+    }
+
+    public function down(Schema $schema)
+    {
+        // this down() migration is auto-generated, please modify it to your needs
+        $this->abortIf($this->connection->getDatabasePlatform()->getName() != "mysql", "Migration can only be executed safely on 'mysql'.");
+        
+        $this->addSql("ALTER TABLE usercasa DROP FOREIGN KEY FK_D918256C97FAC308");
+        $this->addSql("ALTER TABLE userpartner DROP FOREIGN KEY FK_AD4AC2A85D6B9953");
+        $this->addSql("ALTER TABLE usertourist DROP FOREIGN KEY FK_4F00260454FA829");
+        $this->addSql("ALTER TABLE comment DROP FOREIGN KEY FK_9474526CE44609F6");
+        $this->addSql("ALTER TABLE generalreservation DROP FOREIGN KEY FK_52BC9BBC52C28D5E");
+        $this->addSql("ALTER TABLE log DROP FOREIGN KEY FK_8F3F68C59CFD383C");
+        $this->addSql("ALTER TABLE albumlang DROP FOREIGN KEY FK_1C7C1D819FC498E7");
+        $this->addSql("ALTER TABLE albumphoto DROP FOREIGN KEY FK_2D99424321EE473C");
+        $this->addSql("ALTER TABLE album DROP FOREIGN KEY FK_39986E437FC450D5");
+        $this->addSql("ALTER TABLE albumcategorylang DROP FOREIGN KEY FK_4C115668D6FD5DA2");
+        $this->addSql("ALTER TABLE user DROP FOREIGN KEY FK_8D93D649B7ED76C");
+        $this->addSql("ALTER TABLE userpartner DROP FOREIGN KEY FK_AD4AC2A877824C58");
+        $this->addSql("ALTER TABLE usertourist DROP FOREIGN KEY FK_4F00260B42DFAF7");
+        $this->addSql("ALTER TABLE destinationlang DROP FOREIGN KEY FK_61EBD8FA83FAB04E");
+        $this->addSql("ALTER TABLE destinationlocation DROP FOREIGN KEY FK_44EF57CEE4158F2");
+        $this->addSql("ALTER TABLE destinationphoto DROP FOREIGN KEY FK_EA337D321D4112");
+        $this->addSql("ALTER TABLE faqlang DROP FOREIGN KEY FK_625DE85F40CDF4CF");
+        $this->addSql("ALTER TABLE faq DROP FOREIGN KEY FK_E8FF75CC5781BB9A");
+        $this->addSql("ALTER TABLE faqcategorylang DROP FOREIGN KEY FK_E3D2AF051F1F7C0B");
+        $this->addSql("ALTER TABLE ownershipreservation DROP FOREIGN KEY FK_63134EDC93959E1F");
+        $this->addSql("ALTER TABLE informationlang DROP FOREIGN KEY FK_609F35AC7399C50D");
+        $this->addSql("ALTER TABLE userpartner DROP FOREIGN KEY FK_AD4AC2A8CA0FB5D2");
+        $this->addSql("ALTER TABLE usertourist DROP FOREIGN KEY FK_4F002609A0037D");
+        $this->addSql("ALTER TABLE albumcategorylang DROP FOREIGN KEY FK_4C115668D194CE62");
+        $this->addSql("ALTER TABLE albumlang DROP FOREIGN KEY FK_1C7C1D8146FDEE39");
+        $this->addSql("ALTER TABLE destinationlang DROP FOREIGN KEY FK_61EBD8FA99E3B488");
+        $this->addSql("ALTER TABLE faqcategorylang DROP FOREIGN KEY FK_E3D2AF057E57370F");
+        $this->addSql("ALTER TABLE faqlang DROP FOREIGN KEY FK_625DE85F75513025");
+        $this->addSql("ALTER TABLE informationlang DROP FOREIGN KEY FK_609F35AC89197038");
+        $this->addSql("ALTER TABLE langflag DROP FOREIGN KEY FK_26FBDC3D5151074B");
+        $this->addSql("ALTER TABLE nomenclatorLang DROP FOREIGN KEY FK_17751A16167EBD9A");
+        $this->addSql("ALTER TABLE ownershipdescriptionlang DROP FOREIGN KEY FK_766031F361B3A3DC");
+        $this->addSql("ALTER TABLE ownershipgenerallang DROP FOREIGN KEY FK_FC07D2CC8A8418DF");
+        $this->addSql("ALTER TABLE ownershipkeywordlang DROP FOREIGN KEY FK_B3199F1F90B8F851");
+        $this->addSql("ALTER TABLE photolang DROP FOREIGN KEY FK_F3C6A44CAAB4BE18");
+        $this->addSql("ALTER TABLE destinationlocation DROP FOREIGN KEY FK_44EF57CEEBDD11FA");
+        $this->addSql("ALTER TABLE ownership DROP FOREIGN KEY FK_1890EC9457C8FA65");
+        $this->addSql("ALTER TABLE information DROP FOREIGN KEY FK_297918833F17E2B9");
+        $this->addSql("ALTER TABLE nomenclatorLang DROP FOREIGN KEY FK_17751A16FB3AF512");
+        $this->addSql("ALTER TABLE usercasa DROP FOREIGN KEY FK_D918256CEDEF30B4");
+        $this->addSql("ALTER TABLE comment DROP FOREIGN KEY FK_9474526CCB4DFDAB");
+        $this->addSql("ALTER TABLE generalreservation DROP FOREIGN KEY FK_52BC9BBCE2F120B6");
+        $this->addSql("ALTER TABLE ownershipdescriptionlang DROP FOREIGN KEY FK_766031F3F8F0EBF4");
+        $this->addSql("ALTER TABLE ownershipgenerallang DROP FOREIGN KEY FK_FC07D2CCE98D818D");
+        $this->addSql("ALTER TABLE ownershipkeywordlang DROP FOREIGN KEY FK_B3199F1FAC782869");
+        $this->addSql("ALTER TABLE ownershipphoto DROP FOREIGN KEY FK_D390DBE1DB5D3E1F");
+        $this->addSql("ALTER TABLE room DROP FOREIGN KEY FK_729F519B84390CFD");
+        $this->addSql("ALTER TABLE ownership DROP FOREIGN KEY FK_1890EC948D9A76FF");
+        $this->addSql("ALTER TABLE rolepermission DROP FOREIGN KEY FK_FC21E06B1913DD87");
+        $this->addSql("ALTER TABLE user DROP FOREIGN KEY FK_8D93D649F6757F40");
+        $this->addSql("ALTER TABLE albumphoto DROP FOREIGN KEY FK_2D994243EE8EE81F");
+        $this->addSql("ALTER TABLE destinationphoto DROP FOREIGN KEY FK_EA337D327A052D09");
+        $this->addSql("ALTER TABLE langflag DROP FOREIGN KEY FK_26FBDC3D99E0E6DA");
+        $this->addSql("ALTER TABLE ownershipphoto DROP FOREIGN KEY FK_D390DBE173D1E967");
+        $this->addSql("ALTER TABLE photolang DROP FOREIGN KEY FK_F3C6A44CA4FCA100");
+        $this->addSql("ALTER TABLE destinationlocation DROP FOREIGN KEY FK_44EF57CEAB406F02");
+        $this->addSql("ALTER TABLE municipality DROP FOREIGN KEY FK_C6F566289EB4E04C");
+        $this->addSql("ALTER TABLE ownership DROP FOREIGN KEY FK_1890EC9444234596");
+        $this->addSql("ALTER TABLE user DROP FOREIGN KEY FK_8D93D649D6D1E6EB");
+        $this->addSql("ALTER TABLE rolepermission DROP FOREIGN KEY FK_FC21E06B21D71ED1");
+        $this->addSql("DROP TABLE user");
+        $this->addSql("DROP TABLE usercasa");
+        $this->addSql("DROP TABLE userpartner");
+        $this->addSql("DROP TABLE usertourist");
+        $this->addSql("DROP TABLE album");
+        $this->addSql("DROP TABLE albumcategory");
+        $this->addSql("DROP TABLE albumcategorylang");
+        $this->addSql("DROP TABLE albumlang");
+        $this->addSql("DROP TABLE albumphoto");
+        $this->addSql("DROP TABLE city");
+        $this->addSql("DROP TABLE comment");
+        $this->addSql("DROP TABLE config");
+        $this->addSql("DROP TABLE country");
+        $this->addSql("DROP TABLE currency");
+        $this->addSql("DROP TABLE destination");
+        $this->addSql("DROP TABLE destinationlang");
+        $this->addSql("DROP TABLE destinationlocation");
+        $this->addSql("DROP TABLE destinationphoto");
+        $this->addSql("DROP TABLE faq");
+        $this->addSql("DROP TABLE faqcategory");
+        $this->addSql("DROP TABLE faqcategorylang");
+        $this->addSql("DROP TABLE faqlang");
+        $this->addSql("DROP TABLE generalreservation");
+        $this->addSql("DROP TABLE information");
+        $this->addSql("DROP TABLE informationlang");
+        $this->addSql("DROP TABLE lang");
+        $this->addSql("DROP TABLE langflag");
+        $this->addSql("DROP TABLE log");
+        $this->addSql("DROP TABLE municipality");
+        $this->addSql("DROP TABLE nomenclator");
+        $this->addSql("DROP TABLE nomenclatorLang");
+        $this->addSql("DROP TABLE ownership");
+        $this->addSql("DROP TABLE ownershipdescriptionlang");
+        $this->addSql("DROP TABLE ownershipgenerallang");
+        $this->addSql("DROP TABLE ownershipkeywordlang");
+        $this->addSql("DROP TABLE ownershipphoto");
+        $this->addSql("DROP TABLE ownershipreservation");
+        $this->addSql("DROP TABLE ownershipstatus");
+        $this->addSql("DROP TABLE permission");
+        $this->addSql("DROP TABLE photo");
+        $this->addSql("DROP TABLE photolang");
+        $this->addSql("DROP TABLE province");
+        $this->addSql("DROP TABLE role");
+        $this->addSql("DROP TABLE rolepermission");
+        $this->addSql("DROP TABLE room");
+    }
+}

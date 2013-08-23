@@ -1,0 +1,139 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li class="active">Álbumes</li>
+</ul>
+{% endblock %}
+{% block content %}
+<h2>Álbumes</h2>
+<hr/>
+    <a class="btn" href="{{ path('mycp_new_album') }}"><i class="icon-plus"></i> Adicionar álbum</a>&nbsp;
+    <a class="btn" href="{{ path('mycp_list_category_album') }}"><i class="icon-folder-open"></i> Categorías</a>
+<br/><br/>
+{% for message in app.session.flashbag.get('message_error_local') %}
+<div class="alert alert-error">{{ message }}</div>
+{% endfor %}
+<form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_list_albums')}}">
+    <div class="well well-small">
+        <div class="row-fluid">
+            <div class="span4">
+                <label>Álbum:</label><input id="filter_name" value="{{filter_name}}" class="input-block-level" name="filter_name" type="text"/></div>
+            <div class="span4"><label>Categoría:</label>
+                    {% render 'mycpBundle:BackendAlbum:get_all_categories' with{'data':{'category':filter_category}}%}
+             </div>
+            <div class="span2">
+                <label>Estado:</label>
+                <select id="filter_active" class="input-block-level" name="filter_active">
+                    {% render 'mycpBundle:BackendUtils:get_active_list' with{'selected':filter_active} %}
+                </select></div>
+            <div class="span2">
+            <label>&nbsp;</label>
+            <div class="row-fluid">
+                <div class="span6">
+                    <a rel="tooltip" title="Filtrar listado" href="javascript:action_submit();" class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
+                </div>
+                <div class="span6">
+                    <a rel="tooltip" title="Resetear filtrado " href="{{ path('mycp_list_albums') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</form>
+    {% if albumes %}
+<div class="alert">
+    <div class="row-fluid">
+        <div class="pull-left">
+            Mostrando del {{items_per_page * current_page - items_per_page}} al {% if items_per_page * current_page >  total_items%}{{total_items }}{% else %}{{ items_per_page * current_page }}{% endif %} de {{total_items}} registros
+        </div>
+        <div class="pull-right">
+            Mostrar:
+            <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_albums',{'items_per_page':100})}}">100</a>
+            <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_albums',{'items_per_page':300})}}">300</a>
+            <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_albums',{'items_per_page':500})}}">500</a>
+            <input class="hidden" name="items_per_page" value="100">
+        </div>
+    </div>
+</div>
+<div class="paginator-cont span11">
+    {% if filter_name ==''%}{% set filter_name='null'%}{%endif%}
+    {{ simple_paginator_render('mycp_list_albums',null,{
+'container_class': 'paginator',
+'previousPageText': '«',
+'nextPageText': '»',
+'currentClass': 'current',
+'firstPageText': 'Primera',
+'lastPageText': 'Última',
+'route_params': {'items_per_page':items_per_page,'filter_name':filter_name,'filter_active':filter_active,'filter_category':filter_category}
+}) }}
+</div>
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th>Álbum</th>
+            <th>Categoría</th>
+            <th>Estado</th>
+            <th>Fotografías</th>
+            <th style="text-align: right">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for album in albumes %}
+        <tr>
+            <td>{{album.getAlbumName}}</td>
+            <td>{{data[album.getAlbumId~'_category'][0].getAlbumCatDescription}}</td>
+            <td>{% if album.getAlbumActive==0%}<span class="label label-important">No activo</span>{% else %} <span class="label label-success">Activo</span>{% endif %}</td>
+            <td><a href="{{ path('mycp_list_photos_album',{'id_album':album.getAlbumId}) }}">({{ photo_count[album.getAlbumId~'_photo_count'] }}) Fotografías</a></td>
+            <td style="text-align: right">
+                <a class="btn btn-mini" href="{{ path('mycp_edit_album',{'id_album':album.getAlbumId}) }}">Editar</a>
+                <button data='{{ path('mycp_delete_album',{'id_album':album.getAlbumId}) }}' class="btn btn-mini btn-danger delete">Eliminar</button>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+<div class="paginator-cont span11">
+{% if filter_name ==''%}{% set filter_name='null'%}{%endif%}
+{{ simple_paginator_render('mycp_list_albums',null,{
+'container_class': 'paginator',
+'previousPageText': '«',
+'nextPageText': '»',
+'currentClass': 'current',
+'firstPageText': 'Primera',
+'lastPageText': 'Última',
+'route_params': {'items_per_page':items_per_page,'filter_name':filter_name,'filter_active':filter_active,'filter_category':filter_category}
+}) }}
+</div>
+    {% else %}
+    <p> <div class="alert alert-block">No hay Álbumes disponibles.</div></p>
+    {% endif %}
+<script type="text/javascript">
+    function submit_filters(ev)
+    {
+        if(ev.keyCode==13)
+        {
+            action_submit();
+        }
+    }
+
+    function action_submit()
+    {
+        items_per_page={{items_per_page}};
+        filter_name=$('#filter_name').val();
+        if(filter_name=='')filter_name='null';
+        filter_active=$('#filter_active').val();
+        filter_category=$('#category').val();
+        if(filter_category=='')filter_category='null';
+        url_submit=$('#filter').attr('action');
+        url_submit=url_submit+'/'+items_per_page+'/'+filter_name+'/'+filter_active+'/'+filter_category;
+        $('#filter').attr('action',url_submit);
+        $('#filter').submit();
+    }
+</script>
+{% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea eliminar el elemento?','confirmation_action_label':'Eliminar'}%}
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('bundles/mycp/js/common_list.js') }}"></script>
+{% endblock %}
