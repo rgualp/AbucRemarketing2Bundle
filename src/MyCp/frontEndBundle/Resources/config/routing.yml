@@ -29,3 +29,6 @@ frontend_information:
     
 frontend_faq:
     resource: "@frontEndBundle/Resources/config/routingFrontendFaq.yml"
+
+frontend_payment:
+    resource: "@frontEndBundle/Resources/config/routingFrontendPayment.yml"
