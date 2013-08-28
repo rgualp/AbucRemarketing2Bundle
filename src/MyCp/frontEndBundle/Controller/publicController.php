@@ -53,6 +53,7 @@ class PublicController extends Controller
         $popular_destinations_list = $em->getRepository('mycpBundle:destination')->get_popular_destination(4);
         $popular_destinations_photos = $em->getRepository('mycpBundle:destination')->get_destination_photos($popular_destinations_list);
         $popular_places_localization = $em->getRepository('mycpBundle:destination')->get_destination_location($popular_destinations_list);
+        $popular_places_statistics = $em->getRepository('mycpBundle:destination')->get_destination_owns_statistics($popular_destinations_list);
         $last_added = $em->getRepository('mycpBundle:ownership')->lastAdded(4);
         $last_added_photos = $this->getArrayFotos($last_added);
 
@@ -85,7 +86,8 @@ class PublicController extends Controller
             'premium_own_list' => $premium_own_list,
             'premium_own_photos' => $premium_own_photos,
             'locale' => $glogal_locale,
-             'autocomplete_text_list'  => $this->autocomplete_text_list()
+            'autocomplete_text_list'  => $this->autocomplete_text_list(),
+            'popular_places_statistics' => $popular_places_statistics
         ));
     }
 
@@ -130,7 +132,7 @@ class PublicController extends Controller
             'error' => $error,
         ));
     }
-    
+
     private function autocomplete_text_list() {
         //$term = $request->get('term');
         $em = $this->getDoctrine()->getEntityManager();
@@ -151,11 +153,11 @@ class PublicController extends Controller
         foreach ($ownerships as $own) {
             if (!array_search($own->getOwnName(), $result))
                 $result[] = $own->getOwnName();
-            
+
             if (!array_search($own->getOwnMcpCode(), $result))
                 $result[] = $own->getOwnMcpCode();
         }
-        
+
         return json_encode($result);
     }
 }

@@ -1,0 +1,45 @@
+{% set menu = 1 %}
+{% extends 'frontEndBundle:mycasatrip:layout.html.twig' %}
+{% block body_inner %}
+{% set flag_own_res = 0 %}
+{% for res in res_pending %}
+<div class="well mycasatrip_result">
+    <div class="row-fluid">
+        <div class="span4"><img src="{{ asset('uploads/ownershipImages/'~ res['photo']) }}" class="span12 img-polaroid"></div>
+        <div style="margin-left: 10px" class="span8">
+            <table style="width: 100%">
+                <tbody><tr>
+                    <td>
+                        <h4 class="title_1">{{ res[0]['gen_res_own_id']['own_name'] }}</h4>
+                        <p class="note">
+                            {{ res[0]['gen_res_own_id']['own_address_municipality']['mun_name']|title }} - {{ res[0]['gen_res_own_id']['own_address_province']['prov_name']|title }}
+                        {% set flag_own_room = 0 %}
+                        {% for own_room in own_rooms[flag_own_res] %}
+                            <br><b>{% if(own_reservations[flag_own_res][flag_own_room].getOwnResRoomType) %}{{own_reservations[flag_own_res][flag_own_room].getOwnResRoomType|capitalize}}{% else %}{{own_rooms[flag_own_res][flag_own_room].getRoomType}}{% endif %}</b>
+                            <br>Adultos: <b>{{own_reservations[flag_own_res][flag_own_room].getOwnResCountAdults}}</b> &nbsp;&nbsp;Niños: <b>{{own_reservations[flag_own_res][flag_own_room].getOwnResCountChildrens}}</b>
+                            {% set flag_own_room = flag_own_room + 1 %}
+                        {% endfor %}
+                        {% set flag_own_res = flag_own_res + 1 %}
+                        </p>
+                    </td>
+                    <td>
+                        <p class="note"><b>ID Reserva:</b> CAS.{{res[0]['gen_res_id'] }}
+                            <br>
+                            <br>
+                            <span class="badge">Pendiente</span>
+                        </p><h4>{{app.session.get('curr_symbol')}}{{res[0]['gen_res_total_price_in_site'] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h4>
+                        <p></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><button class="btn mycp_btn mycp_btn_green" style="width: 150px">Ver solicitud</button></td>
+                </tr>
+                </tbody></table>
+        </div>
+    </div>
+</div>
+{% else %}
+        <div class="alert a alert-info">No hay elementos disponibles.</div>
+{% endfor %}
+
+{% endblock %}

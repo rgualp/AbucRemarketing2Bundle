@@ -1311,100 +1311,52 @@
                 <target>Garantía de servicio</target>
             </trans-unit>
              <trans-unit id="337">
-                <source></source>
-                <target></target>
+                <source>SERVICE_GUARANTEE_CONTENT</source>
+                <target>Descripción para Garantía de Servicios</target>
             </trans-unit>
              <trans-unit id="338">
-                <source></source>
-                <target></target>
+                <source>TESTIMONIES_CONTENT</source>
+                <target>Descripción para Testimonios</target>
             </trans-unit>
              <trans-unit id="339">
-                <source></source>
-                <target></target>
+                <source>PRESS_CONTENT</source>
+                <target>Descripción para Prensa</target>
             </trans-unit>
              <trans-unit id="340">
-                <source></source>
-                <target></target>
+                <source>PARTNERS_CONTENT</source>
+                <target>Descripción para Socios</target>
             </trans-unit>
             <trans-unit id="341">
-                <source></source>
-                <target></target>
+                <source>JOBS_CONTENT</source>
+                <target>Descripción para Empleos</target>
             </trans-unit>
             <trans-unit id="342">
-                <source></source>
-                <target></target>
+                <source>OWNERSHIPS</source>
+                <target>propiedad(es)</target>
             </trans-unit>
             <trans-unit id="343">
-                <source></source>
-                <target></target>
+                <source>ROOM_WATERMARK</source>
+                <target>1 Habitación</target>
             </trans-unit>
             <trans-unit id="344">
-                <source></source>
-                <target></target>
+                <source>GUESTS</source>
+                <target>Huespedes</target>
             </trans-unit>
             <trans-unit id="345">
-                <source></source>
-                <target></target>
+                <source>ROOMS</source>
+                <target>Habitaciones</target>
             </trans-unit>
             <trans-unit id="346">
-                <source></source>
-                <target></target>
+                <source>ADD_FAVORITIES</source>
+                <target>Agregar a Favoritos</target>
             </trans-unit>
             <trans-unit id="347">
-                <source></source>
-                <target></target>
+                <source>ADULTS</source>
+                <target>Adultos</target>
             </trans-unit>
             <trans-unit id="348">
-                <source></source>
-                <target></target>
-            </trans-unit>
-            <trans-unit id="349">
-                <source></source>
-                <target></target>
-            </trans-unit>
-            <trans-unit id="350">
-                <source></source>
-                <target></target>
-            </trans-unit>
-            <trans-unit id="351">
-                <source></source>
-                <target></target>
-            </trans-unit>
-            <trans-unit id="352">
-                <source></source>
-                <target></target>
-            </trans-unit>
-            <trans-unit id="353">
-                <source></source>
-                <target></target>
-            </trans-unit>
-            <trans-unit id="354">
-                <source></source>
-                <target></target>
-            </trans-unit>
-            <trans-unit id="355">
-                <source></source>
-                <target></target>
-            </trans-unit>
-            <trans-unit id="356">
-                <source></source>
-                <target></target>
-            </trans-unit>
-            <trans-unit id="357">
-                <source></source>
-                <target></target>
-            </trans-unit>
-            <trans-unit id="358">
-                <source></source>
-                <target></target>
-            </trans-unit>
-            <trans-unit id="359">
-                <source></source>
-                <target></target>
-            </trans-unit>
-            <trans-unit id="360">
-                <source></source>
-                <target></target>
+                <source>KIDS</source>
+                <target>Niños</target>
             </trans-unit>
         </body>
     </file>

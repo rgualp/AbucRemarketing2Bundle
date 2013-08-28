@@ -1310,6 +1310,54 @@
                 <source>SERVICE_GUARANTEE</source>
                 <target>Service Guarantee</target>
             </trans-unit>
+            <trans-unit id="337">
+                <source>SERVICE_GUARANTEE_CONTENT</source>
+                <target>Description for Service Guarantee</target>
+            </trans-unit>
+             <trans-unit id="338">
+                <source>TESTIMONIES_CONTENT</source>
+                <target>Description for Testimonies</target>
+            </trans-unit>
+             <trans-unit id="339">
+                <source>PRESS_CONTENT</source>
+                <target>Description for Press</target>
+            </trans-unit>
+             <trans-unit id="340">
+                <source>PARTNERS_CONTENT</source>
+                <target>Description for Partners</target>
+            </trans-unit>
+            <trans-unit id="341">
+                <source>JOBS_CONTENT</source>
+                <target>Description for Jobs</target>
+            </trans-unit>
+            <trans-unit id="342">
+                <source>OWNERSHIPS</source>
+                <target>ownership(s)</target>
+            </trans-unit>
+            <trans-unit id="343">
+                <source>ROOM_WATERMARK</source>
+                <target>1 Room</target>
+            </trans-unit>
+            <trans-unit id="344">
+                <source>GUESTS</source>
+                <target>Guests</target>
+            </trans-unit>
+            <trans-unit id="345">
+                <source>ROOMS</source>
+                <target>Rooms</target>
+            </trans-unit>
+            <trans-unit id="346">
+                <source>ADD_FAVORITIES</source>
+                <target>Add to Favorities</target>
+            </trans-unit>
+			<trans-unit id="347">
+                <source>ADULTS</source>
+                <target>Adults</target>
+            </trans-unit>
+            <trans-unit id="348">
+                <source>KIDS</source>
+                <target>Kids</target>
+            </trans-unit>
           </body>
     </file>
 </xliff>

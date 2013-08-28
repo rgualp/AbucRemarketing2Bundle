@@ -118,4 +118,37 @@ class faqRepository extends EntityRepository
         ORDER BY $string3");
         return $query->getResult();
     }
+
+    /*     * *
+    * Codigo Yanet
+    */
+
+    function get_faq_category_list($lang_code) {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT catLang FROM mycpBundle:faqCategoryLang catLang
+                        JOIN catLang.faq_cat_id_cat category
+                        JOIN catLang.faq_cat_id_lang lang
+                        WHERE lang.lang_code = '" . $lang_code . "'";
+
+        return $em->createQuery($query_string)->getResult();
+    }
+
+    function get_faq_list_by_category($lang_code, $category_id = null) {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT faqLang FROM mycpBundle:faqLang faqLang
+                        JOIN faqLang.faq_lang_faq faq
+                        JOIN faqLang.faq_lang_lang lang
+                        WHERE lang.lang_code = '" . $lang_code . "'";
+        if ($category_id != null && $category_id != "")
+            $query_string .= " AND faq.faq_category = '" .$category_id. "'";
+
+        $query_string .= " ORDER BY faq.faq_order ASC ";
+
+        return $em->createQuery($query_string)->getResult();
+    }
+
+    /*     * *
+     * Fin - Codigo Yanet
+     */
+
 }

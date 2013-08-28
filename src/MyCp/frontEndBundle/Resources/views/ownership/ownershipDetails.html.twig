@@ -58,11 +58,14 @@
             </div>
         </div>
         {% endif %}
+
         <div id="map" class="tab-pane fade {%if not gallery_photos | length%} in active {% endif %}">
             <div class="flexible-container" id="mapContent">
+                {% if gallery_photos[0] is defined %}
                 <iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
                         src="{{ path('frontend_map_details_ownership',{'ownGeolocateX':ownership.OwnGeolocateX,'ownGeolocateY':ownership.OwnGeolocateY,'ownName':ownership.ownName,'description': "FROM_PRICES" | trans ~ " &euro;" ~ ownership.OwnMinimumPrice ~ " " ~ "BYNIGHTS_PRICES" | trans | lower,'image':gallery_photos[0].getPhoName})}}">
                 </iframe>
+                {% endif %}
             </div>
         </div>
 
@@ -375,8 +378,9 @@
                 </form>
             </div>
             <hr/>
-            <div class="alert alert-info">{{'RESERVATION_PRICES_FOR' | trans}}: 01 Dic 2013 - 03 Dic 2013</div>
+            <div class="alert alert-info">{{'RESERVATION_PRICES_FOR' | trans}}: {% if post['reservation_filter_date_from'] is defined%}{{ post['reservation_filter_date_from'] }}{% else %}{{ "now"|date("d/m/Y") }}{% endif %} - {% if post['reservation_filter_date_to'] is defined%}{{ post['reservation_filter_date_to'] }}{% else %}{{ "+6 day"|date("d/m/Y") }}{% endif %}</div>
             <div style="overflow-x: auto;">
+
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -385,12 +389,14 @@
                         {% for date in array_dates %}
                         <th>{{ date['day_name'] | trans}} {{ date['day_number'] }}</th>
                         {% endfor %}
-                        <th>{{'RESERVATION_GUESTS' | trans}}</th>
+                        <th>{{'ADULTS' | trans}}</th>
+                        <th>{{'KIDS' | trans}}</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% set cont = 1 %}
                     {% for room in rooms %}
+                    <input class="hidden real_price_room" value="{{ room.getRoomPriceUpFrom }}">
                     {% set available = 1 %}
                     <tr {% if reservations[room.getRoomId] is defined %} style="color: #ff0008!important;" {% set available = 0 %} {% endif %}>
                         <td style="width: 100px">{{'RESERVATION_ROOM' | trans}} # {{cont}}</td>
@@ -409,21 +415,33 @@
                         {% endfor%}
                         {% endif %}
                             {% if print_price == 1%}
-                            {{ room.getRoomPriceUpFrom * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}
+                            {% if prices_dates[cont-1][loop.index0] is defined %}
+                            {{ prices_dates[cont-1][loop.index0] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}
+                            {% else %}
+                            -
+                            {% endif %}
                             {% endif %}
                         </td>
                         {% set cont_days = cont_days+1 %}
                         {% endfor %}
-                        <td>
+                        <td {% if available != 1 %} colspan="2" {% endif %}>
                             {% if available == 1 %}
-                            <select name="combo_guest_{{room.getRoomId}}" data='{{room.getRoomId}}' class="guest_number" style="width: 70px">
+                            <select data_total="{{array_prices[cont-1]}}" id="combo_guest_{{room.getRoomId}}" name="combo_guest_{{room.getRoomId}}" data='{{room.getRoomId}}' data_curr='{{ (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}' class="guest_number" style="width: 50px">
                                 <option value="0">0</option>
                                 {{ include('frontEndBundle:ownership:listGuestRoomOwnership.html.twig',{'room_type': room.getRoomType}) }}
                             </select>
-                            {% else %}
-                            <div class="badge badge-important">Ocupada</div>
-                            {% endif %}
                         </td>
+                        <td>
+                            <select data_total="{{array_prices[cont-1]}}" id="combo_kids_{{room.getRoomId}}" name="combo_kids_{{room.getRoomId}}" data='{{room.getRoomId}}' data_curr='{{ (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}' class="guest_number" style="width: 50px">
+                                <option value="0">0</option>
+                                {{ include('frontEndBundle:ownership:listGuestRoomOwnership.html.twig',{'room_type': room.getRoomType}) }}
+                            </select>
+                        </td>
+                            {% else %}
+                            <div style="text-align: center" class="badge badge-important btn-block">Ocupada</div>
+                        </td>
+                            {% endif %}
+
                     </tr>
                     {% set cont = cont +1%}
                     {% endfor %}
@@ -437,7 +455,8 @@
                     <th>{{'RESERVATION_SELECTED_ROOM' | trans}}</th>
                     <th>{{'RESERVATION_TYPE' | trans}}</th>
                     <th>{{'RESERVATION_ROOM_NUMBER' | trans}}</th>
-                    <th>{{'RESERVATION_GUESTS' | trans}}</th>
+                    <th>{{'ADULTS' | trans}}</th>
+                    <th>{{'KIDS' | trans}}</th>
                     <th>{{'RESERVATION_PRICE' | trans}}</th>
                 </tr>
                 </thead>
@@ -449,7 +468,7 @@
                 <div class="span8"></div>
                 <div class="span4" style="text-align: right">
                     <hr/>
-                    <b style="font-size: 16px">{{'RESERVATION_TOTAL_PRICE' | trans}} <span id="total_price"></span></b>
+                    <b style="font-size: 16px">{{'RESERVATION_TOTAL_PRICE' | trans}} {{app.session.get('curr_symbol')}}<span id="total_price"></span></b>
                     <hr/>
                     {% if post['reservation_filter_date_from'] is defined %}
                     {% set date_from = post['reservation_filter_date_from']|replace("/","&") %}
@@ -462,7 +481,7 @@
                     {% else %}
                     {% set date_to = "+6 day"|date("d&m&Y") %}
                     {% endif %}
-                    <a id="link_button" href="" data='{{ path('frontend_review_reservation',{'id_ownership':ownership.getOwnId,'from_date':date_from,'to_date':date_to,'ids_rooms':0,'count_guests':0,'total_price':0}) }}' class="btn-block btn orange_button">{{'RESERVATION_CHECK_AVAILABILITY' | trans}}</a>
+                    <a id="link_button" href="" data='{{ path('frontend_review_reservation',{'id_ownership':ownership.getOwnId,'from_date':date_from,'to_date':date_to,'ids_rooms':0,'count_guests':0,'count_kids':0,'rooms_price':0,'total_price':0}) }}' class="btn-block btn mycp_btn_orange mycp_btn">{{'RESERVATION_CHECK_AVAILABILITY' | trans}}</a>
                 </div>
             </div>
 
@@ -507,7 +526,7 @@
             {{"SUBTOTAL_RESERVATION" | trans}}
             <label class="medium_price">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} {{103 
 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</label>
-            <button class="btn btn-block orange_button btn-large">{{"RESERVE_RESERVATION" | trans}}</button>
+            <button class="btn btn-block mycp_btn_orange mycp_btn btn-large">{{"RESERVE_RESERVATION" | trans}}</button>
         </div>
     </div>
     <div class="thumbnail" style="padding: 12px">
@@ -620,8 +639,8 @@
 </div>
 </div>
 {% block include_javascripts %}
-<script src="http://maps.googleapis.com/maps/api/js?v=3&sensor=false" type="text/javascript"></script>
-<script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.js') }}"></script>
+<!--<script src="http://maps.googleapis.com/maps/api/js?v=3&sensor=false" type="text/javascript"></script>
+<script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.js') }}"></script>-->
 <script src="{{ asset('bundles/frontend/js/ownership_details.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/royal_slider/jquery.royalslider.min.js') }}"></script>
 <link href="{{ asset('bundles/frontend/css/royal_slider/royalslider.css') }}" rel="stylesheet"/>

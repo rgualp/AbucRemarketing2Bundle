@@ -46,7 +46,11 @@ class generalReservationRepository extends EntityRepository
                 break;
         }
         $em = $this->getEntityManager();
-        $query = $em->createQuery("SELECT gre,ow,(SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id),(SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id),(SELECT SUM(owres3.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id), us, cou FROM mycpBundle:generalReservation gre
+        $query = $em->createQuery("SELECT gre,ow,
+        (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id),
+        (SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id),
+        (SELECT SUM(owres3.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id),
+        us, cou FROM mycpBundle:generalReservation gre
         JOIN gre.gen_res_user_id us
         JOIN gre.gen_res_own_id ow
         JOIN us.user_country cou
@@ -61,6 +65,29 @@ class generalReservationRepository extends EntityRepository
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT gre,(SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id) AS rooms,(SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id) AS adults,(SELECT SUM(owres3.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id) AS childrens,ow FROM mycpBundle:generalReservation gre
         JOIN gre.gen_res_own_id ow");
+        return $query->getArrayResult();
+    }
+
+    function get_reservation_available_by_user($id_reservation ,$id_user)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT gre FROM mycpBundle:generalReservation gre
+        WHERE gre.gen_res_id = $id_reservation AND gre.gen_res_user_id = $id_user");
+        return $query->getArrayResult();
+    }
+
+    function find_pending_by_user($id_user, $status)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT us,gre,
+        (SELECT pho.pho_name FROM mycpBundle:ownershipPhoto owpho JOIN owpho.own_pho_photo pho WHERE owpho.own_pho_own = gre.gen_res_own_id AND pho.pho_order =
+        (SELECT MIN(pho2.pho_order) FROM mycpBundle:ownershipPhoto owpho2 JOIN owpho2.own_pho_photo pho2 WHERE owpho2.own_pho_own = gre.gen_res_own_id ))  AS photo ,
+        ow,mun,prov FROM mycpBundle:generalReservation gre
+        JOIN gre.gen_res_own_id ow
+        JOIN gre.gen_res_user_id us
+        JOIN ow.own_address_municipality mun
+        JOIN ow.own_address_province prov
+        WHERE gre.gen_res_status =$status AND us.user_id=$id_user");
         return $query->getArrayResult();
     }
 }

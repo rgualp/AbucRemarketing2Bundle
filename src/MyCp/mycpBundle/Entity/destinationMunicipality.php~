@@ -1,0 +1,93 @@
+<?php
+
+namespace MyCp\mycpBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * destinationMunicipality
+ *
+ * @ORM\Table(name="destinationmunicipality")
+ * @ORM\Entity
+ */
+class destinationMunicipality
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="des_mun_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $des_mun_id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="destination",inversedBy="destinationMun")
+     * @ORM\JoinColumn(name="des_mun_des_id",referencedColumnName="des_id")
+     */
+    private $des_mun_destination;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="municipality",inversedBy="destinationsMun")
+     * @ORM\JoinColumn(name="des_mun_mun_id",referencedColumnName="mun_id")
+     */
+    private $des_mun_municipality;
+
+
+
+    /**
+     * Get des_mun_id
+     *
+     * @return integer 
+     */
+    public function getDesMunId()
+    {
+        return $this->des_mun_id;
+    }
+
+    /**
+     * Set des_mun_destination
+     *
+     * @param \MyCp\mycpBundle\Entity\destination $desMunDestination
+     * @return destinationMunicipality
+     */
+    public function setDesMunDestination(\MyCp\mycpBundle\Entity\destination $desMunDestination = null)
+    {
+        $this->des_mun_destination = $desMunDestination;
+    
+        return $this;
+    }
+
+    /**
+     * Get des_mun_destination
+     *
+     * @return \MyCp\mycpBundle\Entity\destination 
+     */
+    public function getDesMunDestination()
+    {
+        return $this->des_mun_destination;
+    }
+
+    /**
+     * Set des_mun_municipality
+     *
+     * @param \MyCp\mycpBundle\Entity\municipality $desMunMunicipality
+     * @return destinationMunicipality
+     */
+    public function setDesMunMunicipality(\MyCp\mycpBundle\Entity\municipality $desMunMunicipality = null)
+    {
+        $this->des_mun_municipality = $desMunMunicipality;
+    
+        return $this;
+    }
+
+    /**
+     * Get des_mun_municipality
+     *
+     * @return \MyCp\mycpBundle\Entity\municipality 
+     */
+    public function getDesMunMunicipality()
+    {
+        return $this->des_mun_municipality;
+    }
+}

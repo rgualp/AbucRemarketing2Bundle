@@ -52,6 +52,7 @@ class BackendReservationController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
+
         $reservations= $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
             ->get_all_reservations($filter_date_reserve, $filter_offer_number, $filter_reference,
             $filter_date_from,$filter_date_to,$sort_by))->getResult();

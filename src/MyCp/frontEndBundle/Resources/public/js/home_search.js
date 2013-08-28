@@ -45,6 +45,11 @@ function search()
         url = url.toString().replace('_guests', guests);
     else url = url.toString().replace('_guests', '1');
     
+    var rooms = $('#input_room').val();    
+    if(rooms != $('#input_room').attr("placeholder") && rooms != "")
+        url = url.toString().replace('_rooms', rooms);
+    else url = url.toString().replace('_rooms', '1');
+    
     window.location = url;
 }
 

@@ -20,10 +20,10 @@ class AppKernel extends Kernel
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new MyCp\mycpBundle\mycpBundle(),
-            //new Ideup\SimplePaginatorBundle\IdeupSimplePaginatorBundle(),
+            new Ideup\SimplePaginatorBundle\IdeupSimplePaginatorBundle(),
             //new MyCp\FrontendBundle\FrontendBundle(),
             new MyCp\frontEndBundle\frontEndBundle(),
-            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+//            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

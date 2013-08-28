@@ -173,11 +173,11 @@ class destinationRepository extends EntityRepository
         return $query->getResult();
     }
 //destination.getDesMunDestination.getDesName
-    
+
     /**
      * Yanet - Inicio
      */
-    
+
     /**
      * Returns a set of destinations order by popularity
      * @param int $results_total Length of the return set
@@ -194,7 +194,7 @@ class destinationRepository extends EntityRepository
     /**
      * Returns a set of destination�s descriptions
      * @param array $destination_array - Set of destination to search it's description
-     * @param string $lang_code 
+     * @param string $lang_code
      * @return array
      */
     function get_destination_description($destination_array, $lang_code) {
@@ -208,7 +208,7 @@ class destinationRepository extends EntityRepository
                          JOIN dl.des_lang_lang l
                          WHERE l.lang_code='$lang_code'
                            AND dl. des_lang_destination=" . $destination->getDesId();
-                
+
                 $desc = $em->createQuery($query_string)->setMaxResults(1)->getResult();
                 $descriptions_array[$destination->getDesId()] = ($desc != null) ? $desc[0] : null;
             }
@@ -265,94 +265,118 @@ class destinationRepository extends EntityRepository
                     $province = $destination_location->getDesLocProvince();
                     $municipality = $destination_location->getDesLocMunicipality();
 
-                    $location_array[$destination->getDesId()] = $municipality .(($province != null && $province != '' && $municipality != null && $municipality != '') ? ' / ' : '').$province;
+                    $location_array[$destination->getDesId()] = $municipality . (($province != null && $province != '' && $municipality != null && $municipality != '') ? ' / ' : '') . $province;
                 }
                 else
                     $location_array[$destination->getDesId()] = "";
-                
             }
             return $location_array;
         }
-        
     }
-    
-    function destination_filter($municipality_id = null, $province_id = null, $exclude_destination_id = null, $exclude_municipality = null, $max_result_set = null)
-    {
+
+    function destination_filter($municipality_id = null, $province_id = null, $exclude_destination_id = null, $exclude_municipality = null, $max_result_set = null) {
         $em = $this->getEntityManager();
         $query_string = "SELECT l FROM mycpBundle:destinationLocation l
                          JOIN l.des_loc_destination d
                          WHERE d.des_active <> 0";
-        
-        if($municipality_id != null && $municipality_id != -1 && $municipality_id != '')
-            $query_string = $query_string." AND l.des_loc_municipality =$municipality_id";
-        
-        if($exclude_municipality != null && $exclude_municipality != -1 && $exclude_municipality != '')
-            $query_string = $query_string." AND l.des_loc_municipality <> $exclude_municipality";
-        
-        if($province_id != null && $province_id != -1 && $province_id != '')
-            $query_string = $query_string." AND l.des_loc_province =$province_id";
-        
-         if($exclude_destination_id != null && $exclude_destination_id != -1 && $exclude_destination_id != '')
-            $query_string = $query_string." AND l.des_loc_destination <> $exclude_destination_id";
-        
-        $query_string = $query_string." ORDER BY d.des_order DESC";
-        
+
+        if ($municipality_id != null && $municipality_id != -1 && $municipality_id != '')
+            $query_string = $query_string . " AND l.des_loc_municipality =$municipality_id";
+
+        if ($exclude_municipality != null && $exclude_municipality != -1 && $exclude_municipality != '')
+            $query_string = $query_string . " AND l.des_loc_municipality <> $exclude_municipality";
+
+        if ($province_id != null && $province_id != -1 && $province_id != '')
+            $query_string = $query_string . " AND l.des_loc_province =$province_id";
+
+        if ($exclude_destination_id != null && $exclude_destination_id != -1 && $exclude_destination_id != '')
+            $query_string = $query_string . " AND l.des_loc_destination <> $exclude_destination_id";
+
+        $query_string = $query_string . " ORDER BY d.des_order DESC";
+
         $result = ($max_result_set != null && $max_result_set > 0) ? $em->createQuery($query_string)->setMaxResults($max_result_set)->getResult() : $em->createQuery($query_string)->getResult();
-        
+
         $destinations = array();
-        
-        foreach($result as $destLocation)
+
+        foreach ($result as $destLocation)
             $destinations[] = $destLocation->getDesLocDestination();
-        
+
         return $destinations;
     }
-    
-    function ownsership_nearby_destination($municipality_id = null, $province_id = null, $max_result_set = null)
-    {
-        if($municipality_id != null || $province_id != null)
-        {
-        $em = $this->getEntityManager();
-        $query_string = "SELECT o FROM mycpBundle:ownership o
-                         WHERE o.own_public <> 0";
-        
-        if($municipality_id != null && $municipality_id != -1 && $municipality_id != '')
-            $query_string = $query_string." AND o.own_address_municipality =$municipality_id";
-        
-        if($province_id != null && $province_id != -1 && $province_id != '')
-            $query_string = $query_string." AND o.own_address_province =$province_id";
-        
-        $query_string = $query_string." ORDER BY o.own_rating DESC";
-        return ($max_result_set != null && $max_result_set > 0) ? $em->createQuery($query_string)->setMaxResults($max_result_set)->getResult() : $em->createQuery($query_string)->getResult();
+
+    function ownsership_nearby_destination($municipality_id = null, $province_id = null, $max_result_set = null) {
+        if ($municipality_id != null || $province_id != null) {
+            $em = $this->getEntityManager();
+            $query_string = "SELECT o FROM mycpBundle:ownership o
+                         WHERE o.own_status = 1";
+
+            if ($municipality_id != null && $municipality_id != -1 && $municipality_id != '')
+                $query_string = $query_string . " AND o.own_address_municipality =$municipality_id";
+
+            if ($province_id != null && $province_id != -1 && $province_id != '')
+                $query_string = $query_string . " AND o.own_address_province =$province_id";
+
+            $query_string = $query_string . " ORDER BY o.own_rating DESC";
+            return ($max_result_set != null && $max_result_set > 0) ? $em->createQuery($query_string)->setMaxResults($max_result_set)->getResult() : $em->createQuery($query_string)->getResult();
         }
         return null;
     }
-    
-    function getPhotos($destination_id) {
-        
-            $photos_array = array();
-            $em = $this->getEntityManager();
-            $destination_photos = $em->getRepository('mycpBundle:destinationPhoto')->findBy(array(
-                    'des_pho_destination' => $destination_id));
-            
-            foreach ($destination_photos as $destination_photo) {
-                
-                if ($destination_photo != null) {
-                    $photo_name = $destination_photo->getDesPhoPhoto()->getPhoName();
 
-                    if (file_exists(realpath("uploads/destinationImages/" . $photo_name))) {
-                        $photos_array[$destination_photo->getDesPhoDestination()->getDesId()] = $photo_name;
-                    } else {
-                        $photos_array[$destination_photo->getDesPhoDestination()->getDesId()] = 'no_photo.png';
-                    }
+    function get_destination_owns_statistics($destination_array) {
+        if (is_array($destination_array)) {
+            $statistics_array = array();
+            $em = $this->getEntityManager();
+
+            foreach ($destination_array as $destination) {
+                $destination_location = $em->getRepository('mycpBundle:destinationLocation')->findOneBy(array(
+                    'des_loc_destination' => $destination->getDesId()));
+                if ($destination_location != null) {
+                    $province = $destination_location->getDesLocProvince();
+                    $municipality = $destination_location->getDesLocMunicipality();
+                    $query_string = "SELECT count(o),MIN(o.own_minimum_price) FROM mycpBundle:ownership o
+                         WHERE o.own_status = 1";
+                    if ($municipality != null)
+                        $query_string = $query_string . " AND o.own_address_municipality =".$municipality->getMunId();
+
+                    if ($province != null)
+                        $query_string = $query_string . " AND o.own_address_province =".$province->getProvId();
+                    $results = $em->createQuery($query_string)->getResult();
+                    $statistics_array[$destination->getDesId()] = array(
+                        'total' =>  intval($results[0][1]) ,
+                        'minimum_prize' => floatval($results[0][2])
+                    );
+                }
+            }
+            return $statistics_array;
+        }
+    }
+
+    function getPhotos($destination_id) {
+
+        $photos_array = array();
+        $em = $this->getEntityManager();
+        $destination_photos = $em->getRepository('mycpBundle:destinationPhoto')->findBy(array(
+            'des_pho_destination' => $destination_id));
+
+        foreach ($destination_photos as $destination_photo) {
+
+            if ($destination_photo != null) {
+                $photo_name = $destination_photo->getDesPhoPhoto()->getPhoName();
+
+                if (file_exists(realpath("uploads/destinationImages/" . $photo_name))) {
+                    $photos_array[$destination_photo->getDesPhoDestination()->getDesId()] = $photo_name;
                 } else {
                     $photos_array[$destination_photo->getDesPhoDestination()->getDesId()] = 'no_photo.png';
                 }
+            } else {
+                $photos_array[$destination_photo->getDesPhoDestination()->getDesId()] = 'no_photo.png';
             }
+        }
 
-            return $photos_array;
+        return $photos_array;
     }
-    
-    function getPhotoDescription($photos,$lang_code) {
+
+    function getPhotoDescription($photos, $lang_code) {
         if (is_array($photos)) {
             $em = $this->getEntityManager();
             $query_string = "";
@@ -363,7 +387,7 @@ class destinationRepository extends EntityRepository
                 $query_string = "SELECT p FROM mycpBundle:photoLang p
                          JOIN p.pho_lang_id_lang l
                          WHERE l.lang_code='$lang_code'
-                           AND p.pho_lang_id_photo=".$photo->getPhoId();
+                           AND p.pho_lang_id_photo=" . $photo->getPhoId();
                 $descriptions[$photo->getPhoId()] = $em->createQuery($query_string)->setMaxResults(1)->getResult();
             }
 
@@ -374,5 +398,6 @@ class destinationRepository extends EntityRepository
     /**
      * Yanet - Fin
      */
+
 
 }

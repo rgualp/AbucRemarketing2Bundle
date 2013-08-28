@@ -1,0 +1,52 @@
+<?php
+
+namespace MyCp\mycpBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * destinos_lang
+ *
+ * @ORM\Table()
+ * @ORM\Entity
+ */
+class destinos_lang
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="des_lang_id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $des_lang_id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="des_lang_brief", type="text")
+     */
+    private $des_lang_brief;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="des_lang_desc", type="text")
+     */
+    private $des_lang_desc;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="destinos", inversedBy="destinos")
+     * @ORM\JoinColumn(name="des_lang_des_id", referencedColumnName="des_id")
+     * @return integer
+     */
+    private $des_lang_des_id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="lang", inversedBy="languages")
+     * @ORM\JoinColumn(name="des_lang_lang_id", referencedColumnName="lang_id")
+     * @return integer
+     */
+    private $des_lang_lang_id;
+
+}

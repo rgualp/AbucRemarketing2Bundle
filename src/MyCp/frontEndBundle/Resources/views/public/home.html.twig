@@ -6,7 +6,7 @@
 
 {% block include_javascripts_and_css %}
 <link href="{{ asset('bundles/frontend/css/royal_slider/rs-minimal-white.css') }} rel="stylesheet" media="screen">
-      <link href="{{ asset('bundles/frontend/css/royal_slider/royalslider.css') }}" rel="stylesheet" media="screen">
+<link href="{{ asset('bundles/frontend/css/royal_slider/royalslider.css') }}" rel="stylesheet" media="screen">
 <link href="{{ asset('bundles/frontend/css/bootstrap/bootstrap-datepicker.css') }}" rel="stylesheet" media="screen">
 <script src="{{ asset('bundles/frontend/js/royal_slider/jquery.royalslider.min.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/full_slider.js') }}"></script>
@@ -37,13 +37,14 @@
 {% block big_banner_info %}
 <div id="banner_search">
     <div class="row-fluid">
-        <div class="perc_40 where"><input type="text" id="input_text" placeholder="{{"PLACE_WATERMARK" | trans}}" autocomplete="off" data-highlighter="null" class="input-block-level" data-items="5" data- data-provide="typeahead" data-source='{{autocomplete_text_list}}'/></div>
-        <div class="perc_15"><input type="text" id="input_arrival_date" placeholder="{{"ARRIVAL_WATERMARK" | trans}}" class="input-block-level start" data-localization='{{locale}}'/></div>
-        <div class="perc_15"><input type="text" id="input_departure_date" placeholder="{{"DEPARTURE_WATERMARK" | trans}}" class="input-block-level end" data-localization='{{locale}}'/></div>
-        <div class="perc_15"><input type="text" id="input_guests" placeholder="{{"GUEST_WATERMARK" | trans}}" class="input-block-level guest numeric" /></div>
-        <div class="perc_15">
-            <button type="submit" id="btn_search" class="btn btn-block orange_button" data-url="{{ path('frontend_search_ownership',{'text':'_text', 'arrival':'_arrival','departure':'_departure','guests':'_guests'})}}">
-                <i class="icon-search icon-white"></i> {{"SEARCH" | trans}}
+        <div class="perc_35 where"><input type="text" id="input_text" placeholder="{{"PLACE_WATERMARK" | trans}}" autocomplete="off" data-highlighter="null" class="input-block-level" data-items="5" data- data-provide="typeahead" data-source='{{autocomplete_text_list}}'/></div>
+        <div class="perc_13"><input type="text" id="input_arrival_date" placeholder="{{"ARRIVAL_WATERMARK" | trans}}" class="input-block-level start" data-localization='{{locale}}'/></div>
+        <div class="perc_13"><input type="text" id="input_departure_date" placeholder="{{"DEPARTURE_WATERMARK" | trans}}" class="input-block-level end" data-localization='{{locale}}'/></div>
+        <div class="perc_13"><input type="text" id="input_guests" placeholder="{{"GUEST_WATERMARK" | trans}}" class="input-block-level guest numeric" /></div>
+        <div class="perc_13"><input type="text" id="input_room" placeholder="{{"ROOM_WATERMARK" | trans}}" class="input-block-level room numeric" /></div>
+        <div class="perc_13">
+            <button type="submit" id="btn_search" class="btn btn-block mycp_btn_green mycp_btn" data-url="{{ path('frontend_search_ownership',{'text':'_text', 'arrival':'_arrival','departure':'_departure','guests':'_guests','rooms':'_rooms'})}}">
+                <!--i class="icon-search icon-white"></i--> {{"SEARCH" | trans}}
             </button></div>
     </div>
 </div>
@@ -178,13 +179,7 @@
                                     <div id="popular_destinations" class="tab-pane fade in active">
                                         <div class="row-fluid">
             {% for destination in popular_places %}
-                                                <div class="span3">
-                                                    <a href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}" title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}">
-                                                        <img src="{{ asset("uploads/destinationImages/" ~ popular_places_photos[destination.desid])}}"/>
-                                                        <label>{{destination.desName}}</label>
-                                                    </a>
-                                                    <label class="place">{{popular_places_localization[destination.desid]}}</label>
-                                                </div>
+                  {{ include('frontEndBundle:destination:homeItemDestination.html.twig',{'destination': destination}) }}                             
             {% else %}
                                                 <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
             {% endfor %}
