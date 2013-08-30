@@ -1,0 +1,3 @@
+frontend_payment_skrill:
+    pattern:  /payment/skrill
+    defaults: { _controller: frontEndBundle:payment:skrill }
