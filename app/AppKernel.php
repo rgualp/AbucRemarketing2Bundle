@@ -21,7 +21,6 @@ class AppKernel extends Kernel
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new MyCp\mycpBundle\mycpBundle(),
             new Ideup\SimplePaginatorBundle\IdeupSimplePaginatorBundle(),
-            //new MyCp\FrontendBundle\FrontendBundle(),
             new MyCp\frontEndBundle\frontEndBundle(),
 //            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
         );
