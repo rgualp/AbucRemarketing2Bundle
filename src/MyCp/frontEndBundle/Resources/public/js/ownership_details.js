@@ -30,16 +30,16 @@ function start(){
     // ernesto code
     total_price=0;
     $('.guest_number').change(function(){
-        if($('#'+$(this).attr('name')).html()){
-            if(this.value==0)
+        if($('#tr_'+$(this).attr('data')).html()){
+            if($('#combo_guest_'+$(this).attr('data')).val()+$('#combo_kids_'+$(this).attr('data')).val()==0)
             {
-                $('#tr_'+$(this).attr('name')).remove();
+                $('#tr_'+$(this).attr('data')).remove();
                 if ($('#rooms_selected >tbody >tr').length == 0){
                     $('#rooms_selected').css({display: 'none'})
                     $('#button_availability').css({display: 'none'})
                 }
 
-                total_price();
+                total_price($(this).attr('data_curr'));
             }
             else
             {
@@ -52,44 +52,51 @@ function start(){
                 {
                     value=this.parentNode.parentNode.cells[2].innerHTML*(cont_array_dates-1);
                 }
-                $('#'+$(this).attr('name')).html(this.value);
-                $('#price_'+$(this).attr('name')).html(value);
+                $('#guest_'+$(this).attr('data')).html($('#combo_guest_'+$(this).attr('data')).val());
+                $('#kids_'+$(this).attr('data')).html($('#combo_kids_'+$(this).attr('data')).val());
+                $('#price_'+$(this).attr('data')).html(value);
 
-                total_price();
+                total_price($(this).attr('data_curr'));
 
             }
         }
         else
         {
             value=0;
+            real_value=0;
             if(this.parentNode.parentNode.cells[1].innerHTML=='Habitación Triple')
             {
-                value=this.parentNode.parentNode.cells[2].innerHTML*(cont_array_dates-1)+((cont_array_dates-1)*10);
+                value=$(this).attr('data_total')*$(this).attr('data_curr') + 10;
             }
             else
             {
-                value=this.parentNode.parentNode.cells[2].innerHTML*(cont_array_dates-1);
+                value=$(this).attr('data_total')*$(this).attr('data_curr');
             }
-
 
             $('#rooms_selected').css({display: 'table'})
             $('#button_availability').css({display: 'block'})
-            $('#rooms_selected > tbody:last').append('<tr id="tr_'+$(this).attr('name')+'">' +
+            $('#rooms_selected > tbody:last').append('<tr id="tr_'+$(this).attr('data')+'">' +
                 '<td class="id_room" style="display: none;">'+$(this).attr('data')+'</td>' +
                 '<td>'+this.parentNode.parentNode.cells[0].innerHTML+'</td>' +
                 '<td>'+this.parentNode.parentNode.cells[1].innerHTML+'</td>' +
                 '<td>1</td>' +
-                '<td class="guest" id="'+$(this).attr('name')+'">'+this.value+'</td>'+
-                '<td class="price" id="price_'+$(this).attr('name')+'">'+value+'</td>');
+                '<td class="guest" id="guest_'+$(this).attr('data')+'">'+$('#combo_guest_'+$(this).attr('data')).val()+'</td>'+
+                '<td class="kids" id="kids_'+$(this).attr('data')+'">'+$('#combo_kids_'+$(this).attr('data')).val()+'</td>'+
+                '<td class="price" id="price_'+$(this).attr('data')+'">'+value+'</td>');
 
-            total_price();
+            total_price($(this).attr('data_curr'));
         }
         
-        function total_price()
+        function total_price(curr)
         {
+            real_price=0;
             total_price=0;
+            rooms_price=''
             $('.price').each(function() {
-                total_price=total_price+parseInt(this.innerHTML)});
+                total_price=total_price+parseFloat(this.innerHTML);
+                real_price=real_price+parseFloat(this.innerHTML/curr);
+                rooms_price=rooms_price+'&'+(this.innerHTML/curr);
+            });
 
             ids_rooms='';
             $('.id_room').each(function() {
@@ -99,12 +106,15 @@ function start(){
             $('.guest').each(function() {
                 count_guests=count_guests+'&'+(this.innerHTML)});
 
+            count_kids='';
+            $('.kids').each(function() {
+                count_kids=count_kids+'&'+(this.innerHTML)});
             string_url=$('#link_button').attr('data');
-            string_url=string_url.substring(0,string_url.length-5);
-
-            string_url+=ids_rooms+'/'+count_guests+'/'+total_price;
+            string_url=string_url.substring(0,string_url.length-9);
+            string_url+=ids_rooms+'/'+count_guests+'/'+count_kids+'/'+rooms_price+'/'+real_price;
             $('#link_button').attr('href',string_url);
-            $('#total_price').html(total_price);
+            $('#total_price').html(total_price );
+
         }
     });
     // fin ernesto code

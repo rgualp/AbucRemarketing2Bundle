@@ -47,4 +47,17 @@ class informationRepository extends EntityRepository
         }
         $em->flush();
     }
+
+    function list_information($information_type, $language)
+    {
+        $em=$this->getEntityManager();
+        $query_string = "SELECT il FROM mycpBundle:informationLang il
+                        JOIN il.info_lang_info info
+                        JOIN il.info_lang_lang lang
+                        JOIN info.info_id_nom nom
+                        WHERE lang.lang_code = '".$language.
+            "' AND nom.nom_name = '".$information_type."'";
+
+        return $em->createQuery($query_string)->getResult();
+    }
 }

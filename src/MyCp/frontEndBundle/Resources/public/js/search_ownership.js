@@ -182,6 +182,7 @@ function research()
     var arrival = $('#input_arrival_date').val();    
     var departure = $('#input_departure_date').val();    
     var guests = $('#input_guests').val(); 
+    var rooms = $('#input_rooms').val(); 
     var text = $('#input_text').val();
     
     var result=$('#div_result');
@@ -194,6 +195,7 @@ function research()
         'arrival':arrival,
         'departure':departure,
         'guests':guests,
+        'rooms' : rooms,
         'text':text
     },function(data){
         result.html(data);

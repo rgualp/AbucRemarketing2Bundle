@@ -1,0 +1,43 @@
+{% extends 'frontEndBundle:layout:base.html.twig' %}
+{% block title %}MyCasaTrip{% endblock %}
+{% set main_tab = 6 %}
+{% block content_nav_top_body %}
+Mycasa trip
+{% endblock %}
+{% block body %}
+<ul class="breadcrumb">
+    <li><a title="Ir a la portada" href="{{ path('frontend_welcome') }}">Inicio</a> <span
+            class="divider">»</span></li>
+    <li class="active">MyCasaTrip</li>
+</ul>
+<div class="green_bar">
+    <div class="row-fluid">
+        <div class="span8"></div>
+        <div class="span4" style="text-align: right; padding-right: 10px">
+            <select data-url="/mycp/web/app_dev.php/es/order_results/" id="select_change_order">
+                <option selected="" value="PRICE_LOW_HIGH">Precio /Menor a Mayor</option>
+                <option value="PRICE_HIGH_LOW">Precio /Mayor a Menor</option>
+                <option value="BEST_VALUED">Mejor Valorada</option>
+                <option value="WORST_VALUED">Peor Valorada</option>
+                <option value="A_Z">Alfabéticamente /A - Z</option>
+                <option value="Z_A">Alfabéticamente /Z - A</option>
+            </select>
+        </div>
+    </div>
+</div>
+<div class="thumbnail" style="border-radius: 0 0 8px 8px; padding: 10px 10px 12px">
+    <div class="row-fluid">
+        <div class="span4">
+            {% if menu is not defined %}
+            {% set menu = 0 %}
+            {% endif %}
+            {{ include('frontEndBundle:mycasatrip:menu.html.twig') }}
+        </div>
+        <div class="span8">
+            {% block body_inner %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

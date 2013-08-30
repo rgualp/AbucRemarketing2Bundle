@@ -30,5 +30,10 @@ frontend_information:
 frontend_faq:
     resource: "@frontEndBundle/Resources/config/routingFrontendFaq.yml"
 
+frontend_mycasatrip:
+    resource: "@frontEndBundle/Resources/config/routingFrontendMyCasaTrip.yml"
+    prefix: mycasatrip/
+
 frontend_payment:
     resource: "@frontEndBundle/Resources/config/routingFrontendPayment.yml"
+

@@ -112,6 +112,7 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnRating(0);
         $ownership->setOwnMaximumPrice(0);
         $ownership->setOwnMinimumPrice(0);
+        $ownership->setOwnRoomsTotal(0);
         /**
          * Codigo Yanet - Fin
          */
@@ -157,6 +158,14 @@ class ownershipRepository extends EntityRepository {
                 $em->persist($okl);
             }
         }
+
+        /**
+         * Codigo Yanet - Inicio
+         */
+        $ownership->setOwnRoomsTotal($data['count_rooms']);
+        /**
+         * Codigo Yanet - Fin
+         */
 
         for ($e = 1; $e <= $data['count_rooms']; $e++) {
             $room = new room();
@@ -322,6 +331,7 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnMaximumNumberGuests(0);
         $ownership->setOwnMaximumPrice(0);
         $ownership->setOwnMinimumPrice(0);
+        $ownership->setOwnRoomsTotal(0);
         /**
          * Codigo Yanet - Fin
          */
@@ -375,6 +385,15 @@ class ownershipRepository extends EntityRepository {
 
         //var_dump($old_rooms); exit();
         //exit();
+
+        /**
+         * Codigo Yanet - Inicio
+         */
+        $ownership->setOwnRoomsTotal($data['count_rooms']);
+        /**
+         * Codigo Yanet - Fin
+         */
+
         for ($e = 1; $e <= $data['count_rooms']; $e++) {
             $room = new room();
             if (isset($old_rooms[$e - 1])) {
@@ -467,7 +486,8 @@ class ownershipRepository extends EntityRepository {
      * @param string $order_by
      * @return array of MyCp\mycpBundle\Entity\ownership
      */
-    function search($text = null, $arrivalDate = null, $leavingDate = null, $guest_total = 1, $order_by = 'PRICE_LOW_HIGH', $room_filter = false, $filters = null) {
+
+    function search($text = null, $arrivalDate = null, $leavingDate = null, $guest_total = 1, $rooms_total = 1, $order_by = 'PRICE_LOW_HIGH', $room_filter = false, $filters = null) {
 
         $em = $this->getEntityManager();
 
@@ -478,76 +498,80 @@ class ownershipRepository extends EntityRepository {
         } else {
             $query_string = "SELECT r FROM mycpBundle:room r JOIN r.room_ownership o JOIN o.own_address_province p";
         }
-        $where = ' WHERE o.own_status = 1';
+        $where = ' WHERE o.own_status = 1 ';
         if ($text != null && $text != '' && $text != 'null')
             $where = $where . ($where != '' ? " AND " : " WHERE ") . "p.prov_name LIKE '%$text%' OR " . "o.own_name LIKE '%$text%' OR o.own_mcp_code LIKE '%$text%' OR m.mun_name LIKE '%$text%'";
 
-        if ($filters != null && is_array($filters) && $filters['own_beds_total'] != null && is_array($filters['own_beds_total']) && count($filters['own_beds_total']) > 0)
+        if ($filters != null && is_array($filters) && in_array('own_beds_total', $filters) && $filters['own_beds_total'] != null && is_array($filters['own_beds_total']) && count($filters['own_beds_total']) > 0)
         {
             $temp_array = $filters['own_beds_total'];
-                
-                if(in_array('+5', $temp_array))
-                {
-                    $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_maximun_number_guests > 5";
-                    
-                    if(($key = array_search('+5', $temp_array)) !== false) {
-                        unset($temp_array[$key]);
-                    }
+
+            if(in_array('+5', $temp_array))
+            {
+                $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_maximun_number_guests > 5";
+
+                if(($key = array_search('+5', $temp_array)) !== false) {
+                    unset($temp_array[$key]);
                 }
-                
-                $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_maximun_number_guests IN (".$this->getStringFromArray($filters['own_beds_total'],false).")";
+            }
+
+            $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_maximun_number_guests IN (".$this->getStringFromArray($filters['own_beds_total'],false).")";
         }
         else if ($guest_total != null && $guest_total != 'null' && $guest_total > 0)
             $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_maximun_number_guests >= $guest_total";
 
+        if ($rooms_total != null && $rooms_total != 'null' && $rooms_total > 0)
+            $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_rooms_total >= $rooms_total";
+
 
         if ($filters != null && is_array($filters)) {
 
-            if ($filters['own_category'] != null && is_array($filters['own_category']) && count($filters['own_category']) > 0)
+            if (key_exists('own_category', $filters) && $filters['own_category'] != null && is_array($filters['own_category']) && count($filters['own_category']) > 0)
                 $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_category IN (".$this->getStringFromArray($filters['own_category']).")";
 
-            if ($filters['own_type'] != null && is_array($filters['own_type']) && count($filters['own_type']) > 0)
+            if (key_exists('own_type', $filters) && $filters['own_type'] != null && is_array($filters['own_type']) && count($filters['own_type']) > 0)
                 $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_type IN (".$this->getStringFromArray($filters['own_type']).")";
 
 
-            if ($filters['own_price_from'] != null && is_array($filters['own_price_from']) && count($filters['own_price_from']) > 0 && $filters['own_price_to'] != null && is_array($filters['own_price_to']) && count($filters['own_price_to']) > 0)
+            if (key_exists('own_price_from', $filters) && $filters['own_price_from'] != null && is_array($filters['own_price_from']) && count($filters['own_price_from']) > 0 && $filters['own_price_to'] != null && is_array($filters['own_price_to']) && count($filters['own_price_to']) > 0)
             {
                 $prices_where = "";
-                
+
                 for($i=0; $i< count($filters['own_price_from']); $i++)
                 {
                     $prices_where .= ($prices_where != '' ? " AND " : "")."(o.own_minimum_price >=" . $filters['own_price_from'][$i] . " AND o.own_minimum_price <=" . $filters['own_price_to'][$i]  . ")";
                 }
-                
+
                 $where = $where . (($prices_where != "")?($where != '' ? " AND " : " WHERE ") . "($prices_where)" : "");
             }
 
-            if ($filters['room_type'] != null && is_array($filters['room_type']) && count($filters['room_type']) > 0)
+
+            if (key_exists('room_type', $filters) && $filters['room_type'] != null && is_array($filters['room_type']) && count($filters['room_type']) > 0)
                 $where = $where . ($where != '' ? " AND " : " WHERE ") . "r.room_type IN (".$this->getStringFromArray($filters['room_type']).")";
 
-            if ($filters['room_climatization'] != null && $filters['room_climatization'] != 'null' && $filters['room_climatization'] != '')
+            if (key_exists('room_climatization', $filters) && $filters['room_climatization'] != null && $filters['room_climatization'] != 'null' && $filters['room_climatization'] != '')
                 $where = $where . ($where != '' ? " AND " : " WHERE ") . "r.room_climate = '" . $filters['room_climatization'] . "'";
 
-            if ($filters['room_safe'])
+            if (key_exists('room_safe', $filters) && $filters['room_safe'])
                 $where = $where . ($where != '' ? " AND " : " WHERE ") . "r.room_safe = 1";
 
-            if ($filters['room_audiovisuals'])
+            if (key_exists('room_audiovisuals', $filters) && $filters['room_audiovisuals'])
                 $where = $where . ($where != '' ? " AND " : " WHERE ") . "(r.room_audiovisual <>'' OR r.room_audiovisual IS NOT NULL)";
 
-            if ($filters['room_kids'])
+            if (key_exists('room_kids', $filters) && $filters['room_kids'])
                 $where = $where . ($where != '' ? " AND " : " WHERE ") . "r.room_baby = 1";
 
-            if ($filters['room_smoker'])
+            if (key_exists('room_smoker', $filters) && $filters['room_smoker'])
                 $where = $where . ($where != '' ? " AND " : " WHERE ") . "r.room_smoker = 1";
 
-            if ($filters['room_windows_total'] != null && is_array($filters['room_windows_total']) && count($filters['room_windows_total']) > 0)
+            if (key_exists('room_windows_total', $filters) && $filters['room_windows_total'] != null && is_array($filters['room_windows_total']) && count($filters['room_windows_total']) > 0)
             {
                 $temp_array = $filters['room_windows_total'];
-                
+
                 if(in_array('+5', $temp_array))
                 {
                     $where = $where . ($where != '' ? " AND " : " WHERE ") . "r.room_windows > 5";
-                    
+
                     if(($key = array_search('+5', $temp_array)) !== false) {
                         unset($temp_array[$key]);
                     }
@@ -555,37 +579,37 @@ class ownershipRepository extends EntityRepository {
                 $where = $where . ($where != '' ? " AND " : " WHERE ") . "r.room_windows IN (".$this->getStringFromArray($temp_array,false).")";
             }
 
-            if ($filters['room_balcony'])
+            if (key_exists('room_balcony', $filters) && $filters['room_balcony'])
                 $where = $where . ($where != '' ? " AND " : " WHERE ") . "r.room_balcony = 1";
 
-            if ($filters['room_terraza'])
+            if (key_exists('room_terraza', $filters) && $filters['room_terraza'])
                 $where = $where . ($where != '' ? " AND " : " WHERE ") . "r.room_terrace = 1";
 
-            if ($filters['room_courtyard'])
+            if (key_exists('room_courtyard', $filters) && $filters['room_courtyard'])
                 $where = $where . ($where != '' ? " AND " : " WHERE ") . "r.room_yard = 1";
 
-            if ($filters['room_bathroom'] != null && is_array($filters['room_bathroom']) && count($filters['room_bathroom']) > 0)
+            if (key_exists('room_bathroom', $filters) && $filters['room_bathroom'] != null && is_array($filters['room_bathroom']) && count($filters['room_bathroom']) > 0)
                 $where = $where . ($where != '' ? " AND " : " WHERE ") . "r.room_bathroom IN (".$this->getStringFromArray($filters['room_bathroom']).")";
 
-            if ($filters['own_others_pets'])
+            if (key_exists('own_others_pets', $filters) && $filters['own_others_pets'])
                 $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_description_pets = 1";
 
-            if ($filters['own_others_internet'])
+            if (key_exists('own_others_internet', $filters) && $filters['own_others_internet'])
                 $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_description_internet = 1";
 
-            if ($filters['own_others_languages'] != null && is_array($filters['own_others_languages']) && count($filters['own_others_languages']) > 0)
+            if (key_exists('own_others_languages', $filters) && $filters['own_others_languages'] != null && is_array($filters['own_others_languages']) && count($filters['own_others_languages']) > 0)
             {
-                 $lang_where = "";
-                
+                $lang_where = "";
+
                 for($i=0; $i< count($filters['own_others_languages']); $i++)
                 {
                     $lang_where .= ($lang_where != '' ? " AND " : "")."o.own_langs LIKE '" . $filters['own_others_languages'][$i] . "'";
                 }
-                
+
                 $where = $where . (($lang_where != "")?($where != '' ? " AND " : " WHERE ") . "($lang_where)" : "");
             }
 
-            if ($filters['own_others_included'] != null && is_array($filters['own_others_included']) && count($filters['own_others_included']) > 0) {
+            if (key_exists('own_others_included', $filters) && $filters['own_others_included'] != null && is_array($filters['own_others_included']) && count($filters['own_others_included']) > 0) {
                 for($i=0; $i< count($filters['own_others_languages']); $i++)
                 {
                     switch ($filters['own_others_included'][$i]) {
@@ -602,7 +626,7 @@ class ownershipRepository extends EntityRepository {
                 }
             }
 
-            if ($filters['own_others_not_included'] != null && is_array($filters['own_others_not_included']) && count($filters['own_others_not_included']) > 0) {
+            if (key_exists('own_others_not_included', $filters) && $filters['own_others_not_included'] != null && is_array($filters['own_others_not_included']) && count($filters['own_others_not_included']) > 0) {
                 for($i=0; $i< count($filters['own_others_not_included']); $i++)
                 {
                     switch ($filters['own_others_not_included'][$i]) {
@@ -622,21 +646,21 @@ class ownershipRepository extends EntityRepository {
                 }
             }
 
-            if ($filters['own_rooms_number'] != null && is_array($filters['own_rooms_number']) && count($filters['own_rooms_number']) > 0)
+            if (key_exists('own_rooms_number', $filters) && $filters['own_rooms_number'] != null && is_array($filters['own_rooms_number']) && count($filters['own_rooms_number']) > 0)
             {
                 $temp_array = $filters['own_rooms_number'];
-                
+
                 if(in_array('+5', $temp_array))
                 {
                     $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_rooms_total > 5";
-                    
+
                     if(($key = array_search('+5', $temp_array)) !== false) {
                         unset($temp_array[$key]);
                     }
                 }
                 $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_rooms_total IN (".$this->getStringFromArray($temp_array,false).")";
             }
-            
+
         }
 
         if ($where != '')
@@ -659,7 +683,8 @@ class ownershipRepository extends EntityRepository {
         }
 
         $query_string = $query_string . ' ORDER BY ' . $order;
-        $query = $em->createQuery($query_string);  
+
+        $query = $em->createQuery($query_string);
         $ownerships_list = array();
 
         if (!$room_filter) {
@@ -708,6 +733,7 @@ class ownershipRepository extends EntityRepository {
         return $ownerships_list;
     }
 
+
     /**
      * Muestra todas las casas que son top20, para mostrar en la portada
      * @param varchar $lang_code
@@ -728,33 +754,29 @@ class ownershipRepository extends EntityRepository {
      */
     function getOwnsCategories($own_ids = null) {
         $em = $this->getEntityManager();
-        
-        if($own_ids != null)
-            $query_string = "SELECT DISTINCT o.own_category FROM mycpBundle:ownership o
-                            WHERE o.own_status = 1 AND o.own_id IN ($own_ids)
-                            ORDER BY o.own_category";
-        else
-            $query_string = "SELECT DISTINCT o.own_category FROM mycpBundle:ownership o
-                             WHERE o.own_status = 1
-                             ORDER BY o.own_category";
 
-        $owns_categories = $em->createQuery($query_string)->getResult();
+        $owns_categories = array();
+        $owns_categories[] = "Económica";
+        $owns_categories[] = "Rango medio";
+        $owns_categories[] = "Premium";
+
         $categories = array();
 
         foreach ($owns_categories as $category) {
             if($own_ids != null)
                 $query_string = "SELECT count(o.own_type) FROM mycpBundle:ownership o
-                         WHERE o.own_status = 1 AND o.own_id IN ($own_ids) AND o.own_category='" . $category['own_category'] . "'";
+                         WHERE o.own_status = 1 AND o.own_id IN ($own_ids) AND o.own_category='" . $category . "'";
             else
                 $query_string = "SELECT count(o.own_type) FROM mycpBundle:ownership o
-                         WHERE o.own_status = 1 AND o.own_category='" . $category['own_category'] . "'";
+                         WHERE o.own_status = 1 AND o.own_category='" . $category . "'";
             $count = $em->createQuery($query_string)->getSingleScalarResult();
 
-            $categories[] = array(trim($category['own_category']), $count);
+            $categories[] = array(trim($category), $count);
         }
 
         return $categories;
     }
+
 
     function getOwnsPrices($own_ids = null) {
         $em = $this->getEntityManager();
@@ -794,33 +816,32 @@ class ownershipRepository extends EntityRepository {
     //Yanet - Inicio
     function getOwnsTypes($own_ids = null) {
         $em = $this->getEntityManager();
-        if($own_ids != null)
-            $query_string = "SELECT DISTINCT o.own_type FROM mycpBundle:ownership o
-                             WHERE o.own_status = 1 AND o.own_id IN ($own_ids)
-                             ORDER BY o.own_type";
-        else 
-            $query_string = "SELECT DISTINCT o.own_type FROM mycpBundle:ownership o
-                             WHERE o.own_status = 1
-                             ORDER BY o.own_type";
 
-        $owns_types = $em->createQuery($query_string)->getResult();
+        $owns_types = array();
+        $owns_types[] = "Penthouse";
+        $owns_types[] = "Villa con piscina";
+        $owns_types[] = "Apartamento";
+        $owns_types[] = "Propiedad completa";
+        $owns_types[] = "Casa particular";
+
         $types = array();
 
         foreach ($owns_types as $type) {
             if($own_ids != null)
                 $query_string = "SELECT count(o.own_type) FROM mycpBundle:ownership o
-                                 WHERE o.own_status = 1 AND o.own_id IN ($own_ids) AND o.own_type='" . $type['own_type'] . "'";
+                                 WHERE o.own_status = 1 AND o.own_id IN ($own_ids) AND o.own_type='" . $type . "'";
             else
                 $query_string = "SELECT count(o.own_type) FROM mycpBundle:ownership o
-                                 WHERE o.own_status = 1 AND o.own_type='" . $type['own_type'] . "'";
-            
+                                 WHERE o.own_status = 1 AND o.own_type='" . $type . "'";
+
             $count = $em->createQuery($query_string)->getSingleScalarResult();
 
-            $types[] = array(trim($type['own_type']), $count);
+            $types[] = array(trim($type), $count);
         }
 
         return $types;
     }
+
 
     function getSearchStatistics($own_list) {
         $em = $this->getEntityManager();
@@ -1253,6 +1274,30 @@ class ownershipRepository extends EntityRepository {
         }
         return null;
     }
+
+    function get_best_ownership() {
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery("SELECT o
+            FROM mycpBundle:ownership o
+            WHERE o.own_status=1
+              AND o.own_rating >= 4
+            ORDER BY o.own_rating DESC, o.own_name ASC");
+        return $query->getResult();
+    }
+
+    function get_voted_best_ownerships() {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT o
+                        FROM mycpBundle:ownership o
+                        WHERE o.own_status=1
+                          AND o.own_comments_total > 0
+                        ORDER BY o.own_comments_total DESC,  o.own_name ASC";
+
+
+        return $em->createQuery($query_string)->getResult();
+    }
+
 
     /**
      * Codigo Yanet - Fin

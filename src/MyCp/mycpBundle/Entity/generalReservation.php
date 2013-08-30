@@ -35,20 +35,6 @@ class generalReservation
     private $gen_res_date;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="gen_res_from_date", type="date")
-     */
-    private $gen_res_from_date;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="gen_res_to_date", type="date")
-     */
-    private $gen_res_to_date;
-
-    /**
      * @var integer
      *
      * @ORM\Column(name="gen_res_status", type="integer")
@@ -74,6 +60,27 @@ class generalReservation
      * @ORM\JoinColumn(name="gen_res_own_id",referencedColumnName="own_id")
      */
     private $gen_res_own_id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="gen_res_from_date", type="date")
+     */
+    private $gen_res_from_date;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="gen_res_to_date", type="date")
+     */
+    private $gen_res_to_date;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="gen_res_total_price_in_site", type="integer")
+     */
+    private $gen_res_total_price_in_site;
 
     /**
      * Get gen_res_id
@@ -131,51 +138,6 @@ class generalReservation
         return $this->gen_res_date;
     }
 
-    /**
-     * Set gen_res_from_date
-     *
-     * @param \DateTime $genResFromDate
-     * @return generalReservation
-     */
-    public function setGenResFromDate($genResFromDate)
-    {
-        $this->gen_res_from_date = $genResFromDate;
-    
-        return $this;
-    }
-
-    /**
-     * Get gen_res_from_date
-     *
-     * @return \DateTime 
-     */
-    public function getGenResFromDate()
-    {
-        return $this->gen_res_from_date;
-    }
-
-    /**
-     * Set gen_res_to_date
-     *
-     * @param \DateTime $genResToDate
-     * @return generalReservation
-     */
-    public function setGenResToDate($genResToDate)
-    {
-        $this->gen_res_to_date = $genResToDate;
-    
-        return $this;
-    }
-
-    /**
-     * Get gen_res_to_date
-     *
-     * @return \DateTime 
-     */
-    public function getGenResToDate()
-    {
-        return $this->gen_res_to_date;
-    }
 
     /**
      * Set gen_res_status
@@ -267,5 +229,74 @@ class generalReservation
     public function getGenResSaved()
     {
         return $this->gen_res_saved;
+    }
+
+    /**
+     * Set gen_res_from_date
+     *
+     * @param \DateTime $genResFromDate
+     * @return generalReservation
+     */
+    public function setGenResFromDate($genResFromDate)
+    {
+        $this->gen_res_from_date = $genResFromDate;
+    
+        return $this;
+    }
+
+    /**
+     * Get gen_res_from_date
+     *
+     * @return \DateTime 
+     */
+    public function getGenResFromDate()
+    {
+        return $this->gen_res_from_date;
+    }
+
+    /**
+     * Set gen_res_to_date
+     *
+     * @param \DateTime $genResToDate
+     * @return generalReservation
+     */
+    public function setGenResToDate($genResToDate)
+    {
+        $this->gen_res_to_date = $genResToDate;
+    
+        return $this;
+    }
+
+    /**
+     * Get gen_res_to_date
+     *
+     * @return \DateTime 
+     */
+    public function getGenResToDate()
+    {
+        return $this->gen_res_to_date;
+    }
+
+    /**
+     * Set gen_res_total_price_in_site
+     *
+     * @param integer $genResTotalPriceInSite
+     * @return generalReservation
+     */
+    public function setGenResTotalPriceInSite($genResTotalPriceInSite)
+    {
+        $this->gen_res_total_price_in_site = $genResTotalPriceInSite;
+    
+        return $this;
+    }
+
+    /**
+     * Get gen_res_total_price_in_site
+     *
+     * @return integer 
+     */
+    public function getGenResTotalPriceInSite()
+    {
+        return $this->gen_res_total_price_in_site;
     }
 }

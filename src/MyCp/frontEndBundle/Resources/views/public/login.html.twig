@@ -3,7 +3,7 @@
 
 {% block body %}
 <ul class="breadcrumb">
-    <li><a title="Ir a la portada" href="/mycponline/web/app_dev.php/es/welcome/">Inicio</a> <span
+    <li><a title="Ir a la portada" href="{{ path('frontend_welcome') }}">Inicio</a> <span
             class="divider">»</span></li>
     <li class="active">{{"LOG_IN" | trans }}</li>
 </ul>
@@ -38,7 +38,7 @@
                 </form>
             </div>
         </div>
-        <a href="{{ path('frontend_register_user') }}" class="btn btn-block orange_button btn-large">¿No estás registrado? ¡Regístrate aquí!</a>
+        <a href="{{ path('frontend_register_user') }}" class="btn btn-block mycp_btn_orange mycp_btn btn-large">¿No estás registrado? ¡Regístrate aquí!</a>
     </div>
 </div>
 {% endblock %}

@@ -87,7 +87,7 @@
 {% endblock %}
                     <div class="main_cont container body">
 
-    {{ include('frontEndBundle:utils:nav_top_body.html.twig') }}
+    {{ include('frontEndBundle:utils:navTopBody.html.twig') }}
                             <div class="tab-content main_tab">
                                 <div class="tab-pane active">
             {% block content_nav_top_body %}{% endblock %}
@@ -123,11 +123,11 @@
                                                 <!--li><a href="{#{ path('frontend_best_list_ownership')}}">{{"TOP_OWNS" | trans}#}</a></li-->
                                                 <li><a href="{{ path('frontend_voted_best_list_ownership')}}">{{"TOP_RATED" | trans}}</a></li>
                                                 <!--li><a href="">{{"RATINGS" | trans}}</a></li-->
-                                                <li><a href="">{{"Penthouse" | trans}}</a></li>
-                                                <li><a href="">{{"Villa con piscina" | trans}}</a></li>
-                                                <li><a href="">{{"Apartamento" | trans}}</a></li>
-                                                <li><a href="">{{"Casa particular" | trans}}</a></li>
-                                                <li><a href="">{{"Propiedad completa" | trans}}</a></li>
+                                                <li><a href="{{ path('frontend_type_list_ownership',{'type':'Penthouse'})}}">{{"Penthouse" | trans}}</a></li>
+                                                <li><a href="{{ path('frontend_type_list_ownership',{'type':'Villa con piscina'})}}">{{"Villa con piscina" | trans}}</a></li>
+                                                <li><a href="{{ path('frontend_type_list_ownership',{'type':'Apartamento'})}}">{{"Apartamento" | trans}}</a></li>
+                                                <li><a href="{{ path('frontend_type_list_ownership',{'type':'Casa particular'})}}">{{"Casa particular" | trans}}</a></li>
+                                                <li><a href="{{ path('frontend_type_list_ownership',{'type':'Propiedad completa'})}}">{{"Propiedad completa" | trans}}</a></li>
 
                                             </ul>
                                         </div>
@@ -137,10 +137,10 @@
                                             <ul>
                                                 <li>{{"ABOUT_MYCP" | trans}}</li>
                                                 <li><a href="{{ path('frontend_list_information',{'information_type':'ABOUT_US'})}}">{{"WHO_ARE_WE" | trans}}</a></li>
-                                                <li><a href="">{{"TESTIMONIES" | trans}}</a></li>
-                                                <li><a href="">{{"PRESS" | trans }}</a></li>
-                                                <li><a href="">{{"PARTNERS" | trans}}</a></li>
-                                                <li><a href="">{{"JOBS" | trans}}</a></li>
+                                                <li><a href="{{ path('frontend_list_information',{'information_type':'TESTIMONIES'})}}">{{"TESTIMONIES" | trans}}</a></li>
+                                                <li><a href="{{ path('frontend_list_information',{'information_type':'PRESS'})}}">{{"PRESS" | trans }}</a></li>
+                                                <li><a href="{{ path('frontend_list_information',{'information_type':'PARTNERS'})}}">{{"PARTNERS" | trans}}</a></li>
+                                                <li><a href="{{ path('frontend_list_information',{'information_type':'JOBS'})}}">{{"JOBS" | trans}}</a></li>
                                                 <li><a href="{{path('frontend_contact_user')}}">{{"CONTACT_US" | trans}}</a></li>
                                             </ul>
                                         </div>
@@ -150,7 +150,7 @@
                                             <ul>
                                                 <li>{{"OUR_SERVICES" | trans}}</li>                                                
                                                 <li><a href="{{ path('frontend_list_faq')}}">{{"FAQ" | trans }}</a></li>
-                                                <li><a href="">{{"SERVICE_GUARANTEE" | trans }}</a></li>
+                                                <li><a href="{{ path('frontend_list_information',{'information_type':'SERVICE_GUARANTEE'})}}">{{"SERVICE_GUARANTEE" | trans }}</a></li>
                                                 <li><a href="{{ path('frontend_list_information',{'information_type':'LEGAL_TERMS'})}}">{{"LEGAL_TERMS" | trans}}</a></li>
                                                 <li><a href="{{ path('frontend_list_information',{'information_type':'SEC_PRIV'})}}">{{"SECURITY_AND_PRIVACY" | trans}}</a></li>
                                                <li><a href="">{{"SITE_MAP" | trans}}</a></li>

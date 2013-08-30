@@ -10,7 +10,7 @@ use MyCp\mycpBundle\Entity\generalReservation;
 
 class reservationController extends Controller {
     
-        public function reviewAction($id_ownership,$from_date,$to_date,$ids_rooms,$count_guests, $total_price,Request $request)
+        public function reviewAction($id_ownership,$from_date,$to_date,$ids_rooms,$count_guests,$count_kids, $rooms_price,$total_price,Request $request)
         {
 
             $em = $this->getDoctrine()->getEntityManager();
@@ -18,8 +18,12 @@ class reservationController extends Controller {
 
             $array_ids_rooms=explode('&',$ids_rooms);
             array_shift($array_ids_rooms);
+            $array_rooms_price=explode('&',$rooms_price);
+            array_shift($array_rooms_price);
             $array_count_guests=explode('&',$count_guests);
             array_shift($array_count_guests);
+            $array_count_kids=explode('&',$count_kids);
+            array_shift($array_count_kids);
 
             $array_rooms=array();
             foreach($array_ids_rooms as $id_room)
@@ -46,14 +50,19 @@ class reservationController extends Controller {
                 'array_dates'=>$array_dates,
                 'array_rooms'=>$array_rooms,
                 'guests'=>$array_count_guests,
+                'kids'=>$array_count_kids,
                 'guests_string'=>$count_guests,
+                'kids_string'=>$count_kids,
                 'rooms_string'=>$ids_rooms,
+                'rooms_price'=>$array_rooms_price,
+                'rooms_price_string'=>$rooms_price,
                 'total_price'=>$total_price
             ));
         }
 
-    public function review_confirmAction($id_ownership,$from_date,$to_date,$ids_rooms,$count_guests, $total_price,Request $request)
+    public function review_confirmAction($id_ownership,$from_date,$to_date,$ids_rooms,$count_guests,$count_kids, $total_price,Request $request)
     {
+
         $em = $this->getDoctrine()->getEntityManager();
 
         $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
@@ -64,33 +73,39 @@ class reservationController extends Controller {
         $array_guests=explode('&',$count_guests);
         array_shift($array_guests);
 
+        $array_kids=explode('&',$count_kids);
+        array_shift($array_kids);
+
         $array_date_from=explode('&',$from_date);
         $date_from_db=$array_date_from[2].'-'.$array_date_from[1].'-'.$array_date_from[0];
 
         $array_date_to=explode('&',$to_date);
         $date_to_db=$array_date_to[2].'-'.$array_date_to[1].'-'.$array_date_to[0];
-
         $user = $this->get('security.context')->getToken()->getUser();
         $general_reservation=new generalReservation();
         $general_reservation->setGenResUserId($user);
+        $general_reservation->setGenResDate(new \DateTime(date('Y-m-d')));
+        $general_reservation->setGenResStatusDate(new \DateTime(date('Y-m-d')));
+        $general_reservation->setGenResStatus(0);
+        $general_reservation->setGenResTotalPriceInSite($total_price);
+        $general_reservation->setGenResFromDate(new \DateTime($date_from_db));
+        $general_reservation->setGenResToDate(new \DateTime($date_to_db));
+        $general_reservation->setGenResOwnId($ownership);
+        $general_reservation->setGenResSaved(0);
         $em->persist($general_reservation);
-        $em->flush();
+       $em->flush();
 
         for($i=0; $i < count($array_ids_rooms); $i++)
         {
             $room=$em->getRepository('mycpBundle:room')->find($array_ids_rooms[$i]);
             $reservation=new ownershipReservation();
-            $reservation->setOwnResCommissionPercent(10);
             $reservation->setOwnResCountAdults($array_guests[$i]);
-            $reservation->setOwnResCountChildrens(0);
+            $reservation->setOwnResCountChildrens($array_kids[$i]);
             $reservation->setOwnResNightPrice(0);
-            $reservation->setOwnResOwnId($ownership);
-            $reservation->setOwnResReservationDate(new \DateTime(date('Y-m-d')));
-            $reservation->setOwnResReservationStatus(0);
-            $reservation->setOwnResReservationStatusDate(new \DateTime(date('Y-m-d')));
+            $reservation->setOwnResStatus(0);
             $reservation->setOwnResReservationFromDate(new \DateTime($date_from_db));
             $reservation->setOwnResReservationToDate(new \DateTime($date_to_db));
-            $reservation->setOwnResSelectedRoom($array_ids_rooms[$i]);
+            $reservation->setOwnResSelectedRoomId($array_ids_rooms[$i]);
             $reservation->setOwnResGenResId($general_reservation);
             $em->persist($reservation);
         }
