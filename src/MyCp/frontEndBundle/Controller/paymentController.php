@@ -3,9 +3,12 @@
 namespace MyCp\FrontendBundle\Controller;
 
 use Doctrine\ORM\EntityNotFoundException;
-use MyCp\frontEndBundle\Helpers\SkrillStatusResponse;
+//use MyCp\frontEndBundle\Helpers\SkrillStatusResponse;
+use MyCp\frontEndBundle\Helpers\SkrillHelper;
 use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\user;
+use MyCp\mycpBundle\Entity\payment;
+use MyCp\mycpBundle\Entity\skrillPayment;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +28,7 @@ class paymentController extends Controller {
         $user = $reservation->getUser();
 
         if(empty($user) || !($user instanceof user)) {
-            throw new EntityNotFoundException("user($userId)");
+            throw new EntityNotFoundException("user($user)");
         }
 
         $loggedInUser = $this->get('security.context')->getToken()->getUser();
@@ -49,11 +52,54 @@ class paymentController extends Controller {
 
     }
 
+    private function getCurrencyFrom($skrillCurrency) {
+        $skrillCurrency = strtolower(trim($skrillCurrency));
+        $currencyRepo = $this->getDoctrine()->getRepository('mycpBundle:currency');
+        return $currencyRepo->findByCurrName($skrillCurrency);
+    }
+
     public function skrillStatusAction()
     {
+        $em = $this->getDoctrine()->getManager();
 
         $request = $this->getRequest()->request->all();
-        $skrillRequest = new SkrillStatusResponse($request);
+        $skrillRequest = new skrillPayment($request);
+
+        $reservationId = $skrillRequest->getMerchantTransactionId();
+        $reservation = $em->find('generalReservation', $reservationId);
+
+        if(empty($reservation)) {
+            throw new EntityNotFoundException("generalReservation($reservationId)");
+        }
+
+        $paymentRepo = $em->getRepository('mycpBundle:payment');
+        $payment = $paymentRepo->findByGeneralReservation($reservation);
+
+        if(empty($payment)) {
+            $payment = new payment();
+            $payment->setCreated(new \DateTime());
+            $payment->setGeneralReservation($reservation);
+        }
+
+        $payment->setPayedAmount((float)$skrillRequest->getPayedAmount());
+
+        $currency = $this->getCurrencyFrom($skrillRequest->getSkrillCurrency());
+
+        if(empty($currency)) {
+            throw new EntityNotFoundException("currency(".$skrillRequest->getSkrillCurrency().")");
+        }
+
+        $payment->setCurrency($currency);
+        $payment->setModified(new \DateTime());
+        $payment->setStatus(SkrillHelper::getInternalStatusCodeFrom($skrillRequest->getStatus()));
+
+        $skrillRequest->setPayment($payment);
+
+        $em->persist($payment);
+        $em->persist($skrillRequest);
+        $em->flush();
+        $em->refresh($skrillRequest);
+
 
         ob_start();
         //var_dump($request);
@@ -61,10 +107,10 @@ class paymentController extends Controller {
         $dump = ob_get_clean();
 
         // TODO: write answer POST values to database and return http status 200
-        //return new Response('', 200);
-        return $this->render(
-            'frontEndBundle:Payment:skrill.html.twig',
-            array('name' => 'Return', 'postRequest' => $dump));
+        return new Response('', 200);
+//        return $this->render(
+//            'frontEndBundle:Payment:skrill.html.twig',
+//            array('name' => 'Return', 'postRequest' => $dump));
     }
 
     public function skrillCancelAction()
@@ -82,7 +128,7 @@ class paymentController extends Controller {
             'action_url' => 'https://www.moneybookers.com/app/payment.pl',
             'pay_to_email' => 'a@b.de', // ABUC email
             'recipient_description' => 'MyCasaParticular.com',
-            'transaction_id' => 'abuc_transaction_id',
+            'transaction_id' => 'the_abuc_transaction_id',
             'return_url' => $this->generateUrl('frontend_payment_skrill_return', array(), true),
             'return_url_text' => 'Return to MyCasaParticular',
             'cancel_url' => $this->generateUrl('frontend_payment_skrill_cancel', array(), true),

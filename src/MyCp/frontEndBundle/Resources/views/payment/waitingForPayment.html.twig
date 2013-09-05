@@ -1,0 +1,23 @@
+{% extends 'frontEndBundle:layout:base.html.twig' %}
+{% block title %}
+    <h2>Waiting for payment...</h2>
+{% endblock %}
+
+{% block body %}
+
+{% endblock body %}
+
+<script>
+    $.getJSON('ajax/test.json', function(data) {
+        var items = [];
+
+        $.each(data, function(key, val) {
+            items.push('<li id="' + key + '">' + val + '</li>');
+        });
+
+        $('<ul/>', {
+            'class': 'my-new-list',
+            html: items.join('')
+        }).appendTo('body');
+    });
+</script>

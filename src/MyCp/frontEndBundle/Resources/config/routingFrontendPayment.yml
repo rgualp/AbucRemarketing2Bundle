@@ -13,3 +13,4 @@ frontend_payment_skrill_cancel:
 frontend_payment_skrill_status:
     pattern:  /payment/skrill_status
     defaults: { _controller: frontEndBundle:payment:skrillStatus }
+
