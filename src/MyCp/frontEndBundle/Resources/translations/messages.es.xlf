@@ -1247,11 +1247,11 @@
                 <target>Descripción para Términos y Condiciones</target>
             </trans-unit>
             <trans-unit id="321">
-                <source>SEC_PRIV</source>
+                <source>SECURITY_PRIVACITY</source>
                 <target>Seguridad y Privacidad</target>
             </trans-unit>
             <trans-unit id="322">
-                <source>SEC_PRIV_CONTENT</source>
+                <source>SECURITY_PRIVACITY_CONTENT</source>
                 <target>Descripcion para Seguridad y Privacidad</target>
             </trans-unit>
             <trans-unit id="323">
@@ -1357,6 +1357,127 @@
             <trans-unit id="348">
                 <source>KIDS</source>
                 <target>Niños</target>
+            </trans-unit>
+            <trans-unit id="349">
+                <source>SEND</source>
+                <target>Enviar</target>
+            </trans-unit>
+            <trans-unit id="350">
+                <source>SITEMAP</source>
+                <target>Mapa del Sitio</target>
+            </trans-unit>
+            <trans-unit id="351">
+                <source>SITEMAP_CONTENT</source>
+                <target>Descripción para el Mapa del Sitio</target>
+            </trans-unit>
+            <trans-unit id="352">
+                <source>HOW_IT_WORKS_CONTENT</source>
+                <target>Descripción para Cómo Funciona</target>
+            </trans-unit>
+            <trans-unit id="353">
+                <source>USER_COMUNITY</source>
+                <target>Comunidad de Usuarios</target>
+            </trans-unit>
+            <trans-unit id="354">
+                <source>FIRST_PAGE</source>
+                <target>Primera</target>
+            </trans-unit>
+            <trans-unit id="355">
+                <source>LAST_PAGE</source>
+                <target>Última</target>
+            </trans-unit>
+            <trans-unit id="356">
+                <source>VISITS</source>
+                <target>Visitas:</target>
+            </trans-unit>
+            <trans-unit id="357">
+                <source>OWNERSHIPS</source>
+                <target>Propiedades</target>
+            </trans-unit>
+            <trans-unit id="358">
+                <source>FORMS_NAME</source>
+                <target>Nombre</target>
+            </trans-unit>
+            <trans-unit id="359">
+                <source>FORMS_LASTNAME</source>
+                <target>Apellidos</target>
+            </trans-unit>
+            <trans-unit id="360">
+                <source>FORMS_EMAIL</source>
+                <target>Correo</target>
+            </trans-unit>
+            <trans-unit id="361">
+                <source>FORMS_PHONE</source>
+                <target>Teléfono</target>
+            </trans-unit>
+            <trans-unit id="362">
+                <source>FORMS_COMMENTS</source>
+                <target>Comentarios</target>
+            </trans-unit>
+            <trans-unit id="363">
+                <source>FORMS_NAME_LASTNAME_OWNER</source>
+                <target>Nombre y apellidos del propietario</target>
+            </trans-unit>
+            <trans-unit id="364">
+                <source>FORMS_OWN_NAME</source>
+                <target>Nombre de la propiedad</target>
+            </trans-unit>
+            <trans-unit id="365">
+                <source>FORMS_REPEAT</source>
+                <target>Repetir</target>
+            </trans-unit>
+            <trans-unit id="366">
+                <source>FORMS_PROVINCE</source>
+                <target>Provincia</target>
+            </trans-unit>
+            <trans-unit id="367">
+                <source>FORMS_MUNICIPALITY</source>
+                <target>Municipio</target>
+            </trans-unit>
+            <trans-unit id="368">
+                <source>CONTACT_US_TOURIST_HEADER</source>
+                <target>Formulario para el turista</target>
+            </trans-unit>
+            <trans-unit id="369">
+                <source>CONTACT_US_OWNER_HEADER</source>
+                <target>Formulario para el propietario</target>
+            </trans-unit>
+            <trans-unit id="370">
+                <source>FORMS_PASSWORD</source>
+                <target>Contraseña</target>
+            </trans-unit>
+            <trans-unit id="371">
+                <source>FORMS_REMEMBER_ME</source>
+                <target>Recuérdame en este ordenador</target>
+            </trans-unit>
+            <trans-unit id="372">
+                <source>FORMS_IDENTIFY</source>
+                <target>Identificarse</target>
+            </trans-unit>
+            <trans-unit id="373">
+                <source>FORMS_FORGOT_PASSWORD_QUESTION</source>
+                <target>¿Has olvidado tu contraseña?</target>
+            </trans-unit>
+            <trans-unit id="374">
+                <source>FORMS_CONFIRMATION_QUESTION</source>
+                <target>¿No has recibido la confirmación?
+</target>
+            </trans-unit>
+            <trans-unit id="375">
+                <source>FORMS_CREATE_ACCOUNT_QUESTION</source>
+                <target>¿No estás registrado? ¡Regístrate aquí!</target>
+            </trans-unit>
+            <trans-unit id="376">
+                <source>FORMS_LOGIN_QUESTION</source>
+                <target>¿Ya estás registrado? ¡Identifícate aquí!</target>
+            </trans-unit>
+            <trans-unit id="377">
+                <source>DELETE_FAVORITIES</source>
+                <target>Eliminar de Favoritos</target>
+            </trans-unit>
+            <trans-unit id="378">
+                <source>FAVORITIES_PAGE_DESCRIPTION</source>
+                <target>Descripción de Favoritos</target>
             </trans-unit>
         </body>
     </file>

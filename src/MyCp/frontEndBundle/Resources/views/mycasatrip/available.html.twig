@@ -19,7 +19,8 @@
                             <br>Adultos: <b>{{own_reservations[flag_own_res][flag_own_room].getOwnResCountAdults}}</b> &nbsp;&nbsp;Niños: <b>{{own_reservations[flag_own_res][flag_own_room].getOwnResCountChildrens}}</b>
                             {% set flag_own_room = flag_own_room + 1 %}
                             {% endfor %}
-                            {% set flag_own_res = flag_own_res + 1 %}
+                            <br/>
+                            Desde: {{ res[0]['gen_res_from_date'] |date("d/m/Y") }} Hasta: {{ res[0]['gen_res_to_date'] |date("d/m/Y") }}
                         </p>
                     </td>
                     <td>
@@ -27,8 +28,19 @@
                             <br>
                             <br>
                             <span class="badge badge-warning">Disponible</span>
-                        </p><h4>{{app.session.get('curr_symbol')}}{{res[0]['gen_res_total_price_in_site'] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h4>
+                            {% set flag_own_room = 0 %}
+                            {% set price = 0 %}
+                            {% for own_res in own_reservations[flag_own_room] %}
+                                {% set price = price + own_res.getOwnResNightPrice %}
+                            {% set flag_own_room = flag_own_room + 1 %}
+                            {% endfor %}
+                        </p><h4>{{app.session.get('curr_symbol')}}{{ (price * count_nights[flag_own_res] ) * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h4>
                         <p></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <hr/>
                     </td>
                 </tr>
                 <tr>
@@ -38,6 +50,7 @@
         </div>
     </div>
 </div>
+{% set flag_own_res = flag_own_res + 1 %}
 {% else %}
 <div class="alert a alert-info">No hay elementos disponibles.</div>
 {% endfor %}

@@ -1176,7 +1176,7 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $query_string = "SELECT o FROM mycpBundle:ownership o
                          WHERE o.own_status = 1
-                         ORDER BY o.own_id DESC";
+                         ORDER BY o.own_rating DESC, o.own_id";
         return ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult();
     }
 
@@ -1188,13 +1188,13 @@ class ownershipRepository extends EntityRepository {
             $query_string = "SELECT o FROM mycpBundle:ownership o
                          WHERE o.own_category='$category'
                            AND o.own_status = 1
-                         ORDER BY o.own_rating DESC";
+                         ORDER BY o.own_rating DESC, o.own_id ASC";
         else
             $query_string = "SELECT o FROM mycpBundle:ownership o
                          WHERE o.own_category='$category'
                            AND o.own_status = 1
                            AND o.own_id <> $exclude_id
-                         ORDER BY o.own_rating DESC";
+                         ORDER BY o.own_rating DESC, o.own_id ASC";
 
         return ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult();
     }
@@ -1282,7 +1282,7 @@ class ownershipRepository extends EntityRepository {
             FROM mycpBundle:ownership o
             WHERE o.own_status=1
               AND o.own_rating >= 4
-            ORDER BY o.own_rating DESC, o.own_name ASC");
+            ORDER BY o.own_rating DESC, o.own_id ASC");
         return $query->getResult();
     }
 
@@ -1292,10 +1292,59 @@ class ownershipRepository extends EntityRepository {
                         FROM mycpBundle:ownership o
                         WHERE o.own_status=1
                           AND o.own_comments_total > 0
-                        ORDER BY o.own_comments_total DESC,  o.own_name ASC";
+                        ORDER BY o.own_comments_total DESC, o.own_id ASC";
 
 
         return $em->createQuery($query_string)->getResult();
+    }
+    
+    function get_photos_array($own_list) {
+        $photos = array();
+
+        if (is_array($own_list)) {
+            foreach ($own_list as $own) {
+                $photos[$own->getOwnId()] = $this->get_ownership_photo($own->getOwnId());
+            }
+        }
+        return $photos;
+    }
+
+    function get_ownership_photo($own_id) {
+        $em = $this->getEntityManager();
+         $query_string = "SELECT op FROM mycpBundle:ownershipPhoto op
+                        JOIN op.own_pho_photo p
+                        WHERE op.own_pho_own = ".$own_id.
+                        " ORDER BY p.pho_order ASC";
+        $results = $em->createQuery($query_string)->setMaxResults(1)->getResult();
+        $ownership_photo = ($results != null && count($results) > 0) ? $results[0] : null;
+        $photo = null;
+        if ($ownership_photo != null) {
+            $photo_name = $ownership_photo->getOwnPhoPhoto()->getPhoName();
+
+
+            if (file_exists(realpath("uploads/ownershipImages/" . $photo_name))) {
+                $photo = $photo_name;
+            } else {
+                $photo = 'no_photo_square.gif';
+            }
+        } else {
+            $photo = 'no_photo_square.gif';
+        }
+        return $photo;
+    }
+    
+    function get_rooms_array($own_list) {
+        $em = $this->getEntityManager();
+        $rooms = array();
+
+        if (is_array($own_list)) {
+            foreach ($own_list as $own) {
+
+                $rooms[$own->getOwnId()] = count($em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $own->getOwnId())));
+            }
+        }
+
+        return $rooms;
     }
 
 

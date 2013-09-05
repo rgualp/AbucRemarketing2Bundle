@@ -12,16 +12,15 @@ Mycasa trip
 </ul>
 <div class="green_bar">
     <div class="row-fluid">
-        <div class="span8"></div>
-        <div class="span4" style="text-align: right; padding-right: 10px">
-            <select data-url="/mycp/web/app_dev.php/es/order_results/" id="select_change_order">
-                <option selected="" value="PRICE_LOW_HIGH">Precio /Menor a Mayor</option>
-                <option value="PRICE_HIGH_LOW">Precio /Mayor a Menor</option>
-                <option value="BEST_VALUED">Mejor Valorada</option>
-                <option value="WORST_VALUED">Peor Valorada</option>
-                <option value="A_Z">Alfabéticamente /A - Z</option>
-                <option value="Z_A">Alfabéticamente /Z - A</option>
+        <div class="span9"></div>
+        <div class="span3" style=" padding-right: 10px">
+            <form id="order_by_form" method="post" action="">
+            <select class="span12" id="mct_change_order" name="mct_change_order">
+                <option {% if order_by is defined and order_by == 0%}selected="selected" {% endif %} value="0">Fecha</option>
+                <option {% if order_by is defined and order_by == 1%}selected="selected" {% endif %} value="1">ID Reserva</option>
+                <option {% if order_by is defined and order_by == 2%}selected="selected" {% endif %} value="2">Precio</option>
             </select>
+           </form>
         </div>
     </div>
 </div>
@@ -31,7 +30,7 @@ Mycasa trip
             {% if menu is not defined %}
             {% set menu = 0 %}
             {% endif %}
-            {{ include('frontEndBundle:mycasatrip:menu.html.twig') }}
+            {% render 'frontEndBundle:mycasatrip:get_menu_count' with {'menu_selected': menu} %}
         </div>
         <div class="span8">
             {% block body_inner %}
@@ -39,5 +38,9 @@ Mycasa trip
         </div>
     </div>
 </div>
-
+<script type="text/javascript">
+    $('#mct_change_order').change(function(){
+        $('#order_by_form').submit();
+    })
+</script>
 {% endblock %}

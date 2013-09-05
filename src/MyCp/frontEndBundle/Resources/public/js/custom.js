@@ -7,7 +7,9 @@ function start(){
             e.preventDefault();
     });
     
-    currency_change();    
+    currency_change(); 
+    manage_favorities(".favorite_off"); 
+    manage_favorities(".favorite_on");
 }
 
 function currency_change()
@@ -25,3 +27,27 @@ function currency_change()
         });
     });  
 }
+
+function manage_favorities(favorite_class)
+{
+    $(favorite_class).click(function(){
+        var url = $(this).attr('data-url');
+        var favorite_type = $(this).attr('data-favorite-type');
+        var element_id = $(this).attr('data-element-id');
+        var list_preffix = $(this).attr('data-list-preffix');
+        var result_id = "favorite_" + favorite_type + "_" + element_id;
+        
+        $.post(url,
+        {
+            'favorite_type':favorite_type,
+            'element_id' : element_id,
+            'list_preffix' : list_preffix
+        }
+        ,function(data){
+            $("."+result_id).html(data);
+            manage_favorities(".favorite_off"); 
+            manage_favorities(".favorite_on");
+        });
+    });  
+}
+

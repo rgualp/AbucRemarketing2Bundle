@@ -40,7 +40,19 @@
                         </div>
                     </div>
                     {%endfor%}
-
+                    {%if comments | length and comments_total_items > comments_items_per_page%}
+                        <div class="paginator-cont top_margin">
+                        {{ simple_paginator_render('frontend_details_ownership',null,{
+                        'container_class': 'paginator',
+                        'previousPageText': '«',
+                        'nextPageText': '»',
+                        'currentClass': 'current',
+                        'firstPageText': 'FIRST_PAGE' | trans,
+                        'lastPageText': 'LAST_PAGE' | trans,
+                        'route_params': {'owner_id': ownership.ownid}
+                    }) }}
+                    </div>
+                    {%endif%}
                 </div>
             </div>
         </div>

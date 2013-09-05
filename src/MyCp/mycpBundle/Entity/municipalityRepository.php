@@ -15,7 +15,7 @@ class municipalityRepository extends EntityRepository
     /**
      * Yanet - Inicio
      */
-    function getMunicipalityForAutocomplete($part_name)
+    function get_municipalities_for_autocomplete($part_name)
     {
         $em = $this->getEntityManager();
 
@@ -24,13 +24,46 @@ class municipalityRepository extends EntityRepository
         return $query->getResult();
     }
     
-    function getMunicipalities()
+    function get_municipalities()
     {
         $em = $this->getEntityManager();
 
         $query = $em->createQuery("SELECT m FROM mycpBundle:municipality m
         ORDER BY m.mun_name ASC");
         return $query->getResult();
+    }
+    
+    function get_with_reservations()
+    {
+        $em = $this->getEntityManager();
+        $municipalities = $this->get_municipalities();
+       
+        $results = array();
+        $res_count = 0;
+        foreach ($municipalities as $mun) {
+            $query_string = "SELECT gen_r FROM mycpBundle:generalReservation gen_r
+                             JOIN gen_r.gen_res_own_id o
+                             WHERE o.own_address_municipality = ".$mun->getMunId();
+            $res_count = count($em->createQuery($query_string)->getResult());
+            
+            $ownerships_list = "SELECT o FROM mycpBundle:ownership o
+                                WHERE o.own_status = 1
+                                AND o.own_address_municipality = ".$mun->getMunId().
+                                " ORDER BY o.own_rating DESC, o.own_id ASC";
+            
+            $destinatios_list = "SELECT l FROM mycpBundle:destinationLocation l
+                                JOIN l.des_loc_destination d
+                                WHERE d.des_active = 1 AND l.des_loc_municipality = " . $mun->getMunId();
+            if($res_count > 0)
+                $results[] = array('municipality' => $mun, 
+                                   'reservation_total' => $res_count,
+                                   'owns_total' => count($em->createQuery($ownerships_list)->getResult()),
+                                   'owns_list' => $em->createQuery($ownerships_list)->setMaxResults(10)->getResult(),
+                                   'des_total' => count($em->createQuery($destinatios_list)->getResult()),
+                                   'des_list' => $em->createQuery($destinatios_list)->setMaxResults(10)->getResult());
+        }
+        //sort($results);
+        return $results;
     }
 
 

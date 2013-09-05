@@ -1,0 +1,262 @@
+{% extends 'frontEndBundle:mycasatrip:layout_blank.html.twig' %}
+{% block body_inner %}
+<link href="{{ asset('bundles/frontend/css/customReservationProcess.css') }}" rel="stylesheet" media="screen">
+<table style="width: 100%;">
+    <tr>
+        <td style="width: 7%" class="arrow_cont_cyan">
+            <img src="{{ asset('bundles/frontend/images/ball_1.gif') }}"/>
+        </td>
+        <td style="width: 1.4%">&nbsp</td>
+        <td>
+            <div class="cyan_cont">
+                <h1>Detalles de la Reserva</h1>
+                <b>Llegada:</b> Día fecha <b style="margin-left: 20px">Salida:</b> Día fecha
+                <br/><br/>
+                <table class="table" style="width: 100%; text-align: left">
+                    <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Casa</th>
+                        <th>Detalles de habitación</th>
+                        <th>Precio</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>aa</td>
+                        <td>aa</td>
+                        <td>aa</td>
+                        <td>aa</td>
+                    </tr>
+                    <tr>
+                        <td>aa</td>
+                        <td>aa</td>
+                        <td>aa</td>
+                        <td>aa</td>
+                    </tr>
+                    <tr>
+                        <td>aa</td>
+                        <td>aa</td>
+                        <td>aa</td>
+                        <td>aa</td>
+                    </tr>
+                    <tr>
+                        <td>aa</td>
+                        <td>aa</td>
+                        <td>aa</td>
+                        <td>aa</td>
+                    </tr>
+                    </tbody>
+                    <thead>
+                    <tr>
+                        <th>Total</th>
+                        <th></th>
+                        <th></th>
+                        <th>Precio</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td><img class="arrow_cont" src="{{ asset('bundles/frontend/images/cyan_arrow.gif') }}"/></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+
+<table style="width: 100%;">
+    <tr>
+        <td style="width: 7%" class="arrow_cont_grey">
+            <img src="{{ asset('bundles/frontend/images/ball_2.gif') }}"/>
+        </td>
+        <td style="width: 1.4%">&nbsp</td>
+        <td>
+            <div class="grey_cont">
+                <h1>Sus Detalles <small>(*Campos obligatorios)</small></h1>
+                <div class="row-fluid">
+                    <div class="span5">
+                        <label>Género<span>*</span></label>
+                        <div class="btn-group mycp_combo span12">
+                            <a href="#" data-toggle="dropdown" class="combo_label_1 btn dropdown-toggle span12">
+                                Seleccione
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a data="combo_label_1" class="option">Masculino</a></li>
+                                <li><a data="combo_label_1" class="option">Femenino</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span5">
+                        <label>Nombre<span>*</span></label>
+                        <input type="text" class="mycp_text_box input-block-level"/>
+                    </div>
+                    <div class="span5">
+                        <label>Apellido<span>*</span></label>
+                        <input type="text" class="mycp_text_box input-block-level"/>
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span5">
+                        <label>Correo electrónico<span>*</span></label>
+                        <input type="text" class="mycp_text_box input-block-level"/>
+                    </div>
+                    <div class="span5">
+                        <label>Confirmar correo electrónico<span>*</span></label>
+                        <input type="text" class="mycp_text_box input-block-level"/>
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span5">
+                        <label>Nacionalidad<span>*</span></label>
+                        <div class="btn-group mycp_combo span12">
+                            <a href="#" data-toggle="dropdown" class="combo_label_2 btn dropdown-toggle span12">
+                                Seleccione nacionalidad
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a data="combo_label_2" class="option">Nacionalidad 1</a></li>
+                                <li><a data="combo_label_2" class="option">Nacionalidad 2</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="span5">
+                        <label>Hora de llegada<span>*</span></label>
+                        <div class="btn-group mycp_combo span12">
+                            <a href="#" data-toggle="dropdown" class="combo_label_3 btn dropdown-toggle span12">
+                                Seleccione hora de llegada
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a data="combo_label_3" class="option">Hora 1</a></li>
+                                <li><a data="combo_label_3" class="option">Hora 2</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span5">
+                        <label>Número de teléfono</label>
+                        <input type="text" class="mycp_text_box input-block-level"/>
+                    </div>
+                    <div class="span5">
+                        <label>Número de móvil</label>
+                        <input type="text" class="mycp_text_box input-block-level"/>
+                    </div>
+                </div>
+
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td><img class="arrow_cont" src="{{ asset('bundles/frontend/images/grey_arrow.gif') }}"/></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+<table style="width: 100%;">
+    <tr>
+        <td style="width: 7%" class="arrow_cont_grey">
+            <img src="{{ asset('bundles/frontend/images/ball_3.gif') }}"/>
+        </td>
+        <td style="width: 1.4%">&nbsp</td>
+        <td>
+            <div class="grey_cont">
+                <h1>Su Pago</h1>
+                <div class="row-fluid">
+                    <div class="span5">
+                        <label>Nombre del titular de la tarjeta</label>
+                        <input type="text" class="mycp_text_box input-block-level"/>
+                    </div>
+                    <div class="span5">
+                        <label>Número de la tarjeta</label>
+                        <input type="text" class="mycp_text_box input-block-level"/>
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span5">
+                        <label>Tipo de tarjeta</label>
+                        <div class="btn-group mycp_combo span12">
+                            <a href="#" data-toggle="dropdown" class="combo_label_4 btn dropdown-toggle span12">
+                                Seleccione tipo de tarjeta
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a data="combo_label_4" class="option">Tarjeta 1</a></li>
+                                <li><a data="combo_label_4" class="option">Tarjeta 2</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="span5">
+                        <label>Fecha de caducidad: Mes/Año</label>
+                        <div class="row-fluid row-fluid_no_bottom">
+                            <div class="span6">
+                                <div class="btn-group mycp_combo span12">
+                                    <a href="#" data-toggle="dropdown" class="combo_label_5 btn dropdown-toggle span12">
+                                        --
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a data="combo_label_5" class="option">Mes 1</a></li>
+                                        <li><a data="combo_label_5" class="option">Mes 2</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="span6">
+                                <div class="btn-group mycp_combo span12">
+                                    <a href="#" data-toggle="dropdown" class="combo_label_6 btn dropdown-toggle span12">
+                                        --
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a data="combo_label_6" class="option">Año 1</a></li>
+                                        <li><a data="combo_label_6" class="option">Año 2</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span3">
+                        <label>Código de seguridad</label>
+                        <input type="text" class="mycp_text_box span8"/><img style="margin-left: 10px" src="{{ asset('bundles/frontend/images/question_icon.gif') }}">
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span4 well well-small">
+                        <img src="{{ asset('bundles/frontend/images/skrill.gif') }}" style="margin-bottom: 10px"><br/>
+                        <b>Pague usando cuenta Skrill</b>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td><img class="arrow_cont" src="{{ asset('bundles/frontend/images/grey_arrow.gif') }}"/></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+<table style="width: 100%;">
+    <tr>
+        <td style="width: 7%" class="arrow_cont_green">
+            <img src="{{ asset('bundles/frontend/images/ball_4.gif') }}"/>
+        </td>
+        <td style="width: 1.4%">&nbsp</td>
+        <td>
+            <div class="green_cont">
+                <h1 style="border: none; margin-bottom: 0">Paso Final</h1>
+                <div class="line_green" style="margin-top: 0px">&nbsp;</div>
+                <label class="checkbox"><input type="checkbox"> Obtener protección de cancelacion para US$2.00 <img src="{{ asset('bundles/frontend/images/question_icon.gif') }}"/></label>
+                <div class="line_green">&nbsp;</div>
+                <label class="checkbox"><input type="checkbox"> Acepto Términos y Condiciones</label>
+                <label class="checkbox"><input type="checkbox"> Envíeme ofertas especiales y consejos de viajes al email</label>
+                <h3>Total a pagar ahora: CHF 00.00</h3>
+                <button style="padding-left: 30px; padding-right: 30px; margin-top: 10px" class="btn mycp_btn_green"><b>Confirmar pago</b></button>
+                <p style="margin-top: 10px; font-size: 12px; color: #6C726B">Al hacer click en el botón Confirmar, declaras aceptar los Términos y Condiciones, y un cargo reembolsable de: CHF 00.00</p>
+            </div>
+        </td>
+    </tr>
+</table>
+{% endblock %}

@@ -11,21 +11,27 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ownerContact extends AbstractType
 {
+    private $translate;
+    
+    function __construct($trans_entity)
+    {
+        $this->translate = $trans_entity;
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('owner_full_name','text',array('label'=>'Nombre y apellidos del propietario:'))
-            ->add('owner_own_name','text',array('label'=>'Nombre de la casa:'))
-            ->add('owner_phone','text',array('label'=>'Telefono:'))
+            ->add('owner_full_name','text',array('label'=>$this->translate->trans('FORMS_NAME_LASTNAME_OWNER')))
+            ->add('owner_own_name','text',array('label'=>$this->translate->trans('FORMS_OWN_NAME')))
+            ->add('owner_phone','text',array('label'=>$this->translate->trans('FORMS_PHONE')))
             ->add('owner_email','repeated',array(
-            'first_name' => 'Email:',
-            'second_name' => 'Repetir_email:',
+            'first_name' => $this->translate->trans('FORMS_EMAIL'),
+            'second_name' => $this->translate->trans('FORMS_REPEAT'),
             'type' => 'text',
         ))
-            ->add('owner_province','text',array('label' => 'Provincia:'))
-            ->add('owner_mun','text',array('label' => 'Municipio:'))
-            ->add('owner_comment','textarea',array('label' => 'Comentarios:'));
+            ->add('owner_province','text',array('label' => $this->translate->trans('FORMS_PROVINCE')))
+            ->add('owner_mun','text',array('label' => $this->translate->trans('FORMS_MUNICIPALITY')))
+            ->add('owner_comment','textarea',array('label' => $this->translate->trans('FORMS_COMMENTS')));
         
     }
 
@@ -37,6 +43,7 @@ class ownerContact extends AbstractType
         $array['owner_email']= array(new NotBlank(), new Email());
         $array['owner_province']= array(new NotBlank());
         $array['owner_mun']= array(new NotBlank());
+        $array['owner_comment']= array(new NotBlank());
         $collectionConstraint = new Collection($array);
 
         return array('validation_constraint' => $collectionConstraint);
