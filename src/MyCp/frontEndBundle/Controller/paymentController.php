@@ -13,6 +13,7 @@ use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Entity\payment;
 use MyCp\mycpBundle\Entity\skrillPayment;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Exception\NotValidException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,16 +22,14 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class paymentController extends Controller {
 
-    public function skrillAction($reservationId = 0)
+    public function skrillPaymentAction($reservationId)
     {
-        $em = $this->getDoctrine()->getManager();
-        $reservation = $em->find('generalReservation', $reservationId);
-
-        if(empty($reservation) || !($reservation instanceof generalReservation)) {
-            throw new EntityNotFoundException("generalReservation($reservationId)");
+        $reservation = $this->getReservationFrom($reservationId);
+        if($reservation === false) {
+            throw new EntityNotFoundException($reservationId);
         }
 
-        $user = $reservation->getUser();
+        $user = $reservation->getGenResUserId();
 
         if(empty($user) || !($user instanceof user)) {
             throw new EntityNotFoundException("user($user)");
@@ -42,7 +41,7 @@ class paymentController extends Controller {
             throw new AuthenticationException('Access to resource not permitted.');
         }
 
-        $country = $user->getCountry()->getCode();
+        //$country = $user->getCountry()->getCode();
 
         // TODO: get all the booking information from DB and publish to view
         //$url = $this->generateUrl('skrillReturn');
@@ -54,44 +53,44 @@ class paymentController extends Controller {
 
     public function skrillReturnAction($reservationId)
     {
-        if($this->validateReservationId($reservationId) === false) {
+        if($this->getReservationFrom($reservationId) === false) {
             throw new InvalidParameterException($reservationId);
         }
 
         $pollingUrl = $this->generateUrl('frontend_payment_poll_payment', array('reservationId' => $reservationId), true);
+        $confirmationUrl = $this->generateUrl('frontend_payment_skrill_test_response', array('status' => 'Confirmation'), true);
+        $timeoutUrl =$this->generateUrl('frontend_payment_skrill_test_response', array('status' => 'Timeout'), true);
+        $cancelUrl =$this->generateUrl('frontend_payment_skrill_test_response', array('status' => 'Cancelled by status response'), true);
+        $pendingUrl =$this->generateUrl('frontend_payment_skrill_test_response', array('status' => 'Pending'), true);
+        $failedUrl =$this->generateUrl('frontend_payment_skrill_test_response', array('status' => 'Failed'), true);
 
         return $this->render(
             'frontEndBundle:Payment:waitingForPayment.html.twig',
-            array('pollingUrl' => $pollingUrl));
+            array(
+                'pollingUrl' => $pollingUrl,
+                'confirmationUrl' => $confirmationUrl,
+                'timeoutUrl' => $timeoutUrl,
+                'cancelUrl' => $cancelUrl,
+                'pendingUrl' => $pendingUrl,
+                'failedUrl' => $failedUrl,
+                'timeout' => 60,
+                'pollingPeriodMsec' => 1000
+            ));
     }
 
     public function pollPaymentAction($reservationId)
     {
-
-//                $em = $this->getDoctrine()->getManager();
-//        $payment = $em->getRepository('mycpBundle:payment')->findOneByGeneralReservationId($reservationId);
-
-        $reservation = $this->validateReservationId($reservationId);
+        $reservation = $this->getReservationFrom($reservationId);
 
         if($reservation === false) {
-            return new JsonResponse(array('status' => 'reservation_not_found'));
+            throw new InvalidParameterException($reservationId);
+            //return new JsonResponse(array('status' => 'reservation_not_found'));
         }
 
+        $payment = $this->getPaymentOf($reservation);
 
-        $repository = $this->getDoctrine()->getRepository('mycpBundle:payment');
-        $query = $repository->createQueryBuilder('p')
-            ->where('p.general_reservation = :reservation_id')
-            ->setParameter('reservation_id', $reservation)
-            ->getQuery();
-
-        $payment = null;
-
-        try {
-            $payment = $query->getSingleResult();
-        } catch (NoResultException $e) {
+        if(empty($payment)) {
             return new JsonResponse(array('status' => 'payment_not_found'));
-        } catch (NonUniqueResultException $e) {
-            return new JsonResponse(array('status' => 'multiple_payments'));
         }
 
         $status = $payment->getStatus();
@@ -107,23 +106,6 @@ class paymentController extends Controller {
         }
     }
 
-    private function validateReservationId($reservationId)
-    {
-        if(!empty($reservationId) && is_numeric($reservationId) && (int)$reservationId > 0) {
-            $em = $this->getDoctrine()->getManager();
-
-            try {
-                $reservation = $em->getRepository('mycpBundle:generalReservation')->find($reservationId);
-            } catch (NoResultException $e) {
-                return false;
-            }
-
-            return $reservation;
-        } else {
-            return false;
-        }
-    }
-
     public function skrillStatusAction()
     {
         $em = $this->getDoctrine()->getManager();
@@ -132,13 +114,13 @@ class paymentController extends Controller {
         $skrillRequest = new skrillPayment($request);
 
         $reservationId = $skrillRequest->getMerchantTransactionId();
-        $reservation = $em->find('generalReservation', $reservationId);
+        $reservation = $this->getReservationFrom($reservationId);
 
-        if(empty($reservation)) {
+        if($reservation === false) {
             throw new EntityNotFoundException("generalReservation($reservationId)");
         }
 
-        $payment = $em->getRepository('mycpBundle:payment')->findByGeneralReservation($reservation);
+        $payment = $this->getPaymentOf($reservation);
 
         if(empty($payment)) {
             $payment = new payment();
@@ -161,29 +143,68 @@ class paymentController extends Controller {
         $skrillRequest->setPayment($payment);
 
         $em->persist($payment);
+        $em->flush();
         $em->persist($skrillRequest);
         $em->flush();
-        $em->refresh($skrillRequest);
 
-
-        ob_start();
-        //var_dump($request);
-        var_dump($skrillRequest);
-        $dump = ob_get_clean();
-
-        // TODO: write answer POST values to database and return http status 200
         return new Response('', 200);
-//        return $this->render(
-//            'frontEndBundle:Payment:skrill.html.twig',
-//            array('name' => 'Return', 'postRequest' => $dump));
     }
 
     public function skrillCancelAction()
     {
+        // TODO: redirect to reservation/cancelled_payment page
 
         return $this->render(
-            'frontEndBundle:Payment:skrill.html.twig',
-            array('name' => 'Cancel'));
+            'frontEndBundle:Payment:skrillResponseTest.html.twig',
+            array('status' => 'Cancelled by Skrill cancel_url'));
+    }
+
+    public function skrillTestResponseAction($status)
+    {
+        // TODO: this function is just for testing Skrill responses
+
+        return $this->render(
+            'frontEndBundle:Payment:skrillResponseTest.html.twig',
+            array('status' => $status));
+    }
+
+    private function getReservationFrom($reservationId)
+    {
+        if(!empty($reservationId) && is_numeric($reservationId) && (int)$reservationId > 0) {
+            $em = $this->getDoctrine()->getManager();
+
+            try {
+                $reservation = $em->getRepository('mycpBundle:generalReservation')->find($reservationId);
+            } catch (NoResultException $e) {
+                return false;
+            }
+
+            return $reservation;
+        } else {
+            return false;
+        }
+    }
+
+    private function getPaymentOf($reservation)
+    {
+
+        $repository = $this->getDoctrine()->getRepository('mycpBundle:payment');
+        $query = $repository->createQueryBuilder('p')
+            ->where('p.general_reservation = :reservation_id')
+            ->setParameter('reservation_id', $reservation)
+            ->getQuery();
+
+        $payment = null;
+
+        try {
+            $payment = $query->getSingleResult();
+        } catch (NoResultException $e) {
+            return null;
+        } catch (NonUniqueResultException $e) {
+            throw new NotValidException('Multiple payment for one reservation!');
+        }
+
+        return $payment;
     }
 
     private function getCurrencyFrom($skrillCurrency) {
@@ -201,7 +222,7 @@ class paymentController extends Controller {
             'pay_to_email' => 'a@b.de', // ABUC email
             'recipient_description' => 'MyCasaParticular.com',
             'transaction_id' => $reservationId,
-            'return_url' => $this->generateUrl('frontend_payment_skrill_return', array('genResId' => $reservationId), true),
+            'return_url' => $this->generateUrl('frontend_payment_skrill_return', array('reservationId' => $reservationId), true),
             'return_url_text' => 'Return to MyCasaParticular',
             'cancel_url' => $this->generateUrl('frontend_payment_skrill_cancel', array(), true),
             'status_url' => $this->generateUrl('frontend_payment_skrill_status', array(), true),

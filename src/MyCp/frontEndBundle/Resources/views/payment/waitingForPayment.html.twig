@@ -6,29 +6,65 @@
 
 {% block body %}
     <p>{{ pollingUrl }}</p>
-    <div class="json_result">
-        Results here:
-    </div>
+    Results here:
+    <p></p><div class="json_result"></div></p>
 {% block include_javascripts_and_css %}
     <script>
+        var counter = 0;
+
         $(document).ready(function () {
-            poll();
+            pollPayment();
+            counter = 0;
         });
 
-        function poll(){
+        function getCounter() {
+            counter = counter + 1;
+            return counter;
+        }
+
+        function resetCounter() {
+            counter = 0;
+        }
+
+        function pollPayment(){
             $.getJSON('{{ pollingUrl }}', function(data) {
-                var items = [];
+                var mycounter = getCounter();
 
                 $.each(data, function(key, val) {
-                    //items.push('<li id="' + key + '">' + val + '</li>');
-                    $(".json_result").append('<p>' + key + " " + val + '</p>');
+                    $(".json_result").html(key + " " + val + " " + mycounter);
+
+                    if(key == "status") {
+                        switch(val) {
+                            case "payment_found":
+                                window.location.href = '{{ confirmationUrl }}';
+                                break;
+                            case "payment_failed":
+                                window.location.href = '{{ failedUrl }}';
+                                break;
+                            case "payment_cancelled":
+                                window.location.href = '{{ cancelUrl }}';
+                                break;
+                            case "payment_pending":
+                                window.location.href = '{{ pendingUrl }}';
+                                break;
+                            default:
+                                // continue polling in other cases
+                                return false;
+                        }
+                    }
                 });
 
-//                $('<ul/>', {
-//                    'class': 'my-new-list',
-//                    html: items.join('')
-//                }).appendTo('body');
-                setTimeout(poll, 2000); // this works!
+                var timeout = {{ timeout }}; // 60 sek timeout
+
+                if(mycounter > timeout) {
+                    resetCounter();
+                    window.location.href = '{{ timeoutUrl }}';
+                }
+
+                //window.location.replace("http://stackoverflow.com");
+                //window.location.href = "http://stackoverflow.com";
+
+                setTimeout(pollPayment, {{ pollingPeriodMsec }} );
             });
         }
     </script>

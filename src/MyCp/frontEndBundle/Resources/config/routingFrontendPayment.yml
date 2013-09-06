@@ -1,6 +1,10 @@
+frontend_payment_poll_payment:
+    pattern:  /payment/poll_payment/{reservationId}
+    defaults: { _controller: frontEndBundle:payment:pollPayment, reservationId: 0 }
+
 frontend_payment_skrill:
-    pattern:  /payment/skrill
-    defaults: { _controller: frontEndBundle:payment:skrill }
+    pattern:  /payment/skrill_payment/{reservationId}
+    defaults: { _controller: frontEndBundle:payment:skrillPayment, reservationId: 0}
 
 frontend_payment_skrill_return:
     pattern:  /payment/skrill_return/{reservationId}
@@ -14,7 +18,7 @@ frontend_payment_skrill_status:
     pattern:  /payment/skrill_status
     defaults: { _controller: frontEndBundle:payment:skrillStatus }
 
-frontend_payment_poll_payment:
-    pattern:  /payment/poll_payment/{reservationId}
-    defaults: { _controller: frontEndBundle:payment:pollPayment, reservationId: 0 }
+frontend_payment_skrill_test_response:
+    pattern:  /payment/skrill_test_response/{status}
+    defaults: { _controller: frontEndBundle:payment:skrillTestResponse, status: 'no status' }
 
