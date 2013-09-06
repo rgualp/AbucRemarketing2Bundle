@@ -1,17 +1,17 @@
 <ul class="nav nav-tabs nav-stacked" style="">
     <li class="active"><a><b>Consultas</a></b></li>
-    <li class="{% if menu == 1 %}active_link active{% endif %}"><a href="{{ path('frontend_mycasatrip_pending') }}">Pendientes de respuesta (5)</a></li>
-    <li class="{% if menu == 2 %}active_link active{% endif %}"><a href="{{ path('frontend_mycasatrip_available') }}">Disponibilidad (1)</a></li>
+    <li class="{% if menu == 1 %}active_link active{% endif %}"><a href="{{ path('frontend_mycasatrip_pending',{'order_by':0}) }}">Pendientes de respuesta ({{counts['pending']}})</a></li>
+    <li class="{% if menu == 2 %}active_link active{% endif %}"><a href="{{ path('frontend_mycasatrip_available', {'order_by':0}) }}">Disponibilidad ({{counts['available']}})</a></li>
     <li class="active"><a><b>Reservas</a></b></li>
-    <li><a href="">Reservadas (5)</a></li>
-    <li><a href="">Confirmadas pagos (1)</a></li>
+    <li><a href="">Reservadas ({{counts['reserve']}})</a></li>
+    <li><a href="">Confirmadas pagos ({{counts['payed']}})</a></li>
     <li class="active"><a><b>Historial</a></b></li>
-    <li><a href="">Consultas (5)</a></li>
-    <li><a href="">Reservas (1)</a></li>
+    <li class="{% if menu == 5 %}active_link active{% endif %}"><a href="{{ path('frontend_mycasatrip_historial_consult', {'order_by':0}) }}">Consultas ({{counts['consult']}})</a></li>
+    <li><a href="">Reservas ({{counts['reserve_history']}})</a></li>
     <li class="active"><a><b>Favoritos</a></b></li>
-    <li><a href="">Alojamientos (5)</a></li>
-    <li><a href="">Destinos (1)</a></li>
+    <li><a href="">Alojamientos </a></li>
+    <li><a href="">Destinos </a></li>
     <li class="active"><a><b>Valoraciones</a></b></li>
-    <li><a href="">Casas (5)</a></li>
-    <li><a href="">Destinos (1)</a></li>
+    <li><a href="">Casas </a></li>
+    <li><a href="">Destinos </a></li>
 </ul>

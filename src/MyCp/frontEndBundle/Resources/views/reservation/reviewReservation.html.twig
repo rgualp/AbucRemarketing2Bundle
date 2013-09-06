@@ -16,78 +16,79 @@ destinos
 </ul>
 <div class="row-fluid">
     <h4 class="head_1">{{ ownership.getOwnName }} (Detalles de Reservación)</h4>
-    <div class="thumbnail" style="border-radius: 8px; padding: 3px 0 0 0">
-        <table  class="table table_striped_vertical table-hover">
-            <thead>
-            <tr>
-                <th>Fecha entrada</th>
-                <th>Fecha salida</th>
-                <th>Habitación</th>
-                <th>Huésp.</th>
-                <th>Adultos</th>
-                <th>Niños</th>
-                <th>Estancia</th>
-                <th>Total</th>
-                <th></th>
-            </tr>
-            </thead>
+    <div class="thumbnail" style="border-radius: 8px; padding: 0">
+        <table  class="table table_striped_vertical">
             <tbody>
-
+            {% set flag_room = 0 %}
             {% for room in array_rooms %}
-            <tr id="tr_{{room.getRoomId}}">
-                <td class="grey">{{from_date |replace('&','/')}}</td>
-                <td>{{to_date|replace('&','/')}}</td>
-                <td class="grey">
-                    {{room.getRoomType}}
+            <tr id="tr_{{array_rooms[loop.index0].getRoomId}}">
+                <td {% if loop.index0==0%} class="first" {% endif %} style="padding: 0px">
+                    <table style="font-size: 12px;">
+                        <thead>
+                        <tr >
+                            <th width="10%">Fecha</th>
+                            <th width="20%">Detalles de reserva</th>
+                            <th width="10%">Habitación</th>
+                            <th width="10%">Huésp.</th>
+                            <th width="10%">Precio/Noche</th>
+                            <th width="10%">Total</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% set sub_total = 0 %}
+                    {% for date in array_dates%}
+                        <tr>
+                            <td class="grey">{{ date |date('d/m/Y') }}</td>
+                            <td><b>{{ ownership.getOwnAddressMunicipality }}, {{ ownership.getOwnName }}</b></td>
+                            <td class="grey">{{room.getRoomType}}</td>
+                            <td>{% if guests[flag_room] is defined and kids[flag_room] is defined %}{{guests[flag_room] + kids[flag_room]}}{% else %}{{guests[0]}}{% endif %}</td>
+                            {% if loop.last %}
+                                <td class="grey">--</td>
+                            {% else %}
+                                {% set sub_total = sub_total + array_price_day[flag_room][loop.index0] %}
+                                <td class="grey">{{app.session.get('curr_symbol')}}{{ array_price_day[flag_room][loop.index0] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}</td>
+                            {% endif %}
+
+                            <td>
+                                {% if not loop.last %}
+                                {{app.session.get('curr_symbol')}}{{ sub_total * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}
+                                {% else %}
+                                --
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                        </tbody>
+                    </table>
                 </td>
-                <td>
-                    {{guests[loop.index0] + kids[loop.index0]}}
-                </td>
-                <td class="grey">
-                    {{guests[loop.index0]}}
-                </td>
-                <td>
-                    {{kids[loop.index0]}}
-                </td>
-                <td class="grey">
-                    {{ array_dates| length - 1}} noches
-                </td>
-                <td class="">
-                    {% if array_rooms[loop.index0].getRoomType == 'Habitación Triple'%}
-                    {{app.session.get('curr_symbol')}}{{(rooms_price[loop.index0]  + (10*app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))) * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}
-                    {% else %}
-                    {{app.session.get('curr_symbol')}}{{rooms_price[loop.index0] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}
-                    {% endif %}
-                </td>
-                <td class="table_delete">
+                <td style="vertical-align: middle;{% if loop.index0==0%}border-radius: 0 7px 0 0{% endif %}"  class="{% if loop.index0==0%}first {% endif %} table_delete" >
                     <button data="{{array_rooms[loop.index0].getRoomId}}" class="table_delete">&nbsp;</button>
                 </td>
             </tr>
+
+            {% set flag_room = flag_room + 1 %}
             {% endfor %}
             </tbody>
         </table>
         <div class="table_striped_vertical_foot">
             <div class="row-fluid">
-            <div class="span6">Total</div>
-            <div class="span6" style="text-align: right">{{app.session.get('curr_symbol')}}{{total_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</div>
+                <div class="span6">Total</div>
+                <div class="span6" style="text-align: right">{{app.session.get('curr_symbol')}}{{total_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</div>
             </div>
         </div>
     </div>
-    <div class="row-fluid">
-        <div class="span6"></div>
-        <div class="span6" style="text-align: right">
-            <label style="font-size: 10px;">Las Habitaciones triples tienen un recargo de {{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_acronym')| upper}}</label>
-            <a href="{{ path('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'})}}" class="btn mycp_btn_blue mycp_btn">Continuar buscando</a>&nbsp;&nbsp;
-            <a id="send_reservation" href="{{ path('frontend_review_confirm_reservation',{'id_ownership':ownership.getOwnId,'from_date':from_date,'to_date':to_date,'ids_rooms':rooms_string,'count_guests':guests_string,'count_kids':kids_string,'rooms_price':rooms_price_string,'total_price':total_price}) }}" class="btn mycp_btn_green mycp_btn">Consultar disponibilidad</a>
+    <label class="pull-right" style="font-size: 10px;">Las Habitaciones triples tienen un recargo de {{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_acronym')| upper}}</label>
+    <form method="POST" action="{{ path('frontend_confirm_redirect_reservation',{'id_ownership':ownership.getOwnId}) }}">
+        <input style="visibility:hidden;" type="text" value="{{url_string}}" name="data_reservation" id="data_reservation"/>
+        <div class="row-fluid">
+            <div class="span6"></div>
+            <div class="span3"><a href="{{ path('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'})}}" class="btn mycp_btn_blue mycp_btn input-block-level">Continuar buscando</a></div>
+            <div class="span3"><button type="submit" class="btn mycp_btn_green mycp_btn input-block-level">Consultar disponibilidad</button></div>
         </div>
-    </div>
-    <input name="ids_rooms" class="hidden" value="{{rooms_string}}"/>
-    <input name="guests" class="hidden" value="{{ guests_string }}"/>
-    <input name="ownership" class="hidden" value="{{ownership.getOwnId}}"/>
-    <input name="from_date" class="hidden" value="{{from_date}}"/>
-    <input name="to_date" class="hidden" value="{{to_date}}"/>
-    <br/>
+    </form>
 </div>
+
 <div class="tiny modal fade hide" id="confirmation_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-body">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -117,28 +118,31 @@ destinos
         $('#confirmation_modal').modal('show');
         $('#delete_button').attr('data',$(this).attr('data'));
     });
-    $('#delete_button').click(function(){
-        new_url='';
-        room=$(this).attr('data');
-        url=$('#send_reservation').attr('href');
-        array_url=url.split('/');
-        rooms=array_url[array_url.length-4];
 
-        if(rooms.split('%26').length==2)
+    string_url="{{url_string}}";
+    $('#delete_button').click(function(){
+        new_url='/';
+        room=$(this).attr('data');
+        array_url=string_url.split('/');
+        rooms=array_url[array_url.length-5];
+
+        if(rooms.split('&amp;').length==2)
         {
             $('#confirmation_modal').modal('hide');
             $('#messaje_modal').modal('show');
         }
         else
         {
-            rooms=rooms.replace('%26'+room,'');
-            array_url[array_url.length-4]=rooms;
+            rooms=rooms.replace('&amp;'+room,'');
+
+            array_url[array_url.length-5]=rooms;
             for( a=0; a < array_url.length; a++ )
             {
                 new_url=new_url+'/'+array_url[a];
             }
-            new_url=new_url.replace('//','/');
-            $('#send_reservation').attr('href',new_url);
+            new_url=new_url.replace('//','');
+            $('#data_reservation').val(new_url);
+            string_url=new_url;
             $('#confirmation_modal').modal('hide');
             $('#tr_'+room).remove();
         }

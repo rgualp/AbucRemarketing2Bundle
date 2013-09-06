@@ -1,0 +1,44 @@
+.cyan_cont{background-color: #EDF8FE;}
+.cyan_cont h1,.grey_cont h1,.green_cont h1{font-size: 21px; margin: 0 0 20px 0; padding: 0; color: #0089CD; border-bottom: solid 2px #C0E9FD}
+.cyan_cont h1 small,.grey_cont h1 small{color: #0089CD; font-size: 13px;  font-weight: bold;}
+.cyan_cont table th{ color: #0089CD; background-color: #FFFFFF; }
+.cyan_cont table td{ border-top: solid 1px #C0E9FD; padding: 2px 8px}
+.cyan_cont table thead th{ border-top: solid 1px #C0E9FD;}
+.cyan_cont table th:last-child{text-align: right}
+.cyan_cont table{ border: solid 1px #C0E9FD}
+.cyan_cont,.grey_cont,.green_cont{padding: 10px 24px;}
+.grey_cont{background-color: #F3F3F3}
+.green_cont{background-color: #EEFFEC}
+.grey_cont h1{border-bottom: solid 2px #DADADA}
+.cyan_cont label span,.grey_cont label span{color: #018ACE; font-weight: bold; font-size: 15px}
+.cyan_cont .row-fluid,.grey_cont .row-fluid{margin-bottom: 15px}
+.row-fluid_no_bottom{margin-bottom: 0px!important;}
+.line_green{border-bottom: solid 2px #B7EEAD; height: 2px; margin: 15px 0}
+.arrow_cont{width: 100%; margin-top: -2px}
+.arrow_cont_cyan{
+    background-image: -moz-linear-gradient(center top, #FFFFFF, #EDF8FE, #EDF8FE);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#FFFFFF), to(#EDF8FE));
+    background-image: -webkit-linear-gradient(top, #FFFFFF, #EDF8FE, #EDF8FE);
+    background-image: -o-linear-gradient(top, #FFFFFF, #EDF8FE, #EDF8FE);
+    background-image: linear-gradient(to bottom, #FFFFFF, #EDF8FE, #EDF8FE);
+    vertical-align: bottom;
+}
+
+.arrow_cont_grey{
+    background-image: -moz-linear-gradient(center top, #FFFFFF, #f8f8f8, #f8f8f8);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#FFFFFF), to(#f8f8f8));
+    background-image: -webkit-linear-gradient(top, #FFFFFF, #f8f8f8, #f8f8f8);
+    background-image: -o-linear-gradient(top, #FFFFFF, #f8f8f8, #f8f8f8);
+    background-image: linear-gradient(to bottom, #FFFFFF, #f8f8f8, #f8f8f8);
+    vertical-align: bottom;
+}
+
+.arrow_cont_green{
+    background-image: -moz-linear-gradient(center top, #FFFFFF, #EFFFED, #EFFFED);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#FFFFFF), to(#EFFFED));
+    background-image: -webkit-linear-gradient(top, #FFFFFF, #EFFFED, #EFFFED);
+    background-image: -o-linear-gradient(top, #FFFFFF, #EFFFED, #EFFFED);
+    background-image: linear-gradient(to bottom, #FFFFFF, #EFFFED, #EFFFED);
+    vertical-align: bottom;
+}
+.arrow_cont_cyan,.arrow_cont_grey,.arrow_cont_green{vertical-align: top;text-align: center;}

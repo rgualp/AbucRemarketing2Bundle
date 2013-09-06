@@ -9,9 +9,12 @@
                         ...
                                                                         {%endif%}</div>
                     <div class="favorite span2">
-                        <a class="favorite_off">
-                            <img src="{{ asset("bundles/frontend/images/empty.png")}}">
-                        </a>
+                        {{ include('frontEndBundle:favorite:itemFavorite.html.twig', 
+                        {'is_in_favorite': is_in_favorite,
+                         'favorite_type': 'ownership',
+                         'element_id':ownership.ownid,
+                         'list_preffix' : list_preffix
+                         }) }}    
                     </div>            
                 </div>
                 <div class="row-fluid place">{{ownership.ownaddressprovince}}</div>

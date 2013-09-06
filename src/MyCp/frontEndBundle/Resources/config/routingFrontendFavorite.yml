@@ -1,0 +1,11 @@
+frontend_insert_favorite:
+    pattern:  /favorite_insert/
+    defaults: { _controller: frontEndBundle:favorite:insert }
+    
+frontend_delete_favorite:
+    pattern:  /favorite_delete/
+    defaults: { _controller: frontEndBundle:favorite:delete }
+    
+frontend_list_favorite:
+    pattern:  /favorite_list/
+    defaults: { _controller: frontEndBundle:favorite:list }

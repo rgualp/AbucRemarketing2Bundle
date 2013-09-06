@@ -11,13 +11,19 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class changePasswordUserType extends AbstractType
 {
+     private $translate;
+    
+    function __construct($trans_entity)
+    {
+        $this->translate = $trans_entity;
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('user_password','repeated',array(
-            'first_name' => 'Clave:',
-            'second_name' => 'Repetir_clave:',
+            'first_name' => $this->translate->trans('FORMS_PASSWORD'),
+            'second_name' => $this->translate->trans('FORMS_REPEAT'),
             'type' => 'password',
         ));
         ;

@@ -13,6 +13,7 @@
 <script src="{{ asset('bundles/frontend/js/bootstrap/bootstrap-datepicker.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/bootstrap/bootstrap-datepicker.es.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/home_search.js') }}"></script>
+<script src="{{ asset('bundles/frontend/js/top_rated_ownership.js') }}"></script>
 {% endblock %}
 
 {% block big_banner %}
@@ -68,103 +69,13 @@
                     </div>
                 </div>
                 <div class="span4 destinations">
-                    <div class="row-fluid">
-                        <div class="span6">
-                            <ul>
-                                <li><a href="">Pinar del Río</a></li>
-                                <li><a href="">La Habana</a></li>
-                                <li><a href="">Soroa</a></li>
-                                <li><a href="">Guanabo</a></li>
-                                <li><a href="">Baracoa</a></li>
-                                <li><a href="">Matanzas</a></li>
-                                <li><a href="">Varadero</a></li>
-                                <li><a href="">Playa Larga</a></li>
-                                <li><a href="">Villa Clara</a></li>
-                            </ul>
-                        </div>
-                        <div class="span6">
-                            <ul>
-                                <li><a href="">Pinar del Río</a></li>
-                                <li><a href="">La Habana</a></li>
-                                <li><a href="">Soroa</a></li>
-                                <li><a href="">Guanabo</a></li>
-                                <li><a href="">Baracoa</a></li>
-                                <li><a href="">Matanzas</a></li>
-                                <li><a href="">Varadero</a></li>
-                                <li><a href="">Playa Larga</a></li>
-                            </ul>
-                        </div>
-                    </div>
+                    {{ include('frontEndBundle:destination:homePopularDestinationsList.html.twig') }} 
                 </div>
             </div>
-{% if own_top20_list | length%}
-            <div class="head_menu_top_rated">
-    {{"TOP_HOUSES_HOME_TITLE" | trans}}
-                </div>
-
-                <div class="top_rated_items">
-    {%set cont=0%}
-    {%for ownership in own_top20_list%}
-    {% if cont <4 %}
-                        <div class="item">
-                            <a href="{{ path('frontend_details_ownership',{'owner_id':ownership.ownid}) }}" title="{{"MORE_INFO_PREFFIX" | trans}} {{ownership.ownname}}">
-                                <div class="image" style="background-image: url('{{ asset("uploads/ownershipImages/" ~ own_top20_photos[ownership.ownid])}}')">
-                                    <div class="rating">{%if ownership.owncommentstotal > 0%}+{%endif%}{{ownership.owncommentstotal}}</div></div>
-                                <div class="title">{{ ownership.ownname| title }}
-                                    <div class="place">({{ownership.ownaddressprovince}})</div>
-                                </div>
-                                <div class="description">
-                {%if own_top20_descriptions[ownership.ownid] != null%}
-                                        <p>{{own_top20_descriptions[ownership.ownid] |striptags |capitalize}} (...Más)</p>
-                {%endif%}
-
-                                    </div>
-                                </a>
-                            </div>
-    {% set cont=cont+1 %}
-    {% else %}
-        {% set cont=0 %}
-                        </div>
-                        <div class="top_rated_items">
-                            <div class="item">
-                                <a href="{{ path('frontend_details_ownership',{'owner_id':ownership.ownid}) }}" title="{{"MORE_INFO_PREFFIX" | trans}} {{ownership.ownname}}">
-                                    <div class="image" style="background-image: url('{{ asset("uploads/ownershipImages/" ~ own_top20_photos[ownership.ownid])}}')">
-                                        <div class="rating">{%if ownership.owncommentstotal > 0%}+{%endif%}{{ownership.owncommentstotal}}</div></div>
-                                    <div class="title">{{ ownership.ownname| title }}
-                                        <div class="place">({{ownership.ownaddressprovince}})</div>
-                                    </div>
-                                    <div class="description">
-                        {%if own_top20_descriptions[ownership.ownid] != null%}
-                                            <p>{{own_top20_descriptions[ownership.ownid] |striptags |capitalize}} (...Más)</p>
-                        {%endif%}
-
-                                        </div>
-                                    </a>
-                                </div>
-    {% endif %}
-    {%endfor%}
-
-                            </div>
-                            <div class="top_rated_tools row-fluid">
-                                <div class="tool">{{"VISUALIZE" | trans}} 3 x
-                                    <div class="btn-group">
-                                        <a class="btn btn-small btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
-                                            2
-                                            <span class="caret"></span>
-                                        </a>
-                                        <ul class="dropdown-menu">
-
-                                        </ul>
-                                    </div></div>
-                                <div class="tool">{{"PAGER" | trans}}</div>
-                                <div class="tool"><span class="hide_small_screen">{{"TELL_A_FRIEND" | trans}}:</span> 
-                                    <img title="{{"CONTACT_US" | trans}}" src="{{ asset('bundles/frontend/images/mail.gif') }}">
-                                    <img title="{{"FOLLOW_US_FACEBOOK" | trans}}" src="{{ asset('bundles/frontend/images/facebook.gif') }}">
-                                    <img title="{{"FOLLOW_US_TWITTER" | trans}}" src="{{ asset('bundles/frontend/images/twitter.gif') }}">
-                                </div>
-                            </div>
-{% endif %}
-
+            <div id="top_rated_placeholder" data-url="{{path('frontend_top_rated_callback_ownership')}}">
+                {% render 'frontEndBundle:ownership:top_rated_callback' %}
+            </div>
+            
                             <div class="secondary_tab row-fluid">
                                 <div class="nav-tabs_cont">
                                     <ul class="nav nav-tabs">
@@ -178,11 +89,13 @@
                                 <div class="tab-content">
                                     <div id="popular_destinations" class="tab-pane fade in active">
                                         <div class="row-fluid">
-            {% for destination in popular_places %}
-                  {{ include('frontEndBundle:destination:homeItemDestination.html.twig',{'destination': destination}) }}                             
-            {% else %}
+                                        {% for destination in popular_places %}
+                                            {{ include('frontEndBundle:destination:homeItemDestination.html.twig',{'destination': destination, 
+                                                'is_in_favorite': popular_destination_favorites[destination.desid],
+                                                'list_preffix': 'popular_places'}) }}                             
+                                        {% else %}
                                                 <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
-            {% endfor %}
+                                        {% endfor %}
                                             </div>
                                             <div style="margin-top: 5px; text-align: right">
                                                 <a title="{{"POPULAR_DESTINATIONS_TOOLTIP_HOME_TAB" | trans}}" href="{{ path('frontend_list_destinations')}}">{{"SEEMORE_LINK_TEXT" | trans}}</a>
@@ -191,7 +104,7 @@
                                         <div id="last_added" class="tab-pane fade in">
                                             <div class="row-fluid">
                                             {% for ownership in last_added %}
-                                                   {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{'ownership': ownership}) }} 
+                                                   {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{'ownership': ownership, 'is_in_favorite': last_added_favorites[ownership.ownid],'list_preffix': 'last_added_owns'}) }} 
                                             {% else %}
                                                     <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
                 {% endfor %}
@@ -203,7 +116,7 @@
                                             <div id="economic_houses" class="tab-pane fade in">
                                                 <div class="row-fluid">
                 {% for ownership in economic_own_list %}
-                                                       {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{'ownership': ownership}) }} 
+                                                       {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{'ownership': ownership, 'is_in_favorite': economic_own_favorites[ownership.ownid],'list_preffix': 'economic_owns'}) }} 
                 {% else %}
                                                             <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
                 {% endfor %}
@@ -216,7 +129,7 @@
                                                     <div id="midrange_houses" class="tab-pane fade in">
                                                         <div class="row-fluid">
                 {% for ownership in medium_own_list %}
-                                                                {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{'ownership': ownership}) }} 
+                                                                {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{'ownership': ownership, 'is_in_favorite': medium_own_favorites[ownership.ownid],'list_preffix': 'medium_owns'}) }} 
                 {% else %}
                                                                     <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
                 {% endfor %}
@@ -229,7 +142,7 @@
                                                             <div id="premium_houses" class="tab-pane fade in">
                                                                 <div class="row-fluid">
                 {% for ownership in premium_own_list %}
-                                                                        {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{'ownership': ownership}) }} 
+                                                                        {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{'ownership': ownership, 'is_in_favorite': premium_own_favorites[ownership.ownid],'list_preffix': 'premium_owns'}) }} 
                 {% else %}
                                                                             <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
                 {% endfor %}

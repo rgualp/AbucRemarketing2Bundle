@@ -82,7 +82,8 @@ function change_order ()
         'order':order
     },function(data){
         result.html(data);
-            
+        manage_favorities(".favorite_off"); 
+        manage_favorities(".favorite_on");    
         hide_loading();
     });
     
@@ -110,6 +111,8 @@ function change_view_to_list ()
             
         $('#map').css('visibility','visible');
         $('#map').css('display','block');
+        manage_favorities(".favorite_off"); 
+        manage_favorities(".favorite_on");
             
         hide_loading();
     });
@@ -138,6 +141,9 @@ function change_view_to_photo ()
             
         $('#map').css('visibility','visible');
         $('#map').css('display','block');
+        
+        manage_favorities(".favorite_off"); 
+        manage_favorities(".favorite_on");
             
         hide_loading();
     });
@@ -166,6 +172,9 @@ function change_view_to_map ()
             
         $('#map').css('visibility','hidden');
         $('#map').css('display','none');
+        
+        manage_favorities(".favorite_off"); 
+        manage_favorities(".favorite_on");
         
         initialize_map();            
         hide_loading();
@@ -199,9 +208,12 @@ function research()
         'text':text
     },function(data){
         result.html(data);
+        manage_favorities(".favorite_off"); 
+        manage_favorities(".favorite_on");
         filter_by_others();  
         initialize_map();    
         hide_loading();
+        
     });
     
     return false;
@@ -317,6 +329,8 @@ function filter_by_others()
     
     $.post(url,checked_filters,function(data){
         result.html(data);
+        manage_favorities(".favorite_off"); 
+        manage_favorities(".favorite_on");
         refresh_filters_statistics(checked_filters);   
         hide_loading();
     });
