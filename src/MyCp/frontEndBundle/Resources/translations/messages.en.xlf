@@ -1247,11 +1247,11 @@
                 <target>Description for Terms And Conditions</target>
             </trans-unit>
             <trans-unit id="321">
-                <source>SECURITY_PRIVACITY</source>
+                <source>SEC_PRIV</source>
                 <target>Security and Privacy</target>
             </trans-unit>
             <trans-unit id="322">
-                <source>SECURITY_PRIVACITY_CONTENT</source>
+                <source>SEC_PRIV_CONTENT</source>
                 <target>Description for Security and Privacy</target>
             </trans-unit>
             <trans-unit id="323">
@@ -1359,125 +1359,8 @@
                 <target>Kids</target>
             </trans-unit>
             <trans-unit id="349">
-                <source>SEND</source>
-                <target>Send</target>
-            </trans-unit>
-            <trans-unit id="350">
-                <source>SITEMAP</source>
-                <target>Sitemap</target>
-            </trans-unit>
-            <trans-unit id="351">
-                <source>SITEMAP_CONTENT</source>
-                <target>Description for Sitemap</target>
-            </trans-unit>
-            <trans-unit id="352">
-                <source>HOW_IT_WORKS_CONTENT</source>
-                <target>Description for How it Works</target>
-            </trans-unit>
-             <trans-unit id="353">
-                <source>USER_COMUNITY</source>
-                <target>Users Comunity</target>
-            </trans-unit>
-            <trans-unit id="354">
-                <source>FIRST_PAGE</source>
-                <target>First</target>
-            </trans-unit>
-            <trans-unit id="355">
-                <source>LAST_PAGE</source>
-                <target>Last</target>
-            </trans-unit>
-            <trans-unit id="356">
-                <source>VISITS</source>
-                <target>Visits:</target>
-            </trans-unit>
-            <trans-unit id="357">
-                <source>OWNERSHIPS</source>
-                <target>Ownerships</target>
-            </trans-unit>
-            <trans-unit id="358">
-                <source>FORMS_NAME</source>
-                <target>Name</target>
-            </trans-unit>
-            <trans-unit id="359">
-                <source>FORMS_LASTNAME</source>
-                <target>Lastname</target>
-            </trans-unit>
-            <trans-unit id="360">
-                <source>FORMS_EMAIL</source>
-                <target>Email</target>
-            </trans-unit>
-            <trans-unit id="361">
-                <source>FORMS_PHONE</source>
-                <target>Phone</target>
-            </trans-unit>
-            <trans-unit id="362">
-                <source>FORMS_COMMENTS</source>
-                <target>Comments</target>
-            </trans-unit>
-            <trans-unit id="363">
-                <source>FORMS_NAME_LASTNAME_OWNER</source>
-                <target>Name and lastname of owner</target>
-            </trans-unit>
-            <trans-unit id="364">
-                <source>FORMS_OWN_NAME</source>
-                <target>Name of ownership</target>
-            </trans-unit>
-            <trans-unit id="365">
-                <source>FORMS_REPEAT</source>
-                <target>Repeat</target>
-            </trans-unit>
-            <trans-unit id="366">
-                <source>FORMS_PROVINCE</source>
-                <target>Province</target>
-            </trans-unit>
-            <trans-unit id="367">
-                <source>FORMS_MUNICIPALITY</source>
-                <target>Municipality</target>
-            </trans-unit>
-             <trans-unit id="368">
-                <source>CONTACT_US_TOURIST_HEADER</source>
-                <target>Tourist's Form</target>
-            </trans-unit>
-            <trans-unit id="369">
-                <source>CONTACT_US_OWNER_HEADER</source>
-                <target>Owner's Form</target>
-            </trans-unit>
-             <trans-unit id="370">
-                <source>FORMS_PASSWORD</source>
-                <target>Password</target>
-            </trans-unit>
-            <trans-unit id="371">
-                <source>FORMS_REMEMBER_ME</source>
-                <target>Remember me in this computer</target>
-            </trans-unit>
-            <trans-unit id="372">
-                <source>FORMS_IDENTIFY</source>
-                <target>Identify</target>
-            </trans-unit>
-            <trans-unit id="373">
-                <source>FORMS_FORGOT_PASSWORD_QUESTION</source>
-                <target>Did you forget your password?</target>
-            </trans-unit>
-            <trans-unit id="374">
-                <source>FORMS_CONFIRMATION_QUESTION</source>
-                <target>Did you received our confirmation?
-            </target>
-            </trans-unit>
-            <trans-unit id="375">
-                <source>FORMS_CREATE_ACCOUNT_QUESTION</source>
-                <target>Do you have a user account? Register here!</target>
-            </trans-unit>
-            <trans-unit id="376">
-                <source>FORMS_LOGIN_QUESTION</source>
-                <target>Do you have an account? Log in here!</target>
-            </trans-unit>
-            <trans-unit id="377">
-                <source>DELETE_FAVORITIES</source>
-                <target>Delete from Favorities</target>
-            </trans-unit>
-            <trans-unit id="378">
-                <source>FAVORITIES_PAGE_DESCRIPTION</source>
-                <target>Description of Favoritos</target>
+                <source>SELECT_OWNERSHIP_SORT_BY</source>
+                <target>Sort by</target>
             </trans-unit>
           </body>
     </file>
