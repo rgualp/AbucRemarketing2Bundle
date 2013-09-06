@@ -6,9 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use MyCp\frontEndBundle\Helpers\SkrillHelper;
 
 /**
- * SkrillStatusResponse
+ * skrillPayment
  *
- * @ORM\Table()
+ * @ORM\Table(name="skrillpayment")
  * @ORM\Entity
  */
 class skrillPayment

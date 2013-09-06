@@ -3,21 +3,34 @@
     <h2>Waiting for payment...</h2>
 {% endblock %}
 
+
 {% block body %}
-
-{% endblock body %}
-
-<script>
-    $.getJSON('ajax/test.json', function(data) {
-        var items = [];
-
-        $.each(data, function(key, val) {
-            items.push('<li id="' + key + '">' + val + '</li>');
+    <p>{{ pollingUrl }}</p>
+    <div class="json_result">
+        Results here:
+    </div>
+{% block include_javascripts_and_css %}
+    <script>
+        $(document).ready(function () {
+            poll();
         });
 
-        $('<ul/>', {
-            'class': 'my-new-list',
-            html: items.join('')
-        }).appendTo('body');
-    });
-</script>
+        function poll(){
+            $.getJSON('{{ pollingUrl }}', function(data) {
+                var items = [];
+
+                $.each(data, function(key, val) {
+                    //items.push('<li id="' + key + '">' + val + '</li>');
+                    $(".json_result").append('<p>' + key + " " + val + '</p>');
+                });
+
+//                $('<ul/>', {
+//                    'class': 'my-new-list',
+//                    html: items.join('')
+//                }).appendTo('body');
+                setTimeout(poll, 2000); // this works!
+            });
+        }
+    </script>
+{% endblock %}
+{% endblock %}
