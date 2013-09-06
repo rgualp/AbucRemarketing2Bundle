@@ -52,12 +52,6 @@ class paymentController extends Controller {
 
     }
 
-    private function getCurrencyFrom($skrillCurrency) {
-        $skrillCurrency = strtolower(trim($skrillCurrency));
-        $currencyRepo = $this->getDoctrine()->getRepository('mycpBundle:currency');
-        return $currencyRepo->findByCurrName($skrillCurrency);
-    }
-
     public function skrillStatusAction()
     {
         $em = $this->getDoctrine()->getManager();
@@ -121,15 +115,22 @@ class paymentController extends Controller {
             array('name' => 'Cancel'));
     }
 
+    private function getCurrencyFrom($skrillCurrency) {
+        $skrillCurrency = strtolower(trim($skrillCurrency));
+        $currencyRepo = $this->getDoctrine()->getRepository('mycpBundle:currency');
+        return $currencyRepo->findByCurrName($skrillCurrency);
+    }
+
     private function getSkrillViewData(generalReservation $reservation, user $user)
     {
+        $reservationId = $reservation->getGenResId();
 
         return array(
             'action_url' => 'https://www.moneybookers.com/app/payment.pl',
             'pay_to_email' => 'a@b.de', // ABUC email
             'recipient_description' => 'MyCasaParticular.com',
-            'transaction_id' => 'the_abuc_transaction_id',
-            'return_url' => $this->generateUrl('frontend_payment_skrill_return', array(), true),
+            'transaction_id' => $reservationId,
+            'return_url' => $this->generateUrl('frontend_payment_skrill_return', array('genResId' => $reservationId), true),
             'return_url_text' => 'Return to MyCasaParticular',
             'cancel_url' => $this->generateUrl('frontend_payment_skrill_cancel', array(), true),
             'status_url' => $this->generateUrl('frontend_payment_skrill_status', array(), true),
