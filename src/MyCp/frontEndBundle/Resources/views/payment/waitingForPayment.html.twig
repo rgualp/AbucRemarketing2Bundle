@@ -54,9 +54,7 @@
                     }
                 });
 
-                var timeout = {{ timeout }}; // 60 sek timeout
-
-                if(mycounter > timeout) {
+                if(mycounter > {{ timeout }}) {
                     resetCounter();
                     window.location.href = '{{ timeoutUrl }}';
                 }
