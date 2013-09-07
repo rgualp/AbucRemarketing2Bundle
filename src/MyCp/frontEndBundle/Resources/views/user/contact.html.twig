@@ -1,47 +1,37 @@
 {% extends 'frontEndBundle:layout:base.html.twig' %}
-{% block title %}{{"CONTACT_US" | trans}}{% endblock %}
+{% block title %}Contactenos{% endblock %}
 {% block body %}
 <ul class="breadcrumb">
-    <li><a title="{{'GO_HOME_TITLE' | trans}}" href="{{path('frontend_welcome')}}">{{"HOME_MAIN_MENU" | trans}}</a> <span
+    <li><a title="Ir a la portada" href="{{path('frontend_welcome')}}">Inicio</a> <span
             class="divider">»</span></li>
-    <li class="active">{{"CONTACT_US" | trans}}</li>
+    <li class="active">Contacteno</li>
 </ul>
-<div id="loading" class="alert alert-info hidden"> <img src="{{ asset('bundles/frontend/images/loading.gif') }}"/> {{"LOADING_MESSAGE" | trans}}</div>
 <div class="row-fluid ">
-    <div class="span6">
-        Informacion de contacto para turistas
-    </div>
-    <div class="span6">
+    <div class="span6 offset3">
         <div class="thumbnail">
             <div class="cont" style="padding: 6px 20px 0 20px">
-        <h2 class="form big_price" style="font-size: 20px;">{{"CONTACT_US_TOURIST_HEADER" | trans}}</h2>
+        <h2 class="form big_price" style="font-size: 20px;">Contactenos</h2>
         <hr/>
-        <input type="hidden" id="submit_url" value="{{ path('frontend_contact_user') }}" />
-        
-        <form novalidate class="sfgen" method="POST">
+        <form novalidate class="sfgen" method="POST" action="{{ path('frontend_contact_user') }}">
             {% if errors['no_email'] is defined%}<div class="alert alert-error">{{errors['no_email']}}</div>{% endif %}
             {{form_widget(form_tourist)}}
             <br/>
-            <input class="btn btn-block btn-large mycp_btn_orange mycp_btn" style="margin: auto" type="submit" value="{{'SEND' | trans}}" id="btn_tourist_contact"/>
+            <input class="btn btn-block btn-large" style="margin: auto" type="submit" value="Enviar" name="btn_tourist_contact"/>
         </form>
         </div>
         </div>
     </div>
- </div>
-<div class="row-fluid ">
-    <div class="span6">
-        Informacion de contacto para propietarios
-    </div>
-        <div class="span6">
+        
+        <div class="span6 offset3">
         <div class="thumbnail">
             <div class="cont" style="padding: 6px 20px 0 20px">
-        <h2 class="form big_price" style="font-size: 20px;">{{"CONTACT_US_OWNER_HEADER" | trans}}</h2>
+        <h2 class="form big_price" style="font-size: 20px;">Contactenos</h2>
         <hr/>
-        <form novalidate class="sfgen" method="POST">
+        <form novalidate class="sfgen" method="POST" action="{{ path('frontend_contact_user') }}">
             {% if errors['no_email'] is defined%}<div class="alert alert-error">{{errors['no_email']}}</div>{% endif %}
             {{form_widget(form_owner)}}
             <br/>
-                <input class="btn btn-block btn-large mycp_btn_orange mycp_btn" style="margin: auto" type="submit" value="{{'SEND' | trans}}" id="btn_owner_contact"/>
+                <input class="btn btn-block btn-large" style="margin: auto" type="submit" value="Enviar" name="btn_owner_contact"/>
         </form>
         </div>
         </div>

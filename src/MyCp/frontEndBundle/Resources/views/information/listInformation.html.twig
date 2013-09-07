@@ -25,24 +25,12 @@
         <p>{{information.infolangcontent |striptags}}</p>
     </div>
     </div>
+
+</div>
 {%else%}
 <div class="noData">{{"EMPTY_LIST" | trans}}</div>
 {%endfor%}
-</div>
-
-{%if information_list | length and total_items > items_per_page%}
-    <div class="paginator-cont top_margin">
-    {{ simple_paginator_render('frontend_list_information',null,{
-    'container_class': 'paginator',
-    'previousPageText': '«',
-    'nextPageText': '»',
-    'currentClass': 'current',
-    'firstPageText': 'FIRST_PAGE' | trans,
-    'lastPageText': 'LAST_PAGE' | trans,
-    'route_params': {'information_type':information_type}
-}) }}
-</div>
-{%endif%}
+    </div>
 {% block include_javascripts %}
     
 {% endblock %}

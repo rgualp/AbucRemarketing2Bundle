@@ -10,7 +10,7 @@ destinos
 
 {% block body %}
 <ul class="breadcrumb">
-    <li><a href="{{ path('frontend_welcome') }}" title="{{'GO_HOME_TITLE' | trans}}">{{"HOME_MAIN_MENU" | trans}}</a> <span class="divider">»</span></li>
+    <li><a href="{{ path('frontend_welcome') }}" title="{{"GO_HOME_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a> <span class="divider">»</span></li>
     <li class="active">{{"DESTINATIONS_MAIN_MENU" | trans}}</li>
 </ul>
 <div class="row-fluid filter_1">
@@ -19,19 +19,14 @@ destinos
                     <option value="-1">{{"ALL_ITEMS" | trans}}</option>
                     {%for prov in provinces%}
                     {%if destination_provinces[prov.provid] > 0%}
-                       <option value="{{prov.provid}}" {%if province_id is defined and province_id != null and province_id == prov.provid%} selected="true" {%endif%}>{{prov}}  <span>({{destination_provinces[prov.provid]}})</span></option>
+                                    <option value="{{prov.provid}}">{{prov}}  <span>({{destination_provinces[prov.provid]}})</span></option>
                     {%endif%}
                     {%endfor%}
                 </select>
             </div>
                 <div class="span3"  id="div_municipalities">
-                    <select id="select_municipalities" {%if municipality_id is defined and municipality_id != null%}data-disabled="false"{%else%}data-disabled="true"{%endif%}>
-                        <option value="-1">{{"ALL_ITEMS_M" | trans}}</option> 
-                        {%for mun in municipalities%}
-                            {%if mun_total_destinations[mun.munid] > 0%}
-                            <option value="{{mun.munid}}" {%if municipality_id is defined and municipality_id != null and municipality_id == mun.munid%} selected="true" {%endif%}>{{mun}}  <span>({{mun_total_destinations[mun.munid]}})</span></option>
-                            {%endif%}
-                        {%endfor%}
+                    <select id="select_municipalities">
+                        <option value="-1">{{"ALL_ITEMS_M" | trans}}</option>        
                     </select>
                 </div>
 

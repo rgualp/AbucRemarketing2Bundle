@@ -433,7 +433,7 @@ class BackendReservationController extends Controller
 
         $service_time= $this->get('time');
         $post = $request->request->getIterator()->getArrayCopy();
-        $dates=$service_time->dates_between($reservation->getGenResFromDate()->format('Y-m-d'), $reservation->getGenResToDate()->format('Y-m-d'));
+
         if($request->getMethod()=='POST')
         {
 
@@ -454,23 +454,18 @@ class BackendReservationController extends Controller
             if(count($errors)==0)
             {
                 $ownership_reservation=new ownershipReservation();
-                $temp_price=0;
                 foreach($ownership_reservations as $ownership_reservation)
                 {
-                    $temp_price+=$post['service_room_price_'.$ownership_reservation->getOwnResId()]*(count($dates)-1);
                     $ownership_reservation->setOwnResCountAdults($post['service_room_count_adults_'.$ownership_reservation->getOwnResId()]);
                     $ownership_reservation->setOwnResCountChildrens($post['service_room_count_childrens_'.$ownership_reservation->getOwnResId()]);
                     $ownership_reservation->setOwnResStatus($post['service_own_res_status_'.$ownership_reservation->getOwnResId()]);
                     $ownership_reservation->setOwnResRoomType($post['service_room_type_'.$ownership_reservation->getOwnResId()]);
                     $ownership_reservation->setOwnResNightPrice($post['service_room_price_'.$ownership_reservation->getOwnResId()]);
                     $em->persist($ownership_reservation);
-                    //var_dump($temp_price);
                 }
 
                 $message='Reserva actualizada satisfactoriamente.';
                 $reservation->setGenResSaved(1);
-                $reservation->setGenResStatus(1);
-                $reservation->setGenResTotalPriceInSite($temp_price);
                 $em->persist($reservation);
                 $em->flush();
                 /*$service_log= $this->get('log');
@@ -490,7 +485,8 @@ class BackendReservationController extends Controller
 
         }
 
-        //$dates=$service_time->dates_between($reservation->getGenResFromDate()->format('Y-m-d'), $reservation->getGenResToDate()->format('Y-m-d'));
+        $service_time= $this->get('time');
+        $dates=$service_time->dates_between($reservation->getGenResFromDate()->format('Y-m-d'), $reservation->getGenResToDate()->format('Y-m-d'));
         array_pop($dates);
 
         foreach($dates as $date)

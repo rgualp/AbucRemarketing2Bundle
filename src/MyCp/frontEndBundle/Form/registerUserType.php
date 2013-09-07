@@ -11,22 +11,16 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class registerUserType extends AbstractType
 {
-    private $translate;
-    
-    function __construct($trans_entity)
-    {
-        $this->translate = $trans_entity;
-    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('user_user_name','text',array('label'=>$this->translate->trans('FORMS_NAME')))
-            ->add('user_last_name','text',array('label'=>$this->translate->trans('FORMS_LASTNAME')))
-            ->add('user_email','text',array('label'=>$this->translate->trans('FORMS_EMAIL')))
+            ->add('user_user_name','text',array('label'=>'Nombre:'))
+            ->add('user_last_name','text',array('label'=>'Apellidos:'))
+            ->add('user_email','text',array('label'=>'Email:'))
             ->add('user_password','repeated',array(
-            'first_name' => $this->translate->trans('FORMS_PASSWORD'),
-            'second_name' => $this->translate->trans('FORMS_REPEAT'),
+            'first_name' => 'Clave:',
+            'second_name' => 'Repetir_clave:',
             'type' => 'password',
         ));
         ;

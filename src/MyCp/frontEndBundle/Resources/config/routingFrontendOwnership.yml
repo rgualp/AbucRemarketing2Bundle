@@ -59,7 +59,3 @@ frontend_voted_best_list_ownership:
 frontend_type_list_ownership:
     pattern:  /type_list/{type}
     defaults: { _controller: frontEndBundle:ownership:type_list }
-    
-frontend_top_rated_callback_ownership:
-    pattern:  /top_rated_callback/
-    defaults: { _controller: frontEndBundle:ownership:top_rated_callback }
