@@ -5,8 +5,8 @@
 {% endblock %}
 
 {% block include_javascripts_and_css %}
-<link href="{{ asset('bundles/frontend/css/royal_slider/rs-minimal-white.css') }} rel="stylesheet" media="screen">
-<link href="{{ asset('bundles/frontend/css/royal_slider/royalslider.css') }}" rel="stylesheet" media="screen">
+<link href="{{ asset('bundles/frontend/css/royal_slider/royalslider.css') }}" rel="stylesheet" >
+<link href="{{ asset('bundles/frontend/css/royal_slider/rs-default.css') }}" rel="stylesheet" >
 <link href="{{ asset('bundles/frontend/css/bootstrap/bootstrap-datepicker.css') }}" rel="stylesheet" media="screen">
 <script src="{{ asset('bundles/frontend/js/royal_slider/jquery.royalslider.min.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/full_slider.js') }}"></script>
@@ -16,24 +16,15 @@
 {% endblock %}
 
 {% block big_banner %}
-<div id="full-width-slider" class="royalSlider heroSlider rsMinW">
-    <div class="rsContent">
-        <img class="rsImg" src="{{ asset('bundles/frontend/images/slideshow/1.jpg') }}" alt="">
-    </div>
-    <div class="rsContent">
-        <img class="rsImg" src="{{ asset('bundles/frontend/images/slideshow/2.jpg') }}" alt="">
-    </div>
-    <div class="rsContent">
-        <img class="rsImg" src="{{ asset('bundles/frontend/images/slideshow/3.jpg') }}" alt="">
-    </div>
-    <div class="rsContent">
-        <img class="rsImg" src="{{ asset('bundles/frontend/images/slideshow/4.jpg') }}" alt="">
-    </div>
-    <div class="rsContent">
-        <img class="rsImg" src="{{ asset('bundles/frontend/images/slideshow/5.jpg') }}" alt="">
-    </div>
+<div id="full-width-slider" class="royalSlider rsDefault">
+    <img class="rsImg" src="{{ asset('bundles/frontend/images/slideshow/1.jpg') }}" alt="">
+    <img class="rsImg" src="{{ asset('bundles/frontend/images/slideshow/2.jpg') }}" alt="">
+    <img class="rsImg" src="{{ asset('bundles/frontend/images/slideshow/3.jpg') }}" alt="">
+    <img class="rsImg" src="{{ asset('bundles/frontend/images/slideshow/4.jpg') }}" alt="">
+    <img class="rsImg" src="{{ asset('bundles/frontend/images/slideshow/5.jpg') }}" alt="">
 </div>
 {% endblock %}
+
 {% block big_banner_info %}
 <div id="banner_search">
     <div class="row-fluid">
@@ -205,39 +196,39 @@
                 {% for ownership in economic_own_list %}
                                                        {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{'ownership': ownership}) }} 
                 {% else %}
+                                                        <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
+                {% endfor %}
+                                                    </div>
+                                                    <div style="margin-top: 5px; text-align: right">
+                                                        <a title="{{"ECONOMIC_TOOLTIP_HOME_TAB" | trans}}" href="{{ path('frontend_category_ownership',{'category':'economy'})}}">{{"SEEMORE_LINK_TEXT" | trans}}</a>
+                                                    </div>
+                                                </div>
+
+                                                <div id="midrange_houses" class="tab-pane fade in">
+                                                    <div class="row-fluid">
+                {% for ownership in medium_own_list %}
+                                                                {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{'ownership': ownership}) }} 
+                {% else %}
                                                             <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
                 {% endfor %}
                                                         </div>
                                                         <div style="margin-top: 5px; text-align: right">
-                                                            <a title="{{"ECONOMIC_TOOLTIP_HOME_TAB" | trans}}" href="{{ path('frontend_category_ownership',{'category':'economy'})}}">{{"SEEMORE_LINK_TEXT" | trans}}</a>
+                                                            <a title="{{"MIDRANGE_TOOLTIP_HOME_TAB" | trans}}" href="{{ path('frontend_category_ownership',{'category':'rango_medio'})}}">{{"SEEMORE_LINK_TEXT" | trans}}</a>
                                                         </div>
                                                     </div>
 
-                                                    <div id="midrange_houses" class="tab-pane fade in">
+                                                    <div id="premium_houses" class="tab-pane fade in">
                                                         <div class="row-fluid">
-                {% for ownership in medium_own_list %}
-                                                                {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{'ownership': ownership}) }} 
-                {% else %}
-                                                                    <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
-                {% endfor %}
-                                                                </div>
-                                                                <div style="margin-top: 5px; text-align: right">
-                                                                    <a title="{{"MIDRANGE_TOOLTIP_HOME_TAB" | trans}}" href="{{ path('frontend_category_ownership',{'category':'rango_medio'})}}">{{"SEEMORE_LINK_TEXT" | trans}}</a>
-                                                                </div>
-                                                            </div>
-
-                                                            <div id="premium_houses" class="tab-pane fade in">
-                                                                <div class="row-fluid">
                 {% for ownership in premium_own_list %}
                                                                         {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{'ownership': ownership}) }} 
                 {% else %}
-                                                                            <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
+                                                                <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
                 {% endfor %}
-                                                                        </div>
-                                                                        <div style="margin-top: 5px; text-align: right">
-                                                                            <a title="{{"PREMIUM_TOOLTIP_HOME_TAB" | trans}}" href="{{ path('frontend_category_ownership',{'category':'premium'})}}">{{"SEEMORE_LINK_TEXT" | trans}}</a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
                                                             </div>
+                                                            <div style="margin-top: 5px; text-align: right">
+                                                                <a title="{{"PREMIUM_TOOLTIP_HOME_TAB" | trans}}" href="{{ path('frontend_category_ownership',{'category':'premium'})}}">{{"SEEMORE_LINK_TEXT" | trans}}</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
 {% endblock %}
