@@ -65,7 +65,7 @@ class paymentController extends Controller {
         $failedUrl =$this->generateUrl('frontend_payment_skrill_test_response', array('status' => 'Failed'), true);
 
         return $this->render(
-            'frontEndBundle:Payment:waitingForPayment.html.twig',
+            'frontEndBundle:payment:waitingForPayment.html.twig',
             array(
                 'pollingUrl' => $pollingUrl,
                 'confirmationUrl' => $confirmationUrl,
@@ -160,7 +160,7 @@ class paymentController extends Controller {
         // TODO: redirect to reservation/cancelled_payment page
 
         return $this->render(
-            'frontEndBundle:Payment:skrillResponseTest.html.twig',
+            'frontEndBundle:payment:skrillResponseTest.html.twig',
             array('status' => 'Cancelled by Skrill cancel_url'));
     }
 
@@ -169,23 +169,23 @@ class paymentController extends Controller {
         // TODO: this function is just for testing Skrill responses
 
         return $this->render(
-            'frontEndBundle:Payment:skrillResponseTest.html.twig',
+            'frontEndBundle:payment:skrillResponseTest.html.twig',
             array('status' => $status));
     }
 
-    public function skrillSendTestPostRequestAction()
+    public function skrillSendTestPostRequestAction($reservationId, $status)
     {
         // TODO: this function emulates the POST status request from Skrill
 
         $urltopost = $this->generateUrl('frontend_payment_skrill_status', array(), true);
         $datatopost = array (
             "mb_transaction_id" => "ABCD",
-            "transaction_id" => "1",
+            "transaction_id" => $reservationId,
             "pay_to_email" => "accounting@mycasaparticular.com",
             "pay_from_email" => "customer@email.com",
             "mb_amount" => "12.12",
             "mb_currency" => "EUR",
-            "status" => -2,
+            "status" => $status,
             "merchant_id" => 22512989,
 
         );
@@ -196,7 +196,7 @@ class paymentController extends Controller {
         curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
         $returndata = curl_exec ($ch);
 
-        return $this->redirect($this->generateUrl('frontend_payment_skrill_return', array('reservationId' => "1")));
+        return $this->redirect($this->generateUrl('frontend_payment_skrill_return', array('reservationId' => $reservationId)));
         //return new Response($returndata);
     }
 
