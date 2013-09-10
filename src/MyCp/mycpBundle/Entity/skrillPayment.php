@@ -29,121 +29,130 @@ class skrillPayment
     private $payment;
 
     /**
-     * @var string
+     * @var \DateTime
      *
-     * @ORM\Column(name="merchant_email", type="string", length=60)
+     * @ORM\Column(name="created", type="datetime", nullable=true)
      */
-    private $merchant_email;
+    private $created = null;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="customer_email", type="string", length=110)
+     * @ORM\Column(name="merchant_email", type="string", length=60, nullable=true)
      */
-    private $customer_email;
+    private $merchant_email = null;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="merchant_id", type="string", length=50)
+     * @ORM\Column(name="customer_email", type="string", length=110, nullable=true)
      */
-    private $merchant_id;
+    private $customer_email = null;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="customer_id", type="string", length=50)
+     * @ORM\Column(name="merchant_id", type="string", length=50, nullable=true)
      */
-    private $customer_id;
+    private $merchant_id = null;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="merchant_transaction_id", type="string", length=30)
+     * @ORM\Column(name="customer_id", type="string", length=50, nullable=true)
      */
-    private $merchant_transaction_id;
+    private $customer_id = null;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="skrill_transaction_id", type="string", length=30)
+     * @ORM\Column(name="merchant_transaction_id", type="string", length=30, nullable=true)
      */
-    private $skrill_transaction_id;
+    private $merchant_transaction_id = null;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="payed_amount", type="string", length=30)
+     * @ORM\Column(name="skrill_transaction_id", type="string", length=30, nullable=true)
      */
-    private $payed_amount;
+    private $skrill_transaction_id = null;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="skrill_currency", type="string", length=5)
+     * @ORM\Column(name="payed_amount", type="string", length=30, nullable=true)
      */
-    private $skrill_currency;
+    private $payed_amount = null;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="status", type="string", length=3)
+     * @ORM\Column(name="skrill_currency", type="string", length=5, nullable=true)
      */
-    private $status;
+    private $skrill_currency = null;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="failed_reason_code", type="string", length=5)
+     * @ORM\Column(name="status", type="string", length=3, nullable=true)
      */
-    private $failed_reason_code;
+    private $status = null;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="failed_reason_description", type="string", length=255)
+     * @ORM\Column(name="failed_reason_code", type="string", length=5, nullable=true)
      */
-    private $failed_reason_description;
+    private $failed_reason_code = null;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="md5_signature", type="string", length=64)
+     * @ORM\Column(name="failed_reason_description", type="string", length=255, nullable=true)
      */
-    private $md5_signature;
+    private $failed_reason_description = null;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="merchant_amount", type="string", length=30)
+     * @ORM\Column(name="md5_signature", type="string", length=64, nullable=true)
      */
-    private $merchant_amount;
+    private $md5_signature = null;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="merchant_currency", type="string", length=5)
+     * @ORM\Column(name="merchant_amount", type="string", length=30, nullable=true)
      */
-    private $merchant_currency;
+    private $merchant_amount = null;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="payment_type", type="string", length=5)
+     * @ORM\Column(name="merchant_currency", type="string", length=5, nullable=true)
      */
-    private $payment_type;
+    private $merchant_currency = null;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="merchant_fields", type="string", length=255)
+     * @ORM\Column(name="payment_type", type="string", length=5, nullable=true)
      */
-    private $merchant_fields;
+    private $payment_type = null;
 
-    public function __construct(array $skrillStatusResponse = array())
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="merchant_fields", type="string", length=255, nullable=true)
+     */
+    private $merchant_fields = null;
+
+    public function __construct(array $skrillPayment = array())
     {
-        if(!empty($skrillStatusResponse)) {
-            $this->initializeWithSkrillResponse($skrillStatusResponse);
+        $this->setCreated(new \DateTime());
+
+        if(!empty($skrillPayment)) {
+            $this->initializeWithSkrillResponse($skrillPayment);
         }
     }
 
@@ -218,6 +227,7 @@ class skrillPayment
             $this->setMerchantFields($skrillStatusRequest['merchant_fields']);
         }
     }
+
     /**
      * Get id
      *
@@ -229,10 +239,33 @@ class skrillPayment
     }
 
     /**
+     * Set created
+     *
+     * @param \DateTime $created
+     * @return skrillPayment
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
      * Set merchant_email
      *
      * @param string $merchantEmail
-     * @return SkrillStatusResponse
+     * @return skrillPayment
      */
     public function setMerchantEmail($merchantEmail)
     {
@@ -255,7 +288,7 @@ class skrillPayment
      * Set customer_email
      *
      * @param string $customerEmail
-     * @return SkrillStatusResponse
+     * @return skrillPayment
      */
     public function setCustomerEmail($customerEmail)
     {
@@ -278,7 +311,7 @@ class skrillPayment
      * Set merchant_id
      *
      * @param string $merchantId
-     * @return SkrillStatusResponse
+     * @return skrillPayment
      */
     public function setMerchantId($merchantId)
     {
@@ -301,7 +334,7 @@ class skrillPayment
      * Set customer_id
      *
      * @param string $customerId
-     * @return SkrillStatusResponse
+     * @return skrillPayment
      */
     public function setCustomerId($customerId)
     {
@@ -324,7 +357,7 @@ class skrillPayment
      * Set merchant_transaction_id
      *
      * @param string $merchantTransactionId
-     * @return SkrillStatusResponse
+     * @return skrillPayment
      */
     public function setMerchantTransactionId($merchantTransactionId)
     {
@@ -347,7 +380,7 @@ class skrillPayment
      * Set skrill_transaction_id
      *
      * @param string $skrillTransactionId
-     * @return SkrillStatusResponse
+     * @return skrillPayment
      */
     public function setSkrillTransactionId($skrillTransactionId)
     {
@@ -370,7 +403,7 @@ class skrillPayment
      * Set payed_amount
      *
      * @param string $payedAmount
-     * @return SkrillStatusResponse
+     * @return skrillPayment
      */
     public function setPayedAmount($payedAmount)
     {
@@ -393,7 +426,7 @@ class skrillPayment
      * Set skrill_currency
      *
      * @param string $skrillCurrency
-     * @return SkrillStatusResponse
+     * @return skrillPayment
      */
     public function setSkrillCurrency($skrillCurrency)
     {
@@ -416,7 +449,7 @@ class skrillPayment
      * Set status
      *
      * @param string $status
-     * @return SkrillStatusResponse
+     * @return skrillPayment
      */
     public function setStatus($status)
     {
@@ -439,7 +472,7 @@ class skrillPayment
      * Set failed_reason_code
      *
      * @param string $failedReasonCode
-     * @return SkrillStatusResponse
+     * @return skrillPayment
      */
     public function setFailedReasonCode($failedReasonCode)
     {
@@ -462,7 +495,7 @@ class skrillPayment
      * Set failed_reason_description
      *
      * @param string $failedReasonDescription
-     * @return SkrillStatusResponse
+     * @return skrillPayment
      */
     public function setFailedReasonDescription($failedReasonDescription)
     {
@@ -485,7 +518,7 @@ class skrillPayment
      * Set md5_signature
      *
      * @param string $md5Signature
-     * @return SkrillStatusResponse
+     * @return skrillPayment
      */
     public function setMd5Signature($md5Signature)
     {
@@ -508,7 +541,7 @@ class skrillPayment
      * Set merchant_amount
      *
      * @param string $merchantAmount
-     * @return SkrillStatusResponse
+     * @return skrillPayment
      */
     public function setMerchantAmount($merchantAmount)
     {
@@ -531,7 +564,7 @@ class skrillPayment
      * Set merchant_currency
      *
      * @param string $merchantCurrency
-     * @return SkrillStatusResponse
+     * @return skrillPayment
      */
     public function setMerchantCurrency($merchantCurrency)
     {
@@ -554,7 +587,7 @@ class skrillPayment
      * Set payment_type
      *
      * @param string $paymentType
-     * @return SkrillStatusResponse
+     * @return skrillPayment
      */
     public function setPaymentType($paymentType)
     {
@@ -577,7 +610,7 @@ class skrillPayment
      * Set merchant_fields
      *
      * @param string $merchantFields
-     * @return SkrillStatusResponse
+     * @return skrillPayment
      */
     public function setMerchantFields($merchantFields)
     {

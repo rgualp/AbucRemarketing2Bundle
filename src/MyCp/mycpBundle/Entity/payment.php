@@ -29,37 +29,37 @@ class payment
 
     /**
      * @ORM\ManyToOne(targetEntity="currency",inversedBy="")
-     * @ORM\JoinColumn(name="currency_id",referencedColumnName="curr_id")
+     * @ORM\JoinColumn(name="currency_id",referencedColumnName="curr_id", nullable=true)
      */
-    private $currency;
+    private $currency = null;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created", type="datetime")
+     * @ORM\Column(name="created", type="datetime", nullable=true)
      */
-    private $created;
+    private $created = null;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="modified", type="datetime")
+     * @ORM\Column(name="modified", type="datetime", nullable=true)
      */
-    private $modified;
+    private $modified = null;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="payed_amount", type="decimal")
+     * @ORM\Column(name="payed_amount", type="decimal", precision=10, scale=2, nullable=true)
      */
-    private $payed_amount;
+    private $payed_amount = null;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="status", type="integer")
+     * @ORM\Column(name="status", type="integer", nullable=true)
      */
-    private $status;
+    private $status = null;
 
 
     /**

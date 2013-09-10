@@ -117,7 +117,8 @@ class paymentController extends Controller {
         $reservation = $this->getReservationFrom($reservationId);
 
         if($reservation === false) {
-            throw new EntityNotFoundException("generalReservation($reservationId)");
+            $this->log('PaymentController line '.__LINE__.': Reservation (id='.$reservationId.') not found.');
+            return new Response('', 200);
         }
 
         $payment = $this->getPaymentOf($reservation);
@@ -128,12 +129,14 @@ class paymentController extends Controller {
             $payment->setGeneralReservation($reservation);
         }
 
-        $payment->setPayedAmount((float)$skrillRequest->getPayedAmount());
+        $payment->setPayedAmount($skrillRequest->getPayedAmount());
 
-        $currency = $this->getCurrencyFrom($skrillRequest->getSkrillCurrency());
+        $skrillCurrency = $skrillRequest->getSkrillCurrency();
+        $currency = $this->getCurrencyFrom($skrillCurrency);
 
         if(empty($currency)) {
-            throw new EntityNotFoundException("currency(".$skrillRequest->getSkrillCurrency().")");
+            $this->log(date(DATE_RSS).' - PaymentController line '.__LINE__.': Currency '.$skrillCurrency.' not found.');
+            return new Response('', 200);
         }
 
         $payment->setCurrency($currency);
@@ -147,7 +150,9 @@ class paymentController extends Controller {
         $em->persist($skrillRequest);
         $em->flush();
 
-        return new Response('', 200);
+        $this->log(date(DATE_RSS).' - PaymentController line '.__LINE__.': '. json_encode($payment) . "\n\n".json_encode($skrillRequest));
+
+        return new Response('Thanks', 200);
     }
 
     public function skrillCancelAction()
@@ -168,40 +173,66 @@ class paymentController extends Controller {
             array('status' => $status));
     }
 
+    public function skrillSendTestPostRequestAction()
+    {
+        // TODO: this function emulates the POST status request from Skrill
+
+        $urltopost = $this->generateUrl('frontend_payment_skrill_status', array(), true);
+        $datatopost = array (
+            "mb_transaction_id" => "ABCD",
+            "transaction_id" => "1",
+            "pay_to_email" => "accounting@mycasaparticular.com",
+            "pay_from_email" => "customer@email.com",
+            "mb_amount" => "12.12",
+            "mb_currency" => "EUR",
+            "status" => -2,
+            "merchant_id" => 22512989,
+
+        );
+
+        $ch = curl_init ($urltopost);
+        curl_setopt ($ch, CURLOPT_POST, true);
+        curl_setopt ($ch, CURLOPT_POSTFIELDS, $datatopost);
+        curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
+        $returndata = curl_exec ($ch);
+
+        return $this->redirect($this->generateUrl('frontend_payment_skrill_return', array('reservationId' => "1")));
+        //return new Response($returndata);
+    }
+
     private function getReservationFrom($reservationId)
     {
-        if(!empty($reservationId) && is_numeric($reservationId) && (int)$reservationId > 0) {
-            $em = $this->getDoctrine()->getManager();
-
-            try {
-                $reservation = $em->getRepository('mycpBundle:generalReservation')->find($reservationId);
-            } catch (NoResultException $e) {
-                return false;
-            }
-
-            return $reservation;
-        } else {
+        if(empty($reservationId) || !is_numeric($reservationId) || (int)$reservationId <= 0) {
             return false;
         }
+
+        $em = $this->getDoctrine()->getManager();
+
+        try {
+            $reservation = $em->getRepository('mycpBundle:generalReservation')->find($reservationId);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return $reservation;
     }
 
     private function getPaymentOf($reservation)
     {
-
         $repository = $this->getDoctrine()->getRepository('mycpBundle:payment');
-        $query = $repository->createQueryBuilder('p')
-            ->where('p.general_reservation = :reservation_id')
-            ->setParameter('reservation_id', $reservation)
-            ->getQuery();
+
+//        $query = $repository->createQueryBuilder('p')
+//            ->where('p.general_reservation = :reservation_id')
+//            ->setParameter('reservation_id', $reservation)
+//            ->getQuery();
 
         $payment = null;
 
         try {
-            $payment = $query->getSingleResult();
-        } catch (NoResultException $e) {
+            $payment = $repository->findOneBy(array('general_reservation' => $reservation));
+            //$payment = $query->getSingleResult();
+        } catch (\Exception $e) {
             return null;
-        } catch (NonUniqueResultException $e) {
-            throw new NotValidException('Multiple payment for one reservation!');
         }
 
         return $payment;
@@ -210,7 +241,7 @@ class paymentController extends Controller {
     private function getCurrencyFrom($skrillCurrency) {
         $skrillCurrency = strtolower(trim($skrillCurrency));
         $currencyRepo = $this->getDoctrine()->getRepository('mycpBundle:currency');
-        return $currencyRepo->findByCurrName($skrillCurrency);
+        return $currencyRepo->findOneBy(array('curr_code' => $skrillCurrency));
     }
 
     private function getSkrillViewData(generalReservation $reservation, user $user)
@@ -219,7 +250,7 @@ class paymentController extends Controller {
 
         return array(
             'action_url' => 'https://www.moneybookers.com/app/payment.pl',
-            'pay_to_email' => 'a@b.de', // ABUC email
+            'pay_to_email' => 'accounting@mycasaparticular.com', // ABUC email, Skrill-ID: 22512989
             'recipient_description' => 'MyCasaParticular.com',
             'transaction_id' => $reservationId,
             'return_url' => $this->generateUrl('frontend_payment_skrill_return', array('reservationId' => $reservationId), true),
@@ -251,4 +282,11 @@ class paymentController extends Controller {
             'button_text' => 'Pay With Skrill'
         );
     }
+
+    private function log($message)
+    {
+        $path = $this->get('kernel')->getRootDir() . '/../app/logs/payment.log';
+        file_put_contents($path, $message, FILE_APPEND);
+    }
+
 }
