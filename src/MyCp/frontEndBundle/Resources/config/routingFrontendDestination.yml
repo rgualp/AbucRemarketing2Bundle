@@ -2,10 +2,6 @@ frontend_list_destinations:
     pattern:  /destinations/
     defaults: { _controller: frontEndBundle:destination:popular_list }
 
-frontend_filter_by_municipality_destinations:
-    pattern:  /destinations/{municipality_id}/
-    defaults: { _controller: frontEndBundle:destination:popular_list }
-
 frontend_details_destination:
     pattern:  /details_destination/{destination_id}
     defaults: { _controller: frontEndBundle:destination:details }

@@ -1,7 +1,3 @@
 frontend_list_information:
     pattern:  /information/{information_type}
     defaults: { _controller: frontEndBundle:information:list }
-    
-frontend_sitemap_information:
-    pattern:  /sitemap/
-    defaults: { _controller: frontEndBundle:information:sitemap }

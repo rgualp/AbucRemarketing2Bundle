@@ -25,7 +25,6 @@ class BackendAlbumController extends Controller
         $service_security->verify_access();
         $em = $this->getDoctrine()->getEntityManager();
         $languages=$em->getRepository('mycpBundle:lang')->findAll();
-
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $categories=$paginator->paginate($em->getRepository('mycpBundle:albumCategoryLang')->get_categories())->getResult();

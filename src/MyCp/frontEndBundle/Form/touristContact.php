@@ -11,21 +11,15 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class touristContact extends AbstractType
 {
-    private $translate;
-    
-    function __construct($trans_entity)
-    {
-        $this->translate = $trans_entity;
-    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('tourist_name','text',array('label'=>$this->translate->trans('FORMS_NAME')))
-            ->add('tourist_last_name','text',array('label'=>$this->translate->trans('FORMS_LASTNAME')))
-            ->add('tourist_email','text',array('label'=>$this->translate->trans('FORMS_EMAIL')))
-            ->add('tourist_phone','text',array('label' => $this->translate->trans('FORMS_PHONE')))
-            ->add('tourist_comment','textarea',array('label' => $this->translate->trans('FORMS_COMMENTS')));
+            ->add('tourist_name','text',array('label'=>'Nombre:'))
+            ->add('tourist_last_name','text',array('label'=>'Apellidos:'))
+            ->add('tourist_email','text',array('label'=>'Email:'))
+            ->add('tourist_phone','text',array('label' => 'Telefono:'))
+            ->add('tourist_comment','textarea',array('label' => 'Comentarios:'));
         ;
     }
 

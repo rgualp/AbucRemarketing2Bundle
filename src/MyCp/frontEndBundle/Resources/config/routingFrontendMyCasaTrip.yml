@@ -3,20 +3,14 @@ frontend_mycasatrip_home:
     defaults: { _controller: frontEndBundle:mycasatrip:home }
 
 frontend_mycasatrip_pending:
-    pattern:  /pending/{order_by}
-    defaults: { _controller: frontEndBundle:mycasatrip:reservations_pending ,order_by:0}
+    pattern:  /pending
+    defaults: { _controller: frontEndBundle:mycasatrip:reservations_pending }
 
 frontend_mycasatrip_available:
-    pattern:  /available/{order_by}
+    pattern:  /available
     defaults: { _controller: frontEndBundle:mycasatrip:reservations_available }
 
-frontend_mycasatrip_historial_consult:
-    pattern:  /history_consult/{order_by}
-    defaults: { _controller: frontEndBundle:mycasatrip:history_reservation_consult,order_by:0 }
-
 frontend_mycasatrip_review:
-    pattern:  /reservation/{id_reservation}/
+    pattern:  /review/{id_reservation}/
     defaults: { _controller: frontEndBundle:mycasatrip:reservation_review }
-
-
 

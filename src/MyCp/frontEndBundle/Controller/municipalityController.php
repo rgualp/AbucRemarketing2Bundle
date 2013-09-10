@@ -24,7 +24,7 @@ class municipalityController extends Controller {
 
         foreach ($municipalities as $mun) {
             $total = count($em->getRepository('mycpBundle:ownership')->findBy(array('own_address_municipality' => $mun->getMunId(),
-                        'own_status' => 1)));
+                        'own_public' => true)));
             $mun_total_owns[$mun->getMunId()] = $total;
 
             if ($total > 0)
@@ -59,7 +59,7 @@ class municipalityController extends Controller {
             if ($total > 0)
                 $mun_total = $mun_total + 1;
         }
-
+        
         $response = $this->renderView('frontEndBundle:municipality:municipios_cascade_destination.html.twig', array(
             'mun_total' => $mun_total,
             'municipalities' => $municipalities,
@@ -67,24 +67,4 @@ class municipalityController extends Controller {
                 ));
         return new Response($response, 200);
     }
-
-    public function get_with_reservationsAction() {
-        $em = $this->getDoctrine()->getEntityManager();
-
-        $paginator = $this->get('ideup.simple_paginator');
-        $items_per_page = 15;
-        $paginator->setItemsPerPage($items_per_page);
-        $municipalities = $paginator->paginate($em->getRepository('mycpBundle:municipality')->get_with_reservations())->getResult();
-        $page = 1;
-        if (isset($_GET['page']))
-            $page = $_GET['page'];
-
-        return $this->render('frontEndBundle:municipality:municipalityWithReservations.html.twig', array(
-                    'list' => $municipalities,
-                    'items_per_page' => $items_per_page,
-                    'total_items' => $paginator->getTotalItems(),
-                    'current_page' => $page
-                ));
-    }
-
 }

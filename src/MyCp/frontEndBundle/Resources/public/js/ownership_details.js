@@ -9,10 +9,7 @@ function start(){
         document.getElementById('mapContent').innerHTML = "<iframe width='425' height='350' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' src='{{ path('frontend_map_details_ownership',{'ownGeolocateX':ownership.OwnGeolocateX,'ownGeolocateY':ownership.OwnGeolocateY,'ownName':ownership.ownName,'description': ''})}}'></iframe>";//'<iframe runat="server" id="mm" width="600" height="450" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="minimap2.aspx?lat=39.86887222271858&long=-75.35767078399658&desc=just%26a%26sample"></iframe><br />';
         initialize_map();
 });*/
-
-
-
-
+    
     $('#filter_date_from').datepicker({
         format:'dd/mm/yyyy',
         todayBtn:'linked',
@@ -112,34 +109,16 @@ function start(){
             count_kids='';
             $('.kids').each(function() {
                 count_kids=count_kids+'&'+(this.innerHTML)});
-
-            from_date=$('#data_reservation').attr('from_date');
-            to_date=$('#data_reservation').attr('to_date');
-
-            string_url=from_date+'/'+to_date+'/'+ids_rooms+'/'+count_guests+'/'+count_kids+'/'+rooms_price+'/'+real_price;
-            $('#data_reservation').val(string_url);
+            string_url=$('#link_button').attr('data');
+            string_url=string_url.substring(0,string_url.length-9);
+            string_url+=ids_rooms+'/'+count_guests+'/'+count_kids+'/'+rooms_price+'/'+real_price;
+            $('#link_button').attr('href',string_url);
             $('#total_price').html(total_price );
 
         }
     });
-
-
+    // fin ernesto code
 }
-
-function submit_button_top_reservation()
-{
-    from_date=$('#data_reservation_top').attr('from_date');
-    to_date=$('#data_reservation_top').attr('to_date');
-    ids_rooms=$('#top_reservation_submit_button').attr('rooms');
-    count_guests=$('#top_reservation_persons_count').val();
-    rooms_price=$('#top_reservation_submit_button').attr('prices');
-    real_price=$('#top_reservation_submit_button').attr('real_price');
-    string_url=from_date+'/'+to_date+'/'+ids_rooms+'/&'+count_guests+'/'+0+'/'+rooms_price+'/'+real_price;
-    $('#data_reservation_top').val(string_url);
-    $('#form_reservation_top').submit();
-
-}
-// fin ernesto code
 
 
 function initialize_map()

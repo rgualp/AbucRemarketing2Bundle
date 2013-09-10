@@ -5,7 +5,3 @@ frontend_find_municipality:
 frontend_find_for_destinations_municipality:
     pattern:  /find_for_destinations_municipality/
     defaults: { _controller: frontEndBundle:municipality:find_for_destinations }
-    
-frontend_get_with_reservations_municipality:
-    pattern:  /get_with_reservations_municipality/
-    defaults: { _controller: frontEndBundle:municipality:get_with_reservations }

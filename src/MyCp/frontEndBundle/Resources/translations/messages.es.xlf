@@ -346,7 +346,7 @@
                 <source>ALPHABETICAL_ZA_ORDER_BY</source>
                 <target>Alfabéticamente /Z - A</target>
             </trans-unit>
-             <trans-unit id="87">
+            <trans-unit id="87">
                 <source>LIST_VIEW_RESULTS</source>
                 <target>Ver resultados en forma de lista</target>
             </trans-unit>
@@ -366,7 +366,7 @@
                 <source>LIST_BY_CATEGORIES_BREADCRUMB</source>
                 <target>Listado por Categorías</target>
             </trans-unit>
-             <trans-unit id="101">
+            <trans-unit id="101">
                 <source>PHOTO_TAB_DETAILS</source>
                 <target>Fotos</target>
             </trans-unit>
@@ -386,7 +386,7 @@
                 <source>SEE_ALL_DETAILS</source>
                 <target>(ver todos)</target>
             </trans-unit>
-             <trans-unit id="106">
+            <trans-unit id="106">
                 <source>MAPS_TAB_DETAILS</source>
                 <target>Mapas</target>
             </trans-unit>
@@ -406,7 +406,7 @@
                 <source>TYPE_TAB_DESCRIPTION</source>
                 <target>Tipo</target>
             </trans-unit>
-             <trans-unit id="111">
+            <trans-unit id="111">
                 <source>CAPACITY_TAB_DESCRIPTION</source>
                 <target>Capacidad</target>
             </trans-unit>
@@ -426,7 +426,7 @@
                 <source>SERVICES_TAB_DESCRIPTION</source>
                 <target>Servicios</target>
             </trans-unit>
-             <trans-unit id="116">
+            <trans-unit id="116">
                 <source>BREAKFAST_TAB_DESCRIPTION</source>
                 <target>Desayuno</target>
             </trans-unit>
@@ -446,7 +446,7 @@
                 <source>BIKE_PARKING_TAB_DESCRIPTION</source>
                 <target>Parqueo para Bicicletas</target>
             </trans-unit>
-             <trans-unit id="121">
+            <trans-unit id="121">
                 <source>PETS_TAB_DESCRIPTION</source>
                 <target>Mascotas</target>
             </trans-unit>
@@ -466,7 +466,7 @@
                 <source>SAUNA_TAB_DESCRIPTION</source>
                 <target>Sauna</target>
             </trans-unit>
-             <trans-unit id="126">
+            <trans-unit id="126">
                 <source>POOL_TAB_DESCRIPTION</source>
                 <target>Piscina</target>
             </trans-unit>
@@ -486,7 +486,7 @@
                 <source>MAIN_FEATURES_ROOMS</source>
                 <target>Características Principales</target>
             </trans-unit>
-             <trans-unit id="131">
+            <trans-unit id="131">
                 <source>CLIMATIZATION_ROOMS</source>
                 <target>Climatización</target>
             </trans-unit>
@@ -506,8 +506,8 @@
                 <source>YARD_ROOMS</source>
                 <target>Patio</target>
             </trans-unit>
-             <trans-unit id="136">
-                 <source>NO</source>
+            <trans-unit id="136">
+                <source>NO</source>
                 <target>No</target>
             </trans-unit>
             <trans-unit id="137">
@@ -546,7 +546,7 @@
                 <source>BYNIGHTS_PRICES</source>
                 <target>Por noches</target>
             </trans-unit>
-             <trans-unit id="146">
+            <trans-unit id="146">
                 <source>ARRIVAL_RESERVATION</source>
                 <target>Llegada</target>
             </trans-unit>
@@ -1247,11 +1247,11 @@
                 <target>Descripción para Términos y Condiciones</target>
             </trans-unit>
             <trans-unit id="321">
-                <source>SECURITY_PRIVACITY</source>
+                <source>SEC_PRIV</source>
                 <target>Seguridad y Privacidad</target>
             </trans-unit>
             <trans-unit id="322">
-                <source>SECURITY_PRIVACITY_CONTENT</source>
+                <source>SEC_PRIV_CONTENT</source>
                 <target>Descripcion para Seguridad y Privacidad</target>
             </trans-unit>
             <trans-unit id="323">
@@ -1286,43 +1286,43 @@
                 <source>ABOUT_MYCP</source>
                 <target>Sobre Nosotros</target>
             </trans-unit>
-             <trans-unit id="331">
+            <trans-unit id="331">
                 <source>TESTIMONIES</source>
                 <target>Testimonios</target>
             </trans-unit>
-             <trans-unit id="332">
+            <trans-unit id="332">
                 <source>PRESS</source>
                 <target>Prensa</target>
             </trans-unit>
-             <trans-unit id="333">
+            <trans-unit id="333">
                 <source>PARTNERS</source>
                 <target>Socios</target>
             </trans-unit>
-             <trans-unit id="334">
+            <trans-unit id="334">
                 <source>JOBS</source>
                 <target>Empleos</target>
             </trans-unit>
-             <trans-unit id="335">
+            <trans-unit id="335">
                 <source>OUR_SERVICES</source>
                 <target>Nuestros servicios</target>
             </trans-unit>
-             <trans-unit id="336">
+            <trans-unit id="336">
                 <source>SERVICE_GUARANTEE</source>
                 <target>Garantía de servicio</target>
             </trans-unit>
-             <trans-unit id="337">
+            <trans-unit id="337">
                 <source>SERVICE_GUARANTEE_CONTENT</source>
                 <target>Descripción para Garantía de Servicios</target>
             </trans-unit>
-             <trans-unit id="338">
+            <trans-unit id="338">
                 <source>TESTIMONIES_CONTENT</source>
                 <target>Descripción para Testimonios</target>
             </trans-unit>
-             <trans-unit id="339">
+            <trans-unit id="339">
                 <source>PRESS_CONTENT</source>
                 <target>Descripción para Prensa</target>
             </trans-unit>
-             <trans-unit id="340">
+            <trans-unit id="340">
                 <source>PARTNERS_CONTENT</source>
                 <target>Descripción para Socios</target>
             </trans-unit>
@@ -1359,125 +1359,8 @@
                 <target>Niños</target>
             </trans-unit>
             <trans-unit id="349">
-                <source>SEND</source>
-                <target>Enviar</target>
-            </trans-unit>
-            <trans-unit id="350">
-                <source>SITEMAP</source>
-                <target>Mapa del Sitio</target>
-            </trans-unit>
-            <trans-unit id="351">
-                <source>SITEMAP_CONTENT</source>
-                <target>Descripción para el Mapa del Sitio</target>
-            </trans-unit>
-            <trans-unit id="352">
-                <source>HOW_IT_WORKS_CONTENT</source>
-                <target>Descripción para Cómo Funciona</target>
-            </trans-unit>
-            <trans-unit id="353">
-                <source>USER_COMUNITY</source>
-                <target>Comunidad de Usuarios</target>
-            </trans-unit>
-            <trans-unit id="354">
-                <source>FIRST_PAGE</source>
-                <target>Primera</target>
-            </trans-unit>
-            <trans-unit id="355">
-                <source>LAST_PAGE</source>
-                <target>Última</target>
-            </trans-unit>
-            <trans-unit id="356">
-                <source>VISITS</source>
-                <target>Visitas:</target>
-            </trans-unit>
-            <trans-unit id="357">
-                <source>OWNERSHIPS</source>
-                <target>Propiedades</target>
-            </trans-unit>
-            <trans-unit id="358">
-                <source>FORMS_NAME</source>
-                <target>Nombre</target>
-            </trans-unit>
-            <trans-unit id="359">
-                <source>FORMS_LASTNAME</source>
-                <target>Apellidos</target>
-            </trans-unit>
-            <trans-unit id="360">
-                <source>FORMS_EMAIL</source>
-                <target>Correo</target>
-            </trans-unit>
-            <trans-unit id="361">
-                <source>FORMS_PHONE</source>
-                <target>Teléfono</target>
-            </trans-unit>
-            <trans-unit id="362">
-                <source>FORMS_COMMENTS</source>
-                <target>Comentarios</target>
-            </trans-unit>
-            <trans-unit id="363">
-                <source>FORMS_NAME_LASTNAME_OWNER</source>
-                <target>Nombre y apellidos del propietario</target>
-            </trans-unit>
-            <trans-unit id="364">
-                <source>FORMS_OWN_NAME</source>
-                <target>Nombre de la propiedad</target>
-            </trans-unit>
-            <trans-unit id="365">
-                <source>FORMS_REPEAT</source>
-                <target>Repetir</target>
-            </trans-unit>
-            <trans-unit id="366">
-                <source>FORMS_PROVINCE</source>
-                <target>Provincia</target>
-            </trans-unit>
-            <trans-unit id="367">
-                <source>FORMS_MUNICIPALITY</source>
-                <target>Municipio</target>
-            </trans-unit>
-            <trans-unit id="368">
-                <source>CONTACT_US_TOURIST_HEADER</source>
-                <target>Formulario para el turista</target>
-            </trans-unit>
-            <trans-unit id="369">
-                <source>CONTACT_US_OWNER_HEADER</source>
-                <target>Formulario para el propietario</target>
-            </trans-unit>
-            <trans-unit id="370">
-                <source>FORMS_PASSWORD</source>
-                <target>Contraseña</target>
-            </trans-unit>
-            <trans-unit id="371">
-                <source>FORMS_REMEMBER_ME</source>
-                <target>Recuérdame en este ordenador</target>
-            </trans-unit>
-            <trans-unit id="372">
-                <source>FORMS_IDENTIFY</source>
-                <target>Identificarse</target>
-            </trans-unit>
-            <trans-unit id="373">
-                <source>FORMS_FORGOT_PASSWORD_QUESTION</source>
-                <target>¿Has olvidado tu contraseña?</target>
-            </trans-unit>
-            <trans-unit id="374">
-                <source>FORMS_CONFIRMATION_QUESTION</source>
-                <target>¿No has recibido la confirmación?
-</target>
-            </trans-unit>
-            <trans-unit id="375">
-                <source>FORMS_CREATE_ACCOUNT_QUESTION</source>
-                <target>¿No estás registrado? ¡Regístrate aquí!</target>
-            </trans-unit>
-            <trans-unit id="376">
-                <source>FORMS_LOGIN_QUESTION</source>
-                <target>¿Ya estás registrado? ¡Identifícate aquí!</target>
-            </trans-unit>
-            <trans-unit id="377">
-                <source>DELETE_FAVORITIES</source>
-                <target>Eliminar de Favoritos</target>
-            </trans-unit>
-            <trans-unit id="378">
-                <source>FAVORITIES_PAGE_DESCRIPTION</source>
-                <target>Descripción de Favoritos</target>
+                <source>SELECT_OWNERSHIP_SORT_BY</source>
+                <target>Organizar por</target>
             </trans-unit>
         </body>
     </file>
