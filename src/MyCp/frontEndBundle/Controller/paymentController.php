@@ -48,7 +48,7 @@ class paymentController extends Controller {
 
         $skrillData = $this->getSkrillViewData($reservation, $user);
 
-        return $this->render('frontEndBundle:Payment:skrill.html.twig', $skrillData);
+        return $this->render('frontEndBundle:payment:skrill.html.twig', $skrillData);
     }
 
     public function skrillReturnAction($reservationId)
@@ -161,7 +161,7 @@ class paymentController extends Controller {
 
         return $this->render(
             'frontEndBundle:payment:skrillResponseTest.html.twig',
-            array('status' => 'Cancelled by Skrill cancel_url'));
+            array('status' => 'Cancelled by Skrill'));
     }
 
     public function skrillTestResponseAction($status)
@@ -260,7 +260,7 @@ class paymentController extends Controller {
             'status_url2' => 'booking@mycasaparticular.com',
             'language' => 'EN',
             'confirmation_note' => 'MyCasaParticular wishes you pleasure visiting Cuba!',
-            'pay_from_email' => 'customer@lkjldasjfljkadf.com', // customer email
+            'pay_from_email' => 'customer@blablabla.com', // customer email
             'logo_url' => '',//'http://www.mypaladar.com/mycp/mycpres/web/bundles/frontend/images/logo.png', // TODO: $this->getRequest()->getUriForPath('bundles/frontend/images/logo.png') //;'bundles/frontend/images/logo.png',
             'first_name' => 'John',
             'last_name' => 'Payer',
@@ -268,7 +268,7 @@ class paymentController extends Controller {
             'postal_code' => 'EC45MQ',
             'city' => 'Payertown',
             'country' => 'GBR', // TODO: wo die Liste der erlaubten countries speichern?! -> country überhaupt nötig?!
-            'amount' => '0.75',
+            'amount' => '0.5',
             'currency' => 'EUR', // TODO: Liste der Währungen
             'detail1_description' => 'ID Oferta:  ',
             'detail1_text' => 'CAS.1000xxx',

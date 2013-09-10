@@ -6,8 +6,11 @@
 
 {% block body %}
     <p>{{ pollingUrl }}</p>
-    Results here:
-    <p></p><div class="json_result"></div></p>
+
+    <div id="loading" class="alert alert-info">
+        <img src="{{ asset('bundles/frontend/images/preloader-white.gif') }}"/> {{"LOADING_MESSAGE" | trans}}
+    </div>
+
 {% block include_javascripts_and_css %}
     <script>
         var counter = 0;
@@ -31,21 +34,19 @@
                 var mycounter = getCounter();
 
                 $.each(data, function(key, val) {
-                    $(".json_result").html(key + " " + val + " " + mycounter);
-
                     if(key == "status") {
                         switch(val) {
                             case "payment_found":
-                                window.location.href = '{{ confirmationUrl }}';
+                                window.location.replace('{{ confirmationUrl }}');
                                 break;
                             case "payment_failed":
-                                window.location.href = '{{ failedUrl }}';
+                                window.location.replace('{{ failedUrl }}');
                                 break;
                             case "payment_cancelled":
-                                window.location.href = '{{ cancelUrl }}';
+                                window.location.replace('{{ cancelUrl }}');
                                 break;
                             case "payment_pending":
-                                window.location.href = '{{ pendingUrl }}';
+                                window.location.replace('{{ pendingUrl }}');
                                 break;
                             default:
                                 // continue polling in other cases
@@ -56,7 +57,7 @@
 
                 if(mycounter > {{ timeout }}) {
                     resetCounter();
-                    window.location.href = '{{ timeoutUrl }}';
+                    window.location.replace('{{ timeoutUrl }}');
                 }
 
                 //window.location.replace("http://stackoverflow.com");

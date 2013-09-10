@@ -10,9 +10,9 @@
         <pre>{{ postRequest }}</pre>
     {% endif %}
     <p id="payment_info">Please choose your payment method</p>
-    <iframe name="myframe" width="420" height="550" id="skrillFrame" frameborder="0" style="display:none">
+    <iframe name="myframe" width="420" height="550" id="myframe" frameborder="0" style="display:none">
     </iframe>
-    <form action="{{ action_url }}" target="myframe" id="skrillForm">
+    <form action="{{ action_url }}" target="_self" id="skrillForm">
         <input type="hidden" name="pay_to_email" value="{{ pay_to_email }}">
         <input type="hidden" name="recipient_description" value="{{ recipient_description }}">
         <input type="hidden" name="transaction_id" value="{{ transaction_id }}">
@@ -67,7 +67,7 @@
     <script language="javascript">
         function onSkrillClicked()
         {
-            document.getElementById('skrillframe').style.display = 'block';
+            document.getElementById('myframe').style.display = 'block';
             document.getElementById('skrillForm').style.display = 'none';
             document.getElementById('payment_info').style.display = 'none';
         }
