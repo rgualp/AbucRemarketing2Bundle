@@ -3,6 +3,7 @@
 namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Form\Extension\Core\DataTransformer\NumberToLocalizedStringTransformer;
 
 /**
  * generalreservation
@@ -298,5 +299,41 @@ class generalReservation
     public function getGenResTotalPriceInSite()
     {
         return $this->gen_res_total_price_in_site;
+    }
+
+    /**
+     * Returns the Total Price In Site as a string
+     * in the format
+     * pattern = /\d+\.\d\d/
+     * e.g. '0.00', '-10.32', '0.01' etc.
+     *
+     * @return string
+     */
+    public function getTotalPriceInSiteAsString()
+    {
+        $s = (string)$this->gen_res_total_price_in_site;
+        $abs = abs($this->gen_res_total_price_in_site);
+
+        if($abs < 10) {
+            $s = substr_replace($s, '0', -1, 0);
+        }
+
+        if($abs < 100) {
+            $s = substr_replace($s, '0', -2, 0);
+        }
+
+        return substr_replace($s, '.', -2, 0);
+    }
+
+    /**
+     * Returns the Total Price In Site as a string
+     * formatted according to the current locale.
+     *
+     * @return string
+     */
+    public function getTotalPriceInSiteAsLocalizedString()
+    {
+        $t = new NumberToLocalizedStringTransformer(2);
+        return $t->transform($this->gen_res_total_price_in_site);
     }
 }

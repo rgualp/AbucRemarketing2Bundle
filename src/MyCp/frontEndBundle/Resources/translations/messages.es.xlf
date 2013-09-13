@@ -1362,6 +1362,26 @@
                 <source>SELECT_OWNERSHIP_SORT_BY</source>
                 <target>Organizar por</target>
             </trans-unit>
+            <trans-unit id="350">
+                <source>SKRILL_CONFIRMATION_NOTE</source>
+                <target>TODO - not yet translated!</target>
+            </trans-unit>
+            <trans-unit id="351">
+                <source>SKRILL_DESCRIPTION_RESERVATION_ID</source>
+                <target>ID Reserva:  </target>
+            </trans-unit>
+            <trans-unit id="352">
+                <source>SKRILL_DESCRIPTION</source>
+                <target>Descripción:</target>
+            </trans-unit>
+            <trans-unit id="353">
+                <source>SKRILL_PAY_WITH_SKRILL</source>
+                <target>TODO - not yet translated</target>
+            </trans-unit>
+            <trans-unit id="354">
+                <source>SKRILL_ROOM_DESCRIPTION</source>
+                <target>Rooms: %numRooms% - Arrival: %date% - Nights: %numNights%</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

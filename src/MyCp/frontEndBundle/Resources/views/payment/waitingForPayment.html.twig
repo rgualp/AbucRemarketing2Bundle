@@ -31,8 +31,6 @@
 
         function pollPayment(){
             $.getJSON('{{ pollingUrl }}', function(data) {
-                var mycounter = getCounter();
-
                 $.each(data, function(key, val) {
                     if(key == "status") {
                         switch(val) {
@@ -55,13 +53,12 @@
                     }
                 });
 
-                if(mycounter > {{ timeout }}) {
+                var mycounter = getCounter();
+
+                if(mycounter > {{ timeoutTicks }}) {
                     resetCounter();
                     window.location.replace('{{ timeoutUrl }}');
                 }
-
-                //window.location.replace("http://stackoverflow.com");
-                //window.location.href = "http://stackoverflow.com";
 
                 setTimeout(pollPayment, {{ pollingPeriodMsec }} );
             });

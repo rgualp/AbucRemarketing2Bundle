@@ -59,10 +59,10 @@ class paymentController extends Controller {
 
         $pollingUrl = $this->generateUrl('frontend_payment_poll_payment', array('reservationId' => $reservationId), true);
         $confirmationUrl = $this->generateUrl('frontend_payment_skrill_test_response', array('status' => 'Confirmation'), true);
-        $timeoutUrl =$this->generateUrl('frontend_payment_skrill_test_response', array('status' => 'Timeout'), true);
-        $cancelUrl =$this->generateUrl('frontend_payment_skrill_test_response', array('status' => 'Cancelled by status response'), true);
-        $pendingUrl =$this->generateUrl('frontend_payment_skrill_test_response', array('status' => 'Pending'), true);
-        $failedUrl =$this->generateUrl('frontend_payment_skrill_test_response', array('status' => 'Failed'), true);
+        $timeoutUrl = $this->generateUrl('frontend_payment_skrill_test_response', array('status' => 'Timeout'), true);
+        $cancelUrl = $this->generateUrl('frontend_payment_skrill_test_response', array('status' => 'Cancelled by status response'), true);
+        $pendingUrl = $this->generateUrl('frontend_payment_skrill_test_response', array('status' => 'Pending'), true);
+        $failedUrl = $this->generateUrl('frontend_payment_skrill_test_response', array('status' => 'Failed'), true);
 
         return $this->render(
             'frontEndBundle:payment:waitingForPayment.html.twig',
@@ -73,7 +73,7 @@ class paymentController extends Controller {
                 'cancelUrl' => $cancelUrl,
                 'pendingUrl' => $pendingUrl,
                 'failedUrl' => $failedUrl,
-                'timeout' => 60,
+                'timeoutTicks' => 60,
                 'pollingPeriodMsec' => 1000
             ));
     }
@@ -248,38 +248,47 @@ class paymentController extends Controller {
     {
         $reservationId = $reservation->getGenResId();
 
+        $translator = $this->get('translator');
+
+        $t = new \Symfony\Component\Form\Extension\Core\DataTransformer\NumberToLocalizedStringTransformer(2);
+        $price = $t->transform(1000);
+
+        $reservation->get
+
         return array(
             'action_url' => 'https://www.moneybookers.com/app/payment.pl',
             'pay_to_email' => 'accounting@mycasaparticular.com', // ABUC email, Skrill-ID: 22512989
             'recipient_description' => 'MyCasaParticular.com',
             'transaction_id' => $reservationId,
             'return_url' => $this->generateUrl('frontend_payment_skrill_return', array('reservationId' => $reservationId), true),
-            'return_url_text' => 'Return to MyCasaParticular',
+            'return_url_text' => 'Return to MyCasaParticular', // TODO: translation
             'cancel_url' => $this->generateUrl('frontend_payment_skrill_cancel', array(), true),
             'status_url' => $this->generateUrl('frontend_payment_skrill_status', array(), true),
             'status_url2' => 'booking@mycasaparticular.com',
             'language' => 'EN',
-            'confirmation_note' => 'MyCasaParticular wishes you pleasure visiting Cuba!',
-            'pay_from_email' => 'customer@blablabla.com', // customer email
-            'logo_url' => '',//'http://www.mypaladar.com/mycp/mycpres/web/bundles/frontend/images/logo.png', // TODO: $this->getRequest()->getUriForPath('bundles/frontend/images/logo.png') //;'bundles/frontend/images/logo.png',
-            'first_name' => 'John',
-            'last_name' => 'Payer',
-            'address' => '11 Payerstr St',
-            'postal_code' => 'EC45MQ',
-            'city' => 'Payertown',
-            'country' => 'GBR', // TODO: wo die Liste der erlaubten countries speichern?! -> country überhaupt nötig?!
-            'amount' => '0.5',
-            'currency' => 'EUR', // TODO: Liste der Währungen
-            'detail1_description' => 'ID Oferta:  ',
+            'confirmation_note' => $translator->trans('SKRILL_CONFIRMATION_NOTE'),
+            'pay_from_email' => $user->getUserEmail(), // customer email
+            'logo_url' => 'http://www.mypaladar.com/mycp/mycpres/web/bundles/frontend/images/logo.png', // TODO: $this->getRequest()->getUriForPath('bundles/frontend/images/logo.png') //;'bundles/frontend/images/logo.png',
+            'first_name' => $user->getUserName(),
+            'last_name' => $user->getUserLastName(),
+            'address' => $user->getUserAddress(),
+            'postal_code' => 'EC45MQ', // TODO: Postal Code does not exist
+            'city' => $user->getUserCity(),
+            'country' => $user->getUserCountry()->getCoCode(),
+            'amount' => $reservation->getTotalPriceInSiteAsString(),// '0.5',//$reservation->getTotalPriceInSiteFormatted(),
+            'currency' => 'EUR', // TODO: Add Currency to GeneralReservation
+            'detail1_description' => $translator->trans('SKRILL_DESCRIPTION_RESERVATION_ID'),
             'detail1_text' => 'CAS.1000xxx',
             'detail2_description' => 'Casa:  ',
-            'detail2_text' => '1234',
-            'detail3_description' => 'Description:',
-            'detail3_text' => 'Rooms: 1 - Arrival: 10.10.2013 - Nights: 5',
-            'detail4_description' => 'Description:',
+            'detail2_text' => $price, //'1234',
+            'detail3_description' => $translator->trans('SKRILL_DESCRIPTION'),
+            'detail3_text' => $translator->trans('SKRILL_ROOM_DESCRIPTION', array(
+                '%numRooms%' => ''
+            )),
+            'detail4_description' => $translator->trans('SKRILL_DESCRIPTION'),
             'detail4_text' => 'Adults: 2 - Children: 1',
             'payment_methods' => 'ACC,DID,SFT',
-            'button_text' => 'Pay With Skrill'
+            'button_text' => $translator->trans('SKRILL_PAY_WITH_SKRILL')
         );
     }
 
