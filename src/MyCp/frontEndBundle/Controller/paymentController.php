@@ -48,7 +48,7 @@ class paymentController extends Controller {
 
         $skrillData = $this->getSkrillViewData($reservation, $user);
 
-        return $this->render('frontEndBundle:payment:skrill.html.twig', $skrillData);
+        return $this->render('frontEndBundle:payment:skrillPayment.html.twig', $skrillData);
     }
 
     public function skrillReturnAction($reservationId)
