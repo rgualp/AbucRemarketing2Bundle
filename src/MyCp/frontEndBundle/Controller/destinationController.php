@@ -2,43 +2,26 @@
 
 namespace MyCp\frontEndBundle\Controller;
 
+use MyCp\frontEndBundle\Helpers\Utils;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
+class destinationController extends Controller {
 
-class destinationController extends Controller
-{
     public function popular_listAction() {
         $em = $this->getDoctrine()->getEntityManager();
         $locale = $this->get('translator')->getLocale();
-
-        $popular_destinations_list = $em->getRepository('mycpBundle:destination')->get_popular_destination();
-        $popular_destinations_photos_list = $em->getRepository('mycpBundle:destination')->get_destination_photos($popular_destinations_list);
-        $popular_destinations_description_list = $em->getRepository('mycpBundle:destination')->get_destination_description($popular_destinations_list, $locale);
-        $popular_destinations_location_list = $em->getRepository('mycpBundle:destination')->get_destination_location($popular_destinations_list);
-
-        $provinces = $em->getRepository('mycpBundle:province')->findAll();
-
-        $total_destination_provinces = array();
-        $total_province = 0;
-
-        foreach ($provinces as $prov) {
-            $total_province = count($em->getRepository('mycpBundle:destinationLocation')->findBy(array('des_loc_province' => $prov->getProvId())));
-            $total_destination_provinces[$prov->getProvId()] = $total_province;
-        }
-
-
+        $dest_list = $em->getRepository('mycpBundle:destination')->getAllDestinations($locale);
+        
+//        foreach($dest_list as $item)
+//        Utils::debug($item->getFirstDestinationPhotoName());
+        
         return $this->render('frontEndBundle:destination:listDestination.html.twig', array(
-            'popular_places' => $popular_destinations_list,
-            'popular_places_photos' => $popular_destinations_photos_list,
-            'popular_places_description' => $popular_destinations_description_list,
-            'popular_places_location' => $popular_destinations_location_list,
-            'provinces' => $provinces,
-            'destination_provinces' => $total_destination_provinces
+                    'destinations' => $dest_list
         ));
     }
 
-    public function detailsAction($destination_id){
+    public function detailsAction($destination_id) {
         $em = $this->getDoctrine()->getEntityManager();
         $destination = $em->getRepository('mycpBundle:destination')->find($destination_id);
         $currency_list = $em->getRepository('mycpBundle:currency')->findAll();
@@ -47,7 +30,7 @@ class destinationController extends Controller
         $description = $em->getRepository('mycpBundle:destinationLang')->findOneBy(array(
             'des_lang_lang' => $em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code' => $locale)),
             'des_lang_destination' => $destination_id
-                ));
+        ));
 
         $photos = $em->getRepository('mycpBundle:destination')->getPhotos($destination_id);
         $photo_descriptions = $em->getRepository('mycpBundle:destination')->getPhotoDescription($photos, $locale);
@@ -83,9 +66,9 @@ class destinationController extends Controller
                     'total_other_destinations_in_province' => count($other_destinations_in_province),
                     'owns_nearby' => $owns_nearby,
                     'owns_nearby_photos' => $owns_nearby_photos
-                ));
+        ));
     }
-    
+
     public function filterAction() {
         $em = $this->getDoctrine()->getEntityManager();
         $request = $this->getRequest();
@@ -102,11 +85,11 @@ class destinationController extends Controller
             'popular_places_photos' => $popular_places_photos,
             'popular_places_description' => $popular_places_description,
             'popular_places_location' => $popular_places_location
-                ));
+        ));
 
         return new Response($response, 200);
     }
-    
+
     function getArrayFotos($listado_casas) {
         $em = $this->getDoctrine()->getEntityManager();
         $photos = array();
@@ -131,4 +114,5 @@ class destinationController extends Controller
         }
         return $photos;
     }
+
 }
