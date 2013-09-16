@@ -334,6 +334,6 @@ class generalReservation
     public function getTotalPriceInSiteAsLocalizedString()
     {
         $t = new NumberToLocalizedStringTransformer(2);
-        return $t->transform($this->gen_res_total_price_in_site);
+        return $t->transform(0.01 * (float)$this->gen_res_total_price_in_site);
     }
 }

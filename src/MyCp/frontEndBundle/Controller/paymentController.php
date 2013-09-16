@@ -11,6 +11,7 @@ use MyCp\frontEndBundle\Helpers\SkrillHelper;
 use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Entity\payment;
+use MyCp\mycpBundle\Entity\ownership;
 use MyCp\mycpBundle\Entity\skrillPayment;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Exception\NotValidException;
@@ -21,6 +22,8 @@ use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class paymentController extends Controller {
+
+    private static $skrillPostUrl = 'https://www.moneybookers.com/app/payment.pl';
 
     public function skrillPaymentAction($reservationId)
     {
@@ -41,12 +44,9 @@ class paymentController extends Controller {
             throw new AuthenticationException('Access to resource not permitted.');
         }
 
-        //$country = $user->getCountry()->getCode();
+        $ownership = $this->getOwnershipOf($reservation);
 
-        // TODO: get all the booking information from DB and publish to view
-        //$url = $this->generateUrl('skrillReturn');
-
-        $skrillData = $this->getSkrillViewData($reservation, $user);
+        $skrillData = $this->getSkrillViewData($reservation, $user, $ownership);
 
         return $this->render('frontEndBundle:payment:skrillPayment.html.twig', $skrillData);
     }
@@ -175,7 +175,7 @@ class paymentController extends Controller {
 
     public function skrillSendTestPostRequestAction($reservationId, $status)
     {
-        // TODO: this function emulates the POST status request from Skrill
+        // TODO: this function emulates the POST status request from Skrill. Can be deleted when not needed anymore
 
         $urltopost = $this->generateUrl('frontend_payment_skrill_status', array(), true);
         $datatopost = array (
@@ -220,22 +220,28 @@ class paymentController extends Controller {
     private function getPaymentOf($reservation)
     {
         $repository = $this->getDoctrine()->getRepository('mycpBundle:payment');
-
-//        $query = $repository->createQueryBuilder('p')
-//            ->where('p.general_reservation = :reservation_id')
-//            ->setParameter('reservation_id', $reservation)
-//            ->getQuery();
-
         $payment = null;
 
         try {
             $payment = $repository->findOneBy(array('general_reservation' => $reservation));
-            //$payment = $query->getSingleResult();
         } catch (\Exception $e) {
             return null;
         }
 
         return $payment;
+    }
+
+    private function getOwnershipOf(generalReservation $reservation)
+    {
+        $ownership = null;
+
+        try {
+            $ownership = $reservation->getGenResOwnId();
+        } catch (\Exception $e) {
+            return null;
+        }
+
+        return $ownership;
     }
 
     private function getCurrencyFrom($skrillCurrency) {
@@ -244,16 +250,20 @@ class paymentController extends Controller {
         return $currencyRepo->findOneBy(array('curr_code' => $skrillCurrency));
     }
 
-    private function getSkrillViewData(generalReservation $reservation, user $user)
+    private function sendSkrillPostData($skrillPostData)
+    {
+        $ch = curl_init (self::$skrillPostUrl);
+        curl_setopt ($ch, CURLOPT_POST, true);
+        curl_setopt ($ch, CURLOPT_POSTFIELDS, $skrillPostData);
+        curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
+        $returndata = curl_exec ($ch);
+
+    }
+
+    private function getSkrillViewData(generalReservation $reservation, user $user, ownership $casa)
     {
         $reservationId = $reservation->getGenResId();
-
         $translator = $this->get('translator');
-
-        $t = new \Symfony\Component\Form\Extension\Core\DataTransformer\NumberToLocalizedStringTransformer(2);
-        $price = $t->transform(1000);
-
-        $reservation->get
 
         return array(
             'action_url' => 'https://www.moneybookers.com/app/payment.pl',
@@ -275,18 +285,18 @@ class paymentController extends Controller {
             'postal_code' => 'EC45MQ', // TODO: Postal Code does not exist
             'city' => $user->getUserCity(),
             'country' => $user->getUserCountry()->getCoCode(),
-            'amount' => $reservation->getTotalPriceInSiteAsString(),// '0.5',//$reservation->getTotalPriceInSiteFormatted(),
+            'amount' => $reservation->getTotalPriceInSiteAsString(),// '0.5',
             'currency' => 'EUR', // TODO: Add Currency to GeneralReservation
             'detail1_description' => $translator->trans('SKRILL_DESCRIPTION_RESERVATION_ID'),
-            'detail1_text' => 'CAS.1000xxx',
+            'detail1_text' => $reservationId,
             'detail2_description' => 'Casa:  ',
-            'detail2_text' => $price, //'1234',
-            'detail3_description' => $translator->trans('SKRILL_DESCRIPTION'),
-            'detail3_text' => $translator->trans('SKRILL_ROOM_DESCRIPTION', array(
-                '%numRooms%' => ''
-            )),
-            'detail4_description' => $translator->trans('SKRILL_DESCRIPTION'),
-            'detail4_text' => 'Adults: 2 - Children: 1',
+            'detail2_text' => isset($casa) ? $casa->getOwnMcpCode() : '',
+//            'detail3_description' => $translator->trans('SKRILL_DESCRIPTION'),
+//            'detail3_text' => $translator->trans('SKRILL_ROOM_DESCRIPTION', array(
+//                '%numRooms%' => ''
+//            )),
+//            'detail4_description' => $translator->trans('SKRILL_DESCRIPTION'),
+//            'detail4_text' => 'Adults: 2 - Children: 1',
             'payment_methods' => 'ACC,DID,SFT',
             'button_text' => $translator->trans('SKRILL_PAY_WITH_SKRILL')
         );
