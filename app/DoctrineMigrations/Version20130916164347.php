@@ -15,7 +15,7 @@ class Version20130916164347 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != "mysql", "Migration can only be executed safely on 'mysql'.");
         
-        $this->addSql("DROP TABLE favorite");
+        $this->addSql("DROP TABLE IF EXISTS favorite");
         $this->addSql("ALTER TABLE destinationlocation DROP FOREIGN KEY FK_44EF57CEAB406F02");
         $this->addSql("DROP INDEX IDX_44EF57CEAB406F02 ON destinationlocation");
         $this->addSql("ALTER TABLE destinationlocation DROP PRIMARY KEY");
