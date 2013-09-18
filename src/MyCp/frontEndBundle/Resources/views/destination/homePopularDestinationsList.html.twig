@@ -1,0 +1,22 @@
+<div class="row-fluid">
+    {%if provinces | length%}
+    <div class="span6">
+        <ul>
+            {%set cont=0%}
+            {%for province in provinces%}
+            {% if cont < (provinces | length) / 2 %}
+            <li><a onmouseout="setAreaOut($('{{"area_"~province.provcode}}'),'gmipam_3_canvas_canvas',0,0);" onmouseover="setAreaOver($('{{"area_"~province.provcode}}'),'gmipam_3_canvas_canvas','0,0,255','255,0,0','0.5',1,0,0);" href="{{ path('frontend_search_ownership',{'text':province.provName, 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}" title="{{province.provName}}">{{province.provName}}</a></li>
+            {% set cont=cont+1 %}
+            {% else %}
+            {% set cont=0 %}
+             </ul>
+             </div>
+             <div class="span6">
+             <ul>
+                <li><a onmouseout="setAreaOut($('{{"area_"~province.provcode}}'),'gmipam_3_canvas_canvas',0,0);" onmouseover="setAreaOver($('{{"area_"~province.provcode}}'),'gmipam_3_canvas_canvas','0,0,255','255,0,0','0.5',1,0,0);" href="{{ path('frontend_search_ownership',{'text':province.provName, 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}" title="{{province.provName}}">{{province.provName}}</a></li>
+             {% endif %}
+            {%endfor%}
+        </ul>
+    </div>
+    {%endif%}
+</div>

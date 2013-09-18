@@ -21,10 +21,12 @@ destinos
     <li class="active">{{"DESTINATIONS_MAIN_MENU" | trans}}</li>
 </ul>
 
-<div id="loading" class="alert alert-info hidden"> <img src="{{ asset('bundles/frontend/images/loading.gif') }}"/> {{"LOADING_MESSAGE" | trans}}</div>
+<div style="margin-bottom: 10px">
+    {% render "frontEndBundle:ownership:orangeSearchBar" %}
+</div>
 
-<div style="border: 1px solid gray; padding: 3px">
-    <div id="destinations-slider" class="royalSlider rsDefault" style="margin-top: 0px">
+<div style="border: 1px solid gray; padding: 3px;">
+    <div id="destinations-slider" class="royalSlider rsDefault">
         <img class="rsImg" src="{{ asset('bundles/frontend/images/destiny_slide_imgs/1.jpg') }}" alt="">
         <img class="rsImg" src="{{ asset('bundles/frontend/images/destiny_slide_imgs/2.jpg') }}" alt="">
         <img class="rsImg" src="{{ asset('bundles/frontend/images/destiny_slide_imgs/3.jpg') }}" alt="">
@@ -35,23 +37,87 @@ destinos
 </div>
 
 <div style="margin: 5px 0 15px 0; color: gray; font-size: 21px; font-weight: bold">Conocer Cuba, vivir Cuba!</div>
-<div style="background-color: #9C3; color: white; margin-bottom: 5px; padding: 7px; font-size: 21px">Principales destinos de Cuba</div>
+<div class="msg_green_brand">Principales destinos de Cuba</div>
 
-<div class="row-fluid result_list">
-    {%for destination in destinations%}
-        <div class="span4 item" style="margin: 5px">
+{% set flag = 0%}
+{%for destination in main_destinations%}
+   {% if flag == 0 %}
+<div class="row-fluid result_list destination_list">
+    {% endif %}
+        <div class="span4 item">
             <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" style="font-size: 18px; font-weight: bold" href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}">
-                <div style="margin: 3px">{{destination.desName}}</div>
-                <img class="span7" class="img-polaroid" src="{{ asset("uploads/destinationImages/" ~ destination.getFirstDestinationPhotoName)}}" style="height: 100px" />
-            </a>    
-                <div class="span12" style="margin: 5px 5px 0 0">
-                    {{destination.getFirstDestDesc.getDesLangBrief}}
-                </div>    
+                <h4 style="margin-top: 0px">{{destination.desName}}</h4>
+                <div class="row-fluid">
+                    <div class="span6">
+                        <img class="img-polaroid" src="{{ asset("uploads/destinationImages/" ~ destination.getFirstDestinationPhotoName)}}" style="height: 110px;"/>
+                    </div>
+                    <div class="span6">
+                        <div class="row-fluid dest_stats_box">
+                            <div class="span12" style="background-color: #ECECEC">
+                                <div class="span4">
+                                    <div class="span12 poblation_icon"></div>
+                                </div>
+                                <div class="span8" style="font-size: 14px">
+                                    <div style="font-weight: normal">{{"DES_POBLATION" | trans}}</div>
+                                    <div>{{ destination.getDesPoblation }}</div>
+                                </div>   
+                            </div>               
+                        </div>
+                        <div class="row-fluid dest_stats_box" style="margin-top: 3px; height: 61px">
+                            <div class="span12" style="background-color: #ECECEC; height: 100%">
+                                <div class="span4">
+                                    <div class="span12 ref_place_icon"></div>
+                                </div>
+                                <div class="span8" style="font-size: 14px">
+                                    <div style="font-weight: normal">{{"DES_REF_PLACE" | trans}}</div>
+                                    <div>{{ destination.getDesRefPlace | slice(0, 20)}}</div>
+                                </div>   
+                            </div>               
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <p style="font-size: 12px">{{destination.getFirstDestDesc.getDesLangBrief | slice(0,280) | striptags}}...</p>
         </div>
-        
-    {%else%}
-        <div class="noData">{{"EMPTY_LIST" | trans}}</div>
-    {%endfor%}
+{% set flag = flag + 1 %}
+{% if flag == 3%}
+        {% set flag = 0%}
+</div>
+{% endif%}
+{%else%}
+    <div class="noData">{{"EMPTY_LIST" | trans}}</div>
+{%endfor%}
+{% if flag != 3%}
+</div>
+{% endif %}
+
+<div class="secondary_tab row-fluid">
+    <div class="nav-tabs_cont">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#all_provinces">{{"ALL_PROVINCES_TAB" | trans}}</a></li>
+            <li><a data-toggle="tab" href="#all_destinations">{{"GO_DESTINATION_TITLE" | trans}}</a></li>
+        </ul>
+    </div>
+    <div class="tab-content">
+        <div id="all_provinces" class="tab-pane fade in active">
+            <div class="row-fluid">  
+                 {%for province in provinces%}
+                    <div class="span3" style="font-weight: bold; margin: 0 0 0 10px; font-size: 13px">
+                        <a href="{{ path('frontend_search_ownership',{'text':province.provName, 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}" title="{{province.provName}}">{{province.provName}}</a>
+                    </div>    
+                 {%endfor%}
+             </div>
+        </div>
+        <div id="all_destinations" class="tab-pane fade in">
+            <div class="row-fluid">
+                 {%for destination in all_destinations%}
+                    <div class="span3" style="font-weight: bold; margin: 0 0 0 10px; font-size: 13px">
+                       <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}">{{destination.desName}}</a>   
+                    </div>    
+                 {%endfor%}
+            </div>
+        </div>       
+    </div>
 </div>
 
 {% endblock %}

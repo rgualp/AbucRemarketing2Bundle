@@ -15,20 +15,37 @@ destinos
     <li class="active">{{(category | upper ~ "_OWNERSHIP") | trans}}</li>
 </ul>
 <div class="row-fluid filter_1">
-    <select id="select_category_filter">        
+    <!--select id="select_category_filter">        
         <option value="{{ path('frontend_category_ownership',{'category':'economy'})}}" {%if category | lower == "economy"%} selected {%endif%}>{{"ECONOMICS_OWNS" | trans}}</option>
         <option value="{{ path('frontend_category_ownership',{'category':'rango_medio'})}}" {%if category | lower == "rango_medio"%} selected {%endif%}>{{"MIDRANGE_OWNS" | trans}}</option>
         <option value="{{ path('frontend_category_ownership',{'category':'premium'})}}" {%if category | lower == "premium"%} selected {%endif%}>{{"PREMIUM_OWNS" | trans}}</option>
-    </select>
+    </select-->
 </div>
 <div id="loading" class="alert alert-info hidden"> <img src="{{ asset('bundles/frontend/images/loading.gif') }}"/> {{"LOADING_MESSAGE" | trans}}</div>
 
 <div class="row-fluid result_list ownerships_list" id="div_result">
     {{ include('frontEndBundle:ownership:ownershipItemList.html.twig', 
                         {'list': list,
-                         'photos':photos
+                         'photos':photos,
+                         'rooms' : rooms,
+                         'is_in_favorities' : is_in_favorities,
+                         'list_preffix': list_preffix,
+                         'counts': counts
                          }) }}      
 </div>
+{%if list | length and total_items > items_per_page%}
+    <div class="paginator-cont top_margin">
+    {{ simple_paginator_render('frontend_category_ownership',null,{
+    'container_class': 'paginator',
+    'previousPageText': '«',
+    'nextPageText': '»',
+    'currentClass': 'current',
+    'firstPageText': 'FIRST_PAGE' | trans,
+    'lastPageText': 'LAST_PAGE' | trans,
+    'route_params': {'category': category}
+}) }}
+</div>
+{%endif%}
  {% block include_javascripts %}
     <script src="{{ asset('bundles/frontend/js/category_ownership.js') }}"></script>    
 {% endblock %}

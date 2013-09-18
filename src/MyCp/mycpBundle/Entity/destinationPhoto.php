@@ -37,7 +37,7 @@ class destinationPhoto
     /**
      * Get des_pho_id
      *
-     * @return integer
+     * @return integer 
      */
     public function getDesPhoId()
     {
@@ -53,14 +53,14 @@ class destinationPhoto
     public function setDesPhoPhoto(\MyCp\mycpBundle\Entity\photo $desPhoPhoto = null)
     {
         $this->des_pho_photo = $desPhoPhoto;
-
+    
         return $this;
     }
 
     /**
      * Get des_pho_photo
      *
-     * @return \MyCp\mycpBundle\Entity\photo
+     * @return \MyCp\mycpBundle\Entity\photo 
      */
     public function getDesPhoPhoto()
     {
@@ -76,14 +76,14 @@ class destinationPhoto
     public function setDesPhoDestination(\MyCp\mycpBundle\Entity\destination $desPhoDestination = null)
     {
         $this->des_pho_destination = $desPhoDestination;
-
+    
         return $this;
     }
 
     /**
      * Get des_pho_destination
      *
-     * @return \MyCp\mycpBundle\Entity\destination
+     * @return \MyCp\mycpBundle\Entity\destination 
      */
     public function getDesPhoDestination()
     {

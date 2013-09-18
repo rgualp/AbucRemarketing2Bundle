@@ -65,6 +65,34 @@ class destination {
     private $destinationsPhoto;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="des_poblation", type="integer", length=255)
+     */
+    private $des_poblation;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="des_ref_place", type="string", length=255)
+     */
+    private $des_ref_place;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="des_geolocate_x", type="string", length=255, nullable=true)
+     */
+    private $des_geolocate_x;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="des_geolocate_y", type="string", length=255, nullable=true)
+     */
+    private $des_geolocate_y;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -166,13 +194,13 @@ class destination {
     /**
      * Get destinationsLang
      *
-     * @return Collection 
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getDestinationsLang() {
         return $this->destinationsLang;
     }
-    
-    public function getFirstDestDesc(){
+
+    public function getFirstDestDesc() {
         return $this->destinationsLang[0];
     }
 
@@ -237,8 +265,78 @@ class destination {
     }
 
     public function getFirstDestinationPhotoName() {
-        $photo_name = $this->destinationsPhoto[0]->getPhoName();
-        return file_exists(realpath("uploads/destinationImages/" . $photo_name)) ? $photo_name : "no_photo.png";
+        if (count($this->destinationsPhoto) > 0) {
+            $photo_name = $this->destinationsPhoto[0]->getPhoName();
+            if (file_exists(realpath("uploads/destinationImages/$photo_name"))) {
+                return $photo_name;
+            }
+        }
+        return "no_photo.png";
     }
 
+    public function __toString() {
+        return $this->getDesName();
+    }
+    
+    public function getDesPoblation() {
+        return $this->des_poblation;
+    }
+
+    public function setDesPoblation($des_poblation) {
+        $this->des_poblation = $des_poblation;
+    }
+
+    public function getDesRefPlace() {
+        return $this->des_ref_place;
+    }
+
+    public function setDesRefPlace($des_ref_place) {
+        $this->des_ref_place = $des_ref_place;
+    }
+    
+    /**
+     * Set des_geolocate_x
+     *
+     * @param string $value
+     * @return destination
+     */
+    public function setDesGeolocateX($value) {
+        $this->des_geolocate_x = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get des_geolocate_x
+     *
+     * @return string 
+     */
+    public function getDesGeolocateX() {
+        return $this->des_geolocate_x;
+    }
+
+    /**
+     * Set des_geolocate_y
+     *
+     * @param string $value
+     * @return destination
+     */
+    public function setDesGeolocateY($value) {
+        $this->des_geolocate_y = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get des_geolocate_y
+     *
+     * @return string 
+     */
+    public function getDesGeolocateY() {
+        return $this->des_geolocate_y;
+    }
+
+    /**
+     * Yanet - Fin
+     */
 }

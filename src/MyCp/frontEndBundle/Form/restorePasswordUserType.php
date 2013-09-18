@@ -11,11 +11,17 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class restorePasswordUserType extends AbstractType
 {
+    private $translate;
+    
+    function __construct($trans_entity)
+    {
+        $this->translate = $trans_entity;
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('user_email','text',array('label'=>'Email:'))
+            ->add('user_email','text',array('label'=>$this->translate->trans('FORMS_EMAIL')))
         ;
     }
 

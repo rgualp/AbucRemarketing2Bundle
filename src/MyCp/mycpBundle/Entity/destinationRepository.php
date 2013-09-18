@@ -3,7 +3,6 @@
 namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query;
 use MyCp\mycpBundle\Entity\destination;
 use MyCp\mycpBundle\Entity\destinationLang;
 use MyCp\mycpBundle\Entity\destinationLocation;
@@ -17,8 +16,6 @@ use MyCp\mycpBundle\Entity\destinationLocation;
 class destinationRepository extends EntityRepository {
 
     function insert_destination($data) {
-
-
         //var_dump($data);
         $active = 0;
         if (isset($data['public']))
@@ -26,8 +23,12 @@ class destinationRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $destination = new destination();
         $destination->setDesName($data['name']);
-        $destination->setDesOrder(0);
+        $destination->setDesOrder(9999);
         $destination->setDesActive($active);
+        $destination->setDesGeolocateX($data['geolocate_x']);
+        $destination->setDesGeolocateY($data['geolocate_y']);
+        $destination->setDesPoblation($data['poblation']);
+        $destination->setDesRefPlace($data['ref_place']);
 
         $municipality = $em->getRepository('mycpBundle:municipality')->find($data['ownership_address_municipality']);
         $province = $em->getRepository('mycpBundle:province')->find($data['ownership_address_province']);
@@ -75,8 +76,12 @@ class destinationRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $destination = $em->getRepository('mycpBundle:destination')->find($id_destination);
         $destination->setDesName($data['name']);
-        $destination->setDesOrder(0);
+        //$destination->setDesOrder(9999);
         $destination->setDesActive($active);
+        $destination->setDesGeolocateX($data['geolocate_x']);
+        $destination->setDesGeolocateY($data['geolocate_y']);
+        $destination->setDesPoblation($data['poblation']);
+        $destination->setDesRefPlace($data['ref_place']);
 
         $municipality = $em->getRepository('mycpBundle:municipality')->find($data['ownership_address_municipality']);
         $province = $em->getRepository('mycpBundle:province')->find($data['ownership_address_province']);
@@ -162,7 +167,7 @@ class destinationRepository extends EntityRepository {
     }
 
 //-----------------------------------------------------------------------------
-    
+
     /**
      * 
      * @param type $locale
@@ -174,13 +179,13 @@ class destinationRepository extends EntityRepository {
         $query_string = "SELECT d, dl, dm, dp FROM mycpBundle:destination d
                          JOIN d.destinationsLang dl
                          JOIN d.destinationsMunicipality dm
-                         JOIN d.destinationsPhoto dp
+                         LEFT JOIN d.destinationsPhoto dp
                          WHERE d.des_active = 1
-                         ORDER BY d.des_order DESC";
-        
+                         ORDER BY d.des_order";
+    
         return $em->createQuery($query_string)->getResult();
     }
-
+    
     /**
      * Yanet - Inicio
      */
@@ -194,7 +199,7 @@ class destinationRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $query_string = "SELECT d FROM mycpBundle:destination d
                          WHERE d.des_active <> 0
-                         ORDER BY d.des_order DESC";
+                         ORDER BY d.des_order ASC";
         return ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult();
     }
 
@@ -280,6 +285,37 @@ class destinationRepository extends EntityRepository {
             return $location_array;
         }
     }
+    
+    function get_destination_location_entity($destination_array) {
+        if (is_array($destination_array)) {
+            $location_array = array();
+            $em = $this->getEntityManager();
+
+            foreach ($destination_array as $destination) {
+                $destination_location = $em->getRepository('mycpBundle:destinationLocation')->findOneBy(array(
+                    'des_loc_destination' => $destination->getDesId()));
+                    $location_array[$destination->getDesId()] = $destination_location;
+            }
+            return $location_array;
+        }
+    }
+
+    /**
+     * Este lo agregue
+     */
+    function get_destination_by_location($province, $municipality = null) {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT l FROM mycpBundle:destinationLocation l
+                         JOIN l.des_loc_destination d
+                         WHERE d.des_active = 1 AND l.des_loc_province = " . $province;
+        
+        if($municipality != null)
+            $query_string.= " AND l.des_loc_municipality = ". $municipality;
+        
+        $query_string.= " ORDER BY d.des_order";
+
+        return $em->createQuery($query_string)->getResult();        
+    }
 
     function destination_filter($municipality_id = null, $province_id = null, $exclude_destination_id = null, $exclude_municipality = null, $max_result_set = null) {
         $em = $this->getEntityManager();
@@ -299,8 +335,8 @@ class destinationRepository extends EntityRepository {
         if ($exclude_destination_id != null && $exclude_destination_id != -1 && $exclude_destination_id != '')
             $query_string = $query_string . " AND l.des_loc_destination <> $exclude_destination_id";
 
-        $query_string = $query_string . " ORDER BY d.des_order DESC";
-
+        $query_string = $query_string . " ORDER BY d.des_order ASC";
+        
         $result = ($max_result_set != null && $max_result_set > 0) ? $em->createQuery($query_string)->setMaxResults($max_result_set)->getResult() : $em->createQuery($query_string)->getResult();
 
         $destinations = array();
@@ -391,15 +427,23 @@ class destinationRepository extends EntityRepository {
             $descriptions = array();
 
             foreach ($photos as $photo) {
+                if(is_object($photo)){
                 $query_string = "SELECT p FROM mycpBundle:photoLang p
                          JOIN p.pho_lang_id_lang l
                          WHERE l.lang_code='$lang_code'
                            AND p.pho_lang_id_photo=" . $photo->getPhoId();
                 $descriptions[$photo->getPhoId()] = $em->createQuery($query_string)->setMaxResults(1)->getResult();
+                }
             }
 
             return $descriptions;
         }
+    }
+    
+    function get_list_by_ids($des_ids) {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT o FROM mycpBundle:destination o WHERE o.des_id IN ($des_ids)";
+        return $em->createQuery($query_string)->getResult();
     }
 
     /**

@@ -42,7 +42,7 @@ class destinationLocation
     /**
      * Get des_loc_id
      *
-     * @return integer
+     * @return integer 
      */
     public function getDesLocId()
     {
@@ -58,14 +58,14 @@ class destinationLocation
     public function setDesLocDestination(\MyCp\mycpBundle\Entity\destination $desLocDestination = null)
     {
         $this->des_loc_destination = $desLocDestination;
-
+    
         return $this;
     }
 
     /**
      * Get des_loc_destination
      *
-     * @return \MyCp\mycpBundle\Entity\destination
+     * @return \MyCp\mycpBundle\Entity\destination 
      */
     public function getDesLocDestination()
     {
@@ -81,14 +81,14 @@ class destinationLocation
     public function setDesLocMunicipality(\MyCp\mycpBundle\Entity\municipality $desLocMunicipality = null)
     {
         $this->des_loc_municipality = $desLocMunicipality;
-
+    
         return $this;
     }
 
     /**
      * Get des_loc_municipality
      *
-     * @return \MyCp\mycpBundle\Entity\municipality
+     * @return \MyCp\mycpBundle\Entity\municipality 
      */
     public function getDesLocMunicipality()
     {
@@ -104,20 +104,20 @@ class destinationLocation
     public function setDesLocProvince(\MyCp\mycpBundle\Entity\province $desLocProvince = null)
     {
         $this->des_loc_province = $desLocProvince;
-
+    
         return $this;
     }
 
     /**
      * Get des_loc_province
      *
-     * @return \MyCp\mycpBundle\Entity\province
+     * @return \MyCp\mycpBundle\Entity\province 
      */
     public function getDesLocProvince()
     {
         return $this->des_loc_province;
     }
-
+    
     /**
      * Yanet - Inicio
      */

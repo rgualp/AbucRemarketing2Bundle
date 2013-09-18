@@ -198,6 +198,10 @@ class BackendDestinationController extends Controller
 
         $data['name_destination']=$destination->getDesName();
         $data['name']=$destination->getDesName();
+        $data['poblation']=$destination->getDesPoblation();
+        $data['ref_place']=$destination->getDesRefPlace();
+        $data['geolocate_x']=$destination->getDesGeolocateX();
+        $data['geolocate_y']=$destination->getDesGeolocateY();
         $data['id_destination']=$id_destination;
         $data['ownership_address_province']=$destinationsLocation[0]->getDesLocProvince()->getProvId();
         if($data['ownership_address_municipality']=$destinationsLocation[0]->getDesLocMunicipality())

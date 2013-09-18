@@ -2,7 +2,7 @@
 {% block title %}{{"USER_REGISTRATION_PAGE_TITLE" | trans}}{% endblock %}
 {% block body %}
 <ul class="breadcrumb">
-    <li><a title="Ir a la portada" href="{{path('frontend_welcome')}}">Inicio</a> <span
+    <li><a title="{{'GO_HOME_TITLE' | trans}}" href="{{path('frontend_welcome')}}">{{"HOME_MAIN_MENU" | trans}}</a> <span
             class="divider">»</span></li>
     <li class="active">{{"USER_REGISTRATION_SUBTITLE" | trans}}</li>
 </ul>
@@ -26,7 +26,7 @@
         </form>
             </div>
         </div>
-        <a href="{{ path('frontend_login') }}"  class="btn btn-block mycp_btn_orange mycp_btn btn-large">¿Ya estás registrado? ¡Identifícate aquí! </a>
+        <a href="{{ path('frontend_login') }}"  class="btn btn-block mycp_btn_orange mycp_btn btn-large">{{"FORMS_LOGIN_QUESTION" | trans}} </a>
     </div>
 </div>
 <script type="text/javascript">

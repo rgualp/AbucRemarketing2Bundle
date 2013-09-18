@@ -1,5 +1,7 @@
 {% for language in languages %}
+{%if app.request.locale != language.langcode | lower%}
 <li>
-    <a href="{{ path('frontend_welcome', { '_locale': language.langcode | lower}) }}">{{language.langname}}</a>
+    <a class="language_link" href="#" data-url="{{path('frontend_change_language')}}" data-refresh-url="{{ app.request.uri }}" data-new-lang-code="{{language.langcode | lower}}" data-current-lang-code="{{app.request.locale}}" data-lang-name="{{language.langname}}">{{language.langname}}</a>
 </li>
+{%endif%}
 {% endfor %}

@@ -1,17 +1,17 @@
 <ul class="nav nav-tabs nav-stacked" style="">
-    <li class="active"><a><b>Consultas</a></b></li>
-    <li class="{% if menu == 1 %}active_link active{% endif %}"><a href="{{ path('frontend_mycasatrip_pending') }}">Pendientes de respuesta (5)</a></li>
-    <li class="{% if menu == 2 %}active_link active{% endif %}"><a href="{{ path('frontend_mycasatrip_available') }}">Disponibilidad (1)</a></li>
-    <li class="active"><a><b>Reservas</a></b></li>
-    <li><a href="">Reservadas (5)</a></li>
-    <li><a href="">Confirmadas pagos (1)</a></li>
-    <li class="active"><a><b>Historial</a></b></li>
-    <li><a href="">Consultas (5)</a></li>
-    <li><a href="">Reservas (1)</a></li>
-    <li class="active"><a><b>Favoritos</a></b></li>
-    <li><a href="">Alojamientos (5)</a></li>
-    <li><a href="">Destinos (1)</a></li>
+    <li class="active"><a><b>{{"CONSULTS" | trans}}</a></b></li>
+    <li class="{% if menu == 1 %}active_link active{% endif %}"><a href="{{ path('frontend_mycasatrip_pending',{'order_by':0}) }}">{{"RESPONSE_PENDING" | trans}} ({{counts['pending']}})</a></li>
+    <li class="{% if menu == 2 %}active_link active{% endif %}"><a href="{{ path('frontend_mycasatrip_available', {'order_by':0}) }}">{{"DISPONIBILITY" | trans}} ({{counts['available']}})</a></li>
+    <li class="active"><a><b>{{"RESERVES" | trans}}</a></b></li>
+    <li><a href="">{{"RESERVED" | trans}} ({{counts['reserve']}})</a></li>
+    <li><a href="">{{"PAYMENT_CONFIRM" | trans}} ({{counts['payed']}})</a></li>
+    <li class="active"><a><b>{{"HISTORY" | trans}}</a></b></li>
+    <li class="{% if menu == 5 %}active_link active{% endif %}"><a href="{{ path('frontend_mycasatrip_historial_consult', {'order_by':0}) }}">{{"CONSULTS" | trans}} ({{counts['consult']}})</a></li>
+    <li><a href="">{{"RESERVES" | trans}} ({{counts['reserve_history']}})</a></li>
+    <li class="active"><a><b>{{"FAVORITIES" | trans}}</a></b></li>
+    <li class="{% if menu == 6 %}active_link active{% endif %}"><a href="{{ path('frontend_mycasatrip_favorites', {'favorite_type':'ownerships'}) }}">{{"OWNERSHIPS" | trans}} ({{counts['favorites_ownerships']}})</a></li>
+    <li class="{% if menu == 7 %}active_link active{% endif %}"><a href="{{ path('frontend_mycasatrip_favorites', {'favorite_type':'destinations'}) }}">{{"DESTINATIONS" | trans}} ({{counts['favorites_destinations']}})</a></li>
     <li class="active"><a><b>Valoraciones</a></b></li>
-    <li><a href="">Casas (5)</a></li>
-    <li><a href="">Destinos (1)</a></li>
+    <li><a href="">{{"OWNERSHIPS" | trans}} </a></li>
+    <li><a href="">{{"DESTINATIONS" | trans}} </a></li>
 </ul>

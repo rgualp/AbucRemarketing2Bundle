@@ -1,43 +1,91 @@
 {% extends 'frontEndBundle:layout:base.html.twig' %}
-{% block title %}Contactenos{% endblock %}
+{% block title %}{{"CONTACT_US" | trans}}{% endblock %}
 {% block body %}
 <ul class="breadcrumb">
-    <li><a title="Ir a la portada" href="{{path('frontend_welcome')}}">Inicio</a> <span
+    <li><a title="{{'GO_HOME_TITLE' | trans}}" href="{{path('frontend_welcome')}}">{{"HOME_MAIN_MENU" | trans}}</a> <span
             class="divider">»</span></li>
-    <li class="active">Contacteno</li>
+    <li class="active">{{"CONTACT_US" | trans}}</li>
 </ul>
-<div class="row-fluid ">
-    <div class="span6 offset3">
-        <div class="thumbnail">
-            <div class="cont" style="padding: 6px 20px 0 20px">
-        <h2 class="form big_price" style="font-size: 20px;">Contactenos</h2>
-        <hr/>
-        <form novalidate class="sfgen" method="POST" action="{{ path('frontend_contact_user') }}">
+<div id="loading" class="alert alert-info hidden"> <img src="{{ asset('bundles/frontend/images/loading.gif') }}"/> {{"LOADING_MESSAGE" | trans}}</div>
+<div class="accordion" id="accordion_contacts">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_contacts" href="#contact_tourist">{{"CONTACT_US_TOURIST_HEADER" | trans}}</a>
+        </div>
+        <div id="contact_tourist" class="accordion-body in collapse" style="height: auto;">
+            <div class="accordion-inner">
+                <div class="row-fluid ">
+                    <div class="span6">
+                        <h4>ABUC Media Network GmbH</h4>
+                        <h5>{{"ADDRESS" | trans}}</h5>
+                        MyCasaParticular.com <br/>
+                        Postfach <br/>
+                        Breisacherstrasse 63 <br/>
+                        CH-4057 Basel <br/>
+                        {{"ADDRESS_MCP_COUNTRY" | trans}} <br/><br/>
+
+                        <h5>{{"FORMS_PHONE" | trans}}</h5>
+                        (41) 44 586 64 44 <br/><br/>
+
+                        <h5>{{"FORMS_EMAIL" | trans}}</h5>
+                        <a href="mailto:info@mycasaparticular.com">info@mycasaparticular.com</a> <br/><br/>
+
+                        <h5>{{"COMMERCIAL_NUMBER_REGISTRY" | trans}}</h5>
+                        CH-270.4.002.844-1
+                    </div>
+                    <div class="span6">
+                        <div class="thumbnail">
+                            <div class="cont" style="padding: 6px 20px 0 20px">
+                                <input type="hidden" id="submit_url" value="{{ path('frontend_contact_user') }}" />
+
+                                <form novalidate class="sfgen" method="POST">
             {% if errors['no_email'] is defined%}<div class="alert alert-error">{{errors['no_email']}}</div>{% endif %}
             {{form_widget(form_tourist)}}
-            <br/>
-            <input class="btn btn-block btn-large" style="margin: auto" type="submit" value="Enviar" name="btn_tourist_contact"/>
-        </form>
+                                        <br/>
+                                        <input class="btn btn-block btn-large mycp_btn_orange mycp_btn" style="margin: auto" type="submit" value="{{'SEND' | trans}}" id="btn_tourist_contact"/>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        </div>
-    </div>
         
-        <div class="span6 offset3">
-        <div class="thumbnail">
-            <div class="cont" style="padding: 6px 20px 0 20px">
-        <h2 class="form big_price" style="font-size: 20px;">Contactenos</h2>
-        <hr/>
-        <form novalidate class="sfgen" method="POST" action="{{ path('frontend_contact_user') }}">
+        <div class="accordion-group">
+                <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_contacts" href="#contact_owners">
+                        {{"CONTACT_US_OWNER_HEADER" | trans}}
+                    </a>                       
+                </div>
+                <div id="contact_owners" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">
+        <div class="row-fluid ">
+            <div class="span6">
+                <h4>{{"CONTACT_OWNER_QUESTION" | trans}}</h4> 
+                {{"CONTACT_OWNER_FILL_FORM" | trans}}<br/> 
+                <a href="mailto:casa@mycasaparticular.com">casa@mycasaparticular.com</a> <br/><br/>
+ 
+                {{"CONTACT_OWNER_FILL_FORM" | trans}}
+            </div>
+            <div class="span6">
+                <div class="thumbnail">
+                    <div class="cont" style="padding: 6px 20px 0 20px">
+                        <form novalidate class="sfgen" method="POST">
             {% if errors['no_email'] is defined%}<div class="alert alert-error">{{errors['no_email']}}</div>{% endif %}
             {{form_widget(form_owner)}}
-            <br/>
-                <input class="btn btn-block btn-large" style="margin: auto" type="submit" value="Enviar" name="btn_owner_contact"/>
-        </form>
-        </div>
-        </div>
-    </div>
-</div>
-<script type="text/javascript">
-    $('.sfgen input').addClass('input-block-level')
-</script>
+                                <br/>
+                                <input class="btn btn-block btn-large mycp_btn_orange mycp_btn" style="margin: auto" type="submit" value="{{'SEND' | trans}}" id="btn_owner_contact"/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+                </div>
+            </div>  
+        </div> 
+            <script type="text/javascript">
+                $('.sfgen input').addClass('input-block-level')
+                </script>
 {%endblock%}

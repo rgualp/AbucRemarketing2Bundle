@@ -10,5 +10,19 @@
     </div>
 </div>
 {%else%}
-<div class="noData">{{"EMPTY_LIST" | trans}}</div>
+<div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
 {%endfor%}
+
+{%if faq_list | length  and total_items > items_per_page%}
+<div class="paginator-cont top_margin">
+    {{ simple_paginator_render('frontend_list_faq',null,{
+    'container_class': 'paginator',
+    'previousPageText': '«',
+    'nextPageText': '»',
+    'currentClass': 'current',
+    'firstPageText': 'FIRST_PAGE' | trans,
+    'lastPageText': 'LAST_PAGE' | trans,
+    'route_params': {'items_per_page':items_per_page}
+}) }}
+</div>
+{%endif%}

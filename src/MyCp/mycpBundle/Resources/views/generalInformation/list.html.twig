@@ -21,6 +21,7 @@
     <tr>
         <th>Nombre</th>
         <th>Contenido</th>
+        <th>Categoría</th>
         <th>Tipo</th>
         <th style="text-align: right">Acciones</th>
     </tr>
@@ -30,6 +31,7 @@
     <tr>
         <td>{{information.getInfoLangName}}</td>
         <td>{{information.getInfoLangContent |striptags|slice(0, 60)}}</td>
+        <td>{{categories[information.getInfoLangId]}}</td>
         <td>{% if information.getInfoLangInfo.getInfoFixed ==1%}<span class="label label-important">Estático</span>{% else %}<span class="label label-success">No estático</span> {% endif %}</td>
         <td style="text-align: right">
             <a class="btn btn-mini" href="{{ path('mycp_edit_information',{'id_information':information.getInfoLangInfo.getInfoId}) }}">Editar</a>

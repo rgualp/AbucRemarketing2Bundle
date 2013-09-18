@@ -1,0 +1,113 @@
+
+<!--link href="{{ asset('bundles/frontend/css/jquery.jcarousel.css') }}" rel="stylesheet" />
+<link href="{{ asset('bundles/frontend/css/jcarousel/skin.css') }}" rel="stylesheet" />
+<script src="{{ asset('bundles/frontend/js/jquery.jcarousel.js') }}"></script-->
+	
+<script type="text/javascript">
+
+$(document).ready(function() {
+	//$('.bottom_tab_carousel').jcarousel();
+});
+
+</script>
+	
+
+<div class="secondary_tab row-fluid">
+    <div class="nav-tabs_cont">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#popular_destinations">{{"POPULAR_DESTINATIONS_HOME_TABS" | trans}}</a></li>
+            <li><a data-toggle="tab" href="#last_added">{{"LAST_ADDED_HOME_TABS" | trans}}</a></li>
+            <li><a data-toggle="tab" href="#economic_houses">{{"ECONOMIC_HOME_TABS" | trans}}</a></li>
+            <li><a data-toggle="tab" href="#midrange_houses">{{"MIDRANGE_HOME_TABS" | trans}}</a></li>
+            <li><a data-toggle="tab" href="#premium_houses">{{"PREMIUM_HOME_TABS" | trans}}</a></li>
+        </ul>
+    </div>
+    <div class="tab-content">
+        <div id="popular_destinations" class="tab-pane fade in active">
+            <div class="row-fluid">
+                <!--ul class="bottom_tab_carousel jcarousel-skin-tango"-->
+                {% for destination in popular_places %}
+                        <!--li class="span3"-->
+                        <div class="span3">
+                            {{ include('frontEndBundle:destination:homeItemDestination.html.twig',{'destination': destination, 
+                                    'is_in_favorite': popular_destination_favorites[destination.desid],
+                                    'photo': popular_places_photos[destination.desid],
+                                    'localization': popular_places_localization[destination.desid],
+                                    'statistics': popular_places_statistics[destination.desid],
+                                    'list_preffix': 'popular_places'}) }}
+                        <!--/li-->
+                            </div>
+                    
+                {% else %}
+                <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
+                {% endfor %}
+                <!--/ul-->
+            </div>
+            <div style="margin-top: 5px; text-align: right">
+                <a title="{{"POPULAR_DESTINATIONS_TOOLTIP_HOME_TAB" | trans}}" href="{{ path('frontend_list_destinations')}}">{{"SEEMORE_LINK_TEXT" | trans}}</a>
+            </div>
+        </div>
+        <div id="last_added" class="tab-pane fade in">
+            <div class="row-fluid">
+                {% for ownership in last_added %}
+                {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{'ownership': ownership, 
+                           'is_in_favorite': last_added_favorites[ownership.ownid],
+                           'photo': last_added_photos[ownership.ownid],
+                           'list_preffix': 'last_added_owns'}) }} 
+                {% else %}
+                <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
+                {% endfor %}
+            </div>
+            <div style="margin-top: 5px; text-align: right">
+                <a title="{{"LAST_ADDED_TOOLTIP_HOME_TAB" | trans}}" href="{{ path('frontend_last_added_ownership')}}">{{"SEEMORE_LINK_TEXT" | trans}}</a>
+            </div>
+        </div>
+        <div id="economic_houses" class="tab-pane fade in">
+            <div class="row-fluid">
+                {% for ownership in economic_own_list %}
+                {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{'ownership': ownership, 
+                           'is_in_favorite': economic_own_favorites[ownership.ownid],
+                           'photo': economy_own_photos[ownership.ownid],
+                           'list_preffix': 'economic_owns'}) }} 
+                {% else %}
+                <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
+                {% endfor %}
+            </div>
+            <div style="margin-top: 5px; text-align: right">
+                <a title="{{"ECONOMIC_TOOLTIP_HOME_TAB" | trans}}" href="{{ path('frontend_category_ownership',{'category':'economy'})}}">{{"SEEMORE_LINK_TEXT" | trans}}</a>
+            </div>
+        </div>
+
+        <div id="midrange_houses" class="tab-pane fade in">
+            <div class="row-fluid">
+                {% for ownership in medium_own_list %}
+                {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{'ownership': ownership, 
+                           'is_in_favorite': medium_own_favorites[ownership.ownid],
+                           'photo': medium_own_photos[ownership.ownid],
+                           'list_preffix': 'medium_owns'}) }} 
+                {% else %}
+                <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
+                {% endfor %}
+            </div>
+            <div style="margin-top: 5px; text-align: right">
+                <a title="{{"MIDRANGE_TOOLTIP_HOME_TAB" | trans}}" href="{{ path('frontend_category_ownership',{'category':'rango_medio'})}}">{{"SEEMORE_LINK_TEXT" | trans}}</a>
+            </div>
+        </div>
+
+        <div id="premium_houses" class="tab-pane fade in">
+            <div class="row-fluid">
+                {% for ownership in premium_own_list %}
+                {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{'ownership': ownership, 
+                           'is_in_favorite': premium_own_favorites[ownership.ownid],
+                           'photo': premium_own_photos[ownership.ownid],
+                           'list_preffix': 'premium_owns'}) }} 
+                {% else %}
+                <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
+                {% endfor %}
+            </div>
+            <div style="margin-top: 5px; text-align: right">
+                <a title="{{"PREMIUM_TOOLTIP_HOME_TAB" | trans}}" href="{{ path('frontend_category_ownership',{'category':'premium'})}}">{{"SEEMORE_LINK_TEXT" | trans}}</a>
+            </div>
+        </div>
+    </div>
+</div>

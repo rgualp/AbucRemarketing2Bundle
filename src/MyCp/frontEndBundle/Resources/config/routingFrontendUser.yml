@@ -22,7 +22,3 @@ frontend_register_confirmation_user:
 frontend_contact_user:
     pattern:  /contact/
     defaults: { _controller: frontEndBundle:user:contact }
-    
-frontend_contact_tourist_user:
-    pattern:  /contact_tourist/
-    defaults: { _controller: frontEndBundle:user:contactTourist }
