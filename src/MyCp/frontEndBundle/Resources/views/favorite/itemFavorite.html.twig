@@ -1,0 +1,8 @@
+<div class="favorite_action favorite_{{favorite_type}}_{{element_id}}">
+{{ include('frontEndBundle:favorite:itemLinkFavorite.html.twig', 
+                        {'is_in_favorite': is_in_favorite,
+                         'favorite_type': favorite_type,
+                         'element_id':element_id,
+                         'list_preffix': list_preffix
+                         }) }}
+</div>

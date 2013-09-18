@@ -70,6 +70,20 @@ class ownershipReservation
     private $own_res_room_type;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="own_res_reservation_from_date", type="date")
+     */
+    private $own_res_reservation_from_date;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="own_res_reservation_to_date", type="date")
+     */
+    private $own_res_reservation_to_date;
+
+    /**
      * Get own_res_id
      *
      * @return integer
@@ -242,4 +256,50 @@ class ownershipReservation
         return $this->own_res_room_type;
     }
 
+
+    /**
+     * Set own_res_reservation_from_date
+     *
+     * @param \DateTime $ownResReservationFromDate
+     * @return ownershipReservation
+     */
+    public function setOwnResReservationFromDate($ownResReservationFromDate)
+    {
+        $this->own_res_reservation_from_date = $ownResReservationFromDate;
+
+        return $this;
+    }
+
+    /**
+     * Get own_res_reservation_from_date
+     *
+     * @return \DateTime
+     */
+    public function getOwnResReservationFromDate()
+    {
+        return $this->own_res_reservation_from_date;
+    }
+
+    /**
+     * Set own_res_reservation_to_date
+     *
+     * @param \DateTime $ownResReservationToDate
+     * @return ownershipReservation
+     */
+    public function setOwnResReservationToDate($ownResReservationToDate)
+    {
+        $this->own_res_reservation_to_date = $ownResReservationToDate;
+
+        return $this;
+    }
+
+    /**
+     * Get own_res_reservation_to_date
+     *
+     * @return \DateTime
+     */
+    public function getOwnResReservationToDate()
+    {
+        return $this->own_res_reservation_to_date;
+    }
 }

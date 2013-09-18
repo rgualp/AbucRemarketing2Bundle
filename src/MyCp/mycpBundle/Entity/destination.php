@@ -2,6 +2,7 @@
 
 namespace MyCp\mycpBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,8 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\destinationRepository")
  */
-class destination
-{
+class destination {
+
     /**
      * @var integer
      *
@@ -43,35 +44,67 @@ class destination
     private $des_active;
 
     /**
-     * @ORM\OneToMany(targetEntity="destinationLang",mappedBy="destinationsLangs")
+     * @ORM\OneToMany(targetEntity="destinationLang",mappedBy="des_lang_destination")
      */
     private $destinationsLang;
 
     /**
-     * @ORM\OneToMany(targetEntity="municipality",mappedBy="destinationsMunicipalities")
+     * @ORM\ManyToMany(targetEntity="municipality")
+     * @ORM\JoinTable(name="destinationlocation",
+     *  joinColumns={@ORM\JoinColumn(name="des_loc_des_id", referencedColumnName="des_id")},
+     *  inverseJoinColumns={@ORM\JoinColumn(name="des_loc_mun_id", referencedColumnName="mun_id")})
      */
     private $destinationsMunicipality;
 
     /**
-     * @ORM\OneToMany(targetEntity="photo",mappedBy="destination")
+     * @ORM\ManyToMany(targetEntity="photo")
+     * @ORM\JoinTable(name="destinationphoto",
+     *  joinColumns={@ORM\JoinColumn(name="des_pho_des_id", referencedColumnName="des_id")},
+     *  inverseJoinColumns={@ORM\JoinColumn(name="des_pho_pho_id", referencedColumnName="pho_id")})
      */
     private $destinationsPhoto;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="des_poblation", type="integer", length=255)
+     */
+    private $des_poblation;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="des_ref_place", type="string", length=255)
+     */
+    private $des_ref_place;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="des_geolocate_x", type="string", length=255, nullable=true)
+     */
+    private $des_geolocate_x;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="des_geolocate_y", type="string", length=255, nullable=true)
+     */
+    private $des_geolocate_y;
+
+    /**
      * Constructor
      */
-    public function __construct()
-    {
-        $this->destinationsLang = new \Doctrine\Common\Collections\ArrayCollection();
+    public function __construct() {
+        $this->destinationsLang = new ArrayCollection();
     }
-    
+
     /**
      * Get des_id
      *
      * @return integer 
      */
-    public function getDesId()
-    {
+    public function getDesId() {
         return $this->des_id;
     }
 
@@ -81,10 +114,9 @@ class destination
      * @param string $desName
      * @return destination
      */
-    public function setDesName($desName)
-    {
+    public function setDesName($desName) {
         $this->des_name = $desName;
-    
+
         return $this;
     }
 
@@ -93,8 +125,7 @@ class destination
      *
      * @return string 
      */
-    public function getDesName()
-    {
+    public function getDesName() {
         return $this->des_name;
     }
 
@@ -104,10 +135,9 @@ class destination
      * @param integer $desOrder
      * @return destination
      */
-    public function setDesOrder($desOrder)
-    {
+    public function setDesOrder($desOrder) {
         $this->des_order = $desOrder;
-    
+
         return $this;
     }
 
@@ -116,8 +146,7 @@ class destination
      *
      * @return integer 
      */
-    public function getDesOrder()
-    {
+    public function getDesOrder() {
         return $this->des_order;
     }
 
@@ -127,8 +156,7 @@ class destination
      * @param boolean $desActive
      * @return destination
      */
-    public function setDesActive($desActive)
-    {
+    public function setDesActive($desActive) {
         $this->des_active = $desActive;
         return $this;
     }
@@ -138,8 +166,7 @@ class destination
      *
      * @return boolean 
      */
-    public function getDesActive()
-    {
+    public function getDesActive() {
         return $this->des_active;
     }
 
@@ -149,10 +176,9 @@ class destination
      * @param \MyCp\mycpBundle\Entity\destinationLang $destinationsLang
      * @return destination
      */
-    public function addDestinationsLang(\MyCp\mycpBundle\Entity\destinationLang $destinationsLang)
-    {
+    public function addDestinationsLang(\MyCp\mycpBundle\Entity\destinationLang $destinationsLang) {
         $this->destinationsLang[] = $destinationsLang;
-    
+
         return $this;
     }
 
@@ -161,8 +187,7 @@ class destination
      *
      * @param \MyCp\mycpBundle\Entity\destinationLang $destinationsLang
      */
-    public function removeDestinationsLang(\MyCp\mycpBundle\Entity\destinationLang $destinationsLang)
-    {
+    public function removeDestinationsLang(\MyCp\mycpBundle\Entity\destinationLang $destinationsLang) {
         $this->destinationsLang->removeElement($destinationsLang);
     }
 
@@ -171,9 +196,12 @@ class destination
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getDestinationsLang()
-    {
+    public function getDestinationsLang() {
         return $this->destinationsLang;
+    }
+
+    public function getFirstDestDesc() {
+        return $this->destinationsLang[0];
     }
 
     /**
@@ -182,10 +210,9 @@ class destination
      * @param \MyCp\mycpBundle\Entity\municipality $destinationsMunicipality
      * @return destination
      */
-    public function addDestinationsMunicipality(\MyCp\mycpBundle\Entity\municipality $destinationsMunicipality)
-    {
+    public function addDestinationsMunicipality(\MyCp\mycpBundle\Entity\municipality $destinationsMunicipality) {
         $this->destinationsMunicipality[] = $destinationsMunicipality;
-    
+
         return $this;
     }
 
@@ -194,18 +221,16 @@ class destination
      *
      * @param \MyCp\mycpBundle\Entity\municipality $destinationsMunicipality
      */
-    public function removeDestinationsMunicipality(\MyCp\mycpBundle\Entity\municipality $destinationsMunicipality)
-    {
+    public function removeDestinationsMunicipality(\MyCp\mycpBundle\Entity\municipality $destinationsMunicipality) {
         $this->destinationsMunicipality->removeElement($destinationsMunicipality);
     }
 
     /**
      * Get destinationsMunicipality
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return Collection 
      */
-    public function getDestinationsMunicipality()
-    {
+    public function getDestinationsMunicipality() {
         return $this->destinationsMunicipality;
     }
 
@@ -215,10 +240,9 @@ class destination
      * @param \MyCp\mycpBundle\Entity\photo $destinationsPhoto
      * @return destination
      */
-    public function addDestinationsPhoto(\MyCp\mycpBundle\Entity\photo $destinationsPhoto)
-    {
+    public function addDestinationsPhoto(\MyCp\mycpBundle\Entity\photo $destinationsPhoto) {
         $this->destinationsPhoto[] = $destinationsPhoto;
-    
+
         return $this;
     }
 
@@ -227,28 +251,91 @@ class destination
      *
      * @param \MyCp\mycpBundle\Entity\photo $destinationsPhoto
      */
-    public function removeDestinationsPhoto(\MyCp\mycpBundle\Entity\photo $destinationsPhoto)
-    {
+    public function removeDestinationsPhoto(\MyCp\mycpBundle\Entity\photo $destinationsPhoto) {
         $this->destinationsPhoto->removeElement($destinationsPhoto);
     }
 
     /**
      * Get destinationsPhoto
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return Collection 
      */
-    public function getDestinationsPhoto()
-    {
+    public function getDestinationsPhoto() {
         return $this->destinationsPhoto;
+    }
+
+    public function getFirstDestinationPhotoName() {
+        if (count($this->destinationsPhoto) > 0) {
+            $photo_name = $this->destinationsPhoto[0]->getPhoName();
+            if (file_exists(realpath("uploads/destinationImages/$photo_name"))) {
+                return $photo_name;
+            }
+        }
+        return "no_photo.png";
+    }
+
+    public function __toString() {
+        return $this->getDesName();
+    }
+    
+    public function getDesPoblation() {
+        return $this->des_poblation;
+    }
+
+    public function setDesPoblation($des_poblation) {
+        $this->des_poblation = $des_poblation;
+    }
+
+    public function getDesRefPlace() {
+        return $this->des_ref_place;
+    }
+
+    public function setDesRefPlace($des_ref_place) {
+        $this->des_ref_place = $des_ref_place;
     }
     
     /**
-     * Yanet - Inicio
+     * Set des_geolocate_x
+     *
+     * @param string $value
+     * @return destination
      */
-    public function __toString()
-    {
-        return $this->getDesName();
+    public function setDesGeolocateX($value) {
+        $this->des_geolocate_x = $value;
+
+        return $this;
     }
+
+    /**
+     * Get des_geolocate_x
+     *
+     * @return string 
+     */
+    public function getDesGeolocateX() {
+        return $this->des_geolocate_x;
+    }
+
+    /**
+     * Set des_geolocate_y
+     *
+     * @param string $value
+     * @return destination
+     */
+    public function setDesGeolocateY($value) {
+        $this->des_geolocate_y = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get des_geolocate_y
+     *
+     * @return string 
+     */
+    public function getDesGeolocateY() {
+        return $this->des_geolocate_y;
+    }
+
     /**
      * Yanet - Fin
      */

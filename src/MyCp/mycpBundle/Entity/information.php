@@ -91,4 +91,5 @@ class information
     {
         return $this->info_fixed;
     }
+    
 }

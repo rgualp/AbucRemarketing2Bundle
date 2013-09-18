@@ -1,0 +1,30 @@
+frontend_mycasatrip_home:
+    pattern:  /
+    defaults: { _controller: frontEndBundle:mycasatrip:home }
+
+frontend_mycasatrip_pending:
+    pattern:  /pending/{order_by}
+    defaults: { _controller: frontEndBundle:mycasatrip:reservations_pending ,order_by:0}
+
+frontend_mycasatrip_available:
+    pattern:  /available/{order_by}
+    defaults: { _controller: frontEndBundle:mycasatrip:reservations_available }
+
+frontend_mycasatrip_historial_consult:
+    pattern:  /history_consult/{order_by}
+    defaults: { _controller: frontEndBundle:mycasatrip:history_reservation_consult,order_by:0 }
+
+frontend_mycasatrip_reservation:
+    pattern:  /reservation/{id_reservation}/
+    defaults: { _controller: frontEndBundle:mycasatrip:reservation_reservation }
+
+frontend_mycasatrip_confirmation:
+    pattern:  /confirmation/{id_reservation}/
+    defaults: { _controller: frontEndBundle:mycasatrip:reservation_confirmation }
+    
+frontend_mycasatrip_favorites:
+    pattern:  /favorites/{favorite_type}/
+    defaults: { _controller: frontEndBundle:mycasatrip:favorites }
+
+
+

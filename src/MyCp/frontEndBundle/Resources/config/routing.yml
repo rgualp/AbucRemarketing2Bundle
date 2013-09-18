@@ -29,3 +29,13 @@ frontend_information:
     
 frontend_faq:
     resource: "@frontEndBundle/Resources/config/routingFrontendFaq.yml"
+
+frontend_mycasatrip:
+    resource: "@frontEndBundle/Resources/config/routingFrontendMyCasaTrip.yml"
+    prefix: mycasatrip/
+
+frontend_favorite:
+    resource: "@frontEndBundle/Resources/config/routingFrontendFavorite.yml"
+    
+frontend_language:
+    resource: "@frontEndBundle/Resources/config/routingFrontendLanguage.yml"

@@ -2,6 +2,14 @@ frontend_list_destinations:
     pattern:  /destinations/
     defaults: { _controller: frontEndBundle:destination:popular_list }
 
+frontend_filter_by_municipality_destinations:
+    pattern:  /destinations/{province_id}/{municipality_id}/
+    defaults: { _controller: frontEndBundle:destination:popular_list }
+    
+frontend_filter_by_province_destinations:
+    pattern:  /destinations/{province_id}/
+    defaults: { _controller: frontEndBundle:destination:popular_list }
+
 frontend_details_destination:
     pattern:  /details_destination/{destination_id}
     defaults: { _controller: frontEndBundle:destination:details }
@@ -9,3 +17,7 @@ frontend_details_destination:
 frontend_filter_destination:
     pattern:  /filter_destinations/
     defaults: { _controller: frontEndBundle:destination:filter }
+    
+frontend_nearby_destination:
+    pattern:  /owns_nearby/{destination_id}
+    defaults: { _controller: frontEndBundle:destination:owns_nearby_callback }

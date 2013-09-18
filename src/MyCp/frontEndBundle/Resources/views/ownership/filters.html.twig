@@ -6,7 +6,7 @@
 
 <input type="hidden" id="filter_url" value="{{ path('frontend_filter_ownership') }}"/>
 
-<!--label class="header" id="characteristic_filter">{{"OWNERSHIP_FEATURES_HEADING_FILTER" | trans}}</label-->
+<!--label class="header">{{"OWNERSHIP_FEATURES_HEADING_FILTER" | trans}}</label-->
 <!--label class="checkbox">
     <input id="check_category_price" type="checkbox"/>{{"FILTER_RANGE_PRICE" | trans}}
 </label-->
@@ -15,202 +15,341 @@
     <option>Bajo pedido</option>
     <option>Reserva inmediata</option>
 </select-->
-<label class="header" id="characteristic_filter">{{"SELECT_OWNERSHIP_TYPE_OPTION" | trans}}</label>
-{%for type in owns_types%}  
-<label class="checkbox">
-    <input type="checkbox" name="own_type" value="{{type[0]}}" {%if check_filters is defined and type[0] in check_filters['own_type']%} checked="checked" {%endif%} {%if type[1] == '0'%} disabled="disabled" {%endif%}/> {{type[0] | trans}} ({{type[1]}})
-</label>
-{%endfor%}
 
-<br/>
-<label class="header" id="characteristic_filter">{{"SELECT_OWSERSHIP_CATEGORY_OPTION" | trans}}</label>
-{%for category in owns_categories%}    
-<label class="checkbox">
-    <input type="checkbox" name="own_category" value="{{category[0]}}" {%if check_filters is defined and category[0] in check_filters['own_category']%} checked="checked" {%endif%} {%if category[1] == '0'%} disabled="disabled" {%endif%}/>  {{category[0] | trans}} ({{category[1]}})
-</label>
-{%endfor%}
-<br/>
-<label class="header" id="characteristic_filter">{{"SELECT_OWNERSHIP_PRICES_OPTION" | trans}}</label>
-{%for price in owns_prices%}  
-<label class="checkbox">
-    <input type="checkbox" name="own_price" value="{{price[0]}}" {%if check_filters is defined and price[0] in check_filters['own_price']%} checked="checked" {%endif%} {%if price[2] == '0'%} disabled="disabled" {%endif%}/>
-        {{"FROM_PRICES" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} {{price[0] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} {{"TO_PRICES" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} {{price[1] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} ({{price[2]}})
-</label>
-{%endfor%}
 
-<br/>
-<label class="header" id="characteristic_filter">{{"ROOM_TOTAL_WATERMARK" | trans}}</label>
+<div class="accordion" id="filter_accordion">
+    <!-- Begining of first filters accordion -->    
+  <!-- OwnerShip Types  -->  
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <label class="accordion-toggle text-info h5" style="font-weight: bold; margin-bottom: 0" data-toggle="collapse" data-parent="#filter_accordion" href="#collapseOne">
+        {{"SELECT_OWNERSHIP_TYPE_OPTION" | trans}}
+      </label>
+    </div>
+    <div id="collapseOne" class="accordion-body collapse in">
+      <div class="accordion-inner">
+        {%for type in owns_types%}  
+        <label class="checkbox">
+            <input type="checkbox" name="own_type" value="{{type[0]}}" {%if check_filters is defined and type[0] in check_filters['own_type']%} checked="checked" {%endif%} {%if type[1] == '0'%} disabled="disabled" {%endif%}/> {{type[0] | trans}} ({{type[1]}})
+        </label>
+        {%endfor%}
+      </div>
+    </div>
+  </div>
+  
+  <!-- OwnerShip Categories  -->
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <label class="accordion-toggle text-info" style="font-weight: bold; margin-bottom: 0" data-toggle="collapse" data-parent="#filter_accordion" href="#collapseTwo">
+        {{"SELECT_OWSERSHIP_CATEGORY_OPTION" | trans}}
+      </label>
+    </div>
+    <div id="collapseTwo" class="accordion-body collapse">
+      <div class="accordion-inner">
+        {%for category in owns_categories%}    
+        <label class="checkbox">
+            <input type="checkbox" name="own_category" value="{{category[0]}}" {%if check_filters is defined and category[0] in check_filters['own_category']%} checked="checked" {%endif%} {%if category[1] == '0'%} disabled="disabled" {%endif%}/>  {{category[0] | trans}} ({{category[1]}})
+        </label>
+        {%endfor%}
+      </div>
+    </div>
+  </div>  
+  
+  <!-- OwnerShip Prices  -->
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <label class="accordion-toggle text-info" style="font-weight: bold; margin-bottom: 0" data-toggle="collapse" data-parent="#filter_accordion" href="#collapse3">
+        {{"SELECT_OWNERSHIP_PRICES_OPTION" | trans}}
+      </label>
+    </div>
+    <div id="collapse3" class="accordion-body collapse">
+      <div class="accordion-inner">
+        {%for price in owns_prices%}  
+        <label class="checkbox">
+            <input type="checkbox" name="own_price" value="{{price[0]}}" {%if check_filters is defined and price[0] in check_filters['own_price']%} checked="checked" {%endif%} {%if price[2] == '0'%} disabled="disabled" {%endif%}/>
+                {{"FROM_PRICES" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} {{price[0] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} {{"TO_PRICES" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} {{price[1] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} ({{price[2]}})
+        </label>
+        {%endfor%}
+      </div>
+    </div>
+  </div>  
+  
+  <!-- OwnerShip Total Rooms  -->
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <label class="accordion-toggle text-info" style="font-weight: bold; margin-bottom: 0" data-toggle="collapse" data-parent="#filter_accordion" href="#collapse4">
+        {{"ROOM_TOTAL_WATERMARK" | trans}}
+      </label>
+    </div>
+    <div id="collapse4" class="accordion-body collapse">
+      <div class="accordion-inner">
+        <label class="checkbox">
+            <input type="checkbox" name="room_total" value="1" {%if check_filters is defined and '1' in check_filters['own_rooms_number']%} checked="checked" {%endif%} {%if own_statistics['rooms_total_1'] == 0%} disabled="disabled" {%endif%}/> 1 ({{own_statistics['rooms_total_1']}})
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" name="room_total" value="2" {%if check_filters is defined and  '2' in check_filters['own_rooms_number']%} checked="checked" {%endif%} {%if own_statistics['rooms_total_2'] == 0%} disabled="disabled" {%endif%}/> 2 ({{own_statistics['rooms_total_2']}})
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" name="room_total" value="3" {%if check_filters is defined and '3' in check_filters['own_rooms_number']%} checked="checked" {%endif%} {%if own_statistics['rooms_total_3'] == 0%} disabled="disabled" {%endif%}/> 3 ({{own_statistics['rooms_total_3']}})
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" name="room_total" value="4" {%if check_filters is defined and '4' in check_filters['own_rooms_number']%} checked="checked" {%endif%} {%if own_statistics['rooms_total_4'] == 0%} disabled="disabled" {%endif%}/> 4 ({{own_statistics['rooms_total_4']}})
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" name="room_total" value="5" {%if check_filters is defined and '5' in check_filters['own_rooms_number']%} checked="checked" {%endif%} {%if own_statistics['rooms_total_5'] == 0%} disabled="disabled" {%endif%}/> 5 ({{own_statistics['rooms_total_5']}})
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" name="room_total" value="+5" {%if check_filters is defined and '+5' in check_filters['own_rooms_number']%} checked="checked" {%endif%} {%if own_statistics['rooms_total_+5'] == 0%} disabled="disabled" {%endif%}/> + 5 ({{own_statistics['rooms_total_+5']}})
+        </label>
+      </div>
+    </div>
+  </div>  
+  
+    <!-- End of first filters accordion -->
+</div>
 
-<label class="checkbox">
-    <input type="checkbox" name="room_total" value="1" {%if check_filters is defined and '1' in check_filters['own_rooms_number']%} checked="checked" {%endif%} {%if own_statistics['rooms_total_1'] == 0%} disabled="disabled" {%endif%}/> 1 ({{own_statistics['rooms_total_1']}})
-</label>
-<label class="checkbox">
-    <input type="checkbox" name="room_total" value="2" {%if check_filters is defined and  '2' in check_filters['own_rooms_number']%} checked="checked" {%endif%} {%if own_statistics['rooms_total_2'] == 0%} disabled="disabled" {%endif%}/> 2 ({{own_statistics['rooms_total_2']}})
-</label>
-<label class="checkbox">
-    <input type="checkbox" name="room_total" value="3" {%if check_filters is defined and '3' in check_filters['own_rooms_number']%} checked="checked" {%endif%} {%if own_statistics['rooms_total_3'] == 0%} disabled="disabled" {%endif%}/> 3 ({{own_statistics['rooms_total_3']}})
-</label>
-<label class="checkbox">
-    <input type="checkbox" name="room_total" value="4" {%if check_filters is defined and '4' in check_filters['own_rooms_number']%} checked="checked" {%endif%} {%if own_statistics['rooms_total_4'] == 0%} disabled="disabled" {%endif%}/> 4 ({{own_statistics['rooms_total_4']}})
-</label>
-<label class="checkbox">
-    <input type="checkbox" name="room_total" value="5" {%if check_filters is defined and '5' in check_filters['own_rooms_number']%} checked="checked" {%endif%} {%if own_statistics['rooms_total_5'] == 0%} disabled="disabled" {%endif%}/> 5 ({{own_statistics['rooms_total_5']}})
-</label>
-<label class="checkbox">
-    <input type="checkbox" name="room_total" value="+5" {%if check_filters is defined and '+5' in check_filters['own_rooms_number']%} checked="checked" {%endif%} {%if own_statistics['rooms_total_+5'] == 0%} disabled="disabled" {%endif%}/> + 5 ({{own_statistics['rooms_total_+5']}})
-</label>
+<hr/>
+<label class="header">{{"ROOM_FEATURES_HEADING_FILTER" | trans}}</label>
+
+<div class="accordion" id="room_features_accordion">
+    
+  <!-- OwnerShip Room Type  -->
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <label class="accordion-toggle text-info" style="font-weight: bold; margin-bottom: 0" data-toggle="collapse" data-parent="#room_features_accordion" href="#collapse_rf_1">
+        {{"SELECT_ROOM_TYPE_OPTION" | trans}}
+      </label>
+    </div>
+    <div id="collapse_rf_1" class="accordion-body collapse">
+      <div class="accordion-inner">
+        <label class="checkbox">
+            <input type="checkbox" name="room_type" value="Habitación individual" {%if check_filters is defined and 'Habitación individual' in check_filters['room_type']%} checked="checked" {%endif%} {%if not (own_statistics['room_simple'] > 0 or (check_filters is defined and 'Habitación individual' in check_filters['room_type']))%} disabled="disabled" {%endif%}/>   {{"SINGLE_ROOM_FILTER" | trans}} ({{own_statistics['room_simple']}})
+        </label>        
+        <label class="checkbox">
+            <input type="checkbox" name="room_type" value="Habitación doble" {%if check_filters is defined and 'Habitación doble' in check_filters['room_type']%} checked="checked" {%endif%} {%if not(own_statistics['room_double'] > 0 or (check_filters is defined and 'Habitación doble' in check_filters['room_type']))%} disabled="disabled" {%endif%}/>   {{"DOUBLE_ROOM_FILTER" | trans}} ({{own_statistics['room_double']}})
+        </label>    
+        <label class="checkbox">
+            <input type="checkbox" name="room_type" value="Habitación doble (Dos camas)" {%if check_filters is defined and 'Habitación doble (Dos camas)' in check_filters['room_type']%} checked="checked" {%endif%} {%if not( own_statistics['room_double_two_beds'] > 0 or (check_filters is defined and 'Habitación doble (Dos camas)' in check_filters['room_type']))%} disabled="disabled" {%endif%}/>   {{"DOUBLE_2_BEDS_FILTER" | trans}} ({{own_statistics['room_double_two_beds']}})
+        </label>    
+        <label class="checkbox">
+            <input type="checkbox" name="room_type" value="Habitación Triple" {%if check_filters is defined and 'Habitación Triple' in check_filters['room_type']%} checked="checked" {%endif%} {%if not(own_statistics['room_triple'] > 0 or (check_filters is defined and 'Habitación Triple' in check_filters['room_type']))%} disabled="disabled" {%endif%}/>   {{"TRIPLE_ROOM_FILTER" | trans}} ({{own_statistics['room_triple']}})
+        </label>
+      </div>
+    </div>
+  </div>  
+  
+  <!-- OwnerShip Room Beds  -->
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <label class="accordion-toggle text-info" style="font-weight: bold; margin-bottom: 0" data-toggle="collapse" data-parent="#room_features_accordion" href="#collapse_rf_2">
+        {{"ROOM_BEDS" | trans}}
+      </label>
+    </div>
+    <div id="collapse_rf_2" class="accordion-body collapse">
+      <div class="accordion-inner">
+        <label class="checkbox">
+            <input type="checkbox" name="room_beds_total" value="1" {%if check_filters is defined and '1' in check_filters['own_beds_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_beds_1'] == 0%} disabled="disabled" {%endif%}/> 1 ({{own_statistics['room_total_beds_1']}})
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" name="room_beds_total" value="2" {%if check_filters is defined and '2' in check_filters['own_beds_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_beds_2'] == 0%} disabled="disabled" {%endif%}/> 2 ({{own_statistics['room_total_beds_2']}})
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" name="room_beds_total" value="3" {%if check_filters is defined and '3' in check_filters['own_beds_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_beds_3'] == 0%} disabled="disabled" {%endif%}/> 3 ({{own_statistics['room_total_beds_3']}})
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" name="room_beds_total" value="4" {%if check_filters is defined and '4' in check_filters['own_beds_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_beds_4'] == 0%} disabled="disabled" {%endif%}/> 4 ({{own_statistics['room_total_beds_4']}})
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" name="room_beds_total" value="5" {%if check_filters is defined and '5' in check_filters['own_beds_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_beds_5'] == 0%} disabled="disabled" {%endif%}/> 5 ({{own_statistics['room_total_beds_5']}})
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" name="room_beds_total" value="+5" {%if check_filters is defined and '+5' in check_filters['own_beds_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_beds_+5'] == 0%} disabled="disabled" {%endif%}/> + 5 ({{own_statistics['room_total_beds_+5']}})
+        </label>
+      </div>
+    </div>
+  </div> 
+  
+  <!-- OwnerShip Bathroom Types  -->
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <label class="accordion-toggle text-info" style="font-weight: bold; margin-bottom: 0" data-toggle="collapse" data-parent="#room_features_accordion" href="#collapse_rf_3">
+        {{"SELECT_BATHROOM_TYPE_OPTION" | trans}}
+      </label>
+    </div>
+    <div id="collapse_rf_3" class="accordion-body collapse">
+      <div class="accordion-inner">
+       <label class="checkbox">
+            <input type="checkbox" name="room_bathroom" value="Interior privado" {%if check_filters is defined and 'Interior privado' in check_filters['room_bathroom']%} checked="checked" {%endif%} {%if not show_bath_inner%} disabled="disabled" {%endif%}/>{{"INNER_PRIVATE_BATHROOM_FILTER" | trans}} ({{own_statistics['own_bathroom_inner']}})
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" name="room_bathroom" value="Exterior privado" {%if check_filters is defined and 'Exterior privado' in check_filters['room_bathroom']%} checked="checked" {%endif%} {%if not show_bath_outer%} disabled="disabled" {%endif%}/>{{"OUTER_PRIVATE_BATHROOM_FILTER" | trans}} ({{own_statistics['own_bathroom_outer']}})
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" name="room_bathroom" value="Compartido" {%if check_filters is defined and 'Compartido' in check_filters['room_bathroom']%} checked="checked" {%endif%} {%if not show_bath_shared%} disabled="disabled" {%endif%}/>{{"SHARED_BATHROOM_FILTER" | trans}} ({{own_statistics['own_bathroom_shared']}})
+        </label>
+        <br/>
+        <label class="header">{{"ROOM_WINDOWS" | trans}}</label>
+
+        <label class="checkbox">
+            <input type="checkbox" name="room_windows_total" value="1" {%if check_filters is defined and '1' in check_filters['room_windows_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_windows_1'] == 0%} disabled="disabled" {%endif%}/> 1 ({{own_statistics['room_total_windows_1']}})
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" name="room_windows_total" value="2" {%if check_filters is defined and '2' in check_filters['room_windows_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_windows_2'] == 0%} disabled="disabled" {%endif%}/> 2 ({{own_statistics['room_total_windows_2']}})
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" name="room_windows_total" value="3" {%if check_filters is defined and '3' in check_filters['room_windows_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_windows_3'] == 0%} disabled="disabled" {%endif%}/> 3 ({{own_statistics['room_total_windows_3']}})
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" name="room_windows_total" value="4" {%if check_filters is defined and '4' in check_filters['room_windows_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_windows_4'] == 0%} disabled="disabled" {%endif%}/> 4 ({{own_statistics['room_total_windows_4']}})
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" name="room_windows_total" value="5" {%if check_filters is defined and '5' in check_filters['room_windows_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_windows_5'] == 0%} disabled="disabled" {%endif%}/> 5 ({{own_statistics['room_total_windows_5']}})
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" name="room_windows_total" value="+5" {%if check_filters is defined and '+5' in check_filters['room_windows_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_windows_+5'] == 0%} disabled="disabled" {%endif%}/> + 5 ({{own_statistics['room_total_windows_+5']}})
+        </label>
+      </div>
+    </div>
+  </div> 
+  
+   <!-- OwnerShip Others  -->
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <label class="accordion-toggle text-info" style="font-weight: bold; margin-bottom: 0" data-toggle="collapse" data-parent="#room_features_accordion" href="#collapse_rf_4">
+        {{"SELECT_ROOM_OTHER" | trans}}
+      </label>
+    </div>
+    <div id="collapse_rf_4" class="accordion-body collapse">
+      <div class="accordion-inner">
+       <label class="checkbox">
+            <input type="checkbox" id="room_airconditioner" data-value="Aire acondicionado" {%if check_filters is defined and check_filters['room_climatization']%} checked="checked" {%endif%} {%if not( own_statistics['room_climatization'] > 0 or (check_filters is defined and check_filters['room_climatization']))%} disabled="disabled" {%endif%}/> {{"AIR_CONDITIONING_FILTER" | trans}} ({{own_statistics['room_climatization']}})
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" id="room_audiovisuals" {%if check_filters is defined and check_filters['room_audiovisuals']%} checked="checked" {%endif%} {%if not(own_statistics['room_audio_visuals'] > 0 or (check_filters is defined and check_filters['room_audiovisuals']))%} disabled="disabled" {%endif%}/> {{"AUDIOVISUALS_FILTER" | trans}} ({{own_statistics['room_audio_visuals']}})
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" id="room_kids" {%if check_filters is defined and check_filters['room_kids']%} checked="checked" {%endif%} {%if not(own_statistics['room_kids'] > 0 or (check_filters is defined and check_filters['room_kids']))%} disabled="disabled" {%endif%}/> {{"KIDS_FILTER" | trans}} ({{own_statistics['room_kids']}})
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" id="room_smoker" {%if check_filters is defined and check_filters['room_smoker']%} checked="checked" {%endif%} {%if not(own_statistics['room_smoker'] > 0 or (check_filters is defined and check_filters['room_smoker']))%} disabled="disabled" {%endif%}/> {{"SMOKER_FILTER" | trans}} ({{own_statistics['room_smoker']}})
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" id="room_safe" {%if check_filters is defined and check_filters['room_safe']%} checked="checked" {%endif%} {%if not( own_statistics['room_safe'] > 0 or (check_filters is defined and check_filters['room_safe']))%} disabled="disabled" {%endif%}/> {{"SAFE_FILTER" | trans}} ({{own_statistics['room_safe']}})
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" id="room_balcony" {%if check_filters is defined and check_filters['room_balcony']%} checked="checked" {%endif%} {%if not(own_statistics['room_balcony'] > 0 or (check_filters is defined and check_filters['room_balcony']))%} disabled="disabled" {%endif%}/> {{"BALCONY_FILTER" | trans}} ({{own_statistics['room_balcony']}})
+        </label>
+
+        <label class="checkbox">
+            <input type="checkbox" id="room_terraza" {%if check_filters is defined and check_filters['room_terraza']%} checked="checked" {%endif%} {%if not( own_statistics['room_terrace'] > 0 or (check_filters is defined and check_filters['room_terraza']))%} disabled="disabled" {%endif%}/> {{"TERRACE_FILTER" | trans}} ({{own_statistics['room_terrace']}})
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" id="room_courtyard" {%if check_filters is defined and check_filters['room_courtyard']%} checked="checked" {%endif%} {%if not(own_statistics['room_yard'] > 0 or (check_filters is defined and check_filters['room_courtyard']))%} disabled="disabled" {%endif%}/> {{"COURTYARD_FILTER" | trans}} ({{own_statistics['room_yard']}})
+        </label>
+      </div>
+    </div>
+  </div> 
+    
+   <!-- End of room features accordion -->
+</div>
 
 
 <hr/>
-<label class="header" id="characteristic_filter">{{"ROOM_FEATURES_HEADING_FILTER" | trans}}</label>
-
-<label class="header" id="characteristic_filter">{{"SELECT_ROOM_TYPE_OPTION" | trans}}</label>
-
-<label class="checkbox">
-    <input type="checkbox" name="room_type" value="Habitación individual" {%if check_filters is defined and 'Habitación individual' in check_filters['room_type']%} checked="checked" {%endif%} {%if not (own_statistics['room_simple'] > 0 or (check_filters is defined and 'Habitación individual' in check_filters['room_type']))%} disabled="disabled" {%endif%}/>   {{"SINGLE_ROOM_FILTER" | trans}} ({{own_statistics['room_simple']}})
-</label>        
-<label class="checkbox">
-    <input type="checkbox" name="room_type" value="Habitación doble" {%if check_filters is defined and 'Habitación doble' in check_filters['room_type']%} checked="checked" {%endif%} {%if not(own_statistics['room_double'] > 0 or (check_filters is defined and 'Habitación doble' in check_filters['room_type']))%} disabled="disabled" {%endif%}/>   {{"DOUBLE_ROOM_FILTER" | trans}} ({{own_statistics['room_double']}})
-</label>    
-<label class="checkbox">
-    <input type="checkbox" name="room_type" value="Habitación doble (Dos camas)" {%if check_filters is defined and 'Habitación doble (Dos camas)' in check_filters['room_type']%} checked="checked" {%endif%} {%if not( own_statistics['room_double_two_beds'] > 0 or (check_filters is defined and 'Habitación doble (Dos camas)' in check_filters['room_type']))%} disabled="disabled" {%endif%}/>   {{"DOUBLE_2_BEDS_FILTER" | trans}} ({{own_statistics['room_double_two_beds']}})
-</label>    
-<label class="checkbox">
-    <input type="checkbox" name="room_type" value="Habitación Triple" {%if check_filters is defined and 'Habitación Triple' in check_filters['room_type']%} checked="checked" {%endif%} {%if not(own_statistics['room_triple'] > 0 or (check_filters is defined and 'Habitación Triple' in check_filters['room_type']))%} disabled="disabled" {%endif%}/>   {{"TRIPLE_ROOM_FILTER" | trans}} ({{own_statistics['room_triple']}})
-</label>
-
-<br/>
-<label class="header" id="characteristic_filter">{{"ROOM_BEDS" | trans}}</label>
-
-<label class="checkbox">
-    <input type="checkbox" name="room_beds_total" value="1" {%if check_filters is defined and '1' in check_filters['own_beds_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_beds_1'] == 0%} disabled="disabled" {%endif%}/> 1 ({{own_statistics['room_total_beds_1']}})
-</label>
-
-<label class="checkbox">
-    <input type="checkbox" name="room_beds_total" value="2" {%if check_filters is defined and '2' in check_filters['own_beds_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_beds_2'] == 0%} disabled="disabled" {%endif%}/> 2 ({{own_statistics['room_total_beds_2']}})
-</label>
-<label class="checkbox">
-    <input type="checkbox" name="room_beds_total" value="3" {%if check_filters is defined and '3' in check_filters['own_beds_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_beds_3'] == 0%} disabled="disabled" {%endif%}/> 3 ({{own_statistics['room_total_beds_3']}})
-</label>
-<label class="checkbox">
-    <input type="checkbox" name="room_beds_total" value="4" {%if check_filters is defined and '4' in check_filters['own_beds_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_beds_4'] == 0%} disabled="disabled" {%endif%}/> 4 ({{own_statistics['room_total_beds_4']}})
-</label>
-<label class="checkbox">
-    <input type="checkbox" name="room_beds_total" value="5" {%if check_filters is defined and '5' in check_filters['own_beds_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_beds_5'] == 0%} disabled="disabled" {%endif%}/> 5 ({{own_statistics['room_total_beds_5']}})
-</label>
-<label class="checkbox">
-    <input type="checkbox" name="room_beds_total" value="+5" {%if check_filters is defined and '+5' in check_filters['own_beds_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_beds_+5'] == 0%} disabled="disabled" {%endif%}/> + 5 ({{own_statistics['room_total_beds_+5']}})
-</label>
-<br/>
-<label class="header" id="characteristic_filter">{{"SELECT_BATHROOM_TYPE_OPTION" | trans}}</label>
-<label class="checkbox">
-    <input type="checkbox" name="room_bathroom" value="Interior privado" {%if check_filters is defined and 'Interior privado' in check_filters['room_bathroom']%} checked="checked" {%endif%} {%if not show_bath_inner%} disabled="disabled" {%endif%}/>{{"INNER_PRIVATE_BATHROOM_FILTER" | trans}} ({{own_statistics['own_bathroom_inner']}})
-</label>
-<label class="checkbox">
-    <input type="checkbox" name="room_bathroom" value="Exterior privado" {%if check_filters is defined and 'Exterior privado' in check_filters['room_bathroom']%} checked="checked" {%endif%} {%if not show_bath_outer%} disabled="disabled" {%endif%}/>{{"OUTER_PRIVATE_BATHROOM_FILTER" | trans}} ({{own_statistics['own_bathroom_outer']}})
-</label>
-<label class="checkbox">
-    <input type="checkbox" name="room_bathroom" value="Compartido" {%if check_filters is defined and 'Compartido' in check_filters['room_bathroom']%} checked="checked" {%endif%} {%if not show_bath_shared%} disabled="disabled" {%endif%}/>{{"SHARED_BATHROOM_FILTER" | trans}} ({{own_statistics['own_bathroom_shared']}})
-</label>
-<br/>
-<label class="header" id="characteristic_filter">{{"ROOM_WINDOWS" | trans}}</label>
-
-<label class="checkbox">
-    <input type="checkbox" name="room_windows_total" value="1" {%if check_filters is defined and '1' in check_filters['room_windows_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_windows_1'] == 0%} disabled="disabled" {%endif%}/> 1 ({{own_statistics['room_total_windows_1']}})
-</label>
-<label class="checkbox">
-    <input type="checkbox" name="room_windows_total" value="2" {%if check_filters is defined and '2' in check_filters['room_windows_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_windows_2'] == 0%} disabled="disabled" {%endif%}/> 2 ({{own_statistics['room_total_windows_2']}})
-</label>
-<label class="checkbox">
-    <input type="checkbox" name="room_windows_total" value="3" {%if check_filters is defined and '3' in check_filters['room_windows_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_windows_3'] == 0%} disabled="disabled" {%endif%}/> 3 ({{own_statistics['room_total_windows_3']}})
-</label>
-<label class="checkbox">
-    <input type="checkbox" name="room_windows_total" value="4" {%if check_filters is defined and '4' in check_filters['room_windows_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_windows_4'] == 0%} disabled="disabled" {%endif%}/> 4 ({{own_statistics['room_total_windows_4']}})
-</label>
-<label class="checkbox">
-    <input type="checkbox" name="room_windows_total" value="5" {%if check_filters is defined and '5' in check_filters['room_windows_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_windows_5'] == 0%} disabled="disabled" {%endif%}/> 5 ({{own_statistics['room_total_windows_5']}})
-</label>
-<label class="checkbox">
-    <input type="checkbox" name="room_windows_total" value="+5" {%if check_filters is defined and '+5' in check_filters['room_windows_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_windows_+5'] == 0%} disabled="disabled" {%endif%}/> + 5 ({{own_statistics['room_total_windows_+5']}})
-</label>
-
-<br/>
-<!--label class="header" name="characteristic_filter">{{"SELECT_ROOM_OTHER" | trans}}</label-->
-
-<label class="checkbox">
-    <input type="checkbox" id="room_airconditioner" data-value="Aire acondicionado" {%if check_filters is defined and check_filters['room_climatization']%} checked="checked" {%endif%} {%if not( own_statistics['room_climatization'] > 0 or (check_filters is defined and check_filters['room_climatization']))%} disabled="disabled" {%endif%}/> {{"AIR_CONDITIONING_FILTER" | trans}} ({{own_statistics['room_climatization']}})
-</label>
-<label class="checkbox">
-    <input type="checkbox" id="room_audiovisuals" {%if check_filters is defined and check_filters['room_audiovisuals']%} checked="checked" {%endif%} {%if not(own_statistics['room_audio_visuals'] > 0 or (check_filters is defined and check_filters['room_audiovisuals']))%} disabled="disabled" {%endif%}/> {{"AUDIOVISUALS_FILTER" | trans}} ({{own_statistics['room_audio_visuals']}})
-</label>
-<label class="checkbox">
-    <input type="checkbox" id="room_kids" {%if check_filters is defined and check_filters['room_kids']%} checked="checked" {%endif%} {%if not(own_statistics['room_kids'] > 0 or (check_filters is defined and check_filters['room_kids']))%} disabled="disabled" {%endif%}/> {{"KIDS_FILTER" | trans}} ({{own_statistics['room_kids']}})
-</label>
-<label class="checkbox">
-    <input type="checkbox" id="room_smoker" {%if check_filters is defined and check_filters['room_smoker']%} checked="checked" {%endif%} {%if not(own_statistics['room_smoker'] > 0 or (check_filters is defined and check_filters['room_smoker']))%} disabled="disabled" {%endif%}/> {{"SMOKER_FILTER" | trans}} ({{own_statistics['room_smoker']}})
-</label>
-<label class="checkbox">
-    <input type="checkbox" id="room_safe" {%if check_filters is defined and check_filters['room_safe']%} checked="checked" {%endif%} {%if not( own_statistics['room_safe'] > 0 or (check_filters is defined and check_filters['room_safe']))%} disabled="disabled" {%endif%}/> {{"SAFE_FILTER" | trans}} ({{own_statistics['room_safe']}})
-</label>
-<label class="checkbox">
-    <input type="checkbox" id="room_balcony" {%if check_filters is defined and check_filters['room_balcony']%} checked="checked" {%endif%} {%if not(own_statistics['room_balcony'] > 0 or (check_filters is defined and check_filters['room_balcony']))%} disabled="disabled" {%endif%}/> {{"BALCONY_FILTER" | trans}} ({{own_statistics['room_balcony']}})
-</label>
-
-<label class="checkbox">
-    <input type="checkbox" id="room_terraza" {%if check_filters is defined and check_filters['room_terraza']%} checked="checked" {%endif%} {%if not( own_statistics['room_terrace'] > 0 or (check_filters is defined and check_filters['room_terraza']))%} disabled="disabled" {%endif%}/> {{"TERRACE_FILTER" | trans}} ({{own_statistics['room_terrace']}})
-</label>
-<label class="checkbox">
-    <input type="checkbox" id="room_courtyard" {%if check_filters is defined and check_filters['room_courtyard']%} checked="checked" {%endif%} {%if not(own_statistics['room_yard'] > 0 or (check_filters is defined and check_filters['room_courtyard']))%} disabled="disabled" {%endif%}/> {{"COURTYARD_FILTER" | trans}} ({{own_statistics['room_yard']}})
-</label>
-<hr/>
-
 <label class="header">{{"OTHER_HEADING_FILTER" | trans}}</label>
 
-<label class="header" id="characteristic_filter">{{"SELECT_OTHER_LANGUAGE_OPTION" | trans}}</label>    
-<label class="checkbox">
-    <input type="checkbox" name="others_languages" value="1___" {%if check_filters is defined and check_filters['own_others_languages'] == '1___'%} checked="checked" {%endif%} {%if not( own_statistics['own_lang_english'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '1___'))%} disabled="disabled" {%endif%}/>{{"LANG_ENGLISH" | trans}} ({{own_statistics['own_lang_english']}})
-</label>    
-<label class="checkbox">
-    <input type="checkbox" name="others_languages" value="_1__" {%if check_filters is defined and check_filters['own_others_languages'] == '_1__'%} checked="checked" {%endif%} {%if not(own_statistics['own_lang_french'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '_1__'))%}disabled="disabled" {%endif%}/>{{"LANG_FRENCH" | trans}} ({{own_statistics['own_lang_french']}})
-</label>    
-<label class="checkbox">
-    <input type="checkbox" name="others_languages" value="__1_" {%if check_filters is defined and check_filters['own_others_languages'] == '__1_'%} checked="checked" {%endif%} {%if not( own_statistics['own_lang_german'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '__1_'))%} disabled="disabled" {%endif%}/>{{"LANG_GERMAN" | trans}} ({{own_statistics['own_lang_german']}})
-</label>    
-<label class="checkbox">
-    <input type="checkbox" name="others_languages" value="___1" {%if check_filters is defined and check_filters['own_others_languages'] == '___1'%} checked="checked" {%endif%} {%if not( own_statistics['own_lang_italian'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '___1'))%} disabled="disabled" {%endif%}/>{{"LANG_ITALIAN" | trans}} ({{own_statistics['own_lang_italian']}})
-</label>
-<br/>    
-<label class="checkbox">
-    <input type="checkbox" id="room_others_pets" {%if check_filters is defined and check_filters['own_others_pets']%} checked="checked" {%endif%} {%if not( own_statistics['own_services_pets'] > 0 or (check_filters is defined and check_filters['own_others_pets']))%} disabled="disabled" {%endif%}/> {{"PETS_OTHERS_FILTER" | trans}} ({{own_statistics['own_services_pets']}})
-</label>
-<label class="checkbox">
-    <input type="checkbox" id="room_others_internet" {%if check_filters is defined and check_filters['own_others_internet']%} checked="checked" {%endif%} {%if not( own_statistics['own_service_internet_email'] > 0 or (check_filters is defined and check_filters['own_others_internet']))%} disabled="disabled" {%endif%}/> {{"INTERNET_OTHERS_FILTER" | trans}} ({{own_statistics['own_service_internet_email']}})
-</label>
-<br/>
-<label class="header" id="characteristic_filter">{{"SELECT_INCLUDE_IN_PRICE_OPTION" | trans}}</label>    
-<label class="checkbox">
-    <input type="checkbox" name="others_included" value="JACUZZY" {%if check_filters is defined and check_filters['own_others_included'] == 'JACUZZY'%} checked="checked" {%endif%} {%if not( own_statistics['own_water_jacuzzi'] > 0 or (check_filters is defined and check_filters['own_others_included'] == "JACUZZY"))%} disabled="disabled" {%endif%}/>{{"JACUZZI_BATROOM_FILTER" | trans}} ({{own_statistics['own_water_jacuzzi']}})
-</label>        
-<label class="checkbox">
-    <input type="checkbox" name="others_included" value="SAUNA" {%if check_filters is defined and check_filters['own_others_included'] == 'SAUNA'%} checked="checked" {%endif%} {%if not(own_statistics['own_water_sauna'] > 0 or (check_filters is defined and check_filters['own_others_included'] == "SAUNA"))%} disabled="disabled" {%endif%}/>{{"SAUNA_BATHROOM_FILTER" | trans}} ({{own_statistics['own_water_sauna']}})
-</label>    
-<label class="checkbox">
-    <input type="checkbox" name="others_included" value="POOL" {%if check_filters is defined and check_filters['own_others_included'] == 'POOL'%} checked="checked" {%endif%} {%if not(own_statistics['own_water_pool'] > 0 or (check_filters is defined and check_filters['own_others_included'] == "POOL"))%} disabled="disabled" {%endif%}/>{{"POOL_OTHERS_FILTER" | trans}} ({{own_statistics['own_water_pool']}})
-</label>
-<br/>
-<label class="header" id="characteristic_filter">{{"SELECT_NOT_INCLUDE_IN_PRICE_OPTION" | trans}}</label>
-<label class="checkbox">
-    <input type="checkbox" name="others_not_included" value="BREAKFAST" {%if check_filters is defined and check_filters['own_others_not_included'] == 'BREAKFAST'%} checked="checked" {%endif%} {%if not( own_statistics['own_services_breakfast'] > 0 or (check_filters is defined and check_filters['own_others_not_included'] == "BREAKFAST"))%} disabled="disabled" {%endif%}/>{{"BREAKFAST_FILTER" | trans}} ({{own_statistics['own_services_breakfast']}})
-</label> 
-<label class="checkbox">
-    <input type="checkbox" name="others_not_included" value="DINNER" {%if check_filters is defined and check_filters['own_others_not_included'] == 'DINNER'%} checked="checked" {%endif%} {%if not(own_statistics['own_services_dinner'] > 0 or (check_filters is defined and check_filters['own_others_not_included'] == "DINNER"))%} disabled="disabled" {%endif%}/>{{"DINNER_OTHERS_FILTER" | trans}} ({{own_statistics['own_services_dinner']}})
-</label>
-<label class="checkbox">
-    <input type="checkbox" name="others_not_included" value="LAUNDRY" {%if check_filters is defined and check_filters['own_others_not_included'] == 'LAUNDRY'%} checked="checked" {%endif%} {%if not(own_statistics['own_services_laundry'] > 0 or (check_filters is defined and check_filters['own_others_not_included'] == "LAUNDRY"))%} disabled="disabled" {%endif%}/>{{"LAUNDRY_OTHERS_FILTER" | trans}} ({{own_statistics['own_services_laundry']}})
-</label>
-<label class="checkbox">
-    <input type="checkbox" name="others_not_included" value="PARKING" {%if check_filters is defined and check_filters['own_others_not_included'] == 'PARKING'%} checked="checked" {%endif%} {%if not(own_statistics['own_services_parking'] > 0 or (check_filters is defined and check_filters['own_others_not_included'] == "PARKING"))%} disabled="disabled" {%endif%}/>{{"PARKING_THERS_FILTER" | trans}} ({{own_statistics['own_services_parking']}})
-</label>
-
-
-
+<div class="accordion" id="filter_oh_accordion">
+    <!-- Begining of other heading filters accordion -->
+    
+    <!-- OwnerShip Others  -->
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <label class="accordion-toggle text-info" style="font-weight: bold; margin-bottom: 0" data-toggle="collapse" data-parent="#filter_oh_accordion" href="#collapse_oh_1">
+          {{"SELECT_OTHER_LANGUAGE_OPTION" | trans}}
+        </label>
+      </div>
+      <div id="collapse_oh_1" class="accordion-body collapse">
+        <div class="accordion-inner">
+         <label class="checkbox">
+            <input type="checkbox" name="others_languages" value="1___" {%if check_filters is defined and check_filters['own_others_languages'] == '1___'%} checked="checked" {%endif%} {%if not( own_statistics['own_lang_english'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '1___'))%} disabled="disabled" {%endif%}/>{{"LANG_ENGLISH" | trans}} ({{own_statistics['own_lang_english']}})
+        </label>    
+        <label class="checkbox">
+            <input type="checkbox" name="others_languages" value="_1__" {%if check_filters is defined and check_filters['own_others_languages'] == '_1__'%} checked="checked" {%endif%} {%if not(own_statistics['own_lang_french'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '_1__'))%}disabled="disabled" {%endif%}/>{{"LANG_FRENCH" | trans}} ({{own_statistics['own_lang_french']}})
+        </label>    
+        <label class="checkbox">
+            <input type="checkbox" name="others_languages" value="__1_" {%if check_filters is defined and check_filters['own_others_languages'] == '__1_'%} checked="checked" {%endif%} {%if not( own_statistics['own_lang_german'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '__1_'))%} disabled="disabled" {%endif%}/>{{"LANG_GERMAN" | trans}} ({{own_statistics['own_lang_german']}})
+        </label>    
+        <label class="checkbox">
+            <input type="checkbox" name="others_languages" value="___1" {%if check_filters is defined and check_filters['own_others_languages'] == '___1'%} checked="checked" {%endif%} {%if not( own_statistics['own_lang_italian'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '___1'))%} disabled="disabled" {%endif%}/>{{"LANG_ITALIAN" | trans}} ({{own_statistics['own_lang_italian']}})
+        </label>
+        </div>
+      </div>
+    </div> 
+    
+    <!-- OwnerShip Others  -->
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <label class="accordion-toggle text-info" style="font-weight: bold; margin-bottom: 0" data-toggle="collapse" data-parent="#filter_oh_accordion" href="#collapse_oh_2">
+          Otros
+        </label>
+      </div>
+      <div id="collapse_oh_2" class="accordion-body collapse">
+        <div class="accordion-inner">
+            <label class="checkbox">
+                <input type="checkbox" id="room_others_pets" {%if check_filters is defined and check_filters['own_others_pets']%} checked="checked" {%endif%} {%if not( own_statistics['own_services_pets'] > 0 or (check_filters is defined and check_filters['own_others_pets']))%} disabled="disabled" {%endif%}/> {{"PETS_OTHERS_FILTER" | trans}} ({{own_statistics['own_services_pets']}})
+            </label>
+            <label class="checkbox">
+                <input type="checkbox" id="room_others_internet" {%if check_filters is defined and check_filters['own_others_internet']%} checked="checked" {%endif%} {%if not( own_statistics['own_service_internet_email'] > 0 or (check_filters is defined and check_filters['own_others_internet']))%} disabled="disabled" {%endif%}/> {{"INTERNET_OTHERS_FILTER" | trans}} ({{own_statistics['own_service_internet_email']}})
+            </label>
+        </div>
+      </div>
+    </div> 
+    
+     <!-- OwnerShip include in price  -->
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <label class="accordion-toggle text-info" style="font-weight: bold; margin-bottom: 0" data-toggle="collapse" data-parent="#filter_oh_accordion" href="#collapse_oh_3">
+          {{"SELECT_INCLUDE_IN_PRICE_OPTION" | trans}}
+        </label>
+      </div>
+      <div id="collapse_oh_3" class="accordion-body collapse">
+        <div class="accordion-inner">
+           <label class="checkbox">
+                <input type="checkbox" name="others_included" value="JACUZZY" {%if check_filters is defined and check_filters['own_others_included'] == 'JACUZZY'%} checked="checked" {%endif%} {%if not( own_statistics['own_water_jacuzzi'] > 0 or (check_filters is defined and check_filters['own_others_included'] == "JACUZZY"))%} disabled="disabled" {%endif%}/>{{"JACUZZI_BATROOM_FILTER" | trans}} ({{own_statistics['own_water_jacuzzi']}})
+            </label>        
+            <label class="checkbox">
+                <input type="checkbox" name="others_included" value="SAUNA" {%if check_filters is defined and check_filters['own_others_included'] == 'SAUNA'%} checked="checked" {%endif%} {%if not(own_statistics['own_water_sauna'] > 0 or (check_filters is defined and check_filters['own_others_included'] == "SAUNA"))%} disabled="disabled" {%endif%}/>{{"SAUNA_BATHROOM_FILTER" | trans}} ({{own_statistics['own_water_sauna']}})
+            </label>    
+            <label class="checkbox">
+                <input type="checkbox" name="others_included" value="POOL" {%if check_filters is defined and check_filters['own_others_included'] == 'POOL'%} checked="checked" {%endif%} {%if not(own_statistics['own_water_pool'] > 0 or (check_filters is defined and check_filters['own_others_included'] == "POOL"))%} disabled="disabled" {%endif%}/>{{"POOL_OTHERS_FILTER" | trans}} ({{own_statistics['own_water_pool']}})
+            </label>
+        </div>
+      </div>
+    </div> 
+     
+       <!-- OwnerShip not include in price  -->
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <label class="accordion-toggle text-info" style="font-weight: bold; margin-bottom: 0" data-toggle="collapse" data-parent="#filter_oh_accordion" href="#collapse_oh_4">
+          {{"SELECT_NOT_INCLUDE_IN_PRICE_OPTION" | trans}}
+        </label>
+      </div>
+      <div id="collapse_oh_4" class="accordion-body collapse">
+        <div class="accordion-inner">
+            <label class="checkbox">
+                <input type="checkbox" name="others_not_included" value="BREAKFAST" {%if check_filters is defined and check_filters['own_others_not_included'] == 'BREAKFAST'%} checked="checked" {%endif%} {%if not( own_statistics['own_services_breakfast'] > 0 or (check_filters is defined and check_filters['own_others_not_included'] == "BREAKFAST"))%} disabled="disabled" {%endif%}/>{{"BREAKFAST_FILTER" | trans}} ({{own_statistics['own_services_breakfast']}})
+            </label> 
+            <label class="checkbox">
+                <input type="checkbox" name="others_not_included" value="DINNER" {%if check_filters is defined and check_filters['own_others_not_included'] == 'DINNER'%} checked="checked" {%endif%} {%if not(own_statistics['own_services_dinner'] > 0 or (check_filters is defined and check_filters['own_others_not_included'] == "DINNER"))%} disabled="disabled" {%endif%}/>{{"DINNER_OTHERS_FILTER" | trans}} ({{own_statistics['own_services_dinner']}})
+            </label>
+            <label class="checkbox">
+                <input type="checkbox" name="others_not_included" value="LAUNDRY" {%if check_filters is defined and check_filters['own_others_not_included'] == 'LAUNDRY'%} checked="checked" {%endif%} {%if not(own_statistics['own_services_laundry'] > 0 or (check_filters is defined and check_filters['own_others_not_included'] == "LAUNDRY"))%} disabled="disabled" {%endif%}/>{{"LAUNDRY_OTHERS_FILTER" | trans}} ({{own_statistics['own_services_laundry']}})
+            </label>
+            <label class="checkbox">
+                <input type="checkbox" name="others_not_included" value="PARKING" {%if check_filters is defined and check_filters['own_others_not_included'] == 'PARKING'%} checked="checked" {%endif%} {%if not(own_statistics['own_services_parking'] > 0 or (check_filters is defined and check_filters['own_others_not_included'] == "PARKING"))%} disabled="disabled" {%endif%}/>{{"PARKING_THERS_FILTER" | trans}} ({{own_statistics['own_services_parking']}})
+            </label>
+        </div>
+      </div>
+    </div> 
+    
+     <!-- End of other heading filters accordion -->
+</div>

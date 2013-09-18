@@ -19,9 +19,10 @@ class BackendGeneralInformationController extends Controller
         $service_security->verify_access();
         $em=$this->getDoctrine()->getEntityManager();
         $informations=$em->getRepository('mycpBundle:informationLang')->get_informations();
+        $categories = $em->getRepository('mycpBundle:information')->category_names($informations, "ES");
         $service_log= $this->get('log');
         $service_log->save_log('Visit',9);
-        return $this->render('mycpBundle:generalInformation:list.html.twig',array('informations'=>$informations));
+        return $this->render('mycpBundle:generalInformation:list.html.twig',array('informations'=>$informations, "categories"=>$categories));
     }
 
     function new_informationAction(Request $request)
@@ -32,6 +33,8 @@ class BackendGeneralInformationController extends Controller
         $post = $request->request->getIterator()->getArrayCopy();
         $em=$this->getDoctrine()->getEntityManager();
         $languages=$em->getRepository('mycpBundle:lang')->findAll();
+        $information_types = $em->getRepository('mycpBundle:nomenclator')->get_by_category('information');
+        
         if($request->getMethod()=='POST')
         {
             $not_blank_validator = new NotBlank();
@@ -40,7 +43,10 @@ class BackendGeneralInformationController extends Controller
 
             $count=$count_errors= 0;
             foreach ($post as $item) {
-                if($array_keys[$count]!='edit_information')
+                /*if($array_keys[$count]=='information_type' && $item == "-1"){
+                    //crear un objeto para validar
+                }
+                else*/ if($array_keys[$count]!='edit_information')
                 {
                     $errors[$array_keys[$count]] = $errors_validation=$this->get('validator')->validateValue($item, $not_blank_validator);
                     $count_errors+=count($errors_validation);
@@ -70,11 +76,11 @@ class BackendGeneralInformationController extends Controller
             }
             if(isset($post['edit_information']))
             {
-                return $this->render('mycpBundle:generalInformation:new.html.twig',array('languages'=>$languages,'errors'=>$errors,'post'=>$post,'edit_information'=>$post['edit_information']));
+                return $this->render('mycpBundle:generalInformation:new.html.twig',array('languages'=>$languages,"info_types" => $information_types,'errors'=>$errors,'post'=>$post,'edit_information'=>$post['edit_information']));
             }
 
         }
-        return $this->render('mycpBundle:generalInformation:new.html.twig',array('languages'=>$languages,'errors'=>$errors,'post'=>$post));
+        return $this->render('mycpBundle:generalInformation:new.html.twig',array('languages'=>$languages,"info_types" => $information_types,'errors'=>$errors,'post'=>$post));
     }
 
     function edit_informationAction($id_information,Request $request)
@@ -84,14 +90,17 @@ class BackendGeneralInformationController extends Controller
         $em=$this->getDoctrine()->getEntityManager();
         $languages=$em->getRepository('mycpBundle:lang')->findAll();
         $post=array();
+        $information = $em->getRepository('mycpBundle:information')->find($id_information);
         $informations_langs=$em->getRepository('mycpBundle:informationLang')->findBy(array('info_lang_info'=>$id_information));
-
+        $information_types = $em->getRepository('mycpBundle:nomenclator')->get_by_category('information');
+        
+        $post['information_type'] = $information->getInfoIdNom()->getNomId();
         foreach($informations_langs as $information_lang)
         {
             $post['info_name_'.$information_lang->getInfoLangLang()->getLangId()]=$information_lang->getInfoLangName();
             $post['info_content_'.$information_lang->getInfoLangLang()->getLangId()]=$information_lang->getInfoLangContent();
         }
-        return $this->render('mycpBundle:generalInformation:new.html.twig',array('edit_information'=>$id_information,'post'=>$post,'languages'=>$languages));
+        return $this->render('mycpBundle:generalInformation:new.html.twig',array('edit_information'=>$id_information,'post'=>$post,'languages'=>$languages,"info_types" => $information_types));
     }
 
     function delete_informationAction($id_information,Request $request)

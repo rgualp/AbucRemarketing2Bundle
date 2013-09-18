@@ -118,4 +118,9 @@ class nomenclatorLang
     {
         return $this->nom_lang_id_nomenclator;
     }
+    
+    public function __toString()
+    {
+        return $this->nom_lang_description;
+    }
 }

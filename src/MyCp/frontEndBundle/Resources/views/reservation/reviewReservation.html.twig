@@ -14,105 +14,140 @@ destinos
     <li><a href="{{ path('frontend_details_ownership',{'owner_id':ownership.getOwnId}) }}" title="">{{ ownership.getOwnName }}</a> <span class="divider">»</span></li>
     <li class="active">Reservation</li>
 </ul>
-
 <div class="row-fluid">
-    <div class="thumbnail">
-        <div class="row-fluid">
-            <div class="span3"><div class="alert alert-info">Review</div></div>
-            <div class="span3"><div class="alert alert-info transparent">Reserve</div></div>
-            <div class="span3"><div class="alert alert-info transparent">Payment</div></div>
-            <div class="span3"><div class="alert alert-info transparent">Confirmation</div></div>
-        </div>
-        <h3>1. Review</h3>
-        <hr/>
-        <h4>Propiedad {{ ownership.getOwnName }}</h4>
-        Desde {{from_date |replace('&','/')}} hasta {{to_date|replace('&','/')}}
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Fecha</th>
-                <th>Habitación</th>
-                <th>Huéspedes</th>
-                <th>Por cama</th>
-                <th>Total</th>
-            </tr>
-            </thead>
+    <h4 class="head_1">{{ ownership.getOwnName }} (Detalles de Reservación)</h4>
+    <div class="thumbnail" style="border-radius: 8px; padding: 0">
+        <table  class="table table_striped_vertical">
             <tbody>
-            {% for date in array_dates%}
-            {% if loop.last %}
-            <tr>
-                <td>{{ date |date('d/m/Y') }}</td>
-                <td>
-                    {% for room in array_rooms %}
-                    {{room.getRoomType}}<br/>
+            {% set flag_room = 0 %}
+            {% for room in array_rooms %}
+            <tr id="tr_{{array_rooms[loop.index0].getRoomId}}">
+                <td {% if loop.index0==0%} class="first" {% endif %} style="padding: 0px">
+                    <table style="font-size: 12px;">
+                        <thead>
+                        <tr >
+                            <th width="10%">Fecha</th>
+                            <th width="20%">Detalles de reserva</th>
+                            <th width="10%">Habitación</th>
+                            <th width="10%">Huésp.</th>
+                            <th width="10%">Precio/Noche</th>
+                            <th width="10%">Total</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% set sub_total = 0 %}
+                    {% for date in array_dates%}
+                        <tr>
+                            <td class="grey">{{ date |date('d/m/Y') }}</td>
+                            <td><b>{{ ownership.getOwnAddressMunicipality }}, {{ ownership.getOwnName }}</b></td>
+                            <td class="grey">{{room.getRoomType}}</td>
+                            <td>{% if guests[flag_room] is defined and kids[flag_room] is defined %}{{guests[flag_room] + kids[flag_room]}}{% else %}{{guests[0]}}{% endif %}</td>
+                            {% if loop.last %}
+                                <td class="grey">--</td>
+                            {% else %}
+                                {% set sub_total = sub_total + array_price_day[flag_room][loop.index0] %}
+                                <td class="grey">{{app.session.get('curr_symbol')}}{{ array_price_day[flag_room][loop.index0] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}</td>
+                            {% endif %}
+
+                            <td>
+                                {% if not loop.last %}
+                                {{app.session.get('curr_symbol')}}{{ sub_total * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}
+                                {% else %}
+                                --
+                                {% endif %}
+                            </td>
+                        </tr>
                     {% endfor %}
+                        </tbody>
+                    </table>
                 </td>
-                <td>
-                    {% for guest in guests %}
-                    {{guest}}<br/>
-                    {% endfor %}
-                </td>
-                <td>
-                    {% for room in array_rooms %}
-                    -<br/>
-                    {% endfor %}
-                </td>
-                <td>
-                    {% for i in 0..array_rooms|length-1 %}
-                    -
-                    <br/>
-                    {% endfor %}
-                </td>
-            </tr>
-            {% else %}
-            <tr>
-                <td>{{ date |date('d/m/Y') }}</td>
-                <td>
-                    {% for room in array_rooms %}
-                    {{room.getRoomType}}<br/>
-                    {% endfor %}
-                </td>
-                <td>
-                    {% for guest in guests %}
-                    {{guest}}<br/>
-                    {% endfor %}
-                </td>
-                <td>
-                    {% for room in array_rooms %}
-                    {{room.getRoomPriceUpFrom * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}<br/>
-                    {% endfor %}
-                </td>
-                <td>
-                    {% for i in 0..array_rooms|length-1 %}
-                    {% if array_rooms[i].getRoomType == 'Habitación Triple'%}
-                    {{(array_rooms[i].getRoomPriceUpFrom +10) * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}
-                    {% else %}
-                    {{array_rooms[i].getRoomPriceUpFrom * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}
-                    {% endif %}
-                    <br/>
-                    {% endfor %}
+                <td style="vertical-align: middle;{% if loop.index0==0%}border-radius: 0 7px 0 0{% endif %}"  class="{% if loop.index0==0%}first {% endif %} table_delete" >
+                    <button data="{{array_rooms[loop.index0].getRoomId}}" class="table_delete">&nbsp;</button>
                 </td>
             </tr>
-            {% endif %}
+
+            {% set flag_room = flag_room + 1 %}
             {% endfor %}
             </tbody>
         </table>
-        <div class="row-fluid">
-            <div class="span8"></div>
-            <div class="span4" style="text-align: right">
-                <label style="font-size: 10px;">Las Habitaciones triples tienen un recargo de {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} {{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</label>
-                <hr/>
-                <b style="font-size: 16px">Precio total: {{ total_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</b>
-                <hr/>
-                <input name="ids_rooms" class="hidden" value="{{rooms_string}}"/>
-                <input name="guests" class="hidden" value="{{ guests_string }}"/>
-                <input name="ownership" class="hidden" value="{{ownership.getOwnId}}"/>
-                <input name="from_date" class="hidden" value="{{from_date}}"/>
-                <input name="to_date" class="hidden" value="{{to_date}}"/>
-                <a href="{{ path('frontend_review_confirm_reservation',{'id_ownership':ownership.getOwnId,'from_date':from_date,'to_date':to_date,'ids_rooms':rooms_string,'count_guests':guests_string,'total_price':total_price}) }}" class="btn-block btn orange_button">Chequear datos de consulta</a>
+        <div class="table_striped_vertical_foot">
+            <div class="row-fluid">
+                <div class="span6">Total</div>
+                <div class="span6" style="text-align: right">{{app.session.get('curr_symbol')}}{{total_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</div>
             </div>
         </div>
+    </div>
+    <label class="pull-right" style="font-size: 10px;">Las Habitaciones triples tienen un recargo de {{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_acronym')| upper}}</label>
+    <form method="POST" action="{{ path('frontend_confirm_redirect_reservation',{'id_ownership':ownership.getOwnId}) }}">
+        <input style="visibility:hidden;" type="text" value="{{url_string}}" name="data_reservation" id="data_reservation"/>
+        <div class="row-fluid">
+            <div class="span6"></div>
+            <div class="span3"><a href="{{ path('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'})}}" class="btn mycp_btn_blue mycp_btn input-block-level">Continuar buscando</a></div>
+            <div class="span3"><button type="submit" class="btn mycp_btn_green mycp_btn input-block-level">Consultar disponibilidad</button></div>
+        </div>
+    </form>
+</div>
+
+<div class="tiny modal fade hide" id="confirmation_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <p>¿Confirma que desea eliminar esta reservación?</p>
         <br/>
+        <div class="row-fluid">
+            <div class="span6"><button data-dismiss="modal" class="btn btn-block mycp_btn_grey mycp_btn">Cancelar</button></div>
+            <div class="span6"><button id="delete_button" class="btn btn-block mycp_btn_orange mycp_btn">Eliminar</button></div>
+        </div>
     </div>
 </div>
+<div class="tiny modal fade hide" id="messaje_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <p>Debe disponer de al menos una habitación.</p>
+        <br/>
+        <div class="row-fluid">
+            <div class="span3"></div>
+            <div class="span6"><button data-dismiss="modal" class="btn btn-block mycp_btn_orange mycp_btn">Aceptar</button></div>
+            <div class="span3"></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('.table_delete').click(function(){
+        $('#confirmation_modal').modal('show');
+        $('#delete_button').attr('data',$(this).attr('data'));
+    });
+
+    string_url="{{url_string}}";
+    $('#delete_button').click(function(){
+        new_url='/';
+        room=$(this).attr('data');
+        array_url=string_url.split('/');
+        rooms=array_url[array_url.length-5];
+
+        if(rooms.split('&amp;').length==2)
+        {
+            $('#confirmation_modal').modal('hide');
+            $('#messaje_modal').modal('show');
+        }
+        else
+        {
+            rooms=rooms.replace('&amp;'+room,'');
+
+            array_url[array_url.length-5]=rooms;
+            for( a=0; a < array_url.length; a++ )
+            {
+                new_url=new_url+'/'+array_url[a];
+            }
+            new_url=new_url.replace('//','');
+            $('#data_reservation').val(new_url);
+            string_url=new_url;
+            $('#confirmation_modal').modal('hide');
+            $('#tr_'+room).remove();
+        }
+
+
+    });
+</script>
 {% endblock %}

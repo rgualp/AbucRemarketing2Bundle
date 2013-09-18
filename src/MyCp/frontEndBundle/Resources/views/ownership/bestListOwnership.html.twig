@@ -19,7 +19,8 @@ Mejores casas
 <div class="row-fluid result_list ownerships_list" id="div_result">
     {{ include('frontEndBundle:ownership:ownershipItemList.html.twig', 
                         {'list': list,
-                         'photos':photos
+                         'photos':photos,
+                         'counts': counts
                          }) }}      
 </div>
  {% block include_javascripts %}

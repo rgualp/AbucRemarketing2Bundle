@@ -27,6 +27,21 @@
 {% endfor %}
 <form action="{{ path('mycp_new_information')}}" method="POST" novalidate="true">
     {% if edit_information is defined %}<input name="edit_information"  value="{{edit_information}}" class="hidden"/>{% endif %}
+
+    <div class="row-fluid">
+        <div class="span2"><label>Tipo de información:</label></div>
+        <div class="span9">
+            <select name="information_type">
+                <option></option>
+                {%for type in info_types%}
+                <option value="{{type.nomlangidnomenclator.nomid}}" {%if post["information_type"] is defined and post["information_type"] == type.nomlangidnomenclator.nomid%}selected=true {%endif%}>{{type.nomlangdescription}}</option>
+                {%endfor%}
+            </select>
+            {%if errors["information_type"] is defined %}<label class="error">{{errors["information_type"]|trim(':')}}</label>{%endif%}
+        </div>
+    </div>
+
+    <div class="row-fluid"><h4>Traducciones</h4></div>
     {% for language in languages %}
     <div class="row-fluid">
         <div class="span12">
@@ -53,4 +68,4 @@
     <script>
         $('.textarea').wysihtml5();
     </script>
-{% endblock %}
+    {% endblock %}

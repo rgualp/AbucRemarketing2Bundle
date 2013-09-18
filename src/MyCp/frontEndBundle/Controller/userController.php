@@ -20,7 +20,7 @@ class userController extends Controller {
         $errors = array();
         $all_post = array();
 
-        $form = $this->createForm(new registerUserType());
+        $form = $this->createForm(new registerUserType($this->get('translator')));
         if ($request->getMethod() == 'POST') {
             $post = $request->get('mycp_frontendbundle_register_usertype');
             $all_post = $request->request->getIterator()->getArrayCopy();
@@ -47,7 +47,7 @@ class userController extends Controller {
                         'Activación de su cuenta en MyCasaParticular', 'noreply@mycasaparticular.com', $user_db->getUserEmail(), 'Gracias por registrarse en MyCasaParticular.com', 'Visite el siguiente link para activar su cuenta. ' . $enableUrl, '');
 
                 //var_dump($encode_string); exit();
-                $message = 'Grácias por registrarse. Se ha enviado un email para que active su cuenta.';
+                $message = 'Gracias por registrarse. Se ha enviado un email para que active su cuenta.';
                 $this->get('session')->setFlash('message_global_success', $message);
                 return $this->redirect($this->generateUrl('frontend_login'));
             }
@@ -89,7 +89,7 @@ class userController extends Controller {
         $currency_list = $em->getRepository('mycpBundle:currency')->findAll();
         $languages_list = $em->getRepository('mycpBundle:lang')->get_active_languages();
         $errors = array();
-        $form = $this->createForm(new restorePasswordUserType());
+        $form = $this->createForm(new restorePasswordUserType($this->get('translator')));
         if ($request->getMethod() == 'POST') {
             $post = $request->get('mycp_frontendbundle_restore_password_usertype');
             $form->bindRequest($request);
@@ -132,7 +132,7 @@ class userController extends Controller {
         $currency_list = $em->getRepository('mycpBundle:currency')->findAll();
         $languages_list = $em->getRepository('mycpBundle:lang')->get_active_languages();
         $errors = array();
-        $form = $this->createForm(new changePasswordUserType());
+        $form = $this->createForm(new changePasswordUserType($this->get('translator')));
         if ($request->getMethod() == 'POST') {
             $post = $request->get('mycp_frontendbundle_change_password_usertype');
             $form->bindRequest($request);
@@ -175,7 +175,7 @@ class userController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $errors = array();
 
-        $form = $this->createForm(new restorePasswordUserType());
+        $form = $this->createForm(new restorePasswordUserType($this->get('translator')));
         if ($request->getMethod() == 'POST') {
             $post = $request->get('mycp_frontendbundle_restore_password_usertype');
             $form->bindRequest($request);
@@ -212,69 +212,67 @@ class userController extends Controller {
     public function contactAction(Request $request) {
         $errors = array();
 
-        $form_tourist = $this->createForm(new touristContact());
-        $form_owner = $this->createForm(new ownerContact());
+        $form_tourist = $this->createForm(new touristContact($this->get('translator')));
+        $form_owner = $this->createForm(new ownerContact($this->get('translator')));
         if ($request->getMethod() == 'POST') {
             $post_tourist = $request->get('mycp_frontendbundle_contact_tourist');
-            $form_tourist->bindRequest($request);
-            
-            $post_owner = $request->get('mycp_frontendbundle_contact_owner');
-            $form_owner->bindRequest($request);
-            
-            if ($request->request->get('btn_tourist_contact') != null && $request->request->get('btn_tourist_contact') != '' && $form_tourist->isValid()) {
-                $tourist_name = $post_tourist['tourist_name'];
-                $tourist_last_name = $post_tourist['tourist_last_name'];
-                $tourist_email = $post_tourist['tourist_email'];
-                $tourist_phone = $post_tourist['tourist_phone'];
-                $tourist_comment = $post_tourist['tourist_comment'];
-                
-               /* $service_security = $this->get('Secure');
-                $encode_string = $service_security->encode_string($user_db->getUserEmail() . '///' . $user_db->getUserId());
-                $enableRoute = 'frontend_enable_user';
-                $enableUrl = $this->get('router')
-                        ->generate($enableRoute, array('string' => $encode_string), true);*/
+            if ($post_tourist != null) {
+                $form_tourist->bindRequest($request);
 
-                $service_email = $this->get('Email');
-                $service_email->send_email(
-                        'Contacto de un huesped', 
-                        'noreply@mycasaparticular.com', 
-                        $tourist_email, 
-                        "El Sr(a). $tourist_name $tourist_last_name, con numero de telefono $tourist_phone, ha hecho el siguiente comentario: $tourist_comment", 
-                        '');
+                if ($form_tourist->isValid()) {
+                    $tourist_name = $post_tourist['tourist_name'];
+                    $tourist_last_name = $post_tourist['tourist_last_name'];
+                    $tourist_email = $post_tourist['tourist_email'];
+                    $tourist_phone = $post_tourist['tourist_phone'];
+                    $tourist_comment = $post_tourist['tourist_comment'];
 
-                $message = 'Gracias por contactar con nosotros. Su comentario ha sido enviado.';
-                $this->get('session')->setFlash('message_global_success', $message);
-                return $this->redirect($this->generateUrl('frontend_contact_user'));
+                    /* $service_security = $this->get('Secure');
+                      $encode_string = $service_security->encode_string($user_db->getUserEmail() . '///' . $user_db->getUserId());
+                      $enableRoute = 'frontend_enable_user';
+                      $enableUrl = $this->get('router')
+                      ->generate($enableRoute, array('string' => $encode_string), true); */
+
+                    $service_email = $this->get('Email');
+                    $service_email->send_email(
+                            'Contacto de un huesped', 'info@mycasaparticular.com ', $tourist_email, "El Sr(a). $tourist_name $tourist_last_name, con numero de telefono $tourist_phone, ha hecho el siguiente comentario: $tourist_comment", '');
+
+                    $message = 'Gracias por contactar con nosotros. Su comentario ha sido enviado.';
+                    $this->get('session')->setFlash('message_global_success', $message);
+                    return $this->redirect($this->generateUrl('frontend_contact_user'));
+                }
             }
-            else if ($request->request->get('btn_owner_contact') != null && $request->request->get('btn_owner_contact') != '' && $form_owner->isValid()) {
-                $owner_full_name = $post_owner['owner_full_name'];
-                $owner_own_name = $post_owner['owner_own_name'];
-                $owner_email = $post_owner['owner_email'];
-                $owner_province = $post_owner['owner_province'];
-                $owner_mun = $post_owner['owner_mun'];
-                $owner_comment = $post_owner['owner_comment'];
-                
-               /* $service_security = $this->get('Secure');
-                $encode_string = $service_security->encode_string($user_db->getUserEmail() . '///' . $user_db->getUserId());
-                $enableRoute = 'frontend_enable_user';
-                $enableUrl = $this->get('router')
-                        ->generate($enableRoute, array('string' => $encode_string), true);*/
 
-                $service_email = $this->get('Email');
-                $service_email->send_email(
-                        'Contacto de un propietario', 
-                        'noreply@mycasaparticular.com', 
-                        $owner_email, 
-                        "El Sr(a). $owner_full_name, desea incluir una nueva casa con los siguientes datos:  
+            $post_owner = $request->get('mycp_frontendbundle_contact_owner');
+
+            if ($post_owner != null) {
+                $form_owner->bindRequest($request);
+
+                if ($form_owner->isValid()) {
+                    $owner_full_name = $post_owner['owner_full_name'];
+                    $owner_own_name = $post_owner['owner_own_name'];
+                    $owner_email = $post_owner['owner_email'];
+                    $owner_province = $post_owner['owner_province'];
+                    $owner_mun = $post_owner['owner_mun'];
+                    $owner_comment = $post_owner['owner_comment'];
+
+                    /* $service_security = $this->get('Secure');
+                      $encode_string = $service_security->encode_string($user_db->getUserEmail() . '///' . $user_db->getUserId());
+                      $enableRoute = 'frontend_enable_user';
+                      $enableUrl = $this->get('router')
+                      ->generate($enableRoute, array('string' => $encode_string), true); */
+
+                    $service_email = $this->get('Email');
+                    $service_email->send_email(
+                            'Contacto de un propietario', 'casa@mycasaparticular.com', $owner_email, "El Sr(a). $owner_full_name, desea incluir una nueva casa con los siguientes datos:  
                             Duenno(a): $owner_full_name;  Nombre de la casa: $owner_own_name; 
                             Provincia: $owner_province; 
                             Municipio: $owner_mun; 
-                            Comentarios: $owner_comment", 
-                        '');
+                            Comentarios: $owner_comment", '');
 
-                $message = 'Gracias por contactar con nosotros. Sus datos han sido enviados.';
-                $this->get('session')->setFlash('message_global_success', $message);
-                return $this->redirect($this->generateUrl('frontend_contact_user'));
+                    $message = 'Gracias por contactar con nosotros. Sus datos han sido enviados.';
+                    $this->get('session')->setFlash('message_global_success', $message);
+                    return $this->redirect($this->generateUrl('frontend_contact_user'));
+                }
             }
         }
 
@@ -284,42 +282,47 @@ class userController extends Controller {
                     'errors' => $errors
                 ));
     }
-    
-    public function contactTouristAction(Request $request)
-    {
-        $errors = array();
-        $form_tourist = $this->createForm(new touristContact());
-        if ($request->getMethod() == 'POST') {
-            $post_tourist = $request->get('mycp_frontendbundle_contact_tourist');
-            $form_tourist->bindRequest($request);
-            
-            if ($request->request->get('btn_tourist_contact') != null && $request->request->get('btn_tourist_contact') != '' && $form_tourist->isValid()) {
-                $tourist_name = $post_tourist['tourist_name'];
-                $tourist_last_name = $post_tourist['tourist_last_name'];
-                $tourist_email = $post_tourist['tourist_email'];
-                $tourist_phone = $post_tourist['tourist_phone'];
-                $tourist_comment = $post_tourist['tourist_comment'];
-                
-               /* $service_security = $this->get('Secure');
-                $encode_string = $service_security->encode_string($user_db->getUserEmail() . '///' . $user_db->getUserId());
-                $enableRoute = 'frontend_enable_user';
-                $enableUrl = $this->get('router')
-                        ->generate($enableRoute, array('string' => $encode_string), true);*/
 
-                $service_email = $this->get('Email');
-                $service_email->send_email(
-                        'Contacto de un huesped', 
-                        'noreply@mycasaparticular.com', 
-                        $tourist_email, 
-                        "El Sr(a). $tourist_name $tourist_last_name, con numero de telefono $tourist_phone, ha hecho el siguiente comentario: $tourist_comment", 
-                        '');
+    public function info_tab_userAction($destination_id = null, $ownership_id = null) {
+        $em = $this->getDoctrine()->getEntityManager();
+        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
 
-                $message = 'Gracias por contactar con nosotros. Su comentario ha sido enviado.';
-                $this->get('session')->setFlash('message_global_success', $message);
-                
-            }
-        }
-        return $this->redirect($this->generateUrl('frontend_contact_user'));
+        $favorite_destination_ids = $em->getRepository('mycpBundle:favorite')->get_element_id_list(false, $user_ids["user_id"], $user_ids["session_id"],4, $destination_id);
+        $destination_favorities = $em->getRepository('mycpBundle:destination')->get_list_by_ids($favorite_destination_ids);
+        $destination_favorities_photos = $em->getRepository('mycpBundle:destination')->get_destination_photos($destination_favorities);
+        $destination_favorities_localization = $em->getRepository('mycpBundle:destination')->get_destination_location($destination_favorities);
+        $destination_favorities_statistics = $em->getRepository('mycpBundle:destination')->get_destination_owns_statistics($destination_favorities);
+        
+        $favorite_own_ids = $em->getRepository('mycpBundle:favorite')->get_element_id_list(true, $user_ids["user_id"], $user_ids["session_id"],4, $ownership_id);
+        $ownership_favorities = $em->getRepository('mycpBundle:ownership')->getListByIds($favorite_own_ids);
+        $ownership_favorities_photos = $em->getRepository('mycpBundle:ownership')->get_photos_array($ownership_favorities);
+       
+        $history_destinations = $em->getRepository('mycpBundle:userHistory')->get_list_entity($user_ids, false, 4, $destination_id);
+        $history_destinations_photos = $em->getRepository('mycpBundle:destination')->get_destination_photos($history_destinations);
+        $history_destinations_localization = $em->getRepository('mycpBundle:destination')->get_destination_location($history_destinations);
+        $history_destinations_statistics = $em->getRepository('mycpBundle:destination')->get_destination_owns_statistics($history_destinations);
+        $history_destinations_favorites = $em->getRepository('mycpBundle:favorite')->is_in_favorite_array($history_destinations, false,$user_ids['user_id'], $user_ids['session_id']);
+        
+        $history_owns = $em->getRepository('mycpBundle:userHistory')->get_list_entity($user_ids, true, 4, $ownership_id);
+        $history_owns_photos = $em->getRepository('mycpBundle:ownership')->get_photos_array($history_owns);
+        $history_owns_favorites = $em->getRepository('mycpBundle:favorite')->is_in_favorite_array($history_owns, true,$user_ids['user_id'], $user_ids['session_id']);
+        
+        return $this->render('frontEndBundle:user:infoTabUser.html.twig', array(
+            'destination_favorites' => $destination_favorities,
+            'destination_favorites_photos' => $destination_favorities_photos,
+            'destination_favorites_localizations' => $destination_favorities_localization,
+            'destination_favorities_statistics' => $destination_favorities_statistics,
+            'history_destinations' => $history_destinations,
+            'history_destinations_photos' => $history_destinations_photos,
+            'history_destinations_localizations' => $history_destinations_localization,
+            'history_destinations_statistics' => $history_destinations_statistics,
+            'history_destinations_favorites' => $history_destinations_favorites,
+            'favorite_owns' => $ownership_favorities,
+            'favorite_owns_photos' => $ownership_favorities_photos,
+            'history_owns' => $history_owns,
+            'history_owns_photos' => $history_owns_photos,
+            'history_owns_favorites' => $history_owns_favorites
+                ));
     }
 
 }

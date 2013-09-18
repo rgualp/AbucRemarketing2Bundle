@@ -12,8 +12,21 @@
         <p>{{popular_places_description[destination.desid].deslangbrief |striptags}}</p>
     </div>
     </div>
-
 </div>
 {%else%}
-<div class="noData">{{"EMPTY_LIST" | trans}}</div>
+<div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
 {%endfor%}
+
+{%if total_items is defined and items_per_page is defined and popular_places | length and total_items > items_per_page%}
+    <div class="paginator-cont top_margin">
+    {{ simple_paginator_render('frontend_list_destinations',null,{
+    'container_class': 'paginator',
+    'previousPageText': '«',
+    'nextPageText': '»',
+    'currentClass': 'current',
+    'firstPageText': 'FIRST_PAGE' | trans,
+    'lastPageText': 'LAST_PAGE' | trans,
+    'route_params': null
+}) }}
+</div>
+{%endif%}

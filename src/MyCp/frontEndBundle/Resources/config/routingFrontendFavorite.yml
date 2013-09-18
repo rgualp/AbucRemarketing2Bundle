@@ -1,0 +1,23 @@
+frontend_details_insert_favorite:
+    pattern:  /favorite_details_insert/
+    defaults: { _controller: frontEndBundle:favorite:details_insert }
+    
+frontend_details_delete_favorite:
+    pattern:  /favorite_details_delete/
+    defaults: { _controller: frontEndBundle:favorite:details_delete }
+    
+frontend_insert_favorite:
+    pattern:  /favorite_insert/
+    defaults: { _controller: frontEndBundle:favorite:insert }
+    
+frontend_delete_favorite:
+    pattern:  /favorite_delete/
+    defaults: { _controller: frontEndBundle:favorite:delete }
+    
+frontend_list_favorite:
+    pattern:  /favorite_list/
+    defaults: { _controller: frontEndBundle:favorite:list }
+    
+frontend_delete_from_list_favorite:
+    pattern:  /favorite_delete_from_list/
+    defaults: { _controller: frontEndBundle:favorite:delete_from_list }

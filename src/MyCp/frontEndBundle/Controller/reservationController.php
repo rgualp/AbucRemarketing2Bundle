@@ -9,17 +9,58 @@ use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\generalReservation;
 
 class reservationController extends Controller {
-    
-        public function reviewAction($id_ownership,$from_date,$to_date,$ids_rooms,$count_guests, $total_price,Request $request)
+
+        public function review_redirectAction($id_ownership,Request $request)
         {
+            $data=$request->get('data_reservation');
+            $secure=$this->get('secure');
+            $encode_data=$secure->encode_string($data);
+            return $this->redirect($this->generateUrl('frontend_review_reservation',array(
+                'id_ownership'=>$id_ownership,
+                'data'=>$encode_data
+            )));
+        }
+
+        public function confirm_redirectAction($id_ownership,Request $request)
+        {
+            $data=$request->get('data_reservation');
+            $secure=$this->get('secure');
+            $encode_data=$secure->encode_string($data);
+            return $this->redirect($this->generateUrl('frontend_review_confirm_reservation',array(
+                'id_ownership'=>$id_ownership,
+                'data'=>$encode_data
+            )));
+        }
+
+        public function reviewAction($id_ownership,$data,Request $request)
+        {
+
+            $secure=$this->get('secure');
+            $decode_data=$secure->decode_string($data);
+
+
+            $url_string_string=$decode_data;
+            $url_string= explode('/',$url_string_string);
 
             $em = $this->getDoctrine()->getEntityManager();
             $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
 
+            $from_date=$url_string[0];
+            $to_date=$url_string[1];
+            $ids_rooms=$url_string[2];
+            $count_guests=$url_string[3];
+            $count_kids=$url_string[4];
+            $rooms_price=$url_string[5];
+            $total_price=$url_string[6];
+
             $array_ids_rooms=explode('&',$ids_rooms);
             array_shift($array_ids_rooms);
+            $array_rooms_price=explode('&',$rooms_price);
+            array_shift($array_rooms_price);
             $array_count_guests=explode('&',$count_guests);
             array_shift($array_count_guests);
+            $array_count_kids=explode('&',$count_kids);
+            array_shift($array_count_kids);
 
             $array_rooms=array();
             foreach($array_ids_rooms as $id_room)
@@ -38,6 +79,27 @@ class reservationController extends Controller {
 
             $service_time= $this->get('Time');
             $array_dates=$service_time->dates_between($start_timestamp,$end_timestamp);
+            $array_prices_day=array();
+            foreach($array_rooms as $room)
+            {
+                $array_temp=array();
+                foreach($array_dates as $date)
+                {
+                    $season=$service_time->season_by_date($date);
+                    if($season=='down')
+                    {
+                        array_push($array_temp,$room->getRoomPriceDownTo());
+                    }
+                    else
+                    {
+                        array_push($array_temp,$room->getRoomPriceUpTo());
+                    }
+                }
+                array_push($array_prices_day,$array_temp);
+
+            }
+            //var_dump($array_rooms);
+            //exit();
 
             return $this->render('frontEndBundle:reservation:reviewReservation.html.twig',array(
                 'ownership'=>$ownership,
@@ -46,65 +108,119 @@ class reservationController extends Controller {
                 'array_dates'=>$array_dates,
                 'array_rooms'=>$array_rooms,
                 'guests'=>$array_count_guests,
+                'kids'=>$array_count_kids,
                 'guests_string'=>$count_guests,
+                'kids_string'=>$count_kids,
                 'rooms_string'=>$ids_rooms,
-                'total_price'=>$total_price
+                'rooms_price'=>$array_rooms_price,
+                'rooms_price_string'=>$rooms_price,
+                'total_price'=>$total_price,
+                'url_string'=>$url_string_string,
+                'array_price_day'=>$array_prices_day,
             ));
+
         }
 
-    public function review_confirmAction($id_ownership,$from_date,$to_date,$ids_rooms,$count_guests, $total_price,Request $request)
-    {
-        $em = $this->getDoctrine()->getEntityManager();
 
-        $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
 
-        $array_ids_rooms=explode('&',$ids_rooms);
-        array_shift($array_ids_rooms);
-
-        $array_guests=explode('&',$count_guests);
-        array_shift($array_guests);
-
-        $array_date_from=explode('&',$from_date);
-        $date_from_db=$array_date_from[2].'-'.$array_date_from[1].'-'.$array_date_from[0];
-
-        $array_date_to=explode('&',$to_date);
-        $date_to_db=$array_date_to[2].'-'.$array_date_to[1].'-'.$array_date_to[0];
-
-        $user = $this->get('security.context')->getToken()->getUser();
-        $general_reservation=new generalReservation();
-        $general_reservation->setGenResUserId($user);
-        $em->persist($general_reservation);
-        $em->flush();
-
-        for($i=0; $i < count($array_ids_rooms); $i++)
+        public function review_confirmAction($id_ownership,$data,Request $request)
         {
-            $room=$em->getRepository('mycpBundle:room')->find($array_ids_rooms[$i]);
-            $reservation=new ownershipReservation();
-            $reservation->setOwnResCommissionPercent(10);
-            $reservation->setOwnResCountAdults($array_guests[$i]);
-            $reservation->setOwnResCountChildrens(0);
-            $reservation->setOwnResNightPrice(0);
-            $reservation->setOwnResOwnId($ownership);
-            $reservation->setOwnResReservationDate(new \DateTime(date('Y-m-d')));
-            $reservation->setOwnResReservationStatus(0);
-            $reservation->setOwnResReservationStatusDate(new \DateTime(date('Y-m-d')));
-            $reservation->setOwnResReservationFromDate(new \DateTime($date_from_db));
-            $reservation->setOwnResReservationToDate(new \DateTime($date_to_db));
-            $reservation->setOwnResSelectedRoom($array_ids_rooms[$i]);
-            $reservation->setOwnResGenResId($general_reservation);
-            $em->persist($reservation);
+            $secure=$this->get('secure');
+            $decode_data=$secure->decode_string($data);
+
+            $url_string_string=$decode_data;
+            $url_string=$decode_data;
+            $url_string= explode('/',$url_string);
+            $from_date=$url_string[0];
+            $to_date=$url_string[1];
+            $ids_rooms=$url_string[2];
+            $count_guests=$url_string[3];
+            $count_kids=$url_string[4];
+            $rooms_price=$url_string[5];
+            $total_price=$url_string[6];
+
+
+            $em = $this->getDoctrine()->getEntityManager();
+
+            $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
+
+            $array_ids_rooms=explode('&amp;',$ids_rooms);
+            if(count($array_ids_rooms)==1)
+            {
+                $array_ids_rooms=explode('&',$ids_rooms);
+            }
+            array_shift($array_ids_rooms);
+
+            $array_guests=explode('&amp;',$count_guests);
+            if(count($array_guests)==1)
+            {
+                $array_guests=explode('&',$count_guests);
+            }
+            array_shift($array_guests);
+
+            $array_kids=explode('&amp;',$count_kids);
+            if(count($array_kids)==1)
+            {
+                $array_kids=explode('&',$count_kids);
+            }
+            array_shift($array_kids);
+
+            $array_date_from=explode('&amp;',$from_date);
+            if(count($array_date_from)==1)
+            {
+                $array_date_from=explode('&',$from_date);
+            }
+            //var_dump($array_date_from); exit();
+            $date_from_db=$array_date_from[2].'-'.$array_date_from[1].'-'.$array_date_from[0];
+
+            $array_date_to=explode('&amp;',$to_date);
+            if(count($array_date_to)==1)
+            {
+                $array_date_to=explode('&',$to_date);
+            }
+
+
+            $date_to_db=$array_date_to[2].'-'.$array_date_to[1].'-'.$array_date_to[0];
+            $user = $this->get('security.context')->getToken()->getUser();
+            $general_reservation=new generalReservation();
+            $general_reservation->setGenResUserId($user);
+            $general_reservation->setGenResDate(new \DateTime(date('Y-m-d')));
+            $general_reservation->setGenResStatusDate(new \DateTime(date('Y-m-d')));
+            $general_reservation->setGenResStatus(0);
+            $general_reservation->setGenResTotalPriceInSite($total_price);
+            $general_reservation->setGenResFromDate(new \DateTime($date_from_db));
+            $general_reservation->setGenResToDate(new \DateTime($date_to_db));
+            $general_reservation->setGenResOwnId($ownership);
+            $general_reservation->setGenResSaved(0);
+            $em->persist($general_reservation);
+           $em->flush();
+
+            for($i=0; $i < count($array_ids_rooms); $i++)
+            {
+                $room=$em->getRepository('mycpBundle:room')->find($array_ids_rooms[$i]);
+                $reservation=new ownershipReservation();
+                $reservation->setOwnResCountAdults($array_guests[$i]);
+                $reservation->setOwnResCountChildrens($array_kids[$i]);
+                $reservation->setOwnResNightPrice(0);
+                $reservation->setOwnResStatus(0);
+                $reservation->setOwnResReservationFromDate(new \DateTime($date_from_db));
+                $reservation->setOwnResReservationToDate(new \DateTime($date_to_db));
+                $reservation->setOwnResSelectedRoomId($array_ids_rooms[$i]);
+                $reservation->setOwnResGenResId($general_reservation);
+                $em->persist($reservation);
+            }
+            $em->flush();
+
+            $service_email= $this->get('Email');
+            $service_email->send_email(
+                'Consulta de disponibilidad enviada',
+                'noreply@mycasaparticular.com',
+                 $user->getUserEmail(),
+                'Consulta de disponibilidad enviada',
+                'La consulta de disponibilidad de sus habitaciones ha sido enviada al equipo de reservación','');
+
+            return $this->render('frontEndBundle:reservation:confirmReservation.html.twig');
+
         }
-        $em->flush();
-
-        $service_email= $this->get('Email');
-        $service_email->send_email(
-            'Consulta de disponibilidad enviada',
-            'noreply@mycasaparticular.com',
-             $user->getUserEmail(),
-            'Consulta de disponibilidad enviada',
-            'La consulta de disponibilidad de sus habitaciones ha sido enviada al equipo de reservación','');
-
-        return $this->render('frontEndBundle:reservation:confirmReservation.html.twig');
-    }
 
 }

@@ -76,6 +76,12 @@ services:
             entity_manager: "@doctrine.orm.entity_manager"
             container: "@service_container"
             security_context: "@security.context"
+    Time:
+        class: MyCp\frontEndBundle\Helpers\Time
+    Email:
+        class: MyCp\frontEndBundle\Helpers\Email
+        arguments:
+            container: "@service_container"
     Secure:
         class: MyCp\mycpBundle\Helpers\Secure
         tags:

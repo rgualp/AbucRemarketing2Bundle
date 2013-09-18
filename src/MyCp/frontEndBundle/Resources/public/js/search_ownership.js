@@ -1,7 +1,13 @@
-$(document).ready(start)
+$(document).ready(start);
+
+$('a.option').click(function(){
+    var parent=$(this).attr('data');
+    if(parent === "select_change_order")
+        change_order($(this).attr("data-value"));
+});
 
 function start(){
-    $('#select_change_order').change(change_order);
+   // $('#select_change_order a.option').click(change_order);
     $('#change_view_to_list').click(change_view_to_list);
     $('#change_view_to_photo').click(change_view_to_photo);
     $('#change_view_to_map').click(change_view_to_map);
@@ -52,28 +58,33 @@ function start(){
     });*/
     
     $('#input_arrival_date').datepicker({
-        format:'dd/mm/yyyy',
-        todayBtn:'linked',
-        language:$('#input_arrival_date').attr('data-localization')
-    }).on('changeDate', function(ev){
-        $('.datepicker').hide();
+        format: 'dd/mm/yyyy',
+        todayBtn: 'linked',
+        autoclose: true,
+        startDate: 'today',
+        language: $('#input_arrival_date').attr('data-localization')
+    }).on('changeDate', function(ev) {
+        var newDate = new Date(ev.date);
+        newDate.setDate(newDate.getDate() + 1);
+        departure_datepicker.setStartDate(newDate);
+        departure_datepicker.setDate(newDate);
     });
 
-    $('#input_departure_date').datepicker({
-        format:'dd/mm/yyyy',
-        todayBtn:'linked',
-        language:$('#input_departure_date').attr('data-localization')
-    }).on('changeDate', function(ev){
-        $('.datepicker').hide();
-    });
+    var departure_datepicker = $('#input_departure_date').datepicker({
+        format: 'dd/mm/yyyy',
+        todayBtn: 'linked',
+        autoclose: true,
+        startDate: '+1d',
+        language: $('#input_departure_date').attr('data-localization')
+    }).data('datepicker');
     
     initialize_map();
 }
 
-function change_order ()
+function change_order (order)
 {    
     //Obtener parametros
-    var order=$('#select_change_order').val();
+   // var order=$('#select_change_order').val();
     show_loading();
     var result=$('#div_result');
     var url=$('#select_change_order').attr('data-url');
@@ -82,7 +93,8 @@ function change_order ()
         'order':order
     },function(data){
         result.html(data);
-            
+        manage_favorities(".favorite_off"); 
+        manage_favorities(".favorite_on");    
         hide_loading();
     });
     
@@ -110,6 +122,8 @@ function change_view_to_list ()
             
         $('#map').css('visibility','visible');
         $('#map').css('display','block');
+        manage_favorities(".favorite_off"); 
+        manage_favorities(".favorite_on");
             
         hide_loading();
     });
@@ -138,6 +152,9 @@ function change_view_to_photo ()
             
         $('#map').css('visibility','visible');
         $('#map').css('display','block');
+        
+        manage_favorities(".favorite_off"); 
+        manage_favorities(".favorite_on");
             
         hide_loading();
     });
@@ -167,6 +184,9 @@ function change_view_to_map ()
         $('#map').css('visibility','hidden');
         $('#map').css('display','none');
         
+        manage_favorities(".favorite_off"); 
+        manage_favorities(".favorite_on");
+        
         initialize_map();            
         hide_loading();
     });
@@ -181,7 +201,8 @@ function research()
        
     var arrival = $('#input_arrival_date').val();    
     var departure = $('#input_departure_date').val();    
-    var guests = $('#input_guests').val(); 
+    var guests = $('#input_guests').attr("data-value"); 
+    var rooms = $('#input_rooms').attr("data-value"); 
     var text = $('#input_text').val();
     
     var result=$('#div_result');
@@ -194,12 +215,16 @@ function research()
         'arrival':arrival,
         'departure':departure,
         'guests':guests,
+        'rooms' : rooms,
         'text':text
     },function(data){
         result.html(data);
+        manage_favorities(".favorite_off"); 
+        manage_favorities(".favorite_on");
         filter_by_others();  
         initialize_map();    
         hide_loading();
+        
     });
     
     return false;
@@ -315,6 +340,8 @@ function filter_by_others()
     
     $.post(url,checked_filters,function(data){
         result.html(data);
+        manage_favorities(".favorite_off"); 
+        manage_favorities(".favorite_on");
         refresh_filters_statistics(checked_filters);   
         hide_loading();
     });

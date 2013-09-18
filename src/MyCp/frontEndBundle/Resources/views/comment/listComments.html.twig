@@ -13,16 +13,16 @@
                     <div class="row-fluid">
                         <div class="span2">
                             <img class="img-polaroid" src="{{ asset('bundles/frontend/images/user_no_photo.gif') }}" alt="">
-                            <label class="name">{{comment.commentusername}}</label>
+                            <label class="name">{{comment.getComUser.getUserUserName}} {{comment.getComUser.getUserUserName}}</label>
                             <div class="rating_star">
-                                {%if comment.commentrating > 0%}
-                                        {%for i in 1..comment.commentrating%}
+                                {%if comment.getComRate > 0%}
+                                        {%for i in 1..comment.getComRate%}
                                     <img src="{{ asset('bundles/frontend/images/star_on.png')}}" align="absmiddle"/>
                                 {%endfor%}
                                         {%endif%}
 
-                                        {%if comment.commentrating < 5%}
-                                        {%for i in 1..(5-comment.commentrating)%}
+                                        {%if comment.getComRate < 5%}
+                                        {%for i in 1..(5-comment.getComRate)%}
                                     <img src="{{ asset('bundles/frontend/images/star_off.png')}}" align="absmiddle"/>
                                     {%endfor%}
                                         {%endif%}
@@ -33,14 +33,26 @@
                                 <div class="arrow"></div>
                                 <div class="popover-content">
                                     <p>
-                                        {{comment.comments}}
+                                        {{comment.getComComments}}
                                     </p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     {%endfor%}
-
+                    {%if comments | length and comments_total_items > comments_items_per_page%}
+                        <div class="paginator-cont top_margin">
+                        {{ simple_paginator_render('frontend_details_ownership',null,{
+                        'container_class': 'paginator',
+                        'previousPageText': '«',
+                        'nextPageText': '»',
+                        'currentClass': 'current',
+                        'firstPageText': 'FIRST_PAGE' | trans,
+                        'lastPageText': 'LAST_PAGE' | trans,
+                        'route_params': {'owner_id': ownership.ownid}
+                    }) }}
+                    </div>
+                    {%endif%}
                 </div>
             </div>
         </div>

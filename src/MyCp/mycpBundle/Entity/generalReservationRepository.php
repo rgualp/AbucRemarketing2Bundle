@@ -46,7 +46,11 @@ class generalReservationRepository extends EntityRepository
                 break;
         }
         $em = $this->getEntityManager();
-        $query = $em->createQuery("SELECT gre,ow,(SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id),(SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id),(SELECT SUM(owres3.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id), us, cou FROM mycpBundle:generalReservation gre
+        $query = $em->createQuery("SELECT gre,ow,
+        (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id),
+        (SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id),
+        (SELECT SUM(owres3.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id),
+        us, cou FROM mycpBundle:generalReservation gre
         JOIN gre.gen_res_user_id us
         JOIN gre.gen_res_own_id ow
         JOIN us.user_country cou
@@ -61,6 +65,51 @@ class generalReservationRepository extends EntityRepository
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT gre,(SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id) AS rooms,(SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id) AS adults,(SELECT SUM(owres3.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id) AS childrens,ow FROM mycpBundle:generalReservation gre
         JOIN gre.gen_res_own_id ow");
+        return $query->getArrayResult();
+    }
+
+    function get_reservation_available_by_user($id_reservation ,$id_user)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT gre FROM mycpBundle:generalReservation gre
+        WHERE gre.gen_res_id = $id_reservation AND gre.gen_res_user_id = $id_user");
+        return $query->getArrayResult();
+    }
+
+    function find_by_user_and_status($id_user, $status_string, $string_sql)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT us,gre,
+        (SELECT pho.pho_name FROM mycpBundle:ownershipPhoto owpho JOIN owpho.own_pho_photo pho WHERE owpho.own_pho_own = gre.gen_res_own_id AND pho.pho_order =
+        (SELECT MIN(pho2.pho_order) FROM mycpBundle:ownershipPhoto owpho2 JOIN owpho2.own_pho_photo pho2 WHERE owpho2.own_pho_own = gre.gen_res_own_id ))  AS photo ,
+        ow,mun,prov FROM mycpBundle:generalReservation gre
+        JOIN gre.gen_res_own_id ow
+        JOIN gre.gen_res_user_id us
+        JOIN ow.own_address_municipality mun
+        JOIN ow.own_address_province prov
+        WHERE $status_string AND us.user_id=$id_user $string_sql");
+        return $query->getArrayResult();
+    }
+
+    function find_count_for_menu($id_user)
+    {
+        $date = \date('Y-m-j');
+        $new_date = strtotime ( '-30 day' , strtotime ( $date ) ) ;
+        $new_date = \date ( 'Y-m-j' , $new_date );
+
+        $date_days = \date('Y-m-j');
+        $date_days = strtotime ( '-60 hours' , strtotime ( $date_days ) ) ;
+        $date_days = \date ( 'Y-m-j' , $date_days );
+
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT count(gre_pend) as pending,(SELECT count(gre_avail) FROM mycpBundle:generalReservation gre_avail WHERE gre_avail.gen_res_user_id = $id_user AND gre_avail.gen_res_status=1 AND gre_avail.gen_res_date > '$date_days')  as available,
+        (SELECT count(gre_res) FROM mycpBundle:generalReservation gre_res WHERE gre_res.gen_res_user_id = $id_user AND gre_res.gen_res_status=2 AND gre_res.gen_res_date > '$new_date')  as reserve,
+        (SELECT count(gre_cons) FROM mycpBundle:generalReservation gre_cons WHERE gre_cons.gen_res_user_id = $id_user AND gre_cons.gen_res_status=0 AND gre_cons.gen_res_date < '$new_date')  as consult,
+        (SELECT count(gre_payed) FROM mycpBundle:generalReservation gre_payed WHERE gre_payed.gen_res_user_id = $id_user AND gre_payed.gen_res_status=5)  as payed,
+        (SELECT count(gre_res_hist) FROM mycpBundle:generalReservation gre_res_hist WHERE gre_res_hist.gen_res_user_id = $id_user AND gre_res_hist.gen_res_status=2 AND gre_res_hist.gen_res_date < '$new_date')  as reserve_history,
+        (SELECT count(fav) FROM mycpBundle:favorite fav WHERE fav.favorite_user = $id_user AND fav.favorite_ownership IS NOT NULL)  as favorites_ownerships,
+        (SELECT count(fav_des) FROM mycpBundle:favorite fav_des WHERE fav_des.favorite_user = $id_user AND fav_des.favorite_destination IS NOT NULL)  as favorites_destinations
+        FROM mycpBundle:generalReservation gre_pend WHERE gre_pend.gen_res_user_id = $id_user AND gre_pend.gen_res_status=0 AND gre_pend.gen_res_date > '$new_date'");
         return $query->getArrayResult();
     }
 }

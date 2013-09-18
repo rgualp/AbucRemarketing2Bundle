@@ -11,7 +11,7 @@
 {% block body %}
 <ul class="breadcrumb">
     <li><a href="{{ path('frontend_welcome') }}" title="{{"GO_HOME_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a> <span class="divider">»</span></li>
-    <li><a href="#" title="{{"INFO_MAIN_MENU" | trans}}">{{"INFO_MAIN_MENU" | trans}}</a> <span class="divider">»</span></li>
+    <li class="active">{{"INFO_MAIN_MENU" | trans}}<span class="divider">»</span></li>
     <li class="active">{{information_type | upper | trans}}</li>
 </ul>
 <div class="row-fluid filter_1">
@@ -25,12 +25,24 @@
         <p>{{information.infolangcontent |striptags}}</p>
     </div>
     </div>
-
-</div>
 {%else%}
-<div class="noData">{{"EMPTY_LIST" | trans}}</div>
+<div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
 {%endfor%}
-    </div>
+</div>
+
+{%if information_list | length and total_items > items_per_page%}
+    <div class="paginator-cont top_margin">
+    {{ simple_paginator_render('frontend_list_information',null,{
+    'container_class': 'paginator',
+    'previousPageText': '«',
+    'nextPageText': '»',
+    'currentClass': 'current',
+    'firstPageText': 'FIRST_PAGE' | trans,
+    'lastPageText': 'LAST_PAGE' | trans,
+    'route_params': {'information_type':information_type}
+}) }}
+</div>
+{%endif%}
 {% block include_javascripts %}
     
 {% endblock %}
