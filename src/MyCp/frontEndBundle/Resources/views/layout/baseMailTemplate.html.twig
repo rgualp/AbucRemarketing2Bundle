@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/html">
+    <head>
+        <meta charset="utf-8">
+        <title>MyCasaParticular</title>
+        <link href="{{ asset('bundles/frontend/css/bootstrap/bootstrap.css') }}" rel="stylesheet" media="screen">
+        <link href="{{ asset('bundles/frontend/css/bootstrap/bootstrap-responsive.css') }}" rel="stylesheet" media="screen">
+        <link href="{{ asset('bundles/frontend/css/custom.css') }}" rel="stylesheet" media="screen">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row-fluid">
+                <div class="span7"><img src="{{url('frontend_welcome')}}/web/bundles/frontend/images/logo.png"/></div>
+                <div class="span5 msg_info" style="text-align: right">Alojarse donde Cuba, Cuba es.</div>
+            </div>
+            <div class="divider_hor"></div>  
+
+            <div class="row-fluid">
+                <div class="span12">
+                {% block content %}{% endblock %}
+                </div>         
+            </div>
+
+            <div class="footer">
+                <table>
+                    <tr>
+                        <td style="text-align: left">
+                            <a href="">MyCasaParticular.com</a>
+                        </td>
+                        <td><a href="mailto:reservation@mycasaparticular.com">reservation@mycasaparticular.com</a></td>
+                    </tr>
+                </table>
+                <div class="social">
+                    <img src="{{url('frontend_welcome')}}/web/bundles/frontend/images/facebook.gif"/>
+                    <img src="{{url('frontend_welcome')}}/web/bundles/frontend/images/twitter.gif"/>
+                    <img src="{{url('frontend_welcome')}}/web/bundles/frontend/images/pinenterest.gif"/>
+                </div>
+                <div class="abuc">ABUC media network GmbH, Peter Merain-Strasse 54, 4052 Basel, Switzerland.</div>
+            </div>
+        </div>
+    </body>
+</html>

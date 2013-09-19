@@ -100,8 +100,8 @@ class commentRepository extends EntityRepository
         {
             $em = $this->getEntityManager();
             $query_string = "SELECT gen_r FROM mycpBundle:generalReservation gen_r
-                             WHERE gen_r.gen_res_own_id = ".$mun->$own_id().
-                             " AND gen_r.gen_res_user_id =".$user->getUserId().
+                             WHERE gen_r.gen_res_own_id = ".$own_id.
+                             " AND gen_r.gen_res_user_id =".$user.
                              " AND gen_r.gen_res_status = 5";
             return count($em->createQuery($query_string)->getResult()) > 0;
         }

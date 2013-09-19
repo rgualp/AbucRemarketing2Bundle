@@ -10,11 +10,11 @@ Mycasa trip
             class="divider">»</span></li>
     <li class="active">MyCasaTrip</li>
 </ul>
-<div class="green_bar">
+<div class="green_bar msg_green_brand">
     <div class="row-fluid">
         <div class="span9"></div>
         <div class="span3" style=" padding-right: 10px">
-            <form id="order_by_form" method="post" action="">
+            <form id="order_by_form" method="post" action="" style="margin: 0">
             <select class="span12" id="mct_change_order" name="mct_change_order">
                 <option {% if order_by is defined and order_by == 0%}selected="selected" {% endif %} value="0">Fecha</option>
                 <option {% if order_by is defined and order_by == 1%}selected="selected" {% endif %} value="1">ID Reserva</option>

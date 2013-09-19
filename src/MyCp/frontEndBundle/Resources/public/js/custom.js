@@ -1,4 +1,4 @@
-$(document).ready(start)
+$(document).ready(start);
 
 function start() {
     $('.numeric').keydown(function(e) {
@@ -16,7 +16,7 @@ function start() {
     details_favorites("#add_to_favorites");
 
     delete_from_list_favorites();
-    
+
     //Para los acordiones
     $(".accordion a.accordion-toggle").addClass("collapsed");
 }
@@ -113,8 +113,7 @@ function delete_from_list_favorites()
                 {
                     'favorite_type': favorite_type,
                     'element_id': element_id
-                }
-        , function(data) {
+                }, function(data) {
             if (favorite_type == "ownership")
                 $("#div_result").html(data);
             else if (favorite_type == "destination")
@@ -133,17 +132,20 @@ function show_loading()
 function hide_loading()
 {
     $('#loading').addClass('hidden');
-
 }
 
 //net socials
 function send2Friend() {
-    $('#sending_mail').removeClass('hidden');    
-    
     var url = $('#send_to_friend_popup').attr('data-url');
-    var name_from = $('#name_from').val();;
-    var email_to = $('#email_to').val();;
-    
+    var name_from = $('#name_from').val();
+    var email_to = $('#email_to').val();
+
+    if (name_from == '' || email_to == '') {
+        //include html5 validation
+        return;
+    }
+
+    $('#sending_mail').removeClass('hidden');
     $.post(url, {
         'name_from': name_from,
         'email_to': email_to

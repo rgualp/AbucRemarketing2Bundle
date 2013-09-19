@@ -1706,6 +1706,18 @@
                 <source>ALL_PROVINCES</source>
                 <target>All provinces</target>
             </trans-unit>
+            <trans-unit id="435">
+                <source>CART</source>
+                <target>Cart of reservations</target>
+            </trans-unit>
+            <trans-unit id="436">
+                <source>SENT_EMAIL_FROM</source>
+                <target>Sender name:</target>
+            </trans-unit>
+             <trans-unit id="437">
+                <source>EMAIL_TO</source>
+                <target>Destiny email address:</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

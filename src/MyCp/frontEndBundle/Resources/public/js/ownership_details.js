@@ -98,7 +98,6 @@ function start(){
             $('.price').each(function() {
                 total_price=total_price+parseFloat(this.innerHTML);
                 real_price=real_price+parseFloat(this.innerHTML/curr);
-                rooms_price=rooms_price+'&'+(this.innerHTML/curr);
             });
 
             ids_rooms='';
@@ -116,7 +115,7 @@ function start(){
             from_date=$('#data_reservation').attr('from_date');
             to_date=$('#data_reservation').attr('to_date');
 
-            string_url=from_date+'/'+to_date+'/'+ids_rooms+'/'+count_guests+'/'+count_kids+'/'+rooms_price+'/'+real_price;
+            string_url=from_date+'/'+to_date+'/'+ids_rooms+'/'+count_guests+'/'+count_kids;
             $('#data_reservation').val(string_url);
             $('#total_price').html(total_price );
 
@@ -131,7 +130,7 @@ function submit_button_top_reservation()
     from_date=$('#data_reservation_top').attr('from_date');
     to_date=$('#data_reservation_top').attr('to_date');
     ids_rooms=$('#top_reservation_submit_button').attr('rooms');
-    count_guests=$('#top_reservation_persons_count').val();
+    count_guests=$('#top_reservation_persons_count').attr('data-value');
     rooms_price=$('#top_reservation_submit_button').attr('prices');
     real_price=$('#top_reservation_submit_button').attr('real_price');
     string_url=from_date+'/'+to_date+'/'+ids_rooms+'/&'+count_guests+'/'+0+'/'+rooms_price+'/'+real_price;

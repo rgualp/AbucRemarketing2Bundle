@@ -368,10 +368,8 @@
         <div class="tab-pane fade in active ">
             <div class="row-fluid no_tab">
                 <form  method="POST" action="{{ path('frontend_details_ownership',{'owner_id':ownership.ownid}) }}" novalidate>
-                    <div class="span3"><label>{{'FROM_PRICES' | trans}}:</label><input value="{% if post['reservation_filter_date_from'] is defined%}{{ post['reservation_filter_date_from'] }}{% else %}{{ "now"|date("d/m/Y") }}{% endif %}" name="reservation_filter_date_from" id="filter_date_from" type="text" class="input-block-level"/></div>
-                    <div class="span3"><label>{{'TO_PRICES' | trans | capitalize}}:</label><input value="{% if post['reservation_filter_date_to'] is defined%}{{ post['reservation_filter_date_to'] }}{% else %}{{ "+6 day"|date("d/m/Y") }}{% endif %}" name="reservation_filter_date_to" id="filter_date_to" type="text" class="input-block-level"/></div>
-                    <div class="span2"><label>{{'RESERVATION_ROOMS' | trans}}:</label><input type="text" class="input-block-level"/></div>
-                    <div class="span2"><label>{{'RESERVATION_GUESTS' | trans}}:</label><input type="text" class="input-block-level"/></div>
+                    <div class="span5"><label>{{'FROM_PRICES' | trans}}:</label><input value="{% if post['reservation_filter_date_from'] is defined%}{{ post['reservation_filter_date_from'] }}{% else %}{{ "now"|date("d/m/Y") }}{% endif %}" name="reservation_filter_date_from" id="filter_date_from" type="text" class="mycp_text_box mycp_text_box_margin input-block-level"/></div>
+                    <div class="span5"><label>{{'TO_PRICES' | trans | capitalize}}:</label><input value="{% if post['reservation_filter_date_to'] is defined%}{{ post['reservation_filter_date_to'] }}{% else %}{{ "+6 day"|date("d/m/Y") }}{% endif %}" name="reservation_filter_date_to" id="filter_date_to" type="text" class="mycp_text_box mycp_text_box_margin input-block-level"/></div>
                     <div class="span2"><label>&nbsp;</label><button type="submit" class="btn btn-block dark_blue_button" style="font-size: 12px;">{{'RESERVATION_SEE_PRICES' | trans}}</button></div>
                 </form>
             </div>
@@ -479,7 +477,7 @@
                     {% else %}
                     {% set date_to = "+1 day"|date("d&m&Y") %}
                     {% endif %}
-                    <form action="{{ path('frontend_review_redirect_reservation',{'id_ownership':ownership.getOwnId}) }}" method="POST">
+                    <form action="{{ path('frontend_add_to_cart_reservation',{'id_ownership':ownership.getOwnId}) }}" method="POST">
                         <input from_date="{{ date_from }}" to_date="{{ date_to }}" type="text" style="visibility: hidden; margin-bottom: -50px" name="data_reservation" id="data_reservation"/>
                         <input type="submit" class="btn-block btn mycp_btn_orange mycp_btn" value="{{'RESERVATION_CHECK_AVAILABILITY' | trans}}"/>
                     </form>
@@ -509,12 +507,12 @@
                     <td>{{"GUESTS_RESERVATION" | trans}}</td>
                 </tr>
                 <tr>
-                    <td><input name="top_reservation_filter_date_from" id="top_reservation_filter_date_from" class="input-block-level" value="{% if post['reservation_filter_date_from'] is defined%}{{ post['reservation_filter_date_from'] }}{% else %}{{ "now"|date("d/m/Y") }}{% endif %}" type="text"></td>
-                    <td><input name="top_reservation_filter_date_to" id="top_reservation_filter_date_to" class="input-block-level" value="{% if post['reservation_filter_date_to'] is defined%}{{ post['reservation_filter_date_to'] }}{% else %}{{ "+6 day"|date("d/m/Y") }}{% endif %}" type="text"></td>
+                    <td><input name="top_reservation_filter_date_from" id="top_reservation_filter_date_from" class="mycp_text_box mycp_text_box_margin input-block-level" value="{% if post['reservation_filter_date_from'] is defined%}{{ post['reservation_filter_date_from'] }}{% else %}{{ "now"|date("d/m/Y") }}{% endif %}" type="text"></td>
+                    <td><input name="top_reservation_filter_date_to" id="top_reservation_filter_date_to" class="mycp_text_box mycp_text_box_margin input-block-level" value="{% if post['reservation_filter_date_to'] is defined%}{{ post['reservation_filter_date_to'] }}{% else %}{{ "+6 day"|date("d/m/Y") }}{% endif %}" type="text"></td>
                     <td>
                         <div class="btn-group mycp_combo perc_13" style="margin-top: -10px;">
                         <a href="#" id="top_reservation_persons_count" name="top_reservation_persons_count" style="width: 90px" class="combo_label btn dropdown-toggle span2 " data-toggle="dropdown" data-value="1">
-                            {% if post['top_reservation_persons_count'] is defined%}post['top_reservation_persons_count']{%else%}1{%endif%}
+                            {% if post['top_reservation_persons_count'] is defined%}{{post['top_reservation_persons_count']}}{%else%}1{%endif%}
                         </a>
                         <ul class="dropdown-menu">
                             {% set count_persons = (rooms|length - reservations|length) * 3 %}
@@ -544,7 +542,7 @@
             </button>
             {% endif %}
             </form>
-            <form style="margin-bottom: -30px" id="form_reservation_top" method="POST" action="{{ path('frontend_review_redirect_reservation',{'id_ownership':ownership.getOwnId}) }}">
+            <form style="margin-bottom: -30px" id="form_reservation_top" method="POST" action="{{ path('frontend_add_to_cart_reservation',{'id_ownership':ownership.getOwnId}) }}">
                 <input style="visibility: hidden;" from_date="{{ date_from }}" to_date="{% if post['reservation_filter_date_to'] is defined%}{{ post['reservation_filter_date_to'] | replace('/','&')}}{% else %}{{ "+6 day"|date("d&m&Y") }}{% endif %}" id="data_reservation_top" name="data_reservation"/>
             </form>
         </div>
@@ -555,6 +553,14 @@
                          'favorite_type': 'ownership',
                          'element_id':ownership.ownid
                          }) }}
+    </div>
+    <div class="thumbnail" style="padding: 12px">
+        <a href="#send_to_friend_popup" title="{{'SEND_TO_FRIEND' | trans}}" data-toggle="modal" style="text-decoration: none">
+            <button class="btn btn-block" onclick="$('#send_to_friend_popup').attr('data-email-type', 'recommend_destino');">
+                <div class="icon-envelope"></div>
+                {{"TELL_A_FRIEND" | trans}}
+            </button>
+        </a>
     </div>
     {% if can_comment %}
     <div class="thumbnail" style="padding: 10px">

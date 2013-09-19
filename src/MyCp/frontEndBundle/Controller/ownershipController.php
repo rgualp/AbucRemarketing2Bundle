@@ -7,11 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-
 class ownershipController extends Controller {
 
     public function detailsAction($owner_id, Request $request) {
-
 
         $em = $this->getDoctrine()->getEntityManager();
 
@@ -65,6 +63,7 @@ class ownershipController extends Controller {
             $reservation_filter_date_to = $post['reservation_filter_date_to'];
             $reservation_filter_date_to = explode('/', $reservation_filter_date_to);
             $end_timestamp = mktime(0, 0, 0, $reservation_filter_date_to[1], $reservation_filter_date_to[0], $reservation_filter_date_to[2]);
+
         } else {
             
         }
@@ -147,7 +146,6 @@ class ownershipController extends Controller {
             array_push($prices_dates, $prices_dates_temp);
         }
 
-
         $no_available_days_ready = array();
         foreach ($no_available_days as $item) {
             $keys = array_keys($item);
@@ -164,9 +162,7 @@ class ownershipController extends Controller {
             $array_dates_keys[$count] = array('day_number' => date('d', $date), 'day_name' => date('D', $date));
             $count++;
         }
-        if ($this->getRequest()->getMethod() == 'POST') {
-            
-        } else {
+        if ($this->getRequest()->getMethod() != 'POST') {
             array_pop($array_dates_keys);
         }
 
@@ -312,8 +308,8 @@ class ownershipController extends Controller {
         $search_text = ($text != null && $text != '' && $text != $this->get('translator')->trans('PLACE_WATERMARK')) ? $text : null;
         $search_guests = ($guests != null && $guests != '' && $guests != $this->get('translator')->trans('GUEST_WATERMARK')) ? $guests : "1";
         $search_rooms = ($rooms != null && $rooms != '' && $rooms != $this->get('translator')->trans('ROOM_WATERMARK')) ? $rooms : "1";
-        $arrival = ($request->get('arrival') != null && $request->get('arrival') != "" && $request->get('arrival') != "null")? $request->get('arrival') : null;
-        $departure = ($request->get('departure') != null && $request->get('departure') != "" && $request->get('departure') != "null")? $request->get('departure') : null;
+        $arrival = ($request->get('arrival') != null && $request->get('arrival') != "" && $request->get('arrival') != "null") ? $request->get('arrival') : null;
+        $departure = ($request->get('departure') != null && $request->get('departure') != "" && $request->get('departure') != "null") ? $request->get('departure') : null;
 
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
