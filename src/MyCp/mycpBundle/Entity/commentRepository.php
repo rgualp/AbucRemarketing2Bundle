@@ -93,4 +93,18 @@ class commentRepository extends EntityRepository
         JOIN c.com_ownership own JOIN c.com_user us WHERE own.own_mcp_code LIKE '%$filter_ownership%' $string $string2 $string3 $string4 ");
         return $query->getResult();
     }
+    
+    function can_comment($user, $own_id)
+    {
+        if ($user != null && $user != "anon.")
+        {
+            $em = $this->getEntityManager();
+            $query_string = "SELECT gen_r FROM mycpBundle:generalReservation gen_r
+                             WHERE gen_r.gen_res_own_id = ".$mun->$own_id().
+                             " AND gen_r.gen_res_user_id =".$user->getUserId().
+                             " AND gen_r.gen_res_status = 5";
+            return count($em->createQuery($query_string)->getResult()) > 0;
+        }
+        return false;
+    }
 }

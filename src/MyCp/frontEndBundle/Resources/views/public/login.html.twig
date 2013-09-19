@@ -10,35 +10,33 @@
 <div class="row-fluid ">
     <div class="span6 offset3">
         <div class="thumbnail">
-            <div class="cont" style="padding: 6px 20px 0 20px">
+            <div class="cont bg_blue_sky" style="padding: 6px 20px 0 20px">
                 <h2 class="form big_price" style="font-size: 30px;">{{"LOG_IN" | trans }}</h2>
                 <hr/>
                 {% if error %}
                 <div class="alert alert-error">{{ error.message }}</div>
                 {% endif %}
                 <form action="{{ path("frontend_ckeck") }}" method="post">
-                    <label class="control-label" for="inputUsername">Email</label>
+                    <label class="control-label" for="inputUsername">{{"FORMS_EMAIL" | trans}}</label>
                     <input type="text" class="input-block-level" id="inputUsername" name="_username"
                            value="{{ last_username }}"/>
-                    <label class="control-label" for="inputPassword">Contraseña</label>
+                    <label class="control-label" for="inputPassword">{{"FORMS_PASSWORD" | trans}}</label>
                     <input type="password" class="input-block-level" id="inputPassword" name="_password"/>
                     <label class="checkbox">
-                        <input type="checkbox" name="_remember_me"> Recuérdame en este ordenador
+                        <input type="checkbox" name="_remember_me"> {{"FORMS_REMEMBER_ME" | trans}}
                     </label>
                     <br/>
-                    <button type="submit" class="btn btn-block btn-large">Identificarse</button>
+                    <button type="submit" class="btn btn-block btn-large">{{"FORMS_IDENTIFY" | trans}}</button>
                     <br/>
 
                     <div class="row-fluid" style="text-align: center; text-decoration: underline">
-                        <div class="span6"><a href="{{ path('frontend_restore_password_user') }}" style="text-decoration: underline" href="">¿Has olvidado tu
-                            contraseña?</a></div>
-                        <div class="span6"><a href="{{ path('frontend_register_confirmation_user') }}" style="text-decoration: underline" href="">¿No has recibido la
-                            confirmación?</a></div>
+                        <div class="span6"><a href="{{ path('frontend_restore_password_user') }}" style="text-decoration: underline" href="">{{"FORMS_FORGOT_PASSWORD_QUESTION" | trans}}</a></div>
+                        <div class="span6"><a href="{{ path('frontend_register_confirmation_user') }}" style="text-decoration: underline" href="">{{"FORMS_CONFIRMATION_QUESTION" | trans}}</a></div>
                     </div>
                 </form>
             </div>
         </div>
-        <a href="{{ path('frontend_register_user') }}" class="btn btn-block mycp_btn_orange mycp_btn btn-large">¿No estás registrado? ¡Regístrate aquí!</a>
+        <a href="{{ path('frontend_register_user') }}" class="btn btn-block mycp_btn_orange mycp_btn btn-large">{{"FORMS_CREATE_ACCOUNT_QUESTION" | trans}}</a>
     </div>
 </div>
 {% endblock %}

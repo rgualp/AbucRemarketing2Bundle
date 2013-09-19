@@ -1,0 +1,3 @@
+frontend_change_language:
+    pattern:  /change_language/
+    defaults: { _controller: frontEndBundle:language:change }

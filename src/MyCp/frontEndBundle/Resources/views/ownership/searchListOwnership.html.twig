@@ -3,9 +3,9 @@
 <div class="item elementList" data-id="{{own.ownid}}">
     
     <div class="row-fluid">
-    <div class="span3 own_photo" style="background-image: url('{{ asset("uploads/ownershipImages/" ~ photos[own.ownid])}}')">
+    <a title="{{"MORE_INFO_PREFFIX" | trans}} {{own.ownname}}" href="{{ path('frontend_details_ownership',{'owner_id':own.ownid}) }}"><div class="span3 own_photo" style="background-image: url('{{ asset("uploads/ownershipImages/" ~ (photos[own.ownid] == "no_photo.png" ? "no_photo_square.gif" : photos[own.ownid]))}}')">
       
-    </div>
+    </div></a>
     <div>
         <table width="74%" class="item_content">
             <tr>
@@ -15,21 +15,23 @@
                     <div class="row-fluid location">
                         {{own.ownAddressProvince}}, {{own.ownAddressMunicipality}}
                     </div>
-                    <div class="row-fluid">
-                        {{own.ownCategory | trans}} / 
+                    <div class="row-fluid rating_text">
+                        {{counts[own.ownid][0]["reservations"]}} {{"RESERVATIONS" | trans | lower}}
+                      {#  {{own.ownCategory | trans}} / 
                     {{own.ownType  | trans}} 
                         {%if (rooms[own.ownid] != 0) %}
                         / {{rooms[own.ownid]}} {% if rooms[own.ownid] == 1%} {{"ROOM_SINGULAR" | trans}} {%else%} {{"ROOM_PLURAL" | trans}} {%endif%}
-                        {%endif%}
+                        {%endif%}#}
                     </div>   
-                    <table>
+                    <table class="search_comment_area">
                         <tr>
                             <td>
                                 <div class="rating no_photo">
-                                    {%if own.ownCommentsTotal > 0%}+{%endif%}{{own.ownCommentsTotal}}
+                                    {%if own.owncommentstotal > 0%}+{%endif%}{{own.owncommentstotal}}
                                 </div> 
                             </td>
-                            <td class="rating_text"> <br/>&nbsp;{{"RECOMENDS_RATINGS" | trans}}</td>
+                            <td class="rating_text" > <br/>&nbsp;{{"RECOMENDS_RATINGS" | trans}}</td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td colspan="2">
@@ -44,6 +46,7 @@
                             <img src="{{ asset('bundles/frontend/images/star_off.png')}}" align="absmiddle"/>
                         {%endfor%}
                     {%endif%}
+                    {{counts[own.ownid][0]["comments"]}} {{"FORMS_COMMENTS" | trans | lower}}
                     {#{%if type is defined and type == "map"%}#}
                         <!--br/>
                         <a id="own_{#{own.ownid}#}" href="javascript:void(0);">Ubicar en el mapa</a-->
@@ -59,8 +62,13 @@
                         <label class="per_night">{{"BYNIGHTS_PRICES" | trans | lower}}</label>
                     </div>
                     
-                    <div class="row-fluid favorities">
-                        <img title="{{'ADD_FAVORITIES' | trans}}" src="{{ asset("bundles/frontend/images/favorites_empty.png")}}"/>
+                    <div class="row-fluid favorities favorite">
+                        {{ include('frontEndBundle:favorite:itemFavorite.html.twig', 
+                        {'is_in_favorite': is_in_favorities[own.ownid],
+                         'favorite_type': 'ownership',
+                         'element_id':own.ownid,
+                         'list_preffix' : list_preffix
+                         }) }}  
                     </div>
                 </td>
             </tr>
@@ -71,6 +79,23 @@
     </div>
 </div>
 {%else%}
-   <div class="noData">{{"EMPTY_LIST" | trans}}</div>
+   <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
 {%endfor%}
+{%if list | length and total_items > items_per_page%}
+    <div class="paginator-cont top_margin">
+    {{ simple_paginator_render('frontend_search_ownership',null,{
+    'container_class': 'paginator',
+    'previousPageText': '«',
+    'nextPageText': '»',
+    'currentClass': 'current',
+    'firstPageText': 'FIRST_PAGE' | trans,
+    'lastPageText': 'LAST_PAGE' | trans,
+    'route_params': {'text': app.session.get('search_text'), 
+                     'arrival':app.session.get('search_arrival_date'), 
+                     'departure': app.session.get('search_departure_date'), 
+                     'guests': app.session.get('search_guests'),
+                     'rooms': app.session.get('search_rooms')}
+}) }}
+</div>
+{%endif%}
 </div>

@@ -1,7 +1,7 @@
 <div class="span3 last_added_items">
     <div class="item">
         <a href="{{ path('frontend_details_ownership',{'owner_id':ownership.ownid}) }}" title="{{"MORE_INFO_PREFFIX" | trans}} {{ownership.ownname}}">
-            <div class="image" style="background-image: url('{{ asset("uploads/ownershipImages/" ~ last_added_photos[ownership.ownid])}}');">
+            <div class="image" style="background-image: url('{{ asset("uploads/ownershipImages/" ~ photo)}}');">
                 <div class="rating">{%if ownership.owncommentstotal > 0%}+{%endif%}{{ownership.owncommentstotal}}</div></div>
             <div class="row-fluid title_row">
                 <div class="title span9"> {{ownership.ownName | title | slice(0, 27)}}
@@ -9,9 +9,12 @@
                         ...
                                                                         {%endif%}</div>
                     <div class="favorite span2">
-                        <a class="favorite_off">
-                            <img src="{{ asset("bundles/frontend/images/empty.png")}}">
-                        </a>
+                        {{ include('frontEndBundle:favorite:itemFavorite.html.twig', 
+                        {'is_in_favorite': is_in_favorite,
+                         'favorite_type': 'ownership',
+                         'element_id':ownership.ownid,
+                         'list_preffix' : list_preffix
+                         }) }}    
                     </div>            
                 </div>
                 <div class="row-fluid place">{{ownership.ownaddressprovince}}</div>
@@ -34,15 +37,20 @@
                                     </table>
                                 </div>
                                 <div class="span7" style="text-align: right">
-                                    <div class="price">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} 
-                                                                    {%if ownership.ownMinimumPrice != ownership.ownMaximumPrice%}
-                                                                               {{ownership.ownMinimumPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}/{{ownership.ownMaximumPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}
-                                                                             {%else%}
-                                                                                {{ownership.ownMinimumPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}
-                                                                             {%endif%}
+                                    <div class="price"> 
+                                        {#%if ownership.ownMinimumPrice != ownership.ownMaximumPrice%#}
+                                        {{"FROM_PRICES" | trans | lower}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ownership.ownMinimumPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}{#/{{ownership.ownMaximumPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}#}
+                                                    {#%else%}
+                                                    {{ownership.ownMinimumPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}
+                                                    {%endif%#}
                                         </div>
                                     </div>
                                 </div>
+                {%if show_consult_button is defined and show_consult_button%}
+                <div class="row-fluid" style="padding: 5px; width: 96%;">
+                <a class="btn btn-block mycp_btn_blue mycp_btn" href="{{ path('frontend_details_ownership',{'owner_id':ownership.ownid}) }}">Consultar disponibilidad</a>
+                </div>
+                {%endif%}
                             </a>
                         </div>
                     </div>

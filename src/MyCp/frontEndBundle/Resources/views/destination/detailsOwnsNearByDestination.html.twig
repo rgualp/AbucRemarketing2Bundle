@@ -1,0 +1,44 @@
+{%if owns_nearby | length%}
+<div class="blue_nav_tools row-fluid">
+    <div class="tool">{{"VISUALIZE" | trans}} 1 x
+        <div class="btn-group">
+            <a class="btn btn-small btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+                <label class="inline_label" id="items_per_page">{{app.session.get("destination_details_show_rows")}}</label>
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li class="details_items_per_page {%if app.session.get('destination_details_show_rows') == 2%}active{%endif%}" data-content-value="2"><a>2</a></li>
+                <li class="details_items_per_page {%if app.session.get('destination_details_show_rows') == 3%}active{%endif%}" data-content-value="3"><a>3</a></li>
+                <li class="details_items_per_page {%if app.session.get('destination_details_show_rows') == 4%}active{%endif%}" data-content-value="4"><a>4</a></li>
+            </ul>
+        </div></div>
+    <div class="tool">
+        <div class="paginator-cont">
+            {{ simple_paginator_render('frontend_details_destination',null,{
+            'container_class': 'paginator_orange',
+            'previousPageText': '«',
+            'nextPageText': '»',
+            'currentClass': 'current',
+            'firstPageText': 'FIRST_PAGE' | trans,
+            'lastPageText': 'LAST_PAGE' | trans,
+            'route_params': {'destination_id':destination_id}
+            }) }}
+        </div>
+    </div>
+    <div class="tool"><span class="hide_small_screen">{{"TELL_A_FRIEND" | trans}}:</span> 
+        <img title="{{"CONTACT_US" | trans}}" src="{{ asset('bundles/frontend/images/mail.gif') }}">
+             <img title="{{"FOLLOW_US_FACEBOOK" | trans}}" src="{{ asset('bundles/frontend/images/facebook.gif') }}">
+             <img title="{{"FOLLOW_US_TWITTER" | trans}}" src="{{ asset('bundles/frontend/images/twitter.gif') }}">
+    </div>
+</div>
+<div class="row-fluid result_list ownerships_list" id="div_result">
+    {{ include('frontEndBundle:ownership:ownershipItemList.html.twig', 
+    {'list': owns_nearby,
+    'photos':owns_nearby_photos,
+    'rooms': owns_nearby_rooms,
+    'is_in_favorities': owns_nearby_is_in_favorities,
+    'list_preffix': 'destination_nearby_list',
+    'counts': owns_nearby_counts
+    }) }}      
+</div>
+{%endif%}

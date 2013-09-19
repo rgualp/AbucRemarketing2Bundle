@@ -37,3 +37,12 @@ frontend_mycasatrip:
 frontend_payment:
     resource: "@frontEndBundle/Resources/config/routingFrontendPayment.yml"
 
+frontend_favorite:
+    resource: "@frontEndBundle/Resources/config/routingFrontendFavorite.yml"
+    
+frontend_language:
+    resource: "@frontEndBundle/Resources/config/routingFrontendLanguage.yml"
+    
+frontend_emails:
+    resource: "@frontEndBundle/Resources/config/routingFrontendAjaxEmails.yml"    
+

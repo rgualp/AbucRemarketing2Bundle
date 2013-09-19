@@ -457,4 +457,52 @@ class userRepository extends EntityRepository
         WHERE r.role_name LIKE 'ROLE_CLIENT_STAFF%'");
         return $query->getResult();
     }
+    
+    /**
+     * Yanet 
+     */
+    
+      public function user_ids($controller) {
+        $user_id = null;
+        $session_id = null;
+        $request = $controller->getRequest();
+        $user = $controller->get('security.context')->getToken()->getUser();
+
+        if ($user != null && $user != "anon.")
+            $user_id = $user->getUserId();
+
+        if ($user_id == null) {
+            if ($request->cookies->has("mycp_user_session"))
+            {
+                //var_dump ($request->cookies->get("mycp_user_session"));
+                $session_id = $request->cookies->get("mycp_user_session");
+            }
+            else {
+                $session = $controller->getRequest()->getSession();
+                $now = time();
+                $session_id = $session->getId(); //."_".$now;
+                setcookie("mycp_user_session", $session_id, time() + 60 * 60 * 24 * 365);
+            }
+        }
+
+        return array('user_id' => $user_id, 'session_id' => $session_id);
+    }
+
+    public function get_session_id($controller) {
+        $session_id = null;
+        $request = $controller->getRequest();
+
+        if ($request->cookies->has("mycp_user_session"))
+            $session_id = $request->cookies->get("mycp_user_session");
+        return $session_id;
+    }
+    
+    public function get_user_id($controller) {
+        $user = $controller->get('security.context')->getToken()->getUser();
+
+        if ($user != null && $user != "anon.")
+            return $user->getUserId();
+        
+        return -1;
+    }
 }

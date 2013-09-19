@@ -74,6 +74,7 @@ security:
          - { path: ^/backend/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/backend, roles: [ROLE_CLIENT_STAFF,ROLE_CLIENT_CASA,ROLE_CLIENT_CASA] }
          - { path: ^/(es|en)/user/reservation/review, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/(es|en)/user/reservation/confirm, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/(es|en)/user, roles: [ROLE_CLIENT_TOURIST] }
          - { path: ^/(es|en)/mycasatrip, roles: [ROLE_CLIENT_TOURIST] }
 

@@ -1,0 +1,55 @@
+<script src="{{ asset('bundles/frontend/js/orangeSearchBar.js') }}"></script>
+<link href="{{ asset('bundles/frontend/css/bootstrap/bootstrap-datepicker.css') }}" rel="stylesheet">
+
+<div class="menu_left">
+<div class="search">
+            <h5>{{"ACCOMMODATION_SEARCH_TITLE" | trans}}</h5>
+            <input {%if app.session.get('search_text') != null and app.session.get('search_text') != 'null'%}value="{{app.session.get('search_text')}}"{%endif%} placeholder="{{"PLACE_WATERMARK" | trans}}" id="input_text" type="text" autocomplete="off" data-highlighter="null" class="input-block-level" data-items="5" data- data-provide="typeahead" data-source='{{autocomplete_text_list}}'>
+                <input {%if app.session.get('search_arrival_date') != null%} data-value="{{app.session.get('search_arrival_date')}}"{%endif%}  placeholder="{{"ARRIVAL_WATERMARK" | trans}}" id="input_arrival_date" type="text" class="input-block-level start" data-localization='{{locale}}'>
+                <input {%if app.session.get('search_departure_date') != null%} data-value="{{app.session.get('search_departure_date')}}"{%endif%} placeholder="{{"DEPARTURE_WATERMARK" | trans}}" id="input_departure_date" type="text" class="input-block-level end" data-localization='{{locale}}'>
+                <div class="row-fluid text_header">
+                <div class="span6">{{"GUESTS" | trans | title}}</div>
+                <div class="span6">{{"ROOMS" | trans | title}}</div>
+            </div>
+            <div class="row-fluid">
+                <div class="span6">
+                    <div class="btn-group mycp_combo perc_13" style="margin-top: 0;">
+                        <a href="#" id="input_guests" style="width: 90px" class="combo_label btn dropdown-toggle span2 " placeholder="{{"GUEST_WATERMARK" | trans}}" data-toggle="dropdown" data-value="1">{%if app.session.get('search_guests') != null%}{{app.session.get('search_guests')}}{%else%}1{%endif%}</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="option" data="input_guests" data-value="1">1</a></li>
+                            <li><a class="option" data="input_guests" data-value="2">2</a></li>
+                            <li><a class="option" data="input_guests" data-value="3">3</a></li>
+                            <li><a class="option" data="input_guests" data-value="4">4</a></li>
+                            <li><a class="option" data="input_guests" data-value="5">5</a></li>
+                            <li><a class="option" data="input_guests" data-value="6">6</a></li>
+                            <li><a class="option" data="input_guests" data-value="7">7</a></li>
+                            <li><a class="option" data="input_guests" data-value="8">8</a></li>
+                            <li><a class="option" data="input_guests" data-value="9">9</a></li>
+                            <li><a class="option" data="input_guests" data-value="10">10</a></li>
+                            <li><a class="option" data="input_guests" data-value="+10">+10</a></li>
+                        </ul>
+                    </div>   
+                </div>
+                <div class="span6">
+                    <div class="btn-group mycp_combo perc_13" style="margin-top: 0;">
+                        <a href="#" id="input_room" style="width: 90px" class="combo_label btn dropdown-toggle span2 " placeholder="{{"ROOM_WATERMARK" | trans}}" data-toggle="dropdown" data-value="1">{%if app.session.get('search_rooms') != null%}{{app.session.get('search_rooms')}}{%else%}1{%endif%}</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="option" data="input_room" data-value="1">1</a></li>
+                            <li><a class="option" data="input_room" data-value="2">2</a></li>
+                            <li><a class="option" data="input_room" data-value="3">3</a></li>
+                            <li><a class="option" data="input_room" data-value="4">4</a></li>
+                            <li><a class="option" data="input_room" data-value="5">5</a></li>
+                            <li><a class="option" data="input_room" data-value="+5">+5</a></li>
+                        </ul>
+                    </div>  
+                </div>
+            </div>
+            <div class="row-fluid" style="margin-top: 10px">
+                {%if is_within_search_results%}
+                <button id="button_research" class="btn  mycp_btn_green mycp_btn large_btn" data-url="{{ path('frontend_research_ownership') }}">{{"SEARCH" | trans}}</button>
+                {%else%}
+                <button id="btn_search" class="btn  mycp_btn_green mycp_btn large_btn" data-url="{{ path('frontend_search_ownership',{'text':'_text', 'arrival':'_arrival','departure':'_departure','guests':'_guests','rooms':'_rooms'})}}" onclick="search()">{{"SEARCH" | trans}}</button>
+                {%endif%}
+            </div>
+        </div>
+    </div>

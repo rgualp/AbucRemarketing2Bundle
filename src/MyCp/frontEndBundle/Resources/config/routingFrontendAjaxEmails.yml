@@ -1,0 +1,3 @@
+send_general_email_2_friend:
+    pattern:  /send_email_2_friend/
+    defaults: { _controller: frontEndBundle:public:send2Friend }    
