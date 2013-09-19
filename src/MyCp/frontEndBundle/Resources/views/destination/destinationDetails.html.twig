@@ -31,7 +31,7 @@
         'autocomplete_text_list': autocomplete_text_list, 
         'locale': locale})}}
 
-        <div class="accordion" id="accordion_destinations">
+        <div class="accordion accordion_destinations" id="accordion_destinations">
             <div class="accordion-group">
                 <div class="accordion-heading">
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_destinations" href="#popular_destinations">{{"POPULAR_DESTINATIONS_HOME_TABS" | trans}}</a>
@@ -40,18 +40,8 @@
                     <div class="accordion-inner">
                         {%for destination in popular_list%}
                         <div class="item row-fluid">
-                            <div class="span4">
-                                <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}">
-                                   <img src="{{ asset("uploads/destinationImages/" ~ popular_photos[destination.desid])}}">
-                                </a>
-                            </div>
-                            <div class="span8">
-                                <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}">{{destination.desName}}</a>
-                                <label class="fontsize_10">
-                                    {{popular_localization[destination.desid]}}                                    
-                                </label>
-                            </div>
-                        </div>
+                           <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}">{{destination.desName}}</a>                                
+                         </div>
                         {%else%}
                         <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
                         {%endfor%}
@@ -73,20 +63,7 @@
                     <div class="accordion-inner">
                         {%for destination in other_destinations_in_municipality%}
                         <div class="item row-fluid">
-                            <div class="span4">
-                                <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}">
-                                   <img src="{{ asset("uploads/destinationImages/" ~ other_destinations_in_municipality_photos[destination.desid])}}">
-                                </a>
-                            </div>
-                            <div class="span8">
-                                <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}">{{destination.desName}}</a>
-                                <label class="fontsize_10">
-                                    {{other_destinations_in_municipality_description[destination.desid].desLangDesc | striptags | slice(0, 20)}}
-                                    {%if other_destinations_in_municipality_description[destination.desid].desLangDesc | striptags | length > 20%}
-                                    ...
-                                    {%endif%}
-                                </label>
-                            </div>
+                          <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}">{{destination.desName}}</a>
                         </div>
                         {%else%}
                         <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
@@ -108,14 +85,7 @@
                     <div class="accordion-inner">
                         {%for destination in other_destinations_in_province%}
                         <div class="item row-fluid">
-                            <div class="span4">
-                                <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}">
-                                   <img src="{{ asset("uploads/destinationImages/" ~ other_destinations_in_province_photos[destination.desid])}}"></a>
-                            </div>
-                            <div class="span8">
-                                <a {{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}} href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}">{{destination.desName}}</a>
-                                <label class="fontsize_10">({{other_destinations_in_province_location[destination.desid].DesLocMunicipality}})</label>
-                            </div>
+                           <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}">{{destination.desName}}</a>
                         </div>
                         {%else%}
                         <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
@@ -132,12 +102,16 @@
             <div class="accordion-group">
                 <div class="accordion-heading">
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_destinations" href="#destinations_all_provinces">
-                        Todas las provincias
+                        {{"ALL_PROVINCES" | trans}}
                     </a>                       
                 </div>
                 <div id="destinations_all_provinces" class="accordion-body collapse" style="height: 0px;">
                     <div class="accordion-inner">
-                        Listado de todas las provincias con destinos y total de destinos
+                        {%for province in provinces%}
+                    <div class="item row-fluid">
+                        <a href="{{ path('frontend_search_ownership',{'text':province.provName, 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}" title="{{province.provName}}">{{province.provName}}</a>
+                    </div>    
+                 {%endfor%}
                     </div>
                 </div>
             </div>

@@ -1635,6 +1635,74 @@
                 <source>DES_REF_PLACE</source>
                 <target>Referencia:</target>
             </trans-unit>
+            <trans-unit id="418">
+                <source>INFORMATION_PRO_TRAVELLER</source>
+                <target>Información profesional a los viajeros</target>
+            </trans-unit>
+            <trans-unit id="419">
+                <source>INFORMATION_PUBLICITY_HOUSES</source>
+                <target>Publicidad a las casas particulares en Cuba</target>
+            </trans-unit>
+            <trans-unit id="420">
+                <source>POSSIBILITY_RESERVE_ONLINE</source>
+                <target>Posibilidad de realizar su reserva Online</target>
+            </trans-unit>
+            <trans-unit id="421">
+                <source>SOME_NUMBERS</source>
+                <target>Algunos números</target>
+            </trans-unit>
+            <trans-unit id="422">
+                <source>FOUNDED_APRIL_2010</source>
+                <target>Fundada en Abril del 2010</target>
+            </trans-unit>
+            <trans-unit id="423">
+                <source>ACCOMMODATIONS_ALL_PROVINCES</source>
+                <target>Alojamientos en las 16 provincias</target>
+            </trans-unit>
+            <trans-unit id="424">
+                <source>RESERVATION_CONFIRM</source>
+                <target>Confirmación de reservación</target>
+            </trans-unit>
+            <trans-unit id="425">
+                <source>RESERVATION_CONFIRM_TITLE</source>
+                <target>Su consulta de disponibilidad ha sido enviada.</target>
+            </trans-unit>
+            <trans-unit id="426">
+                <source>RESERVATION_CONFIRM_SUBTITLE</source>
+                <target>Dentro de 24 horas recibirá una respuesta a través de su correo electrónico</target>
+            </trans-unit>
+            <trans-unit id="427">
+                <source>RESERVATION_CONFIRM_GREENBAR_TEXT</source>
+                <target>Otros alojamientos pueden estar disponibles</target>
+            </trans-unit>
+            <trans-unit id="428">
+                <source>RESERVATION_CONFIRM_GREENBAR_SUBTEXT</source>
+                <target>Le recomendamos consultar la disponibilidad de otros alojamientos similares dentro de su destino</target>
+            </trans-unit>
+            <trans-unit id="429">
+                <source>RESERVATION_CONFIRM_GRAYBAR_SUBTEXT</source>
+                <target>alojamientos disponibles en este destino</target>
+            </trans-unit>
+            <trans-unit id="430">
+                <source>RESERVATION_CONFIRM_DESTINATION_AREA_TITLE</source>
+                <target>¿Ha consultado otros destinos?</target>
+            </trans-unit>
+            <trans-unit id="431">
+                <source>RESERVATION_CONFIRM_DESTINATION_OWNS_AVAILABLE</source>
+                <target>Alojamientos disponibles</target>
+            </trans-unit>
+            <trans-unit id="432">
+                <source>RESERVATION_CONFIRM_DESTINATION_MORE</source>
+                <target>más</target>
+            </trans-unit>
+            <trans-unit id="433">
+                <source>OUR_OFFICE</source>
+                <target>Nuestra oficina</target>
+            </trans-unit>
+            <trans-unit id="434">
+                <source>ALL_PROVINCES</source>
+                <target>Todas las provincias</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

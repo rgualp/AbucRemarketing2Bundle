@@ -4,7 +4,6 @@
         <title>{% block title %}{{"WELCOMEPAGE_TITLE" | trans}}{% endblock %} | MyCasaParticular</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="robots" content="noindex">
         <link href="{{ asset('bundles/frontend/css/bootstrap/bootstrap.css') }}" rel="stylesheet" media="screen">
         <link href="{{ asset('bundles/frontend/css/bootstrap/bootstrap-responsive.css') }}" rel="stylesheet" media="screen">
 
@@ -139,7 +138,7 @@
                                         <div>
                                             <ul>
                                                 <li>{{"ABOUT_MYCP" | trans}}</li>
-                                                <li><a href="{{ path('frontend_list_information',{'information_type':'about_us'})}}">{{"WHO_ARE_WE" | trans}}</a></li>
+                                                <li><a href="{{ path('frontend_about_us')}}">{{"WHO_ARE_WE" | trans}}</a></li>
                                                 <!--li><a href="{{ path('frontend_list_information',{'information_type':'testimonies'})}}">{{"TESTIMONIES" | trans}}</a></li>
                                                 <li><a href="{{ path('frontend_list_information',{'information_type':'press'})}}">{{"PRESS" | trans }}</a></li>
                                                 <li><a href="{{ path('frontend_list_information',{'information_type':'partners'})}}">{{"PARTNERS" | trans}}</a></li>

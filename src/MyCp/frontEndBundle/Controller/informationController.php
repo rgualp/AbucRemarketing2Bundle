@@ -4,27 +4,20 @@ namespace MyCp\FrontendBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 class informationController extends Controller {
     
-     public function listAction($information_type) {
+     public function about_usAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
-        $locale = $this->get('translator')->getLocale();
-        
-        $paginator = $this->get('ideup.simple_paginator');
-        $items_per_page = 15;
-        $paginator->setItemsPerPage($items_per_page);
-        $information_list=$paginator->paginate($em->getRepository('mycpBundle:information')->list_information($information_type,$locale))->getResult();
-        $page=1;
-        if(isset($_GET['page']))$page=$_GET['page'];
-
-        return $this->render('frontEndBundle:information:listInformation.html.twig', array(
-            'information_type' => $information_type,
-            'information_list' =>$information_list,
-            'items_per_page'=>$items_per_page,
-            'total_items'=>$paginator->getTotalItems(),
-            'current_page'=>$page
-            
+        $numbers=$em->getRepository('mycpBundle:information')->get_numbers();
+        $numbers=$numbers[0];
+        $lang=$request->getLocale();
+        $information_about_us=$em->getRepository('mycpBundle:information')->get_information_about_us($lang);
+        //var_dump($information_about_us);
+        return $this->render('frontEndBundle:information:aboutUs.html.twig', array(
+            'numbers'=>$numbers,
+            'information'=>$information_about_us
         ));
     }
     

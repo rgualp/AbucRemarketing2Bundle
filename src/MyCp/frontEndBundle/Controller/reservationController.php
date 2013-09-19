@@ -140,11 +140,11 @@ class reservationController extends Controller {
             $total_price=$url_string[6];
 
 
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getEntityManager();            
 
             $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
 
-            $array_ids_rooms=explode('&amp;',$ids_rooms);
+           /* $array_ids_rooms=explode('&amp;',$ids_rooms);
             if(count($array_ids_rooms)==1)
             {
                 $array_ids_rooms=explode('&',$ids_rooms);
@@ -216,10 +216,34 @@ class reservationController extends Controller {
                 'Consulta de disponibilidad enviada',
                 'noreply@mycasaparticular.com',
                  $user->getUserEmail(),
-                'Consulta de disponibilidad enviada',
                 'La consulta de disponibilidad de sus habitaciones ha sido enviada al equipo de reservación','');
-
-            return $this->render('frontEndBundle:reservation:confirmReservation.html.twig');
+*/
+            /*
+             * Hallando otros ownerships en el mismo destino
+             */
+            $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+            $owns_in_destination = $em->getRepository("mycpBundle:destination")->ownsership_nearby_destination($ownership->getOwnAddressMunicipality()->getMunId(), $ownership->getOwnAddressProvince()->getProvId(), 4, $id_ownership);
+            $owns_in_destination_photo = $em->getRepository("mycpBundle:ownership")->get_photos_array($owns_in_destination);
+            $owns_in_destination_favorities = $em->getRepository('mycpBundle:favorite')->is_in_favorite_array($owns_in_destination, true, $user_ids['user_id'], $user_ids['session_id']);
+            
+            $locale = $this->get('translator')->getLocale();
+            $destinations = $em->getRepository('mycpBundle:destination')->destination_filter(null,$ownership->getOwnAddressProvince()->getProvId(),null,$ownership->getOwnAddressMunicipality()->getMunId(),2);
+            $destinations_photos = $em->getRepository('mycpBundle:destination')->get_destination_photos($destinations);
+            $destinations_descriptions = $em->getRepository('mycpBundle:destination')->get_destination_description($destinations, $locale);
+            $destinations_favorities  = $em->getRepository('mycpBundle:favorite')->is_in_favorite_array($destinations, false, $user_ids['user_id'], $user_ids['session_id']);       
+            $destinations_count = $em->getRepository('mycpBundle:destination')->get_destination_owns_statistics($destinations); 
+            
+            return $this->render('frontEndBundle:reservation:confirmReservation.html.twig', array(
+                "owns_in_destination" => $owns_in_destination,
+                "owns_in_destination_photos" => $owns_in_destination_photo,
+                "owns_in_destination_favorities" => $owns_in_destination_favorities,
+                "owns_in_destination_total" => count($em->getRepository("mycpBundle:destination")->ownsership_nearby_destination($ownership->getOwnAddressMunicipality()->getMunId(), $ownership->getOwnAddressProvince()->getProvId())),
+                "other_destinations" => $destinations,
+                "other_destinations_photos" => $destinations_photos,
+                "other_destinations_descriptions" => $destinations_descriptions,
+                "other_destinations_favorities" => $destinations_favorities,
+                "other_destinations_count" => $destinations_count
+            ));
 
         }
 

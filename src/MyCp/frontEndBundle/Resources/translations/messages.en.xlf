@@ -1637,6 +1637,75 @@
                 <source>DES_REF_PLACE</source>
                 <target>Reference:</target>
             </trans-unit>
+            
+            <trans-unit id="418">
+                <source>INFORMATION_PRO_TRAVELLER</source>
+                <target>Professional information to traveller</target>
+            </trans-unit>
+             <trans-unit id="419">
+                <source>INFORMATION_PUBLICITY_HOUSES</source>
+                <target>Advertisement of particular houses in Cuba</target>
+            </trans-unit>
+            <trans-unit id="420">
+                <source>POSSIBILITY_RESERVE_ONLINE</source>
+                <target>Possibility to accomplish you reservation online</target>
+            </trans-unit>
+            <trans-unit id="421">
+                <source>SOME_NUMBERS</source>
+                <target>Some numbers</target>
+            </trans-unit>
+            <trans-unit id="422">
+                <source>FOUNDED_APRIL_2010</source>
+                <target>Founded in April 2010</target>
+            </trans-unit>
+            <trans-unit id="423">
+                <source>ACCOMMODATIONS_ALL_PROVINCES</source>
+                <target>Accommodations in all provinces</target>
+            </trans-unit>
+            <trans-unit id="424">
+                <source>RESERVATION_CONFIRM</source>
+                <target>Reservation's confirm</target>
+            </trans-unit>
+            <trans-unit id="425">
+                <source>RESERVATION_CONFIRM_TITLE</source>
+                <target>Your request has been sent.</target>
+            </trans-unit>
+            <trans-unit id="426">
+                <source>RESERVATION_CONFIRM_SUBTITLE</source>
+                <target>You will receive, in your email, our answer in 24 hours</target>
+            </trans-unit>
+            <trans-unit id="427">
+                <source>RESERVATION_CONFIRM_GREENBAR_TEXT</source>
+                <target>Other accomodations maybe availabled</target>
+            </trans-unit>
+            <trans-unit id="428">
+                <source>RESERVATION_CONFIRM_GREENBAR_SUBTEXT</source>
+                <target>We sugget to ask if similar accomodations in your destinaion are availabled</target>
+            </trans-unit>
+            <trans-unit id="429">
+                <source>RESERVATION_CONFIRM_GRAYBAR_SUBTEXT</source>
+                <target>available accomodattion in this destination</target>
+            </trans-unit>
+            <trans-unit id="430">
+                <source>RESERVATION_CONFIRM_DESTINATION_AREA_TITLE</source>
+                <target>Have you search in other destinations?</target>
+            </trans-unit>
+            <trans-unit id="431">
+                <source>RESERVATION_CONFIRM_DESTINATION_OWNS_AVAILABLE</source>
+                <target>Availabled accomodations</target>
+            </trans-unit>
+            <trans-unit id="432">
+                <source>RESERVATION_CONFIRM_DESTINATION_MORE</source>
+                <target>more</target>
+            </trans-unit>
+            <trans-unit id="433">
+                <source>OUR_OFFICE</source>
+                <target>Our office</target>
+            </trans-unit>
+            <trans-unit id="434">
+                <source>ALL_PROVINCES</source>
+                <target>All provinces</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

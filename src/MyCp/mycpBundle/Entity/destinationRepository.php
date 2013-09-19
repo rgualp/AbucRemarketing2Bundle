@@ -347,7 +347,7 @@ class destinationRepository extends EntityRepository {
         return $destinations;
     }
 
-    function ownsership_nearby_destination($municipality_id = null, $province_id = null, $max_result_set = null) {
+    function ownsership_nearby_destination($municipality_id = null, $province_id = null, $max_result_set = null, $exclude_own_id = null) {
         if ($municipality_id != null || $province_id != null) {
             $em = $this->getEntityManager();
             $query_string = "SELECT o FROM mycpBundle:ownership o
@@ -358,6 +358,9 @@ class destinationRepository extends EntityRepository {
 
             if ($province_id != null && $province_id != -1 && $province_id != '')
                 $query_string = $query_string . " AND o.own_address_province =$province_id";
+            
+            if($exclude_own_id != null && $exclude_own_id != "")
+                $query_string = $query_string . " AND o.own_id <>$exclude_own_id";
 
             $query_string = $query_string . " ORDER BY o.own_rating DESC";
             return ($max_result_set != null && $max_result_set > 0) ? $em->createQuery($query_string)->setMaxResults($max_result_set)->getResult() : $em->createQuery($query_string)->getResult();
@@ -449,4 +452,5 @@ class destinationRepository extends EntityRepository {
     /**
      * Yanet - Fin
      */
+    
 }

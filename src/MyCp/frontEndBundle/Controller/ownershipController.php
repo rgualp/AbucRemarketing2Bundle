@@ -299,7 +299,7 @@ class ownershipController extends Controller {
         ));
     }
 
-    public function searchAction($text = null, $arriving_date = null, $departure_date = null, $guests = 1, $rooms = 1,Request $request) {
+    public function searchAction(Request $request, $text = null, $arriving_date = null, $departure_date = null, $guests = 1, $rooms = 1) {
 
         $em = $this->getDoctrine()->getEntityManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
@@ -312,11 +312,8 @@ class ownershipController extends Controller {
         $search_text = ($text != null && $text != '' && $text != $this->get('translator')->trans('PLACE_WATERMARK')) ? $text : null;
         $search_guests = ($guests != null && $guests != '' && $guests != $this->get('translator')->trans('GUEST_WATERMARK')) ? $guests : "1";
         $search_rooms = ($rooms != null && $rooms != '' && $rooms != $this->get('translator')->trans('ROOM_WATERMARK')) ? $rooms : "1";
-        $arrival = $request->get('arrival');
-        $departure = $request->get('departure');
-
-
-
+        $arrival = ($request->get('arrival') != null && $request->get('arrival') != "" && $request->get('arrival') != "null")? $request->get('arrival') : null;
+        $departure = ($request->get('departure') != null && $request->get('departure') != "" && $request->get('departure') != "null")? $request->get('departure') : null;
 
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
@@ -557,7 +554,7 @@ class ownershipController extends Controller {
             $photos = $em->getRepository('mycpBundle:ownership')->get_photos_array($results_list);
             $rooms = $em->getRepository('mycpBundle:ownership')->get_rooms_array($results_list);
             $is_in_favorities = $em->getRepository('mycpBundle:favorite')->is_in_favorite_array($results_list, true, $user_ids['user_id'], $user_ids['session_id']);
-            $counts = $em->getRepository('mycpBundle:ownership')->get_counts_for_search($search_results_list);
+            $counts = $em->getRepository('mycpBundle:ownership')->get_counts_for_search($results_list);
 
             $paginator = $this->get('ideup.simple_paginator');
             $items_per_page = 15;
@@ -670,7 +667,7 @@ class ownershipController extends Controller {
         $photos = $em->getRepository('mycpBundle:ownership')->get_photos_array($list);
         $rooms = $em->getRepository('mycpBundle:ownership')->get_rooms_array($list);
         $is_in_favorities = $em->getRepository('mycpBundle:favorite')->is_in_favorite_array($list, true, $user_ids['user_id'], $user_ids['session_id']);
-        $counts = $em->getRepository('mycpBundle:ownership')->get_counts_for_search($search_results_list);
+        $counts = $em->getRepository('mycpBundle:ownership')->get_counts_for_search($list);
 
         $view = $session->get('search_view_results');
 

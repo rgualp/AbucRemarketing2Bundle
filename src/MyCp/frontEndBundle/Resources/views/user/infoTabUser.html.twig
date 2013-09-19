@@ -11,12 +11,14 @@
         <div id="favorite_destinations" class="tab-pane fade in active">
             <div class="row-fluid">
                 {% for destination in destination_favorites %}
+                    <div class="span3">
                 {{ include('frontEndBundle:destination:homeItemDestination.html.twig',{'destination': destination, 
                 'is_in_favorite': true,
                 'photo': destination_favorites_photos[destination.desid],
                 'localization' : destination_favorites_localizations[destination.desid],
                 'statistics': destination_favorities_statistics[destination.desid],
-                'list_preffix': 'destination_favorites'}) }}                             
+                'list_preffix': 'destination_favorites'}) }}
+                            </div>
                 {% else %}
                 <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
                 {% endfor %}
@@ -25,6 +27,7 @@
         <div id="history_destinations" class="tab-pane fade in">
             <div class="row-fluid">
                 {% for destination in history_destinations %}
+                    <div class="span3">
                 {{ include('frontEndBundle:destination:homeItemDestination.html.twig',
                    {'destination': destination, 
                     'is_in_favorite': history_destinations_favorites[destination.desid],
@@ -32,6 +35,7 @@
                     'localization' : history_destinations_localizations[destination.desid],
                     'statistics': history_destinations_statistics[destination.desid],
                     'list_preffix': 'history_destinations'}) }} 
+                            </div>
                 {% else %}
                 <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
                 {% endfor %}

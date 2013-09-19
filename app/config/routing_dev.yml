@@ -1,6 +1,6 @@
 _welcome:
     pattern:  /
-    defaults: { _controller: frontEndBundle:public:welcome }
+    defaults: { _controller: frontEndBundle:public:home_page }
 
 _wdt:
     resource: "@WebProfilerBundle/Resources/config/routing/wdt.xml"
