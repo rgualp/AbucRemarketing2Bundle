@@ -39,3 +39,6 @@ frontend_favorite:
     
 frontend_language:
     resource: "@frontEndBundle/Resources/config/routingFrontendLanguage.yml"
+    
+frontend_emails:
+    resource: "@frontEndBundle/Resources/config/routingFrontendAjaxEmails.yml"    

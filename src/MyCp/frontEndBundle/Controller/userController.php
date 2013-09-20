@@ -44,7 +44,7 @@ class userController extends Controller {
 
                 $service_email = $this->get('Email');
                 $service_email->send_email(
-                        'Activación de su cuenta en MyCasaParticular', 'noreply@mycasaparticular.com', $user_db->getUserEmail(), 'Gracias por registrarse en MyCasaParticular.com', 'Visite el siguiente link para activar su cuenta. ' . $enableUrl, '');
+                        'Activación de su cuenta en MyCasaParticular', 'noreply@mycasaparticular.com', $user_db->getUserEmail(), 'Gracias por registrarse en MyCasaParticular.com', "Visite el siguiente link para activar su cuenta: $enableUrl");
 
                 //var_dump($encode_string); exit();
                 $message = 'Gracias por registrarse. Se ha enviado un email para que active su cuenta.';
@@ -107,7 +107,7 @@ class userController extends Controller {
                     $service_email = $this->get('Email');
 
                     $service_email->send_email(
-                            'Restauración de su cuenta en MyCasaParticular', 'noreply@mycasaparticular.com', $user_db->getUserEmail(), 'Recupere su contraseña en MyCasaParticular.com', 'Visite el siguiente link para cambiar su contraseña. ' . $changeUrl, '');
+                            'Restauración de su cuenta en MyCasaParticular', 'noreply@mycasaparticular.com', $user_db->getUserEmail(), 'Recupere su contraseña en MyCasaParticular.com', 'Visite el siguiente link para cambiar su contraseña. ' . $changeUrl);
                     //var_dump($encode_string); exit();
                     $message = 'Se ha enviado un email para que recupere su contraseña.';
                     $this->get('session')->setFlash('message_global_success', $message);
@@ -192,7 +192,7 @@ class userController extends Controller {
 
                     $service_email = $this->get('Email');
                     $service_email->send_email(
-                            'Activación de su cuenta en MyCasaParticular', 'noreply@mycasaparticular.com', $user_db->getUserEmail(), 'Gracias por registrarse en MyCasaParticular.com', 'Visite el siguiente link para activar su cuenta. ' . $enableUrl, '');
+                            'Activación de su cuenta en MyCasaParticular', 'noreply@mycasaparticular.com', $user_db->getUserEmail(), 'Gracias por registrarse en MyCasaParticular.com', 'Visite el siguiente link para activar su cuenta. ' . $enableUrl);
 
                     $message = 'Grácias por registrarse. Se ha enviado un email para que active su cuenta.';
                     $this->get('session')->setFlash('message_global_success', $message);
@@ -234,7 +234,7 @@ class userController extends Controller {
 
                     $service_email = $this->get('Email');
                     $service_email->send_email(
-                            'Contacto de un huesped', 'info@mycasaparticular.com ', $tourist_email, "El Sr(a). $tourist_name $tourist_last_name, con numero de telefono $tourist_phone, ha hecho el siguiente comentario: $tourist_comment", '');
+                            'Contacto de un huesped', 'info@mycasaparticular.com ', $tourist_email, "El Sr(a). $tourist_name $tourist_last_name, con numero de telefono $tourist_phone, ha hecho el siguiente comentario: $tourist_comment");
 
                     $message = 'Gracias por contactar con nosotros. Su comentario ha sido enviado.';
                     $this->get('session')->setFlash('message_global_success', $message);
@@ -267,7 +267,7 @@ class userController extends Controller {
                             Duenno(a): $owner_full_name;  Nombre de la casa: $owner_own_name; 
                             Provincia: $owner_province; 
                             Municipio: $owner_mun; 
-                            Comentarios: $owner_comment", '');
+                            Comentarios: $owner_comment");
 
                     $message = 'Gracias por contactar con nosotros. Sus datos han sido enviados.';
                     $this->get('session')->setFlash('message_global_success', $message);

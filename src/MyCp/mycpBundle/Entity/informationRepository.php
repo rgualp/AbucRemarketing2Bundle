@@ -84,4 +84,24 @@ class informationRepository extends EntityRepository {
         return $nomenclators;
     }
 
+    function get_numbers()
+    {
+        $em = $this->getEntityManager();
+        $query_string = 'SELECT COUNT(accommodations) AS acc,(SELECT count(rms) FROM mycpBundle:room rms ) as rooms,(SELECT count(lng) FROM mycpBundle:lang lng WHERE lng.lang_active=1 ) as langs  FROM mycpBundle:ownership accommodations';
+        return $em->createQuery($query_string)->getResult();
+    }
+
+    function get_information_about_us($language_code)
+    {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT info_lang
+        FROM mycpBundle:informationLang info_lang
+        JOIN info_lang.info_lang_info info
+        JOIN info_lang.info_lang_lang lang
+        WHERE info_lang.info_lang_info = info.info_id
+        AND info.info_id_nom = 1
+        AND lang.lang_code = '$language_code'";
+        return $em->createQuery($query_string)->getResult();
+    }
+
 }

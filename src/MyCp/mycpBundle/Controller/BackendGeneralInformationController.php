@@ -40,6 +40,11 @@ class BackendGeneralInformationController extends Controller
             $not_blank_validator = new NotBlank();
             $not_blank_validator->message="Este campo no puede estar vacío.";
             $array_keys=array_keys($post);
+            foreach($array_keys as $key)
+            {
+               $post[$key]=str_replace('&lt;','<',$post[$key]);
+               $post[$key]=str_replace('&gt;','>',$post[$key]);
+            }
 
             $count=$count_errors= 0;
             foreach ($post as $item) {

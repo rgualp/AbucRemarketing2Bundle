@@ -1,9 +1,12 @@
+<script src="{{ asset('bundles/frontend/js/orangeSearchBar.js') }}"></script>
+<link href="{{ asset('bundles/frontend/css/bootstrap/bootstrap-datepicker.css') }}" rel="stylesheet">
+
 <div class="menu_left">
 <div class="search">
             <h5>{{"ACCOMMODATION_SEARCH_TITLE" | trans}}</h5>
-            <input {%if app.session.get('search_text') != null and app.session.get('search_text') != 'null'%}value="{{app.session.get('search_text')}}"{%endif%} placeholder="{{"PLACE_WATERMARK" | trans}}" id="input_text" type="text" autocomplete="off" data-highlighter="null" class="input-block-level" data-items="5" data- data-provide="typeahead" data-source='{{autocomplete_text_list}}'>
-                <input {%if app.session.get('search_arrival_date') != null%}value="{{app.session.get('search_arrival_date')}}"{%endif%}  placeholder="{{"ARRIVAL_WATERMARK" | trans}}" id="input_arrival_date" type="text" class="input-block-level start" data-localization='{{locale}}'>
-                <input {%if app.session.get('search_departure_date') != null%}value="{{app.session.get('search_departure_date')}}"{%endif%} placeholder="{{"DEPARTURE_WATERMARK" | trans}}" id="input_departure_date" type="text" class="input-block-level end" data-localization='{{locale}}'>
+            <input {%if app.session.get('search_text') != null and app.session.get('search_text') != 'null'%}value="{{app.session.get('search_text')}}"{%endif%} placeholder="{{"PLACE_WATERMARK" | trans}}" id="input_text" type="text" autocomplete="off" data-highlighter="null" class="mycp_text_box mycp_text_box_margin input-block-level" data-items="5" data- data-provide="typeahead" data-source='{{autocomplete_text_list}}'>
+                <input {%if app.session.get('search_arrival_date') != null%} data-value="{{app.session.get('search_arrival_date')}}"{%endif%}  placeholder="{{"ARRIVAL_WATERMARK" | trans}}" id="input_arrival_date" type="text" class="mycp_text_box mycp_text_box_margin input-block-level start" data-localization='{{locale}}'>
+                <input {%if app.session.get('search_departure_date') != null%} data-value="{{app.session.get('search_departure_date')}}"{%endif%} placeholder="{{"DEPARTURE_WATERMARK" | trans}}" id="input_departure_date" type="text" class="mycp_text_box mycp_text_box_margin input-block-level end" data-localization='{{locale}}'>
                 <div class="row-fluid text_header">
                 <div class="span6">{{"GUESTS" | trans | title}}</div>
                 <div class="span6">{{"ROOMS" | trans | title}}</div>
@@ -45,7 +48,7 @@
                 {%if is_within_search_results%}
                 <button id="button_research" class="btn  mycp_btn_green mycp_btn large_btn" data-url="{{ path('frontend_research_ownership') }}">{{"SEARCH" | trans}}</button>
                 {%else%}
-                <button id="btn_search" class="btn  mycp_btn_green mycp_btn large_btn" data-url="{{ path('frontend_search_ownership',{'text':'_text', 'arrival':'_arrival','departure':'_departure','guests':'_guests','rooms':'_rooms'})}}">{{"SEARCH" | trans}}</button>
+                <button id="btn_search" class="btn  mycp_btn_green mycp_btn large_btn" data-url="{{ path('frontend_search_ownership',{'text':'_text', 'arrival':'_arrival','departure':'_departure','guests':'_guests','rooms':'_rooms'})}}" onclick="search()">{{"SEARCH" | trans}}</button>
                 {%endif%}
             </div>
         </div>

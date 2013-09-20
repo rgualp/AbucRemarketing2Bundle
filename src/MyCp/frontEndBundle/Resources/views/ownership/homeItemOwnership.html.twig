@@ -46,6 +46,11 @@
                                         </div>
                                     </div>
                                 </div>
+                {%if show_consult_button is defined and show_consult_button%}
+                <div class="row-fluid" style="padding: 5px; width: 96%;">
+                <a class="btn btn-block mycp_btn_blue mycp_btn" href="{{ path('frontend_details_ownership',{'owner_id':ownership.ownid}) }}">Consultar disponibilidad</a>
+                </div>
+                {%endif%}
                             </a>
                         </div>
                     </div>

@@ -1,0 +1,26 @@
+<div class="popup_form modal hide fade" id="send_to_friend_popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-url="{{ path('recommend_2_friend') }}">
+    <div class="modal-body bg_blue_sky">
+        <h3 class="form big_price" style="margin: 0;font-size: 25px;">{{'SEND_TO_FRIEND' | trans}}</h3>
+        <hr/>
+           <div class="row-fluid" style="margin: 5px">
+               <div class="span5" style="margin-top: 6px; font-size: 14px; font-weight: bold">{{'SENT_EMAIL_FROM' | trans}}</div>
+               <div class="span7"><input id="name_from" class="span12 mycp_text_box mycp_text_box_margin" type="text" class="mycp_text_box" required /></div>
+           </div>
+           <div class="row-fluid" style="margin: 5px">
+               <div class="span5" style="margin-top: 6px; font-size: 14px; font-weight: bold">{{'EMAIL_TO' | trans}}</div>
+               <div class="span7"><input id="email_to" class="span12 mycp_text_box mycp_text_box_margin" type="email" class="mycp_text_box" required /></div>
+           </div>
+
+           <br>
+           <div id="sending_mail" class="alert alert-info hidden"> 
+               <img src="{{ asset('bundles/frontend/images/loading.gif') }}"/> {{"LOADING_MESSAGE" | trans}}
+           </div>
+
+           <hr/>
+           <div class="row-fluid">
+               <div class="span6"></div>
+               <div class="span3"><button class="btn btn-block mycp_btn_grey mycp_btn" data-dismiss="modal">Cancelar</button></div>
+               <div class="span3"><button class="btn btn-block mycp_btn_orange mycp_btn" onclick="send2Friend();">Enviar</button></div>
+           </div>       
+    </div>
+</div>

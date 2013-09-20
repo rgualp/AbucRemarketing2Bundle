@@ -47,7 +47,6 @@ class destinationController extends Controller {
         $popular_destinations_photos = $em->getRepository('mycpBundle:destination')->get_destination_photos($popular_destinations_list);
         $popular_places_localization = $em->getRepository('mycpBundle:destination')->get_destination_location($popular_destinations_list);
 
-
         $other_destinations_in_municipality = $em->getRepository('mycpBundle:destination')->destination_filter($location_municipality_id, $location_province_id, $destination_id, null, 5);
         $other_destinations_in_province = $em->getRepository('mycpBundle:destination')->destination_filter(null, $location_province_id, $destination_id, $location_municipality_id, 5);
         $other_destinations_in_province_location = $em->getRepository('mycpBundle:destination')->get_destination_location_entity($other_destinations_in_province);
@@ -76,7 +75,8 @@ class destinationController extends Controller {
                     'popular_list' => $popular_destinations_list,
                     'popular_photos' => $popular_destinations_photos,
                     'popular_localization' => $popular_places_localization,
-                    'other_destinations_in_province_location' => $other_destinations_in_province_location
+                    'other_destinations_in_province_location' => $other_destinations_in_province_location,
+                    'provinces' => $em->getRepository("mycpBundle:province")->findAll()
         ));
     }
 

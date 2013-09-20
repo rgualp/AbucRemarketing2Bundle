@@ -1,4 +1,9 @@
 $(document).ready(function() {
+    datePickersStarUp();
+    connectSearchOnEnter();
+});
+
+function datePickersStarUp() {
     $('#input_arrival_date').datepicker({
         format: 'dd/mm/yyyy',
         todayBtn: 'linked',
@@ -19,7 +24,16 @@ $(document).ready(function() {
         startDate: '+1d',
         language: $('#input_departure_date').attr('data-localization')
     }).data('datepicker');
-});
+}
+
+function connectSearchOnEnter() {
+    $('#orange_search_bar').keydown(function(e) {
+        var keycode = (e.keyCode ? e.keyCode : e.which);
+        if ((keycode === 13)) {
+            search();
+        }
+    });
+}
 
 function search() {
     var url = $('#btn_search').attr('data-url');
@@ -61,8 +75,22 @@ function create_date(date_text) {
     var date = date_text.split('/');
     if (date.length == 3)
     {
-        var date_result = parseInt(date[2], 10) + '-' + (parseInt(date[1], 10)) + '-' + parseInt(date[0], 10);
+        var date_result = parseInt(date[0], 10) + '-' + (parseInt(date[1], 10)) + '-' + parseInt(date[2], 10);
         return date_result;
+    }
+    return null;
+}
+
+function format_date(date_text) {
+    var date = date_text.split('-');
+    if (date.length == 3)
+    {
+        //var date_result = parseInt(date[0], 10) + '/' + (parseInt(date[1], 10)) + '/' + parseInt(date[2], 10);
+        var d = new Date();
+        d.setDate(parseInt(date[2], 10));
+        d.setMonth(parseInt(date[1] - 1, 10));
+        d.setYear(parseInt(date[0], 10));
+        return d;
     }
     return null;
 

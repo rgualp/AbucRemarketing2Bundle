@@ -1,7 +1,12 @@
+frontend_about_us:
+    pattern:  /about_us
+    defaults: { _controller: frontEndBundle:information:about_us }
+
 frontend_list_information:
     pattern:  /information/{information_type}
-    defaults: { _controller: frontEndBundle:information:list }
-    
+    defaults: { _controller: frontEndBundle:information:information }
+
+
 frontend_sitemap_information:
     pattern:  /sitemap/
     defaults: { _controller: frontEndBundle:information:sitemap }

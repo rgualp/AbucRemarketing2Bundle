@@ -683,23 +683,23 @@ class ownershipRepository extends EntityRepository {
             $return_list = array();
             foreach ($ownerships_list as $own) {
                 $rooms_total = count($em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $own->getOwnId())));
-                $query_string = "SELECT r FROM mycpBundle:ownershipReservation r WHERE
-                                r.own_res_own_id =" . $own->getOwnId();
+                $query_string = "SELECT r FROM mycpBundle:generalReservation r WHERE
+                                r.gen_res_own_id =" . $own->getOwnId();
                 $dates_where = "";
 
                 if ($arrivalDate != null) {
                     $dates_where .= ($dates_where != '') ? " OR " : "";
-                    $dates_where .= "(r.own_res_reservation_from_date <= '$arrivalDate' AND r.own_res_reservation_to_date >= '$arrivalDate')";
+                    $dates_where .= "(r.gen_res_from_date <= '$arrivalDate' AND r.gen_res_to_date >= '$arrivalDate')";
                 }
 
                 if ($leavingDate != null) {
                     $dates_where .= ($dates_where != '') ? " OR " : "";
-                    $dates_where .= "(r.own_res_reservation_from_date <= '$leavingDate' AND r.own_res_reservation_to_date >= '$leavingDate')";
+                    $dates_where .= "(r.gen_res_from_date <= '$leavingDate' AND r.gen_res_to_date >= '$leavingDate')";
                 }
 
                 if ($arrivalDate != null && $leavingDate != null) {
                     $dates_where .= ($dates_where != '') ? " OR " : "";
-                    $dates_where .= "(r.own_res_reservation_from_date >= '$arrivalDate' AND r.own_res_reservation_to_date <= '$leavingDate')";
+                    $dates_where .= "(r.gen_res_from_date >= '$arrivalDate' AND r.gen_res_to_date <= '$leavingDate')";
                 }
 
 
