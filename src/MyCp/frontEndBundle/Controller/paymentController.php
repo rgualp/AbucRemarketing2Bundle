@@ -264,6 +264,7 @@ class paymentController extends Controller {
     {
         $reservationId = $reservation->getGenResId();
         $translator = $this->get('translator');
+        $locale = $this->getRequest()->getLocale();
 
         return array(
             'action_url' => 'https://www.moneybookers.com/app/payment.pl',
@@ -271,18 +272,18 @@ class paymentController extends Controller {
             'recipient_description' => 'MyCasaParticular.com',
             'transaction_id' => $reservationId,
             'return_url' => $this->generateUrl('frontend_payment_skrill_return', array('reservationId' => $reservationId), true),
-            'return_url_text' => 'Return to MyCasaParticular', // TODO: translation
+            'return_url_text' => $translator->trans('SKRILL_RETURN_TO_MYCP'), // 'Return to MyCasaParticular', // TODO: translation
             'cancel_url' => $this->generateUrl('frontend_payment_skrill_cancel', array(), true),
             'status_url' => $this->generateUrl('frontend_payment_skrill_status', array(), true),
             'status_url2' => 'booking@mycasaparticular.com',
-            'language' => 'EN',
+            'language' => SkrillHelper::getSkrillLanguageFromLocale($locale),
             'confirmation_note' => $translator->trans('SKRILL_CONFIRMATION_NOTE'),
             'pay_from_email' => $user->getUserEmail(), // customer email
             'logo_url' => 'http://www.mypaladar.com/mycp/mycpres/web/bundles/frontend/images/logo.png', // TODO: $this->getRequest()->getUriForPath('bundles/frontend/images/logo.png') //;'bundles/frontend/images/logo.png',
             'first_name' => $user->getUserName(),
             'last_name' => $user->getUserLastName(),
             'address' => $user->getUserAddress(),
-            'postal_code' => 'EC45MQ', // TODO: Postal Code does not exist
+            'postal_code' => '', //'EC45MQ', // TODO: Postal Code does not exist for a user yet
             'city' => $user->getUserCity(),
             'country' => $user->getUserCountry()->getCoCode(),
             'amount' => $reservation->getTotalPriceInSiteAsString(),// '0.5',

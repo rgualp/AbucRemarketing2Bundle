@@ -20,6 +20,14 @@ final class SkrillHelper
         '-3' => PaymentHelper::STATUS_FAILED
     );
 
+    // TODO: This map has to be tested!
+    private static $localeToLanguageMap = array(
+        'en' => 'EN',
+        'es' => 'ES',
+        'de' => 'DE',
+        'it' => 'IT'
+    );
+
     private static $currencyMap = array(
 
     );
@@ -118,7 +126,7 @@ final class SkrillHelper
      * @param string $skrillStatusCode The status code.
      * @return string The description.
      */
-    public static function getSkrillStatusCodeDescrition($skrillStatusCode)
+    public static function getSkrillStatusCodeDescription($skrillStatusCode)
     {
         if(isset(self::$statusCodeMap[$skrillStatusCode])) {
             return self::$statusCodeMap[$skrillStatusCode];
@@ -143,5 +151,19 @@ final class SkrillHelper
         return 'unknown failure code';
     }
 
+    /**
+     * Returns the language code used by Skrill according to the locale.
+     *
+     * @param $locale
+     * @return string
+     */
+    public static function getSkrillLanguageFromLocale($locale)
+    {
+        if(isset(self::$localeToLanguageMap[$locale])) {
+            return self::$localeToLanguageMap[$locale];
+        }
+
+        return '';
+    }
 }
 

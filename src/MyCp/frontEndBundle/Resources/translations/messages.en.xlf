@@ -1730,6 +1730,10 @@
                 <source>SKRILL_PAY_WITH_SKRILL</source>
                 <target>Pay with Skrill</target>
             </trans-unit>
+            <trans-unit id="441">
+                <source>SKRILL_RETURN_TO_MYCP</source>
+                <target>Return to MyCasaParticular</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
