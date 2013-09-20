@@ -3,6 +3,7 @@
 namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 
 /**
  * payment
@@ -48,9 +49,9 @@ class payment
     private $modified = null;
 
     /**
-     * @var float
+     * @var integer
      *
-     * @ORM\Column(name="payed_amount", type="decimal", precision=10, scale=2, nullable=true)
+     * @ORM\Column(name="payed_amount", type="integer", nullable=true)
      */
     private $payed_amount = null;
 
@@ -121,7 +122,7 @@ class payment
     /**
      * Set payed_amount
      *
-     * @param float $payedAmount
+     * @param integer $payedAmount
      * @return payment
      */
     public function setPayedAmount($payedAmount)
@@ -132,9 +133,41 @@ class payment
     }
 
     /**
+     * Set payed_amount by a string with the form
+     * \d+\.?(\d*)
+     *
+     * @param string $payedAmountString
+     * @throws InvalidArgumentException
+     * @return payment
+     */
+    public function setPayedAmountFromString($payedAmountString)
+    {
+        $decimalPointPosition = strpos($payedAmountString, '.');
+
+        if($decimalPointPosition !== false) {
+            $fraction = substr($payedAmountString, $decimalPointPosition+1);
+            $length = strlen($fraction);
+
+            if($length === 1) {
+                $payedAmountString .= '0';
+            } else if ($length !== 2) {
+                throw new InvalidArgumentException();
+            }
+            $payedAmountString = str_replace('.', '', $payedAmountString);
+        } else {
+            $payedAmountString = $payedAmountString . '00';
+        }
+
+        $payedAmount = (int)$payedAmountString;
+        $this->payed_amount = $payedAmount;
+
+        return $this;
+    }
+
+    /**
      * Get payed_amount
      *
-     * @return float 
+     * @return integer
      */
     public function getPayedAmount()
     {

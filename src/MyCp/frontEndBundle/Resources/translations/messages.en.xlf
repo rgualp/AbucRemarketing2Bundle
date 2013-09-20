@@ -1723,20 +1723,12 @@
                 <target>MyCasaParticular wishes you pleasure visiting Cuba!</target>
             </trans-unit>
             <trans-unit id="439">
-                <source>SKRILL_DESCRIPTION_RESERVATION_ID</source>
-                <target>Reservation ID:  </target>
+                <source>SKRILL_DESCRIPTION_BOOKING_ID</source>
+                <target>Booking ID:  </target>
             </trans-unit>
             <trans-unit id="440">
-                <source>SKRILL_DESCRIPTION</source>
-                <target>Description:</target>
-            </trans-unit>
-            <trans-unit id="441">
                 <source>SKRILL_PAY_WITH_SKRILL</source>
                 <target>Pay with Skrill</target>
-            </trans-unit>
-            <trans-unit id="442">
-                <source>SKRILL_ROOM_DESCRIPTION</source>
-                <target>Rooms: %numRooms% - Arrival: %date% - Nights: %numNights%</target>
             </trans-unit>
         </body>
     </file>

@@ -1720,20 +1720,12 @@
                 <target>TODO - not yet translated!</target>
             </trans-unit>
                 <trans-unit id="439">
-                <source>SKRILL_DESCRIPTION_RESERVATION_ID</source>
+                <source>SKRILL_DESCRIPTION_BOOKING_ID</source>
                 <target>ID Reserva:  </target>
             </trans-unit>
             <trans-unit id="440">
-                <source>SKRILL_DESCRIPTION</source>
-                <target>Descripción:</target>
-            </trans-unit>
-            <trans-unit id="441">
                 <source>SKRILL_PAY_WITH_SKRILL</source>
                 <target>TODO - not yet translated</target>
-            </trans-unit>
-            <trans-unit id="442">
-                <source>SKRILL_ROOM_DESCRIPTION</source>
-                <target>Rooms: %numRooms% - Arrival: %date% - Nights: %numNights%</target>
             </trans-unit>
         </body>
     </file>

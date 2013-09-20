@@ -129,7 +129,7 @@ class paymentController extends Controller {
             $payment->setGeneralReservation($reservation);
         }
 
-        $payment->setPayedAmount($skrillRequest->getPayedAmount());
+        $payment->setPayedAmountFromString($skrillRequest->getPayedAmount());
 
         $skrillCurrency = $skrillRequest->getSkrillCurrency();
         $currency = $this->getCurrencyFrom($skrillCurrency);
@@ -287,16 +287,10 @@ class paymentController extends Controller {
             'country' => $user->getUserCountry()->getCoCode(),
             'amount' => $reservation->getTotalPriceInSiteAsString(),// '0.5',
             'currency' => 'EUR', // TODO: Add Currency to GeneralReservation
-            'detail1_description' => $translator->trans('SKRILL_DESCRIPTION_RESERVATION_ID'),
+            'detail1_description' => $translator->trans('SKRILL_DESCRIPTION_BOOKING_ID'),
             'detail1_text' => $reservationId,
             'detail2_description' => 'Casa:  ',
             'detail2_text' => isset($casa) ? $casa->getOwnMcpCode() : '',
-//            'detail3_description' => $translator->trans('SKRILL_DESCRIPTION'),
-//            'detail3_text' => $translator->trans('SKRILL_ROOM_DESCRIPTION', array(
-//                '%numRooms%' => ''
-//            )),
-//            'detail4_description' => $translator->trans('SKRILL_DESCRIPTION'),
-//            'detail4_text' => 'Adults: 2 - Children: 1',
             'payment_methods' => 'ACC,DID,SFT',
             'button_text' => $translator->trans('SKRILL_PAY_WITH_SKRILL')
         );
