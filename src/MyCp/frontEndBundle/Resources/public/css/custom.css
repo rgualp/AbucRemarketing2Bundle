@@ -355,12 +355,13 @@ hr{margin: 5px 0;}
 .ownerships_list .markerActive{border: 1px solid #0088CC!important; background: #D9F2FF!important;}
 .head_1{color: #0089CD; font-size: 20px; margin-bottom: 20px;}
 .table_striped_vertical{margin-bottom: 0px}
-.table_striped_vertical thead th{ color: #0089CD;}
+.table_striped_vertical thead th{ color: #0089CD; border-bottom: solid 1px #cccccc ;border-top: none;}
 .table_striped_vertical .grey{ background-color: #F3F3F3}
 .table_delete{background-color: #E5E5E5; width: 40px; }
 .table_delete button{background: url("../images/delete_circle.gif") no-repeat top center; width: 40px; border: none}
 .table_delete button:hover{background-position:bottom}
 .table_striped_vertical_foot{background-color: #D1EEFE; color: #45A9DD; font-weight: bold; border-bottom-left-radius: 7px;border-bottom-right-radius: 7px; padding: 10px 10px 0px;}
+.table_inner tr:first-child td{ border-top: none!important;}
 
 .modal-backdrop.fade.in {opacity: 0.5;filter: alpha(opacity=50);}
 .modal.fade.in{top: 30%;}
@@ -444,7 +445,7 @@ ul.paginator_orange li.first_disabled,ul.paginator_orange li.left_disabled, ul.p
 
 .mycp_text_box{ border-radius: 6px!important;background-color: #002a80;box-shadow:inset 0 0 6px #CCCCCC!important;
                 -moz-box-shadow:inset 0 0 6px #CCCCCC!important; margin-bottom: 0!important;font-size: 12px!important;}
-
+.mycp_text_box_margin{margin-bottom: 10px!important;}
 .mycp_combo .btn{
 
     border-radius: 6px!important;

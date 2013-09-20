@@ -3,6 +3,7 @@
 namespace MyCp\frontEndBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\SecurityContext;
 
 class PublicController extends Controller {
@@ -90,14 +91,14 @@ class PublicController extends Controller {
         ));
     }
 
-    public function send2FriendAction() {
+    public function recommend2FriendAction() {
         $request = $this->getRequest();
         $name_from = $request->get('name_from');
         $email_to = $request->get('email_to');
-        
+
         $service_email = $this->get('Email');
-        $result = $service_email->send_general_email_to_friend($name_from, $email_to);
-        return new Response($result);
+        $result = $service_email->recommend2Friend($name_from, $email_to);
+        return new Response($result ? "ok" : "error");
     }
 
 }

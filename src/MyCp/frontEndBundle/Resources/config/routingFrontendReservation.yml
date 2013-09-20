@@ -1,18 +1,14 @@
 frontend_review_reservation:
-    pattern:  /review/{id_ownership}/{data}
+    pattern:  /review/
     defaults: { _controller: frontEndBundle:reservation:review }
 
-frontend_review_redirect_reservation:
-    pattern:  /review_redirect/{id_ownership}/
-    defaults: { _controller: frontEndBundle:reservation:review_redirect }
-    requirements:
-        _method:  POST
+frontend_add_to_cart_reservation:
+    pattern:  /add/{id_ownership}
+    defaults: { _controller: frontEndBundle:reservation:add_to_cart }
 
-frontend_confirm_redirect_reservation:
-    pattern:  /confirm_redirect/{id_ownership}/
-    defaults: { _controller: frontEndBundle:reservation:confirm_redirect }
-    requirements:
-        _method:  POST
+frontend_remove_cart_reservation:
+    pattern:  /clear/
+    defaults: { _controller: frontEndBundle:reservation:clear }
 
 frontend_review_confirm_reservation:
     pattern:  /check/{id_ownership}/{data}

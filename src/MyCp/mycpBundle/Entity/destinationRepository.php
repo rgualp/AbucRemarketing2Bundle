@@ -177,7 +177,7 @@ class destinationRepository extends EntityRepository {
     public function getAllDestinations($locale) {
         $em = $this->getEntityManager();
         $query_string = "SELECT d, dl, dm, dp FROM mycpBundle:destination d
-                         JOIN d.destinationsLang dl
+                         LEFT JOIN d.destinationsLang dl
                          JOIN d.destinationsMunicipality dm
                          LEFT JOIN d.destinationsPhoto dp
                          WHERE d.des_active = 1

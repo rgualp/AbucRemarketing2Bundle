@@ -21,17 +21,17 @@ class ownerContact extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('owner_full_name','text',array('label'=>$this->translate->trans('FORMS_NAME_LASTNAME_OWNER')))
-            ->add('owner_own_name','text',array('label'=>$this->translate->trans('FORMS_OWN_NAME')))
-            ->add('owner_phone','text',array('label'=>$this->translate->trans('FORMS_PHONE')))
+            ->add('owner_full_name','text',array('label'=>$this->translate->trans('FORMS_NAME_LASTNAME_OWNER'),'attr'=>array('class'=>'mycp_text_box mycp_text_box_margin')))
+            ->add('owner_own_name','text',array('label'=>$this->translate->trans('FORMS_OWN_NAME'),'attr'=>array('class'=>'mycp_text_box mycp_text_box_margin')))
+            ->add('owner_phone','text',array('label'=>$this->translate->trans('FORMS_PHONE'),'attr'=>array('class'=>'mycp_text_box mycp_text_box_margin')))
             ->add('owner_email','repeated',array(
             'first_name' => $this->translate->trans('FORMS_EMAIL'),
             'second_name' => $this->translate->trans('FORMS_REPEAT'),
-            'type' => 'text',
+            'type' => 'text'
         ))
-            ->add('owner_province','text',array('label' => $this->translate->trans('FORMS_PROVINCE')))
-            ->add('owner_mun','text',array('label' => $this->translate->trans('FORMS_MUNICIPALITY')))
-            ->add('owner_comment','textarea',array('label' => $this->translate->trans('FORMS_COMMENTS')));
+            ->add('owner_province','text',array('label' => $this->translate->trans('FORMS_PROVINCE'),'attr'=>array('class'=>'mycp_text_box mycp_text_box_margin')))
+            ->add('owner_mun','text',array('label' => $this->translate->trans('FORMS_MUNICIPALITY'),'attr'=>array('class'=>'mycp_text_box mycp_text_box_margin')))
+            ->add('owner_comment','textarea',array('label' => $this->translate->trans('FORMS_COMMENTS'),'attr'=>array('class'=>'mycp_text_box mycp_text_box_margin input-block-level','style'=>'background-color:#FFFFFF')));
         
     }
 

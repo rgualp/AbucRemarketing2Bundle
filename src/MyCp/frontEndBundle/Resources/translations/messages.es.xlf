@@ -200,7 +200,7 @@
             </trans-unit>
             <trans-unit id="50">
                 <source>SEARCH_MAIN_MENU</source>
-                <target>Buscar</target>
+                <target>Alojamientos</target>
             </trans-unit>
             <trans-unit id="51">
                 <source>SEARCH_DESCRIPTION_MAIN_MENU</source>
@@ -1704,22 +1704,34 @@
                 <target>Todas las provincias</target>
             </trans-unit>
             <trans-unit id="435">
+                <source>CART</source>
+                <target>Cesta de reservaciones</target>
+            </trans-unit>
+            <trans-unit id="436">
+                <source>SENT_EMAIL_FROM</source>
+                <target>Enviar a nombre de:</target>
+            </trans-unit>
+             <trans-unit id="437">
+                <source>EMAIL_TO</source>
+                <target>Dirección de correo destino:</target>
+            </trans-unit>
+            <trans-unit id="438">
                 <source>SKRILL_CONFIRMATION_NOTE</source>
                 <target>TODO - not yet translated!</target>
             </trans-unit>
-            <trans-unit id="436">
+                <trans-unit id="439">
                 <source>SKRILL_DESCRIPTION_RESERVATION_ID</source>
                 <target>ID Reserva:  </target>
             </trans-unit>
-            <trans-unit id="437">
+            <trans-unit id="440">
                 <source>SKRILL_DESCRIPTION</source>
                 <target>Descripción:</target>
             </trans-unit>
-            <trans-unit id="438">
+            <trans-unit id="441">
                 <source>SKRILL_PAY_WITH_SKRILL</source>
                 <target>TODO - not yet translated</target>
             </trans-unit>
-            <trans-unit id="439">
+            <trans-unit id="442">
                 <source>SKRILL_ROOM_DESCRIPTION</source>
                 <target>Rooms: %numRooms% - Arrival: %date% - Nights: %numNights%</target>
             </trans-unit>

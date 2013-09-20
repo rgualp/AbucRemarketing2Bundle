@@ -21,11 +21,11 @@ class touristContact extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('tourist_name','text',array('label'=>$this->translate->trans('FORMS_NAME')))
-            ->add('tourist_last_name','text',array('label'=>$this->translate->trans('FORMS_LASTNAME')))
-            ->add('tourist_email','text',array('label'=>$this->translate->trans('FORMS_EMAIL')))
-            ->add('tourist_phone','text',array('label' => $this->translate->trans('FORMS_PHONE')))
-            ->add('tourist_comment','textarea',array('label' => $this->translate->trans('FORMS_COMMENTS')));
+            ->add('tourist_name','text',array('label'=>$this->translate->trans('FORMS_NAME'),'attr'=>array('class'=>'mycp_text_box mycp_text_box_margin')))
+            ->add('tourist_last_name','text',array('label'=>$this->translate->trans('FORMS_LASTNAME'),'attr'=>array('class'=>'mycp_text_box mycp_text_box_margin')))
+            ->add('tourist_email','text',array('label'=>$this->translate->trans('FORMS_EMAIL'),'attr'=>array('class'=>'mycp_text_box mycp_text_box_margin')))
+            ->add('tourist_phone','text',array('label' => $this->translate->trans('FORMS_PHONE'),'attr'=>array('class'=>'mycp_text_box mycp_text_box_margin')))
+            ->add('tourist_comment','textarea',array('label' => $this->translate->trans('FORMS_COMMENTS'),'attr'=>array('class'=>'mycp_text_box input-block-level','style'=>'background-color:#FFFFFF')));
         ;
     }
 

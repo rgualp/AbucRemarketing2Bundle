@@ -1707,22 +1707,34 @@
                 <target>All provinces</target>
             </trans-unit>
             <trans-unit id="435">
+                <source>CART</source>
+                <target>Cart of reservations</target>
+            </trans-unit>
+            <trans-unit id="436">
+                <source>SENT_EMAIL_FROM</source>
+                <target>Sender name:</target>
+            </trans-unit>
+            <trans-unit id="437">
+                <source>EMAIL_TO</source>
+                <target>Destiny email address:</target>
+            </trans-unit>
+            <trans-unit id="438">
                 <source>SKRILL_CONFIRMATION_NOTE</source>
                 <target>MyCasaParticular wishes you pleasure visiting Cuba!</target>
             </trans-unit>
-            <trans-unit id="436">
+            <trans-unit id="439">
                 <source>SKRILL_DESCRIPTION_RESERVATION_ID</source>
                 <target>Reservation ID:  </target>
             </trans-unit>
-            <trans-unit id="437">
+            <trans-unit id="440">
                 <source>SKRILL_DESCRIPTION</source>
                 <target>Description:</target>
             </trans-unit>
-            <trans-unit id="438">
+            <trans-unit id="441">
                 <source>SKRILL_PAY_WITH_SKRILL</source>
                 <target>Pay with Skrill</target>
             </trans-unit>
-            <trans-unit id="439">
+            <trans-unit id="442">
                 <source>SKRILL_ROOM_DESCRIPTION</source>
                 <target>Rooms: %numRooms% - Arrival: %date% - Nights: %numNights%</target>
             </trans-unit>

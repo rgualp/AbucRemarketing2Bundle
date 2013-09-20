@@ -18,10 +18,10 @@
                 {% endif %}
                 <form action="{{ path("frontend_ckeck") }}" method="post">
                     <label class="control-label" for="inputUsername">{{"FORMS_EMAIL" | trans}}</label>
-                    <input type="text" class="input-block-level" id="inputUsername" name="_username"
+                    <input type="text" class="mycp_text_box mycp_text_box_margin input-block-level" id="inputUsername" name="_username"
                            value="{{ last_username }}"/>
                     <label class="control-label" for="inputPassword">{{"FORMS_PASSWORD" | trans}}</label>
-                    <input type="password" class="input-block-level" id="inputPassword" name="_password"/>
+                    <input type="password" class="mycp_text_box mycp_text_box_margin input-block-level" id="inputPassword" name="_password"/>
                     <label class="checkbox">
                         <input type="checkbox" name="_remember_me"> {{"FORMS_REMEMBER_ME" | trans}}
                     </label>
