@@ -24,10 +24,12 @@
         {{localization}}
     </div>
 <div class="row-fluid owns_statistics">
-<div class="span6 left_margin"> 
-{{statistics['total']}} {{"OWNERSHIPS" | trans | lower}}
+<div class="span7 left_margin"> 
+    {%if statistics['total'] > 0%}
+        {{statistics['total']}} {{"OWNERSHIPS" | trans | lower}}
+    {%endif%}
 </div>
-<div class="span5 right_margin">
+<div class="span4 right_margin">
 {{"FROM_PRICES" | trans | lower}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{statistics['minimum_prize'] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}
 </div>
 </div>

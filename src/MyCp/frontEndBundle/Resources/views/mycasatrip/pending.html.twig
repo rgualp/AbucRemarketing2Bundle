@@ -5,7 +5,7 @@
 {% for res in res_pending %}
 <div class="well mycasatrip_result">
     <div class="row-fluid">
-        <div class="span4"><img src="{{ asset('uploads/ownershipImages/'~ res['photo']) }}" class="span12 img-polaroid"></div>
+        <div class="span4"><a href="{{ path('frontend_details_ownership',{'owner_id':res[0]['gen_res_own_id']['own_id']}) }}"><img src="{{ asset('uploads/ownershipImages/'~ res['photo']) }}" class="span12 img-polaroid"></a></div>
         <div style="margin-left: 10px" class="span8">
             <table style="width: 100%">
                 <tbody><tr>
@@ -16,19 +16,19 @@
                         {% set flag_own_room = 0 %}
                         {% for own_room in own_rooms[flag_own_res] %}
                             <br><b>{% if(own_reservations[flag_own_res][flag_own_room].getOwnResRoomType) %}{{own_reservations[flag_own_res][flag_own_room].getOwnResRoomType|capitalize}}{% else %}{{own_rooms[flag_own_res][flag_own_room].getRoomType}}{% endif %}</b>
-                            <br>Adultos: <b>{{own_reservations[flag_own_res][flag_own_room].getOwnResCountAdults}}</b> &nbsp;&nbsp;Niños: <b>{{own_reservations[flag_own_res][flag_own_room].getOwnResCountChildrens}}</b>
+                            <br>{{"ADULTS" | trans}}: <b>{{own_reservations[flag_own_res][flag_own_room].getOwnResCountAdults}}</b> &nbsp;&nbsp;{{"KIDS" | trans}}: <b>{{own_reservations[flag_own_res][flag_own_room].getOwnResCountChildrens}}</b>
                             {% set flag_own_room = flag_own_room + 1 %}
                         {% endfor %}
                         {% set flag_own_res = flag_own_res + 1 %}<br/>
-                            Desde: {{ res[0]['gen_res_from_date'] |date("d/m/Y") }} Hasta: {{ res[0]['gen_res_to_date'] |date("d/m/Y") }}
+                            {{"FROM_PRICES" | trans}}: {{ res[0]['gen_res_from_date'] |date("d/m/Y") }} {{"TO_PRICES" | trans}}: {{ res[0]['gen_res_to_date'] |date("d/m/Y") }}
                         </p>
                     </td>
 
                     <td>
-                        <p class="note"><b>ID Reserva:</b> CAS.{{res[0]['gen_res_id'] }}
+                        <p class="note"><b>{{"ID_RESERVATION" | trans}}:</b> CAS.{{res[0]['gen_res_id'] }}
                             <br>
                             <br>
-                            <span class="badge">Pendiente</span>
+                            <span class="badge">{{"RESPONSE_PENDING" | trans}}</span>
 
                         </p><h4>{{app.session.get('curr_symbol')}}{{res[0]['gen_res_total_price_in_site'] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h4>
                     </td>
@@ -40,7 +40,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2"><button class="btn mycp_btn mycp_btn_green" style="width: 150px">Ver solicitud</button></td>
+                    <td colspan="2"><button class="btn mycp_btn mycp_btn_green" style="width: 150px">{{"SEE_REQUEST" | trans}}</button></td>
                 </tr>
                 </tbody></table>
         </div>

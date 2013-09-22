@@ -6,8 +6,8 @@ $('a.option').click(function(){
         change_order($(this).attr("data-value"));
 });
 
+
 function start(){
-   // $('#select_change_order a.option').click(change_order);
     $('#change_view_to_list').click(change_view_to_list);
     $('#change_view_to_photo').click(change_view_to_photo);
     $('#change_view_to_map').click(change_view_to_map);
@@ -15,10 +15,6 @@ function start(){
     
     //Buscador que esta encima de los filtros
     $('#button_research').click(research);
-    /*
-    $('#check_category_price').change(check_category_price);
-    $('#check_type').change(check_type);
-    */
     
     //Filtros
     $('#own_reservation_type').change(filter_by_others);
@@ -44,40 +40,7 @@ function start(){
     $('input[name=others_not_included]').change(filter_by_others);   
     $('#room_others_pets').change(filter_by_others);
     $('#room_others_internet').change(filter_by_others);
-    
-    /*if(document.getElementById('check_category_price') != null)
-        document.getElementById('check_category_price').checked = true;
-    
-    if(document.getElementById('check_type') != null)
-        document.getElementById('check_type').checked = true;*/
-    
-    /*var data_source_owns = $('#inputOwnName').attr('data-source');
-    $('#inputOwnName').autocomplete(
-    {
-        source:data_source_owns
-    });*/
-    
-    $('#input_arrival_date').datepicker({
-        format: 'dd/mm/yyyy',
-        todayBtn: 'linked',
-        autoclose: true,
-        startDate: 'today',
-        language: $('#input_arrival_date').attr('data-localization')
-    }).on('changeDate', function(ev) {
-        var newDate = new Date(ev.date);
-        newDate.setDate(newDate.getDate() + 1);
-        departure_datepicker.setStartDate(newDate);
-        departure_datepicker.setDate(newDate);
-    });
-
-    var departure_datepicker = $('#input_departure_date').datepicker({
-        format: 'dd/mm/yyyy',
-        todayBtn: 'linked',
-        autoclose: true,
-        startDate: '+1d',
-        language: $('#input_departure_date').attr('data-localization')
-    }).data('datepicker');
-    
+     
     initialize_map();
 }
 
@@ -409,7 +372,7 @@ var markers_big;
 function initialize_map() {
     var json_url= $("#json_source").attr('data-url');
     var icon_small = $("#json_source").attr('data-icon-small');
-    var icon = $("#json_source").attr('data-icon');         
+    //var icon = $("#json_source").attr('data-icon');         
     
     if(document.getElementById("map") != null)
     {
@@ -431,8 +394,8 @@ function initialize_map() {
                         id: data[i].id,
                         map: map,
                         position: latlng,
-                        title:data[i].title//,
-                    //icon: icon_small
+                        title:data[i].title,
+                        icon: icon_small
                     
                     });
                     markers.push(marker_bullet);                
@@ -490,8 +453,8 @@ function initialize_map() {
                         map: map_big,
                         position: latlng,
                         //title:data[i].title,
-                        content:"<tr><td class='map_image' style='background-image:url("+data[i].image+")'></td><td style='padding-left:4px; line-height:12px;' valign='top'>"+data[i].title+"<br/><b>" + data[i].content + "</b></td></tr>"//,
-                    //icon: icon
+                        content:"<tr><td class='map_image' style='background-image:url("+data[i].image+")'></td><td style='padding-left:4px; line-height:12px;' valign='top'>"+data[i].title+"<br/><b>" + data[i].content + "</b></td></tr>",
+                        icon: icon
                     
                     });                
 
@@ -508,7 +471,7 @@ function initialize_map() {
                             ib.open(map_big, marker_bullet);
                             
                             $('.elementList[data-id="'+data[i].id+'"]').addClass("markerActive");
-                        }
+                        };
                     })(marker_bullet, i));
                     
                     google.maps.event.addListener(marker_bullet, 'mouseout', (function(marker_bullet, i) 
@@ -517,7 +480,7 @@ function initialize_map() {
                         {
                             ib.close();
                             $('.elementList[data-id="'+data[i].id+'"]').removeClass("markerActive");
-                        }
+                        };
                     })(marker_bullet, i));
                     
                     $("#own_"+ data[i].id).onclick = generateTriggerCallback(marker_bullet,"mouseover");                    

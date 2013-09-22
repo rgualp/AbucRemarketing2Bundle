@@ -17,15 +17,18 @@
 <div class="row-fluid">
     <div class="span3 menu_left">
         {%if destination.desgeolocatex != null and destination.desgeolocatey != null%}
-        espacio para el mapa
+            <div class="thumbnail" style="padding: 12px">
+        <div id="big_map_details" class="google-maps" style="width:100%;height: 150px;"
+    data-x="{{destination.desgeolocatex}}"
+    data-y="{{destination.desgeolocatey}}"
+    data-name="{{destination.desName}}"
+    data-description="{{brief_description | striptags}}"
+    data-image="{{asset('uploads/destinationImages/'~((gallery_photos[0] is defined) ? gallery_photos[0].getPhoName : "no_photo.png"))}}"
+    data-icon="http://www.mycasaparticular.com/web/bundles/frontend/images/map.png">
+</div>
+            </div>
         {%endif%}
-        <div class="thumbnail favorites_details" style="padding: 12px">
-            {{ include('frontEndBundle:favorite:detailsFavorite.html.twig',
-            {'is_in_favorite': is_in_favorite,
-            'favorite_type': 'destination',
-            'element_id':destination.desid
-            }) }}
-        </div>
+        
         {{ include('frontEndBundle:ownership:verticalSearcherOwnership.html.twig',
         {'is_within_search_results':false, 
         'autocomplete_text_list': autocomplete_text_list, 
@@ -47,7 +50,9 @@
                         {%endfor%}
                         {%if popular_list |length%}
                         <div class="row-fluid textaling_right">
-                            <a  class="fontsize_10" href="{{path('frontend_list_destinations')}}">{{"SEEMORE_LINK_TEXT" | trans}}</a>
+                            <div class="span2 offset9">
+                                <a  class="fontsize_10" href="{{path('frontend_list_destinations')}}">{{"SEEMORE_LINK_TEXT" | trans}}</a>
+                            </div>                            
                         </div>
                         {%endif%}
                     </div>
@@ -69,9 +74,11 @@
                         <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
                         {%endfor%}
                         {%if other_destinations_in_municipality |length%}
-                        <div class="row-fluid textaling_right">
+                        <!--div class="row-fluid textaling_right">
+                             <div class="span2 offset9">
                             <a  class="fontsize_10" href="{{path('frontend_filter_by_municipality_destinations',{'province_id': location.desLocProvince.provid, 'municipality_id':location.desLocMunicipality.munid})}}">{{"SEEMORE_LINK_TEXT" | trans}}</a>
-                        </div>
+                             </div>
+                        </div-->
                         {%endif%}
                     </div>
                 </div>
@@ -91,9 +98,11 @@
                         <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
                         {%endfor%}
                         {%if other_destinations_in_province |length%}
-                        <div class="row-fluid textaling_right">
+                        <!--div class="row-fluid textaling_right">
+                             <div class="span2 offset9">
                             <a  class="fontsize_10" href="{{path('frontend_filter_by_province_destinations',{'province_id': location.desLocProvince.provid})}}">{{"SEEMORE_LINK_TEXT" | trans}}</a>
-                        </div>
+                             </div>
+                        </div-->
                         {%endif%}
                     </div>
                 </div>
@@ -116,6 +125,22 @@
                 </div>
             </div>
         </div>
+        
+            <div class="thumbnail favorites_details" style="padding: 12px">
+            {{ include('frontEndBundle:favorite:detailsFavorite.html.twig',
+            {'is_in_favorite': is_in_favorite,
+            'favorite_type': 'destination',
+            'element_id':destination.desid
+            }) }}
+        </div>
+        <div class="thumbnail" style="padding: 12px">
+        <a href="#send_to_friend_popup" title="{{'SEND_TO_FRIEND' | trans}}" data-toggle="modal" style="text-decoration: none">
+            <button class="btn btn-block" onclick="$('#send_to_friend_popup').attr('data-email-type', 'recommend_destiny'); $('#send_to_friend_popup').attr('data-dest-prop-id', '{{destination.getDesId}}');">
+                <div class="icon-envelope"></div>
+                {{"TELL_A_FRIEND" | trans}}
+            </button>
+        </a>
+    </div>
     </div>
     <div class="span9">
         <div class="row-fluid">
@@ -132,24 +157,36 @@
                     </div>
                 </div>        
             </div>
-            <div class="span5 thumbnail pull-right" style="margin-left:5px; font-size: 12px; text-align: justify; padding: 10px">
-                {{description | raw}}
-            </div>            
-            
+            {%if description | length > 0%}
+            <div class="span5 destination_description_container pull-right" style="margin-left:5px; font-size: 12px; text-align: justify; padding: 10px">
+                <div class="destination_description">
+                    <h4>{{destination.desName}}</h4>                
+                    {{description | raw}}
+                </div>   
+            </div> 
+            {%endif%}
             {%else%}
-            <div class="thumbnail">
-            {{description | raw}}
+            {%if description | length > 0%}
+            <div class="destination_description_container">
+                <div class="destination_description">
+                    <h4>{{destination.desName}}</h4> 
+                    {{description | raw}}
+                </div>
             </div>
+            {%endif%}
             {% endif %}
         </div>
 
-        <div id="nav_blue_placeholder" data-url="{{path('frontend_nearby_destination',{'destination_id': destination.desid })}}">
+            <div class="row-fluid" id="nav_blue_placeholder" data-url="{{path('frontend_nearby_destination',{'destination_id': destination.desid })}}">
             {% render "frontEndBundle:destination:owns_nearby_callback" with {'destination_id': destination.desid }%}
         </div>
     </div>
 </div>
 {%render "frontEndBundle:user:info_tab_user" with {'destination_id': destination.desid }%}
 {% block include_javascripts %}
+<script src="http://maps.googleapis.com/maps/api/js?v=3&sensor=false" type="text/javascript"></script> 
+    <script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.js') }}"></script>
+    <script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.infobox.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/home_search.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/destination_details.js') }}"></script>
 <link href="{{ asset('bundles/frontend/css/bootstrap/bootstrap-datepicker.css') }}" rel="stylesheet" media="screen">

@@ -410,12 +410,8 @@ class destinationRepository extends EntityRepository {
                 $photo_name = $destination_photo->getDesPhoPhoto()->getPhoName();
 
                 if (file_exists(realpath("uploads/destinationImages/" . $photo_name))) {
-                    $photos_array[$destination_photo->getDesPhoDestination()->getDesId()] = $photo_name;
-                } else {
-                    $photos_array[$destination_photo->getDesPhoDestination()->getDesId()] = 'no_photo.png';
-                }
-            } else {
-                $photos_array[$destination_photo->getDesPhoDestination()->getDesId()] = 'no_photo.png';
+                    $photos_array[] = $photo_name;
+                } 
             }
         }
 

@@ -6,8 +6,7 @@
     data-name="{{ownership.ownname}}"
     data-description="{{description | striptags}}"
     data-image="{{asset('uploads/ownershipImages/'~image)}}"
-    data-icon1="http://www.mycasaparticular.com/maps.png"
-    data-icon="http://{{ app.request.getBaseURL() }}{{asset('/web/bundles/frontend/images/map.png')}}">
+    data-icon="http://www.mycasaparticular.com/web/bundles/frontend/images/map.png">
 </div>
  {% block include_javascripts_and_css %}
     <script src="http://maps.googleapis.com/maps/api/js?v=3&sensor=false" type="text/javascript"></script> 

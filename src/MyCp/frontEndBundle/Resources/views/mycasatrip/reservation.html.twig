@@ -10,9 +10,9 @@
         <td>
             <div class="cyan_cont">
                 <h1>Detalles de la Reserva</h1>
-                <b>Llegada:</b> Día fecha <b style="margin-left: 20px">Salida:</b> Día fecha
+                <b>Llegada:</b> {{reservation[0]['own_res_reservation_from_date']|date("d/m/Y")}} <b style="margin-left: 20px">Salida:</b> {{reservation[0]['own_res_reservation_to_date']|date("d/m/Y")}}
                 <br/><br/>
-                <table class="table" style="width: 100%; text-align: left">
+                <table class="table" style="width: 100%; text-align: left; font-size: 12px">
                     <thead>
                     <tr>
                         <th>Fecha</th>
@@ -22,37 +22,27 @@
                     </tr>
                     </thead>
                     <tbody>
+                    {% for date in dates%}
                     <tr>
-                        <td>aa</td>
-                        <td>aa</td>
-                        <td>aa</td>
-                        <td>aa</td>
+                        <td>{{date}}</td>
+                        <td><b>{{ reservation[0]['own_res_gen_res_id']['gen_res_own_id']['own_address_municipality']['mun_name']}}, {{ reservation[0]['own_res_gen_res_id']['gen_res_own_id']['own_name']}}</b></td>
+                        <td>{{ reservation[0]['own_res_room_type']|trans}}</td>
+                        <td style="text-align: right">
+                            {% if loop.last %}
+                            --
+                            {% else %}
+                            {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ reservation[0]['own_res_night_price'] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}</span>
+                            {% endif %}
+                        </td>
                     </tr>
-                    <tr>
-                        <td>aa</td>
-                        <td>aa</td>
-                        <td>aa</td>
-                        <td>aa</td>
-                    </tr>
-                    <tr>
-                        <td>aa</td>
-                        <td>aa</td>
-                        <td>aa</td>
-                        <td>aa</td>
-                    </tr>
-                    <tr>
-                        <td>aa</td>
-                        <td>aa</td>
-                        <td>aa</td>
-                        <td>aa</td>
-                    </tr>
+                    {% endfor %}
                     </tbody>
                     <thead>
                     <tr>
                         <th>Total</th>
                         <th></th>
                         <th></th>
-                        <th>Precio</th>
+                        <th>{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ reservation[0]['own_res_night_price'] * ((dates|length)-1) * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}</th>
                     </tr>
                     </thead>
                 </table>
@@ -93,18 +83,18 @@
                 <div class="row-fluid">
                     <div class="span5">
                         <label>Nombre<span>*</span></label>
-                        <input type="text" class="mycp_text_box input-block-level"/>
+                        <input type="text" class="mycp_text_box input-block-level" value="{{ user.getUserName |capitalize}}"/>
                     </div>
                     <div class="span5">
                         <label>Apellido<span>*</span></label>
-                        <input type="text" class="mycp_text_box input-block-level"/>
+                        <input type="text" class="mycp_text_box input-block-level" value="{{ user.getUserLastName |capitalize}}"/>
                     </div>
                 </div>
 
                 <div class="row-fluid">
                     <div class="span5">
                         <label>Correo electrónico<span>*</span></label>
-                        <input type="text" class="mycp_text_box input-block-level"/>
+                        <input type="text" class="mycp_text_box input-block-level"  value="{{ user.getUserEmail}}"/>
                     </div>
                     <div class="span5">
                         <label>Confirmar correo electrónico<span>*</span></label>
@@ -140,7 +130,7 @@
                 <div class="row-fluid">
                     <div class="span5">
                         <label>Número de teléfono</label>
-                        <input type="text" class="mycp_text_box input-block-level"/>
+                        <input type="text" class="mycp_text_box input-block-level"  value="{{ user.getUserPhone}}"/>
                     </div>
                     <div class="span5">
                         <label>Número de móvil</label>

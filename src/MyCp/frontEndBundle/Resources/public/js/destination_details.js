@@ -1,7 +1,7 @@
 $(document).ready(start);
 
 function start(){
-    //initialize_map();
+    initialize_map();
 
     $('.details_items_per_page').click(function()
     {
@@ -30,7 +30,7 @@ function initialize_map()
         
         var center_details = new google.maps.LatLng(x, y);//La Habana 23.09725, -82.37548
         var options_details = {
-            zoom: 15,
+            zoom: 4,
             center: center_details,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
@@ -40,8 +40,8 @@ function initialize_map()
         var marker = new google.maps.Marker({
             position: new google.maps.LatLng(x,y),
             map: big_map_details,
-            title: name//,
-        //icon: icon
+            title: name,
+            icon: icon
         });
         
         

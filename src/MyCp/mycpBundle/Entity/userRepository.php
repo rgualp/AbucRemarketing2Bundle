@@ -91,7 +91,7 @@ class userRepository extends EntityRepository
         $em->flush();
     }
 
-    function frontend_register_user($post,$request,$factory,$encoder)
+    function frontend_register_user($post,$request,$factory,$encoder, $translator)
     {
         $em = $this->getEntityManager();
         $currencies=$em->getRepository('mycpBundle:currency')->findAll();
@@ -114,7 +114,7 @@ class userRepository extends EntityRepository
         if($request->get('user_newsletters'))
             $user->setUserNewsletters(1);
         $user->setUserEnabled(0);
-        $password = $encoder->encodePassword($post['user_password']['Clave:'], $user->getSalt());
+        $password = $encoder->encodePassword($post['user_password'][$translator->trans("FORMS_PASSWORD")], $user->getSalt());
 
         $user->setUserPassword($password);
         $user_tourist->setUserTouristCurrency($currencies[0]);

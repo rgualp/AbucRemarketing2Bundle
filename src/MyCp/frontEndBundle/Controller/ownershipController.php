@@ -47,9 +47,15 @@ class ownershipController extends Controller {
         $own_photos = $em->getRepository('mycpBundle:ownership')->getPhotos($owner_id);
         $own_photo_descriptions = $em->getRepository('mycpBundle:ownership')->getPhotoDescription($own_photos, $locale);
 
-        $start_timestamp = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
-        $end_timestamp = strtotime('+6 day');
+        $session = $this->get('session');
         $post = $request->request->getIterator()->getArrayCopy();
+        $start_date = (isset($post['top_reservation_filter_date_from'])) ? ($post['top_reservation_filter_date_from']) : (($session->get('search_arrival_date') != null) ? $session->get('search_arrival_date') : 'now');
+        $end_date = (isset($post['top_reservation_filter_date_to'])) ? ($post['top_reservation_filter_date_to']) : (($session->get('search_departure_date') != null) ? $session->get('search_departure_date') : '+2 day');
+        
+        $start_timestamp =  strtotime($start_date);
+        $end_timestamp = strtotime($end_date);
+
+        
         if (isset($post['top_reservation_filter_date_from'])) {
             $post['reservation_filter_date_from'] = $post['top_reservation_filter_date_from'];
             $post['reservation_filter_date_to'] = $post['top_reservation_filter_date_to'];
@@ -190,6 +196,7 @@ class ownershipController extends Controller {
         /* YANET */
         $users_id = $em->getRepository('mycpBundle:user')->user_ids($this);
         $em->getRepository('mycpBundle:userHistory')->insert(true, $owner_id, $users_id);
+        //var_dump($post); exit();
 
         return $this->render('frontEndBundle:ownership:ownershipDetails.html.twig', array(
                     'avail_array_prices' => $avail_array_prices,
@@ -200,6 +207,7 @@ class ownershipController extends Controller {
                     'prices_dates' => $prices_dates,
                     'ownership' => $ownership,
                     'description' => $ownership_description,
+                    'brief_description' => ($ownership_description != null) ? $ownership_description->getOdlBriefDescription() : null,
                     'similar_houses' => $similar_houses,
                     'total_similar_houses' => $total_similar_houses,
                     'photos_similar_houses' => $photos_similar_houses,
@@ -217,7 +225,8 @@ class ownershipController extends Controller {
                     'comments_items_per_page' => $items_per_page,
                     'comments_total_items' => $paginator->getTotalItems(),
                     'comments_current_page' => $page,
-                    'can_comment' => $em->getRepository("mycpBundle:comment")->can_comment($users_id["user_id"], $ownership->getOwnId())
+                    'can_comment' => $em->getRepository("mycpBundle:comment")->can_comment($users_id["user_id"], $ownership->getOwnId()),
+                    'locale' => $locale
         ));
     }
 
@@ -260,10 +269,12 @@ class ownershipController extends Controller {
 
         if ($category == 'economy')
             $real_category = 'Económica';
-        else if ($category == 'rango_medio')
+        else if ($category == 'mid_range')
             $real_category = 'Rango medio';
         else if ($category == 'premium')
             $real_category = 'Premium';
+        else
+            return $this->redirect($this->generateUrl('frontend_welcome'));
 
 
 
@@ -1092,7 +1103,7 @@ class ownershipController extends Controller {
                 'odl_ownership' => $own->getOwnId()
             ));
 
-            $own_top20_descriptions[$own->getOwnId()] = substr($own_description, 0, 120) . ((strlen($own_description) > 120) ? "..." : "");
+            $own_top20_descriptions[$own->getOwnId()] = ($own_description != null) ? $own_description->getOdlBriefDescription() : null;
         }
 
 

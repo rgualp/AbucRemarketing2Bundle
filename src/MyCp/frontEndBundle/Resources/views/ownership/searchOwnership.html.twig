@@ -44,8 +44,9 @@
         {%if view_results != 'MAP'%}
         <div id="map" style="width:100%;height:150px;" class="google-maps"></div>
         {%endif%}
-        <div id="json_source" data-url="{{path("frontend_map_markers_ownership")}}" data-icon1="http://www.mycasaparticular.com/maps.png"
-             data-icon-small="http://{{app.request.host}}{{asset('/web/bundles/frontend/images/map_small.png')}}" data-icon="http://{{app.request.host}}{{asset('/web/bundles/frontend/images/map.png')}}"></div>
+        <div id="json_source" data-url="{{path("frontend_map_markers_ownership")}}"
+             data-icon-small="http://www.mycasaparticular.com/web/bundles/frontend/images/map_small.png" 
+             data-icon="http://www.mycasaparticular.com/web/bundles/frontend/images/map.png"></div>
         
         {{ include('frontEndBundle:ownership:verticalSearcherOwnership.html.twig',
             {'is_within_search_results':true, 
@@ -111,9 +112,7 @@
 <script src="http://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script> 
 <script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.infobox.js') }}"></script>
-<script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.markerclusterer.js') }}"></script>    
-<script src="{{ asset('bundles/frontend/js/bootstrap/bootstrap-datepicker.js') }}"></script>
-<script src="{{ asset('bundles/frontend/js/bootstrap/bootstrap-datepicker.es.js') }}"></script>
+<script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.markerclusterer.js') }}"></script> 
 <script src="{{ asset('bundles/frontend/js/search_ownership.js') }}"></script>    
 <link href="{{ asset('bundles/frontend/css/customMap.css') }}" rel="stylesheet" media="screen">
 {% endblock %}

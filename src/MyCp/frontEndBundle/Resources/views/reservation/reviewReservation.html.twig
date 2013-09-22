@@ -1,80 +1,48 @@
 {% extends 'frontEndBundle:layout:base.html.twig' %}
 {% block title %}
-{{"POPULAR_DESTINATIONS_PAGE_TITLE" | trans}}
+{{"CART" | trans}}
 {% endblock %}
 
 {% set main_tab = 5 %}
 {% block content_nav_top_body %}
-destinos
+{{"CART_DESCRIPTION" | trans}}
 {% endblock %}
 
 {% block body %}
 <ul class="breadcrumb">
     <li><a href="{{ path('frontend_welcome') }}" title="{{"GO_HOME_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a> <span class="divider">»</span></li>
     {% if ownership.getOwnId is defined %}<li><a href="{{ path('frontend_details_ownership',{'owner_id':ownership.getOwnId}) }}" title="">{{ ownership.getOwnName }}</a> <span class="divider">»</span></li>{% endif %}
-    <li class="active">Reservation</li>
+    <li class="active">{{'RESETVATION_BREADCRUMB'|trans}}</li>
 </ul>
 <div class="row-fluid">
-    <h4 class="head_1">Detalles de Reservación</h4>
-    <div class="thumbnail" style="border-radius: 8px; padding: 0">
-        <table  class="table table_striped_vertical" style="font-size: 12px">
-            <tbody>
-            <thead>
-                <tr>
-                    <th width="15%">Fecha</th>
-                    <th width="39%">Detalles de reserva</th>
-                    <th width="21%">Habitaciones</th>
-                    <th width="10%">Huéspedes</th>
-                    <th style="text-align: right">Precio / Noche</th>
-                </tr>
-            </thead>
-            {% set flag = 0%}
-            {% for date in dates_string %}
-
-            <tr id="">
-                <td class="grey" style="width: 15%">
-                    {{date}}
-                </td>
-                <td colspan="4" style="padding: 0">
-                    <table class="table_inner" width="100%">
-                        {% for service in services %}
-                        {% if dates_timestamp[flag] >= service['from_date'] and dates_timestamp[flag] <= service['to_date']%}
-                        <tr>
-                            <td width="46%"><b>{{ service['ownership_mun']}}, {{ service['ownership_name']}}</b></td>
-                            <td width="24%" class="grey">{{ service['room_type']}}</td>
-                            <td width="20%">Adultos: {{ service['guests']}}, Niños: {{ service['kids']}} </td>
-                            <td width="10%">
-                                {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}
-                                {% if service['room_type'] %}
-                                    {{ service['room_price_'~array_season[flag]] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) + 10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}
-                                {% else %}
-                                    {{ service['room_price_'~array_season[flag]] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}
-                                {% endif %}
-                            </td>
-                        </tr>
-                        {% endif %}
-                        {% endfor %}
-                    </table>
-                </td>
-            </tr>
-            {% set flag = flag + 1 %}
-            {% endfor %}
-            </tbody>
-        </table>
+    <h4 class="head_1">{{'RESERVATION_DETAILS'|trans}}</h4>
+    {%if services%}
+    <a href="{{ path('frontend_remove_cart_reservation') }}" class="btn pull-right btn-danger" style="margin-top: -40px"><i class="icon-trash icon-white"></i> {{"EMPTY_CART"|trans}}</a>
+    {%endif%}
+    <div id="res_main_cont" class="thumbnail" style="border-radius: 8px; padding: 0">
+        {% if services %}
+        <div id="content_body_review">
+            {% render ('frontEndBundle:reservation:get_body_review_reservation')%}
+        </div>
         <div class="table_striped_vertical_foot">
             <div class="row-fluid">
-                <div class="span6">Total</div>
-                <div class="span6" style="text-align: right">{{app.session.get('curr_symbol')}}</div>
+                <div class="span6">{{"TOTAL" | trans}}</div>
+                <div class="span6" style="text-align: right">{{app.session.get('curr_symbol')}}<span id="total_price"></span></div>
             </div>
         </div>
+        {% else %}
+            <div style="margin: 10px" class="alert alert-info">{{"EMPTY_LIST"|trans}}</div>
+        {% endif %}
     </div>
-    <label class="pull-right" style="font-size: 10px;">Las Habitaciones triples tienen un recargo de {{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_acronym')| upper}}</label>
+    <label class="pull-right" style="font-size: 10px;  color: #d80407;">{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')| upper}}{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</label>
     <form method="POST" action="">
         <input style="visibility:hidden;" type="text" value="" name="data_reservation" id="data_reservation"/>
         <div class="row-fluid">
-            <div class="span6"></div>
-            <div class="span3"><a href="{{ path('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'})}}" class="btn mycp_btn_blue mycp_btn input-block-level">Continuar buscando</a></div>
-            <div class="span3"><button type="submit" class="btn mycp_btn_green mycp_btn input-block-level">Consultar disponibilidad</button></div>
+            <div class="{% if services %}span6{% else %}span8{% endif %}"></div>
+            <div class="{% if services %}span3{% else %}span4{% endif %}"><a href="{{ path('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'})}}" class="btn mycp_btn_blue mycp_btn input-block-level">{{"KEEP_SEARCHING"|trans}}</a></div>
+            {% if services %}
+            <div class="span3"><a href="{{ path('frontend_review_confirm_reservation') }}" class="btn mycp_btn_green mycp_btn input-block-level">{{"RESERVATION_CHECK_AVAILABILITY"|trans}}</a></div>
+            {% endif %}
         </div>
     </form>
 </div>
@@ -82,62 +50,55 @@ destinos
 <div class="tiny modal fade hide" id="confirmation_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-body">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <p>¿Confirma que desea eliminar esta reservación?</p>
+        <p>{{"REMOVE_RESERVATION_CONFIRM"|trans}}</p>
         <br/>
         <div class="row-fluid">
-            <div class="span6"><button data-dismiss="modal" class="btn btn-block mycp_btn_grey mycp_btn">Cancelar</button></div>
-            <div class="span6"><button id="delete_button" class="btn btn-block mycp_btn_orange mycp_btn">Eliminar</button></div>
+            <div class="span6"><button data-dismiss="modal" class="btn btn-block mycp_btn_grey mycp_btn">{{"CANCEL"|trans}}</button></div>
+            <div class="span6"><button id="delete_button" class="btn btn-block mycp_btn_orange mycp_btn">{{"REMOVE"|trans}}</button></div>
         </div>
     </div>
 </div>
-<div class="tiny modal fade hide" id="messaje_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-body">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <p>Debe disponer de al menos una habitación.</p>
-        <br/>
-        <div class="row-fluid">
-            <div class="span3"></div>
-            <div class="span6"><button data-dismiss="modal" class="btn btn-block mycp_btn_orange mycp_btn">Aceptar</button></div>
-            <div class="span3"></div>
-        </div>
-    </div>
-</div>
+
 
 <script type="text/javascript">
-    $('.table_delete').click(function(){
-        $('#confirmation_modal').modal('show');
-        $('#delete_button').attr('data',$(this).attr('data'));
-    });
 
-    string_url="aa";
+
     $('#delete_button').click(function(){
-        new_url='/';
-        room=$(this).attr('data');
-        array_url=string_url.split('/');
-        rooms=array_url[array_url.length-5];
-
-        if(rooms.split('&amp;').length==2)
-        {
+            string_url="{{ path('frontend_remove_from_cart_reservation',{'data':0})}}";
+            data_remove=$(this).attr('data');
+            $('.btn_delete').attr('disabled','disable');
+            string_url=string_url.substr(0,string_url.length -1);
+            string_url = string_url + data_remove;
+            $('#'+$(this).attr('btn_launch')).attr('class','in_process');
             $('#confirmation_modal').modal('hide');
-            $('#messaje_modal').modal('show');
-        }
-        else
-        {
-            rooms=rooms.replace('&amp;'+room,'');
+            $.ajax({
+                type: "POST",
+                url: string_url,
+                data: "data="+data_remove,
+                success: function(msg){
+                    $('.btn_delete').removeAttr('disabled');
+                    if(msg=='0')
+                    {
+                        window.location='{{path('frontend_review_reservation')}}';
+                    }
+                    else
+                    {
+                        $('#content_body_review').html(msg);
+                        total_price();
+                    }
 
-            array_url[array_url.length-5]=rooms;
-            for( a=0; a < array_url.length; a++ )
-            {
-                new_url=new_url+'/'+array_url[a];
-            }
-            new_url=new_url.replace('//','');
-            $('#data_reservation').val(new_url);
-            string_url=new_url;
-            $('#confirmation_modal').modal('hide');
-            $('#tr_'+room).remove();
-        }
-
-
+                }
+            });
     });
+
+    function total_price()
+    {
+        total=0;
+        $('.service_price').each(function(){
+            total+=parseFloat($(this).text());
+        });
+        $('#total_price').html(total);
+    }
+    total_price();
 </script>
 {% endblock %}
