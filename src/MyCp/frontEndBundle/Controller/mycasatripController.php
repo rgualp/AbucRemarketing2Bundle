@@ -113,8 +113,22 @@ class mycasatripController extends Controller {
     function reservation_reservationAction($id_reservation) {
         $user = $this->get('security.context')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
-        $gen_res = $em->getRepository('mycpBundle:generalReservation')->get_reservation_available_by_user($id_reservation, $user->getUserId());
-        return $this->render('frontEndBundle:mycasatrip:reservation.html.twig');
+        $own_res = $em->getRepository('mycpBundle:ownershipReservation')->get_reservation_available_by_user($id_reservation, $user->getUserId());
+        $start_timestamp=$own_res[0]['own_res_reservation_from_date']->getTimestamp();
+        $end_timestamp=$own_res[0]['own_res_reservation_to_date']->getTimestamp();
+        $service_time = $this->get('Time');
+        $array_dates = $service_time->dates_between($start_timestamp, $end_timestamp);
+        $array_dates_string=array();
+        foreach($array_dates as $date)
+        {
+            array_push($array_dates_string ,\date('d/m/Y', $date));
+        }
+
+        return $this->render('frontEndBundle:mycasatrip:reservation.html.twig', array(
+            'user'=>$user,
+            'reservation'=>$own_res,
+            'dates'=>$array_dates_string
+        ));
     }
 
     function reservation_confirmationAction($id_reservation) {

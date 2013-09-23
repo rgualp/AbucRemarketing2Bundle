@@ -1,0 +1,34 @@
+{% extends 'frontEndBundle:layout:baseMailTemplate.html.twig' %}
+
+{% block content %}
+Hola, {{from}} desea recomendarte un alojamiento en mycasaparticular.com
+<br>
+<hr>
+<div class="well">
+    <div class="row-fluid">
+        <div class="span4"><img class="span12 img-polaroid" src="assets/img/house.jpg"></div>
+        <div class="span8" style="margin-left: 10px">
+            <table>
+                <tr>
+                    <td>
+                        <h4 class="title_1">{{property.getOwnName}}</h4>
+                        <p class="note">
+                            Centro Habana - La Habana
+                            <br/><b>{{property.getOwnMobileNumber}}</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="note">
+                            <span class="badge badge-warning">Disponible</span>
+                        <h4>&euro; TOTAL: 340.00</h4>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><img src="assets/img/button_3.png"/></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

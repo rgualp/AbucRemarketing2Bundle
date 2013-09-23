@@ -49,7 +49,7 @@ body{margin-top: 20px; background: url("../images/body_bg.gif"); background-repe
 .info_message{padding:0px 10px;border-left: solid 4px #A1CC36;z-index: 500; font-size: 40px;color: #ffffff; line-height: 34px; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);}
 .info_message .message{background-color: #719A22; padding: 0px 8px;font-size: 18px; text-shadow: none; margin:10px 0px 0px -5px;}
 .info_message.no_banner{font-size: 26px; color: #669418;text-shadow: none;}
-.info_message.banner{position: absolute; margin-top: 150px;width: 500px; }
+.info_message.banner{position: absolute; margin-top: 115px;width: 500px; }
 
 .msg_green_brand{
     color: white; 
@@ -359,6 +359,7 @@ hr{margin: 5px 0;}
 .table_striped_vertical .grey{ background-color: #F3F3F3}
 .table_delete{background-color: #E5E5E5; width: 40px; }
 .table_delete button{background: url("../images/delete_circle.gif") no-repeat top center; width: 40px; border: none}
+.table_delete button.in_process{background-image: url("../images/loading.gif")}
 .table_delete button:hover{background-position:bottom}
 .table_striped_vertical_foot{background-color: #D1EEFE; color: #45A9DD; font-weight: bold; border-bottom-left-radius: 7px;border-bottom-right-radius: 7px; padding: 10px 10px 0px;}
 .table_inner tr:first-child td{ border-top: none!important;}
@@ -671,3 +672,10 @@ ul.paginator_orange li.first_disabled,ul.paginator_orange li.left_disabled, ul.p
 .accordion .accordion-inner {padding:0px;}
 
 .accordion_destinations .accordion-heading a.accordion-toggle{width: 80% !important;}
+
+.contact .accordion .accordion-inner{ padding: 15px;}
+.padding_right_5{padding-right: 5px;}
+.destination_description h4{ font-size: 22px;color:#008ADD;}
+.destination_description{background-color: #F5F5F5; color:#9F9F9F; padding: 5px;}
+.destination_description_container{padding:3px; border: 1px solid #C6C6C6;}
+.typeahead li a{text-align: left; z-index: 600;}

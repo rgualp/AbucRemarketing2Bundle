@@ -33,7 +33,7 @@ class userController extends Controller {
                 $factory = $this->get('security.encoder_factory');
                 $user2 = new user();
                 $encoder = $factory->getEncoder($user2);
-                $user_db = $em->getRepository('mycpBundle:user')->frontend_register_user($post, $request, $factory, $encoder);
+                $user_db = $em->getRepository('mycpBundle:user')->frontend_register_user($post, $request, $factory, $encoder, $this->get('translator'));
                 $service_security = $this->get('Secure');
                 $encode_string = $service_security->encode_string($user_db->getUserEmail() . '///' . $user_db->getUserId());
 
@@ -211,14 +211,15 @@ class userController extends Controller {
 
     public function contactAction(Request $request) {
         $errors = array();
-
+        $this->get('session')->set("form_type", null);
         $form_tourist = $this->createForm(new touristContact($this->get('translator')));
         $form_owner = $this->createForm(new ownerContact($this->get('translator')));
         if ($request->getMethod() == 'POST') {
             $post_tourist = $request->get('mycp_frontendbundle_contact_tourist');
             if ($post_tourist != null) {
                 $form_tourist->bindRequest($request);
-
+                $this->get('session')->set("form_type", "tourist_form");
+                
                 if ($form_tourist->isValid()) {
                     $tourist_name = $post_tourist['tourist_name'];
                     $tourist_last_name = $post_tourist['tourist_last_name'];
@@ -238,6 +239,7 @@ class userController extends Controller {
 
                     $message = 'Gracias por contactar con nosotros. Su comentario ha sido enviado.';
                     $this->get('session')->setFlash('message_global_success', $message);
+                    
                     return $this->redirect($this->generateUrl('frontend_contact_user'));
                 }
             }
@@ -246,7 +248,8 @@ class userController extends Controller {
 
             if ($post_owner != null) {
                 $form_owner->bindRequest($request);
-
+                $this->get('session')->set("form_type", "owner_form");
+                
                 if ($form_owner->isValid()) {
                     $owner_full_name = $post_owner['owner_full_name'];
                     $owner_own_name = $post_owner['owner_own_name'];
@@ -271,6 +274,7 @@ class userController extends Controller {
 
                     $message = 'Gracias por contactar con nosotros. Sus datos han sido enviados.';
                     $this->get('session')->setFlash('message_global_success', $message);
+                    
                     return $this->redirect($this->generateUrl('frontend_contact_user'));
                 }
             }

@@ -5,7 +5,7 @@ jQuery(document).ready(function($) {
         keyboardNavEnabled: true,
         imageScaleMode: 'fill',
         arrowsNavAutoHide: false,
-        autoScaleSlider: true,
+        autoScaleSlider: false,
         autoScaleSliderWidth: 960,
         autoScaleSliderHeight: 350,
         controlNavigation: 'bullets',       

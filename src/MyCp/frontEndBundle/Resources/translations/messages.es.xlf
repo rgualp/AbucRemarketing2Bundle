@@ -204,7 +204,7 @@
             </trans-unit>
             <trans-unit id="51">
                 <source>SEARCH_DESCRIPTION_MAIN_MENU</source>
-                <target>buscador....buscador...buscador...</target>
+                <target>Descripción del buscador</target>
             </trans-unit>
             <trans-unit id="52">
                 <source>GO_HOME_TITLE</source>
@@ -572,7 +572,7 @@
             </trans-unit>
             <trans-unit id="152">
                 <source>ADD_FAVORITIES_DETAILS</source>
-                <target>Añadir a Mis Favoritas</target>
+                <target>Añadir a Mis Favoritos</target>
             </trans-unit>
             <trans-unit id="153">
                 <source>NAME_COMMENTS_DETAILS</source>
@@ -655,7 +655,7 @@
                 <target>Listado de Propiedades Económicas</target>
             </trans-unit>
             <trans-unit id="173">
-                <source>OWNERSHIP_RANGO_MEDIO_CATEGORYPAGE_TITLE</source>
+                <source>OWNERSHIP_MID_RANGE_CATEGORYPAGE_TITLE</source>
                 <target>Listado de Propiedades de Rango Medio</target>
             </trans-unit>
             <trans-unit id="174">
@@ -663,7 +663,7 @@
                 <target>Listado de Propiedades Premium</target>
             </trans-unit>
             <trans-unit id="175">
-                <source>RANGO_MEDIO_OWNERSHIP</source>
+                <source>MID_RANGE_OWNERSHIP</source>
                 <target>Rango Medio</target>
             </trans-unit>
             <trans-unit id="176">
@@ -1716,18 +1716,90 @@
                 <target>Dirección de correo destino:</target>
             </trans-unit>
             <trans-unit id="438">
+                <source>MAIN_CUBAN_DESTINATIONS</source>
+                <target>Principales destinos de Cuba</target>
+            </trans-unit>
+            <trans-unit id="439">
+                <source>RESERVATION_DETAILS</source>
+                <target>Detalles de reservación</target>
+            </trans-unit>
+            <trans-unit id="440">
+                <source>RESERVATION_TRIPLE_CHARGE</source>
+                <target>Las Habitaciones triples tienen un recargo de </target>
+            </trans-unit>
+            <trans-unit id="441">
+                <source>PRICE_NIGHT</source>
+                <target>Precio/Noche</target>
+            </trans-unit>
+            <trans-unit id="442">
+                <source>KEEP_SEARCHING</source>
+                <target>Continuar buscando</target>
+            </trans-unit>
+            <trans-unit id="443">
+                <source>REMOVE</source>
+                <target>Eliminar</target>
+            </trans-unit>
+            <trans-unit id="444">
+                <source>EMPTY_CART</source>
+                <target>Vaciar cesta</target>
+            </trans-unit>
+            <trans-unit id="445">
+                <source>NOT_AVAILABLE</source>
+                <target>No disponible</target>
+            </trans-unit>
+           <trans-unit id="446">
+               <source>REMOVE_RESERVATION_CONFIRM</source>
+               <target>¿Confirma que desea eliminar la reservación?</target>
+           </trans-unit>
+           <trans-unit id="447">
+               <source>CANCEL</source>
+               <target>Cancelar</target>
+           </trans-unit>
+           <trans-unit id="448">
+               <source>CART_EMPTY_SUCCESSFUL</source>
+               <target>La cesta se ha vaciado satisfactoriamente.</target>
+           </trans-unit>
+           <trans-unit id="449">
+               <source>CART_DESCRIPTION</source>
+               <target>Descripción de la cesta</target>
+           </trans-unit>
+           <trans-unit id="450">
+               <source>LAST_ADDED_DESCRIPTION</source>
+               <target>Descripción de últimas añadidas</target>
+           </trans-unit>
+           <trans-unit id="451">
+               <source>OWNERSHIP_ECONOMY_DESCRIPTION</source>
+               <target>Descripción de alojamientos económicos</target>
+           </trans-unit>
+           <trans-unit id="452">
+               <source>OWNERSHIP_PREMIUM_DESCRIPTION</source>
+               <target>Descripción de alojamientos premium</target>
+           </trans-unit>
+           <trans-unit id="453">
+               <source>OWNERSHIP_MID_RANGE_DESCRIPTION </source>
+               <target>Descripción de alojamientos rango medio</target>
+           </trans-unit>
+           <trans-unit id="454">
+               <source>SEE_REQUEST</source>
+               <target>Ver solicitud</target>
+           </trans-unit>
+           <trans-unit id="455">
+               <source>ID_RESERVATION</source>
+               <target>ID Reserva</target>
+           </trans-unit>
+           <trans-unit id="456">
                 <source>SKRILL_CONFIRMATION_NOTE</source>
                 <target>TODO - not yet translated!</target>
             </trans-unit>
-                <trans-unit id="439">
+                <trans-unit id="457">
                 <source>SKRILL_DESCRIPTION_BOOKING_ID</source>
                 <target>ID Reserva:  </target>
             </trans-unit>
-            <trans-unit id="440">
+            <trans-unit id="458">
                 <source>SKRILL_PAY_WITH_SKRILL</source>
                 <target>TODO - not yet translated</target>
             </trans-unit>
-            <trans-unit id="441">
+            <trans-unit id="459">
                 <source>SKRILL_RETURN_TO_MYCP</source>
                 <target>Return to MyCasaParticular</target>
             </trans-unit>

@@ -137,19 +137,29 @@ function hide_loading()
 //net socials
 function send2Friend() {
     var url = $('#send_to_friend_popup').attr('data-url');
+    var email_type = $('#send_to_friend_popup').attr('data-email-type');
+    var dest_prop_id = $('#send_to_friend_popup').attr('data-dest-prop-id');
     var name_from = $('#name_from').val();
     var email_to = $('#email_to').val();
 
-    if (name_from == '' || email_to == '') {
-        //include html5 validation
+    if (!document.mail_popup_form.checkValidity()) {
+        if (name_from === '') {
+            $('#name_from').css("borderColor", "red");
+        } else {
+            $('#email_to').css("borderColor", "red");
+        }
         return;
     }
 
     $('#sending_mail').removeClass('hidden');
     $.post(url, {
+        'email_type': email_type,
+        'dest_prop_id': dest_prop_id,
         'name_from': name_from,
         'email_to': email_to
     }, function(data) {
+        $('#name_from').val("");
+        $('#name_from').val("");
         $('#send_to_friend_popup').modal('hide');
         $('#sending_mail').addClass('hidden');
     });

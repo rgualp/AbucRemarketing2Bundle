@@ -119,4 +119,13 @@ class ownershipReservationRepository extends EntityRepository {
         $em->flush();
     }
 
+    function get_reservation_available_by_user($id_reservation ,$id_user)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT owre,genres,own,mun FROM mycpBundle:ownershipReservation owre
+        JOIN owre.own_res_gen_res_id genres JOIN genres.gen_res_own_id own JOIN own.own_address_municipality mun
+        WHERE owre.own_res_gen_res_id = $id_reservation AND genres.gen_res_user_id = $id_user");
+        return $query->getArrayResult();
+    }
+
 }

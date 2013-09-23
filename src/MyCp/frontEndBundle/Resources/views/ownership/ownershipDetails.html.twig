@@ -1,3 +1,6 @@
+{%set start_date = (post['reservation_filter_date_from'] is defined) ? ( post['reservation_filter_date_from']) : ((app.session.get('search_arrival_date') != null) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now" |date("d/m/Y")))%}
+{%set end_date = (post['reservation_filter_date_to'] is defined) ? (post['reservation_filter_date_to']) : ((app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : ("+2 day" |date("d/m/Y")))%}
+    
 {% extends 'frontEndBundle:layout:base.html.twig' %}
 {% block title %}
 {{ownership.ownname}}
@@ -6,7 +9,7 @@
 {% block include_javascripts_and_css %}
 {% endblock %}
 
-{% set main_tab = 2 %}
+{% set main_tab = 5 %}
 {% block content_nav_top_body %}
 <h4>
     {{ownership.ownType  | trans}} {{"IN" | trans}} {{ownership.ownAddressProvince}}: {{ownership.ownName}}.
@@ -61,11 +64,10 @@
 
         <div id="map" class="tab-pane fade {%if not gallery_photos | length%} in active {% endif %}">
             <div class="flexible-container" id="mapContent">
-                {% if gallery_photos[0] is defined %}
+                
                 <iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-                        src="{{ path('frontend_map_details_ownership',{'ownGeolocateX':ownership.OwnGeolocateX,'ownGeolocateY':ownership.OwnGeolocateY,'ownName':ownership.ownName,'description': "FROM_PRICES" | trans ~ " &euro;" ~ ownership.OwnMinimumPrice ~ " " ~ "BYNIGHTS_PRICES" | trans | lower,'image':gallery_photos[0].getPhoName})}}">
+                        src="{{ path('frontend_map_details_ownership',{'ownGeolocateX':ownership.OwnGeolocateX,'ownGeolocateY':ownership.OwnGeolocateY,'ownName':ownership.ownName,'description': "FROM_PRICES" | trans ~ (app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')) ~ ownership.OwnMinimumPrice ~ " " ~ ("BYNIGHTS_PRICES" | trans | lower),'image':((gallery_photos[0] is defined) ? gallery_photos[0].getPhoName : "no_photo.png")})}}">
                 </iframe>
-                {% endif %}
             </div>
         </div>
 
@@ -85,7 +87,7 @@
     <div class="row-fluid">
         <div class="span7 paragraph">
             <h4>{{ownership.ownname}}</h4>
-            {{description| raw |striptags}}
+            {{description| raw }}
         </div>
         <div class="span5 paragraph paragraph_2">
             <table class="table table-striped" style="border: solid 1px #dddddd; margin: 0;">
@@ -368,16 +370,17 @@
         <div class="tab-pane fade in active ">
             <div class="row-fluid no_tab">
                 <form  method="POST" action="{{ path('frontend_details_ownership',{'owner_id':ownership.ownid}) }}" novalidate>
-                    <div class="span5"><label>{{'FROM_PRICES' | trans}}:</label><input value="{% if post['reservation_filter_date_from'] is defined%}{{ post['reservation_filter_date_from'] }}{% else %}{{ "now"|date("d/m/Y") }}{% endif %}" name="reservation_filter_date_from" id="filter_date_from" type="text" class="mycp_text_box mycp_text_box_margin input-block-level"/></div>
-                    <div class="span5"><label>{{'TO_PRICES' | trans | capitalize}}:</label><input value="{% if post['reservation_filter_date_to'] is defined%}{{ post['reservation_filter_date_to'] }}{% else %}{{ "+6 day"|date("d/m/Y") }}{% endif %}" name="reservation_filter_date_to" id="filter_date_to" type="text" class="mycp_text_box mycp_text_box_margin input-block-level"/></div>
+                    <div class="span5"><label>{{'FROM_PRICES' | trans}}:</label><input value="{{start_date}}" name="reservation_filter_date_from" id="filter_date_from" type="text" class="mycp_text_box mycp_text_box_margin input-block-level" data-localization='{{locale}}'/></div>
+                    <div class="span5"><label>{{'TO_PRICES' | trans | capitalize}}:</label><input value="{{end_date}}" name="reservation_filter_date_to" id="filter_date_to" type="text" class="mycp_text_box mycp_text_box_margin input-block-level" data-localization='{{locale}}'/></div>
                     <div class="span2"><label>&nbsp;</label><button type="submit" class="btn btn-block dark_blue_button" style="font-size: 12px;">{{'RESERVATION_SEE_PRICES' | trans}}</button></div>
                 </form>
             </div>
             <hr/>
-            <div class="alert alert-info">{{'RESERVATION_PRICES_FOR' | trans}}: {% if post['reservation_filter_date_from'] is defined%}{{ post['reservation_filter_date_from'] }}{% else %}{{ "now"|date("d/m/Y") }}{% endif %} - {% if post['reservation_filter_date_to'] is defined%}{{ post['reservation_filter_date_to'] }}{% else %}{{ "+1 day"|date("d/m/Y") }}{% endif %}</div>
+            <div class="alert alert-info">{{'RESERVATION_PRICES_FOR' | trans}}: {{start_date}} - {{end_date}}
+            </div>
             <div style="overflow-x: auto;">
 
-                <table class="table table-striped">
+                <table class="table table-striped"style="margin-bottom: 0px">
                     <thead>
                     <tr>
                         <th>{{'RESERVATION_ROOMS' | trans}}</th>
@@ -422,13 +425,13 @@
                         {% endfor %}
                         <td {% if available != 1 %} colspan="2" {% endif %}>
                             {% if available == 1 %}
-                            <select data_total="{{array_prices[cont-1]}}" id="combo_guest_{{room.getRoomId}}" name="combo_guest_{{room.getRoomId}}" data='{{room.getRoomId}}' data_curr='{{ (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}' class="guest_number" style="width: 50px">
+                            <select data_total="{{array_prices[cont-1]}}" id="combo_guest_{{room.getRoomId}}" name="combo_guest_{{room.getRoomId}}" data='{{room.getRoomId}}' data_curr='{{ (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}' class="guest_number" data_type_room='{{room.getRoomType}}' style="width: 50px">
                                 <option value="0">0</option>
                                 {{ include('frontEndBundle:ownership:listGuestRoomOwnership.html.twig',{'room_type': room.getRoomType}) }}
                             </select>
                         </td>
                         <td>
-                            <select data_total="{{array_prices[cont-1]}}" id="combo_kids_{{room.getRoomId}}" name="combo_kids_{{room.getRoomId}}" data='{{room.getRoomId}}' data_curr='{{ (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}' class="guest_number" style="width: 50px">
+                            <select data_total="{{array_prices[cont-1]}}" id="combo_kids_{{room.getRoomId}}" name="combo_kids_{{room.getRoomId}}" data='{{room.getRoomId}}' data_curr='{{ (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}' class="guest_number" data_type_room='{{room.getRoomType}}' style="width: 50px">
                                 <option value="0">0</option>
                                 {{ include('frontEndBundle:ownership:listGuestRoomOwnership.html.twig',{'room_type': room.getRoomType}) }}
                             </select>
@@ -441,9 +444,9 @@
                     </tr>
                     {% set cont = cont +1%}
                     {% endfor %}
-
                     </tbody>
                 </table>
+                <label class="pull-right" style="font-size: 10px; color: #d80407;">{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')| upper}}{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</label>
             </div>
             <table id="rooms_selected" class="table table-striped" style="margin-bottom: 0px; display: none;">
                 <thead>
@@ -460,6 +463,7 @@
 
                 </tbody>
             </table>
+            <div></div>
             <div id="button_availability" class="row-fluid" style="display: none;">
                 <div class="span8"></div>
                 <div class="span4" style="text-align: right">
@@ -475,7 +479,7 @@
                     {% if post['reservation_filter_date_to'] is defined%}
                     {% set date_to = post['reservation_filter_date_to']|replace("/","&") %}
                     {% else %}
-                    {% set date_to = "+1 day"|date("d&m&Y") %}
+                    {% set date_to = "+6 day"|date("d&m&Y") %}
                     {% endif %}
                     <form action="{{ path('frontend_add_to_cart_reservation',{'id_ownership':ownership.getOwnId}) }}" method="POST">
                         <input from_date="{{ date_from }}" to_date="{{ date_to }}" type="text" style="visibility: hidden; margin-bottom: -50px" name="data_reservation" id="data_reservation"/>
@@ -507,8 +511,21 @@
                     <td>{{"GUESTS_RESERVATION" | trans}}</td>
                 </tr>
                 <tr>
-                    <td><input name="top_reservation_filter_date_from" id="top_reservation_filter_date_from" class="mycp_text_box mycp_text_box_margin input-block-level" value="{% if post['reservation_filter_date_from'] is defined%}{{ post['reservation_filter_date_from'] }}{% else %}{{ "now"|date("d/m/Y") }}{% endif %}" type="text"></td>
-                    <td><input name="top_reservation_filter_date_to" id="top_reservation_filter_date_to" class="mycp_text_box mycp_text_box_margin input-block-level" value="{% if post['reservation_filter_date_to'] is defined%}{{ post['reservation_filter_date_to'] }}{% else %}{{ "+6 day"|date("d/m/Y") }}{% endif %}" type="text"></td>
+                    <td>
+                        <input name="top_reservation_filter_date_from" 
+                               id="top_reservation_filter_date_from" 
+                               class="mycp_text_box mycp_text_box_margin input-block-level" 
+                               value="{{start_date}}" 
+                               type="text" 
+                               data-localization='{{locale}}'>
+                    </td>
+                    <td>
+                        <input name="top_reservation_filter_date_to" 
+                               id="top_reservation_filter_date_to" 
+                               class="mycp_text_box mycp_text_box_margin input-block-level" 
+                               value="{{end_date}}" 
+                               type="text" 
+                               data-localization='{{locale}}'></td>
                     <td>
                         <div class="btn-group mycp_combo perc_13" style="margin-top: -10px;">
                         <a href="#" id="top_reservation_persons_count" name="top_reservation_persons_count" style="width: 90px" class="combo_label btn dropdown-toggle span2 " data-toggle="dropdown" data-value="1">
@@ -538,7 +555,7 @@
             <div class="alert alert-error">No disponible</div>
             {% else %}
             <button onclick="submit_button_top_reservation()" id="top_reservation_submit_button" type="button"  prices="{% set real_price=0%}{%for price in avail_array_prices%}&{{price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}{% set real_price=real_price + price%}{%endfor%}" real_price="{{real_price}}" rooms="{%for room in available_rooms%}&{{room}}{%endfor%}" class="btn btn-block mycp_btn_orange mycp_btn btn-large">
-              Consultar disponibilidad
+              {{"RESERVATION_CHECK_AVAILABILITY" | trans}}
             </button>
             {% endif %}
             </form>
@@ -556,7 +573,7 @@
     </div>
     <div class="thumbnail" style="padding: 12px">
         <a href="#send_to_friend_popup" title="{{'SEND_TO_FRIEND' | trans}}" data-toggle="modal" style="text-decoration: none">
-            <button class="btn btn-block" onclick="$('#send_to_friend_popup').attr('data-email-type', 'recommend_destino');">
+            <button class="btn btn-block" onclick="$('#send_to_friend_popup').attr('data-email-type', 'recommend_property'); $('#send_to_friend_popup').attr('data-dest-prop-id', '{{ownership.getOwnId}}');">
                 <div class="icon-envelope"></div>
                 {{"TELL_A_FRIEND" | trans}}
             </button>
@@ -672,9 +689,9 @@
 <link href="{{ asset('bundles/frontend/css/royal_slider/rs-default.css') }}" rel="stylesheet"/>
 <script type="text/javascript">
 
-    var cont_array_dates={{ array_dates | length}}
-    var start_date="{{ "now"|date("d/m/Y") }}";
-    var end_date="{{ "+1 day" |date("d/m/Y")}}";
+    var cont_array_dates={{ array_dates | length}};
+    var start_date="{{start_date }}";
+    var end_date="{{end_date}}";
     jQuery(document).ready(function () {
         $('#gallery-1').royalSlider({
             fullscreen:{
@@ -709,49 +726,25 @@
 <script src="{{ asset('bundles/frontend/js/bootstrap/bootstrap-datepicker.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/bootstrap/bootstrap-datepicker.es.js') }}"></script>
 <script type="text/javascript">
-
-    $('#add_to_favorite').click(function(){
-        if($('#add_to_favorite').attr('type')=='add')
-        {
-            other_image_url="{{ asset('bundles/frontend/images/heart_2_on.gif') }}";
-            url="{{ path('frontend_insert_favorite') }}";
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: { favorite_type: "ownership", element_id: "{{ownership.getOwnId}}" }
-            }).done(function() {
-                $('#add_to_favorite').html("<img src='"+other_image_url+"'/> Eliminar de mis Favoritas")
-                $('#add_to_favorite').attr("type","delete")
-            });
-        }
-        else
-        {
-            other_image_url="{{ asset('bundles/frontend/images/heart_2.gif') }}";
-            $('#add_to_favorite').html("<img src='"+other_image_url+"'/> Añadir a Mis Favoritas")
-            $('#add_to_favorite').attr("type","add")
-        }
-
-
-    });
-
-
     $('#top_reservation_filter_date_from').datepicker({
         format:'dd/mm/yyyy',
         todayBtn:'linked',
-        startDate: start_date
+        startDate: start_date,
+        language: $('#top_reservation_filter_date_from').attr('data-localization')
     }).on('changeDate', function(ev){
                 $('.datepicker').hide();
                 $('#top_reservation_submit_button').attr('type','submit');
-                $('#top_reservation_submit_button').html('Ver precio');
+                $('#top_reservation_submit_button').html("{{"RESERVATION_SEE_PRICES" | trans}}");
             });
     $('#top_reservation_filter_date_to').datepicker({
         format:'dd/mm/yyyy',
         todayBtn:'linked',
-        startDate: end_date
+        startDate: end_date,
+        language: $('#top_reservation_filter_date_to').attr('data-localization')
     }).on('changeDate', function(ev){
                 $('.datepicker').hide();
                 $('#top_reservation_submit_button').attr('type','submit');
-                $('#top_reservation_submit_button').html('Ver precio');
+                $('#top_reservation_submit_button').html("{{"RESERVATION_SEE_PRICES" | trans}}");
             });
 </script>
 {% endblock %}

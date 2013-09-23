@@ -16,10 +16,11 @@ class PublicController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $glogal_locale = $this->get('translator')->getLocale();
         $provinces = $em->getRepository('mycpBundle:province')->findAll();
-
+        $slide_folder = rand(1, 7);
         $response = $this->render('frontEndBundle:public:home.html.twig', array(
             'locale' => $glogal_locale,
-            'provinces' => $provinces
+            'provinces' => $provinces,
+            'slide_folder' => $slide_folder
         ));
         $response->setPublic();
         return $response;
@@ -93,11 +94,27 @@ class PublicController extends Controller {
 
     public function recommend2FriendAction() {
         $request = $this->getRequest();
+        $email_type = $request->get('email_type');
         $name_from = $request->get('name_from');
         $email_to = $request->get('email_to');
 
+        $em = $this->getDoctrine()->getEntityManager();
         $service_email = $this->get('Email');
-        $result = $service_email->recommend2Friend($name_from, $email_to);
+        switch ($email_type) {
+            case 'recommend_general':
+                $result = $service_email->recommend2Friend($name_from, $email_to);
+                break;
+            case 'recommend_property':
+                $property_id = $request->get('dest_prop_id');
+                $property = $em->getRepository('mycpBundle:ownership')->find($property_id);
+                $result = $service_email->recommendProperty2Friend($name_from, $email_to, $property);
+                break;
+            case 'recommend_destiny':
+                $destiny_id = $request->get('dest_prop_id');
+                $destination = $em->getRepository('mycpBundle:destination')->find($destiny_id);
+                $result = $service_email->recommendDestiny2Friend($name_from, $email_to, $destination);
+                break;
+        }
         return new Response($result ? "ok" : "error");
     }
 

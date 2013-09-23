@@ -17,11 +17,11 @@
 
 {% block big_banner %}
 <div id="full-width-slider" class="royalSlider rsDefault">
-        <img class="rsImg" src="{{ asset('bundles/frontend/images/slideshow/1.jpg') }}" alt="">
-        <img class="rsImg" src="{{ asset('bundles/frontend/images/slideshow/2.jpg') }}" alt="">
-        <img class="rsImg" src="{{ asset('bundles/frontend/images/slideshow/3.jpg') }}" alt="">
-        <img class="rsImg" src="{{ asset('bundles/frontend/images/slideshow/4.jpg') }}" alt="">
-        <img class="rsImg" src="{{ asset('bundles/frontend/images/slideshow/5.jpg') }}" alt="">
+        <img class="rsImg" src="{{ asset('bundles/frontend/images/slideshow/'~slide_folder~'/1.jpg') }}" alt="">
+        <img class="rsImg" src="{{ asset('bundles/frontend/images/slideshow/'~slide_folder~'/2.jpg') }}" alt="">
+        <img class="rsImg" src="{{ asset('bundles/frontend/images/slideshow/'~slide_folder~'/3.jpg') }}" alt="">
+        <img class="rsImg" src="{{ asset('bundles/frontend/images/slideshow/'~slide_folder~'/4.jpg') }}" alt="">
+        <img class="rsImg" src="{{ asset('bundles/frontend/images/slideshow/'~slide_folder~'/5.jpg') }}" alt="">
 </div>
 <div style="background-color: #A1CB37; height: 10px; z-index: 500">&nbsp;</div>
 {% endblock %}

@@ -36,14 +36,14 @@ class ownershipDescriptionLang
     /**
      * @var string
      *
-     * @ORM\Column(name="odl_description", type="string", length=255)
+     * @ORM\Column(name="odl_description", type="text")
      */
     private $odl_description;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="odl_brief_description", type="string", length=255)
+     * @ORM\Column(name="odl_brief_description", type="text")
      */
     private $odl_brief_description;
 
