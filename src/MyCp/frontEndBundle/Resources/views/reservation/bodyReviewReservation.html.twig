@@ -1,0 +1,63 @@
+<table id="" class="table table_striped_vertical" style="font-size: 12px">
+    <tbody>
+    <thead>
+    <tr>
+        <th width="15%">{{"RESERVATION_DATE"|trans}}</th>
+        <th width="36%">{{"RESERVATION_DETAILS"|trans}}</th>
+        <th width="19%">{{"ROOM_PLURAL"|trans|capitalize}}</th>
+        <th width="14%">{{"RESERVATION_GUESTS"|trans}}</th>
+        <th>{{"PRICE_NIGHT"|trans}}</th>
+    </tr>
+    </thead>
+{% set flag = 0%}
+{% for date in dates_string %}
+{% if array_clear_date[dates_timestamp[flag]] is not defined %}
+<tr id="{{ dates_timestamp[flag] }}">
+    <td class="grey date" style="width: 15%">
+        {{date}}
+    </td>
+    <td colspan="4" style="padding: 0">
+        <table id="table_{{ dates_timestamp[flag] }}" class="table_inner" width="100%">
+            {% for service in services %}
+            {% if dates_timestamp[flag] >= service['from_date'] and dates_timestamp[flag] <= service['to_date']%}
+            <tr id="{{ service['id'] }}-{{ dates_timestamp[flag] }}">
+                <td width="46%"><b>{{ service['ownership_mun']}}, {{ service['ownership_name']}}</b></td>
+                <td width="24%" class="grey">{{ service['room_type']|trans}}</td>
+                <td width="20%">{{"ADULTS"|trans}}: {{ service['guests']}}, {{"KIDS"|trans}}: {{ service['kids']}} </td>
+                <td width="10%">
+                    {% if dates_timestamp[flag] == service['to_date']  %}
+                    {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}<span class="service_price">0</span>
+                    {% else %}
+                    {% if service['room_type']=='Habitación Triple' %}
+                    {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}<span class="service_price">{{ service['room_price_'~array_season[flag]] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) + 10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</span>
+                    {% else %}
+                    {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}<span class="service_price">{{ service['room_price_'~array_season[flag]] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</span>
+                    {% endif %}
+                    {% endif %}
+                </td>
+                <td class="table_delete" style="vertical-align: middle;">
+                    {% if dates_timestamp[flag] != service['to_date']  %}
+                    <button id="btn_{{dates_timestamp[flag]}}" class="btn_delete"  title="{{"REMOVE"|trans}} {{ service['ownership_name']}}" data="{{ service['id'] }}-{{ dates_timestamp[flag] }}">&nbsp;</button>
+                    {% else %}
+                    <button style="background: none; cursor: auto">&nbsp;</button>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </table>
+    </td>
+</tr>
+{% endif %}
+{% set flag = flag + 1 %}
+{% endfor %}
+    </tbody>
+</table>
+<script type="text/javascript">
+    $('.btn_delete').click(function(){
+        $('#confirmation_modal').modal('show');
+        $('#delete_button').attr('data',$(this).attr('data'));
+        $('#delete_button').attr('btn_launch',$(this).attr('id'));
+    });
+
+</script>

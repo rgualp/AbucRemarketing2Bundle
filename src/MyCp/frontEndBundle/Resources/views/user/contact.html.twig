@@ -7,12 +7,13 @@
     <li class="active">{{"CONTACT_US" | trans}}</li>
 </ul>
 <div id="loading" class="alert alert-info hidden"> <img src="{{ asset('bundles/frontend/images/loading.gif') }}"/> {{"LOADING_MESSAGE" | trans}}</div>
+<div class="contact row-fluid">
 <div class="accordion" id="accordion_contacts">
     <div class="accordion-group">
         <div class="accordion-heading">
             <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_contacts" href="#contact_tourist">{{"CONTACT_US_TOURIST_HEADER" | trans}}</a>
         </div>
-        <div id="contact_tourist" class="accordion-body in collapse" style="height: auto;">
+        <div id="contact_tourist" class="accordion-body {%if (app.session.get("form_type") != null and app.session.get("form_type") == 'tourist_form') or app.session.get("form_type") == null%} in {%endif%} collapse" {%if (app.session.get("form_type") != null and app.session.get("form_type") == 'tourist_form') or app.session.get("form_type") == null%}style="height: auto;"{%else%}style="height: 0px;"{%endif%}>
             <div class="accordion-inner">
                 <div class="row-fluid ">
                     <div class="span6">
@@ -58,7 +59,7 @@
                         {{"CONTACT_US_OWNER_HEADER" | trans}}
                     </a>                       
                 </div>
-                <div id="contact_owners" class="accordion-body collapse" style="height: 0px;">
+                <div id="contact_owners" class="accordion-body {%if (app.session.get("form_type") != null and app.session.get("form_type") == 'owner_form')%} in {%endif%} collapse" {%if (app.session.get("form_type") != null and app.session.get("form_type") == 'owner_form')%}style="height: auto;"{%else%}style="height: 0px;"{%endif%}>
                     <div class="accordion-inner">
         <div class="row-fluid ">
             <div class="span6">
@@ -85,6 +86,7 @@
                 </div>
             </div>  
         </div> 
+</div>
             <script type="text/javascript">
                 $('.sfgen input').addClass('input-block-level')
                 </script>

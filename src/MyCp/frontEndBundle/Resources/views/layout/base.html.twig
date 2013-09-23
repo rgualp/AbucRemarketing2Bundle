@@ -4,7 +4,6 @@
         <title>{% block title %}{{"WELCOMEPAGE_TITLE" | trans}}{% endblock %} | MyCasaParticular</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="robots" content="noindex">
         <link href="{{ asset('bundles/frontend/css/bootstrap/bootstrap.css') }}" rel="stylesheet" media="screen">
         <link href="{{ asset('bundles/frontend/css/bootstrap/bootstrap-responsive.css') }}" rel="stylesheet" media="screen">
 
@@ -15,6 +14,7 @@
 
     </head>
     <body>
+        {{ include('frontEndBundle:mails:sendMailPopup.html.twig') }}
         <div class="main_cont container">
             <div class="main_nav navbar">
                 <div class="navbar-inner">
@@ -45,7 +45,7 @@
                                 </li>
                                 <li class="divider-vertical"></li>
                                 <li>
-                                    <a href="{{ path('frontend_review_reservation') }}" title="{{"CART" | trans}}"> {{"CART" | trans }}</a>
+                                    <a href="{{ path('frontend_review_reservation') }}" title="{{"CART" | trans}}"> {{"CART" | trans }} <b id="cart_message">({% render 'frontEndBundle:reservation:get_count_cart_items' %})</b></a>
                                 </li>
                                 </ul>
                                 <ul class="nav pull-right">
@@ -121,7 +121,7 @@
                                             <ul>
                                                 <li>{{"ACCOMMODATION" | trans}}</li>
                                                 <!--li><a href="{{ path('frontend_category_ownership',{'category':'economy'})}}">{{"ECONOMICS_OWNS" | trans}}</a></li>
-                                                <li><a href="{{ path('frontend_category_ownership',{'category':'rango_medio'})}}">{{"MIDRANGE_OWNS" | trans}}</a></li>
+                                                <li><a href="{{ path('frontend_category_ownership',{'category':'mid_range'})}}">{{"MIDRANGE_OWNS" | trans}}</a></li>
                                                 <li><a href="{{ path('frontend_category_ownership',{'category':'premium'})}}">{{"PREMIUM_OWNS" | trans}}</a></li-->
                                                 <!--li><a href="{#{ path('frontend_best_list_ownership')}}">{{"TOP_OWNS" | trans}#}</a></li-->
                                                 <li><a href="{{ path('frontend_voted_best_list_ownership')}}">{{"TOP_RATED" | trans}}</a></li>

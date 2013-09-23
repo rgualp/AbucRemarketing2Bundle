@@ -68,14 +68,6 @@ class generalReservationRepository extends EntityRepository
         return $query->getArrayResult();
     }
 
-    function get_reservation_available_by_user($id_reservation ,$id_user)
-    {
-        $em = $this->getEntityManager();
-        $query = $em->createQuery("SELECT gre FROM mycpBundle:generalReservation gre
-        WHERE gre.gen_res_id = $id_reservation AND gre.gen_res_user_id = $id_user");
-        return $query->getArrayResult();
-    }
-
     function find_by_user_and_status($id_user, $status_string, $string_sql)
     {
         $em = $this->getEntityManager();
@@ -112,4 +104,6 @@ class generalReservationRepository extends EntityRepository
         FROM mycpBundle:generalReservation gre_pend WHERE gre_pend.gen_res_user_id = $id_user AND gre_pend.gen_res_status=0 AND gre_pend.gen_res_date > '$new_date'");
         return $query->getArrayResult();
     }
+
+
 }

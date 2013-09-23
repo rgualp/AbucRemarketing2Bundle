@@ -6,10 +6,14 @@ frontend_add_to_cart_reservation:
     pattern:  /add/{id_ownership}
     defaults: { _controller: frontEndBundle:reservation:add_to_cart }
 
+frontend_remove_from_cart_reservation:
+    pattern:  /remove/{data}
+    defaults: { _controller: frontEndBundle:reservation:remove_from_cart }
+
 frontend_remove_cart_reservation:
     pattern:  /clear/
     defaults: { _controller: frontEndBundle:reservation:clear }
 
 frontend_review_confirm_reservation:
-    pattern:  /check/{id_ownership}/{data}
+    pattern:  /check_review/
     defaults: { _controller: frontEndBundle:reservation:review_confirm }

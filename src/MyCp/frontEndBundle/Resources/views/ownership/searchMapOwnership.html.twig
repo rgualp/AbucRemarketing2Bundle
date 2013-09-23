@@ -1,6 +1,9 @@
 {%if list | length%}
 <a name="top"></a>
-<div id="big_map" style="width:100%;height: 500px;" class="google-maps" data-resized-url="{{path("frontend_map_resized_ownership")}}" data-total-translate="{{"TOTAL" | trans}}"></div>
+<div id="big_map" style="width:100%;height: 500px;" class="google-maps" 
+     data-resized-url="{{path("frontend_map_resized_ownership")}}" 
+     data-total-translate="{{"TOTAL" | trans}}"
+     data-icon="http://www.mycasaparticular.com/web/bundles/frontend/images/map.png"></div>
 
 <div id="map_resized_results">
 {{ include('frontEndBundle:ownership:searchListOwnership.html.twig', 

@@ -80,7 +80,7 @@
             </trans-unit>
             <trans-unit id="20">
                 <source>TOP_OWNS</source>
-                <target>Top Ownerships</target>
+                <target>Top Accomodations</target>
             </trans-unit>
             <trans-unit id="21">
                 <source>TOP_RATED</source>
@@ -204,7 +204,7 @@
             </trans-unit>
             <trans-unit id="51">
                 <source>SEARCH_DESCRIPTION_MAIN_MENU</source>
-                <target>searcher...searcher...searcher...searcher...searcher...searcher...searcher...searcher...searcher...</target>
+                <target>Searcher description</target>
             </trans-unit>
             <trans-unit id="52">
                 <source>GO_HOME_TITLE</source>
@@ -592,7 +592,7 @@
             </trans-unit>
             <trans-unit id="157">
                 <source>QUEST_COMMENTS_DETAILS</source>
-                <target>Do you recommend this ownership for vacations?</target>
+                <target>Do you recommend this accomodation for vacations?</target>
             </trans-unit>
             <trans-unit id="158">
                 <source>5_STARS_COMMENTS_DETAILS</source>
@@ -620,7 +620,7 @@
             </trans-unit>
             <trans-unit id="164">
                 <source>SIMILAR_OWNERSHIPS_DETAILS</source>
-                <target>Similar Ownerships</target>
+                <target>Similar Accomodations</target>
             </trans-unit>
             <trans-unit id="165">
                 <source>LISTINGS_TEXT_DETAILS</source>
@@ -652,18 +652,18 @@
             </trans-unit>
             <trans-unit id="172">
                 <source>OWNERSHIP_ECONOMY_CATEGORYPAGE_TITLE</source>
-                <target>Economic Ownerships List</target>
+                <target>Economic Accomodations List</target>
             </trans-unit>
             <trans-unit id="173">
-                <source>OWNERSHIP_RANGO_MEDIO_CATEGORYPAGE_TITLE</source>
-                <target>Midrange Ownerships List</target>
+                <source>OWNERSHIP_MID_RANGE_CATEGORYPAGE_TITLE</source>
+                <target>Midrange Accomodations List</target>
             </trans-unit>
             <trans-unit id="174">
                 <source>OWNERSHIP_PREMIUM_CATEGORYPAGE_TITLE</source>
-                <target>Premium Ownerships List</target>
+                <target>Premium Accomodations List</target>
             </trans-unit>
             <trans-unit id="175">
-                <source>RANGO_MEDIO_OWNERSHIP</source>
+                <source>MID_RANGE_OWNERSHIP</source>
                 <target>Midrange</target>
             </trans-unit>
             <trans-unit id="176">
@@ -828,7 +828,7 @@
             </trans-unit>
             <trans-unit id="216">
                 <source>TOTAL_RECOMENDS_RATING</source>
-                <target>This ownerships has %total_recomends% recomends</target>
+                <target>This accomodation has %total_recomends% recomends</target>
             </trans-unit>
             <trans-unit id="217">
                 <source>PASSWORD_RECOVERY_PAGE_TITLE</source>
@@ -1032,7 +1032,7 @@
             </trans-unit>
             <trans-unit id="267">
                 <source>SELECT_OWNERSHIP_TYPE_OPTION</source>
-                <target>Ownership Type</target>
+                <target>Accomodation Type</target>
             </trans-unit>
             <trans-unit id="268">
                 <source>SELECT_OWSERSHIP_CATEGORY_OPTION</source>
@@ -1264,7 +1264,7 @@
             </trans-unit>
             <trans-unit id="325">
                 <source>TOP_OWNERSHIP_TITLE</source>
-                <target>Top Ownerships</target>
+                <target>Top Accomodations</target>
             </trans-unit>
             <trans-unit id="326">
                 <source>VOTING</source>
@@ -1272,7 +1272,7 @@
             </trans-unit>
             <trans-unit id="327">
                 <source>TOP_OWNERSHIP</source>
-                <target>Top Ownerships</target>
+                <target>Top Accomodations</target>
             </trans-unit>
             <trans-unit id="328">
                 <source>TOP_RATED_TITLE</source>
@@ -1332,7 +1332,7 @@
             </trans-unit>
             <trans-unit id="342">
                 <source>OWNERSHIPS_LOWER</source>
-                <target>ownership(s)</target>
+                <target>accomodation(s)</target>
             </trans-unit>
             <trans-unit id="343">
                 <source>ROOM_WATERMARK</source>
@@ -1392,7 +1392,7 @@
             </trans-unit>
             <trans-unit id="357">
                 <source>OWNERSHIPS</source>
-                <target>Ownerships</target>
+                <target>Accomodations</target>
             </trans-unit>
             <trans-unit id="358">
                 <source>FORMS_NAME</source>
@@ -1521,7 +1521,7 @@
             </trans-unit>
             <trans-unit id="389">
                 <source>FAV_OWNERSHIPS</source>
-                <target>Favorite Ownerships</target>
+                <target>Favorite Accomodations</target>
             </trans-unit>
             <trans-unit id="390">
                 <source>HISTORY_DESTINATIONS</source>
@@ -1529,7 +1529,7 @@
             </trans-unit>
             <trans-unit id="391">
                 <source>HISTORY_OWNERSHIPS</source>
-                <target>Visited Ownerships</target>
+                <target>Visited Accomodations</target>
             </trans-unit>
             <trans-unit id="392">
                 <source>FOLLOW_US_YOUTUBE</source>
@@ -1718,6 +1718,78 @@
                 <source>EMAIL_TO</source>
                 <target>Destiny email address:</target>
             </trans-unit>
+            <trans-unit id="438">
+                <source>MAIN_CUBAN_DESTINATIONS</source>
+                <target>Main Cuban Destinations</target>
+            </trans-unit>
+            <trans-unit id="439">
+                <source>RESERVATION_DETAILS</source>
+                <target>Reservation details</target>
+            </trans-unit>
+            <trans-unit id="440">
+                <source>RESERVATION_TRIPLE_CHARGE</source>
+                <target>Triple rooms have a recharge of </target>
+            </trans-unit>
+             <trans-unit id="441">
+                <source>PRICE_NIGHT</source>
+                <target>Price/Night</target>
+            </trans-unit>
+            <trans-unit id="442">
+                <source>KEEP_SEARCHING</source>
+                <target>Keep searching</target>
+            </trans-unit>
+            <trans-unit id="443">
+                <source>REMOVE</source>
+                <target>Remove</target>
+            </trans-unit>
+            <trans-unit id="444">
+                <source>EMPTY_CART</source>
+                <target>Empty cart</target>
+            </trans-unit>
+            <trans-unit id="445">
+                <source>NOT_AVAILABLE</source>
+                <target>Not available</target>
+            </trans-unit>
+            <trans-unit id="446">
+                <source>REMOVE_RESERVATION_CONFIRM</source>
+                <target>Do you want remove this reservation?</target>
+            </trans-unit>
+            <trans-unit id="447">
+                <source>CANCEL</source>
+                <target>Cancel</target>
+            </trans-unit>
+            <trans-unit id="448">
+                <source>CART_EMPTY_SUCCESSFUL</source>
+                <target>Cart empty successful.</target>
+            </trans-unit>
+            <trans-unit id="449">
+               <source>CART_DESCRIPTION</source>
+               <target>Cart description</target>
+           </trans-unit>
+           <trans-unit id="450">
+               <source>LAST_ADDED_DESCRIPTION</source>
+               <target>Last added description</target>
+           </trans-unit>
+           <trans-unit id="451">
+               <source>OWNERSHIP_ECONOMY_DESCRIPTION</source>
+               <target>Economic accomodations' description</target>
+           </trans-unit>
+           <trans-unit id="452">
+               <source>OWNERSHIP_PREMIUM_DESCRIPTION</source>
+               <target>Premium accomodations' description</target>
+           </trans-unit>
+           <trans-unit id="453">
+               <source>OWNERSHIP_MID_RANGE_DESCRIPTION </source>
+               <target>Midrange accomodations' description</target>
+           </trans-unit>
+           <trans-unit id="454">
+               <source>SEE_REQUEST</source>
+               <target>See request</target>
+           </trans-unit>
+           <trans-unit id="455">
+               <source>ID_RESERVATION</source>
+               <target>ID Reservation</target>
+           </trans-unit>
         </body>
     </file>
 </xliff>

@@ -4,19 +4,12 @@ function start(){
 
     $('#btn_insert_comment').click(insert_comment);
     initialize_map();
-    
-    /*$('#ownTabs a[href="#map"]').on('shown', function (e) {
-        document.getElementById('mapContent').innerHTML = "<iframe width='425' height='350' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' src='{{ path('frontend_map_details_ownership',{'ownGeolocateX':ownership.OwnGeolocateX,'ownGeolocateY':ownership.OwnGeolocateY,'ownName':ownership.ownName,'description': ''})}}'></iframe>";//'<iframe runat="server" id="mm" width="600" height="450" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="minimap2.aspx?lat=39.86887222271858&long=-75.35767078399658&desc=just%26a%26sample"></iframe><br />';
-        initialize_map();
-});*/
-
-
-
 
     $('#filter_date_from').datepicker({
         format:'dd/mm/yyyy',
         todayBtn:'linked',
-        startDate: start_date
+        startDate: start_date,
+        language: $('#filter_date_from').attr('data-localization')
     }).on('changeDate', function(ev){
             $('.datepicker').hide();
     });
@@ -25,7 +18,8 @@ function start(){
     $('#filter_date_to').datepicker({
         format:'dd/mm/yyyy',
         todayBtn:'linked',
-        startDate: end_date
+        startDate: end_date,
+        language: $('#filter_date_to').attr('data-localization')
     }).on('changeDate', function(ev){
             $('.datepicker').hide();
         });
@@ -47,9 +41,10 @@ function start(){
             else
             {
                 value=0;
-                if(this.parentNode.parentNode.cells[1].innerHTML=='Habitación Triple')
+                if($(this).attr('data_type_room')=='Habitación Triple')
                 {
-                    value=this.parentNode.parentNode.cells[2].innerHTML*(cont_array_dates-1)+((cont_array_dates-1)*10);
+                    value=this.parentNode.parentNode.cells[2].innerHTML*(cont_array_dates-1) + (($(this).attr('data_curr')*10) * (cont_array_dates -1));
+
                 }
                 else
                 {
@@ -67,9 +62,9 @@ function start(){
         {
             value=0;
             real_value=0;
-            if(this.parentNode.parentNode.cells[1].innerHTML=='Habitación Triple')
+            if($(this).attr('data_type_room')=='Habitación Triple')
             {
-                value=$(this).attr('data_total')*$(this).attr('data_curr') + 10;
+                value=$(this).attr('data_total')*$(this).attr('data_curr') +(($(this).attr('data_curr')*10) * (cont_array_dates -1)) ;
             }
             else
             {
@@ -164,8 +159,8 @@ function initialize_map()
         var marker = new google.maps.Marker({
             position: new google.maps.LatLng(x,y),
             map: big_map_details,
-            title: name//,
-        //icon: icon
+            title: name,
+            icon: icon
         });
         
         

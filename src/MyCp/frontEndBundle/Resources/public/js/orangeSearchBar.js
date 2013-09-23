@@ -8,7 +8,7 @@ function datePickersStarUp() {
         format: 'dd/mm/yyyy',
         todayBtn: 'linked',
         autoclose: true,
-        startDate: 'today',
+        startDate: start_date,
         language: $('#input_arrival_date').attr('data-localization')
     }).on('changeDate', function(ev) {
         var newDate = new Date(ev.date);
@@ -75,7 +75,7 @@ function create_date(date_text) {
     var date = date_text.split('/');
     if (date.length == 3)
     {
-        var date_result = parseInt(date[0], 10) + '-' + (parseInt(date[1], 10)) + '-' + parseInt(date[2], 10);
+        var date_result = parseInt(date[2], 10) + '-' + (parseInt(date[1], 10)) + '-' + parseInt(date[0], 10);
         return date_result;
     }
     return null;

@@ -49,18 +49,12 @@ class destination {
     private $destinationsLang;
 
     /**
-     * @ORM\ManyToMany(targetEntity="municipality")
-     * @ORM\JoinTable(name="destinationlocation",
-     *  joinColumns={@ORM\JoinColumn(name="des_loc_des_id", referencedColumnName="des_id")},
-     *  inverseJoinColumns={@ORM\JoinColumn(name="des_loc_mun_id", referencedColumnName="mun_id")})
+     * @ORM\OneToMany(targetEntity="municipality",mappedBy="destinationsMunicipalities")
      */
     private $destinationsMunicipality;
 
     /**
-     * @ORM\ManyToMany(targetEntity="photo")
-     * @ORM\JoinTable(name="destinationphoto",
-     *  joinColumns={@ORM\JoinColumn(name="des_pho_des_id", referencedColumnName="des_id")},
-     *  inverseJoinColumns={@ORM\JoinColumn(name="des_pho_pho_id", referencedColumnName="pho_id")})
+     * @ORM\OneToMany(targetEntity="photo",mappedBy="destination")
      */
     private $destinationsPhoto;
 
