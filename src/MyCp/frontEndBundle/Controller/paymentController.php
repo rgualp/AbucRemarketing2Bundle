@@ -28,13 +28,14 @@ class paymentController extends Controller {
     public function skrillPaymentAction($reservationId)
     {
         $reservation = $this->getReservationFrom($reservationId);
-        if($reservation === false) {
+
+        if(empty($reservation)) {
             throw new EntityNotFoundException($reservationId);
         }
 
         $user = $reservation->getGenResUserId();
 
-        if(empty($user) || !($user instanceof user)) {
+        if(empty($user)) {
             throw new EntityNotFoundException("user($user)");
         }
 
@@ -45,6 +46,10 @@ class paymentController extends Controller {
         }
 
         $ownership = $this->getOwnershipOf($reservation);
+
+        if(empty($ownership)) {
+            throw new EntityNotFoundException("ownership($ownership)");
+        }
 
         $skrillData = $this->getSkrillViewData($reservation, $user, $ownership);
 
@@ -82,7 +87,7 @@ class paymentController extends Controller {
     {
         $reservation = $this->getReservationFrom($reservationId);
 
-        if($reservation === false) {
+        if(empty($reservation)) {
             throw new InvalidParameterException($reservationId);
             //return new JsonResponse(array('status' => 'reservation_not_found'));
         }
@@ -173,10 +178,19 @@ class paymentController extends Controller {
             array('status' => $status));
     }
 
+    // TODO: With this function the skrill payment can be tested instead of using the real button
+    // on the reservation page
+    public function skrillTestPaymentAction($reservationId = 0)
+    {
+        $payUrl = $this->generateUrl('frontend_payment_skrill', array('reservationId' => $reservationId), true);
+        return $this->render(
+            'frontEndBundle:payment:skrillPaymentTest.html.twig',
+            array('payUrl' => $payUrl));
+    }
+
+    // TODO: this function emulates the POST status request from Skrill. Can be deleted when not needed anymore
     public function skrillSendTestPostRequestAction($reservationId, $status)
     {
-        // TODO: this function emulates the POST status request from Skrill. Can be deleted when not needed anymore
-
         $urltopost = $this->generateUrl('frontend_payment_skrill_status', array(), true);
         $datatopost = array (
             "mb_transaction_id" => "ABCD",
@@ -194,16 +208,18 @@ class paymentController extends Controller {
         curl_setopt ($ch, CURLOPT_POST, true);
         curl_setopt ($ch, CURLOPT_POSTFIELDS, $datatopost);
         curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
-        $returndata = curl_exec ($ch);
+        curl_exec ($ch);
 
-        return $this->redirect($this->generateUrl('frontend_payment_skrill_return', array('reservationId' => $reservationId)));
-        //return new Response($returndata);
+        return $this->redirect($this->generateUrl(
+            'frontend_payment_skrill_return',
+            array('reservationId' => $reservationId)
+        ));
     }
 
     private function getReservationFrom($reservationId)
     {
         if(empty($reservationId) || !is_numeric($reservationId) || (int)$reservationId <= 0) {
-            return false;
+            return null;
         }
 
         $em = $this->getDoctrine()->getManager();
@@ -211,7 +227,7 @@ class paymentController extends Controller {
         try {
             $reservation = $em->getRepository('mycpBundle:generalReservation')->find($reservationId);
         } catch (\Exception $e) {
-            return false;
+            return null;
         }
 
         return $reservation;
@@ -244,21 +260,22 @@ class paymentController extends Controller {
         return $ownership;
     }
 
-    private function getCurrencyFrom($skrillCurrency) {
-        $skrillCurrency = strtolower(trim($skrillCurrency));
-        $currencyRepo = $this->getDoctrine()->getRepository('mycpBundle:currency');
-        return $currencyRepo->findOneBy(array('curr_code' => $skrillCurrency));
-    }
-
-    private function sendSkrillPostData($skrillPostData)
+    private function getCurrencyFrom($skrillCurrency)
     {
-        $ch = curl_init (self::$skrillPostUrl);
-        curl_setopt ($ch, CURLOPT_POST, true);
-        curl_setopt ($ch, CURLOPT_POSTFIELDS, $skrillPostData);
-        curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
-        $returndata = curl_exec ($ch);
+        $skrillCurrency = strtolower(trim($skrillCurrency));
 
+        $currency = null;
+
+        try {
+            $repo = $this->getDoctrine()->getRepository('mycpBundle:currency');
+            $currency = $repo->findOneBy(array('curr_code' => $skrillCurrency));
+        } catch (\Exception $e) {
+            return null;
+        }
+
+        return $currency;
     }
+
 
     private function getSkrillViewData(generalReservation $reservation, user $user, ownership $casa)
     {
@@ -267,8 +284,8 @@ class paymentController extends Controller {
         $locale = $this->getRequest()->getLocale();
 
         return array(
-            'action_url' => 'https://www.moneybookers.com/app/payment.pl',
-            'pay_to_email' => 'accounting@mycasaparticular.com', // ABUC email, Skrill-ID: 22512989
+            'action_url' => self::$skrillPostUrl,
+            'pay_to_email' => 'accounting@mycasaparticular.com',
             'recipient_description' => 'MyCasaParticular.com',
             'transaction_id' => $reservationId,
             'return_url' => $this->generateUrl('frontend_payment_skrill_return', array('reservationId' => $reservationId), true),
@@ -278,19 +295,19 @@ class paymentController extends Controller {
             'status_url2' => 'booking@mycasaparticular.com',
             'language' => SkrillHelper::getSkrillLanguageFromLocale($locale),
             'confirmation_note' => $translator->trans('SKRILL_CONFIRMATION_NOTE'),
-            'pay_from_email' => $user->getUserEmail(), // customer email
+            'pay_from_email' => $user->getUserEmail(),
             'logo_url' => 'http://www.mypaladar.com/mycp/mycpres/web/bundles/frontend/images/logo.png', // TODO: $this->getRequest()->getUriForPath('bundles/frontend/images/logo.png') //;'bundles/frontend/images/logo.png',
             'first_name' => $user->getUserName(),
             'last_name' => $user->getUserLastName(),
             'address' => $user->getUserAddress(),
-            'postal_code' => '', //'EC45MQ', // TODO: Postal Code does not exist for a user yet
+            'postal_code' => '', // TODO: A Postal Code does not yet exist for a user
             'city' => $user->getUserCity(),
             'country' => $user->getUserCountry()->getCoCode(),
             'amount' => $reservation->getTotalPriceInSiteAsString(),// '0.5',
             'currency' => 'EUR', // TODO: Add Currency to GeneralReservation
             'detail1_description' => $translator->trans('SKRILL_DESCRIPTION_BOOKING_ID'),
             'detail1_text' => $reservationId,
-            'detail2_description' => 'Casa:  ',
+            'detail2_description' => isset($casa) ? 'Casa:  ' : '',
             'detail2_text' => isset($casa) ? $casa->getOwnMcpCode() : '',
             'payment_methods' => 'ACC,DID,SFT',
             'button_text' => $translator->trans('SKRILL_PAY_WITH_SKRILL')

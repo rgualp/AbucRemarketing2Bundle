@@ -1,77 +1,48 @@
-{% extends 'frontEndBundle:layout:base.html.twig' %}
-{% block title %}
-    <h2>SKRILL TEST PAGE</h2>
-{% endblock %}
+{#
+IMPORTANT:
+    This page is not displayed to a user. Instead the form is immediately posted to Skrill by Javascript.
+    That is why it should contain only barebone HTML and nothing else to keep the load time low.
+#}
+<html>
+    <body>
+        <form action="{{ action_url }}" target="_self" id="skrillForm" style="display:none">
+            <input type="hidden" name="pay_to_email" value="{{ pay_to_email }}">
+            <input type="hidden" name="recipient_description" value="{{ recipient_description }}">
+            <input type="hidden" name="transaction_id" value="{{ transaction_id }}">
+            <input type="hidden" name="return_url" value="{{ return_url }}">
+            <input type="hidden" name="return_url_text" value="{{ return_url_text }}">
+            <input type="hidden" name="return_url_target" value="1">
+            <input type="hidden" name="cancel_url" value="{{ cancel_url }}">
+            <input type="hidden" name="cancel_url_target" value="1">
+            <input type="hidden" name="status_url" value="{{ status_url }}">
+            <input type="hidden" name="status_url2" value="{{ status_url2 }}">
+            <input type="hidden" name="dynamic_descriptor" value="Descriptor">
+            <input type="hidden" name="language" value="{{ language }}">
+            <input type="hidden" name="confirmation_note" value="{{ confirmation_note }}">
+            <input type="hidden" name="pay_from_email" value="{{ pay_from_email }}">
+            <input type="hidden" name="logo_url" value="{{ logo_url }}">
+            <input type="hidden" name="firstname" value="{{ first_name }}">
+            <input type="hidden" name="lastname" value="{{ last_name }}">
+            <input type="hidden" name="address" value="{{ address }}">
+            <input type="hidden" name="postal_code" value="{{ postal_code }}">
+            <input type="hidden" name="city" value="{{ city }}">
+            <input type="hidden" name="country" value="{{ country }}">
+            <input type="hidden" name="amount" value="{{ amount }}">
+            <input type="hidden" name="currency" value="{{ currency }}">
+            <input type="hidden" name="detail1_description" value="{{ detail1_description }}">
+            <input type="hidden" name="detail1_text" value="{{ detail1_text }}">
+            <input type="hidden" name="detail2_description" value="{{ detail2_description }}:">
+            <input type="hidden" name="detail2_text" value="{{ detail2_text }}">
+            <input type="hidden" name="payment_methods" value="{{ payment_methods }}">
+            <input type="hidden" name="hide_login" value="1">
+            <input type="submit" name="skrill_submit_button" id="submit_button" value="{{ button_text }}" >
+        </form>
 
+        <script language="javascript">
+            window.onload = function(e){
+                document.getElementById("submit_button").click();
+            }
+        </script>
 
-
-{% block body %}
-    {% if postRequest is defined %}
-        <pre>{{ postRequest }}</pre>
-    {% endif %}
-    <p id="payment_info">Please choose your payment method</p>
-    <iframe name="myframe" width="420" height="550" id="myframe" frameborder="0" style="display:none">
-    </iframe>
-    <form action="{{ action_url }}" target="_self" id="skrillForm">
-        <input type="hidden" name="pay_to_email" value="{{ pay_to_email }}">
-        <input type="hidden" name="recipient_description" value="{{ recipient_description }}">
-        <input type="hidden" name="transaction_id" value="{{ transaction_id }}">
-        <input type="hidden" name="return_url" value="{{ return_url }}">
-        <input type="hidden" name="return_url_text" value="{{ return_url_text }}">
-        <input type="hidden" name="return_url_target" value="1">
-        <input type="hidden" name="cancel_url" value="{{ cancel_url }}">
-        <input type="hidden" name="cancel_url_target" value="1">
-        <input type="hidden" name="status_url" value="{{ status_url }}">
-        <input type="hidden" name="status_url2" value="{{ status_url2 }}">
-        <input type="hidden" name="dynamic_descriptor" value="Descriptor">
-        <input type="hidden" name="language" value="{{ language }}">
-        <input type="hidden" name="confirmation_note" value="{{ confirmation_note }}">
-<!--<input type="hidden" name="merchant_fields" value="field1">-->
-        <input type="hidden" name="pay_from_email" value="{{ pay_from_email }}">
-        <input type="hidden" name="logo_url" value="{{ logo_url }}">
-<!--<input type="hidden" name="title" value="Mr">-->
-        <input type="hidden" name="firstname" value="{{ first_name }}">
-        <input type="hidden" name="lastname" value="{{ last_name }}">
-        <input type="hidden" name="address" value="{{ address }}">
-<!--<input type="hidden" name="address2" value="Payertown">-->
-<!--<input type="hidden" name="phone_number" value="0207123456">-->
-        <input type="hidden" name="postal_code" value="{{ postal_code }}">
-        <input type="hidden" name="city" value="{{ city }}">
-        <input type="hidden" name="country" value="{{ country }}">
-        <input type="hidden" name="amount" value="{{ amount }}">
-        <input type="hidden" name="currency" value="{{ currency }}">
-        <input type="hidden" name="detail1_description" value="{{ detail1_description }}">
-        <input type="hidden" name="detail1_text" value="{{ detail1_text }}">
-        <input type="hidden" name="detail2_description" value="{{ detail2_description }}:">
-        <input type="hidden" name="detail2_text" value="{{ detail2_text }}">
-        <input type="hidden" name="detail3_description" value="{{ detail3_description }}">
-        <input type="hidden" name="detail3_text" value="{{ detail3_text }}">
-        <input type="hidden" name="detail4_description" value="{{ detail4_description }}">
-        <input type="hidden" name="detail4_text" value="{{ detail4_text }}">
-        <input type="hidden" name="payment_methods" value="{{ payment_methods }}">
-        <input type="hidden" name="hide_login" value="1,">
-        <input type="submit" name="Pay With Skrill" value="{{ button_text }}" onclick="javascript:onSkrillClicked()">
-    </form>
-
-    <form action="http://mycasaparticular.local/MyCasaParticular/web/app_dev.php/es/payment/skrill_status" method="post" target="_self">
-        <input type="hidden" name="pay_to_email" value="ENTER_YOUR_USER_EMAIL@MERCHANT.COM">
-        <input type="hidden" name="status_url" value="EMAIL_TO_RECEIVE_PAYMENT_NOTIFICATION@MERCHANT.COM">
-        <input type="hidden" name="language" value="EN">
-        <input type="hidden" name="amount" value="ENTER_PAYMENT_AMOUNT_(EXAMPLE:39.60)">
-        <input type="hidden" name="currency" value="ENTER_3_DIGIT_CURRRENCY_CODE_(EXAMPLE:EUR)">
-        <input type="hidden" name="detail1_description" value="SPECIFY_WHAT_FOLLOWS_(EXAMPLE:Book:)">
-        <input type="hidden" name="detail1_text" value="PRODUCT_DESCRIPTION_(EXAMPLE:Romeo and Juliet (W. Shakespeare))">
-        <input type="submit" value="Pay For CallbackTest!">
-    </form>
-
-    <script language="javascript">
-        function onSkrillClicked()
-        {
-            document.getElementById('myframe').style.display = 'block';
-            document.getElementById('skrillForm').style.display = 'none';
-            document.getElementById('payment_info').style.display = 'none';
-        }
-    </script>
-
-
-{% endblock body %}
+    </body>
+</html>

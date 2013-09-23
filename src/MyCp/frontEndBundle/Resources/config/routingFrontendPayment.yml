@@ -26,3 +26,7 @@ frontend_payment_skrill_test_status:
     pattern:  /payment/skrill_test_status/{reservationId}/{status}
     defaults: { _controller: frontEndBundle:payment:skrillSendTestPostRequest, reservationId: 0, status: 0 }
 
+frontend_payment_skrill_test_payment:
+    pattern:  /payment/skrill_test_payment/{reservationId}
+    defaults: { _controller: frontEndBundle:payment:skrillTestPayment, reservationId: 0 }
+
