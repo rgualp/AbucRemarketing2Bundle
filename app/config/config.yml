@@ -89,6 +89,14 @@ services:
         arguments:
             entity_manager: "@doctrine.orm.entity_manager"
             container: "@service_container"
+            security_context: "@security.context"            
+    UserSecure:
+        class: MyCp\frontEndBundle\Helpers\UserSecure
+        tags:
+            - { name: kernel.event_listener, event: security.interactive_login }
+        arguments:
+            entity_manager: "@doctrine.orm.entity_manager"
+            container: "@service_container"
             security_context: "@security.context"
 
 
