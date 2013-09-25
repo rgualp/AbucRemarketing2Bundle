@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html id="top">
     <head>
         <title>{% block title %}{{"WELCOMEPAGE_TITLE" | trans}}{% endblock %} | MyCasaParticular</title>
         <meta charset="utf-8">
@@ -101,7 +101,7 @@
                         <div class="alert alert-info">{{ message }}</div>
                         {% endfor %}
     {% block body %}{% endblock %}
-                                <a href="#" title="{{"GO_UP" | trans}}"><img src="{{ asset('bundles/frontend/images/translations/'~app.request.locale~'/go_to_top.gif') }}" id="go_to_top"/></a>
+                                <a href="#" onclick="javascript:move('#top')" title="{{"GO_UP" | trans}}"><img src="{{ asset('bundles/frontend/images/translations/'~app.request.locale~'/go_to_top.gif') }}" id="go_to_top"/></a>
                             </div>
                             <footer>
                                 <div class="container main_cont">

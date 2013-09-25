@@ -37,6 +37,7 @@ class BackendReservationController extends Controller
             $this->get('session')->setFlash('message_error_local',$message);
             return $this->redirect($this->generateUrl('mycp_list_reservations'));
         }
+
         if($filter_date_reserve=='null') $filter_date_reserve='';
         if($filter_offer_number=='null') $filter_offer_number='';
         if($filter_reference=='null') $filter_reference='';
@@ -56,7 +57,6 @@ class BackendReservationController extends Controller
         $reservations= $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
             ->get_all_reservations($filter_date_reserve, $filter_offer_number, $filter_reference,
             $filter_date_from,$filter_date_to,$sort_by))->getResult();
-
         $filter_date_reserve_twig=str_replace('/','_',$filter_date_reserve);
         $filter_date_from_twig=str_replace('/','_',$filter_date_from);
         $filter_date_to_twig=str_replace('/','_',$filter_date_to);
@@ -74,6 +74,7 @@ class BackendReservationController extends Controller
             $price=0;
             $users_currencies=array();
             $user_tourist= $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user'=>$reservation[0]['gen_res_user_id']['user_id']));
+            
             array_push($currencies,$user_tourist[0]->getUserTouristCurrency()->getCurrCode());
             array_push($languages,$user_tourist[0]->getUserTouristLanguage()->getLangName());
 
@@ -106,7 +107,6 @@ class BackendReservationController extends Controller
             array_push($total_prices,$price);
 
         }
-
         //var_dump($total_prices); exit();
 
         return $this->render('mycpBundle:reservation:list.html.twig',array(
@@ -463,14 +463,14 @@ class BackendReservationController extends Controller
                     $ownership_reservation->setOwnResStatus($post['service_own_res_status_'.$ownership_reservation->getOwnResId()]);
                     $ownership_reservation->setOwnResRoomType($post['service_room_type_'.$ownership_reservation->getOwnResId()]);
                     $ownership_reservation->setOwnResNightPrice($post['service_room_price_'.$ownership_reservation->getOwnResId()]);
+                    $ownership_reservation->setOwnResTotalInSite($temp_price);
                     $em->persist($ownership_reservation);
                     //var_dump($temp_price);
                 }
 
                 $message='Reserva actualizada satisfactoriamente.';
                 $reservation->setGenResSaved(1);
-                $reservation->setGenResStatus(1);
-                $reservation->setGenResTotalPriceInSite($temp_price);
+                //$reservation->setGenResStatus(0);
                 $em->persist($reservation);
                 $em->flush();
                 /*$service_log= $this->get('log');
@@ -501,9 +501,9 @@ class BackendReservationController extends Controller
             $season=$service_time->season_by_date($date);
             //var_dump($season);
         }
-        //exit();
+
+       // var_dump($ownership_reservations); exit();
         return $this->render('mycpBundle:reservation:reservationDetails.html.twig',array(
-            'total_nights'=>count($dates),
             'post'=>$post,
             'errors'=>$errors,
             'reservation'=>$reservation,
@@ -511,6 +511,49 @@ class BackendReservationController extends Controller
             'reservations'=>$ownership_reservations,
             'rooms'=>$rooms,
             'id_reservation'=>$id_reservation));
+    }
+
+    public function send_reservationAction($id_reservation)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $reservation=new generalReservation();
+        $reservation=$em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
+        $reservation->setGenResStatus(1);
+        $em->persist($reservation);
+        $em->flush();
+        $reservations=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id'=>$id_reservation));
+        $user=$reservation->getGenResUserId();
+        $user_tourist=$em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user'=>$user->getUserId()));
+
+        $array_photos=array();
+        foreach($reservations as $reservation)
+        {
+            $photos=$em->getRepository('mycpBundle:ownership')->getPhotos($reservation->getOwnResOwnId()->getOwnId());
+            array_push($array_photos,$photos);
+        }
+        $this->get('translator')->setLocale($user_tourist[0]->getUserTouristLanguage()->getLangCode());
+        // Enviando mail al cliente
+        $body=$this->render('frontEndBundle:mails:email_offer_available.html.twig',array(
+            'user'=>$user,
+            'reservations'=>$reservations,
+            'photos'=>$array_photos
+        ));
+
+        $locale = $this->get('translator');
+        $subject=$locale->trans('REQUEST_STATUS_CHANGED');
+        $service_email= $this->get('Email');
+        $service_email->send_email(
+            $subject,
+            'reservation@mycasaparticular.com',
+            'MyCasaParticular.com',
+            $user->getUserEmail(),
+            $body
+        );
+
+        $message='Reserva enviada satisfactoriamente';
+        $this->get('session')->setFlash('message_ok',$message);
+        return $this->redirect($this->generateUrl('mycp_details_reservation',array('id_reservation'=>$id_reservation)));
+
     }
 
     public function edit_reservationAction($id_reservation,Request $request)

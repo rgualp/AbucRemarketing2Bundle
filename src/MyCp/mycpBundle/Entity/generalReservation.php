@@ -55,11 +55,7 @@ class generalReservation
      */
     private $gen_res_status_date;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="ownership",inversedBy="genResOwnership")
-     * @ORM\JoinColumn(name="gen_res_own_id",referencedColumnName="own_id")
-     */
-    private $gen_res_own_id;
+
 
     /**
      * @var \DateTime
@@ -74,13 +70,6 @@ class generalReservation
      * @ORM\Column(name="gen_res_to_date", type="date")
      */
     private $gen_res_to_date;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="gen_res_total_price_in_site", type="integer")
-     */
-    private $gen_res_total_price_in_site;
 
     /**
      * Get gen_res_id
@@ -186,29 +175,6 @@ class generalReservation
     }
 
     /**
-     * Set gen_res_own_id
-     *
-     * @param \MyCp\mycpBundle\Entity\ownership $genResOwnId
-     * @return generalReservation
-     */
-    public function setGenResOwnId(\MyCp\mycpBundle\Entity\ownership $genResOwnId = null)
-    {
-        $this->gen_res_own_id = $genResOwnId;
-    
-        return $this;
-    }
-
-    /**
-     * Get gen_res_own_id
-     *
-     * @return \MyCp\mycpBundle\Entity\ownership 
-     */
-    public function getGenResOwnId()
-    {
-        return $this->gen_res_own_id;
-    }
-
-    /**
      * Set gen_res_saved
      *
      * @param boolean $genResSaved
@@ -275,28 +241,5 @@ class generalReservation
     public function getGenResToDate()
     {
         return $this->gen_res_to_date;
-    }
-
-    /**
-     * Set gen_res_total_price_in_site
-     *
-     * @param integer $genResTotalPriceInSite
-     * @return generalReservation
-     */
-    public function setGenResTotalPriceInSite($genResTotalPriceInSite)
-    {
-        $this->gen_res_total_price_in_site = $genResTotalPriceInSite;
-    
-        return $this;
-    }
-
-    /**
-     * Get gen_res_total_price_in_site
-     *
-     * @return integer 
-     */
-    public function getGenResTotalPriceInSite()
-    {
-        return $this->gen_res_total_price_in_site;
     }
 }

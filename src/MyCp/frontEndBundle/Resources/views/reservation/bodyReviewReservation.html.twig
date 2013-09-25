@@ -10,15 +10,22 @@
     </tr>
     </thead>
 {% set flag = 0%}
+{% set total_price = 0 %}
+{% set total_percent = 0 %}
 {% for date in dates_string %}
 {% if array_clear_date[dates_timestamp[flag]] is not defined %}
-<tr id="{{ dates_timestamp[flag] }}">
-    <td class="grey date" style="width: 15%">
+<tr id="{{ dates_timestamp[flag] }}" style="border-bottom: 0px solid #cccccc">
+    <td class="grey date" style="width: 15%;">
         {{date}}
     </td>
     <td colspan="4" style="padding: 0">
         <table id="table_{{ dates_timestamp[flag] }}" class="table_inner" width="100%">
+
             {% for service in services %}
+            {% set plus = 0 %}
+            {% if service['room_type']=='Habitación Triple' and  service['guests'] + service['kids'] >= 3 %}
+                {% set plus = 10 %}
+            {% endif %}
             {% if dates_timestamp[flag] >= service['from_date'] and dates_timestamp[flag] <= service['to_date']%}
             <tr id="{{ service['id'] }}-{{ dates_timestamp[flag] }}">
                 <td width="46%"><b>{{ service['ownership_mun']}}, {{ service['ownership_name']}}</b></td>
@@ -28,19 +35,20 @@
                     {% if dates_timestamp[flag] == service['to_date']  %}
                     {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}<span class="service_price">0</span>
                     {% else %}
-                    {% if service['room_type']=='Habitación Triple' %}
+                    {% set total_percent =  total_percent + ((service['room_price_'~array_season[flag]]+plus) * service['ownership_percent'] / 100) %}
+                    {% if service['room_type']=='Habitación Triple' and  service['guests'] + service['kids'] >= 3 %}
                     {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}<span class="service_price">{{ service['room_price_'~array_season[flag]] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) + 10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</span>
+                    {% set total_price = total_price +  service['room_price_'~array_season[flag]] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) + 10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) %}
                     {% else %}
                     {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}<span class="service_price">{{ service['room_price_'~array_season[flag]] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</span>
+                    {% set total_price = total_price + service['room_price_'~array_season[flag]] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) %}
                     {% endif %}
                     {% endif %}
                 </td>
                 <td class="table_delete" style="vertical-align: middle;">
-                    {% if dates_timestamp[flag] != service['to_date']  %}
+
                     <button id="btn_{{dates_timestamp[flag]}}" class="btn_delete"  title="{{"REMOVE"|trans}} {{ service['ownership_name']}}" data="{{ service['id'] }}-{{ dates_timestamp[flag] }}">&nbsp;</button>
-                    {% else %}
-                    <button style="background: none; cursor: auto">&nbsp;</button>
-                    {% endif %}
+
                 </td>
             </tr>
             {% endif %}
@@ -53,6 +61,14 @@
 {% endfor %}
     </tbody>
 </table>
+<div class="table_striped_vertical_foot">
+    <div class="row-fluid">
+        <div class="span3">{{"RESERVATION_TOTAL_PRICE" | trans}} {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{total_price}}</div>
+        <div class="span3">{{"INITIAL_DEPOSIT" | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{total_percent * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</div>
+        <div class="span3">{{"SERVICE_RECHARGE" | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</div>
+        <div class="span3" style="text-align: right">{{"TOTAL_PREPAYMENT" | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{(total_percent * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))+10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</div>
+    </div>
+</div>
 <script type="text/javascript">
     $('.btn_delete').click(function(){
         $('#confirmation_modal').modal('show');

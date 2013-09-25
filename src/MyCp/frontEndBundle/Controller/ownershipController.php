@@ -14,14 +14,7 @@ class ownershipController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
 
         $ownership = $em->getRepository('mycpBundle:ownership')->find($owner_id);
-        $general_reservations = $em->getRepository('mycpBundle:generalReservation')->findBy(array('gen_res_own_id' => $owner_id));
-        $reservations = array();
-        foreach ($general_reservations as $gen_res) {
-            $own_reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $gen_res->getGenResId()));
-            foreach ($own_reservations as $own_res) {
-                array_push($reservations, $own_res);
-            }
-        }
+        $reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_own_id' => $owner_id));
 
         $locale = $this->get('translator')->getLocale();
         $ownership_description = $em->getRepository('mycpBundle:ownershipDescriptionLang')->findOneBy(array(
@@ -43,7 +36,6 @@ class ownershipController extends Controller {
 
         $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $owner_id));
         $friends = array();
-
         $own_photos = $em->getRepository('mycpBundle:ownership')->getPhotos($owner_id);
         $own_photo_descriptions = $em->getRepository('mycpBundle:ownership')->getPhotoDescription($own_photos, $locale);
 
@@ -133,18 +125,18 @@ class ownershipController extends Controller {
             $total_price_room = 0;
             $prices_dates_temp = array();
             $x = 1;
-            if ($request->getMethod() != 'POST') {
-                $x = 2;
-            }
+            /*if ($request->getMethod() != 'POST') {
+                //$x = 2;
+            }*/
             for ($a = 0; $a < count($array_dates) - $x; $a++) {
 
                 $season = $service_time->season_by_date($array_dates[$a]);
                 if ($season == 'top') {
-                    $total_price_room += $room->getRoomPriceUpTo();
-                    array_push($prices_dates_temp, $room->getRoomPriceUpTo());
+                    $total_price_room += $room->getRoomPriceUpFrom();
+                    array_push($prices_dates_temp, $room->getRoomPriceUpFrom());
                 } else {
-                    $total_price_room += $room->getRoomPriceDownTo();
-                    array_push($prices_dates_temp, $room->getRoomPriceDownTo());
+                    $total_price_room += $room->getRoomPriceDownFrom();
+                    array_push($prices_dates_temp, $room->getRoomPriceDownFrom());
                 }
                 //var_dump($season);
             }
@@ -159,8 +151,6 @@ class ownershipController extends Controller {
                 $no_available_days_ready[$item[$keys[0]]] = array();
             $no_available_days_ready[$item[$keys[0]]] = array_merge($no_available_days_ready[$item[$keys[0]]], $item['check']);
         }
-        //var_dump($no_available_days_ready);
-        //exit();
 
         $array_dates_keys = array();
         $count = 1;
@@ -169,7 +159,7 @@ class ownershipController extends Controller {
             $count++;
         }
         if ($this->getRequest()->getMethod() != 'POST') {
-            array_pop($array_dates_keys);
+           // array_pop($array_dates_keys);
         }
 
         $flag_room = 0;
@@ -196,7 +186,14 @@ class ownershipController extends Controller {
         /* YANET */
         $users_id = $em->getRepository('mycpBundle:user')->user_ids($this);
         $em->getRepository('mycpBundle:userHistory')->insert(true, $owner_id, $users_id);
-        //var_dump($post); exit();
+        
+        $real_category = "";
+        if ($ownership->getOwnCategory() == 'Económica')
+            $real_category = 'economy';
+        else if ($ownership->getOwnCategory() == 'Rango medio')
+            $real_category = 'mid_range';
+        else if ($ownership->getOwnCategory() == 'Premium')
+            $real_category = 'premium';
 
         return $this->render('frontEndBundle:ownership:ownershipDetails.html.twig', array(
                     'avail_array_prices' => $avail_array_prices,
@@ -226,7 +223,8 @@ class ownershipController extends Controller {
                     'comments_total_items' => $paginator->getTotalItems(),
                     'comments_current_page' => $page,
                     'can_comment' => $em->getRepository("mycpBundle:comment")->can_comment($users_id["user_id"], $ownership->getOwnId()),
-                    'locale' => $locale
+                    'locale' => $locale,
+                    'real_category' => $real_category
         ));
     }
 
@@ -1129,6 +1127,34 @@ class ownershipController extends Controller {
                     'arrival_date' => $session->get("search_arrival_date"),
                     'departure_date' => $session->get("search_departure_date")
         ));
+    }
+    
+    public function last_owns_visitedAction($exclude_ownership_id = null)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $history_owns = $em->getRepository('mycpBundle:userHistory')->get_list_entity($user_ids, true, 3, $exclude_ownership_id);
+        $history_owns_photos = $em->getRepository('mycpBundle:ownership')->get_photos_array($history_owns);
+        
+         return $this->render('frontEndBundle:ownership:historyOwnership.html.twig', array(
+             'history_list' => $history_owns,
+             'photos' => $history_owns_photos
+        ));
+    }
+    
+    public function near_by_destinationsAction($municipality_id, $province_id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        $destinations = $em->getRepository('mycpBundle:destination')->destination_filter($municipality_id, $province_id, null, null, 3);
+        
+        if(count($destinations) < 3)
+            $destinations = $em->getRepository('mycpBundle:destination')->get_popular_destination(3);
+        
+         return $this->render('frontEndBundle:ownership:nearByDestinationsOwnership.html.twig', array(
+                    'destinations' => $destinations
+        ));
+        
     }
 
 }

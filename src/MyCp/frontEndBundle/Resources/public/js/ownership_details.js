@@ -33,7 +33,7 @@ function start(){
                 $('#tr_'+$(this).attr('data')).remove();
                 if ($('#rooms_selected >tbody >tr').length == 0){
                     $('#rooms_selected').css({display: 'none'})
-                    $('#button_availability').css({display: 'none'})
+                    $('#all_data_numbers').css({display: 'none'})
                 }
 
                 total_price($(this).attr('data_curr'));
@@ -41,7 +41,8 @@ function start(){
             else
             {
                 value=0;
-                if($(this).attr('data_type_room')=='Habitación Triple')
+                persons=parseInt($('#combo_kids_'+$(this).attr('data')).val()) + parseInt($('#combo_guest_'+$(this).attr('data')).val());
+                if($(this).attr('data_type_room')=='Habitación Triple' && persons>=3)
                 {
                     value=this.parentNode.parentNode.cells[2].innerHTML*(cont_array_dates-1) + (($(this).attr('data_curr')*10) * (cont_array_dates -1));
 
@@ -54,7 +55,7 @@ function start(){
                 $('#kids_'+$(this).attr('data')).html($('#combo_kids_'+$(this).attr('data')).val());
                 $('#price_'+$(this).attr('data')).html(value);
 
-                total_price($(this).attr('data_curr'));
+                total_price($(this).attr('data_curr'),$(this).attr('percent_charge'));
 
             }
         }
@@ -62,7 +63,8 @@ function start(){
         {
             value=0;
             real_value=0;
-            if($(this).attr('data_type_room')=='Habitación Triple')
+            persons=parseInt($('#combo_kids_'+$(this).attr('data')).val()) + parseInt($('#combo_guest_'+$(this).attr('data')).val());
+            if($(this).attr('data_type_room')=='Habitación Triple' && persons>=3)
             {
                 value=$(this).attr('data_total')*$(this).attr('data_curr') +(($(this).attr('data_curr')*10) * (cont_array_dates -1)) ;
             }
@@ -72,7 +74,7 @@ function start(){
             }
 
             $('#rooms_selected').css({display: 'table'})
-            $('#button_availability').css({display: 'block'})
+            $('#all_data_numbers').css({display: 'block'})
             $('#rooms_selected > tbody:last').append('<tr id="tr_'+$(this).attr('data')+'">' +
                 '<td class="id_room" style="display: none;">'+$(this).attr('data')+'</td>' +
                 '<td>'+this.parentNode.parentNode.cells[0].innerHTML+'</td>' +
@@ -82,10 +84,10 @@ function start(){
                 '<td class="kids" id="kids_'+$(this).attr('data')+'">'+$('#combo_kids_'+$(this).attr('data')).val()+'</td>'+
                 '<td class="price" id="price_'+$(this).attr('data')+'">'+value+'</td>');
 
-            total_price($(this).attr('data_curr'));
+            total_price($(this).attr('data_curr'),$(this).attr('percent_charge'));
         }
         
-        function total_price(curr)
+        function total_price(curr,percent)
         {
             real_price=0;
             total_price=0;
@@ -113,6 +115,11 @@ function start(){
             string_url=from_date+'/'+to_date+'/'+ids_rooms+'/'+count_guests+'/'+count_kids;
             $('#data_reservation').val(string_url);
             $('#total_price').html(total_price );
+            $('#subtotal_price').html(total_price);
+            percent_value=total_price * percent / 100;
+            $('#initial_deposit').html(percent_value);
+            $('#total_prepayment').html(percent_value + 10*curr);
+            $('#subtotal_price_cont').css('display','block');
 
         }
     });
@@ -120,7 +127,7 @@ function start(){
 
 }
 
-function submit_button_top_reservation()
+/*function submit_button_top_reservation()
 {
     from_date=$('#data_reservation_top').attr('from_date');
     to_date=$('#data_reservation_top').attr('to_date');
@@ -132,7 +139,7 @@ function submit_button_top_reservation()
     $('#data_reservation_top').val(string_url);
     $('#form_reservation_top').submit();
 
-}
+}*/
 // fin ernesto code
 
 

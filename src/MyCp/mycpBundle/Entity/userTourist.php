@@ -38,6 +38,27 @@ class userTourist
      * @ORM\JoinColumn(name="user_tourist_user",referencedColumnName="user_id")
      */
     private $user_tourist_user;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="user_tourist_gender", type="string", length=255)
+     */
+    private $user_tourist_gender;
+    
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="user_tourist_postal_code", type="string", length=255)
+     */
+    private $user_tourist_postal_code;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="user_tourist_cell", type="string", length=255, nullable=true)
+     */
+    private $user_tourist_cell;
 
 
     /**
@@ -48,6 +69,75 @@ class userTourist
     public function getUserTouristId()
     {
         return $this->user_tourist_id;
+    }
+    
+     /**
+     * Set user_tourist_cell
+     *
+     * @param string $userTouristCell
+     * @return userTourist
+     */
+    public function setUserTouristCell($userTouristCell = null)
+    {
+        $this->user_tourist_cell = $userTouristCell;
+    
+        return $this;
+    }
+
+    /**
+     * Get user_tourist_cell
+     *
+     * @return varchar 
+     */
+    public function getUserTouristCell()
+    {
+        return $this->user_tourist_cell;
+    }
+    
+    /**
+     * Set user_tourist_postal_code
+     *
+     * @param string $userTouristPostalCode
+     * @return userTourist
+     */
+    public function setUserTouristPostalCode($userTouristPostalCode = null)
+    {
+        $this->user_tourist_postal_code = $userTouristPostalCode;
+    
+        return $this;
+    }
+
+    /**
+     * Get user_tourist_postal_code
+     *
+     * @return varchar 
+     */
+    public function getUserTouristPostalCode()
+    {
+        return $this->user_tourist_postal_code;
+    }
+    
+    /**
+     * Set user_tourist_gender
+     *
+     * @param string $userTouristGender
+     * @return userTourist
+     */
+    public function setUserTouristGender($userTouristGender = null)
+    {
+        $this->user_tourist_gender = $userTouristGender;
+    
+        return $this;
+    }
+
+    /**
+     * Get user_tourist_gender
+     *
+     * @return varchar 
+     */
+    public function getUserTouristGender()
+    {
+        return $this->user_tourist_gender;
     }
 
     /**

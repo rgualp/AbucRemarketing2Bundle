@@ -8,9 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 class destinationController extends Controller {
 
     public function popular_listAction() {
-        /*
-         * Codigo Daniel
-         * $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getEntityManager();
         $locale = $this->get('translator')->getLocale();
         $dest_list = $em->getRepository('mycpBundle:destination')->getAllDestinations($locale);
 
@@ -18,40 +16,16 @@ class destinationController extends Controller {
                     'main_destinations' => array_slice($dest_list, 0, 6),
                     'provinces' => $em->getRepository('mycpBundle:province')->findAll(),
                     'all_destinations' => $dest_list
-        ));*/
-        
-        $em = $this->getDoctrine()->getEntityManager();
-        $locale = $this->get('translator')->getLocale();
-        //$user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
-
-        $destinations_list = $em->getRepository('mycpBundle:destination')->get_popular_destination();
-        $destinations_photos = $em->getRepository('mycpBundle:destination')->get_destination_photos($destinations_list);
-        //$destinations_localization = $em->getRepository('mycpBundle:destination')->get_destination_location($destinations_list);
-        //$destinations_statistics = $em->getRepository('mycpBundle:destination')->get_destination_owns_statistics($destinations_list);
-        $destinations_description = $em->getRepository('mycpBundle:destination')->get_destination_description($destinations_list,$locale);
-        
-        return $this->render('frontEndBundle:destination:listDestination.html.twig', array(
-                    'main_destinations' => array_slice($destinations_list, 0, 6),
-                    'provinces' => $em->getRepository('mycpBundle:province')->findAll(),
-                    'all_destinations' => $destinations_list,
-                    'photos' => $destinations_photos,
-                    'descriptions' => $destinations_description
-                ));
+        ));
     }
 
     public function detailsAction($destination_id) {
         $em = $this->getDoctrine()->getEntityManager();
         $users_id = $em->getRepository('mycpBundle:user')->user_ids($this);
-
-        $destination = $em->getRepository('mycpBundle:destination')->find($destination_id);
-        $currency_list = $em->getRepository('mycpBundle:currency')->findAll();
-        $languages_list = $em->getRepository('mycpBundle:lang')->get_active_languages();
         $locale = $this->get('translator')->getLocale();
-        $description = $em->getRepository('mycpBundle:destinationLang')->findOneBy(array(
-            'des_lang_lang' => $em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code' => $locale)),
-            'des_lang_destination' => $destination_id
-        ));
 
+        $destination_array = $em->getRepository('mycpBundle:destination')->get_destination($destination_id,$locale);
+                
         $photos = $em->getRepository('mycpBundle:destination')->getPhotos($destination_id);
         $photo_descriptions = $em->getRepository('mycpBundle:destination')->getPhotoDescription($photos, $locale);
 
@@ -74,17 +48,15 @@ class destinationController extends Controller {
         $em->getRepository('mycpBundle:userHistory')->insert(false, $destination_id, $users_id);
 
         return $this->render('frontEndBundle:destination:destinationDetails.html.twig', array(
-                    'destination' => $destination,
+                    'destination' => $destination_array[0],
                     'is_in_favorite' => $em->getRepository('mycpBundle:favorite')->is_in_favorite($destination_id, false, $users_id["user_id"], $users_id["session_id"]),
                     'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocomplete_text_list(),
                     'locale' => $this->get('translator')->getLocale(),
                     'location' => $location,
                     'gallery_photos' => $photos,
                     'gallery_photo_descriptions' => $photo_descriptions,
-                    'description' => ($description != null) ? $description->getDesLangDesc() : null,
-                    'brief_description' => ($description != null) ? $description->getDesLangBrief() : null,
-                    'currency_list' => $currency_list,
-                    'languages_list' => $languages_list,
+                    'description' => $destination_array['desc_full'],
+                    'brief_description' => $destination_array['desc_brief'],
                     'other_destinations_in_municipality' => $other_destinations_in_municipality,
                     'other_destinations_in_municipality_photos' => $em->getRepository('mycpBundle:destination')->get_destination_photos($other_destinations_in_municipality),
                     'other_destinations_in_municipality_description' => $em->getRepository('mycpBundle:destination')->get_destination_description($other_destinations_in_municipality, $locale),

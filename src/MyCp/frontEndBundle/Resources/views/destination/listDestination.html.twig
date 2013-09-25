@@ -45,11 +45,11 @@ destinos
 <div class="row-fluid result_list destination_list">
     {% endif %}
         <div class="span4 item">
-            <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" style="font-size: 18px; font-weight: bold" href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}">
-                <h4 style="margin-top: 0px">{{destination.desName}}</h4>
+            <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination[0].desName}}" style="font-size: 18px; font-weight: bold" href="{{ path('frontend_details_destination',{'destination_id':destination[0].desid}) }}">
+                <h4 style="margin-top: 0px">{{destination[0].desName}}</h4>
                 <div class="row-fluid">
                     <div class="span6">
-                        <img class="img-polaroid" src="{{ asset("uploads/destinationImages/" ~ photos[destination.desid])}}" style="height: 110px;"/>
+                        <img class="img-polaroid" src="{{ asset("uploads/destinationImages/" ~ (destination['photo']))}}" style="height: 110px;"/>
                     </div>
                     <div class="span6">
                         <div class="row-fluid dest_stats_box">
@@ -59,7 +59,7 @@ destinos
                                 </div>
                                 <div class="span8" style="font-size: 14px">
                                     <div style="font-weight: normal">{{"DES_POBLATION" | trans}}</div>
-                                    <div>{{ destination.getDesPoblation }}</div>
+                                    <div>{{ destination[0].desPoblation }}</div>
                                 </div>   
                             </div>               
                         </div>
@@ -70,21 +70,21 @@ destinos
                                 </div>
                                 <div class="span8" style="font-size: 14px">
                                     <div style="font-weight: normal">{{"DES_REF_PLACE" | trans}}</div>
-                                    <div>{{ destination.getDesRefPlace | slice(0, 20)}}</div>
+                                    <div>{{ destination[0].desRefPlace | slice(0, 20)}}</div>
                                 </div>   
                             </div>               
                         </div>
                     </div>
                 </div>
             </a>
-            <p style="font-size: 12px">{{(descriptions[destination.desid] != null or descriptions[destination.desid] != "") ? (descriptions[destination.desid].DesLangBrief | slice(0,200) | striptags) : ""}}            
-{%if (descriptions[destination.desid] == null)%}
+            <p style="font-size: 12px">{{(destination[1] != null or destination[1] != "") ? (destination[1] | slice(0,200) | striptags) : ""}}            
+{%if (destination[1] == null)%}
                     {%for i in 1..200%}
                         &nbsp;
                     {%endfor%}
             {%else%}
-                    {%if descriptions[destination.desid].DesLangBrief | length < 200%}
-                     {%for i in 1..(200 - (descriptions[destination.desid].DesLangBrief | length))%}
+                    {%if destination[1] | length < 200%}
+                     {%for i in 1..(200 - (destination[1] | length))%}
                         &nbsp;
                      {%endfor%}
                      {%else%}...
@@ -101,8 +101,8 @@ destinos
 {%else%}
     <div class="noData">{{"EMPTY_LIST" | trans}}</div>
 {%endfor%}
-{% if flag != 3%}
-<!--/div-->
+{% if flag != 0%}
+</div>
 {% endif %}
 
 <div class="secondary_tab row-fluid">
@@ -126,7 +126,7 @@ destinos
             <div class="row-fluid">
                  {%for destination in all_destinations%}
                     <div class="span3" style="font-weight: bold; margin: 0 0 0 10px; font-size: 13px">
-                       <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}">{{destination.desName}}</a>   
+                       <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination[0].desName}}" href="{{ path('frontend_details_destination',{'destination_id':destination[0].desid}) }}">{{destination[0].desName}}</a>   
                     </div>    
                  {%endfor%}
             </div>

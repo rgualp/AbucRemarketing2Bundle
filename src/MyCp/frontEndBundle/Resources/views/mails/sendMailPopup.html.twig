@@ -1,18 +1,43 @@
 <div class="popup_form modal hide fade" id="send_to_friend_popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-url="{{ path('recommend_2_friend') }}">
-    <div class="modal-body bg_blue_sky">
+    <div class="modal-body bg_blue_sky" style="max-height: 500px">
         <h3 class="form big_price" style="margin: 0;font-size: 25px;">{{'SEND_TO_FRIEND' | trans}}</h3>
         <hr/>
+        
         <form name="mail_popup_form">
-                <div class="row-fluid" style="margin: 5px">
-                <div class="span5" style="margin-top: 6px; font-size: 14px; font-weight: bold">{{'SENT_EMAIL_FROM' | trans}}</div>
-                <div class="span7"><input id="name_from" class="span12 mycp_text_box mycp_text_box_margin" type="text" class="mycp_text_box" required /></div>
-                </div>
-                <div class="row-fluid" style="margin: 5px">
-                    <div class="span5" style="margin-top: 6px; font-size: 14px; font-weight: bold">{{'EMAIL_TO' | trans}}</div>
-                    <div class="span7"><input id="email_to" class="span12 mycp_text_box mycp_text_box_margin" type="email" class="mycp_text_box" required /></div>
-                </div>
-
+                <br/>                
+                <div class="row-fluid result_list">                    
+                    <div class="span12 item" style="padding: 5px 5px 0 5px">
+                        <div class="row-fluid">
+                            <label style="font-size: 16px; font-weight: bold">{{'FROM' | trans}}:</label>
+                        </div>
+                        <hr>
+                        <div class="row-fluid">
+                            <div class="span4" style="margin-top: 6px; font-size: 12px; font-weight: bold">{{'FORMS_NAME' | trans}}</div>
+                            <div class="span8"><input id="name_from" class="span12 mycp_text_box mycp_text_box_margin" type="text" class="mycp_text_box" required /></div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="span4" style="margin-top: 6px; font-size: 12px; font-weight: bold">{{'EMAIL_TO' | trans}}</div>
+                            <div class="span8"><input id="email_from" class="span12 mycp_text_box mycp_text_box_margin" type="email" class="mycp_text_box" required /></div>
+                        </div>    
+                    </div>
+                </div> 
+                
                 <br>
+                
+                <div class="row-fluid result_list">
+                    <div class="span12 item" style="padding: 5px 5px 0 5px">
+                        <div class="row-fluid">
+                            <label style="font-size: 16px; font-weight: bold">{{'TO' | trans}}:</label>
+                        </div>
+                        <hr>
+                        <div class="row-fluid">
+                            <div class="span4" style="margin-top: 6px; font-size: 12px; font-weight: bold">{{'EMAIL_TO' | trans}}</div>
+                            <div class="span8"><input id="email_to" class="span12 mycp_text_box mycp_text_box_margin" type="email" class="mycp_text_box" required /></div>
+                        </div>
+                    </div>
+                </div> 
+                
+                <br/>
                 <div id="sending_mail" class="alert alert-info hidden"> 
                     <img src="{{ asset('bundles/frontend/images/loading.gif') }}"/> {{"LOADING_MESSAGE" | trans}}
                 </div>
