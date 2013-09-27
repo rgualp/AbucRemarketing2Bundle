@@ -1,0 +1,13 @@
+{%if destinations | length%}
+<div class="thumbnail row-fluid head">
+    <div class="header">{{"VISIT_ANOTHER_DESTINATIONS" | trans}}</div>
+     <div class="subheader"></div>
+        <div class="content">
+    {%for dest in destinations%}
+            <div class="row-fluid">
+                <a title="{{"MORE_INFO_PREFFIX" | trans}} {{dest.desName}}" href="{{ path('frontend_details_destination',{'destination_id':dest.desid}) }}">{{dest.desName}}</a>
+            </div>
+            {%endfor%}
+        </div>
+</div>
+{%endif%}

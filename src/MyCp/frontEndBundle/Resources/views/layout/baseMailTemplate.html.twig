@@ -5,13 +5,13 @@
         <title>MyCasaParticular</title>
         <link href="{{ asset('bundles/frontend/css/bootstrap/bootstrap.css') }}" rel="stylesheet" media="screen">
         <link href="{{ asset('bundles/frontend/css/bootstrap/bootstrap-responsive.css') }}" rel="stylesheet" media="screen">
-        <link href="{{ asset('bundles/frontend/css/custom.css') }}" rel="stylesheet" media="screen">
+        <link href="{{ asset('bundles/frontend/css/mails.css') }}" rel="stylesheet" media="screen">
     </head>
     <body>
         <div class="container">
             <div class="row-fluid">
-                <div class="span7"><img src="{{url('frontend_welcome')}}/web/bundles/frontend/images/logo.png"/></div>
-                <div class="span5 msg_info" style="text-align: right">Alojarse donde Cuba, Cuba es.</div>
+                <div class="span7"><img src="{{url('mycp_main')}}../bundles/frontend/images/logo.png"/></div>
+                <div class="span5 msg_info" style="text-align: right">{{"STAY_WHERE_CUBA_CUBA_IS"|trans}}</div>
             </div>
             <div class="divider_hor"></div>  
 
@@ -27,19 +27,21 @@
                 Los precios pueden estar sujetos a cambios antes de realizar el pago. Los precios no incluyen cargos por servicios aplicables. Todos los alojamientos están sujetos a chequeo de disponibilidad. Consulte nuestros Términos y condiciones para obtener información más detallada.<br/><br/>
                 MyCasaParticular.com es un servicio de ABUC media network GmbH con número de registro comercial CH-270.4.002.844-1 en Basel. Suiza.
             </p>
+            
             <div class="footer">
                 <table>
                     <tr>
                         <td style="text-align: left">
-                            <a href="">MyCasaParticular.com</a>
+                            <a href="{{path('frontend_welcome')}}">MyCasaParticular.com</a>
                         </td>
                         <td><a href="mailto:reservation@mycasaparticular.com">reservation@mycasaparticular.com</a></td>
                     </tr>
                 </table>
                 <div class="social">
-                    <img src="{{url('frontend_welcome')}}/web/bundles/frontend/images/facebook.gif"/>
-                    <img src="{{url('frontend_welcome')}}/web/bundles/frontend/images/twitter.gif"/>
-                    <img src="{{url('frontend_welcome')}}/web/bundles/frontend/images/pinenterest.gif"/>
+                    <a href="http://www.facebook.com/MyCasaParticular"><img src="{{url('mycp_main')}}../bundles/frontend/images/facebook.gif"/></a>
+                    <a href="https://twitter.com/MyCP"><img src="{{url('mycp_main')}}../bundles/frontend/images/twitter.gif"/></a>
+                    <a href="https://pinterest.com/MyCasaParticular"><img src="{{url('mycp_main')}}../bundles/frontend/images/pinenterest.gif"/></a>
+                    <a href=""><img src="{{asset('bundles/frontend/images/youtube.gif')}}"/></a>
                 </div>
                 <div class="abuc">ABUC media network GmbH, Peter Merain-Strasse 54, 4052 Basel, Switzerland.</div>
             </div>

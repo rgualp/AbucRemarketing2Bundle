@@ -75,7 +75,7 @@ function create_date(date_text) {
     var date = date_text.split('/');
     if (date.length == 3)
     {
-        var date_result = parseInt(date[2], 10) + '-' + (parseInt(date[1], 10)) + '-' + parseInt(date[0], 10);
+        var date_result = parseInt(date[0], 10) + '-' + (parseInt(date[1], 10)) + '-' + parseInt(date[2], 10);
         return date_result;
     }
     return null;

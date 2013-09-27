@@ -28,44 +28,21 @@ class mycasatripController extends Controller {
         $new_date = strtotime('-30 day', strtotime($date));
         $new_date = \date('Y-m-j', $new_date);
         $string_sql = "AND gre.gen_res_date > '$new_date'";
-        $status_string = 'gre.gen_res_status =0';
-        $order_by_string = '';
+        $status_string = 'ownre.own_res_status = 0';
 
         if ($this->getRequest()->getMethod() == 'POST') {
             $order_by = $request->get('mct_change_order');
-        }
-
+        }        
         $string_sql.=$this->get_order_by_sql($order_by);
-
-        $res_pending = $em->getRepository('mycpBundle:generalReservation')->find_by_user_and_status($user->getUserId(), $status_string, $string_sql);
-        $own_reservations = array();
-        $own_rooms = array();
-        foreach ($res_pending as $res) {
-            $own_re = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $res[0]['gen_res_id']));
-            array_push($own_reservations, $own_re);
-        }
-
-
-        foreach ($own_reservations as $own_re) {
-            $temp_array = array();
-            foreach ($own_re as $own_re_items) {
-                $own_room = $em->getRepository('mycpBundle:room')->find($own_re_items->getOwnResSelectedRoomId());
-                array_push($temp_array, $own_room);
-            }
-            array_push($own_rooms, $temp_array);
-        }
-
-        //var_dump(new \dateTime()); exit();
+        $res_pending = $em->getRepository('mycpBundle:ownershipReservation')->find_by_user_and_status($user->getUserId(), $status_string, $string_sql);
 
         return $this->render('frontEndBundle:mycasatrip:pending.html.twig', array(
                     'res_pending' => $res_pending,
-                    'own_reservations' => $own_reservations,
-                    'own_rooms' => $own_rooms,
                     'order_by' => $order_by
-                ));
+        ));
     }
 
-    public function reservations_availableAction() {
+    public function reservations_availableAction($order_by, Request $request) {
         $user = $this->get('security.context')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
 
@@ -74,119 +51,51 @@ class mycasatripController extends Controller {
         $new_date = strtotime('-60 hours', strtotime($date));
         $new_date = \date('Y-m-j', $new_date);
         $string_sql = "AND gre.gen_res_date > '$new_date'";
+        $status_string = 'ownre.own_res_status =1';
 
-        $status_string = 'gre.gen_res_status =1';
-        $res_available = $em->getRepository('mycpBundle:generalReservation')->find_by_user_and_status($user->getUserId(), $status_string, $string_sql);
-        //var_dump($res_available); exit();
-        $own_reservations = array();
-        $own_rooms = array();
-        $own_res_count_nights = array();
-        $service_time = $this->get('Time');
-        foreach ($res_available as $res) {
-            $own_re = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $res[0]['gen_res_id']));
-            array_push($own_reservations, $own_re);
-            $start_timestamp = $res[0]['gen_res_from_date']->getTimestamp();
-            $end_timestamp = $res[0]['gen_res_to_date']->getTimestamp();
-            $array_dates = $service_time->dates_between($start_timestamp, $end_timestamp);
-            array_push($own_res_count_nights, count($array_dates) - 1);
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $order_by = $request->get('mct_change_order');
         }
-        //var_dump($own_res_count_nights);
-        //exit();
 
-        foreach ($own_reservations as $own_re) {
-            $temp_array = array();
-            foreach ($own_re as $own_re_items) {
-                $own_room = $em->getRepository('mycpBundle:room')->find($own_re_items->getOwnResSelectedRoomId());
-                array_push($temp_array, $own_room);
-            }
-            array_push($own_rooms, $temp_array);
-        }
+        $string_sql.=$this->get_order_by_sql($order_by);
+
+        $res_available = $em->getRepository('mycpBundle:ownershipReservation')->find_by_user_and_status($user->getUserId(), $status_string, $string_sql);
 
         return $this->render('frontEndBundle:mycasatrip:available.html.twig', array(
-                    'count_nights' => $own_res_count_nights,
                     'res_available' => $res_available,
-                    'own_reservations' => $own_reservations,
-                    'own_rooms' => $own_rooms
-                ));
-    }
-
-    function reservation_reservationAction($id_reservation) {
-        $user = $this->get('security.context')->getToken()->getUser();
-        $em = $this->getDoctrine()->getManager();
-        $own_res = $em->getRepository('mycpBundle:ownershipReservation')->get_reservation_available_by_user($id_reservation, $user->getUserId());
-        $start_timestamp=$own_res[0]['own_res_reservation_from_date']->getTimestamp();
-        $end_timestamp=$own_res[0]['own_res_reservation_to_date']->getTimestamp();
-        $service_time = $this->get('Time');
-        $array_dates = $service_time->dates_between($start_timestamp, $end_timestamp);
-        $array_dates_string=array();
-        foreach($array_dates as $date)
-        {
-            array_push($array_dates_string ,\date('d/m/Y', $date));
-        }
-
-        return $this->render('frontEndBundle:mycasatrip:reservation.html.twig', array(
-            'user'=>$user,
-            'reservation'=>$own_res,
-            'dates'=>$array_dates_string
+                    'order_by'=>$order_by
         ));
     }
 
-    function reservation_confirmationAction($id_reservation) {
-        $user = $this->get('security.context')->getToken()->getUser();
-        $em = $this->getDoctrine()->getManager();
-        $gen_res = $em->getRepository('mycpBundle:generalReservation')->get_reservation_available_by_user($id_reservation, $user->getUserId());
-        return $this->render('frontEndBundle:mycasatrip:confirmation.html.twig');
-    }
-
-    function history_reservation_consultAction() {
+    function history_reservation_consultAction($order_by, Request $request) {
         $user = $this->get('security.context')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
 
-        // disponibles Mayores que (hoy - 30) días
+        // pendientes menores que (hoy - 30) días
         $date = \date('Y-m-j');
         $new_date = strtotime('-30 day', strtotime($date));
         $new_date = \date('Y-m-j', $new_date);
-        //var_dump($new_date); exit();
         $string_sql = "AND gre.gen_res_date < '$new_date'";
+        $status_string = 'ownre.own_res_status =0';
 
-        $status_string = "gre.gen_res_status = 0";
-        $reservations = $em->getRepository('mycpBundle:generalReservation')->find_by_user_and_status($user->getUserId(), $status_string, $string_sql);
-
-        $own_reservations = array();
-        $own_rooms = array();
-        $own_res_count_nights = array();
-        $service_time = $this->get('Time');
-        foreach ($reservations as $res) {
-            $own_re = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $res[0]['gen_res_id']));
-            array_push($own_reservations, $own_re);
-            $start_timestamp = $res[0]['gen_res_from_date']->getTimestamp();
-            $end_timestamp = $res[0]['gen_res_to_date']->getTimestamp();
-            $array_dates = $service_time->dates_between($start_timestamp, $end_timestamp);
-            array_push($own_res_count_nights, count($array_dates) - 1);
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $order_by = $request->get('mct_change_order');
         }
 
-        foreach ($own_reservations as $own_re) {
-            $temp_array = array();
-            foreach ($own_re as $own_re_items) {
-                $own_room = $em->getRepository('mycpBundle:room')->find($own_re_items->getOwnResSelectedRoomId());
-                array_push($temp_array, $own_room);
-            }
-            array_push($own_rooms, $temp_array);
-        }
+        $string_sql.=$this->get_order_by_sql($order_by);
+
+        $res_consult = $em->getRepository('mycpBundle:ownershipReservation')->find_by_user_and_status($user->getUserId(), $status_string, $string_sql);
 
         return $this->render('frontEndBundle:mycasatrip:history_consult.html.twig', array(
-                    'count_nights' => $own_res_count_nights,
-                    'reservations' => $reservations,
-                    'own_reservations' => $own_reservations,
-                    'own_rooms' => $own_rooms
-                ));
+            'res_contult' => $res_consult,
+            'order_by'=>$order_by
+        ));
     }
 
     function get_menu_countAction($menu_selected) {
         $user = $this->get('security.context')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
-        $counts = $em->getRepository('mycpBundle:generalReservation')->find_count_for_menu($user->getUserId());
-        //var_dump($counts); exit();
+        $counts = $em->getRepository('mycpBundle:ownershipReservation')->find_count_for_menu($user->getUserId());
         return $this->render('frontEndBundle:mycasatrip:menu.html.twig', array('menu' => $menu_selected, 'counts' => $counts[0]));
     }
 
@@ -200,7 +109,7 @@ class mycasatripController extends Controller {
                 $order_by_string = ' ORDER BY gre.gen_res_id ASC';
                 break;
             case 2:
-                $order_by_string = ' ORDER BY gre.gen_res_total_price_in_site ASC';
+                $order_by_string = ' ORDER BY ownre.own_res_total_in_site ASC';
                 break;
         }
         return $order_by_string;
@@ -217,7 +126,7 @@ class mycasatripController extends Controller {
         $session->set('mycasatrip_favorite_type', $favorite_type);
 
         if ($favorite_type == "ownerships") {
-            $favorite_own_ids = $em->getRepository('mycpBundle:favorite')->get_element_id_list(true, $user->getUserId(), null);            
+            $favorite_own_ids = $em->getRepository('mycpBundle:favorite')->get_element_id_list(true, $user->getUserId(), null);
 
             $ownership_favorities = $em->getRepository('mycpBundle:ownership')->getListByIds($favorite_own_ids);
             $ownership_favorities_photos = $em->getRepository('mycpBundle:ownership')->get_photos_array($ownership_favorities);
@@ -228,9 +137,9 @@ class mycasatripController extends Controller {
             foreach ($ownership_favorities as $favorite) {
                 $ownership_favorities_is_in[$favorite->getOwnId()] = true;
             }
-            
+
             $counts_ownership = $em->getRepository('mycpBundle:ownership')->get_counts_for_search($ownership_favorities);
-            
+
             return $this->render('frontEndBundle:mycasatrip:favorites.html.twig', array(
                         'ownership_favorities' => $ownership_favorities,
                         'ownership_favorities_photos' => $ownership_favorities_photos,
@@ -238,14 +147,11 @@ class mycasatripController extends Controller {
                         'ownership_favorities_is_in' => $ownership_favorities_is_in,
                         'favorite_type' => $favorite_type,
                         'counts_ownership' => $counts_ownership
-                    ));
-        }
-        
-        else
-        {
+            ));
+        } else {
             $locale = $this->get('translator')->getLocale();
             $favorite_destination_ids = $em->getRepository('mycpBundle:favorite')->get_element_id_list(false, $user->getUserId(), null);
-            
+
             $destination_favorities = $em->getRepository('mycpBundle:destination')->get_list_by_ids($favorite_destination_ids);
             $destination_favorities_photos = $em->getRepository('mycpBundle:destination')->get_destination_photos($destination_favorities);
             $destination_favorities_localization = $em->getRepository('mycpBundle:destination')->get_destination_location($destination_favorities);
@@ -257,7 +163,7 @@ class mycasatripController extends Controller {
             foreach ($destination_favorities as $favorite) {
                 $destination_favorities_is_in[$favorite->getDesId()] = true;
             }
-            
+
             return $this->render('frontEndBundle:mycasatrip:favorites.html.twig', array(
                         'destination_favorities_is_in' => $destination_favorities_is_in,
                         'destination_favorities' => $destination_favorities,
@@ -266,7 +172,7 @@ class mycasatripController extends Controller {
                         'destination_favorities_statistics' => $destination_favorities_statistics,
                         'destination_favorities_description' => $destination_favorities_description,
                         'favorite_type' => $favorite_type
-                    ));
+            ));
         }
     }
 

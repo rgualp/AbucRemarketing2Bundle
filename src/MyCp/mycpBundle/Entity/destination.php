@@ -45,6 +45,7 @@ class destination {
 
     /**
      * @ORM\OneToMany(targetEntity="destinationLang",mappedBy="des_lang_destination")
+     * @ORM\JoinColumn(name="des_id", referencedColumnName="des_lang_des_id", nullable=true)
      */
     private $destinationsLang;
 

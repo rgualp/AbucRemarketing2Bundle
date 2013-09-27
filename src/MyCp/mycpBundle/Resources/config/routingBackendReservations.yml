@@ -22,6 +22,11 @@ mycp_details_reservation:
     pattern:  /details/{id_reservation}
     defaults: { _controller: mycpBundle:BackendReservation:details_reservation }
 
+mycp_send_reservation:
+    pattern:  /send/{id_reservation}
+    defaults: { _controller: mycpBundle:BackendReservation:send_reservation }
+
+
 mycp_details_reservation_partial:
     pattern:  /details_partial/{id_reservation}
     defaults: { _controller: mycpBundle:BackendReservation:details_reservation_partial }

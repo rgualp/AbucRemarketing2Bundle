@@ -174,16 +174,44 @@ class destinationRepository extends EntityRepository {
      * @return array with all destinations and its inner data...
      * @author Daniel Sampedro <darthdaniel85@gmail.com>
      */
-    public function getAllDestinations($locale) {
+    public function getAllDestinations($locale,$results_total = null) {
         $em = $this->getEntityManager();
-        $query_string = "SELECT d, dl, dm, dp FROM mycpBundle:destination d
+        /*$query_string = "SELECT d, dl, dm, dp FROM mycpBundle:destination d
                          LEFT JOIN d.destinationsLang dl
                          JOIN d.destinationsMunicipality dm
                          LEFT JOIN d.destinationsPhoto dp
                          WHERE d.des_active = 1
                          ORDER BY d.des_order";
     
-        return $em->createQuery($query_string)->getResult();
+        return $em->createQuery($query_string)->getResult();*/
+         $query_string = "SELECT d, 
+                         (SELECT dl.des_lang_brief from mycpBundle:destinationLang dl 
+                          JOIN dl.des_lang_lang l WHERE dl.des_lang_destination = d.des_id AND l.lang_code = '$locale'),
+                          (SELECT MIN(pho.pho_name) FROM mycpBundle:destinationPhoto dp
+                           JOIN dp.des_pho_photo pho
+                           WHERE dp.des_pho_destination = d.des_id AND (pho.pho_order =
+                           (SELECT MIN(pho2.pho_order) FROM mycpBundle:destinationPhoto dp2
+                           JOIN dp2.des_pho_photo pho2 WHERE dp2.des_pho_destination = dp.des_pho_destination ) or pho.pho_order is null)) as photo   
+                         FROM mycpBundle:destination d
+                         WHERE d.des_active <> 0
+                         ORDER BY d.des_order ASC";
+        
+        /*$query = $em->createQuery($query_string);
+        var_dump(count($query->getResult()));
+        exit();*/
+     $results = ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult();
+         
+     for ($i = 0; $i< count($results); $i++) {
+        if($results[$i]['photo']== null)
+            $results[$i]['photo'] = "no_photo.png";
+        else if(!file_exists(realpath("uploads/destinationImages/".$results[$i]['photo'])))
+        {
+            $results[$i]['photo'] = "no_photo.png";
+        }         
+     }
+    /* var_dump($results[0]['photo']);
+     exit();*/
+        return $results;
     }
     
     /**
@@ -202,6 +230,22 @@ class destinationRepository extends EntityRepository {
                          ORDER BY d.des_order ASC";
         return ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult();
     }
+    
+    public function get_destination($destination_id,$locale) {
+        $em = $this->getEntityManager();
+         $query_string = "SELECT d, 
+                         (SELECT dl.des_lang_brief from mycpBundle:destinationLang dl 
+                          JOIN dl.des_lang_lang l WHERE dl.des_lang_destination = d.des_id AND l.lang_code = '$locale') as desc_brief,
+                         (SELECT description.des_lang_desc from mycpBundle:destinationLang description 
+                          JOIN description.des_lang_lang desc_l WHERE description.des_lang_destination = d.des_id AND desc_l.lang_code = '$locale') as desc_full
+                         FROM mycpBundle:destination d
+                         WHERE d.des_id = $destination_id
+                         ORDER BY d.des_order ASC";
+        
+     return $em->createQuery($query_string)->getOneOrNullResult();    
+    }
+    
+    
 
     /**
      * Returns a set of destination�s descriptions

@@ -1,6 +1,6 @@
 /*
 Importing data from old database to new database
-Author: Yanet Morales Ramírez
+Author: Yanet Morales Ramz
 */
 
 /*
@@ -162,7 +162,8 @@ from old_mypaladar_mycp.destinos d;
 insert into mypalada_mycp.destinationlang (des_lang_id, des_lang_des_id, des_lang_lang_id, des_lang_brief, des_lang_desc)
 select o.des_lang_id, o.des_lang_des_id, n.lang_id, o.des_lang_brief, o.des_lang_desc
 from old_mypaladar_mycp.destinos_lang o
-join mypalada_mycp.lang n on n.import_id = o.des_lang_lang_id;
+join mypalada_mycp.lang n on n.import_id = o.des_lang_lang_id
+join mypalada_mycp.destination d on d.des_id = o.des_lang_des_id;
 
 insert into mypalada_mycp.destinationlocation (des_loc_des_id, des_loc_mun_id, des_loc_prov_id)
 select dm.rdm_des_id, dm.rdm_mun_id, m.mun_prov_id
@@ -199,7 +200,6 @@ own_mcp_code,
 own_address_street,
 own_mobile_number,
 own_homeowner_1,
-own_homeowner_2,
 own_phone_number,
 own_email_1,
 own_email_2,
@@ -207,10 +207,7 @@ own_category,
 own_type,
 own_top_20,
 own_phone_code,
-own_status,
-own_commission_percent,
-own_licence_number
-)
+own_status)
 select p.pro_id,
 p.pro_name,
 m.mun_prov_id,
@@ -219,22 +216,15 @@ p.pro_code,
 p.pro_address,
 p.pro_cell,
 p.pro_host,
-otros.propietario2,
 p.pro_phone,
 p.pro_email,
 p.pro_email1,
 IF(pr.pre_label = "Económicas", "Económica", pr.pre_label),
-if(otros.tipo_propiedad = 1,"Penthouse", 
-		if(otros.tipo_propiedad = 2, "Villa con piscina", 
-			if(otros.tipo_propiedad = 3, "Apartamento", 
-				if(otros.tipo_propiedad = 4, "Propiedad completa","Casa particular")))),
+"Casa particular",
 p.pro_top20,
 prov.prov_phone_code,
-IF(p.pro_active, 1, 2),
-p.pro_offer_type,
-otros.nolicencia
+IF(p.pro_active, 1, 2)
 from old_mypaladar_mycp.propiedades p
-left join old_mypaladar_mycp.pro_otros otros on p.pro_code = otros.id_propiedad
 join mypalada_mycp.municipality m on p.pro_mun_id = m.mun_id
 join mypalada_mycp.province prov on m.mun_prov_id = prov.prov_id
 join old_mypaladar_mycp.precios pr on p.pro_range_id = pr.pre_range_id
@@ -287,39 +277,16 @@ where upper(lang.lang_code) = "ES"
 and fac.fac_pro_id = own.own_id
 and (upper(fl.fac_lang_title) LIKE '%PARQUEO%' OR upper(fl.fac_lang_title) LIKE '%GARAGE%'));
 
-update mypalada_mycp.ownership own
-set own.own_address_street = (select otros.calle from old_mypaladar_mycp.pro_otros otros where otros.id_propiedad = own.own_mcp_code limit 0,1),
-		own.own_address_number = (select otros.numero from old_mypaladar_mycp.pro_otros otros where otros.id_propiedad = own.own_mcp_code limit 0,1),
-		own.own_address_between_street_1 = (select otros.entrecalles from old_mypaladar_mycp.pro_otros otros where otros.id_propiedad = own.own_mcp_code limit 0,1),
-		own.own_address_between_street_2 = (select otros.entrecalles2 from old_mypaladar_mycp.pro_otros otros where otros.id_propiedad = own.own_mcp_code limit 0,1),
-		own.own_facilities_breakfast = (select otros.desayunoinc from old_mypaladar_mycp.pro_otros otros where otros.id_propiedad = own.own_mcp_code limit 0,1),
-		own.own_facilities_breakfast_price = (select otros.desayunoprecio from old_mypaladar_mycp.pro_otros otros where otros.id_propiedad = own.own_mcp_code limit 0,1),
-		own.own_facilities_dinner = (select otros.cenainc from old_mypaladar_mycp.pro_otros otros where otros.id_propiedad = own.own_mcp_code limit 0,1),
-		own.own_facilities_dinner_price_from = (select otros.cenadesde from old_mypaladar_mycp.pro_otros otros where otros.id_propiedad = own.own_mcp_code limit 0,1),
-		own.own_facilities_dinner_price_to = (select otros.cenahasta from old_mypaladar_mycp.pro_otros otros where otros.id_propiedad = own.own_mcp_code limit 0,1),
-		own.own_facilities_notes = (select otros.notas from old_mypaladar_mycp.pro_otros otros where otros.id_propiedad = own.own_mcp_code limit 0,1),
-		own.own_facilities_parking = (select otros.parqueoinc from old_mypaladar_mycp.pro_otros otros where otros.id_propiedad = own.own_mcp_code limit 0,1),
-		own.own_facilities_parking_price = (select otros.parqueoprec from old_mypaladar_mycp.pro_otros otros where otros.id_propiedad = own.own_mcp_code limit 0,1),
-	  own.own_description_bicycle_parking = (select otros.parqueociclos from old_mypaladar_mycp.pro_otros otros where otros.id_propiedad = own.own_mcp_code limit 0,1),
-		own.own_description_internet = (select otros.internet from old_mypaladar_mycp.pro_otros otros where otros.id_propiedad = own.own_mcp_code limit 0,1),
-		own.own_description_laundry = (select otros.lavanderia from old_mypaladar_mycp.pro_otros otros where otros.id_propiedad = own.own_mcp_code limit 0,1),
-		own.own_description_pets = (select otros.mascotas from old_mypaladar_mycp.pro_otros otros where otros.id_propiedad = own.own_mcp_code limit 0,1),
-		own.own_water_jacuzee = (select otros.jacuzee from old_mypaladar_mycp.pro_otros otros where otros.id_propiedad = own.own_mcp_code limit 0,1),
-		own.own_water_piscina = (select otros.piscina from old_mypaladar_mycp.pro_otros otros where otros.id_propiedad = own.own_mcp_code limit 0,1),
-		own.own_water_sauna = (select otros.sauna from old_mypaladar_mycp.pro_otros otros where otros.id_propiedad = own.own_mcp_code limit 0,1)
-where exists (select * from old_mypaladar_mycp.pro_otros otros where otros.id_propiedad = own.own_mcp_code);
-
 insert into mypalada_mycp.ownershipkeywordlang (okl_id_lang, okl_id_ownership, okl_keywords)
 select l.lang_id, plang.pro_lang_pro_id, plang.pro_lang_keywords
 from old_mypaladar_mycp.propiedades_lang plang 
 join mypalada_mycp.lang l on plang.pro_lang_lang_id = l.import_id;
 
 insert into mypalada_mycp.ownershipdescriptionlang (odl_id_lang, odl_id_ownership, odl_description, odl_brief_description)
-select l.lang_id, plang.pro_lang_pro_id, 
-plang.pro_lang_desc, 
-plang.pro_lang_brief
+select l.lang_id, plang.pro_lang_pro_id, plang.pro_lang_desc, plang.pro_lang_brief
 from old_mypaladar_mycp.propiedades_lang plang 
-join mypalada_mycp.lang l on plang.pro_lang_lang_id = l.import_id;
+join mypalada_mycp.lang l on plang.pro_lang_lang_id = l.import_id
+join mypalada_mycp.ownership own on own.own_id = plang.pro_lang_pro_id;
 
 insert into mypalada_mycp.room (
 room_id,
@@ -344,23 +311,18 @@ room_yard
 )
 select id_hab,
 id_pro_hab,
-if(tipo_hab = 0, null,if(tipo_hab = 1, "Habitación individual",
-	if(tipo_hab = 2, "Habitación doble",
-		if(tipo_hab = 3, "Habitación doble (Dos camas)", "Habitación Triple")))),
+tipo_hab,
 cant_camas,
 alta_desde,
 alta_hasta,
 baja_desde,
 baja_hasta,
-if(climatizacion = 1, "Ventilador", if(climatizacion = 2, "Aire acondicionado", null)),
-if(audiovis = 0, "TV",
-	if(audiovis = 1, "TV+DVD / Video",
-		if(audiovis = 2, "TV cable", null))),
+climatizacion,
+audiovis,
 fumador,
 cajafuerte,
 facilidadesbb,
-if(tipo_banno = 0, "Interior privado",
-	if(tipo_banno = 1, "Exterior privado", "Compartido")),
+tipo_banno,
 estereo,
 ventana,
 balcon,

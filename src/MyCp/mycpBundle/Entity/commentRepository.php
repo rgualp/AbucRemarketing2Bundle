@@ -99,10 +99,10 @@ class commentRepository extends EntityRepository
         if ($user != null && $user != "anon.")
         {
             $em = $this->getEntityManager();
-            $query_string = "SELECT gen_r FROM mycpBundle:generalReservation gen_r
-                             WHERE gen_r.gen_res_own_id = ".$own_id.
-                             " AND gen_r.gen_res_user_id =".$user.
-                             " AND gen_r.gen_res_status = 5";
+            $query_string = "SELECT own_r FROM mycpBundle:ownershipReservation own_r JOIN own_r.own_res_gen_res_id gen_res
+                             WHERE own_r.own_res_own_id = ".$own_id.
+                             " AND gen_res.gen_res_user_id =".$user.
+                             " AND own_r.own_res_status = 5";
             return count($em->createQuery($query_string)->getResult()) > 0;
         }
         return false;

@@ -23,7 +23,7 @@
     data-y="{{destination.desgeolocatey}}"
     data-name="{{destination.desName}}"
     data-description="{{brief_description | striptags}}"
-    data-image="{{asset('uploads/destinationImages/'~((gallery_photos[0] is defined) ? gallery_photos[0].getPhoName : "no_photo.png"))}}"
+    data-image="{{asset('uploads/destinationImages/'~((gallery_photos[0] is defined) ? gallery_photos[0] : "no_photo.png"))}}"
     data-icon="http://www.mycasaparticular.com/web/bundles/frontend/images/map.png">
 </div>
             </div>
@@ -126,7 +126,7 @@
             </div>
         </div>
         
-            <div class="thumbnail favorites_details" style="padding: 12px">
+            <div class="tiny_font thumbnail favorites_details" style="padding: 12px;">
             {{ include('frontEndBundle:favorite:detailsFavorite.html.twig',
             {'is_in_favorite': is_in_favorite,
             'favorite_type': 'destination',
@@ -135,9 +135,8 @@
         </div>
         <div class="thumbnail" style="padding: 12px">
         <a href="#send_to_friend_popup" title="{{'SEND_TO_FRIEND' | trans}}" data-toggle="modal" style="text-decoration: none">
-            <button class="btn btn-block" onclick="$('#send_to_friend_popup').attr('data-email-type', 'recommend_destiny'); $('#send_to_friend_popup').attr('data-dest-prop-id', '{{destination.getDesId}}');">
-                <div class="icon-envelope"></div>
-                {{"TELL_A_FRIEND" | trans}}
+            <button style="font-size: 12px" class="btn btn-block" onclick="$('#send_to_friend_popup').attr('data-email-type', 'recommend_destiny'); $('#send_to_friend_popup').attr('data-dest-prop-id', '{{destination.getDesId}}');">
+                <img src="{{ asset('bundles/frontend/images/main_to_friend.gif') }}">{{"TELL_A_FRIEND" | trans}}
             </button>
         </a>
     </div>
@@ -187,7 +186,7 @@
 <script src="http://maps.googleapis.com/maps/api/js?v=3&sensor=false" type="text/javascript"></script> 
     <script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.js') }}"></script>
     <script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.infobox.js') }}"></script>
-<script src="{{ asset('bundles/frontend/js/home_search.js') }}"></script>
+<!--script src="{{ asset('bundles/frontend/js/home_search.js') }}"></script-->
 <script src="{{ asset('bundles/frontend/js/destination_details.js') }}"></script>
 <link href="{{ asset('bundles/frontend/css/bootstrap/bootstrap-datepicker.css') }}" rel="stylesheet" media="screen">
 <script src="{{ asset('bundles/frontend/js/bootstrap/bootstrap-datepicker.js') }}"></script>

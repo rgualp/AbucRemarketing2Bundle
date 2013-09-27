@@ -28,10 +28,12 @@ function language_change()
         var refresh_url = $(this).attr('data-refresh-url');
         var new_lang_code = $(this).attr('data-new-lang-code');
         var current_lang_code = $(this).attr('data-current-lang-code');
+        
         $.post(url,
                 {
                     'lang_code': $(this).attr('data-new-lang-code'),
-                    'lang_name': $(this).attr('data-lang-name')
+                    'lang_name': $(this).attr('data-lang-name'),
+                    'lang_id': $(this).attr('data-lang-id')
                 }
         , function(data) {
             window.location = refresh_url.replace("/" + current_lang_code + "/", "/" + new_lang_code + "/");
@@ -140,12 +142,15 @@ function send2Friend() {
     var email_type = $('#send_to_friend_popup').attr('data-email-type');
     var dest_prop_id = $('#send_to_friend_popup').attr('data-dest-prop-id');
     var name_from = $('#name_from').val();
+    var email_from = $('#email_from').val();
     var email_to = $('#email_to').val();
 
     if (!document.mail_popup_form.checkValidity()) {
         if (name_from === '') {
             $('#name_from').css("borderColor", "red");
-        } else {
+        }else if(email_from === ''){
+            $('#email_from').css("borderColor", "red");
+        }else {
             $('#email_to').css("borderColor", "red");
         }
         return;
@@ -156,11 +161,21 @@ function send2Friend() {
         'email_type': email_type,
         'dest_prop_id': dest_prop_id,
         'name_from': name_from,
+        'email_from': email_from,
         'email_to': email_to
     }, function(data) {
         $('#name_from').val("");
+        $('#email_from').val("");
         $('#name_from').val("");
         $('#send_to_friend_popup').modal('hide');
         $('#sending_mail').addClass('hidden');
     });
+}
+
+function move(id)
+{
+    var to = $(id);
+    var position_to = $(to).offset();
+    var distance = position_to.top;
+    $('body,html').animate({scrollTop: distance}, 500);
 }

@@ -24,12 +24,6 @@
         <div id="content_body_review">
             {% render ('frontEndBundle:reservation:get_body_review_reservation')%}
         </div>
-        <div class="table_striped_vertical_foot">
-            <div class="row-fluid">
-                <div class="span6">{{"TOTAL" | trans}}</div>
-                <div class="span6" style="text-align: right">{{app.session.get('curr_symbol')}}<span id="total_price"></span></div>
-            </div>
-        </div>
         {% else %}
             <div style="margin: 10px" class="alert alert-info">{{"EMPTY_LIST"|trans}}</div>
         {% endif %}
@@ -84,21 +78,10 @@
                     else
                     {
                         $('#content_body_review').html(msg);
-                        total_price();
                     }
 
                 }
             });
     });
-
-    function total_price()
-    {
-        total=0;
-        $('.service_price').each(function(){
-            total+=parseFloat($(this).text());
-        });
-        $('#total_price').html(total);
-    }
-    total_price();
 </script>
 {% endblock %}

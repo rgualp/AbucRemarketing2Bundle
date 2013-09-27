@@ -19,47 +19,18 @@
     <button class="btn btn-primary" type="submit">Guardar</button>
     <button class="btn" type="reset">Cancelar</button>
     &nbsp;&nbsp;&nbsp;
-    <button type="button" {% if reservation.getGenResSaved==0 %}disabled="disabled"{% endif %} class="btn btn-danger">Enviar</button>
+    <a {% if reservation.getGenResSaved!=0 %}href="{{path('mycp_send_reservation',{'id_reservation':id_reservation})}}"{% endif %} type="button" class="{% if reservation.getGenResSaved==0 %}disabled{% endif %} btn btn-danger">Enviar</a>
 
 </div>
 </form>
 {% endblock %}
 {% block content %}
-<h2>Detalles de Reserva: CAS.{{reservation.getGenResOwnId.getOwnMcpCode}}</h2>
+<h2>Detalles de Reserva</h2>
 <hr/>
 {% if errors %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
 <form action="{{ path('mycp_details_reservation', { 'id_reservation' : id_reservation } ) }}" method="POST">
 <div class="row-fluid">
-    <div class="span6">
-        <ul class="nav nav-tabs">
-            <li class="active">
-                <a href="#reservas" data-toggle="tab">Info: Casa</a>
-            </li>
-        </ul>
-            <table class="table table-striped" style="font-size: 12px">
-                <tr>
-                    <td><b>ID Casa:</b></td>
-                    <td>{{ reservation.getGenResOwnId.getOwnMcpCode }} {{ reservation.getGenResOwnId.getOwnName }}</td>
-                </tr>
-                <tr>
-                    <td><b>Tipo de propiedad:</b></td>
-                    <td>{{ reservation.getGenResOwnId.getOwnType }}</td>
-                </tr>
-                <tr>
-                    <td><b>Propietario:</b></td>
-                    <td>{{ reservation.getGenResOwnId.getOwnHomeowner1 }}</td>
-                </tr>
-                <tr>
-                    <td><b>Dirección:</b></td>
-                    <td>{{ reservation.getGenResOwnId.getOwnAddressStreet }} {{ reservation.getGenResOwnId.getOwnAddressNumber }} e/ {{ reservation.getGenResOwnId.getOwnAddressBetweenStreet1 }} y {{ reservation.getGenResOwnId.getOwnAddressBetweenStreet2 }} {{ reservation.getGenResOwnId.getOwnAddressMunicipality }}</td>
-                </tr>
-                <tr>
-                    <td><b>Teléfono:</b></td>
-                    <td>{{ reservation.getGenResOwnId.getOwnPhoneCode }} {{ reservation.getGenResOwnId.getOwnPhoneNumber }}</td>
-                </tr>
-            </table>
-    </div>
-    <div class="span6">
+    <div class="span12">
         <ul class="nav nav-tabs">
             <li class="active">
                 <a href="#reservas" data-toggle="tab">Info: Cliente Tourist</a>
@@ -102,6 +73,7 @@
     <table class="table table-striped" style="font-size: 12px">
         <thead>
         <tr>
+            <th>ID Reserva</th>
             <th>Habitación</th>
             <th>Adultos</th>
             <th>Niños</th>
@@ -119,13 +91,16 @@
         {% set total_childrens = 0 %}
         {% set total_nigths = 0 %}
         {% set total_price_own_res = 0%}
-
+        {% set pre_pay =  0 %}
         {% for reservation_rooms in reservations%}
 
+        {% set pre_pay = pre_pay + reservation_rooms.ownResNightPrice * reservation_rooms.getOwnResOwnId.getOwnCommissionPercent / 100%}
+        {% set total_price_own_res = total_price_own_res + reservation_rooms.ownResNightPrice %}
         {% set total_adults = total_adults +  reservation_rooms.getOwnResCountAdults %}
         {% set total_childrens = total_childrens +  reservation_rooms.getOwnResCountChildrens %}
 
         <tr>
+            <td>CAS.{{reservation_rooms.getOwnResId}}</td>
             {% set res_type ='' %}
             {% if reservation_rooms.getOwnResRoomType %}
             {% set res_type = reservation_rooms.getOwnResRoomType %}
@@ -150,9 +125,9 @@
                     {% render 'mycpBundle:BackendReservation:get_numeric_list_0' with{'post':{'selected':reservation_rooms.getOwnResCountChildrens}}%}
                 {% endif %}
             </select></td>
-            <td>{{ reservation.getGenResFromDate | date("d/m/Y") }}</td>
-            <td>{{ reservation.getGenResToDate | date("d/m/Y") }}</td>
-            <td>{{ total_nights }}</td>
+            <td>{{ reservation_rooms.getOwnResReservationFromDate | date("d/m/Y") }}</td>
+            <td>{{ reservation_rooms.getOwnResReservationToDate | date("d/m/Y") }}</td>
+            <td>{{ reservation_rooms.getOwnResReservationToDate | date("d/m/Y") - reservation_rooms.getOwnResReservationFromDate | date("d/m/Y") }}</td>
             <td style="width: 7%">
                 {% set price_own_res =0%}
 
@@ -163,9 +138,9 @@
                 {% endif %}
                 <input type="text" class="input-block-level" value="{{ price_own_res }}" name="service_room_price_{{reservation_rooms.getOwnResId}}"/>
             </td>
-            <td>{{ reservation.genResOwnId.getOwnCommissionPercent }}%</td>
-            <td>{{ total_nights*price_own_res }} CUC</td>
-            {% set total_price_own_res = total_price_own_res +  total_nights*price_own_res %}
+            <td>{{ reservation_rooms.getOwnResOwnId.getOwnCommissionPercent }}%</td>
+            <td>{{ price_own_res * reservation_rooms.getOwnResOwnId.getOwnCommissionPercent / 100}} CUC</td>
+
             <td>
             <select class="input-block-level" name="service_own_res_status_{{reservation_rooms.getOwnResId}}">
                 {% if post['service_own_res_status_'~reservation_rooms.getOwnResId] is defined %}
@@ -204,9 +179,8 @@
             <td>{{ reservations | length}}</td>
             <td>{{ total_adults }}</td>
             <td>{{ total_childrens }}</td>
-            <td>{{ total_nights }}</td>
+            <td>{{ "0" }}</td>
             <td>{{ total_price_own_res }} CUC</td>
-            {% set pre_pay =  total_price_own_res * reservation.genResOwnId.getOwnCommissionPercent / 100 %}
             {% set pay_in_house = total_price_own_res - pre_pay %}
             {% set total_pre_pay = pre_pay + 10 %}
             <td>{{ pre_pay }} CUC</td>
