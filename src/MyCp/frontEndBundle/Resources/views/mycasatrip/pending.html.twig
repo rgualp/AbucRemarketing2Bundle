@@ -1,36 +1,33 @@
 {% set menu = 1 %}
 {% extends 'frontEndBundle:mycasatrip:layout.html.twig' %}
 {% block body_inner %}
-{% set flag_own_res = 0 %}
 {% for res in res_pending %}
 <div class="well mycasatrip_result">
     <div class="row-fluid">
-        <div class="span4"><a href="{{ path('frontend_details_ownership',{'owner_id':res[0]['gen_res_own_id']['own_id']}) }}"><img src="{{ asset('uploads/ownershipImages/'~ res['photo']) }}" class="span12 img-polaroid"></a></div>
+        <div class="span4"><a href="{{ path('frontend_details_ownership',{'owner_id':res[0]['own_res_own_id']['own_id']}) }}"><img src="{{ asset('uploads/ownershipImages/'~ res['photo']) }}" class="span12 img-polaroid"></a></div>
         <div style="margin-left: 10px" class="span8">
             <table style="width: 100%">
                 <tbody><tr>
                     <td>
-                        <h4 class="title_1">{{ res[0]['gen_res_own_id']['own_name'] }}</h4>
+                        <h4 class="title_1">{{ res[0]['own_res_own_id']['own_name'] }}</h4>
                         <p class="note">
-                            {{ res[0]['gen_res_own_id']['own_address_municipality']['mun_name']|title }} - {{ res[0]['gen_res_own_id']['own_address_province']['prov_name']|title }}
-                        {% set flag_own_room = 0 %}
-                        {% for own_room in own_rooms[flag_own_res] %}
-                            <br><b>{% if(own_reservations[flag_own_res][flag_own_room].getOwnResRoomType) %}{{own_reservations[flag_own_res][flag_own_room].getOwnResRoomType|capitalize}}{% else %}{{own_rooms[flag_own_res][flag_own_room].getRoomType}}{% endif %}</b>
-                            <br>{{"ADULTS" | trans}}: <b>{{own_reservations[flag_own_res][flag_own_room].getOwnResCountAdults}}</b> &nbsp;&nbsp;{{"KIDS" | trans}}: <b>{{own_reservations[flag_own_res][flag_own_room].getOwnResCountChildrens}}</b>
-                            {% set flag_own_room = flag_own_room + 1 %}
-                        {% endfor %}
-                        {% set flag_own_res = flag_own_res + 1 %}<br/>
-                            {{"FROM_PRICES" | trans}}: {{ res[0]['gen_res_from_date'] |date("d/m/Y") }} {{"TO_PRICES" | trans}}: {{ res[0]['gen_res_to_date'] |date("d/m/Y") }}
+                            {{ res[0]['own_res_own_id']['own_address_municipality']['mun_name']|title }} - {{ res[0]['own_res_own_id']['own_address_province']['prov_name']|title }}
+
+                            <br><b>{{res[0]['own_res_room_type']|trans}}</b>
+                            <br>{{"ADULTS" | trans}}: <b>{{res[0]['own_res_count_adults']}}</b> &nbsp;&nbsp;{{"KIDS" | trans}}: <b>{{res[0]['own_res_count_childrens']}}</b>
+
+                        <br/>
+                            {{"FROM_PRICES" | trans}}: {{res[0]['own_res_reservation_from_date']|date('d/m/Y')}} {{"TO_PRICES" | trans}}: {{res[0]['own_res_reservation_to_date']|date('d/m/Y')}}
                         </p>
                     </td>
 
                     <td>
-                        <p class="note"><b>{{"ID_RESERVATION" | trans}}:</b> CAS.{{res[0]['gen_res_id'] }}
+                        <p class="note"><b>{{"ID_RESERVATION" | trans}}:</b> CAS.{{res[0]['own_res_id']}}
                             <br>
                             <br>
                             <span class="badge">{{"RESPONSE_PENDING" | trans}}</span>
 
-                        </p><h4>{{app.session.get('curr_symbol')}}{{res[0]['gen_res_total_price_in_site'] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h4>
+                        </p><h4>{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{res[0]['own_res_total_in_site'] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h4>
                     </td>
                 </tr>
                 <tr>
@@ -40,7 +37,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2"><button class="btn mycp_btn mycp_btn_green" style="width: 150px">{{"SEE_REQUEST" | trans}}</button></td>
+                    <td colspan="2"><a href="{{ path('frontend_details_ownership',{'owner_id':res[0]['own_res_own_id']['own_id']}) }}" class="btn mycp_btn mycp_btn_green" style="width: 150px">{{"VIEW_DETAILS" | trans}}</a></td>
                 </tr>
                 </tbody></table>
         </div>

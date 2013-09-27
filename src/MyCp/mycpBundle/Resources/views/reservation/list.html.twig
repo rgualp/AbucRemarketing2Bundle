@@ -111,8 +111,6 @@
                 <thead>
                 <tr>
                     <th>Fecha</th>
-                    <th>ID Res.</th>
-                    <th>ID Casa</th>
                     <th>Habit.</th>
                     <th>Huésp.</th>
                     <th>Llegada</th>
@@ -127,8 +125,6 @@
                 {% for reservation in reservations %}
                 <tr class="{% if reservation[0].gen_res_status==1 %}warning{%endif%}{% if reservation[0].gen_res_status==2 %}error{%endif%}{% if reservation[0].gen_res_status==3 %}info{%endif%}">
                     <td>{{reservation[0].gen_res_date |date("d/m/Y")}}</td>
-                    <td>CAS.{{reservation[0].gen_res_id}}</td>
-                    <td>{{reservation[0].gen_res_own_id.own_mcp_code}}</td>
                     <td>{{reservation[1]}}</td>
                     <td>{{reservation[3]+reservation[5]}}</td>
                     <td>{{reservation[0].gen_res_from_date|date("d/m/Y")}}</td>

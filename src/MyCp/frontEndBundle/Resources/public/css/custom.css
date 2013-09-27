@@ -151,7 +151,22 @@ ul.nav-tabs{margin-bottom: 0; border-bottom: solid 1px #CFE0EA;}
 .third_tab .nav-tabs li a{border-radius: 6px 6px 0 0;}
 .third_tab{margin-bottom: 20px;}
 
-footer{width: 100%; height: 250px; background: url("../images/footer_bg.png") repeat-x #1E4A93; margin-top: 22px; padding: 25px 0 0;}
+footer{
+    width: 100%; 
+    height: 250px;
+    margin-top: 22px; 
+    padding: 25px 0 0;
+
+    background-color: #1E4C97;
+    background-image: -moz-linear-gradient(top, #3A6ABF,#1E4C97);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3A6ABF), to(#1E4C97));
+    background-image: -webkit-linear-gradient(top, #3A6ABF,#1E4C97);
+    background-image: -o-linear-gradient(top, #3A6ABF,#1E4C97);
+    background-image: linear-gradient(to bottom, #3A6ABF,#1E4C97);
+
+    border-top: solid 6px #A1CB37;
+}
+
 footer .menu{width: 18%;float: left; padding-left: 2%}
 footer .menu.seal{text-align: right; padding: 0 2% 0 0; }
 footer .menu a{color: #ffffff; font-size: 12px; font-weight:bold;}
@@ -354,15 +369,17 @@ hr{margin: 5px 0;}
 
 .ownerships_list .markerActive{border: 1px solid #0088CC!important; background: #D9F2FF!important;}
 .head_1{color: #0089CD; font-size: 20px; margin-bottom: 20px;}
-.table_striped_vertical{margin-bottom: 0px}
+.table_striped_vertical{margin-bottom: 0px; border-collapse: inherit;}
 .table_striped_vertical thead th{ color: #0089CD; border-bottom: solid 1px #cccccc ;border-top: none;}
 .table_striped_vertical .grey{ background-color: #F3F3F3}
+.table_inner tr td{border: none}
+.table_inner tr td{border-top: solid 1px #DDDDDD}
+.table_inner tr:first-child td{border-top: none}
 .table_delete{background-color: #E5E5E5; width: 40px; }
 .table_delete button{background: url("../images/delete_circle.gif") no-repeat top center; width: 40px; border: none}
 .table_delete button.in_process{background-image: url("../images/loading.gif")}
 .table_delete button:hover{background-position:bottom}
-.table_striped_vertical_foot{background-color: #D1EEFE; color: #45A9DD; font-weight: bold; border-bottom-left-radius: 7px;border-bottom-right-radius: 7px; padding: 10px 10px 0px;}
-.table_inner tr:first-child td{ border-top: none!important;}
+.table_striped_vertical_foot{background-color: #D1EEFE; color: #45A9DD; font-weight: bold; border-bottom-left-radius: 7px;border-bottom-right-radius: 7px; padding: 10px 10px 0px;}}
 
 .modal-backdrop.fade.in {opacity: 0.5;filter: alpha(opacity=50);}
 .modal.fade.in{top: 30%;}
@@ -379,9 +396,6 @@ hr{margin: 5px 0;}
 .mycasatrip_result table tr td:last-child {
     text-align: right;
     vertical-align: top;
-}
-.table_striped_vertical .first{
-    border-top: none!important;
 }
 
 .mycp_nav_list li a{ font-size: 13px; font-weight: normal;}
@@ -679,3 +693,6 @@ ul.paginator_orange li.first_disabled,ul.paginator_orange li.left_disabled, ul.p
 .destination_description{background-color: #F5F5F5; color:#9F9F9F; padding: 5px;}
 .destination_description_container{padding:3px; border: 1px solid #C6C6C6;}
 .typeahead li a{text-align: left; z-index: 600;}
+
+.tiny_font button{font-size: 12px;}
+.grey_cont label span.reservation_error{color:#ff0000; display:inline; font-size:11px;}

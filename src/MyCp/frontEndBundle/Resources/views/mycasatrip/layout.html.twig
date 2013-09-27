@@ -13,14 +13,18 @@ Mycasa trip
 <div class="green_bar msg_green_brand">
     <div class="row-fluid">
         <div class="span9"></div>
-        <div class="span3" style=" padding-right: 10px">
-            <form id="order_by_form" method="post" action="" style="margin: 0">
-            <select class="span12" id="mct_change_order" name="mct_change_order">
-                <option {% if order_by is defined and order_by == 0%}selected="selected" {% endif %} value="0">Fecha</option>
-                <option {% if order_by is defined and order_by == 1%}selected="selected" {% endif %} value="1">ID Reserva</option>
-                <option {% if order_by is defined and order_by == 2%}selected="selected" {% endif %} value="2">Precio</option>
-            </select>
-           </form>
+        <div class="span3">
+            <form id="order_by_form" method="post" action="" style="margin: 0; text-align: right; padding: 0px 10px">
+                <div class="btn-group mycp_combo">
+                    <a id="mct_change_order" style="width: 180px" class="combo_label btn dropdown-toggle span2 " data-toggle="dropdown" data-value="{{order_by}}"></a>
+                    <ul class="dropdown-menu" onclick="onSort();">
+                        <li><a class="option" data="mct_change_order" data-value="0">{{"DATE" | trans}}</a></li>
+                        <li><a class="option" data="mct_change_order" data-value="1">ID Reserva</a></li>
+                        <li><a class="option" data="mct_change_order" data-value="2">{{"PRICE" | trans}}</a></li>            
+                    </ul>
+                    <input type="hidden" id="hidden_sort_order" name="mct_change_order" />
+                 </div>
+             </form>
         </div>
     </div>
 </div>
@@ -38,9 +42,13 @@ Mycasa trip
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    $('#mct_change_order').change(function(){
+<script>
+    $(document).ready(function(){
+        $('#mct_change_order').html($('.option').eq({{order_by}}).html());
+    });
+    function onSort(){
+        $('#hidden_sort_order').val($('#mct_change_order').attr('data-value')); 
         $('#order_by_form').submit();
-    })
-</script>
+    }
+</script>    
 {% endblock %}

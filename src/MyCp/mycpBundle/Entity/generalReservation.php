@@ -56,11 +56,7 @@ class generalReservation
      */
     private $gen_res_status_date;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="ownership",inversedBy="genResOwnership")
-     * @ORM\JoinColumn(name="gen_res_own_id",referencedColumnName="own_id")
-     */
-    private $gen_res_own_id;
+
 
     /**
      * @var \DateTime
@@ -75,13 +71,6 @@ class generalReservation
      * @ORM\Column(name="gen_res_to_date", type="date")
      */
     private $gen_res_to_date;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="gen_res_total_price_in_site", type="integer")
-     */
-    private $gen_res_total_price_in_site;
 
     /**
      * Get gen_res_id
@@ -187,29 +176,6 @@ class generalReservation
     }
 
     /**
-     * Set gen_res_own_id
-     *
-     * @param \MyCp\mycpBundle\Entity\ownership $genResOwnId
-     * @return generalReservation
-     */
-    public function setGenResOwnId(\MyCp\mycpBundle\Entity\ownership $genResOwnId = null)
-    {
-        $this->gen_res_own_id = $genResOwnId;
-    
-        return $this;
-    }
-
-    /**
-     * Get gen_res_own_id
-     *
-     * @return \MyCp\mycpBundle\Entity\ownership 
-     */
-    public function getGenResOwnId()
-    {
-        return $this->gen_res_own_id;
-    }
-
-    /**
      * Set gen_res_saved
      *
      * @param boolean $genResSaved
@@ -278,62 +244,63 @@ class generalReservation
         return $this->gen_res_to_date;
     }
 
-    /**
-     * Set gen_res_total_price_in_site
-     *
-     * @param integer $genResTotalPriceInSite
-     * @return generalReservation
-     */
-    public function setGenResTotalPriceInSite($genResTotalPriceInSite)
-    {
-        $this->gen_res_total_price_in_site = $genResTotalPriceInSite;
-    
-        return $this;
-    }
-
-    /**
-     * Get gen_res_total_price_in_site
-     *
-     * @return integer 
-     */
-    public function getGenResTotalPriceInSite()
-    {
-        return $this->gen_res_total_price_in_site;
-    }
-
-    /**
-     * Returns the Total Price In Site as a string
-     * in the format
-     * pattern = /\d+\.\d\d/
-     * e.g. '0.00', '-10.32', '0.01' etc.
-     *
-     * @return string
-     */
-    public function getTotalPriceInSiteAsString()
-    {
-        $s = (string)$this->gen_res_total_price_in_site;
-        $abs = abs($this->gen_res_total_price_in_site);
-
-        if($abs < 10) {
-            $s = substr_replace($s, '0', -1, 0);
-        }
-
-        if($abs < 100) {
-            $s = substr_replace($s, '0', -2, 0);
-        }
-
-        return substr_replace($s, '.', -2, 0);
-    }
-
-    /**
-     * Returns the Total Price In Site as a string
-     * formatted according to the current locale.
-     *
-     * @return string
-     */
-    public function getTotalPriceInSiteAsLocalizedString()
-    {
-        $t = new NumberToLocalizedStringTransformer(2);
-        return $t->transform(0.01 * (float)$this->gen_res_total_price_in_site);
-    }
+//    private $gen_res_total_price_in_site;
+//    /**
+//     * Set gen_res_total_price_in_site
+//     *
+//     * @param integer $genResTotalPriceInSite
+//     * @return generalReservation
+//     */
+//    public function setGenResTotalPriceInSite($genResTotalPriceInSite)
+//    {
+//        $this->gen_res_total_price_in_site = $genResTotalPriceInSite;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Get gen_res_total_price_in_site
+//     *
+//     * @return integer
+//     */
+//    public function getGenResTotalPriceInSite()
+//    {
+//        return $this->gen_res_total_price_in_site;
+//    }
+//
+//    /**
+//     * Returns the Total Price In Site as a string
+//     * in the format
+//     * pattern = /\d+\.\d\d/
+//     * e.g. '0.00', '-10.32', '0.01' etc.
+//     *
+//     * @return string
+//     */
+//    public function getTotalPriceInSiteAsString()
+//    {
+//        $s = (string)$this->gen_res_total_price_in_site;
+//        $abs = abs($this->gen_res_total_price_in_site);
+//
+//        if($abs < 10) {
+//            $s = substr_replace($s, '0', -1, 0);
+//        }
+//
+//        if($abs < 100) {
+//            $s = substr_replace($s, '0', -2, 0);
+//        }
+//
+//        return substr_replace($s, '.', -2, 0);
+//    }
+//
+//    /**
+//     * Returns the Total Price In Site as a string
+//     * formatted according to the current locale.
+//     *
+//     * @return string
+//     */
+//    public function getTotalPriceInSiteAsLocalizedString()
+//    {
+//        $t = new NumberToLocalizedStringTransformer(2);
+//        return $t->transform(0.01 * (float)$this->gen_res_total_price_in_site);
+//    }
 }

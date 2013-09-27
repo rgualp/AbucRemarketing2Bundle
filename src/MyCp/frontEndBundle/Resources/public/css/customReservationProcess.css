@@ -42,3 +42,6 @@
     vertical-align: bottom;
 }
 .arrow_cont_cyan,.arrow_cont_grey,.arrow_cont_green{vertical-align: top;text-align: center;}
+
+.table_type_1{border: solid 1px #E1E1E1}
+.table_type_1 tr:first-child th{background-color: #F2F2F2; color: #008CD0}

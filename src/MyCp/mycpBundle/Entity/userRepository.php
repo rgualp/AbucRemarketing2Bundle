@@ -505,4 +505,11 @@ class userRepository extends EntityRepository
         
         return -1;
     }
+    
+     public function get_session_id_with_request($request) {
+        $session_id = null;
+        if ($request->cookies->has("mycp_user_session"))
+            $session_id = $request->cookies->get("mycp_user_session");
+        return $session_id;
+    }
 }

@@ -1711,9 +1711,9 @@
                 <source>SENT_EMAIL_FROM</source>
                 <target>Enviar a nombre de:</target>
             </trans-unit>
-             <trans-unit id="437">
+            <trans-unit id="437">
                 <source>EMAIL_TO</source>
-                <target>Dirección de correo destino:</target>
+                <target>Correo electrónico:</target>
             </trans-unit>
             <trans-unit id="438">
                 <source>MAIN_CUBAN_DESTINATIONS</source>
@@ -1747,62 +1747,354 @@
                 <source>NOT_AVAILABLE</source>
                 <target>No disponible</target>
             </trans-unit>
-           <trans-unit id="446">
-               <source>REMOVE_RESERVATION_CONFIRM</source>
-               <target>¿Confirma que desea eliminar la reservación?</target>
-           </trans-unit>
-           <trans-unit id="447">
-               <source>CANCEL</source>
-               <target>Cancelar</target>
-           </trans-unit>
-           <trans-unit id="448">
-               <source>CART_EMPTY_SUCCESSFUL</source>
-               <target>La cesta se ha vaciado satisfactoriamente.</target>
-           </trans-unit>
-           <trans-unit id="449">
-               <source>CART_DESCRIPTION</source>
-               <target>Descripción de la cesta</target>
-           </trans-unit>
-           <trans-unit id="450">
-               <source>LAST_ADDED_DESCRIPTION</source>
-               <target>Descripción de últimas añadidas</target>
-           </trans-unit>
-           <trans-unit id="451">
-               <source>OWNERSHIP_ECONOMY_DESCRIPTION</source>
-               <target>Descripción de alojamientos económicos</target>
-           </trans-unit>
-           <trans-unit id="452">
-               <source>OWNERSHIP_PREMIUM_DESCRIPTION</source>
-               <target>Descripción de alojamientos premium</target>
-           </trans-unit>
-           <trans-unit id="453">
-               <source>OWNERSHIP_MID_RANGE_DESCRIPTION </source>
-               <target>Descripción de alojamientos rango medio</target>
-           </trans-unit>
-           <trans-unit id="454">
-               <source>SEE_REQUEST</source>
-               <target>Ver solicitud</target>
-           </trans-unit>
-           <trans-unit id="455">
-               <source>ID_RESERVATION</source>
-               <target>ID Reserva</target>
-           </trans-unit>
-           <trans-unit id="456">
-                <source>SKRILL_CONFIRMATION_NOTE</source>
-                <target>TODO - not yet translated!</target>
+            <trans-unit id="446">
+                <source>REMOVE_RESERVATION_CONFIRM</source>
+                <target>¿Confirma que desea eliminar la reservación?</target>
             </trans-unit>
-                <trans-unit id="457">
-                <source>SKRILL_DESCRIPTION_BOOKING_ID</source>
-                <target>ID Reserva:  </target>
+            <trans-unit id="447">
+                <source>CANCEL</source>
+                <target>Cancelar</target>
+            </trans-unit>
+            <trans-unit id="448">
+                <source>CART_EMPTY_SUCCESSFUL</source>
+                <target>La cesta se ha vaciado satisfactoriamente.</target>
+            </trans-unit>
+            <trans-unit id="449">
+                <source>CART_DESCRIPTION</source>
+                <target>Descripción de la cesta</target>
+            </trans-unit>
+            <trans-unit id="450">
+                <source>LAST_ADDED_DESCRIPTION</source>
+                <target>Descripción de últimas añadidas</target>
+            </trans-unit>
+            <trans-unit id="451">
+                <source>OWNERSHIP_ECONOMY_DESCRIPTION</source>
+                <target>Descripción de alojamientos económicos</target>
+            </trans-unit>
+            <trans-unit id="452">
+                <source>OWNERSHIP_PREMIUM_DESCRIPTION</source>
+                <target>Descripción de alojamientos premium</target>
+            </trans-unit>
+            <trans-unit id="453">
+                <source>OWNERSHIP_MID_RANGE_DESCRIPTION </source>
+                <target>Descripción de alojamientos rango medio</target>
+            </trans-unit>
+            <trans-unit id="454">
+                <source>SEE_REQUEST</source>
+                <target>Ver solicitud</target>
+            </trans-unit>
+            <trans-unit id="455">
+                <source>ID_RESERVATION</source>
+                <target>ID Reserva</target>
+            </trans-unit>
+            <trans-unit id="456">
+                <source>RESERVATION_DETAILS</source>
+                <target>Detalles de la Reserva</target>
+            </trans-unit>
+            <trans-unit id="457">
+                <source>DATE</source>
+                <target>Fecha</target>
             </trans-unit>
             <trans-unit id="458">
-                <source>SKRILL_PAY_WITH_SKRILL</source>
-                <target>TODO - not yet translated</target>
+                <source>PRICE</source>
+                <target>Precio</target>
             </trans-unit>
             <trans-unit id="459">
-                <source>SKRILL_RETURN_TO_MYCP</source>
-                <target>Return to MyCasaParticular</target>
+                <source>ROOM_DETAIL</source>
+                <target>Detalles de habitación</target>
             </trans-unit>
+            <trans-unit id="460">
+                <source>YOUR_DATA</source>
+                <target>Sus Datos</target>
+            </trans-unit>
+            <trans-unit id="461">
+                <source>REQUIRED_FIELDS</source>
+                <target>(*Campos obligatorios)</target>
+            </trans-unit>
+            <trans-unit id="462">
+                <source>ADD_TO_CART</source>
+                <target>Añadir a la cesta</target>
+            </trans-unit>
+            <trans-unit id="463">
+                <source>INITIAL_DEPOSIT</source>
+                <target>Depósito inicial</target>
+            </trans-unit>
+            <trans-unit id="464">
+                <source>SERVICE_RECHARGE</source>
+                <target>Cargo por servicio</target>
+            </trans-unit>
+            <trans-unit id="465">
+                <source>TOTAL_PREPAYMENT</source>
+                <target>Total prepago</target>
+            </trans-unit>
+            <trans-unit id="466">
+                <source>LAST_VISITED_OWNERSHIPS</source>
+                <target>Últimos alojamientos visitados</target>
+            </trans-unit>
+            <trans-unit id="467">
+                <source>VISIT_ANOTHER_DESTINATIONS</source>
+                <target>Visite otros destinos</target>
+            </trans-unit>
+            <trans-unit id="468">
+                <source>GENDER</source>
+                <target>Género</target>
+            </trans-unit>
+            <trans-unit id="469">
+                <source>SELECT</source>
+                <target>(Seleccione)</target>
+            </trans-unit>
+            <trans-unit id="470">
+                <source>MALE</source>
+                <target>Masculino</target>
+            </trans-unit>
+            <trans-unit id="471">
+                <source>FEMALE</source>
+                <target>Femenino</target>
+            </trans-unit>
+            <trans-unit id="472">
+                <source>ZIPCODE</source>
+                <target>Código Postal</target>
+            </trans-unit>
+            <trans-unit id="473">
+                <source>CONFIRM_MAIL</source>
+                <target>Confirmar correo</target>
+            </trans-unit>
+            <trans-unit id="474">
+                <source>NACIONALITY</source>
+                <target>Nacionalidad</target>
+            </trans-unit>
+            <trans-unit id="475">
+                <source>ARRIVAL_TIME</source>
+                <target>Hora de llegada</target>
+            </trans-unit>
+            <trans-unit id="476">
+                <source>CELL_NUMBER</source>
+                <target>Móvil</target>
+            </trans-unit>
+            <trans-unit id="477">
+                <source>YOUR_PAYMENT</source>
+                <target>Su Pago</target>
+            </trans-unit>
+            <trans-unit id="478">
+                <source>SKRILL_PAYMENT</source>
+                <target>Pague usando cuenta Skrill</target>
+            </trans-unit>
+            <trans-unit id="479">
+                <source>FINAL_STEP</source>
+                <target>Paso Final</target>
+            </trans-unit>
+            <trans-unit id="480">
+                <source>OBTAIN_PROTECTION</source>
+                <target>Obtener protección de cancelacion para</target>
+            </trans-unit>
+            <trans-unit id="481">
+                <source>ACCEPT_TERMS_CONDITIONS</source>
+                <target>Acepto Términos y Condiciones</target>
+            </trans-unit>
+            <trans-unit id="482">
+                <source>SEND_ME_OFFERS</source>
+                <target>Envíeme ofertas especiales y consejos de viajes al correo</target>
+            </trans-unit>
+            <trans-unit id="483">
+                <source>PAYMENT_CONFIRM</source>
+                <target>Confirmar pago</target>
+            </trans-unit>
+            <trans-unit id="484">
+                <source>PAYMENT_CONFIRMATION_TEXT</source>
+                <target>Al hacer click en el botón Confirmar, declaras aceptar los Términos y Condiciones, y un cargo reembolsable de</target>
+            </trans-unit>
+            <trans-unit id="485">
+                <source>TO</source>
+                <target>Para</target>
+            </trans-unit>
+            <trans-unit id="486">
+                <source>FROM</source>
+                <target>De</target>
+            </trans-unit>
+            <trans-unit id="487">
+                <source>GOOD_MORNING</source>
+                <target>Buenos días</target>
+            </trans-unit>
+            <trans-unit id="488">
+                <source>THANKS_CHECK_AVAILABLE</source>
+                <target>Gracias por su consulta de disponibilidad </target>
+            </trans-unit>
+            <trans-unit id="489">
+                <source>REQUEST_IN_PROCESS_24_HOURS</source>
+                <target>Su solicitud está en proceso y usted obtendrá respuesta en menos de 24 horas.</target>
+            </trans-unit>
+            <trans-unit id="490">
+                <source>THANKS_RESERVATION_TEAM</source>
+                <target>Gracias, equipo de reservación</target>
+            </trans-unit>
+            <trans-unit id="491">
+                <source>STAY_WHERE_CUBA_CUBA_IS</source>
+                <target>Alojarse donde Cuba, Cuba es.</target>
+            </trans-unit>
+            <trans-unit id="492">
+                <source>NIGHTS</source>
+                <target>Noches</target>
+            </trans-unit>
+            <trans-unit id="493">
+                <source>PENDING</source>
+                <target>Pendiente</target>
+            </trans-unit>
+            <trans-unit id="494">
+                <source>VIEW_DETAILS</source>
+                <target>Ver detalles</target>
+            </trans-unit>
+            <trans-unit id="495">
+                <source>REQUEST_SENT</source>
+                <target>Consulta de disponibilidad enviada</target>
+            </trans-unit>
+            <trans-unit id="496">
+                <source>CONTINUE_RESERVING</source>
+                <target>Continuar reservando</target>
+            </trans-unit>
+            <trans-unit id="497">
+                <source>AVAILABLE</source>
+                <target>Disponible</target>
+            </trans-unit>
+            <trans-unit id="498">
+                <source>EMAIL_RESTORE_ACCOUNT</source>
+                <target>Restauración de su cuenta en MyCasaParticular</target>
+            </trans-unit>
+             <trans-unit id="499">
+                <source>EMAIL_VISIT_LINK</source>
+                <target>Visite el siguiente link para cambiar su contraseña: </target>
+            </trans-unit>
+            <trans-unit id="500">
+                <source>EMAIL_PASS_CHANGED</source>
+                <target>Su contraseña ha sido cambiada satisfactoriamente.</target>
+            </trans-unit>
+            <trans-unit id="501">
+                <source>EMAIL_ACCOUNT_REGISTERED_SUBJECT</source>
+                <target>Activación de su cuenta en MyCasaParticular</target>
+            </trans-unit>      
+            <trans-unit id="502">
+                <source>EMAIL_ACCOUNT_REGISTERED_TEXT</source>
+                <target>Gracias por registrarse en MyCasaParticular.com. Visite el siguiente link para activar su cuenta: </target>
+            </trans-unit>
+             <trans-unit id="503">
+                 <source>LOOK_FOR_ALTERNATIVE</source>
+                 <target>Buscar alternativa</target>
+             </trans-unit>
+             <trans-unit id="504">
+                  <source>REQUEST_STATUS_CHANGED</source>
+                  <target>El estado de su reserva ha cambiado.</target>
+              </trans-unit>
+              <trans-unit id="505">
+                  <source>AMOUNT_TO_PAY_NOW</source>
+                  <target>Total a pagar ahora</target>
+              </trans-unit>
+              <trans-unit id="506">
+                  <source>DEAR_MR</source>
+                  <target>Estimado Sr.</target>
+              </trans-unit>
+              <trans-unit id="507">
+                  <source>THANKS_RESERVATION_MYCP</source>
+                  <target>Gracias por su reserva en</target>
+              </trans-unit>
+              <trans-unit id="508">
+                  <source>PLEASE_PRINT_CONFIRMATION_OF_SERVICE</source>
+                  <target>Por favor imprima esta confirmación y muéstrelo antes de recibir el servicio reservado.</target>
+              </trans-unit>
+              <trans-unit id="509">
+                    <source>CAN_FOLLOWING_RESERVATIONS_MYCT</source>
+                    <target>Usted podrá dar seguimiento a sus reservas en</target>
+              </trans-unit>
+              <trans-unit id="510">
+                  <source>PRINT</source>
+                  <target>Imprimir</target>
+              </trans-unit>
+              <trans-unit id="511">
+                  <source>CLIENT_INFORMATION</source>
+                  <target>Información del cliente</target>
+              </trans-unit>
+              <trans-unit id="512">
+                  <source>RESERVATION_NUMBER</source>
+                  <target>Reservación número</target>
+              </trans-unit>
+              <trans-unit id="513">
+                  <source>CLIENT_NAME</source>
+                  <target>Nombre del cliente</target>
+              </trans-unit>
+              <trans-unit id="514">
+                    <source>RESERVE_SERVICE</source>
+                    <target>Servicio reservado</target>
+                </trans-unit>
+                <trans-unit id="515">
+                    <source>ACCOMMODATION</source>
+                    <target>Alojamiento</target>
+                </trans-unit>
+                <trans-unit id="516">
+                    <source>ACCOMMODATION_NAME</source>
+                    <target>Nombre del alojamiento</target>
+                </trans-unit>
+                <trans-unit id="517">
+                    <source>ID_HOME</source>
+                    <target>ID_Casa</target>
+                </trans-unit>
+                <trans-unit id="518">
+                    <source>OWNERS_NAME</source>
+                    <target>Nombre de los propietarios</target>
+                </trans-unit>
+                <trans-unit id="519">
+                    <source>PAYMENT_DETAILS</source>
+                    <target>Detalles del pago</target>
+                </trans-unit>
+                <trans-unit id="520">
+                    <source>PRICE_OF_ACCOMMODATION_SERVICE</source>
+                    <target>Precio del servicio alojamiento</target>
+                </trans-unit>
+                <trans-unit id="521">
+                    <source>BILL</source>
+                    <target>Recibo</target>
+                </trans-unit>
+                <trans-unit id="522">
+                    <source>TOTAL_TO_PAY_SERVICING</source>
+                    <target>Total a pagar directamente al efectuarse el servicio</target>
+                </trans-unit>
+                <trans-unit id="523">
+                    <source>FILL_ALL_FIELDS</source>
+                    <target>Por favor, rellene todos los campos marcados con (*).</target>
+                </trans-unit>
+                <trans-unit id="525">
+                    <source>NOT_EQUALS_EMAIL</source>
+                    <target>Las cuentas de correo no coinciden.</target>
+                </trans-unit>
+                <trans-unit id="526">
+                    <source>FILL_FIELD</source>
+                    <target>Este campo no puede estar vacío.</target>
+                </trans-unit>
+                <trans-unit id="527">
+                    <source>INVALID_EMAIL</source>
+                    <target>Correo no válido.</target>
+                </trans-unit>
+                <trans-unit id="528">
+                    <source>COUNTRY</source>
+                    <target>País</target>
+                </trans-unit>
+                <trans-unit id="529">
+                    <source>FILL_FORM_CORRECTLY</source>
+                    <target>Debe llenar el formulario correctamente.</target>
+                </trans-unit>
+               <trans-unit id="530">
+                    <source>SKRILL_CONFIRMATION_NOTE</source>
+                    <target>TODO - not yet translated!</target>
+                </trans-unit>
+                    <trans-unit id="531">
+                    <source>SKRILL_DESCRIPTION_BOOKING_ID</source>
+                    <target>ID Reserva:  </target>
+                </trans-unit>
+                <trans-unit id="532">
+                    <source>SKRILL_PAY_WITH_SKRILL</source>
+                    <target>TODO - not yet translated</target>
+                </trans-unit>
+                <trans-unit id="533">
+                    <source>SKRILL_RETURN_TO_MYCP</source>
+                    <target>Return to MyCasaParticular</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>

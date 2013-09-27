@@ -134,4 +134,13 @@ class userHistoryRepository extends EntityRepository
             return null;
         }
     }
+    
+    public function set_to_user($user_id, $session_id) {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("UPDATE mycpBundle:userHistory h
+                                   SET h.user_history_user= $user_id,
+                                       h.user_history_session_id = NULL
+                                   WHERE h.user_history_session_id='$session_id'");
+        $query->execute();
+    }
 }
