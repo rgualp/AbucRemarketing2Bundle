@@ -1,5 +1,7 @@
 <?php
 
+
+
 namespace MyCp\FrontendBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
