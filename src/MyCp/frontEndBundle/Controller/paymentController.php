@@ -13,6 +13,7 @@ use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Entity\payment;
 use MyCp\mycpBundle\Entity\ownership;
 use MyCp\mycpBundle\Entity\skrillPayment;
+use MyCp\mycpBundle\Entity\userTourist;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Exception\NotValidException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -45,13 +46,19 @@ class paymentController extends Controller {
             throw new AuthenticationException('Access to resource not permitted.');
         }
 
+        $userTourist = $this->getDoctrine()->getManager()->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
+
+        if(empty($userTourist)) {
+            throw new EntityNotFoundException("userTourist($userTourist)");
+        }
+
         $ownership = $this->getOwnershipOf($reservation);
 
         if(empty($ownership)) {
             throw new EntityNotFoundException("ownership($ownership)");
         }
 
-        $skrillData = $this->getSkrillViewData($reservation, $user, $ownership);
+        $skrillData = $this->getSkrillViewData($reservation, $user, $userTourist, $ownership);
 
         return $this->render('frontEndBundle:payment:skrillPayment.html.twig', $skrillData);
     }
@@ -276,8 +283,7 @@ class paymentController extends Controller {
         return $currency;
     }
 
-
-    private function getSkrillViewData(generalReservation $reservation, user $user, ownership $casa)
+    private function getSkrillViewData(generalReservation $reservation, user $user, userTourist $userTourist, ownership $casa)
     {
         $reservationId = $reservation->getGenResId();
         $translator = $this->get('translator');
@@ -289,7 +295,7 @@ class paymentController extends Controller {
             'recipient_description' => 'MyCasaParticular.com',
             'transaction_id' => $reservationId,
             'return_url' => $this->generateUrl('frontend_payment_skrill_return', array('reservationId' => $reservationId), true),
-            'return_url_text' => $translator->trans('SKRILL_RETURN_TO_MYCP'), // 'Return to MyCasaParticular', // TODO: translation
+            'return_url_text' => $translator->trans('SKRILL_RETURN_TO_MYCP'),
             'cancel_url' => $this->generateUrl('frontend_payment_skrill_cancel', array(), true),
             'status_url' => $this->generateUrl('frontend_payment_skrill_status', array(), true),
             'status_url2' => 'booking@mycasaparticular.com',
@@ -300,14 +306,14 @@ class paymentController extends Controller {
             'first_name' => $user->getUserName(),
             'last_name' => $user->getUserLastName(),
             'address' => $user->getUserAddress(),
-            'postal_code' => '', // TODO: A Postal Code does not yet exist for a user
+            'postal_code' => $userTourist->getUserTouristPostalCode(),
             'city' => $user->getUserCity(),
             'country' => $user->getUserCountry()->getCoCode(),
-            'amount' => $reservation->getTotalPriceInSiteAsString(),// '0.5',
-            'currency' => 'EUR', // TODO: Add Currency to GeneralReservation
+            'amount' => '', // TODO: Price stored in ownershipReservation not generalReservation! $reservation->getTotalPriceInSiteAsString(),// '0.5',
+            'currency' => $userTourist->getUserTouristCurrency()->getCurrCode(),
             'detail1_description' => $translator->trans('SKRILL_DESCRIPTION_BOOKING_ID'),
             'detail1_text' => $reservationId,
-            'detail2_description' => isset($casa) ? 'Casa:  ' : '',
+            'detail2_description' => isset($casa) ? 'Casa:  ' : '', // TODO: fliegt wahrscheinlich raus, da Zahlung unabhängig vom Casa sein soll
             'detail2_text' => isset($casa) ? $casa->getOwnMcpCode() : '',
             'payment_methods' => 'ACC,DID,SFT',
             'button_text' => $translator->trans('SKRILL_PAY_WITH_SKRILL')
