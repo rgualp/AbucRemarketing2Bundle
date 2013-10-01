@@ -26,25 +26,15 @@ class destinationController extends Controller {
 
         $destination_array = $em->getRepository('mycpBundle:destination')->get_destination($destination_id,$locale);
                 
-        $photos = $em->getRepository('mycpBundle:destination')->getPhotos($destination_id);
-        $photo_descriptions = $em->getRepository('mycpBundle:destination')->getPhotoDescription($photos, $locale);
+        $photos = $em->getRepository('mycpBundle:destination')->getPhotos($destination_id,$locale);
 
-        $location = $em->getRepository('mycpBundle:destinationLocation')->findOneBy(array('des_loc_destination' => $destination_id));
+        $location_municipality_id = $destination_array['municipality_id'];
+        $location_province_id = $destination_array['province_id'];
 
-        $location_municipality = $location->getDesLocMunicipality();
-        $location_province = $location->getDesLocProvince();
-
-        $location_municipality_id = ($location_municipality != null) ? $location_municipality->getMunId() : null;
-        $location_province_id = ($location_province != null) ? $location_province->getProvId() : null;
-
-        $popular_destinations_list = $em->getRepository('mycpBundle:destination')->get_popular_destination(5);
-        $popular_destinations_photos = $em->getRepository('mycpBundle:destination')->get_destination_photos($popular_destinations_list);
-        $popular_places_localization = $em->getRepository('mycpBundle:destination')->get_destination_location($popular_destinations_list);
-
+        $popular_destinations_list = $em->getRepository('mycpBundle:destination')->get_popular_destination(5, $users_id["user_id"], $users_id["session_id"]);
         $other_destinations_in_municipality = $em->getRepository('mycpBundle:destination')->destination_filter($location_municipality_id, $location_province_id, $destination_id, null, 5);
-        $other_destinations_in_province = $em->getRepository('mycpBundle:destination')->destination_filter(null, $location_province_id, $destination_id, $location_municipality_id, 5);
-        $other_destinations_in_province_location = $em->getRepository('mycpBundle:destination')->get_destination_location_entity($other_destinations_in_province);
-
+        $other_destinations_in_province = $em->getRepository('mycpBundle:destination')->destination_filter(null, $location_province_id, $destination_id, null, 5);
+        
         $em->getRepository('mycpBundle:userHistory')->insert(false, $destination_id, $users_id);
 
         return $this->render('frontEndBundle:destination:destinationDetails.html.twig', array(
@@ -52,23 +42,20 @@ class destinationController extends Controller {
                     'is_in_favorite' => $em->getRepository('mycpBundle:favorite')->is_in_favorite($destination_id, false, $users_id["user_id"], $users_id["session_id"]),
                     'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocomplete_text_list(),
                     'locale' => $this->get('translator')->getLocale(),
-                    'location' => $location,
-                    'gallery_photos' => $photos,
-                    'gallery_photo_descriptions' => $photo_descriptions,
+                    'location' => $destination_array['municipality_name'].' / '.$destination_array['province_name'],
+                    'location_municipality' => $destination_array['municipality_name'],
+                    'location_province' => $destination_array['province_name'],
+                    'location_municipality_id' => $destination_array['municipality_id'],
+                    'location_province_id' => $destination_array['province_id'],
+                    'gallery_photos' => $photos['photo_name'],
+                    'gallery_photo_descriptions' => $photos['photo_description'],
                     'description' => $destination_array['desc_full'],
                     'brief_description' => $destination_array['desc_brief'],
                     'other_destinations_in_municipality' => $other_destinations_in_municipality,
-                    'other_destinations_in_municipality_photos' => $em->getRepository('mycpBundle:destination')->get_destination_photos($other_destinations_in_municipality),
-                    'other_destinations_in_municipality_description' => $em->getRepository('mycpBundle:destination')->get_destination_description($other_destinations_in_municipality, $locale),
                     'total_other_destinations_in_municipality' => count($other_destinations_in_municipality),
                     'other_destinations_in_province' => $other_destinations_in_province,
-                    'other_destinations_in_province_photos' => $em->getRepository('mycpBundle:destination')->get_destination_photos($other_destinations_in_province),
-                    'other_destinations_in_province_description' => $em->getRepository('mycpBundle:destination')->get_destination_description($other_destinations_in_province, $locale),
                     'total_other_destinations_in_province' => count($other_destinations_in_province),
                     'popular_list' => $popular_destinations_list,
-                    'popular_photos' => $popular_destinations_photos,
-                    'popular_localization' => $popular_places_localization,
-                    'other_destinations_in_province_location' => $other_destinations_in_province_location,
                     'provinces' => $em->getRepository("mycpBundle:province")->findAll()
         ));
     }

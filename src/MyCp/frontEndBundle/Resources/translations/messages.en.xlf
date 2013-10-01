@@ -200,7 +200,7 @@
             </trans-unit>
             <trans-unit id="50">
                 <source>SEARCH_MAIN_MENU</source>
-                <target>Search</target>
+                <target>Accommodations</target>
             </trans-unit>
             <trans-unit id="51">
                 <source>SEARCH_DESCRIPTION_MAIN_MENU</source>
@@ -2082,6 +2082,10 @@
             <trans-unit id="529">
                 <source>FILL_FORM_CORRECTLY</source>
                 <target>You must fill this form correctly.</target>
+            </trans-unit>
+             <trans-unit id="530">
+                <source>OWNERSHIP_MID_RANGE_DESCRIPTION</source>
+                <target>Description for midrange accomodations.</target>
             </trans-unit>
         </body>
     </file>

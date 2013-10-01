@@ -11,50 +11,70 @@
         <td>
             <div class="cyan_cont">
                 <h1>{{"RESERVATION_DETAILS" | trans}}</h1>
-                <b>{{"ARRIVAL_RESERVATION" | trans}}:</b> {{reservation[0]['own_res_reservation_from_date']|date("d/m/Y")}} <b style="margin-left: 20px">{{"DEPARTURE_RESERVATION" | trans}}:</b> {{reservation[0]['own_res_reservation_to_date']|date("d/m/Y")}}
+                <b>{{"ARRIVAL_RESERVATION" | trans}}:</b> {{dates_string[0]}} <b style="margin-left: 20px">{{"DEPARTURE_RESERVATION" | trans}}:</b> {{dates_string[dates_string|length -1]}}
                 <br/><br/>
                 <table class="table" style="width: 100%; text-align: left; font-size: 12px">
                     <thead>
                     <tr>
-                        <th>{{"DATE" | trans}}</th>
-                        <th>{{"OWNERSHIPS" | trans}}</th>
-                        <th>{{"ROOM_DETAIL" | trans}}</th>
+                        <th style="width: 12%">{{"DATE" | trans}}</th>
+                        <th style="width: 49.7%">{{"OWNERSHIPS" | trans}}</th>
+                        <th style="width: 30%">{{"ROOM_DETAIL" | trans}}</th>
                         <th>{{"PRICE" | trans}}</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for date in dates %}
+                    {% set flag_1 = 0%}
+                    {% for date_str in dates_string %}
+                    {% if dates_partial[dates[flag_1]] is defined %}
                     <tr>
-                        <td>{{date}}</td>
-                        <td><b>{{ reservation[0]['own_res_own_id']['own_address_municipality']['mun_name']}}, {{ reservation[0]['own_res_own_id']['own_name']}}</b></td>
-                        <td>{{ reservation[0]['own_res_room_type']|trans}}</td>
-                        <td style="text-align: right">
-                            {% if loop.last %}
-                            --
-                            {% else %}
-                            {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ reservation[0]['own_res_night_price'] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}</span>
-                            {% endif %}
+                        <td>{{date_str}}</td>
+                        <td colspan="4">
+                            <table style="width: 100%; border: none">
+                            {% set flag = 0%}
+                            {% for reservation in reservations %}
+                                {% if dates[flag_1]  >= reservations_timestamp[flag][0]  and  dates[flag_1]  <= reservations_timestamp[flag][1] %}
+                                    <tr>
+                                        <td style="width: 57%"><b>{{reservation.getOwnResGenResId.getGenResOwnId.getOwnAddressMunicipality.getMunName}}, {{reservation.getOwnResGenResId.getGenResOwnId.getOwnName}}</b></td>
+                                        <td style="width: 35%">{{reservation.getOwnResRoomType}}</td>
+                                        <td style="text-align: right">
+                                            {% if limit_dates[dates[flag_1]] is defined %}
+                                            --
+                                            {% else %}
+                                            {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{reservation.getOwnResNightPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% set flag = flag + 1%}
+                            {% endfor %}
+                            </table>
                         </td>
                     </tr>
+                    {% endif %}
+                    {% set flag_1 = flag_1 + 1%}
                     {% endfor %}
                     </tbody>
                     <thead>
                     <tr>
-                        <th colspan="4">
-                            <div class="row-fluid" style="margin: 0; text-align: left">
-                                <div class="span3">
-                                    {{"RESERVATION_TOTAL_PRICE" | trans}}{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ reservation[0]['own_res_night_price'] * ((dates|length)-1) * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}
-                                </div>
-                                <div class="span3">
-                                    {{"INITIAL_DEPOSIT" | trans}} ({{reservation[0]['own_res_own_id']['own_commission_percent']}}%): {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{(reservation[0]['own_res_night_price'] * ((dates|length)-1) * reservation[0]['own_res_own_id']['own_commission_percent']/ 100) * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}
-                                </div>
-                                <div class="span3">
-                                    {{"SERVICE_RECHARGE" | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{ 10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}
-                                </div>
-                                <div class="span3" style="text-align: right">
-                                    {{"TOTAL_PREPAYMENT" | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{ ((reservation[0]['own_res_night_price'] * ((dates|length)-1) * reservation[0]['own_res_own_id']['own_commission_percent']/ 100) + 10) * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}
-                                </div>
-                            </div>
+                        <th colspan="0">
+                            <table style="width: 100%">
+                                <tr>
+                                    <td>{{"RESERVATION_TOTAL_PRICE" | trans}}</td>
+                                    <td style="text-align: right">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ total_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{"INITIAL_DEPOSIT" | trans}} ({% for comm in commissions %}{{comm}}%{% if not loop.last %}, {% endif%}{% endfor %}):</td>
+                                    <td style="text-align: right">{{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{total_percent_price *(app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{"SERVICE_RECHARGE" | trans}}:</td>
+                                    <td style="text-align: right">{{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{10 *(app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="font-size: 15px">{{"TOTAL_PREPAYMENT" | trans}}:</td>
+                                    <td style="text-align: right; font-size: 15px">{{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{(total_percent_price + 10) *(app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</td>
+                                </tr>
+                            </table>
                         </th>
                     </tr>
                     </thead>
@@ -68,10 +88,10 @@
         <td></td>
     </tr>
 </table>
-<form  method="POST" action="{{ path('frontend_reservation_reservation',{'id_reservation':id_reservation}) }}" novalidate>
-    <input type="hidden" name="user_tourist_gender" id="user_tourist_gender" value="{{ post is defined and post["user_tourist_gender"] != "" ? post["user_tourist_gender"] : user_tourist.UserTouristGender}}"/>
-    <input type="hidden" name="user_tourist_nationality" id="user_tourist_nationality" value="{{post is defined and post["user_tourist_nationality"] != "" ? post["user_tourist_nationality"] : user.UserCountry.coid}}"/>
-    <input type="hidden" name="reservation_hour" id="reservation_hour" value="{{post is defined and post["reservation_hour"] != "" ? post["reservation_hour"] : reservation[0]['own_res_reservation_hour']}}"/>
+<form  method="POST" action="{{ path('frontend_reservation_reservation') }}" novalidate>
+    <input type="hidden"  name="user_tourist_gender" id="user_tourist_gender" value="{{ post["user_tourist_gender"] is defined  ? post["user_tourist_gender"] : user_tourist.getUserTouristGender}}"/>
+    <input type="hidden" name="user_tourist_nationality" id="user_tourist_nationality" value="{{post["user_tourist_nationality"] is defined and post["user_tourist_nationality"] != "" ? post["user_tourist_nationality"] : user.UserCountry.coid}}"/>
+    <input type="hidden" name="reservation_hour" id="reservation_hour" value="{{post["reservation_hour"] is defined and post["reservation_hour"] != "" ? post["reservation_hour"]: ("SELECT" | trans)}}"/>
 <table style="width: 100%;">
     <tr>
         <td style="width: 7%" class="arrow_cont_grey">
@@ -88,7 +108,7 @@
                         
                         <div class="btn-group mycp_combo span12">                            
                             <a id="combo_genders" href="#" data-toggle="dropdown" class="btn dropdown-toggle span12" data-value="{{user_tourist.UserTouristGender}}">
-                                {{post is defined and  post["user_tourist_gender"] != "" ? post["user_tourist_gender"] : ((user_tourist.UserTouristGender != null) ? user_tourist.UserTouristGender : ("SELECT" | trans))}}
+                                {{post["user_tourist_gender"] is defined and  post["user_tourist_gender"] != "" ? post["user_tourist_gender"] : ((user_tourist.UserTouristGender != null) ? user_tourist.UserTouristGender : ("SELECT" | trans))}}
                             </a>
                             <ul class="dropdown-menu" id="combo_genders_elements">
                                 <li><a data="combo_genders" class="option combo_genders_elements" data-value="{{"MALE" | trans}}">{{"MALE" | trans}}</a></li>
@@ -98,29 +118,29 @@
                     </div>
                     <div class="span6">
                         <label>{{"ZIPCODE" | trans}}<span>*</span>{%if errors["user_tourist_zip_code"] is defined  and errors["user_tourist_zip_code"] !="" %}<span class="reservation_error">({{errors["user_tourist_zip_code"]|trim(':')}})</span>{%endif%}</label>
-                        <input name="user_tourist_zip_code" type="text" class="mycp_text_box input-block-level" value="{{post is defined and  post["user_tourist_zip_code"] != "" ? post["user_tourist_zip_code"] : user_tourist.UserTouristPostalCode}}"/>
+                        <input name="user_tourist_zip_code" type="text" class="mycp_text_box input-block-level" value="{{post["user_tourist_zip_code"] is defined  ? post["user_tourist_zip_code"] : user_tourist.UserTouristPostalCode}}"/>
                     </div>    
                 </div>
 
                 <div class="row-fluid">
                     <div class="span6">
                         <label>{{"FORMS_NAME" | trans}}<span>*</span>{%if errors["user_tourist_name"] is defined  and errors["user_tourist_name"] !="" %}<span class="reservation_error">({{errors["user_tourist_name"]|trim(':')}})</span>{%endif%}</label>
-                        <input type="text" name="user_tourist_name" class="mycp_text_box input-block-level" value="{{post is defined and post is defined and post["user_tourist_name"] != "" ? post["user_tourist_name"] | capitalize : user.getUserUserName |capitalize}}"/>
+                        <input type="text" name="user_tourist_name" class="mycp_text_box input-block-level" value="{{ post["user_tourist_name"] is defined ? post["user_tourist_name"] | capitalize : user.getUserUserName |capitalize}}"/>
                     </div>
                     <div class="span6">
                         <label>{{"FORMS_LASTNAME" | trans}}<span>*</span>{%if errors["user_tourist_last_name"] is defined and errors["user_tourist_last_name"] !="" %}<span class="reservation_error">({{errors["user_tourist_last_name"]|trim(':')}})</span>{%endif%}</label>
-                        <input type="text" name="user_tourist_last_name" class="mycp_text_box input-block-level" value="{{post is defined and post["user_tourist_last_name"] != "" ? post["user_tourist_last_name"] | capitalize : user.getUserLastName |capitalize}}"/>
+                        <input type="text" name="user_tourist_last_name" class="mycp_text_box input-block-level" value="{{post["user_tourist_last_name"] is defined ? post["user_tourist_last_name"] | capitalize : user.getUserLastName |capitalize}}"/>
                     </div>
                 </div>
 
                 <div class="row-fluid">
                     <div class="span6">
                         <label>{{"FORMS_EMAIL" | trans}}<span>*</span>{%if errors["user_tourist_email"] is defined and errors["user_tourist_email"] !="" %}<span class="reservation_error">({{errors["user_tourist_email"]|trim(':')}})</span>{%endif%}</label>
-                        <input type="text" name="user_tourist_email" class="mycp_text_box input-block-level"  value="{{post is defined and post["user_tourist_email"] != "" ? post["user_tourist_email"] : user.getUserEmail}}"/>
+                        <input type="text" name="user_tourist_email" class="mycp_text_box input-block-level"  value="{{post["user_tourist_email"] is defined ? post["user_tourist_email"] : user.getUserEmail}}"/>
                     </div>
                     <div class="span6">
                         <label>{{"CONFIRM_MAIL" | trans}}<span>*</span>{%if errors["user_tourist_email_confirm"] is defined and errors["user_tourist_email_confirm"] !=""  %}<span class="reservation_error">({{errors["user_tourist_email_confirm"]|trim(':')}})</span>{%endif%}</label>
-                        <input type="text" name="user_tourist_email_confirm" class="mycp_text_box input-block-level" value="{{post is defined and post["user_tourist_email_confirm"] != null ? post["user_tourist_email_confirm"] : ""}}"/>
+                        <input type="text" name="user_tourist_email_confirm" class="mycp_text_box input-block-level" value="{{post["user_tourist_email_confirm"] is defined and post["user_tourist_email_confirm"] != null ? post["user_tourist_email_confirm"] : ""}}"/>
                     </div>
                 </div>
                 <div class="row-fluid">
@@ -140,8 +160,8 @@
                     <div class="span6">
                         <label>{{"ARRIVAL_TIME" | trans}}<span>*</span>{%if errors["reservation_hour"] is defined and errors["reservation_hour"] !=""  %}<span class="reservation_error">({{errors["reservation_hour"]|trim(':')}})</span>{%endif%}</label>
                         <div class="btn-group mycp_combo span12">
-                            <a id="combo_hours" href="#" data-toggle="dropdown" class="btn dropdown-toggle span12" data-value="{{reservation[0]['own_res_reservation_hour']}}">
-                                 {{post is defined and  post["reservation_hour"] != "" ? post["reservation_hour"] : ((reservation[0]['own_res_reservation_hour'] != null) ? reservation[0]['own_res_reservation_hour'] : ("SELECT" | trans))}}
+                            <a id="combo_hours" href="#" data-toggle="dropdown" class="btn dropdown-toggle span12" data-value="">
+                                 {{ post["reservation_hour"] is defined ? post["reservation_hour"]  : ("SELECT" | trans)}}
                             </a>
                                 <ul class="dropdown-menu" id="combo_hours_elements" style="max-height:150px; overflow-y:auto; ">
                                 {%for hour in (0..23)%}
@@ -155,11 +175,11 @@
                 <div class="row-fluid">
                     <div class="span6">
                         <label>{{"FORMS_PHONE" | trans}}<span>*</span>{%if errors["user_tourist_phone"] is defined and errors["user_tourist_phone"] != ""%}<span class="reservation_error">({{errors["user_tourist_phone"]|trim(':')}})</span>{%endif%}</label>
-                        <input type="text"  name="user_tourist_phone" class="mycp_text_box input-block-level"  value="{{post is defined and  post["user_tourist_phone"] != "" ? post["user_tourist_phone"] : user.getUserPhone}}"/>
+                        <input type="text"  name="user_tourist_phone" class="mycp_text_box input-block-level"  value="{{post["user_tourist_phone"] is defined and  post["user_tourist_phone"] != "" ? post["user_tourist_phone"] : user.getUserPhone}}"/>
                     </div>
                     <div class="span6">
                         <label>{{"CELL_NUMBER" | trans}}<span>*</span>{%if errors["user_tourist_cell"] is defined and errors["user_tourist_cell"] !=""  %}<span class="reservation_error">({{errors["user_tourist_cell"]|trim(':')}})</span>{%endif%}</label>
-                        <input type="text"  name="user_tourist_cell" class="mycp_text_box input-block-level" value="{{post is defined and  post["user_tourist_cell"] != "" ? post["user_tourist_cell"] : user_tourist.UserTouristCell}}"/>
+                        <input type="text"  name="user_tourist_cell" class="mycp_text_box input-block-level" value="{{post["user_tourist_cell"] is defined and  post["user_tourist_cell"] != "" ? post["user_tourist_cell"] : user_tourist.UserTouristCell}}"/>
                     </div>
                 </div>
 
@@ -208,14 +228,17 @@
                 <div class="line_green" style="margin-top: 0px">&nbsp;</div>
                 <label class="checkbox"><input type="checkbox"> {{"OBTAIN_PROTECTION" | trans}} US$2.00 <img src="{{ asset('bundles/frontend/images/question_icon.gif') }}"/></label>
                 <div class="line_green">&nbsp;</div>
-                <label class="checkbox"><input type="checkbox"> {{"ACCEPT_TERMS_CONDITIONS" | trans}}</label>
-                <label class="checkbox"><input  name="user_tourist_send_newsletter" type="checkbox" {%if((post is defined and post["user_tourist_send_newsletter"] is defined and post["user_tourist_send_newsletter"]) or user.UserNewsletters)%}checked{%endif%}> {{"SEND_ME_OFFERS" | trans}}</label>
-                <h3>{{"AMOUNT_TO_PAY_NOW" | trans}}: CHF 00.00</h3>
+                <label class="checkbox"><input id="terms_conditions" type="checkbox"> {{"ACCEPT_TERMS_CONDITIONS" | trans}}</label>
+                <label class="checkbox"><input name="user_tourist_send_newsletter" type="checkbox" {% if post["user_tourist_send_newsletter"] is defined or user.UserNewsletters %}checked{%endif%}> {{"SEND_ME_OFFERS" | trans}}</label>
+                <h3>{{"AMOUNT_TO_PAY_NOW" | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{(total_percent_price + 10) *(app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h3>
                 <button  type="submit" style="padding-left: 30px; padding-right: 30px; margin-top: 10px" class="btn mycp_btn_green"><b>{{"PAYMENT_CONFIRM" | trans}}</b></button>
-                <p style="margin-top: 10px; font-size: 12px; color: #6C726B">{{"PAYMENT_CONFIRMATION_TEXT" | trans}}: CHF 00.00</p>
+                <p style="margin-top: 10px; font-size: 12px; color: #6C726B">{{"PAYMENT_CONFIRMATION_TEXT" | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{(total_percent_price + 10) *(app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</p>
             </div>
         </td>
     </tr>
 </table>
 </form>
+<script type="text/javascript">
+
+</script>
 {% endblock %}

@@ -2079,6 +2079,10 @@
                     <source>FILL_FORM_CORRECTLY</source>
                     <target>Debe llenar el formulario correctamente.</target>
                 </trans-unit>
+                 <trans-unit id="530">
+                    <source>OWNERSHIP_MID_RANGE_DESCRIPTION</source>
+                    <target>Descripción para alojamientos de Rango Medio.</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>

@@ -28,11 +28,17 @@ destinos
     <div class="row-fluid">
         {%for own in owns_in_destination%}
         <div class="span3">
-            {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{'ownership': own,
-                           'is_in_favorite': owns_in_destination_favorities[own.ownid],
-                           'photo': owns_in_destination_photos[own.ownid],
-                           'list_preffix': 'owns_in_destination',
-                           'show_consult_button': true }) }}
+            {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{
+                        'own_id': own.ownid,
+                        'own_name': own.ownname,
+                        'own_comments': own.OwnCommentsTotal,
+                        'own_rating': own.ownRating,
+                        'own_province': own.OwnAddressProvince,
+                        'own_minimum_price': own.ownminimumprice,
+                        'is_in_favorite': owns_in_destination_favorities[own.ownid],
+                        'photo': owns_in_destination_photos[own.ownid],
+                        'list_preffix': 'owns_in_destination',
+                        'show_consult_button': true }) }}
             <!--/li-->
         </div>
         {%endfor%}

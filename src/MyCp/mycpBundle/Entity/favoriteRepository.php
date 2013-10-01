@@ -125,11 +125,10 @@ class favoriteRepository extends EntityRepository {
 
             $where .= ($where != "") ? (($is_ownership) ? " AND f.favorite_ownership IS NOT NULL " : " AND f.favorite_destination IS NOT NULL ") : "";
 
-            if($exclude_id_element != null)
-            {
+            if ($exclude_id_element != null) {
                 $where .= ($where != "") ? (($is_ownership) ? " AND f.favorite_ownership != $exclude_id_element " : " AND f.favorite_destination != $exclude_id_element ") : "";
             }
-            
+
             if ($where != "")
                 return ($max_results != null) ? $em->createQuery($query_string . $where)->setMaxResults($max_results)->getResult() : $em->createQuery($query_string . $where)->getResult();
             else
@@ -152,11 +151,10 @@ class favoriteRepository extends EntityRepository {
 
             $where .= ($where != "") ? (($is_ownership) ? " AND f.favorite_ownership IS NOT NULL " : " AND f.favorite_destination IS NOT NULL ") : "";
 
-            if($exclude_id_element != null)
-            {
+            if ($exclude_id_element != null) {
                 $where .= ($where != "") ? (($is_ownership) ? " AND f.favorite_ownership != $exclude_id_element " : " AND f.favorite_destination != $exclude_id_element ") : "";
             }
-            
+
             if ($where != "") {
                 $favorites = ($max_results != null) ? $em->createQuery($query_string . $where)->setMaxResults($max_results)->getResult() : $em->createQuery($query_string . $where)->getResult();
                 $results = "0";
@@ -167,12 +165,11 @@ class favoriteRepository extends EntityRepository {
             }
             else
                 return "0";
-            
         } catch (Exception $e) {
             return "0";
         }
     }
-    
+
     public function set_to_user($user_id, $session_id) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("UPDATE mycpBundle:favorite f
@@ -180,6 +177,86 @@ class favoriteRepository extends EntityRepository {
                                        f.favorite_session_id = NULL
                                    WHERE f.favorite_session_id='$session_id'");
         $query->execute();
+    }
+
+    public function get_favorite_destinations($user_id = null, $session_id = null, $max_results = null, $exclude_id_element = null, $locale="ES") {
+        $where = "";
+        $em = $this->getEntityManager();
+        $query_string = "SELECT f, d.des_id as destination_id,
+                         d.des_name as destination_name,
+                        (SELECT min(p.pho_name) FROM mycpBundle:destinationPhoto dp JOIN dp.des_pho_photo p WHERE dp.des_pho_destination=d.des_id) as photo,
+                        (SELECT min(mun1.mun_name) FROM mycpBundle:destinationLocation loc2 JOIN loc2.des_loc_municipality mun1 WHERE loc2.des_loc_destination = d.des_id ) as municipality_name,
+                        (SELECT min(prov1.prov_name) FROM mycpBundle:destinationLocation loc3 JOIN loc3.des_loc_province prov1 WHERE loc3.des_loc_destination = d.des_id ) as province_name,
+                        (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = 1 AND o.own_address_municipality = (SELECT min(mun.mun_id) FROM mycpBundle:destinationLocation loc JOIN loc.des_loc_municipality mun WHERE loc.des_loc_destination = d.des_id)
+                         AND o.own_address_province = (SELECT min(prov.prov_id) FROM mycpBundle:destinationLocation loc1 JOIN loc1.des_loc_province prov WHERE loc1.des_loc_destination = d.des_id)) as count_ownership,
+                        (SELECT MIN(o1.own_minimum_price) FROM mycpBundle:ownership o1 WHERE o1.own_status = 1 AND o1.own_address_municipality = (SELECT min(mun2.mun_id) FROM mycpBundle:destinationLocation loc4 JOIN loc4.des_loc_municipality mun2 WHERE loc4.des_loc_destination = d.des_id)
+                         AND o1.own_address_province = (SELECT min(prov2.prov_id) FROM mycpBundle:destinationLocation loc5 JOIN loc5.des_loc_province prov2 WHERE loc5.des_loc_destination = d.des_id)) as min_price,
+                         (SELECT dl.des_lang_brief from mycpBundle:destinationLang dl 
+                          JOIN dl.des_lang_lang l WHERE dl.des_lang_destination = d.des_id AND l.lang_code = '$locale') as desc_brief,
+                          1 as is_in_favorities    
+                        FROM mycpBundle:favorite f 
+                        JOIN f.favorite_destination d";
+
+        if ($user_id != null)
+            $where.= (($where != "") ? " AND " : " WHERE "). " f.favorite_user = $user_id";
+        else if ($session_id != null)
+            $where .= (($where != "") ? " AND " : " WHERE "). " f.favorite_session_id = '$session_id'";
+
+        if ($exclude_id_element != null)
+            $where.= (($where != "") ? " AND " : " WHERE "). " d.des_id <> $exclude_id_element";
+
+        $results = ($max_results != null) ? $em->createQuery($query_string.$where)->setMaxResults($max_results)->getResult() : $em->createQuery($query_string.$where)->getResult();
+        
+        for ($i = 0; $i < count($results); $i++) {
+            if ($results[$i]['photo'] == null)
+                $results[$i]['photo'] = "no_photo.png";
+            else if (!file_exists(realpath("uploads/destinationImages/" . $results[$i]['photo']))) {
+                $results[$i]['photo'] = "no_photo.png";
+            }
+        }
+        return $results;
+    }
+    
+    public function get_favorite_ownerships($user_id = null, $session_id = null, $max_results = null, $exclude_id_element = null) {
+        $where = "";
+        $em = $this->getEntityManager();
+        $query_string = "SELECT f, o.own_id as own_id,
+                         o.own_name as own_name,
+                        (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id) as photo,
+                        prov.prov_name as prov_name,
+                        mun.mun_name as mun_name,
+                        o.own_comments_total as comments_total,
+                        o.own_rating as rating,
+                        o.own_minimum_price as minimum_price,
+                        (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
+                        (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
+                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id genres WHERE genres.gen_res_own_id = o.own_id AND res.own_res_status = 5) as count_reservations,
+                        (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments,
+                        1 as is_in_favorities
+                        FROM mycpBundle:favorite f 
+                        JOIN f.favorite_ownership o
+                        JOIN o.own_address_province prov
+                         JOIN o.own_address_municipality mun
+                        WHERE o.own_status = 1 ";
+
+        if ($user_id != null)
+            $where.= " AND f.favorite_user = $user_id";
+        else if ($session_id != null)
+            $where .= " AND f.favorite_session_id = '$session_id'";
+
+        if ($exclude_id_element != null)
+            $where.= " AND o.own_id <> $exclude_id_element";
+
+        $results = ($max_results != null) ? $em->createQuery($query_string.$where)->setMaxResults($max_results)->getResult() : $em->createQuery($query_string.$where)->getResult();
+        
+        for ($i = 0; $i < count($results); $i++) {
+            if ($results[$i]['photo'] == null)
+                $results[$i]['photo'] = "no_photo.png";
+            else if (!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo']))) {
+                $results[$i]['photo'] = "no_photo.png";
+            }
+        }
+        return $results;
     }
 
 }

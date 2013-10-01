@@ -9,16 +9,16 @@
         <td style="width: 1.4%">&nbsp</td>
         <td>
             <div class="cyan_cont">
-                <h1>Detalles de la Reserva</h1>
-                <b>Llegada:</b> {{reservation[0]['own_res_reservation_from_date']|date("d/m/Y")}} <b style="margin-left: 20px">Salida:</b> {{reservation[0]['own_res_reservation_to_date']|date("d/m/Y")}}
+                <h1>{{"RESERVATION_DETAILS" | trans}}</h1>
+                <b>{{"ARRIVAL_RESERVATION" | trans}}:</b> {{reservation[0]['own_res_reservation_from_date']|date("d/m/Y")}} <b style="margin-left: 20px">{{"DEPARTURE_RESERVATION" | trans}}:</b> {{reservation[0]['own_res_reservation_to_date']|date("d/m/Y")}}
                 <br/><br/>
                 <table class="table" style="width: 100%; text-align: left; font-size: 12px">
                     <thead>
                     <tr>
-                        <th>Fecha</th>
-                        <th>Casa</th>
-                        <th>Detalles de habitación</th>
-                        <th>Precio</th>
+                        <th>{{"DATE" | trans}}</th>
+                        <th>{{"OWNERSHIPS" | trans}}</th>
+                        <th>{{"ROOM_DETAIL" | trans}}</th>
+                        <th>{{"PRICE" | trans}}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -39,7 +39,7 @@
                     </tbody>
                     <thead>
                     <tr>
-                        <th>Total</th>
+                        <th>{{"TOTAL" | trans}}</th>
                         <th></th>
                         <th></th>
                         <th>{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ reservation[0]['own_res_night_price'] * ((dates|length)-1) * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}</th>
@@ -64,76 +64,80 @@
         <td style="width: 1.4%">&nbsp</td>
         <td>
             <div class="grey_cont">
-                <h1>Sus Detalles <small>(*Campos obligatorios)</small></h1>
+                <h1>{{"YOUR_DATA" | trans}} <small>{{"REQUIRED_FIELDS" | trans}}</small></h1>
                 <div class="row-fluid">
                     <div class="span5">
-                        <label>Género<span>*</span></label>
+                        <label>{{"GENDER" | trans}}<span>*</span></label>
                         <div class="btn-group mycp_combo span12">
-                            <a href="#" data-toggle="dropdown" class="combo_label_1 btn dropdown-toggle span12">
-                                Seleccione
+                            <a id="combo_label_1" href="#" data-toggle="dropdown" class="btn dropdown-toggle span12" data-value="">
+                                {{"SELECT" | trans}}
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a data="combo_label_1" class="option">Masculino</a></li>
-                                <li><a data="combo_label_1" class="option">Femenino</a></li>
+                                <li><a data="combo_label_1" class="option" data-value="Masculino">{{"MALE" | trans}}</a></li>
+                                <li><a data="combo_label_1" class="option" data-value="Femenino">{{"FEMALE" | trans}}</a></li>
                             </ul>
                         </div>
                     </div>
+                    <div class="span5">
+                        <label>{{"ZIPCODE" | trans}}<span>*</span></label>
+                        <input type="text" class="mycp_text_box input-block-level" value=""/>
+                    </div>    
                 </div>
 
                 <div class="row-fluid">
                     <div class="span5">
-                        <label>Nombre<span>*</span></label>
+                        <label>{{"FORMS_NAME" | trans}}<span>*</span></label>
                         <input type="text" class="mycp_text_box input-block-level" value="{{ user.getUserName |capitalize}}"/>
                     </div>
                     <div class="span5">
-                        <label>Apellido<span>*</span></label>
+                        <label>{{"FORMS_LASTNAME" | trans}}<span>*</span></label>
                         <input type="text" class="mycp_text_box input-block-level" value="{{ user.getUserLastName |capitalize}}"/>
                     </div>
                 </div>
 
                 <div class="row-fluid">
                     <div class="span5">
-                        <label>Correo electrónico<span>*</span></label>
+                        <label>{{"FORMS_EMAIL" | trans}}<span>*</span></label>
                         <input type="text" class="mycp_text_box input-block-level"  value="{{ user.getUserEmail}}"/>
                     </div>
                     <div class="span5">
-                        <label>Confirmar correo electrónico<span>*</span></label>
+                        <label>{{"CONFIRM_MAIL" | trans}}<span>*</span></label>
                         <input type="text" class="mycp_text_box input-block-level"/>
                     </div>
                 </div>
                 <div class="row-fluid">
                     <div class="span5">
-                        <label>Nacionalidad<span>*</span></label>
+                        <label>{{"NACIONALITY" | trans}}<span>*</span></label>
                         <div class="btn-group mycp_combo span12">
-                            <a href="#" data-toggle="dropdown" class="combo_label_2 btn dropdown-toggle span12">
-                                Seleccione nacionalidad
+                            <a id="combo_label_2" href="#" data-toggle="dropdown" class="btn dropdown-toggle span12" data-value="">
+                                {{"SELECT" | trans}}
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a data="combo_label_2" class="option">Nacionalidad 1</a></li>
-                                <li><a data="combo_label_2" class="option">Nacionalidad 2</a></li>
+                                <li><a data="combo_label_2" class="option" data-value="Nacionalidad 1">Nacionalidad 1</a></li>
+                                <li><a data="combo_label_2" class="option" data-value="Nacionalidad 2">Nacionalidad 2</a></li>
                             </ul>
                         </div>
                     </div>
                     <div class="span5">
-                        <label>Hora de llegada<span>*</span></label>
+                        <label>{{"ARRIVAL_TIME" | trans}}<span>*</span></label>
                         <div class="btn-group mycp_combo span12">
-                            <a href="#" data-toggle="dropdown" class="combo_label_3 btn dropdown-toggle span12">
-                                Seleccione hora de llegada
+                            <a id="combo_label_3" href="#" data-toggle="dropdown" class="btn dropdown-toggle span12" data-value="">
+                                {{"SELECT" | trans}}
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a data="combo_label_3" class="option">Hora 1</a></li>
-                                <li><a data="combo_label_3" class="option">Hora 2</a></li>
+                                <li><a class="option" data="combo_label_3" data-value="Hora 1">Hora 1</a></li>
+                                <li><a class="option" data="combo_label_3" data-value="Hora 2">Hora 2</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div class="row-fluid">
                     <div class="span5">
-                        <label>Número de teléfono</label>
+                        <label>{{"FORMS_PHONE" | trans}}</label>
                         <input type="text" class="mycp_text_box input-block-level"  value="{{ user.getUserPhone}}"/>
                     </div>
                     <div class="span5">
-                        <label>Número de móvil</label>
+                        <label>{{"CELL_NUMBER" | trans}}</label>
                         <input type="text" class="mycp_text_box input-block-level"/>
                     </div>
                 </div>
@@ -155,11 +159,11 @@
         <td style="width: 1.4%">&nbsp</td>
         <td>
             <div class="grey_cont">
-                <h1>Su Pago</h1>
+                <h1>{{"YOUR_PAYMENT" | trans}}</h1>
                 <div class="row-fluid">
                     <div class="span4 well well-small">
                         <img src="{{ asset('bundles/frontend/images/skrill.gif') }}" style="margin-bottom: 10px"><br/>
-                        <b>Pague usando cuenta Skrill</b>
+                        <b>{{"SKRILL_PAYMENT" | trans}}</b>
                     </div>
                 </div>
             </div>
@@ -179,15 +183,15 @@
         <td style="width: 1.4%">&nbsp</td>
         <td>
             <div class="green_cont">
-                <h1 style="border: none; margin-bottom: 0">Paso Final</h1>
+                <h1 style="border: none; margin-bottom: 0">{{"FINAL_STEP" | trans}}</h1>
                 <div class="line_green" style="margin-top: 0px">&nbsp;</div>
-                <label class="checkbox"><input type="checkbox"> Obtener protección de cancelacion para US$2.00 <img src="{{ asset('bundles/frontend/images/question_icon.gif') }}"/></label>
+                <label class="checkbox"><input type="checkbox"> {{"OBTAIN_PROTECTION" | trans}} US$2.00 <img src="{{ asset('bundles/frontend/images/question_icon.gif') }}"/></label>
                 <div class="line_green">&nbsp;</div>
-                <label class="checkbox"><input type="checkbox"> Acepto Términos y Condiciones</label>
-                <label class="checkbox"><input type="checkbox"> Envíeme ofertas especiales y consejos de viajes al email</label>
+                <label class="checkbox"><input type="checkbox"> {{"ACCEPT_TERMS_CONDITIONS" | trans}}</label>
+                <label class="checkbox"><input type="checkbox"> {{"SEND_ME_OFFERS" | trans}}</label>
                 <h3>Total a pagar ahora: CHF 00.00</h3>
-                <button style="padding-left: 30px; padding-right: 30px; margin-top: 10px" class="btn mycp_btn_green"><b>Confirmar pago</b></button>
-                <p style="margin-top: 10px; font-size: 12px; color: #6C726B">Al hacer click en el botón Confirmar, declaras aceptar los Términos y Condiciones, y un cargo reembolsable de: CHF 00.00</p>
+                <button style="padding-left: 30px; padding-right: 30px; margin-top: 10px" class="btn mycp_btn_green"><b>{{"PAYMENT_CONFIRM" | trans}}</b></button>
+                <p style="margin-top: 10px; font-size: 12px; color: #6C726B">{{"PAYMENT_CONFIRMATION_TEXT" | trans}}: CHF 00.00</p>
             </div>
         </td>
     </tr>

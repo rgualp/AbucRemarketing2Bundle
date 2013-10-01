@@ -8,7 +8,7 @@ frontend_mycasatrip_pending:
 
 frontend_mycasatrip_available:
     pattern:  /available/{order_by}
-    defaults: { _controller: frontEndBundle:mycasatrip:reservations_available }
+    defaults: { _controller: frontEndBundle:mycasatrip:reservations_available,order_by:0 }
 
 frontend_mycasatrip_historial_consult:
     pattern:  /history_consult/{order_by}

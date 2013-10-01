@@ -16,16 +16,21 @@
                             Centro Habana - La Habana
                             <br/><b>{{property.getOwnMobileNumber}}</b>
                         </p>
+                        
                     </td>
                     <td>
                         <p class="note">
-                            <span class="badge badge-warning">Disponible</span>
-                        <h4>&euro; TOTAL: 340.00</h4>
+                            <span class="avaliable">Disponible</span>
+                            <h4>{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{property.getOwnMinimumPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h4>
                         </p>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2"><img src="assets/img/button_3.png"/></td>
+                    <td colspan="2">
+                        <a href="{{ url('frontend_details_ownership',{'owner_id':property.getOwnId}) }}">​
+                           <label class=​"mycp_btn_orange">{{'SEEMORE_LINK_TEXT' | trans}}</label>
+                        </a>​
+                    </td>
                 </tr>
             </table>
         </div>

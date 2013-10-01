@@ -132,10 +132,10 @@ class ownershipReservationRepository extends EntityRepository {
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT us,ownre,
-        (SELECT pho.pho_name FROM mycpBundle:ownershipPhoto owpho JOIN owpho.own_pho_photo pho WHERE owpho.own_pho_own = ownre.own_res_own_id AND pho.pho_order =
-        (SELECT MIN(pho2.pho_order) FROM mycpBundle:ownershipPhoto owpho2 JOIN owpho2.own_pho_photo pho2 WHERE owpho2.own_pho_own = ownre.own_res_own_id ))  AS photo ,
+        (SELECT pho.pho_name FROM mycpBundle:ownershipPhoto owpho JOIN owpho.own_pho_photo pho WHERE owpho.own_pho_own = gre.gen_res_own_id AND pho.pho_order =
+        (SELECT MIN(pho2.pho_order) FROM mycpBundle:ownershipPhoto owpho2 JOIN owpho2.own_pho_photo pho2 WHERE owpho2.own_pho_own = gre.gen_res_own_id ))  AS photo ,
         ow,mun,prov,gre FROM mycpBundle:ownershipReservation ownre JOIN ownre.own_res_gen_res_id gre
-        JOIN ownre.own_res_own_id ow
+        JOIN gre.gen_res_own_id ow
         JOIN gre.gen_res_user_id us
         JOIN ow.own_address_municipality mun
         JOIN ow.own_address_province prov

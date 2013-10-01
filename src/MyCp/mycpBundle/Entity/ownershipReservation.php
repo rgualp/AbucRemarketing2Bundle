@@ -34,11 +34,7 @@ class ownershipReservation
      */
     private $own_res_selected_room_id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="ownership",inversedBy="ownResOwnership")
-     * @ORM\JoinColumn(name="own_res_own_id",referencedColumnName="own_id")
-     */
-    private $own_res_own_id;
+
 
     /**
      * @var integer
@@ -53,20 +49,6 @@ class ownershipReservation
      * @ORM\Column(name="own_res_count_childrens", type="integer")
      */
     private $own_res_count_childrens;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="own_res_total_in_site", type="float")
-     */
-    private $own_res_total_in_site;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="own_res_pre_payment", type="float",nullable=true)
-     */
-    private $own_res_pre_payment;
 
     /**
      * @var integer
@@ -102,13 +84,13 @@ class ownershipReservation
      * @ORM\Column(name="own_res_reservation_to_date", type="date")
      */
     private $own_res_reservation_to_date;
-    
+
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="own_res_reservation_hour", type="string", length=255, nullable=true)
+     * @ORM\Column(name="own_res_total_in_site", type="float")
      */
-    private $own_res_reservation_hour;
+    private $own_res_total_in_site;
 
     /**
      * Get own_res_id
@@ -354,29 +336,6 @@ class ownershipReservation
     }
 
     /**
-     * Set own_res_own_id
-     *
-     * @param \MyCp\mycpBundle\Entity\ownership $ownResOwnId
-     * @return ownershipReservation
-     */
-    public function setOwnResOwnId(\MyCp\mycpBundle\Entity\ownership $ownResOwnId = null)
-    {
-        $this->own_res_own_id = $ownResOwnId;
-    
-        return $this;
-    }
-
-    /**
-     * Get own_res_own_id
-     *
-     * @return \MyCp\mycpBundle\Entity\ownership 
-     */
-    public function getOwnResOwnId()
-    {
-        return $this->own_res_own_id;
-    }
-
-    /**
      * Set own_res_total_in_site
      *
      * @param float $ownResTotalInSite
@@ -397,51 +356,5 @@ class ownershipReservation
     public function getOwnResTotalInSite()
     {
         return $this->own_res_total_in_site;
-    }
-
-    /**
-     * Set own_res_pre_payment
-     *
-     * @param float $ownResPrePayment
-     * @return ownershipReservation
-     */
-    public function setOwnResPrePayment($ownResPrePayment)
-    {
-        $this->own_res_pre_payment = $ownResPrePayment;
-    
-        return $this;
-    }
-
-    /**
-     * Get own_res_pre_payment
-     *
-     * @return float 
-     */
-    public function getOwnResPrePayment()
-    {
-        return $this->own_res_pre_payment;
-    }
-
-    /**
-     * Set own_res_reservation_hour
-     *
-     * @param string $ownResReservationHour
-     * @return ownershipReservation
-     */
-    public function setOwnResReservationHour($ownResReservationHour)
-    {
-        $this->own_res_reservation_hour = $ownResReservationHour;
-    
-        return $this;
-    }
-
-    /**
-     * Get own_res_reservation_hour
-     *
-     * @return string 
-     */
-    public function getOwnResReservationHour()
-    {
-        return $this->own_res_reservation_hour;
     }
 }

@@ -91,8 +91,8 @@
                     <td>{{reservation['rooms']}}</td>
                     <td>{{reservation['adults']}}</td>
                     <td>{{reservation['childrens']}}</td>
-                    <td>{{total_nights[flag_2]}}</td>
-                    <td>{{total_prices[flag_2]}}</td>
+                    <td>{{total_nights[loop.index0]}}</td>
+                    <td>{{reservation[0]['gen_res_total_in_site']}} CUC</td>
                     <td>
                         <select name="resume_status_res_{{reservation[0]['gen_res_id']}}" class="input-block-level">
                             {% render 'mycpBundle:BackendReservation:get_reservation_status' with{'post':{'selected':reservation[0]['gen_res_status']}}%}

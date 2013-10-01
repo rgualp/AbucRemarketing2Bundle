@@ -1,4 +1,4 @@
-﻿/*
+/*
 Importing data from old database to new database
 Author: Yanet Morales Ramz
 */
@@ -198,13 +198,8 @@ own_address_province,
 own_address_municipality,
 own_mcp_code,
 own_address_street,
-own_address_number,
-own_address_between_street_1,
-own_address_between_street_2,
-own_licence_number,
 own_mobile_number,
 own_homeowner_1,
-own_homeowner_2,
 own_phone_number,
 own_email_1,
 own_email_2,
@@ -212,35 +207,15 @@ own_category,
 own_type,
 own_top_20,
 own_phone_code,
-own_status,
-own_water_jacuzee,
-own_water_sauna,
-own_water_piscina,
-own_description_internet,
-own_facilities_notes,
-own_facilities_breakfast,
-own_facilities_breakfast_price,
-own_facilities_dinner,
-own_facilities_dinner_price_from,
-own_facilities_dinner_price_to,
-own_facilities_parking,
-own_facilities_parking_price,
-own_description_bicycle_parking,
-own_description_pets,
-own_description_laundry)
+own_status)
 select p.pro_id,
 p.pro_name,
 m.mun_prov_id,
 p.pro_mun_id,
 p.pro_code,
-otros.calle,
-otros.numero,
-otros.entrecalles,
-otros.entrecalles2,
-otros.nolicencia,
+p.pro_address,
 p.pro_cell,
 p.pro_host,
-otros.propietario2,
 p.pro_phone,
 p.pro_email,
 p.pro_email1,
@@ -248,28 +223,12 @@ IF(pr.pre_label = "Económicas", "Económica", pr.pre_label),
 "Casa particular",
 p.pro_top20,
 prov.prov_phone_code,
-IF(p.pro_active, 1, 2),
-otros.jacuzee,
-otros.sauna,
-otros.piscina,
-otros.internet,
-otros.notas,
-otros.desayunoinc,
-otros.desayunoprecio,
-otros.cenainc,
-otros.cenadesde,
-otros.cenahasta,
-otros.parqueoinc,
-otros.parqueoprec,
-otros.parqueociclos,
-otros.mascotas,
-otros.lavanderia
+IF(p.pro_active, 1, 2)
 from old_mypaladar_mycp.propiedades p
 join mypalada_mycp.municipality m on p.pro_mun_id = m.mun_id
 join mypalada_mycp.province prov on m.mun_prov_id = prov.prov_id
 join old_mypaladar_mycp.precios pr on p.pro_range_id = pr.pre_range_id
 join mypalada_mycp.lang l on l.import_id = pr.pre_lang_id
-join old_mypaladar_mycp.pro_otros otros on otros.id_propiedad = p.pro_code
 where l.lang_code = "ES";
 
 update mypalada_mycp.ownership own
@@ -282,11 +241,46 @@ set own.own_langs = concat(if((select count(*) from old_mypaladar_mycp.prop_lang
 									, if((select count(*) from old_mypaladar_mycp.prop_lang pl join mypalada_mycp.lang l on pl.idLang = l.import_id where own.own_id = pl.idProp and  upper(l.lang_code) = "DE") > 0, "1", "0")
 									, if((select count(*) from old_mypaladar_mycp.prop_lang pl join mypalada_mycp.lang l on pl.idLang = l.import_id where own.own_id = pl.idProp and  upper(l.lang_code) = "IT") > 0, "1", "0"));
 
+update mypalada_mycp.ownership own
+set own.own_facilities_breakfast = 1
+where exists (select * from old_mypaladar_mycp.facilidades  fac
+join old_mypaladar_mycp.facilidades_lang fl on fac.fac_id = fl.fac_lang_fac_id
+join mypalada_mycp.lang on lang.import_id = fl.fac_lang_lang_id
+where upper(lang.lang_code) = "ES" 
+and fac.fac_pro_id = own.own_id
+and upper(fl.fac_lang_title) LIKE '%DESAYUNO%');
+
+update mypalada_mycp.ownership own
+set own.own_facilities_dinner = 1
+where exists (select * from old_mypaladar_mycp.facilidades  fac
+join old_mypaladar_mycp.facilidades_lang fl on fac.fac_id = fl.fac_lang_fac_id
+join mypalada_mycp.lang on lang.import_id = fl.fac_lang_lang_id
+where upper(lang.lang_code) = "ES" 
+and fac.fac_pro_id = own.own_id
+and upper(fl.fac_lang_title) LIKE '%CENA%');
+
+update mypalada_mycp.ownership own
+set own.own_description_laundry = 1
+where exists (select * from old_mypaladar_mycp.facilidades  fac
+join old_mypaladar_mycp.facilidades_lang fl on fac.fac_id = fl.fac_lang_fac_id
+join mypalada_mycp.lang on lang.import_id = fl.fac_lang_lang_id
+where upper(lang.lang_code) = "ES" 
+and fac.fac_pro_id = own.own_id
+and upper(fl.fac_lang_title) LIKE '%LAVANDERIA%');
+
+update mypalada_mycp.ownership own
+set own.own_facilities_parking = 1
+where exists (select * from old_mypaladar_mycp.facilidades  fac
+join old_mypaladar_mycp.facilidades_lang fl on fac.fac_id = fl.fac_lang_fac_id
+join mypalada_mycp.lang on lang.import_id = fl.fac_lang_lang_id
+where upper(lang.lang_code) = "ES" 
+and fac.fac_pro_id = own.own_id
+and (upper(fl.fac_lang_title) LIKE '%PARQUEO%' OR upper(fl.fac_lang_title) LIKE '%GARAGE%'));
+
 insert into mypalada_mycp.ownershipkeywordlang (okl_id_lang, okl_id_ownership, okl_keywords)
-select l.lang_id, own.own_id, plang.pro_lang_keywords
+select l.lang_id, plang.pro_lang_pro_id, plang.pro_lang_keywords
 from old_mypaladar_mycp.propiedades_lang plang 
-join mypalada_mycp.lang l on plang.pro_lang_lang_id = l.import_id
-join mypalada_mycp.ownership own on own.own_id = plang.pro_lang_pro_id;
+join mypalada_mycp.lang l on plang.pro_lang_lang_id = l.import_id;
 
 insert into mypalada_mycp.ownershipdescriptionlang (odl_id_lang, odl_id_ownership, odl_description, odl_brief_description)
 select l.lang_id, plang.pro_lang_pro_id, plang.pro_lang_desc, plang.pro_lang_brief
@@ -316,7 +310,7 @@ room_terrace,
 room_yard
 )
 select id_hab,
-own.own_id,
+id_pro_hab,
 tipo_hab,
 cant_camas,
 alta_desde,
@@ -335,7 +329,7 @@ balcon,
 terraza,
 patio
 from old_mypaladar_mycp.pro_habitaciones h
-join mypalada_mycp.ownership own on h.pro_code = own.own_mcp_code;
+join mypalada_mycp.ownership own on h.id_pro_hab = own.own_id;
 
 update mypalada_mycp.ownership own
 set own.own_maximun_number_guests = (select sum(room_beds) from mypalada_mycp.room r where r.room_ownership = own.own_id);

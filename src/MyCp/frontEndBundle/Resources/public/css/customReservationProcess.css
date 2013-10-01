@@ -3,6 +3,8 @@
 .cyan_cont h1 small,.grey_cont h1 small{color: #0089CD; font-size: 13px;  font-weight: bold;}
 .cyan_cont table th{ color: #0089CD; background-color: #FFFFFF; }
 .cyan_cont table td{ border-top: solid 1px #C0E9FD; padding: 2px 8px}
+.cyan_cont table td table td{ border: none}
+.cyan_cont table td table td:first-child{padding: 2px 0px}
 .cyan_cont table thead th{ border-top: solid 1px #C0E9FD;}
 .cyan_cont table th:last-child{text-align: right}
 .cyan_cont table{ border: solid 1px #C0E9FD}

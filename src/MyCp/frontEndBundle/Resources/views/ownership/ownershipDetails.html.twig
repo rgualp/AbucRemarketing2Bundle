@@ -465,17 +465,10 @@
             </table>
             <div id="all_data_numbers" style="display: none;">
                 <hr/>
-                <div style="margin-top: 10px" class="row-fluid">
-
-                    <div class="span4">
-                        <b style="font-size: 14px">{{'RESERVATION_TOTAL_PRICE' | trans}} {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}<span id="total_price"></span></b>
-                    </div>
-                    <div class="span4">
-                        <b style="font-size: 14px">{{'INITIAL_DEPOSIT' | trans}} ({{ownership.getOwnCommissionPercent}}%): {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}<span id="initial_deposit"></span></b>
-                    </div>
-                    <div class="span4" style="text-align: right">
-                        <b style="font-size: 14px">{{'SERVICE_RECHARGE' | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}<span id="service_recharge">{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</span></b>
-                    </div>
+                <div style="margin-top: 10px; text-align: right">
+                        <b>{{'RESERVATION_TOTAL_PRICE' | trans}} {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}<span id="total_price"></span></b><br/>
+                        <b>{{'INITIAL_DEPOSIT' | trans}} ({{ownership.getOwnCommissionPercent}}%): {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}<span id="initial_deposit"></span></b><br/>
+                        <b>{{'SERVICE_RECHARGE' | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}<span id="service_recharge">{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</span></b>
                 </div>
                 <hr/>
                 <div class="row-fluid">
@@ -687,15 +680,15 @@
             {%for own in similar_houses%}
             <div class="item row-fluid">
                 <div class="span4">
-                    <a title="{{"MORE_INFO_PREFFIX" | trans}} {{own.ownName}}"
-                       href="{{ path('frontend_details_ownership',{'owner_id':own.ownid}) }}"><img
-                            src="{{ asset("uploads/ownershipImages/" ~ photos_similar_houses[own.ownid])}}"></a>
+                    <a title="{{"MORE_INFO_PREFFIX" | trans}} {{own['own_name']}}"
+                       href="{{ path('frontend_details_ownership',{'owner_id':own['own_id']}) }}"><img
+                            src="{{ asset("uploads/ownershipImages/" ~ own['photo'])}}"></a>
                 </div>
                 <div class="span8">
-                    <a title="{{"MORE_INFO_PREFFIX" | trans}} {{own.ownName}}"
-                       href="{{ path('frontend_details_ownership',{'owner_id':own.ownid}) }}">{{own.ownName}}</a>
-                    <br/>{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} {{own.ownminimumprice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} {{"BYNIGHTS_PRICES" | trans | lower}}<br/>
-                    {{own.owntype | trans}}
+                    <a title="{{"MORE_INFO_PREFFIX" | trans}} {{own['own_name']}}"
+                       href="{{ path('frontend_details_ownership',{'owner_id':own['own_id']}) }}">{{own['own_name']}}</a>
+                    <br/>{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} {{own['minimum_price'] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} {{"BYNIGHTS_PRICES" | trans | lower}}<br/>
+                    {{own['own_type'] | trans}}
                 </div>
             </div>
             {%endfor%}

@@ -32,10 +32,10 @@ class mycasatripController extends Controller {
 
         if ($this->getRequest()->getMethod() == 'POST') {
             $order_by = $request->get('mct_change_order');
-        }        
+        }
         $string_sql.=$this->get_order_by_sql($order_by);
-        $res_pending = $em->getRepository('mycpBundle:ownershipReservation')->find_by_user_and_status($user->getUserId(), $status_string, $string_sql);
 
+        $res_pending = $em->getRepository('mycpBundle:ownershipReservation')->find_by_user_and_status($user->getUserId(), $status_string, $string_sql);
         return $this->render('frontEndBundle:mycasatrip:pending.html.twig', array(
                     'res_pending' => $res_pending,
                     'order_by' => $order_by
@@ -61,9 +61,18 @@ class mycasatripController extends Controller {
 
         $res_available = $em->getRepository('mycpBundle:ownershipReservation')->find_by_user_and_status($user->getUserId(), $status_string, $string_sql);
 
+        $service_time=$this->get('time');
+        $nights=array();
+        foreach($res_available as $res)
+        {
+            $array_dates=$service_time->dates_between($res[0]['own_res_reservation_from_date']->getTimestamp(),$res[0]['own_res_reservation_to_date']->getTimestamp());
+            array_push($nights,count($array_dates)-1);
+        }
+
         return $this->render('frontEndBundle:mycasatrip:available.html.twig', array(
                     'res_available' => $res_available,
-                    'order_by'=>$order_by
+                    'order_by'=>$order_by,
+                    'nights'=>$nights
         ));
     }
 
@@ -109,7 +118,7 @@ class mycasatripController extends Controller {
                 $order_by_string = ' ORDER BY gre.gen_res_id ASC';
                 break;
             case 2:
-                $order_by_string = ' ORDER BY ownre.own_res_total_in_site ASC';
+                $order_by_string = ' ORDER BY gre.gen_res_total_in_site ASC';
                 break;
         }
         return $order_by_string;

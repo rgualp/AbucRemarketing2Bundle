@@ -60,59 +60,22 @@ class BackendReservationController extends Controller
         $filter_date_reserve_twig=str_replace('/','_',$filter_date_reserve);
         $filter_date_from_twig=str_replace('/','_',$filter_date_from);
         $filter_date_to_twig=str_replace('/','_',$filter_date_to);
-
         $service_log= $this->get('log');
         $service_log->save_log('Visit',7);
-
-        $service_time= $this->get('time');
         $total_nights=array();
-        $total_prices=array();
-        $currencies=array();
-        $languages=array();
-        foreach($reservations as $reservation)
+        $service_time=$this->get('time');
+        foreach($reservations as $res)
         {
-            $price=0;
-            $users_currencies=array();
-            $user_tourist= $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user'=>$reservation[0]['gen_res_user_id']['user_id']));
-            
-            array_push($currencies,$user_tourist[0]->getUserTouristCurrency()->getCurrCode());
-            array_push($languages,$user_tourist[0]->getUserTouristLanguage()->getLangName());
-
-            $dates=$service_time->dates_between($reservation[0]['gen_res_from_date']->format('Y-m-d'), $reservation[0]['gen_res_to_date']->format('Y-m-d'));
-            array_pop($dates);
-            array_push($total_nights,count($dates));
-            $own_reservations= $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id'=>$reservation[0]['gen_res_id']));
-            $rooms=array();
-            foreach($own_reservations as $own_res)
+            $owns_res=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id'=>$res[0]['gen_res_id']));
+            $temp_total_nights=0;
+            foreach($owns_res as $own)
             {
-                array_push($rooms,$em->getRepository('mycpBundle:room')->findBy(array('room_id'=>$own_res->getOwnResSelectedRoomId())));
+                $array_dates= $service_time->dates_between($own->getOwnResReservationFromDate()->getTimestamp(),$own->getOwnResReservationToDate()->getTimestamp());
+                $temp_total_nights+=count($array_dates)-1;
             }
-
-            foreach($rooms as $room)
-            {
-                foreach($dates as $date)
-                {
-                    $season=$service_time->season_by_date($date);
-                    //var_dump($season);
-                    if($season=='top')
-                    {
-                        $price+=$room[0]->getRoomPriceUpTo();
-                    }
-                    else
-                    {
-                        $price+=$room[0]->getRoomPriceDownTo();
-                    }
-                }
-            }
-            array_push($total_prices,$price);
-
+            array_push($total_nights,$temp_total_nights);
         }
-        //var_dump($total_prices); exit();
-
         return $this->render('mycpBundle:reservation:list.html.twig',array(
-            'languages'=>$languages,
-            'currencies'=>$currencies,
-            'total_price'=>$total_prices,
             'total_nights'=>$total_nights,
             'reservations'=>$reservations,
             'items_per_page'=>$items_per_page,
@@ -176,57 +139,31 @@ class BackendReservationController extends Controller
         $service_log= $this->get('log');
         $service_log->save_log('Visit',7);
 
-        $service_time= $this->get('time');
-        $total_nights=array();
-        $total_prices=array();
         $currencies=array();
         $languages=array();
-
+        $service_time=$this->get('time');
+        $total_nights=array();
         foreach($reservations as $reservation)
         {
-            $price=0;
-            $users_currencies=array();
             $user_tourist= $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user'=>$reservation[0]['gen_res_user_id']['user_id']));
             array_push($currencies,$user_tourist[0]->getUserTouristCurrency()->getCurrCode());
             array_push($languages,$user_tourist[0]->getUserTouristLanguage()->getLangName());
 
-            $dates=$service_time->dates_between($reservation[0]['gen_res_from_date']->format('Y-m-d'), $reservation[0]['gen_res_to_date']->format('Y-m-d'));
-            array_pop($dates);
-            array_push($total_nights,count($dates));
-            $own_reservations= $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id'=>$reservation[0]['gen_res_id']));
-            $rooms=array();
-            foreach($own_reservations as $own_res)
+            $owns_res=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id'=>$reservation[0]['gen_res_id']));
+            $total_nights_temp=0;
+            foreach($owns_res as $own)
             {
-                array_push($rooms,$em->getRepository('mycpBundle:room')->findBy(array('room_id'=>$own_res->getOwnResSelectedRoomId())));
+                $array_dates= $service_time->dates_between($own->getOwnResReservationFromDate()->getTimestamp(),$own->getOwnResReservationToDate()->getTimestamp());
+                $total_nights_temp+=count($array_dates)-1;
             }
-
-            foreach($rooms as $room)
-            {
-                foreach($dates as $date)
-                {
-                    $season=$service_time->season_by_date($date);
-                    //var_dump($season);
-                    if($season=='top')
-                    {
-                        $price+=$room[0]->getRoomPriceUpTo();
-                    }
-                    else
-                    {
-                        $price+=$room[0]->getRoomPriceDownTo();
-                    }
-                }
-            }
-            array_push($total_prices,$price);
-
+            array_push($total_nights,$total_nights_temp);
         }
 
 
-
         return $this->render('mycpBundle:reservation:list_client.html.twig',array(
+            'total_nights'=>$total_nights,
             'languages'=>$languages,
             'currencies'=>$currencies,
-            'total_price'=>$total_prices,
-            'total_nights'=>$total_nights,
             'reservations'=>$reservations,
             'items_per_page'=>$items_per_page,
             'current_page'=>$page,
@@ -260,7 +197,6 @@ class BackendReservationController extends Controller
         $reservations=$em->getRepository('mycpBundle:generalReservation')->get_reservations_by_user($id_client);
         $price=0;
         $total_nights=array();
-        $total_prices=array();
 
         if($request->getMethod()=='POST')
         {
@@ -299,46 +235,20 @@ class BackendReservationController extends Controller
 
         }
 
+        $service_time=$this->get('time');
         foreach($reservations as $reservation)
         {
-            $price=0;
-            $dates=$service_time->dates_between($reservation[0]['gen_res_from_date']->format('Y-m-d'), $reservation[0]['gen_res_to_date']->format('Y-m-d'));
-            array_pop($dates);
-            array_push($total_nights,count($dates));
-            $own_reservations= $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id'=>$reservation[0]['gen_res_id']));
-            $rooms=array();
-            foreach($own_reservations as $own_res)
-            {
-                array_push($rooms,$em->getRepository('mycpBundle:room')->findBy(array('room_id'=>$own_res->getOwnResSelectedRoomId())));
-            }
+            $temp_total_nights=0;
+            $owns_res=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id'=>$reservation[0]['gen_res_id']));
 
-            foreach($rooms as $room)
+            foreach($owns_res as $own)
             {
-                foreach($dates as $date)
-                {
-                    $season=$service_time->season_by_date($date);
-                    //var_dump($season);
-                    if($season=='top')
-                    {
-                        $price+=$room[0]->getRoomPriceUpTo();
-                    }
-                    else
-                    {
-                        $price+=$room[0]->getRoomPriceDownTo();
-                    }
-                }
+                $array_dates= $service_time->dates_between($own->getOwnResReservationFromDate()->getTimestamp(),$own->getOwnResReservationToDate()->getTimestamp());
+                $temp_total_nights+=count($array_dates)-1;
             }
-            //var_dump($price);
-            array_push($total_prices,$price);
-
+            array_push($total_nights,$temp_total_nights);
         }
-
-
-        //exit();
-
-        //var_dump($reservations);exit();
         return $this->render('mycpBundle:reservation:reservationDetailsClient.html.twig',array(
-            'total_prices'=>$total_prices,
             'total_nights'=>$total_nights,
             'reservations'=>$reservations,
             'client'=>$client,
@@ -389,32 +299,22 @@ class BackendReservationController extends Controller
 
         $service_time= $this->get('time');
 
-
         $user=$em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user'=>$reservation->getGenResUserId()));
 
         $rooms=array();
+        $total_nights=array();
         foreach($ownership_reservations as $res)
         {
             array_push($rooms,$em->getRepository('mycpBundle:room')->find($res->getOwnResSelectedRoomId()));
+            $temp_total_nights=0;
+            $array_dates= $service_time->dates_between($res->getOwnResReservationFromDate()->getTimestamp(),$res->getOwnResReservationToDate()->getTimestamp());
+            $temp_total_nights+=count($array_dates)-1;
 
+            array_push($total_nights,$temp_total_nights);
         }
-
-        $service_time= $this->get('time');
-        $dates=$service_time->dates_between($reservation->getGenResFromDate()->format('Y-m-d'), $reservation->getGenResToDate()->format('Y-m-d'));
-        array_pop($dates);
-
-        foreach($dates as $date)
-        {
-            //var_dump($date);
-            //var_dump(new \DateTime(date('Y-m-d')));
-            //var_dump(date('Y-m-d', $date));
-            $season=$service_time->season_by_date($date);
-            //var_dump($season);
-        }
-        //exit();
 
         return $this->render('mycpBundle:reservation:reservationDetailsPartial.html.twig',array(
-            'total_nights'=>count($dates),
+            'nights'=>$total_nights,
             'reservation'=>$reservation,
             'user'=>$user,
             'reservations'=>$ownership_reservations,
@@ -463,18 +363,15 @@ class BackendReservationController extends Controller
                     $ownership_reservation->setOwnResStatus($post['service_own_res_status_'.$ownership_reservation->getOwnResId()]);
                     $ownership_reservation->setOwnResRoomType($post['service_room_type_'.$ownership_reservation->getOwnResId()]);
                     $ownership_reservation->setOwnResNightPrice($post['service_room_price_'.$ownership_reservation->getOwnResId()]);
-                    $ownership_reservation->setOwnResTotalInSite($temp_price);
                     $em->persist($ownership_reservation);
-                    //var_dump($temp_price);
                 }
 
                 $message='Reserva actualizada satisfactoriamente.';
                 $reservation->setGenResSaved(1);
-                //$reservation->setGenResStatus(0);
                 $em->persist($reservation);
                 $em->flush();
-                /*$service_log= $this->get('log');
-                $service_log->save_log('Edit entity for '.$ownership->getOwnMcpCode(),7);*/
+                $service_log= $this->get('log');
+                $service_log->save_log('Edit entity for CAS.'.$reservation->getGenResId(),7);
 
                 $this->get('session')->setFlash('message_ok',$message);
             }
@@ -482,27 +379,17 @@ class BackendReservationController extends Controller
         }
 
         $user=$em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user'=>$reservation->getGenResUserId()));
-
+        $array_nights=array();
         $rooms=array();
         foreach($ownership_reservations as $res)
         {
+            $dates_temp=$service_time->dates_between($res->getOwnResReservationFromDate()->getTimestamp(), $res->getOwnResReservationToDate()->getTimestamp());
             array_push($rooms,$em->getRepository('mycpBundle:room')->find($res->getOwnResSelectedRoomId()));
+            array_push($array_nights,count($dates_temp)-1);
 
         }
 
-        //$dates=$service_time->dates_between($reservation->getGenResFromDate()->format('Y-m-d'), $reservation->getGenResToDate()->format('Y-m-d'));
         array_pop($dates);
-
-        foreach($dates as $date)
-        {
-            //var_dump($date);
-            //var_dump(new \DateTime(date('Y-m-d')));
-            //var_dump(date('Y-m-d', $date));
-            $season=$service_time->season_by_date($date);
-            //var_dump($season);
-        }
-
-       // var_dump($ownership_reservations); exit();
         return $this->render('mycpBundle:reservation:reservationDetails.html.twig',array(
             'post'=>$post,
             'errors'=>$errors,
@@ -510,6 +397,7 @@ class BackendReservationController extends Controller
             'user'=>$user,
             'reservations'=>$ownership_reservations,
             'rooms'=>$rooms,
+            'nights'=>$array_nights,
             'id_reservation'=>$id_reservation));
     }
 

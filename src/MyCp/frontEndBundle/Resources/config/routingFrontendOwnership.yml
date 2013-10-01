@@ -12,7 +12,7 @@ frontend_category_ownership:
 
 frontend_search_ownership:
     pattern:  /search/{text}/{arrival}/{departure}/{guests}/{rooms}
-    defaults: { _controller: frontEndBundle:ownership:search }
+    defaults: { _controller: frontEndBundle:ownership:search,text:'null',arrival:'null',departure:'null',guests:1,rooms:1 }
 
 frontend_order_search_results_ownership:
     pattern:  /order_results/

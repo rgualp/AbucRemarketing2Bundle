@@ -89,13 +89,13 @@
             {% set flag = 0 %}
             {% set total_adults = 0 %}
             {% set total_childrens = 0 %}
-            {% set total_nigths = 0 %}
+            {% set total_nights = 0 %}
             {% set total_price_own_res = 0%}
-
             {% for reservation_rooms in reservations%}
-
             {% set total_adults = total_adults +  reservation_rooms.getOwnResCountAdults %}
             {% set total_childrens = total_childrens +  reservation_rooms.getOwnResCountChildrens %}
+            {% set total_nights = total_nights +  nights[loop.index0] %}
+            {% set total_price_own_res = total_price_own_res +   nights[loop.index0] * reservation_rooms.getOwnResNightPrice %}
 
             <tr>
                 {% set res_type ='' %}
@@ -124,7 +124,7 @@
                 </select></td>
                 <td>{{ reservation.getGenResFromDate | date("d/m/Y") }}</td>
                 <td>{{ reservation.getGenResToDate | date("d/m/Y") }}</td>
-                <td>{{ total_nights }}</td>
+                <td>{{ nights[loop.index0] }}</td>
                 <td style="width: 7%">
                     {% set price_own_res =0%}
 
@@ -136,8 +136,7 @@
                     <input type="text" class="price_offer input-block-level" value="{{ price_own_res }}" name="service_room_price_{{reservation_rooms.getOwnResId}}"/>
                 </td>
                 <td>{{ reservation.genResOwnId.getOwnCommissionPercent }}%</td>
-                <td>{{ total_nights*price_own_res }} CUC</td>
-                {% set total_price_own_res = total_price_own_res +  total_nights*price_own_res %}
+                <td>{{ nights[loop.index0] * price_own_res }}CUC</td>
                 <td>
                     <select class="input-block-level" name="service_own_res_status_{{reservation_rooms.getOwnResId}}">
                         {% if post['service_own_res_status_'~reservation_rooms.getOwnResId] is defined %}
@@ -169,22 +168,20 @@
         <th>Prepago</th>
         <th>Pago en casa</th>
         <th>T. de Crédito</th>
-        <th>Anticipo total a pagar</th>
+        <th style="text-align: right">Anticipo total a pagar</th>
     </tr>
     </thead>
+
     <tr>
-        <td>{{ reservations | length}}</td>
+        <td>{{ reservations|length }}</td>
         <td>{{ total_adults }}</td>
         <td>{{ total_childrens }}</td>
         <td>{{ total_nights }}</td>
-        <td>{{ total_price_own_res }} CUC</td>
-        {% set pre_pay =  total_price_own_res * reservation.genResOwnId.getOwnCommissionPercent / 100 %}
-        {% set pay_in_house = total_price_own_res - pre_pay %}
-        {% set total_pre_pay = pre_pay + 10 %}
-        <td>{{ pre_pay }} CUC</td>
-        <td>{{ pay_in_house }} cuc</td>
+        <td>{{total_price_own_res}} CUC</td>
+        <td>{{ total_price_own_res * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100}} CUC</td>
+        <td>{{total_price_own_res - (total_price_own_res * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100)}} CUC</td>
         <td>10 CUC</td>
-        <td>{{ total_pre_pay }} CUC ({{ total_pre_pay * user[0].getUserTouristCurrency.getCurrCucChange }} {{ user[0].getUserTouristCurrency.getCurrCode|upper }})</td>
+        <td style="text-align: right"><b>{{(total_price_own_res * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) + 10}}CUC ({{((total_price_own_res * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) + 10) * user[0].getUserTouristCurrency.getCurrCucChange }} {{ user[0].getUserTouristCurrency.getCurrCode|upper }})</b></td>
     </tr>
 </table>
 
