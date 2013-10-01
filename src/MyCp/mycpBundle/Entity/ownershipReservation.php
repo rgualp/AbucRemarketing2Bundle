@@ -86,6 +86,12 @@ class ownershipReservation
     private $own_res_reservation_to_date;
 
     /**
+     * @ORM\ManyToOne(targetEntity="booking",inversedBy="ownResBooking")
+     * @ORM\JoinColumn(name="own_res_reservation_booking",referencedColumnName="booking_id", nullable=true)
+     */
+    private $own_res_reservation_booking;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="own_res_total_in_site", type="float")
@@ -356,5 +362,28 @@ class ownershipReservation
     public function getOwnResTotalInSite()
     {
         return $this->own_res_total_in_site;
+    }
+
+    /**
+     * Set own_res_reservation_booking
+     *
+     * @param \MyCp\mycpBundle\Entity\booking $ownResReservationBooking
+     * @return ownershipReservation
+     */
+    public function setOwnResReservationBooking(\MyCp\mycpBundle\Entity\booking $ownResReservationBooking = null)
+    {
+        $this->own_res_reservation_booking = $ownResReservationBooking;
+    
+        return $this;
+    }
+
+    /**
+     * Get own_res_reservation_booking
+     *
+     * @return \MyCp\mycpBundle\Entity\booking 
+     */
+    public function getOwnResReservationBooking()
+    {
+        return $this->own_res_reservation_booking;
     }
 }

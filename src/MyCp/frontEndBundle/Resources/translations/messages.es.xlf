@@ -2083,6 +2083,14 @@
                     <source>OWNERSHIP_MID_RANGE_DESCRIPTION</source>
                     <target>Descripción para alojamientos de Rango Medio.</target>
                 </trans-unit>
+                <trans-unit id="531">
+                    <source>RESERVE_SINGULAR</source>
+                    <target>Reservada</target>
+                </trans-unit>
+                <trans-unit id="532">
+                    <source>PAYED</source>
+                    <target>Pagada</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>

@@ -15,11 +15,11 @@ class booking
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="booking_id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private $booking_id;
 
     /**
      * @var boolean
@@ -44,13 +44,19 @@ class booking
 
 
     /**
-     * Get id
+     * @ORM\ManyToOne(targetEntity="user",inversedBy="bookingUser")
+     * @ORM\JoinColumn(name="booking_user_id",referencedColumnName="user_id")
+     */
+    private $booking_user_id;
+
+    /**
+     * Get booking_id
      *
      * @return integer 
      */
-    public function getId()
+    public function getBookingId()
     {
-        return $this->id;
+        return $this->booking_id;
     }
 
     /**
@@ -120,5 +126,28 @@ class booking
     public function getBookingCurrencySymbol()
     {
         return $this->booking_currency_symbol;
+    }
+
+    /**
+     * Set booking_user_id
+     *
+     * @param \MyCp\mycpBundle\Entity\user $bookingUserId
+     * @return booking
+     */
+    public function setBookingUserId(\MyCp\mycpBundle\Entity\user $bookingUserId = null)
+    {
+        $this->booking_user_id = $bookingUserId;
+    
+        return $this;
+    }
+
+    /**
+     * Get booking_user_id
+     *
+     * @return \MyCp\mycpBundle\Entity\user 
+     */
+    public function getBookingUserId()
+    {
+        return $this->booking_user_id;
     }
 }

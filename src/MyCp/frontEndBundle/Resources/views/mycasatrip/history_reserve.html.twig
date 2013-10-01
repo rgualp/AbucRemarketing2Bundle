@@ -1,21 +1,11 @@
-{% set menu = 2 %}
+{% set menu = 6 %}
 {% extends 'frontEndBundle:mycasatrip:layout_order_by.html.twig' %}
 {% block body_inner %}
-<form method="POST" action="{{ path('frontend_redirect_reservation_reservation') }}" style="margin: 0">
 {% for res in res_available %}
 <div class="row-fluid">
         <div class="well mycasatrip_result">
             <div class="row-fluid">
-            <div class="span1">
-               <table>
-                    <tr>
-                        <td style="vertical-align: bottom; height: 60px">
-                            <input type="checkbox" name="checkbox_{{res[0]['own_res_id']}}"/>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div class="span11">
+            <div class="span12">
                 <div class="row-fluid">
                 <div class="span4"><a href="{{ path('frontend_details_ownership',{'owner_id':res[0]['own_res_gen_res_id']['gen_res_own_id']['own_id']}) }}"><img src="{{ asset('uploads/ownershipImages/'~ res['photo']) }}" class="span12 img-polaroid"></a></div>
                 <div style="margin-left: 10px" class="span8">
@@ -38,7 +28,7 @@
                                 <p class="note"><b>{{"ID_RESERVATION" | trans}}:</b> CAS.{{res[0]['own_res_id']}}
                                     <br>
                                     <br>
-                                    <span class="badge badge-warning">{{"AVAILABLE" | trans}}</span>
+                                    <span class="badge badge-important">{{"RESERVE_SINGULAR" | trans}}</span>
 
                                 </p><h4>{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{res[0]['own_res_night_price'] *(nights[loop.index0])}}</h4>
                             </td>
@@ -53,10 +43,4 @@
 {% else %}
         <div class="alert a alert-info">No hay elementos disponibles.</div>
 {% endfor %}
-{%if res_available%}
-<div style="text-align: right">
-    <button type="submit" class="btn mycp_btn mycp_btn_orange">{{"CONTINUE_RESERVING" | trans}}</button>
-</div>
-</form>
-{% endif %}
 {% endblock %}

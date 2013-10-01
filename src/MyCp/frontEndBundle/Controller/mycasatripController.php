@@ -76,6 +76,103 @@ class mycasatripController extends Controller {
         ));
     }
 
+    public function reservations_reserveAction($order_by, Request $request) {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $em = $this->getDoctrine()->getManager();
+
+        // reservados Mayores que (hoy - 30) días
+        $date = \date('Y-m-j');
+        $new_date = strtotime('-60 hours', strtotime($date));
+        $new_date = \date('Y-m-j', $new_date);
+        $string_sql = "AND gre.gen_res_date > '$new_date'";
+        $status_string = 'ownre.own_res_status =2';
+
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $order_by = $request->get('mct_change_order');
+        }
+
+        $string_sql.=$this->get_order_by_sql($order_by);
+
+        $res_available = $em->getRepository('mycpBundle:ownershipReservation')->find_by_user_and_status($user->getUserId(), $status_string, $string_sql);
+
+        $service_time=$this->get('time');
+        $nights=array();
+        foreach($res_available as $res)
+        {
+            $array_dates=$service_time->dates_between($res[0]['own_res_reservation_from_date']->getTimestamp(),$res[0]['own_res_reservation_to_date']->getTimestamp());
+            array_push($nights,count($array_dates)-1);
+        }
+        return $this->render('frontEndBundle:mycasatrip:reserve.html.twig', array(
+            'res_available' => $res_available,
+            'order_by'=>$order_by,
+            'nights'=>$nights
+        ));
+    }
+
+    public function history_reservations_reserveAction($order_by, Request $request) {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $em = $this->getDoctrine()->getManager();
+
+        // reservados menores que (hoy - 30) días
+        $date = \date('Y-m-j');
+        $new_date = strtotime('-30 day', strtotime($date));
+        $new_date = \date('Y-m-j', $new_date);
+        $string_sql = "AND gre.gen_res_date < '$new_date'";
+        $status_string = 'ownre.own_res_status =3';
+
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $order_by = $request->get('mct_change_order');
+        }
+
+        $string_sql.=$this->get_order_by_sql($order_by);
+
+        $res_available = $em->getRepository('mycpBundle:ownershipReservation')->find_by_user_and_status($user->getUserId(), $status_string, $string_sql);
+
+        $service_time=$this->get('time');
+        $nights=array();
+        foreach($res_available as $res)
+        {
+            $array_dates=$service_time->dates_between($res[0]['own_res_reservation_from_date']->getTimestamp(),$res[0]['own_res_reservation_to_date']->getTimestamp());
+            array_push($nights,count($array_dates)-1);
+        }
+
+        return $this->render('frontEndBundle:mycasatrip:history_reserve.html.twig', array(
+            'res_available' => $res_available,
+            'order_by'=>$order_by,
+            'nights'=>$nights
+        ));
+    }
+
+    public function reservations_paymentAction($order_by, Request $request) {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $em = $this->getDoctrine()->getManager();
+
+        $string_sql = "";
+        $status_string = 'ownre.own_res_status =5';
+
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $order_by = $request->get('mct_change_order');
+        }
+
+        $string_sql.=$this->get_order_by_sql($order_by);
+
+        $res_available = $em->getRepository('mycpBundle:ownershipReservation')->find_by_user_and_status($user->getUserId(), $status_string, $string_sql);
+
+        $service_time=$this->get('time');
+        $nights=array();
+        foreach($res_available as $res)
+        {
+            $array_dates=$service_time->dates_between($res[0]['own_res_reservation_from_date']->getTimestamp(),$res[0]['own_res_reservation_to_date']->getTimestamp());
+            array_push($nights,count($array_dates)-1);
+        }
+
+        return $this->render('frontEndBundle:mycasatrip:payment.html.twig', array(
+            'res_available' => $res_available,
+            'order_by'=>$order_by,
+            'nights'=>$nights
+        ));
+    }
+
     function history_reservation_consultAction($order_by, Request $request) {
         $user = $this->get('security.context')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();

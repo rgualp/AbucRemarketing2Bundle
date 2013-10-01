@@ -146,7 +146,10 @@ class BackendReservationController extends Controller
         foreach($reservations as $reservation)
         {
             $user_tourist= $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user'=>$reservation[0]['gen_res_user_id']['user_id']));
+            if($user_tourist[0]->getUserTouristCurrency())
             array_push($currencies,$user_tourist[0]->getUserTouristCurrency()->getCurrCode());
+
+            if($user_tourist[0]->getUserTouristLanguage())
             array_push($languages,$user_tourist[0]->getUserTouristLanguage()->getLangName());
 
             $owns_res=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id'=>$reservation[0]['gen_res_id']));
@@ -414,9 +417,9 @@ class BackendReservationController extends Controller
         $user_tourist=$em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user'=>$user->getUserId()));
 
         $array_photos=array();
-        foreach($reservations as $reservation)
+        foreach($reservations as $res)
         {
-            $photos=$em->getRepository('mycpBundle:ownership')->getPhotos($reservation->getOwnResOwnId()->getOwnId());
+            $photos=$em->getRepository('mycpBundle:ownership')->getPhotos($res->getOwnResGenResId()->getGenResOwnId()->getOwnId());
             array_push($array_photos,$photos);
         }
         $this->get('translator')->setLocale($user_tourist[0]->getUserTouristLanguage()->getLangCode());

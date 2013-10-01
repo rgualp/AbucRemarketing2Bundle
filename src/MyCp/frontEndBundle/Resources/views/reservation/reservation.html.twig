@@ -226,7 +226,7 @@
             <div class="green_cont">
                 <h1 style="border: none; margin-bottom: 0">{{"FINAL_STEP" | trans}}</h1>
                 <div class="line_green" style="margin-top: 0px">&nbsp;</div>
-                <label class="checkbox"><input type="checkbox"> {{"OBTAIN_PROTECTION" | trans}} US$2.00 <img src="{{ asset('bundles/frontend/images/question_icon.gif') }}"/></label>
+                <label class="checkbox"><input name="protection" type="checkbox"> {{"OBTAIN_PROTECTION" | trans}} US$2.00 <img src="{{ asset('bundles/frontend/images/question_icon.gif') }}"/></label>
                 <div class="line_green">&nbsp;</div>
                 <label class="checkbox"><input id="terms_conditions" type="checkbox"> {{"ACCEPT_TERMS_CONDITIONS" | trans}}</label>
                 <label class="checkbox"><input name="user_tourist_send_newsletter" type="checkbox" {% if post["user_tourist_send_newsletter"] is defined or user.UserNewsletters %}checked{%endif%}> {{"SEND_ME_OFFERS" | trans}}</label>

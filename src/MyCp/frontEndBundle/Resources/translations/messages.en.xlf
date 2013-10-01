@@ -2087,6 +2087,14 @@
                 <source>OWNERSHIP_MID_RANGE_DESCRIPTION</source>
                 <target>Description for midrange accomodations.</target>
             </trans-unit>
+            <trans-unit id="531">
+                <source>RESERVE_SINGULAR</source>
+                <target>Reserved</target>
+            </trans-unit>
+            <trans-unit id="532">
+                <source>PAYED</source>
+                <target>Payed</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

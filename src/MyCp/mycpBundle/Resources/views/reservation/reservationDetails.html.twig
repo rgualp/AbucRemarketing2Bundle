@@ -88,7 +88,7 @@
                 <td><b>Idioma:</b></td>
                 <td>{{ user[0].getUserTouristLanguage.getLangName }}</td>
                 <td><b>Moneda:</b></td>
-                <td>{{ user[0].getUserTouristCurrency.getCurrName }}</td>
+                <td>{% if user[0].getUserTouristCurrency.getCurrName is defined %}{{ user[0].getUserTouristCurrency.getCurrName }}{% endif %}</td>
             </tr>
         </table>
     </div>
@@ -211,7 +211,11 @@
             <td>{{ total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100}} CUC</td>
             <td>{{ total_price - ( total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100)}} CUC</td>
             <td>10 CUC</td>
+            {% if user[0].getUserTouristCurrency.getCurrCucChange is defined %}
             <td style="text-align: right"><b>{{ (total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) + 10}} CUC ({{((total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) + 10) * user[0].getUserTouristCurrency.getCurrCucChange }} {{ user[0].getUserTouristCurrency.getCurrCode|upper }})</b></td>
+            {% else %}
+            <td style="text-align: right"><b>{{ (total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) + 10}} CUC ({{((total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) + 10) }} CUC)</b></td>
+            {% endif %}
         </tr>
     </table>
     <ul class="nav nav-tabs">
