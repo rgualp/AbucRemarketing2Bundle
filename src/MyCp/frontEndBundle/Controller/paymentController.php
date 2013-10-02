@@ -52,7 +52,6 @@ class paymentController extends Controller {
             throw new EntityNotFoundException("userTourist($userTourist)");
         }
 
-
         $skrillData = $this->getSkrillViewData($booking, $user, $userTourist);
 
         return $this->render('frontEndBundle:payment:skrillPayment.html.twig', $skrillData);
@@ -182,9 +181,9 @@ class paymentController extends Controller {
 
     // TODO: With this function the skrill payment can be tested instead of using the real button
     // on the reservation page
-    public function skrillTestPaymentAction($reservationId = 0)
+    public function skrillTestPaymentAction($bookingId = 0)
     {
-        $payUrl = $this->generateUrl('frontend_payment_skrill', array('reservationId' => $reservationId), true);
+        $payUrl = $this->generateUrl('frontend_payment_skrill', array('bookingId' => $bookingId), true);
         return $this->render(
             'frontEndBundle:payment:skrillPaymentTest.html.twig',
             array('payUrl' => $payUrl));
