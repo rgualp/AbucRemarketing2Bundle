@@ -110,9 +110,11 @@ class paymentController extends Controller {
 
     public function skrillStatusAction()
     {
+        $this->log('PaymentController line '.__LINE__.': Entered Skrill Status Action.');
         $em = $this->getDoctrine()->getManager();
 
         $request = $this->getRequest()->request->all();
+        $this->log('PaymentController line '.__LINE__.": request:\n".print_r($request));
         $skrillRequest = new skrillPayment($request);
 
         $bookingId = $skrillRequest->getMerchantTransactionId();
