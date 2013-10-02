@@ -38,6 +38,10 @@ class paymentController extends Controller {
 
         $loggedInUser = $this->get('security.context')->getToken()->getUser();
 
+        if(empty($loggedInUser)) {
+            throw new AuthenticationException('User not logged in.');
+        }
+
         if($user->getUserId() !== $loggedInUser->getUserId()) {
             throw new AuthenticationException('Access to resource not permitted.');
         }
@@ -115,6 +119,11 @@ class paymentController extends Controller {
 
         $request = $this->getRequest()->request->all();
         $this->log('PaymentController line '.__LINE__.": request:\n".print_r($request));
+
+        if(empty($request)) {
+            return new Response('Empty post data', 400);
+        }
+
         $skrillRequest = new skrillPayment($request);
 
         $bookingId = $skrillRequest->getMerchantTransactionId();

@@ -198,22 +198,22 @@ class payment
     }
 
     /**
-     * Set general_reservation
+     * Set booking
      *
-     * @param \MyCp\mycpBundle\Entity\generalReservation $generalReservation
+     * @param \MyCp\mycpBundle\Entity\booking $booking
      * @return payment
      */
-    public function setBooking(\MyCp\mycpBundle\Entity\generalReservation $generalReservation = null)
+    public function setBooking(\MyCp\mycpBundle\Entity\booking $booking = null)
     {
-        $this->booking = $generalReservation;
+        $this->booking = $booking;
     
         return $this;
     }
 
     /**
-     * Get general_reservation
+     * Get booking
      *
-     * @return \MyCp\mycpBundle\Entity\generalReservation 
+     * @return \MyCp\mycpBundle\Entity\booking
      */
     public function getBooking()
     {
