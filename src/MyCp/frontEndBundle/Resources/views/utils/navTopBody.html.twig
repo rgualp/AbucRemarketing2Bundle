@@ -6,6 +6,6 @@
     <li {%if  main_tab == 2 %}class="active"{% endif %}><a href="{{ path('frontend_list_destinations') }}">{{"DESTINATIONS_MAIN_MENU" | trans}}</a></li>
     <!--li {%if  main_tab == 3 %}class="active"{% endif %}><a href="#">{{"OFFERS_MAIN_MENU" | trans}}</a></li-->
     <!--li {%if  main_tab == 4 %}class="active"{% endif %}><a href="{{ path('frontend_list_faq')}}">{{"INFO_MAIN_MENU" | trans}}</a></li-->
-    <li {%if  main_tab == 5 %}class="active"{% endif %}><a href="{{ path('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}">{{"ACCOMMODATION" | trans}}</a></li>
+    <li {%if  main_tab == 5 %}class="active"{% endif %}><a href="{{ path('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}">{{"SEARCH_MAIN_MENU" | trans}}</a></li>
     <li {%if  main_tab == 6 %}class="active"{% endif %}><a href="{{ path('frontend_mycasatrip_pending') }}">MyCasaTrip</a></li>
 </ul>

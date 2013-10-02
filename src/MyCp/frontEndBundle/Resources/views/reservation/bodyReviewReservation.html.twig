@@ -62,11 +62,11 @@
     </tbody>
 </table>
 <div class="table_striped_vertical_foot">
-    <div class="row-fluid">
-        <div class="span3">{{"RESERVATION_TOTAL_PRICE" | trans}} {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{total_price}}</div>
-        <div class="span3">{{"INITIAL_DEPOSIT" | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{total_percent * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</div>
-        <div class="span3">{{"SERVICE_RECHARGE" | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</div>
-        <div class="span3" style="text-align: right">{{"TOTAL_PREPAYMENT" | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{(total_percent * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))+10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</div>
+    <div style="padding-bottom: 10px; font-size: 12px; text-align: right">
+        {{"RESERVATION_TOTAL_PRICE" | trans}} {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{total_price}}<br/>
+        {{"INITIAL_DEPOSIT" | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{total_percent * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}<br/>
+        {{"SERVICE_RECHARGE" | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}<br/>
+        <label style="font-weight: bold; font-size: 20px">{{"TOTAL_PREPAYMENT" | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{(total_percent * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))+10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</label>
     </div>
 </div>
 <script type="text/javascript">

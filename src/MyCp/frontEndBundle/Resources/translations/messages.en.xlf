@@ -200,7 +200,7 @@
             </trans-unit>
             <trans-unit id="50">
                 <source>SEARCH_MAIN_MENU</source>
-                <target>Search</target>
+                <target>Accommodations</target>
             </trans-unit>
             <trans-unit id="51">
                 <source>SEARCH_DESCRIPTION_MAIN_MENU</source>
@@ -2082,6 +2082,34 @@
             <trans-unit id="529">
                 <source>FILL_FORM_CORRECTLY</source>
                 <target>You must fill this form correctly.</target>
+            </trans-unit>
+             <trans-unit id="530">
+                <source>OWNERSHIP_MID_RANGE_DESCRIPTION</source>
+                <target>Description for midrange accomodations.</target>
+            </trans-unit>
+            <trans-unit id="531">
+                <source>RESERVE_SINGULAR</source>
+                <target>Reserved</target>
+            </trans-unit>
+            <trans-unit id="532">
+                <source>PAYED</source>
+                <target>Payed</target>
+            </trans-unit>
+            <trans-unit id="533">
+                <source>SKRILL_CONFIRMATION_NOTE</source>
+                <target>MyCasaParticular wishes you pleasure visiting Cuba!</target>
+            </trans-unit>
+            <trans-unit id="534">
+                <source>SKRILL_DESCRIPTION_BOOKING_ID</source>
+                <target>Booking ID:  </target>
+            </trans-unit>
+            <trans-unit id="535">
+                <source>SKRILL_PAY_WITH_SKRILL</source>
+                <target>Pay with Skrill</target>
+            </trans-unit>
+            <trans-unit id="536">
+                <source>SKRILL_RETURN_TO_MYCP</source>
+                <target>Return to MyCasaParticular</target>
             </trans-unit>
         </body>
     </file>

@@ -9,7 +9,7 @@
     </div>
     <div class="span10">
         <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}">{{destination.desName}}</a>
-        <p>{{popular_places_description[destination.desid].deslangbrief |striptags}}</p>
+        <p>{{(popular_places_description[destination.desid] != "") ? popular_places_description[destination.desid].DesLangBrief |striptags: ""}}</p>
     </div>
     </div>
 </div>

@@ -14,17 +14,8 @@ Mycasa trip
     <div class="row-fluid">
         <div class="span9"></div>
         <div class="span3">
-            <form id="order_by_form" method="post" action="" style="margin: 0; text-align: right; padding: 0px 10px">
-                <div class="btn-group mycp_combo">
-                    <a id="mct_change_order" style="width: 180px" class="combo_label btn dropdown-toggle span2 " data-toggle="dropdown" data-value="{{order_by}}"></a>
-                    <ul class="dropdown-menu" onclick="onSort();">
-                        <li><a class="option" data="mct_change_order" data-value="0">{{"DATE" | trans}}</a></li>
-                        <li><a class="option" data="mct_change_order" data-value="1">ID Reserva</a></li>
-                        <li><a class="option" data="mct_change_order" data-value="2">{{"PRICE" | trans}}</a></li>            
-                    </ul>
-                    <input type="hidden" id="hidden_sort_order" name="mct_change_order" />
-                 </div>
-             </form>
+            {% block order_by_list %}
+            {% endblock %}
         </div>
     </div>
 </div>
@@ -42,13 +33,5 @@ Mycasa trip
         </div>
     </div>
 </div>
-<script>
-    $(document).ready(function(){
-        $('#mct_change_order').html($('.option').eq({{order_by}}).html());
-    });
-    function onSort(){
-        $('#hidden_sort_order').val($('#mct_change_order').attr('data-value')); 
-        $('#order_by_form').submit();
-    }
-</script>    
+
 {% endblock %}

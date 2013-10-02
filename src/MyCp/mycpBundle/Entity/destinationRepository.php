@@ -223,12 +223,43 @@ class destinationRepository extends EntityRepository {
      * @param int $results_total Length of the return set
      * @return array
      */
-    function get_popular_destination($results_total = null) {
+    function get_popular_destination($results_total = null, $user_id = null, $session_id = null) {
         $em = $this->getEntityManager();
-        $query_string = "SELECT d FROM mycpBundle:destination d
+       /* $query_string = "SELECT d FROM mycpBundle:destination d
                          WHERE d.des_active <> 0
                          ORDER BY d.des_order ASC";
-        return ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult();
+        return ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult();*/
+        $query_string = "SELECT d.des_id as des_id,
+                          d.des_name as des_name,
+                          (SELECT MIN(pho.pho_name) FROM mycpBundle:destinationPhoto dp
+                           JOIN dp.des_pho_photo pho
+                           WHERE dp.des_pho_destination = d.des_id AND (pho.pho_order =
+                           (SELECT MIN(pho2.pho_order) FROM mycpBundle:destinationPhoto dp2
+                           JOIN dp2.des_pho_photo pho2 WHERE dp2.des_pho_destination = dp.des_pho_destination ) or pho.pho_order is null)) as photo,
+                         (SELECT count(fav) FROM mycpBundle:favorite fav WHERE ".(($user_id != null)? " fav.favorite_user = $user_id " : " fav.favorite_user is null")." AND ".(($session_id != null)? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null"). " AND fav.favorite_destination=d.des_id) as is_in_favorites,
+                         (SELECT min(mun1.mun_name) FROM mycpBundle:destinationLocation loc2 JOIN loc2.des_loc_municipality mun1 WHERE loc2.des_loc_destination = d.des_id ) as municipality_name,
+                         (SELECT min(prov1.prov_name) FROM mycpBundle:destinationLocation loc3 JOIN loc3.des_loc_province prov1 WHERE loc3.des_loc_destination = d.des_id ) as province_name,
+                         (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = 1 AND o.own_address_municipality = (SELECT min(mun.mun_id) FROM mycpBundle:destinationLocation loc JOIN loc.des_loc_municipality mun WHERE loc.des_loc_destination = d.des_id)
+                         AND o.own_address_province = (SELECT min(prov.prov_id) FROM mycpBundle:destinationLocation loc1 JOIN loc1.des_loc_province prov WHERE loc1.des_loc_destination = d.des_id)) as count_ownership,
+                         (SELECT MIN(o1.own_minimum_price) FROM mycpBundle:ownership o1 WHERE o1.own_status = 1 AND o1.own_address_municipality = (SELECT min(mun2.mun_id) FROM mycpBundle:destinationLocation loc4 JOIN loc4.des_loc_municipality mun2 WHERE loc4.des_loc_destination = d.des_id)
+                         AND o1.own_address_province = (SELECT min(prov2.prov_id) FROM mycpBundle:destinationLocation loc5 JOIN loc5.des_loc_province prov2 WHERE loc5.des_loc_destination = d.des_id)) as min_price
+                         FROM mycpBundle:destination d
+                         WHERE d.des_active <> 0
+                         ORDER BY d.des_order ASC";
+        
+     $results = ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult();
+         
+     for ($i = 0; $i< count($results); $i++) {
+        if($results[$i]['photo']== null)
+            $results[$i]['photo'] = "no_photo.png";
+        else if(!file_exists(realpath("uploads/destinationImages/".$results[$i]['photo'])))
+        {
+            $results[$i]['photo'] = "no_photo.png";
+        }         
+     }
+    /* var_dump($results[0]['photo']);
+     exit();*/
+        return $results;
     }
     
     public function get_destination($destination_id,$locale) {
@@ -237,7 +268,11 @@ class destinationRepository extends EntityRepository {
                          (SELECT dl.des_lang_brief from mycpBundle:destinationLang dl 
                           JOIN dl.des_lang_lang l WHERE dl.des_lang_destination = d.des_id AND l.lang_code = '$locale') as desc_brief,
                          (SELECT description.des_lang_desc from mycpBundle:destinationLang description 
-                          JOIN description.des_lang_lang desc_l WHERE description.des_lang_destination = d.des_id AND desc_l.lang_code = '$locale') as desc_full
+                          JOIN description.des_lang_lang desc_l WHERE description.des_lang_destination = d.des_id AND desc_l.lang_code = '$locale') as desc_full,
+                         (SELECT min(mun) FROM mycpBundle:destinationLocation loc JOIN loc.des_loc_municipality mun WHERE loc.des_loc_destination = d.des_id ) as municipality_id,
+                         (SELECT min(prov) FROM mycpBundle:destinationLocation loc1 JOIN loc1.des_loc_province prov WHERE loc1.des_loc_destination = d.des_id ) as province_id,
+                         (SELECT min(mun1.mun_name) FROM mycpBundle:destinationLocation loc2 JOIN loc2.des_loc_municipality mun1 WHERE loc2.des_loc_destination = d.des_id ) as municipality_name,
+                         (SELECT min(prov1.prov_name) FROM mycpBundle:destinationLocation loc3 JOIN loc3.des_loc_province prov1 WHERE loc3.des_loc_destination = d.des_id ) as province_name
                          FROM mycpBundle:destination d
                          WHERE d.des_id = $destination_id
                          ORDER BY d.des_order ASC";
@@ -344,9 +379,6 @@ class destinationRepository extends EntityRepository {
         }
     }
 
-    /**
-     * Este lo agregue
-     */
     function get_destination_by_location($province, $municipality = null) {
         $em = $this->getEntityManager();
         $query_string = "SELECT l FROM mycpBundle:destinationLocation l
@@ -441,46 +473,34 @@ class destinationRepository extends EntityRepository {
         }
     }
 
-    function getPhotos($destination_id) {
+    function getPhotos($destination_id, $location) {
 
         $photos_array = array();
+        $photos_array['photo_name'] = array();
+        $photos_array['photo_description'] = array();
         $em = $this->getEntityManager();
-        $destination_photos = $em->getRepository('mycpBundle:destinationPhoto')->findBy(array(
-            'des_pho_destination' => $destination_id));
+        
+        $query_string = "SELECT dp,p.pho_name as photo,
+                        (SELECT MIN(pl.pho_lang_description) from mycpBundle:photoLang pl JOIN pl.pho_lang_id_lang l
+                         WHERE l.lang_code='$location'
+                           AND pl.pho_lang_id_photo=dp.des_pho_photo) as description
+                        FROM mycpBundle:destinationPhoto dp
+                        JOIN dp.des_pho_photo p
+                         WHERE dp.des_pho_destination=" . $destination_id;
+        
+        $destination_photos = $em->createQuery($query_string)->getResult();
 
         foreach ($destination_photos as $destination_photo) {
 
-            if ($destination_photo != null) {
-                $photo_name = $destination_photo->getDesPhoPhoto()->getPhoName();
-
-                if (file_exists(realpath("uploads/destinationImages/" . $photo_name))) {
-                    $photos_array[] = $photo_name;
+            if ($destination_photo['photo'] != null) {
+                if (file_exists(realpath("uploads/destinationImages/" . $destination_photo['photo']))) {
+                    $photos_array['photo_name'][] = $destination_photo['photo'];
+                    $photos_array['photo_description'][] = $destination_photo['description'];
                 } 
             }
         }
 
         return $photos_array;
-    }
-
-    function getPhotoDescription($photos, $lang_code) {
-        if (is_array($photos)) {
-            $em = $this->getEntityManager();
-            $query_string = "";
-
-            $descriptions = array();
-
-            foreach ($photos as $photo) {
-                if(is_object($photo)){
-                $query_string = "SELECT p FROM mycpBundle:photoLang p
-                         JOIN p.pho_lang_id_lang l
-                         WHERE l.lang_code='$lang_code'
-                           AND p.pho_lang_id_photo=" . $photo->getPhoId();
-                $descriptions[$photo->getPhoId()] = $em->createQuery($query_string)->setMaxResults(1)->getResult();
-                }
-            }
-
-            return $descriptions;
-        }
     }
     
     function get_list_by_ids($des_ids) {

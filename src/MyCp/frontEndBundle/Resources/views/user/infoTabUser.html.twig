@@ -10,13 +10,15 @@
     <div class="tab-content">
         <div id="favorite_destinations" class="tab-pane fade in active">
             <div class="row-fluid">
-                {% for destination in destination_favorites %}
+                {% for destination_array in destination_favorites %}
                     <div class="span3">
-                {{ include('frontEndBundle:destination:homeItemDestination.html.twig',{'destination': destination, 
+                {{ include('frontEndBundle:destination:homeItemDestination.html.twig',{
+                'destination_id': destination_array['destination_id'], 
+                'destination_name': destination_array['destination_name'],
                 'is_in_favorite': true,
-                'photo': destination_favorites_photos[destination.desid],
-                'localization' : destination_favorites_localizations[destination.desid],
-                'statistics': destination_favorities_statistics[destination.desid],
+                'photo': destination_array['photo'],
+                'localization' : destination_array['municipality_name'] ~ ' / ' ~ destination_array['province_name'],
+                'statistics': {'total': destination_array['count_ownership'], 'minimum_prize': destination_array['min_price']},
                 'list_preffix': 'destination_favorites'}) }}
                             </div>
                 {% else %}
@@ -26,14 +28,15 @@
         </div>
         <div id="history_destinations" class="tab-pane fade in">
             <div class="row-fluid">
-                {% for destination in history_destinations %}
+                {% for destination_array in history_destinations %}
                     <div class="span3">
                 {{ include('frontEndBundle:destination:homeItemDestination.html.twig',
-                   {'destination': destination, 
-                    'is_in_favorite': history_destinations_favorites[destination.desid],
-                    'photo': history_destinations_photos[destination.desid],
-                    'localization' : history_destinations_localizations[destination.desid],
-                    'statistics': history_destinations_statistics[destination.desid],
+                   {'destination_id': destination_array['destination_id'], 
+                'destination_name': destination_array['destination_name'],
+                'is_in_favorite': destination_array['is_in_favorites'],
+                'photo': destination_array['photo'],
+                'localization' : destination_array['municipality_name'] ~ ' / ' ~ destination_array['province_name'],
+                'statistics': {'total': destination_array['count_ownership'], 'minimum_prize': destination_array['min_price']},
                     'list_preffix': 'history_destinations'}) }} 
                             </div>
                 {% else %}
@@ -43,11 +46,16 @@
         </div>
         <div id="favorite_owns" class="tab-pane fade in">
             <div class="row-fluid">
-                {% for ownership in favorite_owns %}
+                {% for ownership_array in favorite_owns %}
                 {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',
-                    {'ownership': ownership, 
+                    {'own_id': ownership_array['own_id'],
+                     'own_name': ownership_array['own_name'],
+                     'own_comments': ownership_array['comments_total'],
+                     'own_rating': ownership_array['rating'],
+                     'own_province': ownership_array['prov_name'],
+                     'own_minimum_price': ownership_array['minimum_price'],
                      'is_in_favorite': true,
-                     'photo': favorite_owns_photos[ownership.ownid],
+                     'photo': ownership_array['photo'],
                      'list_preffix': 'favorite_owns'}) }} 
                 {% else %}
                 <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
@@ -56,11 +64,16 @@
         </div>
         <div id="history_owns" class="tab-pane fade in">
             <div class="row-fluid">
-                {% for ownership in history_owns %}
+                {% for ownership_array in history_owns %}
                 {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',
-                   {'ownership': ownership, 
-                   'is_in_favorite': history_owns_favorites[ownership.ownid],
-                   'photo': history_owns_photos[ownership.ownid],
+                   {'own_id': ownership_array['own_id'],
+                     'own_name': ownership_array['own_name'],
+                     'own_comments': ownership_array['comments_total'],
+                     'own_rating': ownership_array['rating'],
+                     'own_province': ownership_array['prov_name'],
+                     'own_minimum_price': ownership_array['minimum_price'],
+                   'is_in_favorite': ownership_array['is_in_favorites'],
+                   'photo': ownership_array['photo'],
                    'list_preffix': 'history_owns'}) }} 
                 {% else %}
                 <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>

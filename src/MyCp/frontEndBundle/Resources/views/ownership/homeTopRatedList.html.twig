@@ -3,15 +3,15 @@
     {%for ownership in own_top20_list%}
     {% if cont <4 %}
     <div class="item span3">
-        <a href="{{ path('frontend_details_ownership',{'owner_id':ownership.ownid}) }}" title="{{"MORE_INFO_PREFFIX" | trans}} {{ownership.ownname}}">
-           <div class="image" style="background-image: url('{{ asset("uploads/ownershipImages/" ~ own_top20_photos[ownership.ownid])}}')">
-             <div class="rating">{%if ownership.owncommentstotal > 0%}+{%endif%}{{ownership.owncommentstotal}}</div></div>
-            <div class="title">{{ ownership.ownname| title }}
-                <div class="place">({{ownership.ownaddressprovince}})</div>
+        <a href="{{ path('frontend_details_ownership',{'owner_id':ownership['own_id']}) }}" title="{{"MORE_INFO_PREFFIX" | trans}} {{ownership['own_name']}}">
+           <div class="image" style="background-image: url('{{ asset("uploads/ownershipImages/" ~ ownership['photo'])}}')">
+             <div class="rating">{%if ownership['comments_total'] > 0%}+{%endif%}{{ownership['comments_total']}}</div></div>
+            <div class="title">{{ ownership['own_name']| title }}
+                <div class="place">({{ownership['prov_name']}})</div>
             </div>
             <div class="description">                
-                {%if own_top20_descriptions[ownership.ownid] != null%}
-                    <p>{{own_top20_descriptions[ownership.ownid] | striptags | slice(0,120) }} (...Más)</p>
+                {%if ownership['description'] != null%}
+                    <p>{{ownership['description'] | striptags | slice(0,120) }} (...{{"RESERVATION_CONFIRM_DESTINATION_MORE" | trans | capitalize}})</p>
                 {%endif%}
 
             </div>
@@ -23,15 +23,15 @@
 </div>
 <div class="top_rated_items">
     <div class="item">
-        <a href="{{ path('frontend_details_ownership',{'owner_id':ownership.ownid}) }}" title="{{"MORE_INFO_PREFFIX" | trans}} {{ownership.ownname}}">
-           <div class="image" style="background-image: url('{{ asset("uploads/ownershipImages/" ~ own_top20_photos[ownership.ownid])}}')">
-             <div class="rating">{%if ownership.owncommentstotal > 0%}+{%endif%}{{ownership.owncommentstotal}}</div></div>
-            <div class="title">{{ ownership.ownname| title }}
-                <div class="place">({{ownership.ownaddressprovince}})</div>
+        <a href="{{ path('frontend_details_ownership',{'owner_id':ownership['own_id']}) }}" title="{{"MORE_INFO_PREFFIX" | trans}} {{ownership['own_name']}}">
+           <div class="image" style="background-image: url('{{ asset("uploads/ownershipImages/" ~ ownership['photo'])}}')">
+             <div class="rating">{%if ownership['comments_total'] > 0%}+{%endif%}{{ownership['comments_total']}}</div></div>
+            <div class="title">{{ ownership['own_name']| title }}
+                <div class="place">({{ownership['prov_name']}})</div>
             </div>
             <div class="description">
-                {%if own_top20_descriptions[ownership.ownid] != null%}
-                <p>{{own_top20_descriptions[ownership.ownid] |striptags |capitalize}} (...Más)</p>
+                {%if ownership['photo'] != null%}
+                <p>{{ownership['photo'] |striptags |capitalize}} (...{{"RESERVATION_CONFIRM_DESTINATION_MORE" | trans | capitalize}})</p>
                 {%endif%}
 
             </div>

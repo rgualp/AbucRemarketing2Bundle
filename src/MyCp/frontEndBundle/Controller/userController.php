@@ -285,41 +285,42 @@ class userController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
 
-        $favorite_destination_ids = $em->getRepository('mycpBundle:favorite')->get_element_id_list(false, $user_ids["user_id"], $user_ids["session_id"], 4, $destination_id);
-        $destination_favorities = $em->getRepository('mycpBundle:destination')->get_list_by_ids($favorite_destination_ids);
-        $destination_favorities_photos = $em->getRepository('mycpBundle:destination')->get_destination_photos($destination_favorities);
-        $destination_favorities_localization = $em->getRepository('mycpBundle:destination')->get_destination_location($destination_favorities);
-        $destination_favorities_statistics = $em->getRepository('mycpBundle:destination')->get_destination_owns_statistics($destination_favorities);
+        $favorite_destinations = $em->getRepository('mycpBundle:favorite')->get_favorite_destinations($user_ids["user_id"], $user_ids["session_id"], 4, $destination_id);
+        
+        for($i = 0; $i<count($favorite_destinations);$i++)
+        {
+            if (!file_exists(realpath("uploads/destinationImages/" . $favorite_destinations[$i]['photo'])))
+                   $favorite_destinations[$i]['photo'] = 'no_photo.png';
+        }
 
-        $favorite_own_ids = $em->getRepository('mycpBundle:favorite')->get_element_id_list(true, $user_ids["user_id"], $user_ids["session_id"], 4, $ownership_id);
-        $ownership_favorities = $em->getRepository('mycpBundle:ownership')->getListByIds($favorite_own_ids);
-        $ownership_favorities_photos = $em->getRepository('mycpBundle:ownership')->get_photos_array($ownership_favorities);
+        
+        $ownership_favorities = $em->getRepository('mycpBundle:favorite')->get_favorite_ownerships($user_ids["user_id"], $user_ids["session_id"], 4, $ownership_id);
 
-        $history_destinations = $em->getRepository('mycpBundle:userHistory')->get_list_entity($user_ids, false, 4, $destination_id);
-        $history_destinations_photos = $em->getRepository('mycpBundle:destination')->get_destination_photos($history_destinations);
-        $history_destinations_localization = $em->getRepository('mycpBundle:destination')->get_destination_location($history_destinations);
-        $history_destinations_statistics = $em->getRepository('mycpBundle:destination')->get_destination_owns_statistics($history_destinations);
-        $history_destinations_favorites = $em->getRepository('mycpBundle:favorite')->is_in_favorite_array($history_destinations, false, $user_ids['user_id'], $user_ids['session_id']);
+        for($i = 0; $i<count($ownership_favorities);$i++)
+        {
+            if (!file_exists(realpath("uploads/ownershipImages/" . $ownership_favorities[$i]['photo'])))
+                   $ownership_favorities[$i]['photo'] = 'no_photo.png';
+        }
 
-        $history_owns = $em->getRepository('mycpBundle:userHistory')->get_list_entity($user_ids, true, 4, $ownership_id);
-        $history_owns_photos = $em->getRepository('mycpBundle:ownership')->get_photos_array($history_owns);
-        $history_owns_favorites = $em->getRepository('mycpBundle:favorite')->is_in_favorite_array($history_owns, true, $user_ids['user_id'], $user_ids['session_id']);
+        $history_destinations = $em->getRepository('mycpBundle:userHistory')->get_history_destinations($user_ids["user_id"], $user_ids["session_id"], 4, $destination_id);
+        for($i = 0; $i<count($history_destinations);$i++)
+        {
+            if (!file_exists(realpath("uploads/destinationImages/" . $history_destinations[$i]['photo'])))
+                   $history_destinations[$i]['photo'] = 'no_photo.png';
+        }
+
+        $history_owns = $em->getRepository('mycpBundle:userHistory')->get_history_ownerships($user_ids["user_id"], $user_ids["session_id"], 4, $ownership_id);
+         for($i = 0; $i<count($history_owns);$i++)
+        {
+            if (!file_exists(realpath("uploads/ownershipImages/" . $history_owns[$i]['photo'])))
+                   $history_owns[$i]['photo'] = 'no_photo.png';
+        }
 
         return $this->render('frontEndBundle:user:infoTabUser.html.twig', array(
-                    'destination_favorites' => $destination_favorities,
-                    'destination_favorites_photos' => $destination_favorities_photos,
-                    'destination_favorites_localizations' => $destination_favorities_localization,
-                    'destination_favorities_statistics' => $destination_favorities_statistics,
+                    'destination_favorites' => $favorite_destinations,
                     'history_destinations' => $history_destinations,
-                    'history_destinations_photos' => $history_destinations_photos,
-                    'history_destinations_localizations' => $history_destinations_localization,
-                    'history_destinations_statistics' => $history_destinations_statistics,
-                    'history_destinations_favorites' => $history_destinations_favorites,
                     'favorite_owns' => $ownership_favorities,
-                    'favorite_owns_photos' => $ownership_favorities_photos,
-                    'history_owns' => $history_owns,
-                    'history_owns_photos' => $history_owns_photos,
-                    'history_owns_favorites' => $history_owns_favorites
+                    'history_owns' => $history_owns
         ));
     }
 

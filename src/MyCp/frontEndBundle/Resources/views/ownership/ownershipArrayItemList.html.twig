@@ -1,0 +1,82 @@
+
+{%for own in list%}
+<div class="item elementList" data-id="{{own['own_id']}}">
+    
+    <div class="row-fluid">
+        <a title="{{"MORE_INFO_PREFFIX" | trans}} {{own['own_name']}}" href="{{ path('frontend_details_ownership',{'owner_id':own['own_id']}) }}">
+    <div class="span3 own_photo" style="background-image: url('{{ asset("uploads/ownershipImages/" ~ own['photo'])}}')"></div>
+        </a>
+    <div>
+        <table width="74%" class="item_content">
+            <tr>
+                <td width="75%"  valign="top">
+                    <span class="category">{#{own.ownCategory | trans}#}</span>
+                    <a title="{{"MORE_INFO_PREFFIX" | trans}} {{own['own_name']}}" href="{{ path('frontend_details_ownership',{'owner_id':own['own_id']}) }}">{{own['own_name']}}</a>
+                    <div class="row-fluid location">
+                        {{own['prov_name']}}, {{own['mun_name']}}
+                    </div>
+                    <div class="row-fluid rating_text">
+                        {{own['count_reservations']}} {{"RESERVATIONS" | trans | lower}}
+                      {#  {{own.ownCategory | trans}} / 
+                    {{own.ownType  | trans}} 
+                        {%if (rooms[own.ownid] != 0) %}
+                        / {{rooms[own.ownid]}} {% if rooms[own.ownid] == 1%} {{"ROOM_SINGULAR" | trans}} {%else%} {{"ROOM_PLURAL" | trans}} {%endif%}
+                        {%endif%}#}
+                    </div>  
+                    <table>
+                        <tr>
+                            <td>
+                                <div class="rating no_photo">
+                                    {%if own['comments_total'] > 0%}+{%endif%}{{own['comments_total']}}
+                                </div> 
+                            </td>
+                            <td class="rating_text"> <br/>&nbsp;{{"RECOMENDS_RATINGS" | trans}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="rating_stars">
+                                {%if own['rating'] > 0%}
+                        {%for i in 1..own['rating']%}
+                            <img class="rating_star" src="{{ asset('bundles/frontend/images/star_on.png')}}" align="absmiddle"/>
+                        {%endfor%}
+                        {%endif%}
+
+                        {%if own['rating'] < 5%}
+                        {%for i in 1..(5-own['rating'])%}
+                            <img class="rating_star" src="{{ asset('bundles/frontend/images/star_off.png')}}" align="absmiddle"/>
+                        {%endfor%}
+                    {%endif%}
+                    {{own['comments']}} {{"FORMS_COMMENTS" | trans | lower}}
+                    {#{%if type is defined and type == "map"%}#}
+                        <!--br/>
+                        <a id="own_{#{own.ownid}#}" href="javascript:void(0);">Ubicar en el mapa</a-->
+                    {#{%endif%}#}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td align="right" valign="top" class="right_column">
+                    <div class="row-fluid own_prices">
+                        <label class="per_night">{{"FROM_PRICES" | trans}}</label>
+                        <label class="big_price big_price_2">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{own['minimum_price'] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} </label>
+                        <label class="per_night">{{"BYNIGHTS_PRICES" | trans | lower}}</label>
+                    </div>
+                    
+                    <div class="row-fluid favorities favorite">
+                        {{ include('frontEndBundle:favorite:itemFavorite.html.twig', 
+                        {'is_in_favorite': own['is_in_favorites'],
+                         'favorite_type': 'ownership',
+                         'element_id':own['own_id'],
+                         'list_preffix' : list_preffix
+                         }) }}  
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+    </div>
+    </div>
+</div>
+{%else%}
+   <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
+{%endfor%}

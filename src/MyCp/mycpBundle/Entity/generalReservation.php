@@ -3,6 +3,7 @@
 namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Form\Extension\Core\DataTransformer\NumberToLocalizedStringTransformer;
 
 /**
  * generalreservation
@@ -70,6 +71,19 @@ class generalReservation
      * @ORM\Column(name="gen_res_to_date", type="date")
      */
     private $gen_res_to_date;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="ownership",inversedBy="genResOwnership")
+     * @ORM\JoinColumn(name="gen_res_own_id",referencedColumnName="own_id")
+     */
+    private $gen_res_own_id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="gen_res_total_in_site", type="float")
+     */
+    private $gen_res_total_in_site;
 
     /**
      * Get gen_res_id
@@ -241,5 +255,51 @@ class generalReservation
     public function getGenResToDate()
     {
         return $this->gen_res_to_date;
+    }
+
+    /**
+     * Set gen_res_own_id
+     *
+     * @param \MyCp\mycpBundle\Entity\ownership $genResOwnId
+     * @return generalReservation
+     */
+    public function setGenResOwnId(\MyCp\mycpBundle\Entity\ownership $genResOwnId = null)
+    {
+        $this->gen_res_own_id = $genResOwnId;
+    
+        return $this;
+    }
+
+    /**
+     * Get gen_res_own_id
+     *
+     * @return \MyCp\mycpBundle\Entity\ownership 
+     */
+    public function getGenResOwnId()
+    {
+        return $this->gen_res_own_id;
+    }
+
+    /**
+     * Set gen_res_total_in_site
+     *
+     * @param float $genResTotalInSite
+     * @return generalReservation
+     */
+    public function setGenResTotalInSite($genResTotalInSite)
+    {
+        $this->gen_res_total_in_site = $genResTotalInSite;
+    
+        return $this;
+    }
+
+    /**
+     * Get gen_res_total_in_site
+     *
+     * @return float 
+     */
+    public function getGenResTotalInSite()
+    {
+        return $this->gen_res_total_in_site;
     }
 }
