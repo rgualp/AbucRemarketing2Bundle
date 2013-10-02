@@ -568,17 +568,16 @@ class reservationController extends Controller {
 
 
                 $booking=new booking();
+                
                 if(isset($post['protection']))
                     $booking->setBookingCancelProtection(1);
                 else
                     $booking->setBookingCancelProtection(0);
 
-                $currencyIsoCode = $session->get('curr_acronym');
-                $currency = $em->getRepository('mycpBundle:currency')->findOneBy(array('curr_code' => $currencyIsoCode));
                 $curr_rate=$session->get('curr_rate');
                 if(!$curr_rate) $curr_rate = 1;
-
-                $booking->setBookingCurrencySymbol($symbol);
+                
+                $booking->setBookingCurrency($userTourist->getUserTouristCurrency());
                 $booking->setBookingPrepay(($total_percent_price + 10)*$curr_rate);
                 $booking->setBookingUserId($user->getUserId());
                 $booking->setBookingUserDates($user->getUserUserName().', '.$user->getUserEmail());

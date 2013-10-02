@@ -35,11 +35,11 @@ class booking
      */
     private $booking_prepay;
 
-    /**
+   /**
      * @ORM\ManyToOne(targetEntity="currency",inversedBy="")
-     * @ORM\JoinColumn(name="booking_currency_id",referencedColumnName="curr_id")
+     * @ORM\JoinColumn(name="booking_currency",referencedColumnName="curr_id")
      */
-    private $booking_currency_symbol;
+    private $booking_currency;
 
     /**
      * @var string
@@ -57,6 +57,8 @@ class booking
     private $booking_user_id;
 
    
+
+    
 
     /**
      * Get booking_id
@@ -115,29 +117,6 @@ class booking
     }
 
     /**
-     * Set booking_currency
-     *
-     * @param currency $bookingCurrency
-     * @return booking
-     */
-    public function setBookingCurrency($bookingCurrency)
-    {
-        $this->booking_currency = $bookingCurrency;
-    
-        return $this;
-    }
-
-    /**
-     * Get booking_currency
-     *
-     * @return currency
-     */
-    public function getBookingCurrency()
-    {
-        return $this->booking_currency;
-    }
-
-    /**
      * Set booking_user_dates
      *
      * @param string $bookingUserDates
@@ -181,5 +160,28 @@ class booking
     public function getBookingUserId()
     {
         return $this->booking_user_id;
+    }
+
+    /**
+     * Set booking_currency
+     *
+     * @param \MyCp\mycpBundle\Entity\currency $bookingCurrency
+     * @return booking
+     */
+    public function setBookingCurrency(\MyCp\mycpBundle\Entity\currency $bookingCurrency = null)
+    {
+        $this->booking_currency = $bookingCurrency;
+    
+        return $this;
+    }
+
+    /**
+     * Get booking_currency
+     *
+     * @return \MyCp\mycpBundle\Entity\currency 
+     */
+    public function getBookingCurrency()
+    {
+        return $this->booking_currency;
     }
 }
