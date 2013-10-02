@@ -38,15 +38,15 @@
                     </tr>
                     <tr>
                         <td width="30%"><b>{{"CLIENT_NAME"|trans}}:</b></td>
-                        <td>{{ booking.getBookingUserId.getUserUserName }} {{ booking.getBookingUserId.getUserLastName }}</td>
+                        <td>{{ user.getUserUserName }} {{ user.getUserLastName }}</td>
                     </tr>
                     <tr>
                         <td width="30%"><b>{{"EMAIL_TO"|trans}}</b></td>
-                        <td>{{ booking.getBookingUserId.getUserEmail }}</td>
+                        <td>{{ user.getUserEmail }}</td>
                     </tr>
                     <tr>
                         <td width="30%"><b>{{"NACIONALITY"|trans}}:</b></td>
-                        <td>{{ booking.getBookingUserId.getUserCountry.getCoName }}</td>
+                        <td>{{ user.getUserCountry.getCoName }}</td>
                     </tr>
                     </tbody>
                 </table>

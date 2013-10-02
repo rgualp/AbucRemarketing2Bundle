@@ -42,12 +42,22 @@ class booking
      */
     private $booking_currency_symbol;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="booking_user_dates", type="string", length=255)
+     */
+
+    private $booking_user_dates;
 
     /**
-     * @ORM\ManyToOne(targetEntity="user",inversedBy="bookingUser")
-     * @ORM\JoinColumn(name="booking_user_id",referencedColumnName="user_id")
+     * @var integer
+     *
+     * @ORM\Column(name="booking_user_id", type="integer")
      */
     private $booking_user_id;
+
+   
 
     /**
      * Get booking_id
@@ -129,12 +139,35 @@ class booking
     }
 
     /**
-     * Set booking_user_id
+     * Set booking_user_dates
      *
-     * @param \MyCp\mycpBundle\Entity\user $bookingUserId
+     * @param string $bookingUserDates
      * @return booking
      */
-    public function setBookingUserId(\MyCp\mycpBundle\Entity\user $bookingUserId = null)
+    public function setBookingUserDates($bookingUserDates)
+    {
+        $this->booking_user_dates = $bookingUserDates;
+    
+        return $this;
+    }
+
+    /**
+     * Get booking_user_dates
+     *
+     * @return string 
+     */
+    public function getBookingUserDates()
+    {
+        return $this->booking_user_dates;
+    }
+
+    /**
+     * Set booking_user_id
+     *
+     * @param integer $bookingUserId
+     * @return booking
+     */
+    public function setBookingUserId($bookingUserId)
     {
         $this->booking_user_id = $bookingUserId;
     
@@ -144,7 +177,7 @@ class booking
     /**
      * Get booking_user_id
      *
-     * @return \MyCp\mycpBundle\Entity\user 
+     * @return integer 
      */
     public function getBookingUserId()
     {

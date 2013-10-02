@@ -27,7 +27,9 @@
 {% if errors %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
 
 <form action="{{ path('mycp_edit_photos_destination',{'id_photo':id_photo,'id_destination':id_destination}) }}" method="POST" enctype="multipart/form-data">
-    <img src="{{ asset('uploads/destinationImages/'~photo.getPhoName)}}" style="margin: -50px 0px 10px 0px; width: 100px; height: 100px;" class="img-polaroid pull-right"  alt=""/>
+    <div class="row-fluid">
+    <img src="{{ asset('uploads/destinationImages/thumbnails/'~photo.getPhoName)}}" style="margin: -50px 0px 10px 0px;" class="img-polaroid pull-right"  alt=""/>
+    </div>
     {% for language in data['languages'] %}
     <label>{{language.lang_name |title}}:</label>
     {%if errors["description_"~language.lang_id] is defined %}<label class="error">{{errors["description_"~language.lang_id]|trim(':')}}</label>{%endif%}

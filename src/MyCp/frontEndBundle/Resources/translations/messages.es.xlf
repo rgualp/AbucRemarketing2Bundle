@@ -2091,6 +2091,10 @@
                     <source>PAYED</source>
                     <target>Pagada</target>
                 </trans-unit>
+                <trans-unit id="533">
+                    <source>OWNERSHIP_MID_RANGE_DESCRIPTION</source>
+                    <target>Descripción para alojamientos de Rango Medio.</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>

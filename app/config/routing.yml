@@ -34,6 +34,10 @@ mycp_main:
     pattern:  /
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: frontend_welcome, _locale: es }
 
+_imagine:
+    resource: .
+    type: imagine
+
 # Internal routing configuration to handle ESI
 # ****** WARNING ******
 # This route should be enabled with caution as it can open a security vulnerability

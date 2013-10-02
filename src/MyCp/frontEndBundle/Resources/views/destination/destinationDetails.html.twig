@@ -23,7 +23,7 @@
     data-y="{{destination.desgeolocatey}}"
     data-name="{{destination.desName}}"
     data-description="{{brief_description | striptags}}"
-    data-image="{{asset('uploads/destinationImages/'~((gallery_photos[0] is defined) ? gallery_photos[0] : "no_photo.png"))}}"
+    data-image="{{asset('uploads/destinationImages/thumbnails/'~((gallery_photos[0] is defined) ? gallery_photos[0] : "no_photo.png"))}}"
     data-icon="http://www.mycasaparticular.com/web/bundles/frontend/images/map.png">
 </div>
             </div>
@@ -150,7 +150,7 @@
                         {% for photo in  gallery_photos%}
                         <a class="rsImg" data-rsbigimg="{{asset('uploads/destinationImages/'~photo)}}"
                            href="{{asset('uploads/destinationImages/'~photo)}}"><img class="rsTmb"
-                                                                                  src="{{asset('uploads/destinationImages/'~photo)}}"
+                                                                                  src="{{asset('uploads/destinationImages/thumbnails/'~photo)}}"
                                                                                   width="60"></a>
                         {% endfor %}
                     </div>

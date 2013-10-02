@@ -55,7 +55,7 @@
     {% for item in photos %}
     <li id="{{item.getAlbPhoPhoto.getPhoId}}" {% if cont ==0 %}class="grey"{% set cont=1 %}{% else %}{% set cont=0 %}{% endif %}>
         <div class="row-fluid">
-            <div class="span2"><img src="{{ asset('uploads/albumImages/'~item.getAlbPhoPhoto.getPhoName)}}" class="img-polaroid" width="100" alt=""/></div>
+            <div class="span2"><img src="{{ asset('uploads/albumImages/thumbnails/'~item.getAlbPhoPhoto.getPhoName)}}" class="img-polaroid" width="100" alt=""/></div>
             <div class="span7">
                 {% for desc in data['description_photo_'~item.getAlbPhoPhoto.getPhoId] %}- {{ desc.getPhoLangDescription |slice(0,60) |capitalize}}...<br/>{% endfor %}
             </div>

@@ -3,7 +3,7 @@
 <div class="item elementList" data-id="{{own.ownid}}">
     
     <div class="row-fluid">
-    <a title="{{"MORE_INFO_PREFFIX" | trans}} {{own.ownname}}" href="{{ path('frontend_details_ownership',{'owner_id':own.ownid}) }}"><div class="span3 own_photo" style="background-image: url('{{ asset("uploads/ownershipImages/" ~ (photos[own.ownid] == "no_photo.png" ? "no_photo_square.gif" : photos[own.ownid]))}}')">
+    <a title="{{"MORE_INFO_PREFFIX" | trans}} {{own.ownname}}" href="{{ path('frontend_details_ownership',{'owner_id':own.ownid}) }}"><div class="span3 own_photo" style="background-image: url('{{ asset("uploads/ownershipImages/thumbnails/" ~ (photos[own.ownid] == "no_photo.png" ? "no_photo_square.gif" : photos[own.ownid]))}}')">
       
     </div></a>
     <div>

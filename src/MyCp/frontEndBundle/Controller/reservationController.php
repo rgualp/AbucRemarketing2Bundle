@@ -241,6 +241,7 @@ class reservationController extends Controller {
             foreach($services as $service)
             {
                 $res_own_id=$service['ownership_id'];
+
                 $array_group_by_own_id=array();
                 $flag=1;
                 foreach($own_visited as $own)
@@ -262,17 +263,11 @@ class reservationController extends Controller {
                 array_push($own_visited,$res_own_id);
             }
             $service_time = $this->get('Time');
+            $nigths=array();
             foreach($res_array as $res_item)
             {
                 if(isset($res_item[0]))
                 {
-
-                    $res_item[0]['date_format_from']=new \DateTime(date("Y-m-d H:i:s", $res_item[0]['from_date']));
-                    $res_item[0]['date_format_to']=new \DateTime(date("Y-m-d H:i:s", $res_item[0]['to_date']));
-                    $array_dates = $service_time->dates_between($res_item[0]['from_date'], $res_item[0]['to_date']);
-                    $res_item[0]['nights']=count($array_dates)-1;
-                    array_push($reservations,$res_item[0]);
-
                     $ownership = $em->getRepository('mycpBundle:ownership')->find($res_item[0]['ownership_id']);
                     $general_reservation = new generalReservation();
                     $general_reservation->setGenResUserId($user);
@@ -331,6 +326,7 @@ class reservationController extends Controller {
                     $flag_1=0;
                     foreach($res_item as $item)
                     {
+
                         $ownership_reservation = new ownershipReservation();
                         $ownership_reservation->setOwnResCountAdults($item['guests']);
                         $ownership_reservation->setOwnResCountChildrens($item['kids']);
@@ -342,6 +338,14 @@ class reservationController extends Controller {
                         $ownership_reservation->setOwnResGenResId($general_reservation);
                         $ownership_reservation->setOwnResRoomType($item['room_type']);
                         $ownership_reservation->setOwnResTotalInSite($partial_total_price[$flag_1]);
+                        array_push($reservations,$ownership_reservation);
+
+                        $ownership_photo = $em->getRepository('mycpBundle:ownership')->get_ownership_photo($ownership_reservation->getOwnResGenResId()->getGenResOwnId()->getOwnId());
+                        array_push($array_photos,$ownership_photo);
+
+                        $array_dates = $service_time->dates_between($ownership_reservation->getOwnResReservationFromDate()->getTimestamp(), $ownership_reservation->getOwnResReservationToDate()->getTimestamp());
+                        array_push($nigths,count($array_dates)-1);
+
                         $em->persist($ownership_reservation);
                         $em->flush();
                         array_push($own_ids,$ownership_reservation->getOwnResId());
@@ -380,7 +384,9 @@ class reservationController extends Controller {
             'user' => $user,
             'reservations' => $reservations,
             'prices' => $item_total_price,
-            'ids'=>$own_ids
+            'ids'=>$own_ids,
+            'nigths'=>$nigths,
+            'photos'=>$array_photos
         ));
         $locale = $this->get('translator');
         $subject = $locale->trans('VIEW_DETAILS');
@@ -571,9 +577,11 @@ class reservationController extends Controller {
                 $curr_rate=$request->getSession()->get('curr_rate');
                 if(!$symbol) $symbol = "$";
                 if(!$curr_rate) $curr_rate = 1;
+
                 $booking->setBookingCurrencySymbol($symbol);
                 $booking->setBookingPrepay(($total_percent_price + 10)*$curr_rate);
-                $booking->setBookingUserId($user);
+                $booking->setBookingUserId($user->getUserId());
+                $booking->setBookingUserDates($user->getUserUserName().', '.$user->getUserEmail());
                 $em->persist($booking);
 
                 foreach($own_reservations as $own_res)
@@ -665,6 +673,7 @@ class reservationController extends Controller {
             $em->persist($own);
         }
         $em->flush();
+
         return $this->render('frontEndBundle:reservation:confirmReservation.html.twig', array(
                     'own_res' => $own_res,
                     'user'=>$user,

@@ -22,7 +22,8 @@ class AppKernel extends Kernel
             new MyCp\mycpBundle\mycpBundle(),
             new Ideup\SimplePaginatorBundle\IdeupSimplePaginatorBundle(),
             new MyCp\frontEndBundle\frontEndBundle(),
-          //  new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+            new Avalanche\Bundle\ImagineBundle\AvalancheImagineBundle(),
+//            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

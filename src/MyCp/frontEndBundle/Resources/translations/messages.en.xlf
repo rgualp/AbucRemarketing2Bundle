@@ -1820,7 +1820,7 @@
             </trans-unit>
             <trans-unit id="463">
                 <source>INITIAL_DEPOSIT</source>
-                <target>Initial deposit</target>
+                <target>Reservation fee</target>
             </trans-unit>
             <trans-unit id="464">
                 <source>SERVICE_RECHARGE</source>
@@ -2094,6 +2094,10 @@
             <trans-unit id="532">
                 <source>PAYED</source>
                 <target>Payed</target>
+            </trans-unit>
+            <trans-unit id="533">
+                <source>OWNERSHIP_MID_RANGE_DESCRIPTION</source>
+                <target>Description for midrange accomodations.</target>
             </trans-unit>
         </body>
     </file>

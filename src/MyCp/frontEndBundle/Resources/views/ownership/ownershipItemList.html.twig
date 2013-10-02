@@ -4,7 +4,7 @@
     
     <div class="row-fluid">
         <a title="{{"MORE_INFO_PREFFIX" | trans}} {{own.ownname}}" href="{{ path('frontend_details_ownership',{'owner_id':own.ownid}) }}">
-    <div class="span3 own_photo" style="background-image: url('{{ asset("uploads/ownershipImages/" ~ photos[own.ownid])}}')"></div>
+    <div class="span3 own_photo" style="background-image: url('{{ asset("uploads/ownershipImages/thumbnails/" ~ photos[own.ownid])}}')"></div>
         </a>
     <div>
         <table width="74%" class="item_content">

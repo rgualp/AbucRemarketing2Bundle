@@ -58,6 +58,9 @@ class BackendOwnershipController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $data['languages']= $em->getRepository('mycpBundle:lang')->get_all_languages();
         $dir=$this->container->getParameter('ownership.dir.photos');
+        $dir_thumbs=$this->container->getParameter('ownership.dir.thumbnails');
+        $dir_watermark=$this->container->getParameter('dir.watermark');
+        
         if ($request->getMethod() == 'POST') {
             $post = $request->request->getIterator()->getArrayCopy();
             $files = $request->files->get('images');
@@ -99,6 +102,11 @@ class BackendOwnershipController extends Controller
                         $photo= new photo();
                         $fileName = uniqid('ownership-').'-photo.jpg';
                         $file->move($dir, $fileName);
+                        
+                        //Creando thumbnail, redimensionando y colocando marca de agua
+                        \MyCp\mycpBundle\Helpers\Images::create_thumbnail($dir.$fileName, $dir_thumbs.$fileName, 160);
+                        \MyCp\mycpBundle\Helpers\Images::resize_and_watermark($dir.$fileName, $dir_watermark, 480);
+                        
                         $photo->setPhoName($fileName);
                         $ownershipPhoto->setOwnPhoOwn($ownership);
                         $ownershipPhoto->setOwnPhoPhoto($photo);
@@ -197,6 +205,7 @@ class BackendOwnershipController extends Controller
         $service_security= $this->get('Secure');
         $service_security->verify_access();
         $dir=$this->container->getParameter('ownership.dir.photos');
+        $dir_thumbnails=$this->container->getParameter('ownership.dir.thumbnails');
         $em = $this->getDoctrine()->getEntityManager();
         $data['languages']= $em->getRepository('mycpBundle:lang')->get_all_languages();
         $photo=$em->getRepository('mycpBundle:photo')->find($id_photo);
@@ -209,6 +218,7 @@ class BackendOwnershipController extends Controller
         $em->remove($photo);
         $em->flush();
         @unlink($dir.$photoDel->getPhoName());
+        @unlink($dir_thumbnails.$photoDel->getPhoName());
         $message='El fichero se ha eliminado satisfactoriamente.';
         $this->get('session')->setFlash('message_ok',$message);
         $ownership=$em->getRepository('mycpBundle:ownership')->find($id_ownership);
@@ -396,6 +406,9 @@ class BackendOwnershipController extends Controller
         $ownershipReservations=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_own_id'=>$id_ownership));
         $ownershipComments=$em->getRepository('mycpBundle:comment')->findBy(array('com_ownership'=>$id_ownership));
         $userscasa=$em->getRepository('mycpBundle:userCasa')->findBy(array('user_casa_ownership'=>$id_ownership));
+        
+        $dir=$this->container->getParameter('ownership.dir.photos');
+        $dir_thumbs=$this->container->getParameter('ownership.dir.thumbnails');
 
         foreach($ownershipComments as $ownershipComment)
         {
@@ -429,7 +442,17 @@ class BackendOwnershipController extends Controller
 
         foreach($ownershipPhotos as $ownershipPhoto)
         {
+            $photo=$em->getRepository('mycpBundle:photo')->find($ownershipPhoto->getOwnPhoPhoto()->getPhoId());
+            @unlink($dir.$photo->getPhoName());
+            @unlink($dir_thumbs.$photo->getPhoName());
+            $ownershipPhotoLangs=$em->getRepository('mycpBundle:photoLang')->findBy(array('pho_lang_id_photo'=>$photo->getPhoId()));
+            foreach($ownershipPhotoLangs as $ownPhotoLang)
+            {
+                $em->remove($ownPhotoLang);
+            }
+            
             $em->remove($ownershipPhoto);
+            $em->remove($photo);  
         }
 
         foreach($userscasa as $usercasa)

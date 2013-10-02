@@ -415,7 +415,6 @@ class BackendReservationController extends Controller
         $reservations=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id'=>$id_reservation));
         $user=$reservation->getGenResUserId();
         $user_tourist=$em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user'=>$user->getUserId()));
-
         $array_photos=array();
         foreach($reservations as $res)
         {
@@ -429,7 +428,7 @@ class BackendReservationController extends Controller
             'reservations'=>$reservations,
             'photos'=>$array_photos
         ));
-
+        echo $body->getContent(); exit();
         $locale = $this->get('translator');
         $subject=$locale->trans('REQUEST_STATUS_CHANGED');
         $service_email= $this->get('Email');

@@ -1,7 +1,7 @@
 <div class="span3 last_added_items">
     <div class="item">
         <a href="{{ path('frontend_details_ownership',{'owner_id':own_id}) }}" title="{{"MORE_INFO_PREFFIX" | trans}} {{own_name}}">
-            <div class="image" style="background-image: url('{{ asset("uploads/ownershipImages/" ~ photo)}}');">
+            <div class="image" style="background-image: url('{{ asset("uploads/ownershipImages/thumbnails/" ~ photo)}}');">
                 <div class="rating">{%if own_comments > 0%}+{%endif%}{{own_comments}}</div></div>
             <div class="row-fluid title_row">
                 <div class="title span9"> {{own_name | title | slice(0, 27)}}
