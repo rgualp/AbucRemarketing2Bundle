@@ -59,7 +59,9 @@ class paymentController extends Controller {
 
     public function skrillReturnAction($bookingId)
     {
-        if($this->getBookingFrom($bookingId) === false) {
+        $booking = $this->getBookingFrom($bookingId);
+
+        if(empty($booking)) {
             throw new InvalidParameterException($bookingId);
         }
 
@@ -114,11 +116,8 @@ class paymentController extends Controller {
 
     public function skrillStatusAction()
     {
-        $this->log('PaymentController line '.__LINE__.': Entered Skrill Status Action.');
         $em = $this->getDoctrine()->getManager();
-
         $request = $this->getRequest()->request->all();
-        $this->log('PaymentController line '.__LINE__.": request:\n".print_r($request));
 
         if(empty($request)) {
             return new Response('Empty post data', 400);
@@ -304,5 +303,5 @@ class paymentController extends Controller {
         $path = $this->get('kernel')->getRootDir() . '/../app/logs/payment.log';
         file_put_contents($path, $message, FILE_APPEND);
     }
-
 }
+
