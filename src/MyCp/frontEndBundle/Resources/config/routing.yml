@@ -34,6 +34,9 @@ frontend_mycasatrip:
     resource: "@frontEndBundle/Resources/config/routingFrontendMyCasaTrip.yml"
     prefix: mycasatrip/
 
+frontend_payment:
+    resource: "@frontEndBundle/Resources/config/routingFrontendPayment.yml"
+
 frontend_favorite:
     resource: "@frontEndBundle/Resources/config/routingFrontendFavorite.yml"
     
@@ -42,3 +45,4 @@ frontend_language:
     
 frontend_emails:
     resource: "@frontEndBundle/Resources/config/routingFrontendAjaxEmails.yml"    
+

@@ -31,14 +31,13 @@ class booking
     /**
      * @var float
      *
-     * @ORM\Column(name="booking_prepay", type="float")
+     * @ORM\Column(name="booking_prepay", type="decimal", precision=10, scale=2)
      */
     private $booking_prepay;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="booking_currency_symbol", type="string", length=5)
+     * @ORM\ManyToOne(targetEntity="currency",inversedBy="")
+     * @ORM\JoinColumn(name="booking_currency_id",referencedColumnName="curr_id")
      */
     private $booking_currency_symbol;
 
@@ -116,26 +115,26 @@ class booking
     }
 
     /**
-     * Set booking_currency_symbol
+     * Set booking_currency
      *
-     * @param string $bookingCurrencySymbol
+     * @param currency $bookingCurrency
      * @return booking
      */
-    public function setBookingCurrencySymbol($bookingCurrencySymbol)
+    public function setBookingCurrency($bookingCurrency)
     {
-        $this->booking_currency_symbol = $bookingCurrencySymbol;
+        $this->booking_currency = $bookingCurrency;
     
         return $this;
     }
 
     /**
-     * Get booking_currency_symbol
+     * Get booking_currency
      *
-     * @return string 
+     * @return currency
      */
-    public function getBookingCurrencySymbol()
+    public function getBookingCurrency()
     {
-        return $this->booking_currency_symbol;
+        return $this->booking_currency;
     }
 
     /**
