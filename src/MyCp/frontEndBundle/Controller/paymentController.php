@@ -10,8 +10,8 @@ use MyCp\frontEndBundle\Helpers\PaymentHelper;
 use MyCp\frontEndBundle\Helpers\SkrillHelper;
 use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\user;
+use MyCp\mycpBundle\Entity\booking;
 use MyCp\mycpBundle\Entity\payment;
-use MyCp\mycpBundle\Entity\ownership;
 use MyCp\mycpBundle\Entity\skrillPayment;
 use MyCp\mycpBundle\Entity\userTourist;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -26,15 +26,15 @@ class paymentController extends Controller {
 
     private static $skrillPostUrl = 'https://www.moneybookers.com/app/payment.pl';
 
-    public function skrillPaymentAction($reservationId)
+    public function skrillPaymentAction($bookingId)
     {
-        $reservation = $this->getReservationFrom($reservationId);
+        $booking = $this->getBookingFrom($bookingId);
 
-        if(empty($reservation)) {
-            throw new EntityNotFoundException($reservationId);
+        if(empty($booking)) {
+            throw new EntityNotFoundException($bookingId);
         }
 
-        $user = $reservation->getGenResUserId();
+        $user = $booking->getBookingUserId();
 
         if(empty($user)) {
             throw new EntityNotFoundException("user($user)");
@@ -52,24 +52,19 @@ class paymentController extends Controller {
             throw new EntityNotFoundException("userTourist($userTourist)");
         }
 
-        $ownership = $this->getOwnershipOf($reservation);
 
-        if(empty($ownership)) {
-            throw new EntityNotFoundException("ownership($ownership)");
-        }
-
-        $skrillData = $this->getSkrillViewData($reservation, $user, $userTourist, $ownership);
+        $skrillData = $this->getSkrillViewData($booking, $user, $userTourist);
 
         return $this->render('frontEndBundle:payment:skrillPayment.html.twig', $skrillData);
     }
 
-    public function skrillReturnAction($reservationId)
+    public function skrillReturnAction($bookingId)
     {
-        if($this->getReservationFrom($reservationId) === false) {
-            throw new InvalidParameterException($reservationId);
+        if($this->getBookingFrom($bookingId) === false) {
+            throw new InvalidParameterException($bookingId);
         }
 
-        $pollingUrl = $this->generateUrl('frontend_payment_poll_payment', array('reservationId' => $reservationId), true);
+        $pollingUrl = $this->generateUrl('frontend_payment_poll_payment', array('bookingId' => $bookingId), true);
         $confirmationUrl = $this->generateUrl('frontend_payment_skrill_test_response', array('status' => 'Confirmation'), true);
         $timeoutUrl = $this->generateUrl('frontend_payment_skrill_test_response', array('status' => 'Timeout'), true);
         $cancelUrl = $this->generateUrl('frontend_payment_skrill_test_response', array('status' => 'Cancelled by status response'), true);
@@ -90,16 +85,16 @@ class paymentController extends Controller {
             ));
     }
 
-    public function pollPaymentAction($reservationId)
+    public function pollPaymentAction($bookingId)
     {
-        $reservation = $this->getReservationFrom($reservationId);
+        $booking = $this->getBookingFrom($bookingId);
 
-        if(empty($reservation)) {
-            throw new InvalidParameterException($reservationId);
+        if(empty($booking)) {
+            throw new InvalidParameterException($bookingId);
             //return new JsonResponse(array('status' => 'reservation_not_found'));
         }
 
-        $payment = $this->getPaymentOf($reservation);
+        $payment = $this->getPaymentFrom($booking);
 
         if(empty($payment)) {
             return new JsonResponse(array('status' => 'payment_not_found'));
@@ -125,20 +120,20 @@ class paymentController extends Controller {
         $request = $this->getRequest()->request->all();
         $skrillRequest = new skrillPayment($request);
 
-        $reservationId = $skrillRequest->getMerchantTransactionId();
-        $reservation = $this->getReservationFrom($reservationId);
+        $bookingId = $skrillRequest->getMerchantTransactionId();
+        $booking = $this->getBookingFrom($bookingId);
 
-        if($reservation === false) {
-            $this->log('PaymentController line '.__LINE__.': Reservation (id='.$reservationId.') not found.');
+        if(empty($booking)) {
+            $this->log('PaymentController line '.__LINE__.': Reservation (id='.$bookingId.') not found.');
             return new Response('', 200);
         }
 
-        $payment = $this->getPaymentOf($reservation);
+        $payment = $this->getPaymentFrom($booking);
 
         if(empty($payment)) {
             $payment = new payment();
             $payment->setCreated(new \DateTime());
-            $payment->setGeneralReservation($reservation);
+            $payment->setBooking($booking);
         }
 
         $payment->setPayedAmountFromString($skrillRequest->getPayedAmount());
@@ -223,30 +218,24 @@ class paymentController extends Controller {
         ));
     }
 
-    private function getReservationFrom($reservationId)
+    private function getBookingFrom($bookingId)
     {
-        if(empty($reservationId) || !is_numeric($reservationId) || (int)$reservationId <= 0) {
-            return null;
-        }
-
         $em = $this->getDoctrine()->getManager();
 
         try {
-            $reservation = $em->getRepository('mycpBundle:generalReservation')->find($reservationId);
+            return $em->getRepository('mycpBundle:booking')->find($bookingId);
         } catch (\Exception $e) {
             return null;
         }
-
-        return $reservation;
     }
 
-    private function getPaymentOf($reservation)
+    private function getPaymentFrom($booking)
     {
         $repository = $this->getDoctrine()->getRepository('mycpBundle:payment');
         $payment = null;
 
         try {
-            $payment = $repository->findOneBy(array('general_reservation' => $reservation));
+            $payment = $repository->findOneBy(array('booking' => $booking));
         } catch (\Exception $e) {
             return null;
         }
@@ -254,22 +243,9 @@ class paymentController extends Controller {
         return $payment;
     }
 
-    private function getOwnershipOf(generalReservation $reservation)
-    {
-        $ownership = null;
-
-        try {
-            $ownership = $reservation->getGenResOwnId();
-        } catch (\Exception $e) {
-            return null;
-        }
-
-        return $ownership;
-    }
-
     private function getCurrencyFrom($skrillCurrency)
     {
-        $skrillCurrency = strtolower(trim($skrillCurrency));
+        $skrillCurrency = strtoupper(trim($skrillCurrency));
 
         $currency = null;
 
@@ -283,9 +259,9 @@ class paymentController extends Controller {
         return $currency;
     }
 
-    private function getSkrillViewData(generalReservation $reservation, user $user, userTourist $userTourist, ownership $casa)
+    private function getSkrillViewData(booking $booking, user $user, userTourist $userTourist)
     {
-        $reservationId = $reservation->getGenResId();
+        $bookingId = $booking->getBookingId();
         $translator = $this->get('translator');
         $locale = $this->getRequest()->getLocale();
 
@@ -293,8 +269,8 @@ class paymentController extends Controller {
             'action_url' => self::$skrillPostUrl,
             'pay_to_email' => 'accounting@mycasaparticular.com',
             'recipient_description' => 'MyCasaParticular.com',
-            'transaction_id' => $reservationId,
-            'return_url' => $this->generateUrl('frontend_payment_skrill_return', array('reservationId' => $reservationId), true),
+            'transaction_id' => $bookingId,
+            'return_url' => $this->generateUrl('frontend_payment_skrill_return', array('bookingId' => $bookingId), true),
             'return_url_text' => $translator->trans('SKRILL_RETURN_TO_MYCP'),
             'cancel_url' => $this->generateUrl('frontend_payment_skrill_cancel', array(), true),
             'status_url' => $this->generateUrl('frontend_payment_skrill_status', array(), true),
@@ -309,12 +285,10 @@ class paymentController extends Controller {
             'postal_code' => $userTourist->getUserTouristPostalCode(),
             'city' => $user->getUserCity(),
             'country' => $user->getUserCountry()->getCoCode(),
-            'amount' => '', // TODO: Price stored in ownershipReservation not generalReservation! $reservation->getTotalPriceInSiteAsString(),// '0.5',
-            'currency' => $userTourist->getUserTouristCurrency()->getCurrCode(),
+            'amount' => $booking->getBookingPrepay(),
+            'currency' => $booking->getBookingCurrency()->getCurrCode(),
             'detail1_description' => $translator->trans('SKRILL_DESCRIPTION_BOOKING_ID'),
-            'detail1_text' => $reservationId,
-            'detail2_description' => isset($casa) ? 'Casa:  ' : '', // TODO: fliegt wahrscheinlich raus, da Zahlung unabhängig vom Casa sein soll
-            'detail2_text' => isset($casa) ? $casa->getOwnMcpCode() : '',
+            'detail1_text' => $bookingId,
             'payment_methods' => 'ACC,DID,SFT',
             'button_text' => $translator->trans('SKRILL_PAY_WITH_SKRILL')
         );

@@ -23,10 +23,10 @@ class payment
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="generalReservation",inversedBy="")
-     * @ORM\JoinColumn(name="general_reservation_id",referencedColumnName="gen_res_id")
+     * @ORM\ManyToOne(targetEntity="booking",inversedBy="")
+     * @ORM\JoinColumn(name="booking_id",referencedColumnName="booking_id")
      */
-    private $general_reservation;
+    private $booking;
 
     /**
      * @ORM\ManyToOne(targetEntity="currency",inversedBy="")
@@ -203,9 +203,9 @@ class payment
      * @param \MyCp\mycpBundle\Entity\generalReservation $generalReservation
      * @return payment
      */
-    public function setGeneralReservation(\MyCp\mycpBundle\Entity\generalReservation $generalReservation = null)
+    public function setBooking(\MyCp\mycpBundle\Entity\generalReservation $generalReservation = null)
     {
-        $this->general_reservation = $generalReservation;
+        $this->booking = $generalReservation;
     
         return $this;
     }
@@ -215,9 +215,9 @@ class payment
      *
      * @return \MyCp\mycpBundle\Entity\generalReservation 
      */
-    public function getGeneralReservation()
+    public function getBooking()
     {
-        return $this->general_reservation;
+        return $this->booking;
     }
 
     /**

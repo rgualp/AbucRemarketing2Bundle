@@ -36,7 +36,7 @@ class booking
     private $booking_prepay;
 
     /**
-     * @ORM\ManyToOne(targetEntity="currency",inversedBy="bookingCurrency")
+     * @ORM\ManyToOne(targetEntity="currency",inversedBy="")
      * @ORM\JoinColumn(name="booking_currency_id",referencedColumnName="curr_id")
      */
     private $booking_currency;
