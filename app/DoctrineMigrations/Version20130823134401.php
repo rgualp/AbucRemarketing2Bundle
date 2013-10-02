@@ -4451,8 +4451,9 @@ $this->addSql("INSERT INTO country (co_id, co_code, co_name) VALUES
 (239, 'ZWE', 'Zimbabwe')");
 
         $this->addSql("INSERT INTO currency (curr_id, curr_name, curr_code, curr_cuc_change, curr_symbol) VALUES
-(1, 'Euro', 'eur', '0.75', '€'),
-(2, 'Dollar', 'usd', '1.00', '$')");
+(1, 'Euro', 'EUR', '0.75', '€'),
+(2, 'Dollar', 'USD', '1.00', '$'),
+(3, 'Franco Suizo', 'CHF', '0.93', 'CHF')");
 
         $this->addSql("INSERT INTO lang (lang_id, lang_name, lang_code, lang_active) VALUES
         (19, 'Español', 'ES', 1),

@@ -1,0 +1,66 @@
+{% extends 'frontEndBundle:layout:base.html.twig' %}
+{% block title %}
+    <h2>Waiting for payment...</h2>
+{% endblock %}
+
+
+{% block body %}
+    <div id="loading" class="alert alert-info">
+        <img src="{{ asset('bundles/frontend/images/preloader-white.gif') }}"/> {{"LOADING_MESSAGE" | trans}}
+    </div>
+
+{% block include_javascripts_and_css %}
+    <script>
+        var counter = 0;
+
+        $(document).ready(function () {
+            pollPayment();
+            counter = 0;
+        });
+
+        function getCounter() {
+            counter = counter + 1;
+            return counter;
+        }
+
+        function resetCounter() {
+            counter = 0;
+        }
+
+        function pollPayment(){
+            $.getJSON('{{ pollingUrl }}', function(data) {
+                $.each(data, function(key, val) {
+                    if(key == "status") {
+                        switch(val) {
+                            case "payment_found":
+                                window.location.replace('{{ confirmationUrl }}');
+                                break;
+                            case "payment_failed":
+                                window.location.replace('{{ failedUrl }}');
+                                break;
+                            case "payment_cancelled":
+                                window.location.replace('{{ cancelUrl }}');
+                                break;
+                            case "payment_pending":
+                                window.location.replace('{{ pendingUrl }}');
+                                break;
+                            default:
+                                // continue polling in other cases
+                                return false;
+                        }
+                    }
+                });
+
+                var mycounter = getCounter();
+
+                if(mycounter > {{ timeoutTicks }}) {
+                    resetCounter();
+                    window.location.replace('{{ timeoutUrl }}');
+                }
+
+                setTimeout(pollPayment, {{ pollingPeriodMsec }} );
+            });
+        }
+    </script>
+{% endblock %}
+{% endblock %}

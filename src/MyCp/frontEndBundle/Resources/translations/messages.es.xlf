@@ -2091,6 +2091,22 @@
                     <source>PAYED</source>
                     <target>Pagada</target>
                 </trans-unit>
+            <trans-unit id="533">
+                <source>SKRILL_CONFIRMATION_NOTE</source>
+                <target>MyCasaParticular le desea una agradable estancia en Cuba</target>
+            </trans-unit>
+                <trans-unit id="534">
+                <source>SKRILL_DESCRIPTION_BOOKING_ID</source>
+                <target>ID Reserva:  </target>
+            </trans-unit>
+            <trans-unit id="535">
+                <source>SKRILL_PAY_WITH_SKRILL</source>
+                <target>Page con Skrill</target>
+            </trans-unit>
+            <trans-unit id="536">
+                <source>SKRILL_RETURN_TO_MYCP</source>
+                <target>Regresar a MyCasaParticular</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

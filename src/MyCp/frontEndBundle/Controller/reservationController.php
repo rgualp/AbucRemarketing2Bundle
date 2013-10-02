@@ -429,9 +429,9 @@ class reservationController extends Controller {
     }
 
     public function reservation_reservationAction(Request $request) {
+        $session = $request->getSession();
 
-
-        $array_ids=$request->getSession()->get('reservation_own_ids');
+        $array_ids=$session->get('reservation_own_ids');
 
         if(!$array_ids)
         {
@@ -557,8 +557,8 @@ class reservationController extends Controller {
                 $em->flush();
 
                 $own_reservations = array();
-                if ($request->getSession()->get('reservation_own_ids'))
-                    $own_reservations = $request->getSession()->get('reservation_own_ids');
+                if ($session->get('reservation_own_ids'))
+                    $own_reservations = $session->get('reservation_own_ids');
 
 
                 $booking=new booking();
@@ -567,11 +567,12 @@ class reservationController extends Controller {
                 else
                     $booking->setBookingCancelProtection(0);
 
-                $symbol=$request->getSession()->get('curr_symbol');
-                $curr_rate=$request->getSession()->get('curr_rate');
-                if(!$symbol) $symbol = "$";
+                $currencyIsoCode = $session->get('curr_acronym');
+                $currency = $em->getRepository('mycpBundle:currency')->findOneBy(array('curr_code' => $currencyIsoCode));
+                $curr_rate=$session->get('curr_rate');
                 if(!$curr_rate) $curr_rate = 1;
-                $booking->setBookingCurrencySymbol($symbol);
+
+                $booking->setBookingCurrency($currency);
                 $booking->setBookingPrepay(($total_percent_price + 10)*$curr_rate);
                 $booking->setBookingUserId($user);
                 $em->persist($booking);
@@ -594,19 +595,9 @@ class reservationController extends Controller {
                 }
                 $em->flush();
 
-
-
-
-
-                //todo Jakob
-
-
-
-
-
-
-                exit();
-                }
+                $bookingId = $booking->getBookingId();
+                return $this->forward('frontEndBundle:payment:skrillPayment', array('bookingId' => $bookingId));
+            }
         }
         $countries = $em->getRepository('mycpBundle:country')->findAll();
         return $this->render('frontEndBundle:reservation:reservation.html.twig', array(
