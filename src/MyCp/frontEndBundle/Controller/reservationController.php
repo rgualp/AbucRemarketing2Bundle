@@ -595,19 +595,9 @@ class reservationController extends Controller {
                 }
                 $em->flush();
 
-
-
-
-
-                //todo Jakob
-
-
-
-
-
-
-                exit();
-                }
+                $bookingId = $booking->getBookingId();
+                return $this->forward('frontEndBundle:payment:skrillPayment', array('bookingId' => $bookingId));
+            }
         }
         $countries = $em->getRepository('mycpBundle:country')->findAll();
         return $this->render('frontEndBundle:reservation:reservation.html.twig', array(

@@ -64,7 +64,7 @@ class paymentController extends Controller {
         }
 
         $pollingUrl = $this->generateUrl('frontend_payment_poll_payment', array('bookingId' => $bookingId), true);
-        $confirmationUrl = $this->generateUrl('frontend_payment_skrill_test_response', array('status' => 'Confirmation'), true);
+        $confirmationUrl =  $this->generateUrl('frontend_confirmation_reservation', array('id_booking' => $bookingId), true);// $this->generateUrl('frontend_payment_skrill_test_response', array('status' => 'Confirmation'), true);
         $timeoutUrl = $this->generateUrl('frontend_payment_skrill_test_response', array('status' => 'Timeout'), true);
         $cancelUrl = $this->generateUrl('frontend_payment_skrill_test_response', array('status' => 'Cancelled by status response'), true);
         $pendingUrl = $this->generateUrl('frontend_payment_skrill_test_response', array('status' => 'Pending'), true);
@@ -157,7 +157,6 @@ class paymentController extends Controller {
         $payment->setStatus(SkrillHelper::getInternalStatusCodeFrom($skrillRequest->getStatus()));
 
         $skrillRequest->setPayment($payment);
-
         $em->persist($payment);
         $em->flush();
         $em->persist($skrillRequest);
