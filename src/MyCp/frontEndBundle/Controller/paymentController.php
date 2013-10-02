@@ -4,18 +4,14 @@ namespace MyCp\FrontendBundle\Controller;
 
 use Doctrine\ORM\EntityNotFoundException;
 //use MyCp\frontEndBundle\Helpers\SkrillStatusResponse;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use MyCp\frontEndBundle\Helpers\PaymentHelper;
 use MyCp\frontEndBundle\Helpers\SkrillHelper;
-use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Entity\booking;
 use MyCp\mycpBundle\Entity\payment;
 use MyCp\mycpBundle\Entity\skrillPayment;
 use MyCp\mycpBundle\Entity\userTourist;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Exception\NotValidException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -123,7 +119,7 @@ class paymentController extends Controller {
         $booking = $this->getBookingFrom($bookingId);
 
         if(empty($booking)) {
-            $this->log('PaymentController line '.__LINE__.': Reservation (id='.$bookingId.') not found.');
+            $this->log('PaymentController line '.__LINE__.': Booking (id='.$bookingId.') not found.');
             return new Response('', 200);
         }
 
@@ -163,7 +159,7 @@ class paymentController extends Controller {
 
     public function skrillCancelAction()
     {
-        // TODO: redirect to reservation/cancelled_payment page
+        // TODO: redirect to booking/cancelled_payment page
 
         return $this->render(
             'frontEndBundle:payment:skrillResponseTest.html.twig',
@@ -190,12 +186,12 @@ class paymentController extends Controller {
     }
 
     // TODO: this function emulates the POST status request from Skrill. Can be deleted when not needed anymore
-    public function skrillSendTestPostRequestAction($reservationId, $status)
+    public function skrillSendTestPostRequestAction($bookingId, $status)
     {
         $urltopost = $this->generateUrl('frontend_payment_skrill_status', array(), true);
         $datatopost = array (
             "mb_transaction_id" => "ABCD",
-            "transaction_id" => $reservationId,
+            "transaction_id" => $bookingId,
             "pay_to_email" => "accounting@mycasaparticular.com",
             "pay_from_email" => "customer@email.com",
             "mb_amount" => "12.12",
@@ -213,7 +209,7 @@ class paymentController extends Controller {
 
         return $this->redirect($this->generateUrl(
             'frontend_payment_skrill_return',
-            array('reservationId' => $reservationId)
+            array('bookingId' => $bookingId)
         ));
     }
 
