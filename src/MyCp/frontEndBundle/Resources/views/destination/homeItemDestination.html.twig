@@ -1,20 +1,20 @@
 
   <div class="destinationContent">
-    <a href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}" title="{{'MORE_INFO_PREFFIX' | trans}} {{destination.desName}}">
+    <a href="{{ path('frontend_details_destination',{'destination_id':destination_id}) }}" title="{{'MORE_INFO_PREFFIX' | trans}} {{destination_name}}">
         <img class="photo" src="{{ asset('uploads/destinationImages/' ~ photo)}}"/>
     </a>
         <div class="row-fluid title_row">
                 <div class="title span9"> 
-                    <a href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}" title="{{'MORE_INFO_PREFFIX' | trans}} {{destination.desName}}">
-                    {{destination.desName | title | slice(0, 27)}}
-                    {%if destination.desName | length > 27%}...{%endif%}
+                    <a href="{{ path('frontend_details_destination',{'destination_id':destination_id}) }}" title="{{'MORE_INFO_PREFFIX' | trans}} {{destination_name}}">
+                    {{destination_name | title | slice(0, 27)}}
+                    {%if destination_name | length > 27%}...{%endif%}
                     </a>
                 </div>
                     <div class="favorite span2">
                        {{ include('frontEndBundle:favorite:itemFavorite.html.twig', 
                         {'is_in_favorite': is_in_favorite,
                          'favorite_type': 'destination',
-                         'element_id':destination.desid,
+                         'element_id':destination_id,
                          'list_preffix' : list_preffix
                          }) }}
                     </div>            

@@ -11,19 +11,19 @@
             <div class="row-fluid">
             <div class="span4">
                 {% if photos[loop.index0][0].getPhoName is defined %}
-                <a href="{{ url('frontend_details_ownership',{'owner_id':reservation.getOwnResOwnId.getOwnId}) }}"><img class="span12 img-polaroid" src="{{ url('mycp_main')~'../uploads/ownershipImages/'~photos[loop.index0][0].getPhoName}}"></a>
+                <a href="{{ url('frontend_details_ownership',{'owner_id':reservation.getOwnResGenResId.getGenResOwnId.getOwnId}) }}"><img style="width: 100%" class="span12 img-polaroid" src="{{ url('mycp_main')~'../uploads/ownershipImages/'~photos[loop.index0][0].getPhoName}}"></a>
                 {% else %}
-                <a href="{{ url('frontend_details_ownership',{'owner_id':reservation.getOwnResOwnId.getOwnId}) }}"><img class="span12 img-polaroid" src="{{ url('mycp_main')~'../uploads/ownershipImages/no_photo_square.gif'}}"></a>
+                <a href="{{ url('frontend_details_ownership',{'owner_id':reservation.getOwnResGenResId.getGenResOwnId.getOwnId}) }}"><img class="span12 img-polaroid" src="{{ url('mycp_main')~'../uploads/ownershipImages/no_photo_square.gif'}}"></a>
                 {% endif %}
             </div>
             <div class="span8" style="margin-left: 10px">
                 <table style="width: 100%">
                     <tr>
                         <td>
-                            <h4 class="title_1">{{reservation.getOwnResOwnId.getOwnName}}</h4>
+                            <h4 class="title_1">{{reservation.getOwnResGenResId.getGenResOwnId.getOwnName}}</h4>
                             <p class="note">
-                                {{reservation.getOwnResOwnId.getOwnAddressProvince.getProvName}}
-                                - {{reservation.getOwnResOwnId.getOwnAddressMunicipality.getMunName}}
+                                {{reservation.getOwnResGenResId.getGenResOwnId.getOwnAddressProvince.getProvName}}
+                                - {{reservation.getOwnResGenResId.getGenResOwnId.getOwnAddressMunicipality.getMunName}}
                                 <br/><b>{{reservation.getOwnResRoomType|trans}}</b>
                                 <br/><b>{{reservation.getOwnResCountAdults|trans}}</b> {{"ADULTS"|trans}}
                                 <br/><b>{{reservation.getOwnResCountChildrens|trans}}</b> {{"KIDS"|trans}}
@@ -51,7 +51,7 @@
                     <tr>
                         <td colspan="2">
                             {% if (reservation.getOwnResStatus == 1)%}
-                            <a href="{{ url('frontend_reservation_reservation',{'id_reservation':reservation.getOwnResId}) }}" class="mycp_btn btn mycp_btn_orange">{{"CONTINUE_RESERVING"|trans}}</a>
+                            <a href="{{ url('frontend_mycasatrip_available') }}" class="mycp_btn btn mycp_btn_orange">{{"CONTINUE_RESERVING"|trans}}</a>
                             {% endif %}
                             {% if (reservation.getOwnResStatus == 0)%}
                             <a href="{{ url('frontend_details_ownership',{'owner_id':reservation.getOwnResOwnId.getOwnId}) }}" class="mycp_btn btn mycp_btn_green">{{"VIEW_DETAILS"|trans}}</a>

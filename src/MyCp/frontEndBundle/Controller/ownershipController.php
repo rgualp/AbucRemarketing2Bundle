@@ -9,12 +9,30 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ownershipController extends Controller {
 
+    public function own_details_directAction($own_code)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $ownership = $em->getRepository('mycpBundle:ownership')->findBy(array('own_mcp_code'=>'a'));
+        var_dump($ownership);
+        exit();
+    }
+
     public function detailsAction($owner_id, Request $request) {
 
         $em = $this->getDoctrine()->getEntityManager();
+        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
 
         $ownership = $em->getRepository('mycpBundle:ownership')->find($owner_id);
-        $reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_own_id' => $owner_id));
+        $general_reservations = $em->getRepository('mycpBundle:generalReservation')->findBy(array('gen_res_own_id'=>$owner_id));
+        $reservations=array();
+        foreach($general_reservations as $gen_res)
+        {
+            $own_reservations=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id'=>$gen_res->getGenResId()));
+            foreach($own_reservations as $own_res)
+            {
+                array_push($reservations,$own_res);
+            }
+        }
 
         $locale = $this->get('translator')->getLocale();
         $ownership_description = $em->getRepository('mycpBundle:ownershipDescriptionLang')->findOneBy(array(
@@ -22,9 +40,8 @@ class ownershipController extends Controller {
             'odl_ownership' => $owner_id
         ));
 
-        $similar_houses = $em->getRepository('mycpBundle:ownership')->getByCategory($ownership->getOwnCategory(), 5, $owner_id);
-        $total_similar_houses = count($em->getRepository('mycpBundle:ownership')->getByCategory($ownership->getOwnCategory(), null, $owner_id));
-        $photos_similar_houses = $em->getRepository("mycpBundle:ownership")->get_photos_array($similar_houses);
+        $similar_houses = $em->getRepository('mycpBundle:ownership')->getByCategory($ownership->getOwnCategory(), null, $owner_id,$user_ids["user_id"], $user_ids["session_id"]);
+        $total_similar_houses = count($similar_houses);
 
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
@@ -82,27 +99,27 @@ class ownershipController extends Controller {
                 if ($reservation->getOwnResSelectedRoomId() == $room->getRoomId()) {
 
                     if ($start_timestamp <= $reservation->getOwnResReservationFromDate()->getTimestamp() &&
-                            $end_timestamp >= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == 2) {
+                            $end_timestamp >= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == 5) {
 
                         $array_no_available[$room->getRoomId()] = $room->getRoomId();
                     }
 
                     if ($start_timestamp >= $reservation->getOwnResReservationFromDate()->getTimestamp() &&
                             $start_timestamp <= $reservation->getOwnResReservationToDate()->getTimestamp() &&
-                            $end_timestamp >= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == 2) {
+                            $end_timestamp >= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == 5) {
 
                         $array_no_available[$room->getRoomId()] = $room->getRoomId();
                     }
 
                     if ($start_timestamp <= $reservation->getOwnResReservationFromDate()->getTimestamp() &&
                             $end_timestamp <= $reservation->getOwnResReservationToDate()->getTimestamp() &&
-                            $end_timestamp >= $reservation->getOwnResReservationFromDate()->getTimestamp() && $reservation->getOwnResStatus() == 2) {
+                            $end_timestamp >= $reservation->getOwnResReservationFromDate()->getTimestamp() && $reservation->getOwnResStatus() == 5) {
 
                         $array_no_available[$room->getRoomId()] = $room->getRoomId();
                     }
 
                     if ($start_timestamp >= $reservation->getOwnResReservationFromDate()->getTimestamp() &&
-                            $end_timestamp <= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == 2) {
+                            $end_timestamp <= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == 5) {
 
                         $array_no_available[$room->getRoomId()] = $room->getRoomId();
                     }
@@ -111,7 +128,7 @@ class ownershipController extends Controller {
                     $cont_numbers = 1;
                     foreach ($array_dates as $date) {
 
-                        if ($date >= $reservation->getOwnResReservationFromDate()->getTimestamp() && $date <= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == 2) {
+                        if ($date >= $reservation->getOwnResReservationFromDate()->getTimestamp() && $date <= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == 5) {
                             array_push($array_numbers_check, $cont_numbers);
                         }
                         $cont_numbers++;
@@ -205,9 +222,8 @@ class ownershipController extends Controller {
                     'ownership' => $ownership,
                     'description' => $ownership_description,
                     'brief_description' => ($ownership_description != null) ? $ownership_description->getOdlBriefDescription() : null,
-                    'similar_houses' => $similar_houses,
+                    'similar_houses' => array_slice($similar_houses, 0, 5),
                     'total_similar_houses' => $total_similar_houses,
-                    'photos_similar_houses' => $photos_similar_houses,
                     'comments' => $comments,
                     'friends' => $friends,
                     'show_comments_and_friends' => count($comments) + count($friends),
@@ -235,24 +251,14 @@ class ownershipController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
         $paginator->setItemsPerPage($items_per_page);
-        $last_added_own_list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->lastAdded())->getResult();
+        $last_added_own_list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->lastAdded(null,$user_ids["user_id"], $user_ids["session_id"]))->getResult();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
 
-        $last_added_own_photos = $em->getRepository('mycpBundle:ownership')->get_photos_array($last_added_own_list);
-        $last_added_own_rooms = $em->getRepository('mycpBundle:ownership')->get_rooms_array($last_added_own_list);
-
-        $last_added_favorities = $em->getRepository('mycpBundle:favorite')->is_in_favorite_array($last_added_own_list, true, $user_ids['user_id'], $user_ids['session_id']);
-        $counts = $em->getRepository('mycpBundle:ownership')->get_counts_for_search($last_added_own_list);
-
         return $this->render('frontEndBundle:ownership:lastAddedOwnership.html.twig', array(
                     'list' => $last_added_own_list,
-                    'photos' => $last_added_own_photos,
-                    'rooms' => $last_added_own_rooms,
-                    'is_in_favorities' => $last_added_favorities,
                     'list_preffix' => 'last_added',
-                    'counts' => $counts,
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
                     'current_page' => $page
@@ -279,25 +285,17 @@ class ownershipController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
         $paginator->setItemsPerPage($items_per_page);
-        $list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->getByCategory($real_category))->getResult();
+        $list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->getByCategory($real_category,null,null, $user_ids['user_id'], $user_ids['session_id']))->getResult();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
 
-        $photos = $em->getRepository('mycpBundle:ownership')->get_photos_array($list);
-        $rooms = $em->getRepository('mycpBundle:ownership')->get_rooms_array($list);
-        $favorities = $em->getRepository('mycpBundle:favorite')->is_in_favorite_array($list, true, $user_ids['user_id'], $user_ids['session_id']);
-        $counts = $em->getRepository('mycpBundle:ownership')->get_counts_for_search($list);
 
         return $this->render('frontEndBundle:ownership:categoryListOwnership.html.twig', array(
                     'category' => $category,
                     'title' => str_replace(' ', '_', $category),
                     'list' => $list,
-                    'photos' => $photos,
-                    'rooms' => $rooms,
-                    'is_in_favorities' => $favorities,
                     'list_preffix' => 'category',
-                    'counts' => $counts,
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
                     'current_page' => $page
@@ -1074,6 +1072,7 @@ class ownershipController extends Controller {
         $request = $this->getRequest();
         $session = $request->getSession();
         $em = $this->getDoctrine()->getEntityManager();
+        $locale = $this->get('translator')->getLocale();
         $show_rows = $request->request->get('show_rows');
 
         if ($show_rows != null)
@@ -1084,31 +1083,13 @@ class ownershipController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 4 * $session->get("top_rated_show_rows");
         $paginator->setItemsPerPage($items_per_page);
-        $own_top20_list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->top20())->getResult();
+        $own_top20_list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->top20($locale))->getResult();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
 
-        $own_top20_photos = $em->getRepository('mycpBundle:ownership')->get_photos_array($own_top20_list);
-        $own_top20_descriptions = array();
-
-        $glogal_locale = $this->get('translator')->getLocale();
-
-        foreach ($own_top20_list as $own) {
-
-            $own_description = $em->getRepository('mycpBundle:ownershipDescriptionLang')->findOneBy(array(
-                'odl_id_lang' => $em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code' => $glogal_locale)),
-                'odl_ownership' => $own->getOwnId()
-            ));
-
-            $own_top20_descriptions[$own->getOwnId()] = ($own_description != null) ? $own_description->getOdlBriefDescription() : null;
-        }
-
-
         $response = $this->renderView('frontEndBundle:ownership:homeTopRatedOwnership.html.twig', array(
             'own_top20_list' => $own_top20_list,
-            'own_top20_photos' => $own_top20_photos,
-            'own_top20_descriptions' => $own_top20_descriptions,
             'top_rated_items_per_page' => $items_per_page,
             'top_rated_total_items' => $paginator->getTotalItems(),
             'current_page' => $page
@@ -1145,11 +1126,12 @@ class ownershipController extends Controller {
     public function near_by_destinationsAction($municipality_id, $province_id)
     {
         $em = $this->getDoctrine()->getEntityManager();
+        $users_id = $em->getRepository('mycpBundle:user')->user_ids($this);
         
         $destinations = $em->getRepository('mycpBundle:destination')->destination_filter($municipality_id, $province_id, null, null, 3);
         
         if(count($destinations) < 3)
-            $destinations = $em->getRepository('mycpBundle:destination')->get_popular_destination(3);
+            $destinations = $em->getRepository('mycpBundle:destination')->get_popular_destination(3, $users_id["user_id"], $users_id["session_id"]);
         
          return $this->render('frontEndBundle:ownership:nearByDestinationsOwnership.html.twig', array(
                     'destinations' => $destinations

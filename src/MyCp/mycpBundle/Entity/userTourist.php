@@ -42,14 +42,14 @@ class userTourist
     /**
      * @var string
      *
-     * @ORM\Column(name="user_tourist_gender", type="string", length=255)
+     * @ORM\Column(name="user_tourist_gender", type="string", length=255, nullable=true)
      */
     private $user_tourist_gender;
     
      /**
      * @var string
      *
-     * @ORM\Column(name="user_tourist_postal_code", type="string", length=255)
+     * @ORM\Column(name="user_tourist_postal_code", type="string", length=255, nullable=true)
      */
     private $user_tourist_postal_code;
     

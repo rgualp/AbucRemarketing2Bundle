@@ -720,14 +720,30 @@ class ownershipRepository extends EntityRepository {
      * Muestra todas las casas que son top20, para mostrar en la portada
      * @param varchar $lang_code
      */
-    function top20() {
+    function top20($locale = "ES") {
         $em = $this->getEntityManager();
-        $query_string = "SELECT o FROM mycpBundle:ownership o
+        $query_string = "SELECT o.own_id as own_id,
+                         o.own_name as own_name,
+                         prov.prov_name as prov_name,
+                         o.own_comments_total as comments_total,
+                         (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id) as photo,
+                         (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = '$locale') as description
+                         FROM mycpBundle:ownership o
+                         JOIN o.own_address_province prov
                          WHERE o.own_top_20=1
                            AND o.own_status = 1
                          ORDER BY o.own_rating DESC";
 
-        return $em->createQuery($query_string)->setMaxResults(8)->getResult();
+        $results = $em->createQuery($query_string)->setMaxResults(8)->getResult();
+        
+        for ($i = 0; $i < count($results); $i++) {
+            if ($results[$i]['photo'] == null)
+                $results[$i]['photo'] = "no_photo.png";
+            else if (!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo']))) {
+                $results[$i]['photo'] = "no_photo.png";
+            }
+        }
+        return $results;
     }
 
     /**
@@ -1162,31 +1178,93 @@ class ownershipRepository extends EntityRepository {
      * Devuelve un list con las ultimas casas agregadas
      * @return type list
      */
-    function lastAdded($results_total = null) {
+    function lastAdded($results_total = null, $user_id = null, $session_id = null) {
         $em = $this->getEntityManager();
-        $query_string = "SELECT o FROM mycpBundle:ownership o
+        $query_string = "SELECT o.own_id as own_id,
+                         o.own_name as own_name,
+                        (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id) as photo,
+                        prov.prov_name as prov_name,
+                        mun.mun_name as mun_name,
+                        o.own_comments_total as comments_total,
+                        o.own_rating as rating,
+                        o.own_minimum_price as minimum_price,
+                        (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
+                        (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
+                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = 5) as count_reservations,
+                        (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments
+                         FROM mycpBundle:ownership o
+                         JOIN o.own_address_province prov
+                         JOIN o.own_address_municipality mun
                          WHERE o.own_status = 1
                          ORDER BY o.own_rating DESC, o.own_id";
-        return ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult();
+
+        $results = ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult();
+
+        for ($i = 0; $i < count($results); $i++) {
+            if ($results[$i]['photo'] == null)
+                $results[$i]['photo'] = "no_photo.png";
+            else if (!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo']))) {
+                $results[$i]['photo'] = "no_photo.png";
+            }
+        }
+        return $results;
     }
 
-    function getByCategory($category, $results_total = null, $exclude_id = null) {
+    function getByCategory($category, $results_total = null, $exclude_id = null, $user_id = null, $session_id = null) {
         $em = $this->getEntityManager();
 
         $query_string = '';
         if ($exclude_id == null)
-            $query_string = "SELECT o FROM mycpBundle:ownership o
+            $query_string = "SELECT o.own_id as own_id,
+                         o.own_name as own_name,
+                        (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id) as photo,
+                        prov.prov_name as prov_name,
+                        mun.mun_name as mun_name,
+                        o.own_comments_total as comments_total,
+                        o.own_rating as rating,
+                        o.own_minimum_price as minimum_price,
+                        (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
+                        (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
+                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = 5) as count_reservations,
+                        (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments  
+                         FROM mycpBundle:ownership o
+                         JOIN o.own_address_province prov
+                         JOIN o.own_address_municipality mun
                          WHERE o.own_category='$category'
                            AND o.own_status = 1
                          ORDER BY o.own_rating DESC, o.own_id ASC";
         else
-            $query_string = "SELECT o FROM mycpBundle:ownership o
+            $query_string = "SELECT o.own_id as own_id,
+                         o.own_name as own_name,
+                         o.own_type as own_type,
+                        (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id) as photo,
+                        prov.prov_name as prov_name,
+                        mun.mun_name as mun_name,
+                        o.own_comments_total as comments_total,
+                        o.own_rating as rating,
+                        o.own_minimum_price as minimum_price,
+                        (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
+                        (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
+                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = 5) as count_reservations,
+                        (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments 
+                         FROM mycpBundle:ownership o
+                         JOIN o.own_address_province prov
+                         JOIN o.own_address_municipality mun
                          WHERE o.own_category='$category'
                            AND o.own_status = 1
                            AND o.own_id <> $exclude_id
                          ORDER BY o.own_rating DESC, o.own_id ASC";
 
-        return ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult();
+        $results = ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult();
+
+        for ($i = 0; $i < count($results); $i++) {
+            if ($results[$i]['photo'] == null)
+                $results[$i]['photo'] = "no_photo.png";
+            else if (!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo']))) {
+                $results[$i]['photo'] = "no_photo.png";
+            }
+        }
+        return $results;
     }
 
     function getPhotos($ownid) {
@@ -1344,16 +1422,16 @@ class ownershipRepository extends EntityRepository {
                 $own_id = $own->getOwnId();
                 $query = $em->createQuery("SELECT count(res) as reservations,
                         (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = $own_id)  as comments                        
-                        FROM mycpBundle:ownershipReservation res
-                        WHERE res.own_res_own_id = $own_id
-                        AND res.own_res_status=5");
+                        FROM mycpBundle:generalReservation res
+                        WHERE res.gen_res_own_id = $own_id
+                        AND res.gen_res_status=5");
                 $counts[$own_id] = $query->getArrayResult();
             }
         }
 
         return $counts;
     }
-    
+
     public function autocomplete_text_list() {
         //$term = $request->get('term');
         $em = $this->getEntityManager();

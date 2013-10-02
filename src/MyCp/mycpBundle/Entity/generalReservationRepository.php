@@ -32,11 +32,14 @@ class generalReservationRepository extends EntityRepository
 
         $string_order='';
         switch($sort_by){
+            case 0:
+                $string_order="ORDER BY gre.gen_res_id DESC";
+                break;
             case 1:
                 $string_order="ORDER BY gre.gen_res_date ASC";
                 break;
             case 2:
-                //$string_order="ORDER BY gre.gen_res_own_id ASC";
+                $string_order="ORDER BY gre.gen_res_own_id ASC";
                 break;
             case 3:
                 $string_order="ORDER BY gre.gen_res_from_date ASC";
@@ -50,11 +53,14 @@ class generalReservationRepository extends EntityRepository
         (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id),
         (SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id),
         (SELECT SUM(owres3.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id),
-        us, cou FROM mycpBundle:generalReservation gre
+        us, cou,own FROM mycpBundle:generalReservation gre
+        JOIN gre.gen_res_own_id own
         JOIN gre.gen_res_user_id us
         JOIN us.user_country cou
         WHERE gre.gen_res_date LIKE '%$filter_date_reserve%'
         AND gre.gen_res_from_date LIKE '%$filter_date_from%'
+        AND gre.gen_res_id LIKE '%$filter_offer_number%'
+        AND own.own_mcp_code LIKE '%$filter_reference%'
         AND gre.gen_res_to_date LIKE '%$filter_date_to%' $string_order");
         return $query->getArrayResult();
     }
@@ -63,7 +69,7 @@ class generalReservationRepository extends EntityRepository
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT gre,(SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id) AS rooms,(SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id) AS adults,(SELECT SUM(owres3.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id) AS childrens,ow FROM mycpBundle:generalReservation gre
-        JOIN gre.gen_res_own_id ow");
+        JOIN gre.gen_res_own_id ow ORDER BY gre.gen_res_id DESC");
         return $query->getArrayResult();
     }
 

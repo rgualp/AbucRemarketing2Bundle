@@ -5,7 +5,7 @@
         <div class="content">
     {%for dest in destinations%}
             <div class="row-fluid">
-                <a title="{{"MORE_INFO_PREFFIX" | trans}} {{dest.desName}}" href="{{ path('frontend_details_destination',{'destination_id':dest.desid}) }}">{{dest.desName}}</a>
+                <a title="{{"MORE_INFO_PREFFIX" | trans}} {{dest['des_name']}}" href="{{ path('frontend_details_destination',{'destination_id':dest['des_id']}) }}">{{dest['des_name']}}</a>
             </div>
             {%endfor%}
         </div>

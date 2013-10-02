@@ -1,17 +1,17 @@
 {% set menu = 1 %}
-{% extends 'frontEndBundle:mycasatrip:layout.html.twig' %}
+{% extends 'frontEndBundle:mycasatrip:layout_order_by.html.twig' %}
 {% block body_inner %}
 {% for res in res_pending %}
 <div class="well mycasatrip_result">
     <div class="row-fluid">
-        <div class="span4"><a href="{{ path('frontend_details_ownership',{'owner_id':res[0]['own_res_own_id']['own_id']}) }}"><img src="{{ asset('uploads/ownershipImages/'~ res['photo']) }}" class="span12 img-polaroid"></a></div>
+        <div class="span4"><a href="{{ path('frontend_details_ownership',{'owner_id':res[0]['own_res_gen_res_id']['gen_res_own_id']['own_id']}) }}"><img src="{{ asset('uploads/ownershipImages/'~ res['photo']) }}" class="span12 img-polaroid"></a></div>
         <div style="margin-left: 10px" class="span8">
             <table style="width: 100%">
                 <tbody><tr>
                     <td>
-                        <h4 class="title_1">{{ res[0]['own_res_own_id']['own_name'] }}</h4>
+                        <h4 class="title_1">{{ res[0]['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}</h4>
                         <p class="note">
-                            {{ res[0]['own_res_own_id']['own_address_municipality']['mun_name']|title }} - {{ res[0]['own_res_own_id']['own_address_province']['prov_name']|title }}
+                            {{ res[0]['own_res_gen_res_id']['gen_res_own_id']['own_address_municipality']['mun_name']|title }} - {{ res[0]['own_res_gen_res_id']['gen_res_own_id']['own_address_province']['prov_name']|title }}
 
                             <br><b>{{res[0]['own_res_room_type']|trans}}</b>
                             <br>{{"ADULTS" | trans}}: <b>{{res[0]['own_res_count_adults']}}</b> &nbsp;&nbsp;{{"KIDS" | trans}}: <b>{{res[0]['own_res_count_childrens']}}</b>
@@ -37,7 +37,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2"><a href="{{ path('frontend_details_ownership',{'owner_id':res[0]['own_res_own_id']['own_id']}) }}" class="btn mycp_btn mycp_btn_green" style="width: 150px">{{"VIEW_DETAILS" | trans}}</a></td>
+                    <td colspan="2"><a href="{{ path('frontend_details_ownership',{'owner_id':res[0]['own_res_gen_res_id']['gen_res_own_id']['own_id']}) }}" class="btn mycp_btn mycp_btn_green" style="width: 150px">{{"VIEW_DETAILS" | trans}}</a></td>
                 </tr>
                 </tbody></table>
         </div>

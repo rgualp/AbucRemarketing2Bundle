@@ -18,10 +18,14 @@ frontend_review_confirm_reservation:
     pattern:  /check_review/
     defaults: { _controller: frontEndBundle:reservation:review_confirm }
 
+frontend_redirect_reservation_reservation:
+    pattern:  /reservation_redirect/
+    defaults: { _controller: frontEndBundle:reservation:redirect_reservation_reservation }
+
 frontend_reservation_reservation:
-    pattern:  /reservation/{id_reservation}/
+    pattern:  /reservation/
     defaults: { _controller: frontEndBundle:reservation:reservation_reservation }
 
 frontend_confirmation_reservation:
-    pattern:  /confirmation/{id_reservation}/
+    pattern:  /confirmation/{id_booking}/
     defaults: { _controller: frontEndBundle:reservation:confirmation }

@@ -11,38 +11,38 @@
             <div class="row-fluid">
             <div class="span4">
                 {% if photos[loop.index0][0].getPhoName is defined %}
-                <a href="{{ url('frontend_details_ownership',{'owner_id':reservation.getOwnResOwnId.getOwnId}) }}"><img class="span12 img-polaroid" src="{{ asset('uploads/ownershipImages/'~photos[loop.index0][0].getPhoName)}}"></a>
+                <a href="{{ url('frontend_details_ownership',{'owner_id':reservation['ownership_id']}) }}"><img class="span12 img-polaroid" src="{{ asset('uploads/ownershipImages/'~photos[loop.index0][0].getPhoName)}}"></a>
                 {% else %}
-                <a href="{{ url('frontend_details_ownership',{'owner_id':reservation.getOwnResOwnId.getOwnId}) }}"><img class="span12 img-polaroid" src="{{ asset('uploads/ownershipImages/no_photo_square.gif')}}"></a>
+                <a href="{{ url('frontend_details_ownership',{'owner_id':reservation['ownership_id']}) }}"><img class="span12 img-polaroid" src="{{ asset('uploads/ownershipImages/no_photo_square.gif')}}"></a>
                 {% endif %}
             </div>
             <div class="span8" style="margin-left: 10px">
                 <table style="width: 100%">
                     <tr>
                         <td>
-                            <h4 class="title_1">{{reservation.getOwnResOwnId.getOwnName}}</h4>
+                            <h4 class="title_1">{{reservation['ownership_name']}}</h4>
                             <p class="note">
-                                {{reservation.getOwnResOwnId.getOwnAddressProvince.getProvName}}
-                                - {{reservation.getOwnResOwnId.getOwnAddressMunicipality.getMunName}}
-                                <br/><b>{{reservation.getOwnResRoomType|trans}}</b>
-                                <br/><b>{{reservation.getOwnResCountAdults|trans}}</b> {{"ADULTS"|trans}}
-                                <br/><b>{{reservation.getOwnResCountChildrens|trans}}</b> {{"KIDS"|trans}}
-                                <br/><b>{{"ARRIVAL_RESERVATION"|trans}}:</b> {{reservation.getOwnResReservationFromDate | date('d/m/Y')}}
-                                <br/><b>{{"NIGHTS"|trans}}:</b> {{reservation.getOwnResReservationToDate | date('d/m/Y') - reservation.getOwnResReservationFromDate | date('d/m/Y')}}
+                                {{reservation['ownership_prov']}}
+                                - {{reservation['ownership_mun']}}
+                                <br/><b>{{reservation['room_type']|trans}}</b>
+                                <br/><b>{{reservation['guests']}}</b> {{"ADULTS"|trans}}
+                                <br/><b>{{reservation['kids']}}</b> {{"KIDS"|trans}}
+                                <br/><b>{{"ARRIVAL_RESERVATION"|trans}}:</b> {{reservation['date_format_from'] | date('d/m/Y')}}
+                                <br/><b>{{"NIGHTS"|trans}}:</b> {{reservation['nights']}}
                             </p>
                         </td>
                         <td>
-                            <p class="note"><b>ID {{"RESERVATION_RESERVE"|trans}}:</b> CAS.{{reservation.getOwnResGenResId.getGenResId}}
+                            <p class="note"><b>ID {{"RESERVATION_RESERVE"|trans}}:</b> CAS.{{ids[loop.index0]}}
                             <br/>
                             <br/>
                             <span class="badge">{{"PENDING"|trans}}</span>
-                            <h4>TOTAL: {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ reservation.getOwnResTotalinSite * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h4>
+                            <h4>TOTAL: {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{prices[loop.index0] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h4>
                             </p>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <a href="{{ path('frontend_details_ownership',{'owner_id':reservation.getOwnResOwnId.getOwnId}) }}" class="btn mycp_btn_green">{{"VIEW_DETAILS"|trans}}</a>
+                            <a href="{{ path('frontend_details_ownership',{'owner_id':reservation['ownership_id']}) }}" class="btn mycp_btn_green">{{"VIEW_DETAILS"|trans}}</a>
                         </td>
                     </tr>
                 </table>

@@ -43,7 +43,7 @@
                     <div class="accordion-inner">
                         {%for destination in popular_list%}
                         <div class="item row-fluid">
-                           <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}">{{destination.desName}}</a>                                
+                           <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination['des_name']}}" href="{{ path('frontend_details_destination',{'destination_id':destination['des_id']}) }}">{{destination['des_name']}}</a>                                
                          </div>
                         {%else%}
                         <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
@@ -61,7 +61,7 @@
             <div class="accordion-group">
                 <div class="accordion-heading">
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_destinations" href="#destinations_municipality">
-                        {{"MORE_IN_DETAILS" | trans}} {{location.desLocMunicipality}}
+                        {{"MORE_IN_DETAILS" | trans}} {{location_municipality}}
                     </a>                       
                 </div>
                 <div id="destinations_municipality" class="accordion-body collapse" style="height: 0px;">
@@ -76,7 +76,7 @@
                         {%if other_destinations_in_municipality |length%}
                         <!--div class="row-fluid textaling_right">
                              <div class="span2 offset9">
-                            <a  class="fontsize_10" href="{{path('frontend_filter_by_municipality_destinations',{'province_id': location.desLocProvince.provid, 'municipality_id':location.desLocMunicipality.munid})}}">{{"SEEMORE_LINK_TEXT" | trans}}</a>
+                            <a  class="fontsize_10" href="{{path('frontend_filter_by_municipality_destinations',{'province_id': location_province_id, 'municipality_id':location_municipality_id})}}">{{"SEEMORE_LINK_TEXT" | trans}}</a>
                              </div>
                         </div-->
                         {%endif%}
@@ -86,7 +86,7 @@
 
             <div class="accordion-group">
                 <div class="accordion-heading">
-                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_destinations" href="#destinations_province">{{"MORE_IN_DETAILS" | trans}} {{location.desLocProvince}}</a>
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_destinations" href="#destinations_province">{{"MORE_IN_DETAILS" | trans}} {{location_province}}</a>
                 </div>
                 <div id="destinations_province" class="accordion-body collapse">
                     <div class="accordion-inner">
@@ -100,7 +100,7 @@
                         {%if other_destinations_in_province |length%}
                         <!--div class="row-fluid textaling_right">
                              <div class="span2 offset9">
-                            <a  class="fontsize_10" href="{{path('frontend_filter_by_province_destinations',{'province_id': location.desLocProvince.provid})}}">{{"SEEMORE_LINK_TEXT" | trans}}</a>
+                            <a  class="fontsize_10" href="{{path('frontend_filter_by_province_destinations',{'province_id': location_province_id})}}">{{"SEEMORE_LINK_TEXT" | trans}}</a>
                              </div>
                         </div-->
                         {%endif%}
