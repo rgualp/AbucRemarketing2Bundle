@@ -134,12 +134,10 @@ class userController extends Controller {
                         $factory = $this->get('security.encoder_factory');
                         $user2 = new user();
                         $encoder = $factory->getEncoder($user2);
-                        
                         if(isset($post['user_password']['Clave']))
                             $password = $encoder->encodePassword($post['user_password']['Clave'], $user->getSalt());
                         else
                             $password = $encoder->encodePassword($post['user_password']['Password'], $user->getSalt());
-                        
                         $user->setUserPassword($password);
                         $em->persist($user);
                         $em->flush();
