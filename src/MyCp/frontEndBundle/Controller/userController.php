@@ -139,7 +139,7 @@ class userController extends Controller {
                             $password = $encoder->encodePassword($post['user_password']['Clave'], $user->getSalt());
                         else
                             $password = $encoder->encodePassword($post['user_password']['Password'], $user->getSalt());
-                        var_dump($post); exit();
+                        
                         $user->setUserPassword($password);
                         $em->persist($user);
                         $em->flush();
