@@ -5,8 +5,11 @@ app/bootstrap*
 vendor/*
 */logs/*
 */cache/*
-web/uploads/*
-web/bundles/*
+web/uploads/albumImages
+web/bundles/destinationImages
+web/bundles/languageImages
+web/bundles/ownershipImages
+web/bundles/userImages
 
 # Configuration files
 app/config/parameters.ini
