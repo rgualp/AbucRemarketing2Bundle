@@ -22,7 +22,8 @@
         "doctrine/migrations": "dev-master",
         "doctrine/doctrine-migrations-bundle": "dev-master",
         "beberlei/doctrineextensions": "dev-master",
-        "ideup/simple-paginator-bundle": "dev-master"
+        "ideup/simple-paginator-bundle": "dev-master",
+        "avalanche123/imagine-bundle": "v2.1"
 
     },
     "scripts": {
