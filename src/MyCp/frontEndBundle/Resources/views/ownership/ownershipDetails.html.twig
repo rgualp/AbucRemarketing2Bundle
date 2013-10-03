@@ -55,7 +55,7 @@
                 {% for photo in  gallery_photos%}
                 <a class="rsImg" data-rsbigimg="{{asset('uploads/ownershipImages/'~photo.getPhoName)}}"
                    href="{{asset('uploads/ownershipImages/'~photo.getPhoName)}}"><img class="rsTmb"
-                                                                                      src="{{asset('uploads/ownershipImages/'~photo.getPhoName)}}"
+                                                                                      src="{{asset('uploads/ownershipImages/thumbnails/'~photo.getPhoName)}}"
                                                                                       width="60"></a>
                 {% endfor %}
             </div>
@@ -446,7 +446,10 @@
                     {% endfor %}
                     </tbody>
                 </table>
-                <label class="pull-right" style="font-size: 10px; color: #d80407;">{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')| upper}}{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</label>
+
+            </div>
+            <div style="text-align: right">
+            <label style="font-size: 10px;margin-top: 5px; color: #d80407;">{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')| upper}}{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</label>
             </div>
             <table id="rooms_selected" class="table table-striped" style="margin-bottom: 0px; display: none;">
                 <thead>
@@ -516,9 +519,9 @@
                 <hr/>
                 <table width="100%">
                     <tr>
-                        <td width="33%">{{"ARRIVAL_RESERVATION" | trans}}</td>
-                        <td width="33%">{{"DEPARTURE_RESERVATION" | trans}}</td>
-                        <td>{{"GUESTS_RESERVATION" | trans}}</td>
+                        <td width="50%">{{"ARRIVAL_RESERVATION" | trans}}</td>
+                        <td width="50%">{{"DEPARTURE_RESERVATION" | trans}}</td>
+
                     </tr>
                     <tr>
                         <td>
@@ -536,24 +539,7 @@
                                    value="{{end_date}}"
                                    type="text"
                                    data-localization='{{locale}}'></td>
-                        <td>
-                            <div class="btn-group mycp_combo perc_13" style="margin-top: -10px;">
-                                <a href="#" id="top_reservation_persons_count" name="top_reservation_persons_count" style="width: 90px" class="combo_label btn dropdown-toggle span2 " data-toggle="dropdown" data-value="1">
-                                    {% if post['top_reservation_persons_count'] is defined%}{{post['top_reservation_persons_count']}}{%else%}1{%endif%}
-                                </a>
-                                <ul class="dropdown-menu">
-                                    {% set count_persons = (rooms|length - reservations|length) * 3 %}
-                                    {% for i in 1 .. count_persons %}
-                                    <li><a class="option" data="top_reservation_persons_count" data-value="{{i}}">{{i}}</a></li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                            <!--select name="top_reservation_persons_count" id="top_reservation_persons_count" class="input-block-level">
-                        {% set count_persons = (rooms|length - reservations|length) * 3 %}
-                        {% for i in 1 .. count_persons %}
-                        <option value="{{i}}" {% if post['top_reservation_persons_count'] is defined and post['top_reservation_persons_count']==i %} selected="selected"{% endif %}>{{i}}</option>
-                        {% endfor %}
-                    </select--></td>
+
                     </tr>
                 </table>
                 <hr/>
@@ -682,7 +668,7 @@
                 <div class="span4">
                     <a title="{{"MORE_INFO_PREFFIX" | trans}} {{own['own_name']}}"
                        href="{{ path('frontend_details_ownership',{'owner_id':own['own_id']}) }}"><img
-                            src="{{ asset("uploads/ownershipImages/" ~ own['photo'])}}"></a>
+                            src="{{ asset("uploads/ownershipImages/thumbnails/" ~ own['photo'])}}"></a>
                 </div>
                 <div class="span8">
                     <a title="{{"MORE_INFO_PREFFIX" | trans}} {{own['own_name']}}"

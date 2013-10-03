@@ -60,9 +60,13 @@ swiftmailer:
     spool:     { type: memory }
 
 parameters:
+    dir.watermark: %kernel.root_dir%/../web/uploads/watermark.png
     destination.dir.photos: %kernel.root_dir%/../web/uploads/destinationImages/
+    destination.dir.thumbnails: %kernel.root_dir%/../web/uploads/destinationImages/thumbnails/
     album.dir.photos: %kernel.root_dir%/../web/uploads/albumImages/
+    album.dir.thumbnails: %kernel.root_dir%/../web/uploads/albumImages/thumbnails/
     ownership.dir.photos: %kernel.root_dir%/../web/uploads/ownershipImages/
+    ownership.dir.thumbnails: %kernel.root_dir%/../web/uploads/ownershipImages/thumbnails/
     language.dir.photos: %kernel.root_dir%/../web/uploads/languageImages/
     user.dir.photos: %kernel.root_dir%/../web/uploads/userImages/
     encode.key: 65wq6td6gtdgb3dwoop21d54da54d8e86q2s3qd6a60998dgea4de8
@@ -81,6 +85,7 @@ services:
     Email:
         class: MyCp\frontEndBundle\Helpers\Email
         arguments:
+            entity_manager: "@doctrine.orm.entity_manager"
             container: "@service_container"
     Secure:
         class: MyCp\mycpBundle\Helpers\Secure
@@ -98,5 +103,14 @@ services:
             entity_manager: "@doctrine.orm.entity_manager"
             container: "@service_container"
             security_context: "@security.context"
+            
+avalanche_imagine:
+    web_root:     %kernel.root_dir%/../web
+    cache_prefix: imagine
+    driver:       gd  
+    filters:
+        mycp_thumb:
+            type:    thumbnail
+            options: { size: [120, 90], mode: outbound }
 
 

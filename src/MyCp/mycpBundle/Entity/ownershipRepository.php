@@ -1196,7 +1196,7 @@ class ownershipRepository extends EntityRepository {
                          JOIN o.own_address_province prov
                          JOIN o.own_address_municipality mun
                          WHERE o.own_status = 1
-                         ORDER BY o.own_rating DESC, o.own_id";
+                         ORDER BY o.own_id DESC";
 
         $results = ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult();
 

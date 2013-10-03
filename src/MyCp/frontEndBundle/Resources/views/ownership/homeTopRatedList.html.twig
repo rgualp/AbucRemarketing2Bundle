@@ -4,7 +4,7 @@
     {% if cont <4 %}
     <div class="item span3">
         <a href="{{ path('frontend_details_ownership',{'owner_id':ownership['own_id']}) }}" title="{{"MORE_INFO_PREFFIX" | trans}} {{ownership['own_name']}}">
-           <div class="image" style="background-image: url('{{ asset("uploads/ownershipImages/" ~ ownership['photo'])}}')">
+           <div class="image" style="background-image: url('{{ asset("uploads/ownershipImages/thumbnails/" ~ ownership['photo'])}}')">
              <div class="rating">{%if ownership['comments_total'] > 0%}+{%endif%}{{ownership['comments_total']}}</div></div>
             <div class="title">{{ ownership['own_name']| title }}
                 <div class="place">({{ownership['prov_name']}})</div>
@@ -24,14 +24,14 @@
 <div class="top_rated_items">
     <div class="item">
         <a href="{{ path('frontend_details_ownership',{'owner_id':ownership['own_id']}) }}" title="{{"MORE_INFO_PREFFIX" | trans}} {{ownership['own_name']}}">
-           <div class="image" style="background-image: url('{{ asset("uploads/ownershipImages/" ~ ownership['photo'])}}')">
+           <div class="image" style="background-image: url('{{ asset("uploads/ownershipImages/thumbnails/" ~ ownership['photo'])}}')">
              <div class="rating">{%if ownership['comments_total'] > 0%}+{%endif%}{{ownership['comments_total']}}</div></div>
             <div class="title">{{ ownership['own_name']| title }}
                 <div class="place">({{ownership['prov_name']}})</div>
             </div>
             <div class="description">
-                {%if ownership['photo'] != null%}
-                <p>{{ownership['photo'] |striptags |capitalize}} (...{{"RESERVATION_CONFIRM_DESTINATION_MORE" | trans | capitalize}})</p>
+                {%if ownership['description'] != null%}
+                <p>{{ownership['description'] |striptags |capitalize}} (...{{"RESERVATION_CONFIRM_DESTINATION_MORE" | trans | capitalize}})</p>
                 {%endif%}
 
             </div>

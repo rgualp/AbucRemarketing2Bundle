@@ -98,8 +98,8 @@ class userController extends Controller {
                     //mailing
                     $service_email = $this->get('Email');
                     $service_email->send_templated_email(
-                            $this->get('translator')->trans('EMAIL_RESTORE_ACCOUNT'), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $this->get('translator')->trans('EMAIL_VISIT_LINK') . PHP_EOL . $changeUrl);
-
+                            $this->get('translator')->trans('EMAIL_RESTORE_ACCOUNT'), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $this->get('translator')->trans('EMAIL_VISIT_LINK') . PHP_EOL . "<a href='$changeUrl'></a>");
+                    
                     $message = 'Se ha enviado un email para que recupere su contraseña.';
                     $this->get('session')->setFlash('message_global_success', $message);
                     return $this->redirect($this->generateUrl('frontend_login'));
@@ -135,7 +135,8 @@ class userController extends Controller {
                         $factory = $this->get('security.encoder_factory');
                         $user2 = new user();
                         $encoder = $factory->getEncoder($user2);
-                        $password = $encoder->encodePassword($post['user_password']['Clave:'], $user->getSalt());
+
+                        $password = $encoder->encodePassword($post['user_password']['Repeat'], $user->getSalt());
 
                         $user->setUserPassword($password);
                         $em->persist($user);
@@ -171,6 +172,7 @@ class userController extends Controller {
 
         $form = $this->createForm(new restorePasswordUserType($this->get('translator')));
         if ($request->getMethod() == 'POST') {
+
             $post = $request->get('mycp_frontendbundle_restore_password_usertype');
             $form->bindRequest($request);
             if ($form->isValid()) {
@@ -185,9 +187,9 @@ class userController extends Controller {
                             ->generate($enableRoute, array('string' => $encode_string), true);
 
                     $service_email = $this->get('Email');
-                    $service_email->send_email(
-                            'Activación de su cuenta en MyCasaParticular', 'noreply@mycasaparticular.com', $user_db->getUserEmail(), 'Gracias por registrarse en MyCasaParticular.com', 'Visite el siguiente link para activar su cuenta. ' . $enableUrl);
 
+                    $service_email->send_templated_email(
+                            'Activación de su cuenta en MyCasaParticular', 'noreply@mycasaparticular.com', $user_db->getUserEmail(), 'Gracias por registrarse en MyCasaParticular.com. Visite el siguiente link para activar su cuenta. ' . $enableUrl);
                     $message = 'Grácias por registrarse. Se ha enviado un email para que active su cuenta.';
                     $this->get('session')->setFlash('message_global_success', $message);
                     return $this->redirect($this->generateUrl('frontend_login'));
@@ -228,8 +230,8 @@ class userController extends Controller {
                       ->generate($enableRoute, array('string' => $encode_string), true); */
 
                     $service_email = $this->get('Email');
-                    $service_email->send_email(
-                            'Contacto de un huesped', 'info@mycasaparticular.com ', $tourist_email, "El Sr(a). $tourist_name $tourist_last_name, con numero de telefono $tourist_phone, ha hecho el siguiente comentario: $tourist_comment");
+                    $service_email->send_templated_email(
+                            'Contacto de un huesped', $tourist_email, 'info@mycasaparticular.com ', "El Sr(a). $tourist_name $tourist_last_name, con numero de telefono $tourist_phone, ha hecho el siguiente comentario: $tourist_comment");
 
                     $message = 'Gracias por contactar con nosotros. Su comentario ha sido enviado.';
                     $this->get('session')->setFlash('message_global_success', $message);
@@ -259,8 +261,8 @@ class userController extends Controller {
                       ->generate($enableRoute, array('string' => $encode_string), true); */
 
                     $service_email = $this->get('Email');
-                    $service_email->send_email(
-                            'Contacto de un propietario', 'casa@mycasaparticular.com', $owner_email, "El Sr(a). $owner_full_name, desea incluir una nueva casa con los siguientes datos:  
+                    $service_email->send_templated_email(
+                            'Contacto de un propietario', $owner_email, 'casa@mycasaparticular.com', "El Sr(a). $owner_full_name, desea incluir una nueva casa con los siguientes datos:  
                             Duenno(a): $owner_full_name;  Nombre de la casa: $owner_own_name; 
                             Provincia: $owner_province; 
                             Municipio: $owner_mun; 

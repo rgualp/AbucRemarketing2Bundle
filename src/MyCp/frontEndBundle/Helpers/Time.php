@@ -1,6 +1,5 @@
 <?php
 namespace MyCp\frontEndBundle\Helpers;
-use Symfony\Component\HttpFoundation\Request;
 
 
 class Time

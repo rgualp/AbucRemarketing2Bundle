@@ -132,8 +132,6 @@ class ownershipReservationRepository extends EntityRepository {
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT us,ownre,
-        (SELECT pho.pho_name FROM mycpBundle:ownershipPhoto owpho JOIN owpho.own_pho_photo pho WHERE owpho.own_pho_own = gre.gen_res_own_id AND pho.pho_order =
-        (SELECT MIN(pho2.pho_order) FROM mycpBundle:ownershipPhoto owpho2 JOIN owpho2.own_pho_photo pho2 WHERE owpho2.own_pho_own = gre.gen_res_own_id ))  AS photo ,
         ow,mun,prov,gre FROM mycpBundle:ownershipReservation ownre JOIN ownre.own_res_gen_res_id gre
         JOIN gre.gen_res_own_id ow
         JOIN gre.gen_res_user_id us
@@ -159,7 +157,7 @@ class ownershipReservationRepository extends EntityRepository {
         (SELECT count(ore_res) FROM mycpBundle:ownershipReservation ore_res JOIN ore_res.own_res_gen_res_id gen_res_r WHERE gen_res_r.gen_res_user_id = $id_user AND ore_res.own_res_status=2 AND gen_res_r.gen_res_date > '$new_date')  as reserve,
         (SELECT count(gre_cons) FROM mycpBundle:generalReservation gre_cons WHERE gre_cons.gen_res_user_id = $id_user AND gre_cons.gen_res_status=0 AND gre_cons.gen_res_date < '$new_date')  as consult,
         (SELECT count(owre_payed) FROM mycpBundle:ownershipReservation owre_payed JOIN owre_payed.own_res_gen_res_id gen_res_p WHERE gen_res_p.gen_res_user_id = $id_user AND owre_payed.own_res_status=5)  as payed,
-        (SELECT count(ore_res_hist) FROM mycpBundle:ownershipReservation ore_res_hist JOIN ore_res_hist.own_res_gen_res_id gen_res_h  WHERE gen_res_h.gen_res_user_id = $id_user AND ore_res_hist.own_res_status=3 AND gen_res_h.gen_res_date < '$new_date')  as reserve_history,
+        (SELECT count(ore_res_hist) FROM mycpBundle:ownershipReservation ore_res_hist JOIN ore_res_hist.own_res_gen_res_id gen_res_h  WHERE gen_res_h.gen_res_user_id = $id_user AND ore_res_hist.own_res_status=2 AND gen_res_h.gen_res_date < '$new_date')  as reserve_history,
         (SELECT count(fav) FROM mycpBundle:favorite fav WHERE fav.favorite_user = $id_user AND fav.favorite_ownership IS NOT NULL)  as favorites_ownerships,
         (SELECT count(fav_des) FROM mycpBundle:favorite fav_des WHERE fav_des.favorite_user = $id_user AND fav_des.favorite_destination IS NOT NULL)  as favorites_destinations
         FROM mycpBundle:ownershipReservation ore_pend JOIN ore_pend.own_res_gen_res_id gre_pend WHERE gre_pend.gen_res_user_id = $id_user AND ore_pend.own_res_status=0 AND gre_pend.gen_res_date > '$new_date'");

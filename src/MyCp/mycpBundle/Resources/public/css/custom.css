@@ -36,7 +36,7 @@ div.paginator-cont{text-align: center;}
 
 .ui-sortable {margin: 0;}
 .ui-sortable li{ display: block; list-style-type: none;border-top: 1px solid #DDDDDD; background-color:#fff }
-.ui-sortable li img{width: 110px; height: 80px;}
+.ui-sortable li img{/*width: 110px;*/ height: 80px;}
 .ui-sortable li div{padding: 4px}
 .ui-sortable li div.actions{margin-top: 30px;}
 .ui-sortable li div.actions2{margin-top: 0px;}

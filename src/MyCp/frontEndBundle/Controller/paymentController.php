@@ -24,13 +24,17 @@ class paymentController extends Controller {
 
     public function skrillPaymentAction($bookingId)
     {
+        
         $booking = $this->getBookingFrom($bookingId);
 
         if(empty($booking)) {
             throw new EntityNotFoundException($bookingId);
         }
-
-        $user = $booking->getBookingUserId();
+        
+        // was be changed because if delete user are deleted the bookings by the db relation
+        // the relation is breack, only save the id in plane text without db relation
+        $em = $this->getDoctrine()->getEntityManager();
+        $user=$em->getRepository('mycpBundle:user')->find($booking->getBookingUserId());
 
         if(empty($user)) {
             throw new EntityNotFoundException("user($user)");

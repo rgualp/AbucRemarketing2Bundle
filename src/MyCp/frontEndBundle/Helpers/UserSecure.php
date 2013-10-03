@@ -3,7 +3,6 @@
 namespace MyCp\frontEndBundle\Helpers;
 
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
-use Symfony\Component\HttpFoundation\Request;
 
 class UserSecure {
 

@@ -64,7 +64,7 @@ destinos
             <div class="row-fluid" style="margin-top:8px">
                 <div class="span7">
                     <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}">
-                        <img class="img-polaroid" style="height: 200px;" src="{{asset("uploads/destinationImages/"~other_destinations_photos[destination.desid])}}">
+                        <img class="img-polaroid" src="{{asset("uploads/destinationImages/thumbnails/"~other_destinations_photos[destination.desid])}}">
                     </a>
                 </div>
                 <div class="span5 owns_total">

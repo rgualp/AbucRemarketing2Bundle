@@ -146,25 +146,40 @@ class BackendDestinationController extends Controller
 
         $em = $this->getDoctrine()->getEntityManager();
         $dir=$this->container->getParameter('destination.dir.photos');
+        $dir_thumbs=$this->container->getParameter('destination.dir.thumbnails');
         $destinationLangs=$em->getRepository('mycpBundle:destinationLang')->findBy(array('des_lang_destination'=>$id_destination));
         $destinationPhotos=$em->getRepository('mycpBundle:destinationPhoto')->findBy(array('des_pho_destination'=>$id_destination));
+        $destinationFavorites=$em->getRepository('mycpBundle:favorite')->findBy(array('favorite_destination'=>$id_destination));
+        $userHistories=$em->getRepository('mycpBundle:userHistory')->findBy(array('user_history_destination'=>$id_destination));
         $destination_location=$em->getRepository('mycpBundle:destinationLocation')->findBy(array('des_loc_destination'=>$id_destination));
         $em->remove($destination_location[0]);
         foreach($destinationLangs as $destinationLang)
         {
             $em->remove($destinationLang);
         }
+
+        foreach($userHistories as $userHist)
+        {
+            $em->remove($userHist);
+        }
+
+        foreach($destinationFavorites as $favs)
+        {
+            $em->remove($favs);
+        }
         foreach($destinationPhotos as $destinationPhoto)
         {
             $photo=$em->getRepository('mycpBundle:photo')->find($destinationPhoto->getDesPhoPhoto()->getPhoId());
             @unlink($dir.$photo->getPhoName());
+            @unlink($dir_thumbs.$photo->getPhoName());
             $destinationPhotoLangs=$em->getRepository('mycpBundle:photoLang')->findBy(array('pho_lang_id_photo'=>$photo->getPhoId()));
             foreach($destinationPhotoLangs as $destinationPhotoLang)
             {
                 $em->remove($destinationPhotoLang);
             }
-            $em->remove($photo);
+            
             $em->remove($destinationPhoto);
+            $em->remove($photo);
         }
 
 
@@ -265,10 +280,13 @@ class BackendDestinationController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $data['languages']= $em->getRepository('mycpBundle:lang')->get_all_languages();
         $dir=$this->container->getParameter('destination.dir.photos');
+        $dir_thumbs=$this->container->getParameter('destination.dir.thumbnails');
+        $dir_watermark=$this->container->getParameter('dir.watermark');
+        
         if ($request->getMethod() == 'POST') {
             $post = $request->request->getIterator()->getArrayCopy();
             $files = $request->files->get('images');
-
+            var_dump($files);
             if($files['files'][0]===null)
             {
                 $data['error']='Debe seleccionar una imágen.';
@@ -306,6 +324,13 @@ class BackendDestinationController extends Controller
                         $photo= new photo();
                         $fileName = uniqid('destination-').'-photo.jpg';
                         $file->move($dir, $fileName);
+                        
+                        //Creando thumbnail, redimensionando y colocando marca de agua
+                        \MyCp\mycpBundle\Helpers\Images::create_thumbnail($dir.$fileName, $dir_thumbs.$fileName, 160);
+                        //\MyCp\mycpBundle\Helpers\Images::resize_and_watermark($dir.$fileName, $dir_watermark, 480);
+                        \MyCp\mycpBundle\Helpers\Images::resize($dir.$fileName, 480);
+                        
+                        
                         $photo->setPhoName($fileName);
                         $destinationPhoto->setDesPhoDestination($destination);
                         $destinationPhoto->setDesPhoPhoto($photo);
@@ -401,6 +426,7 @@ class BackendDestinationController extends Controller
          $service_security= $this->get('Secure');
          $service_security->verify_access();
          $dir=$this->container->getParameter('destination.dir.photos');
+         $dir_thumbnails=$this->container->getParameter('destination.dir.thumbnails');
          $em = $this->getDoctrine()->getEntityManager();
          $data['languages']= $em->getRepository('mycpBundle:lang')->get_all_languages();
          $destination= $em->getRepository('mycpBundle:destination')->find($id_destination);
@@ -414,6 +440,7 @@ class BackendDestinationController extends Controller
          $em->remove($photo);
          $em->flush();
          @unlink($dir.$photoDel->getPhoName());
+         @unlink($dir_thumbnails.$photoDel->getPhoName());
          $message='El fichero se ha eliminado satisfactoriamente.';
          $this->get('session')->setFlash('message_ok',$message);
 

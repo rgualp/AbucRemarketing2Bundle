@@ -3,7 +3,7 @@
     <div class="row-fluid">
     <div class="span2">
         <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}">
-            <img class="img-polaroid" src="{{ asset("uploads/destinationImages/" ~ popular_places_photos[destination.desid])}}"/>
+            <img class="img-polaroid" src="{{ asset("uploads/destinationImages/thumbnails/" ~ popular_places_photos[destination.desid])}}"/>
         </a>
         {{popular_places_location[destination.desid]}}
     </div>

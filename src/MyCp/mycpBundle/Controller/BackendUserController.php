@@ -456,6 +456,8 @@ class BackendUserController extends Controller
         $service_security->verify_access();
         $id_loged_user = $this->get('security.context')->getToken()->getUser()->getUserId();
         $em = $this->getDoctrine()->getManager();
+        $dir = $this->container->getParameter('user.dir.photos');
+        
         if($id_loged_user!=$id_user)
         {
             $user=new user();
@@ -464,12 +466,30 @@ class BackendUserController extends Controller
             $user_casa=$em->getRepository('mycpBundle:userCasa')->findBy(array('user_casa_user'=>$id_user));
             $user_logs=$em->getRepository('mycpBundle:log')->findBy(array('log_user'=>$id_user));
             $general_reservations=$em->getRepository('mycpBundle:generalReservation')->findBy(array('gen_res_user_id'=>$id_user));
-
+            $user_favorite=$em->getRepository('mycpBundle:favorite')->findBy(array('favorite_user'=>$id_user));
+            $user_history=$em->getRepository('mycpBundle:userHistory')->findBy(array('user_history_user'=>$id_user));
+            $user_comment=$em->getRepository('mycpBundle:comment')->findBy(array('com_user'=>$id_user));
 
             foreach($user_logs as $log)
             {
                 $em->remove($log);
             }
+
+            foreach($user_comment as $com)
+            {
+                $em->remove($com);
+            }
+
+            foreach($user_history as $hist)
+            {
+                $em->remove($hist);
+            }
+
+            foreach($user_favorite as $fav)
+            {
+                $em->remove($fav);
+            }
+
 
             foreach($general_reservations as $gres)
             {
@@ -493,7 +513,11 @@ class BackendUserController extends Controller
             $user_name=$user->getUserName();
             $photo=$user->getUserPhoto();
             if($photo)
+            {
+                @unlink($dir . $photo->getPhoName());
                 $em->remove($photo);
+            }
+            
             $em->remove($user);
             $em->flush();
             $users=$em->getRepository('mycpBundle:user')->findAll();

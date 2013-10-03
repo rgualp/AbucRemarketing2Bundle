@@ -14,10 +14,7 @@ class PublicController extends Controller {
 
     public function welcomeAction() {
         $em = $this->getDoctrine()->getEntityManager();
-        
-//        $property = $em->getRepository('mycpBundle:ownership')->find(12);
-//        return $this->render("frontEndBundle:mails:recommendProperty2FriendMailTemplate.html.twig", array('from' => "Daniel", 'property' => $property));
-        
+       
         $glogal_locale = $this->get('translator')->getLocale();
         $provinces = $em->getRepository('mycpBundle:province')->findAll();
         $slide_folder = rand(1, 7);

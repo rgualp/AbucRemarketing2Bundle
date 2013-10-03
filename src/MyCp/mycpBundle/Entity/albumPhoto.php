@@ -47,7 +47,7 @@ class albumPhoto
      * Set alb_pho_photo
      *
      * @param \MyCp\mycpBundle\Entity\photo $albPhoPhoto
-     * @return albumPhoto
+     * @return photo
      */
     public function setAlbPhoPhoto(\MyCp\mycpBundle\Entity\photo $albPhoPhoto = null)
     {
