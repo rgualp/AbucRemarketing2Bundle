@@ -11,7 +11,7 @@ frontend_filter_by_province_destinations:
     defaults: { _controller: frontEndBundle:destination:popular_list }
 
 frontend_details_destination:
-    pattern:  /details_destination/{destination_id}
+    pattern:  /destination/{destination_name}
     defaults: { _controller: frontEndBundle:destination:details }
     
 frontend_filter_destination:

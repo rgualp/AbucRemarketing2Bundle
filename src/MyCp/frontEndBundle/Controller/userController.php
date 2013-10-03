@@ -295,7 +295,7 @@ class userController extends Controller {
                    $favorite_destinations[$i]['photo'] = 'no_photo.png';
         }
 
-        
+
         $ownership_favorities = $em->getRepository('mycpBundle:favorite')->get_favorite_ownerships($user_ids["user_id"], $user_ids["session_id"], 4, $ownership_id);
 
         for($i = 0; $i<count($ownership_favorities);$i++)
@@ -317,7 +317,6 @@ class userController extends Controller {
             if (!file_exists(realpath("uploads/ownershipImages/" . $history_owns[$i]['photo'])))
                    $history_owns[$i]['photo'] = 'no_photo.png';
         }
-
         return $this->render('frontEndBundle:user:infoTabUser.html.twig', array(
                     'destination_favorites' => $favorite_destinations,
                     'history_destinations' => $history_destinations,

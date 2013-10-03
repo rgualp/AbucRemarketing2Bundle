@@ -45,7 +45,7 @@ destinos
 <div class="row-fluid result_list destination_list">
     {% endif %}
         <div class="span4 item">
-            <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination[0].desName}}" style="font-size: 18px; font-weight: bold" href="{{ path('frontend_details_destination',{'destination_id':destination[0].desid}) }}">
+            <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination[0].desName}}" style="font-size: 18px; font-weight: bold" href="{{ path('frontend_details_destination',{'destination_name':destination[0].desName|lower|replace(' ','_')}) }}">
                 <h4 style="margin-top: 0px">{{destination[0].desName}}</h4>
                 <div class="row-fluid">
                     <div class="span6">
@@ -126,7 +126,7 @@ destinos
             <div class="row-fluid">
                  {%for destination in all_destinations%}
                     <div class="span3" style="font-weight: bold; margin: 0 0 0 10px; font-size: 13px">
-                       <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination[0].desName}}" href="{{ path('frontend_details_destination',{'destination_id':destination[0].desid}) }}">{{destination[0].desName}}</a>   
+                       <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination[0].desName}}" href="{{ path('frontend_details_destination',{'destination_name':destination[0].desName|lower|replace(' ','_')}) }}">{{destination[0].desName}}</a>
                     </div>    
                  {%endfor%}
             </div>

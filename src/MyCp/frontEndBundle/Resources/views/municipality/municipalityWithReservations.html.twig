@@ -43,7 +43,7 @@ destinos
         <h6>{{"DESTINATIONS" | trans}} ({{"TOTAL" | trans}}: {{item['des_total']}})</h6>
         {%set des_count = 1%}
         {%for des in item['des_list']%}
-        <a title="{{"MORE_INFO_PREFFIX" | trans}} {{des.deslocdestination.desName}}" href="{{ path('frontend_details_destination',{'destination_id':des.deslocdestination.desid}) }}">{{des.deslocdestination.desName}}</a>
+        <a title="{{"MORE_INFO_PREFFIX" | trans}} {{des.deslocdestination.desName}}" href="{{ path('frontend_details_destination',{'destination_name':des.deslocdestination.desName|lower|replace(' ','_')}) }}">{{des.deslocdestination.desName}}</a>
         {%if des_count != item['des_list']|length%}, {%endif%} 
         {%set des_count = des_count + 1%}
         {%endfor%}

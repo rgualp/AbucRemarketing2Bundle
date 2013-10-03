@@ -2,13 +2,13 @@
 <div class="item">
     <div class="row-fluid">
     <div class="span2">
-        <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination['destination_name']}}" href="{{ path('frontend_details_destination',{'destination_id':destination['destination_id']}) }}">
+        <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination['destination_name']}}" href="{{ path('frontend_details_destination',{'destination_name':destination['destination_name']|lower|replace(' ','_')}) }}">
             <img class="img-polaroid" src="{{ asset("uploads/destinationImages/thumbnails/" ~ destination['photo'])}}"/>
         </a>
         {{destination['municipality_name']}} / {{destination['province_name']}}
     </div>
     <div class="span10">
-        <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination['destination_name']}}" href="{{ path('frontend_details_destination',{'destination_id':destination['destination_id']}) }}">{{destination['destination_name']}}</a>
+        <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination['destination_name']}}" href="{{ path('frontend_details_destination',{'destination_name':destination['destination_name']|lower|replace(' ','_')}) }}">{{destination['destination_name']}}</a>
         <p>{{(destination['desc_brief'] != "") ? destination['desc_brief'] |striptags: ""}}</p>
     </div>
     </div>
