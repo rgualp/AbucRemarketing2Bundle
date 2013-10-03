@@ -11,6 +11,7 @@ function start() {
         autoScaleSliderWidth: 960,
         autoScaleSliderHeight: 350,
         controlNavigation: 'bullets',
+        numImagesToPreload: 0,
         startSlideId: 0,
         autoPlay: true,
         transitionType: 'move',
