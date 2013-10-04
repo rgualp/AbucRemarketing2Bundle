@@ -19,27 +19,29 @@ class destinationController extends Controller {
         ));
     }
 
-    public function detailsAction($destination_id) {
+    public function detailsAction($destination_name) {
+
         $em = $this->getDoctrine()->getEntityManager();
         $users_id = $em->getRepository('mycpBundle:user')->user_ids($this);
         $locale = $this->get('translator')->getLocale();
-
-        $destination_array = $em->getRepository('mycpBundle:destination')->get_destination($destination_id,$locale);
+        $destination_name=str_replace('_',' ',$destination_name);
+        $destination= $em->getRepository('mycpBundle:destination')->findOneBy(array('des_name'=>$destination_name));
+        $destination_array = $em->getRepository('mycpBundle:destination')->get_destination($destination->getDesId(),$locale);
                 
-        $photos = $em->getRepository('mycpBundle:destination')->getPhotos($destination_id,$locale);
+        $photos = $em->getRepository('mycpBundle:destination')->getPhotos($destination->getDesId(),$locale);
 
         $location_municipality_id = $destination_array['municipality_id'];
         $location_province_id = $destination_array['province_id'];
 
         $popular_destinations_list = $em->getRepository('mycpBundle:destination')->get_popular_destination(5, $users_id["user_id"], $users_id["session_id"]);
-        $other_destinations_in_municipality = $em->getRepository('mycpBundle:destination')->destination_filter($location_municipality_id, $location_province_id, $destination_id, null, 5);
-        $other_destinations_in_province = $em->getRepository('mycpBundle:destination')->destination_filter(null, $location_province_id, $destination_id, null, 5);
+        $other_destinations_in_municipality = $em->getRepository('mycpBundle:destination')->destination_filter($location_municipality_id, $location_province_id, $destination->getDesId(), null, 5);
+        $other_destinations_in_province = $em->getRepository('mycpBundle:destination')->destination_filter(null, $location_province_id, $destination->getDesId(), null, 5);
         
-        $em->getRepository('mycpBundle:userHistory')->insert(false, $destination_id, $users_id);
+        $em->getRepository('mycpBundle:userHistory')->insert(false, $destination->getDesId(), $users_id);
 
         return $this->render('frontEndBundle:destination:destinationDetails.html.twig', array(
                     'destination' => $destination_array[0],
-                    'is_in_favorite' => $em->getRepository('mycpBundle:favorite')->is_in_favorite($destination_id, false, $users_id["user_id"], $users_id["session_id"]),
+                    'is_in_favorite' => $em->getRepository('mycpBundle:favorite')->is_in_favorite($destination->getDesId(), false, $users_id["user_id"], $users_id["session_id"]),
                     'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocomplete_text_list(),
                     'locale' => $this->get('translator')->getLocale(),
                     'location' => $destination_array['municipality_name'].' / '.$destination_array['province_name'],

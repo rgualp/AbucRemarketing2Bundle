@@ -99,7 +99,6 @@ class userController extends Controller {
                     $service_email = $this->get('Email');
                     $service_email->send_templated_email(
                             $this->get('translator')->trans('EMAIL_RESTORE_ACCOUNT'), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $this->get('translator')->trans('EMAIL_VISIT_LINK') . PHP_EOL . "<a href='$changeUrl'></a>");
-                    
                     $message = 'Se ha enviado un email para que recupere su contraseña.';
                     $this->get('session')->setFlash('message_global_success', $message);
                     return $this->redirect($this->generateUrl('frontend_login'));
@@ -135,9 +134,10 @@ class userController extends Controller {
                         $factory = $this->get('security.encoder_factory');
                         $user2 = new user();
                         $encoder = $factory->getEncoder($user2);
-
-                        $password = $encoder->encodePassword($post['user_password']['Repeat'], $user->getSalt());
-
+                        if(isset($post['user_password']['Clave']))
+                            $password = $encoder->encodePassword($post['user_password']['Clave'], $user->getSalt());
+                        else
+                            $password = $encoder->encodePassword($post['user_password']['Password'], $user->getSalt());
                         $user->setUserPassword($password);
                         $em->persist($user);
                         $em->flush();
@@ -295,7 +295,7 @@ class userController extends Controller {
                    $favorite_destinations[$i]['photo'] = 'no_photo.png';
         }
 
-        
+
         $ownership_favorities = $em->getRepository('mycpBundle:favorite')->get_favorite_ownerships($user_ids["user_id"], $user_ids["session_id"], 4, $ownership_id);
 
         for($i = 0; $i<count($ownership_favorities);$i++)
@@ -317,7 +317,6 @@ class userController extends Controller {
             if (!file_exists(realpath("uploads/ownershipImages/" . $history_owns[$i]['photo'])))
                    $history_owns[$i]['photo'] = 'no_photo.png';
         }
-
         return $this->render('frontEndBundle:user:infoTabUser.html.twig', array(
                     'destination_favorites' => $favorite_destinations,
                     'history_destinations' => $history_destinations,

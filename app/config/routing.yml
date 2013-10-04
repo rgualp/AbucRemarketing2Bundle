@@ -2,9 +2,10 @@ mycp:
     resource: "@mycpBundle/Resources/config/routing.yml"
     prefix:   /
 
-#mycp_frontend:
-#    resource: "@FrontendBundle/Resources/config/routing.yml"
-#    prefix:   /{_locale}/
+mycp_own_details:
+    pattern:  /{own_code}
+    defaults: { _controller: frontEndBundle:ownership:own_details_direct }
+
 
 mycp_frontend:
     resource: "@frontEndBundle/Resources/config/routing.yml"
@@ -24,7 +25,7 @@ backend_login:
     pattern:  /backend/login/
     defaults: { _controller: mycpBundle:Public:login }
 backend_logout:
-  pattern: /backend/logout
+    pattern: /backend/logout
 
 mycp_welcome_main:
     pattern:  /welcome/

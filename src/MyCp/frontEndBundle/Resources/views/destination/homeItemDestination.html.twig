@@ -1,11 +1,11 @@
 
   <div class="destinationContent">
-    <a href="{{ path('frontend_details_destination',{'destination_id':destination_id}) }}" title="{{'MORE_INFO_PREFFIX' | trans}} {{destination_name}}">
+    <a href="{{ path('frontend_details_destination',{'destination_name':destination_name|lower|replace(' ','_')}) }}" title="{{'MORE_INFO_PREFFIX' | trans}} {{destination_name}}">
         <img class="photo" src="{{ asset('uploads/destinationImages/thumbnails/' ~ photo)}}"/>
     </a>
         <div class="row-fluid title_row">
                 <div class="title span9"> 
-                    <a href="{{ path('frontend_details_destination',{'destination_id':destination_id}) }}" title="{{'MORE_INFO_PREFFIX' | trans}} {{destination_name}}">
+                    <a href="{{ path('frontend_details_destination',{'destination_name':destination_name|lower|replace(' ','_')}) }}" title="{{'MORE_INFO_PREFFIX' | trans}} {{destination_name}}">
                     {{destination_name | title | slice(0, 27)}}
                     {%if destination_name | length > 27%}...{%endif%}
                     </a>

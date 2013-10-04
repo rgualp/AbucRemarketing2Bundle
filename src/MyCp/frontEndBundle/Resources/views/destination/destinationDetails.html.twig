@@ -43,7 +43,7 @@
                     <div class="accordion-inner">
                         {%for destination in popular_list%}
                         <div class="item row-fluid">
-                           <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination['des_name']}}" href="{{ path('frontend_details_destination',{'destination_id':destination['des_id']}) }}">{{destination['des_name']}}</a>                                
+                           <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination['des_name']}}" href="{{ path('frontend_details_destination',{'destination_name':destination['des_name']|lower|replace(' ','_')}) }}">{{destination['des_name']}}</a>
                          </div>
                         {%else%}
                         <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
@@ -68,7 +68,7 @@
                     <div class="accordion-inner">
                         {%for destination in other_destinations_in_municipality%}
                         <div class="item row-fluid">
-                          <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}">{{destination.desName}}</a>
+                          <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_name':destination.desname|lower|replace(' ','_')}) }}">{{destination.desName}}</a>
                         </div>
                         {%else%}
                         <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
@@ -92,7 +92,7 @@
                     <div class="accordion-inner">
                         {%for destination in other_destinations_in_province%}
                         <div class="item row-fluid">
-                           <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}">{{destination.desName}}</a>
+                           <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_name':destination.desname|lower|replace(' ','_')}) }}">{{destination.desName}}</a>
                         </div>
                         {%else%}
                         <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>

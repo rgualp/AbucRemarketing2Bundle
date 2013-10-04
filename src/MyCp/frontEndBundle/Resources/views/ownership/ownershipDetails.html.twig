@@ -553,7 +553,7 @@
                 <div class="alert alert-error">No disponible</div>
                 {% else %}
                 <button onclick="javascript:move('#calendar')" class="move_to btn btn-block mycp_btn_orange mycp_btn btn-large"  id="top_reservation_submit_button" type="button"  prices="{% set real_price=0%}{%for price in avail_array_prices%}&{{price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}{% set real_price=real_price + price%}{%endfor%}" real_price="{{real_price}}" rooms="{%for room in available_rooms%}&{{room}}{%endfor%}" >
-                    {{"RESERVATION_CHECK_AVAILABILITY" | trans}}
+                    {{"ADD_TO_CART" | trans}}
                 </button>
                 {% endif %}
             </form>

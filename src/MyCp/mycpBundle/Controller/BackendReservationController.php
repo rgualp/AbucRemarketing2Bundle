@@ -428,7 +428,8 @@ class BackendReservationController extends Controller
             'reservations'=>$reservations,
             'photos'=>$array_photos
         ));
-        echo $body->getContent(); exit();
+        
+        
         $locale = $this->get('translator');
         $subject=$locale->trans('REQUEST_STATUS_CHANGED');
         $service_email= $this->get('Email');

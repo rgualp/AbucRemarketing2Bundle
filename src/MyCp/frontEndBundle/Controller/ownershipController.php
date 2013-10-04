@@ -6,15 +6,18 @@ use MyCp\mycpBundle\Entity\ownership;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ownershipController extends Controller {
 
     public function own_details_directAction($own_code)
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $ownership = $em->getRepository('mycpBundle:ownership')->findBy(array('own_mcp_code'=>'a'));
-        var_dump($ownership);
-        exit();
+        $ownership = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code'=>$own_code));
+        if($ownership)
+            return $this->redirect($this->generateUrl('frontend_details_ownership',array('owner_id'=>$ownership->getOwnId())));
+        else
+            throw $this->createNotFoundException(); 
     }
 
     public function detailsAction($owner_id, Request $request) {

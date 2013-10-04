@@ -23,7 +23,7 @@ class PublicController extends Controller {
             'provinces' => $provinces,
             'slide_folder' => $slide_folder
         ));
-        $response->setPublic();
+        
         return $response;
     }
 

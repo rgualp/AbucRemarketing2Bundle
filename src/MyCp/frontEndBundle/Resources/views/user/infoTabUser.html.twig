@@ -13,7 +13,7 @@
                 {% for destination_array in destination_favorites %}
                     <div class="span3">
                 {{ include('frontEndBundle:destination:homeItemDestination.html.twig',{
-                'destination_id': destination_array['destination_id'], 
+                'destination_id': destination_array['destination_id'],
                 'destination_name': destination_array['destination_name'],
                 'is_in_favorite': true,
                 'photo': destination_array['photo'],
@@ -31,13 +31,13 @@
                 {% for destination_array in history_destinations %}
                     <div class="span3">
                 {{ include('frontEndBundle:destination:homeItemDestination.html.twig',
-                   {'destination_id': destination_array['destination_id'], 
+                   {'destination_id': destination_array['destination_id'],
                 'destination_name': destination_array['destination_name'],
                 'is_in_favorite': destination_array['is_in_favorites'],
                 'photo': destination_array['photo'],
                 'localization' : destination_array['municipality_name'] ~ ' / ' ~ destination_array['province_name'],
                 'statistics': {'total': destination_array['count_ownership'], 'minimum_prize': destination_array['min_price']},
-                    'list_preffix': 'history_destinations'}) }} 
+                    'list_preffix': 'history_destinations'}) }}
                             </div>
                 {% else %}
                 <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
@@ -56,7 +56,7 @@
                      'own_minimum_price': ownership_array['minimum_price'],
                      'is_in_favorite': true,
                      'photo': ownership_array['photo'],
-                     'list_preffix': 'favorite_owns'}) }} 
+                     'list_preffix': 'favorite_owns'}) }}
                 {% else %}
                 <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
                 {% endfor %}
@@ -74,7 +74,7 @@
                      'own_minimum_price': ownership_array['minimum_price'],
                    'is_in_favorite': ownership_array['is_in_favorites'],
                    'photo': ownership_array['photo'],
-                   'list_preffix': 'history_owns'}) }} 
+                   'list_preffix': 'history_owns'}) }}
                 {% else %}
                 <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
                 {% endfor %}

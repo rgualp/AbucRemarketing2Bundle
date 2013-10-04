@@ -11,6 +11,7 @@ jQuery(document).ready(function($) {
         controlNavigation: 'bullets',       
         startSlideId: 0,
         autoPlay: true,
+        numImagesToPreload: 0,
         transitionType:'move',
         deeplinking: {
             enabled: true,

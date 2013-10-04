@@ -57,13 +57,13 @@ destinos
         {%for destination in other_destinations%}
         <div class="span6 destination_item">
             <div class="row-fluid title">
-                <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}">
+                <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_name':destination.desname|lower|replace(' ','_')}) }}">
                     {{destination.desname}}
                 </a>
             </div>
             <div class="row-fluid" style="margin-top:8px">
                 <div class="span7">
-                    <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}">
+                    <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_name':destination.desname|lower|replace(' ','_')}) }}">
                         <img class="img-polaroid" src="{{asset("uploads/destinationImages/thumbnails/"~other_destinations_photos[destination.desid])}}">
                     </a>
                 </div>
@@ -85,7 +85,7 @@ destinos
                          }) }}
                 </div>
                 <div class="span10 link" style="text-align: right;">
-                    <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}">{{"RESERVATION_CONFIRM_DESTINATION_MORE"|trans}} <img src="{{asset("bundles/frontend/images/more_icon.gif")}}"/></a>
+                    <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_name':destination.desname|lower|replace(' ','_')}) }}">{{"RESERVATION_CONFIRM_DESTINATION_MORE"|trans}} <img src="{{asset("bundles/frontend/images/more_icon.gif")}}"/></a>
                 </div>
             </div>
         </div>

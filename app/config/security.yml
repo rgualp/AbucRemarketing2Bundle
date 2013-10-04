@@ -36,7 +36,7 @@ security:
                 lifetime: 86400
             logout:
                 path:   /backend/logout
-                target: /welcome
+                target: /
             anonymous: ~
 
         frontend:
@@ -50,7 +50,7 @@ security:
                 lifetime: 86400
             logout:
                 path:   /logout
-                target: /welcome
+                target: /
             anonymous: ~
 
         user:
@@ -64,7 +64,7 @@ security:
                 lifetime: 86400
             logout:
                 path:   /logout
-                target: /welcome
+                target: /
             anonymous: ~
 
             #http_basic:
