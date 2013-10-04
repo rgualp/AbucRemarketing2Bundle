@@ -3,7 +3,6 @@
 namespace MyCp\FrontendBundle\Controller;
 
 use Doctrine\ORM\EntityNotFoundException;
-//use MyCp\frontEndBundle\Helpers\SkrillStatusResponse;
 use MyCp\frontEndBundle\Helpers\PaymentHelper;
 use MyCp\frontEndBundle\Helpers\SkrillHelper;
 use MyCp\mycpBundle\Entity\user;
@@ -24,17 +23,14 @@ class paymentController extends Controller {
 
     public function skrillPaymentAction($bookingId)
     {
-        
         $booking = $this->getBookingFrom($bookingId);
 
         if(empty($booking)) {
             throw new EntityNotFoundException($bookingId);
         }
-        
-        // was be changed because if delete user are deleted the bookings by the db relation
-        // the relation is breack, only save the id in plane text without db relation
-        $em = $this->getDoctrine()->getEntityManager();
-        $user=$em->getRepository('mycpBundle:user')->find($booking->getBookingUserId());
+
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('mycpBundle:user')->find($booking->getBookingUserId());
 
         if(empty($user)) {
             throw new EntityNotFoundException("user($user)");
@@ -50,7 +46,8 @@ class paymentController extends Controller {
             throw new AuthenticationException('Access to resource not permitted.');
         }
 
-        $userTourist = $this->getDoctrine()->getManager()->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
+        $userTourist = $em->getRepository('mycpBundle:userTourist')
+            ->findOneBy(array('user_tourist_user' => $user->getUserId()));
 
         if(empty($userTourist)) {
             throw new EntityNotFoundException("userTourist($userTourist)");
@@ -123,9 +120,13 @@ class paymentController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $request = $this->getRequest()->request->all();
 
+        $this->log(date('Y-m-d H:i:s').': PaymentController line '.__LINE__.': Received Skrill status.');
+
         if(empty($request)) {
             return new Response('Empty post data', 400);
         }
+
+        $this->log('PaymentController line '.__LINE__."Request: \n".print_r($request, true));
 
         $skrillRequest = new skrillPayment($request);
 
@@ -165,7 +166,7 @@ class paymentController extends Controller {
         $em->persist($skrillRequest);
         $em->flush();
 
-        $this->log(date(DATE_RSS).' - PaymentController line '.__LINE__.': '. json_encode($payment) . "\n\n".json_encode($skrillRequest));
+        $this->log(date(DATE_RSS).' - PaymentController line '.__LINE__.': Payment ID: '. $payment->getId() . "\nSkrillRequest ID: ".$skrillRequest->getId());
 
         return new Response('Thanks', 200);
     }
@@ -211,7 +212,6 @@ class paymentController extends Controller {
             "mb_currency" => "EUR",
             "status" => $status,
             "merchant_id" => 22512989,
-
         );
 
         $ch = curl_init ($urltopost);
@@ -228,10 +228,10 @@ class paymentController extends Controller {
 
     private function getBookingFrom($bookingId)
     {
-        $em = $this->getDoctrine()->getManager();
-
         try {
-            return $em->getRepository('mycpBundle:booking')->find($bookingId);
+            return $this->getDoctrine()
+                ->getRepository('mycpBundle:booking')
+                ->find($bookingId);
         } catch (\Exception $e) {
             return null;
         }
@@ -239,32 +239,26 @@ class paymentController extends Controller {
 
     private function getPaymentFrom($booking)
     {
-        $repository = $this->getDoctrine()->getRepository('mycpBundle:payment');
-        $payment = null;
-
         try {
-            $payment = $repository->findOneBy(array('booking' => $booking));
+            return $this->getDoctrine()
+                ->getRepository('mycpBundle:payment')
+                ->findOneBy(array('booking' => $booking));
         } catch (\Exception $e) {
             return null;
         }
-
-        return $payment;
     }
 
     private function getCurrencyFrom($skrillCurrency)
     {
         $skrillCurrency = strtoupper(trim($skrillCurrency));
 
-        $currency = null;
-
         try {
-            $repo = $this->getDoctrine()->getRepository('mycpBundle:currency');
-            $currency = $repo->findOneBy(array('curr_code' => $skrillCurrency));
+            return $this->getDoctrine()
+                ->getRepository('mycpBundle:currency')
+                ->findOneBy(array('curr_code' => $skrillCurrency));
         } catch (\Exception $e) {
             return null;
         }
-
-        return $currency;
     }
 
     private function getSkrillViewData(booking $booking, user $user, userTourist $userTourist)
@@ -272,8 +266,10 @@ class paymentController extends Controller {
         $bookingId = $booking->getBookingId();
         $translator = $this->get('translator');
         $locale = $this->getRequest()->getLocale();
+        $relativeLogoUrl = $this->container->get('templating.helper.assets')->getUrl('bundles/frontend/images/logo.png');
+        $logoUrl = $this->getRequest()->getSchemeAndHttpHost() . $relativeLogoUrl;
 
-        return array(
+        $skrillData = array(
             'action_url' => self::$skrillPostUrl,
             'pay_to_email' => 'accounting@mycasaparticular.com',
             'recipient_description' => 'MyCasaParticular.com',
@@ -286,7 +282,7 @@ class paymentController extends Controller {
             'language' => SkrillHelper::getSkrillLanguageFromLocale($locale),
             'confirmation_note' => $translator->trans('SKRILL_CONFIRMATION_NOTE'),
             'pay_from_email' => $user->getUserEmail(),
-            'logo_url' => 'http://www.mypaladar.com/mycp/mycpres/web/bundles/frontend/images/logo.png', // TODO: $this->getRequest()->getUriForPath('bundles/frontend/images/logo.png') //;'bundles/frontend/images/logo.png',
+            'logo_url' => $logoUrl,
             'first_name' => $user->getUserName(),
             'last_name' => $user->getUserLastName(),
             'address' => $user->getUserAddress(),
@@ -300,12 +296,16 @@ class paymentController extends Controller {
             'payment_methods' => 'ACC,DID,SFT',
             'button_text' => $translator->trans('SKRILL_PAY_WITH_SKRILL')
         );
+
+        $this->log(date('Y-m-d H:i:s').': PaymentController line '.__LINE__.": Data sent to Skrill: \n".print_r($skrillData, true));
+
+        return $skrillData;
     }
 
     private function log($message)
     {
         $path = $this->get('kernel')->getRootDir() . '/../app/logs/payment.log';
-        file_put_contents($path, $message, FILE_APPEND);
+        file_put_contents($path, $message.PHP_EOL, FILE_APPEND);
     }
 }
 
