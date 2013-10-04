@@ -82,7 +82,7 @@ class paymentController extends Controller {
                 'cancelUrl' => $cancelUrl,
                 'pendingUrl' => $pendingUrl,
                 'failedUrl' => $failedUrl,
-                'timeoutTicks' => 60,
+                'timeoutTicks' => 80,
                 'pollingPeriodMsec' => 1000
             ));
     }
@@ -92,8 +92,7 @@ class paymentController extends Controller {
         $booking = $this->getBookingFrom($bookingId);
 
         if(empty($booking)) {
-            throw new InvalidParameterException($bookingId);
-            //return new JsonResponse(array('status' => 'reservation_not_found'));
+            return new JsonResponse(array('status' => 'booking_not_found'));
         }
 
         $payment = $this->getPaymentFrom($booking);
@@ -128,9 +127,10 @@ class paymentController extends Controller {
 
         $this->log('PaymentController line '.__LINE__."Request: \n".print_r($request, true));
 
-        $skrillRequest = new skrillPayment($request);
+        $skrillPayment = new skrillPayment($request);
 
-        $bookingId = $skrillRequest->getMerchantTransactionId();
+        $bookingId = $skrillPayment->getMerchantTransactionId();
+        $this->log('PaymentController line '.__LINE__.': Booking id='.$bookingId.'');
         $booking = $this->getBookingFrom($bookingId);
 
         if(empty($booking)) {
@@ -140,33 +140,40 @@ class paymentController extends Controller {
 
         $payment = $this->getPaymentFrom($booking);
 
+        $this->log('PaymentController line '.__LINE__."Payment found: ".empty($payment)?'yes':'no');
+
         if(empty($payment)) {
             $payment = new payment();
             $payment->setCreated(new \DateTime());
             $payment->setBooking($booking);
         }
 
-        $payment->setPayedAmountFromString($skrillRequest->getPayedAmount());
+        $this->log('SkrillPayment:');
+        $this->log('merchant amount: '.$skrillPayment->getMerchantAmount());
+        $this->log('merchant currency: '.$skrillPayment->getMerchantCurrency());
+        $this->log('status: '.$skrillPayment->getStatus());
+        $this->log('merchant transaction id (booking_id): '.$skrillPayment->getMerchantTransactionId());
 
-        $skrillCurrency = $skrillRequest->getSkrillCurrency();
-        $currency = $this->getCurrencyFrom($skrillCurrency);
+        $payment->setPayedAmount($skrillPayment->getMerchantAmount());
+
+        $currencyIsoCode = $skrillPayment->getMerchantCurrency();
+        $currency = $this->getCurrencyFrom($currencyIsoCode);
 
         if(empty($currency)) {
-            $this->log(date(DATE_RSS).' - PaymentController line '.__LINE__.': Currency '.$skrillCurrency.' not found.');
+            $this->log(date(DATE_RSS).' - PaymentController line '.__LINE__.': Currency '.$currencyIsoCode.' not found.');
             return new Response('', 200);
         }
 
         $payment->setCurrency($currency);
         $payment->setModified(new \DateTime());
-        $payment->setStatus(SkrillHelper::getInternalStatusCodeFrom($skrillRequest->getStatus()));
+        $payment->setStatus(SkrillHelper::getInternalStatusCodeFrom($skrillPayment->getStatus()));
 
-        $skrillRequest->setPayment($payment);
+        $skrillPayment->setPayment($payment);
         $em->persist($payment);
-        $em->flush();
-        $em->persist($skrillRequest);
+        $em->persist($skrillPayment);
         $em->flush();
 
-        $this->log(date(DATE_RSS).' - PaymentController line '.__LINE__.': Payment ID: '. $payment->getId() . "\nSkrillRequest ID: ".$skrillRequest->getId());
+        $this->log(date(DATE_RSS).' - PaymentController line '.__LINE__.': Payment ID: '. $payment->getId() . "\nSkrillRequest ID: ".$skrillPayment->getId());
 
         return new Response('Thanks', 200);
     }
@@ -203,15 +210,22 @@ class paymentController extends Controller {
     public function skrillSendTestPostRequestAction($bookingId, $status)
     {
         $urltopost = $this->generateUrl('frontend_payment_skrill_status', array(), true);
+
         $datatopost = array (
-            "mb_transaction_id" => "ABCD",
-            "transaction_id" => $bookingId,
-            "pay_to_email" => "accounting@mycasaparticular.com",
-            "pay_from_email" => "customer@email.com",
-            "mb_amount" => "12.12",
-            "mb_currency" => "EUR",
-            "status" => $status,
-            "merchant_id" => 22512989,
+            'sha2sig' => '055C071F19CF8986C3EB682FFE8A5885511E0C6381E80D73B8A69E1830FA10C1',
+            'status' => $status,
+            'md5sig' => '3279807BFDBECC92796250FDD09D05FF',
+            'merchant_id' => '22512989',
+            'pay_to_email' => 'accounting@mycasaparticular.com',
+            'mb_amount' => '12.50214',
+            'mb_transaction_id' => '970004731',
+            'currency' => 'EUR',
+            'amount' => '10.22',
+            'customer_id' => '33885759',
+            'payment_type' => 'VSA',
+            'transaction_id' => $bookingId,
+            'pay_from_email' => 'ct@mycasaparticular.com',
+            'mb_currency' => 'CHF',
         );
 
         $ch = curl_init ($urltopost);
@@ -248,14 +262,14 @@ class paymentController extends Controller {
         }
     }
 
-    private function getCurrencyFrom($skrillCurrency)
+    private function getCurrencyFrom($currencyIsoCode)
     {
-        $skrillCurrency = strtoupper(trim($skrillCurrency));
+        $currencyIsoCode = strtoupper(trim($currencyIsoCode));
 
         try {
             return $this->getDoctrine()
                 ->getRepository('mycpBundle:currency')
-                ->findOneBy(array('curr_code' => $skrillCurrency));
+                ->findOneBy(array('curr_code' => $currencyIsoCode));
         } catch (\Exception $e) {
             return null;
         }
