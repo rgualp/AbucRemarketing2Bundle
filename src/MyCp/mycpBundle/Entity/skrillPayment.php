@@ -80,9 +80,9 @@ class skrillPayment
     /**
      * @var string
      *
-     * @ORM\Column(name="payed_amount", type="string", length=30, nullable=true)
+     * @ORM\Column(name="skrill_amount", type="string", length=30, nullable=true)
      */
-    private $payed_amount = null;
+    private $skrill_amount = null;
 
     /**
      * @var string
@@ -115,9 +115,16 @@ class skrillPayment
     /**
      * @var string
      *
-     * @ORM\Column(name="md5_signature", type="string", length=64, nullable=true)
+     * @ORM\Column(name="md5_signature", type="string", length=32, nullable=true)
      */
     private $md5_signature = null;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="sha2_signature", type="string", length=64, nullable=true)
+     */
+    private $sha2_signature = null;
 
     /**
      * @var string
@@ -189,7 +196,7 @@ class skrillPayment
         }
 
         if(isset($skrillStatusRequest['mb_amount'])) {
-            $this->setPayedAmount($skrillStatusRequest['mb_amount']);
+            $this->setSkrillAmount($skrillStatusRequest['mb_amount']);
         }
 
         if(isset($skrillStatusRequest['mb_currency'])) {
@@ -208,6 +215,10 @@ class skrillPayment
 
         if(isset($skrillStatusRequest['md5sig'])) {
             $this->setMd5Signature($skrillStatusRequest['md5sig']);
+        }
+
+        if(isset($skrillStatusRequest['sha2sig'])) {
+            $this->setSha2Signature($skrillStatusRequest['sha2sig']);
         }
 
         if(isset($skrillStatusRequest['amount'])) {
@@ -400,26 +411,26 @@ class skrillPayment
     }
 
     /**
-     * Set payed_amount
+     * Set skrill_amount
      *
-     * @param string $payedAmount
+     * @param string $skrillAmount
      * @return skrillPayment
      */
-    public function setPayedAmount($payedAmount)
+    public function setSkrillAmount($skrillAmount)
     {
-        $this->payed_amount = $payedAmount;
+        $this->skrill_amount = $skrillAmount;
     
         return $this;
     }
 
     /**
-     * Get payed_amount
+     * Get skrill_amount
      *
      * @return string 
      */
-    public function getPayedAmount()
+    public function getSkrillAmount()
     {
-        return $this->payed_amount;
+        return $this->skrill_amount;
     }
 
     /**
@@ -535,6 +546,29 @@ class skrillPayment
     public function getMd5Signature()
     {
         return $this->md5_signature;
+    }
+
+    /**
+     * Set sha2_signature
+     *
+     * @param string $sha2Signature
+     * @return skrillPayment
+     */
+    public function setSha2Signature($sha2Signature)
+    {
+        $this->sha2_signature = $sha2Signature;
+
+        return $this;
+    }
+
+    /**
+     * Get sha2_signature
+     *
+     * @return string
+     */
+    public function getSha2Signature()
+    {
+        return $this->sha2_signature;
     }
 
     /**
