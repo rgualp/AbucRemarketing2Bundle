@@ -2111,6 +2111,22 @@
                     <source>OWNERSHIP_MID_RANGE_DESCRIPTION</source>
                     <target>Descripción para alojamientos de Rango Medio.</target>
              </trans-unit>
+             <trans-unit id="538">
+                 <source>ERROR_TITLE_PAGE</source>
+                 <target>Ha ocurrido un error</target>
+             </trans-unit>
+             <trans-unit id="539">
+                 <source>OOPS</source>
+                 <target>¡Vaya!</target>
+             </trans-unit>
+             <trans-unit id="540">
+                 <source>PAGE_NOT_FOUND</source>
+                 <target>La página que ha solicitado no se encuentra.</target>
+             </trans-unit>
+             <trans-unit id="541">
+                 <source>TRY_OTHER_PAGES</source>
+                 <target>Le sugerimos que intente con los siguientes enlaces.</target>
+             </trans-unit>
         </body>
     </file>
 </xliff>

@@ -67,7 +67,7 @@ class Images {
             $photo = $albumPhoto->getAlbPhoPhoto();
             if($photo != null && file_exists(realpath($dir_album.$photo->getPhoName())))
             {
-              Images::resize_and_watermark($dir_album.$photo->getPhoName(), $dir_watermark, 480);   
+              Images::resize($dir_album.$photo->getPhoName(), $dir_watermark, 480);
               Images::create_thumbnail($dir_album.$photo->getPhoName(), $dir_albums_thumbs, 160);   
             }
         }
@@ -86,7 +86,7 @@ class Images {
             $photo = $destinationPhoto->getDesPhoPhoto();
             if($photo != null && file_exists(realpath($dir_destination.$photo->getPhoName())))
             {
-              Images::resize_and_watermark($dir_destination.$photo->getPhoName(), $dir_watermark, 480);   
+              Images::resize($dir_destination.$photo->getPhoName(), $dir_watermark, 480);
               Images::create_thumbnail($dir_destination.$photo->getPhoName(), $dir_destination_thumbs, 160);   
             }
         }

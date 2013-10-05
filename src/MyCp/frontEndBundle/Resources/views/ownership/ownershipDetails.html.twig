@@ -731,7 +731,8 @@
     $('#top_reservation_filter_date_from').datepicker({
         format:'dd/mm/yyyy',
         todayBtn:'linked',
-        startDate: start_date,
+        startDate: new Date(),
+        date: start_date,
         language: $('#top_reservation_filter_date_from').attr('data-localization')
     }).on('changeDate', function(ev){
                 $('.datepicker').hide();
@@ -742,7 +743,8 @@
     $('#top_reservation_filter_date_to').datepicker({
         format:'dd/mm/yyyy',
         todayBtn:'linked',
-        startDate: end_date,
+        startDate: '+2',
+        date: end_date,
         language: $('#top_reservation_filter_date_to').attr('data-localization')
     }).on('changeDate', function(ev){
                 $('.datepicker').hide();

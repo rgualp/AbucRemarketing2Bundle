@@ -2115,6 +2115,22 @@
                 <source>OWNERSHIP_MID_RANGE_DESCRIPTION</source>
                 <target>Description for midrange accomodations.</target>
             </trans-unit>
+            <trans-unit id="538">
+                <source>ERROR_TITLE_PAGE</source>
+                <target>An Error Occurred</target>
+            </trans-unit>
+            <trans-unit id="539">
+                <source>OOPS</source>
+                <target>Oops!</target>
+            </trans-unit>
+            <trans-unit id="540">
+                <source>PAGE_NOT_FOUND</source>
+                <target>The page you requested was not found.</target>
+            </trans-unit>
+            <trans-unit id="541">
+                <source>TRY_OTHER_PAGES</source>
+                <target>Try better with one of these links.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

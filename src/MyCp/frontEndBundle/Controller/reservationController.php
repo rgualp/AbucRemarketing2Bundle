@@ -230,6 +230,7 @@ class reservationController extends Controller {
         $services = array();
         $reservations = array();
         $own_ids = array();
+        $gen_res=array();
 
         $array_photos = array();
         if ($request->getSession()->get('services_pre_reservation'))
@@ -278,6 +279,7 @@ class reservationController extends Controller {
                     $general_reservation->setGenResToDate(new \DateTime(date("Y-m-d H:i:s", $res_item[count($res_item)-1]['to_date'])));
                     $general_reservation->setGenResSaved(0);
                     $general_reservation->setGenResOwnId($ownership);
+
                     $total_price = 0;
                     $partial_total_price=array();
                     $item_total_price=array();
@@ -323,6 +325,8 @@ class reservationController extends Controller {
                     }
                     $general_reservation->setGenResTotalInSite($total_price);
                     $em->persist($general_reservation);
+                    array_push($gen_res,$general_reservation);
+
                     $flag_1=0;
                     foreach($res_item as $item)
                     {
@@ -361,7 +365,7 @@ class reservationController extends Controller {
             return $this->redirect($this->generateUrl('frontend_review_reservation'));
         }
 
-        $request->getSession()->set('services_pre_reservation', null);
+        //$request->getSession()->set('services_pre_reservation', null);
         /*
          * Hallando otros ownerships en el mismo destino
          */
@@ -394,8 +398,30 @@ class reservationController extends Controller {
         $service_email->send_email(
                 $subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $body
         );
-        //Enviando mail al reservation team
 
+        //Enviando mail al reservation team
+        $array_own_res_by_gen_res=array();
+        /*foreach($gen_res as $gen)
+        {
+            $$em->getRepository('mycpBundle:ownershipReservation')->find(array('own_res_gen_res_id'=>$gen->getGenResId));
+        }*/
+        /*
+        $user_tourist=$em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user'=>$user->getUserId()));
+
+        $body = $this->render('frontEndBundle:mails:rt_email_check_available.html.twig', array(
+            'user' => $user,
+            'reservations' => $reservations,
+            'prices' => $item_total_price,
+            'ids'=>$own_ids,
+            'nigths'=>$nigths,
+        ));
+        echo $body->getContent(); exit();
+        $subject = "MyCasaParticular Reservas - ";
+        $service_email = $this->get('Email');
+        $service_email->send_email(
+            $subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $body
+        );
+        */
 
         return $this->render('frontEndBundle:reservation:confirmReview.html.twig', array(
                     "owns_in_destination" => $owns_in_destination,

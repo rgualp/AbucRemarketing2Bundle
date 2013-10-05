@@ -8,12 +8,13 @@ function datePickersStarUp() {
         format: 'dd/mm/yyyy',
         todayBtn: 'linked',
         autoclose: true,
-        startDate: start_date,
+        starDate: new Date(),
+        date: start_date,
         language: $('#input_arrival_date').attr('data-localization')
     }).on('changeDate', function(ev) {
         var newDate = new Date(ev.date);
         newDate.setDate(newDate.getDate() + 1);
-        departure_datepicker.setStartDate(newDate);
+        departure_datepicker.setStartDate('+1d');
         departure_datepicker.setDate(newDate);
     });
 
