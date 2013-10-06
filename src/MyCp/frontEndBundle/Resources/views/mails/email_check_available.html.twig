@@ -34,7 +34,7 @@
                             <br/>
                             <br/>
                             <span class="badge">{{"PENDING"|trans}}</span>
-                        <h4>TOTAL: {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{prices[loop.index0] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h4>
+                        <h4>TOTAL: {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{reservation.getOwnResTotalInSite * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h4>
                         </p>
                     </td>
                 </tr>

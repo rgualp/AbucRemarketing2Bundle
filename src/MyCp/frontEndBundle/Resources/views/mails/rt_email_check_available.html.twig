@@ -2,14 +2,50 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <style type="text/css">
-        body{font-family: Arial}
-    </style>
 </head>
-<body>
+<body style="font-family: Arial; font-size: 12px">
 <h3>Fecha y hora</h3>
+{{ "now"|date("D, d M Y H:m:s O") }}<br/><br/>
+Referencia de reserva: {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnMcpCode}}<br/><br/>
+ID reserva: CAS.{{reservations[0].getOwnResGenResId.getGenResId}}
+<h4>Datos del cliente</h4>
+<ul>
+    <li>Nombre: <i>{{user.getUserUserName}}</i></li>
+    <li>Apellido: <i>{{user.getUserLastName}}</i></li>
+    <li>Correo electrónico: <i>{{user.getUserEmail}}</i></li>
+    <li>Dirección: <i>{{user.getUserAddress}}</i></li>
+    <li>Código postal: <i>{{user_tourist.getUserTouristPostalCode}}</i></li>
+    <li>Ciudad: <i>{{user.getUserCity}}</i></li>
+    <li>País: <i>{{user.getUserCountry.getCoName}}</i></li>
+    <li>Teléfono: <i>{{user.getUserPhone}}</i></li>
+    <li>Lenguaje: <i>{{user_tourist.getUserTouristLanguage.getLangName}}</i></li>
+    <li>Moneda: <i>{{user_tourist.getUserTouristCurrency.getCurrName}}</i></li>
+</ul>
+<h4>Datos de reserva ({{reservations|length}} {% if reservations|length == 1%}Habitación{% else %}Habitaciones{% endif %})</h4>
 {% for reservation in reservations %}
-
+<ul>
+    <li>Habitación: <i>{{reservation.getOwnResRoomType}}</i></li>
+    <li>Adultos: {{reservation.getOwnResCountAdults}}</li>
+    <li>Niños: {{reservation.getOwnResCountChildrens}}</li>
+    <li>Fecha de arribo: {{reservation.getOwnResReservationFromDate|date("d/m/Y")}}</li>
+    <li>Noches: {{nigths[loop.index0]}}</li>
+</ul>
 {% endfor %}
+<h4>Datos de la casa</h4>
+<ul>
+    <li>Nombre: <i>{{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnName}}</i></li>
+    <li>Propietarios: <i>
+        {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnHomeowner1}}
+        {% if reservations[0].getOwnResGenResId.getGenResOwnId.getOwnHomeowner2 %}
+        y {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnHomeowner2}}
+        {% endif %}
+    </i></li>
+    <li>Dirección: <i>
+        {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressStreet}}
+        No. {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressNumber}}
+        e/ {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressBetweenStreet1}} y {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressBetweenStreet2}}. {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressProvince.getProvName}}, {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressMunicipality.getMunName}}</i></li>
+    <li>Teléfono: <i>{{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnPhoneNumber}}</i></li>
+    <li>Celular: <i>{{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnMobileNumber}}</i></li>
+</ul>
 </body>
 </html>

@@ -282,7 +282,6 @@ class reservationController extends Controller {
 
                     $total_price = 0;
                     $partial_total_price=array();
-                    $item_total_price=array();
                     foreach($res_item as $item)
                     {
                         $array_dates = $service_time->dates_between($item['from_date'], $item['to_date']);
@@ -295,13 +294,12 @@ class reservationController extends Controller {
                                     {
                                         $total_price += $item['room_price_down'] + 10;
                                         $temp_price += $item['room_price_down'] + 10;
-                                        array_push($item_total_price,$item['room_price_down'] + 10);
                                     }
                                     else
                                     {
                                         $total_price += $item['room_price_down'];
                                         $temp_price += $item['room_price_down'];
-                                        array_push($item_total_price,$item['room_price_down']);
+
                                     }
                                 }
                                 else {
@@ -309,13 +307,12 @@ class reservationController extends Controller {
                                     {
                                         $total_price += $item['room_price_top'] + 10;
                                         $temp_price += $item['room_price_top'] + 10;
-                                        array_push($item_total_price,$item['room_price_top'] + 10);
+
                                     }
                                     else
                                     {
                                         $total_price += $item['room_price_top'];
                                         $temp_price += $item['room_price_top'];
-                                        array_push($item_total_price,$item['room_price_top']);
                                     }
                                 }
                             }
@@ -325,7 +322,6 @@ class reservationController extends Controller {
                     }
                     $general_reservation->setGenResTotalInSite($total_price);
                     $em->persist($general_reservation);
-                    array_push($gen_res,$general_reservation);
 
                     $flag_1=0;
                     foreach($res_item as $item)
@@ -365,7 +361,8 @@ class reservationController extends Controller {
             return $this->redirect($this->generateUrl('frontend_review_reservation'));
         }
 
-        //$request->getSession()->set('services_pre_reservation', null);
+        $request->getSession()->set('services_pre_reservation', null);
+
         /*
          * Hallando otros ownerships en el mismo destino
          */
@@ -387,7 +384,6 @@ class reservationController extends Controller {
         $body = $this->render('frontEndBundle:mails:email_check_available.html.twig', array(
             'user' => $user,
             'reservations' => $reservations,
-            'prices' => $item_total_price,
             'ids'=>$own_ids,
             'nigths'=>$nigths,
             'photos'=>$array_photos
@@ -400,28 +396,35 @@ class reservationController extends Controller {
         );
 
         //Enviando mail al reservation team
-        $array_own_res_by_gen_res=array();
-        /*foreach($gen_res as $gen)
-        {
-            $$em->getRepository('mycpBundle:ownershipReservation')->find(array('own_res_gen_res_id'=>$gen->getGenResId));
-        }*/
-        /*
         $user_tourist=$em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user'=>$user->getUserId()));
+        $array_own_res_home=array();
+        foreach($reservations as $gen)
+        {
+            $offset=$gen->getOwnResGenResId()->getGenResId();
+            $temp=array();
+            if(isset($array_own_res_home[$offset]))
+                $temp=$array_own_res_home[$offset];
+            array_push($temp,$gen);
+            $array_own_res_home[$offset]=$temp;
 
-        $body = $this->render('frontEndBundle:mails:rt_email_check_available.html.twig', array(
-            'user' => $user,
-            'reservations' => $reservations,
-            'prices' => $item_total_price,
-            'ids'=>$own_ids,
-            'nigths'=>$nigths,
-        ));
-        echo $body->getContent(); exit();
-        $subject = "MyCasaParticular Reservas - ";
+        }
+        $flag_3=0;
         $service_email = $this->get('Email');
-        $service_email->send_email(
-            $subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $body
-        );
-        */
+        foreach($array_own_res_home as $own_array)
+        {
+            $temp_nigths=array_slice($nigths,$flag_3,count($own_array));
+            $flag_3=count($own_array);
+            $body = $this->render('frontEndBundle:mails:rt_email_check_available.html.twig', array(
+                'user' => $user,
+                'user_tourist' => $user_tourist,
+                'reservations' => $own_array,
+                'nigths'=>$temp_nigths,
+            ));
+            $subject = "MyCasaParticular Reservas - ".strtoupper($user_tourist->getUserTouristLanguage()->getLangCode());
+            $service_email->send_email(
+                $subject, 'no.reply@mycasaparticular.com', $subject, $user->getUserEmail(), $body
+            );
+        }
 
         return $this->render('frontEndBundle:reservation:confirmReview.html.twig', array(
                     "owns_in_destination" => $owns_in_destination,
