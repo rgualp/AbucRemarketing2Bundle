@@ -21,7 +21,6 @@ class ownershipController extends Controller {
     }
 
     public function detailsAction($owner_id, Request $request) {
-
         $em = $this->getDoctrine()->getEntityManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
 

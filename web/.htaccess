@@ -7,6 +7,7 @@
 
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^(.*)$ app.php [QSA,L]
+
 </IfModule>
 
 <FilesMatch ".(js|css|html|htm|php|xml)$">

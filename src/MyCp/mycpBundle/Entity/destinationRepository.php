@@ -159,10 +159,12 @@ class destinationRepository extends EntityRepository {
         }
 
         $em = $this->getEntityManager();
+
         $query = $em->createQuery("SELECT dl,des FROM mycpBundle:destinationLocation dl
         JOIN dl.des_loc_destination des
         WHERE des.des_name LIKE '%$filter_name%' $string $string2 $string3 $string4
         ");
+
         return $query->getResult();
     }
 
@@ -199,6 +201,7 @@ class destinationRepository extends EntityRepository {
         /*$query = $em->createQuery($query_string);
         var_dump(count($query->getResult()));
         exit();*/
+
      $results = ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult();
          
      for ($i = 0; $i< count($results); $i++) {

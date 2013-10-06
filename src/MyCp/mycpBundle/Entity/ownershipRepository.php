@@ -468,6 +468,7 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT ow FROM mycpBundle:ownership ow
         WHERE ow.own_mcp_code LIKE '%$filter_code%' $string $string2 $string3 $string4 $string5");
+
         return $query->getResult();
     }
 
@@ -485,10 +486,10 @@ class ownershipRepository extends EntityRepository {
      * @return array of MyCp\mycpBundle\Entity\ownership
      */
     function search($text = null, $arrivalDate = null, $leavingDate = null, $guest_total = 1, $rooms_total = 1, $order_by = 'PRICE_LOW_HIGH', $room_filter = false, $filters = null) {
-
         $em = $this->getEntityManager();
 
         $query_string = "";
+
         $temp_array = null;
         if (!$room_filter) {
             $query_string = "SELECT o FROM mycpBundle:ownership o JOIN o.own_address_province p JOIN o.own_address_municipality m";

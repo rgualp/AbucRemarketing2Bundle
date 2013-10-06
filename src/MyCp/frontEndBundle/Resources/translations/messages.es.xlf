@@ -2127,6 +2127,10 @@
                  <source>TRY_OTHER_PAGES</source>
                  <target>Le sugerimos que intente con los siguientes enlaces.</target>
              </trans-unit>
+             <trans-unit id="542">
+                  <source>PLEASE_SELECT_RESERVATION</source>
+                  <target>Por favor, seleccione al menos una reservación para continuar reservando.</target>
+              </trans-unit>
         </body>
     </file>
 </xliff>
