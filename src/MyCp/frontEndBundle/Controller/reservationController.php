@@ -670,7 +670,6 @@ class reservationController extends Controller
             $em->persist($general);
         }
         $em->flush();
-
         return $this->render('frontEndBundle:reservation:confirmReservation.html.twig', array(
             'own_res' => $own_res,
             'user' => $user,
