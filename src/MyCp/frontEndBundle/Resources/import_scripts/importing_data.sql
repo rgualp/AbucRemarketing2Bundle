@@ -227,7 +227,8 @@ own_facilities_parking,
 own_facilities_parking_price,
 own_description_bicycle_parking,
 own_description_pets,
-own_description_laundry)
+own_description_laundry,
+own_commission_percent)
 select p.pro_id,
 p.pro_name,
 m.mun_prov_id,
@@ -263,7 +264,8 @@ otros.parqueoinc,
 otros.parqueoprec,
 otros.parqueociclos,
 otros.mascotas,
-otros.lavanderia
+otros.lavanderia,
+p.pro_offer_type
 from old_mypaladar_mycp.propiedades p
 join mypalada_mycp.municipality m on p.pro_mun_id = m.mun_id
 join mypalada_mycp.province prov on m.mun_prov_id = prov.prov_id

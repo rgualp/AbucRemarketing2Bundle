@@ -51,7 +51,7 @@ class payment
     /**
      * @var integer
      *
-     * @ORM\Column(name="payed_amount", type="integer", nullable=true)
+     * @ORM\Column(name="payed_amount", type="decimal", precision=10, scale=2, nullable=true)
      */
     private $payed_amount = null;
 
@@ -122,7 +122,7 @@ class payment
     /**
      * Set payed_amount
      *
-     * @param integer $payedAmount
+     * @param float $payedAmount
      * @return payment
      */
     public function setPayedAmount($payedAmount)
@@ -133,41 +133,9 @@ class payment
     }
 
     /**
-     * Set payed_amount by a string with the form
-     * \d+\.?(\d*)
-     *
-     * @param string $payedAmountString
-     * @throws InvalidArgumentException
-     * @return payment
-     */
-    public function setPayedAmountFromString($payedAmountString)
-    {
-        $decimalPointPosition = strpos($payedAmountString, '.');
-
-        if($decimalPointPosition !== false) {
-            $fraction = substr($payedAmountString, $decimalPointPosition+1);
-            $length = strlen($fraction);
-
-            if($length === 1) {
-                $payedAmountString .= '0';
-            } else if ($length !== 2) {
-                throw new InvalidArgumentException();
-            }
-            $payedAmountString = str_replace('.', '', $payedAmountString);
-        } else {
-            $payedAmountString = $payedAmountString . '00';
-        }
-
-        $payedAmount = (int)$payedAmountString;
-        $this->payed_amount = $payedAmount;
-
-        return $this;
-    }
-
-    /**
      * Get payed_amount
      *
-     * @return integer
+     * @return float
      */
     public function getPayedAmount()
     {
