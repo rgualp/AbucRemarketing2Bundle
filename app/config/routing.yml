@@ -6,10 +6,10 @@ mycp_own_details:
     pattern:  /{own_code}
     defaults: { _controller: frontEndBundle:ownership:own_details_direct }
 
-
 mycp_frontend:
     resource: "@frontEndBundle/Resources/config/routing.yml"
     prefix:   /{_locale}/
+    type: be_simple_i18n
 
 frontend_ckeck:
     pattern:  /check

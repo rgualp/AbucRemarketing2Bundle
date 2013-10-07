@@ -2135,6 +2135,10 @@
                   <source>PLEASE_SELECT_RESERVATION</source>
                   <target>Please, select one reservation or more to continue reserving.</target>
               </trans-unit>
+              <trans-unit id="543">
+                <source>PAYMENT_CONFIRM_2</source>
+                <target>Payment confirm</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

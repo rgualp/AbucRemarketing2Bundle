@@ -1,16 +1,16 @@
 frontend_about_us:
-    pattern:  /about_us
+    locales:  { en: "/about_us/", es: "/quienes_somos/" }
     defaults: { _controller: frontEndBundle:information:about_us }
 
 frontend_list_information:
-    pattern:  /information/{information_type}
+    locales:  { en: "/information/{information_type}", es: "/informacion/{information_type}" }
     defaults: { _controller: frontEndBundle:information:information }
 
 
 frontend_sitemap_information:
-    pattern:  /sitemap/
+    locales:  { en: "/sitemap/", es: "/mapa_del_sitio/" }
     defaults: { _controller: frontEndBundle:information:sitemap }
     
 frontend_how_it_works_information:
-    pattern:  /how_it_works/
+    locales:  { en: "/how_it_works/", es: "/como_funciona/" }
     defaults: { _controller: frontEndBundle:information:how_it_works }

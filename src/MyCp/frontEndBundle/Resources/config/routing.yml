@@ -1,31 +1,37 @@
 frontend_welcome:
-    pattern:  /welcome/
+    locales:  { en: "/welcome/", es: "/bienvenido/" }
     defaults: { _controller: frontEndBundle:public:welcome }
 
 frontend_destination:
     resource: "@frontEndBundle/Resources/config/routingFrontendDestination.yml"
+    type: be_simple_i18n
 
 frontend_municipality:
     resource: "@frontEndBundle/Resources/config/routingFrontendMunicipality.yml"
+    type: be_simple_i18n
 
 frontend_ownership:
     resource: "@frontEndBundle/Resources/config/routingFrontendOwnership.yml"
+    type: be_simple_i18n
     
 frontend_comment:
     resource: "@frontEndBundle/Resources/config/routingFrontendComment.yml"
     
 frontend_user:
     resource: "@frontEndBundle/Resources/config/routingFrontendUser.yml"
+    type: be_simple_i18n
 
 frontend_reservation:
     resource: "@frontEndBundle/Resources/config/routingFrontendReservation.yml"
     prefix:   user/reservation/
+    type: be_simple_i18n
     
 frontend_currency:
     resource: "@frontEndBundle/Resources/config/routingFrontendCurrency.yml"
 
 frontend_information:
     resource: "@frontEndBundle/Resources/config/routingFrontendInformation.yml"
+    type: be_simple_i18n
     
 frontend_faq:
     resource: "@frontEndBundle/Resources/config/routingFrontendFaq.yml"
@@ -33,12 +39,14 @@ frontend_faq:
 frontend_mycasatrip:
     resource: "@frontEndBundle/Resources/config/routingFrontendMyCasaTrip.yml"
     prefix: mycasatrip/
+    type: be_simple_i18n
 
 frontend_payment:
     resource: "@frontEndBundle/Resources/config/routingFrontendPayment.yml"
 
 frontend_favorite:
     resource: "@frontEndBundle/Resources/config/routingFrontendFavorite.yml"
+    type: be_simple_i18n
     
 frontend_language:
     resource: "@frontEndBundle/Resources/config/routingFrontendLanguage.yml"
