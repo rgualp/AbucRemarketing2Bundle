@@ -19,10 +19,10 @@
     </div>
     {% set cont=cont+1 %}
     {% else %}
-    {% set cont=0 %}
+    {% set cont=1 %}
 </div>
-<div class="top_rated_items">
-    <div class="item">
+<div class="top_rated_items row-fluid">
+    <div class="item span3">
         <a href="{{ path('frontend_details_ownership',{'owner_id':ownership['own_id']}) }}" title="{{"MORE_INFO_PREFFIX" | trans}} {{ownership['own_name']}}">
            <div class="image" style="background-image: url('{{ asset("uploads/ownershipImages/thumbnails/" ~ ownership['photo'])}}')">
              <div class="rating">{%if ownership['comments_total'] > 0%}+{%endif%}{{ownership['comments_total']}}</div></div>
