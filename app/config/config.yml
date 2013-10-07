@@ -113,4 +113,5 @@ avalanche_imagine:
             type:    thumbnail
             options: { size: [120, 90], mode: outbound }
 
+be_simple_i18n_routing: ~
 

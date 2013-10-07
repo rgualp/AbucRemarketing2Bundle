@@ -23,6 +23,7 @@ class AppKernel extends Kernel
             new Ideup\SimplePaginatorBundle\IdeupSimplePaginatorBundle(),
             new MyCp\frontEndBundle\frontEndBundle(),
             new Avalanche\Bundle\ImagineBundle\AvalancheImagineBundle(),
+            new BeSimple\I18nRoutingBundle\BeSimpleI18nRoutingBundle(),
 //            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
         );
 
