@@ -361,20 +361,13 @@ class reservationController extends Controller
         /*
          * Hallando otros ownerships en el mismo destino
          */
-        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
         $ownership = $em->getRepository('mycpBundle:ownership')->find($services[0]['ownership_id']);
 
-        $owns_in_destination = $em->getRepository("mycpBundle:destination")->ownsership_nearby_destination($ownership->getOwnAddressMunicipality()->getMunId(), $ownership->getOwnAddressProvince()->getProvId(), 4, $services[0]['ownership_id']);
-        $owns_in_destination_photo = $em->getRepository("mycpBundle:ownership")->get_photos_array($owns_in_destination);
-        $owns_in_destination_favorities = $em->getRepository('mycpBundle:favorite')->is_in_favorite_array($owns_in_destination, true, $user_ids['user_id'], $user_ids['session_id']);
-
+        $owns_in_destination = $em->getRepository("mycpBundle:destination")->ownsership_nearby_destination($ownership->getOwnAddressMunicipality()->getMunId(), $ownership->getOwnAddressProvince()->getProvId(), 4, $services[0]['ownership_id'], $user->getUserId(), null);
+        
         $locale = $this->get('translator')->getLocale();
-        $destinations = $em->getRepository('mycpBundle:destination')->destination_filter(null, $ownership->getOwnAddressProvince()->getProvId(), null, $ownership->getOwnAddressMunicipality()->getMunId(), 2);
-        $destinations_photos = $em->getRepository('mycpBundle:destination')->get_destination_photos($destinations);
-        $destinations_descriptions = $em->getRepository('mycpBundle:destination')->get_destination_description($destinations, $locale);
-        $destinations_favorities = $em->getRepository('mycpBundle:favorite')->is_in_favorite_array($destinations, false, $user_ids['user_id'], $user_ids['session_id']);
-        $destinations_count = $em->getRepository('mycpBundle:destination')->get_destination_owns_statistics($destinations);
-
+        $destinations = $em->getRepository('mycpBundle:destination')->destination_filter($locale,null, $ownership->getOwnAddressProvince()->getProvId(), null, $ownership->getOwnAddressMunicipality()->getMunId(), 2, $user->getUserId(), null);
+        
         // Enviando mail al cliente
         $body = $this->render('frontEndBundle:mails:email_check_available.html.twig', array(
             'user' => $user,
@@ -421,14 +414,8 @@ class reservationController extends Controller
 
         return $this->render('frontEndBundle:reservation:confirmReview.html.twig', array(
             "owns_in_destination" => $owns_in_destination,
-            "owns_in_destination_photos" => $owns_in_destination_photo,
-            "owns_in_destination_favorities" => $owns_in_destination_favorities,
             "owns_in_destination_total" => count($em->getRepository("mycpBundle:destination")->ownsership_nearby_destination($ownership->getOwnAddressMunicipality()->getMunId(), $ownership->getOwnAddressProvince()->getProvId())),
-            "other_destinations" => $destinations,
-            "other_destinations_photos" => $destinations_photos,
-            "other_destinations_descriptions" => $destinations_descriptions,
-            "other_destinations_favorities" => $destinations_favorities,
-            "other_destinations_count" => $destinations_count
+            "other_destinations" => $destinations
         ));
     }
 
