@@ -20,12 +20,15 @@ class ownershipController extends Controller {
             throw $this->createNotFoundException(); 
     }
 
-    public function detailsAction($owner_id, Request $request) {
+    public function detailsAction($own_name, Request $request) {
 
         $em = $this->getDoctrine()->getEntityManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
 
-        $ownership = $em->getRepository('mycpBundle:ownership')->find($owner_id);
+        $own_name=str_replace('_',' ',$own_name);
+        $ownership = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_name'=>$own_name));
+        
+        $owner_id = $ownership->getOwnId();
         $general_reservations = $em->getRepository('mycpBundle:generalReservation')->findBy(array('gen_res_own_id'=>$owner_id));
         $reservations=array();
         foreach($general_reservations as $gen_res)

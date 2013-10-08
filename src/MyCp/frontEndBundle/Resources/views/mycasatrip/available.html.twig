@@ -18,7 +18,7 @@
             <div class="span11">
                 <div class="row-fluid">
                 <div class="span4">
-                    <a href="{{ path('frontend_details_ownership',{'owner_id':res['own_res_gen_res_id']['gen_res_own_id']['own_id']}) }}">
+                    <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | lower | replace(' ','_')}) }}">
                         {% if photos[loop.index0]%}
                         <img src="{{ asset('uploads/ownershipImages/thumbnails/'~ photos[loop.index0]) }}" class="span12 img-polaroid">
                         {% else %}

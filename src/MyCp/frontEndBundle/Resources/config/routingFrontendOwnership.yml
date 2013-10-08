@@ -1,5 +1,5 @@
 frontend_details_ownership:
-    locales:  { en: "/accommodation/{owner_id}", es: "/alojamiento/{owner_id}" }
+    locales:  { en: "/accommodation/{own_name}", es: "/alojamiento/{own_name}" }
     defaults: { _controller: frontEndBundle:ownership:details }
 
 frontend_last_added_ownership:

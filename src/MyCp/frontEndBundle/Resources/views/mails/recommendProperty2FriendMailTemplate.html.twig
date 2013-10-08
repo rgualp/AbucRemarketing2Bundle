@@ -27,7 +27,7 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <a href="{{ url('frontend_details_ownership',{'owner_id':property.getOwnId}) }}">​
+                        <a href="{{ url('frontend_details_ownership',{'own_name':property.getOwnName  | lower | replace(' ','_')}) }}">​
                            <label class=​"mycp_btn_orange">{{'SEEMORE_LINK_TEXT' | trans}}</label>
                         </a>​
                     </td>

@@ -11,7 +11,7 @@
 {% block body %}
 <ul class="breadcrumb">
     <li><a href="{{ path('frontend_welcome') }}" title="{{"GO_HOME_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a> <span class="divider">»</span></li>
-    {% if ownership.getOwnId is defined %}<li><a href="{{ path('frontend_details_ownership',{'owner_id':ownership.getOwnId}) }}" title="">{{ ownership.getOwnName }}</a> <span class="divider">»</span></li>{% endif %}
+    {% if ownership.getOwnId is defined %}<li><a href="{{ path('frontend_details_ownership',{'own_name':ownership.getOwnName  | lower | replace(' ','_')}) }}" title="">{{ ownership.getOwnName }}</a> <span class="divider">»</span></li>{% endif %}
     <li class="active">{{'RESETVATION_BREADCRUMB'|trans}}</li>
 </ul>
 <div class="row-fluid">
