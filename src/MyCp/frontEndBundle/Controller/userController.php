@@ -25,7 +25,7 @@ class userController extends Controller {
             $form->bindRequest($request);
             $user_db = $em->getRepository('mycpBundle:user')->findBy(array('user_email' => $post['user_email']));
             if ($user_db) {
-                $errors['used_email'] = 'El email está siendo utilizado por otro usuario.';
+                $errors['used_email'] = $this->get('translator')->trans("USER_EMAIL_IN_USE");
             }
             if ($form->isValid() && !$user_db) {
                 $factory = $this->get('security.encoder_factory');
@@ -42,7 +42,7 @@ class userController extends Controller {
                 $service_email = $this->get('Email');
                 $service_email->send_templated_email($this->get('translator')->trans('EMAIL_ACCOUNT_REGISTERED_SUBJECT'), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $this->get('translator')->trans('EMAIL_ACCOUNT_REGISTERED_TEXT') . PHP_EOL . $enableUrl);
 
-                $message = 'Gracias por registrarse. Se ha enviado un email para que active su cuenta.';
+                $message = $this->get('translator')->trans("USER_CREATE_ACCOUNT_SUCCESS");
                 $this->get('session')->setFlash('message_global_success', $message);
                 return $this->redirect($this->generateUrl('frontend_login'));
             }
@@ -68,14 +68,12 @@ class userController extends Controller {
                 $user->setUserEnabled(1);
                 $em->persist($user);
                 $em->flush();
-                $message = 'Grácias. Su usuario ha sido activado satisfactoriamente.';
+                $message = $this->get('translator')->trans("USER_ACTIVATE_ACCOUNT_SUCCESS");
                 $this->get('session')->setFlash('message_global_success', $message);
                 return $this->redirect($this->generateUrl('frontend_login'));
             }
         } else {
-            throw $this->createNotFoundException(
-                    'Imposible activar usuario, los parámetros no son correctos.'
-            );
+            throw $this->createNotFoundException($this->get('translator')->trans("USER_ACTIVATE_ERROR"));
         }
     }
 
@@ -99,11 +97,11 @@ class userController extends Controller {
                     $service_email = $this->get('Email');
                     $service_email->send_templated_email(
                             $this->get('translator')->trans('EMAIL_RESTORE_ACCOUNT'), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $this->get('translator')->trans('EMAIL_VISIT_LINK') . PHP_EOL . "<a href='$changeUrl'></a>");
-                    $message = 'Se ha enviado un email para que recupere su contraseña.';
+                    $message = $this->get('translator')->trans("USER_PASSWORD_RECOVERY");
                     $this->get('session')->setFlash('message_global_success', $message);
                     return $this->redirect($this->generateUrl('frontend_login'));
                 } else {
-                    $errors['no_email'] = 'No existe ningún usuario con ese email.';
+                    $errors['no_email'] = $this->get('translator')->trans("USER_PASSWORD_RECOVERY_ERROR");
                 }
                 /* $service_security= $this->get('Secure');
                   $encode_string=$service_security->encode_string($user->getUserEmail().'///'.$user->getUserId());
@@ -152,9 +150,7 @@ class userController extends Controller {
                         return $this->redirect($this->generateUrl('frontend_login'));
                     }
                 } else {
-                    throw $this->createNotFoundException(
-                            'Imposible cambiar contraseña, los parámetros no son correctos.'
-                    );
+                    throw $this->createNotFoundException($this->get('translator')->trans("USER_PASSWORD_CHANGE_ERROR"));
                 }
             }
         }
@@ -188,13 +184,12 @@ class userController extends Controller {
 
                     $service_email = $this->get('Email');
 
-                    $service_email->send_templated_email(
-                            'Activación de su cuenta en MyCasaParticular', 'noreply@mycasaparticular.com', $user_db->getUserEmail(), 'Gracias por registrarse en MyCasaParticular.com. Visite el siguiente link para activar su cuenta. ' . $enableUrl);
-                    $message = 'Grácias por registrarse. Se ha enviado un email para que active su cuenta.';
+                    $service_email->send_templated_email($this->get('translator')->trans("USER_ACCOUNT_ACTIVATION_EMAIL"), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), 'Gracias por registrarse en MyCasaParticular.com. Visite el siguiente link para activar su cuenta. ' . $enableUrl);
+                    $message = $this->get('translator')->trans("USER_ACTIVATE_ACCOUNT_SUCCESS");
                     $this->get('session')->setFlash('message_global_success', $message);
                     return $this->redirect($this->generateUrl('frontend_login'));
                 } else {
-                    $errors['no_email'] = 'No existe ningún usuario con ese email.';
+                    $errors['no_email'] = $this->get('translator')->trans("USER_PASSWORD_RECOVERY_ERROR");
                 }
             }
         }
@@ -233,7 +228,7 @@ class userController extends Controller {
                     $service_email->send_templated_email(
                             'Contacto de un huesped', $tourist_email, 'info@mycasaparticular.com ', "El Sr(a). $tourist_name $tourist_last_name, con numero de telefono $tourist_phone, ha hecho el siguiente comentario: $tourist_comment");
 
-                    $message = 'Gracias por contactar con nosotros. Su comentario ha sido enviado.';
+                    $message = $this->get('translator')->trans("USER_CONTACT_TOURIST_SUCCESS");
                     $this->get('session')->setFlash('message_global_success', $message);
 
                     return $this->redirect($this->generateUrl('frontend_contact_user'));
@@ -262,13 +257,14 @@ class userController extends Controller {
 
                     $service_email = $this->get('Email');
                     $service_email->send_templated_email(
-                            'Contacto de un propietario', $owner_email, 'casa@mycasaparticular.com', "El Sr(a). $owner_full_name, desea incluir una nueva casa con los siguientes datos:  
-                            Duenno(a): $owner_full_name;  Nombre de la casa: $owner_own_name; 
-                            Provincia: $owner_province; 
-                            Municipio: $owner_mun; 
+                            'Contacto de un propietario', $owner_email, 'casa@mycasaparticular.com', "El Sr(a). $owner_full_name, desea incluir una nueva casa con los siguientes datos:<br/>  
+                            Duenno(a): $owner_full_name <br/> 
+                            Nombre de la casa: $owner_own_name <br/>  
+                            Provincia: $owner_province <br/>  
+                            Municipio: $owner_mun <br/>  
                             Comentarios: $owner_comment");
 
-                    $message = 'Gracias por contactar con nosotros. Sus datos han sido enviados.';
+                    $message = $this->get('translator')->trans("USER_CONTACT_OWNER_SUCCESSs");
                     $this->get('session')->setFlash('message_global_success', $message);
 
                     return $this->redirect($this->generateUrl('frontend_contact_user'));
