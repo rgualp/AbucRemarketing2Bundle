@@ -12,9 +12,9 @@
                 <tr>
                     <td width="33%" style="vertical-align: top;">
                         {% if photos[loop.index0] is defined %}
-                        <a href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | lower | replace(' ','_')}) }}"><img style="width: 90%" class="img-polaroid" src="{{url('mycp_main')}}../uploads/ownershipImages/thumbnails/{{photos[loop.index0]}}"></a>
+                        <a href="{{ url('frontend_details_ownership',{'owner_id':reservation.getOwnResGenResId.getGenResOwnId.getOwnId}) }}"><img style="width: 90%" class="img-polaroid" src="{{url('mycp_main')}}../uploads/ownershipImages/thumbnails/{{photos[loop.index0]}}"></a>
                         {% else %}
-                        <a href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName  | lower | replace(' ','_')}) }}"><img style="width: 90%" class="img-polaroid" src="{{ asset('uploads/ownershipImages/no_photo_square.gif')}}"></a>
+                        <a href="{{ url('frontend_details_ownership',{'owner_id':reservation.getOwnResGenResId.getGenResOwnId.getOwnId}) }}"><img style="width: 90%" class="img-polaroid" src="{{ asset('uploads/ownershipImages/no_photo_square.gif')}}"></a>
                         {% endif %}
                     </td>
                     <td width="50%">
@@ -40,7 +40,7 @@
                 </tr>
                 <tr>
                     <td colspan="3" style="text-align: right">
-                        <a href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName  | lower | replace(' ','_')}) }}" class="btn mycp_btn_green">{{"VIEW_DETAILS"|trans}}</a>
+                        <a href="{{ url('frontend_details_ownership',{'owner_id':reservation.getOwnResGenResId.getGenResOwnId.getOwnId}) }}" class="btn mycp_btn_green">{{"VIEW_DETAILS"|trans}}</a>
                     </td>
                 </tr>
             </table>
