@@ -29,12 +29,12 @@ destinos
         {%for own in owns_in_destination%}
         <div class="span3">
             {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{
-                        'own_id': own.ownid,
-                        'own_name': own.ownname,
-                        'own_comments': own.owncommentstotal,
-                        'own_rating': own.ownrating,
-                        'own_province': own.ownaddressprovince,
-                        'own_minimum_price': own.ownminimumprice,
+                        'own_id': own.own_id,
+                        'own_name': own.own_name,
+                        'own_comments': own.comments_total,
+                        'own_rating': own.rating,
+                        'own_province': own.prov_name,
+                        'own_minimum_price': own.minimum_price,
                         'is_in_favorite':own.is_in_favorites,
                         'photo': own.photo,
                         'list_preffix': 'owns_in_destination',

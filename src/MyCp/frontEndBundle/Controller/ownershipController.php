@@ -15,7 +15,7 @@ class ownershipController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $ownership = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code'=>$own_code));
         if($ownership)
-            return $this->redirect($this->generateUrl('frontend_details_ownership',array('owner_id'=>$ownership->getOwnId())));
+            return $this->redirect($this->generateUrl('frontend_details_ownership',array('own_name'=> str_replace (" ", "_", strtolower ($ownership->getOwnName())))));
         else
             throw $this->createNotFoundException(); 
     }

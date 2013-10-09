@@ -25,7 +25,7 @@
         <div style="font-weight: bold; margin-top: 5px">{{'FROM_PRICES' | trans}}</div>
         <div style="font-weight: bold">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{property.getOwnMinimumPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</div>
         <div style="margin-top: 10px">
-            <a href="{{ url('frontend_details_ownership',{'owner_id':property.getOwnId}) }}">
+            <a href="{{ url('frontend_details_ownership',{'own_name':property.getOwnName | lower | replace(' ','_')}) }}">
                 <input type="button" class="btn_orange" value="{{'SEEMORE_LINK_TEXT' | trans}}" />
             </a>            
         </div>

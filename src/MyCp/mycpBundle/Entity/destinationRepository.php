@@ -440,16 +440,21 @@ class destinationRepository extends EntityRepository {
     function ownsership_nearby_destination($municipality_id = null, $province_id = null, $max_result_set = null, $exclude_own_id = null, $user_id = null, $session_id = null) {
         if ($municipality_id != null || $province_id != null) {
             $em = $this->getEntityManager();
-            $query_string = "SELECT o.own_id as ownid,
-                             o.own_name as ownname,
-                             prov.prov_name as ownaddressprovince,
-                             o.own_comments_total as owncommentstotal,
-                             o.own_rating as ownrating,
-                             o.own_minimum_price as ownminimumprice,
+            $query_string = "SELECT o.own_id,
+                             o.own_name,
+                             prov.prov_name,
+                             mun.mun_name,
+                             o.own_comments_total as comments_total,
+                             o.own_rating as rating,
+                             o.own_minimum_price as minimum_price,
                              (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id) as photo,
-                             (SELECT count(fav) FROM mycpBundle:favorite fav WHERE ".(($user_id != null)? " fav.favorite_user = $user_id " : " fav.favorite_user is null")." AND ".(($session_id != null)? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null"). " AND fav.favorite_ownership=o.own_id) as is_in_favorites
+                             (SELECT count(fav) FROM mycpBundle:favorite fav WHERE ".(($user_id != null)? " fav.favorite_user = $user_id " : " fav.favorite_user is null")." AND ".(($session_id != null)? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null"). " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
+                             (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
+                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = 5) as count_reservations,
+                        (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments
                              FROM mycpBundle:ownership o
                              JOIN o.own_address_province prov
+                             JOIN o.own_address_municipality mun
                              WHERE o.own_status = 1";
 
             if ($municipality_id != null && $municipality_id != -1 && $municipality_id != '')
