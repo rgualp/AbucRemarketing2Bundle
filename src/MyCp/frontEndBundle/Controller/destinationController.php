@@ -37,6 +37,14 @@ class destinationController extends Controller {
         $other_destinations_in_municipality = $em->getRepository('mycpBundle:destination')->destination_filter($location_municipality_id, $location_province_id, $destination->getDesId(), null, 5);
         $other_destinations_in_province = $em->getRepository('mycpBundle:destination')->destination_filter(null, $location_province_id, $destination->getDesId(), null, 5);
         
+        $request = $this->getRequest();
+        $session = $request->getSession();
+        $paginator = $this->get('ideup.simple_paginator');
+        $items_per_page = ($session->get("destination_details_show_rows") != null) ? $session->get("destination_details_show_rows") : 2;
+        $paginator->setItemsPerPage($items_per_page);
+        $list = $em->getRepository('mycpBundle:destination')->ownsership_nearby_destination($location_municipality_id, $location_province_id, null,null, $users_id['user_id'], $users_id['session_id']);
+        $owns_nearby = $paginator->paginate($list)->getResult();
+                        
         $em->getRepository('mycpBundle:userHistory')->insert(false, $destination->getDesId(), $users_id);
 
         return $this->render('frontEndBundle:destination:destinationDetails.html.twig', array(
@@ -58,11 +66,12 @@ class destinationController extends Controller {
                     'other_destinations_in_province' => $other_destinations_in_province,
                     'total_other_destinations_in_province' => count($other_destinations_in_province),
                     'popular_list' => $popular_destinations_list,
-                    'provinces' => $em->getRepository("mycpBundle:province")->findAll()
+                    'provinces' => $em->getRepository("mycpBundle:province")->findAll(),
+                    'owns_nearby' => $owns_nearby
         ));
     }
 
-    public function owns_nearby_callbackAction($destination_id) {
+    public function owns_nearby_callbackAction($destination_name,$destination_id) {
         $request = $this->getRequest();
         $session = $request->getSession();
         $em = $this->getDoctrine()->getEntityManager();
@@ -81,26 +90,15 @@ class destinationController extends Controller {
 
         $location_municipality_id = ($location_municipality != null) ? $location_municipality->getMunId() : null;
         $location_province_id = ($location_province != null) ? $location_province->getProvId() : null;
-
+            
         $paginator = $this->get('ideup.simple_paginator');
-        $items_per_page = 4 * $session->get("destination_details_show_rows");
+        $items_per_page = $session->get("destination_details_show_rows");
         $paginator->setItemsPerPage($items_per_page);
-        $owns_nearby = $paginator->paginate($em->getRepository('mycpBundle:destination')->ownsership_nearby_destination($location_municipality_id, $location_province_id, $items_per_page, $users_id['user_id'], $users_id['session_id']))->getResult();
-        $page = 1;
-        if (isset($_GET['page']))
-            $page = $_GET['page'];
-
-        //$owns_nearby_rooms = $em->getRepository('mycpBundle:ownership')->get_rooms_array($owns_nearby);
-        //$owns_nearby_counts = $em->getRepository('mycpBundle:ownership')->get_counts_for_search($owns_nearby);
-
+        $owns_nearby = $paginator->paginate($em->getRepository('mycpBundle:destination')->ownsership_nearby_destination($location_municipality_id, $location_province_id, null,null, $users_id['user_id'], $users_id['session_id']))->getResult();
+               
         $response = $this->renderView('frontEndBundle:destination:detailsOwnsNearByDestination.html.twig', array(
             'owns_nearby' => $owns_nearby,
-            //'owns_nearby_rooms' => $owns_nearby_rooms,
-            //'owns_nearby_counts' => $owns_nearby_counts,
-            'top_rated_items_per_page' => $items_per_page,
-            'top_rated_total_items' => $paginator->getTotalItems(),
-            'current_page' => $page,
-            'destination_id' => $destination_id
+            'destination_name' => $destination_name
         ));
 
         return new Response($response, 200);

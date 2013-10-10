@@ -19,5 +19,5 @@ frontend_filter_destination:
     defaults: { _controller: frontEndBundle:destination:filter }
     
 frontend_nearby_destination:
-    pattern:  /owns_nearby/{destination_id}
+    pattern:  /owns_nearby/{destination_name}/{destination_id}
     defaults: { _controller: frontEndBundle:destination:owns_nearby_callback }
