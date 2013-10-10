@@ -1,0 +1,70 @@
+    <table class="table table-striped"style="margin-bottom: 0px">
+        <thead>
+        <tr>
+            <th>{{'RESERVATION_ROOMS' | trans}}</th>
+            <th>{{'RESERVATION_ROOM_TYPE' | trans}}</th>
+            {% for date in array_dates %}
+                <th>{{ date['day_name'] | trans}} {{ date['day_number'] }}</th>
+            {% endfor %}
+            <th>{{'ADULTS' | trans}}</th>
+            <th>{{'KIDS' | trans}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% set cont = 1 %}
+        {% for room in rooms %}
+            <input class="hidden real_price_room" value="{{ room.getRoomPriceUpFrom }}">
+            {% set available = 1 %}
+            <tr {% if reservations[room.getRoomId] is defined %} style="color: #ff0008!important;" {% set available = 0 %} {% endif %}>
+                <td style="width: 100px">{{'RESERVATION_ROOM' | trans}} # {{cont}}</td>
+                <td style="width: 200px">{{ room.getRoomType | trans}}</td>
+                {% set cont_days = 1 %}
+                {% for date in array_dates %}
+                    <td>
+                        {% set print_price = 1%}
+                        {% if no_available_days[room.getRoomId] is defined%}
+                            {% set print_price = 1%}
+                            {% for day in no_available_days[room.getRoomId]%}
+                                {% if cont_days == day %}
+                                    {% set print_price = 0%}
+                                    X
+                                {% endif %}
+                            {% endfor%}
+                        {% endif %}
+                        {% if print_price == 1%}
+                            {% if prices_dates[cont-1][loop.index0] is defined %}
+                                {{ prices_dates[cont-1][loop.index0] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}
+                            {% else %}
+                                -
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                    {% set cont_days = cont_days+1 %}
+                {% endfor %}
+                <td {% if available != 1 %} colspan="2" {% endif %}>
+                    {% if available == 1 %}
+                    <select data_total="{{array_prices[cont-1]}}" id="combo_guest_{{room.getRoomId}}" name="combo_guest_{{room.getRoomId}}" data='{{room.getRoomId}}' percent_charge="{{ ownership.getOwnCommissionPercent }}" data_curr='{{ (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}' class="guest_number" data_type_room='{{room.getRoomType}}' style="width: 50px">
+                        <option value="0">0</option>
+                        {{ include('frontEndBundle:ownership:listGuestRoomOwnership.html.twig',{'room_type': room.getRoomType}) }}
+                    </select>
+                </td>
+                <td>
+                    <select data_total="{{array_prices[cont-1]}}" id="combo_kids_{{room.getRoomId}}" name="combo_kids_{{room.getRoomId}}" data='{{room.getRoomId}}' percent_charge="{{ ownership.getOwnCommissionPercent }}" data_curr='{{ (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}' class="guest_number" data_type_room='{{room.getRoomType}}' style="width: 50px">
+                        <option value="0">0</option>
+                        {{ include('frontEndBundle:ownership:listGuestRoomOwnership.html.twig',{'room_type': room.getRoomType}) }}
+                    </select>
+                </td>
+            {% else %}
+                <div style="text-align: center" class="badge badge-important btn-block">{{"NOT_AVAILABLE"|trans}}</div>
+                </td>
+                {% endif %}
+
+            </tr>
+            {% set cont = cont +1%}
+        {% endfor %}
+        </tbody>
+    </table>
+    <script type="text/javascript">
+        var cont_array_dates={{ array_dates | length}};
+    </script>
+    <script src="{{ asset('bundles/frontend/js/ownership_details.js') }}"></script>

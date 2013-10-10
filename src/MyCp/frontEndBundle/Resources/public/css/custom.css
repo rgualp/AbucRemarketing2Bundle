@@ -126,7 +126,7 @@ ul.nav-tabs{margin-bottom: 0; border-bottom: solid 1px #CFE0EA;}
 .top_rated_tools .btn-primary{background-image: none; background-color: transparent; border: solid 1px #ffffff; padding: 2px 8px; font-size: 13px!important;}
 
 .last_added_items{padding:0px; border-top-right-radius: 20px;}
-.last_added_items div.image{border-radius: 0px 20px; /*width: 197px;*/ height: 137px; background-size: cover;}
+.last_added_items div.image{border-radius: 0px 20px; /*width: 197px;*/ height: 137px; background-size: 190px 140px;}
 .last_added_items .item{float: left; margin: 0; width: 210px; border: 1px solid #ccc; border-top-right-radius: 20px;}
 .last_added_items .item a{ text-decoration: none}
 .last_added_items .item:last-child{margin-right: 0px;}
@@ -304,7 +304,7 @@ hr{margin: 5px 0;}
 .green_bar select{margin: 0px; height: 28px; width: 80%}
 .green_bar a.link{margin-right: 10px; display: block; float: right; text-decoration: none;width: 30px; height: 22px;}
 .green_bar a.link:hover{background-position: bottom!important;}
-.green_bar a.link.list{ background: url("../images/list_sprite_bg.png") no-repeat}
+.green_bar a.link.list{ background: url("../images/list_sprite_bg.png") no-repeat;}
 .green_bar a.photo{ background: url("../images/photo_sprite_bg.png") no-repeat;}
 .green_bar a.map{ background: url("../images/map_sprite_bg.png") no-repeat;}
 .green_bar a.link:last-child{margin-right: 15px;}
