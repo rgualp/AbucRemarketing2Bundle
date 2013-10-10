@@ -120,7 +120,7 @@ ul.nav-tabs{margin-bottom: 0; border-bottom: solid 1px #CFE0EA;}
     background-image: -o-linear-gradient(top, #3A6ABF,#1E4C97);
     background-image: linear-gradient(to bottom, #3A6ABF,#1E4C97);
     margin: 15px 0 34px 0; color: #ffffff; font-weight: bold; font-size: 12px;}
-.top_rated_tools .tool{ padding: 7px 0; text-align: center;width: 30%;float: left!important;}
+.top_rated_tools .tool{ padding: 7px 0 0; text-align: center;width: 30%;float: left!important;}
 .top_rated_tools .tool:last-child{width: 40%}
 .top_rated_tools .tool img{margin-left: 10px;}
 .top_rated_tools .btn-primary{background-image: none; background-color: transparent; border: solid 1px #ffffff; padding: 2px 8px; font-size: 13px!important;}
