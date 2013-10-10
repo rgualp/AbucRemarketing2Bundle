@@ -103,6 +103,14 @@ services:
             entity_manager: "@doctrine.orm.entity_manager"
             container: "@service_container"
             security_context: "@security.context"
+
+    RequestListener:
+        class: MyCp\frontEndBundle\Helpers\RequestListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }
+        arguments:
+            entity_manager: "@doctrine.orm.entity_manager"
+            container: "@service_container"
             
 avalanche_imagine:
     web_root:     %kernel.root_dir%/../web

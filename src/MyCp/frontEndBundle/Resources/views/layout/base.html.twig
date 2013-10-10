@@ -14,6 +14,7 @@
 
     </head>
     <body>
+
         {{ include('frontEndBundle:mails:sendMailPopup.html.twig') }}
         <div class="main_cont container">
             <div class="main_nav navbar">
@@ -74,7 +75,13 @@
                                             {{(app.session.get('app_lang_name') == null or app.session.get('app_lang_name') == "") ? "Español" : app.session.get('app_lang_name')}}    
                                                 <b class="caret"></b></a>
                                             <ul class="dropdown-menu top">
-                                {% render 'frontEndBundle:language:get_languages' %}
+                                                {# render 'frontEndBundle:language:get_languages' #}
+                                                {% set params = app.request.attributes.all['_route_params']%}
+                                                {% set params = params|merge({ '_locale': 'en' }) %}
+                                                <li><a href="{{path(app.request.attributes.all['_route'], params )}}">English</a></li>
+                                                {% set params = params|merge({ '_locale': 'es' }) %}
+                                                <li><a href="{{path(app.request.attributes.all['_route'], params )}}">Español</a></li>
+
                                                 </ul>
                                             </li>
                                             <li class="divider-vertical"></li>

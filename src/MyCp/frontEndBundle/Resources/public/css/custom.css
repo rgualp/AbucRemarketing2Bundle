@@ -112,8 +112,15 @@ ul.nav-tabs{margin-bottom: 0; border-bottom: solid 1px #CFE0EA;}
 .top_rated_items .title{font-size: 16px; color: #0088CC; font-weight: bold;margin-top: 10px}
 .top_rated_items .title .place{color: #144763; font-size: 12px}
 .top_rated_items .description{color: #565656;font-size: 11px; font-weight: bold; margin-top: 10px; line-height: 16px}
-.top_rated_tools{ float: left;background: url("../images/blue_bg.png") repeat-x; margin: 15px 0 34px 0; color: #ffffff; font-weight: bold; font-size: 12px;}
-.top_rated_tools .tool{ padding: 7px 0; text-align: center;width: 30%;float: left!important;}
+.top_rated_tools{ float: left;
+background-color: #1E4C97;
+    background-image: -moz-linear-gradient(top, #3A6ABF,#1E4C97);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3A6ABF), to(#1E4C97));
+    background-image: -webkit-linear-gradient(top, #3A6ABF,#1E4C97);
+    background-image: -o-linear-gradient(top, #3A6ABF,#1E4C97);
+    background-image: linear-gradient(to bottom, #3A6ABF,#1E4C97);
+    margin: 15px 0 34px 0; color: #ffffff; font-weight: bold; font-size: 12px;}
+.top_rated_tools .tool{ padding: 7px 0 0; text-align: center;width: 30%;float: left!important;}
 .top_rated_tools .tool:last-child{width: 40%}
 .top_rated_tools .tool img{margin-left: 10px;}
 .top_rated_tools .btn-primary{background-image: none; background-color: transparent; border: solid 1px #ffffff; padding: 2px 8px; font-size: 13px!important;}
@@ -264,7 +271,7 @@ input.guest{background: url("../images/guest.gif") no-repeat right #ffffff;}
 .thumbnail.head .content{padding: 6px; overflow-y: auto; overflow-x: hidden; max-height: 300px;}
 .thumbnail.head .header{font-size: 13px; font-weight: bold; color:#939395;padding: 12px 15px 0 15px}
 .thumbnail.head .subheader{background: url("../images/arrow_2.png") no-repeat 14px 5px;font-size: 11px; font-weight: bold; color:#BBBBBB;padding: 8px 5px 4px 5px; border-bottom: solid 1px #DFDFDF}
-.thumbnail .cont{background:url("../images/blue_sky_bg.png") repeat-x #ffffff; border-radius: 4px 4px 0 0; padding: 4px 8px; font-size: 11px; font-weight: bold; color: #333333}
+.thumbnail .cont{border-radius: 4px 4px 0 0; padding: 4px 8px; font-size: 11px; font-weight: bold; color: #333333}
 .big_price{color: #056EA7; font-size: 40px; font-weight: bold;}
 .medium_price{color: #c5c5c5; font-size: 25px; font-weight: bold;}
 hr{margin: 5px 0;}
