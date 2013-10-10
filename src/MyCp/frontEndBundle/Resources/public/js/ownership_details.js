@@ -9,6 +9,7 @@ function start(){
     total_price=0;
     $('.guest_number').change(function(){
         if($('#tr_'+$(this).attr('data')).html()){
+
             if($('#combo_guest_'+$(this).attr('data')).val()+$('#combo_kids_'+$(this).attr('data')).val()==0)
             {
                 $('#tr_'+$(this).attr('data')).remove();
@@ -23,6 +24,7 @@ function start(){
             {
                 value=0;
                 persons=parseInt($('#combo_kids_'+$(this).attr('data')).val()) + parseInt($('#combo_guest_'+$(this).attr('data')).val());
+                alert(persons);
                 if($(this).attr('data_type_room')=='Habitación Triple' && persons>=3)
                 {
                     value=this.parentNode.parentNode.cells[2].innerHTML*(cont_array_dates-1) + (($(this).attr('data_curr')*10) * (cont_array_dates -1));
