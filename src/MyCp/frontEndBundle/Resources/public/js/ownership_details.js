@@ -39,6 +39,8 @@ function start(){
                 $('#price_'+$(this).attr('data')).html(value);
 
                 total_price($(this).attr('data_curr'),$(this).attr('percent_charge'));
+                $('#rooms_selected').css({display: 'table'})
+                $('#all_data_numbers').css({display: 'block'})
 
             }
         }
