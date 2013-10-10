@@ -1040,16 +1040,13 @@ class ownershipController extends Controller {
         $items_per_page = 4 * $session->get("top_rated_show_rows");
         $paginator->setItemsPerPage($items_per_page);
         $list = $em->getRepository('mycpBundle:ownership')->top20($locale);
-        $own_top20_list = $paginator->paginate($list)->getResult();
-        $page = 1;
+        $own_top20_list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->top20($locale))->getResult();
+        /*$page = 1;
         if (isset($_GET['page']))
-            $page = $_GET['page'];
-
+            $page = $_GET['page'];*/
+        
         $response = $this->renderView('frontEndBundle:ownership:homeTopRatedOwnership.html.twig', array(
-            'own_top20_list' => $own_top20_list,
-            'top_rated_items_per_page' => $items_per_page,
-            'top_rated_total_items' => $paginator->getTotalItems(),
-            'current_page' => $page
+            'own_top20_list' => $own_top20_list
         ));
 
         return new Response($response, 200);
