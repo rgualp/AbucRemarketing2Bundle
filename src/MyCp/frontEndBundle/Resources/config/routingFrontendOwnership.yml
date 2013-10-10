@@ -1,3 +1,7 @@
+frontend_get_reservation_calendar_ownership:
+    pattern:  /filter/
+    defaults: { _controller: frontEndBundle:ownership:get_reservation_calendar }
+
 frontend_details_ownership:
     locales:  { en: "/accommodation/{own_name}", es: "/alojamiento/{own_name}" }
     defaults: { _controller: frontEndBundle:ownership:details }

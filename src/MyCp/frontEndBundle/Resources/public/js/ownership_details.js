@@ -5,27 +5,6 @@ function start(){
     $('#btn_insert_comment').click(insert_comment);
     initialize_map();
 
-    $('#filter_date_from').datepicker({
-        format:'dd/mm/yyyy',
-        todayBtn:'linked',
-        startDate: new Date(),
-        date: start_date,
-        language: $('#filter_date_from').attr('data-localization')
-    }).on('changeDate', function(ev){
-            $('.datepicker').hide();
-    });
-
-
-    $('#filter_date_to').datepicker({
-        format:'dd/mm/yyyy',
-        todayBtn:'linked',
-        startDate: '+1d',
-        date: end_date,
-        language: $('#filter_date_to').attr('data-localization')
-    }).on('changeDate', function(ev){
-            $('.datepicker').hide();
-        });
-
     // ernesto code
     total_price=0;
     $('.guest_number').change(function(){

@@ -10,6 +10,28 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ownershipController extends Controller {
 
+    public function get_reservation_calendarAction(Request $request)
+    {
+        $from = $request->get('from');
+        $to = $request->get('to');
+        $owner_id = $request->get('own_id');
+
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $general_reservations = $em->getRepository('mycpBundle:generalReservation')->findBy(array('gen_res_own_id'=>$owner_id));
+        $reservations=array();
+        foreach($general_reservations as $gen_res)
+        {
+            $own_reservations=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id'=>$gen_res->getGenResId()));
+            foreach($own_reservations as $own_res)
+            {
+                array_push($reservations,$own_res);
+            }
+        }
+
+        return $this->render('frontEndBundle:ownership:ownershipReservationCalendar.html.twig',array());
+    }
+
     public function own_details_directAction($own_code)
     {
         $em = $this->getDoctrine()->getEntityManager();
