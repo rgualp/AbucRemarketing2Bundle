@@ -29,14 +29,14 @@ destinos
         {%for own in owns_in_destination%}
         <div class="span3">
             {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{
-                        'own_id': own.ownid,
-                        'own_name': own.ownname,
-                        'own_comments': own.OwnCommentsTotal,
-                        'own_rating': own.ownRating,
-                        'own_province': own.OwnAddressProvince,
-                        'own_minimum_price': own.ownminimumprice,
-                        'is_in_favorite': owns_in_destination_favorities[own.ownid],
-                        'photo': owns_in_destination_photos[own.ownid],
+                        'own_id': own.own_id,
+                        'own_name': own.own_name,
+                        'own_comments': own.comments_total,
+                        'own_rating': own.rating,
+                        'own_province': own.prov_name,
+                        'own_minimum_price': own.minimum_price,
+                        'is_in_favorite':own.is_in_favorites,
+                        'photo': own.photo,
                         'list_preffix': 'owns_in_destination',
                         'show_consult_button': true }) }}
             <!--/li-->
@@ -57,35 +57,35 @@ destinos
         {%for destination in other_destinations%}
         <div class="span6 destination_item">
             <div class="row-fluid title">
-                <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_name':destination.desname|lower|replace(' ','_')}) }}">
+                <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desname}}" href="{{ path('frontend_details_destination',{'destination_name':destination.desname|lower|replace(' ','_')}) }}">
                     {{destination.desname}}
                 </a>
             </div>
             <div class="row-fluid" style="margin-top:8px">
                 <div class="span7">
-                    <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_name':destination.desname|lower|replace(' ','_')}) }}">
-                        <img class="img-polaroid" src="{{asset("uploads/destinationImages/thumbnails/"~other_destinations_photos[destination.desid])}}">
+                    <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desname}}" href="{{ path('frontend_details_destination',{'destination_name':destination.desname|lower|replace(' ','_')}) }}">
+                        <img class="img-polaroid" src="{{asset("uploads/destinationImages/thumbnails/"~destination.photo)}}">
                     </a>
                 </div>
                 <div class="span5 owns_total">
-                    {{other_destinations_count[destination.desid]["total"]}}
+                    {{destination.count_ownership}}
                     <label>{{"RESERVATION_CONFIRM_DESTINATION_OWNS_AVAILABLE"|trans}}</label>
                 </div>
             </div>
             <div class="row-fluid description">
-                {{destination.getFirstDestDesc.getDesLangBrief | slice(0,280) | striptags}}...
+                {{destination.description | slice(0,280) | striptags}}...
             </div>
             <div class="row-fluid">
                 <div class="favorite span2">
                     {{ include('frontEndBundle:favorite:itemFavorite.html.twig',
-                        {'is_in_favorite': other_destinations_favorities[destination.desid],
+                        {'is_in_favorite': destination.is_in_favorites,
                          'favorite_type': 'destination',
                          'element_id':destination.desid,
                          'list_preffix' : 'landing_page'
                          }) }}
                 </div>
                 <div class="span10 link" style="text-align: right;">
-                    <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_name':destination.desname|lower|replace(' ','_')}) }}">{{"RESERVATION_CONFIRM_DESTINATION_MORE"|trans}} <img src="{{asset("bundles/frontend/images/more_icon.gif")}}"/></a>
+                    <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desname}}" href="{{ path('frontend_details_destination',{'destination_name':destination.desname|lower|replace(' ','_')}) }}">{{"RESERVATION_CONFIRM_DESTINATION_MORE"|trans}} <img src="{{asset("bundles/frontend/images/more_icon.gif")}}"/></a>
                 </div>
             </div>
         </div>

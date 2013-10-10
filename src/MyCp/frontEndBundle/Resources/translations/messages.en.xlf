@@ -2139,6 +2139,50 @@
                 <source>PAYMENT_CONFIRM_2</source>
                 <target>Payment confirm</target>
             </trans-unit>
+            <trans-unit id="544">
+                  <source>USER_EMAIL_IN_USE</source>
+                  <target>This email account is in use by another user.</target>
+            </trans-unit>
+            <trans-unit id="545">
+                <source>USER_CREATE_ACCOUNT_SUCCESS</source>
+                <target>Thanks for registering. We sent you an email with instructions of how activate your account.</target>
+            </trans-unit>
+            <trans-unit id="546">
+                  <source>USER_ACTIVATE_ACCOUNT_SUCCESS</source>
+                  <target>Thank you. Your account have been activated successfully.</target>
+             </trans-unit>
+             <trans-unit id="547">
+                  <source>USER_ACTIVATE_ERROR</source>
+                  <target>Error! Imposible to activate your user, the parameters are incorrect.</target>
+              </trans-unit>
+              <trans-unit id="548">
+                  <source>USER_PASSWORD_RECOVERY</source>
+                  <target>We sent you an email with information of your password recovered.</target>
+              </trans-unit>
+              <trans-unit id="549">
+                  <source>USER_PASSWORD_RECOVERY_ERROR</source>
+                  <target>There is no user associated to the email entered.</target>
+              </trans-unit>
+              <trans-unit id="550">
+                  <source>USER_PASSWORD_CHANGE_ERROR</source>
+                  <target>Error! Imposible to change password, the parameters are incorrect.</target>
+              </trans-unit>
+              <trans-unit id="551">
+                  <source>USER_ACCOUNT_ACTIVATION_EMAIL</source>
+                  <target>Activation of user account in MyCasaParticular</target>
+              </trans-unit>
+              <trans-unit id="552">
+                  <source>USER_CONTACT_TOURIST_SUCCESS</source>
+                  <target>Thank you for contact us. Your comment have been sent!.</target>
+              </trans-unit>
+              <trans-unit id="553">
+                  <source>USER_CONTACT_OWNER_SUCCESS</source>
+                  <target>Thank you for contact us. Your information have been sent.</target>
+              </trans-unit>
+              <trans-unit id="554">
+                  <source>RESERVATION_AMOUNT_TO_PAY_NOW</source>
+                  <target>Amount to pay now</target>
+              </trans-unit>
         </body>
     </file>
 </xliff>

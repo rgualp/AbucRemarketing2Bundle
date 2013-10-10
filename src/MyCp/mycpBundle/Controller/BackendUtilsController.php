@@ -32,4 +32,10 @@ class BackendUtilsController extends Controller
     {
         return $this->render('mycpBundle:utils:active.html.twig',array('selected'=>$selected));
     }
+    
+    public function process_imagesAction()
+    {
+        $results = \MyCp\mycpBundle\Helpers\Images::process_images_with_directory_info($this->container);
+        return $this->render('mycpBundle:utils:process_images.html.twig',array('message'=>$results));
+    }
 }

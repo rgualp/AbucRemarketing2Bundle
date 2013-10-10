@@ -15,17 +15,20 @@ class ownershipController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $ownership = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code'=>$own_code));
         if($ownership)
-            return $this->redirect($this->generateUrl('frontend_details_ownership',array('owner_id'=>$ownership->getOwnId())));
+            return $this->redirect($this->generateUrl('frontend_details_ownership',array('own_name'=> str_replace (" ", "_", strtolower ($ownership->getOwnName())))));
         else
             throw $this->createNotFoundException(); 
     }
 
-    public function detailsAction($owner_id, Request $request) {
+    public function detailsAction($own_name, Request $request) {
 
         $em = $this->getDoctrine()->getEntityManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
 
-        $ownership = $em->getRepository('mycpBundle:ownership')->find($owner_id);
+        $own_name=str_replace('_',' ',$own_name);
+        $ownership = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_name'=>$own_name));
+        
+        $owner_id = $ownership->getOwnId();
         $general_reservations = $em->getRepository('mycpBundle:generalReservation')->findBy(array('gen_res_own_id'=>$owner_id));
         $reservations=array();
         foreach($general_reservations as $gen_res)

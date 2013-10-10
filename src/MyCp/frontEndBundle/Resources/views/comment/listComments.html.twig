@@ -49,7 +49,7 @@
                         'currentClass': 'current',
                         'firstPageText': 'FIRST_PAGE' | trans,
                         'lastPageText': 'LAST_PAGE' | trans,
-                        'route_params': {'owner_id': ownership.ownid}
+                        'route_params': {'own_name':ownership.ownname|lower|replace(' ','_')}
                     }) }}
                     </div>
                     {%endif%}

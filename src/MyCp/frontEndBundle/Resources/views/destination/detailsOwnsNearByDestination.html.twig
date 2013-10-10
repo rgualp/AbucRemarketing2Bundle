@@ -30,13 +30,11 @@
     </div>
 </div>
 <div class="row-fluid result_list ownerships_list" id="div_result">
-    {{ include('frontEndBundle:ownership:ownershipItemList.html.twig', 
-    {'list': owns_nearby,
-    'photos':owns_nearby_photos,
-    'rooms': owns_nearby_rooms,
-    'is_in_favorities': owns_nearby_is_in_favorities,
-    'list_preffix': 'destination_nearby_list',
-    'counts': owns_nearby_counts
-    }) }}      
+    {{ include('frontEndBundle:ownership:ownershipArrayItemList.html.twig',
+         {'list': owns_nearby,
+        'list_preffix' : 'own_nearby',
+        'is_in_favorites_list': false
+          }) 
+    }}      
 </div>
 {%endif%}

@@ -12,7 +12,7 @@
                 <tr>
                     <td width="33%" style="vertical-align: top;">
 
-                        <a href="{{ url('frontend_details_ownership',{'owner_id':reservation.getOwnResGenResId.getGenResOwnId.getOwnId}) }}">
+                        <a href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | lower | replace(' ','_')}) }}">
                             {% if photos[loop.index0][0].getPhoName is defined %}
                             <img style="width: 90%" class="span12 img-polaroid" src="{{ url('mycp_main')~'../uploads/ownershipImages/thumbnails/'~photos[loop.index0][0].getPhoName}}">
                             {% else %}
@@ -55,7 +55,7 @@
                         <a href="{{ url('frontend_mycasatrip_available') }}" class="btn btn_orange">{{"CONTINUE_RESERVING"|trans}}</a>
                         {% endif %}
                         {% if (reservation.getOwnResStatus == 0)%}
-                        <a href="{{ url('frontend_details_ownership',{'owner_id':reservation.getOwnResOwnId.getOwnId}) }}" class="mycp_btn btn mycp_btn_green">{{"VIEW_DETAILS"|trans}}</a>
+                        <a href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResOwnId.getOwnName | lower | replace(' ','_')}) }}" class="mycp_btn btn mycp_btn_green">{{"VIEW_DETAILS"|trans}}</a>
                         {% endif %}
                         {% if (reservation.getOwnResStatus == 3)%}
                         <a href="{{ url('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}" class="mycp_btn btn mycp_btn_blue">{{"LOOK_FOR_ALTERNATIVE"|trans}}</a>

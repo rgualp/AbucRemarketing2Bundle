@@ -30,7 +30,7 @@ destinos
         <h6>{{"OWNERSHIPS" | trans}} ({{"TOTAL" | trans}}: {{item['owns_total']}})</h6>
         {%set owns_count = 1%}
         {%for own in item['owns_list']%}
-        <a title="{{'MORE_INFO_PREFFIX' | trans}} {{own.ownname}}" href="{{ path('frontend_details_ownership',{'owner_id':own.ownid}) }}">{{own.ownName}}</a>
+        <a title="{{'MORE_INFO_PREFFIX' | trans}} {{own.ownname}}" href="{{ path('frontend_details_ownership',{'own_name':own.ownname  | lower | replace(' ','_')}) }}">{{own.ownName}}</a>
         {%if owns_count != item['owns_list']|length%}, {%endif%} 
         {%set owns_count = owns_count + 1%}
         {%endfor%}

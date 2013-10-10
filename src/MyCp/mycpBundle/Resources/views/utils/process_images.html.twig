@@ -1,0 +1,14 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li class="active">Procesar Imágenes</li>
+</ul>
+{% endblock %}
+{% block content %}
+<h2>Procesar Imágenes</h2>
+<hr/>
+<div class="alert alert-success">{{ message | raw}}</div>
+
+{% endblock %}

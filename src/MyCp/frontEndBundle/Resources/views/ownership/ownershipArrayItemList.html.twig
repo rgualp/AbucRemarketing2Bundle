@@ -3,7 +3,7 @@
 <div class="item elementList" data-id="{{own['own_id']}}">
     
     <div class="row-fluid">
-        <a title="{{"MORE_INFO_PREFFIX" | trans}} {{own['own_name']}}" href="{{ path('frontend_details_ownership',{'owner_id':own['own_id']}) }}">
+        <a title="{{"MORE_INFO_PREFFIX" | trans}} {{own['own_name']}}" href="{{ path('frontend_details_ownership',{'own_name':own['own_name']  | lower | replace(' ','_')}) }}">
     <div class="span3 own_photo" style="background-image: url('{{ asset("uploads/ownershipImages/thumbnails/" ~ own['photo'])}}')"></div>
         </a>
     <div>
@@ -11,7 +11,7 @@
             <tr>
                 <td width="75%"  valign="top">
                     <span class="category">{#{own.ownCategory | trans}#}</span>
-                    <a title="{{"MORE_INFO_PREFFIX" | trans}} {{own['own_name']}}" href="{{ path('frontend_details_ownership',{'owner_id':own['own_id']}) }}">{{own['own_name']}}</a>
+                    <a title="{{"MORE_INFO_PREFFIX" | trans}} {{own['own_name']}}" href="{{ path('frontend_details_ownership',{'own_name':own['own_name']  | lower | replace(' ','_')}) }}">{{own['own_name']}}</a>
                     <div class="row-fluid location">
                         {{own['prov_name']}}, {{own['mun_name']}}
                     </div>
