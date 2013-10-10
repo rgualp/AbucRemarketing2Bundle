@@ -9,6 +9,155 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ownershipController extends Controller {
 
+    public function get_reservation_calendarAction(Request $request)
+    {
+        $from = $request->get('from');
+        $to = $request->get('to');
+        $owner_id = $request->get('own_id');
+
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $ownership = $em->getRepository('mycpBundle:ownership')->find($owner_id);
+
+        $general_reservations = $em->getRepository('mycpBundle:generalReservation')->findBy(array('gen_res_own_id'=>$owner_id));
+        $reservations=array();
+        foreach($general_reservations as $gen_res)
+        {
+            $own_reservations=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id'=>$gen_res->getGenResId()));
+            foreach($own_reservations as $own_res)
+            {
+                array_push($reservations,$own_res);
+            }
+        }
+        $reservation_from = explode('/', $from);
+        $start_timestamp = mktime(0, 0, 0, $reservation_from[1], $reservation_from[0], $reservation_from[2]);
+
+        $reservation_to = explode('/', $to);
+        $end_timestamp = mktime(0, 0, 0, $reservation_to[1], $reservation_to[0], $reservation_to[2]);
+
+        $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $owner_id));
+
+        $service_time = $this->get('Time');
+        $array_dates = $service_time->dates_between($start_timestamp, $end_timestamp);
+
+        $array_no_available = array();
+        $no_available_days = array();
+        $array_prices = array();
+        $prices_dates = array();
+
+        foreach ($rooms as $room) {
+            foreach ($reservations as $reservation) {
+
+                if ($reservation->getOwnResSelectedRoomId() == $room->getRoomId()) {
+
+                    if ($start_timestamp <= $reservation->getOwnResReservationFromDate()->getTimestamp() &&
+                        $end_timestamp >= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == 5) {
+
+                        $array_no_available[$room->getRoomId()] = $room->getRoomId();
+                    }
+
+                    if ($start_timestamp >= $reservation->getOwnResReservationFromDate()->getTimestamp() &&
+                        $start_timestamp <= $reservation->getOwnResReservationToDate()->getTimestamp() &&
+                        $end_timestamp >= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == 5) {
+
+                        $array_no_available[$room->getRoomId()] = $room->getRoomId();
+                    }
+
+                    if ($start_timestamp <= $reservation->getOwnResReservationFromDate()->getTimestamp() &&
+                        $end_timestamp <= $reservation->getOwnResReservationToDate()->getTimestamp() &&
+                        $end_timestamp >= $reservation->getOwnResReservationFromDate()->getTimestamp() && $reservation->getOwnResStatus() == 5) {
+
+                        $array_no_available[$room->getRoomId()] = $room->getRoomId();
+                    }
+
+                    if ($start_timestamp >= $reservation->getOwnResReservationFromDate()->getTimestamp() &&
+                        $end_timestamp <= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == 5) {
+
+                        $array_no_available[$room->getRoomId()] = $room->getRoomId();
+                    }
+
+                    $array_numbers_check = array();
+                    $cont_numbers = 1;
+                    foreach ($array_dates as $date) {
+
+                        if ($date >= $reservation->getOwnResReservationFromDate()->getTimestamp() && $date <= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == 5) {
+                            array_push($array_numbers_check, $cont_numbers);
+                        }
+                        $cont_numbers++;
+                    }
+                    array_push($no_available_days, array(
+                        $room->getRoomId() => $room->getRoomId(),
+                        'check' => $array_numbers_check
+                    ));
+                }
+            }
+            $total_price_room = 0;
+            $prices_dates_temp = array();
+            $x = 1;
+            /*if ($request->getMethod() != 'POST') {
+                //$x = 2;
+            }*/
+            for ($a = 0; $a < count($array_dates) - $x; $a++) {
+
+                $season = $service_time->season_by_date($array_dates[$a]);
+                if ($season == 'top') {
+                    $total_price_room += $room->getRoomPriceUpFrom();
+                    array_push($prices_dates_temp, $room->getRoomPriceUpFrom());
+                } else {
+                    $total_price_room += $room->getRoomPriceDownFrom();
+                    array_push($prices_dates_temp, $room->getRoomPriceDownFrom());
+                }
+                //var_dump($season);
+            }
+            array_push($array_prices, $total_price_room);
+            array_push($prices_dates, $prices_dates_temp);
+        }
+
+        $no_available_days_ready = array();
+        foreach ($no_available_days as $item) {
+            $keys = array_keys($item);
+            if (!isset($no_available_days_ready[$item[$keys[0]]]))
+                $no_available_days_ready[$item[$keys[0]]] = array();
+            $no_available_days_ready[$item[$keys[0]]] = array_merge($no_available_days_ready[$item[$keys[0]]], $item['check']);
+        }
+
+        $array_dates_keys = array();
+        $count = 1;
+        foreach ($array_dates as $date) {
+            $array_dates_keys[$count] = array('day_number' => date('d', $date), 'day_name' => date('D', $date));
+            $count++;
+        }
+        $flag_room = 0;
+        $price_subtotal = 0;
+        $do_operation = true;
+        $available_rooms = array();
+        $avail_array_prices = array();
+        foreach ($rooms as $room_2) {
+            foreach ($array_no_available as $no_avail) {
+                if ($room_2->getRoomId() == $no_avail) {
+                    $do_operation = false;
+                }
+            }
+            if ($do_operation == true) {
+                $price_subtotal+=$array_prices[$flag_room];
+                array_push($available_rooms, $room_2->getRoomId());
+                array_push($avail_array_prices, $array_prices[$flag_room]);
+            }
+            $do_operation = true;
+            $flag_room++;
+        }
+
+        return $this->render('frontEndBundle:ownership:ownershipReservationCalendar.html.twig',array(
+            'array_dates' => $array_dates_keys,
+            'rooms' => $rooms,
+            'array_prices' => $array_prices,
+            'ownership' => $ownership,
+            'no_available_days' => $no_available_days_ready,
+            'prices_dates' => $prices_dates,
+            'reservations' => $array_no_available,
+        ));
+    }
+
     public function own_details_directAction($own_code) {
         $em = $this->getDoctrine()->getEntityManager();
         $ownership = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code' => $own_code));
