@@ -318,7 +318,6 @@ function refresh_filters_statistics(checked_filters)
 var map_big;
 var markers_big;
 function initialize_map() {
-    return;
     var json_url = $("#json_source").attr('data-url');
     var icon_small = $("#json_source").attr('data-icon-small');
     //var icon = $("#json_source").attr('data-icon');         
