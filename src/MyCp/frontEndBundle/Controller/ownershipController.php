@@ -6,18 +6,16 @@ use MyCp\mycpBundle\Entity\ownership;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ownershipController extends Controller {
 
-    public function own_details_directAction($own_code)
-    {
+    public function own_details_directAction($own_code) {
         $em = $this->getDoctrine()->getEntityManager();
-        $ownership = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code'=>$own_code));
-        if($ownership)
-            return $this->redirect($this->generateUrl('frontend_details_ownership',array('own_name'=> str_replace (" ", "_", strtolower ($ownership->getOwnName())))));
+        $ownership = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code' => $own_code));
+        if ($ownership)
+            return $this->redirect($this->generateUrl('frontend_details_ownership', array('own_name' => str_replace(" ", "_", strtolower($ownership->getOwnName())))));
         else
-            throw $this->createNotFoundException(); 
+            throw $this->createNotFoundException();
     }
 
     public function detailsAction($own_name, Request $request) {
@@ -25,18 +23,16 @@ class ownershipController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
 
-        $own_name=str_replace('_',' ',$own_name);
-        $ownership = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_name'=>$own_name));
-        
+        $own_name = str_replace('_', ' ', $own_name);
+        $ownership = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_name' => $own_name));
+
         $owner_id = $ownership->getOwnId();
-        $general_reservations = $em->getRepository('mycpBundle:generalReservation')->findBy(array('gen_res_own_id'=>$owner_id));
-        $reservations=array();
-        foreach($general_reservations as $gen_res)
-        {
-            $own_reservations=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id'=>$gen_res->getGenResId()));
-            foreach($own_reservations as $own_res)
-            {
-                array_push($reservations,$own_res);
+        $general_reservations = $em->getRepository('mycpBundle:generalReservation')->findBy(array('gen_res_own_id' => $owner_id));
+        $reservations = array();
+        foreach ($general_reservations as $gen_res) {
+            $own_reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $gen_res->getGenResId()));
+            foreach ($own_reservations as $own_res) {
+                array_push($reservations, $own_res);
             }
         }
 
@@ -46,7 +42,7 @@ class ownershipController extends Controller {
             'odl_ownership' => $owner_id
         ));
 
-        $similar_houses = $em->getRepository('mycpBundle:ownership')->getByCategory($ownership->getOwnCategory(), null, $owner_id,$user_ids["user_id"], $user_ids["session_id"]);
+        $similar_houses = $em->getRepository('mycpBundle:ownership')->getByCategory($ownership->getOwnCategory(), null, $owner_id, $user_ids["user_id"], $user_ids["session_id"]);
         $total_similar_houses = count($similar_houses);
 
         $paginator = $this->get('ideup.simple_paginator');
@@ -66,11 +62,11 @@ class ownershipController extends Controller {
         $post = $request->request->getIterator()->getArrayCopy();
         $start_date = (isset($post['top_reservation_filter_date_from'])) ? ($post['top_reservation_filter_date_from']) : (($session->get('search_arrival_date') != null) ? $session->get('search_arrival_date') : 'now');
         $end_date = (isset($post['top_reservation_filter_date_to'])) ? ($post['top_reservation_filter_date_to']) : (($session->get('search_departure_date') != null) ? $session->get('search_departure_date') : '+2 day');
-        
-        $start_timestamp =  strtotime($start_date);
+
+        $start_timestamp = strtotime($start_date);
         $end_timestamp = strtotime($end_date);
 
-        
+
         if (isset($post['top_reservation_filter_date_from'])) {
             $post['reservation_filter_date_from'] = $post['top_reservation_filter_date_from'];
             $post['reservation_filter_date_to'] = $post['top_reservation_filter_date_to'];
@@ -84,7 +80,6 @@ class ownershipController extends Controller {
             $reservation_filter_date_to = $post['reservation_filter_date_to'];
             $reservation_filter_date_to = explode('/', $reservation_filter_date_to);
             $end_timestamp = mktime(0, 0, 0, $reservation_filter_date_to[1], $reservation_filter_date_to[0], $reservation_filter_date_to[2]);
-
         } else {
             
         }
@@ -148,9 +143,9 @@ class ownershipController extends Controller {
             $total_price_room = 0;
             $prices_dates_temp = array();
             $x = 1;
-            /*if ($request->getMethod() != 'POST') {
-                //$x = 2;
-            }*/
+            /* if ($request->getMethod() != 'POST') {
+              //$x = 2;
+              } */
             for ($a = 0; $a < count($array_dates) - $x; $a++) {
 
                 $season = $service_time->season_by_date($array_dates[$a]);
@@ -182,7 +177,7 @@ class ownershipController extends Controller {
             $count++;
         }
         if ($this->getRequest()->getMethod() != 'POST') {
-           // array_pop($array_dates_keys);
+            // array_pop($array_dates_keys);
         }
 
         $flag_room = 0;
@@ -209,7 +204,7 @@ class ownershipController extends Controller {
         /* YANET */
         $users_id = $em->getRepository('mycpBundle:user')->user_ids($this);
         $em->getRepository('mycpBundle:userHistory')->insert(true, $owner_id, $users_id);
-        
+
         $real_category = "";
         if ($ownership->getOwnCategory() == 'Económica')
             $real_category = 'economy';
@@ -257,7 +252,7 @@ class ownershipController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
         $paginator->setItemsPerPage($items_per_page);
-        $last_added_own_list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->lastAdded(null,$user_ids["user_id"], $user_ids["session_id"]))->getResult();
+        $last_added_own_list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->lastAdded(null, $user_ids["user_id"], $user_ids["session_id"]))->getResult();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
@@ -291,7 +286,7 @@ class ownershipController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
         $paginator->setItemsPerPage($items_per_page);
-        $list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->getByCategory($real_category,null,null, $user_ids['user_id'], $user_ids['session_id']))->getResult();
+        $list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->getByCategory($real_category, null, null, $user_ids['user_id'], $user_ids['session_id']))->getResult();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
@@ -308,11 +303,8 @@ class ownershipController extends Controller {
         ));
     }
 
-    public function searchAction(Request $request, $text = null, $arriving_date = null, $departure_date = null, $guests = 1, $rooms = 1) {
-
+    public function searchAction(Request $request, $text = null, $guests = 1, $rooms = 1) {
         $em = $this->getDoctrine()->getEntityManager();
-        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
-
         $session = $this->getRequest()->getSession();
 
         if ($session->get('search_order') == null || $session->get('search_order') == '')
@@ -328,7 +320,6 @@ class ownershipController extends Controller {
         $items_per_page = 15;
         $paginator->setItemsPerPage($items_per_page);
         $list = $em->getRepository('mycpBundle:ownership')->search($search_text, $arrival, $departure, $search_guests, $search_rooms, $session->get('search_order'));
-        $search_results_list = $paginator->paginate($list)->getResult();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
@@ -340,55 +331,32 @@ class ownershipController extends Controller {
         $session->set('search_rooms', $search_rooms);
 
         $own_ids = "0";
-
         foreach ($list as $own)
             $own_ids .= "," . $own->getOwnId();
 
         $session->set('own_ids', $own_ids);
-        
-        
 
         if ($session->get('search_view_results') == null || $session->get('search_view_results') == '')
             $session->set('search_view_results', 'LIST');
 
-        $search_results_photos = $em->getRepository('mycpBundle:ownership')->get_photos_array($search_results_list);
-        $search_results_rooms = $em->getRepository('mycpBundle:ownership')->get_rooms_array($search_results_list);
-
         $categories_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsCategories($own_ids);
         $types_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsTypes($own_ids);
         $prices_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsPrices($own_ids);
-        $is_in_favorities = $em->getRepository('mycpBundle:favorite')->is_in_favorite_array($search_results_list, true, $user_ids['user_id'], $user_ids['session_id']);
         $statistics_own_list = $em->getRepository('mycpBundle:ownership')->getSearchStatistics($list);
 
-        $counts = $em->getRepository('mycpBundle:ownership')->get_counts_for_search($search_results_list);
-        
-        /*echo "<pre>";
-        var_dump($statistics_own_list);
-        echo "</pre>";
-        exit();*/
-        
         return $this->render('frontEndBundle:ownership:searchOwnership.html.twig', array(
                     'search_text' => $search_text,
                     'search_guests' => $search_guests,
                     'search_arrival_date' => $arrival,
                     'search_departure_date' => $departure,
-                    'list' => $search_results_list,
-                    'photos' => $search_results_photos,
                     'owns_categories' => $categories_own_list,
                     'owns_types' => $types_own_list,
                     'owns_prices' => $prices_own_list,
                     'view_results' => $session->get('search_view_results'),
                     'order' => $session->get('search_order'),
-                    'rooms' => $search_results_rooms,
                     'own_statistics' => $statistics_own_list,
                     'locale' => $this->get('translator')->getLocale(),
-                    'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocomplete_text_list(),
-                    'items_per_page' => $items_per_page,
-                    'total_items' => $paginator->getTotalItems(),
-                    'current_page' => $page,
-                    'is_in_favorities' => $is_in_favorities,
-                    'list_preffix' => 'search',
-                    'counts' => $counts
+                    'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocomplete_text_list()
         ));
     }
 
@@ -466,7 +434,12 @@ class ownershipController extends Controller {
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
 
         $view = $request->request->get('view');
-        $session->set('search_view_results', $view);
+        if (empty($view)) {
+            $view = $session->get('search_view_results');
+        } else {
+            $session->set('search_view_results', $view);
+        }
+
         $own_ids = $session->get('own_ids');
 
         if ($own_ids != null && $own_ids != '' && $own_ids != 'null')
@@ -487,44 +460,30 @@ class ownershipController extends Controller {
         $is_in_favorities = $em->getRepository('mycpBundle:favorite')->is_in_favorite_array($results_list, true, $user_ids['user_id'], $user_ids['session_id']);
         $counts = $em->getRepository('mycpBundle:ownership')->get_counts_for_search($results_list);
 
-        if ($view != null && $view == 'LIST') {
-            $response = $this->renderView('frontEndBundle:ownership:searchListOwnership.html.twig', array(
-                'list' => $results_list,
-                'photos' => $photos_list,
-                'rooms' => $rooms_list,
-                'items_per_page' => $items_per_page,
-                'total_items' => $paginator->getTotalItems(),
-                'current_page' => $page,
-                'is_in_favorities' => $is_in_favorities,
-                'list_preffix' => 'search',
-                'counts' => $counts
-            ));
-        } else if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'PHOTOS')
-            $response = $this->renderView('frontEndBundle:ownership:searchMosaicOwnership.html.twig', array(
-                'list' => $results_list,
-                'photos' => $photos_list,
-                'rooms' => $rooms_list,
-                'items_per_page' => $items_per_page,
-                'total_items' => $paginator->getTotalItems(),
-                'current_page' => $page,
-                'is_in_favorities' => $is_in_favorities,
-                'list_preffix' => 'search',
-                'counts' => $counts
-            ));
-        else if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'MAP')
-            $response = $this->renderView('frontEndBundle:ownership:searchMapOwnership.html.twig', array(
-                'list' => $results_list,
-                'photos' => $photos_list,
-                'rooms' => $rooms_list,
-                'items_per_page' => $items_per_page,
-                'total_items' => $paginator->getTotalItems(),
-                'current_page' => $page,
-                'is_in_favorities' => $is_in_favorities,
-                'list_preffix' => 'search',
-                'counts' => $counts
-            ));
+        switch ($view) {
+            default:
+            case 'LIST':
+                $template = 'frontEndBundle:ownership:searchListOwnership.html.twig';
+                break;
+            case 'PHOTOS':
+                $template = 'frontEndBundle:ownership:searchMosaicOwnership.html.twig';
+                break;
+            case 'MAP':
+                $template = 'frontEndBundle:ownership:searchMapOwnership.html.twig';
+                break;
+        }
 
-        return new Response($response, 200);
+        return $this->render($template, array(
+                    'list' => $results_list,
+                    'photos' => $photos_list,
+                    'rooms' => $rooms_list,
+                    'items_per_page' => $items_per_page,
+                    'total_items' => $paginator->getTotalItems(),
+                    'current_page' => $page,
+                    'is_in_favorities' => $is_in_favorities,
+                    'list_preffix' => 'search',
+                    'counts' => $counts
+        ));
     }
 
     public function researchAction() {
@@ -878,14 +837,12 @@ class ownershipController extends Controller {
         $photos = $em->getRepository('mycpBundle:ownership')->get_photos_array($list);
         $rooms = $em->getRepository('mycpBundle:ownership')->get_rooms_array($list);
 
-        $response = $this->renderView('frontEndBundle:ownership:searchListOwnership.html.twig', array(
-            'list' => $list,
-            'photos' => $photos,
-            'rooms' => $rooms,
-            'type' => 'map'
+        return $this->render('frontEndBundle:ownership:searchListOwnership.html.twig', array(
+                    'list' => $list,
+                    'photos' => $photos,
+                    'rooms' => $rooms,
+                    'type' => 'map'
         ));
-
-        return new Response($response, 200);
     }
 
     public function voted_best_listAction() {
@@ -951,22 +908,6 @@ class ownershipController extends Controller {
                     'list_preffix' => 'voted_best',
                     'counts' => $counts
         ));
-    }
-
-    private function is_ownership_in_cookie($id_own) {
-        if (isset($_COOKIE["mycp_favorites_ownerships"])) {
-            $string_favorites = $_COOKIE["mycp_favorites_ownerships"];
-            echo $string_favorites;
-            $array_ownerships = explode('*', $string_favorites);
-            array_pop($array_ownerships);
-            foreach ($array_ownerships as $ownership) {
-
-                if ($ownership == $id_own) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     public static function dates_between($startdate, $enddate, $format = null) {
@@ -1103,7 +1044,7 @@ class ownershipController extends Controller {
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
-        
+
         $response = $this->renderView('frontEndBundle:ownership:homeTopRatedOwnership.html.twig', array(
             'own_top20_list' => $own_top20_list,
             'top_rated_items_per_page' => $items_per_page,
@@ -1125,34 +1066,31 @@ class ownershipController extends Controller {
                     'departure_date' => $session->get("search_departure_date")
         ));
     }
-    
-    public function last_owns_visitedAction($exclude_ownership_id = null)
-    {
+
+    public function last_owns_visitedAction($exclude_ownership_id = null) {
         $em = $this->getDoctrine()->getEntityManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
         $history_owns = $em->getRepository('mycpBundle:userHistory')->get_list_entity($user_ids, true, 3, $exclude_ownership_id);
         $history_owns_photos = $em->getRepository('mycpBundle:ownership')->get_photos_array($history_owns);
-        
-         return $this->render('frontEndBundle:ownership:historyOwnership.html.twig', array(
-             'history_list' => $history_owns,
-             'photos' => $history_owns_photos
+
+        return $this->render('frontEndBundle:ownership:historyOwnership.html.twig', array(
+                    'history_list' => $history_owns,
+                    'photos' => $history_owns_photos
         ));
     }
-    
-    public function near_by_destinationsAction($municipality_id, $province_id)
-    {
+
+    public function near_by_destinationsAction($municipality_id, $province_id) {
         $em = $this->getDoctrine()->getEntityManager();
         $users_id = $em->getRepository('mycpBundle:user')->user_ids($this);
-        
+
         $destinations = $em->getRepository('mycpBundle:destination')->destination_filter($municipality_id, $province_id, null, null, 3);
-        
-        if(count($destinations) < 3)
+
+        if (count($destinations) < 3)
             $destinations = $em->getRepository('mycpBundle:destination')->get_popular_destination(3, $users_id["user_id"], $users_id["session_id"]);
-        
-         return $this->render('frontEndBundle:ownership:nearByDestinationsOwnership.html.twig', array(
+
+        return $this->render('frontEndBundle:ownership:nearByDestinationsOwnership.html.twig', array(
                     'destinations' => $destinations
         ));
-        
     }
 
 }

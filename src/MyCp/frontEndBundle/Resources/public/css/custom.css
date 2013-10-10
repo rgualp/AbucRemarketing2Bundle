@@ -304,7 +304,7 @@ hr{margin: 5px 0;}
 .green_bar select{margin: 0px; height: 28px; width: 80%}
 .green_bar a.link{margin-right: 10px; display: block; float: right; text-decoration: none;width: 30px; height: 22px;}
 .green_bar a.link:hover{background-position: bottom!important;}
-.green_bar a.link.list{ background: url("../images/list_sprite_bg.png") no-repeat;}
+.green_bar a.link.list{ background: url("../images/list_sprite_bg.png") no-repeat}
 .green_bar a.photo{ background: url("../images/photo_sprite_bg.png") no-repeat;}
 .green_bar a.map{ background: url("../images/map_sprite_bg.png") no-repeat;}
 .green_bar a.link:last-child{margin-right: 15px;}
