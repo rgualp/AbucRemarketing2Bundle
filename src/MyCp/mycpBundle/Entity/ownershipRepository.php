@@ -166,6 +166,7 @@ class ownershipRepository extends EntityRepository {
         /**
          * Codigo Yanet - Fin
          */
+        $beds_total = 0;
         for ($e = 1; $e <= $data['count_rooms']; $e++) {
             $room = new room();
             $room->setRoomType($data['room_type_' . $e]);
@@ -200,13 +201,17 @@ class ownershipRepository extends EntityRepository {
                 $ownership->setOwnMaximumPrice($room->getRoomPriceUpTo());
 
             if ($room->getRoomBeds() > 0)
-                $ownership->setOwnMaximunNumberGuests($ownership->getOwnMaximunNumberGuests() + $room->getRoomBeds());
+                $beds_total += $room->getRoomBeds();
+                //$ownership->setOwnMaximunNumberGuests($ownership->getOwnMaximunNumberGuests() + $room->getRoomBeds());
 
             $em->persist($ownership);
             /**
              * Codigo Yanet - Fin
              */
         }
+        
+        $ownership->setOwnMaximunNumberGuests($beds_total);
+        $em->persist($ownership);
 
         //save client casa
         if ($new_user) {
@@ -392,6 +397,7 @@ class ownershipRepository extends EntityRepository {
         /**
          * Codigo Yanet - Fin
          */
+        $beds_total = 0;
         for ($e = 1; $e <= $data['count_rooms']; $e++) {
             $room = new room();
             if (isset($old_rooms[$e - 1])) {
@@ -430,13 +436,16 @@ class ownershipRepository extends EntityRepository {
                 $ownership->setOwnMaximumPrice($room->getRoomPriceUpTo());
 
             if ($room->getRoomBeds() > 0)
-                $ownership->setOwnMaximunNumberGuests($ownership->getOwnMaximunNumberGuests() + $room->getRoomBeds());
-
+                $beds_total += $room->getRoomBeds();
+             
             $em->persist($ownership);
             /**
              * Codigo Yanet - Fin
              */
         }
+        $ownership->setOwnMaximunNumberGuests($beds_total);
+        $em->persist($ownership);
+        
         $em->flush();
     }
 
