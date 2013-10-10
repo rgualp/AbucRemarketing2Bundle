@@ -779,7 +779,8 @@ class ownershipController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
         $paginator->setItemsPerPage($items_per_page);
-        $list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->search($session->get('search_text'), $session->get('search_arrival_date'), $session->get('search_departure_date'), $session->get('search_guests'), $session->get('search_rooms'), $session->get('search_order'), $room_filter, $check_filters))->getResult();
+        $complete_list = $em->getRepository('mycpBundle:ownership')->search($session->get('search_text'), $session->get('search_arrival_date'), $session->get('search_departure_date'), $session->get('search_guests'), $session->get('search_rooms'), $session->get('search_order'), $room_filter, $check_filters);
+        $list = $paginator->paginate($complete_list)->getResult();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
