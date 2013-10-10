@@ -378,7 +378,7 @@
             <hr/>
             <div class="alert alert-info">{{'RESERVATION_PRICES_FOR' | trans}}: {{start_date}} - {{end_date}}
             </div>
-            <div id="body_calendar" style="overflow-x: auto;">
+            <div id="body_calendar" class="container_loading" style="overflow-x: auto;">
                 {{ include('frontEndBundle:ownership:ownershipReservationCalendar.html.twig')}}
             </div>
             <div style="text-align: right">
@@ -704,12 +704,19 @@
         date: end_date,
         language: $('#filter_date_to').attr('data-localization')
     }).on('changeDate', function(ev){
+                element=$("#body_calendar");
                 $('.datepicker').hide();
+                element.attr('class','container_loading');
+                element.html('<div>&nbsp;</div>');
+                $('#rooms_selected').css({display: 'none'})
+                $('#all_data_numbers').css({display: 'none'})
                 $.ajax({
                     url: "{{ path('frontend_get_reservation_calendar_ownership') }}",
                     data:{ from: $('#filter_date_from').val(), to: $('#filter_date_to').val(), own_id: {{ownership.ownid}}}
+
                 }).done(function(resp) {
-                    $("#body_calendar").html(resp);
+                        element.attr('class','');
+                        element.html(resp);
                 });
             });
 </script>
