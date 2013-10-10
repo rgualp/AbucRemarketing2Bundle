@@ -194,8 +194,8 @@ function insert_comment ()
     var result=$('#user_comments');
     var url=$('#btn_insert_comment').attr('data-url');
     
-    var user_name = $('#input_name').val();
-    var user_email = $('#input_email').val();
+    /*var user_name = $('#input_name').val();
+    var user_email = $('#input_email').val();*/
     var comment = $('#input_comment').val();    
     var rating = $('input[name=radio_rating]:checked').val();
         
@@ -259,13 +259,13 @@ function clear_controls()
 
 function validate()
 {
-    var user_name = $('#input_name').val();
-    var user_email = $('#input_email').val();
+    /* user_name = $('#input_name').val();
+    var user_email = $('#input_email').val();*/
     var comment = $('#input_comment').val();
     var valid = true;
     var error_text= '';
     
-    if(user_name == '')
+    /*if(user_name == '')
     {
         valid = false;
         error_text += $('#input_name').attr("requiered-message") + ' <br/>';            
@@ -281,16 +281,16 @@ function validate()
     {
         valid = false;
         error_text += $('#input_email').attr("invalid-message") +  ' <br/>';
-    }
+    }*/
         
-    if(comment == '')
+    if(comment === '')
     {
         valid = false;
         error_text += $('#input_comment').attr("requiered-message") +  ' <br/>';
             
     }
     
-    if(error_text != '')
+    if(error_text !== '')
     {
         $('#message_text').html(error_text);  
     }

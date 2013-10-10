@@ -11,12 +11,13 @@ class commentController extends Controller {
 
         $request = $this->getRequest();
         $em = $this->getDoctrine()->getEntityManager();
+        $user = $this->get('security.context')->getToken()->getUser();
         $data = array();
         $data['com_ownership_id'] = $ownid;
         $data['com_rating'] = $request->request->get('com_rating');
-        $data['com_user_name'] = $request->request->get('com_user_name');
+        $data['com_user_name'] = $user->getUserCompleteName();
         $data['com_comments'] = $request->request->get('com_comments');
-        $data['com_email'] = $request->request->get('com_email');
+        $data['com_email'] = $user->getUserEmail();
 
         $em->getRepository('mycpBundle:comment')->insert_comment($data);
         $list = $em->getRepository('mycpBundle:comment')->get_comments($ownid);
