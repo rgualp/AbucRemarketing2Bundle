@@ -15,17 +15,27 @@ class commentController extends Controller {
         $data = array();
         $data['com_ownership_id'] = $ownid;
         $data['com_rating'] = $request->request->get('com_rating');
-        $data['com_user_name'] = $user->getUserCompleteName();
         $data['com_comments'] = $request->request->get('com_comments');
-        $data['com_email'] = $user->getUserEmail();
 
-        $em->getRepository('mycpBundle:comment')->insert_comment($data);
-        $list = $em->getRepository('mycpBundle:comment')->get_comments($ownid);
+        $em->getRepository('mycpBundle:comment')->insert_comment($data, $user);
+
+         $paginator = $this->get('ideup.simple_paginator');
+         $items_per_page = 5;
+         $paginator->setItemsPerPage($items_per_page);
+         $comments = $paginator->paginate($em->getRepository('mycpBundle:comment')->get_comments($ownid))->getResult();
+         $page = 1;
+         if (isset($_GET['page']))
+             $page = $_GET['page'];
+
         $friends = array();
+
         $response = $this->renderView('frontEndBundle:comment:listComments.html.twig', array(
-            'comments' => $list,
+            'comments' => $comments,
             'friends' => $friends,
-            'show_comments_and_friends' => count($list) + count($friends)
+            'show_comments_and_friends' => count($paginator->getTotalItems()) + count($friends),
+            'comments_items_per_page' => $items_per_page,
+            'comments_total_items' => $paginator->getTotalItems(),
+            'comments_current_page' => $page
                 ));
 
         return new Response($response, 200);

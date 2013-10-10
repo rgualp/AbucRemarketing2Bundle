@@ -204,8 +204,6 @@ function insert_comment ()
     if(validate())
     {
         $.post(url,{
-            'com_user_name':user_name,
-            'com_email':user_email,
             'com_comments':comment,
             'com_rating':rating
         },function(data){
