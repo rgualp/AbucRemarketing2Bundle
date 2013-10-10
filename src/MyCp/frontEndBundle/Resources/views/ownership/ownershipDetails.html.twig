@@ -378,7 +378,7 @@
             <hr/>
             <div class="alert alert-info">{{'RESERVATION_PRICES_FOR' | trans}}: {{start_date}} - {{end_date}}
             </div>
-            <div id="body_calendar" class="container_loading" style="overflow-x: auto;">
+            <div id="body_calendar" style="overflow-x: auto;">
                 {{ include('frontEndBundle:ownership:ownershipReservationCalendar.html.twig')}}
             </div>
             <div style="text-align: right">
@@ -708,7 +708,7 @@
                     data:{ from: $('#filter_date_from').val(), to: $('#filter_date_to').val(), own_id: {{ownership.ownid}}}
 
                 }).done(function(resp) {
-                        element.attr('class','');
+                        element.removeAttr('class');
                         element.html(resp);
                 });
             });
