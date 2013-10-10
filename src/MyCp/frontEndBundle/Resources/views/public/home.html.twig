@@ -63,7 +63,7 @@
     </div>
 </div>
 <div id="top_rated_placeholder" data-url="{{path('frontend_top_rated_callback_ownership')}}">
-    {% render 'frontEndBundle:ownership:top_rated_callback' %}
+    {{ include('frontEndBundle:ownership:homeTopRatedOwnership.html.twig', {'own_top20_list':own_top20_list}) }}
 </div>
 {% render 'frontEndBundle:public:home_carrousel' %}
 

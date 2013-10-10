@@ -14,14 +14,22 @@ class PublicController extends Controller {
 
     public function welcomeAction() {
         $em = $this->getDoctrine()->getEntityManager();
-       
+        $session = $this->getRequest()->getSession();
         $glogal_locale = $this->get('translator')->getLocale();
+        
         $provinces = $em->getRepository('mycpBundle:province')->findAll();
         $slide_folder = rand(1, 7);
+        
+        $paginator = $this->get('ideup.simple_paginator');
+        $items_per_page = 4 * ($session->get("top_rated_show_rows") != null ? $session->get("top_rated_show_rows") : 2);
+        $paginator->setItemsPerPage($items_per_page);
+        $own_top20_list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->top20($glogal_locale))->getResult();
+        
         $response = $this->render('frontEndBundle:public:home.html.twig', array(
             'locale' => $glogal_locale,
             'provinces' => $provinces,
-            'slide_folder' => $slide_folder
+            'slide_folder' => $slide_folder,
+            'own_top20_list' => $own_top20_list
         ));
         
         return $response;
