@@ -786,19 +786,20 @@ class ownershipController extends Controller {
         if (isset($_GET['page']))
             $page = $_GET['page'];
 
-        $own_ids = "0";
+        /*$own_ids = "0";
 
         foreach ($list as $own)
             $own_ids .= "," . $own->getOwnId();
 
-        $session->set('own_ids', $own_ids);
+        $session->set('own_ids', $own_ids*/
+        
         $photos = $em->getRepository('mycpBundle:ownership')->get_photos_array($list);
         $rooms = $em->getRepository('mycpBundle:ownership')->get_rooms_array($list);
         $is_in_favorities = $em->getRepository('mycpBundle:favorite')->is_in_favorite_array($list, true, $user_ids['user_id'], $user_ids['session_id']);
         $counts = $em->getRepository('mycpBundle:ownership')->get_counts_for_search($list);
-
+      
         $view = $session->get('search_view_results');
-
+        
         if ($view != null && $view == 'LIST')
             $response = $this->renderView('frontEndBundle:ownership:searchListOwnership.html.twig', array(
                 'list' => $list,
@@ -907,7 +908,7 @@ class ownershipController extends Controller {
                     'longitude' => $own->getOwnGeolocateY(),
                     'title' => $own->getOwnName(),
                     'content' => $this->get('translator')->trans('FROM_PRICES') . ($session->get("curr_symbol") != null ? " " . $session->get('curr_symbol') . " " : " $ ") . $prize . " " . strtolower($this->get('translator')->trans("BYNIGHTS_PRICES")),
-                    'image' => $this->container->get('templating.helper.assets')->getUrl('uploads/ownershipImages/' . $this->get_ownership_photo($own->getOwnId()), null), //$this->get_ownership_photo($own->getOwnId()),
+                    'image' => $this->container->get('templating.helper.assets')->getUrl('uploads/ownershipImages/' . $em->getRepository("mycpBundle:ownership")->get_ownership_photo($own->getOwnId()), null), //$this->get_ownership_photo($own->getOwnId()),
                     'id' => $own->getOwnId());
             }
         }

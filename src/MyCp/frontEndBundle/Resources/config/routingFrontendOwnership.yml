@@ -1,5 +1,5 @@
 frontend_get_reservation_calendar_ownership:
-    pattern:  /filter/
+    pattern:  /reservation_calendar/
     defaults: { _controller: frontEndBundle:ownership:get_reservation_calendar }
 
 frontend_details_ownership:
