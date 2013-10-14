@@ -47,6 +47,7 @@
 </div>
 
 <script type="text/javascript">
+    var today_date="{{"now"|date("d/m/Y") }}";
     var start_date="{{ (app.session.get('search_arrival_date') != null) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now"|date("d/m/Y")) }}";
     var end_date="{{(app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : "+1 day" |date("d/m/Y")}}";
 </script>

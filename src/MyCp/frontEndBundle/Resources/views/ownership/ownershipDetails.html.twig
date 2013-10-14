@@ -671,7 +671,7 @@
     $('#top_reservation_filter_date_to').datepicker({
         format:'dd/mm/yyyy',
         todayBtn:'linked',
-        startDate: '+2',
+        startDate: '+1d',
         date: end_date,
         language: $('#top_reservation_filter_date_to').attr('data-localization')
     }).on('changeDate', function(ev){

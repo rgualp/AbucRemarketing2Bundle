@@ -197,7 +197,8 @@ class ownershipController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 5;
         $paginator->setItemsPerPage($items_per_page);
-        $comments = $paginator->paginate($em->getRepository('mycpBundle:comment')->get_comments($owner_id))->getResult();
+        $list_comments = $em->getRepository('mycpBundle:comment')->get_comments($owner_id);
+        $comments = $paginator->paginate($list_comments)->getResult();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
@@ -376,7 +377,7 @@ class ownershipController extends Controller {
                     'total_similar_houses' => $total_similar_houses,
                     'comments' => $comments,
                     'friends' => $friends,
-                    'show_comments_and_friends' => count($paginator->getTotalItems()) + count($friends),
+                    'show_comments_and_friends' => count($list_comments) + count($friends),
                     'rooms' => $rooms,
                     'gallery_photos' => $own_photos,
                     'gallery_photo_descriptions' => $own_photo_descriptions,
