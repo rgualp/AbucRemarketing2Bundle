@@ -12,7 +12,7 @@
 {% set main_tab = 5 %}
 {% block content_nav_top_body %}
 <h4>
-    {{ownership.ownType  | trans}} {{"IN" | trans}} {{ownership.ownAddressProvince}}: {{ownership.ownName}}.
+    {{ownership.ownType  | trans}} {{"IN" | trans}} {{ownership.ownAddressProvince}}: {{ownership.ownName}} ({{ownership.ownMcpcode}}).
     {%if rooms is defined and rooms | length%}
     {{rooms | length}} {%if rooms | length == 1%} {{"ROOM_SINGULAR" | trans}} {%else%} {{"ROOM_PLURAL" | trans}} {%endif%}.
     {%endif%}
@@ -31,7 +31,9 @@
 <ul class="breadcrumb">
     <li><a href="{{ path('frontend_welcome') }}" title="{{"GO_HOME_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
         <span class="divider">»</span></li>
-    <li class="active">{{"DESTINATIONS_MAIN_MENU" | trans}}</li>
+    <li><a href="{{ path('frontend_search_ownership') }}" title="{{"SEARCH_MAIN_MENU" | trans}}">{{"SEARCH_MAIN_MENU" | trans}}</a>
+        <span class="divider">»</span></li>
+    <li class="active">{{ ownership.getOwnName }}</li>
 </ul>
 
 <div class="row-fluid">

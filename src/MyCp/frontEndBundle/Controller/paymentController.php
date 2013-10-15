@@ -71,6 +71,8 @@ class paymentController extends Controller {
         $pendingUrl = $this->generateUrl('frontend_payment_skrill_test_response', array('status' => 'Pending'), true);
         $failedUrl = $this->generateUrl('frontend_payment_skrill_test_response', array('status' => 'Failed'), true);
 
+        //
+
         return $this->render(
                         'frontEndBundle:payment:waitingForPayment.html.twig', array(
                     'pollingUrl' => $pollingUrl,
