@@ -29,9 +29,15 @@
 
 {% block body %}
 <ul class="breadcrumb">
-    <li><a href="{{ path('frontend_welcome') }}" title="{{"GO_HOME_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
-        <span class="divider">»</span></li>
-    <li class="active">{{"DESTINATIONS_MAIN_MENU" | trans}}</li>
+    <li>
+        <a href="{{ path('frontend_welcome') }}" title="{{"GO_HOME_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+        <span class="divider">»</span>
+    </li>
+    <li>
+        <a href="{{ path('frontend_search_ownership') }}" title="{{"ACCOMMODATIONS" | trans}}">{{"ACCOMMODATIONS" | trans}}</a>
+        <span class="divider">»</span>
+    </li>
+    <li class="active">{{ ownership.getOwnName }}</li>
 </ul>
 
 <div class="row-fluid">
@@ -705,11 +711,14 @@
         language: $('#filter_date_to').attr('data-localization')
     }).on('changeDate', function(ev){
                 $('.datepicker').hide();
+                $('#body_calendar').attr('class','loading_status');
+                $('#body_calendar').html('&nbsp;');
                 $.ajax({
                     url: "{{ path('frontend_get_reservation_calendar_ownership') }}",
                     data:{ from: $('#filter_date_from').val(), to: $('#filter_date_to').val(), own_id: {{ownership.ownid}}}
                 }).done(function(resp) {
                     $("#body_calendar").html(resp);
+                    $('#body_calendar').attr('class',' ');
                 });
             });
 </script>
