@@ -612,8 +612,8 @@
 </div>
 </div>
 {% block include_javascripts %}
-<script src="http://maps.googleapis.com/maps/api/js?v=3&sensor=false" type="text/javascript"></script>
-<script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.js') }}"></script>
+<!--script src="http://maps.googleapis.com/maps/api/js?v=3&sensor=false" type="text/javascript"></script>
+<script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.js') }}"></script-->
 <script src="{{ asset('bundles/frontend/js/royal_slider/jquery.royalslider.min.js') }}"></script>
 <link href="{{ asset('bundles/frontend/css/royal_slider/royalslider.css') }}" rel="stylesheet"/>
 <link href="{{ asset('bundles/frontend/css/royal_slider/rs-default.css') }}" rel="stylesheet"/>
@@ -702,7 +702,7 @@
                 element=$("#body_calendar");
                 $('.datepicker').hide();
                 element.attr('class','container_loading');
-                element.html('<div>&nbsp;</div>');
+                element.html('&nbsp;');
                 $('#rooms_selected').css({display: 'none'})
                 $('#all_data_numbers').css({display: 'none'})
                 $.ajax({
@@ -711,6 +711,15 @@
                 }).done(function(resp) {
                         element.removeAttr('class');
                         element.html(resp);
+                        from=$('#filter_date_from').val();
+                        from=from.replace('/','&');
+                        from=from.replace('/','&');
+                        to=$('#filter_date_to').val();
+                        to=to.replace('/','&');
+                        to=to.replace('/','&');
+                        $('#data_reservation').attr('from_date', from);
+                        $('#data_reservation').attr('to_date', to);
+
                 });
             });
 </script>

@@ -706,4 +706,6 @@ ul.paginator_orange li.first_disabled,ul.paginator_orange li.left_disabled, ul.p
 .grey_cont label span.reservation_error{color:#ff0000; display:inline; font-size:11px;}
 
 ul.paginator li a{font-size:11px; margin:0px;}
+.container_loading{background: url("../images/loading.gif") no-repeat center #FFFFFF;}
+
 
