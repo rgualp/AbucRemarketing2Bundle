@@ -12,14 +12,14 @@
 {% set main_tab = 5 %}
 {% block content_nav_top_body %}
 <h4>
-    {{ownership.ownType  | trans}} {{"IN" | trans}} {{ownership.ownAddressProvince}}: {{ownership.ownName}} ({{ownership.ownMcpcode}}).
+    {{ownership.owntype  | trans}} {{"IN" | trans}} {{ownership.ownAddressProvince}}: {{ownership.ownname}}.
     {%if rooms is defined and rooms | length%}
     {{rooms | length}} {%if rooms | length == 1%} {{"ROOM_SINGULAR" | trans}} {%else%} {{"ROOM_PLURAL" | trans}} {%endif%}.
     {%endif%}
     {{"FROM_PRICES" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} {{ownership.ownminimumprice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} {{"NIGHT_PER_ROOM" | trans}}
 </h4>
 <label class="place">
-    {{ownership.ownType}}
+    {{ownership.owntype}}
     {%if (ownership.ownAddressStreet != null and ownership.ownAddressStreet != '') or (ownership.ownAddressNumber != null and ownership.ownAddressNumber != '') %}
     / {{ownership.ownAddressStreet}} {{ownership.ownAddressNumber}}
     {%endif%}
@@ -29,11 +29,15 @@
 
 {% block body %}
 <ul class="breadcrumb">
-    <li><a href="{{ path('frontend_welcome') }}" title="{{"GO_HOME_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
-        <span class="divider">»</span></li>
-    <li><a href="{{ path('frontend_search_ownership') }}" title="{{"SEARCH_MAIN_MENU" | trans}}">{{"SEARCH_MAIN_MENU" | trans}}</a>
-        <span class="divider">»</span></li>
-    <li class="active">{{ ownership.getOwnName }}</li>
+    <li>
+        <a href="{{ path('frontend_welcome') }}" title="{{"GO_HOME_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+        <span class="divider">»</span>
+    </li>
+    <li>
+        <a href="{{ path('frontend_search_ownership') }}" title="{{"ACCOMMODATIONS" | trans}}">{{"ACCOMMODATIONS" | trans}}</a>
+        <span class="divider">»</span>
+    </li>
+    <li class="active">{{ ownership.ownname }}</li>
 </ul>
 
 <div class="row-fluid">
@@ -55,10 +59,10 @@
         <div id="photos" class="tab-pane fade in active">
             <div id="gallery-1" class="royalSlider rsDefault">
                 {% for photo in  gallery_photos%}
-                <a class="rsImg" data-rsbigimg="{{asset('uploads/ownershipImages/'~photo.getPhoName)}}"
-                   href="{{asset('uploads/ownershipImages/'~photo.getPhoName)}}"><img class="rsTmb"
-                                                                                      src="{{asset('uploads/ownershipImages/thumbnails/'~photo.getPhoName)}}"
-                                                                                      width="60"></a>
+                <a class="rsImg" data-rsbigimg="{{asset('uploads/ownershipImages/'~photo.photo_name)}}"
+                   href="{{asset('uploads/ownershipImages/'~photo.photo_name)}}"
+                   title="{{photo.photo_description}}">
+                    <img class="rsTmb" src="{{asset('uploads/ownershipImages/thumbnails/'~photo.photo_name)}}" width="60" title="{{photo.photo_description}}"></a>
                 {% endfor %}
             </div>
         </div>
@@ -68,7 +72,7 @@
             <div class="flexible-container" id="mapContent">
 
                 <iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-                        src="{{ path('frontend_map_details_ownership',{'ownGeolocateX':ownership.OwnGeolocateX,'ownGeolocateY':ownership.OwnGeolocateY,'ownName':ownership.ownName,'description': "FROM_PRICES" | trans ~ (app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')) ~ ownership.OwnMinimumPrice ~ " " ~ ("BYNIGHTS_PRICES" | trans | lower),'image':((gallery_photos[0] is defined) ? gallery_photos[0].getPhoName : "no_photo.png")})}}">
+                        src="{{ path('frontend_map_details_ownership',{'ownGeolocateX':ownership.OwnGeolocateX,'ownGeolocateY':ownership.OwnGeolocateY,'ownName':ownership.ownname,'description': "FROM_PRICES" | trans ~ (app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')) ~ ownership.ownminimumprice ~ " " ~ ("BYNIGHTS_PRICES" | trans | lower),'image':((gallery_photos[0] is defined) ? gallery_photos[0].photo_name : "no_photo.png")})}}">
                 </iframe>
             </div>
         </div>
@@ -100,7 +104,7 @@
                 </tr>
                 <tr>
                     <td class="span6">{{"CATEGORY_TAB_DESCRIPTION" | trans}}:</td>
-                    <td class="span6 align_right"><b>{{ownership.owncategory | trans}}</b></td>
+                    <td class="span6 align_right"><b>{{ownership.category | trans}}</b></td>
                 </tr>
                 <tr>
                     <td>{{"CAPACITY_TAB_DESCRIPTION" | trans}}:</td>
@@ -116,7 +120,7 @@
                 </tr>
                 <tr>
                     <td>{{"PROVINCE_TAB_DESCRIPTION" | trans}}:</td>
-                    <td class="align_right"><b>{{ownership.ownaddressprovince}}</b></td>
+                    <td class="align_right"><b>{{ownership.ownAddressProvince}}</b></td>
                 </tr>
                 </tbody>
             </table>
@@ -405,7 +409,7 @@
                 <hr/>
                 <div style="margin-top: 10px; text-align: right">
                         <b>{{'RESERVATION_TOTAL_PRICE' | trans}} {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}<span id="total_price"></span></b><br/>
-                        <b>{{'INITIAL_DEPOSIT' | trans}} ({{ownership.getOwnCommissionPercent}}%): {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}<span id="initial_deposit"></span></b><br/>
+                        <b>{{'INITIAL_DEPOSIT' | trans}} ({{ownership.OwnCommissionPercent}}%): {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}<span id="initial_deposit"></span></b><br/>
                         <b>{{'SERVICE_RECHARGE' | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}<span id="service_recharge">{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</span></b>
                 </div>
                 <hr/>
@@ -428,7 +432,7 @@
                         {% else %}
                         {% set date_to = "+6 day"|date("d&m&Y") %}
                         {% endif %}
-                        <form action="{{ path('frontend_add_to_cart_reservation',{'id_ownership':ownership.getOwnId}) }}" method="POST">
+                        <form action="{{ path('frontend_add_to_cart_reservation',{'id_ownership':ownership.own_id}) }}" method="POST">
                             <input from_date="{{ start_date | replace('/','&') }}" to_date="{{ end_date | replace('/','&') }}" type="text" style="visibility: hidden; margin-bottom: -50px" name="data_reservation" id="data_reservation"/>
                             <input type="submit" class="btn-block btn mycp_btn_orange mycp_btn" value="{{'ADD_TO_CART' | trans}}"/>
                         </form>
@@ -485,14 +489,14 @@
                     </label>
                 </div>
                 {% if reservations | length == rooms | length%}
-                <div class="alert alert-error">No disponible</div>
+                <div class="alert alert-error">{{"NOT_AVAILABLE" | trans}}</div>
                 {% else %}
                 <button onclick="javascript:move('#calendar')" class="move_to btn btn-block mycp_btn_orange mycp_btn btn-large"  id="top_reservation_submit_button" type="button"  prices="{% set real_price=0%}{%for price in avail_array_prices%}&{{price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}{% set real_price=real_price + price%}{%endfor%}" real_price="{{real_price}}" rooms="{%for room in available_rooms%}&{{room}}{%endfor%}" >
                     {{"ADD_TO_CART" | trans}}
                 </button>
                 {% endif %}
             </form>
-            <form style="margin-bottom: -30px" id="form_reservation_top" method="POST" action="{{ path('frontend_add_to_cart_reservation',{'id_ownership':ownership.getOwnId}) }}">
+            <form style="margin-bottom: -30px" id="form_reservation_top" method="POST" action="{{ path('frontend_add_to_cart_reservation',{'id_ownership':ownership.own_id}) }}">
                 <input style="visibility: hidden;" from_date="{{ start_date | replace('/','&') }}" to_date="{{end_date | replace('/','&')}}}}" id="data_reservation_top" name="data_reservation"/>
             </form>
         </div>
@@ -501,26 +505,34 @@
         {{ include('frontEndBundle:favorite:detailsFavorite.html.twig',
                         {'is_in_favorite': is_in_favorite,
                          'favorite_type': 'ownership',
-                         'element_id':ownership.ownid
+                         'element_id':ownership.own_id
                          }) }}
     </div>
     <div class="thumbnail" style="padding: 12px">
         <a href="#send_to_friend_popup" title="{{'SEND_TO_FRIEND' | trans}}" data-toggle="modal" style="text-decoration: none">
-            <button class="btn btn-block" onclick="$('#send_to_friend_popup').attr('data-email-type', 'recommend_property'); $('#send_to_friend_popup').attr('data-dest-prop-id', '{{ownership.getOwnId}}');">
+            <button class="btn btn-block" onclick="$('#send_to_friend_popup').attr('data-email-type', 'recommend_property'); $('#send_to_friend_popup').attr('data-dest-prop-id', '{{ownership.own_id}}');">
                 <img src="{{ asset('bundles/frontend/images/main_to_friend.gif') }}">
                 {{"TELL_A_FRIEND" | trans}}
             </button>
         </a>
     </div>
-    {% if can_comment %}
+    
     <div class="thumbnail" style="padding: 10px">
         <div class="valuation">
-            <div id="ratings" data-url="{{ path('frontend_update_rating_ownership',{'ownid':ownership.ownid}) }}">
+            <div id="ratings" data-url="{{ path('frontend_update_rating_ownership',{'ownid':ownership.own_id}) }}">
                 {{ include('frontEndBundle:ownership:ownershipRating.html.twig',
                         {'ownership': ownership}) }}
             </div>
+                {% if can_comment %}
             <hr/>
             <div style="text-align: left; font-size: 12px; font-weight: bold;">
+                {{"NAME_COMMENTS_DETAILS" | trans}} *:
+                <input id="input_name" class="input-block-level" type="text"
+                       requiered-message="{{"NAME_REQUIERED_MESSAGE" | trans}}"/>
+                {{"MAIL_COMMENTS_DETAILS" | trans}} *:
+                <input id="input_email" class="input-block-level" type="text"
+                       requiered-message="{{"EMAIL_REQUIERED_MESSAGE" | trans}}"
+                       invalid-message="{{"EMAIL_INVALID_MESSAGE" | trans}}"/>
                 {{"TEXT_COMMENTS_DETAILS" | trans}} *:
                 <textarea id="input_comment" class="input-block-level"
                           requiered-message="{{"COMMENTTEXT_REQUIERED_MESSAGE" | trans}}"></textarea>
@@ -575,20 +587,21 @@
             <br/>
 
             <div id="message_text" class="hidden" ok-message="{{"COMMENT_INSERTED" | trans}}"></div>
+            {%endif%}
         </div>
     </div>
-    {%endif%}
-    {%render "frontEndBundle:ownership:last_owns_visited" with {'exclude_ownership_id': ownership.ownid }%}
+    
+    {%render "frontEndBundle:ownership:last_owns_visited" with {'exclude_ownership_id': ownership.own_id }%}
 
-    {%render "frontEndBundle:ownership:near_by_destinations" with {'municipality_id': ownership.ownaddressmunicipality.munid, 'province_id': ownership.OwnAddressProvince.provid}%}
+    {%render "frontEndBundle:ownership:near_by_destinations" with {'municipality_id': ownership.ownaddressmunicipality_id, 'province_id': ownership.ownAddressProvince_id}%}
 
     {%if total_similar_houses > 0%}
     <div class="thumbnail head">
         <div class="header">{{"SIMILAR_OWNERSHIPS_DETAILS" | trans}} ({{total_similar_houses}})</div>
         <div class="subheader">
             {{total_similar_houses}} {{"LISTINGS_TEXT_DETAILS" | trans}} <a
-                title="{{"SEE_MORE_OWNERSHIPS_DETAILS" | trans}} {{ownership.owncategory}}"
-                href="">{{"SEE_ALL_DETAILS" | trans}}</a>
+                title="{{"SEE_MORE_OWNERSHIPS_DETAILS" | trans}} {{ownership.category}}"
+                href="{{path("frontend_category_ownership",{'category': real_category})}}">{{"SEE_ALL_DETAILS" | trans}}</a>
         </div>
         <div class="content">
             {%for own in similar_houses%}
@@ -612,8 +625,8 @@
 </div>
 </div>
 {% block include_javascripts %}
-<!--script src="http://maps.googleapis.com/maps/api/js?v=3&sensor=false" type="text/javascript"></script>
-<script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.js') }}"></script-->
+<!--<script src="http://maps.googleapis.com/maps/api/js?v=3&sensor=false" type="text/javascript"></script>
+<script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.js') }}"></script>-->
 <script src="{{ asset('bundles/frontend/js/royal_slider/jquery.royalslider.min.js') }}"></script>
 <link href="{{ asset('bundles/frontend/css/royal_slider/royalslider.css') }}" rel="stylesheet"/>
 <link href="{{ asset('bundles/frontend/css/royal_slider/rs-default.css') }}" rel="stylesheet"/>
@@ -671,7 +684,7 @@
     $('#top_reservation_filter_date_to').datepicker({
         format:'dd/mm/yyyy',
         todayBtn:'linked',
-        startDate: '+1d',
+        startDate: '+2',
         date: end_date,
         language: $('#top_reservation_filter_date_to').attr('data-localization')
     }).on('changeDate', function(ev){
