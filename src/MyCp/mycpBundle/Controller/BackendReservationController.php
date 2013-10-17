@@ -410,6 +410,7 @@ class BackendReservationController extends Controller
         $reservation=new generalReservation();
         $reservation=$em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
         $reservation->setGenResStatus(1);
+        $reservation->setGenResStatusDate(new \DateTime(date('Y-m-d')));
         $em->persist($reservation);
         $em->flush();
         $reservations=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id'=>$id_reservation));

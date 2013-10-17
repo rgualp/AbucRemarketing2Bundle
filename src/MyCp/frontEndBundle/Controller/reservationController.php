@@ -407,10 +407,12 @@ class reservationController extends Controller
                 'nigths' => $temp_nigths,
             ));
             $subject = "MyCasaParticular Reservas - " . strtoupper($user_tourist->getUserTouristLanguage()->getLangCode());
+            //echo $body;
             $service_email->send_email(
                 $subject, 'no.reply@mycasaparticular.com', $subject, $user->getUserEmail(), $body
             );
         }
+        //exit();
 
         return $this->render('frontEndBundle:reservation:confirmReview.html.twig', array(
             "owns_in_destination" => $owns_in_destination,
@@ -667,6 +669,28 @@ class reservationController extends Controller
             'total_percent_price' => $total_percent_price,
             'commissions' => $commissions
         ));
+    }
+
+    public function reminder_availableAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $gen_reservations =  $em->getRepository('mycpBundle:generalReservation')->get_reminder_available();
+        foreach($gen_reservations as $gen_reservation)
+        {
+            // Enviando mail al cliente
+            $user_tourist=$em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user'=>$gen_reservation->getGenResUserId()->getUserId()));
+            $body = $this->render('frontEndBundle:mails:reminder_available.html.twig', array(
+                'user'=>$gen_reservation->getGenResUserId()
+            ));
+            echo $body->getContent(); exit();
+            $locale = $this->get('translator');
+            $subject = $locale->trans('VIEW_DETAILS');
+            $service_email = $this->get('Email');
+            $service_email->send_email(
+                $subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $body
+            );
+        }
+
     }
 
 }
