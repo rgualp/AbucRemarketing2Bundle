@@ -12,7 +12,7 @@
 {% set main_tab = 5 %}
 {% block content_nav_top_body %}
 <h4>
-    {{ownership.ownType  | trans}} {{"IN" | trans}} {{ownership.ownAddressProvince}}: {{ownership.ownName}}.
+    {{ownership.ownType  | trans}} {{"IN" | trans}} {{ownership.ownAddressProvince}}: {{ownership.ownName}} ({{ownership.ownMcpcode}}).
     {%if rooms is defined and rooms | length%}
     {{rooms | length}} {%if rooms | length == 1%} {{"ROOM_SINGULAR" | trans}} {%else%} {{"ROOM_PLURAL" | trans}} {%endif%}.
     {%endif%}
@@ -29,14 +29,10 @@
 
 {% block body %}
 <ul class="breadcrumb">
-    <li>
-        <a href="{{ path('frontend_welcome') }}" title="{{"GO_HOME_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
-        <span class="divider">»</span>
-    </li>
-    <li>
-        <a href="{{ path('frontend_search_ownership') }}" title="{{"ACCOMMODATIONS" | trans}}">{{"ACCOMMODATIONS" | trans}}</a>
-        <span class="divider">»</span>
-    </li>
+    <li><a href="{{ path('frontend_welcome') }}" title="{{"GO_HOME_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+        <span class="divider">»</span></li>
+    <li><a href="{{ path('frontend_search_ownership') }}" title="{{"SEARCH_MAIN_MENU" | trans}}">{{"SEARCH_MAIN_MENU" | trans}}</a>
+        <span class="divider">»</span></li>
     <li class="active">{{ ownership.getOwnName }}</li>
 </ul>
 
@@ -525,13 +521,6 @@
             </div>
             <hr/>
             <div style="text-align: left; font-size: 12px; font-weight: bold;">
-                {{"NAME_COMMENTS_DETAILS" | trans}} *:
-                <input id="input_name" class="input-block-level" type="text"
-                       requiered-message="{{"NAME_REQUIERED_MESSAGE" | trans}}"/>
-                {{"MAIL_COMMENTS_DETAILS" | trans}} *:
-                <input id="input_email" class="input-block-level" type="text"
-                       requiered-message="{{"EMAIL_REQUIERED_MESSAGE" | trans}}"
-                       invalid-message="{{"EMAIL_INVALID_MESSAGE" | trans}}"/>
                 {{"TEXT_COMMENTS_DETAILS" | trans}} *:
                 <textarea id="input_comment" class="input-block-level"
                           requiered-message="{{"COMMENTTEXT_REQUIERED_MESSAGE" | trans}}"></textarea>
@@ -623,8 +612,8 @@
 </div>
 </div>
 {% block include_javascripts %}
-<!--<script src="http://maps.googleapis.com/maps/api/js?v=3&sensor=false" type="text/javascript"></script>
-<script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.js') }}"></script>-->
+<script src="http://maps.googleapis.com/maps/api/js?v=3&sensor=false" type="text/javascript"></script>
+<script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/royal_slider/jquery.royalslider.min.js') }}"></script>
 <link href="{{ asset('bundles/frontend/css/royal_slider/royalslider.css') }}" rel="stylesheet"/>
 <link href="{{ asset('bundles/frontend/css/royal_slider/rs-default.css') }}" rel="stylesheet"/>
@@ -682,7 +671,7 @@
     $('#top_reservation_filter_date_to').datepicker({
         format:'dd/mm/yyyy',
         todayBtn:'linked',
-        startDate: '+2',
+        startDate: '+1d',
         date: end_date,
         language: $('#top_reservation_filter_date_to').attr('data-localization')
     }).on('changeDate', function(ev){
@@ -710,15 +699,18 @@
         date: end_date,
         language: $('#filter_date_to').attr('data-localization')
     }).on('changeDate', function(ev){
+                element=$("#body_calendar");
                 $('.datepicker').hide();
-                $('#body_calendar').attr('class','loading_status');
-                $('#body_calendar').html('&nbsp;');
+                element.attr('class','container_loading');
+                element.html('<div>&nbsp;</div>');
+                $('#rooms_selected').css({display: 'none'})
+                $('#all_data_numbers').css({display: 'none'})
                 $.ajax({
                     url: "{{ path('frontend_get_reservation_calendar_ownership') }}",
                     data:{ from: $('#filter_date_from').val(), to: $('#filter_date_to').val(), own_id: {{ownership.ownid}}}
                 }).done(function(resp) {
-                    $("#body_calendar").html(resp);
-                    $('#body_calendar').attr('class',' ');
+                        element.removeAttr('class');
+                        element.html(resp);
                 });
             });
 </script>

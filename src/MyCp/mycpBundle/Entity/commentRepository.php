@@ -15,28 +15,27 @@ use MyCp\mycpBundle\Entity\comment;
  */
 class commentRepository extends EntityRepository
 {
-    function insert_comment($data)
+    function insert_comment($data, $user)
     {
          $em = $this->getEntityManager();
          
          $ownership = $em->getRepository('mycpBundle:ownership')->find($data['com_ownership_id']);
          
          $comment = new comment();
-         $comment->setCommentDate(new \DateTime());
-         $comment->setCommentOwnership($ownership);
-         $comment->setCommentRating($data['com_rating']);
-         $comment->setCommentUserName($data['com_user_name']);
-         $comment->setComments($data['com_comments']);
-         $comment->setEmail($data['com_email']);
-         $comment->setPublic(true);       
+         $comment->setComDate(new \DateTime());
+         $comment->setComOwnership($ownership);
+         $comment->setComRate($data['com_rating']);
+         $comment->setComComments($data['com_comments']);
+         $comment->setComUser($user);
+         $comment->setComPublic(true);
 
          $em->persist($comment);
          $em->flush();
          
-         $newRating = ($ownership->getOwnRating() + $comment->getCommentRating()) / 2;         
+         $newRating = ($ownership->getOwnRating() + $comment->getComRate()) / 2;
          $ownership->setOwnRating($newRating);
          
-         if($comment->getCommentRating() >= 3)
+         if($comment->getComRate() >= 3)
          {
              $total_comments = $ownership->getOwnCommentsTotal() + 1;
              $ownership->setOwnCommentsTotal($total_comments);

@@ -479,6 +479,10 @@ class user implements UserInterface,  \Serializable
     {
         return $this->user_newsletters;
     }
+    
+    public function getUserCompleteName(){
+        return $this->user_user_name. ' '.$this->user_last_name;
+    }
 
     public function __toString()
     {

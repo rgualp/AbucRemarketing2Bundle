@@ -24,6 +24,7 @@ function start(){
             {
                 value=0;
                 persons=parseInt($('#combo_kids_'+$(this).attr('data')).val()) + parseInt($('#combo_guest_'+$(this).attr('data')).val());
+
                 if($(this).attr('data_type_room')=='Habitación Triple' && persons>=3)
                 {
                     value=this.parentNode.parentNode.cells[2].innerHTML*(cont_array_dates-1) + (($(this).attr('data_curr')*10) * (cont_array_dates -1));
@@ -38,6 +39,8 @@ function start(){
                 $('#price_'+$(this).attr('data')).html(value);
 
                 total_price($(this).attr('data_curr'),$(this).attr('percent_charge'));
+                $('#rooms_selected').css({display: 'table'})
+                $('#all_data_numbers').css({display: 'block'})
 
             }
         }
@@ -193,16 +196,14 @@ function insert_comment ()
     var result=$('#user_comments');
     var url=$('#btn_insert_comment').attr('data-url');
     
-    var user_name = $('#input_name').val();
-    var user_email = $('#input_email').val();
+    /*var user_name = $('#input_name').val();
+    var user_email = $('#input_email').val();*/
     var comment = $('#input_comment').val();    
     var rating = $('input[name=radio_rating]:checked').val();
         
     if(validate())
     {
         $.post(url,{
-            'com_user_name':user_name,
-            'com_email':user_email,
             'com_comments':comment,
             'com_rating':rating
         },function(data){
@@ -258,13 +259,13 @@ function clear_controls()
 
 function validate()
 {
-    var user_name = $('#input_name').val();
-    var user_email = $('#input_email').val();
+    /* user_name = $('#input_name').val();
+    var user_email = $('#input_email').val();*/
     var comment = $('#input_comment').val();
     var valid = true;
     var error_text= '';
     
-    if(user_name == '')
+    /*if(user_name == '')
     {
         valid = false;
         error_text += $('#input_name').attr("requiered-message") + ' <br/>';            
@@ -280,16 +281,16 @@ function validate()
     {
         valid = false;
         error_text += $('#input_email').attr("invalid-message") +  ' <br/>';
-    }
+    }*/
         
-    if(comment == '')
+    if(comment === '')
     {
         valid = false;
         error_text += $('#input_comment').attr("requiered-message") +  ' <br/>';
             
     }
     
-    if(error_text != '')
+    if(error_text !== '')
     {
         $('#message_text').html(error_text);  
     }

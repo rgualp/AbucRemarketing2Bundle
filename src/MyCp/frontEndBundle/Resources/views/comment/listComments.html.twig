@@ -2,8 +2,8 @@
         <div class="third_tab secondary_tab row-fluid">
             <div class="nav-tabs_cont">
                 <ul class="nav nav-tabs">
-                    {%if comments|length%}
-                    <li class="active"><a data-toggle="tab" href="#">{{"USER_COMMENTS_TAB" | trans}} ({{comments | length}})</a></li>
+                    {%if comments_total_items%}
+                    <li class="active"><a data-toggle="tab" href="#">{{"USER_COMMENTS_TAB" | trans}} ({{comments_total_items}})</a></li>
                     {%endif%}
                 </ul>
             </div>
@@ -13,7 +13,7 @@
                     <div class="row-fluid">
                         <div class="span2">
                             <img class="img-polaroid" src="{{ asset('bundles/frontend/images/user_no_photo.gif') }}" alt="">
-                            <label class="name">{{comment.getComUser.getUserUserName}} {{comment.getComUser.getUserUserName}}</label>
+                            <label class="name">{{comment.getComUser.getUserCompleteName}}</label>
                             <div class="rating_star">
                                 {%if comment.getComRate > 0%}
                                         {%for i in 1..comment.getComRate%}
