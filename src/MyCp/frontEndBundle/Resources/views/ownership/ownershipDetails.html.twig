@@ -583,7 +583,7 @@
             </div>
             <br/>
             <button class="btn btn-block dark_blue_button" id="btn_insert_comment"
-                    data-url="{{ path('frontend_insert_comment',{'ownid':ownership.ownid}) }}">{{"SEND_COMMENT_DETAILS" | trans}}</button>
+                    data-url="{{ path('frontend_insert_comment',{'ownid':ownership.own_id}) }}">{{"SEND_COMMENT_DETAILS" | trans}}</button>
             <br/>
 
             <div id="message_text" class="hidden" ok-message="{{"COMMENT_INSERTED" | trans}}"></div>
@@ -720,7 +720,7 @@
                 $('#all_data_numbers').css({display: 'none'})
                 $.ajax({
                     url: "{{ path('frontend_get_reservation_calendar_ownership') }}",
-                    data:{ from: $('#filter_date_from').val(), to: $('#filter_date_to').val(), own_id: {{ownership.ownid}}}
+                    data:{ from: $('#filter_date_from').val(), to: $('#filter_date_to').val(), own_id: {{ownership.own_id}}}
                 }).done(function(resp) {
                         element.removeAttr('class');
                         element.html(resp);

@@ -172,11 +172,12 @@ class ownershipController extends Controller {
 
         $em = $this->getDoctrine()->getEntityManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $locale = $this->get('translator')->getLocale();
 
         $own_name = str_replace('_', ' ', $own_name);
-        $ownership = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_name' => $own_name));
+        $ownership_array = $em->getRepository('mycpBundle:ownership')->get_details($own_name, $locale, $user_ids['user_id'], $user_ids['session_id']);
 
-        $owner_id = $ownership->getOwnId();
+        $owner_id = $ownership_array['own_id'];
         $general_reservations = $em->getRepository('mycpBundle:generalReservation')->findBy(array('gen_res_own_id' => $owner_id));
         $reservations = array();
         foreach ($general_reservations as $gen_res) {
@@ -186,13 +187,9 @@ class ownershipController extends Controller {
             }
         }
 
-        $locale = $this->get('translator')->getLocale();
-        $ownership_description = $em->getRepository('mycpBundle:ownershipDescriptionLang')->findOneBy(array(
-            'odl_id_lang' => $em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code' => $locale)),
-            'odl_ownership' => $owner_id
-        ));
 
-        $similar_houses = $em->getRepository('mycpBundle:ownership')->getByCategory($ownership->getOwnCategory(), null, $owner_id, $user_ids["user_id"], $user_ids["session_id"]);
+
+        $similar_houses = $em->getRepository('mycpBundle:ownership')->getByCategory($ownership_array['category'], null, $owner_id, $user_ids["user_id"], $user_ids["session_id"]);
         $total_similar_houses = count($similar_houses);
 
         $paginator = $this->get('ideup.simple_paginator');
