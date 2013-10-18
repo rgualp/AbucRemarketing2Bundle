@@ -34,7 +34,7 @@
         <span class="divider">»</span></li>
     <li><a href="{{ path('frontend_search_ownership') }}" title="{{"SEARCH_MAIN_MENU" | trans}}">{{"SEARCH_MAIN_MENU" | trans}}</a>
         <span class="divider">»</span></li>
-    <li class="active">{{ ownership.getOwnName }}</li>
+    <li class="active">{{ ownership.ownname }}</li>
 </ul>
 
 <div class="row-fluid">
@@ -710,11 +710,19 @@
                 $('#all_data_numbers').css({display: 'none'})
                 $.ajax({
                     url: "{{ path('frontend_get_reservation_calendar_ownership') }}",
-                    data:{ from: $('#filter_date_from').val(), to: $('#filter_date_to').val(), own_id: {{ownership.ownid}}}
+                    data:{ from: $('#filter_date_from').val(), to: $('#filter_date_to').val(), own_id: {{ownership.own_id}}}
 
                 }).done(function(resp) {
                         element.removeAttr('class');
                         element.html(resp);
+                        from=$('#filter_date_from').val();
+                        from=from.replace('/','&');
+                        from=from.replace('/','&');
+                        to=$('#filter_date_to').val();
+                        to=to.replace('/','&');
+                        to=to.replace('/','&');
+                        $('#data_reservation').attr('from_date', from);
+                        $('#data_reservation').attr('to_date', to);
                 });
             });
 </script>

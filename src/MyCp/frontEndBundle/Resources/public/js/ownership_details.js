@@ -16,6 +16,7 @@ function start(){
                 if ($('#rooms_selected >tbody >tr').length == 0){
                     $('#rooms_selected').css({display: 'none'})
                     $('#all_data_numbers').css({display: 'none'})
+
                 }
 
                 total_price($(this).attr('data_curr'));
@@ -99,11 +100,12 @@ function start(){
             $('#data_reservation').val(string_url);
             $('#total_price').html(total_price );
             $('#subtotal_price').html(total_price);
+
             percent_value=total_price * percent / 100;
             $('#initial_deposit').html(percent_value);
             $('#total_prepayment').html(percent_value + 10*curr);
-            $('#subtotal_price_cont').css('display','block');
 
+            $('#subtotal_price_cont').css('display','block');
         }
     });
 

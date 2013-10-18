@@ -626,7 +626,7 @@ class ownershipController extends Controller {
         $is_in_favorities = $em->getRepository('mycpBundle:favorite')->is_in_favorite_array($results_list, true, $user_ids['user_id'], $user_ids['session_id']);
         $counts = $em->getRepository('mycpBundle:ownership')->get_counts_for_search($results_list);
 
-        if ($view != null && $view == 'LIST') {
+        if (($session->get('search_view_results') != null && $session->get('search_view_results') == 'LIST') || $session->get('search_view_results')) {
             $response = $this->renderView('frontEndBundle:ownership:searchListOwnership.html.twig', array(
                 'list' => $results_list,
                 'photos' => $photos_list,

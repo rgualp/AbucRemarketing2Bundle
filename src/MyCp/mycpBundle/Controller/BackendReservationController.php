@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\log;
+use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use MyCp\mycpBundle\Form\reservationType;
 
@@ -339,7 +340,6 @@ class BackendReservationController extends Controller
         $dates=$service_time->dates_between($reservation->getGenResFromDate()->format('Y-m-d'), $reservation->getGenResToDate()->format('Y-m-d'));
         if($request->getMethod()=='POST')
         {
-
             $keys=array_keys($post);
 
             foreach($keys as $key)
@@ -356,6 +356,7 @@ class BackendReservationController extends Controller
 
             if(count($errors)==0)
             {
+
                 $ownership_reservation=new ownershipReservation();
                 $temp_price=0;
                 foreach($ownership_reservations as $ownership_reservation)
@@ -366,9 +367,16 @@ class BackendReservationController extends Controller
                     $ownership_reservation->setOwnResStatus($post['service_own_res_status_'.$ownership_reservation->getOwnResId()]);
                     $ownership_reservation->setOwnResRoomType($post['service_room_type_'.$ownership_reservation->getOwnResId()]);
                     $ownership_reservation->setOwnResNightPrice($post['service_room_price_'.$ownership_reservation->getOwnResId()]);
+
+                    $start=explode('/',$post['date_from_'.$ownership_reservation->getOwnResId()]);
+                    $end=explode('/',$post['date_to_'.$ownership_reservation->getOwnResId()]);
+                    $start_timestamp = mktime(0, 0, 0, $start[1], $start[0], $start[2]);
+                    $end_timestamp = mktime(0, 0, 0, $end[1], $end[0], $end[2]);
+
+                    $ownership_reservation->setOwnResReservationFromDate(new \DateTime(date("Y-m-d H:i:s", $start_timestamp)));
+                    $ownership_reservation->setOwnResReservationToDate(new \DateTime(date("Y-m-d H:i:s", $end_timestamp)));
                     $em->persist($ownership_reservation);
                 }
-
                 $message='Reserva actualizada satisfactoriamente.';
                 $reservation->setGenResSaved(1);
                 $em->persist($reservation);
