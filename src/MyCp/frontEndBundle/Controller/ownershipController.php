@@ -173,11 +173,12 @@ class ownershipController extends Controller {
 
         $em = $this->getDoctrine()->getEntityManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $locale = $this->get('translator')->getLocale();
 
         $own_name=str_replace('_',' ',$own_name);
-        $ownership = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_name'=>$own_name));
+        $ownership_array = $em->getRepository('mycpBundle:ownership')->get_details($own_name,$locale, $user_ids["user_id"], $user_ids["session_id"]);
         
-        $owner_id = $ownership->getOwnId();
+        $owner_id = $ownership_array['own_id'];
         $general_reservations = $em->getRepository('mycpBundle:generalReservation')->findBy(array('gen_res_own_id'=>$owner_id));
         $reservations=array();
         foreach($general_reservations as $gen_res)
@@ -189,13 +190,7 @@ class ownershipController extends Controller {
             }
         }
 
-        $locale = $this->get('translator')->getLocale();
-        $ownership_description = $em->getRepository('mycpBundle:ownershipDescriptionLang')->findOneBy(array(
-            'odl_id_lang' => $em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code' => $locale)),
-            'odl_ownership' => $owner_id
-        ));
-
-        $similar_houses = $em->getRepository('mycpBundle:ownership')->getByCategory($ownership->getOwnCategory(), null, $owner_id,$user_ids["user_id"], $user_ids["session_id"]);
+        $similar_houses = $em->getRepository('mycpBundle:ownership')->getByCategory($ownership_array['category'], null, $owner_id,$user_ids["user_id"], $user_ids["session_id"]);
         $total_similar_houses = count($similar_houses);
 
         $paginator = $this->get('ideup.simple_paginator');
@@ -208,8 +203,7 @@ class ownershipController extends Controller {
 
         $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $owner_id));
         $friends = array();
-        $own_photos = $em->getRepository('mycpBundle:ownership')->getPhotos($owner_id);
-        $own_photo_descriptions = $em->getRepository('mycpBundle:ownership')->getPhotoDescription($own_photos, $locale);
+        $own_photos = $em->getRepository('mycpBundle:ownership')->getPhotosAndDescription($owner_id, $locale);
 
         $session = $this->get('session');
         $post = $request->request->getIterator()->getArrayCopy();
@@ -355,15 +349,14 @@ class ownershipController extends Controller {
         //exit();
 
         /* YANET */
-        $users_id = $em->getRepository('mycpBundle:user')->user_ids($this);
-        $em->getRepository('mycpBundle:userHistory')->insert(true, $owner_id, $users_id);
+        $em->getRepository('mycpBundle:userHistory')->insert(true, $owner_id, $user_ids);
         
         $real_category = "";
-        if ($ownership->getOwnCategory() == 'Económica')
+        if ($ownership_array['category'] == 'Económica')
             $real_category = 'economy';
-        else if ($ownership->getOwnCategory() == 'Rango medio')
+        else if ($ownership_array['category'] == 'Rango medio')
             $real_category = 'mid_range';
-        else if ($ownership->getOwnCategory() == 'Premium')
+        else if ($ownership_array['category'] == 'Premium')
             $real_category = 'premium';
 
         return $this->render('frontEndBundle:ownership:ownershipDetails.html.twig', array(
@@ -373,9 +366,9 @@ class ownershipController extends Controller {
                     'avail_array_prices' => $avail_array_prices,
                     'array_prices' => $array_prices,
                     'prices_dates' => $prices_dates,
-                    'ownership' => $ownership,
-                    'description' => $ownership_description,
-                    'brief_description' => ($ownership_description != null) ? $ownership_description->getOdlBriefDescription() : null,
+                    'ownership' => $ownership_array,
+                    'description' => $ownership_array['description'],
+                    'brief_description' => $ownership_array['brief_description'],
                     'similar_houses' => array_slice($similar_houses, 0, 5),
                     'total_similar_houses' => $total_similar_houses,
                     'comments' => $comments,
@@ -383,8 +376,7 @@ class ownershipController extends Controller {
                     'show_comments_and_friends' => count($comments) + count($friends),
                     'rooms' => $rooms,
                     'gallery_photos' => $own_photos,
-                    'gallery_photo_descriptions' => $own_photo_descriptions,
-                    'is_in_favorite' => $em->getRepository('mycpBundle:favorite')->is_in_favorite($owner_id, true, $users_id["user_id"], $users_id["session_id"]),
+                    'is_in_favorite' => $ownership_array['is_in_favorites'],
                     'array_dates' => $array_dates_keys,
                     'post' => $post,
                     'reservations' => $array_no_available,
@@ -392,7 +384,7 @@ class ownershipController extends Controller {
                     'comments_items_per_page' => $items_per_page,
                     'comments_total_items' => $paginator->getTotalItems(),
                     'comments_current_page' => $page,
-                    'can_comment' => $em->getRepository("mycpBundle:comment")->can_comment($users_id["user_id"], $ownership->getOwnId()),
+                    'can_comment' => $em->getRepository("mycpBundle:comment")->can_comment($user_ids["user_id"], $owner_id),
                     'locale' => $locale,
                     'real_category' => $real_category
         ));
