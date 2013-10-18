@@ -573,7 +573,7 @@
             </div>
             <br/>
             <button class="btn btn-block dark_blue_button" id="btn_insert_comment"
-                    data-url="{{ path('frontend_insert_comment',{'ownid':ownership.ownid}) }}">{{"SEND_COMMENT_DETAILS" | trans}}</button>
+                    data-url="{{ path('frontend_insert_comment',{'ownid':ownership.own_id}) }}">{{"SEND_COMMENT_DETAILS" | trans}}</button>
             <br/>
 
             <div id="message_text" class="hidden" ok-message="{{"COMMENT_INSERTED" | trans}}"></div>
@@ -704,6 +704,7 @@
     }).on('changeDate', function(ev){
                 element=$("#body_calendar");
                 $('.datepicker').hide();
+<<<<<<< Temporary merge branch 1
                 element.attr('class','container_loading');
                 element.html('<div>&nbsp;</div>');
                 $('#rooms_selected').css({display: 'none'})
@@ -723,6 +724,7 @@
                         to=to.replace('/','&');
                         $('#data_reservation').attr('from_date', from);
                         $('#data_reservation').attr('to_date', to);
+
                 });
             });
 </script>

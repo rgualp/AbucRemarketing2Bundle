@@ -253,7 +253,7 @@ function filter_by_others()
         result.html(data);
         manage_favorities(".favorite_off");
         manage_favorities(".favorite_on");
-        refresh_filters_statistics(checked_filters);
+       // refresh_filters_statistics(checked_filters);
         hide_loading();
     });
     return false;

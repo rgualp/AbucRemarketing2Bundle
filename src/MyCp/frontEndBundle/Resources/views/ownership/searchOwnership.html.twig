@@ -54,7 +54,7 @@
              'locale': locale})}}
 
             <div class="filter">            
-                <div id="filters" data-url-statistics="{{ path('frontend_filter_statistics_ownership') }}" data-url-filter="{{ path('frontend_filter_ownership') }}">
+                <div id="filters" data-url-filter="{{ path('frontend_filter_ownership') }}">
                 {%if check_filters is defined%}
                 {{ include('frontEndBundle:ownership:filters.html.twig', 
                 {'own_statistics': own_statistics,'check_filters': check_filters}) }} 
