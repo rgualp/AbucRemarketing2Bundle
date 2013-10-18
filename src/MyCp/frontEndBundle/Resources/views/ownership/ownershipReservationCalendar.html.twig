@@ -43,13 +43,13 @@
                 {% endfor %}
                 <td {% if available != 1 %} colspan="2" {% endif %}>
                     {% if available == 1 %}
-                    <select data_total="{{array_prices[cont-1]}}" id="combo_guest_{{room.getRoomId}}" name="combo_guest_{{room.getRoomId}}" data='{{room.getRoomId}}' percent_charge="{{ ownership.getOwnCommissionPercent }}" data_curr='{{ (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}' class="guest_number" data_type_room='{{room.getRoomType}}' style="width: 50px">
+                    <select data_total="{{array_prices[cont-1]}}" id="combo_guest_{{room.getRoomId}}" name="combo_guest_{{room.getRoomId}}" data='{{room.getRoomId}}' percent_charge="{{ ownership.OwnCommissionPercent }}" data_curr='{{ (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}' class="guest_number" data_type_room='{{room.getRoomType}}' style="width: 50px">
                         <option value="0">0</option>
                         {{ include('frontEndBundle:ownership:listGuestRoomOwnership.html.twig',{'room_type': room.getRoomType}) }}
                     </select>
                 </td>
                 <td>
-                    <select data_total="{{array_prices[cont-1]}}" id="combo_kids_{{room.getRoomId}}" name="combo_kids_{{room.getRoomId}}" data='{{room.getRoomId}}' percent_charge="{{ ownership.getOwnCommissionPercent }}" data_curr='{{ (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}' class="guest_number" data_type_room='{{room.getRoomType}}' style="width: 50px">
+                    <select data_total="{{array_prices[cont-1]}}" id="combo_kids_{{room.getRoomId}}" name="combo_kids_{{room.getRoomId}}" data='{{room.getRoomId}}' percent_charge="{{ ownership.OwnCommissionPercent }}" data_curr='{{ (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}' class="guest_number" data_type_room='{{room.getRoomType}}' style="width: 50px">
                         <option value="0">0</option>
                         {{ include('frontEndBundle:ownership:listGuestRoomOwnership.html.twig',{'room_type': room.getRoomType}) }}
                     </select>

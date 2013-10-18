@@ -64,7 +64,7 @@
             </trans-unit>
             <trans-unit id="16">
                 <source>ACCOMMODATION</source>
-                <target>Alojamientos</target>
+                <target>Alojamiento</target>
             </trans-unit>
             <trans-unit id="17">
                 <source>ECONOMICS_OWNS</source>
@@ -2024,8 +2024,8 @@
                     <target>Servicio reservado</target>
                 </trans-unit>
                 <trans-unit id="515">
-                    <source>ACCOMMODATION</source>
-                    <target>Alojamiento</target>
+                    <source>ACCOMMODATIONS</source>
+                    <target>Alojamientos</target>
                 </trans-unit>
                 <trans-unit id="516">
                     <source>ACCOMMODATION_NAME</source>

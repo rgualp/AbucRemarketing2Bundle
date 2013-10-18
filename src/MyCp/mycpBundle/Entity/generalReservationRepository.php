@@ -96,7 +96,14 @@ class generalReservationRepository extends EntityRepository
         return $query->getResult();
     }
 
-
+    function get_reminder_available()
+    {
+        $yesterday = date("Y-m-d",strtotime('yesterday'));
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT gre FROM mycpBundle:generalReservation gre
+        WHERE gre.gen_res_status = 1 AND gre.gen_res_status_date = '$yesterday'");
+        return $query->getResult();
+    }
 
 
 }

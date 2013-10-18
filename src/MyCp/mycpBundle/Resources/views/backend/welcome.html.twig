@@ -10,9 +10,9 @@
 <div class="row-fluid">
     <div class="span2">
         {% if photo %}
-        <img src="{{ asset('uploads/userImages/')}}{{photo.getPhoName}}" class="img-polaroid"/>
+        <img src="{{ asset('uploads/userImages/')}}{{photo.getPhoName}}" class="img-polaroid span12"/>
         {% else %}
-        <img src="{{ asset('bundles/frontend/images/user_no_photo.gif')}}" class="img-polaroid" />
+        <img src="{{ asset('bundles/frontend/images/user_no_photo.gif')}}" class="img-polaroid span12" />
         {% endif %}
     </div>
     <div class="span10">

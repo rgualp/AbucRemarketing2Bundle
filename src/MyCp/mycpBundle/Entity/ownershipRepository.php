@@ -1222,6 +1222,55 @@ class ownershipRepository extends EntityRepository {
         }
         return $results;
     }
+    
+    function get_details($own_name, $locale = "ES", $user_id = null, $session_id = null) {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT o.own_id as own_id,
+                         o.own_name as ownname,                        
+                        prov.prov_name as ownAddressProvince,
+                        prov.prov_id as ownAddressProvince_id,
+                        o.own_address_street as ownAddressStreet,
+                        o.own_address_number as ownAddressNumber,
+                        o.own_type as owntype,
+                        mun.mun_name as ownaddressmunicipality,
+                        mun.mun_id as ownaddressmunicipality_id,
+                        o.own_comments_total as comments_total,
+                        o.own_rating as rating,
+                        o.own_category as category,
+                        o.own_minimum_price as ownminimumprice,
+                        o.own_geolocate_x as OwnGeolocateX,
+                        o.own_geolocate_y as OwnGeolocateY,
+                        o.own_facilities_breakfast as ownFacilitiesBreakfast,
+                        o.own_facilities_breakfast_price as ownFacilitiesBreakfastPrice,
+                        o.own_facilities_dinner as ownFacilitiesDinner,
+                        o.own_facilities_dinner_price_from as ownFacilitiesDinnerPriceFrom,
+                        o.own_facilities_dinner_price_to as ownFacilitiesDinnerPriceTo,
+                        o.own_facilities_parking as ownFacilitiesParking,
+                        o.own_facilities_parking_price as ownFacilitiesParkingPrice,
+                        o.own_description_bicycle_parking as ownDescriptionBicycleParking,
+                        o.own_maximun_number_guests as ownmaximumnumberguests,
+                        o.own_description_pets as ownDescriptionPets,
+                        o.own_description_laundry as ownDescriptionLaundry,
+                        o.own_description_internet as ownDescriptionInternet,
+                        o.own_water_jacuzee as ownWaterJacuzee,
+                        o.own_water_sauna as ownWaterSauna,
+                        o.own_water_piscina as ownWaterPiscina,
+                        o.own_commission_percent as OwnCommissionPercent,
+                        (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
+                        (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
+                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = 5) as count_reservations,
+                        (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments,
+                        (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = '$locale') as brief_description,
+                        (SELECT min(dd.odl_description) FROM mycpBundle:ownershipDescriptionLang dd JOIN dd.odl_id_lang dl WHERE dd.odl_ownership = o.own_id AND dl.lang_code = '$locale') as description
+                         FROM mycpBundle:ownership o
+                         JOIN o.own_address_province prov
+                         JOIN o.own_address_municipality mun
+                         WHERE o.own_name = '$own_name'
+                         ORDER BY o.own_id DESC";
+
+        return $em->createQuery($query_string)->getOneOrNullResult();
+
+    }
 
     function getByCategory($category, $results_total = null, $exclude_id = null, $user_id = null, $session_id = null) {
         $em = $this->getEntityManager();
@@ -1298,23 +1347,29 @@ class ownershipRepository extends EntityRepository {
         return $photos;
     }
 
-    function getPhotoDescription($photos, $lang_code) {
-        if (is_array($photos)) {
-            $em = $this->getEntityManager();
-            $query_string = "";
+    function getPhotosAndDescription($ownid, $lang_code) {
+        
+        $em = $this->getEntityManager();
+        $query_string = "SELECT p.pho_name as photo_name,
+                         (SELECT min(pl.pho_lang_description) FROM mycpBundle:photoLang pl
+                         JOIN pl.pho_lang_id_lang l WHERE l.lang_code='$lang_code' AND pl.pho_lang_id_photo=p.pho_id) as photo_description
+                         FROM mycpBundle:ownershipPhoto op
+                         JOIN op.own_pho_photo p
+                         WHERE op.own_pho_own=$ownid
+                         ORDER BY p.pho_order ASC";
 
-            $descriptions = array();
+        $photos = array();
+        $result = $em->createQuery($query_string)->getResult();
 
-            foreach ($photos as $photo) {
-                $query_string = "SELECT p FROM mycpBundle:photoLang p
-                         JOIN p.pho_lang_id_lang l
-                         WHERE l.lang_code='$lang_code'
-                           AND p.pho_lang_id_photo=" . $photo->getPhoId();
-                $descriptions[$photo->getPhoId()] = $em->createQuery($query_string)->setMaxResults(1)->getResult();
-            }
-
-            return $descriptions;
+        foreach ($result as $photo) {
+            if (file_exists(realpath("uploads/ownershipImages/" . $photo["photo_name"])))
+                $photos[] = array(
+                    'photo_name'=> $photo["photo_name"],
+                    'photo_description'=> $photo["photo_description"]
+                );
         }
+
+        return $photos;
     }
 
     function getOwnershipForAutocomplete_ByName($own_part_name) {

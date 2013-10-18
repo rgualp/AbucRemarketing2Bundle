@@ -2028,8 +2028,8 @@
                 <target>Reserve service</target>
             </trans-unit>
             <trans-unit id="515">
-                <source>ACCOMMODATION</source>
-                <target>Accommodation</target>
+                <source>ACCOMMODATIONS</source>
+                <target>Accommodations</target>
             </trans-unit>
             <trans-unit id="516">
                 <source>ACCOMMODATION_NAME</source>

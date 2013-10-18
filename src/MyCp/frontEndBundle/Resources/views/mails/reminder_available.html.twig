@@ -1,0 +1,12 @@
+{% extends 'frontEndBundle:layout:baseMailTemplate.html.twig' %}
+
+{% block content %}
+        <h4>{{"GOOD_MORNING"|trans}} {{user.getUserUserName|capitalize}} {{user.getUserLastName|capitalize}}</h4>
+        <p class="note">
+        <br/>
+        <p class="thanks">{{"THANKS_RESERVATION_TEAM"|trans}}</p>
+        </p>
+
+
+        
+{% endblock %}
