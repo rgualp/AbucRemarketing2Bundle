@@ -441,11 +441,13 @@
     </div>
 </div>
 
+{%if show_comments_and_friends%}
 <div id="user_comments">
     {{ include('frontEndBundle:comment:listComments.html.twig',
                         {'show_comments_and_friends': show_comments_and_friends,
                          'comments': comments}) }}
 </div>
+{%endif%}
 </div>
 <div class="span4">
     <div class="thumbnail">
