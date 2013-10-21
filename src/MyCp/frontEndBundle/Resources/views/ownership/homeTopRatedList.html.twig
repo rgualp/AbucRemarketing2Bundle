@@ -3,7 +3,7 @@
     {%for ownership in own_top20_list%}
     {% if cont <4 %}
     <div class="item span3">
-        <a href="{{ path('frontend_details_ownership',{'owner_id':ownership['own_id']}) }}" title="{{"MORE_INFO_PREFFIX" | trans}} {{ownership['own_name']}}">
+        <a href="{{ path('frontend_details_ownership',{'own_name':ownership['own_name']  | lower | replace(' ','_')}) }}" title="{{"MORE_INFO_PREFFIX" | trans}} {{ownership['own_name']}}">
            <div class="image" style="background-image: url('{{ asset("uploads/ownershipImages/thumbnails/" ~ ownership['photo'])}}')">
              <div class="rating">{%if ownership['comments_total'] > 0%}+{%endif%}{{ownership['comments_total']}}</div></div>
             <div class="title">{{ ownership['own_name']| title }}
@@ -19,11 +19,11 @@
     </div>
     {% set cont=cont+1 %}
     {% else %}
-    {% set cont=0 %}
+    {% set cont=1 %}
 </div>
-<div class="top_rated_items">
-    <div class="item">
-        <a href="{{ path('frontend_details_ownership',{'owner_id':ownership['own_id']}) }}" title="{{"MORE_INFO_PREFFIX" | trans}} {{ownership['own_name']}}">
+<div class="top_rated_items row-fluid">
+    <div class="item span3">
+        <a href="{{ path('frontend_details_ownership',{'own_name':ownership['own_name']  | lower | replace(' ','_')}) }}" title="{{"MORE_INFO_PREFFIX" | trans}} {{ownership['own_name']}}">
            <div class="image" style="background-image: url('{{ asset("uploads/ownershipImages/thumbnails/" ~ ownership['photo'])}}')">
              <div class="rating">{%if ownership['comments_total'] > 0%}+{%endif%}{{ownership['comments_total']}}</div></div>
             <div class="title">{{ ownership['own_name']| title }}

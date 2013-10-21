@@ -491,9 +491,13 @@ class ownershipRepository extends EntityRepository {
         $query_string = "";
         $temp_array = null;
         if (!$room_filter) {
-            $query_string = "SELECT o FROM mycpBundle:ownership o JOIN o.own_address_province p JOIN o.own_address_municipality m";
+            $query_string = "SELECT o FROM mycpBundle:ownership o 
+                             JOIN o.own_address_province p 
+                             JOIN o.own_address_municipality m";
         } else {
-            $query_string = "SELECT r FROM mycpBundle:room r JOIN r.room_ownership o JOIN o.own_address_province p";
+            $query_string = "SELECT r FROM mycpBundle:room r 
+                             JOIN r.room_ownership o 
+                             JOIN o.own_address_province p";
         }
         $where = ' WHERE o.own_status = 1 ';
         if ($text != null && $text != '' && $text != 'null')
@@ -734,7 +738,7 @@ class ownershipRepository extends EntityRepository {
                            AND o.own_status = 1
                          ORDER BY o.own_rating DESC";
 
-        $results = $em->createQuery($query_string)->setMaxResults(8)->getResult();
+        $results = $em->createQuery($query_string)->getResult();
         
         for ($i = 0; $i < count($results); $i++) {
             if ($results[$i]['photo'] == null)

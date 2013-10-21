@@ -2111,6 +2111,74 @@
                     <source>OWNERSHIP_MID_RANGE_DESCRIPTION</source>
                     <target>Descripción para alojamientos de Rango Medio.</target>
              </trans-unit>
+             <trans-unit id="538">
+                 <source>ERROR_TITLE_PAGE</source>
+                 <target>Ha ocurrido un error</target>
+             </trans-unit>
+             <trans-unit id="539">
+                 <source>OOPS</source>
+                 <target>¡Vaya!</target>
+             </trans-unit>
+             <trans-unit id="540">
+                 <source>PAGE_NOT_FOUND</source>
+                 <target>La página que ha solicitado no se encuentra.</target>
+             </trans-unit>
+             <trans-unit id="541">
+                 <source>TRY_OTHER_PAGES</source>
+                 <target>Le sugerimos que intente con los siguientes enlaces.</target>
+             </trans-unit>
+             <trans-unit id="542">
+                  <source>PLEASE_SELECT_RESERVATION</source>
+                  <target>Por favor, seleccione al menos una reservación para continuar reservando.</target>
+              </trans-unit>
+              <trans-unit id="543">
+                  <source>PAYMENT_CONFIRM_2</source>
+                  <target>Confirmadas pago</target>
+              </trans-unit>
+              <trans-unit id="544">
+                  <source>USER_EMAIL_IN_USE</source>
+                  <target>El email está siendo utilizado por otro usuario.</target>
+              </trans-unit>
+              <trans-unit id="545">
+                  <source>USER_CREATE_ACCOUNT_SUCCESS</source>
+                  <target>Gracias por registrarse. Se ha enviado un email para que active su cuenta.</target>
+              </trans-unit>
+              <trans-unit id="546">
+                  <source>USER_ACTIVATE_ACCOUNT_SUCCESS</source>
+                  <target>Gracias. Su usuario ha sido activado satisfactoriamente.</target>
+              </trans-unit>
+              <trans-unit id="547">
+                  <source>USER_ACTIVATE_ERROR</source>
+                  <target>Imposible activar usuario, los parámetros no son correctos.</target>
+              </trans-unit>
+              <trans-unit id="548">
+                  <source>USER_PASSWORD_RECOVERY</source>
+                  <target>Se ha enviado un email para que recupere su contraseña.</target>
+              </trans-unit>
+              <trans-unit id="549">
+                  <source>USER_PASSWORD_RECOVERY_ERROR</source>
+                  <target>No existe ningún usuario con ese email.</target>
+              </trans-unit>
+              <trans-unit id="550">
+                  <source>USER_PASSWORD_CHANGE_ERROR</source>
+                  <target>Imposible cambiar contraseña, los parámetros no son correctos.</target>
+              </trans-unit>
+              <trans-unit id="551">
+                  <source>USER_ACCOUNT_ACTIVATION_EMAIL</source>
+                  <target>Activación de su cuenta en MyCasaParticular</target>
+              </trans-unit>
+              <trans-unit id="552">
+                  <source>USER_CONTACT_TOURIST_SUCCESS</source>
+                  <target>Gracias por contactar con nosotros. Su comentario ha sido enviado.</target>
+              </trans-unit>
+              <trans-unit id="553">
+                  <source>USER_CONTACT_OWNER_SUCCESS</source>
+                  <target>Gracias por contactar con nosotros. Sus datos han sido enviados.</target>
+              </trans-unit>
+              <trans-unit id="554">
+                  <source>RESERVATION_AMOUNT_TO_PAY_NOW</source>
+                  <target>Total a pagar ahora</target>
+              </trans-unit>
         </body>
     </file>
 </xliff>

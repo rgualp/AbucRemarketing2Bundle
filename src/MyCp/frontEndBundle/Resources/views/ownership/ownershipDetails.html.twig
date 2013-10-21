@@ -369,7 +369,7 @@
     <div class="tab-content" style="overflow: hidden;">
         <div class="tab-pane fade in active">
             <div class="row-fluid no_tab">
-                <form  method="POST" action="{{ path('frontend_details_ownership',{'owner_id':ownership.ownid}) }}" novalidate>
+                <form  method="POST" action="{{ path('frontend_details_ownership',{'own_name':ownership.ownname  | lower | replace(' ','_')}) }}" novalidate>
                     <div class="span5"><label>{{'FROM_PRICES' | trans}}:</label><input value="{{start_date}}" name="reservation_filter_date_from" id="filter_date_from" type="text" class="mycp_text_box mycp_text_box_margin input-block-level" data-localization='{{locale}}'/></div>
                     <div class="span5"><label>{{'TO_PRICES' | trans | capitalize}}:</label><input value="{{end_date}}" name="reservation_filter_date_to" id="filter_date_to" type="text" class="mycp_text_box mycp_text_box_margin input-block-level" data-localization='{{locale}}'/></div>
                     <div class="span2"><label>&nbsp;</label><button type="submit" class="btn btn-block dark_blue_button" style="font-size: 12px;">{{'RESERVATION_SEE_PRICES' | trans}}</button></div>
@@ -514,7 +514,7 @@
 <div class="span4">
     <div class="thumbnail">
         <div class="cont">
-            <form method="POST" action="{{ path('frontend_details_ownership',{'owner_id':ownership.ownid}) }}" novalidate>
+            <form method="POST" action="{{ path('frontend_details_ownership',{'own_name':ownership.ownname  | lower | replace(' ','_')}) }}" novalidate>
                 <div style="text-align: right">{{"FROM_PRICES" | trans}}:<label class="big_price" style="margin: 5px 0 15px 0">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ownership.ownminimumprice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} </label></td></div>
                 <hr/>
                 <table width="100%">
@@ -667,12 +667,12 @@
             <div class="item row-fluid">
                 <div class="span4">
                     <a title="{{"MORE_INFO_PREFFIX" | trans}} {{own['own_name']}}"
-                       href="{{ path('frontend_details_ownership',{'owner_id':own['own_id']}) }}"><img
+                       href="{{ path('frontend_details_ownership',{'own_name':own['own_name']  | lower | replace(' ','_')}) }}"><img
                             src="{{ asset("uploads/ownershipImages/thumbnails/" ~ own['photo'])}}"></a>
                 </div>
                 <div class="span8">
                     <a title="{{"MORE_INFO_PREFFIX" | trans}} {{own['own_name']}}"
-                       href="{{ path('frontend_details_ownership',{'owner_id':own['own_id']}) }}">{{own['own_name']}}</a>
+                       href="{{ path('frontend_details_ownership',{'own_name':own['own_name']  | lower | replace(' ','_')}) }}">{{own['own_name']}}</a>
                     <br/>{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} {{own['minimum_price'] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} {{"BYNIGHTS_PRICES" | trans | lower}}<br/>
                     {{own['own_type'] | trans}}
                 </div>
@@ -731,7 +731,8 @@
     $('#top_reservation_filter_date_from').datepicker({
         format:'dd/mm/yyyy',
         todayBtn:'linked',
-        startDate: start_date,
+        startDate: new Date(),
+        date: start_date,
         language: $('#top_reservation_filter_date_from').attr('data-localization')
     }).on('changeDate', function(ev){
                 $('.datepicker').hide();
@@ -742,7 +743,8 @@
     $('#top_reservation_filter_date_to').datepicker({
         format:'dd/mm/yyyy',
         todayBtn:'linked',
-        startDate: end_date,
+        startDate: '+2',
+        date: end_date,
         language: $('#top_reservation_filter_date_to').attr('data-localization')
     }).on('changeDate', function(ev){
                 $('.datepicker').hide();

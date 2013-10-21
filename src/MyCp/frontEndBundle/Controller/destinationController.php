@@ -85,22 +85,18 @@ class destinationController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 4 * $session->get("destination_details_show_rows");
         $paginator->setItemsPerPage($items_per_page);
-        $owns_nearby = $paginator->paginate($em->getRepository('mycpBundle:destination')->ownsership_nearby_destination($location_municipality_id, $location_province_id, $items_per_page))->getResult();
+        $owns_nearby = $paginator->paginate($em->getRepository('mycpBundle:destination')->ownsership_nearby_destination($location_municipality_id, $location_province_id, $items_per_page, $users_id['user_id'], $users_id['session_id']))->getResult();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
 
-        $owns_nearby_photos = $em->getRepository('mycpBundle:ownership')->get_photos_array($owns_nearby);
-        $owns_nearby_rooms = $em->getRepository('mycpBundle:ownership')->get_rooms_array($owns_nearby);
-        $owns_nearby_is_in_favorities = $em->getRepository('mycpBundle:favorite')->is_in_favorite_array($owns_nearby, true, $users_id['user_id'], $users_id['session_id']);
-        $owns_nearby_counts = $em->getRepository('mycpBundle:ownership')->get_counts_for_search($owns_nearby);
+        //$owns_nearby_rooms = $em->getRepository('mycpBundle:ownership')->get_rooms_array($owns_nearby);
+        //$owns_nearby_counts = $em->getRepository('mycpBundle:ownership')->get_counts_for_search($owns_nearby);
 
         $response = $this->renderView('frontEndBundle:destination:detailsOwnsNearByDestination.html.twig', array(
             'owns_nearby' => $owns_nearby,
-            'owns_nearby_photos' => $owns_nearby_photos,
-            'owns_nearby_rooms' => $owns_nearby_rooms,
-            'owns_nearby_is_in_favorities' => $owns_nearby_is_in_favorities,
-            'owns_nearby_counts' => $owns_nearby_counts,
+            //'owns_nearby_rooms' => $owns_nearby_rooms,
+            //'owns_nearby_counts' => $owns_nearby_counts,
             'top_rated_items_per_page' => $items_per_page,
             'top_rated_total_items' => $paginator->getTotalItems(),
             'current_page' => $page,

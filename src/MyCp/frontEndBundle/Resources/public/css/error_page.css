@@ -1,0 +1,8 @@
+body{background: url("../images/error_bg.jpg") repeat-x scroll 0 95px #FFFFFF; margin-top: 24px}
+.info_message.no_banner .message{color: #ffffff}
+.info_message{padding:0px 10px;border-left: solid 4px #A1CC36;z-index: 500; font-size: 60px;color: #ffffff; line-height: 60px; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);}
+.info_message .message{background-color: #719A22; padding: 0px 8px;font-size: 18px; text-shadow: none; margin:10px 0px 0px -5px; width: 100%}
+.info_message.no_banner{font-size: 26px; color: #669418;text-shadow: none;}
+.info_message.banner{position: absolute; margin-top: 50px;width: 30%; }
+.content_error{color: #828282;font-size: 15px;margin-top: 300px;}
+.links div{width: 33%; float: left;}

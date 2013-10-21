@@ -3,7 +3,7 @@
 <div class="item elementList" data-id="{{own.ownid}}">
     
     <div class="row-fluid">
-    <a title="{{"MORE_INFO_PREFFIX" | trans}} {{own.ownname}}" href="{{ path('frontend_details_ownership',{'owner_id':own.ownid}) }}"><div class="span3 own_photo" style="background-image: url('{{ asset("uploads/ownershipImages/thumbnails/" ~ (photos[own.ownid] == "no_photo.png" ? "no_photo_square.gif" : photos[own.ownid]))}}')">
+    <a title="{{"MORE_INFO_PREFFIX" | trans}} {{own.ownname}}" href="{{ path('frontend_details_ownership',{'own_name':own.ownname  | lower | replace(' ','_')}) }}"><div class="span3 own_photo" style="background-image: url('{{ asset("uploads/ownershipImages/thumbnails/" ~ (photos[own.ownid] == "no_photo.png" ? "no_photo_square.gif" : photos[own.ownid]))}}')">
       
     </div></a>
     <div>
@@ -11,7 +11,7 @@
             <tr>
                 <td width="75%"  valign="top">
                     <span class="category">{#{own.ownCategory | trans}#}</span>
-                    <a title="{{"MORE_INFO_PREFFIX" | trans}} {{own.ownname}}" href="{{ path('frontend_details_ownership',{'owner_id':own.ownid}) }}">{{own.ownname}}</a>
+                    <a title="{{"MORE_INFO_PREFFIX" | trans}} {{own.ownname}}" href="{{ path('frontend_details_ownership',{'own_name':own.ownname  | lower | replace(' ','_')}) }}">{{own.ownname}}</a>
                     <div class="row-fluid location">
                         {{own.ownAddressProvince}}, {{own.ownAddressMunicipality}}
                     </div>

@@ -1,0 +1,47 @@
+{% extends '::base.html.twig' %}
+{% block title %}An Error Occurred{% endblock %}
+{% block stylesheets %}
+<link href="{{ asset('bundles/frontend/css/bootstrap/bootstrap.css') }}" rel="stylesheet" media="screen">
+<link href="{{ asset('bundles/frontend/css/bootstrap/bootstrap-responsive.css') }}" rel="stylesheet" media="screen">
+<link href="{{ asset('bundles/frontend/css/error_page.css') }}" rel="stylesheet" media="screen">
+{% endblock %}
+
+{% block body %}
+<div class="container" style="max-width: 450px">
+        <div>
+            <a href="{{ path('frontend_welcome') }}" stitle="{{"HOMEPAGE_TITLE" | trans}}">
+                <img src="{{ asset('bundles/frontend/images/logo.png') }}"/>
+            </a>
+        </div>
+
+        <div class="info_message banner">
+            <div style="font-size: 60px">Oops!</div>
+            <div class="message" style="line-height: 30px;">{{ status_code }} {{ status_text }}</div>
+        </div>
+
+        <div class="content_error">
+            The page you requested was not found. <br/>
+            Try better with one of these links.
+        </div>
+        <div class="links" style="margin-top: 30px;">
+                <div>
+                    <a href="{{ path('frontend_welcome') }}">
+                        <img src="{{ asset('bundles/frontend/images/error_links.png') }}"/>
+                        Home
+                    </a>
+                </div>
+                <div style="text-align: center">
+                    <a href="{{ path('frontend_list_destinations') }}">
+                        <img src="{{ asset('bundles/frontend/images/error_links.png') }}"/>
+                        Destinations
+                    </a>
+                </div>
+                <div style="text-align: right">
+                    <a href="{{ path('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}">
+                        <img src="{{ asset('bundles/frontend/images/error_links.png') }}"/>
+                        Accommodations
+                    </a>
+                </div>
+            </div>
+</div>
+{% endblock %}

@@ -15,17 +15,20 @@ class ownershipController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $ownership = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code'=>$own_code));
         if($ownership)
-            return $this->redirect($this->generateUrl('frontend_details_ownership',array('owner_id'=>$ownership->getOwnId())));
+            return $this->redirect($this->generateUrl('frontend_details_ownership',array('own_name'=> str_replace (" ", "_", strtolower ($ownership->getOwnName())))));
         else
             throw $this->createNotFoundException(); 
     }
 
-    public function detailsAction($owner_id, Request $request) {
+    public function detailsAction($own_name, Request $request) {
 
         $em = $this->getDoctrine()->getEntityManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
 
-        $ownership = $em->getRepository('mycpBundle:ownership')->find($owner_id);
+        $own_name=str_replace('_',' ',$own_name);
+        $ownership = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_name'=>$own_name));
+        
+        $owner_id = $ownership->getOwnId();
         $general_reservations = $em->getRepository('mycpBundle:generalReservation')->findBy(array('gen_res_own_id'=>$owner_id));
         $reservations=array();
         foreach($general_reservations as $gen_res)
@@ -324,7 +327,8 @@ class ownershipController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
         $paginator->setItemsPerPage($items_per_page);
-        $search_results_list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->search($search_text, $arrival, $departure, $search_guests, $search_rooms, $session->get('search_order')))->getResult();
+        $list = $em->getRepository('mycpBundle:ownership')->search($search_text, $arrival, $departure, $search_guests, $search_rooms, $session->get('search_order'));
+        $search_results_list = $paginator->paginate($list)->getResult();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
@@ -337,10 +341,12 @@ class ownershipController extends Controller {
 
         $own_ids = "0";
 
-        foreach ($search_results_list as $own)
+        foreach ($list as $own)
             $own_ids .= "," . $own->getOwnId();
 
         $session->set('own_ids', $own_ids);
+        
+        
 
         if ($session->get('search_view_results') == null || $session->get('search_view_results') == '')
             $session->set('search_view_results', 'LIST');
@@ -352,9 +358,15 @@ class ownershipController extends Controller {
         $types_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsTypes($own_ids);
         $prices_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsPrices($own_ids);
         $is_in_favorities = $em->getRepository('mycpBundle:favorite')->is_in_favorite_array($search_results_list, true, $user_ids['user_id'], $user_ids['session_id']);
-        $statistics_own_list = $em->getRepository('mycpBundle:ownership')->getSearchStatistics($search_results_list);
+        $statistics_own_list = $em->getRepository('mycpBundle:ownership')->getSearchStatistics($list);
 
         $counts = $em->getRepository('mycpBundle:ownership')->get_counts_for_search($search_results_list);
+        
+        /*echo "<pre>";
+        var_dump($statistics_own_list);
+        echo "</pre>";
+        exit();*/
+        
         return $this->render('frontEndBundle:ownership:searchOwnership.html.twig', array(
                     'search_text' => $search_text,
                     'search_guests' => $search_guests,
@@ -1086,11 +1098,12 @@ class ownershipController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 4 * $session->get("top_rated_show_rows");
         $paginator->setItemsPerPage($items_per_page);
-        $own_top20_list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->top20($locale))->getResult();
+        $list = $em->getRepository('mycpBundle:ownership')->top20($locale);
+        $own_top20_list = $paginator->paginate($list)->getResult();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
-
+        
         $response = $this->renderView('frontEndBundle:ownership:homeTopRatedOwnership.html.twig', array(
             'own_top20_list' => $own_top20_list,
             'top_rated_items_per_page' => $items_per_page,

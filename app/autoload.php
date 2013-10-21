@@ -6,7 +6,8 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 //$loader_bundle = new UniversalClassLoader();
 $loader = require __DIR__.'/../vendor/autoload.php';
 
-$loader->add('Imagine',__DIR__.'/../vendor/imagine/lib');  
+$loader->add('Imagine',__DIR__.'/../vendor/imagine/lib');
+$loader->add('BeSimple',__DIR__.'/../vendor/bundles');
 $loader->add('Avalanche',__DIR__.'/../vendor/bundles');
 
 // intl

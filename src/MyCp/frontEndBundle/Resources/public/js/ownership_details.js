@@ -8,7 +8,8 @@ function start(){
     $('#filter_date_from').datepicker({
         format:'dd/mm/yyyy',
         todayBtn:'linked',
-        startDate: start_date,
+        startDate: new Date(),
+        date: start_date,
         language: $('#filter_date_from').attr('data-localization')
     }).on('changeDate', function(ev){
             $('.datepicker').hide();
@@ -18,7 +19,8 @@ function start(){
     $('#filter_date_to').datepicker({
         format:'dd/mm/yyyy',
         todayBtn:'linked',
-        startDate: end_date,
+        startDate: '+1d',
+        date: end_date,
         language: $('#filter_date_to').attr('data-localization')
     }).on('changeDate', function(ev){
             $('.datepicker').hide();

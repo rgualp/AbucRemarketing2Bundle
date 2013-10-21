@@ -1,5 +1,6 @@
 <?php
 
+
 namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;

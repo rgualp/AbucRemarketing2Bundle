@@ -139,7 +139,7 @@
                         <td style="text-align: right">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ total_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</td>
                     </tr>
                     <tr>
-                        <td>Total {{"SERVICE_RECHARGE"|trans|lower}}</td>
+                        <td>{{"RESERVATION_TOTAL" | trans}} {{"SERVICE_RECHARGE"|trans|lower}}</td>
                         <td style="text-align: right">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ 10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</td>
                     </tr>
                     <tr>
@@ -147,7 +147,7 @@
                         <td style="text-align: right">0</td>
                     </tr>
                     <tr>
-                        <td><b>Total</b></td>
+                        <td><b>{{"RESERVATION_TOTAL" | trans}}</b></td>
                         <td style="text-align: right"><b>{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ total_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</b></td>
                     </tr>
                     <tr>
