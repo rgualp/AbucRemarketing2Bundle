@@ -575,7 +575,7 @@ class reservationController extends Controller
 
                 $curr_rate = $session->get('curr_rate');
                 if (!$curr_rate) $curr_rate = 1;
-
+                //var_dump($userTourist->getUserTouristCurrency()); exit();
                 $booking->setBookingCurrency($userTourist->getUserTouristCurrency());
                 $booking->setBookingPrepay(($total_percent_price + 10) * $curr_rate);
                 $booking->setBookingUserId($user->getUserId());
@@ -625,6 +625,27 @@ class reservationController extends Controller
 
     function confirmationAction($id_booking)
     {
+        $em = $this->getDoctrine()->getManager();
+        $own_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking));
+        foreach ($own_res as $own) {
+
+            $general=$own->getOwnResGenResId();
+            $general->setGenResStatus(2);
+            $own->setOwnResStatus(5);
+            $em->persist($own);
+            $em->persist($general);
+        }
+        $em->flush();
+
+        exit();
+
+        return $this->redirect(
+            $this->generateUrl('frontend_view_confirmation_reservation'
+                , array('id_booking'=>$id_booking)));
+    }
+
+    function view_confirmationAction($id_booking)
+    {
         $service_time = $this->get('Time');
         $user = $this->get('security.context')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
@@ -652,13 +673,8 @@ class reservationController extends Controller
             if ($insert == 1) {
                 array_push($commissions, $commission);
             }
-            $general=$own->getOwnResGenResId();
-            $general->setGenResStatus(2);
-            $own->setOwnResStatus(5);
-            $em->persist($own);
-            $em->persist($general);
         }
-        $em->flush();
+
         return $this->render('frontEndBundle:reservation:confirmReservation.html.twig', array(
             'own_res' => $own_res,
             'user' => $user,
@@ -669,6 +685,7 @@ class reservationController extends Controller
             'total_percent_price' => $total_percent_price,
             'commissions' => $commissions
         ));
+
     }
 
     public function reminder_availableAction()

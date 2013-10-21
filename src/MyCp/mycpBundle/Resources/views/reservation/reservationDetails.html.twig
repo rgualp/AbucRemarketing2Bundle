@@ -160,7 +160,11 @@
                 {% if post['service_room_price_'~reservation_rooms.getOwnResId] is defined %}
                     {% set price_own_res=post['service_room_price_'~reservation_rooms.getOwnResId] %}
                 {% else %}
-                    {% set price_own_res=reservation_rooms.getOwnResNightPrice %}
+                    {% if reservation_rooms.getOwnResNightPrice ==0%}
+                        {% set price_own_res=1 %}
+                    {% else %}
+                        {% set price_own_res=reservation_rooms.getOwnResNightPrice %}
+                    {% endif %}
                 {% endif %}
                 <input type="text" class="input-block-level" value="{{ price_own_res }}" name="service_room_price_{{reservation_rooms.getOwnResId}}"/>
             </td>

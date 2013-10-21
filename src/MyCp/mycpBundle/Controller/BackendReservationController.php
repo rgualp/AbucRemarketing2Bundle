@@ -425,19 +425,27 @@ class BackendReservationController extends Controller
         $user=$reservation->getGenResUserId();
         $user_tourist=$em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user'=>$user->getUserId()));
         $array_photos=array();
+        $array_nigths=array();
+        $service_time=$this->get('time');
+
         foreach($reservations as $res)
         {
             $photos=$em->getRepository('mycpBundle:ownership')->getPhotos($res->getOwnResGenResId()->getGenResOwnId()->getOwnId());
             array_push($array_photos,$photos);
+            $array_dates= $service_time->dates_between($res->getOwnResReservationFromDate()->getTimestamp(),$res->getOwnResReservationToDate()->getTimestamp());
+            array_push($array_nigths,count($array_dates));
         }
         $this->get('translator')->setLocale($user_tourist[0]->getUserTouristLanguage()->getLangCode());
+
+
         // Enviando mail al cliente
         $body=$this->render('frontEndBundle:mails:email_offer_available.html.twig',array(
             'user'=>$user,
             'reservations'=>$reservations,
-            'photos'=>$array_photos
+            'photos'=>$array_photos,
+            'nights'=>$array_nigths
         ));
-        
+       // echo $body->getContent(); exit();
         
         $locale = $this->get('translator');
         $subject=$locale->trans('REQUEST_STATUS_CHANGED');

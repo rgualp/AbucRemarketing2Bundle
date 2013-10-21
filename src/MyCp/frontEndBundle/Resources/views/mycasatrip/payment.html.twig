@@ -1,7 +1,7 @@
 {% set menu = 4 %}
 {% extends 'frontEndBundle:mycasatrip:layout_order_by.html.twig' %}
 {% block body_inner %}
-{% for res in res_available %}
+{% for res in res_payment %}
 <div class="row-fluid">
         <div class="well mycasatrip_result">
             <div class="row-fluid">
@@ -38,6 +38,9 @@
 
                                 </p><h4>{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{res['own_res_night_price'] *(nights[loop.index0])}}</h4>
                             </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><a href="{{ path('frontend_view_confirmation_reservation',{'id_booking':res['own_res_reservation_booking']['booking_id']}) }}" class="btn btn-danger">Ver confirmación</a></td>
                         </tr>
                         </tbody></table>
                 </div>

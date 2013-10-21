@@ -3,7 +3,7 @@
     <li class="{% if menu == 1 %}active_link active{% endif %}"><a href="{{ path('frontend_mycasatrip_pending',{'order_by':0}) }}">{{"RESPONSE_PENDING" | trans}} ({{counts['pending']}})</a></li>
     <li class="{% if menu == 2 %}active_link active{% endif %}"><a href="{{ path('frontend_mycasatrip_available', {'order_by':0}) }}">{{"DISPONIBILITY" | trans}} ({{counts['available']}})</a></li>
     <li class="active"><a><b>{{"RESERVES" | trans}}</a></b></li>
-    <li class="{% if menu == 3 %}active_link active{% endif %}"><a href="{{ path('frontend_mycasatrip_reserve',{'order_by':0}) }}">{{"RESERVED" | trans}} ({{counts['reserve']}})</a></li>
+    <!--<li class="{% if menu == 3 %}active_link active{% endif %}"><a href="{{ path('frontend_mycasatrip_reserve',{'order_by':0}) }}">{{"RESERVED" | trans}} ({{counts['reserve']}})</a></li>-->
     <li class="{% if menu == 4 %}active_link active{% endif %}"><a href="{{ path('frontend_mycasatrip_payment') }}">{{"PAYMENT_CONFIRM_2" | trans}} ({{counts['payed']}})</a></li>
     <li class="active"><a><b>{{"HISTORY" | trans}}</a></b></li>
     <li class="{% if menu == 5 %}active_link active{% endif %}"><a href="{{ path('frontend_mycasatrip_historial_consult', {'order_by':0}) }}">{{"CONSULTS" | trans}} ({{counts['consult']}})</a></li>

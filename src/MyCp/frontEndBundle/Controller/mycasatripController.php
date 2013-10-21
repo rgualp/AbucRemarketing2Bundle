@@ -89,7 +89,7 @@ class mycasatripController extends Controller {
     }
 
     public function reservations_reserveAction($order_by, Request $request) {
-        $user = $this->get('security.context')->getToken()->getUser();
+       /* $user = $this->get('security.context')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
 
         // reservados Mayores que (hoy - 30) días
@@ -122,7 +122,7 @@ class mycasatripController extends Controller {
             'order_by'=>$order_by,
             'nights'=>$nights,
             'photos'=>$array_photos
-        ));
+        ));*/
     }
 
     public function history_reservations_reserveAction($order_by, Request $request) {
@@ -177,12 +177,12 @@ class mycasatripController extends Controller {
 
         $string_sql.=$this->get_order_by_sql($order_by);
 
-        $res_available = $em->getRepository('mycpBundle:ownershipReservation')->find_by_user_and_status($user->getUserId(), $status_string, $string_sql);
+        $res_payment = $em->getRepository('mycpBundle:ownershipReservation')->find_by_user_and_status($user->getUserId(), $status_string, $string_sql);
 
         $service_time=$this->get('time');
         $nights=array();
         $array_photos=array();
-        foreach($res_available as $res)
+        foreach($res_payment as $res)
         {
             $array_dates=$service_time->dates_between($res['own_res_reservation_from_date']->getTimestamp(),$res['own_res_reservation_to_date']->getTimestamp());
             array_push($nights,count($array_dates)-1);
@@ -191,7 +191,7 @@ class mycasatripController extends Controller {
         }
 
         return $this->render('frontEndBundle:mycasatrip:payment.html.twig', array(
-            'res_available' => $res_available,
+            'res_payment' => $res_payment,
             'order_by'=>$order_by,
             'nights'=>$nights,
             'photos'=>$array_photos
