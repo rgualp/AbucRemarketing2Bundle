@@ -19,7 +19,7 @@ class UserSecure {
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event) {
         $user = $this->security_context->getToken()->getUser();
         $session = $this->container->get('session');
-
+        //exit();
         //Cambiar el sitio a la moneda y lenguaje ultimo del sitio almacenados en userTourist
         $userTourist = $this->em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
 

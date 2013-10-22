@@ -94,7 +94,7 @@ services:
         arguments:
             entity_manager: "@doctrine.orm.entity_manager"
             container: "@service_container"
-            security_context: "@security.context"            
+            security_context: "@security.context"
     UserSecure:
         class: MyCp\frontEndBundle\Helpers\UserSecure
         tags:
