@@ -627,15 +627,43 @@ class reservationController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $own_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking));
-        foreach ($own_res as $own) {
+        $booking = $em->getRepository('mycpBundle:booking')->find($id_booking);
+        $user = $em->getRepository('mycpBundle:user')->find($booking->getBookingUserId());
+        $reservations=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking'=>$id_booking));
+        $user_tourist=$em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user'=>$user->getUserId()));
+        $array_photos=array();
+        $array_nigths=array();
+        $service_time=$this->get('time');
 
+        foreach ($own_res as $own) {
             $general=$own->getOwnResGenResId();
             $general->setGenResStatus(2);
             $own->setOwnResStatus(5);
             $em->persist($own);
             $em->persist($general);
+
+            $photos=$em->getRepository('mycpBundle:ownership')->getPhotos($own->getOwnResGenResId()->getGenResOwnId()->getOwnId());
+            array_push($array_photos,$photos);
+            $array_dates= $service_time->dates_between($own->getOwnResReservationFromDate()->getTimestamp(),$own->getOwnResReservationToDate()->getTimestamp());
+            array_push($array_nigths,count($array_dates));
         }
         $em->flush();
+        $this->get('translator')->setLocale($user_tourist[0]->getUserTouristLanguage()->getLangCode());
+        // enviando mail al cliente
+        // Enviando mail al cliente
+
+        $body=$this->render('frontEndBundle:mails:email_offer_available.html.twig',array(
+            'booking'=>$id_booking,
+            'user'=>$user,
+            'reservations'=>$reservations,
+            'photos'=>$array_photos,
+            'nights'=>$array_nigths
+        ));
+        echo $body->getContent(); exit();
+
+        // enviando mail a reservation team
+
+        // enviando mail al propietario
 
         exit();
 

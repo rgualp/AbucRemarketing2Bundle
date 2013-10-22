@@ -35,6 +35,10 @@ mycp_main:
     pattern:  /
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: frontend_welcome, _locale: es }
 
+frontend_change_currency:
+    pattern:  /change_currency/{curr_code}
+    defaults: { _controller: frontEndBundle:currency:change_currency }
+
 _imagine:
     resource: .
     type: imagine

@@ -39,8 +39,11 @@
                             {% if (reservation.getOwnResStatus == 0)%}
                                 <span style="background-color: #586E75; color: #FFFFFF; padding: 2px 6px; border-radius: 10px">{{"PENDING"|trans}}</span>
                             {% endif %}
-                            {% if (reservation.getOwnResStatus > 1)%}
+                            {% if (reservation.getOwnResStatus > 1 and reservation.getOwnResStatus < 5)%}
                             <span style="background-color: #1E4C97; color: #ffffff; padding: 2px 6px; border-radius: 10px">{{"NOT_AVAILABLE"|trans}}</span>
+                            {% endif %}
+                            {% if (reservation.getOwnResStatus == 5)%}
+                                <span style="background-color: #DA4F49; color: #FFFFFF; padding: 2px 6px; border-radius: 10px">{{"PAYED"|trans}}</span>
                             {% endif %}
                         <h3>TOTAL: {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ reservation.getOwnResNightPrice * nights[loop.index0] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h3>
                         </p>
@@ -54,8 +57,11 @@
                         {% if (reservation.getOwnResStatus == 0)%}
                         <a href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | lower | replace(' ','_')}) }}" style="background-color: #A2CF40;  color: #ffffff; cursor: pointer; font-size: 14px; text-decoration: none; padding: 5px 30px; border-radius: 5px;">{{"VIEW_DETAILS"|trans}}</a>
                         {% endif %}
-                        {% if (reservation.getOwnResStatus > 1)%}
+                        {% if (reservation.getOwnResStatus > 1 and reservation.getOwnResStatus < 5)%}
                         <a href="{{ url('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}" style="background-color: #1E4C97;  color: #ffffff; cursor: pointer; font-size: 14px; text-decoration: none; padding: 5px 30px; border-radius: 5px;">{{"LOOK_FOR_ALTERNATIVE"|trans}}</a>
+                        {% endif %}
+                        {% if (reservation.getOwnResStatus == 5)%}
+                            <a href="{{ url('frontend_view_confirmation_reservation',{'id_booking':booking}) }}" style="background-color: #DA4F49; color: #ffffff; cursor: pointer; font-size: 14px; text-decoration: none; padding: 5px 30px; border-radius: 5px;">{{ 'VIEW_CONFIRMATION'|trans }}</a>
                         {% endif %}
                     </td>
                 </tr>

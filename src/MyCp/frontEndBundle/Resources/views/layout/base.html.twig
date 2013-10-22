@@ -66,8 +66,8 @@
                                             {{(app.session.get('curr_acronym') == null or app.session.get('curr_acronym') == "") ? "CUC" : app.session.get('curr_acronym')|upper}}{#{{"CURRENCY" | trans }}#} <b class="caret"></b>
                                         </a>
                                         <ul class="dropdown-menu top">
-                                {% render 'frontEndBundle:currency:get_currencies' %}
-                                            </ul>
+                                            {% render 'frontEndBundle:currency:get_currencies' with {'params':app.request.attributes.all} %}
+                                        </ul>
                                         </li>
                                         <li class="divider-vertical"></li>
                                         <li class="dropdown">

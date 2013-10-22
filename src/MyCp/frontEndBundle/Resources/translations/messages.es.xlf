@@ -2179,6 +2179,10 @@
                   <source>RESERVATION_AMOUNT_TO_PAY_NOW</source>
                   <target>Total a pagar ahora</target>
               </trans-unit>
+              <trans-unit id="555">
+                    <source>VIEW_CONFIRMATION</source>
+                    <target>Ver confirmación</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>
