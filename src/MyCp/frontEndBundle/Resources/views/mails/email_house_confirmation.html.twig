@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+</head>
+<body style="font-family: Arial; font-size: 12px">
+<h2>Confirmación de Reserva</h2>
+Fecha: {{ "now"|date("D, d M Y H:m:s O") }}
+<br/><br/>
+<b>Atención:</b> Este es un correo automático del sistema de reservación de MyCasaParticular.com. No responder a este correo.
+<br/><br/>
+<b>Estimado/a:</b> {{ reservations[0].getOwnResGenResId.getGenResOwnId.getOwnHomeowner1 }} {% if reservations[0].getOwnResGenResId.getGenResOwnId.getOwnHomeowner2 %}y {{ reservations[0].getOwnResGenResId.getGenResOwnId.getOwnHomeowner2 }}{% endif %}
+<br/><br/>
+<b>Casa particular:</b> {{ reservations[0].getOwnResGenResId.getGenResOwnId.getOwnName }}
+<br/><br/>
+Por este medio le confirmamos la reservación (CAS.{{ reservations[0].getOwnResGenResId.getGenResId }}) del cliente:
+<br/>
+<b>Nombre:</b> {{ user.getUserUserName }}
+<br/>
+<b>Apellidos:</b> {{ user.getUserLastName }}
+<br/>
+<b>Correo electrónico:</b> <a href="mailto:{{ user.getUserEmail }}">{{ user.getUserEmail }}</a>
+<br/>
+<b>Ciudad:</b> {{ user.getUserCity }}
+<br/>
+<b>País:</b> {{ user.getUserCountry.getCoName }}
+<br/>
+<b>Idioma:</b> {{ user_tourist[0].getUserTouristLanguage.getLangName }}
+<br/>
+<br/>
+<h3>Habitaciones</h3>
+{% set total_price = 0 %}
+{% for reservation in reservations %}
+<b>Habitación: </b> {{ reservation.getOwnResRoomType }}
+<br/>
+<b>Adultos: </b> {{ reservation.getOwnResCountAdults }}
+<br/>
+<b>Niños: </b> {{ reservation.getOwnResCountChildrens }}
+<br/>
+<b>Fecha de arribo: </b> {{ reservation.getOwnResReservationFromDate|date('d/m/Y') }}
+<br/>
+<b>Noches: </b> {{ nights[reservation.getOwnResId] }}
+{% set subtotal = (nights[reservation.getOwnResId] * reservation.getOwnResNightPrice) - ( nights[reservation.getOwnResId] * reservation.getOwnResNightPrice * reservation.getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100  + 10)  %}
+{% set total_price = total_price + subtotal %}
+<br/>
+<br/>
+{% endfor %}
+El cliente debe pagar en su casa particular el saldo de {{ total_price }} CUC en efectivo. La comisión y gastos por reservación ya han sido descontados por adelantado al turista.
+<br/>
+<br/>
+<b>Importante:</b><br/>
+Si usted desea comunicarse directamente con el cliente por alguna razón tenga en cuenta el "idioma de comunicación del cliente".
+<br/>
+<br/>
+<br/>
+Atentamente
+<br/>
+<br/>
+Equipo de reservación
+
+<br/>
+<br/>
+</body>
+</html>

@@ -2187,6 +2187,10 @@
                   <source>VIEW_CONFIRMATION</source>
                   <target>View confirmation</target>
               </trans-unit>
+              <trans-unit id="556">
+                  <source>PAYMENT_CONFIRMATION</source>
+                  <target>Booking confirmation</target>
+              </trans-unit>
         </body>
     </file>
 </xliff>

@@ -13,7 +13,7 @@
                             {% if photos[loop.index0][0].getPhoName is defined %}
                             <img style="width: 90%" class="span12 img-polaroid" src="{{ url('mycp_main')~'../uploads/ownershipImages/thumbnails/'~photos[loop.index0][0].getPhoName}}">
                             {% else %}
-                            <img class="span12 img-polaroid" src="{{ url('mycp_main')~'../uploads/ownershipImages/no_photo_square.gif'}}">
+                            <img style="width: 90%" class="span12 img-polaroid" src="{{ url('mycp_main')~'../uploads/ownershipImages/no_photo_square.gif'}}">
                             {% endif %}
                         </a>
                     </td>

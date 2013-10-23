@@ -61,6 +61,15 @@ class currencyController extends Controller {
             $session->set("curr_rate", $currency->getCurrCucChange());
             $session->set("curr_symbol",  $currency->getCurrSymbol());
             $session->set("curr_acronym", $currency->getCurrCode());
+
+            $user = $this->get('security.context')->getToken()->getUser();
+            $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
+            if($userTourist)
+            {
+                $userTourist->setUserTouristCurrency($currency);
+                $em->persist($userTourist);
+                $em->flush();
+            }
         }
         $route_params=$session->get('params_change_curr');
         return $this->redirect($this->generateUrl($route_params['_route'],$route_params['_route_params']));

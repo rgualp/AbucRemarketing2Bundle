@@ -19,15 +19,24 @@ class UserSecure {
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event) {
         $user = $this->security_context->getToken()->getUser();
         $session = $this->container->get('session');
-        //exit();
         //Cambiar el sitio a la moneda y lenguaje ultimo del sitio almacenados en userTourist
         $userTourist = $this->em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
+        $currencies = $this->em->getRepository('mycpBundle:currency')->findAll();
+        $tourist_currency=null;
+        if($userTourist)
+            $tourist_currency = $userTourist->getUserTouristCurrency();
 
-        /*$tourist_currency = $userTourist->getUserTouristCurrency();
-        $session->set("curr_rate", ($tourist_currency == null) ? 1 : $tourist_currency->getCurrCucChange());
-        $session->set("curr_symbol", ($tourist_currency == null) ? "$" : $tourist_currency->getCurrSymbol());
-        $session->set("curr_acronym", ($tourist_currency == null) ? "CUC" : $tourist_currency->getCurrCode());
-        
+        if(!$tourist_currency)
+        {
+
+            $session->set("curr_rate",1);
+            $session->set("curr_symbol","$");
+            $session->set("curr_acronym","CUC");
+        }
+        //var_dump($_SESSION); exit();
+        //exit();
+
+        /*
         var_dump($this->container->get('request')->getLocale());
 
         $tourist_lang = $userTourist->getUserTouristLanguage();

@@ -2183,6 +2183,10 @@
                     <source>VIEW_CONFIRMATION</source>
                     <target>Ver confirmación</target>
                 </trans-unit>
+                <trans-unit id="556">
+                    <source>PAYMENT_CONFIRMATION</source>
+                    <target>Confirmación de reserva</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>
