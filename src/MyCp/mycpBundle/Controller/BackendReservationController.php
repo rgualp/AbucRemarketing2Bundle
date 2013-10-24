@@ -338,6 +338,7 @@ class BackendReservationController extends Controller
         $service_time= $this->get('time');
         $post = $request->request->getIterator()->getArrayCopy();
         $dates=$service_time->dates_between($reservation->getGenResFromDate()->format('Y-m-d'), $reservation->getGenResToDate()->format('Y-m-d'));
+        $not_available=true;
         if($request->getMethod()=='POST')
         {
             $keys=array_keys($post);
@@ -351,6 +352,13 @@ class BackendReservationController extends Controller
                         $errors[$key]=1;
                     }
 
+                }
+                if(strpos($key, 'service_own_res_status')!==false)
+                {
+                    if($post[$key] < 3)
+                    {
+                        $not_available=false;
+                    }
                 }
             }
 
@@ -379,6 +387,14 @@ class BackendReservationController extends Controller
                 }
                 $message='Reserva actualizada satisfactoriamente.';
                 $reservation->setGenResSaved(1);
+                if($not_available == true)
+                {
+                    $reservation->setGenResStatus(3);
+                }
+                else
+                {
+                    $reservation->setGenResStatus(1);
+                }
                 $em->persist($reservation);
                 $em->flush();
                 $service_log= $this->get('log');
@@ -419,6 +435,7 @@ class BackendReservationController extends Controller
         $reservation=$em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
         $reservation->setGenResStatus(1);
         $reservation->setGenResStatusDate(new \DateTime(date('Y-m-d')));
+        $reservation->setGenResHour(date('G'));
         $em->persist($reservation);
         $em->flush();
         $reservations=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id'=>$id_reservation));

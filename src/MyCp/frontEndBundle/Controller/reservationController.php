@@ -275,6 +275,7 @@ class reservationController extends Controller
                     $general_reservation->setGenResUserId($user);
                     $general_reservation->setGenResDate(new \DateTime(date('Y-m-d')));
                     $general_reservation->setGenResStatusDate(new \DateTime(date('Y-m-d')));
+                    $general_reservation->setGenResHour(date('G'));
                     $general_reservation->setGenResStatus(0);
                     $general_reservation->setGenResFromDate(new \DateTime(date("Y-m-d H:i:s", $res_item[0]['from_date'])));
                     $general_reservation->setGenResToDate(new \DateTime(date("Y-m-d H:i:s", $res_item[count($res_item) - 1]['to_date'])));
@@ -786,26 +787,5 @@ class reservationController extends Controller
 
     }
 
-    public function reminder_availableAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-        $gen_reservations =  $em->getRepository('mycpBundle:generalReservation')->get_reminder_available();
-        foreach($gen_reservations as $gen_reservation)
-        {
-            // Enviando mail al cliente
-            $user_tourist=$em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user'=>$gen_reservation->getGenResUserId()->getUserId()));
-            $body = $this->render('frontEndBundle:mails:reminder_available.html.twig', array(
-                'user'=>$gen_reservation->getGenResUserId()
-            ));
-            echo $body->getContent(); exit();
-            $locale = $this->get('translator');
-            $subject = $locale->trans('VIEW_DETAILS');
-            $service_email = $this->get('Email');
-            $service_email->send_email(
-                $subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $body
-            );
-        }
-
-    }
 
 }

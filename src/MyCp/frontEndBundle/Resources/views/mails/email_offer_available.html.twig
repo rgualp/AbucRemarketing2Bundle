@@ -3,6 +3,8 @@
 {% block content %}
         <h4>{{"GOOD_MORNING"|trans}} {{user.getUserUserName|capitalize}} {{user.getUserLastName|capitalize}}</h4>
         <p style="font-size: 14px"> {{"REQUEST_STATUS_CHANGED"|trans}}</p>
+        <br/>
+        <p style="font-size: 14px"> {{"VALID_OFFER_FOURTY_EIGHT"|trans}}</p>
         {% for reservation in reservations %}
         <div class="well">
             <table width="100%">
