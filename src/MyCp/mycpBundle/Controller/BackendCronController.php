@@ -16,6 +16,7 @@ class BackendCronController extends Controller {
         $array_nigths=array();
         $service_time=$this->get('time');
         $service_email = $this->get('Email');
+        if($gen_reservations)
         foreach($gen_reservations as $gen_reservation)
         {
             $reservations=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id'=>$gen_reservation->getGenResId()));
