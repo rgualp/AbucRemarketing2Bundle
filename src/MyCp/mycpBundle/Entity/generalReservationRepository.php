@@ -100,10 +100,20 @@ class generalReservationRepository extends EntityRepository
     {
         $yesterday = date("Y-m-d",strtotime('yesterday'));
         $hour = date('G');
-
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT gre FROM mycpBundle:generalReservation gre
         WHERE gre.gen_res_status = 1 AND gre.gen_res_status_date = '$yesterday' AND gre.gen_res_hour = '$hour'");
+        return $query->getResult();
+    }
+
+    function get_time_over_reservations()
+    {
+        // pone las reservaciones no disponibles despues de 48 horas.
+        $day = date("Y-m-d",strtotime('-2 day'));
+        $hour = date('G');
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT gre FROM mycpBundle:generalReservation gre
+        WHERE gre.gen_res_status = 1 AND gre.gen_res_status_date = '$day' AND gre.gen_res_hour = '$hour'");
         return $query->getResult();
     }
 

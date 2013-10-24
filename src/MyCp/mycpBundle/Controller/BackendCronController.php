@@ -55,9 +55,21 @@ class BackendCronController extends Controller {
     {
         // debe ser ejecutado cada una hora
         $em = $this->getDoctrine()->getManager();
-        $gen_reservations =  $em->getRepository('mycpBundle:generalReservation')->get_reminder_available();
-        exit();
-
+        $gen_reservations =  $em->getRepository('mycpBundle:generalReservation')->get_time_over_reservations();
+        if($gen_reservations)
+        foreach($gen_reservations as $gen_reservation)
+        {
+            $gen_reservation->setGenResStatus(3);
+            $em->persist($gen_reservation);
+            $reservations=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id'=>$gen_reservation->getGenResId()));
+            foreach($reservations as $res)
+            {
+                $res->setOwnResStatus(3);
+                $em->persist($res);
+            }
+        }
+        $em->flush();
+        return new Response('Operation terminada!!!');
     }
 
 }
