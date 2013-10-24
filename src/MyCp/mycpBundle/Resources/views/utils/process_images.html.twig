@@ -12,3 +12,15 @@
 <div class="alert alert-success">{{ message | raw}}</div>
 
 {% endblock %}
+{% block javascripts %}
+<script type="text/javascript">
+        var finished_process = {{(finished_process is defined) ? finished_process : 'true'}};
+        var finished_copy = {{(finished_copy is defined) ? finished_copy : 'false'}};
+        
+        if(!finished_process)
+            window.location = '{{path('mycp_process_images')}}'; 
+        else if(!finished_copy)
+            window.location = '{{path('mycp_copy_images')}}'; 
+        
+    </script>
+{% endblock %}

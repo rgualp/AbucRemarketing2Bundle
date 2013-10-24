@@ -35,7 +35,21 @@ class BackendUtilsController extends Controller
     
     public function process_imagesAction()
     {
-        $results = \MyCp\mycpBundle\Helpers\Images::process_images_with_directory_info($this->container);
-        return $this->render('mycpBundle:utils:process_images.html.twig',array('message'=>$results));
+        $results_array = \MyCp\mycpBundle\Helpers\Images::process_images_with_directory_info($this->container);
+        $session = $this->getRequest()->getSession();        
+        $session->set('process_images_msg', $results_array['msg_text']);
+        
+        return $this->render('mycpBundle:utils:process_images.html.twig',array(
+                             'message'=>$results_array['msg_text'],
+                             'finished_process' => $results_array['finished']));
+    }
+    
+    public function copy_imagesAction()
+    {
+        $session = $this->getRequest()->getSession(); 
+        $results_array = \MyCp\mycpBundle\Helpers\Images::copy_from_processed_to_main_directory($this->container, $session->get('process_images_msg'));
+        return $this->render('mycpBundle:utils:process_images.html.twig',array(
+                             'message'=>$results_array['msg_text'],
+                             'finished_copy' => $results_array['finished']));
     }
 }
