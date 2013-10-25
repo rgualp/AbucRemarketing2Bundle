@@ -11,6 +11,7 @@ namespace MyCp\mycpBundle\Helpers;
 class Images {
 
     public static function create_thumbnail($origin_file_full_path, $thumb_file_full_path, $height) {
+        if(!file_exists(realpath($thumb_file_full_path))){
         $imagine = new \Imagine\Gd\Imagine();
         $mode = \Imagine\Image\ImageInterface::THUMBNAIL_OUTBOUND;
         $img = $imagine->open($origin_file_full_path);
@@ -20,6 +21,7 @@ class Images {
 
         $img->thumbnail(new \Imagine\Image\Box($width, $height), $mode)
                 ->save($thumb_file_full_path);
+        }
     }
 
     public static function resize($origin_file_full_path, $new_height) {
@@ -47,9 +49,11 @@ class Images {
     }
 
     public static function save($image_path_from, $image_path_to) {
+        if(!file_exists(realpath($image_path_to))){
         $imagine = new \Imagine\Gd\Imagine();
         $image = $imagine->open($image_path_from);
         $image->save($image_path_to);
+        }
         return true;
     }
 
@@ -301,6 +305,7 @@ class Images {
 
     public static function get_directory_images_content($directory) {
         $results = array();
+        if (is_dir($directory)) {
         $handler = opendir($directory);
 
         while ($file = readdir($handler)) {
@@ -310,6 +315,7 @@ class Images {
         }
 
         closedir($handler);
+        }
         return $results;
     }
 
