@@ -8,7 +8,7 @@ function datePickersStarUp() {
         format: 'dd/mm/yyyy',
         todayBtn: 'linked',
         autoclose: true,
-        starDate: new Date(),
+        startDate: today_date,
         date: start_date,
         language: $('#input_arrival_date').attr('data-localization')
     }).on('changeDate', function(ev) {

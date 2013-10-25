@@ -24,7 +24,7 @@
     data-name="{{destination.desName}}"
     data-description="{{brief_description | striptags}}"
     data-image="{{asset('uploads/destinationImages/thumbnails/'~((gallery_photos[0] is defined) ? gallery_photos[0] : "no_photo.png"))}}"
-    data-icon="http://www.mycasaparticular.com/web/bundles/frontend/images/map.png">
+    data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/images/map.png') }}">
 </div>
             </div>
         {%endif%}
@@ -68,7 +68,7 @@
                     <div class="accordion-inner">
                         {%for destination in other_destinations_in_municipality%}
                         <div class="item row-fluid">
-                          <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_name':destination.desname|lower|replace(' ','_')}) }}">{{destination.desName}}</a>
+                          <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desname}}" href="{{ path('frontend_details_destination',{'destination_name':destination.desname|lower|replace(' ','_')}) }}">{{destination.desname}}</a>
                         </div>
                         {%else%}
                         <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
@@ -92,7 +92,7 @@
                     <div class="accordion-inner">
                         {%for destination in other_destinations_in_province%}
                         <div class="item row-fluid">
-                           <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_name':destination.desname|lower|replace(' ','_')}) }}">{{destination.desName}}</a>
+                           <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desname}}" href="{{ path('frontend_details_destination',{'destination_name':destination.desname|lower|replace(' ','_')}) }}">{{destination.desname}}</a>
                         </div>
                         {%else%}
                         <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
@@ -176,16 +176,17 @@
             {% endif %}
         </div>
 
-            <div class="row-fluid" id="nav_blue_placeholder" data-url="{{path('frontend_nearby_destination',{'destination_id': destination.desid })}}">
-            {% render "frontEndBundle:destination:owns_nearby_callback" with {'destination_id': destination.desid }%}
+            <div class="row-fluid" id="nav_blue_placeholder" data-url="{{path('frontend_nearby_destination',{'destination_name': destination.desname | lower | replace(" ", "_"),'destination_id': destination.desid })}}">
+            {#% render "frontEndBundle:destination:owns_nearby_callback" with {'destination_name': destination.desname | lower | replace(" ", "_"),'destination_id': destination.desid }%#}
+            {{include('frontEndBundle:destination:detailsOwnsNearByDestination.html.twig', {'owns_nearby': owns_nearby,'destination_name': destination.desname | lower | replace(" ", "_"),'destination_id': destination.desid })}}
         </div>
     </div>
 </div>
 {%render "frontEndBundle:user:info_tab_user" with {'destination_id': destination.desid }%}
 {% block include_javascripts %}
-<script src="http://maps.googleapis.com/maps/api/js?v=3&sensor=false" type="text/javascript"></script> 
-    <script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.js') }}"></script>
-    <script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.infobox.js') }}"></script>
+<script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
+<script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.js') }}"></script>
+<script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.infobox.js') }}"></script>
 <!--script src="{{ asset('bundles/frontend/js/home_search.js') }}"></script-->
 <script src="{{ asset('bundles/frontend/js/destination_details.js') }}"></script>
 <link href="{{ asset('bundles/frontend/css/bootstrap/bootstrap-datepicker.css') }}" rel="stylesheet" media="screen">

@@ -10,7 +10,11 @@ jQuery(document).ready(function($) {
         autoScaleSliderHeight: 350,
         controlNavigation: 'bullets',       
         startSlideId: 0,
-        autoPlay: true,
+        autoPlay: {
+            enabled:true,
+            pauseOnHover: true,
+            delay: 5000
+        },
         numImagesToPreload: 0,
         transitionType:'move',
         deeplinking: {

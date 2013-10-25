@@ -56,7 +56,12 @@ class generalReservation
      */
     private $gen_res_status_date;
 
-
+    /**
+     * @var \integer
+     *
+     * @ORM\Column(name="gen_res_hour", type="integer", nullable=true)
+     */
+    private $gen_res_hour;
 
     /**
      * @var \DateTime
@@ -301,5 +306,28 @@ class generalReservation
     public function getGenResTotalInSite()
     {
         return $this->gen_res_total_in_site;
+    }
+
+    /**
+     * Set gen_res_hour
+     *
+     * @param integer $genResHour
+     * @return generalReservation
+     */
+    public function setGenResHour($genResHour)
+    {
+        $this->gen_res_hour = $genResHour;
+    
+        return $this;
+    }
+
+    /**
+     * Get gen_res_hour
+     *
+     * @return integer 
+     */
+    public function getGenResHour()
+    {
+        return $this->gen_res_hour;
     }
 }

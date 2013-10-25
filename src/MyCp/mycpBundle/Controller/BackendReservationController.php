@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\log;
+use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use MyCp\mycpBundle\Form\reservationType;
 
@@ -337,9 +338,9 @@ class BackendReservationController extends Controller
         $service_time= $this->get('time');
         $post = $request->request->getIterator()->getArrayCopy();
         $dates=$service_time->dates_between($reservation->getGenResFromDate()->format('Y-m-d'), $reservation->getGenResToDate()->format('Y-m-d'));
+        $not_available=true;
         if($request->getMethod()=='POST')
         {
-
             $keys=array_keys($post);
 
             foreach($keys as $key)
@@ -352,10 +353,18 @@ class BackendReservationController extends Controller
                     }
 
                 }
+                if(strpos($key, 'service_own_res_status')!==false)
+                {
+                    if($post[$key] < 3)
+                    {
+                        $not_available=false;
+                    }
+                }
             }
 
             if(count($errors)==0)
             {
+
                 $ownership_reservation=new ownershipReservation();
                 $temp_price=0;
                 foreach($ownership_reservations as $ownership_reservation)
@@ -366,11 +375,26 @@ class BackendReservationController extends Controller
                     $ownership_reservation->setOwnResStatus($post['service_own_res_status_'.$ownership_reservation->getOwnResId()]);
                     $ownership_reservation->setOwnResRoomType($post['service_room_type_'.$ownership_reservation->getOwnResId()]);
                     $ownership_reservation->setOwnResNightPrice($post['service_room_price_'.$ownership_reservation->getOwnResId()]);
+
+                    $start=explode('/',$post['date_from_'.$ownership_reservation->getOwnResId()]);
+                    $end=explode('/',$post['date_to_'.$ownership_reservation->getOwnResId()]);
+                    $start_timestamp = mktime(0, 0, 0, $start[1], $start[0], $start[2]);
+                    $end_timestamp = mktime(0, 0, 0, $end[1], $end[0], $end[2]);
+
+                    $ownership_reservation->setOwnResReservationFromDate(new \DateTime(date("Y-m-d H:i:s", $start_timestamp)));
+                    $ownership_reservation->setOwnResReservationToDate(new \DateTime(date("Y-m-d H:i:s", $end_timestamp)));
                     $em->persist($ownership_reservation);
                 }
-
                 $message='Reserva actualizada satisfactoriamente.';
                 $reservation->setGenResSaved(1);
+                if($not_available == true)
+                {
+                    $reservation->setGenResStatus(3);
+                }
+                else
+                {
+                    $reservation->setGenResStatus(1);
+                }
                 $em->persist($reservation);
                 $em->flush();
                 $service_log= $this->get('log');
@@ -410,25 +434,35 @@ class BackendReservationController extends Controller
         $reservation=new generalReservation();
         $reservation=$em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
         $reservation->setGenResStatus(1);
+        $reservation->setGenResStatusDate(new \DateTime(date('Y-m-d')));
+        $reservation->setGenResHour(date('G'));
         $em->persist($reservation);
         $em->flush();
         $reservations=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id'=>$id_reservation));
         $user=$reservation->getGenResUserId();
         $user_tourist=$em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user'=>$user->getUserId()));
         $array_photos=array();
+        $array_nigths=array();
+        $service_time=$this->get('time');
+
         foreach($reservations as $res)
         {
             $photos=$em->getRepository('mycpBundle:ownership')->getPhotos($res->getOwnResGenResId()->getGenResOwnId()->getOwnId());
             array_push($array_photos,$photos);
+            $array_dates= $service_time->dates_between($res->getOwnResReservationFromDate()->getTimestamp(),$res->getOwnResReservationToDate()->getTimestamp());
+            array_push($array_nigths,count($array_dates));
         }
         $this->get('translator')->setLocale($user_tourist[0]->getUserTouristLanguage()->getLangCode());
+
+
         // Enviando mail al cliente
         $body=$this->render('frontEndBundle:mails:email_offer_available.html.twig',array(
             'user'=>$user,
             'reservations'=>$reservations,
-            'photos'=>$array_photos
+            'photos'=>$array_photos,
+            'nights'=>$array_nigths
         ));
-        
+       // echo $body->getContent(); exit();
         
         $locale = $this->get('translator');
         $subject=$locale->trans('REQUEST_STATUS_CHANGED');

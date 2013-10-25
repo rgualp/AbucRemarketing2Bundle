@@ -56,7 +56,7 @@
                     </tbody>
                     <thead>
                     <tr>
-                        <th colspan="0">
+                        <th colspan="4" style="border: solid 1px #C0E9FD">
                             <table style="width: 100%">
                                 <tr>
                                     <td>{{"RESERVATION_TOTAL_PRICE" | trans}}</td>
@@ -228,10 +228,10 @@
                 <div class="line_green" style="margin-top: 0px">&nbsp;</div>
                 <label class="checkbox"><input name="protection" type="checkbox"> {{"OBTAIN_PROTECTION" | trans}} US$2.00 <img src="{{ asset('bundles/frontend/images/question_icon.gif') }}"/></label>
                 <div class="line_green">&nbsp;</div>
-                <label class="checkbox"><input id="terms_conditions" type="checkbox"> {{"ACCEPT_TERMS_CONDITIONS" | trans}}</label>
+                <label class="checkbox"><input {% if post['terms_conditions'] is defined %} checked="checked" {% endif %} id="terms_conditions" name="terms_conditions" type="checkbox"> {{"ACCEPT_TERMS_CONDITIONS" | trans}}</label>
                 <label class="checkbox"><input name="user_tourist_send_newsletter" type="checkbox" {% if post["user_tourist_send_newsletter"] is defined or user.UserNewsletters %}checked{%endif%}> {{"SEND_ME_OFFERS" | trans}}</label>
                 <h3>{{"AMOUNT_TO_PAY_NOW" | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{(total_percent_price + 10) *(app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h3>
-                <button id="btn_payment"  type="submit" style="padding-left: 30px; padding-right: 30px; margin-top: 10px" class="btn mycp_btn_green"><b>{{"PAYMENT_CONFIRM" | trans}}</b></button>
+                <button id="btn_payment"  type="submit" style="padding-left: 30px; padding-right: 30px; margin-top: 10px" class="btn mycp_btn_green" disabled="disabled"><b>{{"PAYMENT_CONFIRM" | trans}}</b></button>
                 <p style="margin-top: 10px; font-size: 12px; color: #6C726B">{{"PAYMENT_CONFIRMATION_TEXT" | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{(total_percent_price + 10) *(app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</p>
             </div>
         </td>
@@ -239,16 +239,17 @@
 </table>
 </form>
 <script type="text/javascript">
- if($("#terms_conditions").prop("checked"))
-    $("#btn_payment").attr("disabled", "false");
- else $("#btn_payment").attr("disabled", "true");
- 
- $(document).ready(function() {
-    $('#terms_conditions').change(function() {
-        if($(this).is(":checked")) 
-            $("#btn_payment").attr("disabled", "false");
-         else $("#btn_payment").attr("disabled", "true");        
+    if($('#terms_conditions').is(":checked"))
+            $('#btn_payment').removeAttr('disabled');
+        else
+            $('#btn_payment').attr('disabled','disabled');
+
+    $('#terms_conditions').change(function(){
+        if($('#terms_conditions').is(":checked"))
+            $('#btn_payment').removeAttr('disabled');
+        else
+            $('#btn_payment').attr('disabled','disabled');
     });
-});
+   
 </script>
 {% endblock %}

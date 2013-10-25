@@ -5,8 +5,6 @@
     <div class="paragraph" style="font-size: 13px">
         <div class="no_print pull-right" style="margin-top: -10px;">
             <button class="print_page btn mycp_btn_green"  style="padding: 4px 30px; font-weight: bold; margin-right: 10px">{{"PRINT"|trans}}</button>
-            <button class="btn mycp_btn_orange"  style="padding: 4px;  font-weight: bold; font-size: 35px; color: #FFFFFF">+</button>
-            <img src="{{ asset('bundles/frontend/images/tiny_tooltip_1_1_M.gif') }}" alt="">
         </div>
         <h4>{{"RESERVATION_CONFIRM"|trans}}</h4>
         <hr/>
@@ -69,7 +67,7 @@
                                      data-name="{{own.getOwnResGenResId.getGenResOwnId.getOwnName}}"
                                      data-description=""
                                      data-image=""
-                                     data-icon="http://www.mycasaparticular.com/web/bundles/frontend/images/map.png">
+                                     data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/images/map.png') }}">
                                 </div>
                         </td>
                     </tr>
@@ -163,8 +161,6 @@
                 </table>
                 <div class="no_print" style="text-align: right">
                     <button class="print_page btn mycp_btn_green"  style="padding: 4px 30px; font-weight: bold; margin-right: 10px">{{"PRINT"|trans}}</button>
-                    <button class="btn mycp_btn_orange"  style="padding: 4px;  font-weight: bold; font-size: 35px; color: #FFFFFF">+</button>
-                    <img style="width: 56px; height: 32px" src="{{ asset('bundles/frontend/images/tiny_tooltip_1_1_M.gif') }}" alt="">
                 </div>
             </div>
         </div>
@@ -178,7 +174,7 @@
         $("div#print_zone").printArea();
     })
 </script>
-<script src="http://maps.googleapis.com/maps/api/js?v=3&sensor=false" type="text/javascript"></script>
+<script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
 <script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.infobox.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/ownership_details.js') }}"></script>

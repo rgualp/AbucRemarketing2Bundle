@@ -2028,8 +2028,8 @@
                 <target>Reserve service</target>
             </trans-unit>
             <trans-unit id="515">
-                <source>ACCOMMODATION</source>
-                <target>Accommodation</target>
+                <source>ACCOMMODATIONS</source>
+                <target>Accommodations</target>
             </trans-unit>
             <trans-unit id="516">
                 <source>ACCOMMODATION_NAME</source>
@@ -2183,6 +2183,30 @@
                   <source>RESERVATION_AMOUNT_TO_PAY_NOW</source>
                   <target>Amount to pay now</target>
               </trans-unit>
+              <trans-unit id="555">
+                  <source>VIEW_CONFIRMATION</source>
+                  <target>View confirmation</target>
+              </trans-unit>
+              <trans-unit id="556">
+                  <source>PAYMENT_CONFIRMATION</source>
+                  <target>Booking confirmation</target>
+              </trans-unit>
+              <trans-unit id="557">
+                  <source>VALID_OFFER_FOUR_EIGHT</source>
+                  <target>This offer is only valid for 48 hours</target>
+              </trans-unit>
+              <trans-unit id="558">
+                  <source>REMINDER_AVAILABLE</source>
+                  <target>The accommodations of you wanted are available in witch date</target>
+              </trans-unit>
+              <trans-unit id="559">
+                  <source>VALID_OFFER_TWENTY_FOUR</source>
+                  <target>The offer will be over in 24 hours</target>
+              </trans-unit>
+              <trans-unit id="560">
+                    <source>REMINDER</source>
+                    <target>Reminder</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>

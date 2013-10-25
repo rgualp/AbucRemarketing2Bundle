@@ -275,6 +275,7 @@ class reservationController extends Controller
                     $general_reservation->setGenResUserId($user);
                     $general_reservation->setGenResDate(new \DateTime(date('Y-m-d')));
                     $general_reservation->setGenResStatusDate(new \DateTime(date('Y-m-d')));
+                    $general_reservation->setGenResHour(date('G'));
                     $general_reservation->setGenResStatus(0);
                     $general_reservation->setGenResFromDate(new \DateTime(date("Y-m-d H:i:s", $res_item[0]['from_date'])));
                     $general_reservation->setGenResToDate(new \DateTime(date("Y-m-d H:i:s", $res_item[count($res_item) - 1]['to_date'])));
@@ -377,13 +378,13 @@ class reservationController extends Controller
             'photos' => $array_photos
         ));
         $locale = $this->get('translator');
-        $subject = $locale->trans('VIEW_DETAILS');
+        $subject = $locale->trans('REQUEST_SENT');
         $service_email = $this->get('Email');
         $service_email->send_email(
             $subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $body
         );
 
-        //Enviando mail al reservation team
+
         $user_tourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
         $array_own_res_home = array();
         foreach ($reservations as $gen) {
@@ -395,6 +396,7 @@ class reservationController extends Controller
             $array_own_res_home[$offset] = $temp;
 
         }
+        //Enviando mail al reservation team
         $flag_3 = 0;
         $service_email = $this->get('Email');
         foreach ($array_own_res_home as $own_array) {
@@ -407,10 +409,12 @@ class reservationController extends Controller
                 'nigths' => $temp_nigths,
             ));
             $subject = "MyCasaParticular Reservas - " . strtoupper($user_tourist->getUserTouristLanguage()->getLangCode());
+            //echo $body;
             $service_email->send_email(
                 $subject, 'no.reply@mycasaparticular.com', $subject, $user->getUserEmail(), $body
             );
         }
+        //exit();
 
         return $this->render('frontEndBundle:reservation:confirmReview.html.twig', array(
             "owns_in_destination" => $owns_in_destination,
@@ -511,6 +515,7 @@ class reservationController extends Controller
         $post_country = null;
 
         if ($request->getMethod() == "POST") {
+
             $errors = array();
             $post = $request->request->getIterator()->getArrayCopy();
 
@@ -572,9 +577,19 @@ class reservationController extends Controller
                     $booking->setBookingCancelProtection(0);
 
                 $curr_rate = $session->get('curr_rate');
-                if (!$curr_rate) $curr_rate = 1;
 
-                $booking->setBookingCurrency($userTourist->getUserTouristCurrency());
+                if (!$curr_rate) $curr_rate = 1;
+                $currency=null;
+                if(!$userTourist->getUserTouristCurrency())
+                {
+                    $currency = $em->getRepository('currency')->findOneBy(array('curr_code'=>'usd'));
+                }
+                else
+                {
+                    $currency = $userTourist->getUserTouristCurrency();
+                }
+
+                $booking->setBookingCurrency($currency);
                 $booking->setBookingPrepay(($total_percent_price + 10) * $curr_rate);
                 $booking->setBookingUserId($user->getUserId());
                 $booking->setBookingUserDates($user->getUserUserName() . ', ' . $user->getUserEmail());
@@ -591,10 +606,11 @@ class reservationController extends Controller
                 $request->getSession()->set('reservation_own_ids', null);
                 $all_own_available = $em->getRepository('mycpBundle:ownershipReservation')->find_by_user_and_status_object($user->getUserId(), 1);
 
-                foreach ($all_own_available as $own) {
-                    $em->remove($own);
+               /* foreach ($all_own_available as $own) {
+                    $own->
+                    $em->persist($own);
                 }
-                $em->flush();
+                $em->flush();*/
 
                 $bookingId = $booking->getBookingId();
                 return $this->forward('frontEndBundle:payment:skrillPayment', array('bookingId' => $bookingId));
@@ -623,6 +639,112 @@ class reservationController extends Controller
 
     function confirmationAction($id_booking)
     {
+        $em = $this->getDoctrine()->getManager();
+        $own_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking));
+        $booking = $em->getRepository('mycpBundle:booking')->find($id_booking);
+        $user = $em->getRepository('mycpBundle:user')->find($booking->getBookingUserId());
+        $reservations=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking'=>$id_booking));
+        $user_tourist=$em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user'=>$user->getUserId()));
+        $array_photos=array();
+        $array_nigths=array();
+        $array_nigths_by_ownres=array();
+        $array_houses=array();
+        $array_houses_ids=array();
+        $array_ownres_by_house=array();
+        $service_time=$this->get('time');
+        $cont=0;
+        foreach ($own_res as $own) {
+            $general=$own->getOwnResGenResId();
+            $general->setGenResStatus(2);
+            $own->setOwnResStatus(5);
+            $em->persist($own);
+            $em->persist($general);
+
+            $photos=$em->getRepository('mycpBundle:ownership')->getPhotos($own->getOwnResGenResId()->getGenResOwnId()->getOwnId());
+            array_push($array_photos,$photos);
+            $array_dates= $service_time->dates_between($own->getOwnResReservationFromDate()->getTimestamp(),$own->getOwnResReservationToDate()->getTimestamp());
+            array_push($array_nigths,count($array_dates)-1);
+            $array_nigths_by_ownres[$own->getOwnResId()]=count($array_dates)-1;
+
+            $insert=true;
+            foreach($array_houses_ids as $item)
+            {
+                if($own->getOwnResGenResId()->getGenResOwnId()->getOwnId() == $item)
+                {
+                    $insert=false;
+                }
+            }
+
+            if($insert)
+            {
+                array_push($array_houses_ids,$own->getOwnResGenResId()->getGenResOwnId()->getOwnId());
+                array_push($array_houses,$own->getOwnResGenResId()->getGenResOwnId());
+            }
+            if(isset($array_ownres_by_house[$own->getOwnResGenResId()->getGenResOwnId()->getOwnId()]))
+                $temp_array=$array_ownres_by_house[$own->getOwnResGenResId()->getGenResOwnId()->getOwnId()];
+            else
+                $temp_array=array();
+
+            array_push($temp_array,$own);
+            $array_ownres_by_house[$own->getOwnResGenResId()->getGenResOwnId()->getOwnId()]=$temp_array;
+            $cont++;
+        }
+        $em->flush();
+        $this->get('translator')->setLocale($user_tourist[0]->getUserTouristLanguage()->getLangCode());
+
+        // Enviando mail al cliente
+        $service_email = $this->get('Email');
+        $body=$this->render('frontEndBundle:mails:email_offer_available.html.twig',array(
+            'booking'=>$id_booking,
+            'user'=>$user,
+            'reservations'=>$reservations,
+            'photos'=>$array_photos,
+            'nights'=>$array_nigths
+        ));
+        $locale = $this->get('translator');
+        $subject = $locale->trans('PAYMENT_CONFIRMATION');
+
+        $service_email->send_email(
+            $subject, 'reservation@mycasaparticular.com', $subject.' - MyCasaParticular.com', $user->getUserEmail(), $body
+        );
+
+        // enviando mail a reservation team
+        foreach($array_ownres_by_house as $owns)
+        {
+            $body=$this->render('frontEndBundle:mails:rt_payment_confirmation.html.twig',array(
+                'user'=>$user,
+                'user_tourist'=>$user_tourist,
+                'reservations'=>$owns,
+                'nights'=>$array_nigths_by_ownres
+            ));
+            $service_email->send_email(
+                'Confirmación de pago', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', 'reservation@mycasaparticular.com', $body
+            );
+
+        }
+
+        // enviando mail al propietario
+        foreach($array_ownres_by_house as $owns)
+        {
+            $body=$this->render('frontEndBundle:mails:email_house_confirmation.html.twig',array(
+                'user'=>$user,
+                'user_tourist'=>$user_tourist,
+                'reservations'=>$owns,
+                'nights'=>$array_nigths_by_ownres
+            ));
+            $service_email->send_email(
+                'Confirmación de reserva', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $body
+            );
+
+        }
+
+        return $this->redirect(
+            $this->generateUrl('frontend_view_confirmation_reservation'
+                , array('id_booking'=>$id_booking)));
+    }
+
+    function view_confirmationAction($id_booking)
+    {
         $service_time = $this->get('Time');
         $user = $this->get('security.context')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
@@ -650,13 +772,8 @@ class reservationController extends Controller
             if ($insert == 1) {
                 array_push($commissions, $commission);
             }
-            $general=$own->getOwnResGenResId();
-            $general->setGenResStatus(2);
-            $own->setOwnResStatus(5);
-            $em->persist($own);
-            $em->persist($general);
         }
-        $em->flush();
+
         return $this->render('frontEndBundle:reservation:confirmReservation.html.twig', array(
             'own_res' => $own_res,
             'user' => $user,
@@ -667,6 +784,8 @@ class reservationController extends Controller
             'total_percent_price' => $total_percent_price,
             'commissions' => $commissions
         ));
+
     }
+
 
 }

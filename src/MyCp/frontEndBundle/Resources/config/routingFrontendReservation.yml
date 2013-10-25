@@ -29,3 +29,7 @@ frontend_reservation_reservation:
 frontend_confirmation_reservation:
     pattern:  /confirmation/{id_booking}/
     defaults: { _controller: frontEndBundle:reservation:confirmation }
+
+frontend_view_confirmation_reservation:
+    pattern:  /confirmation_view/{id_booking}/
+    defaults: { _controller: frontEndBundle:reservation:view_confirmation }

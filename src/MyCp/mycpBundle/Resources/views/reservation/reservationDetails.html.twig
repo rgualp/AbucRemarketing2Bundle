@@ -137,22 +137,22 @@
                 {% if post['service_room_type_'~reservation_rooms.getOwnResId] is defined %}{% set res_type = post['service_room_type_'~reservation_rooms.getOwnResId] %}{% endif %}
                 {% render 'mycpBundle:BackendOwnership:get_room_type_list' with{'post':{'service_room_type':res_type, 'not_blank':1},'id':0}%}
             </select></td>
-            <td><select name="service_room_count_adults_{{reservation_rooms.getOwnResId}}" class="input-block-level">
+            <td style="width: 50px"><select name="service_room_count_adults_{{reservation_rooms.getOwnResId}}" class="input-block-level">
                 {% if post['service_room_count_adults_'~reservation_rooms.getOwnResId] is defined %}
                     {% render 'mycpBundle:BackendReservation:get_numeric_list' with{'post':{'selected':post['service_room_count_adults_'~reservation_rooms.getOwnResId]}}%}
                 {% else %}
                     {% render 'mycpBundle:BackendReservation:get_numeric_list' with{'post':{'selected':reservation_rooms.getOwnResCountAdults}}%}
                 {% endif %}
             </select></td>
-            <td><select name="service_room_count_childrens_{{reservation_rooms.getOwnResId}}" class="input-block-level">
+            <td><select style="width: 50px" name="service_room_count_childrens_{{reservation_rooms.getOwnResId}}" class="input-block-level">
                 {% if post['service_room_count_childrens_'~reservation_rooms.getOwnResId] is defined %}
                     {% render 'mycpBundle:BackendReservation:get_numeric_list_0' with{'post':{'selected':post['service_room_count_childrens_'~reservation_rooms.getOwnResId]}}%}
                 {% else %}
                     {% render 'mycpBundle:BackendReservation:get_numeric_list_0' with{'post':{'selected':reservation_rooms.getOwnResCountChildrens}}%}
                 {% endif %}
             </select></td>
-            <td>{{ reservation_rooms.getOwnResReservationFromDate | date("d/m/Y") }}</td>
-            <td>{{ reservation_rooms.getOwnResReservationToDate | date("d/m/Y") }}</td>
+            <td><input name="date_from_{{reservation_rooms.getOwnResId}}" data-localization="es" type="text" class="input-block-level datepicker_textbox" value="{% if post['date_from_'~reservation_rooms.getOwnResId] is defined %}{{ post['date_from_'~reservation_rooms.getOwnResId] }}{% else %}{{ reservation_rooms.getOwnResReservationFromDate | date("d/m/Y") }}{% endif %}"/></td>
+            <td><input name="date_to_{{reservation_rooms.getOwnResId}}" data-localization="es" type="text" class="input-block-level datepicker_textbox" value="{% if post['date_from_'~reservation_rooms.getOwnResId] is defined %}{{ post['date_to_'~reservation_rooms.getOwnResId] }}{% else %}{{ reservation_rooms.getOwnResReservationToDate | date("d/m/Y") }}{% endif %}"/></td>
             <td>{{nights[loop.index0]}}</td>
             <td style="width: 7%">
                 {% set price_own_res =0%}
@@ -160,7 +160,11 @@
                 {% if post['service_room_price_'~reservation_rooms.getOwnResId] is defined %}
                     {% set price_own_res=post['service_room_price_'~reservation_rooms.getOwnResId] %}
                 {% else %}
-                    {% set price_own_res=reservation_rooms.getOwnResNightPrice %}
+                    {% if reservation_rooms.getOwnResNightPrice ==0%}
+                        {% set price_own_res=1 %}
+                    {% else %}
+                        {% set price_own_res=reservation_rooms.getOwnResNightPrice %}
+                    {% endif %}
                 {% endif %}
                 <input type="text" class="input-block-level" value="{{ price_own_res }}" name="service_room_price_{{reservation_rooms.getOwnResId}}"/>
             </td>
@@ -168,7 +172,7 @@
             <td>{{nights[loop.index0] * reservation_rooms.getOwnResNightPrice}}CUC</td>
 
             <td>
-            <select class="input-block-level" name="service_own_res_status_{{reservation_rooms.getOwnResId}}">
+            <select style="width: 100px" class="input-block-level" name="service_own_res_status_{{reservation_rooms.getOwnResId}}">
                 {% if post['service_own_res_status_'~reservation_rooms.getOwnResId] is defined %}
                     {% render 'mycpBundle:BackendReservation:get_reservation_status' with{'post':{'selected':post['service_own_res_status_'~reservation_rooms.getOwnResId]}}%}
                 {% else %}
@@ -246,8 +250,17 @@
         var url_css_color="{{ asset('bundles/mycp/css/wysiwyg-color.css') }}";
     </script>
     <script src="{{ asset('bundles/mycp/js/bootstrap-wysihtml5.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/mycp/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/mycp/js/bootstrap-datepicker.es.js') }}" type="text/javascript"></script>
     <link href="{{ asset('bundles/mycp/css/bootstrap-wysihtml5.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('bundles/mycp/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
     <script type="text/javascript">
         $('.textarea').wysihtml5();
+        $('.datepicker_textbox').datepicker({
+            language: 'es',
+            format:'dd/mm/yyyy'
+        }).on('changeDate', function(ev){
+                    $('.datepicker').hide();
+                });
     </script>
 {% endblock %}

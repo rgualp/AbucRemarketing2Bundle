@@ -155,11 +155,24 @@ class BackendLanguageController extends Controller
 
         $own_desc_lang=$em->getRepository('mycpBundle:ownershipDescriptionLang')->findBy(array('odl_id_lang'=>$id_language));
         if(isset($own_desc_lang[0]))
-            $em->remove($own_desc_lang[0]);
+        {
+            foreach($own_desc_lang as $desc_lang)
+                $em->remove($desc_lang);
+        }
 
         $own_key_lang=$em->getRepository('mycpBundle:ownershipKeywordLang')->findBy(array('okl_id_lang'=>$id_language));
         if(isset($own_key_lang[0]))
-            $em->remove($own_key_lang[0]);
+        {
+            foreach($own_key_lang as $key_lang)
+                $em->remove($key_lang);
+        }
+
+        $photo_lang=$em->getRepository('mycpBundle:photoLang')->findBy(array('pho_lang_id_lang'=>$id_language));
+        if(isset($photo_lang[0]))
+        {
+            foreach($photo_lang as $pho_lang)
+                $em->remove($pho_lang);
+        }
 
         $album_lang=$em->getRepository('mycpBundle:albumLang')->findBy(array('album_lang_lang'=>$id_language));
         if(isset($album_lang[0]))
@@ -179,11 +192,27 @@ class BackendLanguageController extends Controller
 
         $faq_cat_lang=$em->getRepository('mycpBundle:faqCategoryLang')->findBy(array('faq_cat_id_lang'=>$id_language));
         if(isset($faq_cat_lang[0]))
-            $em->remove($faq_cat_lang[0]);
+        {
+            foreach($faq_cat_lang as $faq_lang)
+                $em->remove($faq_lang);
+
+        }
 
         $destination_lang=$em->getRepository('mycpBundle:destinationLang')->findBy(array('des_lang_lang'=>$id_language));
         if(isset($destination_lang[0]))
-            $em->remove($destination_lang[0]);
+        {
+            foreach($destination_lang as $des_lang)
+                $em->remove($des_lang);
+
+        }
+
+        $information_lang=$em->getRepository('mycpBundle:informationLang')->findBy(array('info_lang_lang'=>$id_language));
+        if(isset($information_lang[0]))
+        {
+            foreach($information_lang as $info_lang)
+                $em->remove($info_lang);
+
+        }
 
         $photo=new photo();
         if(isset($lang_flag[0]))

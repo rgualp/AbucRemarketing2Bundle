@@ -64,7 +64,7 @@
             </trans-unit>
             <trans-unit id="16">
                 <source>ACCOMMODATION</source>
-                <target>Alojamientos</target>
+                <target>Alojamiento</target>
             </trans-unit>
             <trans-unit id="17">
                 <source>ECONOMICS_OWNS</source>
@@ -2024,8 +2024,8 @@
                     <target>Servicio reservado</target>
                 </trans-unit>
                 <trans-unit id="515">
-                    <source>ACCOMMODATION</source>
-                    <target>Alojamiento</target>
+                    <source>ACCOMMODATIONS</source>
+                    <target>Alojamientos</target>
                 </trans-unit>
                 <trans-unit id="516">
                     <source>ACCOMMODATION_NAME</source>
@@ -2179,6 +2179,30 @@
                   <source>RESERVATION_AMOUNT_TO_PAY_NOW</source>
                   <target>Total a pagar ahora</target>
               </trans-unit>
+              <trans-unit id="555">
+                    <source>VIEW_CONFIRMATION</source>
+                    <target>Ver confirmación</target>
+                </trans-unit>
+                <trans-unit id="556">
+                    <source>PAYMENT_CONFIRMATION</source>
+                    <target>Confirmación de reserva</target>
+                </trans-unit>
+                <trans-unit id="557">
+                    <source>VALID_OFFER_FOUR_EIGHT</source>
+                    <target>Esta oferta es válida solo por 48 horas</target>
+                </trans-unit>
+                <trans-unit id="558">
+                    <source>REMINDER_AVAILABLE</source>
+                    <target>Le recordamos que los alojamientos deseados estan disponibles para la fecha deseada</target>
+                </trans-unit>
+                <trans-unit id="559">
+                    <source>VALID_OFFER_TWENTY_FOUR</source>
+                    <target>La oferta vencerá en 48 horas</target>
+                </trans-unit>
+                <trans-unit id="560">
+                    <source>REMINDER</source>
+                    <target>Recordatorio</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>

@@ -5,37 +5,18 @@ function start(){
     $('#btn_insert_comment').click(insert_comment);
     initialize_map();
 
-    $('#filter_date_from').datepicker({
-        format:'dd/mm/yyyy',
-        todayBtn:'linked',
-        startDate: new Date(),
-        date: start_date,
-        language: $('#filter_date_from').attr('data-localization')
-    }).on('changeDate', function(ev){
-            $('.datepicker').hide();
-    });
-
-
-    $('#filter_date_to').datepicker({
-        format:'dd/mm/yyyy',
-        todayBtn:'linked',
-        startDate: '+1d',
-        date: end_date,
-        language: $('#filter_date_to').attr('data-localization')
-    }).on('changeDate', function(ev){
-            $('.datepicker').hide();
-        });
-
     // ernesto code
     total_price=0;
     $('.guest_number').change(function(){
         if($('#tr_'+$(this).attr('data')).html()){
+
             if($('#combo_guest_'+$(this).attr('data')).val()+$('#combo_kids_'+$(this).attr('data')).val()==0)
             {
                 $('#tr_'+$(this).attr('data')).remove();
                 if ($('#rooms_selected >tbody >tr').length == 0){
                     $('#rooms_selected').css({display: 'none'})
                     $('#all_data_numbers').css({display: 'none'})
+
                 }
 
                 total_price($(this).attr('data_curr'));
@@ -44,6 +25,7 @@ function start(){
             {
                 value=0;
                 persons=parseInt($('#combo_kids_'+$(this).attr('data')).val()) + parseInt($('#combo_guest_'+$(this).attr('data')).val());
+
                 if($(this).attr('data_type_room')=='Habitación Triple' && persons>=3)
                 {
                     value=this.parentNode.parentNode.cells[2].innerHTML*(cont_array_dates-1) + (($(this).attr('data_curr')*10) * (cont_array_dates -1));
@@ -118,11 +100,12 @@ function start(){
             $('#data_reservation').val(string_url);
             $('#total_price').html(total_price );
             $('#subtotal_price').html(total_price);
+
             percent_value=total_price * percent / 100;
             $('#initial_deposit').html(percent_value);
             $('#total_prepayment').html(percent_value + 10*curr);
-            $('#subtotal_price_cont').css('display','block');
 
+            $('#subtotal_price_cont').css('display','block');
         }
     });
 
