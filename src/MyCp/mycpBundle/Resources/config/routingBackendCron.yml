@@ -1,7 +1,0 @@
-mycp_cron_reminder_available:
-    pattern:  /reminder_available_reservations/
-    defaults: { _controller: mycpBundle:backendCron:reminder_available }
-
-mycp_cron_over_48_hours:
-    pattern:  /available_time_over/
-    defaults: { _controller: mycpBundle:backendCron:time_over }
