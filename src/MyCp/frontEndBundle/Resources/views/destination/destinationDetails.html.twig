@@ -24,7 +24,7 @@
     data-name="{{destination.desName}}"
     data-description="{{brief_description | striptags}}"
     data-image="{{asset('uploads/destinationImages/thumbnails/'~((gallery_photos[0] is defined) ? gallery_photos[0] : "no_photo.png"))}}"
-    data-icon="http://www.mycasaparticular.com/web/bundles/frontend/images/map.png">
+    data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/images/map.png') }}">
 </div>
             </div>
         {%endif%}
