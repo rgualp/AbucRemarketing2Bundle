@@ -32,7 +32,9 @@ class Email {
 
     public function send_templated_email($subject, $email_from, $email_to, $content) {
         $templating = $this->container->get('templating');
-        $this->send_email($subject, $email_from, "MyCasaParticular.com", $email_to, $templating->render("frontEndBundle:mails:standardMailTemplate.html.twig", array('content' => $content)));
+        $body=$templating->render("frontEndBundle:mails:standardMailTemplate.html.twig", array('content' => $content));
+        //echo $body; exit();
+        $this->send_email($subject, $email_from, "MyCasaParticular.com", $email_to,$body );
     }
 
     public function send_email($subject, $email_from, $name_from, $email_to, $sf_render) {
