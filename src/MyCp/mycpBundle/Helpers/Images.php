@@ -305,6 +305,7 @@ class Images {
 
     public static function get_directory_images_content($directory) {
         $results = array();
+        if (is_dir($directory)) {
         $handler = opendir($directory);
 
         while ($file = readdir($handler)) {
@@ -314,6 +315,7 @@ class Images {
         }
 
         closedir($handler);
+        }
         return $results;
     }
 

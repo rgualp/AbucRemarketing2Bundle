@@ -1,0 +1,77 @@
+<?php
+
+namespace MyCp\mycpBundle\Command;
+
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Output\Output;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use MyCp\mycpBundle\Helpers\Images;
+
+class ImageCommand extends ContainerAwareCommand {
+
+    protected function configure() {
+        $this->setName('mycp_task:image_process')
+                ->setDefinition(array())
+                ->setDescription('Process images of destinations, albums and accomodations')
+                ->setHelp(<<<EOT
+                Command <info>mycp_task:image_process</info> generate thumbnails for every image in destination, album and ownership folders and resize those images. 
+                Also, for images in ownership folder, insert a watermark.
+EOT
+        );
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output) {
+        $container = $this->getContainer();
+        $dir_user = $container->getParameter('user.dir.photos');
+        $dir_destination = $container->getParameter('destination.dir.photos');
+        $dir_destination_thumbs = $container->getParameter('destination.dir.thumbnails');
+        $dir_album = $container->getParameter('album.dir.photos');
+        $dir_albums_thumbs = $container->getParameter('album.dir.thumbnails');
+        $dir_ownership = $container->getParameter('ownership.dir.photos');
+        $dir_ownership_thumbs = $container->getParameter('ownership.dir.thumbnails');
+        $dir_watermark = $container->getParameter('dir.watermark');
+
+        $output->writeln("Step 1 of 3. Resizing destinations' photos and generating thumbnails...");
+        $destinations_photos = Images::get_directory_images_content($dir_destination);
+        Images::create_directory($dir_destination . '/originals');
+        //Images::create_directory($dir_destination . '/processed');
+        Images::create_directory($dir_destination_thumbs);
+        foreach ($destinations_photos as $d_photo) {
+            Images::save($dir_destination . $d_photo, $dir_destination . '/originals/' . $d_photo);
+            Images::create_thumbnail($dir_destination . '/originals/' . $d_photo, $dir_destination_thumbs . $d_photo, 160);
+            Images::resize_diferent_directories($dir_destination . '/originals/' . $d_photo, $dir_destination . $d_photo, 480);
+        }
+
+        $output->writeln("Step 2 of 3. Resizing albums' photos and generating thumbnails...");
+        $albums_photos = Images::get_directory_images_content($dir_album);
+        Images::create_directory($dir_album . '/originals');
+        //Images::create_directory($dir_album . '/processed');
+        Images::create_directory($dir_albums_thumbs);
+
+        foreach ($albums_photos as $a_photo) {
+            Images::save($dir_album . $a_photo, $dir_album . '/originals/' . $a_photo);
+
+            Images::create_thumbnail($dir_album . '/originals/' . $a_photo, $dir_albums_thumbs . $a_photo, 160);
+            Images::resize_diferent_directories($dir_album . '/originals/' . $a_photo, $dir_album . $a_photo, 480);
+        }
+
+        $output->writeln("Step 3 of 3. Resizing ownerships' photos, pasting watermark image and generating thumbnails...");
+        $own_photos = Images::get_directory_images_content($dir_ownership);
+        Images::create_directory($dir_ownership . '/originals');
+        //Images::create_directory($dir_ownership . '/processed');
+        Images::create_directory($dir_ownership_thumbs);
+
+        foreach ($own_photos as $o_photo) {
+            Images::save($dir_ownership . $o_photo, $dir_ownership . '/originals/' . $o_photo);
+
+            Images::create_thumbnail($dir_ownership . '/originals/' . $o_photo, $dir_ownership_thumbs . $o_photo, 160);
+            Images::resize_diferent_directories_and_watermark($dir_ownership . '/originals/' . $o_photo, $dir_ownership . $o_photo, $dir_watermark, 480);
+        }
+        
+        $output->writeln("End of process");
+    }
+
+}

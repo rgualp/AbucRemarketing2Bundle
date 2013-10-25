@@ -946,12 +946,20 @@ class ownershipController extends Controller {
     }
 
     public function update_ratingAction($ownid) {
+        $request = $this->getRequest();
+        $session = $request->getSession();
         $em = $this->getDoctrine()->getEntityManager();
-        $ownership = $em->getRepository('mycpBundle:ownership')->find($ownid);
+        $own_obj = $em->getRepository('mycpBundle:ownership')->find($ownid);
+        $ownership = array('ownname'=> $own_obj->getOwnName(),
+                            'rating' => $own_obj->getOwnRating(),
+                            'comments_total' => $own_obj->getOwnCommentsTotal());
 
         $response = $this->renderView('frontEndBundle:ownership:ownershipRating.html.twig', array(
             'ownership' => $ownership
         ));
+        
+        if($session->get('comments_cant') != null)
+            $session->remove('comments_cant');
 
         return new Response($response, 200);
     }
