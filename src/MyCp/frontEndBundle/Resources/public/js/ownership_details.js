@@ -149,7 +149,7 @@ function initialize_map()
         var big_map_details = new google.maps.Map(document.getElementById("big_map_details"), options_details);
         
         var marker = new google.maps.Marker({
-            position: new google.maps.LatLng(x,y),
+            position: center_details,
             map: big_map_details,
             title: name,
             icon: icon
