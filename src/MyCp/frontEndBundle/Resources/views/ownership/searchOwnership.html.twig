@@ -72,7 +72,7 @@
             </div>
             </div>
 {% block include_javascripts %}
-<script src="http://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script> 
+<script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
 <script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.infobox.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.markerclusterer.js') }}"></script> 
