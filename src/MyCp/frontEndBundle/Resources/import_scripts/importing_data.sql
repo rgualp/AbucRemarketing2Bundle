@@ -275,8 +275,8 @@ join old_mypaladar_mycp.pro_otros otros on otros.id_propiedad = p.pro_code
 where l.lang_code = "ES";
 
 update mypalada_mycp.ownership own
-set own.own_geolocate_x = (select g.latitud from old_mypaladar_mycp.pro_geotag g where own.own_id = g.idCasa limit 0,1),
-    own.own_geolocate_y = (select g.longitud from old_mypaladar_mycp.pro_geotag g where own.own_id = g.idCasa limit 0,1);
+set own.own_geolocate_y = (select g.latitud from old_mypaladar_mycp.pro_geotag g where own.own_id = g.idCasa limit 0,1),
+    own.own_geolocate_x = (select g.longitud from old_mypaladar_mycp.pro_geotag g where own.own_id = g.idCasa limit 0,1);
 
 update mypalada_mycp.ownership own
 set own.own_langs = concat(if((select count(*) from old_mypaladar_mycp.prop_lang pl join mypalada_mycp.lang l on pl.idLang = l.import_id where own.own_id = pl.idProp and upper(l.lang_code) = "EN") > 0, "1", "0")

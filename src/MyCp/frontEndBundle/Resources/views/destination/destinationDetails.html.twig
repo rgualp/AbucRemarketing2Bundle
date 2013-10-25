@@ -24,7 +24,7 @@
     data-name="{{destination.desName}}"
     data-description="{{brief_description | striptags}}"
     data-image="{{asset('uploads/destinationImages/thumbnails/'~((gallery_photos[0] is defined) ? gallery_photos[0] : "no_photo.png"))}}"
-    data-icon="http://www.mycasaparticular.com/web/bundles/frontend/images/map.png">
+    data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/images/map.png') }}">
 </div>
             </div>
         {%endif%}
@@ -184,7 +184,7 @@
 </div>
 {%render "frontEndBundle:user:info_tab_user" with {'destination_id': destination.desid }%}
 {% block include_javascripts %}
-<script src="http://maps.googleapis.com/maps/api/js?v=3&sensor=false" type="text/javascript"></script> 
+<script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
 <script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.infobox.js') }}"></script>
 <!--script src="{{ asset('bundles/frontend/js/home_search.js') }}"></script-->
