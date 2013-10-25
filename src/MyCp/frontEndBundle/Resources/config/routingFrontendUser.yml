@@ -3,7 +3,7 @@ frontend_register_user:
     defaults: { _controller: frontEndBundle:user:register }
 
 frontend_enable_user:
-    locales:  { en: "/enable_user/", es: "/activar_usuario/" }
+    locales:  { en: "/enable_user/{string}", es: "/activar_usuario/{string}" }
     defaults: { _controller: frontEndBundle:user:enable }
 
 frontend_restore_password_user:
