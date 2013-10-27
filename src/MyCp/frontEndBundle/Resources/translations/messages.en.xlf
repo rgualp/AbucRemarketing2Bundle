@@ -2207,6 +2207,10 @@
                     <source>REMINDER</source>
                     <target>Reminder</target>
                 </trans-unit>
+                <trans-unit id="561">
+                    <source>NOT_ENABLED_USER</source>
+                    <target>Not enabled user, please enable your account with our confirmation email.</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>

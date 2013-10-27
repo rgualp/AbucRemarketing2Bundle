@@ -3,6 +3,8 @@
 namespace MyCp\frontEndBundle\Helpers;
 
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class UserSecure {
 
@@ -14,6 +16,25 @@ class UserSecure {
         $this->em = $entity_manager;
         $this->container = $container;
         $this->security_context = $security_context;
+    }
+
+    public function onKernelResponse(FilterResponseEvent $event)
+    {
+        $token=$this->security_context->getToken();
+        if($token!=null && $token->getUser()!='anon.' && $this->security_context->isGranted('ROLE_CLIENT_TOURIST'))
+        {
+            $user = $this->security_context->getToken()->getUser();
+            if($user->getUserEnabled()!=1)
+            {
+                $this->security_context->setToken(null);
+                $this->container->get('request')->getSession()->invalidate();
+                $login_route = $this->container->get('router')->generate('frontend_login');
+                $this->container->get('session')->setFlash('message_error_local','NOT_ENABLED_USER');
+                $event->setResponse(new RedirectResponse($login_route));
+            }
+
+
+        }
     }
 
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event) {
