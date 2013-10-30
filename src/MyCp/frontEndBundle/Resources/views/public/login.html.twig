@@ -14,8 +14,11 @@
                 <h2 class="form big_price" style="font-size: 30px;">{{"LOG_IN" | trans }}</h2>
                 <hr/>
                 {% if error %}
-                <div class="alert alert-error">{{ error.message }}</div>
+                <div class="alert alert-error">{{ error.message|trans }}</div>
                 {% endif %}
+                {% for message in app.session.flashbag.get('message_error_local') %}
+                    <div class="alert alert-error">{{ message |trans}}</div>
+                {% endfor %}
                 <form action="{{ path("frontend_ckeck") }}" method="post">
                     <label class="control-label" for="inputUsername">{{"FORMS_EMAIL" | trans}}</label>
                     <input type="text" class="mycp_text_box mycp_text_box_margin input-block-level" id="inputUsername" name="_username"

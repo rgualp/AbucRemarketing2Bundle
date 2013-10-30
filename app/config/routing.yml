@@ -11,10 +11,6 @@ mycp_frontend:
     prefix:   /{_locale}/
     type: be_simple_i18n
 
-mycp_cron:
-    resource: "@mycpBundle/Resources/config/routingBackendCron.yml"
-    prefix:   /cron/
-
 frontend_ckeck:
     pattern:  /check
 frontend_login:

@@ -20,4 +20,4 @@ app/config/parameters.yml
 # IDE PHPStorm
 .idea/*
 
-/nbproject/private/
+nbproject/*

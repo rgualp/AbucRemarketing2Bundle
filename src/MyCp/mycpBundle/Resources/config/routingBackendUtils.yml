@@ -1,11 +1,3 @@
 mycp_set_img_order_utils:
     pattern:  /set_img_order/{ids}
     defaults: { _controller: mycpBundle:BackendUtils:set_img_order}
-    
-mycp_process_images:
-    pattern:  /process_images/
-    defaults: { _controller: mycpBundle:BackendUtils:process_images}
-    
-mycp_copy_images:
-    pattern:  /copy_images/
-    defaults: { _controller: mycpBundle:BackendUtils:copy_images}

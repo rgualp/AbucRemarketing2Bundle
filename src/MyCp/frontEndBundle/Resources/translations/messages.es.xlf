@@ -2203,6 +2203,15 @@
                     <source>REMINDER</source>
                     <target>Recordatorio</target>
                 </trans-unit>
+                <trans-unit id="561">
+                    <source>NOT_ENABLED_USER</source>
+                    <target>Usuario no activo, por favor active su cuenta con los datos recibidos en nuestro email de confirmación.</target>
+                </trans-unit>
+                <trans-unit id="562">
+                    <source>Bad credentials</source>
+                    <target>Credenciales incorrectas</target>
+                </trans-unit>
+
         </body>
     </file>
 </xliff>

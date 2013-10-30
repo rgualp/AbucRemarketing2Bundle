@@ -389,7 +389,8 @@ class BackendReservationController extends Controller
                 $reservation->setGenResSaved(1);
                 if($not_available == true)
                 {
-                    $reservation->setGenResStatus(3);
+                    if($reservation->getGenResStatus()!=2)
+                        $reservation->setGenResStatus(3);
                 }
                 else
                 {
