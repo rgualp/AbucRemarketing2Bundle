@@ -182,6 +182,7 @@ function initialize_map()
         
         var ib = new InfoBox(myOptions);
 
+        google.maps.event.trigger(big_map_details, 'resize');
         google.maps.event.addListener(marker, 'mouseover', function() {
             ib.open(big_map_details, marker);
         });
