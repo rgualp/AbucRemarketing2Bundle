@@ -501,7 +501,8 @@ class reservationController extends Controller
             }
             if ($insert == 1) {
                 array_push($commissions, $commission);
-            }
+            }           
+            
 
         }
         $array_dates = $service_time->dates_between($min_date, $max_date);
@@ -601,6 +602,11 @@ class reservationController extends Controller
                     $own->setOwnResReservationBooking($booking);
                     $own->setOwnResStatus(2);
                     $em->persist($own);
+                    
+                    //Colocando la hora de llegada
+                    $general_reservation = $own->getOwnResGenResId();
+                    $general_reservation->setGenResArrivalHour($post['reservation_hour']);
+                    $em->persist($general_reservation);
                 }
                 $em->flush();
                 $request->getSession()->set('reservation_own_ids', null);
