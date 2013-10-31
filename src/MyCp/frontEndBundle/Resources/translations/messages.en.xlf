@@ -2215,6 +2215,26 @@
                     <source>Bad credentials</source>
                     <target>Bad credentials</target>
                 </trans-unit>
+                <trans-unit id="563">
+                    <source>HELLO</source>
+                    <target>Hello</target>
+                </trans-unit>
+                <trans-unit id="564">
+                    <source>DO_YOU_WISH_TO_RECOMEND_THIS_ACCOMODATTION</source>
+                    <target>wish to recommend you a accommodation in MyCasaParticular</target>
+                </trans-unit>
+                <trans-unit id="565">
+                    <source>DO_YOU_WISH_TO_RECOMEND_THIS_DESTINATION</source>
+                    <target>wish to recommend you a destination in MyCasaParticular</target>
+                </trans-unit>
+                <trans-unit id="566">
+                    <source>DO_YOU_WISH_TO_RECOMEND_TO_VISIT</source>
+                    <target>wish to recommend you to visit</target>
+                </trans-unit>
+                <trans-unit id="567">
+                    <source>ENABLE_ACCOUNT</source>
+                    <target>Enable account</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>

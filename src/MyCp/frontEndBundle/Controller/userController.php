@@ -38,9 +38,9 @@ class userController extends Controller {
                 //mailing
                 $enableRoute = 'frontend_enable_user';
                 $enableUrl = $this->get('router')->generate($enableRoute, array('string' => $encode_string), true);
-
+                $body=$this->render('frontEndBundle:mails:enableAccount.html.twig', array('enableUrl'=>$enableUrl));
                 $service_email = $this->get('Email');
-                $service_email->send_templated_email($this->get('translator')->trans('EMAIL_ACCOUNT_REGISTERED_SUBJECT'), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $this->get('translator')->trans('EMAIL_ACCOUNT_REGISTERED_TEXT') . PHP_EOL . $enableUrl);
+                $service_email->send_templated_email($this->get('translator')->trans('EMAIL_ACCOUNT_REGISTERED_SUBJECT'), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
 
                 $message = $this->get('translator')->trans("USER_CREATE_ACCOUNT_SUCCESS");
                 $this->get('session')->setFlash('message_global_success', $message);
@@ -94,9 +94,11 @@ class userController extends Controller {
                     $changeUrl = $this->get('router')
                             ->generate($change_passwordRoute, array('string' => $encode_string), true);
                     //mailing
+                    $body=$this->render('frontEndBundle:mails:restorePassword.html.twig', array('changeUrl'=>$changeUrl));
+
                     $service_email = $this->get('Email');
                     $service_email->send_templated_email(
-                            $this->get('translator')->trans('EMAIL_RESTORE_ACCOUNT'), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $this->get('translator')->trans('EMAIL_VISIT_LINK') . PHP_EOL . "<a href='$changeUrl'></a>");
+                            $this->get('translator')->trans('EMAIL_RESTORE_ACCOUNT'), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
                     $message = $this->get('translator')->trans("USER_PASSWORD_RECOVERY");
                     $this->get('session')->setFlash('message_global_success', $message);
                     return $this->redirect($this->generateUrl('frontend_login'));
@@ -183,8 +185,8 @@ class userController extends Controller {
                             ->generate($enableRoute, array('string' => $encode_string), true);
 
                     $service_email = $this->get('Email');
-
-                    $service_email->send_templated_email($this->get('translator')->trans("USER_ACCOUNT_ACTIVATION_EMAIL"), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), 'Gracias por registrarse en MyCasaParticular.com. Visite el siguiente link para activar su cuenta. ' . $enableUrl);
+                    $body=$this->render('frontEndBundle:mails:enableAccount.html.twig', array('enableUrl'=>$enableUrl));
+                    $service_email->send_templated_email($this->get('translator')->trans("USER_ACCOUNT_ACTIVATION_EMAIL"), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
                     $message = $this->get('translator')->trans("USER_ACTIVATE_ACCOUNT_SUCCESS");
                     $this->get('session')->setFlash('message_global_success', $message);
                     return $this->redirect($this->generateUrl('frontend_login'));
@@ -225,9 +227,15 @@ class userController extends Controller {
                       ->generate($enableRoute, array('string' => $encode_string), true); */
 
                     $service_email = $this->get('Email');
+                    $content=$this->render('frontEndBundle:mails:contactMailBody.html.twig',array(
+                        'tourist_name'=>$tourist_name,
+                        'tourist_last_name'=>$tourist_last_name,
+                        'tourist_phone'=>$tourist_phone,
+                        'tourist_email'=>$tourist_email,
+                        'tourist_comment'=>$tourist_comment
+                    ));
                     $service_email->send_templated_email(
-                            'Contacto de un huesped', $tourist_email, 'info@mycasaparticular.com ', "El Sr(a). $tourist_name $tourist_last_name, con numero de telefono $tourist_phone, ha hecho el siguiente comentario: $tourist_comment");
-
+                            'Contacto de huesped', $tourist_email, 'info@mycasaparticular.com ', $content->getContent());
                     $message = $this->get('translator')->trans("USER_CONTACT_TOURIST_SUCCESS");
                     $this->get('session')->setFlash('message_global_success', $message);
 
@@ -257,12 +265,12 @@ class userController extends Controller {
 
                     $service_email = $this->get('Email');
                     $service_email->send_templated_email(
-                            'Contacto de un propietario', $owner_email, 'casa@mycasaparticular.com', "El Sr(a). $owner_full_name, desea incluir una nueva casa con los siguientes datos:<br/>  
-                            Duenno(a): $owner_full_name <br/> 
+                            'Contacto de propietario', $owner_email, 'casa@mycasaparticular.com', "<h1 style='font-size: 20px'>Contacto de propietario</h1><p style='font-size: 12px'>El Sr(a). $owner_full_name, desea incluir una nueva casa con los siguientes datos:<br/>
+                            Dueño(a): $owner_full_name <br/>
                             Nombre de la casa: $owner_own_name <br/>  
                             Provincia: $owner_province <br/>  
                             Municipio: $owner_mun <br/>  
-                            Comentarios: $owner_comment");
+                            Comentarios: $owner_comment</p>");
 
                     $message = $this->get('translator')->trans("USER_CONTACT_OWNER_SUCCESSs");
                     $this->get('session')->setFlash('message_global_success', $message);

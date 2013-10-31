@@ -701,6 +701,7 @@ class reservationController extends Controller
             'photos'=>$array_photos,
             'nights'=>$array_nigths
         ));
+
         $locale = $this->get('translator');
         $subject = $locale->trans('PAYMENT_CONFIRMATION');
 

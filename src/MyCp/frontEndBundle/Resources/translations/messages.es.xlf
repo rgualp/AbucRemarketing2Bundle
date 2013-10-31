@@ -2211,7 +2211,26 @@
                     <source>Bad credentials</source>
                     <target>Credenciales incorrectas</target>
                 </trans-unit>
-
+                <trans-unit id="563">
+                    <source>HELLO</source>
+                    <target>Hola</target>
+                </trans-unit>
+                <trans-unit id="564">
+                    <source>DO_YOU_WISH_TO_RECOMEND_THIS_ACCOMODATTION</source>
+                    <target>desea recomendarte un alojamiento en MyCasaParticular</target>
+                </trans-unit>
+                <trans-unit id="565">
+                    <source>DO_YOU_WISH_TO_RECOMEND_THIS_DESTINATION</source>
+                    <target>desea recomendarte un destino en MyCasaParticular</target>
+                </trans-unit>
+                <trans-unit id="566">
+                    <source>DO_YOU_WISH_TO_RECOMEND_TO_VISIT</source>
+                    <target>desea recomendarte que visites</target>
+                </trans-unit>
+                <trans-unit id="567">
+                    <source>ENABLE_ACCOUNT</source>
+                    <target>Activar cuenta</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>
