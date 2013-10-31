@@ -1492,7 +1492,7 @@ class ownershipRepository extends EntityRepository {
                         (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = $own_id)  as comments                        
                         FROM mycpBundle:generalReservation res
                         WHERE res.gen_res_own_id = $own_id
-                        AND res.gen_res_status=5");
+                        AND res.gen_res_status=2");
                 $counts[$own_id] = $query->getArrayResult();
             }
         }
