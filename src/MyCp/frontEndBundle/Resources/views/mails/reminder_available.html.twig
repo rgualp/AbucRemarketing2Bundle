@@ -1,75 +1,81 @@
 {% extends 'frontEndBundle:layout:baseMailTemplate.html.twig' %}
 
 {% block content %}
-        <h4>{{"GOOD_MORNING"|trans}} {{user.getUserUserName|capitalize}} {{user.getUserLastName|capitalize}}</h4>
-        <p style="font-size: 14px"> {{"REMINDER_AVAILABLE"|trans}}.</p>
-        <p style="font-size: 14px"> <b>{{"VALID_OFFER_TWENTY_FOUR"|trans}}</b></p>
+        <h4 style="font-family: Arial; font-size: 20px">{{"GOOD_MORNING"|trans}} {{user.getUserUserName|capitalize}} {{user.getUserLastName|capitalize}}</h4>
+        <p style="font-size: 14px;font-family: arial"> {{"REMINDER_AVAILABLE"|trans}}.</p>
+        <p style="font-size: 14px;font-family: arial"> <b>{{"VALID_OFFER_TWENTY_FOUR"|trans}}</b></p>
         {% for reservation in reservations %}
-        <div class="well">
-            <table width="100%">
+            <table width="100%" cellpadding="10" cellspacing="0" border="0">
                 <tr>
-                    <td width="33%" style="vertical-align: top;">
-
-                        <a href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | lower | replace(' ','_')}) }}">
-                            {% if photos[loop.index0][0].getPhoName is defined %}
-                            <img style="width: 90%" class="span12 img-polaroid" src="{{ url('mycp_main')~'../uploads/ownershipImages/thumbnails/'~photos[loop.index0][0].getPhoName}}">
-                            {% else %}
-                            <img style="width: 90%" class="span12 img-polaroid" src="{{ url('mycp_main')~'../uploads/ownershipImages/no_photo_square.gif'}}">
-                            {% endif %}
-                        </a>
-                    </td>
-                    <td width="50%">
-                        <h4 style="font-size: 13px; margin: 0">{{reservation.getOwnResGenResId.getGenResOwnId.getOwnName}}</h4>
-                        <p style="font-size: 13px;">
-                            {{reservation.getOwnResGenResId.getGenResOwnId.getOwnAddressProvince.getProvName}}
-                            - {{reservation.getOwnResGenResId.getGenResOwnId.getOwnAddressMunicipality.getMunName}}
-                            <br/><b>{{reservation.getOwnResRoomType|trans}}</b>
-                            <br/><b>{{reservation.getOwnResCountAdults|trans}}</b> {{"ADULTS"|trans}}
-                            <br/><b>{{reservation.getOwnResCountChildrens|trans}}</b> {{"KIDS"|trans}}
-                            <br/><b>{{"ARRIVAL_RESERVATION"|trans}}:</b> {{reservation.getOwnResReservationFromDate | date('d/m/Y')}}
-                            <br/><b>{{"NIGHTS"|trans}}:</b> {{reservation.getOwnResReservationToDate | date('d/m/Y') - reservation.getOwnResReservationFromDate | date('d/m/Y')}}
-                        </p>
-                    </td>
-                    <td style="vertical-align: top; font-size: 13px; text-align: right">
-                        <p style="margin-top: 0"><b>ID {{"RESERVATION_RESERVE"|trans}}:</b> CAS.{{reservation.getOwnResId}}
-                            <br/>
-                            <br/>
-                            {% if (reservation.getOwnResStatus == 1)%}
-                            <span style="background-color: #FF7300; color: #ffffff; padding: 2px 6px; border-radius: 10px">{{"AVAILABLE"|trans}}</span>
-                            {% endif %}
-                            {% if (reservation.getOwnResStatus == 0)%}
-                                <span style="background-color: #586E75; color: #FFFFFF; padding: 2px 6px; border-radius: 10px">{{"PENDING"|trans}}</span>
-                            {% endif %}
-                            {% if (reservation.getOwnResStatus > 1 and reservation.getOwnResStatus < 5)%}
-                            <span style="background-color: #1E4C97; color: #ffffff; padding: 2px 6px; border-radius: 10px">{{"NOT_AVAILABLE"|trans}}</span>
-                            {% endif %}
-                            {% if (reservation.getOwnResStatus == 5)%}
-                                <span style="background-color: #DA4F49; color: #FFFFFF; padding: 2px 6px; border-radius: 10px">{{"PAYED"|trans}}</span>
-                            {% endif %}
-                        <h3>TOTAL: {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ reservation.getOwnResNightPrice * nights[loop.index0] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h3>
-                        </p>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" style="text-align: right">
-                        {% if (reservation.getOwnResStatus == 1)%}
-                        <a href="{{ url('frontend_mycasatrip_available') }}" style="background-color: #FF7300; border: solid 1px #F69D10;  color: #ffffff; cursor: pointer; font-size: 14px; text-decoration: none; padding: 5px 30px; border-radius: 5px;">{{"CONTINUE_RESERVING"|trans}}</a>
-                        {% endif %}
-                        {% if (reservation.getOwnResStatus == 0)%}
-                        <a href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | lower | replace(' ','_')}) }}" style="background-color: #A2CF40;  color: #ffffff; cursor: pointer; font-size: 14px; text-decoration: none; padding: 5px 30px; border-radius: 5px;">{{"VIEW_DETAILS"|trans}}</a>
-                        {% endif %}
-                        {% if (reservation.getOwnResStatus > 1 and reservation.getOwnResStatus < 5)%}
-                        <a href="{{ url('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}" style="background-color: #1E4C97;  color: #ffffff; cursor: pointer; font-size: 14px; text-decoration: none; padding: 5px 30px; border-radius: 5px;">{{"LOOK_FOR_ALTERNATIVE"|trans}}</a>
-                        {% endif %}
-                        {% if (reservation.getOwnResStatus == 5)%}
-                            <a href="{{ url('frontend_view_confirmation_reservation',{'id_booking':booking}) }}" style="background-color: #DA4F49; color: #ffffff; cursor: pointer; font-size: 14px; text-decoration: none; padding: 5px 30px; border-radius: 5px;">{{ 'VIEW_CONFIRMATION'|trans }}</a>
-                        {% endif %}
+                    <td bgcolor="#F5F5F5" style="background-color: #F5F5F5;border: 1px solid #E3E3E3;">
+                        <table width="100%" cellpadding="6" cellspacing="0" border="0">
+                            <tr>
+                                <td width="66%" valign="top" align="left" >
+                                    <table cellpadding="4" border="0" cellspacing="0">
+                                        <tr>
+                                            <td style="background-color: #FFFFFF; border: solid 1px #cccccc;">
+                                                <a href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | lower | replace(' ','_')}) }}">
+                                                    {% if photos[loop.index0][0].getPhoName is defined %}
+                                                        <img width="100%" style="display:block;" border="0" src="{{ url('mycp_main')~'../uploads/ownershipImages/thumbnails/'~photos[loop.index0][0].getPhoName}}">
+                                                    {% else %}
+                                                        <img width="100%" style="display:block;" border="0" src="{{ url('mycp_main')~'../uploads/ownershipImages/no_photo_square.gif'}}">
+                                                    {% endif %}
+                                                </a>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                            <td valign="top" style="font-family: arial; font-size: 13px; line-height: 18px">
+                                                <h3 style="color: #084D74">{{reservation.getOwnResGenResId.getGenResOwnId.getOwnName}}</h3>
+                                                {{reservation.getOwnResGenResId.getGenResOwnId.getOwnAddressProvince.getProvName}}
+                                                - {{reservation.getOwnResGenResId.getGenResOwnId.getOwnAddressMunicipality.getMunName}}<br/>
+                                                {{reservation.getOwnResRoomType|trans}}<br/>
+                                                {{reservation.getOwnResCountAdults}} {{"ADULTS"|trans}}<br/>
+                                                {{reservation.getOwnResCountChildrens}} {{"KIDS"|trans}}<br/>
+                                                {{"ARRIVAL_RESERVATION"|trans}}: {{reservation.getOwnResReservationFromDate | date('d/m/Y')}}<br/>
+                                                {{"NIGHTS"|trans}}: {{nights[loop.index0]}}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td width="34%" valign="top" align="right" style="font-family: arial; font-size: 13px; line-height: 20px; text-align: right">
+                                    <b>ID {{"RESERVATION_RESERVE"|trans}}:</b> CAS.{{reservation.getOwnResId}}<br/><br/>
+                                    {% if (reservation.getOwnResStatus == 1)%}
+                                        <span style="background-color: #FF7300; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"AVAILABLE"|trans}}&nbsp;&nbsp;&nbsp;</b></span><br/>
+                                    {% endif %}
+                                    {% if (reservation.getOwnResStatus == 0)%}
+                                        <span style="background-color: #BBBBBB; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"PENDING"|trans}}&nbsp;&nbsp;&nbsp;</b></span><br/>
+                                    {% endif %}
+                                    {% if (reservation.getOwnResStatus > 1 and reservation.getOwnResStatus < 5)%}
+                                        <span style="background-color: #1E4C97; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"NOT_AVAILABLE"|trans}}&nbsp;&nbsp;&nbsp;</b></span><br/>
+                                    {% endif %}
+                                    {% if (reservation.getOwnResStatus == 5 and booking is not defined)%}
+                                        <span style="background-color: #1E4C97; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"NOT_AVAILABLE"|trans}}&nbsp;&nbsp;&nbsp;</b></span><br/>
+                                    {% endif %}
+                                    {% if (reservation.getOwnResStatus == 5 and booking is defined)%}
+                                        <span style="background-color: #c43c35; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"PAYED"|trans}}&nbsp;&nbsp;&nbsp;</b></span><br/>
+                                    {% endif %}
+                                    <h3>TOTAL: {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ reservation.getOwnResNightPrice * nights[loop.index0] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h3>
+                                    {% if (reservation.getOwnResStatus == 1)%}
+                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_mycasatrip_available') }}">{{"CONTINUE_RESERVING"|trans}}</a>
+                                    {% endif %}
+                                    {% if (reservation.getOwnResStatus == 0)%}
+                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | lower | replace(' ','_')}) }}">{{"VIEW_DETAILS"|trans}}</a>
+                                    {% endif %}
+                                    {% if (reservation.getOwnResStatus > 1 and reservation.getOwnResStatus < 5)%}
+                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}">{{"LOOK_FOR_ALTERNATIVE"|trans}}</a>
+                                    {% endif %}
+                                    {% if (reservation.getOwnResStatus == 5 and booking is not defined)%}
+                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}">{{"LOOK_FOR_ALTERNATIVE"|trans}}</a>
+                                    {% endif %}
+                                    {% if (reservation.getOwnResStatus == 5 and booking is defined)%}
+                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_view_confirmation_reservation',{'id_booking':booking}) }}">{{ 'VIEW_CONFIRMATION'|trans }}</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </table>
                     </td>
                 </tr>
             </table>
-        </div>
+            <br/>
         {% endfor %}
-
-    <h4 >{{"THANKS_RESERVATION_TEAM"|trans}}</h4>
-    <br/>
+    <h4 style="font-size: 16px; font-weight: normal; font-style: italic">{{"THANKS_RESERVATION_TEAM"|trans}}</h4>
 {% endblock %}
