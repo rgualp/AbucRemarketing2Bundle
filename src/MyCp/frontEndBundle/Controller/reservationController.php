@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Constraints\Email;
 
 class reservationController extends Controller
 {
+
     public function get_count_cart_itemsAction(Request $request)
     {
         $services = array();
@@ -41,6 +42,7 @@ class reservationController extends Controller
         $data = $request->get('data_reservation');
         //var_dump($data); exit();
         $data = explode('/', $data);
+
         $from_date = $data[0];
         $to_date = $data[1];
         $ids_rooms = $data[2];
@@ -499,7 +501,8 @@ class reservationController extends Controller
             }
             if ($insert == 1) {
                 array_push($commissions, $commission);
-            }
+            }           
+            
 
         }
         $array_dates = $service_time->dates_between($min_date, $max_date);
@@ -599,6 +602,11 @@ class reservationController extends Controller
                     $own->setOwnResReservationBooking($booking);
                     $own->setOwnResStatus(2);
                     $em->persist($own);
+                    
+                    //Colocando la hora de llegada
+                    $general_reservation = $own->getOwnResGenResId();
+                    $general_reservation->setGenResArrivalHour($post['reservation_hour']);
+                    $em->persist($general_reservation);
                 }
                 $em->flush();
                 $request->getSession()->set('reservation_own_ids', null);
@@ -699,7 +707,6 @@ class reservationController extends Controller
             'photos'=>$array_photos,
             'nights'=>$array_nigths
         ));
-
         $locale = $this->get('translator');
         $subject = $locale->trans('PAYMENT_CONFIRMATION');
 
