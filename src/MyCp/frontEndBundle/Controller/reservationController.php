@@ -13,7 +13,6 @@ use Symfony\Component\Validator\Constraints\Email;
 
 class reservationController extends Controller
 {
-
     public function get_count_cart_itemsAction(Request $request)
     {
         $services = array();
@@ -42,7 +41,6 @@ class reservationController extends Controller
         $data = $request->get('data_reservation');
         //var_dump($data); exit();
         $data = explode('/', $data);
-
         $from_date = $data[0];
         $to_date = $data[1];
         $ids_rooms = $data[2];
