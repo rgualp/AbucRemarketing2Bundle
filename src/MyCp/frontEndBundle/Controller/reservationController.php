@@ -411,7 +411,7 @@ class reservationController extends Controller
             $subject = "MyCasaParticular Reservas - " . strtoupper($user_tourist->getUserTouristLanguage()->getLangCode());
             //echo $body;
             $service_email->send_email(
-                $subject, 'no.reply@mycasaparticular.com', $subject, $user->getUserEmail(), $body
+                $subject, 'no.reply@mycasaparticular.com', $subject, 'reservation@mycasaparticular.com', $body
             );
         }
         //exit();
