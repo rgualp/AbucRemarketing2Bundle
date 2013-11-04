@@ -72,6 +72,7 @@ security:
 
     access_control:
          - { path: ^/backend/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/backend/mycp_cf, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/backend, roles: [ROLE_CLIENT_STAFF,ROLE_CLIENT_CASA,ROLE_CLIENT_CASA] }
          - { path: '^/[a-z]{2}/user/reservation/review', roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: '^/[a-z]{2}/user/reservation/confirmation', roles: [ROLE_CLIENT_TOURIST]}
