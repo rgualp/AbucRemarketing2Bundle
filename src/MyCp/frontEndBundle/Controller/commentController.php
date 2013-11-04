@@ -5,9 +5,11 @@ namespace MyCp\FrontendBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
+
 class commentController extends Controller {
-    
-     public function insertAction($ownid) {
+
+
+    public function insertAction($ownid) {
 
         $request = $this->getRequest();
         $session = $request->getSession();
