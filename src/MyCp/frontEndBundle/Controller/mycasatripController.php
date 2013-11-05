@@ -265,8 +265,15 @@ class mycasatripController extends Controller {
 
         if ($favorite_type == "ownerships") {
             $favorite_own_ids = $em->getRepository('mycpBundle:favorite')->get_element_id_list(true, $user->getUserId(), null);
-
-            $ownership_favorities = $em->getRepository('mycpBundle:ownership')->getListByIds($favorite_own_ids);
+            
+            $paginator = $this->get('ideup.simple_paginator');
+            $items_per_page = 15;
+            $paginator->setItemsPerPage($items_per_page);
+            $ownership_favorities = $paginator->paginate($em->getRepository('mycpBundle:ownership')->getListByIds($favorite_own_ids))->getResult();
+            $page = 1;
+            if (isset($_GET['page']))
+                $page = $_GET['page'];
+            
             $ownership_favorities_photos = $em->getRepository('mycpBundle:ownership')->get_photos_array($ownership_favorities);
             $ownership_favorities_rooms = $em->getRepository('mycpBundle:ownership')->get_rooms_array($ownership_favorities);
 
@@ -289,8 +296,15 @@ class mycasatripController extends Controller {
         } else {
             $locale = $this->get('translator')->getLocale();
             $favorite_destination_ids = $em->getRepository('mycpBundle:favorite')->get_element_id_list(false, $user->getUserId(), null);
-
-            $destination_favorities = $em->getRepository('mycpBundle:destination')->get_list_by_ids($favorite_destination_ids);
+            
+            $paginator = $this->get('ideup.simple_paginator');
+            $items_per_page = 15;
+            $paginator->setItemsPerPage($items_per_page);
+            $destination_favorities = $paginator->paginate($em->getRepository('mycpBundle:ownership')->getListByIds($favorite_destination_ids))->getResult();
+            $page = 1;
+            if (isset($_GET['page']))
+                $page = $_GET['page'];
+            
             $destination_favorities_photos = $em->getRepository('mycpBundle:destination')->get_destination_photos($destination_favorities);
             $destination_favorities_localization = $em->getRepository('mycpBundle:destination')->get_destination_location($destination_favorities);
             $destination_favorities_statistics = $em->getRepository('mycpBundle:destination')->get_destination_owns_statistics($destination_favorities);
@@ -312,6 +326,27 @@ class mycasatripController extends Controller {
                         'favorite_type' => $favorite_type
             ));
         }
+    }
+    
+    function commentsAction($comment_type)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->get('security.context')->getToken()->getUser();
+                
+        $paginator = $this->get('ideup.simple_paginator');
+        $items_per_page = 15;
+        $paginator->setItemsPerPage($items_per_page);
+        $comments = $paginator->paginate($em->getRepository('mycpBundle:comment')->get_user_comments($user->getUserId()))->getResult();
+        $page = 1;
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+        
+        return $this->render('frontEndBundle:mycasatrip:comments.html.twig', array(
+                        'comments' => $comments,
+                        'comment_type' => $comment_type,
+                        'items_per_page' => $items_per_page,
+                        'total_items' => $paginator->getTotalItems(),
+            ));
     }
 
 }
