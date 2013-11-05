@@ -1,4 +1,100 @@
-$(document).ready(start);
+$(document).ready(function(){
+    datePickersStarUp();
+    start();
+});
+
+function datePickersStarUp(){
+    $('#top_reservation_filter_date_from').datepicker({
+        format:'dd/mm/yyyy',
+        todayBtn:'linked',
+        autoclose: true,
+        startDate: new Date(),
+        date: start_date,
+        language: $('#top_reservation_filter_date_from').attr('data-localization')
+    }).on('changeDate', function(ev){
+                var startDate = new Date(ev.date);
+                startDate.setDate(startDate.getDate() + 1);
+                reservation_filter_date_to.setStartDate(startDate);
+                var date = new Date(ev.date);
+                date.setDate(date.getDate() + 2);
+                reservation_filter_date_to.setDate(date);
+                
+                $('.datepicker').hide();
+                $('#top_reservation_submit_button').attr('type','submit');
+                $('#top_reservation_submit_button').attr('onclick','');
+                $('#top_reservation_submit_button').html(reservation_see_prices_text);
+            });
+
+  var reservation_filter_date_to = $('#top_reservation_filter_date_to').datepicker({
+        format:'dd/mm/yyyy',
+        todayBtn:'linked',
+        autoclose: true,
+        startDate: '+2',
+        date: end_date,
+        language: $('#top_reservation_filter_date_to').attr('data-localization')
+    }).data('datepicker');
+    
+    reservation_filter_date_to.on('changeDate', function(){
+                $('.datepicker').hide();
+                $('#top_reservation_submit_button').attr('type','submit');
+                $('#top_reservation_submit_button').attr('onclick','');
+                $('#top_reservation_submit_button').html(reservation_see_prices_text);
+            });
+            
+   
+    $('#filter_date_from').datepicker({
+        format:'dd/mm/yyyy',
+        todayBtn:'linked',
+        autoclose: true,
+        startDate: new Date(),
+        date: start_date,
+        language: $('#filter_date_from').attr('data-localization')
+    }).on('changeDate', function(ev){
+                var startDate = new Date(ev.date);
+                filter_date_to.setStartDate(startDate + 1);
+                var date = new Date(ev.date);
+                date.setDate(date.getDate() + 2);
+                filter_date_to.setDate(date);
+                $('.datepicker').hide();
+            });
+
+
+    var filter_date_to = $('#filter_date_to').datepicker({
+        format:'dd/mm/yyyy',
+        todayBtn:'linked',
+        autoclose: true,
+        startDate: '+1d',
+        date: end_date,
+        language: $('#filter_date_to').attr('data-localization')
+    }).data('datepicker');
+    
+    filter_date_to.on('changeDate', function(ev){
+                element=$("#body_calendar");
+                $('.datepicker').hide();
+                element.attr('class','container_loading');
+                element.html('<div>&nbsp;</div>');
+                $('#rooms_selected').css({display: 'none'});
+                $('#all_data_numbers').css({display: 'none'});
+                $.ajax({
+                    url: "{{ path('frontend_get_reservation_calendar_ownership') }}",
+                    data:{ from: $('#filter_date_from').val(), to: $('#filter_date_to').val(), own_id: own_id}
+
+                }).done(function(resp) {
+                        element.removeAttr('class');
+                        element.html(resp);
+                        from=$('#filter_date_from').val();
+                        from=from.replace('/','&');
+                        from=from.replace('/','&');
+                        to=$('#filter_date_to').val();
+                        to=to.replace('/','&');
+                        to=to.replace('/','&');
+                        $('#data_reservation').attr('from_date', from);
+                        $('#data_reservation').attr('to_date', to);
+                });
+            });
+    
+    
+}
 
 function start(){
 
@@ -10,12 +106,12 @@ function start(){
     $('.guest_number').change(function(){
         if($('#tr_'+$(this).attr('data')).html()){
 
-            if($('#combo_guest_'+$(this).attr('data')).val()+$('#combo_kids_'+$(this).attr('data')).val()==0)
+            if($('#combo_guest_'+$(this).attr('data')).val()+$('#combo_kids_'+$(this).attr('data')).val()===0)
             {
                 $('#tr_'+$(this).attr('data')).remove();
-                if ($('#rooms_selected >tbody >tr').length == 0){
-                    $('#rooms_selected').css({display: 'none'})
-                    $('#all_data_numbers').css({display: 'none'})
+                if ($('#rooms_selected >tbody >tr').length === 0){
+                    $('#rooms_selected').css({display: 'none'});
+                    $('#all_data_numbers').css({display: 'none'});
 
                 }
 
@@ -26,7 +122,7 @@ function start(){
                 value=0;
                 persons=parseInt($('#combo_kids_'+$(this).attr('data')).val()) + parseInt($('#combo_guest_'+$(this).attr('data')).val());
 
-                if($(this).attr('data_type_room')=='Habitación Triple' && persons>=3)
+                if($(this).attr('data_type_room')==='Habitación Triple' && persons>=3)
                 {
                     value=this.parentNode.parentNode.cells[2].innerHTML*(cont_array_dates-1) + (($(this).attr('data_curr')*10) * (cont_array_dates -1));
 
@@ -48,7 +144,7 @@ function start(){
             value=0;
             real_value=0;
             persons=parseInt($('#combo_kids_'+$(this).attr('data')).val()) + parseInt($('#combo_guest_'+$(this).attr('data')).val());
-            if($(this).attr('data_type_room')=='Habitación Triple' && persons>=3)
+            if($(this).attr('data_type_room')==='Habitación Triple' && persons>=3)
             {
                 value=$(this).attr('data_total')*$(this).attr('data_curr') +(($(this).attr('data_curr')*10) * (cont_array_dates -1)) ;
             }
@@ -57,8 +153,8 @@ function start(){
                 value=$(this).attr('data_total')*$(this).attr('data_curr');
             }
 
-            $('#rooms_selected').css({display: 'table'})
-            $('#all_data_numbers').css({display: 'block'})
+            $('#rooms_selected').css({display: 'table'});
+            $('#all_data_numbers').css({display: 'block'});
             $('#rooms_selected > tbody:last').append('<tr id="tr_'+$(this).attr('data')+'">' +
                 '<td class="id_room" style="display: none;">'+$(this).attr('data')+'</td>' +
                 '<td>'+this.parentNode.parentNode.cells[0].innerHTML+'</td>' +
@@ -75,7 +171,7 @@ function start(){
         {
             real_price=0;
             total_price=0;
-            rooms_price=''
+            rooms_price='';
             $('.price').each(function() {
                 total_price=total_price+parseFloat(this.innerHTML);
                 real_price=real_price+parseFloat(this.innerHTML/curr);
@@ -83,15 +179,15 @@ function start(){
 
             ids_rooms='';
             $('.id_room').each(function() {
-                ids_rooms=ids_rooms+'&'+(this.innerHTML)});
+                ids_rooms=ids_rooms+'&'+(this.innerHTML);});
 
             count_guests='';
             $('.guest').each(function() {
-                count_guests=count_guests+'&'+(this.innerHTML)});
+                count_guests=count_guests+'&'+(this.innerHTML);});
 
             count_kids='';
             $('.kids').each(function() {
-                count_kids=count_kids+'&'+(this.innerHTML)});
+                count_kids=count_kids+'&'+(this.innerHTML);});
 
             from_date=$('#data_reservation').attr('from_date');
             to_date=$('#data_reservation').attr('to_date');
@@ -130,7 +226,7 @@ function start(){
 
 function initialize_map()
 {
-    if(document.getElementById("big_map_details") != null)
+    if(document.getElementById("big_map_details") !== null)
     {
         var x = $("#big_map_details").attr("data-x");
         var y = $("#big_map_details").attr("data-y");
