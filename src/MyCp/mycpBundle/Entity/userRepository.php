@@ -25,6 +25,7 @@ class userRepository extends EntityRepository {
         $user->setUserCity($ownership->getOwnAddressMunicipality()->getMunName());
         $user->setUserCountry($country[0]);
         $user->setUserEmail($email);
+        $user->setUserCreatedByMigration(false);
         $user->setUserPhone($ownership->getOwnPhoneCode() . ' ' . $ownership->getOwnPhoneNumber());
         $user->setUserName($data['mycp_mycpbundle_client_casatype']['user_name']);
         $user->setUserLastName($data['mycp_mycpbundle_client_casatype']['last_name']);
@@ -101,9 +102,16 @@ class userRepository extends EntityRepository {
         $languages = $em->getRepository('mycpBundle:lang')->findAll();
         $countries = $em->getRepository('mycpBundle:country')->findAll();
         $role = $em->getRepository('mycpBundle:role')->findBy(array('role_name' => 'ROLE_CLIENT_TOURIST'));
-
+        
+        $user = $em->getRepository('mycpBundle:user')->findOneBy(array(
+                'user_email' => $post['user_email'],
+                'user_created_by_migration' => false));
+        
+        if($user == null)
+            $user = new user();
+        
         $user_tourist = new userTourist();
-        $user = new user();
+        
         $user->setUserAddress('');
         $user->setUserCity('');
         $user->setUserCountry($countries[0]);
@@ -112,6 +120,7 @@ class userRepository extends EntityRepository {
         $user->setUserUserName($post['user_user_name']);
         $user->setUserPhone('');
         $user->setUserName($post['user_user_name']);
+        $user->setUserCreatedByMigration(false);
         $user->setUserRole('ROLE_CLIENT_TOURIST');
         $user->setUserSubrole($role[0]);
         if ($request->get('user_newsletters'))
@@ -148,6 +157,7 @@ class userRepository extends EntityRepository {
         $user->setUserPhone($form_post['phone']);
         $user->setUserName($form_post['user_name']);
         $user->setUserLastName($form_post['last_name']);
+        $user->setUserCreatedByMigration(false);
         $role = $em->getRepository('mycpBundle:role')->find($id_role);
         $user->setUserRole('ROLE_CLIENT_TOURIST');
         $user->setUserSubrole($role);
@@ -245,6 +255,7 @@ class userRepository extends EntityRepository {
         $user->setUserPhone($form_post['phone']);
         $user->setUserName($form_post['user_name']);
         $user->setUserLastName($form_post['user_name']);
+        $user->setUserCreatedByMigration(false);
         $role = $em->getRepository('mycpBundle:role')->find($id_role);
         $user->setUserRole('ROLE_CLIENT_PARTNER');
         $user->setUserSubrole($role);
@@ -345,6 +356,7 @@ class userRepository extends EntityRepository {
         $user->setUserPhone($form_post['user_phone']);
         $user->setUserName($form_post['user_name']);
         $user->setUserLastName($form_post['user_last_name']);
+        $user->setUserCreatedByMigration(false);
         $role = $em->getRepository('mycpBundle:role')->find($id_role);
         $user->setUserRole('ROLE_CLIENT_STAFF');
         $user->setUserSubrole($role);

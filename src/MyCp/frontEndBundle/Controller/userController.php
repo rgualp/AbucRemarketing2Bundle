@@ -23,7 +23,10 @@ class userController extends Controller {
             $post = $request->get('mycp_frontendbundle_register_usertype');
             $all_post = $request->request->getIterator()->getArrayCopy();
             $form->bindRequest($request);
-            $user_db = $em->getRepository('mycpBundle:user')->findBy(array('user_email' => $post['user_email']));
+            $user_db = $em->getRepository('mycpBundle:user')->findBy(array(
+                'user_email' => $post['user_email'],
+                'user_created_by_migration' => false));
+            
             if ($user_db) {
                 $errors['used_email'] = $this->get('translator')->trans("USER_EMAIL_IN_USE");
             }

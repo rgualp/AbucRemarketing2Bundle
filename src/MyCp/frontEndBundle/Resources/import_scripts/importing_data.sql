@@ -1,6 +1,6 @@
 ﻿/*
 Importing data from old database to new database
-Author: Yanet Morales Ramz
+Author: Yanet Morales Ramirez
 */
 
 /*
