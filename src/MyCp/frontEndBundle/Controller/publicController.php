@@ -78,7 +78,6 @@ class PublicController extends Controller {
         $email_type = $request->get('email_type');
         $name_from = $request->get('name_from');
         $email_to = $request->get('email_to');
-
         $em = $this->getDoctrine()->getEntityManager();
         $service_email = $this->get('Email');
         switch ($email_type) {
@@ -96,6 +95,7 @@ class PublicController extends Controller {
                 $result = $service_email->recommendDestiny2Friend($email_from, $name_from, $email_to, $destination);
                 break;
         }
+
         return new Response($result ? "ok" : "error");
     }
 }

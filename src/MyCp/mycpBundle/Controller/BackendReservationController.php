@@ -461,9 +461,8 @@ class BackendReservationController extends Controller
             'user'=>$user,
             'reservations'=>$reservations,
             'photos'=>$array_photos,
-            'nights'=>$array_nigths
+            'nights'=>$array_nigths,
         ));
-       // echo $body->getContent(); exit();
         
         $locale = $this->get('translator');
         $subject=$locale->trans('REQUEST_STATUS_CHANGED');

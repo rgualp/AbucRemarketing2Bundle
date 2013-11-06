@@ -53,7 +53,6 @@ class EmailReminderCommand extends ContainerAwareCommand
                     'photos'=>$array_photos,
                     'nights'=>$array_nigths
                 ));
-
                 $subject = $locale->trans('REMINDER');
                 $service_email->send_email(
                     $subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com',

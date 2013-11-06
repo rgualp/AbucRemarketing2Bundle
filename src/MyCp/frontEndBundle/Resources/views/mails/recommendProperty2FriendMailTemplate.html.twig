@@ -1,36 +1,38 @@
 {% extends 'frontEndBundle:layout:baseMailTemplate.html.twig' %}
 
 {% block content %}
-    <b>Hola, {{from}} desea recomendarte un alojamiento en MyCasaParticular.com</b>
-<br>
-<hr>
-<div class="well">
-    <div style="float: left"><img class="img-polaroid" style="width: 177px; height: 177px" src="{{url('mycp_main')}}../uploads/ownershipImages/thumbnails/{{photo}}"></div>
-    <div style="float: left">
-        <table>
-            <tr>
-                <td style="text-align: left">
-                    <div class="title_1">{{property.getOwnName}}</div>
-                    <p class="note">
-                        {{property.ownAddressProvince}} - {{property.ownAddressMunicipality}}
-                        <br/>
-                        <b>{{property.getOwnMobileNumber}}</b>
-                    </p>
-                </td>
-            </tr>
-        </table>
-    </div> 
-    <div style="float: right; text-align: right">
-        <div class="avaliable">Disponible</div>
-        <div style="font-weight: bold; margin-top: 5px">{{'FROM_PRICES' | trans}}</div>
-        <div style="font-weight: bold">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{property.getOwnMinimumPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</div>
-        <div style="margin-top: 10px">
-            <a href="{{ url('frontend_details_ownership',{'own_name':property.getOwnName | lower | replace(' ','_')}) }}">
-                <input type="button" class="btn_orange" value="{{'SEEMORE_LINK_TEXT' | trans}}" />
-            </a>            
-        </div>
-    </div>
-    <div style="clear:both"></div>
-</div>
-<hr>
+    <h4 style="font-family: Arial; font-size: 20px">{{"HELLO"|trans}}</h4>
+    <p style="font-family: Arial; font-size: 14px">{{ from }} {{ 'DO_YOU_WISH_TO_RECOMEND_THIS_ACCOMODATTION'|trans }}.</p>
+
+    <table width="100%" cellpadding="10" cellspacing="0" border="0">
+        <tr>
+            <td bgcolor="#F5F5F5" style="background-color: #F5F5F5;border: 1px solid #E3E3E3;">
+                <table width="100%" cellpadding="6" cellspacing="0" border="0">
+                    <tr>
+                        <td width="66%" valign="top" align="left" >
+                            <table cellpadding="4" border="0" cellspacing="0">
+                                <tr>
+                                    <td style="background-color: #FFFFFF; border: solid 1px #cccccc;">
+                                        <img width="100%" style="display:block;" border="0" src="{{url('mycp_main')}}../uploads/ownershipImages/thumbnails/{{photo}}"/>
+                                    </td>
+                                    <td>&nbsp;</td>
+                                    <td valign="top" style="font-family: arial; font-size: 13px; line-height: 18px">
+                                        <h3 style="color: #084D74">{{property.getOwnName}}</h3>
+                                        {{property.getOwnAddressProvince.getProvName}}
+                                        - {{property.getOwnAddressMunicipality.getMunName}}<br/>
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td width="34%" valign="top" align="right" style="font-family: arial; font-size: 13px; line-height: 20px; text-align: right">
+
+                            <h3>{{'FROM_PRICES' | trans}}: {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{property.getOwnMinimumPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h3>
+                            <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_details_ownership',{'own_name':property.getOwnName | lower | replace(' ','_')}) }}">{{"VIEW_DETAILS"|trans}}</a>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 {% endblock %}
