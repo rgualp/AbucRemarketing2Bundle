@@ -2,8 +2,9 @@
 
 namespace MyCp\mycpBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Form\Extension\Core\DataTransformer\NumberToLocalizedStringTransformer;
+use Doctrine\ORM\Mapping\OneToMany;
 
 /**
  * generalreservation
@@ -11,8 +12,8 @@ use Symfony\Component\Form\Extension\Core\DataTransformer\NumberToLocalizedStrin
  * @ORM\Table(name="generalreservation")
  * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\generalReservationRepository")
  */
-class generalReservation
-{
+class generalReservation {
+
     /**
      * @var integer
      *
@@ -23,13 +24,13 @@ class generalReservation
     private $gen_res_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="user",inversedBy="genResUser")
+     * @ORM\ManyToOne(targetEntity="user")
      * @ORM\JoinColumn(name="gen_res_user_id",referencedColumnName="user_id")
      */
     private $gen_res_user_id;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="gen_res_date", type="date")
      */
@@ -50,7 +51,7 @@ class generalReservation
     private $gen_res_saved;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="gen_res_status_date", type="date")
      */
@@ -64,14 +65,14 @@ class generalReservation
     private $gen_res_hour;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="gen_res_from_date", type="date")
      */
     private $gen_res_from_date;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="gen_res_to_date", type="date")
      */
@@ -89,21 +90,18 @@ class generalReservation
      * @ORM\Column(name="gen_res_total_in_site", type="float")
      */
     private $gen_res_total_in_site;
-    
+
     /**
-     * @var string
-     *
-     * @ORM\Column(name="gen_res_arrival_hour", type="string", nullable=true)
+     * @OneToMany(targetEntity="ownershipReservation", mappedBy="own_res_gen_res_id")
      */
-    private $gen_res_arrival_hour;
+    private $own_reservations;
 
     /**
      * Get gen_res_id
      *
      * @return integer 
      */
-    public function getGenResId()
-    {
+    public function getGenResId() {
         return $this->gen_res_id;
     }
 
@@ -113,10 +111,9 @@ class generalReservation
      * @param \MyCp\mycpBundle\Entity\user $genResUserId
      * @return generalReservation
      */
-    public function setGenResUserId(\MyCp\mycpBundle\Entity\user $genResUserId = null)
-    {
+    public function setGenResUserId(\MyCp\mycpBundle\Entity\user $genResUserId = null) {
         $this->gen_res_user_id = $genResUserId;
-    
+
         return $this;
     }
 
@@ -125,34 +122,30 @@ class generalReservation
      *
      * @return \MyCp\mycpBundle\Entity\user 
      */
-    public function getGenResUserId()
-    {
+    public function getGenResUserId() {
         return $this->gen_res_user_id;
     }
 
     /**
      * Set gen_res_date
      *
-     * @param \DateTime $genResDate
+     * @param DateTime $genResDate
      * @return generalReservation
      */
-    public function setGenResDate($genResDate)
-    {
+    public function setGenResDate($genResDate) {
         $this->gen_res_date = $genResDate;
-    
+
         return $this;
     }
 
     /**
      * Get gen_res_date
      *
-     * @return \DateTime 
+     * @return DateTime 
      */
-    public function getGenResDate()
-    {
+    public function getGenResDate() {
         return $this->gen_res_date;
     }
-
 
     /**
      * Set gen_res_status
@@ -160,10 +153,9 @@ class generalReservation
      * @param integer $genResStatus
      * @return generalReservation
      */
-    public function setGenResStatus($genResStatus)
-    {
+    public function setGenResStatus($genResStatus) {
         $this->gen_res_status = $genResStatus;
-    
+
         return $this;
     }
 
@@ -172,31 +164,28 @@ class generalReservation
      *
      * @return integer 
      */
-    public function getGenResStatus()
-    {
+    public function getGenResStatus() {
         return $this->gen_res_status;
     }
 
     /**
      * Set gen_res_status_date
      *
-     * @param \DateTime $genResStatusDate
+     * @param DateTime $genResStatusDate
      * @return generalReservation
      */
-    public function setGenResStatusDate($genResStatusDate)
-    {
+    public function setGenResStatusDate($genResStatusDate) {
         $this->gen_res_status_date = $genResStatusDate;
-    
+
         return $this;
     }
 
     /**
      * Get gen_res_status_date
      *
-     * @return \DateTime 
+     * @return DateTime 
      */
-    public function getGenResStatusDate()
-    {
+    public function getGenResStatusDate() {
         return $this->gen_res_status_date;
     }
 
@@ -206,10 +195,9 @@ class generalReservation
      * @param boolean $genResSaved
      * @return generalReservation
      */
-    public function setGenResSaved($genResSaved)
-    {
+    public function setGenResSaved($genResSaved) {
         $this->gen_res_saved = $genResSaved;
-    
+
         return $this;
     }
 
@@ -218,54 +206,49 @@ class generalReservation
      *
      * @return boolean 
      */
-    public function getGenResSaved()
-    {
+    public function getGenResSaved() {
         return $this->gen_res_saved;
     }
 
     /**
      * Set gen_res_from_date
      *
-     * @param \DateTime $genResFromDate
+     * @param DateTime $genResFromDate
      * @return generalReservation
      */
-    public function setGenResFromDate($genResFromDate)
-    {
+    public function setGenResFromDate($genResFromDate) {
         $this->gen_res_from_date = $genResFromDate;
-    
+
         return $this;
     }
 
     /**
      * Get gen_res_from_date
      *
-     * @return \DateTime 
+     * @return DateTime 
      */
-    public function getGenResFromDate()
-    {
+    public function getGenResFromDate() {
         return $this->gen_res_from_date;
     }
 
     /**
      * Set gen_res_to_date
      *
-     * @param \DateTime $genResToDate
+     * @param DateTime $genResToDate
      * @return generalReservation
      */
-    public function setGenResToDate($genResToDate)
-    {
+    public function setGenResToDate($genResToDate) {
         $this->gen_res_to_date = $genResToDate;
-    
+
         return $this;
     }
 
     /**
      * Get gen_res_to_date
      *
-     * @return \DateTime 
+     * @return DateTime 
      */
-    public function getGenResToDate()
-    {
+    public function getGenResToDate() {
         return $this->gen_res_to_date;
     }
 
@@ -275,10 +258,9 @@ class generalReservation
      * @param \MyCp\mycpBundle\Entity\ownership $genResOwnId
      * @return generalReservation
      */
-    public function setGenResOwnId(\MyCp\mycpBundle\Entity\ownership $genResOwnId = null)
-    {
+    public function setGenResOwnId(\MyCp\mycpBundle\Entity\ownership $genResOwnId = null) {
         $this->gen_res_own_id = $genResOwnId;
-    
+
         return $this;
     }
 
@@ -287,8 +269,7 @@ class generalReservation
      *
      * @return \MyCp\mycpBundle\Entity\ownership 
      */
-    public function getGenResOwnId()
-    {
+    public function getGenResOwnId() {
         return $this->gen_res_own_id;
     }
 
@@ -298,10 +279,9 @@ class generalReservation
      * @param float $genResTotalInSite
      * @return generalReservation
      */
-    public function setGenResTotalInSite($genResTotalInSite)
-    {
+    public function setGenResTotalInSite($genResTotalInSite) {
         $this->gen_res_total_in_site = $genResTotalInSite;
-    
+
         return $this;
     }
 
@@ -310,8 +290,7 @@ class generalReservation
      *
      * @return float 
      */
-    public function getGenResTotalInSite()
-    {
+    public function getGenResTotalInSite() {
         return $this->gen_res_total_in_site;
     }
 
@@ -321,10 +300,9 @@ class generalReservation
      * @param integer $genResHour
      * @return generalReservation
      */
-    public function setGenResHour($genResHour)
-    {
+    public function setGenResHour($genResHour) {
         $this->gen_res_hour = $genResHour;
-    
+
         return $this;
     }
 
@@ -333,31 +311,42 @@ class generalReservation
      *
      * @return integer 
      */
-    public function getGenResHour()
-    {
+    public function getGenResHour() {
         return $this->gen_res_hour;
     }
     
-    /**
-     * Set gen_res_arrival_hour
-     *
-     * @param string $genResArrivalHour
-     * @return generalReservation
-     */
-    public function setGenResArrivalHour($genResArrivalHour)
-    {
-        $this->gen_res_arrival_hour = $genResArrivalHour;
-    
-        return $this;
+    public function getOwn_reservations() {
+        return $this->own_reservations;
     }
 
-    /**
-     * Get gen_res_arrival_hour
-     *
-     * @return string 
-     */
-    public function getGenResArrivalHour()
-    {
-        return $this->gen_res_arrival_hour;
+    public function setOwn_reservations($own_reservations) {
+        $this->own_reservations = $own_reservations;
     }
+
+    
+    // <editor-fold defaultstate="collapsed" desc="Logic Methods">
+    public function getRoomsCount() {
+        return count($this->own_reservations);
+    }
+
+    public function getAdultsCount() {
+        $adults_count = 0;
+        foreach ($this->own_reservations as $own_reservation) {
+            $adults_count += $own_reservation->getOwnResCountAdults();
+        }
+        return $adults_count;
+    }
+
+    public function getKidsCount() {
+        $kids_count = 0;
+        foreach ($this->own_reservations as $own_reservation) {
+            $kids_count += $own_reservation->getOwnResCountChildrens();
+        }
+        return $kids_count;
+    }
+
+// </editor-fold>
+
+
 }
+

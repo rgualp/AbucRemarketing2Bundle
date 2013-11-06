@@ -1,6 +1,10 @@
 mycp_destinations:
     resource: "@mycpBundle/Resources/config/routingBackendDestinations.yml"
     prefix:   backend/destination/
+    
+mycp_cf:
+    resource: "@mycpBundle/Resources/config/routingBackendCF.yml"
+    prefix:   backend/mycp_cf
 
 mycp_comments:
     resource: "@mycpBundle/Resources/config/routingBackendComment.yml"
