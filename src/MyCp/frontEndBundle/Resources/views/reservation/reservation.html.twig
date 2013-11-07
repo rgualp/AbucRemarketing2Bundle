@@ -108,11 +108,11 @@
                         
                         <div class="btn-group mycp_combo span12">                            
                             <a id="combo_genders" href="#" data-toggle="dropdown" class="btn dropdown-toggle span12" data-value="{{user_tourist.UserTouristGender}}">
-                                {{post["user_tourist_gender"] is defined and  post["user_tourist_gender"] != "" ? post["user_tourist_gender"] : ((user_tourist.UserTouristGender != null) ? user_tourist.UserTouristGender : ("SELECT" | trans))}}
+                                {{post["user_tourist_gender"] is defined and  post["user_tourist_gender"] != "" ? (post["user_tourist_gender"] == 0 ? ("MALE" | trans) : ("FEMALE" | trans)) : ((user_tourist.UserTouristGender != null) ? (user_tourist.UserTouristGender == 0 ? ("MALE" | trans) : ("FEMALE" | trans)) : ("SELECT" | trans))}}
                             </a>
                             <ul class="dropdown-menu" id="combo_genders_elements">
-                                <li><a data="combo_genders" class="option combo_genders_elements" data-value="{{"MALE" | trans}}">{{"MALE" | trans}}</a></li>
-                                <li><a data="combo_genders" class="option combo_genders_elements" data-value="{{"FEMALE" | trans}}">{{"FEMALE" | trans}}</a></li>
+                                <li><a data="combo_genders" class="option combo_genders_elements" data-value="0">{{"MALE" | trans}}</a></li>
+                                <li><a data="combo_genders" class="option combo_genders_elements" data-value="1">{{"FEMALE" | trans}}</a></li>
                             </ul>
                         </div>
                     </div>
