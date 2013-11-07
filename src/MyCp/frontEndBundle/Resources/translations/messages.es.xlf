@@ -2231,6 +2231,18 @@
                     <source>ENABLE_ACCOUNT</source>
                     <target>Activar cuenta</target>
                 </trans-unit>
+                <trans-unit id="568">
+                    <source>USER_MY_PROFILE</source>
+                    <target>Mi perfil de usuario</target>
+                </trans-unit>
+                <trans-unit id="569">
+                    <source>SAVE</source>
+                    <target>Guardar</target>
+                </trans-unit>
+                <trans-unit id="570">
+                    <source>SELECT_PHOTO</source>
+                    <target>Seleccionar foto...</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>
