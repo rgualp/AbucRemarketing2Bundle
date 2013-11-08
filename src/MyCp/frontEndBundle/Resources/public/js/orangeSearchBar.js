@@ -12,10 +12,12 @@ function datePickersStarUp() {
         date: start_date,
         language: $('#input_arrival_date').attr('data-localization')
     }).on('changeDate', function(ev) {
-        var newDate = new Date(ev.date);
-        newDate.setDate(newDate.getDate() + 1);
-        departure_datepicker.setStartDate('+1d');
-        departure_datepicker.setDate(newDate);
+        var startDate = new Date(ev.date);
+        startDate.setDate(startDate.getDate() + 1);
+        departure_datepicker.setStartDate(startDate);
+        var date = new Date(ev.date);
+        date.setDate(date.getDate() + 2);
+        departure_datepicker.setDate(date);
     });
 
     var departure_datepicker = $('#input_departure_date').datepicker({
@@ -23,6 +25,7 @@ function datePickersStarUp() {
         todayBtn: 'linked',
         autoclose: true,
         startDate: '+1d',
+        date: end_date,
         language: $('#input_departure_date').attr('data-localization')
     }).data('datepicker');
 }

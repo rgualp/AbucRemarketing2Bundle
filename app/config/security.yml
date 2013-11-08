@@ -81,6 +81,8 @@ security:
          - { path: '^/[a-z]{2}/user/reservation/remove', roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: '^/[a-z]{2}/user', roles: [ROLE_CLIENT_TOURIST] }
          - { path: '^/[a-z]{2}/mycasatrip', roles: [ROLE_CLIENT_TOURIST] }
+         - { path: '^/[a-z]{2}/perfil', roles: [ROLE_CLIENT_TOURIST] }
+         - { path: '^/[a-z]{2}/profile', roles: [ROLE_CLIENT_TOURIST] }
 
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         #

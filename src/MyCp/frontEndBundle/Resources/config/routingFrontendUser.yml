@@ -22,3 +22,7 @@ frontend_register_confirmation_user:
 frontend_contact_user:
     locales:  { en: "/contact/", es: "/contacto/" }
     defaults: { _controller: frontEndBundle:user:contact }
+    
+frontend_profile_user:
+    locales:  { en: "/profile/", es: "/perfil/" }
+    defaults: { _controller: frontEndBundle:user:profile }

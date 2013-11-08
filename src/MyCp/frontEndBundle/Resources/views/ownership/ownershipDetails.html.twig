@@ -617,8 +617,8 @@
 </div>
 </div>
 {% block include_javascripts %}
-<!--<script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
-<script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.js') }}"></script>-->
+<script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
+<script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/royal_slider/jquery.royalslider.min.js') }}"></script>
 <link href="{{ asset('bundles/frontend/css/royal_slider/royalslider.css') }}" rel="stylesheet"/>
 <link href="{{ asset('bundles/frontend/css/royal_slider/rs-default.css') }}" rel="stylesheet"/>
@@ -656,78 +656,14 @@
         });
     });
 </script>
+<script type="text/javascript">    
+ var reservation_see_prices_text = "{{"RESERVATION_SEE_PRICES" | trans}}";
+ var own_id = "{{ownership.own_id}}";
+</script>
 <script src="{{ asset('bundles/frontend/js/ownership_details.js') }}"></script>
 <link href="{{ asset('bundles/frontend/css/bootstrap/bootstrap-datepicker.css') }}" rel="stylesheet" media="screen">
 <script src="{{ asset('bundles/frontend/js/bootstrap/bootstrap-datepicker.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/bootstrap/bootstrap-datepicker.es.js') }}"></script>
-<script type="text/javascript">
-    $('#top_reservation_filter_date_from').datepicker({
-        format:'dd/mm/yyyy',
-        todayBtn:'linked',
-        startDate: new Date(),
-        date: start_date,
-        language: $('#top_reservation_filter_date_from').attr('data-localization')
-    }).on('changeDate', function(ev){
-                $('.datepicker').hide();
-                $('#top_reservation_submit_button').attr('type','submit');
-                $('#top_reservation_submit_button').attr('onclick','');
-                $('#top_reservation_submit_button').html("{{"RESERVATION_SEE_PRICES" | trans}}");
-            });
-    $('#top_reservation_filter_date_to').datepicker({
-        format:'dd/mm/yyyy',
-        todayBtn:'linked',
-        startDate: '+2',
-        date: end_date,
-        language: $('#top_reservation_filter_date_to').attr('data-localization')
-    }).on('changeDate', function(ev){
-                $('.datepicker').hide();
-                $('#top_reservation_submit_button').attr('type','submit');
-                $('#top_reservation_submit_button').attr('onclick','');
-                $('#top_reservation_submit_button').html("{{"RESERVATION_SEE_PRICES" | trans}}");
-            });
 
-    $('#filter_date_from').datepicker({
-        format:'dd/mm/yyyy',
-        todayBtn:'linked',
-        startDate: new Date(),
-        date: start_date,
-        language: $('#filter_date_from').attr('data-localization')
-    }).on('changeDate', function(ev){
-                $('.datepicker').hide();
-            });
-
-
-    $('#filter_date_to').datepicker({
-        format:'dd/mm/yyyy',
-        todayBtn:'linked',
-        startDate: '+1d',
-        date: end_date,
-        language: $('#filter_date_to').attr('data-localization')
-    }).on('changeDate', function(ev){
-                element=$("#body_calendar");
-                $('.datepicker').hide();
-                element.attr('class','container_loading');
-                element.html('<div>&nbsp;</div>');
-                $('#rooms_selected').css({display: 'none'})
-                $('#all_data_numbers').css({display: 'none'})
-                $.ajax({
-                    url: "{{ path('frontend_get_reservation_calendar_ownership') }}",
-                    data:{ from: $('#filter_date_from').val(), to: $('#filter_date_to').val(), own_id: {{ownership.own_id}}}
-
-                }).done(function(resp) {
-                        element.removeAttr('class');
-                        element.html(resp);
-                        from=$('#filter_date_from').val();
-                        from=from.replace('/','&');
-                        from=from.replace('/','&');
-                        to=$('#filter_date_to').val();
-                        to=to.replace('/','&');
-                        to=to.replace('/','&');
-                        $('#data_reservation').attr('from_date', from);
-                        $('#data_reservation').attr('to_date', to);
-
-                });
-            });
-</script>
 {% endblock %}
 {% endblock %}

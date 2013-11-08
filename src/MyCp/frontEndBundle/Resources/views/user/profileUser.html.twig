@@ -1,0 +1,55 @@
+{% extends 'frontEndBundle:layout:base.html.twig' %}
+{% block title %}{{"USER_MY_PROFILE" | trans}}{% endblock %}
+{% block body %}
+<ul class="breadcrumb">
+    <li><a title="{{'GO_HOME_TITLE' | trans}}" href="{{path('frontend_welcome')}}">{{"HOME_MAIN_MENU" | trans}}</a> <span
+            class="divider">»</span></li>
+    <li class="active">{{"USER_MY_PROFILE" | trans}}</li>
+</ul>
+<div class="row-fluid ">
+    <div class="span6 offset3">
+        <div class="thumbnail">
+        <div class="cont" style="padding: 6px 20px 0 20px">
+        <h2 class="form big_price" style="font-size: 30px;">{{"USER_MY_PROFILE" | trans}}</h2>
+        <hr/>
+        <div class="row-fluid">
+        {%if user.UserPhoto != ""%}
+        <img src="{{asset('uploads/userImages/'~user.UserPhoto)}}" class="img-polaroid span3"/>
+        {%else%}
+        <img src="{{ asset('bundles/frontend/images/user_no_photo.gif')}}" class="img-polaroid span3"/>
+        {%endif%}
+        <div class="span9" style="margin-top: 70px">
+            <input title="{{"SELECT_PHOTO" | trans}}" type="file" name="user_photo" accept="image/*"/>
+        </div>
+        </div>
+        <form novalidate class="sfgen" method="POST" action="{{ path('frontend_profile_user') }}">
+            {% if errors['used_email'] is defined%}<div class="alert alert-error">{{errors['used_email']}}</div>{% endif %}
+        {{ form_widget(form)}}
+            <label class="checkbox">
+                <input {% if post['user_newsletters'] is defined or user.UserNewsletters %} checked="checked" {% endif %} type="checkbox" name="user_newsletters"/> {{"NEWSLETTER_USER_REGISTRATION" | trans}}
+            </label>
+            <br/>
+            <input class="btn btn-block btn-large" id="btn_submit" disabled="disabled" type="submit" value="{{"SAVE" | trans}}"/>
+        </form>
+            </div>
+        </div>
+        </div>
+</div>
+<script src="{{ asset('bundles/mycp/js/bootstrap-fileinput.js') }}" type="text/javascript"></script>
+<script type="text/javascript">
+    
+    if($('#policies').is(":checked"))
+            $('#btn_submit').removeAttr('disabled');
+        else
+            $('#btn_submit').attr('disabled','disabled');
+
+    $('.sfgen input:text').addClass('input-block-level');
+    $('.sfgen input:password').addClass('input-block-level');
+    $('#policies').change(function(){
+        if($('#policies').is(":checked"))
+            $('#btn_submit').removeAttr('disabled');
+        else
+            $('#btn_submit').attr('disabled','disabled');
+    })
+</script>
+{%endblock%}

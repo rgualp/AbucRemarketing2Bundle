@@ -1,2 +1,0 @@
-El url para procesar las imagenes es:
-/backend/utils/process_images/

@@ -27,8 +27,12 @@ frontend_mycasatrip_historial_consult:
     defaults: { _controller: frontEndBundle:mycasatrip:history_reservation_consult,order_by:0 }
     
 frontend_mycasatrip_favorites:
-    locales:  { en: "/favorites/{favorite_type}", es: "/favotitas/{favorite_type}" }
+    locales:  { en: "/favorites/{favorite_type}", es: "/favoritas/{favorite_type}" }
     defaults: { _controller: frontEndBundle:mycasatrip:favorites }
+    
+frontend_mycasatrip_comments:
+    locales:  { en: "/comments/{comment_type}", es: "/comentarios/{comment_type}" }
+    defaults: { _controller: frontEndBundle:mycasatrip:comments }
 
 
 

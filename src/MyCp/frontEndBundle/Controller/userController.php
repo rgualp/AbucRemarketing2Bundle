@@ -7,6 +7,7 @@ use MyCp\frontEndBundle\Form\ownerContact;
 use MyCp\frontEndBundle\Form\registerUserType;
 use MyCp\frontEndBundle\Form\restorePasswordUserType;
 use MyCp\frontEndBundle\Form\touristContact;
+use MyCp\frontEndBundle\Form\profileUserType;
 use MyCp\mycpBundle\Entity\user;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +24,10 @@ class userController extends Controller {
             $post = $request->get('mycp_frontendbundle_register_usertype');
             $all_post = $request->request->getIterator()->getArrayCopy();
             $form->bindRequest($request);
-            $user_db = $em->getRepository('mycpBundle:user')->findBy(array('user_email' => $post['user_email']));
+            $user_db = $em->getRepository('mycpBundle:user')->findBy(array(
+                'user_email' => $post['user_email'],
+                'user_created_by_migration' => false));
+            
             if ($user_db) {
                 $errors['used_email'] = $this->get('translator')->trans("USER_EMAIL_IN_USE");
             }
@@ -326,6 +330,64 @@ class userController extends Controller {
                     'history_destinations' => $history_destinations,
                     'favorite_owns' => $ownership_favorities,
                     'history_owns' => $history_owns
+        ));
+    }
+    
+    public function profileAction(Request $request) {
+        $em = $this->getDoctrine()->getEntityManager();
+        $errors = array();
+        $all_post = array();
+        $data=array();
+        $countries=$em->getRepository('mycpBundle:country')->findAll();
+        $data['countries']=$countries;
+        
+        $user = $this->get('security.context')->getToken()->getUser();
+        $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
+        
+        $complete_user = array(
+            'user_user_name' => $user->getUserUserName(),
+            'user_last_name' => $user->getUserLastName(),
+            'user_email' => $user->getUserEmail(),
+            'user_phone' => $user->getUserPhone(),
+            'user_cell' => $userTourist->getUserTouristCell(),
+            'user_address' => $user->getUserAddress(),
+            'user_city' => $user->getUserCity(),
+            'user_country' => $user->getUserCountry()->getCoId(),
+            'user_zip_code' => $userTourist->getUserTouristPostalCode(),
+            'user_gender' => $userTourist->getUserTouristGender()
+        );
+
+        $form = $this->createForm(new profileUserType($this->get('translator'), $data), $complete_user);
+        if ($request->getMethod() == 'POST') {
+            $post = $request->get('mycp_frontendbundle_profile_usertype');
+            $all_post = $request->request->getIterator()->getArrayCopy();
+            $form->bindRequest($request);
+            
+            if ($form->isValid()) {
+                
+                $user_db = $em->getRepository('mycpBundle:user')->findOneBy(array('user_email' => $post['user_email']));
+                if ($user_db) {
+                    
+                    
+                    $message = $this->get('translator')->trans("USER_PASSWORD_RECOVERY");
+                    $this->get('session')->setFlash('message_global_success', $message);
+                    return $this->redirect($this->generateUrl('frontend_login'));
+                } else {
+                    $errors['no_email'] = $this->get('translator')->trans("USER_PASSWORD_RECOVERY_ERROR");
+                }
+                
+                $message = $this->get('translator')->trans("USER_CREATE_ACCOUNT_SUCCESS");
+                $this->get('session')->setFlash('message_global_success', $message);
+                return $this->redirect($this->generateUrl('frontend_login'));
+            }
+        }
+
+        return $this->render('frontEndBundle:user:profileUser.html.twig', array(
+                    'form' => $form->createView(),
+                    'errors' => $errors,
+                    'post' => $all_post,
+                    'user' => $user,
+                    'tourist' => $userTourist
         ));
     }
 

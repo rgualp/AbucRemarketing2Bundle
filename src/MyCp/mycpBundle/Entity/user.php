@@ -71,6 +71,13 @@ class user implements UserInterface,  \Serializable
      * @ORM\Column(name="user_enabled", type="boolean", nullable=true)
      */
     private $user_enabled;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="user_created_by_migration", type="boolean", nullable=true)
+     */
+    private $user_created_by_migration;
 
     /**
      * @var boolean
@@ -456,6 +463,30 @@ class user implements UserInterface,  \Serializable
     {
         return $this->user_enabled;
     }
+    
+    /**
+     * Set user_created_by_migration
+     *
+     * @param boolean $userCreatedByMigration
+     * @return user
+     */
+    public function setUserCreatedByMigration($userCreatedByMigration)
+    {
+        $this->user_created_by_migration = $userCreatedByMigration;
+    
+        return $this;
+    }
+
+    /**
+     * Get user_created_by_migration
+     *
+     * @return boolean 
+     */
+    public function getUserCreatedByMigration()
+    {
+        return $this->user_created_by_migration;
+    }
+
 
     /**
      * Set user_newsletters
