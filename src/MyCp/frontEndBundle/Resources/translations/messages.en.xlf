@@ -2247,6 +2247,14 @@
                     <source>SELECT_PHOTO</source>
                     <target>Select photo...</target>
                 </trans-unit>
+                <trans-unit id="571">
+                    <source>USER_PROFILE_SAVED</source>
+                    <target>Your user profile has been changed successfully</target>
+                </trans-unit>
+                <trans-unit id="572">
+                    <source>USER_PROFILE_EMAIL_ERROR</source>
+                    <target>Another user is using this email account</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>

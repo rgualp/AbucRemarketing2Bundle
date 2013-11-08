@@ -2243,6 +2243,14 @@
                     <source>SELECT_PHOTO</source>
                     <target>Seleccionar foto...</target>
                 </trans-unit>
+                <trans-unit id="571">
+                    <source>USER_PROFILE_SAVED</source>
+                    <target>Su perfil de usuario ha sido modificado éxitosamente</target>
+                </trans-unit>
+                <trans-unit id="572">
+                    <source>USER_PROFILE_EMAIL_ERROR</source>
+                    <target>Existe otro usuario asociado a esta cuenta de correo</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>

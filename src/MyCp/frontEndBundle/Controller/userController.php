@@ -338,12 +338,13 @@ class userController extends Controller {
         $errors = array();
         $all_post = array();
         $data=array();
-        $countries=$em->getRepository('mycpBundle:country')->findAll();
-        $data['countries']=$countries;
+        $data['countries']=$em->getRepository('mycpBundle:country')->findAll();
+        $data['currencies'] = $em->getRepository('mycpBundle:currency')->findAll();
+        $data['languages'] = $em->getRepository('mycpBundle:lang')->findBy(array('lang_active' => 1), array('lang_name' => 'ASC'));
         
         $user = $this->get('security.context')->getToken()->getUser();
         $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
-        
+                
         $complete_user = array(
             'user_user_name' => $user->getUserUserName(),
             'user_last_name' => $user->getUserLastName(),
@@ -352,9 +353,12 @@ class userController extends Controller {
             'user_cell' => $userTourist->getUserTouristCell(),
             'user_address' => $user->getUserAddress(),
             'user_city' => $user->getUserCity(),
+            'user_newsletter' => $user->getUserNewsletters(),
             'user_country' => $user->getUserCountry()->getCoId(),
             'user_zip_code' => $userTourist->getUserTouristPostalCode(),
-            'user_gender' => $userTourist->getUserTouristGender()
+            'user_gender' => $userTourist->getUserTouristGender(),
+            'user_currency' => ($userTourist->getUserTouristCurrency() != null) ? $userTourist->getUserTouristCurrency()->getCurrId() : 0,
+            'user_lang' => ($userTourist->getUserTouristLanguage() != null) ? $userTourist->getUserTouristLanguage()->getLangId() : 0
         );
 
         $form = $this->createForm(new profileUserType($this->get('translator'), $data), $complete_user);
@@ -363,22 +367,69 @@ class userController extends Controller {
             $all_post = $request->request->getIterator()->getArrayCopy();
             $form->bindRequest($request);
             
+            /*$files = $request->files->get('images');
+
+            $count_errors= 0;
+            foreach($files['files'] as $file)
+            {
+                if( $file->getClientMimeType()!='image/jpeg' && $file->getClientMimeType()!='image/gif' && $file->getClientMimeType()!='image/png')
+                {
+                    //$file->getClientSize()< 102400
+                    $data['error']='Extensión de fichero no admitida.';
+                    $count_errors++;
+                    break;
+                }
+            }*/
+                        
             if ($form->isValid()) {
                 
                 $user_db = $em->getRepository('mycpBundle:user')->findOneBy(array('user_email' => $post['user_email']));
-                if ($user_db) {
+                if ($user_db->getUserId() == $user->getUserId()) {
+                    
+                    $user->setUserUserName($post['user_user_name']);
+                    $user->setUserLastName($post['user_last_name']);
+                    $user->setUserEmail($post['user_email']);
+                    $user->setUserPhone($post['user_phone']);
+                    $user->setUserCountry($em->getRepository('mycpBundle:country')->find($post['user_country']));
+                    $user->setUserAddress($post['user_address']);
+                    $user->setUserCity($post['user_city']);
+                    
+                    if(isset($post['user_newsletters']))
+                        $user->setUserNewsletters(1);
+                    else $user->setUserNewsletters(0);
+                    
+                    //subir photo
+                    /*$dir=$this->container->getParameter('user.dir.photos');
+                    foreach($files['files'] as $file)
+                    {
+                        $fileName = uniqid('user-').'-photo.jpg';
+                        $file->move($dir, $fileName);
+                        \MyCp\mycpBundle\Helpers\Images::resize($dir.$fileName, 200);
+                        
+                        $photo= new photo();
+                        $photo->setPhoName($fileName);
+                        $user->setUserPhoto($photo);
+                        $em->persist($user);
+                        $em->persist($photo);
+                    }*/
                     
                     
-                    $message = $this->get('translator')->trans("USER_PASSWORD_RECOVERY");
+                    $em->persist($user);
+                    
+                    $userTourist->setUserTouristCell($post['user_cell']);
+                    $userTourist->setUserTouristPostalCode($post['user_zip_code']);
+                    $userTourist->setUserTouristGender($post['user_gender']);
+                    $userTourist->setUserTouristCurrency($em->getRepository('mycpBundle:currency')->find($post['user_currency']));
+                    $userTourist->setUserTouristLanguage($em->getRepository('mycpBundle:lang')->find($post['user_lang']));
+                    $em->persist($userTourist);
+                    $em->flush();
+                    
+                    $message = $this->get('translator')->trans("USER_PROFILE_SAVED");
                     $this->get('session')->setFlash('message_global_success', $message);
-                    return $this->redirect($this->generateUrl('frontend_login'));
+                    //return $this->redirect($this->generateUrl('frontend_login'));
                 } else {
-                    $errors['no_email'] = $this->get('translator')->trans("USER_PASSWORD_RECOVERY_ERROR");
-                }
-                
-                $message = $this->get('translator')->trans("USER_CREATE_ACCOUNT_SUCCESS");
-                $this->get('session')->setFlash('message_global_success', $message);
-                return $this->redirect($this->generateUrl('frontend_login'));
+                    $errors['no_email'] = $this->get('translator')->trans("USER_PROFILE_EMAIL_ERROR");
+                }                           
             }
         }
 
