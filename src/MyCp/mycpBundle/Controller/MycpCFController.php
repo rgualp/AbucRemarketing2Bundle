@@ -99,21 +99,32 @@ class MycpCFController extends Controller {
     public function mycpOfflineReservationsCommitAction(Request $request) {
         $json_reservations = $request->get('content');
         $reservations = json_decode($json_reservations);
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $distinct_clients = array();
+        $res_per_clients = array();
+
         if (is_array($reservations)) {
-            $em = $this->getDoctrine()->getEntityManager();
             foreach ($reservations as $reservation) {
                 $entity_res = $em->getRepository('mycpBundle:generalReservation')->find($reservation->id);
                 if (!empty($entity_res)) {
                     $entity_res->setGenResStatus($this->_reserservationStatusConversor($reservation->status));
                     $entity_res->getGenResOwnId()->setOwnCommissionPercent($reservation->house_percent);
                     $em->persist($entity_res);
+
+                    if (!in_array($entity_res->getGenResUserId(), $distinct_clients)) {
+                        $distinct_clients[] = $entity_res->getGenResUserId();
+                    }
+                    $res_per_clients[$entity_res->getGenResUserId()->getUserId()][] = $entity_res;
                 }
             }
             $em->flush();
         }
 
         //sending email...
-        //$this->_sendReservationsEmail($user, $reservations);
+        foreach ($distinct_clients as $client) {
+            $this->_sendReservationsEmail($em, $client, $res_per_clients[$client->getUserId()]);
+        }
 
         return new Response("done!");
     }
