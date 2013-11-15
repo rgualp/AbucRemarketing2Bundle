@@ -68,15 +68,15 @@
             </trans-unit>
             <trans-unit id="17">
                 <source>ECONOMICS_OWNS</source>
-                <target>Economics Houses</target>
+                <target>Economics Accomodations</target>
             </trans-unit>
             <trans-unit id="18">
                 <source>MIDRANGE_OWNS</source>
-                <target>Midrange Houses</target>
+                <target>Midrange Accomodations</target>
             </trans-unit>
             <trans-unit id="19">
                 <source>PREMIUM_OWNS</source>
-                <target>Premium Houses</target>
+                <target>Premium Accomodations</target>
             </trans-unit>
             <trans-unit id="20">
                 <source>TOP_OWNS</source>
@@ -164,7 +164,7 @@
             </trans-unit>
             <trans-unit id="41">
                 <source>SLOGAN_3</source>
-                <target>your first address in Cuba</target>
+                <target>MyCasaParticular.com, your first address in Cuba</target>
             </trans-unit>
             <trans-unit id="42">
                 <source>HOME_MAIN_MENU</source>
@@ -224,7 +224,7 @@
             </trans-unit>
             <trans-unit id="56">
                 <source>HOMEPAGE_TEXT</source>
-                <target>Staying in a private home may be one of the most interesting experiences you can enjoy during your trip to Cuba. Aside from having the chance to meet travelers from around the world will know the Cuban reality from within. Another important argument is the price. Private houses are the most affordable option for your stay in Cuba.</target>
+                <target>Staying in a private home (//casa particular//) may be one of the most interesting experiences you can enjoy during your trip to Cuba. Aside from having the chance to meet travelers from around the world will know the Cuban reality from within. Another important argument is the price. Private houses are the most affordable option for your stay in Cuba.</target>
             </trans-unit>
             <trans-unit id="57">
                 <source>TOP_HOUSES_HOME_TITLE</source>
@@ -1708,7 +1708,7 @@
             </trans-unit>
             <trans-unit id="435">
                 <source>CART</source>
-                <target>Cart of reservations</target>
+                <target>Cart</target>
             </trans-unit>
             <trans-unit id="436">
                 <source>SENT_EMAIL_FROM</source>
@@ -2254,6 +2254,74 @@
                 <trans-unit id="572">
                     <source>USER_PROFILE_EMAIL_ERROR</source>
                     <target>Another user is using this email account</target>
+                </trans-unit>
+                <trans-unit id="573">
+                    <source>USER_ZONE</source>
+                    <target>User</target>
+                </trans-unit>
+                <trans-unit id="574">
+                    <source>USER_NEW_ACCOUNT</source>
+                    <target>Register</target>
+                </trans-unit>
+                <trans-unit id="575">
+                    <source>USER_FORGOT_PASSWORD</source>
+                    <target>Forgot password?</target>
+                </trans-unit>
+                <trans-unit id="576">
+                    <source>USER_SEND_CONFIRMATION</source>
+                    <target>Send confirmation</target>
+                </trans-unit>
+                <trans-unit id="577">
+                    <source>USER_PROFILE</source>
+                    <target>My profile</target>
+                </trans-unit>
+                <trans-unit id="578">
+                    <source>USER_CHANGE_PASSWORD</source>
+                    <target>Change password</target>
+                </trans-unit>
+                <trans-unit id="579">
+                    <source>MYCASATRIP_MAIN_MENU_NOTIFICATIONS</source>
+                    <target>You have %notifications% pendient notifications</target>
+                </trans-unit>
+                <trans-unit id="580">
+                    <source>PLACE_IN_CUBA_TO_VISIT</source>
+                    <target>Wich place in Cuba would you like to visit?</target>
+                </trans-unit>
+                <trans-unit id="581">
+                    <source>ROWS</source>
+                    <target>Rows</target>
+                </trans-unit>
+                <trans-unit id="582">
+                    <source>FIND_DESTINATIONS_BY_PROVINCES</source>
+                    <target>Find destinations by provinces</target>
+                </trans-unit>
+                <trans-unit id="583">
+                    <source>WHERE_RENT_IN_DESTINATION</source>
+                    <target>Where rent in %destinationName%</target>
+                </trans-unit>
+                <trans-unit id="584">
+                    <source>LIST_VIEW</source>
+                    <target>List view</target>
+                </trans-unit>
+                <trans-unit id="585">
+                    <source>MOISAIC_VIEW</source>
+                    <target>Mosaic view</target>
+                </trans-unit>
+                <trans-unit id="586">
+                    <source>MAP_VIEW</source>
+                    <target>Map view</target>
+                </trans-unit>
+                <trans-unit id="587">
+                    <source>SEARCH_ANOTHER_SERVICES</source>
+                    <target>Other Services</target>
+                </trans-unit>
+                <trans-unit id="588">
+                    <source>VERIFY_PRICES_FOR_THIS_DATES</source>
+                    <target>Verify prices for these dates</target>
+                </trans-unit>
+                <trans-unit id="589">
+                    <source>SELECT_FOR_PAYMENT</source>
+                    <target>Select for payment</target>
                 </trans-unit>
         </body>
     </file>

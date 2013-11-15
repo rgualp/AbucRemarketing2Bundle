@@ -10,7 +10,8 @@ class destinationController extends Controller {
     public function popular_listAction() {
         $em = $this->getDoctrine()->getEntityManager();
         $locale = $this->get('translator')->getLocale();
-        $dest_list = $em->getRepository('mycpBundle:destination')->getAllDestinations($locale);
+        $users_id = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $dest_list = $em->getRepository('mycpBundle:destination')->getAllDestinations($locale, $users_id["user_id"], $users_id["session_id"]);
 
         return $this->render('frontEndBundle:destination:listDestination.html.twig', array(
                     'main_destinations' => array_slice($dest_list, 0, 6),

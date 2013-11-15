@@ -1,13 +1,46 @@
 {% if own_top20_list | length%}
-<div class="head_menu_top_rated">
+<div class="bg-solid-orange" style="margin: 35px 0 30px;">
+        <h1 class="text-center caecilia-roman h-white">
+            <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="width: 25px;height: 25px" class="icon star-orange-icon"/>&nbsp;
     {{"TOP_HOUSES_HOME_TITLE" | trans}}
-</div>
+   &nbsp;<img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="width: 25px;height: 25px" class="icon star-orange-icon"/>
+        </h1>
+    </div>
 
 <div id="top_rated_list">
     {{ include('frontEndBundle:ownership:homeTopRatedList.html.twig') }}
 </div>
 
-<div class="top_rated_tools row-fluid">
+<div class="row pagination-cont">
+        <div class="col-sm-4 text-left">
+            <ul class="pagination">
+                <li><a href="#" rel="tooltip" data-placement="top" title="2 {{'ROWS' | trans}}"><img alt="2 {{'ROWS' | trans}}" class="icon-medium two-lines-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
+                <li><a href="#" rel="tooltip" data-placement="top" title="3 {{'ROWS' | trans}}"><img alt="3 {{'ROWS' | trans}}"  class="icon-medium three-lines-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
+                <li><a href="#" rel="tooltip" data-placement="top" title="4 {{'ROWS' | trans}}"><img alt="4 {{'ROWS' | trans}}" class="icon-medium four-lines-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
+            </ul>
+        </div>
+        <div class="col-sm-4 text-center">
+            <ul class="pagination">
+                <li><a href="#">«</a></li>
+                <li><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">»</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-4 text-right">
+            <ul class="pagination">
+                <li><a href="#" rel="tooltip" data-placement="top" title="{{'PREMIUM_OWNS' | trans}}"><img alt="{{'PREMIUM_OWNS' | trans}}" class="icon-medium premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
+                <li><a href="#" rel="tooltip" data-placement="top" title="{{'MIDRANGE_OWNS' | trans}}"><img alt="{{'MIDRANGE_OWNS' | trans}}" class="icon-medium middle-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
+                <li><a href="#" rel="tooltip" data-placement="top" title="{{'ECONOMICS_OWNS' | trans}}"><img alt="{{'ECONOMICS_OWNS' | trans}}" style="width: 18px; height: 25px" class="icon economic-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
+            </ul>
+        </div>
+    </div>
+
+<div class="divider-hor-2"></div>
+
+<!--div class="top_rated_tools row-fluid">
     <div class="tool">{{"VISUALIZE" | trans}} 4 x
         <div class="btn-group">
             <a class="btn btn-small btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
@@ -22,18 +55,19 @@
         </div></div>
     <div class="tool">
     <div class="paginator-cont">
-    {{ simple_paginator_render('frontend_welcome',null,{
+    {#{ simple_paginator_render('frontend_welcome',null,{
     'container_class': 'paginator_orange',
     'previousPageText': '«',
     'nextPageText': '»',
     'currentClass': 'current',
     'firstPageText': 'FIRST_PAGE' | trans,
     'lastPageText': 'LAST_PAGE' | trans
-    }) }}
+    }) }#}
     </div>
     </div>
     <div class="tool"><span class="hide_small_screen">{{"TELL_A_FRIEND" | trans}}:</span>
-        {{ include('frontEndBundle:utils:netSocials.html.twig') }}
+        {#{ include('frontEndBundle:utils:netSocials.html.twig') }#}
     </div>
-</div>
+</div-->
+
 {% endif %}

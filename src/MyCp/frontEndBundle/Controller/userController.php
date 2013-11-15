@@ -120,6 +120,13 @@ class userController extends Controller {
                     'errors' => $errors
         ));
     }
+    
+    public function change_password_startAction(){
+        $service_security = $this->get('Secure');
+        $user = $this->get('security.context')->getToken()->getUser();
+        $encode_string = $service_security->encode_string($user->getUserEmail() . '///' . $user->getUserId());
+        return $this->redirect($this->generateUrl('frontend_change_password_user', array('string'=>$encode_string)));
+    }
 
     public function change_passwordAction($string, Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
@@ -160,7 +167,8 @@ class userController extends Controller {
                 }
             }
         }
-
+        //var_dump($form->createView()->getChildren());
+        //exit();
         return $this->render('frontEndBundle:user:changePasswordUser.html.twig', array(
                     'string' => $string,
                     'form' => $form->createView(),
@@ -187,11 +195,10 @@ class userController extends Controller {
                     $enableRoute = 'frontend_enable_user';
                     $enableUrl = $this->get('router')
                             ->generate($enableRoute, array('string' => $encode_string), true);
-
                     $service_email = $this->get('Email');
                     $body=$this->render('frontEndBundle:mails:enableAccount.html.twig', array('enableUrl'=>$enableUrl));
                     $service_email->send_templated_email($this->get('translator')->trans("USER_ACCOUNT_ACTIVATION_EMAIL"), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
-                    $message = $this->get('translator')->trans("USER_ACTIVATE_ACCOUNT_SUCCESS");
+                    $message = $this->get('translator')->trans("USER_CREATE_ACCOUNT_SUCCESS");
                     $this->get('session')->setFlash('message_global_success', $message);
                     return $this->redirect($this->generateUrl('frontend_login'));
                 } else {

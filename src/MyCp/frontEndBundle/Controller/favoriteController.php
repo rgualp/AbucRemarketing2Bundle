@@ -15,6 +15,7 @@ class favoriteController extends Controller {
         $favorite_type = $request->request->get("favorite_type");
         $element_id = $request->request->get("element_id");
         $list_preffix = $request->request->get("list_preffix");
+        $include_text = $request->request->get("include_text");
 
         $data = array();
         $data['favorite_user_id'] = $user_ids["user_id"];
@@ -28,7 +29,8 @@ class favoriteController extends Controller {
             'is_in_favorite' => $em->getRepository('mycpBundle:favorite')->is_in_favorite($element_id, ($favorite_type == "ownership"), $user_ids["user_id"], $user_ids["session_id"]),
             'favorite_type' => $favorite_type,
             'element_id' => $element_id,
-            'list_preffix' => $list_preffix
+            'list_preffix' => $list_preffix,
+            'include_text' => $include_text
         ));
 
         return new Response($response, 200);
@@ -42,6 +44,7 @@ class favoriteController extends Controller {
         $favorite_type = $request->request->get("favorite_type");
         $element_id = $request->request->get("element_id");
         $list_preffix = $request->request->get("list_preffix");
+        $include_text = $request->request->get("include_text");
 
         $data = array();
         $data['favorite_user_id'] = $user_ids["user_id"];
@@ -55,7 +58,8 @@ class favoriteController extends Controller {
             'is_in_favorite' => $em->getRepository('mycpBundle:favorite')->is_in_favorite($element_id, ($favorite_type == "ownership"), $user_ids["user_id"], $user_ids["session_id"]),
             'favorite_type' => $favorite_type,
             'element_id' => $element_id,
-            'list_preffix' => $list_preffix
+            'list_preffix' => $list_preffix,
+            'include_text' => $include_text
         ));
 
         return new Response($response, 200);

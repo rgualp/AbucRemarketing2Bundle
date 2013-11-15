@@ -12,12 +12,12 @@ function datePickersStarUp() {
         date: start_date,
         language: $('#input_arrival_date').attr('data-localization')
     }).on('changeDate', function(ev) {
-        var startDate = new Date(ev.date);
+       /* var startDate = new Date(ev.date);
         startDate.setDate(startDate.getDate() + 1);
         departure_datepicker.setStartDate(startDate);
         var date = new Date(ev.date);
         date.setDate(date.getDate() + 2);
-        departure_datepicker.setDate(date);
+        departure_datepicker.setDate(date);*/
     });
 
     var departure_datepicker = $('#input_departure_date').datepicker({
@@ -60,13 +60,13 @@ function search() {
     else
         url = url.toString().replace('_departure', null);
 
-    var guests = $('#input_guests').attr("data-value");
+    var guests = $('#input_guests').val();;
     if (guests != $('#input_guests').attr("placeholder") && guests != "")
         url = url.toString().replace('_guests', guests);
     else
         url = url.toString().replace('_guests', '1');
 
-    var rooms = $('#input_room').attr("data-value");
+    var rooms = $('#input_room').val();;
     if (rooms != $('#input_room').attr("placeholder") && rooms != "")
         url = url.toString().replace('_rooms', rooms);
     else

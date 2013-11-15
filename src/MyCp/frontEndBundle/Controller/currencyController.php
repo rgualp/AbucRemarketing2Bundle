@@ -63,12 +63,15 @@ class currencyController extends Controller {
             $session->set("curr_acronym", $currency->getCurrCode());
 
             $user = $this->get('security.context')->getToken()->getUser();
-            $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
-            if($userTourist)
+            if($user!='anon.')
             {
-                $userTourist->setUserTouristCurrency($currency);
-                $em->persist($userTourist);
-                $em->flush();
+                $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
+                if($userTourist)
+                {
+                    $userTourist->setUserTouristCurrency($currency);
+                    $em->persist($userTourist);
+                    $em->flush();
+                }
             }
         }
         $route_params=$session->get('params_change_curr');

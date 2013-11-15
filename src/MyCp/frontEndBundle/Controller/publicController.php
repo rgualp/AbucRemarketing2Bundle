@@ -18,7 +18,7 @@ class PublicController extends Controller {
         $glogal_locale = $this->get('translator')->getLocale();
         
         $provinces = $em->getRepository('mycpBundle:province')->findAll();
-        $slide_folder = rand(1, 7);
+        $slide_folder = rand(1, 1);
         
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 4 * ($session->get("top_rated_show_rows") != null ? $session->get("top_rated_show_rows") : 2);
@@ -55,12 +55,12 @@ class PublicController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
 
-        $popular_destinations_list = $em->getRepository('mycpBundle:destination')->get_popular_destination(4, $user_ids['user_id'], $user_ids['session_id']);
-        $last_added = $em->getRepository('mycpBundle:ownership')->lastAdded(4, $user_ids['user_id'], $user_ids['session_id']);
+        $popular_destinations_list = $em->getRepository('mycpBundle:destination')->get_popular_destination(12, $user_ids['user_id'], $user_ids['session_id']);
+        $last_added = $em->getRepository('mycpBundle:ownership')->lastAdded(12, $user_ids['user_id'], $user_ids['session_id']);
         $offers_list = array();
-        $economic_own_list = $em->getRepository('mycpBundle:ownership')->getByCategory('Económica', 4,null, $user_ids['user_id'], $user_ids['session_id']);
-        $medium_own_list = $em->getRepository('mycpBundle:ownership')->getByCategory('Rango medio', 4,null, $user_ids['user_id'], $user_ids['session_id']);
-        $premium_own_list = $em->getRepository('mycpBundle:ownership')->getByCategory('Premium', 4,null, $user_ids['user_id'], $user_ids['session_id']);
+        $economic_own_list = $em->getRepository('mycpBundle:ownership')->getByCategory('Económica', 12,null, $user_ids['user_id'], $user_ids['session_id']);
+        $medium_own_list = $em->getRepository('mycpBundle:ownership')->getByCategory('Rango medio', 12,null, $user_ids['user_id'], $user_ids['session_id']);
+        $premium_own_list = $em->getRepository('mycpBundle:ownership')->getByCategory('Premium', 12,null, $user_ids['user_id'], $user_ids['session_id']);
 
         return $this->render('frontEndBundle:public:homeCarousel.html.twig', array(
                     'popular_places' => $popular_destinations_list,
@@ -97,5 +97,34 @@ class PublicController extends Controller {
         }
 
         return new Response($result ? "ok" : "error");
+    }
+    
+    public function get_main_menu_destinationsAction()
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $destinations = $em->getRepository('mycpBundle:destination')->get_for_main_menu();
+        return $this->render('frontEndBundle:utils:mainMenuDestinationItems.html.twig', array(
+              'destinations'=>$destinations  
+        ));
+    }
+    
+    public function get_main_menu_accomodationsAction()
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $provinces = $em->getRepository('mycpBundle:province')->get_for_main_menu();
+        return $this->render('frontEndBundle:utils:mainMenuAccomodationItems.html.twig', array(
+              'provinces'=>$provinces  
+        ));
+    }
+    
+    public function get_main_menu_mycasatripAction()
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $user = $this->get('security.context')->getToken()->getUser();
+        $notifications = ($user != null && $user != "anon.") ? $em->getRepository('mycpBundle:ownershipReservation')->get_for_main_menu($user->getUserId()) : array();
+                
+        return $this->render('frontEndBundle:utils:mainMenuMyCasaTripItems.html.twig', array(
+              'notifications'=>($user != null && $user != "anon.") ?$notifications[0]['available']: 0  
+        ));
     }
 }

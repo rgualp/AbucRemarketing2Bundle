@@ -37,4 +37,14 @@ class provinceRepository extends EntityRepository
     /**
      * Yanet - Fin
      */
+    
+    function get_for_main_menu()
+    {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT DISTINCT p.prov_id, p.prov_name, 
+                        (SELECT count(o) FROM mycpBundle:ownership o where o.own_address_province = p.prov_id) as total_owns   
+                         FROM mycpBundle:province p
+                         ";
+        return $em->createQuery($query_string)->getResult();
+    }
 }

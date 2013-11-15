@@ -1,37 +1,16 @@
 {% extends 'frontEndBundle:layout:base.html.twig' %}
 {% block title %}MyCasaTrip{% endblock %}
 {% set main_tab = 6 %}
-{% block content_nav_top_body %}
-Mycasa trip
-{% endblock %}
 {% block body %}
-<ul class="breadcrumb">
-    <li><a title="Ir a la portada" href="{{ path('frontend_welcome') }}">{{"HOME_MAIN_MENU" | trans}}</a> <span
-            class="divider">»</span></li>
-    <li class="active">MyCasaTrip</li>
-</ul>
-<div class="green_bar msg_green_brand">
-    <div class="row-fluid">
-        <div class="span9"></div>
-        <div class="span3">
-            {% block order_by_list %}
-            {% endblock %}
-        </div>
-    </div>
+<div  class="container">
+{% if menu is not defined %}
+   {% set menu = 0 %}
+   {% endif %}
+   {% render 'frontEndBundle:mycasatrip:get_menu_count' with {'menu_selected': menu} %}        
+
+{% block body_inner %}
+   {% endblock %}
 </div>
-<div class="thumbnail" style="border-radius: 0 0 8px 8px; padding: 10px 10px 12px">
-    <div class="row-fluid">
-        <div class="span4">
-            {% if menu is not defined %}
-            {% set menu = 0 %}
-            {% endif %}
-            {% render 'frontEndBundle:mycasatrip:get_menu_count' with {'menu_selected': menu} %}
-        </div>
-        <div class="span8">
-            {% block body_inner %}
-            {% endblock %}
-        </div>
-    </div>
 </div>
 
 {% endblock %}

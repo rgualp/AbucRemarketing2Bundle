@@ -1,43 +1,41 @@
-<div class="top_rated_items row-fluid">
+<div class="thumbs-houses">
+    <div class="row">
     {%set cont=0%}
     {%for ownership in own_top20_list%}
     {% if cont <4 %}
-    <div class="item span3">
-        <a href="{{ path('frontend_details_ownership',{'own_name':ownership['own_name']  | lower | replace(' ','_')}) }}" title="{{"MORE_INFO_PREFFIX" | trans}} {{ownership['own_name']}}">
-           <div class="image" style="background-image: url('{{ asset("uploads/ownershipImages/thumbnails/" ~ ownership['photo'])}}')">
-             <div class="rating">{%if ownership['comments_total'] > 0%}+{%endif%}{{ownership['comments_total']}}</div></div>
-            <div class="title">{{ ownership['own_name']| title }}
-                <div class="place">({{ownership['prov_name']}})</div>
+    <div class="col-sm-3">
+            <a rel="tooltip" href="{{ path('frontend_details_ownership',{'own_name':ownership['own_name']  | lower | replace(' ','_')}) }}" title="{{"MORE_INFO_PREFFIX" | trans}} {{ownership['own_name']}}">
+            <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if ownership['comments_total'] > 0%}+{%endif%}{{ownership['comments_total']}}&nbsp;&nbsp;&nbsp;">
+                <img alt="{{ ownership['own_name'] }}" src="{{ asset("uploads/ownershipImages/thumbnails/" ~ ownership['photo'])}}"/>
             </div>
-            <div class="description">                
+            <h2 class="h-blue">{{ ownership['own_name']| title }} <small>({{ownership['prov_name']}})</small></h2>
+            </a>
+            <h5>
                 {%if ownership['description'] != null%}
-                    <p>{{ownership['description'] | striptags | slice(0,120) }} (...{{"RESERVATION_CONFIRM_DESTINATION_MORE" | trans | capitalize}})</p>
+                    {{ownership['description'] | striptags | slice(0,120) }} (...{{"RESERVATION_CONFIRM_DESTINATION_MORE" | trans | capitalize}})
                 {%endif%}
-
-            </div>
-        </a>
-    </div>
+            </h5>
+        </div>
     {% set cont=cont+1 %}
     {% else %}
     {% set cont=1 %}
 </div>
-<div class="top_rated_items row-fluid">
-    <div class="item span3">
-        <a href="{{ path('frontend_details_ownership',{'own_name':ownership['own_name']  | lower | replace(' ','_')}) }}" title="{{"MORE_INFO_PREFFIX" | trans}} {{ownership['own_name']}}">
-           <div class="image" style="background-image: url('{{ asset("uploads/ownershipImages/thumbnails/" ~ ownership['photo'])}}')">
-             <div class="rating">{%if ownership['comments_total'] > 0%}+{%endif%}{{ownership['comments_total']}}</div></div>
-            <div class="title">{{ ownership['own_name']| title }}
-                <div class="place">({{ownership['prov_name']}})</div>
+<div class="row" style="margin-top: 25px">
+    <div class="col-sm-3">
+            <a rel="tooltip" href="{{ path('frontend_details_ownership',{'own_name':ownership['own_name']  | lower | replace(' ','_')}) }}" title="{{"MORE_INFO_PREFFIX" | trans}} {{ownership['own_name']}}">
+            <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if ownership['comments_total'] > 0%}+{%endif%}{{ownership['comments_total']}}&nbsp;&nbsp;&nbsp;">
+                <img alt="{{ ownership['own_name'] }}" src="{{ asset("uploads/ownershipImages/thumbnails/" ~ ownership['photo'])}}">
             </div>
-            <div class="description">
+            <h1 class="h-blue">{{ ownership['own_name']| title }} <small>({{ownership['prov_name']}})</small></h1>
+            <h5>
                 {%if ownership['description'] != null%}
-                <p>{{ownership['description'] |striptags |capitalize}} (...{{"RESERVATION_CONFIRM_DESTINATION_MORE" | trans | capitalize}})</p>
+                    {{ownership['description'] | striptags | slice(0,120) }} (...{{"RESERVATION_CONFIRM_DESTINATION_MORE" | trans | capitalize}})
                 {%endif%}
-
-            </div>
-        </a>
-    </div>
+            </h5>
+            </a>
+        </div>
+ 
     {% endif %}
     {%endfor%}
-
+</div>
 </div>

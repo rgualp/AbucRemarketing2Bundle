@@ -1,70 +1,68 @@
+{% set main_tab = 1 %}
 {% extends 'frontEndBundle:layout:base.html.twig' %}
 
-{% block content_nav_top_body %}
-{{"HOME_DESCRIPTION_MAIN_MENU" | trans}}
-{% endblock %}
-
 {% block include_javascripts_and_css %}
-<link href="{{ asset('bundles/frontend/css/royal_slider/royalslider.css') }}" rel="stylesheet" >
-<link href="{{ asset('bundles/frontend/css/royal_slider/rs-default.css') }}" rel="stylesheet" >
-<link href="{{ asset('bundles/frontend/css/tooltip.css') }}" rel="stylesheet" media="screen">
-<script src="{{ asset('bundles/frontend/js/royal_slider/jquery.royalslider.min.js') }}"></script>
-<script src="{{ asset('bundles/frontend/js/full_slider.js') }}"></script>
-<script src="{{ asset('bundles/frontend/js/top_rated_ownership.js') }}"></script>
-<script src="{{ asset('bundles/frontend/js/mapper.js') }}"></script>
-<script src="{{ asset('bundles/frontend/js/cvi_tip_lib.js') }}"></script>
+<link href="{{ asset('bundles/frontend/css/royalslider.css') }}" rel="stylesheet" >
+<script src="{{ asset('bundles/frontend/js/jquery.royalslider.min.js') }}"></script>
+<script type="text/javascript">
+    jQuery(document).ready(function($) {
+        $('#full-width-slider').royalSlider({
+            arrowsNav: true,
+            loop: false,
+            keyboardNavEnabled: true,
+            imageScaleMode: 'fill',
+            arrowsNavAutoHide: false,
+            autoScaleSlider: true,
+            autoScaleSliderWidth: 1466,
+            autoScaleSliderHeight: 350,
+            controlNavigation: 'bullets',
+            thumbsFitInViewport: false,
+            navigateByClick: true,
+            startSlideId: 0,
+            autoPlay: false,
+            transitionType:'move',
+            globalCaption: false,
+            deeplinking: {
+                enabled: true,
+                change: false
+            }
+        });
+    });
+
+
+</script>
 {% endblock %}
 
 {% block big_banner %}
-<div id="full-width-slider" class="royalSlider rsDefault">
-        <img class="rsImg" src="{{ asset('bundles/frontend/images/slideshow/'~slide_folder~'/1.jpg') }}" alt="">
-        <img class="rsImg" src="{{ asset('bundles/frontend/images/slideshow/'~slide_folder~'/2.jpg') }}" alt="">
-        <img class="rsImg" src="{{ asset('bundles/frontend/images/slideshow/'~slide_folder~'/3.jpg') }}" alt="">
-        <img class="rsImg" src="{{ asset('bundles/frontend/images/slideshow/'~slide_folder~'/4.jpg') }}" alt="">
-        <img class="rsImg" src="{{ asset('bundles/frontend/images/slideshow/'~slide_folder~'/5.jpg') }}" alt="">
+<div id="full-width-slider" class="royalSlider heroSlider rsMinW">
+    
+    <div class="rsContent"><img class="rsImg" src="{{ asset('bundles/frontend/img/slideshow/'~slide_folder~'/1.jpg') }}" alt="" /></div>
+    <div class="rsContent"><img class="rsImg" src="{{ asset('bundles/frontend/img/slideshow/'~slide_folder~'/2.jpg') }}" alt="" /></div>
 </div>
-
-<div style="background-color: #A1CB37; height: 10px; z-index: 500">&nbsp;</div>
-{% endblock %}
-
-{% block big_banner_info %}
-<div style="position: relative; z-index: 500; bottom:-25px">
-    {% render "frontEndBundle:ownership:orangeSearchBar" %}
+<div id="banner-msg-cont">
+<div id="banner-msg">
+    <h1 class="caecilia-roman">{{"SLOGAN_1" | trans}}</br> {{"SLOGAN_2" | trans}}</h1>
+    <h2 class="helvetica-roman">{{"SLOGAN_3" | trans}}</h2>
 </div>
-
-<div class="info_message banner">
-    {{"SLOGAN_1" | trans}}<br/>{{"SLOGAN_2" | trans}}
-    <div class="message"><b>MyCasaParticular.com</b>, {{"SLOGAN_3" | trans}}</div>
+</div>
+<div id="main-search">
+{% render "frontEndBundle:ownership:orangeSearchBar" %}
 </div>
 {% endblock %}
 {% block body %}
-<div class="banner_map_cont row-fluid" style="margin-left: 10%">
-    <img id="gmipam_3_canvas" usemap="#map_of_cuba" src="{{ asset('bundles/frontend/images/translations/'~app.request.locale~'/banner_map.png') }}" class="mapper noborder iopacity50 icolorff0000" />
-    <map name="map_of_cuba">
-        {%for province in provinces%}
-        {% if province.ProvMapPolyCoords != null or province.ProvMapPolyCoords != ""%}
-        <area id="area_{{province.provcode}}" alt="{{province.provname}}" tooltip="{{province.provname}}" onmouseover="cvi_tip._show(event);" onmouseout="cvi_tip._hide(event);" onmousemove="cvi_tip._move(event);" href="{{ path('frontend_search_ownership',{'text':province.provName, 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}" coords="{{province.ProvMapPolyCoords}}" shape="poly">
-        {%endif%}
-        {%endfor%}
-    </map>
-
+<div class="container">
+    <h2 class="text-center caecilia-roman h-grey h-size-2"><b>{{"PLACE_IN_CUBA_TO_VISIT" | trans}}</b></h2>
 </div>
-<div class ="row-fluid">
-    <div class="span8">
-        <div class="info_message no_banner">
-            {{"HOMEPAGE_SUBTITLE_1" | trans}}
-            <div class="message"><b>{{"HOMEPAGE_SUBTITLE_2" | trans}}</b></div>
-        </div>
-        <div class="justify">
-            {{"HOMEPAGE_TEXT" | trans}}
-        </div>
-    </div>
-    <div class="span4 destinations">
-        {{ include('frontEndBundle:destination:homePopularDestinationsList.html.twig') }} 
-    </div>
-</div>
+<div style="background-color: #ECEAEB; padding: 50px; margin-top: 15px" class="text-center">mapa</div>
+<div  class="container">
+<h1 class="text-center caecilia-roman h-dark-grey">{{"HOMEPAGE_SUBTITLE_1" | trans}}</h1>
+    <p style="color: #000000; ">{{"HOMEPAGE_TEXT" | trans}}</p>
+    <h1 class="text-center"><small><h1 class="caecilia-roman" style="margin-top: 13px; font-size: 24px">{{"HOMEPAGE_SUBTITLE_2" | trans}}</h1></small></h1>
+    
 <div id="top_rated_placeholder" data-url="{{path('frontend_top_rated_callback_ownership')}}">
     {{ include('frontEndBundle:ownership:homeTopRatedOwnership.html.twig', {'own_top20_list':own_top20_list}) }}
 </div>
+
 {% render 'frontEndBundle:public:home_carrousel' %}
+</div>
 {% endblock %}
