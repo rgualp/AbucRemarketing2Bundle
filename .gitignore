@@ -10,7 +10,8 @@ web/bundles
 web/uploads/albumImages
 web/uploads/destinationImages
 web/uploads/languageImages
-web/uploads/ownershipImages
+web/uploads/ownershipImages/*.jpg
+web/uploads/ownershipImages/thumbnails/*.jpg
 web/uploads/userImages
 
 # Configuration files
