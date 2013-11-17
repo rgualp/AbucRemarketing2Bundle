@@ -1,48 +1,47 @@
 {%if show_comments_and_friends > 0%}
-        <div class="third_tab secondary_tab row-fluid">
-            <div class="nav-tabs_cont">
-                <ul class="nav nav-tabs">
-                    {%if comments_total_items%}
-                    <li class="active"><a data-toggle="tab" href="#">{{"USER_COMMENTS_TAB" | trans}} ({{comments_total_items}})</a></li>
-                    {%endif%}
-                </ul>
-            </div>
-            <div class="tab-content">
-                <div class="tab-pane user_comment fade in active">
+<h3>{{"USER_COMMENTS_TAB" | trans}} ({{comments_total_items}})</h3>
+                <hr class="hr-green margin-t" style="margin-bottom: 20px"/>
+                <div class="comments">
                     {%for comment in comments%}
-                    <div class="row-fluid">
-                        <div class="span2">
-                            <img class="img-polaroid" src="{{ asset('bundles/frontend/images/user_no_photo.gif') }}" alt="">
-                            <label class="name">{{comment.getComUser.getUserCompleteName}}</label>
-                            <div class="rating_star">
-                                {%if comment.getComRate > 0%}
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <img src="{{asset('bundles/frontend/img/user-no-photo.gif')}}"/>
+                        </div>
+                        <div class="col-xs-10">
+                             {%if comment.getComRate > 0%}
                                         {%for i in 1..comment.getComRate%}
-                                    <img src="{{ asset('bundles/frontend/images/star_on.png')}}" align="absmiddle"/>
+                                   <img class="icon icon-2 tiny-star-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}">
                                 {%endfor%}
                                         {%endif%}
 
                                         {%if comment.getComRate < 5%}
                                         {%for i in 1..(5-comment.getComRate)%}
-                                    <img src="{{ asset('bundles/frontend/images/star_off.png')}}" align="absmiddle"/>
+                                    <img class="icon icon-2 tiny-star-off-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}">
                                     {%endfor%}
                                         {%endif%}
-                            </div>
-                        </div>
-                        <div class="span10">
-                            <div class="popover right">
-                                <div class="arrow"></div>
-                                <div class="popover-content">
-                                    <p>
-                                        {{comment.getComComments}}
-                                    </p>
-                                </div>
-                            </div>
+                            <br/>
+                            <h4 class="caecilia-roman">{{comment.getComUser.getUserCompleteName}} - <small>{{comment.comdate | date('M d, Y')}}</small></h4>
+                            <p>
+                                {{comment.getComComments}}
+                            </p>
                         </div>
                     </div>
+                    <hr class="margin-t"/>
                     {%endfor%}
-                    {%if comments | length and comments_total_items > comments_items_per_page%}
-                        <div class="paginator-cont top_margin">
-                        {{ simple_paginator_render('frontend_details_ownership',null,{
+                </div>
+                <div class="text-center">
+                     {%if comments | length and comments_total_items > comments_items_per_page%}
+                        <ul class="pagination">
+                        <li><a href="#">«</a></li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">»</a></li>
+                    </ul>
+                        
+                        <!--div class="paginator-cont top_margin">
+                        {#{ simple_paginator_render('frontend_details_ownership',null,{
                         'container_class': 'paginator',
                         'previousPageText': '«',
                         'nextPageText': '»',
@@ -50,10 +49,8 @@
                         'firstPageText': 'FIRST_PAGE' | trans,
                         'lastPageText': 'LAST_PAGE' | trans,
                         'route_params': {'own_name':ownership.ownname|lower|replace(' ','_')}
-                    }) }}
-                    </div>
-                    {%endif%}
+                    }) }#}
+                    </div-->
+                    {%endif%}                    
                 </div>
-            </div>
-        </div>
-       {%endif%}
+{%endif%}

@@ -2,44 +2,55 @@
 {% block title %}{{"LOG_IN" | trans }}{% endblock %}
 
 {% block body %}
-<ul class="breadcrumb">
-    <li><a title="Ir a la portada" href="{{ path('frontend_welcome') }}">Inicio</a> <span
-            class="divider">»</span></li>
-    <li class="active">{{"LOG_IN" | trans }}</li>
-</ul>
-<div class="row-fluid ">
-    <div class="span6 offset3">
-        <div class="thumbnail">
-            <div class="cont bg_blue_sky" style="padding: 6px 20px 0 20px">
-                <h2 class="form big_price" style="font-size: 30px;">{{"LOG_IN" | trans }}</h2>
-                <hr/>
+    <div  class="container">
+    <h2 class="caecilia-roman big-price-green text-center no-margin" style="font-weight: normal; margin-top: 35px">{{"LOG_IN" | trans }}</h2>
+    <div><img src="{{ asset('bundles/frontend/img/line-gradient-green.png') }}" style="width: 100%; height: 1px; margin: 16px 0"></div>
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
                 {% if error %}
-                <div class="alert alert-error">{{ error.message|trans }}</div>
+                    <div class="alert alert-danger text-center" style="margin-bottom: 15px">{{ error.message|trans }}</div>
                 {% endif %}
                 {% for message in app.session.flashbag.get('message_error_local') %}
-                    <div class="alert alert-error">{{ message |trans}}</div>
+                    <div class="alert alert-danger text-center" style="margin-bottom: 15px">{{ message |trans}}</div>
                 {% endfor %}
-                <form action="{{ path("frontend_ckeck") }}" method="post">
-                    <label class="control-label" for="inputUsername">{{"FORMS_EMAIL" | trans}}</label>
-                    <input type="text" class="mycp_text_box mycp_text_box_margin input-block-level" id="inputUsername" name="_username"
-                           value="{{ last_username }}"/>
-                    <label class="control-label" for="inputPassword">{{"FORMS_PASSWORD" | trans}}</label>
-                    <input type="password" class="mycp_text_box mycp_text_box_margin input-block-level" id="inputPassword" name="_password"/>
-                    <label class="checkbox">
-                        <input type="checkbox" name="_remember_me"> {{"FORMS_REMEMBER_ME" | trans}}
-                    </label>
-                    <br/>
-                    <button type="submit" class="btn btn-block btn-large">{{"FORMS_IDENTIFY" | trans}}</button>
-                    <br/>
-
-                    <div class="row-fluid" style="text-align: center; text-decoration: underline">
-                        <div class="span6"><a href="{{ path('frontend_restore_password_user') }}" style="text-decoration: underline" href="">{{"FORMS_FORGOT_PASSWORD_QUESTION" | trans}}</a></div>
-                        <div class="span6"><a href="{{ path('frontend_register_confirmation_user') }}" style="text-decoration: underline" href="">{{"FORMS_CONFIRMATION_QUESTION" | trans}}</a></div>
-                    </div>
-                </form>
             </div>
+            <div class="col-sm-3"></div>
         </div>
-        <a href="{{ path('frontend_register_user') }}" class="btn btn-block mycp_btn_orange mycp_btn btn-large">{{"FORMS_CREATE_ACCOUNT_QUESTION" | trans}}</a>
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <form class="form-horizontal" action="{{ path("frontend_ckeck") }}" method="post">
+                <div class="row">
+                    <label  class="col-sm-3 control-label" for="inputUsername" style="font-weight: normal">{{"FORMS_EMAIL" | trans}}:</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="inputUsername" name="_username" value="{{ last_username }}"/>
+                    </div>
+                </div>
+                <br/>
+                <div class="row">
+                    <label class="col-sm-3 control-label" for="inputPassword" style="font-weight: normal" >{{"FORMS_PASSWORD" | trans}}:</label>
+                    <div class="col-sm-7">
+                        <input type="password" id="inputPassword" class="form-control" name="_password">
+                        <div class="checkbox" style="margin: 13px 0">
+                            <label>
+                                <input name="_remember_me" type="checkbox"> {{"FORMS_REMEMBER_ME" | trans}}
+                            </label>
+                        </div>
+                        <button class="btn btn-primary btn-block" type="submit">{{"FORMS_IDENTIFY" | trans}}</button>
+                        <a href="{{ path('frontend_restore_password_user') }}" style="display: block; margin: 15px 0 0">{{"FORMS_FORGOT_PASSWORD_QUESTION" | trans}}</a>
+                        <div class="span6"><a href="{{ path('frontend_register_confirmation_user') }}">{{"FORMS_CONFIRMATION_QUESTION" | trans}}</a></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-9" style="margin-top: 12px">
+                        <a href="{{ path('frontend_register_user') }}" style="text-decoration: none; "><h4 class="caecilia-roman h-orange link-under-line">{{"FORMS_CREATE_ACCOUNT_QUESTION" | trans}}</h4></a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-3"></div>
     </div>
-</div>
+    </div>
 {% endblock %}

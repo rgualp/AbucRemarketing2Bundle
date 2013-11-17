@@ -1,69 +1,49 @@
 {% set menu = 2 %}
 {% extends 'frontEndBundle:mycasatrip:layout_order_by.html.twig' %}
 {% block body_inner %}
-<form method="POST" action="{{ path('frontend_redirect_reservation_reservation') }}" style="margin: 0">
-{% for res in res_available %}
-<div class="row-fluid">
-        <div class="well mycasatrip_result">
-            <div class="row-fluid">
-            <div class="span1">
-               <table>
-                    <tr>
-                        <td style="vertical-align: bottom; height: 60px">
-                            <input type="checkbox" name="checkbox_{{res['own_res_id']}}"/>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div class="span11">
-                <div class="row-fluid">
-                <div class="span4">
-                    <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | lower | replace(' ','_')}) }}">
-                        {% if photos[loop.index0]%}
-                        <img src="{{ asset('uploads/ownershipImages/thumbnails/'~ photos[loop.index0]) }}" class="span12 img-polaroid">
-                        {% else %}
-                        <img src="{{ asset('uploads/ownershipImages/thumbnails/no_photo.png') }}" class="span12 img-polaroid">
-                        {% endif %}
-                    </a></div>
-                <div style="margin-left: 10px" class="span8">
-                    <table style="width: 100%">
-                        <tbody>
-                        <tr>
-                            <td>
-                                <h4 class="title_1">{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}</h4>
-                                <p class="note">
-                                    {{ res['own_res_gen_res_id']['gen_res_own_id']['own_address_municipality']['mun_name']|title }} - {{ res['own_res_gen_res_id']['gen_res_own_id']['own_address_province']['prov_name']|title }}
-
-                                    <br><b>{{res['own_res_room_type']|trans}}</b>
-                                    <br>{{"ADULTS" | trans}}: <b>{{res['own_res_count_adults']}}</b> &nbsp;&nbsp;{{"KIDS" | trans}}: <b>{{res['own_res_count_childrens']}}</b>
-
-                                    <br/>
-                                    {{"FROM_PRICES" | trans}}: {{res['own_res_reservation_from_date']|date('d/m/Y')}} {{"TO_PRICES" | trans}}: {{res['own_res_reservation_to_date']|date('d/m/Y')}}
-                                </p>
-                            </td>
-                            <td>
-                                <p class="note"><b>{{"ID_RESERVATION" | trans}}:</b> CAS.{{res['own_res_id']}}
-                                    <br>
-                                    <br>
-                                    <span class="badge badge-warning">{{"AVAILABLE" | trans}}</span>
-
-                                </p><h4>{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{res['own_res_night_price'] *(nights[loop.index0])}}</h4>
-                            </td>
-                        </tr>
-                        </tbody></table>
-                </div>
-                </div>
-            </div>
+<div class="tab-content">
+    <div id="tab2" class="tab-pane active">
+        <div class="thumbs-houses houses-list myct-records">
+            <form method="POST" action="{{ path('frontend_redirect_reservation_reservation') }}" style="margin: 0">
+                    {% for res in res_available %}
+                        <div class="row no-margin">
+                            <div class="col-sm-3">
+                                <div data-text="&nbsp;&nbsp;&nbsp;{{'AVAILABLE' | trans}}&nbsp;&nbsp;&nbsp;" class="thumbnail has-ribbon-orange has-ribbon has-ribbon-left">
+                                    <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | lower | replace(' ','_')}) }}">
+                                        {% if photos[loop.index0]%}
+                                        <img src="{{ asset('uploads/ownershipImages/thumbnails/'~ photos[loop.index0]) }}">
+                                        {% else %}
+                                        <img src="{{ asset('uploads/ownershipImages/thumbnails/no_photo.png') }}">
+                                        {% endif %}
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | lower | replace(' ','_')}) }}">
+                                    <h1 class="h-blue">{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}</h1>
+                                </a>
+                                <small class="top">{{ res['own_res_gen_res_id']['gen_res_own_id']['own_address_province']['prov_name']|title }}, {{ res['own_res_gen_res_id']['gen_res_own_id']['own_address_municipality']['mun_name']|title }}
+                                    <br>{{res['own_res_room_type']|trans}}</small>
+                                <small class="top">{{"ADULTS" | trans}}: {{res['own_res_count_adults']}} {{"KIDS" | trans}}: {{res['own_res_count_childrens']}}</small>
+                                <small class="top">{{"FROM_PRICES" | trans}}: {{res['own_res_reservation_from_date']|date('d/m/Y')}} {{"TO_PRICES" | trans}}: {{res['own_res_reservation_to_date']|date('d/m/Y')}}</small>
+                            </div>
+                            <div class="col-sm-3 text-center grey">
+                                <div><input type="checkbox"> {{"SELECT_FOR_PAYMENT" | trans}}</div>
+                                <div class="big-price-blue">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{res['own_res_night_price'] *(nights[loop.index0])}}</div>
+                                <div>{{"ID_RESERVATION" | trans}}: <b>CAS.{{res['own_res_id']}}</b></div>
+                            </div>
+                        </div>
+                        <hr/>
+                    {% else %}
+                        <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
+                    {% endfor %}
+                    {%if res_available%}
+                    <div class="text-right" style="margin: 30px 15px">
+                        <button class="btn btn-action btn-success">{{"CONTINUE_RESERVING" | trans}}<</button>
+                    </div>
+                    {% endif %}
+                </form>
             </div>
         </div>
-</div>
-{% else %}
-        <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
-{% endfor %}
-{%if res_available%}
-<div style="text-align: right">
-    <button type="submit" class="btn mycp_btn mycp_btn_orange">{{"CONTINUE_RESERVING" | trans}}</button>
-</div>
-</form>
-{% endif %}
+    </div>
 {% endblock %}

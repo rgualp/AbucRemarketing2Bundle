@@ -1,138 +1,213 @@
-
-<!--link href="{{ asset('bundles/frontend/css/jquery.jcarousel.css') }}" rel="stylesheet" />
-<link href="{{ asset('bundles/frontend/css/jcarousel/skin.css') }}" rel="stylesheet" />
-<script src="{{ asset('bundles/frontend/js/jquery.jcarousel.js') }}"></script-->
-	
-<script type="text/javascript">
-
-$(document).ready(function() {
-	//$('.bottom_tab_carousel').jcarousel();
-});
-
-</script>
-	
-
-<div class="secondary_tab row-fluid">
-    <div class="nav-tabs_cont">
+<div class="tabbable">
         <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#popular_destinations">{{"POPULAR_DESTINATIONS_HOME_TABS" | trans}}</a></li>
-            <li><a data-toggle="tab" href="#last_added">{{"LAST_ADDED_HOME_TABS" | trans}}</a></li>
-            <li><a data-toggle="tab" href="#economic_houses">{{"ECONOMIC_HOME_TABS" | trans}}</a></li>
-            <li><a data-toggle="tab" href="#midrange_houses">{{"MIDRANGE_HOME_TABS" | trans}}</a></li>
-            <li><a data-toggle="tab" href="#premium_houses">{{"PREMIUM_HOME_TABS" | trans}}</a></li>
+            <li class="active"><a data-toggle="tab" href="#tab1">{{"POPULAR_DESTINATIONS_HOME_TABS" | trans}}</a></li>
+            <li><a data-toggle="tab" href="#tab2">{{"LAST_ADDED_HOME_TABS" | trans}}</a></li>
+            <li><a data-toggle="tab" href="#tab3">{{"ECONOMIC_HOME_TABS" | trans}}</a></li>
+            <li><a data-toggle="tab" href="#tab4">{{"MIDRANGE_HOME_TABS" | trans}}</a></li>
+            <li><a data-toggle="tab" href="#tab5">{{"PREMIUM_HOME_TABS" | trans}}</a></li>
         </ul>
-    </div>
-    <div class="tab-content">
-        <div id="popular_destinations" class="tab-pane fade in active">
-            <div class="row-fluid">
-                <!--ul class="bottom_tab_carousel jcarousel-skin-tango"-->
-                {% for destination in popular_places %}
-                        <!--li class="span3"-->
-                        <div class="span3">
-                            {{ include('frontEndBundle:destination:homeItemDestination.html.twig',{'destination_id': destination['des_id'], 
-                                    'destination_name': destination['des_name'],
-                                    'is_in_favorite': destination['is_in_favorites'],
-                                    'photo': destination['photo'],
-                                    'localization': destination['municipality_name'] ~ ' / ' ~ destination['province_name'],
-                                    'statistics': {'total': destination['count_ownership'], 'minimum_prize': destination['min_price']},
-                                    'list_preffix': 'popular_places'}) }}
-                        <!--/li-->
+        <div class="tab-content">
+            <div id="tab1" class="tab-pane active">
+                <div class="carousel slide" id="th-destination-carousel">
+                    <div class="carousel-inner thumbs-houses">
+                        {% set flag_item = 0 %}
+                        {% for i in 1..3 %}
+                        <div class="item {% if i == 1 %}active{% endif %}">
+                            <div class="row">
+                                {% for e in 1..4%}
+                                {% if popular_places[flag_item] is defined %}
+                                {{ include('frontEndBundle:destination:homeItemDestination.html.twig',{'destination_id': popular_places[flag_item]['des_id'],
+                                'destination_name':popular_places[flag_item]['des_name'],
+                                'is_in_favorite': popular_places[flag_item]['is_in_favorites'],
+                                'photo': popular_places[flag_item]['photo'],
+                                'localization': popular_places[flag_item]['municipality_name'] ~ ' / ' ~ popular_places[flag_item]['province_name'],
+                                'statistics': {'total': popular_places[flag_item]['count_ownership'], 'minimum_prize': popular_places[flag_item]['min_price']},
+                                'list_preffix': 'popular_places'}) }}
+                                {% set flag_item = flag_item + 1 %}
+                                {% endif %}
+                                {% endfor %}
                             </div>
-                    
-                {% else %}
-                <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
-                {% endfor %}
-                <!--/ul-->
+                        </div>
+                        {% else %}
+                        <div class="item active">
+                            <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {%if popular_places | length%}
+                    <a data-slide="prev" href="#th-destination-carousel" class="left carousel-control">
+                        <span class="icon-prev"></span>
+                    </a>
+                    <a data-slide="next" href="#th-destination-carousel" class="right carousel-control">
+                        <span class="icon-next"></span>
+                    </a>
+                    {%endif%}
+                </div>
             </div>
-            <div style="margin-top: 5px; text-align: right">
-                <a title="{{"POPULAR_DESTINATIONS_TOOLTIP_HOME_TAB" | trans}}" href="{{ path('frontend_list_destinations')}}">{{"SEEMORE_LINK_TEXT" | trans}}</a>
+            <div id="tab2" class="tab-pane">
+                <div class="carousel slide" id="th-last-carousel">
+                    <div class="carousel-inner thumbs-houses">
+                        {% set flag_item = 0 %}
+                        {% for i in 1..3 %}
+                        <div class="item {% if i == 1 %}active{% endif %}">
+                            <div class="row">
+                                {% for e in 1..4%}
+                                    {% if last_added[flag_item] is defined %}
+                                    {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{
+                                    'own_id': last_added[flag_item]['own_id'],
+                                    'own_name': last_added[flag_item]['own_name'],
+                                    'own_comments': last_added[flag_item]['comments_total'],
+                                    'own_rating': last_added[flag_item]['rating'],
+                                    'own_province': last_added[flag_item]['prov_name'],
+                                    'own_minimum_price': last_added[flag_item]['minimum_price'],
+                                    'is_in_favorite': last_added[flag_item]['is_in_favorites'],
+                                    'photo': last_added[flag_item]['photo'],
+                                    'category': last_added[flag_item]['category'],
+                                    'list_preffix': 'last_added_owns'}) }}
+                                {% set flag_item = flag_item + 1 %}
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% else %}
+                            <div class="item active">
+                                <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {%if last_added | length%}
+                    <a data-slide="prev" href="#th-last-carousel" class="left carousel-control">
+                        <span class="icon-prev"></span>
+                    </a>
+                    <a data-slide="next" href="#th-last-carousel" class="right carousel-control">
+                        <span class="icon-next"></span>
+                    </a>
+                    {%endif%}
+                </div>
             </div>
-        </div>
-        <div id="last_added" class="tab-pane fade in">
-            <div class="row-fluid">
-                {% for ownership in last_added %}
-                {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{
-                        'own_id': ownership['own_id'],
-                        'own_name': ownership['own_name'],
-                        'own_comments': ownership['comments_total'],
-                        'own_rating': ownership['rating'],
-                        'own_province': ownership['prov_name'],
-                        'own_minimum_price': ownership['minimum_price'],
-                        'is_in_favorite': ownership['is_in_favorites'],
-                        'photo': ownership['photo'],
-                        'list_preffix': 'last_added_owns'}) }} 
-                {% else %}
-                <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
-                {% endfor %}
+            <div id="tab3" class="tab-pane">
+                <div class="carousel slide" id="th-economics-carousel">
+                    <div class="carousel-inner thumbs-houses">
+                        {% set flag_item = 0 %}
+                        {% for i in 1..3 %}
+                        <div class="item {% if i == 1 %}active{% endif %}">
+                            <div class="row">
+                                {% for e in 1..4%}
+                                {% if economic_own_list[flag_item] is defined %}
+                                {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{
+                                'own_id': economic_own_list[flag_item]['own_id'],
+                                'own_name': economic_own_list[flag_item]['own_name'],
+                                'own_comments': economic_own_list[flag_item]['comments_total'],
+                                'own_rating': economic_own_list[flag_item]['rating'],
+                                'own_province': economic_own_list[flag_item]['prov_name'],
+                                'own_minimum_price': economic_own_list[flag_item]['minimum_price'],
+                                'is_in_favorite': economic_own_list[flag_item]['is_in_favorites'],
+                                'photo': economic_own_list[flag_item]['photo'],
+                                'category': economic_own_list[flag_item]['category'],
+                                'list_preffix': 'last_added_owns'}) }}
+                                {% set flag_item = flag_item + 1 %}
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% else %}
+                            <div class="item active">
+                                <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {%if economic_own_list | length%}
+                    <a data-slide="prev" href="#th-economics-carousel" class="left carousel-control">
+                        <span class="icon-prev"></span>
+                    </a>
+                    <a data-slide="next" href="#th-economics-carousel" class="right carousel-control">
+                        <span class="icon-next"></span>
+                    </a>
+                    {%endif%}
+                </div>
             </div>
-            <div style="margin-top: 5px; text-align: right">
-                <a title="{{"LAST_ADDED_TOOLTIP_HOME_TAB" | trans}}" href="{{ path('frontend_last_added_ownership')}}">{{"SEEMORE_LINK_TEXT" | trans}}</a>
+            <div id="tab4" class="tab-pane">
+                <div class="carousel slide" id="th-medium-carousel">
+                    <div class="carousel-inner thumbs-houses">
+                        {% set flag_item = 0 %}
+                        {% for i in 1..3 %}
+                        <div class="item {% if i == 1 %}active{% endif %}">
+                            <div class="row">
+                                {% for e in 1..4%}
+                                {% if medium_own_list[flag_item] is defined %}
+                                {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{
+                                'own_id': medium_own_list[flag_item]['own_id'],
+                                'own_name':  medium_own_list[flag_item]['own_name'],
+                                'own_comments':  medium_own_list[flag_item]['comments_total'],
+                                'own_rating':  medium_own_list[flag_item]['rating'],
+                                'own_province':  medium_own_list[flag_item]['prov_name'],
+                                'own_minimum_price':  medium_own_list[flag_item]['minimum_price'],
+                                'is_in_favorite':  medium_own_list[flag_item]['is_in_favorites'],
+                                'photo':  medium_own_list[flag_item]['photo'],
+                                'category':  medium_own_list[flag_item]['category'],
+                                'list_preffix': 'last_added_owns'}) }}
+                                {% set flag_item = flag_item + 1 %}
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% else %}
+                            <div class="item active">
+                                <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
+                            </div>
+                        {% endfor %}
+                        </div>
+                    {%if medium_own_list  | length%}
+                    <a data-slide="prev" href="#th-medium-carousel" class="left carousel-control">
+                        <span class="icon-prev"></span>
+                    </a>
+                    <a data-slide="next" href="#th-medium-carousel" class="right carousel-control">
+                        <span class="icon-next"></span>
+                    </a>
+                    {%endif%}
+                </div>
             </div>
-        </div>
-        <div id="economic_houses" class="tab-pane fade in">
-            <div class="row-fluid">
-                {% for ownership in economic_own_list %}
-                {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{
-                            'own_id': ownership['own_id'],
-                            'own_name': ownership['own_name'],
-                            'own_comments': ownership['comments_total'],
-                            'own_rating': ownership['rating'],
-                            'own_province': ownership['prov_name'],
-                            'own_minimum_price': ownership['minimum_price'],
-                            'is_in_favorite': ownership['is_in_favorites'],
-                            'photo': ownership['photo'],
-                            'list_preffix': 'economic_owns'}) }} 
-                {% else %}
-                <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
-                {% endfor %}
-            </div>
-            <div style="margin-top: 5px; text-align: right">
-                <a title="{{"ECONOMIC_TOOLTIP_HOME_TAB" | trans}}" href="{{ path('frontend_category_ownership',{'category':'economy'})}}">{{"SEEMORE_LINK_TEXT" | trans}}</a>
-            </div>
-        </div>
+            <div id="tab5" class="tab-pane">
+                <div class="carousel slide" id="th-premium-carousel">
+                    <div class="carousel-inner thumbs-houses">
+                        {% set flag_item = 0 %}
+                        {% for i in 1..3 %}
+                        <div class="item {% if i == 1 %}active{% endif %}">
+                            <div class="row">
+                                {% for e in 1..4%}
+                                {% if premium_own_list[flag_item] is defined %}
+                                {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{
+                                'own_id': premium_own_list[flag_item]['own_id'],
+                                'own_name': premium_own_list[flag_item]['own_name'],
+                                'own_comments': premium_own_list[flag_item]['comments_total'],
+                                'own_rating': premium_own_list[flag_item]['rating'],
+                                'own_province': premium_own_list[flag_item]['prov_name'],
+                                'own_minimum_price': premium_own_list[flag_item]['minimum_price'],
+                                'is_in_favorite': premium_own_list[flag_item]['is_in_favorites'],
+                                'photo': premium_own_list[flag_item]['photo'],
+                                'category': premium_own_list[flag_item]['category'],
+                                'list_preffix': 'last_added_owns'}) }}
+                                    {% set flag_item = flag_item + 1 %}
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% else %}
+                            <div class="item active">
+                                <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
+                            </div>
+                        {% endfor %}
 
-        <div id="midrange_houses" class="tab-pane fade in">
-            <div class="row-fluid">
-                {% for ownership in medium_own_list %}
-                {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{
-                            'own_id': ownership['own_id'],
-                            'own_name': ownership['own_name'],
-                            'own_comments': ownership['comments_total'],
-                            'own_rating': ownership['rating'],
-                            'own_province': ownership['prov_name'],
-                            'own_minimum_price': ownership['minimum_price'],
-                            'is_in_favorite': ownership['is_in_favorites'],
-                            'photo': ownership['photo'],
-                            'list_preffix': 'medium_owns'}) }} 
-                {% else %}
-                <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
-                {% endfor %}
-            </div>
-            <div style="margin-top: 5px; text-align: right">
-                <a title="{{"MIDRANGE_TOOLTIP_HOME_TAB" | trans}}" href="{{ path('frontend_category_ownership',{'category':'mid_range'})}}">{{"SEEMORE_LINK_TEXT" | trans}}</a>
-            </div>
-        </div>
-
-        <div id="premium_houses" class="tab-pane fade in">
-            <div class="row-fluid">
-                {% for ownership in premium_own_list %}
-                {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{
-                            'own_id': ownership['own_id'],
-                            'own_name': ownership['own_name'],
-                            'own_comments': ownership['comments_total'],
-                            'own_rating': ownership['rating'],
-                            'own_province': ownership['prov_name'],
-                            'own_minimum_price': ownership['minimum_price'],
-                            'is_in_favorite': ownership['is_in_favorites'],
-                            'photo': ownership['photo'],
-                            'list_preffix': 'premium_owns'}) }} 
-                {% else %}
-                <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
-                {% endfor %}
-            </div>
-            <div style="margin-top: 5px; text-align: right">
-                <a title="{{"PREMIUM_TOOLTIP_HOME_TAB" | trans}}" href="{{ path('frontend_category_ownership',{'category':'premium'})}}">{{"SEEMORE_LINK_TEXT" | trans}}</a>
+                    </div>
+                    {%if premium_own_list | length%}
+                    <a data-slide="prev" href="#th-premium-carousel" class="left carousel-control">
+                        <span class="icon-prev"></span>
+                    </a>
+                    <a data-slide="next" href="#th-premium-carousel" class="right carousel-control">
+                        <span class="icon-next"></span>
+                    </a>
+                    {%endif%}
+                </div>
             </div>
         </div>
     </div>
-</div>

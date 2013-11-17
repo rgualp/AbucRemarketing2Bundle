@@ -21,7 +21,7 @@ class restorePasswordUserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('user_email','text',array('label'=>$this->translate->trans('FORMS_EMAIL')))
+            ->add('user_email','text',array('label'=>$this->translate->trans('FORMS_EMAIL'), 'attr'=>array('class'=>'form-control')))
         ;
     }
 

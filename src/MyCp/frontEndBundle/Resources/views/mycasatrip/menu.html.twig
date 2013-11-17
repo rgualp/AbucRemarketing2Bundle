@@ -1,10 +1,38 @@
-<ul class="nav nav-tabs nav-stacked" style="">
+<div class="row myct-menu">
+<a href="{{ path('frontend_mycasatrip_pending',{'order_by':0}) }}"><div class="col-sm-4 active" style="width: 20%"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services eye-icon"> {{"CONSULTS" | trans}}</div></a>
+<a href="{{ path('frontend_mycasatrip_payment') }}"><div class="col-sm-4" style="width: 20%"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services flag-icon"> {{"RESERVES" | trans}}</div></a>
+<a href=""><div class="col-sm-4" style="width: 20%"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services graph-icon"> {{"HISTORY" | trans}}</div></a>
+<a href="{{ path('frontend_mycasatrip_favorites', {'favorite_type':'ownerships'}) }}"><div class="col-sm-4" style="width: 20%"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services heart-3-icon"> {{"FAVORITIES" | trans}}</div></a>
+<a href="{{ path('frontend_mycasatrip_comments', {'comment_type':'ownerships'}) }}"><div class="col-sm-4" style="width: 20%"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services persons-icon"> {{"FORMS_COMMENTS" | trans}}</div></a>
+</div>
+<div class="tabbable">
+        <ul class="nav nav-tabs">
+            {%if menu == 1 or menu == 2%}
+            <li class="{% if menu == 1 %}active{% endif %}"><a href="{{ path('frontend_mycasatrip_pending',{'order_by':0}) }}">{{"RESPONSE_PENDING" | trans}} ({{counts['pending']}})</a></li>
+            <li class="{% if menu == 2 %}active{% endif %}"><a href="{{ path('frontend_mycasatrip_available', {'order_by':0}) }}"><i class="icon-home"></i> {{"DISPONIBILITY" | trans}} ({{counts['available']}})</a></li>
+            {%endif%}
+                
+            {%if menu == 3 or menu == 4%}
+            <li class="{% if menu == 3 %}active{% endif %}"><a href="{{path('frontend_mycasatrip_payment') }}">{{"RESERVED" | trans}} ({{counts['reserve']}})</a></li>
+            <!--li class="{% if menu == 4 %}active{% endif %}"><a href="{{ path('frontend_mycasatrip_payment') }}"><i class="icon-home"></i> {{"PAYMENT_CONFIRM_2" | trans}} ({{counts['payed']}})</a></li-->
+            {%endif%}
+                
+            {%if menu == 7 or menu == 8%}
+            <li class="{% if menu == 7 %}active{% endif %}"><a href="{{ path('frontend_mycasatrip_favorites', {'favorite_type':'ownerships'}) }}">{{"OWNERSHIPS" | trans}} ({{counts['favorites_ownerships']}})</a></li>
+            <li class="{% if menu == 8 %}active{% endif %}"><a href="{{ path('frontend_mycasatrip_favorites', {'favorite_type':'destinations'}) }}"><i class="icon-home"></i> {{"DESTINATIONS" | trans}} ({{counts['favorites_destinations']}})</a></li>
+            {%endif%}
+        </ul>
+
+
+
+
+<!--ul class="nav nav-tabs nav-stacked" style="">
     <li class="active"><a><b>{{"CONSULTS" | trans}}</a></b></li>
     <li class="{% if menu == 1 %}active_link active{% endif %}"><a href="{{ path('frontend_mycasatrip_pending',{'order_by':0}) }}">{{"RESPONSE_PENDING" | trans}} ({{counts['pending']}})</a></li>
     <li class="{% if menu == 2 %}active_link active{% endif %}"><a href="{{ path('frontend_mycasatrip_available', {'order_by':0}) }}">{{"DISPONIBILITY" | trans}} ({{counts['available']}})</a></li>
     <li class="active"><a><b>{{"RESERVES" | trans}}</a></b></li>
     <!--<li class="{% if menu == 3 %}active_link active{% endif %}"><a href="{{ path('frontend_mycasatrip_reserve',{'order_by':0}) }}">{{"RESERVED" | trans}} ({{counts['reserve']}})</a></li>-->
-    <li class="{% if menu == 4 %}active_link active{% endif %}"><a href="{{ path('frontend_mycasatrip_payment') }}">{{"PAYMENT_CONFIRM_2" | trans}} ({{counts['payed']}})</a></li>
+    <!--li class="{% if menu == 4 %}active_link active{% endif %}"><a href="{{ path('frontend_mycasatrip_payment') }}">{{"PAYMENT_CONFIRM_2" | trans}} ({{counts['payed']}})</a></li>
     <li class="active"><a><b>{{"HISTORY" | trans}}</a></b></li>
     <li class="{% if menu == 5 %}active_link active{% endif %}"><a href="{{ path('frontend_mycasatrip_historial_consult', {'order_by':0}) }}">{{"CONSULTS" | trans}} ({{counts['consult']}})</a></li>
     <li class="{% if menu == 6 %}active_link active{% endif %}"><a href="{{ path('frontend_mycasatrip_historial_reserve')}}">{{"RESERVES" | trans}} ({{counts['reserve_history']}})</a></li>
@@ -13,4 +41,4 @@
     <li class="{% if menu == 8 %}active_link active{% endif %}"><a href="{{ path('frontend_mycasatrip_favorites', {'favorite_type':'destinations'}) }}">{{"DESTINATIONS" | trans}} ({{counts['favorites_destinations']}})</a></li>
     <li class="active"><a><b>{{"FORMS_COMMENTS" | trans}}</a></b></li>
     <li class="{% if menu == 9 %}active_link active{% endif %}"><a href="{{ path('frontend_mycasatrip_comments', {'comment_type':'ownerships'}) }}">{{"OWNERSHIPS" | trans}} ({{counts['comments_ownerships']}})</a></li>
-</ul>
+</ul-->

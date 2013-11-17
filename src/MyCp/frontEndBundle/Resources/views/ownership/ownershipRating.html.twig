@@ -1,19 +1,14 @@
-<h4>{{"RATINGS_TEXT_1" | trans}}</h4>
-{{"RATINGS_TEXT_2" | trans}}
-<div class="big_stars">
-  {%if ownership.rating > 0%}
+<h3 class="caecilia-roman text-center">{{"RATINGS_TEXT_1" | trans}} <br/>{{"RATINGS_TEXT_2" | trans}}</h3>
+            <div class="text-center">
+                {%if ownership.rating > 0%}
     {%for i in 1..ownership.rating%}
-      <img src="{{ asset('bundles/frontend/images/star_2_on.gif') }}">
+      <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-medium star-orange-icon-2"/>
     {%endfor%}
   {%endif%}
 
   {%if ownership.rating < 5%}
     {%for i in 1..(5-ownership.rating)%}
-       <img src="{{ asset('bundles/frontend/images/star_2_off.gif') }}">
+       <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-medium star-orange-off-icon-2"/>
     {%endfor%}
   {%endif%}
-</div>
-<h4>{{"RECOMENDS_RATINGS" | trans}}</h4>
-<div style="margin: auto; float: none;" class="rating no_photo" title="{{"TOTAL_RECOMENDS_RATING" | trans({ '%total_recomends%': ownership.comments_total })}}">
-   {%if ownership.comments_total > 0%}+{%endif%}{{ownership.comments_total}}
-</div>
+            </div>

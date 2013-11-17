@@ -1,3 +1,7 @@
+$(function () {
+    $("[rel='tooltip']").tooltip();
+});
+
 $(document).ready(start);
 
 function start() {
