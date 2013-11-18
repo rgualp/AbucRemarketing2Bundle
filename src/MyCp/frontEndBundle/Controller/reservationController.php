@@ -364,7 +364,8 @@ class reservationController extends Controller
             return $this->redirect($this->generateUrl('frontend_review_reservation'));
         }
 
-        $request->getSession()->set('services_pre_reservation', null);
+        //$request->getSession()->set('services_pre_reservation', null);
+
 
         /*
          * Hallando otros ownerships en el mismo destino

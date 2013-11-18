@@ -92,7 +92,13 @@
     
 }*/
 start();
-var flag=0;
+datePickersStarUp();
+
+ function datePickersStarUp()
+ {
+
+ }
+
 function start(){
 
     $('#btn_insert_comment').click(insert_comment);
@@ -203,6 +209,8 @@ function start(){
 
 
 }
+
+
 
 /*function submit_button_top_reservation()
 {
