@@ -553,9 +553,8 @@ footer ul li{line-height: 16px}
 .loading-signal{
     position: fixed;
     z-index: 101;
-    background-color: #ffffff;
-    padding: 5px 10px;
-    border: solid 1px #555555;
+
+    padding: 5px;
     top: 50%;
     left: 50%;
 }
@@ -570,3 +569,7 @@ footer ul li{line-height: 16px}
 
 .hidden{display: none;}
 .filter_upper_item{margin-bottom: 10px;}
+.load-icon{
+    -webkit-box-shadow: 0 0 30px 30px rgba(255, 255, 255, 1);
+    background-color: #ffffff;
+    box-shadow: 0 0 30px 30px rgba(255, 255, 255, 1);}
