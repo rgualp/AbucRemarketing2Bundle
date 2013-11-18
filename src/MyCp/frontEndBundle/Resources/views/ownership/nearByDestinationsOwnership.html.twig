@@ -1,13 +1,23 @@
 {%if destinations | length%}
-<div class="thumbnail row-fluid head">
-    <div class="header">{{"VISIT_ANOTHER_DESTINATIONS" | trans}}</div>
-     <div class="subheader"></div>
-        <div class="content">
-    {%for dest in destinations%}
-            <div class="row-fluid">
-                <a title="{{"MORE_INFO_PREFFIX" | trans}} {{dest['des_name']}}" href="{{ path('frontend_details_destination',{'destination_name':dest['des_name']|lower|replace(' ','_')}) }}">{{dest['des_name']}}</a>
+<div class="carousel slide carousel-mini" id="destinationCarousel">
+                <h4 class="carousel-title">{{"VISIT_ANOTHER_DESTINATIONS" | trans}}</h4>
+                <div class="carousel-inner">
+                    {%set counter = 0%}
+                    {%for dest in destinations%}
+                    <div class="item {%if counter == 0%}active{%endif%}">
+                        <div class="row">
+                            <div class="col-xs-6"><img src="{{asset('bundles/frontend/img/capitol.jpg')}}" class="thumbnail full-width"></div>
+                            <div class="col-xs-6"><b>
+                            <a href="{{ path('frontend_details_destination',{'destination_name':dest['des_name']|lower|replace(' ','_')}) }}">
+                            {{dest['des_name']}}
+                            </a></b><br/>$20 por noche<br/>
+                            Anim pariatur cliche reprehenderit, enim eiusmod high.</div>
+                        </div>
+                    </div>
+                        {%set counter = counter + 1%}
+                    {%endfor%}
+                </div>
+                <a data-slide="prev" href="#destinationCarousel" class="left carousel-control">‹</a>
+                <a data-slide="next" href="#destinationCarousel" class="right carousel-control">›</a>
             </div>
-            {%endfor%}
-        </div>
-</div>
 {%endif%}

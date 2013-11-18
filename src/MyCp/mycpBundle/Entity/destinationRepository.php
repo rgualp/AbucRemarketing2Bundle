@@ -176,7 +176,7 @@ class destinationRepository extends EntityRepository {
      * @return array with all destinations and its inner data...
      * @author Daniel Sampedro <darthdaniel85@gmail.com>
      */
-    public function getAllDestinations($locale,$results_total = null) {
+    public function getAllDestinations($locale, $user_id, $session_id,$results_total = null) {
         $em = $this->getEntityManager();
         /*$query_string = "SELECT d, dl, dm, dp FROM mycpBundle:destination d
                          LEFT JOIN d.destinationsLang dl
@@ -193,7 +193,10 @@ class destinationRepository extends EntityRepository {
                            JOIN dp.des_pho_photo pho
                            WHERE dp.des_pho_destination = d.des_id AND (pho.pho_order =
                            (SELECT MIN(pho2.pho_order) FROM mycpBundle:destinationPhoto dp2
-                           JOIN dp2.des_pho_photo pho2 WHERE dp2.des_pho_destination = dp.des_pho_destination ) or pho.pho_order is null)) as photo   
+                           JOIN dp2.des_pho_photo pho2 WHERE dp2.des_pho_destination = dp.des_pho_destination ) or pho.pho_order is null)) as photo,
+                           (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = 1 AND o.own_address_municipality = (SELECT min(mun.mun_id) FROM mycpBundle:destinationLocation loc JOIN loc.des_loc_municipality mun WHERE loc.des_loc_destination = d.des_id)
+                         AND o.own_address_province = (SELECT min(prov.prov_id) FROM mycpBundle:destinationLocation loc1 JOIN loc1.des_loc_province prov WHERE loc1.des_loc_destination = d.des_id)) as count_ownership,
+                           (SELECT count(fav) FROM mycpBundle:favorite fav WHERE ".(($user_id != null)? " fav.favorite_user = $user_id " : " fav.favorite_user is null")." AND ".(($session_id != null)? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null"). " AND fav.favorite_destination=d.des_id) as is_in_favorites
                          FROM mycpBundle:destination d
                          WHERE d.des_active <> 0
                          ORDER BY d.des_order ASC";
@@ -446,6 +449,8 @@ class destinationRepository extends EntityRepository {
                              mun.mun_name,
                              o.own_comments_total as comments_total,
                              o.own_rating as rating,
+                             o.own_category as category,
+                             o.own_type as type,
                              o.own_minimum_price as minimum_price,
                              (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id) as photo,
                              (SELECT count(fav) FROM mycpBundle:favorite fav WHERE ".(($user_id != null)? " fav.favorite_user = $user_id " : " fav.favorite_user is null")." AND ".(($session_id != null)? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null"). " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
@@ -549,5 +554,17 @@ class destinationRepository extends EntityRepository {
     /**
      * Yanet - Fin
      */
+    
+    function get_for_main_menu()
+    {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT DISTINCT d.des_id, d.des_name,                         
+                         (SELECT min(mun) FROM mycpBundle:destinationLocation loc JOIN loc.des_loc_municipality mun WHERE loc.des_loc_destination = d.des_id ) as municipality_id,
+                         (SELECT min(prov) FROM mycpBundle:destinationLocation loc1 JOIN loc1.des_loc_province prov WHERE loc1.des_loc_destination = d.des_id ) as province_id,
+                         (SELECT count(o) FROM mycpBundle:ownership o where o.own_address_municipality = municipality_id AND o.own_address_province = province_id) as total_owns   
+                         FROM mycpBundle:destination d
+                         ORDER BY total_owns DESC, d.des_name ASC";
+        return $em->createQuery($query_string)->setMaxResults(10)->getResult();
+    }
     
 }

@@ -2,18 +2,9 @@
 {% block title %}
 {{"FAVORITIES"  | trans }}
 {% endblock %}
-
 {% set main_tab = 2 %}
-{% block content_nav_top_body %}
-{{"FAVORITIES_PAGE_DESCRIPTION" | trans}}
-{% endblock %}
 
 {% block body %}
-<ul class="breadcrumb">
-    <li><a href="{{ path('frontend_welcome') }}" title="{{"GO_HOME_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a> <span class="divider">»</span></li>
-    <!--li class="active">{{"DESTINATIONS_MAIN_MENU" | trans}}<span class="divider">»</span></li-->
-    <li class="active">{{ "FAVORITIES" | trans}}</li>
-</ul>
 <div id="loading" class="alert alert-info hidden"> <img src="{{ asset('bundles/frontend/images/loading.gif') }}"/> {{"LOADING_MESSAGE" | trans}}</div>
 <div class="third_tab secondary_tab row-fluid">
     <div class="nav-tabs_cont">

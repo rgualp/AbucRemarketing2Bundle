@@ -1,39 +1,39 @@
 
-  <div class="destinationContent">
-    <a href="{{ path('frontend_details_destination',{'destination_name':destination_name|lower|replace(' ','_')}) }}" title="{{'MORE_INFO_PREFFIX' | trans}} {{destination_name}}">
-        <img class="photo" src="{{ asset('uploads/destinationImages/thumbnails/' ~ photo)}}"/>
-    </a>
-        <div class="row-fluid title_row">
-                <div class="title span9"> 
-                    <a href="{{ path('frontend_details_destination',{'destination_name':destination_name|lower|replace(' ','_')}) }}" title="{{'MORE_INFO_PREFFIX' | trans}} {{destination_name}}">
-                    {{destination_name | title | slice(0, 27)}}
-                    {%if destination_name | length > 27%}...{%endif%}
-                    </a>
-                </div>
-                    <div class="favorite span2">
+<div class="col-sm-3">    
+<div class="thumbnail">
+        <a title="{{ "DESTINATIONS"|trans }} {{ destination_name }}" href="{{ path('frontend_details_destination',{'destination_name':destination_name|lower|replace(' ','_')}) }}">
+            <img alt="{{ "DESTINATIONS"|trans }} {{ destination_name }}" src="{{ asset('uploads/destinationImages/thumbnails/' ~ photo)}}">
+        </a>
+    </div>
+    <a href="{{ path('frontend_details_destination',{'destination_name':destination_name|lower|replace(' ','_')}) }}">
+    <h2 class="h-blue">
+        {{destination_name | title | slice(0, 27)}}
+        {%if destination_name | length > 27%}...{%endif%}        
+    </h2>
+    </a>    
+    <h5 class="no-margin">
+        <table>
+            <tr>
+                <td>
+                    <small>{{localization}}</small>
+                </td>
+                <td>
+                    <div class="favorite">
                        {{ include('frontEndBundle:favorite:itemFavorite.html.twig', 
                         {'is_in_favorite': is_in_favorite,
                          'favorite_type': 'destination',
                          'element_id':destination_id,
-                         'list_preffix' : list_preffix
+                         'list_preffix' : list_preffix,
+                       'include_text': false
                          }) }}
-                    </div>            
-                </div>
-    
-    <div class="row-fluid destinationPlace">
-        {{localization}}
-    </div>
-<div class="row-fluid owns_statistics">
-<div class="span7 left_margin"> 
-    {%if statistics['total'] > 0%}
-        {{statistics['total']}} {{"OWNERSHIPS" | trans | lower}}
-    {%endif%}
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <h6 class="h-blue h-blue-2">{{"FROM_PRICES" | trans | lower}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{statistics['minimum_prize'] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}</h6>
+    </h5>
 </div>
-<div class="span4 right_margin">
-{{"FROM_PRICES" | trans | lower}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{statistics['minimum_prize'] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}
-</div>
-</div>
-  </div>
+
 
 
 

@@ -1,11 +1,11 @@
 {%if gray_theme is defined and gray_theme%}
-<a href="#send_to_friend_popup" title="{{'SEND_TO_FRIEND' | trans}}" data-toggle="modal"><img src="{{ asset('bundles/frontend/images/mail_gray.gif') }}" onclick="$('#send_to_friend_popup').attr('data-email-type', 'recommend_general');"></a>
+<a href="#send_to_friend_popup" title="{{'SEND_TO_FRIEND' | trans}}" data-toggle="modal"><img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"  onclick="$('#send_to_friend_popup').attr('data-email-type', 'recommend_general');"></a>
 <a href="http://www.facebook.com/MyCasaParticular" target="_blank" title="{{'FOLLOW_US_FACEBOOK' | trans}}"><img src="{{ asset('bundles/frontend/images/facebook_gray.gif') }}"></a>
 <a href="https://twitter.com/MyCP" target="_blank" title="{{'FOLLOW_US_TWITTER' | trans}}"><img src="{{ asset('bundles/frontend/images/twitter_gray.gif') }}"></a>
 {%else%}
-<a href="#send_to_friend_popup" title="{{'SEND_TO_FRIEND' | trans}}" data-toggle="modal"><img src="{{ asset('bundles/frontend/images/mail.gif') }}" onclick="$('#send_to_friend_popup').attr('data-email-type', 'recommend_general');"></a>
-<a href="http://www.facebook.com/MyCasaParticular" target="_blank" title="{{'FOLLOW_US_FACEBOOK' | trans}}"><img src="{{ asset('bundles/frontend/images/facebook.gif') }}"></a>
-<a href="https://twitter.com/MyCP" target="_blank" title="{{'FOLLOW_US_TWITTER' | trans}}"><img src="{{ asset('bundles/frontend/images/twitter.gif') }}"></a>
-<a href="https://pinterest.com/MyCasaParticular" target="_blank" title="{{'FOLLOW_US_PINENTEREST' | trans}}"><img src="{{ asset('bundles/frontend/images/pinenterest.gif') }}"></a>
-<a href="#" target="_blank" title="{{'FOLLOW_US_YOUTUBE' | trans}}"><img src="{{ asset('bundles/frontend/images/youtube.gif') }}"></a>
+<a href="#send_to_friend_popup" title="{{'SEND_TO_FRIEND' | trans}}" data-toggle="modal"><img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon mail-icon" onclick="$('#send_to_friend_popup').attr('data-email-type', 'recommend_general');"></a>
+<a href="http://www.facebook.com/MyCasaParticular" target="_blank" title="{{'FOLLOW_US_FACEBOOK' | trans}}"><img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon face-icon"></a>
+<a href="https://twitter.com/MyCP" target="_blank" title="{{'FOLLOW_US_TWITTER' | trans}}"><img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon tweet-icon"></a>
+<a href="https://pinterest.com/MyCasaParticular" target="_blank" title="{{'FOLLOW_US_PINENTEREST' | trans}}"><img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon pint-icon"></a>
+<a href="#" target="_blank" title="{{'FOLLOW_US_YOUTUBE' | trans}}"><img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon yout-icon"></a>
 {%endif%}

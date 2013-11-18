@@ -165,6 +165,22 @@ class ownershipReservationRepository extends EntityRepository {
         FROM mycpBundle:ownershipReservation ore_pend JOIN ore_pend.own_res_gen_res_id gre_pend WHERE gre_pend.gen_res_user_id = $id_user AND ore_pend.own_res_status=0 AND gre_pend.gen_res_date > '$new_date'");
         return $query->getArrayResult();
     }
+    
+    function get_for_main_menu($id_user)
+    {
+        $date_days = \date('Y-m-j');
+        $date_days = strtotime ( '-60 hours' , strtotime ( $date_days ) ) ;
+        $date_days = \date ( 'Y-m-j' , $date_days );
+
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT count(ore_avail) as available
+                                   FROM mycpBundle:ownershipReservation ore_avail 
+                                   JOIN ore_avail.own_res_gen_res_id gen_res 
+                                   WHERE gen_res.gen_res_user_id = $id_user 
+                                     AND ore_avail.own_res_status=1 
+                                     AND gen_res.gen_res_date > '$date_days'");
+        return $query->getScalarResult();
+    }
 
     function find_by_user_and_status_object($id_user,$status)
     {

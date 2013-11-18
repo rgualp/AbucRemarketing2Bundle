@@ -1,53 +1,67 @@
-<link href="{{ asset('bundles/frontend/css/bootstrap/bootstrap-datepicker.css') }}" rel="stylesheet">
-<script src="{{ asset('bundles/frontend/js/bootstrap/bootstrap-datepicker.js') }}"></script>
-<script src="{{ asset('bundles/frontend/js/bootstrap/bootstrap-datepicker.es.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/orangeSearchBar.js') }}"></script>
+<script src="{{ asset('bundles/frontend/js/typeahead.min.js') }}"></script>
 
-<div id="orange_search_bar">
-<div class="row-fluid">
-    <div class="perc_33 where"><input type="text" id="input_text" placeholder="{{"PLACE_WATERMARK" | trans}}" autocomplete="off" data-highlighter="null" class="mycp_text_box input-block-level" data-items="5" data- data-provide="typeahead" data-source='{{autocomplete_text_list}}'/></div>
-    <div class="perc_13"><input type="text" value="{{(app.session.get('search_arrival_date') != null) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now" |date("d/m/Y"))}}" id="input_arrival_date" placeholder="{{"ARRIVAL_WATERMARK" | trans}}" class="mycp_text_box input-block-level start" data-localization='{{locale}}' data-value='{{arrival_date}}' /></div>
-    <div class="perc_13"><input type="text" value="{{(app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : ("+1 day" |date("d/m/Y"))}}" id="input_departure_date" placeholder="{{"DEPARTURE_WATERMARK" | trans}}" class="mycp_text_box input-block-level end" data-localization='{{locale}}' data-value='{{departure_date}}'/></div>
-    <div class="btn-group mycp_combo perc_13" style="margin-top: 0;">
-        <a id="input_guests" style="width: 115px" class="combo_label btn dropdown-toggle span2 " placeholder="{{"GUEST_WATERMARK" | trans}}" data-toggle="dropdown"  href="javascript.void(0);"  data-value="1">{{"GUEST_WATERMARK" | trans}}</a>
-        <ul class="dropdown-menu">
-            <li><a class="option" data="input_guests" data-value="1">{{"GUEST_WATERMARK" | trans}}</a></li>
-            <li><a class="option" data="input_guests" data-value="2">2 {{"GUESTS" | trans}}</a></li>
-            <li><a class="option" data="input_guests" data-value="3">3 {{"GUESTS" | trans}}</a></li>
-            <li><a class="option" data="input_guests" data-value="4">4 {{"GUESTS" | trans}}</a></li>
-            <li><a class="option" data="input_guests" data-value="5">5 {{"GUESTS" | trans}}</a></li>
-            <li><a class="option" data="input_guests" data-value="6">6 {{"GUESTS" | trans}}</a></li>
-            <li><a class="option" data="input_guests" data-value="7">7 {{"GUESTS" | trans}}</a></li>
-            <li><a class="option" data="input_guests" data-value="8">8 {{"GUESTS" | trans}}</a></li>
-            <li><a class="option" data="input_guests" data-value="9">9 {{"GUESTS" | trans}}</a></li>
-            <li><a class="option" data="input_guests" data-value="10">10 {{"GUESTS" | trans}}</a></li>
-            <li><a class="option" data="input_guests" data-value="+10">+10 {{"GUESTS" | trans}}</a></li>
-        </ul>
+<div class="form bg-gradient-orange">
+        <div class="row">
+            <div class="col-sm-12" style="">
+                <form class="form-inline">
+                    <div class="col-sm-3">
+                        <input type="text" id="typeahead-place" placeholder="{{'PLACE_WATERMARK' | trans}}" class="form-control" autocomplete="off" data-highlighter="null" data-items="5" data-provide="typeahead">
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="input-group" style="padding: 0">
+                            <input class="form-control" value="{{(app.session.get('search_arrival_date') != null) ? (app.session.get('search_arrival_date')|date('d/m/Y')) : ('now' |date('d/m/Y'))}}" id="input_arrival_date" placeholder="{{'ARRIVAL_WATERMARK' | trans}}" type="text" data-localization='{{locale}}' data-value='{{arrival_date}}'>
+                            <span class="input-group-addon"><span class="icon-calendar"></span></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="input-group" style="padding: 0">
+                            <input class="form-control" value="{{(app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : ("+1 day" |date("d/m/Y"))}}" id="input_departure_date" placeholder="{{"DEPARTURE_WATERMARK" | trans}}" type="text" data-localization='{{locale}}' data-value='{{departure_date}}'>
+                            <span class="input-group-addon"><span class="icon-calendar"></span></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <select class="form-control" id="input_guests">
+                            <option value="1">{{"GUEST_WATERMARK" | trans}}</option>
+                            <option value="2">2 {{"GUESTS" | trans}}</option>
+                            <option value="3">3 {{"GUESTS" | trans}}</option>
+                            <option value="4">4 {{"GUESTS" | trans}}</option>
+                            <option value="5">5 {{"GUESTS" | trans}}</option>
+                            <option value="6">6 {{"GUESTS" | trans}}</option>
+                            <option value="7">7 {{"GUESTS" | trans}}</option>
+                            <option value="8">8 {{"GUESTS" | trans}}</option>
+                            <option value="9">9 {{"GUESTS" | trans}}</option>
+                            <option value="10">10 {{"GUESTS" | trans}}</option>
+                            <option value="+10">+10 {{"GUESTS" | trans}}</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2">
+                        <select class="form-control" id="input_room">
+                            <option value="1">{{"ROOM_WATERMARK" | trans }}</option>
+                            <option value="2">2 {{"ROOM_PLURAL" | trans | capitalize}}</option>
+                            <option value="3">3 {{"ROOM_PLURAL" | trans | capitalize}}</option>
+                            <option value="4">4 {{"ROOM_PLURAL" | trans | capitalize}}</option>
+                            <option value="5">5 {{"ROOM_PLURAL" | trans | capitalize}}</option>
+                            <option value="+5">+5 {{"ROOM_PLURAL" | trans | capitalize}}</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-1">
+                        <button class="btn btn-block btn-primary" type="submit" id="btn_search" data-url="{{ path('frontend_search_ownership',{'text':'_text', 'arrival':'_arrival','departure':'_departure','guests':'_guests','rooms':'_rooms'})}}" onclick="search()">{{"SEARCH" | trans | capitalize}}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-
-    <div class="btn-group mycp_combo perc_13 margin_left_5" style="margin-top: 0;">
-        <a id="input_room" style="width: 125px" class="combo_label btn dropdown-toggle span2 " placeholder="{{"ROOM_WATERMARK" | trans}}" data-toggle="dropdown" href="javascript.void(0);"  data-value="1">{{"ROOM_WATERMARK" | trans}}</a>
-        <ul class="dropdown-menu">
-            <li><a class="option" data="input_room" data-value="1">{{"ROOM_WATERMARK" | trans }}</a></li>
-            <li><a class="option" data="input_room" data-value="2">2 {{"ROOM_PLURAL" | trans | capitalize}}</a></li>
-            <li><a class="option" data="input_room" data-value="3">3 {{"ROOM_PLURAL" | trans | capitalize}}</a></li>
-            <li><a class="option" data="input_room" data-value="4">4 {{"ROOM_PLURAL" | trans | capitalize}}</a></li>
-            <li><a class="option" data="input_room" data-value="5">5 {{"ROOM_PLURAL" | trans | capitalize}}</a></li>
-            <li><a class="option" data="input_room" data-value="+5">+5 {{"ROOM_PLURAL" | trans | capitalize}}</a></li>
-        </ul>
-    </div>
-    <!--div class="perc_13"><input type="text" id="input_guests" placeholder="{{"GUEST_WATERMARK" | trans}}" class="input-block-level guest numeric" /></div-->
-    <!--div class="perc_13"><input type="text" id="input_room" placeholder="{{"ROOM_WATERMARK" | trans}}" class="input-block-level room numeric" /></div-->
-    <div class="perc_13 margin_left_15">
-        <button type="submit" id="btn_search" class="btn btn-block mycp_btn_green mycp_btn" data-url="{{ path('frontend_search_ownership',{'text':'_text', 'arrival':'_arrival','departure':'_departure','guests':'_guests','rooms':'_rooms'})}}" onclick="search()">
-            <!--i class="icon-search icon-white"></i--> {{"SEARCH" | trans}}
-        </button>
-    </div>
-</div>
-</div>
 
 <script type="text/javascript">
     var today_date="{{"now"|date("d/m/Y") }}";
     var start_date="{{ (app.session.get('search_arrival_date') != null) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now"|date("d/m/Y")) }}";
     var end_date="{{(app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : "+1 day" |date("d/m/Y")}}";
+
+    $.fn.typeahead &&
+    $('[data-provide="typeahead"]').typeahead({
+        name: "states",
+        local: {{ autocomplete_text_list |raw}},
+        limit: 4
+    });
 </script>

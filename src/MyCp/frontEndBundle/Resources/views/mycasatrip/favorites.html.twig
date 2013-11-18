@@ -6,7 +6,7 @@
 {% extends 'frontEndBundle:mycasatrip:layout.html.twig' %}
 {% block body_inner %}
 {%if favorite_type == "ownerships"%}
-<div class="row-fluid result_list ownerships_list" id="div_result">
+<div class="houses-list" id="div_result">
                 {{ include('frontEndBundle:ownership:ownershipItemList.html.twig', 
                 {'list': ownership_favorities,
                 'photos': ownership_favorities_photos,

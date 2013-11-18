@@ -538,6 +538,9 @@ class ownershipController extends Controller {
         $session = $request->getSession();
         $em = $this->getDoctrine()->getEntityManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        
+        if($session->get('search_view_results') == null)
+            $session->set('search_view_results','LIST');
 
         if ($request->getMethod() == 'POST') {
             $order = $request->request->get('order');
@@ -1278,7 +1281,7 @@ class ownershipController extends Controller {
     {
         $em = $this->getDoctrine()->getEntityManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
-        $history_owns = $em->getRepository('mycpBundle:userHistory')->get_list_entity($user_ids, true, 3, $exclude_ownership_id);
+        $history_owns = $em->getRepository('mycpBundle:userHistory')->get_list_entity($user_ids, true, 10, $exclude_ownership_id);
         $history_owns_photos = $em->getRepository('mycpBundle:ownership')->get_photos_array($history_owns);
         
          return $this->render('frontEndBundle:ownership:historyOwnership.html.twig', array(

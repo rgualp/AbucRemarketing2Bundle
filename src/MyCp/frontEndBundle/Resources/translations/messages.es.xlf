@@ -68,15 +68,15 @@
             </trans-unit>
             <trans-unit id="17">
                 <source>ECONOMICS_OWNS</source>
-                <target>Casas Económicas</target>
+                <target>Alojamientos Económicos</target>
             </trans-unit>
             <trans-unit id="18">
                 <source>MIDRANGE_OWNS</source>
-                <target>Casas Rango Medio</target>
+                <target>Alojamientos Rango Medio</target>
             </trans-unit>
             <trans-unit id="19">
                 <source>PREMIUM_OWNS</source>
-                <target>Casas Premium</target>
+                <target>Alojamientos Premium</target>
             </trans-unit>
             <trans-unit id="20">
                 <source>TOP_OWNS</source>
@@ -164,7 +164,7 @@
             </trans-unit>
             <trans-unit id="41">
                 <source>SLOGAN_3</source>
-                <target>su primera dirección en Cuba</target>
+                <target>MyCasaParticular.com, su primera dirección en Cuba</target>
             </trans-unit>
             <trans-unit id="42">
                 <source>HOME_MAIN_MENU</source>
@@ -224,11 +224,11 @@
             </trans-unit>
             <trans-unit id="56">
                 <source>HOMEPAGE_TEXT</source>
-                <target>Alojarse en una casa particular puede ser una de las experiencias más interesantes que usted puede disfrutar durante su viaje a Cuba. Aparte de tener la posibilidad de conocer a viajeros de todo el mundo, podrá conocer la realidad cubana desde adentro. Otro argumento muy importante es el precio. Las casas particulares son la opción más económica para su estancia en Cuba.</target>
+                <target>Alojarse en una //casa particular// puede ser una de las experiencias más interesantes que usted puede disfrutar durante su viaje a Cuba. Aparte de tener la posibilidad de conocer a viajeros de todo el mundo, podrá conocer la realidad cubana desde adentro. Otro argumento muy importante es el precio. Las casas particulares son la opción más económica para su estancia en Cuba.</target>
             </trans-unit>
             <trans-unit id="57">
                 <source>TOP_HOUSES_HOME_TITLE</source>
-                <target>Casas Mejor Valoradas</target>
+                <target>Casas Particulares Mejor Valoradas</target>
             </trans-unit>
             <trans-unit id="58">
                 <source>MORE_INFO_PREFFIX</source>
@@ -352,7 +352,7 @@
             </trans-unit>
             <trans-unit id="88">
                 <source>PHOTO_VIEW_RESULTS</source>
-                <target>Ver resultados en forma de galería de fotos</target>
+                <target>Ver resultados en forma de mosaicos</target>
             </trans-unit>
             <trans-unit id="89">
                 <source>MAP_VIEW_RESULTS</source>
@@ -1705,7 +1705,7 @@
             </trans-unit>
             <trans-unit id="435">
                 <source>CART</source>
-                <target>Cesta de reservaciones</target>
+                <target>Cesta</target>
             </trans-unit>
             <trans-unit id="436">
                 <source>SENT_EMAIL_FROM</source>
@@ -2242,6 +2242,82 @@
                 <trans-unit id="570">
                     <source>SELECT_PHOTO</source>
                     <target>Seleccionar foto...</target>
+                </trans-unit>
+                <trans-unit id="571">
+                    <source>USER_PROFILE_SAVED</source>
+                    <target>Su perfil de usuario ha sido modificado éxitosamente</target>
+                </trans-unit>
+                <trans-unit id="572">
+                    <source>USER_PROFILE_EMAIL_ERROR</source>
+                    <target>Existe otro usuario asociado a esta cuenta de correo</target>
+                </trans-unit>
+                <trans-unit id="573">
+                    <source>USER_ZONE</source>
+                    <target>Usuario</target>
+                </trans-unit>
+                <trans-unit id="574">
+                    <source>USER_NEW_ACCOUNT</source>
+                    <target>Registrarse</target>
+                </trans-unit>
+                <trans-unit id="575">
+                    <source>USER_FORGOT_PASSWORD</source>
+                    <target>¿Olvidó su clave?</target>
+                </trans-unit>
+                <trans-unit id="576">
+                    <source>USER_SEND_CONFIRMATION</source>
+                    <target>Enviar confirmación</target>
+                </trans-unit>
+                <trans-unit id="577">
+                    <source>USER_PROFILE</source>
+                    <target>Mi perfil</target>
+                </trans-unit>
+                <trans-unit id="578">
+                    <source>USER_CHANGE_PASSWORD</source>
+                    <target>Cambiar clave</target>
+                </trans-unit>
+                <trans-unit id="579">
+                    <source>MYCASATRIP_MAIN_MENU_NOTIFICATIONS</source>
+                    <target>Tienes %notifications% notificaciones pendientes</target>
+                </trans-unit>
+                <trans-unit id="580">
+                    <source>PLACE_IN_CUBA_TO_VISIT</source>
+                    <target>¿Qué lugar de Cuba le gustaría visitar?</target>
+                </trans-unit>
+                <trans-unit id="581">
+                    <source>ROWS</source>
+                    <target>Filas</target>
+                </trans-unit>
+                <trans-unit id="582">
+                    <source>FIND_DESTINATIONS_BY_PROVINCES</source>
+                    <target>Conozca los destinos por provincias</target>
+                </trans-unit>
+                <trans-unit id="583">
+                    <source>WHERE_RENT_IN_DESTINATION</source>
+                    <target>Dónde alojarse en %destinationName%</target>
+                </trans-unit>
+                <trans-unit id="584">
+                    <source>LIST_VIEW</source>
+                    <target>Vista de lista</target>
+                </trans-unit>
+                <trans-unit id="585">
+                    <source>MOISAIC_VIEW</source>
+                    <target>Vista de mosaico</target>
+                </trans-unit>
+                <trans-unit id="586">
+                    <source>MAP_VIEW</source>
+                    <target>Vista en mapa</target>
+                </trans-unit>
+                <trans-unit id="587">
+                    <source>SEARCH_ANOTHER_SERVICES</source>
+                    <target>Otros Servicios</target>
+                </trans-unit>
+                 <trans-unit id="588">
+                    <source>VERIFY_PRICES_FOR_THIS_DATES</source>
+                    <target>Verificar precios para esta fecha</target>
+                </trans-unit>
+                <trans-unit id="589">
+                    <source>SELECT_FOR_PAYMENT</source>
+                    <target>Seleccionar para pagar</target>
                 </trans-unit>
         </body>
     </file>

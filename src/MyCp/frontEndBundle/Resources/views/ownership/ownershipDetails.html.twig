@@ -10,585 +10,361 @@
 {% endblock %}
 
 {% set main_tab = 5 %}
-{% block content_nav_top_body %}
-<h4>
-    {{ownership.owntype  | trans}} {{"IN" | trans}} {{ownership.ownAddressProvince}}: {{ownership.ownname}}.
+
+{% block body %}
+<div class="bg-solid-ligth-blue">
+    <div class="container">
+        <h1 class="caecilia-roman h-size-3">
+            {{ownership.owntype  | trans}} {{"IN" | trans}} {{ownership.ownAddressProvince}}: {{ownership.ownname}}.
     {%if rooms is defined and rooms | length%}
     {{rooms | length}} {%if rooms | length == 1%} {{"ROOM_SINGULAR" | trans}} {%else%} {{"ROOM_PLURAL" | trans}} {%endif%}.
     {%endif%}
-    {{"FROM_PRICES" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} {{ownership.ownminimumprice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} {{"NIGHT_PER_ROOM" | trans}}
-</h4>
-<label class="place">
+    {{"FROM_PRICES" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ownership.ownminimumprice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} {{"NIGHT_PER_ROOM" | trans}}
+        </h1>
+            <!--label class="place">
     {{ownership.owntype}}
     {%if (ownership.ownAddressStreet != null and ownership.ownAddressStreet != '') or (ownership.ownAddressNumber != null and ownership.ownAddressNumber != '') %}
     / {{ownership.ownAddressStreet}} {{ownership.ownAddressNumber}}
     {%endif%}
     / {{ownership.ownAddressProvince}}
-</label>
-{% endblock %}
-
-{% block body %}
-<ul class="breadcrumb">
-    
-    <li><a href="{{ path('frontend_welcome') }}" title="{{"GO_HOME_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
-        <span class="divider">»</span></li>
-    <li><a href="{{ path('frontend_search_ownership') }}" title="{{"SEARCH_MAIN_MENU" | trans}}">{{"SEARCH_MAIN_MENU" | trans}}</a>
-        <span class="divider">»</span></li>
-    <li class="active">{{ ownership.ownname }}</li>
-</ul>
-
-<div class="row-fluid">
-<div class="span8">
-<div class="third_tab secondary_tab row-fluid">
-    <div class="nav-tabs_cont">
-        <ul class="nav nav-tabs" id="ownTabs">
-            {%if gallery_photos | length%}
-            <li class="active"><a data-toggle="tab" href="#photos">{{"PHOTO_TAB_DETAILS" | trans}}</a></li>
-            {%endif%}
-            <li {%if not gallery_photos | length%} class="active" {%endif%}><a data-toggle="tab"
-                                                                               href="#map">{{"MAPS_TAB_DETAILS" | trans}}</a>
-            </li>
-
-        </ul>
+</label-->
     </div>
-    <div class="tab-content">
-        {%if gallery_photos | length%}
-        <div id="photos" class="tab-pane fade in active">
-            <div id="gallery-1" class="royalSlider rsDefault">
-                {% for photo in  gallery_photos%}
-                <a class="rsImg" data-rsbigimg="{{asset('uploads/ownershipImages/'~photo.photo_name)}}"
-                   href="{{asset('uploads/ownershipImages/'~photo.photo_name)}}"
-                   title="{{photo.photo_description}}">
-                    <img class="rsTmb" src="{{asset('uploads/ownershipImages/thumbnails/'~photo.photo_name)}}" width="60" title="{{photo.photo_description}}"></a>
-                {% endfor %}
+</div>
+<br/>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="tabbable">
+                <ul class="nav nav-tabs">
+                    {%if gallery_photos | length%}
+                    <li class="active"><a data-toggle="tab" href="#tab1">{{"PHOTO_TAB_DETAILS" | trans}}</a></li>
+                    {%endif%}
+                    <li {%if not gallery_photos | length%} class="active" {%endif%}><a data-toggle="tab" href="#tab2">{{"MAPS_TAB_DETAILS" | trans}}</a></li>
+                    <li><a data-toggle="tab" href="#tab3">{{'RESERVATION_TITLE' | trans}}</a></li>
+                </ul>
+                <div class="tab-content">
+                    {%if gallery_photos | length%}
+                    <div id="tab1" class="tab-pane active">
+                        <div id="full-width-slider" class="royalSlider heroSlider rsMinW">
+                           {% for photo in  gallery_photos%}
+                               <div rel="tooltip" class="rsContent" title="{{photo.photo_description}}"><img class="rsImg" src="{{asset('uploads/ownershipImages/'~photo.photo_name)}}" alt="" /></div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {%endif%}
+                    <div id="tab2" class="tab-pane">
+                        <div class="flexible-container" id="mapContent">
+                            <iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                                    src="{{ path('frontend_map_details_ownership',{'ownGeolocateX':ownership.OwnGeolocateX,'ownGeolocateY':ownership.OwnGeolocateY,'ownName':ownership.ownname,'description': "FROM_PRICES" | trans ~ (app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')) ~ ownership.ownminimumprice ~ " " ~ ("BYNIGHTS_PRICES" | trans | lower),'image':((gallery_photos[0] is defined) ? gallery_photos[0].photo_name : "no_photo.png")})}}">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        {% endif %}
+            <br/>
+            <div class="tabbable">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#tab-desc">{{"DESCRIPTION_TAB_DETAILS" | trans}}</a></li>
+                    <li><a data-toggle="tab" href="#tab-serv">{{"SERVICES_TAB_DETAILS" | trans}}</a></li>
+                    <li><a data-toggle="tab" href="#tab-rooms">{{"ROOMS_TAB_DETAILS" | trans}}</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="tab-desc" class="tab-pane active">
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <h1 class="h-size-4" style="margin-top: 0">{{ownership.ownname}}</h1>
+                                <p>
+                                    {{description| raw }}
+                                </p>
+                            </div>
+                            <div class="col-sm-5">
+                                <ul class="span4 price">
+                                    <li>{{"TYPE_TAB_DESCRIPTION" | trans}}: <b>{{ownership.owntype | trans}}</b></li>
+                                    <li>{{"CATEGORY_TAB_DESCRIPTION" | trans}}: <b>{{ownership.category | trans}}</b></li>
+                                    <li>{{"BEDROOMS_TAB_DESCRIPTION" | trans}}: <b>{{rooms|length}}</b></li>
+                                    <li>{{"CAPACITY_TAB_DESCRIPTION" | trans}}: <b>{{ownership.ownmaximumnumberguests}}</b></li>
+                                    <li>{{"CITY_TAB_DESCRIPTION" | trans}}: <b>{{ownership.ownaddressmunicipality}}</b></li>
+                                    <li>{{"PROVINCE_TAB_DESCRIPTION" | trans}}: <b>{{ownership.ownAddressProvince}}</b></li>
+                                </ul>
+                            </div>
+                        </div>
 
-        <div id="map" class="tab-pane fade {%if not gallery_photos | length%} in active {% endif %}">
-            <div class="flexible-container" id="mapContent">
-
-                <iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-                        src="{{ path('frontend_map_details_ownership',{'ownGeolocateX':ownership.OwnGeolocateX,'ownGeolocateY':ownership.OwnGeolocateY,'ownName':ownership.ownname,'description': "FROM_PRICES" | trans ~ (app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')) ~ ownership.ownminimumprice ~ " " ~ ("BYNIGHTS_PRICES" | trans | lower),'image':((gallery_photos[0] is defined) ? gallery_photos[0].photo_name : "no_photo.png")})}}">
-                </iframe>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-<div class="third_tab secondary_tab row-fluid">
-<div class="nav-tabs_cont">
-    <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#description">{{"DESCRIPTION_TAB_DETAILS" | trans}}</a></li>
-        <li><a data-toggle="tab" href="#services">{{"SERVICES_TAB_DETAILS" | trans}}</a></li>
-        <li><a data-toggle="tab" href="#rooms">{{"ROOMS_TAB_DETAILS" | trans}}</a></li>
-    </ul>
-</div>
-<div class="tab-content">
-<div id="description" class="tab-pane fade in active">
-    <div class="row-fluid">
-        <div class="span7 paragraph">
-            <h4>{{ownership.ownname}}</h4>
-            {{description| raw }}
-        </div>
-        <div class="span5 paragraph paragraph_2">
-            <table class="table table-striped" style="border: solid 1px #dddddd; margin: 0;">
-                <tbody>
-                <tr>
-                    <td class="span6">{{"TYPE_TAB_DESCRIPTION" | trans}}:</td>
-                    <td class="span6 align_right"><b>{{ownership.owntype | trans}}</b></td>
-                </tr>
-                <tr>
-                    <td class="span6">{{"CATEGORY_TAB_DESCRIPTION" | trans}}:</td>
-                    <td class="span6 align_right"><b>{{ownership.category | trans}}</b></td>
-                </tr>
-                <tr>
-                    <td>{{"CAPACITY_TAB_DESCRIPTION" | trans}}:</td>
-                    <td class="align_right"><b>{{ownership.ownmaximumnumberguests}}</b></td>
-                </tr>
-                <tr>
-                    <td>{{"BEDROOMS_TAB_DESCRIPTION" | trans}}:</td>
-                    <td class="align_right"><b>{{rooms|length}}</b></td>
-                </tr>
-                <tr>
-                    <td>{{"CITY_TAB_DESCRIPTION" | trans}}:</td>
-                    <td class="align_right"><b>{{ownership.ownaddressmunicipality}}</b></td>
-                </tr>
-                <tr>
-                    <td>{{"PROVINCE_TAB_DESCRIPTION" | trans}}:</td>
-                    <td class="align_right"><b>{{ownership.ownAddressProvince}}</b></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-<div id="services" class="tab-pane fade">
-    <div class="paragraph">
-        <div class="item">
-            <h4>{{"SERVICES_TAB_DESCRIPTION" | trans}}</h4>
-
-            <div class="row-fluid">
-                <div class="span12">
-                    <table class="table table-striped" style="border: solid 1px #dddddd; margin: 0;">
-                        <tbody>
-                        {%if ownership.ownFacilitiesBreakfast %}
-                        <tr>
-                            <td class="span6">{{"BREAKFAST_TAB_DESCRIPTION" | trans}}:</td>
-                            <td class="span6 align_right">
-                                <b>
-                                    {%if ownership.ownFacilitiesBreakfastPrice != null and ownership.ownFacilitiesBreakfastPrice != 0%}
+                    </div>
+                    <div id="tab-serv" class="tab-pane">
+                        <div class="row">
+                            <div class="col-sm-12 services">
+                                <ul class="price">
+                                    {%if ownership.ownFacilitiesBreakfast %}
+                                    <li class="lead-2">
+                                        <div class="row">
+                                            <div class="col-xs-8"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services cofee-icon"> {{"BREAKFAST_TAB_DESCRIPTION" | trans}}</div>
+                                            <div class="col-xs-4">
+                                                <b>
+                                                {%if ownership.ownFacilitiesBreakfastPrice != null and ownership.ownFacilitiesBreakfastPrice != 0%}
                                     {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} {{ownership.ownFacilitiesBreakfastPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}
                                     {%else%} {{"YES" | trans}}{%endif%}
-                                </b></td>
-                        </tr>
-                        {%endif%}
-                        {%if ownership.ownFacilitiesDinner %}
-                        <tr>
-                            <td class="span6">{{"DINNER_TAB_DESCRIPTION" | trans}}:</td>
-                            <td class="span6 align_right">
-                                <b>
-                                    {%if ownership.ownFacilitiesDinnerPriceFrom != null and ownership.ownFacilitiesDinnerPriceFrom != 0%}
+                                                </b></div>
+                                        </div>
+                                    </li>
+                                    {%endif%}
+                                    {%if ownership.ownFacilitiesDinner %}
+                                    <li class="lead-2">
+                                        <div class="row">
+                                            <div class="col-xs-8"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services food-icon"> {{"DINNER_TAB_DESCRIPTION" | trans}}</div>
+                                            <div class="col-xs-4"><b>
+                                                {%if ownership.ownFacilitiesDinnerPriceFrom != null and ownership.ownFacilitiesDinnerPriceFrom != 0%}
                                     {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} {{ownership.ownFacilitiesDinnerPriceFrom * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}
                                     {%if ownership.ownFacilitiesDinnerPriceTo != null and ownership.ownFacilitiesDinnerPriceTo != 0%}
                                     - {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} {{ownership.ownFacilitiesDinnerPriceTo * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}
                                     {%endif%}
                                     {%else%} {{"YES" | trans}}{%endif%}
-                                </b>
-                            </td>
-                        </tr>
-                        {%endif%}
-                        {%if ownership.ownFacilitiesParking %}
-                        <tr>
-                            <td class="span6">{{"PARKING_TAB_DESCRIPTION" | trans}}:</td>
-                            <td class="span6 align_right">
-                                <b>
-                                    {%if ownership.ownFacilitiesParkingPrice != null and ownership.ownFacilitiesParkingPrice != 0%}
-                                    {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} {{ownership.ownFacilitiesParkingPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}
-                                    {%else%} {{"YES" | trans}}{%endif%}
-                                </b>
-                            </td>
-                        </tr>
-                        {%endif%}
-                        {%if ownership.ownDescriptionBicycleParking %}
-                        <tr>
-                            <td class="span6">{{"BIKE_PARKING_TAB_DESCRIPTION" | trans}}:</td>
-                            <td class="span6 align_right">
-                                <b>
-                                    {{"YES" | trans}}
-                                </b>
-                            </td>
-                        </tr>
-                        {%endif%}
-                        {%if ownership.ownDescriptionPets %}
-                        <tr>
-                            <td class="span6">{{"PETS_TAB_DESCRIPTION" | trans}}:</td>
-                            <td class="span6 align_right">
-                                <b>
-                                    {{"YES" | trans}}
-                                </b>
-                            </td>
-                        </tr>
-                        {%endif%}
-                        {%if ownership.ownDescriptionLaundry %}
-                        <tr>
-                            <td class="span6">{{"LAUNDRY_TAB_DESCRIPTION" | trans}}:</td>
-                            <td class="span6 align_right">
-                                <b>
-                                    {{"YES" | trans}}
-                                </b>
-                            </td>
-                        </tr>
-                        {%endif%}
-                        {%if ownership.ownDescriptionInternet %}
-                        <tr>
-                            <td class="span6">{{"INTERNET_TAB_DESCRIPTION" | trans}}:</td>
-                            <td class="span6 align_right">
-                                <b>
-                                    {{"YES" | trans}}
-                                </b>
-                            </td>
-                        </tr>
-                        {%endif%}
-                        {%if ownership.ownWaterJacuzee %}
-                        <tr>
-                            <td class="span6">{{"JACUZEE_TAB_DESCRIPTION" | trans}}:</td>
-                            <td class="span6 align_right">
-                                <b>
-                                    {{"YES" | trans}}
-                                </b>
-                            </td>
-                        </tr>
-                        {%endif%}
-                        {%if ownership.ownWaterSauna %}
-                        <tr>
-                            <td class="span6">{{"SAUNA_TAB_DESCRIPTION" | trans}}:</td>
-                            <td class="span6 align_right">
-                                <b>
-                                    {{"YES" | trans}}
-                                </b>
-                            </td>
-                        </tr>
-                        {%endif%}
-                        {%if ownership.ownWaterPiscina %}
-                        <tr>
-                            <td class="span6">{{"POOL_TAB_DESCRIPTION" | trans}}:</td>
-                            <td class="span6 align_right">
-                                <b>
-                                    {{"YES" | trans}}
-                                </b>
-                            </td>
-                        </tr>
-                        {%endif%}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="rooms" class="tab-pane fade">
-    <div class="paragraph">
-        {%for room in rooms%}
-        <div class="item">
-            <div class="row-fluid">
-                <div class="span6">
-                    <h4>{{room.roomtype | trans | title}}</h4>
-                </div>
-                <div class="span6" style="text-align: right">
-                    {#% if room.roomPriceUpFrom != null and room.roomPriceUpFrom != 0%}
-                    {{"UP_SEASON_ROOMS" | trans}}: <label
-                        class="small_price inline_margin">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{room.roomPriceUpFrom
-* (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</label>
-                    {%if room.roomPriceUpTo != null and room.roomPriceUpTo != 0 and room.roomPriceUpFrom != room.roomPriceUpTo%}
-                    <label class="small_price inline_margin"> - {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{room.roomPriceUpTo
-* (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</label>
-                    {%endif%}
+                                                </b></div>
+                                        </div>
+                                    </li>
+                                    {%endif%}
+                                    {%if ownership.ownFacilitiesParking %}
+                                    <li class="lead-2">
+                                        <div class="row">
+                                            <div class="col-xs-8"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services parking-icon"> {{"PARKING_TAB_DESCRIPTION" | trans}}</div>
+                                            <div class="col-xs-4">
+                                                <b>
+                                                {%if ownership.ownFacilitiesParkingPrice != null and ownership.ownFacilitiesParkingPrice != 0%}
+                                                    {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} {{ownership.ownFacilitiesParkingPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}
+                                                    {%else%} 
+                                                        {{"YES" | trans}}
+                                                 {%endif%}
+                                                </b>
+                                                </div>
+                                        </div>
+                                    </li>
+                                    {%endif%}
+                                     {%if ownership.ownDescriptionBicycleParking %}
+                                     <li class="lead-2">
+                                        <div class="row">
+                                            <div class="col-xs-8"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services laund-icon"> {{"BIKE_PARKING_TAB_DESCRIPTION" | trans}}</div>
+                                            <div class="col-xs-4"><b>{{"YES" | trans}}</b></div>
+                                        </div>
+                                    </li>
+                                    {%endif%}
+                                     {%if ownership.ownDescriptionPets%}
+                                     <li class="lead-2">
+                                        <div class="row">
+                                            <div class="col-xs-8"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services laund-icon"> {{"PETS_TAB_DESCRIPTION" | trans}}</div>
+                                            <div class="col-xs-4"><b>{{"YES" | trans}}</b></div>
+                                        </div>
+                                    </li>
+                                    {%endif%}
+                                    {%if ownership.ownDescriptionLaundry %}
+                                    <li class="lead-2">
+                                        <div class="row">
+                                            <div class="col-xs-8"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services laund-icon"> {{"LAUNDRY_TAB_DESCRIPTION" | trans}}</div>
+                                            <div class="col-xs-4"><b>{{"YES" | trans}}</b></div>
+                                        </div>
+                                    </li>
+                                    {%endif%}
+                                    {%if ownership.ownDescriptionInternet %}
+                                    <li class="lead-2">
+                                        <div class="row">
+                                            <div class="col-xs-8"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services inet-icon"> {{"INTERNET_TAB_DESCRIPTION" | trans}}</div>
+                                            <div class="col-xs-4"><b>{{"YES" | trans}}</b></div>
+                                        </div>
+                                    </li>
+                                    {%endif%}
+                                    {%if ownership.ownWaterJacuzee %}
+                                    <li class="lead-2">
+                                        <div class="row">
+                                            <div class="col-xs-8"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services inet-icon"> {{"JACUZEE_TAB_DESCRIPTION" | trans}}</div>
+                                            <div class="col-xs-4"><b>{{"YES" | trans}}</b></div>
+                                        </div>
+                                    </li>
+                                    {%endif%}
+                                    {%if ownership.ownWaterSauna %}
+                                    <li class="lead-2">
+                                        <div class="row">
+                                            <div class="col-xs-8"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services inet-icon"> {{"SAUNA_TAB_DESCRIPTION" | trans}}</div>
+                                            <div class="col-xs-4"><b>{{"YES" | trans}}</b></div>
+                                        </div>
+                                    </li>
+                                    {%endif%}
+                                    {%if ownership.ownWaterPiscina %}
+                                    <li class="lead-2">
+                                        <div class="row">
+                                            <div class="col-xs-8"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services inet-icon"> {{"POOL_TAB_DESCRIPTION" | trans}}</div>
+                                            <div class="col-xs-4"><b>{{"YES" | trans}}</b></div>
+                                        </div>
+                                    </li>
+                                    {%endif%}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tab-rooms" class="tab-pane">
+                        {%for room in rooms%}
+                        <div class="row services">
+                            <div class="col-sm-6">
+                                <ul class="price">
+                                    <li class="lead">
+                                        <h4 class="no-margin text-left" style="margin-left: 20px">{{room.roomtype | trans | title}}</h4>
+                                    </li>
+                                    <li class="lead-2">
+                                        <div class="row">
+                                            <div class="col-xs-8"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services bed-icon"> {{"BEDS_ROOMS" | trans}}:</div>
+                                            <div class="col-xs-4"><b>{{room.roomBeds}}</b></div>
+                                        </div>
+                                    </li>
+                                    <li class="lead-2">
+                                        <div class="row">
+                                            <div class="col-xs-8"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services clima-icon"> {{"CLIMATIZATION_ROOMS" | trans}}:</div>
+                                            <div class="col-xs-4"><b>{{room.roomClimate | trans}}</b></div>
+                                        </div>
+                                    </li>
+                                    <li class="lead-2">
+                                        <div class="row">
+                                            <div class="col-xs-8"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services media-icon"> {{"AUDIOVISUALS_ROOMS" | trans}}:</div>
+                                            <div class="col-xs-4"><b>{%if room.roomAudiovisual != null and room.roomAudiovisual != '' %}{{room.roomAudiovisual | trans}} {%else%} {{"NO" | trans}} {%endif%}</b></div>
+                                        </div>
+                                    </li>
+                                    <li class="lead-2">
+                                        <div class="row">
+                                            <div class="col-xs-8"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services ba-icon"> {{"BATHROOM_ROOMS" | trans}}:</div>
+                                            <div class="col-xs-4"><b>{%if room.roomBathroom != null and room.roomBathroom != '' %}{{room.roomBathroom | trans}}{%else%} {{"NO" | trans}} {%endif%}</b></div>
+                                        </div>
+                                    </li>
+                                    <li class="lead-2">
+                                        <div class="row">
+                                            <div class="col-xs-8"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services smok-icon"> {{"SMOKER_ROOMS" | trans}}:</div>
+                                            <div class="col-xs-4"><b>{%if room.roomSmoker %} {{"YES" | trans}} {%else%} {{"NO" | trans}} {%endif%}</b></div>
+                                        </div>
+                                    </li>
+                                    <li class="lead-2">
+                                        <div class="row">
+                                            <div class="col-xs-8"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services box-icon">{{"SAFE_ROOMS" | trans}}:</div>
+                                            <div class="col-xs-4"><b>{%if room.roomSafe %} {{"YES" | trans}} {%else%} {{"NO" | trans}} {%endif%}</b></div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
 
-                    {%endif%#}
-                    {% if room.roomPriceDownFrom != null and room.roomPriceDownFrom != 0%}
-                    {{"FROM_PRICES" | trans}}: <label
-                        class="small_price inline_margin">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{room.roomPriceDownFrom
-* (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</label>
-                    {#%if room.roomPriceDownTo != null and room.roomPriceDownTo != 0%}
-                    <label class="small_price inline_margin"> - {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{room.roomPriceDownTo
-* (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</label>
-                    {%endif%#}
-                    {%endif%}
-                </div>
-            </div>
-            <div class="row-fluid">
-                <div class="span6">
-                    <table class="table table-striped" style="border: solid 1px #dddddd; margin: 0;">
-                        <tbody>
-                        <tr>
-                            <td class="span6">{{"BEDS_ROOMS" | trans}}:</td>
-                            <td class="span6 align_right"><b>{{room.roomBeds}}</b></td>
-                        </tr>
-                        <tr>
-                            <td class="span6">{{"CLIMATIZATION_ROOMS" | trans}}:</td>
-                            <td class="span6 align_right"><b>{{room.roomClimate | trans}}</b></td>
-                        </tr>
-                        <tr>
-                            <td class="span6">{{"AUDIOVISUALS_ROOMS" | trans}}:</td>
-                            <td class="span6 align_right">
-                                <b>{%if room.roomAudiovisual != null and room.roomAudiovisual != '' %}{{room.roomAudiovisual | trans}} {%else%} {{"NO" | trans}} {%endif%}</b>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="span6">{{"BATHROOM_ROOMS" | trans}}:</td>
-                            <td class="span6 align_right">
-                                <b>{%if room.roomBathroom != null and room.roomBathroom != '' %}{{room.roomBathroom | trans}}{%else%} {{"NO" | trans}} {%endif%}</b>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="span6">{{"SMOKER_ROOMS" | trans}}:</td>
-                            <td class="span6 align_right">
-                                <b>{%if room.roomSmoker %} {{"YES" | trans}} {%else%} {{"NO" | trans}} {%endif%}</b>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="span6">{{"SAFE_ROOMS" | trans}}:</td>
-                            <td class="span6 align_right">
-                                <b>{%if room.roomSafe %} {{"YES" | trans}} {%else%} {{"NO" | trans}} {%endif%}</b></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="span6">
-                    <table class="table table-striped" style="border: solid 1px #dddddd; margin: 0;">
-                        <tbody>
-                        <tr>
-                            <td class="span6">{{"WINDOWS_ROOMS" | trans}}:</td>
-                            <td class="span6 align_right">
-                                <b>{%if room.roomWindows != null and room.roomWindows != 0%} {{room.roomWindows}} {%else%} {{"NO" | trans}} {%endif%}</b>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="span6">{{"BALCONY_ROOMS" | trans}}:</td>
-                            <td class="span6 align_right">
-                                <b>{%if room.roomBalcony %} {{"YES" | trans}} {%else%} {{"NO" | trans}} {%endif%}</b>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="span6">{{"TERRACE_ROOMS" | trans}}:</td>
-                            <td class="span6 align_right">
-                                <b>{%if room.roomTerrace %} {{"YES" | trans}} {%else%} {{"NO" | trans}} {%endif%}</b>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="span6">{{"YARD_ROOMS" | trans}}:</td>
-                            <td class="span6 align_right">
-                                <b>{%if room.roomYard %} {{"YES" | trans}} {%else%} {{"NO" | trans}} {%endif%}</b></td>
-                        </tr>
-                        <tr>
-                            <td class="span6">{{"STEREO_ROOMS" | trans}}:</td>
-                            <td class="span6 align_right">
-                                <b>{%if room.roomStereo %} {{"YES" | trans}} {%else%} {{"NO" | trans}} {%endif%}</b>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="span6">{{"KIDS_ROOMS" | trans}}:</td>
-                            <td class="span6 align_right">
-                                <b>{%if room.roomBaby %} {{"YES" | trans}} {%else%} {{"NO" | trans}} {%endif%}</b></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        {%endfor%}
-    </div>
-</div>
-</div>
-</div>
-<div class="third_tab secondary_tab row-fluid" id="calendar">
-    <div class="nav-tabs_cont">
-        <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#">{{'RESERVATION_TITLE' | trans}}</a></li>
-        </ul>
-    </div>
-    <div class="tab-content" style="overflow: hidden;">
-        <div class="tab-pane fade in active">
-            <div class="row-fluid no_tab">
-                <form id="calendar_form" method="POST" action="{{ path('frontend_details_ownership',{'own_name':ownership.ownname  | lower | replace(' ','_')}) }}" novalidate>
-                    <div class="span6"><label>{{'FROM_PRICES' | trans}}:</label><input value="{{start_date}}" name="reservation_filter_date_from" id="filter_date_from" type="text" class="mycp_text_box mycp_text_box_margin input-block-level" data-localization='{{locale}}'/></div>
-                    <div class="span6"><label>{{'TO_PRICES' | trans | capitalize}}:</label><input value="{{end_date}}" name="reservation_filter_date_to" id="filter_date_to" type="text" class="mycp_text_box mycp_text_box_margin input-block-level" data-localization='{{locale}}'/></div>
+                            <div class="col-sm-6">
+                                <ul class="price">
+                                    <li class="lead">
+                                        <h4 class="no-margin text-right" style="margin-right: 20px">{{"FROM_PRICES" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{room.roomPriceDownFrom
+* (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h4>
+                                    </li>
+                                    <li class="lead-2">
+                                        <div class="row">
+                                            <div class="col-xs-8"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services win-icon"> {{"WINDOWS_ROOMS" | trans}}:</div>
+                                            <div class="col-xs-4"><b>{%if room.roomWindows != null and room.roomWindows != 0%} {{room.roomWindows}} {%else%} {{"NO" | trans}} {%endif%}</b></div>
+                                        </div>
+                                    </li>
+                                    <li class="lead-2">
+                                        <div class="row">
+                                            <div class="col-xs-8"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services bal-icon"> {{"BALCONY_ROOMS" | trans}}:</div>
+                                            <div class="col-xs-4"><b>{%if room.roomBalcony %} {{"YES" | trans}} {%else%} {{"NO" | trans}} {%endif%}</b></div>
+                                        </div>
+                                    </li>
+                                    <li class="lead-2">
+                                        <div class="row">
+                                            <div class="col-xs-8"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services terr-icon"> {{"TERRACE_ROOMS" | trans}}:</div>
+                                            <div class="col-xs-4"><b>{%if room.roomTerrace %} {{"YES" | trans}} {%else%} {{"NO" | trans}} {%endif%}</b></div>
+                                        </div>
+                                    </li>
+                                    <li class="lead-2">
+                                        <div class="row">
+                                            <div class="col-xs-8"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services gard-icon"> {{"YARD_ROOMS" | trans}}:</div>
+                                            <div class="col-xs-4"><b>{%if room.roomYard %} {{"YES" | trans}} {%else%} {{"NO" | trans}} {%endif%}</b></div>
+                                        </div>
+                                    </li>
+                                    <li class="lead-2">
+                                        <div class="row">
+                                            <div class="col-xs-8"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services est-icon"> {{"STEREO_ROOMS" | trans}}:</div>
+                                            <div class="col-xs-4"><b>{%if room.roomStereo %} {{"YES" | trans}} {%else%} {{"NO" | trans}} {%endif%}</b></div>
+                                        </div>
+                                    </li>
+                                    <li class="lead-2">
+                                        <div class="row">
+                                            <div class="col-xs-8"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services kids-icon"> {{"KIDS_ROOMS" | trans}}:</div>
+                                            <div class="col-xs-4"><b>{%if room.roomBaby %} {{"YES" | trans}} {%else%} {{"NO" | trans}} {%endif%}</b></div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
 
-                </form>
-            </div>
-            <hr/>
-            <div class="alert alert-info">{{'RESERVATION_PRICES_FOR' | trans}}: {{start_date}} - {{end_date}}
-            </div>
-            <div id="body_calendar" style="overflow-x: auto;">
-                {{ include('frontEndBundle:ownership:ownershipReservationCalendar.html.twig')}}
-            </div>
-            <div style="text-align: right">
-            <label style="font-size: 10px;margin-top: 5px; color: #d80407;">{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')| upper}}{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</label>
-            </div>
-            <table id="rooms_selected" class="table table-striped" style="margin-bottom: 0px; display: none;">
-                <thead>
-                <tr>
-                    <th>{{'RESERVATION_SELECTED_ROOM' | trans}}</th>
-                    <th>{{'RESERVATION_TYPE' | trans}}</th>
-                    <th>{{'RESERVATION_ROOM_NUMBER' | trans}}</th>
-                    <th>{{'ADULTS' | trans}}</th>
-                    <th>{{'KIDS' | trans}}</th>
-                    <th>{{'RESERVATION_PRICE' | trans}}</th>
-                </tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-            </table>
-            <div id="all_data_numbers" style="display: none;">
-                <hr/>
-                <div style="margin-top: 10px; text-align: right">
-                        <b>{{'RESERVATION_TOTAL_PRICE' | trans}} {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}<span id="total_price"></span></b><br/>
-                        <b>{{'INITIAL_DEPOSIT' | trans}} ({{ownership.OwnCommissionPercent}}%): {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}<span id="initial_deposit"></span></b><br/>
-                        <b>{{'SERVICE_RECHARGE' | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}<span id="service_recharge">{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</span></b>
-                </div>
-                <hr/>
-                <div class="row-fluid">
-                    <div class="span12" style="text-align: right">
-                        <b style="font-size: 18px">{{'TOTAL_PREPAYMENT'|trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}<span id="total_prepayment"></span></b>
+                        </div>
+                         {%endfor%}
                     </div>
                 </div>
-                <div class="row-fluid">
-                    <div class="span8"></div>
-                    <div class="span4">
-                        {% if post['reservation_filter_date_from'] is defined %}
-                        {% set date_from = post['reservation_filter_date_from']|replace("/","&") %}
-                        {% else %}
-                        {% set date_from = "now"|date("d&m&Y") %}
-                        {% endif %}
-
-                        {% if post['reservation_filter_date_to'] is defined%}
-                        {% set date_to = post['reservation_filter_date_to']|replace("/","&") %}
-                        {% else %}
-                        {% set date_to = "+6 day"|date("d&m&Y") %}
-                        {% endif %}
-                        <form action="{{ path('frontend_add_to_cart_reservation',{'id_ownership':ownership.own_id}) }}" method="POST">
-                            <input from_date="{{ start_date | replace('/','&') }}" to_date="{{ end_date | replace('/','&') }}" type="text" style="visibility: hidden; margin-bottom: -50px" name="data_reservation" id="data_reservation"/>
-                            <input type="submit" class="btn-block btn mycp_btn_orange mycp_btn" value="{{'ADD_TO_CART' | trans}}"/>
-                        </form>
-                    </div>
+                {%if show_comments_and_friends%}
+                <div id="user_comments">
+                    {{ include('frontEndBundle:comment:listComments.html.twig',
+                                        {'show_comments_and_friends': show_comments_and_friends,
+                                         'comments': comments}) }}
                 </div>
+                {%endif%}                  
             </div>
-
         </div>
-    </div>
-</div>
-
-{%if show_comments_and_friends%}
-<div id="user_comments">
-    {{ include('frontEndBundle:comment:listComments.html.twig',
-                        {'show_comments_and_friends': show_comments_and_friends,
-                         'comments': comments}) }}
-</div>
-{%endif%}
-</div>
-<div class="span4">
-    <div class="thumbnail">
-        <div class="cont">
-            <form method="POST" action="{{ path('frontend_details_ownership',{'own_name':ownership.ownname  | lower | replace(' ','_')}) }}" novalidate>
-                <div style="text-align: right">{{"FROM_PRICES" | trans}}:<label class="big_price" style="margin: 5px 0 15px 0">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ownership.ownminimumprice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} </label></td></div>
-                <hr/>
-                <table width="100%">
-                    <tr>
-                        <td width="50%">{{"ARRIVAL_RESERVATION" | trans}}</td>
-                        <td width="50%">{{"DEPARTURE_RESERVATION" | trans}}</td>
-
-                    </tr>
-                    <tr>
-                        <td>
-                            <input name="top_reservation_filter_date_from"
-                                   id="top_reservation_filter_date_from"
-                                   class="mycp_text_box mycp_text_box_margin input-block-level"
-                                   value="{{start_date}}"
-                                   type="text"
-                                   data-localization='{{locale}}'>
-                        </td>
-                        <td>
-                            <input name="top_reservation_filter_date_to"
-                                   id="top_reservation_filter_date_to"
-                                   class="mycp_text_box mycp_text_box_margin input-block-level"
-                                   value="{{end_date}}"
-                                   type="text"
-                                   data-localization='{{locale}}'></td>
-
-                    </tr>
-                </table>
-                <hr/>
-                <div id="subtotal_price_cont" style="display: none;">
-                    {{"SUBTOTAL_RESERVATION" | trans}}
-                    <label class="medium_price">
-                        {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}<span id="subtotal_price"></span>
-                    </label>
-                </div>
-                {% if reservations | length == rooms | length%}
-                <div class="alert alert-error">{{"NOT_AVAILABLE" | trans}}</div>
-                {% else %}
-                <button onclick="javascript:move('#calendar')" class="move_to btn btn-block mycp_btn_orange mycp_btn btn-large"  id="top_reservation_submit_button" type="button"  prices="{% set real_price=0%}{%for price in avail_array_prices%}&{{price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}{% set real_price=real_price + price%}{%endfor%}" real_price="{{real_price}}" rooms="{%for room in available_rooms%}&{{room}}{%endfor%}" >
-                    {{"ADD_TO_CART" | trans}}
-                </button>
-                {% endif %}
-            </form>
-            <form style="margin-bottom: -30px" id="form_reservation_top" method="POST" action="{{ path('frontend_add_to_cart_reservation',{'id_ownership':ownership.own_id}) }}">
-                <input style="visibility: hidden;" from_date="{{ start_date | replace('/','&') }}" to_date="{{end_date | replace('/','&')}}}}" id="data_reservation_top" name="data_reservation"/>
-            </form>
-        </div>
-    </div>
-    <div class="thumbnail favorites_details" style="padding: 12px">
-        {{ include('frontEndBundle:favorite:detailsFavorite.html.twig',
+        <div class="col-sm-4">
+            <ul class="span4 price">
+                <li>
+                     {%if ownership.category == "Premium"%}
+                        <img rel="tooltip" title="{{ownership.category | trans}}" class="icon icon-3 tiny-premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+                        {%else%}
+                            {%if (ownership.category | lower) == ("Rango Medio" | lower)%}
+                            <img rel="tooltip" title="{{ownership.category | trans}}" class="icon icon-3 tiny-middle-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+                            {%else%}
+                                <img rel="tooltip" title="{{ownership.category | trans}}" class="icon icon-3 tiny-economic-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+                            {%endif%}
+                        {%endif%} 
+                    {{"CATEGORY_TAB_DESCRIPTION" | trans}}: {{ownership.category | trans}}
+                </li>
+                <li class="lead"><h1 class="no-margin"><small class="h-white-1">{{"FROM_PRICES" | trans | lower}}</small> {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ownership.ownminimumprice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h1></li>
+                <li class="lead-2">
+                    {{"ARRIVAL_RESERVATION" | trans}}<br/>
+                    <div style="padding: 0" class="input-group">
+                        <input type="text" placeholder="{{"ARRIVAL_RESERVATION" | trans}}" class="form-control" 
+                               name="top_reservation_filter_date_from"
+                               id="top_reservation_filter_date_from"
+                               value="{{start_date}}"
+                               data-localization='{{locale}}'>
+                        <span class="input-group-addon"><span class="icon-calendar"></span></span>
+                    </div>
+                </li>
+                <li class="lead-2">
+                    {{"DEPARTURE_RESERVATION" | trans}}<br/>
+                    <div style="padding: 0" class="input-group">
+                        <input type="text" placeholder="{{"DEPARTURE_RESERVATION" | trans}}" class="form-control"
+                               name="top_reservation_filter_date_to"
+                               id="top_reservation_filter_date_to"
+                               value="{{end_date}}"
+                               data-localization='{{locale}}'>
+                        <span class="input-group-addon"><span class="icon-calendar"></span></span>
+                    </div>
+                </li>
+                <li><button class="btn btn-primary">{{"VERIFY_PRICES_FOR_THIS_DATES" | trans}}</button></li>
+            </ul>
+            <hr class="margin-t"/>
+            {{ include('frontEndBundle:favorite:detailsFavorite.html.twig',
                         {'is_in_favorite': is_in_favorite,
                          'favorite_type': 'ownership',
                          'element_id':ownership.own_id
                          }) }}
-    </div>
-    <div class="thumbnail" style="padding: 12px">
-        <a href="#send_to_friend_popup" title="{{'SEND_TO_FRIEND' | trans}}" data-toggle="modal" style="text-decoration: none">
-            <button class="btn btn-block" onclick="$('#send_to_friend_popup').attr('data-email-type', 'recommend_property'); $('#send_to_friend_popup').attr('data-dest-prop-id', '{{ownership.own_id}}');">
-                <img src="{{ asset('bundles/frontend/images/main_to_friend.gif') }}">
+            <hr class="no-margin" style="margin-bottom: 5px"/>
+            <a href="#send_to_friend_popup" title="{{'SEND_TO_FRIEND' | trans}}" data-toggle="modal" style="text-decoration: none">
+            <button  class="btn btn-default btn-block" style="padding: 6px 0" onclick="$('#send_to_friend_popup').attr('data-email-type', 'recommend_property'); $('#send_to_friend_popup').attr('data-dest-prop-id', '{{ownership.own_id}}');">
+               <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon icon-mail"/>
                 {{"TELL_A_FRIEND" | trans}}
             </button>
         </a>
-    </div>
-    
-    <div class="thumbnail" style="padding: 10px">
-        <div class="valuation">
-            <div id="ratings" data-url="{{ path('frontend_update_rating_ownership',{'ownid':ownership.own_id}) }}">
-                {{ include('frontEndBundle:ownership:ownershipRating.html.twig',
+            <hr class="margin-t"/>
+            {{ include('frontEndBundle:ownership:ownershipRating.html.twig',
                         {'ownership': ownership}) }}
-            </div>
-                {% if can_comment %}
+            
             <hr/>
-            <div style="text-align: left; font-size: 12px; font-weight: bold;">
-                {{"TEXT_COMMENTS_DETAILS" | trans}} *:
-                <textarea id="input_comment" class="input-block-level"
-                          requiered-message="{{"COMMENTTEXT_REQUIERED_MESSAGE" | trans}}"></textarea>
-                <label style="font-size: 10px;">{{"REQUIERED_TEXT_VALIDATOR_COMMENTS_DETAILS" | trans}}</label>
-            </div>
-            <div style="text-align: left;">
-                <h4>{{"QUEST_COMMENTS_DETAILS" | trans}}</h4>
-                <table>
-                    <tbody>
-                    <tr>
-                        <td width="80%"><label class="radio"><input type="radio" value="5" checked="checked"
-                                                                    id="option5"
-                                                                    name="radio_rating">{{"5_STARS_COMMENTS_DETAILS" | trans}}
-                        </label></td>
-                        <td width="20%" align="right"><img src="{{ asset('bundles/frontend/images/5_star.png') }}"></td>
-                    </tr>
-                    <tr>
-                        <td><label class="radio"><input type="radio" value="4" id="option4"
-                                                        name="radio_rating"> {{"4_STARS_COMMENTS_DETAILS" | trans}}
-                        </label></td>
-                        <td align="right"><img src="{{ asset('bundles/frontend/images/4_star.png') }}"></td>
-                    </tr>
-                    <tr>
-                        <td><label class="radio"><input type="radio" value="3" id="option3"
-                                                        name="radio_rating"> {{"3_STARS_COMMENTS_DETAILS" | trans}}
-                        </label></td>
-                        <td align="right"><img src="{{ asset('bundles/frontend/images/3_star.png') }}"></td>
-                    </tr>
-                    <tr>
-                        <td><label class="radio"><input type="radio" value="2" id="option2"
-                                                        name="radio_rating"> {{"2_STARS_COMMENTS_DETAILS" | trans}}
-                        </label></td>
-                        <td align="right"><img src="{{ asset('bundles/frontend/images/2_star.png') }}"></td>
-                    </tr>
-                    <tr>
-                        <td><label class="radio"><input type="radio" value="1" id="option1"
-                                                        name="radio_rating"> {{"1_STARS_COMMENTS_DETAILS" | trans}}
-                        </label></td>
-                        <td align="right"><img src="{{ asset('bundles/frontend/images/1_star.png') }}"></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <br/>
-
-            <div id="loading" class="alert alert-info hidden">
-                <img src="{{ asset('bundles/frontend/images/loading.gif') }}"/>
-            </div>
-            <br/>
-            <button class="btn btn-block dark_blue_button" id="btn_insert_comment"
-                    data-url="{{ path('frontend_insert_comment',{'ownid':ownership.own_id}) }}">{{"SEND_COMMENT_DETAILS" | trans}}</button>
-            <br/>
-
-            <div id="message_text" class="hidden" ok-message="{{"COMMENT_INSERTED" | trans}}"></div>
-            {%endif%}
-        </div>
-    </div>
-    
-    {%render "frontEndBundle:ownership:last_owns_visited" with {'exclude_ownership_id': ownership.own_id }%}
-
-    {%render "frontEndBundle:ownership:near_by_destinations" with {'municipality_id': ownership.ownaddressmunicipality_id, 'province_id': ownership.ownAddressProvince_id}%}
-
-    {%if total_similar_houses > 0%}
-    <div class="thumbnail head">
+            {%render "frontEndBundle:ownership:last_owns_visited" with {'exclude_ownership_id': ownership.own_id }%}
+            {%render "frontEndBundle:ownership:near_by_destinations" with {'municipality_id': ownership.ownaddressmunicipality_id, 'province_id': ownership.ownAddressProvince_id}%}
+            {%if total_similar_houses > 0%}
+            Maquetar Casas Similares
+    <!--div class="thumbnail head">
         <div class="header">{{"SIMILAR_OWNERSHIPS_DETAILS" | trans}} ({{total_similar_houses}})</div>
         <div class="subheader">
             {{total_similar_houses}} {{"LISTINGS_TEXT_DETAILS" | trans}} <a
@@ -612,58 +388,92 @@
             </div>
             {%endfor%}
         </div>
-    </div>
+    </div-->
     {%endif%}
+            <hr class="margin-t"/>
+            <h3 class="caecilia-roman text-center margin-t">{{"RECOMENDS_RATINGS" | trans}}</h3>
+            <h1 class="text-center big-price-green no-margin">
+            {%if ownership.comments_total > 0%}+{%endif%}{{ownership.comments_total}}
+            </h1>
+            <hr class="no-margin" style="margin-bottom: 10px"/>
+            {% if can_comment %}
+            <span class="h-grey">{{"QUEST_COMMENTS_DETAILS" | trans}}</span>
+            <div class="radio"><label><input type="radio" checked="checked" value="5" id="option5" name="radio_rating">{{"5_STARS_COMMENTS_DETAILS" | trans}}</label></div>
+            <div class="radio"><label><input type="radio" value="4" id="option4" name="radio_rating">{{"4_STARS_COMMENTS_DETAILS" | trans}}</label></div>
+            <div class="radio"><label><input type="radio" value="3" id="option3" name="radio_rating">{{"3_STARS_COMMENTS_DETAILS" | trans}}</label></div>
+            <div class="radio"><label><input type="radio" value="2" id="option2" name="radio_rating">{{"2_STARS_COMMENTS_DETAILS" | trans}}</label></div>
+            <div class="radio"><label><input type="radio" value="1" id="option1" name="radio_rating">{{"1_STARS_COMMENTS_DETAILS" | trans}}</label></div>
+            <span class="h-grey">{{"TEXT_COMMENTS_DETAILS" | trans}} *</span><br/>
+            <textarea class="col-sm-12 form-control" id="input_comment"  requiered-message="{{"COMMENTTEXT_REQUIERED_MESSAGE" | trans}}"></textarea>
+            <button class="btn btn-primary margin-t" id="btn_insert_comment"
+                    data-url="{{ path('frontend_insert_comment',{'ownid':ownership.own_id}) }}">
+              {{"SEND_COMMENT_DETAILS" | trans}}
+            </button>
+            <div id="loading" class="alert alert-info hidden">
+                <img src="{{ asset('bundles/frontend/images/loading.gif') }}"/>
+            </div>
+            <div id="message_text" class="hidden" ok-message="{{"COMMENT_INSERTED" | trans}}"></div>
+             <hr class="margin-t hr-green"/>
+            {%endif%}
+           
+        </div>
+    </div>
 </div>
-</div>
+
 {% block include_javascripts %}
-<script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
-<script src="{{ asset('bundles/frontend/js/jquery/jquery.ui.map.js') }}"></script>
-<script src="{{ asset('bundles/frontend/js/royal_slider/jquery.royalslider.min.js') }}"></script>
-<link href="{{ asset('bundles/frontend/css/royal_slider/royalslider.css') }}" rel="stylesheet"/>
-<link href="{{ asset('bundles/frontend/css/royal_slider/rs-default.css') }}" rel="stylesheet"/>
+<!--script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
+<script src="{{ asset('bundles/frontend/js/jquery.ui.map.js') }}"></script-->
+<script src="{{ asset('bundles/frontend/js/jquery.royalslider.min.js') }}"></script>
+<link href="{{ asset('bundles/frontend/css/royalslider.css') }}" rel="stylesheet"/>
+<link href="{{ asset('bundles/frontend/css/rs-default.css') }}" rel="stylesheet"/>
 <script type="text/javascript">
 
-    var cont_array_dates={{ array_dates | length}};
-    var start_date="{{start_date }}";
-    var end_date="{{end_date}}";
-    jQuery(document).ready(function () {
-        $('#gallery-1').royalSlider({
-            fullscreen:{
-                enabled:true,
-                nativeFS:true
-            },
-            controlNavigation:'thumbnails',
-            autoScaleSlider:true,
-            autoScaleSliderWidth:960,
-            autoScaleSliderHeight:850,
-            loop:false,
-            imageScaleMode:'fit-if-smaller',
-            navigateByClick:true,
-            numImagesToPreload:2,
-            arrowsNav:true,
-            arrowsNavAutoHide:true,
-            arrowsNavHideOnTouch:true,
-            keyboardNavEnabled:true,
-            fadeinLoadedSlide:true,
-            globalCaption:true,
-            globalCaptionInside:false,
-            thumbs:{
-                appendSpan:true,
-                firstMargin:true,
-                paddingBottom:4
+    var cont_array_dates={{ array_dates | length}} ;
+            var start_date = "{{start_date }}";
+    var end_date = "{{end_date}}";
+    topmenucont = $('#top-menu-cont');
+    topmenu = $("#top-menu").offset().top;
+    $('#top-menu').affix({
+        offset: {
+            top: function() {
+                topmenucont.html = "&nbsp;";
+                return topmenu;
+            }
+        }
+    });
+
+    jQuery(document).ready(function($) {
+        $('#full-width-slider').royalSlider({
+            arrowsNav: true,
+            loop: false,
+            keyboardNavEnabled: true,
+            imageScaleMode: 'fill',
+            arrowsNavAutoHide: false,
+            autoScaleSlider: true,
+            autoScaleSliderWidth: 610,
+            autoScaleSliderHeight: 386,
+            controlNavigation: 'bullets',
+            thumbsFitInViewport: false,
+            navigateByClick: true,
+            startSlideId: 0,
+            autoPlay: false,
+            transitionType: 'move',
+            globalCaption: false,
+            deeplinking: {
+                enabled: true,
+                change: false
             }
         });
     });
-</script>
-<script type="text/javascript">    
- var reservation_see_prices_text = "{{"RESERVATION_SEE_PRICES" | trans}}";
- var own_id = "{{ownership.own_id}}";
-</script>
-<script src="{{ asset('bundles/frontend/js/ownership_details.js') }}"></script>
-<link href="{{ asset('bundles/frontend/css/bootstrap/bootstrap-datepicker.css') }}" rel="stylesheet" media="screen">
-<script src="{{ asset('bundles/frontend/js/bootstrap/bootstrap-datepicker.js') }}"></script>
-<script src="{{ asset('bundles/frontend/js/bootstrap/bootstrap-datepicker.es.js') }}"></script>
+    </script>
+    <script type="text/javascript">
+        var reservation_see_prices_text = "{{"RESERVATION_SEE_PRICES" | trans}}";
+        var own_id = "{{ownership.own_id}}";
+        </script>
+        <script src="{{ asset('bundles/frontend/js/ownership_details.js') }}"></script>
+        <link href="{{ asset('bundles/frontend/css/bootstrap-datepicker.css') }}" rel="stylesheet" media="screen">
+        <script src="{{ asset('bundles/frontend/js/bootstrap-datepicker.js') }}"></script>
+        <script src="{{ asset('bundles/frontend/js/bootstrap-datepicker.es.js') }}"></script>
 
 {% endblock %}
 {% endblock %}

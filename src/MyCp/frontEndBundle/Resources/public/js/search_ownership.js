@@ -1,12 +1,8 @@
 $(document).ready(start);
 
-$('a.option').click(function() {
-    var parent = $(this).attr('data');
-    if (parent === "select_change_order")
-        change_order($(this).attr("data-value"));
-});
 
 function start() {
+    $('#select_change_order').change(change_order);
     $('#change_view_to_list').click(change_view_to_list);
     $('#change_view_to_photo').click(change_view_to_photo);
     $('#change_view_to_map').click(change_view_to_map);
@@ -40,13 +36,13 @@ function start() {
     $('#room_others_pets').change(filter_by_others);
     $('#room_others_internet').change(filter_by_others);
 
-    initialize_map();
+    //initialize_map();
 }
 
-function change_order(order)
+function change_order()
 {
     //Obtener parametros
-    // var order=$('#select_change_order').val();
+     var order=$('#select_change_order').val();
     show_loading();
     var result = $('#div_result');
     var url = $('#select_change_order').attr('data-url');
@@ -97,11 +93,11 @@ function _changeViewTo(url, viewType, event) {
         hide_loading();
     });
 
-    $('a.link').each(function(i, item) {
+    /*$('a.link').each(function(i, item) {
         $(item).css('background-position', 'top');
     });
     $(event.target).css('background-position', 'bottom');
-
+*/
     return false;
 }
 
@@ -253,7 +249,7 @@ function filter_by_others()
         result.html(data);
         manage_favorities(".favorite_off");
         manage_favorities(".favorite_on");
-       // refresh_filters_statistics(checked_filters);
+        refresh_filters_statistics(checked_filters);
         hide_loading();
     });
     return false;

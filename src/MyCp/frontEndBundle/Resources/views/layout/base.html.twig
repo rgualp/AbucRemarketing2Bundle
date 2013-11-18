@@ -5,194 +5,176 @@
         <meta charset="utf-8">
         <meta name="robots" content="noindex,nofollow">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="{{ asset('bundles/frontend/css/bootstrap/bootstrap.css') }}" rel="stylesheet" media="screen">
-        <link href="{{ asset('bundles/frontend/css/bootstrap/bootstrap-responsive.css') }}" rel="stylesheet" media="screen">
+        <link href="{{ asset('bundles/frontend/css/bootstrap.earth.css') }}" rel="stylesheet" media="screen">
         <link href="{{ asset('bundles/frontend/css/custom.css') }}" rel="stylesheet" media="screen">
-        <script src="{{ asset('bundles/frontend/js/jquery/jquery-2.0.0.min.js') }}"></script>
-        <script src="{{ asset('bundles/frontend/js/custom.js') }}"></script>
+        <script src="{{ asset('bundles/frontend/js/jquery.js') }}"></script>
         <link rel="shortcut icon" href="{{ asset('bundles/frontend/images/map_small.png') }}" />
-
+        {% block include_javascripts_and_css %}{% endblock %}
     </head>
     <body>
-
         {{ include('frontEndBundle:mails:sendMailPopup.html.twig') }}
-        <div class="main_cont container">
-            <div class="main_nav navbar">
-                <div class="navbar-inner">
-                    <div class="container">
-                        <button data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar" type="button">
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a href="{{ path('frontend_welcome') }}" class="brand"  title="{{"HOMEPAGE_TITLE" | trans}}"><img src="{{ asset('bundles/frontend/images/logo.png') }}"/></a>
-                        <div class="nav-collapse collapse">
-                            <ul class="nav">
-                                <li>
-                                    <a href="{{ path('frontend_how_it_works_information')}}">{{"HOW_IT_WORKS" | trans }}</a>
-                                </li>
-                               
-                                <li class="divider-vertical"></li>
-                                <li>
-                                    <a href="{{ path('frontend_list_favorite') }}" title="{{"FAVORITIES" | trans}}"><img src="{{ asset('bundles/frontend/images/heart.gif') }}"/> {{"FAVORITIES" | trans }}</a>
-                                </li>
-                                <li class="divider-vertical"></li>
-                                <li>
-                                    {% if is_granted('ROLE_CLIENT_TOURIST') or is_granted('ROLE_CLIENT_STAFF')%}
-                                        <a title="{{"LOG_OUT" | trans}}" href="{{ path('mycp_logout') }}">{{"LOG_OUT" | trans}} {{app.user.getUserUserName}}</a>
-                                    {% else %}
-                                        <a title="{{"LOG_IN" | trans }}" href="{{ path('mycp_login') }}">{{"LOG_IN" | trans }}</a>
+        <div class="divider-hor-1">&nbsp;</div>
+        <div class="container">
+    <div class="row">
+        <div class="col-sm-4" id="center-cont">
+            <a href="{{ path('frontend_welcome') }}" class="brand"  title="{{"HOMEPAGE_TITLE" | trans}}">
+                <img src="{{ asset('bundles/frontend/img/mycp.png') }}" style="max-width: 100%" alt="my casa particular"/>
+             </a>
+        </div>
+        <div id="top-nav" class="col-sm-8">
+            <div class="row">
+                <div class="col-sm-6" style="display: table">
+                    <ul class="nav nav-pills">
+                        <li><a title="{{"HOW_IT_WORKS" | trans }}" href="{{ path('frontend_how_it_works_information')}}"><img class="icon tiny-book-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/> {{"HOW_IT_WORKS" | trans }}</a></li>
+                        <li><a title="{{"FAVORITIES" | trans }}" href="{{ path('frontend_list_favorite') }}"><img class="icon tiny-heart-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/> {{"FAVORITIES" | trans }}</a></li>
+                        <li>
+                            {% render 'frontEndBundle:reservation:get_count_cart_items' %}
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-6" style="display: table; " id="top-right-menu">
+                    <ul class="nav nav-pills nav-pills-new">
+                    <li class="dropdown pull-right">
+                        <a title="{{"USER_ZONE" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-user-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/>
+                            {% if is_granted('ROLE_CLIENT_TOURIST') or is_granted('ROLE_CLIENT_STAFF')%}
+                                {{app.user.getUserUserName}} {{app.user.getUserLastName}}
+                                {%else%}                            
+                                {{"USER_ZONE" | trans}}
+                                {%endif%}
+                            <b class="caret caret-new"></b></a>
+                        <ul class="dropdown-menu">
+                            {% if is_granted('ROLE_CLIENT_TOURIST') or is_granted('ROLE_CLIENT_STAFF')%}
+                                        <li><a title="{{"USER_PROFILE" | trans }}" href="{{ path('frontend_profile_user') }}">{{"USER_PROFILE" | trans }}</a></li>
+                                        <li><a title="{{"LOG_OUT" | trans}}" href="{{ path('mycp_logout') }}">{{"LOG_OUT" | trans}} </a></li>
+                                    {% else %}                                        
+                                        <li><a title="{{"LOG_IN" | trans }}" href="{{ path('mycp_login') }}">{{"LOG_IN" | trans }}</a></li>
+                                        <li><a title="{{"USER_NEW_ACCOUNT" | trans }}" href="{{ path('frontend_register_user') }}">{{"USER_NEW_ACCOUNT" | trans }}</a></li>
                                     {% endif %}
-                                </li>
-                                <li class="divider-vertical"></li>
-                                <li>
-                                    <a href="{{ path('frontend_review_reservation') }}" title="{{"CART" | trans}}"> {{"CART" | trans }} <b id="cart_message">({% render 'frontEndBundle:reservation:get_count_cart_items' %})</b></a>
-                                </li>
-                                </ul>
-                                <ul class="nav pull-right">
-                                    <!--li class="divider-vertical"></li>
-                                    <li class="dropdown">
-                                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">{{"HELP" | trans }} <b class="caret"></b></a>
-                                        <ul class="dropdown-menu top">
-                                            <li><a href="#">{{"HELP" | trans }} 1</a></li>
-                                            <li><a href="#">{{"HELP" | trans }} 2</a></li>
-                                            <li><a href="#">{{"HELP" | trans }} 3</a></li>
-                                        </ul>
-                                    </li-->
-                                    <li class="divider-vertical"></li>
-                                    <li class="dropdown">
-                                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                            <img src="{{ asset('bundles/frontend/images/currency.gif') }}" title="{{"CURRENCY" | trans }}"/>
-                                            {{(app.session.get('curr_acronym') == null or app.session.get('curr_acronym') == "") ? "CUC" : app.session.get('curr_acronym')|upper}}{#{{"CURRENCY" | trans }}#} <b class="caret"></b>
-                                        </a>
-                                        <ul class="dropdown-menu top">
-                                            {% render 'frontEndBundle:currency:get_currencies' with {'params':app.request.attributes.all} %}
-                                        </ul>
-                                        </li>
-                                        <li class="divider-vertical"></li>
-                                        <li class="dropdown">
-                                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                            {{(app.session.get('app_lang_name') == null or app.session.get('app_lang_name') == "") ? "Español" : app.session.get('app_lang_name')}}    
-                                                <b class="caret"></b></a>
-                                            <ul class="dropdown-menu top">
-                                                {# render 'frontEndBundle:language:get_languages' #}
-                                                {% set params = app.request.attributes.all['_route_params']%}
-                                                {% set params = params|merge({ '_locale': 'en' }) %}
-                                                <li><a href="{{path(app.request.attributes.all['_route'], params )}}">English</a></li>
-                                                {% set params = params|merge({ '_locale': 'es' }) %}
-                                                <li><a href="{{path(app.request.attributes.all['_route'], params )}}">Español</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-divider pull-right">&nbsp;</li>
+                    <li class="dropdown pull-right">
+                        <a title="{{"LANGUAGE" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-lang-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/>
+                            {{(app.session.get('app_lang_name') == null or app.session.get('app_lang_name') == "") ? "Español" : app.session.get('app_lang_name')}} <b class="caret caret-new"></b></a>
+                        <ul class="dropdown-menu">
+                            {% set params = app.request.attributes.all['_route_params']%}
+                            {% set params = params|merge({ '_locale': 'en' }) %}
+                            <li><a href="{{path(app.request.attributes.all['_route'], params )}}">English</a></li>
+                            {% set params = params|merge({ '_locale': 'es' }) %}
+                            <li><a href="{{path(app.request.attributes.all['_route'], params )}}">Español</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-divider pull-right">&nbsp;</li>
+                    <li class="dropdown pull-right">
+                        <a title="{{"CURRENCY" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-curr-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/>
+                            {{(app.session.get('curr_acronym') == null or app.session.get('curr_acronym') == "") ? "CUC" : app.session.get('curr_acronym')|upper}} <b class="caret caret-new"></b></a>
+                        <ul class="dropdown-menu">
+                            {% render 'frontEndBundle:currency:get_currencies' with {'params':app.request.attributes.all} %}
+                        </ul>
+                    </li>
+                    <li class="nav-divider pull-right">&nbsp;</li>
+                </div>
+            </div>
 
-                                                </ul>
-                                            </li>
-                                            <li class="divider-vertical"></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-        {% block big_banner_info %}
-        {% endblock %}
-                        </div>
-                    </div>
-{% block big_banner %}
-{% endblock %}
-                    <div class="main_cont container body">
-
+        </div>
+    </div>
+</div>
+<div id="top-menu-cont" style="height: 52px">
+<nav id="top-menu" role="navigation" class="navbar navbar-inverse bg-gradient-blue">
+    <div class="navbar-header">
+        <button data-target=".navbar-ex1-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+            <span class="sr-only">Menu</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+    </div>
+    <div class="container">
     {{ include('frontEndBundle:utils:navTopBody.html.twig') }}
-                            <div class="tab-content main_tab">
-                                <div class="tab-pane active">
-            {% block content_nav_top_body %}{% endblock %}
-                                    </div>
-                                </div>
-                        {% for message in app.session.flashbag.get('message_global_success') %}
-                        <br/>
-                        <div class="alert alert-info">{{ message }}</div>
-                        {% endfor %}
-    {% block body %}{% endblock %}
-                                <a href="#" onclick="javascript:move('#top')" title="{{"GO_UP" | trans}}"><img src="{{ asset('bundles/frontend/images/translations/'~app.request.locale~'/go_to_top.gif') }}" id="go_to_top"/></a>
-                            </div>
-                            <footer>
-                                <div class="container main_cont">
-                                    <div class="menu">
-                                        <div>
-                                            <ul>
-                                                <li>{{"DESTINATIONS" | trans}}</li>
-                                                <li><a href="{{ path('frontend_list_destinations')}}">{{"DESTINATIONS" | trans}}</a></li>
-                                                <li><a href="{{path('frontend_get_with_reservations_municipality')}}">{{"MOST_VISITED_CITIES" | trans}}</a></li>
-                                                <!--li><a href="">{{"GALLERIES" | trans}}</a></li>
-                                                <li><a href="">{{"YOUR_PHOTOS" | trans}}</a></li-->
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="menu">
-                                        <div>
-                                            <ul>
-                                                <li>{{"ACCOMMODATION" | trans}}</li>
-                                                <!--li><a href="{{ path('frontend_category_ownership',{'category':'economy'})}}">{{"ECONOMICS_OWNS" | trans}}</a></li>
-                                                <li><a href="{{ path('frontend_category_ownership',{'category':'mid_range'})}}">{{"MIDRANGE_OWNS" | trans}}</a></li>
-                                                <li><a href="{{ path('frontend_category_ownership',{'category':'premium'})}}">{{"PREMIUM_OWNS" | trans}}</a></li-->
-                                                <!--li><a href="{#{ path('frontend_best_list_ownership')}}">{{"TOP_OWNS" | trans}#}</a></li-->
-                                                <li><a href="{{ path('frontend_voted_best_list_ownership')}}">{{"TOP_RATED" | trans}}</a></li>
-                                                <!--li><a href="">{{"RATINGS" | trans}}</a></li-->
-                                                <li><a href="{{ path('frontend_type_list_ownership',{'type':'Penthouse'})}}">{{"Penthouse" | trans}}</a></li>
-                                                <li><a href="{{ path('frontend_type_list_ownership',{'type':'Villa con piscina'})}}">{{"Villa con piscina" | trans}}</a></li>
-                                                <li><a href="{{ path('frontend_type_list_ownership',{'type':'Apartamento'})}}">{{"Apartamento" | trans}}</a></li>
-                                                <li><a href="{{ path('frontend_type_list_ownership',{'type':'Casa particular'})}}">{{"Casa particular" | trans}}</a></li>
-                                                <li><a href="{{ path('frontend_type_list_ownership',{'type':'Propiedad completa'})}}">{{"Propiedad completa" | trans}}</a></li>
-
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="menu">
-                                        <div>
-                                            <ul>
-                                                <li>{{"ABOUT_MYCP" | trans}}</li>
-                                                <li><a href="{{ path('frontend_about_us')}}">{{"WHO_ARE_WE" | trans}}</a></li>
-                                                <!--li><a href="{{ path('frontend_list_information',{'information_type':'testimonies'})}}">{{"TESTIMONIES" | trans}}</a></li>
-                                                <li><a href="{{ path('frontend_list_information',{'information_type':'press'})}}">{{"PRESS" | trans }}</a></li>
-                                                <li><a href="{{ path('frontend_list_information',{'information_type':'partners'})}}">{{"PARTNERS" | trans}}</a></li>
-                                                <li><a href="{{ path('frontend_list_information',{'information_type':'jobs'})}}">{{"JOBS" | trans}}</a></li-->
-                                                <li><a href="{{path('frontend_contact_user')}}">{{"CONTACT_US" | trans}}</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                        <div class="menu">
-                                        <div>
-                                            <ul>
-                                                <li>{{"OUR_SERVICES" | trans}}</li>
-                                                <!--li><a href="{{ path('frontend_list_faq')}}">{{"FAQ" | trans }}</a></li>
-                                                <li><a href="{{ path('frontend_list_information',{'information_type':'service_guarantee'})}}">{{"SERVICE_GUARANTEE" | trans }}</a></li>
-                                                <li><a href="{{ path('frontend_list_information',{'information_type':'legal_terms'})}}">{{"LEGAL_TERMS" | trans}}</a></li>
-                                                <li><a href="{{ path('frontend_list_information',{'information_type':'security_privacity'})}}">{{"SECURITY_AND_PRIVACY" | trans}}</a></li-->
-                                                <li><a href="{{ path ('frontend_sitemap_information')}}">{{"SITE_MAP" | trans}}</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="menu seal">
-                                        <img src="{{ asset('bundles/frontend/images/seal.png') }}">
-                                    </div>
-                                    <div class="row-fluid">
-                                        <div class="span12">
-                                            <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">
-                                                <img src="{{ asset('bundles/frontend/images/logo_base.png') }}" id="logo_base">
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="row-fluid" id="site_base">
-                                        <div class="span9">
-                                            &copy; 2009 - {{'today'|date('Y')}}. <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">MyCasaParticular.com</a>. {{"FOOTER_COPYRIGHT" | trans}}.
-                                        </div>
-                                        <div class="span3">
-                                            {{ include('frontEndBundle:utils:netSocials.html.twig') }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </footer>
-                            <script type="text/javascript">
-                                var panel_search='';
-                                </script>
-                                <script src="{{ asset('bundles/frontend/js/bootstrap/bootstrap.min.js') }}"></script>
-                                <script src="{{ asset('bundles/frontend/js/mycp/mycpui.js') }}"></script>
-{% block include_javascripts_and_css %}
+    </div>
+</nav>
+</div>
+{% block big_banner %}{% endblock %}
+    {% for message in app.session.flashbag.get('message_global_success') %}
+        <div class="container">
+        <br/>
+        <div class="alert alert-info" style="margin-bottom: 0">{{ message }}</div>
+        </div>
+    {% endfor %}
+{% block body %}
+{% block include_javascripts %}{% endblock %}
 {% endblock %}
-                            </body>
-                        </html>
+<hr>
+<p class="text-center"><a title="{{"GO_UP" | trans }}" href="#"><em class="icon-chevron-up"></em></a></p>
+<footer class="bg-gradient-blue">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-2">
+                <h3>{{"DESTINATIONS" | trans}}</h3>
+                <ul>
+                    <li><a title="My Casa Particular - {{"DESTINATIONS" | trans}}" href="{{ path('frontend_list_destinations')}}">{{"DESTINATIONS" | trans}}</a></li>
+                    <li><a title="My Casa Particular - {{"MOST_VISITED_CITIES" | trans}}" href="{{path('frontend_get_with_reservations_municipality')}}">{{"MOST_VISITED_CITIES" | trans}}</a></li>
+                </ul>
+            </div>
+            <div class="col-xs-2">
+                <h3>{{"ACCOMMODATIONS" | trans}}</h3>
+                <ul>
+                    <li><a title="My Casa Particular - {{"TOP_RATED" | trans}}" href="{{ path('frontend_voted_best_list_ownership')}}">{{"TOP_RATED" | trans}}</a></li>
+                    <li><a title="My Casa Particular - {{"Penthouse" | trans}}" href="{{ path('frontend_type_list_ownership',{'type':'Penthouse'})}}">{{"Penthouse" | trans}}</a></li>
+                    <li><a title="My Casa Particular - {{"Villa con piscina" | trans}}" href="{{ path('frontend_type_list_ownership',{'type':'Villa con piscina'})}}">{{"Villa con piscina" | trans}}</a></li>
+                    <li><a title="My Casa Particular - {{"Apartamento" | trans}}" href="{{ path('frontend_type_list_ownership',{'type':'Apartamento'})}}">{{"Apartamento" | trans}}</a></li>
+                    <li><a title="My Casa Particular - {{"Casa particular" | trans}}" href="{{ path('frontend_type_list_ownership',{'type':'Casa particular'})}}">{{"Casa particular" | trans}}</a></li>
+                    <li><a title="My Casa Particular - {{"Propiedad completa" | trans}}" href="{{ path('frontend_type_list_ownership',{'type':'Propiedad completa'})}}">{{"Propiedad completa" | trans}}</a></li>
+                </ul>
+            </div>
+            <div class="col-xs-2">
+                <h3>{{"ABOUT_MYCP" | trans}}</h3>
+                <ul>
+                    <li><a title="My Casa Particular - {{"WHO_ARE_WE" | trans}}" href="{{ path('frontend_about_us')}}">{{"WHO_ARE_WE" | trans}}</a></li>
+                    <li><a title="My Casa Particular - {{"CONTACT_US" | trans}}" href="{{path('frontend_contact_user')}}">{{"CONTACT_US" | trans}}</a></li>
+                </ul>
+            </div>
+            <div class="col-xs-3">
+                <h3>{{"OUR_SERVICES" | trans}}</h3>
+                <ul>
+                    <li><a title="My Casa Particular - {{"SITE_MAP" | trans}}"  href="{{ path ('frontend_sitemap_information')}}">{{"SITE_MAP" | trans}}</a></li>
+                </ul>
+            </div>
+            <div class="col-xs-3 text-right">
+                <img id="firm" src="{{ asset('bundles/frontend/img/firm.png')}}" width="" title="MyCasaParticular.com">
+            </div>
+        </div>
+        <div style="margin: 0 0 10px;">
+            <a title="{{"HOMEPAGE_TITLE" | trans}}" href="{{ path('frontend_welcome') }}" >
+            <img alt="{{"HOMEPAGE_TITLE" | trans}}" src="{{ asset('bundles/frontend/img/mycp-grey.png')}}">
+            </a>
+        </div>
+        <div class="row">
+            <div class="col-sm-8">
+                <p>&copy; 2009 - {{'today'|date('Y')}}. <a style="font-size: 11px; color: #ffffff" href="http://www.mycasaparticular.com">MyCasaParticular.com</a>. 
+                    {{"FOOTER_COPYRIGHT" | trans}}.</p>
+            </div>
+            <div id="social" class="col-sm-4 text-right">
+                {{ include('frontEndBundle:utils:netSocials.html.twig') }}               
+            </div>
+        </div>
+    </div>
+        </footer>
+
+    </body>
+    <script src="{{ asset('bundles/frontend/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('bundles/frontend/js/respond.min.js') }}"></script>
+    <script src="{{ asset('bundles/frontend/js/custom.js') }}"></script>
+    <script type="text/javascript">
+        topmenucont=$('#top-menu-cont');
+        topmenu=$("#top-menu").offset().top;
+        $('#top-menu').affix({
+            offset: {
+                top: function(){
+                    topmenucont.html="&nbsp;";
+                    return topmenu;
+                }
+            }
+        });
+    </script>
+</html>
