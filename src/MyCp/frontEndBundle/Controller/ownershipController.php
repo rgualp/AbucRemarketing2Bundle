@@ -771,6 +771,9 @@ class ownershipController extends Controller {
         $session = $request->getSession();
         $em = $this->getDoctrine()->getEntityManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        
+        if ($session->get('search_view_results') == null || $session->get('search_view_results') == '')
+            $session->set('search_view_results', 'LIST');
 
         $check_filters = array();
         $check_filters['own_reservation_type'] = $request->request->get('own_reservation_type');

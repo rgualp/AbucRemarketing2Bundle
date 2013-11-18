@@ -37,6 +37,7 @@ destinos
                         'own_minimum_price': own.minimum_price,
                         'is_in_favorite':own.is_in_favorites,
                         'photo': own.photo,
+                        'category': own.category,
                         'list_preffix': 'owns_in_destination',
                         'show_consult_button': true }) }}
             <!--/li-->
@@ -95,7 +96,7 @@ destinos
     {%endif%}
 
     <div class="row-fluid" style="margin-top: 20px">
-        {%render "frontEndBundle:user:info_tab_user"%}
+        {#%render "frontEndBundle:user:info_tab_user"%#}
     </div>
 
 </div>

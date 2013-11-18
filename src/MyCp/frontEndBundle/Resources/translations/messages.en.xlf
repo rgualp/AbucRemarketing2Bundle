@@ -316,7 +316,7 @@
             </trans-unit>
             <trans-unit id="79">
                 <source>LOADING_MESSAGE</source>
-                <target>Wait, please. Your request is being processed</target>
+                <target>Loading...</target>
             </trans-unit>
             <trans-unit id="80">
                 <source>SEARCH_RESULT_ORDER_BY</source>
