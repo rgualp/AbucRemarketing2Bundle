@@ -2339,6 +2339,10 @@
                     <source>REMOVE_RESERVE</source>
                     <target>Remove it reservation</target>
                 </trans-unit>
+                <trans-unit id="594">
+                <source>BYNIGHT</source>
+                <target>by night</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

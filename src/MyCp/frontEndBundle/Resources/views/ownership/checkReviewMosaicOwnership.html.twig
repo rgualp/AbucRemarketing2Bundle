@@ -1,0 +1,77 @@
+<div class="col-sm-4">
+                <table class="full-width">
+                    <tbody><tr>
+                        <td class="">
+                            <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if own_comments > 0%}+{%endif%}{{own_comments}}&nbsp;&nbsp;&nbsp;">
+                                <a title="{{ own_name }}" href="{{ path('frontend_details_ownership',{'own_name':own_name  | lower | replace(' ','_')}) }}">
+                                    <img alt="{{ own_name }}" src="{{ asset("uploads/ownershipImages/thumbnails/" ~ photo)}}">
+                                </a>
+                            </div>
+                        </td>
+                        <td>
+                            {%if category == "Premium"%}
+                        <img rel="tooltip" title="{{category | trans}}" class="icon-medium premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+                        {%else%}
+                            {%if (category | lower) == ("Rango Medio" | lower)%}
+                            <img rel="tooltip" title="{{category | trans}}" class="icon-medium middle-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+                            {%else%}
+                                <img rel="tooltip" title="{{category | trans}}" class="icon economic-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="width: 18px; height: 25px">
+                            {%endif%}
+                        {%endif%}
+                            <p>{{category | trans}}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="name-cont">
+                            <a title="{{ own_name }}" href="{{ path('frontend_details_ownership',{'own_name':own_name  | lower | replace(' ','_')}) }}">
+                            <h1 class="h-blue">{{ own_name }}</h1>
+                            </a>
+                            <small>{{own_province}}, {{own_municipality}}<br>{{own_type  | trans}} {%if (own_rooms_count != 0) %}
+                        / {{own_rooms_count}} {% if own_rooms_count == 1%} {{"ROOM_SINGULAR" | trans}} {%else%} {{"ROOM_PLURAL" | trans}} {%endif%}{%endif%}</small>
+                        </td>
+                        <td style="text-align: right">
+                            <small>{{"FROM_PRICES" | trans | lower}}:</small>
+                            <div class="big-price-blue">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{own_minimum_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}</div>
+                            <small>{{"BYNIGHT" | trans}}</small>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="row">
+                                <div class="col-xs-6 text-left">
+                                    {%if own_rating > 0%}
+                                    {%for i in 1..own_rating%}
+                                         <img class="icon icon-2 tiny-star-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+                                     {%endfor%}
+                                     {%endif%}
+
+                                     {%if own_rating < 5%}
+                                     {%for i in 1..(5-own_rating)%}
+                                            <img class="icon icon-2 tiny-star-off-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+                                     {%endfor%}
+                                     {%endif%}
+                                    <br>
+                                    <small>{{own_comments}} {{"FORMS_COMMENTS" | trans | lower}}</small>
+                                </div>
+                                <div class="col-xs-6 text-right">
+                                    {{ include('frontEndBundle:favorite:itemFavorite.html.twig', 
+                                        {'is_in_favorite': is_in_favorite,
+                                         'favorite_type': 'ownership',
+                                         'element_id':own_id,
+                                         'list_preffix' : list_preffix,
+                                         'include_text': true
+                                         }) }}
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody></table>
+            </div>
+
+
+
+
+
+
+

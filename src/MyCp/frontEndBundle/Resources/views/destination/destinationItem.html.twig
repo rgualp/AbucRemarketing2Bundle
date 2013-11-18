@@ -1,0 +1,61 @@
+<div class="col-sm-4">
+           <table class="col-sm-12">
+               <tr>
+                   <td class="full-width">
+                       <a href="{{ path('frontend_details_destination',{'destination_name':des_name|lower|replace(' ','_')}) }}">
+                       <img class="thumbnail full-width" src="{{ asset("uploads/destinationImages/thumbnails/" ~ (des_photo)) }}"/>
+                       </a>
+                   </td>
+                   <td>
+                       <div class="square-grey-cont">
+                           <div class="cont">
+                               {{"DES_POBLATION" | trans}}<br/><b>{{ des_poblation }}</b>
+                           </div>
+                       </div>
+                       <div class="square-grey-cont">
+                           <div class="cont">
+                               {{"DES_REF_PLACE" | trans}}<br/><b>{{ des_refPlace | slice(0, 20)}}</b>
+                           </div>
+
+                       </div>
+                   </td>
+               </tr>
+           </table>
+           <a href="{{ path('frontend_details_destination',{'destination_name':des_name|lower|replace(' ','_')}) }}">
+           <h1 class="h-blue">{{des_name}}</h1>
+           </a>
+           {{(des_description != null or des_description != "") ? (des_description | slice(0,200) | striptags) : ""}}            
+{%if (des_description == null)%}
+                    {%for i in 1..250%}
+                        &nbsp;
+                    {%endfor%}
+            {%else%}
+                    {%if des_description | length < 250%}
+                     {%for i in 1..(250 - (des_description | length))%}
+                        &nbsp;
+                     {%endfor%}
+                     {%else%}...
+                    {%endif%}
+            {%endif%}        
+           <div class="row margin-t-t">
+               <div class="col-xs-8">
+                   {{ include('frontEndBundle:favorite:itemFavorite.html.twig', 
+                        {'is_in_favorite': is_in_favorite,
+                         'favorite_type': 'destination',
+                         'element_id':des_id,
+                         'list_preffix' : 'destination_list',
+                         'include_text': true
+                         }) }}
+               </div>
+               <div class="col-xs-4 text-right">
+                   <a href="{{ path('frontend_details_destination',{'destination_name':des_name|lower|replace(' ','_')}) }}">
+                   <small>{{'RESERVATION_CONFIRM_DESTINATION_MORE' | trans | lower}} <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-medium icon-more"/></small>
+                   </a>
+               </div>
+           </div>
+           <hr/>
+           <div class="text-right">
+               <h4><small>{{'RESERVATION_CONFIRM_DESTINATION_OWNS_AVAILABLE' | trans}} </small><b>{{des_count_owns}}</b></h4>
+           </div>
+
+       </div>

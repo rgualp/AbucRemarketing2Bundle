@@ -372,10 +372,10 @@ class reservationController extends Controller
          */
         $ownership = $em->getRepository('mycpBundle:ownership')->find($services[0]['ownership_id']);
 
-        $owns_in_destination = $em->getRepository("mycpBundle:destination")->ownsership_nearby_destination($ownership->getOwnAddressMunicipality()->getMunId(), $ownership->getOwnAddressProvince()->getProvId(), 4, $services[0]['ownership_id'], $user->getUserId(), null);
+        $owns_in_destination = $em->getRepository("mycpBundle:destination")->ownsership_nearby_destination($ownership->getOwnAddressMunicipality()->getMunId(), $ownership->getOwnAddressProvince()->getProvId(), 3, $services[0]['ownership_id'], $user->getUserId(), null);
         
         $locale = $this->get('translator')->getLocale();
-        $destinations = $em->getRepository('mycpBundle:destination')->destination_filter($locale,null, $ownership->getOwnAddressProvince()->getProvId(), null, $ownership->getOwnAddressMunicipality()->getMunId(), 2, $user->getUserId(), null);
+        $destinations = $em->getRepository('mycpBundle:destination')->destination_filter($locale,null, $ownership->getOwnAddressProvince()->getProvId(), null, $ownership->getOwnAddressMunicipality()->getMunId(), 3, $user->getUserId(), null);
         
         // Enviando mail al cliente
         $body = $this->render('frontEndBundle:mails:email_check_available.html.twig', array(

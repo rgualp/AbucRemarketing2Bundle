@@ -402,6 +402,8 @@ class destinationRepository extends EntityRepository {
     function destination_filter($locale,$municipality_id = null, $province_id = null, $exclude_destination_id = null, $exclude_municipality = null, $max_result_set = null, $user_id = null, $session_id = null) {
         $em = $this->getEntityManager();
         $query_string = "SELECT d.des_id as desid,
+                         d.des_poblation as desPoblation,
+                         d.des_ref_place as desRefPlace,
                          d.des_name as desname,
                          (SELECT min(p.pho_name) FROM mycpBundle:destinationPhoto dp JOIN dp.des_pho_photo p WHERE dp.des_pho_destination=d.des_id) as photo,
                          (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = 1 AND o.own_address_municipality = (SELECT min(mun.mun_id) FROM mycpBundle:destinationLocation loc JOIN loc.des_loc_municipality mun WHERE loc.des_loc_destination = d.des_id)
