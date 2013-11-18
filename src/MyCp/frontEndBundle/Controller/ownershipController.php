@@ -1149,7 +1149,7 @@ class ownershipController extends Controller {
         $session->set('search_order', 'BEST_VALUED');
 
         $filters = array();
-        $filters['own_type'] = array($type);
+        $filters['own_type'] = array(str_replace("_", " ", ucfirst($type)));
 
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;

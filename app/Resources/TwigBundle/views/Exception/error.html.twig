@@ -1,8 +1,8 @@
 {% extends '::base.html.twig' %}
 {% block title %}An Error Occurred{% endblock %}
 {% block stylesheets %}
-<link href="{{ asset('bundles/frontend/css/bootstrap/bootstrap.css') }}" rel="stylesheet" media="screen">
-<link href="{{ asset('bundles/frontend/css/bootstrap/bootstrap-responsive.css') }}" rel="stylesheet" media="screen">
+<link href="{{ asset('bundles/frontend/css/bootstrap.earth.css') }}" rel="stylesheet" media="screen">
+<link href="{{ asset('bundles/frontend/css/rs-default.css') }}" rel="stylesheet" media="screen">
 <link href="{{ asset('bundles/frontend/css/error_page.css') }}" rel="stylesheet" media="screen">
 {% endblock %}
 
@@ -10,7 +10,7 @@
 <div class="container" style="max-width: 450px">
         <div>
             <a href="{{ path('frontend_welcome') }}" stitle="{{"HOMEPAGE_TITLE" | trans}}">
-                <img src="{{ asset('bundles/frontend/images/logo.png') }}"/>
+                <img src="{{ asset('bundles/frontend/img/mycp.png') }}"/>
             </a>
         </div>
 
@@ -26,7 +26,7 @@
         <div class="links" style="margin-top: 30px;">
                 <div>
                     <a href="{{ path('frontend_welcome') }}">
-                        <img src="{{ asset('bundles/frontend/images/error_links.png') }}"/>
+                        <img src="{{ asset('bundles/frontend/img/error_links.png') }}"/>
                         Home
                     </a>
                 </div>
