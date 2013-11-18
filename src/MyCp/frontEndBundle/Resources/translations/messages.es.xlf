@@ -2319,6 +2319,22 @@
                     <source>SELECT_FOR_PAYMENT</source>
                     <target>Seleccionar para pagar</target>
                 </trans-unit>
+                <trans-unit id="590">
+                    <source>CART_OF_RESERVES</source>
+                    <target>Cesta de reservaciones</target>
+                </trans-unit>
+                <trans-unit id="591">
+                    <source>MANAGE_CART</source>
+                    <target>Gestione sus reservas para ser consultadas</target>
+                </trans-unit>
+                <trans-unit id="592">
+                    <source>PRICE_NIGHT</source>
+                    <target>Precio/Noche</target>
+                </trans-unit>
+                <trans-unit id="593">
+                    <source>REMOVE_RESERVE</source>
+                    <target>Eliminar esta reserva</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>

@@ -1,74 +1,59 @@
-<table id="" class="table table_striped_vertical" style="font-size: 12px">
-    <tbody>
-    <thead>
-    <tr>
-        <th width="15%">{{"RESERVATION_DATE"|trans}}</th>
-        <th width="36%">{{"RESERVATION_DETAILS"|trans}}</th>
-        <th width="19%">{{"ROOM_PLURAL"|trans|capitalize}}</th>
-        <th width="14%">{{"RESERVATION_GUESTS"|trans}}</th>
-        <th>{{"PRICE_NIGHT"|trans}}</th>
-    </tr>
-    </thead>
 {% set flag = 0%}
 {% set total_price = 0 %}
 {% set total_percent = 0 %}
 {% for date in dates_string %}
-{% if array_clear_date[dates_timestamp[flag]] is not defined %}
-<tr id="{{ dates_timestamp[flag] }}" style="border-bottom: 0px solid #cccccc">
-    <td class="grey date" style="width: 15%;">
-        {{date}}
-    </td>
-    <td colspan="4" style="padding: 0">
-        <table id="table_{{ dates_timestamp[flag] }}" class="table_inner" width="100%">
+    {% if array_clear_date[dates_timestamp[flag]] is not defined %}
+        <div class="item" id="">
+            <table cellpadding="15" class="full-width">
+                <tbody><tr>
+                    <td class="date"><span>{{dates_string_day[flag]}}</span>{{date}}</td>
+                    <td>
 
-            {% for service in services %}
-            {% set plus = 0 %}
-            {% if service['room_type']=='Habitación Triple' and  service['guests'] + service['kids'] >= 3 %}
-                {% set plus = 10 %}
-            {% endif %}
-            {% if dates_timestamp[flag] >= service['from_date'] and dates_timestamp[flag] <= service['to_date']%}
-            <tr id="{{ service['id'] }}-{{ dates_timestamp[flag] }}">
-                <td width="46%"><b>{{ service['ownership_mun']}}, {{ service['ownership_name']}}</b></td>
-                <td width="24%" class="grey">{{ service['room_type']|trans}}</td>
-                <td width="20%">{{"ADULTS"|trans}}: {{ service['guests']}}, {{"KIDS"|trans}}: {{ service['kids']}} </td>
-                <td width="10%">
-                    {% if dates_timestamp[flag] == service['to_date']  %}
-                    {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}<span class="service_price">0</span>
-                    {% else %}
-                    {% set total_percent =  total_percent + ((service['room_price_'~array_season[flag]]+plus) * service['ownership_percent'] / 100) %}
-                    {% if service['room_type']=='Habitación Triple' and  service['guests'] + service['kids'] >= 3 %}
-                    {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}<span class="service_price">{{ service['room_price_'~array_season[flag]] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) + 10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</span>
-                    {% set total_price = total_price +  service['room_price_'~array_season[flag]] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) + 10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) %}
-                    {% else %}
-                    {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}<span class="service_price">{{ service['room_price_'~array_season[flag]] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</span>
-                    {% set total_price = total_price + service['room_price_'~array_season[flag]] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) %}
-                    {% endif %}
-                    {% endif %}
-                </td>
-                <td class="table_delete" style="vertical-align: middle;">
+                        {% for service in services %}
+                            {% set plus = 0 %}
+                            {% if service['room_type']=='Habitación Triple' and  service['guests'] + service['kids'] >= 3 %}
+                                {% set plus = 10 %}
+                            {% endif %}
+                            {% if dates_timestamp[flag] >= service['from_date'] and dates_timestamp[flag] <= service['to_date']%}
+                                <table class="full-width">
+                                    <tr id="{{ service['id'] }}-{{ dates_timestamp[flag] }}">
+                                        <td class="name">{{ service['ownership_mun']}}, {{ service['ownership_name']}}</td>
+                                        <td class="room-type">{{ service['room_type']|trans}}</td>
+                                        <td class="persons">{{"ADULTS"|trans}}: {{ service['guests']}}, {{"KIDS"|trans}}: {{ service['kids']}}</td>
+                                        <td class="cost"><h3 class="no-margin">
+                                                {% if dates_timestamp[flag] == service['to_date']  %}
+                                                    {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}0
+                                                {% else %}
+                                                    {% set total_percent =  total_percent + ((service['room_price_'~array_season[flag]]+plus) * service['ownership_percent'] / 100) %}
+                                                    {% if service['room_type']=='Habitación Triple' and  service['guests'] + service['kids'] >= 3 %}
+                                                        {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ service['room_price_'~array_season[flag]] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) + 10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}
+                                                        {% set total_price = total_price +  service['room_price_'~array_season[flag]] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) + 10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) %}
+                                                    {% else %}
+                                                        {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ service['room_price_'~array_season[flag]] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}
+                                                        {% set total_price = total_price + service['room_price_'~array_season[flag]] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) %}
+                                                    {% endif %}
+                                                {% endif %}
+                                        </h3><small class="margin-b-t"><i>{{ "PRICE_NIGHT"|trans }}</i></small></td>
+                                        <td class="text-center"><button data="{{ service['id'] }}-{{ dates_timestamp[flag] }}" class="btn_delete" rel="tooltip" data-placement="top" title="{{ 'REMOVE_RESERVE'|trans }}"><i class="icon-remove-sign"></i></button></td>
+                                    </tr>
+                                </table>
+                            {% endif %}
+                        {% endfor %}
 
-                    <button id="btn_{{dates_timestamp[flag]}}" class="btn_delete"  title="{{"REMOVE"|trans}} {{ service['ownership_name']}}" data="{{ service['id'] }}-{{ dates_timestamp[flag] }}">&nbsp;</button>
-
-                </td>
-            </tr>
-            {% endif %}
-            {% endfor %}
-        </table>
-    </td>
-</tr>
-{% endif %}
-{% set flag = flag + 1 %}
+                    </td>
+                </tr>
+                </tbody></table>
+        </div>
+    {% endif %}
+    {% set flag = flag + 1 %}
 {% endfor %}
-    </tbody>
-</table>
-<div class="table_striped_vertical_foot">
-    <div style="padding-bottom: 10px; font-size: 12px; text-align: right">
-        {{"RESERVATION_TOTAL_PRICE" | trans}} {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{total_price}}<br/>
-        {{"INITIAL_DEPOSIT" | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{total_percent * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}<br/>
-        {{"SERVICE_RECHARGE" | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}<br/>
-        <label style="font-weight: bold; font-size: 20px">{{"TOTAL_PREPAYMENT" | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{(total_percent * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))+10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</label>
-    </div>
+<div class="row text-right h-blue prices-cart">
+    <div class="col-sm-3">{{"RESERVATION_TOTAL_PRICE" | trans}} <span>{{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{total_price}}</span></div>
+    <div class="col-sm-3">{{"INITIAL_DEPOSIT" | trans}}: <span>{{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{total_percent * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</span></div>
+    <div class="col-sm-3">{{"SERVICE_RECHARGE" | trans}}: <span>{{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</span></div>
+    <div class="col-sm-3">{{"TOTAL_PREPAYMENT" | trans}}: <span>{{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{(total_percent * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))+10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</span></div>
 </div>
+
 <script type="text/javascript">
     $('.btn_delete').click(function(){
         $('#confirmation_modal').modal('show');

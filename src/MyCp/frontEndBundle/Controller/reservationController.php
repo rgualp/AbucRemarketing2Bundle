@@ -159,7 +159,7 @@ class reservationController extends Controller
         if (count($services) < 1) {
             return new Response('0');
         }
-        return $this->get_body_review_reservationAction($request);
+        return $this->get_body_review_reservation_2Action($request);
     }
 
     public function reviewAction(Request $request)
@@ -180,7 +180,9 @@ class reservationController extends Controller
         ));
     }
 
-    public function get_body_review_reservationAction(Request $request)
+
+
+    public function get_body_review_reservation_2Action(Request $request)
     {
         $services = array();
         if ($request->getSession()->get('services_pre_reservation'))
@@ -205,13 +207,15 @@ class reservationController extends Controller
 
         $service_time = $this->get('Time');
         $array_dates = $service_time->dates_between($min_date, $max_date);
+        $array_dates_string_day = array();
         $array_dates_string = array();
         $array_season = array();
         $array_clear_date = array();
         //var_dump($services);
         if ($array_dates)
             foreach ($array_dates as $date) {
-                array_push($array_dates_string, \date('d/m/Y', $date));
+                array_push($array_dates_string, \date('/m/Y', $date));
+                array_push($array_dates_string_day, \date('d', $date));
                 $season = $service_time->season_by_date($date);
                 array_push($array_season, $season);
                 $insert = 1;
@@ -226,6 +230,7 @@ class reservationController extends Controller
             }
         return $this->render('frontEndBundle:reservation:bodyReviewReservation.html.twig', array(
             'dates_string' => $array_dates_string,
+            'dates_string_day' => $array_dates_string_day,
             'dates_timestamp' => $array_dates,
             'services' => $services,
             'array_season' => $array_season,

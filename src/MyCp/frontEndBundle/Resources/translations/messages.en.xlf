@@ -1156,7 +1156,7 @@
             </trans-unit>
             <trans-unit id="298">
                 <source>RESERVATION_TITLE</source>
-                <target>Resrvations</target>
+                <target>Reservations</target>
             </trans-unit>
             <trans-unit id="299">
                 <source>RESERVATION_ROOMS</source>
@@ -2322,6 +2322,22 @@
                 <trans-unit id="589">
                     <source>SELECT_FOR_PAYMENT</source>
                     <target>Select for payment</target>
+                </trans-unit>
+                <trans-unit id="590">
+                    <source>CART_OF_RESERVES</source>
+                    <target>Cart of reservations</target>
+                </trans-unit>
+                <trans-unit id="591">
+                    <source>MANAGE_CART</source>
+                    <target>Manage your reservations to request availability</target>
+                </trans-unit>
+                <trans-unit id="592">
+                    <source>PRICE_NIGHT</source>
+                    <target>Price/Night</target>
+                </trans-unit>
+                <trans-unit id="593">
+                    <source>REMOVE_RESERVE</source>
+                    <target>Remove it reservation</target>
                 </trans-unit>
         </body>
     </file>

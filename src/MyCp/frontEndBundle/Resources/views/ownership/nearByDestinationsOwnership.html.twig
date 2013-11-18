@@ -6,7 +6,7 @@
                     {%for dest in destinations%}
                     <div class="item {%if counter == 0%}active{%endif%}">
                         <div class="row">
-                            <div class="col-xs-6"><img src="{{asset('bundles/frontend/img/capitol.jpg')}}" class="thumbnail full-width"></div>
+                            <div class="col-xs-6"><img src="" class="thumbnail full-width"></div>
                             <div class="col-xs-6"><b>
                             <a href="{{ path('frontend_details_destination',{'destination_name':dest['des_name']|lower|replace(' ','_')}) }}">
                             {{dest['des_name']}}

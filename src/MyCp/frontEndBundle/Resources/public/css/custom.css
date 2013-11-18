@@ -137,6 +137,7 @@
     #main-search .form,#main-search-2 .form{ position: inherit; margin: 0; width: 100%; border-radius: 0}
     .cont-form{padding: 0}
     .myct-menu .col-sm-4{width: 100%!important;}
+
 }
 
 @media (max-width: 590px) {
@@ -145,6 +146,7 @@
     .bg-solid-orange .star-orange-icon{display: none}
     #firm{display: none}
     .items-cart table td{display: block; width: 100%!important; text-align: center; padding: 5px}
+    .items-cart .cost{text-align: center}
 }
 
 @media (max-width: 400px) {
@@ -171,6 +173,7 @@
 .h-size-4{font-size: 18px}
 .no-margin{margin: 0}
 .margin-t-t{margin-top: 10px}
+.margin-b-t{margin-bottom: 10px}
 .margin-t{margin: 10px 0}
 
 footer{padding: 20px 0; border-top: solid #98CD34 7px; color: #ffffff; font-size: 11px}
@@ -181,7 +184,7 @@ footer h3{font-size: 13px; text-transform: uppercase; font-weight: bold; margin-
 footer ul{list-style: none; padding-left: 0}
 footer ul li{line-height: 16px}
 
-.icon,.icon-medium,.icon-services{width: 13px; height: 14px; background: url("../img/icons/icons.png") no-repeat; }
+.icon,.icon-medium,.icon-services{width: 13px; height: 14px; background: url("../img/icons/icons.png") no-repeat; vertical-align: middle }
 .icon-services{ width: 27px; height: 27px}
 .icon-2{width: 14px; height: 14px;}
 .icon-3{width: 18px; height: 18px;}
@@ -189,7 +192,7 @@ footer ul li{line-height: 16px}
 .tiny-book-icon{background-position: 0 0}
 .icon-mail{background-position: -19px -231px; width: 19px; height: 14px;}
 .icon-heart{background-position: -31px -75px; cursor: pointer}
-.icon-heart-on{background-position: -16px -204px}
+.icon-heart-on{background-position: -16px -204px;cursor: pointer}
 .tiny-heart-icon{background-position: -14px 0}
 .tiny-user-icon{background-position: 0 -14px}
 .tiny-lang-icon{background-position: -14px -14px}
@@ -242,6 +245,11 @@ footer ul li{line-height: 16px}
 .eye-icon{background-position: -28px -487px;}
 .flag-icon{background-position: 0 -514px;}
 .graph-icon{background-position: -28px -514px;}
+.pet-icon{background-position: 0 -568px;}
+.jacuzee-icon{background-position: 0 -595px;}
+.sauna-icon{background-position: -28px -595px;}
+.pool-icon{background-position: 0 -622px;}
+.bicicle-icon{background-position: -28px -568px;}
 .persons-icon{background-position: 0 -541px;}
 .heart-3-icon{background-position: -28px -541px;}
 .big-icons{width: 44px; height: 44px; background: url("../img/icons/big-icons.png") no-repeat;}
@@ -496,18 +504,21 @@ footer ul li{line-height: 16px}
 .hr-green{border-color:#84b231}
 .comments small{color: #84b231}
 .comments .col-xs-2 img{width: 100%}
-.services .row div:last-child{text-align: right}
+.services .row .row div:last-child{text-align: right}
+.services .lead-2{padding: 10px;}
+
+.services {font-size: 12px}
 
 .items-cart .item{background-color: #f0f0f0; margin-bottom: 10px; border-radius: 4px; padding: 0px 10px}
 .items-cart h1{margin: 0}
 .items-cart a{text-decoration: none; color: #9c9c9c}
-.items-cart{margin: 15px 0 20px}
+.items-cart{margin: 15px 0 15px}
 .items-cart table td{vertical-align: middle}
 .items-cart .date{ width: 10%}
-.items-cart .name{width: 35%}
-.items-cart .room-type{width: 20%; text-align: center}
-.items-cart .persons{width: 20%}
-.items-cart .cost{ width: 10%; text-align: center}
+.items-cart .name{width: 41%}
+.items-cart .room-type{width: 24%; text-align: center}
+.items-cart .persons{width: 16%}
+.items-cart .cost{ width: 13%; text-align: right}
 .items-cart .icon-remove-sign{font-size: 22px; cursor: pointer}
 .items-cart span{font-size: 25px}
 .prices-cart span{font-weight: normal; font-size: 22px}
@@ -535,3 +546,11 @@ footer ul li{line-height: 16px}
 .tt-suggestion,.tt-dataset-states{padding: 0px!important;}
 
 .link-under-line:hover{text-decoration: underline}
+
+.calendar-cont li.lead-2{padding: 10px}
+.calendar-cont th{color: #9BB949; font-weight: normal}
+.calendar-cont{font-size: 12px}
+.all-prices-numbers div{font-size: 16px}
+.calendar-results{display: none}
+.form-control-2{padding:  4px 6px;}
+.btn_delete{border: none; background: transparent; color: #9C9C9C}

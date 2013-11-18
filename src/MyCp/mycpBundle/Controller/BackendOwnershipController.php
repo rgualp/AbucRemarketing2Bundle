@@ -393,9 +393,11 @@ class BackendOwnershipController extends Controller
 
     public function delete_ownershipAction($id_ownership)
     {
+
         $service_security= $this->get('Secure');
         $service_security->verify_access();
         $em = $this->getDoctrine()->getEntityManager();
+
         $ownership=$em->getRepository('mycpBundle:ownership')->find($id_ownership);
         $old_code=$ownership->getOwnMcpCode();
         $ownershipGeneralLangs=$em->getRepository('mycpBundle:ownershipGeneralLang')->findBy(array('ogl_ownership'=>$id_ownership));
@@ -403,10 +405,10 @@ class BackendOwnershipController extends Controller
         $ownershipKeywords=$em->getRepository('mycpBundle:ownershipKeywordLang')->findBy(array('okl_ownership'=>$id_ownership));
         $ownershipRooms=$em->getRepository('mycpBundle:room')->findBy(array('room_ownership'=>$id_ownership));
         $ownershipPhotos=$em->getRepository('mycpBundle:ownershipPhoto')->findBy(array('own_pho_own'=>$id_ownership));
-        $ownershipReservations=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_own_id'=>$id_ownership));
+        $ownershipReservations=$em->getRepository('mycpBundle:ownershipReservation')->getOwnResByOwnership($id_ownership);
         $ownershipComments=$em->getRepository('mycpBundle:comment')->findBy(array('com_ownership'=>$id_ownership));
         $userscasa=$em->getRepository('mycpBundle:userCasa')->findBy(array('user_casa_ownership'=>$id_ownership));
-        
+
         $dir=$this->container->getParameter('ownership.dir.photos');
         $dir_thumbs=$this->container->getParameter('ownership.dir.thumbnails');
 
