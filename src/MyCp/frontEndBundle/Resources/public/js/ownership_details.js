@@ -67,8 +67,11 @@ function datePickersStarUp(){
         date: end_date,
         language: $('#filter_date_to').attr('data-localization')
     }).data('datepicker');
-    
+
+
+
     /*filter_date_to.on('changeDate', function(ev){
+            alert('aaaa');
                 element=$("#body_calendar");
                 $('.datepicker').hide();
                 element.attr('class','container_loading');

@@ -34,10 +34,10 @@
             <div class="tabbable">
                 <ul class="nav nav-tabs">
                     {%if gallery_photos | length%}
-                    <li class="active"><a data-toggle="tab" href="#tab1">{{"PHOTO_TAB_DETAILS" | trans}}</a></li>
+                    <li onclick="javascript:hide_calendar()" class="active li-tabs"><a data-toggle="tab" href="#tab1">{{"PHOTO_TAB_DETAILS" | trans}}</a></li>
                     {%endif%}
-                    <li {%if not gallery_photos | length%} class="active" {%endif%}><a data-toggle="tab" href="#tab2">{{"MAPS_TAB_DETAILS" | trans}}</a></li>
-                    <li><a data-toggle="tab" href="#tab3">{{'RESERVATION_TITLE' | trans}}</a></li>
+                    <li onclick="javascript:hide_calendar()" {%if not gallery_photos | length%} class="active li-tabs" {%endif%}><a data-toggle="tab" href="#tab2">{{"MAPS_TAB_DETAILS" | trans}}</a></li>
+                    <li id="li-reservations" class="li-tabs"><a data-toggle="tab" href="#tab-reservations">{{'RESERVATION_TITLE' | trans}}</a></li>
                 </ul>
                 <div class="tab-content">
                     {%if gallery_photos | length%}
@@ -56,7 +56,7 @@
                             </iframe>
                         </div>
                     </div>
-                    <div id="tab3" class="tab-pane">
+                    <div id="tab-reservations" class="tab-pane">
                         <ul class="price calendar-cont">
                             <li class="lead-2">
                                 <div class="row">
@@ -447,7 +447,7 @@
                         <span class="input-group-addon"><span class="icon-calendar"></span></span>
                     </div>
                 </li>
-                <li><button class="btn btn-primary">{{"VERIFY_PRICES_FOR_THIS_DATES" | trans}}</button></li>
+                <li><button onclick="javascript:refresh_calendar_button()" class="btn btn-primary">{{"VERIFY_PRICES_FOR_THIS_DATES" | trans}}</button></li>
             </ul>
             <hr class="margin-t"/>
             {{ include('frontEndBundle:favorite:detailsFavorite.html.twig',
@@ -566,6 +566,57 @@
             }
         });
     });
+
+    $('#filter_date_to').change(function(){
+        from=$('#filter_date_from').val();
+        to=$('#filter_date_to').val();
+        refresh_calendar(from,to);
+        $('#top_reservation_filter_date_from').val(from);
+        $('#top_reservation_filter_date_to').val(to);
+    });
+    function refresh_calendar_button()
+    {
+        $('#tab-reservations').attr('class','active');
+        $('.li-tabs').attr('class','');
+        $('#li-reservations').attr('class','active');
+
+
+        from=$('#top_reservation_filter_date_from').val();
+        to=$('#top_reservation_filter_date_to').val();
+        $('#filter_date_from').val(from);
+        $('#filter_date_to').val(to);
+
+        refresh_calendar(from,to);
+    }
+
+    function hide_calendar()
+    {
+        $('#tab-reservations').attr('class','tab-pane');
+    }
+
+    function refresh_calendar(from,to)
+    {
+        element=$("#body_calendar");
+        element.attr('class','container_loading');
+        element.html('<div>&nbsp;</div>');
+        $('#rooms_selected').css({display: 'none'});
+        $('#all_data_numbers').css({display: 'none'});
+        $.ajax({
+            url: "{{ path('frontend_get_reservation_calendar_ownership') }}",
+            data:{ from: from, to: to, own_id: own_id}
+
+        }).done(function(resp) {
+                    element.removeAttr('class');
+                    element.html(resp);
+                    from=from.replace('/','&');
+                    from=from.replace('/','&');
+                    to=to.replace('/','&');
+                    to=to.replace('/','&');
+                    $('#data_reservation').attr('from_date', from);
+                    $('#data_reservation').attr('to_date', to);
+                });
+    }
+
     </script>
     <script type="text/javascript">
         var reservation_see_prices_text = "{{"RESERVATION_SEE_PRICES" | trans}}";

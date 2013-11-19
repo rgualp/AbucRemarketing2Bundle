@@ -128,13 +128,11 @@
             'element_id':destination.desid
             }) }}
         </div>
-        <div class="thumbnail">
         <a href="#send_to_friend_popup" title="{{'SEND_TO_FRIEND' | trans}}" data-toggle="modal" style="text-decoration: none">
-            <button style="font-size: 12px" class="btn btn-block" onclick="$('#send_to_friend_popup').attr('data-email-type', 'recommend_destiny'); $('#send_to_friend_popup').attr('data-dest-prop-id', '{{destination.getDesId}}');">
+            <button style="margin-top: 15px" class="btn btn-default btn-block" onclick="$('#send_to_friend_popup').attr('data-email-type', 'recommend_destiny'); $('#send_to_friend_popup').attr('data-dest-prop-id', '{{destination.getDesId}}');">
                 <img src="{{ asset('bundles/frontend/images/main_to_friend.gif') }}">{{"TELL_A_FRIEND" | trans}}
             </button>
         </a>
-    </div>
         </div>
         <div class="col-sm-9">
             <div class="bg-solid-blue-bar" style="margin-top: 0">
