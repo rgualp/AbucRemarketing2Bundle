@@ -63,13 +63,13 @@
                                     <form id="calendar_form" method="POST" action="{{ path('frontend_details_ownership',{'own_name':ownership.ownname  | lower | replace(' ','_')}) }}" novalidate>
                                     <div class="col-sm-6">
                                         <div class="input-group" style="padding: 0">
-                                            <input value="{{start_date}}"  type="text" id="filter_date_from" class="form-control" placeholder="{{"ARRIVAL_RESERVATION" | trans}}">
+                                            <input value="{{start_date}}"  type="text" id="filter_date_from" class="form-control" placeholder="{{"ARRIVAL_RESERVATION" | trans}}" data-localization='{{locale}}'>
                                             <span class="input-group-addon"><span class="icon-calendar"></span></span>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="input-group" style="padding: 0">
-                                            <input value="{{ end_date }}" type="text" id="filter_date_to" class="form-control" placeholder="{{"DEPARTURE_RESERVATION" | trans}}">
+                                            <input value="{{ end_date }}" type="text" id="filter_date_to" class="form-control" placeholder="{{"DEPARTURE_RESERVATION" | trans}}" data-localization='{{locale}}'>
                                             <span class="input-group-addon"><span class="icon-calendar"></span></span>
                                         </div>
                                     </div>
@@ -470,8 +470,10 @@
             {%render "frontEndBundle:ownership:last_owns_visited" with {'exclude_ownership_id': ownership.own_id }%}
             {%render "frontEndBundle:ownership:near_by_destinations" with {'municipality_id': ownership.ownaddressmunicipality_id, 'province_id': ownership.ownAddressProvince_id}%}
             {%if total_similar_houses > 0%}
-            Maquetar Casas Similares
-    <!--div class="thumbnail head">
+            
+    <!--
+    Maquetar Casas Similares
+    div class="thumbnail head">
         <div class="header">{{"SIMILAR_OWNERSHIPS_DETAILS" | trans}} ({{total_similar_houses}})</div>
         <div class="subheader">
             {{total_similar_houses}} {{"LISTINGS_TEXT_DETAILS" | trans}} <a
@@ -533,6 +535,8 @@
 <script src="{{ asset('bundles/frontend/js/jquery.royalslider.min.js') }}"></script>
 <link href="{{ asset('bundles/frontend/css/royalslider.css') }}" rel="stylesheet"/>
 <link href="{{ asset('bundles/frontend/css/rs-default.css') }}" rel="stylesheet"/>
+<script src="{{ asset('bundles/frontend/js/bootstrap-datepicker.js') }}"></script>
+<script src="{{ asset('bundles/frontend/js/bootstrap-datepicker.es.js') }}"></script>
 <script type="text/javascript">
 
     var cont_array_dates={{ array_dates | length}} ;

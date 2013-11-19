@@ -229,7 +229,7 @@ class destinationRepository extends EntityRepository {
      * @param int $results_total Length of the return set
      * @return array
      */
-    function get_popular_destination($results_total = null, $user_id = null, $session_id = null) {
+    function get_popular_destination($results_total = null, $user_id = null, $session_id = null,$locale='ES') {
         $em = $this->getEntityManager();
        /* $query_string = "SELECT d FROM mycpBundle:destination d
                          WHERE d.des_active <> 0
@@ -237,6 +237,8 @@ class destinationRepository extends EntityRepository {
         return ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult();*/
         $query_string = "SELECT d.des_id as des_id,
                           d.des_name as des_name,
+                          (SELECT dl.des_lang_brief from mycpBundle:destinationLang dl 
+                          JOIN dl.des_lang_lang l WHERE dl.des_lang_destination = d.des_id AND l.lang_code = '$locale') as desc_brief,
                           (SELECT MIN(pho.pho_name) FROM mycpBundle:destinationPhoto dp
                            JOIN dp.des_pho_photo pho
                            WHERE dp.des_pho_destination = d.des_id AND (pho.pho_order =

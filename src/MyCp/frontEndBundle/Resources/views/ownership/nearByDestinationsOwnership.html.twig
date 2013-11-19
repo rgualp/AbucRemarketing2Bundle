@@ -6,12 +6,17 @@
                     {%for dest in destinations%}
                     <div class="item {%if counter == 0%}active{%endif%}">
                         <div class="row">
-                            <div class="col-xs-6"><img src="" class="thumbnail full-width"></div>
+                            <div class="col-xs-6">
+                                <img src="{{ asset("uploads/destinationImages/thumbnails/" ~ dest.photo)}}" class="thumbnail full-width">
+                            </div>
                             <div class="col-xs-6"><b>
-                            <a href="{{ path('frontend_details_destination',{'destination_name':dest['des_name']|lower|replace(' ','_')}) }}">
-                            {{dest['des_name']}}
-                            </a></b><br/>$20 por noche<br/>
-                            Anim pariatur cliche reprehenderit, enim eiusmod high.</div>
+                            <a href="{{ path('frontend_details_destination',{'destination_name':dest.des_name|lower|replace(' ','_')}) }}">
+                            {{dest.des_name}}
+                            </a></b><br/>
+                            {{"FROM_PRICES" | trans | lower}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{dest.min_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }} {{"BYNIGHT" | trans}}<br/>
+                            {{(dest.desc_brief != null or dest.desc_brief != "") ? (dest.desc_brief | slice(0,50) | striptags) : ""}}            
+                            {%if (dest.desc_brief != null and dest.desc_brief | length > 50)%}...{%endif%}   
+                           </div>
                         </div>
                     </div>
                         {%set counter = counter + 1%}

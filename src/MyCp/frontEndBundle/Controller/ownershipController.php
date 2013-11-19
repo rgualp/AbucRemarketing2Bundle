@@ -1301,7 +1301,7 @@ class ownershipController extends Controller {
         $destinations = $em->getRepository('mycpBundle:destination')->destination_filter($municipality_id, $province_id, null, null, 3);
         
         if(count($destinations) < 3)
-            $destinations = $em->getRepository('mycpBundle:destination')->get_popular_destination(3, $users_id["user_id"], $users_id["session_id"]);
+            $destinations = $em->getRepository('mycpBundle:destination')->get_popular_destination(3, $users_id["user_id"], $users_id["session_id"],$this->get('translator')->getLocale());
         
          return $this->render('frontEndBundle:ownership:nearByDestinationsOwnership.html.twig', array(
                     'destinations' => $destinations
