@@ -9,11 +9,7 @@
 {% endblock %}
 
 {% block body %}
-<ul class="breadcrumb">
-    <li><a href="{{ path('frontend_welcome') }}" title="{{"GO_HOME_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a> <span class="divider">»</span></li>
-    <li class="active">{{"INFO_MAIN_MENU" | trans}}<span class="divider">»</span></li>
-    <li class="active">{{"SITEMAP" | trans}}</li>
-</ul>
+<div class="container">
 <div class="row-fluid filter_1">
 </div>
 <div id="loading" class="alert alert-info hidden"> <img src="{{ asset('bundles/frontend/img/loading.gif') }}"/> {{"LOADING_MESSAGE" | trans}}</div>
@@ -69,6 +65,7 @@
         </ul>
     </div>
         
+</div>
 </div>
 {% block include_javascripts %}
     

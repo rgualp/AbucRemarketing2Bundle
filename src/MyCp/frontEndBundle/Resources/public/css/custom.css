@@ -575,3 +575,10 @@ footer ul li{line-height: 16px}
     box-shadow: 0 0 30px 30px rgba(255, 255, 255, 1);}
 
 .t-size-12{font-size: 12px}
+.form-cont label{
+    font-weight: normal;
+    display: block;
+    margin-top: 10px;
+}
+.form-cont ul li{list-style: none; font-size: 12px; color: #B94A48; margin: -8px 0}
+.form-cont ul {padding: 0; }
