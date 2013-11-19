@@ -24,12 +24,13 @@ class ownerContact extends AbstractType
             ->add('owner_full_name','text',array('label'=>$this->translate->trans('FORMS_NAME_LASTNAME_OWNER'),'attr'=>array('class'=>'form-control')))
             ->add('owner_own_name','text',array('label'=>$this->translate->trans('FORMS_OWN_NAME'),'attr'=>array('class'=>'form-control')))
             ->add('owner_phone','text',array('label'=>$this->translate->trans('FORMS_PHONE'),'attr'=>array('class'=>'form-control')))
-            ->add('owner_email','repeated',array(
+            /*->add('owner_email','repeated',array(
                 'attr'=>array('class'=>'form-control'),
             'first_name' => $this->translate->trans('FORMS_EMAIL'),
             'second_name' => $this->translate->trans('FORMS_REPEAT'),
             'type' => 'text'
-        ))
+        ))*/
+            ->add('owner_email','text',array('label'=>$this->translate->trans('FORMS_EMAIL'),'attr'=>array('class'=>'form-control')))
             ->add('owner_province','text',array('label' => $this->translate->trans('FORMS_PROVINCE'),'attr'=>array('class'=>'form-control')))
             ->add('owner_mun','text',array('label' => $this->translate->trans('FORMS_MUNICIPALITY'),'attr'=>array('class'=>'form-control')))
             ->add('owner_comment','textarea',array('label' => $this->translate->trans('FORMS_COMMENTS'),'attr'=>array('class'=>'form-control')));
