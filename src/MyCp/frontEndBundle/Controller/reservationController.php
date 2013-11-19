@@ -524,6 +524,7 @@ class reservationController extends Controller
         $errors = null;
         $post = null;
         $post_country = null;
+        $count_errors = 0;
 
         if ($request->getMethod() == "POST") {
 
@@ -650,6 +651,7 @@ class reservationController extends Controller
             'total_percent_price' => $total_percent_price,
             'post' => $post,
             'post_country' => $post_country,
+            'total_errors' => $count_errors
         ));
 
     }

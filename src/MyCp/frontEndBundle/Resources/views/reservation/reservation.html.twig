@@ -1,7 +1,23 @@
 {% extends 'frontEndBundle:mycasatrip:layout_blank.html.twig' %}
 {% block body_inner %}
 <script src="{{ asset('bundles/frontend/js/reservation.js') }}"></script>
-<h1 class="h-blue caecilia-roman h-size-1" style="font-weight: normal; margin-top: 40px">{{"RESERVATION_DETAILS" | trans}}</h1>
+
+{%if total_errors > 0%}
+<div class="alert alert-info" style="margin-top: 40px">
+{{"FILL_FORM_CORRECTLY" | trans}}<br/>
+{%if errors["user_tourist_gender"] is defined and errors["user_tourist_gender"] !="" %}{{"GENDER" | trans}}: {{errors["user_tourist_gender"]|trim(':')}}<br/>{%endif%}
+{%if errors["user_tourist_name"] is defined  and errors["user_tourist_name"] !="" %}{{"FORMS_NAME" | trans}}: {{errors["user_tourist_name"]|trim(':')}}<br/>{%endif%}
+{%if errors["user_tourist_email"] is defined and errors["user_tourist_email"] !="" %}{{"FORMS_EMAIL" | trans}}: {{errors["user_tourist_email"]|trim(':')}}<br/>{%endif%}
+{%if errors["user_tourist_nationality"] is defined and errors["user_tourist_nationality"] !=""  %}{{"COUNTRY" | trans}}: {{errors["user_tourist_nationality"]|trim(':')}}<br/>{%endif%}
+{%if errors["user_tourist_phone"] is defined and errors["user_tourist_phone"] != ""%}{{"FORMS_PHONE" | trans}}: {{errors["user_tourist_phone"]|trim(':')}}<br/>{%endif%}
+{%if errors["user_tourist_zip_code"] is defined  and errors["user_tourist_zip_code"] !="" %}{{"ZIPCODE" | trans}}: {{errors["user_tourist_zip_code"]|trim(':')}}<br/>{%endif%}
+{%if errors["user_tourist_last_name"] is defined and errors["user_tourist_last_name"] !="" %}{{"FORMS_LASTNAME" | trans}}: {{errors["user_tourist_last_name"]|trim(':')}}<br/>{%endif%}
+{%if errors["user_tourist_email_confirm"] is defined and errors["user_tourist_email_confirm"] !=""  %}{{"CONFIRM_MAIL" | trans}}:{{errors["user_tourist_email_confirm"]|trim(':')}}<br/>{%endif%}
+{%if errors["reservation_hour"] is defined and errors["reservation_hour"] !=""  %}{{"ARRIVAL_TIME" | trans}}: {{errors["reservation_hour"]|trim(':')}}<br/>{%endif%}
+{%if errors["user_tourist_cell"] is defined and errors["user_tourist_cell"] !=""  %}{{"CELL_NUMBER" | trans}}: {{errors["user_tourist_cell"]|trim(':')}}<br/>{%endif%}
+</div>
+{%endif%}
+<h1 class="h-blue caecilia-roman h-size-1" style="font-weight: normal;">{{"RESERVATION_DETAILS" | trans}}</h1>
 <div class="h-blue t-size-12" style="font-weight: normal"><b >{{"ARRIVAL_RESERVATION" | trans}}:</b> {{dates_string[0]}} <b style="margin-left: 20px">{{"DEPARTURE_RESERVATION" | trans}}:</b> {{dates_string[dates_string|length -1]}}</div>
 <div class="items-cart">
 {% set flag_1 = 0%}
@@ -63,50 +79,49 @@
     <input type="hidden"  name="user_tourist_gender" id="user_tourist_gender" value="{{ post["user_tourist_gender"] is defined  ? post["user_tourist_gender"] : user_tourist.getUserTouristGender}}"/>
     <input type="hidden" name="user_tourist_nationality" id="user_tourist_nationality" value="{{post["user_tourist_nationality"] is defined and post["user_tourist_nationality"] != "" ? post["user_tourist_nationality"] : user.UserCountry.coid}}"/>
     <input type="hidden" name="reservation_hour" id="reservation_hour" value="{{post["reservation_hour"] is defined and post["reservation_hour"] != "" ? post["reservation_hour"]: ("SELECT" | trans)}}"/>
-    {% if total_errors is defined and total_errors > 0 %}<label class="alert alert-error">{{"FILL_FORM_CORRECTLY" | trans}}</label>{%endif%}
 <div class="row form-cont">
     <div class="col-sm-6">
-        <label>{{"GENDER" | trans}}{%if errors["user_tourist_gender"] is defined and errors["user_tourist_gender"] !="" %}<span class="reservation_error">({{errors["user_tourist_gender"]|trim(':')}})</span>{%endif%}</label>
+        <label>{{"GENDER" | trans}}</label>
         <select class="form-control">
-            <option>{{"MALE" | trans}}</option>
-            <option>{{"FEMALE" | trans}}</option>
+            <option value="0">{{"MALE" | trans}}</option>
+            <option value="1">{{"FEMALE" | trans}}</option>
         </select>
-
-        <label>{{"FORMS_NAME" | trans}}{%if errors["user_tourist_name"] is defined  and errors["user_tourist_name"] !="" %}<span class="reservation_error">({{errors["user_tourist_name"]|trim(':')}})</span>{%endif%}</label>
+        
+        <label>{{"FORMS_NAME" | trans}}</label>
         <input type="text" name="user_tourist_name" class="form-control" value="{{ post["user_tourist_name"] is defined ? post["user_tourist_name"] | capitalize : user.getUserUserName |capitalize}}"/>
 
-        <label>{{"FORMS_EMAIL" | trans}}{%if errors["user_tourist_email"] is defined and errors["user_tourist_email"] !="" %}<span class="reservation_error">({{errors["user_tourist_email"]|trim(':')}})</span>{%endif%}</label>
+        <label>{{"FORMS_EMAIL" | trans}}</label>
         <input type="text" name="user_tourist_email" class="form-control"  value="{{post["user_tourist_email"] is defined ? post["user_tourist_email"] : user.getUserEmail}}"/>
 
-        <label>{{"COUNTRY" | trans}}{%if errors["user_tourist_nationality"] is defined and errors["user_tourist_nationality"] !=""  %}<span class="reservation_error">({{errors["user_tourist_nationality"]|trim(':')}})</span>{%endif%}</label>
+        <label>{{"COUNTRY" | trans}}</label>
         <select class="form-control">
             {%for country in countries%}
-                <option>{{country.coname}}</option>
+                <option value="{{country.coid}}">{{country.coname}}</option>
             {%endfor%}
         </select>
 
-        <label>{{"FORMS_PHONE" | trans}}{%if errors["user_tourist_phone"] is defined and errors["user_tourist_phone"] != ""%}<span class="reservation_error">({{errors["user_tourist_phone"]|trim(':')}})</span>{%endif%}</label>
+        <label>{{"FORMS_PHONE" | trans}}</label>
         <input type="text"  name="user_tourist_phone" class="form-control"  value="{{post["user_tourist_phone"] is defined and  post["user_tourist_phone"] != "" ? post["user_tourist_phone"] : user.getUserPhone}}"/>
     </div>
     <div class="col-sm-6">
-        <label>{{"ZIPCODE" | trans}}{%if errors["user_tourist_zip_code"] is defined  and errors["user_tourist_zip_code"] !="" %}<span class="reservation_error">({{errors["user_tourist_zip_code"]|trim(':')}})</span>{%endif%}</label>
+        <label>{{"ZIPCODE" | trans}}</label>
         <input name="user_tourist_zip_code" type="text" class="form-control" value="{{post["user_tourist_zip_code"] is defined  ? post["user_tourist_zip_code"] : user_tourist.UserTouristPostalCode}}"/>
 
-        <label>{{"FORMS_LASTNAME" | trans}}{%if errors["user_tourist_last_name"] is defined and errors["user_tourist_last_name"] !="" %}<span class="reservation_error">({{errors["user_tourist_last_name"]|trim(':')}})</span>{%endif%}</label>
+        <label>{{"FORMS_LASTNAME" | trans}}</label>
         <input type="text" name="user_tourist_last_name" class="form-control" value="{{post["user_tourist_last_name"] is defined ? post["user_tourist_last_name"] | capitalize : user.getUserLastName |capitalize}}"/>
 
-        <label>{{"CONFIRM_MAIL" | trans}}{%if errors["user_tourist_email_confirm"] is defined and errors["user_tourist_email_confirm"] !=""  %}<span class="reservation_error">({{errors["user_tourist_email_confirm"]|trim(':')}})</span>{%endif%}</label>
+        <label>{{"CONFIRM_MAIL" | trans}}</label>
         <input type="text" name="user_tourist_email_confirm" class="form-control" value="{{post["user_tourist_email_confirm"] is defined and post["user_tourist_email_confirm"] != null ? post["user_tourist_email_confirm"] : ""}}"/>
 
-        <label>{{"ARRIVAL_TIME" | trans}}{%if errors["reservation_hour"] is defined and errors["reservation_hour"] !=""  %}<span class="reservation_error">({{errors["reservation_hour"]|trim(':')}})</span>{%endif%}</label>
+        <label>{{"ARRIVAL_TIME" | trans}}</label>
         <select class="form-control">
             {%for hour in (0..23)%}
-                <option>{{(hour < 10 ? "0"~hour: hour) ~ ":00"}}</option>
-                <option>{{(hour < 10 ? "0"~hour: hour) ~ ":30"}}</option>
+                <option value="{{(hour < 10 ? "0"~hour: hour) ~ ":00"}}">{{(hour < 10 ? "0"~hour: hour) ~ ":00"}}</option>
+                <option value="{{(hour < 10 ? "0"~hour: hour) ~ ":30"}}">{{(hour < 10 ? "0"~hour: hour) ~ ":30"}}</option>
             {%endfor%}
         </select>
 
-        <label>{{"CELL_NUMBER" | trans}}{%if errors["user_tourist_cell"] is defined and errors["user_tourist_cell"] !=""  %}<span class="reservation_error">({{errors["user_tourist_cell"]|trim(':')}})</span>{%endif%}</label>
+        <label>{{"CELL_NUMBER" | trans}}</label>
         <input type="text"  name="user_tourist_cell" class="form-control" value="{{post["user_tourist_cell"] is defined and  post["user_tourist_cell"] != "" ? post["user_tourist_cell"] : user_tourist.UserTouristCell}}"/>
     </div>
 </div>
