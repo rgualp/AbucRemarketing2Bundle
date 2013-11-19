@@ -516,8 +516,10 @@ class reservationController extends Controller
         $array_dates = $service_time->dates_between($min_date, $max_date);
 
         $array_dates_string = array();
+        $array_dates_string_day = array();
         foreach ($array_dates as $date) {
-            array_push($array_dates_string, \date('d/m/Y', $date));
+            array_push($array_dates_string, \date('/m/Y', $date));
+            array_push($array_dates_string_day, \date('d', $date));
         }
         $errors = null;
         $post = null;
@@ -634,6 +636,7 @@ class reservationController extends Controller
         return $this->render('frontEndBundle:reservation:reservation.html.twig', array(
             'limit_dates' => $array_limits_dates,
             'dates_string' => $array_dates_string,
+            'dates_string_day' => $array_dates_string_day,
             'dates_partial' => $array_partial_dates,
             'dates' => $array_dates,
             'user_tourist' => $userTourist,

@@ -2336,9 +2336,13 @@
                     <target>Eliminar esta reserva</target>
                 </trans-unit>
                 <trans-unit id="594">
-                <source>BYNIGHT</source>
-                <target>por noche</target>
-            </trans-unit>
+                    <source>BYNIGHT</source>
+                    <target>por noche</target>
+                </trans-unit>
+                <trans-unit id="595">
+                    <source>REQUIRED_FIELDS_NEXT_STEP</source>
+                    <target>Rellene todos los campos para pasar al siguiente paso</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>

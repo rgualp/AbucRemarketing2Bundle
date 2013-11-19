@@ -580,5 +580,5 @@ footer ul li{line-height: 16px}
     display: block;
     margin-top: 10px;
 }
-.form-cont ul li{list-style: none; font-size: 12px; color: #B94A48; margin: -8px 0}
+.form-cont ul li,.reservation_error{list-style: none; font-size: 12px; color: #B94A48; margin: -8px 0}
 .form-cont ul {padding: 0; }

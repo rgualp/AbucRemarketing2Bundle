@@ -28,7 +28,7 @@
                                 <small class="top">{{"FROM_PRICES" | trans}}: {{res['own_res_reservation_from_date']|date('d/m/Y')}} {{"TO_PRICES" | trans}}: {{res['own_res_reservation_to_date']|date('d/m/Y')}}</small>
                             </div>
                             <div class="col-sm-3 text-center grey">
-                                <div><input type="checkbox"> {{"SELECT_FOR_PAYMENT" | trans}}</div>
+                                <div><input name="checkbox_{{res['own_res_id']}}" type="checkbox"> {{"SELECT_FOR_PAYMENT" | trans}}</div>
                                 <div class="big-price-blue">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{res['own_res_night_price'] *(nights[loop.index0])}}</div>
                                 <div>{{"ID_RESERVATION" | trans}}: <b>CAS.{{res['own_res_id']}}</b></div>
                             </div>

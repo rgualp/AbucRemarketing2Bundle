@@ -2340,9 +2340,13 @@
                     <target>Remove it reservation</target>
                 </trans-unit>
                 <trans-unit id="594">
-                <source>BYNIGHT</source>
-                <target>by night</target>
-            </trans-unit>
+                    <source>BYNIGHT</source>
+                    <target>by night</target>
+                </trans-unit>
+                <trans-unit id="595">
+                    <source>REQUIRED_FIELDS_NEXT_STEP</source>
+                    <target>Fields required to next step</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>
