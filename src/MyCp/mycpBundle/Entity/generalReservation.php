@@ -99,7 +99,7 @@ class generalReservation {
     /**
      * @var string
      *
-     * @ORM\Column(name="gen_res_arrival_hour", type="text")
+     * @ORM\Column(name="gen_res_arrival_hour", type="text",nullable=true)
      */
     private $gen_res_arrival_hour;
 
