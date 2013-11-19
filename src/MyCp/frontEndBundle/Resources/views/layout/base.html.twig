@@ -98,7 +98,7 @@
     {% for message in app.session.flashbag.get('message_global_success') %}
         <div class="container">
         <br/>
-        <div class="alert alert-info" style="margin-bottom: 0">{{ message }}</div>
+        <div class="alert alert-info" style="margin-bottom: 10px">{{ message }}</div>
         </div>
     {% endfor %}
 {% block body %}
