@@ -1,28 +1,29 @@
 $(document).ready(function() {
     datePickersStarUp();
     connectSearchOnEnter();
+    $("#btn_search").click(search);
 });
 
 function datePickersStarUp() {
-    $('#input_arrival_date').datepicker({
+    $('input#input_arrival_date').datepicker({
         format: 'dd/mm/yyyy',
-        todayBtn: 'linked',
+        todayBtn: true,
         autoclose: true,
         startDate: today_date,
         date: start_date,
         language: $('#input_arrival_date').attr('data-localization')
     }).on('changeDate', function(ev) {
-       /* var startDate = new Date(ev.date);
+        var startDate = new Date(ev.date);
         startDate.setDate(startDate.getDate() + 1);
         departure_datepicker.setStartDate(startDate);
         var date = new Date(ev.date);
         date.setDate(date.getDate() + 2);
-        departure_datepicker.setDate(date);*/
+        departure_datepicker.setDate(date);
     });
 
     var departure_datepicker = $('#input_departure_date').datepicker({
         format: 'dd/mm/yyyy',
-        todayBtn: 'linked',
+        todayBtn: true,
         autoclose: true,
         startDate: '+1d',
         date: end_date,
