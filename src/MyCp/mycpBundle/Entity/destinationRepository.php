@@ -403,7 +403,7 @@ class destinationRepository extends EntityRepository {
 
     function destination_filter($locale,$municipality_id = null, $province_id = null, $exclude_destination_id = null, $exclude_municipality = null, $max_result_set = null, $user_id = null, $session_id = null) {
         $em = $this->getEntityManager();
-        $query_string = "SELECT d.des_id as desid,
+        $query_string = "SELECT DISTINCT d.des_id as desid,
                          d.des_poblation as desPoblation,
                          d.des_ref_place as desRefPlace,
                          d.des_name as desname,
