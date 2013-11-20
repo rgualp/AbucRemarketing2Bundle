@@ -121,13 +121,11 @@
                     </div>
                 </div>
             </div>
-            <div class="favorites_details">
             {{ include('frontEndBundle:favorite:detailsFavorite.html.twig',
             {'is_in_favorite': is_in_favorite,
             'favorite_type': 'destination',
             'element_id':destination.desid
             }) }}
-        </div>
         <a href="#send_to_friend_popup" title="{{'SEND_TO_FRIEND' | trans}}" data-toggle="modal" style="text-decoration: none">
             <button style="margin-top: 15px" class="btn btn-default btn-block" onclick="$('#send_to_friend_popup').attr('data-email-type', 'recommend_destiny'); $('#send_to_friend_popup').attr('data-dest-prop-id', '{{destination.getDesId}}');">
                 <img src="{{ asset('bundles/frontend/images/main_to_friend.gif') }}">{{"TELL_A_FRIEND" | trans}}

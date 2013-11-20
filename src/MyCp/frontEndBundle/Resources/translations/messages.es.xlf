@@ -984,7 +984,7 @@
             </trans-unit>
             <trans-unit id="255">
                 <source>REMOVE_FAVORITIES_DETAILS</source>
-                <target>Eliminar de Favoritas</target>
+                <target>Eliminar de Favoritos</target>
             </trans-unit>
             <trans-unit id="256">
                 <source>TO_PRICES</source>
