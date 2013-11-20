@@ -53,7 +53,9 @@
 <div class="container">
     <h2 class="text-center caecilia-roman h-grey h-size-2"><b>{{"PLACE_IN_CUBA_TO_VISIT" | trans}}</b></h2>
 </div>
-<div style="background-color: #ECEAEB; padding: 50px; margin-top: 15px" class="text-center">mapa</div>
+<div style="background-color: #ECEAEB; padding: 40px 0 50px 0; margin-top: 15px">
+    {% render('frontEndBundle:public:get_big_map') %}
+</div>
 <div  class="container">
 <h1 class="text-center caecilia-roman h-dark-grey">{{"HOMEPAGE_SUBTITLE_1" | trans}}</h1>
     <p style="color: #000000; ">{{"HOMEPAGE_TEXT" | trans}}</p>
