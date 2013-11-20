@@ -9,17 +9,16 @@
     <div style="margin: 40px 0 20px">
         <h1 class="caecilia-roman h-green no-margin"> {{ 'FAVORITIES'|trans }}</h1>
     </div>
-<div id="loading" class="hidden">
-        <div class="layer-loading"></div>
-        <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}"/></div>
-    </div>
         <ul class="nav nav-tabs margin-t-t">
             <li class="active"><a data-toggle="tab" href="#owns_favorities"><i class="icon-home"></i> {{"OWNERSHIPS" | trans}}</a></li>
             <li><a data-toggle="tab" href="#destination_favorities">{{"DESTINATIONS" | trans}}</a></li>
         </ul>
     <div class="tab-content">
+        <div id="loading" class="hidden">
+        <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}"/></div>
+    </div>
         <div id="owns_favorities" class="tab-pane active">
-            <div class="row-fluid result_list ownerships_list thumbs-houses" id="div_result">
+            <div class="row result_list ownerships_list thumbs-houses" id="div_result">
                 {{ include('frontEndBundle:ownership:ownershipArrayItemList.html.twig', 
                 {'list': ownership_favorities,
                 'list_preffix' : 'own_favorities',
@@ -28,7 +27,7 @@
             </div>
         </div>
         <div id="destination_favorities" class="tab-pane in">
-            <div class="row-fluid result_list" id="div_result_destinations">
+            <div class="row result_list" id="div_result_destinations">
                 {{ include('frontEndBundle:destination:arrayItemListDestination.html.twig', 
                 {'list': destination_favorities,
                 'list_preffix' : 'own_favorities',

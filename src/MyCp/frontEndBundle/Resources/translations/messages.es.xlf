@@ -664,15 +664,15 @@
             </trans-unit>
             <trans-unit id="175">
                 <source>MID_RANGE_OWNERSHIP</source>
-                <target>Rango Medio</target>
+                <target>Alojamientos Rango Medio</target>
             </trans-unit>
             <trans-unit id="176">
                 <source>ECONOMY_OWNERSHIP</source>
-                <target>Económicas</target>
+                <target>Alojamientos Económicos</target>
             </trans-unit>
             <trans-unit id="177">
                 <source>PREMIUM_OWNERSHIP</source>
-                <target>Premium</target>
+                <target>Alojamientos Premium</target>
             </trans-unit>
             <trans-unit id="178">
                 <source>OFFERS_PAGE_TITLE</source>
@@ -984,7 +984,7 @@
             </trans-unit>
             <trans-unit id="255">
                 <source>REMOVE_FAVORITIES_DETAILS</source>
-                <target>Eliminar de Favoritas</target>
+                <target>Eliminar de Favoritos</target>
             </trans-unit>
             <trans-unit id="256">
                 <source>TO_PRICES</source>

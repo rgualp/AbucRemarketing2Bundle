@@ -1,3 +1,4 @@
+<div>
 {%for own in list%}
 <div class="row" data-id="{{own['own_id']}}">
     <div class="col-sm-4">
@@ -60,3 +61,4 @@
 {%else%}
    <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
 {%endfor%}
+    </div>

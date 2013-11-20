@@ -1,6 +1,7 @@
+<div class="favorites_details">
 {%if is_in_favorite%}
 <button class="btn btn-default btn-block" style="padding: 6px 0" id="delete_from_favorites" data-url="{{path('frontend_details_delete_favorite')}}" data-id="{{element_id}}" data-type="{{favorite_type}}">
-    <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon icon-heart-2"/> 
+    <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon icon-heart-2-on"/> 
     {{"REMOVE_FAVORITIES_DETAILS" | trans}}
 </button>
 
@@ -10,4 +11,5 @@
     {{"ADD_FAVORITIES_DETAILS" | trans}}
 </button>
 {%endif%}
+    </div>
 

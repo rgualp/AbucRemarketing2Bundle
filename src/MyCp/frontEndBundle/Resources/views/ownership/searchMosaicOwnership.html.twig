@@ -117,9 +117,9 @@
      {%endfor%}
      </div>
      {%if list | length and total_items > items_per_page%}
-        <div class="paginator-cont top_margin row-fluid">
+        <div class="text-center">
         {{ simple_paginator_render('frontend_search_ownership',null,{
-        'container_class': 'paginator',
+        'container_class': 'pagination',
         'previousPageText': '«',
         'nextPageText': '»',
         'currentClass': 'current',
@@ -131,7 +131,7 @@
                         'guests': app.session.get('search_guests'),
                         'rooms': app.session.get('search_rooms')}
     }) }}
-    </div>
+            </div>
     {%endif%}
 {% endif %}
 

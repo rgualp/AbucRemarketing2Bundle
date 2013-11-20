@@ -27,12 +27,18 @@
                                 {% endif %}
                                 {% endfor %}
                             </div>
+                                <div class="row text-right">
+                                <a href="{{path("frontend_list_destinations")}}">
+                                <small>{{'RESERVATION_CONFIRM_DESTINATION_MORE' | trans | lower}} <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-medium icon-more"/></small>
+                                </a>
+                            </div>
                         </div>
                         {% else %}
                         <div class="item active">
                             <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
                         </div>
                         {% endfor %}
+                            
                     </div>
                     {%if popular_places | length > 4%}
                     <a data-slide="prev" href="#th-destination-carousel" class="left carousel-control">
@@ -67,6 +73,11 @@
                                 {% set flag_item = flag_item + 1 %}
                                 {% endif %}
                                 {% endfor %}
+                            </div>
+                                 <div class="row text-right">
+                                <a href="{{path("frontend_last_added_ownership")}}">
+                                <small>{{'RESERVATION_CONFIRM_DESTINATION_MORE' | trans | lower}} <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-medium icon-more"/></small>
+                                </a>
                             </div>
                         </div>
                         {% else %}
@@ -109,6 +120,11 @@
                                 {% endif %}
                                 {% endfor %}
                             </div>
+                                <div class="row text-right">
+                                <a href="{{path("frontend_category_ownership",{'category':'economy'})}}">
+                                <small>{{'RESERVATION_CONFIRM_DESTINATION_MORE' | trans | lower}} <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-medium icon-more"/></small>
+                                </a>
+                            </div>
                         </div>
                         {% else %}
                             <div class="item active">
@@ -150,6 +166,11 @@
                                 {% endif %}
                                 {% endfor %}
                             </div>
+                                <div class="row text-right">
+                                <a href="{{path("frontend_category_ownership",{'category':'mid_range'})}}">
+                                <small>{{'RESERVATION_CONFIRM_DESTINATION_MORE' | trans | lower}} <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-medium icon-more"/></small>
+                                </a>
+                            </div>
                         </div>
                         {% else %}
                             <div class="item active">
@@ -190,6 +211,11 @@
                                     {% set flag_item = flag_item + 1 %}
                                 {% endif %}
                                 {% endfor %}
+                            </div>
+                                <div class="row text-right">
+                                <a href="{{path("frontend_category_ownership",{'category':'premium'})}}">
+                                <small>{{'RESERVATION_CONFIRM_DESTINATION_MORE' | trans | lower}} <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-medium icon-more"/></small>
+                                </a>
                             </div>
                         </div>
                         {% else %}
