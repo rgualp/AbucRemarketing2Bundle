@@ -31,16 +31,4 @@
 <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
 {%endfor%}
 </div>
-{%if total_items is defined and items_per_page is defined and popular_places | length and total_items > items_per_page%}
-<div class="text-center">    
-{{ simple_paginator_render('frontend_list_destinations',null,{
-    'container_class': 'pagination',
-    'previousPageText': '«',
-    'nextPageText': '»',
-    'currentClass': 'current',
-    'firstPageText': 'FIRST_PAGE' | trans,
-    'lastPageText': 'LAST_PAGE' | trans,
-    'route_params': null
-}) }}
-    </div>
-{%endif%}
+

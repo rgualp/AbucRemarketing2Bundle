@@ -1,8 +1,4 @@
 {% if own_top20_list | length%}
-<div id="loading" class="hidden">
-        <div class="layer-loading"></div>
-        <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}"/></div>
-    </div>
 <div class="bg-solid-orange" style="margin: 35px 0 30px;">
         <h1 class="text-center caecilia-roman h-white">
             <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="width: 25px;height: 25px" class="icon star-orange-icon"/>&nbsp;
@@ -12,6 +8,9 @@
     </div>
 
 <div id="top_rated_list">
+    <div id="loading" class="hidden">
+        <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}"/></div>
+    </div>
     {{ include('frontEndBundle:ownership:homeTopRatedList.html.twig') }}
 </div>
 
