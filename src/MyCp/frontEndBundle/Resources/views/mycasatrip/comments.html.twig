@@ -13,13 +13,13 @@
                             <div class="rating_star">
                                 {%if comment.getComRate > 0%}
                                         {%for i in 1..comment.getComRate%}
-                                    <img src="{{ asset('bundles/frontend/images/star_on.png')}}" align="absmiddle"/>
+                                    <img class="icon icon-2 tiny-star-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
                                 {%endfor%}
                                         {%endif%}
 
                                         {%if comment.getComRate < 5%}
                                         {%for i in 1..(5-comment.getComRate)%}
-                                    <img src="{{ asset('bundles/frontend/images/star_off.png')}}" align="absmiddle"/>
+                                   <img class="icon icon-2 tiny-star-off-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
                                     {%endfor%}
                                         {%endif%}
                             </div>
