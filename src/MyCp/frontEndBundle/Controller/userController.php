@@ -375,21 +375,7 @@ class userController extends Controller {
         if ($request->getMethod() == 'POST') {
             $post = $request->get('mycp_frontendbundle_profile_usertype');
             $all_post = $request->request->getIterator()->getArrayCopy();
-            $form->bindRequest($request);
-            
-            /*$files = $request->files->get('images');
-
-            $count_errors= 0;
-            foreach($files['files'] as $file)
-            {
-                if( $file->getClientMimeType()!='image/jpeg' && $file->getClientMimeType()!='image/gif' && $file->getClientMimeType()!='image/png')
-                {
-                    //$file->getClientSize()< 102400
-                    $data['error']='Extensión de fichero no admitida.';
-                    $count_errors++;
-                    break;
-                }
-            }*/
+            $form->bindRequest($request); 
                         
             if ($form->isValid()) {
                 
@@ -410,19 +396,18 @@ class userController extends Controller {
                     
                     //subir photo
                     /*$dir=$this->container->getParameter('user.dir.photos');
-                    foreach($files['files'] as $file)
-                    {
-                        $fileName = uniqid('user-').'-photo.jpg';
-                        $file->move($dir, $fileName);
-                        \MyCp\mycpBundle\Helpers\Images::resize($dir.$fileName, 200);
-                        
-                        $photo= new photo();
+                    $file = $request->files->get('mycp_frontendbundle_profile_usertype');
+                    if (isset($file['user_photo'])) {
+                        $photo = new photo();
+                        $fileName = uniqid('user-') . '-photo.jpg';
+                        $file['user_photo']->move($dir, $fileName);
+                        //Redimensionando la foto del usuario
+                        \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 65);
+
                         $photo->setPhoName($fileName);
                         $user->setUserPhoto($photo);
-                        $em->persist($user);
                         $em->persist($photo);
-                    }*/
-                    
+                    }  */                 
                     
                     $em->persist($user);
                     

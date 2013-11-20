@@ -2387,6 +2387,10 @@
                     <source>MOUNTAINS</source>
                     <target>Montañas</target>
                 </trans-unit>
+                <trans-unit id="607">
+                    <source>SELECT_PHOTOGRAPHY</source>
+                    <target>Seleccionar fotografía...</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>
