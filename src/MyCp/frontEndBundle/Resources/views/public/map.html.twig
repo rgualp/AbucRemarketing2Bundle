@@ -33,28 +33,64 @@
 </div>
 <hr style="border-color: #D7D6D6; width: 100%; margin: 0"/>
 <hr style="border-color: #ffffff; width: 100%; margin: 0 0 30px"/>
-<div class="container" style="padding: 0 8%">
-    <a href=""><img title="" data-placement="top" rel="tooltip" href="#" data-original-title="Andares Viñales" class="map-signal walk" style="left:27%; margin-top: 6%;" src="{{ asset('bundles/frontend/img/map-signal.png') }}"></a>
-    <a href=""><img title="" data-placement="top" rel="tooltip" href="#" data-original-title="Área de Buceo Varadero" class="map-signal buc" style="left:40.2%; margin-top: 1.3%;" src="{{ asset('bundles/frontend/img/map-signal.png') }}"></a>
-    <a href=""><img title="" data-placement="top" rel="tooltip" href="#" data-original-title="Playa Varadero" class="map-signal beach" style="left:550px; margin-top: 1.3%;" src="{{ asset('bundles/frontend/img/map-signal.png') }}"></a>
-    <a href=""><img title="" data-placement="top" rel="tooltip" href="#" data-original-title="Mirador Valle de Yumurí" class="map-signal mirror" style="left:40.2%; margin-top: 2%;" src="{{ asset('bundles/frontend/img/map-signal.png') }}"></a>
-    <a href=""><img title="" data-placement="top" rel="tooltip" href="#" data-original-title="Mirador Topes de Coyantes" class="map-signal mirror" style="left:47.2%; margin-top: 8%;" src="{{ asset('bundles/frontend/img/map-signal.png') }}"></a>
-    <a href=""><img title="" data-placement="top" rel="tooltip" href="#" data-original-title="Andares Ciénaga de Zapata" class="map-signal walk" style="left:38%; margin-top: 6%;" src="{{ asset('bundles/frontend/img/map-signal.png') }}"></a>
-    <a href=""><img title="" data-placement="top" rel="tooltip" href="#" data-original-title="Museo Plaza Ernesto Ché Guevara" class="map-signal museum" style="left:47%; margin-top: 5%;" src="{{ asset('bundles/frontend/img/map-signal.png') }}"></a>
-    <a href=""><img title="" data-placement="top" rel="tooltip" href="#" data-original-title="Montañas Viñales" class="map-signal mountain" style="left:27%; margin-top: 6%;" src="{{ asset('bundles/frontend/img/map-signal.png') }}"></a>
-    <img class="full-width" src="{{ asset('bundles/frontend/img/map.gif') }}">
+<div class="container" style="padding: 0 100px">
+    <a href=""><img title="" data-placement="top" rel="tooltip" href="#" data-original-title="Maria La Gorda" class="map-signal buc" style="left:320px; margin-top: 90px;" src="{{ asset('bundles/frontend/img/map-signal.png') }}"></a>
+    <a href=""><img title="" data-placement="top" rel="tooltip" href="#" data-original-title="Playa Varadero" class="map-signal beach" style="left:550px; margin-top: 15px;" src="{{ asset('bundles/frontend/img/map-signal.png') }}"></a>
+    <img class="full-width" id="big-map" src="{{ asset('bundles/frontend/img/map.gif') }}">
 </div>
 <script type="text/javascript">
 
+
+        img_elem=$('#big-map');
+        img_w=img_elem.width();
+        img_h=img_elem.height();
+        img_left=img_elem.position().left;
+        $('.map-signal').each(function(){
+            $(this).attr('default_margin_top',$(this).css('marginTop').replace('px',''));
+            $(this).attr('default_margin_left',$(this).position().left - img_left);
+        });
+
+        $(window).bind('resize', function () {
+            new_img_w=img_elem.width();
+            new_img_left=img_elem.position().left;
+            new_img_h=img_elem.height();
+            $('.map-signal').each(function(){
+                new_pos_left= $(this).attr('default_margin_left') * new_img_w / img_w + new_img_left;
+                new_pos_height= $(this).attr('default_margin_top') * new_img_h / img_h;
+                $(this).css('left',new_pos_left+'px');
+                $(this).css('marginTop',new_pos_height+'px');
+            });
+        });
+
+    /*point_elem=$('.beach');
+    img_elem=$('#big-map');
+    img_w=img_elem.width();
+    img_h=img_elem.height();
+    img_left=img_elem.position().left;
+    img_margin_top=point_elem.css('marginTop');
+    point_left=point_elem.position().left;
+    var point_l_img_default= point_left-img_left;
+    var point_mt_img_default= img_margin_top.replace('px','');
+    var img_width_default= img_w;
+    var img_height_default= img_h;
+
+
     $(window).bind('resize', function () {
-        win_w = $(window).width();
-        win_h = $(window).height();
 
+        img_w=img_elem.width();
+        img_left=img_elem.position().left;
+        new_pos = (point_l_img_default * img_w / img_width_default) + img_left;
+        point_elem.css('left',new_pos+'px');
+
+        img_h=img_elem.height();
+        new_pos = (point_mt_img_default * img_h / img_height_default);
+        point_elem.css('marginTop',new_pos+'px');
+        /*win_h = $(window).height();
+         win_w = $(window).width();
         element=$('.beach');
-        elem_left=element.css('left');
-        alert(elem_left);
+        elem_left=parseInt(element.css('left').replace('px',''));
+        element.css('left',parseInt(550 * win_w / 1349 )+'px');*/
 
-    });
 
     $('.icon-destination').click(function(){
         element=$(this);
