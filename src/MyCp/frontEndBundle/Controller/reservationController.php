@@ -509,9 +509,7 @@ class reservationController extends Controller
             }
             if ($insert == 1) {
                 array_push($commissions, $commission);
-            }           
-            
-
+            }  
         }
         $array_dates = $service_time->dates_between($min_date, $max_date);
 
@@ -559,7 +557,6 @@ class reservationController extends Controller
             }
 
             if ($count_errors == 0) {
-
                 $user->setUserEmail($post['user_tourist_email']);
                 $user->setUserLastName($post['user_tourist_last_name']);
                 $user->setUserUserName($post['user_tourist_name']);
