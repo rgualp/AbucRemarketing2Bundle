@@ -1,4 +1,8 @@
 {% if own_top20_list | length%}
+<div id="loading" class="hidden">
+        <div class="layer-loading"></div>
+        <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}"/></div>
+    </div>
 <div class="bg-solid-orange" style="margin: 35px 0 30px;">
         <h1 class="text-center caecilia-roman h-white">
             <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="width: 25px;height: 25px" class="icon star-orange-icon"/>&nbsp;
@@ -14,9 +18,9 @@
 <div class="row pagination-cont">
         <div class="col-sm-4 text-left">
             <ul class="pagination">
-                <li><a href="#" rel="tooltip" data-placement="top" title="2 {{'ROWS' | trans}}"><img alt="2 {{'ROWS' | trans}}" class="icon-medium two-lines-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
-                <li><a href="#" rel="tooltip" data-placement="top" title="3 {{'ROWS' | trans}}"><img alt="3 {{'ROWS' | trans}}"  class="icon-medium three-lines-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
-                <li><a href="#" rel="tooltip" data-placement="top" title="4 {{'ROWS' | trans}}"><img alt="4 {{'ROWS' | trans}}" class="icon-medium four-lines-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
+                <li class="top20_items_per_page {%if app.session.get('top_rated_show_rows') == 2%}active{%endif%}" data-content-value="2"><a rel="tooltip" data-placement="top" title="2 {{'ROWS' | trans}}"><img alt="2 {{'ROWS' | trans}}" class="icon-medium two-lines-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
+                <li class="top20_items_per_page {%if app.session.get('top_rated_show_rows') == 3%}active{%endif%}" data-content-value="3"><a rel="tooltip" data-placement="top" title="3 {{'ROWS' | trans}}"><img alt="3 {{'ROWS' | trans}}"  class="icon-medium three-lines-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
+                <li class="top20_items_per_page {%if app.session.get('top_rated_show_rows') == 4%}active{%endif%}" data-content-value="4"><a rel="tooltip" data-placement="top" title="4 {{'ROWS' | trans}}"><img alt="4 {{'ROWS' | trans}}" class="icon-medium four-lines-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
             </ul>
         </div>
         <div class="col-sm-4 text-center">
@@ -71,3 +75,4 @@
 </div-->
 
 {% endif %}
+<script src="{{ asset('bundles/frontend/js/top_rated_ownership.js') }}"></script>

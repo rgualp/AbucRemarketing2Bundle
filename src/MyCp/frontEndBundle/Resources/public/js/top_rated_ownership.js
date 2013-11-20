@@ -6,6 +6,7 @@ $(document).ready(start)
 function start(){
     $('.top20_items_per_page').click(function()
     {
+        
        $('.top_rated_tools li.active').removeClass('active');
        $(this).addClass('active'); 
        var show_rows = $(this).attr('data-content-value');
@@ -22,13 +23,13 @@ function visualize_rows(show_rows)
     var url = $("#top_rated_placeholder").attr("data-url");
     var result = $("#top_rated_placeholder");
     
-    //show_loading();
+    show_loading();
     $.post(url,{
             'show_rows':show_rows
         },function(data){
-            result.html(data);
-            //hide_loading();
+            result.html(data);            
             start();
+            hide_loading();
         });
 }
 
