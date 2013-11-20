@@ -310,6 +310,7 @@ footer ul li{line-height: 16px}
 .thumbs-houses-2 .col-sm-4:first-child{border-right: solid 1px #DFDFDE}
 .thumbs-houses-2 .col-sm-4:last-child{border-left: solid 1px #DFDFDE}
 .thumbs-destination{margin-bottom: 40px}
+.thumbs-destination .dest-description{min-height: 140px; font-size: 13px}
 .thumbs-destination table tr td:last-child{text-align: left; vertical-align: top; padding-top: 10px; color: #326ab5; line-height: 18px}
 .thumbs-destination div.cont{padding: 5px!important; border-radius: 0 6px 6px 0;}
 .thumbs-destination .square-grey-cont{border-radius: 0 8px 8px 0; margin-left: -3px!important; border-left:  none}
@@ -586,3 +587,4 @@ footer ul li{line-height: 16px}
 .form-cont ul {padding: 0; }
 .container_loading{background: url("../img/loading.gif") no-repeat center; height: 50px}
 .top20_items_per_page {cursor: pointer}
+.no-bold{font-weight: normal}

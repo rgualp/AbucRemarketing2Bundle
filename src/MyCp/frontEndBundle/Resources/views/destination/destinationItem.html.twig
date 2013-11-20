@@ -24,19 +24,9 @@
            <a href="{{ path('frontend_details_destination',{'destination_name':des_name|lower|replace(' ','_')}) }}">
            <h1 class="h-blue">{{des_name}}</h1>
            </a>
-           {{(des_description != null or des_description != "") ? (des_description | slice(0,200) | striptags) : ""}}            
-{%if (des_description == null)%}
-                    {%for i in 1..250%}
-                        &nbsp;
-                    {%endfor%}
-            {%else%}
-                    {%if des_description | length < 250%}
-                     {%for i in 1..(250 - (des_description | length))%}
-                        &nbsp;
-                     {%endfor%}
-                     {%else%}...
-                    {%endif%}
-            {%endif%}        
+            <div class="dest-description">
+           {{ des_description | slice(0,200) | striptags }}{% if des_description|length>200 %}...{% endif %}
+            </div>
            <div class="row margin-t-t">
                <div class="col-xs-8">
                    {{ include('frontEndBundle:favorite:itemFavorite.html.twig', 
