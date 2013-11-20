@@ -3,6 +3,7 @@
 
 {% block include_javascripts_and_css %}
 <link href="{{ asset('bundles/frontend/css/royalslider.css') }}" rel="stylesheet" >
+<link href="{{ asset('bundles/frontend/css/rs-default.css') }}" rel="stylesheet" >
 <script src="{{ asset('bundles/frontend/js/jquery.royalslider.min.js') }}"></script>
 <script type="text/javascript">
     jQuery(document).ready(function($) {
@@ -15,7 +16,7 @@
             autoScaleSlider: true,
             autoScaleSliderWidth: 1466,
             autoScaleSliderHeight: 350,
-            controlNavigation: 'bullets',
+            controlNavigation: false,
             thumbsFitInViewport: false,
             navigateByClick: true,
             startSlideId: 0,
@@ -34,10 +35,9 @@
 {% endblock %}
 
 {% block big_banner %}
-<div id="full-width-slider" class="royalSlider heroSlider rsMinW">
-    
-    <div class="rsContent"><img class="rsImg" src="{{ asset('bundles/frontend/img/slideshow/'~slide_folder~'/1.jpg') }}" alt="" /></div>
-    <div class="rsContent"><img class="rsImg" src="{{ asset('bundles/frontend/img/slideshow/'~slide_folder~'/2.jpg') }}" alt="" /></div>
+<div id="full-width-slider" class="royalSlider rsDefault">
+    <img class="rsImg" src="{{ asset('bundles/frontend/img/slideshow/'~slide_folder~'/1.jpg') }}" alt="" />
+    <img class="rsImg" src="{{ asset('bundles/frontend/img/slideshow/'~slide_folder~'/2.jpg') }}" alt="" />
 </div>
 <div id="banner-msg-cont">
 <div id="banner-msg">

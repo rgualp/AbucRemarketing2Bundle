@@ -2,7 +2,11 @@
 
 namespace MyCp\mycpBundle\Entity;
 
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OneToMany;
 
 /**
  * ownership
@@ -350,14 +354,23 @@ class ownership {
     private $own_rooms_total;
 
     /**
-     * Codigo Yanet - Fin
+     * @var DateTime
+     *
+     * @ORM\Column(name="own_created_date", type="date")
      */
+    private $own_created_date;
+
+    /**
+     * @OneToMany(targetEntity="unavailabilityDetails", mappedBy="ownership_id")
+     */
+    private $own_unavailability_details;
 
     /**
      * Constructor
      */
     public function __construct() {
-        $this->own_rooms = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->own_rooms = new ArrayCollection();
+        $this->own_created_date = date('Y m d');
     }
 
     /**
@@ -1047,7 +1060,7 @@ class ownership {
     /**
      * Get own_rooms
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return Collection 
      */
     public function getOwnRooms() {
         return $this->own_rooms;
@@ -1403,6 +1416,18 @@ class ownership {
      */
     public function getOwnCommissionPercent() {
         return $this->own_commission_percent;
+    }
+
+    public function getOwnCreatedDate() {
+        return $this->own_created_date;
+    }
+
+    public function getOwn_unavailability_details() {
+        return $this->own_unavailability_details;
+    }
+
+    public function setOwn_unavailability_details($own_unavailability_details) {
+        $this->own_unavailability_details = $own_unavailability_details;
     }
 
     // <editor-fold defaultstate="collapsed" desc="Logic Methods">

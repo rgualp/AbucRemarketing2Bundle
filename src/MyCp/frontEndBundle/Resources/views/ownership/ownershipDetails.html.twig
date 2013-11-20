@@ -42,7 +42,7 @@
                 <div class="tab-content">
                     {%if gallery_photos | length%}
                     <div id="tab1" class="tab-pane active">
-                        <div id="full-width-slider" class="royalSlider heroSlider rsMinW">
+                        <div id="full-width-slider" class="royalSlider rsDefault">
                            {% for photo in  gallery_photos%}
                                <div rel="tooltip" class="rsContent" title="{{photo.photo_description}}"><img class="rsImg" src="{{asset('uploads/ownershipImages/'~photo.photo_name)}}" alt="" /></div>
                             {% endfor %}
