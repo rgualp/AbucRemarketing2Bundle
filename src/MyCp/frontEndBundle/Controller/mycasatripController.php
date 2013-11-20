@@ -264,65 +264,34 @@ class mycasatripController extends Controller {
         $session->set('mycasatrip_favorite_type', $favorite_type);
 
         if ($favorite_type == "ownerships") {
-            $favorite_own_ids = $em->getRepository('mycpBundle:favorite')->get_element_id_list(true, $user->getUserId(), null);
+            $favorite_ownerships_list= $em->getRepository('mycpBundle:favorite')->get_favorite_ownerships($user->getUserId());
             
             $paginator = $this->get('ideup.simple_paginator');
             $items_per_page = 15;
             $paginator->setItemsPerPage($items_per_page);
-            $ownership_favorities = $paginator->paginate($em->getRepository('mycpBundle:ownership')->getListByIds($favorite_own_ids))->getResult();
+            $ownership_favorities = $paginator->paginate($favorite_ownerships_list)->getResult();
             $page = 1;
             if (isset($_GET['page']))
                 $page = $_GET['page'];
-            
-            $ownership_favorities_photos = $em->getRepository('mycpBundle:ownership')->get_photos_array($ownership_favorities);
-            $ownership_favorities_rooms = $em->getRepository('mycpBundle:ownership')->get_rooms_array($ownership_favorities);
-
-            $ownership_favorities_is_in = array();
-
-            foreach ($ownership_favorities as $favorite) {
-                $ownership_favorities_is_in[$favorite->getOwnId()] = true;
-            }
-
-            $counts_ownership = $em->getRepository('mycpBundle:ownership')->get_counts_for_search($ownership_favorities);
-
+        
             return $this->render('frontEndBundle:mycasatrip:favorites.html.twig', array(
                         'ownership_favorities' => $ownership_favorities,
-                        'ownership_favorities_photos' => $ownership_favorities_photos,
-                        'ownership_favorities_rooms' => $ownership_favorities_rooms,
-                        'ownership_favorities_is_in' => $ownership_favorities_is_in,
-                        'favorite_type' => $favorite_type,
-                        'counts_ownership' => $counts_ownership
+                        'favorite_type' => $favorite_type
             ));
         } else {
             $locale = $this->get('translator')->getLocale();
-            $favorite_destination_ids = $em->getRepository('mycpBundle:favorite')->get_element_id_list(false, $user->getUserId(), null);
+            $favorite_destination_list = $em->getRepository('mycpBundle:favorite')->get_favorite_destinations($user->getUserId());
             
             $paginator = $this->get('ideup.simple_paginator');
             $items_per_page = 15;
             $paginator->setItemsPerPage($items_per_page);
-            $destination_favorities = $paginator->paginate($em->getRepository('mycpBundle:ownership')->getListByIds($favorite_destination_ids))->getResult();
+            $destination_favorities = $paginator->paginate($favorite_destination_list)->getResult();
             $page = 1;
             if (isset($_GET['page']))
                 $page = $_GET['page'];
-            
-            $destination_favorities_photos = $em->getRepository('mycpBundle:destination')->get_destination_photos($destination_favorities);
-            $destination_favorities_localization = $em->getRepository('mycpBundle:destination')->get_destination_location($destination_favorities);
-            $destination_favorities_statistics = $em->getRepository('mycpBundle:destination')->get_destination_owns_statistics($destination_favorities);
-            $destination_favorities_description = $em->getRepository('mycpBundle:destination')->get_destination_description($destination_favorities, $locale);
-
-            $destination_favorities_is_in = array();
-
-            foreach ($destination_favorities as $favorite) {
-                $destination_favorities_is_in[$favorite->getDesId()] = true;
-            }
 
             return $this->render('frontEndBundle:mycasatrip:favorites.html.twig', array(
-                        'destination_favorities_is_in' => $destination_favorities_is_in,
                         'destination_favorities' => $destination_favorities,
-                        'destination_favorities_photos' => $destination_favorities_photos,
-                        'destination_favorities_localization' => $destination_favorities_localization,
-                        'destination_favorities_statistics' => $destination_favorities_statistics,
-                        'destination_favorities_description' => $destination_favorities_description,
                         'favorite_type' => $favorite_type
             ));
         }
