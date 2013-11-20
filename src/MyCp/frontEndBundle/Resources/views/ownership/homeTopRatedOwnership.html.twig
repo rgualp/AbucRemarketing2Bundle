@@ -17,27 +17,35 @@
 
 <div class="row pagination-cont">
         <div class="col-sm-4 text-left">
-            <ul class="pagination">
+            <ul class="pagination top_rated_items_per_page">
                 <li class="top20_items_per_page {%if app.session.get('top_rated_show_rows') == 2%}active{%endif%}" data-content-value="2"><a rel="tooltip" data-placement="top" title="2 {{'ROWS' | trans}}"><img alt="2 {{'ROWS' | trans}}" class="icon-medium two-lines-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
                 <li class="top20_items_per_page {%if app.session.get('top_rated_show_rows') == 3%}active{%endif%}" data-content-value="3"><a rel="tooltip" data-placement="top" title="3 {{'ROWS' | trans}}"><img alt="3 {{'ROWS' | trans}}"  class="icon-medium three-lines-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
                 <li class="top20_items_per_page {%if app.session.get('top_rated_show_rows') == 4%}active{%endif%}" data-content-value="4"><a rel="tooltip" data-placement="top" title="4 {{'ROWS' | trans}}"><img alt="4 {{'ROWS' | trans}}" class="icon-medium four-lines-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
             </ul>
         </div>
         <div class="col-sm-4 text-center">
-            <ul class="pagination">
+            {{ simple_paginator_render('frontend_welcome',null,{
+    'container_class': 'pagination',
+    'previousPageText': '«',
+    'nextPageText': '»',
+    'currentClass': 'current',
+    'firstPageText': 'FIRST_PAGE' | trans,
+    'lastPageText': 'LAST_PAGE' | trans
+    }) }}
+            <!--ul class="pagination">
                 <li><a href="#">«</a></li>
                 <li><a href="#">1</a></li>
                 <li><a href="#">2</a></li>
                 <li><a href="#">3</a></li>
                 <li><a href="#">4</a></li>
                 <li><a href="#">»</a></li>
-            </ul>
+            </ul-->
         </div>
         <div class="col-sm-4 text-right">
-            <ul class="pagination">
-                <li><a href="#" rel="tooltip" data-placement="top" title="{{'PREMIUM_OWNS' | trans}}"><img alt="{{'PREMIUM_OWNS' | trans}}" class="icon-medium premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
-                <li><a href="#" rel="tooltip" data-placement="top" title="{{'MIDRANGE_OWNS' | trans}}"><img alt="{{'MIDRANGE_OWNS' | trans}}" class="icon-medium middle-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
-                <li><a href="#" rel="tooltip" data-placement="top" title="{{'ECONOMICS_OWNS' | trans}}"><img alt="{{'ECONOMICS_OWNS' | trans}}" style="width: 18px; height: 25px" class="icon economic-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
+            <ul class="pagination top_rated_category">
+                <li class="top20_category {%if app.session.get('top_rated_category') | lower == 'premium'%}active{%endif%}" data-content-value="Premium"><a rel="tooltip" data-placement="top" title="{{'PREMIUM_OWNS' | trans}}"><img alt="{{'PREMIUM_OWNS' | trans}}" class="icon-medium premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
+                <li class="top20_category {%if app.session.get('top_rated_category') | lower == 'rango medio'%}active{%endif%}" data-content-value="Rango medio"><a rel="tooltip" data-placement="top" title="{{'MIDRANGE_OWNS' | trans}}"><img alt="{{'MIDRANGE_OWNS' | trans}}" class="icon-medium middle-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
+                <li class="top20_category {%if app.session.get('top_rated_category') | lower == 'económica'%}active{%endif%}" data-content-value="Económica"><a rel="tooltip" data-placement="top" title="{{'ECONOMICS_OWNS' | trans}}"><img alt="{{'ECONOMICS_OWNS' | trans}}" style="width: 18px; height: 25px" class="icon economic-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
             </ul>
         </div>
     </div>
