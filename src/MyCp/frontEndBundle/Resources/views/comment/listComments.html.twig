@@ -30,27 +30,18 @@
                     {%endfor%}
                 </div>
                 <div class="text-center">
-                     {%if comments | length and comments_total_items > comments_items_per_page%}
-                        <ul class="pagination">
-                        <li><a href="#">«</a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">»</a></li>
-                    </ul>
-                        
-                        <!--div class="paginator-cont top_margin">
-                        {#{ simple_paginator_render('frontend_details_ownership',null,{
-                        'container_class': 'paginator',
+                     {%if comments | length and comments_total_items > comments_items_per_page%}   
+                        <div class="text-center">
+                        {{ simple_paginator_render('frontend_details_ownership',null,{
+                        'container_class': 'pagination',
                         'previousPageText': '«',
                         'nextPageText': '»',
                         'currentClass': 'current',
                         'firstPageText': 'FIRST_PAGE' | trans,
                         'lastPageText': 'LAST_PAGE' | trans,
                         'route_params': {'own_name':ownership.ownname|lower|replace(' ','_')}
-                    }) }#}
-                    </div-->
+                    }) }}
+                            </div>
                     {%endif%}                    
                 </div>
 {%endif%}

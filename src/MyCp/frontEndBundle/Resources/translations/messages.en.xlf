@@ -664,15 +664,15 @@
             </trans-unit>
             <trans-unit id="175">
                 <source>MID_RANGE_OWNERSHIP</source>
-                <target>Midrange</target>
+                <target>Midrange Accomodations</target>
             </trans-unit>
             <trans-unit id="176">
                 <source>ECONOMY_OWNERSHIP</source>
-                <target>Economic</target>
+                <target>Economic Accomodations</target>
             </trans-unit>
             <trans-unit id="177">
                 <source>PREMIUM_OWNERSHIP</source>
-                <target>Premium</target>
+                <target>Premium Accomodations</target>
             </trans-unit>
             <trans-unit id="178">
                 <source>OFFERS_PAGE_TITLE</source>

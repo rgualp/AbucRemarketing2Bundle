@@ -71,18 +71,8 @@
 {%endfor%}
 {%if list | length and total_items > items_per_page%}
         <div class="text-center">
-            <ul class="pagination">
-                <li><a href="#">«</a></li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">»</a></li>
-            </ul>
-        </div>
-        <!--div class="paginator-cont top_margin">
-    {#{ simple_paginator_render('frontend_search_ownership',null,{
-    'container_class': 'paginator',
+              {{ simple_paginator_render('frontend_search_ownership',null,{
+    'container_class': 'pagination',
     'previousPageText': '«',
     'nextPageText': '»',
     'currentClass': 'current',
@@ -93,6 +83,7 @@
                      'departure': app.session.get('search_departure_date'), 
                      'guests': app.session.get('search_guests'),
                      'rooms': app.session.get('search_rooms')}
-}) }#}
-    </div-->
+}) }}
+        </div>
+  
 {%endif%}

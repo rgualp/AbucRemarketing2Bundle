@@ -34,9 +34,9 @@
 
                     {%endfor%}
                     {%if comments | length and total_items > items_per_page%}
-                        <div class="paginator-cont top_margin">
+                        <div class="text-center">
                         {{ simple_paginator_render('frontend_mycasatrip_comments',null,{
-                        'container_class': 'paginator',
+                        'container_class': 'pagination',
                         'previousPageText': '«',
                         'nextPageText': '»',
                         'currentClass': 'current',
