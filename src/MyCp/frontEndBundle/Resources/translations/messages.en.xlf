@@ -2347,6 +2347,50 @@
                     <source>REQUIRED_FIELDS_NEXT_STEP</source>
                     <target>Fields required to next step</target>
                 </trans-unit>
+                <trans-unit id="596">
+                    <source>BEACHES</source>
+                    <target>Beaches</target>
+                </trans-unit>
+                <trans-unit id="597">
+                    <source>DIVING</source>
+                    <target>Diving</target>
+                </trans-unit>
+                <trans-unit id="598">
+                    <source>VIEWPOINTS</source>
+                    <target>Viewpoints</target>
+                </trans-unit>
+                <trans-unit id="599">
+                    <source>MUSEUMS</source>
+                    <target>Museums</target>
+                </trans-unit>
+                <trans-unit id="600">
+                    <source>TREKKING</source>
+                    <target>Trekking</target>
+                </trans-unit>
+                <trans-unit id="601">
+                    <source>CYCLING</source>
+                    <target>Cycling</target>
+                </trans-unit>
+                <trans-unit id="602">
+                    <source>MARINES</source>
+                    <target>Marines</target>
+                </trans-unit>
+                <trans-unit id="603">
+                    <source>FISHING</source>
+                    <target>Fishing</target>
+                </trans-unit>
+                <trans-unit id="604">
+                    <source>CASCADES</source>
+                    <target>Cascades</target>
+                </trans-unit>
+                <trans-unit id="605">
+                    <source>FORESTS</source>
+                    <target>Forests</target>
+                </trans-unit>
+                <trans-unit id="606">
+                    <source>MOUNTAINS</source>
+                    <target>Mountains</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>

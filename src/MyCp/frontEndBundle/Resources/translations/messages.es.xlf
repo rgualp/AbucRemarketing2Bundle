@@ -2343,6 +2343,50 @@
                     <source>REQUIRED_FIELDS_NEXT_STEP</source>
                     <target>Rellene todos los campos para pasar al siguiente paso</target>
                 </trans-unit>
+                <trans-unit id="596">
+                    <source>BEACHES</source>
+                    <target>Playas</target>
+                </trans-unit>
+                <trans-unit id="597">
+                    <source>DIVING</source>
+                    <target>Buceo</target>
+                </trans-unit>
+                <trans-unit id="598">
+                    <source>VIEWPOINTS</source>
+                    <target>Miradores</target>
+                </trans-unit>
+                <trans-unit id="599">
+                    <source>MUSEUMS</source>
+                    <target>Museos</target>
+                </trans-unit>
+                <trans-unit id="600">
+                    <source>TREKKING</source>
+                    <target>Senderismo</target>
+                </trans-unit>
+                <trans-unit id="601">
+                    <source>CYCLING</source>
+                    <target>Ciclismo</target>
+                </trans-unit>
+                <trans-unit id="602">
+                    <source>MARINES</source>
+                    <target>Marinas</target>
+                </trans-unit>
+                <trans-unit id="603">
+                    <source>FISHING</source>
+                    <target>Pesca</target>
+                </trans-unit>
+                <trans-unit id="604">
+                    <source>CASCADES</source>
+                    <target>Cascadas</target>
+                </trans-unit>
+                <trans-unit id="605">
+                    <source>FORESTS</source>
+                    <target>Bosques</target>
+                </trans-unit>
+                <trans-unit id="606">
+                    <source>MOUNTAINS</source>
+                    <target>Montañas</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>

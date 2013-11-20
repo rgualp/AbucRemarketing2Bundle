@@ -19,17 +19,17 @@
     .map-signal{visibility: hidden; position: absolute}
 </style>
 <div class="container text-center">
-    <img id="icon-beach" title="" data-placement="top" rel="tooltip" href="#" data-original-title="Playas" class="icon-destination icon-des-beach" data="beach" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
-    <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="Buceo" class="icon-destination icon-des-buc" data="buc" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
-    <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="Miradores" class="icon-destination icon-des-mirr" data="mirror" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
-    <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="Museos" class="icon-destination icon-des-mus" data="museum" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
-    <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="Senderismo" class="icon-destination icon-des-walk" data="walk" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
-    <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="Marinas" class="icon-destination icon-des-mar" data="marina" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
-    <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="Ciclismo" class="icon-destination icon-des-bike" data="bike" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
-    <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="Pesca" class="icon-destination icon-des-fish" data="fishing" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
-    <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="Cascadas" class="icon-destination icon-des-casc" data="cascade" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
-    <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="Bosques" class="icon-destination icon-des-for" data="forest" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
-    <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="Montañas" class="icon-destination icon-des-mount" data="mountain" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
+    <img id="icon-beach" title="" data-placement="top" rel="tooltip" href="#" data-original-title="{{ 'BEACHES'|trans }}" class="icon-destination icon-des-beach" data="beach" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
+    <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="{{ 'DIVING'|trans }}" class="icon-destination icon-des-buc" data="buc" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
+    <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="{{ 'VIEWPOINTS'|trans }}" class="icon-destination icon-des-mirr" data="mirror" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
+    <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="{{ 'MUSEUMS'|trans }}" class="icon-destination icon-des-mus" data="museum" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
+    <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="{{ 'TREKKING'|trans }}" class="icon-destination icon-des-walk" data="walk" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
+    <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="{{ 'MARINES'|trans }}" class="icon-destination icon-des-mar" data="marina" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
+    <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="{{ 'CYCLING'|trans }}" class="icon-destination icon-des-bike" data="bike" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
+    <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="{{ 'FISHING'|trans }}" class="icon-destination icon-des-fish" data="fishing" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
+    <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="{{ 'CASCADES'|trans }}" class="icon-destination icon-des-casc" data="cascade" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
+    <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="{{ 'FORESTS'|trans }}" class="icon-destination icon-des-for" data="forest" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
+    <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="{{ 'MOUNTAINS'|trans }}" class="icon-destination icon-des-mount" data="mountain" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
 </div>
 <hr style="border-color: #D7D6D6; width: 100%; margin: 0"/>
 <hr style="border-color: #ffffff; width: 100%; margin: 0 0 30px"/>
@@ -62,34 +62,6 @@
             });
         });
 
-    /*point_elem=$('.beach');
-    img_elem=$('#big-map');
-    img_w=img_elem.width();
-    img_h=img_elem.height();
-    img_left=img_elem.position().left;
-    img_margin_top=point_elem.css('marginTop');
-    point_left=point_elem.position().left;
-    var point_l_img_default= point_left-img_left;
-    var point_mt_img_default= img_margin_top.replace('px','');
-    var img_width_default= img_w;
-    var img_height_default= img_h;
-
-
-    $(window).bind('resize', function () {
-
-        img_w=img_elem.width();
-        img_left=img_elem.position().left;
-        new_pos = (point_l_img_default * img_w / img_width_default) + img_left;
-        point_elem.css('left',new_pos+'px');
-
-        img_h=img_elem.height();
-        new_pos = (point_mt_img_default * img_h / img_height_default);
-        point_elem.css('marginTop',new_pos+'px');
-        /*win_h = $(window).height();
-         win_w = $(window).width();
-        element=$('.beach');
-        elem_left=parseInt(element.css('left').replace('px',''));
-        element.css('left',parseInt(550 * win_w / 1349 )+'px');*/
 
 
     $('.icon-destination').click(function(){

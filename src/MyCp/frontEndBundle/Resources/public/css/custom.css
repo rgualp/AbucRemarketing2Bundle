@@ -218,7 +218,8 @@ footer ul li{line-height: 16px}
 .tiny-star-off-icon{background-position: 0px -114px}
 .mail-icon{width: 28px; height: 19px; background-position: -27px -140px}
 .face-icon{width: 14px; height: 26px; background-position: -1px -157px}
-.icon-heart-2{width: 16px; height: 15px; background-position: -39px -231px}
+.icon-heart-2,.icon-heart-2-on{width: 16px; height: 15px; background-position: -39px -231px}
+.icon-heart-2-on{background-position: -29px -625px}
 .tweet-icon{width: 27px; height: 23px; background-position: 0 -133px}
 .pint-icon{width: 16px; height: 22px; background-position: -37px -161px}
 .yout-icon{width: 19px; height: 24px; background-position: -16px -159px}

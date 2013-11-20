@@ -34,14 +34,14 @@
             <div class="tabbable">
                 <ul class="nav nav-tabs">
                     {%if gallery_photos | length%}
-                    <li onclick="javascript:hide_calendar()" class="active li-tabs"><a data-toggle="tab" href="#tab1">{{"PHOTO_TAB_DETAILS" | trans}}</a></li>
+                    <li onclick="javascript:hide_calendar()" class="active li-tabs"><a data-toggle="tab" href="#tab-photos">{{"PHOTO_TAB_DETAILS" | trans}}</a></li>
                     {%endif%}
-                    <li onclick="javascript:hide_calendar()" {%if not gallery_photos | length%} class="active li-tabs" {%endif%}><a data-toggle="tab" href="#tab2">{{"MAPS_TAB_DETAILS" | trans}}</a></li>
+                    <li onclick="javascript:hide_calendar()" {%if not gallery_photos | length%} class="active li-tabs" {%endif%}><a data-toggle="tab" href="#tab-map">{{"MAPS_TAB_DETAILS" | trans}}</a></li>
                     <li id="li-reservations" class="li-tabs"><a data-toggle="tab" href="#tab-reservations">{{'RESERVATION_TITLE' | trans}}</a></li>
                 </ul>
                 <div class="tab-content">
                     {%if gallery_photos | length%}
-                    <div id="tab1" class="tab-pane active">
+                    <div id="tab-photos" class="tab-pane active">
                         <div id="full-width-slider" class="royalSlider rsDefault">
                            {% for photo in  gallery_photos%}
                                <div rel="tooltip" class="rsContent" title="{{photo.photo_description}}"><img class="rsImg" src="{{asset('uploads/ownershipImages/'~photo.photo_name)}}" alt="" /></div>
@@ -49,7 +49,7 @@
                         </div>
                     </div>
                     {%endif%}
-                    <div id="tab2" class="tab-pane">
+                    <div id="tab-map" class="tab-pane">
                         <div class="flexible-container" id="mapContent">
                             <iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
                                     src="{{ path('frontend_map_details_ownership',{'ownGeolocateX':ownership.OwnGeolocateX,'ownGeolocateY':ownership.OwnGeolocateY,'ownName':ownership.ownname,'description': "FROM_PRICES" | trans ~ (app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')) ~ ownership.ownminimumprice ~ " " ~ ("BYNIGHTS_PRICES" | trans | lower),'image':((gallery_photos[0] is defined) ? gallery_photos[0].photo_name : "no_photo.png")})}}">
@@ -553,7 +553,7 @@
             autoScaleSlider: true,
             autoScaleSliderWidth: 640,
             autoScaleSliderHeight: 480,
-            controlNavigation: 'bullets',
+            controlNavigation: false,
             thumbsFitInViewport: false,
             navigateByClick: true,
             startSlideId: 0,
@@ -578,6 +578,7 @@
     {
         $('#tab-reservations').attr('class','active');
         $('.li-tabs').attr('class','');
+        $('#tab-photos').removeClass('active');
         $('#li-reservations').attr('class','active');
 
 
