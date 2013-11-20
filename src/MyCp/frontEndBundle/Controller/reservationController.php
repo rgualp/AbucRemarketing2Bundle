@@ -159,7 +159,7 @@ class reservationController extends Controller
         if (count($services) < 1) {
             return new Response('0');
         }
-        return $this->get_body_review_reservationAction($request);
+        return $this->get_body_review_reservation_2Action($request);
     }
 
     public function reviewAction(Request $request)
@@ -180,7 +180,9 @@ class reservationController extends Controller
         ));
     }
 
-    public function get_body_review_reservationAction(Request $request)
+
+
+    public function get_body_review_reservation_2Action(Request $request)
     {
         $services = array();
         if ($request->getSession()->get('services_pre_reservation'))
@@ -205,13 +207,15 @@ class reservationController extends Controller
 
         $service_time = $this->get('Time');
         $array_dates = $service_time->dates_between($min_date, $max_date);
+        $array_dates_string_day = array();
         $array_dates_string = array();
         $array_season = array();
         $array_clear_date = array();
         //var_dump($services);
         if ($array_dates)
             foreach ($array_dates as $date) {
-                array_push($array_dates_string, \date('d/m/Y', $date));
+                array_push($array_dates_string, \date('/m/Y', $date));
+                array_push($array_dates_string_day, \date('d', $date));
                 $season = $service_time->season_by_date($date);
                 array_push($array_season, $season);
                 $insert = 1;
@@ -226,6 +230,7 @@ class reservationController extends Controller
             }
         return $this->render('frontEndBundle:reservation:bodyReviewReservation.html.twig', array(
             'dates_string' => $array_dates_string,
+            'dates_string_day' => $array_dates_string_day,
             'dates_timestamp' => $array_dates,
             'services' => $services,
             'array_season' => $array_season,
@@ -361,15 +366,16 @@ class reservationController extends Controller
 
         $request->getSession()->set('services_pre_reservation', null);
 
+
         /*
          * Hallando otros ownerships en el mismo destino
          */
         $ownership = $em->getRepository('mycpBundle:ownership')->find($services[0]['ownership_id']);
 
-        $owns_in_destination = $em->getRepository("mycpBundle:destination")->ownsership_nearby_destination($ownership->getOwnAddressMunicipality()->getMunId(), $ownership->getOwnAddressProvince()->getProvId(), 4, $services[0]['ownership_id'], $user->getUserId(), null);
+        $owns_in_destination = $em->getRepository("mycpBundle:destination")->ownsership_nearby_destination($ownership->getOwnAddressMunicipality()->getMunId(), $ownership->getOwnAddressProvince()->getProvId(), 3, $services[0]['ownership_id'], $user->getUserId(), null);
         
         $locale = $this->get('translator')->getLocale();
-        $destinations = $em->getRepository('mycpBundle:destination')->destination_filter($locale,null, $ownership->getOwnAddressProvince()->getProvId(), null, $ownership->getOwnAddressMunicipality()->getMunId(), 2, $user->getUserId(), null);
+        $destinations = $em->getRepository('mycpBundle:destination')->destination_filter($locale,null, $ownership->getOwnAddressProvince()->getProvId(), null, $ownership->getOwnAddressMunicipality()->getMunId(), 3, $user->getUserId(), null);
         
         // Enviando mail al cliente
         $body = $this->render('frontEndBundle:mails:email_check_available.html.twig', array(
@@ -510,12 +516,15 @@ class reservationController extends Controller
         $array_dates = $service_time->dates_between($min_date, $max_date);
 
         $array_dates_string = array();
+        $array_dates_string_day = array();
         foreach ($array_dates as $date) {
-            array_push($array_dates_string, \date('d/m/Y', $date));
+            array_push($array_dates_string, \date('/m/Y', $date));
+            array_push($array_dates_string_day, \date('d', $date));
         }
         $errors = null;
         $post = null;
         $post_country = null;
+        $count_errors = 0;
 
         if ($request->getMethod() == "POST") {
 
@@ -628,6 +637,7 @@ class reservationController extends Controller
         return $this->render('frontEndBundle:reservation:reservation.html.twig', array(
             'limit_dates' => $array_limits_dates,
             'dates_string' => $array_dates_string,
+            'dates_string_day' => $array_dates_string_day,
             'dates_partial' => $array_partial_dates,
             'dates' => $array_dates,
             'user_tourist' => $userTourist,
@@ -641,6 +651,7 @@ class reservationController extends Controller
             'total_percent_price' => $total_percent_price,
             'post' => $post,
             'post_country' => $post_country,
+            'total_errors' => $count_errors
         ));
 
     }

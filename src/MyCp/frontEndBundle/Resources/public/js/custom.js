@@ -69,12 +69,14 @@ function manage_favorities(favorite_class)
         var element_id = $(this).attr('data-element-id');
         var list_preffix = $(this).attr('data-list-preffix');
         var result_id = "favorite_" + favorite_type + "_" + element_id;
+        var include_text = $(this).attr('data-include_text');
 
         $.post(url,
                 {
                     'favorite_type': favorite_type,
                     'element_id': element_id,
-                    'list_preffix': list_preffix
+                    'list_preffix': list_preffix,
+                    'include_text': include_text
                 }
         , function(data) {
             $("." + result_id).html(data);

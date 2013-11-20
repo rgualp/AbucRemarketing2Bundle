@@ -9,53 +9,64 @@
 {% endblock %}
 
 {% block body %}
-<ul class="breadcrumb">
-    <li><a href="{{ path('frontend_welcome') }}" title="{{"GO_HOME_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a> <span class="divider">»</span></li>
-    {% if ownership.getOwnId is defined %}<li><a href="{{ path('frontend_details_ownership',{'own_name':ownership.getOwnName  | lower | replace(' ','_')}) }}" title="">{{ ownership.getOwnName }}</a> <span class="divider">»</span></li>{% endif %}
-    <li class="active">{{'RESETVATION_BREADCRUMB'|trans}}</li>
-</ul>
-<div class="row-fluid">
-    <h4 class="head_1">{{'RESERVATION_DETAILS'|trans}}</h4>
+<div class="container">
+    <div style="margin-top: 40px">
+        <table>
+            <tr>
+                <td style="width: 45px"><img src="{{ asset('bundles/frontend/img/icons/cart-full.gif') }}"/></td>
+                <td><h1 class="caecilia-roman h-grey h-size-1 no-margin"> {{ 'CART_OF_RESERVES'|trans }} <br/></h1>
+                    <div style="font-size: 12px; margin-top: -3px" class="h-grey-2">{{ 'MANAGE_CART'|trans }}</div>
+                </td>
+            </tr>
+        </table>
+    </div>
     {%if services%}
     <a href="{{ path('frontend_remove_cart_reservation') }}" class="btn pull-right btn-danger" style="margin-top: -40px"><i class="icon-trash icon-white"></i> {{"EMPTY_CART"|trans}}</a>
     {%endif%}
-    <div id="res_main_cont" class="thumbnail" style="border-radius: 8px; padding: 0">
+    <div id="res_main_cont">
         {% if services %}
-        <div id="content_body_review">
-            {% render ('frontEndBundle:reservation:get_body_review_reservation')%}
+        <div id="cart-cont" class="items-cart">
+            {% render ('frontEndBundle:reservation:get_body_review_reservation_2')%}
         </div>
+
         {% else %}
             <div style="margin: 10px" class="alert alert-info">{{"EMPTY_LIST"|trans}}</div>
         {% endif %}
     </div>
-    <label class="pull-right" style="font-size: 10px;  color: #d80407;">{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')| upper}}{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</label>
+    {% if services %}
+    <label class="pull-right" style="font-size: 12px; font-weight: normal; padding-right: 16px">{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')| upper}}{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</label>
+    {% endif %}
     <form method="POST" action="">
         <input style="visibility:hidden;" type="text" value="" name="data_reservation" id="data_reservation"/>
-        <div class="row-fluid">
-            <div class="{% if services %}span6{% else %}span8{% endif %}"></div>
-            <div class="{% if services %}span3{% else %}span4{% endif %}"><a href="{{ path('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'})}}" class="btn mycp_btn_blue mycp_btn input-block-level">{{"KEEP_SEARCHING"|trans}}</a></div>
+        <div class="container margin-t-t">
+        <div class="row">
+            <div class="{% if services %}col-xs-6{% else %}col-xs-9{% endif %}">&nbsp</div>
+            <div class="{% if services %}col-xs-3{% else %}col-xs-3{% endif %}"><a href="{{ path('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'})}}" class="btn btn-block btn-info"><i class="icon-plus-sign"></i> {{"KEEP_SEARCHING"|trans}}</a></div>
             {% if services %}
-            <div class="span3"><a href="{{ path('frontend_review_confirm_reservation') }}" class="btn mycp_btn_green mycp_btn input-block-level">{{"RESERVATION_CHECK_AVAILABILITY"|trans}}</a></div>
+            <div class="col-xs-3"><a href="{{ path('frontend_review_confirm_reservation') }}" class="btn btn-block btn-primary"><i class="icon-question-sign"></i> {{"RESERVATION_CHECK_AVAILABILITY"|trans}}</a></div>
             {% endif %}
+        </div>
         </div>
     </form>
 </div>
-
-<div class="tiny modal fade hide" id="confirmation_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-body">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <p>{{"REMOVE_RESERVATION_CONFIRM"|trans}}</p>
-        <br/>
-        <div class="row-fluid">
-            <div class="span6"><button data-dismiss="modal" class="btn btn-block mycp_btn_grey mycp_btn">{{"CANCEL"|trans}}</button></div>
-            <div class="span6"><button id="delete_button" class="btn btn-block mycp_btn_orange mycp_btn">{{"REMOVE"|trans}}</button></div>
-        </div>
-    </div>
-</div>
+    <!-- Modal -->
+    <div class="modal fade" id="confirmation_modal">
+        <div class="modal-dialog" style="margin-top: 10%">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    {{"REMOVE_RESERVATION_CONFIRM"|trans}}
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn">{{"CANCEL"|trans}}</button>
+                    <button id="delete_button" data="" class="btn btn-primary">{{"REMOVE"|trans}}</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dalog -->
+    </div><!-- /.modal -->
 
 
 <script type="text/javascript">
-
 
     $('#delete_button').click(function(){
             string_url="{{ path('frontend_remove_from_cart_reservation',{'data':0})}}";
@@ -77,7 +88,7 @@
                     }
                     else
                     {
-                        $('#content_body_review').html(msg);
+                        $('#cart-cont').html(msg);
                     }
 
                 }

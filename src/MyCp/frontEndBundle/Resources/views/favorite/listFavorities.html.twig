@@ -5,17 +5,21 @@
 {% set main_tab = 2 %}
 
 {% block body %}
-<div id="loading" class="alert alert-info hidden"> <img src="{{ asset('bundles/frontend/images/loading.gif') }}"/> {{"LOADING_MESSAGE" | trans}}</div>
-<div class="third_tab secondary_tab row-fluid">
-    <div class="nav-tabs_cont">
-        <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#owns_favorities">{{"OWNERSHIPS" | trans}}</a></li>
+<div class="container">
+    <div style="margin: 40px 0 20px">
+        <h1 class="caecilia-roman h-green no-margin"> {{ 'FAVORITIES'|trans }}</h1>
+    </div>
+<div id="loading" class="hidden">
+        <div class="layer-loading"></div>
+        <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}"/></div>
+    </div>
+        <ul class="nav nav-tabs margin-t-t">
+            <li class="active"><a data-toggle="tab" href="#owns_favorities"><i class="icon-home"></i> {{"OWNERSHIPS" | trans}}</a></li>
             <li><a data-toggle="tab" href="#destination_favorities">{{"DESTINATIONS" | trans}}</a></li>
         </ul>
-    </div>
     <div class="tab-content">
-        <div id="owns_favorities" class="tab-pane fade in active">
-            <div class="row-fluid result_list ownerships_list" id="div_result">
+        <div id="owns_favorities" class="tab-pane active">
+            <div class="row-fluid result_list ownerships_list thumbs-houses" id="div_result">
                 {{ include('frontEndBundle:ownership:ownershipArrayItemList.html.twig', 
                 {'list': ownership_favorities,
                 'list_preffix' : 'own_favorities',
@@ -27,11 +31,13 @@
             <div class="row-fluid result_list" id="div_result_destinations">
                 {{ include('frontEndBundle:destination:arrayItemListDestination.html.twig', 
                 {'list': destination_favorities,
-                'list_preffix' : 'own_favorities'
-                }) }}      
+                'list_preffix' : 'own_favorities',
+                'is_in_favorites_list': true
+                }) }}            
             </div>
         </div>
     </div>
+</div>
 </div>
 {% block include_javascripts %}
 <!--script src="{{ asset('bundles/frontend/js/category_ownership.js') }}"></script-->    

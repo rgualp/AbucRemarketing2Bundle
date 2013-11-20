@@ -316,7 +316,7 @@
             </trans-unit>
             <trans-unit id="79">
                 <source>LOADING_MESSAGE</source>
-                <target>Espere, por favor. Su petición está siendo procesada</target>
+                <target>Cargando...</target>
             </trans-unit>
             <trans-unit id="80">
                 <source>SEARCH_RESULT_ORDER_BY</source>
@@ -2318,6 +2318,30 @@
                 <trans-unit id="589">
                     <source>SELECT_FOR_PAYMENT</source>
                     <target>Seleccionar para pagar</target>
+                </trans-unit>
+                <trans-unit id="590">
+                    <source>CART_OF_RESERVES</source>
+                    <target>Cesta de reservaciones</target>
+                </trans-unit>
+                <trans-unit id="591">
+                    <source>MANAGE_CART</source>
+                    <target>Gestione sus reservas para ser consultadas</target>
+                </trans-unit>
+                <trans-unit id="592">
+                    <source>PRICE_NIGHT</source>
+                    <target>Precio/Noche</target>
+                </trans-unit>
+                <trans-unit id="593">
+                    <source>REMOVE_RESERVE</source>
+                    <target>Eliminar esta reserva</target>
+                </trans-unit>
+                <trans-unit id="594">
+                    <source>BYNIGHT</source>
+                    <target>por noche</target>
+                </trans-unit>
+                <trans-unit id="595">
+                    <source>REQUIRED_FIELDS_NEXT_STEP</source>
+                    <target>Rellene todos los campos para pasar al siguiente paso</target>
                 </trans-unit>
         </body>
     </file>

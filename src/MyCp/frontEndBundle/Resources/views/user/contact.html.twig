@@ -1,13 +1,12 @@
 {% extends 'frontEndBundle:layout:base.html.twig' %}
 {% block title %}{{"CONTACT_US" | trans}}{% endblock %}
 {% block body %}
-<ul class="breadcrumb">
-    <li><a title="{{'GO_HOME_TITLE' | trans}}" href="{{path('frontend_welcome')}}">{{"HOME_MAIN_MENU" | trans}}</a> <span
-            class="divider">»</span></li>
-    <li class="active">{{"CONTACT_US" | trans}}</li>
-</ul>
-<div id="loading" class="alert alert-info hidden"> <img src="{{ asset('bundles/frontend/images/loading.gif') }}"/> {{"LOADING_MESSAGE" | trans}}</div>
-<div class="contact row-fluid">
+<div class="container">
+    <div style="margin: 40px 0 20px">
+        <h1 class="caecilia-roman h-green no-margin"> {{ 'CONTACT_US'|trans }}</h1>
+    </div>
+<div id="loading" class="alert alert-info hidden"> <img style="width: 20px" src="{{ asset('bundles/frontend/img/loading.gif') }}"/> {{"LOADING_MESSAGE" | trans}}</div>
+<div class="contact">
 <div class="accordion" id="accordion_contacts">
     <div class="accordion-group">
         <div class="accordion-heading">
@@ -15,8 +14,8 @@
         </div>
         <div id="contact_tourist" class="accordion-body {%if (app.session.get("form_type") != null and app.session.get("form_type") == 'tourist_form') or app.session.get("form_type") == null%} in {%endif%} collapse" {%if (app.session.get("form_type") != null and app.session.get("form_type") == 'tourist_form') or app.session.get("form_type") == null%}style="height: auto;"{%else%}style="height: 0px;"{%endif%}>
             <div class="accordion-inner">
-                <div class="row-fluid ">
-                    <div class="span6">
+                <div class="row">
+                    <div class="col-sm-6">
                         <h4>ABUC Media Network GmbH</h4>
                         <h5>{{"ADDRESS" | trans}}</h5>
                         MyCasaParticular.com <br/>
@@ -34,16 +33,17 @@
                         <h5>{{"COMMERCIAL_NUMBER_REGISTRY" | trans}}</h5>
                         CH-270.4.002.844-1
                     </div>
-                    <div class="span6">
+                    <div class="col-sm-6">
                         <div class="thumbnail">
-                            <div class="cont" style="padding: 6px 20px 0 20px">
+                            <div style="padding: 10px 20px" class="form-cont">
                                 <input type="hidden" id="submit_url" value="{{ path('frontend_contact_user') }}" />
-
                                 <form novalidate class="sfgen" method="POST">
             {% if errors['no_email'] is defined%}<div class="alert alert-error">{{errors['no_email']}}</div>{% endif %}
             {{form_widget(form_tourist)}}
                                         <br/>
-                                        <input class="btn btn-block btn-large mycp_btn_orange mycp_btn" style="margin: auto" type="submit" value="{{'SEND' | trans}}" id="btn_tourist_contact"/>
+                                        <button id="btn_tourist_contact" class="btn btn-primary btn-block btn-lg" style="margin: auto" type="submit">
+                                              {{'SEND' | trans}}
+                                    </button>
                                     </form>
                                 </div>
                             </div>
@@ -61,22 +61,24 @@
                 </div>
                 <div id="contact_owners" class="accordion-body {%if (app.session.get("form_type") != null and app.session.get("form_type") == 'owner_form')%} in {%endif%} collapse" {%if (app.session.get("form_type") != null and app.session.get("form_type") == 'owner_form')%}style="height: auto;"{%else%}style="height: 0px;"{%endif%}>
                     <div class="accordion-inner">
-        <div class="row-fluid ">
-            <div class="span6">
+        <div class="row">
+            <div class="col-sm-6">
                 <h4>{{"CONTACT_OWNER_QUESTION" | trans}}</h4> 
                 {{"CONTACT_OWNER_FILL_FORM" | trans}}<br/> 
                 <a href="mailto:casa@mycasaparticular.com">casa@mycasaparticular.com</a> <br/><br/>
  
                 {{"CONTACT_OWNER_FILL_FORM" | trans}}
             </div>
-            <div class="span6">
+            <div class="col-sm-6">
                 <div class="thumbnail">
-                    <div class="cont" style="padding: 6px 20px 0 20px">
+                    <div style="padding: 10px 20px" class="form-cont">
                         <form novalidate class="sfgen" method="POST">
             {% if errors['no_email'] is defined%}<div class="alert alert-error">{{errors['no_email']}}</div>{% endif %}
             {{form_widget(form_owner)}}
                                 <br/>
-                                <input class="btn btn-block btn-large mycp_btn_orange mycp_btn" style="margin: auto" type="submit" value="{{'SEND' | trans}}" id="btn_owner_contact"/>
+                                <button class="btn btn-lg btn-primary btn-block" style="margin: auto" type="submit" id="btn_owner_contact">
+                                 {{'SEND' | trans}}
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -87,7 +89,8 @@
             </div>  
         </div> 
 </div>
+</div>
             <script type="text/javascript">
-                $('.sfgen input').addClass('input-block-level')
+                $('.sfgen input').addClass('form-control')
                 </script>
 {%endblock%}

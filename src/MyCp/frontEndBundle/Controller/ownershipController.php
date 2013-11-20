@@ -771,6 +771,9 @@ class ownershipController extends Controller {
         $session = $request->getSession();
         $em = $this->getDoctrine()->getEntityManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        
+        if ($session->get('search_view_results') == null || $session->get('search_view_results') == '')
+            $session->set('search_view_results', 'LIST');
 
         $check_filters = array();
         $check_filters['own_reservation_type'] = $request->request->get('own_reservation_type');
@@ -1146,7 +1149,7 @@ class ownershipController extends Controller {
         $session->set('search_order', 'BEST_VALUED');
 
         $filters = array();
-        $filters['own_type'] = array($type);
+        $filters['own_type'] = array(str_replace("_", " ", ucfirst($type)));
 
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
@@ -1298,7 +1301,7 @@ class ownershipController extends Controller {
         $destinations = $em->getRepository('mycpBundle:destination')->destination_filter($municipality_id, $province_id, null, null, 3);
         
         if(count($destinations) < 3)
-            $destinations = $em->getRepository('mycpBundle:destination')->get_popular_destination(3, $users_id["user_id"], $users_id["session_id"]);
+            $destinations = $em->getRepository('mycpBundle:destination')->get_popular_destination(3, $users_id["user_id"], $users_id["session_id"],$this->get('translator')->getLocale());
         
          return $this->render('frontEndBundle:ownership:nearByDestinationsOwnership.html.twig', array(
                     'destinations' => $destinations

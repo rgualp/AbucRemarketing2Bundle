@@ -12,29 +12,76 @@ function start() {
     $('#button_research').click(research);
 
     //Filtros
-    $('#own_reservation_type').change(filter_by_others);
-    $('input[name=own_category]').change(filter_by_others);
-    $('input[name=own_type]').change(filter_by_others);
-    $('input[name=own_price]').change(filter_by_others);
-    $('input[name=room_total]').change(filter_by_others);
-    $('input[name=room_type]').change(filter_by_others);
-    $('input[name=room_bathroom]').change(filter_by_others);
-    $('#room_airconditioner').change(filter_by_others);
-    $('#room_audiovisuals').change(filter_by_others);
-    $('#room_kids').change(filter_by_others);
-    $('#room_smoker').change(filter_by_others);
-    $('#room_safe').change(filter_by_others);
-    $('#room_balcony').change(filter_by_others);
-    $('#room_terraza').change(filter_by_others);
-    $('#room_courtyard').change(filter_by_others);
+    $('.action_remove_filter_up').change(function() {
+        remove_filter_up($(this));
+    });
+    $('#own_reservation_type').change(function() {
+        filter_by_others(false);
+    });
+    $('input[name=own_category]').change(function() {
+        filter_by_others(false);
+    });
+    $('input[name=own_type]').change(function() {
+        filter_by_others(false);
+    });
+    $('input[name=own_price]').change(function() {
+        filter_by_others(false);
+    });
+    $('input[name=room_total]').change(function() {
+        filter_by_others(false);
+    });
+    $('input[name=room_type]').change(function() {
+        filter_by_others(false);
+    });
+    $('input[name=room_bathroom]').change(function() {
+        filter_by_others(false);
+    });
+    $('#room_airconditioner').change(function() {
+        filter_by_others(false);
+    });
+    $('#room_audiovisuals').change(function() {
+        filter_by_others(false);
+    });
+    $('#room_kids').change(function() {
+        filter_by_others(false);
+    });
+    $('#room_smoker').change(function() {
+        filter_by_others(false);
+    });
+    $('#room_safe').change(function() {
+        filter_by_others(false);
+    });
+    $('#room_balcony').change(function() {
+        filter_by_others(false);
+    });
+    $('#room_terraza').change(function() {
+        filter_by_others(false);
+    });
+    $('#room_courtyard').change(function() {
+        filter_by_others(false);
+    });
 
-    $('input[name=room_beds_total]').change(filter_by_others);
-    $('input[name=room_windows_total]').change(filter_by_others);
-    $('input[name=others_languages]').change(filter_by_others);
-    $('input[name=others_included]').change(filter_by_others);
-    $('input[name=others_not_included]').change(filter_by_others);
-    $('#room_others_pets').change(filter_by_others);
-    $('#room_others_internet').change(filter_by_others);
+    $('input[name=room_beds_total]').change(function() {
+        filter_by_others(false);
+    });
+    $('input[name=room_windows_total]').change(function() {
+        filter_by_others(false);
+    });
+    $('input[name=others_languages]').change(function() {
+        filter_by_others(false);
+    });
+    $('input[name=others_included]').change(function() {
+        filter_by_others(false);
+    });
+    $('input[name=others_not_included]').change(function() {
+        filter_by_others(false);
+    });
+    $('#room_others_pets').change(function() {
+        filter_by_others(false);
+    });
+    $('#room_others_internet').change(function() {
+        filter_by_others(false);
+    });
 
     //initialize_map();
 }
@@ -42,7 +89,7 @@ function start() {
 function change_order()
 {
     //Obtener parametros
-     var order=$('#select_change_order').val();
+    var order = $('#select_change_order').val();
     show_loading();
     var result = $('#div_result');
     var url = $('#select_change_order').attr('data-url');
@@ -51,8 +98,8 @@ function change_order()
         'order': order
     }, function(data) {
         result.html(data);
-        manage_favorities(".favorite_off");
-        manage_favorities(".favorite_on");
+        manage_favorities(".favorite_off_action");
+        manage_favorities(".favorite_on_action");
         hide_loading();
     });
 
@@ -85,8 +132,8 @@ function _changeViewTo(url, viewType, event) {
         $('#map').css('visibility', 'hidden');
         $('#map').css('display', 'none');
 
-        manage_favorities(".favorite_off");
-        manage_favorities(".favorite_on");
+        manage_favorities(".favorite_off_action");
+        manage_favorities(".favorite_on_action");
 
         if (viewType === 'MAP')
             initialize_map();
@@ -94,10 +141,10 @@ function _changeViewTo(url, viewType, event) {
     });
 
     /*$('a.link').each(function(i, item) {
-        $(item).css('background-position', 'top');
-    });
-    $(event.target).css('background-position', 'bottom');
-*/
+     $(item).css('background-position', 'top');
+     });
+     $(event.target).css('background-position', 'bottom');
+     */
     return false;
 }
 
@@ -126,9 +173,9 @@ function research()
         'text': text
     }, function(data) {
         result.html(data);
-        manage_favorities(".favorite_off");
-        manage_favorities(".favorite_on");
-        filter_by_others();
+        manage_favorities(".favorite_off_action");
+        manage_favorities(".favorite_on_action");
+        filter_by_others(true);
         initialize_map();
         hide_loading();
 
@@ -137,7 +184,7 @@ function research()
     return false;
 }
 
-function filter_by_others()
+function filter_by_others(refreshStatistics)
 {
     //var own_reservation_type= $("#own_reservation_type").val();
     var own_type = [];
@@ -154,68 +201,132 @@ function filter_by_others()
     var others_included = [];
     var others_not_included = [];
 
+    var innerHtml = $("#filter_upper").html();
+
     $('input[name=own_type]:checked').each(function() {
         own_type.push($(this).val());
+        if (document.getElementById("fu_own_type_" + $(this).val()) == null)
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_type_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='own_type'><i class='icon-remove-sign'></i>" + $(this).parent().text() + "</a> ");
+
     });
 
     $('input[name=own_category]:checked').each(function() {
         own_category.push($(this).val());
+        if (document.getElementById("fu_own_category_" + $(this).val()) == null)
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_category_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='own_category'><i class='icon-remove-sign'></i> " + $(this).parent().text() + "</a> ");
     });
 
     $('input[name=own_price]:checked').each(function() {
         own_price.push($(this).val());
         own_price_from.push($(this).val());
         own_price_to.push(parseInt($(this).val()) + 25);
+
+        if (document.getElementById("fu_own_price_" + $(this).val()) == null)
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_price_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='own_price'><i class='icon-remove-sign'></i>" + $(this).parent().text() + "</a> ");
     });
 
     $('input[name=room_total]:checked').each(function() {
         room_total.push($(this).val());
+
+        if (document.getElementById("fu_room_total_" + $(this).val()) == null)
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_total_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='room_total'><i class='icon-remove-sign'></i>" + $(this).attr('data-aux-text') + ' ' + $(this).parent().text() + "</a> ");
     });
 
     $('input[name=room_type]:checked').each(function() {
         room_type.push($(this).val());
+        if (document.getElementById("fu_room_type_" + $(this).val()) == null)
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_type_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='room_type'><i class='icon-remove-sign'></i>" + $(this).parent().text() + "</a> ");
     });
 
     $('input[name=room_bathroom]:checked').each(function() {
         room_bathroom.push($(this).val());
+        if (document.getElementById("fu_room_bathroom_" + $(this).val()) == null)
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_bathroom_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='room_bathroom'><i class='icon-remove-sign'></i>" + $(this).parent().text() + "</a> ");
     });
 
 
     var room_climatization = '';
     room_climatization = room_climatization + ((document.getElementById('room_airconditioner') != null && document.getElementById('room_airconditioner').checked) ? "'" + $('#room_airconditioner').attr('data-value') + "'" : "");
 
+    if (document.getElementById('room_airconditioner') != null && document.getElementById('room_airconditioner').checked && document.getElementById("fu_room_airconditioner") == null)
+        $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_airconditioner' data-control-id='room_airconditioner' data-control-name='' data-value=''><i class='icon-remove-sign'></i> " + $("#room_airconditioner").parent().text() + "</a> ");
+
     var room_audiovisuals = document.getElementById('room_audiovisuals') != null && document.getElementById('room_audiovisuals').checked;
+    if (room_audiovisuals && document.getElementById("fu_room_audiovisuals") == null)
+        $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_audiovisuals' data-control-id='room_audiovisuals' data-control-name='' data-value=''><i class='icon-remove-sign'></i> " + $("#room_audiovisuals").parent().text() + "</a> ");
+
     var room_kids = document.getElementById('room_kids') != null && document.getElementById('room_kids').checked;
+    if (room_kids && document.getElementById("fu_room_kids") == null)
+        $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_kids' data-control-id='room_kids' data-control-name='' data-value=''><i class='icon-remove-sign'></i> " + $("#room_kids").parent().text() + "</a> ");
+
     var room_smoker = document.getElementById('room_smoker') != null && document.getElementById('room_smoker').checked;
+    if (room_smoker && document.getElementById("fu_room_smoker") == null)
+        $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_smoker' data-control-id='room_smoker' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#room_smoker").parent().text() + "</a> ");
+
     var room_safe = document.getElementById('room_safe') != null && document.getElementById('room_safe').checked;
+    if (room_safe && document.getElementById("fu_room_safe") == null)
+        $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_safe' data-control-id='room_safe' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#room_safe").parent().text() + "</a> ");
+
     var room_balcony = document.getElementById('room_balcony') != null && document.getElementById('room_balcony').checked;
+    if (room_balcony && document.getElementById("fu_room_balcony") == null)
+        $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_balcony' data-control-id='room_balcony' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#room_balcony").parent().text() + "</a> ");
+
     var room_terraza = document.getElementById('room_terraza') != null && document.getElementById('room_terraza').checked;
+    if (room_terraza && document.getElementById("fu_room_terraza") == null)
+        $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_terraza' data-control-id='room_terraza' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#room_terraza").parent().text() + "</a> ");
+
     var room_courtyard = document.getElementById('room_courtyard') != null && document.getElementById('room_courtyard').checked;
+    if (room_courtyard && document.getElementById("fu_room_courtyard") == null)
+        $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_courtyard' data-control-id='room_courtyard' data-control-name='' data-value=''><i class='icon-remove-sign'></i> " + $("#room_courtyard").parent().text() + "</a> ");
+
 
     $('input[name=room_beds_total]:checked').each(function() {
         room_beds_total.push($(this).val());
+        if (document.getElementById("fu_room_beds_total_" + $(this).val()) == null)
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_beds_total_" + $(this).val() + "' data-value='" + $(this).val() + "' data-control-id='' data-control-name='room_beds_total'><i class='icon-remove-sign'></i> " + $(this).attr('data-aux-text') + ' ' + $(this).parent().text() + "</a> ");
     });
 
     $('input[name=room_windows_total]:checked').each(function() {
         room_windows_total.push($(this).val());
+        if (document.getElementById("fu_room_windows_total_" + $(this).val()) == null)
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_windows_total_" + $(this).val() + "' data-value='" + $(this).val() + "' data-control-id='' data-control-name='room_windows_total'><i class='icon-remove-sign'></i> " + $(this).attr('data-aux-text') + ' ' + $(this).parent().text() + "</a> ");
     });
 
     $('input[name=others_languages]:checked').each(function() {
         others_languages.push($(this).val());
+        if (document.getElementById("fu_others_languages_" + $(this).val()) == null)
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_others_languages_" + $(this).val() + "' data-value='" + $(this).val() + "' data-control-id='' data-control-name='others_languages'><i class='icon-remove-sign'></i> " + $(this).parent().text() + "</a> ");
     });
 
     $('input[name=others_included]:checked').each(function() {
         others_included.push($(this).val());
+        if (document.getElementById("fu_others_included_" + $(this).val()) == null)
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_others_included_" + $(this).val() + "' data-value='" + $(this).val() + "' data-control-id='' data-control-name='others_included'><i class='icon-remove-sign'></i>" + $(this).parent().text() + "</a> ");
     });
 
     $('input[name=others_not_included]:checked').each(function() {
         others_not_included.push($(this).val());
+        if (document.getElementById("fu_others_not_included_" + $(this).val()) == null)
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_others_not_included_" + $(this).val() + "' data-value='" + $(this).val() + "' data-control-id='' data-control-name='others_not_included'><i class='icon-remove-sign'></i>" + $(this).parent().text() + "</a> ");
     });
 
     var room_others_pets = document.getElementById('room_others_pets') != null && document.getElementById('room_others_pets').checked;
+    if (room_others_pets && document.getElementById("fu_room_others_pets") == null)
+        $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_others_pets' data-control-id='room_others_pets' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#room_others_pets").parent().text() + "</a> ");
+
     var room_others_internet = document.getElementById('room_others_internet') != null && document.getElementById('room_others_internet').checked;
+    if (room_others_internet && document.getElementById("fu_room_others_internet") == null)
+        $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_others_internet' data-control-id='room_others_internet' data-control-name='' data-value=''><i class='icon-remove-sign'></i>" + $("#room_others_internet").parent().text() + "</a> ");
+
 
     show_loading();
+    $(".filter_upper_item").click(function() {
+        filter_upper($(this));
+    });
+
+    if ($("#filter_upper").html() != "")
+        $("#filter_upper").css("display", "block");
+
     var url = $('#filters').attr('data-url-filter');
     var result = $('#div_result');
     var checked_filters = {
@@ -247,12 +358,59 @@ function filter_by_others()
 
     $.post(url, checked_filters, function(data) {
         result.html(data);
-        manage_favorities(".favorite_off");
-        manage_favorities(".favorite_on");
-        refresh_filters_statistics(checked_filters);
+        manage_favorities(".favorite_off_action");
+        manage_favorities(".favorite_on_action");
+
+        if (refreshStatistics)
+            refresh_filters_statistics(checked_filters);
         hide_loading();
     });
     return false;
+}
+
+function filter_upper(element)
+{
+    var control_id = element.attr("data-control-id");
+    var control_name = element.attr("data-control-name");
+    var item_value = element.attr("data-value");
+
+    if (control_id !== "")
+        document.getElementById(control_id).checked = false;
+
+    if (control_name != "" && item_value != "")
+    {
+        $('input[name=' + control_name + ']').each(function() {
+            if ($(this).val() == item_value)
+                $(this).removeAttr("checked");
+        });
+    }
+
+    //alert($("#filter_upper").html());
+    /*if ($("#filter_upper").html())
+        $("#filter_upper").css("display", "none");*/
+
+    filter_by_others(false);
+    element.remove();
+}
+
+function remove_filter_up(element)
+{
+    if (!element.is(":checked"))
+    {
+        var control_name = element.attr("name");
+        var control_id = element.attr("id");
+        var control_value = element.val();
+
+        if (control_name != null && document.getElementById("fu_" + control_name + "_" + control_value) != null)
+            $("#fu_" + control_name + "_" + control_value).remove();
+
+        if (control_id != null && document.getElementById("fu_" + control_id + "_" + control_value) != null)
+            $("#fu_" + control_id + "_" + control_value).remove();
+
+        //alert($("#filter_upper").html());
+       /* if ($("#filter_upper").html())
+            $("#filter_upper").css("display", "none");*/
+    }
 }
 
 function refresh_filters_statistics(checked_filters)
@@ -594,12 +752,12 @@ function checkCheckBoxes(array_of_values, name_checkboxes)
 
 function show_loading()
 {
-    $('#loading').removeClass('hidden');
+    $('.loading').removeClass('hidden');
 }
 
 function hide_loading()
 {
-    $('#loading').addClass('hidden');
+    $('.loading').addClass('hidden');
 
 }
 

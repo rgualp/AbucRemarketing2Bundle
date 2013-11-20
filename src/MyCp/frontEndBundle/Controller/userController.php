@@ -275,15 +275,18 @@ class userController extends Controller {
                       ->generate($enableRoute, array('string' => $encode_string), true); */
 
                     $service_email = $this->get('Email');
+                    $content=$this->render('frontEndBundle:mails:ownerContactMailBody.html.twig',array(
+                        'owner_fullname'=>$owner_full_name,
+                        'own_name'=>$owner_own_name,
+                        'province'=>$owner_province,
+                        'municipality'=>$owner_mun,
+                        'comments'=>$owner_comment,
+                        'email'=> $owner_email
+                    )); 
                     $service_email->send_templated_email(
-                            'Contacto de propietario', $owner_email, 'casa@mycasaparticular.com', "<h1 style='font-size: 20px'>Contacto de propietario</h1><p style='font-size: 12px'>El Sr(a). $owner_full_name, desea incluir una nueva casa con los siguientes datos:<br/>
-                            Dueño(a): $owner_full_name <br/>
-                            Nombre de la casa: $owner_own_name <br/>  
-                            Provincia: $owner_province <br/>  
-                            Municipio: $owner_mun <br/>  
-                            Comentarios: $owner_comment</p>");
+                            'Contacto de propietario', $owner_email, 'casa@mycasaparticular.com', $content->getContent());
 
-                    $message = $this->get('translator')->trans("USER_CONTACT_OWNER_SUCCESSs");
+                    $message = $this->get('translator')->trans("USER_CONTACT_OWNER_SUCCESS");
                     $this->get('session')->setFlash('message_global_success', $message);
 
                     return $this->redirect($this->generateUrl('frontend_contact_user'));

@@ -1,22 +1,36 @@
+<div class="thumbs-houses">
 {%for destination in list%}
-<div class="item">
-    <div class="row-fluid">
-    <div class="span2">
+    <div class="row">
+    <div class="col-sm-4">
         <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination['destination_name']}}" href="{{ path('frontend_details_destination',{'destination_name':destination['destination_name']|lower|replace(' ','_')}) }}">
-            <img class="img-polaroid" src="{{ asset("uploads/destinationImages/thumbnails/" ~ destination['photo'])}}"/>
+            <img class="thumbnail full-width" src="{{ asset("uploads/destinationImages/thumbnails/" ~ destination['photo'])}}"/>
         </a>
+        <p class="margin-t-t">
         {{destination['municipality_name']}} / {{destination['province_name']}}
+        </p>
     </div>
-    <div class="span10">
-        <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination['destination_name']}}" href="{{ path('frontend_details_destination',{'destination_name':destination['destination_name']|lower|replace(' ','_')}) }}">{{destination['destination_name']}}</a>
-        <p>{{(destination['desc_brief'] != "") ? destination['desc_brief'] |striptags: ""}}</p>
+    <div class="col-sm-8">
+            <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination['destination_name']}}" href="{{ path('frontend_details_destination',{'destination_name':destination['destination_name']|lower|replace(' ','_')}) }}">
+                <h1 class="h-blue margin-t-t">{{destination['destination_name']}}</h1>
+            </a>
+        <p class="t-size-12">{{(destination['desc_brief'] != "") ? destination['desc_brief'] |striptags: ""}}</p>
+    </div>
+            <div class="text-right">
+        {{ include('frontEndBundle:favorite:itemFavorite.html.twig', 
+        {'is_in_favorite': destination['is_in_favorities'],
+         'favorite_type': 'destination',
+         'element_id':destination['destination_id'],
+         'list_preffix' : list_preffix,
+         'include_text': true,
+         'is_in_favorites_list': is_in_favorites_list
+         }) }}
     </div>
     </div>
-</div>
+    <hr/>
 {%else%}
 <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
 {%endfor%}
-
+</div>
 {%if total_items is defined and items_per_page is defined and popular_places | length and total_items > items_per_page%}
     <div class="paginator-cont top_margin">
     {{ simple_paginator_render('frontend_list_destinations',null,{

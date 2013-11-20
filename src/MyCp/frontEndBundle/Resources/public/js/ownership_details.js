@@ -1,7 +1,7 @@
-$(document).ready(function(){
-    datePickersStarUp();
-    start();
-});
+
+
+start();
+datePickersStarUp();
 
 function datePickersStarUp(){
     $('#top_reservation_filter_date_from').datepicker({
@@ -34,12 +34,12 @@ function datePickersStarUp(){
         language: $('#top_reservation_filter_date_to').attr('data-localization')
     }).data('datepicker');
     
-    reservation_filter_date_to.on('changeDate', function(){
+   /* reservation_filter_date_to.on('changeDate', function(){
                 $('.datepicker').hide();
                 $('#top_reservation_submit_button').attr('type','submit');
                 $('#top_reservation_submit_button').attr('onclick','');
                 $('#top_reservation_submit_button').html(reservation_see_prices_text);
-            });
+            });*/
             
    
     $('#filter_date_from').datepicker({
@@ -67,8 +67,11 @@ function datePickersStarUp(){
         date: end_date,
         language: $('#filter_date_to').attr('data-localization')
     }).data('datepicker');
-    
-    filter_date_to.on('changeDate', function(ev){
+
+
+
+    /*filter_date_to.on('changeDate', function(ev){
+            alert('aaaa');
                 element=$("#body_calendar");
                 $('.datepicker').hide();
                 element.attr('class','container_loading');
@@ -91,7 +94,7 @@ function datePickersStarUp(){
                         $('#data_reservation').attr('from_date', from);
                         $('#data_reservation').attr('to_date', to);
                 });
-            });
+            });*/
     
     
 }
@@ -102,20 +105,21 @@ function start(){
     initialize_map();
 
     // ernesto code
-    total_price=0;
+    total_price_var=0;
     $('.guest_number').change(function(){
         if($('#tr_'+$(this).attr('data')).html()){
-
-            if($('#combo_guest_'+$(this).attr('data')).val()+$('#combo_kids_'+$(this).attr('data')).val()===0)
+            if(eval($('#combo_guest_'+$(this).attr('data')).val())+eval($('#combo_kids_'+$(this).attr('data')).val())==0)
             {
+
                 $('#tr_'+$(this).attr('data')).remove();
                 if ($('#rooms_selected >tbody >tr').length === 0){
                     $('#rooms_selected').css({display: 'none'});
-                    $('#all_data_numbers').css({display: 'none'});
-
+                    $('.calendar-results').css({display: 'none'});
                 }
-
-                total_price($(this).attr('data_curr'));
+                else
+                {
+                    total_price($(this).attr('data_curr'));
+                }
             }
             else
             {
@@ -141,6 +145,7 @@ function start(){
         }
         else
         {
+
             value=0;
             real_value=0;
             persons=parseInt($('#combo_kids_'+$(this).attr('data')).val()) + parseInt($('#combo_guest_'+$(this).attr('data')).val());
@@ -154,7 +159,7 @@ function start(){
             }
 
             $('#rooms_selected').css({display: 'table'});
-            $('#all_data_numbers').css({display: 'block'});
+            $('.calendar-results').css({display: 'block'});
             $('#rooms_selected > tbody:last').append('<tr id="tr_'+$(this).attr('data')+'">' +
                 '<td class="id_room" style="display: none;">'+$(this).attr('data')+'</td>' +
                 '<td>'+this.parentNode.parentNode.cells[0].innerHTML+'</td>' +
@@ -162,7 +167,7 @@ function start(){
                 '<td>1</td>' +
                 '<td class="guest" id="guest_'+$(this).attr('data')+'">'+$('#combo_guest_'+$(this).attr('data')).val()+'</td>'+
                 '<td class="kids" id="kids_'+$(this).attr('data')+'">'+$('#combo_kids_'+$(this).attr('data')).val()+'</td>'+
-                '<td class="price" id="price_'+$(this).attr('data')+'">'+value+'</td>');
+                '<td class="price-room" id="price_'+$(this).attr('data')+'">'+value+'</td>');
 
             total_price($(this).attr('data_curr'),$(this).attr('percent_charge'));
         }
@@ -170,10 +175,10 @@ function start(){
         function total_price(curr,percent)
         {
             real_price=0;
-            total_price=0;
+            total_price_var=0;
             rooms_price='';
-            $('.price').each(function() {
-                total_price=total_price+parseFloat(this.innerHTML);
+            $('.price-room').each(function() {
+                total_price_var=total_price_var+parseFloat(this.innerHTML);
                 real_price=real_price+parseFloat(this.innerHTML/curr);
             });
 
@@ -194,19 +199,18 @@ function start(){
 
             string_url=from_date+'/'+to_date+'/'+ids_rooms+'/'+count_guests+'/'+count_kids;
             $('#data_reservation').val(string_url);
-            $('#total_price').html(total_price );
-            $('#subtotal_price').html(total_price);
-
-            percent_value=total_price * percent / 100;
+            $('#total_price').html(total_price_var );
+            $('#subtotal_price').html(total_price_var);
+            percent_value=total_price_var * percent / 100;
             $('#initial_deposit').html(percent_value);
             $('#total_prepayment').html(percent_value + 10*curr);
-
-            $('#subtotal_price_cont').css('display','block');
         }
     });
 
 
 }
+
+
 
 /*function submit_button_top_reservation()
 {

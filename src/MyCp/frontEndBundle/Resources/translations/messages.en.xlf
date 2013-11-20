@@ -316,7 +316,7 @@
             </trans-unit>
             <trans-unit id="79">
                 <source>LOADING_MESSAGE</source>
-                <target>Wait, please. Your request is being processed</target>
+                <target>Loading...</target>
             </trans-unit>
             <trans-unit id="80">
                 <source>SEARCH_RESULT_ORDER_BY</source>
@@ -1156,7 +1156,7 @@
             </trans-unit>
             <trans-unit id="298">
                 <source>RESERVATION_TITLE</source>
-                <target>Resrvations</target>
+                <target>Reservations</target>
             </trans-unit>
             <trans-unit id="299">
                 <source>RESERVATION_ROOMS</source>
@@ -2322,6 +2322,30 @@
                 <trans-unit id="589">
                     <source>SELECT_FOR_PAYMENT</source>
                     <target>Select for payment</target>
+                </trans-unit>
+                <trans-unit id="590">
+                    <source>CART_OF_RESERVES</source>
+                    <target>Cart of reservations</target>
+                </trans-unit>
+                <trans-unit id="591">
+                    <source>MANAGE_CART</source>
+                    <target>Manage your reservations to request availability</target>
+                </trans-unit>
+                <trans-unit id="592">
+                    <source>PRICE_NIGHT</source>
+                    <target>Price/Night</target>
+                </trans-unit>
+                <trans-unit id="593">
+                    <source>REMOVE_RESERVE</source>
+                    <target>Remove it reservation</target>
+                </trans-unit>
+                <trans-unit id="594">
+                    <source>BYNIGHT</source>
+                    <target>by night</target>
+                </trans-unit>
+                <trans-unit id="595">
+                    <source>REQUIRED_FIELDS_NEXT_STEP</source>
+                    <target>Fields required to next step</target>
                 </trans-unit>
         </body>
     </file>

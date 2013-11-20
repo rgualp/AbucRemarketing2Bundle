@@ -1,15 +1,18 @@
+<script src="{{ asset('bundles/frontend/js/bootstrap-datepicker.js') }}"></script>
+<script src="{{ asset('bundles/frontend/js/bootstrap-datepicker.es.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/orangeSearchBar.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/typeahead.min.js') }}"></script>
+
 
 <div class="form bg-gradient-orange">
         <div class="row">
             <div class="col-sm-12" style="">
                 <form class="form-inline">
                     <div class="col-sm-3">
-                        <input type="text" id="typeahead-place" placeholder="{{'PLACE_WATERMARK' | trans}}" class="form-control" autocomplete="off" data-highlighter="null" data-items="5" data-provide="typeahead">
+                        <input type="text" id="input_text" placeholder="{{'PLACE_WATERMARK' | trans}}" class="form-control" autocomplete="off" data-highlighter="null" data-items="5" data-provide="typeahead">
                     </div>
                     <div class="col-sm-2">
-                        <div class="input-group" style="padding: 0">
+                        <div class="input-group" data-datepicker="true" style="padding: 0">
                             <input class="form-control" value="{{(app.session.get('search_arrival_date') != null) ? (app.session.get('search_arrival_date')|date('d/m/Y')) : ('now' |date('d/m/Y'))}}" id="input_arrival_date" placeholder="{{'ARRIVAL_WATERMARK' | trans}}" type="text" data-localization='{{locale}}' data-value='{{arrival_date}}'>
                             <span class="input-group-addon"><span class="icon-calendar"></span></span>
                         </div>
@@ -46,7 +49,7 @@
                         </select>
                     </div>
                     <div class="col-sm-1">
-                        <button class="btn btn-block btn-primary" type="submit" id="btn_search" data-url="{{ path('frontend_search_ownership',{'text':'_text', 'arrival':'_arrival','departure':'_departure','guests':'_guests','rooms':'_rooms'})}}" onclick="search()">{{"SEARCH" | trans | capitalize}}</button>
+                        <a class="btn btn-block btn-primary" id="btn_search" data-url="{{ path('frontend_search_ownership',{'text':'_text', 'arrival':'_arrival','departure':'_departure','guests':'_guests','rooms':'_rooms'})}}">{{"SEARCH" | trans | capitalize}}</a>
                     </div>
                 </form>
             </div>

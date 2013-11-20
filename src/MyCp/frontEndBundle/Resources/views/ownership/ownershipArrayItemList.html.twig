@@ -25,7 +25,7 @@
                         {%endif%}
                         <span>{{own.category | trans}}</span><br/>
                     <small class="top">{{own['prov_name']}}, {{own['mun_name']}}<br/>{{own.type  | trans}} {%if (own.rooms_count != 0) %}
-                        / {{own.rooms_count}} {% if own.rooms_count == 1%} {{"ROOM_SINGULAR" | trans}} {%else%} {{"ROOM_PLURAL" | trans}} {%endif%}{%endif%}</small>
+                        / {{own.rooms_count}} {% if own.rooms_count == 1%} {{"ROOM_SINGULAR" | trans}} {%else%} {{"ROOM_PLURAL" | trans}} {%endif%}{%endif%}</small><br/>
                     
                     {%if own['rating'] > 0%}
                         {%for i in 1..own['rating']%}

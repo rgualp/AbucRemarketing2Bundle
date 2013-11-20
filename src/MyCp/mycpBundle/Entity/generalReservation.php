@@ -95,6 +95,13 @@ class generalReservation {
      * @OneToMany(targetEntity="ownershipReservation", mappedBy="own_res_gen_res_id")
      */
     private $own_reservations;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="gen_res_arrival_hour", type="text",nullable=true)
+     */
+    private $gen_res_arrival_hour;
 
     /**
      * Get gen_res_id
@@ -313,6 +320,26 @@ class generalReservation {
      */
     public function getGenResHour() {
         return $this->gen_res_hour;
+    }
+    /**
+     * Set gen_res_arrival_hour
+     *
+     * @param string $genResArrivalHour
+     * @return generalReservation
+     */
+    public function setGenResArrivalHour($genResArrivalHour) {
+        $this->gen_res_arrival_hour = $genResArrivalHour;
+
+        return $this;
+    }
+
+    /**
+     * Get gen_res_arrival_hour
+     *
+     * @return string 
+     */
+    public function getGenResArrivalHour() {
+        return $this->gen_res_arrival_hour;
     }
     
     public function getOwn_reservations() {

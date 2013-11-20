@@ -34,7 +34,7 @@
                         </div>
                         {% endfor %}
                     </div>
-                    {%if popular_places | length%}
+                    {%if popular_places | length > 4%}
                     <a data-slide="prev" href="#th-destination-carousel" class="left carousel-control">
                         <span class="icon-prev"></span>
                     </a>
@@ -75,7 +75,7 @@
                             </div>
                         {% endfor %}
                     </div>
-                    {%if last_added | length%}
+                    {%if last_added | length  > 4%}
                     <a data-slide="prev" href="#th-last-carousel" class="left carousel-control">
                         <span class="icon-prev"></span>
                     </a>
@@ -116,7 +116,7 @@
                             </div>
                         {% endfor %}
                     </div>
-                    {%if economic_own_list | length%}
+                    {%if economic_own_list | length  > 4%}
                     <a data-slide="prev" href="#th-economics-carousel" class="left carousel-control">
                         <span class="icon-prev"></span>
                     </a>
@@ -157,7 +157,7 @@
                             </div>
                         {% endfor %}
                         </div>
-                    {%if medium_own_list  | length%}
+                    {%if medium_own_list  | length  > 4%}
                     <a data-slide="prev" href="#th-medium-carousel" class="left carousel-control">
                         <span class="icon-prev"></span>
                     </a>
@@ -199,7 +199,7 @@
                         {% endfor %}
 
                     </div>
-                    {%if premium_own_list | length%}
+                    {%if premium_own_list | length  > 4%}
                     <a data-slide="prev" href="#th-premium-carousel" class="left carousel-control">
                         <span class="icon-prev"></span>
                     </a>
