@@ -173,6 +173,7 @@ function send2Friend() {
         $('#name_from').val("");
         $('#email_from').val("");
         $('#name_from').val("");
+        $('#email_to').val("");
         $('#send_to_friend_popup').modal('hide');
         $('#sending_mail').addClass('hidden');
     });

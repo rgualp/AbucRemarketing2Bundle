@@ -46,24 +46,26 @@ class profileUserType extends AbstractType
         
         
         $builder
-            ->add('user_user_name','text',array('label'=>$this->translate->trans('FORMS_NAME')))
-            ->add('user_last_name','text',array('label'=>$this->translate->trans('FORMS_LASTNAME')))
-            ->add('user_gender','choice',array('choices'=>$array_gender,'empty_value' => '','label'=>$this->translate->trans('GENDER'),'attr'=>array('class'=>'input-block-level user_gender'))) 
-            ->add('user_email','text',array('label'=>$this->translate->trans('FORMS_EMAIL')))
-            ->add('user_phone','text',array('label'=>$this->translate->trans('FORMS_PHONE')))
-            ->add('user_cell','text',array('label'=>$this->translate->trans('CELL_NUMBER'))) 
-            ->add('user_address','textarea',array('label'=>$this->translate->trans('ADDRESS')))
-            ->add('user_city','text',array('label'=>$this->translate->trans('CITY_TAB_DESCRIPTION')))
-            ->add('user_country','choice',array('choices'=>$array_countries,'empty_value' => '','label'=>$this->translate->trans('COUNTRY'),'attr'=>array('class'=>'input-block-level user_country'))) 
-            ->add('user_zip_code','text',array('label'=>$this->translate->trans('ZIPCODE')))
-            ->add('user_currency','choice',array('choices'=>$array_currencies,'empty_value' => '','label'=>$this->translate->trans('CURRENCY'),'attr'=>array('class'=>'input-block-level user_currency')))
-            ->add('user_lang','choice',array('choices'=>$array_languages,'empty_value' => '','label'=>$this->translate->trans('LANGUAGE'),'attr'=>array('class'=>'input-block-level user_lang')))
-            ->add('user_newsletter','checkbox',array('label'=>$this->translate->trans('NEWSLETTER_USER_REGISTRATION')))
+           // ->add('user_photo','file',array('label'=>' ', 'attr'=>array('title'=>$this->translate->trans('SELECT_PHOTOGRAPHY'),'accept'=>'image/*')))
+            ->add('user_user_name','text',array('label'=>$this->translate->trans('FORMS_NAME'),'attr'=>array('class'=>'form-control')))
+            ->add('user_last_name','text',array('label'=>$this->translate->trans('FORMS_LASTNAME'),'attr'=>array('class'=>'form-control')))
+            ->add('user_gender','choice',array('choices'=>$array_gender,'empty_value' => '','label'=>$this->translate->trans('GENDER'),'attr'=>array('class'=>'form-control user_gender'))) 
+            ->add('user_email','text',array('label'=>$this->translate->trans('FORMS_EMAIL'),'attr'=>array('class'=>'form-control')))
+            ->add('user_phone','text',array('label'=>$this->translate->trans('FORMS_PHONE'),'attr'=>array('class'=>'form-control')))
+            ->add('user_cell','text',array('label'=>$this->translate->trans('CELL_NUMBER'),'attr'=>array('class'=>'form-control'))) 
+            ->add('user_address','textarea',array('label'=>$this->translate->trans('ADDRESS'),'attr'=>array('class'=>'form-control')))
+            ->add('user_city','text',array('label'=>$this->translate->trans('CITY_TAB_DESCRIPTION'),'attr'=>array('class'=>'form-control')))
+            ->add('user_country','choice',array('choices'=>$array_countries,'empty_value' => '','label'=>$this->translate->trans('COUNTRY'),'attr'=>array('class'=>'form-control user_country'))) 
+            ->add('user_zip_code','text',array('label'=>$this->translate->trans('ZIPCODE'),'attr'=>array('class'=>'form-control')))
+            ->add('user_currency','choice',array('choices'=>$array_currencies,'empty_value' => '','label'=>$this->translate->trans('CURRENCY'),'attr'=>array('class'=>'form-control user_currency')))
+            ->add('user_lang','choice',array('choices'=>$array_languages,'empty_value' => '','label'=>$this->translate->trans('LANGUAGE'),'attr'=>array('class'=>'form-control user_lang')))
+            ->add('user_newsletter','checkbox',array('label'=>$this->translate->trans('NEWSLETTER_USER_REGISTRATION'),'attr'=>array('class'=>'form-control')))
             ;
     }
 
     public function getDefaultOptions(array $options)
     {
+       // $array['user_photo']= array();
         $array['user_user_name']= array(new NotBlank());
         $array['user_last_name']= array(new NotBlank());
         $array['user_email']= array(new NotBlank(), new Email());

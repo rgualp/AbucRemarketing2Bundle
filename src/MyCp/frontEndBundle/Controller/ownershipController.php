@@ -1248,11 +1248,44 @@ class ownershipController extends Controller {
             $session->set('top_rated_show_rows', $show_rows);
         else if ($session->get("top_rated_show_rows") == null)
             $session->set('top_rated_show_rows', 2);
+        
+        $category = $session->get("top_rated_category");
 
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 4 * $session->get("top_rated_show_rows");
         $paginator->setItemsPerPage($items_per_page);
-        $list = $em->getRepository('mycpBundle:ownership')->top20($locale);
+        $list = $em->getRepository('mycpBundle:ownership')->top20($locale, $category);
+        $own_top20_list = $paginator->paginate($list)->getResult();
+        $page = 1;
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+        
+        $response = $this->renderView('frontEndBundle:ownership:homeTopRatedOwnership.html.twig', array(
+            'own_top20_list' => $own_top20_list,
+            'top_rated_items_per_page' => $items_per_page,
+            'top_rated_total_items' => $paginator->getTotalItems(),
+            'current_page' => $page
+        ));
+
+        return new Response($response, 200);
+    }
+    
+    public function top_rated_change_category_callbackAction() {
+        $request = $this->getRequest();
+        $session = $request->getSession();
+        $em = $this->getDoctrine()->getEntityManager();
+        $locale = $this->get('translator')->getLocale();
+        $category = $request->request->get('category');
+
+        if ($category != null && $category != "")
+            $session->set('top_rated_category', $category);
+        else
+            $session->set('top_rated_category','');
+
+        $paginator = $this->get('ideup.simple_paginator');
+        $items_per_page = 4 * $session->get("top_rated_show_rows");
+        $paginator->setItemsPerPage($items_per_page);
+        $list = $em->getRepository('mycpBundle:ownership')->top20($locale, $category);
         $own_top20_list = $paginator->paginate($list)->getResult();
         $page = 1;
         if (isset($_GET['page']))

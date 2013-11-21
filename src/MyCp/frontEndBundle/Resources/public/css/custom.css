@@ -75,8 +75,9 @@
     background: url("../img/banner-bg.png") repeat-y 100%;
     margin-top: -255px;
     position: absolute;
-    z-index: 100;
+    z-index: 10;
 }
+
 #banner-msg{
     color: #ffffff;
     border-left: solid 5px #6E9C20;
@@ -217,7 +218,8 @@ footer ul li{line-height: 16px}
 .tiny-star-off-icon{background-position: 0px -114px}
 .mail-icon{width: 28px; height: 19px; background-position: -27px -140px}
 .face-icon{width: 14px; height: 26px; background-position: -1px -157px}
-.icon-heart-2{width: 16px; height: 15px; background-position: -39px -231px}
+.icon-heart-2,.icon-heart-2-on{width: 16px; height: 15px; background-position: -39px -231px}
+.icon-heart-2-on{background-position: -29px -625px}
 .tweet-icon{width: 27px; height: 23px; background-position: 0 -133px}
 .pint-icon{width: 16px; height: 22px; background-position: -37px -161px}
 .yout-icon{width: 19px; height: 24px; background-position: -16px -159px}
@@ -308,6 +310,7 @@ footer ul li{line-height: 16px}
 .thumbs-houses-2 .col-sm-4:first-child{border-right: solid 1px #DFDFDE}
 .thumbs-houses-2 .col-sm-4:last-child{border-left: solid 1px #DFDFDE}
 .thumbs-destination{margin-bottom: 40px}
+.thumbs-destination .dest-description{min-height: 140px; font-size: 13px}
 .thumbs-destination table tr td:last-child{text-align: left; vertical-align: top; padding-top: 10px; color: #326ab5; line-height: 18px}
 .thumbs-destination div.cont{padding: 5px!important; border-radius: 0 6px 6px 0;}
 .thumbs-destination .square-grey-cont{border-radius: 0 8px 8px 0; margin-left: -3px!important; border-left:  none}
@@ -488,7 +491,7 @@ footer ul li{line-height: 16px}
     -ms-filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=60);
     opacity: 0.6;
     filter: alpha(opacity=60);
-    }
+}
 .carousel-mini .carousel-control.right {
     right: 0;
 }
@@ -499,7 +502,7 @@ footer ul li{line-height: 16px}
     -ms-filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=90);
     opacity: 0.9;
     filter: alpha(opacity=90);
-    }
+}
 
 .hr-green{border-color:#84b231}
 .comments small{color: #84b231}
@@ -583,3 +586,5 @@ footer ul li{line-height: 16px}
 .form-cont ul li,.reservation_error{list-style: none; font-size: 12px; color: #B94A48; margin: -8px 0}
 .form-cont ul {padding: 0; }
 .container_loading{background: url("../img/loading.gif") no-repeat center; height: 50px}
+.top20_items_per_page {cursor: pointer}
+.no-bold{font-weight: normal}

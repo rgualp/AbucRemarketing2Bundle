@@ -733,7 +733,7 @@ class ownershipRepository extends EntityRepository {
      * Muestra todas las casas que son top20, para mostrar en la portada
      * @param varchar $lang_code
      */
-    function top20($locale = "ES") {
+    function top20($locale = "ES", $category = null) {
         $em = $this->getEntityManager();
         $query_string = "SELECT o.own_id as own_id,
                          o.own_name as own_name,
@@ -744,8 +744,12 @@ class ownershipRepository extends EntityRepository {
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
                          WHERE o.own_top_20=1
-                           AND o.own_status = 1
-                         ORDER BY o.own_rating DESC";
+                           AND o.own_status = 1";
+        
+        if($category != null)
+            $query_string .= " AND o.own_category = '$category'";
+        
+        $query_string .= " ORDER BY o.own_rating DESC";
 
         $results = $em->createQuery($query_string)->getResult();
         

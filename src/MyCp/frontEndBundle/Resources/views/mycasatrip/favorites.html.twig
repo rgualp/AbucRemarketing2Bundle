@@ -5,29 +5,24 @@
 {%endif%}
 {% extends 'frontEndBundle:mycasatrip:layout.html.twig' %}
 {% block body_inner %}
+<div id="loading" class="hidden">
+        <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}"/></div>
+    </div>
 {%if favorite_type == "ownerships"%}
 <div class="thumbs-houses" id="div_result">
-                {{ include('frontEndBundle:ownership:ownershipItemList.html.twig', 
+                {{ include('frontEndBundle:ownership:ownershipArrayItemList.html.twig', 
                 {'list': ownership_favorities,
-                'photos': ownership_favorities_photos,
-                'rooms' : ownership_favorities_rooms,
-                'is_in_favorities' : ownership_favorities_is_in,
-                'list_preffix' : 'own_favorities',
-                'is_in_favorites_list': true,
-                'counts': counts_ownership
+                 'list_preffix': 'own_fav_preffix',
+                 'is_in_favorites_list': true
                 }) }}      
 </div>
 {%else%} 
     <div class="row-fluid result_list" id="div_result_destinations">
-        {{ include('frontEndBundle:destination:itemListDestination.html.twig', 
-        {'popular_places': destination_favorities,
-        'popular_places_location': destination_favorities_localization,
-        'popular_places_description' : destination_favorities_description,
-        'popular_places_photos' : destination_favorities_photos,
-        'popular_places_statistics' : destination_favorities_statistics,
-        'is_in_favorities' : destination_favorities_is_in,
-        'list_preffix' : 'own_favorities'
-        }) }}      
+        {{ include('frontEndBundle:destination:arrayItemListDestination.html.twig', 
+                {'list': destination_favorities,
+                'list_preffix' : 'destination_favorities',
+                'is_in_favorites_list': true
+                }) }}      
     </div>
 {%endif%}
 

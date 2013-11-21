@@ -17,9 +17,9 @@
             imageScaleMode: 'fill',
             arrowsNavAutoHide: false,
             autoScaleSlider: true,
-            autoScaleSliderWidth: 1466,
-            autoScaleSliderHeight: 350,
-            controlNavigation: 'bullets',
+            autoScaleSliderWidth: 916,
+            autoScaleSliderHeight: 311,
+            controlNavigation: false,
             thumbsFitInViewport: false,
             navigateByClick: true,
             startSlideId: 0,
@@ -44,12 +44,14 @@
 </div>
 
 <div class="container">
-    <h1 class="caecilia-roman text-center h-grey h-size-1">{{"HOMEPAGE_SUBTITLE_2" | trans}}</h1>
-    <div>
-        <div id="full-width-slider" class="royalSlider heroSlider rsMinW">
-            <div class="rsContent"><img class="rsImg" src="{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}" alt="" /></div>
-            <div class="rsContent"><img class="rsImg" src="{{ asset('bundles/frontend/img/destiny_slide_imgs/2.jpg') }}" alt="" /></div>
-        </div>
+    <h1 class="caecilia-roman text-center h-grey h-size-1">{{"HOMEPAGE_SUBTITLE_2" | trans}}</h1>   
+    <div id="full-width-slider" class="royalSlider rsDefault">
+        <img class="rsImg" src="{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}" alt="" />
+        <img class="rsImg" src="{{ asset('bundles/frontend/img/destiny_slide_imgs/2.jpg') }}" alt="" />
+        <img class="rsImg" src="{{ asset('bundles/frontend/img/destiny_slide_imgs/3.jpg') }}" alt="" />
+        <img class="rsImg" src="{{ asset('bundles/frontend/img/destiny_slide_imgs/4.jpg') }}" alt="" />
+        <img class="rsImg" src="{{ asset('bundles/frontend/img/destiny_slide_imgs/5.jpg') }}" alt="" />
+        <img class="rsImg" src="{{ asset('bundles/frontend/img/destiny_slide_imgs/6.jpg') }}" alt="" />
     </div>
     <h1 class="caecilia-roman text-center h-orange h-size-2">{{"MAIN_CUBAN_DESTINATIONS" | trans}}</h1>
     <hr/>
