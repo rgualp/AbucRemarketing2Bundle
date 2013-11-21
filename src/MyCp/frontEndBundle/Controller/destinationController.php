@@ -10,8 +10,8 @@ class destinationController extends Controller {
     public function get_big_mapAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $destinations=$em
-        return $this->render('frontEndBundle:public:map.html.twig');
+        $destinations=$em->getRepository('mycpBundle:destination')->findAll();
+        return $this->render('frontEndBundle:public:map.html.twig',array('destinations_map'=>$destinations));
     }
 
     public function popular_listAction() {
