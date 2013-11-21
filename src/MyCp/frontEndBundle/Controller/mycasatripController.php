@@ -87,6 +87,23 @@ class mycasatripController extends Controller {
                     'photos'=>$array_photos
         ));
     }
+    
+    public function update_favorites_statistics_callbackAction()
+    {
+        $request = $this->getRequest();
+        $session = $request->getSession();
+
+        $favorite_type = $request->request->get("favorite_type");
+        
+        if ($favorite_type == "ownership") {
+            $total = $session->get('user_fav_own_count');
+        } else if ($favorite_type == "destination") {
+            $total = $session->get('user_fav_dest_count');
+            
+        }
+
+        return new Response($total, 200);
+    }
 
     public function reservations_reserveAction($order_by, Request $request) {
        /* $user = $this->get('security.context')->getToken()->getUser();

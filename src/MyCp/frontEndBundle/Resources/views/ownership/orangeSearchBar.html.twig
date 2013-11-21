@@ -17,7 +17,7 @@
                     </div>
                     <div class="col-sm-2">
                         <div class="input-group" style="padding: 0">
-                            <input class="form-control" value="{{(app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : ("+1 day" |date("d/m/Y"))}}" id="input_departure_date" placeholder="{{"DEPARTURE_WATERMARK" | trans}}" type="text" data-localization='{{locale}}' data-value='{{departure_date}}'>
+                            <input class="form-control" value="{{(app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : ("+2 days" |date("d/m/Y"))}}" id="input_departure_date" placeholder="{{"DEPARTURE_WATERMARK" | trans}}" type="text" data-localization='{{locale}}' data-value='{{departure_date}}'>
                             <span class="input-group-addon"><span class="icon-calendar"></span></span>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
 <script type="text/javascript">
     var today_date="{{"now"|date("d/m/Y") }}";
     var start_date="{{ (app.session.get('search_arrival_date') != null) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now"|date("d/m/Y")) }}";
-    var end_date="{{(app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : "+1 day" |date("d/m/Y")}}";
+    var end_date="{{(app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : "+2 days" |date("d/m/Y")}}";
 
     $.fn.typeahead &&
     $('[data-provide="typeahead"]').typeahead({

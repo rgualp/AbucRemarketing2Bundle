@@ -133,6 +133,7 @@
         </a>
         </div>
         <div class="col-sm-9">
+            {%if owns_nearby | length%}
             <div class="bg-solid-blue-bar" style="margin-top: 0">
                 <div class="row">
                     <div class="col-xs-8">
@@ -141,17 +142,18 @@
                         </h1>
                     </div>
                     <div class="col-xs-4 text-right">
-                        {%if owns_nearby | length%}
+                        
                         <a href="" rel="tooltip" data-placement="top" title="{{'LIST_VIEW' | trans}}"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon three-lines2-icon"></a>
                         <a href="" rel="tooltip" data-placement="top" title="{{'MOISAIC_VIEW' | trans}}"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon cam-icon"></a>
                         <a href="" rel="tooltip" data-placement="top" title="{{'MAP_VIEW' | trans}}"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon point-icon"></a>
-                        {%endif%}
+                        
                     </div>
                 </div>
             </div>
             <div class="houses-list" data-url="{{path('frontend_nearby_destination',{'destination_name': destination.desname | lower | replace(" ", "_"),'destination_id': destination.desid })}}">
                 {{include('frontEndBundle:destination:detailsOwnsNearByDestination.html.twig', {'owns_nearby': owns_nearby,'destination_name': destination.desname | lower | replace(" ", "_"),'destination_id': destination.desid })}}
             </div>
+                {%endif%}
         </div>
     </div>
     <br/>
