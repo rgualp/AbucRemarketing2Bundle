@@ -92,6 +92,12 @@
             <input type="text" name="geolocate_y" class="input-block-level" value="{%if data["geolocate_y"] is defined %}{{data["geolocate_y"]}}{%endif%}"/>
         </div>
     </div>
+    <h3 class="title">Atracciones</h3>
+    {% for category in categories  %}
+        <label class="checkbox">
+            <input type="checkbox" {% if(data['saasasa'] is defined) %} checked="TRUE" {% endif %} name="cat_"> {{ category.getDesCatNameSpanish }}
+        </label>
+    {% endfor %}
     <h3 class="title">Publicado</h3>
     <label class="checkbox">
         <input type="checkbox" {% if(data['public'] is defined) %} checked="TRUE" {% endif %} name="public"> Publicado en el sitio

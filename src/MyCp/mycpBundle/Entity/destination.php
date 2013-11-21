@@ -88,6 +88,14 @@ class destination {
     private $des_geolocate_y;
 
     /**
+    * @ORM\ManyToMany(targetEntity="destinationCategory")
+    * @ORM\JoinTable(name="mmdestinationcategory",
+    * joinColumns={@ORM\JoinColumn(name="cat_id_des" , referencedColumnName="des_id")},
+    * inverseJoinColumns={@ORM\JoinColumn(name="cat_id_cat", referencedColumnName="des_cat_id")})
+    */
+    private $des_categories;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -334,4 +342,37 @@ class destination {
     /**
      * Yanet - Fin
      */
+
+    /**
+     * Add des_categories
+     *
+     * @param \MyCp\mycpBundle\Entity\destinationCategory $desCategories
+     * @return destination
+     */
+    public function addDesCategorie(\MyCp\mycpBundle\Entity\destinationCategory $desCategories)
+    {
+        $this->des_categories[] = $desCategories;
+    
+        return $this;
+    }
+
+    /**
+     * Remove des_categories
+     *
+     * @param \MyCp\mycpBundle\Entity\destinationCategory $desCategories
+     */
+    public function removeDesCategorie(\MyCp\mycpBundle\Entity\destinationCategory $desCategories)
+    {
+        $this->des_categories->removeElement($desCategories);
+    }
+
+    /**
+     * Get des_categories
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getDesCategories()
+    {
+        return $this->des_categories;
+    }
 }

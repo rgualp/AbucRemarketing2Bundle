@@ -85,8 +85,9 @@ class BackendDestinationController extends Controller
                 $post['id_destination']=$id_destination;
             }
         }
+        $categories= $em->getRepository('mycpBundle:destinationCategory')->findAll();
         $languages = $em->getRepository('mycpBundle:lang')->get_all_languages();
-        return $this->render('mycpBundle:destination:new.html.twig', array('languages' => $languages, 'errors' => $errors, 'data' => $post));
+        return $this->render('mycpBundle:destination:new.html.twig', array('languages' => $languages, 'errors' => $errors, 'data' => $post,'categories'=>$categories));
 
     }
 

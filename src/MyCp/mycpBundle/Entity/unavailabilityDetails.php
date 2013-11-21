@@ -190,4 +190,27 @@ class unavailabilityDetails {
         return $this->ownership_id;
     }
 
+
+    /**
+     * Set ud_room_num
+     *
+     * @param integer $udRoomNum
+     * @return unavailabilityDetails
+     */
+    public function setUdRoomNum($udRoomNum)
+    {
+        $this->ud_room_num = $udRoomNum;
+    
+        return $this;
+    }
+
+    /**
+     * Get ud_room_num
+     *
+     * @return integer 
+     */
+    public function getUdRoomNum()
+    {
+        return $this->ud_room_num;
+    }
 }
