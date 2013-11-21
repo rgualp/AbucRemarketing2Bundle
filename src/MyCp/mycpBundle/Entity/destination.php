@@ -88,6 +88,20 @@ class destination {
     private $des_geolocate_y;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="des_cat_location_x", type="integer", nullable=true)
+     */
+    private $des_cat_location_x;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="des_cat_location_y", type="integer", nullable=true)
+     */
+    private $des_cat_location_y;
+
+    /**
     * @ORM\ManyToMany(targetEntity="destinationCategory")
     * @ORM\JoinTable(name="mmdestinationcategory",
     * joinColumns={@ORM\JoinColumn(name="cat_id_des" , referencedColumnName="des_id")},
@@ -100,6 +114,7 @@ class destination {
      */
     public function __construct() {
         $this->destinationsLang = new ArrayCollection();
+        $this->des_categories = new ArrayCollection();
     }
 
     /**
@@ -374,5 +389,51 @@ class destination {
     public function getDesCategories()
     {
         return $this->des_categories;
+    }
+
+    /**
+     * Set des_cat_location_x
+     *
+     * @param integer $desCatLocationX
+     * @return destination
+     */
+    public function setDesCatLocationX($desCatLocationX)
+    {
+        $this->des_cat_location_x = $desCatLocationX;
+
+        return $this;
+    }
+
+    /**
+     * Get des_cat_location_x
+     *
+     * @return integer
+     */
+    public function getDesCatLocationX()
+    {
+        return $this->des_cat_location_x;
+    }
+
+    /**
+     * Set des_cat_location_y
+     *
+     * @param integer $desCatLocationY
+     * @return destination
+     */
+    public function setDesCatLocationY($desCatLocationY)
+    {
+        $this->des_cat_location_y = $desCatLocationY;
+
+        return $this;
+    }
+
+    /**
+     * Get des_cat_location_y
+     *
+     * @return integer
+     */
+    public function getDesCatLocationY()
+    {
+        return $this->des_cat_location_y;
     }
 }

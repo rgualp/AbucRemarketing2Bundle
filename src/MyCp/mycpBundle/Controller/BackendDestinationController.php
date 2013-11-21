@@ -218,6 +218,8 @@ class BackendDestinationController extends Controller
         $data['ref_place']=$destination->getDesRefPlace();
         $data['geolocate_x']=$destination->getDesGeolocateX();
         $data['geolocate_y']=$destination->getDesGeolocateY();
+        $data['cat_location_x']=$destination->getDesCatLocationX();
+        $data['cat_location_y']=$destination->getDesCatLocationY();
         $data['id_destination']=$id_destination;
         $data['ownership_address_province']=$destinationsLocation[0]->getDesLocProvince()->getProvId();
         if($data['ownership_address_municipality']=$destinationsLocation[0]->getDesLocMunicipality())
@@ -236,8 +238,15 @@ class BackendDestinationController extends Controller
             }
         }
 
+        $des_categories = $destination->getDesCategories();
+        foreach($des_categories as $cat)
+        {
+            $data['category_'.$cat->getDesCatId()]=true;
+        }
+
         $data['edit_destination']=TRUE;
-        return $this->render('mycpBundle:destination:new.html.twig', array('languages' => $languages, 'errors' => $errors, 'data' => $data));
+        $categories= $em->getRepository('mycpBundle:destinationCategory')->findAll();
+        return $this->render('mycpBundle:destination:new.html.twig', array('languages' => $languages, 'errors' => $errors, 'data' => $data,'categories'=>$categories));
     }
 
     public function list_photosAction($id_destination,$items_per_page,Request $request)
