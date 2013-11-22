@@ -939,7 +939,6 @@ class ownershipController extends Controller {
 
     public function voted_best_listAction() {
         $em = $this->getDoctrine()->getEntityManager();
-        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
 
         $session = $this->getRequest()->getSession();
         $session->set('search_order', 'BEST_VALUED');
@@ -966,15 +965,10 @@ class ownershipController extends Controller {
         if ($session->get('search_view_results') == null || $session->get('search_view_results') == '')
             $session->set('search_view_results', 'LIST');
 
-        $search_results_photos = $em->getRepository('mycpBundle:ownership')->get_photos_array($search_results_list);
-        $search_results_rooms = $em->getRepository('mycpBundle:ownership')->get_rooms_array($search_results_list);
-
         $categories_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsCategories($own_ids);
         $types_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsTypes($own_ids);
         $prices_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsPrices($own_ids);
         $statistics_own_list = $em->getRepository('mycpBundle:ownership')->getSearchStatistics($search_results_list);
-        $is_in_favorities = $em->getRepository('mycpBundle:favorite')->is_in_favorite_array($search_results_list, true, $user_ids['user_id'], $user_ids['session_id']);
-        $counts = $em->getRepository('mycpBundle:ownership')->get_counts_for_search($search_results_list);
 
         return $this->render('frontEndBundle:ownership:searchOwnership.html.twig', array(
                     'search_text' => null,
@@ -982,22 +976,18 @@ class ownershipController extends Controller {
                     'search_arrival_date' => null,
                     'search_departure_date' => null,
                     'list' => $search_results_list,
-                    'photos' => $search_results_photos,
                     'owns_categories' => $categories_own_list,
                     'owns_types' => $types_own_list,
                     'owns_prices' => $prices_own_list,
                     'view_results' => $session->get('search_view_results'),
-                    'order' => $session->get('search_order'),
-                    'rooms' => $search_results_rooms,
+                    'order' => $session->get('search_order'), 
                     'own_statistics' => $statistics_own_list,
                     'locale' => $this->get('translator')->getLocale(),
                     'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocomplete_text_list(),
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
                     'current_page' => $page,
-                    'is_in_favorities' => $is_in_favorities,
-                    'list_preffix' => 'voted_best',
-                    'counts' => $counts
+                    'list_preffix' => 'voted_best'
         ));
     }
 
@@ -1037,7 +1027,6 @@ class ownershipController extends Controller {
 
     public function type_listAction($type) {
         $em = $this->getDoctrine()->getEntityManager();
-        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
 
         $session = $this->getRequest()->getSession();
         $session->set('search_order', 'BEST_VALUED');
@@ -1068,9 +1057,6 @@ class ownershipController extends Controller {
 
         if ($session->get('search_view_results') == null || $session->get('search_view_results') == '')
             $session->set('search_view_results', 'LIST');
-
-        $search_results_photos = $em->getRepository('mycpBundle:ownership')->get_photos_array($search_results_list);
-        $search_results_rooms = $em->getRepository('mycpBundle:ownership')->get_rooms_array($search_results_list);
 
         $categories_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsCategories($own_ids);
         $types_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsTypes($own_ids);
@@ -1103,32 +1089,21 @@ class ownershipController extends Controller {
         $check_filters['own_others_pets'] = false;
         $check_filters['own_others_internet'] = false;
 
-        $is_in_favorities = $em->getRepository('mycpBundle:favorite')->is_in_favorite_array($search_results_list, true, $user_ids['user_id'], $user_ids['session_id']);
-        $counts = $em->getRepository('mycpBundle:ownership')->get_counts_for_search($search_results_list);
-
         return $this->render('frontEndBundle:ownership:searchOwnership.html.twig', array(
                     'search_text' => null,
                     'search_guests' => '1',
                     'search_arrival_date' => null,
                     'search_departure_date' => null,
-                    'list' => $search_results_list,
-                    'photos' => $search_results_photos,
                     'owns_categories' => $categories_own_list,
                     'owns_types' => $types_own_list,
                     'owns_prices' => $prices_own_list,
                     'view_results' => $session->get('search_view_results'),
                     'order' => $session->get('search_order'),
-                    'rooms' => $search_results_rooms,
                     'own_statistics' => $statistics_own_list,
                     'locale' => $this->get('translator')->getLocale(),
                     'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocomplete_text_list(),
                     'check_filters' => $check_filters,
-                    'items_per_page' => $items_per_page,
-                    'total_items' => $paginator->getTotalItems(),
-                    'current_page' => $page,
-                    'is_in_favorities' => $is_in_favorities,
-                    'list_preffix' => 'search',
-                    'counts' => $counts
+                    'list_preffix' => 'search'
         ));
     }
 

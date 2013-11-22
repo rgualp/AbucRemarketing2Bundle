@@ -1,5 +1,5 @@
 {%if is_in_favorites_list is defined and is_in_favorites_list%}
-     <a rel="tooltip" class="delete_from_favorite_list" data-url="{{path('frontend_delete_from_list_favorite')}}" data-favorite-type="{{favorite_type}}" data-element-id="{{element_id}}" data-list-preffix ="{{list_preffix}}" title="{{'DELETE_FAVORITIES' | trans}}" data-include_text="{{include_text}}">
+     <a rel="tooltip" class="delete_from_favorite_list" data-url="{{path('frontend_delete_from_list_favorite')}}" data-url-statistics="{{path('frontend_mycasatrip_update_favorites_statistics_callback')}}" data-favorite-type="{{favorite_type}}" data-element-id="{{element_id}}" data-list-preffix ="{{list_preffix}}" title="{{'DELETE_FAVORITIES' | trans}}" data-include_text="{{include_text}}">
         <img class="icon icon-medium icon-heart-on" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
         </a> 
 {%else%}
