@@ -2391,6 +2391,10 @@
                     <source>SELECT_PHOTOGRAPHY</source>
                     <target>Seleccionar fotografía...</target>
                 </trans-unit>
+                <trans-unit id="608">
+                    <source>THE_ENTERPRISE</source>
+                    <target>La empresa</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>

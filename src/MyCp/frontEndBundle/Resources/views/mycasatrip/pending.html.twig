@@ -31,7 +31,7 @@
             <div class="col-sm-3 text-center">
                 <h2 class="no-margin h-grey margin-t">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{res['own_res_total_in_site'] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h2>
                 <div>
-                    <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | lower | replace(' ','_')}) }}" class="btn btn-primary" style="width: 150px">
+                    <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | lower | replace(' ','_')}) }}" class="btn btn-primary" style="width: 150px; color: #ffffff">
                     {{"VIEW_DETAILS" | trans}}</a></div>
                 <div style="margin-top: 10px">{{"ID_RESERVATION" | trans}}: <b>CAS.{{res['own_res_id']}}</b></div>
             </div>
