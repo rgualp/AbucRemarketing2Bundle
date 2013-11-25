@@ -202,14 +202,14 @@ class ownershipRepository extends EntityRepository {
 
             if ($room->getRoomBeds() > 0)
                 $beds_total += $room->getRoomBeds();
-                //$ownership->setOwnMaximunNumberGuests($ownership->getOwnMaximunNumberGuests() + $room->getRoomBeds());
+            //$ownership->setOwnMaximunNumberGuests($ownership->getOwnMaximunNumberGuests() + $room->getRoomBeds());
 
             $em->persist($ownership);
             /**
              * Codigo Yanet - Fin
              */
         }
-        
+
         $ownership->setOwnMaximunNumberGuests($beds_total);
         $em->persist($ownership);
 
@@ -437,7 +437,7 @@ class ownershipRepository extends EntityRepository {
 
             if ($room->getRoomBeds() > 0)
                 $beds_total += $room->getRoomBeds();
-             
+
             $em->persist($ownership);
             /**
              * Codigo Yanet - Fin
@@ -445,7 +445,7 @@ class ownershipRepository extends EntityRepository {
         }
         $ownership->setOwnMaximunNumberGuests($beds_total);
         $em->persist($ownership);
-        
+
         $em->flush();
     }
 
@@ -493,24 +493,76 @@ class ownershipRepository extends EntityRepository {
      * @param string $order_by
      * @return array of MyCp\mycpBundle\Entity\ownership
      */
-    function search($text = null, $arrivalDate = null, $leavingDate = null, $guest_total = 1, $rooms_total = 1, $order_by = 'PRICE_LOW_HIGH', $room_filter = false, $filters = null) {
+    function search($controller, $text = null, $arrivalDate = null, $leavingDate = null, $guest_total = 1, $rooms_total = 1, $order_by = 'PRICE_LOW_HIGH', $room_filter = false, $filters = null) {
 
         $em = $this->getEntityManager();
+        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($controller);
+        $user_id = $user_ids['user_id'];
+        $session_id = $user_ids['session_id'];
 
         $query_string = "";
         $temp_array = null;
         if (!$room_filter) {
-            $query_string = "SELECT o FROM mycpBundle:ownership o 
-                             JOIN o.own_address_province p 
-                             JOIN o.own_address_municipality m";
+            $query_string = "SELECT o.own_id as own_id,
+                             o.own_name as own_name,
+                            (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id) as photo,
+                            prov.prov_name as prov_name,
+                            mun.mun_name as mun_name,
+                            o.own_comments_total as comments_total,
+                            o.own_rating as rating,
+                            o.own_category as category,
+                            o.own_type as type,
+                            o.own_minimum_price as minimum_price,
+                            (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
+                            (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
+                            (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = 5) as count_reservations,
+                            (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments,
+                            o.own_facilities_breakfast as breakfast,
+                            o.own_facilities_dinner as dinner,
+                            o.own_facilities_parking as parking,
+                            o.own_water_piscina as pool,
+                            o.own_description_laundry as laundry,
+                            o.own_description_internet as internet,
+                            o.own_water_sauna as sauna,
+                            o.own_description_pets as pets,
+                            o.own_water_jacuzee as jacuzee,
+                            o.own_langs as langs
+                             FROM mycpBundle:ownership o 
+                             JOIN o.own_address_province prov 
+                             JOIN o.own_address_municipality mun";
         } else {
-            $query_string = "SELECT r FROM mycpBundle:room r 
+            $query_string = "SELECT o.own_id as own_id,
+                             o.own_name as own_name,
+                            (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id) as photo,
+                            prov.prov_name as prov_name,
+                            mun.mun_name as mun_name,
+                            o.own_comments_total as comments_total,
+                            o.own_rating as rating,
+                            o.own_category as category,
+                            o.own_type as type,
+                            o.own_minimum_price as minimum_price,
+                            (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
+                            (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
+                            (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = 5) as count_reservations,
+                            (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments ,
+                            o.own_facilities_breakfast as breakfast,
+                            o.own_facilities_dinner as dinner,
+                            o.own_facilities_parking as parking,
+                            o.own_water_piscina as pool,
+                            o.own_description_laundry as laundry,
+                            o.own_description_internet as internet,
+                            o.own_water_sauna as sauna,
+                            o.own_description_pets as pets,
+                            o.own_water_jacuzee as jacuzee,
+                            o.own_langs as langs
+                             FROM mycpBundle:room r 
                              JOIN r.room_ownership o 
-                             JOIN o.own_address_province p";
+                             JOIN o.own_address_province prov
+                             JOIN o.own_address_municipality mun";
         }
         $where = ' WHERE o.own_status = 1 ';
         if ($text != null && $text != '' && $text != 'null')
-            $where = $where . ($where != '' ? " AND " : " WHERE ") . "p.prov_name LIKE '%$text%' OR " . "o.own_name LIKE '%$text%' OR o.own_mcp_code LIKE '%$text%' OR m.mun_name LIKE '%$text%'";
+            $where = $where . ($where != '' ? " AND " : " WHERE ") . "prov.prov_name LIKE '%$text%' OR " . "o.own_name LIKE '%$text%' OR o.own_mcp_code LIKE '%$text%' OR mun.mun_name LIKE '%$text%'";
 
         if ($filters != null && is_array($filters) && in_array('own_beds_total', $filters) && $filters['own_beds_total'] != null && is_array($filters['own_beds_total']) && count($filters['own_beds_total']) > 0) {
             $temp_array = $filters['own_beds_total'];
@@ -681,52 +733,48 @@ class ownershipRepository extends EntityRepository {
         $query_string = $query_string . ' ORDER BY ' . $order;
 
         $query = $em->createQuery($query_string);
-        $ownerships_list = array();
 
-        if (!$room_filter) {
-            $ownerships_list = $query->getResult();
-        } else {
-            $results = $query->getResult();
+        $return_list = array();
+        $results = $query->getResult();
 
-            foreach ($results as $result)
-                $ownerships_list[] = $result->getRoomOwnership();
-        }
+        for ($i = 0; $i < count($results); $i++) {
+            if ($results[$i]['photo'] == null)
+                $results[$i]['photo'] = "no_photo.png";
+            else if (!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo']))) {
+                $results[$i]['photo'] = "no_photo.png";
 
-        if ($arrivalDate != null || $leavingDate != null) {
-            $return_list = array();
-            foreach ($ownerships_list as $own) {
-                $rooms_total = count($em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $own->getOwnId())));
-                $query_string = "SELECT r FROM mycpBundle:generalReservation r WHERE
-                                r.gen_res_own_id =" . $own->getOwnId();
-                $dates_where = "";
+                if ($arrivalDate != null || $leavingDate != null) {
 
-                if ($arrivalDate != null) {
-                    $dates_where .= ($dates_where != '') ? " OR " : "";
-                    $dates_where .= "(r.gen_res_from_date <= '$arrivalDate' AND r.gen_res_to_date >= '$arrivalDate')";
+                    $query_string = "SELECT r FROM mycpBundle:generalReservation r WHERE
+                                r.gen_res_own_id =" . $results[$i]['own_id'];
+                    $dates_where = "";
+
+                    if ($arrivalDate != null) {
+                        $dates_where .= ($dates_where != '') ? " OR " : "";
+                        $dates_where .= "(r.gen_res_from_date <= '$arrivalDate' AND r.gen_res_to_date >= '$arrivalDate')";
+                    }
+
+                    if ($leavingDate != null) {
+                        $dates_where .= ($dates_where != '') ? " OR " : "";
+                        $dates_where .= "(r.gen_res_from_date <= '$leavingDate' AND r.gen_res_to_date >= '$leavingDate')";
+                    }
+
+                    if ($arrivalDate != null && $leavingDate != null) {
+                        $dates_where .= ($dates_where != '') ? " OR " : "";
+                        $dates_where .= "(r.gen_res_from_date >= '$arrivalDate' AND r.gen_res_to_date <= '$leavingDate')";
+                    }
+
+
+                    $query_string .= ($dates_where != '') ? " AND ($dates_where)" : "";
+                    $reservations = count($em->createQuery($query_string)->getResult());
+
+                    if ($results[$i]['rooms_count'] > $reservations)
+                        $return_list[] = $results[$i];
                 }
-
-                if ($leavingDate != null) {
-                    $dates_where .= ($dates_where != '') ? " OR " : "";
-                    $dates_where .= "(r.gen_res_from_date <= '$leavingDate' AND r.gen_res_to_date >= '$leavingDate')";
-                }
-
-                if ($arrivalDate != null && $leavingDate != null) {
-                    $dates_where .= ($dates_where != '') ? " OR " : "";
-                    $dates_where .= "(r.gen_res_from_date >= '$arrivalDate' AND r.gen_res_to_date <= '$leavingDate')";
-                }
-
-
-                $query_string .= ($dates_where != '') ? " AND ($dates_where)" : "";
-                $reservations = count($em->createQuery($query_string)->getResult());
-
-                if ($rooms_total > $reservations)
-                    $return_list[] = $own;
             }
-
-            return $return_list;
         }
 
-        return $ownerships_list;
+        return (count($return_list) > 0) ? $return_list: $results;
     }
 
     /**
@@ -745,14 +793,14 @@ class ownershipRepository extends EntityRepository {
                          JOIN o.own_address_province prov
                          WHERE o.own_top_20=1
                            AND o.own_status = 1";
-        
-        if($category != null)
+
+        if ($category != null)
             $query_string .= " AND o.own_category = '$category'";
-        
+
         $query_string .= " ORDER BY o.own_rating DESC";
 
         $results = $em->createQuery($query_string)->getResult();
-        
+
         for ($i = 0; $i < count($results); $i++) {
             if ($results[$i]['photo'] == null)
                 $results[$i]['photo'] = "no_photo.png";
@@ -915,45 +963,45 @@ class ownershipRepository extends EntityRepository {
 
         $own_ids = "0";
         foreach ($own_list as $own) {
-            $own_ids .= "," . $own->getOwnId();
+            $own_ids .= "," . $own['own_id'];
 
-            if ($own->getOwnFacilitiesBreakfast() != null && $own->getOwnFacilitiesBreakfast())
+            if ($own['breakfast'] != null && $own['breakfast'])
                 $statistics['own_services_breakfast'] += 1;
 
-            if ($own->getOwnFacilitiesDinner() != null && $own->getOwnFacilitiesDinner())
+            if ($own['dinner'] != null && $own['dinner'])
                 $statistics['own_services_dinner'] += 1;
 
-            if ($own->getOwnFacilitiesParking() != null && $own->getOwnFacilitiesParking())
+            if ($own['parking'] != null && $own['parking'])
                 $statistics['own_services_parking'] += 1;
 
-            if ($own->getOwnWaterPiscina() != null && $own->getOwnWaterPiscina())
+            if ($own['pets'] != null && $own['pets'])
                 $statistics['own_services_pets'] += 1;
 
-            if ($own->getOwnDescriptionLaundry() != null && $own->getOwnDescriptionLaundry())
+            if ($own['laundry'] != null && $own['laundry'])
                 $statistics['own_services_laundry'] += 1;
 
-            if ($own->getOwnDescriptionInternet() != null && $own->getOwnDescriptionInternet())
+            if ($own['internet'] != null && $own['internet'])
                 $statistics['own_service_internet_email'] += 1;
 
-            if ($own->getOwnWaterSauna() != null && $own->getOwnWaterSauna())
+            if ($own['sauna'] != null && $own['sauna'])
                 $statistics['own_water_sauna'] += 1;
 
-            if ($own->getOwnWaterPiscina() != null && $own->getOwnWaterPiscina())
+            if ($own['pool'] != null && $own['pool'])
                 $statistics['own_water_pool'] += 1;
 
-            if ($own->getOwnWaterJacuzee() != null && $own->getOwnWaterJacuzee())
+            if ($own['jacuzee'] != null && $own['jacuzee'])
                 $statistics['own_water_jacuzzi'] += 1;
 
-            if ($own->getOwnLangs() != null && substr($own->getOwnLangs(), 0, 1) == "1")
+            if ($own['langs'] != null && substr($own['langs'], 0, 1) == "1")
                 $statistics['own_lang_english'] += 1;
 
-            if ($own->getOwnLangs() != null && substr($own->getOwnLangs(), 1, 1) == "1")
+            if ($own['langs'] != null && substr($own['langs'], 1, 1) == "1")
                 $statistics['own_lang_french'] += 1;
 
-            if ($own->getOwnLangs() != null && substr($own->getOwnLangs(), 2, 1) == "1")
+            if ($own['langs'] != null && substr($own['langs'], 2, 1) == "1")
                 $statistics['own_lang_german'] += 1;
 
-            if ($own->getOwnLangs() != null && substr($own->getOwnLangs(), 3, 1) == "1")
+            if ($own['langs'] != null && substr($own['langs'], 3, 1) == "1")
                 $statistics['own_lang_italian'] += 1;
         }
 
@@ -1178,7 +1226,17 @@ class ownershipRepository extends EntityRepository {
     function getSearchStatisticsByIds($own_ids) {
         $em = $this->getEntityManager();
 
-        $query_string = "SELECT o FROM mycpBundle:ownership o WHERE o.own_id IN ($own_ids)";
+        $query_string = "SELECT o.own_id as own_id, 
+                            o.own_facilities_breakfast as breakfast,
+                            o.own_facilities_dinner as dinner,
+                            o.own_facilities_parking as parking,
+                            o.own_water_piscina as pool,
+                            o.own_description_laundry as laundry,
+                            o.own_description_internet as internet,
+                            o.own_water_sauna as sauna,
+                            o.own_description_pets as pets,
+                            o.own_water_jacuzee as jacuzee,
+                            o.own_langs as langs FROM mycpBundle:ownership o WHERE o.own_id IN ($own_ids)";
         $own_list = $em->createQuery($query_string)->getResult();
         return $this->getSearchStatistics($own_list);
     }
@@ -1228,7 +1286,7 @@ class ownershipRepository extends EntityRepository {
         }
         return $results;
     }
-    
+
     function get_details($own_name, $locale = "ES", $user_id = null, $session_id = null) {
         $em = $this->getEntityManager();
         $query_string = "SELECT o.own_id as own_id,
@@ -1275,7 +1333,6 @@ class ownershipRepository extends EntityRepository {
                          ORDER BY o.own_id DESC";
 
         return $em->createQuery($query_string)->getOneOrNullResult();
-
     }
 
     function getByCategory($category, $results_total = null, $exclude_id = null, $user_id = null, $session_id = null) {
@@ -1358,7 +1415,7 @@ class ownershipRepository extends EntityRepository {
     }
 
     function getPhotosAndDescription($ownid, $lang_code) {
-        
+
         $em = $this->getEntityManager();
         $query_string = "SELECT p.pho_name as photo_name,
                          (SELECT min(pl.pho_lang_description) FROM mycpBundle:photoLang pl
@@ -1374,8 +1431,8 @@ class ownershipRepository extends EntityRepository {
         foreach ($result as $photo) {
             if (file_exists(realpath("uploads/ownershipImages/" . $photo["photo_name"])))
                 $photos[] = array(
-                    'photo_name'=> $photo["photo_name"],
-                    'photo_description'=> $photo["photo_description"]
+                    'photo_name' => $photo["photo_name"],
+                    'photo_description' => $photo["photo_description"]
                 );
         }
 

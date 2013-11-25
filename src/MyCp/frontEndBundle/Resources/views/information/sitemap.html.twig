@@ -10,11 +10,9 @@
 
 {% block body %}
 <div class="container">
-<div class="row-fluid filter_1">
-</div>
-<div id="loading" class="alert alert-info hidden"> <img src="{{ asset('bundles/frontend/img/loading.gif') }}"/> {{"LOADING_MESSAGE" | trans}}</div>
-<div class="row-fluid sitemap_list">
-    <div class="span4">
+    <div>&nbsp;</div>
+<div class="row sitemap_list">
+    <div class="col-sm-4">
         <ul class="nav nav-list mycp_nav_list">
         <li><a href="{{path('frontend_welcome')}}">{{"HOME_MAIN_MENU" | trans}}</a></li>
         <li class="nav-header">{{"DESTINATIONS" | trans}}</li>
@@ -29,7 +27,7 @@
         <li><a href="{{ path('frontend_type_list_ownership',{'type':'Propiedad completa'})}}">{{"Propiedad completa" | trans}}</a></li>
         </ul>
     </div>    
-    <div class="span4">
+    <div class="col-sm-4">
         <ul class="nav nav-list mycp_nav_list">
             <li class="nav-header">{{"INFO_MAIN_MENU" | trans}}</li>
             <li><a href="{{ path('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}">{{"SEARCH_MAIN_MENU" | trans}}</a></li>
@@ -46,9 +44,11 @@
             {% endif %}
         </li>
         <li><a href="{{ path('frontend_mycasatrip_home') }}">MyCasaTrip</a></li>
+        <li><a href="{{ path('frontend_profile_user') }}">{{"USER_PROFILE" | trans}}</a></li>
+        <li><a href="{{ path('frontend_register_user') }}">{{"REGISTER" | trans}}</a></li>
         </ul>
     </div>
-    <div class="span4">
+    <div class="col-sm-4">
         <ul class="nav nav-list mycp_nav_list">
         <li class="nav-header">{{"ABOUT_MYCP" | trans}}</li>
         <li><a href="{{ path('frontend_list_information',{'information_type':'about_us'})}}">{{"WHO_ARE_WE" | trans}}</a></li>

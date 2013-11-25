@@ -3,13 +3,11 @@
 <div id="big_map" style="width:100%;height: 500px;" class="google-maps" 
      data-resized-url="{{path("frontend_map_resized_ownership")}}" 
      data-total-translate="{{"TOTAL" | trans}}"
-     data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map.png') }}"></div>
+     data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"></div>
 
 <div id="map_resized_results">
 {{ include('frontEndBundle:ownership:searchListOwnership.html.twig', 
                         {'list': list,
-                         'photos':photos, 
-                         'rooms': rooms,
                          'type': 'map'}) }}
 </div>
 {%endif%}

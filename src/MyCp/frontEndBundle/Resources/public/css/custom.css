@@ -138,6 +138,7 @@
     #main-search .form,#main-search-2 .form{ position: inherit; margin: 0; width: 100%; border-radius: 0}
     .cont-form{padding: 0}
     .myct-menu .col-sm-4{width: 100%!important;}
+    #some_numbers{margin-top: 0!important;}
 
 }
 
@@ -148,6 +149,9 @@
     #firm{display: none}
     .items-cart table td{display: block; width: 100%!important; text-align: center; padding: 5px}
     .items-cart .cost{text-align: center}
+    .table-responsive-v2 tr td{display: block}
+    .table-responsive-v2 tr td.last{padding-left: 0}
+    #pedro{width: 100%}
 }
 
 @media (max-width: 400px) {
@@ -185,6 +189,7 @@ footer h3{font-size: 13px; text-transform: uppercase; font-weight: bold; margin-
 footer ul{list-style: none; padding-left: 0}
 footer ul li{line-height: 16px}
 
+.icon-who{background: url("../img/icons/icons-who.png") no-repeat; vertical-align: middle}
 .icon,.icon-medium,.icon-services{width: 13px; height: 14px; background: url("../img/icons/icons.png") no-repeat; vertical-align: middle }
 .icon-services{ width: 27px; height: 27px}
 .icon-2{width: 14px; height: 14px;}
@@ -505,6 +510,7 @@ footer ul li{line-height: 16px}
 }
 
 .hr-green{border-color:#84b231}
+.hr-grey{border-color:#C8C8C8}
 .comments small{color: #84b231}
 .comments .col-xs-2 img{width: 100%}
 .services .row .row div:last-child{text-align: right}
@@ -588,3 +594,7 @@ footer ul li{line-height: 16px}
 .container_loading{background: url("../img/loading.gif") no-repeat center; height: 50px}
 .top20_items_per_page {cursor: pointer}
 .no-bold{font-weight: normal}
+.thumb-con img{border: 1px solid #DDDDDD; border-radius: 3px; padding: 4px; margin-right: 10px}
+.table-responsive-v2 tr td.last{padding-left: 20px; }
+
+

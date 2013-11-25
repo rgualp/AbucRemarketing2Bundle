@@ -1,5 +1,5 @@
 frontend_about_us:
-    locales:  { en: "/about_us/", es: "/quienes_somos/" }
+    locales:  { en: "/who_we_are/", es: "/quienes_somos/" }
     defaults: { _controller: frontEndBundle:information:about_us }
 
 frontend_list_information:

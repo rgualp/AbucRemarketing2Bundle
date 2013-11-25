@@ -1,5 +1,5 @@
 {%set start_date = (post['reservation_filter_date_from'] is defined) ? ( post['reservation_filter_date_from']) : ((app.session.get('search_arrival_date') != null) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now" |date("d/m/Y")))%}
-{%set end_date = (post['reservation_filter_date_to'] is defined) ? (post['reservation_filter_date_to']) : ((app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : ("+2 day" |date("d/m/Y")))%}
+{%set end_date = (post['reservation_filter_date_to'] is defined) ? (post['reservation_filter_date_to']) : ((app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : ("+2 days" |date("d/m/Y")))%}
 
 {% extends 'frontEndBundle:layout:base.html.twig' %}
 {% block title %}
@@ -542,7 +542,7 @@
     var cont_array_dates={{ array_dates | length}} ;
             var start_date = "{{start_date }}";
     var end_date = "{{end_date}}";
-
+    
     $(document).ready(function($) {
         $('#full-width-slider').royalSlider({
             arrowsNav: true,
@@ -567,25 +567,25 @@
         });
     });
 
-    $('#filter_date_to').change(function(){
+    $('input#filter_date_to').change(function(){
         from=$('#filter_date_from').val();
         to=$('#filter_date_to').val();
         refresh_calendar(from,to);
-        $('#top_reservation_filter_date_from').val(from);
-        $('#top_reservation_filter_date_to').val(to);
+        $('#top_reservation_filter_date_from').datepicker("setDate", new Date(create_date(from)));
+        $('#top_reservation_filter_date_to').datepicker("setDate", new Date(create_date(to)));
     });
+    
     function refresh_calendar_button()
     {
         $('#tab-reservations').attr('class','active');
         $('.li-tabs').attr('class','');
         $('#tab-photos').removeClass('active');
         $('#li-reservations').attr('class','active');
-
-
+        
         from=$('#top_reservation_filter_date_from').val();
         to=$('#top_reservation_filter_date_to').val();
-        $('#filter_date_from').val(from);
-        $('#filter_date_to').val(to);
+        $('#filter_date_from').datepicker("setDate", new Date(create_date(from)));
+        $('#filter_date_to').datepicker("setDate", new Date(create_date(to)));
 
         refresh_calendar(from,to);
     }
@@ -617,12 +617,23 @@
                     $('#data_reservation').attr('to_date', to);
                 });
     }
+    
+    function create_date(date_text) {
+    var date = date_text.split('/');
+    if (date.length == 3)
+    {
+        var date_result = ((parseInt(date[2], 10) < 10) ? '0' + parseInt(date[2], 10) : parseInt(date[2], 10)) + '-' + ((parseInt(date[1], 10) < 10) ? '0' + parseInt(date[1], 10) : parseInt(date[1], 10)) + '-' + ((parseInt(date[0], 10) < 10) ? '0' + parseInt(date[0], 10) : parseInt(date[0], 10));
+        return date_result;
+    }
+    return null;
+
+}
 
     </script>
     <script type="text/javascript">
         var reservation_see_prices_text = "{{"RESERVATION_SEE_PRICES" | trans}}";
         var own_id = "{{ownership.own_id}}";
     </script>
-        <script src="{{ asset('bundles/frontend/js/ownership_details.js') }}"></script>
+    <script src="{{ asset('bundles/frontend/js/ownership_details.js') }}"></script>
 {% endblock %}
 {% endblock %}

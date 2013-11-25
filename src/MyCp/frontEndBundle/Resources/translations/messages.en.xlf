@@ -1388,7 +1388,7 @@
             </trans-unit>
             <trans-unit id="356">
                 <source>VISITS</source>
-                <target>Visits:</target>
+                <target>Visits</target>
             </trans-unit>
             <trans-unit id="357">
                 <source>OWNERSHIPS</source>
@@ -2394,6 +2394,10 @@
             <trans-unit id="607">
                 <source>SELECT_PHOTOGRAPHY</source>
                 <target>Select photography...</target>
+            </trans-unit>
+            <trans-unit id="608">
+                <source>THE_ENTERPRISE</source>
+                <target>The enterprise</target>
             </trans-unit>
         </body>
     </file>
