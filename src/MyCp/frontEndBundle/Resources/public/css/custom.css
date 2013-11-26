@@ -138,6 +138,7 @@
     #main-search .form,#main-search-2 .form{ position: inherit; margin: 0; width: 100%; border-radius: 0}
     .cont-form{padding: 0}
     .myct-menu .col-sm-4{width: 100%!important;}
+    #some_numbers{margin-top: 0!important;}
 
 }
 
@@ -148,6 +149,9 @@
     #firm{display: none}
     .items-cart table td{display: block; width: 100%!important; text-align: center; padding: 5px}
     .items-cart .cost{text-align: center}
+    .table-responsive-v2 tr td{display: block}
+    .table-responsive-v2 tr td.last{padding-left: 0}
+    #pedro{width: 100%}
 }
 
 @media (max-width: 400px) {
@@ -185,6 +189,7 @@ footer h3{font-size: 13px; text-transform: uppercase; font-weight: bold; margin-
 footer ul{list-style: none; padding-left: 0}
 footer ul li{line-height: 16px}
 
+.icon-who{background: url("../img/icons/icons-who.png") no-repeat; vertical-align: middle}
 .icon,.icon-medium,.icon-services{width: 13px; height: 14px; background: url("../img/icons/icons.png") no-repeat; vertical-align: middle }
 .icon-services{ width: 27px; height: 27px}
 .icon-2{width: 14px; height: 14px;}
@@ -218,7 +223,8 @@ footer ul li{line-height: 16px}
 .tiny-star-off-icon{background-position: 0px -114px}
 .mail-icon{width: 28px; height: 19px; background-position: -27px -140px}
 .face-icon{width: 14px; height: 26px; background-position: -1px -157px}
-.icon-heart-2{width: 16px; height: 15px; background-position: -39px -231px}
+.icon-heart-2,.icon-heart-2-on{width: 16px; height: 15px; background-position: -39px -231px}
+.icon-heart-2-on{background-position: -29px -625px}
 .tweet-icon{width: 27px; height: 23px; background-position: 0 -133px}
 .pint-icon{width: 16px; height: 22px; background-position: -37px -161px}
 .yout-icon{width: 19px; height: 24px; background-position: -16px -159px}
@@ -309,6 +315,7 @@ footer ul li{line-height: 16px}
 .thumbs-houses-2 .col-sm-4:first-child{border-right: solid 1px #DFDFDE}
 .thumbs-houses-2 .col-sm-4:last-child{border-left: solid 1px #DFDFDE}
 .thumbs-destination{margin-bottom: 40px}
+.thumbs-destination .dest-description{min-height: 140px; font-size: 13px}
 .thumbs-destination table tr td:last-child{text-align: left; vertical-align: top; padding-top: 10px; color: #326ab5; line-height: 18px}
 .thumbs-destination div.cont{padding: 5px!important; border-radius: 0 6px 6px 0;}
 .thumbs-destination .square-grey-cont{border-radius: 0 8px 8px 0; margin-left: -3px!important; border-left:  none}
@@ -503,6 +510,7 @@ footer ul li{line-height: 16px}
 }
 
 .hr-green{border-color:#84b231}
+.hr-grey{border-color:#C8C8C8}
 .comments small{color: #84b231}
 .comments .col-xs-2 img{width: 100%}
 .services .row .row div:last-child{text-align: right}
@@ -533,6 +541,13 @@ footer ul li{line-height: 16px}
 .has-ribbon-orange.has-ribbon:before{
     border-color:#8F5907 transparent;
 }
+.has-ribbon-red.has-ribbon:after{
+    background-color: #bd362f;
+}
+.has-ribbon-red.has-ribbon:before{
+    border-color:#2F0000 transparent;
+}
+
 .myct-records .big-price-blue{margin: 15px 0 20px}
 .myct-records .col-sm-3.text-center{padding:10px 0; }
 .myct-records .col-sm-3.text-center.grey{background-color: #F6F6F6;}
@@ -585,3 +600,9 @@ footer ul li{line-height: 16px}
 .form-cont ul {padding: 0; }
 .container_loading{background: url("../img/loading.gif") no-repeat center; height: 50px}
 .top20_items_per_page {cursor: pointer}
+.no-bold{font-weight: normal}
+.thumb-con img{border: 1px solid #DDDDDD; border-radius: 3px; padding: 4px; margin-right: 10px}
+.table-responsive-v2 tr td.last{padding-left: 20px; }
+.table-type-1 td{padding: 8px 0!important;}
+
+

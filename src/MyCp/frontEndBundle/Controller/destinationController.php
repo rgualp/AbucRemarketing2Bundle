@@ -7,6 +7,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class destinationController extends Controller {
 
+    public function get_big_mapAction()
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $destinations=$em->getRepository('mycpBundle:destination')->findAll();
+        return $this->render('frontEndBundle:public:map.html.twig',array('destinations_map'=>$destinations));
+    }
+
     public function popular_listAction() {
         $em = $this->getDoctrine()->getEntityManager();
         $locale = $this->get('translator')->getLocale();

@@ -14,9 +14,9 @@
 {%endfor%}
 
 {%if faq_list | length  and total_items > items_per_page%}
-<div class="paginator-cont top_margin">
+<div class="text-center">
     {{ simple_paginator_render('frontend_list_faq',null,{
-    'container_class': 'paginator',
+    'container_class': 'pagination',
     'previousPageText': '«',
     'nextPageText': '»',
     'currentClass': 'current',
@@ -24,5 +24,5 @@
     'lastPageText': 'LAST_PAGE' | trans,
     'route_params': {'items_per_page':items_per_page}
 }) }}
-</div>
+    </div>
 {%endif%}

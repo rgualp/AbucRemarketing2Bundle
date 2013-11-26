@@ -29,6 +29,8 @@ class destinationRepository extends EntityRepository {
         $destination->setDesGeolocateY($data['geolocate_y']);
         $destination->setDesPoblation($data['poblation']);
         $destination->setDesRefPlace($data['ref_place']);
+        $destination->setDesCatLocationX($data['cat_location_x']);
+        $destination->setDesCatLocationY($data['cat_location_y']);
 
         $municipality = $em->getRepository('mycpBundle:municipality')->find($data['ownership_address_municipality']);
         $province = $em->getRepository('mycpBundle:province')->find($data['ownership_address_province']);
@@ -37,7 +39,7 @@ class destinationRepository extends EntityRepository {
         $destination_location->setDesLocMunicipality($municipality);
         $destination_location->setDesLocProvince($province);
         $em->persist($destination_location);
-        $em->persist($destination);
+
         $keys = array_keys($data);
 
         foreach ($keys as $item) {
@@ -54,6 +56,13 @@ class destinationRepository extends EntityRepository {
                 $em->persist($destination_lang);
             }
 
+            if (strpos($item, 'category_') !== false) {
+                $id_cat = str_replace('category_','',$item);
+                $category = $em->getRepository('mycpBundle:destinationCategory')->find($id_cat);
+                $destination->getDesCategories()->add($category);
+            }
+
+
             /* if(strpos($item, 'municipality')!==false)
               {
               $id=substr($item, 13, strlen($item));
@@ -65,6 +74,7 @@ class destinationRepository extends EntityRepository {
               $em->persist($destination_municipality);
               } */
         }
+        $em->persist($destination);
         $em->flush();
     }
 
@@ -82,6 +92,9 @@ class destinationRepository extends EntityRepository {
         $destination->setDesGeolocateY($data['geolocate_y']);
         $destination->setDesPoblation($data['poblation']);
         $destination->setDesRefPlace($data['ref_place']);
+        $destination->setDesCatLocationX($data['cat_location_x']);
+        $destination->setDesCatLocationY($data['cat_location_y']);
+        $destination->getDesCategories()->clear();
 
         $municipality = $em->getRepository('mycpBundle:municipality')->find($data['ownership_address_municipality']);
         $province = $em->getRepository('mycpBundle:province')->find($data['ownership_address_province']);
@@ -89,7 +102,7 @@ class destinationRepository extends EntityRepository {
         $destination_location[0]->setDesLocProvince($province);
         $destination_location[0]->setDesLocMunicipality($municipality);
         $em->persist($destination_location[0]);
-        $em->persist($destination);
+
 
         $query = $em->createQuery("DELETE mycpBundle:destinationlang des WHERE des.des_lang_destination=$id_destination");
         $query->execute();
@@ -108,9 +121,15 @@ class destinationRepository extends EntityRepository {
                 $destination_lang->setDesLangDestination($destination);
                 $em->persist($destination_lang);
             }
+
+            if (strpos($item, 'category_') !== false) {
+                $id_cat = str_replace('category_','',$item);
+                $category = $em->getRepository('mycpBundle:destinationCategory')->find($id_cat);
+                $destination->getDesCategories()->add($category);
+            }
         }
-
-
+        $em->persist($destination);
+        //var_dump($destination); exit();
         $em->flush();
     }
 

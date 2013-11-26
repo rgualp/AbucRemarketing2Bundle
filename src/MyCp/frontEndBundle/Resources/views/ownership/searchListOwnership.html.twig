@@ -1,9 +1,9 @@
 {%for own in list%}
-<div class="row" data-id="{{own.ownid}}">
+<div class="row" data-id="{{own.own_id}}">
     <div class="col-sm-4">
-        <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if own.owncommentstotal > 0%}+{%endif%}{{own.owncommentstotal}}&nbsp;&nbsp;&nbsp;">
-            <a href="{{ path('frontend_details_ownership',{'own_name':own.ownname  | lower | replace(' ','_')}) }}">
-            <img src="{{ asset("uploads/ownershipImages/thumbnails/" ~  photos[own.ownid])}}">
+        <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if own.comments_total > 0%}+{%endif%}{{own.comments_total}}&nbsp;&nbsp;&nbsp;">
+            <a href="{{ path('frontend_details_ownership',{'own_name':own.own_name  | lower | replace(' ','_')}) }}">
+            <img src="{{ asset("uploads/ownershipImages/thumbnails/" ~  own.photo)}}">
             </a>
         </div>
     </div>
@@ -11,51 +11,51 @@
         <table class="full-width">
             <tr>
                 <td>
-                    <a href="{{ path('frontend_details_ownership',{'own_name':own.ownname  | lower | replace(' ','_')}) }}">
-                    <h1 class="h-blue">{{own.ownname}}</h1>
+                    <a href="{{ path('frontend_details_ownership',{'own_name':own.own_name  | lower | replace(' ','_')}) }}">
+                    <h1 class="h-blue">{{own.own_name}}</h1>
                     </a>
-                    {%if own.ownCategory == "Premium"%}
-                        <img rel="tooltip" title="{{own.ownCategory | trans}}" class="icon icon-3 tiny-premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+                    {%if own.category == "Premium"%}
+                        <img rel="tooltip" title="{{own.category | trans}}" class="icon icon-3 tiny-premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
                         {%else%}
-                            {%if (own.ownCategory | lower) == ("Rango Medio" | lower)%}
-                            <img rel="tooltip" title="{{own.ownCategory | trans}}" class="icon icon-3 tiny-middle-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+                            {%if (own.category | lower) == ("Rango Medio" | lower)%}
+                            <img rel="tooltip" title="{{own.category | trans}}" class="icon icon-3 tiny-middle-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
                             {%else%}
-                                <img rel="tooltip" title="{{own.ownCategory | trans}}" class="icon icon-3 tiny-economic-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+                                <img rel="tooltip" title="{{own.category | trans}}" class="icon icon-3 tiny-economic-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
                             {%endif%}
                         {%endif%} 
-                    <span>{{own.ownCategory | trans}}</span><br/>
-                    <small class="top">{{own.ownAddressProvince}}, {{own.ownAddressMunicipality}}<br/>
-                     {{own.ownType  | trans}} 
-                     {%if (rooms[own.ownid] != 0) %}
-                        / {{rooms[own.ownid]}} {% if rooms[own.ownid] == 1%} {{"ROOM_SINGULAR" | trans}} 
+                    <span>{{own.category | trans}}</span><br/>
+                    <small class="top">{{own.prov_name}}, {{own.mun_name}}<br/>
+                     {{own.type  | trans}} 
+                     {%if (own.rooms_count != 0) %}
+                        / {{own.rooms_count}} {% if own.rooms_count == 1%} {{"ROOM_SINGULAR" | trans}} 
                      {%else%} {{"ROOM_PLURAL" | trans}} 
                      {%endif%}
                      {%endif%}
                      </small>
-                    {%if own.ownRating > 0%}
-                        {%for i in 1..own.ownRating%}
+                    {%if own.rating > 0%}
+                        {%for i in 1..own.rating%}
                            <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon icon-2 tiny-star-icon">
                         {%endfor%}
                         {%endif%}
 
-                        {%if own.ownRating < 5%}
-                        {%for i in 1..(5-own.ownRating)%}
+                        {%if own.rating < 5%}
+                        {%for i in 1..(5-own.rating)%}
                           <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon icon-2 tiny-star-off-icon">
                         {%endfor%}
                     {%endif%}
-                    <small>{{counts[own.ownid][0]["comments"]}} {{"FORMS_COMMENTS" | trans | lower}}</small>
+                    <small>{{own.comments}} {{"FORMS_COMMENTS" | trans | lower}}</small>
                 </td>
                 <td class="text-right">
                     <small>{{"FROM_PRICES" | trans}}:</small><span class="big-price-blue">
-                        {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{own.ownMinimumPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}
+                        {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{own.minimum_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}
                     </span>
                     <br/>
                     <br/>
                     <br/>
                         {{ include('frontEndBundle:favorite:itemFavorite.html.twig', 
-                        {'is_in_favorite': is_in_favorities[own.ownid],
+                        {'is_in_favorite': own.is_in_favorites,
                          'favorite_type': 'ownership',
-                         'element_id':own.ownid,
+                         'element_id':own.own_id,
                          'list_preffix' : list_preffix,
                          'include_text': true
                          }) }}
@@ -71,18 +71,8 @@
 {%endfor%}
 {%if list | length and total_items > items_per_page%}
         <div class="text-center">
-            <ul class="pagination">
-                <li><a href="#">«</a></li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">»</a></li>
-            </ul>
-        </div>
-        <!--div class="paginator-cont top_margin">
-    {#{ simple_paginator_render('frontend_search_ownership',null,{
-    'container_class': 'paginator',
+              {{ simple_paginator_render('frontend_search_ownership',null,{
+    'container_class': 'pagination',
     'previousPageText': '«',
     'nextPageText': '»',
     'currentClass': 'current',
@@ -93,6 +83,7 @@
                      'departure': app.session.get('search_departure_date'), 
                      'guests': app.session.get('search_guests'),
                      'rooms': app.session.get('search_rooms')}
-}) }#}
-    </div-->
+}) }}
+        </div>
+  
 {%endif%}

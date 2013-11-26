@@ -12,10 +12,6 @@ class PublicController extends Controller {
         return $this->redirect($this->generateUrl('frontend_welcome'));
     }
 
-    public function get_big_mapAction()
-    {
-        return $this->render('frontEndBundle:public:map.html.twig');
-    }
 
     public function welcomeAction() {
         $em = $this->getDoctrine()->getEntityManager();

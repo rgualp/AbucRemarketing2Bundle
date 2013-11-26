@@ -5,45 +5,45 @@
     {%for ownership in list%}
     {% if cont <3 %}
     <div class="col-sm-4">    
-        <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if ownership.owncommentstotal > 0%}+{%endif%}{{ownership.owncommentstotal}}&nbsp;&nbsp;&nbsp;">
-            <a href="{{ path('frontend_details_ownership',{'own_name':ownership.ownname  | lower | replace(' ','_')}) }}">
-                <img src="{{ asset("uploads/ownershipImages/thumbnails/" ~ photos[ownership.ownid])}}">
+        <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if ownership.comments_total > 0%}+{%endif%}{{ownership.comments_total}}&nbsp;&nbsp;&nbsp;">
+            <a href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | lower | replace(' ','_')}) }}">
+                <img src="{{ asset("uploads/ownershipImages/thumbnails/" ~ ownership.photo)}}">
             </a>
         </div>
-        <a href="{{ path('frontend_details_ownership',{'own_name':ownership.ownname  | lower | replace(' ','_')}) }}">
-        <h1 class="h-blue">{{ownership.ownname | title | slice(0, 27)}}{%if ownership.ownname | length > 27%}...{%endif%} 
-            <small>({{ownership.ownaddressprovince}})</small></h1>
+        <a href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | lower | replace(' ','_')}) }}">
+        <h1 class="h-blue">{{ownership.own_name | title | slice(0, 27)}}{%if ownership.own_name | length > 27%}...{%endif%} 
+            <small>({{ownership.prov_name}})</small></h1>
         </a>
         <h5>
             <table>
                 <tr>
                     <td>
-                        {%if ownership.ownRating > 0%}
-                           {%for i in 1..ownership.ownRating%}
+                        {%if ownership.rating > 0%}
+                           {%for i in 1..ownership.rating%}
                                 <img class="icon icon-2 tiny-star-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
                             {%endfor%}
                             {%endif%}
 
-                            {%if ownership.ownRating < 5%}
-                            {%for i in 1..(5-ownership.ownRating)%}
+                            {%if ownership.rating < 5%}
+                            {%for i in 1..(5-ownership.rating)%}
                                    <img class="icon icon-2 tiny-star-off-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
                             {%endfor%}
                             {%endif%}
                     </td>
                     <td>
-                        {%if ownership.owncategory == "Premium"%}
-                        <img rel="tooltip" title="{{ownership.owncategory | trans}}" class="icon icon-3 tiny-premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+                        {%if ownership.category == "Premium"%}
+                        <img rel="tooltip" title="{{ownership.category | trans}}" class="icon icon-3 tiny-premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
                         {%else%}
-                            {%if ownership.owncategory == "Rango Medio"%}
-                            <img rel="tooltip" title="{{ownership.owncategory | trans}}" class="icon icon-3 tiny-middle-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+                            {%if (ownership.category | lower) == ("Rango Medio" | lower)%}
+                            <img rel="tooltip" title="{{ownership.category | trans}}" class="icon icon-3 tiny-middle-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
                             {%else%}
-                                <img rel="tooltip" title="{{ownership.owncategory | trans}}" class="icon icon-3 tiny-economic-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+                                <img rel="tooltip" title="{{ownership.category | trans}}" class="icon icon-3 tiny-economic-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
                             {%endif%}
                         {%endif%}
                         {{ include('frontEndBundle:favorite:itemFavorite.html.twig', 
-                        {'is_in_favorite': is_in_favorities[ownership.ownid],
+                        {'is_in_favorite': ownership.is_in_favorites,
                          'favorite_type': 'ownership',
-                         'element_id':ownership.ownid,
+                         'element_id':ownership.own_id,
                          'list_preffix' : list_preffix,
                          'include_text': false
                          }) }} 
@@ -51,7 +51,7 @@
                 </tr>
             </table>
             <h6 class="h-blue h-blue-2">
-                 {{"FROM_PRICES" | trans | lower}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ownership.ownMinimumPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}
+                 {{"FROM_PRICES" | trans | lower}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ownership.minimum_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}
             </h6>
         </h5>
 </div>
@@ -60,46 +60,46 @@
 {% set cont=1 %}
 </div>
 <div class="row">
- <div class="col-sm-4">    
-        <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if ownership.owncommentstotal > 0%}+{%endif%}{{ownership.owncommentstotal}}&nbsp;&nbsp;&nbsp;">
-            <a href="{{ path('frontend_details_ownership',{'own_name':ownership.ownname  | lower | replace(' ','_')}) }}">
-                <img src="{{ asset("uploads/ownershipImages/thumbnails/" ~ photos[ownership.ownid])}}">
+  <div class="col-sm-4">    
+        <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if ownership.comments_total > 0%}+{%endif%}{{ownership.comments_total}}&nbsp;&nbsp;&nbsp;">
+            <a href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | lower | replace(' ','_')}) }}">
+                <img src="{{ asset("uploads/ownershipImages/thumbnails/" ~ ownership.photo)}}">
             </a>
         </div>
-        <a href="{{ path('frontend_details_ownership',{'own_name':ownership.ownname  | lower | replace(' ','_')}) }}">
-        <h1 class="h-blue">{{ownership.ownname | title | slice(0, 27)}}{%if ownership.ownname | length > 27%}...{%endif%} 
-            <small>({{ownership.ownaddressprovince}})</small></h1>
+        <a href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | lower | replace(' ','_')}) }}">
+        <h1 class="h-blue">{{ownership.own_name | title | slice(0, 27)}}{%if ownership.own_name | length > 27%}...{%endif%} 
+            <small>({{ownership.prov_name}})</small></h1>
         </a>
         <h5>
             <table>
                 <tr>
                     <td>
-                        {%if ownership.ownRating > 0%}
-                           {%for i in 1..ownership.ownRating%}
+                        {%if ownership.rating > 0%}
+                           {%for i in 1..ownership.rating%}
                                 <img class="icon icon-2 tiny-star-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
                             {%endfor%}
                             {%endif%}
 
-                            {%if ownership.ownRating < 5%}
-                            {%for i in 1..(5-ownership.ownRating)%}
+                            {%if ownership.rating < 5%}
+                            {%for i in 1..(5-ownership.rating)%}
                                    <img class="icon icon-2 tiny-star-off-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
                             {%endfor%}
                             {%endif%}
                     </td>
                     <td>
-                        {%if ownership.owncategory == "Premium"%}
-                        <img rel="tooltip" title="{{ownership.owncategory | trans}}" class="icon icon-3 tiny-premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+                        {%if ownership.category == "Premium"%}
+                        <img rel="tooltip" title="{{ownership.category | trans}}" class="icon icon-3 tiny-premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
                         {%else%}
-                            {%if ownership.owncategory == "Rango Medio"%}
-                            <img rel="tooltip" title="{{ownership.owncategory | trans}}" class="icon icon-3 tiny-middle-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+                            {%if (ownership.category | lower) == ("Rango Medio" | lower)%}
+                            <img rel="tooltip" title="{{ownership.category | trans}}" class="icon icon-3 tiny-middle-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
                             {%else%}
-                                <img rel="tooltip" title="{{ownership.owncategory | trans}}" class="icon icon-3 tiny-economic-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+                                <img rel="tooltip" title="{{ownership.category | trans}}" class="icon icon-3 tiny-economic-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
                             {%endif%}
                         {%endif%}
                         {{ include('frontEndBundle:favorite:itemFavorite.html.twig', 
-                        {'is_in_favorite': is_in_favorities[ownership.ownid],
+                        {'is_in_favorite': ownership.is_in_favorites,
                          'favorite_type': 'ownership',
-                         'element_id':ownership.ownid,
+                         'element_id':ownership.own_id,
                          'list_preffix' : list_preffix,
                          'include_text': false
                          }) }} 
@@ -107,7 +107,7 @@
                 </tr>
             </table>
             <h6 class="h-blue h-blue-2">
-                 {{"FROM_PRICES" | trans | lower}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ownership.ownMinimumPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}
+                 {{"FROM_PRICES" | trans | lower}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ownership.minimum_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}
             </h6>
         </h5>
 </div>
@@ -117,9 +117,9 @@
      {%endfor%}
      </div>
      {%if list | length and total_items > items_per_page%}
-        <div class="paginator-cont top_margin row-fluid">
+        <div class="text-center">
         {{ simple_paginator_render('frontend_search_ownership',null,{
-        'container_class': 'paginator',
+        'container_class': 'pagination',
         'previousPageText': '«',
         'nextPageText': '»',
         'currentClass': 'current',
@@ -131,7 +131,7 @@
                         'guests': app.session.get('search_guests'),
                         'rooms': app.session.get('search_rooms')}
     }) }}
-    </div>
+            </div>
     {%endif%}
 {% endif %}
 

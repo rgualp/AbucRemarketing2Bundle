@@ -1,8 +1,4 @@
 {% if own_top20_list | length%}
-<div id="loading" class="hidden">
-        <div class="layer-loading"></div>
-        <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}"/></div>
-    </div>
 <div class="bg-solid-orange" style="margin: 35px 0 30px;">
         <h1 class="text-center caecilia-roman h-white">
             <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" style="width: 25px;height: 25px" class="icon star-orange-icon"/>&nbsp;
@@ -12,6 +8,9 @@
     </div>
 
 <div id="top_rated_list">
+    <div id="loading" class="hidden">
+        <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}"/></div>
+    </div>
     {{ include('frontEndBundle:ownership:homeTopRatedList.html.twig') }}
 </div>
 
@@ -32,14 +31,6 @@
     'firstPageText': 'FIRST_PAGE' | trans,
     'lastPageText': 'LAST_PAGE' | trans
     }) }}
-            <!--ul class="pagination">
-                <li><a href="#">«</a></li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">»</a></li>
-            </ul-->
         </div>
         <div class="col-sm-4 text-right">
             <ul class="pagination top_rated_category">
@@ -51,36 +42,5 @@
     </div>
 
 <div class="divider-hor-2"></div>
-
-<!--div class="top_rated_tools row-fluid">
-    <div class="tool">{{"VISUALIZE" | trans}} 4 x
-        <div class="btn-group">
-            <a class="btn btn-small btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
-                <label class="inline_label" id="items_per_page">{{app.session.get("top_rated_show_rows")}}</label>
-                <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <li class="top20_items_per_page {%if app.session.get('top_rated_show_rows') == 2%}active{%endif%}" data-content-value="2"><a>2</a></li>
-                <li class="top20_items_per_page {%if app.session.get('top_rated_show_rows') == 3%}active{%endif%}" data-content-value="3"><a>3</a></li>
-                <li class="top20_items_per_page {%if app.session.get('top_rated_show_rows') == 4%}active{%endif%}" data-content-value="4"><a>4</a></li>
-            </ul>
-        </div></div>
-    <div class="tool">
-    <div class="paginator-cont">
-    {#{ simple_paginator_render('frontend_welcome',null,{
-    'container_class': 'paginator_orange',
-    'previousPageText': '«',
-    'nextPageText': '»',
-    'currentClass': 'current',
-    'firstPageText': 'FIRST_PAGE' | trans,
-    'lastPageText': 'LAST_PAGE' | trans
-    }) }#}
-    </div>
-    </div>
-    <div class="tool"><span class="hide_small_screen">{{"TELL_A_FRIEND" | trans}}:</span>
-        {#{ include('frontEndBundle:utils:netSocials.html.twig') }#}
-    </div>
-</div-->
-
 {% endif %}
 <script src="{{ asset('bundles/frontend/js/top_rated_ownership.js') }}"></script>

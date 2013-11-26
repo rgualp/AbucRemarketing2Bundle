@@ -664,15 +664,15 @@
             </trans-unit>
             <trans-unit id="175">
                 <source>MID_RANGE_OWNERSHIP</source>
-                <target>Midrange</target>
+                <target>Midrange Accomodations</target>
             </trans-unit>
             <trans-unit id="176">
                 <source>ECONOMY_OWNERSHIP</source>
-                <target>Economic</target>
+                <target>Economic Accomodations</target>
             </trans-unit>
             <trans-unit id="177">
                 <source>PREMIUM_OWNERSHIP</source>
-                <target>Premium</target>
+                <target>Premium Accomodations</target>
             </trans-unit>
             <trans-unit id="178">
                 <source>OFFERS_PAGE_TITLE</source>
@@ -1388,7 +1388,7 @@
             </trans-unit>
             <trans-unit id="356">
                 <source>VISITS</source>
-                <target>Visits:</target>
+                <target>Visits</target>
             </trans-unit>
             <trans-unit id="357">
                 <source>OWNERSHIPS</source>
@@ -1968,7 +1968,7 @@
                 <target>Visit the following link to change your password: </target>
             </trans-unit>
             <trans-unit id="500">
-            <source>EMAIL_PASS_CHANGED</source>
+                <source>EMAIL_PASS_CHANGED</source>
                 <target>Your password had been changed successfuly.</target>
             </trans-unit>
             <trans-unit id="501">
@@ -2083,7 +2083,7 @@
                 <source>FILL_FORM_CORRECTLY</source>
                 <target>You must fill this form correctly.</target>
             </trans-unit>
-             <trans-unit id="530">
+            <trans-unit id="530">
                 <source>OWNERSHIP_MID_RANGE_DESCRIPTION</source>
                 <target>Description for midrange accomodations.</target>
             </trans-unit>
@@ -2132,221 +2132,273 @@
                 <target>Try better with one of these links.</target>
             </trans-unit>
             <trans-unit id="542">
-                  <source>PLEASE_SELECT_RESERVATION</source>
-                  <target>Please, select one reservation or more to continue reserving.</target>
-              </trans-unit>
-              <trans-unit id="543">
+                <source>PLEASE_SELECT_RESERVATION</source>
+                <target>Please, select one reservation or more to continue reserving.</target>
+            </trans-unit>
+            <trans-unit id="543">
                 <source>PAYMENT_CONFIRM_2</source>
                 <target>Payment confirm</target>
             </trans-unit>
             <trans-unit id="544">
-                  <source>USER_EMAIL_IN_USE</source>
-                  <target>This email account is in use by another user.</target>
+                <source>USER_EMAIL_IN_USE</source>
+                <target>This email account is in use by another user.</target>
             </trans-unit>
             <trans-unit id="545">
                 <source>USER_CREATE_ACCOUNT_SUCCESS</source>
                 <target>Thanks for registering. We sent you an email with instructions of how activate your account.</target>
             </trans-unit>
             <trans-unit id="546">
-                  <source>USER_ACTIVATE_ACCOUNT_SUCCESS</source>
-                  <target>Thank you. Your account have been activated successfully.</target>
-             </trans-unit>
-             <trans-unit id="547">
-                  <source>USER_ACTIVATE_ERROR</source>
-                  <target>Error! Imposible to activate your user, the parameters are incorrect.</target>
-              </trans-unit>
-              <trans-unit id="548">
-                  <source>USER_PASSWORD_RECOVERY</source>
-                  <target>We sent you an email with information of your password recovered.</target>
-              </trans-unit>
-              <trans-unit id="549">
-                  <source>USER_PASSWORD_RECOVERY_ERROR</source>
-                  <target>There is no user associated to the email entered.</target>
-              </trans-unit>
-              <trans-unit id="550">
-                  <source>USER_PASSWORD_CHANGE_ERROR</source>
-                  <target>Error! Imposible to change password, the parameters are incorrect.</target>
-              </trans-unit>
-              <trans-unit id="551">
-                  <source>USER_ACCOUNT_ACTIVATION_EMAIL</source>
-                  <target>Activation of user account in MyCasaParticular</target>
-              </trans-unit>
-              <trans-unit id="552">
-                  <source>USER_CONTACT_TOURIST_SUCCESS</source>
-                  <target>Thank you for contact us. Your comment have been sent!.</target>
-              </trans-unit>
-              <trans-unit id="553">
-                  <source>USER_CONTACT_OWNER_SUCCESS</source>
-                  <target>Thank you for contact us. Your information have been sent.</target>
-              </trans-unit>
-              <trans-unit id="554">
-                  <source>RESERVATION_AMOUNT_TO_PAY_NOW</source>
-                  <target>Amount to pay now</target>
-              </trans-unit>
-              <trans-unit id="555">
-                  <source>VIEW_CONFIRMATION</source>
-                  <target>View confirmation</target>
-              </trans-unit>
-              <trans-unit id="556">
-                  <source>PAYMENT_CONFIRMATION</source>
-                  <target>Booking confirmation</target>
-              </trans-unit>
-              <trans-unit id="557">
-                  <source>VALID_OFFER_FOUR_EIGHT</source>
-                  <target>This offer is only valid for 48 hours</target>
-              </trans-unit>
-              <trans-unit id="558">
-                  <source>REMINDER_AVAILABLE</source>
-                  <target>The accommodations of you wanted are available in witch date</target>
-              </trans-unit>
-              <trans-unit id="559">
-                  <source>VALID_OFFER_TWENTY_FOUR</source>
-                  <target>The offer will be over in 24 hours</target>
-              </trans-unit>
-              <trans-unit id="560">
-                    <source>REMINDER</source>
-                    <target>Reminder</target>
-                </trans-unit>
-                <trans-unit id="561">
-                    <source>NOT_ENABLED_USER</source>
-                    <target>Not enabled user, please enable your account with our confirmation email.</target>
-                </trans-unit>
-                <trans-unit id="562">
-                    <source>Bad credentials</source>
-                    <target>Bad credentials</target>
-                </trans-unit>
-                <trans-unit id="563">
-                    <source>HELLO</source>
-                    <target>Hello</target>
-                </trans-unit>
-                <trans-unit id="564">
-                    <source>DO_YOU_WISH_TO_RECOMEND_THIS_ACCOMODATTION</source>
-                    <target>wish to recommend you a accommodation in MyCasaParticular</target>
-                </trans-unit>
-                <trans-unit id="565">
-                    <source>DO_YOU_WISH_TO_RECOMEND_THIS_DESTINATION</source>
-                    <target>wish to recommend you a destination in MyCasaParticular</target>
-                </trans-unit>
-                <trans-unit id="566">
-                    <source>DO_YOU_WISH_TO_RECOMEND_TO_VISIT</source>
-                    <target>wish to recommend you to visit</target>
-                </trans-unit>
-                <trans-unit id="567">
-                    <source>ENABLE_ACCOUNT</source>
-                    <target>Enable account</target>
-                </trans-unit>
-                <trans-unit id="568">
-                    <source>USER_PROFILE</source>
-                    <target>My user profile</target>
-                </trans-unit>
-                <trans-unit id="569">
-                    <source>SAVE</source>
-                    <target>Save</target>
-                </trans-unit>
-                <trans-unit id="570">
-                    <source>SELECT_PHOTO</source>
-                    <target>Select photo...</target>
-                </trans-unit>
-                <trans-unit id="571">
-                    <source>USER_PROFILE_SAVED</source>
-                    <target>Your user profile has been changed successfully</target>
-                </trans-unit>
-                <trans-unit id="572">
-                    <source>USER_PROFILE_EMAIL_ERROR</source>
-                    <target>Another user is using this email account</target>
-                </trans-unit>
-                <trans-unit id="573">
-                    <source>USER_ZONE</source>
-                    <target>User</target>
-                </trans-unit>
-                <trans-unit id="574">
-                    <source>USER_NEW_ACCOUNT</source>
-                    <target>Register</target>
-                </trans-unit>
-                <trans-unit id="575">
-                    <source>USER_FORGOT_PASSWORD</source>
-                    <target>Forgot password?</target>
-                </trans-unit>
-                <trans-unit id="576">
-                    <source>USER_SEND_CONFIRMATION</source>
-                    <target>Send confirmation</target>
-                </trans-unit>
-                <trans-unit id="577">
-                    <source>USER_PROFILE</source>
-                    <target>My profile</target>
-                </trans-unit>
-                <trans-unit id="578">
-                    <source>USER_CHANGE_PASSWORD</source>
-                    <target>Change password</target>
-                </trans-unit>
-                <trans-unit id="579">
-                    <source>MYCASATRIP_MAIN_MENU_NOTIFICATIONS</source>
-                    <target>You have %notifications% pendient notifications</target>
-                </trans-unit>
-                <trans-unit id="580">
-                    <source>PLACE_IN_CUBA_TO_VISIT</source>
-                    <target>Which place in Cuba would you like to visit?</target>
-                </trans-unit>
-                <trans-unit id="581">
-                    <source>ROWS</source>
-                    <target>Rows</target>
-                </trans-unit>
-                <trans-unit id="582">
-                    <source>FIND_DESTINATIONS_BY_PROVINCES</source>
-                    <target>Find destinations by provinces</target>
-                </trans-unit>
-                <trans-unit id="583">
-                    <source>WHERE_RENT_IN_DESTINATION</source>
-                    <target>Where rent in %destinationName%</target>
-                </trans-unit>
-                <trans-unit id="584">
-                    <source>LIST_VIEW</source>
-                    <target>List view</target>
-                </trans-unit>
-                <trans-unit id="585">
-                    <source>MOISAIC_VIEW</source>
-                    <target>Mosaic view</target>
-                </trans-unit>
-                <trans-unit id="586">
-                    <source>MAP_VIEW</source>
-                    <target>Map view</target>
-                </trans-unit>
-                <trans-unit id="587">
-                    <source>SEARCH_ANOTHER_SERVICES</source>
-                    <target>Other Services</target>
-                </trans-unit>
-                <trans-unit id="588">
-                    <source>VERIFY_PRICES_FOR_THIS_DATES</source>
-                    <target>Verify prices for these dates</target>
-                </trans-unit>
-                <trans-unit id="589">
-                    <source>SELECT_FOR_PAYMENT</source>
-                    <target>Select for payment</target>
-                </trans-unit>
-                <trans-unit id="590">
-                    <source>CART_OF_RESERVES</source>
-                    <target>Cart of reservations</target>
-                </trans-unit>
-                <trans-unit id="591">
-                    <source>MANAGE_CART</source>
-                    <target>Manage your reservations to request availability</target>
-                </trans-unit>
-                <trans-unit id="592">
-                    <source>PRICE_NIGHT</source>
-                    <target>Price/Night</target>
-                </trans-unit>
-                <trans-unit id="593">
-                    <source>REMOVE_RESERVE</source>
-                    <target>Remove it reservation</target>
-                </trans-unit>
-                <trans-unit id="594">
-                    <source>BYNIGHT</source>
-                    <target>by night</target>
-                </trans-unit>
-                <trans-unit id="595">
-                    <source>REQUIRED_FIELDS_NEXT_STEP</source>
-                    <target>Fields required to next step</target>
-                </trans-unit>
+                <source>USER_ACTIVATE_ACCOUNT_SUCCESS</source>
+                <target>Thank you. Your account have been activated successfully.</target>
+            </trans-unit>
+            <trans-unit id="547">
+                <source>USER_ACTIVATE_ERROR</source>
+                <target>Error! Imposible to activate your user, the parameters are incorrect.</target>
+            </trans-unit>
+            <trans-unit id="548">
+                <source>USER_PASSWORD_RECOVERY</source>
+                <target>We sent you an email with information of your password recovered.</target>
+            </trans-unit>
+            <trans-unit id="549">
+                <source>USER_PASSWORD_RECOVERY_ERROR</source>
+                <target>There is no user associated to the email entered.</target>
+            </trans-unit>
+            <trans-unit id="550">
+                <source>USER_PASSWORD_CHANGE_ERROR</source>
+                <target>Error! Imposible to change password, the parameters are incorrect.</target>
+            </trans-unit>
+            <trans-unit id="551">
+                <source>USER_ACCOUNT_ACTIVATION_EMAIL</source>
+                <target>Activation of user account in MyCasaParticular</target>
+            </trans-unit>
+            <trans-unit id="552">
+                <source>USER_CONTACT_TOURIST_SUCCESS</source>
+                <target>Thank you for contact us. Your comment have been sent!.</target>
+            </trans-unit>
+            <trans-unit id="553">
+                <source>USER_CONTACT_OWNER_SUCCESS</source>
+                <target>Thank you for contact us. Your information have been sent.</target>
+            </trans-unit>
+            <trans-unit id="554">
+                <source>RESERVATION_AMOUNT_TO_PAY_NOW</source>
+                <target>Amount to pay now</target>
+            </trans-unit>
+            <trans-unit id="555">
+                <source>VIEW_CONFIRMATION</source>
+                <target>View confirmation</target>
+            </trans-unit>
+            <trans-unit id="556">
+                <source>PAYMENT_CONFIRMATION</source>
+                <target>Booking confirmation</target>
+            </trans-unit>
+            <trans-unit id="557">
+                <source>VALID_OFFER_FOUR_EIGHT</source>
+                <target>This offer is only valid for 48 hours</target>
+            </trans-unit>
+            <trans-unit id="558">
+                <source>REMINDER_AVAILABLE</source>
+                <target>The accommodations of you wanted are available in witch date</target>
+            </trans-unit>
+            <trans-unit id="559">
+                <source>VALID_OFFER_TWENTY_FOUR</source>
+                <target>The offer will be over in 24 hours</target>
+            </trans-unit>
+            <trans-unit id="560">
+                <source>REMINDER</source>
+                <target>Reminder</target>
+            </trans-unit>
+            <trans-unit id="561">
+                <source>NOT_ENABLED_USER</source>
+                <target>Not enabled user, please enable your account with our confirmation email.</target>
+            </trans-unit>
+            <trans-unit id="562">
+                <source>Bad credentials</source>
+                <target>Bad credentials</target>
+            </trans-unit>
+            <trans-unit id="563">
+                <source>HELLO</source>
+                <target>Hello</target>
+            </trans-unit>
+            <trans-unit id="564">
+                <source>DO_YOU_WISH_TO_RECOMEND_THIS_ACCOMODATTION</source>
+                <target>wish to recommend you a accommodation in MyCasaParticular</target>
+            </trans-unit>
+            <trans-unit id="565">
+                <source>DO_YOU_WISH_TO_RECOMEND_THIS_DESTINATION</source>
+                <target>wish to recommend you a destination in MyCasaParticular</target>
+            </trans-unit>
+            <trans-unit id="566">
+                <source>DO_YOU_WISH_TO_RECOMEND_TO_VISIT</source>
+                <target>wish to recommend you to visit</target>
+            </trans-unit>
+            <trans-unit id="567">
+                <source>ENABLE_ACCOUNT</source>
+                <target>Enable account</target>
+            </trans-unit>
+            <trans-unit id="568">
+                <source>USER_PROFILE</source>
+                <target>My user profile</target>
+            </trans-unit>
+            <trans-unit id="569">
+                <source>SAVE</source>
+                <target>Save</target>
+            </trans-unit>
+            <trans-unit id="570">
+                <source>SELECT_PHOTO</source>
+                <target>Select photo...</target>
+            </trans-unit>
+            <trans-unit id="571">
+                <source>USER_PROFILE_SAVED</source>
+                <target>Your user profile has been changed successfully</target>
+            </trans-unit>
+            <trans-unit id="572">
+                <source>USER_PROFILE_EMAIL_ERROR</source>
+                <target>Another user is using this email account</target>
+            </trans-unit>
+            <trans-unit id="573">
+                <source>USER_ZONE</source>
+                <target>User</target>
+            </trans-unit>
+            <trans-unit id="574">
+                <source>USER_NEW_ACCOUNT</source>
+                <target>Register</target>
+            </trans-unit>
+            <trans-unit id="575">
+                <source>USER_FORGOT_PASSWORD</source>
+                <target>Forgot password?</target>
+            </trans-unit>
+            <trans-unit id="576">
+                <source>USER_SEND_CONFIRMATION</source>
+                <target>Send confirmation</target>
+            </trans-unit>
+            <trans-unit id="577">
+                <source>USER_PROFILE</source>
+                <target>My profile</target>
+            </trans-unit>
+            <trans-unit id="578">
+                <source>USER_CHANGE_PASSWORD</source>
+                <target>Change password</target>
+            </trans-unit>
+            <trans-unit id="579">
+                <source>MYCASATRIP_MAIN_MENU_NOTIFICATIONS</source>
+                <target>You have %notifications% pendient notifications</target>
+            </trans-unit>
+            <trans-unit id="580">
+                <source>PLACE_IN_CUBA_TO_VISIT</source>
+                <target>Which place in Cuba would you like to visit?</target>
+            </trans-unit>
+            <trans-unit id="581">
+                <source>ROWS</source>
+                <target>Rows</target>
+            </trans-unit>
+            <trans-unit id="582">
+                <source>FIND_DESTINATIONS_BY_PROVINCES</source>
+                <target>Find destinations by provinces</target>
+            </trans-unit>
+            <trans-unit id="583">
+                <source>WHERE_RENT_IN_DESTINATION</source>
+                <target>Where rent in %destinationName%</target>
+            </trans-unit>
+            <trans-unit id="584">
+                <source>LIST_VIEW</source>
+                <target>List view</target>
+            </trans-unit>
+            <trans-unit id="585">
+                <source>MOISAIC_VIEW</source>
+                <target>Mosaic view</target>
+            </trans-unit>
+            <trans-unit id="586">
+                <source>MAP_VIEW</source>
+                <target>Map view</target>
+            </trans-unit>
+            <trans-unit id="587">
+                <source>SEARCH_ANOTHER_SERVICES</source>
+                <target>Other Services</target>
+            </trans-unit>
+            <trans-unit id="588">
+                <source>VERIFY_PRICES_FOR_THIS_DATES</source>
+                <target>Verify prices for these dates</target>
+            </trans-unit>
+            <trans-unit id="589">
+                <source>SELECT_FOR_PAYMENT</source>
+                <target>Select for payment</target>
+            </trans-unit>
+            <trans-unit id="590">
+                <source>CART_OF_RESERVES</source>
+                <target>Cart of reservations</target>
+            </trans-unit>
+            <trans-unit id="591">
+                <source>MANAGE_CART</source>
+                <target>Manage your reservations to request availability</target>
+            </trans-unit>
+            <trans-unit id="592">
+                <source>PRICE_NIGHT</source>
+                <target>Price/Night</target>
+            </trans-unit>
+            <trans-unit id="593">
+                <source>REMOVE_RESERVE</source>
+                <target>Remove it reservation</target>
+            </trans-unit>
+            <trans-unit id="594">
+                <source>BYNIGHT</source>
+                <target>by night</target>
+            </trans-unit>
+            <trans-unit id="595">
+                <source>REQUIRED_FIELDS_NEXT_STEP</source>
+                <target>Fields required to next step</target>
+            </trans-unit>
+            <trans-unit id="596">
+                <source>BEACHES</source>
+                <target>Beaches</target>
+            </trans-unit>
+            <trans-unit id="597">
+                <source>DIVING</source>
+                <target>Diving</target>
+            </trans-unit>
+            <trans-unit id="598">
+                <source>VIEWPOINTS</source>
+                <target>Viewpoints</target>
+            </trans-unit>
+            <trans-unit id="599">
+                <source>MUSEUMS</source>
+                <target>Museums</target>
+            </trans-unit>
+            <trans-unit id="600">
+                <source>TREKKING</source>
+                <target>Trekking</target>
+            </trans-unit>
+            <trans-unit id="601">
+                <source>CYCLING</source>
+                <target>Cycling</target>
+            </trans-unit>
+            <trans-unit id="602">
+                <source>MARINES</source>
+                <target>Marines</target>
+            </trans-unit>
+            <trans-unit id="603">
+                <source>FISHING</source>
+                <target>Fishing</target>
+            </trans-unit>
+            <trans-unit id="604">
+                <source>CASCADES</source>
+                <target>Cascades</target>
+            </trans-unit>
+            <trans-unit id="605">
+                <source>FORESTS</source>
+                <target>Forests</target>
+            </trans-unit>
+            <trans-unit id="606">
+                <source>MOUNTAINS</source>
+                <target>Mountains</target>
+            </trans-unit>                
+            <trans-unit id="607">
+                <source>SELECT_PHOTOGRAPHY</source>
+                <target>Select photography...</target>
+            </trans-unit>
+            <trans-unit id="608">
+                <source>THE_ENTERPRISE</source>
+                <target>The enterprise</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

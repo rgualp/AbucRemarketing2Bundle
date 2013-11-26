@@ -14,7 +14,6 @@ class informationController extends Controller {
         $numbers=$numbers[0];
         $lang=$request->getLocale();
         $information_about_us=$em->getRepository('mycpBundle:information')->get_information_about_us($lang);
-        //var_dump($information_about_us);
         return $this->render('frontEndBundle:information:aboutUs.html.twig', array(
             'numbers'=>$numbers,
             'information'=>$information_about_us

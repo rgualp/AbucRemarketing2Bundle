@@ -664,15 +664,15 @@
             </trans-unit>
             <trans-unit id="175">
                 <source>MID_RANGE_OWNERSHIP</source>
-                <target>Rango Medio</target>
+                <target>Alojamientos Rango Medio</target>
             </trans-unit>
             <trans-unit id="176">
                 <source>ECONOMY_OWNERSHIP</source>
-                <target>Económicas</target>
+                <target>Alojamientos Económicos</target>
             </trans-unit>
             <trans-unit id="177">
                 <source>PREMIUM_OWNERSHIP</source>
-                <target>Premium</target>
+                <target>Alojamientos Premium</target>
             </trans-unit>
             <trans-unit id="178">
                 <source>OFFERS_PAGE_TITLE</source>
@@ -984,7 +984,7 @@
             </trans-unit>
             <trans-unit id="255">
                 <source>REMOVE_FAVORITIES_DETAILS</source>
-                <target>Eliminar de Favoritas</target>
+                <target>Eliminar de Favoritos</target>
             </trans-unit>
             <trans-unit id="256">
                 <source>TO_PRICES</source>
@@ -1388,7 +1388,7 @@
             </trans-unit>
             <trans-unit id="356">
                 <source>VISITS</source>
-                <target>Visitas:</target>
+                <target>Visitas</target>
             </trans-unit>
             <trans-unit id="357">
                 <source>OWNERSHIPS</source>
@@ -2342,6 +2342,58 @@
                 <trans-unit id="595">
                     <source>REQUIRED_FIELDS_NEXT_STEP</source>
                     <target>Rellene todos los campos para pasar al siguiente paso</target>
+                </trans-unit>
+                <trans-unit id="596">
+                    <source>BEACHES</source>
+                    <target>Playas</target>
+                </trans-unit>
+                <trans-unit id="597">
+                    <source>DIVING</source>
+                    <target>Buceo</target>
+                </trans-unit>
+                <trans-unit id="598">
+                    <source>VIEWPOINTS</source>
+                    <target>Miradores</target>
+                </trans-unit>
+                <trans-unit id="599">
+                    <source>MUSEUMS</source>
+                    <target>Museos</target>
+                </trans-unit>
+                <trans-unit id="600">
+                    <source>TREKKING</source>
+                    <target>Senderismo</target>
+                </trans-unit>
+                <trans-unit id="601">
+                    <source>CYCLING</source>
+                    <target>Ciclismo</target>
+                </trans-unit>
+                <trans-unit id="602">
+                    <source>MARINES</source>
+                    <target>Marinas</target>
+                </trans-unit>
+                <trans-unit id="603">
+                    <source>FISHING</source>
+                    <target>Pesca</target>
+                </trans-unit>
+                <trans-unit id="604">
+                    <source>CASCADES</source>
+                    <target>Cascadas</target>
+                </trans-unit>
+                <trans-unit id="605">
+                    <source>FORESTS</source>
+                    <target>Bosques</target>
+                </trans-unit>
+                <trans-unit id="606">
+                    <source>MOUNTAINS</source>
+                    <target>Montañas</target>
+                </trans-unit>
+                <trans-unit id="607">
+                    <source>SELECT_PHOTOGRAPHY</source>
+                    <target>Seleccionar fotografía...</target>
+                </trans-unit>
+                <trans-unit id="608">
+                    <source>THE_ENTERPRISE</source>
+                    <target>La empresa</target>
                 </trans-unit>
         </body>
     </file>

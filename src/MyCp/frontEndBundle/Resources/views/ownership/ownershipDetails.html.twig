@@ -1,5 +1,5 @@
 {%set start_date = (post['reservation_filter_date_from'] is defined) ? ( post['reservation_filter_date_from']) : ((app.session.get('search_arrival_date') != null) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now" |date("d/m/Y")))%}
-{%set end_date = (post['reservation_filter_date_to'] is defined) ? (post['reservation_filter_date_to']) : ((app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : ("+2 day" |date("d/m/Y")))%}
+{%set end_date = (post['reservation_filter_date_to'] is defined) ? (post['reservation_filter_date_to']) : ((app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : ("+2 days" |date("d/m/Y")))%}
 
 {% extends 'frontEndBundle:layout:base.html.twig' %}
 {% block title %}
@@ -34,14 +34,14 @@
             <div class="tabbable">
                 <ul class="nav nav-tabs">
                     {%if gallery_photos | length%}
-                    <li onclick="javascript:hide_calendar()" class="active li-tabs"><a data-toggle="tab" href="#tab1">{{"PHOTO_TAB_DETAILS" | trans}}</a></li>
+                    <li onclick="javascript:hide_calendar()" class="active li-tabs"><a data-toggle="tab" href="#tab-photos">{{"PHOTO_TAB_DETAILS" | trans}}</a></li>
                     {%endif%}
-                    <li onclick="javascript:hide_calendar()" {%if not gallery_photos | length%} class="active li-tabs" {%endif%}><a data-toggle="tab" href="#tab2">{{"MAPS_TAB_DETAILS" | trans}}</a></li>
+                    <li onclick="javascript:hide_calendar()" {%if not gallery_photos | length%} class="active li-tabs" {%endif%}><a data-toggle="tab" href="#tab-map">{{"MAPS_TAB_DETAILS" | trans}}</a></li>
                     <li id="li-reservations" class="li-tabs"><a data-toggle="tab" href="#tab-reservations">{{'RESERVATION_TITLE' | trans}}</a></li>
                 </ul>
                 <div class="tab-content">
                     {%if gallery_photos | length%}
-                    <div id="tab1" class="tab-pane active">
+                    <div id="tab-photos" class="tab-pane active">
                         <div id="full-width-slider" class="royalSlider rsDefault">
                            {% for photo in  gallery_photos%}
                                <div rel="tooltip" class="rsContent" title="{{photo.photo_description}}"><img class="rsImg" src="{{asset('uploads/ownershipImages/'~photo.photo_name)}}" alt="" /></div>
@@ -49,7 +49,7 @@
                         </div>
                     </div>
                     {%endif%}
-                    <div id="tab2" class="tab-pane">
+                    <div id="tab-map" class="tab-pane">
                         <div class="flexible-container" id="mapContent">
                             <iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
                                     src="{{ path('frontend_map_details_ownership',{'ownGeolocateX':ownership.OwnGeolocateX,'ownGeolocateY':ownership.OwnGeolocateY,'ownName':ownership.ownname,'description': "FROM_PRICES" | trans ~ (app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')) ~ ownership.ownminimumprice ~ " " ~ ("BYNIGHTS_PRICES" | trans | lower),'image':((gallery_photos[0] is defined) ? gallery_photos[0].photo_name : "no_photo.png")})}}">
@@ -542,7 +542,7 @@
     var cont_array_dates={{ array_dates | length}} ;
             var start_date = "{{start_date }}";
     var end_date = "{{end_date}}";
-
+    
     $(document).ready(function($) {
         $('#full-width-slider').royalSlider({
             arrowsNav: true,
@@ -553,7 +553,7 @@
             autoScaleSlider: true,
             autoScaleSliderWidth: 640,
             autoScaleSliderHeight: 480,
-            controlNavigation: 'bullets',
+            controlNavigation: false,
             thumbsFitInViewport: false,
             navigateByClick: true,
             startSlideId: 0,
@@ -567,24 +567,25 @@
         });
     });
 
-    $('#filter_date_to').change(function(){
+    $('input#filter_date_to').change(function(){
         from=$('#filter_date_from').val();
         to=$('#filter_date_to').val();
         refresh_calendar(from,to);
-        $('#top_reservation_filter_date_from').val(from);
-        $('#top_reservation_filter_date_to').val(to);
+        $('#top_reservation_filter_date_from').datepicker("setDate", new Date(create_date(from)));
+        $('#top_reservation_filter_date_to').datepicker("setDate", new Date(create_date(to)));
     });
+    
     function refresh_calendar_button()
     {
         $('#tab-reservations').attr('class','active');
         $('.li-tabs').attr('class','');
+        $('#tab-photos').removeClass('active');
         $('#li-reservations').attr('class','active');
-
-
+        
         from=$('#top_reservation_filter_date_from').val();
         to=$('#top_reservation_filter_date_to').val();
-        $('#filter_date_from').val(from);
-        $('#filter_date_to').val(to);
+        $('#filter_date_from').datepicker("setDate", new Date(create_date(from)));
+        $('#filter_date_to').datepicker("setDate", new Date(create_date(to)));
 
         refresh_calendar(from,to);
     }
@@ -616,12 +617,23 @@
                     $('#data_reservation').attr('to_date', to);
                 });
     }
+    
+    function create_date(date_text) {
+    var date = date_text.split('/');
+    if (date.length == 3)
+    {
+        var date_result = ((parseInt(date[2], 10) < 10) ? '0' + parseInt(date[2], 10) : parseInt(date[2], 10)) + '-' + ((parseInt(date[1], 10) < 10) ? '0' + parseInt(date[1], 10) : parseInt(date[1], 10)) + '-' + ((parseInt(date[0], 10) < 10) ? '0' + parseInt(date[0], 10) : parseInt(date[0], 10));
+        return date_result;
+    }
+    return null;
+
+}
 
     </script>
     <script type="text/javascript">
         var reservation_see_prices_text = "{{"RESERVATION_SEE_PRICES" | trans}}";
         var own_id = "{{ownership.own_id}}";
     </script>
-        <script src="{{ asset('bundles/frontend/js/ownership_details.js') }}"></script>
+    <script src="{{ asset('bundles/frontend/js/ownership_details.js') }}"></script>
 {% endblock %}
 {% endblock %}

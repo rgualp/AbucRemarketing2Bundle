@@ -1,4 +1,4 @@
-$(function () {
+$(function() {
     $("[rel='tooltip']").tooltip();
 });
 
@@ -32,7 +32,7 @@ function language_change()
         var refresh_url = $(this).attr('data-refresh-url');
         var new_lang_code = $(this).attr('data-new-lang-code');
         var current_lang_code = $(this).attr('data-current-lang-code');
-        
+
         $.post(url,
                 {
                     'lang_code': $(this).attr('data-new-lang-code'),
@@ -115,6 +115,7 @@ function delete_from_list_favorites()
         var url = $(this).attr('data-url');
         var favorite_type = $(this).attr('data-favorite-type');
         var element_id = $(this).attr('data-element-id');
+        var url_statistics = $(this).attr('data-url-statistics');
 
         show_loading();
         $.post(url,
@@ -122,6 +123,7 @@ function delete_from_list_favorites()
                     'favorite_type': favorite_type,
                     'element_id': element_id
                 }, function(data) {
+            update_statistics(favorite_type, url_statistics);
             if (favorite_type == "ownership")
                 $("#div_result").html(data);
             else if (favorite_type == "destination")
@@ -129,6 +131,19 @@ function delete_from_list_favorites()
             delete_from_list_favorites();
             hide_loading();
         });
+    });
+}
+
+function update_statistics(favorite_type, url)
+{
+    $.post(url,
+            {
+                'favorite_type': favorite_type
+            }, function(data) {
+        if (favorite_type == "ownership")
+            $("#total_fav_own").html(data);
+        else if (favorite_type == "destination")
+            $("#total_fav_dest").html(data);
     });
 }
 
@@ -154,9 +169,9 @@ function send2Friend() {
     if (!document.mail_popup_form.checkValidity()) {
         if (name_from === '') {
             $('#name_from').css("borderColor", "red");
-        }else if(email_from === ''){
+        } else if (email_from === '') {
             $('#email_from').css("borderColor", "red");
-        }else {
+        } else {
             $('#email_to').css("borderColor", "red");
         }
         return;
@@ -173,6 +188,7 @@ function send2Friend() {
         $('#name_from').val("");
         $('#email_from').val("");
         $('#name_from').val("");
+        $('#email_to').val("");
         $('#send_to_friend_popup').modal('hide');
         $('#sending_mail').addClass('hidden');
     });

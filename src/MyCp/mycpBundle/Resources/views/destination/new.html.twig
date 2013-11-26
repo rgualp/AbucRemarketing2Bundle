@@ -85,13 +85,30 @@
     <div class="row-fluid">
         <div class="span6">
             {%if errors["geolocate_x"] is defined %}<label class="error">{{errors["geolocate_x"]|trim(':')}}</label>{%endif%}
-            <input type="text" name="geolocate_x" class="input-block-level" value="{%if data["geolocate_x"] is defined %}{{data["geolocate_x"]}}{%endif%}"/>
+            <input type="text" placeholder="x" name="geolocate_x" class="input-block-level" value="{%if data["geolocate_x"] is defined %}{{data["geolocate_x"]}}{%endif%}"/>
         </div>
         <div class="span6">
             {%if errors["geolocate_y"] is defined %}<label class="error">{{errors["geolocate_y"]|trim(':')}}</label>{%endif%}
-            <input type="text" name="geolocate_y" class="input-block-level" value="{%if data["geolocate_y"] is defined %}{{data["geolocate_y"]}}{%endif%}"/>
+            <input type="text" placeholder="y" name="geolocate_y" class="input-block-level" value="{%if data["geolocate_y"] is defined %}{{data["geolocate_y"]}}{%endif%}"/>
         </div>
     </div>
+    <h3 class="title">Atracciones</h3>
+    {% for category in categories  %}
+        <label class="checkbox">
+            <input type="checkbox" {% if(data['category_'~category.getDesCatId] is defined) %} checked="TRUE" {% endif %} name="category_{{ category.getDesCatId }}"> {{ category.getDesCatNameSpanish }}
+        </label>
+    {% endfor %}
+    <div class="row-fluid">
+        <div class="span6">
+            {%if errors["cat_location_x"] is defined %}<label class="error">{{errors["cat_location_x"]|trim(':')}}</label>{%endif%}
+            <input type="number" placeholder="x" value="{% if(data['cat_location_x'] is defined) %}{{ data['cat_location_x'] }}{% endif %}" name="cat_location_x" class="input-block-level"/>
+        </div>
+        <div class="span6">
+            {%if errors["cat_location_y"] is defined %}<label class="error">{{errors["cat_location_y"]|trim(':')}}</label>{%endif%}
+            <input type="number" placeholder="y" value="{% if(data['cat_location_y'] is defined) %}{{ data['cat_location_y'] }}{% endif %}" name="cat_location_y" class="input-block-level"/>
+        </div>
+    </div>
+
     <h3 class="title">Publicado</h3>
     <label class="checkbox">
         <input type="checkbox" {% if(data['public'] is defined) %} checked="TRUE" {% endif %} name="public"> Publicado en el sitio

@@ -13,12 +13,15 @@
             {%endif%}
 
             {%if menu == 3 or menu == 4%}
-            <li class="{% if menu == 3 %}active{% endif %}"><a href="{{path('frontend_mycasatrip_payment') }}">{{"RESERVED" | trans}} ({{counts['reserve']}})</a></li>
+            <li class="{% if menu == 3 %}active{% endif %}"><a href="{{path('frontend_mycasatrip_payment') }}">{{"RESERVED" | trans}} ({{counts['payed']}})</a></li>
             <!--li class="{% if menu == 4 %}active{% endif %}"><a href="{{ path('frontend_mycasatrip_payment') }}"><i class="icon-home"></i> {{"PAYMENT_CONFIRM_2" | trans}} ({{counts['payed']}})</a></li-->
             {%endif%}
 
             {%if menu == 7 or menu == 8%}
-            <li class="{% if menu == 7 %}active{% endif %}"><a href="{{ path('frontend_mycasatrip_favorites', {'favorite_type':'ownerships'}) }}"><i class="icon-home"></i> {{"OWNERSHIPS" | trans}} ({{counts['favorites_ownerships']}})</a></li>
-            <li class="{% if menu == 8 %}active{% endif %}"><a href="{{ path('frontend_mycasatrip_favorites', {'favorite_type':'destinations'}) }}">{{"DESTINATIONS" | trans}} ({{counts['favorites_destinations']}})</a></li>
+            <li class="{% if menu == 7 %}active{% endif %}"><a href="{{ path('frontend_mycasatrip_favorites', {'favorite_type':'ownerships'}) }}"><i class="icon-home"></i> {{"OWNERSHIPS" | trans}} (<span id="total_fav_own">{{counts['favorites_ownerships']}}</span>)</a></li>
+            <li class="{% if menu == 8 %}active{% endif %}"><a href="{{ path('frontend_mycasatrip_favorites', {'favorite_type':'destinations'}) }}">{{"DESTINATIONS" | trans}} (<span id="total_fav_dest">{{counts['favorites_destinations']}}</span>)</a></li>
             {%endif%}
+            {% if menu == 9 %}
+            <li class="{% if menu == 9 %}active{% endif %}"><a href="#">{{"FORMS_COMMENTS" | trans}} ({{counts['comments_ownerships']}})</a></li>
+            {% endif %}
         </ul>

@@ -17,7 +17,7 @@ function datePickersStarUp() {
         startDate.setDate(startDate.getDate() + 1);
         departure_datepicker.setStartDate(startDate);
         var date = new Date(ev.date);
-        date.setDate(date.getDate() + 2);
+        date.setDate(date.getDate() + 1);
         departure_datepicker.setDate(date);
     });
 
