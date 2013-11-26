@@ -17,7 +17,7 @@
         {%endif%}
             <div  id="json_source" data-url="{{path("frontend_map_markers_ownership")}}"
                  data-icon-small="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_small.png') }}"
-                 data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map.png') }}"></div>
+                 data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"></div>
             {{ include('frontEndBundle:ownership:verticalSearcherOwnership.html.twig',
             {'is_within_search_results':true, 
              'autocomplete_text_list': autocomplete_text_list,

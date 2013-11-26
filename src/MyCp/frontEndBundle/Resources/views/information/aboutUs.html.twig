@@ -40,24 +40,35 @@
                 <div class="thumbnail" id="some_numbers" style="background-color: #f5f5f5; padding: 10px 30px; margin-top: -145px">
                     <h3 class="no-margin margin-b-t">{{ "SOME_NUMBERS"|trans }}</h3>
                     {{ 'FOUNDED_APRIL_2010'|trans }}<br/>
-                    1500 {{ 'ACCOMMODATIONS'|trans }}<br/>
-                    3500 {{ 'ROOMS'|trans }}<br/>
+                    {{ numbers['acc'] }} {{ 'ACCOMMODATIONS'|trans }}<br/>
+                    {{ numbers['rooms'] }} {{ 'ROOMS'|trans }}<br/>
                     {{ 'ACCOMMODATIONS_ALL_PROVINCES'|trans }}<br/>
-                    5 {{ 'LANGUAGE'|trans }}s
+                    {{ numbers['langs'] }} {{ 'LANGUAGE'|trans }}s
                 </div>
             </div>
         </div>
         <hr class="hr-grey" style="margin-bottom: 40px"/>
         <div class="tabbable tabs-left">
             <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#theenterprise">{{ "THE_ENTERPRISE"|trans }}</a></li>
+                {% for info in information %}
+                    <li {% if loop.index == 1%}class="active"{% endif %}><a data-toggle="tab" href="#id_{{ info.getInfoLangId }}">{{ info.getInfoLangName }}</a></li>
+                {% endfor %}
+                <!--li class="active"><a data-toggle="tab" href="#theenterprise">{{ "THE_ENTERPRISE"|trans }}</a></li>
                 <li><a data-toggle="tab" href="#mainvalue">Valor fundamental</a></li>
                 <li><a data-toggle="tab" href="#team">Equipo de colaboradores</a></li>
                 <li><a data-toggle="tab" href="#history">Historia de MyCasaParticular</a></li>
-                <li><a data-toggle="tab" href="#seo" style="margin-bottom: 110px">Su fundador</a></li>
+                <li><a data-toggle="tab" href="#seo" style="margin-bottom: 110px">Su fundador</a></-->
             </ul>
             <div class="tab-content">
-                <div id="theenterprise" class="tab-pane active">
+                {% for info in information %}
+                <div id="id_{{ info.getInfoLangId }}" class="tab-pane {% if loop.index == 1%}active{% endif %}">
+                    <h3 class="no-margin h-blue h-size-3 margin-b-t">{{ info.getInfoLangName }}</h3>
+                    <p>{{ info.getInfoLangContent | raw }}</p>                    
+                </div>
+                {% endfor %}
+                
+                
+                <!--div id="theenterprise" class="tab-pane active">
                     <h3 class="no-margin h-blue h-size-3 margin-b-t">La empresa</h3>
                     <p>MyCasaParticular es una plataforma online para la reservación en línea de alojamientos privados en Cuba y otros servicios asociados. Nuestra visión es hacer de los alojamientos privados la primera alternativa de hospedaje del viajero. Lograr que los viajeros tenga una experiencia única conociendo mejor esta tierra, su gente y su cultura. Brindar una alternativa de alojamiento autentica diferente a la de los Hoteles.</p>
                     <p>MyCasaParticular está consiente del impacto social y económico que representa cada visita de un turista a un alojamiento privado. Miles de familia cubanas se benefician de esta manera además de crear puestos de trabajos. El equipo de MyCasaParticular no conoce un método mejor de ayudar al pueblo de Cuba, practicar un turismo equitativo, responsable y de respeto a la naturaleza.</p>
@@ -104,7 +115,7 @@
                         </tr>
                     </table>
 
-                </div>
+                </div-->
             </div>
         </div>
     </div>
