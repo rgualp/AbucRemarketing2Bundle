@@ -603,6 +603,6 @@ footer ul li{line-height: 16px}
 .no-bold{font-weight: normal}
 .thumb-con img{border: 1px solid #DDDDDD; border-radius: 3px; padding: 4px; margin-right: 10px}
 .table-responsive-v2 tr td.last{padding-left: 20px; }
-
+.table-type-1 td{padding: 8px 0!important;}
 
 
