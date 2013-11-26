@@ -2,7 +2,6 @@
 
 namespace MyCp\mycpBundle\Entity;
 
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -354,11 +353,11 @@ class ownership {
     private $own_rooms_total;
 
     /**
-     * @var DateTime
+     * @var boolean
      *
-     * @ORM\Column(name="own_created_date", type="date")
+     * @ORM\Column(name="own_sync", type="boolean")
      */
-    private $own_created_date;
+    private $own_sync;
 
     /**
      * @OneToMany(targetEntity="unavailabilityDetails", mappedBy="ownership_id")
@@ -370,7 +369,6 @@ class ownership {
      */
     public function __construct() {
         $this->own_rooms = new ArrayCollection();
-        $this->own_created_date = date('Y m d');
     }
 
     /**
@@ -1418,8 +1416,8 @@ class ownership {
         return $this->own_commission_percent;
     }
 
-    public function getOwnCreatedDate() {
-        return $this->own_created_date;
+    public function getOwnSync() {
+        return $this->own_sync;
     }
 
     public function getOwn_unavailability_details() {

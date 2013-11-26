@@ -48,12 +48,12 @@ class MycpCFController extends Controller {
     private function _getResRoomDetails($reservation) {
         $rooms_details = array();
         foreach ($reservation->getOwn_reservations() as $i => $_room_details) {
-            $rooms_details[$i]["room_num"] = $_room_details->getOwnResSelectedRoomId();
-            $rooms_details[$i]["from_date"] = $_room_details->getOwnResReservationFromDate()->format('Y-m-d');
-            $rooms_details[$i]["to_date"] = $_room_details->getOwnResReservationToDate()->format('Y-m-d');
-            $rooms_details[$i]["adults_count"] = $_room_details->getOwnResCountAdults();
-            $rooms_details[$i]["children_count"] = $_room_details->getOwnResCountChildrens();
-            $rooms_details[$i]["night_price"] = $_room_details->getOwnResNightPrice();
+            $rooms_details[$i]["rn"] = $_room_details->getOwnResSelectedRoomId();
+            $rooms_details[$i]["fd"] = $_room_details->getOwnResReservationFromDate()->format('Y-m-d');
+            $rooms_details[$i]["td"] = $_room_details->getOwnResReservationToDate()->format('Y-m-d');
+            $rooms_details[$i]["ac"] = $_room_details->getOwnResCountAdults();
+            $rooms_details[$i]["cc"] = $_room_details->getOwnResCountChildrens();
+            $rooms_details[$i]["np"] = $_room_details->getOwnResNightPrice();
         }
         return $rooms_details;
     }
@@ -69,14 +69,6 @@ class MycpCFController extends Controller {
 
     private function _getHouse($reservation) {
         $house["code"] = $reservation->getGenResOwnId()->getOwnMcpCode();
-        $house["name"] = $reservation->getGenResOwnId()->getOwnName();
-        $house["proprietary"] = $reservation->getGenResOwnId()->getPropietariesStringList();
-        $house["address"] = $reservation->getGenResOwnId()->getFullAddress();
-        $house["phone"] = $reservation->getGenResOwnId()->getOwnPhoneNumber();
-        $house["min_price"] = $reservation->getGenResOwnId()->getOwnMinimumPrice();
-        $house["max_price"] = $reservation->getGenResOwnId()->getOwnMaximumPrice();
-        $house["com_percent"] = $reservation->getGenResOwnId()->getOwnCommissionPercent();
-
         return $house;
     }
 

@@ -114,7 +114,7 @@ class generalReservationRepository extends EntityRepository {
         $query = $em->createQuery("SELECT gre, gre_own_res, grec FROM mycpBundle:generalReservation gre
             JOIN gre.own_reservations gre_own_res
             JOIN gre.gen_res_user_id grec
-            WHERE gre.gen_res_date BETWEEN '$init_date' AND '$end_date'");
+            WHERE gre.own_sync = 0 AND gre.gen_res_date BETWEEN '$init_date' AND '$end_date'");
         return $query->getResult();
     }
 
