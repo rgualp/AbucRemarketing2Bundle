@@ -4,11 +4,10 @@
 {% extends 'frontEndBundle:mycasatrip:layout.html.twig' %}
 {% block body_inner %}
 {%if comment_type == "ownerships"%}
-<div class="row-fluid result_list ownerships_list" id="div_result">
     {%for comment in comments%}
-        <div class="tab-pane user_comment fade in active" style="border:1px solid #ddd; padding: 3px; margin-bottom: 5px;">
-                    <div class="row-fluid">
-                        <div class="span2">                            
+
+                    <div class="row">
+                        <div class="col-sm-2">
                             <label class="name">{{comment.comdate | date('d/m/Y')}}</label>
                             <div class="rating_star">
                                 {%if comment.getComRate > 0%}
@@ -24,15 +23,14 @@
                                         {%endif%}
                             </div>
                         </div>
-                        <div class="span10">
+                        <div class="col-sm-10">
                            {{comment.getComComments}}
                         </div>
                     </div>
-            </div>
     {%else%}
            <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
 
-                    {%endfor%}
+    {%endfor%}
                     {%if comments | length and total_items > items_per_page%}
                         <div class="text-center">
                         {{ simple_paginator_render('frontend_mycasatrip_comments',null,{
@@ -45,7 +43,6 @@
                         'route_params': {'comment_type':comment_type}
                     }) }}
                     </div>
-                    {%endif%}     
-</div>
+                    {%endif%}
 {%endif%}
 {% endblock %}

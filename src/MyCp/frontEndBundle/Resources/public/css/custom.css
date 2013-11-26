@@ -541,6 +541,13 @@ footer ul li{line-height: 16px}
 .has-ribbon-orange.has-ribbon:before{
     border-color:#8F5907 transparent;
 }
+.has-ribbon-red.has-ribbon:after{
+    background-color: #bd362f;
+}
+.has-ribbon-red.has-ribbon:before{
+    border-color:#2F0000 transparent;
+}
+
 .myct-records .big-price-blue{margin: 15px 0 20px}
 .myct-records .col-sm-3.text-center{padding:10px 0; }
 .myct-records .col-sm-3.text-center.grey{background-color: #F6F6F6;}
@@ -596,5 +603,6 @@ footer ul li{line-height: 16px}
 .no-bold{font-weight: normal}
 .thumb-con img{border: 1px solid #DDDDDD; border-radius: 3px; padding: 4px; margin-right: 10px}
 .table-responsive-v2 tr td.last{padding-left: 20px; }
+
 
 
