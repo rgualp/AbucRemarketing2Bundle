@@ -65,7 +65,7 @@
         </tbody>
     </table>
     <div style="text-align: right">
-        <label style="font-size: 10px;margin-top: 5px; color: #9BB949;">{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')| upper}}{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</label>
+        <label style="font-size: 10px;margin-top: 5px; color: #515151;">{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')| upper}}{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</label>
     </div>
     <script type="text/javascript">
         var cont_array_dates={{ array_dates | length}};
