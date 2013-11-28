@@ -95,13 +95,20 @@ class generalReservation {
      * @OneToMany(targetEntity="ownershipReservation", mappedBy="own_res_gen_res_id")
      */
     private $own_reservations;
-    
+
     /**
      * @var string
      *
      * @ORM\Column(name="gen_res_arrival_hour", type="text",nullable=true)
      */
     private $gen_res_arrival_hour;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="own_sync", type="boolean")
+     */
+    private $own_sync;
 
     /**
      * Get gen_res_id
@@ -321,6 +328,7 @@ class generalReservation {
     public function getGenResHour() {
         return $this->gen_res_hour;
     }
+
     /**
      * Set gen_res_arrival_hour
      *
@@ -341,7 +349,7 @@ class generalReservation {
     public function getGenResArrivalHour() {
         return $this->gen_res_arrival_hour;
     }
-    
+
     public function getOwn_reservations() {
         return $this->own_reservations;
     }
@@ -350,7 +358,10 @@ class generalReservation {
         $this->own_reservations = $own_reservations;
     }
 
-    
+    public function getOwnSync() {
+        return $this->own_sync;
+    }
+
     // <editor-fold defaultstate="collapsed" desc="Logic Methods">
     public function getRoomsCount() {
         return count($this->own_reservations);
@@ -373,46 +384,5 @@ class generalReservation {
     }
 
 // </editor-fold>
-
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->own_reservations = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
-    /**
-     * Add own_reservations
-     *
-     * @param \MyCp\mycpBundle\Entity\ownershipReservation $ownReservations
-     * @return generalReservation
-     */
-    public function addOwnReservation(\MyCp\mycpBundle\Entity\ownershipReservation $ownReservations)
-    {
-        $this->own_reservations[] = $ownReservations;
-    
-        return $this;
-    }
-
-    /**
-     * Remove own_reservations
-     *
-     * @param \MyCp\mycpBundle\Entity\ownershipReservation $ownReservations
-     */
-    public function removeOwnReservation(\MyCp\mycpBundle\Entity\ownershipReservation $ownReservations)
-    {
-        $this->own_reservations->removeElement($ownReservations);
-    }
-
-    /**
-     * Get own_reservations
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getOwnReservations()
-    {
-        return $this->own_reservations;
-    }
 }
+

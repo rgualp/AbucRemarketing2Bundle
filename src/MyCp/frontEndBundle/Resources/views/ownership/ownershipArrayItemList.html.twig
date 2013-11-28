@@ -59,6 +59,6 @@
 </div>
 <hr/>
 {%else%}
-  <div class="container"><div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div></div>
+  <div {% if is_in_favorites_list is not defined %} class="container"{% endif %}><div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div></div>
 {%endfor%}
     </div>
