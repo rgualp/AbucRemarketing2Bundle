@@ -34,8 +34,12 @@ class destinationController extends Controller {
         $locale = $this->get('translator')->getLocale();
         $destination_name=str_replace('_',' ',$destination_name);
         $destination= $em->getRepository('mycpBundle:destination')->findOneBy(array('des_name'=>$destination_name));
+        if($destination==null)
+        {
+            throw $this->createNotFoundException();
+        }
         $destination_array = $em->getRepository('mycpBundle:destination')->get_destination($destination->getDesId(),$locale);
-                
+
         $photos = $em->getRepository('mycpBundle:destination')->getPhotos($destination->getDesId(),$locale);
 
         $location_municipality_id = $destination_array['municipality_id'];

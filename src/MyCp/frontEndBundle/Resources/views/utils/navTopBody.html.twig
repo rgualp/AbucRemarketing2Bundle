@@ -5,10 +5,10 @@
         <ul class="nav navbar-nav onhover helvetica-roman" >
             <li class="{%if  main_tab == 1 %}active{%endif%}">
                 <a title="{{"HOMEPAGE_TITLE" | trans}}" href="{{ path('frontend_welcome') }}">{{"HOME_MAIN_MENU" | trans}}</a></li>
-            <li class="dropdown {%if  main_tab == 2 %}active{%endif%}">                
+            <li class="dropdown {%if  main_tab == 2 %}active{%endif%} main-menu">
                 {% render 'frontEndBundle:public:get_main_menu_destinations' %}                
             </li>
-            <li class="dropdown {%if  main_tab == 5 %}active{%endif%}">
+            <li class="dropdown {%if  main_tab == 5 %}active{%endif%} main-menu">
                 {% render 'frontEndBundle:public:get_main_menu_accomodations' %}
             </li>
             <li class="{%if  main_tab == 6 %}active{%endif%}">

@@ -159,7 +159,16 @@ class ownershipController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $ownership = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code' => $own_code));
         if ($ownership)
-            return $this->redirect($this->generateUrl('frontend_details_ownership', array('own_name' => str_replace(" ", "_", strtolower($ownership->getOwnName())))));
+        {
+            $own_name=str_replace(" ", "_", $ownership->getOwnName());
+            $own_name=str_replace("á", "a", $own_name);
+            $own_name=str_replace("é", "e", $own_name);
+            $own_name=str_replace("í", "i", $own_name);
+            $own_name=str_replace("ó", "o", $own_name);
+            $own_name=str_replace("ú", "u", $own_name);
+            $own_name=strtolower($own_name);
+            return $this->redirect($this->generateUrl('frontend_details_ownership', array('own_name' => $own_name)));
+        }
         else
             throw $this->createNotFoundException();
     }
@@ -172,6 +181,10 @@ class ownershipController extends Controller {
 
         $own_name = str_replace('_', ' ', $own_name);
         $ownership_array = $em->getRepository('mycpBundle:ownership')->get_details($own_name, $locale, $user_ids["user_id"], $user_ids["session_id"]);
+        if($ownership_array == null)
+        {
+            throw $this->createNotFoundException();
+        }
 
         $owner_id = $ownership_array['own_id'];
         $general_reservations = $em->getRepository('mycpBundle:generalReservation')->findBy(array('gen_res_own_id' => $owner_id));
