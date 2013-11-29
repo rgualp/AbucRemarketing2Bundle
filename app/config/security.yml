@@ -44,7 +44,7 @@ security:
             provider: frontend
             form_login:
                 check_path: /check
-                login_path: /login
+                login_path: mycp_login
             remember_me:
                 key: 7dsa7ydasdy872187yegwhqeg9yw91hjsaa00
                 lifetime: 86400
@@ -58,7 +58,7 @@ security:
             provider: frontend
             form_login:
                 check_path: /check
-                login_path: /login
+                login_path: mycp_login
             remember_me:
                 key: 7dsa7ydasdy872187yegwhqeg9yw91hjsaa00
                 lifetime: 86400

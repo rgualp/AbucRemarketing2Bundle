@@ -384,5 +384,57 @@ class generalReservation {
     }
 
 // </editor-fold>
-}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->own_reservations = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Set own_sync
+     *
+     * @param boolean $ownSync
+     * @return generalReservation
+     */
+    public function setOwnSync($ownSync)
+    {
+        $this->own_sync = $ownSync;
+    
+        return $this;
+    }
 
+    /**
+     * Add own_reservations
+     *
+     * @param \MyCp\mycpBundle\Entity\ownershipReservation $ownReservations
+     * @return generalReservation
+     */
+    public function addOwnReservation(\MyCp\mycpBundle\Entity\ownershipReservation $ownReservations)
+    {
+        $this->own_reservations[] = $ownReservations;
+    
+        return $this;
+    }
+
+    /**
+     * Remove own_reservations
+     *
+     * @param \MyCp\mycpBundle\Entity\ownershipReservation $ownReservations
+     */
+    public function removeOwnReservation(\MyCp\mycpBundle\Entity\ownershipReservation $ownReservations)
+    {
+        $this->own_reservations->removeElement($ownReservations);
+    }
+
+    /**
+     * Get own_reservations
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOwnReservations()
+    {
+        return $this->own_reservations;
+    }
+}

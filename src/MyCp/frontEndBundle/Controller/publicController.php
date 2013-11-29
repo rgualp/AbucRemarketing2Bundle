@@ -37,6 +37,7 @@ class PublicController extends Controller {
     }
 
     public function loginAction() {
+        //$this->getRequest()->setLocale('en');
         $request = $this->getRequest();
         $session = $request->getSession();
 

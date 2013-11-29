@@ -59,7 +59,7 @@ mycp_pdfs:
     prefix:   backend/pdf/
 
 mycp_login:
-    pattern:  /login/
+    pattern:  /{_locale}/login/
     defaults: { _controller: frontEndBundle:public:login }
 
 

@@ -31,13 +31,6 @@ class destinationCategory
     private $des_cat_name;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="des_cat_name_spanish", type="string", length=255)
-     */
-    private $des_cat_name_spanish;
-
-    /**
      * Get des_cat_id
      *
      * @return integer 
@@ -70,26 +63,4 @@ class destinationCategory
         return $this->des_cat_name;
     }
 
-    /**
-     * Set des_cat_name_spanish
-     *
-     * @param string $desCatNameSpanish
-     * @return destinationCategory
-     */
-    public function setDesCatNameSpanish($desCatNameSpanish)
-    {
-        $this->des_cat_name_spanish = $desCatNameSpanish;
-    
-        return $this;
-    }
-
-    /**
-     * Get des_cat_name_spanish
-     *
-     * @return string 
-     */
-    public function getDesCatNameSpanish()
-    {
-        return $this->des_cat_name_spanish;
-    }
 }

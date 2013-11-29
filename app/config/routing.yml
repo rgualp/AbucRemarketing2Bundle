@@ -14,7 +14,7 @@ mycp_frontend:
 frontend_ckeck:
     pattern:  /check
 frontend_login:
-    pattern:  /login/
+    pattern:  /{_locale}/login/
     defaults: { _controller: frontEndBundle:public:login }
 frontend_logout:
     pattern: /logout

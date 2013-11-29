@@ -1438,4 +1438,50 @@ class ownership {
     }
 
 // </editor-fold>
+
+    /**
+     * Set own_sync
+     *
+     * @param boolean $ownSync
+     * @return ownership
+     */
+    public function setOwnSync($ownSync)
+    {
+        $this->own_sync = $ownSync;
+    
+        return $this;
+    }
+
+    /**
+     * Add own_unavailability_details
+     *
+     * @param \MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails
+     * @return ownership
+     */
+    public function addOwnUnavailabilityDetail(\MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails)
+    {
+        $this->own_unavailability_details[] = $ownUnavailabilityDetails;
+    
+        return $this;
+    }
+
+    /**
+     * Remove own_unavailability_details
+     *
+     * @param \MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails
+     */
+    public function removeOwnUnavailabilityDetail(\MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails)
+    {
+        $this->own_unavailability_details->removeElement($ownUnavailabilityDetails);
+    }
+
+    /**
+     * Get own_unavailability_details
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOwnUnavailabilityDetails()
+    {
+        return $this->own_unavailability_details;
+    }
 }
