@@ -1,0 +1,40 @@
+a{color: #F06B12;}
+.big-price-green{color: #F06B12 !important;}
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+    border-top-color: #F06B12;
+}
+.hr-green{border-color: #F2970F}
+.calendar-cont th{color: #F06B12}
+
+.price li.lead {
+    background-image: -moz-linear-gradient(top, #F2970F, #F06B12);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#F2970F), to(#F06B12));
+    background-image: -webkit-linear-gradient(top, #F2970F, #F06B12);
+    background-image: -o-linear-gradient(top, #F2970F, #F06B12);
+    background-image: linear-gradient(#F2970F, #F06B12);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F2970F', endColorstr='#F06B12', GradientType=0);
+    border: 1px solid #B8510C;
+    border-left-color: #B8510C;
+}
+.datepicker th.switch{border-bottom: 1px solid #F2970F}
+.dropdown-menu,.tt-dropdown-menu{
+    border: 1px solid #F2970F;
+}
+.datepicker .day.active,
+.datepicker .prev.active,
+.datepicker .next.active,
+.datepicker .day:hover,
+.datepicker .prev:hover,
+.datepicker .next:hover,
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open .dropdown-toggle.btn-primary {
+    background-color: #F06B12;
+}
+.comments small{color: #F06B12}
