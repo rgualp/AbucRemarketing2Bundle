@@ -1039,8 +1039,7 @@ class ownership {
      */
     public function addOwnRoom(\MyCp\mycpBundle\Entity\room $ownRooms) {
         $this->own_rooms[] = $ownRooms;
-        $this->own_rooms_total = $this->own_rooms_total + 1;
-
+        $this->own_rooms_total++;
         return $this;
     }
 
@@ -1051,8 +1050,7 @@ class ownership {
      */
     public function removeOwnRoom(\MyCp\mycpBundle\Entity\room $ownRooms) {
         $this->own_rooms->removeElement($ownRooms);
-
-        $this->own_rooms_total = $this->own_rooms_total - 1;
+        $this->own_rooms_total--;
     }
 
     /**

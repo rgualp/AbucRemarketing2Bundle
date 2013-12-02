@@ -27,7 +27,8 @@
         "besimple/soap-bundle": "dev-master",
         "besimple/soap-common": "dev-master",
         "ass/xmlsecurity":      "dev-master",
-        "besimple/soap-server": "dev-master"
+        "besimple/soap-server": "dev-master",
+        "besimple/i18n-routing-bundle": "2.1.*@dev"
     },
     "scripts": {
         "post-install-cmd": [
