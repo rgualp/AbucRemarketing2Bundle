@@ -20,7 +20,7 @@ General Information
 -------------------
 
 I would strongly recommend to follow these global git ignore infos by GitHub to avoid trash or temporary data to be included into the repository:
- 
+
 https://help.github.com/articles/ignoring-files
 
 
@@ -30,3 +30,4 @@ Working with this repository
 We would like all developers to commit code to the develop branch. The develop branch will be merged into the master branch when the current state of the develop branch has been verified and a new project version shall be pushed to the web server.
 
 For new features that take more time and commits than changing some lines of code we would like all developers to create feature branches from develop and merge them back to develop when you are finished with the feature. Then the feature branch can be deleted.
+
