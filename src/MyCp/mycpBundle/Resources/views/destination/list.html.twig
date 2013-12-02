@@ -9,7 +9,8 @@
 {% block content %}
 <h2>Destinos</h2>
 <hr/>
-<a class="btn" href="{{ path('mycp_new_destination') }}"><i class="icon-plus"></i> Adicionar destino</a>
+<a class="btn" href="{{ path('mycp_new_destination') }}"><i class="icon-plus"></i> Adicionar destino</a>&nbsp;
+<a class="btn" href="{{ path('mycp_list_category_destination') }}"><i class="icon-folder-open"></i> Categorías</a>
 <br/><br/>
 {% for message in app.session.flashbag.get('message_error_local') %}
 <div class="alert alert-error">{{ message }}</div>

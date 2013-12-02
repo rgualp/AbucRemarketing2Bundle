@@ -65,6 +65,7 @@ parameters:
     dir.watermark: %kernel.root_dir%/../web/uploads/watermark.png
     destination.dir.photos: %kernel.root_dir%/../web/uploads/destinationImages/
     destination.dir.thumbnails: %kernel.root_dir%/../web/uploads/destinationImages/thumbnails/
+    destination.cat.dir.icons: %kernel.root_dir%/../web/uploads/destinationImages/icons/
     album.dir.photos: %kernel.root_dir%/../web/uploads/albumImages/
     album.dir.thumbnails: %kernel.root_dir%/../web/uploads/albumImages/thumbnails/
     ownership.dir.photos: %kernel.root_dir%/../web/uploads/ownershipImages/

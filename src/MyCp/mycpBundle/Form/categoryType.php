@@ -48,6 +48,18 @@ class categoryType extends AbstractType
                 $a++;
             }
         }
+        else if(isset($this->data['des_cat_lang']))
+        {
+            $a=0;
+            $array_langs_text=$this->data['des_cat_lang'];
+            foreach($this->data['languages'] as $language)
+            {
+                $builder->add('lang'.$language->getLangId(), 'text',array(
+                    'attr' => array('class'=>'span6','value'=>$array_langs_text[$a]->getDesCatName()),
+                    'data'=>'','label'=>'Nombre en '.$language->getLangName().':'));
+                $a++;
+            }
+        }
         else
         {
             foreach($this->data['languages'] as $language)
@@ -58,6 +70,12 @@ class categoryType extends AbstractType
 
             }
         }
+
+        if(isset($this->data['des_photo']))
+        {
+            $builder->add('photo','file',array('label'=>'Ícono:','mapped'=>false,
+                'attr'=>array('title'=>"Seleccionar fichero...",'accept'=>'image/*')));
+        }
     }
 
     public function getDefaultOptions(array $options)
@@ -66,7 +84,7 @@ class categoryType extends AbstractType
         $array=array();
         foreach($this->data['languages'] as $language)
         {
-           $array['lang'.$language->getLangId()]= array(new MinLength(5),new NotBlank());
+           $array['lang'.$language->getLangId()]= array(new MinLength(3),new NotBlank());
         }
         $collectionConstraint = new Collection($array);
 

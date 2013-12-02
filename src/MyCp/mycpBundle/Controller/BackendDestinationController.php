@@ -2,6 +2,8 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use MyCp\mycpBundle\Entity\destinationCategory;
+use MyCp\mycpBundle\Entity\destinationCategoryLang;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,10 +13,179 @@ use MyCp\mycpBundle\Entity\destination;
 use MyCp\mycpBundle\Entity\photo;
 use MyCp\mycpBundle\Entity\photoLang;
 use MyCp\mycpBundle\Entity\destinationPhoto;
+use MyCp\mycpBundle\Form\categoryType;
 use MyCp\mycpBundle\Entity\log;
 
 class BackendDestinationController extends Controller
 {
+    function new_categoryAction(Request $request) {
+        $service_security = $this->get('Secure');
+        $service_security->verify_access();
+        $em = $this->getDoctrine()->getEntityManager();
+        $languages = $em->getRepository('mycpBundle:lang')->findAll();
+        $form = $this->createForm(new categoryType(array('languages' => $languages,'des_photo'=>true)));
+
+        if ($request->getMethod() == 'POST') {
+            $form->bind($request);
+            if ($form->isValid()) {
+                $category = new destinationCategory();
+                $em->persist($category);
+
+                $post = $form->getData();
+                foreach ($languages as $language) {
+                    $category_lang = new destinationCategoryLang();
+                    $category_lang->setDesCatIdCat($category);
+                    $category_lang->setDesCatIdLang($language);
+                    $category_lang->setDesCatName($post['lang' . $language->getLangId()]);
+                    $em->persist($category_lang);
+                }
+
+                $dir=$this->container->getParameter('destination.cat.dir.icons');
+                $file = $request->files->get('mycp_mycpbundle_categorytype');
+                if (isset($file['photo'])) {
+                    $photo = new photo();
+                    $fileName = uniqid('dest-') . '-icon.jpg';
+                    $file['photo']->move($dir, $fileName);
+                    $category->setDesIcon($fileName);
+                }
+
+                $em->flush();
+
+                $message = 'Categoría añadida satisfactoriamente.';
+                $this->get('session')->setFlash('message_ok', $message);
+
+                $service_log = $this->get('log');
+                $service_log->save_log('Create category, ' . $post['lang' . $languages[0]->getLangId()], 1);
+
+                return $this->redirect($this->generateUrl('mycp_list_category_destination'));
+            }
+        }
+        return $this->render('mycpBundle:destination:categoryNew.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+
+    function edit_categoryAction($id_category, Request $request) {
+        $service_security = $this->get('Secure');
+        $service_security->verify_access();
+        $em = $this->getDoctrine()->getEntityManager();
+        $languages = $em->getRepository('mycpBundle:lang')->findAll();
+        $dest_cat_langs = $em->getRepository('mycpBundle:destinationCategoryLang')->get_categories();
+        if ($request->getMethod() == 'POST') {
+            $form = $this->createForm(new categoryType(array('languages' => $languages,'des_photo'=>true)));
+        } else {
+            $dest_cat = $em->getRepository('mycpBundle:destinationCategoryLang')->findBy(array('des_cat_id_cat' => $id_category));
+            $form = $this->createForm(new categoryType(array('languages' => $languages, 'des_cat_lang' => $dest_cat,'des_photo'=>true)));
+        }
+
+
+        if ($request->getMethod() == 'POST') {
+            $form->bind($request);
+            if ($form->isValid()) {
+
+                $post = $form->getData();
+
+                foreach ($languages as $language) {
+                    $dest_cat_lang = new destinationCategoryLang();
+                    $dest_cat_lang = $em->getRepository('mycpBundle:destinationCategoryLang')->findBy(array('des_cat_id_lang' => $language));
+                    $dest_cat_lang[0]->setDesCatName($post['lang' . $language->getLangId()]);
+                    $em->persist($dest_cat_lang[0]);
+                }
+
+                $dir=$this->container->getParameter('destination.cat.dir.icons');
+                $file = $request->files->get('mycp_mycpbundle_categorytype');
+                if (isset($file['photo'])) {
+                    $photo = new photo();
+                    $fileName = uniqid('dest-') . '-icon.jpg';
+                    $file['photo']->move($dir, $fileName);
+                    $category=$em->getRepository('mycpBundle:destinationCategory')->find($id_category);
+                    @unlink($dir . $category->getDesIcon());
+                    $category->setDesIcon($fileName);
+                }
+
+                $em->flush();
+                $message = 'Categoría actualizada satisfactoriamente.';
+                $this->get('session')->setFlash('message_ok', $message);
+
+                $service_log = $this->get('log');
+                $service_log->save_log('Edit category, ' . $post['lang' . $languages[0]->getLangId()], 1);
+
+                return $this->redirect($this->generateUrl('mycp_list_category_destination'));
+            }
+        }
+        if(is_object($dest_cat_langs[0]))
+        {
+            $name=$dest_cat_langs[0]->getDesCatName();
+        }
+        else
+        {
+            $name=$dest_cat_langs[0]['des_cat_name'];
+        }
+
+        return $this->render('mycpBundle:destination:categoryNew.html.twig', array(
+            'form' => $form->createView(), 'edit_category' => $id_category, 'name_category' => $name
+        ));
+    }
+
+    function delete_categoryAction($id_category) {
+        $service_security = $this->get('Secure');
+        $service_security->verify_access();
+        $em = $this->getDoctrine()->getEntityManager();
+        $category = $em->getRepository('mycpBundle:destinationCategory')->find($id_category);
+        $category_langs = $em->getRepository('mycpBundle:destinationCategoryLang')->findby(array('des_cat_id_cat' => $category));
+        $destinations= $em->getRepository('mycpBundle:destination')->findAll();
+        foreach($destinations as $destination)
+        {
+            if($destination->getDesCategories()->contains($category))
+            {
+                $destination->getDesCategories()->removeElement($category);
+            }
+            $em->persist($destination);
+
+        }
+        foreach($category_langs as $cat_lang)
+        {
+            $em->remove($cat_lang);
+        }
+        $old_cat_lang = $category_langs[0]->getDesCatName();
+
+        if ($category)
+        {
+            $dir=$this->container->getParameter('destination.cat.dir.icons');
+            @unlink($dir.$category->getDesIcon());
+            $em->remove($category);
+        }
+        $em->flush();
+
+
+        $message = 'Categoría eliminada satisfactoriamente.';
+        $this->get('session')->setFlash('message_ok', $message);
+
+        $service_log = $this->get('log');
+        $service_log->save_log('Delete category, ' . $old_cat_lang, 1);
+
+        return $this->redirect($this->generateUrl('mycp_list_category_destination'));
+    }
+
+    function list_categoryAction($items_per_page, Request $request) {
+        $service_security = $this->get('Secure');
+        $service_security->verify_access();
+        $em = $this->getDoctrine()->getEntityManager();
+        $languages = $em->getRepository('mycpBundle:lang')->findAll();
+
+        $paginator = $this->get('ideup.simple_paginator');
+        $paginator->setItemsPerPage($items_per_page);
+        $categories = $paginator->paginate($em->getRepository('mycpBundle:destinationCategoryLang')->get_categories())->getResult();
+        $page = 1;
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+        return $this->render('mycpBundle:destination:categoryList.html.twig', array(
+            'categories' => $categories,
+            'items_per_page' => $items_per_page,
+            'total_items' => $paginator->getTotalItems(),
+            'current_page' => $page,
+        ));
+    }
 
     public function new_destinationAction(Request $request)
     {
@@ -54,6 +225,7 @@ class BackendDestinationController extends Controller
 
             if ($count_errors == 0) {
                 //save into database
+
                 if($request->request->get('edit_destination'))
                 {
                     $em->getRepository('mycpBundle:destination')->edit_destination($post);
@@ -85,7 +257,7 @@ class BackendDestinationController extends Controller
                 $post['id_destination']=$id_destination;
             }
         }
-        $categories= $em->getRepository('mycpBundle:destinationCategory')->findAll();
+        $categories= $em->getRepository('mycpBundle:destinationCategoryLang')->get_categories('object');
         $languages = $em->getRepository('mycpBundle:lang')->get_all_languages();
         return $this->render('mycpBundle:destination:new.html.twig', array('languages' => $languages, 'errors' => $errors, 'data' => $post,'categories'=>$categories));
 
@@ -245,7 +417,8 @@ class BackendDestinationController extends Controller
         }
 
         $data['edit_destination']=TRUE;
-        $categories= $em->getRepository('mycpBundle:destinationCategory')->findAll();
+        $categories= $em->getRepository('mycpBundle:destinationCategoryLang')->get_categories('object');
+
         return $this->render('mycpBundle:destination:new.html.twig', array('languages' => $languages, 'errors' => $errors, 'data' => $data,'categories'=>$categories));
     }
 

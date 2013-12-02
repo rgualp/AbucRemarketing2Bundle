@@ -103,7 +103,6 @@ class destinationRepository extends EntityRepository {
         $destination_location[0]->setDesLocMunicipality($municipality);
         $em->persist($destination_location[0]);
 
-
         $query = $em->createQuery("DELETE mycpBundle:destinationlang des WHERE des.des_lang_destination=$id_destination");
         $query->execute();
 
@@ -131,6 +130,7 @@ class destinationRepository extends EntityRepository {
         $em->persist($destination);
         //var_dump($destination); exit();
         $em->flush();
+        //exit();
     }
 
     function delete_destination($id_destination) {

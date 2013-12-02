@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\booking;
 use MyCp\mycpBundle\Entity\generalReservation;
+use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Email;
 
@@ -655,9 +656,16 @@ class reservationController extends Controller
 
     function confirmationAction($id_booking)
     {
+        $user = $this->get('security.context')->getToken()->getUser();
+
         $em = $this->getDoctrine()->getManager();
         $own_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking));
-        $booking = $em->getRepository('mycpBundle:booking')->find($id_booking);
+        $booking = $em->getRepository('mycpBundle:booking')->findBy(array('booking_id'=>$id_booking,'booking_user_id'=>$user->getUserId()));
+        if(!$booking)
+        {
+            throw $this->createNotFoundException();
+        }
+        $booking=$booking[0];
         $user = $em->getRepository('mycpBundle:user')->find($booking->getBookingUserId());
         $reservations=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking'=>$id_booking));
         $user_tourist=$em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user'=>$user->getUserId()));
@@ -708,6 +716,14 @@ class reservationController extends Controller
         $em->flush();
         $this->get('translator')->setLocale($user_tourist[0]->getUserTouristLanguage()->getLangCode());
 
+        //save pdf into disk to attach
+        $response=$this->view_confirmationAction($id_booking,true);
+        $now = new \DateTime();
+        $pdf_name='boucher'.$user->getUserId().$now->getTimestamp();
+        $this->download_pdf($response, $pdf_name ,true);
+        $attach=$this->container->getParameter('kernel.root_dir')
+            ."/../web/bouchers/$pdf_name.pdf";
+
         // Enviando mail al cliente
         $service_email = $this->get('Email');
         $body=$this->render('frontEndBundle:mails:email_offer_available.html.twig',array(
@@ -719,10 +735,10 @@ class reservationController extends Controller
         ));
         $locale = $this->get('translator');
         $subject = $locale->trans('PAYMENT_CONFIRMATION');
-
         $service_email->send_email(
-            $subject, 'reservation@mycasaparticular.com', $subject.' - MyCasaParticular.com', $user->getUserEmail(), $body
+            $subject, 'reservation@mycasaparticular.com', $subject.' - MyCasaParticular.com', $user->getUserEmail(), $body, $attach
         );
+        @unlink($attach);
 
         // enviando mail a reservation team
         foreach($array_ownres_by_house as $owns)
@@ -759,13 +775,19 @@ class reservationController extends Controller
                 , array('id_booking'=>$id_booking)));
     }
 
-    function view_confirmationAction($id_booking)
+    function view_confirmationAction($id_booking,$to_print=false)
     {
         $service_time = $this->get('Time');
         $user = $this->get('security.context')->getToken()->getUser();
+
         $em = $this->getDoctrine()->getManager();
         $own_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking));
-        $booking = $em->getRepository('mycpBundle:booking')->find($id_booking);
+        $booking = $em->getRepository('mycpBundle:booking')->findBy(array('booking_id'=>$id_booking,'booking_user_id'=>$user->getUserId()));
+        if(!$booking)
+        {
+            throw $this->createNotFoundException();
+        }
+        $booking=$booking[0];
         $nights = array();
         $rooms = array();
         $commissions = array();
@@ -790,18 +812,56 @@ class reservationController extends Controller
             }
         }
 
-        return $this->render('frontEndBundle:reservation:confirmReservation.html.twig', array(
-            'own_res' => $own_res,
-            'user' => $user,
-            'booking' => $booking,
-            'nights' => $nights,
-            'rooms' => $rooms,
-            'total_price' => $total_price,
-            'total_percent_price' => $total_percent_price,
-            'commissions' => $commissions
-        ));
+
+        if($to_print==true)
+            return $this->renderView('frontEndBundle:reservation:boucherReservation.html.twig', array(
+                'own_res' => $own_res,
+                'user' => $user,
+                'booking' => $booking,
+                'nights' => $nights,
+                'rooms' => $rooms,
+                'total_price' => $total_price,
+                'total_percent_price' => $total_percent_price,
+                'commissions' => $commissions
+            ));
+        else
+            return $this->render('frontEndBundle:reservation:confirmReservation.html.twig', array(
+                'own_res' => $own_res,
+                'user' => $user,
+                'booking' => $booking,
+                'nights' => $nights,
+                'rooms' => $rooms,
+                'total_price' => $total_price,
+                'total_percent_price' => $total_percent_price,
+                'commissions' => $commissions
+            ));
 
     }
 
+
+    function generate_pdf_boucherAction($id_booking,$name="boucher")
+    {
+        $response=$this->view_confirmationAction($id_booking,true);
+        return $this->download_pdf($response, $name);
+    }
+
+    function download_pdf($html, $name, $save_to_disk = false) {
+        require_once("lib/dompdf/dompdf_config.inc.php");
+        $dompdf = new \DOMPDF();
+        $dompdf->load_html($html);
+        //$dompdf->set_paper("a4", "landscape");
+        $dompdf->set_paper("a4");
+        $dompdf->render();
+
+        if($save_to_disk==true)
+        {
+            $content_out=$dompdf->output();
+            $fpdf = fopen("bouchers/$name.pdf", 'w');
+            fwrite($fpdf, $content_out);
+            fclose($fpdf);
+        }
+        else
+            $dompdf->stream($name . ".pdf", array("Attachment" => false));
+    }
 
 }

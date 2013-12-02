@@ -3,33 +3,13 @@
         width: 28px; height: 26px ;
         margin: 0 12px;
         cursor: pointer;
-        background-image: url("{{ asset('bundles/frontend/img/icons/icons-destination.png') }}")
     }
-    .icon-des-beach{background-position: -56px 0}
-    .icon-des-buc{background-position: 0 0}
-    .icon-des-mirr{background-position: 0 -26px}
-    .icon-des-mus{background-position: -56px -26px}
-    .icon-des-walk{background-position: -56px -52px}
-    .icon-des-mar{background-position: 0 -52px}
-    .icon-des-bike{background-position: -56px -78px}
-    .icon-des-fish{background-position: 0 -78px}
-    .icon-des-casc{background-position: -56px -104px}
-    .icon-des-for{background-position: 0 -104px}
-    .icon-des-mount{background-position: 0 -130px}
     .map-signal{visibility: hidden; position: absolute}
 </style>
 <div class="container text-center">
-    <img id="icon-beach" title="" data-placement="top" rel="tooltip" href="#" data-original-title="{{ 'BEACHES'|trans }}" class="icon-destination icon-des-beach" data="beach" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
-    <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="{{ 'DIVING'|trans }}" class="icon-destination icon-des-buc" data="diving" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
-    <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="{{ 'VIEWPOINTS'|trans }}" class="icon-destination icon-des-mirr" data="viewpoint" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
-    <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="{{ 'MUSEUMS'|trans }}" class="icon-destination icon-des-mus" data="museum" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
-    <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="{{ 'TREKKING'|trans }}" class="icon-destination icon-des-walk" data="trekking" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
-    <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="{{ 'MARINES'|trans }}" class="icon-destination icon-des-mar" data="marine" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
-    <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="{{ 'CYCLING'|trans }}" class="icon-destination icon-des-bike" data="cycling" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
-    <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="{{ 'FISHING'|trans }}" class="icon-destination icon-des-fish" data="fishing" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
-    <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="{{ 'CASCADES'|trans }}" class="icon-destination icon-des-casc" data="cascade" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
-    <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="{{ 'FORESTS'|trans }}" class="icon-destination icon-des-for" data="forest" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
-    <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="{{ 'MOUNTAINS'|trans }}" class="icon-destination icon-des-mount" data="mountain" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
+    {% for des_cat in des_categories_lang %}
+        <img {% if loop.index0 == 0 %} id="first_atraction" {% endif %}title="" style='background-image: url("{{ asset('uploads/destinationImages/icons/'~des_cat.getDesCatIdCat.getDesIcon ) }}")' data-placement="top" rel="tooltip" href="#" data-original-title="{{ des_cat.getDesCatName }}" class="icon-destination" data="signal_{{ des_cat.getDesCatIdCat.getDesCatId }}" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
+    {% endfor %}
 </div>
 <hr style="border-color: #D7D6D6; width: 100%; margin: 0"/>
 <hr style="border-color: #ffffff; width: 100%; margin: 0 0 30px"/>
@@ -38,7 +18,7 @@
         {% if des_map.getDesCatLocationX %}
         {% for des_map_cat in des_map.getDesCategories %}
         <a href="{{ path('frontend_details_destination',{'destination_name': des_map.getDesName|lower|replace(' ','_')}) }}">
-            <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="{{ des_map.getDesName }}" class="map-signal {{ des_map_cat.getDesCatName }}" style="left:{{ des_map.getDesCatLocationX }}px; margin-top: {{ des_map.getDesCatLocationY }}px;" src="{{ asset('bundles/frontend/img/map-signal.png') }}">
+            <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="{{ des_map.getDesName }}" class="map-signal signal_{{ des_map_cat.getDesCatId }}" style="left:{{ des_map.getDesCatLocationX }}px; margin-top: {{ des_map.getDesCatLocationY }}px;" src="{{ asset('bundles/frontend/img/map-signal.png') }}">
         </a>
         {% endfor %}
         {% endif %}
@@ -52,12 +32,18 @@
         img_w=img_elem.width();
         img_h=img_elem.height();
         img_left=img_elem.position().left;
+
         $('.map-signal').each(function(){
             $(this).attr('default_margin_top',$(this).css('marginTop').replace('px',''));
             $(this).attr('default_margin_left',$(this).position().left - img_left);
         });
 
         $(window).bind('resize', function () {
+            relocate();
+        });
+
+        function relocate()
+        {
             new_img_w=img_elem.width();
             new_img_left=img_elem.position().left;
             new_img_h=img_elem.height();
@@ -67,8 +53,8 @@
                 $(this).css('left',new_pos_left+'px');
                 $(this).css('marginTop',new_pos_height+'px');
             });
-        });
-
+        }
+        relocate();
 
 
     $('.icon-destination').click(function(){
@@ -81,12 +67,12 @@
         }
         class_element=element.attr('class');
         class_element_array=class_element.split(' ');
-        if(class_element_array[2])
+
+        if(class_element_array[1])
         {
             bg_array[0]=bg_array[0]+28 + 'px';
             element.removeClass('focus');
             remove_destinations(element.attr('data'));
-
         }
         else
         {
@@ -108,5 +94,5 @@
         $('.'+category).css('visibility','hidden');
     }
 
-    $('#icon-beach').trigger('click');
+    $('#first_atraction').trigger('click');
 </script>

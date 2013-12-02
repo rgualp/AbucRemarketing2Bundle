@@ -95,7 +95,7 @@
     <h3 class="title">Atracciones</h3>
     {% for category in categories  %}
         <label class="checkbox">
-            <input type="checkbox" {% if(data['category_'~category.getDesCatId] is defined) %} checked="TRUE" {% endif %} name="category_{{ category.getDesCatId }}"> {{ category.getDesCatNameSpanish }}
+            <input type="checkbox" {% if(data['category_'~category.getDesCatIdCat.getDesCatId] is defined) %} checked="TRUE" {% endif %} name="category_{{ category.getDesCatIdCat.getDesCatId }}"> {{ category.getDesCatName }}
         </label>
     {% endfor %}
     <div class="row-fluid">

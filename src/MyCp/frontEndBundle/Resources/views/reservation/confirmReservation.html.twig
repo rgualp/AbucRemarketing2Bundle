@@ -5,9 +5,9 @@
         <h1 class="caecilia-roman h-green h-size-1 no-margin">{{"RESERVATION_CONFIRM"|trans}}</h1>
     </div>
     <div class="col-sm-2">
-        <button class="btn btn-primary btn-block">
+        <a target="_blank" href="{{ path('frontend_boucher_reservation',{'id_booking': booking.getBookingId}) }}" class="btn btn-primary btn-block">
             {{"PRINT"|trans}}
-        </button>
+        </a>
     </div>
 </div>
 <hr class="hr-green"/>
@@ -63,6 +63,7 @@
                              data-image=""
                              data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/images/map_marker.png') }}">
                         </div>
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -156,9 +157,9 @@
 
         </div>
         <div class="col-sm-2">
-            <button class="btn btn-primary btn-block">
+            <a target="_blank" href="{{ path('frontend_boucher_reservation',{'id_booking': booking.getBookingId}) }}" class="btn btn-primary btn-block">
                 {{"PRINT"|trans}}
-            </button>
+            </a>
         </div>
     </div>
     <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
