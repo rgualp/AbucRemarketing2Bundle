@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "353b7960ee7e973edb76a8418da042d6",
+    "hash": "9b17befd66e880371cac297fd4461c93",
     "packages": [
         {
             "name": "ass/xmlsecurity",
@@ -127,6 +127,67 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "time": "2013-06-30 08:29:55"
+        },
+        {
+            "name": "besimple/i18n-routing-bundle",
+            "version": "2.1.x-dev",
+            "target-dir": "BeSimple/I18nRoutingBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/BeSimple/BeSimpleI18nRoutingBundle.git",
+                "reference": "2b20723487ce13f852fecf500c989b6c7ceef27d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BeSimple/BeSimpleI18nRoutingBundle/zipball/2b20723487ce13f852fecf500c989b6c7ceef27d",
+                "reference": "2b20723487ce13f852fecf500c989b6c7ceef27d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2",
+                "symfony/framework-bundle": ">=2.1,<2.2"
+            },
+            "suggest": {
+                "doctrine/dbal": ">=2.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "BeSimple\\I18nRoutingBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Christophe Coevoet",
+                    "email": "stof@notk.org"
+                },
+                {
+                    "name": "Francis Besset",
+                    "email": "francis.besset@gmail.com",
+                    "homepage": "http://www.apercite.fr"
+                },
+                {
+                    "name": "BeSimple Community",
+                    "homepage": "https://github.com/BeSimple/BeSimpleI18nRoutingBundle/contributors"
+                }
+            ],
+            "description": "Full routing internationalized on your Symfony2 project ",
+            "homepage": "https://github.com/BeSimple/BeSimpleI18nRoutingBundle",
+            "keywords": [
+                "BeSimpleI18nRoutingBundle",
+                "Symfony2",
+                "internationalisation",
+                "routing"
+            ],
+            "time": "2012-12-20 17:45:04"
         },
         {
             "name": "besimple/soap-bundle",
@@ -1584,20 +1645,20 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v2.1.7",
+            "version": "v2.1.13",
             "source": {
                 "type": "git",
-                "url": "git://github.com/symfony/symfony.git",
-                "reference": "v2.1.7"
+                "url": "https://github.com/symfony/symfony.git",
+                "reference": "fc0a09a2052e9275c16b5ab7af426935fe432f39"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/symfony/archive/v2.1.7.zip",
-                "reference": "v2.1.7",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/fc0a09a2052e9275c16b5ab7af426935fe432f39",
+                "reference": "fc0a09a2052e9275c16b5ab7af426935fe432f39",
                 "shasum": ""
             },
             "require": {
-                "doctrine/common": ">2.2,<2.4-dev",
+                "doctrine/common": "~2.2",
                 "php": ">=5.3.3",
                 "twig/twig": ">=1.9.1,<2.0-dev"
             },
@@ -1668,7 +1729,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2013-01-17 21:21:51"
+            "time": "2013-10-10 11:03:57"
         },
         {
             "name": "twig/extensions",
@@ -1722,13 +1783,13 @@
             "version": "v1.12.1",
             "source": {
                 "type": "git",
-                "url": "git://github.com/fabpot/Twig.git",
-                "reference": "v1.12.1"
+                "url": "https://github.com/fabpot/Twig.git",
+                "reference": "7c124c94a52a082e05a606a3dd3b25d2eea316ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/fabpot/Twig/archive/v1.12.1.zip",
-                "reference": "v1.12.1",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/7c124c94a52a082e05a606a3dd3b25d2eea316ff",
+                "reference": "7c124c94a52a082e05a606a3dd3b25d2eea316ff",
                 "shasum": ""
             },
             "require": {
@@ -2357,7 +2418,8 @@
         "besimple/soap-bundle": 20,
         "besimple/soap-common": 20,
         "ass/xmlsecurity": 20,
-        "besimple/soap-server": 20
+        "besimple/soap-server": 20,
+        "besimple/i18n-routing-bundle": 20
     },
     "platform": {
         "php": ">=5.3.3"
