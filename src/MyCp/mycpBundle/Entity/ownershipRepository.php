@@ -774,7 +774,7 @@ class ownershipRepository extends EntityRepository {
             }
         }
 
-        return (count($return_list) > 0) ? $return_list: $results;
+        return (count($return_list) > 0) ? $return_list : $results;
     }
 
     /**
@@ -842,15 +842,7 @@ class ownershipRepository extends EntityRepository {
 
     function getOwnsPrices($own_ids = null) {
         $em = $this->getEntityManager();
-        $prices = array();
-        $prices[] = 25;
-        $prices[] = 50;
-        $prices[] = 75;
-        $prices[] = 100;
-        $prices[] = 125;
-        $prices[] = 150;
-        $prices[] = 175;
-        $prices[] = 200;
+        $prices = range(25, 200, 25);
         $prices[] = 300;
 
         $prices_result = array();
@@ -1595,7 +1587,13 @@ class ownershipRepository extends EntityRepository {
         return json_encode($result);
     }
 
-    /**
-     * Codigo Yanet - Fin
-     */
+   public function getHousesToOfflineApp() {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT o
+                        FROM mycpBundle:ownership o
+                        WHERE o.own_sync=0";
+
+        return $em->createQuery($query_string)->getResult();
+    }
+   
 }

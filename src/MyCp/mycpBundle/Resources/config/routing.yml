@@ -3,8 +3,8 @@ mycp_destinations:
     prefix:   backend/destination/
     
 mycp_cf:
-    resource: "@mycpBundle/Resources/config/routingBackendCF.yml"
-    prefix:   backend/mycp_cf
+    pattern:  /backend/mycp_cf/
+    defaults: { _controller: mycpBundle:MycpCF:mycpFrontController}
 
 mycp_comments:
     resource: "@mycpBundle/Resources/config/routingBackendComment.yml"

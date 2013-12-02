@@ -12,9 +12,47 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  * @author Daniel
  */
 class MycpCFController extends Controller {
+    /**
+     * MYCP - CF Operations
+     */
 
-    // <editor-fold defaultstate="collapsed" desc="Reservations Updating Methods">
-    public function mycpOfflineReservationsUpdAction(Request $request) {
+    const UPDATE_RESERVATIONS = 1;
+    const CONFIRM_RESERVATIONS_UPDATE = 2;
+    const COMMIT_RESERVATIONS = 3;
+    const UPDATE_HOUSES = 4;
+    const CONFIRM_HOUSES_UPDATE = 5;
+    const COMMIT_HOUSES = 6;
+    const UPDATE_USERS = 7;
+
+//-----------------------------------------------------------------------------    
+    public function mycpFrontControllerAction(Request $request) {
+        $operation = $request->get('operation');
+        switch ($operation) {
+            case self::UPDATE_RESERVATIONS:
+                $_data = $this->mycpDownloadReservations($request);
+                break;
+            case self::CONFIRM_RESERVATIONS_UPDATE: break;
+            case self::COMMIT_RESERVATIONS:
+                $_data = $this->mycpUploadReservations($request);
+                break;
+            case self::UPDATE_HOUSES:
+                $_data = $this->mycpDownloadHouses();
+                break;
+            case self::CONFIRM_HOUSES_UPDATE: break;
+            case self::COMMIT_HOUSES:
+                //  $_data = $this->mycpUploadReservations($request);
+                break;
+            case self::UPDATE_USERS:
+                $_data = $this->mycpDownloadUsers();
+                break;
+        }
+        return new Response(json_encode($_data));
+    }
+
+//-----------------------------------------------------------------------------
+    // <editor-fold defaultstate="collapsed" desc="Reservations Methods">
+    // <editor-fold defaultstate="collapsed" desc="Download Methods">
+    public function mycpDownloadReservations(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
         $init_date = $request->get('init_date');
         $end_date = $request->get('end_date');
@@ -87,8 +125,8 @@ class MycpCFController extends Controller {
 // </editor-fold>
 // </editor-fold>
 //-----------------------------------------------------------------------------
-    // <editor-fold defaultstate="collapsed" desc="Reservations Commiting Methods">
-    public function mycpOfflineReservationsCommitAction(Request $request) {
+    // <editor-fold defaultstate="collapsed" desc="Upload Methods">
+    public function mycpUploadReservations(Request $request) {
         $json_reservations = $request->get('content');
         $reservations = json_decode($json_reservations);
         $em = $this->getDoctrine()->getEntityManager();
@@ -158,13 +196,37 @@ class MycpCFController extends Controller {
     }
 
 // </editor-fold>
+// </editor-fold>
 //-----------------------------------------------------------------------------
-    // <editor-fold defaultstate="collapsed" desc="Users Update Methods">
-    /**
-     * Legend: fn: Full Name, un: User Name, ps: Password... reducing data transmition
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function mycpOfflineUsersUpdAction() {
+    // <editor-fold defaultstate="collapsed" desc="Houses - UnAvailabilities Methods">
+    public function mycpDownloadHouses() {
+        $em = $this->getDoctrine()->getEntityManager();
+        $houses_to_send = $em->getRepository('mycpBundle:ownership')->getHousesToOfflineApp();
+
+        $_houses_data = array();
+        foreach ($houses_to_send as $i => $house_to_send) {
+            $_houses_data[$i]["co"] = $house_to_send->getOwnMcpCode();
+            $_houses_data[$i]["na"] = $house_to_send->getOwnName();
+            $_houses_data[$i]["pr"] = $house_to_send->getOwnHomeowner1();
+            $_houses_data[$i]["ad"] = $house_to_send->getFullAddress();
+            $_houses_data[$i]["mp"] = $house_to_send->getOwnMinimumPrice();
+            $_houses_data[$i]["xp"] = $house_to_send->getOwnMaximumPrice();
+            $_houses_data[$i]["cp"] = $house_to_send->getOwnCommissionPercent();
+            $_houses_data[$i]["rt"] = $house_to_send->getOwnRoomsTotal();
+        }
+        return $_houses_data;
+    }
+
+    public function mycpOfflineHousesCommitAction(Request $request) {
+        $json_reservations = $request->get('content');
+        $reservations = json_decode($json_reservations);
+        $em = $this->getDoctrine()->getEntityManager();
+    }
+
+    // </editor-fold>
+//-----------------------------------------------------------------------------
+    // <editor-fold defaultstate="collapsed" desc="Users Methods">
+    public function mycpDownloadUsers() {
         $em = $this->getDoctrine()->getEntityManager();
         $users = $em->getRepository('mycpBundle:user')->findBy(array('user_role' => 'ROLE_CLIENT_STAFF'));
 
