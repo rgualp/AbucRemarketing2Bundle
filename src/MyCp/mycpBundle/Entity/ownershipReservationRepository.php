@@ -155,10 +155,10 @@ class ownershipReservationRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT count(ore_pend) as pending,
         (SELECT count(ore_avail) FROM mycpBundle:ownershipReservation ore_avail JOIN ore_avail.own_res_gen_res_id gen_res WHERE gen_res.gen_res_user_id = $id_user AND ore_avail.own_res_status=1 AND gen_res.gen_res_date > '$date_days')  as available,
-        (SELECT count(ore_res) FROM mycpBundle:ownershipReservation ore_res JOIN ore_res.own_res_gen_res_id gen_res_r WHERE gen_res_r.gen_res_user_id = $id_user AND ore_res.own_res_status=2 AND gen_res_r.gen_res_date > '$new_date')  as reserve,
-        (SELECT count(gre_cons) FROM mycpBundle:generalReservation gre_cons WHERE gre_cons.gen_res_user_id = $id_user AND gre_cons.gen_res_status=0 AND gre_cons.gen_res_date < '$new_date')  as consult,
+        (SELECT count(ore_res) FROM mycpBundle:ownershipReservation ore_res JOIN ore_res.own_res_gen_res_id gen_res_r WHERE gen_res_r.gen_res_user_id = $id_user AND ore_res.own_res_status=5 AND gen_res_r.gen_res_date > '$new_date')  as reserve,
+        (SELECT count(ore_cons) FROM mycpBundle:ownershipReservation ore_cons JOIN ore_cons.own_res_gen_res_id gen_res_cons WHERE gen_res_cons.gen_res_user_id = $id_user AND ore_cons.own_res_status=0 AND gen_res_cons.gen_res_date < '$new_date')  as consult,
         (SELECT count(owre_payed) FROM mycpBundle:ownershipReservation owre_payed JOIN owre_payed.own_res_gen_res_id gen_res_p WHERE gen_res_p.gen_res_user_id = $id_user AND owre_payed.own_res_status=5)  as payed,
-        (SELECT count(ore_res_hist) FROM mycpBundle:ownershipReservation ore_res_hist JOIN ore_res_hist.own_res_gen_res_id gen_res_h  WHERE gen_res_h.gen_res_user_id = $id_user AND ore_res_hist.own_res_status=2 AND gen_res_h.gen_res_date < '$new_date')  as reserve_history,
+        (SELECT count(ore_res_hist) FROM mycpBundle:ownershipReservation ore_res_hist JOIN ore_res_hist.own_res_gen_res_id gen_res_h  WHERE gen_res_h.gen_res_user_id = $id_user AND ore_res_hist.own_res_status=5 AND gen_res_h.gen_res_date < '$new_date')  as reserve_history,
         (SELECT count(fav) FROM mycpBundle:favorite fav WHERE fav.favorite_user = $id_user AND fav.favorite_ownership IS NOT NULL)  as favorites_ownerships,
         (SELECT count(fav_des) FROM mycpBundle:favorite fav_des WHERE fav_des.favorite_user = $id_user AND fav_des.favorite_destination IS NOT NULL)  as favorites_destinations,
         (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_user = $id_user AND com.com_ownership IS NOT NULL AND com.com_public =1) as comments_ownerships

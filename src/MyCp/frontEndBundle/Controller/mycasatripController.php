@@ -173,7 +173,7 @@ class mycasatripController extends Controller {
         $new_date = strtotime('-30 day', strtotime($date));
         $new_date = \date('Y-m-j', $new_date);
         $string_sql = "AND gre.gen_res_date < '$new_date'";
-        $status_string = 'ownre.own_res_status =2';
+        $status_string = 'ownre.own_res_status =5';
 
         if ($this->getRequest()->getMethod() == 'POST') {
             $order_by = $request->get('mct_change_order');

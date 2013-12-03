@@ -355,7 +355,7 @@ class ownership {
     /**
      * @var boolean
      *
-     * @ORM\Column(name="own_sync", type="boolean")
+     * @ORM\Column(name="own_sync", type="boolean", nullable=true)
      */
     private $own_sync;
 

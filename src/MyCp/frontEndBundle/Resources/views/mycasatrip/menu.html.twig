@@ -1,7 +1,7 @@
 <div class="row myct-menu">
 <a href="{{ path('frontend_mycasatrip_pending',{'order_by':0}) }}"><div class="col-sm-4 {% if menu == 1 or menu == 2 %}active{% endif %}" style="width: 20%"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services eye-icon"> {{"CONSULTS" | trans}}</div></a>
 <a href="{{ path('frontend_mycasatrip_payment') }}"><div class="col-sm-4 {% if menu == 3 or menu == 4 %}active{% endif %}" style="width: 20%"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services flag-icon"> {{"RESERVES" | trans}}</div></a>
-<a href="{{ path('frontend_mycasatrip_historial_consult', {'order_by':0}) }}"><div class="col-sm-4" style="width: 20%"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services graph-icon"> {{"HISTORY" | trans}}</div></a>
+<a href="{{ path('frontend_mycasatrip_historial_consult', {'order_by':0}) }}"><div class="col-sm-4 {% if menu == 5 or menu == 6 %}active{% endif %}" style="width: 20%"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services graph-icon"> {{"HISTORY" | trans}}</div></a>
 <a href="{{ path('frontend_mycasatrip_favorites', {'favorite_type':'ownershipfav'}) }}"><div class="col-sm-4 {% if menu == 7 or menu == 8 %}active{% endif %}" style="width: 20%"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services heart-3-icon"> {{"FAVORITIES" | trans}}</div></a>
 <a href="{{ path('frontend_mycasatrip_comments', {'comment_type':'ownerships'}) }}"><div class="col-sm-4 {% if menu == 9 %}active{% endif %}" style="width: 20%"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services persons-icon"> {{"FORMS_COMMENTS" | trans}}</div></a>
 </div>
