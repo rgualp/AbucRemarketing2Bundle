@@ -11,6 +11,7 @@ web/uploads/albumImages
 web/uploads/destinationImages/*.jpg
 web/uploads/destinationImages/originals
 web/uploads/destinationImages/thumbnails/*.jpg
+web/uploads/destinationImages/icons/*
 web/uploads/languageImages
 web/uploads/ownershipImages/*.jpg
 web/uploads/ownershipImages/originals
