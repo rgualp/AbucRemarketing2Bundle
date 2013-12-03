@@ -1,0 +1,24 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li class="active">Ejecutar consulta SQL</li>
+</ul>
+{% endblock %}
+{% block form_actions %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li class="active">Ejecutar consulta SQL</li>
+</ul>
+<div class="form-actions">
+    <button class="btn btn-primary" type="submit">Ejecutar</button>
+</div>
+</form>
+{% endblock %}
+{% block content %}
+    <h2>Ejecutar consulta SQL</h2>
+    <hr/>
+    <form method="POST" action="{{ path('mycp_execute_script_db') }}" novalidate="true">
+    <textarea name="query" class="input-block-level"></textarea>
+{% endblock %}

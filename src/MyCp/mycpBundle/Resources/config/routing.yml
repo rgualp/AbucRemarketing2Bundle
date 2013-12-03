@@ -6,12 +6,16 @@ mycp_cf:
     pattern:  /backend/mycp_cf/
     defaults: { _controller: mycpBundle:MycpCF:mycpFrontController}
 
+mycp_database:
+    resourc: "@mycpBundle/Resources/config/routingBackendDatabaseUtils.yml"
+    prefix:   backend/database/
+
 mycp_comments:
     resource: "@mycpBundle/Resources/config/routingBackendComment.yml"
     prefix:   backend/comment/
 
 mycp_general_informations:
-    resource: "@mycpBundle/Resources/config/routingBackendGeneralInformation.yml"
+    resourc.yml"
     prefix:   backend/general_information/
 
 mycp_reservations:

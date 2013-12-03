@@ -1,0 +1,3 @@
+mycp_execute_script_db:
+    pattern:  /query
+    defaults: { _controller: mycpBundle:BackendDatabaseUtils:execute_query}
