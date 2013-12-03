@@ -463,7 +463,7 @@ class ownershipController extends Controller {
         if ($session->get('search_order') == null || $session->get('search_order') == '')
             $session->set('search_order', 'PRICE_LOW_HIGH');
 
-        $search_text = ($text != null && $text != '' && $text != $this->get('translator')->trans('PLACE_WATERMARK')) ? $text : null;
+        $search_text = ($text != null && $text != '' && $text != $this->get('translator')->trans('PLACE_WATERMARK')) ? str_replace("_", " ", strtolower($text)) : null;
         $search_guests = ($guests != null && $guests != '' && $guests != $this->get('translator')->trans('GUEST_WATERMARK')) ? $guests : "1";
         $search_rooms = ($rooms != null && $rooms != '' && $rooms != $this->get('translator')->trans('ROOM_WATERMARK')) ? $rooms : "1";
         $arrival = ($request->get('arrival') != null && $request->get('arrival') != "" && $request->get('arrival') != "null") ? $request->get('arrival') : null;
