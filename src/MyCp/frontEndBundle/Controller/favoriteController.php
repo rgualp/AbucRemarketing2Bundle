@@ -131,10 +131,19 @@ class favoriteController extends Controller {
         $data['favorite_destination_id'] = ($favorite_type == "destination") ? $element_id : null;
 
         $em->getRepository('mycpBundle:favorite')->delete($data);
-        if ($favorite_type == "ownership") {
+        
+        if ($favorite_type == "ownership" or $favorite_type == "ownershipfav") {
             $ownership_favorities = $em->getRepository('mycpBundle:favorite')->get_favorite_ownerships($user_ids["user_id"], $user_ids["session_id"]);
             $session->set('user_fav_own_count', count($ownership_favorities));
+            
+            if($favorite_type == "ownership")
             $response = $this->renderView('frontEndBundle:ownership:ownershipArrayItemList.html.twig', array(
+                'list' => $ownership_favorities,
+                'list_preffix' => 'own_favorities',
+                'is_in_favorites_list' => true
+            ));
+            else if($favorite_type == "ownershipfav")
+                $response = $this->renderView('frontEndBundle:favorite:ownershipArrayItemFavorite.html.twig', array(
                 'list' => $ownership_favorities,
                 'list_preffix' => 'own_favorities',
                 'is_in_favorites_list' => true

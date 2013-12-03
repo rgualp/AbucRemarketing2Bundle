@@ -562,7 +562,7 @@ class ownershipRepository extends EntityRepository {
         }
         $where = ' WHERE o.own_status = 1 ';
         if ($text != null && $text != '' && $text != 'null')
-            $where = $where . ($where != '' ? " AND " : " WHERE ") . "prov.prov_name LIKE '%$text%' OR " . "o.own_name LIKE '%$text%' OR o.own_mcp_code LIKE '%$text%' OR mun.mun_name LIKE '%$text%'";
+            $where = $where . ($where != '' ? " AND " : " WHERE ") . "LOWER(prov.prov_name) LIKE '%".strtolower ($text)."%' OR " . "LOWER(o.own_name) LIKE '%".strtolower($text)."%' OR LOWER(o.own_mcp_code) LIKE '%".strtolower($text)."%' OR LOWER(mun.mun_name) LIKE '%".strtolower($text)."%'";
 
         if ($filters != null && is_array($filters) && in_array('own_beds_total', $filters) && $filters['own_beds_total'] != null && is_array($filters['own_beds_total']) && count($filters['own_beds_total']) > 0) {
             $temp_array = $filters['own_beds_total'];

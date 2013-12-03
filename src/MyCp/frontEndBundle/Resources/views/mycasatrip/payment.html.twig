@@ -39,5 +39,18 @@
 {% else %}
         <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
 {% endfor %}
+ {%if res_payment | length and total_items > items_per_page%}
+        <div class="text-center">
+    {{ simple_paginator_render('frontend_mycasatrip_payment',null,{
+    'container_class': 'pagination',
+    'previousPageText': '«',
+    'nextPageText': '»',
+    'currentClass': 'current',
+    'firstPageText': 'FIRST_PAGE' | trans,
+    'lastPageText': 'LAST_PAGE' | trans,
+    'route_params': null
+}) }}
+</div>
+            {%endif%}
 </div>
 {% endblock %}

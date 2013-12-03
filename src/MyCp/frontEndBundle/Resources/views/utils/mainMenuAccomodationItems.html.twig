@@ -2,7 +2,7 @@
 {%if provinces | length%}
 <ul class="dropdown-menu" style="font-size: 13px">
 {%for prov in provinces%}
-    <li><a href="{{ path('frontend_search_ownership',{'text':prov.prov_name, 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}">{{prov.prov_name}} ({{prov.total_owns}})</a></li>
+    <li><a href="{{ path('frontend_search_ownership',{'text':prov.prov_name | lower | replace(' ','_')}) }}">{{prov.prov_name}} ({{prov.total_owns}})</a></li>
 {%endfor%}
 </ul>
 {%endif%}
