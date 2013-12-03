@@ -1,4 +1,4 @@
-<div>
+<div class="container">
 {%for own in list%}
 <div class="row" data-id="{{own['own_id']}}">
     <div class="col-sm-4">
@@ -59,6 +59,6 @@
 </div>
 <hr/>
 {%else%}
-  <div {% if is_in_favorites_list is not defined %} class="container"{% endif %}><div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div></div>
+  <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
 {%endfor%}
     </div>

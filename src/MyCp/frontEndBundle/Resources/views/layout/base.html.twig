@@ -63,11 +63,8 @@
                         <a title="{{"LANGUAGE" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-lang-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/>
                             {{(app.session.get('app_lang_name') == null or app.session.get('app_lang_name') == "") ? "Español" : app.session.get('app_lang_name')}} <b class="caret caret-new"></b></a>
                         <ul class="dropdown-menu">
-                            {% set params = app.request.attributes.all['_route_params']%}
-                            {% set params = params|merge({ '_locale': 'en' }) %}
-                            <li><a href="{{path(app.request.attributes.all['_route'], params )}}">English</a></li>
-                            {% set params = params|merge({ '_locale': 'es' }) %}
-                            <li><a href="{{path(app.request.attributes.all['_route'], params )}}">Español</a></li>
+                            <li><a href="{{ path('frontend_change_language',{'lang':'es'}) }}">Español</a></li>
+                            <li><a href="{{ path('frontend_change_language',{'lang':'en'}) }}">English</a></li>
                         </ul>
                     </li>
                     <li class="nav-divider pull-right">&nbsp;</li>
