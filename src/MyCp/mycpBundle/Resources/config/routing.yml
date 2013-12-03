@@ -7,15 +7,15 @@ mycp_cf:
     defaults: { _controller: mycpBundle:MycpCF:mycpFrontController}
 
 mycp_database:
-    resourc: "@mycpBundle/Resources/config/routingBackendDatabaseUtils.yml"
-    prefix:   backend/database/
+    resource: "@mycpBundle/Resources/config/routingBackendDatabaseUtils.yml"
+    prefix:
 
 mycp_comments:
     resource: "@mycpBundle/Resources/config/routingBackendComment.yml"
     prefix:   backend/comment/
 
 mycp_general_informations:
-    resourc.yml"
+    resource: "@mycpBundle/Resources/config/routingBackendGeneralInformation.yml"
     prefix:   backend/general_information/
 
 mycp_reservations:
