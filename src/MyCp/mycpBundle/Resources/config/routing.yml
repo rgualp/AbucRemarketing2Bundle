@@ -8,7 +8,7 @@ mycp_cf:
 
 mycp_database:
     resource: "@mycpBundle/Resources/config/routingBackendDatabaseUtils.yml"
-    prefix:
+    prefix: backend/database/
 
 mycp_comments:
     resource: "@mycpBundle/Resources/config/routingBackendComment.yml"
