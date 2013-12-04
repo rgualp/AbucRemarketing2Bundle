@@ -26,17 +26,27 @@
     <img class="full-width" id="big-map" src="{{ asset('bundles/frontend/img/map.gif') }}">
 </div>
 <script type="text/javascript">
-
-
         img_elem=$('#big-map');
-        img_w=img_elem.width();
+        win_w=$(window).width();
         img_h=img_elem.height();
-        img_left=img_elem.position().left;
 
         $('.map-signal').each(function(){
-            $(this).attr('default_margin_top',$(this).css('marginTop').replace('px',''));
-            $(this).attr('default_margin_left',$(this).position().left - img_left);
+
+            signal_margin_left=$(this).position().left;
+            signal_margin_top=$(this).css('marginTop');
+            signal_margin_top=signal_margin_top.replace('px','');
+            dif_middle=674.5 - signal_margin_left;
+            new_dif_middle=dif_middle * win_w / 1349;
+            new_pos_x=win_w / 2 - new_dif_middle;
+            new_pos_y=signal_margin_top * img_h / 297;
+            $(this).css('left',new_pos_x+'px');
+            $(this).css('marginTop',new_pos_y+'px');
+
+            $(this).attr('default_margin_top',signal_margin_top);
+            $(this).attr('default_margin_left',signal_margin_left);
         });
+
+
 
         $(window).bind('resize', function () {
             relocate();
@@ -44,17 +54,20 @@
 
         function relocate()
         {
-            new_img_w=img_elem.width();
-            new_img_left=img_elem.position().left;
-            new_img_h=img_elem.height();
             $('.map-signal').each(function(){
-                new_pos_left= $(this).attr('default_margin_left') * new_img_w / img_w + new_img_left;
-                new_pos_height= $(this).attr('default_margin_top') * new_img_h / img_h;
-                $(this).css('left',new_pos_left+'px');
-                $(this).css('marginTop',new_pos_height+'px');
+                new_win_w=$(window).width();
+                new_img_h=img_elem.height();
+                default_margin_left=$(this).attr('default_margin_left');
+                default_margin_top=$(this).attr('default_margin_top');
+                dif_middle=674.5 - default_margin_left;
+                new_dif_middle=dif_middle * new_win_w / 1349;
+                new_pos_x=new_win_w / 2 - new_dif_middle;
+                new_pos_y=default_margin_top * new_img_h / 297;
+                $(this).css('left',new_pos_x+'px');
+                $(this).css('marginTop',new_pos_y+'px');
+
             });
         }
-        relocate();
 
 
     $('.icon-destination').click(function(){

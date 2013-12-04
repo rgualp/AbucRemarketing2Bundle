@@ -152,6 +152,7 @@
     .table-responsive-v2 tr td{display: block}
     .table-responsive-v2 tr td.last{padding-left: 0}
     #pedro{width: 100%}
+    #map-cont{display: none}
 }
 
 @media (max-width: 400px) {
