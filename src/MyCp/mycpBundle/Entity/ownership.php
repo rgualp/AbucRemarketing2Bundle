@@ -327,14 +327,14 @@ class ownership {
     /**
      * @var decimal
      *
-     * @ORM\Column(name="own_minimum_price", type="decimal")
+     * @ORM\Column(name="own_minimum_price", type="integer")
      */
     private $own_minimum_price;
 
     /**
      * @var decimal
      *
-     * @ORM\Column(name="own_maximum_price", type="decimal")
+     * @ORM\Column(name="own_maximum_price", type="integer")
      */
     private $own_maximum_price;
 
@@ -355,12 +355,12 @@ class ownership {
     /**
      * @var boolean
      *
-     * @ORM\Column(name="own_sync", type="boolean", nullable=true)
+     * @ORM\Column(name="own_sync", type="boolean")
      */
     private $own_sync;
 
     /**
-     * @OneToMany(targetEntity="unavailabilityDetails", mappedBy="ownership_id")
+     * @OneToMany(targetEntity="unavailabilityDetails", mappedBy="ownership_id", fetch="EAGER")
      */
     private $own_unavailability_details;
 
@@ -1413,9 +1413,13 @@ class ownership {
     public function getOwnCommissionPercent() {
         return $this->own_commission_percent;
     }
-
+    
     public function getOwnSync() {
         return $this->own_sync;
+    }
+
+    public function setOwnSync($sync) {
+        $this->own_sync = $sync;
     }
 
     public function getOwn_unavailability_details() {
@@ -1435,51 +1439,31 @@ class ownership {
         return "undefined";
     }
 
+    /**
+     * 
+     */
+    public function getCurrentUDs() {
+        $filtered_uds = array();
+        foreach ($this->own_unavailability_details as $_ud) {
+            if (!$_ud->isPast()) {
+                $filtered_uds[] = $_ud;
+            }
+        }
+        return $filtered_uds;
+    }
+
+    /**
+     * Get past Unavailabilities Details
+     */
+    public function getPastUDs() {
+        $filtered_uds = array();
+        foreach ($this->own_unavailability_details as $_ud) {
+            if ($_ud->isPast()) {
+                $filtered_uds[] = $_ud;
+            }
+        }
+        return $filtered_uds;
+    }
+
 // </editor-fold>
-
-    /**
-     * Set own_sync
-     *
-     * @param boolean $ownSync
-     * @return ownership
-     */
-    public function setOwnSync($ownSync)
-    {
-        $this->own_sync = $ownSync;
-    
-        return $this;
-    }
-
-    /**
-     * Add own_unavailability_details
-     *
-     * @param \MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails
-     * @return ownership
-     */
-    public function addOwnUnavailabilityDetail(\MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails)
-    {
-        $this->own_unavailability_details[] = $ownUnavailabilityDetails;
-    
-        return $this;
-    }
-
-    /**
-     * Remove own_unavailability_details
-     *
-     * @param \MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails
-     */
-    public function removeOwnUnavailabilityDetail(\MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails)
-    {
-        $this->own_unavailability_details->removeElement($ownUnavailabilityDetails);
-    }
-
-    /**
-     * Get own_unavailability_details
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getOwnUnavailabilityDetails()
-    {
-        return $this->own_unavailability_details;
-    }
 }

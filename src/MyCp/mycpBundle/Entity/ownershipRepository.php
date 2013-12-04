@@ -531,7 +531,7 @@ class ownershipRepository extends EntityRepository {
                              JOIN o.own_address_province prov 
                              JOIN o.own_address_municipality mun";
         } else {
-            $query_string = "SELECT DISTINCT o.own_id as own_id,
+            $query_string = "SELECT o.own_id as own_id,
                              o.own_name as own_name,
                             (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id) as photo,
                             prov.prov_name as prov_name,
@@ -542,7 +542,7 @@ class ownershipRepository extends EntityRepository {
                             o.own_type as type,
                             o.own_minimum_price as minimum_price,
                             (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
-                            (SELECT count(r1) FROM mycpBundle:room r1 WHERE r1.room_ownership=o.own_id) as rooms_count,
+                            (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
                             (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = 5) as count_reservations,
                             (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments ,
                             o.own_facilities_breakfast as breakfast,
@@ -562,7 +562,7 @@ class ownershipRepository extends EntityRepository {
         }
         $where = ' WHERE o.own_status = 1 ';
         if ($text != null && $text != '' && $text != 'null')
-            $where = $where . ($where != '' ? " AND " : " WHERE ") . "LOWER(prov.prov_name) LIKE '%".strtolower ($text)."%' OR " . "LOWER(o.own_name) LIKE '%".strtolower($text)."%' OR LOWER(o.own_mcp_code) LIKE '%".strtolower($text)."%' OR LOWER(mun.mun_name) LIKE '%".strtolower($text)."%'";
+            $where = $where . ($where != '' ? " AND " : " WHERE ") . "prov.prov_name LIKE '%$text%' OR " . "o.own_name LIKE '%$text%' OR o.own_mcp_code LIKE '%$text%' OR mun.mun_name LIKE '%$text%'";
 
         if ($filters != null && is_array($filters) && in_array('own_beds_total', $filters) && $filters['own_beds_total'] != null && is_array($filters['own_beds_total']) && count($filters['own_beds_total']) > 0) {
             $temp_array = $filters['own_beds_total'];
@@ -607,7 +607,7 @@ class ownershipRepository extends EntityRepository {
                 $where = $where . ($where != '' ? " AND " : " WHERE ") . "r.room_type IN (" . $this->getStringFromArray($filters['room_type']) . ")";
 
             if (key_exists('room_climatization', $filters) && $filters['room_climatization'] != null && $filters['room_climatization'] != 'null' && $filters['room_climatization'] != '')
-                $where = $where . ($where != '' ? " AND " : " WHERE ") . "r.room_climate = " . $filters['room_climatization'];
+                $where = $where . ($where != '' ? " AND " : " WHERE ") . "r.room_climate = '" . $filters['room_climatization'] . "'";
 
             if (key_exists('room_safe', $filters) && $filters['room_safe'])
                 $where = $where . ($where != '' ? " AND " : " WHERE ") . "r.room_safe = 1";
@@ -1176,17 +1176,17 @@ class ownershipRepository extends EntityRepository {
                 $is_room_yard = true;
             }
 
-            if ($room->getRoomBathroom() != null && strtolower($room->getRoomBathroom()) == 'interior privado' && !$is_room_bathromm_inner) {
+            if ($room->getRoomBathroom() != null && $room->getRoomBathroom() == 'Interior privado' && !$is_room_bathromm_inner) {
                 $statistics['own_bathroom_inner'] += 1;
                 $is_room_bathromm_inner = true;
             }
 
-            if ($room->getRoomBathroom() != null && strtolower($room->getRoomBathroom()) == 'exterior privado' && !$is_room_bathroom_outer) {
+            if ($room->getRoomBathroom() != null && $room->getRoomBathroom() == 'Exterior privado' && !$is_room_bathroom_outer) {
                 $statistics['own_bathroom_outer'] += 1;
                 $is_room_bathroom_outer = true;
             }
 
-            if ($room->getRoomBathroom() != null && strtolower($room->getRoomBathroom()) == 'compartido' && !$is_room_bathroom_shared) {
+            if ($room->getRoomBathroom() != null && $room->getRoomBathroom() == 'Compartido' && !$is_room_bathroom_shared) {
                 $statistics['own_bathroom_shared'] += 1;
                 $is_room_bathroom_shared = true;
             }
@@ -1594,6 +1594,15 @@ class ownershipRepository extends EntityRepository {
                         WHERE o.own_sync=0";
 
         return $em->createQuery($query_string)->getResult();
+    }
+    
+    public function setHousesSync(){
+         $em = $this->getEntityManager();         
+         foreach($this->getHousesToOfflineApp() as $_house){
+            $_house->setOwnSync(true);
+            $em->persist($_house);     
+         }
+         $em->flush();
     }
    
 }

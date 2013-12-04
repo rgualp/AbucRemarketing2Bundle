@@ -31,14 +31,14 @@ class unavailabilityDetails {
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="ud_from_date", type="date")
+     * @ORM\Column(name="ud_from_date", type="datetime")
      */
     private $ud_from_date;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="ud_to_date", type="date")
+     * @ORM\Column(name="ud_to_date", type="datetime")
      */
     private $ud_to_date;
 
@@ -190,17 +190,15 @@ class unavailabilityDetails {
         return $this->ownership_id;
     }
 
-
     /**
      * Set ud_room_num
      *
      * @param integer $udRoomNum
      * @return unavailabilityDetails
      */
-    public function setUdRoomNum($udRoomNum)
-    {
+    public function setUdRoomNum($udRoomNum) {
         $this->ud_room_num = $udRoomNum;
-    
+
         return $this;
     }
 
@@ -209,8 +207,15 @@ class unavailabilityDetails {
      *
      * @return integer 
      */
-    public function getUdRoomNum()
-    {
+    public function getUdRoomNum() {
         return $this->ud_room_num;
     }
+
+    // <editor-fold defaultstate="collapsed" desc="Logic Methods">
+    public function isPast() {
+        $dateUnixSeconds = strtotime(date($this->ud_to_date->format('Y-m-d H:m:s')));
+        return $dateUnixSeconds < strtotime("now");
+    }
+
+// </editor-fold>
 }
