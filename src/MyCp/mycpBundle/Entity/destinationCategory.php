@@ -26,70 +26,42 @@ class destinationCategory
     /**
      * @var string
      *
-     * @ORM\Column(name="des_cat_name", type="string", length=255)
+     * @ORM\Column(name="des_icon", type="string", length=255,nullable=true)
      */
-    private $des_cat_name;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="des_cat_name_spanish", type="string", length=255)
-     */
-    private $des_cat_name_spanish;
+    private $des_icon;
 
     /**
      * Get des_cat_id
      *
-     * @return integer 
+     * @return integer
      */
     public function getDesCatId()
     {
         return $this->des_cat_id;
     }
 
+
+
     /**
-     * Set des_cat_name
+     * Set des_icon
      *
-     * @param string $desCatName
+     * @param string $desIcon
      * @return destinationCategory
      */
-    public function setDesCatName($desCatName)
+    public function setDesIcon($desIcon)
     {
-        $this->des_cat_name = $desCatName;
+        $this->des_icon = $desIcon;
     
         return $this;
     }
 
     /**
-     * Get des_cat_name
+     * Get des_icon
      *
      * @return string 
      */
-    public function getDesCatName()
+    public function getDesIcon()
     {
-        return $this->des_cat_name;
-    }
-
-    /**
-     * Set des_cat_name_spanish
-     *
-     * @param string $desCatNameSpanish
-     * @return destinationCategory
-     */
-    public function setDesCatNameSpanish($desCatNameSpanish)
-    {
-        $this->des_cat_name_spanish = $desCatNameSpanish;
-    
-        return $this;
-    }
-
-    /**
-     * Get des_cat_name_spanish
-     *
-     * @return string 
-     */
-    public function getDesCatNameSpanish()
-    {
-        return $this->des_cat_name_spanish;
+        return $this->des_icon;
     }
 }

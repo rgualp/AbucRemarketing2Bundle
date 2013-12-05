@@ -1,4 +1,4 @@
-{%if favorite_type == "ownerships"%}
+{%if favorite_type == "ownerships" or favorite_type=="ownershipfav"%}
 {%set menu = 7%}
 {%else%}
 {%set menu = 8%}
@@ -16,15 +16,63 @@
                  'is_in_favorites_list': true,
                 }) }}      
 </div>
+{%if ownership_favorities | length and total_items > items_per_page%}
+        <div class="text-center">
+    {{ simple_paginator_render('frontend_mycasatrip_favorites',null,{
+    'container_class': 'pagination',
+    'previousPageText': '«',
+    'nextPageText': '»',
+    'currentClass': 'current',
+    'firstPageText': 'FIRST_PAGE' | trans,
+    'lastPageText': 'LAST_PAGE' | trans,
+    'route_params': {'favorite_type': favorite_type}
+}) }}
+            </div>
+            {%endif%}
 {%else%} 
-    <div class="row-fluid result_list" id="div_result_destinations">
+{%if favorite_type == "ownershipfav"%}
+{{ include('frontEndBundle:favorite:ownershipArrayItemFavorite.html.twig', 
+                {'list': ownership_favorities,
+                'list_preffix' : 'own_favorities',
+                'is_in_favorites_list': true
+                }) }} 
+{%if ownership_favorities | length and total_items > items_per_page%}
+        <div class="text-center">
+    {{ simple_paginator_render('frontend_mycasatrip_favorites',null,{
+    'container_class': 'pagination',
+    'previousPageText': '«',
+    'nextPageText': '»',
+    'currentClass': 'current',
+    'firstPageText': 'FIRST_PAGE' | trans,
+    'lastPageText': 'LAST_PAGE' | trans,
+    'route_params': {'favorite_type': favorite_type}
+}) }}
+            </div>
+            {%endif%}
+{%else%}
+<div class="container">
+    <div class="row result_list" id="div_result_destinations">
         {{ include('frontEndBundle:destination:arrayItemListDestination.html.twig', 
                 {'list': destination_favorities,
                 'list_preffix' : 'destination_favorities',
                 'is_in_favorites_list': true
                 }) }}      
     </div>
+        {%if destination_favorities | length and total_items > items_per_page%}
+        <div class="text-center">
+    {{ simple_paginator_render('frontend_mycasatrip_favorites',null,{
+    'container_class': 'pagination',
+    'previousPageText': '«',
+    'nextPageText': '»',
+    'currentClass': 'current',
+    'firstPageText': 'FIRST_PAGE' | trans,
+    'lastPageText': 'LAST_PAGE' | trans,
+    'route_params': {'favorite_type': favorite_type}
+}) }}
+            </div>
 {%endif%}
-
+    </div>
+{%endif%}
+{%endif%}
 
 {% endblock %}

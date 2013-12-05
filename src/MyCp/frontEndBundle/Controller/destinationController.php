@@ -10,8 +10,14 @@ class destinationController extends Controller {
     public function get_big_mapAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
+        $locale=$this->get('translator')->getLocale();
+        $lang= $em->getRepository('mycpBundle:lang')->findBy(array('lang_code'=>$locale));
         $destinations=$em->getRepository('mycpBundle:destination')->findAll();
-        return $this->render('frontEndBundle:public:map.html.twig',array('destinations_map'=>$destinations));
+        $categories_lang = $em->getRepository('mycpBundle:destinationCategoryLang')->findBy(array('des_cat_id_lang'=>$lang[0]->getLangId()));
+        //var_dump($categories_lang);exit();
+        return $this->render('frontEndBundle:public:map.html.twig',array(
+            'destinations_map'=>$destinations,
+            'des_categories_lang'=>$categories_lang));
     }
 
     public function popular_listAction() {
@@ -34,8 +40,12 @@ class destinationController extends Controller {
         $locale = $this->get('translator')->getLocale();
         $destination_name=str_replace('_',' ',$destination_name);
         $destination= $em->getRepository('mycpBundle:destination')->findOneBy(array('des_name'=>$destination_name));
+        if($destination==null)
+        {
+            throw $this->createNotFoundException();
+        }
         $destination_array = $em->getRepository('mycpBundle:destination')->get_destination($destination->getDesId(),$locale);
-                
+
         $photos = $em->getRepository('mycpBundle:destination')->getPhotos($destination->getDesId(),$locale);
 
         $location_municipality_id = $destination_array['municipality_id'];

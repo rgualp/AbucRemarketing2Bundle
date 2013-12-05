@@ -23,24 +23,28 @@ class MycpCFController extends Controller {
     const CONFIRM_HOUSES_UPDATE = 5;
     const COMMIT_HOUSES = 6;
     const UPDATE_USERS = 7;
+//-----------------------------------------------------------------------------
+    const SUCCESS_CONFIRM_MSG = "success";
 
 //-----------------------------------------------------------------------------    
     public function mycpFrontControllerAction(Request $request) {
         $operation = $request->get('operation');
         switch ($operation) {
             case self::UPDATE_RESERVATIONS:
-                $_data = $this->mycpDownloadReservations($request);
+                $_data = $this->mycpUpdateReservations($request);
                 break;
-            case self::CONFIRM_RESERVATIONS_UPDATE: break;
+            case self::CONFIRM_RESERVATIONS_UPDATE:
+                return new Response($this->mycpConfirmUpdateReservations($request));
             case self::COMMIT_RESERVATIONS:
                 $_data = $this->mycpUploadReservations($request);
                 break;
             case self::UPDATE_HOUSES:
                 $_data = $this->mycpDownloadHouses();
                 break;
-            case self::CONFIRM_HOUSES_UPDATE: break;
+            case self::CONFIRM_HOUSES_UPDATE: 
+                return new Response($this->_mycpConfirmDownloadHouses());
             case self::COMMIT_HOUSES:
-                //  $_data = $this->mycpUploadReservations($request);
+                $_data = $this->mycpUploadReservations($request);
                 break;
             case self::UPDATE_USERS:
                 $_data = $this->mycpDownloadUsers();
@@ -52,19 +56,27 @@ class MycpCFController extends Controller {
 //-----------------------------------------------------------------------------
     // <editor-fold defaultstate="collapsed" desc="Reservations Methods">
     // <editor-fold defaultstate="collapsed" desc="Download Methods">
-    public function mycpDownloadReservations(Request $request) {
+    public function mycpUpdateReservations(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
         $init_date = $request->get('init_date');
         $end_date = $request->get('end_date');
 
-        $reserv_in_dates = $em->getRepository('mycpBundle:generalReservation')->getBetweenDates($init_date, $end_date);
+        $reserv_in_dates = $em->getRepository('mycpBundle:generalReservation')->getValidBetweenDates($init_date, $end_date);
 
         $to_send_data = array(
             "reservations" => $this->_getReservationsFullData($reserv_in_dates),
             "currency_exchange" => $this->_getCurrencyExchange());
 
-        //  return new Response(gzencode(json_encode($to_send_data)));
-        return new Response(json_encode($to_send_data));
+        return $to_send_data;
+    }
+
+    private function mycpConfirmUpdateReservations(Request $request) {
+        $em = $this->getDoctrine()->getEntityManager();
+        $init_date = $request->get('init_date');
+        $end_date = $request->get('end_date');
+
+        $em->getRepository('mycpBundle:generalReservation')->setSyncBetweenDates($init_date, $end_date);
+        return self::SUCCESS_CONFIRM_MSG;
     }
 
     // <editor-fold defaultstate="collapsed" desc="Aux Methods">
@@ -126,7 +138,7 @@ class MycpCFController extends Controller {
 // </editor-fold>
 //-----------------------------------------------------------------------------
     // <editor-fold defaultstate="collapsed" desc="Upload Methods">
-    public function mycpUploadReservations(Request $request) {
+    private function mycpUploadReservations(Request $request) {
         $json_reservations = $request->get('content');
         $reservations = json_decode($json_reservations);
         $em = $this->getDoctrine()->getEntityManager();
@@ -209,12 +221,29 @@ class MycpCFController extends Controller {
             $_houses_data[$i]["na"] = $house_to_send->getOwnName();
             $_houses_data[$i]["pr"] = $house_to_send->getOwnHomeowner1();
             $_houses_data[$i]["ad"] = $house_to_send->getFullAddress();
+            $_houses_data[$i]["ph"] = $house_to_send->getOwnPhoneNumber();
             $_houses_data[$i]["mp"] = $house_to_send->getOwnMinimumPrice();
             $_houses_data[$i]["xp"] = $house_to_send->getOwnMaximumPrice();
             $_houses_data[$i]["cp"] = $house_to_send->getOwnCommissionPercent();
             $_houses_data[$i]["rt"] = $house_to_send->getOwnRoomsTotal();
+
+            //loading unavailabilities details
+            $_udetails = array();
+            foreach ($house_to_send->getCurrentUDs() as $j => $_ud) {
+                $_udetails[$j]["rn"] = $_ud->getRoomNum();
+                $_udetails[$j]["fd"] = $_ud->getUdFromDate()->format('Y-m-d H:m:s');
+                $_udetails[$j]["td"] = $_ud->getUdToDate()->format('Y-m-d H:m:s');
+                $_udetails[$j]["rs"] = $_ud->getUdReason();
+            }
+            $_houses_data[$i]["_ud"] = $_udetails;
         }
         return $_houses_data;
+    }
+    
+     public function _mycpConfirmDownloadHouses() {
+        $em = $this->getDoctrine()->getEntityManager();
+        $em->getRepository('mycpBundle:ownership')->setHousesSync();
+        return self::SUCCESS_CONFIRM_MSG;
     }
 
     public function mycpOfflineHousesCommitAction(Request $request) {

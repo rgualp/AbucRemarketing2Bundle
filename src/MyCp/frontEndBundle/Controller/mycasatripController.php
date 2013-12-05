@@ -35,7 +35,15 @@ class mycasatripController extends Controller {
         }
         $string_sql.=$this->get_order_by_sql($order_by);
 
-        $res_pending = $em->getRepository('mycpBundle:ownershipReservation')->find_by_user_and_status($user->getUserId(), $status_string, $string_sql);
+        $paginator = $this->get('ideup.simple_paginator');
+        $items_per_page = 15;
+        $paginator->setItemsPerPage($items_per_page);
+        $list = $em->getRepository('mycpBundle:ownershipReservation')->find_by_user_and_status($user->getUserId(), $status_string, $string_sql);
+        $res_pending = $paginator->paginate($list)->getResult();
+        $page = 1;
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+
         $array_photos=array();
         foreach($res_pending as $pend)
         {
@@ -45,7 +53,10 @@ class mycasatripController extends Controller {
         return $this->render('frontEndBundle:mycasatrip:pending.html.twig', array(
                     'res_pending' => $res_pending,
                     'order_by' => $order_by,
-                    'photos'=>$array_photos
+                    'photos'=>$array_photos,
+                    'items_per_page' => $items_per_page,
+                    'total_items' => $paginator->getTotalItems(),
+                    'current_page' => $page
         ));
     }
 
@@ -66,7 +77,14 @@ class mycasatripController extends Controller {
 
         $string_sql.=$this->get_order_by_sql($order_by);
 
-        $res_available = $em->getRepository('mycpBundle:ownershipReservation')->find_by_user_and_status($user->getUserId(), $status_string, $string_sql);
+        $paginator = $this->get('ideup.simple_paginator');
+        $items_per_page = 15;
+        $paginator->setItemsPerPage($items_per_page);
+        $list = $em->getRepository('mycpBundle:ownershipReservation')->find_by_user_and_status($user->getUserId(), $status_string, $string_sql);
+        $res_available = $paginator->paginate($list)->getResult();
+        $page = 1;
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
 
         $service_time=$this->get('time');
         $nights=array();
@@ -84,7 +102,10 @@ class mycasatripController extends Controller {
                     'res_available' => $res_available,
                     'order_by'=>$order_by,
                     'nights'=>$nights,
-                    'photos'=>$array_photos
+                    'photos'=>$array_photos,
+                    'items_per_page' => $items_per_page,
+                    'total_items' => $paginator->getTotalItems(),
+                    'current_page' => $page
         ));
     }
     
@@ -152,7 +173,7 @@ class mycasatripController extends Controller {
         $new_date = strtotime('-30 day', strtotime($date));
         $new_date = \date('Y-m-j', $new_date);
         $string_sql = "AND gre.gen_res_date < '$new_date'";
-        $status_string = 'ownre.own_res_status =2';
+        $status_string = 'ownre.own_res_status =5';
 
         if ($this->getRequest()->getMethod() == 'POST') {
             $order_by = $request->get('mct_change_order');
@@ -160,7 +181,14 @@ class mycasatripController extends Controller {
 
         $string_sql.=$this->get_order_by_sql($order_by);
 
-        $res_available = $em->getRepository('mycpBundle:ownershipReservation')->find_by_user_and_status($user->getUserId(), $status_string, $string_sql);
+        $paginator = $this->get('ideup.simple_paginator');
+        $items_per_page = 15;
+        $paginator->setItemsPerPage($items_per_page);
+        $list = $em->getRepository('mycpBundle:ownershipReservation')->find_by_user_and_status($user->getUserId(), $status_string, $string_sql);
+        $res_available = $paginator->paginate($list)->getResult();
+        $page = 1;
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
 
         $service_time=$this->get('time');
         $nights=array();
@@ -177,7 +205,10 @@ class mycasatripController extends Controller {
             'res_available' => $res_available,
             'order_by'=>$order_by,
             'nights'=>$nights,
-            'photos'=>$array_photos
+            'photos'=>$array_photos,
+            'items_per_page' => $items_per_page,
+            'total_items' => $paginator->getTotalItems(),
+            'current_page' => $page
         ));
     }
 
@@ -194,7 +225,14 @@ class mycasatripController extends Controller {
 
         $string_sql.=$this->get_order_by_sql($order_by);
 
-        $res_payment = $em->getRepository('mycpBundle:ownershipReservation')->find_by_user_and_status($user->getUserId(), $status_string, $string_sql);
+        $paginator = $this->get('ideup.simple_paginator');
+        $items_per_page = 15;
+        $paginator->setItemsPerPage($items_per_page);
+        $list = $em->getRepository('mycpBundle:ownershipReservation')->find_by_user_and_status($user->getUserId(), $status_string, $string_sql);
+        $res_payment = $paginator->paginate($list)->getResult();
+        $page = 1;
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
 
         $service_time=$this->get('time');
         $nights=array();
@@ -211,7 +249,10 @@ class mycasatripController extends Controller {
             'res_payment' => $res_payment,
             'order_by'=>$order_by,
             'nights'=>$nights,
-            'photos'=>$array_photos
+            'photos'=>$array_photos,
+            'items_per_page' => $items_per_page,
+            'total_items' => $paginator->getTotalItems(),
+            'current_page' => $page
         ));
     }
 
@@ -232,8 +273,17 @@ class mycasatripController extends Controller {
 
         $string_sql.=$this->get_order_by_sql($order_by);
 
-        $res_consult = $em->getRepository('mycpBundle:ownershipReservation')->find_by_user_and_status($user->getUserId(), $status_string, $string_sql);
+        $paginator = $this->get('ideup.simple_paginator');
+        $items_per_page = 15;
+        $paginator->setItemsPerPage($items_per_page);
+        $list = $em->getRepository('mycpBundle:ownershipReservation')->find_by_user_and_status($user->getUserId(), $status_string, $string_sql);
+        $res_consult = $paginator->paginate($list)->getResult();
+        $page = 1;
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+
         $array_photos=array();
+        
         foreach($res_consult as $cons)
         {
             $photo=$em->getRepository('mycpBundle:ownership')->get_ownership_photo($cons['own_res_gen_res_id']['gen_res_own_id']['own_id']);
@@ -243,7 +293,10 @@ class mycasatripController extends Controller {
         return $this->render('frontEndBundle:mycasatrip:history_consult.html.twig', array(
             'res_contult' => $res_consult,
             'order_by'=>$order_by,
-            'photos'=>$array_photos
+            'photos'=>$array_photos,
+            'items_per_page' => $items_per_page,
+            'total_items' => $paginator->getTotalItems(),
+            'current_page' => $page
         ));
     }
 
@@ -281,7 +334,7 @@ class mycasatripController extends Controller {
         $session = $request->getSession();
         $session->set('mycasatrip_favorite_type', $favorite_type);
 
-        if ($favorite_type == "ownerships") {
+        if ($favorite_type == "ownerships" || $favorite_type=="ownershipfav") {
             $favorite_ownerships_list= $em->getRepository('mycpBundle:favorite')->get_favorite_ownerships($user->getUserId());
             
             $paginator = $this->get('ideup.simple_paginator');
@@ -294,7 +347,10 @@ class mycasatripController extends Controller {
         
             return $this->render('frontEndBundle:mycasatrip:favorites.html.twig', array(
                         'ownership_favorities' => $ownership_favorities,
-                        'favorite_type' => $favorite_type
+                        'favorite_type' => $favorite_type,
+                        'items_per_page' => $items_per_page,
+                        'total_items' => $paginator->getTotalItems(),
+                        'current_page' => $page
             ));
         } else {
             $locale = $this->get('translator')->getLocale();
@@ -310,7 +366,10 @@ class mycasatripController extends Controller {
 
             return $this->render('frontEndBundle:mycasatrip:favorites.html.twig', array(
                         'destination_favorities' => $destination_favorities,
-                        'favorite_type' => $favorite_type
+                        'favorite_type' => $favorite_type,
+                        'items_per_page' => $items_per_page,
+                        'total_items' => $paginator->getTotalItems(),
+                        'current_page' => $page
             ));
         }
     }
@@ -333,7 +392,10 @@ class mycasatripController extends Controller {
                         'comment_type' => $comment_type,
                         'items_per_page' => $items_per_page,
                         'total_items' => $paginator->getTotalItems(),
+                        'current_page' => $page
             ));
     }
+
+
 
 }

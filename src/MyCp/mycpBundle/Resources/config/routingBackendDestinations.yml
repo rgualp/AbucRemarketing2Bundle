@@ -2,6 +2,10 @@ mycp_new_destination:
     pattern:  /new/
     defaults: { _controller: mycpBundle:BackendDestination:new_destination }
 
+mycp_list_category_destination:
+    pattern:  /list_categories/{items_per_page}
+    defaults: { _controller: mycpBundle:BackendDestination:list_category ,items_per_page: 10}
+
 mycp_list_destination:
     pattern:  /list/{items_per_page}/{filter_name}/{filter_active}/{filter_province}/{filter_municipality}/{sort_by}
     defaults: { _controller: mycpBundle:BackendDestination:list_destination, items_per_page: 100,filter_name:'',filter_active:'',filter_province:'',filter_municipality:'',sort_by:'0'}
@@ -10,6 +14,17 @@ mycp_new_photos_destination:
     pattern:  /photos/new/{id_destination}
     defaults: { _controller: mycpBundle:BackendDestination:new_photos}
 
+mycp_new_category_destination:
+    pattern:  /categories/new
+    defaults: { _controller: mycpBundle:BackendDestination:new_category }
+
+mycp_edit_category_destination:
+    pattern:  /edit_category/{id_category}
+    defaults: { _controller: mycpBundle:BackendDestination:edit_category }
+
+mycp_delete_category_destination:
+    pattern:  /delete_category/{id_category}
+    defaults: { _controller: mycpBundle:BackendDestination:delete_category }
 
 mycp_delete_destination:
     pattern:  /delete/{id_destination}

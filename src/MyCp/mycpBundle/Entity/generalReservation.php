@@ -361,6 +361,10 @@ class generalReservation {
     public function getOwnSync() {
         return $this->own_sync;
     }
+    
+    public function setOwnSync($sync) {
+        $this->own_sync = $sync;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="Logic Methods">
     public function getRoomsCount() {

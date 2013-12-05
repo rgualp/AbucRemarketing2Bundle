@@ -6,6 +6,10 @@ mycp_cf:
     pattern:  /backend/mycp_cf/
     defaults: { _controller: mycpBundle:MycpCF:mycpFrontController}
 
+mycp_database:
+    resource: "@mycpBundle/Resources/config/routingBackendDatabaseUtils.yml"
+    prefix: backend/database/
+
 mycp_comments:
     resource: "@mycpBundle/Resources/config/routingBackendComment.yml"
     prefix:   backend/comment/
@@ -49,17 +53,9 @@ mycp_log:
 mycp_utils:
     resource: "@mycpBundle/Resources/config/routingBackendUtils.yml"
     prefix:   backend/utils/
-    
-mycp_pdf:
-    resource: "@mycpBundle/Resources/config/routingBackendPdf.yml"
-    prefix:   backend/pdf/
-
-mycp_pdfs:
-    resource: "@mycpBundle/Resources/config/routingBackendPdf.yml"
-    prefix:   backend/pdf/
 
 mycp_login:
-    pattern:  /login/
+    pattern:  /{_locale}/login/
     defaults: { _controller: frontEndBundle:public:login }
 
 

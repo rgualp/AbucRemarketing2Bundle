@@ -327,14 +327,14 @@ class ownership {
     /**
      * @var decimal
      *
-     * @ORM\Column(name="own_minimum_price", type="decimal")
+     * @ORM\Column(name="own_minimum_price", type="integer")
      */
     private $own_minimum_price;
 
     /**
      * @var decimal
      *
-     * @ORM\Column(name="own_maximum_price", type="decimal")
+     * @ORM\Column(name="own_maximum_price", type="integer")
      */
     private $own_maximum_price;
 
@@ -360,7 +360,7 @@ class ownership {
     private $own_sync;
 
     /**
-     * @OneToMany(targetEntity="unavailabilityDetails", mappedBy="ownership_id")
+     * @OneToMany(targetEntity="unavailabilityDetails", mappedBy="ownership_id", fetch="EAGER")
      */
     private $own_unavailability_details;
 
@@ -1413,9 +1413,13 @@ class ownership {
     public function getOwnCommissionPercent() {
         return $this->own_commission_percent;
     }
-
+    
     public function getOwnSync() {
         return $this->own_sync;
+    }
+
+    public function setOwnSync($sync) {
+        $this->own_sync = $sync;
     }
 
     public function getOwn_unavailability_details() {
@@ -1433,6 +1437,32 @@ class ownership {
 
     public function getPropietariesStringList() {
         return "undefined";
+    }
+
+    /**
+     * 
+     */
+    public function getCurrentUDs() {
+        $filtered_uds = array();
+        foreach ($this->own_unavailability_details as $_ud) {
+            if (!$_ud->isPast()) {
+                $filtered_uds[] = $_ud;
+            }
+        }
+        return $filtered_uds;
+    }
+
+    /**
+     * Get past Unavailabilities Details
+     */
+    public function getPastUDs() {
+        $filtered_uds = array();
+        foreach ($this->own_unavailability_details as $_ud) {
+            if ($_ud->isPast()) {
+                $filtered_uds[] = $_ud;
+            }
+        }
+        return $filtered_uds;
     }
 
 // </editor-fold>

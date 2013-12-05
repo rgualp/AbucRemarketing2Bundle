@@ -1,3 +1,11 @@
+backend_login_check:
+    pattern:  /backend/login_check
+backend_login:
+    pattern:  /backend/login/
+    defaults: { _controller: mycpBundle:Public:login }
+backend_logout:
+    pattern: /backend/logout
+
 mycp:
     resource: "@mycpBundle/Resources/config/routing.yml"
     prefix:   /
@@ -14,18 +22,10 @@ mycp_frontend:
 frontend_ckeck:
     pattern:  /check
 frontend_login:
-    pattern:  /login/
+    pattern:  /{_locale}/login/
     defaults: { _controller: frontEndBundle:public:login }
 frontend_logout:
     pattern: /logout
-
-backend_login_check:
-    pattern:  /backend/login_check
-backend_login:
-    pattern:  /backend/login/
-    defaults: { _controller: mycpBundle:Public:login }
-backend_logout:
-    pattern: /backend/logout
 
 mycp_welcome_main:
     pattern:  /welcome/

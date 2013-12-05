@@ -3,6 +3,7 @@
 {%endif%}
 {% extends 'frontEndBundle:mycasatrip:layout.html.twig' %}
 {% block body_inner %}
+<div class="container">
 {%if comment_type == "ownerships"%}
     {%for comment in comments%}
 
@@ -27,6 +28,7 @@
                            {{comment.getComComments}}
                         </div>
                     </div>
+                    <hr/>
     {%else%}
            <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
 
@@ -45,4 +47,5 @@
                     </div>
                     {%endif%}
 {%endif%}
+</div>
 {% endblock %}

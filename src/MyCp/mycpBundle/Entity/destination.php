@@ -367,7 +367,7 @@ class destination {
     public function addDesCategorie(\MyCp\mycpBundle\Entity\destinationCategory $desCategories)
     {
         $this->des_categories[] = $desCategories;
-    
+
         return $this;
     }
 
@@ -384,7 +384,7 @@ class destination {
     /**
      * Get des_categories
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getDesCategories()
     {

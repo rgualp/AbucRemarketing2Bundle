@@ -47,7 +47,7 @@ class Email {
         $this->send_email($subject, $email_from, "MyCasaParticular.com", $email_to, $body);
     }
 
-    public function send_email($subject, $email_from, $name_from, $email_to, $sf_render) {
+    public function send_email($subject, $email_from, $name_from, $email_to, $sf_render,$attach=null) {
         if (is_object($sf_render)) {
             $sf_render = $sf_render->getContent();
         }
@@ -57,6 +57,10 @@ class Email {
                 ->setFrom($email_from, $name_from)
                 ->setTo($email_to)
                 ->setBody($sf_render, 'text/html');
+        if($attach!=null)
+        {
+            $message->attach(\Swift_Attachment::fromPath($attach));
+        }
         return $this->container->get('mailer')->send($message);
     }
 

@@ -1595,5 +1595,14 @@ class ownershipRepository extends EntityRepository {
 
         return $em->createQuery($query_string)->getResult();
     }
+    
+    public function setHousesSync(){
+         $em = $this->getEntityManager();         
+         foreach($this->getHousesToOfflineApp() as $_house){
+            $_house->setOwnSync(true);
+            $em->persist($_house);     
+         }
+         $em->flush();
+    }
    
 }

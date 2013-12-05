@@ -2236,7 +2236,7 @@
                 <target>Enable account</target>
             </trans-unit>
             <trans-unit id="568">
-                <source>USER_PROFILE</source>
+                <source>USER_MY_PROFILE</source>
                 <target>My user profile</target>
             </trans-unit>
             <trans-unit id="569">

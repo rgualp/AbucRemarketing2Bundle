@@ -109,13 +109,24 @@ class generalReservationRepository extends EntityRepository {
         return $query->getResult();
     }
 
-    function getBetweenDates($init_date, $end_date) {
+    function getValidBetweenDates($init_date, $end_date) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT gre, gre_own_res, grec FROM mycpBundle:generalReservation gre
             JOIN gre.own_reservations gre_own_res
             JOIN gre.gen_res_user_id grec
             WHERE gre.own_sync = 0 AND gre.gen_res_date BETWEEN '$init_date' AND '$end_date'");
         return $query->getResult();
+    }
+    
+    function setSyncBetweenDates($init_date, $end_date){
+         $getValidReservations = $this->getValidBetweenDates($init_date, $end_date);
+         
+         $em = $this->getEntityManager();
+         foreach($getValidReservations as $_res){
+            $_res->setOwnSync(true);
+            $em->persist($_res);     
+         }
+         $em->flush();
     }
 
 }
