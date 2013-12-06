@@ -31,14 +31,14 @@ class unavailabilityDetails {
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="ud_from_date", type="datetime")
+     * @ORM\Column(name="ud_from_date", type="date")
      */
     private $ud_from_date;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="ud_to_date", type="datetime")
+     * @ORM\Column(name="ud_to_date", type="date")
      */
     private $ud_to_date;
 
@@ -175,7 +175,7 @@ class unavailabilityDetails {
      * @param integer $ownershipId
      * @return unavailabilityDetails
      */
-    public function setOwnershipId($ownershipId) {
+    public function setOwnership($ownershipId) {
         $this->ownership_id = $ownershipId;
 
         return $this;
@@ -186,7 +186,7 @@ class unavailabilityDetails {
      *
      * @return integer 
      */
-    public function getOwnershipId() {
+    public function getOwnership() {
         return $this->ownership_id;
     }
 
