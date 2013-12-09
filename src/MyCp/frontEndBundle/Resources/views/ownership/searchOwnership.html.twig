@@ -62,7 +62,26 @@
             </div>
             <div>
                 <div class="houses-list thumbs-houses" id="div_result">
-                    {% render "frontEndBundle:ownership:search_change_view_results" %}
+                    {%if view_results == 'LIST'%}
+                        {{ include('frontEndBundle:ownership:searchListOwnership.html.twig', 
+                        {'list': list,
+                         'list_preffix': 'list'
+                         }) }}     
+                    {%else%}
+                        {%if view_results == 'PHOTOS'%}
+                             {{ include('frontEndBundle:ownership:searchMosaicOwnership.html.twig', 
+                                {'list': list,
+                                 'list_preffix': 'mosaic'
+                             }) }}    
+                        {%else%}
+                          {%if view_results == 'MAP'%}
+                             {{ include('frontEndBundle:ownership:searchMapOwnership.html.twig', 
+                                {'list': list,
+                                 'list_preffix': 'map'
+                              }) }}     
+                          {%endif%}
+                        {%endif%}
+                    {%endif%}
                 </div>
             </div>
         </div>
