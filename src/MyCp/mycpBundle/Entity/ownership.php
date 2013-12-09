@@ -354,7 +354,7 @@ class ownership {
 
     /**
      * @var boolean
-     *
+     * @todo set default value with Doctrine
      * @ORM\Column(name="own_sync", type="boolean")
      */
     private $own_sync;
@@ -369,6 +369,8 @@ class ownership {
      */
     public function __construct() {
         $this->own_rooms = new ArrayCollection();
+        $this->own_unavailability_details = new ArrayCollection();
+        $this->own_sync = false;
     }
 
     /**
@@ -1429,14 +1431,10 @@ class ownership {
     public function setOwn_unavailability_details($own_unavailability_details) {
         $this->own_unavailability_details = $own_unavailability_details;
     }
-
+//-----------------------------------------------------------------------------
     // <editor-fold defaultstate="collapsed" desc="Logic Methods">
     public function getFullAddress() {
         return $this->own_address_street . ", No." . $this->own_address_number . ", " . $this->own_address_municipality . ", " . $this->own_address_province;
-    }
-
-    public function getPropietariesStringList() {
-        return "undefined";
     }
 
     /**
@@ -1463,6 +1461,15 @@ class ownership {
             }
         }
         return $filtered_uds;
+    }
+    
+    /**
+     * Remove All Current Unavailabilities Details
+     */
+    public function removeAllCurrentUDs($em){
+        foreach($this->getCurrentUDs() as $_ud){
+            $em->remove($_ud);
+        }
     }
 
 // </editor-fold>

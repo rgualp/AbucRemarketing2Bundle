@@ -110,6 +110,14 @@ class generalReservation {
      */
     private $own_sync;
 
+    
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        $this->own_sync = false;
+    }
+    
     /**
      * Get gen_res_id
      *

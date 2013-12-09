@@ -2,9 +2,10 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use MyCp\mycpBundle\Entity\unavailabilityDetails;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * Description of MycpCF  - Mycp Communication Foundation
@@ -36,18 +37,16 @@ class MycpCFController extends Controller {
             case self::CONFIRM_RESERVATIONS_UPDATE:
                 return new Response($this->mycpConfirmUpdateReservations($request));
             case self::COMMIT_RESERVATIONS:
-                $_data = $this->mycpUploadReservations($request);
-                break;
+                return new Response($this->_commitReservations($request));
             case self::UPDATE_HOUSES:
-                $_data = $this->mycpDownloadHouses();
+                $_data = $this->_updateHouses();
                 break;
-            case self::CONFIRM_HOUSES_UPDATE: 
-                return new Response($this->_mycpConfirmDownloadHouses());
+            case self::CONFIRM_HOUSES_UPDATE:
+                return new Response($this->_confirmUpdateHouses());
             case self::COMMIT_HOUSES:
-                $_data = $this->mycpUploadReservations($request);
-                break;
+                return new Response($this->_commitHouses($request));
             case self::UPDATE_USERS:
-                $_data = $this->mycpDownloadUsers();
+                $_data = $this->_updateUsers();
                 break;
         }
         return new Response(json_encode($_data));
@@ -138,7 +137,7 @@ class MycpCFController extends Controller {
 // </editor-fold>
 //-----------------------------------------------------------------------------
     // <editor-fold defaultstate="collapsed" desc="Upload Methods">
-    private function mycpUploadReservations(Request $request) {
+    private function _commitReservations(Request $request) {
         $json_reservations = $request->get('content');
         $reservations = json_decode($json_reservations);
         $em = $this->getDoctrine()->getEntityManager();
@@ -168,7 +167,7 @@ class MycpCFController extends Controller {
             $this->_sendReservationsEmail($em, $client, $res_per_clients[$client->getUserId()]);
         }
 
-        return new Response("done!");
+        return self::SUCCESS_CONFIRM_MSG;
     }
 
     private function _sendReservationsEmail($em, $user, $reservations) {
@@ -211,7 +210,7 @@ class MycpCFController extends Controller {
 // </editor-fold>
 //-----------------------------------------------------------------------------
     // <editor-fold defaultstate="collapsed" desc="Houses - UnAvailabilities Methods">
-    public function mycpDownloadHouses() {
+    private function _updateHouses() {
         $em = $this->getDoctrine()->getEntityManager();
         $houses_to_send = $em->getRepository('mycpBundle:ownership')->getHousesToOfflineApp();
 
@@ -239,23 +238,48 @@ class MycpCFController extends Controller {
         }
         return $_houses_data;
     }
-    
-     public function _mycpConfirmDownloadHouses() {
+
+    private function _confirmUpdateHouses() {
         $em = $this->getDoctrine()->getEntityManager();
         $em->getRepository('mycpBundle:ownership')->setHousesSync();
         return self::SUCCESS_CONFIRM_MSG;
     }
 
-    public function mycpOfflineHousesCommitAction(Request $request) {
-        $json_reservations = $request->get('content');
-        $reservations = json_decode($json_reservations);
+    private function _commitHouses(Request $request) {
+        $json_houses = $request->get('content');
+        $houses = json_decode($json_houses);
         $em = $this->getDoctrine()->getEntityManager();
+
+        if (is_array($houses)) {
+            foreach ($houses as $house) {
+                $ec_house = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code' => $house->hc));
+
+                //working with unavailabilities details...
+                $ec_house->removeAllCurrentUDs($em);
+                if (is_array($house->_uds)) {
+                    foreach ($house->_uds as $_ud) {
+                        $_new_ud = new unavailabilityDetails();
+                        $_new_ud->setRoomNum($_ud->rn);
+                        $_new_ud->setUdFromDate(new \DateTime($_ud->fd));
+                        $_new_ud->setUdToDate(new \DateTime($_ud->td));
+                        $_new_ud->setUdReason($_ud->rs);
+
+                        $_new_ud->setOwnership($ec_house);
+                        $ec_house->getOwn_unavailability_details()->add($_new_ud);
+                        $em->persist($_new_ud);
+                    }
+                }
+                $em->persist($ec_house);
+            }
+        }
+        $em->flush();
+        return self::SUCCESS_CONFIRM_MSG;
     }
 
     // </editor-fold>
 //-----------------------------------------------------------------------------
     // <editor-fold defaultstate="collapsed" desc="Users Methods">
-    public function mycpDownloadUsers() {
+    private function _updateUsers() {
         $em = $this->getDoctrine()->getEntityManager();
         $users = $em->getRepository('mycpBundle:user')->findBy(array('user_role' => 'ROLE_CLIENT_STAFF'));
 
@@ -265,7 +289,7 @@ class MycpCFController extends Controller {
             $users_data[$i]["un"] = $user->getUserName();
             $users_data[$i]["ps"] = $user->getUserPassword();
         }
-        return new Response(json_encode($users_data));
+        return $users_data;
     }
 
 // </editor-fold>
