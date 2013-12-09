@@ -84,7 +84,7 @@ function start() {
         filter_by_others(false);
     });
 
-    //initialize_map();
+    initialize_map();
 }
 
 function change_order()
