@@ -846,7 +846,7 @@ class reservationController extends Controller
     }
 
     function download_pdf($html, $name, $save_to_disk = false) {
-        require_once("lib/dompdf/dompdf_config.inc.php");
+        require_once($this->get('kernel')->getRootDir().'/config/dompdf_config.inc.php');
         $dompdf = new \DOMPDF();
         $dompdf->load_html($html);
         //$dompdf->set_paper("a4", "landscape");

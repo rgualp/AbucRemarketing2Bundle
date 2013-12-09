@@ -1,0 +1,3 @@
+mycp_generate_pdf:
+    pattern:  /generate/
+    defaults: { _controller: mycpBundle:Pdf:pdf}

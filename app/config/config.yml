@@ -15,7 +15,7 @@ framework:
     templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
     default_locale:  "%locale%"
     trust_proxy_headers: false # Deprecated in 2.0; will be removed in 2.3 (used trusted_proxies instead)
-    trusted_proxies: ~
+    trusted_proxies: [127.0.0.1]
     session:         ~
 
 # Twig Configuration
@@ -116,15 +116,14 @@ services:
         arguments:
             entity_manager: "@doctrine.orm.entity_manager"
             container: "@service_container"
-            
+
 avalanche_imagine:
     web_root:     %kernel.root_dir%/../web
     cache_prefix: imagine
-    driver:       gd  
+    driver:       gd
     filters:
         mycp_thumb:
             type:    thumbnail
             options: { size: [120, 90], mode: outbound }
 
 be_simple_i18n_routing: ~
-

@@ -470,6 +470,14 @@ class ownershipController extends Controller {
         $departure = ($request->get('departure') != null && $request->get('departure') != "" && $request->get('departure') != "null") ? $request->get('departure') : null;
 
         $list = $em->getRepository('mycpBundle:ownership')->search($this, $search_text, $arrival, $departure, $search_guests, $search_rooms, $session->get('search_order'));
+        $paginator = $this->get('ideup.simple_paginator');
+            $items_per_page = 15;
+            $paginator->setItemsPerPage($items_per_page);
+            $result_list = $paginator->paginate($list)->getResult();
+            $page = 1;
+            if (isset($_GET['page']))
+                $page = $_GET['page'];
+
 
         $session->set('search_text', $search_text);
         $session->set('search_arrival_date', $arrival);
@@ -507,7 +515,12 @@ class ownershipController extends Controller {
                     'view_results' => $session->get('search_view_results'),
                     'own_statistics' => $statistics_own_list,
                     'locale' => $this->get('translator')->getLocale(),
-                    'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocomplete_text_list()
+                    'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocomplete_text_list(),
+                    'list' => $result_list,
+                    'items_per_page' => $items_per_page,
+                    'total_items' => $paginator->getTotalItems(),
+                    'current_page' => $page
+                
         ));
     }
 
