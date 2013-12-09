@@ -30,11 +30,16 @@ $(document).ready(function(){
     var poly_signal=[8,27,1,11,0,10,0,8,0,7,0,5,1,4,2,2,4,1,7,0,9,0,12,1,14,3,15,4,15,5,16,7,16,10,15,11,8,27,8,27,];
     var circ_signal=[5,8,6,6,8,5,10,6,11,8,10,10,8,11,6,10,5,8,5,8];
 
+    sig_tooltip=$('#signal_tooltip');
+
     array_polygons=[poly_ij,poly_cg,poly_lt,poly_ho,poly_gt,poly_st,poly_gr,poly_ca,poly_ss,poly_vc,poly_cf,poly_mt,poly_mb,
         poly_lh,poly_ar,poly_pr]
 
     array_links_prov=['isla_de_la_juventud','camagüey','las_tunas','holguín','guantánamo','santiago_de_cuba','granma','ciego_de_ávila','sancti_spiritus',
         'villa_clara','cienfuegos','matanzas','mayabeque','la_habana','artemisa','pinar_del_río'];
+
+    array_names_prov_pos=[106,185,420,212,610,150,709,194,762,225,625,318,530,254,489,99,348,185,363,50,281,153,
+        208,139,232,34,177,15,122,38,15,58];
 
     poly_signal_positions.forEach(function(element){
         temp=get_prop_signal_position(element);
@@ -66,10 +71,11 @@ $(document).ready(function(){
     }
     function init_map()
     {
-
         array_polygons.forEach(function(element){
             draw_poly(get_prop_poly(element),'#8C8B8B',0,'#616060',1);
         });
+
+        draw_prov_names();
 
         array_signals_show.forEach(function(element){
             temp=get_prop_signal_position(poly_signal_positions[element]);
@@ -78,18 +84,41 @@ $(document).ready(function(){
             draw_poly(temp2,'#fff',0,'',0);
         });
 
+
+
+    }
+
+    function draw_prov_names()
+    {
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+        ctx.shadowBlur = 0;
+        ctx.shadowColor='';
+        ctx.fillStyle="#bdbcbc";
+        ctx.font="14px Arial";
+        c_prov=0;
+        for(j=0;j < array_names_prov_pos.length ; j+=2)
+        {
+           coord_x= array_names_prov_pos[j] * $('#map_canvas').attr('width') / 849 ;
+           coord_y= array_names_prov_pos[j + 1] * $('#map_canvas').attr('height') /323;
+           name=array_links_prov[c_prov];
+           name=name.split('_').join(' ');
+           ctx.fillText(name,coord_x,coord_y);
+            c_prov++;
+        }
     }
 
     function get_prop_signal_position(signal_pos)
     {
         new_poly=Array();
+        cvas=$('#map_canvas');
         for( item=0 ; item < poly_signal.length ; item+=2 )
         {
 
             new_coord_x= poly_signal[item]+signal_pos[0];
             new_coord_y= poly_signal[item + 1]+signal_pos[1];
-            new_coord_x = new_coord_x * $('#map_canvas').attr('width') / 849;
-            new_coord_y = new_coord_y * $('#map_canvas').attr('height') / 323;
+            new_coord_x = new_coord_x * cvas.attr('width') / 849;
+            new_coord_y = new_coord_y * cvas.attr('height') / 323;
             new_poly.push(new_coord_x);
             new_poly.push(new_coord_y);
         }
@@ -191,7 +220,9 @@ $(document).ready(function(){
             {
                 draw_poly(get_prop_poly(array_polygons[cont]),'#8C8B8B',0,'',1);
             }
+
         }
+        draw_prov_names();
         focused=null;
         for(cont=0;cont<array_signals_show.length; cont++){
             focus_color='#3F3F3F';
@@ -202,7 +233,9 @@ $(document).ready(function(){
                 temp=get_prop_poly(array_signals[array_signals_show[cont]]);
                 draw_poly(temp,focus_color,0,'',0);
                 focused=cont;
-
+                sig_tooltip.html((destinations[cont].split('_').join(' ')).toUpperCase());
+                sig_tooltip.css('left',event.pageX - 30);
+                sig_tooltip.css('top',event.pageY - 35);
             }
             else
             {
@@ -219,10 +252,12 @@ $(document).ready(function(){
 
                     }
                 }
+                sig_tooltip.css('left',-500);
 
             }
 
         }
+
     }
 
     function is_in_poly(point_list, p)
@@ -274,7 +309,7 @@ $(document).ready(function(){
         for(cont=0;cont<array_signals_show.length; cont++){
             if(is_in_poly(get_prop_poly(array_signals[array_signals_show[cont]]),point))
             {
-                window.location=links_destination[cont];
+                window.location=link_destination +'/'+ destinations[cont];
             }
 
         }
