@@ -40,7 +40,11 @@
                 <div class="layer-loading"></div>
                 <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}"/></div>
             </div>
-                <div id="filter_upper"></div>
+                <div id="filter_upper">
+                    {%if check_filters is defined and check_filters | length%}
+                        
+                    {%endif%}
+                </div>
                 <div class="bg-solid-blue-bar" style="margin-top: 0">
                 <div class="row">
                     <div class="col-xs-5">

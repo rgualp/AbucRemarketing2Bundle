@@ -469,7 +469,13 @@ class ownershipController extends Controller {
         $arrival = ($request->get('arrival') != null && $request->get('arrival') != "" && $request->get('arrival') != "null") ? $request->get('arrival') : null;
         $departure = ($request->get('departure') != null && $request->get('departure') != "" && $request->get('departure') != "null") ? $request->get('departure') : null;
 
-        $list = $em->getRepository('mycpBundle:ownership')->search($this, $search_text, $arrival, $departure, $search_guests, $search_rooms, $session->get('search_order'));
+        $check_filters = $session->get("filter_array");
+        $room_filter = $session->get("filter_room"); 
+                
+        $session->set("filter_array", $check_filters);
+        $session->set("filter_room", $room_filter); 
+        
+        $list = $em->getRepository('mycpBundle:ownership')->search($this, $search_text, $arrival, $departure, $search_guests, $search_rooms, $session->get('search_order'), $room_filter, $check_filters);
         $paginator = $this->get('ideup.simple_paginator');
             $items_per_page = 15;
             $paginator->setItemsPerPage($items_per_page);
@@ -519,7 +525,8 @@ class ownershipController extends Controller {
                     'list' => $result_list,
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
-                    'current_page' => $page
+                    'current_page' => $page,
+                    'check_filters' => $check_filters
                 
         ));
     }
@@ -752,7 +759,10 @@ class ownershipController extends Controller {
                 $check_filters['room_terraza'] ||
                 $check_filters['room_courtyard']
                 );
-
+        
+        $session->set("filter_array", $check_filters);
+        $session->set("filter_room", $room_filter);        
+                
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
         $paginator->setItemsPerPage($items_per_page);
