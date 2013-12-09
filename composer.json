@@ -29,7 +29,8 @@
         "ass/xmlsecurity":      "dev-master",
         "besimple/soap-server": "dev-master",
         "besimple/i18n-routing-bundle": "2.1.*@dev",
-        "leaseweb/memcache-bundle": "*"
+        "leaseweb/memcache-bundle": "*",
+        "dompdf/dompdf": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

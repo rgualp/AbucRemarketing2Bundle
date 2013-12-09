@@ -15,7 +15,7 @@ class PdfController extends Controller {
     }
 
     function download_pdf($html, $name) {
-        require_once("lib/dompdf/dompdf_config.inc.php");
+        require_once($this->get('kernel')->getRootDir().'/config/dompdf_config.inc.php');
 
         $dompdf = new \DOMPDF();
 
