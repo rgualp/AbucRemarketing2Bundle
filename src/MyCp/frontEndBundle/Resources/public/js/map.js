@@ -224,6 +224,7 @@ $(document).ready(function(){
         }
         draw_prov_names();
         focused=null;
+        sig_tooltip.css('left',-500);
         for(cont=0;cont<array_signals_show.length; cont++){
             focus_color='#3F3F3F';
 
@@ -233,7 +234,7 @@ $(document).ready(function(){
                 temp=get_prop_poly(array_signals[array_signals_show[cont]]);
                 draw_poly(temp,focus_color,0,'',0);
                 focused=cont;
-                sig_tooltip.html((destinations[cont].split('_').join(' ')).toUpperCase());
+                sig_tooltip.html((destinations[array_signals_show[cont]].split('_').join(' ')).toUpperCase());
                 sig_tooltip.css('left',event.pageX - 30);
                 sig_tooltip.css('top',event.pageY - 35);
             }
@@ -252,7 +253,8 @@ $(document).ready(function(){
 
                     }
                 }
-                sig_tooltip.css('left',-500);
+
+
 
             }
 
