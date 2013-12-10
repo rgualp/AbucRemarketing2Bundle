@@ -509,6 +509,7 @@ class ownershipController extends Controller {
           echo "</pre>";
           exit(); */
 
+        if($check_filters != null)
         return $this->render('frontEndBundle:ownership:searchOwnership.html.twig', array(
                     'search_text' => $search_text,
                     'search_guests' => $search_guests,
@@ -527,6 +528,26 @@ class ownershipController extends Controller {
                     'total_items' => $paginator->getTotalItems(),
                     'current_page' => $page,
                     'check_filters' => $check_filters
+                
+        ));
+        else
+            return $this->render('frontEndBundle:ownership:searchOwnership.html.twig', array(
+                    'search_text' => $search_text,
+                    'search_guests' => $search_guests,
+                    'search_arrival_date' => $arrival,
+                    'search_departure_date' => $departure,
+                    'owns_categories' => $categories_own_list,
+                    'owns_types' => $types_own_list,
+                    'owns_prices' => $prices_own_list,
+                    'order' => $session->get('search_order'),
+                    'view_results' => $session->get('search_view_results'),
+                    'own_statistics' => $statistics_own_list,
+                    'locale' => $this->get('translator')->getLocale(),
+                    'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocomplete_text_list(),
+                    'list' => $result_list,
+                    'items_per_page' => $items_per_page,
+                    'total_items' => $paginator->getTotalItems(),
+                    'current_page' => $page
                 
         ));
     }

@@ -12,7 +12,7 @@
 {%set service_sauna = false%}
 {%set service_jacuzzy = false%}
 
-{%if check_filters is defined%}
+{%if check_filters is defined and check_filters != null%}
     {%for service in check_filters['own_others_not_included']%}
         {%if service == "BREAKFAST"%}
             {%set service_breakfast = true%}
