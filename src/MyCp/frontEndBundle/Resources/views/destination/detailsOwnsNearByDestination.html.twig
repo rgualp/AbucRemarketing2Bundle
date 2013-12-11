@@ -7,14 +7,16 @@
           }) 
     }}      
 </div>
-<div class="text-center">
-                    <ul class="pagination">
-                        <li><a href="#">«</a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">»</a></li>
-                    </ul>
-                </div>
+{%if total_items > items_per_page%}
+        <div class="text-center">
+              {{ simple_paginator_render('frontend_details_destination',null,{
+    'container_class': 'pagination',
+    'previousPageText': '«',
+    'nextPageText': '»',
+    'currentClass': 'current',
+    'firstPageText': 'FIRST_PAGE' | trans,
+    'lastPageText': 'LAST_PAGE' | trans,
+    'route_params': {'destination_name': destination_name}
+}) }}
+{%endif%}
 {%endif%}

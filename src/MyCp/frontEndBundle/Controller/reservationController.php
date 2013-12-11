@@ -719,7 +719,7 @@ class reservationController extends Controller
         //save pdf into disk to attach
         $response=$this->view_confirmationAction($id_booking,true);
         $now = new \DateTime();
-        $pdf_name='boucher'.$user->getUserId().$now->getTimestamp();
+        $pdf_name='voucher'.$user->getUserId().$now->getTimestamp();
         $this->download_pdf($response, $pdf_name ,true);
         $attach=$this->container->getParameter('kernel.root_dir')
             ."/../web/bouchers/$pdf_name.pdf";

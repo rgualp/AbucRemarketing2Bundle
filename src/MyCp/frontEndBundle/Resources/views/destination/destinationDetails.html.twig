@@ -113,7 +113,7 @@
                     <div class="accordion-body collapse" id="collapseFour">
                         <div class="accordion-inner">
                             {%for province in provinces%}
-                           <a href="{{ path('frontend_search_ownership',{'text':province.provName, 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}">{{province.provName}}</a><br/>                        
+                                <a href="{{ path('frontend_search_ownership',{'text':province.provName | lower | replace(" ", "_"), 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}">{{province.provName}}</a><br/>                        
                            {%else%}
                         <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
                         {%endfor%}
