@@ -40,8 +40,8 @@ class municipalityRepository extends EntityRepository
         $query_string = "SELECT m.mun_id,
                          m.mun_name,
                          prov.prov_id,
-                         (SELECT count(gen_r) FROM mycpBundle:generalReservation gen_r  JOIN gen_r.gen_res_own_id o WHERE o.own_address_municipality = m.mun_id AND gen_r.gen_res_status = 5) as visits,
-                         (SELECT count(o1) FROM mycpBundle:ownership o1 WHERE o1.own_status = 1 AND o1.own_address_municipality = m.mun_id ORDER BY o1.own_rating DESC, o1.own_id ASC) as total_ownerships,
+                         (SELECT count(gen_r) FROM mycpBundle:generalReservation gen_r  JOIN gen_r.gen_res_own_id o WHERE o.own_address_municipality = m.mun_id AND gen_r.gen_res_status = 2) as visits,
+                         (SELECT count(o1) FROM mycpBundle:room r JOIN r.room_ownership o1 WHERE o1.own_status = 1 AND o1.own_address_municipality = m.mun_id ORDER BY o1.own_rating DESC, o1.own_id ASC) as total_ownerships,
                          (SELECT DISTINCT count(d.des_id)
                                 FROM mycpBundle:destinationLocation l
                                 JOIN l.des_loc_destination d
@@ -55,7 +55,7 @@ class municipalityRepository extends EntityRepository
                            JOIN dp2.des_pho_photo pho2 WHERE dp2.des_pho_destination = dp.des_pho_destination ) or pho.pho_order is null)) as photo
                          FROM mycpBundle:municipality m
                          JOIN m.mun_prov_id prov
-                         WHERE (SELECT count(gen_r1) FROM mycpBundle:generalReservation gen_r1  JOIN gen_r1.gen_res_own_id o2 WHERE o2.own_address_municipality = m.mun_id AND gen_r1.gen_res_status = 5) > 0
+                         WHERE (SELECT count(gen_r1) FROM mycpBundle:generalReservation gen_r1  JOIN gen_r1.gen_res_own_id o2 WHERE o2.own_address_municipality = m.mun_id AND gen_r1.gen_res_status = 2) > 0
                          ORDER BY visits DESC,m.mun_name ASC";
         
         $result = $em->createQuery($query_string)->getResult();
