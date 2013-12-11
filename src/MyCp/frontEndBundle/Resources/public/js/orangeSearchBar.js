@@ -43,7 +43,7 @@ function connectSearchOnEnter() {
 function search() {
     var url = $('#btn_search').attr('data-url');
 
-    var text = $('#input_text').val();
+    var text = $('#input_text').val().toString().replace(/ /g, "_").toLowerCase();
     if (text != $('#input_text').attr("placeholder") && text != "")
         url = url.toString().replace('_text', text);
     else
