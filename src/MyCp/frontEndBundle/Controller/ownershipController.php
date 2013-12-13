@@ -466,8 +466,8 @@ class ownershipController extends Controller {
         $search_text = ($text != null && $text != '' && $text != $this->get('translator')->trans('PLACE_WATERMARK')) ? str_replace("_", " ", strtolower($text)) : null;
         $search_guests = ($guests != null && $guests != '' && $guests != $this->get('translator')->trans('GUEST_WATERMARK')) ? $guests : "1";
         $search_rooms = ($rooms != null && $rooms != '' && $rooms != $this->get('translator')->trans('ROOM_WATERMARK')) ? $rooms : "1";
-        $arrival = ($request->get('arrival') != null && $request->get('arrival') != "" && $request->get('arrival') != "null") ? $request->get('arrival') : null;
-        $departure = ($request->get('departure') != null && $request->get('departure') != "" && $request->get('departure') != "null") ? $request->get('departure') : null;
+        $arrival = ($request->get('arrival') != null && $request->get('arrival') != "" && $request->get('arrival') != "null") ? $request->get('arrival') : $session->get('search_arrival_date');
+        $departure = ($request->get('departure') != null && $request->get('departure') != "" && $request->get('departure') != "null") ? $request->get('departure') : $session->get('search_departure_date');
 
         $check_filters = $session->get("filter_array");
         $room_filter = $session->get("filter_room"); 

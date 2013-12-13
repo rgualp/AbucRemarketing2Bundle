@@ -3,7 +3,6 @@
 <script src="{{ asset('bundles/frontend/js/typeahead.min.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/orangeSearchBar.js') }}"></script>
 
-
 <div class="orange-shadow-cont text-center">
                 <span style="color: #ffffff; margin-bottom: 5px; display: block">{{"ACCOMMODATION_SEARCH_TITLE" | trans | title}}</span>
                 <div><input type="text" class="form-control" {%if app.session.get('search_text') != null and app.session.get('search_text') != 'null'%}value="{{app.session.get('search_text')}}"{%endif%} placeholder="{{"PLACE_WATERMARK" | trans}}" id="input_text" autocomplete="off" data-highlighter="null" data-items="5" data-provide="typeahead"/></div>
