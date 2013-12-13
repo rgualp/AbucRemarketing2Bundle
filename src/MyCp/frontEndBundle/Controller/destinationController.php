@@ -20,6 +20,15 @@ class destinationController extends Controller {
             'des_categories_lang'=>$categories_lang));
     }
 
+    public function get_map_by_provinceAction()
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $dest_location = $em->getRepository('mycpBundle:destinationLocation')->findAll();
+        return $this->render('frontEndBundle:destination:destinationByProvince.html.twig', array(
+            'locations_destinations' => $dest_location
+        ));
+    }
+
     public function popular_listAction() {
         $em = $this->getDoctrine()->getEntityManager();
         $locale = $this->get('translator')->getLocale();
