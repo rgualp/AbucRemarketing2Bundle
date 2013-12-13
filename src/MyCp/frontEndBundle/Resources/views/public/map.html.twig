@@ -8,104 +8,35 @@
 </style>
 <div class="container text-center">
     {% for des_cat in des_categories_lang %}
-        <img {% if loop.index0 == 0 %} id="first_atraction" {% endif %}title="" style='background-image: url("{{ asset('uploads/destinationImages/icons/'~des_cat.getDesCatIdCat.getDesIcon ) }}")' data-placement="top" rel="tooltip" href="#" data-original-title="{{ des_cat.getDesCatName }}" class="icon-destination" data="signal_{{ des_cat.getDesCatIdCat.getDesCatId }}" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
+        <img focus="0" {% if loop.index0 == 0 %} id="first_atraction" {% endif %}title="" style='background-image: url("{{ asset('uploads/destinationImages/icons/'~des_cat.getDesCatIdCat.getDesIcon ) }}")' data-placement="top" rel="tooltip" href="#" data-original-title="{{ des_cat.getDesCatName }}" class="icon-destination" data="cat{{ des_cat.getDesCatIdCat.getDesCatId }}" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"/>
     {% endfor %}
 </div>
 <hr style="border-color: #D7D6D6; width: 100%; margin: 0"/>
 <hr style="border-color: #ffffff; width: 100%; margin: 0 0 30px"/>
-<div class="container" style="padding: 0 100px">
-    {% for des_map in destinations_map %}
-        {% if des_map.getDesCatLocationX %}
-        {% for des_map_cat in des_map.getDesCategories %}
-        <a href="{{ path('frontend_details_destination',{'destination_name': des_map.getDesName|lower|replace(' ','_')}) }}">
-            <img title="" data-placement="top" rel="tooltip" href="#" data-original-title="{{ des_map.getDesName }}" class="map-signal signal_{{ des_map_cat.getDesCatId }}" style="left:{{ des_map.getDesCatLocationX }}px; margin-top: {{ des_map.getDesCatLocationY }}px;" src="{{ asset('bundles/frontend/img/map-signal.png') }}">
-        </a>
-        {% endfor %}
-        {% endif %}
-    {% endfor %}
-    <img class="full-width" id="big-map" src="{{ asset('bundles/frontend/img/map.gif') }}">
+<div class="container text-center">
+    <canvas id="map_canvas" style="background: url('{{ asset('bundles/frontend/img/map.gif') }}') bottom left no-repeat; background-size: 45%"  width="849" height="323"></canvas>
 </div>
 <script type="text/javascript">
-        img_elem=$('#big-map');
-        win_w=$(window).width();
-        img_h=img_elem.height();
+{% set categories='' %}
+{% set signal_pos='' %}
+{% set destinations='' %}
+{% for des_map in destinations_map %}
+{% if des_map.getDesCatLocationX %}
+{% for des_map_cat in des_map.getDesCategories %}
+{% set categories = categories~"'cat"~des_map_cat.getDesCatId~"'," %}
+{% set destinations = destinations~"'"~des_map.getDesName|lower|replace(' ','_')~"'," %}
+{% set signal_pos = signal_pos~"["~des_map.getDesCatLocationX~","~des_map.getDesCatLocationY~"]," %}
+{% endfor %}
+{% endif %}
+{% endfor %}
 
-        $('.map-signal').each(function(){
+var poly_signal_positions=[{{ signal_pos|slice(0,(signal_pos|length)-1)|raw }}];
+var poly_signal_category=[{{ categories|slice(0,(categories|length)-1)|raw }}];
+var destinations=[{{ destinations|slice(0,(destinations|length)-1)|raw }}];
+var link_destination="{{ path('frontend_details_destination',{'destination_name':''}) }}";
+var accommodations_url="{{path('frontend_search_ownership')}}";
 
-            signal_margin_left=$(this).position().left;
-            signal_margin_top=$(this).css('marginTop');
-            signal_margin_top=signal_margin_top.replace('px','');
-            dif_middle=674.5 - signal_margin_left;
-            new_dif_middle=dif_middle * win_w / 1349;
-            new_pos_x=win_w / 2 - new_dif_middle;
-            new_pos_y=signal_margin_top * img_h / 297;
-            $(this).css('left',new_pos_x+'px');
-            $(this).css('marginTop',new_pos_y+'px');
-
-            $(this).attr('default_margin_top',signal_margin_top);
-            $(this).attr('default_margin_left',signal_margin_left);
-        });
-
-
-
-        $(window).bind('resize', function () {
-            relocate();
-        });
-
-        function relocate()
-        {
-            $('.map-signal').each(function(){
-                new_win_w=$(window).width();
-                new_img_h=img_elem.height();
-                default_margin_left=$(this).attr('default_margin_left');
-                default_margin_top=$(this).attr('default_margin_top');
-                dif_middle=674.5 - default_margin_left;
-                new_dif_middle=dif_middle * new_win_w / 1349;
-                new_pos_x=new_win_w / 2 - new_dif_middle;
-                new_pos_y=default_margin_top * new_img_h / 297;
-                $(this).css('left',new_pos_x+'px');
-                $(this).css('marginTop',new_pos_y+'px');
-
-            });
-        }
-
-
-    $('.icon-destination').click(function(){
-        element=$(this);
-        bg=element.css('backgroundPosition');
-        bg_array=bg.split(' ');
-        for(a=0;a < bg_array.length; a++)
-        {
-            bg_array[a]=parseInt(bg_array[a].replace('px',''));
-        }
-        class_element=element.attr('class');
-        class_element_array=class_element.split(' ');
-
-        if(class_element_array[1])
-        {
-            bg_array[0]=bg_array[0]+28 + 'px';
-            element.removeClass('focus');
-            remove_destinations(element.attr('data'));
-        }
-        else
-        {
-            bg_array[0]=bg_array[0]-28 + 'px';
-            element.addClass('focus');
-            display_destinations(element.attr('data'));
-        }
-        bg_array[1]=bg_array[1] + 'px';
-        element.css('backgroundPosition',bg_array[0]+' '+bg_array[1]);
-
-    });
-
-    function display_destinations(category)
-    {
-        $('.'+category).css('visibility','visible');
-    }
-    function remove_destinations(category)
-    {
-        $('.'+category).css('visibility','hidden');
-    }
-
-    $('#first_atraction').trigger('click');
 </script>
+<script type="text/javascript" src="{{ asset("bundles/frontend/js/map.js") }}"></script>
+
+<div id="signal_tooltip" style="left: -500px;position: absolute; top: 0; left: 0;background-color: #1A1A1A; border-radius: 4px; color: #fff; font-size: 12px; padding: 2px 6px"></div>

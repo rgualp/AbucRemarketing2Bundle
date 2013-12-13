@@ -719,7 +719,7 @@ class reservationController extends Controller
         //save pdf into disk to attach
         $response=$this->view_confirmationAction($id_booking,true);
         $now = new \DateTime();
-        $pdf_name='boucher'.$user->getUserId().$now->getTimestamp();
+        $pdf_name='voucher'.$user->getUserId().$now->getTimestamp();
         $this->download_pdf($response, $pdf_name ,true);
         $attach=$this->container->getParameter('kernel.root_dir')
             ."/../web/bouchers/$pdf_name.pdf";
@@ -846,7 +846,7 @@ class reservationController extends Controller
     }
 
     function download_pdf($html, $name, $save_to_disk = false) {
-        require_once("lib/dompdf/dompdf_config.inc.php");
+        require_once($this->get('kernel')->getRootDir().'/config/dompdf_config.inc.php');
         $dompdf = new \DOMPDF();
         $dompdf->load_html($html);
         //$dompdf->set_paper("a4", "landscape");

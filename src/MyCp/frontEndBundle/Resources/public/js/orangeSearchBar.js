@@ -43,7 +43,7 @@ function connectSearchOnEnter() {
 function search() {
     var url = $('#btn_search').attr('data-url');
 
-    var text = $('#input_text').val();
+    var text = $('#input_text').val().toString().replace(/ /g, "_").toLowerCase();
     if (text != $('#input_text').attr("placeholder") && text != "")
         url = url.toString().replace('_text', text);
     else
@@ -61,13 +61,13 @@ function search() {
     else
         url = url.toString().replace('_departure', null);
 
-    var guests = $('#input_guests').val();;
+    var guests = $('#input_guests').val();
     if (guests != $('#input_guests').attr("placeholder") && guests != "")
         url = url.toString().replace('_guests', guests);
     else
         url = url.toString().replace('_guests', '1');
 
-    var rooms = $('#input_room').val();;
+    var rooms = $('#input_room').val();
     if (rooms != $('#input_room').attr("placeholder") && rooms != "")
         url = url.toString().replace('_rooms', rooms);
     else

@@ -38,6 +38,7 @@ class destinationController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $users_id = $em->getRepository('mycpBundle:user')->user_ids($this);
         $locale = $this->get('translator')->getLocale();
+        $original_destination_name = $destination_name;
         $destination_name=str_replace('_',' ',$destination_name);
         $destination= $em->getRepository('mycpBundle:destination')->findOneBy(array('des_name'=>$destination_name));
         if($destination==null)
@@ -55,10 +56,8 @@ class destinationController extends Controller {
         $other_destinations_in_municipality = $em->getRepository('mycpBundle:destination')->destination_filter($location_municipality_id, $location_province_id, $destination->getDesId(), null, 5);
         $other_destinations_in_province = $em->getRepository('mycpBundle:destination')->destination_filter(null, $location_province_id, $destination->getDesId(), null, 5);
         
-        $request = $this->getRequest();
-        $session = $request->getSession();
         $paginator = $this->get('ideup.simple_paginator');
-        $items_per_page = ($session->get("destination_details_show_rows") != null) ? $session->get("destination_details_show_rows") : 2;
+        $items_per_page = 5;
         $paginator->setItemsPerPage($items_per_page);
         $list = $em->getRepository('mycpBundle:destination')->ownsership_nearby_destination($location_municipality_id, $location_province_id, null,null, $users_id['user_id'], $users_id['session_id']);
         $owns_nearby = $paginator->paginate($list)->getResult();
@@ -85,7 +84,10 @@ class destinationController extends Controller {
                     'total_other_destinations_in_province' => count($other_destinations_in_province),
                     'popular_list' => $popular_destinations_list,
                     'provinces' => $em->getRepository("mycpBundle:province")->findAll(),
-                    'owns_nearby' => $owns_nearby
+                    'owns_nearby' => $owns_nearby,
+                    'items_per_page' => $items_per_page,
+                    'total_items' => $paginator->getTotalItems(),
+                    'destination_name' => $original_destination_name
         ));
     }
 

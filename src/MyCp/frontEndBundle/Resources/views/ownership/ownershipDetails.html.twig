@@ -36,8 +36,11 @@
                     {%if gallery_photos | length%}
                     <li onclick="javascript:hide_calendar()" class="active li-tabs"><a data-toggle="tab" href="#tab-photos">{{"PHOTO_TAB_DETAILS" | trans}}</a></li>
                     {%endif%}
+                    {%if ownership.OwnGeolocateX != "" and ownership.OwnGeolocateY != ""%}
                     <li onclick="javascript:hide_calendar()" {%if not gallery_photos | length%} class="active li-tabs" {%endif%}><a data-toggle="tab" href="#tab-map">{{"MAPS_TAB_DETAILS" | trans}}</a></li>
-                    <li id="li-reservations" class="li-tabs"><a data-toggle="tab" href="#tab-reservations">{{'RESERVATION_TITLE' | trans}}</a></li>
+                    {%endif%}
+                    
+                    <li id="li-reservations" class="li-tabs {%if gallery_photos | length == 0 and ownership.OwnGeolocateX == "" and ownership.OwnGeolocateY == ""%}active{%endif%}"><a data-toggle="tab" href="#tab-reservations">{{'RESERVATION_TITLE' | trans}}</a></li>
                 </ul>
                 <div class="tab-content">
                     {%if gallery_photos | length%}
@@ -49,14 +52,22 @@
                         </div>
                     </div>
                     {%endif%}
-                    <div id="tab-map" class="tab-pane">
+                    {%if ownership.OwnGeolocateX != "" and ownership.OwnGeolocateY != ""%}
+                    <div id="tab-map" class="tab-pane {%if gallery_photos | length == 0%}active{%endif%}">
                         <div class="flexible-container" id="mapContent">
-                            <iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-                                    src="{{ path('frontend_map_details_ownership',{'ownGeolocateX':ownership.OwnGeolocateX,'ownGeolocateY':ownership.OwnGeolocateY,'ownName':ownership.ownname,'description': "FROM_PRICES" | trans ~ (app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')) ~ ownership.ownminimumprice ~ " " ~ ("BYNIGHTS_PRICES" | trans | lower),'image':((gallery_photos[0] is defined) ? gallery_photos[0].photo_name : "no_photo.png")})}}">
+                            <iframe width="100%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                                    src="{{ path('frontend_map_details_ownership',{
+                                                        'ownGeolocateX':ownership.OwnGeolocateX,
+                                                        'ownGeolocateY':ownership.OwnGeolocateY,
+                                                        'ownName':ownership.ownname,
+                                                        'description': "FROM_PRICES" | trans ~ (app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')) ~ ownership.ownminimumprice ~ " " ~ ("BYNIGHTS_PRICES" | trans | lower),
+                                                        'image':((gallery_photos[0] is defined) ? gallery_photos[0].photo_name : "no_photo.png")
+                                                })}}">
                             </iframe>
                         </div>
                     </div>
-                    <div id="tab-reservations" class="tab-pane">
+                    {%endif%}
+                    <div id="tab-reservations" class="tab-pane {%if gallery_photos | length == 0 and ownership.OwnGeolocateX == "" and ownership.OwnGeolocateY == ""%}active{%endif%}">
                         <ul class="price calendar-cont">
                             <li class="lead-2">
                                 <div class="row">
@@ -530,8 +541,9 @@
 </div>
 
 {% block include_javascripts %}
-<!--script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
-<script src="{{ asset('bundles/frontend/js/jquery.ui.map.js') }}"></script-->
+ 
+<script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
+<script src="{{ asset('bundles/frontend/js/jquery.ui.map.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/jquery.royalslider.min.js') }}"></script>
 <link href="{{ asset('bundles/frontend/css/royalslider.css') }}" rel="stylesheet"/>
 <link href="{{ asset('bundles/frontend/css/rs-default.css') }}" rel="stylesheet"/>

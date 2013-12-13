@@ -40,7 +40,11 @@
                 <div class="layer-loading"></div>
                 <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}"/></div>
             </div>
-                <div id="filter_upper"></div>
+                <div id="filter_upper">
+                    {%if check_filters is defined and check_filters | length%}
+                        
+                    {%endif%}
+                </div>
                 <div class="bg-solid-blue-bar" style="margin-top: 0">
                 <div class="row">
                     <div class="col-xs-5">
@@ -62,17 +66,36 @@
             </div>
             <div>
                 <div class="houses-list thumbs-houses" id="div_result">
-                    {% render "frontEndBundle:ownership:search_change_view_results" %}
+                    {%if view_results == 'LIST'%}
+                        {{ include('frontEndBundle:ownership:searchListOwnership.html.twig', 
+                        {'list': list,
+                         'list_preffix': 'list'
+                         }) }}     
+                    {%else%}
+                        {%if view_results == 'PHOTOS'%}
+                             {{ include('frontEndBundle:ownership:searchMosaicOwnership.html.twig', 
+                                {'list': list,
+                                 'list_preffix': 'mosaic'
+                             }) }}    
+                        {%else%}
+                          {%if view_results == 'MAP'%}
+                             {{ include('frontEndBundle:ownership:searchMapOwnership.html.twig', 
+                                {'list': list,
+                                 'list_preffix': 'map'
+                              }) }}     
+                          {%endif%}
+                        {%endif%}
+                    {%endif%}
                 </div>
             </div>
         </div>
     </div>
 </div>
 {% block include_javascripts %}
-<!--script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
+<script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
 <script src="{{ asset('bundles/frontend/js/jquery.ui.map.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/jquery.ui.map.infobox.js') }}"></script>
-<script src="{{ asset('bundles/frontend/js/jquery.ui.map.markerclusterer.js') }}"></script-->
+<script src="{{ asset('bundles/frontend/js/jquery.ui.map.markerclusterer.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/search_ownership.js') }}"></script>    
 <link href="{{ asset('bundles/frontend/css/customMap.css') }}" rel="stylesheet" media="screen">
 {% endblock %}

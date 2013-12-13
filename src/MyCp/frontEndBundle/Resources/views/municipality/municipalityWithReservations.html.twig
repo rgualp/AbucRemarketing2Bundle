@@ -19,7 +19,7 @@
 
                 <div class="col-sm-8">  
                     <div class="row">
-                        <a href="{{ path('frontend_search_ownership',{'text':item.municipality, 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}">
+                        <a href="{{ path('frontend_search_ownership',{'text':item.municipality | lower | replace(' ','_'), 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}">
                             <h1 class="h-blue">{{item.municipality}}</h1>
                         </a>
                     </div>
@@ -54,7 +54,7 @@
             </div>
             <hr/>      
 {%else%}
-            <div class="noData">{{"EMPTY_LIST" | trans}}</div>
+           <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
 {%endfor%}
 {%if list | length  and total_items > items_per_page%}
             <div class="text-center">
