@@ -550,7 +550,7 @@
 <script type="text/javascript">
 
     var cont_array_dates={{ array_dates | length}} ;
-            var start_date = "{{start_date }}";
+    var start_date = "{{start_date }}";
     var end_date = "{{end_date}}";
     
     $(document).ready(function($) {
@@ -581,8 +581,8 @@
         from=$('#filter_date_from').val();
         to=$('#filter_date_to').val();
         refresh_calendar(from,to);
-        $('#top_reservation_filter_date_from').datepicker("setDate", new Date(create_date(from)));
-        $('#top_reservation_filter_date_to').datepicker("setDate", new Date(create_date(to)));
+        //$('#top_reservation_filter_date_from').datepicker("setDate", new Date(create_date(from)));
+        //$('#top_reservation_filter_date_to').datepicker("setDate", new Date(create_date(to)));
     });
     
     function refresh_calendar_button()
