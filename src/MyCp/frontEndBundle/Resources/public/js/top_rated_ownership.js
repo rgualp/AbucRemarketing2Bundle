@@ -44,6 +44,7 @@ function change_category(category)
         'category': category
     }, function(data) {
         result.html(data);
+        $("[rel='tooltip']").tooltip();
         start();
         hide_loading();
     });
@@ -59,6 +60,7 @@ function visualize_rows(show_rows)
         'show_rows': show_rows
     }, function(data) {
         result.html(data);
+        $("[rel='tooltip']").tooltip();
         start();
         hide_loading();
     });

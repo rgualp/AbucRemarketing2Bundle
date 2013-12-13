@@ -1195,11 +1195,10 @@ class ownershipController extends Controller {
             $session->set('top_rated_show_rows', 2);
 
         $category = $session->get("top_rated_category");
-
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 4 * $session->get("top_rated_show_rows");
         $paginator->setItemsPerPage($items_per_page);
-        $list = $em->getRepository('mycpBundle:ownership')->top20($locale, $category);
+        $list = $em->getRepository('mycpBundle:ownership')->top20($locale, ((strtolower($category) !=  "todos") ? $category : null));
         $own_top20_list = $paginator->paginate($list)->getResult();
         $page = 1;
         if (isset($_GET['page']))
@@ -1230,7 +1229,8 @@ class ownershipController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 4 * $session->get("top_rated_show_rows");
         $paginator->setItemsPerPage($items_per_page);
-        $list = $em->getRepository('mycpBundle:ownership')->top20($locale, $category);
+        
+        $list = $em->getRepository('mycpBundle:ownership')->top20($locale, ((strtolower($category) !=  "todos") ? $category : null));
         $own_top20_list = $paginator->paginate($list)->getResult();
         $page = 1;
         if (isset($_GET['page']))
