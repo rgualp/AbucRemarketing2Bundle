@@ -2,7 +2,9 @@
 
 namespace MyCp\mycpBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use MyCp\mycpBundle\Helpers\SyncStatuses;
 
 /**
  * unavailabilityDetails
@@ -29,14 +31,14 @@ class unavailabilityDetails {
     private $ud_room_num;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="ud_from_date", type="date")
      */
     private $ud_from_date;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="ud_to_date", type="date")
      */
@@ -50,10 +52,20 @@ class unavailabilityDetails {
     private $ud_reason;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ownership")
-     * @ORM\JoinColumn(name="ownership_id",referencedColumnName="own_id")
+     * @var string
+     * @ORM\Column(name="own_sync_st", type="string", length=10)
      */
-    private $ownership_id;
+    private $ud_sync_st;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="room")
+     * @ORM\JoinColumn(name="room_id",referencedColumnName="room_id")
+     */
+    private $room;
+
+    public function __construct() {
+        $this->ud_sync_st = SyncStatuses::ADDED;
+    }
 
     /**
      * Get id
@@ -109,7 +121,7 @@ class unavailabilityDetails {
     /**
      * Set ud_from_date
      *
-     * @param \DateTime $udFromDate
+     * @param DateTime $udFromDate
      * @return unavailabilityDetails
      */
     public function setUdFromDate($udFromDate) {
@@ -121,7 +133,7 @@ class unavailabilityDetails {
     /**
      * Get ud_from_date
      *
-     * @return \DateTime 
+     * @return DateTime 
      */
     public function getUdFromDate() {
         return $this->ud_from_date;
@@ -130,7 +142,7 @@ class unavailabilityDetails {
     /**
      * Set ud_to_date
      *
-     * @param \DateTime $udToDate
+     * @param DateTime $udToDate
      * @return unavailabilityDetails
      */
     public function setUdToDate($udToDate) {
@@ -142,7 +154,7 @@ class unavailabilityDetails {
     /**
      * Get ud_to_date
      *
-     * @return \DateTime 
+     * @return DateTime 
      */
     public function getUdToDate() {
         return $this->ud_to_date;
@@ -170,27 +182,6 @@ class unavailabilityDetails {
     }
 
     /**
-     * Set ownership_id
-     *
-     * @param integer $ownershipId
-     * @return unavailabilityDetails
-     */
-    public function setOwnership($ownershipId) {
-        $this->ownership_id = $ownershipId;
-
-        return $this;
-    }
-
-    /**
-     * Get ownership_id
-     *
-     * @return integer 
-     */
-    public function getOwnership() {
-        return $this->ownership_id;
-    }
-
-    /**
      * Set ud_room_num
      *
      * @param integer $udRoomNum
@@ -209,6 +200,14 @@ class unavailabilityDetails {
      */
     public function getUdRoomNum() {
         return $this->ud_room_num;
+    }
+
+    public function getUdSyncSt() {
+        return $this->ud_sync_st;
+    }
+
+    public function setUdSyncSt($ud_sync_st) {
+        $this->ud_sync_st = $ud_sync_st;
     }
 
     // <editor-fold defaultstate="collapsed" desc="Logic Methods">

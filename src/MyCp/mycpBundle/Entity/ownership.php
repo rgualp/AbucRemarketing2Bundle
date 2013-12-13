@@ -5,7 +5,7 @@ namespace MyCp\mycpBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\OneToMany;
+use MyCp\mycpBundle\Helpers\SyncStatuses;
 
 /**
  * ownership
@@ -346,31 +346,17 @@ class ownership {
     private $own_comments_total;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="own_rooms_total", type="integer")
+     * @var string
+     * @ORM\Column(name="own_sync_st", type="string", length=10)
      */
-    private $own_rooms_total;
-
-    /**
-     * @var boolean
-     * @todo set default value with Doctrine
-     * @ORM\Column(name="own_sync", type="boolean")
-     */
-    private $own_sync;
-
-    /**
-     * @OneToMany(targetEntity="unavailabilityDetails", mappedBy="ownership_id", fetch="EAGER")
-     */
-    private $own_unavailability_details;
+    private $own_sync_st;
 
     /**
      * Constructor
      */
     public function __construct() {
         $this->own_rooms = new ArrayCollection();
-        $this->own_unavailability_details = new ArrayCollection();
-        $this->own_sync = false;
+        $this->own_sync_st = SyncStatuses::ADDED;
     }
 
     /**
@@ -1086,31 +1072,6 @@ class ownership {
     }
 
     /**
-     * Codigo Yanet - Inicio
-     */
-
-    /**
-     * Set own_rooms_total
-     *
-     * @param integer $ownRoomsTotal
-     * @return ownership
-     */
-    public function setOwnRoomsTotal($ownRoomsTotal) {
-        $this->own_rooms_total = $ownRoomsTotal;
-
-        return $this;
-    }
-
-    /**
-     * Get own_rooms_total
-     *
-     * @return integer
-     */
-    public function getOwnRoomsTotal() {
-        return $this->own_rooms_total;
-    }
-
-    /**
      * Set own_rating
      *
      * @param decimal $ownRating
@@ -1416,21 +1377,14 @@ class ownership {
         return $this->own_commission_percent;
     }
     
-    public function getOwnSync() {
-        return $this->own_sync;
+    public function getOwnSyncSt() {
+        return $this->own_sync_st;
     }
 
-    public function setOwnSync($sync) {
-        $this->own_sync = $sync;
+    public function setOwnSyncSt($own_sync_st) {
+        $this->own_sync_st = $own_sync_st;
     }
 
-    public function getOwn_unavailability_details() {
-        return $this->own_unavailability_details;
-    }
-
-    public function setOwn_unavailability_details($own_unavailability_details) {
-        $this->own_unavailability_details = $own_unavailability_details;
-    }
 //-----------------------------------------------------------------------------
     // <editor-fold defaultstate="collapsed" desc="Logic Methods">
     public function getFullAddress() {

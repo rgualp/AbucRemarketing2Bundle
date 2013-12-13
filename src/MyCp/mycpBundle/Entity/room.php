@@ -2,7 +2,10 @@
 
 namespace MyCp\mycpBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OneToMany;
+use MyCp\mycpBundle\Helpers\SyncStatuses;
 
 /**
  * room
@@ -10,8 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class room
-{
+class room {
+
     /**
      * @var integer
      *
@@ -140,27 +143,34 @@ class room
      */
     private $room_yard;
 
+    /**
+     * @var string
+     * @ORM\Column(name="own_sync_st", type="string", length=10)
+     */
+    private $room_sync_st;
 
     /**
      * @ORM\ManyToOne(targetEntity="ownership",inversedBy="roomOwnership")
      * @ORM\JoinColumn(name="room_ownership",referencedColumnName="own_id")
      */
     private $room_ownership;
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
     
+    /**
+     * @OneToMany(targetEntity="unavailabilityDetails", mappedBy="room", fetch="EAGER")
+     */
+    private $own_unavailability_details;
+
+    public function __construct() {
+        $this->own_unavailability_details = new ArrayCollection();
+        $this->room_sync_st = SyncStatuses::ADDED;
+    }
 
     /**
      * Get room_id
      *
      * @return integer 
      */
-    public function getRoomId()
-    {
+    public function getRoomId() {
         return $this->room_id;
     }
 
@@ -170,10 +180,9 @@ class room
      * @param string $roomType
      * @return room
      */
-    public function setRoomType($roomType)
-    {
+    public function setRoomType($roomType) {
         $this->room_type = $roomType;
-    
+
         return $this;
     }
 
@@ -182,8 +191,7 @@ class room
      *
      * @return string 
      */
-    public function getRoomType()
-    {
+    public function getRoomType() {
         return $this->room_type;
     }
 
@@ -193,10 +201,9 @@ class room
      * @param integer $roomBeds
      * @return room
      */
-    public function setRoomBeds($roomBeds)
-    {
+    public function setRoomBeds($roomBeds) {
         $this->room_beds = $roomBeds;
-    
+
         return $this;
     }
 
@@ -205,8 +212,7 @@ class room
      *
      * @return integer 
      */
-    public function getRoomBeds()
-    {
+    public function getRoomBeds() {
         return $this->room_beds;
     }
 
@@ -216,10 +222,9 @@ class room
      * @param string $roomPriceUpFrom
      * @return room
      */
-    public function setRoomPriceUpFrom($roomPriceUpFrom)
-    {
+    public function setRoomPriceUpFrom($roomPriceUpFrom) {
         $this->room_price_up_from = $roomPriceUpFrom;
-    
+
         return $this;
     }
 
@@ -228,8 +233,7 @@ class room
      *
      * @return string 
      */
-    public function getRoomPriceUpFrom()
-    {
+    public function getRoomPriceUpFrom() {
         return $this->room_price_up_from;
     }
 
@@ -239,10 +243,9 @@ class room
      * @param string $roomPriceUpTo
      * @return room
      */
-    public function setRoomPriceUpTo($roomPriceUpTo)
-    {
+    public function setRoomPriceUpTo($roomPriceUpTo) {
         $this->room_price_up_to = $roomPriceUpTo;
-    
+
         return $this;
     }
 
@@ -251,8 +254,7 @@ class room
      *
      * @return string 
      */
-    public function getRoomPriceUpTo()
-    {
+    public function getRoomPriceUpTo() {
         return $this->room_price_up_to;
     }
 
@@ -262,10 +264,9 @@ class room
      * @param string $roomPriceDownFrom
      * @return room
      */
-    public function setRoomPriceDownFrom($roomPriceDownFrom)
-    {
+    public function setRoomPriceDownFrom($roomPriceDownFrom) {
         $this->room_price_down_from = $roomPriceDownFrom;
-    
+
         return $this;
     }
 
@@ -274,8 +275,7 @@ class room
      *
      * @return string 
      */
-    public function getRoomPriceDownFrom()
-    {
+    public function getRoomPriceDownFrom() {
         return $this->room_price_down_from;
     }
 
@@ -285,10 +285,9 @@ class room
      * @param string $roomPriceDownTo
      * @return room
      */
-    public function setRoomPriceDownTo($roomPriceDownTo)
-    {
+    public function setRoomPriceDownTo($roomPriceDownTo) {
         $this->room_price_down_to = $roomPriceDownTo;
-    
+
         return $this;
     }
 
@@ -297,8 +296,7 @@ class room
      *
      * @return string 
      */
-    public function getRoomPriceDownTo()
-    {
+    public function getRoomPriceDownTo() {
         return $this->room_price_down_to;
     }
 
@@ -308,10 +306,9 @@ class room
      * @param string $roomClimate
      * @return room
      */
-    public function setRoomClimate($roomClimate)
-    {
+    public function setRoomClimate($roomClimate) {
         $this->room_climate = $roomClimate;
-    
+
         return $this;
     }
 
@@ -320,8 +317,7 @@ class room
      *
      * @return string 
      */
-    public function getRoomClimate()
-    {
+    public function getRoomClimate() {
         return $this->room_climate;
     }
 
@@ -331,10 +327,9 @@ class room
      * @param string $roomAudiovisual
      * @return room
      */
-    public function setRoomAudiovisual($roomAudiovisual)
-    {
+    public function setRoomAudiovisual($roomAudiovisual) {
         $this->room_audiovisual = $roomAudiovisual;
-    
+
         return $this;
     }
 
@@ -343,8 +338,7 @@ class room
      *
      * @return string 
      */
-    public function getRoomAudiovisual()
-    {
+    public function getRoomAudiovisual() {
         return $this->room_audiovisual;
     }
 
@@ -354,10 +348,9 @@ class room
      * @param boolean $roomSmoker
      * @return room
      */
-    public function setRoomSmoker($roomSmoker)
-    {
+    public function setRoomSmoker($roomSmoker) {
         $this->room_smoker = $roomSmoker;
-    
+
         return $this;
     }
 
@@ -366,8 +359,7 @@ class room
      *
      * @return boolean 
      */
-    public function getRoomSmoker()
-    {
+    public function getRoomSmoker() {
         return $this->room_smoker;
     }
 
@@ -377,10 +369,9 @@ class room
      * @param boolean $roomSafe
      * @return room
      */
-    public function setRoomSafe($roomSafe)
-    {
+    public function setRoomSafe($roomSafe) {
         $this->room_safe = $roomSafe;
-    
+
         return $this;
     }
 
@@ -389,8 +380,7 @@ class room
      *
      * @return boolean 
      */
-    public function getRoomSafe()
-    {
+    public function getRoomSafe() {
         return $this->room_safe;
     }
 
@@ -400,10 +390,9 @@ class room
      * @param boolean $roomBaby
      * @return room
      */
-    public function setRoomBaby($roomBaby)
-    {
+    public function setRoomBaby($roomBaby) {
         $this->room_baby = $roomBaby;
-    
+
         return $this;
     }
 
@@ -412,8 +401,7 @@ class room
      *
      * @return boolean 
      */
-    public function getRoomBaby()
-    {
+    public function getRoomBaby() {
         return $this->room_baby;
     }
 
@@ -423,10 +411,9 @@ class room
      * @param string $roomBathroom
      * @return room
      */
-    public function setRoomBathroom($roomBathroom)
-    {
+    public function setRoomBathroom($roomBathroom) {
         $this->room_bathroom = $roomBathroom;
-    
+
         return $this;
     }
 
@@ -435,8 +422,7 @@ class room
      *
      * @return string 
      */
-    public function getRoomBathroom()
-    {
+    public function getRoomBathroom() {
         return $this->room_bathroom;
     }
 
@@ -446,10 +432,9 @@ class room
      * @param boolean $roomStereo
      * @return room
      */
-    public function setRoomStereo($roomStereo)
-    {
+    public function setRoomStereo($roomStereo) {
         $this->room_stereo = $roomStereo;
-    
+
         return $this;
     }
 
@@ -458,8 +443,7 @@ class room
      *
      * @return boolean 
      */
-    public function getRoomStereo()
-    {
+    public function getRoomStereo() {
         return $this->room_stereo;
     }
 
@@ -469,10 +453,9 @@ class room
      * @param integer $roomWindows
      * @return room
      */
-    public function setRoomWindows($roomWindows)
-    {
+    public function setRoomWindows($roomWindows) {
         $this->room_windows = $roomWindows;
-    
+
         return $this;
     }
 
@@ -481,8 +464,7 @@ class room
      *
      * @return integer 
      */
-    public function getRoomWindows()
-    {
+    public function getRoomWindows() {
         return $this->room_windows;
     }
 
@@ -492,10 +474,9 @@ class room
      * @param integer $roomBalcony
      * @return room
      */
-    public function setRoomBalcony($roomBalcony)
-    {
+    public function setRoomBalcony($roomBalcony) {
         $this->room_balcony = $roomBalcony;
-    
+
         return $this;
     }
 
@@ -504,8 +485,7 @@ class room
      *
      * @return integer 
      */
-    public function getRoomBalcony()
-    {
+    public function getRoomBalcony() {
         return $this->room_balcony;
     }
 
@@ -515,10 +495,9 @@ class room
      * @param boolean $roomTerrace
      * @return room
      */
-    public function setRoomTerrace($roomTerrace)
-    {
+    public function setRoomTerrace($roomTerrace) {
         $this->room_terrace = $roomTerrace;
-    
+
         return $this;
     }
 
@@ -527,8 +506,7 @@ class room
      *
      * @return boolean 
      */
-    public function getRoomTerrace()
-    {
+    public function getRoomTerrace() {
         return $this->room_terrace;
     }
 
@@ -538,10 +516,9 @@ class room
      * @param boolean $roomYard
      * @return room
      */
-    public function setRoomYard($roomYard)
-    {
+    public function setRoomYard($roomYard) {
         $this->room_yard = $roomYard;
-    
+
         return $this;
     }
 
@@ -550,8 +527,7 @@ class room
      *
      * @return boolean 
      */
-    public function getRoomYard()
-    {
+    public function getRoomYard() {
         return $this->room_yard;
     }
 
@@ -561,10 +537,9 @@ class room
      * @param \MyCp\mycpBundle\Entity\ownership $roomOwnership
      * @return room
      */
-    public function setRoomOwnership(\MyCp\mycpBundle\Entity\ownership $roomOwnership = null)
-    {
+    public function setRoomOwnership(\MyCp\mycpBundle\Entity\ownership $roomOwnership = null) {
         $this->room_ownership = $roomOwnership;
-    
+
         return $this;
     }
 
@@ -573,14 +548,28 @@ class room
      *
      * @return \MyCp\mycpBundle\Entity\ownership 
      */
-    public function getRoomOwnership()
-    {
+    public function getRoomOwnership() {
         return $this->room_ownership;
     }
 
-    public function setRoomId($id)
-    {
-        $this->room_id=$id;
+    public function setRoomId($id) {
+        $this->room_id = $id;
+    }
+
+    public function getRoomSyncSt() {
+        return $this->room_sync_st;
+    }
+
+    public function setRoomSyncSt($room_sync_st) {
+        $this->room_sync_st = $room_sync_st;
+    }
+    
+    public function getOwn_unavailability_details() {
+        return $this->own_unavailability_details;
+    }
+
+    public function setOwn_unavailability_details($own_unavailability_details) {
+        $this->own_unavailability_details = $own_unavailability_details;
     }
 
 }
