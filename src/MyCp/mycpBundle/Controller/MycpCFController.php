@@ -13,39 +13,28 @@ use Symfony\Component\HttpFoundation\Response;
  * @author Daniel
  */
 class MycpCFController extends Controller {
-    /**
-     * MYCP - CF Operations
-     */
 
-    const UPDATE_RESERVATIONS = 1;
-    const CONFIRM_RESERVATIONS_UPDATE = 2;
-    const COMMIT_RESERVATIONS = 3;
-    const UPDATE_HOUSES = 4;
-    const CONFIRM_HOUSES_UPDATE = 5;
-    const COMMIT_HOUSES = 6;
-    const UPDATE_USERS = 7;
-//-----------------------------------------------------------------------------
     const SUCCESS_CONFIRM_MSG = "success";
 
 //-----------------------------------------------------------------------------    
     public function mycpFrontControllerAction(Request $request) {
         $operation = $request->get('operation');
         switch ($operation) {
-            case self::UPDATE_RESERVATIONS:
+            case MyCPOperations::UPDATE_RESERVATIONS:
                 $_data = $this->mycpUpdateReservations($request);
                 break;
-            case self::CONFIRM_RESERVATIONS_UPDATE:
+            case MyCPOperations::CONFIRM_RESERVATIONS_UPDATE:
                 return new Response($this->mycpConfirmUpdateReservations($request));
-            case self::COMMIT_RESERVATIONS:
+            case MyCPOperations::COMMIT_RESERVATIONS:
                 return new Response($this->_commitReservations($request));
-            case self::UPDATE_HOUSES:
+            case MyCPOperations::UPDATE_HOUSES:
                 $_data = $this->_updateHouses();
                 break;
-            case self::CONFIRM_HOUSES_UPDATE:
+            case MyCPOperations::CONFIRM_HOUSES_UPDATE:
                 return new Response($this->_confirmUpdateHouses());
-            case self::COMMIT_HOUSES:
+            case MyCPOperations::COMMIT_HOUSES:
                 return new Response($this->_commitHouses($request));
-            case self::UPDATE_USERS:
+            case MyCPOperations::UPDATE_USERS:
                 $_data = $this->_updateUsers();
                 break;
         }
@@ -224,7 +213,6 @@ class MycpCFController extends Controller {
             $_houses_data[$i]["mp"] = $house_to_send->getOwnMinimumPrice();
             $_houses_data[$i]["xp"] = $house_to_send->getOwnMaximumPrice();
             $_houses_data[$i]["cp"] = $house_to_send->getOwnCommissionPercent();
-            $_houses_data[$i]["rt"] = $house_to_send->getOwnRoomsTotal();
 
             //loading unavailabilities details
             $_udetails = array();
@@ -293,6 +281,19 @@ class MycpCFController extends Controller {
     }
 
 // </editor-fold>
+}
+
+//-----------------------------------------------------------------------------
+class MyCPOperations {
+
+    const UPDATE_RESERVATIONS = 1;
+    const CONFIRM_RESERVATIONS_UPDATE = 2;
+    const COMMIT_RESERVATIONS = 3;
+    const UPDATE_HOUSES = 4;
+    const CONFIRM_HOUSES_UPDATE = 5;
+    const COMMIT_HOUSES = 6;
+    const UPDATE_USERS = 7;
+
 }
 
 ?>
