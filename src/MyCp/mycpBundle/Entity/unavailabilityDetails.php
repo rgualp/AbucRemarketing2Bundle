@@ -218,4 +218,27 @@ class unavailabilityDetails {
     }
 
 // </editor-fold>
+
+    /**
+     * Set ownership_id
+     *
+     * @param \MyCp\mycpBundle\Entity\ownership $ownershipId
+     * @return unavailabilityDetails
+     */
+    public function setOwnershipId(\MyCp\mycpBundle\Entity\ownership $ownershipId = null)
+    {
+        $this->ownership_id = $ownershipId;
+    
+        return $this;
+    }
+
+    /**
+     * Get ownership_id
+     *
+     * @return \MyCp\mycpBundle\Entity\ownership 
+     */
+    public function getOwnershipId()
+    {
+        return $this->ownership_id;
+    }
 }
