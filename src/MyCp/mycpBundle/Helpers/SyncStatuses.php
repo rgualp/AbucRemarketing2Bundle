@@ -10,10 +10,10 @@ namespace MyCp\mycpBundle\Helpers;
 
 class SyncStatuses {
 
-    const ADDED = "ADDED";
-    const UPDATED = "UPDATED";
-    const DELETED = "DELETED";
-    const SYNC = "SYNC";
+    const ADDED = 0;
+    const UPDATED = 1;
+    const DELETED = 2;
+    const SYNC = 3;
 
 }
 

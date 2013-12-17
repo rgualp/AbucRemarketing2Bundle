@@ -149,7 +149,7 @@ class ownership {
     private $own_type;
 
     /**
-     * @ORM\OneToMany(targetEntity="room",mappedBy="rooms")
+     * @ORM\OneToMany(targetEntity="room",mappedBy="room_ownership")
      */
     private $own_rooms;
 
@@ -347,7 +347,7 @@ class ownership {
 
     /**
      * @var string
-     * @ORM\Column(name="own_sync_st", type="string", length=10)
+     * @ORM\Column(name="own_sync_st", type="integer")
      */
     private $own_sync_st;
 
@@ -1376,12 +1376,12 @@ class ownership {
     public function getOwnCommissionPercent() {
         return $this->own_commission_percent;
     }
-    
-    public function getOwnSyncSt() {
+
+    public function getSyncSt() {
         return $this->own_sync_st;
     }
 
-    public function setOwnSyncSt($own_sync_st) {
+    public function setSyncSt($own_sync_st) {
         $this->own_sync_st = $own_sync_st;
     }
 
@@ -1391,73 +1391,14 @@ class ownership {
         return $this->own_address_street . ", No." . $this->own_address_number . ", " . $this->own_address_municipality . ", " . $this->own_address_province;
     }
 
-    /**
-     * 
-     */
-    public function getCurrentUDs() {
-        $filtered_uds = array();
-        foreach ($this->own_unavailability_details as $_ud) {
-            if (!$_ud->isPast()) {
-                $filtered_uds[] = $_ud;
+    public function getRoom($room_num) {
+        foreach ($this->own_rooms as $room) {
+            if ($room->getRoomId() == $room_num) {
+                return $room;
             }
         }
-        return $filtered_uds;
-    }
-
-    /**
-     * Get past Unavailabilities Details
-     */
-    public function getPastUDs() {
-        $filtered_uds = array();
-        foreach ($this->own_unavailability_details as $_ud) {
-            if ($_ud->isPast()) {
-                $filtered_uds[] = $_ud;
-            }
-        }
-        return $filtered_uds;
-    }
-    
-    /**
-     * Remove All Current Unavailabilities Details
-     */
-    public function removeAllCurrentUDs($em){
-        foreach($this->getCurrentUDs() as $_ud){
-            $em->remove($_ud);
-        }
+        return null;
     }
 
 // </editor-fold>
-
-    /**
-     * Add own_unavailability_details
-     *
-     * @param \MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails
-     * @return ownership
-     */
-    public function addOwnUnavailabilityDetail(\MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails)
-    {
-        $this->own_unavailability_details[] = $ownUnavailabilityDetails;
-    
-        return $this;
-    }
-
-    /**
-     * Remove own_unavailability_details
-     *
-     * @param \MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails
-     */
-    public function removeOwnUnavailabilityDetail(\MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails)
-    {
-        $this->own_unavailability_details->removeElement($ownUnavailabilityDetails);
-    }
-
-    /**
-     * Get own_unavailability_details
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getOwnUnavailabilityDetails()
-    {
-        return $this->own_unavailability_details;
-    }
 }

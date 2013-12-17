@@ -10,7 +10,7 @@ use MyCp\mycpBundle\Helpers\SyncStatuses;
  * unavailabilityDetails
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\unavailabilityDetailsRepository")
  */
 class unavailabilityDetails {
 
@@ -22,13 +22,6 @@ class unavailabilityDetails {
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $ud_id;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="ud_room_num", type="integer")
-     */
-    private $ud_room_num;
 
     /**
      * @var DateTime
@@ -53,7 +46,7 @@ class unavailabilityDetails {
 
     /**
      * @var string
-     * @ORM\Column(name="own_sync_st", type="string", length=10)
+     * @ORM\Column(name="ud_sync_st", type="integer")
      */
     private $ud_sync_st;
 
@@ -95,27 +88,6 @@ class unavailabilityDetails {
      */
     public function getUdId() {
         return $this->ud_id;
-    }
-
-    /**
-     * Set room_num
-     *
-     * @param integer $roomNum
-     * @return unavailabilityDetails
-     */
-    public function setRoomNum($roomNum) {
-        $this->ud_room_num = $roomNum;
-
-        return $this;
-    }
-
-    /**
-     * Get room_num
-     *
-     * @return integer 
-     */
-    public function getRoomNum() {
-        return $this->ud_room_num;
     }
 
     /**
@@ -181,63 +153,20 @@ class unavailabilityDetails {
         return $this->ud_reason;
     }
 
-    /**
-     * Set ud_room_num
-     *
-     * @param integer $udRoomNum
-     * @return unavailabilityDetails
-     */
-    public function setUdRoomNum($udRoomNum) {
-        $this->ud_room_num = $udRoomNum;
-
-        return $this;
-    }
-
-    /**
-     * Get ud_room_num
-     *
-     * @return integer 
-     */
-    public function getUdRoomNum() {
-        return $this->ud_room_num;
-    }
-
-    public function getUdSyncSt() {
+    public function getSyncSt() {
         return $this->ud_sync_st;
     }
 
-    public function setUdSyncSt($ud_sync_st) {
+    public function setSyncSt($ud_sync_st) {
         $this->ud_sync_st = $ud_sync_st;
     }
-
-    // <editor-fold defaultstate="collapsed" desc="Logic Methods">
-    public function isPast() {
-        $dateUnixSeconds = strtotime(date($this->ud_to_date->format('Y-m-d H:m:s')));
-        return $dateUnixSeconds < strtotime("now");
-    }
-
-// </editor-fold>
-
-    /**
-     * Set ownership_id
-     *
-     * @param \MyCp\mycpBundle\Entity\ownership $ownershipId
-     * @return unavailabilityDetails
-     */
-    public function setOwnershipId(\MyCp\mycpBundle\Entity\ownership $ownershipId = null)
-    {
-        $this->ownership_id = $ownershipId;
     
-        return $this;
+    public function getRoom() {
+        return $this->room;
     }
 
-    /**
-     * Get ownership_id
-     *
-     * @return \MyCp\mycpBundle\Entity\ownership 
-     */
-    public function getOwnershipId()
-    {
-        return $this->ownership_id;
+    public function setRoom($room) {
+        $this->room = $room;
     }
+    
 }
