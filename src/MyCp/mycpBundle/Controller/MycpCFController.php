@@ -2,7 +2,11 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use DateTime;
+use MyCp\mycpBundle\Entity\ownership;
+use MyCp\mycpBundle\Entity\room;
 use MyCp\mycpBundle\Entity\unavailabilityDetails;
+use MyCp\mycpBundle\Helpers\SyncStatuses;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -201,65 +205,193 @@ class MycpCFController extends Controller {
     // <editor-fold defaultstate="collapsed" desc="Houses - UnAvailabilities Methods">
     private function _updateHouses() {
         $em = $this->getDoctrine()->getEntityManager();
-        $houses_to_send = $em->getRepository('mycpBundle:ownership')->getHousesToOfflineApp();
 
-        $_houses_data = array();
-        foreach ($houses_to_send as $i => $house_to_send) {
-            $_houses_data[$i]["co"] = $house_to_send->getOwnMcpCode();
-            $_houses_data[$i]["na"] = $house_to_send->getOwnName();
-            $_houses_data[$i]["pr"] = $house_to_send->getOwnHomeowner1();
-            $_houses_data[$i]["ad"] = $house_to_send->getFullAddress();
-            $_houses_data[$i]["ph"] = $house_to_send->getOwnPhoneNumber();
-            $_houses_data[$i]["mp"] = $house_to_send->getOwnMinimumPrice();
-            $_houses_data[$i]["xp"] = $house_to_send->getOwnMaximumPrice();
-            $_houses_data[$i]["cp"] = $house_to_send->getOwnCommissionPercent();
-
-            //loading unavailabilities details
-            $_udetails = array();
-            foreach ($house_to_send->getCurrentUDs() as $j => $_ud) {
-                $_udetails[$j]["rn"] = $_ud->getRoomNum();
-                $_udetails[$j]["fd"] = $_ud->getUdFromDate()->format('Y-m-d H:m:s');
-                $_udetails[$j]["td"] = $_ud->getUdToDate()->format('Y-m-d H:m:s');
-                $_udetails[$j]["rs"] = $_ud->getUdReason();
-            }
-            $_houses_data[$i]["_ud"] = $_udetails;
+        //loading not synchronozed houses
+        $houses_data = array();
+        $not_sync_houses = $em->getRepository('mycpBundle:ownership')->getNotSynchronized();
+        foreach ($not_sync_houses as $_house) {
+            $houses_data[] = array(
+                "co" => $_house->getOwnMcpCode(),
+                "ss" => $_house->getSyncSt(),
+                "na" => $_house->getOwnName(),
+                "pr" => $_house->getOwnHomeowner1(),
+                "ad" => $_house->getFullAddress(),
+                "ph" => $_house->getOwnPhoneNumber(),
+                "mp" => $_house->getOwnMinimumPrice(),
+                "xp" => $_house->getOwnMaximumPrice(),
+                "cp" => $_house->getOwnCommissionPercent());
         }
-        return $_houses_data;
+
+        //loading not synchronized rooms
+        $rooms_data = array();
+        $not_sync_rooms = $em->getRepository('mycpBundle:room')->getNotSynchronized();
+        foreach ($not_sync_rooms as $_room) {
+            $rooms_data[] = array(
+                "hc" => $_room->getRoomOwnership()->getOwnMcpCode(),
+                "nu" => $_room->getRoomId(),
+                "ss" => $_room->getSyncSt(),
+                "ty" => $_room->getRoomType(),
+                "be" => $_room->getRoomBeds(),
+                "uf" => $_room->getRoomPriceUpFrom(),
+                "ut" => $_room->getRoomPriceUpTo(),
+                "df" => $_room->getRoomPriceDownFrom(),
+                "dt" => $_room->getRoomPriceDownTo(),
+                "cl" => $_room->getRoomClimate(),
+                "au" => $_room->getRoomAudiovisual(),
+                "sm" => $_room->getRoomSmoker(),
+                "sf" => $_room->getRoomSafe(),
+                "ba" => $_room->getRoomBaby(),
+                "bh" => $_room->getRoomBathroom(),
+                "st" => $_room->getRoomStereo(),
+                "wi" => $_room->getRoomWindows(),
+                "by" => $_room->getRoomBalcony(),
+                "te" => $_room->getRoomTerrace(),
+                "ya" => $_room->getRoomYard()
+            );
+        }
+
+        //loading not synchronized unavailabilities details
+        $uds_data = array();
+        $not_sync_uds = $em->getRepository('mycpBundle:unavailabilityDetails')->getNotSynchronized();
+        foreach ($not_sync_uds as $ud) {
+            $uds_data[] = array(
+                "hc" => $ud->getRoom()->getRoomOwnership()->getOwnMcpCode(),
+                "rn" => $ud->getRoom()->getRoomId(),
+                "ss" => $ud->getSyncSt(),
+                "fd" => $ud->getUdFromDate()->format('Y-m-d'),
+                "td" => $ud->getUdToDate()->format('Y-m-d'),
+                "rs" => $ud->getUdReason()
+            );
+        }
+
+        $all_data = array("houses" => $houses_data, "rooms" => $rooms_data, "uds" => $uds_data);
+
+//        echo "<pre>";
+//        print_r($all_data);
+//        echo "</pre>";
+//        exit;
+
+        return $all_data;
     }
 
+//-----------------------------------------------------------------------------
     private function _confirmUpdateHouses() {
         $em = $this->getDoctrine()->getEntityManager();
-        $em->getRepository('mycpBundle:ownership')->setHousesSync();
+        $all_houses_data = $this->_updateHouses();
+
+        $houses = $all_houses_data["houses"];
+        foreach ($houses as $house) {
+            $e_house = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code' => $house["co"]));
+            $this->_normalizeBySyncStatus($em, $e_house, $house["ss"]);
+        }
+
+        $rooms = $all_houses_data["rooms"];
+        foreach ($rooms as $room) {
+            $e_house = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code' => $room["hc"]));
+            $e_room = $em->getRepository('mycpBundle:room')->findOneBy(array('room_ownership' => $e_house, 'room_id' => $room["nu"]));
+            $this->_normalizeBySyncStatus($em, $e_room, $room["ss"]);
+        }
+
+        $uds = $all_houses_data["uds"];
+        foreach ($uds as $ud) {
+            $e_house = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code' => $ud["hc"]));
+            $e_room = $em->getRepository('mycpBundle:room')->findOneBy(array('room_ownership' => $e_house, 'room_id' => $ud["rn"]));
+            $e_ud = $e_room->getUd($ud["fd"], $ud["td"]);
+            $this->_normalizeBySyncStatus($em, $e_ud, $ud["ss"]);
+        }
+        $em->flush();
         return self::SUCCESS_CONFIRM_MSG;
     }
 
-    private function _commitHouses(Request $request) {
-        $json_houses = $request->get('content');
-        $houses = json_decode($json_houses);
-        $em = $this->getDoctrine()->getEntityManager();
-
-        if (is_array($houses)) {
-            foreach ($houses as $house) {
-                $ec_house = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code' => $house->hc));
-
-                //working with unavailabilities details...
-                $ec_house->removeAllCurrentUDs($em);
-                if (is_array($house->_uds)) {
-                    foreach ($house->_uds as $_ud) {
-                        $_new_ud = new unavailabilityDetails();
-                        $_new_ud->setRoomNum($_ud->rn);
-                        $_new_ud->setUdFromDate(new \DateTime($_ud->fd));
-                        $_new_ud->setUdToDate(new \DateTime($_ud->td));
-                        $_new_ud->setUdReason($_ud->rs);
-
-                        $_new_ud->setOwnership($ec_house);
-                        $ec_house->getOwn_unavailability_details()->add($_new_ud);
-                        $em->persist($_new_ud);
-                    }
-                }
-                $em->persist($ec_house);
-            }
+    private function _normalizeBySyncStatus($em, $entity, $status) {
+        switch ($status) {
+            case SyncStatuses::DELETED:
+                $em->remove($entity);
+                break;
+            case SyncStatuses::ADDED:
+            case SyncStatuses::UPDATED:
+            default:
+                $entity->setSyncSt(SyncStatuses::SYNC);
+                $em->persist($entity);
+                break;
         }
+    }
+
+//-----------------------------------------------------------------------------
+    private function _commitHouses(Request $request) {
+        $em = $this->getDoctrine()->getEntityManager();
+        $json_houses = $request->get('content');
+       // $json_houses = '{"uds":[{"rn":2,"rs":"Client Reservation","ss":0,"td":"2013-12-20","fd":"2013-12-17","hc":"CH138"}],"houses":[],"rooms":[{"nu":2,"dt":2,"wi":2,"sm":2,"ba":2,"uf":2,"ya":2,"te":2,"by":2,"sf":2,"ut":2,"hc":"CH138","au":2,"ty":2,"df":2,"cl":2,"bh":2,"ss":0,"st":2,"be":2}]}';
+        $houses_mod_data = json_decode($json_houses);
+
+//        $houses = $houses_mod_data->houses;
+//        if (is_array($houses)) {
+//            foreach ($houses as $house) {
+//                $e_house = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code' => $house->hc));
+//                switch ($house->ss) {
+//                    case SyncStatuses::ADDED:
+//                        $e_house = new ownership();
+//                    case SyncStatuses::UPDATED:
+//                        $e_house->setOwnMcpCode($house->co);
+//                        $e_house->setOwnName($house->na);
+//                        $e_house->setOwnHomeowner1($house->pr);
+//                        $e_house->setOwnAddressStreet($house->ad);
+//                        $e_house->setOwnPhoneNumber($house->ph);
+//                        $e_house->setOwnMinimumPrice($house->mp);
+//                        $e_house->setOwnMaximumPrice($house->xp);
+//                        $e_house->setOwnCommissionPercent($house->cp);
+//                        $em->persist($e_house);
+//                        break;
+//                    case SyncStatuses::DELETED:
+//                        $em->remove($e_house);
+//                        break;
+//                }
+//            }
+//        }
+//        
+//        $rooms = $houses_mod_data->rooms;
+//        if (is_array($rooms)) {
+//            foreach ($rooms as $room) {
+//                $_house = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code' => $room->hc));
+//                $e_room = $_house->getRoom($room->nu);
+//                switch ($room->ss) {
+//                    case SyncStatuses::ADDED:
+//                        $e_room = new room();
+//                        $e_room->setRoomOwnership($_house);
+//                    case SyncStatuses::UPDATED:
+//                        $em->persist($e_room);
+//                        break;
+//                    case SyncStatuses::DELETED:
+//                        $em->remove($e_room);
+//                        break;
+//                }
+//            }
+//        }
+
+//        $uds = $houses_mod_data->uds;
+//        if (is_array($uds)) {
+//            foreach ($uds as $ud) {
+//                $_house = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code' => $ud->hc));
+//                $_room = $_house->getRoom($ud->rn);                
+//                $_new_ud = $_room->getUd($ud->fd, $ud->td);
+//                switch ($ud->ss) {
+//                    case SyncStatuses::ADDED:
+//                        $_new_ud = new unavailabilityDetails();
+//                        $_new_ud->setRoom($_room);
+//                        $_room->getOwn_unavailability_details()->add($_new_ud);
+//                    case SyncStatuses::UPDATED:
+//                        $_new_ud->setUdFromDate(new DateTime($ud->fd));
+//                        $_new_ud->setUdToDate(new DateTime($ud->td));
+//                        $_new_ud->setUdReason($ud->rs);
+//                        $em->persist($_new_ud);
+//                        break;
+//                    case SyncStatuses::DELETED:
+//                        $em->remove($e_house);
+//                        break;
+//                }
+//            }
+//        }
+
         $em->flush();
         return self::SUCCESS_CONFIRM_MSG;
     }

@@ -11,7 +11,7 @@ use MyCp\mycpBundle\Helpers\SyncStatuses;
  * room
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\roomRepository")
  */
 class room {
 
@@ -145,7 +145,7 @@ class room {
 
     /**
      * @var string
-     * @ORM\Column(name="own_sync_st", type="string", length=10)
+     * @ORM\Column(name="room_sync_st", type="integer")
      */
     private $room_sync_st;
 
@@ -556,11 +556,11 @@ class room {
         $this->room_id = $id;
     }
 
-    public function getRoomSyncSt() {
+    public function getSyncSt() {
         return $this->room_sync_st;
     }
 
-    public function setRoomSyncSt($room_sync_st) {
+    public function setSyncSt($room_sync_st) {
         $this->room_sync_st = $room_sync_st;
     }
     
@@ -571,5 +571,18 @@ class room {
     public function setOwn_unavailability_details($own_unavailability_details) {
         $this->own_unavailability_details = $own_unavailability_details;
     }
+    
+    // <editor-fold defaultstate="collapsed" desc="Logic Methods">
+    public function getUd($dateFrom, $dateTo) {
+        foreach($this->own_unavailability_details as $ud){
+            if($ud->getUdFromDate()->format('Y-m-d') === $dateFrom && $ud->getUdToDate()->format('Y-m-d') === $dateTo){
+                return $ud;
+            }
+        }
+        return null;
+    }
+
+// </editor-fold>
+
 
 }
