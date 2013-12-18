@@ -466,8 +466,8 @@ class ownershipController extends Controller {
         $search_text = ($text != null && $text != '' && $text != $this->get('translator')->trans('PLACE_WATERMARK')) ? str_replace("_", " ", strtolower($text)) : null;
         $search_guests = ($guests != null && $guests != '' && $guests != $this->get('translator')->trans('GUEST_WATERMARK')) ? $guests : "1";
         $search_rooms = ($rooms != null && $rooms != '' && $rooms != $this->get('translator')->trans('ROOM_WATERMARK')) ? $rooms : "1";
-        $arrival = ($request->get('arrival') != null && $request->get('arrival') != "" && $request->get('arrival') != "null") ? $request->get('arrival') : null;
-        $departure = ($request->get('departure') != null && $request->get('departure') != "" && $request->get('departure') != "null") ? $request->get('departure') : null;
+        $arrival = ($request->get('arrival') != null && $request->get('arrival') != "" && $request->get('arrival') != "null") ? $request->get('arrival') : $session->get('search_arrival_date');
+        $departure = ($request->get('departure') != null && $request->get('departure') != "" && $request->get('departure') != "null") ? $request->get('departure') : $session->get('search_departure_date');
 
         $check_filters = $session->get("filter_array");
         $room_filter = $session->get("filter_room"); 
@@ -1195,11 +1195,10 @@ class ownershipController extends Controller {
             $session->set('top_rated_show_rows', 2);
 
         $category = $session->get("top_rated_category");
-
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 4 * $session->get("top_rated_show_rows");
         $paginator->setItemsPerPage($items_per_page);
-        $list = $em->getRepository('mycpBundle:ownership')->top20($locale, $category);
+        $list = $em->getRepository('mycpBundle:ownership')->top20($locale, ((strtolower($category) !=  "todos") ? $category : null));
         $own_top20_list = $paginator->paginate($list)->getResult();
         $page = 1;
         if (isset($_GET['page']))
@@ -1230,7 +1229,8 @@ class ownershipController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 4 * $session->get("top_rated_show_rows");
         $paginator->setItemsPerPage($items_per_page);
-        $list = $em->getRepository('mycpBundle:ownership')->top20($locale, $category);
+        
+        $list = $em->getRepository('mycpBundle:ownership')->top20($locale, ((strtolower($category) !=  "todos") ? $category : null));
         $own_top20_list = $paginator->paginate($list)->getResult();
         $page = 1;
         if (isset($_GET['page']))

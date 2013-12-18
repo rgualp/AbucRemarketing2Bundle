@@ -102,6 +102,20 @@ class destination {
     private $des_cat_location_y;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="des_cat_location_prov_x", type="integer", nullable=true)
+     */
+    private $des_cat_location_prov_x;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="des_cat_location_prov_y", type="integer", nullable=true)
+     */
+    private $des_cat_location_prov_y;
+
+    /**
     * @ORM\ManyToMany(targetEntity="destinationCategory")
     * @ORM\JoinTable(name="mmdestinationcategory",
     * joinColumns={@ORM\JoinColumn(name="cat_id_des" , referencedColumnName="des_id")},
@@ -435,5 +449,51 @@ class destination {
     public function getDesCatLocationY()
     {
         return $this->des_cat_location_y;
+    }
+
+    /**
+     * Set des_cat_location_prov_x
+     *
+     * @param integer $desCatLocationProvX
+     * @return destination
+     */
+    public function setDesCatLocationProvX($desCatLocationProvX)
+    {
+        $this->des_cat_location_prov_x = $desCatLocationProvX;
+    
+        return $this;
+    }
+
+    /**
+     * Get des_cat_location_prov_x
+     *
+     * @return integer 
+     */
+    public function getDesCatLocationProvX()
+    {
+        return $this->des_cat_location_prov_x;
+    }
+
+    /**
+     * Set des_cat_location_prov_y
+     *
+     * @param integer $desCatLocationProvY
+     * @return destination
+     */
+    public function setDesCatLocationProvY($desCatLocationProvY)
+    {
+        $this->des_cat_location_prov_y = $desCatLocationProvY;
+    
+        return $this;
+    }
+
+    /**
+     * Get des_cat_location_prov_y
+     *
+     * @return integer 
+     */
+    public function getDesCatLocationProvY()
+    {
+        return $this->des_cat_location_prov_y;
     }
 }

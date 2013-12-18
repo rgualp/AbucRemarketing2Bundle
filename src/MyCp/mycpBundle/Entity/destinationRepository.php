@@ -31,6 +31,8 @@ class destinationRepository extends EntityRepository {
         $destination->setDesRefPlace($data['ref_place']);
         $destination->setDesCatLocationX($data['cat_location_x']);
         $destination->setDesCatLocationY($data['cat_location_y']);
+        $destination->setDesCatLocationProvX($data['cat_location_prov_x']);
+        $destination->setDesCatLocationProvY($data['cat_location_prov_y']);
 
         $municipality = $em->getRepository('mycpBundle:municipality')->find($data['ownership_address_municipality']);
         $province = $em->getRepository('mycpBundle:province')->find($data['ownership_address_province']);
@@ -94,6 +96,8 @@ class destinationRepository extends EntityRepository {
         $destination->setDesRefPlace($data['ref_place']);
         $destination->setDesCatLocationX($data['cat_location_x']);
         $destination->setDesCatLocationY($data['cat_location_y']);
+        $destination->setDesCatLocationProvX($data['cat_location_prov_x']);
+        $destination->setDesCatLocationProvY($data['cat_location_prov_y']);
         $destination->getDesCategories()->clear();
 
         $municipality = $em->getRepository('mycpBundle:municipality')->find($data['ownership_address_municipality']);

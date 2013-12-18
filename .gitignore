@@ -17,6 +17,7 @@ web/uploads/ownershipImages/*.jpg
 web/uploads/ownershipImages/originals
 web/uploads/ownershipImages/thumbnails/*.jpg
 web/uploads/userImages
+src/MyCp/frontEndBundle/Controller/lib/*
 
 # Configuration files
 app/config/parameters.ini

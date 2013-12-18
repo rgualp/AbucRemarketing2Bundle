@@ -4,7 +4,6 @@
         margin: 0 12px;
         cursor: pointer;
     }
-    .map-signal{visibility: hidden; position: absolute}
 </style>
 <div class="container text-center">
     {% for des_cat in des_categories_lang %}
@@ -39,4 +38,4 @@ var accommodations_url="{{path('frontend_search_ownership')}}";
 </script>
 <script type="text/javascript" src="{{ asset("bundles/frontend/js/map.js") }}"></script>
 
-<div id="signal_tooltip" style="left: -500px;position: absolute; top: 0; left: 0;background-color: #1A1A1A; border-radius: 4px; color: #fff; font-size: 12px; padding: 2px 6px"></div>
+<div id="signal_tooltip" style="left: -500px;position: absolute; top: 0;background-color: #1A1A1A; border-radius: 4px; color: #fff; font-size: 12px; padding: 2px 6px"></div>

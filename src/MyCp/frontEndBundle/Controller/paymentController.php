@@ -260,7 +260,7 @@ class paymentController extends Controller {
         $bookingId = $booking->getBookingId();
         $translator = $this->get('translator');
         $locale = $this->getRequest()->getLocale();
-        $relativeLogoUrl = $this->container->get('templating.helper.assets')->getUrl('bundles/frontend/images/logo.png');
+        $relativeLogoUrl = $this->container->get('templating.helper.assets')->getUrl('bundles/frontend/img/mycp.png');
         $logoUrl = $this->getRequest()->getSchemeAndHttpHost() . $relativeLogoUrl;
 
         $skrillData = array(

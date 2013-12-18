@@ -4,8 +4,6 @@
 {% endblock %}
 
 {% block include_javascripts_and_css %}
-<link href="{{ asset('bundles/frontend/css/royalslider.css') }}" rel="stylesheet" >
-<link href="{{ asset('bundles/frontend/css/rs-default.css') }}" rel="stylesheet" >
 <script src="{{ asset('bundles/frontend/js/jquery.royalslider.min.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/destinations.js') }}"></script>
 <script type="text/javascript">
@@ -80,9 +78,7 @@
 {% if flag != 0%}
 </div>
 {% endif %}
-    
-    <div class="bg-gradient-green-bar"><h1 class="caecilia-roman h-white text-center">{{'FIND_DESTINATIONS_BY_PROVINCES' | trans}}</h1></div>
-    <div>Mapa</div>
+    {% render('frontEndBundle:destination:get_map_by_province') %}
     <br/>
     {% render 'frontEndBundle:public:home_carrousel' %}
 </div>

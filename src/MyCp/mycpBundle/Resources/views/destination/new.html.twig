@@ -100,12 +100,27 @@
     {% endfor %}
     <div class="row-fluid">
         <div class="span6">
+            <label>Posicion x (Mapa Cuba)</label>
             {%if errors["cat_location_x"] is defined %}<label class="error">{{errors["cat_location_x"]|trim(':')}}</label>{%endif%}
             <input type="number" placeholder="x" value="{% if(data['cat_location_x'] is defined) %}{{ data['cat_location_x'] }}{% endif %}" name="cat_location_x" class="input-block-level"/>
         </div>
         <div class="span6">
+            <label>Posicion y (Mapa Cuba)</label>
             {%if errors["cat_location_y"] is defined %}<label class="error">{{errors["cat_location_y"]|trim(':')}}</label>{%endif%}
             <input type="number" placeholder="y" value="{% if(data['cat_location_y'] is defined) %}{{ data['cat_location_y'] }}{% endif %}" name="cat_location_y" class="input-block-level"/>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="span6">
+            <label>Posicion x (Mapa provincia)</label>
+            {%if errors["cat_location_prov_x"] is defined %}<label class="error">{{errors["cat_location_prov_x"]|trim(':')}}</label>{%endif%}
+            <input type="number" placeholder="x" value="{% if(data['cat_location_prov_x'] is defined) %}{{ data['cat_location_prov_x'] }}{% endif %}" name="cat_location_prov_x" class="input-block-level"/>
+        </div>
+        <div class="span6">
+            <label>Posicion y (Mapa provincia)</label>
+            {%if errors["cat_location_prov_y"] is defined %}<label class="error">{{errors["cat_location_prov_y"]|trim(':')}}</label>{%endif%}
+            <input type="number" placeholder="y" value="{% if(data['cat_location_prov_y'] is defined) %}{{ data['cat_location_prov_y'] }}{% endif %}" name="cat_location_prov_y" class="input-block-level"/>
         </div>
     </div>
 

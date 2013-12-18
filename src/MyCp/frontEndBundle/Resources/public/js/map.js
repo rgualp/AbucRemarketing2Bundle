@@ -67,6 +67,11 @@ $(document).ready(function(){
             jq_canvas.attr('width',canvas_w);
             jq_canvas.attr('height',((win.width()) * 323 / 849));
         }
+        else
+        {
+            jq_canvas.attr('width','849');
+            jq_canvas.attr('height','323');
+        }
 
     }
     function init_map()
@@ -311,7 +316,7 @@ $(document).ready(function(){
         for(cont=0;cont<array_signals_show.length; cont++){
             if(is_in_poly(get_prop_poly(array_signals[array_signals_show[cont]]),point))
             {
-                window.location=link_destination +'/'+ destinations[cont];
+                window.location=link_destination +'/'+ destinations[array_signals_show[cont]];
             }
 
         }

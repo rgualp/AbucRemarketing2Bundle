@@ -5,7 +5,7 @@ namespace MyCp\mycpBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\OneToMany;
+use MyCp\mycpBundle\Helpers\SyncStatuses;
 
 /**
  * ownership
@@ -149,7 +149,7 @@ class ownership {
     private $own_type;
 
     /**
-     * @ORM\OneToMany(targetEntity="room",mappedBy="rooms")
+     * @ORM\OneToMany(targetEntity="room",mappedBy="room_ownership")
      */
     private $own_rooms;
 
@@ -346,31 +346,17 @@ class ownership {
     private $own_comments_total;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="own_rooms_total", type="integer")
+     * @var string
+     * @ORM\Column(name="own_sync_st", type="integer")
      */
-    private $own_rooms_total;
-
-    /**
-     * @var boolean
-     * @todo set default value with Doctrine
-     * @ORM\Column(name="own_sync", type="boolean")
-     */
-    private $own_sync;
-
-    /**
-     * @OneToMany(targetEntity="unavailabilityDetails", mappedBy="ownership_id", fetch="EAGER")
-     */
-    private $own_unavailability_details;
+    private $own_sync_st;
 
     /**
      * Constructor
      */
     public function __construct() {
         $this->own_rooms = new ArrayCollection();
-        $this->own_unavailability_details = new ArrayCollection();
-        $this->own_sync = false;
+        $this->own_sync_st = SyncStatuses::ADDED;
     }
 
     /**
@@ -1086,31 +1072,6 @@ class ownership {
     }
 
     /**
-     * Codigo Yanet - Inicio
-     */
-
-    /**
-     * Set own_rooms_total
-     *
-     * @param integer $ownRoomsTotal
-     * @return ownership
-     */
-    public function setOwnRoomsTotal($ownRoomsTotal) {
-        $this->own_rooms_total = $ownRoomsTotal;
-
-        return $this;
-    }
-
-    /**
-     * Get own_rooms_total
-     *
-     * @return integer
-     */
-    public function getOwnRoomsTotal() {
-        return $this->own_rooms_total;
-    }
-
-    /**
      * Set own_rating
      *
      * @param decimal $ownRating
@@ -1415,61 +1376,28 @@ class ownership {
     public function getOwnCommissionPercent() {
         return $this->own_commission_percent;
     }
-    
-    public function getOwnSync() {
-        return $this->own_sync;
+
+    public function getSyncSt() {
+        return $this->own_sync_st;
     }
 
-    public function setOwnSync($sync) {
-        $this->own_sync = $sync;
+    public function setSyncSt($own_sync_st) {
+        $this->own_sync_st = $own_sync_st;
     }
 
-    public function getOwn_unavailability_details() {
-        return $this->own_unavailability_details;
-    }
-
-    public function setOwn_unavailability_details($own_unavailability_details) {
-        $this->own_unavailability_details = $own_unavailability_details;
-    }
 //-----------------------------------------------------------------------------
     // <editor-fold defaultstate="collapsed" desc="Logic Methods">
     public function getFullAddress() {
         return $this->own_address_street . ", No." . $this->own_address_number . ", " . $this->own_address_municipality . ", " . $this->own_address_province;
     }
 
-    /**
-     * 
-     */
-    public function getCurrentUDs() {
-        $filtered_uds = array();
-        foreach ($this->own_unavailability_details as $_ud) {
-            if (!$_ud->isPast()) {
-                $filtered_uds[] = $_ud;
+    public function getRoom($room_num) {
+        foreach ($this->own_rooms as $room) {
+            if ($room->getRoomId() == $room_num) {
+                return $room;
             }
         }
-        return $filtered_uds;
-    }
-
-    /**
-     * Get past Unavailabilities Details
-     */
-    public function getPastUDs() {
-        $filtered_uds = array();
-        foreach ($this->own_unavailability_details as $_ud) {
-            if ($_ud->isPast()) {
-                $filtered_uds[] = $_ud;
-            }
-        }
-        return $filtered_uds;
-    }
-    
-    /**
-     * Remove All Current Unavailabilities Details
-     */
-    public function removeAllCurrentUDs($em){
-        foreach($this->getCurrentUDs() as $_ud){
-            $em->remove($_ud);
-        }
+        return null;
     }
 
 // </editor-fold>

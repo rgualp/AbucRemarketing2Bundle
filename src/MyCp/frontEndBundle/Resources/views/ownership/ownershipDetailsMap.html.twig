@@ -6,7 +6,7 @@
     data-name="{{ownership.ownname}}"
     data-description="{{description | striptags}}"
     data-image="{{asset('uploads/ownershipImages/thumbnails/'~image)}}"
-    data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/images/map_marker.png') }}">
+    data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}">
 </div>
  {% block include_javascripts_and_css %}
     <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>

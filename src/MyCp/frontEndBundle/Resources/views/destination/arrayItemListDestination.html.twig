@@ -27,8 +27,9 @@
     </div>
     </div>
     <hr/>
-{%else%}
-    <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
 {%endfor%}
 </div>
+{% if not list %}
+    <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
+{% endif %}
 

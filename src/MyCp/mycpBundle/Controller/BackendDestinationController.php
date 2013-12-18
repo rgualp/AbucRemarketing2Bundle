@@ -392,6 +392,8 @@ class BackendDestinationController extends Controller
         $data['geolocate_y']=$destination->getDesGeolocateY();
         $data['cat_location_x']=$destination->getDesCatLocationX();
         $data['cat_location_y']=$destination->getDesCatLocationY();
+        $data['cat_location_prov_x']=$destination->getDesCatLocationProvX();
+        $data['cat_location_prov_y']=$destination->getDesCatLocationProvY();
         $data['id_destination']=$id_destination;
         $data['ownership_address_province']=$destinationsLocation[0]->getDesLocProvince()->getProvId();
         if($data['ownership_address_municipality']=$destinationsLocation[0]->getDesLocMunicipality())

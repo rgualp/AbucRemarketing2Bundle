@@ -545,14 +545,12 @@
 <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
 <script src="{{ asset('bundles/frontend/js/jquery.ui.map.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/jquery.royalslider.min.js') }}"></script>
-<link href="{{ asset('bundles/frontend/css/royalslider.css') }}" rel="stylesheet"/>
-<link href="{{ asset('bundles/frontend/css/rs-default.css') }}" rel="stylesheet"/>
 <script src="{{ asset('bundles/frontend/js/bootstrap-datepicker.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/bootstrap-datepicker.es.js') }}"></script>
 <script type="text/javascript">
 
     var cont_array_dates={{ array_dates | length}} ;
-            var start_date = "{{start_date }}";
+    var start_date = "{{start_date }}";
     var end_date = "{{end_date}}";
     
     $(document).ready(function($) {
@@ -583,8 +581,8 @@
         from=$('#filter_date_from').val();
         to=$('#filter_date_to').val();
         refresh_calendar(from,to);
-        $('#top_reservation_filter_date_from').datepicker("setDate", new Date(create_date(from)));
-        $('#top_reservation_filter_date_to').datepicker("setDate", new Date(create_date(to)));
+        //$('#top_reservation_filter_date_from').datepicker("setDate", new Date(create_date(from)));
+        //$('#top_reservation_filter_date_to').datepicker("setDate", new Date(create_date(to)));
     });
     
     function refresh_calendar_button()

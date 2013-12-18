@@ -2395,6 +2395,10 @@
                     <source>THE_ENTERPRISE</source>
                     <target>La empresa</target>
                 </trans-unit>
+                <trans-unit id="609">
+                    <source>ALL_CATGORIES_OWNS</source>
+                    <target>Todas las categorías</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>
