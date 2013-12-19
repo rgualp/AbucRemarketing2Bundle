@@ -73,7 +73,9 @@ class categoryType extends AbstractType
 
         if(isset($this->data['des_photo']))
         {
-            $builder->add('photo','file',array('label'=>'Ícono:','mapped'=>false,
+            $builder->add('photo','file',array('label'=>'Ícono atracción (Mapa Cuba):','mapped'=>false,
+                'attr'=>array('title'=>"Seleccionar fichero...",'accept'=>'image/*')));
+            $builder->add('photo_atraction','file',array('label'=>'Ícono atracción (Mapa provincia):','mapped'=>false,
                 'attr'=>array('title'=>"Seleccionar fichero...",'accept'=>'image/*')));
         }
     }

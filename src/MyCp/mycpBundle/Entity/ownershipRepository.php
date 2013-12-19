@@ -898,7 +898,7 @@ class ownershipRepository extends EntityRepository {
         return $types;
     }
 
-    function getSearchStatistics($own_list) {
+    function getSearchStatistics() {
         $em = $this->getEntityManager();
         $statistics = array();
 
@@ -956,6 +956,29 @@ class ownershipRepository extends EntityRepository {
         $statistics['room_total_beds_+5'] = 0;
 
         $own_ids = "0";
+
+        $query_string = "SELECT DISTINCT o.own_id as own_id,
+                            o.own_category as category,
+                            o.own_type as type,
+                            o.own_minimum_price as minimum_price,
+                            o.own_facilities_breakfast as breakfast,
+                            o.own_facilities_dinner as dinner,
+                            o.own_facilities_parking as parking,
+                            o.own_water_piscina as pool,
+                            o.own_description_laundry as laundry,
+                            o.own_description_internet as internet,
+                            o.own_water_sauna as sauna,
+                            o.own_description_pets as pets,
+                            o.own_water_jacuzee as jacuzee,
+                            o.own_langs as langs
+                            FROM mycpBundle:room r
+                            join r.room_ownership o
+                            WHERE o.own_status = 1
+                            ";
+        $query = $em->createQuery($query_string);
+
+        $own_list = $query->getResult();
+
         foreach ($own_list as $own) {
             $own_ids .= "," . $own['own_id'];
 
