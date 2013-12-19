@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "1d82130203e867a13b78cb0865848532",
+    "hash": "05aa6b57f24fd997ccf55765bb43cb81",
     "packages": [
         {
             "name": "ass/xmlsecurity",
@@ -756,6 +756,47 @@
             "time": "2013-01-07 20:05:04"
         },
         {
+            "name": "dompdf/dompdf",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dompdf/dompdf.git",
+                "reference": "ae1e0d4987741b1d0a153b48f671b10a45c1cb59"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dompdf/dompdf/zipball/ae1e0d4987741b1d0a153b48f671b10a45c1cb59",
+                "reference": "ae1e0d4987741b1d0a153b48f671b10a45c1cb59",
+                "shasum": ""
+            },
+            "require": {
+                "phenx/php-font-lib": "0.2.*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "include/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Ménager",
+                    "email": "fabien.menager@gmail.com"
+                },
+                {
+                    "name": "Brian Sweeney",
+                    "email": "eclecticgeek@gmail.com"
+                }
+            ],
+            "description": "DOMPDF is a CSS 2.1 compliant HTML to PDF converter",
+            "homepage": "https://github.com/dompdf/dompdf",
+            "time": "2013-12-04 04:50:54"
+        },
+        {
             "name": "ideup/simple-paginator-bundle",
             "version": "dev-master",
             "target-dir": "Ideup/SimplePaginatorBundle",
@@ -1326,6 +1367,40 @@
                 "logging"
             ],
             "time": "2012-08-29 11:53:20"
+        },
+        {
+            "name": "phenx/php-font-lib",
+            "version": "0.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PhenX/php-font-lib.git",
+                "reference": "42a1ca6d19f14076911a118705b771c3a5a8b179"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PhenX/php-font-lib/zipball/42a1ca6d19f14076911a118705b771c3a5a8b179",
+                "reference": "42a1ca6d19f14076911a118705b771c3a5a8b179",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "classes/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Ménager",
+                    "email": "fabien.menager@gmail.com"
+                }
+            ],
+            "description": "A library to read, parse, export and make subsets of different types of font files.",
+            "homepage": "https://github.com/PhenX/php-font-lib",
+            "time": "2013-02-22 23:30:49"
         },
         {
             "name": "sensio/distribution-bundle",
@@ -2470,7 +2545,8 @@
         "besimple/soap-common": 20,
         "ass/xmlsecurity": 20,
         "besimple/soap-server": 20,
-        "besimple/i18n-routing-bundle": 20
+        "besimple/i18n-routing-bundle": 20,
+        "dompdf/dompdf": 20
     },
     "platform": {
         "php": ">=5.3.3"
