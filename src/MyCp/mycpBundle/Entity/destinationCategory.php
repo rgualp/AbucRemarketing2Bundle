@@ -31,6 +31,13 @@ class destinationCategory
     private $des_icon;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="des_icon_prov_map", type="string", length=255,nullable=true)
+     */
+    private $des_icon_prov_map;
+
+    /**
      * Get des_cat_id
      *
      * @return integer
@@ -63,5 +70,28 @@ class destinationCategory
     public function getDesIcon()
     {
         return $this->des_icon;
+    }
+
+    /**
+     * Set des_icon_prov_map
+     *
+     * @param string $desIconProvMap
+     * @return destinationCategory
+     */
+    public function setDesIconProvMap($desIconProvMap)
+    {
+        $this->des_icon_prov_map = $desIconProvMap;
+    
+        return $this;
+    }
+
+    /**
+     * Get des_icon_prov_map
+     *
+     * @return string 
+     */
+    public function getDesIconProvMap()
+    {
+        return $this->des_icon_prov_map;
     }
 }

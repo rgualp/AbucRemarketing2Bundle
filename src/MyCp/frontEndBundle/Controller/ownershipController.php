@@ -474,8 +474,9 @@ class ownershipController extends Controller {
                 
         $session->set("filter_array", $check_filters);
         $session->set("filter_room", $room_filter); 
-        
+
         $list = $em->getRepository('mycpBundle:ownership')->search($this, $search_text, $arrival, $departure, $search_guests, $search_rooms, $session->get('search_order'), $room_filter, $check_filters);
+
         $paginator = $this->get('ideup.simple_paginator');
             $items_per_page = 15;
             $paginator->setItemsPerPage($items_per_page);

@@ -48,6 +48,12 @@ class BackendDestinationController extends Controller
                     $file['photo']->move($dir, $fileName);
                     $category->setDesIcon($fileName);
                 }
+                if (isset($file['photo_atraction'])) {
+                    $photo = new photo();
+                    $fileName = uniqid('dest-') . '-prov-icon.jpg';
+                    $file['photo_atraction']->move($dir, $fileName);
+                    $category->setDesIconProvMap($fileName);
+                }
 
                 $em->flush();
 
@@ -87,10 +93,12 @@ class BackendDestinationController extends Controller
 
                 foreach ($languages as $language) {
                     $dest_cat_lang = new destinationCategoryLang();
-                    $dest_cat_lang = $em->getRepository('mycpBundle:destinationCategoryLang')->findBy(array('des_cat_id_lang' => $language));
+                    $dest_cat_lang = $em->getRepository('mycpBundle:destinationCategoryLang')->findBy(array('des_cat_id_lang' => $language,'des_cat_id_cat'=>$id_category));
                     $dest_cat_lang[0]->setDesCatName($post['lang' . $language->getLangId()]);
                     $em->persist($dest_cat_lang[0]);
                 }
+
+                $category=$em->getRepository('mycpBundle:destinationCategory')->find($id_category);
 
                 $dir=$this->container->getParameter('destination.cat.dir.icons');
                 $file = $request->files->get('mycp_mycpbundle_categorytype');
@@ -98,9 +106,15 @@ class BackendDestinationController extends Controller
                     $photo = new photo();
                     $fileName = uniqid('dest-') . '-icon.jpg';
                     $file['photo']->move($dir, $fileName);
-                    $category=$em->getRepository('mycpBundle:destinationCategory')->find($id_category);
                     @unlink($dir . $category->getDesIcon());
                     $category->setDesIcon($fileName);
+                }
+                if (isset($file['photo_atraction'])) {
+                    $photo = new photo();
+                    $fileName = uniqid('dest-') . '-prov-icon.jpg';
+                    $file['photo_atraction']->move($dir, $fileName);
+                    @unlink($dir . $category->getDesIconProvMap());
+                    $category->setDesIconProvMap($fileName);
                 }
 
                 $em->flush();

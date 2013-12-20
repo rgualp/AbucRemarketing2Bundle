@@ -585,4 +585,60 @@ class room {
 // </editor-fold>
 
 
+
+    /**
+     * Set room_sync_st
+     *
+     * @param integer $roomSyncSt
+     * @return room
+     */
+    public function setRoomSyncSt($roomSyncSt)
+    {
+        $this->room_sync_st = $roomSyncSt;
+    
+        return $this;
+    }
+
+    /**
+     * Get room_sync_st
+     *
+     * @return integer 
+     */
+    public function getRoomSyncSt()
+    {
+        return $this->room_sync_st;
+    }
+
+    /**
+     * Add own_unavailability_details
+     *
+     * @param \MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails
+     * @return room
+     */
+    public function addOwnUnavailabilityDetail(\MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails)
+    {
+        $this->own_unavailability_details[] = $ownUnavailabilityDetails;
+    
+        return $this;
+    }
+
+    /**
+     * Remove own_unavailability_details
+     *
+     * @param \MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails
+     */
+    public function removeOwnUnavailabilityDetail(\MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails)
+    {
+        $this->own_unavailability_details->removeElement($ownUnavailabilityDetails);
+    }
+
+    /**
+     * Get own_unavailability_details
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOwnUnavailabilityDetails()
+    {
+        return $this->own_unavailability_details;
+    }
 }

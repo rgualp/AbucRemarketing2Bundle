@@ -346,6 +346,13 @@ class ownership {
     private $own_comments_total;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="own_rooms_total", type="integer")
+     */
+    private $own_rooms_total;
+
+    /**
      * @var string
      * @ORM\Column(name="own_sync_st", type="integer")
      */
@@ -1385,6 +1392,15 @@ class ownership {
         $this->own_sync_st = $own_sync_st;
     }
 
+    /**
+     * Get count_total rooms
+     *
+     * @return integer
+     */
+    public function getOwnRoomsTotal() {
+        return count($this->own_rooms);
+    }
+
 //-----------------------------------------------------------------------------
     // <editor-fold defaultstate="collapsed" desc="Logic Methods">
     public function getFullAddress() {
@@ -1401,4 +1417,40 @@ class ownership {
     }
 
 // </editor-fold>
+
+    /**
+     * Set own_rooms_total
+     *
+     * @param integer $ownRoomsTotal
+     * @return ownership
+     */
+    public function setOwnRoomsTotal($ownRoomsTotal)
+    {
+        $this->own_rooms_total = $ownRoomsTotal;
+    
+        return $this;
+    }
+
+    /**
+     * Set own_sync_st
+     *
+     * @param integer $ownSyncSt
+     * @return ownership
+     */
+    public function setOwnSyncSt($ownSyncSt)
+    {
+        $this->own_sync_st = $ownSyncSt;
+    
+        return $this;
+    }
+
+    /**
+     * Get own_sync_st
+     *
+     * @return integer 
+     */
+    public function getOwnSyncSt()
+    {
+        return $this->own_sync_st;
+    }
 }
