@@ -39,9 +39,15 @@
     {% set locations='' %}
     {% set destinations='' %}
     {% set destinations_names='' %}
+    {% set destinations_icons='' %}
     {% for loc in locations_destinations %}
     {% set locations = locations~"'"~loc.getDesLocProvince.getProvCode~"'," %}
     {% set destinations_names = destinations_names~"'"~loc.getDesLocDestination.getDesName~"'," %}
+    {% if loc.getDesLocDestination.getDesCategories.first %}
+    {% set destinations_icons = destinations_icons~"'"~loc.getDesLocDestination.getDesCategories.first.getDesIconProvMap~"'," %}
+    {% else %}
+    {% set destinations_icons = destinations_icons~"'null'," %}
+    {% endif %}
     {% if loc.getDesLocDestination.getDesCatLocationX %}
     {% set destinations = destinations~"["~loc.getDesLocDestination.getDesCatLocationProvX~","~loc.getDesLocDestination.getDesCatLocationProvY~"]," %}
     {% else %}
@@ -49,9 +55,11 @@
     {% endif %}
     {% endfor %}
     var link_destination="{{ path('frontend_details_destination',{'destination_name':''}) }}";
+    var destinations_icons=[{{ destinations_icons|slice(0,(destinations_icons|length)-1)|raw }}];
     var dest_provinces=[{{ locations|slice(0,(locations|length)-1)|raw }}];
     var signal_pos=[{{ destinations|slice(0,(destinations|length)-1)|raw }}];
     var destinations_names=[{{ destinations_names|slice(0,(destinations_names|length)-1)|raw }}];
+    var dir="{{ app.request.getSchemeAndHttpHost() ~ asset('uploads/destinationImages/icons/') }}";
 </script>
 <script type="text/javascript" src="{{ asset('bundles/frontend/js/map_destination_by_province.js') }}"></script>
 <div id="signal_tooltip" style="left: -500px;position: absolute; top: 0;background-color: #1A1A1A; border-radius: 4px; color: #fff; font-size: 12px; padding: 2px 6px"></div>

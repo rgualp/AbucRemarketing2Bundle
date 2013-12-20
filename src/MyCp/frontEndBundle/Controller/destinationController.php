@@ -24,6 +24,12 @@ class destinationController extends Controller {
     {
         $em = $this->getDoctrine()->getEntityManager();
         $dest_location = $em->getRepository('mycpBundle:destinationLocation')->findAll();
+        /*foreach($dest_location as $des)
+        {
+            var_dump($des->getDesLocDestination()->getDesName());
+            var_dump($des->getDesLocDestination()->getDesCategories()->first());
+        }
+         exit();*/
         return $this->render('frontEndBundle:destination:destinationByProvince.html.twig', array(
             'locations_destinations' => $dest_location
         ));
