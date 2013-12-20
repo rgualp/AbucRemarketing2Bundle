@@ -1226,6 +1226,9 @@ class ownershipController extends Controller {
             $session->set('top_rated_category', $category);
         else
             $session->set('top_rated_category', '');
+        
+        if($session->get("top_rated_show_rows") == null)
+            $session->set("top_rated_show_rows", 2);
 
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 4 * $session->get("top_rated_show_rows");
