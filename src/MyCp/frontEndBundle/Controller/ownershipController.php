@@ -901,7 +901,6 @@ class ownershipController extends Controller {
         $session = $request->getSession();
         $em = $this->getDoctrine()->getEntityManager();
         $own_ids = $session->get('own_ids');
-        $curr_rate = $session->get('curr_rate');
 
         $list = $em->getRepository('mycpBundle:ownership')->getListByIds($own_ids);
 
@@ -914,7 +913,7 @@ class ownershipController extends Controller {
                     'longitude' => $own->getOwnGeolocateY(),
                     'title' => $own->getOwnName(),
                     'content' => $this->get('translator')->trans('FROM_PRICES') . ($session->get("curr_symbol") != null ? " " . $session->get('curr_symbol') . " " : " $ ") . $prize . " " . strtolower($this->get('translator')->trans("BYNIGHTS_PRICES")),
-                    'image' => $this->container->get('templating.helper.assets')->getUrl('uploads/ownershipImages/' . $this->get_ownership_photo($own->getOwnId()), null), //$this->get_ownership_photo($own->getOwnId()),
+                    'image' => $this->container->get('templating.helper.assets')->getUrl('uploads/ownershipImages/thumbnails/' . $em->getRepository('mycpBundle:ownership')->get_ownership_photo($own->getOwnId())), //$this->get_ownership_photo($own->getOwnId()),
                     'id' => $own->getOwnId());
             }
         }
@@ -1226,6 +1225,9 @@ class ownershipController extends Controller {
             $session->set('top_rated_category', $category);
         else
             $session->set('top_rated_category', '');
+        
+        if($session->get("top_rated_show_rows") == null)
+            $session->set("top_rated_show_rows", 2);
 
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 4 * $session->get("top_rated_show_rows");
