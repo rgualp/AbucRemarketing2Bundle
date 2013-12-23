@@ -12,7 +12,7 @@
 <div class="bg-solid-ligth-blue">
     <div class="container">
         <h1 class="caecilia-roman h-size-3">
-            {{ownership.owntype  | trans}} {{"IN" | trans}} {{ownership.ownAddressProvince}}: {{ownership.ownname}}.
+            {{ownership.owntype  | trans}} {{"IN" | trans}} {{ownership.ownAddressProvince}}: {{ownership.ownname}} ({{ ownership.mycpcode }}).
     {%if rooms is defined and rooms | length%}
     {{rooms | length}} {%if rooms | length == 1%} {{"ROOM_SINGULAR" | trans}} {%else%} {{"ROOM_PLURAL" | trans}} {%endif%}.
     {%endif%}

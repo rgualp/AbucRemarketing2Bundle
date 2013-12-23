@@ -1317,6 +1317,7 @@ class ownershipRepository extends EntityRepository {
                         mun.mun_id as ownaddressmunicipality_id,
                         o.own_comments_total as comments_total,
                         o.own_rating as rating,
+                        o.own_mcp_code as mycpcode,
                         o.own_category as category,
                         o.own_minimum_price as ownminimumprice,
                         o.own_geolocate_x as OwnGeolocateX,
