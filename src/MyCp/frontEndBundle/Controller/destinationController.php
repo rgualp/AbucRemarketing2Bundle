@@ -117,6 +117,9 @@ class destinationController extends Controller {
             $session->set('destination_details_show_rows', $show_rows);
         else if ($session->get("destination_details_show_rows") == null)
             $session->set('destination_details_show_rows', 3);
+        
+        $view = $session->get('search_view_results_destination');
+        //var_dump("aaaa".$view);
 
         $location = $em->getRepository('mycpBundle:destinationLocation')->findOneBy(array('des_loc_destination' => $destination_id));
 
@@ -127,13 +130,17 @@ class destinationController extends Controller {
         $location_province_id = ($location_province != null) ? $location_province->getProvId() : null;
             
         $paginator = $this->get('ideup.simple_paginator');
-        $items_per_page = $session->get("destination_details_show_rows");
+        //$items_per_page = $session->get("destination_details_show_rows");
+        $items_per_page = ($view != null) ? ($view != 'PHOTOS' ? 5 : 6) : 5;
         $paginator->setItemsPerPage($items_per_page);
         $owns_nearby = $paginator->paginate($em->getRepository('mycpBundle:destination')->ownsership_nearby_destination($location_municipality_id, $location_province_id, null,null, $users_id['user_id'], $users_id['session_id']))->getResult();
                
         $response = $this->renderView('frontEndBundle:destination:detailsOwnsNearByDestination.html.twig', array(
             'owns_nearby' => $owns_nearby,
-            'destination_name' => $destination_name
+            'destination_name' => $destination_name,
+            'data_view' => (($view == null) ? 'LIST' : $view),
+            'items_per_page' => $items_per_page,
+            'total_items' => $paginator->getTotalItems()
         ));
 
         return new Response($response, 200);
@@ -165,6 +172,44 @@ class destinationController extends Controller {
             'items_per_page' => $items_per_page,
             'total_items' => $paginator->getTotalItems(),
             'current_page' => $page
+        ));
+
+        return new Response($response, 200);
+    }
+    
+    public function search_change_view_resultsAction($destination_name,$destination_id) {
+        $request = $this->getRequest();
+        $session = $request->getSession();
+        $em = $this->getDoctrine()->getEntityManager();
+        $users_id = $em->getRepository('mycpBundle:user')->user_ids($this);        
+        
+        $view = $request->request->get('view');
+        $session->set('search_view_results_destination', $view);
+        
+        if ($session->get("destination_details_show_rows") == null)
+            $session->set('destination_details_show_rows', 3);
+
+        $location = $em->getRepository('mycpBundle:destinationLocation')->findOneBy(array('des_loc_destination' => $destination_id));
+
+        $location_municipality = $location->getDesLocMunicipality();
+        $location_province = $location->getDesLocProvince();
+
+        $location_municipality_id = ($location_municipality != null) ? $location_municipality->getMunId() : null;
+        $location_province_id = ($location_province != null) ? $location_province->getProvId() : null;
+            
+        $paginator = $this->get('ideup.simple_paginator');
+        //$items_per_page = $session->get("destination_details_show_rows");
+        $items_per_page = ($view != null) ? ($view != 'PHOTOS' ? 5 : 6) : 5;
+        $paginator->setItemsPerPage($items_per_page);
+        $owns_nearby = $paginator->paginate($em->getRepository('mycpBundle:destination')->ownsership_nearby_destination($location_municipality_id, $location_province_id, null,null, $users_id['user_id'], $users_id['session_id']))->getResult();
+               
+
+        $response = $this->renderView('frontEndBundle:destination:detailsOwnsNearByDestination.html.twig', array(
+            'owns_nearby' => $owns_nearby,
+            'destination_name' => $destination_name,
+            'data_view' => $view,
+            'total_items' => $paginator->getTotalItems(),
+            'items_per_page' => $items_per_page
         ));
 
         return new Response($response, 200);

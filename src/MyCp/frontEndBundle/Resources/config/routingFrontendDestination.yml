@@ -21,3 +21,7 @@ frontend_filter_destination:
 frontend_nearby_destination:
     pattern:  /owns_nearby/{destination_name}/{destination_id}
     defaults: { _controller: frontEndBundle:destination:owns_nearby_callback }
+    
+frontend_change_view_destination:
+    pattern:  /change_results_view/{destination_name}/{destination_id}
+    defaults: { _controller: frontEndBundle:destination:search_change_view_results }

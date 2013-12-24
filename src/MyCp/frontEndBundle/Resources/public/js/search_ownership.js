@@ -130,14 +130,22 @@ function _changeViewTo(url, viewType, event) {
         'view': viewType
     }, function(data) {
         result.html(data);
-        $('#map').css('visibility', 'hidden');
-        $('#map').css('display', 'none');
+
+        if (viewType === "MAP")
+        {
+            $('#map').css('visibility', 'hidden');
+            $('#map').css('display', 'none');
+            initialize_map();
+        }
+        else
+        {
+            $('#map').css('visibility', 'visible');
+            $('#map').css('display', 'block');
+        }
 
         manage_favorities(".favorite_off_action");
         manage_favorities(".favorite_on_action");
-
-        if (viewType === 'MAP')
-            initialize_map();
+            
         hide_loading();
     });
 

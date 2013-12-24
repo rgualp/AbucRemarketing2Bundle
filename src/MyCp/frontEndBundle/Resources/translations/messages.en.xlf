@@ -2403,6 +2403,14 @@
                 <source>ALL_CATGORIES_OWNS</source>
                 <target>All categories</target>
             </trans-unit>
+            <trans-unit id="610">
+                <source>LANG_TAB_DESCRIPTION</source>
+                <target>Languages</target>
+            </trans-unit>
+            <trans-unit id="611">
+                    <source>LANG_SPANISH</source>
+                    <target>Spanish</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>
