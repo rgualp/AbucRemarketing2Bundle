@@ -7,7 +7,7 @@
     jQuery(document).ready(function($) {
         $('#full-width-slider').royalSlider({
             arrowsNav: true,
-            loop: false,
+            loop: true,
             keyboardNavEnabled: true,
             imageScaleMode: 'fill',
             arrowsNavAutoHide: false,
@@ -18,7 +18,7 @@
             thumbsFitInViewport: false,
             navigateByClick: true,
             startSlideId: 0,
-            autoPlay: false,
+            autoPlay: true,
             transitionType:'move',
             globalCaption: false,
             deeplinking: {
@@ -35,10 +35,10 @@
 {% block big_banner %}
 <div id="full-width-slider" class="royalSlider rsDefault">
     <img class="rsImg" src="{{ asset('bundles/frontend/img/slideshow/'~slide_folder~'/1.jpg') }}" alt="" />
-    <img class="rsImg" src="{{ asset('bundles/frontend/img/slideshow/'~slide_folder~'/2.jpg') }}" alt="" />
+    <!--<img class="rsImg" src="{{ asset('bundles/frontend/img/slideshow/'~slide_folder~'/2.jpg') }}" alt="" />
     <img class="rsImg" src="{{ asset('bundles/frontend/img/slideshow/'~slide_folder~'/3.jpg') }}" alt="" />
     <img class="rsImg" src="{{ asset('bundles/frontend/img/slideshow/'~slide_folder~'/4.jpg') }}" alt="" />
-    <img class="rsImg" src="{{ asset('bundles/frontend/img/slideshow/'~slide_folder~'/5.jpg') }}" alt="" />
+    <img class="rsImg" src="{{ asset('bundles/frontend/img/slideshow/'~slide_folder~'/5.jpg') }}" alt="" />-->
 </div>
 <div id="banner-msg-cont">
 <div id="banner-msg">
@@ -66,7 +66,10 @@
     
 <div id="top_rated_placeholder" data-url="{{path('frontend_top_rated_callback_ownership')}}"
      data-url-change-category="{{path('frontend_top_rated_change_category_callback_ownership')}}">
-    {{ include('frontEndBundle:ownership:homeTopRatedOwnership.html.twig', {'own_top20_list':own_top20_list}) }}
+    {{ include('frontEndBundle:ownership:homeTopRatedOwnership.html.twig', {'own_top20_list':own_top20_list,
+                                                                            'premium_total': premium_total,
+                                                                            'midrange_total': midrange_total,
+                                                                            'economic_total': economic_total}) }}
 </div>
 
 {% render 'frontEndBundle:public:home_carrousel' %}

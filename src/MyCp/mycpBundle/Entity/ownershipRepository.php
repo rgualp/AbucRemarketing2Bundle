@@ -797,7 +797,9 @@ class ownershipRepository extends EntityRepository {
                            AND o.own_status = 1";
 
         if ($category != null)
-            $query_string .= " AND o.own_category = '$category'";
+        {
+            $query_string .= " AND LOWER(o.own_category) = '$category'";
+        }
 
         $query_string .= " ORDER BY o.own_rating DESC";
 
@@ -812,6 +814,17 @@ class ownershipRepository extends EntityRepository {
         }
         return $results;
     }
+    
+    public function top20_statistics()
+    {
+        $em = $this->getEntityManager();
+        $query = "SELECT count(own.own_id) as premium_total,
+                  (SELECT count(own1.own_id) FROM mycpBundle:ownership own1 WHERE own1.own_top_20 = 1 AND own1.own_status = 1 AND LOWER(own1.own_category) = 'rango medio') as midrange_total,
+                  (SELECT count(own2.own_id) FROM mycpBundle:ownership own2 WHERE own2.own_top_20 = 1 AND own2.own_status = 1 AND own2.own_category = 'Económica') as economic_total
+                  FROM mycpBundle:ownership own WHERE own.own_top_20 = 1 AND own.own_status = 1 AND own.own_category = 'Premium'";
+       return $em->createQuery($query)->getOneOrNullResult();
+    }
+    
 
     /**
      * Devuelve un arreglo que contiene todas las categorias de casas posibles
@@ -1317,6 +1330,7 @@ class ownershipRepository extends EntityRepository {
                         mun.mun_id as ownaddressmunicipality_id,
                         o.own_comments_total as comments_total,
                         o.own_rating as rating,
+                        o.own_mcp_code as mycpcode,
                         o.own_category as category,
                         o.own_minimum_price as ownminimumprice,
                         o.own_geolocate_x as OwnGeolocateX,
@@ -1342,7 +1356,11 @@ class ownershipRepository extends EntityRepository {
                         (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = 5) as count_reservations,
                         (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments,
                         (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = '$locale') as brief_description,
-                        (SELECT min(dd.odl_description) FROM mycpBundle:ownershipDescriptionLang dd JOIN dd.odl_id_lang dl WHERE dd.odl_ownership = o.own_id AND dl.lang_code = '$locale') as description
+                        (SELECT min(dd.odl_description) FROM mycpBundle:ownershipDescriptionLang dd JOIN dd.odl_id_lang dl WHERE dd.odl_ownership = o.own_id AND dl.lang_code = '$locale') as description,
+                        (SELECT count(o1.own_id) from mycpBundle:ownership o1 where o1.own_id = o.own_id AND o1.own_langs LIKE '1___') as english,    
+                        (SELECT count(o2.own_id) from mycpBundle:ownership o2 where o2.own_id = o.own_id AND o2.own_langs LIKE '_1__') as french,    
+                        (SELECT count(o3.own_id) from mycpBundle:ownership o3 where o3.own_id = o.own_id AND o3.own_langs LIKE '__1_') as german,    
+                        (SELECT count(o4.own_id) from mycpBundle:ownership o4 where o4.own_id = o.own_id AND o4.own_langs LIKE '___1') as italian    
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
                          JOIN o.own_address_municipality mun

@@ -1,11 +1,30 @@
 {%if owns_nearby | length%}
 <div class="row-fluid result_list ownerships_list" id="div_result">
+    {%if data_view is not defined or data_view == 'LIST'%}
     {{ include('frontEndBundle:ownership:ownershipArrayItemList.html.twig',
          {'list': owns_nearby,
           'list_preffix' : 'own_nearby',
-          'is_in_favorites_list': false
+          'is_in_favorites_list': false,
+          'total_items': total_items
           }) 
-    }}      
+    }}
+    {%else%}
+        {%if data_view == 'PHOTOS'%}
+            {{ include('frontEndBundle:ownership:searchMosaicOwnership.html.twig', 
+                                {'list': owns_nearby,
+                                 'list_preffix': 'mosaic',
+                                 'total_items': total_items,
+                                 'show_paginator' : false
+                             }) }}
+        {%else%}
+            {{ include('frontEndBundle:ownership:searchMapOwnership.html.twig', 
+                                {'list': owns_nearby,
+                                 'list_preffix': 'map',
+                                 'total_items': total_items,
+                                 'show_paginator' : false
+                              }) }}
+        {%endif%}
+    {%endif%}
 </div>
 {%if total_items > items_per_page%}
         <div class="text-center">

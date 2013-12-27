@@ -166,6 +166,8 @@ class ownershipController extends Controller {
             $own_name=str_replace("í", "i", $own_name);
             $own_name=str_replace("ó", "o", $own_name);
             $own_name=str_replace("ú", "u", $own_name);
+            $own_name=str_replace("ü", "u", $own_name);
+            $own_name=str_replace("ñ", "nn", $own_name);
             $own_name=strtolower($own_name);
             return $this->redirect($this->generateUrl('frontend_details_ownership', array('own_name' => $own_name)));
         }
@@ -180,11 +182,31 @@ class ownershipController extends Controller {
         $locale = $this->get('translator')->getLocale();
 
         $own_name = str_replace('_', ' ', $own_name);
+        $own_name=str_replace("nn", "ñ", $own_name);
+        
         $ownership_array = $em->getRepository('mycpBundle:ownership')->get_details($own_name, $locale, $user_ids["user_id"], $user_ids["session_id"]);
         if($ownership_array == null)
         {
             throw $this->createNotFoundException();
         }
+        
+        $langs_array = array();
+        if($ownership_array['english'] == 1)
+            $langs_array[] = $this->get('translator')->trans("LANG_ENGLISH");
+        
+        if($ownership_array['french'] == 1)
+            $langs_array[] = $this->get('translator')->trans("LANG_FRENCH");
+        
+        if($ownership_array['german'] == 1)
+            $langs_array[] = $this->get('translator')->trans("LANG_GERMAN");
+        
+        if($ownership_array['italian'] == 1)
+            $langs_array[] = $this->get('translator')->trans("LANG_ITALIAN");
+        
+        $languages = $this->get('translator')->trans('LANG_SPANISH');
+        
+        foreach($langs_array as $lang)
+            $languages .= ", ".$lang;
 
         $owner_id = $ownership_array['own_id'];
         $general_reservations = $em->getRepository('mycpBundle:generalReservation')->findBy(array('gen_res_own_id' => $owner_id));
@@ -393,7 +415,8 @@ class ownershipController extends Controller {
                     'comments_current_page' => $page,
                     'can_comment' => $em->getRepository("mycpBundle:comment")->can_comment($user_ids["user_id"], $owner_id),
                     'locale' => $locale,
-                    'real_category' => $real_category
+                    'real_category' => $real_category,
+                    'languages' => $languages
         ));
     }
 
@@ -1194,6 +1217,11 @@ class ownershipController extends Controller {
         else if ($session->get("top_rated_show_rows") == null)
             $session->set('top_rated_show_rows', 2);
 
+        if($session->get("top_rated_category") == null)
+            $session->set("top_rated_category", "todos");
+        
+        $statistics = $em->getRepository("mycpBundle:ownership")->top20_statistics();
+        
         $category = $session->get("top_rated_category");
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 4 * $session->get("top_rated_show_rows");
@@ -1203,12 +1231,15 @@ class ownershipController extends Controller {
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
-
+        
         $response = $this->renderView('frontEndBundle:ownership:homeTopRatedOwnership.html.twig', array(
             'own_top20_list' => $own_top20_list,
             'top_rated_items_per_page' => $items_per_page,
             'top_rated_total_items' => $paginator->getTotalItems(),
-            'current_page' => $page
+            'current_page' => $page,
+            'premium_total' => $statistics['premium_total'],
+            'midrange_total' => $statistics['midrange_total'],
+            'economic_total' => $statistics['economic_total']
         ));
 
         return new Response($response, 200);
@@ -1224,11 +1255,12 @@ class ownershipController extends Controller {
         if ($category != null && $category != "")
             $session->set('top_rated_category', $category);
         else
-            $session->set('top_rated_category', '');
+            $session->set('top_rated_category', 'todos');
         
         if($session->get("top_rated_show_rows") == null)
             $session->set("top_rated_show_rows", 2);
-
+        
+        $statistics = $em->getRepository("mycpBundle:ownership")->top20_statistics();
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 4 * $session->get("top_rated_show_rows");
         $paginator->setItemsPerPage($items_per_page);
@@ -1238,12 +1270,15 @@ class ownershipController extends Controller {
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
-
+        
         $response = $this->renderView('frontEndBundle:ownership:homeTopRatedOwnership.html.twig', array(
             'own_top20_list' => $own_top20_list,
             'top_rated_items_per_page' => $items_per_page,
             'top_rated_total_items' => $paginator->getTotalItems(),
-            'current_page' => $page
+            'current_page' => $page,
+            'premium_total' => $statistics['premium_total'],
+            'midrange_total' => $statistics['midrange_total'],
+            'economic_total' => $statistics['economic_total']
         ));
 
         return new Response($response, 200);

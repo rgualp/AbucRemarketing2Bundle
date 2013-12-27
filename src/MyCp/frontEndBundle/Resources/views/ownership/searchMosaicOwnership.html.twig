@@ -116,7 +116,7 @@
          <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
      {%endfor%}
      </div>
-     {%if list | length and total_items > items_per_page%}
+     {%if (show_paginator is defined and show_paginator) and list | length and total_items > items_per_page%}
         <div class="text-center">
         {{ simple_paginator_render('frontend_search_ownership',null,{
         'container_class': 'pagination',

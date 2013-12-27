@@ -57,7 +57,12 @@ $(document).ready(function(){
             {
                 draw_poly(array_signals[u],'#22519D',0,'',0);
                 draw_poly(array_circles[u],'#fff',0,'',0);
+                if(destinations_icons[u]!='null')
+                    draw_image(signal_pos[u][0]-6,signal_pos[u][1]+35,dir+destinations_icons[u]);
                 array_signals_show.push(u);
+                coord_x= signal_pos[u][0] * $('#canvas-dest-prov').attr('width') / 446 ;
+                coord_y= signal_pos[u][1] * $('#canvas-dest-prov').attr('height') /358;
+
             }
         }
     });
@@ -120,6 +125,16 @@ $(document).ready(function(){
 
     }
 
+
+    function draw_image(pos_x,pos_y, dir_icon)
+    {
+        imageObj = new Image();
+        imageObj.src = dir_icon;
+        ctx.shadowOffsetY = 0;
+        ctx.shadowBlur = 0;
+        ctx.drawImage(imageObj, pos_x, pos_y);
+    }
+
     function draw_poly(poly_points,color, stroke_width, stroke_color,shadow)
     {
         ctx.fillStyle = color;
@@ -160,6 +175,10 @@ $(document).ready(function(){
 
         focused=null;
         for(cont=0;cont<array_signals_show.length; cont++){
+
+            if(destinations_icons[array_signals_show[cont]]!='null')
+                draw_image(signal_pos[array_signals_show[cont]][0]-6,signal_pos[array_signals_show[cont]][1]+35,dir+destinations_icons[array_signals_show[cont]]);
+
             focus_color='#3F3F3F';
             if(is_in_poly(get_prop_poly(array_signals[array_signals_show[cont]]),point))
             {
@@ -170,6 +189,7 @@ $(document).ready(function(){
                 sig_tooltip.html(destinations_names[array_signals_show[cont]]);
                 sig_tooltip.css('left',event.pageX - 30);
                 sig_tooltip.css('top',event.pageY - 35);
+
             }
             else
             {
@@ -180,8 +200,8 @@ $(document).ready(function(){
                         temp=get_prop_poly(array_signals[array_signals_show[d]]);
                         draw_poly(temp,'#22519D',0,'',0);
 
-                       temp2=get_prop_signal_circle(signal_pos[array_signals_show[d]]);
-                       draw_poly(temp2,'#fff',0,'',0);
+                        temp2=get_prop_signal_circle(signal_pos[array_signals_show[d]]);
+                        draw_poly(temp2,'#fff',0,'',0);
 
                     }
                 }
