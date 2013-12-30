@@ -19,4 +19,19 @@ class userCasaRepository extends EntityRepository
         GROUP BY uc.user_casa_user");
         return $query->getResult();
     }
+    
+    function get_owners_photos($ownership_id)
+    {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT u.user_user_name as name,
+                  u.user_last_name as last_name,
+                  pho.pho_name as photo
+                  FROM mycpBundle:userCasa uc
+                  JOIN uc.user_casa_user u
+                  JOIN u.user_photo pho
+                  WHERE uc.user_casa_ownership = $ownership_id";
+        
+        $query = $em->createQuery($query_string);
+        return $query->getResult();
+    }
 }

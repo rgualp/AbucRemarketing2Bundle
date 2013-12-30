@@ -423,6 +423,11 @@
             </div>
         </div>
         <div class="col-sm-4">
+            {%render "frontEndBundle:ownership:owners_photos" with {'ownership_id': ownership.own_id }%}
+            <div class="row">
+                {{own.owner1}} <br/>
+                {{own.owner2}}
+            </div>
             <ul class="span4 price">
                 <li>
                      {%if ownership.category == "Premium"%}
