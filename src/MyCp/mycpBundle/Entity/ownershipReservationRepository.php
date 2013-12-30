@@ -2,8 +2,9 @@
 
 namespace MyCp\mycpBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\EntityRepository;
-use MyCp\mycpBundle\Entity\ownership;
+use MyCp\mycpBundle\Helpers\SyncStatuses;
 
 /**
  * ownershipReservationRepository
@@ -81,8 +82,8 @@ class ownershipReservationRepository extends EntityRepository {
         $array_date_to = explode('/', $data['reservation_to_date']);
         $date_from = $array_date_from[2] . '-' . $array_date_from[1] . '-' . $array_date_from[0];
         $date_to = $array_date_to[2] . '-' . $array_date_to[1] . '-' . $array_date_to[0];
-        $reservation->setOwnResReservationFromDate(new \DateTime($date_from));
-        $reservation->setOwnResReservationToDate(new \DateTime($date_to));
+        $reservation->setOwnResReservationFromDate(new DateTime($date_from));
+        $reservation->setOwnResReservationToDate(new DateTime($date_to));
         $reservation->setOwnResNightPrice($data['night_price']);
         $reservation->setOwnResCommissionPercent($data['commission_percent']);
         $em->persist($reservation);
@@ -110,17 +111,16 @@ class ownershipReservationRepository extends EntityRepository {
         $array_date_to = explode('/', $data['reservation_to_date']);
         $date_to = $array_date_to[2] . '-' . $array_date_to[1] . '-' . $array_date_to[0];
 
-        $reservation->setOwnResReservationDate(new \DateTime(date('Y-m-d')));
-        $reservation->setOwnResReservationFromDate(new \DateTime($date_from));
-        $reservation->setOwnResReservationToDate(new \DateTime($date_to));
+        $reservation->setOwnResReservationDate(new DateTime(date('Y-m-d')));
+        $reservation->setOwnResReservationFromDate(new DateTime($date_from));
+        $reservation->setOwnResReservationToDate(new DateTime($date_to));
         $reservation->setOwnResReservationStatus(0);
-        $reservation->setOwnResReservationStatusDate(new \DateTime(date('Y-m-d')));
+        $reservation->setOwnResReservationStatusDate(new DateTime(date('Y-m-d')));
         $em->persist($reservation);
         $em->flush();
     }
 
-    function get_reservation_available_by_user($id_reservation ,$id_user)
-    {
+    function get_reservation_available_by_user($id_reservation, $id_user) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT owre,genres,own,mun FROM mycpBundle:ownershipReservation owre
         JOIN owre.own_res_gen_res_id genres JOIN owre.own_res_own_id own JOIN own.own_address_municipality mun
@@ -128,8 +128,7 @@ class ownershipReservationRepository extends EntityRepository {
         return $query->getArrayResult();
     }
 
-    function find_by_user_and_status($id_user, $status_string, $string_sql)
-    {
+    function find_by_user_and_status($id_user, $status_string, $string_sql) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT us,ownre,
         ow,mun,prov,gre,booking FROM mycpBundle:ownershipReservation ownre JOIN ownre.own_res_gen_res_id gre
@@ -142,15 +141,14 @@ class ownershipReservationRepository extends EntityRepository {
         return $query->getArrayResult();
     }
 
-    function find_count_for_menu($id_user)
-    {
+    function find_count_for_menu($id_user) {
         $date = \date('Y-m-j');
-        $new_date = strtotime ( '-30 day' , strtotime ( $date ) ) ;
-        $new_date = \date ( 'Y-m-j' , $new_date );
+        $new_date = strtotime('-30 day', strtotime($date));
+        $new_date = \date('Y-m-j', $new_date);
 
         $date_days = \date('Y-m-j');
-        $date_days = strtotime ( '-60 hours' , strtotime ( $date_days ) ) ;
-        $date_days = \date ( 'Y-m-j' , $date_days );
+        $date_days = strtotime('-60 hours', strtotime($date_days));
+        $date_days = \date('Y-m-j', $date_days);
 
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT count(ore_pend) as pending,
@@ -165,12 +163,11 @@ class ownershipReservationRepository extends EntityRepository {
         FROM mycpBundle:ownershipReservation ore_pend JOIN ore_pend.own_res_gen_res_id gre_pend WHERE gre_pend.gen_res_user_id = $id_user AND ore_pend.own_res_status=0 AND gre_pend.gen_res_date > '$new_date'");
         return $query->getArrayResult();
     }
-    
-    function get_for_main_menu($id_user)
-    {
+
+    function get_for_main_menu($id_user) {
         $date_days = \date('Y-m-j');
-        $date_days = strtotime ( '-60 hours' , strtotime ( $date_days ) ) ;
-        $date_days = \date ( 'Y-m-j' , $date_days );
+        $date_days = strtotime('-60 hours', strtotime($date_days));
+        $date_days = \date('Y-m-j', $date_days);
 
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT count(ore_avail) as available
@@ -182,13 +179,18 @@ class ownershipReservationRepository extends EntityRepository {
         return $query->getScalarResult();
     }
 
-    function find_by_user_and_status_object($id_user,$status)
-    {
+    function find_by_user_and_status_object($id_user, $status) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT ownre FROM mycpBundle:ownershipReservation ownre JOIN ownre.own_res_gen_res_id genres
         WHERE genres.gen_res_user_id=$id_user AND ownre.own_res_status='$status'");
         return $query->getResult();
     }
 
+    function getNotSyncs() {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT ownre FROM mycpBundle:ownershipReservation ownre JOIN ownre.own_res_gen_res_id genres
+            WHERE ownre.own_res_sync_st <> " . SyncStatuses::SYNC);
+        return $query->getResult();
+    }
 
 }

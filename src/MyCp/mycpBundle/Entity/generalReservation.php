@@ -5,6 +5,7 @@ namespace MyCp\mycpBundle\Entity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\OneToMany;
+use MyCp\mycpBundle\Helpers\SyncStatuses;
 
 /**
  * generalreservation
@@ -106,16 +107,16 @@ class generalReservation {
     /**
      * @var boolean
      *
-     * @ORM\Column(name="own_sync", type="boolean")
+     * @ORM\Column(name="gen_res_sync_st", type="integer")
      */
-    private $own_sync;
+    private $gen_res_sync_st;
 
     
     /**
      * Constructor
      */
     public function __construct() {
-        $this->own_sync = false;
+        $this->gen_res_sync_st = SyncStatuses::ADDED;
     }
     
     /**
@@ -366,12 +367,12 @@ class generalReservation {
         $this->own_reservations = $own_reservations;
     }
 
-    public function getOwnSync() {
-        return $this->own_sync;
+    public function getGenResSyncSt() {
+        return $this->gen_res_sync_st;
     }
     
-    public function setOwnSync($sync) {
-        $this->own_sync = $sync;
+    public function setGenResSyncSt($sync) {
+        $this->gen_res_sync_st = $sync;
     }
 
     // <editor-fold defaultstate="collapsed" desc="Logic Methods">
@@ -394,39 +395,7 @@ class generalReservation {
         }
         return $kids_count;
     }
-
-// </editor-fold>
-
-    /**
-     * Add own_reservations
-     *
-     * @param \MyCp\mycpBundle\Entity\ownershipReservation $ownReservations
-     * @return generalReservation
-     */
-    public function addOwnReservation(\MyCp\mycpBundle\Entity\ownershipReservation $ownReservations)
-    {
-        $this->own_reservations[] = $ownReservations;
     
-        return $this;
-    }
-
-    /**
-     * Remove own_reservations
-     *
-     * @param \MyCp\mycpBundle\Entity\ownershipReservation $ownReservations
-     */
-    public function removeOwnReservation(\MyCp\mycpBundle\Entity\ownershipReservation $ownReservations)
-    {
-        $this->own_reservations->removeElement($ownReservations);
-    }
-
-    /**
-     * Get own_reservations
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getOwnReservations()
-    {
-        return $this->own_reservations;
-    }
+// </editor-fold>
 }
+

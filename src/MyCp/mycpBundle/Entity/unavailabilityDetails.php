@@ -169,27 +169,4 @@ class unavailabilityDetails {
         $this->room = $room;
     }
     
-
-    /**
-     * Set ud_sync_st
-     *
-     * @param integer $udSyncSt
-     * @return unavailabilityDetails
-     */
-    public function setUdSyncSt($udSyncSt)
-    {
-        $this->ud_sync_st = $udSyncSt;
-    
-        return $this;
-    }
-
-    /**
-     * Get ud_sync_st
-     *
-     * @return integer 
-     */
-    public function getUdSyncSt()
-    {
-        return $this->ud_sync_st;
-    }
 }

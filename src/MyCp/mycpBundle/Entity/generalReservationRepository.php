@@ -3,6 +3,7 @@
 namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use MyCp\mycpBundle\Helpers\SyncStatuses;
 
 /**
  * ownershipReservationRepository
@@ -109,24 +110,23 @@ class generalReservationRepository extends EntityRepository {
         return $query->getResult();
     }
 
-    function getValidBetweenDates($init_date, $end_date) {
+    function getNotSyncs() {
         $em = $this->getEntityManager();
-        $query = $em->createQuery("SELECT gre, gre_own_res, grec FROM mycpBundle:generalReservation gre
-            JOIN gre.own_reservations gre_own_res
-            JOIN gre.gen_res_user_id grec
-            WHERE gre.own_sync = 0 AND gre.gen_res_date BETWEEN '$init_date' AND '$end_date'");
+        $query = $em->createQuery("SELECT gre FROM mycpBundle:generalReservation gre
+            WHERE gre.gen_res_sync_st <> " . SyncStatuses::SYNC);
         return $query->getResult();
     }
-    
-    function setSyncBetweenDates($init_date, $end_date){
-         $getValidReservations = $this->getValidBetweenDates($init_date, $end_date);
-         
-         $em = $this->getEntityManager();
-         foreach($getValidReservations as $_res){
-            $_res->setOwnSync(true);
-            $em->persist($_res);     
-         }
-         $em->flush();
+
+    public function getResponseLanguaje($reservation) {
+        $em = $this->getEntityManager();
+        $userTourist = $em->getRepository("mycpBundle:userTourist")->findOneBy(array('user_tourist_user' => $reservation->getGenResUserId()));
+        return $userTourist != null ? $userTourist->getUserTouristLanguage()->getLangName() : "English";
+    }
+
+    public function getResponseCurrency($reservation) {
+        $em = $this->getEntityManager();
+        $userTourist = $em->getRepository("mycpBundle:userTourist")->findOneBy(array('user_tourist_user' => $reservation->getGenResUserId()));
+        return $userTourist != null ? $userTourist->getUserTouristCurrency()->getCurrName() : "EUR";
     }
 
 }
