@@ -49,7 +49,8 @@ class destinationController extends Controller {
     }
 
     public function detailsAction($destination_name) {
-
+        $request = $this->getRequest();
+        $session = $request->getSession();
         $em = $this->getDoctrine()->getEntityManager();
         $users_id = $em->getRepository('mycpBundle:user')->user_ids($this);
         $locale = $this->get('translator')->getLocale();
@@ -71,14 +72,15 @@ class destinationController extends Controller {
         $other_destinations_in_municipality = $em->getRepository('mycpBundle:destination')->destination_filter($location_municipality_id, $location_province_id, $destination->getDesId(), null, 5);
         $other_destinations_in_province = $em->getRepository('mycpBundle:destination')->destination_filter(null, $location_province_id, $destination->getDesId(), null, 5);
         
+        $view = $session->get('search_view_results_destination');
         $paginator = $this->get('ideup.simple_paginator');
-        $items_per_page = 5;
+        $items_per_page = ($view != null) ? ($view != 'PHOTOS' ? 5 : 9) : 5;;
         $paginator->setItemsPerPage($items_per_page);
         $list = $em->getRepository('mycpBundle:destination')->ownsership_nearby_destination($location_municipality_id, $location_province_id, null,null, $users_id['user_id'], $users_id['session_id']);
         $owns_nearby = $paginator->paginate($list)->getResult();
                         
         $em->getRepository('mycpBundle:userHistory')->insert(false, $destination->getDesId(), $users_id);
-
+        
         return $this->render('frontEndBundle:destination:destinationDetails.html.twig', array(
                     'destination' => $destination_array[0],
                     'is_in_favorite' => $em->getRepository('mycpBundle:favorite')->is_in_favorite($destination->getDesId(), false, $users_id["user_id"], $users_id["session_id"]),
@@ -102,7 +104,8 @@ class destinationController extends Controller {
                     'owns_nearby' => $owns_nearby,
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
-                    'destination_name' => $original_destination_name
+                    'destination_name' => $original_destination_name,
+                    'data_view' => (($view == null) ? 'LIST' : $view)
         ));
     }
 
@@ -117,6 +120,9 @@ class destinationController extends Controller {
             $session->set('destination_details_show_rows', $show_rows);
         else if ($session->get("destination_details_show_rows") == null)
             $session->set('destination_details_show_rows', 3);
+        
+        $view = $session->get('search_view_results_destination');
+        //var_dump("aaaa".$view);
 
         $location = $em->getRepository('mycpBundle:destinationLocation')->findOneBy(array('des_loc_destination' => $destination_id));
 
@@ -127,13 +133,17 @@ class destinationController extends Controller {
         $location_province_id = ($location_province != null) ? $location_province->getProvId() : null;
             
         $paginator = $this->get('ideup.simple_paginator');
-        $items_per_page = $session->get("destination_details_show_rows");
+        //$items_per_page = $session->get("destination_details_show_rows");
+        $items_per_page = ($view != null) ? ($view != 'PHOTOS' ? 5 : 9) : 5;
         $paginator->setItemsPerPage($items_per_page);
         $owns_nearby = $paginator->paginate($em->getRepository('mycpBundle:destination')->ownsership_nearby_destination($location_municipality_id, $location_province_id, null,null, $users_id['user_id'], $users_id['session_id']))->getResult();
                
         $response = $this->renderView('frontEndBundle:destination:detailsOwnsNearByDestination.html.twig', array(
             'owns_nearby' => $owns_nearby,
-            'destination_name' => $destination_name
+            'destination_name' => $destination_name,
+            'data_view' => (($view == null) ? 'LIST' : $view),
+            'items_per_page' => $items_per_page,
+            'total_items' => $paginator->getTotalItems()
         ));
 
         return new Response($response, 200);
@@ -165,6 +175,44 @@ class destinationController extends Controller {
             'items_per_page' => $items_per_page,
             'total_items' => $paginator->getTotalItems(),
             'current_page' => $page
+        ));
+
+        return new Response($response, 200);
+    }
+    
+    public function search_change_view_resultsAction($destination_name,$destination_id) {
+        $request = $this->getRequest();
+        $session = $request->getSession();
+        $em = $this->getDoctrine()->getEntityManager();
+        $users_id = $em->getRepository('mycpBundle:user')->user_ids($this);        
+        
+        $view = $request->request->get('view');
+        $session->set('search_view_results_destination', $view);
+        
+        if ($session->get("destination_details_show_rows") == null)
+            $session->set('destination_details_show_rows', 3);
+
+        $location = $em->getRepository('mycpBundle:destinationLocation')->findOneBy(array('des_loc_destination' => $destination_id));
+
+        $location_municipality = $location->getDesLocMunicipality();
+        $location_province = $location->getDesLocProvince();
+
+        $location_municipality_id = ($location_municipality != null) ? $location_municipality->getMunId() : null;
+        $location_province_id = ($location_province != null) ? $location_province->getProvId() : null;
+            
+        $paginator = $this->get('ideup.simple_paginator');
+        //$items_per_page = $session->get("destination_details_show_rows");
+        $items_per_page = ($view != null) ? ($view != 'PHOTOS' ? 5 : 6) : 5;
+        $paginator->setItemsPerPage($items_per_page);
+        $owns_nearby = $paginator->paginate($em->getRepository('mycpBundle:destination')->ownsership_nearby_destination($location_municipality_id, $location_province_id, null,null, $users_id['user_id'], $users_id['session_id']))->getResult();
+               
+
+        $response = $this->renderView('frontEndBundle:destination:detailsOwnsNearByDestination.html.twig', array(
+            'owns_nearby' => $owns_nearby,
+            'destination_name' => $destination_name,
+            'data_view' => $view,
+            'total_items' => $paginator->getTotalItems(),
+            'items_per_page' => $items_per_page
         ));
 
         return new Response($response, 200);

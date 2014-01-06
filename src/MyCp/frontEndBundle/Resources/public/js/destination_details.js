@@ -2,6 +2,9 @@ $(document).ready(start);
 
 function start(){
     initialize_map();
+    $('#change_view_to_list').click(change_view_to_list);
+    $('#change_view_to_photo').click(change_view_to_photo);
+    $('#change_view_to_map').click(change_view_to_map);
 
     $('.details_items_per_page').click(function()
     {
@@ -15,6 +18,40 @@ function start(){
     
     $('.top_rated_tools .paginator-cont a').click(do_paginate);
 }
+
+function change_view_to_list(event)
+{
+    _changeViewTo($('#change_view_to_list').attr('data-url'), 'LIST', event);
+}
+
+function change_view_to_photo(event)
+{
+    _changeViewTo($('#change_view_to_photo').attr('data-url'), 'PHOTOS', event);
+}
+
+function change_view_to_map(event)
+{
+    _changeViewTo($('#change_view_to_map').attr('data-url'), 'MAP', event);
+}
+
+function _changeViewTo(url, viewType, event) {
+    show_loading();
+    var result = $('#near_houses_container');
+
+    $.post(url, {
+        'view': viewType
+    }, function(data) {
+        result.html(data);
+        manage_favorities(".favorite_off_action");
+        manage_favorities(".favorite_on_action");
+
+        if (viewType === 'MAP')
+            initialize_map();
+        hide_loading();
+    });
+    return false;
+}
+
 
 
 function initialize_map()

@@ -2399,6 +2399,18 @@
                     <source>ALL_CATGORIES_OWNS</source>
                     <target>Todas las categorías</target>
                 </trans-unit>
+                <trans-unit id="610">
+                    <source>LANG_TAB_DESCRIPTION</source>
+                    <target>Lenguajes</target>
+                </trans-unit>
+                <trans-unit id="611">
+                    <source>LANG_SPANISH</source>
+                    <target>Español</target>
+                </trans-unit>
+                <trans-unit id="612">
+                    <source>OWNERS</source>
+                    <target>Propietario(s)</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>

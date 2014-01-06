@@ -34,10 +34,16 @@
         </div>
         <div class="col-sm-3 text-right">
             <ul class="pagination top_rated_category">
-                <li class="top20_category {%if app.session.get('top_rated_category') == "" or app.session.get('top_rated_category') | lower == 'todos'%}active{%endif%}" data-content-value="todos"><a rel="tooltip" data-placement="top" title="{{'ALL_CATGORIES_OWNS' | trans}}"><img alt="{{'ALL_CATGORIES_OWNS' | trans}}" class="icon-medium premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
-                <li class="top20_category {%if app.session.get('top_rated_category') | lower == 'premium'%}active{%endif%}" data-content-value="Premium"><a rel="tooltip" data-placement="top" title="{{'PREMIUM_OWNS' | trans}}"><img alt="{{'PREMIUM_OWNS' | trans}}" class="icon-medium premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
-                <li class="top20_category {%if app.session.get('top_rated_category') | lower == 'rango medio'%}active{%endif%}" data-content-value="Rango medio"><a rel="tooltip" data-placement="top" title="{{'MIDRANGE_OWNS' | trans}}"><img alt="{{'MIDRANGE_OWNS' | trans}}" class="icon-medium middle-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
-                <li class="top20_category {%if app.session.get('top_rated_category') | lower == 'económica'%}active{%endif%}" data-content-value="Económica"><a rel="tooltip" data-placement="top" title="{{'ECONOMICS_OWNS' | trans}}"><img alt="{{'ECONOMICS_OWNS' | trans}}" style="width: 18px; height: 25px" class="icon economic-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
+                <li class="top20_category {%if app.session.get('top_rated_category') == "" or app.session.get('top_rated_category') | lower == 'todos'%}active{%endif%}" data-content-value="todos"><a rel="tooltip" data-placement="top" title="{{'ALL_CATGORIES_OWNS' | trans}} ({{premium_total + midrange_total + economic_total}})"><img alt="{{'ALL_CATGORIES_OWNS' | trans}}" class="icon-medium premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
+                {%if premium_total != 0%}
+                    <li class="top20_category {%if app.session.get('top_rated_category') | lower == 'premium'%}active{%endif%}" data-content-value="premium"><a rel="tooltip" data-placement="top" title="{{'PREMIUM_OWNS' | trans}} ({{premium_total}})"><img alt="{{'PREMIUM_OWNS' | trans}}" class="icon-medium premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
+                {%endif%}
+                {%if midrange_total != 0%}
+                    <li class="top20_category {%if app.session.get('top_rated_category') | lower == 'rango medio'%}active{%endif%}" data-content-value="rango medio"><a rel="tooltip" data-placement="top" title="{{'MIDRANGE_OWNS' | trans}} ({{midrange_total}})"><img alt="{{'MIDRANGE_OWNS' | trans}}" class="icon-medium middle-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
+                {%endif%}
+                {%if economic_total != 0%}            
+                    <li class="top20_category {%if app.session.get('top_rated_category') | lower == 'económica'%}active{%endif%}" data-content-value="económica"><a rel="tooltip" data-placement="top" title="{{'ECONOMICS_OWNS' | trans}} ({{economic_total}})"><img alt="{{'ECONOMICS_OWNS' | trans}}" style="width: 18px; height: 25px" class="icon economic-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
+                {%endif%}
             </ul>
         </div>
     </div>

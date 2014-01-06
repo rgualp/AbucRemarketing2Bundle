@@ -27,6 +27,13 @@ class room {
     /**
      * @var string
      *
+     * @ORM\Column(name="room_num", type="integer")
+     */
+    private $room_num;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="room_type", type="string", length=255)
      */
     private $room_type;
@@ -154,7 +161,7 @@ class room {
      * @ORM\JoinColumn(name="room_ownership",referencedColumnName="own_id")
      */
     private $room_ownership;
-    
+
     /**
      * @OneToMany(targetEntity="unavailabilityDetails", mappedBy="room", fetch="EAGER")
      */
@@ -173,7 +180,15 @@ class room {
     public function getRoomId() {
         return $this->room_id;
     }
+    
+    public function getRoomNum() {
+        return $this->room_num;
+    }
 
+    public function setRoomNum($room_num) {
+        $this->room_num = $room_num;
+    }
+    
     /**
      * Set room_type
      *
@@ -563,7 +578,7 @@ class room {
     public function setSyncSt($room_sync_st) {
         $this->room_sync_st = $room_sync_st;
     }
-    
+
     public function getOwn_unavailability_details() {
         return $this->own_unavailability_details;
     }
@@ -571,11 +586,11 @@ class room {
     public function setOwn_unavailability_details($own_unavailability_details) {
         $this->own_unavailability_details = $own_unavailability_details;
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="Logic Methods">
     public function getUd($dateFrom, $dateTo) {
-        foreach($this->own_unavailability_details as $ud){
-            if($ud->getUdFromDate()->format('Y-m-d') === $dateFrom && $ud->getUdToDate()->format('Y-m-d') === $dateTo){
+        foreach ($this->own_unavailability_details as $ud) {
+            if ($ud->getUdFromDate()->format('Y-m-d') === $dateFrom && $ud->getUdToDate()->format('Y-m-d') === $dateTo) {
                 return $ud;
             }
         }
@@ -584,61 +599,8 @@ class room {
 
 // </editor-fold>
 
-
-
-    /**
-     * Set room_sync_st
-     *
-     * @param integer $roomSyncSt
-     * @return room
-     */
-    public function setRoomSyncSt($roomSyncSt)
-    {
-        $this->room_sync_st = $roomSyncSt;
-    
-        return $this;
+    public function __toString() {
+        return (string) $this->room_id;
     }
 
-    /**
-     * Get room_sync_st
-     *
-     * @return integer 
-     */
-    public function getRoomSyncSt()
-    {
-        return $this->room_sync_st;
-    }
-
-    /**
-     * Add own_unavailability_details
-     *
-     * @param \MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails
-     * @return room
-     */
-    public function addOwnUnavailabilityDetail(\MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails)
-    {
-        $this->own_unavailability_details[] = $ownUnavailabilityDetails;
-    
-        return $this;
-    }
-
-    /**
-     * Remove own_unavailability_details
-     *
-     * @param \MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails
-     */
-    public function removeOwnUnavailabilityDetail(\MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails)
-    {
-        $this->own_unavailability_details->removeElement($ownUnavailabilityDetails);
-    }
-
-    /**
-     * Get own_unavailability_details
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getOwnUnavailabilityDetails()
-    {
-        return $this->own_unavailability_details;
-    }
 }

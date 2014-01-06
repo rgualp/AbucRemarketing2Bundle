@@ -15,7 +15,7 @@
                     data-x="{{destination.desgeolocatex}}"
                     data-y="{{destination.desgeolocatey}}"
                     data-name="{{destination.desName}}"
-                    data-description="{{brief_description | striptags}}"
+                    data-description=""
                     data-image="{{asset('uploads/destinationImages/thumbnails/'~((gallery_photos[0] is defined) ? gallery_photos[0] : "no_photo.png"))}}"
                     data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}">
                 </div>
@@ -143,15 +143,19 @@
                     </div>
                     <div class="col-xs-4 text-right">
                         
-                        <a href="" rel="tooltip" data-placement="top" title="{{'LIST_VIEW' | trans}}"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon three-lines2-icon"></a>
-                        <a href="" rel="tooltip" data-placement="top" title="{{'MOISAIC_VIEW' | trans}}"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon cam-icon"></a>
-                        <a href="" rel="tooltip" data-placement="top" title="{{'MAP_VIEW' | trans}}"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon point-icon"></a>
+                        <a id="change_view_to_list" href="#" data-url="{{path('frontend_change_view_destination', {'destination_name':destination.desName,'destination_id': destination.desId})}}" rel="tooltip" data-placement="top" title="{{'LIST_VIEW' | trans}}"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon three-lines2-icon"></a>
+                        <a id="change_view_to_photo" href="#" data-url="{{path('frontend_change_view_destination', {'destination_name':destination.desName,'destination_id': destination.desId})}}" rel="tooltip" data-placement="top" title="{{'MOISAIC_VIEW' | trans}}"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon cam-icon"></a>
+                        <a id="change_view_to_map" href="#" data-url="{{path('frontend_change_view_destination', {'destination_name':destination.desName,'destination_id': destination.desId})}}" rel="tooltip" data-placement="top" title="{{'MAP_VIEW' | trans}}"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon point-icon"></a>
                         
                     </div>
                 </div>
             </div>
-            <div class="houses-list" data-url="{{path('frontend_nearby_destination',{'destination_name': destination.desname | lower | replace(" ", "_"),'destination_id': destination.desid })}}">
-                {{include('frontEndBundle:destination:detailsOwnsNearByDestination.html.twig', {'owns_nearby': owns_nearby,'destination_name': destination.desname | lower | replace(" ", "_"),'destination_id': destination.desid })}}
+            <div id="near_houses_container" class="houses-list" data-url="{{path('frontend_nearby_destination',{'destination_name': destination.desname | lower | replace(" ", "_"),'destination_id': destination.desid })}}">
+                {{include('frontEndBundle:destination:detailsOwnsNearByDestination.html.twig', 
+                        {'owns_nearby': owns_nearby,
+                         'destination_name': destination.desname | lower | replace(" ", "_"),
+                         'destination_id': destination.desid,
+                         'data_view' : data_view })}}
             </div>
                 {%endif%}
         </div>
