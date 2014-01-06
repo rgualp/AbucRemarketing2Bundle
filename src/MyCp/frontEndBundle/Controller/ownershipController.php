@@ -1299,10 +1299,10 @@ class ownershipController extends Controller {
     public function owners_photosAction($ownership_id)
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $list = $em->getRepository('mycpBundle:userCasa')->get_owners_photos($ownership_id);
+        $owner_photo = $em->getRepository('mycpBundle:userCasa')->get_owners_photos($ownership_id);
 
         return $this->render('frontEndBundle:ownership:ownersPhotosOwnership.html.twig', array(
-                    'owner_list' => $list
+                    'owner_photo' => $owner_photo
         ));
     }
 

@@ -1,20 +1,7 @@
-{%if owner_list | length%}
-<div class="carousel slide carousel-mini" id="housesCarousel">
-                <h4 class="carousel-title">{{"OWNERS" | trans}}</h4>
-                <div class="carousel-inner">
-                    {%set counter = 0%}
-                    {%for owner in owner_list%}
-                    <div class="item {%if counter == 0%}active{%endif%}">
-                            <div class="row">
-                                <img src="{{ asset("uploads/userImages/" ~ owner.photo)}}" class="thumbnail full-width"/>
-                            </div>                            
-                    </div>
-                        {%set counter = counter + 1%}
-                        {%endfor%}
-                </div>
-                {%if owner_list | length > 1%}
-                <a data-slide="prev" href="#housesCarousel" class="left carousel-control">‹</a>
-                <a data-slide="next" href="#housesCarousel" class="right carousel-control">›</a>
-                {%endif%}
-            </div>
-{%endif%}
+<div class="row houses-list" style="text-align: center">
+    <div class="col-sm-6" style="margin: 0 25%">
+<div class="thumbnail" >
+    <img src="{{ asset("uploads/userImages/" ~ owner_photo)}}"/>
+</div>                            
+</div>
+        </div>

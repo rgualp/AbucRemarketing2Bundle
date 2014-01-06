@@ -422,12 +422,7 @@
                 {%endif%}
             </div>
         </div>
-        <div class="col-sm-4">
-            {%render "frontEndBundle:ownership:owners_photos" with {'ownership_id': ownership.own_id }%}
-            <div class="row">
-                {{own.owner1}} <br/>
-                {{own.owner2}}
-            </div>
+        <div class="col-sm-4">            
             <ul class="span4 price">
                 <li>
                      {%if ownership.category == "Premium"%}
@@ -466,6 +461,11 @@
                 </li>
                 <li><button onclick="javascript:refresh_calendar_button()" class="btn btn-primary">{{"VERIFY_PRICES_FOR_THIS_DATES" | trans}}</button></li>
             </ul>
+             <hr class="margin-t"/>
+             {%render "frontEndBundle:ownership:owners_photos" with {'ownership_id': ownership.own_id }%}
+                {{"OWNERS" | trans}}: {{ownership.owner1}} 
+                {%if ownership.owner2 != ""%}, {%endif%}
+                {{ownership.owner2}}
             <hr class="margin-t"/>
             {{ include('frontEndBundle:favorite:detailsFavorite.html.twig',
                         {'is_in_favorite': is_in_favorite,
