@@ -51,7 +51,9 @@ class BackendGeneralInformationController extends Controller
                 /*if($array_keys[$count]=='information_type' && $item == "-1"){
                     //crear un objeto para validar
                 }
-                else*/ if($array_keys[$count]!='edit_information')
+                else*/
+
+                if($array_keys[$count]!='edit_information' and strpos($array_keys[$count], 'info_name_')!==0 and strpos($array_keys[$count], 'info_content_')!==0)
                 {
                     $errors[$array_keys[$count]] = $errors_validation=$this->get('validator')->validateValue($item, $not_blank_validator);
                     $count_errors+=count($errors_validation);
