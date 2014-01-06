@@ -15,14 +15,14 @@
 </div>
 
 <div class="row pagination-cont">
-        <div class="col-sm-4 text-left">
+        <div class="col-sm-3 text-left">
             <ul class="pagination top_rated_items_per_page">
                 <li class="top20_items_per_page {%if app.session.get('top_rated_show_rows') == 2%}active{%endif%}" data-content-value="2"><a rel="tooltip" data-placement="top" title="2 {{'ROWS' | trans}}"><img alt="2 {{'ROWS' | trans}}" class="icon-medium two-lines-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
                 <li class="top20_items_per_page {%if app.session.get('top_rated_show_rows') == 3%}active{%endif%}" data-content-value="3"><a rel="tooltip" data-placement="top" title="3 {{'ROWS' | trans}}"><img alt="3 {{'ROWS' | trans}}"  class="icon-medium three-lines-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
                 <li class="top20_items_per_page {%if app.session.get('top_rated_show_rows') == 4%}active{%endif%}" data-content-value="4"><a rel="tooltip" data-placement="top" title="4 {{'ROWS' | trans}}"><img alt="4 {{'ROWS' | trans}}" class="icon-medium four-lines-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
             </ul>
         </div>
-        <div class="col-sm-4 text-center">
+        <div class="col-sm-6 text-center">
             {{ simple_paginator_render('frontend_welcome',null,{
     'container_class': 'pagination',
     'previousPageText': '«',
@@ -32,7 +32,7 @@
     'lastPageText': 'LAST_PAGE' | trans
     }) }}
         </div>
-        <div class="col-sm-4 text-right">
+        <div class="col-sm-3 text-right">
             <ul class="pagination top_rated_category">
                 <li class="top20_category {%if app.session.get('top_rated_category') == "" or app.session.get('top_rated_category') | lower == 'todos'%}active{%endif%}" data-content-value="todos"><a rel="tooltip" data-placement="top" title="{{'ALL_CATGORIES_OWNS' | trans}}"><img alt="{{'ALL_CATGORIES_OWNS' | trans}}" class="icon-medium premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
                 <li class="top20_category {%if app.session.get('top_rated_category') | lower == 'premium'%}active{%endif%}" data-content-value="Premium"><a rel="tooltip" data-placement="top" title="{{'PREMIUM_OWNS' | trans}}"><img alt="{{'PREMIUM_OWNS' | trans}}" class="icon-medium premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>

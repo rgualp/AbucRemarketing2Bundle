@@ -246,8 +246,11 @@ class BackendAlbumController extends Controller {
             $count = $errors_validation = $count_errors = 0;
 
             foreach ($post as $item) {
-                $errors[$array_keys[$count]] = $errors_validation = $this->get('validator')->validateValue($item, $not_blank_validator);
-                $count_errors+=count($errors_validation);
+                if(strpos($array_keys[$count], 'name_')!==0 and strpos($array_keys[$count], 'brief_desc_')!==0)
+                {
+                    $errors[$array_keys[$count]] = $errors_validation = $this->get('validator')->validateValue($item, $not_blank_validator);
+                    $count_errors+=count($errors_validation);
+                }
                 $count++;
             }
 
