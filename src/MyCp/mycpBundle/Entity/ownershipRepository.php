@@ -189,6 +189,7 @@ class ownershipRepository extends EntityRepository {
             $room->setRoomTerrace($data['room_terrace_' . $e]);
             $room->setRoomYard($data['room_yard_' . $e]);
             $room->setRoomOwnership($ownership);
+            $room->setRoomNum($e);
             $em->persist($room);
 
             /**
@@ -425,6 +426,7 @@ class ownershipRepository extends EntityRepository {
             $room->setRoomTerrace($data['room_terrace_' . $e]);
             $room->setRoomYard($data['room_yard_' . $e]);
             $room->setRoomOwnership($ownership);
+            $room->setRoomNum($e);
             $em->persist($room);
             /**
              * Codigo Yanet - Inicio
