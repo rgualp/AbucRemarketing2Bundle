@@ -33,9 +33,18 @@
 </script>
 {% endblock %}
 {% set main_tab = 2 %}
-
+{% block breadcrumbs %}
+    <br/>
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+            <span>/</span>
+            {{"DESTINATIONS" | trans}}
+        </div>
+    </div>
+{% endblock %}
 {% block body %}
-<div class="container cont-form">
+<div class="container cont-form" style="margin-top: -20px">
 <div id="main-search-2">
     {% render "frontEndBundle:ownership:orangeSearchBar" %}
 </div>

@@ -7,7 +7,18 @@
 {% endblock %}
 
 {% set main_tab = 5 %}
-
+{% block breadcrumbs %}
+    <br/>
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+            <span>/</span>
+            <a href="{{ path('frontend_search_ownership') }}" title="{{"OWNERSHIPS" | trans}}">{{"OWNERSHIPS" | trans}}</a>
+            <span>/</span>
+            {{ ownership.ownname }}
+        </div>
+    </div>
+{% endblock %}
 {% block body %}
 <div class="bg-solid-ligth-blue">
     <div class="container">

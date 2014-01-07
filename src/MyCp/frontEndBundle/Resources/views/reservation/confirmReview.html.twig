@@ -7,7 +7,16 @@
 {% block content_nav_top_body %}
 destinos
 {% endblock %}
-
+{% block breadcrumbs %}
+    <br/>
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+            <span>/</span>
+            {{"RESERVATION_CONFIRM"|trans}}
+        </div>
+    </div>
+{% endblock %}
 {% block body %}
     <div style="padding: 30px 0px 40px" class="bg-solid-ligth-blue">
         <div class="container">
