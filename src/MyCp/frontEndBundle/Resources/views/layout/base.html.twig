@@ -42,7 +42,7 @@
                     <li class="dropdown pull-right">
                         <a title="{{"USER_ZONE" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-user-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/>
                             {% if is_granted('ROLE_CLIENT_TOURIST') or is_granted('ROLE_CLIENT_STAFF')%}
-                                {{app.user.getUserUserName}} {{app.user.getUserLastName}}
+                                {{app.user.getUserUserName}} {{app.user.getUserLastName | slice(0,10)}}{% if app.user.getUserLastName|length > 10 %}...{% endif %}
                                 {%else%}                            
                                 {{"USER_ZONE" | trans}}
                                 {%endif%}
