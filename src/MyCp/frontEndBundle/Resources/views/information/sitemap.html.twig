@@ -7,10 +7,18 @@
 {% block content_nav_top_body %}
 {{"SITEMAP_CONTENT" | trans}}
 {% endblock %}
-
+{% block breadcrumbs %}
+    <br/>
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+            <span>/</span>
+            {{"SITEMAP"|trans}}
+        </div>
+    </div>
+{% endblock %}
 {% block body %}
 <div class="container">
-    <div>&nbsp;</div>
 <div class="row sitemap_list">
     <div class="col-sm-4">
         <ul class="nav nav-list mycp_nav_list">

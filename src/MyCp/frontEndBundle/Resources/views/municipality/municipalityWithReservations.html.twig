@@ -4,10 +4,18 @@
 {% endblock %}
 
 {% set main_tab = 2 %}
-
+{% block breadcrumbs %}
+    <br/>
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+            <span>/</span>
+            {{"MOST_VISITED_CITIES"|trans}}
+        </div>
+    </div>
+{% endblock %}
 {% block body %}
 <div class="container">
-    <div>&nbsp;</div>
     <div class="row result_list ownerships_list" id="div_result">
    {%for item in list%}
             <div class="row">

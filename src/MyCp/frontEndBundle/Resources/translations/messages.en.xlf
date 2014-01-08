@@ -2411,6 +2411,10 @@
                     <source>LANG_SPANISH</source>
                     <target>Spanish</target>
                 </trans-unit>
+                <trans-unit id="612">
+                    <source>OWNERS</source>
+                    <target>Owner(s)</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>

@@ -7,9 +7,18 @@
 {% block content_nav_top_body %}
 {{(("ABOUT_US" | upper) ~ "_CONTENT") | trans}}
 {% endblock %}
-
-{% block body %}
+{% block breadcrumbs %}
     <br/>
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+            <span>/</span>
+            {{"ABOUT_US"|trans}}
+        </div>
+    </div>
+{% endblock %}
+{% block body %}
+
     <div class="container">
         <div class="row">
             <div class="col-sm-4" style="margin-bottom: 20px;">

@@ -1295,6 +1295,16 @@ class ownershipController extends Controller {
                     'departure_date' => $session->get("search_departure_date")
         ));
     }
+    
+    public function owners_photosAction($ownership_id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $owner_photo = $em->getRepository('mycpBundle:userCasa')->get_owners_photos($ownership_id);
+
+        return $this->render('frontEndBundle:ownership:ownersPhotosOwnership.html.twig', array(
+                    'owner_photo' => $owner_photo
+        ));
+    }
 
     public function last_owns_visitedAction($exclude_ownership_id = null) {
         $em = $this->getDoctrine()->getEntityManager();

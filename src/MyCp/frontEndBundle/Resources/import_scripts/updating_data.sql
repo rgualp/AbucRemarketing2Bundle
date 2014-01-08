@@ -27,12 +27,20 @@ set room_bathroom = "Compartido"
 where room_bathroom = 2;
 
 update room
+set room_climate = "Natural"
+where room_climate = 0;
+
+update room
 set room_climate = "Ventilador"
 where room_climate = 1;
 
 update room
 set room_climate = "Aire acondicionado"
 where room_climate = 2;
+
+update room
+set room_climate = "Aire acondicionado / Ventilador"
+where room_climate = 3;
 
 update room
 set room_audiovisual = "TV"
@@ -45,3 +53,7 @@ where room_audiovisual = 1;
 update room
 set room_audiovisual = "TV cable"
 where room_audiovisual = 2;
+
+update room
+set room_audiovisual = "Ninguno"
+where room_audiovisual = 3;

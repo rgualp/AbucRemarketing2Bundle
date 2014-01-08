@@ -189,6 +189,7 @@ class ownershipRepository extends EntityRepository {
             $room->setRoomTerrace($data['room_terrace_' . $e]);
             $room->setRoomYard($data['room_yard_' . $e]);
             $room->setRoomOwnership($ownership);
+            $room->setRoomNum($e);
             $em->persist($room);
 
             /**
@@ -425,6 +426,7 @@ class ownershipRepository extends EntityRepository {
             $room->setRoomTerrace($data['room_terrace_' . $e]);
             $room->setRoomYard($data['room_yard_' . $e]);
             $room->setRoomOwnership($ownership);
+            $room->setRoomNum($e);
             $em->persist($room);
             /**
              * Codigo Yanet - Inicio
@@ -1350,6 +1352,8 @@ class ownershipRepository extends EntityRepository {
                         o.own_water_jacuzee as ownWaterJacuzee,
                         o.own_water_sauna as ownWaterSauna,
                         o.own_water_piscina as ownWaterPiscina,
+                        o.own_homeowner_1 as owner1,
+                        o.own_homeowner_2 as owner2,
                         o.own_commission_percent as OwnCommissionPercent,
                         (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
                         (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,

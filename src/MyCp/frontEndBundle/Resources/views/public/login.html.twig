@@ -1,9 +1,18 @@
 {% extends 'frontEndBundle:layout:base.html.twig' %}
 {% block title %}{{"LOG_IN" | trans }}{% endblock %}
-
+{% block breadcrumbs %}
+    <br/>
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+            <span>/</span>
+            {{"LOG_IN" | trans}}
+        </div>
+    </div>
+{% endblock %}
 {% block body %}
     <div  class="container">
-    <h2 class="caecilia-roman big-price-green text-center no-margin" style="font-weight: normal; margin-top: 35px">{{"LOG_IN" | trans }}</h2>
+    <h2 class="caecilia-roman big-price-green text-center no-margin" style="font-weight: normal;">{{"LOG_IN" | trans }}</h2>
     <div><img src="{{ asset('bundles/frontend/img/line-gradient-green.png') }}" style="width: 100%; height: 1px; margin: 16px 0"></div>
         <div class="row">
             <div class="col-sm-3"></div>

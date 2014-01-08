@@ -2,10 +2,19 @@
 {% block title %}
 {{"FAVORITIES"  | trans }}
 {% endblock %}
-
+{% block breadcrumbs %}
+    <br/>
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+            <span>/</span>
+            {{"FAVORITIES" | trans}}
+        </div>
+    </div>
+{% endblock %}
 {% block body %}
 <div class="container">
-    <div style="margin: 40px 0 20px">
+    <div style="margin: 0px 0 20px">
         <h1 class="caecilia-roman h-green no-margin"> {{ 'FAVORITIES'|trans }}</h1>
     </div>
         <ul class="nav nav-tabs margin-t-t">

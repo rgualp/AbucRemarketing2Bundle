@@ -8,8 +8,17 @@
 {{"HOW_IT_WORKS_CONTENT" | trans}}
 {% endblock %}
 
+{% block breadcrumbs %}
+    <br/>
+    <div class="container">
+        <div class="breadcrumb">
+        <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+        <span>/</span>
+        {{"HOW_IT_WORKS" | trans}}
+        </div>
+    </div>
+{% endblock %}
 {% block body %}
-<br/>
 <div class="container">
 <div class="row">
     <div class="col-sm-8">

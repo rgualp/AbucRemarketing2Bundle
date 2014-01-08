@@ -19,4 +19,23 @@ class userCasaRepository extends EntityRepository
         GROUP BY uc.user_casa_user");
         return $query->getResult();
     }
+    
+    function get_owners_photos($ownership_id)
+    {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT pho.pho_name as photo
+                  FROM mycpBundle:userCasa uc
+                  JOIN uc.user_casa_user u
+                  JOIN u.user_photo pho
+                  WHERE uc.user_casa_ownership = $ownership_id";
+        
+        $query = $em->createQuery($query_string);
+        $photo_name = $query->setMaxResults(1)->getResult();
+        
+        if ($photo_name == null)
+                $photo_name = "no_photo.gif";
+            else if (!file_exists(realpath("uploads/userImages/" . $photo_name))) 
+                $photo_name = "no_photo.gif";
+        return $photo_name;
+    }
 }
