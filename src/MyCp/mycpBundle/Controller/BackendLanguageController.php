@@ -198,6 +198,14 @@ class BackendLanguageController extends Controller
 
         }
 
+        $destination_category_lang=$em->getRepository('mycpBundle:destinationCategoryLang')->findBy(array('des_cat_id_lang'=>$id_language));
+        if(isset($destination_category_lang[0]))
+        {
+            foreach($destination_category_lang as $des_cat_lang)
+                $em->remove($des_cat_lang);
+
+        }
+
         $destination_lang=$em->getRepository('mycpBundle:destinationLang')->findBy(array('des_lang_lang'=>$id_language));
         if(isset($destination_lang[0]))
         {
