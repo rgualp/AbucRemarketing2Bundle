@@ -1,4 +1,4 @@
-<div class="tabbable">
+<div class="tabbable carousel-bottom">
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#tab1">{{"POPULAR_DESTINATIONS_HOME_TABS" | trans}}</a></li>
             <li><a data-toggle="tab" href="#tab2">{{"LAST_ADDED_HOME_TABS" | trans}}</a></li>
@@ -6,7 +6,7 @@
             <li><a data-toggle="tab" href="#tab4">{{"MIDRANGE_HOME_TABS" | trans}}</a></li>
             <li><a data-toggle="tab" href="#tab5">{{"PREMIUM_HOME_TABS" | trans}}</a></li>
         </ul>
-        <div class="tab-content">
+        <div class="tab-content lazy-cont">
             <div id="tab1" class="tab-pane active">
                 <div class="carousel slide" id="th-destination-carousel">
                     <div class="carousel-inner thumbs-houses">
@@ -237,3 +237,21 @@
             </div>
         </div>
     </div>
+
+<script type="text/javascript">
+    $('.carousel-bottom .nav-tabs li').click(function(){
+        move_scroll();
+    })
+
+    $('.carousel.slide').on('slid.bs.carousel', function(){
+        move_scroll();
+    });
+
+    function move_scroll()
+    {
+        win=$(window);
+        win.scrollTop(win.scrollTop()+1);
+        win.scrollTop(win.scrollTop()-1);
+
+    }
+</script>
