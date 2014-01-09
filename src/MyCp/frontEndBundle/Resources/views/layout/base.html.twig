@@ -170,6 +170,7 @@
     <script src="{{ asset('bundles/frontend/js/bootstrap-datepicker.js') }}"></script>
     <script src="{{ asset('bundles/frontend/js/bootstrap-datepicker.es.js') }}"></script>
     <script src="{{ asset('bundles/frontend/js/respond.min.js') }}"></script>
+    <script src="{{ asset('bundles/frontend/js/jail.min.js') }}"></script>
     <script src="{{ asset('bundles/frontend/js/custom.js') }}"></script>
     <script type="text/javascript">
         topmenucont=$('#top-menu-cont');
@@ -181,6 +182,10 @@
                     return topmenu;
                 }
             }
+        });
+
+        $(function(){
+            $('img.lazy').jail();
         });
     </script>
 </html>
