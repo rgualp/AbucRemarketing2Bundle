@@ -3,7 +3,8 @@
                <tr>
                    <td class="full-width">
                        <a href="{{ path('frontend_details_destination',{'destination_name':des_name|lower|replace(' ','_')}) }}">
-                       <img class="thumbnail full-width" src="{{ asset("uploads/destinationImages/thumbnails/" ~ (des_photo)) }}"/>
+                           <img class="lazy thumbnail full-width" data-src="{{ asset("uploads/destinationImages/thumbnails/" ~ (des_photo)) }}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
+                           <noscript><img class="nolazy" src="{{ asset("uploads/destinationImages/thumbnails/" ~ (des_photo)) }}"></noscript>
                        </a>
                    </td>
                    <td>
