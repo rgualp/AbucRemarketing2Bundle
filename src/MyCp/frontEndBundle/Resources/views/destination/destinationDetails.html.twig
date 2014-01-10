@@ -72,7 +72,7 @@
                     <div class="accordion-body collapse in" id="collapseOne">
                         <div class="accordion-inner">
                             {%for destination in popular_list%}
-                           <a href="{{ path('frontend_details_destination',{'destination_name':destination['des_name']|lower|replace(' ','_')}) }}">{{destination['des_name']}}</a><br/>
+                           <a href="{{ path('frontend_details_destination',{'destination_name':popular_destinations_for_url[destination.des_id]|replace(' ','_')|replace('ñ','nn')|replace('Ñ','nn')|replace('Á','a')|replace('É','e')|replace('Í','i')|replace('Ó','o')|replace('Ú','u')|replace('á','a')|replace('é','e')|replace('í','i')|replace('ó','o')|replace('ú','u')|lower}) }}">{{destination['des_name']}}</a><br/>
 
                         {%else%}
                         <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
@@ -92,7 +92,7 @@
                     <div class="accordion-body collapse" id="collapseTwo">
                         <div class="accordion-inner">
                             {%for destination in other_destinations_in_municipality%}
-                          <a href="{{ path('frontend_details_destination',{'destination_name':destination.desname|lower|replace(' ','_')}) }}">{{destination.desname}}</a><br/>
+                          <a href="{{ path('frontend_details_destination',{'destination_name':other_destinations_in_municipality_for_url[destination.des_id]}) }}">{{destination.desname}}</a><br/>
 
                         {%else%}
                         <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
@@ -109,7 +109,7 @@
                     <div class="accordion-body collapse" id="collapseThree">
                         <div class="accordion-inner">
                             {%for destination in other_destinations_in_province%}
-                           <a href="{{ path('frontend_details_destination',{'destination_name':destination.desname|lower|replace(' ','_')}) }}">{{destination.desname}}</a><br/>                        {%else%}
+                           <a href="{{ path('frontend_details_destination',{'destination_name':other_destinations_in_province_for_url[destination.des_id]}) }}">{{destination.desname}}</a><br/>                        {%else%}
                         <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
                         {%endfor%}
                         </div>
@@ -124,7 +124,7 @@
                     <div class="accordion-body collapse" id="collapseFour">
                         <div class="accordion-inner">
                             {%for province in provinces%}
-                                <a href="{{ path('frontend_search_ownership',{'text':province.provName | lower | replace(" ", "_"), 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}">{{province.provName}}</a><br/>                        
+                                <a href="{{ path('frontend_search_ownership',{'text':provinces_for_url[province.provid], 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}">{{province.provName}}</a><br/>                        
                            {%else%}
                         <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
                         {%endfor%}
