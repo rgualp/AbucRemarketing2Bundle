@@ -3,7 +3,8 @@
     
         <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if own_comments > 0%}+{%endif%}{{own_comments}}&nbsp;&nbsp;&nbsp;">
             <a title="{{ own_name }}" href="{{ path('frontend_details_ownership',{'own_name':own_name  | lower | replace(' ','_')}) }}">
-                <img alt="{{ own_name }}" src="{{ asset("uploads/ownershipImages/thumbnails/" ~ photo)}}">
+                <img alt="{{ own_name }}" class="lazy" data-src="{{ asset("uploads/ownershipImages/thumbnails/" ~ photo)}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
+                <noscript><img class="nolazy" src="{{ asset("uploads/ownershipImages/thumbnails/" ~ photo)}}"></noscript>
             </a>
         </div>
         <a title="{{ own_name }}" href="{{ path('frontend_details_ownership',{'own_name':own_name  | lower | replace(' ','_')}) }}">

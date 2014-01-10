@@ -2,7 +2,8 @@
 <div class="col-sm-3">    
 <div class="thumbnail">
         <a title="{{ "DESTINATIONS"|trans }} {{ destination_name }}" href="{{ path('frontend_details_destination',{'destination_name':destination_name|lower|replace(' ','_')}) }}">
-            <img alt="{{ "DESTINATIONS"|trans }} {{ destination_name }}" src="{{ asset('uploads/destinationImages/thumbnails/' ~ photo)}}">
+            <img alt="{{ "DESTINATIONS"|trans }} {{ destination_name }}" class="lazy" data-src="{{ asset('uploads/destinationImages/thumbnails/' ~ photo)}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
+            <noscript><img class="nolazy" src="{{ asset('uploads/destinationImages/thumbnails/' ~ photo)}}"></noscript>
         </a>
     </div>
     <a href="{{ path('frontend_details_destination',{'destination_name':destination_name|lower|replace(' ','_')}) }}">
