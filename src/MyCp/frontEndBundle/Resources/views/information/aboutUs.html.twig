@@ -8,14 +8,9 @@
 {{(("ABOUT_US" | upper) ~ "_CONTENT") | trans}}
 {% endblock %}
 {% block breadcrumbs %}
-    <br/>
-    <div class="container">
-        <div class="breadcrumb">
-            <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
-            <span>/</span>
-            {{"ABOUT_US"|trans}}
-        </div>
-    </div>
+    <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+    <span>››</span>
+    <a href="#" class="active"  title="{{"ABOUT_US"|trans}}">{{"ABOUT_US"|trans}}</a>
 {% endblock %}
 {% block body %}
 
@@ -58,15 +53,10 @@
         </div>
         <hr class="hr-grey" style="margin-bottom: 40px"/>
         <div class="tabbable tabs-left">
-            <ul class="nav nav-tabs">
+            <ul class="nav nav-tabs" style="height: 320px;">
                 {% for info in information %}
                     <li {% if loop.index == 1%}class="active"{% endif %}><a data-toggle="tab" href="#id_{{ info.getInfoLangId }}">{{ info.getInfoLangName }}</a></li>
                 {% endfor %}
-                <!--li class="active"><a data-toggle="tab" href="#theenterprise">{{ "THE_ENTERPRISE"|trans }}</a></li>
-                <li><a data-toggle="tab" href="#mainvalue">Valor fundamental</a></li>
-                <li><a data-toggle="tab" href="#team">Equipo de colaboradores</a></li>
-                <li><a data-toggle="tab" href="#history">Historia de MyCasaParticular</a></li>
-                <li><a data-toggle="tab" href="#seo" style="margin-bottom: 110px">Su fundador</a></-->
             </ul>
             <div class="tab-content">
                 {% for info in information %}
@@ -75,56 +65,6 @@
                     <p>{{ info.getInfoLangContent | raw }}</p>                    
                 </div>
                 {% endfor %}
-                
-                
-                <!--div id="theenterprise" class="tab-pane active">
-                    <h3 class="no-margin h-blue h-size-3 margin-b-t">La empresa</h3>
-                    <p>MyCasaParticular es una plataforma online para la reservación en línea de alojamientos privados en Cuba y otros servicios asociados. Nuestra visión es hacer de los alojamientos privados la primera alternativa de hospedaje del viajero. Lograr que los viajeros tenga una experiencia única conociendo mejor esta tierra, su gente y su cultura. Brindar una alternativa de alojamiento autentica diferente a la de los Hoteles.</p>
-                    <p>MyCasaParticular está consiente del impacto social y económico que representa cada visita de un turista a un alojamiento privado. Miles de familia cubanas se benefician de esta manera además de crear puestos de trabajos. El equipo de MyCasaParticular no conoce un método mejor de ayudar al pueblo de Cuba, practicar un turismo equitativo, responsable y de respeto a la naturaleza.</p>
-                </div>
-                <div id="mainvalue" class="tab-pane">
-                    <h3 class="no-margin h-blue h-size-3 margin-b-t">Valor fundamental</h3>
-                    <p>Confianza y un Servicio WOW en todo lo que hacemos!</p>
-                </div>
-                <div id="team" class="tab-pane">
-                    <h3 class="no-margin h-blue h-size-3 margin-b-t">Equipo de colaboradores</h3>
-                    <p>Todos amantes de lo que hacen, programadores, diseñadores, especialistas de viaje, traductores (si, gente de verdad que traducen y no máquinas), gestores de ventas, especialistas de marketing, contadores y muchos colaboradores más en Cuba y el resto del mundo.</p>
-                    <div class="thumb-con">
-                    <img data-placement="top" rel="tooltip" data-original-title="Descripción" src="{{ asset('bundles/frontend/img/team/coll-1.jpg') }}"/>
-                    <img data-placement="top" rel="tooltip" data-original-title="Descripción" src="{{ asset('bundles/frontend/img/team/coll-2.jpg') }}"/>
-                    <img data-placement="top" rel="tooltip" data-original-title="Descripción" src="{{ asset('bundles/frontend/img/team/coll-1.jpg') }}"/>
-                    <img data-placement="top" rel="tooltip" data-original-title="Descripción" src="{{ asset('bundles/frontend/img/team/coll-2.jpg') }}"/>
-                    <img data-placement="top" rel="tooltip" data-original-title="Descripción" src="{{ asset('bundles/frontend/img/team/coll-1.jpg') }}"/>
-                    <img data-placement="top" rel="tooltip" data-original-title="Descripción" src="{{ asset('bundles/frontend/img/team/coll-2.jpg') }}"/>
-                    </div>
-                </div>
-                <div id="history" class="tab-pane">
-                    <h3 class="no-margin h-blue h-size-3 margin-b-t">Historia de MyCasaParticular</h3>
-                    <p>MyCasaParticular fue una idea que tuvo su fundador Pedro Torres hace muchos años. Su familia posee un alojamiento privado y siempre soñó con la idea de potenciar y promocionar este fantástico servicio por el mundo. De esta manera poder ayudar al desarrollo económico del país estimulando directamente el sector privado.
-                    <br/>Este sueño se hizo realidad durante los años de estudio de gerencia empresarial en Suiza de Pedro. Donde se creó la primera versión de MyCasaParticular.com y decidió llevar el negocio adelante fundando ABUC Media Network GmbH en el 2010.
-                    <br/>Desde entonces ha crecido la empresa y la experiencia en el mercado. MyCasaParticular tiene actualmente más de 1500 alojamientos, más de 3500 habitaciones representada en todos los destinos turísticos de Cuba y sus provincia. Con la meta principal de brindar un servicio con calidad y seguridad para todos nuestros clientes y socios bajo el concepto de un turismo responsable y equitativo.</p>
-                    <p> …Y seguimos trabajando duro para mantener este sueño que es MyCasaParticular.</p>
-                </div>
-                <div id="seo" class="tab-pane">
-                    <h3 class="no-margin h-blue h-size-3 margin-b-t">Su fundador</h3>
-                    <table class="table-responsive-v2">
-                        <tr>
-                            <td style="vertical-align: top">
-                                <img id="pedro" src="{{ asset('bundles/frontend/img/pedro.jpg') }}"/>
-                            </td>
-                            <td class="last" style="vertical-align: top">
-                                <h3 style="margin-top: 0">Pedro Torres</h3>
-                                Nací y crecí en Cuba. Estudié administración de empresas en Suiza.
-                                Hablo: Español, Alemán, Ingles y cubano
-                                <br/>
-                                <br/>
-                                <b>Sobre mi persona:</b><br/>
-                                Amo a mi familia (soy casado y tengo un hermoso hijo). Trabajo con pasión cubana y exactitud suiza. En mi tiempo libre viajo, leo y practico senderismo o ciclismo.
-                            </td>
-                        </tr>
-                    </table>
-
-                </div-->
             </div>
         </div>
     </div>

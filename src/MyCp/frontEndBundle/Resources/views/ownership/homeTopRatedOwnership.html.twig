@@ -34,7 +34,7 @@
         </div>
         <div class="col-sm-3 text-right">
             <ul class="pagination top_rated_category">
-                <li class="top20_category {%if app.session.get('top_rated_category') == "" or app.session.get('top_rated_category') | lower == 'todos'%}active{%endif%}" data-content-value="todos"><a rel="tooltip" data-placement="top" title="{{'ALL_CATGORIES_OWNS' | trans}} ({{premium_total + midrange_total + economic_total}})"><img alt="{{'ALL_CATGORIES_OWNS' | trans}}" class="icon-medium premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
+                <li class="top20_category {%if app.session.get('top_rated_category') == "" or app.session.get('top_rated_category') | lower == 'todos'%}active{%endif%}" data-content-value="todos"><a rel="tooltip" data-placement="top" title="{{'ALL_CATGORIES_OWNS' | trans}} ({{premium_total + midrange_total + economic_total}})"><img alt="{{'ALL_CATGORIES_OWNS' | trans}}" class="icon-medium all-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
                 {%if premium_total != 0%}
                     <li class="top20_category {%if app.session.get('top_rated_category') | lower == 'premium'%}active{%endif%}" data-content-value="premium"><a rel="tooltip" data-placement="top" title="{{'PREMIUM_OWNS' | trans}} ({{premium_total}})"><img alt="{{'PREMIUM_OWNS' | trans}}" class="icon-medium premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
                 {%endif%}

@@ -81,8 +81,8 @@
         </div>
     </div>
 </div>
-<div id="top-menu-cont" style="height: 52px">
-<nav id="top-menu" role="navigation" class="navbar navbar-inverse bg-gradient-blue">
+<div id="top-menu-cont" style="height: {% if is_home is defined %}52px;{% else %}95px{% endif %}">
+<nav id="top-menu" role="navigation" class="navbar navbar-inverse bg-gradient-blue" style="{% if is_home is defined %}border-bottom: solid #98CD34 7px;{% endif %}">
     <div class="navbar-header">
         <button data-target=".navbar-ex1-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
             <span class="sr-only">Menu</span>
@@ -94,7 +94,17 @@
     <div class="container">
     {{ include('frontEndBundle:utils:navTopBody.html.twig') }}
     </div>
+    {% if is_home is not defined %}
+    <div class="breadcrumb-top">
+        <div class="container">
+            {% block breadcrumbs %}
+               <a href="#">&nbsp;</a>
+            {% endblock %}
+        </div>
+    </div>
+    {% endif %}
 </nav>
+
 </div>
 {% block big_banner %}{% endblock %}
     {% for message in app.session.flashbag.get('message_global_success') %}
@@ -103,8 +113,6 @@
         <div class="alert alert-info" style="margin-bottom: 10px">{{ message }}</div>
         </div>
     {% endfor %}
-{% block breadcrumbs %}
-{% endblock %}
 {% block body %}
 {% block include_javascripts %}{% endblock %}
 {% endblock %}

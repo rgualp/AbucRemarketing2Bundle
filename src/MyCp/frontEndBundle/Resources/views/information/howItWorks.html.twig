@@ -9,86 +9,26 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-    <br/>
-    <div class="container">
-        <div class="breadcrumb">
         <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
-        <span>/</span>
-        {{"HOW_IT_WORKS" | trans}}
-        </div>
-    </div>
+        <span>››</span>
+        <a href="#" class="active" title="{{"OWNERSHIPS" | trans}}">{{"HOW_IT_WORKS" | trans}}</a>
 {% endblock %}
 {% block body %}
 <div class="container">
-<div class="row">
-    <div class="col-sm-8">
-        <div class="carousel slide carousel-mini" id="infoCarousel">
-            <h1 class="caecilia-roman h-green carousel-title" style="padding-bottom: 20px">¿Como funciona?</h1>
-            <div class="carousel-inner">
-                <div class="item active">
-                    <h3 style="margin-top: 0">1.Buscar</h3>
-                    En este mundo no hay nada gratis y seguro es seguro. MyCasaParticular.com garantiza las reservas de sus clientes con el prepago. Las casas particulares en Cuba priorizan nuestras reservaciones porque saben que son seguras. MyCasaParticular.com le brinda el 100% de garantía de devolución de dinero.
-                </div>
-                <div class="item">
-                    <h3 style="margin-top: 0">2.Buscar</h3>
-                    En este mundo no hay nada gratis y seguro es seguro. MyCasaParticular.com garantiza las reservas de sus clientes con el prepago. Las casas particulares en Cuba priorizan nuestras reservaciones porque saben que son seguras. MyCasaParticular.com le brinda el 100% de garantía de devolución de dinero.
-                </div>
-                <div class="item">
-                    <h3 style="margin-top: 0">3.Buscar</h3>
-                    En este mundo no hay nada gratis y seguro es seguro. MyCasaParticular.com garantiza las reservas de sus clientes con el prepago. Las casas particulares en Cuba priorizan nuestras reservaciones porque saben que son seguras. MyCasaParticular.com le brinda el 100% de garantía de devolución de dinero.
-                </div>
-            </div>
-            <a data-slide="prev" href="#infoCarousel" class="left carousel-control">‹</a>
-            <a data-slide="next" href="#infoCarousel" class="right carousel-control">›</a>
-        </div>
-        <h2 class="caecilia-roman h-green">Categorías</h2>
-        <hr/>
-        <div class="row">
-            <div class="col-sm-4">
-                <h4 class="h-grey no-margin" style="margin-bottom: 15px"><img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="big-icons"/> &nbsp;Premium</h4>
-                <p>En este mundo no hay nada gratis y seguro es seguro. MyCasaParticular.com garantiza las reservas de sus clientes con el prepago. Las casas particulares.</p>
-            </div>
-            <div class="col-sm-4">
-                <h4 class="h-grey no-margin" style="margin-bottom: 15px"><img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="big-icons medium-big-icon"/> &nbsp;Rango Medio</h4>
-                <p>En este mundo no hay nada gratis y seguro es seguro. MyCasaParticular.com garantiza las reservas de sus clientes con el prepago. Las casas particulares.</p>
-            </div>
-            <div class="col-sm-4">
-                <h4 class="h-grey no-margin" style="margin-bottom: 15px"><img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="big-icons economic-big-icon"/> &nbsp;Económicas</h4>
-                <p>En este mundo no hay nada gratis y seguro es seguro. MyCasaParticular.com garantiza las reservas de sus clientes con el prepago. Las casas particulares.</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="thumbnail">
-            <img alt="" src="{{ asset('bundles/frontend/img/map.png') }}">
-            <div class="caption">
-                <h3>Buscar por destinos</h3>
-                <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                <p><a class="btn btn-primary" href="{{path('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'})}}">Comenzar a buscar</a></p>
-            </div>
-        </div>
-    </div>
-</div>
-    <h2 class="caecilia-roman h-green">Reservar</h2>
-    <hr/>
+{% for content in contents %}
     <div class="row">
-        <div class="col-sm-3">
-            <h4 class="h-grey">Alojamientos por noche</h4>
-            <p>MyCasaParticular.com garantiza las reservas de sus clientes con el prepago. Las casas particulares en Cuba priorizan nuestras.</p>
+        <div class="col-sm-6">
+            <h1 class="caecilia-roman h-green carousel-title" style="padding-bottom: 12px">{{ content.title }}</h1>
         </div>
-        <div class="col-sm-3">
-            <h4 class="h-grey">Disponibilidad</h4>
-            <p>MyCasaParticular.com garantiza las reservas de sus clientes con el prepago. Las casas particulares en Cuba priorizan nuestras.</p>
-        </div>
-        <div class="col-sm-3">
-            <h4 class="h-grey">MyCasa Trip</h4>
-            <p>MyCasaParticular.com garantiza las reservas de sus clientes con el prepago. Las casas particulares en Cuba priorizan nuestras.</p>
-        </div>
-        <div class="col-sm-3">
-            <h4 class="h-grey">Pagos</h4>
-            <p>MyCasaParticular.com garantiza las reservas de sus clientes con el prepago. Las casas particulares en Cuba priorizan nuestras.</p>
-        </div>
-    </div>
+    {{content.content|raw }}
+{% endfor %}
+
+
+
+
+
+
+
 </div>
 {% block include_javascripts %}
     

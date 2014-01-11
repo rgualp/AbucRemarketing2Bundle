@@ -7,14 +7,9 @@
 {{"SEARCH_DESCRIPTION_MAIN_MENU" | trans}}
 {% endblock %}
 {% block breadcrumbs %}
-    <br/>
-    <div class="container">
-        <div class="breadcrumb">
-            <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
-            <span>/</span>
-            {{"OWNERSHIPS" | trans}}
-        </div>
-    </div>
+    <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+    <span>››</span>
+    <a href="#" class="active" title="{{"OWNERSHIPS" | trans}}">{{"OWNERSHIPS" | trans}}</a>
 {% endblock %}
 {% block body %}
 <div  class="container">
@@ -73,7 +68,7 @@
                 </div>
             </div>
             <div>
-                <div class="houses-list thumbs-houses" id="div_result">
+                <div class="houses-list thumbs-houses lazy-cont" id="div_result">
                     {%if view_results == 'LIST'%}
                         {{ include('frontEndBundle:ownership:searchListOwnership.html.twig', 
                         {'list': list,

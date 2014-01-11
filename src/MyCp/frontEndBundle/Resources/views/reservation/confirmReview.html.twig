@@ -8,14 +8,9 @@
 destinos
 {% endblock %}
 {% block breadcrumbs %}
-    <br/>
-    <div class="container">
-        <div class="breadcrumb">
-            <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
-            <span>/</span>
-            {{"RESERVATION_CONFIRM"|trans}}
-        </div>
-    </div>
+    <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+    <span>››</span>
+    <a href="#" class="active" title="{{"RESERVATION_CONFIRM"|trans}}">{{"RESERVATION_CONFIRM"|trans}}</a>
 {% endblock %}
 {% block body %}
     <div style="padding: 30px 0px 40px" class="bg-solid-ligth-blue">
