@@ -2,6 +2,7 @@
 
 {% block content %}
         <h4 style="font-family: Arial; font-size: 20px">{{"GOOD_MORNING"|trans}} {{user.getUserUserName|capitalize}} {{user.getUserLastName|capitalize}}</h4>
+        {% if message|length %}{{ message }}{% endif %}
         <p style="font-size: 14px;font-family: arial"> {{"REQUEST_STATUS_CHANGED"|trans}}</p>
         {% if  booking is not defined %}
         <p style="font-size: 14px;font-family: arial"> {{"VALID_OFFER_FOUR_EIGHT"|trans}}</p>
