@@ -814,6 +814,14 @@ class reservationController extends Controller
 
 
         if($to_print==true)
+        {
+            mkdir('bouchers/'.$id_booking);
+            foreach($own_res as $own)
+            {
+                $url_map="http://maps.googleapis.com/maps/api/staticmap?center=23.13648,-82.365148&zoom=15&size=00x200&format=jpg&sensor=false";
+                @copy($url_map,'bouchers/'.$id_booking.'/'.$own->getOwnResGenResId()->getGenResOwnId()->getOwnId().'.jpg');
+            }
+
             return $this->renderView('frontEndBundle:reservation:boucherReservation.html.twig', array(
                 'own_res' => $own_res,
                 'user' => $user,
@@ -824,6 +832,8 @@ class reservationController extends Controller
                 'total_percent_price' => $total_percent_price,
                 'commissions' => $commissions
             ));
+        }
+
         else
             return $this->render('frontEndBundle:reservation:confirmReservation.html.twig', array(
                 'own_res' => $own_res,
@@ -842,10 +852,10 @@ class reservationController extends Controller
     function generate_pdf_boucherAction($id_booking,$name="voucher")
     {
         $response=$this->view_confirmationAction($id_booking,true);
-        return $this->download_pdf($response, $name);
+        return $this->download_pdf($response, $name,false,$id_booking);
     }
 
-    function download_pdf($html, $name, $save_to_disk = false) {
+    function download_pdf($html, $name, $save_to_disk = false, $id_booking = null) {
         require_once($this->get('kernel')->getRootDir().'/config/dompdf_config.inc.php');
         $dompdf = new \DOMPDF();
         $dompdf->load_html($html);
@@ -862,6 +872,19 @@ class reservationController extends Controller
         }
         else
             $dompdf->stream($name . ".pdf", array("Attachment" => false));
+
+        if($id_booking!= null)
+            $this->remove_dir('bouchers/'.$id_booking);
+    }
+
+    function remove_dir($dir) {
+        foreach(glob($dir . '/*') as $file) {
+            if(is_dir($file))
+                remove_dir($file);
+            else
+                unlink($file);
+        }
+        rmdir($dir);
     }
 
 }
