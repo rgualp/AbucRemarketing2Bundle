@@ -2,6 +2,7 @@
 
 namespace MyCp\frontEndBundle\Controller;
 
+use MyCp\frontEndBundle\Helpers\Utils;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -72,90 +73,23 @@ class destinationController extends Controller {
 
         $popular_destinations_for_url = array();        
         foreach ($popular_destinations_list as $dest)
-        {
-            $furl=str_replace(" ", "_", $dest['des_name']);
-            $furl=str_replace("á", "a", $furl);            
-            $furl=str_replace("é", "e", $furl);
-            $furl=str_replace("í", "i", $furl);
-            $furl=str_replace("ó", "o", $furl);
-            $furl=str_replace("ú", "u", $furl);
-            $furl=str_replace("ü", "u", $furl);
-            $furl=str_replace("ñ", "nn", $furl);
-            $furl=str_replace("Á", "A", $furl);
-            $furl=str_replace("É", "E", $furl);
-            $furl=str_replace("Í", "I", $furl);
-            $furl=str_replace("Ó", "O", $furl);
-            $furl=str_replace("Ú", "U", $furl);
-            $furl=str_replace("Ñ", "NN", $furl);
-            $furl = strtolower ($furl);
-            $popular_destinations_for_url[$dest['des_id']] = $furl;
-        }
+            $popular_destinations_for_url[$dest['des_id']] = Utils::url_normalize($dest['des_name']);
+
         
         $other_destinations_in_municipality = $em->getRepository('mycpBundle:destination')->destination_filter($locale,$location_municipality_id, $location_province_id, $destination->getDesId(), null, 5);
         $other_destinations_in_municipality_for_url = array();        
         foreach ($other_destinations_in_municipality as $dest)
-        {
-            $furl=str_replace(" ", "_", $dest['desname']);
-            $furl=str_replace("á", "a", $furl);            
-            $furl=str_replace("é", "e", $furl);
-            $furl=str_replace("í", "i", $furl);
-            $furl=str_replace("ó", "o", $furl);
-            $furl=str_replace("ú", "u", $furl);
-            $furl=str_replace("ü", "u", $furl);
-            $furl=str_replace("ñ", "nn", $furl);
-            $furl=str_replace("Á", "A", $furl);
-            $furl=str_replace("É", "E", $furl);
-            $furl=str_replace("Í", "I", $furl);
-            $furl=str_replace("Ó", "O", $furl);
-            $furl=str_replace("Ú", "U", $furl);
-            $furl=str_replace("Ñ", "NN", $furl);
-            $furl = strtolower ($furl);
-            $other_destinations_in_municipality_for_url[$dest['desid']] = $furl;
-        }
-        
+            $other_destinations_in_municipality_for_url[$dest['desid']] = Utils::url_normalize($dest['desname']);
+
         $other_destinations_in_province = $em->getRepository('mycpBundle:destination')->destination_filter($locale,null, $location_province_id, $destination->getDesId(), null, 5);
         $other_destinations_in_province_for_url = array();        
         foreach ($other_destinations_in_province as $dest)
-        {
-            $furl=str_replace(" ", "_", $dest['desname']);
-            $furl=str_replace("á", "a", $furl);            
-            $furl=str_replace("é", "e", $furl);
-            $furl=str_replace("í", "i", $furl);
-            $furl=str_replace("ó", "o", $furl);
-            $furl=str_replace("ú", "u", $furl);
-            $furl=str_replace("ü", "u", $furl);
-            $furl=str_replace("ñ", "nn", $furl);
-            $furl=str_replace("Á", "A", $furl);
-            $furl=str_replace("É", "E", $furl);
-            $furl=str_replace("Í", "I", $furl);
-            $furl=str_replace("Ó", "O", $furl);
-            $furl=str_replace("Ú", "U", $furl);
-            $furl=str_replace("Ñ", "NN", $furl);
-            $furl = strtolower ($furl);
-            $other_destinations_in_province_for_url[$dest['desid']] = $furl;
-        }
-        
+            $other_destinations_in_province_for_url[$dest['desid']] = Utils::url_normalize($dest['desname']);
+
         $provinces = $em->getRepository("mycpBundle:province")->findAll();
         $provinces_for_url = array();        
         foreach ($provinces as $prov)
-        {
-            $furl=str_replace(" ", "_", $prov->getProvName());
-            $furl=str_replace("á", "a", $furl);            
-            $furl=str_replace("é", "e", $furl);
-            $furl=str_replace("í", "i", $furl);
-            $furl=str_replace("ó", "o", $furl);
-            $furl=str_replace("ú", "u", $furl);
-            $furl=str_replace("ü", "u", $furl);
-            $furl=str_replace("ñ", "nn", $furl);
-            $furl=str_replace("Á", "A", $furl);
-            $furl=str_replace("É", "E", $furl);
-            $furl=str_replace("Í", "I", $furl);
-            $furl=str_replace("Ó", "O", $furl);
-            $furl=str_replace("Ú", "U", $furl);
-            $furl=str_replace("Ñ", "NN", $furl);
-            $furl = strtolower ($furl);
-            $provinces_for_url[$prov->getProvId()] = $furl;
-        }
+            $provinces_for_url[$prov->getProvId()] = Utils::url_normalize($prov->getProvName());
 
         $view = $session->get('search_view_results_destination');
         $paginator = $this->get('ideup.simple_paginator');

@@ -9,6 +9,7 @@ use MyCp\frontEndBundle\Form\restorePasswordUserType;
 use MyCp\frontEndBundle\Form\touristContact;
 use MyCp\frontEndBundle\Form\profileUserType;
 use MyCp\mycpBundle\Entity\user;
+use MyCp\mycpBundle\Entity\photo;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -401,9 +402,9 @@ class userController extends Controller {
                     if (isset($file)) {
                         $photo = new photo();
                         $fileName = uniqid('user-') . '-photo.jpg';
-                        $file['user_photo']->move($dir, $fileName);
+                        $file->move($dir, $fileName);
                         //Redimensionando la foto del usuario
-                        \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 65);
+                        \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 150);
 
                         $photo->setPhoName($fileName);
                         $user->setUserPhoto($photo);
@@ -426,6 +427,9 @@ class userController extends Controller {
                 } else {
                     $errors['no_email'] = $this->get('translator')->trans("USER_PROFILE_EMAIL_ERROR");
                 }                           
+            }
+            else{
+                $errors['complete_form'] = $this->get('translator')->trans("FILL_FORM_CORRECTLY");
             }
         }
 
