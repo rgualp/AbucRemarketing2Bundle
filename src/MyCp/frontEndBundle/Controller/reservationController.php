@@ -815,12 +815,26 @@ class reservationController extends Controller
 
         if($to_print==true)
         {
-            mkdir('bouchers/'.$id_booking);
+            /*mkdir('bouchers/'.$id_booking);
             foreach($own_res as $own)
             {
-                $url_map="http://maps.googleapis.com/maps/api/staticmap?center=23.13648,-82.365148&zoom=15&size=200x200&format=jpg&sensor=false";
-                @copy($url_map,'bouchers/'.$id_booking.'/'.$own->getOwnResGenResId()->getGenResOwnId()->getOwnId().'.jpg');
-            }
+                $url_map="http://maps.googleapis.com/maps/api/staticmap?center=23.13648,-82.365148&zoom=15&size=200x200&sensor=false";
+                if(@!copy($url_map,'bouchers/'.$id_booking.'/'.$own->getOwnResGenResId()->getGenResOwnId()->getOwnId().'.png'))
+                {
+                    echo 'No se ha podido extraer la imagen';
+                    exit();
+                }
+            }*/
+
+
+            $image = file_get_contents('http://maps.googleapis.com/maps/api/staticmap?center=15719%20OAKLEAF%20RUN%20DRIVE,LITHIA,FL,33547,US&zoom=8&size=150x100&markers=color%3ablue%7Clabel%3aS%7C11211&sensor=false');
+            $fp  = fopen('ae.png', 'w+');
+
+            //fputs($fp, $image);
+            fclose($fp);
+            unset($image);
+
+            exit();
 
             return $this->renderView('frontEndBundle:reservation:boucherReservation.html.twig', array(
                 'own_res' => $own_res,
