@@ -395,9 +395,10 @@ class userController extends Controller {
                     else $user->setUserNewsletters(0);
                     
                     //subir photo
-                    /*$dir=$this->container->getParameter('user.dir.photos');
-                    $file = $request->files->get('mycp_frontendbundle_profile_usertype');
-                    if (isset($file['user_photo'])) {
+                    $dir=$this->container->getParameter('user.dir.photos');
+                    $file = $request->files->get('user_photo');
+                   // var_dump($request->files);
+                    if (isset($file)) {
                         $photo = new photo();
                         $fileName = uniqid('user-') . '-photo.jpg';
                         $file['user_photo']->move($dir, $fileName);
@@ -407,7 +408,7 @@ class userController extends Controller {
                         $photo->setPhoName($fileName);
                         $user->setUserPhoto($photo);
                         $em->persist($photo);
-                    }  */                 
+                    }                  
                     
                     $em->persist($user);
                     
