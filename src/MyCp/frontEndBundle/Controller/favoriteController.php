@@ -181,7 +181,7 @@ class favoriteController extends Controller {
             if ($session->get('mycasatrip_favorite_type') == null)
                 $session->set('mycasatrip_favorite_type', 'ownerships');
 
-            return $this->redirect($this->generateUrl('frontend_mycasatrip_favorites', array('favorite_type' => $session->get('mycasatrip_favorite_type'))));
+            return $this->redirect($this->generateUrl('frontend_mycasatrip_favorites_accomodations'));
         }
     }
 
