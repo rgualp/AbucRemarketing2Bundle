@@ -84,7 +84,7 @@
     <span>››</span>
     <a href="{{ path('frontend_mycasatrip_pending',{'order_by':0}) }}" title="MyCasa Trip">MyCasa Trip</a>
     <span>››</span>
-    <a href="{{ path('frontend_mycasatrip_favorites', {'favorite_type':'ownershipfav'}) }}" title="{{ "FAVORITIES"|trans }}">{{ "FAVORITIES"|trans }}</a>
+    <a href="{{ path('frontend_mycasatrip_favorites_accomodations') }}" title="{{ "FAVORITIES"|trans }}">{{ "FAVORITIES"|trans }}</a>
     <span>››</span>
     {%if favorite_type == "ownershipfav"%}
     <a href="#" class="active" title="{{"OWNERSHIPS" | trans}}">{{"OWNERSHIPS" | trans}}</a>
