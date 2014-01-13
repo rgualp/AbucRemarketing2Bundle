@@ -818,7 +818,7 @@ class reservationController extends Controller
             mkdir('bouchers/'.$id_booking);
             foreach($own_res as $own)
             {
-                $url_map="http://maps.googleapis.com/maps/api/staticmap?center=23.13648,-82.365148&zoom=15&size=00x200&format=jpg&sensor=false";
+                $url_map="http://maps.googleapis.com/maps/api/staticmap?center=23.13648,-82.365148&zoom=15&size=200x200&format=jpg&sensor=false";
                 @copy($url_map,'bouchers/'.$id_booking.'/'.$own->getOwnResGenResId()->getGenResOwnId()->getOwnId().'.jpg');
             }
 
