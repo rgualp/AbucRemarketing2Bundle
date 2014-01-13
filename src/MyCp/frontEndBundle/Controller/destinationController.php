@@ -95,7 +95,7 @@ class destinationController extends Controller {
         $other_destinations_in_municipality_for_url = array();        
         foreach ($other_destinations_in_municipality as $dest)
         {
-            $furl=str_replace(" ", "_", $dest['des_name']);
+            $furl=str_replace(" ", "_", $dest['desname']);
             $furl=str_replace("á", "a", $furl);            
             $furl=str_replace("é", "e", $furl);
             $furl=str_replace("í", "i", $furl);
@@ -110,14 +110,14 @@ class destinationController extends Controller {
             $furl=str_replace("Ú", "U", $furl);
             $furl=str_replace("Ñ", "NN", $furl);
             $furl = strtolower ($furl);
-            $other_destinations_in_municipality_for_url[$dest['des_id']] = $furl;
+            $other_destinations_in_municipality_for_url[$dest['desid']] = $furl;
         }
         
         $other_destinations_in_province = $em->getRepository('mycpBundle:destination')->destination_filter(null, $location_province_id, $destination->getDesId(), null, 5);
         $other_destinations_in_province_for_url = array();        
         foreach ($other_destinations_in_province as $dest)
         {
-            $furl=str_replace(" ", "_", $dest['des_name']);
+            $furl=str_replace(" ", "_", $dest['desname']);
             $furl=str_replace("á", "a", $furl);            
             $furl=str_replace("é", "e", $furl);
             $furl=str_replace("í", "i", $furl);
@@ -132,7 +132,7 @@ class destinationController extends Controller {
             $furl=str_replace("Ú", "U", $furl);
             $furl=str_replace("Ñ", "NN", $furl);
             $furl = strtolower ($furl);
-            $other_destinations_in_province_for_url[$dest['des_id']] = $furl;
+            $other_destinations_in_province_for_url[$dest['desid']] = $furl;
         }
         
         $provinces = $em->getRepository("mycpBundle:province")->findAll();
