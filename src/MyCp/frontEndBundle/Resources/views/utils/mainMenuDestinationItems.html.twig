@@ -2,7 +2,7 @@
 {%if destinations | length%} 
 <ul class="dropdown-menu">
 {%for des in destinations%}
-    <li><a href="{{ path('frontend_details_destination',{'destination_name':des.des_name|lower|replace(' ','_')}) }}">{{des.des_name}} ({{des.total_owns}})</a></li>
+    <li><a href="{{ path('frontend_details_destination',{'destination_name':for_url[des.des_id]}) }}">{{des.des_name}} ({{des.total_owns}})</a></li>
 {%endfor%}
 </ul>
 {%endif%}

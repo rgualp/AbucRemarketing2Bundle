@@ -109,8 +109,32 @@ class PublicController extends Controller {
     {
         $em = $this->getDoctrine()->getEntityManager();
         $destinations = $em->getRepository('mycpBundle:destination')->get_for_main_menu();
+        
+         $for_url = array();
+        
+        foreach ($destinations as $prov)
+        {
+            $furl=str_replace(" ", "_", $prov['des_name']);
+            $furl=str_replace("á", "a", $furl);            
+            $furl=str_replace("é", "e", $furl);
+            $furl=str_replace("í", "i", $furl);
+            $furl=str_replace("ó", "o", $furl);
+            $furl=str_replace("ú", "u", $furl);
+            $furl=str_replace("ü", "u", $furl);
+            $furl=str_replace("ñ", "nn", $furl);
+            $furl=str_replace("Á", "A", $furl);
+            $furl=str_replace("É", "E", $furl);
+            $furl=str_replace("Í", "I", $furl);
+            $furl=str_replace("Ó", "O", $furl);
+            $furl=str_replace("Ú", "U", $furl);
+            $furl=str_replace("Ñ", "NN", $furl);
+            $furl = strtolower ($furl);
+            $for_url[$prov['des_id']] = $furl;
+        }
+        
         return $this->render('frontEndBundle:utils:mainMenuDestinationItems.html.twig', array(
-              'destinations'=>$destinations  
+              'destinations'=>$destinations,
+              'for_url' => $for_url
         ));
     }
     
@@ -118,8 +142,32 @@ class PublicController extends Controller {
     {
         $em = $this->getDoctrine()->getEntityManager();
         $provinces = $em->getRepository('mycpBundle:province')->get_for_main_menu();
+        
+        $for_url = array();
+        
+        foreach ($provinces as $prov)
+        {
+            $furl=str_replace(" ", "_", $prov['prov_name']);
+            $furl=str_replace("á", "a", $furl);            
+            $furl=str_replace("é", "e", $furl);
+            $furl=str_replace("í", "i", $furl);
+            $furl=str_replace("ó", "o", $furl);
+            $furl=str_replace("ú", "u", $furl);
+            $furl=str_replace("ü", "u", $furl);
+            $furl=str_replace("ñ", "nn", $furl);
+            $furl=str_replace("Á", "A", $furl);
+            $furl=str_replace("É", "E", $furl);
+            $furl=str_replace("Í", "I", $furl);
+            $furl=str_replace("Ó", "O", $furl);
+            $furl=str_replace("Ú", "U", $furl);
+            $furl=str_replace("Ñ", "NN", $furl);
+            $furl = strtolower ($furl);
+            $for_url[$prov['prov_id']] = $furl;
+        }
+        
         return $this->render('frontEndBundle:utils:mainMenuAccomodationItems.html.twig', array(
-              'provinces'=>$provinces  
+              'provinces'=>$provinces,
+              'for_url' => $for_url
         ));
     }
     

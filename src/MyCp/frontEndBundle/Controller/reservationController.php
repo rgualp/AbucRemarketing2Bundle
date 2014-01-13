@@ -839,7 +839,7 @@ class reservationController extends Controller
     }
 
 
-    function generate_pdf_boucherAction($id_booking,$name="boucher")
+    function generate_pdf_boucherAction($id_booking,$name="voucher")
     {
         $response=$this->view_confirmationAction($id_booking,true);
         return $this->download_pdf($response, $name);
