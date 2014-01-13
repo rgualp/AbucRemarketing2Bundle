@@ -69,7 +69,7 @@ class destinationController extends Controller {
         $location_province_id = $destination_array['province_id'];
 
         $popular_destinations_list = $em->getRepository('mycpBundle:destination')->get_popular_destination(5, $users_id["user_id"], $users_id["session_id"]);
-        
+
         $popular_destinations_for_url = array();        
         foreach ($popular_destinations_list as $dest)
         {
@@ -156,16 +156,16 @@ class destinationController extends Controller {
             $furl = strtolower ($furl);
             $provinces_for_url[$prov->getProvId()] = $furl;
         }
-        
+
         $view = $session->get('search_view_results_destination');
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = ($view != null) ? ($view != 'PHOTOS' ? 5 : 9) : 5;;
         $paginator->setItemsPerPage($items_per_page);
         $list = $em->getRepository('mycpBundle:destination')->ownsership_nearby_destination($location_municipality_id, $location_province_id, null,null, $users_id['user_id'], $users_id['session_id']);
         $owns_nearby = $paginator->paginate($list)->getResult();
-                        
+
         $em->getRepository('mycpBundle:userHistory')->insert(false, $destination->getDesId(), $users_id);
-        
+
         return $this->render('frontEndBundle:destination:destinationDetails.html.twig', array(
                     'destination' => $destination_array[0],
                     'is_in_favorite' => $em->getRepository('mycpBundle:favorite')->is_in_favorite($destination->getDesId(), false, $users_id["user_id"], $users_id["session_id"]),

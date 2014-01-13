@@ -46,7 +46,7 @@
         {%endif%}
         <div {%if gallery_photos | length%}class="col-sm-4"{%else%}class="col-sm-9"{%endif%}>
             <div class="square-grey-cont">
-            <div class="cont">
+            <div class="cont" style="overflow: auto; height: 430px">
                 <h1 class="caecilia-roman h-blue-3">{{destination.desName}}</h1>
                 <p>
                     {{description | raw}}

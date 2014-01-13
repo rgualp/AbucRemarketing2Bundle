@@ -468,10 +468,16 @@
                 <li><button onclick="javascript:refresh_calendar_button()" class="btn btn-primary">{{"VERIFY_PRICES_FOR_THIS_DATES" | trans}}</button></li>
             </ul>
              <hr class="margin-t"/>
-             {%render "frontEndBundle:ownership:owners_photos" with {'ownership_id': ownership.own_id }%}
-                {{"OWNERS" | trans}}: {{ownership.owner1}} 
+            {%render "frontEndBundle:ownership:owners_photos" with {'ownership_id': ownership.own_id }%}
+            {% if ownership.owner1 %}
+                <div class="text-center">
+                    <h4>
+            {{"OWNERS" | trans}}: {{ownership.owner1}}
                 {%if ownership.owner2 != ""%}, {%endif%}
                 {{ownership.owner2}}
+                    </h4>
+                </div>
+            {% endif %}
             <hr class="margin-t"/>
             {{ include('frontEndBundle:favorite:detailsFavorite.html.twig',
                         {'is_in_favorite': is_in_favorite,
