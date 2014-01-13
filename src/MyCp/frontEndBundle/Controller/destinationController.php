@@ -91,7 +91,7 @@ class destinationController extends Controller {
             $popular_destinations_for_url[$dest['des_id']] = $furl;
         }
         
-        $other_destinations_in_municipality = $em->getRepository('mycpBundle:destination')->destination_filter($location_municipality_id, $location_province_id, $destination->getDesId(), null, 5);
+        $other_destinations_in_municipality = $em->getRepository('mycpBundle:destination')->destination_filter($locale,$location_municipality_id, $location_province_id, $destination->getDesId(), null, 5);
         $other_destinations_in_municipality_for_url = array();        
         foreach ($other_destinations_in_municipality as $dest)
         {
@@ -113,7 +113,7 @@ class destinationController extends Controller {
             $other_destinations_in_municipality_for_url[$dest['desid']] = $furl;
         }
         
-        $other_destinations_in_province = $em->getRepository('mycpBundle:destination')->destination_filter(null, $location_province_id, $destination->getDesId(), null, 5);
+        $other_destinations_in_province = $em->getRepository('mycpBundle:destination')->destination_filter($locale,null, $location_province_id, $destination->getDesId(), null, 5);
         $other_destinations_in_province_for_url = array();        
         foreach ($other_destinations_in_province as $dest)
         {
