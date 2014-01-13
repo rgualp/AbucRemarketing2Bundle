@@ -87,7 +87,7 @@
                     <div class="accordion-body collapse" id="collapseTwo">
                         <div class="accordion-inner">
                             {%for destination in other_destinations_in_municipality%}
-                          <a href="{{ path('frontend_details_destination',{'destination_name':other_destinations_in_municipality_for_url[destination.des_id]}) }}">{{destination.desname}}</a><br/>
+                          <a href="{{ path('frontend_details_destination',{'destination_name':other_destinations_in_municipality_for_url[destination.desid]}) }}">{{destination.desname}}</a><br/>
 
                         {%else%}
                         <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
@@ -104,7 +104,7 @@
                     <div class="accordion-body collapse" id="collapseThree">
                         <div class="accordion-inner">
                             {%for destination in other_destinations_in_province%}
-                           <a href="{{ path('frontend_details_destination',{'destination_name':other_destinations_in_province_for_url[destination.des_id]}) }}">{{destination.desname}}</a><br/>                        {%else%}
+                           <a href="{{ path('frontend_details_destination',{'destination_name':other_destinations_in_province_for_url[destination.desid]}) }}">{{destination.desname}}</a><br/>                        {%else%}
                         <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
                         {%endfor%}
                         </div>
