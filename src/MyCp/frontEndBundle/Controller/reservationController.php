@@ -656,6 +656,7 @@ class reservationController extends Controller
 
     function confirmationAction($id_booking)
     {
+
         $user = $this->get('security.context')->getToken()->getUser();
 
         $em = $this->getDoctrine()->getManager();
@@ -718,8 +719,8 @@ class reservationController extends Controller
 
         //save pdf into disk to attach
         $response=$this->view_confirmationAction($id_booking,true);
-        $now = new \DateTime();
-        $pdf_name='voucher'.$user->getUserId().$now->getTimestamp();
+
+        $pdf_name='voucher'.$user->getUserId().'_'.$booking->getBookingId();
         $this->download_pdf($response, $pdf_name ,true);
         $attach=$this->container->getParameter('kernel.root_dir')
             ."/../web/bouchers/$pdf_name.pdf";
@@ -739,6 +740,7 @@ class reservationController extends Controller
         $service_email->send_email(
             $subject, 'reservation@mycasaparticular.com', $subject.' - MyCasaParticular.com', $user->getUserEmail(), $body, $attach
         );
+
         @unlink($attach);
 
         // enviando mail a reservation team
