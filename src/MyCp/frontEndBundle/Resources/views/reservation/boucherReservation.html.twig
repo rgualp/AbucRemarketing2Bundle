@@ -66,7 +66,7 @@
                      data-image=""
                      data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"
                 </div>-->
-                <img src='http://maps.googleapis.com/maps/api/staticmap?center=23.13648,-82.365148&zoom=15&size=200x200&sensor=false&a.jpg'/>
+                <img src='http://maps.googleapis.com/maps/api/staticmap?center={{own.getOwnResGenResId.getGenResOwnId.getOwnGeolocateX}},{{own.getOwnResGenResId.getGenResOwnId.getOwnGeolocateY}}&zoom=15&size=200x200&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{own.getOwnResGenResId.getGenResOwnId.getOwnGeolocateX}},{{own.getOwnResGenResId.getGenResOwnId.getOwnGeolocateY}}&a.jpg'/>
             </div>
         </td>
     </tr>
