@@ -571,7 +571,7 @@ var markers_big;
 function initialize_map() {
     var json_url = $("#json_source").attr('data-url');
     var icon_small = $("#json_source").attr('data-icon-small');
-    //var icon = $("#json_source").attr('data-icon');         
+    var icon = $("#json_source").attr('data-icon');
 
     if (document.getElementById("map") != null)
     {
