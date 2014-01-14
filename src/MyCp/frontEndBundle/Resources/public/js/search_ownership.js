@@ -708,7 +708,7 @@ function initialize_map() {
                         });
 
                 //Evento mouseover en el cluster
-                google.maps.event.addListener(markerClusterBig, 'mouseover',
+               /* google.maps.event.addListener(markerClusterBig, 'mouseover',
                         function(cluster) {
                             var markers = cluster.getMarkers();
 
@@ -742,7 +742,7 @@ function initialize_map() {
                                     ib.close();
                                 }
                             }
-                        });
+                        });*/
             }
         });
 
