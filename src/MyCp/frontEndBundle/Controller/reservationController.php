@@ -815,20 +815,18 @@ class reservationController extends Controller
             }
         }
 
-        $this->remove_dir('bouchers/'.$id_booking);
-        mkdir('bouchers/'.$id_booking);
+        //$this->remove_dir('bouchers/'.$id_booking);
+        //mkdir('bouchers/'.$id_booking);
 
         foreach($own_res as $own)
         {
             // load map from google static map
-            $image = file_get_contents('http://localhost/index.php?img=gifLogo');
-            $fp  = fopen('bouchers/'.$id_booking.'/'.$own->getOwnResGenResId()->getGenResOwnId()->getOwnId().'.jpg', 'w+');
+            $image = file_get_contents('http://maps.googleapis.com/maps/api/staticmap?center=23.13648,-82.365148&zoom=15&size=200x200&sensor=false');
+            $fp  = fopen('bouchers/'.$id_booking.'_'.$own->getOwnResGenResId()->getGenResOwnId()->getOwnId().'.jpg', 'w+');
             fputs($fp, $image);
             fclose($fp);
             unset($image);
         }
-
-
 
         if($to_print==true)
         {
@@ -885,7 +883,9 @@ class reservationController extends Controller
             $dompdf->stream($name . ".pdf", array("Attachment" => false));
 
         if($id_booking!= null)
-            $this->remove_dir('bouchers/'.$id_booking);
+        {
+
+        }
     }
 
     function remove_dir($dir) {
