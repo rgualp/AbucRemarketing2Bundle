@@ -821,8 +821,9 @@ class reservationController extends Controller
         foreach($own_res as $own)
         {
             // load map from google static map
+            //$image = file_get_contents('http://maps.googleapis.com/maps/api/staticmap?center=23.13648,-82.365148&zoom=15&size=200x200&sensor=false');
             $image = file_get_contents('http://maps.googleapis.com/maps/api/staticmap?center=23.13648,-82.365148&zoom=15&size=200x200&sensor=false');
-            $fp  = fopen('bouchers/'.$id_booking.'_'.$own->getOwnResGenResId()->getGenResOwnId()->getOwnId().'.jpg', 'w+');
+            $fp  = fopen('bouchers/'.$id_booking.'_'.$own->getOwnResGenResId()->getGenResOwnId()->getOwnId().'.jpg', 'w');
             fputs($fp, $image);
             fclose($fp);
             unset($image);
