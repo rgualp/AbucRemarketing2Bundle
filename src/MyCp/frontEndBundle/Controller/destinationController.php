@@ -2,6 +2,7 @@
 
 namespace MyCp\frontEndBundle\Controller;
 
+use MyCp\frontEndBundle\Helpers\Utils;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -69,18 +70,36 @@ class destinationController extends Controller {
         $location_province_id = $destination_array['province_id'];
 
         $popular_destinations_list = $em->getRepository('mycpBundle:destination')->get_popular_destination(5, $users_id["user_id"], $users_id["session_id"]);
-        $other_destinations_in_municipality = $em->getRepository('mycpBundle:destination')->destination_filter($location_municipality_id, $location_province_id, $destination->getDesId(), null, 5);
-        $other_destinations_in_province = $em->getRepository('mycpBundle:destination')->destination_filter(null, $location_province_id, $destination->getDesId(), null, 5);
+
+        $popular_destinations_for_url = array();        
+        foreach ($popular_destinations_list as $dest)
+            $popular_destinations_for_url[$dest['des_id']] = Utils::url_normalize($dest['des_name']);
+
         
+        $other_destinations_in_municipality = $em->getRepository('mycpBundle:destination')->destination_filter($locale,$location_municipality_id, $location_province_id, $destination->getDesId(), null, 5);
+        $other_destinations_in_municipality_for_url = array();        
+        foreach ($other_destinations_in_municipality as $dest)
+            $other_destinations_in_municipality_for_url[$dest['desid']] = Utils::url_normalize($dest['desname']);
+
+        $other_destinations_in_province = $em->getRepository('mycpBundle:destination')->destination_filter($locale,null, $location_province_id, $destination->getDesId(), null, 5);
+        $other_destinations_in_province_for_url = array();        
+        foreach ($other_destinations_in_province as $dest)
+            $other_destinations_in_province_for_url[$dest['desid']] = Utils::url_normalize($dest['desname']);
+
+        $provinces = $em->getRepository("mycpBundle:province")->findAll();
+        $provinces_for_url = array();        
+        foreach ($provinces as $prov)
+            $provinces_for_url[$prov->getProvId()] = Utils::url_normalize($prov->getProvName());
+
         $view = $session->get('search_view_results_destination');
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = ($view != null) ? ($view != 'PHOTOS' ? 5 : 9) : 5;;
         $paginator->setItemsPerPage($items_per_page);
         $list = $em->getRepository('mycpBundle:destination')->ownsership_nearby_destination($location_municipality_id, $location_province_id, null,null, $users_id['user_id'], $users_id['session_id']);
         $owns_nearby = $paginator->paginate($list)->getResult();
-                        
+
         $em->getRepository('mycpBundle:userHistory')->insert(false, $destination->getDesId(), $users_id);
-        
+
         return $this->render('frontEndBundle:destination:destinationDetails.html.twig', array(
                     'destination' => $destination_array[0],
                     'is_in_favorite' => $em->getRepository('mycpBundle:favorite')->is_in_favorite($destination->getDesId(), false, $users_id["user_id"], $users_id["session_id"]),
@@ -100,12 +119,16 @@ class destinationController extends Controller {
                     'other_destinations_in_province' => $other_destinations_in_province,
                     'total_other_destinations_in_province' => count($other_destinations_in_province),
                     'popular_list' => $popular_destinations_list,
-                    'provinces' => $em->getRepository("mycpBundle:province")->findAll(),
+                    'provinces' => $provinces,
                     'owns_nearby' => $owns_nearby,
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
                     'destination_name' => $original_destination_name,
-                    'data_view' => (($view == null) ? 'LIST' : $view)
+                    'data_view' => (($view == null) ? 'LIST' : $view),
+                    'popular_destinations_for_url' =>$popular_destinations_for_url,
+                    'other_destinations_in_municipality_for_url' => $other_destinations_in_municipality_for_url,
+                    'other_destinations_in_province_for_url' => $other_destinations_in_province_for_url,
+                    'provinces_for_url' => $provinces_for_url
         ));
     }
 

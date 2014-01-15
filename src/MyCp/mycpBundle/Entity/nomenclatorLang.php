@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * faq
  *
- * @ORM\Table()
+ * @ORM\Table(name="nomenclatorlang")
  * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\nomenclatorRepository")
  */
 class nomenclatorLang

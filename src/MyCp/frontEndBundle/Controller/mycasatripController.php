@@ -327,6 +327,16 @@ class mycasatripController extends Controller {
     /**
      * Yanet 
      */
+    function favorites_destinationsAction()
+    {
+        return $this->favoritesAction('destinations');
+    }
+    
+    function favorites_accomodationsAction()
+    {
+        return $this->favoritesAction('ownershipfav');
+    }
+    
     function favoritesAction($favorite_type) {
         $em = $this->getDoctrine()->getManager();
         $user = $this->get('security.context')->getToken()->getUser();

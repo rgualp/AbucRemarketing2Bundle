@@ -25,10 +25,14 @@ frontend_mycasatrip_payment:
 frontend_mycasatrip_historial_consult:
     locales:  { en: "/history_consult/{order_by}", es: "/historial_consultadas/{order_by}" }
     defaults: { _controller: frontEndBundle:mycasatrip:history_reservation_consult,order_by:0 }
+
+frontend_mycasatrip_favorites_destinations:
+    locales:  { en: "/favorites/destinations", es: "/favoritos/destinos" }
+    defaults: { _controller: frontEndBundle:mycasatrip:favorites_destinations }
     
-frontend_mycasatrip_favorites:
-    locales:  { en: "/favorites/{favorite_type}", es: "/favoritas/{favorite_type}" }
-    defaults: { _controller: frontEndBundle:mycasatrip:favorites }
+frontend_mycasatrip_favorites_accomodations:
+    locales:  { en: "/favorites/accomodations", es: "/favoritos/alojamientos" }
+    defaults: { _controller: frontEndBundle:mycasatrip:favorites_accomodations }
     
 frontend_mycasatrip_comments:
     locales:  { en: "/comments/{comment_type}", es: "/comentarios/{comment_type}" }

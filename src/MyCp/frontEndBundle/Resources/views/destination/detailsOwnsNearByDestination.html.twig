@@ -1,5 +1,5 @@
 {%if owns_nearby | length%}
-<div class="row-fluid result_list ownerships_list" id="div_result">
+<div class="houses-list thumbs-houses lazy-cont" id="div_result">
     {%if data_view is not defined or data_view == 'LIST'%}
     {{ include('frontEndBundle:ownership:ownershipArrayItemList.html.twig',
          {'list': owns_nearby,

@@ -497,7 +497,7 @@ class userRepository extends EntityRepository {
                 $session = $controller->getRequest()->getSession();
                 $now = time();
                 $session_id = $session->getId(); //."_".$now;
-                setcookie("mycp_user_session", $session_id, time() + 60 * 60 * 24 * 365);
+                setcookie("mycp_user_session", $session_id, time() + 60 * 60 * 24 * 365,'/');
             }
         }
 

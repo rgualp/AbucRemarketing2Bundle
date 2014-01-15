@@ -19,8 +19,7 @@
     <button class="btn btn-primary" type="submit">Guardar</button>
     <button class="btn" type="reset">Cancelar</button>
     &nbsp;&nbsp;&nbsp;
-    <a {% if reservation.getGenResSaved!=0 %}href="{{path('mycp_send_reservation',{'id_reservation':id_reservation})}}"{% endif %} type="button" class="{% if reservation.getGenResSaved==0 %}disabled{% endif %} btn btn-danger">Enviar</a>
-
+    <button {% if reservation.getGenResSaved!=0 %} onclick="send_message();" {% endif %}class="{% if reservation.getGenResSaved==0 %}disabled{% endif %} btn btn-danger" type="{% if reservation.getGenResSaved!=0 %}submit{% else %}button{% endif %}">Enviar</button>
 </div>
 </form>
 {% endblock %}
@@ -28,7 +27,7 @@
 <h2>Detalles de Reserva ({{ reservation.getGenResOwnId.getOwnMcpCode }} {{ reservation.getGenResOwnId.getOwnName }})</h2>
 <hr/>
 {% if errors %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
-<form action="{{ path('mycp_details_reservation', { 'id_reservation' : id_reservation } ) }}" method="POST">
+<form id="form_edit_reserve" action="{{ path('mycp_details_reservation', { 'id_reservation' : id_reservation } ) }}" method="POST">
 <div class="row-fluid">
 <div class="span6">
     <ul class="nav nav-tabs">
@@ -224,7 +223,7 @@
     </table>
     <ul class="nav nav-tabs">
         <li class="active">
-            <a href="#new_message" data-toggle="tab">Nuevo mensaje el cliente</a>
+            <a href="#new_message" data-toggle="tab">Nuevo mensaje al cliente</a>
         </li>
         <li class="">
             <a href="#client_messages" data-toggle="tab">Mensajes al cliente</a>
@@ -235,7 +234,7 @@
     </ul>
     <div class="tab-content" id="">
         <div id="new_message" class="tab-pane fade in active">
-            <textarea class="span12 textarea" name=""></textarea>
+            <textarea class="span12 textarea" name="message_to_client">{% if post['message_to_client'] is defined %}{{ post['message_to_client'] }}{% endif %}</textarea>
         </div>
         <div id="client_messages" class="tab-pane fade">
 
@@ -262,5 +261,12 @@
         }).on('changeDate', function(ev){
                     $('.datepicker').hide();
                 });
+        function send_message()
+        {
+            url_submit="{{path('mycp_send_reservation',{'id_reservation':id_reservation})}}";
+            form=$('#form_edit_reserve');
+            form.attr('action',url_submit);
+            form.submit();
+        }
     </script>
 {% endblock %}

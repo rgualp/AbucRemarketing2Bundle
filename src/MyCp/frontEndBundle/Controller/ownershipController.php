@@ -1201,7 +1201,8 @@ class ownershipController extends Controller {
                     'locale' => $this->get('translator')->getLocale(),
                     'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocomplete_text_list(),
                     'check_filters' => $check_filters,
-                    'list_preffix' => 'search'
+                    'list_preffix' => 'search',
+                    'list' => $search_results_list
         ));
     }
 

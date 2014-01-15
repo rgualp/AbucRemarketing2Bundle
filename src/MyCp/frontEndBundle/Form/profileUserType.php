@@ -46,7 +46,7 @@ class profileUserType extends AbstractType
         
         
         $builder
-           // ->add('user_photo','file',array('label'=>' ', 'attr'=>array('title'=>$this->translate->trans('SELECT_PHOTOGRAPHY'),'accept'=>'image/*')))
+            //->add('user_photo','file',array('label'=>' ', 'attr'=>array('title'=>$this->translate->trans('SELECT_PHOTOGRAPHY'),'accept'=>'image/*')))
             ->add('user_user_name','text',array('label'=>$this->translate->trans('FORMS_NAME'),'attr'=>array('class'=>'form-control')))
             ->add('user_last_name','text',array('label'=>$this->translate->trans('FORMS_LASTNAME'),'attr'=>array('class'=>'form-control')))
             ->add('user_gender','choice',array('choices'=>$array_gender,'empty_value' => '','label'=>$this->translate->trans('GENDER'),'attr'=>array('class'=>'form-control user_gender'))) 

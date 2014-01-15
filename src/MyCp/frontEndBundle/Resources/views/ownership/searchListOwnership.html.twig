@@ -1,10 +1,10 @@
 {%for own in list%}
-<div class="row lazy-cont" data-id="{{own.own_id}}">
+<div class="row" data-id="{{own.own_id}}">
     <div class="col-sm-4">
 
         <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if own.comments_total > 0%}+{%endif%}{{own.comments_total}}&nbsp;&nbsp;&nbsp;">
             <a href="{{ path('frontend_details_ownership',{'own_name':own.own_name  | lower | replace(' ','_')}) }}">
-                <img class="lazy" data-src="{{ asset("uploads/ownershipImages/thumbnails/" ~  own.photo)}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
+                <img alt="{{ own.own_name }}" class="lazy" data-src="{{ asset("uploads/ownershipImages/thumbnails/" ~  own.photo)}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
                 <noscript><img class="nolazy" src="{{ asset("uploads/ownershipImages/thumbnails/" ~  own.photo)}}"></noscript>
             </a>
         </div>
@@ -89,3 +89,9 @@
         </div>
   
 {%endif%}
+<script src="{{ asset('bundles/frontend/js/jail.min.js') }}"></script>
+<script type="text/javascript">
+        $(function(){
+            $('img.lazy').jail();
+        });
+</script>

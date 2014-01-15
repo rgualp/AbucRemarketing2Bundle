@@ -1,25 +1,34 @@
 {% extends 'frontEndBundle:layout:base.html.twig' %}
 {% block title %}{{"USER_MY_PROFILE" | trans}}{% endblock %}
+{% block breadcrumbs %}
+    <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+    <span>››</span>
+    <a href="#" class="active" title="{{"USER_MY_PROFILE" | trans}}">{{"USER_MY_PROFILE" | trans}}</a>
+{% endblock %}
 {% block body %}
 <div class="container">
-    <h2 class="caecilia-roman big-price-green text-center no-margin" style="font-weight: normal; margin-top: 35px">{{"USER_MY_PROFILE" | trans}}</h2>
+    {% if errors['used_email'] is defined%}<div class="alert alert-info">{{errors['used_email']}}</div>{% endif %}
+    {% if errors['complete_form'] is defined%}<div class="alert alert-info">{{errors['complete_form']}}</div>{% endif %}
+    <h2 class="caecilia-roman big-price-green text-center no-margin" style="font-weight: normal; margin-top: 20px">{{"USER_MY_PROFILE" | trans}}</h2>
     <div><img src="{{ asset('bundles/frontend/img/line-gradient-green.png') }}" style="width: 100%; height: 1px; margin: 16px 0"></div> 
     <div class="row" style="margin-bottom: 30px">
             <div class="col-sm-4"></div>
-        <div class="col-sm-4">
+        <div class="col-sm-4 houses-list thumbs-houses lazy-cont ">
         {%if user.UserPhoto != ""%}
-        <img src="{{asset('uploads/userImages/'~user.UserPhoto)}}" class="img-polaroid span3"/>
+            <img class="lazy thumbnail" style="width: 150px" data-src="{{ asset('uploads/userImages/'~user.UserPhoto.phoName)}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
+            <noscript><img class="nolazy" src="{{ asset('uploads/userImages/'~user.UserPhoto.phoName)}}"></noscript>
         {%else%}
-        <img src="{{ asset('bundles/frontend/img/user_no_photo.gif')}}" class="img-polaroid span3"/>
+            <img class="lazy" data-src="{{ asset('bundles/frontend/img/user_no_photo.gif')}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
+            <noscript><img class="nolazy" src="{{ asset('bundles/frontend/img/user_no_photo.gif')}}"></noscript>
         {%endif%}
         </div>
-        <div class="col-sm-4"></div>
         </div>
-        <form novalidate class="form-horizontal" method="POST" action="{{ path('frontend_profile_user') }}">
-            {% if errors['used_email'] is defined%}<div class="alert alert-error">{{errors['used_email']}}</div>{% endif %}
+        <form class="form-horizontal" method="POST" action="{{ path('frontend_profile_user') }}" enctype="multipart/form-data" novalidate="true">
+
       <div class="row">
         <div class="col-sm-4"></div>
         <div class="col-sm-4">
+            <input class="input-block-level" accept="image/*" title="{{'SELECT_PHOTOGRAPHY' | trans}}" type="file" name="user_photo" id="user_photo"/>
             {{ form_widget(form)}}
                 </div>
         <div class="col-sm-4"></div>

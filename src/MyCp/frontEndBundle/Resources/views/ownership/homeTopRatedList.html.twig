@@ -40,3 +40,9 @@
     {%endfor%}
 </div>
 </div>
+<script src="{{ asset('bundles/frontend/js/jail.min.js') }}"></script>
+<script type="text/javascript">
+        $(function(){
+            $('img.lazy').jail();
+        });
+</script>

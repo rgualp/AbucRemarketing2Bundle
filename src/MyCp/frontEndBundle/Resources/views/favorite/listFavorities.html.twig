@@ -3,19 +3,14 @@
 {{"FAVORITIES"  | trans }}
 {% endblock %}
 {% block breadcrumbs %}
-    <br/>
-    <div class="container">
-        <div class="breadcrumb">
-            <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
-            <span>/</span>
-            {{"FAVORITIES" | trans}}
-        </div>
-    </div>
+    <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+    <span>››</span>
+    <a href="#" class="active" title="{{"FAVORITIES" | trans}}">{{"FAVORITIES" | trans}}</a>
 {% endblock %}
 {% block body %}
 <div class="container">
     <div style="margin: 0px 0 20px">
-        <h1 class="caecilia-roman h-green no-margin"> {{ 'FAVORITIES'|trans }}</h1>
+        <h1 class="caecilia-roman h-green "> {{ 'FAVORITIES'|trans }}</h1>
     </div>
         <ul class="nav nav-tabs margin-t-t">
             <li class="active"><a data-toggle="tab" href="#owns_favorities"><i class="icon-home"></i> {{"OWNERSHIPS" | trans}}</a></li>
@@ -46,6 +41,13 @@
     </div>
 </div>
 </div>
+<script type="text/javascript">
+    $('.nav-tabs li').click(function(){
+        win=$(window);
+        win.scrollTop(win.scrollTop()+1);
+        win.scrollTop(win.scrollTop()-1);
+    })
+</script>
 {% block include_javascripts %}
 <!--script src="{{ asset('bundles/frontend/js/category_ownership.js') }}"></script-->    
 {% endblock %}

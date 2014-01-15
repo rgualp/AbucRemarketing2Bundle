@@ -2,6 +2,7 @@
 
 namespace MyCp\frontEndBundle\Controller;
 
+use MyCp\frontEndBundle\Helpers\Utils;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\SecurityContext;
@@ -113,25 +114,8 @@ class PublicController extends Controller {
          $for_url = array();
         
         foreach ($destinations as $prov)
-        {
-            $furl=str_replace(" ", "_", $prov['des_name']);
-            $furl=str_replace("á", "a", $furl);            
-            $furl=str_replace("é", "e", $furl);
-            $furl=str_replace("í", "i", $furl);
-            $furl=str_replace("ó", "o", $furl);
-            $furl=str_replace("ú", "u", $furl);
-            $furl=str_replace("ü", "u", $furl);
-            $furl=str_replace("ñ", "nn", $furl);
-            $furl=str_replace("Á", "A", $furl);
-            $furl=str_replace("É", "E", $furl);
-            $furl=str_replace("Í", "I", $furl);
-            $furl=str_replace("Ó", "O", $furl);
-            $furl=str_replace("Ú", "U", $furl);
-            $furl=str_replace("Ñ", "NN", $furl);
-            $furl = strtolower ($furl);
-            $for_url[$prov['des_id']] = $furl;
-        }
-        
+            $for_url[$prov['des_id']] = Utils::url_normalize($prov['des_name']);
+
         return $this->render('frontEndBundle:utils:mainMenuDestinationItems.html.twig', array(
               'destinations'=>$destinations,
               'for_url' => $for_url
@@ -146,24 +130,7 @@ class PublicController extends Controller {
         $for_url = array();
         
         foreach ($provinces as $prov)
-        {
-            $furl=str_replace(" ", "_", $prov['prov_name']);
-            $furl=str_replace("á", "a", $furl);            
-            $furl=str_replace("é", "e", $furl);
-            $furl=str_replace("í", "i", $furl);
-            $furl=str_replace("ó", "o", $furl);
-            $furl=str_replace("ú", "u", $furl);
-            $furl=str_replace("ü", "u", $furl);
-            $furl=str_replace("ñ", "nn", $furl);
-            $furl=str_replace("Á", "A", $furl);
-            $furl=str_replace("É", "E", $furl);
-            $furl=str_replace("Í", "I", $furl);
-            $furl=str_replace("Ó", "O", $furl);
-            $furl=str_replace("Ú", "U", $furl);
-            $furl=str_replace("Ñ", "NN", $furl);
-            $furl = strtolower ($furl);
-            $for_url[$prov['prov_id']] = $furl;
-        }
+            $for_url[$prov['prov_id']] = Utils::url_normalize($prov['prov_name']);
         
         return $this->render('frontEndBundle:utils:mainMenuAccomodationItems.html.twig', array(
               'provinces'=>$provinces,

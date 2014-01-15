@@ -2,6 +2,7 @@
 
 namespace MyCp\FrontendBundle\Controller;
 
+use Doctrine\Common\Cache\ArrayCache;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,6 +28,17 @@ class informationController extends Controller {
     
     public function how_it_worksAction()
     {
-       return $this->render('frontEndBundle:information:howItWorks.html.twig'); 
+        $locale=$this->get('translator')->getLocale();
+        $em = $this->getDoctrine()->getEntityManager();
+        $nomenclator=$em->getRepository('mycpBundle:nomenclator')->findBy(array('nom_name'=>'how_it_works'));
+        $information=$em->getRepository('mycpBundle:information')->findBy(array('info_id_nom'=>$nomenclator[0]->getNomId()));
+        $contents=$em->getRepository('mycpBundle:informationLang')->findBy(array('info_lang_info'=>$information[0]->getInfoId()));
+        $content=array();
+        foreach($contents as $cont)
+        {
+            if(strtolower($cont->getInfoLangLang()->getLangCode())== strtolower($locale))
+                array_push($content, array('title'=>$cont->getInfoLangName(),'content'=>$cont->getInfoLangContent()));
+        }
+        return $this->render('frontEndBundle:information:howItWorks.html.twig' , array('contents'=>$content));
     }
 }

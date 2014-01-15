@@ -54,7 +54,7 @@
         <div class="span12">
             <label>Contenido en {{language.getLangName|title}}:</label>
             {%if errors["info_content_"~language.getlangId] is defined %}<label class="error">{{errors["info_content_"~language.getlangId]|trim(':')}}</label>{%endif%}
-            <textarea class="textarea input-block-level" name="info_content_{{language.getLangId}}">{% if post["info_content_"~language.getlangId] is defined %}{{post["info_content_"~language.getlangId]}}{% endif %}</textarea>
+            <textarea class="input-block-level" name="info_content_{{language.getLangId}}">{% if post["info_content_"~language.getlangId] is defined %}{{post["info_content_"~language.getlangId]}}{% endif %}</textarea>
         </div>
     </div>
     <br/>

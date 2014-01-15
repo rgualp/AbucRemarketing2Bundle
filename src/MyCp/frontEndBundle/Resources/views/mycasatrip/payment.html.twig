@@ -1,18 +1,29 @@
 {% set menu = 3 %}
 {% extends 'frontEndBundle:mycasatrip:layout_order_by.html.twig' %}
+
+{% block breadcrumbs %}
+    <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+    <span>››</span>
+    <a href="{{ path('frontend_mycasatrip_pending',{'order_by':0}) }}" title="MyCasa Trip">MyCasa Trip</a>
+    <span>››</span>
+    <a href="#" class="active" title="{{"RESERVES" | trans}}">{{"RESERVES" | trans}}</a>
+{% endblock %}
+
 {% block body_inner %}
-<div class="thumbs-houses houses-list myct-records">
+<div class="thumbs-houses houses-list myct-records lazy-cont">
 {% for res in res_payment %}
 <div class="row no-margin">
     <div class="col-sm-3">
         <div data-text="&nbsp;&nbsp;&nbsp;{{'RESERVE_SINGULAR' | trans}}&nbsp;&nbsp;&nbsp;" class="thumbnail has-ribbon-red has-ribbon has-ribbon-left">
             {% if photos[loop.index0]%}
                 <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | lower | replace(' ','_')}) }}">
-                    <img src="{{ asset('uploads/ownershipImages/thumbnails/'~ photos[loop.index0]) }}">
+                    <img class="lazy" data-src="{{ asset('uploads/ownershipImages/thumbnails/'~ photos[loop.index0]) }}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
+                    <noscript><img class="nolazy" src="{{ asset('uploads/ownershipImages/thumbnails/'~ photos[loop.index0]) }}"></noscript>
                 </a>
             {% else %}
                 <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | lower | replace(' ','_')}) }}">
-                    <img src="{{ asset('uploads/ownershipImages/thumbnails/no_photo.png') }}">
+                    <img class="lazy" data-src="{{ asset('uploads/ownershipImages/thumbnails/no_photo.png') }}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
+                    <noscript><img class="nolazy" src="{{ asset('uploads/ownershipImages/thumbnails/no_photo.png') }}"></noscript>
                 </a>
             {% endif %}
         </div>

@@ -8,19 +8,14 @@
 
 {% set main_tab = 5 %}
 {% block breadcrumbs %}
-    <br/>
-    <div class="container">
-        <div class="breadcrumb">
-            <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
-            <span>/</span>
-            <a href="{{ path('frontend_search_ownership') }}" title="{{"OWNERSHIPS" | trans}}">{{"OWNERSHIPS" | trans}}</a>
-            <span>/</span>
-            {{ ownership.ownname }}
-        </div>
-    </div>
+    <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+    <span>››</span>
+    <a href="{{ path('frontend_search_ownership') }}" title="{{"OWNERSHIPS" | trans}}">{{"OWNERSHIPS" | trans}}</a>
+    <span>››</span>
+    <a href="#" class="active"  title="{{ ownership.ownname }}">{{ ownership.ownname }}</a>
 {% endblock %}
 {% block body %}
-<div class="bg-solid-ligth-blue">
+<div class="bg-solid-ligth-blue" style="margin-top: -16px">
     <div class="container">
         <h1 class="caecilia-roman h-size-3">
             {{ownership.owntype  | trans}} {{"IN" | trans}} {{ownership.ownAddressProvince}}: {{ownership.ownname}} ({{ ownership.mycpcode }}).
@@ -473,10 +468,16 @@
                 <li><button onclick="javascript:refresh_calendar_button()" class="btn btn-primary">{{"VERIFY_PRICES_FOR_THIS_DATES" | trans}}</button></li>
             </ul>
              <hr class="margin-t"/>
-             {%render "frontEndBundle:ownership:owners_photos" with {'ownership_id': ownership.own_id }%}
-                {{"OWNERS" | trans}}: {{ownership.owner1}} 
+            {%render "frontEndBundle:ownership:owners_photos" with {'ownership_id': ownership.own_id }%}
+            {% if ownership.owner1 %}
+                <div class="text-center">
+                    <h4>
+            {{"OWNERS" | trans}}: {{ownership.owner1}}
                 {%if ownership.owner2 != ""%}, {%endif%}
                 {{ownership.owner2}}
+                    </h4>
+                </div>
+            {% endif %}
             <hr class="margin-t"/>
             {{ include('frontEndBundle:favorite:detailsFavorite.html.twig',
                         {'is_in_favorite': is_in_favorite,

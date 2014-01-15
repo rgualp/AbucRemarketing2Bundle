@@ -64,7 +64,7 @@ class municipalityRepository extends EntityRepository
         for ($i = 0; $i < count($result); $i++) {
             if ($result[$i]['photo'] == null)
                 $result[$i]['photo'] = "no_photo.png";
-            else if (!file_exists(realpath("uploads/destinationImages/" . $result[$i]['mun_id']))) {
+            else if (!file_exists(realpath("uploads/destinationImages/" . $result[$i]['photo']))) {
                 $result[$i]['photo'] = "no_photo.png";
             }
             

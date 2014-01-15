@@ -455,6 +455,8 @@ class BackendReservationController extends Controller
         }
         $this->get('translator')->setLocale($user_tourist[0]->getUserTouristLanguage()->getLangCode());
 
+        $message = $this->getRequest()->get('message_to_client');
+        $message[0]=strtoupper($message[0]);
 
         // Enviando mail al cliente
         $body=$this->render('frontEndBundle:mails:email_offer_available.html.twig',array(
@@ -462,6 +464,7 @@ class BackendReservationController extends Controller
             'reservations'=>$reservations,
             'photos'=>$array_photos,
             'nights'=>$array_nigths,
+            'message'=>$message
         ));
         
         $locale = $this->get('translator');
