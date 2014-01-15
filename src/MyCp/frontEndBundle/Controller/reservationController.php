@@ -722,6 +722,7 @@ class reservationController extends Controller
 
         $pdf_name='voucher'.$user->getUserId().'_'.$booking->getBookingId();
         $this->download_pdf($response, $pdf_name ,true);
+
         $attach=$this->container->getParameter('kernel.root_dir')
             ."/../web/vouchers/$pdf_name.pdf";
 
