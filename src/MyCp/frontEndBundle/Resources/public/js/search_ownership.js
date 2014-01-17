@@ -664,7 +664,12 @@ function initialize_map() {
 
                             var boxText = document.createElement("div");
                             boxText.style.cssText = "border: 1px solid #ccc; margin-top: 8px; background: #fff; padding: 5px; font-size:11px";
-                            boxText.innerHTML = "<table><tr><td class='map_image' style='background-image:url(" + data[i].image + ")'></td><td style='padding-left:4px; line-height:12px;' valign='top'>" + data[i].title + "<br/><b>" + data[i].content + "</b></td></tr></table>";
+                            boxText.innerHTML = "<div class='row'>" +
+                                                "<div class='map_image col-sm-4' style='background-image:url(" + data[i].image + ")'></div>" + 
+                                                "<div class='col-sm-8' style='line-height:12px;text-align: left'>" + data[i].title + "<br/>" + 
+                                                "<b>" + data[i].content + "</b>" + 
+                                                "</div>" + 
+                                                "</div>";
 
                             ib.setContent(boxText);
                             ib.open(map_big, marker_bullet);

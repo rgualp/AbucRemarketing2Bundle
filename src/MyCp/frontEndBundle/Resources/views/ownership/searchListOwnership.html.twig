@@ -1,5 +1,5 @@
 {%for own in list%}
-<div class="row" data-id="{{own.own_id}}">
+<div class="row elementList" data-id="{{own.own_id}}" id="own_{{own.own_id}}">
     <div class="col-sm-4">
 
         <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if own.comments_total > 0%}+{%endif%}{{own.comments_total}}&nbsp;&nbsp;&nbsp;">

@@ -1010,6 +1010,7 @@ class ownershipController extends Controller {
         $session = $request->getSession();
         $em = $this->getDoctrine()->getEntityManager();
         $markers_id_list = $request->request->get('own_ids');
+        $users_id = $em->getRepository('mycpBundle:user')->user_ids($this);
 
         $own_ids = "0";
 
@@ -1020,16 +1021,17 @@ class ownershipController extends Controller {
 
         $session->set('own_ids', $own_ids);
 
-        $list = $em->getRepository('mycpBundle:ownership')->getListByIds($own_ids);
+        $list = $em->getRepository('mycpBundle:ownership')->getCompleteListByIds($own_ids, $users_id["user_id"], $users_id["session_id"]);
 
-        $photos = $em->getRepository('mycpBundle:ownership')->get_photos_array($list);
-        $rooms = $em->getRepository('mycpBundle:ownership')->get_rooms_array($list);
+        //$photos = $em->getRepository('mycpBundle:ownership')->get_photos_array($list);
+        //$rooms = $em->getRepository('mycpBundle:ownership')->get_rooms_array($list);
 
         $response = $this->renderView('frontEndBundle:ownership:searchListOwnership.html.twig', array(
             'list' => $list,
-            'photos' => $photos,
-            'rooms' => $rooms,
-            'type' => 'map'
+           // 'photos' => $photos,
+           // 'rooms' => $rooms,
+            'type' => 'map',
+            'list_preffix' => 'map'
         ));
 
         return new Response($response, 200);
