@@ -47,7 +47,6 @@ class currencyController extends Controller {
         }
 
         return new Response(null, 200);
-        ;
     }
 
     public function change_currencyAction($curr_code)
