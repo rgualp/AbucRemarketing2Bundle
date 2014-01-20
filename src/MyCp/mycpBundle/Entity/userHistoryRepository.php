@@ -64,7 +64,7 @@ class userHistoryRepository extends EntityRepository
             $where .= ($where != "") ? (($is_ownership) ? " AND h.user_history_ownership = $element_id" : " AND h.user_history_destination = $element_id") : "";
 
             if ($where != "")
-                return $em->createQuery($query_string . $where)->getOneOrNullResult();
+                return $em->createQuery($query_string . $where . " ORDER BY h.user_history_visit_date DESC")->getOneOrNullResult();
             else
                 return null;
         } catch (Exception $e) {
