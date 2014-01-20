@@ -1905,7 +1905,8 @@
             <trans-unit id="484">
                 <source>PAYMENT_CONFIRMATION_TEXT</source>
                 <target>
-                    If you click in Confirm button, you declare accept Terms and Conditions and a charge of</target>
+                    If you click in Confirm button, you declare accept Terms and Conditions and a charge of
+                </target>
             </trans-unit>
             <trans-unit id="485">
                 <source>TO</source>
