@@ -747,6 +747,7 @@ class reservationController extends Controller
 
         @unlink($attach);
 
+        $service_email_2 = $this->get('Email');
         // enviando mail a reservation team
         foreach($array_ownres_by_house as $owns)
         {
@@ -756,12 +757,13 @@ class reservationController extends Controller
                 'reservations'=>$owns,
                 'nights'=>$array_nigths_by_ownres
             ));
-            $service_email->send_email(
+            $service_email_2->send_email(
                 'Confirmación de pago', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', 'reservation@mycasaparticular.com', $body_res
             );
 
         }
 
+        $service_email_3 = $this->get('Email');
         // enviando mail al propietario
         foreach($array_ownres_by_house as $owns)
         {
@@ -771,7 +773,7 @@ class reservationController extends Controller
                 'reservations'=>$owns,
                 'nights'=>$array_nigths_by_ownres
             ));
-            $service_email->send_email(
+            $service_email_3->send_email(
                 'Confirmación de reserva', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $body_prop
             );
         }
