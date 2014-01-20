@@ -740,8 +740,9 @@ class reservationController extends Controller
         $locale = $this->get('translator');
         $subject = $locale->trans('PAYMENT_CONFIRMATION');
         $service_email->send_email(
-            $subject, 'reservation@mycasaparticular.com', $subject.' - MyCasaParticular.com', $user->getUserEmail(), $body, $attach
+            $subject, 'reservation@mycasaparticular.com', $subject.' - MyCasaParticular.com', $user->getUserEmail(), $body
         );
+        //$subject, 'reservation@mycasaparticular.com', $subject.' - MyCasaParticular.com', $user->getUserEmail(), $body, $attach
 
         @unlink($attach);
 
