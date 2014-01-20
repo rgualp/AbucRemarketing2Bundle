@@ -742,6 +742,7 @@ class reservationController extends Controller
         $service_email->send_email(
             $subject, 'reservation@mycasaparticular.com', $subject.' - MyCasaParticular.com', $user->getUserEmail(), $body
         );
+        var_dump($user->getUserEmail()); exit();
         //$subject, 'reservation@mycasaparticular.com', $subject.' - MyCasaParticular.com', $user->getUserEmail(), $body, $attach
 
         @unlink($attach);
