@@ -725,7 +725,8 @@ class reservationController extends Controller
 
         $attach=$this->container->getParameter('kernel.root_dir')
             ."/../web/vouchers/$pdf_name.pdf";
-
+        var_dump($attach);
+        exit();
 
         // Enviando mail al cliente
         $service_email = $this->get('Email');
