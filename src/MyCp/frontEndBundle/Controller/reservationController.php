@@ -723,7 +723,7 @@ class reservationController extends Controller
         $pdf_name='voucher'.$user->getUserId().'_'.$booking->getBookingId();
         $this->download_pdf($response, $pdf_name ,true);
 
-        $attach="http://develop.mycasaparticular.com/web/vouchers/$pdf_name.pdf";
+        $attach="http://".$_SERVER['HTTP_HOST']."/web/vouchers/$pdf_name.pdf";
 
         // Enviando mail al cliente
         $service_email = $this->get('Email');
