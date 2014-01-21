@@ -723,6 +723,9 @@ class reservationController extends Controller
         $pdf_name='voucher'.$user->getUserId().'_'.$booking->getBookingId();
         $this->download_pdf($response, $pdf_name ,true);
 
+        $attach_del=$this->container->getParameter('kernel.root_dir')
+            ."/../web/vouchers/$pdf_name.pdf";
+
         $attach="http://".$_SERVER['HTTP_HOST']."/web/vouchers/$pdf_name.pdf";
 
         // Enviando mail al cliente
@@ -742,7 +745,7 @@ class reservationController extends Controller
         );
         //$subject, 'reservation@mycasaparticular.com', $subject.' - MyCasaParticular.com', $user->getUserEmail(), $body, $attach
 
-        @unlink($attach);
+        @unlink($attach_del);
 
         // enviando mail a reservation team
         foreach($array_ownres_by_house as $owns)
