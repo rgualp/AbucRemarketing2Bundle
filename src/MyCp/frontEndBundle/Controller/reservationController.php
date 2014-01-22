@@ -723,8 +723,10 @@ class reservationController extends Controller
         $pdf_name='voucher'.$user->getUserId().'_'.$booking->getBookingId();
         $this->download_pdf($response, $pdf_name ,true);
 
-        $attach=$this->container->getParameter('kernel.root_dir')
+        $attach_del=$this->container->getParameter('kernel.root_dir')
             ."/../web/vouchers/$pdf_name.pdf";
+
+        $attach="http://".$_SERVER['HTTP_HOST']."/web/vouchers/$pdf_name.pdf";
 
         // Enviando mail al cliente
         $service_email = $this->get('Email');
@@ -739,22 +741,23 @@ class reservationController extends Controller
         $locale = $this->get('translator');
         $subject = $locale->trans('PAYMENT_CONFIRMATION');
         $service_email->send_email(
-            $subject, 'reservation@mycasaparticular.com', $subject.' - MyCasaParticular.com', $user->getUserEmail(), $body, $attach
+            $subject, 'no-reply@mycasaparticular.com', $subject.' - MyCasaParticular.com', $user->getUserEmail(), $body,$attach
         );
+        //$subject, 'reservation@mycasaparticular.com', $subject.' - MyCasaParticular.com', $user->getUserEmail(), $body, $attach
 
-        @unlink($attach);
+        @unlink($attach_del);
 
         // enviando mail a reservation team
         foreach($array_ownres_by_house as $owns)
         {
-            $body=$this->render('frontEndBundle:mails:rt_payment_confirmation.html.twig',array(
+            $body_res=$this->render('frontEndBundle:mails:rt_payment_confirmation.html.twig',array(
                 'user'=>$user,
                 'user_tourist'=>$user_tourist,
                 'reservations'=>$owns,
                 'nights'=>$array_nigths_by_ownres
             ));
             $service_email->send_email(
-                'Confirmación de pago', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', 'reservation@mycasaparticular.com', $body
+                'Confirmación de pago', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', 'reservation@mycasaparticular.com', $body_res
             );
 
         }
@@ -762,18 +765,18 @@ class reservationController extends Controller
         // enviando mail al propietario
         foreach($array_ownres_by_house as $owns)
         {
-            $body=$this->render('frontEndBundle:mails:email_house_confirmation.html.twig',array(
+            $body_prop=$this->render('frontEndBundle:mails:email_house_confirmation.html.twig',array(
                 'user'=>$user,
                 'user_tourist'=>$user_tourist,
                 'reservations'=>$owns,
                 'nights'=>$array_nigths_by_ownres
             ));
+            $prop_email=$owns[0]->getOwnResGenResId()->getGenResOwnId()->getOwnEmail1();
+            if($prop_email)
             $service_email->send_email(
-                'Confirmación de reserva', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $body
+                'Confirmación de reserva', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', $prop_email, $body_prop
             );
-
         }
-
         return $this->redirect(
             $this->generateUrl('frontend_view_confirmation_reservation'
                 , array('id_booking'=>$id_booking)));

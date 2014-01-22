@@ -9,6 +9,13 @@ use Symfony\Component\HttpFoundation\Request;
 class mycasatripController extends Controller {
 
     public function homeAction() {
+        /*$user = $this->get('security.context')->getToken()->getUser();
+        $em = $this->getDoctrine()->getManager();
+        $session_id = $em->getRepository('mycpBundle:user')->get_session_id($this);
+
+        if ($user != null && $user != "anon." && $session_id != null && $session_id != "")
+            $em->getRepository('mycpBundle:favorite')->set_to_user($user->getUserId(), $session_id);*/
+
         return $this->redirect($this->generateUrl('frontend_mycasatrip_pending'));
     }
 

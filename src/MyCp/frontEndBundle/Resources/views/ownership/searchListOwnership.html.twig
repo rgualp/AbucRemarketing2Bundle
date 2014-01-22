@@ -1,5 +1,5 @@
 {%for own in list%}
-<div class="row" data-id="{{own.own_id}}">
+<div class="row elementList" data-id="{{own.own_id}}" id="own_{{own.own_id}}">
     <div class="col-sm-4">
 
         <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if own.comments_total > 0%}+{%endif%}{{own.comments_total}}&nbsp;&nbsp;&nbsp;">
@@ -14,46 +14,46 @@
             <tr>
                 <td>
                     <a href="{{ path('frontend_details_ownership',{'own_name':own.own_name  | lower | replace(' ','_')}) }}">
-                    <h1 class="h-blue">{{own.own_name}}</h1>
+                        <h1 class="h-blue">{{own.own_name}}</h1>
                     </a>
                     {%if own.category == "Premium"%}
-                        <img rel="tooltip" title="{{own.category | trans}}" class="icon icon-3 tiny-premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+                    <img rel="tooltip" title="{{own.category | trans}}" class="icon icon-3 tiny-premium-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
                         {%else%}
                             {%if (own.category | lower) == ("Rango Medio" | lower)%}
-                            <img rel="tooltip" title="{{own.category | trans}}" class="icon icon-3 tiny-middle-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+                    <img rel="tooltip" title="{{own.category | trans}}" class="icon icon-3 tiny-middle-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
                             {%else%}
-                                <img rel="tooltip" title="{{own.category | trans}}" class="icon icon-3 tiny-economic-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
+                    <img rel="tooltip" title="{{own.category | trans}}" class="icon icon-3 tiny-economic-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
                             {%endif%}
                         {%endif%} 
                     <span>{{own.category | trans}}</span><br/>
                     <small class="top">{{own.prov_name}}, {{own.mun_name}}<br/>
                      {{own.type  | trans}} 
                      {%if (own.rooms_count != 0) %}
-                        / {{own.rooms_count}} {% if own.rooms_count == 1%} {{"ROOM_SINGULAR" | trans}} 
+                            / {{own.rooms_count}} {% if own.rooms_count == 1%} {{"ROOM_SINGULAR" | trans}} 
                      {%else%} {{"ROOM_PLURAL" | trans}} 
                      {%endif%}
                      {%endif%}
-                     </small>
+                        </small>
                     {%if own.rating > 0%}
                         {%for i in 1..own.rating%}
-                           <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon icon-2 tiny-star-icon">
+                        <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon icon-2 tiny-star-icon">
                         {%endfor%}
                         {%endif%}
 
                         {%if own.rating < 5%}
                         {%for i in 1..(5-own.rating)%}
-                          <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon icon-2 tiny-star-off-icon">
+                        <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon icon-2 tiny-star-off-icon">
                         {%endfor%}
                     {%endif%}
-                    <small>{{own.comments}} {{"FORMS_COMMENTS" | trans | lower}}</small>
-                </td>
-                <td class="text-right">
-                    <small>{{"FROM_PRICES" | trans}}:</small><span class="big-price-blue">
+                        <small>{{own.comments}} {{"FORMS_COMMENTS" | trans | lower}}</small>
+                    </td>
+                    <td class="text-right">
+                        <small>{{"FROM_PRICES" | trans}}:</small><span class="big-price-blue">
                         {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{own.minimum_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}
-                    </span>
-                    <br/>
-                    <br/>
-                    <br/>
+                            </span>
+                            <br/>
+                            <br/>
+                            <br/>
                         {{ include('frontEndBundle:favorite:itemFavorite.html.twig', 
                         {'is_in_favorite': own.is_in_favorites,
                          'favorite_type': 'ownership',
@@ -61,18 +61,32 @@
                          'list_preffix' : list_preffix,
                          'include_text': true
                          }) }}
-                </td>
-            </tr>
-        </table>
+                        </td>
+                    </tr>
+                </table>
 
-    </div>
-</div>
-<hr/>
+            </div>
+        </div>
+        <hr/>
 {%else%}
         <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
 {%endfor%}
-{%if (show_paginator is defined and show_paginator) and list | length and total_items > items_per_page%}
+        {{show_paginator}}
+{%if (show_paginator is defined and show_paginator) and (list | length) and total_items > items_per_page%}
         <div class="text-center">
+            {%if in_searcher is defined and in_searcher == 'false' and destination_name is defined%}
+                
+              {{ simple_paginator_render('frontend_details_destination',null,{
+    'container_class': 'pagination',
+    'previousPageText': '«',
+    'nextPageText': '»',
+    'currentClass': 'current',
+    'firstPageText': 'FIRST_PAGE' | trans,
+    'lastPageText': 'LAST_PAGE' | trans,
+    'route_params': {'destination_name': destination_name}
+}) }}
+
+            {%else%}
               {{ simple_paginator_render('frontend_search_ownership',null,{
     'container_class': 'pagination',
     'previousPageText': '«',
@@ -86,12 +100,13 @@
                      'guests': app.session.get('search_guests'),
                      'rooms': app.session.get('search_rooms')}
 }) }}
-        </div>
-  
+                {%endif%}
+            </div>
+
 {%endif%}
-<script src="{{ asset('bundles/frontend/js/jail.min.js') }}"></script>
-<script type="text/javascript">
-        $(function(){
-            $('img.lazy').jail();
-        });
-</script>
+            <script src="{{ asset('bundles/frontend/js/jail.min.js') }}"></script>
+            <script type="text/javascript">
+                $(function() {
+                    $('img.lazy').jail();
+                });
+                </script>

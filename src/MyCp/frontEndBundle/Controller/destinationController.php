@@ -99,6 +99,11 @@ class destinationController extends Controller {
         $owns_nearby = $paginator->paginate($list)->getResult();
 
         $em->getRepository('mycpBundle:userHistory')->insert(false, $destination->getDesId(), $users_id);
+        
+        $own_ids = "0";
+        foreach ($list as $own)
+            $own_ids .= "," . $own['own_id'];
+        $session->set('own_ids', $own_ids);
 
         return $this->render('frontEndBundle:destination:destinationDetails.html.twig', array(
                     'destination' => $destination_array[0],

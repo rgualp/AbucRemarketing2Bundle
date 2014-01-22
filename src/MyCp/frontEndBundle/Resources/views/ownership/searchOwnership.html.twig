@@ -84,7 +84,8 @@
                           {%if view_results == 'MAP'%}
                              {{ include('frontEndBundle:ownership:searchMapOwnership.html.twig', 
                                 {'list': list,
-                                 'list_preffix': 'map'
+                                 'list_preffix': 'map',
+                                 'show_paginator': true
                               }) }}     
                           {%endif%}
                         {%endif%}

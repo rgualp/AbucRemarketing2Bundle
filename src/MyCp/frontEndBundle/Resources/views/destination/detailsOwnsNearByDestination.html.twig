@@ -1,4 +1,7 @@
 {%if owns_nearby | length%}
+<div  id="json_source" data-url="{{path("frontend_map_markers_ownership")}}"
+                 data-icon-small="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_small.png') }}"
+                 data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"></div>
 <div class="houses-list thumbs-houses lazy-cont" id="div_result">
     {%if data_view is not defined or data_view == 'LIST'%}
     {{ include('frontEndBundle:ownership:ownershipArrayItemList.html.twig',
@@ -21,12 +24,14 @@
                                 {'list': owns_nearby,
                                  'list_preffix': 'map',
                                  'total_items': total_items,
-                                 'show_paginator' : false
+                                 'show_paginator' : true,
+                                 'in_searcher': false,
+                                 'destination_name': destination_name
                               }) }}
         {%endif%}
     {%endif%}
 </div>
-{%if total_items > items_per_page%}
+{%if total_items > items_per_page and data_view != 'MAP'%}
         <div class="text-center">
               {{ simple_paginator_render('frontend_details_destination',null,{
     'container_class': 'pagination',
@@ -37,5 +42,6 @@
     'lastPageText': 'LAST_PAGE' | trans,
     'route_params': {'destination_name': destination_name}
 }) }}
+            </div>
 {%endif%}
 {%endif%}
