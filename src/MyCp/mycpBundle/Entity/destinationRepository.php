@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use MyCp\mycpBundle\Entity\destination;
 use MyCp\mycpBundle\Entity\destinationLang;
 use MyCp\mycpBundle\Entity\destinationLocation;
+use MyCp\frontEndBundle\Helpers\Utils;
 
 /**
  * destinationRepository
@@ -515,6 +516,37 @@ class destinationRepository extends EntityRepository {
         return null;
     }
 
+    function destinations_in_province_name($province_name) {
+       
+            $em = $this->getEntityManager();
+            $query_string = "SELECT DISTINCT d.des_id,
+                             d.des_name,
+                             d.des_name as des_name_for_url,
+                             prov.prov_name,
+                             (SELECT min(p.pho_name) FROM mycpBundle:destinationPhoto dp JOIN dp.des_pho_photo p WHERE dp.des_pho_destination=d.des_id) as photo,
+                             (SELECT MIN(o1.own_minimum_price) FROM mycpBundle:ownership o1 WHERE o1.own_address_province = prov.prov_id) as min_price
+                             FROM mycpBundle:destinationLocation dloc
+                             JOIN dloc.des_loc_province prov
+                             JOIN dloc.des_loc_destination d
+                             WHERE prov.prov_name LIKE '%$province_name%'";
+
+            
+            //$query_string = $query_string . " ORDER BY o.own_rating DESC";
+            
+            $results = $em->createQuery($query_string)->getResult();
+            
+            for ($i = 0; $i < count($results); $i++) {
+            if ($results[$i]['photo'] == null)
+                $results[$i]['photo'] = "no_photo.png";
+            else if (!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo']))) {
+                $results[$i]['photo'] = "no_photo.png";
+            }
+            
+            $results[$i]['des_name_for_url'] = Utils::url_normalize($results[$i]['des_name_for_url']);
+        }
+        return $results;
+    }
+    
     function get_destination_owns_statistics($destination_array) {
         if (is_array($destination_array)) {
             $statistics_array = array();

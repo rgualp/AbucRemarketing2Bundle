@@ -27,7 +27,7 @@ class RequestListener {
             $lang=$this->em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code'=>$attr['_locale']));
             $this->container->get('session')->set('app_lang_name',$lang->getLangName());
         }
-        if(isset($attr['_route']) && $attr['_route']!='frontend_change_language' && $attr['_route']!='_wdt' && $attr['_route']!='_internal')
+        if(isset($attr['_route']) && $attr['_route']!='frontend_change_language' && $attr['_route']!='frontend_map_details_ownership' && $attr['_route']!='_wdt' && $attr['_route']!='_internal')
         {
             $this->container->get('session')->set('app_last_route',$attr['_route']);
             $this->container->get('session')->set('app_last_route_params',$attr['_route_params']);
