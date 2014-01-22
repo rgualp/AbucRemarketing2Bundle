@@ -35,7 +35,7 @@ frontend_view_confirmation_reservation:
     defaults: { _controller: frontEndBundle:reservation:view_confirmation }
 
 frontend_boucher_reservation:
-    pattern:  /boucher/{id_booking}/
+    pattern:  /voucher/{id_booking}/
     defaults: { _controller: frontEndBundle:reservation:generate_pdf_boucher }
 
 
