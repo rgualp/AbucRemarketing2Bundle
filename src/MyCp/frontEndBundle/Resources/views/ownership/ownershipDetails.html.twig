@@ -60,16 +60,8 @@
                     {%endif%}
                     {%if ownership.OwnGeolocateX != "" and ownership.OwnGeolocateY != ""%}
                     <div id="tab-map" class="tab-pane {%if gallery_photos | length == 0%}active{%endif%}">
-                        <div class="flexible-container" id="mapContent">
-                            <iframe width="100%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-                                    src="{{ path('frontend_map_details_ownership',{
-                                                        'ownGeolocateX':ownership.OwnGeolocateX,
-                                                        'ownGeolocateY':ownership.OwnGeolocateY,
-                                                        'ownName':ownership.ownname,
-                                                        'description': "FROM_PRICES" | trans ~ (app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')) ~ ownership.ownminimumprice ~ " " ~ ("BYNIGHTS_PRICES" | trans | lower),
-                                                        'image':((gallery_photos[0] is defined) ? gallery_photos[0].photo_name : "no_photo.png")
-                                                })}}">
-                            </iframe>
+                        <div class="flexible-container" id="mapContent" style="height: 350px; width: 100%; text-align: center;">
+                            <img src='http://maps.googleapis.com/maps/api/staticmap?center={{ownership.OwnGeolocateX}},{{ownership.OwnGeolocateY}}&zoom=15&size=600x350&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{ownership.OwnGeolocateX}},{{ownership.OwnGeolocateY}}&a.jpg'/>
                         </div>
                     </div>
                     {%endif%}
