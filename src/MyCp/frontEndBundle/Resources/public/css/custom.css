@@ -19,3 +19,4 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 /*custom map*/
 .infoBox .map_image{background-size: cover;display: inline-block;height: 65px;width: 65px;}
 .markerActive{background: #E8F1FF;}
+.province_map_houses{line-height: 16px; font-size: 12px;}

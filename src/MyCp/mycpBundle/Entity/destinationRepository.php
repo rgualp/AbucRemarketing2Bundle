@@ -515,6 +515,38 @@ class destinationRepository extends EntityRepository {
         return null;
     }
 
+    function ownsership_in_province_name($province_name) {
+       
+            $em = $this->getEntityManager();
+            $query_string = "SELECT DISTINCT o.own_id,
+                             o.own_name,
+                             prov.prov_name,
+                             o.own_comments_total as comments_total,
+                             o.own_rating as rating,
+                             o.own_category as category,
+                             o.own_type as type,
+                             o.own_minimum_price as minimum_price,
+                             (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id) as photo
+                             FROM mycpBundle:ownership o
+                             JOIN o.own_address_province prov
+                             WHERE o.own_status = 1
+                               AND prov.prov_name LIKE '%$province_name%'";
+
+            
+            $query_string = $query_string . " ORDER BY o.own_rating DESC";
+            
+            $results = $em->createQuery($query_string)->getResult();
+            
+            for ($i = 0; $i < count($results); $i++) {
+            if ($results[$i]['photo'] == null)
+                $results[$i]['photo'] = "no_photo.png";
+            else if (!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo']))) {
+                $results[$i]['photo'] = "no_photo.png";
+            }
+        }
+        return $results;
+    }
+    
     function get_destination_owns_statistics($destination_array) {
         if (is_array($destination_array)) {
             $statistics_array = array();
