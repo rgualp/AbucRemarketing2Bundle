@@ -9,18 +9,18 @@
                             {% if list[flag_item] is defined %}
                             <div class="row">
                             <div class="col-xs-6">
-                                <a href="{{ path('frontend_details_ownership',{'own_name':list[flag_item].own_name  | lower | replace(' ','_')}) }}">
+                                <a href="{{ path('frontend_details_destination',{'destination_name':list[flag_item].des_name_for_url}) }}">
                                     <img src="{{ asset("uploads/ownershipImages/thumbnails/" ~ list[flag_item].photo)}}" class="thumbnail full-width"/>
                                 <!--img data-src="{{ asset("uploads/ownershipImages/thumbnails/" ~ list[flag_item].photo)}}" class="thumbnail full-width lazy" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
                                 <noscript><img class="nolazy" src="{{ asset('uploads/ownershipImages/thumbnails/' ~ list[flag_item].photo)}}"></noscript-->
                                 </a>
                             </div>
                             <div class="col-xs-6"><b>
-                                    <a href="{{ path('frontend_details_ownership',{'own_name':list[flag_item].own_name  | lower | replace(' ','_')}) }}">
-                                    {{list[flag_item].own_name}}
+                                    <a href="{{ path('frontend_details_destination',{'destination_name':list[flag_item].des_name_for_url}) }}">
+                                    {{list[flag_item].des_name}}
                                     </a>
-                                </b><br/>{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} {{list[flag_item].minimum_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} {{"BYNIGHTS_PRICES" | trans | lower}}
-                                <br/>{{list[flag_item].type | trans}}</div>
+                                </b><br/>{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} {{list[flag_item].min_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} {{"BYNIGHTS_PRICES" | trans | lower}}
+                             </div>
                             {% set flag_item = flag_item + 1 %}
                             </div>
                             {% endif %}

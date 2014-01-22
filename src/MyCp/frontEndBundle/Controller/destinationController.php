@@ -183,9 +183,9 @@ class destinationController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $province_name = $request->request->get('province_name');
         
-        $list = $em->getRepository('mycpBundle:destination')->ownsership_in_province_name($province_name);
+        $list = $em->getRepository('mycpBundle:destination')->destinations_in_province_name($province_name);
         
-        $response = $this->renderView('frontEndBundle:destination:ownershipsInDestination.html.twig', array(
+        $response = $this->renderView('frontEndBundle:destination:destinationsInProvince.html.twig', array(
             'list' => $list
         ));
 

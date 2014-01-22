@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use MyCp\mycpBundle\Entity\destination;
 use MyCp\mycpBundle\Entity\destinationLang;
 use MyCp\mycpBundle\Entity\destinationLocation;
+use MyCp\frontEndBundle\Helpers\Utils;
 
 /**
  * destinationRepository
@@ -515,25 +516,22 @@ class destinationRepository extends EntityRepository {
         return null;
     }
 
-    function ownsership_in_province_name($province_name) {
+    function destinations_in_province_name($province_name) {
        
             $em = $this->getEntityManager();
-            $query_string = "SELECT DISTINCT o.own_id,
-                             o.own_name,
+            $query_string = "SELECT DISTINCT d.des_id,
+                             d.des_name,
+                             d.des_name as des_name_for_url,
                              prov.prov_name,
-                             o.own_comments_total as comments_total,
-                             o.own_rating as rating,
-                             o.own_category as category,
-                             o.own_type as type,
-                             o.own_minimum_price as minimum_price,
-                             (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id) as photo
-                             FROM mycpBundle:ownership o
-                             JOIN o.own_address_province prov
-                             WHERE o.own_status = 1
-                               AND prov.prov_name LIKE '%$province_name%'";
+                             (SELECT min(p.pho_name) FROM mycpBundle:destinationPhoto dp JOIN dp.des_pho_photo p WHERE dp.des_pho_destination=d.des_id) as photo,
+                             (SELECT MIN(o1.own_minimum_price) FROM mycpBundle:ownership o1 WHERE o1.own_address_province = prov.prov_id) as min_price
+                             FROM mycpBundle:destinationLocation dloc
+                             JOIN dloc.des_loc_province prov
+                             JOIN dloc.des_loc_destination d
+                             WHERE prov.prov_name LIKE '%$province_name%'";
 
             
-            $query_string = $query_string . " ORDER BY o.own_rating DESC";
+            //$query_string = $query_string . " ORDER BY o.own_rating DESC";
             
             $results = $em->createQuery($query_string)->getResult();
             
@@ -543,6 +541,8 @@ class destinationRepository extends EntityRepository {
             else if (!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo']))) {
                 $results[$i]['photo'] = "no_photo.png";
             }
+            
+            $results[$i]['des_name_for_url'] = Utils::url_normalize($results[$i]['des_name_for_url']);
         }
         return $results;
     }
