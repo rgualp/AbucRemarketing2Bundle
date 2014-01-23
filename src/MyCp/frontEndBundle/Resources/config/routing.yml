@@ -23,7 +23,7 @@ frontend_user:
 
 frontend_reservation:
     resource: "@frontEndBundle/Resources/config/routingFrontendReservation.yml"
-    prefix:   user/reservation/
+    prefix:   user/
     type: be_simple_i18n
     
 frontend_currency:
