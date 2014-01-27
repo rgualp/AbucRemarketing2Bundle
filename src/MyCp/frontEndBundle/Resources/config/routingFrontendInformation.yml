@@ -1,16 +1,16 @@
 frontend_about_us:
-    locales:  { en: "/who_we_are/", es: "/quienes_somos/" }
+    locales:  { en: "/who_we_are/", es: "/quienes_somos/",de: "/quienes_somos/" }
     defaults: { _controller: frontEndBundle:information:about_us }
 
 frontend_list_information:
-    locales:  { en: "/information/{information_type}", es: "/informacion/{information_type}" }
+    locales:  { en: "/information/{information_type}", es: "/informacion/{information_type}",de: "/informacion/{information_type}" }
     defaults: { _controller: frontEndBundle:information:information }
 
 
 frontend_sitemap_information:
-    locales:  { en: "/sitemap/", es: "/mapa_del_sitio/" }
+    locales:  { en: "/sitemap/", es: "/mapa_del_sitio/", de: "/mapa_del_sitio/" }
     defaults: { _controller: frontEndBundle:information:sitemap }
     
 frontend_how_it_works_information:
-    locales:  { en: "/how_it_works/", es: "/como_funciona/" }
+    locales:  { en: "/how_it_works/", es: "/como_funciona/", de: "/como_funciona/" }
     defaults: { _controller: frontEndBundle:information:how_it_works }

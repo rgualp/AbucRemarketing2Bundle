@@ -1,5 +1,5 @@
 frontend_welcome:
-    locales:  { en: "/welcome/", es: "/bienvenido/" }
+    locales:  { en: "/welcome/", es: "/bienvenido/", de: "/bienvenido/" }
     defaults: { _controller: frontEndBundle:public:welcome }
 
 frontend_destination:

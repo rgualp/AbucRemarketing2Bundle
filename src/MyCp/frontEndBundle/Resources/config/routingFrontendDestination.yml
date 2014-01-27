@@ -1,5 +1,5 @@
 frontend_list_destinations:
-    locales:  { en: "/destinations/", es: "/destinos/" }
+    locales:  { en: "/destinations/", es: "/destinos/", de: "/destinos/", }
     defaults: { _controller: frontEndBundle:destination:popular_list }
 
 frontend_filter_by_municipality_destinations:
@@ -11,7 +11,7 @@ frontend_filter_by_province_destinations:
     defaults: { _controller: frontEndBundle:destination:popular_list }
 
 frontend_details_destination:
-    locales:  { en: "/destination/{destination_name}", es: "/destino/{destination_name}" }
+    locales:  { en: "/destination/{destination_name}", es: "/destino/{destination_name}", de: "/destino/{destination_name}" }
     defaults: { _controller: frontEndBundle:destination:details }
     
 frontend_filter_destination:
