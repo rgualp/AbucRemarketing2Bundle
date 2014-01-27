@@ -23,3 +23,5 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 .infoBox .map_image{background-size: cover;display: inline-block;height: 65px;width: 65px;}
 .markerActive{background: #E8F1FF;}
 .province_map_houses{line-height: 16px; font-size: 12px;}
+#faq_categories{list-style: none;} #faq_categories li{cursor: pointer; font-size: 12px;} #faq_categories li:hover, #faq_categories li.active{text-decoration: none; color: #86B32B}
+#faq_results .loading-signal{ position: fixed; z-index: 101;  padding: 5px; top: 50%; left: 35%; }

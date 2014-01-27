@@ -2411,6 +2411,10 @@
                     <source>OWNERS</source>
                     <target>Propietario(s)</target>
                 </trans-unit>
+                <trans-unit id="613">
+                    <source>ALL_FAQS</source>
+                    <target>Todas las categorías</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>

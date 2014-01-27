@@ -1,11 +1,16 @@
+<div id="faq_results">
+<div id="loading" class="hidden">
+                <div class="layer-loading"></div>
+                <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}"/></div>
+            </div>
 {%for faq in faq_list%}
 <div class="item">
     <div class="row-fluid">
     <div class="row-fluid">
-        <h4>{{faq.faqlangquestion | striptags}}</h4>
+        <h4>{{faq.faqlangquestion | raw}}</h4>
     </div>
     <div class="row-fluid">        
-        <p>{{faq.faqlanganswer | striptags}}</p>
+        <p>{{faq.faqlanganswer | raw}}</p>
     </div>
     </div>
 </div>
@@ -26,3 +31,4 @@
 }) }}
     </div>
 {%endif%}
+    </div>

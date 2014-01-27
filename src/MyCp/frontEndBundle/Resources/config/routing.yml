@@ -35,6 +35,7 @@ frontend_information:
     
 frontend_faq:
     resource: "@frontEndBundle/Resources/config/routingFrontendFaq.yml"
+    type: be_simple_i18n
 
 frontend_mycasatrip:
     resource: "@frontEndBundle/Resources/config/routingFrontendMyCasaTrip.yml"
