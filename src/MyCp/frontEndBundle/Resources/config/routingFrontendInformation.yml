@@ -2,10 +2,13 @@ frontend_about_us:
     locales:  { en: "/who_we_are/", es: "/quienes_somos/",de: "/quienes_somos/" }
     defaults: { _controller: frontEndBundle:information:about_us }
 
-frontend_list_information:
-    locales:  { en: "/information/{information_type}", es: "/informacion/{information_type}",de: "/informacion/{information_type}" }
-    defaults: { _controller: frontEndBundle:information:information }
-
+frontend_legal_terms:
+    locales:  { en: "/legal_terms/", es: "/terminos_legales/",de: "/terminos_legales/" }
+    defaults: { _controller: frontEndBundle:information:legal_terms }
+    
+frontend_security_privacity:
+    locales:  { en: "/security_privacy/", es: "/seguridad_privacidad/",de: "/seguridad_privacidad/" }
+    defaults: { _controller: frontEndBundle:information:security_privacity }
 
 frontend_sitemap_information:
     locales:  { en: "/sitemap/", es: "/mapa_del_sitio/", de: "/mapa_del_sitio/" }

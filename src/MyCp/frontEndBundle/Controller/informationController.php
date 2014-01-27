@@ -41,4 +41,46 @@ class informationController extends Controller {
         }
         return $this->render('frontEndBundle:information:howItWorks.html.twig' , array('contents'=>$content));
     }
+    
+    public function legal_termsAction()
+    {
+        $locale=$this->get('translator')->getLocale();
+        $em = $this->getDoctrine()->getEntityManager();
+                
+        $paginator = $this->get('ideup.simple_paginator');
+        $items_per_page = 15;
+        $paginator->setItemsPerPage($items_per_page);
+        $list=$paginator->paginate($em->getRepository('mycpBundle:information')->list_information('legal_terms', $locale))->getResult();
+        $page=1;
+        if(isset($_GET['page']))$page=$_GET['page'];
+        
+        return $this->render('frontEndBundle:information:legal_terms.html.twig' , array(
+            'list'=>$list,
+            'items_per_page'=>$items_per_page,
+            'total_items'=>$paginator->getTotalItems(),
+            'current_page'=>$page
+                ));
+        
+    }
+    
+    public function security_privacityAction()
+    {
+        $locale=$this->get('translator')->getLocale();
+        $em = $this->getDoctrine()->getEntityManager();
+                
+        $paginator = $this->get('ideup.simple_paginator');
+        $items_per_page = 15;
+        $paginator->setItemsPerPage($items_per_page);
+        $list=$paginator->paginate($em->getRepository('mycpBundle:information')->list_information('security_privacity', $locale))->getResult();
+        $page=1;
+        if(isset($_GET['page']))$page=$_GET['page'];
+        
+        return $this->render('frontEndBundle:information:security_privacity.html.twig' , array(
+            'list'=>$list,
+            'items_per_page'=>$items_per_page,
+            'total_items'=>$paginator->getTotalItems(),
+            'current_page'=>$page
+                ));
+        
+    }
 }
