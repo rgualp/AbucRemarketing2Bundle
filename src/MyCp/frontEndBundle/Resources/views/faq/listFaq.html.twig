@@ -13,12 +13,17 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-4">
-            <ul id="faq_categories" class="no-margin" data-url-filter="{{ path('frontend_filter_faq') }}">
-                <li data-value="-1" class="active">{{"ALL_FAQS" | trans}}</li>
-                {%for category in categories%}
-                    <li data-value="{{category.faqcatidcat.faqcatid}}">{{category.faqcatdescription}}</li>
-                {%endfor%}
-            </ul>
+            <div class="thumbnail" style="background-color: #fff; padding: 0">
+                <ul id="faq_categories" style="padding: 0" data-url-filter="{{ path('frontend_filter_faq') }}">
+                    <li data-value="-1" class="active">{{"ALL_FAQS" | trans}}<i class="pull-right icon-chevron-right"></i></li>
+                    {%for category in categories%}
+                        <li data-value="{{category.faqcatidcat.faqcatid}}">
+                            {{category.faqcatdescription}}
+                            <i class="pull-right icon-chevron-right"></i>
+                        </li>
+                    {%endfor%}
+                </ul>
+            </div>
         </div>
         <div class="col-sm-8" id="div_result">
         {{ include('frontEndBundle:faq:itemListFaq.html.twig', 
