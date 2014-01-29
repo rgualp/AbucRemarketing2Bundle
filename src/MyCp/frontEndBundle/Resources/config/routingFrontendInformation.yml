@@ -3,17 +3,17 @@ frontend_about_us:
     defaults: { _controller: frontEndBundle:information:about_us }
 
 frontend_legal_terms:
-    locales:  { en: "/legal_terms/", es: "/terminos_legales/",de: "/terminos_legales/" }
+    locales:  { en: "/legal_terms/", es: "/terminos_legales/",de: "/allgemeine_geschaeftsbedingungen/" }
     defaults: { _controller: frontEndBundle:information:legal_terms }
     
 frontend_security_privacity:
-    locales:  { en: "/security_privacy/", es: "/seguridad_privacidad/",de: "/seguridad_privacidad/" }
+    locales:  { en: "/security_privacy/", es: "/seguridad_privacidad/",de: "/datenschutz/" }
     defaults: { _controller: frontEndBundle:information:security_privacity }
 
 frontend_sitemap_information:
-    locales:  { en: "/sitemap/", es: "/mapa_del_sitio/", de: "/mapa_del_sitio/" }
+    locales:  { en: "/sitemap/", es: "/mapa_del_sitio/", de: "/sitemap/" }
     defaults: { _controller: frontEndBundle:information:sitemap }
     
 frontend_how_it_works_information:
-    locales:  { en: "/how_it_works/", es: "/como_funciona/", de: "/como_funciona/" }
+    locales:  { en: "/how_it_works/", es: "/como_funciona/", de: "/so_funktioniert_es/" }
     defaults: { _controller: frontEndBundle:information:how_it_works }

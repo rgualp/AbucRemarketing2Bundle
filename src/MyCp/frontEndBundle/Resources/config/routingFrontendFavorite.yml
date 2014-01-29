@@ -16,7 +16,7 @@ frontend_delete_favorite:
     
 frontend_list_favorite:
     pattern:  /favorite_list/
-    locales:  { en: "/favorites/", es: "/favoritos/", de: "/favoritos/" }
+    locales:  { en: "/favorites/", es: "/favoritos/", de: "/favoriten/" }
     defaults: { _controller: frontEndBundle:favorite:list }
     
 frontend_delete_from_list_favorite:
