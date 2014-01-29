@@ -1,3 +1,7 @@
 frontend_change_language:
     pattern:  /change_language/{lang}
     defaults: { _controller: frontEndBundle:language:change }
+
+frontend_get_languages:
+    pattern:  /get_languages/
+    defaults: { _controller: frontEndBundle:language:get_languages }

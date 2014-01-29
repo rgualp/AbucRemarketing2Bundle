@@ -176,6 +176,21 @@ class destinationController extends Controller {
 
         return new Response($response, 200);
     }
+    
+    public function byprovinceAction()
+    {
+        $request = $this->getRequest();
+        $em = $this->getDoctrine()->getEntityManager();
+        $province_name = $request->request->get('province_name');
+        
+        $list = $em->getRepository('mycpBundle:destination')->destinations_in_province_name($province_name);
+        
+        $response = $this->renderView('frontEndBundle:destination:destinationsInProvince.html.twig', array(
+            'list' => $list
+        ));
+
+        return new Response($response, 200);
+    }
 
     public function filterAction() {
         $em = $this->getDoctrine()->getEntityManager();

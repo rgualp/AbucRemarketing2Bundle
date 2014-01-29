@@ -1,32 +1,32 @@
 frontend_register_user:
-    locales:  { en: "/register_user/", es: "/registrar_usuario/" }
+    locales:  { en: "/register_user/", es: "/registrar_usuario/", de: "/registrar_usuario/" }
     defaults: { _controller: frontEndBundle:user:register }
 
 frontend_enable_user:
-    locales:  { en: "/enable_user/{string}", es: "/activar_usuario/{string}" }
+    locales:  { en: "/enable_user/{string}", es: "/activar_usuario/{string}", de: "/activar_usuario/{string}"  }
     defaults: { _controller: frontEndBundle:user:enable }
 
 frontend_restore_password_user:
-    locales:  { en: "/restore_password/", es: "/restaurar_clave/" }
+    locales:  { en: "/restore_password/", es: "/restaurar_clave/", de: "/restaurar_clave/" }
     defaults: { _controller: frontEndBundle:user:restore_password }
 
 frontend_change_password_user:
-    locales:  { en: "/change_password/{string}", es: "/cambiar_clave/{string}" }
+    locales:  { en: "/change_password/{string}", es: "/cambiar_clave/{string}", de: "/cambiar_clave/{string}" }
     defaults: { _controller: frontEndBundle:user:change_password }
 
 frontend_register_confirmation_user:
     pattern:  /register_confirmation/
-    locales:  { en: "/register_confirmation/", es: "/confirmacion_de_registro/" }
+    locales:  { en: "/register_confirmation/", es: "/confirmacion_de_registro/", de: "/confirmacion_de_registro/" }
     defaults: { _controller: frontEndBundle:user:register_user_confirmation }
     
 frontend_contact_user:
-    locales:  { en: "/contact/", es: "/contacto/" }
+    locales:  { en: "/contact/", es: "/contacto/", de: "/contacto/" }
     defaults: { _controller: frontEndBundle:user:contact }
     
 frontend_profile_user:
-    locales:  { en: "/profile/", es: "/perfil/" }
+    locales:  { en: "/profile/", es: "/perfil/", de: "/perfil/" }
     defaults: { _controller: frontEndBundle:user:profile }
     
 frontend_change_password_start_user:
-    locales:  { en: "/user/change_password/", es: "/usuario/cambiar_clave/" }
+    locales:  { en: "/user/change_password/", es: "/usuario/cambiar_clave/", de: "/usuario/cambiar_clave/" }
     defaults: { _controller: frontEndBundle:user:change_password_start }

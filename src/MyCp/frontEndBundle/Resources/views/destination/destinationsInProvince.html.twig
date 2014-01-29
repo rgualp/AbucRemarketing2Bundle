@@ -1,0 +1,37 @@
+{%if list | length%}
+<div class="carousel slide carousel-mini province_map_houses" id="housesCarousel">
+                <h4 class="carousel-title"></h4>
+                <div class="carousel-inner">
+                    {% set flag_item = 0 %}
+                        {% for i in 1..((list|length)/4 > 1 ? (list|length)/4 : 1)%}
+                        <div class="item {% if i == 1 %}active{% endif %}">                            
+                            {% for e in 1..4%}
+                            {% if list[flag_item] is defined %}
+                            <div class="row">
+                            <div class="col-xs-6">
+                                <a href="{{ path('frontend_details_destination',{'destination_name':list[flag_item].des_name_for_url}) }}">
+                                    <img src="{{ asset("uploads/ownershipImages/thumbnails/" ~ list[flag_item].photo)}}" class="thumbnail full-width"/>
+                                <!--img data-src="{{ asset("uploads/ownershipImages/thumbnails/" ~ list[flag_item].photo)}}" class="thumbnail full-width lazy" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
+                                <noscript><img class="nolazy" src="{{ asset('uploads/ownershipImages/thumbnails/' ~ list[flag_item].photo)}}"></noscript-->
+                                </a>
+                            </div>
+                            <div class="col-xs-6"><b>
+                                    <a href="{{ path('frontend_details_destination',{'destination_name':list[flag_item].des_name_for_url}) }}">
+                                    {{list[flag_item].des_name}}
+                                    </a>
+                                </b><br/>{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} {{list[flag_item].min_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} {{"BYNIGHTS_PRICES" | trans | lower}}
+                             </div>
+                            {% set flag_item = flag_item + 1 %}
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        
+                    </div>
+                        {% endfor %}
+                </div>
+                {% if (list|length)/4 > 1%}
+                <a data-slide="prev" href="#housesCarousel" class="left carousel-control">‹</a>
+                <a data-slide="next" href="#housesCarousel" class="right carousel-control">›</a>
+                {%endif%}
+            </div>
+{%endif%}

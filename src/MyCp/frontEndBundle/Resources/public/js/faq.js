@@ -1,25 +1,24 @@
-$(document).ready(start)
+$(document).ready(start);
 
-function start(){
-    $('#select_faqCategory').change(filter_by_category);
-}
+function start() {
+    $('#faq_categories li').click(function() {
+        $('#faq_categories li').removeClass("active");
+        $(this).addClass("active");
+        var category_id = $(this).attr('data-value');
+        //var municipality =$('#dll_municipalities').val();
+        var url = $('#faq_categories').attr('data-url-filter');
+        var result = $('#div_result');
+        category_id = (category_id != -1) ? category_id : null;
 
-function filter_by_category()
-{
-    var category_id = $('#select_faqCategory').val();
-    //var municipality =$('#dll_municipalities').val();
-    var url=$('#select_faqCategory').attr('data-url-filter');
-    var result=$('#div_result');
-    category_id = (category_id != -1) ? category_id: null;
-
-    show_loading();
-    $.post(url,{
-        'category_id':category_id
-    },function(data){
-        result.html(data);
-        hide_loading();
+        show_loading();
+        $.post(url, {
+            'category_id': category_id
+        }, function(data) {
+            result.html(data);
+            hide_loading();
+        });
+        return false;
     });
-    return false;
 }
 
 function show_loading()

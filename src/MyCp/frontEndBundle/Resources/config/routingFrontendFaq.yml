@@ -1,5 +1,5 @@
 frontend_list_faq:
-    pattern:  /faq_list
+    locales:  { en: "/faqs/", es: "/preguntas_frecuentes/",de: "/preguntas_frecuentes/" }
     defaults: { _controller: frontEndBundle:faq:list }
     
 frontend_filter_faq:

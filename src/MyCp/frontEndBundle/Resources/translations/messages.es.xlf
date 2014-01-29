@@ -107,7 +107,7 @@
                 <target>Términos Legales</target>
             </trans-unit>
             <trans-unit id="27">
-                <source>SECURITY_AND_PRIVACY</source>
+                <source>SECURITY_AND_PRIVACITY</source>
                 <target>Seguridad y Privacidad</target>
             </trans-unit>
             <trans-unit id="28">
@@ -2410,6 +2410,10 @@
                 <trans-unit id="612">
                     <source>OWNERS</source>
                     <target>Propietario(s)</target>
+                </trans-unit>
+                <trans-unit id="613">
+                    <source>ALL_FAQS</source>
+                    <target>Todas las categorías</target>
                 </trans-unit>
         </body>
     </file>

@@ -1,5 +1,5 @@
 frontend_welcome:
-    locales:  { en: "/welcome/", es: "/bienvenido/" }
+    locales:  { en: "/welcome/", es: "/bienvenido/", de: "/bienvenido/" }
     defaults: { _controller: frontEndBundle:public:welcome }
 
 frontend_destination:
@@ -23,7 +23,7 @@ frontend_user:
 
 frontend_reservation:
     resource: "@frontEndBundle/Resources/config/routingFrontendReservation.yml"
-    prefix:   user/reservation/
+    prefix:   user/
     type: be_simple_i18n
     
 frontend_currency:
@@ -35,6 +35,7 @@ frontend_information:
     
 frontend_faq:
     resource: "@frontEndBundle/Resources/config/routingFrontendFaq.yml"
+    type: be_simple_i18n
 
 frontend_mycasatrip:
     resource: "@frontEndBundle/Resources/config/routingFrontendMyCasaTrip.yml"

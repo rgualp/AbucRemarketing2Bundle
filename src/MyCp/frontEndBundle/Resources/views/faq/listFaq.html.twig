@@ -3,33 +3,36 @@
 {{"FAQ_PAGE_TITLE" | trans}}
 {% endblock %}
 
-{% set main_tab = 4 %}
-{% block content_nav_top_body %}
-{{"FAQ_PAGE_CONTENT" | trans}}
+{% block breadcrumbs %}
+<a href="{{ path('frontend_welcome') }}" title="{{"GO_HOME_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+<span>››</span>
+<a href="#" class="active" title="{{"FAQ" | trans}}">{{"FAQ" | trans}}</a>
 {% endblock %}
 
 {% block body %}
-<ul class="breadcrumb">
-    <li><a href="{{ path('frontend_welcome') }}" title="{{"GO_HOME_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a> <span class="divider">»</span></li>
-    <li><a href="#" title="{{"INFO_MAIN_MENU" | trans}}">{{"INFO_MAIN_MENU" | trans}}</a> <span class="divider">»</span></li>
-    <li class="active">{{"FAQ" | trans}}</li>
-</ul>
-<div class="row-fluid filter_1">
-    <div class="span1 offset9">
-        <select  id="select_faqCategory" data-url-filter="{{ path('frontend_filter_faq') }}">
-            <option value="-1">{{"ALL_ITEMS" | trans}}</option>
-        {%for category in categories%}
-            <option value="{{category.faqcatidcat.faqcatid}}">{{category.faqcatdescription}}</option>
-        {%endfor%}
-        </select>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="thumbnail" style="background-color: #fff; padding: 0">
+                <ul id="faq_categories" style="padding: 0" data-url-filter="{{ path('frontend_filter_faq') }}">
+                    <li data-value="-1" class="active">{{"ALL_FAQS" | trans}}<i class="pull-right icon-chevron-right"></i></li>
+                    {%for category in categories%}
+                        <li data-value="{{category.faqcatidcat.faqcatid}}">
+                            {{category.faqcatdescription}}
+                            <i class="pull-right icon-chevron-right"></i>
+                        </li>
+                    {%endfor%}
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-8" id="div_result">
+        {{ include('frontEndBundle:faq:itemListFaq.html.twig', 
+               {'faq_list': faq_list}) }} 
+        </div>
+
     </div>
 </div>
-<div id="loading" class="alert alert-info hidden"> <img src="{{ asset('bundles/frontend/img/loading.gif') }}"/> {{"LOADING_MESSAGE" | trans}}</div>
-<div class="row-fluid result_list" id="div_result">
-    {{ include('frontEndBundle:faq:itemListFaq.html.twig', 
-               {'faq_list': faq_list}) }}  
- </div>
 {% block include_javascripts %}
-    <script src="{{ asset('bundles/frontend/js/faq.js') }}"></script>
+<script src="{{ asset('bundles/frontend/js/faq.js') }}"></script>
 {% endblock %}
 {% endblock %}
