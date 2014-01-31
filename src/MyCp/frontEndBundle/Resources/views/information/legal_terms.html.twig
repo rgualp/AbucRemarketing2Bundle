@@ -30,20 +30,6 @@
 <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
 </div>
 {%endfor%}
-
-{%if list | length  and total_items > items_per_page%}
-<div class="text-center">
-    {{ simple_paginator_render('frontend_legal_terms',null,{
-    'container_class': 'pagination',
-    'previousPageText': '«',
-    'nextPageText': '»',
-    'currentClass': 'current',
-    'firstPageText': 'FIRST_PAGE' | trans,
-    'lastPageText': 'LAST_PAGE' | trans,
-    'route_params': null
-}) }}
-    </div>
-{%endif%}
     </div>
 </div>
 {% endblock %}

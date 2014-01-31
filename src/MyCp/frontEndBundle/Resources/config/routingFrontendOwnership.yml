@@ -3,19 +3,19 @@ frontend_get_reservation_calendar_ownership:
     defaults: { _controller: frontEndBundle:ownership:get_reservation_calendar }
 
 frontend_details_ownership:
-    locales:  { en: "/accommodation/{own_name}", es: "/alojamiento/{own_name}", de: "/alojamiento/{own_name}" }
+    locales:  { en: "/accommodation/{own_name}", es: "/alojamiento/{own_name}", de: "/unterkunft/{own_name}" }
     defaults: { _controller: frontEndBundle:ownership:details }
 
 frontend_last_added_ownership:
-    locales:  { en: "/last_accommodation_added/", es: "/ultimos_alojamientos_agregados/", de: "/ultimos_alojamientos_agregados/" }
+    locales:  { en: "/last_added_accommodation/", es: "/ultimos_alojamientos_agregados/", de: "/zuletzt_hinzugefuegte_unterkuenfte/" }
     defaults: { _controller: frontEndBundle:ownership:last_added_list }
 
 frontend_category_ownership:
-    locales:  { en: "/accommodations_category/{category}", es: "/alojamientos_por_categoria/{category}", de: "/alojamientos_por_categoria/{category}" }
+    locales:  { en: "/accommodations_by_category/{category}", es: "/alojamientos_por_categoria/{category}", de: "/unterkuenfte_nach_kategorie/{category}" }
     defaults: { _controller: frontEndBundle:ownership:category }
 
 frontend_search_ownership:
-    locales:  { en: "/accommodations/{text}/{arrival}/{departure}/{guests}/{rooms}", es: "/alojamientos/{text}/{arrival}/{departure}/{guests}/{rooms}", de: "/alojamientos/{text}/{arrival}/{departure}/{guests}/{rooms}" }
+    locales:  { en: "/accommodations/{text}/{arrival}/{departure}/{guests}/{rooms}", es: "/alojamientos/{text}/{arrival}/{departure}/{guests}/{rooms}", de: "/unterkuenfte/{text}/{arrival}/{departure}/{guests}/{rooms}" }
     defaults: { _controller: frontEndBundle:ownership:search,text:'null',arrival:'null',departure:'null',guests:1,rooms:1 }
 
 frontend_order_search_results_ownership:
@@ -57,11 +57,11 @@ frontend_map_resized_ownership:
     defaults: { _controller: frontEndBundle:ownership:map_resized }
     
 frontend_voted_best_list_ownership:
-    locales:  { en: "/top_rated_accommodations/", es: "/alojamientos_mejores_votados/", de: "/alojamientos_mejores_votados/" }
+    locales:  { en: "/top_rated_accommodations/", es: "/alojamientos_mejores_votados/", de: "/top_unterkuenfte/" }
     defaults: { _controller: frontEndBundle:ownership:voted_best_list }
 
 frontend_type_list_ownership:
-    locales:  { en: "/accommodations_type/{type}", es: "/alojamientos_por_tipo/{type}", de: "/alojamientos_por_tipo/{type}" }
+    locales:  { en: "/accommodations_by_type/{type}", es: "/alojamientos_por_tipo/{type}", de: "/unterkuenfte_nach_typ/{type}" }
     defaults: { _controller: frontEndBundle:ownership:type_list }
     
 frontend_top_rated_callback_ownership:
