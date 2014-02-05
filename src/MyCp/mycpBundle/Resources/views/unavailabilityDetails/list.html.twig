@@ -3,18 +3,17 @@
 {% block top_body %}
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
-    <li class="active">Propiedades</li>
+    <li class="active">Disponibilidad</li>
 </ul>
 {% endblock %}
 {% block content %}
-<h2>Propiedades</h2>
-<hr/>
-    <a class="btn" href="{{ path('mycp_new_ownership') }}"><i class="icon-plus"></i> Adicionar propiedad</a>&nbsp;
+<h2>Disponibilidad</h2>
+<hr/>    
 <br/><br/>
 {% for message in app.session.flashbag.get('message_error_local') %}
 <div class="alert alert-error">{{ message }}</div>
 {% endfor %}
-<form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_list_ownerships')}}">
+<form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_list_unavailabilityDetails')}}">
     <div class="well well-small">
         <div class="row-fluid">
             <div class="span4">
@@ -64,7 +63,7 @@
                         <a rel="tooltip" title="Filtrar listado" href="javascript:action_submit();" class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
                     </div>
                     <div class="span6">
-                        <a rel="tooltip" title="Resetear filtrado" href="{{ path('mycp_list_ownerships') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
+                        <a rel="tooltip" title="Resetear filtrado" href="{{ path('mycp_list_unavailabilityDetails') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
                     </div>
 
                 </div>
@@ -80,18 +79,18 @@
         </div>
         <div class="pull-right">
             Mostrar:
-            <a class="{% if items_per_page == 20 %}selected{% endif %}" href="{{ path('mycp_list_ownerships',{'items_per_page':20})}}">20</a>
-            <a class="{% if items_per_page == 50 %}selected{% endif %}" href="{{ path('mycp_list_ownerships',{'items_per_page':50})}}">50</a>
-            <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_ownerships',{'items_per_page':100})}}">100</a>
-            <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_ownerships',{'items_per_page':300})}}">300</a>
-            <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_ownerships',{'items_per_page':500})}}">500</a>
+            <a class="{% if items_per_page == 20 %}selected{% endif %}" href="{{ path('mycp_list_unavailabilityDetails',{'items_per_page':20})}}">20</a>
+            <a class="{% if items_per_page == 50 %}selected{% endif %}" href="{{ path('mycp_list_unavailabilityDetails',{'items_per_page':50})}}">50</a>
+            <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_unavailabilityDetails',{'items_per_page':100})}}">100</a>
+            <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_unavailabilityDetails',{'items_per_page':300})}}">300</a>
+            <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_unavailabilityDetails',{'items_per_page':500})}}">500</a>
             <input class="hidden" name="items_per_page" value="100">
         </div>
     </div>
 </div>
 <div class="paginator-cont span11">
     {% if filter_code ==''%}{% set filter_code='null'%}{%endif%}
-    {{ simple_paginator_render('mycp_list_ownerships',null,{
+    {{ simple_paginator_render('mycp_list_unavailabilityDetails',null,{
 'container_class': 'paginator',
 'previousPageText': '«',
 'nextPageText': '»',
@@ -109,8 +108,7 @@
         <th>Municipio</th>
         <th>Provincia</th>
         <th>Estado</th>
-        <th>Fotografías</th>
-        <th style="text-align: right">Acciones</th>
+        <th>Habitaciones</th>
     </tr>
     </thead>
     <tbody>
@@ -121,17 +119,14 @@
         <td>{{ownership.getOwnAddressMunicipality.getMunName}}</td>
         <td>{{ownership.getOwnAddressProvince.getProvName}}</td>
         <td>{% if ownership.getOwnComment %}<a class="tooltip_msg no_link" rel="tooltip" title="{{ownership.getOwnComment}}">{% endif %}{% if ownership.getOwnStatus.getStatusId==1%}<span class="label label-success">Activo</span>{% else %} <span class="label label-important">{{ ownership.getOwnStatus.getStatusName }}</span>{% endif %}{% if ownership.getOwnComment %}</a>{% endif %}</td>
-        <td><a href="{{ path('mycp_list_photos_ownership',{'id_ownership':ownership.getOwnId}) }}">({{ photo_count[ownership.getOwnId~'_photo_count'] }}) Fotografías</a></td>
-        <td style="text-align: right"><a class="btn btn-mini" href="{{ path('mycp_edit_ownership',{'id_ownership':ownership.getOwnId}) }}">Editar</a>
-           <!-- <button data='{{ path('mycp_delete_ownership',{'id_ownership':ownership.getOwnId}) }}' class="btn btn-mini btn-danger delete">Eliminar</button>-->
-        </td>
+        <td><a href="{{ path('mycp_list_rooms_unavailabilityDetails',{'id_ownership':ownership.getOwnId}) }}">({{ ownership.ownroomstotal }}) Habitaciones</a></td>
     </tr>
     {% endfor %}
     </tbody>
 </table>
 <div class="paginator-cont span11">
 {% if filter_code ==''%}{% set filter_code='null'%}{%endif%}
-{{ simple_paginator_render('mycp_list_ownerships',null,{
+{{ simple_paginator_render('mycp_list_unavailabilityDetails',null,{
 'container_class': 'paginator',
 'previousPageText': '«',
 'nextPageText': '»',
