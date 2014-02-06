@@ -130,6 +130,7 @@ class ownershipController extends Controller {
         $available_rooms = array();
         $avail_array_prices = array();
         foreach ($rooms as $room_2) {
+
             foreach ($array_no_available as $no_avail) {
                 if ($room_2->getRoomId() == $no_avail) {
                     $do_operation = false;
@@ -143,7 +144,7 @@ class ownershipController extends Controller {
             $do_operation = true;
             $flag_room++;
         }
-
+        var_dump($no_available_days_ready);
         return $this->render('frontEndBundle:ownership:ownershipReservationCalendar.html.twig', array(
                     'array_dates' => $array_dates_keys,
                     'rooms' => $rooms,
