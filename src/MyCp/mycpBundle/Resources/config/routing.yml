@@ -53,6 +53,10 @@ mycp_log:
 mycp_utils:
     resource: "@mycpBundle/Resources/config/routingBackendUtils.yml"
     prefix:   backend/utils/
+    
+mycp_unavailabilityDetails:
+    resource: "@mycpBundle/Resources/config/routingBackendUnavailabilityDetails.yml"
+    prefix:   backend/unavailability_details/
 
 mycp_login:
     pattern:  /{_locale}/login/

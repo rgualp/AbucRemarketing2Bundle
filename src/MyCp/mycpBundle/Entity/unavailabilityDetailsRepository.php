@@ -21,5 +21,17 @@ class unavailabilityDetailsRepository extends EntityRepository {
 
         return $em->createQuery($query_string)->getResult();
     }
+    
+    public function getRoomDetails($id_room) {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT o
+                        FROM mycpBundle:unavailabilityDetails o
+                        JOIN o.room r
+                        WHERE o.ud_sync_st<>" . SyncStatuses::DELETED.
+                        " AND r.room_id = $id_room
+                        ORDER BY o.ud_from_date DESC";
+
+        return $em->createQuery($query_string)->getResult();
+    }
 
 }

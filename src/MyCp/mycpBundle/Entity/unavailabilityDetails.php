@@ -167,6 +167,7 @@ class unavailabilityDetails {
 
     public function setRoom($room) {
         $this->room = $room;
+        return $this;
     }
     
 }

@@ -1,0 +1,24 @@
+mycp_list_unavailabilityDetails:
+    pattern:  /list/{items_per_page}/{filter_code}/{filter_active}/{filter_category}/{filter_province}/{filter_municipality}/{filter_type}/{filter_name}/
+    defaults: { _controller: mycpBundle:BackendUnavailabilityDetails:list, items_per_page: 100,filter_code:'',filter_active:'',filter_category:'',filter_province:'',filter_municipality:'',filter_type:'',filter_name:''}
+    
+mycp_new_unavailabilityDetails:
+    pattern:   /room/detail/new/{id_room}/{num_room}/
+    defaults: { _controller: mycpBundle:BackendUnavailabilityDetails:new}
+
+mycp_list_rooms_unavailabilityDetails:
+    pattern:  /rooms/{id_ownership}/{items_per_page}/
+    defaults: { _controller: mycpBundle:BackendUnavailabilityDetails:list_rooms , items_per_page:10}
+    
+mycp_list_room_details_unavailabilityDetails:
+    pattern:  /room/details/{id_room}/{num_room}/{items_per_page}/
+    defaults: { _controller: mycpBundle:BackendUnavailabilityDetails:room_details , items_per_page:10}
+
+mycp_delete_unavailabilityDetails:
+    pattern:  /room/detail/delete/{num_room}/{id_detail}/
+    defaults: { _controller: mycpBundle:BackendUnavailabilityDetails:delete }
+
+mycp_edit_unavailabilityDetails:
+    pattern:  /room/detail/edit/{id_detail}/{num_room}/
+    defaults: { _controller: mycpBundle:BackendUnavailabilityDetails:edit }
+
