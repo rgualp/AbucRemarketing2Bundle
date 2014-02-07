@@ -9,6 +9,7 @@
 <script type="text/javascript">
     jQuery(document).ready(function($) {
         $('#full-width-slider').royalSlider({
+            numImagesToPreload:0,
             arrowsNav: true,
             loop: false,
             keyboardNavEnabled: true,
@@ -29,6 +30,16 @@
                 change: false
             }
         });
+
+        var slider = $("#full-width-slider").data('royalSlider');
+
+        var img="{{ asset('bundles/frontend/img/destiny_slide_imgs/') }}";
+
+        for(x=2; x<=6;x++)
+        {
+            slider.appendSlide('<img class="rsImg" src="'+img+x+'.jpg" alt="" />');
+        }
+
     });
 </script>
 {% endblock %}
@@ -49,11 +60,6 @@
     <h1 class="caecilia-roman text-center h-grey h-size-1">{{"HOMEPAGE_SUBTITLE_2" | trans}}</h1>   
     <div id="full-width-slider" class="royalSlider rsDefault">
         <img class="rsImg" src="{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}" alt="" />
-        <img class="rsImg" src="{{ asset('bundles/frontend/img/destiny_slide_imgs/2.jpg') }}" alt="" />
-        <img class="rsImg" src="{{ asset('bundles/frontend/img/destiny_slide_imgs/3.jpg') }}" alt="" />
-        <img class="rsImg" src="{{ asset('bundles/frontend/img/destiny_slide_imgs/4.jpg') }}" alt="" />
-        <img class="rsImg" src="{{ asset('bundles/frontend/img/destiny_slide_imgs/5.jpg') }}" alt="" />
-        <img class="rsImg" src="{{ asset('bundles/frontend/img/destiny_slide_imgs/6.jpg') }}" alt="" />
     </div>
     <h1 class="caecilia-roman text-center h-orange h-size-2">{{"MAIN_CUBAN_DESTINATIONS" | trans}}</h1>
     <hr/>
