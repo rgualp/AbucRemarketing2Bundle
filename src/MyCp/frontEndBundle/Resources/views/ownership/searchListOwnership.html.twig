@@ -71,7 +71,6 @@
 {%else%}
         <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
 {%endfor%}
-        {{show_paginator}}
 {%if (show_paginator is defined and show_paginator) and (list | length) and total_items > items_per_page%}
         <div class="text-center">
             {%if in_searcher is defined and in_searcher == 'false' and destination_name is defined%}
