@@ -136,7 +136,7 @@
             </trans-unit>
             <trans-unit id="34">
                 <source>PLACE_WATERMARK</source>
-                <target>¿A dónde te apetece ir?...</target>
+                <target>Elije un destino</target>
             </trans-unit>
             <trans-unit id="35">
                 <source>ARRIVAL_WATERMARK</source>
@@ -156,11 +156,11 @@
             </trans-unit>
             <trans-unit id="39">
                 <source>SLOGAN_1</source>
-                <target>Como en my casa,...</target>
+                <target>Alojarse,</target>
             </trans-unit>
             <trans-unit id="40">
                 <source>SLOGAN_2</source>
-                <target>en ninguna parte</target>
+                <target>donde Cuba Cuba es!</target>
             </trans-unit>
             <trans-unit id="41">
                 <source>SLOGAN_3</source>
@@ -224,7 +224,7 @@
             </trans-unit>
             <trans-unit id="56">
                 <source>HOMEPAGE_TEXT</source>
-                <target>Alojarse en una //casa particular// puede ser una de las experiencias más interesantes que usted puede disfrutar durante su viaje a Cuba. Aparte de tener la posibilidad de conocer a viajeros de todo el mundo, podrá conocer la realidad cubana desde adentro. Otro argumento muy importante es el precio. Las casas particulares son la opción más económica para su estancia en Cuba.</target>
+                <target>Alojarse en una Casa Particular es una de las experiencias más interesantes que usted puede disfrutar durante su viaje a Cuba. Aparte de tener la posibilidad de conocer a viajeros de todo el mundo podrá conocer la realidad cubana desde adentro. Disfrutar la hospitalidad del cubano y conocer más su cultura. Otro argumento muy importante es el precio. Las casas particulares son la opción más económica para su estancia en Cuba. Es importante recordar que, al ser estos negocios privados, eligiendo reservar en uno de ellos Usted contribuye a la economía familiar cubana.</target>
             </trans-unit>
             <trans-unit id="57">
                 <source>TOP_HOUSES_HOME_TITLE</source>
@@ -264,7 +264,7 @@
             </trans-unit>
             <trans-unit id="66">
                 <source>MIDRANGE_HOME_TABS</source>
-                <target>Rango Medio</target>
+                <target>Mittelklasse</target>
             </trans-unit>
             <trans-unit id="67">
                 <source>PREMIUM_HOME_TABS</source>
@@ -1929,7 +1929,7 @@
             </trans-unit>
             <trans-unit id="491">
                 <source>STAY_WHERE_CUBA_CUBA_IS</source>
-                <target>Alojarse donde Cuba, Cuba es.</target>
+                <target>Alojarse, donde Cuba Cuba es!</target>
             </trans-unit>
             <trans-unit id="492">
                 <source>NIGHTS</source>
