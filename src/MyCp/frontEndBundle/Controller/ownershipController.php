@@ -144,7 +144,7 @@ class ownershipController extends Controller {
             $do_operation = true;
             $flag_room++;
         }
-        var_dump($no_available_days_ready);
+        //var_dump($no_available_days_ready);
         return $this->render('frontEndBundle:ownership:ownershipReservationCalendar.html.twig', array(
                     'array_dates' => $array_dates_keys,
                     'rooms' => $rooms,
@@ -248,13 +248,15 @@ class ownershipController extends Controller {
         }
 
         if ($this->getRequest()->getMethod() == 'POST') {
-            $reservation_filter_date_from = $post['reservation_filter_date_from'];
-            $reservation_filter_date_from = explode('/', $reservation_filter_date_from);
-            $start_timestamp = mktime(0, 0, 0, $reservation_filter_date_from[1], $reservation_filter_date_from[0], $reservation_filter_date_from[2]);
+            if (isset($post['reservation_filter_date_from']) && isset($post['reservation_filter_date_to'])) {
+                $reservation_filter_date_from = $post['reservation_filter_date_from'];
+                $reservation_filter_date_from = explode('/', $reservation_filter_date_from);
+                $start_timestamp = mktime(0, 0, 0, $reservation_filter_date_from[1], $reservation_filter_date_from[0], $reservation_filter_date_from[2]);
 
-            $reservation_filter_date_to = $post['reservation_filter_date_to'];
-            $reservation_filter_date_to = explode('/', $reservation_filter_date_to);
-            $end_timestamp = mktime(0, 0, 0, $reservation_filter_date_to[1], $reservation_filter_date_to[0], $reservation_filter_date_to[2]);
+                $reservation_filter_date_to = $post['reservation_filter_date_to'];
+                $reservation_filter_date_to = explode('/', $reservation_filter_date_to);
+                $end_timestamp = mktime(0, 0, 0, $reservation_filter_date_to[1], $reservation_filter_date_to[0], $reservation_filter_date_to[2]);
+            }
         } else {
             
         }
@@ -987,7 +989,7 @@ class ownershipController extends Controller {
 
         setcookie("mycp_favorites_ownerships", $string_favorites, time() + 3600);
 
-        var_dump($_COOKIE["mycp_favorites_ownerships"]);
+        //var_dump($_COOKIE["mycp_favorites_ownerships"]);
         return $this->redirect($this->generateUrl('frontend_details_ownership', array('ownerid' => $id_ownership)));
     }
 
