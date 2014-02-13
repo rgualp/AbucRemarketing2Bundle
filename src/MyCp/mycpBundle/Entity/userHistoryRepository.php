@@ -27,7 +27,8 @@ class userHistoryRepository extends EntityRepository
         if ($user_ids["user_id"] != null)
             $user = $em->getRepository('mycpBundle:user')->find($user_ids["user_id"]);            
 
-        $element = $this->get_from_history($user_ids, $element_id,$is_ownership);
+        $array_element = $this->get_from_history($user_ids, $element_id,$is_ownership);
+        $element = $array_element[0];
         if($element == null)
         {
             $history = new userHistory();
@@ -64,7 +65,7 @@ class userHistoryRepository extends EntityRepository
             $where .= ($where != "") ? (($is_ownership) ? " AND h.user_history_ownership = $element_id" : " AND h.user_history_destination = $element_id") : "";
 
             if ($where != "")
-                return $em->createQuery($query_string . $where . " ORDER BY h.user_history_visit_date DESC")->getOneOrNullResult();
+                return $em->createQuery($query_string . $where . " ORDER BY h.user_history_visit_date DESC")->getResult();
             else
                 return null;
         } catch (Exception $e) {

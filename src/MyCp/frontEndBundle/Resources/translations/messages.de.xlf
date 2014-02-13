@@ -136,39 +136,39 @@
             </trans-unit>
             <trans-unit id="34">
                 <source>PLACE_WATERMARK</source>
-                <target>¿A dónde te apetece ir?...</target>
+                <target>Geben Sie eine Destination ein</target>
             </trans-unit>
             <trans-unit id="35">
                 <source>ARRIVAL_WATERMARK</source>
-                <target>Llegada</target>
+                <target>Anreise</target>
             </trans-unit>
             <trans-unit id="36">
                 <source>DEPARTURE_WATERMARK</source>
-                <target>Salida</target>
+                <target>Abreise</target>
             </trans-unit>
             <trans-unit id="37">
                 <source>GUEST_WATERMARK</source>
-                <target>1 Huésped</target>
+                <target>1 Gast</target>
             </trans-unit>
             <trans-unit id="38">
                 <source>SEARCH</source>
-                <target>buscar</target>
+                <target>Suchen</target>
             </trans-unit>
             <trans-unit id="39">
                 <source>SLOGAN_1</source>
-                <target>Como en my casa,...</target>
+                <target>Übernachten,</target>
             </trans-unit>
             <trans-unit id="40">
                 <source>SLOGAN_2</source>
-                <target>en ninguna parte</target>
+                <target>wo Kuba Kuba ist!</target>
             </trans-unit>
             <trans-unit id="41">
                 <source>SLOGAN_3</source>
-                <target>MyCasaParticular.com, su primera dirección en Cuba</target>
+                <target>MyCasaParticular, Ihre erste Adresse in Kuba</target>
             </trans-unit>
             <trans-unit id="42">
                 <source>HOME_MAIN_MENU</source>
-                <target>Inicio</target>
+                <target>Home</target>
             </trans-unit>
             <trans-unit id="43">
                 <source>HOME_DESCRIPTION_MAIN_MENU</source>
@@ -176,7 +176,7 @@
             </trans-unit>
             <trans-unit id="44">
                 <source>DESTINATIONS_MAIN_MENU</source>
-                <target>Destinos</target>
+                <target>Reiseziele</target>
             </trans-unit>
             <trans-unit id="45">
                 <source>DESTINATIONS_DESCRIPTION_MAIN_MENU</source>
@@ -200,7 +200,7 @@
             </trans-unit>
             <trans-unit id="50">
                 <source>SEARCH_MAIN_MENU</source>
-                <target>Alojamientos</target>
+                <target>Unterkünfte</target>
             </trans-unit>
             <trans-unit id="51">
                 <source>SEARCH_DESCRIPTION_MAIN_MENU</source>
@@ -216,7 +216,7 @@
             </trans-unit>
             <trans-unit id="54">
                 <source>HOMEPAGE_SUBTITLE_1</source>
-                <target>¿Por qué alojarse en una casa particular?</target>
+                <target>Warum ein Aufenthalt in einem Privatunterkunft?</target>
             </trans-unit>
             <trans-unit id="55">
                 <source>HOMEPAGE_SUBTITLE_2</source>
@@ -224,7 +224,7 @@
             </trans-unit>
             <trans-unit id="56">
                 <source>HOMEPAGE_TEXT</source>
-                <target>Alojarse en una //casa particular// puede ser una de las experiencias más interesantes que usted puede disfrutar durante su viaje a Cuba. Aparte de tener la posibilidad de conocer a viajeros de todo el mundo, podrá conocer la realidad cubana desde adentro. Otro argumento muy importante es el precio. Las casas particulares son la opción más económica para su estancia en Cuba.</target>
+                <target>Der Aufenthalt in einem Casa particular kann eine der interessantesten Erfahrungen während Ihres Kuba-Aufenthaltes sein. Neben der Möglichkeit, Reisende aus der ganzen Welt zu treffen, haben Sie in einem Casa particular hautnahen Kontakt zur kubanischen Bevölkerung und bekommen einen Einblick in den kubanischen Alltag. Ein weiteres wichtiges Argument ist der Preis. Eine Übernachtung in einem Casa particular ist weit günstiger als eine Übernachtung in einem Hotel.</target>
             </trans-unit>
             <trans-unit id="57">
                 <source>TOP_HOUSES_HOME_TITLE</source>
@@ -248,11 +248,11 @@
             </trans-unit>
             <trans-unit id="62">
                 <source>POPULAR_DESTINATIONS_HOME_TABS</source>
-                <target>Destinos Populares</target>
+                <target>Beliebte Destinationen</target>
             </trans-unit>
             <trans-unit id="63">
                 <source>LAST_ADDED_HOME_TABS</source>
-                <target>Últimas Añadidas</target>
+                <target>Zuletzt hinzugefügt</target>
             </trans-unit>
             <trans-unit id="64">
                 <source>OFFERS_HOME_TABS</source>
@@ -260,11 +260,11 @@
             </trans-unit>
             <trans-unit id="65">
                 <source>ECONOMIC_HOME_TABS</source>
-                <target>Económicas</target>
+                <target>Günstig</target>
             </trans-unit>
             <trans-unit id="66">
                 <source>MIDRANGE_HOME_TABS</source>
-                <target>Rango Medio</target>
+                <target>Mittelklasse</target>
             </trans-unit>
             <trans-unit id="67">
                 <source>PREMIUM_HOME_TABS</source>
@@ -304,7 +304,7 @@
             </trans-unit>
             <trans-unit id="76">
                 <source>ACCOMMODATION_SEARCH_TITLE</source>
-                <target>BUSCAR ALOJAMIENTO</target>
+                <target>Unterkunft suchen</target>
             </trans-unit>
             <trans-unit id="77">
                 <source>SELECT_OPTION</source>
@@ -556,7 +556,7 @@
             </trans-unit>
             <trans-unit id="148">
                 <source>GUESTS_RESERVATION</source>
-                <target>Huéspedes</target>
+                <target>Gast</target>
             </trans-unit>
             <trans-unit id="149">
                 <source>SUBTOTAL_RESERVATION</source>
@@ -640,7 +640,7 @@
             </trans-unit>
             <trans-unit id="169">
                 <source>ROOM_PLURAL</source>
-                <target>habitaciones</target>
+                <target>Zimmer</target>
             </trans-unit>
             <trans-unit id="170">
                 <source>NIGHT_PER_ROOM</source>
@@ -1336,15 +1336,15 @@
             </trans-unit>
             <trans-unit id="343">
                 <source>ROOM_WATERMARK</source>
-                <target>1 Habitación</target>
+                <target>1 Zimmer</target>
             </trans-unit>
             <trans-unit id="344">
                 <source>GUESTS</source>
-                <target>Huéspedes</target>
+                <target>Gäste</target>
             </trans-unit>
             <trans-unit id="345">
                 <source>ROOMS</source>
-                <target>Habitaciones</target>
+                <target>Zimmer</target>
             </trans-unit>
             <trans-unit id="346">
                 <source>ADD_FAVORITIES</source>
@@ -1717,7 +1717,7 @@
             </trans-unit>
             <trans-unit id="438">
                 <source>MAIN_CUBAN_DESTINATIONS</source>
-                <target>Principales destinos de Cuba</target>
+                <target>Top Reiseziele in Kuba</target>
             </trans-unit>
             <trans-unit id="439">
                 <source>RESERVATION_DETAILS</source>
@@ -1929,7 +1929,7 @@
             </trans-unit>
             <trans-unit id="491">
                 <source>STAY_WHERE_CUBA_CUBA_IS</source>
-                <target>Alojarse donde Cuba, Cuba es.</target>
+                <target>Übernachten, wo Kuba Kuba ist!</target>
             </trans-unit>
             <trans-unit id="492">
                 <source>NIGHTS</source>
@@ -2281,7 +2281,7 @@
                 </trans-unit>
                 <trans-unit id="580">
                     <source>PLACE_IN_CUBA_TO_VISIT</source>
-                    <target>¿ALEMAN ALEMAN ALEMAN?</target>
+                    <target>Welchen Ort in Kuba möchten Sie reisen?</target>
                 </trans-unit>
                 <trans-unit id="581">
                     <source>ROWS</source>
