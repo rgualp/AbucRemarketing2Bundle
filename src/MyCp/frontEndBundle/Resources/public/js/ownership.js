@@ -252,6 +252,7 @@ function reservations_in_details()
 {
     total_price_var=0;
     $('.guest_number').change(function(){
+        alert($('#tr_'+$(this).attr('data')).html());
         if($('#tr_'+$(this).attr('data')).html()){
             if(eval($('#combo_guest_'+$(this).attr('data')).val())+eval($('#combo_kids_'+$(this).attr('data')).val())==0)
             {
