@@ -43,6 +43,37 @@ class ownershipController extends Controller {
         $prices_dates = array();
 
         foreach ($rooms as $room) {
+            $unavailable_room = $em->getRepository('mycpBundle:unavailabilityDetails')->findBy(array('room'=>$room->getRoomId()));
+            if($unavailable_room)
+            {
+                $unavailable_room=$unavailable_room[0];
+                // unavailable details
+                if ($start_timestamp <= $unavailable_room->getUdFromDate()->getTimestamp() &&
+                    $end_timestamp >= $unavailable_room->getUdToDate()->getTimestamp()) {
+                    $array_no_available[$room->getRoomId()] = $room->getRoomId();
+                }
+
+                if ($start_timestamp >= $unavailable_room->getUdFromDate()->getTimestamp() &&
+                    $start_timestamp <= $unavailable_room->getUdToDate()->getTimestamp() &&
+                    $end_timestamp >= $unavailable_room->getUdToDate()->getTimestamp()) {
+                    $array_no_available[$room->getRoomId()] = $room->getRoomId();
+                }
+
+                if ($start_timestamp <= $unavailable_room->getUdFromDate()->getTimestamp() &&
+                    $end_timestamp <= $unavailable_room->getUdToDate()->getTimestamp() &&
+                    $end_timestamp >= $unavailable_room->getUdFromDate()->getTimestamp()) {
+
+                    $array_no_available[$room->getRoomId()] = $room->getRoomId();
+                }
+
+                if ($start_timestamp >= $unavailable_room->getUdFromDate()->getTimestamp() &&
+                    $end_timestamp <= $unavailable_room->getUdToDate()->getTimestamp()) {
+
+                    $array_no_available[$room->getRoomId()] = $room->getRoomId();
+                }
+
+
+            }
             foreach ($reservations as $reservation) {
 
                 if ($reservation->getOwnResSelectedRoomId() == $room->getRoomId()) {
@@ -117,7 +148,7 @@ class ownershipController extends Controller {
                 $no_available_days_ready[$item[$keys[0]]] = array();
             $no_available_days_ready[$item[$keys[0]]] = array_merge($no_available_days_ready[$item[$keys[0]]], $item['check']);
         }
-
+        //var_dump($no_available_days);
         $array_dates_keys = array();
         $count = 1;
         foreach ($array_dates as $date) {
@@ -144,7 +175,8 @@ class ownershipController extends Controller {
             $do_operation = true;
             $flag_room++;
         }
-        var_dump($no_available_days_ready);
+        //var_dump($no_available_days_ready);
+        //var_dump($rooms);
         return $this->render('frontEndBundle:ownership:ownershipReservationCalendar.html.twig', array(
                     'array_dates' => $array_dates_keys,
                     'rooms' => $rooms,
