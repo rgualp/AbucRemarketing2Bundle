@@ -28,7 +28,7 @@ class userHistoryRepository extends EntityRepository
             $user = $em->getRepository('mycpBundle:user')->find($user_ids["user_id"]);            
 
         $array_element = $this->get_from_history($user_ids, $element_id,$is_ownership);
-        $element = $array_element[0];
+        $element = (count($array_element) >= 1) ? $array_element[0] : null;
         if($element == null)
         {
             $history = new userHistory();

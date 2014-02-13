@@ -248,7 +248,8 @@ class destinationController extends Controller {
         $items_per_page = ($view != null) ? ($view != 'PHOTOS' ? 5 : 6) : 5;
         $paginator->setItemsPerPage($items_per_page);
         $owns_nearby = $paginator->paginate($em->getRepository('mycpBundle:destination')->ownsership_nearby_destination($location_municipality_id, $location_province_id, null,null, $users_id['user_id'], $users_id['session_id']))->getResult();
-               
+         
+        //var_dump($owns_nearby);
 
         $response = $this->renderView('frontEndBundle:destination:detailsOwnsNearByDestination.html.twig', array(
             'owns_nearby' => $owns_nearby,

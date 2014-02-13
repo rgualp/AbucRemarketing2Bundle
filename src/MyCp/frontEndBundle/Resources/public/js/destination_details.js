@@ -219,43 +219,6 @@ function initialize_map()
                             }
                             showOwnershipsByIds(markers_in_bound);
                         });
-
-                //Evento mouseover en el cluster
-               /* google.maps.event.addListener(markerClusterBig, 'mouseover',
-                        function(cluster) {
-                            var markers = cluster.getMarkers();
-
-                            var boxText = document.createElement("div");
-                            boxText.style.cssText = "border: 1px solid #ccc; margin-top: 8px; background: #fff; padding: 5px; font-size:11px;";
-                            var boxContent = "<table>";
-
-                            for (var i = 0; i < markers.length; i++) {
-                                if (map_big.getBounds().contains(markers[i].getPosition())) {
-                                    $('.elementList[data-id="' + markers[i].get("id") + '"]').addClass("markerActive");
-                                    boxContent += markers[i].get("content");
-                                    boxContent += "<tr><td colspan='2'><hr/></td></tr>";
-                                }
-                            }
-                            var total_translate = $("#big_map").attr("data-total-translate");
-                            boxContent += "<tr><td colspan='2' style='text-align:right'>" + total_translate + ": <b>" + cluster.getSize() + "<b/></td></tr>";
-                            boxContent += "</table>";
-                            boxText.innerHTML = boxContent;
-                            ib.setContent(boxText);
-                            ib.setPosition(cluster.getCenter());
-                            ib.open(map_big);
-                        });
-
-                //Evento mouseout en el cluster
-                google.maps.event.addListener(markerClusterBig, 'mouseout',
-                        function(cluster) {
-                            var markers = cluster.getMarkers();
-                            for (var i = 0; i < markers.length; i++) {
-                                if (map_big.getBounds().contains(markers[i].getPosition())) {
-                                    $('.elementList[data-id="' + markers[i].get("id") + '"]').removeClass("markerActive");
-                                    ib.close();
-                                }
-                            }
-                        });*/
             }
         });
 
@@ -317,7 +280,6 @@ function hideMarkerInfo(div_element)
             break;
         }
     }
-
 }
 
 function showOwnershipsByIds(ids_array)
