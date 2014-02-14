@@ -350,6 +350,7 @@ function reservations_in_details()
             percent_value=total_price_var * percent / 100;
             $('#initial_deposit').html(percent_value);
             $('#total_prepayment').html(percent_value + 10*curr);
+            $('.calendar-results').css({display: 'block'});
         }
     });
 }

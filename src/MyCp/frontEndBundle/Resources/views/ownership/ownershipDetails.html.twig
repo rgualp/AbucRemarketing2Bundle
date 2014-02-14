@@ -625,6 +625,7 @@
 
     function refresh_calendar(from,to)
     {
+        $('.calendar-results').css({display: 'none'});
         element=$("#body_calendar");
         element.attr('class','container_loading');
         element.html('<div>&nbsp;</div>');
