@@ -12,7 +12,7 @@
 {% block body %}
 <div class="container">
     <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-5">
             <div class="thumbnail" style="background-color: #fff; padding: 0">
                 <ul id="faq_categories" style="padding: 0" data-url-filter="{{ path('frontend_filter_faq') }}">
                     <li data-value="-1" class="active">{{"ALL_FAQS" | trans}}<i class="pull-right icon-chevron-right"></i></li>
@@ -25,7 +25,7 @@
                 </ul>
             </div>
         </div>
-        <div class="col-sm-8" id="div_result">
+        <div class="col-sm-7" id="div_result">
         {{ include('frontEndBundle:faq:itemListFaq.html.twig', 
                {'faq_list': faq_list}) }} 
         </div>
@@ -33,6 +33,6 @@
     </div>
 </div>
 {% block include_javascripts %}
-<script src="{{ asset('bundles/frontend/js/faq.js') }}"></script>
+
 {% endblock %}
 {% endblock %}

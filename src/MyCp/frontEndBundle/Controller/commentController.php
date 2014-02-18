@@ -24,10 +24,13 @@ class commentController extends Controller {
         $data['com_ownership_id'] = $ownid;
         $data['com_rating'] = $request->request->get('com_rating');
         $data['com_comments'] = $request->request->get('com_comments');
-
+        
         if($session->get('comments_cant') == 1)
             $em->getRepository('mycpBundle:comment')->insert_comment($data, $user);
 
+        if($session->get('comments_cant') == 2)
+            $session->remove('comments_cant');
+        
          $paginator = $this->get('ideup.simple_paginator');
          $items_per_page = 5;
          $paginator->setItemsPerPage($items_per_page);

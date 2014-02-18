@@ -166,6 +166,7 @@ class destinationController extends Controller {
         $paginator->setItemsPerPage($items_per_page);
         $owns_nearby = $paginator->paginate($em->getRepository('mycpBundle:destination')->ownsership_nearby_destination($location_municipality_id, $location_province_id, null,null, $users_id['user_id'], $users_id['session_id']))->getResult();
                
+        
         $response = $this->renderView('frontEndBundle:destination:detailsOwnsNearByDestination.html.twig', array(
             'owns_nearby' => $owns_nearby,
             'destination_name' => $destination_name,
@@ -235,21 +236,17 @@ class destinationController extends Controller {
         if ($session->get("destination_details_show_rows") == null)
             $session->set('destination_details_show_rows', 3);
 
-        $location = $em->getRepository('mycpBundle:destinationLocation')->findOneBy(array('des_loc_destination' => $destination_id));
+        $destination_array = $em->getRepository('mycpBundle:destination')->get_destination($destination_id,'ES');
 
-        $location_municipality = $location->getDesLocMunicipality();
-        $location_province = $location->getDesLocProvince();
-
-        $location_municipality_id = ($location_municipality != null) ? $location_municipality->getMunId() : null;
-        $location_province_id = ($location_province != null) ? $location_province->getProvId() : null;
+        $location_municipality_id = $destination_array['municipality_id'];
+        $location_province_id = $destination_array['province_id'];
             
         $paginator = $this->get('ideup.simple_paginator');
         //$items_per_page = $session->get("destination_details_show_rows");
         $items_per_page = ($view != null) ? ($view != 'PHOTOS' ? 5 : 6) : 5;
         $paginator->setItemsPerPage($items_per_page);
         $owns_nearby = $paginator->paginate($em->getRepository('mycpBundle:destination')->ownsership_nearby_destination($location_municipality_id, $location_province_id, null,null, $users_id['user_id'], $users_id['session_id']))->getResult();
-               
-
+         
         $response = $this->renderView('frontEndBundle:destination:detailsOwnsNearByDestination.html.twig', array(
             'owns_nearby' => $owns_nearby,
             'destination_name' => $destination_name,

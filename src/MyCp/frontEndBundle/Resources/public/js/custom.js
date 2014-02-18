@@ -20,9 +20,51 @@ function start() {
     details_favorites("#add_to_favorites");
 
     delete_from_list_favorites();
+    
+    change_faq();
+    reservations();
 
     //Para los acordiones
     $(".accordion a.accordion-toggle").addClass("collapsed");
+}
+
+function reservations(){
+    $('a.combo_genders_elements').click(function(){
+        var item_value=$(this).attr('data-value');
+        $('#user_tourist_gender').val(item_value);
+    });
+
+    $('ul.combo_nationality_items a.option').click(function(){
+        var item_value=$(this).attr('data-value');
+        $('#user_tourist_nationality').val(item_value);
+    });
+
+    $('ul.combo_hours_elements a.option').click(function(){
+        var item_value=$(this).attr('data-value');
+        $('#reservation_hour').val(item_value);
+    });
+}
+
+function change_faq()
+{
+    $('#faq_categories li').click(function() {
+        $('#faq_categories li').removeClass("active");
+        $(this).addClass("active");
+        var category_id = $(this).attr('data-value');
+        //var municipality =$('#dll_municipalities').val();
+        var url = $('#faq_categories').attr('data-url-filter');
+        var result = $('#div_result');
+        category_id = (category_id != -1) ? category_id : null;
+
+        show_loading();
+        $.post(url, {
+            'category_id': category_id
+        }, function(data) {
+            result.html(data);
+            hide_loading();
+        });
+        return false;
+    });
 }
 
 function language_change()
