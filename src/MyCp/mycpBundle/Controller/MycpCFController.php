@@ -145,7 +145,7 @@ class MycpCFController extends Controller {
     }
 
     private function _getHouse($reservation) {
-        $house["co"] = $reservation->getGenResOwnId()->getOwnMcpCode();
+        $house["co"] = is_object($reservation->getGenResOwnId()) ? $reservation->getGenResOwnId()->getOwnMcpCode() : "-";
         return $house;
     }
 
