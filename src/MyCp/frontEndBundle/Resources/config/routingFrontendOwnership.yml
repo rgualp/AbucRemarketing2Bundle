@@ -1,4 +1,4 @@
-frontend_get_reservation_calendar_ownership:
+frontend_get_reservation_calendar_ownership_callback:
     pattern:  /reservation_calendar/
     defaults: { _controller: frontEndBundle:ownership:get_reservation_calendar }
 
@@ -48,7 +48,7 @@ frontend_update_rating_ownership:
     pattern:  /update_rating/{ownid}
     defaults: { _controller: frontEndBundle:ownership:update_rating }
 
-frontend_map_details_ownership:
+frontend_map_details_ownership_callback:
     pattern:  /map_details_ownership/{ownGeolocateX}/{ownGeolocateY}/{ownName}/{description}/{image}
     defaults: { _controller: frontEndBundle:ownership:map_details_ownership }
     
