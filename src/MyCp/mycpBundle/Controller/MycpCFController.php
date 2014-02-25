@@ -145,7 +145,7 @@ class MycpCFController extends Controller {
     }
 
     private function _getHouse($reservation) {
-        $house["co"] = $reservation->getGenResOwnId()->getOwnMcpCode();
+        $house["co"] = is_object($reservation->getGenResOwnId()) ? $reservation->getGenResOwnId()->getOwnMcpCode() : "-";
         return $house;
     }
 
@@ -167,38 +167,59 @@ class MycpCFController extends Controller {
     // <editor-fold defaultstate="collapsed" desc="Upload Methods">
     private function _commitReservations(Request $request) {
         $json_reservations = $request->get('content');
-        $reservations = json_decode($json_reservations);
+        $res_data = json_decode($json_reservations);
         $em = $this->getDoctrine()->getEntityManager();
 
-        $distinct_clients = array();
+        $distinct_clients_data = array();
         $res_per_clients = array();
-
+        $reservations = $res_data->re;
         if (is_array($reservations)) {
             foreach ($reservations as $reservation) {
-                $entity_res = $em->getRepository('mycpBundle:generalReservation')->find($reservation->id);
+                $entity_res = $em->getRepository('mycpBundle:generalReservation')->find($reservation->rn);
                 if (!empty($entity_res)) {
-                    $entity_res->setGenResStatus($this->_reserservationStatusConversor($reservation->status));
-                    $entity_res->getGenResOwnId()->setOwnCommissionPercent($reservation->house_percent);
+                    $entity_res->setGenResStatus($this->_reserservationStatusConversor($reservation->st));
                     $em->persist($entity_res);
 
-                    if (!in_array($entity_res->getGenResUserId(), $distinct_clients)) {
-                        $distinct_clients[] = $entity_res->getGenResUserId();
+                    if (!in_array($entity_res->getGenResUserId(), $distinct_clients_data)) {
+                        $distinct_clients_data[] = array("client" => $entity_res->getGenResUserId(), "rtext" => $reservation->rt);
                     }
                     $res_per_clients[$entity_res->getGenResUserId()->getUserId()][] = $entity_res;
                 }
+                //manage UDs for each reservation...
+                switch ($reservation->ss) {
+                    case SyncStatuses::ADDED:
+                        break;
+                    case SyncStatuses::UPDATED:
+                        break;
+                    case SyncStatuses::DELETED:
+                        break;
+                }
             }
-            $em->flush();
         }
+        $res_rooms_details = $res_data->rd;
+        if (is_array($res_rooms_details)) {
+            foreach ($res_rooms_details as $res_room_detail) {
+                $rrd = $em->getRepository('mycpBundle:ownershipReservation')->findOneBy(array('own_res_gen_res_id' => $res_room_detail->rn, 'own_res_selected_room_id' => $res_room_detail->nu));
+                if (!empty($rrd)) {
+                    $rrd->setOwnResReservationFromDate($res_room_detail->fd);
+                    $rrd->setOwnResReservationToDate($res_room_detail->td);
+                    $rrd->setOwnResCountAdults($res_room_detail->at);
+                    $rrd->setOwnResCountChildrens($res_room_detail->ct);
+                    $rrd->setOwnResNightPrice($res_room_detail->np);
+                    $em->persist($rrd);
+                }
+            }
+        }
+        $em->flush();
 
         //sending email...
-        foreach ($distinct_clients as $client) {
-            $this->_sendReservationsEmail($em, $client, $res_per_clients[$client->getUserId()]);
+        foreach ($distinct_clients_data as $client_data) {
+            $this->_sendReservationsEmail($em, $client_data["client"], $res_per_clients[$client_data->getUserId()], $client_data["rtext"]);
         }
-
         return self::SUCCESS_CONFIRM_MSG;
     }
 
-    private function _sendReservationsEmail($em, $user, $reservations) {
+    private function _sendReservationsEmail($em, $user, $reservations, $rtext) {
         $array_photos = array();
         $array_nigths = array();
         $service_time = $this->get('time');
@@ -251,6 +272,7 @@ class MycpCFController extends Controller {
                 "na" => $_house->getOwnName(),
                 "pr" => $_house->getOwnHomeowner1(),
                 "ad" => $_house->getOwnAddressStreet(),
+                "pv" => $_house->getOwnAddressProvince() != null ? $_house->getOwnAddressProvince()->getProvCode() : "HAB",
                 "ph" => $_house->getOwnPhoneNumber(),
                 "mp" => $_house->getOwnMinimumPrice(),
                 "xp" => $_house->getOwnMaximumPrice(),
@@ -352,8 +374,7 @@ class MycpCFController extends Controller {
 //-----------------------------------------------------------------------------
     private function _commitHouses(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
-        //  $json_houses = $request->get('content');
-        $json_houses = '{"uds":[{"rn":15,"rs":"Client Reservation","ss":0,"td":"2013-12-21","fd":"2013-12-20","hc":"CH138"},{"rn":10,"rs":"Client Reservation","ss":0,"td":"2013-12-27","fd":"2013-12-20","hc":"CF0034"}],"houses":[{"mp":45,"cp":20,"na":"Casa Particular en Guanabo La Casa de Elena","ad":"Calle 472, No.34a, Habana del Este, La Habana","xp":35,"ss":1,"ph":"243 5643","hc":"CH138","pr":"Elena Moriño Castellano"},{"mp":30,"cp":20,"na":"Casa de prueba","ad":"test","xp":30,"ss":0,"ph":"test","hc":"MY001","pr":"test"}],"rooms":[{"nu":15,"dt":"50","wi":"2","sm":false,"ba":false,"uf":"30","ya":false,"te":false,"by":"2","sf":false,"ut":"35","hc":"CH138","au":"TV cable","ty":"Habitación Triple","df":"50","cl":"Aire acondicionado","bh":"Exterior privado","ss":1,"st":false,"be":"2"},{"nu":1,"dt":"2","wi":"0","sm":false,"ba":false,"uf":"2","ya":false,"te":false,"by":"0","sf":false,"ut":"2","hc":"MY001","au":"TV+DVD \/ Video","ty":"Habitación doble","df":"2","cl":"Aire acondicionado","bh":"Exterior privado","ss":0,"st":false,"be":"2"}]}';
+        $json_houses = $request->get('content');
         $houses_mod_data = json_decode($json_houses);
 
         $houses = $houses_mod_data->houses;
