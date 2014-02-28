@@ -1,5 +1,5 @@
 {% for language in languages %}
-    <li><a href="{{ path('frontend_change_language',{'lang': language.getLangCode|lower }) }}">{{ language.getLangName }}</a></li>
+    <li><a href="{{ path('frontend_change_language_callback',{'lang': language.getLangCode|lower }) }}">{{ language.getLangName }}</a></li>
 {% endfor %}
 
 

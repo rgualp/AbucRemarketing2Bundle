@@ -26,6 +26,6 @@ frontend_change_view_destination:
     pattern:  /change_results_view/{destination_name}/{destination_id}
     defaults: { _controller: frontEndBundle:destination:search_change_view_results }
     
-frontend_byprovince_destination:
+frontend_byprovince_destination_callback:
     pattern:  /byprovince
     defaults: { _controller: frontEndBundle:destination:byprovince }
