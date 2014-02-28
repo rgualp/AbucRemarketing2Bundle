@@ -64,4 +64,53 @@ class Email {
         return $this->container->get('mailer')->send($message);
     }
 
+    public function send_reservation($id_reservation)
+    {
+        $templating = $this->container->get('templating');
+        $reservation=$this->em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
+        $reservation->setGenResStatus(1);
+        $reservation->setGenResStatusDate(new \DateTime(date('Y-m-d')));
+        $reservation->setGenResHour(date('G'));
+        $this->em->persist($reservation);
+        $this->em->flush();
+        $reservations=$this->em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id'=>$id_reservation));
+        $user=$reservation->getGenResUserId();
+        $user_tourist=$this->em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user'=>$user->getUserId()));
+        $array_photos=array();
+        $array_nigths=array();
+        $service_time=$this->container->get('time');
+
+        foreach($reservations as $res)
+        {
+            $photos=$this->em->getRepository('mycpBundle:ownership')->getPhotos($res->getOwnResGenResId()->getGenResOwnId()->getOwnId());
+            array_push($array_photos,$photos);
+            $array_dates= $service_time->dates_between($res->getOwnResReservationFromDate()->getTimestamp(),$res->getOwnResReservationToDate()->getTimestamp());
+            array_push($array_nigths,count($array_dates));
+        }
+        $this->container->get('translator')->setLocale($user_tourist[0]->getUserTouristLanguage()->getLangCode());
+        $message = $this->container->get('request')->get('message_to_client');
+        if(isset($message[0]))
+            $message[0]=strtoupper($message[0]);
+
+        // Enviando mail al cliente
+        $body=$templating->render('frontEndBundle:mails:email_offer_available.html.twig',array(
+            'user'=>$user,
+            'reservations'=>$reservations,
+            'photos'=>$array_photos,
+            'nights'=>$array_nigths,
+            'message'=>$message
+        ));
+
+        $locale = $this->container->get('translator');
+        $subject=$locale->trans('REQUEST_STATUS_CHANGED');
+
+        $this->send_email(
+            $subject,
+            'reservation@mycasaparticular.com',
+            'MyCasaParticular.com',
+            $user->getUserEmail(),
+            $body
+        );
+    }
+
 }

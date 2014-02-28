@@ -431,7 +431,7 @@ class BackendReservationController extends Controller
 
     public function send_reservationAction($id_reservation)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        /*$em = $this->getDoctrine()->getEntityManager();
         $reservation=new generalReservation();
         $reservation=$em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
         $reservation->setGenResStatus(1);
@@ -476,7 +476,9 @@ class BackendReservationController extends Controller
             'MyCasaParticular.com',
             $user->getUserEmail(),
             $body
-        );
+        );*/
+        $service_email= $this->get('Email');
+        $service_email->send_reservation($id_reservation);
 
         $message='Reserva enviada satisfactoriamente';
         $this->get('session')->setFlash('message_ok',$message);
