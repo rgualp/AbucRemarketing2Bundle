@@ -48,7 +48,7 @@
                 </tr>
             </table>
             <div class="h-blue h-blue-2">
-                 {{"FROM_PRICES" | trans | lower}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{own_minimum_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}
+                 {{"FROM_PRICES" | trans | lower}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ceil_round(own_minimum_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))) }}
             </div>
 </div>
 

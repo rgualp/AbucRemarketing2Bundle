@@ -78,6 +78,10 @@ parameters:
     encode.key: 65wq6td6gtdgb3dwoop21d54da54d8e86q2s3qd6a60998dgea4de8
 
 services:
+    twig.extension.utilsExtension:
+        class: MyCp\frontEndBundle\Twig\Extension\utilsExtension
+        tags:
+            - { name: twig.extension }
     log:
         class: MyCp\mycpBundle\Helpers\Logs
         tags:
