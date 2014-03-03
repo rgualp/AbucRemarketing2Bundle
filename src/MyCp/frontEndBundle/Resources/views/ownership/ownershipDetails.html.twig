@@ -662,6 +662,7 @@
     <script type="text/javascript">
         var reservation_see_prices_text = "{{"RESERVATION_SEE_PRICES" | trans}}";
         var own_id = "{{ownership.own_id}}";
+        var today_date="{{"now"|date("d/m/Y") }}";
     </script>
     <script src="{{ asset('bundles/frontend/js/ownership.min.js') }}"></script>
 {% endblock %}
