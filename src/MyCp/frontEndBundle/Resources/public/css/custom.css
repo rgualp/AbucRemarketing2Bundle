@@ -28,4 +28,5 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 .infoBox .map_image{background-size: cover;display: inline-block;height: 65px;width: 65px;}
 .markerActive{background: #E8F1FF;}
 .province_map_houses{line-height: 16px; font-size: 12px;}
-ul.dropdown-menu-1{list-style: none;}
+.dropdown-table a{ color: #D3E899; font-family: Arial; font-size: 13px; padding: 3px 20px; display: block}
+.dropdown-table a:hover{ text-decoration: none; color: #ffffff; background-color: #93c637}
