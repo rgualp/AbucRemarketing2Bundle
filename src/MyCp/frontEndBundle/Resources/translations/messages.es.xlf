@@ -460,7 +460,7 @@
             </trans-unit>
             <trans-unit id="124">
                 <source>JACUZEE_TAB_DESCRIPTION</source>
-                <target>Jacuzee</target>
+                <target>Jacuzzi</target>
             </trans-unit>
             <trans-unit id="125">
                 <source>SAUNA_TAB_DESCRIPTION</source>
@@ -1541,7 +1541,7 @@
             </trans-unit>
             <trans-unit id="394">
                 <source>SEND_TO_FRIEND</source>
-                <target>Enviar a un amigo</target>
+                <target>Recomendar a un amigo</target>
             </trans-unit>
             <trans-unit id="395">
                 <source>HIW_SEARCH_LINK</source>
