@@ -41,7 +41,7 @@
     {%endfor%}
 {%endif%}
 
-<input type="hidden" id="filter_url" value="{{ path('frontend_filter_ownership') }}"/>
+<input type="hidden" id="filter_url" value="{{ path('frontend_filter_ownership_callback') }}"/>
 <div class="thumbnail" style="background-color: #FBFBFB; padding: 5px 10px; margin-bottom: 20px">
     <span class="h-dark-grey-2">{{"SELECT_OWNERSHIP_TYPE_OPTION" | trans}}</span>
 {%for type in owns_types%}
