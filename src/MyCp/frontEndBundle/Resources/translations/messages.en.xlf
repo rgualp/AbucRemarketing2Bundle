@@ -12,7 +12,7 @@
             </trans-unit>
             <trans-unit id="3">
                 <source>LOG_IN</source>
-                <target>Log in</target>
+                <target>Start session</target>
             </trans-unit>
             <trans-unit id="4">
                 <source>FAVORITIES</source>
@@ -488,7 +488,7 @@
             </trans-unit>
             <trans-unit id="131">
                 <source>CLIMATIZATION_ROOMS</source>
-                <target>Air Conditioning</target>
+                <target>Air-conditioning</target>
             </trans-unit>
             <trans-unit id="132">
                 <source>WINDOWS_ROOMS</source>
@@ -572,7 +572,7 @@
             </trans-unit>
             <trans-unit id="152">
                 <source>ADD_FAVORITIES_DETAILS</source>
-                <target>Add to Favorities</target>
+                <target>Add to Favorites</target>
             </trans-unit>
             <trans-unit id="153">
                 <source>NAME_COMMENTS_DETAILS</source>
@@ -756,15 +756,15 @@
             </trans-unit>
             <trans-unit id="198">
                 <source>INNER_PRIVATE_BATHROOM_FILTER</source>
-                <target>Inner Private</target>
+                <target>Inside Private</target>
             </trans-unit>
             <trans-unit id="199">
                 <source>OUTER_PRIVATE_BATHROOM_FILTER</source>
-                <target>Outer Private</target>
+                <target>Outside Private</target>
             </trans-unit>
             <trans-unit id="200">
                 <source>SHARED_BATHROOM_FILTER</source>
-                <target>Outer Shared</target>
+                <target>Outside Shared</target>
             </trans-unit>
             <trans-unit id="201">
                 <source>SAUNA_BATHROOM_FILTER</source>
@@ -896,7 +896,7 @@
             </trans-unit>
             <trans-unit id="233">
                 <source>ADD_TO_FAVORITIES</source>
-                <target>Add to Favorities</target>
+                <target>Add to Favorites</target>
             </trans-unit>
             <trans-unit id="234">
                 <source>Económica</source>
@@ -968,7 +968,7 @@
             </trans-unit>
             <trans-unit id="251">
                 <source>Villa con piscina</source>
-                <target>Village with pool</target>
+                <target>Villa with swimming pool</target>
             </trans-unit>
             <trans-unit id="252">
                 <source>Apartamento</source>
@@ -976,15 +976,15 @@
             </trans-unit>
             <trans-unit id="253">
                 <source>Propiedad completa</source>
-                <target>Complete Ownership</target>
+                <target>A full property</target>
             </trans-unit>
             <trans-unit id="254">
                 <source>Casa particular</source>
-                <target>Particular House</target>
+                <target>Private lodging facility</target>
             </trans-unit>
             <trans-unit id="255">
                 <source>REMOVE_FAVORITIES_DETAILS</source>
-                <target>Remove from Favorities</target>
+                <target>Remove from Favorites</target>
             </trans-unit>
             <trans-unit id="256">
                 <source>TO_PRICES</source>
@@ -1032,11 +1032,11 @@
             </trans-unit>
             <trans-unit id="267">
                 <source>SELECT_OWNERSHIP_TYPE_OPTION</source>
-                <target>Accomodation Type</target>
+                <target>Kind of property</target>
             </trans-unit>
             <trans-unit id="268">
                 <source>SELECT_OWSERSHIP_CATEGORY_OPTION</source>
-                <target>Category House</target>
+                <target>Category of the house</target>
             </trans-unit>
             <trans-unit id="269">
                 <source>SELECT_OWNERSHIP_PRICES_OPTION</source>
@@ -1044,7 +1044,7 @@
             </trans-unit>
             <trans-unit id="270">
                 <source>ROOM_TOTAL_WATERMARK</source>
-                <target>Number of rooms</target>
+                <target>Quantity of rooms</target>
             </trans-unit>
             <trans-unit id="271">
                 <source>SELECT_ROOM_TYPE_OPTION</source>
@@ -1056,11 +1056,11 @@
             </trans-unit>
             <trans-unit id="273">
                 <source>ROOM_BEDS</source>
-                <target>Number of beds</target>
+                <target>Quantity of beds</target>
             </trans-unit>
             <trans-unit id="274">
                 <source>SELECT_BATHROOM_TYPE_OPTION</source>
-                <target>Bathroom Type</target>
+                <target>Kind of bathroom</target>
             </trans-unit>
             <trans-unit id="275">
                 <source>OTHER_HEADING_FILTER</source>
@@ -1348,7 +1348,7 @@
             </trans-unit>
             <trans-unit id="346">
                 <source>ADD_FAVORITIES</source>
-                <target>Add to Favorities</target>
+                <target>Add to Favorites</target>
             </trans-unit>
             <trans-unit id="347">
                 <source>ADULTS</source>
@@ -1473,7 +1473,7 @@
             </trans-unit>
             <trans-unit id="377">
                 <source>DELETE_FAVORITIES</source>
-                <target>Delete from Favorities</target>
+                <target>Delete from Favorites</target>
             </trans-unit>
             <trans-unit id="378">
                 <source>FAVORITIES_PAGE_DESCRIPTION</source>
@@ -1631,7 +1631,7 @@
             </trans-unit>
             <trans-unit id="416">
                 <source>DES_POBLATION</source>
-                <target>Poblation:</target>
+                <target>Population:</target>
             </trans-unit>
             <trans-unit id="417">
                 <source>DES_REF_PLACE</source>
@@ -1692,7 +1692,7 @@
             </trans-unit>
             <trans-unit id="431">
                 <source>RESERVATION_CONFIRM_DESTINATION_OWNS_AVAILABLE</source>
-                <target>Availabled accomodations</target>
+                <target>Accommodation available </target>
             </trans-unit>
             <trans-unit id="432">
                 <source>RESERVATION_CONFIRM_DESTINATION_MORE</source>
@@ -2294,7 +2294,7 @@
             </trans-unit>
             <trans-unit id="582">
                 <source>FIND_DESTINATIONS_BY_PROVINCES</source>
-                <target>Find destinations by provinces</target>
+                <target>See destinations by province </target>
             </trans-unit>
             <trans-unit id="583">
                 <source>WHERE_RENT_IN_DESTINATION</source>
