@@ -4,7 +4,7 @@
         <body>
             <trans-unit id="1">
                 <source>HOW_IT_WORKS</source>
-                <target>How it works</target>
+                <target>How does it work</target>
             </trans-unit>
             <trans-unit id="2">
                 <source>REGISTER</source>
@@ -108,7 +108,7 @@
             </trans-unit>
             <trans-unit id="27">
                 <source>SECURITY_AND_PRIVACITY</source>
-                <target>Security and Privacy</target>
+                <target>Safety and Privacy</target>
             </trans-unit>
             <trans-unit id="28">
                 <source>CONTACT_US</source>
@@ -192,7 +192,7 @@
             </trans-unit>
             <trans-unit id="48">
                 <source>INFO_MAIN_MENU</source>
-                <target>Guide / Information</target>
+                <target>Guide and information</target>
             </trans-unit>
             <trans-unit id="49">
                 <source>INFO_DESCRIPTION_MAIN_MENU</source>
@@ -976,7 +976,7 @@
             </trans-unit>
             <trans-unit id="253">
                 <source>Propiedad completa</source>
-                <target>A full property</target>
+                <target>Full property</target>
             </trans-unit>
             <trans-unit id="254">
                 <source>Casa particular</source>
@@ -1228,7 +1228,7 @@
             </trans-unit>
             <trans-unit id="316">
                 <source>ABOUT_US</source>
-                <target>Who We Are</target>
+                <target>Who are we?</target>
             </trans-unit>
             <trans-unit id="317">
                 <source>ABOUT_US_CONTENT</source>
@@ -1248,7 +1248,7 @@
             </trans-unit>
             <trans-unit id="321">
                 <source>SECURITY_PRIVACITY</source>
-                <target>Security and Privacy</target>
+                <target>Safety and Privacy</target>
             </trans-unit>
             <trans-unit id="322">
                 <source>SECURITY_PRIVACITY_CONTENT</source>
@@ -1276,11 +1276,11 @@
             </trans-unit>
             <trans-unit id="328">
                 <source>TOP_RATED_TITLE</source>
-                <target>Top Rated</target>
+                <target>With most votes</target>
             </trans-unit>
             <trans-unit id="329">
                 <source>TOP_RATED</source>
-                <target>Top Rated</target>
+                <target>With most votes</target>
             </trans-unit>
             <trans-unit id="330">
                 <source>ABOUT_MYCP</source>
@@ -1376,7 +1376,7 @@
             </trans-unit>
             <trans-unit id="353">
                 <source>USER_COMUNITY</source>
-                <target>Users Comunity</target>
+                <target>Community of users</target>
             </trans-unit>
             <trans-unit id="354">
                 <source>FIRST_PAGE</source>
