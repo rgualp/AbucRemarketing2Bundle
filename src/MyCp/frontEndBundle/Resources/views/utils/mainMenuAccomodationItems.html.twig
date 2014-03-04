@@ -1,8 +1,29 @@
 <a title="My Casa Particular - {{"SEARCH_MAIN_MENU" | trans}}" class="" href="{{ path('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}">{{"SEARCH_MAIN_MENU" | trans}} {%if provinces | length%}<b class="caret"></b>{%endif%}</a>
 {%if provinces | length%}
-<ul class="dropdown-menu" style="font-size: 13px">
-{%for prov in provinces%}
-    <li><a href="{{ path('frontend_search_ownership',{'text':for_url[prov.prov_id]}) }}">{{prov.prov_name}} ({{prov.total_owns}})</a></li>
-{%endfor%}
+{%set counter = 0%}
+<ul class="dropdown-menu">
+    <li>
+        <div class="row-fluid">
+            <table style="width: 350px" class="dropdown-table">
+                {%for prov in provinces%}
+                    {%if counter == 0%}
+                        <tr>
+                    {%endif%}
+                    <td><a href="{{ path('frontend_search_ownership',{'text':for_url[prov.prov_id]}) }}">{{prov.prov_name}} ({{prov.total_owns}})</a></td>
+                    {%if counter == 1%}
+                        </tr>
+                        {%set counter = 0%}
+                    {%else%}
+                        {%set counter = counter + 1%}
+                    {%endif%}
+                {%endfor%}
+
+            </table>
+        </div>
+    </li>
 </ul>
+
+
+
+
 {%endif%}
