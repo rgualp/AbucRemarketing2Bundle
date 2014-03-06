@@ -26,6 +26,7 @@ class RequestListener {
         {
             $lang=$this->em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code'=>$attr['_locale']));
             $this->container->get('session')->set('app_lang_name',$lang->getLangName());
+            $this->container->get('session')->set('app_lang_code',$lang->getLangCode());
         }
         if(isset($attr['_route']) && $attr['_route']!='_wdt' && $attr['_route']!='_internal' && !strpos($attr['_route'], '_callback'))
         {
