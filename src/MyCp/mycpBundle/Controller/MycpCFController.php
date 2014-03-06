@@ -166,7 +166,8 @@ class MycpCFController extends Controller {
 //-----------------------------------------------------------------------------
     // <editor-fold defaultstate="collapsed" desc="Upload Methods">
     private function _commitReservations(Request $request) {
-        $json_reservations = $request->get('content');
+        //    $json_reservations = $request->get('content');
+        $json_reservations = '{"re":[{"rn":27,"ss":1,"rt":"","st":"Sended"}],"rd":[{"nu":1,"rn":27,"np":30,"at":1,"ss":1,"td":"2014-02-28","fd":"2014-02-23","ct":0}]}';
         $res_data = json_decode($json_reservations);
         $em = $this->getDoctrine()->getEntityManager();
 
@@ -185,65 +186,47 @@ class MycpCFController extends Controller {
                     }
                     $res_per_clients[$entity_res->getGenResUserId()->getUserId()][] = $entity_res;
                 }
-                //manage UDs for each reservation...
-                switch ($reservation->ss) {
-                    case SyncStatuses::ADDED:
-                        break;
-                    case SyncStatuses::UPDATED:
-                        break;
-                    case SyncStatuses::DELETED:
-                        break;
-                }
             }
         }
         $res_rooms_details = $res_data->rd;
         if (is_array($res_rooms_details)) {
             foreach ($res_rooms_details as $res_room_detail) {
                 $rrd = $em->getRepository('mycpBundle:ownershipReservation')->findOneBy(array('own_res_gen_res_id' => $res_room_detail->rn, 'own_res_selected_room_id' => $res_room_detail->nu));
+                $room = $em->getRepository('mycpBundle:room')->findOneBy(array('room_num' => $rrd->getOwnResSelectedRoomId(), 'room_ownership' => $rrd->getOwnResGenResId()->getGenResOwnId()));
+                $_ud = $em->getRepository('mycpBundle:unavailabilityDetails')->findOneBy(array('room' => $room, 'ud_from_date' => $rrd->getOwnResReservationFromDate(), 'ud_to_date' => $rrd->getOwnResReservationToDate()));
                 if (!empty($rrd)) {
-                    $rrd->setOwnResReservationFromDate($res_room_detail->fd);
-                    $rrd->setOwnResReservationToDate($res_room_detail->td);
+                    $rrd->setOwnResReservationFromDate(new DateTime($res_room_detail->fd));
+                    $rrd->setOwnResReservationToDate(new DateTime($res_room_detail->td));
                     $rrd->setOwnResCountAdults($res_room_detail->at);
                     $rrd->setOwnResCountChildrens($res_room_detail->ct);
                     $rrd->setOwnResNightPrice($res_room_detail->np);
                     $em->persist($rrd);
+
+                    //manage UDs for each reservation...
+                    switch ($res_room_detail->ss) {
+                        case SyncStatuses::ADDED:
+                            $_ud = new unavailabilityDetails();
+                        case SyncStatuses::UPDATED:
+                            $_ud->setUdFromDate(new DateTime($res_room_detail->fd));
+                            $_ud->setUdToDate(new DateTime($res_room_detail->td));
+                            $_ud->setUdReason("Client reservation");
+                            $_ud->setRoom($room);
+                            $_ud->setSyncSt(SyncStatuses::SYNC);
+                            $em->persist($_ud);
+                            break;
+                        case SyncStatuses::DELETED:
+                            $em->remove($_ud);
+                            break;
+                    }
                 }
             }
         }
         $em->flush();
-
         //sending email...
-        foreach ($distinct_clients_data as $client_data) {
-            $this->_sendReservationsEmail($em, $client_data["client"], $res_per_clients[$client_data->getUserId()], $client_data["rtext"]);
-        }
+//        foreach ($distinct_clients_data as $client_data) {
+//            $this->_sendReservationsEmail($em, $client_data["client"], $res_per_clients[$client_data["client"]->getUserId()], $client_data["rtext"]);
+//        }
         return self::SUCCESS_CONFIRM_MSG;
-    }
-
-    private function _sendReservationsEmail($em, $user, $reservations, $rtext) {
-        $array_photos = array();
-        $array_nigths = array();
-        $service_time = $this->get('time');
-
-        foreach ($reservations as $res) {
-            $photos = $em->getRepository('mycpBundle:ownership')->getPhotos($res->getOwnResGenResId()->getGenResOwnId()->getOwnId());
-            array_push($array_photos, $photos);
-            $array_dates = $service_time->dates_between($res->getOwnResReservationFromDate()->getTimestamp(), $res->getOwnResReservationToDate()->getTimestamp());
-            array_push($array_nigths, count($array_dates));
-        }
-        // Enviando mail al cliente
-        $body = $this->render('frontEndBundle:mails:email_offer_available.html.twig', array(
-            'user' => $user,
-            'reservations' => $reservations,
-            'photos' => $array_photos,
-            'nights' => $array_nigths
-        ));
-
-        $locale = $this->get('translator');
-        $subject = $locale->trans('REQUEST_STATUS_CHANGED');
-        $service_email = $this->get('Email');
-        $service_email->send_email(
-                $subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $body
-        );
     }
 
     private function _reserservationStatusConversor($status) {
@@ -288,7 +271,7 @@ class MycpCFController extends Controller {
         foreach ($not_sync_rooms as $_room) {
             $rooms_data[] = array(
                 "hc" => $_room->getRoomOwnership()->getOwnMcpCode(),
-                "nu" => $_room->getRoomId(),
+                "nu" => $_room->getRoomNum(),
                 "ss" => $_room->getSyncSt(),
                 "ty" => $_room->getRoomType(),
                 "be" => $_room->getRoomBeds(),
@@ -342,7 +325,8 @@ class MycpCFController extends Controller {
         $rooms = $all_houses_data["rooms"];
         foreach ($rooms as $room) {
             $e_house = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code' => $room["hc"]));
-            $e_room = $em->getRepository('mycpBundle:room')->findOneBy(array('room_ownership' => $e_house, 'room_id' => $room["nu"]));
+            $e_room = $em->getRepository('mycpBundle:room')->findOneBy(array('room_ownership' => $e_house, 'room_num' => $room["nu"]));
+
             $this->_normalizeBySyncStatus($em, $e_room, $room["ss"]);
         }
 
