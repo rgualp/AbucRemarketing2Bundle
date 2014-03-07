@@ -1,8 +1,26 @@
 <a title="My Casa Particular - {{"DESTINATIONS_MAIN_MENU" | trans}}" href="{{ path('frontend_list_destinations') }}">{{"DESTINATIONS_MAIN_MENU" | trans}} {%if destinations | length%}<b class="caret"></b>{%endif%}</a>
 {%if destinations | length%} 
-<ul class="dropdown-menu">
-{%for des in destinations%}
-    <li><a href="{{ path('frontend_details_destination',{'destination_name':for_url[des.des_id]}) }}">{{des.des_name}} ({{des.total_owns}})</a></li>
-{%endfor%}
+    {%set counter = 0%}
+<ul class="dropdown-menu">   
+  <li>
+    <div class="row-fluid">
+         <table style="width: 350px" class="dropdown-table">
+             {%for des in destinations%}
+                 {%if counter == 0%}
+                     <tr>
+                 {%endif%}
+                 <td><a href="{{ path('frontend_details_destination',{'destination_name':for_url[des.des_id]}) }}">{{des.des_name}} ({{des.total_owns}})</a></td>
+                 {%if counter == 1%}
+                     </tr>
+                     {%set counter = 0%}
+                 {%else%}
+                     {%set counter = counter + 1%}
+                 {%endif%}
+             {%endfor%}
+
+         </table>
+    </div>
+  </li>
+  
 </ul>
 {%endif%}

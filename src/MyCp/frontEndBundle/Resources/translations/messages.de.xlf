@@ -164,7 +164,7 @@
             </trans-unit>
             <trans-unit id="41">
                 <source>SLOGAN_3</source>
-                <target>MyCasaParticular, Ihre erste Adresse in Kuba</target>
+                <target>MyCasaParticular.com, Ihre erste Adresse in Kuba</target>
             </trans-unit>
             <trans-unit id="42">
                 <source>HOME_MAIN_MENU</source>
@@ -636,11 +636,11 @@
             </trans-unit>
             <trans-unit id="168">
                 <source>ROOM_SINGULAR</source>
-                <target>habitación</target>
+                <target>zimmer</target>
             </trans-unit>
             <trans-unit id="169">
                 <source>ROOM_PLURAL</source>
-                <target>Zimmer</target>
+                <target>zimmer</target>
             </trans-unit>
             <trans-unit id="170">
                 <source>NIGHT_PER_ROOM</source>
@@ -896,7 +896,7 @@
             </trans-unit>
             <trans-unit id="233">
                 <source>ADD_TO_FAVORITIES</source>
-                <target>Agregar a Favoritas</target>
+                <target>Zu den Favoriten hinzufügen</target>
             </trans-unit>
             <trans-unit id="234">
                 <source>Económica</source>
@@ -1348,7 +1348,7 @@
             </trans-unit>
             <trans-unit id="346">
                 <source>ADD_FAVORITIES</source>
-                <target>Agregar a Favoritos</target>
+                <target>Zu den Favoriten hinzufügen</target>
             </trans-unit>
             <trans-unit id="347">
                 <source>ADULTS</source>
@@ -1629,11 +1629,11 @@
             </trans-unit>
             <trans-unit id="416">
                 <source>DES_POBLATION</source>
-                <target>Población:</target>
+                <target>Bevölkerung:</target>
             </trans-unit>
             <trans-unit id="417">
                 <source>DES_REF_PLACE</source>
-                <target>Referencia:</target>
+                <target>Referen:</target>
             </trans-unit>
             <trans-unit id="418">
                 <source>INFORMATION_PRO_TRAVELLER</source>
@@ -1689,11 +1689,11 @@
             </trans-unit>
             <trans-unit id="431">
                 <source>RESERVATION_CONFIRM_DESTINATION_OWNS_AVAILABLE</source>
-                <target>Alojamientos disponibles</target>
+                <target>verfügbare Unterkünfte</target>
             </trans-unit>
             <trans-unit id="432">
                 <source>RESERVATION_CONFIRM_DESTINATION_MORE</source>
-                <target>más</target>
+                <target>mehr</target>
             </trans-unit>
             <trans-unit id="433">
                 <source>OUR_OFFICE</source>
@@ -2289,7 +2289,7 @@
                 </trans-unit>
                 <trans-unit id="582">
                     <source>FIND_DESTINATIONS_BY_PROVINCES</source>
-                    <target>Conozca los destinos por provincias</target>
+                    <target>Schauen Sie die Reiseziele nach Provinzen</target>
                 </trans-unit>
                 <trans-unit id="583">
                     <source>WHERE_RENT_IN_DESTINATION</source>

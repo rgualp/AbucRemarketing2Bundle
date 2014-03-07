@@ -19,7 +19,7 @@
                                     <a href="{{ path('frontend_details_destination',{'destination_name':list[flag_item].des_name_for_url}) }}">
                                     {{list[flag_item].des_name}}
                                     </a>
-                                </b><br/>{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} {{list[flag_item].min_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} {{"BYNIGHTS_PRICES" | trans | lower}}
+                                </b><br/>{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} {{(list[flag_item].min_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))}} {{"BYNIGHTS_PRICES" | trans | lower}}
                              </div>
                             {% set flag_item = flag_item + 1 %}
                             </div>

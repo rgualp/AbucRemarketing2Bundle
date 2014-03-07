@@ -46,7 +46,7 @@
                 </table>
                 </div>
                 {%if is_within_search_results%}
-                <button id="button_research" class="btn btn-block btn-primary" data-url="{{ path('frontend_research_ownership') }}">{{"SEARCH" | trans}}</button>
+                <button id="button_research" class="btn btn-block btn-primary" data-url="{{ path('frontend_research_ownership_callback') }}">{{"SEARCH" | trans}}</button>
                 {%else%}
                 <button id="btn_search" class="btn btn-block btn-primary" data-url="{{ path('frontend_search_ownership',{'text':'_text', 'arrival':'_arrival','departure':'_departure','guests':'_guests','rooms':'_rooms'})}}" onclick="search()">{{"SEARCH" | trans}}</button>
                 {%endif%}

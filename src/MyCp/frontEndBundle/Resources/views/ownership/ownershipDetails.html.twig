@@ -62,7 +62,7 @@
                     <div id="tab-map" class="tab-pane {%if gallery_photos | length == 0%}active{%endif%}">
                         <div class="flexible-container" id="mapContent">
                             <iframe width="100%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-                                    src="{{ path('frontend_map_details_ownership',{
+                                    src="{{ path('frontend_map_details_ownership_callback',{
                                                         'ownGeolocateX':ownership.OwnGeolocateX,
                                                         'ownGeolocateY':ownership.OwnGeolocateY,
                                                         'ownName':ownership.ownname,
@@ -632,7 +632,7 @@
         $('#rooms_selected').css({display: 'none'});
         $('#all_data_numbers').css({display: 'none'});
         $.ajax({
-            url: "{{ path('frontend_get_reservation_calendar_ownership') }}",
+            url: "{{ path('frontend_get_reservation_calendar_ownership_callback') }}",
             data:{ from: from, to: to, own_id: own_id}
 
         }).done(function(resp) {
@@ -662,6 +662,7 @@
     <script type="text/javascript">
         var reservation_see_prices_text = "{{"RESERVATION_SEE_PRICES" | trans}}";
         var own_id = "{{ownership.own_id}}";
+        var today_date="{{"now"|date("d/m/Y") }}";
     </script>
     <script src="{{ asset('bundles/frontend/js/ownership.min.js') }}"></script>
 {% endblock %}

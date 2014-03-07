@@ -44,6 +44,7 @@ class provinceRepository extends EntityRepository
         $query_string = "SELECT DISTINCT p.prov_id, p.prov_name, 
                         (SELECT count(o) FROM mycpBundle:ownership o where o.own_address_province = p.prov_id) as total_owns   
                          FROM mycpBundle:province p
+                         ORDER BY total_owns DESC
                          ";
         return $em->createQuery($query_string)->getResult();
     }

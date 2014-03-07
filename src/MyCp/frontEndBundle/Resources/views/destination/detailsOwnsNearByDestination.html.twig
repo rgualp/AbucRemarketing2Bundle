@@ -1,5 +1,5 @@
 {%if owns_nearby | length%}
-<div  id="json_source" data-url="{{path("frontend_map_markers_ownership")}}"
+<div  id="json_source" data-url="{{path("frontend_map_markers_ownership_callback")}}"
                  data-icon-small="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_small.png') }}"
                  data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"></div>
 <div class="houses-list thumbs-houses lazy-cont" id="div_result">

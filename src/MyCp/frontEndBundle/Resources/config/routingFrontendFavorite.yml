@@ -1,16 +1,16 @@
-frontend_details_insert_favorite:
+frontend_details_insert_favorite_callback:
     pattern:  /favorite_details_insert/
     defaults: { _controller: frontEndBundle:favorite:details_insert }
     
-frontend_details_delete_favorite:
+frontend_details_delete_favorite_callback:
     pattern:  /favorite_details_delete/
     defaults: { _controller: frontEndBundle:favorite:details_delete }
     
-frontend_insert_favorite:
+frontend_insert_favorite_callback:
     pattern:  /favorite_insert/
     defaults: { _controller: frontEndBundle:favorite:insert }
     
-frontend_delete_favorite:
+frontend_delete_favorite_callback:
     pattern:  /favorite_delete/
     defaults: { _controller: frontEndBundle:favorite:delete }
     
@@ -19,6 +19,6 @@ frontend_list_favorite:
     locales:  { en: "/favorites/", es: "/favoritos/", de: "/favoriten/" }
     defaults: { _controller: frontEndBundle:favorite:list }
     
-frontend_delete_from_list_favorite:
+frontend_delete_from_list_favorite_callback:
     pattern:  /favorite_delete_from_list/
     defaults: { _controller: frontEndBundle:favorite:delete_from_list }

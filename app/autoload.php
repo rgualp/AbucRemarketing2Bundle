@@ -9,9 +9,11 @@ if (!function_exists('intl_get_error_code')) {
     require_once __DIR__.'/../vendor/symfony/symfony/src/Symfony/Component/Locale/Resources/stubs/functions.php';
 
     $loader->add('', __DIR__.'/../vendor/symfony/symfony/src/Symfony/Component/Locale/Resources/stubs');
-    $loader->add('Imagine',__DIR__.'/../vendor/imagine/lib');
-    $loader->add('Avalanche',__DIR__.'/../vendor/bundles');
+
 }
+
+$loader->add('Imagine',__DIR__.'/../vendor/imagine/lib');
+$loader->add('Avalanche',__DIR__.'/../vendor/bundles');
 
 AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
 

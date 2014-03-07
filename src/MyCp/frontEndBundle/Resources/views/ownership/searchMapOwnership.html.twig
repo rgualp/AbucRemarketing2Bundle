@@ -2,12 +2,12 @@
 <a name="top"></a>
 {%if in_searcher is defined and destination_name is defined and destination_name != ""%}
     <div id="big_map" style="width:100%;height: 500px;" class="google-maps" 
-     data-resized-url="{{path("frontend_map_resized_ownership", {'in_searcher': 'false', 'destination_name': destination_name})}}" 
+     data-resized-url="{{path("frontend_map_resized_ownership_callback", {'in_searcher': 'false', 'destination_name': destination_name})}}" 
      data-total-translate="{{"TOTAL" | trans}}"
      data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"></div>
 {%else%}
 <div id="big_map" style="width:100%;height: 500px;" class="google-maps" 
-     data-resized-url="{{path("frontend_map_resized_ownership", {'in_searcher': 'true', 'destination_name': 'null'})}}" 
+     data-resized-url="{{path("frontend_map_resized_ownership_callback", {'in_searcher': 'true', 'destination_name': 'null'})}}" 
      data-total-translate="{{"TOTAL" | trans}}"
      data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"></div>
 {%endif%}
