@@ -12,7 +12,7 @@
             </trans-unit>
             <trans-unit id="3">
                 <source>LOG_IN</source>
-                <target>Start session</target>
+                <target>Start a session</target>
             </trans-unit>
             <trans-unit id="4">
                 <source>FAVORITIES</source>
