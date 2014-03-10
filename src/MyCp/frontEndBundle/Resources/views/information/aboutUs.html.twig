@@ -67,6 +67,10 @@
                 {% endfor %}
             </div>
         </div>
+        <hr class="hr-grey" style="margin-bottom: 40px"/>
+        <div class="text-center">
+            <img class="img-polaroid" src='http://maps.googleapis.com/maps/api/staticmap?center={{mycasa_office_geolocate_x}},{{mycasa_office_geolocate_y}}&zoom=15&size=640x480&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{mycasa_office_geolocate_x}},{{mycasa_office_geolocate_y}}&a.jpg'/>
+        </div>
     </div>
 {% block include_javascripts %}
     

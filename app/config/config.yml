@@ -24,6 +24,8 @@ twig:
     strict_variables: "%kernel.debug%"
     globals:
          global_google_maps_api_url_with_key: http://maps.googleapis.com/maps/api/js?v=3&sensor=false&key=AIzaSyAq1CPEugST67RwQSgFUy9KqeQHO8eIpEM
+         mycasa_office_geolocate_x: -82.365392
+         mycasa_office_geolocate_y: 23.136379
 
 # Assetic Configuration
 assetic:
