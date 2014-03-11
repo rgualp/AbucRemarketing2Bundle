@@ -185,6 +185,10 @@ class MycpCFController extends Controller {
                         $distinct_clients_data[] = array("client" => $entity_res->getGenResUserId(), "rtext" => $reservation->rt);
                     }
                     $res_per_clients[$entity_res->getGenResUserId()->getUserId()][] = $entity_res;
+
+                    //sending email...
+                    $service_email = $this->get('Email');
+                    $service_email->send_reservation($entity_res->getGenResId());
                 }
             }
         }
@@ -203,29 +207,27 @@ class MycpCFController extends Controller {
                     $em->persist($rrd);
 
                     //manage UDs for each reservation...
-                    switch ($res_room_detail->ss) {
-                        case SyncStatuses::ADDED:
-                            $_ud = new unavailabilityDetails();
-                        case SyncStatuses::UPDATED:
-                            $_ud->setUdFromDate(new DateTime($res_room_detail->fd));
-                            $_ud->setUdToDate(new DateTime($res_room_detail->td));
-                            $_ud->setUdReason("Client reservation");
-                            $_ud->setRoom($room);
-                            $_ud->setSyncSt(SyncStatuses::SYNC);
-                            $em->persist($_ud);
-                            break;
-                        case SyncStatuses::DELETED:
-                            $em->remove($_ud);
-                            break;
+                    if (!empty($_ud)) {
+                        switch ($res_room_detail->ss) {
+                            case SyncStatuses::ADDED:
+                                $_ud = new unavailabilityDetails();
+                            case SyncStatuses::UPDATED:
+                                $_ud->setUdFromDate(new DateTime($res_room_detail->fd));
+                                $_ud->setUdToDate(new DateTime($res_room_detail->td));
+                                $_ud->setUdReason("Client reservation");
+                                $_ud->setRoom($room);
+                                $_ud->setSyncSt(SyncStatuses::SYNC);
+                                $em->persist($_ud);
+                                break;
+                            case SyncStatuses::DELETED:
+                                $em->remove($_ud);
+                                break;
+                        }
                     }
                 }
             }
         }
         $em->flush();
-        //sending email...
-//        foreach ($distinct_clients_data as $client_data) {
-//            $this->_sendReservationsEmail($em, $client_data["client"], $res_per_clients[$client_data["client"]->getUserId()], $client_data["rtext"]);
-//        }
         return self::SUCCESS_CONFIRM_MSG;
     }
 
@@ -358,7 +360,8 @@ class MycpCFController extends Controller {
 //-----------------------------------------------------------------------------
     private function _commitHouses(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
-        $json_houses = $request->get('content');
+//        $json_houses = $request->get('content');
+        $json_houses = ' {"uds":[{"rn":1,"rs":"Client Reservation","ss":0,"td":"2014-03-10","fd":"2014-03-05","hc":"CH001"}],"houses":[{"ty":"Penthouse","mp":45,"ca":"Premium","cp":20,"na":"Casa Particular en Guanabo La Casa de Elena","ad":"Calle 472","xp":30,"ss":1,"em":"reservacion@mycasaparticular.com","ph":"243 5643","hc":"CH138","pr":"Elena Moriño Castellano"}],"rooms":[]}';
         $houses_mod_data = json_decode($json_houses);
 
         $houses = $houses_mod_data->houses;
@@ -434,6 +437,7 @@ class MycpCFController extends Controller {
             foreach ($uds as $ud) {
                 $_house = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code' => $ud->hc));
                 $_room = $_house->getRoom($ud->rn);
+                
                 $_new_ud = $_room->getUd($ud->fd, $ud->td);
                 switch ($ud->ss) {
                     case SyncStatuses::ADDED:

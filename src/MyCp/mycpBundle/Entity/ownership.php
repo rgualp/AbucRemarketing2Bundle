@@ -1409,7 +1409,7 @@ class ownership {
 
     public function getRoom($room_num) {
         foreach ($this->own_rooms as $room) {
-            if ($room->getRoomId() == $room_num) {
+            if ($room->getRoomNum() == $room_num) {
                 return $room;
             }
         }
@@ -1424,10 +1424,9 @@ class ownership {
      * @param integer $ownRoomsTotal
      * @return ownership
      */
-    public function setOwnRoomsTotal($ownRoomsTotal)
-    {
+    public function setOwnRoomsTotal($ownRoomsTotal) {
         $this->own_rooms_total = $ownRoomsTotal;
-    
+
         return $this;
     }
 
@@ -1437,10 +1436,9 @@ class ownership {
      * @param integer $ownSyncSt
      * @return ownership
      */
-    public function setOwnSyncSt($ownSyncSt)
-    {
+    public function setOwnSyncSt($ownSyncSt) {
         $this->own_sync_st = $ownSyncSt;
-    
+
         return $this;
     }
 
@@ -1449,8 +1447,8 @@ class ownership {
      *
      * @return integer 
      */
-    public function getOwnSyncSt()
-    {
+    public function getOwnSyncSt() {
         return $this->own_sync_st;
     }
+
 }
