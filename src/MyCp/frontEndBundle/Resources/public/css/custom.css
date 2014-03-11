@@ -47,3 +47,9 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 .icon-categ.icon-bag.hover{background-position: 100px 201px}
 .icon-categ.icon-map.hover{background-position: 100px 0}
 .icon-categ.icon-table.hover{background-position: 100px 100px}
+.icon-headphones:before {
+  content: "\f025";
+}
+.icon-mail-reply:before {
+  content: "\f0e0";
+}
