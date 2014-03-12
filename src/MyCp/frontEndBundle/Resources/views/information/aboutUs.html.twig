@@ -67,6 +67,29 @@
                 {% endfor %}
             </div>
         </div>
+        <hr class="hr-grey" style="margin-bottom: 40px"/>
+        <div class="row"  style="margin-bottom: 20px;background-color: #f5f5f5;padding: 10px 0px;">
+            <div class="col-sm-4">
+            <div>
+                    <h3 class="no-margin margin-b-t">{{ "OUR_OFFICE"|trans }}</h3>
+                    ABUC media network GmbH<br/>
+                    MyCasaParticular.com<br/><br/>
+                    Peter Merian-Strasse 54<br/>
+                    4052 Basel<br/>
+                    {{"ADDRESS_MCP_COUNTRY" | trans}}<br/><br/>
+                    <em class="icon-headphones"></em> {{"FORMS_PHONE" | trans}}: {{mycasa_office_phone}}<br/>
+                    <div class="col-sm-1" style="padding:0; width:20px"><em class="icon-mail-reply"></em></div>
+                    <div class="col-sm-8" style="padding:0">
+                    info@mycasaparticular.com<br/>
+                    reservation@mycasaparticular.com
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <img class="img-polaroid" src='http://maps.googleapis.com/maps/api/staticmap?center={{mycasa_office_geolocate_x}},{{mycasa_office_geolocate_y}}&zoom=15&size=630x400&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{mycasa_office_geolocate_x}},{{mycasa_office_geolocate_y}}&a.jpg'/>
+            </div>
+            
+        </div>
     </div>
 {% block include_javascripts %}
     
