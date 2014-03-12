@@ -45,7 +45,7 @@ class unavailabilityDetails {
     private $ud_reason;
 
     /**
-     * @var string
+     * @var integer
      * @ORM\Column(name="ud_sync_st", type="integer")
      */
     private $ud_sync_st;
@@ -167,7 +167,6 @@ class unavailabilityDetails {
 
     public function setRoom($room) {
         $this->room = $room;
-        return $this;
     }
     
 }
