@@ -14,10 +14,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 .site-map a:hover{text-decoration: none; color: #86B32B}
 .upper{text-transform: uppercase}
 .top20_category{cursor: pointer;}
-.icon-chevron-right:before {
-    content: "\f054";
-}
-
+.icon-chevron-right:before {content: "\f054";}
+.icon-remove-sign:before {content: "\f057";}
 #faq_categories{list-style: none;}
 #faq_categories i{color: #BCBCBC; margin-top: 5px}
 #faq_categories li{cursor: pointer; padding: 6px 10px; color: #2F88CC}

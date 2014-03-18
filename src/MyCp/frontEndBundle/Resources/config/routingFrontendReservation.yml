@@ -6,7 +6,7 @@ frontend_add_to_cart_reservation:
     pattern:  /add/{id_ownership}
     defaults: { _controller: frontEndBundle:reservation:add_to_cart }
 
-frontend_remove_from_cart_reservation:
+frontend_remove_from_cart_reservation_callback:
     pattern:  /remove/{data}
     defaults: { _controller: frontEndBundle:reservation:remove_from_cart }
 

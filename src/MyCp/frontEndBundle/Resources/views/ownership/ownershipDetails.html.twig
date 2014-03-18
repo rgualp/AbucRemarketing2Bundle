@@ -500,33 +500,7 @@
             {%render "frontEndBundle:ownership:near_by_destinations" with {'municipality_id': ownership.ownaddressmunicipality_id, 'province_id': ownership.ownAddressProvince_id}%}
             {%if total_similar_houses > 0%}
             
-    <!--
-    Maquetar Casas Similares
-    div class="thumbnail head">
-        <div class="header">{{"SIMILAR_OWNERSHIPS_DETAILS" | trans}} ({{total_similar_houses}})</div>
-        <div class="subheader">
-            {{total_similar_houses}} {{"LISTINGS_TEXT_DETAILS" | trans}} <a
-                title="{{"SEE_MORE_OWNERSHIPS_DETAILS" | trans}} {{ownership.category}}"
-                href="{{path("frontend_category_ownership",{'category': real_category})}}">{{"SEE_ALL_DETAILS" | trans}}</a>
-        </div>
-        <div class="content">
-            {%for own in similar_houses%}
-            <div class="item row-fluid">
-                <div class="span4">
-                    <a title="{{"MORE_INFO_PREFFIX" | trans}} {{own['own_name']}}"
-                       href="{{ path('frontend_details_ownership',{'own_name':own['own_name']  | lower | replace(' ','_')}) }}"><img
-                            src="{{ asset("uploads/ownershipImages/thumbnails/" ~ own['photo'])}}"></a>
-                </div>
-                <div class="span8">
-                    <a title="{{"MORE_INFO_PREFFIX" | trans}} {{own['own_name']}}"
-                       href="{{ path('frontend_details_ownership',{'own_name':own['own_name']  | lower | replace(' ','_')}) }}">{{own['own_name']}}</a>
-                    <br/>{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} {{own['minimum_price'] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} {{"BYNIGHTS_PRICES" | trans | lower}}<br/>
-                    {{own['own_type'] | trans}}
-                </div>
-            </div>
-            {%endfor%}
-        </div>
-    </div-->
+
     {%endif%}
             <hr class="margin-t"/>
             <h3 class="caecilia-roman text-center margin-t">{{"RECOMENDS_RATINGS" | trans}}</h3>
