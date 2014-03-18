@@ -2414,6 +2414,10 @@
                     <source>ALL_FAQS</source>
                     <target>Todas las categorías</target>
                 </trans-unit>
+                <trans-unit id="614">
+                    <source>NEARBY_DESTINATION</source>
+                    <target>Destinos Cercanos</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>
