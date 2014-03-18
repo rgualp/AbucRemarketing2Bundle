@@ -199,7 +199,7 @@ class destinationRepository extends EntityRepository {
      * @param type $locale
      * @return array with all destinations and its inner data...
      * @author Daniel Sampedro <darthdaniel85@gmail.com>
-     */
+     */    
     public function getAllDestinations($locale, $user_id, $session_id,$results_total = null) {
         $em = $this->getEntityManager();
         /*$query_string = "SELECT d, dl, dm, dp FROM mycpBundle:destination d
@@ -432,7 +432,11 @@ class destinationRepository extends EntityRepository {
                          d.des_poblation as desPoblation,
                          d.des_ref_place as desRefPlace,
                          d.des_name as desname,
-                         (SELECT min(p.pho_name) FROM mycpBundle:destinationPhoto dp JOIN dp.des_pho_photo p WHERE dp.des_pho_destination=d.des_id) as photo,
+                         (SELECT MIN(pho.pho_name) FROM mycpBundle:destinationPhoto dp
+                        JOIN dp.des_pho_photo pho
+                        WHERE dp.des_pho_destination = d.des_id AND (pho.pho_order =
+                        (SELECT MIN(pho2.pho_order) FROM mycpBundle:destinationPhoto dp2
+                        JOIN dp2.des_pho_photo pho2 WHERE dp2.des_pho_destination = dp.des_pho_destination ) or pho.pho_order is null)) as photo,
                          (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = 1 AND o.own_address_municipality = (SELECT min(mun.mun_id) FROM mycpBundle:destinationLocation loc JOIN loc.des_loc_municipality mun WHERE loc.des_loc_destination = d.des_id)
                          AND o.own_address_province = (SELECT min(prov.prov_id) FROM mycpBundle:destinationLocation loc1 JOIN loc1.des_loc_province prov WHERE loc1.des_loc_destination = d.des_id)) as count_ownership,
                          (SELECT dl.des_lang_brief from mycpBundle:destinationLang dl 
@@ -481,9 +485,9 @@ class destinationRepository extends EntityRepository {
                              o.own_category as category,
                              o.own_type as type,
                              o.own_minimum_price as minimum_price,
-                             (SELECT p.pho_name FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id 
-                            AND p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
-                            where op1.own_pho_own = o.own_id) as photo,
+                             (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id 
+                            AND (p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
+                            where op1.own_pho_own = o.own_id) or p.pho_order is null) as photo,
                              (SELECT count(fav) FROM mycpBundle:favorite fav WHERE ".(($user_id != null)? " fav.favorite_user = $user_id " : " fav.favorite_user is null")." AND ".(($session_id != null)? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null"). " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
                              (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
                         (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = 5) as count_reservations,
@@ -525,7 +529,11 @@ class destinationRepository extends EntityRepository {
                              d.des_name,
                              d.des_name as des_name_for_url,
                              prov.prov_name,
-                             (SELECT min(p.pho_name) FROM mycpBundle:destinationPhoto dp JOIN dp.des_pho_photo p WHERE dp.des_pho_destination=d.des_id) as photo,
+                             (SELECT MIN(pho.pho_name) FROM mycpBundle:destinationPhoto dp
+                            JOIN dp.des_pho_photo pho
+                            WHERE dp.des_pho_destination = d.des_id AND (pho.pho_order =
+                            (SELECT MIN(pho2.pho_order) FROM mycpBundle:destinationPhoto dp2
+                            JOIN dp2.des_pho_photo pho2 WHERE dp2.des_pho_destination = dp.des_pho_destination ) or pho.pho_order is null)) as photo,
                              (SELECT MIN(o1.own_minimum_price) FROM mycpBundle:ownership o1 WHERE o1.own_address_province = prov.prov_id) as min_price
                              FROM mycpBundle:destinationLocation dloc
                              JOIN dloc.des_loc_province prov
@@ -591,7 +599,8 @@ class destinationRepository extends EntityRepository {
                            AND pl.pho_lang_id_photo=dp.des_pho_photo) as description
                         FROM mycpBundle:destinationPhoto dp
                         JOIN dp.des_pho_photo p
-                         WHERE dp.des_pho_destination=" . $destination_id;
+                         WHERE dp.des_pho_destination=" . $destination_id.
+                        " ORDER BY p.pho_order ASC";
         
         $destination_photos = $em->createQuery($query_string)->getResult();
 
