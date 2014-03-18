@@ -602,14 +602,18 @@
         //$('#top_reservation_filter_date_from').datepicker("setDate", new Date(create_date(from)));
         //$('#top_reservation_filter_date_to').datepicker("setDate", new Date(create_date(to)));
     });
-    
+
     function refresh_calendar_button()
     {
+        $('#tabs_pho_map_res li').each(function(){
+            $(this).removeClass('active');
+        });
         $('#tab-reservations').attr('class','active');
         $('.li-tabs').attr('class','');
         $('#tab-photos').removeClass('active');
+        $('#tab-map').removeClass('active');
         $('#li-reservations').attr('class','active');
-        
+
         from=$('#top_reservation_filter_date_from').val();
         to=$('#top_reservation_filter_date_to').val();
         $('#filter_date_from').datepicker("setDate", new Date(create_date_in(from)));
@@ -649,12 +653,15 @@
     
     function create_date_in(date_text) {
     var date = date_text.split('/');
-    if (date.length == 3)
+    new_date=date[2]+'-'+date[1]+'-'+date[0];
+    return new_date;
+    /*if (date.length == 3)
     {
         var date_result = ((parseInt(date[2], 10) < 10) ? '0' + parseInt(date[2], 10) : parseInt(date[2], 10)) + '-' + ((parseInt(date[1], 10) + 1 < 10) ? '0' + (parseInt(date[1], 10) + 1) : (parseInt(date[1], 10)) + 1) + '-' + ((parseInt(date[0], 10) + 1 < 10) ? '0' + (parseInt(date[0], 10) + 1) : (parseInt(date[0], 10)) + 1);
+        alert(date_result);
         return date_result;
     }
-    return null;
+    return null;*/
 
 }
 
@@ -664,6 +671,6 @@
         var own_id = "{{ownership.own_id}}";
         var today_date="{{"now"|date("d/m/Y") }}";
     </script>
-    <script src="{{ asset('bundles/frontend/js/ownership.min.js') }}"></script>
+    <script src="{{ asset('bundles/frontend/js/ownership.js') }}"></script>
 {% endblock %}
 {% endblock %}

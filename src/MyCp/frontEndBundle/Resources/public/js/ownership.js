@@ -252,7 +252,6 @@ function reservations_in_details()
 {
     total_price_var=0;
     $('.guest_number').change(function(){
-        alert($('#tr_'+$(this).attr('data')).html());
         if($('#tr_'+$(this).attr('data')).html()){
             if(eval($('#combo_guest_'+$(this).attr('data')).val())+eval($('#combo_kids_'+$(this).attr('data')).val())==0)
             {
@@ -411,11 +410,11 @@ function datePickersStarUp(){
                 
                 refresh_calendar(ev.date.getDate() + '/' + (ev.date.getMonth() + 1) + '/' + ev.date.getFullYear(),date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
                 
-                var start_date = new Date(ev.date);
+                /*var start_date = new Date(ev.date);
                 start_date.setDate(start_date.getDate() + 1);
                 $('#top_reservation_filter_date_from').datepicker("setDate", start_date);
-                $('#top_reservation_filter_date_to').datepicker("setDate", date);
-            });;
+                $('#top_reservation_filter_date_to').datepicker("setDate", date);*/
+            });
     
      var filter_date_to =$('#filter_date_to').datepicker({
         format:'dd/mm/yyyy',
