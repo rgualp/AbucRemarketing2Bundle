@@ -3,6 +3,7 @@
 {% set total_percent = 0 %}
 {% for date in dates_string %}
     {% if array_clear_date[dates_timestamp[flag]] is not defined %}
+        {% if not loop.last %}
         <div class="item" id="">
             <table cellpadding="15" class="full-width">
                 <tbody><tr>
@@ -46,6 +47,7 @@
                 </tr>
                 </tbody></table>
         </div>
+        {% endif %}
     {% endif %}
     {% set flag = flag + 1 %}
 {% endfor %}
