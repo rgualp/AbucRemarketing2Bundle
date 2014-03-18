@@ -509,7 +509,9 @@ class ownershipRepository extends EntityRepository {
         if (!$room_filter) {
             $query_string = "SELECT o.own_id as own_id,
                              o.own_name as own_name,
-                            (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id ORDER BY p.pho_order ASC) as photo,
+                            (SELECT p.pho_name FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id 
+                            AND p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
+                            where op1.own_pho_own = o.own_id)) as photo,
                             prov.prov_name as prov_name,
                             mun.mun_name as mun_name,
                             o.own_comments_total as comments_total,
@@ -537,7 +539,9 @@ class ownershipRepository extends EntityRepository {
         } else {
             $query_string = "SELECT o.own_id as own_id,
                              o.own_name as own_name,
-                            (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id ORDER BY p.pho_order ASC) as photo,
+                            (SELECT p.pho_name FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id 
+                            AND p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
+                            where op1.own_pho_own = o.own_id)) as photo,
                             prov.prov_name as prov_name,
                             mun.mun_name as mun_name,
                             o.own_comments_total as comments_total,
@@ -791,7 +795,9 @@ class ownershipRepository extends EntityRepository {
                          o.own_name as own_name,
                          prov.prov_name as prov_name,
                          o.own_comments_total as comments_total,
-                         (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id ORDER BY p.pho_order ASC) as photo,
+                         (SELECT p.pho_name FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id 
+                          AND p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
+                          where op1.own_pho_own = o.own_id)) as photo,
                          (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = '$locale') as description
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
@@ -1274,7 +1280,9 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $query_string = "SELECT o.own_id as own_id,
                              o.own_name as own_name,
-                            (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id ORDER BY p.pho_order ASC) as photo,
+                            (SELECT p.pho_name FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id 
+                            AND p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
+                            where op1.own_pho_own = o.own_id)) as photo,
                             prov.prov_name as prov_name,
                             mun.mun_name as mun_name,
                             o.own_comments_total as comments_total,
@@ -1319,7 +1327,9 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $query_string = "SELECT o.own_id as own_id,
                          o.own_name as own_name,
-                        (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id ORDER BY p.pho_order ASC) as photo,
+                        (SELECT p.pho_name FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id 
+                        AND p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
+                        where op1.own_pho_own = o.own_id)) as photo,
                         prov.prov_name as prov_name,
                         mun.mun_name as mun_name,
                         o.own_comments_total as comments_total,
@@ -1411,7 +1421,9 @@ class ownershipRepository extends EntityRepository {
         if ($exclude_id == null)
             $query_string = "SELECT o.own_id as own_id,
                          o.own_name as own_name,
-                        (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id ORDER BY p.pho_order ASC) as photo,
+                        (SELECT p.pho_name FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id 
+                        AND p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
+                        where op1.own_pho_own = o.own_id)) as photo,
                         prov.prov_name as prov_name,
                         mun.mun_name as mun_name,
                         o.own_comments_total as comments_total,
@@ -1433,7 +1445,9 @@ class ownershipRepository extends EntityRepository {
             $query_string = "SELECT o.own_id as own_id,
                          o.own_name as own_name,
                          o.own_type as own_type,
-                        (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id ORDER BY p.pho_order ASC) as photo,
+                        (SELECT p.pho_name FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id 
+                        AND p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
+                        where op1.own_pho_own = o.own_id)) as photo,
                         prov.prov_name as prov_name,
                         mun.mun_name as mun_name,
                         o.own_comments_total as comments_total,
