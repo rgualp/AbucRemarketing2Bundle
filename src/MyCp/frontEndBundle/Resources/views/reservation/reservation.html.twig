@@ -5,11 +5,12 @@
 {{"FILL_FORM_CORRECTLY" | trans}}</div>
 {%endif%}
 <h1 class="h-blue caecilia-roman h-size-1" style="font-weight: normal;">{{"RESERVATION_DETAILS" | trans}}</h1>
-<div class="h-blue t-size-12" style="font-weight: normal"><b >{{"ARRIVAL_RESERVATION" | trans}}:</b> {{dates_string[0]}} <b style="margin-left: 20px">{{"DEPARTURE_RESERVATION" | trans}}:</b> {{dates_string[dates_string|length -1]}}</div>
+<div class="h-blue t-size-12" style="font-weight: normal"><b >{{"ARRIVAL_RESERVATION" | trans}}:</b> {{ dates_string_day[0] }}{{dates_string[0]}} <b style="margin-left: 20px">{{"DEPARTURE_RESERVATION" | trans}}:</b> {{dates_string_day[dates_string|length -1]}}{{dates_string[dates_string|length -1]}}</div>
 <div class="items-cart">
 {% set flag_1 = 0%}
 {% for date_str in dates_string %}
 {% if dates_partial[dates[flag_1]] is defined %}
+{% if not loop.last %}
 <div class="item">
     <table cellpadding="15" class="full-width">
         <tbody><tr>
@@ -19,17 +20,15 @@
                     {% set flag = 0%}
                     {% for reservation in reservations %}
                         {% if dates[flag_1]  >= reservations_timestamp[flag][0]  and  dates[flag_1]  <= reservations_timestamp[flag][1] %}
+                            {% if limit_dates[dates[flag_1]][reservation.getOwnResId] is not defined %}
                             <tr>
                                 <td style="width: 57%">{{reservation.getOwnResGenResId.getGenResOwnId.getOwnAddressMunicipality.getMunName}}, {{reservation.getOwnResGenResId.getGenResOwnId.getOwnName}}</td>
                                 <td style="width: 35%" class="text-center">{{reservation.getOwnResRoomType}}</td>
                                 <td class="text-right cost">
-                                    {% if limit_dates[dates[flag_1]] is defined %}
-                                        --
-                                    {% else %}
                                         <h3 class="no-margin">{{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{reservation.getOwnResNightPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h3>
-                                    {% endif %}
                                 </td>
                             </tr>
+                        {% endif %}
                         {% endif %}
                         {% set flag = flag + 1%}
                     {% endfor %}
@@ -39,6 +38,7 @@
      </tbody>
      </table>
 </div>
+{% endif %}
 {% endif %}
 {% set flag_1 = flag_1 + 1%}
 {% endfor %}

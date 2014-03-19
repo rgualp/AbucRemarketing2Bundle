@@ -28,7 +28,7 @@
         </div>
         <div id="top-nav" class="col-sm-8">
             <div class="row">
-                <div class="col-sm-6" style="display: table">
+                <div class="col-sm-7" style="display: table">
                     <ul class="nav nav-pills">
                         <li><a title="{{"HOW_IT_WORKS" | trans }}" href="{{ path('frontend_how_it_works_information')}}"><img class="icon tiny-book-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/> {{"HOW_IT_WORKS" | trans }}</a></li>
                         <li><a title="{{"FAVORITIES" | trans }}" href="{{ path('frontend_list_favorite') }}"><img class="icon tiny-heart-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/> {{"FAVORITIES" | trans }}</a></li>
@@ -37,12 +37,12 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-sm-6" style="display: table; " id="top-right-menu">
+                <div class="col-sm-5" style="display: table; " id="top-right-menu">
                     <ul class="nav nav-pills nav-pills-new">
                     <li class="dropdown pull-right">
                         <a title="{{"USER_ZONE" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-user-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/>
                             {% if is_granted('ROLE_CLIENT_TOURIST') or is_granted('ROLE_CLIENT_STAFF')%}
-                                {{app.user.getUserUserName}} {{app.user.getUserLastName | slice(0,10)}}{% if app.user.getUserLastName|length > 10 %}...{% endif %}
+                                {{app.user.getUserUserName | slice(0,10)}}{% if app.user.getUserUserName|length > 10 %}...{% endif %}
                                 {%else%}                            
                                 {{"USER_ZONE" | trans}}
                                 {%endif%}
@@ -179,6 +179,7 @@
     <script src="{{ asset('bundles/frontend/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('bundles/frontend/js/bootstrap-datepicker.js') }}"></script>
     <script src="{{ asset('bundles/frontend/js/bootstrap-datepicker.es.js') }}"></script>
+    <script src="{{ asset('bundles/frontend/js/bootstrap-datepicker.de.js') }}"></script>
     <script src="{{ asset('bundles/frontend/js/respond.min.js') }}"></script>
     <script src="{{ asset('bundles/frontend/js/jail.min.js') }}"></script>
     <script src="{{ asset('bundles/frontend/js/custom.min.js') }}"></script>
