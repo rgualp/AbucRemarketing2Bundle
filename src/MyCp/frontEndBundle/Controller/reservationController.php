@@ -632,6 +632,7 @@ class reservationController extends Controller
             }
         }
         $countries = $em->getRepository('mycpBundle:country')->findAll();
+        //var_dump($array_limits_dates);
         return $this->render('frontEndBundle:reservation:reservation.html.twig', array(
             'limit_dates' => $array_limits_dates,
             'dates_string' => $array_dates_string,

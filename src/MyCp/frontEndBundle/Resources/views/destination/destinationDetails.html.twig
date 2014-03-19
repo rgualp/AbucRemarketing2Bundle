@@ -11,30 +11,46 @@
     <a href="#" class="active" title="{{destination.desname}}">{{destination.desname}}</a>
 {% endblock %}
 {% block body %}
+    <div class="container cont-form" style="margin-top: -20px">
+        <div id="main-search-2">
+            {% render "frontEndBundle:ownership:orangeSearchBar" %}
+        </div>
+    </div>
 <div  class="container">
     <div>&nbsp;</div>
     <div class="row">
-        <div class="col-sm-3">
-            {%if destination.desgeolocatex != null and destination.desgeolocatey != null%}
-            <div class="thumbnail" style="padding: 12px">
-                <div id="big_map_details" class="google-maps" style="width:100%;height: 150px;"
-                    data-x="{{destination.desgeolocatex}}"
-                    data-y="{{destination.desgeolocatey}}"
-                    data-name="{{destination.desName}}"
-                    data-description=""
-                    data-image="{{asset('uploads/destinationImages/thumbnails/'~((gallery_photos[0] is defined) ? gallery_photos[0] : "no_photo.png"))}}"
-                    data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}">
-                </div>
-            </div>
-        {%endif%}
-         {{ include('frontEndBundle:ownership:verticalSearcherOwnership.html.twig',
-        {'is_within_search_results':false, 
-        'autocomplete_text_list': autocomplete_text_list, 
-        'locale': locale})}}   
-        </div>
         {%if gallery_photos | length%}
-        <div class="col-sm-5">
-            <div id="gallery" class="royalSlider rsDefault gallery" style="width: 100%!important;">
+        <div class="col-sm-12">
+            <div id="shadow_bottom" style="position: absolute; left: 15px; right: 30px; height: 0; bottom: 0; z-index: 23;
+            -webkit-transition: all 0.6s ease;
+             transition: all 0.6s ease;
+            background: rgba(0,0,0,0);
+            background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
+            background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(0,0,0,0)), color-stop(100%, rgba(0,0,0,1)));
+            background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
+            background: -o-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
+            background: -ms-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
+            background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000', GradientType=0 );
+            "></div>
+            <div id="description_cont" style="
+            background-color: #000000; position: absolute; z-index: 22; top: 0; left: 15px; right: 15px;
+            padding: 8px 60px 30px;
+            background: #333333;
+            background: rgba(0, 0, 0, 0.5);
+             color: #ffffff; overflow: hidden;
+             height: 54px;
+             -webkit-transition: all 0.6s ease;
+             transition: all 0.6s ease;
+            ">
+                <div class="row">
+                    <div class="col-xs-4"><h1 class="caecilia-roman no-margin h-size-2">{{destination.desName}}</h1></div>
+                    <div class="col-xs-4 text-center"><em id="description_arrow" class="icon-chevron-down" style="margin-top: 10px; cursor: pointer;display:block"></em></div>
+                </div>
+
+                <p style="margin: 20px 0; font-size: 14px; line-height: 24px; ">{{description | raw}}</p>
+            </div>
+            <div id="full-width-slider" class="royalSlider rsDefault">
                 {% for photo in  gallery_photos%}
                 <a class="rsImg " data-rsbigimg="{{asset('uploads/destinationImages/'~photo)}}" href="{{asset('uploads/destinationImages/'~photo)}}">
                     <img class="rsTmb" src="{{asset('uploads/destinationImages/thumbnails/'~photo)}}" height="72" width="96"/>
@@ -44,17 +60,8 @@
             </div>
         </div>
         {%endif%}
-        <div {%if gallery_photos | length%}class="col-sm-4"{%else%}class="col-sm-9"{%endif%}>
-            <div class="square-grey-cont">
-            <div class="cont" style="overflow: auto; height: 430px">
-                <h1 class="caecilia-roman h-blue-3">{{destination.desName}}</h1>
-                <p>
-                    {{description | raw}}
-                </p>
-            </div>
-            </div>
-        </div>
     </div>
+    <br/>
     <div class="row">
         <div class="col-sm-3">
             <div id="accordion2" class="accordion">
@@ -170,6 +177,32 @@
 {% render 'frontEndBundle:public:home_carrousel' %}
 </div>
 {% block include_javascripts %}
+<script type="text/javascript">
+    status=0;
+    $("#description_arrow").click(function(){
+        layer_cont=$("#description_cont");
+        shadow=$("#shadow_bottom");
+        chevron=$("#description_arrow");
+        if(status==0)
+        {
+            layer_cont.css('height','100%');
+            layer_cont.css('overflowY','scroll');
+            shadow.css('height','110px');
+            chevron.attr('class','icon-chevron-up')
+            status=1;
+        }
+        else
+        {
+            layer_cont.css('height','54px');
+            layer_cont.css('overflowY','hidden');
+            shadow.css('height','0');
+            chevron.attr('class','icon-chevron-down')
+            status=0;
+
+        }
+
+    });
+</script>
 <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
 <script src="{{ asset('bundles/frontend/js/jquery.ui.map.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/jquery.ui.map.infobox.js') }}"></script>
@@ -178,26 +211,26 @@
 <script type="text/javascript" src="{{ asset('bundles/frontend/js/jquery.royalslider.min.js') }}"></script>
 <script type="text/javascript">
     jQuery(document).ready(function($) {
-        $('#gallery').royalSlider({
-            controlNavigation: 'thumbnails',
-            autoScaleSlider: true,
-            autoScaleSliderWidth: 5,
-            autoScaleSliderHeight: 5,
+        $('#full-width-slider').royalSlider({
+            numImagesToPreload:0,
+            arrowsNav: true,
             loop: false,
-            imageScaleMode: 'fill',
-            navigateByClick: true,
-            numImagesToPreload:2,
-            arrowsNav:true,
-            arrowsNavAutoHide: true,
-            arrowsNavHideOnTouch: true,
             keyboardNavEnabled: true,
-            fadeinLoadedSlide: true,
-            globalCaption: true,
-            globalCaptionInside: false,
-            thumbs: {
-                appendSpan: true,
-                firstMargin: true,
-                paddingBottom: 4
+            imageScaleMode: 'fill',
+            arrowsNavAutoHide: false,
+            autoScaleSlider: true,
+            autoScaleSliderWidth: 916,
+            autoScaleSliderHeight: 311,
+            controlNavigation: false,
+            thumbsFitInViewport: false,
+            navigateByClick: true,
+            startSlideId: 0,
+            autoPlay: false,
+            transitionType:'move',
+            globalCaption: false,
+            deeplinking: {
+                enabled: true,
+                change: false
             }
         });
     });

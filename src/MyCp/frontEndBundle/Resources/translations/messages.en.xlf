@@ -12,7 +12,7 @@
             </trans-unit>
             <trans-unit id="3">
                 <source>LOG_IN</source>
-                <target>Start session</target>
+                <target>Start a session</target>
             </trans-unit>
             <trans-unit id="4">
                 <source>FAVORITIES</source>
@@ -1608,7 +1608,7 @@
             </trans-unit>
             <trans-unit id="411">
                 <source>ADDRESS_MCP_COUNTRY</source>
-                <target>Swizerland</target>
+                <target>Switzerland</target>
             </trans-unit>
             <trans-unit id="412">
                 <source>COMMERCIAL_NUMBER_REGISTRY</source>
@@ -2418,6 +2418,10 @@
                 <trans-unit id="613">
                     <source>ALL_FAQS</source>
                     <target>All categoriess</target>
+                </trans-unit>
+                <trans-unit id="614">
+                    <source>NEARBY_DESTINATION</source>
+                    <target>Nearby Destinations</target>
                 </trans-unit>
         </body>
     </file>

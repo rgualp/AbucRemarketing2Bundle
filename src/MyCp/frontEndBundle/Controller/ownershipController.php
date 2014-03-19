@@ -6,6 +6,7 @@ use MyCp\mycpBundle\Entity\ownership;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use MyCp\frontEndBundle\Helpers\Utils;
 
 class ownershipController extends Controller {
 
@@ -71,8 +72,6 @@ class ownershipController extends Controller {
 
                     $array_no_available[$room->getRoomId()] = $room->getRoomId();
                 }
-
-
             }
             foreach ($reservations as $reservation) {
 
@@ -192,15 +191,7 @@ class ownershipController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $ownership = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code' => $own_code));
         if ($ownership) {
-            $own_name = str_replace(" ", "_", $ownership->getOwnName());
-            $own_name = str_replace("á", "a", $own_name);
-            $own_name = str_replace("é", "e", $own_name);
-            $own_name = str_replace("í", "i", $own_name);
-            $own_name = str_replace("ó", "o", $own_name);
-            $own_name = str_replace("ú", "u", $own_name);
-            $own_name = str_replace("ü", "u", $own_name);
-            $own_name = str_replace("ñ", "nn", $own_name);
-            $own_name = strtolower($own_name);
+            $own_name = Utils::url_normalize($ownership->getOwnName());
             return $this->redirect($this->generateUrl('frontend_details_ownership', array('own_name' => $own_name)));
         }
         else

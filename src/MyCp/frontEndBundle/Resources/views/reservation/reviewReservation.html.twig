@@ -71,7 +71,7 @@
 <script type="text/javascript">
 
     $('#delete_button').click(function(){
-            string_url="{{ path('frontend_remove_from_cart_reservation',{'data':0})}}";
+            string_url="{{ path('frontend_remove_from_cart_reservation_callback',{'data':0})}}";
             data_remove=$(this).attr('data');
             $('.btn_delete').attr('disabled','disable');
             string_url=string_url.substr(0,string_url.length -1);

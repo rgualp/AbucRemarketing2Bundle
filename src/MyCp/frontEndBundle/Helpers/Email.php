@@ -75,7 +75,7 @@ class Email {
         $this->em->flush();
         $reservations=$this->em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id'=>$id_reservation));
         $user=$reservation->getGenResUserId();
-        $user_tourist=$this->em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user'=>$user->getUserId()));
+        $user_tourist=$this->em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user'=>$user->getUserId()));
         $array_photos=array();
         $array_nigths=array();
         $service_time=$this->container->get('time');
@@ -87,7 +87,7 @@ class Email {
             $array_dates= $service_time->dates_between($res->getOwnResReservationFromDate()->getTimestamp(),$res->getOwnResReservationToDate()->getTimestamp());
             array_push($array_nigths,count($array_dates));
         }
-        $this->container->get('translator')->setLocale($user_tourist[0]->getUserTouristLanguage()->getLangCode());
+        $this->container->get('translator')->setLocale($user_tourist->getUserTouristLanguage()->getLangCode());
         $message = $this->container->get('request')->get('message_to_client');
         if(isset($message[0]))
             $message[0]=strtoupper($message[0]);
