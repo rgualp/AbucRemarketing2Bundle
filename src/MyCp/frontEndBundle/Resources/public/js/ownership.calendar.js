@@ -54,6 +54,8 @@ function reservations_in_details()
                 value=$(this).attr('data_total')*$(this).attr('data_curr');
             }
 
+            value=Math.round(value * Math.pow(10,2))/Math.pow(10,2);
+
             $('#rooms_selected').css({display: 'table'});
             $('.calendar-results').css({display: 'block'});
             $('#rooms_selected > tbody:last').append('<tr id="tr_'+$(this).attr('data')+'">' +
