@@ -7,7 +7,7 @@
 <script type="text/javascript">
     jQuery(document).ready(function($) {
         $('#full-width-slider').royalSlider({
-            numImagesToPreload:4,
+            numImagesToPreload:5,
             arrowsNav: true,
             loop: true,
             keyboardNavEnabled: true,
@@ -33,7 +33,7 @@
 
         var img="{{ asset('bundles/frontend/img/slideshow/'~slide_folder~'/') }}"
 
-        for(x=2; x<=5;x++)
+        for(x=1; x<=5;x++)
         {
             slider.appendSlide('<img class="rsImg" src="'+img+x+'.jpg" alt="" />');
         }
@@ -46,7 +46,7 @@
 
 {% block big_banner %}
 <div id="full-width-slider" class="royalSlider rsDefault">
-    <img class="rsImg" src="{{ asset('bundles/frontend/img/slideshow/'~slide_folder~'/1.jpg') }}" alt="" />
+
 </div>
 <div id="banner-msg-cont">
 <div id="banner-msg">
