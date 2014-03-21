@@ -36,7 +36,9 @@
         {% endif %}
     </div>
     {% if services %}
-    <label class="pull-right" style="font-size: 12px; font-weight: normal; padding-right: 16px">{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')| upper}}{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</label>
+    <div class="pull-right">
+    <img src="{{ asset('bundles/frontend/img/question.gif') }}" width="20px" rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')| upper}}{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}"/>
+    </div>    
     {% endif %}
     <form method="POST" action="">
         <input style="visibility:hidden;" type="text" value="" name="data_reservation" id="data_reservation"/>
