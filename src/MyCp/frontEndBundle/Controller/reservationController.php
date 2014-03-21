@@ -181,8 +181,6 @@ class reservationController extends Controller
         ));
     }
 
-
-
     public function get_body_review_reservation_2Action(Request $request)
     {
         $services = array();
@@ -497,7 +495,7 @@ class reservationController extends Controller
                 $array_partial_dates[$temp2] = '1';
             }
             $commission = $reservation->getOwnResGenResId()->GetGenResOwnId()->getOwnCommissionPercent();
-            $array_limits_dates[$reservation->getOwnResReservationToDate()->getTimestamp()] = 1;
+            $array_limits_dates[$reservation->getOwnResReservationToDate()->getTimestamp()][$reservation->getOwnResId()] = 1;
             $total_price += $reservation->getOwnResNightPrice() * (count($array_dates_temp) - 1);
             $total_percent_price += $reservation->getOwnResNightPrice() * (count($array_dates_temp) - 1) * $commission / 100;
 
@@ -632,7 +630,7 @@ class reservationController extends Controller
             }
         }
         $countries = $em->getRepository('mycpBundle:country')->findAll();
-        //var_dump($array_limits_dates);
+
         return $this->render('frontEndBundle:reservation:reservation.html.twig', array(
             'limit_dates' => $array_limits_dates,
             'dates_string' => $array_dates_string,
@@ -849,7 +847,6 @@ class reservationController extends Controller
         }
 
     }
-
 
     function generate_pdf_boucherAction($id_booking,$name="voucher")
     {

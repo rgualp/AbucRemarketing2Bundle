@@ -1,14 +1,10 @@
-/**
- * Spanish translation for bootstrap-datepicker
- * Bruno Bonamin <bruno.bonamin@gmail.com>
- */
 ;(function($){
-	$.fn.datepicker.dates['es'] = {
-		days: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
-		daysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"],
-		daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
-		months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
-		monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
-		today: "Hoy"
-	};
+    $.fn.datepicker.dates['de'] = {
+        days: ["Sonntag", "Monday", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"],
+        daysShort: ["Son", "Mon", "Die", "Mitt", "Don", "Frei", "Sam", "Son"],
+        daysMin: ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa", "Son"],
+        months: ["Januar", "Februar", "März", "April", "Mai", "Juni", "Jule", "August", "September", "Oktober", "November", "Dezember"],
+        monthsShort: ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"],
+        today: "Heute"
+    };
 }(jQuery));
