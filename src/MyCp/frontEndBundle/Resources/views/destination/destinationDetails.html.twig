@@ -51,11 +51,7 @@
                 <p style="margin: 20px 0; font-size: 14px; line-height: 24px; ">{{description | raw}}</p>
             </div>
             <div id="full-width-slider" class="royalSlider rsDefault">
-                {% for photo in  gallery_photos%}
-                <a class="rsImg " data-rsbigimg="{{asset('uploads/destinationImages/'~photo)}}" href="{{asset('uploads/destinationImages/'~photo)}}">
-                    <img class="rsTmb" src="{{asset('uploads/destinationImages/thumbnails/'~photo)}}" height="72" width="96"/>
-                </a>
-                {%endfor%}
+                
 
             </div>
         </div>
@@ -212,7 +208,7 @@
 <script type="text/javascript">
     jQuery(document).ready(function($) {
         $('#full-width-slider').royalSlider({
-            numImagesToPreload:0,
+            numImagesToPreload:5,
             arrowsNav: true,
             loop: false,
             keyboardNavEnabled: true,
@@ -233,6 +229,12 @@
                 change: false
             }
         });
+        
+        {% for photo in  gallery_photos%}
+            var slider = $("#full-width-slider").data('royalSlider');
+            var img="{{asset('uploads/destinationImages/'~photo)}}";
+            slider.appendSlide('<img class="rsImg" src="'+img+'" alt="" />');
+        {%endfor%}
     });
 </script>
 {% endblock %}

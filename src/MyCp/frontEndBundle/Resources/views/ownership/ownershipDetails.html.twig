@@ -52,9 +52,7 @@
                     {%if gallery_photos | length%}
                     <div id="tab-photos" class="tab-pane active">
                         <div id="full-width-slider" class="royalSlider rsDefault">
-                           {% for photo in  gallery_photos%}
-                               <div rel="tooltip" class="rsContent" title="{{photo.photo_description}}"><img class="rsImg" src="{{asset('uploads/ownershipImages/'~photo.photo_name)}}" alt="" /></div>
-                            {% endfor %}
+                           
                         </div>
                     </div>
                     {%endif%}
@@ -550,6 +548,7 @@
     $(document).ready(function($) {
         $('#full-width-slider').royalSlider({
             arrowsNav: true,
+            numImagesToPreload:5,
             loop: false,
             keyboardNavEnabled: true,
             imageScaleMode: 'fill fit',
@@ -569,6 +568,13 @@
                 change: false
             }
         });
+        {% for photo in  gallery_photos%}
+            var slider = $("#full-width-slider").data('royalSlider');
+            var img="{{asset('uploads/ownershipImages/'~photo.photo_name)}}";
+            var description = "{{photo.photo_description}}";
+            
+            slider.appendSlide('<img rel="tooltip" title="'+description+'" class="rsImg" src="'+img+'" alt="" />');             
+          {% endfor %}
     });
 
     $('input#filter_date_to').change(function(){
