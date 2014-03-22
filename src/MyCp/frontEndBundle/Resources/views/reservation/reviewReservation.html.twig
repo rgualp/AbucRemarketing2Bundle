@@ -23,6 +23,7 @@
             </tr>
         </table>
     {%if services%}
+
     <a href="{{ path('frontend_remove_cart_reservation') }}" class="btn pull-right btn-danger" style="margin-top: -40px"><i class="icon-trash icon-white"></i> {{"EMPTY_CART"|trans}}</a>
     {%endif%}
     <div id="res_main_cont">
@@ -71,7 +72,7 @@
 
 
 <script type="text/javascript">
-
+    $(".content_table:contains('no_data_cont')").parent().parent().parent().parent().css('display','none');
     $('#delete_button').click(function(){
             string_url="{{ path('frontend_remove_from_cart_reservation_callback',{'data':0})}}";
             data_remove=$(this).attr('data');
@@ -94,7 +95,7 @@
                     {
                         $('#cart-cont').html(msg);
                     }
-
+                    $(".content_table:contains('no_data_cont')").parent().parent().parent().parent().css('display','none');
                 }
             });
     });

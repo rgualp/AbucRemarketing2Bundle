@@ -8,17 +8,13 @@
             <table cellpadding="15" class="full-width">
                 <tbody><tr>
                     <td class="date"><span>{{dates_string_day[flag]}}</span>{{date}}</td>
-                    <td>
-
-                        {% for service in services %}
+                    <td class="content_table">{% for service in services %}
                             {% set plus = 0 %}
                             {% if service['room_type']=='Habitación Triple' and  service['guests'] + service['kids'] >= 3 %}
                                 {% set plus = 10 %}
                             {% endif %}
                             {% if dates_timestamp[flag] >= service['from_date'] and dates_timestamp[flag] <= service['to_date']%}
-
                                 {% if dates_timestamp[flag] != service['to_date']  %}
-
                                     <table class="full-width">
                                     <tr id="{{ service['id'] }}-{{ dates_timestamp[flag] }}">
                                         <td class="name">{{ service['ownership_mun']}}, {{ service['ownership_name']}}</td>
@@ -39,11 +35,11 @@
                                         <td class="text-center"><button data="{{ service['id'] }}-{{ dates_timestamp[flag] }}" class="btn_delete" rel="tooltip" data-placement="top" title="{{ 'REMOVE_RESERVE'|trans }}"><i class="icon-remove-sign"></i></button></td>
                                     </tr>
                                 </table>
+                                {% else %}
+                                    no_data_cont
                                 {% endif %}
                             {% endif %}
-                        {% endfor %}
-
-                    </td>
+                        {% endfor %}</td>
                 </tr>
                 </tbody></table>
         </div>
