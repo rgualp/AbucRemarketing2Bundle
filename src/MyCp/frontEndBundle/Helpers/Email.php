@@ -85,13 +85,12 @@ class Email {
             $photos=$this->em->getRepository('mycpBundle:ownership')->getPhotos($res->getOwnResGenResId()->getGenResOwnId()->getOwnId());
             array_push($array_photos,$photos);
             $array_dates= $service_time->dates_between($res->getOwnResReservationFromDate()->getTimestamp(),$res->getOwnResReservationToDate()->getTimestamp());
-            array_push($array_nigths,count($array_dates));
+            array_push($array_nigths,count($array_dates)-1);
         }
         $this->container->get('translator')->setLocale($user_tourist->getUserTouristLanguage()->getLangCode());
         $message = $this->container->get('request')->get('message_to_client');
         if(isset($message[0]))
             $message[0]=strtoupper($message[0]);
-
         // Enviando mail al cliente
         $body=$templating->render('frontEndBundle:mails:email_offer_available.html.twig',array(
             'user'=>$user,
@@ -100,7 +99,6 @@ class Email {
             'nights'=>$array_nigths,
             'message'=>$message
         ));
-
         $locale = $this->container->get('translator');
         $subject=$locale->trans('REQUEST_STATUS_CHANGED');
 
