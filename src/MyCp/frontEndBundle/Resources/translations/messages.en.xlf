@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-    <file source-language="en" datatype="plaintext" original="file.ext">
+    <file source-language="es" datatype="plaintext" original="file.ext">
         <body>
             <trans-unit id="1">
                 <source>HOW_IT_WORKS</source>
@@ -68,7 +68,7 @@
             </trans-unit>
             <trans-unit id="17">
                 <source>ECONOMICS_OWNS</source>
-                <target>Economic Accomodations</target>
+                <target>Economic Accommodations</target>
             </trans-unit>
             <trans-unit id="18">
                 <source>MIDRANGE_OWNS</source>
@@ -596,7 +596,7 @@
             </trans-unit>
             <trans-unit id="158">
                 <source>5_STARS_COMMENTS_DETAILS</source>
-                <target>Exellent Accommodation!!</target>
+                <target>Excellent Accommodation!!</target>
             </trans-unit>
             <trans-unit id="159">
                 <source>4_STARS_COMMENTS_DETAILS</source>
@@ -828,7 +828,7 @@
             </trans-unit>
             <trans-unit id="216">
                 <source>TOTAL_RECOMENDS_RATING</source>
-                <target>This Property has a total of %total_recomends% Racommendations</target>
+                <target>This Property has a total of %total_recomends% Recommendations</target>
             </trans-unit>
             <trans-unit id="217">
                 <source>PASSWORD_RECOVERY_PAGE_TITLE</source>
@@ -888,7 +888,7 @@
             </trans-unit>
             <trans-unit id="231">
                 <source>FORGOT_PASSWORD_BUTTON</source>
-                <target>Rest My Password</target>
+                <target>Reset My Password</target>
             </trans-unit>
             <trans-unit id="232">
                 <source>EMPTY_LIST</source>
@@ -944,7 +944,7 @@
             </trans-unit>
             <trans-unit id="245">
                 <source>Aire acondicionado</source>
-                <target>Aire Conditioning</target>
+                <target>Air Conditioning</target>
             </trans-unit>
             <trans-unit id="246">
                 <source>Habitación individual</source>
@@ -1036,7 +1036,7 @@
             </trans-unit>
             <trans-unit id="268">
                 <source>SELECT_OWSERSHIP_CATEGORY_OPTION</source>
-                <target>Accomodation Category</target>
+                <target>Accommodation Category</target>
             </trans-unit>
             <trans-unit id="269">
                 <source>SELECT_OWNERSHIP_PRICES_OPTION</source>
@@ -1589,7 +1589,7 @@
             </trans-unit>
             <trans-unit id="406">
                 <source>HIW_TRAVEL_CONTENT</source>
-                <target>Travle Content</target>
+                <target>Travel Content</target>
             </trans-unit>
             <trans-unit id="407">
                 <source>USER_RESEND_INSTRUCTIONS</source>
@@ -1677,7 +1677,7 @@
             </trans-unit>
             <trans-unit id="428">
                 <source>RESERVATION_CONFIRM_GREENBAR_SUBTEXT</source>
-                <target>We kindly recommend you to consult for availability at some other accomodation facilities</target>
+                <target>We kindly recommend you to consult for availability at some other accommodation facilities</target>
             </trans-unit>
             <trans-unit id="429">
                 <source>RESERVATION_CONFIRM_GRAYBAR_SUBTEXT</source>
@@ -2217,7 +2217,7 @@
                 </trans-unit>
                 <trans-unit id="564">
                     <source>DO_YOU_WISH_TO_RECOMEND_THIS_ACCOMODATTION</source>
-                    <target>Do you want to recommend this accomodation at MyCasaParticular</target>
+                    <target>Do you want to recommend this accommodation at MyCasaParticular</target>
                 </trans-unit>
                 <trans-unit id="565">
                     <source>DO_YOU_WISH_TO_RECOMEND_THIS_DESTINATION</source>
