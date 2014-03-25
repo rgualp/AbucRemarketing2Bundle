@@ -438,7 +438,7 @@ class reservationController extends Controller
             $keys = array_keys($post);
             if (!$keys) {
                 $message = $this->get('translator')->trans("PLEASE_SELECT_RESERVATION");
-                $this->get('session')->setFlash('message_global_success', $message);
+                $this->get('session')->setFlash('message_no_select', $message);
                 return $this->redirect($this->generateUrl('frontend_mycasatrip_available'));
             }
 

@@ -2419,6 +2419,10 @@
                     <source>NEARBY_DESTINATION</source>
                     <target>Nearby Destinations</target>
                 </trans-unit>
+                <trans-unit id="615">
+                    <source>Rango Medio</source>
+                    <target>Mid Range</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>
