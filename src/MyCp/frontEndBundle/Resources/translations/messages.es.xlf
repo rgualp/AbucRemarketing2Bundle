@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
     <file source-language="es" datatype="plaintext" original="file.ext">
         <body>
@@ -2418,6 +2418,10 @@
                 <trans-unit id="614">
                     <source>NEARBY_DESTINATION</source>
                     <target>Destinos Cercanos</target>
+                </trans-unit>
+                 <trans-unit id="615">
+                    <source>Rango Medio</source>
+                    <target>Rango Medio</target>
                 </trans-unit>
         </body>
     </file>

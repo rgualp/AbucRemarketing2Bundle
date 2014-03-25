@@ -165,8 +165,8 @@ class BackendUnavailabilityDetailsController extends Controller {
                 $uDetails->setUdFromDate($this->createDate($post_form['ud_from_date']))
                         ->setUdToDate($this->createDate($post_form['ud_to_date']))
                         ->setUdReason($post_form['ud_reason'])
-                        ->setRoom($room)
-                        ->setSyncSt(SyncStatuses::UPDATED);
+                        ->setRoom($room);
+                 //       ->setSyncSt(SyncStatuses::UPDATED);
                 $em->persist($uDetails);
                 $em->flush();
                 $message = 'Detalle de no disponibilidad modificado satisfactoriamente';

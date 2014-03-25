@@ -52,9 +52,7 @@
                     {%if gallery_photos | length%}
                     <div id="tab-photos" class="tab-pane active">
                         <div id="full-width-slider" class="royalSlider rsDefault">
-                           {% for photo in  gallery_photos%}
-                               <div rel="tooltip" class="rsContent" title="{{photo.photo_description}}"><img class="rsImg" src="{{asset('uploads/ownershipImages/'~photo.photo_name)}}" alt="" /></div>
-                            {% endfor %}
+                           
                         </div>
                     </div>
                     {%endif%}
@@ -550,6 +548,7 @@
     $(document).ready(function($) {
         $('#full-width-slider').royalSlider({
             arrowsNav: true,
+            numImagesToPreload:5,
             loop: false,
             keyboardNavEnabled: true,
             imageScaleMode: 'fill fit',
@@ -569,6 +568,13 @@
                 change: false
             }
         });
+        {% for photo in  gallery_photos%}
+            var slider = $("#full-width-slider").data('royalSlider');
+            var img="{{asset('uploads/ownershipImages/'~photo.photo_name)}}";
+            var description = "{{photo.photo_description}}";
+            
+            slider.appendSlide('<img rel="tooltip" title="'+description+'" class="rsImg" src="'+img+'" alt="" />');             
+          {% endfor %}
     });
 
     $('input#filter_date_to').change(function(){
@@ -631,13 +637,7 @@
     var date = date_text.split('/');
     new_date=date[2]+'-'+date[1]+'-'+date[0];
     return new_date;
-    /*if (date.length == 3)
-    {
-        var date_result = ((parseInt(date[2], 10) < 10) ? '0' + parseInt(date[2], 10) : parseInt(date[2], 10)) + '-' + ((parseInt(date[1], 10) + 1 < 10) ? '0' + (parseInt(date[1], 10) + 1) : (parseInt(date[1], 10)) + 1) + '-' + ((parseInt(date[0], 10) + 1 < 10) ? '0' + (parseInt(date[0], 10) + 1) : (parseInt(date[0], 10)) + 1);
-        alert(date_result);
-        return date_result;
-    }
-    return null;*/
+
 
 }
 

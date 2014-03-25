@@ -23,6 +23,7 @@
             </tr>
         </table>
     {%if services%}
+
     <a href="{{ path('frontend_remove_cart_reservation') }}" class="btn pull-right btn-danger" style="margin-top: -40px"><i class="icon-trash icon-white"></i> {{"EMPTY_CART"|trans}}</a>
     {%endif%}
     <div id="res_main_cont">
@@ -36,7 +37,9 @@
         {% endif %}
     </div>
     {% if services %}
-    <label class="pull-right" style="font-size: 12px; font-weight: normal; padding-right: 16px">{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')| upper}}{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</label>
+    <div class="pull-right">
+    <img src="{{ asset('bundles/frontend/img/question.gif') }}" width="20px" rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')| upper}}{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}"/>
+    </div>    
     {% endif %}
     <form method="POST" action="">
         <input style="visibility:hidden;" type="text" value="" name="data_reservation" id="data_reservation"/>
@@ -69,7 +72,7 @@
 
 
 <script type="text/javascript">
-
+    $(".content_table:contains('no_data_cont')").parent().parent().parent().parent().css('display','none');
     $('#delete_button').click(function(){
             string_url="{{ path('frontend_remove_from_cart_reservation_callback',{'data':0})}}";
             data_remove=$(this).attr('data');
@@ -92,7 +95,7 @@
                     {
                         $('#cart-cont').html(msg);
                     }
-
+                    $(".content_table:contains('no_data_cont')").parent().parent().parent().parent().css('display','none');
                 }
             });
     });

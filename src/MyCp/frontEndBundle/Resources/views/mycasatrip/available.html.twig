@@ -10,6 +10,9 @@
     <a href="#" class="active" title="{{"DISPONIBILITY" | trans}}">{{"DISPONIBILITY" | trans}}</a>
 {% endblock %}
 {% block body_inner %}
+    {% for message in app.session.flashbag.get('message_no_select') %}
+            <div class="alert alert-info" style="margin-bottom: 10px">{{ message }}</div>
+    {% endfor %}
 <div class="tab-content lazy-cont">
     <div id="tab2" class="tab-pane active">
         <div class="thumbs-houses houses-list myct-records">

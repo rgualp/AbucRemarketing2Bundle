@@ -4,11 +4,11 @@
         <body>
             <trans-unit id="1">
                 <source>HOW_IT_WORKS</source>
-                <target>Wie funktioniert es?</target>
+                <target>Wie es funktioniert</target>
             </trans-unit>
             <trans-unit id="2">
                 <source>REGISTER</source>
-                <target>Registriere Dich!</target>
+                <target>Registrieren</target>
             </trans-unit>
             <trans-unit id="3">
                 <source>LOG_IN</source>
@@ -20,27 +20,27 @@
             </trans-unit>
             <trans-unit id="5">
                 <source>HELP</source>
-                <target>Ayuda</target>
+                <target>Hilfe</target>
             </trans-unit>
             <trans-unit id="6">
                 <source>CURRENCY</source>
-                <target>Moneda</target>
+                <target>Währung</target>
             </trans-unit>
             <trans-unit id="7">
                 <source>LANGUAGE</source>
-                <target>Idioma</target>
+                <target>Sprache</target>
             </trans-unit>
             <trans-unit id="8">
                 <source>LOG_OUT</source>
-                <target>Cerrar Sesión</target>
+                <target>Abmelden</target>
             </trans-unit>
             <trans-unit id="9">
                 <source>HOMEPAGE_TITLE</source>
-                <target>My Casa Particular - Portada</target>
+                <target>My Casa Particular - Startseite</target>
             </trans-unit>
             <trans-unit id="10">
                 <source>GO_UP</source>
-                <target>Ir arriba</target>
+                <target>Top</target>
             </trans-unit>
             <trans-unit id="11">
                 <source>DESTINATIONS</source>
@@ -48,47 +48,47 @@
             </trans-unit>
             <trans-unit id="12">
                 <source>MOST_VISITED_CITIES</source>
-                <target>Meist besuchte Städte</target>
+                <target>Meist besuchte  Städte</target>
             </trans-unit>
             <trans-unit id="13">
                 <source>LOCAL_FESTIVALS_AND_FUN</source>
-                <target>Fiestas Locales y Diversión</target>
+                <target>Lokale Feste und Fun</target>
             </trans-unit>
             <trans-unit id="14">
                 <source>GALLERIES</source>
-                <target>Galerías de fotos</target>
+                <target>Fotogalerien</target>
             </trans-unit>
             <trans-unit id="15">
                 <source>YOUR_PHOTOS</source>
-                <target>Tus fotos</target>
+                <target>Ihre Fotos</target>
             </trans-unit>
             <trans-unit id="16">
                 <source>ACCOMMODATION</source>
-                <target>Unterkunft</target>
+                <target>Unterkünfte</target>
             </trans-unit>
             <trans-unit id="17">
                 <source>ECONOMICS_OWNS</source>
-                <target>Alojamientos Económicos</target>
+                <target>Günstige Unterkünfte</target>
             </trans-unit>
             <trans-unit id="18">
                 <source>MIDRANGE_OWNS</source>
-                <target>Alojamientos Rango Medio</target>
+                <target>Mid Range Unterkunft</target>
             </trans-unit>
             <trans-unit id="19">
                 <source>PREMIUM_OWNS</source>
-                <target>Alojamientos Premium</target>
+                <target>Premium-Unterkunft</target>
             </trans-unit>
             <trans-unit id="20">
                 <source>TOP_OWNS</source>
-                <target>Las mejores casas</target>
+                <target>Beste Bewertungen</target>
             </trans-unit>
             <trans-unit id="21">
                 <source>TOP_RATED</source>
-                <target>Más Votadas</target>
+                <target>Beste Bewertungen</target>
             </trans-unit>
             <trans-unit id="22">
                 <source>RATINGS</source>
-                <target>Votaciones</target>
+                <target>Wertung</target>
             </trans-unit>
             <trans-unit id="23">
                 <source>COMPANY</source>
@@ -116,27 +116,27 @@
             </trans-unit>
             <trans-unit id="29">
                 <source>SITE_MAP</source>
-                <target>Stadtplan</target>
+                <target>Sitemap</target>
             </trans-unit>
             <trans-unit id="30">
                 <source>FOLLOW_US_FACEBOOK</source>
-                <target>Síguenos en Facebook</target>
+                <target>Folgen Sie uns auf Facebook</target>
             </trans-unit>
             <trans-unit id="31">
                 <source>FOLLOW_US_TWITTER</source>
-                <target>Síguenos en Twitter</target>
+                <target>Folgen Sie uns auf Twitter</target>
             </trans-unit>
             <trans-unit id="32">
                 <source>FOOTER_COPYRIGHT</source>
-                <target>Un producto de ABUC Media Network GmbH. Todos los derechos reservados</target>
+                <target>Ein Produkt von ABUC Media Network GmbH. Alle Rechte vorbehalten</target>
             </trans-unit>
             <trans-unit id="33">
                 <source>WELCOMEPAGE_TITLE</source>
-                <target>Bienvenidos</target>
+                <target>willkommen</target>
             </trans-unit>
             <trans-unit id="34">
                 <source>PLACE_WATERMARK</source>
-                <target>Geben Sie eine Destination ein</target>
+                <target>Wählen Sie ein Ziel</target>
             </trans-unit>
             <trans-unit id="35">
                 <source>ARRIVAL_WATERMARK</source>
@@ -144,7 +144,7 @@
             </trans-unit>
             <trans-unit id="36">
                 <source>DEPARTURE_WATERMARK</source>
-                <target>Abreise</target>
+                <target>Ausgang</target>
             </trans-unit>
             <trans-unit id="37">
                 <source>GUEST_WATERMARK</source>
@@ -152,7 +152,7 @@
             </trans-unit>
             <trans-unit id="38">
                 <source>SEARCH</source>
-                <target>Suchen</target>
+                <target>Suche</target>
             </trans-unit>
             <trans-unit id="39">
                 <source>SLOGAN_1</source>
@@ -164,15 +164,15 @@
             </trans-unit>
             <trans-unit id="41">
                 <source>SLOGAN_3</source>
-                <target>MyCasaParticular.com, Ihre erste Adresse in Kuba</target>
+                <target>MyCasaParticular, Ihre erste Adresse in Kuba</target>
             </trans-unit>
             <trans-unit id="42">
                 <source>HOME_MAIN_MENU</source>
-                <target>Home</target>
+                <target>Einleitung</target>
             </trans-unit>
             <trans-unit id="43">
                 <source>HOME_DESCRIPTION_MAIN_MENU</source>
-                <target>Informacion para el inicio, Informacion para el inicio, Informacion para el inicio, Informacion para el inicio, Informacion para el inicio, Informacion para el inicio, Informacion para el inicio, Informacion para el inicio, Informacion para el inicio, Informacion para el inicio, Informacion para el inicio, Informacion para el inicio, Informacion para el inicio</target>
+                <target>Informationen für Start, Informationen für Start, Informationen für Start, Informationen für Start, Informationen für Start, Informationen für Start, Informationen für Start, Informationen für Start, Informationen für Start, Informationen für Start, Informationen für Start, Informationen für Start, Informationen für Start</target>
             </trans-unit>
             <trans-unit id="44">
                 <source>DESTINATIONS_MAIN_MENU</source>
@@ -180,23 +180,23 @@
             </trans-unit>
             <trans-unit id="45">
                 <source>DESTINATIONS_DESCRIPTION_MAIN_MENU</source>
-                <target>Destinos...Destinos...Destinos...Destinos...Destinos...Destinos...Destinos...Destinos...Destinos...Destinos...Destinos...Destinos...Destinos...Destinos...Destinos...</target>
+                <target>Reiseziele...Reiseziele...Reiseziele...Reiseziele...Reiseziele...Reiseziele...Reiseziele...Reiseziele...Reiseziele...Reiseziele...Reiseziele...Reiseziele...Reiseziele...Reiseziele...Reiseziele...</target>
             </trans-unit>
             <trans-unit id="46">
                 <source>OFFERS_MAIN_MENU</source>
-                <target>Ofertas</target>
+                <target>Vermietungsangebote</target>
             </trans-unit>
             <trans-unit id="47">
                 <source>OFFERS_DESCRIPTION_MAIN_MENU</source>
-                <target>Ofertas...Ofertas...Ofertas...Ofertas...Ofertas...</target>
+                <target>Vermietungsangebote...Vermietungsangebote...Vermietungsangebote...Vermietungsangebote...Vermietungsangebote...</target>
             </trans-unit>
             <trans-unit id="48">
                 <source>INFO_MAIN_MENU</source>
-                <target>Reiseführer und Information</target>
+                <target>Reiseführer und Informationen</target>
             </trans-unit>
             <trans-unit id="49">
                 <source>INFO_DESCRIPTION_MAIN_MENU</source>
-                <target>Guia e Informacion...Guia e Informacion...Guia e Informacion...Guia e Informacion...Guia e Informacion</target>
+                <target>Reiseführer und Informationen...Reiseführer und Informationen...Reiseführer und Informationen...Reiseführer und Informationen...Reiseführer und Informationen</target>
             </trans-unit>
             <trans-unit id="50">
                 <source>SEARCH_MAIN_MENU</source>
@@ -204,23 +204,23 @@
             </trans-unit>
             <trans-unit id="51">
                 <source>SEARCH_DESCRIPTION_MAIN_MENU</source>
-                <target>Descripción del buscador</target>
+                <target>Beschreibung der Suchmaschine</target>
             </trans-unit>
             <trans-unit id="52">
                 <source>GO_HOME_TITLE</source>
-                <target>Ir a la portada</target>
+                <target>Top</target>
             </trans-unit>
             <trans-unit id="53">
                 <source>SEARCHER_BREADCRUMB</source>
-                <target>Buscador</target>
+                <target>Suchmaschine</target>
             </trans-unit>
             <trans-unit id="54">
                 <source>HOMEPAGE_SUBTITLE_1</source>
-                <target>Warum ein Aufenthalt in einem Privatunterkunft?</target>
+                <target>Warum ein Aufenthalt in einem Casa particular?</target>
             </trans-unit>
             <trans-unit id="55">
                 <source>HOMEPAGE_SUBTITLE_2</source>
-                <target>Conocer Cuba, vivir Cuba!!</target>
+                <target>Kuba erleben, Kuba endecken!</target>
             </trans-unit>
             <trans-unit id="56">
                 <source>HOMEPAGE_TEXT</source>
@@ -228,23 +228,23 @@
             </trans-unit>
             <trans-unit id="57">
                 <source>TOP_HOUSES_HOME_TITLE</source>
-                <target>Casas Particulares Mejor Valoradas</target>
+                <target>Besser bewertet</target>
             </trans-unit>
             <trans-unit id="58">
                 <source>MORE_INFO_PREFFIX</source>
-                <target>Ver más información de</target>
+                <target>Mehr Information über</target>
             </trans-unit>
             <trans-unit id="59">
                 <source>VISUALIZE</source>
-                <target>Visualizar</target>
+                <target>Sichtbar machen</target>
             </trans-unit>
             <trans-unit id="60">
                 <source>PAGER</source>
-                <target>Paginador</target>
+                <target>Seitenanzeige</target>
             </trans-unit>
             <trans-unit id="61">
                 <source>TELL_A_FRIEND</source>
-                <target>Einem Freund empfehlen</target>
+                <target>Bewertung dieses Eigentums</target>
             </trans-unit>
             <trans-unit id="62">
                 <source>POPULAR_DESTINATIONS_HOME_TABS</source>
@@ -256,7 +256,7 @@
             </trans-unit>
             <trans-unit id="64">
                 <source>OFFERS_HOME_TABS</source>
-                <target>Ofertas</target>
+                <target>Angebote</target>
             </trans-unit>
             <trans-unit id="65">
                 <source>ECONOMIC_HOME_TABS</source>
@@ -272,35 +272,35 @@
             </trans-unit>
             <trans-unit id="68">
                 <source>SEEMORE_LINK_TEXT</source>
-                <target>Ver [+]</target>
+                <target>Mehr [+]</target>
             </trans-unit>
             <trans-unit id="69">
                 <source>POPULAR_DESTINATIONS_TOOLTIP_HOME_TAB</source>
-                <target>Ver más destinos populares</target>
+                <target>Mehr Beliebte Reiseziele sehen</target>
             </trans-unit>
             <trans-unit id="70">
                 <source>LAST_ADDED_TOOLTIP_HOME_TAB</source>
-                <target>Ver más casas últimas añadidas</target>
+                <target>Mehr letzte Zugänge sehen</target>
             </trans-unit>
             <trans-unit id="71">
                 <source>OFFERS_TOOLTIP_HOME_TAB</source>
-                <target>Ver más ofertas</target>
+                <target>Mehr Angebote sehen</target>
             </trans-unit>
             <trans-unit id="72">
                 <source>ECONOMIC_TOOLTIP_HOME_TAB</source>
-                <target>Ver más casas económicas</target>
+                <target>Mehr preisgünstige Häuser sehen</target>
             </trans-unit>
             <trans-unit id="73">
                 <source>MIDRANGE_TOOLTIP_HOME_TAB</source>
-                <target>Ver más casas rango medio</target>
+                <target>Mehr Häuser mittleren Niveaus sehen</target>
             </trans-unit>
             <trans-unit id="74">
                 <source>PREMIUM_TOOLTIP_HOME_TAB</source>
-                <target>Ver más casas premium</target>
+                <target>Mehr erstklassige Häuser sehen</target>
             </trans-unit>
             <trans-unit id="75">
                 <source>FILTER_RANGE_PRICE</source>
-                <target>Por rango / precio</target>
+                <target>Nach Niveau /Preis</target>
             </trans-unit>
             <trans-unit id="76">
                 <source>ACCOMMODATION_SEARCH_TITLE</source>
@@ -308,27 +308,27 @@
             </trans-unit>
             <trans-unit id="77">
                 <source>SELECT_OPTION</source>
-                <target>(Seleccione)</target>
+                <target>Wählen Sie aus</target>
             </trans-unit>
             <trans-unit id="78">
                 <source>FILTER_TYPE</source>
-                <target>Por tipo</target>
+                <target>Nach Art/Typ</target>
             </trans-unit>
             <trans-unit id="79">
                 <source>LOADING_MESSAGE</source>
-                <target>Cargando...</target>
+                <target>Lädt...</target>
             </trans-unit>
             <trans-unit id="80">
                 <source>SEARCH_RESULT_ORDER_BY</source>
-                <target>Ordenar por</target>
+                <target>Sortieren nach</target>
             </trans-unit>
             <trans-unit id="81">
                 <source>PRICE_LOW_HIGH_ORDER_BY</source>
-                <target>Preis /von niedrig nach hoch</target>
+                <target>Preis / von niedrig nach hoch</target>
             </trans-unit>
             <trans-unit id="82">
                 <source>PRICE_HIGH_LOW_ORDER_BY</source>
-                <target>Preis /von hoch nach niedrig</target>
+                <target>Preis / von hoch nach niedrig</target>
             </trans-unit>
             <trans-unit id="83">
                 <source>BEST_VALUED_ORDER_BY</source>
@@ -340,31 +340,31 @@
             </trans-unit>
             <trans-unit id="85">
                 <source>A_Z_ORDER_BY</source>
-                <target>Alphabetisch / A - Z</target>
+                <target>Alphabetisch / A-Z</target>
             </trans-unit>
             <trans-unit id="86">
                 <source>Z_A_ORDER_BY</source>
-                <target>Alphabetisch / Z - A</target>
+                <target>Alphabetisch / Z-A</target>
             </trans-unit>
             <trans-unit id="87">
                 <source>LIST_VIEW_RESULTS</source>
-                <target>Ver resultados en forma de lista</target>
+                <target>Ergebnisse als Liste sehen</target>
             </trans-unit>
             <trans-unit id="88">
                 <source>PHOTO_VIEW_RESULTS</source>
-                <target>Ver resultados en forma de mosaicos</target>
+                <target>Ergebnisse als Mosaik sehen</target>
             </trans-unit>
             <trans-unit id="89">
                 <source>MAP_VIEW_RESULTS</source>
-                <target>Ver resultados ubicados en el mapa</target>
+                <target>Ergebnisse auf der Karte/dem Stadtplan sehen</target>
             </trans-unit>
             <trans-unit id="90">
                 <source>LAST_ADDED_BREADCRUMB</source>
-                <target>Últimas Añadidas</target>
+                <target>Zuletzt hinzugefügt</target>
             </trans-unit>
             <trans-unit id="100">
                 <source>LIST_BY_CATEGORIES_BREADCRUMB</source>
-                <target>Listado por Categorías</target>
+                <target>Liste nach Kategorien</target>
             </trans-unit>
             <trans-unit id="101">
                 <source>PHOTO_TAB_DETAILS</source>
@@ -372,23 +372,23 @@
             </trans-unit>
             <trans-unit id="102">
                 <source>NEARBY_HOUSES_DETAILS</source>
-                <target>Propiedades Cercanas</target>
+                <target>Privatunterkünfte in der Nähe</target>
             </trans-unit>
             <trans-unit id="103">
                 <source>MORE_IN_DETAILS</source>
-                <target>Más en</target>
+                <target>Mehr in</target>
             </trans-unit>
             <trans-unit id="104">
                 <source>MORE_DESTINATIONS_DETAILS</source>
-                <target>Ver más destinos en</target>
+                <target>Mehr Reiseziele sehen in</target>
             </trans-unit>
             <trans-unit id="105">
                 <source>SEE_ALL_DETAILS</source>
-                <target>(ver todos)</target>
+                <target>(Alle sehen)</target>
             </trans-unit>
             <trans-unit id="106">
                 <source>MAPS_TAB_DETAILS</source>
-                <target>Mapas</target>
+                <target>Karten</target>
             </trans-unit>
             <trans-unit id="107">
                 <source>DESCRIPTION_TAB_DETAILS</source>
@@ -404,23 +404,23 @@
             </trans-unit>
             <trans-unit id="110">
                 <source>TYPE_TAB_DESCRIPTION</source>
-                <target>Tipo</target>
+                <target>Art</target>
             </trans-unit>
             <trans-unit id="111">
                 <source>CAPACITY_TAB_DESCRIPTION</source>
-                <target>Capacidad</target>
+                <target>Kapazität</target>
             </trans-unit>
             <trans-unit id="112">
                 <source>BEDROOMS_TAB_DESCRIPTION</source>
-                <target>Dormitorios</target>
+                <target>Zimmer</target>
             </trans-unit>
             <trans-unit id="113">
                 <source>CITY_TAB_DESCRIPTION</source>
-                <target>Ciudad</target>
+                <target>Städte</target>
             </trans-unit>
             <trans-unit id="114">
                 <source>PROVINCE_TAB_DESCRIPTION</source>
-                <target>Provinz</target>
+                <target>Provinzen</target>
             </trans-unit>
             <trans-unit id="115">
                 <source>SERVICES_TAB_DESCRIPTION</source>
@@ -432,7 +432,7 @@
             </trans-unit>
             <trans-unit id="117">
                 <source>YES</source>
-                <target>Sí</target>
+                <target>Ja</target>
             </trans-unit>
             <trans-unit id="118">
                 <source>DINNER_TAB_DESCRIPTION</source>
@@ -444,7 +444,7 @@
             </trans-unit>
             <trans-unit id="120">
                 <source>BIKE_PARKING_TAB_DESCRIPTION</source>
-                <target>Parqueo para Bicicletas</target>
+                <target>Parkplatz für Fahrräder</target>
             </trans-unit>
             <trans-unit id="121">
                 <source>PETS_TAB_DESCRIPTION</source>
@@ -456,7 +456,7 @@
             </trans-unit>
             <trans-unit id="123">
                 <source>INTERNET_TAB_DESCRIPTION</source>
-                <target>Internet / E-Mail</target>
+                <target>Internet/E-Mail</target>
             </trans-unit>
             <trans-unit id="124">
                 <source>JACUZEE_TAB_DESCRIPTION</source>
@@ -472,11 +472,11 @@
             </trans-unit>
             <trans-unit id="127">
                 <source>UP_SEASON_ROOMS</source>
-                <target>Alta</target>
+                <target>Obergeschoss</target>
             </trans-unit>
             <trans-unit id="128">
                 <source>DOWN_SEASON_ROOMS</source>
-                <target>Baja</target>
+                <target>Erdgeschoss</target>
             </trans-unit>
             <trans-unit id="129">
                 <source>BEDS_ROOMS</source>
@@ -484,7 +484,7 @@
             </trans-unit>
             <trans-unit id="130">
                 <source>MAIN_FEATURES_ROOMS</source>
-                <target>Características Principales</target>
+                <target>Hauptmerkmale</target>
             </trans-unit>
             <trans-unit id="131">
                 <source>CLIMATIZATION_ROOMS</source>
@@ -508,7 +508,7 @@
             </trans-unit>
             <trans-unit id="136">
                 <source>NO</source>
-                <target>No</target>
+                <target>Nein</target>
             </trans-unit>
             <trans-unit id="137">
                 <source>AUDIOVISUALS_ROOMS</source>
@@ -540,19 +540,19 @@
             </trans-unit>
             <trans-unit id="144">
                 <source>FROM_PRICES</source>
-                <target>Von</target>
+                <target>Aus | Von...</target>
             </trans-unit>
             <trans-unit id="145">
                 <source>BYNIGHTS_PRICES</source>
-                <target>Por noches</target>
+                <target>Pro Nacht</target>
             </trans-unit>
             <trans-unit id="146">
                 <source>ARRIVAL_RESERVATION</source>
-                <target>Ankunft</target>
+                <target>Anreise</target>
             </trans-unit>
             <trans-unit id="147">
                 <source>DEPARTURE_RESERVATION</source>
-                <target>Ausgang</target>
+                <target>Abreise</target>
             </trans-unit>
             <trans-unit id="148">
                 <source>GUESTS_RESERVATION</source>
@@ -560,19 +560,19 @@
             </trans-unit>
             <trans-unit id="149">
                 <source>SUBTOTAL_RESERVATION</source>
-                <target>Subtotal</target>
+                <target>Zwischensumme gesamt</target>
             </trans-unit>
             <trans-unit id="150">
                 <source>RESERVE_RESERVATION</source>
-                <target>Resérvalo</target>
+                <target>Reserviere es</target>
             </trans-unit>
             <trans-unit id="151">
                 <source>CLEANING_TAX_RESERVATION</source>
-                <target>Incluye tarifa de limpieza</target>
+                <target>Reinigungstarif einbegriffen</target>
             </trans-unit>
             <trans-unit id="152">
                 <source>ADD_FAVORITIES_DETAILS</source>
-                <target>Zu meinen Favoriten  hinzufügen</target>
+                <target>Zu den Favoriten hinzufügen</target>
             </trans-unit>
             <trans-unit id="153">
                 <source>NAME_COMMENTS_DETAILS</source>
@@ -584,23 +584,23 @@
             </trans-unit>
             <trans-unit id="155">
                 <source>TEXT_COMMENTS_DETAILS</source>
-                <target>Opinión</target>
+                <target>Meinung</target>
             </trans-unit>
             <trans-unit id="156">
                 <source>REQUIERED_TEXT_VALIDATOR_COMMENTS_DETAILS</source>
-                <target>Los campos marcados con (*) son obligatorios.</target>
+                <target>Die Felder mit (*) sind obligatorisch.</target>
             </trans-unit>
             <trans-unit id="157">
                 <source>QUEST_COMMENTS_DETAILS</source>
-                <target>¿Recomendaría este alojamiento para ir de vacaciones?</target>
+                <target>Empfehlen Sie diese Unterkunft für Urlaub?</target>
             </trans-unit>
             <trans-unit id="158">
                 <source>5_STARS_COMMENTS_DETAILS</source>
-                <target>Un alojamiento excelente!!</target>
+                <target>Eine ausgezeichnete Unterkunft!</target>
             </trans-unit>
             <trans-unit id="159">
                 <source>4_STARS_COMMENTS_DETAILS</source>
-                <target>Sí, me gustó.</target>
+                <target>Ja, hat mir gefallen.</target>
             </trans-unit>
             <trans-unit id="160">
                 <source>3_STARS_COMMENTS_DETAILS</source>
@@ -608,11 +608,11 @@
             </trans-unit>
             <trans-unit id="161">
                 <source>2_STARS_COMMENTS_DETAILS</source>
-                <target>No me gustó.</target>
+                <target>Hat mir nicht gefallen.</target>
             </trans-unit>
             <trans-unit id="162">
                 <source>1_STARS_COMMENTS_DETAILS</source>
-                <target>No lo recomendaría.</target>
+                <target>Würde ich nicht empfehlen.</target>
             </trans-unit>
             <trans-unit id="163">
                 <source>SEND_COMMENT_DETAILS</source>
@@ -620,95 +620,95 @@
             </trans-unit>
             <trans-unit id="164">
                 <source>SIMILAR_OWNERSHIPS_DETAILS</source>
-                <target>Propiedades Similares</target>
+                <target>Ähnliche Privatunterkünfte</target>
             </trans-unit>
             <trans-unit id="165">
                 <source>LISTINGS_TEXT_DETAILS</source>
-                <target>elementos</target>
+                <target>Elemente</target>
             </trans-unit>
             <trans-unit id="166">
                 <source>SEE_MORE_OWNERSHIPS_DETAILS</source>
-                <target>Ver más propiedades</target>
+                <target>Mehr Eigenschaften sehen</target>
             </trans-unit>
             <trans-unit id="167">
                 <source>IN</source>
-                <target>en</target>
+                <target>In</target>
             </trans-unit>
             <trans-unit id="168">
                 <source>ROOM_SINGULAR</source>
-                <target>zimmer</target>
+                <target>Zimmer</target>
             </trans-unit>
             <trans-unit id="169">
                 <source>ROOM_PLURAL</source>
-                <target>zimmer</target>
+                <target>Zimmer</target>
             </trans-unit>
             <trans-unit id="170">
                 <source>NIGHT_PER_ROOM</source>
-                <target>noche/habitación</target>
+                <target>nacht/zimmer</target>
             </trans-unit>
             <trans-unit id="171">
                 <source>LAST_ADDED_PAGE_TITLE</source>
-                <target>Últimas Añadidas</target>
+                <target>Zuletzt hinzugefügt</target>
             </trans-unit>
             <trans-unit id="172">
                 <source>OWNERSHIP_ECONOMY_CATEGORYPAGE_TITLE</source>
-                <target>Listado de Propiedades Económicas</target>
+                <target>Liste der preisgünstigen Privatunterkünfte</target>
             </trans-unit>
             <trans-unit id="173">
                 <source>OWNERSHIP_MID_RANGE_CATEGORYPAGE_TITLE</source>
-                <target>Listado de Propiedades de Rango Medio</target>
+                <target>Liste der Privatunterkünfte mittleren Niveaus</target>
             </trans-unit>
             <trans-unit id="174">
                 <source>OWNERSHIP_PREMIUM_CATEGORYPAGE_TITLE</source>
-                <target>Listado de Propiedades Premium</target>
+                <target>Liste der erstklassigen Privatunterkünfte</target>
             </trans-unit>
             <trans-unit id="175">
                 <source>MID_RANGE_OWNERSHIP</source>
-                <target>Alojamientos Rango Medio</target>
+                <target>Mittelklasse</target>
             </trans-unit>
             <trans-unit id="176">
                 <source>ECONOMY_OWNERSHIP</source>
-                <target>Alojamientos Económicos</target>
+                <target>Günstig</target>
             </trans-unit>
             <trans-unit id="177">
                 <source>PREMIUM_OWNERSHIP</source>
-                <target>Alojamientos Premium</target>
+                <target>Premium</target>
             </trans-unit>
             <trans-unit id="178">
                 <source>OFFERS_PAGE_TITLE</source>
-                <target>Ofertas</target>
+                <target>Angebote</target>
             </trans-unit>
             <trans-unit id="179">
                 <source>POPULAR_DESTINATIONS_PAGE_TITLE</source>
-                <target>Destinos Populares</target>
+                <target>Beliebte Destinationen</target>
             </trans-unit>
             <trans-unit id="180">
                 <source>ALL_ITEMS</source>
-                <target>(Todas)</target>
+                <target>(Alle)</target>
             </trans-unit>
             <trans-unit id="181">
                 <source>SEARCH_RESULTS_PAGE_TITLE</source>
-                <target>Resultados de la Búsqueda</target>
+                <target>Suchergebnisse</target>
             </trans-unit>
             <trans-unit id="182">
                 <source>ROOM_FEATURES_HEADING_FILTER</source>
-                <target>Características de la habitación</target>
+                <target>Ausstattung des Zimmers</target>
             </trans-unit>
             <trans-unit id="183">
                 <source>SINGLE_ROOM_FILTER</source>
-                <target>Individual</target>
+                <target>Einzelzimmer</target>
             </trans-unit>
             <trans-unit id="184">
                 <source>DOUBLE_ROOM_FILTER</source>
-                <target>Doble</target>
+                <target>Doppelzimmer</target>
             </trans-unit>
             <trans-unit id="185">
                 <source>DOUBLE_2_BEDS_FILTER</source>
-                <target>Doble (dos camas)</target>
+                <target>Doppelzimmer (zwei Betten))</target>
             </trans-unit>
             <trans-unit id="186">
                 <source>TRIPLE_ROOM_FILTER</source>
-                <target>Triple</target>
+                <target>Dreibettzimmer</target>
             </trans-unit>
             <trans-unit id="187">
                 <source>AIR_CONDITIONING_FILTER</source>
@@ -752,7 +752,7 @@
             </trans-unit>
             <trans-unit id="197">
                 <source>BATHROOM_TYPES_HEADING_FILTER</source>
-                <target>Baños</target>
+                <target>Bad</target>
             </trans-unit>
             <trans-unit id="198">
                 <source>INNER_PRIVATE_BATHROOM_FILTER</source>
@@ -804,7 +804,7 @@
             </trans-unit>
             <trans-unit id="210">
                 <source>ALL_ITEMS_M</source>
-                <target>(Todas)</target>
+                <target>(Alle)</target>
             </trans-unit>
             <trans-unit id="211">
                 <source>USER_COMMENTS_TAB</source>
@@ -812,7 +812,7 @@
             </trans-unit>
             <trans-unit id="212">
                 <source>FRIENDS_COMMENTS_TAB</source>
-                <target>Amigos</target>
+                <target>Freunde</target>
             </trans-unit>
             <trans-unit id="213">
                 <source>RATINGS_TEXT_1</source>
@@ -820,7 +820,7 @@
             </trans-unit>
             <trans-unit id="214">
                 <source>RATINGS_TEXT_2</source>
-                <target>dieses Eigentums</target>
+                <target>Von dieser Privatunterkunft</target>
             </trans-unit>
             <trans-unit id="215">
                 <source>RECOMENDS_RATINGS</source>
@@ -828,55 +828,55 @@
             </trans-unit>
             <trans-unit id="216">
                 <source>TOTAL_RECOMENDS_RATING</source>
-                <target>Esta propiedad tiene un total de %total_recomends% recomendaciones</target>
+                <target>Diese Privatunterkunft erhielt insgesamt %total_recomends% Bewertungen </target>
             </trans-unit>
             <trans-unit id="217">
                 <source>PASSWORD_RECOVERY_PAGE_TITLE</source>
-                <target>Recuperar clave</target>
+                <target>Passwort vergessen</target>
             </trans-unit>
             <trans-unit id="218">
                 <source>PASSWORD_RECOVERY_SUBTITLE</source>
-                <target>Recuperar clave</target>
+                <target>Passwort vergessen</target>
             </trans-unit>
             <trans-unit id="219">
                 <source>PASSWORD_RECOVERY_BUTTON_TEXT</source>
-                <target>Resetear mi clave</target>
+                <target>Passwort-Reset</target>
             </trans-unit>
             <trans-unit id="220">
                 <source>USER_REGISTRATION_PAGE_TITLE</source>
-                <target>Registriere Dich!</target>
+                <target>Registrier dich</target>
             </trans-unit>
             <trans-unit id="221">
                 <source>USER_REGISTRATION_SUBTITLE</source>
-                <target>Registriere Dich!</target>
+                <target>Registrieren</target>
             </trans-unit>
             <trans-unit id="222">
                 <source>PRIVATE_POLICY_USER_REGISTRATION</source>
-                <target>Acepto las políticas de privacidad de MyCasaParticular</target>
+                <target>Ich akzeptiere die Grundsätze der Privatsphäre von MyCasaParticular</target>
             </trans-unit>
             <trans-unit id="223">
                 <source>NEWSLETTER_USER_REGISTRATION</source>
-                <target>Deseo recibir los boletines de MyCasaParticular</target>
+                <target>Ich möchte das Bulletin von MyCasaParticular erhalten</target>
             </trans-unit>
             <trans-unit id="224">
                 <source>REGISTER_USER_REGISTRATION</source>
-                <target>Registrarse</target>
+                <target>Registrieren</target>
             </trans-unit>
             <trans-unit id="225">
                 <source>REGISTER_LOGIN_USER_REGISTRATION</source>
-                <target>¿Ya estás registrado? ¡Identifícate aquí!</target>
+                <target>Bist du schon registriert? Identifiziere dich hier!</target>
             </trans-unit>
             <trans-unit id="226">
                 <source>REGISTER_CONFIRMATION_PAGE_TITLE</source>
-                <target>Reenviar instrucciones de confirmación</target>
+                <target>Hinweise zur Bestätigung zurück senden </target>
             </trans-unit>
             <trans-unit id="227">
                 <source>REGISTER_CONFIRMATION_SUBTITLE</source>
-                <target>Reenviar instrucciones de confirmación</target>
+                <target>Hinweise zur Bestätigung zurück senden </target>
             </trans-unit>
             <trans-unit id="228">
                 <source>REGISTER_CONFIRMATION_BUTTON</source>
-                <target>Resetear mi clave</target>
+                <target>Passwort-Reset</target>
             </trans-unit>
             <trans-unit id="229">
                 <source>FORGOT_PASSWORD_PAGE_TITLE</source>
@@ -888,11 +888,11 @@
             </trans-unit>
             <trans-unit id="231">
                 <source>FORGOT_PASSWORD_BUTTON</source>
-                <target>Resetear mi clave</target>
+                <target>Passwort-Reset</target>
             </trans-unit>
             <trans-unit id="232">
                 <source>EMPTY_LIST</source>
-                <target>No hay resultados para su búsqueda</target>
+                <target>Es liegen keine Suchergebnisse vor.</target>
             </trans-unit>
             <trans-unit id="233">
                 <source>ADD_TO_FAVORITIES</source>
@@ -900,15 +900,15 @@
             </trans-unit>
             <trans-unit id="234">
                 <source>Económica</source>
-                <target>Preisgünstig</target>
+                <target>Günstig</target>
             </trans-unit>
             <trans-unit id="235">
                 <source>Rango medio</source>
-                <target>Mittelpreisig</target>
+                <target>Mittelklasse</target>
             </trans-unit>
             <trans-unit id="236">
                 <source>Premium</source>
-                <target>Erstklassig</target>
+                <target>Premium</target>
             </trans-unit>
             <trans-unit id="237">
                 <source>TV</source>
@@ -936,31 +936,31 @@
             </trans-unit>
             <trans-unit id="243">
                 <source>Natural</source>
-                <target>Natural</target>
+                <target>Natürlich</target>
             </trans-unit>
             <trans-unit id="244">
                 <source>Ventilador</source>
-                <target>Ventilador</target>
+                <target>Ventilator</target>
             </trans-unit>
             <trans-unit id="245">
                 <source>Aire acondicionado</source>
-                <target>Aire acondicionado</target>
+                <target>Klimaanlage</target>
             </trans-unit>
             <trans-unit id="246">
                 <source>Habitación individual</source>
-                <target>Habitación individual</target>
+                <target>Einzelzimmer</target>
             </trans-unit>
             <trans-unit id="247">
                 <source>Habitación doble</source>
-                <target>Habitación doble</target>
+                <target>Doppelzimmer</target>
             </trans-unit>
             <trans-unit id="248">
                 <source>Habitación doble (Dos camas)</source>
-                <target>Habitación doble (Dos camas)</target>
+                <target>Doppelzimmer (zwei Betten)</target>
             </trans-unit>
             <trans-unit id="249">
                 <source>Habitación Triple</source>
-                <target>Habitación Triple</target>
+                <target>Dreibettzimmer</target>
             </trans-unit>
             <trans-unit id="250">
                 <source>Penthouse</source>
@@ -984,7 +984,7 @@
             </trans-unit>
             <trans-unit id="255">
                 <source>REMOVE_FAVORITIES_DETAILS</source>
-                <target>Eliminar de Favoritos</target>
+                <target>Aus Favoriten entfernen</target>
             </trans-unit>
             <trans-unit id="256">
                 <source>TO_PRICES</source>
@@ -1000,35 +1000,35 @@
             </trans-unit>
             <trans-unit id="259">
                 <source>GO_DESTINATION_TITLE</source>
-                <target>Ver listado de destinos</target>
+                <target>Allgemeine Ziele</target>
             </trans-unit>
             <trans-unit id="260">
                 <source>NAME_REQUIERED_MESSAGE</source>
-                <target>El nombre no puede estar vacío</target>
+                <target>Das Namensfeld darf nicht frei bleiben</target>
             </trans-unit>
             <trans-unit id="261">
                 <source>EMAIL_REQUIERED_MESSAGE</source>
-                <target>El correo no puede estar vacío</target>
+                <target>Das E-Mail-Feld darf nicht frei bleiben</target>
             </trans-unit>
             <trans-unit id="262">
                 <source>EMAIL_INVALID_MESSAGE</source>
-                <target>La dirección de correo no es válida</target>
+                <target>Die E-Mail-Adresse ist ungültig</target>
             </trans-unit>
             <trans-unit id="263">
                 <source>COMMENTTEXT_REQUIERED_MESSAGE</source>
-                <target>El comentario no puede estar vacío</target>
+                <target>Das Feld für Kommentare darf nicht frei bleiben</target>
             </trans-unit>
             <trans-unit id="264">
                 <source>COMMENT_INSERTED</source>
-                <target>El comentario ha sido insertado</target>
+                <target>Der Kommentar wurde eingefügt</target>
             </trans-unit>
             <trans-unit id="265">
                 <source>OWNERSHIP_FEATURES_HEADING_FILTER</source>
-                <target>Características del Alojamiento</target>
+                <target>Eigenschaften der Unterkunft</target>
             </trans-unit>
             <trans-unit id="266">
                 <source>SELECT_RESERVATION_TYPE_OPTION</source>
-                <target>(Forma de reservar)</target>
+                <target>(Form der Reservierung)</target>
             </trans-unit>
             <trans-unit id="267">
                 <source>SELECT_OWNERSHIP_TYPE_OPTION</source>
@@ -1036,7 +1036,7 @@
             </trans-unit>
             <trans-unit id="268">
                 <source>SELECT_OWSERSHIP_CATEGORY_OPTION</source>
-                <target>Kategorie des Hauses</target>
+                <target>Kategorie</target>
             </trans-unit>
             <trans-unit id="269">
                 <source>SELECT_OWNERSHIP_PRICES_OPTION</source>
@@ -1056,7 +1056,7 @@
             </trans-unit>
             <trans-unit id="273">
                 <source>ROOM_BEDS</source>
-                <target>Número de camas</target>
+                <target>Betten</target>
             </trans-unit>
             <trans-unit id="274">
                 <source>SELECT_BATHROOM_TYPE_OPTION</source>
@@ -1064,7 +1064,7 @@
             </trans-unit>
             <trans-unit id="275">
                 <source>OTHER_HEADING_FILTER</source>
-                <target>Otras del alojamiento</target>
+                <target>Sonstiges</target>
             </trans-unit>
             <trans-unit id="276">
                 <source>SELECT_OTHER_LANGUAGE_OPTION</source>
@@ -1100,31 +1100,31 @@
             </trans-unit>
             <trans-unit id="284">
                 <source>RESETVATION_BREADCRUMB</source>
-                <target>Reservación</target>
+                <target>Reservierung</target>
             </trans-unit>
             <trans-unit id="285">
                 <source>RESERVATION_REVIEW</source>
-                <target>Revisión</target>
+                <target>Revision</target>
             </trans-unit>
             <trans-unit id="286">
                 <source>RESERVATION_RESERVE</source>
-                <target>Reservar</target>
+                <target>Reservieren</target>
             </trans-unit>
             <trans-unit id="287">
                 <source>RESERVATION_PAYMENT</source>
-                <target>Bezahlung</target>
+                <target>Zahlung</target>
             </trans-unit>
             <trans-unit id="288">
                 <source>RESERVATION_CONFIRMATION</source>
-                <target>Confirmación</target>
+                <target>Bestätigung</target>
             </trans-unit>
             <trans-unit id="289">
                 <source>RESERVATION_OWNERSHIP</source>
-                <target>Propiedad</target>
+                <target>Eigentum</target>
             </trans-unit>
             <trans-unit id="290">
                 <source>RESERVATION_DATE</source>
-                <target>Fecha</target>
+                <target>Datum</target>
             </trans-unit>
             <trans-unit id="291">
                 <source>RESERVATION_ROOM</source>
@@ -1132,31 +1132,31 @@
             </trans-unit>
             <trans-unit id="292">
                 <source>RESERVATION_GUESTS</source>
-                <target>Gäste</target>
+                <target>Datum</target>
             </trans-unit>
             <trans-unit id="293">
                 <source>RESERVATION_BYBED</source>
-                <target>Por cama</target>
+                <target>Pro Bett</target>
             </trans-unit>
             <trans-unit id="294">
                 <source>RESERVATION_TOTAL</source>
-                <target>Total</target>
+                <target>Gesamt</target>
             </trans-unit>
             <trans-unit id="295">
                 <source>RESERVATION_TRIPLE_ROOM_SURCHARGE</source>
-                <target>Dreibettzimmer mit Aufpreis von 10 $</target>
+                <target>Dreibettzimmer mit Aufpreis von</target>
             </trans-unit>
             <trans-unit id="296">
                 <source>RESERVATION_TOTAL_PRICE</source>
-                <target>Precio total:</target>
+                <target>Gesamtpreis:</target>
             </trans-unit>
             <trans-unit id="297">
                 <source>RESERVATION_CHECK_AVAILABILITY</source>
-                <target>Consultar disponibilidad</target>
+                <target>Disponibilität rückfragen</target>
             </trans-unit>
             <trans-unit id="298">
                 <source>RESERVATION_TITLE</source>
-                <target>Reservaciones</target>
+                <target>Reservierungen</target>
             </trans-unit>
             <trans-unit id="299">
                 <source>RESERVATION_ROOMS</source>
@@ -1164,7 +1164,7 @@
             </trans-unit>
             <trans-unit id="300">
                 <source>RESERVATION_PRICES_FOR</source>
-                <target>Precios para</target>
+                <target>Preise für</target>
             </trans-unit>
             <trans-unit id="301">
                 <source>RESERVATION_ROOM_TYPE</source>
@@ -1172,15 +1172,15 @@
             </trans-unit>
             <trans-unit id="302">
                 <source>RESERVATION_SELECTED_ROOM</source>
-                <target>Habitaciones seleccionadas</target>
+                <target>Ausgewählte Zimmer</target>
             </trans-unit>
             <trans-unit id="303">
                 <source>RESERVATION_TYPE</source>
-                <target>Tipo</target>
+                <target>Eigentumsform</target>
             </trans-unit>
             <trans-unit id="304">
                 <source>RESERVATION_ROOM_NUMBER</source>
-                <target>No. de habitaciones</target>
+                <target>Zimmernummer</target>
             </trans-unit>
             <trans-unit id="305">
                 <source>RESERVATION_PRICE</source>
@@ -1188,43 +1188,43 @@
             </trans-unit>
             <trans-unit id="306">
                 <source>Tue</source>
-                <target>Mar</target>
+                <target>Die</target>
             </trans-unit>
             <trans-unit id="307">
                 <source>Wed</source>
-                <target>Miér</target>
+                <target>Mitt</target>
             </trans-unit>
             <trans-unit id="308">
                 <source>Thu</source>
-                <target>Jue</target>
+                <target>Don</target>
             </trans-unit>
             <trans-unit id="309">
                 <source>Fri</source>
-                <target>Vie</target>
+                <target>Fre</target>
             </trans-unit>
             <trans-unit id="310">
                 <source>Sat</source>
-                <target>Sáb</target>
+                <target>Sam</target>
             </trans-unit>
             <trans-unit id="311">
                 <source>Sun</source>
-                <target>Dom</target>
+                <target>Son</target>
             </trans-unit>
             <trans-unit id="312">
                 <source>Mon</source>
-                <target>Lun</target>
+                <target>Mon</target>
             </trans-unit>
             <trans-unit id="313">
                 <source>RESERVATION_SEE_PRICES</source>
-                <target>Ver precios</target>
+                <target>Preise sehen</target>
             </trans-unit>
             <trans-unit id="314">
                 <source>TOTAL</source>
-                <target>Total</target>
+                <target>Gesamt</target>
             </trans-unit>
             <trans-unit id="315">
                 <source>CUC_NAME</source>
-                <target>Peso Cubano Convertible</target>
+                <target>Kubanischer Konvertierbarer Peso</target>
             </trans-unit>
             <trans-unit id="316">
                 <source>ABOUT_US</source>
@@ -1232,27 +1232,27 @@
             </trans-unit>
             <trans-unit id="317">
                 <source>ABOUT_US_CONTENT</source>
-                <target>Descripción para Quienes Somos</target>
+                <target>Beschreibung zu Wer sind wir</target>
             </trans-unit>
             <trans-unit id="318">
                 <source>LEGAL_TERMS_CONTENT</source>
-                <target>Descripción para Términos Legales</target>
+                <target>Beschreibung zu Gesetzlichen Fristen</target>
             </trans-unit>
             <trans-unit id="319">
                 <source>TERM_COND</source>
-                <target>Términos y Condiciones</target>
+                <target>Fristen und Bedingungen</target>
             </trans-unit>
             <trans-unit id="320">
                 <source>TERM_COND_CONTENT</source>
-                <target>Descripción para Términos y Condiciones</target>
+                <target>Beschreibung zu Fristen und Bedingungen</target>
             </trans-unit>
             <trans-unit id="321">
                 <source>SECURITY_PRIVACITY</source>
-                <target>Sicherheit und Privatspäre</target>
+                <target>Sicherheit und Privatsphäre</target>
             </trans-unit>
             <trans-unit id="322">
                 <source>SECURITY_PRIVACITY_CONTENT</source>
-                <target>Descripcion para Seguridad y Privacidad</target>
+                <target>Beschreibung zu Sicherheit und Privatsphäre</target>
             </trans-unit>
             <trans-unit id="323">
                 <source>FAQ_PAGE_TITLE</source>
@@ -1260,19 +1260,19 @@
             </trans-unit>
             <trans-unit id="324">
                 <source>FAQ_PAGE_CONTENT</source>
-                <target>Contenido para Preguntas Frecuentes</target>
+                <target>Inhalt zu Häufige Fragen</target>
             </trans-unit>
             <trans-unit id="325">
                 <source>TOP_OWNERSHIP_TITLE</source>
-                <target>Las mejores casas</target>
+                <target>die besten Häuser</target>
             </trans-unit>
             <trans-unit id="326">
                 <source>VOTING</source>
-                <target>Votaciones</target>
+                <target>Abstimmungen</target>
             </trans-unit>
             <trans-unit id="327">
                 <source>TOP_OWNERSHIP</source>
-                <target>Las mejores casas</target>
+                <target>die besten Häuser</target>
             </trans-unit>
             <trans-unit id="328">
                 <source>TOP_RATED_TITLE</source>
@@ -1288,51 +1288,51 @@
             </trans-unit>
             <trans-unit id="331">
                 <source>TESTIMONIES</source>
-                <target>Testimonios</target>
+                <target>Augenzeugen</target>
             </trans-unit>
             <trans-unit id="332">
                 <source>PRESS</source>
-                <target>Prensa</target>
+                <target>Presse</target>
             </trans-unit>
             <trans-unit id="333">
                 <source>PARTNERS</source>
-                <target>Socios</target>
+                <target>Mitglieder</target>
             </trans-unit>
             <trans-unit id="334">
                 <source>JOBS</source>
-                <target>Empleos</target>
+                <target>Beschäftigungen</target>
             </trans-unit>
             <trans-unit id="335">
                 <source>OUR_SERVICES</source>
-                <target>Nuestros servicios</target>
+                <target>Unsere Dienstleistungen</target>
             </trans-unit>
             <trans-unit id="336">
                 <source>SERVICE_GUARANTEE</source>
-                <target>Garantía de servicio</target>
+                <target>Servicegarantie</target>
             </trans-unit>
             <trans-unit id="337">
                 <source>SERVICE_GUARANTEE_CONTENT</source>
-                <target>Descripción para Garantía de Servicios</target>
+                <target>Beschreibung zu Garantie der Dienstleistungen</target>
             </trans-unit>
             <trans-unit id="338">
                 <source>TESTIMONIES_CONTENT</source>
-                <target>Descripción para Testimonios</target>
+                <target>Beschreibung zu Augenzeugen</target>
             </trans-unit>
             <trans-unit id="339">
                 <source>PRESS_CONTENT</source>
-                <target>Descripción para Prensa</target>
+                <target>Beschreibung für Presse</target>
             </trans-unit>
             <trans-unit id="340">
                 <source>PARTNERS_CONTENT</source>
-                <target>Descripción para Socios</target>
+                <target>Beschreibung für Mitglieder</target>
             </trans-unit>
             <trans-unit id="341">
                 <source>JOBS_CONTENT</source>
-                <target>Descripción para Empleos</target>
+                <target>Beschreibung zu Beschäftigungen</target>
             </trans-unit>
             <trans-unit id="342">
                 <source>OWNERSHIPS_LOWER</source>
-                <target>alojamiento(s)</target>
+                <target>Unterkünfte</target>
             </trans-unit>
             <trans-unit id="343">
                 <source>ROOM_WATERMARK</source>
@@ -1340,7 +1340,7 @@
             </trans-unit>
             <trans-unit id="344">
                 <source>GUESTS</source>
-                <target>Gäste</target>
+                <target>Gast</target>
             </trans-unit>
             <trans-unit id="345">
                 <source>ROOMS</source>
@@ -1352,7 +1352,7 @@
             </trans-unit>
             <trans-unit id="347">
                 <source>ADULTS</source>
-                <target>Erwachsene</target>
+                <target>Erwachsene </target>
             </trans-unit>
             <trans-unit id="348">
                 <source>KIDS</source>
@@ -1368,39 +1368,39 @@
             </trans-unit>
             <trans-unit id="351">
                 <source>SITEMAP_CONTENT</source>
-                <target>Descripción para el Mapa del Sitio</target>
+                <target>Beschreibung zum Stadtplan</target>
             </trans-unit>
             <trans-unit id="352">
                 <source>HOW_IT_WORKS_CONTENT</source>
-                <target>Descripción para Cómo Funciona</target>
+                <target>Beschreibung zur Funktionsweise</target>
             </trans-unit>
             <trans-unit id="353">
                 <source>USER_COMUNITY</source>
-                <target>Comunidad de Usuarios</target>
+                <target>Nutzergemeinschaft</target>
             </trans-unit>
             <trans-unit id="354">
                 <source>FIRST_PAGE</source>
-                <target>Primera</target>
+                <target>Erste</target>
             </trans-unit>
             <trans-unit id="355">
                 <source>LAST_PAGE</source>
-                <target>Última</target>
+                <target>Letzte</target>
             </trans-unit>
             <trans-unit id="356">
                 <source>VISITS</source>
-                <target>Visitas</target>
+                <target>Besuche</target>
             </trans-unit>
             <trans-unit id="357">
                 <source>OWNERSHIPS</source>
-                <target>Alojamientos</target>
+                <target>Unterkünfte</target>
             </trans-unit>
             <trans-unit id="358">
                 <source>FORMS_NAME</source>
-                <target>Vorname</target>
+                <target>Namen</target>
             </trans-unit>
             <trans-unit id="359">
                 <source>FORMS_LASTNAME</source>
-                <target>Nachnamen</target>
+                <target>Vorname</target>
             </trans-unit>
             <trans-unit id="360">
                 <source>FORMS_EMAIL</source>
@@ -1424,7 +1424,7 @@
             </trans-unit>
             <trans-unit id="365">
                 <source>FORMS_REPEAT</source>
-                <target>Repetir</target>
+                <target>Wiederholen</target>
             </trans-unit>
             <trans-unit id="366">
                 <source>FORMS_PROVINCE</source>
@@ -1432,7 +1432,7 @@
             </trans-unit>
             <trans-unit id="367">
                 <source>FORMS_MUNICIPALITY</source>
-                <target>Stadtteil/Gemeinde</target>
+                <target>Stadtteil</target>
             </trans-unit>
             <trans-unit id="368">
                 <source>CONTACT_US_TOURIST_HEADER</source>
@@ -1464,143 +1464,143 @@
             </trans-unit>
             <trans-unit id="375">
                 <source>FORMS_CREATE_ACCOUNT_QUESTION</source>
-                <target>Bist Du nicht registriert? Registriere Dich!</target>
+                <target>Bist du nicht registriert?Registriere dich hier!</target>
             </trans-unit>
             <trans-unit id="376">
                 <source>FORMS_LOGIN_QUESTION</source>
-                <target>¿Ya estás registrado? ¡Identifícate aquí!</target>
+                <target>Bist du nicht registriert?Registriere dich hier!</target>
             </trans-unit>
             <trans-unit id="377">
                 <source>DELETE_FAVORITIES</source>
-                <target>Eliminar de Favoritos</target>
+                <target>Favoriten entfernen</target>
             </trans-unit>
             <trans-unit id="378">
                 <source>FAVORITIES_PAGE_DESCRIPTION</source>
-                <target>Descripción de Favoritos</target>
+                <target>Beschreibung der Favoriten</target>
             </trans-unit>
             <trans-unit id="379">
                 <source>OPINIONS</source>
-                <target>Valoraciones</target>
+                <target>Bewertung</target>
             </trans-unit>
             <trans-unit id="380">
                 <source>HISTORY</source>
-                <target>Historial</target>
+                <target>Historisch</target>
             </trans-unit>
             <trans-unit id="381">
                 <source>CONSULTS</source>
-                <target>Consultas</target>
+                <target>Anfrage/Rückfragen</target>
             </trans-unit>
             <trans-unit id="382">
                 <source>RESERVES</source>
-                <target>Reservierung</target>
+                <target>Reservierungen</target>
             </trans-unit>
             <trans-unit id="383">
                 <source>RESERVED</source>
-                <target>Reservadas</target>
+                <target>Reserviert</target>
             </trans-unit>
             <trans-unit id="384">
                 <source>PAYMENT_CONFIRM</source>
-                <target>Confirmadas pagos</target>
+                <target>Bestätigungen/Zahlungen</target>
             </trans-unit>
             <trans-unit id="385">
                 <source>DISPONIBILITY</source>
-                <target>Disponibilidad</target>
+                <target>Verfügbarkeit</target>
             </trans-unit>
             <trans-unit id="386">
                 <source>RESPONSE_PENDING</source>
-                <target>Pendientes de respuesta</target>
+                <target>Antwort offen</target>
             </trans-unit>
             <trans-unit id="387">
                 <source>RESERVATIONS</source>
-                <target>Reservaciones</target>
+                <target>Reservierungen</target>
             </trans-unit>
             <trans-unit id="388">
                 <source>FAV_DESTINATION</source>
-                <target>Destinos Favoritos</target>
+                <target>Favoriten</target>
             </trans-unit>
             <trans-unit id="389">
                 <source>FAV_OWNERSHIPS</source>
-                <target>Alojamientos Favoritos</target>
+                <target>Unterkünfte Favoriten</target>
             </trans-unit>
             <trans-unit id="390">
                 <source>HISTORY_DESTINATIONS</source>
-                <target>Destinos Visitados</target>
+                <target>Beliebte Destinationen</target>
             </trans-unit>
             <trans-unit id="391">
                 <source>HISTORY_OWNERSHIPS</source>
-                <target>Alojamientos Visitados</target>
+                <target>Besuchte Unterkünfte</target>
             </trans-unit>
             <trans-unit id="392">
                 <source>FOLLOW_US_YOUTUBE</source>
-                <target>Síguenos en Youtube</target>
+                <target>Folgen Sie uns in Youtube</target>
             </trans-unit>
             <trans-unit id="393">
                 <source>FOLLOW_US_PINENTEREST</source>
-                <target>Síguenos en Pinterest</target>
+                <target>Folgen Sie uns in Pinterest</target>
             </trans-unit>
             <trans-unit id="394">
                 <source>SEND_TO_FRIEND</source>
-                <target>Enviar a un amigo</target>
+                <target>Einem Freund empfehlen</target>
             </trans-unit>
             <trans-unit id="395">
                 <source>HIW_SEARCH_LINK</source>
-                <target>Sugerencias</target>
+                <target>Hinweise</target>
             </trans-unit>
             <trans-unit id="396">
                 <source>HIW_SEARCH_CONTENT</source>
-                <target>Contenido Buscar</target>
+                <target>Inhalt Suchen</target>
             </trans-unit>
             <trans-unit id="397">
                 <source>HIW_CONTACT_TITLE</source>
-                <target>Contactar</target>
+                <target>Kontaktieren</target>
             </trans-unit>
             <trans-unit id="398">
                 <source>HIW_CONTACT_LINK</source>
-                <target>Contacto específico</target>
+                <target>Spezieller Kontakt</target>
             </trans-unit>
             <trans-unit id="399">
                 <source>HIW_CONTACT_CONTENT</source>
-                <target>Contenido contacto</target>
+                <target>Spezieller Kontakt</target>
             </trans-unit>
             <trans-unit id="400">
                 <source>HIW_RESERVE_TITLE</source>
-                <target>Reservar</target>
+                <target>Reservieren</target>
             </trans-unit>
             <trans-unit id="401">
                 <source>HIW_RESERVE_LINK</source>
-                <target>Alojamientos libres</target>
+                <target>verfügbare Unterkünfte</target>
             </trans-unit>
             <trans-unit id="402">
                 <source>HIW_RESERVE_CONTENT</source>
-                <target>Contenido reservar</target>
+                <target>Inhalt Reservieren</target>
             </trans-unit>
             <trans-unit id="403">
                 <source>START_SEARCHING</source>
-                <target>Comenzar a buscar</target>
+                <target>Suche beginnen</target>
             </trans-unit>
             <trans-unit id="404">
                 <source>HIW_TRAVEL_TITLE</source>
-                <target>Viajar</target>
+                <target>Reisen</target>
             </trans-unit>
             <trans-unit id="405">
                 <source>HIW_TRAVEL_LINK</source>
-                <target>Transportarse en Cuba</target>
+                <target>Transport in Kuba</target>
             </trans-unit>
             <trans-unit id="406">
                 <source>HIW_TRAVEL_CONTENT</source>
-                <target>Contenido de Viajar</target>
+                <target>Inhalt von Reisen</target>
             </trans-unit>
             <trans-unit id="407">
                 <source>USER_RESEND_INSTRUCTIONS</source>
-                <target>Reenviar instrucciones de confirmación</target>
+                <target>Hinweise zur Bestätigung zurücksenden</target>
             </trans-unit>
             <trans-unit id="408">
                 <source>USER_INSTRUCTIONS_QUESTIONS</source>
-                <target>Hast Du die Bestätigung noch nicht erhalten?</target>
+                <target>Hast du keine Bestätigung bekommen? </target>
             </trans-unit>
             <trans-unit id="409">
                 <source>ALL_PROVINCES_TAB</source>
-                <target>Todas las provincias en Cuba</target>
+                <target>Alle Provinzen Kubas</target>
             </trans-unit>
             <trans-unit id="410">
                 <source>ADDRESS</source>
@@ -1608,7 +1608,7 @@
             </trans-unit>
             <trans-unit id="411">
                 <source>ADDRESS_MCP_COUNTRY</source>
-                <target>Schweiz</target>
+                <target>Suiza</target>
             </trans-unit>
             <trans-unit id="412">
                 <source>COMMERCIAL_NUMBER_REGISTRY</source>
@@ -1620,11 +1620,11 @@
             </trans-unit>
             <trans-unit id="414">
                 <source>CONTACT_OWNER_FILL_FORM</source>
-                <target>Por favor llene para esto el siguiente formulario o escríbanos a:</target>
+                <target>Füllen Sie sich bitte dafür dieses die folgende Form oder schreibt uns:</target>
             </trans-unit>
             <trans-unit id="415">
                 <source>CONTACT_OWNER_FILL_FORM</source>
-                <target>In Kürze werden wir  Sie kontaktieren!</target>
+                <target>In Kürze werden wir  Sie kontaktieren!</target>
             </trans-unit>
             <trans-unit id="416">
                 <source>DES_POBLATION</source>
@@ -1632,7 +1632,7 @@
             </trans-unit>
             <trans-unit id="417">
                 <source>DES_REF_PLACE</source>
-                <target>Referen:</target>
+                <target>Hinweis:</target>
             </trans-unit>
             <trans-unit id="418">
                 <source>INFORMATION_PRO_TRAVELLER</source>
@@ -1660,31 +1660,31 @@
             </trans-unit>
             <trans-unit id="424">
                 <source>RESERVATION_CONFIRM</source>
-                <target>Confirmación de reservación</target>
+                <target>Bestätigung der Reservierung</target>
             </trans-unit>
             <trans-unit id="425">
                 <source>RESERVATION_CONFIRM_TITLE</source>
-                <target>Su consulta de disponibilidad ha sido enviada.</target>
+                <target>Rückfrage zur Disponibilität gesendet</target>
             </trans-unit>
             <trans-unit id="426">
                 <source>RESERVATION_CONFIRM_SUBTITLE</source>
-                <target>Dentro de 24 horas recibirá una respuesta a través de su correo electrónico</target>
+                <target>Innerhalb von 24 Stunden erhalten Sie eine Antwort über Ihre E-Mail erhalten</target>
             </trans-unit>
             <trans-unit id="427">
                 <source>RESERVATION_CONFIRM_GREENBAR_TEXT</source>
-                <target>Otros alojamientos pueden estar disponibles</target>
+                <target>Wir empfehlen, die Disponibilität anderer, ähnlicher Unterkünfte an ihrem Reiseziel rückzufragen</target>
             </trans-unit>
             <trans-unit id="428">
                 <source>RESERVATION_CONFIRM_GREENBAR_SUBTEXT</source>
-                <target>Le recomendamos consultar la disponibilidad de otros alojamientos similares dentro de su destino</target>
+                <target>Wir empfehlen, die Disponibilität anderer, ähnlicher Unterkünfte an ihrem Reiseziel rückzufragen</target>
             </trans-unit>
             <trans-unit id="429">
                 <source>RESERVATION_CONFIRM_GRAYBAR_SUBTEXT</source>
-                <target>alojamientos disponibles en este destino</target>
+                <target>Disponible Unterkünfte an diesem Reiseziel</target>
             </trans-unit>
             <trans-unit id="430">
                 <source>RESERVATION_CONFIRM_DESTINATION_AREA_TITLE</source>
-                <target>¿Ha consultado otros destinos?</target>
+                <target>Haben Sie andere Reiseziel angefragt?</target>
             </trans-unit>
             <trans-unit id="431">
                 <source>RESERVATION_CONFIRM_DESTINATION_OWNS_AVAILABLE</source>
@@ -1696,19 +1696,19 @@
             </trans-unit>
             <trans-unit id="433">
                 <source>OUR_OFFICE</source>
-                <target>Nuestra oficina</target>
+                <target>Unser Büro</target>
             </trans-unit>
             <trans-unit id="434">
                 <source>ALL_PROVINCES</source>
-                <target>Todas las provincias</target>
+                <target>Alle Provinzen Kubas</target>
             </trans-unit>
             <trans-unit id="435">
                 <source>CART</source>
-                <target>Cesta</target>
+                <target>Korb</target>
             </trans-unit>
             <trans-unit id="436">
                 <source>SENT_EMAIL_FROM</source>
-                <target>Enviar a nombre de:</target>
+                <target>Senden auf den Namen von:</target>
             </trans-unit>
             <trans-unit id="437">
                 <source>EMAIL_TO</source>
@@ -1720,79 +1720,79 @@
             </trans-unit>
             <trans-unit id="439">
                 <source>RESERVATION_DETAILS</source>
-                <target>Detalles de reservación</target>
+                <target>Details der Reservierung</target>
             </trans-unit>
             <trans-unit id="440">
                 <source>RESERVATION_TRIPLE_CHARGE</source>
-                <target>Dreibettzimmer mit Aufpreis von </target>
+                <target>Dreibettzimmer mit Aufpreis von</target>
             </trans-unit>
             <trans-unit id="441">
                 <source>PRICE_NIGHT</source>
-                <target>Precio/Noche</target>
+                <target>Preis|Nacht</target>
             </trans-unit>
             <trans-unit id="442">
                 <source>KEEP_SEARCHING</source>
-                <target>Continuar buscando</target>
+                <target>Weiter auf der Suche</target>
             </trans-unit>
             <trans-unit id="443">
                 <source>REMOVE</source>
-                <target>Eliminar</target>
+                <target>Entfernen</target>
             </trans-unit>
             <trans-unit id="444">
                 <source>EMPTY_CART</source>
-                <target>Vaciar cesta</target>
+                <target>Korb leeren</target>
             </trans-unit>
             <trans-unit id="445">
                 <source>NOT_AVAILABLE</source>
-                <target>No disponible</target>
+                <target>Nicht disponibel</target>
             </trans-unit>
             <trans-unit id="446">
                 <source>REMOVE_RESERVATION_CONFIRM</source>
-                <target>¿Confirma que desea eliminar la reservación?</target>
+                <target>Bestätigen Sie, dass Sie die Reservierung löschen wollen?</target>
             </trans-unit>
             <trans-unit id="447">
                 <source>CANCEL</source>
-                <target>Cancelar</target>
+                <target>Sagen Sie ab</target>
             </trans-unit>
             <trans-unit id="448">
                 <source>CART_EMPTY_SUCCESSFUL</source>
-                <target>La cesta se ha vaciado satisfactoriamente.</target>
+                <target>Der Korb wurde zufriedenstellend geleert.</target>
             </trans-unit>
             <trans-unit id="449">
                 <source>CART_DESCRIPTION</source>
-                <target>Descripción de la cesta</target>
+                <target>Beschreibung des Korbes</target>
             </trans-unit>
             <trans-unit id="450">
                 <source>LAST_ADDED_DESCRIPTION</source>
-                <target>Descripción de últimas añadidas</target>
+                <target>Beschreibung der letzten Zugänge</target>
             </trans-unit>
             <trans-unit id="451">
                 <source>OWNERSHIP_ECONOMY_DESCRIPTION</source>
-                <target>Descripción de alojamientos económicos</target>
+                <target>Beschreibung preisgünstiger Unterkünfte</target>
             </trans-unit>
             <trans-unit id="452">
                 <source>OWNERSHIP_PREMIUM_DESCRIPTION</source>
-                <target>Descripción de alojamientos premium</target>
+                <target>Beschreibung der erstklassigen Unterkünfte</target>
             </trans-unit>
             <trans-unit id="453">
                 <source>OWNERSHIP_MID_RANGE_DESCRIPTION </source>
-                <target>Descripción de alojamientos rango medio</target>
+                <target>Beschreibung der Unterkünfte mittleren Niveaus</target>
             </trans-unit>
             <trans-unit id="454">
                 <source>SEE_REQUEST</source>
-                <target>Ver solicitud</target>
+                <target>Antrag sehen</target>
             </trans-unit>
             <trans-unit id="455">
                 <source>ID_RESERVATION</source>
-                <target>ID Reserva</target>
+                <target>Ident-Nr. der Reservierung </target>
             </trans-unit>
             <trans-unit id="456">
                 <source>RESERVATION_DETAILS</source>
-                <target>Detalles de la Reserva</target>
+                <target>Details der Reservierung</target>
             </trans-unit>
             <trans-unit id="457">
                 <source>DATE</source>
-                <target>Fecha</target>
+                <target>Datum</target>
             </trans-unit>
             <trans-unit id="458">
                 <source>PRICE</source>
@@ -1800,131 +1800,131 @@
             </trans-unit>
             <trans-unit id="459">
                 <source>ROOM_DETAIL</source>
-                <target>Detalles de habitación</target>
+                <target>Details der Zimmer</target>
             </trans-unit>
             <trans-unit id="460">
                 <source>YOUR_DATA</source>
-                <target>Sus Datos</target>
+                <target>Ihre Daten</target>
             </trans-unit>
             <trans-unit id="461">
                 <source>REQUIRED_FIELDS</source>
-                <target>(*Campos obligatorios)</target>
+                <target>* Obligatorische Felder</target>
             </trans-unit>
             <trans-unit id="462">
                 <source>ADD_TO_CART</source>
-                <target>Añadir a la cesta</target>
+                <target>in den Warenkorb</target>
             </trans-unit>
             <trans-unit id="463">
                 <source>INITIAL_DEPOSIT</source>
-                <target>Depósito inicial</target>
+                <target>Anfangszahlung</target>
             </trans-unit>
             <trans-unit id="464">
                 <source>SERVICE_RECHARGE</source>
-                <target>Cargo por servicio</target>
+                <target>Belastung für den Service</target>
             </trans-unit>
             <trans-unit id="465">
                 <source>TOTAL_PREPAYMENT</source>
-                <target>Total prepago</target>
+                <target>Komplett vorausgezahlt</target>
             </trans-unit>
             <trans-unit id="466">
                 <source>LAST_VISITED_OWNERSHIPS</source>
-                <target>Últimos alojamientos visitados</target>
+                <target>Letzte besuchte Unterkünfte</target>
             </trans-unit>
             <trans-unit id="467">
                 <source>VISIT_ANOTHER_DESTINATIONS</source>
-                <target>Besuchen Sie andere Reiseziele!</target>
+                <target>Besuchen Sie andere Reiseziele</target>
             </trans-unit>
             <trans-unit id="468">
                 <source>GENDER</source>
-                <target>Género</target>
+                <target>Geschlecht</target>
             </trans-unit>
             <trans-unit id="469">
                 <source>SELECT</source>
-                <target>(Seleccione)</target>
+                <target>(Wähle aus)</target>
             </trans-unit>
             <trans-unit id="470">
                 <source>MALE</source>
-                <target>Masculino</target>
+                <target>Männlich</target>
             </trans-unit>
             <trans-unit id="471">
                 <source>FEMALE</source>
-                <target>Femenino</target>
+                <target>Weiblich</target>
             </trans-unit>
             <trans-unit id="472">
                 <source>ZIPCODE</source>
-                <target>Código Postal</target>
+                <target>Postleitzahl</target>
             </trans-unit>
             <trans-unit id="473">
                 <source>CONFIRM_MAIL</source>
-                <target>Confirmar correo</target>
+                <target>E-Mail bestätigen</target>
             </trans-unit>
             <trans-unit id="474">
                 <source>NACIONALITY</source>
-                <target>Nacionalidad</target>
+                <target>Nationalität</target>
             </trans-unit>
             <trans-unit id="475">
                 <source>ARRIVAL_TIME</source>
-                <target>Hora de llegada</target>
+                <target>Ankunft</target>
             </trans-unit>
             <trans-unit id="476">
                 <source>CELL_NUMBER</source>
-                <target>Móvil</target>
+                <target>Cellphone</target>
             </trans-unit>
             <trans-unit id="477">
                 <source>YOUR_PAYMENT</source>
-                <target>Su Pago</target>
+                <target>Ihre Zahlung</target>
             </trans-unit>
             <trans-unit id="478">
                 <source>SKRILL_PAYMENT</source>
-                <target>Pague usando cuenta Skrill</target>
+                <target>Bezahlen Sie über Skrill-Konto</target>
             </trans-unit>
             <trans-unit id="479">
                 <source>FINAL_STEP</source>
-                <target>Paso Final</target>
+                <target>Letzter Schritt</target>
             </trans-unit>
             <trans-unit id="480">
                 <source>OBTAIN_PROTECTION</source>
-                <target>Obtener protección de cancelacion para</target>
+                <target>Stornierungsschutz bekommen für</target>
             </trans-unit>
             <trans-unit id="481">
                 <source>ACCEPT_TERMS_CONDITIONS</source>
-                <target>Acepto Términos y Condiciones</target>
+                <target>Ich akzeptiere die Fristen und Bedingungen</target>
             </trans-unit>
             <trans-unit id="482">
                 <source>SEND_ME_OFFERS</source>
-                <target>Envíeme ofertas especiales y consejos de viajes al correo</target>
+                <target>Senden Sie mir Sonderangebote und Reiseempfehlungen an die E-Mail-Adresse</target>
             </trans-unit>
             <trans-unit id="483">
                 <source>PAYMENT_CONFIRM</source>
-                <target>Confirmar pago</target>
+                <target>Zahlung bestätigen</target>
             </trans-unit>
             <trans-unit id="484">
                 <source>PAYMENT_CONFIRMATION_TEXT</source>
-                <target>Al hacer click en el botón Confirmar, declaras aceptar los Términos y Condiciones, y un cargo reembolsable de</target>
+                <target>Wenn du die Taste „Bestätigen“ anklickst, erklärst du dich mit den Fristen und Bedingungen einverstanden, ebenso mit einer rückerstattbaren Belastung von</target>
             </trans-unit>
             <trans-unit id="485">
                 <source>TO</source>
-                <target>Para</target>
+                <target>Für</target>
             </trans-unit>
             <trans-unit id="486">
                 <source>FROM</source>
-                <target>De</target>
+                <target>Von</target>
             </trans-unit>
             <trans-unit id="487">
                 <source>GOOD_MORNING</source>
-                <target>Buenos días</target>
+                <target>Guten Tag</target>
             </trans-unit>
             <trans-unit id="488">
                 <source>THANKS_CHECK_AVAILABLE</source>
-                <target>Gracias por su consulta de disponibilidad </target>
+                <target>Danke für Ihre Rückfrage zur Disponibilität </target>
             </trans-unit>
             <trans-unit id="489">
                 <source>REQUEST_IN_PROCESS_24_HOURS</source>
-                <target>Su solicitud está en proceso y usted obtendrá respuesta en menos de 24 horas.</target>
+                <target>Ihre Anfrage wird bearbeitet und Sie erhalten Antwort innerhalb von 24 Stunden</target>
             </trans-unit>
             <trans-unit id="490">
                 <source>THANKS_RESERVATION_TEAM</source>
-                <target>Gracias, equipo de reservación</target>
+                <target>Danke</target>
             </trans-unit>
             <trans-unit id="491">
                 <source>STAY_WHERE_CUBA_CUBA_IS</source>
@@ -1932,95 +1932,95 @@
             </trans-unit>
             <trans-unit id="492">
                 <source>NIGHTS</source>
-                <target>Noches</target>
+                <target>Nacht</target>
             </trans-unit>
             <trans-unit id="493">
                 <source>PENDING</source>
-                <target>Pendiente</target>
+                <target>Offen</target>
             </trans-unit>
             <trans-unit id="494">
                 <source>VIEW_DETAILS</source>
-                <target>Ver detalles</target>
+                <target>Sichtdetails</target>
             </trans-unit>
             <trans-unit id="495">
                 <source>REQUEST_SENT</source>
-                <target>Consulta de disponibilidad enviada</target>
+                <target>Rückfrage zur Disponibilität gesendet</target>
             </trans-unit>
             <trans-unit id="496">
                 <source>CONTINUE_RESERVING</source>
-                <target>Continuar reservando</target>
+                <target>Reservierung um fortzufahren</target>
             </trans-unit>
             <trans-unit id="497">
                 <source>AVAILABLE</source>
-                <target>Disponible</target>
+                <target>disponibel</target>
             </trans-unit>
             <trans-unit id="498">
                 <source>EMAIL_RESTORE_ACCOUNT</source>
-                <target>Restauración de su cuenta en MyCasaParticular</target>
+                <target>Restaurierung von Ihrem Konto MyCasaParticular</target>
             </trans-unit>
              <trans-unit id="499">
                 <source>EMAIL_VISIT_LINK</source>
-                <target>Visite el siguiente link para cambiar su contraseña: </target>
+                <target>Gehen Sie zu folgendem Link, um das Passwort zu ändern: </target>
             </trans-unit>
             <trans-unit id="500">
                 <source>EMAIL_PASS_CHANGED</source>
-                <target>Su contraseña ha sido cambiada satisfactoriamente.</target>
+                <target>Ihr Passwort wurde erfolgreich geändert wurde</target>
             </trans-unit>
             <trans-unit id="501">
                 <source>EMAIL_ACCOUNT_REGISTERED_SUBJECT</source>
-                <target>Activación de su cuenta en MyCasaParticular</target>
-            </trans-unit>      
+                <target>Aktivieren Sie Ihr Konto MyCasaParticular</target>
+            </trans-unit>
             <trans-unit id="502">
                 <source>EMAIL_ACCOUNT_REGISTERED_TEXT</source>
-                <target>Gracias por registrarse en MyCasaParticular.com. Visite el siguiente link para activar su cuenta: </target>
+                <target>Es wurde eine E-Mail gesendet, um Ihr Nutzerkonto zu aktivieren</target>
             </trans-unit>
              <trans-unit id="503">
                  <source>LOOK_FOR_ALTERNATIVE</source>
-                 <target>Buscar alternativa</target>
+                 <target>Aussehen für Alternative</target>
              </trans-unit>
              <trans-unit id="504">
                   <source>REQUEST_STATUS_CHANGED</source>
-                  <target>El estado de su reserva ha cambiado.</target>
+                  <target>Der Stand Ihrer Reservierung hat sich geändert.</target>
               </trans-unit>
               <trans-unit id="505">
                   <source>AMOUNT_TO_PAY_NOW</source>
-                  <target>Total a pagar ahora</target>
+                  <target>Jetzt insgesamt zu zahlen</target>
               </trans-unit>
               <trans-unit id="506">
                   <source>DEAR_MR</source>
-                  <target>Estimado Sr.</target>
+                  <target>Sr.</target>
               </trans-unit>
               <trans-unit id="507">
                   <source>THANKS_RESERVATION_MYCP</source>
-                  <target>Gracias por su reserva en</target>
+                  <target>Danke darin für Ihr Bedenken</target>
               </trans-unit>
               <trans-unit id="508">
                   <source>PLEASE_PRINT_CONFIRMATION_OF_SERVICE</source>
-                  <target>Por favor imprima esta confirmación y muéstrelo antes de recibir el servicio reservado.</target>
+                  <target>Bitte drucken Sie diese Bestätigung und zeigen Sie es vor dem Empfang des reservierten Dienst.</target>
               </trans-unit>
               <trans-unit id="509">
                     <source>CAN_FOLLOWING_RESERVATIONS_MYCT</source>
-                    <target>Usted podrá dar seguimiento a sus reservas en</target>
+                    <target>Sie können Ihre Reservierung verfolgen</target>
               </trans-unit>
               <trans-unit id="510">
                   <source>PRINT</source>
-                  <target>Imprimir</target>
+                  <target>Um zu drucken</target>
               </trans-unit>
               <trans-unit id="511">
                   <source>CLIENT_INFORMATION</source>
-                  <target>Información del cliente</target>
+                  <target>Die Informationen des Klienten</target>
               </trans-unit>
               <trans-unit id="512">
                   <source>RESERVATION_NUMBER</source>
-                  <target>Reservación número</target>
+                  <target>Ident-Nr. der Reservierung </target>
               </trans-unit>
               <trans-unit id="513">
                   <source>CLIENT_NAME</source>
-                  <target>Nombre del cliente</target>
+                  <target>Klientenname</target>
               </trans-unit>
               <trans-unit id="514">
                     <source>RESERVE_SERVICE</source>
-                    <target>Servicio reservado</target>
+                    <target>Reservierter Dienst</target>
                 </trans-unit>
                 <trans-unit id="515">
                     <source>ACCOMMODATIONS</source>
@@ -2028,7 +2028,7 @@
                 </trans-unit>
                 <trans-unit id="516">
                     <source>ACCOMMODATION_NAME</source>
-                    <target>Nombre del alojamiento</target>
+                    <target>Name des Eigentums</target>
                 </trans-unit>
                 <trans-unit id="517">
                     <source>ID_HOME</source>
@@ -2036,235 +2036,235 @@
                 </trans-unit>
                 <trans-unit id="518">
                     <source>OWNERS_NAME</source>
-                    <target>Nombre de los propietarios</target>
+                    <target>Namen und Vorname des Eigentümers</target>
                 </trans-unit>
                 <trans-unit id="519">
                     <source>PAYMENT_DETAILS</source>
-                    <target>Detalles del pago</target>
+                    <target>Zahlungsdetails</target>
                 </trans-unit>
                 <trans-unit id="520">
                     <source>PRICE_OF_ACCOMMODATION_SERVICE</source>
-                    <target>Precio del servicio alojamiento</target>
+                    <target>Servicepreis für die Reservierung</target>
                 </trans-unit>
                 <trans-unit id="521">
                     <source>BILL</source>
-                    <target>Recibo</target>
+                    <target>Beleg/Quittung</target>
                 </trans-unit>
                 <trans-unit id="522">
                     <source>TOTAL_TO_PAY_SERVICING</source>
-                    <target>Total a pagar directamente al efectuarse el servicio</target>
+                    <target>Ingesamt zu zahlen, direkt, wenn der Service erfolgt</target>
                 </trans-unit>
                 <trans-unit id="523">
                     <source>FILL_ALL_FIELDS</source>
-                    <target>Por favor, rellene todos los campos marcados con (*).</target>
+                    <target>Bitte, füllen Sie alle Felder mit (*) aus.</target>
                 </trans-unit>
                 <trans-unit id="525">
                     <source>NOT_EQUALS_EMAIL</source>
-                    <target>Las cuentas de correo no coinciden.</target>
+                    <target>Die E-Mail-Adressen stimmen nicht überein.</target>
                 </trans-unit>
                 <trans-unit id="526">
                     <source>FILL_FIELD</source>
-                    <target>Este campo no puede estar vacío.</target>
+                    <target>Dieses Feld darf nicht frei bleiben.</target>
                 </trans-unit>
                 <trans-unit id="527">
                     <source>INVALID_EMAIL</source>
-                    <target>Correo no válido.</target>
+                    <target>Ungültige E-Mail.</target>
                 </trans-unit>
                 <trans-unit id="528">
                     <source>COUNTRY</source>
-                    <target>País</target>
+                    <target>Land</target>
                 </trans-unit>
                 <trans-unit id="529">
                     <source>FILL_FORM_CORRECTLY</source>
-                    <target>Debe llenar el formulario correctamente.</target>
+                    <target>Das Formular muss korrekt ausgefüllt werden.</target>
                 </trans-unit>
                  <trans-unit id="530">
                     <source>OWNERSHIP_MID_RANGE_DESCRIPTION</source>
-                    <target>Descripción para alojamientos de Rango Medio.</target>
+                    <target>Beschreibung zu Unterkünfte Mittleren Niveaus.</target>
                 </trans-unit>
                 <trans-unit id="531">
                     <source>RESERVE_SINGULAR</source>
-                    <target>Reservada</target>
+                    <target>Reserviert</target>
                 </trans-unit>
                 <trans-unit id="532">
                     <source>PAYED</source>
-                    <target>Pagada</target>
+                    <target>Bezahlt</target>
                 </trans-unit>
             <trans-unit id="533">
                 <source>SKRILL_CONFIRMATION_NOTE</source>
-                <target>MyCasaParticular le desea una agradable estancia en Cuba</target>
+                <target>MyCasaParticular wünscht Ihnen einen angenehmen Aufenthalt in Kuba.</target>
             </trans-unit>
                 <trans-unit id="534">
                 <source>SKRILL_DESCRIPTION_BOOKING_ID</source>
-                <target>ID Reserva:  </target>
+                <target>Ident-Nr. der Reservierung: </target>
             </trans-unit>
             <trans-unit id="535">
                 <source>SKRILL_PAY_WITH_SKRILL</source>
-                <target>Page con Skrill</target>
+                <target>Zahlen Sie per Skrill</target>
             </trans-unit>
             <trans-unit id="536">
                 <source>SKRILL_RETURN_TO_MYCP</source>
-                <target>Regresar a MyCasaParticular</target>
+                <target>um dazu zurückzukommen MyCasaParticular</target>
             </trans-unit>
              <trans-unit id="537">
                     <source>OWNERSHIP_MID_RANGE_DESCRIPTION</source>
-                    <target>Descripción para alojamientos de Rango Medio.</target>
+                    <target>Beschreibung zu Unterkünfte Mittleren Niveaus.</target>
              </trans-unit>
              <trans-unit id="538">
                  <source>ERROR_TITLE_PAGE</source>
-                 <target>Ha ocurrido un error</target>
+                 <target>Es ist ein Fehler aufgetreten</target>
              </trans-unit>
              <trans-unit id="539">
                  <source>OOPS</source>
-                 <target>¡Vaya!</target>
+                 <target>Du lieber Gott!</target>
              </trans-unit>
              <trans-unit id="540">
                  <source>PAGE_NOT_FOUND</source>
-                 <target>La página que ha solicitado no se encuentra.</target>
+                 <target>Die gesuchte Seite ist nicht vorhanden.</target>
              </trans-unit>
              <trans-unit id="541">
                  <source>TRY_OTHER_PAGES</source>
-                 <target>Le sugerimos que intente con los siguientes enlaces.</target>
+                 <target>Wir empfehlen Ihnen, die folgenden Links zu versuchen.</target>
              </trans-unit>
              <trans-unit id="542">
                   <source>PLEASE_SELECT_RESERVATION</source>
-                  <target>Por favor, seleccione al menos una reservación para continuar reservando.</target>
+                  <target>Bitte, wählen Sie mindesten 1 Reservierung um fortzufahren.</target>
               </trans-unit>
               <trans-unit id="543">
                   <source>PAYMENT_CONFIRM_2</source>
-                  <target>Confirmadas pago</target>
+                  <target>Bestätigungen/Zahlung</target>
               </trans-unit>
               <trans-unit id="544">
                   <source>USER_EMAIL_IN_USE</source>
-                  <target>El email está siendo utilizado por otro usuario.</target>
+                  <target>Die E-Mail-Adresse wird von einem anderen Nutzer genutzt.</target>
               </trans-unit>
               <trans-unit id="545">
                   <source>USER_CREATE_ACCOUNT_SUCCESS</source>
-                  <target>Gracias por registrarse. Se ha enviado un email para que active su cuenta.</target>
+                  <target>Es wurde eine E-Mail gesendet, um Ihr Nutzerkonto zu aktivieren.</target>
               </trans-unit>
               <trans-unit id="546">
                   <source>USER_ACTIVATE_ACCOUNT_SUCCESS</source>
-                  <target>Gracias. Su usuario ha sido activado satisfactoriamente.</target>
+                  <target>Danke. Ihr Nutzername wurde erfolgreich aktiviert.</target>
               </trans-unit>
               <trans-unit id="547">
                   <source>USER_ACTIVATE_ERROR</source>
-                  <target>Imposible activar usuario, los parámetros no son correctos.</target>
+                  <target>Es ist nicht möglich, den Nutzernamen zu aktivieren, die Parameter sind nicht korrekt.</target>
               </trans-unit>
               <trans-unit id="548">
                   <source>USER_PASSWORD_RECOVERY</source>
-                  <target>Se ha enviado un email para que recupere su contraseña.</target>
+                  <target>Es wurde eine E-Mail gesendet, um ihr Passwort wieder zu finden.</target>
               </trans-unit>
               <trans-unit id="549">
                   <source>USER_PASSWORD_RECOVERY_ERROR</source>
-                  <target>No existe ningún usuario con ese email.</target>
+                  <target>Es existiert kein Nutzer mit dieser E-Mail.</target>
               </trans-unit>
               <trans-unit id="550">
                   <source>USER_PASSWORD_CHANGE_ERROR</source>
-                  <target>Imposible cambiar contraseña, los parámetros no son correctos.</target>
+                  <target>Änderung des Passworts nicht möglich, die Parameter sind nicht korrekt.</target>
               </trans-unit>
               <trans-unit id="551">
                   <source>USER_ACCOUNT_ACTIVATION_EMAIL</source>
-                  <target>Activación de su cuenta en MyCasaParticular</target>
+                  <target>Aktivierung ihres Nutzerkontos in MyCasaParticular</target>
               </trans-unit>
               <trans-unit id="552">
                   <source>USER_CONTACT_TOURIST_SUCCESS</source>
-                  <target>Gracias por contactar con nosotros. Su comentario ha sido enviado.</target>
+                  <target>Danke, dass Sie uns kontaktiert haben. Ihr Kommentar wurde gesendet.</target>
               </trans-unit>
               <trans-unit id="553">
                   <source>USER_CONTACT_OWNER_SUCCESS</source>
-                  <target>Gracias por contactar con nosotros. Sus datos han sido enviados.</target>
+                  <target>Danke, dass Sie uns kontaktiert haben. Ihre Daten wurden gesendet.</target>
               </trans-unit>
               <trans-unit id="554">
                   <source>RESERVATION_AMOUNT_TO_PAY_NOW</source>
-                  <target>Total a pagar ahora</target>
+                  <target>Jetzt insgesamt zu zahlen</target>
               </trans-unit>
               <trans-unit id="555">
                     <source>VIEW_CONFIRMATION</source>
-                    <target>Ver confirmación</target>
+                    <target>Bestätigung sehen</target>
                 </trans-unit>
                 <trans-unit id="556">
                     <source>PAYMENT_CONFIRMATION</source>
-                    <target>Bestätigung der Reservierung</target>
+                    <target>Bedenkenbestätigung</target>
                 </trans-unit>
                 <trans-unit id="557">
                     <source>VALID_OFFER_FOUR_EIGHT</source>
-                    <target>Esta oferta es válida solo por 48 horas</target>
+                    <target>Dieses Angebot ist nur 48 Stunden gültig.</target>
                 </trans-unit>
                 <trans-unit id="558">
                     <source>REMINDER_AVAILABLE</source>
-                    <target>Le recordamos que los alojamientos deseados estan disponibles para la fecha deseada</target>
+                 <target>Wir erinnern Sie daran, dass die gewünschten Unterkünftezum gewünschten Datum disponibel sind.</target>
                 </trans-unit>
                 <trans-unit id="559">
                     <source>VALID_OFFER_TWENTY_FOUR</source>
-                    <target>La oferta vencerá en 48 horas</target>
+                    <target>Das Angebot erlischt in 48 Stunden.</target>
                 </trans-unit>
                 <trans-unit id="560">
                     <source>REMINDER</source>
-                    <target>Recordatorio</target>
+                    <target>Zur Erinnerung</target>
                 </trans-unit>
                 <trans-unit id="561">
                     <source>NOT_ENABLED_USER</source>
-                    <target>Usuario no activo, por favor active su cuenta con los datos recibidos en nuestro email de confirmación.</target>
+                    <target>Nicht aktiver Nutzer, bitte aktivieren Sie ihr Nutzerkonto mit den erhaltenen Daten in unserer Bestätigungs-E-Mail.</target>
                 </trans-unit>
                 <trans-unit id="562">
                     <source>Bad credentials</source>
-                    <target>Credenciales incorrectas</target>
+                    <target>Unkorrekte Angaben</target>
                 </trans-unit>
                 <trans-unit id="563">
                     <source>HELLO</source>
-                    <target>Hola</target>
+                    <target>Hallo</target>
                 </trans-unit>
                 <trans-unit id="564">
                     <source>DO_YOU_WISH_TO_RECOMEND_THIS_ACCOMODATTION</source>
-                    <target>desea recomendarte un alojamiento en MyCasaParticular</target>
+                    <target>Wünschst du eine Empfehlung für eine Unterkunft von MyCasaParticular</target>
                 </trans-unit>
                 <trans-unit id="565">
                     <source>DO_YOU_WISH_TO_RECOMEND_THIS_DESTINATION</source>
-                    <target>desea recomendarte un destino en MyCasaParticular</target>
+                    <target>Möchtest du, dass wir dir ein Reiseziel in MyCasaParticular empfehlen?</target>
                 </trans-unit>
                 <trans-unit id="566">
                     <source>DO_YOU_WISH_TO_RECOMEND_TO_VISIT</source>
-                    <target>desea recomendarte que visites</target>
+                    <target>Möchtest du, dass wir den Besuch von empfehlen?</target>
                 </trans-unit>
                 <trans-unit id="567">
                     <source>ENABLE_ACCOUNT</source>
-                    <target>Activar cuenta</target>
+                    <target>Nutzerkonto aktivieren</target>
                 </trans-unit>
                 <trans-unit id="568">
                     <source>USER_MY_PROFILE</source>
-                    <target>Mi perfil de usuario</target>
+                    <target>Mein Nutzerprofil</target>
                 </trans-unit>
                 <trans-unit id="569">
                     <source>SAVE</source>
-                    <target>Guardar</target>
+                    <target>Speichern</target>
                 </trans-unit>
                 <trans-unit id="570">
                     <source>SELECT_PHOTO</source>
-                    <target>Seleccionar foto...</target>
+                    <target>Foto auswählen...</target>
                 </trans-unit>
                 <trans-unit id="571">
                     <source>USER_PROFILE_SAVED</source>
-                    <target>Su perfil de usuario ha sido modificado éxitosamente</target>
+                    <target>Ihr Nutzerprofil wurde erfolgreich modifiziert</target>
                 </trans-unit>
                 <trans-unit id="572">
                     <source>USER_PROFILE_EMAIL_ERROR</source>
-                    <target>Existe otro usuario asociado a esta cuenta de correo</target>
+                    <target>Gibt es einen anderen Nutzer dieser E-Mail-Adresse?</target>
                 </trans-unit>
                 <trans-unit id="573">
                     <source>USER_ZONE</source>
-                    <target>Usuario</target>
+                    <target>Nutzer</target>
                 </trans-unit>
                 <trans-unit id="574">
                     <source>USER_NEW_ACCOUNT</source>
-                    <target>Registrarse</target>
+                    <target>Registriere dich</target>
                 </trans-unit>
                 <trans-unit id="575">
                     <source>USER_FORGOT_PASSWORD</source>
-                    <target>¿Olvidó su clave?</target>
+                    <target>Hast du dein Passwort vergessen?</target>
                 </trans-unit>
                 <trans-unit id="576">
                     <source>USER_SEND_CONFIRMATION</source>
-                    <target>Enviar confirmación</target>
+                    <target>Bestätigung senden</target>
                 </trans-unit>
                 <trans-unit id="577">
                     <source>USER_PROFILE</source>
@@ -2272,27 +2272,27 @@
                 </trans-unit>
                 <trans-unit id="578">
                     <source>USER_CHANGE_PASSWORD</source>
-                    <target>Cambiar clave</target>
+                    <target>Passwort ändern</target>
                 </trans-unit>
                 <trans-unit id="579">
                     <source>MYCASATRIP_MAIN_MENU_NOTIFICATIONS</source>
-                    <target>Tienes %notifications% notificaciones pendientes</target>
+                    <target>Du hast %notifications% Mitteilungen offenTienes</target>
                 </trans-unit>
                 <trans-unit id="580">
                     <source>PLACE_IN_CUBA_TO_VISIT</source>
-                    <target>Welchen Ort in Kuba möchten Sie reisen?</target>
+                    <target>Welchen Ort in Kuba würden Sie gern besuchen?</target>
                 </trans-unit>
                 <trans-unit id="581">
                     <source>ROWS</source>
-                    <target>Filas</target>
+                    <target>Reihen</target>
                 </trans-unit>
                 <trans-unit id="582">
                     <source>FIND_DESTINATIONS_BY_PROVINCES</source>
-                    <target>Schauen Sie die Reiseziele nach Provinzen</target>
+                    <target>Lernen Sie die Reiseziele nach Provinzen kennen</target>
                 </trans-unit>
                 <trans-unit id="583">
                     <source>WHERE_RENT_IN_DESTINATION</source>
-                    <target>Dónde alojarse en %destinationName%</target>
+                    <target>Wo darin zu wohnen ist,  %destinationName%</target>
                 </trans-unit>
                 <trans-unit id="584">
                     <source>LIST_VIEW</source>
@@ -2308,39 +2308,39 @@
                 </trans-unit>
                 <trans-unit id="587">
                     <source>SEARCH_ANOTHER_SERVICES</source>
-                    <target>Sonstige Dienstleistungen</target>
+                    <target>Andere Dienstleistungen</target>
                 </trans-unit>
                  <trans-unit id="588">
                     <source>VERIFY_PRICES_FOR_THIS_DATES</source>
-                    <target>Preise für dieses Datum erfragen</target>
+                    <target>Preise für dieses Datum prüfen</target>
                 </trans-unit>
                 <trans-unit id="589">
                     <source>SELECT_FOR_PAYMENT</source>
-                    <target>Seleccionar para pagar</target>
+                    <target>Auswahl Zahlungsmodus</target>
                 </trans-unit>
                 <trans-unit id="590">
                     <source>CART_OF_RESERVES</source>
-                    <target>Cesta de reservaciones</target>
+                    <target>Korb für Reservierungen</target>
                 </trans-unit>
                 <trans-unit id="591">
                     <source>MANAGE_CART</source>
-                    <target>Gestione sus reservas para ser consultadas</target>
+                    <target>Machen Sie Ihre Reservierungen, um dort rückzufragen</target>
                 </trans-unit>
                 <trans-unit id="592">
                     <source>PRICE_NIGHT</source>
-                    <target>Precio/Noche</target>
+                    <target>Preis/Nacht</target>
                 </trans-unit>
                 <trans-unit id="593">
                     <source>REMOVE_RESERVE</source>
-                    <target>Eliminar esta reserva</target>
+                    <target>löschen Sie Bedenken</target>
                 </trans-unit>
                 <trans-unit id="594">
                     <source>BYNIGHT</source>
-                    <target>por noche</target>
+                    <target>Pro Nacht</target>
                 </trans-unit>
                 <trans-unit id="595">
                     <source>REQUIRED_FIELDS_NEXT_STEP</source>
-                    <target>Rellene todos los campos para pasar al siguiente paso</target>
+                    <target>Füllen Sie alle Felder aus, um zum nächsten Schritt überzugehen</target>
                 </trans-unit>
                 <trans-unit id="596">
                     <source>BEACHES</source>
@@ -2388,7 +2388,7 @@
                 </trans-unit>
                 <trans-unit id="607">
                     <source>SELECT_PHOTOGRAPHY</source>
-                    <target>Seleccionar fotografía...</target>
+                    <target>Wählen Foto ...</target>
                 </trans-unit>
                 <trans-unit id="608">
                     <source>THE_ENTERPRISE</source>
@@ -2396,11 +2396,11 @@
                 </trans-unit>
                 <trans-unit id="609">
                     <source>ALL_CATGORIES_OWNS</source>
-                    <target>Todas las categorías</target>
+                    <target>Alle Kategorien</target>
                 </trans-unit>
                 <trans-unit id="610">
                     <source>LANG_TAB_DESCRIPTION</source>
-                    <target>Lenguajes</target>
+                    <target>Sprache</target>
                 </trans-unit>
                 <trans-unit id="611">
                     <source>LANG_SPANISH</source>
@@ -2408,15 +2408,19 @@
                 </trans-unit>
                 <trans-unit id="612">
                     <source>OWNERS</source>
-                    <target>Propietario(s)</target>
+                    <target>Eigentümer(s)</target>
                 </trans-unit>
                 <trans-unit id="613">
                     <source>ALL_FAQS</source>
-                    <target>Todas las categorías</target>
+                    <target>Alle Kategorien</target>
                 </trans-unit>
                 <trans-unit id="614">
                     <source>NEARBY_DESTINATION</source>
-                    <target>Destinos Cercanos</target>
+                    <target>Nahe ziel</target>
+                </trans-unit>
+                <trans-unit id="615">
+                    <source>Rango Medio</source>
+                    <target>Mittelklasse</target>
                 </trans-unit>
         </body>
     </file>

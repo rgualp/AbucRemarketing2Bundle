@@ -35,7 +35,7 @@
 
         var img="{{ asset('bundles/frontend/img/destiny_slide_imgs/') }}";
 
-        for(x=2; x<=6;x++)
+        for(x=1; x<=6;x++)
         {
             slider.appendSlide('<img class="rsImg" src="'+img+x+'.jpg" alt="" />');
         }
@@ -59,7 +59,6 @@
 <div class="container">
     <h1 class="caecilia-roman text-center h-grey h-size-1">{{"HOMEPAGE_SUBTITLE_2" | trans}}</h1>   
     <div id="full-width-slider" class="royalSlider rsDefault">
-        <img class="rsImg" src="{{ asset('bundles/frontend/img/destiny_slide_imgs/1.jpg') }}" alt="" />
     </div>
     <h1 class="caecilia-roman text-center h-orange h-size-2">{{"MAIN_CUBAN_DESTINATIONS" | trans}}</h1>
     <hr/>

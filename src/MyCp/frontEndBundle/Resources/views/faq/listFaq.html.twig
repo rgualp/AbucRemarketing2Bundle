@@ -14,7 +14,7 @@
     <div class="row">
         <div class="col-sm-5">
             <div class="thumbnail" style="background-color: #fff; padding: 0">
-                <ul id="faq_categories" style="padding: 0" data-url-filter="{{ path('frontend_filter_faq') }}">
+                <ul id="faq_categories" style="padding: 0" data-url-filter="{{ path('frontend_filter_faq_callback') }}">
                     <li data-value="-1" class="active">{{"ALL_FAQS" | trans}}<i class="pull-right icon-chevron-right"></i></li>
                     {%for category in categories%}
                         <li data-value="{{category.faqcatidcat.faqcatid}}">
