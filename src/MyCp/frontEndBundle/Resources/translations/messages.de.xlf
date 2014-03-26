@@ -168,7 +168,7 @@
             </trans-unit>
             <trans-unit id="42">
                 <source>HOME_MAIN_MENU</source>
-                <target>Einleitung</target>
+                <target>Home</target>
             </trans-unit>
             <trans-unit id="43">
                 <source>HOME_DESCRIPTION_MAIN_MENU</source>
@@ -2280,7 +2280,7 @@
                 </trans-unit>
                 <trans-unit id="580">
                     <source>PLACE_IN_CUBA_TO_VISIT</source>
-                    <target>Welchen Ort in Kuba würden Sie gern besuchen?</target>
+                    <target>Welchen Ort in Kuba möchten Sie bereisen?</target>
                 </trans-unit>
                 <trans-unit id="581">
                     <source>ROWS</source>
