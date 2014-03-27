@@ -576,6 +576,10 @@
             slider.appendSlide('<img rel="tooltip" title="'+description+'" class="rsImg" src="'+img+'" alt="" />');             
           {% endfor %}
     });
+    
+    $(document).on( 'shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
+        //console.log(e.target); // activated tab
+    })
 
     $('input#filter_date_to').change(function(){
         from=$('#filter_date_from').val();
