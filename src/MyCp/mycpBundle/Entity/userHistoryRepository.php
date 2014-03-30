@@ -138,11 +138,41 @@ class userHistoryRepository extends EntityRepository
     
     public function set_to_user($user_id, $session_id) {
         $em = $this->getEntityManager();
+        $to_set = $em->getRepository("mycpBundle:userHistory")->findBy(array('user_history_session_id' => $session_id, 
+                                                                          'user_history_user' => null));
+        
+        $user = $em->getRepository('mycpBundle:user')->find($user_id);
+                
+        foreach($to_set as $history)
+        {
+            if($history->getUserHistoryOwnership() != null)
+                $hElement = $em->getRepository('mycpBundle:userHistory')->findOneBy(array('user_history_user' => $user_id,
+                                                                                       'user_history_ownership' => $history->getUserHistoryOwnership()));
+            else if($history->getUserHistoryDestination())
+                $hElement = $em->getRepository('mycpBundle:userHistory')->findBy(array('user_history_user' => $user_id,
+                                                                                       'user_history_destination' => $history->getUserHistoryDestination()));
+            
+            if($hElement == null)
+            {
+                $history->setUserHistorySessionId(null);
+                $history->setUserHistoryUser($user);
+                $em->persist($history);
+            }
+            else
+            {
+                $hElement->setUserHistoryVisitCount($hElement->getUserHistoryVisitCount() + 1);
+                $hElement->setUserHistoryVisitDate(new \DateTime());
+                $em->persist($hElement);
+                $em->remove($history);
+            }
+        }
+        $em->flush();        
+        /*$em = $this->getEntityManager();
         $query = $em->createQuery("UPDATE mycpBundle:userHistory h
                                    SET h.user_history_user= $user_id,
                                        h.user_history_session_id = NULL
                                    WHERE h.user_history_session_id='$session_id'");
-        $query->execute();
+        $query->execute();*/
     }
     
     public function get_history_destinations($user_id = null, $session_id = null, $max_results = null, $exclude_id_element = null) {
