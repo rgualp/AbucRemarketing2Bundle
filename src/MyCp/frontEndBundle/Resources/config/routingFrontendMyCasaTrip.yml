@@ -37,10 +37,7 @@ frontend_mycasatrip_favorites_accomodations:
 frontend_mycasatrip_comments:
     locales:  { en: "/comments/{comment_type}", es: "/comentarios/{comment_type}",de: "/bewertungen/{comment_type}" }
     defaults: { _controller: frontEndBundle:mycasatrip:comments }
-    
-frontend_mycasatrip_update_favorites_statistics_callback:
-    locales:  { en: "/update_favorites_statistics_callback/", es: "/actualizar_estadisticas_favoritos_callback/", de:"rontend_mycasatrip_update_favorites_statistics_callback" }
-    defaults: { _controller: frontEndBundle:mycasatrip:update_favorites_statistics_callback }
+
 
 
 

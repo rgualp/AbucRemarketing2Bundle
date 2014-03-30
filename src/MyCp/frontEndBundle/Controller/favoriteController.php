@@ -127,7 +127,7 @@ class favoriteController extends Controller {
         $data = array();
         $data['favorite_user_id'] = $user_ids["user_id"];
         $data['favorite_session_id'] = $user_ids["session_id"];
-        $data['favorite_ownership_id'] = ($favorite_type == "ownership") ? $element_id : null;
+        $data['favorite_ownership_id'] = ($favorite_type == "ownership" || $favorite_type == "ownershipfav") ? $element_id : null;
         $data['favorite_destination_id'] = ($favorite_type == "destination") ? $element_id : null;
 
         $em->getRepository('mycpBundle:favorite')->delete($data);

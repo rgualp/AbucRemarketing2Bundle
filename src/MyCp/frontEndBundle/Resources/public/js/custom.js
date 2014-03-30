@@ -166,7 +166,7 @@ function delete_from_list_favorites()
                     'element_id': element_id
                 }, function(data) {
             update_statistics(favorite_type, url_statistics);
-            if (favorite_type == "ownership")
+            if (favorite_type == "ownership" || favorite_type == "ownershipfav")
                 $("#div_result").html(data);
             else if (favorite_type == "destination")
                 $("#div_result_destinations").html(data);

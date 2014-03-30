@@ -21,4 +21,8 @@ frontend_list_favorite:
     
 frontend_delete_from_list_favorite_callback:
     pattern:  /favorite_delete_from_list/
-    defaults: { _controller: frontEndBundle:favorite:delete_from_list }
+    defaults: { _controller: frontEndBundle:favorite:delete_from_list }    
+    
+frontend_update_favorites_statistics_callback:
+    locales:  { en: "/update_favorites_statistics_callback/", es: "/actualizar_estadisticas_favoritos_callback/", de:"frontend_update_favorites_statistics_callback" }
+    defaults: { _controller: frontEndBundle:mycasatrip:update_favorites_statistics_callback }

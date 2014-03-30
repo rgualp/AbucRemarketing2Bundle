@@ -114,7 +114,7 @@ class mycasatripController extends Controller {
         $request = $this->getRequest();
         $session = $request->getSession();
 
-        $favorite_type = $request->request->get("favorite_type");
+        $favorite_type = $request->request->get("favorite_type");        
         
         if ($favorite_type == "ownership") {
             $total = $session->get('user_fav_own_count');
@@ -122,6 +122,8 @@ class mycasatripController extends Controller {
             $total = $session->get('user_fav_dest_count');
             
         }
+        else
+            $total = 0;
 
         return new Response($total, 200);
     }
@@ -334,7 +336,7 @@ class mycasatripController extends Controller {
     
     function favorites_accomodationsAction()
     {
-        return $this->favoritesAction('ownershipfav');
+        return $this->favoritesAction('ownerships');
     }
     
     function favoritesAction($favorite_type) {
