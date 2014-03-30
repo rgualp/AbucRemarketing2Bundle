@@ -172,6 +172,7 @@ function delete_from_list_favorites()
                 $("#div_result_destinations").html(data);
             delete_from_list_favorites();
             hide_loading();
+            $('img.lazy').jail();
         });
     });
 }
