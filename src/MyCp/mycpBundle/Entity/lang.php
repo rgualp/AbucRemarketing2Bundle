@@ -27,7 +27,7 @@ class lang
      *
      * @ORM\Column(name="lang_name", type="string", length=255)
      * @Assert\NotBlank()
-     * @Assert\MaxLength(255)
+     * @Assert\Length(max=255)
      */
     private $lang_name;
 
@@ -37,7 +37,7 @@ class lang
      *
      * @ORM\Column(name="lang_code", type="string", length=5)
      * @Assert\NotBlank()
-     * @Assert\MaxLength(5)
+     * @Assert\Length(max=5)
      */
     private $lang_code;
 

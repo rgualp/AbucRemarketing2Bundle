@@ -29,17 +29,6 @@ class unavailabilityDetailsType extends AbstractType
             'data_class' => 'MyCp\mycpBundle\Entity\unavailabilityDetails'
         ));
     }
-    
-    /*public function getDefaultOptions(array $options)
-    {
-        $array=array();
-        $array['ud_from_date']= array(new NotBlank());
-        $array['ud_to_date']= array(new NotBlank());
-        $array['ud_reason']= array(new NotBlank());
-        $collectionConstraint = new Collection($array);
-
-        return array('validation_constraint' => $collectionConstraint);
-    }*/
 
     public function getName()
     {

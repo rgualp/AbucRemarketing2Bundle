@@ -37,7 +37,7 @@
     {% if data['edit_faq'] is defined %}<input type="text" style="display: none;" name="edit_faq" value="{{data['id_faq']}}"> {% endif %}
     <label>Categoría:</label>{% if errors['name'] is defined %}<label class="error">{{errors['name']|trim(':')}}</label>{%endif%}
     {%if errors["category"] is defined %}<label class="error">{{errors["category"]|trim(':')}}</label>{%endif%}
-    {% render 'mycpBundle:BackendFAQS:get_all_categories' with{'data':data}%}
+    {{ render(controller('mycpBundle:BackendFAQS:get_all_categories', {'data': data})) }}
     <br/>
     <h3 class="title">Pregunta</h3>
     {% for language in languages %}

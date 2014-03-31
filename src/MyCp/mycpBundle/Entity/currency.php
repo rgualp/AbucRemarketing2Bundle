@@ -27,7 +27,7 @@ class currency
      *
      * @ORM\Column(name="curr_name", type="string", length=255)
      * @Assert\NotBlank()
-     * @Assert\MaxLength(255)
+     * @Assert\Length(max=255)
      */
     private $curr_name;
 
@@ -36,7 +36,7 @@ class currency
      *
      * @ORM\Column(name="curr_code", type="string", length=5)
      * @Assert\NotBlank()
-     * @Assert\MaxLength(5)
+     * @Assert\Length(max=5)
      */
     private $curr_code;
 
@@ -45,7 +45,7 @@ class currency
      *
      * @ORM\Column(name="curr_symbol", type="string", length=5)
      * @Assert\NotBlank()
-     * @Assert\MaxLength(5)
+     * @Assert\Length(max=5)
      */
     private $curr_symbol;
 

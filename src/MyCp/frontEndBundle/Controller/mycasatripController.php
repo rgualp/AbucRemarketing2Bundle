@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 class mycasatripController extends Controller {
 
     public function homeAction() {
-        /*$user = $this->get('security.context')->getToken()->getUser();
+        /*$user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
         $session_id = $em->getRepository('mycpBundle:user')->get_session_id($this);
 
@@ -20,7 +20,7 @@ class mycasatripController extends Controller {
     }
 
     public function reservations_pendingAction($order_by, Request $request) {
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
 
         // pendientes Mayores hoy - 30 días
@@ -61,7 +61,7 @@ class mycasatripController extends Controller {
     }
 
     public function reservations_availableAction($order_by, Request $request) {
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
 
         // disponibles Mayores que (hoy - 30) días
@@ -108,26 +108,26 @@ class mycasatripController extends Controller {
                     'current_page' => $page
         ));
     }
-    
+
     public function update_favorites_statistics_callbackAction()
     {
         $request = $this->getRequest();
         $session = $request->getSession();
 
         $favorite_type = $request->request->get("favorite_type");
-        
+
         if ($favorite_type == "ownership") {
             $total = $session->get('user_fav_own_count');
         } else if ($favorite_type == "destination") {
             $total = $session->get('user_fav_dest_count');
-            
+
         }
 
         return new Response($total, 200);
     }
 
     public function reservations_reserveAction($order_by, Request $request) {
-       /* $user = $this->get('security.context')->getToken()->getUser();
+       /* $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
 
         // reservados Mayores que (hoy - 30) días
@@ -165,7 +165,7 @@ class mycasatripController extends Controller {
 
     public function history_reservations_reserveAction($order_by, Request $request) {
 
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
 
         // reservados menores que (hoy - 30) días
@@ -213,7 +213,7 @@ class mycasatripController extends Controller {
     }
 
     public function reservations_paymentAction($order_by, Request $request) {
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
 
         $string_sql = "";
@@ -244,7 +244,7 @@ class mycasatripController extends Controller {
             $photo=$em->getRepository('mycpBundle:ownership')->get_ownership_photo($res['own_res_gen_res_id']['gen_res_own_id']['own_id']);
             array_push($array_photos,$photo);
         }
-
+        
         return $this->render('frontEndBundle:mycasatrip:payment.html.twig', array(
             'res_payment' => $res_payment,
             'order_by'=>$order_by,
@@ -257,7 +257,7 @@ class mycasatripController extends Controller {
     }
 
     function history_reservation_consultAction($order_by, Request $request) {
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
 
         // pendientes menores que (hoy - 30) días
@@ -283,7 +283,7 @@ class mycasatripController extends Controller {
             $page = $_GET['page'];
 
         $array_photos=array();
-        
+
         foreach($res_consult as $cons)
         {
             $photo=$em->getRepository('mycpBundle:ownership')->get_ownership_photo($cons['own_res_gen_res_id']['gen_res_own_id']['own_id']);
@@ -301,7 +301,7 @@ class mycasatripController extends Controller {
     }
 
     function get_menu_countAction($menu_selected) {
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
         $counts = $em->getRepository('mycpBundle:ownershipReservation')->find_count_for_menu($user->getUserId());
         //var_dump($counts); exit();
@@ -325,28 +325,28 @@ class mycasatripController extends Controller {
     }
 
     /**
-     * Yanet 
+     * Yanet
      */
     function favorites_destinationsAction()
     {
         return $this->favoritesAction('destinations');
     }
-    
+
     function favorites_accomodationsAction()
     {
         return $this->favoritesAction('ownershipfav');
     }
-    
+
     function favoritesAction($favorite_type) {
         $em = $this->getDoctrine()->getManager();
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
         $request = $this->getRequest();
         $session = $request->getSession();
         $session->set('mycasatrip_favorite_type', $favorite_type);
 
         if ($favorite_type == "ownerships" || $favorite_type=="ownershipfav") {
             $favorite_ownerships_list= $em->getRepository('mycpBundle:favorite')->get_favorite_ownerships($user->getUserId());
-            
+
             $paginator = $this->get('ideup.simple_paginator');
             $items_per_page = 15;
             $paginator->setItemsPerPage($items_per_page);
@@ -354,7 +354,7 @@ class mycasatripController extends Controller {
             $page = 1;
             if (isset($_GET['page']))
                 $page = $_GET['page'];
-        
+
             return $this->render('frontEndBundle:mycasatrip:favorites.html.twig', array(
                         'ownership_favorities' => $ownership_favorities,
                         'favorite_type' => $favorite_type,
@@ -365,7 +365,7 @@ class mycasatripController extends Controller {
         } else {
             $locale = $this->get('translator')->getLocale();
             $favorite_destination_list = $em->getRepository('mycpBundle:favorite')->get_favorite_destinations($user->getUserId());
-            
+
             $paginator = $this->get('ideup.simple_paginator');
             $items_per_page = 15;
             $paginator->setItemsPerPage($items_per_page);
@@ -383,11 +383,11 @@ class mycasatripController extends Controller {
             ));
         }
     }
-    
+
     function commentsAction($comment_type)
     {
         $em = $this->getDoctrine()->getManager();
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
                 
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;

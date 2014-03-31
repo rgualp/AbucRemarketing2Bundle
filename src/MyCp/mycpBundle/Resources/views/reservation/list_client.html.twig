@@ -67,6 +67,9 @@
                         {% if filter_date_reserve_twig ==''%}{% set filter_date_reserve_twig='null'%}{%endif%}
                         {% if filter_date_from_twig ==''%}{% set filter_date_from_twig='null'%}{%endif%}
                         {% if filter_date_to_twig ==''%}{% set filter_date_to_twig='null'%}{%endif%}
+                        {% if sort_by=='' %}
+                            {% set sort_by=0 %}
+                        {% endif %}
                         <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_reservations_user',{'items_per_page':100,'filter_date_reserve':filter_date_reserve_twig,'filter_offer_number':filter_offer_number,'filter_reference':filter_reference,'filter_date_from':filter_date_from_twig,'filter_date_to':filter_date_to_twig,'sort_by':sort_by})}}">100</a>
                         <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_reservations_user',{'items_per_page':300,'filter_date_reserve':filter_date_reserve_twig,'filter_offer_number':filter_offer_number,'filter_reference':filter_reference,'filter_date_from':filter_date_from_twig,'filter_date_to':filter_date_to_twig,'sort_by':sort_by})}}">300</a>
                         <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_reservations_user',{'items_per_page':500,'filter_date_reserve':filter_date_reserve_twig,'filter_offer_number':filter_offer_number,'filter_reference':filter_reference,'filter_date_from':filter_date_from_twig,'filter_date_to':filter_date_to_twig,'sort_by':sort_by})}}">500</a>
@@ -99,7 +102,7 @@
                         </div>
                         <div class="span8">
                             <select name="sort_by" id="sort_by" onchange="javascript:action_submit()" class="input-block-level pull-right">
-                                {% render 'mycpBundle:BackendReservation:get_sort_by' with{'sort_by':sort_by}%}
+                                {{ render(controller('mycpBundle:BackendReservation:get_sort_by', {'sort_by': sort_by})) }}
                             </select>
                         </div>
                     </div>

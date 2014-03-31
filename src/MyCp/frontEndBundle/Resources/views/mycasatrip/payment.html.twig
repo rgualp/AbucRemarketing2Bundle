@@ -12,6 +12,7 @@
 {% block body_inner %}
 <div class="thumbs-houses houses-list myct-records lazy-cont">
 {% for res in res_payment %}
+{% if res['own_res_reservation_booking']['booking_id'] is defined %}
 <div class="row no-margin">
     <div class="col-sm-3">
         <div data-text="&nbsp;&nbsp;&nbsp;{{'RESERVE_SINGULAR' | trans}}&nbsp;&nbsp;&nbsp;" class="thumbnail has-ribbon-red has-ribbon has-ribbon-left">
@@ -46,7 +47,7 @@
     </div>
 </div>
     <hr/>
-
+{% endif %}
 {% else %}
         <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
 {% endfor %}

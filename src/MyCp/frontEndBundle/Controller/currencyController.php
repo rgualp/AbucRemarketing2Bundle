@@ -34,7 +34,7 @@ class currencyController extends Controller {
             $session->set("curr_acronym", ($curr_id == 0) ? "CUC" : $currency->getCurrCode());
 
             //Guardar en userTourist la moneda q cambio
-            $user = $this->get('security.context')->getToken()->getUser();
+            $user = $this->getUser();
 
             if ($user != null) {
                 $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
@@ -61,8 +61,8 @@ class currencyController extends Controller {
             $session->set("curr_symbol",  $currency->getCurrSymbol());
             $session->set("curr_acronym", $currency->getCurrCode());
 
-            $user = $this->get('security.context')->getToken()->getUser();
-            if($user!='anon.')
+            $user = $this->getUser();
+            if($user!=null && $user!='anon.')
             {
                 $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
                 if($userTourist)

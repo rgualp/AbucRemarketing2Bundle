@@ -44,7 +44,7 @@ class PublicController extends Controller
         {
             $post['ownership_address_municipality']=$selected;
         }
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $municipalities = $em->getRepository('mycpBundle:municipality')->findBy(array('mun_prov_id'=>$country_code));
         return $this->render('mycpBundle:utils:list_municipality.html.twig', array('municipalities' => $municipalities,'data'=>$post));
     }
@@ -55,7 +55,7 @@ class PublicController extends Controller
         {
             $post['ownership_address_municipality']=$post['filter_municipality'];
         }
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $municipalities = $em->getRepository('mycpBundle:municipality')->findAll();
         return $this->render('mycpBundle:utils:list_municipality.html.twig', array('municipalities' => $municipalities,'data'=>$post));
     }
@@ -63,7 +63,7 @@ class PublicController extends Controller
     public function get_cities_by_countryAction($country_code,Request $request)
     {
         $post = $request->request->getIterator()->getArrayCopy();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $country = $em->getRepository('mycpBundle:country')->find($country_code);
         $cities = $em->getRepository('mycpBundle:city')->findBy(array('cit_co_code'=>$country->getCoCode()));
         return $this->render('mycpBundle:utils:list_municipality.html.twig', array('municipalities' => $cities,'data'=>$post));
@@ -71,8 +71,7 @@ class PublicController extends Controller
 
     public function get_provincesAction($post)
     {
-
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $provinces=$em->getRepository('mycpBundle:province')->findAll();
         $selected='';
         if($post && isset($post['ownership_address_province']))
@@ -83,7 +82,7 @@ class PublicController extends Controller
     public function get_countriesAction($selected)
     {
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $countries=$em->getRepository('mycpBundle:country')->findAll();
         return $this->render('mycpBundle:utils:country.html.twig',array('selected'=>$selected,'countries'=>$countries));
     }

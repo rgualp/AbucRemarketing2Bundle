@@ -1,7 +1,7 @@
 {% extends 'frontEndBundle:mycasatrip:layout_blank.html.twig' %}
 {% block body_inner %}
 {%if total_errors > 0%}
-<div class="alert alert-info" style="margin-top: 40px">
+<div class="alert alert-danger" style="margin-top: 40px">
 {{"FILL_FORM_CORRECTLY" | trans}}</div>
 {%endif%}
 <h1 class="h-blue caecilia-roman h-size-1" style="font-weight: normal;">{{"RESERVATION_DETAILS" | trans}}</h1>

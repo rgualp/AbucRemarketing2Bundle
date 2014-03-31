@@ -6,7 +6,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Component\Validator\Constraints\MinLength;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class changePasswordUserType extends AbstractType
@@ -25,16 +25,9 @@ class changePasswordUserType extends AbstractType
             'first_name' => $this->translate->trans('FORMS_PASSWORD'),
             'second_name' => $this->translate->trans('FORMS_REPEAT'),
             'type' => 'password',
+            'constraints'=>array(new NotBlank(), new Length(array('min'=>6))),
         ));
         ;
-    }
-
-    public function getDefaultOptions(array $options)
-    {
-        $array['user_password']= array(new NotBlank(),new MinLength(6));
-        $collectionConstraint = new Collection($array);
-
-        return array('validation_constraint' => $collectionConstraint);
     }
 
     public function getName()

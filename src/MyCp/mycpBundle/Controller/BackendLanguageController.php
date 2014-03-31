@@ -52,7 +52,7 @@ class BackendLanguageController extends Controller
         if($request->getMethod()=='POST')
         {
             $file = $request->files->get('photo');
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             $post_form=$request->get('mycp_mycpbundle_langtype');
             if($form->isValid())
             {
@@ -81,7 +81,7 @@ class BackendLanguageController extends Controller
                     $em->persist($lang);
                     $em->flush();
                     $message='Idioma actualizado satisfactoriamente.';
-                    $this->get('session')->setFlash('message_ok',$message);
+                    $this->get('session')->getFlashBag()->add('message_ok',$message);
 
                     $service_log= $this->get('log');
                     $service_log->save_log('Edit entity '.$post_form['lang_name'],6);
@@ -105,7 +105,7 @@ class BackendLanguageController extends Controller
         {
             $post_form=$request->get('mycp_mycpbundle_langtype');
             $file = $request->files->get('photo');
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if($form->isValid())
             {
                 if($file and $file->getClientMimeType()!='image/jpeg' && $file->getClientMimeType()!='image/gif' && $file->getClientMimeType()!='image/png')
@@ -130,7 +130,7 @@ class BackendLanguageController extends Controller
                     $em->persist($lang_flag);
                     $em->flush();
                     $message='Idioma añadido satisfactoriamente.';
-                    $this->get('session')->setFlash('message_ok',$message);
+                    $this->get('session')->getFlashBag()->add('message_ok',$message);
 
                     $service_log= $this->get('log');
                     $service_log->save_log('Create entity '.$post_form['lang_name'],6);
@@ -235,7 +235,7 @@ class BackendLanguageController extends Controller
         $em->remove($language);
         $em->flush();
         $message='El idioma se ha eliminado satisfactoriamente.';
-        $this->get('session')->setFlash('message_ok',$message);
+        $this->get('session')->getFlashBag()->add('message_ok',$message);
 
         $service_log= $this->get('log');
         $service_log->save_log('Delete entity '.$name_lang,6);

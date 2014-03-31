@@ -21,16 +21,12 @@ class restorePasswordUserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('user_email','text',array('label'=>$this->translate->trans('FORMS_EMAIL'), 'attr'=>array('class'=>'form-control')))
+            ->add('user_email','text',array(
+                'label'=>$this->translate->trans('FORMS_EMAIL'),
+                'attr'=>array('class'=>'form-control'),
+                'constraints'=>array(new NotBlank(), new Email())
+            ))
         ;
-    }
-
-    public function getDefaultOptions(array $options)
-    {
-        $array['user_email']= array(new NotBlank(), new Email());
-        $collectionConstraint = new Collection($array);
-
-        return array('validation_constraint' => $collectionConstraint);
     }
 
     public function getName()

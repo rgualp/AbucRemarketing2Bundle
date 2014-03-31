@@ -85,7 +85,8 @@
         $( "#sortable" ).sortable({
             stop: function(event, ui) {
                 var result = $('#sortable').sortable('toArray');
-                url = "{{ path('mycp_set_img_order_utils', { 'ids': '' }) }}"
+                url = "{{ path('mycp_set_img_order_utils', { 'ids': '-1' }) }}";
+                url=url.replace('/-1','');
 
                 $.ajax({
                     type:"POST",

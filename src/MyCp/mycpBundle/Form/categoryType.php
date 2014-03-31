@@ -6,8 +6,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Component\Validator\Constraints\MinLength;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Length;
 
 class categoryType extends AbstractType
 {
@@ -27,7 +27,9 @@ class categoryType extends AbstractType
             {
                 $builder->add('lang'.$language->getLangId(), 'text',array(
                     'attr' => array('class'=>'span6','value'=>$array_langs_text[$a]->getAlbumCatDescription()),
-                    'data'=>'','label'=>'Nombre en '.$language->getLangName().':'));
+                    'data'=>'','label'=>'Nombre en '.$language->getLangName().':',
+                    'constraints'=>array(new NotBlank(), new Length(array('max'=>255,'min'=>3)))
+                ));
                 $a++;
             }
         }
@@ -44,7 +46,9 @@ class categoryType extends AbstractType
                 }
                 $builder->add('lang'.$language->getLangId(), 'text',array(
                     'attr' => array('class'=>'span6','value'=>$value),
-                    'data'=>'','label'=>'Nombre en '.$language->getLangName().':'));
+                    'data'=>'','label'=>'Nombre en '.$language->getLangName().':',
+                    'constraints'=>array(new NotBlank(), new Length(array('max'=>255,'min'=>3)))
+                ));
                 $a++;
             }
         }
@@ -56,7 +60,9 @@ class categoryType extends AbstractType
             {
                 $builder->add('lang'.$language->getLangId(), 'text',array(
                     'attr' => array('class'=>'span6','value'=>$array_langs_text[$a]->getDesCatName()),
-                    'data'=>'','label'=>'Nombre en '.$language->getLangName().':'));
+                    'data'=>'','label'=>'Nombre en '.$language->getLangName().':',
+                    'constraints'=>array(new NotBlank(), new Length(array('max'=>255,'min'=>3)))
+                ));
                 $a++;
             }
         }
@@ -66,7 +72,9 @@ class categoryType extends AbstractType
             {
                 $builder->add('lang'.$language->getLangId(), 'text',array(
                     'attr' => array('class'=>'span6'),
-                    'data'=>'','label'=>'Nombre en '.$language->getLangName().':'));
+                    'data'=>'','label'=>'Nombre en '.$language->getLangName().':',
+                    'constraints'=>array(new NotBlank(), new Length(array('max'=>255,'min'=>3)))
+                ));
 
             }
         }
@@ -78,19 +86,6 @@ class categoryType extends AbstractType
             $builder->add('photo_atraction','file',array('label'=>'Ícono atracción (Mapa provincia):','mapped'=>false,
                 'attr'=>array('title'=>"Seleccionar fichero...",'accept'=>'image/*')));
         }
-    }
-
-    public function getDefaultOptions(array $options)
-    {
-
-        $array=array();
-        foreach($this->data['languages'] as $language)
-        {
-           $array['lang'.$language->getLangId()]= array(new MinLength(3),new NotBlank());
-        }
-        $collectionConstraint = new Collection($array);
-
-        return array('validation_constraint' => $collectionConstraint);
     }
 
     public function getName()

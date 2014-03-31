@@ -64,7 +64,7 @@ class comment
      *
      * @ORM\Column(name="com_comments", type="text")
      * @Assert\NotBlank()
-     * @Assert\MinLength(6)
+     * @Assert\Length(min=6)
      */
     private $com_comments;
 

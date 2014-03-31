@@ -29,7 +29,7 @@ class BackendCommentController extends Controller
         if($request->getMethod()=='POST' && $filter_ownership=='null' && $filter_user=='null' && $filter_keyword=='null' && $filter_rate=='null')
         {
             $message='Debe llenar al menos un campo para filtrar.';
-            $this->get('session')->setFlash('message_error_local',$message);
+            $this->get('session')->getFlashBag()->add('message_error_local',$message);
             return $this->redirect($this->generateUrl('mycp_list_comments'));
         }
         if($filter_ownership=='null') $filter_ownership='';
@@ -65,14 +65,14 @@ class BackendCommentController extends Controller
         if($request->getMethod()=='POST')
         {
             $post_form=$request->get('mycp_mycpbundle_currencytype');
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if($form->isValid())
             {
                 $em = $this->getDoctrine()->getEntityManager();
                 $em->persist($comment);
                 $em->flush();
                 $message='Comentario añadido satisfactoriamente.';
-                $this->get('session')->setFlash('message_ok',$message);
+                $this->get('session')->getFlashBag()->add('message_ok',$message);
 
 
                 $comment_db=$em->getRepository('mycpBundle:comment')->find($comment->getComId());
@@ -101,13 +101,13 @@ class BackendCommentController extends Controller
         if($request->getMethod()=='POST')
         {
             $post_form=$request->get('mycp_mycpbundle_commenttype');
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if($form->isValid())
             {
                 $em->persist($comment);
                 $em->flush();
                 $message='Comentario actualizado satisfactoriamente.';
-                $this->get('session')->setFlash('message_ok',$message);
+                $this->get('session')->getFlashBag()->add('message_ok',$message);
 
                 $service_log= $this->get('log');
                 $service_log->save_log('Edit entity ',10);
@@ -133,7 +133,7 @@ class BackendCommentController extends Controller
             $em->remove($comment);
             $em->flush();
             $message='El comentario se ha eliminado satisfactoriamente.';
-            $this->get('session')->setFlash('message_ok',$message);
+            $this->get('session')->getFlashBag()->add('message_ok',$message);
 
             $service_log= $this->get('log');
             $service_log->save_log('Delete entity ',10);
