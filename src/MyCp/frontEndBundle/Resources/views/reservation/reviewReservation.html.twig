@@ -29,7 +29,7 @@
     <div id="res_main_cont">
         {% if services %}
         <div id="cart-cont" class="items-cart">
-            {% render ('frontEndBundle:reservation:get_body_review_reservation_2')%}
+            {{ render(controller('frontEndBundle:reservation:get_body_review_reservation_2')) }}
         </div>
 
         {% else %}

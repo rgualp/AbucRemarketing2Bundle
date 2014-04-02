@@ -19,7 +19,7 @@ class commentController extends Controller {
         else $session->set('comments_cant', 2);
         
         $em = $this->getDoctrine()->getEntityManager();
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
         $data = array();
         $data['com_ownership_id'] = $ownid;
         $data['com_rating'] = $request->request->get('com_rating');

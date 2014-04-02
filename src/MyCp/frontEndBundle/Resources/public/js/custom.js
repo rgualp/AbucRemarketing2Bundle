@@ -20,7 +20,7 @@ function start() {
     details_favorites("#add_to_favorites");
 
     delete_from_list_favorites();
-    
+
     change_faq();
     reservations();
 

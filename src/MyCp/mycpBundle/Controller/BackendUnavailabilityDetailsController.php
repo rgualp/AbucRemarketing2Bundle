@@ -28,7 +28,7 @@ class BackendUnavailabilityDetailsController extends Controller {
                 $filter_type == 'null' && $filter_category == 'null' && $filter_code == 'null'
         ) {
             $message = 'Debe llenar al menos un campo para filtrar.';
-            $this->get('session')->setFlash('message_error_local', $message);
+            $this->get('session')->getFlashBag()->add('message_error_local', $message);
             return $this->redirect($this->generateUrl('mycp_list_ownerships'));
         }
         if ($filter_code == 'null')
@@ -121,7 +121,7 @@ class BackendUnavailabilityDetailsController extends Controller {
         $form = $this->createForm(new unavailabilityDetailsType, $uDetails);
         if ($request->getMethod() == 'POST') {
             $post_form = $request->get('mycp_mycpbundle_unavailabilitydetailstype');
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if ($form->isValid()) {
                 $uDetails->setUdFromDate($this->createDate($post_form['ud_from_date']))
                         ->setUdToDate($this->createDate($post_form['ud_to_date']))
@@ -130,7 +130,7 @@ class BackendUnavailabilityDetailsController extends Controller {
                 $em->persist($uDetails);
                 $em->flush();
                 $message = 'Detalle de no disponibilidad añadido satisfactoriamente';
-                $this->get('session')->setFlash('message_ok', $message);
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
                 $service_log->save_log('Create unavailable detaile from ' . $post_form['ud_from_date'] . ' to ' . $post_form['ud_to_date'], 5);
@@ -160,7 +160,7 @@ class BackendUnavailabilityDetailsController extends Controller {
         $form = $this->createForm(new unavailabilityDetailsType, $uDetails);
         if ($request->getMethod() == 'POST') {
             $post_form = $request->get('mycp_mycpbundle_unavailabilitydetailstype');
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if ($form->isValid()) {
                 $uDetails->setUdFromDate($this->createDate($post_form['ud_from_date']))
                         ->setUdToDate($this->createDate($post_form['ud_to_date']))
@@ -170,7 +170,7 @@ class BackendUnavailabilityDetailsController extends Controller {
                 $em->persist($uDetails);
                 $em->flush();
                 $message = 'Detalle de no disponibilidad modificado satisfactoriamente';
-                $this->get('session')->setFlash('message_ok', $message);
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
                 $service_log->save_log('Update unavailable detaile from ' . $post_form['ud_from_date'] . ' to ' . $post_form['ud_to_date'], 5);
@@ -200,7 +200,7 @@ class BackendUnavailabilityDetailsController extends Controller {
                 $em->persist($uDetails);
                 $em->flush();
         $message = 'Detalle de no disponibilidad eliminado satisfactoriamente';
-        $this->get('session')->setFlash('message_ok', $message);
+        $this->get('session')->getFlashBag()->add('message_ok', $message);
 
         $service_log = $this->get('log');
         $service_log->save_log('Delete unavailable detail from ' . $uDetails->getUdFromDate()->format('d/M/Y') . ' to ' . $uDetails->getUdToDate()->format('d/M/Y'), 5);

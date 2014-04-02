@@ -46,13 +46,13 @@ class BackendCurrencyController extends Controller
         if($request->getMethod()=='POST')
         {
             $post_form=$request->get('mycp_mycpbundle_currencytype');
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if($form->isValid())
             {
                 $em->persist($currency);
                 $em->flush();
                 $message='Moneda actualizada satisfactoriamente.';
-                $this->get('session')->setFlash('message_ok',$message);
+                $this->get('session')->getFlashBag()->add('message_ok',$message);
 
                 $service_log= $this->get('log');
                 $service_log->save_log('Edit entity '.$post_form['curr_name'],5);
@@ -75,14 +75,14 @@ class BackendCurrencyController extends Controller
         if($request->getMethod()=='POST')
         {
             $post_form=$request->get('mycp_mycpbundle_currencytype');
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if($form->isValid())
             {
                 $em = $this->getDoctrine()->getEntityManager();
                 $em->persist($currency);
                 $em->flush();
                 $message='Moneda añadida satisfactoriamente.';
-                $this->get('session')->setFlash('message_ok',$message);
+                $this->get('session')->getFlashBag()->add('message_ok',$message);
 
                 $service_log= $this->get('log');
                 $service_log->save_log('Create entity '.$post_form['curr_name'],5);
@@ -104,7 +104,7 @@ class BackendCurrencyController extends Controller
         if($user)
         {
             $message='No se puede eliminar la moneda, está siendo utilizada por un usuario.';
-            $this->get('session')->setFlash('message_error_local',$message);
+            $this->get('session')->getFlashBag()->add('message_error_local',$message);
             return $this->redirect($this->generateUrl('mycp_list_currencies'));
         }
         else
@@ -113,7 +113,7 @@ class BackendCurrencyController extends Controller
             $em->remove($currency);
             $em->flush();
             $message='La moneda se ha eliminado satisfactoriamente.';
-            $this->get('session')->setFlash('message_ok',$message);
+            $this->get('session')->getFlashBag()->add('message_ok',$message);
 
             $service_log= $this->get('log');
             $service_log->save_log('Delete entity '.$name_curr,5);

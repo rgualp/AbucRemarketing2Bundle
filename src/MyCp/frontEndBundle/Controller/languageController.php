@@ -26,7 +26,7 @@ class languageController extends Controller {
 
         //Guardar en userTourist el lenguaje q cambio
         $lang = $em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code' => $lang));
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
 
         if ($user != null && $user!='anon.') {
             $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));

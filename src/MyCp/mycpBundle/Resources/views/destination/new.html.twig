@@ -58,13 +58,13 @@
     <div class="span6">
         <label>Provincia:</label>
         <select class="input-block-level" name="ownership_address_province" id="ownership_address_province"/>
-        {% render 'mycpBundle:Public:get_provinces' with{'post':data} %}
+        {{ render(controller('mycpBundle:Public:get_provinces', {'post': data})) }}
         </select>
     </div>
     <div class="span6">
         <label>Municipio:</label>
         <select class="input-block-level" name="ownership_address_municipality" id="ownership_address_municipality"/>
-        {% render 'mycpBundle:Public:get_mun' with{'post':data}%}
+        {{ render(controller('mycpBundle:Public:get_mun', {'post': data})) }}
         </select>
     </div>
     </div>
@@ -136,7 +136,8 @@
     <link href="{{ asset('bundles/mycp/css/bootstrap-wysihtml5.css') }}" rel="stylesheet" type="text/css" />
     <script type="text/javascript">
         $('.textarea').wysihtml5();
-        url = "{{ path('mycp_get_mun_by_prov', { 'country_code': '' }) }}",
+        url = "{{ path('mycp_get_mun_by_prov', { 'country_code': '-1' }) }}";
+        url=url.replace('/-1','');
                 $('#ownership_address_province').change(function(){
                     code = $('#ownership_address_province').val();
                     if(code!='')

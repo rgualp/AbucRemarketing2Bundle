@@ -635,7 +635,7 @@ class destinationRepository extends EntityRepository {
                          (SELECT min(prov) FROM mycpBundle:destinationLocation loc1 JOIN loc1.des_loc_province prov WHERE loc1.des_loc_destination = d.des_id ) as province_id,
                          (SELECT count(o) FROM mycpBundle:ownership o where o.own_address_municipality = municipality_id AND o.own_address_province = province_id AND (SELECT count(r1) FROM mycpBundle:room r1 WHERE r1.room_ownership = o.own_id) <> 0 as total_owns   
                          FROM mycpBundle:destination d
-                         ORDER BY total_owns DESC, d.des_name ASC";
+                         ORDER BY d.des_order ASC";
         return $em->createQuery($query_string)->getResult();
     }
     

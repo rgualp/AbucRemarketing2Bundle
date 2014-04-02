@@ -22,12 +22,12 @@
             </div>
             <div class="span4">
                 <label>Nombre:</label>
-                <input name="filter_name" value="{{filter_name}}" id="filter_name" autocomplete="off" type="text" class="input-block-level" style="margin: 0 auto;" data-provide="typeahead" data-items="5" data-source='{% render 'mycpBundle:BackendOwnership:get_ownerships_names' %}'>
+                <input name="filter_name" value="{{filter_name}}" id="filter_name" autocomplete="off" type="text" class="input-block-level" style="margin: 0 auto;" data-provide="typeahead" data-items="5" data-source='{{ render(controller('mycpBundle:BackendOwnership:get_ownerships_names')) }}'>
             </div>
             <div class="span4">
                 <label>Estado:</label>
                 <select id="filter_active" class="input-block-level" name="filter_active">
-                    {% render 'mycpBundle:BackendOwnership:get_status' with{'post':filter_active} %}
+                    {{ render(controller('mycpBundle:BackendOwnership:get_status', {'post': filter_active})) }}
                 </select>
             </div>
         </div>
@@ -35,25 +35,25 @@
             <div class="span3">
                 <label>Provincia:</label>
                 <select class="input-block-level" name="filter_province" id="filter_province"/>
-                {% render 'mycpBundle:Public:get_provinces' with{'post':{'ownership_address_province':filter_province}} %}
+                {{ render(controller('mycpBundle:Public:get_provinces', {'post': {'ownership_address_province':filter_province}})) }}
                 </select>
             </div>
             <div class="span3">
                 <label>Municipio:</label>
                 <select class="input-block-level" name="filter_municipality" id="filter_municipality"/>
-                {% render 'mycpBundle:Public:get_mun' with{'post':{'ownership_address_municipality':filter_municipality}}%}
+                {{ render(controller('mycpBundle:Public:get_mun', {'post': {'ownership_address_municipality':filter_municipality}})) }}
                 </select>
             </div>
             <div class="span2">
                 <label>Tipo:</label>
                 <select class="input-block-level" name="filter_type" id="filter_type"/>
-                {% render 'mycpBundle:BackendOwnership:get_ownership_types' with{'post':{'ownership_type':filter_type}}%}
+                {{ render(controller('mycpBundle:BackendOwnership:get_ownership_types', {'post': {'ownership_type':filter_type}})) }}
                 </select>
             </div>
             <div class="span2">
                 <label>Categoría:</label>
                 <select name="filter_category" class="input-block-level" id="filter_category">
-                    {% render 'mycpBundle:BackendOwnership:get_ownership_categories' with{'post':{'ownership_category':filter_category}}%}
+                    {{ render(controller('mycpBundle:BackendOwnership:get_ownership_categories', {'post': {'ownership_category':filter_category}})) }}
                 </select>
             </div>
 
@@ -145,7 +145,8 @@
     <p> <div class="alert alert-block">No hay Propiedades disponibles.</div></p>
     {% endif %}
 <script type="text/javascript">
-    url = "{{ path('mycp_get_mun_by_prov', { 'country_code': '' }) }}",
+        url = "{{ path('mycp_get_mun_by_prov', { 'country_code': '-1' }) }}";
+        url=url.replace('/-1','');
             $('#filter_province').change(function(){
                 code = $('#filter_province').val();
                 if(code!='')

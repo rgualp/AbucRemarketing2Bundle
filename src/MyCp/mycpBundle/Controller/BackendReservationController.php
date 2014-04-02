@@ -35,7 +35,7 @@ class BackendReservationController extends Controller
         )
         {
             $message='Debe llenar al menos un campo para filtrar.';
-            $this->get('session')->setFlash('message_error_local',$message);
+            $this->get('session')->getFlashBag()->add('message_error_local',$message);
             return $this->redirect($this->generateUrl('mycp_list_reservations'));
         }
 
@@ -111,7 +111,7 @@ class BackendReservationController extends Controller
         )
         {
             $message='Debe llenar al menos un campo para filtrar.';
-            $this->get('session')->setFlash('message_error_local',$message);
+            $this->get('session')->getFlashBag()->add('message_error_local',$message);
             return $this->redirect($this->generateUrl('mycp_list_reservations_user'));
         }
         if($filter_date_reserve=='null') $filter_date_reserve='';
@@ -234,7 +234,7 @@ class BackendReservationController extends Controller
             /*$service_log= $this->get('log');
             $service_log->save_log('Create entity for '.$ownership->getOwnMcpCode(),7);*/
 
-            $this->get('session')->setFlash('message_ok',$message);
+            $this->get('session')->getFlashBag()->add('message_ok',$message);
             return $this->redirect($this->generateUrl('mycp_details_client_reservation',array('id_client'=>$id_client)));
 
         }
@@ -278,7 +278,7 @@ class BackendReservationController extends Controller
         $form = $this->createForm(new reservationType($data));
 
         if ($request->getMethod() == 'POST') {
-            $form->bind($request);
+            $form->handleRequest($request);
             if ($form->isValid()) {
                 $em->getRepository('mycpBundle:ownershipReservation')->new_reservation($post);
                 $message='Reserva añadida satisfactoriamente.';
@@ -287,7 +287,7 @@ class BackendReservationController extends Controller
                 $service_log= $this->get('log');
                 $service_log->save_log('Create entity for '.$ownership->getOwnMcpCode(),7);
 
-                $this->get('session')->setFlash('message_ok',$message);
+                $this->get('session')->getFlashBag()->add('message_ok',$message);
                 return $this->redirect($this->generateUrl('mycp_list_reservations'));
             }
         }
@@ -401,7 +401,7 @@ class BackendReservationController extends Controller
                 $service_log= $this->get('log');
                 $service_log->save_log('Edit entity for CAS.'.$reservation->getGenResId(),7);
 
-                $this->get('session')->setFlash('message_ok',$message);
+                $this->get('session')->getFlashBag()->add('message_ok',$message);
             }
 
         }
@@ -481,7 +481,7 @@ class BackendReservationController extends Controller
         $service_email->send_reservation($id_reservation);
 
         $message='Reserva enviada satisfactoriamente';
-        $this->get('session')->setFlash('message_ok',$message);
+        $this->get('session')->getFlashBag()->add('message_ok',$message);
         return $this->redirect($this->generateUrl('mycp_details_reservation',array('id_reservation'=>$id_reservation)));
 
     }
@@ -551,7 +551,7 @@ class BackendReservationController extends Controller
                 $service_log= $this->get('log');
                 $service_log->save_log('Edit entity for '.$ownership->getOwnMcpCode(),7);
 
-                $this->get('session')->setFlash('message_ok',$message);
+                $this->get('session')->getFlashBag()->add('message_ok',$message);
                 return $this->redirect($this->generateUrl('mycp_edit_reservation',array('id_reservation'=>$id_reservation)));
             }
         }
@@ -624,7 +624,7 @@ class BackendReservationController extends Controller
         $service_log= $this->get('log');
         $service_log->save_log('Delete entity for '.$ownership->getOwnMcpCode(),7);
 
-        $this->get('session')->setFlash('message_ok',$message);
+        $this->get('session')->getFlashBag()->add('message_ok',$message);
         return $this->redirect($this->generateUrl('mycp_list_reservations'));
     }
 

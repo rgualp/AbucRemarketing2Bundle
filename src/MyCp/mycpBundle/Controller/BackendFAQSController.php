@@ -43,7 +43,7 @@ class BackendFAQSController extends Controller
         $form = $this->createForm(new categoryType(array('languages'=>$languages)));
 
         if ($request->getMethod() == 'POST') {
-            $form->bind($request);
+            $form->handleRequest($request);
             if ($form->isValid()) {
                 $category= new faqCategory();
                 $em->persist($category);
@@ -59,7 +59,7 @@ class BackendFAQSController extends Controller
                 }
                 $em->flush();
                 $message='Categoría añadida satisfactoriamente.';
-                $this->get('session')->setFlash('message_ok',$message);
+                $this->get('session')->getFlashBag()->add('message_ok',$message);
 
                 $service_log= $this->get('log');
                 $service_log->save_log('Create category, '.$post['lang'.$languages[0]->getLangId()],2);
@@ -79,8 +79,11 @@ class BackendFAQSController extends Controller
         $service_security->verify_access();
         $em = $this->getDoctrine()->getEntityManager();
 
+
         $languages=$em->getRepository('mycpBundle:lang')->findAll();
         $faq_cat_langs=$em->getRepository('mycpBundle:faqCategoryLang')->get_categories();
+        $faq_cat_lang = $em->getRepository('mycpBundle:faqCategoryLang')->findBy(array('faq_cat_id_cat'=>$id_category));
+
         if($request->getMethod() == 'POST')
         {
             $form = $this->createForm(new categoryType(array('languages'=>$languages)));
@@ -93,21 +96,21 @@ class BackendFAQSController extends Controller
         }
 
         if ($request->getMethod() == 'POST') {
-            $form->bind($request);
+            $form->handleRequest($request);
             if ($form->isValid()) {
 
                 $post=$form->getData();
-
                 foreach($languages as $language)
                 {
-                    $faq_cat_lang=new faqCategoryLang();
-                    $faq_cat_lang=$em->getRepository('mycpBundle:faqCategoryLang')->findBy(array('faq_cat_id_lang'=>$language));
+                    $faq_cat_lang=$em->getRepository('mycpBundle:faqCategoryLang')->findBy(array('faq_cat_id_lang'=>$language,'faq_cat_id_cat'=>$id_category));
                     $faq_cat_lang[0]->setFaqCatDescription($post['lang'.$language->getLangId()]);
                     $em->persist($faq_cat_lang[0]);
+
                 }
+
                 $em->flush();
                 $message='Categoría actualizada satisfactoriamente.';
-                $this->get('session')->setFlash('message_ok',$message);
+                $this->get('session')->getFlashBag()->add('message_ok',$message);
 
                 $service_log= $this->get('log');
                 $service_log->save_log('Edit category, '.$post['lang'.$languages[0]->getLangId()],2);
@@ -117,7 +120,7 @@ class BackendFAQSController extends Controller
         }
 
         return $this->render('mycpBundle:faq:categoryNew.html.twig',array(
-            'form' => $form->createView(), 'edit_category'=>$id_category, 'name_category'=>$faq_cat_langs[0]['faq_cat_description']
+            'form' => $form->createView(), 'edit_category'=>$id_category, 'name_category'=>$faq_cat_lang[0]->getFaqCatDescription()
 
         ));
     }
@@ -177,7 +180,7 @@ class BackendFAQSController extends Controller
                     $service_log= $this->get('log');
                     $service_log->save_log('Create entity, '.$post['question_'.$languages[0]->getLangId()],2);
                 }
-                $this->get('session')->setFlash('message_ok',$message);
+                $this->get('session')->getFlashBag()->add('message_ok',$message);
                 return $this->redirect($this->generateUrl('mycp_list_faqs'));
             }
             if($request->request->get('edit_faq'))
@@ -208,7 +211,7 @@ class BackendFAQSController extends Controller
         if($request->getMethod()=='POST' && $filter_active=='null' && $filter_name=='null' && $filter_category=='null')
         {
             $message='Debe llenar al menos un campo para filtrar.';
-            $this->get('session')->setFlash('message_error_local',$message);
+            $this->get('session')->getFlashBag()->add('message_error_local',$message);
             return $this->redirect($this->generateUrl('mycp_list_faqs'));
         }
         if($filter_name=='null') $filter_name='';
@@ -293,7 +296,7 @@ class BackendFAQSController extends Controller
 
         }*/
         $message='Pregunta eliminada satisfactoriamente.';
-        $this->get('session')->setFlash('message_ok',$message);
+        $this->get('session')->getFlashBag()->add('message_ok',$message);
 
         $service_log= $this->get('log');
         $service_log->save_log('Delete entity, '.$old_entity,2);
@@ -346,7 +349,7 @@ class BackendFAQSController extends Controller
             $em->remove($category);
         $em->flush();
         $message='Categoría eliminada satisfactoriamente.';
-        $this->get('session')->setFlash('message_ok',$message);
+        $this->get('session')->getFlashBag()->add('message_ok',$message);
 
         $service_log= $this->get('log');
         $service_log->save_log('Delete category, '.$category_name,2);

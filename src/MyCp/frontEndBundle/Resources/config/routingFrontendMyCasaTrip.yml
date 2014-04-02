@@ -29,15 +29,12 @@ frontend_mycasatrip_historial_consult:
 frontend_mycasatrip_favorites_destinations:
     locales:  { en: "/favorites/destinations", es: "/favoritos/destinos",de: "/favoriten/reiseziele" }
     defaults: { _controller: frontEndBundle:mycasatrip:favorites_destinations }
-    
+
 frontend_mycasatrip_favorites_accomodations:
     locales:  { en: "/favorites/accomodations", es: "/favoritos/alojamientos", de: "/favoriten/unterkuenfte" }
     defaults: { _controller: frontEndBundle:mycasatrip:favorites_accomodations }
-    
+
 frontend_mycasatrip_comments:
     locales:  { en: "/comments/{comment_type}", es: "/comentarios/{comment_type}",de: "/bewertungen/{comment_type}" }
     defaults: { _controller: frontEndBundle:mycasatrip:comments }
-
-
-
 

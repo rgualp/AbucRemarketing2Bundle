@@ -29,7 +29,7 @@ class UserSecure {
                 $this->security_context->setToken(null);
                 $this->container->get('request')->getSession()->invalidate();
                 $login_route = $this->container->get('router')->generate('frontend_login');
-                $this->container->get('session')->setFlash('message_error_local','NOT_ENABLED_USER');
+                $this->container->get('session')->getFlashBag()->add('message_error_local','NOT_ENABLED_USER');
                 $event->setResponse(new RedirectResponse($login_route));
             }
 

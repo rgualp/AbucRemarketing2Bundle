@@ -13,7 +13,7 @@
 {% block body %}
     <div class="container cont-form" style="margin-top: -20px">
         <div id="main-search-2">
-            {% render "frontEndBundle:ownership:orangeSearchBar" %}
+            {{ render(controller('frontEndBundle:ownership:orangeSearchBar')) }}
         </div>
     </div>
 <div  class="container">
@@ -170,7 +170,7 @@
         </div>
     </div>
     <br/>
-{% render 'frontEndBundle:public:home_carrousel' %}
+    {{ render(controller('frontEndBundle:public:home_carrousel')) }}
 </div>
 {% block include_javascripts %}
 <script type="text/javascript">

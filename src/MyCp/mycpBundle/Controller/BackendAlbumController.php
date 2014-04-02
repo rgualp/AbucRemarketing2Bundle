@@ -45,7 +45,7 @@ class BackendAlbumController extends Controller {
         $form = $this->createForm(new categoryType(array('languages' => $languages)));
 
         if ($request->getMethod() == 'POST') {
-            $form->bind($request);
+            $form->handleRequest($request);
             if ($form->isValid()) {
                 $category = new albumCategory();
                 $em->persist($category);
@@ -60,7 +60,7 @@ class BackendAlbumController extends Controller {
                 }
                 $em->flush();
                 $message = 'Categoría añadida satisfactoriamente.';
-                $this->get('session')->setFlash('message_ok', $message);
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
                 $service_log->save_log('Create category, ' . $post['lang' . $languages[0]->getLangId()], 3);
@@ -79,7 +79,7 @@ class BackendAlbumController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
 
         $languages = $em->getRepository('mycpBundle:lang')->findAll();
-        $album_cat_langs = $em->getRepository('mycpBundle:albumCategoryLang')->get_categories();
+        $album_cat_lang = $em->getRepository('mycpBundle:albumCategoryLang')->findBy(array('album_cat_id_cat' => $id_category));
         if ($request->getMethod() == 'POST') {
             $form = $this->createForm(new categoryType(array('languages' => $languages)));
         } else {
@@ -89,20 +89,20 @@ class BackendAlbumController extends Controller {
 
 
         if ($request->getMethod() == 'POST') {
-            $form->bind($request);
+            $form->handleRequest($request);
             if ($form->isValid()) {
 
                 $post = $form->getData();
 
                 foreach ($languages as $language) {
                     $album_cat_lang = new albumCategoryLang();
-                    $album_cat_lang = $em->getRepository('mycpBundle:albumCategoryLang')->findBy(array('album_cat_id_lang' => $language));
+                    $album_cat_lang = $em->getRepository('mycpBundle:albumCategoryLang')->findBy(array('album_cat_id_lang' => $language,'album_cat_id_cat'=>$id_category));
                     $album_cat_lang[0]->setAlbumCatDescription($post['lang' . $language->getLangId()]);
                     $em->persist($album_cat_lang[0]);
                 }
                 $em->flush();
                 $message = 'Categoría actualizada satisfactoriamente.';
-                $this->get('session')->setFlash('message_ok', $message);
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
                 $service_log->save_log('Edit category, ' . $post['lang' . $languages[0]->getLangId()], 3);
@@ -112,7 +112,7 @@ class BackendAlbumController extends Controller {
         }
 
         return $this->render('mycpBundle:album:categoryNew.html.twig', array(
-                    'form' => $form->createView(), 'edit_category' => $id_category, 'name_category' => $album_cat_langs[0]['album_cat_description']
+                    'form' => $form->createView(), 'edit_category' => $id_category, 'name_category' => $album_cat_lang[0]->getAlbumCatDescription()
         ));
     }
 
@@ -158,7 +158,7 @@ class BackendAlbumController extends Controller {
             $em->remove($category);
         $em->flush();
         $message = 'Categoría eliminada satisfactoriamente.';
-        $this->get('session')->setFlash('message_ok', $message);
+        $this->get('session')->getFlashBag()->add('message_ok', $message);
 
         $service_log = $this->get('log');
         $service_log->save_log('Delete category, ' . $old_cat_lang, 3);
@@ -191,7 +191,7 @@ class BackendAlbumController extends Controller {
         $filter_category = $request->get('filter_category');
         if ($request->getMethod() == 'POST' && $filter_active == 'null' && $filter_name == 'null' && $filter_category == 'null') {
             $message = 'Debe llenar al menos un campo para filtrar.';
-            $this->get('session')->setFlash('message_error_local', $message);
+            $this->get('session')->getFlashBag()->add('message_error_local', $message);
             return $this->redirect($this->generateUrl('mycp_list_albums'));
         }
         if ($filter_name == 'null')
@@ -270,7 +270,7 @@ class BackendAlbumController extends Controller {
 
                     $service_log->save_log('Create entity, ' . $post['name_' . $languages[0]->getLangId()], 3);
                 }
-                $this->get('session')->setFlash('message_ok', $message);
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
                 return $this->redirect($this->generateUrl('mycp_list_albums'));
             }
             if ($request->request->get('edit_album')) {
@@ -318,7 +318,7 @@ class BackendAlbumController extends Controller {
         $em->remove($album);
         $em->flush();
         $message = 'Álbum eliminado satisfactoriamente.';
-        $this->get('session')->setFlash('message_ok', $message);
+        $this->get('session')->getFlashBag()->add('message_ok', $message);
 
         $service_log = $this->get('log');
         $service_log->save_log('Delete entity, ' . $old_entity, 3);
@@ -454,7 +454,7 @@ class BackendAlbumController extends Controller {
                     $em->flush();
 
                     $message = 'Ficheros subidos satisfactoriamente.';
-                    $this->get('session')->setFlash('message_ok', $message);
+                    $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                     $service_log = $this->get('log');
                     $service_log->save_log('Create photo, entity ' . $album->getAlbumName(), 3);
@@ -492,7 +492,7 @@ class BackendAlbumController extends Controller {
         @unlink($dir . $photoDel->getPhoName());
         @unlink($dir_thumbs . $photoDel->getPhoName());
         $message = 'El fichero se ha eliminado satisfactoriamente.';
-        $this->get('session')->setFlash('message_ok', $message);
+        $this->get('session')->getFlashBag()->add('message_ok', $message);
 
         $service_log = $this->get('log');
         $service_log->save_log('Delete photo, entity ' . $album->getAlbumName(), 3);
@@ -535,7 +535,7 @@ class BackendAlbumController extends Controller {
                 }
                 $em->flush();
                 $message = 'Imágen actualizada satisfactoriamente.';
-                $this->get('session')->setFlash('message_ok', $message);
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
                 $service_log->save_log('Edit photo, entity ' . $album->getAlbumName(), 3);

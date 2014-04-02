@@ -38,7 +38,7 @@ class BackendUserController extends Controller
             {
                 $data['error']='Ya existe un usuario con ese nombre.';
             }
-            $form->bind($request);
+            $form->handleRequest($request);
             if($form->isValid())
             {
                 if(!isset($data['error']))
@@ -47,7 +47,7 @@ class BackendUserController extends Controller
                     $factory = $this->get('security.encoder_factory');
                     $em->getRepository('mycpBundle:user')->new_user_staff($id_role,$request,$dir,$factory);
                     $message='Usuario añadido satisfactoriamente.';
-                    $this->get('session')->setFlash('message_ok',$message);
+                    $this->get('session')->getFlashBag()->add('message_ok',$message);
 
                     $service_log= $this->get('log');
                     $service_log->save_log('Create entity for user '.$post['mycp_mycpbundle_client_stafftype']['user_name'],8);
@@ -79,14 +79,14 @@ class BackendUserController extends Controller
 
         if($request->getMethod()=='POST')
         {
-            $form->bind($request);
+            $form->handleRequest($request);
             if($form->isValid())
             {
                 $factory = $this->get('security.encoder_factory');
                 $dir=$this->container->getParameter('user.dir.photos');
                 $em->getRepository('mycpBundle:user')->edit_user_staff($id_user,$request,$dir,$factory);
                 $message='Usuario actualizado satisfactoriamente.';
-                $this->get('session')->setFlash('message_ok',$message);
+                $this->get('session')->getFlashBag()->add('message_ok',$message);
                 $service_log= $this->get('log');
                 $service_log->save_log('Edit entity for user '.$request_form['user_name'],8);
                 return $this->redirect($this->generateUrl('mycp_list_users'));
@@ -127,7 +127,7 @@ class BackendUserController extends Controller
             {
                 $data['error']='Ya existe un usuario con ese nombre.';
             }
-            $form->bind($request);
+            $form->handleRequest($request);
             if($form->isValid())
             {
                 if(!isset($data['error']))
@@ -136,7 +136,7 @@ class BackendUserController extends Controller
                     $factory = $this->get('security.encoder_factory');
                     $em->getRepository('mycpBundle:user')->new_user_casa($id_role,$post,$request,$dir,$factory);
                     $message='Usuario añadido satisfactoriamente.';
-                    $this->get('session')->setFlash('message_ok',$message);
+                    $this->get('session')->getFlashBag()->add('message_ok',$message);
 
                     $service_log= $this->get('log');
                     $service_log->save_log('Create entity for user '.$post['mycp_mycpbundle_client_casatype']['user_name'],8);
@@ -166,14 +166,14 @@ class BackendUserController extends Controller
         if($request->getMethod()=='POST')
         {
 
-            $form->bind($request);
+            $form->handleRequest($request);
             if($form->isValid())
             {
                 $factory = $this->get('security.encoder_factory');
                 $dir=$this->container->getParameter('user.dir.photos');
                 $em->getRepository('mycpBundle:user')->edit_user_casa($id_user,$request,$dir,$factory);
                 $message='Usuario actualizado satisfactoriamente.';
-                $this->get('session')->setFlash('message_ok',$message);
+                $this->get('session')->getFlashBag()->add('message_ok',$message);
                 $service_log= $this->get('log');
                 $service_log->save_log('Edit entity for user '.$request_form['user_name'],8);
                 $user = $this->get('security.context')->getToken()->getUser();
@@ -221,7 +221,7 @@ class BackendUserController extends Controller
             {
                 $data['error']='Ya existe un usuario con ese nombre.';
             }
-            $form->bind($request);
+            $form->handleRequest($request);
             if($form->isValid())
             {
                 if(!isset($data['error']))
@@ -230,7 +230,7 @@ class BackendUserController extends Controller
                     $factory = $this->get('security.encoder_factory');
                     $em->getRepository('mycpBundle:user')->new_user_tourist($id_role,$request,$dir,$factory);
                     $message='Usuario añadido satisfactoriamente.';
-                    $this->get('session')->setFlash('message_ok',$message);
+                    $this->get('session')->getFlashBag()->add('message_ok',$message);
 
                     $service_log= $this->get('log');
                     $service_log->save_log('Create entity for user '.$post['mycp_mycpbundle_client_touristtype']['user_name'],8);
@@ -265,14 +265,14 @@ class BackendUserController extends Controller
 
         if($request->getMethod()=='POST')
         {
-            $form->bind($request);
+            $form->handleRequest($request);
             if($form->isValid())
             {
                 $factory = $this->get('security.encoder_factory');
                 $dir=$this->container->getParameter('user.dir.photos');
                 $em->getRepository('mycpBundle:user')->edit_user_tourist($id_user,$request,$dir,$factory);
                 $message='Usuario actualizado satisfactoriamente.';
-                $this->get('session')->setFlash('message_ok',$message);
+                $this->get('session')->getFlashBag()->add('message_ok',$message);
                 $service_log= $this->get('log');
                 $service_log->save_log('Edit entity for user '.$request_form['user_name'],8);
                 return $this->redirect($this->generateUrl('mycp_list_users'));
@@ -319,7 +319,7 @@ class BackendUserController extends Controller
             {
                 $data['error']='Ya existe un usuario con ese nombre.';
             }
-            $form->bind($request);
+            $form->handleRequest($request);
             if($form->isValid())
             {
                 if(!isset($data['error']))
@@ -328,7 +328,7 @@ class BackendUserController extends Controller
                     $factory = $this->get('security.encoder_factory');
                     $em->getRepository('mycpBundle:user')->new_user_partner($id_role,$request,$dir,$factory);
                     $message='Usuario añadido satisfactoriamente.';
-                    $this->get('session')->setFlash('message_ok',$message);
+                    $this->get('session')->getFlashBag()->add('message_ok',$message);
                     $service_log= $this->get('log');
                     $service_log->save_log('Create entity for user '.$post['mycp_mycpbundle_client_partnertype']['user_name'],8);
                     return $this->redirect($this->generateUrl('mycp_list_users'));
@@ -361,14 +361,14 @@ class BackendUserController extends Controller
 
         if($request->getMethod()=='POST')
         {
-            $form->bind($request);
+            $form->handleRequest($request);
             if($form->isValid())
             {
                 $factory = $this->get('security.encoder_factory');
                 $dir=$this->container->getParameter('user.dir.photos');
                 $em->getRepository('mycpBundle:user')->edit_user_partner($id_user,$request,$dir,$factory);
                 $message='Usuario actualizado satisfactoriamente.';
-                $this->get('session')->setFlash('message_ok',$message);
+                $this->get('session')->getFlashBag()->add('message_ok',$message);
                 $service_log= $this->get('log');
                 $service_log->save_log('Edit entity for user '.$request_form['user_name'],8);
                 return $this->redirect($this->generateUrl('mycp_list_users'));
@@ -412,7 +412,7 @@ class BackendUserController extends Controller
             && $filter_country=='null' && $filter_name=='null' && $filter_last_name=='null' && $filter_email=='null')
         {
             $message='Debe llenar al menos un campo para filtrar.';
-            $this->get('session')->setFlash('message_error_local',$message);
+            $this->get('session')->getFlashBag()->add('message_error_local',$message);
             return $this->redirect($this->generateUrl('mycp_list_users'));
         }
 
@@ -523,7 +523,7 @@ class BackendUserController extends Controller
             $users=$em->getRepository('mycpBundle:user')->findAll();
 
             $message='Usuario eliminado satisfactoriamente.';
-            $this->get('session')->setFlash('message_ok',$message);
+            $this->get('session')->getFlashBag()->add('message_ok',$message);
 
             $service_log= $this->get('log');
             $service_log->save_log('Delete entity for user '.$user_name,8);
@@ -532,7 +532,7 @@ class BackendUserController extends Controller
         else
         {
             $message='No se puede eliminar este usuario, está autenticado actualmente.';
-            $this->get('session')->setFlash('message_error_main',$message);
+            $this->get('session')->getFlashBag()->add('message_error_main',$message);
             return $this->redirect($this->generateUrl('mycp_list_users'));
         }
 
@@ -602,7 +602,7 @@ class BackendUserController extends Controller
                     }
                     $em->flush();
                     $message='Rol añadido satisfactoriamente.';
-                    $this->get('session')->setFlash('message_ok',$message);
+                    $this->get('session')->getFlashBag()->add('message_ok',$message);
                     return $this->redirect($this->generateUrl('mycp_list_users'));
 
                 }
@@ -653,13 +653,13 @@ class BackendUserController extends Controller
         if($role->getRoleFixed()==1)
         {
             $message='No se puede eliminar el rol '.$role->getRoleName().', es un elemento estático.';
-            $this->get('session')->setFlash('message_error_local2',$message);
+            $this->get('session')->getFlashBag()->add('message_error_local2',$message);
             return $this->redirect($this->generateUrl('mycp_list_users'));
         }
         elseif($users)
         {
             $message='No se puede eliminar el rol '.$role->getRoleName().', hay usuarios asociados a este.';
-            $this->get('session')->setFlash('message_error_local2',$message);
+            $this->get('session')->getFlashBag()->add('message_error_local2',$message);
             return $this->redirect($this->generateUrl('mycp_list_users'));
         }
 
@@ -677,7 +677,7 @@ class BackendUserController extends Controller
         $service_log->save_log('Edit entity for user '.$request_form['user_name'],8);*/
 
         $message='Rol eliminado satisfactoriamente.';
-        $this->get('session')->setFlash('message_ok',$message);
+        $this->get('session')->getFlashBag()->add('message_ok',$message);
         return $this->redirect($this->generateUrl('mycp_list_users'));
     }
 

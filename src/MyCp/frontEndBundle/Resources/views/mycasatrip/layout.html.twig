@@ -6,8 +6,7 @@
 {% if menu is not defined %}
    {% set menu = 0 %}
    {% endif %}
-   {% render 'frontEndBundle:mycasatrip:get_menu_count' with {'menu_selected': menu} %}        
-
+    {{ render(controller('frontEndBundle:mycasatrip:get_menu_count', {'menu_selected': menu})) }}
 {% block body_inner %}
    {% endblock %}
 </div>

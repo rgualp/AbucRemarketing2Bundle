@@ -100,14 +100,14 @@
                     <label>Provincia (*)</label>
                     {% if errors['ownership_address_province'] is defined %}<label class="error">{{errors['ownership_address_province']|trim(':')}}</label>{%endif%}
                     <select class="input-block-level" name="ownership_address_province" id="ownership_address_province"/>
-                    {% render 'mycpBundle:Public:get_provinces' with{'post':post} %}
+                    {{ render(controller('mycpBundle:Public:get_provinces', {'post': post})) }}
                     </select>
                 </div>
                 <div class="span6">
                     <label>Municipio (*)</label>
                     {% if errors['ownership_address_municipality'] is defined %}<label class="error">{{errors['ownership_address_municipality']|trim(':')}}</label>{%endif%}
                     <select class="input-block-level" type="text" name="ownership_address_municipality" id="ownership_address_municipality">
-                        {% render 'mycpBundle:Public:get_mun_by_prov' with{'country_code':data['country_code'],'selected':post['ownership_address_municipality']} %}
+                        {{ render(controller('mycpBundle:Public:get_mun_by_prov', {'country_code':data['country_code'],'selected':post['ownership_address_municipality']})) }}
                     </select>
                 </div>
 
@@ -157,20 +157,18 @@
                     <label>Categoría de la casa (*)</label>
                     {% if errors['ownership_category'] is defined %}<label class="error">{{errors['ownership_category']|trim(':')}}</label>{%endif%}
                     <select name="ownership_category" class="input-block-level">
-                    {% render 'mycpBundle:BackendOwnership:get_ownership_categories' with{'post':post}%}
+                    {{ render(controller('mycpBundle:BackendOwnership:get_ownership_categories', {'post': post})) }}
                     </select>
                 </div>
                 <div class="span3">
                     <label>Tipo de propiedad (*)</label>
                     {% if errors['ownership_type'] is defined %}<label class="error">{{errors['ownership_type']|trim(':')}}</label>{%endif%}
                     <select name="ownership_type" class="input-block-level">
-                    {% render 'mycpBundle:BackendOwnership:get_ownership_types' with{'post':post}%}
+                    {{ render(controller('mycpBundle:BackendOwnership:get_ownership_types', {'post': post})) }}
                     </select>
                 </div>
                 <div class="span6">
                     <label>Idiomas (*)</label>
-                    {#{% if errors['checkbox_lang'] is defined %}<label class="error">{{errors['checkbox_lang']}}</label>{%endif%}
-                    {% render 'mycpBundle:BackendOwnership:get_languages' with{'data':post} %}#}
                     <div class="row-fluid">
                         <div class="span3">
                             <label><input {% if post['ownership_english_lang'] is defined %} checked="checked" {% endif %} type="checkbox" name="ownership_english_lang"/> Inglés</label>
@@ -193,9 +191,9 @@
                     {% if errors['ownership_percent_commission'] is defined %}<label class="error">{{errors['ownership_percent_commission']|trim(':')}}</label>{%endif%}
                     <select name="ownership_percent_commission" class="input-block-level">
                         {% if post['ownership_percent_commission'] is defined %}
-                        {% render 'mycpBundle:BackendReservation:get_percent_list' with{'post':{'percent':post['ownership_percent_commission']}} %}
+                        {{ render(controller('mycpBundle:BackendReservation:get_percent_list', {'post':{'percent':post['ownership_percent_commission']}})) }}
                         {% else %}
-                        {% render 'mycpBundle:BackendReservation:get_percent_list' with{'post':''} %}
+                        {{ render(controller('mycpBundle:BackendReservation:get_percent_list', {'post':''})) }}
                         {% endif %}
                     </select>
                 </div>
@@ -217,12 +215,12 @@
                     <label>Tipo de habitación (*)</label>
                     {% if errors['room_type_'~i] is defined %}<label class="error">{{errors['room_type_'~i]|trim(':')}}</label>{%endif%}
                     <select name="room_type_{{i}}" class="input-block-level">
-                        {% render 'mycpBundle:BackendOwnership:get_room_type_list' with{'post':post,'id':i} %}
+                        {{ render(controller('mycpBundle:BackendOwnership:get_room_type_list', {'post':post,'id':i})) }}
                     </select>
                     <label>No. de camas (*)</label>
                     {% if errors['room_beds_number_'~i] is defined %}<label class="error">{{errors['room_beds_number_'~i]|trim(':')}}</label>{%endif%}
                     <select class="input-block-level" name="room_beds_number_{{ i }}">
-                        {% render 'mycpBundle:BackendOwnership:get_range_max_5' with{'post':post,'id':i} %}
+                        {{ render(controller('mycpBundle:BackendOwnership:get_range_max_5', {'post':post,'id':i})) }}
                     </select>
                     <label>Rango precio (Temporada alta) (*)</label>
                     {% if errors['room_price_up_from_'~i] is defined %}<label class="error">{{errors['room_price_up_from_'~i]|trim(':')}}</label>{%endif%}
@@ -237,57 +235,57 @@
                     <label>Climatización (*)</label>
                     {% if errors['room_climate_'~i] is defined %}<label class="error">{{errors['room_climate_'~i]|trim(':')}}</label>{%endif%}
                     <select class="input-block-level" name="room_climate_{{ i }}">
-                        {% render 'mycpBundle:BackendOwnership:get_climate_list' with{'post':post,'id':i} %}
+                        {{ render(controller('mycpBundle:BackendOwnership:get_climate_list', {'post':post,'id':i})) }}
                     </select>
                     <label>Audiovisuales (*)</label>
                     {% if errors['room_audiovisual_'~i] is defined %}<label class="error">{{errors['room_audiovisual_'~i]|trim(':')}}</label>{%endif%}
                     <select class="input-block-level" name="room_audiovisual_{{ i }}">
-                        {% render 'mycpBundle:BackendOwnership:get_audiovisual_list' with{'post':post,'id':i} %}
+                        {{ render(controller('mycpBundle:BackendOwnership:get_audiovisual_list', {'post':post,'id':i})) }}
                     </select>
                     <label>Fumador (*)</label>
                     {% if errors['room_smoker_'~i] is defined %}<label class="error">{{errors['room_smoker_'~i]|trim(':')}}</label>{%endif%}
                     <select class="input-block-level" name="room_smoker_{{ i }}">
-                        {% render 'mycpBundle:BackendOwnership:get_smoker_list' with{'post':post,'id':i} %}
+                        {{ render(controller('mycpBundle:BackendOwnership:get_smoker_list', {'post':post,'id':i})) }}
                     </select>
                     <label>Caja fuerte (*)</label>
                     {% if errors['room_safe_box_'~i] is defined %}<label class="error">{{errors['room_safe_box_'~i]|trim(':')}}</label>{%endif%}
                     <select class="input-block-level"name="room_safe_box_{{ i }}">
-                        {% render 'mycpBundle:BackendOwnership:get_safe_box_list' with{'post':post,'id':i} %}
+                        {{ render(controller('mycpBundle:BackendOwnership:get_safe_box_list', {'post':post,'id':i})) }}
                     </select>
                     <label>Facilidades para bebés (*)</label>
                     {% if errors['room_baby_'~i] is defined %}<label class="error">{{errors['room_baby_'~i]|trim(':')}}</label>{%endif%}
                     <select class="input-block-level" name="room_baby_{{ i }}">
-                        {% render 'mycpBundle:BackendOwnership:get_baby_list' with{'post':post,'id':i} %}
+                        {{ render(controller('mycpBundle:BackendOwnership:get_baby_list', {'post':post,'id':i})) }}
                     </select>
                     <label>Tipo de baño (*)</label>
                     {% if errors['room_bathroom_'~i] is defined %}<label class="error">{{errors['room_bathroom_'~i]|trim(':')}}</label>{%endif%}
                     <select class="input-block-level" name="room_bathroom_{{ i }}">
-                        {% render 'mycpBundle:BackendOwnership:get_bathroom_list' with{'post':post,'id':i} %}
+                        {{ render(controller('mycpBundle:BackendOwnership:get_bathroom_list', {'post':post,'id':i})) }}
                     </select>
                     <label>Estereo (*)</label>
                     {% if errors['room_stereo_'~i] is defined %}<label class="error">{{errors['room_stereo_'~i]|trim(':')}}</label>{%endif%}
                     <select class="input-block-level" name="room_stereo_{{ i }}">
-                        {% render 'mycpBundle:BackendOwnership:get_stereo_list' with{'post':post,'id':i} %}
+                        {{ render(controller('mycpBundle:BackendOwnership:get_stereo_list', {'post':post,'id':i})) }}
                     </select>
                     <label>Ventana (*)</label>
                     {% if errors['room_windows_'~i] is defined %}<label class="error">{{errors['room_windows_'~i]|trim(':')}}</label>{%endif%}
                     <select class="input-block-level" name="room_windows_{{ i }}">
-                        {% render 'mycpBundle:BackendOwnership:get_windows_list' with{'post':post,'id':i} %}
+                        {{ render(controller('mycpBundle:BackendOwnership:get_windows_list', {'post':post,'id':i})) }}
                     </select>
                     <label>Balcón (*)</label>
                     {% if errors['room_balcony_'~i] is defined %}<label class="error">{{errors['room_balcony_'~i]|trim(':')}}</label>{%endif%}
                     <select class="input-block-level" name="room_balcony_{{ i }}">
-                        {% render 'mycpBundle:BackendOwnership:get_balcony_list' with{'post':post,'id':i} %}
+                        {{ render(controller('mycpBundle:BackendOwnership:get_balcony_list', {'post':post,'id':i})) }}
                     </select>
                     <label>Terraza (*)</label>
                     {% if errors['room_terrace_'~i] is defined %}<label class="error">{{errors['room_terrace_'~i]|trim(':')}}</label>{%endif%}
                     <select class="input-block-level" name="room_terrace_{{ i }}">
-                        {% render 'mycpBundle:BackendOwnership:get_terrace_list' with{'post':post,'id':i} %}
+                        {{ render(controller('mycpBundle:BackendOwnership:get_terrace_list', {'post':post,'id':i})) }}
                     </select>
                     <label>Patio (*)</label>
                     {% if errors['room_yard_'~i] is defined %}<label class="error">{{errors['room_yard_'~i]|trim(':')}}</label>{%endif%}
                     <select class="input-block-level" name="room_yard_{{ i }}">
-                        {% render 'mycpBundle:BackendOwnership:get_yard_list' with{'post':post,'id':i} %}
+                        {{ render(controller('mycpBundle:BackendOwnership:get_yard_list', {'post':post,'id':i})) }}
                     </select>
                 </div>
             {% endfor %}
@@ -304,7 +302,7 @@
                 <div class="span3"><label>Desayuno incluido (*)</label></div>
                 <div class="span3">{% if errors['facilities_breakfast'] is defined %}<label class="error">{{errors['facilities_breakfast']|trim(':')}}</label>{%endif%}
                     <select class="input-block-level" name="facilities_breakfast">
-                        {% render 'mycpBundle:BackendOwnership:get_facilities_breakfast_list' with{'post':post} %}
+                        {{ render(controller('mycpBundle:BackendOwnership:get_facilities_breakfast_list', {'post':post})) }}
                     </select></div>
                 <div class="span3"><label><input value="{% if(post['facilities_breakfast_price'] is defined) %}{{post['facilities_breakfast_price']}}{% endif %}" type="text" class="input-block-level" name="facilities_breakfast_price"/></label></div>
                 <div class="span3"></div>
@@ -313,7 +311,7 @@
                 <div class="span3"><label>Cena (*)</label></div>
                 <div class="span3">{% if errors['facilities_dinner'] is defined %}<label class="error">{{errors['facilities_dinner']|trim(':')}}</label>{%endif%}
                     <select class="input-block-level" name="facilities_dinner">
-                        {% render 'mycpBundle:BackendOwnership:get_facilities_dinner_list' with{'post':post} %}
+                        {{ render(controller('mycpBundle:BackendOwnership:get_facilities_dinner_list', {'post':post})) }}
                     </select></div>
                 <div class="span3"><input placeholder="Desde" value="{% if(post['facilities_dinner_price_from'] is defined) %}{{post['facilities_dinner_price_from']}}{% endif %}" type="text" class="input-block-level" name="facilities_dinner_price_from"/></div>
                 <div class="span3"><input placeholder="Hasta" value="{% if(post['facilities_dinner_price_to'] is defined) %}{{post['facilities_dinner_price_to']}}{% endif %}" type="text" class="input-block-level" name="facilities_dinner_price_to"/></div>
@@ -322,7 +320,7 @@
                 <div class="span3"><label>Parqueo incluido (*)</label></div>
                 <div class="span3">{% if errors['facilities_parking'] is defined %}<label class="error">{{errors['facilities_parking']|trim(':')}}</label>{%endif%}
                     <select class="input-block-level" name="facilities_parking">
-                        {% render 'mycpBundle:BackendOwnership:get_facilities_parking_list' with{'post':post} %}
+                        {{ render(controller('mycpBundle:BackendOwnership:get_facilities_parking_list', {'post':post})) }}
                     </select></div>
                 <div class="span3"><input value="{% if(post['facilities_parking_price'] is defined) %}{{post['facilities_parking_price']}}{% endif %}" type="text" class="input-block-level" name="facilities_parking_price"/></div>
                 <div class="span3"></div>
@@ -335,34 +333,34 @@
         <div id="casa" class="tab-pane fade">
             <div class="row-fluid">
                 <div class="span3">
-                {% render 'mycpBundle:BackendOwnership:get_ownership_water' with{'data':post}%}
+                    {{ render(controller('mycpBundle:BackendOwnership:get_ownership_water', {'data':post})) }}
                 </div>
                 <div class="span3">
                 <label>Parqueo ciclos (Cajas) (*)</label>
                 {% if errors['description_bicycle_parking'] is defined %}<label class="error">{{errors['description_bicycle_parking']|trim(':')}}</label>{%endif%}
                 <select class="input-block-level" name="description_bicycle_parking">
-                    {% render 'mycpBundle:BackendOwnership:get_bicycle_list' with{'post':post} %}
+                    {{ render(controller('mycpBundle:BackendOwnership:get_bicycle_list', {'post':post})) }}
                 </select>
                 </div>
                 <div class="span2">
                 <label>Mascotas (*)</label>
                 {% if errors['description_pets'] is defined %}<label class="error">{{errors['description_pets']|trim(':')}}</label>{%endif%}
                 <select class="input-block-level" name="description_pets">
-                    {% render 'mycpBundle:BackendOwnership:get_pets_list' with{'post':post} %}
+                    {{ render(controller('mycpBundle:BackendOwnership:get_pets_list', {'post':post})) }}
                 </select>
                 </div>
                 <div class="span2">
                     <label>Lavanderia (*)</label>
                     {% if errors['description_laundry'] is defined %}<label class="error">{{errors['description_laundry']|trim(':')}}</label>{%endif%}
                     <select class="input-block-level" name="description_laundry">
-                        {% render 'mycpBundle:BackendOwnership:get_laundry_list' with{'post':post} %}
+                        {{ render(controller('mycpBundle:BackendOwnership:get_laundry_list', {'post':post})) }}
                     </select>
                 </div>
                 <div class="span2">
                     <label>Email (Internet) (*)</label>
                     {% if errors['description_internet'] is defined %}<label class="error">{{errors['description_internet']|trim(':')}}</label>{%endif%}
                     <select class="input-block-level" name="description_internet">
-                        {% render 'mycpBundle:BackendOwnership:get_internet_list' with{'post':post} %}
+                        {{ render(controller('mycpBundle:BackendOwnership:get_internet_list', {'post':post})) }}
                     </select>
                 </div>
 
@@ -420,7 +418,7 @@
             <h3 class="title">Publicado</h3>
             {%if errors["status"] is defined %}<label class="error">{{errors["status"]|trim(':')}}</label>{%endif%}
             <select name="status" class="input-block-level">
-                {% render 'mycpBundle:BackendOwnership:get_status' with{'post':post} %}
+                {{ render(controller('mycpBundle:BackendOwnership:get_status', {'post':post})) }}
             </select>
             <label>Comentarios:</label>
             <input type="text" class="input-block-level" name="comment" value="{%if post["comment"] is defined %}{{post["comment"]}}{%endif%}" />
@@ -431,7 +429,7 @@
             <div class="row-fluid">
                 <div class="span12">
                     <select id="user_selected" name="user_selected" class="input-block-level">
-                        {% render 'mycpBundle:BackendUser:get_user_casa' with{'post':post} %}
+                        {{ render(controller('mycpBundle:BackendUser:get_user_casa', {'post':post})) }}
                     </select>
                 </div>
             </div>
@@ -469,7 +467,7 @@
     {%endif%}
     {% if data['edit_ownership'] is defined %}
         <div id="comentarios" class="tab-pane fade">
-            {% render 'mycpBundle:BackendComment:get_comments_by_ownership' with{'id_own':data['id_ownership']} %}
+            {% render(controller('mycpBundle:BackendComment:get_comments_by_ownership', {'id_own':data['id_ownership']})) %}
         </div>
         {% endif %}
     </div>
@@ -481,7 +479,8 @@
     {%endif%}
 
 <script type="text/javascript">
-    url = "{{ path('mycp_get_mun_by_prov', { 'country_code': ''}) }}",
+    url = "{{ path('mycp_get_mun_by_prov', { 'country_code': '-1'}) }}";
+    url=url.replace('/-1','');
     $('#ownership_address_province').change(function(){
 
         code_prov=$('#ownership_address_province option:selected').attr('class');

@@ -3,10 +3,10 @@
 <div class="row-fluid" style="background-color: #ffffff">
    <div class="span12">
     <div class="span2">
-        <img class="img-polaroid" style="margin-bottom: 10px;" src="{{ asset('bundles/frontend/images/user_no_photo.gif') }}" alt="">
+        <img class="img-polaroid" style="margin-bottom: 10px;" src="{{ asset('bundles/frontend/img/user_no_photo.gif') }}" alt="">
         <label class="name">{{ comment.getComUser.getUserName }}</label>
         <div class="rating_star">
-            {% for i in 1 .. 5 %}{% if i <= comment.getComRate %}<img src="{{ asset('bundles/frontend/images/star_on.png')}}"/>{% else %}<img src="{{ asset('bundles/frontend/images/star_off.png')}}"/>{% endif %} {% endfor %}
+            {% for i in 1 .. 5 %}{% if i <= comment.getComRate %}<img src="{{ asset('bundles/frontend/img/star_on.png')}}"/>{% else %}<img src="{{ asset('bundles/frontend/img/star_off.png')}}"/>{% endif %} {% endfor %}
         </div>
     </div>
     <div class="span10" style="font-size: 12px;">

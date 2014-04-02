@@ -55,7 +55,7 @@
 </div>
 </div>
 <div id="main-search">
-{% render "frontEndBundle:ownership:orangeSearchBar" %}
+{{ render(controller('frontEndBundle:ownership:orangeSearchBar')) }}
 </div>
 {% endblock %}
 {% block body %}
@@ -64,7 +64,7 @@
     <h2 class="text-center caecilia-roman h-grey h-size-2">{{"PLACE_IN_CUBA_TO_VISIT" | trans}}</h2>
 </div>
 <div style="background-color: #ECEAEB; padding: 15px 0 30px 0; margin-top: 15px">
-    {% render('frontEndBundle:destination:get_big_map') %}
+    {{ render(controller('frontEndBundle:destination:get_big_map')) }}
 </div>
 </div>
 <div  class="container">
@@ -105,8 +105,7 @@
                                                                             'midrange_total': midrange_total,
                                                                             'economic_total': economic_total}) }}
 </div>
-
-{% render 'frontEndBundle:public:home_carrousel'  %}
+{{ render(controller('frontEndBundle:public:home_carrousel')) }}
 </div>
 <script type="text/javascript">
     old_class='';

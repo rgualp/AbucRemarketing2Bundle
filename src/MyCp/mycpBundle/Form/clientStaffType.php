@@ -7,7 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Component\Validator\Constraints\MinLength;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class clientStaffType extends AbstractType
@@ -27,52 +27,61 @@ class clientStaffType extends AbstractType
         }
 
         $builder
-            ->add('user_name','text',array('label'=>'Usuario:'))
-            ->add('user_user_name','text',array('label'=>'Nombre:'))
-            ->add('user_last_name','text',array('label'=>'Apellidos:'))
-            ->add('user_address','text',array('label'=>'Dirección:'))
-            ->add('user_email','text',array('label'=>'Email:'))
+            ->add('user_name','text',array(
+                'label'=>'Usuario:',
+                'constraints'=>array(new NotBlank())
+            ))
+            ->add('user_user_name','text',array(
+                'label'=>'Nombre:',
+                'constraints'=>array(new NotBlank())
+            ))
+            ->add('user_last_name','text',array(
+                'label'=>'Apellidos:',
+                'constraints'=>array(new NotBlank())
+            ))
+            ->add('user_address','text',array(
+                'label'=>'Dirección:',
+                'constraints'=>array(new NotBlank())
+            ))
+            ->add('user_email','text',array(
+                'label'=>'Email:',
+                'constraints'=>array(new NotBlank(), new Email())
+            ))
             ->add('user_country',
                 'choice',array('empty_value' => '','choices'=>$array_countries,
-                    'label'=>'País:'))
-            ->add('user_city','text',array('label'=>'Ciudad:'))
-            ->add('user_phone','text',array('label'=>'Teléfono:'))
-            ->add('user_photo','file',array('label'=>'Foto Staff:', 'attr'=>array('title'=>'Seleccionar fichero...','accept'=>'image/*')))
-            ->add('user_password','repeated',array(
-            'first_name' => 'Clave:',
-            'second_name' => 'Repetir_clave:',
-            'type' => 'password',
-        ));
-        ;
-    }
-
-    public function getDefaultOptions(array $options)
-    {
-
-        $array=array();
-
-        $array['user_name']= array(new NotBlank());
-        $array['user_user_name']= array(new NotBlank());
-        $array['user_last_name']= array(new NotBlank());
-        $array['user_address']= array(new NotBlank());
-        $array['user_email']= array(new Email(),new NotBlank());
-        $array['user_country']= array(new NotBlank());
-        $array['user_city']= array(new NotBlank());
-        $array['user_phone']= array(new NotBlank());
-        $array['user_photo']= array();
+                'label'=>'País:',
+                'constraints'=>array(new NotBlank())
+                ))
+            ->add('user_city','text',array(
+                'label'=>'Ciudad:',
+                'constraints'=>array(new NotBlank())
+            ))
+            ->add('user_phone','text',array(
+                'label'=>'Teléfono:',
+                'constraints'=>array(new NotBlank())
+            ))
+            ->add('user_photo','file',array('label'=>'Foto Staff:', 'attr'=>array('title'=>'Seleccionar fichero...','accept'=>'image/*'))
+            );
 
         if(isset($this->data['edit']) && $this->data['password']=='')
         {
-            $array['user_password']= array();
+            $builder->add('user_password','repeated',array(
+                'first_name' => 'Clave:',
+                'second_name' => 'Repetir_clave:',
+                'type' => 'password'));
         }
         else
         {
-            $array['user_password']= array(new NotBlank(),new MinLength(6));
+            $builder->add('user_password','repeated',array(
+                'first_name' => 'Clave:',
+                'second_name' => 'Repetir_clave:',
+                'type' => 'password',
+                'constraints'=>array(new NotBlank(),new Length(array('min'=>6)))
+            ));
         }
-        $collectionConstraint = new Collection($array);
 
-        return array('validation_constraint' => $collectionConstraint);
     }
+
 
     public function getName()
     {

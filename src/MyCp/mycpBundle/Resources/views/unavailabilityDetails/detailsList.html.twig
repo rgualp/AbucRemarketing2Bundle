@@ -54,7 +54,7 @@
     <tr>
         <th>Período</th>
         <th style="width:50%">Motivo</th>
-        <th>Acciones</th>
+        <th style="text-align: right">Acciones</th>
     </tr>
     </thead>
     <tbody>
@@ -62,7 +62,7 @@
     <tr>
         <td>{{detail.udFromDate | date('d/m/Y')}} - {{detail.udToDate | date('d/m/Y')}}</td>
         <td>{{detail.udreason}}</td>
-        <td>
+        <td style="text-align: right">
         <a class="btn btn-mini" style="margin: 0" href="{{ path('mycp_edit_unavailabilityDetails',{'id_detail':detail.udid,'num_room':num_room}) }}">Editar</a>
         <a class="btn btn-mini btn-danger" href="{{ path('mycp_delete_unavailabilityDetails',{'id_detail':detail.udid,'num_room':num_room}) }}">Eliminar</a>
         </td>

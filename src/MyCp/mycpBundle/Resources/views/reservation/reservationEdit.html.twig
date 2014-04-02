@@ -32,7 +32,7 @@
             <tr>
                 <td>Casa</td>
                 <td><select  class="input-block-level" name="ownership">
-                    {% render 'mycpBundle:BackendReservation:get_ownerships' with{'data':data} %}
+                {{ render(controller('mycpBundle:BackendReservation:get_ownerships', {'data': data})) }}
                 </select></td>
             </tr>
             <tr>
@@ -40,7 +40,7 @@
                 <td>
                     {%if errors["selected_room"] is defined %}<label class="error">{{errors["selected_room"]|trim(':')}}</label>{%endif%}
                     <select  class="input-block-level" name="selected_room">
-                        {% render 'mycpBundle:BackendReservation:get_rooms_by_ownership' with{'id_ownership':data['ownership'],'selected_room':post['selected_room']} %}
+                        {{ render(controller('mycpBundle:BackendReservation:get_rooms_by_ownership', {'id_ownership':data['ownership'],'selected_room':post['selected_room']})) }}
                     </select>
             </tr>
             <tr>
@@ -76,7 +76,7 @@
             <tr>
                 <td>Comisión en %</td>
                 <td><select name="percent" id="percent" class="input-block-level">
-                    {% render 'mycpBundle:BackendReservation:get_percent_list' with{'post':post} %}
+                    {{ render(controller('mycpBundle:BackendReservation:get_percent_list', {'post':post})) }}
                     </select>
                 </td>
             </tr>
