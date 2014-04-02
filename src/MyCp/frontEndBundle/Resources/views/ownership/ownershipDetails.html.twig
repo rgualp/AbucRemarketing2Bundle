@@ -464,7 +464,7 @@
             <li><button onclick="javascript:refresh_calendar_button()" class="btn btn-primary">{{"VERIFY_PRICES_FOR_THIS_DATES" | trans}}</button></li>
         </ul>
         <hr class="margin-t"/>
-        {%render "frontEndBundle:ownership:owners_photos" with {'ownership_id': ownership.own_id }%}
+        {{ render(controller( 'frontEndBundle:ownership:owners_photos', { 'ownership_id': ownership.own_id} )) }}
         {% if ownership.owner1 %}
             <div class="text-center">
                 <h4>
@@ -493,8 +493,8 @@
         {'ownership': ownership}) }}
 
         <hr/>
-        {%render "frontEndBundle:ownership:last_owns_visited" with {'exclude_ownership_id': ownership.own_id }%}
-        {%render "frontEndBundle:ownership:near_by_destinations" with {'municipality_id': ownership.ownaddressmunicipality_id, 'province_id': ownership.ownAddressProvince_id}%}
+        {{ render(controller( 'frontEndBundle:ownership:last_owns_visited', { 'exclude_ownership_id': ownership.own_id })) }}
+        {{ render(controller( "frontEndBundle:ownership:near_by_destinations", { 'municipality_id': ownership.ownaddressmunicipality_id, 'province_id': ownership.ownAddressProvince_id} )) }}
         {%if total_similar_houses > 0%}
 
 
