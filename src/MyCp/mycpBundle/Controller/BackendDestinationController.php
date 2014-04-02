@@ -58,7 +58,7 @@ class BackendDestinationController extends Controller
                 $em->flush();
 
                 $message = 'Categoría añadida satisfactoriamente.';
-                $this->get('session')->setFlash('message_ok', $message);
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
                 $service_log->save_log('Create category, ' . $post['lang' . $languages[0]->getLangId()], 1);
@@ -76,7 +76,7 @@ class BackendDestinationController extends Controller
         $service_security->verify_access();
         $em = $this->getDoctrine()->getEntityManager();
         $languages = $em->getRepository('mycpBundle:lang')->findAll();
-        $dest_cat_langs = $em->getRepository('mycpBundle:destinationCategoryLang')->get_categories();
+        $dest_cat_lang = $em->getRepository('mycpBundle:destinationCategoryLang')->findBy(array('des_cat_id_cat'=>$id_category));
         if ($request->getMethod() == 'POST') {
             $form = $this->createForm(new categoryType(array('languages' => $languages,'des_photo'=>true)));
         } else {
@@ -119,7 +119,7 @@ class BackendDestinationController extends Controller
 
                 $em->flush();
                 $message = 'Categoría actualizada satisfactoriamente.';
-                $this->get('session')->setFlash('message_ok', $message);
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
                 $service_log->save_log('Edit category, ' . $post['lang' . $languages[0]->getLangId()], 1);
@@ -127,17 +127,10 @@ class BackendDestinationController extends Controller
                 return $this->redirect($this->generateUrl('mycp_list_category_destination'));
             }
         }
-        if(is_object($dest_cat_langs[0]))
-        {
-            $name=$dest_cat_langs[0]->getDesCatName();
-        }
-        else
-        {
-            $name=$dest_cat_langs[0]['des_cat_name'];
-        }
+
 
         return $this->render('mycpBundle:destination:categoryNew.html.twig', array(
-            'form' => $form->createView(), 'edit_category' => $id_category, 'name_category' => $name
+            'form' => $form->createView(), 'edit_category' => $id_category, 'name_category' => $dest_cat_lang[0]->getDesCatName()
         ));
     }
 
@@ -173,7 +166,7 @@ class BackendDestinationController extends Controller
 
 
         $message = 'Categoría eliminada satisfactoriamente.';
-        $this->get('session')->setFlash('message_ok', $message);
+        $this->get('session')->getFlashBag()->add('message_ok', $message);
 
         $service_log = $this->get('log');
         $service_log->save_log('Delete category, ' . $old_cat_lang, 1);
@@ -257,7 +250,7 @@ class BackendDestinationController extends Controller
                     $service_log->save_log('Create entity '.$post['name'],1);
                 }
 
-                $this->get('session')->setFlash('message_ok',$message);
+                $this->get('session')->getFlashBag()->add('message_ok',$message);
                 return $this->redirect($this->generateUrl('mycp_list_destination'));
             }
 
@@ -292,7 +285,7 @@ class BackendDestinationController extends Controller
         if($request->getMethod()=='POST' && $filter_active=='null' && $filter_name=='null' && $filter_province=='null' && $filter_municipality=='null')
         {
             $message='Debe llenar al menos un campo para filtrar.';
-            $this->get('session')->setFlash('message_error_local',$message);
+            $this->get('session')->getFlashBag()->add('message_error_local',$message);
             return $this->redirect($this->generateUrl('mycp_list_destination'));
         }
         if($filter_name=='null') $filter_name='';
@@ -339,11 +332,17 @@ class BackendDestinationController extends Controller
         $destinationFavorites=$em->getRepository('mycpBundle:favorite')->findBy(array('favorite_destination'=>$id_destination));
         $userHistories=$em->getRepository('mycpBundle:userHistory')->findBy(array('user_history_destination'=>$id_destination));
         $destination_location=$em->getRepository('mycpBundle:destinationLocation')->findBy(array('des_loc_destination'=>$id_destination));
-        $em->remove($destination_location[0]);
+
         foreach($destinationLangs as $destinationLang)
         {
             $em->remove($destinationLang);
         }
+
+        foreach($destination_location as $desloc)
+        {
+            $em->remove($desloc);
+        }
+
 
         foreach($userHistories as $userHist)
         {
@@ -376,7 +375,7 @@ class BackendDestinationController extends Controller
             $em->remove($destination);
         $em->flush();
         $message='Destino eliminado satisfactoriamente.';
-        $this->get('session')->setFlash('message_ok',$message);
+        $this->get('session')->getFlashBag()->add('message_ok',$message);
 
         $service_log= $this->get('log');
         $service_log->save_log('Delete entity '.$name_destination,1);
@@ -485,7 +484,7 @@ class BackendDestinationController extends Controller
         if ($request->getMethod() == 'POST') {
             $post = $request->request->getIterator()->getArrayCopy();
             $files = $request->files->get('images');
-            var_dump($files);
+            //var_dump($files);
             if($files['files'][0]===null)
             {
                 $data['error']='Debe seleccionar una imágen.';
@@ -523,12 +522,10 @@ class BackendDestinationController extends Controller
                         $photo= new photo();
                         $fileName = uniqid('destination-').'-photo.jpg';
                         $file->move($dir, $fileName);
-                        
                         //Creando thumbnail, redimensionando y colocando marca de agua
                         \MyCp\mycpBundle\Helpers\Images::create_thumbnail($dir.$fileName, $dir_thumbs.$fileName, 160);
                         //\MyCp\mycpBundle\Helpers\Images::resize_and_watermark($dir.$fileName, $dir_watermark, 480);
                         \MyCp\mycpBundle\Helpers\Images::resize($dir.$fileName, 480);
-                        
                         
                         $photo->setPhoName($fileName);
                         $destinationPhoto->setDesPhoDestination($destination);
@@ -551,7 +548,7 @@ class BackendDestinationController extends Controller
                     $service_log->save_log('Create photo, entity '.$destination->getDesName(),1);
 
                     $message='Ficheros subidos satisfactoriamente.';
-                    $this->get('session')->setFlash('message_ok',$message);
+                    $this->get('session')->getFlashBag()->add('message_ok',$message);
                     return $this->redirect($this->generateUrl('mycp_list_photos_destination',array('id_destination'=>$id_destination)));
 
 
@@ -603,7 +600,7 @@ class BackendDestinationController extends Controller
                         $service_log->save_log('Create photo, entity '.$destination->getDesName(),1);
 
                         $message='El fichero se ha subido satisfactoriamente.';
-                        $this->get('session')->setFlash('message_ok',$message);
+                        $this->get('session')->getFlashBag()->add('message_ok',$message);
                         return $this->redirect($this->generateUrl('mycp_list_photos_destination',array('id_destination'=>$id_destination)));
 
                     }*/
@@ -641,7 +638,7 @@ class BackendDestinationController extends Controller
          @unlink($dir.$photoDel->getPhoName());
          @unlink($dir_thumbnails.$photoDel->getPhoName());
          $message='El fichero se ha eliminado satisfactoriamente.';
-         $this->get('session')->setFlash('message_ok',$message);
+         $this->get('session')->getFlashBag()->add('message_ok',$message);
 
          $service_log= $this->get('log');
          $service_log->save_log('Delete photo, entity '.$destination->getDesName(),1);
@@ -696,7 +693,7 @@ class BackendDestinationController extends Controller
                 }
                 $em->flush();
                 $message='Imágen actualizada satisfactoriamente.';
-                $this->get('session')->setFlash('message_ok',$message);
+                $this->get('session')->getFlashBag()->add('message_ok',$message);
                 $destination= $em->getRepository('mycpBundle:destination')->find($id_destination);
 
                 $service_log= $this->get('log');

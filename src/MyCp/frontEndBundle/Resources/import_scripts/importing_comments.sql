@@ -1,4 +1,4 @@
-﻿/*
+﻿﻿/*
 Importing comments from old database to new database
 Author: Yanet Morales Ramirez
 */

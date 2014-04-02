@@ -1,10 +1,6 @@
-jms_security_extra:
-    secure_all_services: false
-    expressions: true
-
 security:
     encoders:
-            MyCp\mycpBundle\Entity\user: sha512
+         MyCp\mycpBundle\Entity\user: sha512
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
@@ -39,12 +35,12 @@ security:
                 target: /backend
             anonymous: ~
 
-        frontend:
+        user:
             pattern:    ^/
             provider: frontend
             form_login:
-                check_path: /check
-                login_path: mycp_login
+                check_path: frontend_ckeck
+                login_path: frontend_login
             remember_me:
                 key: 7dsa7ydasdy872187yegwhqeg9yw91hjsaa00
                 lifetime: 86400
@@ -52,41 +48,17 @@ security:
                 path:   /logout
                 target: /
             anonymous: ~
-
-        user:
-            pattern:    ^/*/user
-            provider: frontend
-            form_login:
-                check_path: /check
-                login_path: mycp_login
-            remember_me:
-                key: 7dsa7ydasdy872187yegwhqeg9yw91hjsaa00
-                lifetime: 86400
-            logout:
-                path:   /logout
-                target: /
-            anonymous: ~
-
-            #http_basic:
-            #    realm: "Secured Demo Area"
 
     access_control:
-         - { path: ^/backend/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-         - { path: ^/backend/mycp_cf, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-         - { path: ^/backend, roles: [ROLE_CLIENT_STAFF,ROLE_CLIENT_CASA,ROLE_CLIENT_CASA] }
-         - { path: '^/[a-z]{2}/user/cart', roles: IS_AUTHENTICATED_ANONYMOUSLY }
-         - { path: '^/[a-z]{2}/user/confirmation', roles: [ROLE_CLIENT_TOURIST]}
-         - { path: '^/[a-z]{2}/user/add', roles: IS_AUTHENTICATED_ANONYMOUSLY }
-         - { path: '^/[a-z]{2}/user/clear', roles: IS_AUTHENTICATED_ANONYMOUSLY }
-         - { path: '^/[a-z]{2}/user/remove', roles: IS_AUTHENTICATED_ANONYMOUSLY }
-         - { path: '^/[a-z]{2}/user', roles: [ROLE_CLIENT_TOURIST] }
-         - { path: '^/[a-z]{2}/mycasatrip', roles: [ROLE_CLIENT_TOURIST] }
-         - { path: '^/[a-z]{2}/perfil', roles: [ROLE_CLIENT_TOURIST] }
-         - { path: '^/[a-z]{2}/profile', roles: [ROLE_CLIENT_TOURIST] }
-
-        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
-        #
-        # You must uncomment the two following rules to restrict access to paths
-        # starting with the /_internal prefix to only localhost
-        #- { path: ^/_internal/secure, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }
-        #- { path: ^/_internal/secure, roles: ROLE_NO_ACCESS }
+        - { path: ^/backend/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/backend/mycp_cf, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/backend, roles: [ROLE_CLIENT_STAFF,ROLE_CLIENT_CASA,ROLE_CLIENT_CASA] }
+        - { path: '^/[a-z]{2}/user/cart', roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: '^/[a-z]{2}/user/confirmation', roles: [ROLE_CLIENT_TOURIST]}
+        - { path: '^/[a-z]{2}/user/add', roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: '^/[a-z]{2}/user/clear', roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: '^/[a-z]{2}/user/remove', roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: '^/[a-z]{2}/user', roles: [ROLE_CLIENT_TOURIST] }
+        - { path: '^/[a-z]{2}/mycasatrip', roles: [ROLE_CLIENT_TOURIST] }
+        - { path: '^/[a-z]{2}/perfil', roles: [ROLE_CLIENT_TOURIST] }
+        - { path: '^/[a-z]{2}/profile', roles: [ROLE_CLIENT_TOURIST] }

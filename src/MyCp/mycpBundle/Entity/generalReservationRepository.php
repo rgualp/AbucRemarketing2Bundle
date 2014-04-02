@@ -120,13 +120,13 @@ class generalReservationRepository extends EntityRepository {
     public function getResponseLanguaje($reservation) {
         $em = $this->getEntityManager();
         $userTourist = $em->getRepository("mycpBundle:userTourist")->findOneBy(array('user_tourist_user' => $reservation->getGenResUserId()));
-        return $userTourist != null ? $userTourist->getUserTouristLanguage()->getLangName() : "English";
+        return $userTourist != null ? $userTourist->getUserTouristLanguage()->getLangCode() : "EN";
     }
 
     public function getResponseCurrency($reservation) {
         $em = $this->getEntityManager();
         $userTourist = $em->getRepository("mycpBundle:userTourist")->findOneBy(array('user_tourist_user' => $reservation->getGenResUserId()));
-        return $userTourist != null ? $userTourist->getUserTouristCurrency()->getCurrName() : "EUR";
+        return $userTourist != null ? $userTourist->getUserTouristCurrency()->getCurrCode() : "usd";
     }
 
 }

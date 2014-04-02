@@ -141,7 +141,7 @@ class PublicController extends Controller {
     public function get_main_menu_mycasatripAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
         $notifications = ($user != null && $user != "anon.") ? $em->getRepository('mycpBundle:ownershipReservation')->get_for_main_menu($user->getUserId()) : array();
                 
         return $this->render('frontEndBundle:utils:mainMenuMyCasaTripItems.html.twig', array(

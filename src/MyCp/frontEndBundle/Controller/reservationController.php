@@ -32,7 +32,7 @@ class reservationController extends Controller
         //var_dump($trans);exit();
         $message = $trans->trans('CART_EMPTY_SUCCESSFUL');
         //var_dump($message); exit();
-        $this->get('session')->setFlash('message_global_success', $message);
+        $this->get('session')->getFlashBag()->add('message_global_success', $message);
         return $this->redirect($this->generateUrl('frontend_review_reservation'));
     }
 
@@ -240,7 +240,7 @@ class reservationController extends Controller
     public function review_confirmAction(Request $request)
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
         $services = array();
         $reservations = array();
         $own_ids = array();
@@ -249,6 +249,7 @@ class reservationController extends Controller
         $array_photos = array();
         if ($request->getSession()->get('services_pre_reservation'))
             $services = $request->getSession()->get('services_pre_reservation');
+
         $keys = array_keys($services);
         if (count($services) > 0) {
             $res_array = array();
@@ -384,6 +385,9 @@ class reservationController extends Controller
             'nigths' => $nigths,
             'photos' => $array_photos
         ));
+
+
+
         $locale = $this->get('translator');
         $subject = $locale->trans('REQUEST_SENT');
         $service_email = $this->get('Email');
@@ -438,7 +442,7 @@ class reservationController extends Controller
             $keys = array_keys($post);
             if (!$keys) {
                 $message = $this->get('translator')->trans("PLEASE_SELECT_RESERVATION");
-                $this->get('session')->setFlash('message_no_select', $message);
+                $this->get('session')->getFlashBag()->add('message_no_select', $message);
                 return $this->redirect($this->generateUrl('frontend_mycasatrip_available'));
             }
 
@@ -463,7 +467,7 @@ class reservationController extends Controller
         }
         $service_time = $this->get('time');
         $em = $this->getDoctrine()->getEntityManager();
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
         $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
         $reservations = array();
         foreach ($array_ids as $id) {
@@ -656,7 +660,7 @@ class reservationController extends Controller
     function confirmationAction($id_booking)
     {
 
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
 
         $em = $this->getDoctrine()->getManager();
         $own_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking));
@@ -784,7 +788,7 @@ class reservationController extends Controller
     function view_confirmationAction($id_booking,$to_print=false)
     {
         $service_time = $this->get('Time');
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
 
         $em = $this->getDoctrine()->getManager();
         $own_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking));

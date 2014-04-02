@@ -68,8 +68,7 @@ destinos
             {%endfor%}
         </div>
         {%endif%}
-
-        {% render 'frontEndBundle:public:home_carrousel' %}
+        {{ render(controller('frontEndBundle:public:home_carrousel')) }}
     </div>
 
 

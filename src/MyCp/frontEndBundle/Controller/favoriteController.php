@@ -127,15 +127,15 @@ class favoriteController extends Controller {
         $data = array();
         $data['favorite_user_id'] = $user_ids["user_id"];
         $data['favorite_session_id'] = $user_ids["session_id"];
-        $data['favorite_ownership_id'] = ($favorite_type == "ownership") ? $element_id : null;
+        $data['favorite_ownership_id'] = ($favorite_type == "ownership" || $favorite_type == "ownershipfav") ? $element_id : null;
         $data['favorite_destination_id'] = ($favorite_type == "destination") ? $element_id : null;
 
         $em->getRepository('mycpBundle:favorite')->delete($data);
-        
+
         if ($favorite_type == "ownership" or $favorite_type == "ownershipfav") {
             $ownership_favorities = $em->getRepository('mycpBundle:favorite')->get_favorite_ownerships($user_ids["user_id"], $user_ids["session_id"]);
             $session->set('user_fav_own_count', count($ownership_favorities));
-            
+
             if($favorite_type == "ownership")
             $response = $this->renderView('frontEndBundle:ownership:ownershipArrayItemList.html.twig', array(
                 'list' => $ownership_favorities,
@@ -165,7 +165,7 @@ class favoriteController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $locale = $this->get('translator')->getLocale();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
-        
+
         if ($user_ids["user_id"] == null || $user_ids["user_id"] == "anon.") {
             $ownership_favorities = $em->getRepository('mycpBundle:favorite')->get_favorite_ownerships($user_ids["user_id"], $user_ids["session_id"]);
             $destination_favorities = $em->getRepository('mycpBundle:favorite')->get_favorite_destinations($user_ids["user_id"], $user_ids["session_id"], null, null, strtoupper($locale));

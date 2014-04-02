@@ -24,7 +24,7 @@ class userController extends Controller {
         if ($request->getMethod() == 'POST') {
             $post = $request->get('mycp_frontendbundle_register_usertype');
             $all_post = $request->request->getIterator()->getArrayCopy();
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             $user_db = $em->getRepository('mycpBundle:user')->findBy(array(
                 'user_email' => $post['user_email'],
                 'user_created_by_migration' => false));
@@ -48,7 +48,7 @@ class userController extends Controller {
                 $service_email->send_templated_email($this->get('translator')->trans('EMAIL_ACCOUNT_REGISTERED_SUBJECT'), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
 
                 $message = $this->get('translator')->trans("USER_CREATE_ACCOUNT_SUCCESS");
-                $this->get('session')->setFlash('message_global_success', $message);
+                $this->get('session')->getFlashBag()->add('message_global_success', $message);
                 return $this->redirect($this->generateUrl('frontend_login'));
             }
         }
@@ -74,7 +74,7 @@ class userController extends Controller {
                 $em->persist($user);
                 $em->flush();
                 $message = $this->get('translator')->trans("USER_ACTIVATE_ACCOUNT_SUCCESS");
-                $this->get('session')->setFlash('message_global_success', $message);
+                $this->get('session')->getFlashBag()->add('message_global_success', $message);
                 return $this->redirect($this->generateUrl('frontend_login'));
             }
         } else {
@@ -88,7 +88,7 @@ class userController extends Controller {
         $form = $this->createForm(new restorePasswordUserType($this->get('translator')));
         if ($request->getMethod() == 'POST') {
             $post = $request->get('mycp_frontendbundle_restore_password_usertype');
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if ($form->isValid()) {
                 $user_db = $em->getRepository('mycpBundle:user')->findOneBy(array('user_email' => $post['user_email']));
                 if ($user_db) {
@@ -105,7 +105,7 @@ class userController extends Controller {
                     $service_email->send_templated_email(
                             $this->get('translator')->trans('EMAIL_RESTORE_ACCOUNT'), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
                     $message = $this->get('translator')->trans("USER_PASSWORD_RECOVERY");
-                    $this->get('session')->setFlash('message_global_success', $message);
+                    $this->get('session')->getFlashBag()->add('message_global_success', $message);
                     return $this->redirect($this->generateUrl('frontend_login'));
                 } else {
                     $errors['no_email'] = $this->get('translator')->trans("USER_PASSWORD_RECOVERY_ERROR");
@@ -124,7 +124,7 @@ class userController extends Controller {
     
     public function change_password_startAction(){
         $service_security = $this->get('Secure');
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
         $encode_string = $service_security->encode_string($user->getUserEmail() . '///' . $user->getUserId());
         return $this->redirect($this->generateUrl('frontend_change_password_user', array('string'=>$encode_string)));
     }
@@ -135,7 +135,7 @@ class userController extends Controller {
         $form = $this->createForm(new changePasswordUserType($this->get('translator')));
         if ($request->getMethod() == 'POST') {
             $post = $request->get('mycp_frontendbundle_change_password_usertype');
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if ($form->isValid()) {
                 $service_security = $this->get('Secure');
                 $decode_string = $service_security->decode_string($string);
@@ -160,7 +160,7 @@ class userController extends Controller {
                         $service_email->send_templated_email(
                                 $message, 'noreply@mycasaparticular.com', $user->getUserEmail(), $message);
 
-                        $this->get('session')->setFlash('message_global_success', $message);
+                        $this->get('session')->getFlashBag()->add('message_global_success', $message);
                         return $this->redirect($this->generateUrl('frontend_login'));
                     }
                 } else {
@@ -185,7 +185,7 @@ class userController extends Controller {
         if ($request->getMethod() == 'POST') {
 
             $post = $request->get('mycp_frontendbundle_restore_password_usertype');
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if ($form->isValid()) {
 
                 $user_db = $em->getRepository('mycpBundle:user')->findBy(array('user_email' => $post['user_email']));
@@ -200,7 +200,7 @@ class userController extends Controller {
                     $body=$this->render('frontEndBundle:mails:enableAccount.html.twig', array('enableUrl'=>$enableUrl));
                     $service_email->send_templated_email($this->get('translator')->trans("USER_ACCOUNT_ACTIVATION_EMAIL"), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
                     $message = $this->get('translator')->trans("USER_CREATE_ACCOUNT_SUCCESS");
-                    $this->get('session')->setFlash('message_global_success', $message);
+                    $this->get('session')->getFlashBag()->add('message_global_success', $message);
                     return $this->redirect($this->generateUrl('frontend_login'));
                 } else {
                     $errors['no_email'] = $this->get('translator')->trans("USER_PASSWORD_RECOVERY_ERROR");
@@ -222,7 +222,7 @@ class userController extends Controller {
         if ($request->getMethod() == 'POST') {
             $post_tourist = $request->get('mycp_frontendbundle_contact_tourist');
             if ($post_tourist != null) {
-                $form_tourist->bindRequest($request);
+                $form_tourist->handleRequest($request);
                 $this->get('session')->set("form_type", "tourist_form");
 
                 if ($form_tourist->isValid()) {
@@ -249,7 +249,7 @@ class userController extends Controller {
                     $service_email->send_templated_email(
                             'Contacto de huesped', $tourist_email, 'info@mycasaparticular.com ', $content->getContent());
                     $message = $this->get('translator')->trans("USER_CONTACT_TOURIST_SUCCESS");
-                    $this->get('session')->setFlash('message_global_success', $message);
+                    $this->get('session')->getFlashBag()->add('message_global_success', $message);
 
                     return $this->redirect($this->generateUrl('frontend_contact_user'));
                 }
@@ -258,7 +258,7 @@ class userController extends Controller {
             $post_owner = $request->get('mycp_frontendbundle_contact_owner');
 
             if ($post_owner != null) {
-                $form_owner->bindRequest($request);
+                $form_owner->handleRequest($request);
                 $this->get('session')->set("form_type", "owner_form");
 
                 if ($form_owner->isValid()) {
@@ -288,7 +288,7 @@ class userController extends Controller {
                             'Contacto de propietario', $owner_email, 'casa@mycasaparticular.com', $content->getContent());
 
                     $message = $this->get('translator')->trans("USER_CONTACT_OWNER_SUCCESS");
-                    $this->get('session')->setFlash('message_global_success', $message);
+                    $this->get('session')->getFlashBag()->add('message_global_success', $message);
 
                     return $this->redirect($this->generateUrl('frontend_contact_user'));
                 }
@@ -353,7 +353,8 @@ class userController extends Controller {
         $data['currencies'] = $em->getRepository('mycpBundle:currency')->findAll();
         $data['languages'] = $em->getRepository('mycpBundle:lang')->findBy(array('lang_active' => 1), array('lang_name' => 'ASC'));
         
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
+       // var_dump($user); exit();
         $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
                 
         $complete_user = array(
@@ -376,7 +377,7 @@ class userController extends Controller {
         if ($request->getMethod() == 'POST') {
             $post = $request->get('mycp_frontendbundle_profile_usertype');
             $all_post = $request->request->getIterator()->getArrayCopy();
-            $form->bindRequest($request); 
+            $form->handleRequest($request); 
                         
             if ($form->isValid()) {
                 
@@ -422,7 +423,7 @@ class userController extends Controller {
                     $em->flush();
                     
                     $message = $this->get('translator')->trans("USER_PROFILE_SAVED");
-                    $this->get('session')->setFlash('message_global_success', $message);
+                    $this->get('session')->getFlashBag()->add('message_global_success', $message);
                     //return $this->redirect($this->generateUrl('frontend_login'));
                 } else {
                     $errors['no_email'] = $this->get('translator')->trans("USER_PROFILE_EMAIL_ERROR");

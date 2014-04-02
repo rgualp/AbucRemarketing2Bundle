@@ -35,7 +35,7 @@ class paymentController extends Controller {
             throw new EntityNotFoundException("user($user)");
         }
 
-        $loggedInUser = $this->get('security.context')->getToken()->getUser();
+        $loggedInUser = $this->getUser();
 
         if (empty($loggedInUser)) {
             throw new AuthenticationException('User not logged in.');

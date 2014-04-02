@@ -67,7 +67,7 @@ class BackendGeneralInformationController extends Controller
                 {
                     $em->getRepository('mycpBundle:information')->edit_information($post);
                     $message='Información actualizada satisfactoriamente.';
-                    $this->get('session')->setFlash('message_ok',$message);
+                    $this->get('session')->getFlashBag()->add('message_ok',$message);
                     $service_log= $this->get('log');
                     $service_log->save_log('Edit entity, '.$post['info_name_'.$languages[0]->getLangId()],9);
                 }
@@ -75,7 +75,7 @@ class BackendGeneralInformationController extends Controller
                 {
                     $em->getRepository('mycpBundle:information')->new_information($post);
                     $message='Información añadida satisfactoriamente.';
-                    $this->get('session')->setFlash('message_ok',$message);
+                    $this->get('session')->getFlashBag()->add('message_ok',$message);
                     $service_log= $this->get('log');
                     $service_log->save_log('Create entity, '.$post['info_name_'.$languages[0]->getLangId()],9);;
                 }
@@ -124,7 +124,7 @@ class BackendGeneralInformationController extends Controller
             if($information->getInfoFixed()==1)
             {
                 $message='No se puede eliminar la información, es un elemento estático.';
-                $this->get('session')->setFlash('message_error_local',$message);
+                $this->get('session')->getFlashBag()->add('message_error_local',$message);
                 return $this->redirect($this->generateUrl('mycp_list_informations'));
             }
             else
@@ -139,7 +139,7 @@ class BackendGeneralInformationController extends Controller
 
         }
         $message='Información eliminada satisfactoriamente.';
-        $this->get('session')->setFlash('message_ok',$message);
+        $this->get('session')->getFlashBag()->add('message_ok',$message);
 
         return $this->redirect($this->generateUrl('mycp_list_informations'));
 

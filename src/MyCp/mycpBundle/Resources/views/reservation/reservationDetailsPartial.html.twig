@@ -106,20 +106,20 @@
                 {% endif %}
                 <td><select name="service_room_type_{{reservation_rooms.getOwnResId}}" class="input-block-level">
                     {% if post['service_room_type_'~reservation_rooms.getOwnResId] is defined %}{% set res_type = post['service_room_type_'~reservation_rooms.getOwnResId] %}{% endif %}
-                    {% render 'mycpBundle:BackendOwnership:get_room_type_list' with{'post':{'service_room_type':res_type, 'not_blank':1},'id':0}%}
+                    {{ render(controller('mycpBundle:BackendOwnership:get_room_type_list', {'post': {'service_room_type':res_type, 'not_blank':1},'id':0})) }}
                 </select></td>
                 <td><select name="service_room_count_adults_{{reservation_rooms.getOwnResId}}" class="input-block-level">
                     {% if post['service_room_count_adults_'~reservation_rooms.getOwnResId] is defined %}
-                    {% render 'mycpBundle:BackendReservation:get_numeric_list' with{'post':{'selected':post['service_room_count_adults_'~reservation_rooms.getOwnResId]}}%}
+                        {{ render(controller('mycpBundle:BackendReservation:get_numeric_list', {'post': {'selected':post['service_room_count_adults_'~reservation_rooms.getOwnResId]}})) }}
                     {% else %}
-                    {% render 'mycpBundle:BackendReservation:get_numeric_list' with{'post':{'selected':reservation_rooms.getOwnResCountAdults}}%}
+                        {{ render(controller('mycpBundle:BackendReservation:get_numeric_list', {'post': {'selected':reservation_rooms.getOwnResCountAdults}})) }}
                     {% endif %}
                 </select></td>
                 <td><select name="service_room_count_childrens_{{reservation_rooms.getOwnResId}}" class="input-block-level">
                     {% if post['service_room_count_childrens_'~reservation_rooms.getOwnResId] is defined %}
-                    {% render 'mycpBundle:BackendReservation:get_numeric_list_0' with{'post':{'selected':post['service_room_count_childrens_'~reservation_rooms.getOwnResId]}}%}
+                        {{ render(controller('mycpBundle:BackendReservation:get_numeric_list_0', {'post': {'selected':post['service_room_count_childrens_'~reservation_rooms.getOwnResId]}})) }}
                     {% else %}
-                    {% render 'mycpBundle:BackendReservation:get_numeric_list_0' with{'post':{'selected':reservation_rooms.getOwnResCountChildrens}}%}
+                        {{ render(controller('mycpBundle:BackendReservation:get_numeric_list_0', {'post': {'selected':reservation_rooms.getOwnResCountChildrens}})) }}
                     {% endif %}
                 </select></td>
                 <td>{{ reservation.getGenResFromDate | date("d/m/Y") }}</td>
@@ -140,9 +140,9 @@
                 <td>
                     <select class="input-block-level" name="service_own_res_status_{{reservation_rooms.getOwnResId}}">
                         {% if post['service_own_res_status_'~reservation_rooms.getOwnResId] is defined %}
-                        {% render 'mycpBundle:BackendReservation:get_reservation_status' with{'post':{'selected':post['service_own_res_status_'~reservation_rooms.getOwnResId]}}%}
+                            {{ render(controller('mycpBundle:BackendReservation:get_reservation_status', {'post': {'selected':post['service_own_res_status_'~reservation_rooms.getOwnResId]}})) }}
                         {% else %}
-                        {% render 'mycpBundle:BackendReservation:get_reservation_status' with{'post':{'selected':reservation_rooms.getOwnResStatus}}%}
+                            {{ render(controller('mycpBundle:BackendReservation:get_reservation_status', {'post': {'selected':reservation_rooms.getOwnResStatus}})) }}
                         {% endif %}
                     </select>
                 </td>

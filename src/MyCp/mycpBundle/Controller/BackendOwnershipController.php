@@ -124,7 +124,7 @@ class BackendOwnershipController extends Controller
                     }
                         $em->flush();
                         $message='Ficheros subidos satisfactoriamente.';
-                        $this->get('session')->setFlash('message_ok',$message);
+                        $this->get('session')->getFlashBag()->add('message_ok',$message);
 
                         $service_log= $this->get('log');
                         $service_log->save_log('Create photo, entity '.$ownership->getOwnName(),4);
@@ -161,7 +161,7 @@ class BackendOwnershipController extends Controller
         )
         {
             $message='Debe llenar al menos un campo para filtrar.';
-            $this->get('session')->setFlash('message_error_local',$message);
+            $this->get('session')->getFlashBag()->add('message_error_local',$message);
             return $this->redirect($this->generateUrl('mycp_list_ownerships'));
         }
         if($filter_code=='null') $filter_code='';
@@ -220,7 +220,7 @@ class BackendOwnershipController extends Controller
         @unlink($dir.$photoDel->getPhoName());
         @unlink($dir_thumbnails.$photoDel->getPhoName());
         $message='El fichero se ha eliminado satisfactoriamente.';
-        $this->get('session')->setFlash('message_ok',$message);
+        $this->get('session')->getFlashBag()->add('message_ok',$message);
         $ownership=$em->getRepository('mycpBundle:ownership')->find($id_ownership);
 
         $service_log= $this->get('log');
@@ -466,7 +466,7 @@ class BackendOwnershipController extends Controller
         $em->flush();
 
         $message='Propiedad eliminada satisfactoriamente.';
-        $this->get('session')->setFlash('message_ok',$message);
+        $this->get('session')->getFlashBag()->add('message_ok',$message);
 
         $service_log= $this->get('log');
         $service_log->save_log('Delete entity '.$old_code,4);
@@ -557,8 +557,14 @@ class BackendOwnershipController extends Controller
                             $errors['user_name']='Ya existe un usuario con ese nombre.';
                         }
                     }
-
-
+                    
+                    //Verificando que no existas otras propiedades con el mismo nombre
+                    $similar_names = $em->getRepository('mycpBundle:ownership')->findBy(array('own_name'=>$post['ownership_name']));
+                    if(count($similar_names) > 0)
+                    {
+                        $errors['ownership_name'] = 'Ya existe una propiedad con este nombre. Por favor, introduzca un nombre similar o diferente.';
+                        $data["count_errors"]+=1;
+                    }
 
                     /*if(strpos($array_keys[$count], 'description_')!==false)
                     {
@@ -736,7 +742,7 @@ class BackendOwnershipController extends Controller
                         $service_log= $this->get('log');
                         $service_log->save_log('Create entity '.$post['ownership_mcp_code'],4);
                     }
-                    $this->get('session')->setFlash('message_ok',$message);
+                    $this->get('session')->getFlashBag()->add('message_ok',$message);
                     if($request->get('save_reset_input')==1)
                     {
                         return $this->redirect($this->generateUrl('mycp_new_ownership'));
@@ -764,8 +770,13 @@ class BackendOwnershipController extends Controller
         $flag=0;
         foreach($errors as $error)
         {
+            if(is_object($error)){
             if($error->__toString()!='')
             {
+                array_push($errors_temp,$errors_keys[$flag]);
+            }
+            }
+            else{
                 array_push($errors_temp,$errors_keys[$flag]);
             }
             $flag++;
@@ -851,7 +862,7 @@ class BackendOwnershipController extends Controller
                 }
                 $em->flush();
                 $message='Imágen actualizada satisfactoriamente.';
-                $this->get('session')->setFlash('message_ok',$message);
+                $this->get('session')->getFlashBag()->add('message_ok',$message);
                 $ownership=$em->getRepository('mycpBundle:ownership')->find($id_ownership);
 
                 $service_log= $this->get('log');

@@ -15,13 +15,17 @@
 {% if message_error is defined %}<label class="alert alert-error">{{message_error}}</label>{%endif%}
 <div class="row-fluid">
     <div class="span6">
-        <select id="roles" class="span6">{% render 'mycpBundle:BackendUser:get_all_roles' with{'selected':''} %}</select>&nbsp;
+        <select id="roles" class="span6">
+            {{ render(controller('mycpBundle:BackendUser:get_all_roles', {'selected': '0'})) }}
+        </select>&nbsp;
         <a class="btn" style="margin-top: -10px" href="javascript:go_to_form()"><i class="icon-plus"></i> Adicionar usuario</a>
     </div>
     <div class="span6">
         <a class="btn pull-right btn-danger" style="margin-left: 8px" href="javascript:go_to_delete_rol()"><i class="icon-minus icon-white"></i> Rol</a>
         <a class="btn pull-right" style="margin-left: 8px" href="javascript:go_to_new_rol()"><i class="icon-plus"></i> Rol</a>
-        <select id="subroles" class="span6 pull-right">{% render 'mycpBundle:BackendUser:get_roles_staff' %}</select>
+        <select id="subroles" class="span6 pull-right">
+            {{ render(controller('mycpBundle:BackendUser:get_roles_staff')) }}
+        </select>
     </div>
 </div>
 <br/>
@@ -38,7 +42,7 @@
             <div class="span3">
                 <label>Rol:</label>
                 <select class="input-block-level" name="filter_role" id="filter_role"/>
-                {% render 'mycpBundle:BackendUser:get_all_roles' with{'selected':filter_role} %}
+                {{ render(controller('mycpBundle:BackendUser:get_all_roles', {'selected': filter_role})) }}
                 </select>
             </div>
             <div class="span3">
@@ -48,7 +52,7 @@
             <div class="span3">
                 <label>País:</label>
                 <select class="input-block-level" name="filter_country" id="filter_country"/>
-                {% render 'mycpBundle:Public:get_countries' with{'selected':filter_country}%}
+                {{ render(controller('mycpBundle:Public:get_countries', {'selected': filter_country})) }}
                 </select>
             </div>
         </div>
@@ -139,8 +143,10 @@
     <p> <div class="alert alert-block">No hay Usuarios disponibles.</div></p>
     {% endif %}
 <script type="text/javascript">
-    url_new_role="{{ path('mycp_new_role' ,{'id_role':''}) }}";
-    url_delete_role="{{ path('mycp_delete_role' ,{'id_role':''}) }}";
+    url_new_role="{{ path('mycp_new_role' ,{'id_role':'-1'}) }}";
+    url_new_role=url_new_role.replace('/-1','');
+    url_delete_role="{{ path('mycp_delete_role' ,{'id_role':'-1'}) }}";
+    url_delete_role=url_delete_role.replace('/-1','');
     function go_to_form()
     {
         form=$('#roles').val();
@@ -148,20 +154,27 @@
         //alert(id_role);
         if(form.indexOf('ROLE_CLIENT_CASA')===0)
         {
-            $(location).attr('href','{{ path('mycp_new_user_casa',{'id_role':''}) }}/'+id_role);
+            new_url='{{ path('mycp_new_user_casa',{'id_role':'-1'}) }}';
+            new_url=new_url.replace('/-1','');
+            $(location).attr('href',new_url+'/'+id_role);
         }
         if(form.indexOf('ROLE_CLIENT_TOURIST')===0)
         {
-            $(location).attr('href','{{ path('mycp_new_user_tourist',{'id_role':''}) }}/'+id_role);
+            new_url='{{ path('mycp_new_user_tourist',{'id_role':'-1'}) }}';
+            new_url=new_url.replace('/-1','');
+            $(location).attr('href',new_url+'/'+id_role);
         }
         if(form.indexOf('ROLE_CLIENT_PARTNER')===0)
         {
-            $(location).attr('href','{{ path('mycp_new_user_partner',{'id_role':''}) }}/'+id_role);
+            new_url='{{ path('mycp_new_user_partner',{'id_role':'-1'}) }}';
+            new_url=new_url.replace('/-1','');
+            $(location).attr('href',new_url+'/'+id_role);
         }
         if(form.indexOf('ROLE_CLIENT_STAFF')===0)
         {
-            url=
-            $(location).attr('href','{{ path('mycp_new_user_staff',{'id_role':''}) }}/'+id_role);
+            new_url='{{ path('mycp_new_user_staff',{'id_role':'-1'}) }}';
+            new_url=new_url.replace('/-1','');
+            $(location).attr('href',new_url+'/'+id_role);
         }
     }
 

@@ -172,11 +172,30 @@ class favoriteRepository extends EntityRepository {
 
     public function set_to_user($user_id, $session_id) {
         $em = $this->getEntityManager();
-        $query = $em->createQuery("UPDATE mycpBundle:favorite f
-                                   SET f.favorite_user= $user_id,
-                                       f.favorite_session_id = NULL
-                                   WHERE f.favorite_session_id='$session_id'");
-        $query->execute();
+        $to_set = $em->getRepository("mycpBundle:favorite")->findBy(array('favorite_session_id' => $session_id, 
+                                                                          'favorite_user' => null));
+        
+        $user = $em->getRepository('mycpBundle:user')->find($user_id);
+                
+        foreach($to_set as $favorite)
+        {
+            if($favorite->getFavoriteOwnership() != null)
+                $count = count($em->getRepository('mycpBundle:favorite')->findBy(array('favorite_user' => $user_id,
+                                                                                       'favorite_ownership' => $favorite->getFavoriteOwnership())));
+            else if($favorite->getFavoriteDestination())
+                $count = count($em->getRepository('mycpBundle:favorite')->findBy(array('favorite_user' => $user_id,
+                                                                                       'favorite_destination' => $favorite->getFavoriteDestination())));
+            
+            if($count == 0)
+            {
+                $favorite->setFavoriteSessionId(null);
+                $favorite->setFavoriteUser($user);
+                $em->persist($favorite);
+            }
+            else
+                $em->remove($favorite);
+        }
+        $em->flush();        
     }
 
     public function get_favorite_destinations($user_id = null, $session_id = null, $max_results = null, $exclude_id_element = null, $locale="ES") {

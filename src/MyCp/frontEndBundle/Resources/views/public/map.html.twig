@@ -29,11 +29,11 @@
 {% endfor %}
 {% endif %}
 {% endfor %}
-
 var poly_signal_positions=[{{ signal_pos|slice(0,(signal_pos|length)-1)|raw }}];
 var poly_signal_category=[{{ categories|slice(0,(categories|length)-1)|raw }}];
 var destinations=[{{ destinations|slice(0,(destinations|length)-1)|raw }}];
-var link_destination="{{ path('frontend_details_destination',{'destination_name':''}) }}";
+var link_destination="{{ path('frontend_details_destination',{'destination_name':'-1'}) }}";
+link_destination=link_destination.replace('/-1','');
 var accommodations_url="{{path('frontend_search_ownership')}}";
 
 </script>

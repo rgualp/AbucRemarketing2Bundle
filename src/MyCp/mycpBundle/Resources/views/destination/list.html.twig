@@ -25,19 +25,19 @@
     <div class="span2">
         <label>Provincia:</label>
         <select class="input-block-level" name="filter_province" id="filter_province"/>
-        {% render 'mycpBundle:Public:get_provinces' with{'post':{'ownership_address_province':filter_province}} %}
+        {{ render(controller('mycpBundle:Public:get_provinces', {'post': {'ownership_address_province':filter_province}})) }}
         </select>
     </div>
     <div class="span3">
         <label>Municipio:</label>
         <select class="input-block-level" name="filter_municipality" id="filter_municipality"/>
-        {% render 'mycpBundle:Public:get_mun' with{'post':{'ownership_address_municipality':filter_municipality}}%}
+        {{ render(controller('mycpBundle:Public:get_mun', {'post': {'ownership_address_municipality':filter_municipality}})) }}
         </select>
     </div>
     <div class="span2">
         <label>Estado:</label>
         <select id="filter_active" class="input-block-level" name="filter_active">
-            {% render 'mycpBundle:BackendUtils:get_active_list' with{'selected':filter_active} %}
+            {{ render(controller('mycpBundle:BackendUtils:get_active_list', {'selected': filter_active})) }}
         </select>
     </div>
     <div class="span2">
@@ -154,7 +154,8 @@
 
                 var result = $('#sortable').sortable('toArray');
                 //alert(result);
-                url = "{{ path('mycp_set_order_destination', { 'ids': '' }) }}"
+                url = "{{ path('mycp_set_order_destination', { 'ids': '-1' }) }}";
+                url=url.replace('/-1','');
                 $.ajax({
                     type:"POST",
                     url:url + '/' + result,
@@ -176,7 +177,8 @@
 {% endif %}
 <script type="text/javascript">
 
-    url = "{{ path('mycp_get_mun_by_prov', { 'country_code': '' }) }}",
+            url = "{{ path('mycp_get_mun_by_prov', { 'country_code': '-1' }) }}";
+            url=url.replace('/-1','');
             $('#filter_province').change(function(){
                 code = $('#filter_province').val();
                 if(code!='')

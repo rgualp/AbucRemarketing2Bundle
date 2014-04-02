@@ -20,12 +20,12 @@ mycp_frontend:
     type: be_simple_i18n
 
 frontend_ckeck:
-    pattern:  /check
+    pattern:  /user/check
 frontend_login:
     pattern:  /{_locale}/login/
     defaults: { _controller: frontEndBundle:public:login }
 frontend_logout:
-    pattern: /logout
+    pattern: /user/logout
 
 mycp_welcome_main:
     pattern:  /welcome/
@@ -38,19 +38,5 @@ mycp_main:
 frontend_change_currency:
     pattern:  /change_currency/{curr_code}
     defaults: { _controller: frontEndBundle:currency:change_currency }
-
-_imagine:
-    resource: .
-    type: imagine
-
-# Internal routing configuration to handle ESI
-# ****** WARNING ******
-# This route should be enabled with caution as it can open a security vulnerability
-# see http://symfony.com/blog/security-release-symfony-2-0-20-and-2-1-5-released for more information
-# ****** WARNING ******
-#_internal:
-#    resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
-#    prefix:   /_internal
-
 
 

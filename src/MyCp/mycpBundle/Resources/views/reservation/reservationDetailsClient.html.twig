@@ -95,7 +95,7 @@
                     <td>{{reservation[0]['gen_res_total_in_site']}} CUC</td>
                     <td>
                         <select name="resume_status_res_{{reservation[0]['gen_res_id']}}" class="input-block-level">
-                            {% render 'mycpBundle:BackendReservation:get_reservation_status' with{'post':{'selected':reservation[0]['gen_res_status']}}%}
+                            {{ render(controller('mycpBundle:BackendReservation:get_reservation_status', {'post': {'selected':reservation[0]['gen_res_status']}})) }}
                         </select>
                     </td>
                     <td style="text-align: right">
@@ -172,8 +172,10 @@
                 new_cont.setAttribute("id",tab_name_id);
                 $(".reserve_details").attr('disabled','disabled');
                 new_cont.innerHTML='<p style="font-size: 12px;">Cargando...<br/><br/></p>';
+                url = "{{ path('mycp_details_reservation_partial', { 'id_reservation': '-1' }) }}"
+                url=url.replace('/-1','');
                 $.ajax({
-                    url: "{{ path('mycp_details_reservation_partial',{'id_reservation':''})}}/"+res_id
+                    url:url + '/' + res_id
                 }).done(function(resp) {
                     $(".reserve_details").removeAttr('disabled');
                     new_cont.innerHTML=resp;

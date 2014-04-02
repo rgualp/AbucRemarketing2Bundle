@@ -56,7 +56,8 @@
     {% set destinations = destinations~"[0,0]," %}
     {% endif %}
     {% endfor %}
-    var link_destination="{{ path('frontend_details_destination',{'destination_name':''}) }}";
+    var link_destination="{{ path('frontend_details_destination',{'destination_name':'-1'}) }}";
+    link_destination=link_destination.replace('/-1','');
     var destinations_icons=[{{ destinations_icons|slice(0,(destinations_icons|length)-1)|raw }}];
     var dest_provinces=[{{ locations|slice(0,(locations|length)-1)|raw }}];
     var signal_pos=[{{ destinations|slice(0,(destinations|length)-1)|raw }}];

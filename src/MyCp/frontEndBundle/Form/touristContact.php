@@ -21,24 +21,32 @@ class touristContact extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('tourist_name','text',array('label'=>$this->translate->trans('FORMS_NAME'),'attr'=>array('class'=>'form-control')))
-            ->add('tourist_last_name','text',array('label'=>$this->translate->trans('FORMS_LASTNAME'),'attr'=>array('class'=>'form-control')))
-            ->add('tourist_email','text',array('label'=>$this->translate->trans('FORMS_EMAIL'),'attr'=>array('class'=>'form-control')))
-            ->add('tourist_phone','text',array('label' => $this->translate->trans('FORMS_PHONE'),'attr'=>array('class'=>'form-control')))
-            ->add('tourist_comment','textarea',array('label' => $this->translate->trans('FORMS_COMMENTS'),'attr'=>array('class'=>'form-control input-block-level')));
+            ->add('tourist_name','text',array(
+                'label'=>$this->translate->trans('FORMS_NAME'),
+                'attr'=>array('class'=>'form-control'),
+                'constraints'=>array(new NotBlank())
+            ))
+            ->add('tourist_last_name','text',array(
+                'label'=>$this->translate->trans('FORMS_LASTNAME'),
+                'attr'=>array('class'=>'form-control'),
+                'constraints'=>array(new NotBlank())
+            ))
+            ->add('tourist_email','text',array(
+                'label'=>$this->translate->trans('FORMS_EMAIL'),
+                'attr'=>array('class'=>'form-control'),
+                'constraints'=>array(new NotBlank(), new Email())
+            ))
+            ->add('tourist_phone','text',array(
+                'label' => $this->translate->trans('FORMS_PHONE'),
+                'attr'=>array('class'=>'form-control'),
+                'constraints'=>array(new NotBlank())
+            ))
+            ->add('tourist_comment','textarea',array(
+                'label' => $this->translate->trans('FORMS_COMMENTS'),
+                'attr'=>array('class'=>'form-control input-block-level'),
+                'constraints'=>array(new NotBlank())
+            ));
         ;
-    }
-
-    public function getDefaultOptions(array $options)
-    {
-        $array['tourist_name']= array(new NotBlank());
-        $array['tourist_last_name']= array(new NotBlank());
-        $array['tourist_email']= array(new NotBlank(), new Email());
-        $array['tourist_phone']= array(new NotBlank());;
-        $array['tourist_comment']= array(new NotBlank());
-        $collectionConstraint = new Collection($array);
-
-        return array('validation_constraint' => $collectionConstraint);
     }
 
     public function getName()

@@ -21,34 +21,42 @@ class ownerContact extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('owner_full_name','text',array('label'=>$this->translate->trans('FORMS_NAME_LASTNAME_OWNER'),'attr'=>array('class'=>'form-control')))
-            ->add('owner_own_name','text',array('label'=>$this->translate->trans('FORMS_OWN_NAME'),'attr'=>array('class'=>'form-control')))
-            ->add('owner_phone','text',array('label'=>$this->translate->trans('FORMS_PHONE'),'attr'=>array('class'=>'form-control')))
-            /*->add('owner_email','repeated',array(
+            ->add('owner_full_name','text',array(
+                'label'=>$this->translate->trans('FORMS_NAME_LASTNAME_OWNER'),
                 'attr'=>array('class'=>'form-control'),
-            'first_name' => $this->translate->trans('FORMS_EMAIL'),
-            'second_name' => $this->translate->trans('FORMS_REPEAT'),
-            'type' => 'text'
-        ))*/
-            ->add('owner_email','text',array('label'=>$this->translate->trans('FORMS_EMAIL'),'attr'=>array('class'=>'form-control')))
-            ->add('owner_province','text',array('label' => $this->translate->trans('FORMS_PROVINCE'),'attr'=>array('class'=>'form-control')))
-            ->add('owner_mun','text',array('label' => $this->translate->trans('FORMS_MUNICIPALITY'),'attr'=>array('class'=>'form-control')))
-            ->add('owner_comment','textarea',array('label' => $this->translate->trans('FORMS_COMMENTS'),'attr'=>array('class'=>'form-control')));
+                'constraints'=>array(new NotBlank())
+            ))
+            ->add('owner_own_name','text',array(
+                'label'=>$this->translate->trans('FORMS_OWN_NAME'),
+                'attr'=>array('class'=>'form-control'),
+                'constraints'=>array(new NotBlank()),
+            ))
+            ->add('owner_phone','text',array(
+                'label'=>$this->translate->trans('FORMS_PHONE'),
+                'attr'=>array('class'=>'form-control'),
+                'constraints'=>array(new NotBlank()),
+            ))
+            ->add('owner_email','text',array(
+                'label'=>$this->translate->trans('FORMS_EMAIL'),
+                'attr'=>array('class'=>'form-control'),
+                'constraints'=>array(new NotBlank(),new Email()),
+            ))
+            ->add('owner_province','text',array(
+                'label' => $this->translate->trans('FORMS_PROVINCE'),
+                'attr'=>array('class'=>'form-control'),
+                'constraints'=>array(new NotBlank()),
+            ))
+            ->add('owner_mun','text',array(
+                'label' => $this->translate->trans('FORMS_MUNICIPALITY'),
+                'attr'=>array('class'=>'form-control'),
+                'constraints'=>array(new NotBlank()),
+            ))
+            ->add('owner_comment','textarea',array(
+                'label' => $this->translate->trans('FORMS_COMMENTS'),
+                'attr'=>array('class'=>'form-control'),
+                'constraints'=>array(new NotBlank()),
+            ));
         
-    }
-
-    public function getDefaultOptions(array $options)
-    {
-        $array['owner_full_name']= array(new NotBlank());
-        $array['owner_own_name']= array(new NotBlank());
-        $array['owner_phone']= array(new NotBlank());
-        $array['owner_email']= array(new NotBlank(), new Email());
-        $array['owner_province']= array(new NotBlank());
-        $array['owner_mun']= array(new NotBlank());
-        $array['owner_comment']= array(new NotBlank());
-        $collectionConstraint = new Collection($array);
-
-        return array('validation_constraint' => $collectionConstraint);
     }
 
     public function getName()

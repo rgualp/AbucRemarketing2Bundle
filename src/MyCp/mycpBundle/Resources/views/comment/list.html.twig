@@ -24,7 +24,7 @@
     <div class="span2">
         <label>Usuario:</label>
         <select id="filter_user" value="{{filter_user}}" class="input-block-level" name="filter_user">
-            {% render 'mycpBundle:BackendUser:get_all_users' with{'post':{'selected':filter_user}}%}
+            {{ render(controller('mycpBundle:BackendUser:get_all_users', {'post': {'selected':filter_user}})) }}
         </select>
     </div>
     <div class="span3">
@@ -34,7 +34,7 @@
     <div class="span2">
         <label>Valoración:</label>
         <select id="filter_rate" value="{{filter_rate}}" class="input-block-level" name="filter_rate">
-            {% render 'mycpBundle:BackendComment:get_all_rate' with{'post':{'selected':filter_rate}}%}
+            {{ render(controller('mycpBundle:BackendComment:get_all_rate', {'post': {'selected':filter_rate}})) }}
         </select>
     </div>
     <div class="span2">

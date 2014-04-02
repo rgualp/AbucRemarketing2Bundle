@@ -484,7 +484,7 @@ class userRepository extends EntityRepository {
         $user_id = null;
         $session_id = null;
         $request = $controller->getRequest();
-        $user = $controller->get('security.context')->getToken()->getUser();
+        $user = $controller->getUser();
 
         if ($user != null && $user != "anon.")
             $user_id = $user->getUserId();
