@@ -559,14 +559,14 @@ class BackendOwnershipController extends Controller
                     }
                     
                     //Verificando que no existas otras propiedades con el mismo nombre
-                    if(!isset($post["id_ownership"]) || $post["id_ownership"]<= 0){
+                   /* if(!isset($post["id_ownership"]) || $post["id_ownership"]<= 0){
                     $similar_names = $em->getRepository('mycpBundle:ownership')->findBy(array('own_name'=>$post['ownership_name']));
                     if(count($similar_names) > 0)
                     {
                         $errors['ownership_name'] = 'Ya existe una propiedad con este nombre. Por favor, introduzca un nombre similar o diferente.';
                         $data["count_errors"]+=1;
                     }
-                    }
+                    }*/
 
                     /*if(strpos($array_keys[$count], 'description_')!==false)
                     {
