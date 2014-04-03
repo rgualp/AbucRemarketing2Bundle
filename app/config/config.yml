@@ -30,8 +30,8 @@ twig:
     strict_variables: "%kernel.debug%"
     globals:
          global_google_maps_api_url_with_key: http://maps.googleapis.com/maps/api/js?v=3&sensor=false&key=AIzaSyCmDojZzlVMZkNntKwDZeAS9VBoPJVYBFQ
-         mycasa_office_geolocate_x: -82.365392
-         mycasa_office_geolocate_y: 23.136379
+         mycasa_office_geolocate_x: 47.547490
+         mycasa_office_geolocate_y: 7.594289
          mycasa_office_phone: (+41)44 586 64 44
 
 # Assetic Configuration
