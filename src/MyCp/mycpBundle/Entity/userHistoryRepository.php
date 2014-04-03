@@ -160,7 +160,8 @@ class userHistoryRepository extends EntityRepository
             }
             else
             {
-                $hElement->setUserHistoryVisitCount($hElement->getUserHistoryVisitCount() + 1);
+                $visits = ($hElement->getUserHistoryVisitCount() != null) ? $hElement->getUserHistoryVisitCount() : 0;
+                $hElement->setUserHistoryVisitCount($visits + 1);
                 $hElement->setUserHistoryVisitDate(new \DateTime());
                 $em->persist($hElement);
                 $em->remove($history);
