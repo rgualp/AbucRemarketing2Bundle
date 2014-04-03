@@ -540,7 +540,7 @@
             </trans-unit>
             <trans-unit id="144">
                 <source>FROM_PRICES</source>
-                <target>Aus | Von...</target>
+                <target>Ab</target>
             </trans-unit>
             <trans-unit id="145">
                 <source>BYNIGHTS_PRICES</source>
