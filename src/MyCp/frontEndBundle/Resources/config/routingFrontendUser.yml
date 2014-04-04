@@ -1,5 +1,5 @@
 frontend_register_user:
-    locales:  { en: "/user_registrate/", es: "/registrar_usuario/", de: "/benutzer_login/" }
+    locales:  { en: "/register_user/", es: "/registrar_usuario/", de: "/benutzer_login/" }
     defaults: { _controller: frontEndBundle:user:register }
 
 frontend_enable_user:
