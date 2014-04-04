@@ -220,7 +220,7 @@
             </trans-unit>
             <trans-unit id="55">
                 <source>HOMEPAGE_SUBTITLE_2</source>
-                <target>Kuba erleben, Kuba endecken!</target>
+                <target>Kuba erleben, Kuba entdecken!</target>
             </trans-unit>
             <trans-unit id="56">
                 <source>HOMEPAGE_TEXT</source>
@@ -228,7 +228,7 @@
             </trans-unit>
             <trans-unit id="57">
                 <source>TOP_HOUSES_HOME_TITLE</source>
-                <target>Besser bewertet</target>
+                <target>Am besten bewertet</target>
             </trans-unit>
             <trans-unit id="58">
                 <source>MORE_INFO_PREFFIX</source>
@@ -512,7 +512,7 @@
             </trans-unit>
             <trans-unit id="137">
                 <source>AUDIOVISUALS_ROOMS</source>
-                <target>Audiovisuelle</target>
+                <target>TV/DVD</target>
             </trans-unit>
             <trans-unit id="138">
                 <source>BATHROOM_ROOMS</source>
@@ -556,7 +556,7 @@
             </trans-unit>
             <trans-unit id="148">
                 <source>GUESTS_RESERVATION</source>
-                <target>Gast</target>
+                <target>Gäste</target>
             </trans-unit>
             <trans-unit id="149">
                 <source>SUBTOTAL_RESERVATION</source>
@@ -644,7 +644,7 @@
             </trans-unit>
             <trans-unit id="170">
                 <source>NIGHT_PER_ROOM</source>
-                <target>nacht/zimmer</target>
+                <target>Nacht/Zimmer</target>
             </trans-unit>
             <trans-unit id="171">
                 <source>LAST_ADDED_PAGE_TITLE</source>
@@ -820,7 +820,7 @@
             </trans-unit>
             <trans-unit id="214">
                 <source>RATINGS_TEXT_2</source>
-                <target>Von dieser Privatunterkunft</target>
+                <target>dieser Privatunterkunft</target>
             </trans-unit>
             <trans-unit id="215">
                 <source>RECOMENDS_RATINGS</source>
@@ -976,7 +976,7 @@
             </trans-unit>
             <trans-unit id="253">
                 <source>Propiedad completa</source>
-                <target>Komplettes Eigentum</target>
+                <target>Ganze Unterkunft</target>
             </trans-unit>
             <trans-unit id="254">
                 <source>Casa particular</source>
@@ -1340,7 +1340,7 @@
             </trans-unit>
             <trans-unit id="344">
                 <source>GUESTS</source>
-                <target>Gast</target>
+                <target>Gäste</target>
             </trans-unit>
             <trans-unit id="345">
                 <source>ROOMS</source>
@@ -2292,7 +2292,7 @@
                 </trans-unit>
                 <trans-unit id="583">
                     <source>WHERE_RENT_IN_DESTINATION</source>
-                    <target>Wo darin zu wohnen ist,  %destinationName%</target>
+                    <target>Wo möchten sie übernachten in %destinationName%</target>
                 </trans-unit>
                 <trans-unit id="584">
                     <source>LIST_VIEW</source>
@@ -2421,6 +2421,10 @@
                 <trans-unit id="615">
                     <source>Rango Medio</source>
                     <target>Mittelklasse</target>
+                </trans-unit>
+                <trans-unit id="616">
+                    <source>FOOTER_EMAIL</source>
+                    <target><![CDATA[Zu reservation@mycasaparticular.com  Ihrem Adressbuch oder der Liste sicherer Absender hinzufügen, um sicherzustellen, dass Sie auch weiterhin diese E-Mails erhalten. <br/><br/>Wenn Sie nicht möchten, dass unsere E-Mail-Angebote und Aktionen erhalten, können Sie sich hier abmelden <a href="">. </ A> können auch unsere Datenschutzrichtlinie <a href=""> lesen Sie hier. </A><br/><br/>Die Preise können sich vor der Zahlung zu ändern. Die Preise beinhalten keine Kosten erhoben. Alle Unterkünfte sind je nach Verfügbarkeit zu überprüfen. Sehen Sie unsere Nutzungsbedingungen für weitere Details. <br/><br/>MyCasaParticular.com ist ein Service GmbH ABUC Mediennetzwerk mit Handelsregisternummer CH-270.4.002.844-1 in Basel. Schweiz.]]></target>
                 </trans-unit>
         </body>
     </file>

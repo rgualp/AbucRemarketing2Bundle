@@ -385,6 +385,7 @@ class BackendOwnershipController extends Controller
         }
 
         $post['edit_ownership']=TRUE;
+        $post['name_ownership']=$ownership->getOwnName();
         $data['edit_ownership']=TRUE;
         $data['id_ownership']=$id_ownership;
         $data['name_ownership']=$ownership->getOwnName();
@@ -486,6 +487,7 @@ class BackendOwnershipController extends Controller
         $data=array();
         $data['country_code']='';
         $data['count_errors']=0;
+        
         if ($request->getMethod() == 'POST')
         {
             if($request->request->get('new_room')==1)
@@ -559,12 +561,18 @@ class BackendOwnershipController extends Controller
                     }
                     
                     //Verificando que no existas otras propiedades con el mismo nombre
-                    $similar_names = $em->getRepository('mycpBundle:ownership')->findBy(array('own_name'=>$post['ownership_name']));
-                    if(count($similar_names) > 0)
-                    {
-                        $errors['ownership_name'] = 'Ya existe una propiedad con este nombre. Por favor, introduzca un nombre similar o diferente.';
-                        $data["count_errors"]+=1;
-                    }
+                   if(strpos($array_keys[$count], 'edit_ownership')!==false){
+                       $own = $em->getRepository('mycpBundle:ownership')->find($post["edit_ownership"]);
+                       if($own->getOwnName() != $post["ownership_name"])
+                       {
+                            $similar_names = $em->getRepository('mycpBundle:ownership')->findBy(array('own_name'=>$post['ownership_name']));
+                            if(count($similar_names) > 0)
+                            {
+                                $errors['ownership_name'] = 'Ya existe una propiedad con este nombre. Por favor, introduzca un nombre similar o diferente.';
+                                $data["count_errors"]+=1;                                
+                            }
+                       }
+                   }
 
                     /*if(strpos($array_keys[$count], 'description_')!==false)
                     {

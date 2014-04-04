@@ -228,7 +228,7 @@
             </trans-unit>
             <trans-unit id="57">
                 <source>TOP_HOUSES_HOME_TITLE</source>
-                <target>Top rated houses</target>
+                <target>Top rated accommodations</target>
             </trans-unit>
             <trans-unit id="58">
                 <source>MORE_INFO_PREFFIX</source>
@@ -820,7 +820,7 @@
             </trans-unit>
             <trans-unit id="214">
                 <source>RATINGS_TEXT_2</source>
-                <target>this property</target>
+                <target>of this accommodation</target>
             </trans-unit>
             <trans-unit id="215">
                 <source>RECOMENDS_RATINGS</source>
@@ -828,7 +828,7 @@
             </trans-unit>
             <trans-unit id="216">
                 <source>TOTAL_RECOMENDS_RATING</source>
-                <target>This Property has a total of %total_recomends% Recommendations</target>
+                <target>This accommodation has a total of %total_recomends% Recommendations</target>
             </trans-unit>
             <trans-unit id="217">
                 <source>PASSWORD_RECOVERY_PAGE_TITLE</source>
@@ -1032,7 +1032,7 @@
             </trans-unit>
             <trans-unit id="267">
                 <source>SELECT_OWNERSHIP_TYPE_OPTION</source>
-                <target>Property Type</target>
+                <target>Accommodation Type</target>
             </trans-unit>
             <trans-unit id="268">
                 <source>SELECT_OWSERSHIP_CATEGORY_OPTION</source>
@@ -1120,7 +1120,7 @@
             </trans-unit>
             <trans-unit id="289">
                 <source>RESERVATION_OWNERSHIP</source>
-                <target>Property</target>
+                <target>Accommodation</target>
             </trans-unit>
             <trans-unit id="290">
                 <source>RESERVATION_DATE</source>
@@ -1420,7 +1420,7 @@
             </trans-unit>
             <trans-unit id="364">
                 <source>FORMS_OWN_NAME</source>
-                <target>Property Name</target>
+                <target>Accommodation Name</target>
             </trans-unit>
             <trans-unit id="365">
                 <source>FORMS_REPEAT</source>
@@ -2289,7 +2289,7 @@
                 </trans-unit>
                 <trans-unit id="582">
                     <source>FIND_DESTINATIONS_BY_PROVINCES</source>
-                    <target>Know destinations by provinces</target>
+                    <target>Get to know the destinations by provinces</target>
                 </trans-unit>
                 <trans-unit id="583">
                     <source>WHERE_RENT_IN_DESTINATION</source>
@@ -2422,6 +2422,10 @@
                 <trans-unit id="615">
                     <source>Rango Medio</source>
                     <target>Mid Range</target>
+                </trans-unit>
+                <trans-unit id="616">
+                    <source>FOOTER_EMAIL</source>
+                    <target><![CDATA[Add reservation@mycasaparticular.com to your address book or your safe senders list to ensure you continue to receive these emails. <br/><br/>If you do not want to receive our email offers and promotions, you can unsubscribe here <a href="">. </ A> can also read our Privacy Policy <a href=""> Here. </A> <br/><br/>Prices may be subject to change before payment. Prices do not include applicable service charges. All accommodation is subject to availability check. See our Terms and Conditions for more details.<br/><br/>MyCasaParticular.com is a service GmbH ABUC media network with trade register number CH-270.4.002.844-1 in Basel. Switzerland.]]></target>
                 </trans-unit>
         </body>
     </file>
