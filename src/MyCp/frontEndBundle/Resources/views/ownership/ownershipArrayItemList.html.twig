@@ -1,7 +1,7 @@
 <div class="container">
 {%for own in list%}
 <div class="row" data-id="{{own['own_id']}}">
-    <div class="col-sm-4">
+    <div class="col-sm-3">
         <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if own['comments_total'] > 0%}+{%endif%}{{own['comments_total']}}&nbsp;&nbsp;&nbsp;">
             <a href="{{ path('frontend_details_ownership',{'own_name':own['own_name']  | lower | replace(' ','_')}) }}">
                 <img alt="{{ own.own_name }}" class="lazy" data-src="{{ asset("uploads/ownershipImages/thumbnails/" ~  own.photo)}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
@@ -9,7 +9,7 @@
             </a>
         </div>
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-9">
         <table class="full-width">
             <tr>
                 <td>
