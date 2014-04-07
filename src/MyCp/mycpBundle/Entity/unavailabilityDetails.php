@@ -9,7 +9,7 @@ use MyCp\mycpBundle\Helpers\SyncStatuses;
 /**
  * unavailabilityDetails
  *
- * @ORM\Table()
+ * @ORM\Table(name="unavailabilitydetails")
  * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\unavailabilityDetailsRepository")
  */
 class unavailabilityDetails {

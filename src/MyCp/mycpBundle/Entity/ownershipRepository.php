@@ -344,6 +344,18 @@ class ownershipRepository extends EntityRepository {
          */
         $em->persist($ownership);
 
+        $old_unavailable=array();
+
+        foreach($old_rooms as $old_room)
+        {
+            $id_old_room=$old_room->getRoomId();
+            array_push($old_unavailable, $em->getRepository('mycpBundle:unavailabilitydetails')->findBy(array('room'=>$id_old_room)));
+            $query = $em->createQuery("DELETE mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
+            $query->execute();
+        }
+
+        //var_dump($old_unavailable); exit();
+
         $query = $em->createQuery("DELETE mycpBundle:ownershipGeneralLang ogl WHERE ogl.ogl_ownership=$id_ownership");
         $query->execute();
         $query = $em->createQuery("DELETE mycpBundle:ownershipDescriptionLang odl WHERE odl.odl_ownership=$id_ownership");
@@ -390,7 +402,7 @@ class ownershipRepository extends EntityRepository {
             }
         }
 
-        //var_dump($old_rooms); exit();
+        var_dump($old_unavailable);
         //exit();
 
         /**
@@ -428,6 +440,19 @@ class ownershipRepository extends EntityRepository {
             $room->setRoomOwnership($ownership);
             $room->setRoomNum($e);
             $em->persist($room);
+
+            foreach($old_unavailable[$e-1] as $unavail)
+            {
+                $new_unavail= new unavailabilityDetails();
+                $new_unavail->setRoom($unavail->getRoom());
+                $new_unavail->setSyncSt($unavail->getSyncSt());
+                $new_unavail->setUdFromDate($unavail->getUdFromDate());
+                $new_unavail->setUdToDate($unavail->getUdToDate());
+                $new_unavail->setUdReason($unavail->getUdReason());
+                $new_unavail->setUdId($unavail->getUdId());
+                $em->persist($new_unavail);
+            }
+
             /**
              * Codigo Yanet - Inicio
              */
