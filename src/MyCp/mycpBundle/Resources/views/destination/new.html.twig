@@ -52,6 +52,18 @@
     {%if errors["desc_"~language.lang_id] is defined %}<label class="error">{{errors["desc_"~language.lang_id]|trim(':')}}</label>{%endif%}
     <textarea class="span12 textarea" id="desc_{{language.lang_id}}" name="desc_{{language.lang_id}}">{%if data["desc_"~language.lang_id] is defined %}{{data["desc_"~language.lang_id]}}{%endif%}</textarea><br/>
     {% endfor %}
+    <h3 class="title">SEO</h3>
+    {% for language in languages %}
+        <label>Keywords en {{language.lang_name |title}} separadas por coma:</label>
+        {%if errors["seo_keyword_"~language.lang_id] is defined %}<label class="error">{{errors["seo_keyword_"~language.lang_id]|trim(':')}}</label>{%endif%}
+        <input type="text" value="{% if(data["seo_keyword_"~language.lang_id] is defined) %}{{data["seo_keyword_"~language.lang_id]}}{% endif %}" class="span12" name="seo_keyword_{{language.lang_id}}">
+        <br/><br/>
+        <label>Descripción en {{language.lang_name |title}} máximo 160 caracteres:</label>
+        {%if errors["seo_description_"~language.lang_id] is defined %}<label class="error">{{errors["seo_description_"~language.lang_id]|trim(':')}}</label>{%endif%}
+        <textarea class="span12" name="seo_description_{{language.lang_id}}">{%if data["seo_description_"~language.lang_id] is defined %}{{data["seo_description_"~language.lang_id]}}{%endif%}</textarea>
+        <br/>
+    {% endfor %}
+
     <h3 class="title">Ubicación</h3>
     {%if errors["ownership_address_province"] is defined %}<label class="error">{{errors["ownership_address_province"]|trim(':')}}</label>{%endif%}
     <div class="row-fluid">

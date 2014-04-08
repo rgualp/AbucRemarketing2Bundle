@@ -1426,7 +1426,8 @@ class ownershipRepository extends EntityRepository {
                         (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments,
                         (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = '$locale') as brief_description,
                         (SELECT min(dd.odl_description) FROM mycpBundle:ownershipDescriptionLang dd JOIN dd.odl_id_lang dl WHERE dd.odl_ownership = o.own_id AND dl.lang_code = '$locale') as description,
-                        (SELECT count(o1.own_id) from mycpBundle:ownership o1 where o1.own_id = o.own_id AND o1.own_langs LIKE '1___') as english,    
+                        (SELECT kl.okl_keywords FROM mycpBundle:ownershipKeywordLang kl JOIN kl.okl_id_lang lang WHERE kl.okl_ownership = o.own_id AND lang.lang_code = '$locale') as keywords,
+                        (SELECT count(o1.own_id) from mycpBundle:ownership o1 where o1.own_id = o.own_id AND o1.own_langs LIKE '1___') as english,
                         (SELECT count(o2.own_id) from mycpBundle:ownership o2 where o2.own_id = o.own_id AND o2.own_langs LIKE '_1__') as french,    
                         (SELECT count(o3.own_id) from mycpBundle:ownership o3 where o3.own_id = o.own_id AND o3.own_langs LIKE '__1_') as german,    
                         (SELECT count(o4.own_id) from mycpBundle:ownership o4 where o4.own_id = o.own_id AND o4.own_langs LIKE '___1') as italian    

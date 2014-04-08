@@ -133,7 +133,9 @@ class destinationController extends Controller {
                     'popular_destinations_for_url' =>$popular_destinations_for_url,
                     'other_destinations_in_municipality_for_url' => $other_destinations_in_municipality_for_url,
                     'other_destinations_in_province_for_url' => $other_destinations_in_province_for_url,
-                    'provinces_for_url' => $provinces_for_url
+                    'provinces_for_url' => $provinces_for_url,
+                    'keyword_description'=>$destination_array['keyword_description'],
+                    'keyword'=>$destination_array['keywords']
         ));
     }
 

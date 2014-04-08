@@ -433,7 +433,6 @@ class ownershipController extends Controller {
             $real_category = 'mid_range';
         else if ($ownership_array['category'] == 'Premium')
             $real_category = 'premium';
-
         return $this->render('frontEndBundle:ownership:ownershipDetails.html.twig', array(
                     'avail_array_prices' => $avail_array_prices,
                     'available_rooms' => $available_rooms,
@@ -462,7 +461,8 @@ class ownershipController extends Controller {
                     'can_comment' => $em->getRepository("mycpBundle:comment")->can_comment($user_ids["user_id"], $owner_id),
                     'locale' => $locale,
                     'real_category' => $real_category,
-                    'languages' => $languages
+                    'languages' => $languages,
+                    'keywords'=>$ownership_array['keywords']
         ));
     }
 
