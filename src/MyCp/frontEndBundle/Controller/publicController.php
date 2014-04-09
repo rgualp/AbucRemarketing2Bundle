@@ -13,6 +13,18 @@ class PublicController extends Controller {
         return $this->redirect($this->generateUrl('frontend_welcome'));
     }
 
+    public function get_meta_tagsAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $lang=$em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code'=>$this->getRequest()->getLocale()));
+        $metas=$em->getRepository('mycpBundle:metaLang')->findOneBy(array('meta_lang_lang'=>$lang));
+
+        $response = $this->render('frontEndBundle:public:metas.html.twig', array(
+            'metas'=>$metas
+        ));
+
+        return $response;
+    }
 
     public function welcomeAction() {
         $em = $this->getDoctrine()->getEntityManager();

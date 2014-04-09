@@ -1825,7 +1825,7 @@
             </trans-unit>
             <trans-unit id="465">
                 <source>TOTAL_PREPAYMENT</source>
-                <target>Total prepago</target>
+                <target>Total depósito inicial</target>
             </trans-unit>
             <trans-unit id="466">
                 <source>LAST_VISITED_OWNERSHIPS</source>
@@ -1970,7 +1970,7 @@
             <trans-unit id="501">
                 <source>EMAIL_ACCOUNT_REGISTERED_SUBJECT</source>
                 <target>Activación de su cuenta en MyCasaParticular</target>
-            </trans-unit>      
+            </trans-unit>
             <trans-unit id="502">
                 <source>EMAIL_ACCOUNT_REGISTERED_TEXT</source>
                 <target>Gracias por registrarse en MyCasaParticular.com. Visite el siguiente link para activar su cuenta: </target>
