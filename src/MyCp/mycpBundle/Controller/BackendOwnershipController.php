@@ -625,7 +625,6 @@ class BackendOwnershipController extends Controller
                 $data['country_code']=$post['ownership_address_province'];
 
                 if ($data['count_errors'] == 0) {
-
                     // insert into database
                     if($request->request->get('edit_ownership'))
                     {
@@ -640,6 +639,7 @@ class BackendOwnershipController extends Controller
                         $new_status=$request->request->get('status');
                         $new_status_db=$em->getRepository('mycpBundle:ownershipStatus')->find($new_status)->getStatusName();
                         $any_edit=false;
+
                         if($old_status!=$new_status)
                         {
                             $service_log->save_log('Edit entity (Change status. From '.$db_ownership->getOwnStatus()->getStatusName().' to '.$new_status_db.' ) '.$post['ownership_mcp_code'],4);
@@ -736,6 +736,7 @@ class BackendOwnershipController extends Controller
                         }
 
                         $em->getRepository('mycpBundle:ownership')->edit_ownership($post);
+
                         $message='Propiedad actualizada satisfactoriamente.';
                     }
                     else

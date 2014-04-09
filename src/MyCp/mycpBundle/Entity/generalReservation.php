@@ -397,5 +397,37 @@ class generalReservation {
     }
     
 // </editor-fold>
-}
 
+    /**
+     * Add own_reservations
+     *
+     * @param \MyCp\mycpBundle\Entity\ownershipReservation $ownReservations
+     * @return generalReservation
+     */
+    public function addOwnReservation(\MyCp\mycpBundle\Entity\ownershipReservation $ownReservations)
+    {
+        $this->own_reservations[] = $ownReservations;
+
+        return $this;
+    }
+
+    /**
+     * Remove own_reservations
+     *
+     * @param \MyCp\mycpBundle\Entity\ownershipReservation $ownReservations
+     */
+    public function removeOwnReservation(\MyCp\mycpBundle\Entity\ownershipReservation $ownReservations)
+    {
+        $this->own_reservations->removeElement($ownReservations);
+    }
+
+    /**
+     * Get own_reservations
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOwnReservations()
+    {
+        return $this->own_reservations;
+    }
+}

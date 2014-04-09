@@ -496,4 +496,27 @@ class destination {
     {
         return $this->des_cat_location_prov_y;
     }
+
+    /**
+     * Add des_categories
+     *
+     * @param \MyCp\mycpBundle\Entity\destinationCategory $desCategories
+     * @return destination
+     */
+    public function addDesCategory(\MyCp\mycpBundle\Entity\destinationCategory $desCategories)
+    {
+        $this->des_categories[] = $desCategories;
+
+        return $this;
+    }
+
+    /**
+     * Remove des_categories
+     *
+     * @param \MyCp\mycpBundle\Entity\destinationCategory $desCategories
+     */
+    public function removeDesCategory(\MyCp\mycpBundle\Entity\destinationCategory $desCategories)
+    {
+        $this->des_categories->removeElement($desCategories);
+    }
 }

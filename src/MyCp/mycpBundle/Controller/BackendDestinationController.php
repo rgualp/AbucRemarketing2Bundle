@@ -393,6 +393,7 @@ class BackendDestinationController extends Controller
         $destination=$em->getRepository('mycpBundle:destination')->find($id_destination);
         $languages = $em->getRepository('mycpBundle:lang')->get_all_languages();
         $destinationsLang=$em->getRepository('mycpBundle:destinationLang')->findBy(array('des_lang_destination'=>$id_destination));
+        $destinationsKeywordLang=$em->getRepository('mycpBundle:destinationKeywordLang')->findBy(array('dkl_destination'=>$id_destination));
         $destinationsLocation=$em->getRepository('mycpBundle:destinationLocation')->findBy(array('des_loc_destination'=>$id_destination));
 
         //var_dump($destinationsLocation[0]->getDesLocMunicipality()->getMunId()); exit();
@@ -419,10 +420,18 @@ class BackendDestinationController extends Controller
         {
             if(isset($destinationsLang[$a]))
             {
-            $data['brief_'.$language['lang_id']]=$destinationsLang[$a]->getDesLangBrief();
-            $data['desc_'.$language['lang_id']]=$destinationsLang[$a]->getDesLangDesc();
-            $a++;
+                $data['brief_'.$language['lang_id']]=$destinationsLang[$a]->getDesLangBrief();
+                $data['desc_'.$language['lang_id']]=$destinationsLang[$a]->getDesLangDesc();
+
             }
+
+            if(isset($destinationsKeywordLang[$a]))
+            {
+                $data['seo_keyword_'.$language['lang_id']]=$destinationsKeywordLang[$a]->getDklKeywords();
+                $data['seo_description_'.$language['lang_id']]=$destinationsKeywordLang[$a]->getDklDescription();
+            }
+            $a++;
+
         }
 
         $des_categories = $destination->getDesCategories();

@@ -59,6 +59,19 @@ class destinationRepository extends EntityRepository {
                 $em->persist($destination_lang);
             }
 
+            if (strpos($item, 'seo_keyword_') !== false) {
+                $id = substr($item, 12, strlen($item));
+
+                $destination_keywords= new destinationKeywordLang();
+                $destination_keywords->setDklDescription($data['seo_description_' . $id]);
+                $destination_keywords->setDklKeywords($data['seo_keyword_' . $id]);
+                $destination_keywords->setDklIdLang($lang);
+                $destination_keywords->setDklDestination($destination);
+                $em->persist($destination_keywords);
+
+            }
+
+
             if (strpos($item, 'category_') !== false) {
                 $id_cat = str_replace('category_','',$item);
                 $category = $em->getRepository('mycpBundle:destinationCategory')->find($id_cat);
@@ -111,6 +124,9 @@ class destinationRepository extends EntityRepository {
         $query = $em->createQuery("DELETE mycpBundle:destinationlang des WHERE des.des_lang_destination=$id_destination");
         $query->execute();
 
+        $query = $em->createQuery("DELETE mycpBundle:destinationkeywordlang dkl WHERE dkl.dkl_destination=$id_destination");
+        $query->execute();
+
         $keys = array_keys($data);
         foreach ($keys as $item) {
             if (strpos($item, 'brief') !== false) {
@@ -124,6 +140,19 @@ class destinationRepository extends EntityRepository {
                 $destination_lang->setDesLangLang($lang);
                 $destination_lang->setDesLangDestination($destination);
                 $em->persist($destination_lang);
+            }
+
+            if (strpos($item, 'seo_keyword_') !== false) {
+                $id = substr($item, 12, strlen($item));
+                $destination_keywords= new destinationKeywordLang();
+                $destination_keywords->setDklDescription($data['seo_description_' . $id]);
+                $destination_keywords->setDklKeywords($data['seo_keyword_' . $id]);
+                $repo = $em->getRepository('mycpBundle:lang');
+                $lang = $repo->find($id);
+                $destination_keywords->setDklIdLang($lang);
+                $destination_keywords->setDklDestination($destination);
+                $em->persist($destination_keywords);
+
             }
 
             if (strpos($item, 'category_') !== false) {
@@ -297,11 +326,16 @@ class destinationRepository extends EntityRepository {
     
     public function get_destination($destination_id,$locale) {
         $em = $this->getEntityManager();
+
          $query_string = "SELECT d, 
                          (SELECT dl.des_lang_brief from mycpBundle:destinationLang dl 
                           JOIN dl.des_lang_lang l WHERE dl.des_lang_destination = d.des_id AND l.lang_code = '$locale') as desc_brief,
                          (SELECT description.des_lang_desc from mycpBundle:destinationLang description 
                           JOIN description.des_lang_lang desc_l WHERE description.des_lang_destination = d.des_id AND desc_l.lang_code = '$locale') as desc_full,
+                          (SELECT dkl.dkl_keywords from mycpBundle:destinationKeywordLang dkl
+                          JOIN dkl.dkl_id_lang lang WHERE dkl.dkl_destination = d.des_id AND lang.lang_code = '$locale')as keywords,
+                          (SELECT dkld.dkl_description from mycpBundle:destinationKeywordLang dkld
+                          JOIN dkld.dkl_id_lang langd WHERE dkld.dkl_destination = d.des_id AND langd.lang_code = '$locale')as keyword_description,
                          (SELECT min(mun) FROM mycpBundle:destinationLocation loc JOIN loc.des_loc_municipality mun WHERE loc.des_loc_destination = d.des_id ) as municipality_id,
                          (SELECT min(prov) FROM mycpBundle:destinationLocation loc1 JOIN loc1.des_loc_province prov WHERE loc1.des_loc_destination = d.des_id ) as province_id,
                          (SELECT min(mun1.mun_name) FROM mycpBundle:destinationLocation loc2 JOIN loc2.des_loc_municipality mun1 WHERE loc2.des_loc_destination = d.des_id ) as municipality_name,

@@ -344,6 +344,18 @@ class ownershipRepository extends EntityRepository {
          */
         $em->persist($ownership);
 
+        $old_unavailable=array();
+
+        foreach($old_rooms as $old_room)
+        {
+            $id_old_room=$old_room->getRoomId();
+            array_push($old_unavailable, $em->getRepository('mycpBundle:unavailabilitydetails')->findBy(array('room'=>$id_old_room)));
+            $query = $em->createQuery("DELETE mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
+            $query->execute();
+        }
+
+        //var_dump($old_unavailable); exit();
+
         $query = $em->createQuery("DELETE mycpBundle:ownershipGeneralLang ogl WHERE ogl.ogl_ownership=$id_ownership");
         $query->execute();
         $query = $em->createQuery("DELETE mycpBundle:ownershipDescriptionLang odl WHERE odl.odl_ownership=$id_ownership");
@@ -390,7 +402,7 @@ class ownershipRepository extends EntityRepository {
             }
         }
 
-        //var_dump($old_rooms); exit();
+        var_dump($old_unavailable);
         //exit();
 
         /**
@@ -428,6 +440,19 @@ class ownershipRepository extends EntityRepository {
             $room->setRoomOwnership($ownership);
             $room->setRoomNum($e);
             $em->persist($room);
+
+            foreach($old_unavailable[$e-1] as $unavail)
+            {
+                $new_unavail= new unavailabilityDetails();
+                $new_unavail->setRoom($unavail->getRoom());
+                $new_unavail->setSyncSt($unavail->getSyncSt());
+                $new_unavail->setUdFromDate($unavail->getUdFromDate());
+                $new_unavail->setUdToDate($unavail->getUdToDate());
+                $new_unavail->setUdReason($unavail->getUdReason());
+                $new_unavail->setUdId($unavail->getUdId());
+                $em->persist($new_unavail);
+            }
+
             /**
              * Codigo Yanet - Inicio
              */
@@ -1401,7 +1426,8 @@ class ownershipRepository extends EntityRepository {
                         (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments,
                         (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = '$locale') as brief_description,
                         (SELECT min(dd.odl_description) FROM mycpBundle:ownershipDescriptionLang dd JOIN dd.odl_id_lang dl WHERE dd.odl_ownership = o.own_id AND dl.lang_code = '$locale') as description,
-                        (SELECT count(o1.own_id) from mycpBundle:ownership o1 where o1.own_id = o.own_id AND o1.own_langs LIKE '1___') as english,    
+                        (SELECT kl.okl_keywords FROM mycpBundle:ownershipKeywordLang kl JOIN kl.okl_id_lang lang WHERE kl.okl_ownership = o.own_id AND lang.lang_code = '$locale') as keywords,
+                        (SELECT count(o1.own_id) from mycpBundle:ownership o1 where o1.own_id = o.own_id AND o1.own_langs LIKE '1___') as english,
                         (SELECT count(o2.own_id) from mycpBundle:ownership o2 where o2.own_id = o.own_id AND o2.own_langs LIKE '_1__') as french,    
                         (SELECT count(o3.own_id) from mycpBundle:ownership o3 where o3.own_id = o.own_id AND o3.own_langs LIKE '__1_') as german,    
                         (SELECT count(o4.own_id) from mycpBundle:ownership o4 where o4.own_id = o.own_id AND o4.own_langs LIKE '___1') as italian    

@@ -1,6 +1,10 @@
 reservations_in_details();
 function reservations_in_details()
 {
+    $('#rooms_selected > tbody tr').each(function(){
+        $(this).remove();
+    });
+
     total_price_var=0;
     $('.guest_number').change(function(){
         if($('#tr_'+$(this).attr('data')).html()){
@@ -34,7 +38,7 @@ function reservations_in_details()
                 $('#guest_'+$(this).attr('data')).html($('#combo_guest_'+$(this).attr('data')).val());
                 $('#kids_'+$(this).attr('data')).html($('#combo_kids_'+$(this).attr('data')).val());
                 $('#price_'+$(this).attr('data')).html(value);
-
+                $('#rooms_selected').css({display: 'block'});
                 total_price($(this).attr('data_curr'),$(this).attr('percent_charge'));
 
             }
