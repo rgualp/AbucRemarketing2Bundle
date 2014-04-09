@@ -114,13 +114,19 @@ class Images {
         $dir_ownership = $container->getParameter('ownership.dir.photos');
         $dir_ownership_thumbs = $container->getParameter('ownership.dir.thumbnails');
         $dir_watermark = $container->getParameter('dir.watermark');
+        
+        $ownership_photo_size = $container->getParameter('ownership.dir.photos.size');
+        $album_photo_size = $container->getParameter('album.dir.photos.size');
+        $destination_photo_size = $container->getParameter('destination.dir.photos.size');
+        $thumbs_size = $container->getParameter('thumbnail.size');
+        $user_photo_size = $container->getParameter('user.photo.size');
 
         $albums_photos = $entity_manager->getRepository('mycpBundle:albumPhoto')->findAll();
         foreach ($albums_photos as $albumPhoto) {
             $photo = $albumPhoto->getAlbPhoPhoto();
             if ($photo != null && file_exists(realpath($dir_album . $photo->getPhoName()))) {
-                Images::resize($dir_album . $photo->getPhoName(), 480);
-                Images::create_thumbnail($dir_album . $photo->getPhoName(), $dir_albums_thumbs . $photo->getPhoName(), 160);
+                Images::resize($dir_album . $photo->getPhoName(), $album_photo_size);
+                Images::create_thumbnail($dir_album . $photo->getPhoName(), $dir_albums_thumbs . $photo->getPhoName(), $thumbs_size);
             }
         }
 
@@ -128,7 +134,7 @@ class Images {
         foreach ($users as $user) {
             $photo = $user->getUserPhoto();
             if ($photo != null && file_exists(realpath($dir_user . $photo->getPhoName()))) {
-                Images::resize($dir_user . $photo->getPhoName(), 65);
+                Images::resize($dir_user . $photo->getPhoName(), $user_photo_size);
             }
         }
 
@@ -136,8 +142,8 @@ class Images {
         foreach ($destination_photos as $destinationPhoto) {
             $photo = $destinationPhoto->getDesPhoPhoto();
             if ($photo != null && file_exists(realpath($dir_destination . $photo->getPhoName()))) {
-                Images::resize($dir_destination . $photo->getPhoName(), 480);
-                Images::create_thumbnail($dir_destination . $photo->getPhoName(), $dir_destination_thumbs . $photo->getPhoName(), 160);
+                Images::resize($dir_destination . $photo->getPhoName(), $destination_photo_size);
+                Images::create_thumbnail($dir_destination . $photo->getPhoName(), $dir_destination_thumbs . $photo->getPhoName(), $thumbs_size);
             }
         }
 
@@ -145,8 +151,8 @@ class Images {
         foreach ($ownership_photos as $ownPhoto) {
             $photo = $ownPhoto->getOwnPhoPhoto();
             if ($photo != null && file_exists(realpath($dir_ownership . $photo->getPhoName()))) {
-                Images::resize_and_watermark($dir_ownership . $photo->getPhoName(), $dir_watermark, 480);
-                Images::create_thumbnail($dir_ownership . $photo->getPhoName(), $dir_ownership_thumbs . $photo->getPhoName(), 160);
+                Images::resize_and_watermark($dir_ownership . $photo->getPhoName(), $dir_watermark, $ownership_photo_size);
+                Images::create_thumbnail($dir_ownership . $photo->getPhoName(), $dir_ownership_thumbs . $photo->getPhoName(), $thumbs_size);
             }
         }
     }
@@ -160,6 +166,12 @@ class Images {
         $dir_ownership = $container->getParameter('ownership.dir.photos');
         $dir_ownership_thumbs = $container->getParameter('ownership.dir.thumbnails');
         $dir_watermark = $container->getParameter('dir.watermark');
+        
+        $ownership_photo_size = $container->getParameter('ownership.dir.photos.size');
+        $album_photo_size = $container->getParameter('album.dir.photos.size');
+        $destination_photo_size = $container->getParameter('destination.dir.photos.size');
+        $thumbs_size = $container->getParameter('thumbnail.size');
+        $user_photo_size = $container->getParameter('user.photo.size');
 
         $total_images_to_process = 50;
 
@@ -189,8 +201,8 @@ class Images {
         foreach ($destinations_photos as $d_photo) {
             Images::save($dir_destination . $d_photo, $dir_destination . '/originals/' . $d_photo);
 
-            Images::create_thumbnail($dir_destination . '/originals/' . $d_photo, $dir_destination_thumbs . $d_photo, 160);
-            Images::resize_diferent_directories($dir_destination . '/originals/' . $d_photo, $dir_destination . '/processed/' . $d_photo, 480);
+            Images::create_thumbnail($dir_destination . '/originals/' . $d_photo, $dir_destination_thumbs . $d_photo, $thumbs_size);
+            Images::resize_diferent_directories($dir_destination . '/originals/' . $d_photo, $dir_destination . '/processed/' . $d_photo, $destination_photo_size);
             unlink($dir_destination . $d_photo);
         }
 
@@ -205,8 +217,8 @@ class Images {
                 foreach ($albums_photos as $a_photo) {
                     Images::save($dir_album . $a_photo, $dir_album . '/originals/' . $a_photo);
 
-                    Images::create_thumbnail($dir_album . '/originals/' . $a_photo, $dir_albums_thumbs . $a_photo, 160);
-                    Images::resize_diferent_directories($dir_album . '/originals/' . $a_photo, $dir_album . '/processed/' . $a_photo, 480);
+                    Images::create_thumbnail($dir_album . '/originals/' . $a_photo, $dir_albums_thumbs . $a_photo, $thumbs_size);
+                    Images::resize_diferent_directories($dir_album . '/originals/' . $a_photo, $dir_album . '/processed/' . $a_photo, $album_photo_size);
                     unlink($dir_album . $a_photo);
                 }
 
@@ -221,8 +233,8 @@ class Images {
                         foreach ($own_photos as $o_photo) {
                             Images::save($dir_ownership . $o_photo, $dir_ownership . '/originals/' . $o_photo);
 
-                            Images::create_thumbnail($dir_ownership . '/originals/' . $o_photo, $dir_ownership_thumbs . $o_photo, 160);
-                            Images::resize_diferent_directories_and_watermark($dir_ownership . '/originals/' . $o_photo, $dir_ownership . '/processed/' . $o_photo, $dir_watermark, 480);
+                            Images::create_thumbnail($dir_ownership . '/originals/' . $o_photo, $dir_ownership_thumbs . $o_photo, $thumbs_size);
+                            Images::resize_diferent_directories_and_watermark($dir_ownership . '/originals/' . $o_photo, $dir_ownership . '/processed/' . $o_photo, $dir_watermark, $ownership_photo_size);
 
                             unlink($dir_ownership . $o_photo);
                         }
