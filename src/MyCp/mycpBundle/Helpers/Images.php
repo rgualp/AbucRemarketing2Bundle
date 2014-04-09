@@ -20,7 +20,7 @@ class Images {
         $width = ($size->getWidth() * $height) / $size->getHeight();
 
         $img->thumbnail(new \Imagine\Image\Box($width, $height), $mode)
-                ->save($thumb_file_full_path);
+                ->save($thumb_file_full_path, array('format' => 'jpeg','quality' => 100));
         }
     }
 
@@ -31,7 +31,7 @@ class Images {
         $new_width = ($size->getWidth() * $new_height) / $size->getHeight();
 
         $image->resize(new \Imagine\Image\Box($new_width, $new_height))
-                ->save($origin_file_full_path);
+                ->save($origin_file_full_path, array('format' => 'jpeg','quality' => 100));
 
         return $new_width;
     }
@@ -43,7 +43,7 @@ class Images {
         $new_width = ($size->getWidth() * $new_height) / $size->getHeight();
 
         $image->resize(new \Imagine\Image\Box($new_width, $new_height))
-                ->save($file_full_path_to);
+                ->save($file_full_path_to, array('format' => 'jpeg','quality' => 100));
 
         return $new_width;
     }
@@ -52,7 +52,7 @@ class Images {
         if(!file_exists(realpath($image_path_to))){
         $imagine = new \Imagine\Gd\Imagine();
         $image = $imagine->open($image_path_from);
-        $image->save($image_path_to);
+        $image->save($image_path_to, array('format' => 'jpeg','quality' => 100));
         }
         return true;
     }
@@ -78,7 +78,7 @@ class Images {
         $imagine->open($origin_file_full_path)
                 //->paste($watermark_resize, $point)
                 ->paste($watermark, $point)
-                ->save($origin_file_full_path);
+                ->save($origin_file_full_path, array('format' => 'jpeg','quality' => 100));
     }
 
     public static function resize_diferent_directories_and_watermark($file_full_path_from, $file_full_path_to, $watermark_full_path, $new_height) {
@@ -102,7 +102,7 @@ class Images {
         $imagine->open($file_full_path_to)
                 //->paste($watermark_resize, $point)
                 ->paste($watermark, $point)
-                ->save($file_full_path_to);
+                ->save($file_full_path_to, array('format' => 'jpeg','quality' => 100));
     }
 
     public static function process_images_with_database_info($entity_manager, $container) {
