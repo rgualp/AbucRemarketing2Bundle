@@ -129,26 +129,26 @@
             <td class="text-right"><b>{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ ceil_round(total_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))}}</b></td>
         </tr>
         <tr>
+            <td>- {{"TOTAL_PREPAYMENT"|trans}} ({% for comm in commissions %}{{comm}}%{% if not loop.last %}, {% endif %}{% endfor %})</td>
+            <td class="text-right">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ceil_round((total_percent_price) * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))) }}</td>
+        </tr>
+        <tr>
             <td>{{"RESERVATION_TOTAL" | trans}} {{"SERVICE_RECHARGE"|trans|lower}}</td>
             <td class="text-right">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ 10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</td>
+        </tr>
+        <tr>
+            <td>{{"TOTAL_ALL_PREPAYMENT" | trans}}</td>
+            <td class="text-right">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))+(ceil_round((total_percent_price) * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))) }}</td>
         </tr>
         <tr>
             <td>{{"OTHER_SERVICES_HEADING_FILTER"|trans}}</td>
             <td class="text-right">0</td>
         </tr>
         <tr>
-            <td><h2 class="no-margin">{{"RESERVATION_TOTAL" | trans}}</h2></td>
+            <td><h2 class="no-margin">{{"TOTAL_TO_PAY_SERVICING" | trans}}</h2></td>
             <td class="text-right"><h2 class="no-margin">
-                {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ceil_round(total_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))}}
+                    {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ ceil_round(total_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))- (10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))+(ceil_round((total_percent_price) * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))))) }}
                 </h2></td>
-        </tr>
-        <tr>
-            <td>- {{"TOTAL_PREPAYMENT"|trans}} ({% for comm in commissions %}{{comm}}%{% if not loop.last %}, {% endif %}{% endfor %})</td>
-            <td class="text-right">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ceil_round((total_percent_price) * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))) }}</td>
-        </tr>
-        <tr>
-            <td><b>{{"TOTAL_TO_PAY_SERVICING"|trans}}</b></td>
-            <td class="text-right">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ceil_round(((total_percent_price) + 10)*(app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))}}</td>
         </tr>
         </tbody>
     </table>

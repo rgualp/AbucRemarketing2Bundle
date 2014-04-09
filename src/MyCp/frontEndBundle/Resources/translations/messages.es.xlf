@@ -1821,11 +1821,11 @@
             </trans-unit>
             <trans-unit id="464">
                 <source>SERVICE_RECHARGE</source>
-                <target>Cargo por servicio</target>
+                <target>Cargo por servicio de reserva</target>
             </trans-unit>
             <trans-unit id="465">
                 <source>TOTAL_PREPAYMENT</source>
-                <target>Total depósito inicial</target>
+                <target>Depósito inicial</target>
             </trans-unit>
             <trans-unit id="466">
                 <source>LAST_VISITED_OWNERSHIPS</source>
@@ -2045,7 +2045,7 @@
                 </trans-unit>
                 <trans-unit id="520">
                     <source>PRICE_OF_ACCOMMODATION_SERVICE</source>
-                    <target>Precio del servicio alojamiento</target>
+                    <target>Precio total del servicio alojamiento</target>
                 </trans-unit>
                 <trans-unit id="521">
                     <source>BILL</source>
@@ -2430,6 +2430,10 @@
                 <trans-unit id="617">
                     <source>OF</source>
                     <target>de</target>
+                </trans-unit>
+                <trans-unit id="618">
+                    <source>TOTAL_ALL_PREPAYMENT</source>
+                    <target>Total de prepago</target>
                 </trans-unit>
         </body>
     </file>
