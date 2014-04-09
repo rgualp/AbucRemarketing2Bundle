@@ -16,9 +16,20 @@ class metaType extends AbstractType
         $cont=0;
         foreach($langs as $lang)
         {
-            $keywords=$options['data']['meta'];
-            $builder->add('keywords_'.$lang->getLangId(),'text',array('attr'=>array('value'=>$options['data']['meta'][$cont]->getMetaLangKeywords(),'class'=>'span12'),'label'=>'Keywords '.$lang->getLangName(), 'constraints'=>array(new NotBlank(), new Length(array('max'=>255)))));
-            $builder->add('description_'.$lang->getLangId(),'textarea',array('data'=>$options['data']['meta'][$cont]->getMetaLangDescription(),'attr'=>array('class'=>'span12'),'label'=>'Descripción '.$lang->getLangName(), 'constraints'=>array(new NotBlank(), new Length(array('max'=>255)))));
+            $keywords='';
+            $description='';
+            if(isset($options['data']['meta'][$cont]))
+            {
+                $keywords=$options['data']['meta'][$cont]->getMetaLangKeywords();
+            }
+
+            if(isset($options['data']['meta'][$cont]))
+            {
+                $description=$options['data']['meta'][$cont]->getMetaLangDescription();
+            }
+
+            $builder->add('keywords_'.$lang->getLangId(),'text',array('attr'=>array('value'=>$keywords,'class'=>'span12'),'label'=>'Keywords '.$lang->getLangName(), 'constraints'=>array(new NotBlank(), new Length(array('max'=>255)))));
+            $builder->add('description_'.$lang->getLangId(),'textarea',array('data'=>$description,'attr'=>array('class'=>'span12'),'label'=>'Descripción '.$lang->getLangName(), 'constraints'=>array(new NotBlank(), new Length(array('max'=>255)))));
             $cont++;
         }
 
