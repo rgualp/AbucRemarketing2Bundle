@@ -244,7 +244,7 @@
             </trans-unit>
             <trans-unit id="61">
                 <source>TELL_A_FRIEND</source>
-                <target>Bewertung dieses Eigentums</target>
+                <target>Unterkunft weiterempfehlen</target>
             </trans-unit>
             <trans-unit id="62">
                 <source>POPULAR_DESTINATIONS_HOME_TABS</source>
@@ -1152,7 +1152,7 @@
             </trans-unit>
             <trans-unit id="297">
                 <source>RESERVATION_CHECK_AVAILABILITY</source>
-                <target>Disponibilität rückfragen</target>
+                <target>Verfügbarkeit anfragen</target>
             </trans-unit>
             <trans-unit id="298">
                 <source>RESERVATION_TITLE</source>
@@ -1664,7 +1664,7 @@
             </trans-unit>
             <trans-unit id="425">
                 <source>RESERVATION_CONFIRM_TITLE</source>
-                <target>Rückfrage zur Disponibilität gesendet</target>
+                <target>Anfrage zur Verfügbarkeit gesendet</target>
             </trans-unit>
             <trans-unit id="426">
                 <source>RESERVATION_CONFIRM_SUBTITLE</source>
@@ -1672,15 +1672,15 @@
             </trans-unit>
             <trans-unit id="427">
                 <source>RESERVATION_CONFIRM_GREENBAR_TEXT</source>
-                <target>Wir empfehlen, die Disponibilität anderer, ähnlicher Unterkünfte an ihrem Reiseziel rückzufragen</target>
+                <target>Wir empfehlen, die Verfügbarkeit anderer, ähnlicher Unterkünfte an ihrem Reiseziel anzufragen</target>
             </trans-unit>
             <trans-unit id="428">
                 <source>RESERVATION_CONFIRM_GREENBAR_SUBTEXT</source>
-                <target>Wir empfehlen, die Disponibilität anderer, ähnlicher Unterkünfte an ihrem Reiseziel rückzufragen</target>
+                <target>Wir empfehlen, die Verfügbarkeit anderer, ähnlicher Unterkünfte an ihrem Reiseziel anzufragen</target>
             </trans-unit>
             <trans-unit id="429">
                 <source>RESERVATION_CONFIRM_GRAYBAR_SUBTEXT</source>
-                <target>Disponible Unterkünfte an diesem Reiseziel</target>
+                <target>Verfügbare Unterkünfte an diesem Reiseziel</target>
             </trans-unit>
             <trans-unit id="430">
                 <source>RESERVATION_CONFIRM_DESTINATION_AREA_TITLE</source>
@@ -1732,7 +1732,7 @@
             </trans-unit>
             <trans-unit id="442">
                 <source>KEEP_SEARCHING</source>
-                <target>Weiter auf der Suche</target>
+                <target>Weiter suchen</target>
             </trans-unit>
             <trans-unit id="443">
                 <source>REMOVE</source>
@@ -1744,7 +1744,7 @@
             </trans-unit>
             <trans-unit id="445">
                 <source>NOT_AVAILABLE</source>
-                <target>Nicht disponibel</target>
+                <target>Nicht verfügbar</target>
             </trans-unit>
             <trans-unit id="446">
                 <source>REMOVE_RESERVATION_CONFIRM</source>
@@ -1916,7 +1916,7 @@
             </trans-unit>
             <trans-unit id="488">
                 <source>THANKS_CHECK_AVAILABLE</source>
-                <target>Danke für Ihre Rückfrage zur Disponibilität </target>
+                <target>Danke für Ihre Anfrage zur Verfügbarkeit </target>
             </trans-unit>
             <trans-unit id="489">
                 <source>REQUEST_IN_PROCESS_24_HOURS</source>
@@ -1944,7 +1944,7 @@
             </trans-unit>
             <trans-unit id="495">
                 <source>REQUEST_SENT</source>
-                <target>Rückfrage zur Disponibilität gesendet</target>
+                <target>Rückfrage zur Verfügbarkeit gesendet</target>
             </trans-unit>
             <trans-unit id="496">
                 <source>CONTINUE_RESERVING</source>
@@ -1952,7 +1952,7 @@
             </trans-unit>
             <trans-unit id="497">
                 <source>AVAILABLE</source>
-                <target>disponibel</target>
+                <target>verfügbar</target>
             </trans-unit>
             <trans-unit id="498">
                 <source>EMAIL_RESTORE_ACCOUNT</source>
@@ -2192,7 +2192,7 @@
                 </trans-unit>
                 <trans-unit id="558">
                     <source>REMINDER_AVAILABLE</source>
-                 <target>Wir erinnern Sie daran, dass die gewünschten Unterkünftezum gewünschten Datum disponibel sind.</target>
+                 <target>Wir erinnern Sie daran, dass die gewünschten Unterkünfte zum gewünschten Datum verfügbar sind.</target>
                 </trans-unit>
                 <trans-unit id="559">
                     <source>VALID_OFFER_TWENTY_FOUR</source>
