@@ -48,7 +48,7 @@
             </trans-unit>
             <trans-unit id="12">
                 <source>MOST_VISITED_CITIES</source>
-                <target>Meist besuchte  Städte</target>
+                <target>Meist besuchte Städte</target>
             </trans-unit>
             <trans-unit id="13">
                 <source>LOCAL_FESTIVALS_AND_FUN</source>
@@ -1028,7 +1028,7 @@
             </trans-unit>
             <trans-unit id="266">
                 <source>SELECT_RESERVATION_TYPE_OPTION</source>
-                <target>(Form der Reservierung)</target>
+                <target>(Reservierungsformular)</target>
             </trans-unit>
             <trans-unit id="267">
                 <source>SELECT_OWNERSHIP_TYPE_OPTION</source>
@@ -1372,7 +1372,7 @@
             </trans-unit>
             <trans-unit id="352">
                 <source>HOW_IT_WORKS_CONTENT</source>
-                <target>Beschreibung zur Funktionsweise</target>
+                <target>Beschreibung der Funktionsweise</target>
             </trans-unit>
             <trans-unit id="353">
                 <source>USER_COMUNITY</source>
@@ -1416,11 +1416,11 @@
             </trans-unit>
             <trans-unit id="363">
                 <source>FORMS_NAME_LASTNAME_OWNER</source>
-                <target>Namen und Vorname des Eigentümers</target>
+                <target>Name und Vorname des Eigentümers</target>
             </trans-unit>
             <trans-unit id="364">
                 <source>FORMS_OWN_NAME</source>
-                <target>Name des Eigentums</target>
+                <target>Name der Unterkunft</target>
             </trans-unit>
             <trans-unit id="365">
                 <source>FORMS_REPEAT</source>
@@ -1432,7 +1432,7 @@
             </trans-unit>
             <trans-unit id="367">
                 <source>FORMS_MUNICIPALITY</source>
-                <target>Stadtteil</target>
+                <target>Landkreis</target>
             </trans-unit>
             <trans-unit id="368">
                 <source>CONTACT_US_TOURIST_HEADER</source>
@@ -1448,15 +1448,15 @@
             </trans-unit>
             <trans-unit id="371">
                 <source>FORMS_REMEMBER_ME</source>
-                <target>Speichere mich in diesem Computer!</target>
+                <target>Angemeldet bleiben</target>
             </trans-unit>
             <trans-unit id="372">
                 <source>FORMS_IDENTIFY</source>
-                <target>Sich identifizieren</target>
+                <target>Log In</target>
             </trans-unit>
             <trans-unit id="373">
                 <source>FORMS_FORGOT_PASSWORD_QUESTION</source>
-                <target>Hast du dein Passwort vergessen?</target>
+                <target>Hast Du Dein Passwort vergessen?</target>
             </trans-unit>
             <trans-unit id="374">
                 <source>FORMS_CONFIRMATION_QUESTION</source>
@@ -1464,11 +1464,11 @@
             </trans-unit>
             <trans-unit id="375">
                 <source>FORMS_CREATE_ACCOUNT_QUESTION</source>
-                <target>Bist du nicht registriert?Registriere dich hier!</target>
+                <target>Bist Du nicht registriert? Registriere Dich hier!</target>
             </trans-unit>
             <trans-unit id="376">
                 <source>FORMS_LOGIN_QUESTION</source>
-                <target>Bist du nicht registriert?Registriere dich hier!</target>
+                <target>Bist Du nicht registriert? Registriere Dich hier!</target>
             </trans-unit>
             <trans-unit id="377">
                 <source>DELETE_FAVORITIES</source>
@@ -1532,11 +1532,11 @@
             </trans-unit>
             <trans-unit id="392">
                 <source>FOLLOW_US_YOUTUBE</source>
-                <target>Folgen Sie uns in Youtube</target>
+                <target>Folgen Sie uns auf Youtube</target>
             </trans-unit>
             <trans-unit id="393">
                 <source>FOLLOW_US_PINENTEREST</source>
-                <target>Folgen Sie uns in Pinterest</target>
+                <target>Folgen Sie uns auf Pinterest</target>
             </trans-unit>
             <trans-unit id="394">
                 <source>SEND_TO_FRIEND</source>
@@ -1588,7 +1588,7 @@
             </trans-unit>
             <trans-unit id="406">
                 <source>HIW_TRAVEL_CONTENT</source>
-                <target>Inhalt von Reisen</target>
+                <target>Inhalt der Reisen</target>
             </trans-unit>
             <trans-unit id="407">
                 <source>USER_RESEND_INSTRUCTIONS</source>
@@ -1608,7 +1608,7 @@
             </trans-unit>
             <trans-unit id="411">
                 <source>ADDRESS_MCP_COUNTRY</source>
-                <target>Suiza</target>
+                <target>Schweiz</target>
             </trans-unit>
             <trans-unit id="412">
                 <source>COMMERCIAL_NUMBER_REGISTRY</source>
@@ -1616,15 +1616,15 @@
             </trans-unit>
             <trans-unit id="413">
                 <source>CONTACT_OWNER_QUESTION</source>
-                <target>Wären Sie interessiert, eine neue Unterkunft in Kuba in unsere Webseite aufzunehmen?</target>
+                <target>Wären Sie interessiert, eine neue Unterkunft in Kuba auf unserer Webseite aufzunehmen?</target>
             </trans-unit>
             <trans-unit id="414">
                 <source>CONTACT_OWNER_FILL_FORM</source>
-                <target>Füllen Sie sich bitte dafür dieses die folgende Form oder schreibt uns:</target>
+                <target>Füllen Sie dafür bitte folgendes Formular aus oder schreiben Sie uns:</target>
             </trans-unit>
             <trans-unit id="415">
                 <source>CONTACT_OWNER_FILL_FORM</source>
-                <target>In Kürze werden wir  Sie kontaktieren!</target>
+                <target>In Kürze werden wir Sie kontaktieren!</target>
             </trans-unit>
             <trans-unit id="416">
                 <source>DES_POBLATION</source>
@@ -1640,11 +1640,11 @@
             </trans-unit>
             <trans-unit id="419">
                 <source>INFORMATION_PUBLICITY_HOUSES</source>
-                <target>Werbung für die Privatunterkünfte in Kuba</target>
+                <target>Werbung für Privatunterkünfte in Kuba</target>
             </trans-unit>
             <trans-unit id="420">
                 <source>POSSIBILITY_RESERVE_ONLINE</source>
-                <target>Möglichkeit, Ihre Reservierung Online zu machen</target>
+                <target>Möglichkeit, Ihre Reservierung Online durchzuführen</target>
             </trans-unit>
             <trans-unit id="421">
                 <source>SOME_NUMBERS</source>
@@ -1668,15 +1668,15 @@
             </trans-unit>
             <trans-unit id="426">
                 <source>RESERVATION_CONFIRM_SUBTITLE</source>
-                <target>Innerhalb von 24 Stunden erhalten Sie eine Antwort über Ihre E-Mail erhalten</target>
+                <target>Innerhalb von 24 Stunden erhalten Sie eine Antwort per E-Mail</target>
             </trans-unit>
             <trans-unit id="427">
                 <source>RESERVATION_CONFIRM_GREENBAR_TEXT</source>
-                <target>Wir empfehlen, die Verfügbarkeit anderer, ähnlicher Unterkünfte an ihrem Reiseziel anzufragen</target>
+                <target>Weitere Unterkünfte an Ihrem Reiseziel</target>
             </trans-unit>
             <trans-unit id="428">
                 <source>RESERVATION_CONFIRM_GREENBAR_SUBTEXT</source>
-                <target>Wir empfehlen, die Verfügbarkeit anderer, ähnlicher Unterkünfte an ihrem Reiseziel anzufragen</target>
+                <target>Wir empfehlen Ihnen, die Verfügbarkeit ähnlicher Unterkünfte an Ihrem Reiseziel anzufragen</target>
             </trans-unit>
             <trans-unit id="429">
                 <source>RESERVATION_CONFIRM_GRAYBAR_SUBTEXT</source>
@@ -1688,7 +1688,7 @@
             </trans-unit>
             <trans-unit id="431">
                 <source>RESERVATION_CONFIRM_DESTINATION_OWNS_AVAILABLE</source>
-                <target>verfügbare Unterkünfte</target>
+                <target>Verfügbare Unterkünfte</target>
             </trans-unit>
             <trans-unit id="432">
                 <source>RESERVATION_CONFIRM_DESTINATION_MORE</source>
@@ -1956,7 +1956,7 @@
             </trans-unit>
             <trans-unit id="498">
                 <source>EMAIL_RESTORE_ACCOUNT</source>
-                <target>Restaurierung von Ihrem Konto MyCasaParticular</target>
+                <target>Wiederherstellung Ihres Kontos bei MyCasaParticular</target>
             </trans-unit>
              <trans-unit id="499">
                 <source>EMAIL_VISIT_LINK</source>
@@ -1964,11 +1964,11 @@
             </trans-unit>
             <trans-unit id="500">
                 <source>EMAIL_PASS_CHANGED</source>
-                <target>Ihr Passwort wurde erfolgreich geändert wurde</target>
+                <target>Ihr Passwort wurde erfolgreich geändert</target>
             </trans-unit>
             <trans-unit id="501">
                 <source>EMAIL_ACCOUNT_REGISTERED_SUBJECT</source>
-                <target>Aktivieren Sie Ihr Konto MyCasaParticular</target>
+                <target>Aktivieren Sie Ihr Konto bei MyCasaParticular</target>
             </trans-unit>
             <trans-unit id="502">
                 <source>EMAIL_ACCOUNT_REGISTERED_TEXT</source>
@@ -1976,11 +1976,11 @@
             </trans-unit>
              <trans-unit id="503">
                  <source>LOOK_FOR_ALTERNATIVE</source>
-                 <target>Aussehen für Alternative</target>
+                 <target>Suchen Sie eine Alternative</target>
              </trans-unit>
              <trans-unit id="504">
                   <source>REQUEST_STATUS_CHANGED</source>
-                  <target>Der Stand Ihrer Reservierung hat sich geändert.</target>
+                  <target>Der Status Ihrer Reservierung hat sich geändert.</target>
               </trans-unit>
               <trans-unit id="505">
                   <source>AMOUNT_TO_PAY_NOW</source>
@@ -1988,15 +1988,15 @@
               </trans-unit>
               <trans-unit id="506">
                   <source>DEAR_MR</source>
-                  <target>Sr.</target>
+                  <target>Herr</target>
               </trans-unit>
               <trans-unit id="507">
                   <source>THANKS_RESERVATION_MYCP</source>
-                  <target>Danke darin für Ihr Bedenken</target>
+                  <target>Danke für Ihre Reservierung bei</target>
               </trans-unit>
               <trans-unit id="508">
                   <source>PLEASE_PRINT_CONFIRMATION_OF_SERVICE</source>
-                  <target>Bitte drucken Sie diese Bestätigung und zeigen Sie es vor dem Empfang des reservierten Dienst.</target>
+                  <target>Bitte drucken Sie diese Bestätigung aus und legen sie vor Ort beim gebuchten Service vor.</target>
               </trans-unit>
               <trans-unit id="509">
                     <source>CAN_FOLLOWING_RESERVATIONS_MYCT</source>
@@ -2004,11 +2004,11 @@
               </trans-unit>
               <trans-unit id="510">
                   <source>PRINT</source>
-                  <target>Um zu drucken</target>
+                  <target>Drucken</target>
               </trans-unit>
               <trans-unit id="511">
                   <source>CLIENT_INFORMATION</source>
-                  <target>Die Informationen des Klienten</target>
+                  <target>Kundeninformationen</target>
               </trans-unit>
               <trans-unit id="512">
                   <source>RESERVATION_NUMBER</source>
@@ -2016,7 +2016,7 @@
               </trans-unit>
               <trans-unit id="513">
                   <source>CLIENT_NAME</source>
-                  <target>Klientenname</target>
+                  <target>Kundenname</target>
               </trans-unit>
               <trans-unit id="514">
                     <source>RESERVE_SERVICE</source>
@@ -2028,7 +2028,7 @@
                 </trans-unit>
                 <trans-unit id="516">
                     <source>ACCOMMODATION_NAME</source>
-                    <target>Name des Eigentums</target>
+                    <target>Name der Unterkunft</target>
                 </trans-unit>
                 <trans-unit id="517">
                     <source>ID_HOME</source>
@@ -2036,7 +2036,7 @@
                 </trans-unit>
                 <trans-unit id="518">
                     <source>OWNERS_NAME</source>
-                    <target>Namen und Vorname des Eigentümers</target>
+                    <target>Name und Vorname des Eigentümers</target>
                 </trans-unit>
                 <trans-unit id="519">
                     <source>PAYMENT_DETAILS</source>
@@ -2104,7 +2104,7 @@
             </trans-unit>
             <trans-unit id="536">
                 <source>SKRILL_RETURN_TO_MYCP</source>
-                <target>um dazu zurückzukommen MyCasaParticular</target>
+                <target>Zurück zu MyCasaParticular</target>
             </trans-unit>
              <trans-unit id="537">
                     <source>OWNERSHIP_MID_RANGE_DESCRIPTION</source>
@@ -2184,7 +2184,7 @@
                 </trans-unit>
                 <trans-unit id="556">
                     <source>PAYMENT_CONFIRMATION</source>
-                    <target>Bedenkenbestätigung</target>
+                    <target>Zahlungsbestätigung</target>
                 </trans-unit>
                 <trans-unit id="557">
                     <source>VALID_OFFER_FOUR_EIGHT</source>
