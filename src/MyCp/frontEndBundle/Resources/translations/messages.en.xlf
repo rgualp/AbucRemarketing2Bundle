@@ -372,7 +372,7 @@
             </trans-unit>
             <trans-unit id="102">
                 <source>NEARBY_HOUSES_DETAILS</source>
-                <target>Nearby Properties</target>
+                <target>Nearby Accommodations</target>
             </trans-unit>
             <trans-unit id="103">
                 <source>MORE_IN_DETAILS</source>
@@ -628,7 +628,7 @@
             </trans-unit>
             <trans-unit id="166">
                 <source>SEE_MORE_OWNERSHIPS_DETAILS</source>
-                <target>See more properties</target>
+                <target>See more accommodations</target>
             </trans-unit>
             <trans-unit id="167">
                 <source>IN</source>
@@ -1665,7 +1665,7 @@
             </trans-unit>
             <trans-unit id="425">
                 <source>RESERVATION_CONFIRM_TITLE</source>
-                <target>Your availability request has been send.</target>
+                <target>Your availability request has been sent.</target>
             </trans-unit>
             <trans-unit id="426">
                 <source>RESERVATION_CONFIRM_SUBTITLE</source>
@@ -1673,7 +1673,7 @@
             </trans-unit>
             <trans-unit id="427">
                 <source>RESERVATION_CONFIRM_GREENBAR_TEXT</source>
-                <target>Other properties may be available</target>
+                <target>Other accommodations may be available</target>
             </trans-unit>
             <trans-unit id="428">
                 <source>RESERVATION_CONFIRM_GREENBAR_SUBTEXT</source>
@@ -1681,7 +1681,7 @@
             </trans-unit>
             <trans-unit id="429">
                 <source>RESERVATION_CONFIRM_GRAYBAR_SUBTEXT</source>
-                <target>Available properties at this destination</target>
+                <target>Available accommodations at this destination</target>
             </trans-unit>
             <trans-unit id="430">
                 <source>RESERVATION_CONFIRM_DESTINATION_AREA_TITLE</source>

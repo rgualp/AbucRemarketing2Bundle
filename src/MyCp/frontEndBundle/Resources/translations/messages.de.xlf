@@ -1704,7 +1704,7 @@
             </trans-unit>
             <trans-unit id="435">
                 <source>CART</source>
-                <target>Korb</target>
+                <target>Warenkorb</target>
             </trans-unit>
             <trans-unit id="436">
                 <source>SENT_EMAIL_FROM</source>
@@ -2388,7 +2388,7 @@
                 </trans-unit>
                 <trans-unit id="607">
                     <source>SELECT_PHOTOGRAPHY</source>
-                    <target>Wählen Foto ...</target>
+                    <target>Foto wählen...</target>
                 </trans-unit>
                 <trans-unit id="608">
                     <source>THE_ENTERPRISE</source>
@@ -2416,7 +2416,7 @@
                 </trans-unit>
                 <trans-unit id="614">
                     <source>NEARBY_DESTINATION</source>
-                    <target>Nahe ziel</target>
+                    <target>Nahe Reiseziele</target>
                 </trans-unit>
                 <trans-unit id="615">
                     <source>Rango Medio</source>
@@ -2424,7 +2424,7 @@
                 </trans-unit>
                 <trans-unit id="616">
                     <source>FOOTER_EMAIL</source>
-                    <target><![CDATA[Zu reservation@mycasaparticular.com  Ihrem Adressbuch oder der Liste sicherer Absender hinzufügen, um sicherzustellen, dass Sie auch weiterhin diese E-Mails erhalten. <br/><br/>Wenn Sie nicht möchten, dass unsere E-Mail-Angebote und Aktionen erhalten, können Sie sich hier abmelden <a href="">. </ A> können auch unsere Datenschutzrichtlinie <a href=""> lesen Sie hier. </A><br/><br/>Die Preise können sich vor der Zahlung zu ändern. Die Preise beinhalten keine Kosten erhoben. Alle Unterkünfte sind je nach Verfügbarkeit zu überprüfen. Sehen Sie unsere Nutzungsbedingungen für weitere Details. <br/><br/>MyCasaParticular.com ist ein Service GmbH ABUC Mediennetzwerk mit Handelsregisternummer CH-270.4.002.844-1 in Basel. Schweiz.]]></target>
+                    <target><![CDATA[Fügen Sie reservation@mycasaparticular.com zu Ihrem Adressbuch oder Ihrer Liste sicherer Absender hinzu, um sicherzustellen, dass Sie auch weiterhin diese E-Mails erhalten. <br/><br/>Wenn Sie nicht möchten, dass Sie unsere E-Mail-Angebote und Aktionen erhalten, können Sie sich hier abmelden <a href="">. </ A> Unsere Datenschutzrichtlinie <a href=""> lesen Sie hier. </A><br/><br/>Die Preise können sich vor der Zahlung ändern. Die Preise beinhalten keine Bearbeitungsgebühren. Alle Unterkünfte sind je nach Verfügbarkeit zu überprüfen. Sehen Sie unsere Nutzungsbedingungen für weitere Details. <br/><br/>MyCasaParticular.com ist ein Service von GmbH ABUC Mediennetzwerk mit Handelsregisternummer CH-270.4.002.844-1 in Basel. Schweiz.]]></target>
                 </trans-unit>
                 <trans-unit id="617">
                     <source>OF</source>
