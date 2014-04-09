@@ -1821,11 +1821,11 @@
             </trans-unit>
             <trans-unit id="464">
                 <source>SERVICE_RECHARGE</source>
-                <target>Service Fee</target>
+                <target>Service Charge</target>
             </trans-unit>
             <trans-unit id="465">
                 <source>TOTAL_PREPAYMENT</source>
-                <target>Total Prepayment</target>
+                <target>Total Down Payment</target>
             </trans-unit>
             <trans-unit id="466">
                 <source>LAST_VISITED_OWNERSHIPS</source>
@@ -2325,7 +2325,7 @@
                 </trans-unit>
                 <trans-unit id="591">
                     <source>MANAGE_CART</source>
-                    <target>Manage your booking</target>
+                    <target>Manage your reservation inquiry</target>
                 </trans-unit>
                 <trans-unit id="592">
                     <source>PRICE_NIGHT</source>

@@ -108,7 +108,7 @@
             </trans-unit>
             <trans-unit id="27">
                 <source>SECURITY_AND_PRIVACITY</source>
-                <target>Sicherheit und Privatspäre</target>
+                <target>Sicherheit und Privatsphäre</target>
             </trans-unit>
             <trans-unit id="28">
                 <source>CONTACT_US</source>
@@ -1148,7 +1148,7 @@
             </trans-unit>
             <trans-unit id="296">
                 <source>RESERVATION_TOTAL_PRICE</source>
-                <target>Gesamtpreis:</target>
+                <target>Gesamtpreis Unterkünfte:</target>
             </trans-unit>
             <trans-unit id="297">
                 <source>RESERVATION_CHECK_AVAILABILITY</source>
@@ -1732,7 +1732,7 @@
             </trans-unit>
             <trans-unit id="442">
                 <source>KEEP_SEARCHING</source>
-                <target>Weiter suchen</target>
+                <target>Weitersuchen</target>
             </trans-unit>
             <trans-unit id="443">
                 <source>REMOVE</source>
@@ -1740,7 +1740,7 @@
             </trans-unit>
             <trans-unit id="444">
                 <source>EMPTY_CART</source>
-                <target>Korb leeren</target>
+                <target>Warenkorb leeren</target>
             </trans-unit>
             <trans-unit id="445">
                 <source>NOT_AVAILABLE</source>
@@ -1752,15 +1752,15 @@
             </trans-unit>
             <trans-unit id="447">
                 <source>CANCEL</source>
-                <target>Sagen Sie ab</target>
+                <target>Abbrechen</target>
             </trans-unit>
             <trans-unit id="448">
                 <source>CART_EMPTY_SUCCESSFUL</source>
-                <target>Der Korb wurde zufriedenstellend geleert.</target>
+                <target>Der Warenkorb wurde erfolgreich geleert.</target>
             </trans-unit>
             <trans-unit id="449">
                 <source>CART_DESCRIPTION</source>
-                <target>Beschreibung des Korbes</target>
+                <target>Beschreibung des Warenkorbes</target>
             </trans-unit>
             <trans-unit id="450">
                 <source>LAST_ADDED_DESCRIPTION</source>
@@ -1816,15 +1816,15 @@
             </trans-unit>
             <trans-unit id="463">
                 <source>INITIAL_DEPOSIT</source>
-                <target>Anfangszahlung</target>
+                <target>Vorauszahlung</target>
             </trans-unit>
             <trans-unit id="464">
                 <source>SERVICE_RECHARGE</source>
-                <target>Belastung für den Service</target>
+                <target>Bearbeitungsgebühr</target>
             </trans-unit>
             <trans-unit id="465">
                 <source>TOTAL_PREPAYMENT</source>
-                <target>Komplett vorausgezahlt</target>
+                <target>Anzahlung Gesamt</target>
             </trans-unit>
             <trans-unit id="466">
                 <source>LAST_VISITED_OWNERSHIPS</source>
@@ -2320,11 +2320,11 @@
                 </trans-unit>
                 <trans-unit id="590">
                     <source>CART_OF_RESERVES</source>
-                    <target>Korb für Reservierungen</target>
+                    <target>Übersicht Warenkorb</target>
                 </trans-unit>
                 <trans-unit id="591">
                     <source>MANAGE_CART</source>
-                    <target>Machen Sie Ihre Reservierungen, um dort rückzufragen</target>
+                    <target>Verwalten Sie Ihre Reservationsanfragen</target>
                 </trans-unit>
                 <trans-unit id="592">
                     <source>PRICE_NIGHT</source>
@@ -2332,7 +2332,7 @@
                 </trans-unit>
                 <trans-unit id="593">
                     <source>REMOVE_RESERVE</source>
-                    <target>löschen Sie Bedenken</target>
+                    <target>Löschen Sie die Reservation</target>
                 </trans-unit>
                 <trans-unit id="594">
                     <source>BYNIGHT</source>
