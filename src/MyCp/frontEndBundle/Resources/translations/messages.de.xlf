@@ -288,19 +288,19 @@
             </trans-unit>
             <trans-unit id="72">
                 <source>ECONOMIC_TOOLTIP_HOME_TAB</source>
-                <target>Mehr preisgünstige Häuser sehen</target>
+                <target>Mehr preisgünstige Häuser ansehen</target>
             </trans-unit>
             <trans-unit id="73">
                 <source>MIDRANGE_TOOLTIP_HOME_TAB</source>
-                <target>Mehr Häuser mittleren Niveaus sehen</target>
+                <target>Mehr Häuser mittleren Niveaus ansehen</target>
             </trans-unit>
             <trans-unit id="74">
                 <source>PREMIUM_TOOLTIP_HOME_TAB</source>
-                <target>Mehr erstklassige Häuser sehen</target>
+                <target>Mehr erstklassige Häuser ansehen</target>
             </trans-unit>
             <trans-unit id="75">
                 <source>FILTER_RANGE_PRICE</source>
-                <target>Nach Niveau /Preis</target>
+                <target>Nach Niveau / Preis</target>
             </trans-unit>
             <trans-unit id="76">
                 <source>ACCOMMODATION_SEARCH_TITLE</source>
@@ -356,7 +356,7 @@
             </trans-unit>
             <trans-unit id="89">
                 <source>MAP_VIEW_RESULTS</source>
-                <target>Ergebnisse auf der Karte/dem Stadtplan sehen</target>
+                <target>Ergebnisse auf der Karte sehen</target>
             </trans-unit>
             <trans-unit id="90">
                 <source>LAST_ADDED_BREADCRUMB</source>
@@ -452,7 +452,7 @@
             </trans-unit>
             <trans-unit id="122">
                 <source>LAUNDRY_TAB_DESCRIPTION</source>
-                <target>Wäscherei</target>
+                <target>Wäscheservice</target>
             </trans-unit>
             <trans-unit id="123">
                 <source>INTERNET_TAB_DESCRIPTION</source>
@@ -460,7 +460,7 @@
             </trans-unit>
             <trans-unit id="124">
                 <source>JACUZEE_TAB_DESCRIPTION</source>
-                <target>Jakuzzi</target>
+                <target>Whirlpool</target>
             </trans-unit>
             <trans-unit id="125">
                 <source>SAUNA_TAB_DESCRIPTION</source>
