@@ -86,7 +86,7 @@ function start() {
     initialize_map();    
     datePickersStarUp();    
     $('#btn_insert_comment').click(insert_comment);
-    reservations_in_details();    
+    //reservations_in_details();
     datePickersStarUp_searcher();
     connectSearchOnEnter();
     $("#btn_search").click(search);
