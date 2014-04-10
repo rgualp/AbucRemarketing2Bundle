@@ -1825,7 +1825,7 @@
             </trans-unit>
             <trans-unit id="465">
                 <source>TOTAL_PREPAYMENT</source>
-                <target>Total Down Payment</target>
+                <target>Down Payment</target>
             </trans-unit>
             <trans-unit id="466">
                 <source>LAST_VISITED_OWNERSHIPS</source>
@@ -2045,7 +2045,7 @@
                 </trans-unit>
                 <trans-unit id="520">
                     <source>PRICE_OF_ACCOMMODATION_SERVICE</source>
-                    <target>Price of the Accommodation Service</target>
+                    <target>Total price of the Accommodation Service</target>
                 </trans-unit>
                 <trans-unit id="521">
                     <source>BILL</source>
@@ -2430,6 +2430,10 @@
                 <trans-unit id="617">
                     <source>OF</source>
                     <target>von</target>
+                </trans-unit>
+                <trans-unit id="618">
+                    <source>TOTAL_ALL_PREPAYMENT</source>
+                    <target>Gesamt Anzahlung</target>
                 </trans-unit>
         </body>
     </file>

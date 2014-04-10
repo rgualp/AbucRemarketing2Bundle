@@ -35,6 +35,8 @@ class BackendMetaController extends Controller {
                 $em->flush();
                 $message = 'Meta Tags modificados satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+                return $this->redirect($this->generateUrl('mycp_edit_metatags'));
             }
         }
 

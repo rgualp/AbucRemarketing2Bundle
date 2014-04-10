@@ -28,7 +28,6 @@ class userController extends Controller {
             $user_db = $em->getRepository('mycpBundle:user')->findBy(array(
                 'user_email' => $post['user_email'],
                 'user_created_by_migration' => false));
-            
             if ($user_db) {
                 $errors['used_email'] = $this->get('translator')->trans("USER_EMAIL_IN_USE");
             }

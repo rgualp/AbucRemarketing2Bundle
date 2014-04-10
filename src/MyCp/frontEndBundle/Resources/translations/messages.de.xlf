@@ -1824,7 +1824,7 @@
             </trans-unit>
             <trans-unit id="465">
                 <source>TOTAL_PREPAYMENT</source>
-                <target>Anzahlung Gesamt</target>
+                <target>Anzahlung</target>
             </trans-unit>
             <trans-unit id="466">
                 <source>LAST_VISITED_OWNERSHIPS</source>
@@ -2429,6 +2429,10 @@
                 <trans-unit id="617">
                     <source>OF</source>
                     <target>de</target>
+                </trans-unit>
+                <trans-unit id="618">
+                    <source>TOTAL_ALL_PREPAYMENT</source>
+                    <target>Total down payment</target>
                 </trans-unit>
         </body>
     </file>

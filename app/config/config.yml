@@ -77,13 +77,18 @@ swiftmailer:
    spool:     { type: memory }
 
 parameters:
+    thumbnail.size: 160
+    user.photo.size: 65
     dir.watermark: %kernel.root_dir%/../web/uploads/watermark.png
     destination.dir.photos: %kernel.root_dir%/../web/uploads/destinationImages/
     destination.dir.thumbnails: %kernel.root_dir%/../web/uploads/destinationImages/thumbnails/
+    destination.dir.photos.size: 700
     destination.cat.dir.icons: %kernel.root_dir%/../web/uploads/destinationImages/icons/
     album.dir.photos: %kernel.root_dir%/../web/uploads/albumImages/
+    album.dir.photos.size: 480
     album.dir.thumbnails: %kernel.root_dir%/../web/uploads/albumImages/thumbnails/
     ownership.dir.photos: %kernel.root_dir%/../web/uploads/ownershipImages/
+    ownership.dir.photos.size: 480
     ownership.dir.thumbnails: %kernel.root_dir%/../web/uploads/ownershipImages/thumbnails/
     language.dir.photos: %kernel.root_dir%/../web/uploads/languageImages/
     user.dir.photos: %kernel.root_dir%/../web/uploads/userImages/

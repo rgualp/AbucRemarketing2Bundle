@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class MycpCFController extends Controller {
 
-    const SUCCESS_CONFIRM_MSG = "success";
+    const SUCCESS_CONFIRM_MSG = "OK";
 
 //-----------------------------------------------------------------------------    
     public function mycpFrontControllerAction(Request $request) {
@@ -166,8 +166,7 @@ class MycpCFController extends Controller {
 //-----------------------------------------------------------------------------
     // <editor-fold defaultstate="collapsed" desc="Upload Methods">
     private function _commitReservations(Request $request) {
-        //    $json_reservations = $request->get('content');
-        $json_reservations = '{"re":[{"rn":27,"ss":1,"rt":"","st":"Sended"}],"rd":[{"nu":1,"rn":27,"np":30,"at":1,"ss":1,"td":"2014-02-28","fd":"2014-02-23","ct":0}]}';
+        $json_reservations = $request->get('content');
         $res_data = json_decode($json_reservations);
         $em = $this->getDoctrine()->getEntityManager();
 
@@ -360,8 +359,7 @@ class MycpCFController extends Controller {
 //-----------------------------------------------------------------------------
     private function _commitHouses(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
-//        $json_houses = $request->get('content');
-        $json_houses = ' {"uds":[{"rn":1,"rs":"Client Reservation","ss":0,"td":"2014-03-10","fd":"2014-03-05","hc":"CH001"}],"houses":[{"ty":"Penthouse","mp":45,"ca":"Premium","cp":20,"na":"Casa Particular en Guanabo La Casa de Elena","ad":"Calle 472","xp":30,"ss":1,"em":"reservacion@mycasaparticular.com","ph":"243 5643","hc":"CH138","pr":"Elena Moriño Castellano"}],"rooms":[]}';
+        $json_houses = $request->get('content');
         $houses_mod_data = json_decode($json_houses);
 
         $houses = $houses_mod_data->houses;
@@ -437,7 +435,7 @@ class MycpCFController extends Controller {
             foreach ($uds as $ud) {
                 $_house = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code' => $ud->hc));
                 $_room = $_house->getRoom($ud->rn);
-                
+
                 $_new_ud = $_room->getUd($ud->fd, $ud->td);
                 switch ($ud->ss) {
                     case SyncStatuses::ADDED:
