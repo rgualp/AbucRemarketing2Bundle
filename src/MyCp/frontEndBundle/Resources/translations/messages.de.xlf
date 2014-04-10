@@ -2044,7 +2044,7 @@
                 </trans-unit>
                 <trans-unit id="520">
                     <source>PRICE_OF_ACCOMMODATION_SERVICE</source>
-                    <target>Gemeinsam Preis für die Reservierungservice</target>
+                    <target>Servicepreis für die Reservierung</target>
                 </trans-unit>
                 <trans-unit id="521">
                     <source>BILL</source>
