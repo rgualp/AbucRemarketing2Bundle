@@ -489,6 +489,8 @@ class BackendDestinationController extends Controller
         $dir=$this->container->getParameter('destination.dir.photos');
         $dir_thumbs=$this->container->getParameter('destination.dir.thumbnails');
         $dir_watermark=$this->container->getParameter('dir.watermark');
+        $photo_size = $this->container->getParameter('destination.dir.photos.size');
+        $thumbs_size = $this->container->getParameter('thumbnail.size');
         
         if ($request->getMethod() == 'POST') {
             $post = $request->request->getIterator()->getArrayCopy();
@@ -532,9 +534,9 @@ class BackendDestinationController extends Controller
                         $fileName = uniqid('destination-').'-photo.jpg';
                         $file->move($dir, $fileName);
                         //Creando thumbnail, redimensionando y colocando marca de agua
-                        \MyCp\mycpBundle\Helpers\Images::create_thumbnail($dir.$fileName, $dir_thumbs.$fileName, 160);
+                        \MyCp\mycpBundle\Helpers\Images::create_thumbnail($dir.$fileName, $dir_thumbs.$fileName, $thumbs_size);
                         //\MyCp\mycpBundle\Helpers\Images::resize_and_watermark($dir.$fileName, $dir_watermark, 480);
-                        \MyCp\mycpBundle\Helpers\Images::resize($dir.$fileName, 480);
+                        \MyCp\mycpBundle\Helpers\Images::resize($dir.$fileName, $photo_size);
                         
                         $photo->setPhoName($fileName);
                         $destinationPhoto->setDesPhoDestination($destination);
