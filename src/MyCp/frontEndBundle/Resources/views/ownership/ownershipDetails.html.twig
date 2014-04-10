@@ -76,13 +76,13 @@
                                 <div class="col-sm-6">
                                     <div class="input-group" style="padding: 0">
                                         <input value="{{start_date}}"  type="text" id="filter_date_from" class="form-control" placeholder="{{"ARRIVAL_RESERVATION" | trans}}" data-localization='{{locale}}'>
-                                        <span class="input-group-addon"><span class="icon-calendar"></span></span>
+                                        <span class="input-group-addon show_calendar"><span class="icon-calendar"></span></span>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="input-group" style="padding: 0">
                                         <input value="{{ end_date }}" type="text" id="filter_date_to" class="form-control" placeholder="{{"DEPARTURE_RESERVATION" | trans}}" data-localization='{{locale}}'>
-                                        <span class="input-group-addon"><span class="icon-calendar"></span></span>
+                                        <span class="input-group-addon show_calendar"><span class="icon-calendar"></span></span>
                                     </div>
                                 </div>
                             </form>
@@ -446,7 +446,7 @@
                            id="top_reservation_filter_date_from"
                            value="{{start_date}}"
                            data-localization='{{locale}}'>
-                    <span class="input-group-addon"><span class="icon-calendar"></span></span>
+                    <span class="input-group-addon show_calendar"><span class="icon-calendar"></span></span>
                 </div>
             </li>
             <li class="lead-2">
@@ -457,7 +457,7 @@
                            id="top_reservation_filter_date_to"
                            value="{{end_date}}"
                            data-localization='{{locale}}'>
-                    <span class="input-group-addon"><span class="icon-calendar"></span></span>
+                    <span class="input-group-addon show_calendar"><span class="icon-calendar"></span></span>
                 </div>
             </li>
             <li><button onclick="javascript:refresh_calendar_button()" class="btn btn-primary">{{"VERIFY_PRICES_FOR_THIS_DATES" | trans}}</button></li>
