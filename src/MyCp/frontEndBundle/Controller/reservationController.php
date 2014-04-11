@@ -724,6 +724,7 @@ class reservationController extends Controller
         $response=$this->view_confirmationAction($id_booking,true);
 
         $pdf_name='voucher'.$user->getUserId().'_'.$booking->getBookingId();
+
         $this->download_pdf($response, $pdf_name ,true);
 
         $attach_del=$this->container->getParameter('kernel.root_dir')
@@ -740,11 +741,10 @@ class reservationController extends Controller
             'photos'=>$array_photos,
             'nights'=>$array_nigths
         ));
-
         $locale = $this->get('translator');
         $subject = $locale->trans('PAYMENT_CONFIRMATION');
         $service_email->send_email(
-            $subject, 'no-reply@mycasaparticular.com', $subject.' - MyCasaParticular.com', $user->getUserEmail(), $body,$attach
+            $subject, 'reservation1@mycasaparticular.com', $subject.' - MyCasaParticular.com', $user->getUserEmail(), $body,$attach
         );
         //$subject, 'reservation@mycasaparticular.com', $subject.' - MyCasaParticular.com', $user->getUserEmail(), $body, $attach
 
