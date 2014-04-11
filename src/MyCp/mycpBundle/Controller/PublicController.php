@@ -56,7 +56,11 @@ class PublicController extends Controller
             $post['ownership_address_municipality']=$post['filter_municipality'];
         }
         $em = $this->getDoctrine()->getManager();
-        $municipalities = $em->getRepository('mycpBundle:municipality')->findAll();
+        
+        if(isset($post['ownership_address_province']))
+            $municipalities = $em->getRepository('mycpBundle:municipality')->findBy(array('mun_prov_id' => $post['ownership_address_province']));
+        else
+            $municipalities = $em->getRepository('mycpBundle:municipality')->findAll();
         return $this->render('mycpBundle:utils:list_municipality.html.twig', array('municipalities' => $municipalities,'data'=>$post));
     }
 

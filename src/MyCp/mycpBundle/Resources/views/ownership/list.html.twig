@@ -41,7 +41,7 @@
             <div class="span3">
                 <label>Municipio:</label>
                 <select class="input-block-level" name="filter_municipality" id="filter_municipality"/>
-                {{ render(controller('mycpBundle:Public:get_mun', {'post': {'ownership_address_municipality':filter_municipality}})) }}
+                {{ render(controller('mycpBundle:Public:get_mun', {'post': {'ownership_address_province':filter_province,'ownership_address_municipality':filter_municipality}})) }}
                 </select>
             </div>
             <div class="span2">
@@ -115,7 +115,7 @@
     </thead>
     <tbody>
     {% for ownership in ownerships %}
-    <tr {% if ownership.getOwnStatus.getStatusId!=1 %} class="red_row" {% endif %}>
+    <tr {% if ownership.getOwnStatus != null and ownership.getOwnStatus.getStatusId!=1 %} class="red_row" {% endif %}>
         <td>{{ownership.getOwnMcpCode}}</td>
         <td>{{ownership.getOwnName}}</td>
         <td>{{ownership.getOwnAddressMunicipality.getMunName}}</td>

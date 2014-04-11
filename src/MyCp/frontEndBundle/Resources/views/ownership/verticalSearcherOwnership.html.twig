@@ -9,11 +9,11 @@
                 <div><input type="text" class="form-control" {%if app.session.get('search_text') != null and app.session.get('search_text') != 'null'%}value="{{app.session.get('search_text')}}"{%endif%} placeholder="{{"PLACE_WATERMARK" | trans}}" id="input_text" autocomplete="off" data-highlighter="null" data-items="5" data-provide="typeahead"/></div>
                 <div class="input-group">
                     <input class="form-control" type="text" value="{{(app.session.get('search_arrival_date') != null) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now" |date("d/m/Y"))}}" placeholder="{{"ARRIVAL_WATERMARK" | trans}}" id="input_arrival_date" data-localization='{{locale}}'>
-                    <span class="input-group-addon"><span class="icon-calendar"></span></span>
+                    <span class="input-group-addon show_calendar"><span class="icon-calendar"></span></span>
                 </div>
                 <div class="input-group">
                     <input class="form-control" type="text" value="{{(app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : ("+2 days" |date("d/m/Y"))}}" placeholder="{{"DEPARTURE_WATERMARK" | trans}}" id="input_departure_date" data-localization='{{locale}}'>
-                    <span class="input-group-addon"><span class="icon-calendar"></span></span>
+                    <span class="input-group-addon show_calendar"><span class="icon-calendar"></span></span>
                 </div>
                 <div>
                 <table class="full-width">
