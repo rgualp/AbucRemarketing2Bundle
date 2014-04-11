@@ -781,9 +781,6 @@ class reservationController extends Controller
             );
         }
 
-        $fs = new Filesystem();
-        $fs->touch($attach_del);
-
         return $this->redirect(
             $this->generateUrl('frontend_view_confirmation_reservation'
                 , array('id_booking'=>$id_booking)));
