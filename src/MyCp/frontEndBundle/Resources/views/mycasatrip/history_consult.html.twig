@@ -44,7 +44,7 @@
             <div>
                 <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | lower | replace(' ','_')}) }}" class="btn btn-primary" style="width: 150px; color: #ffffff">
                     {{"VIEW_DETAILS" | trans}}</a></div>
-                <div style="margin-top: 10px">{{"ID_RESERVATION" | trans}}: <b>CAS.{{res['own_res_id']}}</b></div>
+                <div style="margin-top: 10px">{{"ID_RESERVATION" | trans}}: <b>CAS.{{res['own_res_id']['own_res_gen_res_id']['gen_res_id']}}</b></div>
             </div>
         </div>
         <hr/>

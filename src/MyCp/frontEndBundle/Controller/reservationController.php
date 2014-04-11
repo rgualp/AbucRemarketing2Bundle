@@ -748,7 +748,7 @@ class reservationController extends Controller
         );
         //$subject, 'reservation@mycasaparticular.com', $subject.' - MyCasaParticular.com', $user->getUserEmail(), $body, $attach
 
-        @unlink($attach_del);
+
 
         // enviando mail a reservation team
         foreach($array_ownres_by_house as $owns)
@@ -780,6 +780,7 @@ class reservationController extends Controller
                 'Confirmación de reserva', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', $prop_email, $body_prop
             );
         }
+
         return $this->redirect(
             $this->generateUrl('frontend_view_confirmation_reservation'
                 , array('id_booking'=>$id_booking)));
