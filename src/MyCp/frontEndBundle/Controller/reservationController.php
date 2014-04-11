@@ -780,7 +780,6 @@ class reservationController extends Controller
                 'Confirmación de reserva', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', $prop_email, $body_prop
             );
         }
-
         @unlink($attach_del);
 
         return $this->redirect(
