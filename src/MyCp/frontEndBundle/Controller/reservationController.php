@@ -748,7 +748,7 @@ class reservationController extends Controller
         );
         //$subject, 'reservation@mycasaparticular.com', $subject.' - MyCasaParticular.com', $user->getUserEmail(), $body, $attach
 
-        @unlink($attach_del);
+        //@unlink($attach_del);
 
         // enviando mail a reservation team
         foreach($array_ownres_by_house as $owns)
