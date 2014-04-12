@@ -748,19 +748,19 @@ class ownershipRepository extends EntityRepository {
             $query_string = $query_string . $where;
 
         if ($order_by == "PRICE_LOW_HIGH")
-            $order = " o.own_minimum_price ASC ";
+            $order = " o.own_minimum_price ASC, o.own_rating DESC, o.own_comments_total DESC ";
         else if ($order_by == "PRICE_HIGH_LOW")
-            $order = " o.own_minimum_price DESC ";
+            $order = " o.own_minimum_price DESC, o.own_rating DESC, o.own_comments_total DESC ";
         else if ($order_by == "BEST_VALUED")
-            $order = " o.own_rating DESC ";
+            $order = " o.own_rating DESC, o.own_comments_total DESC ";
         else if ($order_by == "WORST_VALUED")
-            $order = " o.own_rating ASC ";
+            $order = " o.own_rating ASC, o.own_comments_total ASC ";
         else if ($order_by == "A_Z")
-            $order = " o.own_name ASC ";
+            $order = " o.own_name ASC, o.own_rating DESC, o.own_comments_total DESC ";
         else if ($order_by == "Z_A")
-            $order = " o.own_name DESC ";
+            $order = " o.own_name DESC, o.own_rating DESC, o.own_comments_total DESC ";
         else {
-            $order = " o.own_minimum_price ASC ";
+            $order = " o.own_minimum_price ASC, o.own_rating DESC, o.own_comments_total DESC ";
         }
 
         $query_string = $query_string . ' ORDER BY ' . $order;
@@ -833,7 +833,7 @@ class ownershipRepository extends EntityRepository {
             $query_string .= " AND LOWER(o.own_category) = '$category'";
         }
 
-        $query_string .= " ORDER BY o.own_rating DESC";
+        $query_string .= " ORDER BY o.own_rating DESC, o.own_comments_total DESC";
 
         $results = $em->createQuery($query_string)->getResult();
 
@@ -1466,7 +1466,7 @@ class ownershipRepository extends EntityRepository {
                          JOIN o.own_address_municipality mun
                          WHERE o.own_category='$category'
                            AND o.own_status = 1
-                         ORDER BY o.own_rating DESC, o.own_id ASC";
+                         ORDER BY o.own_rating DESC, o.own_comments_total DESC";
         else
             $query_string = "SELECT o.own_id as own_id,
                          o.own_name as own_name,
@@ -1592,7 +1592,7 @@ class ownershipRepository extends EntityRepository {
             FROM mycpBundle:ownership o
             WHERE o.own_status=1
               AND o.own_rating >= 4
-            ORDER BY o.own_rating DESC, o.own_id ASC");
+            ORDER BY o.own_rating DESC, o.own_comments_total DESC");
         return $query->getResult();
     }
 
@@ -1602,7 +1602,7 @@ class ownershipRepository extends EntityRepository {
                         FROM mycpBundle:ownership o
                         WHERE o.own_status=1
                           AND o.own_comments_total > 0
-                        ORDER BY o.own_comments_total DESC, o.own_id ASC";
+                        ORDER BY o.own_rating DESC, o.own_comments_total DESC";
 
         return $em->createQuery($query_string)->getResult();
     }
