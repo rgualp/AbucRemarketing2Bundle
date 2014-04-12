@@ -2435,6 +2435,14 @@
                     <source>TOTAL_ALL_PREPAYMENT</source>
                     <target>Gesamt Anzahlung</target>
                 </trans-unit>
+                <trans-unit id="619">
+                    <source>RESERVATIONS_HIGH_LOW_ORDERBY</source>
+                    <target>Reservations Total /Highest to Lowest</target>
+                </trans-unit>
+                <trans-unit id="620">
+                    <source>RESERVATIONS_LOW_HIGH_ORDERBY</source>
+                    <target>Reservations Total /Lowest to Highest</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>
