@@ -31,7 +31,7 @@ frontend_confirmation_reservation:
     defaults: { _controller: frontEndBundle:reservation:confirmation }
 
 frontend_view_confirmation_reservation:
-    locales:  { en: "user/resrevation/view/{id_booking}/", es: "usuario/reservacion/detalles/{id_booking}/", de: "user/reservation/view/{id_booking}/" }
+    locales:  { en: "user/reservation/view/{id_booking}/", es: "usuario/reservacion/detalles/{id_booking}/", de: "user/reservation/view/{id_booking}/" }
     defaults: { _controller: frontEndBundle:reservation:view_confirmation }
 
 frontend_boucher_reservation:
