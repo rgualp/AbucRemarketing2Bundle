@@ -7,7 +7,7 @@
 <h3>Fecha y hora</h3>
 {{ "now"|date("D, d M Y H:m:s O") }}<br/><br/>
 Referencia de reserva: {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnMcpCode}}<br/><br/>
-Reservation ID: CAS.{{reservations[0].getOwnResGenResId.getGenResId}}
+ID reserva: CAS.{{reservations[0].getOwnResGenResId.getGenResId}}
 <h4>Datos del cliente</h4>
 <ul>
     <li>Nombre: <i>{{user.getUserUserName}}</i></li>

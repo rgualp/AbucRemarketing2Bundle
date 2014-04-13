@@ -226,7 +226,7 @@ class ownershipController extends Controller {
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
         $locale = $this->get('translator')->getLocale();
 
-        $own_name = str_replace('_', ' ', $own_name);
+        $own_name = str_replace('-', ' ', $own_name);
         $own_name = str_replace("nn", "ñ", $own_name);
 
         $ownership_array = $em->getRepository('mycpBundle:ownership')->get_details($own_name, $locale, $user_ids["user_id"], $user_ids["session_id"]);
@@ -515,7 +515,7 @@ class ownershipController extends Controller {
 
         return $this->render('frontEndBundle:ownership:categoryListOwnership.html.twig', array(
                     'category' => $category,
-                    'title' => str_replace(' ', '_', $category),
+                    'title' => str_replace(' ', '-', $category),
                     'list' => $list,
                     'list_preffix' => 'category',
                     'items_per_page' => $items_per_page,
@@ -532,7 +532,7 @@ class ownershipController extends Controller {
         if ($session->get('search_order') == null || $session->get('search_order') == '')
             $session->set('search_order', 'PRICE_LOW_HIGH');
 
-        $search_text = ($text != null && $text != '' && $text != $this->get('translator')->trans('PLACE_WATERMARK')) ? str_replace("_", " ", strtolower($text)) : null;
+        $search_text = ($text != null && $text != '' && $text != $this->get('translator')->trans('PLACE_WATERMARK')) ? str_replace("-", " ", strtolower($text)) : null;
         $search_guests = ($guests != null && $guests != '' && $guests != $this->get('translator')->trans('GUEST_WATERMARK')) ? $guests : "1";
         $search_rooms = ($rooms != null && $rooms != '' && $rooms != $this->get('translator')->trans('ROOM_WATERMARK')) ? $rooms : "1";
         $arrival = ($request->get('arrival') != null && $request->get('arrival') != "" && $request->get('arrival') != "null") ? $request->get('arrival') : $session->get('search_arrival_date');
@@ -1197,7 +1197,7 @@ class ownershipController extends Controller {
         $session->set('search_order', 'BEST_VALUED');
 
         $filters = array();
-        $filters['own_type'] = array(str_replace("_", " ", ucfirst($type)));
+        $filters['own_type'] = array(str_replace("-", " ", ucfirst($type)));
 
         $list = $em->getRepository('mycpBundle:ownership')->search($this, null, null, null, '1', '1', $session->get('search_order'), false, $filters);
         $paginator = $this->get('ideup.simple_paginator');

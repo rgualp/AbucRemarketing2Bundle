@@ -14,7 +14,7 @@
                                     <table cellpadding="4" border="0" cellspacing="0">
                                         <tr>
                                             <td style="background-color: #FFFFFF; border: solid 1px #cccccc;">
-                                                <a href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | lower | replace(' ','_')}) }}">
+                                                <a href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | lower | replace(' ','-')}) }}">
                                                     {% if photos[loop.index0][0].getPhoName is defined %}
                                                         <img width="100%" style="display:block;" border="0" src="{{ url('mycp_main')~'../uploads/ownershipImages/thumbnails/'~photos[loop.index0][0].getPhoName}}">
                                                     {% else %}
@@ -37,7 +37,7 @@
                                     </table>
                                 </td>
                                 <td width="34%" valign="top" align="right" style="font-family: arial; font-size: 13px; line-height: 20px; text-align: right">
-                                    <b>Reservation ID:</b> CAS.{{reservation.getOwnResGenResId.getGenResId}}<br/><br/>
+                                    <b>ID {{"RESERVATION_RESERVE"|trans}}:</b> CAS.{{reservation.getOwnResId}}<br/><br/>
                                     {% if (reservation.getOwnResStatus == 1)%}
                                         <span style="background-color: #FF7300; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"AVAILABLE"|trans}}&nbsp;&nbsp;&nbsp;</b></span><br/>
                                     {% endif %}
@@ -58,7 +58,7 @@
                                         <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_mycasatrip_available') }}">{{"CONTINUE_RESERVING"|trans}}</a>
                                     {% endif %}
                                     {% if (reservation.getOwnResStatus == 0)%}
-                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | lower | replace(' ','_')}) }}">{{"VIEW_DETAILS"|trans}}</a>
+                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | lower | replace(' ','-')}) }}">{{"VIEW_DETAILS"|trans}}</a>
                                     {% endif %}
                                     {% if (reservation.getOwnResStatus > 1 and reservation.getOwnResStatus < 5)%}
                                         <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}">{{"LOOK_FOR_ALTERNATIVE"|trans}}</a>

@@ -1,5 +1,5 @@
 frontend_get_reservation_calendar_ownership_callback:
-    pattern:  /reservation_calendar/
+    pattern:  /reservation-calendar/
     defaults: { _controller: frontEndBundle:ownership:get_reservation_calendar }
 
 frontend_details_ownership:
@@ -7,11 +7,11 @@ frontend_details_ownership:
     defaults: { _controller: frontEndBundle:ownership:details }
 
 frontend_last_added_ownership:
-    locales:  { en: "/last_added_accommodation/", es: "/ultimos_alojamientos_agregados/", de: "/zuletzt_hinzugefuegte_unterkuenfte/" }
+    locales:  { en: "/last-added-accommodation/", es: "/ultimos-alojamientos-agregados/", de: "/zuletzt-hinzugefuegte-unterkuenfte/" }
     defaults: { _controller: frontEndBundle:ownership:last_added_list }
 
 frontend_category_ownership:
-    locales:  { en: "/accommodations_by_category/{category}", es: "/alojamientos_por_categoria/{category}", de: "/unterkuenfte_nach_kategorie/{category}" }
+    locales:  { en: "/accommodations-by-category/{category}", es: "/alojamientos-por-categoria/{category}", de: "/unterkuenfte-nach-kategorie/{category}" }
     defaults: { _controller: frontEndBundle:ownership:category }
 
 frontend_search_ownership:
@@ -19,11 +19,11 @@ frontend_search_ownership:
     defaults: { _controller: frontEndBundle:ownership:search,text:'null',arrival:'null',departure:'null',guests:1,rooms:1 }
 
 frontend_order_search_results_ownership_callback:
-    pattern:  /order_results/
+    pattern:  /order-results/
     defaults: { _controller: frontEndBundle:ownership:search_order_results }
 
 frontend_change_view_ownership_callback:
-    pattern:  /change_results_view/
+    pattern:  /change-results-view/
     defaults: { _controller: frontEndBundle:ownership:search_change_view_results }
 
 frontend_research_ownership_callback:
@@ -37,27 +37,27 @@ frontend_filter_ownership_callback:
     defaults: { _controller: frontEndBundle:ownership:filter }
 
 frontend_filter_statistics_ownership_callback:
-    pattern:  /filter_statistics/
+    pattern:  /filter-statistics/
     defaults: { _controller: frontEndBundle:ownership:get_filters_statistics }
 
 frontend_map_markers_ownership_callback:
-    pattern:  /map_markers/
+    pattern:  /map-markers/
     defaults: { _controller: frontEndBundle:ownership:map_markers_list }
 
 frontend_update_rating_ownership:
-    pattern:  /update_rating/{ownid}
+    pattern:  /update-rating/{ownid}
     defaults: { _controller: frontEndBundle:ownership:update_rating }
 
 frontend_map_details_ownership_callback:
-    pattern:  /map_details_ownership/{ownGeolocateX}/{ownGeolocateY}/{ownName}/{description}/{image}
+    pattern:  /map-details-ownership/{ownGeolocateX}/{ownGeolocateY}/{ownName}/{description}/{image}
     defaults: { _controller: frontEndBundle:ownership:map_details_ownership }
     
 frontend_map_resized_ownership_callback:
-    pattern:  /map_resized/{in_searcher}/{destination_name}
+    pattern:  /map-resized/{in_searcher}/{destination_name}
     defaults: { _controller: frontEndBundle:ownership:map_resized }
     
 frontend_voted_best_list_ownership:
-    locales:  { en: "/top_rated_accommodations/", es: "/alojamientos_mejores_votados/", de: "/top_unterkuenfte/" }
+    locales:  { en: "/top-rated-accommodations/", es: "/alojamientos-mejores-votados/", de: "/top-unterkuenfte/" }
     defaults: { _controller: frontEndBundle:ownership:voted_best_list }
 
 frontend_type_list_ownership:
@@ -65,9 +65,9 @@ frontend_type_list_ownership:
     defaults: { _controller: frontEndBundle:ownership:type_list }
     
 frontend_top_rated_callback_ownership:
-    pattern:  /top_rated_callback/
+    pattern:  /top-rated-callback/
     defaults: { _controller: frontEndBundle:ownership:top_rated_callback }
     
 frontend_top_rated_change_category_callback_ownership:
-    pattern:  /top_rated_change_category_callback/
+    pattern:  /top-rated-change-category-callback/
     defaults: { _controller: frontEndBundle:ownership:top_rated_change_category_callback }

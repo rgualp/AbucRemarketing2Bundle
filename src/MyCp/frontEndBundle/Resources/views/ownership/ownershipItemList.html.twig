@@ -3,7 +3,7 @@
 <div class="row" data-id="{{own.ownid}}">
     <div class="col-sm-4">
         <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if own.owncommentstotal > 0%}+{%endif%}{{own.owncommentstotal}}&nbsp;&nbsp;&nbsp;">
-            <a href="{{ path('frontend_details_ownership',{'own_name':own.ownname  | lower | replace(' ','_')}) }}">
+            <a href="{{ path('frontend_details_ownership',{'own_name':own.ownname  | lower | replace(' ','-')}) }}">
             <img src="{{ asset("uploads/ownershipImages/thumbnails/" ~  photos[own.ownid])}}">
             </a>
         </div>
@@ -12,7 +12,7 @@
         <table class="full-width">
             <tr>
                 <td>
-                    <a href="{{ path('frontend_details_ownership',{'own_name':own.ownname  | lower | replace(' ','_')}) }}">
+                    <a href="{{ path('frontend_details_ownership',{'own_name':own.ownname  | lower | replace(' ','-')}) }}">
                     <h1 class="h-blue">{{own.ownname}}</h1>
                     </a>
                     {%if own.ownCategory == "Premium"%}

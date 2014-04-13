@@ -2,7 +2,7 @@
            <table class="col-sm-12">
                <tr>
                    <td class="full-width">
-                       <a href="{{ path('frontend_details_destination',{'destination_name':des_name|lower|replace(' ','_')}) }}">
+                       <a href="{{ path('frontend_details_destination',{'destination_name':des_name|lower|replace(' ','-')}) }}">
                            <img class="lazy thumbnail full-width" data-src="{{ asset("uploads/destinationImages/thumbnails/" ~ (des_photo)) }}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
                            <noscript><img class="nolazy" src="{{ asset("uploads/destinationImages/thumbnails/" ~ (des_photo)) }}"></noscript>
                        </a>
@@ -22,7 +22,7 @@
                    </td>
                </tr>
            </table>
-           <a href="{{ path('frontend_details_destination',{'destination_name':des_name|lower|replace(' ','_')}) }}">
+           <a href="{{ path('frontend_details_destination',{'destination_name':des_name|lower|replace(' ','-')}) }}">
            <h1 class="h-blue">{{des_name}}</h1>
            </a>
             <div class="dest-description">
@@ -39,7 +39,7 @@
                          }) }}
                </div>
                <div class="col-xs-4 text-right">
-                   <a href="{{ path('frontend_details_destination',{'destination_name':des_name|lower|replace(' ','_')}) }}">
+                   <a href="{{ path('frontend_details_destination',{'destination_name':des_name|lower|replace(' ','-')}) }}">
                    <small>{{'RESERVATION_CONFIRM_DESTINATION_MORE' | trans | lower}} <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-medium icon-more"/></small>
                    </a>
                </div>

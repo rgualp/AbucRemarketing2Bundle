@@ -7,12 +7,12 @@
                     <div class="item {%if counter == 0%}active{%endif%}">
                         <div class="row">
                             <div class="col-xs-6">
-                                <a href="{{ path('frontend_details_destination',{'destination_name':dest.des_name|lower|replace(' ','_')}) }}">
+                                <a href="{{ path('frontend_details_destination',{'destination_name':dest.des_name|lower|replace(' ','-')}) }}">
                                 <img src="{{ asset("uploads/destinationImages/thumbnails/" ~ dest.photo)}}" class="thumbnail full-width">
                                 </a>
                             </div>
                             <div class="col-xs-6"><b>
-                            <a href="{{ path('frontend_details_destination',{'destination_name':dest.des_name|lower|replace(' ','_')}) }}">
+                            <a href="{{ path('frontend_details_destination',{'destination_name':dest.des_name|lower|replace(' ','-')}) }}">
                             {{dest.des_name}}
                             </a></b><br/>
                             {{"FROM_PRICES" | trans | lower}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{dest.min_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }} {{"BYNIGHT" | trans}}<br/>

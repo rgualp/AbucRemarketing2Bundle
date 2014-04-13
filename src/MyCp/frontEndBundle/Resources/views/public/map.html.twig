@@ -24,7 +24,7 @@
 {% if des_map.getDesCatLocationX %}
 {% for des_map_cat in des_map.getDesCategories %}
 {% set categories = categories~"'cat"~des_map_cat.getDesCatId~"'," %}
-{% set destinations = destinations~"'"~des_map.getDesName|lower|replace(' ','_')~"'," %}
+{% set destinations = destinations~"'"~des_map.getDesName|lower|replace(' ','-')~"'," %}
 {% set signal_pos = signal_pos~"["~des_map.getDesCatLocationX~","~des_map.getDesCatLocationY~"]," %}
 {% endfor %}
 {% endif %}

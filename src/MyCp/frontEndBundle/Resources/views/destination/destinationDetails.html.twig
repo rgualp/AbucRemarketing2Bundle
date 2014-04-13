@@ -161,10 +161,10 @@
                     </div>
                 </div>
             </div>
-            <div id="near_houses_container" class="houses-list" data-url="{{path('frontend_nearby_destination',{'destination_name': destination.desname | lower | replace(" ", "_"),'destination_id': destination.desid })}}">
+            <div id="near_houses_container" class="houses-list" data-url="{{path('frontend_nearby_destination',{'destination_name': destination.desname | lower | replace(" ", "-"),'destination_id': destination.desid })}}">
                 {{include('frontEndBundle:destination:detailsOwnsNearByDestination.html.twig', 
                         {'owns_nearby': owns_nearby,
-                         'destination_name': destination.desname | lower | replace(" ", "_"),
+                         'destination_name': destination.desname | lower | replace(" ", "-"),
                          'destination_id': destination.desid,
                          'data_view' : data_view })}}
             </div>
