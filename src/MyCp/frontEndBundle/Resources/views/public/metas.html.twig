@@ -1,4 +1,5 @@
-{%if metas != null%}
-<meta name="description" content="{% block meta_description %}{{ metas.getMetaLangDescription }}{% endblock %}">
-<meta name="keywords" content="{% block meta_keywords %}{{ metas.getMetaLangKeywords }}{% endblock %}">
+
+{%if metas != null and metas != ""%}
+<meta name="description" content="{{ metas.getMetaLangDescription }}">
+<meta name="keywords" content="{{ metas.getMetaLangKeywords }}">
 {%endif%}

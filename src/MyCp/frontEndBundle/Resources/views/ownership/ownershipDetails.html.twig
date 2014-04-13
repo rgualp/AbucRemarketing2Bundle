@@ -1,9 +1,18 @@
-{% block meta_description %}{{ ownership.ownname }}, {%if rooms is defined and rooms | length%}{{rooms | length}} {%if rooms | length == 1%} {{"ROOM_SINGULAR" | trans}} {%else%} {{"ROOM_PLURAL" | trans}}{%endif%}{%endif%}, {{"FROM_PRICES" | trans | lower}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ownership.ownminimumprice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} {{"NIGHT_PER_ROOM" | trans}}, {{"CATEGORY_TAB_DESCRIPTION" | trans|lower}} {{ownership.category | trans|lower}}. {{"SERVICES_TAB_DETAILS" | trans}} {{ "OF"|trans }} {{"ACCOMMODATION" | trans|lower}}{% if ownership.ownFacilitiesBreakfast == 1 %} ,{{ "BREAKFAST_TAB_DESCRIPTION"|trans|lower }}{% endif %}{% if ownership.ownFacilitiesDinner == 1 %} ,{{ "DINNER_TAB_DESCRIPTION"|trans|lower }}{% endif %}{% if ownership.ownFacilitiesParking == 1 %} ,{{ "PARKING_TAB_DESCRIPTION"|trans|lower }}{% endif %}.{% endblock %}
-{% block meta_keywords %}{{ keywords }}{% endblock %}
+
 {%set start_date = (post['reservation_filter_date_from'] is defined) ? ( post['reservation_filter_date_from']) : ((app.session.get('search_arrival_date') != null) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now" |date("d/m/Y")))%}
 {%set end_date = (post['reservation_filter_date_to'] is defined) ? (post['reservation_filter_date_to']) : ((app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : ("+2 days" |date("d/m/Y")))%}
 
 {% extends 'frontEndBundle:layout:base.html.twig' %}
+{%block meta_description%}
+{{ownership.owntype  | trans}} {{"IN" | trans}} {{ownership.ownAddressProvince}}: {{ownership.ownname}} ({{ ownership.mycpcode }}).
+                {%if rooms is defined and rooms | length%}
+                    {{rooms | length}} {%if rooms | length == 1%} {{"ROOM_SINGULAR" | trans}} {%else%} {{"ROOM_PLURAL" | trans}} {%endif%}.
+                {%endif%}
+                {{"FROM_PRICES" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ownership.ownminimumprice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} {{"NIGHT_PER_ROOM" | trans}}
+{%endblock%}                    
+{% block meta_keywords %}           
+{{ ownership.owntype }} {{ownership.owntype | trans}} {{ownership.ownaddressmunicipality}} {{ownership.ownAddressProvince}} Cuba {{ownership.ownname}}
+{%endblock%}
 {% block title %}{{ownership.ownname}}{% endblock %}
 {% set main_tab = 5 %}
 {% block breadcrumbs %}
@@ -24,7 +33,7 @@
                 {{"FROM_PRICES" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ownership.ownminimumprice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} {{"NIGHT_PER_ROOM" | trans}}
             </h1>
             <!--label class="place">
-    {{ownership.owntype}}
+    {{ownership.owntype | trans}}
     {%if (ownership.ownAddressStreet != null and ownership.ownAddressStreet != '') or (ownership.ownAddressNumber != null and ownership.ownAddressNumber != '') %}
     / {{ownership.ownAddressStreet}} {{ownership.ownAddressNumber}}
     {%endif%}

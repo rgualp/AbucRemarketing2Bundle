@@ -659,17 +659,50 @@ class reservationController extends Controller
 
     function confirmationAction($id_booking)
     {
-
         $user = $this->getUser();
-
+        if(!$user)
+        {
+            throw $this->createNotFoundException();
+        }
         $em = $this->getDoctrine()->getManager();
+        $payment=$em->getRepository('mycpBundle:payment')->findOneBy(array('booking'=>$id_booking));
+        if(!$payment)
+        {
+            throw $this->createNotFoundException();
+        }
+        $skrill_payment=$em->getRepository('mycpBundle:skrillpayment')->findOneBy(array('payment'=>$payment));
+        if(!$skrill_payment)
+        {
+            throw $this->createNotFoundException();
+        }
+
+        //redirecting to landing page (SKRILL STATUS)
+        switch($skrill_payment->getStatus())
+        {
+            case 0:
+                //failed
+                echo 'payment pending' ;exit();
+                break;
+            case 1:
+                return $this->redirect($this->generateUrl('frontend_reservation_reservation'));
+                break;
+            case 2:
+                break;
+            case -1:
+                //failed
+                echo 'payment failed' ;exit();
+                break;
+            default:
+                throw $this->createNotFoundException();
+        }
+
+
         $own_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking));
-        $booking = $em->getRepository('mycpBundle:booking')->findBy(array('booking_id'=>$id_booking,'booking_user_id'=>$user->getUserId()));
+        $booking = $em->getRepository('mycpBundle:booking')->findOneBy(array('booking_id'=>$id_booking,'booking_user_id'=>$user->getUserId()));
         if(!$booking)
         {
             throw $this->createNotFoundException();
         }
-        $booking=$booking[0];
         $user = $em->getRepository('mycpBundle:user')->find($booking->getBookingUserId());
         $reservations=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking'=>$id_booking));
         $user_tourist=$em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user'=>$user->getUserId()));

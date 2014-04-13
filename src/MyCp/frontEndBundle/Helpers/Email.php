@@ -64,7 +64,7 @@ class Email {
         return $this->container->get('mailer')->send($message);
     }
 
-    public function send_reservation($id_reservation)
+    public function send_reservation($id_reservation,$custom_message=null)
     {
         $templating = $this->container->get('templating');
         $reservation=$this->em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
@@ -88,16 +88,14 @@ class Email {
             array_push($array_nigths,count($array_dates)-1);
         }
         $this->container->get('translator')->setLocale($user_tourist->getUserTouristLanguage()->getLangCode());
-        $message = $this->container->get('request')->get('message_to_client');
-        if(isset($message[0]))
-            $message[0]=strtoupper($message[0]);
+
         // Enviando mail al cliente
         $body=$templating->render('frontEndBundle:mails:email_offer_available.html.twig',array(
             'user'=>$user,
             'reservations'=>$reservations,
             'photos'=>$array_photos,
             'nights'=>$array_nigths,
-            'message'=>$message
+            'message'=>$custom_message
         ));
         $locale = $this->container->get('translator');
         $subject=$locale->trans('REQUEST_STATUS_CHANGED');

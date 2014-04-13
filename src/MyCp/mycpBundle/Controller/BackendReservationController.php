@@ -477,8 +477,12 @@ class BackendReservationController extends Controller
             $user->getUserEmail(),
             $body
         );*/
+
         $service_email= $this->get('Email');
-        $service_email->send_reservation($id_reservation);
+        $custom_message = $this->getRequest()->get('message_to_client');
+        if(isset($custom_message[0]))
+            $custom_message[0]=strtoupper($custom_message[0]);
+        $service_email->send_reservation($id_reservation,$custom_message);
 
         $message='Reserva enviada satisfactoriamente';
         $this->get('session')->getFlashBag()->add('message_ok',$message);
