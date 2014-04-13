@@ -1,11 +1,11 @@
 frontend_find_municipality:
-    pattern:  /find_municipality/
+    pattern:  /find-municipality/
     defaults: { _controller: frontEndBundle:municipality:find }
     
 frontend_find_for_destinations_municipality:
-    pattern:  /find_for_destinations_municipality/
+    pattern:  /find-for-destinations-municipality/
     defaults: { _controller: frontEndBundle:municipality:find_for_destinations }
     
 frontend_get_with_reservations_municipality:
-    locales:  { en: "/most_visited_cities/", es: "/ciudades_mas_visitadas/", de: "/meist_besuchte_staedte/" }
+    locales:  { en: "/most-visited-cities/", es: "/ciudades-mas-visitadas/", de: "/meist-besuchte-staedte/" }
     defaults: { _controller: frontEndBundle:municipality:get_with_reservations }

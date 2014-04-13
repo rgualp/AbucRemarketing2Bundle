@@ -16,6 +16,7 @@ frontend_ownership:
     
 frontend_comment:
     resource: "@frontEndBundle/Resources/config/routingFrontendComment.yml"
+    type: be_simple_i18n
     
 frontend_user:
     resource: "@frontEndBundle/Resources/config/routingFrontendUser.yml"
@@ -23,11 +24,11 @@ frontend_user:
 
 frontend_reservation:
     resource: "@frontEndBundle/Resources/config/routingFrontendReservation.yml"
-    prefix:   user/
     type: be_simple_i18n
     
 frontend_currency:
     resource: "@frontEndBundle/Resources/config/routingFrontendCurrency.yml"
+    type: be_simple_i18n
 
 frontend_information:
     resource: "@frontEndBundle/Resources/config/routingFrontendInformation.yml"
@@ -44,6 +45,7 @@ frontend_mycasatrip:
 
 frontend_payment:
     resource: "@frontEndBundle/Resources/config/routingFrontendPayment.yml"
+    type: be_simple_i18n
 
 frontend_favorite:
     resource: "@frontEndBundle/Resources/config/routingFrontendFavorite.yml"
@@ -51,6 +53,7 @@ frontend_favorite:
     
 frontend_language:
     resource: "@frontEndBundle/Resources/config/routingFrontendLanguage.yml"
+    type: be_simple_i18n
     
 frontend_emails:
     resource: "@frontEndBundle/Resources/config/routingFrontendAjaxEmails.yml"

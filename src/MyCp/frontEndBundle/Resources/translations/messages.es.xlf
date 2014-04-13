@@ -140,11 +140,11 @@
             </trans-unit>
             <trans-unit id="35">
                 <source>ARRIVAL_WATERMARK</source>
-                <target>Llegada</target>
+                <target>Fecha de Llegada</target>
             </trans-unit>
             <trans-unit id="36">
                 <source>DEPARTURE_WATERMARK</source>
-                <target>Salida</target>
+                <target>Fecha de Salida</target>
             </trans-unit>
             <trans-unit id="37">
                 <source>GUEST_WATERMARK</source>

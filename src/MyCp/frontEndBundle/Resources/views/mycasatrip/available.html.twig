@@ -21,7 +21,7 @@
                         <div class="row no-margin">
                             <div class="col-sm-3">
                                 <div data-text="&nbsp;&nbsp;&nbsp;{{'AVAILABLE' | trans}}&nbsp;&nbsp;&nbsp;" class="thumbnail has-ribbon-orange has-ribbon has-ribbon-left">
-                                    <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | lower | replace(' ','_')}) }}">
+                                    <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | lower | replace(' ','-')}) }}">
                                         {% if photos[loop.index0]%}
                                             <img class="lazy" data-src="{{ asset('uploads/ownershipImages/thumbnails/'~ photos[loop.index0]) }}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
                                             <noscript><img class="nolazy" src="{{ asset('uploads/ownershipImages/thumbnails/'~ photos[loop.index0]) }}"></noscript>
@@ -33,7 +33,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-6">
-                                <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | lower | replace(' ','_')}) }}">
+                                <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | lower | replace(' ','-')}) }}">
                                     <h1 class="h-blue">{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}</h1>
                                 </a>
                                 <small class="top">{{ res['own_res_gen_res_id']['gen_res_own_id']['own_address_province']['prov_name']|title }}, {{ res['own_res_gen_res_id']['gen_res_own_id']['own_address_municipality']['mun_name']|title }}
@@ -44,7 +44,7 @@
                             <div class="col-sm-3 text-center grey">
                                 <div><input name="checkbox_{{res['own_res_id']}}" type="checkbox"> {{"SELECT_FOR_PAYMENT" | trans}}</div>
                                 <div class="big-price-blue">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{(res['own_res_night_price'] *(nights[loop.index0]))*(app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</div>
-                                <div>{{"ID_RESERVATION" | trans}}: <b>CAS.{{res['own_res_gen_res_id']['gen_res_id']}}</b></div>
+                                <div>{{"ID_RESERVATION" | trans}}: <b>CAS.{{res['own_res_id']}}</b></div>
                             </div>
                         </div>
                         <hr/>

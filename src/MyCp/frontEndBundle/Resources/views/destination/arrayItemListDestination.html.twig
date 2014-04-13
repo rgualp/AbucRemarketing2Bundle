@@ -2,7 +2,7 @@
 {%for destination in list%}
     <div class="row">
     <div class="col-sm-3">
-        <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination['destination_name']}}" href="{{ path('frontend_details_destination',{'destination_name':destination['destination_name']|lower|replace(' ','_')}) }}">
+        <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination['destination_name']}}" href="{{ path('frontend_details_destination',{'destination_name':destination['destination_name']|lower|replace(' ','-')}) }}">
             <img class="lazy thumbnail full-width" data-src="{{ asset("uploads/destinationImages/thumbnails/" ~ destination['photo'])}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
             <noscript><img class="nolazy" src="{{ asset("uploads/destinationImages/thumbnails/" ~ destination['photo'])}}"></noscript>
         </a>
@@ -11,7 +11,7 @@
         </p>
     </div>
     <div class="col-sm-9">
-            <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination['destination_name']}}" href="{{ path('frontend_details_destination',{'destination_name':destination['destination_name']|lower|replace(' ','_')}) }}">
+            <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination['destination_name']}}" href="{{ path('frontend_details_destination',{'destination_name':destination['destination_name']|lower|replace(' ','-')}) }}">
                 <h1 class="h-blue margin-t-t">{{destination['destination_name']}}</h1>
             </a>
         <p class="t-size-12">{{(destination['desc_brief'] != "") ? destination['desc_brief'] |striptags: ""}}</p>

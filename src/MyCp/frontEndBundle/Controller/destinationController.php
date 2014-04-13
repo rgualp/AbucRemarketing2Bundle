@@ -56,7 +56,7 @@ class destinationController extends Controller {
         $users_id = $em->getRepository('mycpBundle:user')->user_ids($this);
         $locale = $this->get('translator')->getLocale();
         $original_destination_name = $destination_name;
-        $destination_name=str_replace('_',' ',$destination_name);
+        $destination_name=str_replace('-',' ',$destination_name);
         $destination= $em->getRepository('mycpBundle:destination')->findOneBy(array('des_name'=>$destination_name));
         if($destination==null)
         {
