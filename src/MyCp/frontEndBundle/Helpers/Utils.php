@@ -17,7 +17,7 @@ class Utils {
 
     public static function url_normalize($text)
     {
-        $furl=str_replace(" ", "_", $text);
+        $furl=str_replace(" ", "-", $text);
         $furl=str_replace("á", "a", $furl);
         $furl=str_replace("é", "e", $furl);
         $furl=str_replace("í", "i", $furl);

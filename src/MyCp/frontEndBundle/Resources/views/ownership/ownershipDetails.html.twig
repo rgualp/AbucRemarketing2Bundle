@@ -72,7 +72,7 @@
                 <ul class="price calendar-cont">
                     <li class="lead-2">
                         <div class="row">
-                            <form id="calendar_form" method="POST" action="{{ path('frontend_details_ownership',{'own_name':ownership.ownname  | lower | replace(' ','_')}) }}" novalidate>
+                            <form id="calendar_form" method="POST" action="{{ path('frontend_details_ownership',{'own_name':ownership.ownname  | lower | replace(' ','-')}) }}" novalidate>
                                 <div class="col-sm-6">
                                     <div class="input-group" style="padding: 0">
                                         <input value="{{start_date}}"  type="text" id="filter_date_from" class="form-control" placeholder="{{"ARRIVAL_RESERVATION" | trans}}" data-localization='{{locale}}'>
@@ -653,5 +653,6 @@
         <script src="{{ asset('bundles/frontend/js/jquery.ui.map.js') }}"></script>
         <script src="{{ asset('bundles/frontend/js/jquery.ui.map.infobox.js') }}"></script>
         <script src="{{ asset('bundles/frontend/js/ownership.min.js') }}"></script>
+        <script src="{{ asset('bundles/frontend/js/ownership.calendar.js') }}"></script>
     {% endblock %}
 {% endblock %}

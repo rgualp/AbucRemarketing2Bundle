@@ -19,7 +19,7 @@
             <div class="row">
                 <div class="col-sm-3">
                     <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{{item.reservation_total}} {{"VISITS" | trans | lower }}&nbsp;&nbsp;&nbsp;">
-                        <a href="{{ path('frontend_search_ownership',{'text':item.municipality | lower | replace(' ','_'), 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}">
+                        <a href="{{ path('frontend_search_ownership',{'text':item.municipality | lower | replace(' ','-'), 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}">
                             <img class="lazy" data-src="{{ asset("uploads/destinationImages/thumbnails/" ~ item.photo)}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
                             <noscript><img class="nolazy" src="{{ asset("uploads/destinationImages/thumbnails/" ~ item.photo)}}"></noscript>
                         </a>
@@ -28,7 +28,7 @@
 
                 <div class="col-sm-9">
                     <div class="row">
-                        <a href="{{ path('frontend_search_ownership',{'text':item.municipality | lower | replace(' ','_'), 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}">
+                        <a href="{{ path('frontend_search_ownership',{'text':item.municipality | lower | replace(' ','-'), 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}">
                             <h1 class="h-blue no-margin margin-b-t">{{item.municipality}}</h1>
                         </a>
                     </div>
@@ -37,7 +37,7 @@
                             <div>{{"OWNERSHIPS" | trans}} ({{"TOTAL" | trans}}: {{item.owns_total}})</div>
         {%set owns_count = 1%}
         {%for own in item.owns_list%}
-                            <a title="{{'MORE_INFO_PREFFIX' | trans}} {{own.ownname}}" href="{{ path('frontend_details_ownership',{'own_name':own.ownname  | lower | replace(' ','_')}) }}">{{own.ownname}}</a><br/>
+                            <a title="{{'MORE_INFO_PREFFIX' | trans}} {{own.ownname}}" href="{{ path('frontend_details_ownership',{'own_name':own.ownname  | lower | replace(' ','-')}) }}">{{own.ownname}}</a><br/>
         {%set owns_count = owns_count + 1%}
         {%endfor%}
         {%if item['owns_total'] > item['owns_list']|length%}
@@ -53,7 +53,7 @@
                             <div>{{"DESTINATIONS" | trans}} ({{"TOTAL" | trans}}: {{item.des_total}})</div>
         {%set des_count = 1%}
         {%for des in item.des_list%}
-                            <a title="{{"MORE_INFO_PREFFIX" | trans}} {{des.desname}}" href="{{ path('frontend_details_destination',{'destination_name':des.desname|lower|replace(' ','_')}) }}">{{des.desname}}</a><br/>
+                            <a title="{{"MORE_INFO_PREFFIX" | trans}} {{des.desname}}" href="{{ path('frontend_details_destination',{'destination_name':des.desname|lower|replace(' ','-')}) }}">{{des.desname}}</a><br/>
         {%set des_count = des_count + 1%}
         {%endfor%}
                         </div>

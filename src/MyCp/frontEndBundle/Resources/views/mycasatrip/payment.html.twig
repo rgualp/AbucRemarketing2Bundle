@@ -17,12 +17,12 @@
     <div class="col-sm-3">
         <div data-text="&nbsp;&nbsp;&nbsp;{{'RESERVE_SINGULAR' | trans}}&nbsp;&nbsp;&nbsp;" class="thumbnail has-ribbon-red has-ribbon has-ribbon-left">
             {% if photos[loop.index0]%}
-                <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | lower | replace(' ','_')}) }}">
+                <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | lower | replace(' ','-')}) }}">
                     <img class="lazy" data-src="{{ asset('uploads/ownershipImages/thumbnails/'~ photos[loop.index0]) }}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
                     <noscript><img class="nolazy" src="{{ asset('uploads/ownershipImages/thumbnails/'~ photos[loop.index0]) }}"></noscript>
                 </a>
             {% else %}
-                <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | lower | replace(' ','_')}) }}">
+                <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | lower | replace(' ','-')}) }}">
                     <img class="lazy" data-src="{{ asset('uploads/ownershipImages/thumbnails/no_photo.png') }}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
                     <noscript><img class="nolazy" src="{{ asset('uploads/ownershipImages/thumbnails/no_photo.png') }}"></noscript>
                 </a>
@@ -30,7 +30,7 @@
         </div>
     </div>
     <div class="col-sm-6">
-        <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | lower | replace(' ','_')}) }}">
+        <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | lower | replace(' ','-')}) }}">
             <h1 class="h-blue">{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}</h1>
         </a>
         <small class="top">{{ res['own_res_gen_res_id']['gen_res_own_id']['own_address_municipality']['mun_name']|title }} , {{ res['own_res_gen_res_id']['gen_res_own_id']['own_address_province']['prov_name']|title }}
@@ -43,7 +43,7 @@
         <div>
             <a style="width: 150px; color: #ffffff" target="_blank" class="btn btn-danger" href="{{ path('frontend_view_confirmation_reservation',{'id_booking':res['own_res_reservation_booking']['booking_id']}) }}">
                 {{ 'VIEW_CONFIRMATION'|trans }}</a></div>
-        <div style="margin-top: 10px">{{"ID_RESERVATION" | trans}}: <b>CAS.{{res['own_res_gen_res_id']['gen_res_id']}}</b></div>
+        <div style="margin-top: 10px">{{"ID_RESERVATION" | trans}}: <b>CAS.{{res['own_res_id']}}</b></div>
     </div>
 </div>
     <hr/>
