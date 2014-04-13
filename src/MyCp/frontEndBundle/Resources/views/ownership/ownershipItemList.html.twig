@@ -45,7 +45,9 @@
                           <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon icon-2 tiny-star-off-icon">
                         {%endfor%}
                     {%endif%}
-                    <small>{{counts[own.ownid][0]["comments"]}} {{"FORMS_COMMENTS" | trans | lower}}</small>
+                    <small>{{counts[own.ownid][0]["comments"]}} {{"FORMS_COMMENTS" | trans | lower}}</small>                    
+                    <br/>
+                    <small>{{own.count_reservations}} {{"RESERVATIONS" | trans | lower}}</small>                   
                 </td>
                 <td class="text-right">
                     <small>{{"FROM_PRICES" | trans}}:</small><span class="big-price-blue">
