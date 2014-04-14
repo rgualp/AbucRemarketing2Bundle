@@ -9,7 +9,7 @@ class languageController extends Controller {
 
     public function get_languagesAction() {
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $languages = $em->getRepository('mycpBundle:lang')->findBy(array('lang_active' => 1), array('lang_name' => 'ASC'));
         return $this->render('frontEndBundle:language:languages.html.twig', array('languages' => $languages));
     }
@@ -18,7 +18,7 @@ class languageController extends Controller {
 
         $request = $this->getRequest();
         $session = $request->getSession();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $last_route=$session->get('app_last_route');
         $last_route_params=$session->get('app_last_route_params');
         $last_route_params['_locale']=$lang;

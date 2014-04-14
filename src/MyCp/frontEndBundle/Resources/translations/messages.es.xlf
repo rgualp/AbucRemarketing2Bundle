@@ -2443,6 +2443,10 @@
                     <source>RESERVATIONS_LOW_HIGH_ORDERBY</source>
                     <target>Total de Reservaciones /Menor a Mayor</target>
                 </trans-unit>
+            <trans-unit id="621">
+                <source>TOP_DESTINATIONS</source>
+                <target>Destinos más visitados</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -27,7 +27,7 @@ class PublicController extends Controller {
     }
 
     public function welcomeAction() {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $session = $this->getRequest()->getSession();
         $glogal_locale = $this->get('translator')->getLocale();
         
@@ -57,13 +57,14 @@ class PublicController extends Controller {
         //$this->getRequest()->setLocale('en');
         $request = $this->getRequest();
         $session = $request->getSession();
-
+        $services=$request->getSession()->get('services_pre_reservation');
         if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
             $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
         } else {
             $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
             $session->remove(SecurityContext::AUTHENTICATION_ERROR);
         }
+        $request->getSession()->set('services_pre_reservation', $services);
         return $this->render('frontEndBundle:public:login.html.twig', array(
                     'last_username' => $session->get(SecurityContext::LAST_USERNAME),
                     'error' => $error,
@@ -71,7 +72,7 @@ class PublicController extends Controller {
     }
 
     public function home_carrouselAction() {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
 
         $popular_destinations_list = $em->getRepository('mycpBundle:destination')->get_popular_destination(12, $user_ids['user_id'], $user_ids['session_id']);
@@ -97,7 +98,7 @@ class PublicController extends Controller {
         $email_type = $request->get('email_type');
         $name_from = $request->get('name_from');
         $email_to = $request->get('email_to');
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $service_email = $this->get('Email');
         switch ($email_type) {
             case 'recommend_general':
@@ -120,7 +121,7 @@ class PublicController extends Controller {
     
     public function get_main_menu_destinationsAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $destinations = $em->getRepository('mycpBundle:destination')->get_for_main_menu();
         
          $for_url = array();
@@ -136,7 +137,7 @@ class PublicController extends Controller {
     
     public function get_main_menu_accomodationsAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $provinces = $em->getRepository('mycpBundle:province')->get_for_main_menu();
         
         $for_url = array();
@@ -152,7 +153,7 @@ class PublicController extends Controller {
     
     public function get_main_menu_mycasatripAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $notifications = ($user != null && $user != "anon.") ? $em->getRepository('mycpBundle:ownershipReservation')->get_for_main_menu($user->getUserId()) : array();
                 

@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 class faqController extends Controller {
     
      public function listAction() {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $locale = $this->get('translator')->getLocale();
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
@@ -28,7 +28,7 @@ class faqController extends Controller {
     }
     
     public function filterAction() {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $locale = $this->get('translator')->getLocale();
         $category_id = $request->request->get('category_id');

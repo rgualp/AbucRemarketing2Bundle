@@ -20,6 +20,7 @@ class reservationController extends Controller
         $services = array();
         if ($request->getSession()->get('services_pre_reservation'))
             $services = $request->getSession()->get('services_pre_reservation');
+         //var_dump($request->getSession()->get('services_pre_reservation'));
          return $this->render('frontEndBundle:reservation:cartCountItems.html.twig', array(
             'count' => count($services)
         ));
@@ -38,7 +39,7 @@ class reservationController extends Controller
 
     public function add_to_cartAction($id_ownership, Request $request)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
         if (!$request->get('data_reservation'))
             throw $this->createNotFoundException();
@@ -165,7 +166,7 @@ class reservationController extends Controller
 
     public function reviewAction(Request $request)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $last_own = $request->getSession()->get('services_pre_reservation_last_own');
         if ($last_own)
             $ownership = $em->getRepository('mycpBundle:ownership')->find($last_own);
@@ -239,7 +240,7 @@ class reservationController extends Controller
 
     public function review_confirmAction(Request $request)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $services = array();
         $reservations = array();
@@ -466,7 +467,7 @@ class reservationController extends Controller
             return $this->redirect($this->generateUrl('frontend_mycasatrip_available'));
         }
         $service_time = $this->get('time');
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
         $reservations = array();

@@ -12,7 +12,7 @@ class municipalityController extends Controller {
 
     public function findAction() {
         $request = $this->getRequest();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $prov_id = $request->request->get('province');
 
@@ -42,7 +42,7 @@ class municipalityController extends Controller {
 
     public function find_for_destinationsAction() {
         $request = $this->getRequest();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $prov_id = $request->request->get('province');
 
@@ -69,7 +69,7 @@ class municipalityController extends Controller {
     }
 
     public function get_with_reservationsAction() {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;

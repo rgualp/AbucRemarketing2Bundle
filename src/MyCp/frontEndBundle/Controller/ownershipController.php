@@ -15,7 +15,7 @@ class ownershipController extends Controller {
         $to = $request->get('to');
         $owner_id = $request->get('own_id');
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $ownership = $em->getRepository('mycpBundle:ownership')->find($owner_id);
 
@@ -210,7 +210,7 @@ class ownershipController extends Controller {
     }
 
     public function own_details_directAction($own_code) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $ownership = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code' => $own_code));
         if ($ownership) {
             $own_name = Utils::url_normalize($ownership->getOwnName());
@@ -222,7 +222,7 @@ class ownershipController extends Controller {
 
     public function detailsAction($own_name, Request $request) {
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
         $locale = $this->get('translator')->getLocale();
 
@@ -467,7 +467,7 @@ class ownershipController extends Controller {
     }
 
     public function last_added_listAction() {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
 
         $paginator = $this->get('ideup.simple_paginator');
@@ -488,7 +488,7 @@ class ownershipController extends Controller {
     }
 
     public function categoryAction($category) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
 
         $real_category = $category;
@@ -526,7 +526,7 @@ class ownershipController extends Controller {
 
     public function searchAction(Request $request, $text = null, $arriving_date = null, $departure_date = null, $guests = 1, $rooms = 1) {
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $session = $this->getRequest()->getSession();
 
         if ($session->get('search_order') == null || $session->get('search_order') == '')
@@ -626,7 +626,7 @@ class ownershipController extends Controller {
 
         $request = $this->getRequest();
         $session = $request->getSession();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         if ($session->get('search_view_results') == null)
             $session->set('search_view_results', 'LIST');
@@ -687,7 +687,7 @@ class ownershipController extends Controller {
     public function search_change_view_resultsAction() {
         $request = $this->getRequest();
         $session = $request->getSession();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $view = $request->request->get('view');
         $session->set('search_view_results', $view);
@@ -745,7 +745,7 @@ class ownershipController extends Controller {
     public function researchAction() {
         $request = $this->getRequest();
         $session = $request->getSession();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         if ($session->get('search_order') == null || $session->get('search_order') == '')
             $session->set('search_order', 'PRICE_LOW_HIGH');
@@ -825,7 +825,7 @@ class ownershipController extends Controller {
     public function filterAction() {
         $request = $this->getRequest();
         $session = $request->getSession();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         if ($session->get('search_view_results') == null || $session->get('search_view_results') == '')
             $session->set('search_view_results', 'LIST');
@@ -918,7 +918,7 @@ class ownershipController extends Controller {
     public function get_filters_statisticsAction() {
         $request = $this->getRequest();
         $session = $request->getSession();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $own_ids = $session->get('own_ids');
 
         $statisics = $em->getRepository('mycpBundle:ownership')->getSearchStatisticsByIds($own_ids);
@@ -968,7 +968,7 @@ class ownershipController extends Controller {
     public function map_markers_listAction() {
         $request = $this->getRequest();
         $session = $request->getSession();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $own_ids = $session->get('own_ids');
 
         $list = $em->getRepository('mycpBundle:ownership')->getListByIds($own_ids);
@@ -993,7 +993,7 @@ class ownershipController extends Controller {
     public function update_ratingAction($ownid) {
         $request = $this->getRequest();
         $session = $request->getSession();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $own_obj = $em->getRepository('mycpBundle:ownership')->find($ownid);
         $ownership = array('ownname' => $own_obj->getOwnName(),
             'rating' => $own_obj->getOwnRating(),
@@ -1054,7 +1054,7 @@ class ownershipController extends Controller {
     public function map_resizedAction($in_searcher = 'true', $destination_name = null) {
         $request = $this->getRequest();
         $session = $request->getSession();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $markers_id_list = $request->request->get('own_ids');
         $users_id = $em->getRepository('mycpBundle:user')->user_ids($this);
 
@@ -1103,7 +1103,7 @@ class ownershipController extends Controller {
     }
 
     public function voted_best_listAction() {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $session = $this->getRequest()->getSession();
         $session->set('search_order', 'BEST_VALUED');
@@ -1191,7 +1191,7 @@ class ownershipController extends Controller {
     }
 
     public function type_listAction($type) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $session = $this->getRequest()->getSession();
         $session->set('search_order', 'BEST_VALUED');
@@ -1276,7 +1276,7 @@ class ownershipController extends Controller {
     public function top_rated_callbackAction() {
         $request = $this->getRequest();
         $session = $request->getSession();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $locale = $this->get('translator')->getLocale();
         $show_rows = $request->request->get('show_rows');
 
@@ -1316,7 +1316,7 @@ class ownershipController extends Controller {
     public function top_rated_change_category_callbackAction() {
         $request = $this->getRequest();
         $session = $request->getSession();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $locale = $this->get('translator')->getLocale();
         $category = $request->request->get('category');
 
@@ -1353,7 +1353,7 @@ class ownershipController extends Controller {
     }
 
     public function orangeSearchBarAction() {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $session = $this->getRequest()->getSession();
 
         return $this->render('frontEndBundle:ownership:orangeSearchBar.html.twig', array(
@@ -1365,7 +1365,7 @@ class ownershipController extends Controller {
     }
 
     public function owners_photosAction($ownership_id) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $owner_photo = $em->getRepository('mycpBundle:userCasa')->get_owners_photos($ownership_id);
 
         return $this->render('frontEndBundle:ownership:ownersPhotosOwnership.html.twig', array(
@@ -1374,7 +1374,7 @@ class ownershipController extends Controller {
     }
 
     public function last_owns_visitedAction($exclude_ownership_id = null) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
         $history_owns = $em->getRepository('mycpBundle:userHistory')->get_list_entity($user_ids, true, 10, $exclude_ownership_id);
         $history_owns_photos = $em->getRepository('mycpBundle:ownership')->get_photos_array($history_owns);
@@ -1386,7 +1386,7 @@ class ownershipController extends Controller {
     }
 
     public function near_by_destinationsAction($municipality_id, $province_id) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $users_id = $em->getRepository('mycpBundle:user')->user_ids($this);
 
         $destinations = $em->getRepository('mycpBundle:destination')->destination_filter($municipality_id, $province_id, null, null, 3);

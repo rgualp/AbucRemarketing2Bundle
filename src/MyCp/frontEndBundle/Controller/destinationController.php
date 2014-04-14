@@ -10,7 +10,7 @@ class destinationController extends Controller {
 
     public function get_big_mapAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $locale=$this->get('translator')->getLocale();
         $lang= $em->getRepository('mycpBundle:lang')->findBy(array('lang_code'=>$locale));
         $destinations=$em->getRepository('mycpBundle:destination')->findAll();
@@ -23,7 +23,7 @@ class destinationController extends Controller {
 
     public function get_map_by_provinceAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $dest_location = $em->getRepository('mycpBundle:destinationLocation')->findAll();
         /*foreach($dest_location as $des)
         {
@@ -37,7 +37,7 @@ class destinationController extends Controller {
     }
 
     public function popular_listAction() {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $locale = $this->get('translator')->getLocale();
         $users_id = $em->getRepository('mycpBundle:user')->user_ids($this);
         $dest_list = $em->getRepository('mycpBundle:destination')->getAllDestinations($locale, $users_id["user_id"], $users_id["session_id"]);
@@ -52,7 +52,7 @@ class destinationController extends Controller {
     public function detailsAction($destination_name) {
         $request = $this->getRequest();
         $session = $request->getSession();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $users_id = $em->getRepository('mycpBundle:user')->user_ids($this);
         $locale = $this->get('translator')->getLocale();
         $original_destination_name = $destination_name;
@@ -142,7 +142,7 @@ class destinationController extends Controller {
     public function owns_nearby_callbackAction($destination_name,$destination_id) {
         $request = $this->getRequest();
         $session = $request->getSession();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $users_id = $em->getRepository('mycpBundle:user')->user_ids($this);
         $show_rows = $request->request->get('show_rows');
 
@@ -183,7 +183,7 @@ class destinationController extends Controller {
     public function byprovinceAction()
     {
         $request = $this->getRequest();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $province_name = $request->request->get('province_name');
         
         $list = $em->getRepository('mycpBundle:destination')->destinations_in_province_name($province_name);
@@ -196,7 +196,7 @@ class destinationController extends Controller {
     }
 
     public function filterAction() {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $request = $this->getRequest();
         $prov_id = $request->request->get('province');
         $mun_id = $request->request->get('municipality');
@@ -229,7 +229,7 @@ class destinationController extends Controller {
     public function search_change_view_resultsAction($destination_name,$destination_id) {
         $request = $this->getRequest();
         $session = $request->getSession();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $users_id = $em->getRepository('mycpBundle:user')->user_ids($this);        
         
         $view = $request->request->get('view');

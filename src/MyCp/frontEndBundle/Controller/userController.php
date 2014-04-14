@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 class userController extends Controller {
 
     public function registerAction(Request $request) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $errors = array();
         $all_post = array();
 
@@ -43,6 +43,7 @@ class userController extends Controller {
                 $enableRoute = 'frontend_enable_user';
                 $enableUrl = $this->get('router')->generate($enableRoute, array('string' => $encode_string), true);
                 $body=$this->render('frontEndBundle:mails:enableAccount.html.twig', array('enableUrl'=>$enableUrl));
+
                 $service_email = $this->get('Email');
                 $service_email->send_templated_email($this->get('translator')->trans('EMAIL_ACCOUNT_REGISTERED_SUBJECT'), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
 
@@ -64,7 +65,7 @@ class userController extends Controller {
         $decode_string = $service_security->decode_string($string);
         $user_atrib = explode('///', $decode_string);
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         if (isset($user_atrib[1])) {
             $user = $em->getRepository('mycpBundle:user')->findBy(array('user_id' => $user_atrib[1], 'user_email' => $user_atrib[0]));
             if ($user) {
@@ -82,7 +83,7 @@ class userController extends Controller {
     }
 
     public function restore_passwordAction(Request $request) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $errors = array();
         $form = $this->createForm(new restorePasswordUserType($this->get('translator')));
         if ($request->getMethod() == 'POST') {
@@ -129,7 +130,7 @@ class userController extends Controller {
     }
 
     public function change_passwordAction($string, Request $request) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $errors = array();
         $form = $this->createForm(new changePasswordUserType($this->get('translator')));
         if ($request->getMethod() == 'POST') {
@@ -177,7 +178,7 @@ class userController extends Controller {
     }
 
     public function register_user_confirmationAction(Request $request) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $errors = array();
 
         $form = $this->createForm(new restorePasswordUserType($this->get('translator')));
@@ -302,7 +303,7 @@ class userController extends Controller {
     }
 
     public function info_tab_userAction($destination_id = null, $ownership_id = null) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
 
         $favorite_destinations = $em->getRepository('mycpBundle:favorite')->get_favorite_destinations($user_ids["user_id"], $user_ids["session_id"], 4, $destination_id);
@@ -344,7 +345,7 @@ class userController extends Controller {
     }
     
     public function profileAction(Request $request) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $errors = array();
         $all_post = array();
         $data=array();

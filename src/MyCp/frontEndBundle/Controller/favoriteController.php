@@ -9,7 +9,7 @@ class favoriteController extends Controller {
 
     public function insertAction() {
         $request = $this->getRequest();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
         $favorite_type = $request->request->get("favorite_type");
@@ -38,7 +38,7 @@ class favoriteController extends Controller {
 
     public function deleteAction() {
         $request = $this->getRequest();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
         $favorite_type = $request->request->get("favorite_type");
@@ -67,7 +67,7 @@ class favoriteController extends Controller {
 
     public function details_insertAction() {
         $request = $this->getRequest();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
         $favorite_type = $request->request->get("favorite_type");
@@ -92,7 +92,7 @@ class favoriteController extends Controller {
 
     public function details_deleteAction() {
         $request = $this->getRequest();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
         $favorite_type = $request->request->get("favorite_type");
@@ -117,7 +117,7 @@ class favoriteController extends Controller {
 
     public function delete_from_listAction() {
         $request = $this->getRequest();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
         $session = $request->getSession();
 
@@ -162,7 +162,7 @@ class favoriteController extends Controller {
     }
 
     public function listAction() {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $locale = $this->get('translator')->getLocale();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
 
