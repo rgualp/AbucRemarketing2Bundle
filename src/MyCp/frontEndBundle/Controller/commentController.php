@@ -18,7 +18,7 @@ class commentController extends Controller {
             $session->set('comments_cant', 1);
         else $session->set('comments_cant', 2);
         
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $data = array();
         $data['com_ownership_id'] = $ownid;

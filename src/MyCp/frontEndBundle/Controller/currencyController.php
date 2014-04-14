@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 class currencyController extends Controller {
 
     public function get_currenciesAction($params) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $currencies = $em->getRepository('mycpBundle:currency')->findAll();
         $request = $this->getRequest();
         $session = $request->getSession();
@@ -20,7 +20,7 @@ class currencyController extends Controller {
     public function changeAction() {
         $request = $this->getRequest();
         $session = $request->getSession();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         if ($request->getMethod() == 'POST') {
             $curr_id = $request->request->get('curr_id');
             $refresh_url = $request->request->get('refresh_url');
@@ -53,7 +53,7 @@ class currencyController extends Controller {
     {
         $request = $this->getRequest();
         $session = $request->getSession();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $currency = $em->getRepository('mycpBundle:currency')->findOneBy(array('curr_code'=>$curr_code));
         if($currency)
         {

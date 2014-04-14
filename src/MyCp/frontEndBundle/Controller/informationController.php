@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 class informationController extends Controller {
     
      public function about_usAction(Request $request) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $numbers=$em->getRepository('mycpBundle:information')->get_numbers();
         $numbers=$numbers[0];
         $lang=$request->getLocale();
@@ -29,7 +29,7 @@ class informationController extends Controller {
     public function how_it_worksAction()
     {
         $locale=$this->get('translator')->getLocale();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $nomenclator=$em->getRepository('mycpBundle:nomenclator')->findBy(array('nom_name'=>'how_it_works'));
         $information=$em->getRepository('mycpBundle:information')->findBy(array('info_id_nom'=>$nomenclator[0]->getNomId()));
         $contents=$em->getRepository('mycpBundle:informationLang')->findBy(array('info_lang_info'=>$information[0]->getInfoId()));
@@ -45,7 +45,7 @@ class informationController extends Controller {
     public function legal_termsAction()
     {
         $locale=$this->get('translator')->getLocale();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
                 
         $list=$em->getRepository('mycpBundle:information')->list_information('legal_terms', $locale);
         
@@ -59,7 +59,7 @@ class informationController extends Controller {
     public function security_privacityAction()
     {
         $locale=$this->get('translator')->getLocale();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
                 
         $list=$em->getRepository('mycpBundle:information')->list_information('security_privacity', $locale);
                 
