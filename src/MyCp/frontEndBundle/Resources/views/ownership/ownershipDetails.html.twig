@@ -83,7 +83,7 @@
                         <div class="row">
                             <form id="calendar_form" method="POST" action="{{ path('frontend_details_ownership',{'own_name':ownership.ownname  | lower | replace(' ','-')}) }}" novalidate>
                                 <div class="col-sm-6">
-                                    <div rel="tooltip" title="{{'DEPARTURE_WATERMARK' | trans}}" class="input-group" style="padding: 0">
+                                    <div rel="tooltip" title="{{'ARRIVAL_WATERMARK' | trans}}" class="input-group" style="padding: 0">
                                         <input value="{{start_date}}"  type="text" id="filter_date_from" class="form-control" placeholder="{{"ARRIVAL_RESERVATION" | trans}}" data-localization='{{locale}}'>
                                         <span class="input-group-addon show_calendar"><span class="icon-calendar"></span></span>
                                     </div>
@@ -628,6 +628,11 @@
                 element.html('<div>&nbsp;</div>');
                 $('#rooms_selected').css({display: 'none'});
                 $('#all_data_numbers').css({display: 'none'});
+
+                fields_dates=$('.form-control')
+                btn_refresh=$('#button_refresh_calendar')
+                fields_dates.attr('disabled','true');
+
                 $.ajax({
                     url: "{{ path('frontend_get_reservation_calendar_ownership_callback') }}",
                     data: {from: from, to: to, own_id: own_id}
@@ -641,6 +646,7 @@
                     to = to.replace('/', '&');
                     $('#data_reservation').attr('from_date', from);
                     $('#data_reservation').attr('to_date', to);
+                    fields_dates.removeAttr('disabled');
                 });
             }
 
