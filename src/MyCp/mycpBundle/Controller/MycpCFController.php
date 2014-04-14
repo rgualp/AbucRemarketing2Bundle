@@ -122,6 +122,7 @@ class MycpCFController extends Controller {
             $rooms_details_data[$i]["ri"] = $_room_detail->getOwnResGenResId()->getGenResId();
             $rooms_details_data[$i]["rn"] = $_room_detail->getOwnResSelectedRoomId();
             $rooms_details_data[$i]["ss"] = $_room_detail->getOwnResSyncSt();
+            $rooms_details_data[$i]["st"] = $_room_detail->getOwnResStatus();
             $rooms_details_data[$i]["fd"] = $_room_detail->getOwnResReservationFromDate()->format('Y-m-d');
             $rooms_details_data[$i]["td"] = $_room_detail->getOwnResReservationToDate()->format('Y-m-d');
             $rooms_details_data[$i]["ac"] = $_room_detail->getOwnResCountAdults();
@@ -182,34 +183,14 @@ class MycpCFController extends Controller {
         if (is_array($res_rooms_details)) {
             foreach ($res_rooms_details as $res_room_detail) {
                 $rrd = $em->getRepository('mycpBundle:ownershipReservation')->findOneBy(array('own_res_gen_res_id' => $res_room_detail->rn, 'own_res_selected_room_id' => $res_room_detail->nu));
-                $room = $em->getRepository('mycpBundle:room')->findOneBy(array('room_num' => $rrd->getOwnResSelectedRoomId(), 'room_ownership' => $rrd->getOwnResGenResId()->getGenResOwnId()));
-                $_ud = $em->getRepository('mycpBundle:unavailabilityDetails')->findOneBy(array('room' => $room, 'ud_from_date' => $rrd->getOwnResReservationFromDate(), 'ud_to_date' => $rrd->getOwnResReservationToDate()));
                 if (!empty($rrd)) {
                     $rrd->setOwnResReservationFromDate(new DateTime($res_room_detail->fd));
                     $rrd->setOwnResReservationToDate(new DateTime($res_room_detail->td));
                     $rrd->setOwnResCountAdults($res_room_detail->at);
                     $rrd->setOwnResCountChildrens($res_room_detail->ct);
                     $rrd->setOwnResNightPrice($res_room_detail->np);
+                    $rrd->setOwnResStatus($res_room_detail->st);
                     $em->persist($rrd);
-
-                    //manage UDs for each reservation...
-                    if (!empty($_ud)) {
-                        switch ($res_room_detail->ss) {
-                            case SyncStatuses::ADDED:
-                                $_ud = new unavailabilityDetails();
-                            case SyncStatuses::UPDATED:
-                                $_ud->setUdFromDate(new DateTime($res_room_detail->fd));
-                                $_ud->setUdToDate(new DateTime($res_room_detail->td));
-                                $_ud->setUdReason("Client reservation");
-                                $_ud->setRoom($room);
-                                $_ud->setSyncSt(SyncStatuses::SYNC);
-                                $em->persist($_ud);
-                                break;
-                            case SyncStatuses::DELETED:
-                                $em->remove($_ud);
-                                break;
-                        }
-                    }
                 }
             }
         }
@@ -219,7 +200,7 @@ class MycpCFController extends Controller {
         $service_email = $this->get('Email');
         foreach ($email_res_data as $email_data) {
             $entity_res = $email_data["res_ent"];
-            $service_email->send_reservation($entity_res->getGenResId());
+            $service_email->send_reservation($entity_res->getGenResId(), $email_data["rtext"]);
         }
 
         return self::SUCCESS_CONFIRM_MSG;
