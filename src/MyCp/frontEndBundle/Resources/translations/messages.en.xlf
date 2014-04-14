@@ -2425,7 +2425,7 @@
                 </trans-unit>
                 <trans-unit id="616">
                     <source>FOOTER_EMAIL</source>
-                    <target><![CDATA[Add reservation@mycasaparticular.com to your address book or your safe senders list to ensure you continue to receive these emails. <br/><br/>If you do not want to receive our email offers and promotions, you can unsubscribe here <a href="">. </ A> can also read our Privacy Policy <a href=""> Here. </A> <br/><br/>Prices may be subject to change before payment. Prices do not include applicable service charges. All accommodation is subject to availability check. See our Terms and Conditions for more details.<br/><br/>MyCasaParticular.com is a service GmbH ABUC media network with trade register number CH-270.4.002.844-1 in Basel. Switzerland.]]></target>
+                    <target><![CDATA[Add reservation@mycasaparticular.com to your address book or your safe senders list to ensure you continue to receive these emails. <br/><br/>Can also read our Privacy Policy <a href="%policieslink%"> Here. </A> <br/><br/>Prices may be subject to change before payment. Prices do not include applicable service charges. All accommodation is subject to availability check. See our Terms and Conditions for more details.<br/><br/>MyCasaParticular.com is a service GmbH ABUC media network with trade register number CH-270.4.002.844-1 in Basel. Switzerland.]]></target>
                 </trans-unit>
                 <trans-unit id="617">
                     <source>OF</source>

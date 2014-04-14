@@ -38,7 +38,7 @@
                             <tr>
                                 <td colspan="2" style="font-size: 11px; line-height: 18px; font-family: arial">
                                     <hr style="color: #cccccc; background-color: #cccccc; height: 1px; border: medium none;"/>
-                                    {{ 'FOOTER_EMAIL'|trans |raw }}
+                                    {{ 'FOOTER_EMAIL'| trans({'%policieslink%': url('frontend_security_privacity')}) |raw }}
                                 </td>
                             </tr>
                         </table>
@@ -57,10 +57,10 @@
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <a href="http://www.mycasaparticular.com"><img border="0" src="{{url('mycp_main')}}../bundles/frontend/img/facebook.gif"/></a>&nbsp;&nbsp;&nbsp;
-                                    <a href="http://www.mycasaparticular.com"><img border="0" src="{{url('mycp_main')}}../bundles/frontend/img/twitter.gif"/></a>&nbsp;&nbsp;&nbsp;
-                                    <a href="http://www.mycasaparticular.com"><img border="0" src="{{url('mycp_main')}}../bundles/frontend/img/pinenterest.gif"/></a>&nbsp;&nbsp;&nbsp;
-                                    <a href="http://www.mycasaparticular.com"><img border="0" src="{{url('mycp_main')}}../bundles/frontend/img/youtube.png"/></a>
+                                    <a href="http://www.facebook.com/MyCasaParticular"><img border="0" src="{{url('mycp_main')}}../bundles/frontend/img/facebook.gif"/></a>&nbsp;&nbsp;&nbsp;
+                                    <a href="https://twitter.com/MyCP"><img border="0" src="{{url('mycp_main')}}../bundles/frontend/img/twitter.gif"/></a>&nbsp;&nbsp;&nbsp;
+                                    <a href="https://pinterest.com/MyCasaParticular"><img border="0" src="{{url('mycp_main')}}../bundles/frontend/img/pinenterest.gif"/></a>&nbsp;&nbsp;&nbsp;
+                                    <a href="#"><img border="0" src="{{url('mycp_main')}}../bundles/frontend/img/youtube.png"/></a>
                                 </td>
                             </tr>
                             <tr>
