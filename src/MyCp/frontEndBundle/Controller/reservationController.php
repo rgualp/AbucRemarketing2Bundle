@@ -20,6 +20,7 @@ class reservationController extends Controller
         $services = array();
         if ($request->getSession()->get('services_pre_reservation'))
             $services = $request->getSession()->get('services_pre_reservation');
+         //var_dump($request->getSession()->get('services_pre_reservation'));
          return $this->render('frontEndBundle:reservation:cartCountItems.html.twig', array(
             'count' => count($services)
         ));

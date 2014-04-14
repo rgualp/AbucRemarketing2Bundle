@@ -57,13 +57,14 @@ class PublicController extends Controller {
         //$this->getRequest()->setLocale('en');
         $request = $this->getRequest();
         $session = $request->getSession();
-
+        $services=$request->getSession()->get('services_pre_reservation');
         if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
             $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
         } else {
             $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
             $session->remove(SecurityContext::AUTHENTICATION_ERROR);
         }
+        $request->getSession()->set('services_pre_reservation', $services);
         return $this->render('frontEndBundle:public:login.html.twig', array(
                     'last_username' => $session->get(SecurityContext::LAST_USERNAME),
                     'error' => $error,
