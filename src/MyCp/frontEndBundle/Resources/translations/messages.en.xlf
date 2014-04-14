@@ -140,11 +140,11 @@
             </trans-unit>
             <trans-unit id="35">
                 <source>ARRIVAL_WATERMARK</source>
-                <target>Arrival</target>
+                <target>Arrival Date</target>
             </trans-unit>
             <trans-unit id="36">
                 <source>DEPARTURE_WATERMARK</source>
-                <target>Departure</target>
+                <target>Departure Date</target>
             </trans-unit>
             <trans-unit id="37">
                 <source>GUEST_WATERMARK</source>
@@ -2434,6 +2434,14 @@
                 <trans-unit id="618">
                     <source>TOTAL_ALL_PREPAYMENT</source>
                     <target>Gesamt Anzahlung</target>
+                </trans-unit>
+                <trans-unit id="619">
+                    <source>RESERVATIONS_HIGH_LOW_ORDERBY</source>
+                    <target>Reservations Total /Highest to Lowest</target>
+                </trans-unit>
+                <trans-unit id="620">
+                    <source>RESERVATIONS_LOW_HIGH_ORDERBY</source>
+                    <target>Reservations Total /Lowest to Highest</target>
                 </trans-unit>
         </body>
     </file>

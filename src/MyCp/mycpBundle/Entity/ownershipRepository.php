@@ -748,19 +748,23 @@ class ownershipRepository extends EntityRepository {
             $query_string = $query_string . $where;
 
         if ($order_by == "PRICE_LOW_HIGH")
-            $order = " o.own_minimum_price ASC ";
+            $order = " o.own_minimum_price ASC, o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC";
         else if ($order_by == "PRICE_HIGH_LOW")
-            $order = " o.own_minimum_price DESC ";
+            $order = " o.own_minimum_price DESC, o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC ";
         else if ($order_by == "BEST_VALUED")
-            $order = " o.own_rating DESC ";
+            $order = " o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC ";
         else if ($order_by == "WORST_VALUED")
-            $order = " o.own_rating ASC ";
+            $order = " o.own_rating ASC, o.own_comments_total ASC, count_reservations DESC ";
         else if ($order_by == "A_Z")
-            $order = " o.own_name ASC ";
+            $order = " o.own_name ASC, o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC ";
         else if ($order_by == "Z_A")
-            $order = " o.own_name DESC ";
+            $order = " o.own_name DESC, o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC ";
+        else if ($order_by == "RESERVATIONS_HIGH_LOW")
+            $order = " count_reservations DESC, o.own_rating DESC, o.own_comments_total DESC ";
+        else if ($order_by == "RESERVATIONS_LOW_HIGH")
+            $order = " count_reservations ASC, o.own_rating DESC, o.own_comments_total DESC ";
         else {
-            $order = " o.own_minimum_price ASC ";
+            $order = " o.own_minimum_price ASC, o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC ";
         }
 
         $query_string = $query_string . ' ORDER BY ' . $order;
@@ -823,7 +827,8 @@ class ownershipRepository extends EntityRepository {
                          (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id 
                             AND (p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
                             where op1.own_pho_own = o.own_id) or p.pho_order is null) as photo,
-                         (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = '$locale') as description
+                         (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = '$locale') as description,
+                             (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = 5) as count_reservations
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
                          WHERE o.own_top_20=1
@@ -833,7 +838,7 @@ class ownershipRepository extends EntityRepository {
             $query_string .= " AND LOWER(o.own_category) = '$category'";
         }
 
-        $query_string .= " ORDER BY o.own_rating DESC";
+        $query_string .= " ORDER BY o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC";
 
         $results = $em->createQuery($query_string)->getResult();
 
@@ -1466,7 +1471,7 @@ class ownershipRepository extends EntityRepository {
                          JOIN o.own_address_municipality mun
                          WHERE o.own_category='$category'
                            AND o.own_status = 1
-                         ORDER BY o.own_rating DESC, o.own_id ASC";
+                         ORDER BY o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC";
         else
             $query_string = "SELECT o.own_id as own_id,
                          o.own_name as own_name,
@@ -1491,7 +1496,7 @@ class ownershipRepository extends EntityRepository {
                          WHERE o.own_category='$category'
                            AND o.own_status = 1
                            AND o.own_id <> $exclude_id
-                         ORDER BY o.own_rating DESC, o.own_id ASC";
+                         ORDER BY o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC";
 
         $results = ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult();
 
@@ -1592,7 +1597,7 @@ class ownershipRepository extends EntityRepository {
             FROM mycpBundle:ownership o
             WHERE o.own_status=1
               AND o.own_rating >= 4
-            ORDER BY o.own_rating DESC, o.own_id ASC");
+            ORDER BY o.own_rating DESC, o.own_comments_total DESC");
         return $query->getResult();
     }
 
@@ -1602,7 +1607,7 @@ class ownershipRepository extends EntityRepository {
                         FROM mycpBundle:ownership o
                         WHERE o.own_status=1
                           AND o.own_comments_total > 0
-                        ORDER BY o.own_comments_total DESC, o.own_id ASC";
+                        ORDER BY o.own_rating DESC, o.own_comments_total DESC";
 
         return $em->createQuery($query_string)->getResult();
     }

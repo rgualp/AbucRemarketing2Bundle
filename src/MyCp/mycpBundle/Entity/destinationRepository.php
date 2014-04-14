@@ -541,7 +541,7 @@ class destinationRepository extends EntityRepository {
             if($exclude_own_id != null && $exclude_own_id != "")
                 $query_string = $query_string . " AND o.own_id <>$exclude_own_id";
 
-            $query_string = $query_string . " ORDER BY o.own_rating DESC";
+            $query_string = $query_string . " ORDER BY o.own_rating DESC, o.own_comments_total DESC";
             $results = ($max_result_set != null && $max_result_set > 0) ? $em->createQuery($query_string)->setMaxResults($max_result_set)->getResult() : $em->createQuery($query_string)->getResult();
             
             for ($i = 0; $i < count($results); $i++) {

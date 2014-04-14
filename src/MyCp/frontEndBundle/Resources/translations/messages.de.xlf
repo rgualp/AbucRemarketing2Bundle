@@ -2434,6 +2434,15 @@
                     <source>TOTAL_ALL_PREPAYMENT</source>
                     <target>Total down payment</target>
                 </trans-unit>
+                <trans-unit id="619">
+                    <source>RESERVATIONS_HIGH_LOW_ORDERBY</source>
+                    <target>Alle Reservierungen /von hoch nach niedrig</target>
+                </trans-unit>
+                <trans-unit id="620">
+                    <source>RESERVATIONS_LOW_HIGH_ORDERBY</source>
+                    <target>Alle Reservierungen /von niedrig nach hoch</target>
+                </trans-unit>
+                
         </body>
     </file>
 </xliff>

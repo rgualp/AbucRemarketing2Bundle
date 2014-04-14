@@ -1,21 +1,21 @@
 frontend_register_user:
-    locales:  { en: "/register_user/", es: "/registrar_usuario/", de: "/benutzer_login/" }
+    locales:  { en: "/register-user/", es: "/registrar-usuario/", de: "/benutzer-login/" }
     defaults: { _controller: frontEndBundle:user:register }
 
 frontend_enable_user:
-    locales:  { en: "/activate_user/{string}", es: "/activar_usuario/{string}", de: "/benutzer_aktivieren/{string}"  }
+    locales:  { en: "/activate-user/{string}", es: "/activar-usuario/{string}", de: "/benutzer-aktivieren/{string}"  }
     defaults: { _controller: frontEndBundle:user:enable }
 
 frontend_restore_password_user:
-    locales:  { en: "/restore_password/", es: "/restaurar_clave/", de: "/passwort_wiederherstellen/" }
+    locales:  { en: "/restore-password/", es: "/restaurar-clave/", de: "/passwort-wiederherstellen/" }
     defaults: { _controller: frontEndBundle:user:restore_password }
 
 frontend_change_password_user:
-    locales:  { en: "/change_password/{string}", es: "/cambiar_clave/{string}", de: "/passwort_aendern/{string}" }
+    locales:  { en: "/change-password/{string}", es: "/cambiar-clave/{string}", de: "/passwort-aendern/{string}" }
     defaults: { _controller: frontEndBundle:user:change_password }
 
 frontend_register_confirmation_user:
-    pattern:  /register_confirmation/
+    pattern:  /register-confirmation/
     locales:  { en: "/confirmation_of_registration/", es: "/confirmacion_de_registro/", de: "/anmeldungsbestaetigung/" }
     defaults: { _controller: frontEndBundle:user:register_user_confirmation }
     
@@ -28,5 +28,5 @@ frontend_profile_user:
     defaults: { _controller: frontEndBundle:user:profile }
     
 frontend_change_password_start_user:
-    locales:  { en: "/user/change_password/", es: "/usuario/cambiar_clave/", de: "/benutzer/passwort_aendern/" }
+    locales:  { en: "/user/change-password/", es: "/usuario/cambiar-clave/", de: "/benutzer/passwort-aendern/" }
     defaults: { _controller: frontEndBundle:user:change_password_start }

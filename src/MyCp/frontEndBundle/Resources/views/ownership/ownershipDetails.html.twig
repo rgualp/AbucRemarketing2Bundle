@@ -1,9 +1,18 @@
-{% block meta_description %}{{ ownership.ownname }}, {%if rooms is defined and rooms | length%}{{rooms | length}} {%if rooms | length == 1%} {{"ROOM_SINGULAR" | trans}} {%else%} {{"ROOM_PLURAL" | trans}}{%endif%}{%endif%}, {{"FROM_PRICES" | trans | lower}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ownership.ownminimumprice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} {{"NIGHT_PER_ROOM" | trans}}, {{"CATEGORY_TAB_DESCRIPTION" | trans|lower}} {{ownership.category | trans|lower}}. {{"SERVICES_TAB_DETAILS" | trans}} {{ "OF"|trans }} {{"ACCOMMODATION" | trans|lower}}{% if ownership.ownFacilitiesBreakfast == 1 %} ,{{ "BREAKFAST_TAB_DESCRIPTION"|trans|lower }}{% endif %}{% if ownership.ownFacilitiesDinner == 1 %} ,{{ "DINNER_TAB_DESCRIPTION"|trans|lower }}{% endif %}{% if ownership.ownFacilitiesParking == 1 %} ,{{ "PARKING_TAB_DESCRIPTION"|trans|lower }}{% endif %}.{% endblock %}
-{% block meta_keywords %}{{ keywords }}{% endblock %}
+
 {%set start_date = (post['reservation_filter_date_from'] is defined) ? ( post['reservation_filter_date_from']) : ((app.session.get('search_arrival_date') != null) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now" |date("d/m/Y")))%}
 {%set end_date = (post['reservation_filter_date_to'] is defined) ? (post['reservation_filter_date_to']) : ((app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : ("+2 days" |date("d/m/Y")))%}
 
 {% extends 'frontEndBundle:layout:base.html.twig' %}
+{%block meta_description%}
+{{ownership.owntype  | trans}} {{"IN" | trans}} {{ownership.ownAddressProvince}}: {{ownership.ownname}} ({{ ownership.mycpcode }}).
+                {%if rooms is defined and rooms | length%}
+                    {{rooms | length}} {%if rooms | length == 1%} {{"ROOM_SINGULAR" | trans}} {%else%} {{"ROOM_PLURAL" | trans}} {%endif%}.
+                {%endif%}
+                {{"FROM_PRICES" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ownership.ownminimumprice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} {{"NIGHT_PER_ROOM" | trans}}
+{%endblock%}                    
+{% block meta_keywords %}           
+{{ ownership.owntype }} {{ownership.owntype | trans}} {{ownership.ownaddressmunicipality}} {{ownership.ownAddressProvince}} Cuba {{ownership.ownname}}
+{%endblock%}
 {% block title %}{{ownership.ownname}}{% endblock %}
 {% set main_tab = 5 %}
 {% block breadcrumbs %}
@@ -24,7 +33,7 @@
                 {{"FROM_PRICES" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ownership.ownminimumprice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} {{"NIGHT_PER_ROOM" | trans}}
             </h1>
             <!--label class="place">
-    {{ownership.owntype}}
+    {{ownership.owntype | trans}}
     {%if (ownership.ownAddressStreet != null and ownership.ownAddressStreet != '') or (ownership.ownAddressNumber != null and ownership.ownAddressNumber != '') %}
     / {{ownership.ownAddressStreet}} {{ownership.ownAddressNumber}}
     {%endif%}
@@ -72,15 +81,15 @@
                 <ul class="price calendar-cont">
                     <li class="lead-2">
                         <div class="row">
-                            <form id="calendar_form" method="POST" action="{{ path('frontend_details_ownership',{'own_name':ownership.ownname  | lower | replace(' ','_')}) }}" novalidate>
+                            <form id="calendar_form" method="POST" action="{{ path('frontend_details_ownership',{'own_name':ownership.ownname  | lower | replace(' ','-')}) }}" novalidate>
                                 <div class="col-sm-6">
-                                    <div class="input-group" style="padding: 0">
+                                    <div rel="tooltip" title="{{'DEPARTURE_WATERMARK' | trans}}" class="input-group" style="padding: 0">
                                         <input value="{{start_date}}"  type="text" id="filter_date_from" class="form-control" placeholder="{{"ARRIVAL_RESERVATION" | trans}}" data-localization='{{locale}}'>
                                         <span class="input-group-addon show_calendar"><span class="icon-calendar"></span></span>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <div class="input-group" style="padding: 0">
+                                    <div rel="tooltip" title="{{'DEPARTURE_WATERMARK' | trans}}" class="input-group" style="padding: 0">
                                         <input value="{{ end_date }}" type="text" id="filter_date_to" class="form-control" placeholder="{{"DEPARTURE_RESERVATION" | trans}}" data-localization='{{locale}}'>
                                         <span class="input-group-addon show_calendar"><span class="icon-calendar"></span></span>
                                     </div>
@@ -653,5 +662,6 @@
         <script src="{{ asset('bundles/frontend/js/jquery.ui.map.js') }}"></script>
         <script src="{{ asset('bundles/frontend/js/jquery.ui.map.infobox.js') }}"></script>
         <script src="{{ asset('bundles/frontend/js/ownership.min.js') }}"></script>
+        <script src="{{ asset('bundles/frontend/js/ownership.calendar.js') }}"></script>
     {% endblock %}
 {% endblock %}

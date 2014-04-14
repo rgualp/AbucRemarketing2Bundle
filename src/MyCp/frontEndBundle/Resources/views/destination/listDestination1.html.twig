@@ -43,7 +43,7 @@ destinos
 <div class="row-fluid result_list destination_list">
     {% endif %}
         <div class="span4 item">
-            <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" style="font-size: 18px; font-weight: bold" href="{{ path('frontend_details_destination',{'destination_name':destination.desname|lower|replace(' ','_')}) }}">
+            <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" style="font-size: 18px; font-weight: bold" href="{{ path('frontend_details_destination',{'destination_name':destination.desname|lower|replace(' ','-')}) }}">
                 <h4 style="margin-top: 0px">{{destination.desName}}</h4>
                 <div class="row-fluid">
                     <div class="span6">

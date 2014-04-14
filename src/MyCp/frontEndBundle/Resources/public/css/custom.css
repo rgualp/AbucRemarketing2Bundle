@@ -56,3 +56,12 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 }
 #big_map_details{width:100%;height: 500px;}
 .show_calendar{cursor:pointer;}
+
+#orange_search_bar .tooltip .tooltip-arrow{
+    display:none;
+}
+
+.vertical-searcher .tooltip{
+    margin-bottom: 2px;
+    padding-bottom: 2px;        
+}

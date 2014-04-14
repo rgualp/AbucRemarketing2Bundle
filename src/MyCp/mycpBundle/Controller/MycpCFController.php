@@ -58,36 +58,32 @@ class MycpCFController extends Controller {
 
     private function mycpConfirmUpdateReservations() {
         $em = $this->getDoctrine()->getEntityManager();
-        $reservations_all_data = $this->mycpUpdateReservations();
 
-        $reservations = $reservations_all_data["rs"];
+        $reservations = $em->getRepository('mycpBundle:generalReservation')->getNotSyncs();
         foreach ($reservations as $_res) {
-            $ent_res = $em->getRepository('mycpBundle:generalReservation')->find($_res["nu"]);
-            switch ($_res["ss"]) {
+            switch ($_res->getGenResSyncSt()) {
                 default:
                 case SyncStatuses::ADDED:
                 case SyncStatuses::UPDATED:
-                    $ent_res->setGenResSyncSt(SyncStatuses::SYNC);
-                    $em->persist($ent_res);
+                    $_res->setGenResSyncSt(SyncStatuses::SYNC);
+                    $em->persist($_res);
                     break;
                 case SyncStatuses::DELETED:
-                    $em->remove($ent_res);
+                    $em->remove($_res);
                     break;
             }
         }
 
-        $rooms_details = $reservations_all_data["rd"];
+        $rooms_details = $em->getRepository('mycpBundle:ownershipReservation')->getNotSyncs();
         foreach ($rooms_details as $_rd) {
-            $ent_rd_res = $em->getRepository('mycpBundle:generalReservation')->find($_rd["ri"]);
-            $ent_rd = $em->getRepository('mycpBundle:ownershipReservation')->findOneBy(array("own_res_gen_res_id" => $ent_rd_res, "own_res_selected_room_id" => $_rd["rn"]));
-            switch ($_res["ss"]) {
+            switch ($_rd->getOwnResSyncSt()) {
                 case SyncStatuses::ADDED:
                 case SyncStatuses::UPDATED:
-                    $ent_rd->setOwnResSyncSt(SyncStatuses::SYNC);
-                    $em->persist($ent_rd);
+                    $_rd->setOwnResSyncSt(SyncStatuses::SYNC);
+                    $em->persist($_rd);
                     break;
                 case SyncStatuses::DELETED:
-                    $em->remove($ent_rd);
+                    $em->remove($_rd);
                     break;
             }
         }
@@ -167,27 +163,18 @@ class MycpCFController extends Controller {
     // <editor-fold defaultstate="collapsed" desc="Upload Methods">
     private function _commitReservations(Request $request) {
         $json_reservations = $request->get('content');
-        $res_data = json_decode($json_reservations);
+        $res_data = json_decode(utf8_encode($json_reservations));
         $em = $this->getDoctrine()->getEntityManager();
 
-        $distinct_clients_data = array();
-        $res_per_clients = array();
         $reservations = $res_data->re;
+        $email_res_data = array();
         if (is_array($reservations)) {
             foreach ($reservations as $reservation) {
                 $entity_res = $em->getRepository('mycpBundle:generalReservation')->find($reservation->rn);
                 if (!empty($entity_res)) {
                     $entity_res->setGenResStatus($this->_reserservationStatusConversor($reservation->st));
                     $em->persist($entity_res);
-
-                    if (!in_array($entity_res->getGenResUserId(), $distinct_clients_data)) {
-                        $distinct_clients_data[] = array("client" => $entity_res->getGenResUserId(), "rtext" => $reservation->rt);
-                    }
-                    $res_per_clients[$entity_res->getGenResUserId()->getUserId()][] = $entity_res;
-
-                    //sending email...
-                    $service_email = $this->get('Email');
-                    $service_email->send_reservation($entity_res->getGenResId());
+                    $email_res_data[] = array("res_ent" => $entity_res, "rtext" => $reservation->rt);
                 }
             }
         }
@@ -227,6 +214,14 @@ class MycpCFController extends Controller {
             }
         }
         $em->flush();
+
+        //sending emails...
+        $service_email = $this->get('Email');
+        foreach ($email_res_data as $email_data) {
+            $entity_res = $email_data["res_ent"];
+            $service_email->send_reservation($entity_res->getGenResId());
+        }
+
         return self::SUCCESS_CONFIRM_MSG;
     }
 
@@ -255,7 +250,7 @@ class MycpCFController extends Controller {
                 "ss" => $_house->getSyncSt(),
                 "na" => $_house->getOwnName(),
                 "pr" => $_house->getOwnHomeowner1(),
-                "ad" => $_house->getOwnAddressStreet(),
+                "ad" => $_house->getFullAddress(),
                 "pv" => $_house->getOwnAddressProvince() != null ? $_house->getOwnAddressProvince()->getProvCode() : "HAB",
                 "ph" => $_house->getOwnPhoneNumber(),
                 "mp" => $_house->getOwnMinimumPrice(),
@@ -315,28 +310,20 @@ class MycpCFController extends Controller {
 //-----------------------------------------------------------------------------
     private function _confirmUpdateHouses() {
         $em = $this->getDoctrine()->getEntityManager();
-        $all_houses_data = $this->_updateHouses();
 
-        $houses = $all_houses_data["houses"];
+        $houses = $em->getRepository('mycpBundle:ownership')->getNotSynchronized();
         foreach ($houses as $house) {
-            $e_house = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code' => $house["co"]));
-            $this->_normalizeBySyncStatus($em, $e_house, $house["ss"]);
+            $this->_normalizeBySyncStatus($em, $house, $house->getOwnSyncSt());
         }
 
-        $rooms = $all_houses_data["rooms"];
+        $rooms = $em->getRepository('mycpBundle:room')->getNotSynchronized();
         foreach ($rooms as $room) {
-            $e_house = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code' => $room["hc"]));
-            $e_room = $em->getRepository('mycpBundle:room')->findOneBy(array('room_ownership' => $e_house, 'room_num' => $room["nu"]));
-
-            $this->_normalizeBySyncStatus($em, $e_room, $room["ss"]);
+            $this->_normalizeBySyncStatus($em, $room, $room->getSyncSt());
         }
 
-        $uds = $all_houses_data["uds"];
+        $uds = $em->getRepository('mycpBundle:unavailabilityDetails')->getNotSynchronized();
         foreach ($uds as $ud) {
-            $e_house = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code' => $ud["hc"]));
-            $e_room = $em->getRepository('mycpBundle:room')->findOneBy(array('room_ownership' => $e_house, 'room_id' => $ud["rn"]));
-            $e_ud = $e_room->getUd($ud["fd"], $ud["td"]);
-            $this->_normalizeBySyncStatus($em, $e_ud, $ud["ss"]);
+            $this->_normalizeBySyncStatus($em, $uds, $ud->getUdSyncSt());
         }
         $em->flush();
         return self::SUCCESS_CONFIRM_MSG;
@@ -344,15 +331,14 @@ class MycpCFController extends Controller {
 
     private function _normalizeBySyncStatus($em, $entity, $status) {
         switch ($status) {
-            case SyncStatuses::DELETED:
-                $em->remove($entity);
-                break;
+            default:
             case SyncStatuses::ADDED:
             case SyncStatuses::UPDATED:
-            default:
                 $entity->setSyncSt(SyncStatuses::SYNC);
                 $em->persist($entity);
                 break;
+            case SyncStatuses::DELETED:
+                $em->remove($entity);
         }
     }
 
@@ -360,7 +346,7 @@ class MycpCFController extends Controller {
     private function _commitHouses(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
         $json_houses = $request->get('content');
-        $houses_mod_data = json_decode($json_houses);
+        $houses_mod_data = json_decode(utf8_encode($json_houses));
 
         $houses = $houses_mod_data->houses;
         if (is_array($houses)) {
@@ -449,7 +435,7 @@ class MycpCFController extends Controller {
                         $em->persist($_new_ud);
                         break;
                     case SyncStatuses::DELETED:
-                        $em->remove($e_house);
+                        $em->remove($_new_ud);
                         break;
                 }
             }
