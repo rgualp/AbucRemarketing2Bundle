@@ -166,24 +166,15 @@ class MycpCFController extends Controller {
         $res_data = json_decode(utf8_encode($json_reservations));
         $em = $this->getDoctrine()->getEntityManager();
 
-        $distinct_clients_data = array();
-        $res_per_clients = array();
         $reservations = $res_data->re;
+        $email_res_data = array();
         if (is_array($reservations)) {
             foreach ($reservations as $reservation) {
                 $entity_res = $em->getRepository('mycpBundle:generalReservation')->find($reservation->rn);
                 if (!empty($entity_res)) {
                     $entity_res->setGenResStatus($this->_reserservationStatusConversor($reservation->st));
                     $em->persist($entity_res);
-
-                    if (!in_array($entity_res->getGenResUserId(), $distinct_clients_data)) {
-                        $distinct_clients_data[] = array("client" => $entity_res->getGenResUserId(), "rtext" => $reservation->rt);
-                    }
-                    $res_per_clients[$entity_res->getGenResUserId()->getUserId()][] = $entity_res;
-
-                    //sending email...
-                    $service_email = $this->get('Email');
-                    $service_email->send_reservation($entity_res->getGenResId());
+                    $email_res_data[] = array("res_ent" => $entity_res, "rtext" => $reservation->rt);
                 }
             }
         }
@@ -223,6 +214,14 @@ class MycpCFController extends Controller {
             }
         }
         $em->flush();
+
+        //sending emails...
+        $service_email = $this->get('Email');
+        foreach ($email_res_data as $email_data) {
+            $entity_res = $email_data["res_ent"];
+            $service_email->send_reservation($entity_res->getGenResId());
+        }
+
         return self::SUCCESS_CONFIRM_MSG;
     }
 
@@ -251,7 +250,7 @@ class MycpCFController extends Controller {
                 "ss" => $_house->getSyncSt(),
                 "na" => $_house->getOwnName(),
                 "pr" => $_house->getOwnHomeowner1(),
-                "ad" => $_house->getOwnAddressStreet(),
+                "ad" => $_house->getFullAddress(),
                 "pv" => $_house->getOwnAddressProvince() != null ? $_house->getOwnAddressProvince()->getProvCode() : "HAB",
                 "ph" => $_house->getOwnPhoneNumber(),
                 "mp" => $_house->getOwnMinimumPrice(),
@@ -347,8 +346,8 @@ class MycpCFController extends Controller {
     private function _commitHouses(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
         $json_houses = $request->get('content');
-		$houses_mod_data = json_decode(utf8_encode($json_houses));
-		
+        $houses_mod_data = json_decode(utf8_encode($json_houses));
+
         $houses = $houses_mod_data->houses;
         if (is_array($houses)) {
             foreach ($houses as $house) {
