@@ -200,7 +200,7 @@
             </trans-unit>
             <trans-unit id="50">
                 <source>SEARCH_MAIN_MENU</source>
-                <target>Lodging</target>
+                <target>Accommodations</target>
             </trans-unit>
             <trans-unit id="51">
                 <source>SEARCH_DESCRIPTION_MAIN_MENU</source>
@@ -2443,6 +2443,10 @@
                     <source>RESERVATIONS_LOW_HIGH_ORDERBY</source>
                     <target>Reservations Total /Lowest to Highest</target>
                 </trans-unit>
+            <trans-unit id="621">
+                <source>TOP_DESTINATIONS</source>
+                <target>TOP Destinations</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
