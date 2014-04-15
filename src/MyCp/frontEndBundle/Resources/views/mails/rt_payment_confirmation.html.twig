@@ -7,6 +7,9 @@
 <h2>Confirmación de pago a equipo de reservación:</h2>
 Fecha: {{ "now"|date("D, d M Y H:m:s O") }}
 <br/><br/>
+{% if payment_pending == 1%}
+  <h2 style="color: #eb2200">Pendiente de control de pago</h2>
+{% endif %}
 <b>Reservación:</b> CAS.{{ reservations[0].getOwnResGenResId.getGenResId }}
 <br/>
 <b>Cliente:</b> {{ user.getUserUserName }} {{ user.getUserLastName }}

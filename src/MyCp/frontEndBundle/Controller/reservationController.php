@@ -658,11 +658,6 @@ class reservationController extends Controller
 
     function confirmationAction($id_booking)
     {
-        $user = $this->getUser();
-        if(!$user)
-        {
-            throw $this->createNotFoundException();
-        }
         $em = $this->getDoctrine()->getManager();
         $payment=$em->getRepository('mycpBundle:payment')->findOneBy(array('booking'=>$id_booking));
         if(!$payment)
@@ -679,22 +674,41 @@ class reservationController extends Controller
         switch($skrill_payment->getStatus())
         {
             case 0:
-                //failed
-                echo 'payment pending' ;exit();
-                break;
-            case 1:
-                return $this->redirect($this->generateUrl('frontend_reservation_reservation'));
+                $this->payment_processed($id_booking,1);
+                return $this->redirect(
+                    $this->generateUrl('frontend_view_confirmation_reservation'
+                        , array('id_booking'=>$id_booking)));
+
                 break;
             case 2:
+                $this->payment_processed($id_booking);
+                return $this->redirect(
+                    $this->generateUrl('frontend_view_confirmation_reservation'
+                        , array('id_booking'=>$id_booking)));
                 break;
             case -1:
-                //failed
-                echo 'payment failed' ;exit();
+                return $this->redirect($this->generateUrl('frontend_reservation_reservation'));
+                break;
+            case -2:
+                return $this->redirect($this->generateUrl('frontend_reservation_reservation'));
                 break;
             default:
                 throw $this->createNotFoundException();
         }
 
+
+
+    }
+
+    function payment_processed($id_booking, $payment_pending=0)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        if(!$user)
+        {
+            throw $this->createNotFoundException();
+        }
 
         $own_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking));
         $booking = $em->getRepository('mycpBundle:booking')->findOneBy(array('booking_id'=>$id_booking,'booking_user_id'=>$user->getUserId()));
@@ -789,7 +803,8 @@ class reservationController extends Controller
                 'user'=>$user,
                 'user_tourist'=>$user_tourist,
                 'reservations'=>$owns,
-                'nights'=>$array_nigths_by_ownres
+                'nights'=>$array_nigths_by_ownres,
+                'payment_pending'=>$payment_pending
             ));
             $service_email->send_email(
                 'Confirmación de pago', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', 'reservation@mycasaparticular.com', $body_res
@@ -808,14 +823,12 @@ class reservationController extends Controller
             ));
             $prop_email=$owns[0]->getOwnResGenResId()->getGenResOwnId()->getOwnEmail1();
             if($prop_email)
-            $service_email->send_email(
-                'Confirmación de reserva', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', $prop_email, $body_prop
-            );
+                $service_email->send_email(
+                    'Confirmación de reserva', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', $prop_email, $body_prop
+                );
         }
 
-        return $this->redirect(
-            $this->generateUrl('frontend_view_confirmation_reservation'
-                , array('id_booking'=>$id_booking)));
+
     }
 
     function view_confirmationAction($id_booking,$to_print=false)
