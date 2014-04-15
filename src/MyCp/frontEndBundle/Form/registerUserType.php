@@ -13,13 +13,20 @@ class registerUserType extends AbstractType
 {
     private $translate;
     
-    function __construct($trans_entity)
+    function __construct($trans_entity, $data)
     {
         $this->translate = $trans_entity;
+        $this->data=$data;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $array_countries=array();
+        foreach($this->data['countries'] as $country)
+        {
+            $array_countries[$country->getCoId()]=$country->getCoName();
+        }
+        
         $builder
             ->add('user_user_name','text',array(
                 'label'=>$this->translate->trans('FORMS_NAME'),
@@ -38,7 +45,14 @@ class registerUserType extends AbstractType
             'second_name' => $this->translate->trans('FORMS_REPEAT'),
             'type' => 'password',
             'constraints'=>array(new NotBlank(),new Length(array('min'=>6)))
-        ));
+        ))
+            ->add('user_country','choice',array(
+            'choices'=>$array_countries,
+            'empty_value' => '',
+            'label'=>$this->translate->trans('COUNTRY'),
+            'attr'=>array('class'=>'form-control user_country'),
+            'constraints'=>array(new NotBlank())
+            ));
         ;
     }
 

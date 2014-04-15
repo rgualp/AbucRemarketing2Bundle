@@ -100,7 +100,7 @@ class userRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $currencies = $em->getRepository('mycpBundle:currency')->findAll();
         $languages = $em->getRepository('mycpBundle:lang')->findAll();
-        $countries = $em->getRepository('mycpBundle:country')->findAll();
+        $country = $em->getRepository('mycpBundle:country')->find($post['user_country']);
         $role = $em->getRepository('mycpBundle:role')->findBy(array('role_name' => 'ROLE_CLIENT_TOURIST'));
         
         $user = $em->getRepository('mycpBundle:user')->findOneBy(array(
@@ -114,7 +114,7 @@ class userRepository extends EntityRepository {
         
         $user->setUserAddress('');
         $user->setUserCity('');
-        $user->setUserCountry($countries[0]);
+        $user->setUserCountry($country);
         $user->setUserEmail($post['user_email']);
         $user->setUserLastName($post['user_last_name']);
         $user->setUserUserName($post['user_user_name']);

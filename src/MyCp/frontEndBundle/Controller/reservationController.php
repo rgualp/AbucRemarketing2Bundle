@@ -387,8 +387,6 @@ class reservationController extends Controller
             'photos' => $array_photos
         ));
 
-
-
         $locale = $this->get('translator');
         $subject = $locale->trans('REQUEST_SENT');
         $service_email = $this->get('Email');
