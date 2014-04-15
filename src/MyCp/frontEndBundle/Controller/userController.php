@@ -19,8 +19,10 @@ class userController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $errors = array();
         $all_post = array();
+        $data=array();
+        $data['countries']=$em->getRepository('mycpBundle:country')->findAll();
 
-        $form = $this->createForm(new registerUserType($this->get('translator')));
+        $form = $this->createForm(new registerUserType($this->get('translator'), $data));
         if ($request->getMethod() == 'POST') {
             $post = $request->get('mycp_frontendbundle_register_usertype');
             $all_post = $request->request->getIterator()->getArrayCopy();
