@@ -351,7 +351,9 @@ class MycpCFController extends Controller {
                         $em->persist($e_house);
                         break;
                     case SyncStatuses::DELETED:
-                        $em->remove($e_house);
+                        if (!empty($e_house)) {
+                            $em->remove($e_house);
+                        }
                         break;
                 }
             }
@@ -390,7 +392,9 @@ class MycpCFController extends Controller {
                         $em->persist($e_room);
                         break;
                     case SyncStatuses::DELETED:
-                        $em->remove($e_room);
+                        if (!empty($e_room)) {
+                            $em->remove($e_room);
+                        }
                         break;
                 }
             }
@@ -403,20 +407,21 @@ class MycpCFController extends Controller {
                 $_house = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code' => $ud->hc));
                 $_room = $_house->getRoom($ud->rn);
 
-                $_new_ud = $_room->getUd($ud->fd, $ud->td);
                 switch ($ud->ss) {
                     case SyncStatuses::ADDED:
-                        $_new_ud = new unavailabilityDetails();
-                        $_new_ud->setRoom($_room);
-                        $_room->getOwn_unavailability_details()->add($_new_ud);
-                    case SyncStatuses::UPDATED:
-                        $_new_ud->setUdFromDate(new DateTime($ud->fd));
-                        $_new_ud->setUdToDate(new DateTime($ud->td));
-                        $_new_ud->setUdReason($ud->rs);
-                        $em->persist($_new_ud);
+                        $ent_ud = new unavailabilityDetails();
+                        $ent_ud->setRoom($_room);
+                        $_room->getOwn_unavailability_details()->add($ent_ud);
+                        $ent_ud->setUdFromDate(new DateTime($ud->fd));
+                        $ent_ud->setUdToDate(new DateTime($ud->td));
+                        $ent_ud->setUdReason($ud->rs);
+                        $em->persist($ent_ud);
                         break;
                     case SyncStatuses::DELETED:
-                        $em->remove($_new_ud);
+                        $ent_ud = $_room->getUd($ud->fd, $ud->td);
+                        if (!empty($ent_ud)) {
+                            $em->remove($ent_ud);
+                        }
                         break;
                 }
             }
