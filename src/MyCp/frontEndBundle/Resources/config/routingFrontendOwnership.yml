@@ -61,7 +61,7 @@ frontend_voted_best_list_ownership:
     defaults: { _controller: frontEndBundle:ownership:voted_best_list }
 
 frontend_type_list_ownership:
-    locales:  { en: "/accommodations_by_type/{type}", es: "/alojamientos_por_tipo/{type}", de: "/unterkuenfte_nach_typ/{type}" }
+    locales:  { en: "/accommodations-by-type/{type}", es: "/alojamientos-por-tipo/{type}", de: "/unterkuenfte-nach-typ/{type}" }
     defaults: { _controller: frontEndBundle:ownership:type_list }
     
 frontend_top_rated_callback_ownership:
