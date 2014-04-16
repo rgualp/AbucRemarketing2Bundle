@@ -40,7 +40,7 @@
                                 <td width="34%" valign="top" align="right" style="font-family: arial; font-size: 13px; line-height: 20px; text-align: right">
                                     <b>ID {{"RESERVATION_RESERVE"|trans}}:</b> CAS.{{ids[loop.index0]}}<br/><br/>
                                     <span style="background-color: #BBBBBB; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"PENDING"|trans}}&nbsp;&nbsp;&nbsp;</b></span><br/>
-                                    <h3>TOTAL: {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{reservation.getOwnResTotalInSite * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h3>
+                                    <h3>{{"RESERVATION_TOTAL" | trans | upper}}: {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{reservation.getOwnResTotalInSite * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h3>
                                     <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | lower | replace(' ','-')}) }}" class="btn mycp_btn_green">{{"VIEW_DETAILS"|trans}}</a>
                                 </td>
                             </tr>
@@ -50,5 +50,5 @@
             </table>
             <br/>
         {% endfor %}
-    <h4 style="font-size: 16px; font-weight: normal; font-style: italic">Gracias, equipo de reservación.</h4>
+    <h4 style="font-size: 16px; font-weight: normal; font-style: italic">{{"THANKS_RESERVATION_TEAM" | trans}}</h4>
 {% endblock %}

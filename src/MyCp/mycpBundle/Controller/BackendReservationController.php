@@ -453,7 +453,7 @@ class BackendReservationController extends Controller
             $array_dates= $service_time->dates_between($res->getOwnResReservationFromDate()->getTimestamp(),$res->getOwnResReservationToDate()->getTimestamp());
             array_push($array_nigths,count($array_dates));
         }
-        $this->get('translator')->setLocale($user_tourist[0]->getUserTouristLanguage()->getLangCode());
+        $user_locale = $user_tourist[0]->getUserTouristLanguage()->getLangCode();
 
         $message = $this->getRequest()->get('message_to_client');
         $message[0]=strtoupper($message[0]);
@@ -464,7 +464,8 @@ class BackendReservationController extends Controller
             'reservations'=>$reservations,
             'photos'=>$array_photos,
             'nights'=>$array_nigths,
-            'message'=>$message
+            'message'=>$message,
+            'user_locale' => $user_locale
         ));
         
         $locale = $this->get('translator');

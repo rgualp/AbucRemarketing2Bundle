@@ -52,8 +52,8 @@ class Email {
             $sf_render = $sf_render->getContent();
         }
         //echo $sf_render; exit();
-        $message = Swift_Message::newInstance()
-                ->setSubject($subject)
+         $message = Swift_Message::newInstance()
+               ->setSubject($subject)
                 ->setFrom($email_from, $name_from)
                 ->setTo($email_to)
                 ->setBody($sf_render, 'text/html');
@@ -61,7 +61,7 @@ class Email {
         {
             $message->attach(\Swift_Attachment::fromPath($attach));
         }
-        return $this->container->get('mailer')->send($message);
+        return $this->container->get('mailer')->send($message); 
     }
 
     public function send_reservation($id_reservation,$custom_message=null)
@@ -87,15 +87,15 @@ class Email {
             $array_dates= $service_time->dates_between($res->getOwnResReservationFromDate()->getTimestamp(),$res->getOwnResReservationToDate()->getTimestamp());
             array_push($array_nigths,count($array_dates)-1);
         }
-        $this->container->get('translator')->setLocale($user_tourist->getUserTouristLanguage()->getLangCode());
-
+        $user_locale = $user_tourist->getUserTouristLanguage()->getLangCode();
         // Enviando mail al cliente
         $body=$templating->render('frontEndBundle:mails:email_offer_available.html.twig',array(
             'user'=>$user,
             'reservations'=>$reservations,
             'photos'=>$array_photos,
             'nights'=>$array_nigths,
-            'message'=>$custom_message
+            'message'=>$custom_message,
+            'user_locale' => $user_locale
         ));
         $locale = $this->container->get('translator');
         $subject=$locale->trans('REQUEST_STATUS_CHANGED');

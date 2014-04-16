@@ -764,7 +764,7 @@ class reservationController extends Controller
             $cont++;
         }
         $em->flush();
-        $this->get('translator')->setLocale($user_tourist[0]->getUserTouristLanguage()->getLangCode());
+        $user_locale = $user_tourist[0]->getUserTouristLanguage()->getLangCode();
 
         //save pdf into disk to attach
         $response=$this->view_confirmationAction($id_booking,true);
@@ -785,7 +785,8 @@ class reservationController extends Controller
             'user'=>$user,
             'reservations'=>$reservations,
             'photos'=>$array_photos,
-            'nights'=>$array_nigths
+            'nights'=>$array_nigths,
+            'user_locale' => $user_locale
         ));
         $locale = $this->get('translator');
         $subject = $locale->trans('PAYMENT_CONFIRMATION');

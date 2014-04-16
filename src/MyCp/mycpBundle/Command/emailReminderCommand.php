@@ -46,12 +46,13 @@ class EmailReminderCommand extends ContainerAwareCommand
                 // Enviando mail al cliente
                 $user_tourist=$em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user'=>$gen_reservation->getGenResUserId()->getUserId()));
                 $locale = $this->get('translator');
-                $this->get('translator')->setLocale(strtolower($user_tourist->getUserTouristLanguage()->getLangCode()));
+                $user_locale = strtolower($user_tourist->getUserTouristLanguage()->getLangCode());
                 $body = $this->render('frontEndBundle:mails:reminder_available.html.twig', array(
                     'user'=>$gen_reservation->getGenResUserId(),
                     'reservations'=>$reservations,
                     'photos'=>$array_photos,
-                    'nights'=>$array_nigths
+                    'nights'=>$array_nigths,
+                    'user_locale' => $user_locale
                 ));
                 $subject = $locale->trans('REMINDER');
                 $service_email->send_email(
