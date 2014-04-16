@@ -9,7 +9,7 @@
         {{ render(controller('frontEndBundle:public:get_meta_tags')) }}
         <meta property="og:title" content="{{block('title')}} | MyCasaParticular" />
         <meta property="og:type" content="website" />
-        {#  <meta property="og:url" content="{{ url(app.request.attributes.get('_route'))  }}" /> #}
+        <meta property="og:url" content="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params') )  }}" />
         <meta property="og:image" content="{{app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/mycp.png') }}" />
         <meta property="og:author" content="ABUC media network GmbH" />
         <meta property="og:description" content="{{block('meta_description')}}" />
