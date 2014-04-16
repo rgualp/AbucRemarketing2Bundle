@@ -44,3 +44,7 @@ frontend_change_currency:
     defaults: { _controller: frontEndBundle:currency:change_currency }
 
 
+# The routing for website migration should always be included last!
+# So new routing files should be included before the following lines
+frontend_website_migration:
+    resource: "@frontEndBundle/Resources/config/routingFrontendWebsiteMigration.yml"
