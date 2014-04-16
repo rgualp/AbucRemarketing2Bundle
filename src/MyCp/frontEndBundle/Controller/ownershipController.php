@@ -970,9 +970,7 @@ class ownershipController extends Controller {
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
         $own_ids = $session->get('own_ids');
-
         $list = $em->getRepository('mycpBundle:ownership')->getListByIds($own_ids);
-
         if (is_array($list)) {
             $result = array();
 
