@@ -1,26 +1,50 @@
 frontend_website_migration_homepage:
   pattern: /{locale}/index.php
   defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
+  requirements:
+      locale:  en|es|ge
+
+frontend_website_migration_homepage_language:
+  pattern: /{locale}/
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
+  requirements:
+      locale:  en|es|ge
 
 frontend_website_migration_accommdation_details:
   pattern: /{locale}/propiedad/detalle.php
   defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_search_ownership}
+  requirements:
+      locale:  en|es|ge
+
+frontend_website_migration_accommdation_code:
+  pattern: /{locale}/propiedad/detalle_por_codigo.php
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
+  requirements:
+      locale:  en|es|ge
 
 frontend_website_migration_destinations:
   pattern: /{locale}/destinos.php
   defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_list_destinations}
+  requirements:
+      locale:  en|es|ge
 
 frontend_website_migration_destination_details:
   pattern: /{locale}/destino/detalle.php
   defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_list_destinations}
+  requirements:
+      locale:  en|es|ge
 
 frontend_website_migration_search_accommodations:
   pattern: /{locale}/busqueda.php
   defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_search_ownership}
+  requirements:
+      locale:  en|es|ge
 
 frontend_website_migration_search_destinations:
   pattern: /{locale}/busqueda_por_destino.php
   defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_list_destinations}
+  requirements:
+      locale:  en|es|ge
 
 frontend_website_migration_security:
   pattern: /web/imagen_de_seguridad.php
@@ -29,6 +53,8 @@ frontend_website_migration_security:
 frontend_website_migration_not_found:
   pattern: /{locale}/pag404.php
   defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
+  requirements:
+      locale:  en|es|ge
 
 frontend_website_migration_reservation_form:
   pattern: /{locale}/form_reservar.php
@@ -45,15 +71,95 @@ frontend_website_migration_answer:
 frontend_website_migration_photo_gallery:
   pattern: /{locale}/galeria_de_fotos.php
   defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
+  requirements:
+      locale:  en|es|ge
 
 frontend_website_migration_top_accommodations:
   pattern: /{locale}/resultados/top_de_propiedades.php
   defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_voted_best_list_ownership}
+  requirements:
+      locale:  en|es|ge
+
+frontend_website_migration_midrange_accommodations:
+  pattern: /{locale}/resultados/rango_medio.php
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_voted_best_list_ownership}
+
+frontend_website_migration_economy_accommodations:
+  pattern: /{locale}/resultados/economicas.php
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_voted_best_list_ownership}
+  requirements:
+      locale:  en|es|ge
+
+frontend_website_migration_luxury_accommodations:
+  pattern: /{locale}/resultados/luxus.php
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_voted_best_list_ownership}
+  requirements:
+      locale:  en|es|ge
 
 frontend_website_migration_select_processing:
   pattern: /{locale}/select_dependientes_proceso.php
   defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
+  requirements:
+      locale:  en|es|ge
 
 frontend_website_migration_contact:
   pattern: /{locale}/contacto.php
   defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_contact_user}
+  requirements:
+      locale:  en|es|ge
+
+frontend_website_migration_privacy:
+  pattern: /{locale}/Datenschutz.php
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_security_privacity}
+  requirements:
+      locale:  en|es|ge
+
+frontend_website_migration_rng:
+  pattern: /{locale}/rng.php
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
+  requirements:
+      locale:  en|es|ge
+
+frontend_website_migration_about_us:
+  pattern: /{locale}/quienes_somos.php
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_about_us}
+  requirements:
+      locale:  en|es|ge
+
+frontend_website_migration_faq:
+  pattern: /{locale}/preguntas_frecuentes.php
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_list_faq}
+  requirements:
+      locale:  en|es|ge
+
+frontend_website_migration_status:
+  pattern: /{locale}/status.php
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
+  requirements:
+      locale:  en|es|ge
+
+frontend_website_migration_legal_terms:
+  pattern: /{locale}/AGB.php
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_legal_terms}
+  requirements:
+      locale:  en|es|ge
+
+frontend_website_migration_legal_terms_2:
+  pattern: /{locale}/aviso_legal.php
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_legal_terms}
+  requirements:
+      locale:  en|es|ge
+
+frontend_website_migration_accept:
+  pattern: /{locale}/accept.php
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
+  requirements:
+      locale:  en|es|ge
+
+frontend_website_migration_sitemap:
+  pattern: /{locale}/mapa_web.php
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_sitemap_information}
+  requirements:
+      locale:  en|es|ge
+
+
