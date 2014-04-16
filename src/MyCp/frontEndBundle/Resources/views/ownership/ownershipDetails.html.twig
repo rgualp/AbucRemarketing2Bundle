@@ -9,8 +9,8 @@
                     {{rooms | length}} {%if rooms | length == 1%} {{"ROOM_SINGULAR" | trans}} {%else%} {{"ROOM_PLURAL" | trans}} {%endif%}.
                 {%endif%}
                 {{"FROM_PRICES" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ownership.ownminimumprice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} {{"NIGHT_PER_ROOM" | trans}}
-{%endblock%}                    
-{% block meta_keywords %}           
+{%endblock%}
+{% block meta_keywords %}
 {{ ownership.owntype }} {{ownership.owntype | trans}} {{ownership.ownaddressmunicipality}} {{ownership.ownAddressProvince}} Cuba {{ownership.ownname}}
 {%endblock%}
 {% block title %}{{ownership.ownname}}{% endblock %}
@@ -158,6 +158,7 @@
                                         <input from_date="{{ start_date | replace('/','&') }}" to_date="{{ end_date | replace('/','&') }}" type="text" style="visibility: hidden; margin-bottom: -50px" name="data_reservation" id="data_reservation"/>
                                     </div>
                                 </div>
+                            </div>
                         </form>
                     </li>
                 </ul>
