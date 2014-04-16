@@ -1364,11 +1364,11 @@
             </trans-unit>
             <trans-unit id="350">
                 <source>SITEMAP</source>
-                <target>Stadtplan</target>
+                <target>Sitemap</target>
             </trans-unit>
             <trans-unit id="351">
                 <source>SITEMAP_CONTENT</source>
-                <target>Beschreibung zum Stadtplan</target>
+                <target>Sitemap-Beschreibung</target>
             </trans-unit>
             <trans-unit id="352">
                 <source>HOW_IT_WORKS_CONTENT</source>
@@ -1376,7 +1376,7 @@
             </trans-unit>
             <trans-unit id="353">
                 <source>USER_COMUNITY</source>
-                <target>Benutzergemeinschaft</target>
+                <target>Community</target>
             </trans-unit>
             <trans-unit id="354">
                 <source>FIRST_PAGE</source>
