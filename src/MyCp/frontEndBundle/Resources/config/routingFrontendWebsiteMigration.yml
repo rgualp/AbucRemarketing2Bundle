@@ -1,0 +1,23 @@
+frontend_website_migration_homepage:
+  pattern: /{locale}/index.php
+  defaults: { _controller: frontEndBundle:redirect:permanentRedirect, redirectTo: frontend_welcome}
+
+frontend_website_migration_accommdation_details:
+  pattern: /{locale}/propiedad/detalle.php
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_search_ownership}
+
+frontend_website_migration_destinations:
+  pattern: /{locale}/destinos.php
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_list_destinations}
+
+frontend_website_migration_destination_details:
+  pattern: /{locale}/destino/detalle.php
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_list_destinations}
+
+frontend_website_migration_search_destinations:
+  pattern: /{locale}/busqueda.php
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_list_destinations}
+
+frontend_website_migration_search_accommodations:
+  pattern: /{locale}/busqueda_por_destino.php
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_list_destinations}
