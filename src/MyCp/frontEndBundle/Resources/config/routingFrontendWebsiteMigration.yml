@@ -74,6 +74,12 @@ frontend_website_migration_photo_gallery:
   requirements:
       locale:  en|es|ge
 
+frontend_website_migration_photo_gallery_album_details:
+  pattern: /{locale}/galeria/albumes/detalle.php
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
+  requirements:
+      locale:  en|es|ge
+
 frontend_website_migration_top_accommodations:
   pattern: /{locale}/resultados/top_de_propiedades.php
   defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_voted_best_list_ownership}
@@ -104,6 +110,12 @@ frontend_website_migration_select_processing:
 
 frontend_website_migration_contact:
   pattern: /{locale}/contacto.php
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_contact_user}
+  requirements:
+      locale:  en|es|ge
+
+frontend_website_migration_contact_form:
+  pattern: /{locale}/form_contactenos.php
   defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_contact_user}
   requirements:
       locale:  en|es|ge
@@ -156,10 +168,17 @@ frontend_website_migration_accept:
   requirements:
       locale:  en|es|ge
 
+frontend_website_migration_decline:
+  pattern: /{locale}/decline.php
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
+  requirements:
+      locale:  en|es|ge
+
 frontend_website_migration_sitemap:
   pattern: /{locale}/mapa_web.php
   defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_sitemap_information}
   requirements:
       locale:  en|es|ge
+
 
 
