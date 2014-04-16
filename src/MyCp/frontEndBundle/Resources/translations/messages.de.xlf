@@ -100,15 +100,15 @@
             </trans-unit>
             <trans-unit id="25">
                 <source>FAQ</source>
-                <target>Häufige Fragen</target>
+                <target>FAQ</target>
             </trans-unit>
             <trans-unit id="26">
                 <source>LEGAL_TERMS</source>
-                <target>Rechtliche Fristen</target>
+                <target>AGB</target>
             </trans-unit>
             <trans-unit id="27">
                 <source>SECURITY_AND_PRIVACITY</source>
-                <target>Sicherheit und Privatsphäre</target>
+                <target>Datenschutz</target>
             </trans-unit>
             <trans-unit id="28">
                 <source>CONTACT_US</source>
