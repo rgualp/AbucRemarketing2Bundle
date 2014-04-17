@@ -374,10 +374,10 @@ class reservationController extends Controller
         $ownership = $em->getRepository('mycpBundle:ownership')->find($services[0]['ownership_id']);
 
         $owns_in_destination = $em->getRepository("mycpBundle:destination")->ownsership_nearby_destination($ownership->getOwnAddressMunicipality()->getMunId(), $ownership->getOwnAddressProvince()->getProvId(), 3, $services[0]['ownership_id'], $user->getUserId(), null);
-        
+
         $locale = $this->get('translator')->getLocale();
         $destinations = $em->getRepository('mycpBundle:destination')->destination_filter($locale,null, $ownership->getOwnAddressProvince()->getProvId(), null, $ownership->getOwnAddressMunicipality()->getMunId(), 3, $user->getUserId(), null);
-        
+
         // Enviando mail al cliente
         $body = $this->render('frontEndBundle:mails:email_check_available.html.twig', array(
             'user' => $user,
@@ -511,7 +511,7 @@ class reservationController extends Controller
             }
             if ($insert == 1) {
                 array_push($commissions, $commission);
-            }  
+            }
         }
         $array_dates = $service_time->dates_between($min_date, $max_date);
 
@@ -612,7 +612,7 @@ class reservationController extends Controller
                     $own->setOwnResReservationBooking($booking);
                     $own->setOwnResStatus(2);
                     $em->persist($own);
-                    
+
                     //Colocando la hora de llegada
                     $general_reservation = $own->getOwnResGenResId();
                     $general_reservation->setGenResArrivalHour($post['reservation_hour']);
@@ -664,7 +664,7 @@ class reservationController extends Controller
         {
             throw $this->createNotFoundException();
         }
-        $skrill_payment=$em->getRepository('mycpBundle:skrillpayment')->findOneBy(array('payment'=>$payment));
+        $skrill_payment=$em->getRepository('mycpBundle:skrillPayment')->findOneBy(array('payment'=>$payment));
         if(!$skrill_payment)
         {
             throw $this->createNotFoundException();
