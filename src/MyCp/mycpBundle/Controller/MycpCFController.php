@@ -121,6 +121,7 @@ class MycpCFController extends Controller {
         foreach ($room_details as $i => $_room_detail) {
             $rooms_details_data[$i]["ri"] = $_room_detail->getOwnResGenResId()->getGenResId();
             $rooms_details_data[$i]["rn"] = $_room_detail->getOwnResSelectedRoomId();
+            $rooms_details_data[$i]["rt"] = $_room_detail->getOwnResRoomType();
             $rooms_details_data[$i]["ss"] = $_room_detail->getOwnResSyncSt();
             $rooms_details_data[$i]["st"] = $_room_detail->getOwnResStatus();
             $rooms_details_data[$i]["fd"] = $_room_detail->getOwnResReservationFromDate()->format('Y-m-d');
