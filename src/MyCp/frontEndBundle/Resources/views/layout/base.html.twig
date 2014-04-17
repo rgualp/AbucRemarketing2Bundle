@@ -3,230 +3,254 @@
 <html id="top">
     <head>
         <title>{% block title %}{{"WELCOMEPAGE_TITLE" | trans}}{% endblock %} | MyCasaParticular</title>
-        <meta charset="utf-8">
-        <meta name="description" content="{% block meta_description %}{% endblock %}">
-        <meta name="keywords" content="{% block meta_keywords %}{% endblock %}">
-        {{ render(controller('frontEndBundle:public:get_meta_tags')) }}
+        <meta charset="utf-8">         
+        {% block metas %}
+            {{ render(controller('frontEndBundle:public:get_meta_tags')) }}       
+        {% endblock %}
+        <meta name="author" content="ABUC media network GmbH">
+        <meta name="copyright" content="ABUC media network GmbH">
+        <meta name="language-content" content="{{app.request.locale}}">
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@MyCP">
+        <meta name="twitter:title" content="{{block('title')}} | MyCasaParticular">
+        <meta name="twitter:description" content="{{block('meta_description')}}">
+        <meta name="twitter:creator" content="@MyCP">
+        <meta name="twitter:image:src" content="{{app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/mycp.png') }}"> 
+
+        <!-- Propiedades Open Graph -->
         <meta property="og:title" content="{{block('title')}} | MyCasaParticular" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params') )  }}" />
         <meta property="og:image" content="{{app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/mycp.png') }}" />
         <meta property="og:author" content="ABUC media network GmbH" />
+        <meta property="og:site_name" content="MyCasaParticular" />
         <meta property="og:description" content="{{block('meta_description')}}" />
-
+        <meta property="og:url" content="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params') )  }}" />
+        <meta property=”fb:admins” content=”312774092497”/>
+        
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="{{ asset('bundles/frontend/css/custom.css') }}" rel="stylesheet" media="screen">
         {% if ownership.category is defined and  ownership.category == 'Económica'%}
-            <link href="{{ asset('bundles/frontend/css/economic_house.css') }}" rel="stylesheet" media="screen">
+        <link href="{{ asset('bundles/frontend/css/economic_house.css') }}" rel="stylesheet" media="screen">
         {% endif %}
         {% if ownership.category is defined and  ownership.category == 'Premium'%}
-            <link href="{{ asset('bundles/frontend/css/premium_house.css') }}" rel="stylesheet" media="screen">
+        <link href="{{ asset('bundles/frontend/css/premium_house.css') }}" rel="stylesheet" media="screen">
         {% endif %}
         <script src="{{ asset('bundles/frontend/js/jquery.js') }}"></script>
         <link rel="shortcut icon" href="{{ asset('bundles/frontend/img/map_small.png') }}" />
         {% block include_javascripts_and_css %}{% endblock %}
     </head>
     <body>
-    <!-- Google Tag Manager -->
-    <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-MMTG8B"
-                      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-                '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-MMTG8B');</script>
-    <!-- End Google Tag Manager -->
+        <!-- Google Tag Manager -->
+        <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-MMTG8B"
+                          height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <script>(function(w, d, s, l, i) {
+                w[l] = w[l] || [];
+                w[l].push({'gtm.start':
+                            new Date().getTime(), event: 'gtm.js'});
+                var f = d.getElementsByTagName(s)[0],
+                        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+                j.async = true;
+                j.src =
+                        '//www.googletagmanager.com/gtm.js?id=' + i + dl;
+                f.parentNode.insertBefore(j, f);
+            })(window, document, 'script', 'dataLayer', 'GTM-MMTG8B');</script>
+            <!-- End Google Tag Manager -->
         {{ include('frontEndBundle:mails:sendMailPopup.html.twig') }}
-        <div class="divider-hor-1">&nbsp;</div>
-        <div class="container">
-    <div class="row">
-        <div class="col-sm-4" id="center-cont">
-            <a href="{{ path('frontend_welcome') }}" class="brand"  title="{{"HOMEPAGE_TITLE" | trans}}">
-                <img src="{{ asset('bundles/frontend/img/mycp.png') }}" style="max-width: 100%" alt="my casa particular"/>
-             </a>
-        </div>
-        <div id="top-nav" class="col-sm-8">
-            <div class="row">
-                <div class="col-sm-7" style="display: table">
-                    <ul class="nav nav-pills">
-                        <li><a title="{{"HOW_IT_WORKS" | trans }}" href="{{ path('frontend_how_it_works_information')}}"><img class="icon tiny-book-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/> {{"HOW_IT_WORKS" | trans }}</a></li>
-                        <li><a title="{{"FAVORITIES" | trans }}" href="{{ path('frontend_list_favorite') }}"><img class="icon tiny-heart-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/> {{"FAVORITIES" | trans }}</a></li>
-                        <li>
+            <div class="divider-hor-1">&nbsp;</div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-4" id="center-cont">
+                        <a href="{{ path('frontend_welcome') }}" class="brand"  title="{{"HOMEPAGE_TITLE" | trans}}">
+                            <img src="{{ asset('bundles/frontend/img/mycp.png') }}" style="max-width: 100%" alt="my casa particular"/>
+                        </a>
+                    </div>
+                    <div id="top-nav" class="col-sm-8">
+                        <div class="row">
+                            <div class="col-sm-7" style="display: table">
+                                <ul class="nav nav-pills">
+                                    <li><a title="{{"HOW_IT_WORKS" | trans }}" href="{{ path('frontend_how_it_works_information')}}"><img class="icon tiny-book-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/> {{"HOW_IT_WORKS" | trans }}</a></li>
+                                    <li><a title="{{"FAVORITIES" | trans }}" href="{{ path('frontend_list_favorite') }}"><img class="icon tiny-heart-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/> {{"FAVORITIES" | trans }}</a></li>
+                                    <li>
                             {{ render(controller('frontEndBundle:reservation:get_count_cart_items')) }}
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-5" style="display: table; " id="top-right-menu">
-                    <ul class="nav nav-pills nav-pills-new">
-                    <li class="dropdown pull-right">
-                        <a title="{{"USER_ZONE" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-user-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-5" style="display: table; " id="top-right-menu">
+                                    <ul class="nav nav-pills nav-pills-new">
+                                        <li class="dropdown pull-right">
+                                            <a title="{{"USER_ZONE" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-user-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/>
                             {% if app.user.getUserUserName is defined %}
                                 {{app.user.getUserUserName | slice(0,10)}}{% if app.user.getUserUserName|length > 10 %}...{% endif %}
                                 {%else%}
                                 {{"USER_ZONE" | trans}}
                                 {%endif%}
-                            <b class="caret caret-new"></b></a>
-                        <ul class="dropdown-menu">
+                                                    <b class="caret caret-new"></b></a>
+                                                <ul class="dropdown-menu">
                             {% if app.user.getUserUserName is defined %}
-                                        <li><a title="{{"USER_PROFILE" | trans }}" href="{{ path('frontend_profile_user') }}">{{"USER_PROFILE" | trans }}</a></li>
-                                        <li><a title="{{"LOG_OUT" | trans}}" href="{{ path('mycp_logout') }}">{{"LOG_OUT" | trans}} </a></li>
+                                                        <li><a title="{{"USER_PROFILE" | trans }}" href="{{ path('frontend_profile_user') }}">{{"USER_PROFILE" | trans }}</a></li>
+                                                        <li><a title="{{"LOG_OUT" | trans}}" href="{{ path('mycp_logout') }}">{{"LOG_OUT" | trans}} </a></li>
                                     {% else %}
-                                        <li><a title="{{"LOG_IN" | trans }}" href="{{ path('mycp_login') }}">{{"LOG_IN" | trans }}</a></li>
-                                        <li><a title="{{"USER_NEW_ACCOUNT" | trans }}" href="{{ path('frontend_register_user') }}">{{"USER_NEW_ACCOUNT" | trans }}</a></li>
+                                                            <li><a title="{{"LOG_IN" | trans }}" href="{{ path('mycp_login') }}">{{"LOG_IN" | trans }}</a></li>
+                                                            <li><a title="{{"USER_NEW_ACCOUNT" | trans }}" href="{{ path('frontend_register_user') }}">{{"USER_NEW_ACCOUNT" | trans }}</a></li>
                                     {% endif %}
-                        </ul>
-                    </li>
-                    <li class="nav-divider pull-right">&nbsp;</li>
-                    <li class="dropdown pull-right">
-                        <a title="{{"LANGUAGE" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-lang-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/>
+                                                            </ul>
+                                                        </li>
+                                                        <li class="nav-divider pull-right">&nbsp;</li>
+                                                        <li class="dropdown pull-right">
+                                                            <a title="{{"LANGUAGE" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-lang-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/>
                             {{(app.session.get('app_lang_name') == null or app.session.get('app_lang_name') == "") ? "Español" : app.session.get('app_lang_name')}} <b class="caret caret-new"></b></a>
-                        <ul class="dropdown-menu">
+                                                                <ul class="dropdown-menu">
                             {{ render(controller('frontEndBundle:language:get_languages')) }}
-                        </ul>
-                    </li>
-                    <li class="nav-divider pull-right">&nbsp;</li>
-                    <li class="dropdown pull-right">
-                        <a title="{{"CURRENCY" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-curr-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/>
+                                                                    </ul>
+                                                                </li>
+                                                                <li class="nav-divider pull-right">&nbsp;</li>
+                                                                <li class="dropdown pull-right">
+                                                                    <a title="{{"CURRENCY" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-curr-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/>
                             {{(app.session.get('curr_acronym') == null or app.session.get('curr_acronym') == "") ? "CUC" : app.session.get('curr_acronym')|upper}} <b class="caret caret-new"></b></a>
-                        <ul class="dropdown-menu">
+                                                                        <ul class="dropdown-menu">
                             {{ render(controller('frontEndBundle:currency:get_currencies', {'params': app.request.attributes.all})) }}
-                        </ul>
-                    </li>
-                    <li class="nav-divider pull-right">&nbsp;</li>
-                </div>
-            </div>
+                                                                            </ul>
+                                                                        </li>
+                                                                        <li class="nav-divider pull-right">&nbsp;</li>
+                                                                </div>
+                                                            </div>
 
-        </div>
-    </div>
-</div>
-<div id="top-menu-cont" style="height: {% if is_home is defined %}52px;{% else %}{% if reservation_confirm is defined %}76px{% else %}95px{% endif %}{% endif %}">
-<nav id="top-menu" role="navigation" class="navbar navbar-inverse bg-gradient-blue" style="{% if is_home is defined %}border-bottom: solid #98CD34 7px;{% endif %}">
-    <div class="navbar-header">
-        <button data-target=".navbar-ex1-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
-            <span class="sr-only">Menu</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-    </div>
-    <div class="container">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="top-menu-cont" style="height: {% if is_home is defined %}52px;{% else %}{% if reservation_confirm is defined %}76px{% else %}95px{% endif %}{% endif %}">
+                                                    <nav id="top-menu" role="navigation" class="navbar navbar-inverse bg-gradient-blue" style="{% if is_home is defined %}border-bottom: solid #98CD34 7px;{% endif %}">
+                                                        <div class="navbar-header">
+                                                            <button data-target=".navbar-ex1-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+                                                                <span class="sr-only">Menu</span>
+                                                                <span class="icon-bar"></span>
+                                                                <span class="icon-bar"></span>
+                                                                <span class="icon-bar"></span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="container">
     {{ include('frontEndBundle:utils:navTopBody.html.twig') }}
-    </div>
+                                                            </div>
     {% if is_home is not defined %}
-    <div class="breadcrumb-top">
-        <div class="container">
+                                                            <div class="breadcrumb-top">
+                                                                <div class="container">
             {% block breadcrumbs %}
-               <a href="#">&nbsp;</a>
+                                                                        <a href="#">&nbsp;</a>
             {% endblock %}
-        </div>
-    </div>
+                                                                    </div>
+                                                                </div>
     {% endif %}
-</nav>
+                                                            </nav>
 
-</div>
+                                                        </div>
 {% block big_banner %}{% endblock %}
     {% for message in app.session.flashbag.get('message_global_success') %}
-        <div class="container">
-        <br/>
-        <div class="alert alert-info" style="margin-bottom: 10px">{{ message }}</div>
-        </div>
+                                                        <div class="container">
+                                                            <br/>
+                                                            <div class="alert alert-info" style="margin-bottom: 10px">{{ message }}</div>
+                                                        </div>
     {% endfor %}
 {% block body %}
 {% block include_javascripts %}{% endblock %}
 {% endblock %}
-<hr>
-<p class="text-center"><a title="{{"GO_UP" | trans }}" href="#"><em class="icon-chevron-up"></em></a></p>
-<footer class="bg-gradient-blue">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-2">
-                <h3>{{"DESTINATIONS" | trans}}</h3>
-                <ul>
-                    <li><a title="My Casa Particular - {{"TOP_DESTINATIONS" | trans}}" href="{{ path('frontend_list_destinations')}}">{{"TOP_DESTINATIONS" | trans}}</a></li>
-                    <li><a title="My Casa Particular - {{"MOST_VISITED_CITIES" | trans}}" href="{{path('frontend_get_with_reservations_municipality')}}">{{"MOST_VISITED_CITIES" | trans}}</a></li>
-                </ul>
-            </div>
-            <div class="col-xs-2">
-                <h3>{{"ACCOMMODATIONS" | trans}}</h3>
-                <ul>
-                    <li><a title="My Casa Particular - {{"TOP_RATED" | trans}}" href="{{ path('frontend_voted_best_list_ownership')}}">{{"TOP_RATED" | trans}}</a></li>
-                    <li><a title="My Casa Particular - {{"Penthouse" | trans}}" href="{{ path('frontend_type_list_ownership',{'type':'penthouse'})}}">{{"Penthouse" | trans}}</a></li>
-                    <li><a title="My Casa Particular - {{"Villa con piscina" | trans}}" href="{{ path('frontend_type_list_ownership',{'type':'villa-con-piscina'})}}">{{"Villa con piscina" | trans}}</a></li>
-                    <li><a title="My Casa Particular - {{"Apartamento" | trans}}" href="{{ path('frontend_type_list_ownership',{'type':'apartamento'})}}">{{"Apartamento" | trans}}</a></li>
-                    <li><a title="My Casa Particular - {{"Casa particular" | trans}}" href="{{ path('frontend_type_list_ownership',{'type':'casa-particular'})}}">{{"Casa particular" | trans}}</a></li>
-                    <li><a title="My Casa Particular - {{"Propiedad completa" | trans}}" href="{{ path('frontend_type_list_ownership',{'type':'propiedad-completa'})}}">{{"Propiedad completa" | trans}}</a></li>
-                </ul>
-            </div>
-            <div class="col-xs-2">
-                <h3>{{"ABOUT_MYCP" | trans}}</h3>
-                <ul>
-                    <li><a title="My Casa Particular - {{"WHO_ARE_WE" | trans}}" href="{{ path('frontend_about_us')}}">{{"WHO_ARE_WE" | trans}}</a></li>
-                    <li><a title="My Casa Particular - {{"CONTACT_US" | trans}}" href="{{path('frontend_contact_user')}}">{{"CONTACT_US" | trans}}</a></li>
-                    <li><a title="My Casa Particular - {{"FAQ" | trans}}" href="{{path('frontend_list_faq')}}">{{"FAQ" | trans}}</a></li>
-                    <li><a title="My Casa Particular - {{"LEGAL_TERMS" | trans}}" href="{{path('frontend_legal_terms')}}">{{"LEGAL_TERMS" | trans}}</a></li>
-                    <li><a title="My Casa Particular - {{"SECURITY_AND_PRIVACITY" | trans}}" href="{{path('frontend_security_privacity')}}">{{"SECURITY_AND_PRIVACITY" | trans}}</a></li>
-                </ul>
-            </div>
-            <div class="col-xs-3">
-                <h3>{{"OUR_SERVICES" | trans}}</h3>
-                <ul>
-                    <li><a title="My Casa Particular - {{"SITE_MAP" | trans}}"  href="{{ path ('frontend_sitemap_information')}}">{{"SITE_MAP" | trans}}</a></li>
-                </ul>
-            </div>
-            <div class="col-xs-3 text-right">
-                <img id="firm" src="{{ asset('bundles/frontend/img/seal_'~app.session.get('app_lang_code')|lower)}}.png" width="" title="MyCasaParticular.com">
-            </div>
-        </div>
-        <div style="margin: 0 0 10px;">
-            <a title="{{"HOMEPAGE_TITLE" | trans}}" href="{{ path('frontend_welcome') }}" >
-            <img alt="{{"HOMEPAGE_TITLE" | trans}}" src="{{ asset('bundles/frontend/img/mycp-grey.png')}}">
-            </a>
-        </div>
-        <div class="row">
-            <div class="col-sm-8">
-                <p>&copy; 2009 - {{'today'|date('Y')}}. <a style="font-size: 11px; color: #ffffff" href="http://www.mycasaparticular.com">MyCasaParticular.com</a>.
+                                                        <hr>
+                                                        <p class="text-center"><a title="{{"GO_UP" | trans }}" href="#"><em class="icon-chevron-up"></em></a></p>
+                                                        <footer class="bg-gradient-blue">
+                                                            <div class="container">
+                                                                <div class="row">
+                                                                    <div class="col-xs-2">
+                                                                        <h3>{{"DESTINATIONS" | trans}}</h3>
+                                                                        <ul>
+                                                                            <li><a title="My Casa Particular - {{"TOP_DESTINATIONS" | trans}}" href="{{ path('frontend_list_destinations')}}">{{"TOP_DESTINATIONS" | trans}}</a></li>
+                                                                            <li><a title="My Casa Particular - {{"MOST_VISITED_CITIES" | trans}}" href="{{path('frontend_get_with_reservations_municipality')}}">{{"MOST_VISITED_CITIES" | trans}}</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    <div class="col-xs-2">
+                                                                        <h3>{{"ACCOMMODATIONS" | trans}}</h3>
+                                                                        <ul>
+                                                                            <li><a title="My Casa Particular - {{"TOP_RATED" | trans}}" href="{{ path('frontend_voted_best_list_ownership')}}">{{"TOP_RATED" | trans}}</a></li>
+                                                                            <li><a title="My Casa Particular - {{"Penthouse" | trans}}" href="{{ path('frontend_type_list_ownership',{'type':'penthouse'})}}">{{"Penthouse" | trans}}</a></li>
+                                                                            <li><a title="My Casa Particular - {{"Villa con piscina" | trans}}" href="{{ path('frontend_type_list_ownership',{'type':'villa-con-piscina'})}}">{{"Villa con piscina" | trans}}</a></li>
+                                                                            <li><a title="My Casa Particular - {{"Apartamento" | trans}}" href="{{ path('frontend_type_list_ownership',{'type':'apartamento'})}}">{{"Apartamento" | trans}}</a></li>
+                                                                            <li><a title="My Casa Particular - {{"Casa particular" | trans}}" href="{{ path('frontend_type_list_ownership',{'type':'casa-particular'})}}">{{"Casa particular" | trans}}</a></li>
+                                                                            <li><a title="My Casa Particular - {{"Propiedad completa" | trans}}" href="{{ path('frontend_type_list_ownership',{'type':'propiedad-completa'})}}">{{"Propiedad completa" | trans}}</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    <div class="col-xs-2">
+                                                                        <h3>{{"ABOUT_MYCP" | trans}}</h3>
+                                                                        <ul>
+                                                                            <li><a title="My Casa Particular - {{"WHO_ARE_WE" | trans}}" href="{{ path('frontend_about_us')}}">{{"WHO_ARE_WE" | trans}}</a></li>
+                                                                            <li><a title="My Casa Particular - {{"CONTACT_US" | trans}}" href="{{path('frontend_contact_user')}}">{{"CONTACT_US" | trans}}</a></li>
+                                                                            <li><a title="My Casa Particular - {{"FAQ" | trans}}" href="{{path('frontend_list_faq')}}">{{"FAQ" | trans}}</a></li>
+                                                                            <li><a title="My Casa Particular - {{"LEGAL_TERMS" | trans}}" href="{{path('frontend_legal_terms')}}">{{"LEGAL_TERMS" | trans}}</a></li>
+                                                                            <li><a title="My Casa Particular - {{"SECURITY_AND_PRIVACITY" | trans}}" href="{{path('frontend_security_privacity')}}">{{"SECURITY_AND_PRIVACITY" | trans}}</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    <div class="col-xs-3">
+                                                                        <h3>{{"OUR_SERVICES" | trans}}</h3>
+                                                                        <ul>
+                                                                            <li><a title="My Casa Particular - {{"SITE_MAP" | trans}}"  href="{{ path ('frontend_sitemap_information')}}">{{"SITE_MAP" | trans}}</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    <div class="col-xs-3 text-right">
+                                                                        <img id="firm" src="{{ asset('bundles/frontend/img/seal_'~app.session.get('app_lang_code')|lower)}}.png" width="" title="MyCasaParticular.com">
+                                                                    </div>
+                                                                </div>
+                                                                <div style="margin: 0 0 10px;">
+                                                                    <a title="{{"HOMEPAGE_TITLE" | trans}}" href="{{ path('frontend_welcome') }}" >
+                                                                        <img alt="{{"HOMEPAGE_TITLE" | trans}}" src="{{ asset('bundles/frontend/img/mycp-grey.png')}}">
+                                                                    </a>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-8">
+                                                                        <p>&copy; 2009 - {{'today'|date('Y')}}. <a style="font-size: 11px; color: #ffffff" href="http://www.mycasaparticular.com">MyCasaParticular.com</a>.
                     {{"FOOTER_COPYRIGHT" | trans}}.</p>
-            </div>
-            <div id="social" class="col-sm-4 text-right">
+                                                                        </div>
+                                                                        <div id="social" class="col-sm-4 text-right">
                 {{ include('frontEndBundle:utils:netSocials.html.twig') }}
-            </div>
-        </div>
-    </div>
-        </footer>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </footer>
 
-    </body>
-    <script src="{{ asset('bundles/frontend/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('bundles/frontend/js/bootstrap-datepicker.js') }}"></script>
-    <script src="{{ asset('bundles/frontend/js/bootstrap-datepicker.es.js') }}"></script>
-    <script src="{{ asset('bundles/frontend/js/bootstrap-datepicker.de.js') }}"></script>
-    <script src="{{ asset('bundles/frontend/js/respond.min.js') }}"></script>
-    <script src="{{ asset('bundles/frontend/js/jail.min.js') }}"></script>
-    <script src="{{ asset('bundles/frontend/js/custom.min.js') }}"></script>
-    <script type="text/javascript">
-        topmenucont=$('#top-menu-cont');
-        topmenu=$("#top-menu").offset().top;
-        $('#top-menu').affix({
-            offset: {
-                top: function(){
-                    topmenucont.html="&nbsp;";
-                    return topmenu;
-                }
-            }
-        });
+                                                            </body>
+                                                            <script src="{{ asset('bundles/frontend/js/bootstrap.min.js') }}"></script>
+                                                            <script src="{{ asset('bundles/frontend/js/bootstrap-datepicker.js') }}"></script>
+                                                            <script src="{{ asset('bundles/frontend/js/bootstrap-datepicker.es.js') }}"></script>
+                                                            <script src="{{ asset('bundles/frontend/js/bootstrap-datepicker.de.js') }}"></script>
+                                                            <script src="{{ asset('bundles/frontend/js/respond.min.js') }}"></script>
+                                                            <script src="{{ asset('bundles/frontend/js/jail.min.js') }}"></script>
+                                                            <script src="{{ asset('bundles/frontend/js/custom.min.js') }}"></script>
+                                                            <script type="text/javascript">
+                                                                topmenucont = $('#top-menu-cont');
+                                                                topmenu = $("#top-menu").offset().top;
+                                                                $('#top-menu').affix({
+                                                                    offset: {
+                                                                        top: function() {
+                                                                            topmenucont.html = "&nbsp;";
+                                                                            return topmenu;
+                                                                        }
+                                                                    }
+                                                                });
 
-        $(function(){
-            $('img.lazy').jail();
-        });
-    </script>
-    <script>
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-16697066-1']);
-        _gaq.push(['_trackPageview']);
+                                                                $(function() {
+                                                                    $('img.lazy').jail();
+                                                                });
+                                                                </script>
+                                                                <script>
+                                                                    var _gaq = _gaq || [];
+                                                                    _gaq.push(['_setAccount', 'UA-16697066-1']);
+                                                                    _gaq.push(['_trackPageview']);
 
-        (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-    </script>
-</html>
+                                                                    (function() {
+                                                                        var ga = document.createElement('script');
+                                                                        ga.type = 'text/javascript';
+                                                                        ga.async = true;
+                                                                        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                                                                        var s = document.getElementsByTagName('script')[0];
+                                                                        s.parentNode.insertBefore(ga, s);
+                                                                    })();
+                                                                    </script>
+                                                                </html>
