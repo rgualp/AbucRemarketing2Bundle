@@ -20,7 +20,7 @@ class userController extends Controller {
         $errors = array();
         $all_post = array();
         $data=array();
-        $data['countries']=$em->getRepository('mycpBundle:country')->findAll();
+        $data['countries']=$em->getRepository('mycpBundle:country')->findAllByAlphabetical();
 
         $form = $this->createForm(new registerUserType($this->get('translator'), $data));
         if ($request->getMethod() == 'POST') {
