@@ -1,12 +1,14 @@
 {% extends 'frontEndBundle:layout:base.html.twig' %}
 {% block title %}
-    <h2>Waiting for payment...</h2>
+    Waiting for payment...
 {% endblock %}
 
 
 {% block body %}
+    <div class="container">
     <div id="loading" class="alert alert-info">
         <img src="{{ asset('bundles/frontend/img/preloader-white.gif') }}"/> {{"LOADING_MESSAGE" | trans}}
+    </div>
     </div>
 
 {% block include_javascripts_and_css %}
