@@ -1,5 +1,8 @@
 
-{%if metas != null and metas != ""%}
-<meta name="description" content="{{ metas.getMetaLangDescription }}">
-<meta name="keywords" content="{{ metas.getMetaLangKeywords }}">
-{%endif%}
+<meta name="description" content="{{ (metas != null and metas != "") ? metas.getMetaLangDescription: "" }}">
+<meta name="keywords" content="{{ (metas != null and metas != "") ? metas.getMetaLangKeywords : "" }}">
+
+
+
+
+

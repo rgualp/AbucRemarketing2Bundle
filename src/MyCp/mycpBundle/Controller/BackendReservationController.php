@@ -329,7 +329,7 @@ class BackendReservationController extends Controller
 
     public function details_reservationAction($id_reservation,Request $request)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $reservation=new generalReservation();
         $reservation=$em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
         $ownership_reservations=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id'=>$id_reservation));
@@ -402,6 +402,7 @@ class BackendReservationController extends Controller
                 $service_log->save_log('Edit entity for CAS.'.$reservation->getGenResId(),7);
 
                 $this->get('session')->getFlashBag()->add('message_ok',$message);
+
             }
 
         }
@@ -453,7 +454,7 @@ class BackendReservationController extends Controller
             $array_dates= $service_time->dates_between($res->getOwnResReservationFromDate()->getTimestamp(),$res->getOwnResReservationToDate()->getTimestamp());
             array_push($array_nigths,count($array_dates));
         }
-        $this->get('translator')->setLocale($user_tourist[0]->getUserTouristLanguage()->getLangCode());
+        $user_locale = $user_tourist[0]->getUserTouristLanguage()->getLangCode();
 
         $message = $this->getRequest()->get('message_to_client');
         $message[0]=strtoupper($message[0]);
@@ -464,7 +465,8 @@ class BackendReservationController extends Controller
             'reservations'=>$reservations,
             'photos'=>$array_photos,
             'nights'=>$array_nigths,
-            'message'=>$message
+            'message'=>$message,
+            'user_locale' => $user_locale
         ));
         
         $locale = $this->get('translator');
@@ -478,11 +480,17 @@ class BackendReservationController extends Controller
             $body
         );*/
 
+        //send reserved reservations
+
         $service_email= $this->get('Email');
+
         $custom_message = $this->getRequest()->get('message_to_client');
         if(isset($custom_message[0]))
             $custom_message[0]=strtoupper($custom_message[0]);
         $service_email->send_reservation($id_reservation,$custom_message);
+
+
+
 
         $message='Reserva enviada satisfactoriamente';
         $this->get('session')->getFlashBag()->add('message_ok',$message);

@@ -32,16 +32,33 @@ class RequestListener {
         {
             $this->container->get('session')->set('app_last_route',$attr['_route']);
             $this->container->get('session')->set('app_last_route_params',$attr['_route_params']);
+
+            $lang =substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,2);
+            $lang=strtolower($lang);
+            if($this->container->get('session')->get('browser_lang')!= null && $this->container->get('session')->get('browser_lang')!=strtolower($lang))
+            {
+                $lang_db=$this->em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code'=>$lang,'lang_active'=>1));
+                if(!$lang_db)
+                {
+                    $langs_db=$this->em->getRepository('mycpBundle:lang')->findBy(array('lang_active'=>1));
+                    $lang= strtolower($langs_db[0]->getLangCode());
+                }
+                if($lang!=$this->container->get('session')->get('browser_lang'))
+                {
+                    $this->container->get('session')->set('browser_lang',$lang);
+                    $last_route=$this->container->get('session')->get('app_last_route');
+                    $last_route_params=$this->container->get('session')->get('app_last_route_params');
+                    $last_route_params['_locale']=$lang;
+                    $last_route_params['locale']=$lang;
+                    $new_route=$this->container->get('router')->generate($last_route,$last_route_params);
+                    $event->setResponse(new RedirectResponse($new_route));
+                }
+
+
+            }
         }
-        //var_dump($this->container->get('session')->get('app_last_route'));
 
 
-       /* $lang_name=$this->container->get('Request')->getSession()->get('app_lang_name');
-        $user = $this->container->get('security.context')->getToken()->getUser();
-        if($user!='anon.')
-        {
-            //var_dump($user);
-        }*/
     }
 
 }

@@ -10,6 +10,10 @@ mycp:
     resource: "@mycpBundle/Resources/config/routing.yml"
     prefix:   /
 
+mycp_sitemap:
+    path: /sitemap.{_format}
+    defaults: { _controller: frontEndBundle:public:site_map }
+
 mycp_own_details:
     pattern:  /{own_code}
     defaults: { _controller: frontEndBundle:ownership:own_details_direct }
@@ -40,3 +44,7 @@ frontend_change_currency:
     defaults: { _controller: frontEndBundle:currency:change_currency }
 
 
+# The routing for website migration should always be included last!
+# So new routing files should be included before the following lines
+frontend_website_migration:
+    resource: "@frontEndBundle/Resources/config/routingFrontendWebsiteMigration.yml"

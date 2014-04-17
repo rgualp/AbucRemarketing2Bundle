@@ -545,7 +545,7 @@ class ownershipRepository extends EntityRepository {
                             o.own_type as type,
                             o.own_minimum_price as minimum_price,
                             (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
-                            (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
+                            (SELECT count(room) FROM mycpBundle:room room WHERE room.room_ownership=o.own_id) as rooms_count,
                             (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = 5) as count_reservations,
                             (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments,
                             o.own_facilities_breakfast as breakfast,
@@ -575,7 +575,7 @@ class ownershipRepository extends EntityRepository {
                             o.own_type as type,
                             o.own_minimum_price as minimum_price,
                             (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
-                            (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
+                            (SELECT count(room) FROM mycpBundle:room room WHERE room.room_ownership=o.own_id) as rooms_count,
                             (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = 5) as count_reservations,
                             (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments ,
                             o.own_facilities_breakfast as breakfast,
@@ -640,7 +640,7 @@ class ownershipRepository extends EntityRepository {
                 $where = $where . ($where != '' ? " AND " : " WHERE ") . "r.room_type IN (" . $this->getStringFromArray($filters['room_type']) . ")";
 
             if (key_exists('room_climatization', $filters) && $filters['room_climatization'] != null && $filters['room_climatization'] != 'null' && $filters['room_climatization'] != '')
-                $where = $where . ($where != '' ? " AND " : " WHERE ") . "r.room_climate = '" . $filters['room_climatization'] . "'";
+                $where = $where . ($where != '' ? " AND " : " WHERE ") . "r.room_climate LIKE '%" . $filters['room_climatization'] . "%'";
 
             if (key_exists('room_safe', $filters) && $filters['room_safe'])
                 $where = $where . ($where != '' ? " AND " : " WHERE ") . "r.room_safe = 1";
@@ -1165,7 +1165,7 @@ class ownershipRepository extends EntityRepository {
                 $is_room_triple = true;
             }
 
-            if ($room->getRoomClimate() != null && $room->getRoomClimate() == 'Aire acondicionado' && !$is_room_climatization) {
+            if ($room->getRoomClimate() != null && ($room->getRoomClimate() == 'Aire acondicionado' || $room->getRoomClimate() == 'Aire acondicionado / Ventilador') && !$is_room_climatization) {
                 $statistics['room_climatization'] += 1;
                 $is_room_climatization = true;
             }

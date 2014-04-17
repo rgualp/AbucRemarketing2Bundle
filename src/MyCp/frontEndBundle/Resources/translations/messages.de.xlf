@@ -100,15 +100,15 @@
             </trans-unit>
             <trans-unit id="25">
                 <source>FAQ</source>
-                <target>Häufige Fragen</target>
+                <target>FAQ</target>
             </trans-unit>
             <trans-unit id="26">
                 <source>LEGAL_TERMS</source>
-                <target>Rechtliche Fristen</target>
+                <target>AGB</target>
             </trans-unit>
             <trans-unit id="27">
                 <source>SECURITY_AND_PRIVACITY</source>
-                <target>Sicherheit und Privatsphäre</target>
+                <target>Datenschutz</target>
             </trans-unit>
             <trans-unit id="28">
                 <source>CONTACT_US</source>
@@ -1364,11 +1364,11 @@
             </trans-unit>
             <trans-unit id="350">
                 <source>SITEMAP</source>
-                <target>Stadtplan</target>
+                <target>Sitemap</target>
             </trans-unit>
             <trans-unit id="351">
                 <source>SITEMAP_CONTENT</source>
-                <target>Beschreibung zum Stadtplan</target>
+                <target>Sitemap-Beschreibung</target>
             </trans-unit>
             <trans-unit id="352">
                 <source>HOW_IT_WORKS_CONTENT</source>
@@ -1376,7 +1376,7 @@
             </trans-unit>
             <trans-unit id="353">
                 <source>USER_COMUNITY</source>
-                <target>Benutzergemeinschaft</target>
+                <target>Community</target>
             </trans-unit>
             <trans-unit id="354">
                 <source>FIRST_PAGE</source>
@@ -2216,7 +2216,7 @@
                 </trans-unit>
                 <trans-unit id="564">
                     <source>DO_YOU_WISH_TO_RECOMEND_THIS_ACCOMODATTION</source>
-                    <target>Wünschst du eine Empfehlung für eine Unterkunft von MyCasaParticular</target>
+                    <target>empfiehlt Dir eine Unterkunft von MyCasaParticular</target>
                 </trans-unit>
                 <trans-unit id="565">
                     <source>DO_YOU_WISH_TO_RECOMEND_THIS_DESTINATION</source>
@@ -2424,7 +2424,7 @@
                 </trans-unit>
                 <trans-unit id="616">
                     <source>FOOTER_EMAIL</source>
-                    <target><![CDATA[Fügen Sie reservation@mycasaparticular.com zu Ihrem Adressbuch oder Ihrer Liste sicherer Absender hinzu, um sicherzustellen, dass Sie auch weiterhin diese E-Mails erhalten. <br/><br/>Unsere Datenschutzrichtlinie <a href="%policieslink%"> lesen Sie hier. </A><br/><br/>Die Preise können sich vor der Zahlung ändern. Die Preise beinhalten keine Bearbeitungsgebühren. Alle Unterkünfte sind je nach Verfügbarkeit zu überprüfen. Sehen Sie unsere Nutzungsbedingungen für weitere Details. <br/><br/>MyCasaParticular.com ist ein Service von GmbH ABUC Mediennetzwerk mit Handelsregisternummer CH-270.4.002.844-1 in Basel. Schweiz.]]></target>
+                    <target><![CDATA[Fügen Sie reservation@mycasaparticular.com zu Ihrem Adressbuch oder Ihrer Liste sicherer Absender hinzu, um sicherzustellen, dass Sie auch weiterhin E-Mails von uns erhalten können. <br/><br/>Unsere Datenschutzrichtlinie <a href="%policieslink%"> lesen Sie hier. </A><br/><br/>Die Preise können sich vor der Zahlung ändern. Die Preise beinhalten keine Bearbeitungsgebühren. Alle Unterkünfte sind auf Verfügbarkeit zu überprüfen. Lesen Sie unsere Nutzungsbedingungen für weitere Details. <br/><br/>MyCasaParticular.com ist ein Service der ABUC media network GmbH, Handelsregisternummer CH-270.4.002.844-1 in Basel, Schweiz.]]></target>
                 </trans-unit>
                 <trans-unit id="617">
                     <source>OF</source>
