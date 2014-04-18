@@ -1,3 +1,8 @@
+# To catch all outdated routes of the old website the routing
+# for website migration must be included first!
+frontend_website_migration:
+    resource: "@frontEndBundle/Resources/config/routingFrontendWebsiteMigration.yml"
+
 backend_login_check:
     pattern:  /backend/login_check
 backend_login:
@@ -43,8 +48,3 @@ frontend_change_currency:
     pattern:  /change_currency/{curr_code}
     defaults: { _controller: frontEndBundle:currency:change_currency }
 
-
-# The routing for website migration should always be included last!
-# So new routing files should be included before the following lines
-frontend_website_migration:
-    resource: "@frontEndBundle/Resources/config/routingFrontendWebsiteMigration.yml"
