@@ -11,6 +11,7 @@ use MyCp\mycpBundle\Entity\payment;
 use MyCp\mycpBundle\Entity\skrillPayment;
 use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Entity\userTourist;
+use MyCp\mycpBundle\Helpers\SyncStatuses;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -163,7 +164,18 @@ class paymentController extends Controller {
         $skrillPayment->setPayment($payment);
         $em->persist($payment);
         $em->persist($skrillPayment);
+        
+        $reservation = $em->getRespository('mycpBundle:ownershipreservation')->findOneBy(array('own_res_reservation_booking' => $booking->getBookingId()));
+        
+        if($reservation != null)
+        {
+            $reservation->setOwnResSyncSt(SyncStatuses::UPDATED);
+            $em->persist($reservation);
+        }
+        
         $em->flush();
+        
+        
 
         $this->log(date(DATE_RSS) . ' - PaymentController line ' . __LINE__ . ': Payment ID: ' . $payment->getId() . "\nSkrillRequest ID: " . $skrillPayment->getId());
 
