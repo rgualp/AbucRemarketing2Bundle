@@ -305,7 +305,7 @@ class MycpCFController extends Controller {
 
         $uds = $em->getRepository('mycpBundle:unavailabilityDetails')->getNotSynchronized();
         foreach ($uds as $ud) {
-            $this->_normalizeBySyncStatus($em, $uds, $ud->getUdSyncSt());
+            $this->_normalizeBySyncStatus($em, $ud, $ud->getUdSyncSt());
         }
         $em->flush();
         return self::SUCCESS_CONFIRM_MSG;
