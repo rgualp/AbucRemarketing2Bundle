@@ -461,9 +461,11 @@ class reservationController extends Controller
         $session = $request->getSession();
 
         $array_ids = $session->get('reservation_own_ids');
+        //var_dump($array_ids); exit();
         if (!$array_ids) {
-            return $this->redirect($this->generateUrl('frontend_mycasatrip_available'));
+            return $this->forward('frontEndBundle:mycasatrip:reservations_available', array('order_by'=>0));
         }
+
         $service_time = $this->get('time');
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -586,31 +588,29 @@ class reservationController extends Controller
                     $booking->setBookingCancelProtection(1);
                 else
                     $booking->setBookingCancelProtection(0);
-
-                $curr_rate = $session->get('curr_rate');
-
-                if (!$curr_rate) $curr_rate = 1;
                 $currency=null;
-                if(!$userTourist->getUserTouristCurrency())
+
+                if($session->get('curr_acronym')==null OR $session->get('curr_acronym')=='CUC')
                 {
-                    $currency = $em->getRepository('currency')->findOneBy(array('curr_code'=>'usd'));
+                    $currency = $em->getRepository('mycpBundle:currency')->findOneBy(array('curr_code'=>'USD'));
                 }
                 else
                 {
-                    $currency = $userTourist->getUserTouristCurrency();
+                    $currency = $em->getRepository('mycpBundle:currency')->findOneBy(array('curr_code'=>$session->get('curr_acronym')));
+
                 }
 
                 $booking->setBookingCurrency($currency);
-                $booking->setBookingPrepay(($total_percent_price + 10) * $curr_rate);
+                $booking->setBookingPrepay(($total_percent_price + 10) * $currency->getCurrCucChange());
                 $booking->setBookingUserId($user->getUserId());
                 $booking->setBookingUserDates($user->getUserUserName() . ', ' . $user->getUserEmail());
                 $em->persist($booking);
+                //var_dump($booking); exit();
 
                 foreach ($own_reservations as $own_res) {
                     $own = new ownershipReservation();
                     $own = $em->getRepository('mycpBundle:ownershipReservation')->find($own_res);
                     $own->setOwnResReservationBooking($booking);
-                    $own->setOwnResStatus(2);
                     $em->persist($own);
 
                     //Colocando la hora de llegada
@@ -658,6 +658,7 @@ class reservationController extends Controller
 
     function confirmationAction($id_booking)
     {
+
         $em = $this->getDoctrine()->getManager();
         $payment=$em->getRepository('mycpBundle:payment')->findOneBy(array('booking'=>$id_booking));
         if(!$payment)
@@ -675,22 +676,17 @@ class reservationController extends Controller
         {
             case 0:
                 $this->payment_processed($id_booking,1);
-                return $this->redirect(
-                    $this->generateUrl('frontend_view_confirmation_reservation'
-                        , array('id_booking'=>$id_booking)));
-
+                return $this->forward('frontEndBundle:reservation:view_confirmation', array('id_booking' => $id_booking));
                 break;
             case 2:
                 $this->payment_processed($id_booking);
-                return $this->redirect(
-                    $this->generateUrl('frontend_view_confirmation_reservation'
-                        , array('id_booking'=>$id_booking)));
+                return $this->forward('frontEndBundle:reservation:view_confirmation', array('id_booking' => $id_booking));
                 break;
             case -1:
-                return $this->redirect($this->generateUrl('frontend_reservation_reservation'));
+                return $this->forward('frontEndBundle:reservation:reservation_reservation');
                 break;
             case -2:
-                return $this->redirect($this->generateUrl('frontend_reservation_reservation'));
+                return $this->forward('frontEndBundle:reservation:reservation_reservation');
                 break;
             default:
                 throw $this->createNotFoundException();
@@ -702,7 +698,6 @@ class reservationController extends Controller
 
     function payment_processed($id_booking, $payment_pending=0)
     {
-
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         if(!$user)
@@ -726,6 +721,7 @@ class reservationController extends Controller
         $array_houses_ids=array();
         $array_ownres_by_house=array();
         $service_time=$this->get('time');
+
         $cont=0;
         foreach ($own_res as $own) {
             $general=$own->getOwnResGenResId();
@@ -780,6 +776,7 @@ class reservationController extends Controller
 
         // Enviando mail al cliente
         $service_email = $this->get('Email');
+
         $body=$this->render('frontEndBundle:mails:email_offer_available.html.twig',array(
             'booking'=>$id_booking,
             'user'=>$user,
@@ -788,6 +785,7 @@ class reservationController extends Controller
             'nights'=>$array_nigths,
             'user_locale' => $user_locale
         ));
+        //echo $body; exit();
         $locale = $this->get('translator');
         $subject = $locale->trans('PAYMENT_CONFIRMATION');
         $service_email->send_email(
@@ -812,7 +810,7 @@ class reservationController extends Controller
             );
 
         }
-
+        //echo $body_res; exit();
         // enviando mail al propietario
         foreach($array_ownres_by_house as $owns)
         {
@@ -828,7 +826,6 @@ class reservationController extends Controller
                     'Confirmación de reserva', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', $prop_email, $body_prop
                 );
         }
-
 
     }
 
@@ -869,7 +866,6 @@ class reservationController extends Controller
             }
         }
 
-
         if($to_print==true)
         {
             return $this->renderView('frontEndBundle:reservation:boucherReservation.html.twig', array(
@@ -883,9 +879,7 @@ class reservationController extends Controller
                 'commissions' => $commissions
             ));
         }
-        else
-        {
-            return $this->render('frontEndBundle:reservation:confirmReservation.html.twig', array(
+        return $this->render('frontEndBundle:reservation:confirmReservation.html.twig', array(
                 'own_res' => $own_res,
                 'user' => $user,
                 'booking' => $booking,
@@ -895,8 +889,6 @@ class reservationController extends Controller
                 'total_percent_price' => $total_percent_price,
                 'commissions' => $commissions
             ));
-        }
-
     }
 
     function generate_pdf_boucherAction($id_booking,$name="voucher")

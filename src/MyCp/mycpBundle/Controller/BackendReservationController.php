@@ -2,6 +2,7 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use MyCp\mycpBundle\Entity\booking;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -432,65 +433,32 @@ class BackendReservationController extends Controller
 
     public function send_reservationAction($id_reservation)
     {
-        /*$em = $this->getDoctrine()->getEntityManager();
-        $reservation=new generalReservation();
-        $reservation=$em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
-        $reservation->setGenResStatus(1);
-        $reservation->setGenResStatusDate(new \DateTime(date('Y-m-d')));
-        $reservation->setGenResHour(date('G'));
-        $em->persist($reservation);
-        $em->flush();
-        $reservations=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id'=>$id_reservation));
-        $user=$reservation->getGenResUserId();
-        $user_tourist=$em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user'=>$user->getUserId()));
-        $array_photos=array();
-        $array_nigths=array();
-        $service_time=$this->get('time');
-
-        foreach($reservations as $res)
-        {
-            $photos=$em->getRepository('mycpBundle:ownership')->getPhotos($res->getOwnResGenResId()->getGenResOwnId()->getOwnId());
-            array_push($array_photos,$photos);
-            $array_dates= $service_time->dates_between($res->getOwnResReservationFromDate()->getTimestamp(),$res->getOwnResReservationToDate()->getTimestamp());
-            array_push($array_nigths,count($array_dates));
-        }
-        $user_locale = $user_tourist[0]->getUserTouristLanguage()->getLangCode();
-
-        $message = $this->getRequest()->get('message_to_client');
-        $message[0]=strtoupper($message[0]);
-
-        // Enviando mail al cliente
-        $body=$this->render('frontEndBundle:mails:email_offer_available.html.twig',array(
-            'user'=>$user,
-            'reservations'=>$reservations,
-            'photos'=>$array_photos,
-            'nights'=>$array_nigths,
-            'message'=>$message,
-            'user_locale' => $user_locale
-        ));
-        
-        $locale = $this->get('translator');
-        $subject=$locale->trans('REQUEST_STATUS_CHANGED');
         $service_email= $this->get('Email');
-        $service_email->send_email(
-            $subject,
-            'reservation@mycasaparticular.com',
-            'MyCasaParticular.com',
-            $user->getUserEmail(),
-            $body
-        );*/
-
-        //send reserved reservations
-
-        $service_email= $this->get('Email');
-
+        $service_time= $this->get('time');
         $custom_message = $this->getRequest()->get('message_to_client');
         if(isset($custom_message[0]))
             $custom_message[0]=strtoupper($custom_message[0]);
         $service_email->send_reservation($id_reservation,$custom_message);
 
+        //send reserved reservations
+        $em = $this->getDoctrine()->getManager();
+        $own_reservations=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id'=>$id_reservation,'own_res_status'=>5));
+        $booking= new booking();
+        $total_price=0;
+        if($own_reservations)
+        {
+            foreach($own_reservations as $own_reservation)
+            {
+                $dates_temp=$service_time->dates_between($own_reservation->getOwnResReservationFromDate()->getTimestamp(), $own_reservation->getOwnResReservationToDate()->getTimestamp());
+                $total_price+=$own_reservation->getOwnResNightPrice()*(count($dates_temp)-1);
+            }
+            $total_price=$total_price * $own_reservations[0]->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent() / 100;
+            $user=$own_reservations[0]->getOwnResGenResId()->getGenResUserId();
+            $user_tourist=$em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user'=>$user->getUserId()));
+            echo ($total_price + 10) * $user_tourist->getUserTouristCurrency()->getCurrCucChange();
+        }
 
-
+        //exit();
 
         $message='Reserva enviada satisfactoriamente';
         $this->get('session')->getFlashBag()->add('message_ok',$message);

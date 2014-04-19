@@ -125,7 +125,7 @@
         {% set total_nights = total_nights + nights[loop.index0] %}
         {% set total_price = total_price + nights[loop.index0] * reservation_rooms.getOwnResNightPrice %}
         <tr>
-            <td>CAS.{{reservation_rooms.getOwnResId}}</td>
+            <td>CAS.{{reservation_rooms.getOwnResGenResId.getGenResId}}</td>
             {% set res_type ='' %}
             {% if reservation_rooms.getOwnResRoomType %}
             {% set res_type = reservation_rooms.getOwnResRoomType %}

@@ -152,7 +152,7 @@
     <tr>
         <td><h2 class="no-margin">{{"TOTAL_TO_PAY_SERVICING" | trans}}</h2></td>
         <td class="text-right"><h2 class="no-margin">
-                {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ ceil_round(total_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))- (10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))+(ceil_round((total_percent_price) * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))))) }}
+                {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ ceil_round(total_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))- (ceil_round((total_percent_price) * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))) }}
             </h2></td>
     </tr>
     </tbody>

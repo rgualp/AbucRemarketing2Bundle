@@ -40,7 +40,7 @@ Por este medio le confirmamos la reservación (CAS.{{ reservations[0].getOwnResG
 <b>Fecha de arribo: </b> {{ reservation.getOwnResReservationFromDate|date('d/m/Y') }}
 <br/>
 <b>Noches: </b> {{ nights[reservation.getOwnResId] }}
-{% set subtotal = (nights[reservation.getOwnResId] * reservation.getOwnResNightPrice) - ( nights[reservation.getOwnResId] * reservation.getOwnResNightPrice * reservation.getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100  + 10)  %}
+{% set subtotal = (nights[reservation.getOwnResId] * reservation.getOwnResNightPrice) - ( nights[reservation.getOwnResId] * reservation.getOwnResNightPrice * reservation.getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100 )  %}
 {% set total_price = total_price + subtotal %}
 <br/>
 <br/>

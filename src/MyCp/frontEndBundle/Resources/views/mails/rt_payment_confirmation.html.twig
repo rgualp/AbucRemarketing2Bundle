@@ -39,7 +39,7 @@ Fecha: {{ "now"|date("D, d M Y H:m:s O") }}
 <b>Fecha de arribo: </b> {{ reservation.getOwnResReservationFromDate|date('d/m/Y') }}
 <br/>
 <b>Noches: </b> {{ nights[reservation.getOwnResId] }}
-{% set subtotal = (nights[reservation.getOwnResId] * reservation.getOwnResNightPrice) - ( nights[reservation.getOwnResId] * reservation.getOwnResNightPrice * reservation.getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100  + 10)  %}
+{% set subtotal = (nights[reservation.getOwnResId] * reservation.getOwnResNightPrice) - ( nights[reservation.getOwnResId] * reservation.getOwnResNightPrice * reservation.getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100)  %}
 {% set subtotal_payed = ( nights[reservation.getOwnResId] * reservation.getOwnResNightPrice * reservation.getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100  + 10)  %}
 {% set total_price = total_price + subtotal %}
 {% set total_payed = total_payed + subtotal_payed %}
