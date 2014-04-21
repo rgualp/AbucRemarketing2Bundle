@@ -165,9 +165,9 @@ class paymentController extends Controller {
         $em->persist($payment);
         $em->persist($skrillPayment);
         
-        $reservation = $em->getRespository('mycpBundle:ownershipreservation')->findOneBy(array('own_res_reservation_booking' => $booking->getBookingId()));
+        $reservations = $em->getRespository('mycpBundle:ownershipreservation')->findBy(array('own_res_reservation_booking' => $booking->getBookingId()));
         
-        if($reservation != null)
+        foreach($reservations as $reservation )
         {
             $reservation->setOwnResSyncSt(SyncStatuses::UPDATED);
             $em->persist($reservation);
