@@ -65,7 +65,10 @@ security:
         - { path: '^/[a-z]{2}/usuario/cesta/agregar', roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: '^/[a-z]{2}/usuario/cesta/vaciar', roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: '^/[a-z]{2}/usuario', roles: [ROLE_CLIENT_TOURIST] }
-        
+        - { path: '^/[a-z]{2}/payment', roles: [ROLE_CLIENT_TOURIST] }
+        - { path: '^/[a-z]{2}/pago', roles: [ROLE_CLIENT_TOURIST] }
+        - { path: '^/[a-z]{2}/zahlung', roles: [ROLE_CLIENT_TOURIST] }
+
         - { path: '^/[a-z]{2}/mycasatrip', roles: [ROLE_CLIENT_TOURIST] }
         - { path: '^/[a-z]{2}/perfil', roles: [ROLE_CLIENT_TOURIST] }
         - { path: '^/[a-z]{2}/profile', roles: [ROLE_CLIENT_TOURIST] }
