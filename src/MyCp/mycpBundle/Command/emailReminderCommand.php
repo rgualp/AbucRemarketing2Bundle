@@ -54,7 +54,7 @@ class EmailReminderCommand extends ContainerAwareCommand
                     'nights'=>$array_nigths,
                     'user_locale' => $user_locale
                 ));
-                $subject = $locale->trans('REMINDER');
+                $subject = $locale->trans('REMINDER', array(), "messages", $user_locale);
                 $service_email->send_email(
                     $subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com',
                     $gen_reservation->getGenResUserId()->getUserEmail(),

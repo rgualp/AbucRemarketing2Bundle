@@ -98,7 +98,7 @@ class Email {
             'user_locale' => $user_locale
         ));
         $locale = $this->container->get('translator');
-        $subject=$locale->trans('REQUEST_STATUS_CHANGED');
+        $subject=$locale->trans('REQUEST_STATUS_CHANGED', array(), "messages", $user_locale);
 
         $this->send_email(
             $subject,
