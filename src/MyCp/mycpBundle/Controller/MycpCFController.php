@@ -121,6 +121,7 @@ class MycpCFController extends Controller {
         foreach ($room_details as $i => $_room_detail) {
             $rooms_details_data[$i]["ri"] = $_room_detail->getOwnResGenResId()->getGenResId();
             $rooms_details_data[$i]["rn"] = $_room_detail->getOwnResSelectedRoomId();
+            $rooms_details_data[$i]["rt"] = $_room_detail->getOwnResRoomType();
             $rooms_details_data[$i]["ss"] = $_room_detail->getOwnResSyncSt();
             $rooms_details_data[$i]["st"] = $_room_detail->getOwnResStatus();
             $rooms_details_data[$i]["fd"] = $_room_detail->getOwnResReservationFromDate()->format('Y-m-d');
@@ -304,7 +305,7 @@ class MycpCFController extends Controller {
 
         $uds = $em->getRepository('mycpBundle:unavailabilityDetails')->getNotSynchronized();
         foreach ($uds as $ud) {
-            $this->_normalizeBySyncStatus($em, $uds, $ud->getUdSyncSt());
+            $this->_normalizeBySyncStatus($em, $ud, $ud->getUdSyncSt());
         }
         $em->flush();
         return self::SUCCESS_CONFIRM_MSG;
