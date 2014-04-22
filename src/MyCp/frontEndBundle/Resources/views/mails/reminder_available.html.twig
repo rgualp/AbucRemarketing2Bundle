@@ -14,7 +14,7 @@
                                     <table cellpadding="4" border="0" cellspacing="0">
                                         <tr>
                                             <td style="background-color: #FFFFFF; border: solid 1px #cccccc;">
-                                                <a href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | lower | replace(' ','-'),'locale':user_locale}) }}">
+                                                <a href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | lower | replace(' ','-'),'locale':user_locale,'_locale':user_locale,}) }}">
                                                     {% if photos[loop.index0][0].getPhoName is defined %}
                                                         <img width="100%" style="display:block;" border="0" src="{{ url('mycp_main')~'../uploads/ownershipImages/thumbnails/'~photos[loop.index0][0].getPhoName}}">
                                                     {% else %}
@@ -55,19 +55,19 @@
                                     {% endif %}
                                     <h3>{{"RESERVATION_TOTAL" | trans({}, "messages", user_locale) | upper}}: {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ reservation.getOwnResNightPrice * nights[loop.index0] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h3>
                                     {% if (reservation.getOwnResStatus == 1)%}
-                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_mycasatrip_available',{'locale':user_locale}) }}">{{"CONTINUE_RESERVING"|trans({}, "messages", user_locale)}}</a>
+                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_mycasatrip_available',{'locale':user_locale,'_locale':user_locale,}) }}">{{"CONTINUE_RESERVING"|trans({}, "messages", user_locale)}}</a>
                                     {% endif %}
                                     {% if (reservation.getOwnResStatus == 0)%}
-                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | lower | replace(' ','-'),'locale':user_locale}) }}">{{"VIEW_DETAILS"|trans({}, "messages", user_locale)}}</a>
+                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | lower | replace(' ','-'),'locale':user_locale,'_locale':user_locale,}) }}">{{"VIEW_DETAILS"|trans({}, "messages", user_locale)}}</a>
                                     {% endif %}
                                     {% if (reservation.getOwnResStatus > 1 and reservation.getOwnResStatus < 5)%}
-                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1','locale':user_locale}) }}">{{"LOOK_FOR_ALTERNATIVE"|trans({}, "messages", user_locale)}}</a>
+                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1','locale':user_locale,'_locale':user_locale,}) }}">{{"LOOK_FOR_ALTERNATIVE"|trans({}, "messages", user_locale)}}</a>
                                     {% endif %}
                                     {% if (reservation.getOwnResStatus == 5 and booking is not defined)%}
-                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1','locale':user_locale}) }}">{{"LOOK_FOR_ALTERNATIVE"|trans({}, "messages", user_locale)}}</a>
+                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1','locale':user_locale,'_locale':user_locale,}) }}">{{"LOOK_FOR_ALTERNATIVE"|trans({}, "messages", user_locale)}}</a>
                                     {% endif %}
                                     {% if (reservation.getOwnResStatus == 5 and booking is defined)%}
-                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_view_confirmation_reservation',{'id_booking':booking,'locale':user_locale}) }}">{{ 'VIEW_CONFIRMATION'|trans({}, "messages", user_locale) }}</a>
+                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_view_confirmation_reservation',{'id_booking':booking,'locale':user_locale,'_locale':user_locale,}) }}">{{ 'VIEW_CONFIRMATION'|trans({}, "messages", user_locale) }}</a>
                                     {% endif %}
                                 </td>
                             </tr>
