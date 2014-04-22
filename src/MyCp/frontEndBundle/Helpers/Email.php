@@ -87,8 +87,12 @@ class Email {
             $array_dates= $service_time->dates_between($res->getOwnResReservationFromDate()->getTimestamp(),$res->getOwnResReservationToDate()->getTimestamp());
             array_push($array_nigths,count($array_dates)-1);
         }
-        $user_locale = $user_tourist->getUserTouristLanguage()->getLangCode();
-        // Enviando mail al cliente
+        $user_locale =  strtolower($user_tourist->getUserTouristLanguage()->getLangCode()) ;
+        
+        $locale = $this->container->get('translator')->setLocale($user_locale);
+        
+        // Enviando mail al cliente   
+        
         $body=$templating->render('frontEndBundle:mails:email_offer_available.html.twig',array(
             'user'=>$user,
             'reservations'=>$reservations,
