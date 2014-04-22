@@ -455,7 +455,7 @@ class BackendReservationController extends Controller
             $total_price=$total_price * $own_reservations[0]->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent() / 100;
             $user=$own_reservations[0]->getOwnResGenResId()->getGenResUserId();
             $user_tourist=$em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user'=>$user->getUserId()));
-            echo ($total_price + 10) * $user_tourist->getUserTouristCurrency()->getCurrCucChange();
+           // echo ($total_price + 10) * $user_tourist->getUserTouristCurrency()->getCurrCucChange();
         }
 
         //exit();
