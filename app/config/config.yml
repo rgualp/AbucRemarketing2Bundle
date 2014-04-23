@@ -33,6 +33,7 @@ twig:
          mycasa_office_geolocate_x: 47.547490
          mycasa_office_geolocate_y: 7.594289
          mycasa_office_phone: (+41)44 586 64 44
+         global_abuc_address: ABUC media network GmbH, Peter Merian-Strasse 54, 4052 Basel, Switzerland.
 
 # Assetic Configuration
 assetic:
