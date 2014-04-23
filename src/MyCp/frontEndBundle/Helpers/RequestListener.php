@@ -33,8 +33,13 @@ class RequestListener {
             $this->container->get('session')->set('app_last_route',$attr['_route']);
             $this->container->get('session')->set('app_last_route_params',$attr['_route_params']);
 
-            $lang =substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,2);
-            $lang=strtolower($lang);
+            $lang = isset($lang) ? $lang : 'es';
+
+            if(isset($_SERVER["HTTP_ACCEPT_LANGUAGE"])) {
+                $lang =substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,2);
+                $lang=strtolower($lang);
+            }
+
             if($this->container->get('session')->get('browser_lang')!= null && $this->container->get('session')->get('browser_lang')!=strtolower($lang))
             {
                 $lang_db=$this->em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code'=>$lang,'lang_active'=>1));
