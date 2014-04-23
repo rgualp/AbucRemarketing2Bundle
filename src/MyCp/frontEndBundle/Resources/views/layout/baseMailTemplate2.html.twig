@@ -2,19 +2,19 @@
 <html lang="es" xmlns="http://www.w3.org/1999/html">
     <head>
         <meta charset="utf-8">
-        <title>MyCasaParticular</title>        
+        <title>MyCasaParticular</title>
         <style>
                 table{margin: 10px 0; width: 100%}
 
                 .footer{
-                    height: 106px; 
-                    margin: 20px -25px -30px -25px; 
+                    height: 106px;
+                    margin: 20px -25px -30px -25px;
                     padding: 20px 20px;
                     border-bottom-left-radius: 5px;
-                    border-bottom-right-radius: 5px; 
+                    border-bottom-right-radius: 5px;
                     color: #ffffff;
                     border-top: solid 5px #A2CF40;
-                    background-color: #1E4C97;      
+                    background-color: #1E4C97;
                 }
 
                 .btn.btn_orange{
@@ -53,9 +53,9 @@
                         </tr>
                     </table>
                 </div>
-                <div style="background-color: #A2CF40; height: 5px; margin: 20px -25px"></div>  
+                <div style="background-color: #A2CF40; height: 5px; margin: 20px -25px"></div>
 
-                <div>{% block content %}{% endblock %}</div> 
+                <div>{% block content %}{% endblock %}</div>
 
                 <p style="font-size: 13px">
                     Añade reservation@mycasaparticular.com a tu agenda de contactos o tu lista de remitentes seguros para asegurarnos de que sigues recibiendo estos correos electrónicos.<br/><br/>
@@ -80,7 +80,7 @@
                         <a style="margin-right: 10px" href="https://pinterest.com/MyCasaParticular"><img src="{{url('mycp_main')}}../bundles/frontend/img/pinenterest.gif"/></a>
                         <a style="margin-right: 10px" href="https://youtuve.com/MyCasaParticular"><img src="{{asset('bundles/frontend/img/youtube.png')}}"/></a>
                     </div>
-                    <div style="margin: 20px 0px; font-size: 11px">ABUC media network GmbH, Peter Merain-Strasse 54, 4052 Basel, Switzerland.</div>
+                    <div style="margin: 20px 0px; font-size: 11px">{{ global_abuc_address }}</div>
                 </div>
             </div>
         </body>

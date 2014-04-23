@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-    <loc>{{hostname}}</loc>
+    <loc>https://{{hostname}}</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
 </url>
 {% for url in url_sites %}
 <url>
-    <loc>{{hostname}}{{url.loc}}</loc>
+    <loc>https://{{hostname}}{{url.loc}}</loc>
     {% if url.lastmod is defined %}<lastmod>{{url.lastmod}}</lastmod>{% endif %}
     {% if url.changefreq is defined %}<changefreq>{{url.changefreq}}</changefreq>{% endif %}
     {% if url.priority is defined %}<priority>{{url.priority}}</priority>{% endif %}
@@ -16,7 +16,7 @@
 
 {% for url in urls_houses %}
 <url>
-    <loc>{{hostname}}{{url.loc}}</loc>
+    <loc>https://{{hostname}}{{url.loc}}</loc>
     {% if url.lastmod is defined %}<lastmod>{{url.lastmod}}</lastmod>{% endif %}
     {% if url.changefreq is defined %}<changefreq>{{url.changefreq}}</changefreq>{% endif %}
     {% if url.priority is defined %}<priority>{{url.priority}}</priority>{% endif %}
@@ -25,7 +25,7 @@
 
 {% for url in urls_destinations %}
 <url>
-    <loc>{{hostname}}{{url.loc}}</loc>
+    <loc>https://{{hostname}}{{url.loc}}</loc>
     {% if url.lastmod is defined %}<lastmod>{{url.lastmod}}</lastmod>{% endif %}
     {% if url.changefreq is defined %}<changefreq>{{url.changefreq}}</changefreq>{% endif %}
     {% if url.priority is defined %}<priority>{{url.priority}}</priority>{% endif %}

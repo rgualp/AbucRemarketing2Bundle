@@ -3,7 +3,6 @@
 namespace MyCp\FrontendBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use MyCp\mycpBundle\Entity\ownershipReservation;
@@ -660,37 +659,32 @@ class reservationController extends Controller
     function confirmationAction($id_booking)
     {
         $em = $this->getDoctrine()->getManager();
-        $payment=$em->getRepository('mycpBundle:payment')->findOneBy(array('booking'=>$id_booking));
-        if(!$payment)
-        {
+        $payment=$em->getRepository('mycpBundle:payment')->findOneBy(array('booking' => $id_booking));
+
+        if(empty($payment)) {
             throw $this->createNotFoundException();
         }
-        $skrill_payment=$em->getRepository('mycpBundle:skrillPayment')->findOneBy(array('payment'=>$payment));
-        if(!$skrill_payment)
+
+        //redirect to landing page according to status
+        switch($payment->getStatus())
         {
-            throw $this->createNotFoundException();
-        }
-        //redirecting to landing page (SKRILL STATUS)
-        switch($skrill_payment->getStatus())
-        {
-            case 0:
-                return $this->payment_processed($id_booking);
-                break;
-            case 2:
-                return $this->payment_processed($id_booking);
-                break;
-            case -1:
-                return $this->forward('frontEndBundle:reservation:reservation_reservation', array('id_booking'=>$id_booking));
-                break;
-            case -2:
+            case PaymentHelper::STATUS_PENDING:
+                $this->payment_processed($id_booking, 1);
+                return $this->forward('frontEndBundle:reservation:view_confirmation', array('id_booking' => $id_booking));
+
+            case PaymentHelper::STATUS_SUCCESS:
+                $this->payment_processed($id_booking);
+                return $this->forward('frontEndBundle:reservation:view_confirmation', array('id_booking' => $id_booking));
+
+            case PaymentHelper::STATUS_CANCELLED:
+                return $this->forward('frontEndBundle:reservation:reservation_reservation');
+
+            case PaymentHelper::STATUS_FAILED:
                 return $this->forward('frontEndBundle:reservation:reservation_reservation');
                 break;
             default:
                 throw $this->createNotFoundException();
         }
-
-
-
     }
 
     function payment_processed($id_booking, $payment_pending=0)
@@ -782,12 +776,15 @@ class reservationController extends Controller
             'nights'=>$array_nigths,
             'user_locale' => $user_locale
         ));
-
+        //echo $body; exit();
         $locale = $this->get('translator');
         $subject = $locale->trans('PAYMENT_CONFIRMATION', array(), "messages", $user_locale);
         $service_email->send_email(
             $subject, 'reservation1@mycasaparticular.com', $subject.' - MyCasaParticular.com', $user->getUserEmail(), $body,$attach
         );
+        //$subject, 'reservation@mycasaparticular.com', $subject.' - MyCasaParticular.com', $user->getUserEmail(), $body, $attach
+
+
 
         // enviando mail a reservation team
         foreach($array_ownres_by_house as $owns)
@@ -804,7 +801,7 @@ class reservationController extends Controller
             );
 
         }
-
+        //echo $body_res; exit();
         // enviando mail al propietario
         foreach($array_ownres_by_house as $owns)
         {
@@ -820,8 +817,7 @@ class reservationController extends Controller
                     'Confirmación de reserva', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', $prop_email, $body_prop
                 );
         }
-        $url=$this->generateUrl('frontend_view_confirmation_reservation', array('id_booking'=>$id_booking));
-        return $this->render('frontEndBundle:reservation:afterpayment.html.twig', array('url'=>$url));
+
     }
 
     function view_confirmationAction($id_booking,$to_print=false)
