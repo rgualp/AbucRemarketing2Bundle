@@ -226,7 +226,11 @@ class paymentController extends Controller {
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $datatopost);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_exec($ch);
+        $result = curl_exec($ch);
+
+        $this->log(date(DATE_RSS) . ' - PaymentController line ' . __LINE__ . ', TEST POST REQUEST'.PHP_EOL.
+            ': URL ' . $urltopost . '. booking id: ' . $bookingId . 'Result: ' . print_r($result, true));
+
 
         return $this->redirect($this->generateUrl(
                                 'frontend_payment_skrill_return', array('bookingId' => $bookingId)
