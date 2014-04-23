@@ -11,6 +11,7 @@ use MyCp\mycpBundle\Entity\generalReservation;
 use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Email;
+use MyCp\frontEndBundle\Helpers\PaymentHelper;
 
 class reservationController extends Controller
 {
@@ -666,22 +667,17 @@ class reservationController extends Controller
         }
 
         //redirect to landing page according to status
+        //var_dump($payment->getStatus()); exit();
         switch($payment->getStatus())
         {
             case PaymentHelper::STATUS_PENDING:
-                $this->payment_processed($id_booking, 1);
-                return $this->forward('frontEndBundle:reservation:view_confirmation', array('id_booking' => $id_booking));
-
+                return $this->payment_processed($id_booking, 1);
             case PaymentHelper::STATUS_SUCCESS:
-                $this->payment_processed($id_booking);
-                return $this->forward('frontEndBundle:reservation:view_confirmation', array('id_booking' => $id_booking));
-
+                return $this->payment_processed($id_booking);
             case PaymentHelper::STATUS_CANCELLED:
                 return $this->forward('frontEndBundle:reservation:reservation_reservation');
-
             case PaymentHelper::STATUS_FAILED:
                 return $this->forward('frontEndBundle:reservation:reservation_reservation');
-                break;
             default:
                 throw $this->createNotFoundException();
         }
@@ -817,6 +813,9 @@ class reservationController extends Controller
                     'Confirmación de reserva', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', $prop_email, $body_prop
                 );
         }
+
+        $url=$this->generateUrl('frontend_view_confirmation_reservation', array('id_booking'=>$id_booking));
+        return $this->render('frontEndBundle:reservation:afterpayment.html.twig', array('url'=>$url));
 
     }
 
