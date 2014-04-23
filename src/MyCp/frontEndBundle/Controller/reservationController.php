@@ -2,6 +2,8 @@
 
 namespace MyCp\FrontendBundle\Controller;
 
+use MyCp\frontEndBundle\Helpers\PaymentHelper;
+use MyCp\frontEndBundle\Helpers\SkrillHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -658,42 +660,35 @@ class reservationController extends Controller
 
     function confirmationAction($id_booking)
     {
-
         $em = $this->getDoctrine()->getManager();
-        $payment=$em->getRepository('mycpBundle:payment')->findOneBy(array('booking'=>$id_booking));
-        if(!$payment)
-        {
-            throw $this->createNotFoundException();
-        }
-        $skrill_payment=$em->getRepository('mycpBundle:skrillPayment')->findOneBy(array('payment'=>$payment));
-        if(!$skrill_payment)
-        {
+
+        /** @var \MyCp\mycpBundle\Entity\payment $payment */
+        $payment=$em->getRepository('mycpBundle:payment')->findOneBy(array('booking' => $id_booking));
+
+        if(empty($payment)) {
             throw $this->createNotFoundException();
         }
 
-        //redirecting to landing page (SKRILL STATUS)
-        switch($skrill_payment->getStatus())
+        //redirect to landing page according to status
+        switch($payment->getStatus())
         {
-            case 0:
-                $this->payment_processed($id_booking,1);
+            case PaymentHelper::STATUS_PENDING:
+                $this->payment_processed($id_booking, 1);
                 return $this->forward('frontEndBundle:reservation:view_confirmation', array('id_booking' => $id_booking));
-                break;
-            case 2:
+
+            case PaymentHelper::STATUS_SUCCESS:
                 $this->payment_processed($id_booking);
                 return $this->forward('frontEndBundle:reservation:view_confirmation', array('id_booking' => $id_booking));
-                break;
-            case -1:
+
+            case PaymentHelper::STATUS_CANCELLED:
                 return $this->forward('frontEndBundle:reservation:reservation_reservation');
-                break;
-            case -2:
+
+            case PaymentHelper::STATUS_FAILED:
                 return $this->forward('frontEndBundle:reservation:reservation_reservation');
-                break;
+
             default:
                 throw $this->createNotFoundException();
         }
-
-
-
     }
 
     function payment_processed($id_booking, $payment_pending=0)
