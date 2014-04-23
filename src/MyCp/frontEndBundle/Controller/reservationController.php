@@ -3,7 +3,6 @@
 namespace MyCp\FrontendBundle\Controller;
 
 use MyCp\frontEndBundle\Helpers\PaymentHelper;
-use MyCp\frontEndBundle\Helpers\SkrillHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -661,8 +660,6 @@ class reservationController extends Controller
     function confirmationAction($id_booking)
     {
         $em = $this->getDoctrine()->getManager();
-
-        /** @var \MyCp\mycpBundle\Entity\payment $payment */
         $payment=$em->getRepository('mycpBundle:payment')->findOneBy(array('booking' => $id_booking));
 
         if(empty($payment)) {
