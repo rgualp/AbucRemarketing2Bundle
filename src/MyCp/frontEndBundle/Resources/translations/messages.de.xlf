@@ -852,11 +852,11 @@
             </trans-unit>
             <trans-unit id="222">
                 <source>PRIVATE_POLICY_USER_REGISTRATION</source>
-                <target>Ich akzeptiere die Grundsätze der Privatsphäre von MyCasaParticular</target>
+                <target>Ich akzeptiere die AGB von MyCasaParticular</target>
             </trans-unit>
             <trans-unit id="223">
                 <source>NEWSLETTER_USER_REGISTRATION</source>
-                <target>Ich möchte das Bulletin von MyCasaParticular erhalten</target>
+                <target>Ich möchte den Newsletter von MyCasaParticular erhalten</target>
             </trans-unit>
             <trans-unit id="224">
                 <source>REGISTER_USER_REGISTRATION</source>
