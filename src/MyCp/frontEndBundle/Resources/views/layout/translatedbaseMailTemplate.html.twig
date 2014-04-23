@@ -38,7 +38,7 @@
                             <tr>
                                 <td colspan="2" style="font-size: 11px; line-height: 18px; font-family: arial">
                                     <hr style="color: #cccccc; background-color: #cccccc; height: 1px; border: medium none;"/>
-                                    {{ 'FOOTER_EMAIL'| trans({'%policieslink%': url('frontend_security_privacity', { 'locale': user_locale,'_locale':user_locale, })}, "messages", user_locale) |raw }}
+                                    {{ 'FOOTER_EMAIL'| trans({'%policieslink%': url('frontend_security_privacity', { 'locale': user_locale|lower,'_locale':user_locale|lower, })}, "messages", user_locale) |raw }}
                                 </td>
                             </tr>
                         </table>

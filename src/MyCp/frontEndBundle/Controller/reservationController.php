@@ -3,6 +3,7 @@
 namespace MyCp\FrontendBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use MyCp\mycpBundle\Entity\ownershipReservation;
@@ -658,7 +659,6 @@ class reservationController extends Controller
 
     function confirmationAction($id_booking)
     {
-
         $em = $this->getDoctrine()->getManager();
         $payment=$em->getRepository('mycpBundle:payment')->findOneBy(array('booking'=>$id_booking));
         if(!$payment)
@@ -670,20 +670,17 @@ class reservationController extends Controller
         {
             throw $this->createNotFoundException();
         }
-
         //redirecting to landing page (SKRILL STATUS)
         switch($skrill_payment->getStatus())
         {
             case 0:
-                $this->payment_processed($id_booking,1);
-                return $this->forward('frontEndBundle:reservation:view_confirmation', array('id_booking' => $id_booking));
+                return $this->payment_processed($id_booking);
                 break;
             case 2:
-                $this->payment_processed($id_booking);
-                return $this->forward('frontEndBundle:reservation:view_confirmation', array('id_booking' => $id_booking));
+                return $this->payment_processed($id_booking);
                 break;
             case -1:
-                return $this->forward('frontEndBundle:reservation:reservation_reservation');
+                return $this->forward('frontEndBundle:reservation:reservation_reservation', array('id_booking'=>$id_booking));
                 break;
             case -2:
                 return $this->forward('frontEndBundle:reservation:reservation_reservation');
@@ -785,15 +782,12 @@ class reservationController extends Controller
             'nights'=>$array_nigths,
             'user_locale' => $user_locale
         ));
-        //echo $body; exit();
+
         $locale = $this->get('translator');
         $subject = $locale->trans('PAYMENT_CONFIRMATION', array(), "messages", $user_locale);
         $service_email->send_email(
             $subject, 'reservation1@mycasaparticular.com', $subject.' - MyCasaParticular.com', $user->getUserEmail(), $body,$attach
         );
-        //$subject, 'reservation@mycasaparticular.com', $subject.' - MyCasaParticular.com', $user->getUserEmail(), $body, $attach
-
-
 
         // enviando mail a reservation team
         foreach($array_ownres_by_house as $owns)
@@ -810,7 +804,7 @@ class reservationController extends Controller
             );
 
         }
-        //echo $body_res; exit();
+
         // enviando mail al propietario
         foreach($array_ownres_by_house as $owns)
         {
@@ -826,7 +820,8 @@ class reservationController extends Controller
                     'Confirmación de reserva', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', $prop_email, $body_prop
                 );
         }
-
+        $url=$this->generateUrl('frontend_view_confirmation_reservation', array('id_booking'=>$id_booking));
+        return $this->render('frontEndBundle:reservation:afterpayment.html.twig', array('url'=>$url));
     }
 
     function view_confirmationAction($id_booking,$to_print=false)
