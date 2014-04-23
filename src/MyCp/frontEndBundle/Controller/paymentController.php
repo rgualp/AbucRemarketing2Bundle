@@ -164,18 +164,15 @@ class paymentController extends Controller {
         $skrillPayment->setPayment($payment);
         $em->persist($payment);
         $em->persist($skrillPayment);
-        
-        $reservations = $em->getRespository('mycpBundle:ownershipreservation')->findBy(array('own_res_reservation_booking' => $booking->getBookingId()));
-        
-        foreach($reservations as $reservation )
-        {
+
+        $reservations = $em->getRespository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $booking->getBookingId()));
+
+        foreach($reservations as $reservation) {
             $reservation->setOwnResSyncSt(SyncStatuses::UPDATED);
             $em->persist($reservation);
         }
-        
+
         $em->flush();
-        
-        
 
         $this->log(date(DATE_RSS) . ' - PaymentController line ' . __LINE__ . ': Payment ID: ' . $payment->getId() . "\nSkrillRequest ID: " . $skrillPayment->getId());
 
