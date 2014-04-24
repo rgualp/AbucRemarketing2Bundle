@@ -16,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class paymentController extends Controller {
@@ -65,26 +66,37 @@ class paymentController extends Controller {
             throw new InvalidParameterException($bookingId);
         }
 
-        $pollingUrl = $this->generateUrl('frontend_payment_poll_payment', array('bookingId' => $bookingId), true);
-        $confirmationUrl = $this->generateUrl('frontend_confirmation_reservation', array('id_booking' => $bookingId)); // $this->generateUrl('frontend_payment_skrill_test_response', array('status' => 'Confirmation'), true);
-        $timeoutUrl = $this->generateUrl('frontend_payment_skrill_test_response', array('status' => 'Timeout'), true);
-        $cancelUrl = $this->generateUrl('frontend_mycasatrip_available'); //$this->generateUrl('frontend_payment_skrill_test_response', array('status' => 'Cancelled by status response'), true);
-        $pendingUrl = $this->generateUrl('frontend_confirmation_reservation', array('id_booking' => $bookingId)); //$this->generateUrl('frontend_payment_skrill_test_response', array('status' => 'Pending'), true);
-        $failedUrl = $this->generateUrl('frontend_mycasatrip_available'); //$this->generateUrl('frontend_payment_skrill_test_response', array('status' => 'Failed'), true);
+        $pollingUrl = $this->generateUrl('frontend_payment_poll_payment',
+            array('bookingId' => $bookingId), UrlGeneratorInterface::ABSOLUTE_URL);
 
-        //
+        $confirmationUrl = $this->generateUrl('frontend_confirmation_reservation',
+            array('id_booking' => $bookingId), UrlGeneratorInterface::ABSOLUTE_URL);
+
+        $pendingUrl = $this->generateUrl('frontend_confirmation_reservation',
+            array('id_booking' => $bookingId), UrlGeneratorInterface::ABSOLUTE_URL);
+
+        $timeoutUrl = $this->generateUrl('frontend_mycasatrip_available',
+            array(), UrlGeneratorInterface::ABSOLUTE_URL);
+
+        $cancelUrl = $this->generateUrl('frontend_mycasatrip_available',
+            array(), UrlGeneratorInterface::ABSOLUTE_URL);
+
+        $failedUrl = $this->generateUrl('frontend_mycasatrip_available',
+            array(), UrlGeneratorInterface::ABSOLUTE_URL);
 
         return $this->render(
-                        'frontEndBundle:payment:waitingForPayment.html.twig', array(
-                    'pollingUrl' => $pollingUrl,
-                    'confirmationUrl' => $confirmationUrl,
-                    'timeoutUrl' => $timeoutUrl,
-                    'cancelUrl' => $cancelUrl,
-                    'pendingUrl' => $pendingUrl,
-                    'failedUrl' => $failedUrl,
-                    'timeoutTicks' => 80,
-                    'pollingPeriodMsec' => 1000
-        ));
+            'frontEndBundle:payment:waitingForPayment.html.twig',
+            array(
+                'pollingUrl' => $pollingUrl,
+                'confirmationUrl' => $confirmationUrl,
+                'timeoutUrl' => $timeoutUrl,
+                'cancelUrl' => $cancelUrl,
+                'pendingUrl' => $pendingUrl,
+                'failedUrl' => $failedUrl,
+                'timeoutTicks' => 80,
+                'pollingPeriodMsec' => 1000
+            )
+        );
     }
 
     public function pollPaymentAction($bookingId) {
