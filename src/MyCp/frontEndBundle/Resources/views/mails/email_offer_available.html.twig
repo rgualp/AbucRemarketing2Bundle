@@ -61,6 +61,7 @@
                                     {% else %}
                                     <br/>
                                     {% endif %}
+                                    <br/>
                                     {% if (reservation.getOwnResStatus == 1)%}
                                         <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_mycasatrip_available',{'locale':user_locale,'_locale':user_locale,}) }}">{{"CONTINUE_RESERVING"|trans({}, "messages", user_locale)}}</a>
                                     {% endif %}

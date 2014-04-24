@@ -15,7 +15,7 @@ frontend_payment_skrill_cancel:
     defaults: { _controller: frontEndBundle:payment:skrillCancel }
 
 frontend_payment_skrill_status:
-    pattern:  /payment/skrill-status
+    pattern:  /skrill/status
     defaults: { _controller: frontEndBundle:payment:skrillStatus }
 
 frontend_payment_skrill_test_response:
