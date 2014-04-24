@@ -68,7 +68,7 @@ class paymentController extends Controller {
 
         $pollingUrl = $this->generateUrl('frontend_payment_poll_payment',
             array('bookingId' => $bookingId), UrlGeneratorInterface::ABSOLUTE_URL);
-        
+
         $confirmationUrl = $this->generateUrl('frontend_confirmation_reservation',
             array('id_booking' => $bookingId), UrlGeneratorInterface::ABSOLUTE_URL);
 
