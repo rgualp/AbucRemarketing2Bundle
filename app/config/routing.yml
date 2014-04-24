@@ -38,11 +38,11 @@ frontend_logout:
 
 mycp_welcome_main:
     pattern:  /welcome/
-    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: frontend_welcome, _locale: es }
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: frontend_welcome, _locale: en }
 
 mycp_main:
     pattern:  /
-    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: frontend_welcome, _locale: es }
+    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: frontend_welcome, _locale: en }
 
 frontend_change_currency:
     pattern:  /change_currency/{curr_code}
