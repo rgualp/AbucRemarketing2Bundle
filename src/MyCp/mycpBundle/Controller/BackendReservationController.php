@@ -2,7 +2,6 @@
 
 namespace MyCp\mycpBundle\Controller;
 
-use MyCp\FrontendBundle\Controller\reservationController;
 use MyCp\mycpBundle\Entity\booking;
 use MyCp\mycpBundle\Entity\payment;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -502,10 +501,6 @@ class BackendReservationController extends Controller
     {
         $service_email= $this->get('Email');
         $service_time= $this->get('time');
-        $custom_message = $this->getRequest()->get('message_to_client');
-        if(isset($custom_message[0]))
-            $custom_message[0]=strtoupper($custom_message[0]);
-        $service_email->send_reservation($id_reservation,$custom_message);
 
         //send reserved reservations
         $em = $this->getDoctrine()->getManager();
@@ -646,6 +641,13 @@ class BackendReservationController extends Controller
                         'Confirmación de reserva', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', $prop_email, $body_prop
                     );
             }
+        }
+        else
+        {
+            $custom_message = $this->getRequest()->get('message_to_client');
+            if(isset($custom_message[0]))
+                $custom_message[0]=strtoupper($custom_message[0]);
+            $service_email->send_reservation($id_reservation,$custom_message);
         }
 
         $message='Reserva enviada satisfactoriamente';
