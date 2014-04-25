@@ -7,12 +7,17 @@ mycp_delete_reservation:
     defaults: { _controller: mycpBundle:BackendReservation:delete_reservation }
 
 mycp_list_reservations:
-    pattern:  /list/{items_per_page}/{filter_date_reserve}/{filter_offer_number}/{filter_reference}/{filter_date_from}/{filter_date_to}/{sort_by}
-    defaults: { _controller: mycpBundle:BackendReservation:list_reservations,items_per_page:100,filter_date_reserve:'',filter_offer_number:'',filter_reference:'',filter_date_from:'',filter_date_to:'',sort_by:0}
+    pattern:  /list/{items_per_page}/{filter_date_reserve}/{filter_offer_number}/{filter_reference}/{filter_date_from}/{filter_date_to}/{sort_by}/{filter_booking_number}
+    defaults: { _controller: mycpBundle:BackendReservation:list_reservations,items_per_page:100,filter_date_reserve:'',filter_offer_number:'',filter_reference:'',filter_date_from:'',filter_date_to:'',filter_booking_number:'',sort_by:0}
+
+mycp_list_reservations_booking:
+    pattern:  /list_booking/{items_per_page}/{filter_date_reserve}/{filter_offer_number}/{filter_reference}/{filter_date_from}/{filter_date_to}/{sort_by}/{filter_booking_number}
+    defaults: { _controller: mycpBundle:BackendReservation:list_reservations_booking,items_per_page:100,filter_date_reserve:'',filter_offer_number:'',filter_reference:'',filter_date_from:'',filter_date_to:'',filter_booking_number:'',sort_by:0}
+
 
 mycp_list_reservations_user:
-    pattern:  /list_user/{items_per_page}/{filter_date_reserve}/{filter_offer_number}/{filter_reference}/{filter_date_from}/{filter_date_to}/{sort_by}
-    defaults: { _controller: mycpBundle:BackendReservation:list_reservations_user,items_per_page:100,filter_date_reserve:'',filter_offer_number:'',filter_reference:'',filter_date_from:'',filter_date_to:'',sort_by:0}
+    pattern:  /list_user/{items_per_page}/{filter_date_reserve}/{filter_offer_number}/{filter_reference}/{filter_date_from}/{filter_date_to}/{sort_by}/{filter_booking_number}
+    defaults: { _controller: mycpBundle:BackendReservation:list_reservations_user,items_per_page:100,filter_date_reserve:'',filter_offer_number:'',filter_reference:'',filter_date_from:'',filter_date_to:'',filter_booking_number:'',sort_by:0}
 
 mycp_edit_reservation:
     pattern:  /edit/{id_reservation}

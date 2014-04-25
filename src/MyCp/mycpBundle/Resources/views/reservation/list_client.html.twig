@@ -12,6 +12,7 @@
 <ul class="nav nav-tabs" id="myTab">
     <li class=""><a href="{{ path('mycp_list_reservations')}}">Reservas</a></li>
     <li class="active"><a data-toggle="tab" href="#cliente">Cliente</a></li>
+    <li class=""><a href="{{ path('mycp_list_reservations_booking') }}">Booking</a></li>
 </ul>
     <div class="tab-content" id="myTabContent">
         <div id="reservas" class="tab-pane fade active in">
@@ -22,19 +23,24 @@
             <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_list_reservations_user')}}">
                 <div class="well well-small">
                     <div class="row-fluid">
-                        <div class="span2"><label>Fecha reserva:</label>
-                            <input id="filter_date_reserve" name="filter_date_reserve" type="text" class="datepicker input-block-level" value="{{filter_date_reserve}}"/>
-                        </div>
-                        <div class="span2"><label>ID Reserva:</label>
+                        <div class="span4"><label>ID Reserva:</label>
                             <input id="filter_offer_number" name="filter_offer_number" type="text" class="input-block-level" value="{{filter_offer_number}}"/>
                         </div>
-                        <div class="span2"><label>ID Casa:</label>
+                        <div class="span4"><label>ID Casa:</label>
                             <input id="filter_reference" name="filter_reference" type="text" class="input-block-level" value="{{filter_reference}}"/>
                         </div>
-                        <div class="span2"><label>Fecha de llegada:</label>
+                        <div class="span4"><label>ID Booking:</label>
+                            <input id="filter_booking_number" name="filter_booking_number" type="text" class="input-block-level" value="{{ filter_booking_number }}"/>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span4"><label>Fecha reserva:</label>
+                            <input id="filter_date_reserve" name="filter_date_reserve" type="text" class="datepicker input-block-level" value="{{filter_date_reserve}}"/>
+                        </div>
+                        <div class="span3"><label>Fecha de llegada:</label>
                             <input id="filter_date_from" name="filter_date_from" type="text" class="datepicker input-block-level" value="{{filter_date_from}}"/>
                         </div>
-                        <div class="span2"><label>Fecha de salida:</label>
+                        <div class="span3"><label>Fecha de salida:</label>
                             <input id="filter_date_to" name="filter_date_to" type="text" class="datepicker input-block-level" value="{{filter_date_to}}"/>
                         </div>
                         <div class="span2">
@@ -44,7 +50,7 @@
                                     <a rel="tooltip" title="Filtrar listado" href="javascript:action_submit();" class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
                                 </div>
                                 <div class="span6">
-                                    <a rel="tooltip" title="Resetear filtrado " href="{{ path('mycp_list_reservations_user') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
+                                    <a rel="tooltip" title="Resetear filtrado " href="{{ path('mycp_list_reservations') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -198,6 +204,8 @@
         if(filter_date_reserve=='')filter_date_reserve='null';
         filter_offer_number=$('#filter_offer_number').val();
         if(filter_offer_number=='')filter_offer_number='null';
+        filter_booking_number=$('#filter_booking_number').val();
+        if(filter_offer_number=='')filter_offer_number='null';
         filter_reference=$('#filter_reference').val();
         if(filter_reference=='')filter_reference='null';
         filter_date_from=$('#filter_date_from').val();
@@ -213,7 +221,7 @@
         filter_date_reserve=filter_date_reserve.replace('/',"_");
         filter_date_reserve=filter_date_reserve.replace('/',"_");
         url_submit=$('#filter').attr('action');
-        url_submit=url_submit+'/'+items_per_page+'/'+filter_date_reserve+'/'+filter_offer_number+'/'+filter_reference+'/'+filter_date_from+'/'+filter_date_to+'/'+sort_by;
+        url_submit=url_submit+'/'+items_per_page+'/'+filter_date_reserve+'/'+filter_offer_number+'/'+filter_reference+'/'+filter_date_from+'/'+filter_date_to+'/'+sort_by+'/'+filter_booking_number;;
         $('#filter').attr('action',url_submit);
         $('#filter').submit();
     }

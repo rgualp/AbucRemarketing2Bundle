@@ -13,8 +13,10 @@ use MyCp\mycpBundle\Helpers\SyncStatuses;
  */
 class generalReservationRepository extends EntityRepository {
 
-    function get_all_reservations($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by) {
+    function get_all_reservations($filter_date_reserve, $filter_offer_number, $filter_reference,
+                                  $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number) {
         $filter_offer_number = strtolower($filter_offer_number);
+        $filter_booking_number = strtolower($filter_booking_number);
         $filter_offer_number = str_replace('cas.', '', $filter_offer_number);
         $filter_offer_number = str_replace('cas', '', $filter_offer_number);
         $filter_offer_number = str_replace('.', '', $filter_offer_number);
@@ -60,9 +62,57 @@ class generalReservationRepository extends EntityRepository {
         AND gre.gen_res_id LIKE '%$filter_offer_number%'
         AND own.own_mcp_code LIKE '%$filter_reference%'
         AND gre.gen_res_to_date LIKE '%$filter_date_to%' $string_order");
+        $array_genres=$query->getArrayResult();
+
+        $query = $em->createQuery("SELECT ownres,genres,booking FROM mycpBundle:ownershipReservation ownres
+        JOIN ownres.own_res_gen_res_id genres JOIN ownres.own_res_reservation_booking booking
+        WHERE booking.booking_id LIKE '%$filter_booking_number%'");
+        $array_intersection= array();
+        $flag=0;
+        if($filter_booking_number!='')
+        {
+            $array_ownres=$query->getArrayResult();
+            foreach($array_genres as $gen)
+            {
+                foreach($array_ownres as $res)
+                {
+                    if($gen[0]['gen_res_id']==$res['own_res_gen_res_id']['gen_res_id'])
+                    {
+                        if($flag==0)
+                        {
+                            $flag++;
+                            array_push($array_intersection, $gen);
+                        }
+                        else
+                        {
+                            $flag_2=1;
+                            foreach($array_intersection as $item)
+                            {
+                                if($item[0]['gen_res_id']==$gen[0]['gen_res_id'])
+                                {
+                                    $flag_2=0;
+                                }
+                            }
+                            if($flag_2==1)
+                                array_push($array_intersection, $gen);
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            $array_intersection=$array_genres;
+        }
+        return $array_intersection;
+    }
+    function get_all_bookings()
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT payment,booking,curr FROM mycpBundle:payment payment JOIN payment.booking booking
+        JOIN payment.currency curr");
         return $query->getArrayResult();
     }
-
     function get_reservations_by_user() {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT gre,(SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id) AS rooms,(SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id) AS adults,(SELECT SUM(owres3.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id) AS childrens,ow FROM mycpBundle:generalReservation gre

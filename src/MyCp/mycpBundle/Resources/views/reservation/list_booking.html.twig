@@ -1,0 +1,104 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li class="active">Reservas</li>
+</ul>
+{% endblock %}
+{% block content %}
+<h2>Reservas</h2>
+<hr/>
+<ul class="nav nav-tabs" id="myTab">
+    <li class=""><a href="{{ path('mycp_list_reservations')}}">Reservas</a></li>
+    <li class=""><a href="{{ path('mycp_list_reservations_user') }}">Cliente</a></li>
+    <li class="active"><a data-toggle="tab" href="#booking">Booking</a></li>
+</ul>
+    <div class="tab-content" id="myTabContent">
+        <div id="reservas" class="tab-pane fade active in">
+
+            {% for message in app.session.flashbag.get('message_error_local') %}
+            <div class="alert alert-error">{{ message }}</div>
+            {% endfor %}
+            <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_list_reservations')}}">
+                <div class="well well-small">
+
+                </div>
+
+            {% if bookings %}
+            <div class="alert">
+                <div class="row-fluid">
+                    <div class="pull-left">
+                        Mostrando del {{items_per_page * current_page - items_per_page}} al {% if items_per_page * current_page >  total_items%}{{total_items }}{% else %}{{ items_per_page * current_page }}{% endif %} de {{total_items}} registros
+                    </div>
+                    <div class="pull-right">
+                        Líneas por página:
+
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span9">
+
+                </div>
+
+                <div class="span3" style="margin-top: 10px" >
+                    <div class="row-fluid">
+                        <div class="span4" style="margin-top: 4px; font-size: 12px">
+                            Organizar:
+                        </div>
+                        <div class="span8">
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            </form>
+            <table class="table table-hover table-striped" style="font-size: 12px">
+                <thead>
+                <tr>
+                    <th>ID Booking</th>
+                    <th>Fecha Booking</th>
+                    <th>Prepago</th>
+                    <th>Moneda</th>
+                    <th>Usuario</th>
+                    <th style="text-align: right">Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% set flag=0 %}
+                {% for booking in bookings %}
+                <tr>
+
+                    <td>{{ booking['booking']['booking_id']}}</td>
+                    <td>{{ booking['created']|date("d/m/Y") }}</td>
+                    <td>{{ booking['payed_amount'] }} {{ booking['currency']['curr_code'] }}</td>
+                    <td>{{ booking['currency']['curr_code'] }}</td>
+                    <td>{{ booking['booking']['booking_user_dates'] }}</td>
+
+                    <td style="text-align: right">
+                        <a class="btn btn-mini" href="">Detalles</a>
+                    </td>
+                </tr>
+                {% set flag = flag + 1%}
+                {% endfor %}
+                </tbody>
+            </table>
+            <div class="row-fluid">
+
+            </div>
+            {% else %}
+            <p> <div class="alert alert-block">No hay Reservas disponibles.</div></p>
+            {% endif %}
+        </div>
+
+    </div>
+<link href="{{ asset('bundles/mycp/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
+<script src="{{ asset('bundles/mycp/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
+<script type="text/javascript" src="{{ asset('bundles/mycp/js/bootstrap-datepicker.es.js') }}" charset="UTF-8"></script>
+
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('bundles/mycp/js/common_list.js') }}"></script>
+{% endblock %}

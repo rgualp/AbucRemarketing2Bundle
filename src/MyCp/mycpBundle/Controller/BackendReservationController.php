@@ -29,10 +29,11 @@ class BackendReservationController extends Controller
         $filter_reference=$request->get('filter_reference');
         $filter_date_from=$request->get('filter_date_from');
         $filter_date_to=$request->get('filter_date_to');
+        $filter_booking_number=$request->get('filter_booking_number');
         $price=0;
         $sort_by=$request->get('sort_by');
         if($request->getMethod()=='POST' && $filter_date_reserve=='null' && $filter_offer_number=='null' && $filter_reference=='null'&&
-            $filter_date_from=='null' && $filter_date_to=='null' && $sort_by=='null'
+            $filter_date_from=='null' && $filter_date_to=='null' && $sort_by=='null' && $filter_booking_number=='null'
         )
         {
             $message='Debe llenar al menos un campo para filtrar.';
@@ -42,6 +43,7 @@ class BackendReservationController extends Controller
 
         if($filter_date_reserve=='null') $filter_date_reserve='';
         if($filter_offer_number=='null') $filter_offer_number='';
+        if($filter_booking_number=='null') $filter_booking_number='';
         if($filter_reference=='null') $filter_reference='';
         if($filter_date_from=='null') $filter_date_from='';
         if($filter_date_to=='null') $filter_date_to='';
@@ -52,13 +54,13 @@ class BackendReservationController extends Controller
         $filter_date_from=str_replace('_','/',$filter_date_from);
         $filter_date_to=str_replace('_','/',$filter_date_to);
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
 
         $reservations= $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
             ->get_all_reservations($filter_date_reserve, $filter_offer_number, $filter_reference,
-            $filter_date_from,$filter_date_to,$sort_by))->getResult();
+            $filter_date_from,$filter_date_to,$sort_by,$filter_booking_number))->getResult();
         $filter_date_reserve_twig=str_replace('/','_',$filter_date_reserve);
         $filter_date_from_twig=str_replace('/','_',$filter_date_from);
         $filter_date_to_twig=str_replace('/','_',$filter_date_to);
@@ -85,6 +87,7 @@ class BackendReservationController extends Controller
             'total_items'=>$paginator->getTotalItems(),
             'filter_date_reserve'=>$filter_date_reserve,
             'filter_offer_number'=>$filter_offer_number,
+            'filter_booking_number'=>$filter_booking_number,
             'filter_reference'=>$filter_reference,
             'filter_date_from'=>$filter_date_from,
             'filter_date_to'=>$filter_date_to,
@@ -95,6 +98,29 @@ class BackendReservationController extends Controller
         ));
     }
 
+    public function list_reservations_bookingAction($items_per_page, Request $request)
+    {
+        $service_security= $this->get('Secure');
+        $service_security->verify_access();
+        $page=1;
+        if(isset($_GET['page']))$page=$_GET['page'];
+        $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('ideup.simple_paginator');
+        $paginator->setItemsPerPage($items_per_page);
+
+        $bookings= $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
+            ->get_all_bookings())->getResult();
+        $service_log= $this->get('log');
+        $service_log->save_log('Visit',7);
+        //var_dump($bookings);
+        return $this->render('mycpBundle:reservation:list_booking.html.twig',array(
+            "bookings"=>$bookings,
+            'items_per_page'=>$items_per_page,
+            'current_page'=>$page,
+            'total_items'=>$paginator->getTotalItems(),
+        ));
+    }
+
     public function list_reservations_userAction($items_per_page, Request $request)
     {
         $service_security= $this->get('Secure');
@@ -102,13 +128,14 @@ class BackendReservationController extends Controller
         $page=1;
         $filter_date_reserve=$request->get('filter_date_reserve');
         $filter_offer_number=$request->get('filter_offer_number');
+        $filter_booking_number=$request->get('filter_booking_number');
         $filter_reference=$request->get('filter_reference');
         $filter_date_from=$request->get('filter_date_from');
         $filter_date_to=$request->get('filter_date_to');
 
         $sort_by=$request->get('sort_by');
         if($request->getMethod()=='POST' && $filter_date_reserve=='null' && $filter_offer_number=='null' && $filter_reference=='null'&&
-            $filter_date_from=='null' && $filter_date_to=='null' && $sort_by=='null'
+            $filter_date_from=='null' && $filter_date_to=='null' && $sort_by=='null' && $filter_booking_number=='null'
         )
         {
             $message='Debe llenar al menos un campo para filtrar.';
@@ -119,6 +146,7 @@ class BackendReservationController extends Controller
         if($filter_offer_number=='null') $filter_offer_number='';
         if($filter_reference=='null') $filter_reference='';
         if($filter_date_from=='null') $filter_date_from='';
+        if($filter_booking_number=='null') $filter_booking_number='';
         if($filter_date_to=='null') $filter_date_to='';
         if($sort_by=='null') $sort_by='';
 
@@ -132,7 +160,7 @@ class BackendReservationController extends Controller
         $paginator->setItemsPerPage($items_per_page);
         $reservations= $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
             ->get_all_reservations($filter_date_reserve, $filter_offer_number, $filter_reference,
-            $filter_date_from,$filter_date_to,$sort_by))->getResult();
+            $filter_date_from,$filter_date_to,$sort_by,$filter_booking_number))->getResult();
 
         $filter_date_reserve_twig=str_replace('/','_',$filter_date_reserve);
         $filter_date_from_twig=str_replace('/','_',$filter_date_from);
@@ -176,6 +204,7 @@ class BackendReservationController extends Controller
             'filter_date_reserve'=>$filter_date_reserve,
             'filter_offer_number'=>$filter_offer_number,
             'filter_reference'=>$filter_reference,
+            'filter_booking_number'=>$filter_booking_number,
             'filter_date_from'=>$filter_date_from,
             'filter_date_to'=>$filter_date_to,
             'sort_by'=>$sort_by,
