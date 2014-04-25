@@ -2013,7 +2013,7 @@
               </trans-unit>
               <trans-unit id="512">
                   <source>RESERVATION_NUMBER</source>
-                  <target>Reservación número</target>
+                  <target>Booking ID </target>
               </trans-unit>
               <trans-unit id="513">
                   <source>CLIENT_NAME</source>

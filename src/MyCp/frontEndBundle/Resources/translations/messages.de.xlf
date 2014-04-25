@@ -2012,7 +2012,7 @@
               </trans-unit>
               <trans-unit id="512">
                   <source>RESERVATION_NUMBER</source>
-                  <target>Ident-Nr. der Reservierung </target>
+                  <target>Booking ID </target>
               </trans-unit>
               <trans-unit id="513">
                   <source>CLIENT_NAME</source>
@@ -2020,7 +2020,7 @@
               </trans-unit>
               <trans-unit id="514">
                     <source>RESERVE_SERVICE</source>
-                    <target>Reservierter Dienst</target>
+                    <target>Reservierter Service </target>
                 </trans-unit>
                 <trans-unit id="515">
                     <source>ACCOMMODATIONS</source>
