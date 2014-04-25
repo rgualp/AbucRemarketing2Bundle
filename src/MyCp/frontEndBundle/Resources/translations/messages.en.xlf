@@ -1785,7 +1785,7 @@
             </trans-unit>
             <trans-unit id="455">
                 <source>ID_RESERVATION</source>
-                <target>Reservation ID</target>
+                <target>Booking ID </target>
             </trans-unit>
             <trans-unit id="456">
                 <source>RESERVATION_DETAILS</source>
@@ -2013,7 +2013,7 @@
               </trans-unit>
               <trans-unit id="512">
                   <source>RESERVATION_NUMBER</source>
-                  <target>Reservation Number</target>
+                  <target>Booking ID </target>
               </trans-unit>
               <trans-unit id="513">
                   <source>CLIENT_NAME</source>
@@ -2053,7 +2053,7 @@
                 </trans-unit>
                 <trans-unit id="522">
                     <source>TOTAL_TO_PAY_SERVICING</source>
-                    <target>Total amount to pay at the house</target>
+                    <target>Total amount to pay at the accommodation</target>
                 </trans-unit>
                 <trans-unit id="523">
                     <source>FILL_ALL_FIELDS</source>
@@ -2433,7 +2433,7 @@
                 </trans-unit>
                 <trans-unit id="618">
                     <source>TOTAL_ALL_PREPAYMENT</source>
-                    <target>Gesamt Anzahlung</target>
+                    <target>Total down payment</target>
                 </trans-unit>
                 <trans-unit id="619">
                     <source>RESERVATIONS_HIGH_LOW_ORDERBY</source>

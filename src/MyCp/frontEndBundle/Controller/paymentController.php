@@ -27,6 +27,14 @@ class paymentController extends Controller
     const MAX_SKRILL_NUM_DETAILS = 5;
     const MAX_SKRILL_DETAIL_STRING_LENGTH = 240;
 
+    /**
+     * Action method to initiate a Payment with Skrill.
+     *
+     * @param int $bookingId The id of the booking the user wants to pay for
+     * @return Response
+     * @throws \Doctrine\ORM\EntityNotFoundException
+     * @throws \Symfony\Component\Security\Core\Exception\AuthenticationException
+     */
     public function skrillPaymentAction($bookingId)
     {
         $booking = $this->getBookingFrom($bookingId);
@@ -52,8 +60,9 @@ class paymentController extends Controller
             throw new AuthenticationException('Access to resource not permitted.');
         }
 
-        $userTourist = $em->getRepository('mycpBundle:userTourist')
-                ->findOneBy(array('user_tourist_user' => $user->getUserId()));
+        $userTourist = $em
+            ->getRepository('mycpBundle:userTourist')
+            ->findOneBy(array('user_tourist_user' => $user->getUserId()));
 
         if (empty($userTourist)) {
             throw new EntityNotFoundException("userTourist($userTourist)");
@@ -64,6 +73,14 @@ class paymentController extends Controller
         return $this->render('frontEndBundle:payment:skrillPayment.html.twig', $skrillData);
     }
 
+    /**
+     * Action method the user should be directed to when returning from
+     * the Skrill payment website.
+     *
+     * @param $bookingId
+     * @return Response
+     * @throws \Symfony\Component\Routing\Exception\InvalidParameterException
+     */
     public function skrillReturnAction($bookingId)
     {
         $booking = $this->getBookingFrom($bookingId);
@@ -105,6 +122,13 @@ class paymentController extends Controller
         );
     }
 
+    /**
+     * Action method that gets called from JavaScript in waitingForPayment.html.twig
+     * to receive the current payment status in JSON format.
+     *
+     * @param $bookingId
+     * @return JsonResponse
+     */
     public function pollPaymentAction($bookingId)
     {
         $booking = $this->getBookingFrom($bookingId);
@@ -120,13 +144,26 @@ class paymentController extends Controller
         }
 
         switch ($payment->getStatus()) {
-            case PaymentHelper::STATUS_SUCCESS: return new JsonResponse(array('status' => 'payment_found'));
-            case PaymentHelper::STATUS_FAILED: return new JsonResponse(array('status' => 'payment_failed'));
-            case PaymentHelper::STATUS_CANCELLED: return new JsonResponse(array('status' => 'payment_cancelled'));
-            default: return new JsonResponse(array('status' => 'payment_pending'));
+            case PaymentHelper::STATUS_SUCCESS:
+                return new JsonResponse(array('status' => 'payment_found'));
+            case PaymentHelper::STATUS_FAILED:
+                return new JsonResponse(array('status' => 'payment_failed'));
+            case PaymentHelper::STATUS_CANCELLED:
+                return new JsonResponse(array('status' => 'payment_cancelled'));
+            default:
+                return new JsonResponse(array('status' => 'payment_pending'));
         }
     }
 
+    /**
+     * Action method called by Skrill with http POST data which
+     * contains all information about a payment a user made.
+     *
+     * The information is stored in the database (skrillPayment and payment tables)
+     * and a http Response (status 200 for success, 400 for failure) is returned as an answer.
+     *
+     * @return Response
+     */
     public function skrillStatusAction()
     {
         $em = $this->getDoctrine()->getManager();
@@ -141,7 +178,6 @@ class paymentController extends Controller
         $this->log('PaymentController line ' . __LINE__ . "Request: \n" . print_r($request, true));
 
         $skrillPayment = new skrillPayment($request);
-
         $bookingId = $skrillPayment->getMerchantTransactionId();
         $this->log('PaymentController line ' . __LINE__ . ': Booking id=' . $bookingId . '');
         $booking = $this->getBookingFrom($bookingId);
@@ -185,7 +221,9 @@ class paymentController extends Controller
         $em->persist($payment);
         $em->persist($skrillPayment);
 
-        $reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $booking->getBookingId()));
+        $reservations = $em
+            ->getRepository('mycpBundle:ownershipReservation')
+            ->findBy(array('own_res_reservation_booking' => $booking->getBookingId()));
 
         foreach($reservations as $reservation) {
             $reservation->setOwnResSyncSt(SyncStatuses::UPDATED);
@@ -194,37 +232,59 @@ class paymentController extends Controller
 
         $em->flush();
 
-        $this->log(date(DATE_RSS) . ' - PaymentController line ' . __LINE__ . ': Payment ID: ' . $payment->getId() . "\nSkrillRequest ID: " . $skrillPayment->getId());
+        $this->log(date(DATE_RSS) . ' - PaymentController line ' . __LINE__ .
+            ': Payment ID: ' . $payment->getId() . "\nSkrillRequest ID: " . $skrillPayment->getId());
 
         return new Response('Thanks', 200);
     }
 
+    /**
+     * Testing method that can be called when the user cancels a Skrill payment.
+     *
+     * Can be removed when a more appropriate method has been defined.
+     *
+     * @return Response
+     */
     public function skrillCancelAction()
     {
-        // TODO: redirect to booking/cancelled_payment page
-
         return $this->render(
                         'frontEndBundle:payment:skrillResponseTest.html.twig', array('status' => 'Cancelled by Skrill'));
     }
 
+    /**
+     * Testing method to test a Skrill status response.
+     *
+     * @param $status
+     * @return Response
+     */
     public function skrillTestResponseAction($status)
     {
-        // TODO: this function is just for testing Skrill responses
-
         return $this->render(
-                        'frontEndBundle:payment:skrillResponseTest.html.twig', array('status' => $status));
+            'frontEndBundle:payment:skrillResponseTest.html.twig', array('status' => $status));
     }
 
-    // TODO: With this function the skrill payment can be tested instead of using the real button
-    // on the reservation page
+    /**
+     * With this method the skrill payment can be tested instead of using the real button
+     * on the reservation page
+     *
+     * @param int $bookingId
+     * @return Response
+     */
     public function skrillTestPaymentAction($bookingId = 0)
     {
         $payUrl = $this->generateUrl('frontend_payment_skrill', array('bookingId' => $bookingId), true);
         return $this->render(
-                        'frontEndBundle:payment:skrillPaymentTest.html.twig', array('payUrl' => $payUrl));
+            'frontEndBundle:payment:skrillPaymentTest.html.twig', array('payUrl' => $payUrl));
     }
 
-    // TODO: this function emulates the POST status request from Skrill. Can be deleted when not needed anymore
+    /**
+     * This function emulates the POST status request from Skrill so a real payment needs
+     * not to be done.
+     *
+     * @param $bookingId
+     * @param $status
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
     public function skrillSendTestPostRequestAction($bookingId, $status)
     {
         $urltopost = $this->generateUrl('frontend_payment_skrill_status', array(), true);
@@ -257,16 +317,15 @@ class paymentController extends Controller
 
 
         return $this->redirect($this->generateUrl(
-                                'frontend_payment_skrill_return', array('bookingId' => $bookingId)
-        ));
+            'frontend_payment_skrill_return', array('bookingId' => $bookingId)));
     }
 
     private function getBookingFrom($bookingId)
     {
         try {
             return $this->getDoctrine()
-                            ->getRepository('mycpBundle:booking')
-                            ->find($bookingId);
+                        ->getRepository('mycpBundle:booking')
+                        ->find($bookingId);
         } catch (\Exception $e) {
             return null;
         }
@@ -276,8 +335,8 @@ class paymentController extends Controller
     {
         try {
             return $this->getDoctrine()
-                            ->getRepository('mycpBundle:payment')
-                            ->findOneBy(array('booking' => $booking));
+                        ->getRepository('mycpBundle:payment')
+                        ->findOneBy(array('booking' => $booking));
         } catch (\Exception $e) {
             return null;
         }
@@ -289,8 +348,8 @@ class paymentController extends Controller
 
         try {
             return $this->getDoctrine()
-                            ->getRepository('mycpBundle:currency')
-                            ->findOneBy(array('curr_code' => $currencyIsoCode));
+                        ->getRepository('mycpBundle:currency')
+                        ->findOneBy(array('curr_code' => $currencyIsoCode));
         } catch (\Exception $e) {
             return null;
         }
@@ -339,14 +398,15 @@ class paymentController extends Controller
         return $skrillData;
     }
 
+    /**
+     * Returns the Details section of the POST data to be sent to Skrill.
+     *
+     * @param $bookingId
+     * @return array
+     */
     private function getSkrillDetailsData($bookingId)
     {
         $em = $this->getDoctrine()->getManager();
-
-        $finalDetails = array(
-            'detail1_description' => 'Booking ID:  ',
-            'detail1_text' => $bookingId,
-        );
 
         $reservations = $em
             ->getRepository('mycpBundle:ownershipReservation')
@@ -355,28 +415,50 @@ class paymentController extends Controller
         $generalReservationIds = array();
 
         foreach($reservations as $reservation) {
-            $generalReservationId = $reservation->getOwnResGenResId();
+            $generalReservation = $reservation->getOwnResGenResId();
+
+            if(empty($generalReservation)) {
+                continue;
+            }
+
+            $generalReservationId = $generalReservation->getGenResId();
 
             if(!in_array($generalReservationId, $generalReservationIds)) {
                 $generalReservationIds[] = $reservation->getOwnResGenResId();
             }
         }
 
-        $finalDetailsString = '';
+        return $this->generateDetailsFromGeneralReservations($bookingId, $generalReservationIds);
+    }
 
+    /**
+     * Generates a Skrill details array from the given generalReservations
+     *
+     * @param $bookingId
+     * @param array $generalReservationIds
+     * @return array
+     */
+    private function generateDetailsFromGeneralReservations($bookingId, array $generalReservationIds = array())
+    {
+        $finalDetails = array(
+            'detail1_description' => 'Booking ID:  ',
+            'detail1_text' => $bookingId,
+        );
+
+        $finalDetailsString = '';
         $num = 2;
         $maxReached = false;
 
-        foreach($generalReservationIds as $generalReservationId) {
+        foreach ($generalReservationIds as $generalReservationId) {
 
-            if($num > self::MAX_SKRILL_NUM_DETAILS) {
+            if ($num > self::MAX_SKRILL_NUM_DETAILS) {
                 $maxReached = true;
                 break;
             }
 
             $detailString = 'CAS.' . $generalReservationId;
 
-            if(strlen($finalDetailsString . ', ' . $detailString) > self::MAX_SKRILL_DETAIL_STRING_LENGTH) {
+            if (strlen($finalDetailsString . ', ' . $detailString) > self::MAX_SKRILL_DETAIL_STRING_LENGTH) {
                 $detail = $this->getSkrillDetail($num, $finalDetailsString);
                 $finalDetails = array_merge($finalDetails, $detail);
                 $finalDetailsString = $detailString;
@@ -387,7 +469,7 @@ class paymentController extends Controller
             }
         }
 
-        if(!$maxReached) {
+        if (!$maxReached && !empty($finalDetailsString)) {
             $detail = $this->getSkrillDetail($num, $finalDetailsString);
             $finalDetails = array_merge($finalDetails, $detail);
         }
@@ -395,6 +477,13 @@ class paymentController extends Controller
         return $finalDetails;
     }
 
+    /**
+     * Returns a valid Skrill Detail array
+     *
+     * @param $num
+     * @param $text
+     * @return array
+     */
     private function getSkrillDetail($num, $text)
     {
         $detail = array(
