@@ -587,12 +587,10 @@ class BackendReservationController extends Controller
             }
             $em->flush();
 
-            $res_controller= new reservationController();
-            $res_controller->setContainer($this->container);
-            $response=$res_controller->view_confirmationAction($booking->getBookingId(),true,true);
+            $response=$this->view_confirmation($booking->getBookingId());
             $user_locale = $user_tourist->getUserTouristLanguage()->getLangCode();
             $pdf_name='voucher'.$user_tourist->getUserTouristUser()->getUserId().'_'.$booking->getBookingId();
-            $res_controller->download_pdf($response, $pdf_name ,true);
+            $this->download_pdf($response, $pdf_name ,true);
             $attach="http://".$_SERVER['HTTP_HOST']."/web/vouchers/$pdf_name.pdf";
 
             // Enviando mail al cliente
@@ -804,5 +802,75 @@ class BackendReservationController extends Controller
         if(isset($sort_by))
             $selected=$sort_by;
         return $this->render('mycpBundle:utils:reservation_sort_by.html.twig',array('selected'=>$selected));
+    }
+
+    function view_confirmation($id_booking)
+    {
+        $service_time = $this->get('Time');
+        $user = $this->getUser();
+
+        $em = $this->getDoctrine()->getManager();
+        $own_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking));
+
+        $booking = $em->getRepository('mycpBundle:booking')->findBy(array('booking_id'=>$id_booking));
+
+        if(!$booking)
+        {
+            throw $this->createNotFoundException();
+        }
+        $booking=$booking[0];
+        $nights = array();
+        $rooms = array();
+        $commissions = array();
+        $total_price = 0;
+        $total_percent_price = 0;
+        foreach ($own_res as $own) {
+            $array_dates = $service_time->dates_between($own->getOwnResReservationFromDate()->getTimestamp(), $own->getOwnResReservationToDate()->getTimestamp());
+            array_push($nights, count($array_dates) - 1);
+            array_push($rooms, $em->getRepository('mycpBundle:room')->find($own->getOwnResSelectedRoomId()));
+            $total_price += $own->getOwnResNightPrice() * (count($array_dates) - 1);
+            $commission = $own->getOwnResGenResId()->GetGenResOwnId()->getOwnCommissionPercent();
+            $total_percent_price += $own->getOwnResNightPrice() * (count($array_dates) - 1) * $commission / 100;
+            $insert = 1;
+            foreach ($commissions as $com) {
+                if ($com == $commission) {
+                    $insert = 0;
+                    break;
+                }
+            }
+            if ($insert == 1) {
+                array_push($commissions, $commission);
+            }
+        }
+            return $this->renderView('frontEndBundle:reservation:boucherReservation.html.twig', array(
+                'own_res' => $own_res,
+                'user' => $user,
+                'booking' => $booking,
+                'nights' => $nights,
+                'rooms' => $rooms,
+                'total_price' => $total_price,
+                'total_percent_price' => $total_percent_price,
+                'commissions' => $commissions
+            ));
+
+    }
+
+    function download_pdf($html, $name, $save_to_disk = false, $id_booking = null) {
+
+        require_once($this->get('kernel')->getRootDir().'/config/dompdf_config.inc.php');
+        $dompdf = new \DOMPDF();
+        $dompdf->load_html($html);
+        $dompdf->set_paper("a4");
+        $dompdf->render();
+
+        if($save_to_disk==true)
+        {
+            $content_out=$dompdf->output();
+            $fpdf = fopen("vouchers/$name.pdf", 'w');
+            fwrite($fpdf, $content_out);
+            fclose($fpdf);
+        }
+        else
+            $dompdf->stream($name . ".pdf", array("Attachment" => false));
     }
 }
