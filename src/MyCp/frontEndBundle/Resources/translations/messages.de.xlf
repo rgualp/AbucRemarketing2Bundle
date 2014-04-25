@@ -1784,7 +1784,7 @@
             </trans-unit>
             <trans-unit id="455">
                 <source>ID_RESERVATION</source>
-                <target>Ident-Nr. der Reservierung </target>
+                <target>Booking ID </target>
             </trans-unit>
             <trans-unit id="456">
                 <source>RESERVATION_DETAILS</source>
@@ -2000,7 +2000,7 @@
               </trans-unit>
               <trans-unit id="509">
                     <source>CAN_FOLLOWING_RESERVATIONS_MYCT</source>
-                    <target>Sie können Ihre Reservierung verfolgen</target>
+                    <target>Sie können hier Ihre Reservierung verfolgen: </target>
               </trans-unit>
               <trans-unit id="510">
                   <source>PRINT</source>
@@ -2052,7 +2052,7 @@
                 </trans-unit>
                 <trans-unit id="522">
                     <source>TOTAL_TO_PAY_SERVICING</source>
-                    <target>Ingesamt zu zahlen, direkt, wenn der Service erfolgt</target>
+                    <target>Vor Ort zu zahlen</target>
                 </trans-unit>
                 <trans-unit id="523">
                     <source>FILL_ALL_FIELDS</source>
@@ -2432,7 +2432,7 @@
                 </trans-unit>
                 <trans-unit id="618">
                     <source>TOTAL_ALL_PREPAYMENT</source>
-                    <target>Total down payment</target>
+                    <target>Gesamt Anzahlung</target>
                 </trans-unit>
                 <trans-unit id="619">
                     <source>RESERVATIONS_HIGH_LOW_ORDERBY</source>

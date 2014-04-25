@@ -400,7 +400,7 @@ class paymentController extends Controller
 
     /**
      * Returns the Details section of the POST data to be sent to Skrill.
-     * 
+     *
      * @param $bookingId
      * @return array
      */

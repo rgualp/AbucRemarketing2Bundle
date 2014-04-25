@@ -1785,7 +1785,7 @@
             </trans-unit>
             <trans-unit id="455">
                 <source>ID_RESERVATION</source>
-                <target>ID Reserva</target>
+                <target>Booking ID </target>
             </trans-unit>
             <trans-unit id="456">
                 <source>RESERVATION_DETAILS</source>
