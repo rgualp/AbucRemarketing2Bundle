@@ -1396,11 +1396,11 @@
             </trans-unit>
             <trans-unit id="358">
                 <source>FORMS_NAME</source>
-                <target>Name</target>
+                <target>First Name</target>
             </trans-unit>
             <trans-unit id="359">
                 <source>FORMS_LASTNAME</source>
-                <target>Lastname</target>
+                <target>Last Name</target>
             </trans-unit>
             <trans-unit id="360">
                 <source>FORMS_EMAIL</source>
@@ -1897,7 +1897,7 @@
             </trans-unit>
             <trans-unit id="483">
                 <source>PAYMENT_CONFIRM</source>
-                <target>Confirm Payment</target>
+                <target>Continue with Payment</target>
             </trans-unit>
             <trans-unit id="484">
                 <source>PAYMENT_CONFIRMATION_TEXT</source>
@@ -1949,7 +1949,7 @@
             </trans-unit>
             <trans-unit id="496">
                 <source>CONTINUE_RESERVING</source>
-                <target>Continue my reservation</target>
+                <target>Book now!</target>
             </trans-unit>
             <trans-unit id="497">
                 <source>AVAILABLE</source>
