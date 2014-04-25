@@ -355,7 +355,13 @@ class paymentController extends Controller
         $generalReservationIds = array();
 
         foreach($reservations as $reservation) {
-            $generalReservationId = $reservation->getOwnResGenResId();
+            $generalReservation = $reservation->getOwnResGenResId();
+
+            if(empty($generalReservation)) {
+                continue;
+            }
+
+            $generalReservationId = $generalReservation->getGenResId();
 
             if(!in_array($generalReservationId, $generalReservationIds)) {
                 $generalReservationIds[] = $reservation->getOwnResGenResId();
