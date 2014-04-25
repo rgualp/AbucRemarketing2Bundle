@@ -2097,7 +2097,7 @@
             </trans-unit>
                 <trans-unit id="534">
                 <source>SKRILL_DESCRIPTION_BOOKING_ID</source>
-                <target>ID Reserva:  </target>
+                <target>Booking ID: </target>
             </trans-unit>
             <trans-unit id="535">
                 <source>SKRILL_PAY_WITH_SKRILL</source>

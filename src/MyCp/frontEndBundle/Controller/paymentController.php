@@ -19,11 +19,16 @@ use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
-class paymentController extends Controller {
+class paymentController extends Controller
+{
 
     private static $skrillPostUrl = 'https://www.moneybookers.com/app/payment.pl';
 
-    public function skrillPaymentAction($bookingId) {
+    const MAX_SKRILL_NUM_DETAILS = 5;
+    const MAX_SKRILL_DETAIL_STRING_LENGTH = 240;
+
+    public function skrillPaymentAction($bookingId)
+    {
         $booking = $this->getBookingFrom($bookingId);
 
         if (empty($booking)) {
@@ -59,7 +64,8 @@ class paymentController extends Controller {
         return $this->render('frontEndBundle:payment:skrillPayment.html.twig', $skrillData);
     }
 
-    public function skrillReturnAction($bookingId) {
+    public function skrillReturnAction($bookingId)
+    {
         $booking = $this->getBookingFrom($bookingId);
 
         if (empty($booking)) {
@@ -99,7 +105,8 @@ class paymentController extends Controller {
         );
     }
 
-    public function pollPaymentAction($bookingId) {
+    public function pollPaymentAction($bookingId)
+    {
         $booking = $this->getBookingFrom($bookingId);
 
         if (empty($booking)) {
@@ -120,7 +127,8 @@ class paymentController extends Controller {
         }
     }
 
-    public function skrillStatusAction() {
+    public function skrillStatusAction()
+    {
         $em = $this->getDoctrine()->getManager();
         $request = $this->getRequest()->request->all();
 
@@ -191,14 +199,16 @@ class paymentController extends Controller {
         return new Response('Thanks', 200);
     }
 
-    public function skrillCancelAction() {
+    public function skrillCancelAction()
+    {
         // TODO: redirect to booking/cancelled_payment page
 
         return $this->render(
                         'frontEndBundle:payment:skrillResponseTest.html.twig', array('status' => 'Cancelled by Skrill'));
     }
 
-    public function skrillTestResponseAction($status) {
+    public function skrillTestResponseAction($status)
+    {
         // TODO: this function is just for testing Skrill responses
 
         return $this->render(
@@ -207,14 +217,16 @@ class paymentController extends Controller {
 
     // TODO: With this function the skrill payment can be tested instead of using the real button
     // on the reservation page
-    public function skrillTestPaymentAction($bookingId = 0) {
+    public function skrillTestPaymentAction($bookingId = 0)
+    {
         $payUrl = $this->generateUrl('frontend_payment_skrill', array('bookingId' => $bookingId), true);
         return $this->render(
                         'frontEndBundle:payment:skrillPaymentTest.html.twig', array('payUrl' => $payUrl));
     }
 
     // TODO: this function emulates the POST status request from Skrill. Can be deleted when not needed anymore
-    public function skrillSendTestPostRequestAction($bookingId, $status) {
+    public function skrillSendTestPostRequestAction($bookingId, $status)
+    {
         $urltopost = $this->generateUrl('frontend_payment_skrill_status', array(), true);
 
         $datatopost = array(
@@ -249,7 +261,8 @@ class paymentController extends Controller {
         ));
     }
 
-    private function getBookingFrom($bookingId) {
+    private function getBookingFrom($bookingId)
+    {
         try {
             return $this->getDoctrine()
                             ->getRepository('mycpBundle:booking')
@@ -259,7 +272,8 @@ class paymentController extends Controller {
         }
     }
 
-    private function getPaymentFrom($booking) {
+    private function getPaymentFrom($booking)
+    {
         try {
             return $this->getDoctrine()
                             ->getRepository('mycpBundle:payment')
@@ -269,7 +283,8 @@ class paymentController extends Controller {
         }
     }
 
-    private function getCurrencyFrom($currencyIsoCode) {
+    private function getCurrencyFrom($currencyIsoCode)
+    {
         $currencyIsoCode = strtoupper(trim($currencyIsoCode));
 
         try {
@@ -281,7 +296,8 @@ class paymentController extends Controller {
         }
     }
 
-    private function getSkrillViewData(booking $booking, user $user, userTourist $userTourist) {
+    private function getSkrillViewData(booking $booking, user $user, userTourist $userTourist)
+    {
         $bookingId = $booking->getBookingId();
         $translator = $this->get('translator');
         $locale = $this->getRequest()->getLocale();
@@ -310,18 +326,87 @@ class paymentController extends Controller {
             'country' => $user->getUserCountry()->getCoCode(),
             'amount' => $booking->getBookingPrepay(),
             'currency' => $booking->getBookingCurrency()->getCurrCode(),
-            'detail1_description' => $translator->trans('SKRILL_DESCRIPTION_BOOKING_ID'),
-            'detail1_text' => $bookingId,
             'payment_methods' => 'ACC,DID,SFT',
             'button_text' => $translator->trans('SKRILL_PAY_WITH_SKRILL')
         );
 
-        $this->log(date('Y-m-d H:i:s') . ': PaymentController line ' . __LINE__ . ": Data sent to Skrill: \n" . print_r($skrillData, true));
+        $skrillDetails = $this->getSkrillDetailsData($bookingId);
+        $skrillData = array_merge($skrillData, $skrillDetails);
+
+        $this->log(date('Y-m-d H:i:s') . ': PaymentController line ' . __LINE__ .
+            ": Data sent to Skrill: \n" . print_r($skrillData, true));
 
         return $skrillData;
     }
 
-    private function log($message) {
+    private function getSkrillDetailsData($bookingId)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $finalDetails = array(
+            'detail1_description' => 'Booking ID:  ',
+            'detail1_text' => $bookingId,
+        );
+
+        $reservations = $em
+            ->getRepository('mycpBundle:ownershipReservation')
+            ->findBy(array('own_res_reservation_booking' => $bookingId));
+
+        $generalReservationIds = array();
+
+        foreach($reservations as $reservation) {
+            $generalReservationId = $reservation->getOwnResGenResId();
+
+            if(!in_array($generalReservationId, $generalReservationIds)) {
+                $generalReservationIds[] = $reservation->getOwnResGenResId();
+            }
+        }
+
+        $finalDetailsString = '';
+
+        $num = 2;
+        $maxReached = false;
+
+        foreach($generalReservationIds as $generalReservationId) {
+
+            if($num > self::MAX_SKRILL_NUM_DETAILS) {
+                $maxReached = true;
+                break;
+            }
+
+            $detailString = 'CAS.' . $generalReservationId;
+
+            if(strlen($finalDetailsString . ', ' . $detailString) > self::MAX_SKRILL_DETAIL_STRING_LENGTH) {
+                $detail = $this->getSkrillDetail($num, $finalDetailsString);
+                $finalDetails = array_merge($finalDetails, $detail);
+                $finalDetailsString = $detailString;
+                $num++;
+            } else {
+                $detailString = (empty($finalDetailsString) ? '' : ', ') . $detailString;
+                $finalDetailsString .= $detailString;
+            }
+        }
+
+        if(!$maxReached) {
+            $detail = $this->getSkrillDetail($num, $finalDetailsString);
+            $finalDetails = array_merge($finalDetails, $detail);
+        }
+
+        return $finalDetails;
+    }
+
+    private function getSkrillDetail($num, $text)
+    {
+        $detail = array(
+            "detail{$num}_description" => 'Reservation IDs: ',
+            "detail{$num}_text" => $text
+        );
+
+        return $detail;
+    }
+
+    private function log($message)
+    {
         $path = $this->get('kernel')->getRootDir() . '/../app/logs/payment.log';
         file_put_contents($path, $message . PHP_EOL, FILE_APPEND);
     }
