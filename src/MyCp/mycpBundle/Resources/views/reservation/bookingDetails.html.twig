@@ -1,0 +1,93 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_reservations') }}">Reservas</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_reservations_booking') }}">Booking</a> <span class="divider">/</span></li>
+    <li class="active">Detalles de Booking</li>
+    <li class="pull-right"><a href="{{ path('mycp_list_reservations_booking') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+{% endblock %}
+{% block form_actions %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_reservations') }}">Reservas</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_list_reservations_booking') }}">Booking</a> <span class="divider">/</span></li>
+    <li class="active">Detalles de Booking</li>
+    <li class="pull-right"><a href="{{ path('mycp_list_reservations_booking') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+</ul>
+{% endblock %}
+{% block content %}
+<h2>Detalles de Booking ({{ booking }})</h2>
+<hr/>
+<div class="row-fluid">
+    <div class="span12">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#reservas" data-toggle="tab">Info: Cliente Tourist</a>
+            </li>
+        </ul>
+        <table class="table table-striped" style="font-size: 12px">
+            <tr>
+                <td><b>Nombre:</b></td>
+                <td colspan="3">{{ user.getUserTouristUser.getUserUserName }} {{ user.getUserTouristUser.getUserLastName }}</td>
+            </tr>
+            <tr>
+                <td><b>Dirección:</b></td>
+                <td colspan="3">{{ user.getUserTouristUser.getUserAddress }}</td>
+            </tr>
+            <tr>
+                <td><b>Ciudad:</b></td>
+                <td>{{ user.getUserTouristUser.getUserCity }}</td>
+                <td><b>País:</b></td>
+                <td>{{ user.getUserTouristUser.getUserCountry }}</td>
+            </tr>
+            <tr>
+                <td><b>Email:</b></td>
+                <td colspan="3">{{ user.getUserTouristUser.getUserEmail }}</td>
+            </tr>
+            <tr>
+                <td><b>Idioma:</b></td>
+                <td>{{ user.getUserTouristLanguage.getLangName }}</td>
+                <td><b>Moneda:</b></td>
+                <td>{% if user.getUserTouristCurrency.getCurrName is defined %}{{ user.getUserTouristCurrency.getCurrName }}{% endif %}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="row-fluid">
+    <div class="span12">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a href="#reservas" data-toggle="tab">Servicio: Alojamiento</a>
+        </li>
+    </ul>
+    <table class="table table-striped" style="font-size: 12px">
+        <thead>
+        <tr>
+            <th>ID Booking</th>
+            <th>ID Reserva</th>
+            <th>ID Casa</th>
+            <th>Nombre Casa</th>
+            <th>Tipo Habitación</th>
+            <th>Desde</th>
+            <th>Hasta</th>
+        </tr>
+
+        </thead>
+        {% for reservation in reservations %}
+        <tr>
+            <td>{{ booking }}</td>
+            <td>{{ reservation.getOwnResGenResId.getGenResId }}</td>
+            <td>{{ reservation.getOwnResGenResId.getGenResOwnId.getOwnMcpCode }}</td>
+            <td>{{ reservation.getOwnResGenResId.getGenResOwnId.getOwnName }}</td>
+            <td>{{ reservation.getOwnResRoomType}}</td>
+            <td>{{ reservation.getOwnResReservationFromDate|date("d/m/Y")}}</td>
+            <td>{{ reservation.getOwnResReservationToDate|date("d/m/Y")}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+</div>
+</div>
+{% endblock %}

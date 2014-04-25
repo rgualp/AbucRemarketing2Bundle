@@ -20,9 +20,30 @@
             {% for message in app.session.flashbag.get('message_error_local') %}
             <div class="alert alert-error">{{ message }}</div>
             {% endfor %}
-            <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_list_reservations')}}">
+            <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_list_reservations_booking')}}">
                 <div class="well well-small">
-
+                    <div class="row-fluid">
+                        <div class="span3"><label>ID Booking:</label>
+                            <input id="filter_booking_number" name="filter_booking_number" type="text" class="input-block-level" value="{{ filter_booking_number }}"/>
+                        </div>
+                        <div class="span3"><label>Fecha Booking:</label>
+                            <input id="filter_date_booking" name="filter_date_booking" type="text" class="datepicker input-block-level" value="{{ filter_date_booking }}"/>
+                        </div>
+                        <div class="span4"><label>Usuario:</label>
+                            <input id="filter_user_booking" name="filter_user_booking" type="text" class="input-block-level" value="{{ filter_user_booking }}"/>
+                        </div>
+                        <div class="span2">
+                            <label>&nbsp;</label>
+                            <div class="row-fluid">
+                                <div class="span6">
+                                    <a rel="tooltip" title="Filtrar listado" href="javascript:action_submit();" class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
+                                </div>
+                                <div class="span6">
+                                    <a rel="tooltip" title="Resetear filtrado " href="{{ path('mycp_list_reservations_booking') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             {% if bookings %}
@@ -31,28 +52,23 @@
                     <div class="pull-left">
                         Mostrando del {{items_per_page * current_page - items_per_page}} al {% if items_per_page * current_page >  total_items%}{{total_items }}{% else %}{{ items_per_page * current_page }}{% endif %} de {{total_items}} registros
                     </div>
-                    <div class="pull-right">
-                        Líneas por página:
-
-                    </div>
                 </div>
             </div>
             <div class="row-fluid">
                 <div class="span9">
-
-                </div>
-
-                <div class="span3" style="margin-top: 10px" >
-                    <div class="row-fluid">
-                        <div class="span4" style="margin-top: 4px; font-size: 12px">
-                            Organizar:
-                        </div>
-                        <div class="span8">
-
-                        </div>
+                    <div class="paginator-cont">
+                        {{ simple_paginator_render('mycp_list_reservations_booking',null,{
+                        'container_class': 'paginator',
+                        'previousPageText': '«',
+                        'nextPageText': '»',
+                        'currentClass': 'current',
+                        'firstPageText': 'Primera',
+                        'lastPageText': 'Última',
+                        'route_params': {'items_per_page':items_per_page,'filter_booking_number':filter_booking_number,'filter_date_booking':filter_date_booking,'filter_user_booking':filter_user_booking}
+                        }) }}
                     </div>
-
                 </div>
+
             </div>
             </form>
             <table class="table table-hover table-striped" style="font-size: 12px">
@@ -78,7 +94,7 @@
                     <td>{{ booking['booking']['booking_user_dates'] }}</td>
 
                     <td style="text-align: right">
-                        <a class="btn btn-mini" href="">Detalles</a>
+                        <a class="btn btn-mini" href="{{ path('mycp_details_reservations_booking',{'id_booking':booking['booking']['booking_id']}) }}">Detalles</a>
                     </td>
                 </tr>
                 {% set flag = flag + 1%}
@@ -86,7 +102,19 @@
                 </tbody>
             </table>
             <div class="row-fluid">
-
+                <div class="span9">
+                    <div class="paginator-cont">
+                        {{ simple_paginator_render('mycp_list_reservations_booking',null,{
+                        'container_class': 'paginator',
+                        'previousPageText': '«',
+                        'nextPageText': '»',
+                        'currentClass': 'current',
+                        'firstPageText': 'Primera',
+                        'lastPageText': 'Última',
+                        'route_params': {'items_per_page':items_per_page,'filter_booking_number':filter_booking_number,'filter_date_booking':filter_date_booking,'filter_user_booking':filter_user_booking}
+                        }) }}
+                    </div>
+                </div>
             </div>
             {% else %}
             <p> <div class="alert alert-block">No hay Reservas disponibles.</div></p>
@@ -101,4 +129,37 @@
 {% endblock %}
 {% block javascripts %}
 <script type="text/javascript" src="{{ asset('bundles/mycp/js/common_list.js') }}"></script>
+<script type="text/javascript">
+    $('.datepicker').datepicker({
+        format: 'dd/mm/yyyy',
+        todayBtn: 'linked',
+        language: 'es'
+    });
+
+    function submit_filters(ev)
+    {
+        if(ev.keyCode==13)
+        {
+            action_submit();
+        }
+    }
+
+    function action_submit()
+    {
+        items_per_page={{items_per_page}};
+        filter_booking_number=$('#filter_booking_number').val();
+        if(filter_booking_number=='')filter_booking_number='null';
+        filter_date_booking=$('#filter_date_booking').val();
+        filter_date_booking=filter_date_booking.replace('/',"_");
+        filter_date_booking=filter_date_booking.replace('/',"_");
+        if(filter_date_booking=='')filter_date_booking='null';
+        filter_user_booking=$('#filter_user_booking').val();
+        if(filter_user_booking=='')filter_user_booking='null';
+        url_submit=$('#filter').attr('action');
+        url_submit=url_submit+'/'+items_per_page+'/'+filter_booking_number+'/'+filter_date_booking+'/'+filter_user_booking;
+        $('#filter').attr('action',url_submit);
+        $('#filter').submit();
+    }
+
+</script>
 {% endblock %}

@@ -102,6 +102,22 @@ class BackendReservationController extends Controller
     {
         $service_security= $this->get('Secure');
         $service_security->verify_access();
+
+        $filter_booking_number=$request->get('filter_booking_number');
+        $filter_date_booking=$request->get('filter_date_booking');
+        $filter_user_booking=$request->get('filter_user_booking');
+
+        if($request->getMethod()=='POST' && $filter_booking_number=='null' && $filter_date_booking=='null' && $filter_user_booking=='null')
+        {
+            $message='Debe llenar al menos un campo para filtrar.';
+            $this->get('session')->getFlashBag()->add('message_error_local',$message);
+            return $this->redirect($this->generateUrl('mycp_list_reservations_booking'));
+        }
+
+        if($filter_booking_number=='null') $filter_booking_number='';
+        if($filter_date_booking=='null') $filter_date_booking='';
+        if($filter_user_booking=='null') $filter_user_booking='';
+
         $page=1;
         if(isset($_GET['page']))$page=$_GET['page'];
         $em = $this->getDoctrine()->getManager();
@@ -109,15 +125,35 @@ class BackendReservationController extends Controller
         $paginator->setItemsPerPage($items_per_page);
 
         $bookings= $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
-            ->get_all_bookings())->getResult();
+            ->get_all_bookings($filter_booking_number,$filter_date_booking,$filter_user_booking))->getResult();
         $service_log= $this->get('log');
         $service_log->save_log('Visit',7);
-        //var_dump($bookings);
+
+        $filter_date_booking=str_replace('_','/',$filter_date_booking);
+
         return $this->render('mycpBundle:reservation:list_booking.html.twig',array(
             "bookings"=>$bookings,
             'items_per_page'=>$items_per_page,
             'current_page'=>$page,
+            'filter_booking_number'=>$filter_booking_number,
+            'filter_date_booking'=>$filter_date_booking,
+            'filter_user_booking'=>$filter_user_booking,
             'total_items'=>$paginator->getTotalItems(),
+        ));
+    }
+
+    public function details_bookingAction($id_booking)
+    {
+        $service_security= $this->get('Secure');
+        $service_security->verify_access();
+        $em = $this->getDoctrine()->getManager();
+        $booking=$em->getRepository('mycpBundle:booking')->find($id_booking);
+        $user=$em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user'=>$booking->getBookingUserId()));
+        $reservations=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking'=>$id_booking,'own_res_status'=>5));
+        return $this->render('mycpBundle:reservation:bookingDetails.html.twig',array(
+            'user'=>$user,
+            'reservations'=>$reservations,
+            'booking'=>$id_booking
         ));
     }
 

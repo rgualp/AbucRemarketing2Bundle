@@ -11,9 +11,12 @@ mycp_list_reservations:
     defaults: { _controller: mycpBundle:BackendReservation:list_reservations,items_per_page:100,filter_date_reserve:'',filter_offer_number:'',filter_reference:'',filter_date_from:'',filter_date_to:'',filter_booking_number:'',sort_by:0}
 
 mycp_list_reservations_booking:
-    pattern:  /list_booking/{items_per_page}/{filter_date_reserve}/{filter_offer_number}/{filter_reference}/{filter_date_from}/{filter_date_to}/{sort_by}/{filter_booking_number}
-    defaults: { _controller: mycpBundle:BackendReservation:list_reservations_booking,items_per_page:100,filter_date_reserve:'',filter_offer_number:'',filter_reference:'',filter_date_from:'',filter_date_to:'',filter_booking_number:'',sort_by:0}
+    pattern:  /list_booking/{items_per_page}/{filter_booking_number}/{filter_date_booking}/{filter_user_booking}
+    defaults: { _controller: mycpBundle:BackendReservation:list_reservations_booking,items_per_page:100,filter_booking_number:'',filter_date_booking:'',filter_user_booking:''}
 
+mycp_details_reservations_booking:
+    pattern:  /details_booking/{id_booking}
+    defaults: { _controller: mycpBundle:BackendReservation:details_booking }
 
 mycp_list_reservations_user:
     pattern:  /list_user/{items_per_page}/{filter_date_reserve}/{filter_offer_number}/{filter_reference}/{filter_date_from}/{filter_date_to}/{sort_by}/{filter_booking_number}

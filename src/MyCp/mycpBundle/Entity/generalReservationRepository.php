@@ -106,11 +106,22 @@ class generalReservationRepository extends EntityRepository {
         }
         return $array_intersection;
     }
-    function get_all_bookings()
+    function get_all_bookings($filter_booking_number,$filter_date_booking,$filter_user_booking)
     {
         $em = $this->getEntityManager();
+
+        $filter_date_booking_array = explode('_', $filter_date_booking);
+        if (count($filter_date_booking_array) > 1)
+        {
+            $filter_date_booking = $filter_date_booking_array[2] . '-' . $filter_date_booking_array[1] . '-' . $filter_date_booking_array[0];
+        }
+
         $query = $em->createQuery("SELECT payment,booking,curr FROM mycpBundle:payment payment JOIN payment.booking booking
-        JOIN payment.currency curr");
+        JOIN payment.currency curr
+        WHERE booking.booking_id LIKE '%$filter_booking_number%'
+        AND booking.booking_user_dates LIKE '%$filter_user_booking%'
+        AND payment.created LIKE '%$filter_date_booking%'
+        ORDER BY payment.id DESC");
         return $query->getArrayResult();
     }
     function get_reservations_by_user() {
