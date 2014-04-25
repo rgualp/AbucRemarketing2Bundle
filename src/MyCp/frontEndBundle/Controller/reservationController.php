@@ -819,14 +819,21 @@ class reservationController extends Controller
 
     }
 
-    function view_confirmationAction($id_booking,$to_print=false)
+    function view_confirmationAction($id_booking,$to_print=false, $no_user=false)
     {
         $service_time = $this->get('Time');
         $user = $this->getUser();
 
         $em = $this->getDoctrine()->getManager();
         $own_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking));
-        $booking = $em->getRepository('mycpBundle:booking')->findBy(array('booking_id'=>$id_booking,'booking_user_id'=>$user->getUserId()));
+        if($no_user==false)
+        {
+            $booking = $em->getRepository('mycpBundle:booking')->findBy(array('booking_id'=>$id_booking,'booking_user_id'=>$user->getUserId()));
+        }
+        else
+        {
+            $booking = $em->getRepository('mycpBundle:booking')->findBy(array('booking_id'=>$id_booking));
+        }
         if(!$booking)
         {
             throw $this->createNotFoundException();

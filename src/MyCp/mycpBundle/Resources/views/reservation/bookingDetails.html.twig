@@ -78,7 +78,7 @@
         {% for reservation in reservations %}
         <tr>
             <td>{{ booking }}</td>
-            <td>{{ reservation.getOwnResGenResId.getGenResId }}</td>
+            <td>CAS.{{ reservation.getOwnResGenResId.getGenResId }}</td>
             <td>{{ reservation.getOwnResGenResId.getGenResOwnId.getOwnMcpCode }}</td>
             <td>{{ reservation.getOwnResGenResId.getGenResOwnId.getOwnName }}</td>
             <td>{{ reservation.getOwnResRoomType}}</td>
