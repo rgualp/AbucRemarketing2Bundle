@@ -20,8 +20,11 @@ class languageController extends Controller {
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
         $last_route=$session->get('app_last_route');
+        $route_array=explode('.',$last_route);
+        $last_route=$route_array[0];
         $last_route_params=$session->get('app_last_route_params');
         $last_route_params['_locale']=$lang;
+        $last_route_params['locale']=$lang;
         $new_route=$this->get('router')->generate($last_route,$last_route_params);
 
         //Guardar en userTourist el lenguaje q cambio
