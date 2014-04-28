@@ -424,7 +424,7 @@ class paymentController extends Controller
             $generalReservationId = $generalReservation->getGenResId();
 
             if(!in_array($generalReservationId, $generalReservationIds)) {
-                $generalReservationIds[] = $reservation->getOwnResGenResId();
+                $generalReservationIds[] = $generalReservationId;
             }
         }
 
