@@ -68,7 +68,7 @@ class mycasatripController extends Controller {
         $date = \date('Y-m-j');
         $new_date = strtotime('-60 hours', strtotime($date));
         $new_date = \date('Y-m-j', $new_date);
-        $string_sql = "AND gre.gen_res_date > '$new_date'";
+        $string_sql = "AND gre.gen_res_status_date > '$new_date'";
         $status_string = 'ownre.own_res_status =1';
 
         if ($this->getRequest()->getMethod() == 'POST') {

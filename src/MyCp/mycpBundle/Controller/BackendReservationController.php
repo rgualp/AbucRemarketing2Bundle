@@ -511,6 +511,7 @@ class BackendReservationController extends Controller
         {
             $general_reservation=$own_reservations[0]->getOwnResGenResId();
             $general_reservation->setGenResStatus(2);
+            $general_reservation->setGenResStatusDate(new \DateTime());
             $em->persist($general_reservation);
             $user=$own_reservations[0]->getOwnResGenResId()->getGenResUserId();
             $user_tourist=$em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user'=>$user->getUserId()));
