@@ -595,8 +595,6 @@ class BackendOwnershipController extends Controller
                     $count++;
                 }
 
-                //var_dump($errors); exit();
-
                 $errors['ownership_email_1_email'] = $this->get('validator')->validateValue($post['ownership_email_1'],$emailConstraint);
                 $errors['ownership_email_2_email'] = $this->get('validator')->validateValue($post['ownership_email_2'],$emailConstraint);
                 $data['count_errors']+=count($errors['ownership_email_1_email']);
