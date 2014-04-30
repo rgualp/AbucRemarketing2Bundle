@@ -131,19 +131,19 @@
     <tbody>
     <tr>
         <td><b>{{"PRICE_OF_ACCOMMODATION_SERVICE"|trans}}</b></td>
-        <td class="text-right"><b>{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ ceil_round(total_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))}}</b></td>
+        <td class="text-right"><b>{{ currency_symbol }} {{ ceil_round(accommodations_service_charge) }}</b></td>
     </tr>
     <tr>
         <td>- {{"TOTAL_PREPAYMENT"|trans}} ({% for comm in commissions %}{{comm}}%{% if not loop.last %}, {% endif %}{% endfor %})</td>
-        <td class="text-right">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ceil_round((total_percent_price) * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))) }}</td>
+        <td class="text-right">{{ currency_symbol }} {{ ceil_round(prepayment_accommodations) }}</td>
     </tr>
     <tr>
         <td>{{"RESERVATION_TOTAL" | trans}} {{"SERVICE_RECHARGE"|trans|lower}}</td>
-        <td class="text-right">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ 10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</td>
+        <td class="text-right">{{ currency_symbol }} {{ service_charge_total }}</td>
     </tr>
     <tr>
         <td>{{"TOTAL_ALL_PREPAYMENT" | trans}}</td>
-        <td class="text-right">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))+(ceil_round((total_percent_price) * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))) }}</td>
+        <td class="text-right">{{ currency_symbol }} {{ service_charge_total + ceil_round(prepayment_accommodations) }}</td>
     </tr>
     <tr>
         <td>{{"OTHER_SERVICES_HEADING_FILTER"|trans}}</td>
@@ -152,7 +152,7 @@
     <tr>
         <td><h2 class="no-margin">{{"TOTAL_TO_PAY_SERVICING" | trans}}</h2></td>
         <td class="text-right"><h2 class="no-margin">
-                {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ ceil_round(total_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))- (ceil_round((total_percent_price) * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))) }}
+                {{ currency_symbol }} {{ ceil_round(accommodations_service_charge) - ceil_round(prepayment_accommodations) }}
             </h2></td>
     </tr>
     </tbody>
