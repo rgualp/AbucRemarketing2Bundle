@@ -684,7 +684,7 @@ class reservationController extends Controller
         }
     }
 
-    function payment_processed($id_booking, $payment_pending=0)
+    function payment_processed(Request $request, $id_booking, $payment_pending=0)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -751,7 +751,7 @@ class reservationController extends Controller
         $user_locale = $user_tourist[0]->getUserTouristLanguage()->getLangCode();
 
         //save pdf into disk to attach
-        $response=$this->view_confirmationAction($id_booking,true);
+        $response=$this->view_confirmationAction($request, $id_booking, true);
 
         $pdf_name='voucher'.$user->getUserId().'_'.$booking->getBookingId();
         $pdfFilePath = $this->getPdfFilePath($pdf_name);
