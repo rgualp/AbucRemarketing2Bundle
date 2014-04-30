@@ -751,8 +751,8 @@ class reservationController extends Controller
         $user_locale = $user_tourist[0]->getUserTouristLanguage()->getLangCode();
 
         //save pdf into disk to attach
-        $request = $this->container->get('request');
-        $response=$this->view_confirmationAction($request, $id_booking, true);
+        $response = $this->forward('frontEndBundle:reservation:view_confirmation',
+            array('id_booking' => $id_booking, 'to_print' => true));
 
         $pdf_name='voucher'.$user->getUserId().'_'.$booking->getBookingId();
         $pdfFilePath = $this->getPdfFilePath($pdf_name);
@@ -780,9 +780,6 @@ class reservationController extends Controller
         $service_email->send_email(
             $subject, 'reservation1@mycasaparticular.com', $subject.' - MyCasaParticular.com', $user->getUserEmail(), $body,$pdfFilePath
         );
-        //$subject, 'reservation@mycasaparticular.com', $subject.' - MyCasaParticular.com', $user->getUserEmail(), $body, $attach
-
-
 
         // enviando mail a reservation team
         foreach($array_ownres_by_house as $owns)
@@ -877,9 +874,9 @@ class reservationController extends Controller
         $totalPrepaymentInCuc = $totalPrepayment / $currencyRate;
         $totalServicingPrice = $accommodationServiceCharge - $prepaymentAccommodations;
 
-        if($to_print==true)
+        if($to_print == true)
         {
-            return $this->renderView('frontEndBundle:reservation:boucherReservation.html.twig', array(
+            return $this->render('frontEndBundle:reservation:boucherReservation.html.twig', array(
                 'own_res' => $own_res,
                 'user' => $user,
                 'booking' => $booking,
@@ -914,10 +911,11 @@ class reservationController extends Controller
             ));
     }
 
-    public function generate_pdf_boucherAction(Request $request, $id_booking, $name="voucher")
+    public function generatePdfVoucherAction($id_booking, $name="voucher")
     {
-        $responseHtml = $this->view_confirmationAction($request, $id_booking, true);
-        $this->streamHtmlAsPdf($responseHtml, $name);
+        $response = $this->forward('frontEndBundle:reservation:view_confirmation',
+            array('id_booking' => $id_booking, 'to_print' => true));
+        $this->streamHtmlAsPdf($response, $name);
     }
 
     function remove_dir($dir) {
@@ -930,8 +928,17 @@ class reservationController extends Controller
         @rmdir($dir);
     }
 
+    /**
+     * @param string|Response $html
+     * @param string $filePath
+     * @return bool
+     */
     private function storeHtmlAsPdf($html, $filePath)
     {
+        if($html instanceof Response) {
+            $html = $html->getContent();
+        }
+
         $dompdf = $this->getDomPdfObject($html);
         $content_out = $dompdf->output();
         $fpdf = fopen($filePath, 'w');
@@ -945,8 +952,16 @@ class reservationController extends Controller
         return true;
     }
 
+    /**
+     * @param string|Response $html
+     * @param string $name
+     */
     private function streamHtmlAsPdf($html, $name)
     {
+        if($html instanceof Response) {
+            $html = $html->getContent();
+        }
+
         $dompdf = $this->getDomPdfObject($html);
         $dompdf->stream($name . ".pdf", array("Attachment" => false));
     }
