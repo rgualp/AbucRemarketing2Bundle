@@ -18,6 +18,10 @@ frontend_review_confirm_reservation:
     locales:  { en: "user/reservation/check-confirm/", es: "usuario/reservacion/chequear-confirmacion/", de: "user/reservation/check-confirm/" }
     defaults: { _controller: frontEndBundle:reservation:review_confirm }
 
+frontend_review_confirm_submit:
+    pattern:  review_submit
+    defaults: { _controller: frontEndBundle:reservation:review_confirm_submit }
+
 frontend_redirect_reservation_reservation:
     locales:  { en: "user/reservation/redirect/", es: "usuario/reservacion/redireccionar/", de: "user/reservation/redirect/" }
     defaults: { _controller: frontEndBundle:reservation:redirect_reservation_reservation }

@@ -240,8 +240,15 @@ class reservationController extends Controller
         ));
     }
 
+    public function review_confirm_submitAction(Request $request)
+    {
+        $request->getSession()->set('message_cart',strip_tags($request->get('comment_cart')));
+        return $this->redirect($this->generateUrl('frontend_review_confirm_reservation'));
+    }
+
     public function review_confirmAction(Request $request)
     {
+
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $services = array();
@@ -419,10 +426,11 @@ class reservationController extends Controller
                 'user_tourist' => $user_tourist,
                 'reservations' => $own_array,
                 'nigths' => $temp_nigths,
-                'comment'=>strip_tags($this->getRequest()->get('comment_cart'))
+                'comment'=>$request->getSession()->get('message_cart')
             ));
+
             $subject = "MyCasaParticular Reservas - " . strtoupper($user_tourist->getUserTouristLanguage()->getLangCode());
-            //echo $body;
+
             $service_email->send_email(
                 $subject, 'no.reply@mycasaparticular.com', $subject, 'reservation@mycasaparticular.com', $body
             );
