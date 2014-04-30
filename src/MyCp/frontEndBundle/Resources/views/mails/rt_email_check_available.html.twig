@@ -10,27 +10,28 @@ Referencia de reserva: {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwn
 ID reserva: CAS.{{reservations[0].getOwnResGenResId.getGenResId}}
 <h4>Datos del cliente</h4>
 <ul>
-    <li><b>Nombre:</b> <i>{{user.getUserUserName}}</i></li>
-    <li><b>Apellido:</b> <i>{{user.getUserLastName}}</i></li>
-    <li><b>Correo electrónico:</b> <i>{{user.getUserEmail}}</i></li>
-    <li><b>Dirección:</b> <i>{{user.getUserAddress}}</i></li>
-    <li><b>Código postal:</b> <i>{{user_tourist.getUserTouristPostalCode}}</i></li>
-    <li><b>Ciudad:</b> <i>{{user.getUserCity}}</i></li>
-    <li><b>País:</b> <i>{{user.getUserCountry.getCoName}}</i></li>
-    <li><b>Teléfono:</b> <i>{{user.getUserPhone}}</i></li>
-    <li><b>Lenguaje:</b> <i>{{user_tourist.getUserTouristLanguage.getLangName}}</i></li>
-    <li><b>Moneda:</b> <i>{% if user_tourist.getUserTouristCurrency.getCurrName is defined %}
+    <li><b>Nombre:</b> {{user.getUserUserName}}</li>
+    <li><b>Apellido:</b> {{user.getUserLastName}}</li>
+    <li><b>Correo electrónico:</b> {{user.getUserEmail}}</li>
+    <li><b>Dirección:</b> {{user.getUserAddress}}</li>
+    <li><b>Código postal:</b> {{user_tourist.getUserTouristPostalCode}}</li>
+    <li><b>Ciudad:</b> {{user.getUserCity}}</li>
+    <li><b>País:</b> {{user.getUserCountry.getCoName}}</li>
+    <li><b>Teléfono:</b> {{user.getUserPhone}}</li>
+    <li><b>Lenguaje:</b> {{user_tourist.getUserTouristLanguage.getLangName}}</li>
+    <li><b>Moneda:</b> {% if user_tourist.getUserTouristCurrency.getCurrName is defined %}
             {{user_tourist.getUserTouristCurrency.getCurrName}}
             {% else %}
                 CUC
             {% endif %}
-        </i></li>
+    </li>
+    <li><b>Comentarios:</b><br/>{{ comment }}</li>
 
 </ul>
 <h4>Datos de reserva ({{reservations|length}} {% if reservations|length == 1%}Habitación{% else %}Habitaciones{% endif %})</h4>
 {% for reservation in reservations %}
 <ul>
-    <li><b>Habitación:</b> <i>{{reservation.getOwnResRoomType}}</i></li>
+    <li><b>Habitación:</b> {{reservation.getOwnResRoomType}}</li>
     <li><b>Adultos:</b> {{reservation.getOwnResCountAdults}}</li>
     <li><b>Niños:</b> {{reservation.getOwnResCountChildrens}}</li>
     <li><b>Fecha de arribo:</b> {{reservation.getOwnResReservationFromDate|date("d/m/Y")}}</li>
@@ -39,19 +40,19 @@ ID reserva: CAS.{{reservations[0].getOwnResGenResId.getGenResId}}
 {% endfor %}
 <h4>Datos de la casa</h4>
 <ul>
-    <li><b>Nombre:</b> <i>{{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnName}}</i></li>
-    <li><b>Propietarios:</b> <i>
+    <li><b>Nombre:</b> {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnName}}</li>
+    <li><b>Propietarios:</b> 
         {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnHomeowner1}}
         {% if reservations[0].getOwnResGenResId.getGenResOwnId.getOwnHomeowner2 %}
         y {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnHomeowner2}}
         {% endif %}
-    </i></li>
-    <li><b>Dirección:</b><i>
+    </li>
+    <li><b>Dirección:</b>
         {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressStreet}}
         No. {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressNumber}}
-        e/ {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressBetweenStreet1}} y {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressBetweenStreet2}}. {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressProvince.getProvName}}, {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressMunicipality.getMunName}}</i></li>
-    <li><b>Teléfono:</b> <i>{{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnPhoneNumber}}</i></li>
-    <li><b>Celular: </b><i>{{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnMobileNumber}}</i></li>
+        e/ {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressBetweenStreet1}} y {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressBetweenStreet2}}. {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressProvince.getProvName}}, {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressMunicipality.getMunName}}</li>
+    <li><b>Teléfono:</b> {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnPhoneNumber}}</li>
+    <li><b>Celular: </b>{{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnMobileNumber}}</li>
 </ul>
 </body>
 </html>

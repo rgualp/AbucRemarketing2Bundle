@@ -418,6 +418,7 @@ class reservationController extends Controller
                 'user_tourist' => $user_tourist,
                 'reservations' => $own_array,
                 'nigths' => $temp_nigths,
+                'comment'=>strip_tags($this->getRequest()->get('comment_cart'))
             ));
             $subject = "MyCasaParticular Reservas - " . strtoupper($user_tourist->getUserTouristLanguage()->getLangCode());
             //echo $body;

@@ -41,14 +41,17 @@
     <img src="{{ asset('bundles/frontend/img/question.gif') }}" width="20px" rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')| upper}}{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}"/>
     </div>    
     {% endif %}
-    <form method="POST" action="">
         <input style="visibility:hidden;" type="text" value="" name="data_reservation" id="data_reservation"/>
         <div class="container margin-t-t">
         <div class="row">
             <div class="{% if services %}col-xs-6{% else %}col-xs-9{% endif %}">&nbsp</div>
             <div class="{% if services %}col-xs-3{% else %}col-xs-3{% endif %}"><a href="{{ path('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'})}}" class="btn btn-block btn-info"><i class="icon-plus-sign"></i> {{"KEEP_SEARCHING"|trans}}</a></div>
             {% if services %}
-            <div class="col-xs-3"><a href="{{ path('frontend_review_confirm_reservation') }}" class="btn btn-block btn-primary"><i class="icon-question-sign"></i> {{"RESERVATION_CHECK_AVAILABILITY"|trans}}</a></div>
+            <div class="col-xs-3">
+                <button type="submit" class="btn btn-block btn-primary">
+                    <i class="icon-question-sign"></i> {{"RESERVATION_CHECK_AVAILABILITY"|trans}}
+                </button>
+            </div>
             {% endif %}
         </div>
         </div>
