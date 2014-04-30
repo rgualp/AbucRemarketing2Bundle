@@ -754,12 +754,16 @@ class reservationController extends Controller
 
         $pdf_name='voucher'.$user->getUserId().'_'.$booking->getBookingId();
 
-        $this->download_pdf($response, $pdf_name ,true);
 
-        $attach_del=$this->container->getParameter('kernel.root_dir')
-            ."/../web/vouchers/$pdf_name.pdf";
+        $pdfFilePath = $this->container->getParameter('kernel.root_dir')
+            . "/../tmp/vouchers/$pdf_name.pdf";
 
-        $attach="http://".$_SERVER['HTTP_HOST']."/web/vouchers/$pdf_name.pdf";
+        $success = $this->download_pdf($response, $pdf_name, $pdfFilePath, true);
+
+        if(!$success) {
+            // PDF could not be stored, so ignore attachment for now
+            $pdfFilePath = null;
+        }
 
         // Enviando mail al cliente
         $service_email = $this->get('Email');
@@ -776,7 +780,7 @@ class reservationController extends Controller
         $locale = $this->get('translator');
         $subject = $locale->trans('PAYMENT_CONFIRMATION', array(), "messages", $user_locale);
         $service_email->send_email(
-            $subject, 'reservation1@mycasaparticular.com', $subject.' - MyCasaParticular.com', $user->getUserEmail(), $body,$attach
+            $subject, 'reservation1@mycasaparticular.com', $subject.' - MyCasaParticular.com', $user->getUserEmail(), $body,$pdfFilePath
         );
         //$subject, 'reservation@mycasaparticular.com', $subject.' - MyCasaParticular.com', $user->getUserEmail(), $body, $attach
 
@@ -888,13 +892,7 @@ class reservationController extends Controller
             ));
     }
 
-    function generate_pdf_boucherAction($id_booking,$name="voucher")
-    {
-        $response=$this->view_confirmationAction($id_booking,true);
-        return $this->download_pdf($response, $name,false,$id_booking);
-    }
-
-    function download_pdf($html, $name, $save_to_disk = false, $id_booking = null) {
+    function download_pdf($html, $name, $filePath, $save_to_disk = false, $id_booking = null) {
 
         require_once($this->get('kernel')->getRootDir().'/config/dompdf_config.inc.php');
         $dompdf = new \DOMPDF();
@@ -905,8 +903,13 @@ class reservationController extends Controller
 
         if($save_to_disk==true)
         {
-            $content_out=$dompdf->output();
-            $fpdf = fopen("vouchers/$name.pdf", 'w');
+            $content_out = $dompdf->output();
+            $fpdf = fopen($filePath, 'w');
+
+            if($fpdf === false) {
+                return false;
+            }
+
             fwrite($fpdf, $content_out);
             fclose($fpdf);
         }
@@ -917,6 +920,8 @@ class reservationController extends Controller
         {
 
         }
+
+        return true;
     }
 
     function remove_dir($dir) {
