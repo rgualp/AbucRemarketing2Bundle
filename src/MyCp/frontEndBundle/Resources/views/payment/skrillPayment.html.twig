@@ -31,6 +31,22 @@ IMPORTANT:
             <input type="hidden" name="currency" value="{{ currency }}">
             <input type="hidden" name="detail1_description" value="{{ detail1_description }}">
             <input type="hidden" name="detail1_text" value="{{ detail1_text }}">
+            {% if detail2_description is defined %}
+                <input type="hidden" name="detail2_description" value="{{ detail2_description }}">
+                <input type="hidden" name="detail2_text" value="{{ detail2_text }}">
+            {% endif %}
+            {% if detail3_description is defined %}
+                <input type="hidden" name="detail3_description" value="{{ detail3_description }}">
+                <input type="hidden" name="detail3_text" value="{{ detail3_text }}">
+            {% endif %}
+            {% if detail4_description is defined %}
+                <input type="hidden" name="detail4_description" value="{{ detail4_description }}">
+                <input type="hidden" name="detail4_text" value="{{ detail4_text }}">
+            {% endif %}
+            {% if detail5_description is defined %}
+                <input type="hidden" name="detail5_description" value="{{ detail5_description }}">
+                <input type="hidden" name="detail5_text" value="{{ detail5_text }}">
+            {% endif %}
             <input type="hidden" name="payment_methods" value="{{ payment_methods }}">
             <input type="hidden" name="hide_login" value="1">
             <input type="submit" name="skrill_submit_button" id="submit_button" value="{{ button_text }}" >
