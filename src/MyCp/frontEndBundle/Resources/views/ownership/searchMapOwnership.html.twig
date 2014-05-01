@@ -18,12 +18,15 @@
                         {'list': list,
                          'type': 'map',
                          'in_searcher': in_searcher,
-                         'destination_name' : destination_name}) }}
+                         'destination_name' : destination_name,
+                         'show_paginator': show_paginator}) }}
     {%else%}
 {{ include('frontEndBundle:ownership:searchListOwnership.html.twig', 
                         {'list': list,
                          'type': 'map'}) }}
         {%endif%}
 </div>
+{%else%}
+        <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
 {%endif%}
 

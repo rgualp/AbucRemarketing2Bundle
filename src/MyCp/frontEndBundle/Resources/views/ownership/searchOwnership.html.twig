@@ -52,14 +52,14 @@
                 <div class="row">
                     <div class="col-xs-5">
                         <select class="form-control" id="select_change_order" data-url="{{ path('frontend_order_search_results_ownership_callback') }}">
-                            <option value="PRICE_LOW_HIGH">{{"PRICE_LOW_HIGH_ORDER_BY" | trans}}</option>
-                            <option value="PRICE_HIGH_LOW">{{"PRICE_HIGH_LOW_ORDER_BY" | trans}}</option>
-                            <option value="BEST_VALUED">{{"BEST_VALUED_ORDER_BY" | trans}}</option>
-                            <option value="WORST_VALUED">{{"WORST_VALUED_ORDER_BY" | trans}}</option>
-                            <option value="A_Z">{{"A_Z_ORDER_BY" | trans}}</option>
-                            <option value="Z_A">{{"Z_A_ORDER_BY" | trans}}</option>                            
-                            <option value="RESERVATIONS_HIGH_LOW">{{"RESERVATIONS_HIGH_LOW_ORDERBY" | trans}}</option>
-                            <option value="RESERVATIONS_LOW_HIGH">{{"RESERVATIONS_LOW_HIGH_ORDERBY" | trans}}</option>
+                            <option value="PRICE_LOW_HIGH" {%if app.session.get("search_order") == 'PRICE_LOW_HIGH'%}selected="selected"{%endif%}>{{"PRICE_LOW_HIGH_ORDER_BY" | trans}}</option>
+                            <option value="PRICE_HIGH_LOW" {%if app.session.get("search_order") == 'PRICE_HIGH_LOW'%}selected="selected"{%endif%}>{{"PRICE_HIGH_LOW_ORDER_BY" | trans}}</option>
+                            <option value="BEST_VALUED" {%if app.session.get("search_order") == 'BEST_VALUED'%}selected="selected"{%endif%}>{{"BEST_VALUED_ORDER_BY" | trans}}</option>
+                            <option value="WORST_VALUED" {%if app.session.get("search_order") == 'WORST_VALUED'%}selected="selected"{%endif%}>{{"WORST_VALUED_ORDER_BY" | trans}}</option>
+                            <option value="A_Z" {%if app.session.get("search_order") == 'A_Z'%}selected="selected"{%endif%}>{{"A_Z_ORDER_BY" | trans}}</option>
+                            <option value="Z_A" {%if app.session.get("search_order") == 'Z_A'%}selected="selected"{%endif%}>{{"Z_A_ORDER_BY" | trans}}</option>                            
+                            <option value="RESERVATIONS_HIGH_LOW" {%if app.session.get("search_order") == 'RESERVATIONS_HIGH_LOW'%}selected="selected"{%endif%}>{{"RESERVATIONS_HIGH_LOW_ORDERBY" | trans}}</option>
+                            <option value="RESERVATIONS_LOW_HIGH" {%if app.session.get("search_order") == 'RESERVATIONS_LOW_HIGH'%}selected="selected"{%endif%}>{{"RESERVATIONS_LOW_HIGH_ORDERBY" | trans}}</option>
                         </select>
                     </div>
                     <div class="col-xs-7 text-right">
