@@ -610,10 +610,10 @@ class ownershipRepository extends EntityRepository {
 
             $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_maximun_number_guests IN (" . $this->getStringFromArray($filters['own_beds_total'], false) . ")";
         } else if ($guest_total != null && $guest_total != 'null' && $guest_total != "")
-            $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_maximun_number_guests >= " . ($guest_total != "+10" ? $guest_total : 10);
+            $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_maximun_number_guests >= " . ($guest_total != "+10" ? $guest_total : 11);
 
-        if ($rooms_total != null && $rooms_total != 'null' && $rooms_total != "")
-            $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_rooms_total >= " . ($rooms_total != "+5" ? $rooms_total : 5);
+        if (isset($rooms_total) && $rooms_total != null && $rooms_total != 'null' && $rooms_total != "")
+            $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_rooms_total >= " . ($rooms_total != "+5" ? $rooms_total : 6);
 
 
         if ($filters != null && is_array($filters)) {
