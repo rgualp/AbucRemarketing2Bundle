@@ -24,10 +24,14 @@
                         {% set print_price = 1%}
                         {% if no_available_days[room.getRoomId] is defined%}
                             {% set print_price = 1%}
+                            {% set print_x = 1 %}
                             {% for day in no_available_days[room.getRoomId]%}
                                 {% if cont_days == day %}
                                     {% set print_price = 0%}
+                                    {% if print_x==1 %}
+                                        {% set print_x = 0%}
                                     X
+                                    {% endif %}
                                 {% endif %}
                             {% endfor%}
                         {% endif %}

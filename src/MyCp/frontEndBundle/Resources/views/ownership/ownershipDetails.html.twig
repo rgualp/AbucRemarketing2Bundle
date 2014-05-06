@@ -99,7 +99,7 @@
                     </li>
                     <li class="lead-2">
                         <div id="body_calendar" style="overflow-x: auto;">
-                            {{ include('frontEndBundle:ownership:ownershipReservationCalendar.html.twig')}}
+
                         </div>
                     </li>
                 </ul>
@@ -538,6 +538,7 @@
     </div>
     </div>
 
+
     {% block include_javascripts %}
 
         <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
@@ -671,4 +672,10 @@
         <script src="{{ asset('bundles/frontend/js/ownership.min.js') }}"></script>
         <script src="{{ asset('bundles/frontend/js/ownership.calendar.js') }}"></script>
     {% endblock %}
+    <script type="text/javascript">
+        from = $('#filter_date_from').val();
+        to = $('#filter_date_to').val();
+        refresh_calendar(from, to);
+    </script>
 {% endblock %}
+
