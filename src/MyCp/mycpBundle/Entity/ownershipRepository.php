@@ -334,7 +334,7 @@ class ownershipRepository extends EntityRepository {
         /**
          * Codigo Yanet - Inicio
          */
-        $ownership->setOwnCommentsTotal(0);
+        //$ownership->setOwnCommentsTotal(0);
         $ownership->setOwnMaximumNumberGuests(0);
         $ownership->setOwnMaximumPrice(0);
         $ownership->setOwnMinimumPrice(0);
