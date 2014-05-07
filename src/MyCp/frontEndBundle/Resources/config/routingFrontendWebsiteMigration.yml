@@ -181,7 +181,7 @@ frontend_website_migration_sitemap:
       locale:  en|es|ge
 
 frontend_website_migration_photos:
-  pattern: /web/uploads/img/fotografias/{something}/{some_photo}
+  pattern: /web/uploads/img/{some}/{something}/{some_photo}
   defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
 
 frontend_website_migration_logos:
