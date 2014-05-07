@@ -670,30 +670,53 @@ class reservationController extends Controller
     function confirmationAction($id_booking)
     {
         $em = $this->getDoctrine()->getManager();
-        $payment=$em->getRepository('mycpBundle:payment')->findOneBy(array('booking' => $id_booking));
+        $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array('booking' => $id_booking));
 
         if(empty($payment)) {
             throw $this->createNotFoundException();
         }
 
-        //redirect to landing page according to status
-        //var_dump($payment->getStatus()); exit();
         switch($payment->getStatus())
         {
+            case PaymentHelper::STATUS_PROCESSED:
+                // all emails have already been sent, so just render the page
+                return $this->renderPaymentConfirmationPage($id_booking);
+
             case PaymentHelper::STATUS_PENDING:
-                return $this->payment_processed($id_booking, 1);
+                $this->processPaymentEmails($id_booking, 1);
+                $this->setPaymentStatusProcessed($em, $payment);
+                return $this->renderPaymentConfirmationPage($id_booking);
+
             case PaymentHelper::STATUS_SUCCESS:
-                return $this->payment_processed($id_booking);
+                $this->processPaymentEmails($id_booking);
+                $this->setPaymentStatusProcessed($em, $payment);
+                return $this->renderPaymentConfirmationPage($id_booking);
+
             case PaymentHelper::STATUS_CANCELLED:
                 return $this->forward('frontEndBundle:reservation:reservation_reservation');
+
             case PaymentHelper::STATUS_FAILED:
                 return $this->forward('frontEndBundle:reservation:reservation_reservation');
+
             default:
                 throw $this->createNotFoundException();
         }
     }
 
-    function payment_processed($id_booking, $payment_pending=0)
+    private function setPaymentStatusProcessed($em, $payment)
+    {
+        $payment->setStatus(PaymentHelper::STATUS_PROCESSED);
+        $em->persist($payment);
+        $em->flush();
+    }
+
+    private function renderPaymentConfirmationPage($id_booking)
+    {
+        $url = $this->generateUrl('frontend_view_confirmation_reservation', array('id_booking'=>$id_booking));
+        return $this->render('frontEndBundle:reservation:afterpayment.html.twig', array('url'=>$url));
+    }
+
+    private function processPaymentEmails($id_booking, $payment_pending = 0)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -861,9 +884,6 @@ class reservationController extends Controller
                 }
             }
         }
-
-        $url=$this->generateUrl('frontend_view_confirmation_reservation', array('id_booking'=>$id_booking));
-        return $this->render('frontEndBundle:reservation:afterpayment.html.twig', array('url'=>$url));
     }
 
     function view_confirmationAction(Request $request, $id_booking,$to_print=false, $no_user=false)
