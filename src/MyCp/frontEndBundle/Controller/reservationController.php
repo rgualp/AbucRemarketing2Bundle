@@ -795,7 +795,7 @@ class reservationController extends Controller
                 $subject, 'reservation1@mycasaparticular.com', $subject.' - MyCasaParticular.com', $userEmail, $body,$pdfFilePath
             );
 
-            $logger->debug('Successfully sent email to user ' . $userEmail);
+            $logger->debug('Successfully sent email to user ' . $userEmail . ', PDF path : ' . (isset($pdfFilePath) ? $pdfFilePath : '<empty>'));
         } catch (\Exception $e) {
             $logger->error('EMAIL: Could not send Email to User. Booking ID: ' . $id_booking . ', Email: ' . $userEmail);
             $logger->error($e->getMessage());
@@ -983,6 +983,10 @@ class reservationController extends Controller
      */
     private function storeHtmlAsPdf($html, $filePath)
     {
+        if(empty($filePath) || !is_string($filePath)) {
+            return false;
+        }
+
         if($html instanceof Response) {
             $html = $html->getContent();
         }
