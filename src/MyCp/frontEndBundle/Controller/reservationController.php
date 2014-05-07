@@ -840,7 +840,11 @@ class reservationController extends Controller
 
             $prop_email = $owns[0]->getOwnResGenResId()->getGenResOwnId()->getOwnEmail1();
 
-            if($prop_email) {
+            if(empty($prop_email))
+            {
+                $logger->warning('EMAIL: Could not send Email to Casa Owner because the Email address is empty. Booking ID: ' .
+                    $id_booking . '. General Reservation ID: ' . $owns[0]->getOwnResGenResId()->getGenResId() . '.');
+            } else {
                 $prop_email = trim($prop_email);
 
                 try
@@ -855,9 +859,6 @@ class reservationController extends Controller
                         $owns[0]->getOwnResGenResId()->getGenResId() . '. Email: ' . $prop_email);
                     $logger->error($e->getMessage());
                 }
-            } else {
-                $logger->error('EMAIL: Could not send Email to Casa Owner because the Email address is empty. Booking ID: ' .
-                    $id_booking . '. General Reservation ID: ' . $owns[0]->getOwnResGenResId()->getGenResId() . '.');
             }
         }
 
