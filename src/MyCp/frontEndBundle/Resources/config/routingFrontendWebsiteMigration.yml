@@ -174,11 +174,59 @@ frontend_website_migration_decline:
   requirements:
       locale:  en|es|ge
 
+frontend_website_migration_forum:
+  pattern: /{locale}/forum.php
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
+  requirements:
+      locale:  en|es|ge
+
 frontend_website_migration_sitemap:
   pattern: /{locale}/mapa_web.php
   defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_sitemap_information}
   requirements:
       locale:  en|es|ge
 
+frontend_website_migration_photos:
+  pattern: /web/uploads/img/{something}
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
+  requirements:
+      something: .+
 
+frontend_website_migration_logos:
+  pattern: /web/img/{some_logo}
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
+  requirements:
+      some_logo: .+
+
+frontend_website_migration_pictures:
+  pattern: /pictures/{some_logo}
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
+  requirements:
+      some_logo: .+
+
+frontend_website_migration_css:
+  pattern: /web/css/{something}
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
+  requirements:
+      something: .+
+
+frontend_website_migration_js:
+  pattern: /web/js/{something}
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
+  requirements:
+      something: .+
+
+frontend_website_migration_administrator:
+  pattern: /administrator/{something}
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
+  requirements:
+      something: .+
+
+frontend_website_migration_backend:
+  pattern: /backend/login.php
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
+
+frontend_website_migration_mycp_login:
+  pattern: /mycp_login
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
 
