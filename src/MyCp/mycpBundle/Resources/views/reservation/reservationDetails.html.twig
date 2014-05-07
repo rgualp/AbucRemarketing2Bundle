@@ -20,6 +20,7 @@
     <button class="btn" type="reset">Cancelar</button>
     &nbsp;&nbsp;&nbsp;
     <button {% if reservation.getGenResSaved!=0 %} onclick="send_message();" {% endif %}class="{% if reservation.getGenResSaved==0 %}disabled{% endif %} btn btn-danger" type="{% if reservation.getGenResSaved!=0 %}submit{% else %}button{% endif %}">Enviar</button>
+    <a href="{{ path('mycp_new_offer_reservation',{ 'id_tourist' :  reservation.getGenResUserId.getUserId,'id_reservation' :  reservation.getGenResId }) }}" class="btn btn-success">Nueva Oferta</a>
 </div>
 </form>
 {% endblock %}

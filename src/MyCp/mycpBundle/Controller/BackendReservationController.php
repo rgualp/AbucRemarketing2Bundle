@@ -19,6 +19,14 @@ use MyCp\mycpBundle\Form\reservationType;
 
 class BackendReservationController extends Controller
 {
+    public function new_offerAction($id_tourist,$id_reservation){
+        $em = $this->getDoctrine()->getManager();
+        $user= $em->getRepository('mycpBundle:user')->find($id_tourist);
+        return $this->render('mycpBundle:reservation:new_offer.html.twig',array(
+            'id_reservation'=>$id_reservation,
+            'user'=>$user
+        ));
+    }
 
     public function list_reservationsAction($items_per_page, Request $request)
     {

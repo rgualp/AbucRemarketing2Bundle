@@ -30,6 +30,10 @@ mycp_details_reservation:
     pattern:  /details/{id_reservation}
     defaults: { _controller: mycpBundle:BackendReservation:details_reservation }
 
+mycp_new_offer_reservation:
+    pattern:  /new_offer/{id_tourist}/{id_reservation}
+    defaults: { _controller: mycpBundle:BackendReservation:new_offer }
+
 mycp_send_reservation:
     pattern:  /send/{id_reservation}
     defaults: { _controller: mycpBundle:BackendReservation:send_reservation }
