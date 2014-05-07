@@ -802,8 +802,7 @@ class reservationController extends Controller
         }
 
         // Log the reservations as sometimes too many emails are sent
-        $logger->debug('array_ownres_by_house in reservationController::payment_processed (count: ' . count($array_ownres_by_house) . ') :');
-        $logger->debug(print_r($array_ownres_by_house, true));
+        $logger->debug('array_ownres_by_house in reservationController::payment_processed, count: ' . count($array_ownres_by_house));
 
         // enviando mail a reservation team
         foreach($array_ownres_by_house as $owns)
