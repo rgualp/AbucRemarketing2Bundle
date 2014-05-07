@@ -702,7 +702,6 @@ class reservationController extends Controller
             throw $this->createNotFoundException();
         }
 
-        $own_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking));
         $booking = $em->getRepository('mycpBundle:booking')->findOneBy(array('booking_id'=>$id_booking,'booking_user_id'=>$user->getUserId()));
         if(!$booking)
         {
@@ -720,7 +719,7 @@ class reservationController extends Controller
         $service_time=$this->get('time');
 
         $cont=0;
-        foreach ($own_res as $own) {
+        foreach ($reservations as $own) {
             $general=$own->getOwnResGenResId();
             $general->setGenResStatus(2);
             $own->setOwnResStatus(5);
@@ -783,12 +782,17 @@ class reservationController extends Controller
             'nights'=>$array_nigths,
             'user_locale' => $user_locale
         ));
-        //echo $body; exit();
+
         $locale = $this->get('translator');
         $subject = $locale->trans('PAYMENT_CONFIRMATION', array(), "messages", $user_locale);
         $service_email->send_email(
             $subject, 'reservation1@mycasaparticular.com', $subject.' - MyCasaParticular.com', $user->getUserEmail(), $body,$pdfFilePath
         );
+
+        // Log the reservations as sometimes too many emails are sent
+        $logger = $this->get('logger');
+        $logger->debug('array_ownres_by_house in reservationController::payment_processed (count: ' . count($array_ownres_by_house) . ') :');
+        $logger->debug(print_r($array_ownres_by_house, true));
 
         // enviando mail a reservation team
         foreach($array_ownres_by_house as $owns)
@@ -800,12 +804,18 @@ class reservationController extends Controller
                 'nights'=>$array_nigths_by_ownres,
                 'payment_pending'=>$payment_pending
             ));
-            $service_email->send_email(
-                'Confirmación de pago', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', 'reservation@mycasaparticular.com', $body_res
-            );
 
+            try
+            {
+                $service_email->send_email(
+                    'Confirmación de pago', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', 'reservation@mycasaparticular.com', $body_res
+                );
+            } catch (\Exception $e) {
+                $logger->error('Could not send Email to reservation team. Booking ID: ' . $id_booking );
+                $logger->error($e->getMessage());
+            }
         }
-        //echo $body_res; exit();
+
         // enviando mail al propietario
         foreach($array_ownres_by_house as $owns)
         {
@@ -815,16 +825,30 @@ class reservationController extends Controller
                 'reservations'=>$owns,
                 'nights'=>$array_nigths_by_ownres
             ));
-            $prop_email=$owns[0]->getOwnResGenResId()->getGenResOwnId()->getOwnEmail1();
-            if($prop_email)
-                $service_email->send_email(
-                    'Confirmación de reserva', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', $prop_email, $body_prop
-                );
+
+            $prop_email = $owns[0]->getOwnResGenResId()->getGenResOwnId()->getOwnEmail1();
+
+            if($prop_email) {
+                $prop_email = trim($prop_email);
+
+                try
+                {
+                    $service_email->send_email(
+                        'Confirmación de reserva', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', $prop_email, $body_prop
+                    );
+                } catch (\Exception $e) {
+                    $logger->error('Could not send Email to Casa Owner. Booking ID: ' . $id_booking . '. General Reservation ID: ' .
+                        $owns[0]->getOwnResGenResId()->getGenResId() . '. Email: ' . $prop_email);
+                    $logger->error($e->getMessage());
+                }
+            } else {
+                $logger->error('Could not send Email to Casa Owner because the Email address is empty. Booking ID: ' .
+                    $id_booking . '. General Reservation ID: ' . $owns[0]->getOwnResGenResId()->getGenResId() . '.');
+            }
         }
 
         $url=$this->generateUrl('frontend_view_confirmation_reservation', array('id_booking'=>$id_booking));
         return $this->render('frontEndBundle:reservation:afterpayment.html.twig', array('url'=>$url));
-
     }
 
     function view_confirmationAction(Request $request, $id_booking,$to_print=false, $no_user=false)
@@ -958,7 +982,7 @@ class reservationController extends Controller
 
         fwrite($fpdf, $content_out);
         fclose($fpdf);
-        return true;
+        return file_exists($filePath);
     }
 
     /**
