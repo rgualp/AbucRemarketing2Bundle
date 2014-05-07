@@ -785,12 +785,23 @@ class reservationController extends Controller
 
         $locale = $this->get('translator');
         $subject = $locale->trans('PAYMENT_CONFIRMATION', array(), "messages", $user_locale);
-        $service_email->send_email(
-            $subject, 'reservation1@mycasaparticular.com', $subject.' - MyCasaParticular.com', $user->getUserEmail(), $body,$pdfFilePath
-        );
+
+        $logger = $this->get('logger');
+
+        try
+        {
+            $userEmail = trim($user->getUserEmail());
+            $service_email->send_email(
+                $subject, 'reservation1@mycasaparticular.com', $subject.' - MyCasaParticular.com', $userEmail, $body,$pdfFilePath
+            );
+
+            $logger->debug('Successfully sent email to user ' . $userEmail);
+        } catch (\Exception $e) {
+            $logger->error('EMAIL: Could not send Email to User. Booking ID: ' . $id_booking . ', Email: ' . $userEmail);
+            $logger->error($e->getMessage());
+        }
 
         // Log the reservations as sometimes too many emails are sent
-        $logger = $this->get('logger');
         $logger->debug('array_ownres_by_house in reservationController::payment_processed (count: ' . count($array_ownres_by_house) . ') :');
         $logger->debug(print_r($array_ownres_by_house, true));
 
@@ -810,8 +821,10 @@ class reservationController extends Controller
                 $service_email->send_email(
                     'Confirmación de pago', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', 'reservation@mycasaparticular.com', $body_res
                 );
+
+                $logger->debug('Successfully sent email to reservation team. Booking ID: ' . $id_booking);
             } catch (\Exception $e) {
-                $logger->error('Could not send Email to reservation team. Booking ID: ' . $id_booking );
+                $logger->error('EMAIL: Could not send Email to reservation team. Booking ID: ' . $id_booking );
                 $logger->error($e->getMessage());
             }
         }
@@ -836,13 +849,15 @@ class reservationController extends Controller
                     $service_email->send_email(
                         'Confirmación de reserva', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', $prop_email, $body_prop
                     );
+
+                    $logger->debug('Successfully sent email to Casa Owner. Booking ID: ' . $id_booking . ', Email: ' . $prop_email);
                 } catch (\Exception $e) {
-                    $logger->error('Could not send Email to Casa Owner. Booking ID: ' . $id_booking . '. General Reservation ID: ' .
+                    $logger->error('EMAIL: Could not send Email to Casa Owner. Booking ID: ' . $id_booking . '. General Reservation ID: ' .
                         $owns[0]->getOwnResGenResId()->getGenResId() . '. Email: ' . $prop_email);
                     $logger->error($e->getMessage());
                 }
             } else {
-                $logger->error('Could not send Email to Casa Owner because the Email address is empty. Booking ID: ' .
+                $logger->error('EMAIL: Could not send Email to Casa Owner because the Email address is empty. Booking ID: ' .
                     $id_booking . '. General Reservation ID: ' . $owns[0]->getOwnResGenResId()->getGenResId() . '.');
             }
         }
