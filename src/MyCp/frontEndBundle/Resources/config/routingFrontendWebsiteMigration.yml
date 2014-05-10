@@ -230,3 +230,10 @@ frontend_website_migration_mycp_login:
   pattern: /mycp_login
   defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
 
+frontend_website_migration_images:
+  pattern: /web/uploads/img/{something}
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
+
+frontend_website_migration_pictures:
+ pattern: /pictures/{something}
+ defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
