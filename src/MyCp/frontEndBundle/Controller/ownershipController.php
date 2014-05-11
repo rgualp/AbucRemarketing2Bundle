@@ -932,7 +932,7 @@ class ownershipController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $own_ids = $session->get('own_ids');
 
-        $statisics = $em->getRepository('mycpBundle:ownership')->getSearchStatisticsByIds($own_ids);
+        $statisics = $em->getRepository('mycpBundle:ownership')->getSearchStatistics();
 
         $check_filters = array();
 

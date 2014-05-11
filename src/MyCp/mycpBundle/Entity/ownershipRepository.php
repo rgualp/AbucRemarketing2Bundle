@@ -344,12 +344,11 @@ class ownershipRepository extends EntityRepository {
          */
         $em->persist($ownership);
 
-        $old_unavailable=array();
+        $old_unavailable = array();
 
-        foreach($old_rooms as $old_room)
-        {
-            $id_old_room=$old_room->getRoomId();
-            array_push($old_unavailable, $em->getRepository('mycpBundle:unavailabilitydetails')->findBy(array('room'=>$id_old_room)));
+        foreach ($old_rooms as $old_room) {
+            $id_old_room = $old_room->getRoomId();
+            array_push($old_unavailable, $em->getRepository('mycpBundle:unavailabilitydetails')->findBy(array('room' => $id_old_room)));
             $query = $em->createQuery("DELETE mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
             $query->execute();
         }
@@ -441,9 +440,8 @@ class ownershipRepository extends EntityRepository {
             $room->setRoomNum($e);
             $em->persist($room);
 
-            foreach($old_unavailable[$e-1] as $unavail)
-            {
-                $new_unavail= new unavailabilityDetails();
+            foreach ($old_unavailable[$e - 1] as $unavail) {
+                $new_unavail = new unavailabilityDetails();
                 $new_unavail->setRoom($unavail->getRoom());
                 $new_unavail->setSyncSt($unavail->getSyncSt());
                 $new_unavail->setUdFromDate($unavail->getUdFromDate());
@@ -876,7 +874,7 @@ class ownershipRepository extends EntityRepository {
         $categories = array();
 
         foreach ($owns_categories as $category) {
-            if ($own_ids != null)
+            if (isset($own_ids))
                 $query_string = "SELECT count(o.own_type) FROM mycpBundle:ownership o
                          WHERE o.own_status = 1 AND o.own_id IN ($own_ids) AND o.own_category='" . $category . "'";
             else
@@ -898,7 +896,7 @@ class ownershipRepository extends EntityRepository {
         $prices_result = array();
         $minimun_price = 0;
         foreach ($prices as $price) {
-            if ($own_ids != null)
+            if (isset($own_ids))
                 $query_string = "SELECT count(o.own_maximum_price) FROM mycpBundle:ownership o
                          WHERE o.own_status = 1 AND o.own_id IN ($own_ids) AND ((o.own_minimum_price<" . $price . " AND o.own_minimum_price >=$minimun_price))";
             else
@@ -931,7 +929,7 @@ class ownershipRepository extends EntityRepository {
         $types = array();
 
         foreach ($owns_types as $type) {
-            if ($own_ids != null)
+            if (isset($own_ids))
                 $query_string = "SELECT count(o.own_type) FROM mycpBundle:ownership o
                                  WHERE o.own_status = 1 AND o.own_id IN ($own_ids) AND o.own_type='" . $type . "'";
             else
@@ -1288,27 +1286,35 @@ class ownershipRepository extends EntityRepository {
         return $statistics;
     }
 
-    function getSearchStatisticsByIds($own_ids) {
-        $em = $this->getEntityManager();
+    /* function getSearchStatisticsByIds($own_ids) {
+      $em = $this->getEntityManager();
 
-        $query_string = "SELECT o.own_id as own_id, 
-                            o.own_facilities_breakfast as breakfast,
-                            o.own_facilities_dinner as dinner,
-                            o.own_facilities_parking as parking,
-                            o.own_water_piscina as pool,
-                            o.own_description_laundry as laundry,
-                            o.own_description_internet as internet,
-                            o.own_water_sauna as sauna,
-                            o.own_description_pets as pets,
-                            o.own_water_jacuzee as jacuzee,
-                            o.own_langs as langs FROM mycpBundle:ownership o WHERE o.own_id IN ($own_ids)";
-        $own_list = $em->createQuery($query_string)->getResult();
-        return $this->getSearchStatistics($own_list);
-    }
+      if(isset($own_ids)){
+      $query_string = "SELECT o.own_id as own_id,
+      o.own_facilities_breakfast as breakfast,
+      o.own_facilities_dinner as dinner,
+      o.own_facilities_parking as parking,
+      o.own_water_piscina as pool,
+      o.own_description_laundry as laundry,
+      o.own_description_internet as internet,
+      o.own_water_sauna as sauna,
+      o.own_description_pets as pets,
+      o.own_water_jacuzee as jacuzee,
+      o.own_langs as langs FROM mycpBundle:ownership o WHERE o.own_id IN ($own_ids)";
+      $own_list = $em->createQuery($query_string)->getResult();
+      return $this->getSearchStatistics($own_list);
+      }else
+      {
+
+      }
+      } */
 
     function getCompleteListByIds($own_ids, $user_id, $session_id) {
         $em = $this->getEntityManager();
-        $query_string = "SELECT o.own_id as own_id,
+        $results = array();
+
+        if (isset($own_ids)) {
+            $query_string = "SELECT o.own_id as own_id,
                              o.own_name as own_name,
                             (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id 
                             AND (p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
@@ -1329,22 +1335,27 @@ class ownershipRepository extends EntityRepository {
                          JOIN o.own_address_municipality mun
                          WHERE o.own_id IN ($own_ids)";
 
-        $results = $em->createQuery($query_string)->getResult();
+            $results = $em->createQuery($query_string)->getResult();
 
-        for ($i = 0; $i < count($results); $i++) {
-            if ($results[$i]['photo'] == null)
-                $results[$i]['photo'] = "no_photo.png";
-            else if (!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo'])))
-                $results[$i]['photo'] = "no_photo.png";
+            for ($i = 0; $i < count($results); $i++) {
+                if ($results[$i]['photo'] == null)
+                    $results[$i]['photo'] = "no_photo.png";
+                else if (!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo'])))
+                    $results[$i]['photo'] = "no_photo.png";
+            }
         }
-
         return $results;
     }
 
     function getListByIds($own_ids) {
         $em = $this->getEntityManager();
-        $query_string = "SELECT o FROM mycpBundle:ownership o WHERE o.own_id IN ($own_ids)";
-        return $em->createQuery($query_string)->getResult();
+        $results = array();
+
+        if (isset($own_ids)) {
+            $query_string = "SELECT o FROM mycpBundle:ownership o WHERE o.own_id IN ($own_ids)";
+            $results = $em->createQuery($query_string)->getResult();
+        }
+        return $results;
     }
 
     //Yanet - Fin
