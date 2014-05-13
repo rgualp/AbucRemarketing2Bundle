@@ -232,7 +232,7 @@ class ownershipController extends Controller {
         $locale = $this->get('translator')->getLocale();
 
         $own_name = str_replace('-', ' ', $own_name);
-        $own_name = str_replace("nn", "ñ", $own_name);
+        //$own_name = str_replace("nn", "ñ", $own_name);
 
         $ownership_array = $em->getRepository('mycpBundle:ownership')->get_details($own_name, $locale, $user_ids["user_id"], $user_ids["session_id"]);
         if ($ownership_array == null) {
