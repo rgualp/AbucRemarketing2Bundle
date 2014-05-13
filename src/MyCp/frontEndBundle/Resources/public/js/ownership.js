@@ -181,7 +181,7 @@ function datePickersStarUp_searcher() {
 
     var departure_datepicker = $('#input_departure_date').datepicker({
         format: 'dd/mm/yyyy',
-        todayBtn: true,
+        todayBtn: false,
         autoclose: true,
         startDate: '+1d',
         date: end_date,
@@ -281,7 +281,7 @@ function datePickersStarUp(){
 
   var reservation_filter_date_to = $('#top_reservation_filter_date_to').datepicker({
         format:'dd/mm/yyyy',
-        todayBtn:'linked',
+        todayBtn: false,
         autoclose: true,
         startDate: '+1',
         date: end_date,
@@ -314,7 +314,7 @@ function datePickersStarUp(){
     
      var filter_date_to =$('#filter_date_to').datepicker({
         format:'dd/mm/yyyy',
-        todayBtn:'linked',
+        todayBtn:false,
         autoclose: true,
         startDate: '+1d',
         date: end_date,
