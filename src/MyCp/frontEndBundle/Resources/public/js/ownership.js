@@ -83,14 +83,14 @@ function start() {
         filter_by_others(false);
     });
 
-    initialize_map();    
-    datePickersStarUp();    
+    initialize_map();
+    datePickersStarUp();
     $('#btn_insert_comment').click(insert_comment);
     //reservations_in_details();
     datePickersStarUp_searcher();
     connectSearchOnEnter();
     $("#btn_search").click(search);
-    
+
     top_rated();
 }
 
@@ -181,7 +181,7 @@ function datePickersStarUp_searcher() {
 
     var departure_datepicker = $('#input_departure_date').datepicker({
         format: 'dd/mm/yyyy',
-        todayBtn: true,
+        todayBtn: false,
         autoclose: true,
         startDate: '+1d',
         date: end_date,
@@ -250,8 +250,8 @@ function create_dateDMY(date_text) {
     return null;
 }
 
-function datePickersStarUp(){   
-    
+function datePickersStarUp(){
+
     $('#top_reservation_filter_date_from').datepicker({
         format:'dd/mm/yyyy',
         todayBtn:'linked',
@@ -266,13 +266,13 @@ function datePickersStarUp(){
                 var date = new Date(ev.date);
                 date.setDate(date.getDate() + 2);
                 reservation_filter_date_to.setDate(date);
-                
+
                 var startDate = new Date(ev.date);
                  startDate.setDate(startDate.getDate() + 1);
                 $('#filter_date_from').datepicker("setDate", startDate);
                 $('#filter_date_to').datepicker("setDate", date);
-                
-                
+
+
                 $('.datepicker').hide();
                 $('#top_reservation_submit_button').attr('type','submit');
                 $('#top_reservation_submit_button').attr('onclick','');
@@ -281,13 +281,13 @@ function datePickersStarUp(){
 
   var reservation_filter_date_to = $('#top_reservation_filter_date_to').datepicker({
         format:'dd/mm/yyyy',
-        todayBtn:'linked',
+        todayBtn: false,
         autoclose: true,
         startDate: '+1',
         date: end_date,
         language: $('#top_reservation_filter_date_to').attr('data-localization')
     }).data('datepicker');
-    
+
       $('#filter_date_from').datepicker({
         format:'dd/mm/yyyy',
         todayBtn:'linked',
@@ -303,23 +303,23 @@ function datePickersStarUp(){
                 date.setDate(date.getDate() + 2);
                 $('#filter_date_to').datepicker("setDate", date);
                 $('.datepicker').hide();
-                
+
                 refresh_calendar(ev.date.getDate() + '/' + (ev.date.getMonth() + 1) + '/' + ev.date.getFullYear(),date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
-                
+
                 /*var start_date = new Date(ev.date);
                 start_date.setDate(start_date.getDate() + 1);
                 $('#top_reservation_filter_date_from').datepicker("setDate", start_date);
                 $('#top_reservation_filter_date_to').datepicker("setDate", date);*/
             });
-    
+
      var filter_date_to =$('#filter_date_to').datepicker({
         format:'dd/mm/yyyy',
-        todayBtn:'linked',
+        todayBtn:false,
         autoclose: true,
         startDate: '+1d',
         date: end_date,
         language: $('#filter_date_to').attr('data-localization')
-    }).data('datepicker');     
+    }).data('datepicker');
 }
 
 function change_order()
@@ -380,7 +380,7 @@ function _changeViewTo(url, viewType, event) {
 
         manage_favorities(".favorite_off_action");
         manage_favorities(".favorite_on_action");
-            
+
         hide_loading();
     });
 
@@ -897,10 +897,10 @@ function initialize_map() {
                             var boxText = document.createElement("div");
                             boxText.style.cssText = "border: 1px solid #ccc; margin-top: 8px; background: #fff; padding: 5px; font-size:11px";
                             boxText.innerHTML = "<div class='row'>" +
-                                                "<div class='map_image col-sm-4' style='background-image:url(" + data[i].image + ")'></div>" + 
-                                                "<div class='col-sm-8' style='line-height:12px;text-align: left'>" + data[i].title + "<br/>" + 
-                                                "<b>" + data[i].content + "</b>" + 
-                                                "</div>" + 
+                                                "<div class='map_image col-sm-4' style='background-image:url(" + data[i].image + ")'></div>" +
+                                                "<div class='col-sm-8' style='line-height:12px;text-align: left'>" + data[i].title + "<br/>" +
+                                                "<b>" + data[i].content + "</b>" +
+                                                "</div>" +
                                                 "</div>";
 
                             ib.setContent(boxText);
@@ -978,7 +978,7 @@ function initialize_map() {
         });
 
     }
-    
+
     if(document.getElementById("big_map_details") !== null)
     {
         var x = $("#big_map_details").attr("data-x");
@@ -987,7 +987,7 @@ function initialize_map() {
         var description = $("#big_map_details").attr("data-description");
         var image = $("#big_map_details").attr("data-image");
         var icon = $("#big_map_details").attr("data-icon");
-        
+
         var center_details = new google.maps.LatLng(x, y);//La Habana 23.09725, -82.37548
         var options_details = {
             zoom: 15,
@@ -996,27 +996,27 @@ function initialize_map() {
         };
 
         var big_map_details = new google.maps.Map(document.getElementById("big_map_details"), options_details);
-        
+
         var marker = new google.maps.Marker({
             position: center_details,
             map: big_map_details,
             title: name,
             icon: icon
         });
-        
-        
-    
+
+
+
         var boxText = document.createElement("div");
         boxText.style.cssText = "border: 1px solid #ccc; margin-top: 8px; background: #fff; padding: 5px; font-size:11px";
         boxText.innerHTML = "<table><tr><td class='map_image' style='background-image:url("+image+")'></td><td style='padding-left:4px; line-height:12px;' valign='top'>"+name+"<br/><b>" + description + "</b></td></tr></table>";
-        
+
         var myOptions = {
                  content: boxText
                 ,disableAutoPan: false
                 ,maxWidth: 0
                 ,pixelOffset: new google.maps.Size(-140, 0)
                 ,zIndex: null
-                ,boxStyle: { 
+                ,boxStyle: {
                  // background: "url('tipbox.gif') no-repeat",
                   opacity: 0.85,
                   width: "280px"
@@ -1028,7 +1028,7 @@ function initialize_map() {
                 ,pane: "floatPane"
                 ,enableEventPropagation: false
         };
-        
+
         var ib = new InfoBox(myOptions);
 
         google.maps.event.addListener(marker, 'mouseover', function() {
@@ -1207,15 +1207,15 @@ function validate()
     /*if(user_name == '')
      {
      valid = false;
-     error_text += $('#input_name').attr("requiered-message") + ' <br/>';            
+     error_text += $('#input_name').attr("requiered-message") + ' <br/>';
      }
-     
+
      if(user_email == '')
      {
      valid = false;
      error_text += $('#input_email').attr("requiered-message") +  ' <br/>';
-     
-     }    
+
+     }
      else if(!valid_email(user_email))
      {
      valid = false;

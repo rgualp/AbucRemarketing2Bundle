@@ -65,3 +65,11 @@ label.permission{margin-left: 15px;}
 .no_link{text-decoration: none!important; cursor: pointer}
 .tab_errors{color: #BF0000!important;}
 
+.container_loading{background: url("../images/loading.gif") no-repeat center; height: 50px;}
+
+.price li.lead {padding: 15px; display: block; border: 1px solid #668a26; border-left-color: #84b231; color: #ffffff; margin: 0; text-shadow: 0 -1px 1px #999999; -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.2) inset; -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.2) inset; box-shadow: 0 0 5px rgba(0, 0, 0, 0.2) inset; background-image: -moz-linear-gradient(top, #95c939, #84b231); background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#95c939), to(#84b231)); background-image: -webkit-linear-gradient(top, #95c939, #84b231); background-image: -o-linear-gradient(top, #95c939, #84b231); background-image: linear-gradient(#95c939, #84b231); background-repeat: repeat-x; filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff95c939', endColorstr='#ff84b231', GradientType=0); }
+.lead { margin-bottom: 23px; font-size: 16.099999999999998px; font-weight: 200; line-height: 1.4; }
+.calendar-results{margin: 0}
+.calendar-results li{list-style: none}
+.text-center{text-align: center}
+.rooms_selected{width: 100%}

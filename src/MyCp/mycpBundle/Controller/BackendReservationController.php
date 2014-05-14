@@ -19,6 +19,171 @@ use MyCp\mycpBundle\Form\reservationType;
 
 class BackendReservationController extends Controller
 {
+    public function new_offerAction($id_tourist,$id_reservation){
+
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('mycpBundle:user')->find($id_tourist);
+        $gen_res = $em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
+        $id_mun=$gen_res->getGenResOwnId()->getOwnAddressMunicipality();
+        $ownerships = $em->getRepository('mycpBundle:ownership')->findBy(array('own_address_municipality'=>$id_mun));
+
+        if($this->getRequest()->getMethod()=='POST')
+        {
+            $request=$this->getRequest();
+            $id_ownership = $request->get('data_ownership');
+
+            $em = $this->getDoctrine()->getManager();
+            $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
+
+            if (!$request->get('data_reservation'))
+                throw $this->createNotFoundException();
+            $data = $request->get('data_reservation');
+            $data = explode('/', $data);
+
+            $from_date = $data[0];
+            $to_date = $data[1];
+            $ids_rooms = $data[2];
+            $count_guests = $data[3];
+            $count_kids = $data[4];
+            $array_ids_rooms = explode('&', $ids_rooms);
+            array_shift($array_ids_rooms);
+            $array_count_guests = explode('&', $count_guests);
+            array_shift($array_count_guests);
+            $array_count_kids = explode('&', $count_kids);
+            array_shift($array_count_kids);
+
+            $reservation_date_from = $from_date;
+            $reservation_date_from = explode('&', $reservation_date_from);
+
+            $start_timestamp = mktime(0, 0, 0, $reservation_date_from[1], $reservation_date_from[0], $reservation_date_from[2]);
+
+            $reservation_date_to = $to_date;
+            $reservation_date_to = explode('&', $reservation_date_to);
+            $end_timestamp = mktime(0, 0, 0, $reservation_date_to[1], $reservation_date_to[0], $reservation_date_to[2]);
+
+            $services = array();
+            if ($request->getSession()->get('services_pre_reservation'))
+                $services = $request->getSession()->get('services_pre_reservation');
+
+            for ($a = 0; $a < count($array_ids_rooms); $a++) {
+                $insert = 1;
+                $id = 0;
+                foreach ($services as $serv) {
+                    if (isset($array_count_guests[$a]) && isset($array_count_kids[$a]) && $serv['from_date'] == $start_timestamp && $serv['to_date'] == $end_timestamp &&
+                        $serv['room'] == $array_ids_rooms[$a] && $serv['guests'] == $array_count_guests[$a] &&
+                        $serv['kids'] == $array_count_kids[$a] && $serv['ownership'] = $id_ownership
+                    ) {
+                        $insert = 0;
+                    }
+                    if ($serv['id'] > $id)
+                        $id = $serv['id'];
+                }
+                if ($insert == 1) {
+                    $room = $em->getRepository('mycpBundle:room')->find($array_ids_rooms[$a]);
+                    $service['id'] = $id + 1;
+                    $service['from_date'] = $start_timestamp;
+                    $service['to_date'] = $end_timestamp;
+                    $service['room'] = $array_ids_rooms[$a];
+                    if (isset($array_count_kids[$a]))
+                        $service['guests'] = $array_count_guests[$a];
+                    else
+                        $service['guests'] = 1;
+                    if (isset($array_count_kids[$a]))
+                        $service['kids'] = $array_count_kids[$a];
+                    else
+                        $service['kids'] = 0;
+                    $service['ownership_name'] = $ownership->getOwnName();
+                    $service['ownership_id'] = $ownership->getOwnId();
+                    $service['ownership_mun'] = $ownership->getOwnAddressMunicipality()->getMunName();
+                    $service['ownership_prov'] = $ownership->getOwnAddressProvince()->getProvName();
+                    $service['ownership_percent'] = $ownership->getOwnCommissionPercent();
+                    $service['room_id'] = $room->getRoomId();
+                    $service['room_type'] = $room->getRoomType();
+                    $service['room_price_top'] = $room->getRoomPriceUpFrom();
+                    $service['room_price_down'] = $room->getRoomPriceDownFrom();
+                    array_push($services, $service);
+                }
+            }
+
+            if($services)
+            {
+                $ownership = $em->getRepository('mycpBundle:ownership')->find($services[0]['ownership_id']);
+                $general_reservation = new generalReservation();
+                $general_reservation->setGenResUserId($user);
+                $general_reservation->setGenResDate(new \DateTime(date('Y-m-d')));
+                $general_reservation->setGenResStatusDate(new \DateTime(date('Y-m-d')));
+                $general_reservation->setGenResHour(date('G'));
+                $general_reservation->setGenResStatus(0);
+                $general_reservation->setGenResFromDate(new \DateTime(date("Y-m-d H:i:s", $services[0]['from_date'])));
+                $general_reservation->setGenResToDate(new \DateTime(date("Y-m-d H:i:s", $services[0]['to_date'])));
+                $general_reservation->setGenResSaved(0);
+                $general_reservation->setGenResOwnId($ownership);
+                $em->persist($general_reservation);
+                $service_time = $this->get('Time');
+                $total_price = 0;
+                foreach($services as $servi)
+                {
+                    $array_dates = $service_time->dates_between($servi['from_date'], $servi['to_date']);
+                    $temp_price = 0;
+                    for ($a = 0; $a < count($array_dates); $a++) {
+                        if ($a < count($array_dates) - 1) {
+                            $season = $service_time->season_by_date($array_dates[$a]);
+                            if ($season == 'down') {
+                                if ($servi['room_type'] == "Habitación Triple" && $servi['guests'] + $servi['kids'] >= 3) {
+                                    $total_price += $servi['room_price_down'] + 10;
+                                    $temp_price += $servi['room_price_down'] + 10;
+                                }
+                                else {
+                                    $total_price += $servi['room_price_down'];
+                                    $temp_price += $servi['room_price_down'];
+
+                                }
+                            }
+                            else {
+                                if ($servi['room_type'] == "Habitación Triple" && $servi['guests'] + $servi['kids'] >= 3) {
+                                    $total_price += $servi['room_price_top'] + 10;
+                                    $temp_price += $servi['room_price_top'] + 10;
+
+                                }
+                                else {
+                                    $total_price += $servi['room_price_top'];
+                                    $temp_price += $servi['room_price_top'];
+                                }
+                            }
+                        }
+
+                    }
+
+
+                    $ownership_reservation = new ownershipReservation();
+                    $ownership_reservation->setOwnResCountAdults($servi['guests']);
+                    $ownership_reservation->setOwnResCountChildrens($servi['kids']);
+                    $ownership_reservation->setOwnResNightPrice(0);
+                    $ownership_reservation->setOwnResStatus(0);
+                    $ownership_reservation->setOwnResReservationFromDate(new \DateTime(date("Y-m-d H:i:s", $servi['from_date'])));
+                    $ownership_reservation->setOwnResReservationToDate(new \DateTime(date("Y-m-d H:i:s", $servi['to_date'])));
+                    $ownership_reservation->setOwnResSelectedRoomId($servi['room']);
+                    $ownership_reservation->setOwnResGenResId($general_reservation);
+                    $ownership_reservation->setOwnResRoomType($servi['room_type']);
+                    $ownership_reservation->setOwnResTotalInSite($temp_price);
+                    $general_reservation->setGenResTotalInSite($total_price);
+                    $em->persist($ownership_reservation);
+                }
+            }
+
+            $em->flush();
+            $message="Reserva añadida satisfactoriamente";
+            $this->get('session')->getFlashBag()->add('message_ok',$message);
+            return $this->redirect($this->generateUrl('mycp_list_reservations'));
+
+        }
+        return $this->render('mycpBundle:reservation:new_offer.html.twig',array(
+            'id_reservation'=>$id_reservation,
+            'id_tourist'=>$id_tourist,
+            'user'=>$user,
+            'ownerships'=>$ownerships
+        ));
+    }
 
     public function list_reservationsAction($items_per_page, Request $request)
     {

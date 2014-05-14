@@ -27,7 +27,7 @@
                                             </td>
                                             <td>&nbsp;</td>
                                             <td valign="top" style="font-family: arial; font-size: 13px; line-height: 18px">
-                                                <h3 style="color: #084D74">{{reservation.getOwnResGenResId.getGenResOwnId.getOwnName}}</h3>
+                                                <h3 style="color: #084D74">({{reservation.getOwnResGenResId.getGenResOwnId.getOwnMcpCode}}) {{reservation.getOwnResGenResId.getGenResOwnId.getOwnName}}</h3>
                                                 {{reservation.getOwnResGenResId.getGenResOwnId.getOwnAddressProvince.getProvName}}
                                                 - {{reservation.getOwnResGenResId.getGenResOwnId.getOwnAddressMunicipality.getMunName}}<br/>
                                                 {{reservation.getOwnResRoomType|trans({}, "messages", user_locale)}}<br/>
