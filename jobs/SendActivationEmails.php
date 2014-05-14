@@ -41,7 +41,7 @@ $userRepo = $em->getRepository('mycpBundle:user');
 $userTouristRepo = $em->getRepository('mycpBundle:userTourist');
 
 $query = $userRepo->createQueryBuilder('u')
-    ->where('u.user_enabled != 1 or u.user_enabled is null')
+    ->where('u.user_id < 2800 AND u.user_enabled != 1 or u.user_enabled is null')
     ->orderBy('u.user_id', 'DESC')
     ->setMaxResults($numUsers)
     ->getQuery();
@@ -83,8 +83,13 @@ foreach($users as $user) {
     $emailSubject = $translator->trans('EMAIL_ACCOUNT_REGISTERED_SUBJECT');
     echo 'Email Subject: ' . $emailSubject . PHP_EOL;
 
-    $emailService->send_templated_email($emailSubject,
-        'noreply@mycasaparticular.com', $userEmail, $body->getContent());
+    try {
+        $emailService->send_templated_email($emailSubject,
+            'noreply@mycasaparticular.com', $userEmail, $body->getContent());
+    } catch(Exception $ex) {
+        echo 'EMAIL EXCEPTION: ' . PHP_EOL;
+        echo $ex->getMessage() . PHP_EOL;
+    }
 
 
 // now manually flush the queue
