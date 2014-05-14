@@ -41,7 +41,7 @@ $userRepo = $em->getRepository('mycpBundle:user');
 $userTouristRepo = $em->getRepository('mycpBundle:userTourist');
 
 $query = $userRepo->createQueryBuilder('u')
-    ->where('u.user_id < 2800 AND u.user_enabled != 1 or u.user_enabled is null')
+    ->where('u.user_enabled != 1 or u.user_enabled is null') // restrict users: u.user_id < 2800 AND
     ->orderBy('u.user_id', 'DESC')
     ->setMaxResults($numUsers)
     ->getQuery();
