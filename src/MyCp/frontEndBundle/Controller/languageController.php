@@ -2,6 +2,7 @@
 
 namespace MyCp\frontEndBundle\Controller;
 
+use BeSimple\I18nRoutingBundle\Tests\Routing\RouterTest;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -25,6 +26,8 @@ class languageController extends Controller {
         $last_route_params=$session->get('app_last_route_params');
         $last_route_params['_locale']=$lang;
         $last_route_params['locale']=$lang;
+
+        $last_route = empty($last_route) ? 'frontend_welcome' : $last_route;
         $new_route=$this->get('router')->generate($last_route,$last_route_params);
 
         //Guardar en userTourist el lenguaje q cambio
