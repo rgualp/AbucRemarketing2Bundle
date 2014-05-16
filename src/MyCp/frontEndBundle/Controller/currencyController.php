@@ -74,7 +74,16 @@ class currencyController extends Controller {
             }
         }
         $route_params=$session->get('params_change_curr');
-        return $this->redirect($this->generateUrl($route_params['_route'],$route_params['_route_params']));
+
+        $route = $route_params['_route'];
+        $routeParams = $route_params['_route_params'];
+
+        if(empty($route)) {
+            $route = 'frontend_welcome';
+            $routeParams = array();
+        }
+
+        return $this->redirect($this->generateUrl($route, $routeParams));
     }
 
 }
