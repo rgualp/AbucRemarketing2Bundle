@@ -36,9 +36,14 @@ class languageController extends Controller {
 
         if ($user != null && $user!='anon.') {
             $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
-            $userTourist->setUserTouristLanguage($lang);
-            $em->persist($userTourist);
-            $em->flush();
+
+            // if the user is not a tourist (e.g. a staff member), the
+            // userTourist does not exist
+            if(isset($userTourist)) {
+                $userTourist->setUserTouristLanguage($lang);
+                $em->persist($userTourist);
+                $em->flush();
+            }
         }
 
         return $this->redirect($new_route);
