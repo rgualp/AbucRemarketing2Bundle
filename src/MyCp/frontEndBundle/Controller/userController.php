@@ -66,10 +66,11 @@ class userController extends Controller {
         $service_security = $this->get('Secure');
         $decode_string = $service_security->decode_string($string);
         $user_atrib = explode('///', $decode_string);
-
+        
         $em = $this->getDoctrine()->getManager();
         if (isset($user_atrib[1])) {
             $user = $em->getRepository('mycpBundle:user')->findBy(array('user_id' => $user_atrib[1], 'user_email' => $user_atrib[0]));
+            
             if ($user) {
                 $user = $user[0];
                 $user->setUserEnabled(1);
@@ -82,6 +83,7 @@ class userController extends Controller {
         } else {
             throw $this->createNotFoundException($this->get('translator')->trans("USER_ACTIVATE_ERROR"));
         }
+        throw $this->createNotFoundException($this->get('translator')->trans("USER_ACTIVATE_ERROR"));
     }
 
     public function restore_passwordAction(Request $request) {
