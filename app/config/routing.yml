@@ -20,7 +20,7 @@ mycp_sitemap:
     defaults: { _controller: frontEndBundle:public:site_map }
 
 mycp_own_details:
-    pattern:  /{own_code}
+    pattern:  /{own_code}/
     defaults: { _controller: frontEndBundle:ownership:own_details_direct }
 
 mycp_frontend:
