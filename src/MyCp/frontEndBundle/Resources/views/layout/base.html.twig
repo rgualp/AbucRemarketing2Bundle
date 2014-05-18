@@ -39,6 +39,12 @@
         {% endif %}
         <script src="{{ asset('bundles/frontend/js/jquery.js') }}"></script>
         <link rel="shortcut icon" href="{{ asset('bundles/frontend/img/map_small.png') }}" />
+
+        <!-- Apple Touch Icon -->
+        <link rel="apple-touch-icon-precomposed" href="{{ asset('bundles/frontend/img/apple_touch_icons/apple_touch_iphone.png') }}" />
+        <link rel="apple-touch-icon-precomposed-precomposed" sizes="72x72" href="{{ asset('bundles/frontend/img/apple_touch_icons/apple_touch_ipad.png') }}" />
+        <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('bundles/frontend/img/apple_touch_icons/apple_touch_iphone4.png') }}" />
+
         {% block include_javascripts_and_css %}{% endblock %}
     </head>
     <body>
@@ -224,20 +230,20 @@
                                                             <script src="{{ asset('bundles/frontend/js/jail.min.js') }}"></script>
                                                             <script src="{{ asset('bundles/frontend/js/custom.min.js') }}"></script>
                                                             <script type="text/javascript">
-                                                                topmenucont = $('#top-menu-cont');
-                                                                topmenu = $("#top-menu").offset().top;
-                                                                $('#top-menu').affix({
-                                                                    offset: {
-                                                                        top: function() {
-                                                                            topmenucont.html = "&nbsp;";
-                                                                            return topmenu;
-                                                                        }
-                                                                    }
-                                                                });
+            topmenucont = $('#top-menu-cont');
+            topmenu = $("#top-menu").offset().top;
+            $('#top-menu').affix({
+                offset: {
+                    top: function() {
+                        topmenucont.html = "&nbsp;";
+                        return topmenu;
+                    }
+                }
+            });
 
-                                                                $(function() {
-                                                                    $('img.lazy').jail();
-                                                                });
+            $(function() {
+                $('img.lazy').jail();
+            });
                                                                 </script>
                                                                 <script>
                                                                     var _gaq = _gaq || [];
