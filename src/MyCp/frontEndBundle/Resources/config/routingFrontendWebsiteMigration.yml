@@ -56,6 +56,10 @@ frontend_website_migration_not_found:
   requirements:
       locale:  en|es|ge
 
+frontend_website_migration_not_found2:
+  pattern: /pag404.php
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
+
 frontend_website_migration_reservation_form:
   pattern: /{locale}/form_reservar.php
   defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
