@@ -36,7 +36,7 @@ class userRepository extends EntityRepository {
             $file['photo']->move($dir, $fileName);
             //Redimensionando la foto del usuario
             \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 65);
-            
+
             $photo->setPhoName($fileName);
             $user->setUserPhoto($photo);
             $em->persist($photo);
@@ -102,16 +102,16 @@ class userRepository extends EntityRepository {
         $languages = $em->getRepository('mycpBundle:lang')->findAll();
         $country = $em->getRepository('mycpBundle:country')->find($post['user_country']);
         $role = $em->getRepository('mycpBundle:role')->findBy(array('role_name' => 'ROLE_CLIENT_TOURIST'));
-        
+
         $user = $em->getRepository('mycpBundle:user')->findOneBy(array(
                 'user_email' => $post['user_email'],
                 'user_created_by_migration' => false));
-        
+
         if($user == null)
             $user = new user();
-        
+
         $user_tourist = new userTourist();
-        
+
         $user->setUserAddress('');
         $user->setUserCity('');
         $user->setUserCountry($country);
@@ -478,7 +478,7 @@ class userRepository extends EntityRepository {
     }
 
     /**
-     * Yanet 
+     * Yanet
      */
     public function user_ids($controller) {
         $user_id = null;
