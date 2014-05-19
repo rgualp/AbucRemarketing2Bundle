@@ -49,6 +49,17 @@ class BackendCurrencyController extends Controller
             $form->handleRequest($request);
             if($form->isValid())
             {
+                if($currency->getCurrDefault()==true)
+                {
+                    $db_curr=$em->getRepository('mycpBundle:currency')->findAll();
+                    foreach($db_curr as $curr)
+                    {
+                        $curr->setCurrDefault(0);
+                        $em->persist($curr);
+                    }
+                    $currency->setCurrDefault(1);
+                }
+
                 $em->persist($currency);
                 $em->flush();
                 $message='Moneda actualizada satisfactoriamente.';
@@ -79,6 +90,15 @@ class BackendCurrencyController extends Controller
             if($form->isValid())
             {
                 $em = $this->getDoctrine()->getEntityManager();
+                if($currency->getCurrDefault()==true)
+                {
+                    $db_curr=$em->getRepository('mycpBundle:currency')->findAll();
+                    foreach($db_curr as $curr)
+                    {
+                        $curr->setCurrDefault(0);
+                        $em->persist($curr);
+                    }
+                }
                 $em->persist($currency);
                 $em->flush();
                 $message='Moneda añadida satisfactoriamente.';
@@ -110,8 +130,24 @@ class BackendCurrencyController extends Controller
         else
         {
             $name_curr=$currency->getCurrName();
+            $curr_deleted=null;
+            if($currency->getCurrDefault()==true)
+            {
+                $curr_deleted=$currency;
+            }
+
             $em->remove($currency);
             $em->flush();
+
+            if($curr_deleted!=null)
+            {
+                $db_curr=$em->getRepository('mycpBundle:currency')->findAll();
+                $db_curr[0]->setCurrDefault(1);
+
+                $em->persist($db_curr[0]);
+                $em->flush();
+            }
+
             $message='La moneda se ha eliminado satisfactoriamente.';
             $this->get('session')->getFlashBag()->add('message_ok',$message);
 
