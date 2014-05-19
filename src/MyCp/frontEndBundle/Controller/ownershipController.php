@@ -215,6 +215,12 @@ class ownershipController extends Controller {
     }
 
     public function own_details_directAction($own_code) {
+        // There are so many browserconfig.xml requests from stupid IE6 that we check for it
+        // here to avoid Exceptions in the log files
+        if(strpos($own_code, 'browserconfig.xml') !== false) {
+            return new Response('not found', 404);
+        }
+
         $em = $this->getDoctrine()->getManager();
         $ownership = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code' => $own_code));
         if ($ownership) {
@@ -232,7 +238,7 @@ class ownershipController extends Controller {
         $locale = $this->get('translator')->getLocale();
 
         $own_name = str_replace('-', ' ', $own_name);
-        $own_name = str_replace("nn", "ñ", $own_name);
+        //$own_name = str_replace("nn", "ñ", $own_name);
 
         $ownership_array = $em->getRepository('mycpBundle:ownership')->get_details($own_name, $locale, $user_ids["user_id"], $user_ids["session_id"]);
         if ($ownership_array == null) {
@@ -308,7 +314,7 @@ class ownershipController extends Controller {
                 $end_timestamp = mktime(0, 0, 0, $reservation_filter_date_to[1], $reservation_filter_date_to[0], $reservation_filter_date_to[2]);
             }
         } else {
-            
+
         }
 
         $service_time = $this->get('Time');
@@ -932,7 +938,7 @@ class ownershipController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $own_ids = $session->get('own_ids');
 
-        $statisics = $em->getRepository('mycpBundle:ownership')->getSearchStatisticsByIds($own_ids);
+        $statisics = $em->getRepository('mycpBundle:ownership')->getSearchStatistics();
 
         $check_filters = array();
 

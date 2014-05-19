@@ -127,7 +127,11 @@ class PublicController extends Controller {
          $for_url = array();
         
         foreach ($destinations as $prov)
+        {
+            $prov['des_name'] = str_replace("ñ", "nn", $prov['des_name']);
             $for_url[$prov['des_id']] = Utils::url_normalize($prov['des_name']);
+            $for_url[$prov['des_id']] = str_replace("nn", "ñ", $for_url[$prov['des_id']]);
+        }
 
         return $this->render('frontEndBundle:utils:mainMenuDestinationItems.html.twig', array(
               'destinations'=>$destinations,

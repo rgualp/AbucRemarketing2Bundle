@@ -24,7 +24,7 @@ class Utils {
         $furl=str_replace("ó", "o", $furl);
         $furl=str_replace("ú", "u", $furl);
         $furl=str_replace("ü", "u", $furl);
-        $furl=str_replace("ñ", "nn", $furl);
+        //$furl=str_replace("ñ", "nn", $furl);
         $furl=str_replace("Á", "A", $furl);
         $furl=str_replace("É", "E", $furl);
         $furl=str_replace("Í", "I", $furl);
@@ -32,7 +32,7 @@ class Utils {
         $furl=str_replace("Ú", "U", $furl);
         //$furl=str_replace("Ñ", "NN", $furl);
         $furl = strtolower ($furl);
-        $furl=str_replace("nn", "ñ", $furl);
+        //$furl=str_replace("nn", "ñ", $furl);
 
         return $furl;
     }

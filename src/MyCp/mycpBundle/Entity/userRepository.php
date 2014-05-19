@@ -36,7 +36,7 @@ class userRepository extends EntityRepository {
             $file['photo']->move($dir, $fileName);
             //Redimensionando la foto del usuario
             \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 65);
-            
+
             $photo->setPhoName($fileName);
             $user->setUserPhoto($photo);
             $em->persist($photo);
@@ -96,22 +96,22 @@ class userRepository extends EntityRepository {
         $em->flush();
     }
 
-    function frontend_register_user($post, $request, $factory, $encoder, $translator) {
+    function registerUser($post, $request, $encoder, $translator, $languageCode, $currencyCode) {
         $em = $this->getEntityManager();
-        $currencies = $em->getRepository('mycpBundle:currency')->findAll();
-        $languages = $em->getRepository('mycpBundle:lang')->findAll();
+        $currency = $em->getRepository('mycpBundle:currency')->findOneBy(array('curr_code' => $currencyCode));
+        $language = $em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code' => $languageCode));
         $country = $em->getRepository('mycpBundle:country')->find($post['user_country']);
         $role = $em->getRepository('mycpBundle:role')->findBy(array('role_name' => 'ROLE_CLIENT_TOURIST'));
-        
+
         $user = $em->getRepository('mycpBundle:user')->findOneBy(array(
-                'user_email' => $post['user_email'],
-                'user_created_by_migration' => false));
-        
+            'user_email' => $post['user_email'],
+            'user_created_by_migration' => false));
+
         if($user == null)
             $user = new user();
-        
+
         $user_tourist = new userTourist();
-        
+
         $user->setUserAddress('');
         $user->setUserCity('');
         $user->setUserCountry($country);
@@ -129,8 +129,8 @@ class userRepository extends EntityRepository {
         $password = $encoder->encodePassword($post['user_password'][$translator->trans("FORMS_PASSWORD")], $user->getSalt());
 
         $user->setUserPassword($password);
-        $user_tourist->setUserTouristCurrency($currencies[0]);
-        $user_tourist->setUserTouristLanguage($languages[0]);
+        $user_tourist->setUserTouristCurrency($currency);
+        $user_tourist->setUserTouristLanguage($language);
         $user_tourist->setUserTouristUser($user);
         $em->persist($user);
         $em->persist($user_tourist);
@@ -478,7 +478,7 @@ class userRepository extends EntityRepository {
     }
 
     /**
-     * Yanet 
+     * Yanet
      */
     public function user_ids($controller) {
         $user_id = null;

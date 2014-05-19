@@ -11,16 +11,18 @@ frontend_website_migration_homepage_language:
       locale:  en|es|ge
 
 frontend_website_migration_accommdation_details:
-  pattern: /{locale}/propiedad/detalle.php
+  pattern: /{locale}/propiedad/detalle.php{something}
   defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_search_ownership}
   requirements:
       locale:  en|es|ge
+      something: .*
 
 frontend_website_migration_accommdation_code:
-  pattern: /{locale}/propiedad/detalle_por_codigo.php
+  pattern: /{locale}/propiedad/detalle_por_codigo.php{something}
   defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
   requirements:
       locale:  en|es|ge
+      something: .*
 
 frontend_website_migration_destinations:
   pattern: /{locale}/destinos.php
@@ -29,10 +31,11 @@ frontend_website_migration_destinations:
       locale:  en|es|ge
 
 frontend_website_migration_destination_details:
-  pattern: /{locale}/destino/detalle.php
+  pattern: /{locale}/destino/detalle.php{something}
   defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_list_destinations}
   requirements:
       locale:  en|es|ge
+      something: .*
 
 frontend_website_migration_search_accommodations:
   pattern: /{locale}/busqueda.php
@@ -55,6 +58,10 @@ frontend_website_migration_not_found:
   defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
   requirements:
       locale:  en|es|ge
+
+frontend_website_migration_not_found2:
+  pattern: /pag404.php
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
 
 frontend_website_migration_reservation_form:
   pattern: /{locale}/form_reservar.php
@@ -227,6 +234,26 @@ frontend_website_migration_backend:
   defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
 
 frontend_website_migration_mycp_login:
-  pattern: /mycp_login
+  pattern: /mycp_login{something}
   defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
+  requirements:
+      something: .*
 
+frontend_website_migration_locale_mycp_login:
+  pattern: /{locale}/mycp_login{something}
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
+  requirements:
+      locale:  en|es|ge
+      something: .*
+
+frontend_website_migration_mycp_login:
+  pattern: /images/stories/food.php{something}
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
+  requirements:
+      something: .*
+
+frontend_website_migration_web_to_image:
+  pattern: /web/to_image.php{something}
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
+  requirements:
+      something: .*

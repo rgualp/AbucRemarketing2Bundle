@@ -37,7 +37,17 @@ class userController extends Controller {
                 $factory = $this->get('security.encoder_factory');
                 $user2 = new user();
                 $encoder = $factory->getEncoder($user2);
-                $user_db = $em->getRepository('mycpBundle:user')->frontend_register_user($post, $request, $factory, $encoder, $this->get('translator'));
+
+                $session = $request->getSession();
+
+                $languageCode = $request->attributes->get('app_lang_code');
+                $languageCode = empty($languageCode) ? $request->attributes->get('_locale') : $session->get('_locale', 'en');
+                $languageCode = strtoupper($languageCode);
+
+                $currencyCode = $session->get('curr_acronym', 'EUR');
+
+                $user_db = $em->getRepository('mycpBundle:user')
+                    ->registerUser($post, $request, $encoder, $this->get('translator'), $languageCode, $currencyCode);
                 $service_security = $this->get('Secure');
                 $encode_string = $service_security->encode_string($user_db->getUserEmail() . '///' . $user_db->getUserId());
 
@@ -70,6 +80,7 @@ class userController extends Controller {
         $em = $this->getDoctrine()->getManager();
         if (isset($user_atrib[1])) {
             $user = $em->getRepository('mycpBundle:user')->findBy(array('user_id' => $user_atrib[1], 'user_email' => $user_atrib[0]));
+
             if ($user) {
                 $user = $user[0];
                 $user->setUserEnabled(1);
@@ -82,6 +93,7 @@ class userController extends Controller {
         } else {
             throw $this->createNotFoundException($this->get('translator')->trans("USER_ACTIVATE_ERROR"));
         }
+        throw $this->createNotFoundException($this->get('translator')->trans("USER_ACTIVATE_ERROR"));
     }
 
     public function restore_passwordAction(Request $request) {
@@ -123,7 +135,7 @@ class userController extends Controller {
                     'errors' => $errors
         ));
     }
-    
+
     public function change_password_startAction(){
         $service_security = $this->get('Secure');
         $user = $this->getUser();
@@ -285,7 +297,7 @@ class userController extends Controller {
                         'municipality'=>$owner_mun,
                         'comments'=>$owner_comment,
                         'email'=> $owner_email
-                    )); 
+                    ));
                     $service_email->send_templated_email(
                             'Contacto de propietario', $owner_email, 'casa@mycasaparticular.com', $content->getContent());
 
@@ -309,7 +321,7 @@ class userController extends Controller {
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
 
         $favorite_destinations = $em->getRepository('mycpBundle:favorite')->get_favorite_destinations($user_ids["user_id"], $user_ids["session_id"], 4, $destination_id);
-        
+
         for($i = 0; $i<count($favorite_destinations);$i++)
         {
             if (!file_exists(realpath("uploads/destinationImages/" . $favorite_destinations[$i]['photo'])))
@@ -345,7 +357,7 @@ class userController extends Controller {
                     'history_owns' => $history_owns
         ));
     }
-    
+
     public function profileAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $errors = array();
@@ -354,11 +366,11 @@ class userController extends Controller {
         $data['countries']=$em->getRepository('mycpBundle:country')->findAll();
         $data['currencies'] = $em->getRepository('mycpBundle:currency')->findAll();
         $data['languages'] = $em->getRepository('mycpBundle:lang')->findBy(array('lang_active' => 1), array('lang_name' => 'ASC'));
-        
+
         $user = $this->getUser();
        // var_dump($user); exit();
         $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
-                
+
         $complete_user = array(
             'user_user_name' => $user->getUserUserName(),
             'user_last_name' => $user->getUserLastName(),
@@ -379,13 +391,13 @@ class userController extends Controller {
         if ($request->getMethod() == 'POST') {
             $post = $request->get('mycp_frontendbundle_profile_usertype');
             $all_post = $request->request->getIterator()->getArrayCopy();
-            $form->handleRequest($request); 
-                        
+            $form->handleRequest($request);
+
             if ($form->isValid()) {
-                
+
                 $user_db = $em->getRepository('mycpBundle:user')->findOneBy(array('user_email' => $post['user_email']));
                 if ($user_db->getUserId() == $user->getUserId()) {
-                    
+
                     $user->setUserUserName($post['user_user_name']);
                     $user->setUserLastName($post['user_last_name']);
                     $user->setUserEmail($post['user_email']);
@@ -393,11 +405,11 @@ class userController extends Controller {
                     $user->setUserCountry($em->getRepository('mycpBundle:country')->find($post['user_country']));
                     $user->setUserAddress($post['user_address']);
                     $user->setUserCity($post['user_city']);
-                    
+
                     if(isset($post['user_newsletters']))
                         $user->setUserNewsletters(1);
                     else $user->setUserNewsletters(0);
-                    
+
                     //subir photo
                     $dir=$this->container->getParameter('user.dir.photos');
                     $file = $request->files->get('user_photo');
@@ -412,10 +424,10 @@ class userController extends Controller {
                         $photo->setPhoName($fileName);
                         $user->setUserPhoto($photo);
                         $em->persist($photo);
-                    }                  
-                    
+                    }
+
                     $em->persist($user);
-                    
+
                     $userTourist->setUserTouristCell($post['user_cell']);
                     $userTourist->setUserTouristPostalCode($post['user_zip_code']);
                     $userTourist->setUserTouristGender($post['user_gender']);
@@ -423,13 +435,13 @@ class userController extends Controller {
                     $userTourist->setUserTouristLanguage($em->getRepository('mycpBundle:lang')->find($post['user_lang']));
                     $em->persist($userTourist);
                     $em->flush();
-                    
+
                     $message = $this->get('translator')->trans("USER_PROFILE_SAVED");
                     $this->get('session')->getFlashBag()->add('message_global_success', $message);
                     //return $this->redirect($this->generateUrl('frontend_login'));
                 } else {
                     $errors['no_email'] = $this->get('translator')->trans("USER_PROFILE_EMAIL_ERROR");
-                }                           
+                }
             }
             else{
                 $errors['complete_form'] = $this->get('translator')->trans("FILL_FORM_CORRECTLY");
