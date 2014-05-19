@@ -38,9 +38,14 @@ class currencyController extends Controller {
 
             if ($user != null) {
                 $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
-                $userTourist->setUserTouristCurrency($currency);
-                $em->persist($userTourist);
-                $em->flush();
+
+                // if the user is not a tourist (e.g. a staff member), the
+                // userTourist does not exist
+                if(isset($userTourist)) {
+                    $userTourist->setUserTouristCurrency($currency);
+                    $em->persist($userTourist);
+                    $em->flush();
+                }
             }
 
             //$this->redirect($refresh_url);
