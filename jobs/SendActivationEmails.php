@@ -67,7 +67,7 @@ foreach($users as $user) {
     $locale = strtolower($language);
     echo $translator->trans('my.translation.key');
 
-    $encode_string = $securityService->encode_string($userEmail . '///' . $userEmail);
+    $encode_string = $securityService->encode_string($userEmail . '///' . $userId);
     echo 'Encode: ' . $encode_string . PHP_EOL;
 
     //mailing
