@@ -71,6 +71,16 @@ class RequestListener {
 
         }
 
+        // currency by default (Config in backend)
+        //var_dump($this->container->get('session')->get('curr_acronym'));
+        if(!$this->container->get('session')->get('curr_acronym'))
+        {
+            $curr_by_default=$this->em->getRepository('mycpBundle:currency')->findOneBy(array('curr_default'=>1));
+            $this->container->get('session')->set("curr_rate", $curr_by_default->getCurrCucChange());
+            $this->container->get('session')->set("curr_symbol",  $curr_by_default->getCurrSymbol());
+            $this->container->get('session')->set("curr_acronym", $curr_by_default->getCurrCode());
+        }
+
 
     }
 

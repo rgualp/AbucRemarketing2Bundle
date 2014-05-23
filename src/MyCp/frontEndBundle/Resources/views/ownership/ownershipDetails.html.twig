@@ -540,7 +540,11 @@
 
 
     {% block include_javascripts %}
-
+        <script type="text/javascript">
+            var reservation_see_prices_text = "{{"RESERVATION_SEE_PRICES" | trans}}";
+            var own_id = "{{ownership.own_id}}";
+            var today_date = "{{"now"|date("d/m/Y") }}";
+        </script>
         <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
         <script src="{{ asset('bundles/frontend/js/jquery.ui.map.js') }}"></script>
         <script src="{{ asset('bundles/frontend/js/jquery.royalslider.min.js') }}"></script>
@@ -624,32 +628,39 @@
 
             function refresh_calendar(from, to)
             {
-                $('.calendar-results').css({display: 'none'});
-                element = $("#body_calendar");
-                element.attr('class', 'container_loading');
-                element.html('<div>&nbsp;</div>');
-                $('#rooms_selected').css({display: 'none'});
-                $('#all_data_numbers').css({display: 'none'});
+                if(from !='' && to !='')
+                {
+                    $('.calendar-results').css({display: 'none'});
+                    element = $("#body_calendar");
+                    element.attr('class', 'container_loading');
+                    element.html('<div>&nbsp;</div>');
+                    $('#rooms_selected').css({display: 'none'});
+                    $('#all_data_numbers').css({display: 'none'});
 
-                fields_dates=$('.form-control')
-                btn_refresh=$('#button_refresh_calendar')
-                fields_dates.attr('disabled','true');
+                    fields_dates=$('.form-control')
+                    btn_refresh=$('#button_refresh_calendar')
+                    fields_dates.attr('disabled','true');
+                    if(own_id)
+                    {
+                    $.ajax({
+                        url: "{{ path('frontend_get_reservation_calendar_ownership_callback') }}",
+                        data: {from: from, to: to, own_id: own_id}
 
-                $.ajax({
-                    url: "{{ path('frontend_get_reservation_calendar_ownership_callback') }}",
-                    data: {from: from, to: to, own_id: own_id}
+                    }).done(function(resp) {
+                                element.removeAttr('class');
+                                element.html(resp);
+                                from = from.replace('/', '&');
+                                from = from.replace('/', '&');
+                                to = to.replace('/', '&');
+                                to = to.replace('/', '&');
+                                $('#data_reservation').attr('from_date', from);
+                                $('#data_reservation').attr('to_date', to);
+                                fields_dates.removeAttr('disabled');
+                            });
+                    }
+                }
 
-                }).done(function(resp) {
-                    element.removeAttr('class');
-                    element.html(resp);
-                    from = from.replace('/', '&');
-                    from = from.replace('/', '&');
-                    to = to.replace('/', '&');
-                    to = to.replace('/', '&');
-                    $('#data_reservation').attr('from_date', from);
-                    $('#data_reservation').attr('to_date', to);
-                    fields_dates.removeAttr('disabled');
-                });
+
             }
 
             function create_date_in(date_text) {
@@ -661,11 +672,7 @@
             }
 
         </script>
-        <script type="text/javascript">
-            var reservation_see_prices_text = "{{"RESERVATION_SEE_PRICES" | trans}}";
-            var own_id = "{{ownership.own_id}}";
-            var today_date = "{{"now"|date("d/m/Y") }}";
-        </script>
+
         <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
         <script src="{{ asset('bundles/frontend/js/jquery.ui.map.js') }}"></script>
         <script src="{{ asset('bundles/frontend/js/jquery.ui.map.infobox.js') }}"></script>

@@ -15,6 +15,11 @@ class ownershipController extends Controller {
         $to = $request->get('to');
         $owner_id = $request->get('own_id');
 
+        if(!$owner_id)
+        {
+            throw $this->createNotFoundException();
+        }
+
         $em = $this->getDoctrine()->getManager();
 
         $ownership = $em->getRepository('mycpBundle:ownership')->find($owner_id);
