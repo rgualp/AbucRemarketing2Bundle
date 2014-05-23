@@ -31,7 +31,7 @@
                 </td>
             </tr>
         </table>
-        <h6 class="h-blue h-blue-2">{{"FROM_PRICES" | trans | lower}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ (statistics['minimum_prize'] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))}}</h6>
+        <h6 class="h-blue h-blue-2">{{"FROM_PRICES" | trans | lower}} {{app.session.get('curr_symbol') == null ? "CUC" : app.session.get('curr_symbol')}}{{ (statistics['minimum_prize'] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))}}</h6>
     </h5>
 </div>
 

@@ -57,6 +57,13 @@ class currency
      */
     private $curr_cuc_change;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="curr_default", type="boolean")
+     */
+    private $curr_default;
+
 
     public function __toString()
     {
@@ -164,5 +171,28 @@ class currency
     public function getCurrCucChange()
     {
         return $this->curr_cuc_change;
+    }
+
+    /**
+     * Set curr_default
+     *
+     * @param boolean $currDefault
+     * @return currency
+     */
+    public function setCurrDefault($currDefault)
+    {
+        $this->curr_default = $currDefault;
+
+        return $this;
+    }
+
+    /**
+     * Get curr_default
+     *
+     * @return boolean 
+     */
+    public function getCurrDefault()
+    {
+        return $this->curr_default;
     }
 }

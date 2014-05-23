@@ -48,9 +48,9 @@
     {% endif %}
     {% set flag = flag + 1 %}
 {% endfor %}
-<label>Comentarios:</label>
+<!--label>Comentarios:</label-->
 <form method="POST" action="{{ path('frontend_review_confirm_submit') }}">
-<textarea style="height: 100px" name="comment_cart" class="form-control"></textarea>
+<!--textarea style="height: 100px" name="comment_cart" class="form-control"></textarea-->
 <div class="row text-right h-blue prices-cart">
     <div class="col-sm-3">{{"RESERVATION_TOTAL_PRICE" | trans}} <span>{{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{ceil_round(total_price)}}</span></div>
     <div class="col-sm-3">{{"INITIAL_DEPOSIT" | trans}}: <span>{{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{ceil_round(total_percent * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))}}</span></div>

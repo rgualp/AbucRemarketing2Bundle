@@ -124,7 +124,7 @@ class destinationRepository extends EntityRepository {
         $query = $em->createQuery("DELETE mycpBundle:destinationlang des WHERE des.des_lang_destination=$id_destination");
         $query->execute();
 
-        $query = $em->createQuery("DELETE mycpBundle:destinationkeywordlang dkl WHERE dkl.dkl_destination=$id_destination");
+        $query = $em->createQuery("DELETE mycpBundle:destinationKeywordLang dkl WHERE dkl.dkl_destination=$id_destination");
         $query->execute();
 
         $keys = array_keys($data);
