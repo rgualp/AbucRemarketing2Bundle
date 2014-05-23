@@ -4,7 +4,7 @@
     {%for ownership in own_top20_list%}
     {% if cont <4 %}
     <div class="col-sm-3">
-            <a rel="tooltip" href="{{ path('frontend_details_ownership',{'own_name':ownership['own_name']  | lower | replace(' ','-')}) }}" title="{{"MORE_INFO_PREFFIX" | trans}} {{ownership['own_name']}}">
+            <a target="_blank" rel="tooltip" href="{{ path('frontend_details_ownership',{'own_name':ownership['own_name']  | lower | replace(' ','-')}) }}" title="{{"MORE_INFO_PREFFIX" | trans}} {{ownership['own_name']}}">
             <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if ownership['comments_total'] > 0%}+{%endif%}{{ownership['comments_total']}}&nbsp;&nbsp;&nbsp;">
                 <img alt="{{ ownership['own_name'] }}" class="lazy" data-src="{{ asset("uploads/ownershipImages/thumbnails/" ~ ownership['photo'])}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
                 <noscript><img class="nolazy" src="{{ asset("uploads/ownershipImages/thumbnails/" ~ ownership['photo'])}}"></noscript>
@@ -23,7 +23,7 @@
 </div>
 <div class="row" style="margin-top: 25px">
     <div class="col-sm-3">
-            <a rel="tooltip" href="{{ path('frontend_details_ownership',{'own_name':ownership['own_name']  | lower | replace(' ','-')}) }}" title="{{"MORE_INFO_PREFFIX" | trans}} {{ownership['own_name']}}">
+            <a target="_blank" rel="tooltip" href="{{ path('frontend_details_ownership',{'own_name':ownership['own_name']  | lower | replace(' ','-')}) }}" title="{{"MORE_INFO_PREFFIX" | trans}} {{ownership['own_name']}}">
             <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if ownership['comments_total'] > 0%}+{%endif%}{{ownership['comments_total']}}&nbsp;&nbsp;&nbsp;">
                 <img alt="{{ ownership['own_name'] }}" src="{{ asset("uploads/ownershipImages/thumbnails/" ~ ownership['photo'])}}">
             </div>

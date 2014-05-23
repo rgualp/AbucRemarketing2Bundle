@@ -3,7 +3,7 @@
 <div class="row" data-id="{{own['own_id']}}">
     <div class="col-sm-4">
         <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if own['comments_total'] > 0%}+{%endif%}{{own['comments_total']}}&nbsp;&nbsp;&nbsp;">
-            <a href="{{ path('frontend_details_ownership',{'own_name':own['own_name']  | lower | replace(' ','-')}) }}">
+            <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':own['own_name']  | lower | replace(' ','-')}) }}">
                 <img alt="{{ own.own_name }}" class="lazy" data-src="{{ asset("uploads/ownershipImages/thumbnails/" ~  own.photo)}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
                 <noscript><img class="nolazy" src="{{ asset("uploads/ownershipImages/thumbnails/" ~  own.photo)}}"></noscript>
             </a>
@@ -13,7 +13,7 @@
         <table class="full-width">
             <tr>
                 <td>
-                    <a href="{{ path('frontend_details_ownership',{'own_name':own['own_name']  | lower | replace(' ','-')}) }}">
+                    <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':own['own_name']  | lower | replace(' ','-')}) }}">
                     <h1 class="h-blue">{{own['own_name']}}</h1>
                     </a>
                      {%if own.category == "Premium"%}

@@ -2,11 +2,11 @@
 <div class="col-sm-3">
     
         <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if own_comments > 0%}+{%endif%}{{own_comments}}&nbsp;&nbsp;&nbsp;">
-            <a title="{{ own_name }}" href="{{ path('frontend_details_ownership',{'own_name':own_name  | lower | replace(' ','-')}) }}">
+            <a target="_blank" title="{{ own_name }}" href="{{ path('frontend_details_ownership',{'own_name':own_name  | lower | replace(' ','-')}) }}">
                 <img alt="{{ own_name }}" class="lazy" src="{{ asset("uploads/ownershipImages/thumbnails/" ~ photo)}}"/>
             </a>
         </div>
-        <a title="{{ own_name }}" href="{{ path('frontend_details_ownership',{'own_name':own_name  | lower | replace(' ','-')}) }}">
+        <a target="_blank" title="{{ own_name }}" href="{{ path('frontend_details_ownership',{'own_name':own_name  | lower | replace(' ','-')}) }}">
         <h2 class="h-blue">{{own_name | title | slice(0, 27)}}{%if own_name | length > 27%}...{%endif%}
             <small>({{own_province}})</small></h2>
         </a>
