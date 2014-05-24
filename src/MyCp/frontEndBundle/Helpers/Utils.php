@@ -36,7 +36,6 @@ class Utils {
 
         return $furl;
     }
-
 }
 
 ?>
