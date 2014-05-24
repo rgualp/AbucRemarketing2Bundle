@@ -451,7 +451,7 @@ class userController extends Controller {
 
                     
                     if (isset($lang)) {
-                        $session->set('browser_lang', strtolower($lang->getLangCode()));
+                        $session->set('browser_lang', $locale);
                         $session->set('app_lang_name', $lang->getLangName());
                         $session->set('app_lang_code', $lang->getLangCode());
 
