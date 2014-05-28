@@ -21,7 +21,7 @@ class userController extends Controller {
         $all_post = array();
         $data = array();
         $data['countries'] = $em->getRepository('mycpBundle:country')->findAllByAlphabetical();
-
+       
         $form = $this->createForm(new registerUserType($this->get('translator'), $data));
         if ($request->getMethod() == 'POST') {
             $post = $request->get('mycp_frontendbundle_register_usertype');
@@ -84,6 +84,7 @@ class userController extends Controller {
             if ($user) {
                 $user = $user[0];
                 $user->setUserEnabled(1);
+                $user->setUserActivationDate(new \DateTime());
                 $em->persist($user);
                 $em->flush();
                 $message = $this->get('translator')->trans("USER_ACTIVATE_ACCOUNT_SUCCESS");

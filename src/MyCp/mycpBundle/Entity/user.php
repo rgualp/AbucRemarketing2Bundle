@@ -125,6 +125,20 @@ class user implements UserInterface,  \Serializable
      * @ORM\JoinColumn(name="user_photo",referencedColumnName="pho_id")
      */
     private $user_photo;
+    
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="user_creation_date", type="datetime", nullable=true)
+     */
+    private $user_creation_date;
+    
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="user_activation_date", type="datetime", nullable=true)
+     */
+    private $user_activation_date;
 
 
     public function getSalt(){
@@ -509,6 +523,52 @@ class user implements UserInterface,  \Serializable
     public function getUserNewsletters()
     {
         return $this->user_newsletters;
+    }
+    
+    /**
+     * Set user_creation_date
+     *
+     * @param string $userCreationDate
+     * @return user
+     */
+    public function setUserCreationDate($userCreationDate)
+    {
+        $this->user_creation_date = $userCreationDate;
+    
+        return $this;
+    }
+
+    /**
+     * Get user_creation_date
+     *
+     * @return user_creation_date
+     */
+    public function getUserCreationDate()
+    {
+       return $this->user_creation_date;
+    }
+    
+    /**
+     * Set user_activation_date
+     *
+     * @param string $userActivationDate
+     * @return user
+     */
+    public function setUserActivationDate($userActivationDate)
+    {
+        $this->user_activation_date = $userActivationDate;
+    
+        return $this;
+    }
+
+    /**
+     * Get user_activation_date
+     *
+     * @return user_activation_date
+     */
+    public function getUserActivationDate()
+    {
+       return $this->user_activation_date;
     }
     
     public function getUserCompleteName(){
