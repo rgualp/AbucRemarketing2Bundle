@@ -116,8 +116,7 @@ class profileUserType extends AbstractType
             ))
             ->add('user_newsletter','checkbox',array(
                 'label'=>$this->translate->trans('NEWSLETTER_USER_REGISTRATION'),
-                'attr'=>array('class'=>'form-control'),
-                'constraints'=>array(new NotBlank())
+                'attr'=>array('class'=>'form-control')
             ))
             ;
     }

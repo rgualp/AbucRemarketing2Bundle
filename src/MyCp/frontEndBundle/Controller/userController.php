@@ -19,8 +19,8 @@ class userController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $errors = array();
         $all_post = array();
-        $data=array();
-        $data['countries']=$em->getRepository('mycpBundle:country')->findAllByAlphabetical();
+        $data = array();
+        $data['countries'] = $em->getRepository('mycpBundle:country')->findAllByAlphabetical();
 
         $form = $this->createForm(new registerUserType($this->get('translator'), $data));
         if ($request->getMethod() == 'POST') {
@@ -47,14 +47,14 @@ class userController extends Controller {
                 $currencyCode = $session->get('curr_acronym', 'EUR');
 
                 $user_db = $em->getRepository('mycpBundle:user')
-                    ->registerUser($post, $request, $encoder, $this->get('translator'), $languageCode, $currencyCode);
+                        ->registerUser($post, $request, $encoder, $this->get('translator'), $languageCode, $currencyCode);
                 $service_security = $this->get('Secure');
                 $encode_string = $service_security->encode_string($user_db->getUserEmail() . '///' . $user_db->getUserId());
 
                 //mailing
                 $enableRoute = 'frontend_enable_user';
                 $enableUrl = $this->get('router')->generate($enableRoute, array('string' => $encode_string), true);
-                $body=$this->render('frontEndBundle:mails:enableAccount.html.twig', array('enableUrl'=>$enableUrl));
+                $body = $this->render('frontEndBundle:mails:enableAccount.html.twig', array('enableUrl' => $enableUrl));
 
                 $service_email = $this->get('Email');
                 $service_email->send_templated_email($this->get('translator')->trans('EMAIL_ACCOUNT_REGISTERED_SUBJECT'), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
@@ -113,7 +113,7 @@ class userController extends Controller {
                     $changeUrl = $this->get('router')
                             ->generate($change_passwordRoute, array('string' => $encode_string), true);
                     //mailing
-                    $body=$this->render('frontEndBundle:mails:restorePassword.html.twig', array('changeUrl'=>$changeUrl));
+                    $body = $this->render('frontEndBundle:mails:restorePassword.html.twig', array('changeUrl' => $changeUrl));
 
                     $service_email = $this->get('Email');
                     $service_email->send_templated_email(
@@ -136,11 +136,11 @@ class userController extends Controller {
         ));
     }
 
-    public function change_password_startAction(){
+    public function change_password_startAction() {
         $service_security = $this->get('Secure');
         $user = $this->getUser();
         $encode_string = $service_security->encode_string($user->getUserEmail() . '///' . $user->getUserId());
-        return $this->redirect($this->generateUrl('frontend_change_password_user', array('string'=>$encode_string)));
+        return $this->redirect($this->generateUrl('frontend_change_password_user', array('string' => $encode_string)));
     }
 
     public function change_passwordAction($string, Request $request) {
@@ -160,7 +160,7 @@ class userController extends Controller {
                         $factory = $this->get('security.encoder_factory');
                         $user2 = new user();
                         $encoder = $factory->getEncoder($user2);
-                        if(isset($post['user_password']['Clave']))
+                        if (isset($post['user_password']['Clave']))
                             $password = $encoder->encodePassword($post['user_password']['Clave'], $user->getSalt());
                         else
                             $password = $encoder->encodePassword($post['user_password']['Password'], $user->getSalt());
@@ -211,7 +211,7 @@ class userController extends Controller {
                     $enableUrl = $this->get('router')
                             ->generate($enableRoute, array('string' => $encode_string), true);
                     $service_email = $this->get('Email');
-                    $body=$this->render('frontEndBundle:mails:enableAccount.html.twig', array('enableUrl'=>$enableUrl));
+                    $body = $this->render('frontEndBundle:mails:enableAccount.html.twig', array('enableUrl' => $enableUrl));
                     $service_email->send_templated_email($this->get('translator')->trans("USER_ACCOUNT_ACTIVATION_EMAIL"), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
                     $message = $this->get('translator')->trans("USER_CREATE_ACCOUNT_SUCCESS");
                     $this->get('session')->getFlashBag()->add('message_global_success', $message);
@@ -253,12 +253,12 @@ class userController extends Controller {
                       ->generate($enableRoute, array('string' => $encode_string), true); */
 
                     $service_email = $this->get('Email');
-                    $content=$this->render('frontEndBundle:mails:contactMailBody.html.twig',array(
-                        'tourist_name'=>$tourist_name,
-                        'tourist_last_name'=>$tourist_last_name,
-                        'tourist_phone'=>$tourist_phone,
-                        'tourist_email'=>$tourist_email,
-                        'tourist_comment'=>$tourist_comment
+                    $content = $this->render('frontEndBundle:mails:contactMailBody.html.twig', array(
+                        'tourist_name' => $tourist_name,
+                        'tourist_last_name' => $tourist_last_name,
+                        'tourist_phone' => $tourist_phone,
+                        'tourist_email' => $tourist_email,
+                        'tourist_comment' => $tourist_comment
                     ));
                     $service_email->send_templated_email(
                             'Contacto de huesped', $tourist_email, 'info@mycasaparticular.com ', $content->getContent());
@@ -290,13 +290,13 @@ class userController extends Controller {
                       ->generate($enableRoute, array('string' => $encode_string), true); */
 
                     $service_email = $this->get('Email');
-                    $content=$this->render('frontEndBundle:mails:ownerContactMailBody.html.twig',array(
-                        'owner_fullname'=>$owner_full_name,
-                        'own_name'=>$owner_own_name,
-                        'province'=>$owner_province,
-                        'municipality'=>$owner_mun,
-                        'comments'=>$owner_comment,
-                        'email'=> $owner_email
+                    $content = $this->render('frontEndBundle:mails:ownerContactMailBody.html.twig', array(
+                        'owner_fullname' => $owner_full_name,
+                        'own_name' => $owner_own_name,
+                        'province' => $owner_province,
+                        'municipality' => $owner_mun,
+                        'comments' => $owner_comment,
+                        'email' => $owner_email
                     ));
                     $service_email->send_templated_email(
                             'Contacto de propietario', $owner_email, 'casa@mycasaparticular.com', $content->getContent());
@@ -322,33 +322,29 @@ class userController extends Controller {
 
         $favorite_destinations = $em->getRepository('mycpBundle:favorite')->get_favorite_destinations($user_ids["user_id"], $user_ids["session_id"], 4, $destination_id);
 
-        for($i = 0; $i<count($favorite_destinations);$i++)
-        {
+        for ($i = 0; $i < count($favorite_destinations); $i++) {
             if (!file_exists(realpath("uploads/destinationImages/" . $favorite_destinations[$i]['photo'])))
-                   $favorite_destinations[$i]['photo'] = 'no_photo.png';
+                $favorite_destinations[$i]['photo'] = 'no_photo.png';
         }
 
 
         $ownership_favorities = $em->getRepository('mycpBundle:favorite')->get_favorite_ownerships($user_ids["user_id"], $user_ids["session_id"], 4, $ownership_id);
 
-        for($i = 0; $i<count($ownership_favorities);$i++)
-        {
+        for ($i = 0; $i < count($ownership_favorities); $i++) {
             if (!file_exists(realpath("uploads/ownershipImages/" . $ownership_favorities[$i]['photo'])))
-                   $ownership_favorities[$i]['photo'] = 'no_photo.png';
+                $ownership_favorities[$i]['photo'] = 'no_photo.png';
         }
 
         $history_destinations = $em->getRepository('mycpBundle:userHistory')->get_history_destinations($user_ids["user_id"], $user_ids["session_id"], 4, $destination_id);
-        for($i = 0; $i<count($history_destinations);$i++)
-        {
+        for ($i = 0; $i < count($history_destinations); $i++) {
             if (!file_exists(realpath("uploads/destinationImages/" . $history_destinations[$i]['photo'])))
-                   $history_destinations[$i]['photo'] = 'no_photo.png';
+                $history_destinations[$i]['photo'] = 'no_photo.png';
         }
 
         $history_owns = $em->getRepository('mycpBundle:userHistory')->get_history_ownerships($user_ids["user_id"], $user_ids["session_id"], 4, $ownership_id);
-         for($i = 0; $i<count($history_owns);$i++)
-        {
+        for ($i = 0; $i < count($history_owns); $i++) {
             if (!file_exists(realpath("uploads/ownershipImages/" . $history_owns[$i]['photo'])))
-                   $history_owns[$i]['photo'] = 'no_photo.png';
+                $history_owns[$i]['photo'] = 'no_photo.png';
         }
         return $this->render('frontEndBundle:user:infoTabUser.html.twig', array(
                     'destination_favorites' => $favorite_destinations,
@@ -362,13 +358,13 @@ class userController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $errors = array();
         $all_post = array();
-        $data=array();
-        $data['countries']=$em->getRepository('mycpBundle:country')->findAll();
+        $data = array();
+        $data['countries'] = $em->getRepository('mycpBundle:country')->findAll();
         $data['currencies'] = $em->getRepository('mycpBundle:currency')->findAll();
         $data['languages'] = $em->getRepository('mycpBundle:lang')->findBy(array('lang_active' => 1), array('lang_name' => 'ASC'));
 
         $user = $this->getUser();
-       // var_dump($user); exit();
+        // var_dump($user); exit();
         $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
 
         $complete_user = array(
@@ -406,14 +402,15 @@ class userController extends Controller {
                     $user->setUserAddress($post['user_address']);
                     $user->setUserCity($post['user_city']);
 
-                    if(isset($post['user_newsletters']))
+                    if (isset($post['user_newsletters']))
                         $user->setUserNewsletters(1);
-                    else $user->setUserNewsletters(0);
+                    else
+                        $user->setUserNewsletters(0);
 
                     //subir photo
-                    $dir=$this->container->getParameter('user.dir.photos');
+                    $dir = $this->container->getParameter('user.dir.photos');
                     $file = $request->files->get('user_photo');
-                   // var_dump($request->files);
+                    // var_dump($request->files);
                     if (isset($file)) {
                         $photo = new photo();
                         $fileName = uniqid('user-') . '-photo.jpg';
@@ -436,27 +433,47 @@ class userController extends Controller {
                     $em->persist($userTourist);
                     $em->flush();
 
-                    $message = $this->get('translator')->trans("USER_PROFILE_SAVED");
+                    $lang = $userTourist->getUserTouristLanguage();
+                    $locale = strtolower($lang->getLangCode());
+                    
+                    $message = $this->get('translator')->trans("USER_PROFILE_SAVED", array(),'messages', $locale);
                     $this->get('session')->getFlashBag()->add('message_global_success', $message);
-                    //return $this->redirect($this->generateUrl('frontend_login'));
+                    
+                    //Change global currency and language if user set a new one
+                    $session = $request->getSession();
+
+                    $curr = $userTourist->getUserTouristCurrency();
+                    if (isset($curr)) {
+                        $session->set("curr_rate", $curr->getCurrCucChange());
+                        $session->set("curr_symbol", $curr->getCurrSymbol());
+                        $session->set("curr_acronym", $curr->getCurrCode());
+                    }
+
+                    
+                    if (isset($lang)) {
+                        $session->set('browser_lang', $locale);
+                        $session->set('app_lang_name', $lang->getLangName());
+                        $session->set('app_lang_code', $lang->getLangCode());
+
+                        
+                        $locale = array('locale' => $locale, '_locale' => $locale);
+                        return $this->redirect($this->generateUrl("frontend_profile_user", $locale));
+                    }
                 } else {
                     $errors['no_email'] = $this->get('translator')->trans("USER_PROFILE_EMAIL_ERROR");
                 }
-            }
-            else{
+            } else {
                 $errors['complete_form'] = $this->get('translator')->trans("FILL_FORM_CORRECTLY");
             }
         }
-
         return $this->render('frontEndBundle:user:profileUser.html.twig', array(
                     'form' => $form->createView(),
                     'errors' => $errors,
                     'post' => $all_post,
                     'user' => $user,
                     'tourist' => $userTourist
+                    
         ));
     }
-
-
 
 }

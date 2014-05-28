@@ -31,6 +31,16 @@ class PublicController extends Controller {
         $session = $this->getRequest()->getSession();
         $glogal_locale = $this->get('translator')->getLocale();
         
+        //var_dump($session->get("just_logged"));
+        if($session->has("just_logged") && $session->get("just_logged"))
+        {
+            $locale = strtolower($session->get("user_lang"));
+            //var_dump($locale);
+            $locale = array('locale' => $locale, '_locale' => $locale);
+            $session->remove("just_logged");
+            return $this->redirect($this->generateUrl("frontend_welcome", $locale));
+        }
+        
         $provinces = $em->getRepository('mycpBundle:province')->findAll();
         $slide_folder = rand(1, 1);
         
