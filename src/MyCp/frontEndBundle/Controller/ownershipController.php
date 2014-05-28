@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use MyCp\frontEndBundle\Helpers\Utils;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class ownershipController extends Controller {
 
@@ -549,8 +550,8 @@ class ownershipController extends Controller {
             $session->set('search_order', 'PRICE_LOW_HIGH');
 
         $rooms = ($rooms == "undefined") ? 1: $rooms;
-            
-        
+
+
         $search_text = ($text != null && $text != '' && $text != $this->get('translator')->trans('PLACE_WATERMARK')) ? str_replace("-", " ", strtolower($text)) : null;
         $search_guests = ($guests != null && $guests != '' && $guests != $this->get('translator')->trans('GUEST_WATERMARK')) ? $guests : "1";
         $search_rooms = ($rooms != null && $rooms != '' && $rooms != $this->get('translator')->trans('ROOM_WATERMARK')) ? $rooms : "1";
@@ -674,7 +675,7 @@ class ownershipController extends Controller {
                 $own_ids .= "," . $own['own_id'];
             $session->set('own_ids', $own_ids);
 
-            if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'LIST')
+            if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'LIST') {
                 $response = $this->renderView('frontEndBundle:ownership:searchListOwnership.html.twig', array(
                     'list' => $result_list,
                     'items_per_page' => $items_per_page,
@@ -683,7 +684,7 @@ class ownershipController extends Controller {
                     'list_preffix' => 'search',
                     'show_paginator' => true
                 ));
-            else if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'PHOTOS')
+            } elseif ($session->get('search_view_results') != null && $session->get('search_view_results') == 'PHOTOS') {
                 $response = $this->renderView('frontEndBundle:ownership:searchMosaicOwnership.html.twig', array(
                     'list' => $result_list,
                     'items_per_page' => $items_per_page,
@@ -692,7 +693,7 @@ class ownershipController extends Controller {
                     'list_preffix' => 'search',
                     'show_paginator' => true
                 ));
-            else if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'MAP')
+            } elseif ($session->get('search_view_results') != null && $session->get('search_view_results') == 'MAP') {
                 $response = $this->renderView('frontEndBundle:ownership:searchMapOwnership.html.twig', array(
                     'list' => $result_list,
                     'items_per_page' => $items_per_page,
@@ -701,9 +702,21 @@ class ownershipController extends Controller {
                     'list_preffix' => 'search',
                     'show_paginator' => true
                 ));
+            } else { // guarantee that a response is always returned
+                $response = $this->renderView('frontEndBundle:ownership:searchListOwnership.html.twig', array(
+                    'list' => $result_list,
+                    'items_per_page' => $items_per_page,
+                    'total_items' => $paginator->getTotalItems(),
+                    'current_page' => $page,
+                    'list_preffix' => 'search',
+                    'show_paginator' => true
+                ));
+            }
 
             return new Response($response, 200);
         }
+
+        throw new MethodNotAllowedHttpException(array('POST'));
     }
 
     public function search_change_view_resultsAction() {
