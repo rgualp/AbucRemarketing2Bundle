@@ -25,7 +25,7 @@
                                 <td style="width: 57%">{{reservation.getOwnResGenResId.getGenResOwnId.getOwnAddressMunicipality.getMunName}}, {{reservation.getOwnResGenResId.getGenResOwnId.getOwnName}}</td>
                                 <td style="width: 35%" class="text-center">{{reservation.getOwnResRoomType}}</td>
                                 <td class="text-right cost">
-                                        <h3 class="no-margin">{{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{reservation.getOwnResNightPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h3>
+                                        <h3 class="no-margin">{{reservation.getOwnResNightPrice | price}}</h3>
                                 </td>
                             </tr>
                         {% endif %}
@@ -53,7 +53,7 @@
         <span>{{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{ceil_round(total_percent_price *(app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))}}</span>
         <br/>
         {{"SERVICE_RECHARGE" | trans}}:
-        <span>{{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{10 *(app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</span>
+        <span>{{10 | price}}</span>
         <br/>
         {{"TOTAL_PREPAYMENT" | trans}}:
         <span>{{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{ceil_round((total_percent_price + 10) *(app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))}}</span>

@@ -52,7 +52,7 @@
                 </tr>
             </table>
             <h6 class="h-blue h-blue-2">
-                 {{"FROM_PRICES" | trans | lower}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ownership.minimum_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}
+                 {{"FROM_PRICES" | trans | lower}} {{ownership.minimum_price | price}}
             </h6>
         </h5>
 </div>
@@ -108,7 +108,7 @@
                 </tr>
             </table>
             <h6 class="h-blue h-blue-2">
-                 {{"FROM_PRICES" | trans | lower}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ownership.minimum_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}
+                 {{"FROM_PRICES" | trans | lower}} {{ownership.minimum_price | price }}
             </h6>
         </h5>
 </div>

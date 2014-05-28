@@ -66,7 +66,7 @@
     <div class="checkbox">
         <label>
             <input class="action_remove_filter_up" type="checkbox" name="own_price" value="{{price[0]}}" {%if check_filters is defined and price[0] in check_filters['own_price']%} checked="checked" {%endif%} {%if price[2] == '0'%} disabled="disabled" {%endif%}/>
-                {{"FROM_PRICES" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} {{price[0] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} {{"TO_PRICES" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} {{price[1] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} ({{price[2]}})
+                {{"FROM_PRICES" | trans}} {{price[0] | price}} {{"TO_PRICES" | trans}} {{price[1] | price}} ({{price[2]}})
         </label>
     </div>
         {%endfor%}

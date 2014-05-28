@@ -45,7 +45,7 @@
                     <small>{{own.count_reservations}} {{"RESERVATIONS" | trans | lower}}</small>
                 </td>
                 <td class="text-right">
-                    <small>{{"FROM_PRICES" | trans}}:</small><span class="big-price-blue">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{own['minimum_price'] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</span><br/>
+                    <small>{{"FROM_PRICES" | trans}}:</small><span class="big-price-blue">{{own['minimum_price'] | price}}</span><br/>
                     <br/>
                         {{ include('frontEndBundle:favorite:itemFavorite.html.twig', 
                         {'is_in_favorite': own['is_in_favorites'],

@@ -31,7 +31,7 @@
                         </td>
                         <td style="text-align: right">
                             <small>{{"FROM_PRICES" | trans | lower}}:</small>
-                            <div class="big-price-blue">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{own_minimum_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }}</div>
+                            <div class="big-price-blue">{{own_minimum_price | price }}</div>
                             <small>{{"BYNIGHT" | trans}}</small>
 
                         </td>

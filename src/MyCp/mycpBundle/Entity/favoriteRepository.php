@@ -267,8 +267,10 @@ class favoriteRepository extends EntityRepository {
 
         if ($exclude_id_element != null)
             $where.= " AND o.own_id <> $exclude_id_element";
+        
+        $order_by = " ORDER BY o.own_rating DESC, o.own_comments_total DESC, o.own_minimum_price DESC";
 
-        $results = ($max_results != null) ? $em->createQuery($query_string.$where)->setMaxResults($max_results)->getResult() : $em->createQuery($query_string.$where)->getResult();
+        $results = ($max_results != null) ? $em->createQuery($query_string.$where)->setMaxResults($max_results)->getResult() : $em->createQuery($query_string.$where.$order_by)->getResult();
         
         for ($i = 0; $i < count($results); $i++) {
             if ($results[$i]['photo'] == null)

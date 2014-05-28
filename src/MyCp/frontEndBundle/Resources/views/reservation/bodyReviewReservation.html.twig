@@ -24,10 +24,10 @@
 
                                                         {% set total_percent =  total_percent + ((service['room_price_'~array_season[flag]]+plus) * service['ownership_percent'] / 100) %}
                                                         {% if service['room_type']=='Habitación Triple' and  service['guests'] + service['kids'] >= 3 %}
-                                                            {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ service['room_price_'~array_season[flag]] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) + 10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}
+                                                            {{ (service['room_price_'~array_season[flag]] + 10) | price}}
                                                             {% set total_price = total_price +  service['room_price_'~array_season[flag]] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) + 10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) %}
                                                         {% else %}
-                                                            {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ service['room_price_'~array_season[flag]] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}
+                                                            {{ service['room_price_'~array_season[flag]] | price}}
                                                             {% set total_price = total_price + service['room_price_'~array_season[flag]] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) %}
                                                         {% endif %}
 
@@ -52,10 +52,10 @@
 <form method="POST" action="{{ path('frontend_review_confirm_submit') }}">
 <!--textarea style="height: 100px" name="comment_cart" class="form-control"></textarea-->
 <div class="row text-right h-blue prices-cart">
-    <div class="col-sm-3">{{"RESERVATION_TOTAL_PRICE" | trans}} <span>{{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{ceil_round(total_price)}}</span></div>
-    <div class="col-sm-3">{{"INITIAL_DEPOSIT" | trans}}: <span>{{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{ceil_round(total_percent * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))}}</span></div>
-    <div class="col-sm-3">{{"SERVICE_RECHARGE" | trans}}: <span>{{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</span></div>
-    <div class="col-sm-3">{{"TOTAL_PREPAYMENT" | trans}}: <span>{{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{ceil_round((total_percent * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))+10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))}}</span></div>
+    <div class="col-sm-3">{{"RESERVATION_TOTAL_PRICE" | trans}} <span>{{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): 'CUC'}} {{ceil_round(total_price)}}</span></div>
+    <div class="col-sm-3">{{"INITIAL_DEPOSIT" | trans}}: <span>{{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): 'CUC'}} {{ceil_round(total_percent * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))}}</span></div>
+    <div class="col-sm-3">{{"SERVICE_RECHARGE" | trans}}: <span>{{10 | price}}</span></div>
+    <div class="col-sm-3">{{"TOTAL_PREPAYMENT" | trans}}: <span>{{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): 'CUC'}} {{ceil_round((total_percent * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))+10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))}}</span></div>
 </div>
 <script type="text/javascript">
 

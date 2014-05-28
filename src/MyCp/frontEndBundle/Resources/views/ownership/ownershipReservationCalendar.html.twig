@@ -69,7 +69,7 @@
         </tbody>
     </table>
     <div style="text-align: right">
-        <img src="{{ asset('bundles/frontend/img/question.gif') }}" width="20px" rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')| upper}}{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}"/>  
+        <img src="{{ asset('bundles/frontend/img/question.gif') }}" width="20px" rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{10 | price}}"/>  
     </div>
     <script type="text/javascript">
         var cont_array_dates={{ array_dates | length}};

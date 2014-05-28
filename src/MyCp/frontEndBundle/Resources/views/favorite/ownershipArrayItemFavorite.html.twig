@@ -39,7 +39,7 @@
         <small>{{own['comments']}} {{"FORMS_COMMENTS" | trans | lower}}</small>
     </div>
     <div class="col-sm-3 text-center">
-        <small>{{"FROM_PRICES" | trans}}:</small><h2 class="no-margin h-grey margin-t">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{own['minimum_price'] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h2>
+        <small>{{"FROM_PRICES" | trans}}:</small><h2 class="no-margin h-grey margin-t">{{own['minimum_price'] | price}}</h2>
                 {{ include('frontEndBundle:favorite:itemFavorite.html.twig', 
                         {'is_in_favorite': own['is_in_favorites'],
                          'favorite_type': 'ownershipfav',

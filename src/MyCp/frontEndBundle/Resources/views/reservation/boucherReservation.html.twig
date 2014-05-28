@@ -139,20 +139,20 @@
     </tr>
     <tr>
         <td>{{"RESERVATION_TOTAL" | trans}} {{"SERVICE_RECHARGE"|trans|lower}}</td>
-        <td class="text-right">{{ currency_symbol }} {{ service_charge_total }}</td>
+        <td class="text-right">{{ currency_symbol }} {{ service_charge_total  | number_format(2)}}</td>
     </tr>
     <tr>
         <td>{{"TOTAL_ALL_PREPAYMENT" | trans}}</td>
-        <td class="text-right">{{ currency_symbol }} {{ service_charge_total + ceil_round(prepayment_accommodations) }}</td>
+        <td class="text-right">{{ currency_symbol }} {{ (service_charge_total + ceil_round(prepayment_accommodations)) | number_format(2) }}</td>
     </tr>
     <tr>
         <td>{{"OTHER_SERVICES_HEADING_FILTER"|trans}}</td>
-        <td class="text-right">0</td>
+        <td class="text-right">{{ currency_symbol }} {{0 | number_format(2)}}</td>
     </tr>
     <tr>
         <td><h2 class="no-margin">{{"TOTAL_TO_PAY_SERVICING" | trans}}</h2></td>
         <td class="text-right"><h2 class="no-margin">
-                {{ currency_symbol }} {{ ceil_round(accommodations_service_charge) - ceil_round(prepayment_accommodations) }}
+                {{ currency_symbol }} {{ (ceil_round(accommodations_service_charge) - ceil_round(prepayment_accommodations)) | number_format(2) }}
             </h2></td>
     </tr>
     </tbody>

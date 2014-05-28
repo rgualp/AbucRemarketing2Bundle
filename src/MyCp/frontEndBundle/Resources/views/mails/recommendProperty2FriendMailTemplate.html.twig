@@ -27,7 +27,7 @@
                         </td>
                         <td width="34%" valign="top" align="right" style="font-family: arial; font-size: 13px; line-height: 20px; text-align: right">
 
-                            <h3>{{'FROM_PRICES' | trans}}: {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{property.getOwnMinimumPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h3>
+                            <h3>{{'FROM_PRICES' | trans}}: {{property.getOwnMinimumPrice | price}}</h3>
                             <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_details_ownership',{'own_name':property.getOwnName | lower | replace(' ','-')}) }}">{{"VIEW_DETAILS"|trans}}</a>
                         </td>
                     </tr>

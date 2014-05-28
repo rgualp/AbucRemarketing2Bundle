@@ -36,7 +36,7 @@
                                     <br>
                                     <span class="badge badge-important">{{"RESERVE_SINGULAR" | trans}}</span>
 
-                                </p><h4>{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{res['own_res_night_price'] *(nights[loop.index0])}}</h4>
+                                </p><h4>{{(res['own_res_night_price'] *(nights[loop.index0])) | price}}</h4>
                             </td>
                         </tr>
                         </tbody></table>

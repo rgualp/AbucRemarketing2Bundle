@@ -40,7 +40,7 @@
             <small class="top">{{"FROM_PRICES" | trans}}: {{res['own_res_reservation_from_date']|date('d/m/Y')}} {{"TO_PRICES" | trans}}: {{res['own_res_reservation_to_date']|date('d/m/Y')}}</small>
 </div>
         <div class="col-sm-3 text-center">
-            <h2 class="no-margin h-grey margin-t">{{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{res['own_res_total_in_site'] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h2>
+            <h2 class="no-margin h-grey margin-t">{{res['own_res_total_in_site'] | price}}</h2>
             <div>
                 <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | lower | replace(' ','-')}) }}" class="btn btn-primary" style="width: 150px; color: #ffffff">
                     {{"VIEW_DETAILS" | trans}}</a></div>

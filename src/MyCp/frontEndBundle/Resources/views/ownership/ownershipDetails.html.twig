@@ -8,7 +8,7 @@
                 {%if rooms is defined and rooms | length%}
                     {{rooms | length}} {%if rooms | length == 1%} {{"ROOM_SINGULAR" | trans}} {%else%} {{"ROOM_PLURAL" | trans}} {%endif%}.
                 {%endif%}
-                {{"FROM_PRICES" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ownership.ownminimumprice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} {{"NIGHT_PER_ROOM" | trans}}">
+                {{"FROM_PRICES" | trans}} {{ownership.ownminimumprice | price}} {{"NIGHT_PER_ROOM" | trans}}">
 <meta name="keywords" content="{{ ownership.owntype }} {{ownership.owntype | trans}} {{ownership.ownaddressmunicipality}} {{ownership.ownAddressProvince}} Cuba {{ownership.ownname}}">
 
 {% endblock %}
@@ -30,7 +30,7 @@
                 {%if rooms is defined and rooms | length%}
                     {{rooms | length}} {%if rooms | length == 1%} {{"ROOM_SINGULAR" | trans}} {%else%} {{"ROOM_PLURAL" | trans}} {%endif%}.
                 {%endif%}
-                {{"FROM_PRICES" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ownership.ownminimumprice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} {{"NIGHT_PER_ROOM" | trans}}
+                {{"FROM_PRICES" | trans}} {{ownership.ownminimumprice | price}} {{"NIGHT_PER_ROOM" | trans}}
             </h1>
             <!--label class="place">
     {{ownership.owntype | trans}}
@@ -71,7 +71,7 @@
                          data-x="{{ownership.OwnGeolocateX}}"
                          data-y="{{ownership.OwnGeolocateY}}"
                          data-name="{{ownership.ownname}}"
-                         data-description="{{"FROM_PRICES" | trans}} {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{ownership.ownminimumprice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}} {{"BYNIGHTS_PRICES" | trans}}"
+                         data-description="{{"FROM_PRICES" | trans}} {{ownership.ownminimumprice | price}} {{"BYNIGHTS_PRICES" | trans}}"
                          data-image="{{asset('uploads/ownershipImages/thumbnails/'~image)}}"
                          data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}">
                     </div>
@@ -124,17 +124,17 @@
                     <li class="lead">
                         <div class="row all-prices-numbers">
                             <div class="col-sm-4">
-                                {{'RESERVATION_TOTAL_PRICE' | trans}} {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}} <span id="total_price"></span>
+                                {{'RESERVATION_TOTAL_PRICE' | trans}} {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): 'CUC'}} <span id="total_price"></span>
                             </div>
                             <div class="col-sm-4">
-                                {{'INITIAL_DEPOSIT' | trans}} ({{ownership.OwnCommissionPercent}}%): {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}<span id="initial_deposit"></span>
+                                {{'INITIAL_DEPOSIT' | trans}} ({{ownership.OwnCommissionPercent}}%): {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): 'CUC'}} <span id="initial_deposit"></span>
                             </div>
                             <div class="col-sm-4">
-                                {{'SERVICE_RECHARGE' | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}<span id="service_recharge">{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</span>
+                                {{'SERVICE_RECHARGE' | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): 'CUC'}} <span id="service_recharge">{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</span>
                             </div>
                         </div>
                         <div class="text-center" style="font-size: 20px; margin-top: 10px">
-                            {{'TOTAL_PREPAYMENT'|trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}<span id="total_prepayment"></span>
+                            {{'TOTAL_PREPAYMENT'|trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): 'CUC'}} <span id="total_prepayment"></span>
                         </div>
                     </li>
                     <li class="lead-2">
@@ -206,7 +206,7 @@
                                 <div class="col-xs-4 text-right">
                                     <b>
                                         {%if ownership.ownFacilitiesBreakfastPrice != null and ownership.ownFacilitiesBreakfastPrice != 0%}
-                                            {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} {{ownership.ownFacilitiesBreakfastPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}
+                                            {{ownership.ownFacilitiesBreakfastPrice | price}}
                                         {%else%} {{"YES" | trans}}{%endif%}
                                     </b></div>
                             </div>
@@ -218,9 +218,9 @@
                                 <div class="col-xs-8"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-services food-icon"> {{"DINNER_TAB_DESCRIPTION" | trans}}</div>
                                 <div class="col-xs-4 text-right"><b>
                                         {%if ownership.ownFacilitiesDinnerPriceFrom != null and ownership.ownFacilitiesDinnerPriceFrom != 0%}
-                                            {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} {{ownership.ownFacilitiesDinnerPriceFrom * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}
+                                            {{ownership.ownFacilitiesDinnerPriceFrom | price}}
                                             {%if ownership.ownFacilitiesDinnerPriceTo != null and ownership.ownFacilitiesDinnerPriceTo != 0%}
-                                                - {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} {{ownership.ownFacilitiesDinnerPriceTo * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}
+                                                - {{ownership.ownFacilitiesDinnerPriceTo | price}}
                                             {%endif%}
                                         {%else%} {{"YES" | trans}}{%endif%}
                                     </b></div>
@@ -234,7 +234,7 @@
                                 <div class="col-xs-4 text-right">
                                     <b>
                                         {%if ownership.ownFacilitiesParkingPrice != null and ownership.ownFacilitiesParkingPrice != 0%}
-                                            {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}} {{ownership.ownFacilitiesParkingPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}
+                                            {{ownership.ownFacilitiesParkingPrice | price}}
                                         {%else%}
                                             {{"YES" | trans}}
                                         {%endif%}
@@ -314,8 +314,7 @@
                                     <h4 class="no-margin text-left" style="margin-left: 20px">{{room.roomtype | trans | title}}</h4>
                                 </div>
                                 <div class="col-xs-6">
-                                    <h4 class="no-margin text-right" style="margin-right: 20px">{{"FROM_PRICES" | trans}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{room.roomPriceDownFrom
-                                        * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h4>
+                                    <h4 class="no-margin text-right" style="margin-right: 20px">{{"FROM_PRICES" | trans}} {{room.roomPriceDownFrom | price}}</h4>
                                 </div>
                             </div>
 
@@ -447,7 +446,7 @@
                 {%endif%}
                 {{"CATEGORY_TAB_DESCRIPTION" | trans}}: {{ownership.category | trans}}
             </li>
-            <li class="lead"><h1 class="no-margin"><small class="h-white-1">{{"FROM_PRICES" | trans | lower}}</small> {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ownership.ownminimumprice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h1></li>
+            <li class="lead"><h1 class="no-margin"><small class="h-white-1">{{"FROM_PRICES" | trans | lower}}</small> {{ownership.ownminimumprice | price}}</h1></li>
             <li class="lead-2">
                 {{"ARRIVAL_RESERVATION" | trans}}<br/>
                 <div style="padding: 0" class="input-group">

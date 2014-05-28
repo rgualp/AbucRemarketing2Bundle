@@ -15,7 +15,7 @@
                             <a href="{{ path('frontend_details_destination',{'destination_name':dest.des_name|lower|replace(' ','-')}) }}">
                             {{dest.des_name}}
                             </a></b><br/>
-                            {{"FROM_PRICES" | trans | lower}} {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{dest.min_price * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) }} {{"BYNIGHT" | trans}}<br/>
+                            {{"FROM_PRICES" | trans | lower}} {{dest.min_price | price }} {{"BYNIGHT" | trans}}<br/>
                             {{(dest.desc_brief != null or dest.desc_brief != "") ? (dest.desc_brief | slice(0,50) | striptags) : ""}}            
                             {%if (dest.desc_brief != null and dest.desc_brief | length > 50)%}...{%endif%}   
                            </div>

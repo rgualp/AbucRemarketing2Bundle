@@ -53,7 +53,7 @@
                                     {% if (reservation.getOwnResStatus == 5 and booking is defined)%}
                                         <span style="background-color: #c43c35; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"PAYED"|trans({}, "messages", user_locale)}}&nbsp;&nbsp;&nbsp;</b></span><br/>
                                     {% endif %}
-                                    <h3>{{"RESERVATION_TOTAL" | trans({}, "messages", user_locale) | upper}}: {{app.session.get('curr_symbol') == null ? "$" : app.session.get('curr_symbol')}}{{ reservation.getOwnResNightPrice * nights[loop.index0] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</h3>
+                                    <h3>{{"RESERVATION_TOTAL" | trans({}, "messages", user_locale) | upper}}: {{ (reservation.getOwnResNightPrice * nights[loop.index0]) | price }}</h3>
                                     {% if (reservation.getOwnResStatus == 1)%}
                                         <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_mycasatrip_available',{'locale':user_locale,'_locale':user_locale,}) }}">{{"CONTINUE_RESERVING"|trans({}, "messages", user_locale)}}</a>
                                     {% endif %}
