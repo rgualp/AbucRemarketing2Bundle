@@ -12,7 +12,14 @@ frontend_website_migration_homepage_language:
 
 frontend_website_migration_accommdation_details:
   pattern: /{locale}/propiedad/detalle.php{something}
-  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_search_ownership}
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
+  requirements:
+      locale:  en|es|ge
+      something: .*
+
+frontend_website_migration_login_accommdation_details:
+  pattern: /login/{locale}/propiedad/detalle.php{something}
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
   requirements:
       locale:  en|es|ge
       something: .*
@@ -256,4 +263,11 @@ frontend_website_migration_web_to_image:
   pattern: /web/to_image.php{something}
   defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
   requirements:
+      something: .*
+
+frontend_website_migration_locale_index:
+  pattern: /{locale}/index.php{something}
+  defaults: { _controller: frontEndBundle:websiteMigration:permanentRedirect, redirectTo: frontend_welcome}
+  requirements:
+      locale:  en|es|ge
       something: .*
