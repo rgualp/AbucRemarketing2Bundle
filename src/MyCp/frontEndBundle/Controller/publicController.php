@@ -396,7 +396,7 @@ class PublicController extends Controller {
 
             //login
             $url = array(
-                'loc' => $this->get('router')->generate('mycp_login', $routingParams),
+                'loc' => $this->get('router')->generate('frontend_public_login', $routingParams),
                 'priority' => '0.5',
                 'changefreq'=> 'daily'
             );

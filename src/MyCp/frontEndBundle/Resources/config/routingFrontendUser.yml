@@ -32,3 +32,4 @@ frontend_profile_user:
 frontend_change_password_start_user:
     locales:  { en: "/user/change-password/", es: "/usuario/cambiar-clave/", de: "/benutzer/passwort-aendern/" }
     defaults: { _controller: frontEndBundle:user:change_password_start }
+

@@ -98,7 +98,7 @@
                                     <li><a title="{{"USER_PROFILE" | trans }}" href="{{ path('frontend_profile_user') }}">{{"USER_PROFILE" | trans }}</a></li>
                                     <li><a title="{{"LOG_OUT" | trans}}" href="{{ path('mycp_logout') }}">{{"LOG_OUT" | trans}} </a></li>
                                 {% else %}
-                                    <li><a title="{{"LOG_IN" | trans }}" href="{{ path('mycp_login') }}">{{"LOG_IN" | trans }}</a></li>
+                                    <li><a title="{{"LOG_IN" | trans }}" href="{{ path('frontend_public_login') }}">{{"LOG_IN" | trans }}</a></li>
                                     <li><a title="{{"USER_NEW_ACCOUNT" | trans }}" href="{{ path('frontend_register_user') }}">{{"USER_NEW_ACCOUNT" | trans }}</a></li>
                                 {% endif %}
                             </ul>
