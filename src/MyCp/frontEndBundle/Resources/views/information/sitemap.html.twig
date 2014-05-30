@@ -43,7 +43,7 @@
     {% if is_granted('ROLE_CLIENT_TOURIST') or is_granted('ROLE_CLIENT_STAFF')%}
         <a title="{{"LOG_OUT" | trans}}" href="{{ path('mycp_logout') }}">{{"LOG_OUT" | trans}} {{app.user.getUserUserName}}</a>
     {% else %}
-        <a title="{{"LOG_IN" | trans }}" href="{{ path('mycp_login') }}">{{"LOG_IN" | trans }}</a>
+        <a title="{{"LOG_IN" | trans }}" href="{{ path('frontend_public_login') }}">{{"LOG_IN" | trans }}</a>
     {% endif %}
     <a href="{{ path('frontend_mycasatrip_home') }}">MyCasaTrip</a>
     <a href="{{ path('frontend_profile_user') }}">{{"USER_PROFILE" | trans}}</a>
@@ -55,9 +55,9 @@
     <a href="{{ path('frontend_contact_user')}}">{{"CONTACT_US" | trans }}</a>
     <a href="{{ path('frontend_list_faq')}}">{{"FAQ" | trans }}</a>
     <a href="{{ path('frontend_legal_terms')}}">{{"LEGAL_TERMS" | trans }}</a>
-    <a href="{{ path('frontend_security_privacity')}}">{{"SECURITY_AND_PRIVACITY" | trans }}</a>    
+    <a href="{{ path('frontend_security_privacity')}}">{{"SECURITY_AND_PRIVACITY" | trans }}</a>
 </div>
 {% block include_javascripts %}
-    
+
 {% endblock %}
 {% endblock %}

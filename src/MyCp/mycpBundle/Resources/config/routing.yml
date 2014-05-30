@@ -1,7 +1,7 @@
 mycp_destinations:
     resource: "@mycpBundle/Resources/config/routingBackendDestinations.yml"
     prefix:   backend/destination/
-    
+
 mycp_cf:
     pattern:  /backend/mycp_cf/
     defaults: { _controller: mycpBundle:MycpCF:mycpFrontController}
@@ -53,7 +53,7 @@ mycp_log:
 mycp_utils:
     resource: "@mycpBundle/Resources/config/routingBackendUtils.yml"
     prefix:   backend/utils/
-    
+
 mycp_unavailabilityDetails:
     resource: "@mycpBundle/Resources/config/routingBackendUnavailabilityDetails.yml"
     prefix:   backend/unavailability_details/
@@ -61,11 +61,6 @@ mycp_unavailabilityDetails:
 mycp_edit_metatags:
     pattern:  backend/metatags/
     defaults: { _controller: mycpBundle:BackendMeta:edit_meta_tags}
-
-mycp_login:
-    pattern:  /{_locale}/login/
-    defaults: { _controller: frontEndBundle:public:login }
-
 
 mycp_check:
   pattern: /check

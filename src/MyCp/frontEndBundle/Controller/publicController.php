@@ -30,7 +30,7 @@ class PublicController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $session = $this->getRequest()->getSession();
         $glogal_locale = $this->get('translator')->getLocale();
-        
+
         //var_dump($session->get("just_logged"));
         if($session->has("just_logged") && $session->get("just_logged"))
         {
@@ -40,10 +40,10 @@ class PublicController extends Controller {
             $session->remove("just_logged");
             return $this->redirect($this->generateUrl("frontend_welcome", $locale));
         }
-        
+
         $provinces = $em->getRepository('mycpBundle:province')->findAll();
         $slide_folder = rand(1, 1);
-        
+
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 4 * ($session->get("top_rated_show_rows") != null ? $session->get("top_rated_show_rows") : 2);
         $paginator->setItemsPerPage($items_per_page);
@@ -59,7 +59,7 @@ class PublicController extends Controller {
             'midrange_total' => $statistics['midrange_total'],
             'economic_total' => $statistics['economic_total']
         ));
-        
+
         return $response;
     }
 
@@ -128,14 +128,14 @@ class PublicController extends Controller {
 
         return new Response($result ? "ok" : "error");
     }
-    
+
     public function get_main_menu_destinationsAction()
     {
         $em = $this->getDoctrine()->getManager();
         $destinations = $em->getRepository('mycpBundle:destination')->get_for_main_menu();
-        
+
          $for_url = array();
-        
+
         foreach ($destinations as $prov)
         {
             $prov['des_name'] = str_replace("ñ", "nn", $prov['des_name']);
@@ -148,31 +148,31 @@ class PublicController extends Controller {
               'for_url' => $for_url
         ));
     }
-    
+
     public function get_main_menu_accomodationsAction()
     {
         $em = $this->getDoctrine()->getManager();
         $provinces = $em->getRepository('mycpBundle:province')->get_for_main_menu();
-        
+
         $for_url = array();
-        
+
         foreach ($provinces as $prov)
             $for_url[$prov['prov_id']] = Utils::url_normalize($prov['prov_name']);
-        
+
         return $this->render('frontEndBundle:utils:mainMenuAccomodationItems.html.twig', array(
               'provinces'=>$provinces,
               'for_url' => $for_url
         ));
     }
-    
+
     public function get_main_menu_mycasatripAction()
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $notifications = ($user != null && $user != "anon.") ? $em->getRepository('mycpBundle:ownershipReservation')->get_for_main_menu($user->getUserId()) : array();
-                
+
         return $this->render('frontEndBundle:utils:mainMenuMyCasaTripItems.html.twig', array(
-              'notifications'=>($user != null && $user != "anon.") ?$notifications[0]['available']: 0  
+              'notifications'=>($user != null && $user != "anon.") ?$notifications[0]['available']: 0
         ));
     }
 
@@ -188,8 +188,10 @@ class PublicController extends Controller {
         $url_houses=array();
         $houses=$em->getRepository('mycpBundle:ownership')->findBy(array('own_status'=>1));
         foreach($languages as $lang) {
+            $routingParams = array('locale' => strtolower($lang->getLangCode()), '_locale' => strtolower($lang->getLangCode()));
+
             $url = array(
-                'loc' => $this->get('router')->generate('frontend_search_ownership',array('locale' => strtolower($lang->getLangCode()),'_locale' => strtolower($lang->getLangCode()))),
+                'loc' => $this->get('router')->generate('frontend_search_ownership', $routingParams),
                 'priority' => '0.8',
                 'changefreq'=> 'monthly'
             );
@@ -198,7 +200,8 @@ class PublicController extends Controller {
             {
                 $house_name=Utils::url_normalize($house->getOwnName());
                 $url = array(
-                    'loc' => $this->get('router')->generate('frontend_details_ownership',array('locale' => strtolower($lang->getLangCode()),'_locale' => strtolower($lang->getLangCode()),'own_name' => $house_name)),
+                    'loc' => $this->get('router')->generate('frontend_details_ownership',
+                            array_merge($routingParams, array('own_name' => $house_name))),
                     'priority' => '1.0',
                     'changefreq'=> 'monthly'
                 );
@@ -212,8 +215,10 @@ class PublicController extends Controller {
         array_push($url_destinations,$url);
         $destinations=$em->getRepository('mycpBundle:destination')->findBy(array('des_active'=>1));
         foreach($languages as $lang) {
+            $routingParams = array('locale' => strtolower($lang->getLangCode()), '_locale' => strtolower($lang->getLangCode()));
+
             $url = array(
-                'loc' => $this->get('router')->generate('frontend_list_destinations',array('locale' => strtolower($lang->getLangCode()),'_locale' => strtolower($lang->getLangCode()))),
+                'loc' => $this->get('router')->generate('frontend_list_destinations', $routingParams),
                 'priority' => '0.8',
                 'changefreq'=> 'monthly'
             );
@@ -222,7 +227,8 @@ class PublicController extends Controller {
             {
                 $destination_name=Utils::url_normalize($destination->getDesName());
                 $url = array(
-                    'loc' => $this->get('router')->generate('frontend_details_destination',array('locale' => strtolower($lang->getLangCode()),'_locale' => strtolower($lang->getLangCode()),'destination_name' => $destination_name)),
+                    'loc' => $this->get('router')->generate('frontend_details_destination',
+                            array_merge($routingParams, array('destination_name' => $destination_name))),
                     'priority' => '0.8',
                     'changefreq'=> 'monthly'
                 );
@@ -233,36 +239,38 @@ class PublicController extends Controller {
         // site pages
         $url_sites=array();
         foreach($languages as $lang) {
+            $routingParams = array('locale' => strtolower($lang->getLangCode()), '_locale' => strtolower($lang->getLangCode()));
+
             $url = array(
-                'loc' => $this->get('router')->generate('frontend_welcome',array('locale' => strtolower($lang->getLangCode()),'_locale' => strtolower($lang->getLangCode()))),
+                'loc' => $this->get('router')->generate('frontend_welcome', $routingParams),
                 'priority' => '0.5',
                 'changefreq'=> 'daily'
             );
             array_push($url_sites,$url);
 
             $url = array(
-                'loc' => $this->get('router')->generate('frontend_how_it_works_information',array('locale' => strtolower($lang->getLangCode()),'_locale' => strtolower($lang->getLangCode()))),
+                'loc' => $this->get('router')->generate('frontend_how_it_works_information', $routingParams),
                 'priority' => '0.5',
                 'changefreq'=> 'daily'
             );
             array_push($url_sites,$url);
 
             $url = array(
-                'loc' => $this->get('router')->generate('frontend_list_favorite',array('locale' => strtolower($lang->getLangCode()),'_locale' => strtolower($lang->getLangCode()))),
+                'loc' => $this->get('router')->generate('frontend_list_favorite', $routingParams),
                 'priority' => '0.5',
                 'changefreq'=> 'daily'
             );
             array_push($url_sites,$url);
 
             $url = array(
-                'loc' => $this->get('router')->generate('frontend_review_reservation',array('locale' => strtolower($lang->getLangCode()),'_locale' => strtolower($lang->getLangCode()))),
+                'loc' => $this->get('router')->generate('frontend_review_reservation', $routingParams),
                 'priority' => '0.5',
                 'changefreq'=> 'daily'
             );
             array_push($url_sites,$url);
 
             $url = array(
-                'loc' => $this->get('router')->generate('frontend_register_user',array('locale' => strtolower($lang->getLangCode()),'_locale' => strtolower($lang->getLangCode()))),
+                'loc' => $this->get('router')->generate('frontend_register_user', $routingParams),
                 'priority' => '0.5',
                 'changefreq'=> 'daily'
             );
@@ -270,126 +278,130 @@ class PublicController extends Controller {
 
 
             $url = array(
-                'loc' => $this->get('router')->generate('frontend_restore_password_user',array('locale' => strtolower($lang->getLangCode()),'_locale' => strtolower($lang->getLangCode()))),
+                'loc' => $this->get('router')->generate('frontend_restore_password_user', $routingParams),
                 'priority' => '0.5',
                 'changefreq'=> 'daily'
             );
             array_push($url_sites,$url);
 
             $url = array(
-                'loc' => $this->get('router')->generate('frontend_register_confirmation_user',array('locale' => strtolower($lang->getLangCode()),'_locale' => strtolower($lang->getLangCode()))),
+                'loc' => $this->get('router')->generate('frontend_register_confirmation_user', $routingParams),
                 'priority' => '0.5',
                 'changefreq'=> 'daily'
             );
             array_push($url_sites,$url);
 
             $url = array(
-                'loc' => $this->get('router')->generate('frontend_mycasatrip_pending',array('locale' => strtolower($lang->getLangCode()),'_locale' => strtolower($lang->getLangCode()))),
+                'loc' => $this->get('router')->generate('frontend_mycasatrip_pending', $routingParams),
                 'priority' => '0.5',
                 'changefreq'=> 'daily'
             );
             array_push($url_sites,$url);
 
             $url = array(
-                'loc' => $this->get('router')->generate('frontend_get_with_reservations_municipality',array('locale' => strtolower($lang->getLangCode()),'_locale' => strtolower($lang->getLangCode()))),
+                'loc' => $this->get('router')->generate('frontend_get_with_reservations_municipality', $routingParams),
                 'priority' => '0.5',
                 'changefreq'=> 'daily'
             );
             array_push($url_sites,$url);
 
             $url = array(
-                'loc' => $this->get('router')->generate('frontend_voted_best_list_ownership',array('locale' => strtolower($lang->getLangCode()),'_locale' => strtolower($lang->getLangCode()))),
+                'loc' => $this->get('router')->generate('frontend_voted_best_list_ownership', $routingParams),
                 'priority' => '0.5',
                 'changefreq'=> 'daily'
             );
             array_push($url_sites,$url);
 
             $url = array(
-                'loc' => $this->get('router')->generate('frontend_about_us',array('locale' => strtolower($lang->getLangCode()),'_locale' => strtolower($lang->getLangCode()))),
+                'loc' => $this->get('router')->generate('frontend_about_us', $routingParams),
                 'priority' => '0.5',
                 'changefreq'=> 'daily'
             );
             array_push($url_sites,$url);
 
             $url = array(
-                'loc' => $this->get('router')->generate('frontend_contact_user',array('locale' => strtolower($lang->getLangCode()),'_locale' => strtolower($lang->getLangCode()))),
+                'loc' => $this->get('router')->generate('frontend_contact_user', $routingParams),
                 'priority' => '0.5',
                 'changefreq'=> 'daily'
             );
             array_push($url_sites,$url);
 
             $url = array(
-                'loc' => $this->get('router')->generate('frontend_list_faq',array('locale' => strtolower($lang->getLangCode()),'_locale' => strtolower($lang->getLangCode()))),
+                'loc' => $this->get('router')->generate('frontend_list_faq', $routingParams),
                 'priority' => '0.5',
                 'changefreq'=> 'daily'
             );
             array_push($url_sites,$url);
 
             $url = array(
-                'loc' => $this->get('router')->generate('frontend_type_list_ownership',array('type'=>'penthouse','locale' => strtolower($lang->getLangCode()),'_locale' => strtolower($lang->getLangCode()))),
+                'loc' => $this->get('router')->generate('frontend_type_list_ownership',
+                        array_merge($routingParams, array('type' => 'penthouse'))),
                 'priority' => '0.5',
                 'changefreq'=> 'daily'
             );
             array_push($url_sites,$url);
 
             $url = array(
-                'loc' => $this->get('router')->generate('frontend_type_list_ownership',array('type'=>'villa-con-piscina','locale' => strtolower($lang->getLangCode()),'_locale' => strtolower($lang->getLangCode()))),
+                'loc' => $this->get('router')->generate('frontend_type_list_ownership',
+                        array_merge($routingParams, array('type' => 'villa-con-piscina'))),
                 'priority' => '0.5',
                 'changefreq'=> 'daily'
             );
             array_push($url_sites,$url);
 
             $url = array(
-                'loc' => $this->get('router')->generate('frontend_type_list_ownership',array('type'=>'casa-particular','locale' => strtolower($lang->getLangCode()),'_locale' => strtolower($lang->getLangCode()))),
+                'loc' => $this->get('router')->generate('frontend_type_list_ownership',
+                        array_merge($routingParams, array('type' => 'casa-particular'))),
                 'priority' => '0.5',
                 'changefreq'=> 'daily'
             );
             array_push($url_sites,$url);
 
             $url = array(
-                'loc' => $this->get('router')->generate('frontend_type_list_ownership',array('type'=>'apartamento','locale' => strtolower($lang->getLangCode()),'_locale' => strtolower($lang->getLangCode()))),
+                'loc' => $this->get('router')->generate('frontend_type_list_ownership',
+                        array_merge($routingParams, array('type' => 'apartamento'))),
                 'priority' => '0.5',
                 'changefreq'=> 'daily'
             );
             array_push($url_sites,$url);
 
             $url = array(
-                'loc' => $this->get('router')->generate('frontend_type_list_ownership',array('type'=>'propiedad-completa','locale' => strtolower($lang->getLangCode()),'_locale' => strtolower($lang->getLangCode()))),
+                'loc' => $this->get('router')->generate('frontend_type_list_ownership',
+                        array_merge($routingParams, array('type' => 'propiedad-completa'))),
                 'priority' => '0.5',
                 'changefreq'=> 'daily'
             );
             array_push($url_sites,$url);
 
             $url = array(
-                'loc' => $this->get('router')->generate('frontend_legal_terms',array('locale' => strtolower($lang->getLangCode()),'_locale' => strtolower($lang->getLangCode()))),
+                'loc' => $this->get('router')->generate('frontend_legal_terms', $routingParams),
                 'priority' => '0.5',
                 'changefreq'=> 'daily'
             );
             array_push($url_sites,$url);
 
             $url = array(
-                'loc' => $this->get('router')->generate('frontend_security_privacity',array('locale' => strtolower($lang->getLangCode()),'_locale' => strtolower($lang->getLangCode()))),
+                'loc' => $this->get('router')->generate('frontend_security_privacity', $routingParams),
                 'priority' => '0.5',
                 'changefreq'=> 'daily'
             );
             array_push($url_sites,$url);
 
             $url = array(
-                'loc' => $this->get('router')->generate('frontend_sitemap_information',array('locale' => strtolower($lang->getLangCode()),'_locale' => strtolower($lang->getLangCode()))),
+                'loc' => $this->get('router')->generate('frontend_sitemap_information', $routingParams),
                 'priority' => '0.5',
                 'changefreq'=> 'daily'
             );
             array_push($url_sites,$url);
 
-
+            //login
+            $url = array(
+                'loc' => $this->get('router')->generate('frontend_public_login', $routingParams),
+                'priority' => '0.5',
+                'changefreq'=> 'daily'
+            );
+            array_push($url_sites,$url);
         }
-        //login
-        $url = array(
-            'loc' => $this->get('router')->generate('mycp_login'),
-            'priority' => '0.5',
-            'changefreq'=> 'daily'
-        );
-        array_push($url_sites,$url);
 
         return $this->render('frontEndBundle:public:sitemap.html.twig', array(
             'url_sites'=>$url_sites,
