@@ -57,21 +57,31 @@ class generalReservationRepository extends EntityRepository {
         JOIN gre.gen_res_own_id own
         JOIN gre.gen_res_user_id us
         JOIN us.user_country cou
-        WHERE gre.gen_res_date LIKE '%$filter_date_reserve%'
-        AND gre.gen_res_from_date LIKE '%$filter_date_from%'
-        AND gre.gen_res_id LIKE '%$filter_offer_number%'
-        AND own.own_mcp_code LIKE '%$filter_reference%'
-        AND gre.gen_res_to_date LIKE '%$filter_date_to%' $string_order");
+        WHERE gre.gen_res_date LIKE :filter_date_reserve
+        AND gre.gen_res_from_date LIKE :filter_date_from
+        AND gre.gen_res_id LIKE :filter_offer_number
+        AND own.own_mcp_code LIKE :filter_reference
+        AND gre.gen_res_to_date LIKE :filter_date_to $string_order");
+        
+        
+        $query->setParameters(array(
+            'filter_date_reserve' => "%".$filter_date_reserve."%",
+            'filter_date_from' => "%".$filter_date_from."%",
+            'filter_offer_number' => "%".$filter_offer_number."%",
+            'filter_reference' => "%".$filter_reference."%",
+            'filter_date_to' => "%".$filter_date_to."%",
+        ));
+        
         $array_genres=$query->getArrayResult();
 
         $query = $em->createQuery("SELECT ownres,genres,booking FROM mycpBundle:ownershipReservation ownres
         JOIN ownres.own_res_gen_res_id genres JOIN ownres.own_res_reservation_booking booking
-        WHERE booking.booking_id LIKE '%$filter_booking_number%'");
+        WHERE booking.booking_id LIKE :filter_booking_number");
         $array_intersection= array();
         $flag=0;
         if($filter_booking_number!='')
         {
-            $array_ownres=$query->getArrayResult();
+            $array_ownres=$query->setParameter('filter_booking_number',"%".$filter_booking_number."%")->getArrayResult();
             foreach($array_genres as $gen)
             {
                 foreach($array_ownres as $res)
@@ -118,11 +128,16 @@ class generalReservationRepository extends EntityRepository {
 
         $query = $em->createQuery("SELECT payment,booking,curr FROM mycpBundle:payment payment JOIN payment.booking booking
         JOIN payment.currency curr
-        WHERE booking.booking_id LIKE '%$filter_booking_number%'
-        AND booking.booking_user_dates LIKE '%$filter_user_booking%'
-        AND payment.created LIKE '%$filter_date_booking%'
+        WHERE booking.booking_id LIKE :filter_booking_number
+        AND booking.booking_user_dates LIKE :filter_user_booking
+        AND payment.created LIKE :filter_date_booking
         ORDER BY payment.id DESC");
-        return $query->getArrayResult();
+        return $query->setParameters(array(
+            'filter_booking_number' => "%".$filter_booking_number."%",
+            'filter_user_booking' => "%".$filter_user_booking."%",
+            'filter_date_booking' => "%".$filter_date_booking."%",
+        ))
+                ->getArrayResult();
     }
     function get_reservations_by_user() {
         $em = $this->getEntityManager();

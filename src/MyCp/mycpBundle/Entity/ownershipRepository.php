@@ -480,30 +480,49 @@ class ownershipRepository extends EntityRepository {
 
         $string = '';
         if ($filter_active != 'null' && $filter_active != '') {
-            $string = "AND ow.own_status = '$filter_active'";
+            $string = "AND ow.own_status = :filter_active";
         }
 
         $string2 = '';
         if ($filter_category != 'null' && $filter_category != '') {
-            $string2 = "AND ow.own_category = '$filter_category'";
+            $string2 = "AND ow.own_category = :filter_category";
         }
         $string3 = '';
         if ($filter_province != 'null' && $filter_province != '') {
-            $string3 = "AND ow.own_address_province = '$filter_province'";
+            $string3 = "AND ow.own_address_province = :filter_province";
         }
         $string4 = '';
         if ($filter_municipality != 'null' && $filter_municipality != '') {
-            $string4 = "AND ow.own_address_municipality = '$filter_municipality'";
+            $string4 = "AND ow.own_address_municipality = :filter_municipality";
         }
         $string5 = '';
         if ($filter_type != 'null' && $filter_type != '') {
-            $string5 = "AND ow.own_type = '$filter_type'";
+            $string5 = "AND ow.own_type = :filter_type";
         }
 
 
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT ow FROM mycpBundle:ownership ow
-        WHERE ow.own_mcp_code LIKE '%$filter_code%' $string $string2 $string3 $string4 $string5");
+        WHERE ow.own_mcp_code LIKE :filter_code $string $string2 $string3 $string4 $string5");
+        
+        if ($filter_active != 'null' && $filter_active != '')
+            $query->setParameter('filter_active', $filter_active);
+        
+        if ($filter_category != 'null' && $filter_category != '')
+            $query->setParameter('filter_category', $filter_category);
+        
+        if ($filter_province != 'null' && $filter_province != '')
+            $query->setParameter('filter_province', $filter_province);
+        
+        if ($filter_municipality != 'null' && $filter_municipality != '')
+            $query->setParameter('filter_municipality', $filter_municipality);
+        
+        if ($filter_type != 'null' && $filter_type != '')
+            $query->setParameter('filter_type', $filter_type);
+        
+        if(isset($filter_code))
+            $query->setParameter('filter_code', "%".$filter_code."%");
+        
         return $query->getResult();
     }
 
@@ -529,6 +548,7 @@ class ownershipRepository extends EntityRepository {
 
         $query_string = "";
         $temp_array = null;
+        $parameters = array();
         if (!$room_filter) {
             $query_string = "SELECT o.own_id as own_id,
                              o.own_name as own_name,
@@ -542,7 +562,7 @@ class ownershipRepository extends EntityRepository {
                             o.own_category as category,
                             o.own_type as type,
                             o.own_minimum_price as minimum_price,
-                            (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
+                            (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = :user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = :session_id " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
                             (SELECT count(room) FROM mycpBundle:room room WHERE room.room_ownership=o.own_id) as rooms_count,
                             (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = 5) as count_reservations,
                             (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments,
@@ -572,7 +592,7 @@ class ownershipRepository extends EntityRepository {
                             o.own_category as category,
                             o.own_type as type,
                             o.own_minimum_price as minimum_price,
-                            (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
+                            (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = :user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = :session_id " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
                             (SELECT count(room) FROM mycpBundle:room room WHERE room.room_ownership=o.own_id) as rooms_count,
                             (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = 5) as count_reservations,
                             (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments ,
@@ -591,9 +611,10 @@ class ownershipRepository extends EntityRepository {
                              JOIN o.own_address_province prov
                              JOIN o.own_address_municipality mun";
         }
+        $parameters[] = array('session_id', $session_id);
         $where = ' WHERE o.own_status = 1 ';
         if ($text != null && $text != '' && $text != 'null')
-            $where = $where . ($where != '' ? " AND " : " WHERE ") . "(prov.prov_name LIKE '%$text%' OR " . "o.own_name LIKE '%$text%' OR o.own_mcp_code LIKE '%$text%' OR mun.mun_name LIKE '%$text%')";
+            $where = $where . ($where != '' ? " AND " : " WHERE ") . "(prov.prov_name LIKE :text OR " . "o.own_name LIKE :text OR o.own_mcp_code LIKE :text OR mun.mun_name LIKE :text)";
 
         if ($filters != null && is_array($filters) && in_array('own_beds_total', $filters) && $filters['own_beds_total'] != null && is_array($filters['own_beds_total']) && count($filters['own_beds_total']) > 0) {
             $temp_array = $filters['own_beds_total'];
@@ -608,10 +629,10 @@ class ownershipRepository extends EntityRepository {
 
             $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_maximun_number_guests IN (" . $this->getStringFromArray($filters['own_beds_total'], false) . ")";
         } else if ($guest_total != null && $guest_total != 'null' && $guest_total != "")
-            $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_maximun_number_guests >= " . ($guest_total != "+10" ? $guest_total : 11);
+            $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_maximun_number_guests >= :guests_total";
 
         if (isset($rooms_total) && $rooms_total != null && $rooms_total != 'null' && $rooms_total != "")
-            $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_rooms_total >= " . ($rooms_total != "+5" ? $rooms_total : 6);
+            $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_rooms_total >= :rooms_total";
 
 
         if ($filters != null && is_array($filters)) {
@@ -768,6 +789,21 @@ class ownershipRepository extends EntityRepository {
         $query_string = $query_string . ' ORDER BY ' . $order;
 
         $query = $em->createQuery($query_string);
+        
+        if($user_id != null)
+            $query->setParameter('user_id', $user_id);
+        
+        if($session_id != null)
+            $query->setParameter('session_id', $session_id);
+        
+        if ($text != null && $text != '' && $text != 'null')
+            $query->setParameter('text',"%".$text."%");
+        
+        if ($guest_total != null && $guest_total != 'null' && $guest_total != "")
+            $query->setParameter ('guests_total', ($guest_total != "+10" ? $guest_total : 11));
+        
+        if (isset($rooms_total) && $rooms_total != null && $rooms_total != 'null' && $rooms_total != "")
+            $query->setParameter ('rooms_total', ($rooms_total != "+5" ? $rooms_total : 6));
 
         $return_list = array();
         $results = $query->getResult();
@@ -786,22 +822,31 @@ class ownershipRepository extends EntityRepository {
 
                     if ($arrivalDate != null) {
                         $dates_where .= ($dates_where != '') ? " OR " : "";
-                        $dates_where .= "(r.gen_res_from_date <= '$arrivalDate' AND r.gen_res_to_date >= '$arrivalDate')";
+                        $dates_where .= "(r.gen_res_from_date <= :arrival_date AND r.gen_res_to_date >= :arrival_date)";
                     }
 
                     if ($leavingDate != null) {
                         $dates_where .= ($dates_where != '') ? " OR " : "";
-                        $dates_where .= "(r.gen_res_from_date <= '$leavingDate' AND r.gen_res_to_date >= '$leavingDate')";
+                        $dates_where .= "(r.gen_res_from_date <= :leaving_date AND r.gen_res_to_date >= :leaving_date)";
                     }
 
                     if ($arrivalDate != null && $leavingDate != null) {
                         $dates_where .= ($dates_where != '') ? " OR " : "";
-                        $dates_where .= "(r.gen_res_from_date >= '$arrivalDate' AND r.gen_res_to_date <= '$leavingDate')";
+                        $dates_where .= "(r.gen_res_from_date >= :arrival_date AND r.gen_res_to_date <= :leaving_date)";
                     }
 
 
-                    $query_string .= ($dates_where != '') ? " AND ($dates_where)" : "";
-                    $reservations = count($em->createQuery($query_string)->getResult());
+                    $query_string .= ($dates_where != '') ? " AND ($dates_where)" : "";                    
+                    
+                    $query_reservation = $em->createQuery($query_string);
+                    
+                    if($arrivalDate != null)
+                        $query_reservation->setParameter('arrival_date',$arrivalDate);
+                    
+                    if ($leavingDate != null) 
+                        $query_reservation->setParameter('leaving_date',$leavingDate);
+                    
+                    $reservations = count($query_reservation->getResult());
 
                     if ($results[$i]['rooms_count'] > $reservations)
                         $return_list[] = $results[$i];
@@ -1450,10 +1495,10 @@ class ownershipRepository extends EntityRepository {
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
                          JOIN o.own_address_municipality mun
-                         WHERE o.own_name = '$own_name'
+                         WHERE o.own_name = :own_name
                          ORDER BY o.own_id DESC";
 
-        return $em->createQuery($query_string)->getOneOrNullResult();
+        return $em->createQuery($query_string)->setParameter('own_name', $own_name)->getOneOrNullResult();
     }
 
     function getByCategory($category, $results_total = null, $exclude_id = null, $user_id = null, $session_id = null) {
@@ -1480,7 +1525,7 @@ class ownershipRepository extends EntityRepository {
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
                          JOIN o.own_address_municipality mun
-                         WHERE o.own_category='$category'
+                         WHERE o.own_category= :category
                            AND o.own_status = 1
                          ORDER BY o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC";
         else
@@ -1504,12 +1549,12 @@ class ownershipRepository extends EntityRepository {
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
                          JOIN o.own_address_municipality mun
-                         WHERE o.own_category='$category'
+                         WHERE o.own_category= :category
                            AND o.own_status = 1
                            AND o.own_id <> $exclude_id
                          ORDER BY o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC";
 
-        $results = ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult();
+        $results = ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setParameter('category', $category)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->setParameter('category', $category)->getResult();
 
         for ($i = 0; $i < count($results); $i++) {
             if ($results[$i]['photo'] == null)

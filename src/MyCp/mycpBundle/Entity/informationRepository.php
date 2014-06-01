@@ -67,10 +67,12 @@ class informationRepository extends EntityRepository {
                         JOIN il.info_lang_info info
                         JOIN il.info_lang_lang lang
                         JOIN info.info_id_nom nom
-                        WHERE lang.lang_code = '" . $language .
-                "' AND nom.nom_name = '" . $information_type . "'";
+                        WHERE lang.lang_code = :language
+                        AND nom.nom_name = :information_type";
 
-        return $em->createQuery($query_string)->getResult();
+        return $em->createQuery($query_string)->setParameters(array(
+            'information_type'=> $information_type, 'language' =>$language))
+                ->getResult();
     }
 
     function category_names($informations_lang, $language_code) {
@@ -100,8 +102,8 @@ class informationRepository extends EntityRepository {
         JOIN info_lang.info_lang_lang lang
         WHERE info_lang.info_lang_info = info.info_id
         AND info.info_id_nom = 1
-        AND lang.lang_code = '$language_code'";
-        return $em->createQuery($query_string)->getResult();
+        AND lang.lang_code = :language_code";
+        return $em->createQuery($query_string)->setParameter('language_code', $language_code)->getResult();
     }
 
 }

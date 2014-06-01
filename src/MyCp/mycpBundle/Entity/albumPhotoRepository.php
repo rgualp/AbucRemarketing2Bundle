@@ -17,7 +17,7 @@ class albumPhotoRepository extends EntityRepository
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT ap,app FROM mycpBundle:albumphoto ap JOIN ap.alb_pho_photo app
-        WHERE ap.alb_pho_album=$id_album ORDER BY app.pho_order ASC");
-        return $query->getResult();
+        WHERE ap.alb_pho_album= :id_album ORDER BY app.pho_order ASC");
+        return $query->setParameter('id_album', $id_album)->getResult();
     }
 }

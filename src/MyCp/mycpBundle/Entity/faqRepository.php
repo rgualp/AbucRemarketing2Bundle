@@ -90,13 +90,13 @@ class faqRepository extends EntityRepository
         $string='';
         if($filter_active!='null' && $filter_active!='')
         {
-            $string="AND f.faq_active = '$filter_active'";
+            $string="AND f.faq_active = :filter_active";
         }
 
         $string2='';
         if($filter_category!='null' && $filter_category!='')
         {
-            $string2="AND f.faq_category = '$filter_category'";
+            $string2="AND f.faq_category = :filter_category";
         }
 
         $string3='';
@@ -112,10 +112,19 @@ class faqRepository extends EntityRepository
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT fl,f FROM mycpBundle:faqLang fl
         JOIN fl.faq_lang_faq f
-        WHERE fl.faq_lang_question LIKE '%$filter_name%' $string
+        WHERE fl.faq_lang_question LIKE :filter_name $string
         $string2
         GROUP BY f.faq_id
         ORDER BY $string3");
+        
+        $query->setParameter('filter_name', "%".$filter_name."%");
+        
+        if($filter_active!='null' && $filter_active!='')
+            $query->setParameter ('filter_active', $filter_active);
+        
+        if($filter_category!='null' && $filter_category!='')
+            $query->setParameter ('filter_category', $filter_category);
+        
         return $query->getResult();
     }
 
@@ -128,9 +137,9 @@ class faqRepository extends EntityRepository
         $query_string = "SELECT catLang FROM mycpBundle:faqCategoryLang catLang
                         JOIN catLang.faq_cat_id_cat category
                         JOIN catLang.faq_cat_id_lang lang
-                        WHERE lang.lang_code = '" . $lang_code . "'";
+                        WHERE lang.lang_code = :lang_code";
 
-        return $em->createQuery($query_string)->getResult();
+        return $em->createQuery($query_string)->setParameter('lang_code', $lang_code)->getResult();
     }
 
     function get_faq_list_by_category($lang_code, $category_id = null) {
@@ -138,13 +147,18 @@ class faqRepository extends EntityRepository
         $query_string = "SELECT faqLang FROM mycpBundle:faqLang faqLang
                         JOIN faqLang.faq_lang_faq faq
                         JOIN faqLang.faq_lang_lang lang
-                        WHERE lang.lang_code = '" . $lang_code . "'";
+                        WHERE lang.lang_code = :lang_code";
         if ($category_id != null && $category_id != "")
-            $query_string .= " AND faq.faq_category = '" .$category_id. "'";
+            $query_string .= " AND faq.faq_category = :category_id";
 
         $query_string .= " ORDER BY faq.faq_order ASC ";
 
-        return $em->createQuery($query_string)->getResult();
+        $query = $em->createQuery($query_string)->setParameter('lang_code', $lang_code);
+        
+        if ($category_id != null && $category_id != "")
+            $query->setParameter ('category_id', $category_id);
+        
+         return $query->getResult();
     }
 
     /*     * *

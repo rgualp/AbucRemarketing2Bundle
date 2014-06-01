@@ -18,11 +18,13 @@ class nomenclatorRepository extends EntityRepository
         $query_string = "SELECT nl FROM mycpBundle:nomenclatorLang nl
                         JOIN nl.nom_lang_id_nomenclator n
                         JOIN nl.nom_lang_id_lang lang
-                        WHERE lang.lang_code = '".$lang_code.
-                        "' AND n.nom_category = '".$category."'
-                         ORDER BY nl.nom_lang_description";
+                        WHERE lang.lang_code = :lang_code
+                        AND n.nom_category = :category
+                        ORDER BY nl.nom_lang_description";
 
-        return $em->createQuery($query_string)->getResult();
+        return $em->createQuery($query_string)
+                  ->setParameters(array('lang_code' => $lang_code, 'category' => $category))
+                  ->getResult();
     }
     
     public function get_by_id($id_nomenclator, $lang_code)
@@ -31,10 +33,12 @@ class nomenclatorRepository extends EntityRepository
         $query_string = "SELECT nl FROM mycpBundle:nomenclatorLang nl
                         JOIN nl.nom_lang_id_nomenclator n
                         JOIN nl.nom_lang_id_lang lang
-                        WHERE lang.lang_code = '".$lang_code.
-                        "' AND n.nom_id = ".$id_nomenclator."
+                        WHERE lang.lang_code = :lang_code
+                        AND n.nom_id = :id_nomenclator
                          ORDER BY nl.nom_lang_description";
 
-        return $em->createQuery($query_string)->getOneOrNullResult();
+        return $em->createQuery($query_string)
+                ->setParameters(array('lang_code' => $lang_code, 'id_nomenclator' => $id_nomenclator))
+                ->getOneOrNullResult();
     }
 }

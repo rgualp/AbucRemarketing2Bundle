@@ -169,23 +169,23 @@ class destinationRepository extends EntityRepository {
 
     function delete_destination($id_destination) {
         $em = $this->getEntityManager();
-        $query = $em->createQuery("DELETE mycpBundle:destinationlang des WHERE des.des_lang_des_id=$id_destination");
-        return $query->getArrayResult();
+        $query = $em->createQuery("DELETE mycpBundle:destinationlang des WHERE des.des_lang_des_id= :id_destination");
+        return $query->setParameter('id_destination', $id_destination)->getArrayResult();
     }
 
     function get_all_destinations($filter_name, $filter_active, $filter_province, $filter_municipality, $sort_by) {
         $string = '';
         if ($filter_active != 'null' && $filter_active != '') {
-            $string = "AND des.des_active = '$filter_active'";
+            $string = "AND des.des_active = :filter_active";
         }
 
         $string2 = '';
         if ($filter_province != 'null' && $filter_province != '') {
-            $string2 = "AND dl.des_loc_province = '$filter_province'";
+            $string2 = "AND dl.des_loc_province = :filter_province";
         }
         $string3 = '';
         if ($filter_municipality != 'null' && $filter_municipality != '') {
-            $string3 = "AND dl.des_loc_municipality = '$filter_municipality'";
+            $string3 = "AND dl.des_loc_municipality = :filter_municipality";
         }
 
         $string4 = '';
@@ -215,8 +215,19 @@ class destinationRepository extends EntityRepository {
 
         $query = $em->createQuery("SELECT dl,des FROM mycpBundle:destinationLocation dl
         JOIN dl.des_loc_destination des
-        WHERE des.des_name LIKE '%$filter_name%' $string $string2 $string3 $string4
+        WHERE des.des_name LIKE :filter_name $string $string2 $string3 $string4
         ");
+        
+        if ($filter_active != 'null' && $filter_active != '')
+            $query->setParameter('filter_active', $filter_active);
+        
+        if ($filter_province != 'null' && $filter_province != '')
+            $query->setParameter('filter_province', $filter_province);
+        
+        if ($filter_municipality != 'null' && $filter_municipality != '')
+            $query->setParameter('filter_municipality', $filter_municipality);
+        
+        $query->setParameter('filter_name', "%".$filter_name."%");
 
         return $query->getResult();
     }
@@ -572,12 +583,12 @@ class destinationRepository extends EntityRepository {
                              FROM mycpBundle:destinationLocation dloc
                              JOIN dloc.des_loc_province prov
                              JOIN dloc.des_loc_destination d
-                             WHERE prov.prov_name LIKE '%$province_name%'";
+                             WHERE prov.prov_name LIKE :province_name";
 
             
             //$query_string = $query_string . " ORDER BY o.own_rating DESC";
             
-            $results = $em->createQuery($query_string)->getResult();
+            $results = $em->createQuery($query_string)->setParameter('province_name', "%".$province_name."%")->getResult();
             
             for ($i = 0; $i < count($results); $i++) {
             if ($results[$i]['photo'] == null)
