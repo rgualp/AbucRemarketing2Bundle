@@ -10,6 +10,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\userRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class user implements UserInterface,  \Serializable
 {
@@ -537,6 +538,14 @@ class user implements UserInterface,  \Serializable
     
         return $this;
     }
+    
+        /**
+        * @ORM\PrePersist
+        */
+       public function setUserCreationValue()
+       {
+           $this->user_creation_date = new \DateTime();
+       }
 
     /**
      * Get user_creation_date

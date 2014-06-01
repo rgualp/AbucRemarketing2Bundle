@@ -29,7 +29,7 @@ class userRepository extends EntityRepository {
         $user->setUserPhone($ownership->getOwnPhoneCode() . ' ' . $ownership->getOwnPhoneNumber());
         $user->setUserName($data['mycp_mycpbundle_client_casatype']['user_name']);
         $user->setUserLastName($data['mycp_mycpbundle_client_casatype']['last_name']);
-        $user->setUserCreationDate(new \DateTime());
+        //$user->setUserCreationDate(new \DateTime());
         $file = $request->files->get('mycp_mycpbundle_client_casatype');
         if (isset($file['photo'])) {
             $photo = new photo();
@@ -127,7 +127,7 @@ class userRepository extends EntityRepository {
         if ($request->get('user_newsletters'))
             $user->setUserNewsletters(1);
         $user->setUserEnabled(0);
-        $user->setUserCreationDate(new \DateTime());
+        //$user->setUserCreationDate(new \DateTime());
         $password = $encoder->encodePassword($post['user_password'][$translator->trans("FORMS_PASSWORD")], $user->getSalt());
 
         $user->setUserPassword($password);
@@ -165,7 +165,7 @@ class userRepository extends EntityRepository {
         $user->setUserSubrole($role);
         $user->setUserUserName($form_post['name']);
         $encoder = $factory->getEncoder($user);
-        $user->setUserCreationDate(new \DateTime());
+        //$user->setUserCreationDate(new \DateTime());
         $password = $encoder->encodePassword($form_post['user_password']['Clave:'], $user->getSalt());
         $user->setUserPassword($password);
         $user_tourist->setUserTouristCurrency($currency);
@@ -264,7 +264,7 @@ class userRepository extends EntityRepository {
         $user->setUserSubrole($role);
         $user->setUserUserName($form_post['user_name']);
         $encoder = $factory->getEncoder($user);
-        $user->setUserCreationDate(new \DateTime());       
+        //$user->setUserCreationDate(new \DateTime());       
         $password = $encoder->encodePassword($form_post['user_password']['Clave:'], $user->getSalt());
         $user->setUserPassword($password);
         $user_partner->setUserPartnerCurrency($currency);
@@ -365,7 +365,7 @@ class userRepository extends EntityRepository {
         $user->setUserRole('ROLE_CLIENT_STAFF');
         $user->setUserSubrole($role);
         $user->setUserUserName($form_post['user_user_name']);
-        $user->setUserCreationDate(new \DateTime());
+        //$user->setUserCreationDate(new \DateTime());
         $encoder = $factory->getEncoder($user);
         $password = $encoder->encodePassword($form_post['user_password']['Clave:'], $user->getSalt());
         $user->setUserPassword($password);
