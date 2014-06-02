@@ -439,39 +439,58 @@ class userRepository extends EntityRepository {
     public function get_all_users($filter_user_name, $filter_role, $filter_city, $filter_country, $filter_name, $filter_last_name, $filter_email) {
         $string_role = '';
         if ($filter_role != 'null' && $filter_role != '') {
-            $string_role = "AND sr.role_name = '$filter_role'";
+            $string_role = "AND sr.role_name = :filter_role";
         }
 
         $string_city = '';
         if ($filter_city != 'null' && $filter_city != '') {
-            $string_city = "AND u.user_city LIKE '%$filter_city%'";
+            $string_city = "AND u.user_city LIKE :filter_city";
         }
 
         $string_country = '';
         if ($filter_country != 'null' && $filter_country != '') {
-            $string_country = "AND u.user_country = $filter_country";
+            $string_country = "AND u.user_country = :filter_country";
         }
 
         $string_name = '';
         if ($filter_name != 'null' && $filter_name != '') {
-            $string_name = "AND u.user_user_name LIKE '%$filter_name%'";
+            $string_name = "AND u.user_user_name LIKE :filter_name";
         }
 
         $string_last_name = '';
         if ($filter_last_name != 'null' && $filter_last_name != '') {
-            $string_last_name = "AND u.user_last_name LIKE '%$filter_last_name%'";
+            $string_last_name = "AND u.user_last_name LIKE :filter_last_name";
         }
 
         $string_email = '';
         if ($filter_email != 'null' && $filter_email != '') {
-            $string_email = "AND u.user_email LIKE '%$filter_email%'";
+            $string_email = "AND u.user_email LIKE :filter_email";
         }
-
-
 
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT u FROM mycpBundle:user u JOIN u.user_subrole sr
-        WHERE u.user_name LIKE '%$filter_user_name%' $string_role $string_city $string_country $string_name $string_last_name $string_email");
+        WHERE u.user_name LIKE :filter_user_name $string_role $string_city $string_country $string_name $string_last_name $string_email");
+        
+        if ($filter_role != 'null' && $filter_role != '')
+            $query->setParameter ('filter_role', $filter_role);
+        
+        if ($filter_city != 'null' && $filter_city != '')
+            $query->setParameter ('filter_city', "%".$filter_city."%");
+        
+        if ($filter_country != 'null' && $filter_country != '')
+            $query->setParameter ('filter_country', $filter_country);
+        
+        if ($filter_name != 'null' && $filter_name != '')
+             $query->setParameter ('filter_name', "%".$filter_name."%");
+        
+        if ($filter_last_name != 'null' && $filter_last_name != '')
+            $query->setParameter ('filter_last_name', "%".$filter_last_name."%");
+        
+        if ($filter_email != 'null' && $filter_email != '')
+            $query->setParameter ('filter_email', "%".$filter_email."%");
+        
+        $query->setParameter ('filter_user_name', "%".$filter_user_name."%");
+        
         return $query->getResult();
     }
 

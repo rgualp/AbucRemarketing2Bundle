@@ -47,17 +47,25 @@ class ownershipReservationRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT ore,gre,ow FROM mycpBundle:ownershipReservation ore JOIN ore.own_res_gen_res_id gre
         JOIN ore.own_res_own_id ow
-        WHERE ore.own_res_reservation_date LIKE '%$filter_date_reserve%' AND ore.own_res_id LIKE '%$filter_offer_number%'
-        AND ow.own_mcp_code LIKE '%$filter_reference%' AND ore.own_res_reservation_from_date LIKE '%$filter_date_from%'
-        AND ore.own_res_reservation_to_date LIKE '%$filter_date_to%' $string_order");
+        WHERE ore.own_res_reservation_date LIKE :filter_date_reserve AND ore.own_res_id LIKE :filter_offer_number
+        AND ow.own_mcp_code LIKE :filter_reference AND ore.own_res_reservation_from_date LIKE :filter_date_from
+        AND ore.own_res_reservation_to_date LIKE :filter_date_to $string_order");
+        
+        $query->setParameters(array(
+            'filter_date_reserve' => "%".$filter_date_reserve."%",
+            'filter_offer_number' => "%".$filter_offer_number."%",
+            'filter_reference' => "%".$filter_reference."%",
+            'filter_date_from' => "%".$filter_date_from."%",
+            'filter_date_to' => "%".$filter_date_to."%",
+        ));
         return $query->getArrayResult();
     }
 
     function get_reservations_by_id_user($id_user) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT ore,gre FROM mycpBundle:ownershipReservation ore JOIN ore.own_res_gen_res_id gre
-        WHERE gre.gen_res_user_id =$id_user");
-        return $query->getArrayResult();
+        WHERE gre.gen_res_user_id = :id_user");
+        return $query->setParameter('id_user', $id_user)->getArrayResult();
     }
 
     function get_reservation_by_id($id_reservation) {
@@ -66,8 +74,8 @@ class ownershipReservationRepository extends EntityRepository {
         JOIN ore.own_res_gen_res_id gre JOIN gre.gen_res_user_id us JOIN ore.own_res_own_id ow
         JOIN ow.own_address_municipality owm JOIN ow.own_address_province owp
         JOIN us.user_country uc
-        WHERE ore.own_res_id=$id_reservation");
-        return $query->getArrayResult();
+        WHERE ore.own_res_id= :id_reservation");
+        return $query->setParameter('id_reservation', $id_reservation)->getArrayResult();
     }
 
     function edit_reservation($reservation, $data) {
@@ -124,8 +132,12 @@ class ownershipReservationRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT owre,genres,own,mun FROM mycpBundle:ownershipReservation owre
         JOIN owre.own_res_gen_res_id genres JOIN owre.own_res_own_id own JOIN own.own_address_municipality mun
-        WHERE owre.own_res_id = $id_reservation AND genres.gen_res_user_id = $id_user");
-        return $query->getArrayResult();
+        WHERE owre.own_res_id = :id_reservation AND genres.gen_res_user_id = :id_user");
+        return $query->setParameters(array(
+                    "id_reservation" => $id_reservation,
+                    "id_user" => $id_user
+                ))
+                ->getArrayResult();
     }
 
     function find_by_user_and_status($id_user, $status_string, $string_sql) {
@@ -182,8 +194,11 @@ class ownershipReservationRepository extends EntityRepository {
     function find_by_user_and_status_object($id_user, $status) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT ownre FROM mycpBundle:ownershipReservation ownre JOIN ownre.own_res_gen_res_id genres
-        WHERE genres.gen_res_user_id=$id_user AND ownre.own_res_status='$status'");
-        return $query->getResult();
+        WHERE genres.gen_res_user_id= :id_user AND ownre.own_res_status= :status");
+        return $query->setParameters(array(
+            "id_user" => $id_user,
+            "status" => $status
+        ))->getResult();
     }
 
     function getNotSyncs() {

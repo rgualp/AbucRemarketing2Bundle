@@ -16,8 +16,8 @@ class rolePermissionRepository extends EntityRepository
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT rp,per FROM mycpBundle:rolePermission rp JOIN rp.rp_permission per
-        WHERE rp.rp_role=$id_role
+        WHERE rp.rp_role= :id_role
         ORDER BY per.perm_category ASC");
-        return $query->getResult();
+        return $query->setParameter("id_role", $id_role)->getResult();
     }
 }
