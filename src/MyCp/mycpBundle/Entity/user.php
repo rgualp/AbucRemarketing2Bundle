@@ -72,7 +72,7 @@ class user implements UserInterface,  \Serializable
      * @ORM\Column(name="user_enabled", type="boolean", nullable=true)
      */
     private $user_enabled;
-    
+
     /**
      * @var boolean
      *
@@ -126,16 +126,16 @@ class user implements UserInterface,  \Serializable
      * @ORM\JoinColumn(name="user_photo",referencedColumnName="pho_id")
      */
     private $user_photo;
-    
+
     /**
-     * @var datetime
+     * @var \DateTime
      *
      * @ORM\Column(name="user_creation_date", type="datetime", nullable=true)
      */
     private $user_creation_date;
-    
+
     /**
-     * @var datetime
+     * @var \DateTime
      *
      * @ORM\Column(name="user_activation_date", type="datetime", nullable=true)
      */
@@ -180,7 +180,7 @@ class user implements UserInterface,  \Serializable
     /**
      * Get user_id
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
@@ -196,7 +196,7 @@ class user implements UserInterface,  \Serializable
     public function setUserName($userName)
     {
         $this->user_name = $userName;
-    
+
         return $this;
     }
 
@@ -209,14 +209,14 @@ class user implements UserInterface,  \Serializable
     public function setUserUserName($userUserName)
     {
         $this->user_user_name = $userUserName;
-    
+
         return $this;
     }
 
     /**
      * Get user_user_name
      *
-     * @return string 
+     * @return string
      */
     public function getUserUserName()
     {
@@ -232,14 +232,14 @@ class user implements UserInterface,  \Serializable
     public function setUserLastName($userLastName)
     {
         $this->user_last_name = $userLastName;
-    
+
         return $this;
     }
 
     /**
      * Get user_last_name
      *
-     * @return string 
+     * @return string
      */
     public function getUserLastName()
     {
@@ -255,14 +255,14 @@ class user implements UserInterface,  \Serializable
     public function setUserEmail($userEmail)
     {
         $this->user_email = $userEmail;
-    
+
         return $this;
     }
 
     /**
      * Get user_email
      *
-     * @return string 
+     * @return string
      */
     public function getUserEmail()
     {
@@ -278,14 +278,14 @@ class user implements UserInterface,  \Serializable
     public function setUserPhone($userPhone)
     {
         $this->user_phone = $userPhone;
-    
+
         return $this;
     }
 
     /**
      * Get user_phone
      *
-     * @return string 
+     * @return string
      */
     public function getUserPhone()
     {
@@ -308,7 +308,7 @@ class user implements UserInterface,  \Serializable
     /**
      * Get user_role
      *
-     * @return string 
+     * @return string
      */
     public function getUserRole()
     {
@@ -324,14 +324,14 @@ class user implements UserInterface,  \Serializable
     public function setUserPassword($userPassword)
     {
         $this->user_password = $userPassword;
-    
+
         return $this;
     }
 
     /**
      * Get user_password
      *
-     * @return string 
+     * @return string
      */
     public function getUserPassword()
     {
@@ -348,14 +348,14 @@ class user implements UserInterface,  \Serializable
     public function setUserCountry(\MyCp\mycpBundle\Entity\country $userCountry = null)
     {
         $this->user_country = $userCountry;
-    
+
         return $this;
     }
 
     /**
      * Get user_country
      *
-     * @return \MyCp\mycpBundle\Entity\country 
+     * @return \MyCp\mycpBundle\Entity\country
      */
     public function getUserCountry()
     {
@@ -373,14 +373,14 @@ class user implements UserInterface,  \Serializable
     public function setUserAddress($userAddress)
     {
         $this->user_address = $userAddress;
-    
+
         return $this;
     }
 
     /**
      * Get user_address
      *
-     * @return string 
+     * @return string
      */
     public function getUserAddress()
     {
@@ -396,14 +396,14 @@ class user implements UserInterface,  \Serializable
     public function setUserCity($userCity)
     {
         $this->user_city = $userCity;
-    
+
         return $this;
     }
 
     /**
      * Get user_city
      *
-     * @return string 
+     * @return string
      */
     public function getUserCity()
     {
@@ -419,14 +419,14 @@ class user implements UserInterface,  \Serializable
     public function setUserSubrole(\MyCp\mycpBundle\Entity\role $userSubrole = null)
     {
         $this->user_subrole = $userSubrole;
-    
+
         return $this;
     }
 
     /**
      * Get user_subrole
      *
-     * @return \MyCp\mycpBundle\Entity\role 
+     * @return \MyCp\mycpBundle\Entity\role
      */
     public function getUserSubrole()
     {
@@ -442,14 +442,14 @@ class user implements UserInterface,  \Serializable
     public function setUserPhoto(\MyCp\mycpBundle\Entity\photo $userPhoto = null)
     {
         $this->user_photo = $userPhoto;
-    
+
         return $this;
     }
 
     /**
      * Get user_photo
      *
-     * @return \MyCp\mycpBundle\Entity\photo 
+     * @return \MyCp\mycpBundle\Entity\photo
      */
     public function getUserPhoto()
     {
@@ -465,20 +465,20 @@ class user implements UserInterface,  \Serializable
     public function setUserEnabled($userEnabled)
     {
         $this->user_enabled = $userEnabled;
-    
+
         return $this;
     }
 
     /**
      * Get user_enabled
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getUserEnabled()
     {
         return $this->user_enabled;
     }
-    
+
     /**
      * Set user_created_by_migration
      *
@@ -488,14 +488,14 @@ class user implements UserInterface,  \Serializable
     public function setUserCreatedByMigration($userCreatedByMigration)
     {
         $this->user_created_by_migration = $userCreatedByMigration;
-    
+
         return $this;
     }
 
     /**
      * Get user_created_by_migration
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getUserCreatedByMigration()
     {
@@ -512,20 +512,20 @@ class user implements UserInterface,  \Serializable
     public function setUserNewsletters($userNewsletters)
     {
         $this->user_newsletters = $userNewsletters;
-    
+
         return $this;
     }
 
     /**
      * Get user_newsletters
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getUserNewsletters()
     {
         return $this->user_newsletters;
     }
-    
+
     /**
      * Set user_creation_date
      *
@@ -535,10 +535,10 @@ class user implements UserInterface,  \Serializable
     public function setUserCreationDate($userCreationDate)
     {
         $this->user_creation_date = $userCreationDate;
-    
+
         return $this;
     }
-    
+
         /**
         * @ORM\PrePersist
         */
@@ -556,7 +556,7 @@ class user implements UserInterface,  \Serializable
     {
        return $this->user_creation_date;
     }
-    
+
     /**
      * Set user_activation_date
      *
@@ -566,7 +566,7 @@ class user implements UserInterface,  \Serializable
     public function setUserActivationDate($userActivationDate)
     {
         $this->user_activation_date = $userActivationDate;
-    
+
         return $this;
     }
 
@@ -579,7 +579,7 @@ class user implements UserInterface,  \Serializable
     {
        return $this->user_activation_date;
     }
-    
+
     public function getUserCompleteName(){
         return $this->user_user_name. ' '.$this->user_last_name;
     }
@@ -589,5 +589,5 @@ class user implements UserInterface,  \Serializable
         return $this->user_name;
     }
 
-    
+
 }
