@@ -27,6 +27,7 @@ class AppKernel extends Kernel
             new Lsw\MemcacheBundle\LswMemcacheBundle(),
             //new BeSimple\SoapBundle\BeSimpleSoapBundle()
 //            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+            new Abuc\RemarketingBundle\AbucRemarketingBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
