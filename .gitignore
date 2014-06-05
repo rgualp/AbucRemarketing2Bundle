@@ -19,6 +19,7 @@ web/uploads/ownershipImages/thumbnails/*.jpg
 web/uploads/userImages
 src/MyCp/FrontEndBundle/Controller/lib/*
 tmp/*
+src/Abuc
 
 # Configuration files
 app/config/parameters.ini
