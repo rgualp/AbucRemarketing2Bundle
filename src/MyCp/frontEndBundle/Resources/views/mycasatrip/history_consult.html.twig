@@ -18,12 +18,12 @@
     <div class="col-sm-3">
         <div data-text="&nbsp;&nbsp;&nbsp;{{'PENDING' | trans}}&nbsp;&nbsp;&nbsp;" class="thumbnail has-ribbon-grey has-ribbon has-ribbon-left">
             {% if photos[loop.index0]%}
-                <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | lower | replace(' ','-')}) }}">
+                <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | urlNormalize}) }}">
                     <img class="lazy" data-src="{{ asset('uploads/ownershipImages/thumbnails/'~ photos[loop.index0]) }}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
                     <noscript><img class="nolazy" src="{{ asset('uploads/ownershipImages/thumbnails/'~ photos[loop.index0]) }}"></noscript>
                 </a>
             {% else %}
-                <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | lower | replace(' ','-')}) }}">
+                <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | urlNormalize}) }}">
                     <img class="lazy" data-src="{{ asset('uploads/ownershipImages/thumbnails/no_photo.png') }}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
                     <noscript><img class="nolazy" src="{{ asset('uploads/ownershipImages/thumbnails/no_photo.png') }}"></noscript>
                 </a>
@@ -31,7 +31,7 @@
         </div>
     </div>
         <div class="col-sm-6">
-            <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | lower | replace(' ','-')}) }}">
+            <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | urlNormalize}) }}">
                 <h1 class="h-blue">{{ res['own_res_gen_res_id']['gen_res_own_id']['own_name'] }}</h1>
             </a>
             <small class="top">{{ res['own_res_gen_res_id']['gen_res_own_id']['own_address_province']['prov_name']|title }}, {{ res['own_res_gen_res_id']['gen_res_own_id']['own_address_municipality']['mun_name']|title }}
@@ -42,7 +42,7 @@
         <div class="col-sm-3 text-center">
             <h2 class="no-margin h-grey margin-t">{{res['own_res_total_in_site'] | price}}</h2>
             <div>
-                <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | lower | replace(' ','-')}) }}" class="btn btn-primary" style="width: 150px; color: #ffffff">
+                <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | urlNormalize}) }}" class="btn btn-primary" style="width: 150px; color: #ffffff">
                     {{"VIEW_DETAILS" | trans}}</a></div>
                 <div style="margin-top: 10px">{{"ID_RESERVATION" | trans}}: <b>CAS.{{res['own_res_gen_res_id']['gen_res_id']}}</b></div>
             </div>

@@ -7,12 +7,12 @@
                     <div class="item {%if counter == 0%}active{%endif%}">
                         <div class="row">
                             <div class="col-xs-6">
-                                <a href="{{ path('frontend_details_ownership',{'own_name':own.ownname  | lower | replace(' ','-')}) }}">
+                                <a href="{{ path('frontend_details_ownership',{'own_name':own.ownname  | urlNormalize}) }}">
                                 <img src="{{ asset("uploads/ownershipImages/thumbnails/" ~ photos[own.ownid])}}" class="thumbnail full-width"/>
                                 </a>
                             </div>
                             <div class="col-xs-6"><b>
-                                    <a href="{{ path('frontend_details_ownership',{'own_name':own.ownname  | lower | replace(' ','-')}) }}">
+                                    <a href="{{ path('frontend_details_ownership',{'own_name':own.ownname  | urlNormalize}) }}">
                                     {{own.ownName}}
                                     </a>
                                 </b><br/>{{own.ownminimumprice | price}} {{"BYNIGHTS_PRICES" | trans | lower}}

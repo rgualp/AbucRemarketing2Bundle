@@ -1,6 +1,7 @@
 <?php
 
 namespace MyCp\frontEndBundle\Twig\Extension;
+use MyCp\frontEndBundle\Helpers\Utils;
 
 class utilsExtension extends \Twig_Extension {
 
@@ -17,6 +18,7 @@ class utilsExtension extends \Twig_Extension {
     public function getFilters() {
         return array(
             new \Twig_SimpleFilter('price', array($this, 'priceFilter')),
+            new \Twig_SimpleFilter('urlNormalize', array($this, 'urlNormalize')),
         );
     }
 
@@ -60,4 +62,8 @@ class utilsExtension extends \Twig_Extension {
         return $price;
     }
 
+    public function urlNormalize($text)
+    {
+        return Utils::url_normalize($text);
+    }
 }

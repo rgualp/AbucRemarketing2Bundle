@@ -17,10 +17,10 @@
                                         <tr>
                                             <td style="background-color: #FFFFFF; border: solid 1px #cccccc;">
                                                 {% if photos[loop.index0] is defined %}
-                                                    <a href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | lower | replace(' ','-')}) }}">
+                                                    <a href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize}) }}">
                                                         <img width="100%" style="display:block;" border="0" src="{{url('mycp_main')}}../uploads/ownershipImages/thumbnails/{{photos[loop.index0]}}"></a>
                                                 {% else %}
-                                                    <a href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | lower | replace(' ','-')}) }}"><img width="100%" style="display:block;" border="0" src="{{ asset('uploads/ownershipImages/no_photo_square.gif')}}"></a>
+                                                    <a href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize}) }}"><img width="100%" style="display:block;" border="0" src="{{ asset('uploads/ownershipImages/no_photo_square.gif')}}"></a>
                                                 {% endif %}
                                             </td>
                                             <td>&nbsp;</td>
@@ -41,7 +41,7 @@
                                     <b>ID {{"RESERVATION_RESERVE"|trans}}:</b> CAS.{{ reservations[loop.index0].getOwnResGenResId.getGenResId }}<br/><br/>
                                     <span style="background-color: #BBBBBB; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"PENDING"|trans}}&nbsp;&nbsp;&nbsp;</b></span><br/>
                                     <h3>{{"RESERVATION_TOTAL" | trans | upper}}: {{reservation.getOwnResTotalInSite | price}}</h3>
-                                    <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | lower | replace(' ','-')}) }}" class="btn mycp_btn_green">{{"VIEW_DETAILS"|trans}}</a>
+                                    <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize}) }}" class="btn mycp_btn_green">{{"VIEW_DETAILS"|trans}}</a>
                                 </td>
                             </tr>
                         </table>

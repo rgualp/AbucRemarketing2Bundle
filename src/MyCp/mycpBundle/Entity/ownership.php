@@ -27,7 +27,7 @@ class ownership {
     /**
      * @var string
      *
-     * @ORM\Column(name="own_name", type="string", length=255, unique=true)
+     * @ORM\Column(name="own_name", type="string", length=255)
      */
     private $own_name;
 
