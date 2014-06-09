@@ -96,7 +96,7 @@ function start() {
 
 function top_rated()
 {
-     $('.top20_items_per_page').click(function()
+    $('.top20_items_per_page').click(function()
     {
         $('ul.top_rated_items_per_page li.active').removeClass('active');
         $(this).addClass('active');
@@ -163,6 +163,9 @@ function do_paginate()
 }
 
 function datePickersStarUp_searcher() {
+    $('.show_calendar').click(function(){
+    $("#"+$(this).prev().attr('id')).datepicker('show');
+    });
     $('#input_arrival_date').datepicker({
         format: 'dd/mm/yyyy',
         todayBtn: true,
@@ -171,13 +174,13 @@ function datePickersStarUp_searcher() {
         date: start_date,
         language: $('#input_arrival_date').attr('data-localization')
     }).on('changeDate', function(ev) {
-        var startDate = new Date(ev.date);
-        startDate.setDate(startDate.getDate() + 1);
-        departure_datepicker.setStartDate(startDate);
-        var valueDate = new Date(ev.date);
-        valueDate.setDate(valueDate.getDate() + 2);
-        departure_datepicker.setDate(valueDate);
-    });
+            var startDate = new Date(ev.date);
+            startDate.setDate(startDate.getDate() + 1);
+            departure_datepicker.setStartDate(startDate);
+            var valueDate = new Date(ev.date);
+            valueDate.setDate(valueDate.getDate() + 2);
+            departure_datepicker.setDate(valueDate);
+        });
 
     var departure_datepicker = $('#input_departure_date').datepicker({
         format: 'dd/mm/yyyy',
@@ -198,16 +201,24 @@ function connectSearchOnEnter() {
     });
 }
 
+
+
 function search() {
     var url = $('#btn_search').attr('data-url');
 
-    var text = $('#input_text').val().toString().replace(/ /g, "_").toLowerCase();
+    var text = $('#input_text').val().toString();
+    text = text.replace("-", "--");
+    text = text.replace(/ /g, "-");
+    text = text.replace("ñ", "_nn_");
+    text = text.replace("Ñ", "_nn_");
     text = text.replace("á", "a");
     text = text.replace("é", "e");
     text = text.replace("í", "i");
     text = text.replace("ó", "o");
     text = text.replace("ú", "u");
     text = text.replace("ü", "u");
+    text = text.toLowerCase();
+    text = text.replace("_nn_", "ñ");
     if (text != $('#input_text').attr("placeholder") && text != "")
         url = url.toString().replace('_text', text);
     else
@@ -256,65 +267,65 @@ function datePickersStarUp(){
         format:'dd/mm/yyyy',
         todayBtn:'linked',
         autoclose: true,
-        startDate: new Date(),
+        startDate: today_date,
         date: start_date,
         language: $('#top_reservation_filter_date_from').attr('data-localization')
     }).on('changeDate', function(ev){
-                var startDate = new Date(ev.date);
-                startDate.setDate(startDate.getDate() + 1);
-                reservation_filter_date_to.setStartDate(startDate);
-                var date = new Date(ev.date);
-                date.setDate(date.getDate() + 2);
-                reservation_filter_date_to.setDate(date);
+            var startDate = new Date(ev.date);
+            startDate.setDate(startDate.getDate() + 1);
+            reservation_filter_date_to.setStartDate(startDate);
+            var date = new Date(ev.date);
+            date.setDate(date.getDate() + 2);
+            reservation_filter_date_to.setDate(date);
 
-                var startDate = new Date(ev.date);
-                 startDate.setDate(startDate.getDate() + 1);
-                $('#filter_date_from').datepicker("setDate", startDate);
-                $('#filter_date_to').datepicker("setDate", date);
+            var startDate = new Date(ev.date);
+            startDate.setDate(startDate.getDate() + 1);
+            $('#filter_date_from').datepicker("setDate", startDate);
+            $('#filter_date_to').datepicker("setDate", date);
 
 
-                $('.datepicker').hide();
-                $('#top_reservation_submit_button').attr('type','submit');
-                $('#top_reservation_submit_button').attr('onclick','');
-                $('#top_reservation_submit_button').html(reservation_see_prices_text);
-            });
+            $('.datepicker').hide();
+            $('#top_reservation_submit_button').attr('type','submit');
+            $('#top_reservation_submit_button').attr('onclick','');
+            $('#top_reservation_submit_button').html(reservation_see_prices_text);
+        });
 
-  var reservation_filter_date_to = $('#top_reservation_filter_date_to').datepicker({
+    var reservation_filter_date_to = $('#top_reservation_filter_date_to').datepicker({
         format:'dd/mm/yyyy',
-        todayBtn: false,
+        todayBtn:false,
         autoclose: true,
-        startDate: '+1',
+        startDate: '+1d',
         date: end_date,
         language: $('#top_reservation_filter_date_to').attr('data-localization')
     }).data('datepicker');
 
-      $('#filter_date_from').datepicker({
+    $('#filter_date_from').datepicker({
         format:'dd/mm/yyyy',
         todayBtn:'linked',
         autoclose: true,
-        startDate: new Date(),
+        startDate: today_date,
         date: start_date,
         language: $('#filter_date_from').attr('data-localization')
     }).on('changeDate', function(ev){
-                var startDate = new Date(ev.date);
-                startDate.setDate(startDate.getDate() + 1);
-                $('#filter_date_to').datepicker("setStartDate", startDate);
-                var date = new Date(ev.date);
-                date.setDate(date.getDate() + 2);
-                $('#filter_date_to').datepicker("setDate", date);
-                $('.datepicker').hide();
+            var startDate = new Date(ev.date);
+            startDate.setDate(startDate.getDate() + 1);
+            $('#filter_date_to').datepicker("setStartDate", startDate);
+            var date = new Date(ev.date);
+            date.setDate(date.getDate() + 2);
+            $('#filter_date_to').datepicker("setDate", date);
+            $('.datepicker').hide();
 
-                refresh_calendar(ev.date.getDate() + '/' + (ev.date.getMonth() + 1) + '/' + ev.date.getFullYear(),date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
+            refresh_calendar(ev.date.getDate() + '/' + (ev.date.getMonth() + 1) + '/' + ev.date.getFullYear(),date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
 
-                /*var start_date = new Date(ev.date);
-                start_date.setDate(start_date.getDate() + 1);
-                $('#top_reservation_filter_date_from').datepicker("setDate", start_date);
-                $('#top_reservation_filter_date_to').datepicker("setDate", date);*/
-            });
+            /*var start_date = new Date(ev.date);
+             start_date.setDate(start_date.getDate() + 1);
+             $('#top_reservation_filter_date_from').datepicker("setDate", start_date);
+             $('#top_reservation_filter_date_to').datepicker("setDate", date);*/
+        });
 
-     var filter_date_to =$('#filter_date_to').datepicker({
+    var filter_date_to =$('#filter_date_to').datepicker({
         format:'dd/mm/yyyy',
-        todayBtn:false,
+        todayBtn: false,
         autoclose: true,
         startDate: '+1d',
         date: end_date,
@@ -525,7 +536,7 @@ function load_upper_filters()
 
 
     var room_climatization = '';
-    room_climatization = room_climatization + ((document.getElementById('room_airconditioner') != null && document.getElementById('room_airconditioner').checked) ? "'" + $('#room_airconditioner').attr('data-value') + "'" : "");
+    room_climatization = room_climatization + ((document.getElementById('room_airconditioner') != null && document.getElementById('room_airconditioner').checked) ? $('#room_airconditioner').attr('data-value') : "");
 
     if (document.getElementById('room_airconditioner') != null && document.getElementById('room_airconditioner').checked && document.getElementById("fu_room_airconditioner") == null)
     {
@@ -897,11 +908,11 @@ function initialize_map() {
                             var boxText = document.createElement("div");
                             boxText.style.cssText = "border: 1px solid #ccc; margin-top: 8px; background: #fff; padding: 5px; font-size:11px";
                             boxText.innerHTML = "<div class='row'>" +
-                                                "<div class='map_image col-sm-4' style='background-image:url(" + data[i].image + ")'></div>" +
-                                                "<div class='col-sm-8' style='line-height:12px;text-align: left'>" + data[i].title + "<br/>" +
-                                                "<b>" + data[i].content + "</b>" +
-                                                "</div>" +
-                                                "</div>";
+                                "<div class='map_image col-sm-4' style='background-image:url(" + data[i].image + ")'></div>" +
+                                "<div class='col-sm-8' style='line-height:12px;text-align: left'>" + data[i].title + "<br/>" +
+                                "<b>" + data[i].content + "</b>" +
+                                "</div>" +
+                                "</div>";
 
                             ib.setContent(boxText);
                             ib.open(map_big, marker_bullet);
@@ -931,18 +942,18 @@ function initialize_map() {
 
                 //Evento click en un cluster - Hace q se actualice el listado
                 google.maps.event.addListener(markerClusterBig, 'click',
-                        function(cluster) {
-                            ib.close();
-                            var markers = cluster.getMarkers();
+                    function(cluster) {
+                        ib.close();
+                        var markers = cluster.getMarkers();
 
-                            var markers_in_bound = [];
-                            for (var i = 0; i < markers.length; i++) {
-                                if (map_big.getBounds().contains(markers[i].getPosition())) {
-                                    markers_in_bound.push(markers[i].get("id"));
-                                }
+                        var markers_in_bound = [];
+                        for (var i = 0; i < markers.length; i++) {
+                            if (map_big.getBounds().contains(markers[i].getPosition())) {
+                                markers_in_bound.push(markers[i].get("id"));
                             }
-                            showOwnershipsByIds(markers_in_bound);
-                        });
+                        }
+                        showOwnershipsByIds(markers_in_bound);
+                    });
             }
         });
 
@@ -990,7 +1001,7 @@ function initialize_map() {
 
         var center_details = new google.maps.LatLng(x, y);//La Habana 23.09725, -82.37548
         var options_details = {
-            zoom: 15,
+            zoom: 17,
             center: center_details,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
@@ -1007,26 +1018,35 @@ function initialize_map() {
 
 
         var boxText = document.createElement("div");
+        /*boxText.style.cssText = "border: 1px solid #ccc; margin-top: 8px; background: #fff; padding: 5px; font-size:11px";
+        boxText.innerHTML = "<table><tr><td class='map_image' style='background-image:url("+image+")'></td><td style='padding-left:4px; line-height:12px;' valign='top'>"+name+"<br/><b>" + description + "</b></td></tr></table>";*/
+
         boxText.style.cssText = "border: 1px solid #ccc; margin-top: 8px; background: #fff; padding: 5px; font-size:11px";
         boxText.innerHTML = "<table><tr><td class='map_image' style='background-image:url("+image+")'></td><td style='padding-left:4px; line-height:12px;' valign='top'>"+name+"<br/><b>" + description + "</b></td></tr></table>";
-
+        /*boxText.innerHTML = "<div class='row'>" +
+            "<div class='map_image col-sm-4' style='background-image:url(" + image + ")'></div>" +
+            "<div class='col-sm-8' style='line-height:12px;text-align: left'>" + name + "<br/>" +
+            "<b>" + description + "</b>" +
+            "</div>" +
+            "</div>";
+        */
         var myOptions = {
-                 content: boxText
-                ,disableAutoPan: false
-                ,maxWidth: 0
-                ,pixelOffset: new google.maps.Size(-140, 0)
-                ,zIndex: null
-                ,boxStyle: {
-                 // background: "url('tipbox.gif') no-repeat",
-                  opacity: 0.85,
-                  width: "280px"
-                 }
-                ,closeBoxMargin: "10px 2px 2px 2px"
-                ,closeBoxURL: "http://www.google.com/intl/en_us/mapfiles/close.gif"
-                ,infoBoxClearance: new google.maps.Size(1, 1)
-                ,isHidden: false
-                ,pane: "floatPane"
-                ,enableEventPropagation: false
+            content: boxText
+            ,disableAutoPan: false
+            ,maxWidth: 0
+            ,pixelOffset: new google.maps.Size(-140, 0)
+            ,zIndex: null
+            ,boxStyle: {
+                //background: "url('tipbox.gif') no-repeat",
+                opacity: 0.85,
+                width: "280px"
+            }
+            ,closeBoxMargin: "10px 2px 2px 2px"
+            ,closeBoxURL: "http://www.google.com/intl/en_us/mapfiles/close.gif"
+            ,infoBoxClearance: new google.maps.Size(1, 1)
+            ,isHidden: false
+            ,pane: "floatPane"
+            ,enableEventPropagation: false
         };
 
         var ib = new InfoBox(myOptions);
@@ -1034,6 +1054,18 @@ function initialize_map() {
         google.maps.event.addListener(marker, 'mouseover', function() {
             ib.open(big_map_details, marker);
         });
+
+        google.maps.event.addListener(marker, 'mouseout', function() {
+            ib.close();
+        });
+
+        $("#mapTab").on('shown.bs.tab', function() {
+
+  	/* Trigger map resize event */
+        var center = big_map_details.getCenter();
+	google.maps.event.trigger(big_map_details, 'resize');
+        big_map_details.setCenter(center);
+});
     }
 }
 
@@ -1070,20 +1102,20 @@ function showOwnershipsByIds(ids_array)
     var result = $('#map_resized_results');
     show_loading();
     $.post(url,
-            {
-                'own_ids': ids_array
-            }
-    , function(data) {
-        result.html(data);
-        $('.elementList').mouseover(function() {
-            showMarkerInfo($(this));
-        });
+        {
+            'own_ids': ids_array
+        }
+        , function(data) {
+            result.html(data);
+            $('.elementList').mouseover(function() {
+                showMarkerInfo($(this));
+            });
 
-        $('.elementList').mouseout(function() {
-            hideMarkerInfo($(this));
+            $('.elementList').mouseout(function() {
+                hideMarkerInfo($(this));
+            });
+            hide_loading();
         });
-        hide_loading();
-    });
 }
 
 function generateTriggerCallback(object, eventType) {
@@ -1106,12 +1138,12 @@ function checkCheckBoxes(array_of_values, name_checkboxes)
 
 function show_loading()
 {
-    $('.loading').removeClass('hidden');
+    $('#loading').removeClass('hidden');
 }
 
 function hide_loading()
 {
-    $('.loading').addClass('hidden');
+    $('#loading').addClass('hidden');
 
 }
 
@@ -1244,4 +1276,3 @@ function valid_email(email_text){
     }
     return true;
 }
-

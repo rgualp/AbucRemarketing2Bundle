@@ -37,6 +37,14 @@ class Utils {
 
         return $furl;
     }
+    
+    public static function get_text_from_normalized($text)
+    {        
+        $furl=str_replace("-", " ", $text);
+        $furl=str_replace("  ", "-", $furl);
+
+        return $furl;
+    }
 }
 
 ?>
