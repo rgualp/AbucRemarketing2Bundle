@@ -50,6 +50,7 @@
         <th>Símbolos</th>
         <th>Cambio</th>
         <th>Por defecto</th>
+        <th style="width: 180px">Precios almacenados en</th>
         <th style="text-align: right">
             Acciones
         </th>
@@ -63,6 +64,7 @@
         <td>{{ currency.getCurrSymbol }}</td>
         <td>{{ currency.getCurrCucChange }}</td>
         <td>{% if currency.getCurrDefault %}<span class="badge badge-success">Si</span>{% else %}<span class="badge badge-danger">No</span>{% endif %}</td>
+        <td style="text-align: center">{% if currency.getCurrSitePriceIn %}<span class="badge badge-success">Si</span>{% else %}<span class="badge badge-danger">No</span>{% endif %}</td>
         <td style="text-align: right">
             <a class="btn btn-mini" href="{{ path('mycp_edit_currency',{'id_currency':currency.getCurrId}) }}">Editar</a>
             <button data='{{ path('mycp_delete_currency',{'id_currency':currency.getCurrId}) }}' class="btn btn-mini btn-danger delete">Eliminar</button>

@@ -6,9 +6,11 @@ use MyCp\frontEndBundle\Helpers\Utils;
 class utilsExtension extends \Twig_Extension {
 
     private $session;
+    private $entity_manager;
 
-    public function __construct($session) {
+    public function __construct($session, $entity_manager) {
         $this->session = $session;
+        $this->entity_manager = $entity_manager;
     }
 
     public function getName() {
@@ -24,7 +26,9 @@ class utilsExtension extends \Twig_Extension {
 
     public function getFunctions() {
         return array(
-            'ceil_round' => new \Twig_Function_Method($this, 'ceil_round')
+            'ceil_round' => new \Twig_Function_Method($this, 'ceil_round'),
+            'default_currency' => new \Twig_Function_Method($this, 'default_currency'),
+            'price_in_currency' => new \Twig_Function_Method($this, 'price_in_currency'),
         );
     }
 
@@ -45,17 +49,27 @@ class utilsExtension extends \Twig_Extension {
             }
             return ($number_integer . '.' . $number_decimal);
         }
-       // $curr_symbol = ($this->session->get('curr_symbol') == null ? "CUC" : strtoupper($this->session->get('curr_symbol')));
 
         return (number_format($number_integer, 2));
     }
+    
+    public function default_currency()
+    {
+        return  $this->entity_manager->getRepository('mycpBundle:currency')->findOneBy(array('curr_default' => true));
+    }
+    
+    public function price_in_currency()
+    {
+        return  $this->entity_manager->getRepository('mycpBundle:currency')->findOneBy(array('curr_site_price_in' => true));
+    }
 
     public function priceFilter($number, $decimals = 2, $decPoint = '.', $thousandsSep = ',') {
+        $price_in_currency = $this->entity_manager->getRepository('mycpBundle:currency')->findOneBy(array('curr_site_price_in' => true));
 
-        $rate = ($this->session->get('curr_rate') == null ? 1 : $this->session->get('curr_rate'));
+        $rate = ($this->session->get('curr_rate') == null ? $price_in_currency->getCurrCucChange() : $this->session->get('curr_rate'));
         $price = number_format($number*$rate, $decimals, $decPoint, $thousandsSep);
 
-        $curr_symbol = ($this->session->get('curr_symbol') == null ? "CUC" : $this->session->get('curr_symbol'));
+        $curr_symbol = ($this->session->get('curr_symbol') == null ? $price_in_currency->getCurrSymbol() : $this->session->get('curr_symbol'));
 
         $price = $curr_symbol . ' ' . $price;
 

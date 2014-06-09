@@ -16,6 +16,7 @@ class currencyType extends AbstractType
             ->add('curr_symbol',null,array('label'=>'Símbolo:'))
             ->add('curr_cuc_change',null,array('label'=>'Cambio (Respecto a CUC):'))
             ->add('curr_default',null,array('label'=>'Moneda por defecto'))
+            ->add('curr_site_price_in',null,array('label'=>'Los precios están almacenados en'))
         ;
     }
 

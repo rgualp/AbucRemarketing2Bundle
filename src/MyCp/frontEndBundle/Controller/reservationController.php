@@ -600,8 +600,10 @@ class reservationController extends Controller
                 else
                     $booking->setBookingCancelProtection(0);
                 $currency=null;
+                
+                $price_in_currency = $em->getRepository('mycpBundle:currency')->findOneBy(array('curr_site_price_in' => true));
 
-                if($session->get('curr_acronym')==null OR $session->get('curr_acronym')=='CUC')
+                if($session->get('curr_acronym')==null OR $session->get('curr_acronym')== $price_in_currency->getCurrCode())
                 {
                     $currency = $em->getRepository('mycpBundle:currency')->findOneBy(array('curr_code'=>'USD'));
                 }

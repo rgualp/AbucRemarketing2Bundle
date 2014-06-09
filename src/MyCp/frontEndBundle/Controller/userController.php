@@ -43,11 +43,14 @@ class userController extends Controller {
                 $languageCode = $request->attributes->get('app_lang_code');
                 $languageCode = empty($languageCode) ? $request->attributes->get('_locale') : $session->get('_locale', 'en');
                 $languageCode = strtoupper($languageCode);
-
-                $currencyCode = $session->get('curr_acronym', 'EUR');
-
+                
+                $currency = $em->getRepository('mycpBundle:currency')->findOneBy(array('curr_default' => true));
+                
+                if($session->get('curr_acronym') != $currency->getCurrCode())
+                    $currency = $em->getRepository('mycpBundle:currency')->findOneBy(array('curr_code' => $session->get('curr_acronym')));                
+                
                 $user_db = $em->getRepository('mycpBundle:user')
-                        ->registerUser($post, $request, $encoder, $this->get('translator'), $languageCode, $currencyCode);
+                        ->registerUser($post, $request, $encoder, $this->get('translator'), $languageCode, $currency);
                 $service_security = $this->get('Secure');
                 $encode_string = $service_security->encode_string($user_db->getUserEmail() . '///' . $user_db->getUserId());
 

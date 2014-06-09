@@ -124,17 +124,17 @@
                     <li class="lead">
                         <div class="row all-prices-numbers">
                             <div class="col-sm-4">
-                                {{'RESERVATION_TOTAL_PRICE' | trans}} {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): 'CUC'}} <span id="total_price"></span>
+                                {{'RESERVATION_TOTAL_PRICE' | trans}} {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol}} <span id="total_price"></span>
                             </div>
                             <div class="col-sm-4">
-                                {{'INITIAL_DEPOSIT' | trans}} ({{ownership.OwnCommissionPercent}}%): {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): 'CUC'}} <span id="initial_deposit"></span>
+                                {{'INITIAL_DEPOSIT' | trans}} ({{ownership.OwnCommissionPercent}}%): {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol}} <span id="initial_deposit"></span>
                             </div>
                             <div class="col-sm-4">
-                                {{'SERVICE_RECHARGE' | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): 'CUC'}} <span id="service_recharge">{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</span>
+                                {{'SERVICE_RECHARGE' | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol}} <span id="service_recharge">{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</span>
                             </div>
                         </div>
                         <div class="text-center" style="font-size: 20px; margin-top: 10px">
-                            {{'TOTAL_PREPAYMENT'|trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): 'CUC'}} <span id="total_prepayment"></span>
+                            {{'TOTAL_PREPAYMENT'|trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol}} <span id="total_prepayment"></span>
                         </div>
                     </li>
                     <li class="lead-2">

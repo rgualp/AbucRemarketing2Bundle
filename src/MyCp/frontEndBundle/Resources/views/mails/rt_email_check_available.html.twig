@@ -22,7 +22,7 @@ ID reserva: CAS.{{reservations[0].getOwnResGenResId.getGenResId}}
     <li><b>Moneda:</b> {% if user_tourist.getUserTouristCurrency.getCurrName is defined %}
             {{user_tourist.getUserTouristCurrency.getCurrName}}
             {% else %}
-                CUC
+                default_currency().currcode|upper
             {% endif %}
     </li>
     <li><b>Comentarios:</b><br/>{{ comment }}</li>

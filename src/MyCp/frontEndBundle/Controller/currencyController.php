@@ -27,11 +27,11 @@ class currencyController extends Controller {
 
             //echo $refresh_url;
 
-            $currency = $em->getRepository('mycpBundle:currency')->find($curr_id);
+            $currency = ($curr_id == 0) ? $em->getRepository('mycpBundle:currency')->findOneBy(array('curr_site_price_in' => true)) : $em->getRepository('mycpBundle:currency')->find($curr_id);
 
-            $session->set("curr_rate", ($curr_id == 0) ? 1 : $currency->getCurrCucChange());
-            $session->set("curr_symbol", ($curr_id == 0) ? "$" : $currency->getCurrSymbol());
-            $session->set("curr_acronym", ($curr_id == 0) ? "CUC" : $currency->getCurrCode());
+            $session->set("curr_rate", $currency->getCurrCucChange());
+            $session->set("curr_symbol", $currency->getCurrSymbol());
+            $session->set("curr_acronym", $currency->getCurrCode());
 
             //Guardar en userTourist la moneda q cambio
             $user = $this->getUser();

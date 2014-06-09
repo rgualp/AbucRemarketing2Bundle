@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * currency
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\currencyRepository")
  */
 class currency
 {
@@ -63,6 +63,13 @@ class currency
      * @ORM\Column(name="curr_default", type="boolean")
      */
     private $curr_default;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="curr_site_price_in", type="boolean")
+     */
+    private $curr_site_price_in;
 
 
     public function __toString()
@@ -194,5 +201,28 @@ class currency
     public function getCurrDefault()
     {
         return $this->curr_default;
+    }
+    
+     /**
+     * Set curr_site_price_in
+     *
+     * @param boolean $currSitePriceIn
+     * @return currency
+     */
+    public function setCurrSitePriceIn($currSitePriceIn)
+    {
+        $this->curr_site_price_in = $currSitePriceIn;
+
+        return $this;
+    }
+
+    /**
+     * Get curr_site_price_in
+     *
+     * @return boolean 
+     */
+    public function getCurrSitePriceIn()
+    {
+        return $this->curr_site_price_in;
     }
 }

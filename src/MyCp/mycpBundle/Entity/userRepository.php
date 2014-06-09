@@ -97,9 +97,8 @@ class userRepository extends EntityRepository {
         $em->flush();
     }
 
-    function registerUser($post, $request, $encoder, $translator, $languageCode, $currencyCode) {
+    function registerUser($post, $request, $encoder, $translator, $languageCode, $currency) {
         $em = $this->getEntityManager();
-        $currency = $em->getRepository('mycpBundle:currency')->findOneBy(array('curr_code' => $currencyCode));
         $language = $em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code' => $languageCode));
         $country = $em->getRepository('mycpBundle:country')->find($post['user_country']);
         $role = $em->getRepository('mycpBundle:role')->findBy(array('role_name' => 'ROLE_CLIENT_TOURIST'));
