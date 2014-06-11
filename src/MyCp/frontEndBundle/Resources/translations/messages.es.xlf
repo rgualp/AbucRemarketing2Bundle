@@ -2197,7 +2197,7 @@
                 </trans-unit>
                 <trans-unit id="559">
                     <source>VALID_OFFER_TWENTY_FOUR</source>
-                    <target>La oferta vencerá en 48 horas</target>
+                    <target>Esta oferta es válida por 24 horas más.</target>
                 </trans-unit>
                 <trans-unit id="560">
                     <source>REMINDER</source>
@@ -2446,6 +2446,30 @@
             <trans-unit id="621">
                 <source>TOP_DESTINATIONS</source>
                 <target>Destinos más visitados</target>
+            </trans-unit>
+            <trans-unit id="622">
+                <source>DEAR</source>
+                <target>Buenos días</target>
+            </trans-unit>
+            <trans-unit id="623">
+                <source>REMINDER_TRIP_ORGANISATION</source>
+                <target>Esperamos que la organización de sus vacaciones en Cuba marche bien.</target>
+            </trans-unit>
+            <trans-unit id="624">
+                <source>REMINDER_OPPORTUNITY</source>
+                <target>No pierdas esta oportunidad de asegurar su alojamiento para sus vacaciones en Cuba.</target>
+            </trans-unit>
+            <trans-unit id="625">
+                <source>VALID_OFFER_TWENTY_FOUR_ACCOMMODATION</source>
+                <target>Le recordamos que la oferta es vádida por 24 horas más.</target>
+            </trans-unit>
+            <trans-unit id="626">
+                <source>THANK_YOU_VERY_MUCH</source>
+                <target>Muchas gracias</target>
+            </trans-unit>
+            <trans-unit id="627">
+                <source>THE_RESERVATION_TEAM</source>
+                <target>Equipo de reservación</target>
             </trans-unit>
         </body>
     </file>

@@ -2196,11 +2196,11 @@
                 </trans-unit>
                 <trans-unit id="559">
                     <source>VALID_OFFER_TWENTY_FOUR</source>
-                    <target>Das Angebot erlischt in 48 Stunden.</target>
+                    <target>Dieses Angebot ist noch 24 Stunden gültig.</target>
                 </trans-unit>
                 <trans-unit id="560">
                     <source>REMINDER</source>
-                    <target>Zur Erinnerung</target>
+                    <target>Erinnerung</target>
                 </trans-unit>
                 <trans-unit id="561">
                     <source>NOT_ENABLED_USER</source>
@@ -2445,6 +2445,30 @@
             <trans-unit id="621">
                 <source>TOP_DESTINATIONS</source>
                 <target>TOP Reiseziele</target>
+            </trans-unit>
+            <trans-unit id="622">
+                <source>DEAR</source>
+                <target>Guten Tag</target>
+            </trans-unit>
+            <trans-unit id="623">
+                <source>REMINDER_TRIP_ORGANISATION</source>
+                <target>Wir hoffen, dass die Organisation Ihrer Kuba-Reise gut vorankommt und Sie sich darauf freuen.</target>
+            </trans-unit>
+            <trans-unit id="624">
+                <source>REMINDER_OPPORTUNITY</source>
+                <target>Verpassen Sie diese Gelegenheit nicht und sichern Sie Ihre Unterkunft für Ihren Urlaub in Kuba. </target>
+            </trans-unit>
+            <trans-unit id="625">
+                <source>VALID_OFFER_TWENTY_FOUR_ACCOMMODATION</source>
+                <target>Wir möchten Sie daran erinnern, dass das Angebot noch 24 Stunden lang gültig ist.</target>
+            </trans-unit>
+            <trans-unit id="626">
+                <source>THANK_YOU_VERY_MUCH</source>
+                <target>Vielen Dank</target>
+            </trans-unit>
+            <trans-unit id="627">
+                <source>THE_RESERVATION_TEAM</source>
+                <target>Das Reservationsteam</target>
             </trans-unit>
         </body>
     </file>

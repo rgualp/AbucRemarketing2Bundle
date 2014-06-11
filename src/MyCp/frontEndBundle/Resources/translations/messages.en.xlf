@@ -2197,7 +2197,7 @@
                 </trans-unit>
                 <trans-unit id="559">
                     <source>VALID_OFFER_TWENTY_FOUR</source>
-                    <target>The offer will expire in 48 hours</target>
+                    <target>This offer is valid for another 24 hours.</target>
                 </trans-unit>
                 <trans-unit id="560">
                     <source>REMINDER</source>
@@ -2446,6 +2446,30 @@
             <trans-unit id="621">
                 <source>TOP_DESTINATIONS</source>
                 <target>TOP Destinations</target>
+            </trans-unit>
+            <trans-unit id="622">
+                <source>DEAR</source>
+                <target>Dear</target>
+            </trans-unit>
+            <trans-unit id="623">
+                <source>REMINDER_TRIP_ORGANISATION</source>
+                <target>We hope that the organisation of your trip to Cuba is progressing well and that you look forward to it.</target>
+            </trans-unit>
+            <trans-unit id="624">
+                <source>REMINDER_OPPORTUNITY</source>
+                <target>Do not miss this opportunity and secure your accommodation for your vacation in Cuba.</target>
+            </trans-unit>
+            <trans-unit id="625">
+                <source>VALID_OFFER_TWENTY_FOUR_ACCOMMODATION</source>
+                <target>We remind you that the offer is valid for another 24 hours.</target>
+            </trans-unit>
+            <trans-unit id="626">
+                <source>THANK_YOU_VERY_MUCH</source>
+                <target>Thank you very much</target>
+            </trans-unit>
+            <trans-unit id="627">
+                <source>THE_RESERVATION_TEAM</source>
+                <target>The Reservation Team</target>
             </trans-unit>
         </body>
     </file>
