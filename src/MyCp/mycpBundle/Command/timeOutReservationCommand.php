@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\Output;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
 
-class timeOutReservationCommand extends ContainerAwareCommand
+class TimeOutReservationCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
