@@ -25,7 +25,7 @@ class EmailReminderCommand extends ContainerAwareCommand
         $em = $container->get('doctrine')->getManager();
         $generalReservations = $em->getRepository('mycpBundle:generalReservation')->get_reminder_available();
 
-        $output->writeln('Starting reminder emails command...');
+        $output->writeln(date(DATE_W3C) . ': Starting reminder emails command...');
 
         if(empty($generalReservations)) {
             $output->writeln('No Reminder General Reservations found.');
