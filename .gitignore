@@ -27,4 +27,7 @@ app/config/parameters.yml
 # IDE PHPStorm
 .idea/*
 
+# Vagrant
+.vagrant/*
+
 nbproject/*
