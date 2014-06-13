@@ -27,6 +27,7 @@ class AppKernel extends Kernel
             new Lsw\MemcacheBundle\LswMemcacheBundle(),
             //new BeSimple\SoapBundle\BeSimpleSoapBundle()
 //            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+            new Leezy\PheanstalkBundle\LeezyPheanstalkBundle(), // TODO: eigentlich ins Remarketing Bundle... wie handelt man das?
             new Abuc\RemarketingBundle\AbucRemarketingBundle(),
         );
 

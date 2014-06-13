@@ -1,7 +1,18 @@
 parameters:
 #    mycp.example.class: MyCp\mycpBundle\Example
+#     abuc.job.queue.class: Abuc\RemarketingBundle\Queue\BeanstalkJobQueue
 
 services:
 #    mycp.example:
 #        class: %mycp.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
+
+   abuc.job.queue:
+       class: Abuc\RemarketingBundle\Queue\BeanstalkJobQueue
+       arguments: [@leezy.pheanstalk]
+
+   abuc.job.listener:
+       class: Abuc\RemarketingBundle\Event\JobEventListener
+       arguments: [@abuc.job.queue]
+       tags:
+           - { name: kernel.event_listener, event: abuc.event.job,  method: onJobEvent }
