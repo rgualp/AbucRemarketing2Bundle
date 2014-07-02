@@ -14,6 +14,10 @@ mycp_delete_ownership:
     pattern:  /delete/{id_ownership}
     defaults: { _controller: mycpBundle:BackendOwnership:delete_ownership }
 
+mycp_delete_room:
+    pattern: /delete/room/{id_room}/{type}
+    defaults: {_controller: mycpBundle:BackendOwnership:delete_room}
+
 mycp_new_photos_ownership:
     pattern:   /photos/new/{id_ownership}
     defaults: { _controller: mycpBundle:BackendOwnership:new_photos}
