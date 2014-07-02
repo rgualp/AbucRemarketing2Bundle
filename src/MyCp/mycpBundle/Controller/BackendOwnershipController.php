@@ -306,7 +306,9 @@ class BackendOwnershipController extends Controller {
         $post['geolocate_y'] = $ownership->getOwnGeolocateY();
         $post['top_20'] = $ownership->getOwnTop20();
         $data['country_code'] = $ownership->getOwnAddressProvince()->getProvId();
-        $post['status'] = $ownership->getOwnStatus()->getStatusId();
+        
+        if(isset($ownership->getOwnStatus()))
+            $post['status'] = $ownership->getOwnStatus()->getStatusId();
 
         if ($post['top_20'] == false)
             $post['top_20'] = 0;
