@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use MyCp\frontEndBundle\Helpers\Utils;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class ownershipController extends Controller {
 
@@ -567,6 +568,46 @@ class ownershipController extends Controller {
         $session->set("filter_room", $room_filter);
 
         $list = $em->getRepository('mycpBundle:ownership')->search($this, $search_text, $arrival, $departure, $search_guests, $search_rooms, $session->get('search_order'), $room_filter, $check_filters);
+
+        $owns_list = array();
+
+        foreach($list as $tmp){
+            //die(var_dump($tmp));
+            $own = new ownership();
+            $own = $tmp;
+            $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $own['own_id']));
+
+            $real = count($rooms);
+
+            foreach( $rooms as $room){
+                $own_reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(
+                                                                                              array(
+                                                                                                  'own_res_selected_room_id' => $room->getRoomId()
+                                                                                                   )
+                                                                                                 );
+                foreach( $own_reservations as $res ){
+                    $from = $res->getOwnResReservationFromDate();
+                    $end = $res->getOwnResReservationToDate();
+
+                    $arr = new \DateTime($arrival);
+                    $dep = new \DateTime($departure);
+
+                    //die(var_dump($from, $end, $arr, $dep));
+
+                    if ( ! ( $dep < $from || $arr > $end)){
+                        $real--;
+                        break;
+                    }
+
+                }
+            }
+
+            if ( $real > 0 )
+                $owns_list[] = $own;
+
+        }
+
+        $list = $owns_list;
 
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
