@@ -67,6 +67,45 @@ class ownershipReservationRepository extends EntityRepository {
         WHERE gre.gen_res_user_id = :id_user");
         return $query->setParameter('id_user', $id_user)->getArrayResult();
     }
+    
+    function get_by_id_booking($id_booking) {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT DISTINCT
+            o.own_id as id,
+            o.own_name as name, 
+            o.own_mcp_code as mycp_code, 
+            o.own_homeowner_1 as owner_1, 
+            o.own_homeowner_2 as owner_2, 
+            o.own_address_street as main_street,
+            o.own_address_number as number, 
+            o.own_address_between_street_1 as street_1,
+            o.own_address_between_street_2 as street_2,
+            mun.mun_name as municipality,
+            prov.prov_name as province,
+            o.own_phone_number as phone_number,
+            prov.prov_phone_code as prov_code,
+            o.own_geolocate_y as geo_y,
+            o.own_geolocate_x as geo_x
+            FROM mycpBundle:ownershipReservation ore JOIN ore.own_res_gen_res_id gre
+            JOIN gre.gen_res_own_id o
+            JOIN o.own_address_municipality as mun
+            JOIN o.own_address_province as prov
+        WHERE ore.own_res_reservation_booking = :id_booking");
+        return $query->setParameter('id_booking', $id_booking)->getArrayResult();
+    }
+    
+    function get_rooms_by_accomodation($id_booking, $own_id) {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT ore.own_res_room_type,
+            ore.own_res_reservation_from_date,
+            ore.own_res_reservation_to_date,
+            ore.own_res_count_adults,
+            ore.own_res_count_childrens,
+            (select min(r.room_bathroom) from mycpBundle:room r where r.room_id = ore.own_res_selected_room_id) as room_bathroom
+            FROM mycpBundle:ownershipReservation ore JOIN ore.own_res_gen_res_id gre
+        WHERE ore.own_res_reservation_booking = :id_booking and gre.gen_res_own_id = :id_own");
+        return $query->setParameter('id_booking', $id_booking)->setParameter('id_own', $own_id)->getArrayResult();
+    }
 
     function get_reservation_by_id($id_reservation) {
         $em = $this->getEntityManager();

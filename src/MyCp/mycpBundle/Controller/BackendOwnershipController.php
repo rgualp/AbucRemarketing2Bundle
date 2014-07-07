@@ -285,8 +285,9 @@ class BackendOwnershipController extends Controller {
         $post['top_20'] = $ownership->getOwnTop20();
         $data['country_code'] = $ownership->getOwnAddressProvince()->getProvId();
         
-        if(isset($ownership->getOwnStatus()))
-            $post['status'] = $ownership->getOwnStatus()->getStatusId();
+        $status= $ownership->getOwnStatus();
+        if(isset($status))
+            $post['status'] = $status->getStatusId();
 
         if ($post['top_20'] == false)
             $post['top_20'] = 0;

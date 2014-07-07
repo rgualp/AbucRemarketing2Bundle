@@ -49,6 +49,7 @@
     </tr>
 </table>
 <br/>
+<hr/>
 {% for own in own_res %}
 <h2 class="h-green">{{ 'ACCOMMODATION'|trans }}</h2>
 <hr/>
@@ -58,14 +59,6 @@
         <td width="40%">{{ own.getOwnResGenResId.getGenResOwnId.getOwnName }}</td>
         <td rowspan="5">
             <div style="padding: 12px; margin-left: 12px; border: solid 1px #cccccc;">
-                <!--div id="big_map_details" class="google-maps" style="width:100%;height: 100px;"
-                     data-x="{{own.getOwnResGenResId.getGenResOwnId.getOwnGeolocateX}}"
-                     data-y="{{own.getOwnResGenResId.getGenResOwnId.getOwnGeolocateY}}"
-                     data-name="{{own.getOwnResGenResId.getGenResOwnId.getOwnName}}"
-                     data-description=""
-                     data-image=""
-                     data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"
-                </div>-->
                 <img src='http://maps.googleapis.com/maps/api/staticmap?center={{own.getOwnResGenResId.getGenResOwnId.getOwnGeolocateX}},{{own.getOwnResGenResId.getGenResOwnId.getOwnGeolocateY}}&zoom=15&size=200x200&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{own.getOwnResGenResId.getGenResOwnId.getOwnGeolocateX}},{{own.getOwnResGenResId.getGenResOwnId.getOwnGeolocateY}}&a.jpg'/>
             </div>
         </td>

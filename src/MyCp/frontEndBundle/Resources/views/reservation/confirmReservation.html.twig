@@ -45,82 +45,93 @@
     </div>
 </div>
     {% for own in own_res %}
-        <h4 class="h-green">
-            {{"RESERVE_SERVICE"|trans}}: {{"ACCOMMODATION"|trans}}
-        </h4>
+        <hr class="hr-grey-wide"/>
+        
+            <table class="table table-type-1">
+                <tbody>
+                    <tr style="border-top:none;">
+                        <td width="70%" style="border-top:none;">
+                            <h3 class="h-green h-green-line">
+                            <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-voucher icon-vaccomodation">
+                            {{"ACCOMMODATION"|trans}} {{loop.index}}
+                            </h3>
+                        </td>
+                        <td width="30%" style="vertical-align: middle; text-align: right; border-top:none;">
+                            <b>{{"RESERVATION_NUMBER"|trans}}:</b> ID_{{ booking.getBookingId }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>           
+        
         <table class="table table-type-1">
             <tbody>
-            <tr>
-                <td width="30%"><b>{{"ACCOMMODATION_NAME"|trans}}:</b></td>
-                <td width="40%">{{ own.getOwnResGenResId.getGenResOwnId.getOwnName }}</td>
-                <td rowspan="5">
-                    <div class="thumbnail" style="padding: 12px; margin-left: 12px">
-                        <!--<div id="big_map_details" class="google-maps" style="width:100%;height: 150px;"
-                             data-x="{{own.getOwnResGenResId.getGenResOwnId.getOwnGeolocateX}}"
-                             data-y="{{own.getOwnResGenResId.getGenResOwnId.getOwnGeolocateY}}"
-                             data-name="{{own.getOwnResGenResId.getGenResOwnId.getOwnName}}"
-                             data-description=""
-                             data-image=""
-                             data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}">
-                        </div>-->
-                        <img src='http://maps.googleapis.com/maps/api/staticmap?center={{own.getOwnResGenResId.getGenResOwnId.getOwnGeolocateX}},{{own.getOwnResGenResId.getGenResOwnId.getOwnGeolocateY}}&zoom=15&size=200x200&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{own.getOwnResGenResId.getGenResOwnId.getOwnGeolocateX}},{{own.getOwnResGenResId.getGenResOwnId.getOwnGeolocateY}}&a.jpg'/>
+            <tr style="border-top:none;">
+                <td width="30%" style="border-top:none;"><b>{{"ACCOMMODATION_NAME"|trans}}:</b></td>
+                <td width="40%" style="border-top:none;">{{ own.name }}</td>
+                <td rowspan="5" style="border-top:none;">
+                    <div class="thumbnail" style="padding: 12px; margin-left: 12px;">
+                        <img src='http://maps.googleapis.com/maps/api/staticmap?center={{own.geo_x}},{{own.geo_y}}&zoom=15&size=200x200&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{own.geo_x}},{{own.geo_y}}&a.jpg'/>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td><b>{{"ID_HOME"|trans}}:</b></td>
-                <td>{{ own.getOwnResGenResId.getGenResOwnId.getOwnMcpCode }}</td>
+                <td>{{ own.mycp_code }}</td>
             </tr>
             <tr>
                 <td><b>{{"OWNERS_NAME"|trans}}:</b></td>
-                <td>{{ own.getOwnResGenResId.getGenResOwnId.getOwnHomeowner1 }} {% if own.getOwnResGenResId.getGenResOwnId.getOwnHomeowner2 %}y {{ own.getOwnResGenResId.getGenResOwnId.getOwnHomeowner2 }}{% endif %}</td>
+                <td>{{ own.owner_1 }} {% if own.owner_2 %}& {{ own.owner_2 }}{% endif %}</td>
             </tr>
             <tr>
                 <td><b>{{"ADDRESS"|trans}}:</b></td>
-                <td>{{ own.getOwnResGenResId.getGenResOwnId.getOwnAddressStreet }}, número {{ own.getOwnResGenResId.getGenResOwnId.getOwnAddressNumber }}, entre {{ own.getOwnResGenResId.getGenResOwnId.getOwnAddressBetweenStreet1 }} y {{ own.getOwnResGenResId.getGenResOwnId.getOwnAddressBetweenStreet2 }}.
-                    {{ own.getOwnResGenResId.getGenResOwnId.getOwnAddressMunicipality.getMunName }}, {{own.getOwnResGenResId.getGenResOwnId.getOwnAddressProvince.getProvName }}.
+                <td>{{ own.main_street }} {{ own.number }}, {{ own.street_1 }} & {{ own.street_2 }}.
+                    {{ own.municipality }}, {{own.province }}.
                 </td>
             </tr>
             <tr>
                 <td><b>{{"FORMS_PHONE"|trans}}:</b></td>
-                <td>(+53) {{ own.getOwnResGenResId.getGenResOwnId.getOwnAddressProvince.getProvPhoneCode }} {{ own.getOwnResGenResId.getGenResOwnId.getOwnPhoneNumber }}</td>
+                <td>(+53{{ own.prov_code }}) {{ own.phone_number }}</td>
             </tr>
             </tbody>
         </table>
-        <h4 class="h-green">
-            {{"RESERVATION_DETAILS"|trans}}: {{"ROOM_PLURAL"|trans}}
+        {%for res_room in own_res_rooms[own.id]%}
+            <h4 class="voucher-subtitle">
+            <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-voucher icon-vbed"> 
+            {{"RESERVATION_DETAILS"|trans}}: {{"ROOM_SINGULAR"|trans | capitalize}} {{loop.index}}
         </h4>
         <table class="table table-type-1">
             <tbody>
             <tr>
-                <td colspan="6"><b>{{"RESERVATION_ROOM"|trans}} ({{own.getOwnResRoomType|trans}})</b></td>
+                <td colspan="6"><h4 class="h-only-blue">{{res_room.own_res_room_type|trans}}</h4></td>
             </tr>
             <tr>
                 <td><b>{{"ARRIVAL_RESERVATION"|trans}}:</b></td>
-                <td>{{ own.getOwnResReservationFromDate| date("d/m/Y") }}</td>
+                <td>{{ res_room.own_res_reservation_from_date| date("d/m/Y") }}</td>
                 <td><b>{{"DEPARTURE_RESERVATION"|trans}}:</b></td>
-                <td>{{ own.getOwnResReservationToDate| date("d/m/Y") }}</td>
+                <td>{{ res_room.own_res_reservation_to_date| date("d/m/Y") }}</td>
                 <td><b>{{"NIGHTS"|trans}}:</b></td>
                 <td>{{ nights[loop.index0] }}</td>
             </tr>
             <tr>
                 <td><b>{{"SELECT_ROOM_TYPE_OPTION"|trans}}:</b></td>
-                <td>{{ own.getOwnResRoomType|trans }}</td>
+                <td>{{ res_room.own_res_room_type|trans }}</td>
                 <td><b>{{"ADULTS"|trans}}:</b></td>
-                <td>{{ own.getOwnResCountAdults }}</td>
+                <td>{{ res_room.own_res_count_adults }}</td>
                 <td><b>{{"KIDS"|trans}}:</b></td>
-                <td>{{ own.getOwnResCountChildrens }}</td>
+                <td>{{ res_room.own_res_count_childrens }}</td>
             </tr>
             <tr>
                 <td><b>{{"SELECT_BATHROOM_TYPE_OPTION"|trans}}:</b></td>
-                <td colspan="5">{{ rooms[loop.index0].getRoomBathroom|trans }}</td>
+                <td colspan="5">{{ res_room.room_bathroom|trans }}</td>
             </tr>
             </tbody>
         </table>
+        {%endfor%}
     {% endfor %}
 
-    <h4 class="h-green">
-        {{"PAYMENT_DETAILS"|trans}}: {{"BILL"|trans}}
+    <h4 class="voucher-subtitle">
+        <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-voucher icon-vcurrency"> 
+        {{"PAYMENT_DETAILS"|trans}}: 
     </h4>
     <table class="table table-type-1">
         <tbody>
@@ -128,27 +139,27 @@
             <td><b>{{"PRICE_OF_ACCOMMODATION_SERVICE"|trans}}</b></td>
             <td class="text-right"><b>{{ currency_symbol }} {{ ceil_round(accommodations_service_charge) }}</b></td>
         </tr>
-        <tr>
+        <!--tr>
             <td>- {{"TOTAL_PREPAYMENT"|trans}} ({% for comm in commissions %}{{comm}}%{% if not loop.last %}, {% endif %}{% endfor %})</td>
             <td class="text-right">{{ currency_symbol }} {{ ceil_round(prepayment_accommodations) }}</td>
         </tr>
         <tr>
             <td>{{"RESERVATION_TOTAL" | trans}} {{"SERVICE_RECHARGE"|trans|lower}}</td>
             <td class="text-right">{{ currency_symbol }} {{ service_charge_total | number_format(2)}}</td>
-        </tr>
+        </tr-->
         <tr>
-            <td>{{"TOTAL_ALL_PREPAYMENT" | trans}}</td>
+            <td>{{"TOTAL_ALL_PREPAYMENT" | trans}} ({% for comm in commissions %}{{comm}}%{% if not loop.last %}, {% endif %}{% endfor %})</td>
             <td class="text-right">{{ currency_symbol }} {{ (service_charge_total + ceil_round(prepayment_accommodations)) | number_format(2) }}</td>
         </tr>
-        <tr>
+        <!--tr>
             <td>{{"OTHER_SERVICES_HEADING_FILTER"|trans}}</td>
             <td class="text-right">{{ currency_symbol }} {{0 | number_format(2)}} </td>
-        </tr>
+        </tr-->
         <tr>
-            <td><h2 class="no-margin">{{"TOTAL_TO_PAY_SERVICING" | trans}}</h2></td>
-            <td class="text-right"><h2 class="no-margin">
+            <td><h4 class="no-margin">{{"TOTAL_TO_PAY_SERVICING" | trans}}</h4></td>
+            <td class="text-right"><h4 class="no-margin">
                 {{ currency_symbol }} {{ (ceil_round(accommodations_service_charge) - ceil_round(prepayment_accommodations)) | number_format(2) }}
-                </h2></td>
+                </h4></td>
         </tr>
         </tbody>
     </table>

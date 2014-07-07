@@ -899,7 +899,8 @@ class reservationController extends Controller
         $user = $this->getUser();
 
         $em = $this->getDoctrine()->getManager();
-        $own_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking));
+        
+        $own_res_distinct = $em->getRepository('mycpBundle:ownershipReservation')->get_by_id_booking($id_booking);
         if($no_user==false)
         {
             $booking = $em->getRepository('mycpBundle:booking')->findBy(array('booking_id'=>$id_booking,'booking_user_id'=>$user->getUserId()));
@@ -918,6 +919,13 @@ class reservationController extends Controller
         $commissions = array();
         $total_price = 0;
         $total_percent_price = 0;
+        $own_res_rooms = array();
+        foreach ($own_res_distinct as $own_r)
+        {
+            $own_res_rooms[$own_r["id"]] = $em->getRepository('mycpBundle:ownershipReservation')->get_rooms_by_accomodation($id_booking,$own_r["id"]);
+        }
+        
+        $own_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking));
         foreach ($own_res as $own) {
             $array_dates = $service_time->dates_between($own->getOwnResReservationFromDate()->getTimestamp(), $own->getOwnResReservationToDate()->getTimestamp());
             array_push($nights, count($array_dates) - 1);
@@ -947,7 +955,8 @@ class reservationController extends Controller
         if($to_print == true)
         {
             return $this->render('frontEndBundle:reservation:boucherReservation.html.twig', array(
-                'own_res' => $own_res,
+                'own_res' => $own_res_distinct,
+                'own_res_rooms' => $own_res_rooms,
                 'user' => $user,
                 'booking' => $booking,
                 'nights' => $nights,
@@ -965,7 +974,8 @@ class reservationController extends Controller
         }
 
         return $this->render('frontEndBundle:reservation:confirmReservation.html.twig', array(
-                'own_res' => $own_res,
+                'own_res' => $own_res_distinct,
+                'own_res_rooms' => $own_res_rooms,
                 'user' => $user,
                 'booking' => $booking,
                 'nights' => $nights,
