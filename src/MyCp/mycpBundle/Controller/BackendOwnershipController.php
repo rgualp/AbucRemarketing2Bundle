@@ -306,7 +306,12 @@ class BackendOwnershipController extends Controller {
         $post['geolocate_y'] = $ownership->getOwnGeolocateY();
         $post['top_20'] = $ownership->getOwnTop20();
         $data['country_code'] = $ownership->getOwnAddressProvince()->getProvId();
-        $post['status'] = $ownership->getOwnStatus()->getStatusId();
+
+        $status = $ownership->getOwnStatus();
+
+        if(!empty($status)) {
+            $post['status'] = $status->getStatusId();
+        }
 
         if ($post['top_20'] == false)
             $post['top_20'] = 0;
@@ -570,9 +575,9 @@ class BackendOwnershipController extends Controller {
                             }
                         }
                     }
-                    
+
                     //Verificando que no existan otras propiedades con el mismo código
-                    
+
                     if (!array_key_exists('edit_ownership', $post)) {
 
                         $similar = $em->getRepository('mycpBundle:ownership')->findBy(array('own_mcp_code' => $post['ownership_mcp_code']));
