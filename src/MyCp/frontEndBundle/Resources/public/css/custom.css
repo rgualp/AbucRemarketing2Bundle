@@ -72,3 +72,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 .icon-voucher.icon-vbed{background: url("../img/icons/vbed.png") no-repeat; width: 24px; height: 22px;}
 .voucher-subtitle{color: #80AA2A; padding:3px 5px; background: #EBE9EA; width: 500px;}
 .h-green-line{border-bottom: 1px solid #80AA2A;}
+.b-cyan{background: #EBE9EA;}
+.c-bbbb{ color: #bbb;}
+hr.upper-bottom{ margin:15px 0 0; border-color:#bbb;}
+.no-padding{padding: 0px;}
+.no-border, td.no-border, tr.no-border{border:none; border-top: none;}

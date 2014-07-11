@@ -68,6 +68,13 @@ class ownershipReservationRepository extends EntityRepository {
         return $query->setParameter('id_user', $id_user)->getArrayResult();
     }
     
+    function get_reservations_by_booking_and_ownership($id_booking, $own_id) {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT ore FROM mycpBundle:ownershipReservation ore JOIN ore.own_res_gen_res_id gre
+        WHERE ore.own_res_reservation_booking = :id_booking and gre.gen_res_own_id = :id_own");
+        return $query->setParameter('id_booking', $id_booking)->setParameter('id_own', $own_id)->getResult();
+    }
+    
     function get_by_id_booking($id_booking) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT DISTINCT
@@ -85,7 +92,8 @@ class ownershipReservationRepository extends EntityRepository {
             o.own_phone_number as phone_number,
             prov.prov_phone_code as prov_code,
             o.own_geolocate_y as geo_y,
-            o.own_geolocate_x as geo_x
+            o.own_geolocate_x as geo_x,
+            o.own_commission_percent as commission_percent
             FROM mycpBundle:ownershipReservation ore JOIN ore.own_res_gen_res_id gre
             JOIN gre.gen_res_own_id o
             JOIN o.own_address_municipality as mun

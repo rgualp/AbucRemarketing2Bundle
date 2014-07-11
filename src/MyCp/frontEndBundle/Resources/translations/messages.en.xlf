@@ -2471,6 +2471,14 @@
                 <source>THE_RESERVATION_TEAM</source>
                 <target>The Reservation Team</target>
             </trans-unit>
+            <trans-unit id="628">
+                <source>END_OF_YOUR_RESERVATION</source>
+                <target>End of your Reservation</target>
+            </trans-unit>
+            <trans-unit id="629">
+                <source>PAYMENTS</source>
+                <target>Payments</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
