@@ -120,7 +120,13 @@
         <td>{{ownership.getOwnName}}</td>
         <td>{{ownership.getOwnAddressMunicipality.getMunName}}</td>
         <td>{{ownership.getOwnAddressProvince.getProvName}}</td>
-        <td>{% if ownership.getOwnComment %}<a class="tooltip_msg no_link" rel="tooltip" title="{{ownership.getOwnComment}}">{% endif %}{% if ownership.getOwnStatus.getStatusId==1%}<span class="label label-success">Activo</span>{% else %} <span class="label label-important">{{ ownership.getOwnStatus.getStatusName }}</span>{% endif %}{% if ownership.getOwnComment %}</a>{% endif %}</td>
+        <td>{% if ownership.getOwnComment %}<a class="tooltip_msg no_link" rel="tooltip" title="{{ownership.getOwnComment}}">{% endif %}
+        {% if ownership.getOwnStatus%}
+            {% if ownership.getOwnStatus.getStatusId==1%}<span class="label label-success">Activo</span>{% else %} <span class="label label-important">{{ ownership.getOwnStatus.getStatusName }}</span>{% endif %}
+            {%else%} 
+             <span class="label label-warning">Sin estado</span>
+            {% endif %}
+        {% if ownership.getOwnComment %}</a>{% endif %}</td>
         <td><a href="{{ path('mycp_list_photos_ownership',{'id_ownership':ownership.getOwnId}) }}">({{ photo_count[ownership.getOwnId~'_photo_count'] }}) Fotografías</a></td>
         <td style="text-align: right"><a class="btn btn-mini" href="{{ path('mycp_edit_ownership',{'id_ownership':ownership.getOwnId}) }}">Editar</a>
            <!-- <button data='{{ path('mycp_delete_ownership',{'id_ownership':ownership.getOwnId}) }}' class="btn btn-mini btn-danger delete">Eliminar</button>-->

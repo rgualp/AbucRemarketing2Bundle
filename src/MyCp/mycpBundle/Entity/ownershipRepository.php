@@ -11,6 +11,7 @@ use MyCp\mycpBundle\Entity\ownershipKeywordLang;
 use MyCp\mycpBundle\Entity\room;
 use MyCp\mycpBundle\Entity\userCasa;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
+use MyCp\mycpBundle\Helpers\OwnershipStatuses;
 
 /**
  * ownershipRepository
@@ -99,6 +100,10 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnGeolocateY($data['geolocate_y']);
         $ownership->setOwnTop20($active_top_20);
         $status = $em->getRepository('mycpBundle:ownershipStatus')->find($data['status']);
+        
+        if(!isset($status))
+            $status = $em->getRepository('mycpBundle:ownershipStatus')->find(OwnershipStatuses::IN_PROCESS);
+        
         $ownership->setOwnStatus($status);
         $ownership->setOwnRoomsTotal($data['count_rooms']);
         $ownership->setOwnComment($data['comment']);
@@ -106,18 +111,13 @@ class ownershipRepository extends EntityRepository {
         //var_dump($data);
         //exit();
 
-        /**
-         * Codigo Yanet - Inicio
-         */
         $ownership->setOwnCommentsTotal(0);
         $ownership->setOwnMaximumNumberGuests(0);
         $ownership->setOwnRating(0);
         $ownership->setOwnMaximumPrice(0);
         $ownership->setOwnMinimumPrice(0);
         $ownership->setOwnRoomsTotal(0);
-        /**
-         * Codigo Yanet - Fin
-         */
+        
         if (isset($data['water_jacuzee']))
             $ownership->setOwnWaterJacuzee($data['water_jacuzee']);
         if (isset($data['water_sauna']))
@@ -161,13 +161,8 @@ class ownershipRepository extends EntityRepository {
             }
         }
 
-        /**
-         * Codigo Yanet - Inicio
-         */
         $ownership->setOwnRoomsTotal($data['count_rooms']);
-        /**
-         * Codigo Yanet - Fin
-         */
+        
         $beds_total = 0;
         for ($e = 1; $e <= $data['count_rooms']; $e++) {
             $room = new room();
@@ -326,6 +321,8 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnGeolocateY($data['geolocate_y']);
         $ownership->setOwnTop20($active_top_20);
         $status = $em->getRepository('mycpBundle:ownershipStatus')->find($data['status']);
+        if(!isset($status))
+            $status = $em->getRepository('mycpBundle:ownershipStatus')->find(OwnershipStatuses::IN_PROCESS);
         $ownership->setOwnStatus($status);
         $ownership->setOwnComment($data['comment']);
         $old_rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $data['edit_ownership']));
