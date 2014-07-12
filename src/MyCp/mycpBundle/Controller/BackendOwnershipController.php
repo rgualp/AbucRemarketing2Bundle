@@ -233,11 +233,42 @@ class BackendOwnershipController extends Controller {
         $ro = $em->getRepository('mycpBundle:room')->find($id_room);
         $id_ownership = $ro->getRoomOwnership()->getOwnId();;
 
-        if ( $type == 1 ){
-            $em->remove($ro);
-            $em->flush();
-        }
+        switch( $type ){
+            case 0:
+                $ro->setRoomActive(false);
+                $em->persist($ro);
+                $own = new ownership();
+                $own = $ro->getRoomOwnership();
+                $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $own->getOwnId()));
+                $count = count($rooms);
+                foreach( $rooms as $room ){
+                    if ( !$room->getRoomActive() )
+                        $count--;
+                }
 
+                if ( $count <= 0 ){
+                    $status = new ownershipStatus();
+                    $status = $em->getRepository('mycpBundle:ownershipstatus')->find(2);
+                    $own->setOwnStatus($status);
+                    $em->persist($own);
+
+                }
+
+                $em->flush();
+                break;
+            case 1:
+                $own = new ownership();
+                $own = $ro->getRoomOwnership();
+                $em->remove($ro);
+                $own->removeOwnRoom($ro);
+                $em->flush();
+                break;
+            case 2:
+                $ro->setRoomActive(true);
+                $em->persist($ro);
+                $em->flush();
+                break;
+        }
 
         return $this->redirect($this->generateUrl('mycp_edit_ownership', array('id_ownership' => $id_ownership)));
     }
@@ -306,12 +337,7 @@ class BackendOwnershipController extends Controller {
         $post['geolocate_y'] = $ownership->getOwnGeolocateY();
         $post['top_20'] = $ownership->getOwnTop20();
         $data['country_code'] = $ownership->getOwnAddressProvince()->getProvId();
-
-        $status = $ownership->getOwnStatus();
-
-        if(!empty($status)) {
-            $post['status'] = $status->getStatusId();
-        }
+        $post['status'] = $ownership->getOwnStatus()->getStatusId();
 
         if ($post['top_20'] == false)
             $post['top_20'] = 0;
@@ -387,6 +413,7 @@ class BackendOwnershipController extends Controller {
             $reservation = $em->getRepository('mycpBundle:ownershipReservation')->findOneBy(array('own_res_selected_room_id' => $rooms[$a - 1]->getRoomId()));
 
             $post['room_delete_' . $a] = $reservation ? 0 : 1;
+            $post['room_active_' . $a] = $rooms[$a - 1]->getRoomActive();
 
             if ($post['room_terrace_' . $a] == true)
                 $post['room_terrace_' . $a] = 1;
@@ -400,6 +427,8 @@ class BackendOwnershipController extends Controller {
                 $post['room_safe_box_' . $a] = 1;
             if ($post['room_smoker_' . $a] == true)
                 $post['room_smoker_' . $a] = 1;
+            if ($post['room_active_' . $a] == true)
+                $post['room_active_' . $a] = 1;
         }
 
         $post['edit_ownership'] = TRUE;

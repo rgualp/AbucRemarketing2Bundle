@@ -1,10 +1,10 @@
 {% extends 'frontEndBundle:layout:base.html.twig' %}
 {% block title %}
-{{"SEARCH_RESULTS_PAGE_TITLE" | trans}}
+    {{"SEARCH_RESULTS_PAGE_TITLE" | trans}}
 {% endblock %}
 {% set main_tab = 5 %}
 {% block content_nav_top_body %}
-{{"SEARCH_DESCRIPTION_MAIN_MENU" | trans}}
+    {{"SEARCH_DESCRIPTION_MAIN_MENU" | trans}}
 {% endblock %}
 {% block breadcrumbs %}
     <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
@@ -12,96 +12,96 @@
     <a href="#" class="active" title="{{"OWNERSHIPS" | trans}}">{{"OWNERSHIPS" | trans}}</a>
 {% endblock %}
 {% block body %}
-<div  class="container">
-    <div class="row">
-        <div class="col-sm-3">
-            {%if view_results != 'MAP'%}
-            <div class="thumbnail" id="map" style="width:100%;height:150px;" class="google-maps"></div>
-        {%endif%}
-            <div  id="json_source" data-url="{{path("frontend_map_markers_ownership_callback")}}"
-                 data-icon-small="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_small.png') }}"
-                 data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"></div>
-            {{ include('frontEndBundle:ownership:verticalSearcherOwnership.html.twig',
-            {'is_within_search_results':true, 
-             'autocomplete_text_list': autocomplete_text_list,
-             'locale': locale})}}
-            <div class="filter">            
-                <div id="filters" data-url-filter="{{ path('frontend_filter_ownership_callback') }}" data-url-statistics="{{ path('frontend_filter_statistics_ownership_callback') }}">
-                {%if check_filters is defined%}
-                {{ include('frontEndBundle:ownership:filters.html.twig', 
-                {'own_statistics': own_statistics,'check_filters': check_filters}) }} 
-                {%else%}
-                {{ include('frontEndBundle:ownership:filters.html.twig', 
-                {'own_statistics': own_statistics}) }} 
+    <div  class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                {%if view_results != 'MAP'%}
+                    <div class="thumbnail" id="map" style="width:100%;height:150px;" class="google-maps"></div>
                 {%endif%}
+                <div  id="json_source" data-url="{{path("frontend_map_markers_ownership_callback")}}"
+                      data-icon-small="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_small.png') }}"
+                      data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"></div>
+                {{ include('frontEndBundle:ownership:verticalSearcherOwnership.html.twig',
+                {'is_within_search_results':true,
+                'autocomplete_text_list': autocomplete_text_list,
+                'locale': locale})}}
+                <div class="filter">
+                    <div id="filters" data-url-filter="{{ path('frontend_filter_ownership_callback') }}" data-url-statistics="{{ path('frontend_filter_statistics_ownership_callback') }}">
+                        {%if check_filters is defined%}
+                            {{ include('frontEndBundle:ownership:filters.html.twig',
+                            {'own_statistics': own_statistics,'check_filters': check_filters}) }}
+                        {%else%}
+                            {{ include('frontEndBundle:ownership:filters.html.twig',
+                            {'own_statistics': own_statistics}) }}
+                        {%endif%}
                     </div>
                 </div>
-            
-        </div>
-        <div class="col-sm-9">
-            <div id="loading" class="hidden">
-                <div class="layer-loading"></div>
-                <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}"/></div>
+
             </div>
+            <div class="col-sm-9">
+                <div id="loading" class="hidden">
+                    <div class="layer-loading"></div>
+                    <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}"/></div>
+                </div>
                 <div id="filter_upper">
                     {%if check_filters is defined and check_filters | length%}
-                        
+
                     {%endif%}
                 </div>
                 <div class="bg-solid-blue-bar" style="margin-top: 0">
-                <div class="row">
-                    <div class="col-xs-5">
-                        <select class="form-control" id="select_change_order" data-url="{{ path('frontend_order_search_results_ownership_callback') }}">
-                            <option value="PRICE_LOW_HIGH" {%if app.session.get("search_order") == 'PRICE_LOW_HIGH'%}selected="selected"{%endif%}>{{"PRICE_LOW_HIGH_ORDER_BY" | trans}}</option>
-                            <option value="PRICE_HIGH_LOW" {%if app.session.get("search_order") == 'PRICE_HIGH_LOW'%}selected="selected"{%endif%}>{{"PRICE_HIGH_LOW_ORDER_BY" | trans}}</option>
-                            <option value="BEST_VALUED" {%if app.session.get("search_order") == 'BEST_VALUED'%}selected="selected"{%endif%}>{{"BEST_VALUED_ORDER_BY" | trans}}</option>
-                            <option value="WORST_VALUED" {%if app.session.get("search_order") == 'WORST_VALUED'%}selected="selected"{%endif%}>{{"WORST_VALUED_ORDER_BY" | trans}}</option>
-                            <option value="A_Z" {%if app.session.get("search_order") == 'A_Z'%}selected="selected"{%endif%}>{{"A_Z_ORDER_BY" | trans}}</option>
-                            <option value="Z_A" {%if app.session.get("search_order") == 'Z_A'%}selected="selected"{%endif%}>{{"Z_A_ORDER_BY" | trans}}</option>                            
-                            <option value="RESERVATIONS_HIGH_LOW" {%if app.session.get("search_order") == 'RESERVATIONS_HIGH_LOW'%}selected="selected"{%endif%}>{{"RESERVATIONS_HIGH_LOW_ORDERBY" | trans}}</option>
-                            <option value="RESERVATIONS_LOW_HIGH" {%if app.session.get("search_order") == 'RESERVATIONS_LOW_HIGH'%}selected="selected"{%endif%}>{{"RESERVATIONS_LOW_HIGH_ORDERBY" | trans}}</option>
-                        </select>
-                    </div>
-                    <div class="col-xs-7 text-right">
-                        <a href="#" id="change_view_to_list" data-url="{{path('frontend_change_view_ownership_callback')}}" rel="tooltip" data-placement="top" title="{{'LIST_VIEW' | trans}}"><img src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon three-lines2-icon"></a>
-                        <a href="#" id="change_view_to_photo" data-url="{{path('frontend_change_view_ownership_callback')}}" rel="tooltip" data-placement="top" title="{{'MOISAIC_VIEW' | trans}}"><img src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon cam-icon"></a>
-                        <a href="#" id="change_view_to_map" data-url="{{path('frontend_change_view_ownership_callback')}}" rel="tooltip" data-placement="top" title="{{'MAP_VIEW' | trans}}"><img src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon point-icon"></a>
+                    <div class="row">
+                        <div class="col-xs-5">
+                            <select class="form-control" id="select_change_order" data-url="{{ path('frontend_order_search_results_ownership_callback') }}">
+                                <option value="PRICE_LOW_HIGH" {%if app.session.get("search_order") == 'PRICE_LOW_HIGH'%}selected="selected"{%endif%}>{{"PRICE_LOW_HIGH_ORDER_BY" | trans}}</option>
+                                <option value="PRICE_HIGH_LOW" {%if app.session.get("search_order") == 'PRICE_HIGH_LOW'%}selected="selected"{%endif%}>{{"PRICE_HIGH_LOW_ORDER_BY" | trans}}</option>
+                                <option value="BEST_VALUED" {%if app.session.get("search_order") == 'BEST_VALUED'%}selected="selected"{%endif%}>{{"BEST_VALUED_ORDER_BY" | trans}}</option>
+                                <option value="WORST_VALUED" {%if app.session.get("search_order") == 'WORST_VALUED'%}selected="selected"{%endif%}>{{"WORST_VALUED_ORDER_BY" | trans}}</option>
+                                <option value="A_Z" {%if app.session.get("search_order") == 'A_Z'%}selected="selected"{%endif%}>{{"A_Z_ORDER_BY" | trans}}</option>
+                                <option value="Z_A" {%if app.session.get("search_order") == 'Z_A'%}selected="selected"{%endif%}>{{"Z_A_ORDER_BY" | trans}}</option>
+                                <option value="RESERVATIONS_HIGH_LOW" {%if app.session.get("search_order") == 'RESERVATIONS_HIGH_LOW'%}selected="selected"{%endif%}>{{"RESERVATIONS_HIGH_LOW_ORDERBY" | trans}}</option>
+                                <option value="RESERVATIONS_LOW_HIGH" {%if app.session.get("search_order") == 'RESERVATIONS_LOW_HIGH'%}selected="selected"{%endif%}>{{"RESERVATIONS_LOW_HIGH_ORDERBY" | trans}}</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-7 text-right">
+                            <a href="#" id="change_view_to_list" data-url="{{path('frontend_change_view_ownership_callback')}}" rel="tooltip" data-placement="top" title="{{'LIST_VIEW' | trans}}"><img src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon three-lines2-icon"></a>
+                            <a href="#" id="change_view_to_photo" data-url="{{path('frontend_change_view_ownership_callback')}}" rel="tooltip" data-placement="top" title="{{'MOISAIC_VIEW' | trans}}"><img src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon cam-icon"></a>
+                            <a href="#" id="change_view_to_map" data-url="{{path('frontend_change_view_ownership_callback')}}" rel="tooltip" data-placement="top" title="{{'MAP_VIEW' | trans}}"><img src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon point-icon"></a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div>
-                <div class="houses-list thumbs-houses lazy-cont" id="div_result">
-                    {%if view_results == 'LIST'%}
-                        {{ include('frontEndBundle:ownership:searchListOwnership.html.twig', 
-                        {'list': list,
-                         'list_preffix': 'list'
-                         }) }}     
-                    {%else%}
-                        {%if view_results == 'PHOTOS'%}
-                             {{ include('frontEndBundle:ownership:searchMosaicOwnership.html.twig', 
-                                {'list': list,
-                                 'list_preffix': 'mosaic'
-                             }) }}    
+                <div>
+                    <div class="houses-list thumbs-houses lazy-cont" id="div_result">
+                        {%if view_results == 'LIST'%}
+                            {{ include('frontEndBundle:ownership:searchListOwnership.html.twig',
+                            {'list': list,
+                            'list_preffix': 'list'
+                            }) }}
                         {%else%}
-                          {%if view_results == 'MAP'%}
-                             {{ include('frontEndBundle:ownership:searchMapOwnership.html.twig', 
+                            {%if view_results == 'PHOTOS'%}
+                                {{ include('frontEndBundle:ownership:searchMosaicOwnership.html.twig',
                                 {'list': list,
-                                 'list_preffix': 'map',
-                                 'show_paginator': true
-                              }) }}     
-                          {%endif%}
+                                'list_preffix': 'mosaic'
+                                }) }}
+                            {%else%}
+                                {%if view_results == 'MAP'%}
+                                    {{ include('frontEndBundle:ownership:searchMapOwnership.html.twig',
+                                    {'list': list,
+                                    'list_preffix': 'map',
+                                    'show_paginator': true
+                                    }) }}
+                                {%endif%}
+                            {%endif%}
                         {%endif%}
-                    {%endif%}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-{% block include_javascripts %}
-<script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
-<script src="{{ asset('bundles/frontend/js/jquery.ui.map.js') }}"></script>
-<script src="{{ asset('bundles/frontend/js/jquery.ui.map.infobox.js') }}"></script>
-<script src="{{ asset('bundles/frontend/js/jquery.ui.map.markerclusterer.js') }}"></script>
-<script src="{{ asset('bundles/frontend/js/ownership.min.js') }}"></script>
-{% endblock %}
+    {% block include_javascripts %}
+        <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
+        <script src="{{ asset('bundles/frontend/js/jquery.ui.map.js') }}"></script>
+        <script src="{{ asset('bundles/frontend/js/jquery.ui.map.infobox.js') }}"></script>
+        <script src="{{ asset('bundles/frontend/js/jquery.ui.map.markerclusterer.js') }}"></script>
+        <script src="{{ asset('bundles/frontend/js/ownership.min.js') }}"></script>
+    {% endblock %}
 {% endblock %}

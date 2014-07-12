@@ -4,12 +4,12 @@
 
 {% extends 'frontEndBundle:layout:base.html.twig' %}
 {% block metas %}
-<meta name="description" content="{{ownership.owntype  | trans}} {{"IN" | trans}} {{ownership.ownAddressProvince}}: {{ownership.ownname}} ({{ ownership.mycpcode }}).
+    <meta name="description" content="{{ownership.owntype  | trans}} {{"IN" | trans}} {{ownership.ownAddressProvince}}: {{ownership.ownname}} ({{ ownership.mycpcode }}).
                 {%if rooms is defined and rooms | length%}
                     {{rooms | length}} {%if rooms | length == 1%} {{"ROOM_SINGULAR" | trans}} {%else%} {{"ROOM_PLURAL" | trans}} {%endif%}.
                 {%endif%}
                 {{"FROM_PRICES" | trans}} {{ownership.ownminimumprice | price}} {{"NIGHT_PER_ROOM" | trans}}">
-<meta name="keywords" content="{{ ownership.owntype }} {{ownership.owntype | trans}} {{ownership.ownaddressmunicipality}} {{ownership.ownAddressProvince}} Cuba {{ownership.ownname}}">
+    <meta name="keywords" content="{{ ownership.owntype }} {{ownership.owntype | trans}} {{ownership.ownaddressmunicipality}} {{ownership.ownAddressProvince}} Cuba {{ownership.ownname}}">
 
 {% endblock %}
 
@@ -641,21 +641,21 @@
                     fields_dates.attr('disabled','true');
                     if(own_id)
                     {
-                    $.ajax({
-                        url: "{{ path('frontend_get_reservation_calendar_ownership_callback') }}",
-                        data: {from: from, to: to, own_id: own_id}
+                        $.ajax({
+                            url: "{{ path('frontend_get_reservation_calendar_ownership_callback') }}",
+                            data: {from: from, to: to, own_id: own_id}
 
-                    }).done(function(resp) {
-                                element.removeAttr('class');
-                                element.html(resp);
-                                from = from.replace('/', '&');
-                                from = from.replace('/', '&');
-                                to = to.replace('/', '&');
-                                to = to.replace('/', '&');
-                                $('#data_reservation').attr('from_date', from);
-                                $('#data_reservation').attr('to_date', to);
-                                fields_dates.removeAttr('disabled');
-                            });
+                        }).done(function(resp) {
+                            element.removeAttr('class');
+                            element.html(resp);
+                            from = from.replace('/', '&');
+                            from = from.replace('/', '&');
+                            to = to.replace('/', '&');
+                            to = to.replace('/', '&');
+                            $('#data_reservation').attr('from_date', from);
+                            $('#data_reservation').attr('to_date', to);
+                            fields_dates.removeAttr('disabled');
+                        });
                     }
                 }
 

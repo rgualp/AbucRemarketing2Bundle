@@ -97,6 +97,13 @@ class room {
     /**
      * @var boolean
      *
+     * @ORM\Column(name="room_active", type="boolean")
+     */
+    private $room_active;
+
+    /**
+     * @var boolean
+     *
      * @ORM\Column(name="room_safe", type="boolean")
      */
     private $room_safe;
@@ -175,12 +182,12 @@ class room {
     /**
      * Get room_id
      *
-     * @return integer 
+     * @return integer
      */
     public function getRoomId() {
         return $this->room_id;
     }
-    
+
     public function getRoomNum() {
         return $this->room_num;
     }
@@ -188,7 +195,7 @@ class room {
     public function setRoomNum($room_num) {
         $this->room_num = $room_num;
     }
-    
+
     /**
      * Set room_type
      *
@@ -204,7 +211,7 @@ class room {
     /**
      * Get room_type
      *
-     * @return string 
+     * @return string
      */
     public function getRoomType() {
         return $this->room_type;
@@ -225,7 +232,7 @@ class room {
     /**
      * Get room_beds
      *
-     * @return integer 
+     * @return integer
      */
     public function getRoomBeds() {
         return $this->room_beds;
@@ -246,7 +253,7 @@ class room {
     /**
      * Get room_price_up_from
      *
-     * @return string 
+     * @return string
      */
     public function getRoomPriceUpFrom() {
         return $this->room_price_up_from;
@@ -267,7 +274,7 @@ class room {
     /**
      * Get room_price_up_to
      *
-     * @return string 
+     * @return string
      */
     public function getRoomPriceUpTo() {
         return $this->room_price_up_to;
@@ -288,7 +295,7 @@ class room {
     /**
      * Get room_price_down_from
      *
-     * @return string 
+     * @return string
      */
     public function getRoomPriceDownFrom() {
         return $this->room_price_down_from;
@@ -309,7 +316,7 @@ class room {
     /**
      * Get room_price_down_to
      *
-     * @return string 
+     * @return string
      */
     public function getRoomPriceDownTo() {
         return $this->room_price_down_to;
@@ -330,7 +337,7 @@ class room {
     /**
      * Get room_climate
      *
-     * @return string 
+     * @return string
      */
     public function getRoomClimate() {
         return $this->room_climate;
@@ -351,7 +358,7 @@ class room {
     /**
      * Get room_audiovisual
      *
-     * @return string 
+     * @return string
      */
     public function getRoomAudiovisual() {
         return $this->room_audiovisual;
@@ -372,10 +379,31 @@ class room {
     /**
      * Get room_smoker
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getRoomSmoker() {
         return $this->room_smoker;
+    }
+
+    /**
+     * Set room_active
+     *
+     * @param boolean $roomActive
+     * @return room
+     */
+    public function setRoomActive($roomActive) {
+        $this->room_active = $roomActive;
+
+        return $this;
+    }
+
+    /**
+     * Get room_active
+     *
+     * @return boolean
+     */
+    public function getRoomActive() {
+        return $this->room_active;
     }
 
     /**
@@ -393,7 +421,7 @@ class room {
     /**
      * Get room_safe
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getRoomSafe() {
         return $this->room_safe;
@@ -414,7 +442,7 @@ class room {
     /**
      * Get room_baby
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getRoomBaby() {
         return $this->room_baby;
@@ -435,7 +463,7 @@ class room {
     /**
      * Get room_bathroom
      *
-     * @return string 
+     * @return string
      */
     public function getRoomBathroom() {
         return $this->room_bathroom;
@@ -456,7 +484,7 @@ class room {
     /**
      * Get room_stereo
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getRoomStereo() {
         return $this->room_stereo;
@@ -477,7 +505,7 @@ class room {
     /**
      * Get room_windows
      *
-     * @return integer 
+     * @return integer
      */
     public function getRoomWindows() {
         return $this->room_windows;
@@ -498,7 +526,7 @@ class room {
     /**
      * Get room_balcony
      *
-     * @return integer 
+     * @return integer
      */
     public function getRoomBalcony() {
         return $this->room_balcony;
@@ -519,7 +547,7 @@ class room {
     /**
      * Get room_terrace
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getRoomTerrace() {
         return $this->room_terrace;
@@ -540,7 +568,7 @@ class room {
     /**
      * Get room_yard
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getRoomYard() {
         return $this->room_yard;
@@ -561,7 +589,7 @@ class room {
     /**
      * Get room_ownership
      *
-     * @return \MyCp\mycpBundle\Entity\ownership 
+     * @return \MyCp\mycpBundle\Entity\ownership
      */
     public function getRoomOwnership() {
         return $this->room_ownership;
@@ -620,7 +648,7 @@ class room {
     /**
      * Get room_sync_st
      *
-     * @return integer 
+     * @return integer
      */
     public function getRoomSyncSt()
     {
@@ -653,7 +681,7 @@ class room {
     /**
      * Get own_unavailability_details
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getOwnUnavailabilityDetails()
     {
