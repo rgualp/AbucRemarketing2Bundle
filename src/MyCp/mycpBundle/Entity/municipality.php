@@ -22,7 +22,7 @@ class municipality
     private $mun_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="province", inversedBy="provinces")
+     * @ORM\ManyToOne(targetEntity="province", inversedBy="prov_municipalities")
      * @ORM\JoinColumn(name="mun_prov_id", referencedColumnName="prov_id")
      * @return integer
      */
@@ -34,8 +34,8 @@ class municipality
      * @ORM\Column(name="mun_name", type="string", length=255)
      */
     private $mun_name;
-
-
+    
+        
     /**
      * Get mun_id
      *
@@ -45,6 +45,7 @@ class municipality
     {
         return $this->mun_id;
     }
+    
 
     /**
      * Set mun_name

@@ -49,9 +49,24 @@ class lang
     private $lang_active;
 
     /**
-     * @ORM\OneToMany(targetEntity="destinationLang",mappedBy="langs")
+     * @ORM\OneToMany(targetEntity="destinationLang",mappedBy="des_lang_lang")
      */
     private $destinationsLang;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="ownershipDescriptionLang",mappedBy="odl_id_lang")
+     */
+    private $odl_langs;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="metaLang",mappedBy="meta_lang_lang")
+     */
+    private $lang_metas;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="destinationCategoryLang",mappedBy="des_cat_id_lang")
+     */
+    private $lang_destination_categories;
    
     /**
      * Constructor
@@ -59,6 +74,9 @@ class lang
     public function __construct()
     {
         $this->destinationsLang = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->odl_langs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->lang_metas = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->lang_destination_categories = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
@@ -70,7 +88,22 @@ class lang
     {
         return $this->lang_id;
     }
-
+    
+    public function getOwnershipDescriptionLangs()
+    {
+        return $this->odl_langs;
+    }
+    
+    public function getLangMetas()
+    {
+        return $this->lang_metas;
+    }
+    
+    public function getLangDestinationCategories()
+    {
+        return $this->lang_destination_categories;
+    }
+    
     /**
      * Set lang_name
      *

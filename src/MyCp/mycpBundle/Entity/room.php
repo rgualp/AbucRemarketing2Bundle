@@ -157,7 +157,7 @@ class room {
     private $room_sync_st;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ownership",inversedBy="roomOwnership")
+     * @ORM\ManyToOne(targetEntity="ownership",inversedBy="own_rooms")
      * @ORM\JoinColumn(name="room_ownership",referencedColumnName="own_id")
      */
     private $room_ownership;

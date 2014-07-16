@@ -37,7 +37,7 @@ class metaLang
     private $meta_lang_keywords;
 
     /**
-     * @ORM\ManyToOne(targetEntity="lang",inversedBy="metaLang")
+     * @ORM\ManyToOne(targetEntity="lang",inversedBy="lang_metas")
      * @ORM\JoinColumn(name="meta_lang_lang_id",referencedColumnName="lang_id")
      */
     private $meta_lang_lang;

@@ -56,9 +56,18 @@ class booking
      */
     private $booking_user_id;
 
-   
+    /**
+     * @ORM\OneToMany(targetEntity="ownershipReservation",mappedBy="own_res_reservation_booking")
+     */
+    private $booking_own_reservations;
 
-    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->booking_own_reservations = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get booking_id
@@ -68,6 +77,10 @@ class booking
     public function getBookingId()
     {
         return $this->booking_id;
+    }
+    
+    public function getBookingOwnReservations(){
+        return $this->booking_own_reservations;
     }
 
     /**

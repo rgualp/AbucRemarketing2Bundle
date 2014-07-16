@@ -88,7 +88,7 @@ class user implements UserInterface,  \Serializable
     private $user_newsletters;
 
     /**
-     * @ORM\ManyToOne(targetEntity="country",inversedBy="userCountry")
+     * @ORM\ManyToOne(targetEntity="country",inversedBy="users")
      * @ORM\JoinColumn(name="user_country",referencedColumnName="co_id")
      */
     private $user_country;

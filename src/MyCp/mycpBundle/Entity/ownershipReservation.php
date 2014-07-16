@@ -24,7 +24,7 @@ class ownershipReservation {
     private $own_res_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="generalReservation",inversedBy="ownResGeneralReservation")
+     * @ORM\ManyToOne(targetEntity="generalReservation",inversedBy="own_reservations")
      * @ORM\JoinColumn(name="own_res_gen_res_id",referencedColumnName="gen_res_id")
      */
     private $own_res_gen_res_id;
@@ -86,7 +86,7 @@ class ownershipReservation {
     private $own_res_reservation_to_date;
 
     /**
-     * @ORM\ManyToOne(targetEntity="booking",inversedBy="ownResBooking")
+     * @ORM\ManyToOne(targetEntity="booking",inversedBy="booking_own_reservations")
      * @ORM\JoinColumn(name="own_res_reservation_booking",referencedColumnName="booking_id", nullable=true)
      */
     private $own_res_reservation_booking;

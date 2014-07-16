@@ -22,7 +22,7 @@ class destinationCategoryLang
     private $des_cat_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="lang",inversedBy="desCatLang")
+     * @ORM\ManyToOne(targetEntity="lang",inversedBy="lang_destination_categories")
      * @ORM\JoinColumn(name="des_cat_id_lang",referencedColumnName="lang_id")
      */
     private $des_cat_id_lang;

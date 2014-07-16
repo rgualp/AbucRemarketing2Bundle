@@ -80,7 +80,7 @@ class generalReservation {
     private $gen_res_to_date;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ownership",inversedBy="genResOwnership")
+     * @ORM\ManyToOne(targetEntity="ownership",inversedBy="own_general_reservations")
      * @ORM\JoinColumn(name="gen_res_own_id",referencedColumnName="own_id")
      */
     private $gen_res_own_id;
@@ -117,6 +117,7 @@ class generalReservation {
      */
     public function __construct() {
         $this->gen_res_sync_st = SyncStatuses::ADDED;
+        $this->own_reservations = new ArrayCollection();
     }
     
     /**

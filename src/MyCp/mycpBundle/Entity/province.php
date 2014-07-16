@@ -41,7 +41,19 @@ class province
      * @ORM\Column(name="prov_code", type="string", length=5, nullable=true)
      */
     private $prov_code;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="municipality",mappedBy="mun_prov_id")
+     */
+    private $prov_municipalities;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->prov_municipalities = new \Doctrine\Common\Collections\ArrayCollection();
+    }    
 
     /**
      * Get prov_id
@@ -51,6 +63,11 @@ class province
     public function getProvId()
     {
         return $this->prov_id;
+    }
+    
+    public function getProvMunicipalities()
+    {
+        return $this->prov_municipalities;
     }
 
     /**

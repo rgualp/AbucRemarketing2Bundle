@@ -34,8 +34,21 @@ class country
      * @ORM\Column(name="co_name", type="string", length=255)
      */
     private $co_name;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="user", mappedBy="user_country")
+     */
+    private $users;
 
 
+    public function __construct() {
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    public function getUsers(){
+        return $this->users;
+    }
+    
     /**
      * Get co_id
      *

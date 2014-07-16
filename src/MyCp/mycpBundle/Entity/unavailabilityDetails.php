@@ -51,7 +51,7 @@ class unavailabilityDetails {
     private $ud_sync_st;
 
     /**
-     * @ORM\ManyToOne(targetEntity="room")
+     * @ORM\ManyToOne(targetEntity="room", inversedBy="own_unavailability_details")
      * @ORM\JoinColumn(name="room_id",referencedColumnName="room_id")
      */
     private $room;

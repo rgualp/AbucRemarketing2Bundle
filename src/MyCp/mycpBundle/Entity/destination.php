@@ -49,14 +49,9 @@ class destination {
      */
     private $destinationsLang;
 
-    /**
-     * @ORM\OneToMany(targetEntity="municipality",mappedBy="destinationsMunicipalities")
-     */
+    
     private $destinationsMunicipality;
 
-    /**
-     * @ORM\OneToMany(targetEntity="photo",mappedBy="destination")
-     */
     private $destinationsPhoto;
 
     /**

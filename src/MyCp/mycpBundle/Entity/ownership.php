@@ -357,12 +357,24 @@ class ownership {
      * @ORM\Column(name="own_sync_st", type="integer")
      */
     private $own_sync_st;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="ownershipDescriptionLang",mappedBy="odl_ownership")
+     */
+    private $own_description_langs;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="generalReservation",mappedBy="gen_res_own_id")
+     */
+    private $own_general_reservations;
 
     /**
      * Constructor
      */
     public function __construct() {
         $this->own_rooms = new ArrayCollection();
+        $this->own_description_langs = new ArrayCollection();
+        $this->own_general_reservations = new ArrayCollection();
         $this->own_sync_st = SyncStatuses::ADDED;
     }
 
@@ -373,6 +385,16 @@ class ownership {
      */
     public function getOwnId() {
         return $this->own_id;
+    }
+    
+    public function getOwnDescriptionLangs()
+    {
+        return $this->own_description_langs;
+    }
+    
+    public function getOwnGeneralReservations()
+    {
+        return $this->own_general_reservations;
     }
 
     /**
