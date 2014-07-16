@@ -813,23 +813,24 @@ class ownershipRepository extends EntityRepository {
 
                 if ($arrivalDate != null || $leavingDate != null) {
 
-                    $query_string = "SELECT r FROM mycpBundle:generalReservation r WHERE
-                                r.gen_res_own_id =" . $results[$i]['own_id'];
+                    $query_string = "SELECT or FROM mycpBundle:ownerhipReservation or
+                                JOIN or.own_res_gen_res_id r
+                                WHERE r.gen_res_own_id =" . $results[$i]['own_id'];
                     $dates_where = "";
 
                     if ($arrivalDate != null) {
                         $dates_where .= ($dates_where != '') ? " OR " : "";
-                        $dates_where .= "(r.gen_res_from_date <= :arrival_date AND r.gen_res_to_date >= :arrival_date)";
+                        $dates_where .= "(or.own_res_reservation_from_date <= :arrival_date AND r.own_res_reservation_to_date >= :arrival_date)";
                     }
 
                     if ($leavingDate != null) {
                         $dates_where .= ($dates_where != '') ? " OR " : "";
-                        $dates_where .= "(r.gen_res_from_date <= :leaving_date AND r.gen_res_to_date >= :leaving_date)";
+                        $dates_where .= "(r.own_res_reservation_from_date <= :leaving_date AND r.own_res_reservation_to_date >= :leaving_date)";
                     }
 
                     if ($arrivalDate != null && $leavingDate != null) {
                         $dates_where .= ($dates_where != '') ? " OR " : "";
-                        $dates_where .= "(r.gen_res_from_date >= :arrival_date AND r.gen_res_to_date <= :leaving_date)";
+                        $dates_where .= "(r.own_res_reservation_from_date >= :arrival_date AND r.own_res_reservation_to_date <= :leaving_date)";
                     }
 
 
