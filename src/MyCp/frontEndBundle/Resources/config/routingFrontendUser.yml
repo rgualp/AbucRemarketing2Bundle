@@ -1,35 +1,35 @@
 frontend_register_user:
     locales:  { en: "/register-user/", es: "/registrar-usuario/", de: "/benutzer-login/" }
-    defaults: { _controller: frontEndBundle:user:register }
+    defaults: { _controller: FrontEndBundle:user:register }
 
 frontend_enable_user:
     locales:  { en: "/activate-user/{string}", es: "/activar-usuario/{string}", de: "/benutzer-aktivieren/{string}"  }
-    defaults: { _controller: frontEndBundle:user:enable }
+    defaults: { _controller: FrontEndBundle:user:enable }
     requirements:
         string: .+
 
 frontend_restore_password_user:
     locales:  { en: "/restore-password/", es: "/restaurar-clave/", de: "/passwort-wiederherstellen/" }
-    defaults: { _controller: frontEndBundle:user:restore_password }
+    defaults: { _controller: FrontEndBundle:user:restore_password }
 
 frontend_change_password_user:
     locales:  { en: "/change-password/{string}", es: "/cambiar-clave/{string}", de: "/passwort-aendern/{string}" }
-    defaults: { _controller: frontEndBundle:user:change_password }
+    defaults: { _controller: FrontEndBundle:user:change_password }
 
 frontend_register_confirmation_user:
     pattern:  /register-confirmation/
     locales:  { en: "/confirmation_of_registration/", es: "/confirmacion_de_registro/", de: "/anmeldungsbestaetigung/" }
-    defaults: { _controller: frontEndBundle:user:register_user_confirmation }
+    defaults: { _controller: FrontEndBundle:user:register_user_confirmation }
 
 frontend_contact_user:
     locales:  { en: "/contact/", es: "/contacto/", de: "/kontakt/" }
-    defaults: { _controller: frontEndBundle:user:contact }
+    defaults: { _controller: FrontEndBundle:user:contact }
 
 frontend_profile_user:
     locales:  { en: "/profile/", es: "/perfil/", de: "/profil/" }
-    defaults: { _controller: frontEndBundle:user:profile }
+    defaults: { _controller: FrontEndBundle:user:profile }
 
 frontend_change_password_start_user:
     locales:  { en: "/user/change-password/", es: "/usuario/cambiar-clave/", de: "/benutzer/passwort-aendern/" }
-    defaults: { _controller: frontEndBundle:user:change_password_start }
+    defaults: { _controller: FrontEndBundle:user:change_password_start }
 

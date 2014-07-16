@@ -1,6 +1,6 @@
 <?php
 
-namespace MyCp\frontEndBundle\Controller;
+namespace MyCp\FrontEndBundle\Controller;
 
 use BeSimple\I18nRoutingBundle\Tests\Routing\RouterTest;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +12,7 @@ class languageController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $languages = $em->getRepository('mycpBundle:lang')->findBy(array('lang_active' => 1), array('lang_name' => 'ASC'));
-        return $this->render('frontEndBundle:language:languages.html.twig', array('languages' => $languages));
+        return $this->render('FrontEndBundle:language:languages.html.twig', array('languages' => $languages));
     }
 
     public function changeAction($lang) {

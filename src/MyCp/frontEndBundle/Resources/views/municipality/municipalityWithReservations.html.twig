@@ -1,4 +1,4 @@
-{% extends 'frontEndBundle:layout:base.html.twig' %}
+{% extends 'FrontEndBundle:layout:base.html.twig' %}
 {% block title %}
 {{"MOST_VISITED_CITIES"  | trans }}
 {% endblock %}
@@ -49,7 +49,7 @@
         {%endif%}
                         </div>
             {%if item['des_total'] > 0%}
-                        <div class="col-sm-4 link_list">    
+                        <div class="col-sm-4 link_list">
                             <div>{{"DESTINATIONS" | trans}} ({{"TOTAL" | trans}}: {{item.des_total}})</div>
         {%set des_count = 1%}
         {%for des in item.des_list%}
@@ -61,7 +61,7 @@
                     </div>
                 </div>
             </div>
-            <hr/>      
+            <hr/>
 {%else%}
            <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
 {%endfor%}

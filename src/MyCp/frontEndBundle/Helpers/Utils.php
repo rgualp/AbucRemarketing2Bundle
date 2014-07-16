@@ -4,7 +4,7 @@
  *
  * @author DarthDaniel
  */
-namespace MyCp\frontEndBundle\Helpers;
+namespace MyCp\FrontEndBundle\Helpers;
 use Doctrine\Common\Util\Debug;
 
 class Utils {
@@ -37,9 +37,9 @@ class Utils {
 
         return $furl;
     }
-    
+
     public static function get_text_from_normalized($text)
-    {        
+    {
         $furl=str_replace("-", " ", $text);
         $furl=str_replace("  ", "-", $furl);
 

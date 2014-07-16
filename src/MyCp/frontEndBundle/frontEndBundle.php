@@ -1,9 +1,9 @@
 <?php
 
-namespace MyCp\frontEndBundle;
+namespace MyCp\FrontEndBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class frontEndBundle extends Bundle
+class FrontEndBundle extends Bundle
 {
 }

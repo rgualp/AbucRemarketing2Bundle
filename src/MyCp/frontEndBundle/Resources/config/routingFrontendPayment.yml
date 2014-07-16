@@ -1,32 +1,32 @@
 frontend_payment_poll_payment:
     pattern:  /payment/poll-payment/{bookingId}
-    defaults: { _controller: frontEndBundle:payment:pollPayment, bookingId: 0 }
+    defaults: { _controller: FrontEndBundle:payment:pollPayment, bookingId: 0 }
 
 frontend_payment_skrill:
     pattern:  /payment/skrill-payment/{bookingId}
-    defaults: { _controller: frontEndBundle:payment:skrillPayment, bookingId: 0}
+    defaults: { _controller: FrontEndBundle:payment:skrillPayment, bookingId: 0}
 
 frontend_payment_skrill_return:
     pattern:  /payment/skrill-return/{bookingId}
-    defaults: { _controller: frontEndBundle:payment:skrillReturn, bookingId: 0}
+    defaults: { _controller: FrontEndBundle:payment:skrillReturn, bookingId: 0}
 
 frontend_payment_skrill_cancel:
     pattern:  /payment/skrill-cancel
-    defaults: { _controller: frontEndBundle:payment:skrillCancel }
+    defaults: { _controller: FrontEndBundle:payment:skrillCancel }
 
 frontend_payment_skrill_status:
     pattern:  /skrill/status
-    defaults: { _controller: frontEndBundle:payment:skrillStatus }
+    defaults: { _controller: FrontEndBundle:payment:skrillStatus }
 
 frontend_payment_skrill_test_response:
     pattern:  /payment/skrill-test-response/{status}
-    defaults: { _controller: frontEndBundle:payment:skrillTestResponse, status: 'no status' }
+    defaults: { _controller: FrontEndBundle:payment:skrillTestResponse, status: 'no status' }
 
 frontend_payment_skrill_test_status:
     pattern:  /payment/skrill-test-status/{bookingId}/{status}
-    defaults: { _controller: frontEndBundle:payment:skrillSendTestPostRequest, bookingId: 0, status: 0 }
+    defaults: { _controller: FrontEndBundle:payment:skrillSendTestPostRequest, bookingId: 0, status: 0 }
 
 frontend_payment_skrill_test_payment:
     pattern:  /payment/skrill-test-payment/{bookingId}
-    defaults: { _controller: frontEndBundle:payment:skrillTestPayment, bookingId: 0 }
+    defaults: { _controller: FrontEndBundle:payment:skrillTestPayment, bookingId: 0 }
 

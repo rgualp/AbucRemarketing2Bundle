@@ -23,13 +23,13 @@
                             {%else%}
                                 <img rel="tooltip" title="{{own.ownCategory | trans}}" class="icon icon-3 tiny-economic-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
                             {%endif%}
-                        {%endif%} 
+                        {%endif%}
                     <span>{{own.ownCategory | trans}}</span><br/>
                     <small class="top">{{own.ownAddressProvince}}, {{own.ownAddressMunicipality}}<br/>
-                     {{own.ownType  | trans}} 
+                     {{own.ownType  | trans}}
                      {%if (rooms[own.ownid] != 0) %}
-                        / {{rooms[own.ownid]}} {% if rooms[own.ownid] == 1%} {{"ROOM_SINGULAR" | trans}} 
-                     {%else%} {{"ROOM_PLURAL" | trans}} 
+                        / {{rooms[own.ownid]}} {% if rooms[own.ownid] == 1%} {{"ROOM_SINGULAR" | trans}}
+                     {%else%} {{"ROOM_PLURAL" | trans}}
                      {%endif%}
                      {%endif%}
                      </small>
@@ -45,9 +45,9 @@
                           <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon icon-2 tiny-star-off-icon">
                         {%endfor%}
                     {%endif%}
-                    <small>{{counts[own.ownid][0]["comments"]}} {{"FORMS_COMMENTS" | trans | lower}}</small>                    
+                    <small>{{counts[own.ownid][0]["comments"]}} {{"FORMS_COMMENTS" | trans | lower}}</small>
                     <br/>
-                    <small>{{own.count_reservations}} {{"RESERVATIONS" | trans | lower}}</small>                   
+                    <small>{{own.count_reservations}} {{"RESERVATIONS" | trans | lower}}</small>
                 </td>
                 <td class="text-right">
                     <small>{{"FROM_PRICES" | trans}}:</small><span class="big-price-blue">
@@ -56,13 +56,13 @@
                     <br/>
                     <br/>
                     <br/>
-                        {{ include('frontEndBundle:favorite:itemFavorite.html.twig', 
+                        {{ include('FrontEndBundle:favorite:itemFavorite.html.twig',
                         {'is_in_favorite': is_in_favorities[own.ownid],
                          'favorite_type': 'ownership',
                          'element_id':own.ownid,
                          'list_preffix' : list_preffix,
                          'include_text': true
-                         }) }}  
+                         }) }}
                 </td>
             </tr>
         </table>

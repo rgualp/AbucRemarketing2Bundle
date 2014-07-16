@@ -1,5 +1,5 @@
 parameters:
-#    front_end.example.class: MyCp\frontEndBundle\Example
+#    front_end.example.class: MyCp\FrontEndBundle\Example
 
 services:
 #    front_end.example:

@@ -27,10 +27,10 @@
                         {%endif%}
                     <span>{{own.category | trans}}</span><br/>
                     <small class="top">{{own.prov_name}}, {{own.mun_name}}<br/>
-                     {{own.type  | trans}} 
+                     {{own.type  | trans}}
                      {%if (own.rooms_count != 0) %}
-                            / {{own.rooms_count}} {% if own.rooms_count == 1%} {{"ROOM_SINGULAR" | trans}} 
-                     {%else%} {{"ROOM_PLURAL" | trans}} 
+                            / {{own.rooms_count}} {% if own.rooms_count == 1%} {{"ROOM_SINGULAR" | trans}}
+                     {%else%} {{"ROOM_PLURAL" | trans}}
                      {%endif%}
                      {%endif%}
                         </small>
@@ -47,7 +47,7 @@
                     {%endif%}
                         <small>{{own.comments}} {{"FORMS_COMMENTS" | trans | lower}}</small>
                         <br/>
-                        <small>{{own.count_reservations}} {{"RESERVATIONS" | trans | lower}}</small>  
+                        <small>{{own.count_reservations}} {{"RESERVATIONS" | trans | lower}}</small>
                     </td>
                     <td class="text-right">
                         <small>{{"FROM_PRICES" | trans}}:</small><span class="big-price-blue">
@@ -56,7 +56,7 @@
                             <br/>
                             <br/>
                             <br/>
-                        {{ include('frontEndBundle:favorite:itemFavorite.html.twig', 
+                        {{ include('FrontEndBundle:favorite:itemFavorite.html.twig',
                         {'is_in_favorite': own.is_in_favorites,
                          'favorite_type': 'ownership',
                          'element_id':own.own_id,
@@ -76,7 +76,7 @@
 {%if (show_paginator is defined and show_paginator) and (list | length) and total_items > items_per_page%}
         <div class="text-center">
             {%if in_searcher is defined and in_searcher == 'false' and destination_name is defined%}
-                
+
               {{ simple_paginator_render('frontend_details_destination',null,{
     'container_class': 'pagination',
     'previousPageText': '«',
@@ -95,9 +95,9 @@
     'currentClass': 'current',
     'firstPageText': 'FIRST_PAGE' | trans,
     'lastPageText': 'LAST_PAGE' | trans,
-    'route_params': {'text': app.session.get('search_text'), 
-                     'arrival':app.session.get('search_arrival_date'), 
-                     'departure': app.session.get('search_departure_date'), 
+    'route_params': {'text': app.session.get('search_text'),
+                     'arrival':app.session.get('search_arrival_date'),
+                     'departure': app.session.get('search_departure_date'),
                      'guests': app.session.get('search_guests'),
                      'rooms': app.session.get('search_rooms')}
 }) }}

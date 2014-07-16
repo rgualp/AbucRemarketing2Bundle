@@ -1,6 +1,6 @@
 <?php
 
-namespace MyCp\FrontendBundle\Controller;
+namespace MyCp\FrontEndBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,7 +31,7 @@ class municipalityController extends Controller {
                 $mun_total = $mun_total + 1;
         }
 
-        $response = $this->renderView('frontEndBundle:municipality:municipios_cascade.html.twig', array(
+        $response = $this->renderView('FrontEndBundle:municipality:municipios_cascade.html.twig', array(
             'mun_total' => $mun_total,
             'municipalities' => $municipalities,
             'mun_total_owns' => $mun_total_owns
@@ -60,7 +60,7 @@ class municipalityController extends Controller {
                 $mun_total = $mun_total + 1;
         }
 
-        $response = $this->renderView('frontEndBundle:municipality:municipios_cascade_destination.html.twig', array(
+        $response = $this->renderView('FrontEndBundle:municipality:municipios_cascade_destination.html.twig', array(
             'mun_total' => $mun_total,
             'municipalities' => $municipalities,
             'total_destination_mun' => $total_destination_municipality
@@ -79,7 +79,7 @@ class municipalityController extends Controller {
         if (isset($_GET['page']))
             $page = $_GET['page'];
 
-        return $this->render('frontEndBundle:municipality:municipalityWithReservations.html.twig', array(
+        return $this->render('FrontEndBundle:municipality:municipalityWithReservations.html.twig', array(
                     'list' => $municipalities,
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),

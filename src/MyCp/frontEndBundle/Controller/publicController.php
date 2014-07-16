@@ -1,8 +1,8 @@
 <?php
 
-namespace MyCp\frontEndBundle\Controller;
+namespace MyCp\FrontEndBundle\Controller;
 
-use MyCp\frontEndBundle\Helpers\Utils;
+use MyCp\FrontEndBundle\Helpers\Utils;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\SecurityContext;
@@ -19,7 +19,7 @@ class PublicController extends Controller {
         $lang=$em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code'=>$this->getRequest()->getLocale()));
         $metas=$em->getRepository('mycpBundle:metaLang')->findOneBy(array('meta_lang_lang'=>$lang));
 
-        $response = $this->render('frontEndBundle:public:metas.html.twig', array(
+        $response = $this->render('FrontEndBundle:public:metas.html.twig', array(
             'metas'=>$metas
         ));
 
@@ -50,7 +50,7 @@ class PublicController extends Controller {
         $own_top20_list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->top20($glogal_locale))->getResult();
         $statistics = $em->getRepository("mycpBundle:ownership")->top20_statistics();
 
-        $response = $this->render('frontEndBundle:public:home.html.twig', array(
+        $response = $this->render('FrontEndBundle:public:home.html.twig', array(
             'locale' => $glogal_locale,
             'provinces' => $provinces,
             'slide_folder' => $slide_folder,
@@ -75,7 +75,7 @@ class PublicController extends Controller {
             $session->remove(SecurityContext::AUTHENTICATION_ERROR);
         }
         $request->getSession()->set('services_pre_reservation', $services);
-        return $this->render('frontEndBundle:public:login.html.twig', array(
+        return $this->render('FrontEndBundle:public:login.html.twig', array(
                     'last_username' => $session->get(SecurityContext::LAST_USERNAME),
                     'error' => $error,
         ));
@@ -92,7 +92,7 @@ class PublicController extends Controller {
         $medium_own_list = $em->getRepository('mycpBundle:ownership')->getByCategory('Rango medio', 12,null, $user_ids['user_id'], $user_ids['session_id']);
         $premium_own_list = $em->getRepository('mycpBundle:ownership')->getByCategory('Premium', 12,null, $user_ids['user_id'], $user_ids['session_id']);
 
-        return $this->render('frontEndBundle:public:homeCarousel.html.twig', array(
+        return $this->render('FrontEndBundle:public:homeCarousel.html.twig', array(
                     'popular_places' => $popular_destinations_list,
                     'last_added' => $last_added,
                     'offers' => $offers_list,
@@ -143,7 +143,7 @@ class PublicController extends Controller {
             $for_url[$prov['des_id']] = str_replace("nn", "ñ", $for_url[$prov['des_id']]);
         }
 
-        return $this->render('frontEndBundle:utils:mainMenuDestinationItems.html.twig', array(
+        return $this->render('FrontEndBundle:utils:mainMenuDestinationItems.html.twig', array(
               'destinations'=>$destinations,
               'for_url' => $for_url
         ));
@@ -159,7 +159,7 @@ class PublicController extends Controller {
         foreach ($provinces as $prov)
             $for_url[$prov['prov_id']] = Utils::url_normalize($prov['prov_name']);
 
-        return $this->render('frontEndBundle:utils:mainMenuAccomodationItems.html.twig', array(
+        return $this->render('FrontEndBundle:utils:mainMenuAccomodationItems.html.twig', array(
               'provinces'=>$provinces,
               'for_url' => $for_url
         ));
@@ -171,7 +171,7 @@ class PublicController extends Controller {
         $user = $this->getUser();
         $notifications = ($user != null && $user != "anon.") ? $em->getRepository('mycpBundle:ownershipReservation')->get_for_main_menu($user->getUserId()) : array();
 
-        return $this->render('frontEndBundle:utils:mainMenuMyCasaTripItems.html.twig', array(
+        return $this->render('FrontEndBundle:utils:mainMenuMyCasaTripItems.html.twig', array(
               'notifications'=>($user != null && $user != "anon.") ?$notifications[0]['available']: 0
         ));
     }
@@ -403,7 +403,7 @@ class PublicController extends Controller {
             array_push($url_sites,$url);
         }
 
-        return $this->render('frontEndBundle:public:sitemap.html.twig', array(
+        return $this->render('FrontEndBundle:public:sitemap.html.twig', array(
             'url_sites'=>$url_sites,
             'urls_houses'=>$url_houses,
             'urls_destinations'=>$url_destinations,

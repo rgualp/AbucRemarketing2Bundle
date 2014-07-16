@@ -757,7 +757,7 @@ class BackendReservationController extends Controller
             // Enviando mail al cliente
             $service_email = $this->get('Email');
 
-            $body=$this->render('frontEndBundle:mails:email_offer_available.html.twig',array(
+            $body=$this->render('FrontEndBundle:mails:email_offer_available.html.twig',array(
                 'booking'=>$booking->getBookingId(),
                 'user'=>$user_tourist->getUserTouristUser(),
                 'reservations'=>$own_reservations,
@@ -779,7 +779,7 @@ class BackendReservationController extends Controller
             foreach($array_ownres_by_house as $owns)
             {
 
-                $body_res=$this->render('frontEndBundle:mails:rt_payment_confirmation.html.twig',array(
+                $body_res=$this->render('FrontEndBundle:mails:rt_payment_confirmation.html.twig',array(
                     'user'=>$user_tourist->getUserTouristUser(),
                     'user_tourist'=>$temp_tourist,
                     'reservations'=>$owns,
@@ -795,7 +795,7 @@ class BackendReservationController extends Controller
             // enviando mail al propietario
             foreach($array_ownres_by_house as $owns)
             {
-                $body_prop=$this->render('frontEndBundle:mails:email_house_confirmation.html.twig',array(
+                $body_prop=$this->render('FrontEndBundle:mails:email_house_confirmation.html.twig',array(
                     'user'=>$user_tourist->getUserTouristUser(),
                     'user_tourist'=>$temp_tourist,
                     'reservations'=>$owns,
@@ -1010,7 +1010,7 @@ class BackendReservationController extends Controller
                 array_push($commissions, $commission);
             }
         }
-            return $this->renderView('frontEndBundle:reservation:boucherReservation.html.twig', array(
+            return $this->renderView('FrontEndBundle:reservation:boucherReservation.html.twig', array(
                 'own_res' => $own_res,
                 'user' => $user,
                 'booking' => $booking,

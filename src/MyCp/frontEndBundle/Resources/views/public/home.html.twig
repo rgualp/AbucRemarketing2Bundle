@@ -1,6 +1,6 @@
 {% set main_tab = 1 %}
 {% set is_home = 1 %}
-{% extends 'frontEndBundle:layout:base.html.twig' %}
+{% extends 'FrontEndBundle:layout:base.html.twig' %}
 
 {% block include_javascripts_and_css %}
 <script src="{{ asset('bundles/frontend/js/jquery.royalslider.min.js') }}"></script>
@@ -55,7 +55,7 @@
 </div>
 </div>
 <div id="main-search">
-{{ render(controller('frontEndBundle:ownership:orangeSearchBar')) }}
+{{ render(controller('FrontEndBundle:ownership:orangeSearchBar')) }}
 </div>
 {% endblock %}
 {% block body %}
@@ -64,7 +64,7 @@
     <h2 class="text-center caecilia-roman h-grey h-size-2">{{"PLACE_IN_CUBA_TO_VISIT" | trans}}</h2>
 </div>
 <div style="background-color: #ECEAEB; padding: 15px 0 30px 0; margin-top: 15px">
-    {{ render(controller('frontEndBundle:destination:get_big_map')) }}
+    {{ render(controller('FrontEndBundle:destination:get_big_map')) }}
 </div>
 </div>
 <div  class="container">
@@ -97,15 +97,15 @@
 <h1 class="text-center caecilia-roman h-dark-grey">{{"HOMEPAGE_SUBTITLE_1" | trans}}</h1>
     <p style="color: #000000; ">{{"HOMEPAGE_TEXT" | trans}}</p>
     <h1 class="text-center"><small><h1 class="caecilia-roman" style="margin-top: 13px; font-size: 24px">{{"HOMEPAGE_SUBTITLE_2" | trans}}</h1></small></h1>
-    
+
 <div id="top_rated_placeholder" data-url="{{path('frontend_top_rated_callback_ownership')}}"
      data-url-change-category="{{path('frontend_top_rated_change_category_callback_ownership')}}">
-    {{ include('frontEndBundle:ownership:homeTopRatedOwnership.html.twig', {'own_top20_list':own_top20_list,
+    {{ include('FrontEndBundle:ownership:homeTopRatedOwnership.html.twig', {'own_top20_list':own_top20_list,
                                                                             'premium_total': premium_total,
                                                                             'midrange_total': midrange_total,
                                                                             'economic_total': economic_total}) }}
 </div>
-{{ render(controller('frontEndBundle:public:home_carrousel')) }}
+{{ render(controller('FrontEndBundle:public:home_carrousel')) }}
 </div>
 <script type="text/javascript">
     old_class='';

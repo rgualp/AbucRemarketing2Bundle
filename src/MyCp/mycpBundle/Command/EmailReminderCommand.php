@@ -81,7 +81,7 @@ class EmailReminderCommand extends ContainerAwareCommand
             $translatorService->setLocale($userLocale);
 
             $body = $templatingService
-                ->renderResponse('frontEndBundle:mails:reminder_available.html.twig', array(
+                ->renderResponse('FrontEndBundle:mails:reminder_available.html.twig', array(
                     'user' => $generalReservation->getGenResUserId(),
                     'reservations' => $reservations,
                     'photos' => $arrayPhotos,

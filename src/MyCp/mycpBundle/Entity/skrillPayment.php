@@ -3,7 +3,7 @@
 namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use MyCp\frontEndBundle\Helpers\SkrillHelper;
+use MyCp\FrontEndBundle\Helpers\SkrillHelper;
 
 /**
  * skrillPayment
@@ -242,7 +242,7 @@ class skrillPayment
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -281,14 +281,14 @@ class skrillPayment
     public function setMerchantEmail($merchantEmail)
     {
         $this->merchant_email = $merchantEmail;
-    
+
         return $this;
     }
 
     /**
      * Get merchant_email
      *
-     * @return string 
+     * @return string
      */
     public function getMerchantEmail()
     {
@@ -304,14 +304,14 @@ class skrillPayment
     public function setCustomerEmail($customerEmail)
     {
         $this->customer_email = $customerEmail;
-    
+
         return $this;
     }
 
     /**
      * Get customer_email
      *
-     * @return string 
+     * @return string
      */
     public function getCustomerEmail()
     {
@@ -327,14 +327,14 @@ class skrillPayment
     public function setMerchantId($merchantId)
     {
         $this->merchant_id = $merchantId;
-    
+
         return $this;
     }
 
     /**
      * Get merchant_id
      *
-     * @return string 
+     * @return string
      */
     public function getMerchantId()
     {
@@ -350,14 +350,14 @@ class skrillPayment
     public function setCustomerId($customerId)
     {
         $this->customer_id = $customerId;
-    
+
         return $this;
     }
 
     /**
      * Get customer_id
      *
-     * @return string 
+     * @return string
      */
     public function getCustomerId()
     {
@@ -373,14 +373,14 @@ class skrillPayment
     public function setMerchantTransactionId($merchantTransactionId)
     {
         $this->merchant_transaction_id = $merchantTransactionId;
-    
+
         return $this;
     }
 
     /**
      * Get merchant_transaction_id
      *
-     * @return string 
+     * @return string
      */
     public function getMerchantTransactionId()
     {
@@ -396,14 +396,14 @@ class skrillPayment
     public function setSkrillTransactionId($skrillTransactionId)
     {
         $this->skrill_transaction_id = $skrillTransactionId;
-    
+
         return $this;
     }
 
     /**
      * Get skrill_transaction_id
      *
-     * @return string 
+     * @return string
      */
     public function getSkrillTransactionId()
     {
@@ -419,14 +419,14 @@ class skrillPayment
     public function setSkrillAmount($skrillAmount)
     {
         $this->skrill_amount = $skrillAmount;
-    
+
         return $this;
     }
 
     /**
      * Get skrill_amount
      *
-     * @return string 
+     * @return string
      */
     public function getSkrillAmount()
     {
@@ -442,14 +442,14 @@ class skrillPayment
     public function setSkrillCurrency($skrillCurrency)
     {
         $this->skrill_currency = $skrillCurrency;
-    
+
         return $this;
     }
 
     /**
      * Get skrill_currency
      *
-     * @return string 
+     * @return string
      */
     public function getSkrillCurrency()
     {
@@ -465,14 +465,14 @@ class skrillPayment
     public function setStatus($status)
     {
         $this->status = $status;
-    
+
         return $this;
     }
 
     /**
      * Get status
      *
-     * @return string 
+     * @return string
      */
     public function getStatus()
     {
@@ -488,14 +488,14 @@ class skrillPayment
     public function setFailedReasonCode($failedReasonCode)
     {
         $this->failed_reason_code = $failedReasonCode;
-    
+
         return $this;
     }
 
     /**
      * Get failed_reason_code
      *
-     * @return string 
+     * @return string
      */
     public function getFailedReasonCode()
     {
@@ -511,14 +511,14 @@ class skrillPayment
     public function setFailedReasonDescription($failedReasonDescription)
     {
         $this->failed_reason_description = $failedReasonDescription;
-    
+
         return $this;
     }
 
     /**
      * Get failed_reason_description
      *
-     * @return string 
+     * @return string
      */
     public function getFailedReasonDescription()
     {
@@ -534,14 +534,14 @@ class skrillPayment
     public function setMd5Signature($md5Signature)
     {
         $this->md5_signature = $md5Signature;
-    
+
         return $this;
     }
 
     /**
      * Get md5_signature
      *
-     * @return string 
+     * @return string
      */
     public function getMd5Signature()
     {
@@ -580,14 +580,14 @@ class skrillPayment
     public function setMerchantAmount($merchantAmount)
     {
         $this->merchant_amount = $merchantAmount;
-    
+
         return $this;
     }
 
     /**
      * Get merchant_amount
      *
-     * @return string 
+     * @return string
      */
     public function getMerchantAmount()
     {
@@ -603,14 +603,14 @@ class skrillPayment
     public function setMerchantCurrency($merchantCurrency)
     {
         $this->merchant_currency = $merchantCurrency;
-    
+
         return $this;
     }
 
     /**
      * Get merchant_currency
      *
-     * @return string 
+     * @return string
      */
     public function getMerchantCurrency()
     {
@@ -626,14 +626,14 @@ class skrillPayment
     public function setPaymentType($paymentType)
     {
         $this->payment_type = $paymentType;
-    
+
         return $this;
     }
 
     /**
      * Get payment_type
      *
-     * @return string 
+     * @return string
      */
     public function getPaymentType()
     {
@@ -649,14 +649,14 @@ class skrillPayment
     public function setMerchantFields($merchantFields)
     {
         $this->merchant_fields = $merchantFields;
-    
+
         return $this;
     }
 
     /**
      * Get merchant_fields
      *
-     * @return string 
+     * @return string
      */
     public function getMerchantFields()
     {
@@ -672,14 +672,14 @@ class skrillPayment
     public function setPayment(\MyCp\mycpBundle\Entity\payment $payment = null)
     {
         $this->payment = $payment;
-    
+
         return $this;
     }
 
     /**
      * Get payment
      *
-     * @return \MyCp\mycpBundle\Entity\payment 
+     * @return \MyCp\mycpBundle\Entity\payment
      */
     public function getPayment()
     {

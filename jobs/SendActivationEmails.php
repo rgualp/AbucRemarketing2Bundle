@@ -76,7 +76,7 @@ foreach($users as $user) {
 
     echo 'URL: ' . $enableUrl . PHP_EOL;
 
-    $body = $templating->renderResponse('frontEndBundle:mails:enableAccount.html.twig',
+    $body = $templating->renderResponse('FrontEndBundle:mails:enableAccount.html.twig',
         array('enableUrl' => $enableUrl));
 
     $translator->setLocale($locale);

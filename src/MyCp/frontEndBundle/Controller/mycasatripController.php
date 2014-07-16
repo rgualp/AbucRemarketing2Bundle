@@ -1,6 +1,6 @@
 <?php
 
-namespace MyCp\FrontendBundle\Controller;
+namespace MyCp\FrontEndBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -50,7 +50,7 @@ class mycasatripController extends Controller {
             $photo=$em->getRepository('mycpBundle:ownership')->get_ownership_photo($pend['own_res_gen_res_id']['gen_res_own_id']['own_id']);
             array_push($array_photos,$photo);
         }
-        return $this->render('frontEndBundle:mycasatrip:pending.html.twig', array(
+        return $this->render('FrontEndBundle:mycasatrip:pending.html.twig', array(
                     'res_pending' => $res_pending,
                     'order_by' => $order_by,
                     'photos'=>$array_photos,
@@ -98,7 +98,7 @@ class mycasatripController extends Controller {
             array_push($array_photos,$photo);
         }
 
-        return $this->render('frontEndBundle:mycasatrip:available.html.twig', array(
+        return $this->render('FrontEndBundle:mycasatrip:available.html.twig', array(
                     'res_available' => $res_available,
                     'order_by'=>$order_by,
                     'nights'=>$nights,
@@ -157,7 +157,7 @@ class mycasatripController extends Controller {
             $photo=$em->getRepository('mycpBundle:ownership')->get_ownership_photo($res['own_res_gen_res_id']['gen_res_own_id']['own_id']);
             array_push($array_photos,$photo);
         }
-        return $this->render('frontEndBundle:mycasatrip:reserve.html.twig', array(
+        return $this->render('FrontEndBundle:mycasatrip:reserve.html.twig', array(
             'res_available' => $res_available,
             'order_by'=>$order_by,
             'nights'=>$nights,
@@ -203,7 +203,7 @@ class mycasatripController extends Controller {
             array_push($array_photos,$photo);
         }
 
-        return $this->render('frontEndBundle:mycasatrip:history_reserve.html.twig', array(
+        return $this->render('FrontEndBundle:mycasatrip:history_reserve.html.twig', array(
             'res_available' => $res_available,
             'order_by'=>$order_by,
             'nights'=>$nights,
@@ -247,7 +247,7 @@ class mycasatripController extends Controller {
             array_push($array_photos,$photo);
         }
 
-        return $this->render('frontEndBundle:mycasatrip:payment.html.twig', array(
+        return $this->render('FrontEndBundle:mycasatrip:payment.html.twig', array(
             'res_payment' => $res_payment,
             'order_by'=>$order_by,
             'nights'=>$nights,
@@ -292,7 +292,7 @@ class mycasatripController extends Controller {
             array_push($array_photos,$photo);
         }
 
-        return $this->render('frontEndBundle:mycasatrip:history_consult.html.twig', array(
+        return $this->render('FrontEndBundle:mycasatrip:history_consult.html.twig', array(
             'res_contult' => $res_consult,
             'order_by'=>$order_by,
             'photos'=>$array_photos,
@@ -307,7 +307,7 @@ class mycasatripController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $counts = $em->getRepository('mycpBundle:ownershipReservation')->find_count_for_menu($user->getUserId());
         //var_dump($counts); exit();
-        return $this->render('frontEndBundle:mycasatrip:menu.html.twig', array('menu' => $menu_selected, 'counts' => $counts[0]));
+        return $this->render('FrontEndBundle:mycasatrip:menu.html.twig', array('menu' => $menu_selected, 'counts' => $counts[0]));
     }
 
     function get_order_by_sql($order_by) {
@@ -357,7 +357,7 @@ class mycasatripController extends Controller {
             if (isset($_GET['page']))
                 $page = $_GET['page'];
 
-            return $this->render('frontEndBundle:mycasatrip:favorites.html.twig', array(
+            return $this->render('FrontEndBundle:mycasatrip:favorites.html.twig', array(
                         'ownership_favorities' => $ownership_favorities,
                         'favorite_type' => $favorite_type,
                         'items_per_page' => $items_per_page,
@@ -376,7 +376,7 @@ class mycasatripController extends Controller {
             if (isset($_GET['page']))
                 $page = $_GET['page'];
 
-            return $this->render('frontEndBundle:mycasatrip:favorites.html.twig', array(
+            return $this->render('FrontEndBundle:mycasatrip:favorites.html.twig', array(
                         'destination_favorities' => $destination_favorities,
                         'favorite_type' => $favorite_type,
                         'items_per_page' => $items_per_page,
@@ -399,7 +399,7 @@ class mycasatripController extends Controller {
         if (isset($_GET['page']))
             $page = $_GET['page'];
 
-        return $this->render('frontEndBundle:mycasatrip:comments.html.twig', array(
+        return $this->render('FrontEndBundle:mycasatrip:comments.html.twig', array(
                         'comments' => $comments,
                         'comment_type' => $comment_type,
                         'items_per_page' => $items_per_page,

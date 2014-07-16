@@ -1,11 +1,11 @@
 <?php
 
-namespace MyCp\FrontendBundle\Controller;
+namespace MyCp\FrontEndBundle\Controller;
 
 use DateTime;
 use Doctrine\ORM\EntityNotFoundException;
-use MyCp\frontEndBundle\Helpers\PaymentHelper;
-use MyCp\frontEndBundle\Helpers\SkrillHelper;
+use MyCp\FrontEndBundle\Helpers\PaymentHelper;
+use MyCp\FrontEndBundle\Helpers\SkrillHelper;
 use MyCp\mycpBundle\Entity\booking;
 use MyCp\mycpBundle\Entity\payment;
 use MyCp\mycpBundle\Entity\skrillPayment;
@@ -70,7 +70,7 @@ class paymentController extends Controller
 
         $skrillData = $this->getSkrillViewData($booking, $user, $userTourist);
 
-        return $this->render('frontEndBundle:payment:skrillPayment.html.twig', $skrillData);
+        return $this->render('FrontEndBundle:payment:skrillPayment.html.twig', $skrillData);
     }
 
     /**
@@ -108,7 +108,7 @@ class paymentController extends Controller
             array(), UrlGeneratorInterface::ABSOLUTE_URL);
 
         return $this->render(
-            'frontEndBundle:payment:waitingForPayment.html.twig',
+            'FrontEndBundle:payment:waitingForPayment.html.twig',
             array(
                 'pollingUrl' => $pollingUrl,
                 'confirmationUrl' => $confirmationUrl,
@@ -248,7 +248,7 @@ class paymentController extends Controller
     public function skrillCancelAction()
     {
         return $this->render(
-                        'frontEndBundle:payment:skrillResponseTest.html.twig', array('status' => 'Cancelled by Skrill'));
+                        'FrontEndBundle:payment:skrillResponseTest.html.twig', array('status' => 'Cancelled by Skrill'));
     }
 
     /**
@@ -260,7 +260,7 @@ class paymentController extends Controller
     public function skrillTestResponseAction($status)
     {
         return $this->render(
-            'frontEndBundle:payment:skrillResponseTest.html.twig', array('status' => $status));
+            'FrontEndBundle:payment:skrillResponseTest.html.twig', array('status' => $status));
     }
 
     /**
@@ -274,7 +274,7 @@ class paymentController extends Controller
     {
         $payUrl = $this->generateUrl('frontend_payment_skrill', array('bookingId' => $bookingId), true);
         return $this->render(
-            'frontEndBundle:payment:skrillPaymentTest.html.twig', array('payUrl' => $payUrl));
+            'FrontEndBundle:payment:skrillPaymentTest.html.twig', array('payUrl' => $payUrl));
     }
 
     /**

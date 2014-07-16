@@ -1,4 +1,4 @@
-{% extends 'frontEndBundle:layout:base.html.twig' %}
+{% extends 'FrontEndBundle:layout:base.html.twig' %}
 {% block title %}
 {{"LEGAL_TERMS" | trans}}
 {% endblock %}
@@ -13,14 +13,14 @@
 <div class="container">
     <h1 class="caecilia-roman h-green">{{ "LEGAL_TERMS"|trans }}</h1>
     <hr class="hr-grey" style="margin-bottom: 30px"/>
-    <div class="row">        
+    <div class="row">
         {%for info in list%}
 <div class="item">
     <div class="row-fluid">
     <div class="row-fluid">
         <h4>{{info.infolangname | raw}}</h4>
     </div>
-    <div class="row-fluid">        
+    <div class="row-fluid">
         <p>{{info.infolangcontent | raw}}</p>
     </div>
     </div>

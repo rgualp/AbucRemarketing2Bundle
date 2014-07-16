@@ -1,7 +1,7 @@
 <?php
 
-namespace MyCp\frontEndBundle\Twig\Extension;
-use MyCp\frontEndBundle\Helpers\Utils;
+namespace MyCp\FrontEndBundle\Twig\Extension;
+use MyCp\FrontEndBundle\Helpers\Utils;
 
 class utilsExtension extends \Twig_Extension {
 
@@ -52,12 +52,12 @@ class utilsExtension extends \Twig_Extension {
 
         return (number_format($number_integer, 2));
     }
-    
+
     public function default_currency()
     {
         return  $this->entity_manager->getRepository('mycpBundle:currency')->findOneBy(array('curr_default' => true));
     }
-    
+
     public function price_in_currency()
     {
         return  $this->entity_manager->getRepository('mycpBundle:currency')->findOneBy(array('curr_site_price_in' => true));

@@ -1,4 +1,4 @@
-{% extends 'frontEndBundle:layout:base.html.twig' %}
+{% extends 'FrontEndBundle:layout:base.html.twig' %}
 {% block title %}
     {{"SEARCH_RESULTS_PAGE_TITLE" | trans}}
 {% endblock %}
@@ -21,17 +21,17 @@
                 <div  id="json_source" data-url="{{path("frontend_map_markers_ownership_callback")}}"
                       data-icon-small="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_small.png') }}"
                       data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"></div>
-                {{ include('frontEndBundle:ownership:verticalSearcherOwnership.html.twig',
+                {{ include('FrontEndBundle:ownership:verticalSearcherOwnership.html.twig',
                 {'is_within_search_results':true,
                 'autocomplete_text_list': autocomplete_text_list,
                 'locale': locale})}}
                 <div class="filter">
                     <div id="filters" data-url-filter="{{ path('frontend_filter_ownership_callback') }}" data-url-statistics="{{ path('frontend_filter_statistics_ownership_callback') }}">
                         {%if check_filters is defined%}
-                            {{ include('frontEndBundle:ownership:filters.html.twig',
+                            {{ include('FrontEndBundle:ownership:filters.html.twig',
                             {'own_statistics': own_statistics,'check_filters': check_filters}) }}
                         {%else%}
-                            {{ include('frontEndBundle:ownership:filters.html.twig',
+                            {{ include('FrontEndBundle:ownership:filters.html.twig',
                             {'own_statistics': own_statistics}) }}
                         {%endif%}
                     </div>
@@ -72,19 +72,19 @@
                 <div>
                     <div class="houses-list thumbs-houses lazy-cont" id="div_result">
                         {%if view_results == 'LIST'%}
-                            {{ include('frontEndBundle:ownership:searchListOwnership.html.twig',
+                            {{ include('FrontEndBundle:ownership:searchListOwnership.html.twig',
                             {'list': list,
                             'list_preffix': 'list'
                             }) }}
                         {%else%}
                             {%if view_results == 'PHOTOS'%}
-                                {{ include('frontEndBundle:ownership:searchMosaicOwnership.html.twig',
+                                {{ include('FrontEndBundle:ownership:searchMosaicOwnership.html.twig',
                                 {'list': list,
                                 'list_preffix': 'mosaic'
                                 }) }}
                             {%else%}
                                 {%if view_results == 'MAP'%}
-                                    {{ include('frontEndBundle:ownership:searchMapOwnership.html.twig',
+                                    {{ include('FrontEndBundle:ownership:searchMapOwnership.html.twig',
                                     {'list': list,
                                     'list_preffix': 'map',
                                     'show_paginator': true

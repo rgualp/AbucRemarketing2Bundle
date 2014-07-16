@@ -1,7 +1,7 @@
 frontend_change_language_callback:
     locales:  { en: "/change-language/{lang}", es: "/cambiar-lenguaje/{lang}", de: "/change-language/{lang}" }
-    defaults: { _controller: frontEndBundle:language:change }
+    defaults: { _controller: FrontEndBundle:language:change }
 
 frontend_get_languages:
     pattern:  /get-languages/
-    defaults: { _controller: frontEndBundle:language:get_languages }
+    defaults: { _controller: FrontEndBundle:language:get_languages }

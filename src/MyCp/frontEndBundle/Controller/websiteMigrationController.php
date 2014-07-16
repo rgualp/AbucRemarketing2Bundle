@@ -1,6 +1,6 @@
 <?php
 
-namespace MyCp\frontEndBundle\Controller;
+namespace MyCp\FrontEndBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;

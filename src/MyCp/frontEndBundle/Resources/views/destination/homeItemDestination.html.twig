@@ -1,5 +1,5 @@
 
-<div class="col-sm-3">    
+<div class="col-sm-3">
 <div class="thumbnail">
         <a title="{{ "DESTINATIONS"|trans }} {{ destination_name }}" href="{{ path('frontend_details_destination',{'destination_name':destination_name|lower|replace(' ','-')}) }}">
             <img alt="{{ "DESTINATIONS"|trans }} {{ destination_name }}" src="{{ asset('uploads/destinationImages/thumbnails/' ~ photo)}}"/>
@@ -9,9 +9,9 @@
     <a href="{{ path('frontend_details_destination',{'destination_name':destination_name|lower|replace(' ','-')}) }}">
     <h2 class="h-blue">
         {{destination_name | title | slice(0, 27)}}
-        {%if destination_name | length > 27%}...{%endif%}        
+        {%if destination_name | length > 27%}...{%endif%}
     </h2>
-    </a>    
+    </a>
     <h5 class="no-margin">
         <table>
             <tr>
@@ -20,7 +20,7 @@
                 </td>
                 <td>
                     <div class="favorite">
-                       {{ include('frontEndBundle:favorite:itemFavorite.html.twig', 
+                       {{ include('FrontEndBundle:favorite:itemFavorite.html.twig',
                         {'is_in_favorite': is_in_favorite,
                          'favorite_type': 'destination',
                          'element_id':destination_id,

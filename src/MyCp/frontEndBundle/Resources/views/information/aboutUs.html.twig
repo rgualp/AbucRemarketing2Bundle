@@ -1,4 +1,4 @@
-{% extends 'frontEndBundle:layout:base.html.twig' %}
+{% extends 'FrontEndBundle:layout:base.html.twig' %}
 {% block title %}
 {{"ABOUT_US" | trans}}
 {% endblock %}
@@ -62,7 +62,7 @@
                 {% for info in information %}
                 <div id="id_{{ info.getInfoLangId }}" class="tab-pane {% if loop.index == 1%}active{% endif %}">
                     <h3 class="no-margin h-blue h-size-3 margin-b-t">{{ info.getInfoLangName }}</h3>
-                    <p>{{ info.getInfoLangContent | raw }}</p>                    
+                    <p>{{ info.getInfoLangContent | raw }}</p>
                 </div>
                 {% endfor %}
             </div>
@@ -88,10 +88,10 @@
             <div class="col-sm-8">
                 <img class="img-polaroid" src='http://maps.googleapis.com/maps/api/staticmap?center={{mycasa_office_geolocate_x}},{{mycasa_office_geolocate_y}}&zoom=15&size=630x400&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{mycasa_office_geolocate_x}},{{mycasa_office_geolocate_y}}&a.jpg'/>
             </div>
-            
+
         </div>
     </div>
 {% block include_javascripts %}
-    
+
 {% endblock %}
 {% endblock %}

@@ -11,7 +11,7 @@
     <div id="loading" class="hidden">
         <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}"/></div>
     </div>
-    {{ include('frontEndBundle:ownership:homeTopRatedList.html.twig') }}
+    {{ include('FrontEndBundle:ownership:homeTopRatedList.html.twig') }}
 </div>
 
 <div class="row pagination-cont">
@@ -41,7 +41,7 @@
                 {%if midrange_total != 0%}
                     <li class="top20_category {%if app.session.get('top_rated_category') | lower == 'rango medio'%}active{%endif%}" data-content-value="rango medio"><a rel="tooltip" data-placement="top" title="{{'MIDRANGE_OWNS' | trans}} ({{midrange_total}})"><img alt="{{'MIDRANGE_OWNS' | trans}}" class="icon-medium middle-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
                 {%endif%}
-                {%if economic_total != 0%}            
+                {%if economic_total != 0%}
                     <li class="top20_category {%if app.session.get('top_rated_category') | lower == 'económica'%}active{%endif%}" data-content-value="económica"><a rel="tooltip" data-placement="top" title="{{'ECONOMICS_OWNS' | trans}} ({{economic_total}})"><img alt="{{'ECONOMICS_OWNS' | trans}}" style="width: 18px; height: 25px" class="icon economic-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}"></a></li>
                 {%endif%}
             </ul>

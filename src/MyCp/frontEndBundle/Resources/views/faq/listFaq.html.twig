@@ -1,4 +1,4 @@
-{% extends 'frontEndBundle:layout:base.html.twig' %}
+{% extends 'FrontEndBundle:layout:base.html.twig' %}
 {% block title %}
 {{"FAQ_PAGE_TITLE" | trans}}
 {% endblock %}
@@ -26,8 +26,8 @@
             </div>
         </div>
         <div class="col-sm-7" id="div_result">
-        {{ include('frontEndBundle:faq:itemListFaq.html.twig', 
-               {'faq_list': faq_list}) }} 
+        {{ include('FrontEndBundle:faq:itemListFaq.html.twig',
+               {'faq_list': faq_list}) }}
         </div>
 
     </div>

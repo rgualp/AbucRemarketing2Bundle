@@ -1,4 +1,4 @@
-{% extends 'frontEndBundle:layout:base.html.twig' %}
+{% extends 'FrontEndBundle:layout:base.html.twig' %}
 {% block title %}
 {{"CART" | trans}}
 {% endblock %}
@@ -29,7 +29,7 @@
     <div id="res_main_cont">
         {% if services %}
         <div id="cart-cont" class="items-cart">
-            {{ render(controller('frontEndBundle:reservation:get_body_review_reservation_2')) }}
+            {{ render(controller('FrontEndBundle:reservation:get_body_review_reservation_2')) }}
         </div>
 
         {% else %}
@@ -39,7 +39,7 @@
     {% if services %}
     <div class="pull-right">
     <img src="{{ asset('bundles/frontend/img/question.gif') }}" width="20px" rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{10 | price}}"/>
-    </div>    
+    </div>
     {% endif %}
         <input style="visibility:hidden;" type="text" value="" name="data_reservation" id="data_reservation"/>
         <div class="container margin-t-t">

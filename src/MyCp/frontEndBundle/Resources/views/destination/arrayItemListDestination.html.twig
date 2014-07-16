@@ -17,7 +17,7 @@
         <p class="t-size-12">{{(destination['desc_brief'] != "") ? destination['desc_brief'] |striptags: ""}}</p>
     </div>
             <div class="text-right">
-        {{ include('frontEndBundle:favorite:itemFavorite.html.twig', 
+        {{ include('FrontEndBundle:favorite:itemFavorite.html.twig',
         {'is_in_favorite': destination['is_in_favorities'],
          'favorite_type': 'destination',
          'element_id':destination['destination_id'],

@@ -1,4 +1,4 @@
-{% extends 'frontEndBundle:layout:base.html.twig' %}
+{% extends 'FrontEndBundle:layout:base.html.twig' %}
 {% block title %}MyCasaTrip{% endblock %}
 {% set main_tab = 6 %}
 {% block body %}
@@ -6,7 +6,7 @@
 {% if menu is not defined %}
    {% set menu = 0 %}
    {% endif %}
-    {{ render(controller('frontEndBundle:mycasatrip:get_menu_count', {'menu_selected': menu})) }}
+    {{ render(controller('FrontEndBundle:mycasatrip:get_menu_count', {'menu_selected': menu})) }}
 {% block body_inner %}
    {% endblock %}
 </div>

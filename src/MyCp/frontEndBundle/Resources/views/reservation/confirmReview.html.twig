@@ -1,4 +1,4 @@
-{% extends 'frontEndBundle:layout:base.html.twig' %}
+{% extends 'FrontEndBundle:layout:base.html.twig' %}
 {% block title %}
 {{"RESERVATION_CONFIRM" | trans}}
 {% endblock %}
@@ -31,7 +31,7 @@ destinos
         <br/>
         <div class="row thumbs-houses-2">
             {%for own in owns_in_destination%}
-                {{ include('frontEndBundle:ownership:checkReviewMosaicOwnership.html.twig',{
+                {{ include('FrontEndBundle:ownership:checkReviewMosaicOwnership.html.twig',{
                         'own_id': own.own_id,
                         'own_name': own.own_name,
                         'own_comments': own.comments_total,
@@ -56,7 +56,7 @@ destinos
         <hr/>
         <div class="row thumbs-houses thumbs-destination">
             {%for destination in other_destinations%}
-            {{ include('frontEndBundle:destination:destinationItem.html.twig',{
+            {{ include('FrontEndBundle:destination:destinationItem.html.twig',{
                         'des_name': destination.desname,
                         'des_photo': destination.photo,
                         'des_poblation': destination.desPoblation,
@@ -68,7 +68,7 @@ destinos
             {%endfor%}
         </div>
         {%endif%}
-        {{ render(controller('frontEndBundle:public:home_carrousel')) }}
+        {{ render(controller('FrontEndBundle:public:home_carrousel')) }}
     </div>
 
 

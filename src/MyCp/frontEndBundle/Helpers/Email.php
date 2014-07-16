@@ -1,6 +1,6 @@
 <?php
 
-namespace MyCp\frontEndBundle\Helpers;
+namespace MyCp\FrontEndBundle\Helpers;
 
 use Swift_Message;
 
@@ -16,15 +16,15 @@ class Email {
 
     // <editor-fold defaultstate="collapsed" desc="Recommend Mails">
     public function recommend2Friend($email_from, $name_from, $email_to) {
-        $body = $this->container->get('templating')->render("frontEndBundle:mails:recommend2FriendMailBody.html.twig", array('from' => $name_from));
-        $this->send_email($body, $email_from, $name_from, $email_to, $this->container->get('templating')->render("frontEndBundle:mails:recommend2FriendMailTemplate.html.twig", array('from' => $name_from)));
+        $body = $this->container->get('templating')->render("FrontEndBundle:mails:recommend2FriendMailBody.html.twig", array('from' => $name_from));
+        $this->send_email($body, $email_from, $name_from, $email_to, $this->container->get('templating')->render("FrontEndBundle:mails:recommend2FriendMailTemplate.html.twig", array('from' => $name_from)));
     }
 
     public function recommendProperty2Friend($email_from, $name_from, $email_to, $property) {
         /* remove after domain optimization. */
         $photo = $this->em->getRepository('mycpBundle:ownership')->get_ownership_photo($property->getOwnId());
-        $body = $this->container->get('templating')->render("frontEndBundle:mails:recommendProperty2FriendMailBody.html.twig", array('from' => $name_from));
-        $this->send_email($body, $email_from, $name_from, $email_to, $this->container->get('templating')->render("frontEndBundle:mails:recommendProperty2FriendMailTemplate.html.twig", array('from' => $name_from, 'property' => $property, 'photo' => $photo)));
+        $body = $this->container->get('templating')->render("FrontEndBundle:mails:recommendProperty2FriendMailBody.html.twig", array('from' => $name_from));
+        $this->send_email($body, $email_from, $name_from, $email_to, $this->container->get('templating')->render("FrontEndBundle:mails:recommendProperty2FriendMailTemplate.html.twig", array('from' => $name_from, 'property' => $property, 'photo' => $photo)));
     }
 
     public function recommendDestiny2Friend($email_from, $name_from, $email_to, $destiny) {
@@ -35,7 +35,7 @@ class Email {
         } else {
             $photo = "no_photo.png";
         }
-        $this->send_email("", $email_from, $name_from, $email_to, $this->container->get('templating')->render("frontEndBundle:mails:recommendDestiny2FriendMailTemplate.html.twig", array('from' => $name_from, 'destiny' => $destiny, 'photo' => $photo)));
+        $this->send_email("", $email_from, $name_from, $email_to, $this->container->get('templating')->render("FrontEndBundle:mails:recommendDestiny2FriendMailTemplate.html.twig", array('from' => $name_from, 'destiny' => $destiny, 'photo' => $photo)));
     }
 
 // </editor-fold>
@@ -43,7 +43,7 @@ class Email {
 
     public function send_templated_email($subject, $email_from, $email_to, $content) {
         $templating = $this->container->get('templating');
-        $body = $templating->render("frontEndBundle:mails:standardMailTemplate.html.twig", array('content' => $content));
+        $body = $templating->render("FrontEndBundle:mails:standardMailTemplate.html.twig", array('content' => $content));
         $this->send_email($subject, $email_from, "MyCasaParticular.com", $email_to, $body);
     }
 
@@ -61,7 +61,7 @@ class Email {
         {
             $message->attach(\Swift_Attachment::fromPath($attach));
         }
-        return $this->container->get('mailer')->send($message); 
+        return $this->container->get('mailer')->send($message);
     }
 
     public function send_reservation($id_reservation,$custom_message=null)
@@ -88,12 +88,12 @@ class Email {
             array_push($array_nigths,count($array_dates)-1);
         }
         $user_locale =  strtolower($user_tourist->getUserTouristLanguage()->getLangCode()) ;
-        
+
         $locale = $this->container->get('translator')->setLocale($user_locale);
-        
-        // Enviando mail al cliente   
-        
-        $body=$templating->render('frontEndBundle:mails:email_offer_available.html.twig',array(
+
+        // Enviando mail al cliente
+
+        $body=$templating->render('FrontEndBundle:mails:email_offer_available.html.twig',array(
             'user'=>$user,
             'reservations'=>$reservations,
             'photos'=>$array_photos,

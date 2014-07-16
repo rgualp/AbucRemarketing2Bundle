@@ -1,6 +1,6 @@
 <?php
 
-namespace MyCp\frontEndBundle\Controller;
+namespace MyCp\FrontEndBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +14,7 @@ class currencyController extends Controller {
         $request = $this->getRequest();
         $session = $request->getSession();
         $session->set("params_change_curr",$params);
-        return $this->render('frontEndBundle:currency:currencies.html.twig', array('currencies' => $currencies));
+        return $this->render('FrontEndBundle:currency:currencies.html.twig', array('currencies' => $currencies));
     }
 
     public function changeAction() {

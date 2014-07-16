@@ -1,13 +1,13 @@
 <?php
 
-namespace MyCp\frontEndBundle\Controller;
+namespace MyCp\FrontEndBundle\Controller;
 
-use MyCp\frontEndBundle\Form\changePasswordUserType;
-use MyCp\frontEndBundle\Form\ownerContact;
-use MyCp\frontEndBundle\Form\registerUserType;
-use MyCp\frontEndBundle\Form\restorePasswordUserType;
-use MyCp\frontEndBundle\Form\touristContact;
-use MyCp\frontEndBundle\Form\profileUserType;
+use MyCp\FrontEndBundle\Form\changePasswordUserType;
+use MyCp\FrontEndBundle\Form\ownerContact;
+use MyCp\FrontEndBundle\Form\registerUserType;
+use MyCp\FrontEndBundle\Form\restorePasswordUserType;
+use MyCp\FrontEndBundle\Form\touristContact;
+use MyCp\FrontEndBundle\Form\profileUserType;
 use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Entity\photo;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -21,7 +21,7 @@ class userController extends Controller {
         $all_post = array();
         $data = array();
         $data['countries'] = $em->getRepository('mycpBundle:country')->findAllByAlphabetical();
-       
+
         $form = $this->createForm(new registerUserType($this->get('translator'), $data));
         if ($request->getMethod() == 'POST') {
             $post = $request->get('mycp_frontendbundle_register_usertype');
@@ -43,12 +43,12 @@ class userController extends Controller {
                 $languageCode = $request->attributes->get('app_lang_code');
                 $languageCode = empty($languageCode) ? $request->attributes->get('_locale') : $session->get('_locale', 'en');
                 $languageCode = strtoupper($languageCode);
-                
+
                 $currency = $em->getRepository('mycpBundle:currency')->findOneBy(array('curr_default' => true));
-                
+
                 if($session->get('curr_acronym') != $currency->getCurrCode())
-                    $currency = $em->getRepository('mycpBundle:currency')->findOneBy(array('curr_code' => $session->get('curr_acronym')));                
-                
+                    $currency = $em->getRepository('mycpBundle:currency')->findOneBy(array('curr_code' => $session->get('curr_acronym')));
+
                 $user_db = $em->getRepository('mycpBundle:user')
                         ->registerUser($post, $request, $encoder, $this->get('translator'), $languageCode, $currency);
                 $service_security = $this->get('Secure');
@@ -57,7 +57,7 @@ class userController extends Controller {
                 //mailing
                 $enableRoute = 'frontend_enable_user';
                 $enableUrl = $this->get('router')->generate($enableRoute, array('string' => $encode_string), true);
-                $body = $this->render('frontEndBundle:mails:enableAccount.html.twig', array('enableUrl' => $enableUrl));
+                $body = $this->render('FrontEndBundle:mails:enableAccount.html.twig', array('enableUrl' => $enableUrl));
 
                 $service_email = $this->get('Email');
                 $service_email->send_templated_email($this->get('translator')->trans('EMAIL_ACCOUNT_REGISTERED_SUBJECT'), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
@@ -68,7 +68,7 @@ class userController extends Controller {
             }
         }
 
-        return $this->render('frontEndBundle:user:registerUser.html.twig', array(
+        return $this->render('FrontEndBundle:user:registerUser.html.twig', array(
                     'form' => $form->createView(),
                     'errors' => $errors,
                     'post' => $all_post
@@ -117,7 +117,7 @@ class userController extends Controller {
                     $changeUrl = $this->get('router')
                             ->generate($change_passwordRoute, array('string' => $encode_string), true);
                     //mailing
-                    $body = $this->render('frontEndBundle:mails:restorePassword.html.twig', array('changeUrl' => $changeUrl));
+                    $body = $this->render('FrontEndBundle:mails:restorePassword.html.twig', array('changeUrl' => $changeUrl));
 
                     $service_email = $this->get('Email');
                     $service_email->send_templated_email(
@@ -134,7 +134,7 @@ class userController extends Controller {
             }
         }
 
-        return $this->render('frontEndBundle:user:restorePasswordUser.html.twig', array(
+        return $this->render('FrontEndBundle:user:restorePasswordUser.html.twig', array(
                     'form' => $form->createView(),
                     'errors' => $errors
         ));
@@ -188,7 +188,7 @@ class userController extends Controller {
         }
         //var_dump($form->createView()->getChildren());
         //exit();
-        return $this->render('frontEndBundle:user:changePasswordUser.html.twig', array(
+        return $this->render('FrontEndBundle:user:changePasswordUser.html.twig', array(
                     'string' => $string,
                     'form' => $form->createView(),
                     'errors' => $errors
@@ -215,7 +215,7 @@ class userController extends Controller {
                     $enableUrl = $this->get('router')
                             ->generate($enableRoute, array('string' => $encode_string), true);
                     $service_email = $this->get('Email');
-                    $body = $this->render('frontEndBundle:mails:enableAccount.html.twig', array('enableUrl' => $enableUrl));
+                    $body = $this->render('FrontEndBundle:mails:enableAccount.html.twig', array('enableUrl' => $enableUrl));
                     $service_email->send_templated_email($this->get('translator')->trans("USER_ACCOUNT_ACTIVATION_EMAIL"), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
                     $message = $this->get('translator')->trans("USER_CREATE_ACCOUNT_SUCCESS");
                     $this->get('session')->getFlashBag()->add('message_global_success', $message);
@@ -226,7 +226,7 @@ class userController extends Controller {
             }
         }
 
-        return $this->render('frontEndBundle:user:registerConfirmationUser.html.twig', array(
+        return $this->render('FrontEndBundle:user:registerConfirmationUser.html.twig', array(
                     'form' => $form->createView(),
                     'errors' => $errors
         ));
@@ -257,7 +257,7 @@ class userController extends Controller {
                       ->generate($enableRoute, array('string' => $encode_string), true); */
 
                     $service_email = $this->get('Email');
-                    $content = $this->render('frontEndBundle:mails:contactMailBody.html.twig', array(
+                    $content = $this->render('FrontEndBundle:mails:contactMailBody.html.twig', array(
                         'tourist_name' => $tourist_name,
                         'tourist_last_name' => $tourist_last_name,
                         'tourist_phone' => $tourist_phone,
@@ -294,7 +294,7 @@ class userController extends Controller {
                       ->generate($enableRoute, array('string' => $encode_string), true); */
 
                     $service_email = $this->get('Email');
-                    $content = $this->render('frontEndBundle:mails:ownerContactMailBody.html.twig', array(
+                    $content = $this->render('FrontEndBundle:mails:ownerContactMailBody.html.twig', array(
                         'owner_fullname' => $owner_full_name,
                         'own_name' => $owner_own_name,
                         'province' => $owner_province,
@@ -313,7 +313,7 @@ class userController extends Controller {
             }
         }
 
-        return $this->render('frontEndBundle:user:contact.html.twig', array(
+        return $this->render('FrontEndBundle:user:contact.html.twig', array(
                     'form_tourist' => $form_tourist->createView(),
                     'form_owner' => $form_owner->createView(),
                     'errors' => $errors
@@ -350,7 +350,7 @@ class userController extends Controller {
             if (!file_exists(realpath("uploads/ownershipImages/" . $history_owns[$i]['photo'])))
                 $history_owns[$i]['photo'] = 'no_photo.png';
         }
-        return $this->render('frontEndBundle:user:infoTabUser.html.twig', array(
+        return $this->render('FrontEndBundle:user:infoTabUser.html.twig', array(
                     'destination_favorites' => $favorite_destinations,
                     'history_destinations' => $history_destinations,
                     'favorite_owns' => $ownership_favorities,
@@ -439,10 +439,10 @@ class userController extends Controller {
 
                     $lang = $userTourist->getUserTouristLanguage();
                     $locale = strtolower($lang->getLangCode());
-                    
+
                     $message = $this->get('translator')->trans("USER_PROFILE_SAVED", array(),'messages', $locale);
                     $this->get('session')->getFlashBag()->add('message_global_success', $message);
-                    
+
                     //Change global currency and language if user set a new one
                     $session = $request->getSession();
 
@@ -453,13 +453,13 @@ class userController extends Controller {
                         $session->set("curr_acronym", $curr->getCurrCode());
                     }
 
-                    
+
                     if (isset($lang)) {
                         $session->set('browser_lang', $locale);
                         $session->set('app_lang_name', $lang->getLangName());
                         $session->set('app_lang_code', $lang->getLangCode());
 
-                        
+
                         $locale = array('locale' => $locale, '_locale' => $locale);
                         return $this->redirect($this->generateUrl("frontend_profile_user", $locale));
                     }
@@ -470,13 +470,13 @@ class userController extends Controller {
                 $errors['complete_form'] = $this->get('translator')->trans("FILL_FORM_CORRECTLY");
             }
         }
-        return $this->render('frontEndBundle:user:profileUser.html.twig', array(
+        return $this->render('FrontEndBundle:user:profileUser.html.twig', array(
                     'form' => $form->createView(),
                     'errors' => $errors,
                     'post' => $all_post,
                     'user' => $user,
                     'tourist' => $userTourist
-                    
+
         ));
     }
 

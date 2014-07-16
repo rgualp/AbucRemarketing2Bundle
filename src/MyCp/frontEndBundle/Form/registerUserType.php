@@ -1,5 +1,5 @@
 <?php
-namespace MyCp\frontEndBundle\Form;
+namespace MyCp\FrontEndBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class registerUserType extends AbstractType
 {
     private $translate;
-    
+
     function __construct($trans_entity, $data)
     {
         $this->translate = $trans_entity;
@@ -26,7 +26,7 @@ class registerUserType extends AbstractType
         {
             $array_countries[$country->getCoId()]=$country->getCoName();
         }
-        
+
         $builder
             ->add('user_user_name','text',array(
                 'label'=>$this->translate->trans('FORMS_NAME'),
