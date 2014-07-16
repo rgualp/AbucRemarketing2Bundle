@@ -1,165 +1,221 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <style type="text/css">
-        body{font: 13px Verdana, Arial, Helvetica, sans-serif; }
-        #logo{margin-bottom: 10px; width: 260px; height: 50px}
-        hr{border: none;border-bottom:solid 1px #84B231;}
-        .h-green,a{color:#80AA2A}
-        p{line-height: 20px}
-        .text-right{text-align: right}
-    </style>
-</head>
-<body>
-<table style="width: 100%">
-    <tr>
-        <td>
-            <img id="logo"  src="bundles/mycp/images/logo.jpg" alt="my casa particular"/>
-        </td>
-        <td style="text-align: right; vertical-align: top; color: #cccccc">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <style type="text/css">
+                body{font: 11px Verdana, Arial, Helvetica, sans-serif; letter-spacing: 0.3px;}
+                h2{font-size: 15px; letter-spacing: 0.5px;}
+                h4{font-size: 12px; letter-spacing: 0.5px}
+                h3{font-size: 13px; letter-spacing: 0.5px}
+                h6{font-size: 8px; letter-spacing: 0.5px; font-weight: normal;}
+                #logo{margin-bottom: 10px; width: 260px; height: 50px}
+                hr{border: none;border-bottom:solid 1px #84B231;}
+                .h-green,a{color:#80AA2A}
+                p{line-height: 18px}
+                .text-right{text-align: right}
+                .h-only-blue{color: #218CDC;}
+                .voucher-subtitle{color: #80AA2A; padding:3px 5px; background: #EBE9EA; width: 500px;}
+                .h-green-line{border-bottom: 1px solid #80AA2A;}
+                .b-cyan{background: #EBE9EA;}
+                .c-bbbb{ color: #bbb;}
+                hr.upper-bottom{ margin:15px 0 0; border-color:#bbb;}
+                .hr-grey-wide{border-color:#C8C8C8; border-width: 3px;}
+                .no-margin{margin: 0}
+                table{border-collapse: collapse; width: 100%; border-spacing: 0;}
+                /*table td{ padding: 2px; border-top: 1px solid #bbb;}*/
+            </style>
+        </head>
+        <body>
+            <table style="width: 100%">
+                <tr>
+                    <td>
+                        <img id="logo"  src="bundles/mycp/images/logo.jpg" alt="my casa particular"/>
+                    </td>
+                    <td style="text-align: right; vertical-align: top; color: #cccccc">
             {{'now'| date('M d, Y') }}
-        </td>
-    </tr>
-</table>
-<br/>
-<h2 class="h-green">{{ 'RESERVATION_CONFIRM'|trans }}</h2>
-<hr/>
-<h4 style="font-size: 20px; margin: 15px 0px 0px 5px">{{"DEAR_MR"|trans}} {{ user.getUserUserName }} {{ user.getUserLastName }}</h4>
-<p>
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+                <h2 class="h-green no-margin">{{ 'RESERVATION_CONFIRM'|trans }}</h2>
+                <hr/>
+                <h4 style="font-size: 14px; margin: 10px 0px 0px 5px">{{"DEAR_MR"|trans}} {{ user.getUserUserName }} {{ user.getUserLastName }}</h4>
+                <p>
     {{"THANKS_RESERVATION_MYCP"|trans}} <a href="{{ url('frontend_welcome') }}">MyCasaParticular.com</a><br/>
     {{"PLEASE_PRINT_CONFIRMATION_OF_SERVICE"|trans}}<br/>
     {{"CAN_FOLLOWING_RESERVATIONS_MYCT"|trans}} <a href="{{ url('frontend_mycasatrip_pending') }}">MyCasaTrip</a>
-</p>
-<h2 class="h-green">{{ 'CLIENT_INFORMATION'|trans }}</h2>
-<hr/>
-<p>
-<table style="width: 100%">
-    <tr>
-        <td><b>{{"RESERVATION_NUMBER"|trans}}:</b></td>
-        <td>ID_{{ booking.getBookingId }}</td>
-        <td><b>{{"EMAIL_TO"|trans}}</b></td>
-        <td>{{ user.getUserEmail }}</td>
-    </tr>
-    <tr>
-        <td><b>{{"CLIENT_NAME"|trans}}:</b></td>
-        <td>{{ user.getUserUserName }} {{ user.getUserLastName }}</td>
-        <td><b>{{"NACIONALITY"|trans}}:</b></td>
-        <td>{{ user.getUserCountry.getCoName }}</td>
-    </tr>
-</table>
-<br/>
+                    </p>
+                    <h2 class="h-green no-margin">{{ 'CLIENT_INFORMATION'|trans }}</h2>
+                    <hr/>
+                    <p>
+                    <table style="width: 100%">
+                        <tr>
+                            <td><b>{{"RESERVATION_NUMBER"|trans}}:</b></td>
+                            <td>ID_{{ booking.getBookingId }}</td>
+                            <td><b>{{"EMAIL_TO"|trans}}</b></td>
+                            <td>{{ user.getUserEmail }}</td>
+                        </tr>
+                        <tr>
+                            <td><b>{{"CLIENT_NAME"|trans}}:</b></td>
+                            <td>{{ user.getUserUserName }} {{ user.getUserLastName }}</td>
+                            <td><b>{{"NACIONALITY"|trans}}:</b></td>
+                            <td>{{ user.getUserCountry.getCoName }}</td>
+                        </tr>
+                    </table>
+                    <br/>
 {% for own in own_res %}
-<h2 class="h-green">{{ 'ACCOMMODATION'|trans }}</h2>
-<hr/>
-<table style="width: 100%">
-    <tr>
-        <td width="30%"><b>{{"ACCOMMODATION_NAME"|trans}}:</b></td>
-        <td width="40%">{{ own.getOwnResGenResId.getGenResOwnId.getOwnName }}</td>
-        <td rowspan="5">
-            <div style="padding: 12px; margin-left: 12px; border: solid 1px #cccccc;">
-                <!--div id="big_map_details" class="google-maps" style="width:100%;height: 100px;"
-                     data-x="{{own.getOwnResGenResId.getGenResOwnId.getOwnGeolocateX}}"
-                     data-y="{{own.getOwnResGenResId.getGenResOwnId.getOwnGeolocateY}}"
-                     data-name="{{own.getOwnResGenResId.getGenResOwnId.getOwnName}}"
-                     data-description=""
-                     data-image=""
-                     data-icon="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}"
-                </div>-->
-                <img src='http://maps.googleapis.com/maps/api/staticmap?center={{own.getOwnResGenResId.getGenResOwnId.getOwnGeolocateX}},{{own.getOwnResGenResId.getGenResOwnId.getOwnGeolocateY}}&zoom=15&size=200x200&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{own.getOwnResGenResId.getGenResOwnId.getOwnGeolocateX}},{{own.getOwnResGenResId.getGenResOwnId.getOwnGeolocateY}}&a.jpg'/>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td><b>{{"ID_HOME"|trans}}:</b></td>
-        <td>{{ own.getOwnResGenResId.getGenResOwnId.getOwnMcpCode }}</td>
-    </tr>
-    <tr>
-        <td><b>{{"OWNERS_NAME"|trans}}:</b></td>
-        <td>{{ own.getOwnResGenResId.getGenResOwnId.getOwnHomeowner1 }} {% if own.getOwnResGenResId.getGenResOwnId.getOwnHomeowner2 %}y {{ own.getOwnResGenResId.getGenResOwnId.getOwnHomeowner2 }}{% endif %}</td>
-    </tr>
-    <tr>
-        <td><b>{{"ADDRESS"|trans}}:</b></td>
-        <td>{{ own.getOwnResGenResId.getGenResOwnId.getOwnAddressStreet }}, número {{ own.getOwnResGenResId.getGenResOwnId.getOwnAddressNumber }}, entre {{ own.getOwnResGenResId.getGenResOwnId.getOwnAddressBetweenStreet1 }} y {{ own.getOwnResGenResId.getGenResOwnId.getOwnAddressBetweenStreet2 }}.
-            {{ own.getOwnResGenResId.getGenResOwnId.getOwnAddressMunicipality.getMunName }}, {{own.getOwnResGenResId.getGenResOwnId.getOwnAddressProvince.getProvName }}.
-        </td>
-    </tr>
-    <tr>
-        <td><b>{{"FORMS_PHONE"|trans}}:</b></td>
-        <td>(+53) {{ own.getOwnResGenResId.getGenResOwnId.getOwnAddressProvince.getProvPhoneCode }} {{ own.getOwnResGenResId.getGenResOwnId.getOwnPhoneNumber }}</td>
-    </tr>
-</table>
-<br/>
-<h2 class="h-green">
-    {{"RESERVATION_DETAILS"|trans}}: {{"ROOM_PLURAL"|trans}}
-</h2>
-<hr/>
-<table style="width: 100%">
-    <tbody>
-    <tr>
-        <td colspan="6"><b>{{"RESERVATION_ROOM"|trans}} ({{own.getOwnResRoomType|trans}})</b></td>
-    </tr>
-    <tr>
-        <td><b>{{"ARRIVAL_RESERVATION"|trans}}:</b></td>
-        <td>{{ own.getOwnResReservationFromDate| date("d/m/Y") }}</td>
-        <td><b>{{"DEPARTURE_RESERVATION"|trans}}:</b></td>
-        <td>{{ own.getOwnResReservationToDate| date("d/m/Y") }}</td>
-        <td><b>{{"NIGHTS"|trans}}:</b></td>
-        <td>{{ nights[loop.index0] }}</td>
-    </tr>
-    <tr>
-        <td><b>{{"SELECT_ROOM_TYPE_OPTION"|trans}}:</b></td>
-        <td>{{ own.getOwnResRoomType|trans }}</td>
-        <td><b>{{"ADULTS"|trans}}:</b></td>
-        <td>{{ own.getOwnResCountAdults }}</td>
-        <td><b>{{"KIDS"|trans}}:</b></td>
-        <td>{{ own.getOwnResCountChildrens }}</td>
-    </tr>
-    <tr>
-        <td><b>{{"SELECT_BATHROOM_TYPE_OPTION"|trans}}:</b></td>
-        <td colspan="5">{{ rooms[loop.index0].getRoomBathroom|trans }}</td>
-    </tr>
-    </tbody>
-</table>
+                    <hr class="hr-grey-wide"/>
+                    <table style="width: 100%">
+                        <tr>
+                            <td style="width: 70%">
+                                <h3 class="h-green h-green-line"  style="padding-bottom: 5px">
+                                    <img src="bundles/frontend/img/icons/vhouse.png">
+                            {{"ACCOMMODATION"|trans}} {{loop.index}}
+                                </h3>
+                            </td>
+                            <td style="vertical-align: middle; text-align: right;width:30%">
+                                <b>{{"RESERVATION_NUMBER"|trans}}:</b> ID_{{ booking.getBookingId }}
+                            </td>
+                        </tr>
+                    </table> 
+                    <table  style="width: 100%">
+                        <tr style="border-top:none;">
+                            <td style="border-top:none; width:30%"><b>{{"ACCOMMODATION_NAME"|trans}}:</b></td>
+                            <td style="border-top:none; width:40%">{{ own.name }}</td>
+                            <td rowspan="5" style="border-top:none;">
+                                <div class="thumbnail" style="padding: 12px; margin-left: 12px;">
+                                    <img src='http://maps.googleapis.com/maps/api/staticmap?center={{own.geo_x}},{{own.geo_y}}&zoom=15&size=200x200&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{own.geo_x}},{{own.geo_y}}&a.jpg'/>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>{{"ID_HOME"|trans}}:</b></td>
+                            <td>{{ own.mycp_code }}</td>
+                        </tr>
+                        <tr>
+                            <td><b>{{"OWNERS_NAME"|trans}}:</b></td>
+                            <td>{{ own.owner_1 }} {% if own.owner_2 %}& {{ own.owner_2 }}{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <td><b>{{"ADDRESS"|trans}}:</b></td>
+                            <td>{{ own.main_street }} {{ own.number }}, {{ own.street_1 }} & {{ own.street_2 }}.
+                    {{ own.municipality }}, {{own.province }}.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>{{"FORMS_PHONE"|trans}}:</b></td>
+                                <td>(+53{{ own.prov_code }}) {{ own.phone_number }}</td>
+                            </tr>
+                        </table>
+{%for res_room in own_res_rooms[own.id]%}
+                        <br/>
+                        <h4 class="voucher-subtitle no-margin" style="margin-bottom: 0px;">
+                            <img src="bundles/frontend/img/icons/vbed.png">
+            {{"RESERVATION_DETAILS"|trans}}: {{"ROOM_SINGULAR"|trans | capitalize}} {{loop.index}}
+                        </h4>
+                        <br/>
+                        <table style="width:100%">
+                            <tr>
+                                <td colspan="6"><h4 class="h-only-blue no-margin">{{res_room.own_res_room_type|trans}}</h4></td>
+                            </tr>
+                            <tr>
+                                <td><b>{{"ARRIVAL_RESERVATION"|trans}}:</b></td>
+                                <td>{{ res_room.own_res_reservation_from_date| date("d/m/Y") }}</td>
+                                <td><b>{{"DEPARTURE_RESERVATION"|trans}}:</b></td>
+                                <td>{{ res_room.own_res_reservation_to_date| date("d/m/Y") }}</td>
+                                <td><b>{{"NIGHTS"|trans}}:</b></td>
+                                <td>{{ nights[loop.index0] }}</td>
+                            </tr>
+                            <tr>
+                                <td><b>{{"SELECT_ROOM_TYPE_OPTION"|trans}}:</b></td>
+                                <td>{{ res_room.own_res_room_type|trans }}</td>
+                                <td><b>{{"ADULTS"|trans}}:</b></td>
+                                <td>{{ res_room.own_res_count_adults }}</td>
+                                <td><b>{{"KIDS"|trans}}:</b></td>
+                                <td>{{ res_room.own_res_count_childrens }}</td>
+                            </tr>
+                            <tr>
+                                <td><b>{{"SELECT_BATHROOM_TYPE_OPTION"|trans}}:</b></td>
+                                <td colspan="5">{{ res_room.room_bathroom|trans }}</td>
+                            </tr>
+                        </table>       
+        {%endfor%}
+                        <br/>
+                        <h4 class="voucher-subtitle no-margin">
+                            <img src="bundles/frontend/img/icons/vcurrency.png"> 
+        {{"PAYMENT_DETAILS"|trans}}: 
+                        </h4>
+                        <br/>
+                        <table style="width:100%">
+                                <tr>
+                                    <td><b>{{"PRICE_OF_ACCOMMODATION_SERVICE"|trans}}</b></td>
+                                    <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ ceil_round(own_res_payments[own.id].total_price)| number_format(2) }}</h4></td>
+                                </tr>
+                                <tr>
+                                    <td><b>{{"TOTAL_ALL_PREPAYMENT" | trans}} ({{own.commission_percent}} %)</b></td>
+                                    <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (ceil_round(own_res_payments[own.id].prepayment)) | number_format(2) }}</h4></td>
+                                </tr>
+                                <tr class="b-cyan">
+                                    <td><b>{{"TOTAL_TO_PAY_SERVICING" | trans}}</b></td>
+                                    <td class="text-right"><h4 class="no-margin">
+                                            CUC {{ ceil_round(own_res_payments[own.id].pay_at_service_cuc) | number_format(2) }}
+                                        </h4>
+                                        <h6 class="no-margin">
+                    {{ currency_symbol }} {{ (ceil_round(own_res_payments[own.id].pay_at_service)) | number_format(2) }}
+                                            </h6>
+                                        </td>
+                                    </tr>
+                            </table>
 {% endfor %}
-<br/>
-<h2 class="h-green">
-    {{"PAYMENT_DETAILS"|trans}}: {{"BILL"|trans}}
-</h2>
-<hr/>
-<table style="width: 100%">
-    <tbody>
-    <tr>
-        <td><b>{{"PRICE_OF_ACCOMMODATION_SERVICE"|trans}}</b></td>
-        <td class="text-right"><b>{{ currency_symbol }} {{ ceil_round(accommodations_service_charge) }}</b></td>
-    </tr>
-    <tr>
-        <td>- {{"TOTAL_PREPAYMENT"|trans}} ({% for comm in commissions %}{{comm}}%{% if not loop.last %}, {% endif %}{% endfor %})</td>
-        <td class="text-right">{{ currency_symbol }} {{ ceil_round(prepayment_accommodations) }}</td>
-    </tr>
-    <tr>
-        <td>{{"RESERVATION_TOTAL" | trans}} {{"SERVICE_RECHARGE"|trans|lower}}</td>
-        <td class="text-right">{{ currency_symbol }} {{ service_charge_total  | number_format(2)}}</td>
-    </tr>
-    <tr>
-        <td>{{"TOTAL_ALL_PREPAYMENT" | trans}}</td>
-        <td class="text-right">{{ currency_symbol }} {{ (service_charge_total + ceil_round(prepayment_accommodations)) | number_format(2) }}</td>
-    </tr>
-    <tr>
-        <td>{{"OTHER_SERVICES_HEADING_FILTER"|trans}}</td>
-        <td class="text-right">{{ currency_symbol }} {{0 | number_format(2)}}</td>
-    </tr>
-    <tr>
-        <td><h2 class="no-margin">{{"TOTAL_TO_PAY_SERVICING" | trans}}</h2></td>
-        <td class="text-right"><h2 class="no-margin">
-                {{ currency_symbol }} {{ (ceil_round(accommodations_service_charge) - ceil_round(prepayment_accommodations)) | number_format(2) }}
-            </h2></td>
-    </tr>
-    </tbody>
-</table>
-<script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
-<script src="{{ asset('bundles/frontend/js/jquery.ui.map.js') }}"></script>
-<script src="{{ asset('bundles/frontend/js/jquery.ui.map.infobox.js') }}"></script>
-<script src="{{ asset('bundles/frontend/js/ownership.min.js') }}"></script>
-</body>
-</html>
+                        <br/>
+                        <table style="width: 100%;">
+                <tr style="border-top:none;">
+                    <td style="border-top:none;padding:0px; width: 100%;">
+                        <hr class="upper-bottom"/>
+                    </td>
+                    <td style="text-wrap: none; border-top:none;text-align: right;padding:0px" nowrap="nowrap">
+                        <h3 class="no-margin c-bbbb">{{"END_OF_YOUR_RESERVATION" | trans}}</h3>
+                    </td>
+                </tr>
+            </table>
+            <br/>
+            <h3 class="h-green h-green-line"  style="padding-bottom: 5px">{{"PAYMENTS"|trans}}</h3>
+            <table style="width:100%">
+        <tr>
+            <td><b>{{"PRICE_OF_ACCOMMODATION_SERVICE"|trans}}</b></td>
+            <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ ceil_round(accommodations_service_charge)| number_format(2) }}</h4></td>
+        </tr>
+        <tr>
+            <td>- {{"TOTAL_PREPAYMENT"|trans}} ({% for comm in commissions %}{{comm}}%{% if not loop.last %}, {% endif %}{% endfor %})</td>
+            <td class="text-right">{{ currency_symbol }} {{ ceil_round(prepayment_accommodations) | number_format(2) }}</td>
+        </tr>
+        <tr>
+            <td>- {{"RESERVATION_TOTAL" | trans}} {{"SERVICE_RECHARGE"|trans|lower}}</td>
+            <td class="text-right">{{ currency_symbol }} {{ service_charge_total | number_format(2)}}</td>
+        </tr>
+        <tr>
+            <td>- {{"OTHER_SERVICES_HEADING_FILTER"|trans}}</td>
+            <td class="text-right">{{ currency_symbol }} {{0 | number_format(2)}} </td>
+        </tr>
+        <tr>
+            <td><b>{{"TOTAL_ALL_PREPAYMENT" | trans}} ({% for comm in commissions %}{{comm}}%{% if not loop.last %}, {% endif %}{% endfor %})</b></td>
+            <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (service_charge_total + ceil_round(prepayment_accommodations)) | number_format(2) }}</h4></td>
+        </tr>
+        
+        <tr>
+            <td style="border-top: 1px solid #bbb"><b>{{"TOTAL_TO_PAY_SERVICING" | trans}}</b></td>
+            <td style="border-top: 1px solid #bbb" class="text-right"><h4 class="no-margin">
+                CUC {{ ceil_round(total_price_to_pay_at_service_in_cuc) | number_format(2) }}
+                </h4>
+                <h6 class="no-margin">
+                    {{ currency_symbol }} {{ ceil_round(total_servicing_price) | number_format(2) }}
+                </h6>
+                </td>
+        </tr>
+    </table>
+                            <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
+                            <script src="{{ asset('bundles/frontend/js/jquery.ui.map.js') }}"></script>
+                            <script src="{{ asset('bundles/frontend/js/jquery.ui.map.infobox.js') }}"></script>
+                            <script src="{{ asset('bundles/frontend/js/ownership.min.js') }}"></script>
+                        </body>
+                    </html>

@@ -16,6 +16,7 @@ use MyCp\mycpBundle\Entity\photo;
 use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Entity\photoLang;
 use MyCp\mycpBundle\Entity\ownershipPhoto;
+use MyCp\mycpBundle\Helpers\OwnershipStatuses;
 
 class BackendOwnershipController extends Controller {
 
@@ -1079,8 +1080,11 @@ class BackendOwnershipController extends Controller {
         $selected = '';
         if (!is_array($post))
             $selected = $post;
+
         if (isset($post['status']))
             $selected = $post['status'];
+        /*else
+            $selected = OwnershipStatuses::IN_PROCESS;*/
 
         $status = $em->getRepository('mycpBundle:ownershipStatus')->findAll();
         return $this->render('mycpBundle:utils:ownership_status.html.twig', array('status' => $status, 'selected' => $selected, 'post' => $post));
