@@ -162,3 +162,10 @@ leezy_pheanstalk:
         primary:
             server: 127.0.0.1
             default: true
+
+abuc_remarketing:
+    enabled: true
+    job_queue: beanstalk
+    job_manager: doctrine
+    job_server: "@leezy.pheanstalk"
+
