@@ -287,6 +287,15 @@
                     <select class="input-block-level" name="room_yard_{{ i }}">
                         {{ render(controller('mycpBundle:BackendOwnership:get_yard_list', {'post':post,'id':i})) }}
                     </select>
+                    {% if(post['room_id_'~i] is defined) %}
+                        {% if (post['room_delete_'~i] is defined) %}
+                            {% if post['room_delete_'~i] == 1 %}
+                                <a class="btn btn-danger" href="{{ path('mycp_delete_room', { 'id_room': post['room_id_'~i], 'type':1 }) }}">Eliminar</a>
+                            {% else %}
+                                <a class="btn btn-warning" href="{{ path('mycp_delete_room', { 'id_room': post['room_id_'~i], 'type':0 }) }}">Deshabilitar</a>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
                 </div>
             {% endfor %}
             </div>

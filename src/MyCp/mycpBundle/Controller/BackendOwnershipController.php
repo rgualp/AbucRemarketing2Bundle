@@ -2,6 +2,8 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use MyCp\mycpBundle\Entity\ownershipReservation;
+use MyCp\mycpBundle\Entity\room;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -221,6 +223,26 @@ class BackendOwnershipController extends Controller {
         return $this->redirect($this->generateUrl('mycp_list_photos_ownership', array('id_ownership' => $id_ownership)));
     }
 
+    public function delete_roomAction($id_room, $type)
+    {
+        $service_security = $this->get('Secure');
+        $service_security->verify_access();
+
+        $em = $this->getDoctrine()->getManager();
+        $ro = new room();
+
+        $ro = $em->getRepository('mycpBundle:room')->find($id_room);
+        $id_ownership = $ro->getRoomOwnership()->getOwnId();;
+
+        if ( $type == 1 ){
+            $em->remove($ro);
+            $em->flush();
+        }
+
+
+        return $this->redirect($this->generateUrl('mycp_edit_ownership', array('id_ownership' => $id_ownership)));
+    }
+
     public function edit_ownershipAction($id_ownership, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verify_access();
@@ -285,10 +307,12 @@ class BackendOwnershipController extends Controller {
         $post['geolocate_y'] = $ownership->getOwnGeolocateY();
         $post['top_20'] = $ownership->getOwnTop20();
         $data['country_code'] = $ownership->getOwnAddressProvince()->getProvId();
-        
-        $status= $ownership->getOwnStatus();
-        if(isset($status))
+
+        $status = $ownership->getOwnStatus();
+
+        if(!empty($status)) {
             $post['status'] = $status->getStatusId();
+        }
 
         if ($post['top_20'] == false)
             $post['top_20'] = 0;
@@ -357,6 +381,13 @@ class BackendOwnershipController extends Controller {
             $post['room_balcony_' . $a] = $rooms[$a - 1]->getRoomBalcony();
             $post['room_terrace_' . $a] = $rooms[$a - 1]->getRoomTerrace();
             $post['room_yard_' . $a] = $rooms[$a - 1]->getRoomYard();
+            $post['room_id_' . $a] = $rooms[$a - 1]->getRoomId();
+
+            $reservation = new ownershipReservation();
+
+            $reservation = $em->getRepository('mycpBundle:ownershipReservation')->findOneBy(array('own_res_selected_room_id' => $rooms[$a - 1]->getRoomId()));
+
+            $post['room_delete_' . $a] = $reservation ? 0 : 1;
 
             if ($post['room_terrace_' . $a] == true)
                 $post['room_terrace_' . $a] = 1;
@@ -545,9 +576,9 @@ class BackendOwnershipController extends Controller {
                             }
                         }
                     }
-                    
+
                     //Verificando que no existan otras propiedades con el mismo código
-                    
+
                     if (!array_key_exists('edit_ownership', $post)) {
 
                         $similar = $em->getRepository('mycpBundle:ownership')->findBy(array('own_mcp_code' => $post['ownership_mcp_code']));
@@ -1020,10 +1051,10 @@ class BackendOwnershipController extends Controller {
         $selected = '';
         if (!is_array($post))
             $selected = $post;
-        
+
         if (isset($post['status']))
             $selected = $post['status'];
-        /*else 
+        /*else
             $selected = OwnershipStatuses::IN_PROCESS;*/
 
         $status = $em->getRepository('mycpBundle:ownershipStatus')->findAll();

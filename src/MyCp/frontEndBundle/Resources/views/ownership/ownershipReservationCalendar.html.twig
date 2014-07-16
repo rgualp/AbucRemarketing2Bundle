@@ -13,6 +13,7 @@
         <tbody>
         {% set cont = 1 %}
         {% for room in rooms %}
+
             <input class="hidden real_price_room" value="{{ room.getRoomPriceUpFrom }}">
             {% set available = 1 %}
             <tr {% if reservations[room.getRoomId] is defined %} style="color: #ff0008!important;" {% set available = 0 %} {% endif %}>
