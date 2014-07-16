@@ -578,7 +578,8 @@ class reservationController extends Controller {
                     $booking->setBookingCancelProtection(1);
                 else
                     $booking->setBookingCancelProtection(0);
-                $currency = null;
+
+                $currency=null;
 
                 $price_in_currency = $em->getRepository('mycpBundle:currency')->findOneBy(array('curr_site_price_in' => true));
 
@@ -880,12 +881,12 @@ class reservationController extends Controller {
             $own_res = $em->getRepository('mycpBundle:ownershipReservation')->get_reservations_by_booking_and_ownership($id_booking,$own_r["id"]);
             $total_price = 0;
             $total_percent_price = 0;
-            
+
             foreach ($own_res as $own) {
                 $array_dates = $service_time->dates_between($own->getOwnResReservationFromDate()->getTimestamp(), $own->getOwnResReservationToDate()->getTimestamp());
                 $total_price += $own->getOwnResNightPrice() * (count($array_dates) - 1);
                 $total_percent_price += $own->getOwnResNightPrice() * (count($array_dates) - 1) * $own_commission / 100;
-                
+
             }
 
 
