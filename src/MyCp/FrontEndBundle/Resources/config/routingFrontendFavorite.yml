@@ -1,28 +1,28 @@
 frontend_details_insert_favorite_callback:
     pattern:  /favorite-details-insert/
-    defaults: { _controller: frontEndBundle:favorite:details_insert }
+    defaults: { _controller: FrontEndBundle:Favorite:details_insert }
 
 frontend_details_delete_favorite_callback:
     pattern:  /favorite-details-delete/
-    defaults: { _controller: frontEndBundle:favorite:details_delete }
+    defaults: { _controller: FrontEndBundle:Favorite:details_delete }
 
 frontend_insert_favorite_callback:
     pattern:  /favorite-insert/
-    defaults: { _controller: frontEndBundle:favorite:insert }
+    defaults: { _controller: FrontEndBundle:Favorite:insert }
 
 frontend_delete_favorite_callback:
     pattern:  /favorite-delete/
-    defaults: { _controller: frontEndBundle:favorite:delete }
+    defaults: { _controller: FrontEndBundle:Favorite:delete }
 
 frontend_list_favorite:
     pattern:  /favorite-list/
     locales:  { en: "/favorites/", es: "/favoritos/", de: "/favoriten/" }
-    defaults: { _controller: frontEndBundle:favorite:list }
+    defaults: { _controller: FrontEndBundle:Favorite:list }
 
 frontend_delete_from_list_favorite_callback:
     pattern:  /favorite-delete-from-list/
-    defaults: { _controller: frontEndBundle:favorite:delete_from_list }
+    defaults: { _controller: FrontEndBundle:Favorite:delete_from_list }
 
 frontend_update_favorites_statistics_callback:
     locales:  { en: "/update-favorites-statistics-callback/", es: "/actualizar-estadisticas-favoritos-callback/", de:"frontend_update_favorites_statistics_callback" }
-    defaults: { _controller: frontEndBundle:mycasatrip:update_favorites_statistics_callback }
+    defaults: { _controller: FrontEndBundle:Mycasatrip:update_favorites_statistics_callback }

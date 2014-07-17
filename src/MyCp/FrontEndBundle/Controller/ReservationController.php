@@ -1,6 +1,6 @@
 <?php
 
-namespace MyCp\FrontendBundle\Controller;
+namespace MyCp\FrontEndBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,9 +11,9 @@ use MyCp\mycpBundle\Entity\generalReservation;
 use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Email;
-use MyCp\frontEndBundle\Helpers\PaymentHelper;
+use MyCp\FrontEndBundle\Helpers\PaymentHelper;
 
-class reservationController extends Controller {
+class ReservationController extends Controller {
 
     const RELATIVE_VOUCHER_PATH = "/../tmp/vouchers/";
 
@@ -22,7 +22,7 @@ class reservationController extends Controller {
         if ($request->getSession()->get('services_pre_reservation'))
             $services = $request->getSession()->get('services_pre_reservation');
         //var_dump($request->getSession()->get('services_pre_reservation'));
-        return $this->render('frontEndBundle:reservation:cartCountItems.html.twig', array(
+        return $this->render('FrontEndBundle:reservation:cartCountItems.html.twig', array(
                     'count' => count($services)
         ));
     }
@@ -173,7 +173,7 @@ class reservationController extends Controller {
         if ($request->getSession()->get('services_pre_reservation'))
             $services = $request->getSession()->get('services_pre_reservation');
 
-        return $this->render('frontEndBundle:reservation:reviewReservation.html.twig', array(
+        return $this->render('FrontEndBundle:reservation:reviewReservation.html.twig', array(
                     'services' => $services,
                     'ownership' => $ownership,
         ));
@@ -224,7 +224,7 @@ class reservationController extends Controller {
                     $array_clear_date[$date] = 1;
                 }
             }
-        return $this->render('frontEndBundle:reservation:bodyReviewReservation.html.twig', array(
+        return $this->render('FrontEndBundle:reservation:bodyReviewReservation.html.twig', array(
                     'dates_string' => $array_dates_string,
                     'dates_string_day' => $array_dates_string_day,
                     'dates_timestamp' => $array_dates,
@@ -370,7 +370,7 @@ class reservationController extends Controller {
         $destinations = $em->getRepository('mycpBundle:destination')->destination_filter($locale, null, $ownership->getOwnAddressProvince()->getProvId(), null, $ownership->getOwnAddressMunicipality()->getMunId(), 3, $user->getUserId(), null);
 
         // Enviando mail al cliente
-        $body = $this->render('frontEndBundle:mails:email_check_available.html.twig', array(
+        $body = $this->render('FrontEndBundle:mails:email_check_available.html.twig', array(
             'user' => $user,
             'reservations' => $reservations,
             'ids' => $own_ids,
@@ -402,7 +402,7 @@ class reservationController extends Controller {
         foreach ($array_own_res_home as $own_array) {
             $temp_nigths = array_slice($nigths, $flag_3, count($own_array));
             $flag_3 = count($own_array);
-            $body = $this->render('frontEndBundle:mails:rt_email_check_available.html.twig', array(
+            $body = $this->render('FrontEndBundle:mails:rt_email_check_available.html.twig', array(
                 'user' => $user,
                 'user_tourist' => $user_tourist,
                 'reservations' => $own_array,
@@ -418,7 +418,7 @@ class reservationController extends Controller {
         }
         //exit();
 
-        return $this->render('frontEndBundle:reservation:confirmReview.html.twig', array(
+        return $this->render('FrontEndBundle:reservation:confirmReview.html.twig', array(
                     "owns_in_destination" => $owns_in_destination,
                     "owns_in_destination_total" => count($em->getRepository("mycpBundle:destination")->ownsership_nearby_destination($ownership->getOwnAddressMunicipality()->getMunId(), $ownership->getOwnAddressProvince()->getProvId())),
                     "other_destinations" => $destinations
@@ -453,7 +453,7 @@ class reservationController extends Controller {
         $array_ids = $session->get('reservation_own_ids');
         //var_dump($array_ids); exit();
         if (!$array_ids) {
-            return $this->forward('frontEndBundle:mycasatrip:reservations_available', array('order_by' => 0));
+            return $this->forward('FrontEndBundle:mycasatrip:reservations_available', array('order_by' => 0));
         }
 
         $service_time = $this->get('time');
@@ -618,12 +618,12 @@ class reservationController extends Controller {
                   $em->flush(); */
 
                 $bookingId = $booking->getBookingId();
-                return $this->forward('frontEndBundle:payment:skrillPayment', array('bookingId' => $bookingId));
+                return $this->forward('FrontEndBundle:payment:skrillPayment', array('bookingId' => $bookingId));
             }
         }
         $countries = $em->getRepository('mycpBundle:country')->findAll();
 
-        return $this->render('frontEndBundle:reservation:reservation.html.twig', array(
+        return $this->render('FrontEndBundle:reservation:reservation.html.twig', array(
                     'limit_dates' => $array_limits_dates,
                     'dates_string' => $array_dates_string,
                     'dates_string_day' => $array_dates_string_day,
@@ -668,10 +668,10 @@ class reservationController extends Controller {
                 return $this->renderPaymentConfirmationPage($id_booking);
 
             case PaymentHelper::STATUS_CANCELLED:
-                return $this->forward('frontEndBundle:reservation:reservation_reservation');
+                return $this->forward('FrontEndBundle:reservation:reservation_reservation');
 
             case PaymentHelper::STATUS_FAILED:
-                return $this->forward('frontEndBundle:reservation:reservation_reservation');
+                return $this->forward('FrontEndBundle:reservation:reservation_reservation');
 
             default:
                 throw $this->createNotFoundException();
@@ -686,7 +686,7 @@ class reservationController extends Controller {
 
     private function renderPaymentConfirmationPage($id_booking) {
         $url = $this->generateUrl('frontend_view_confirmation_reservation', array('id_booking' => $id_booking));
-        return $this->render('frontEndBundle:reservation:afterpayment.html.twig', array('url' => $url));
+        return $this->render('FrontEndBundle:reservation:afterpayment.html.twig', array('url' => $url));
     }
 
     private function processPaymentEmails($id_booking, $payment_pending = 0) {
@@ -749,7 +749,7 @@ class reservationController extends Controller {
         $user_locale = $user_tourist[0]->getUserTouristLanguage()->getLangCode();
 
         //save pdf into disk to attach
-        $response = $this->forward('frontEndBundle:reservation:view_confirmation', array('id_booking' => $id_booking, 'to_print' => true));
+        $response = $this->forward('FrontEndBundle:reservation:view_confirmation', array('id_booking' => $id_booking, 'to_print' => true));
 
         $pdf_name = 'voucher' . $user->getUserId() . '_' . $booking->getBookingId();
         $pdfFilePath = $this->getPdfFilePath($pdf_name);
@@ -763,7 +763,7 @@ class reservationController extends Controller {
         // Enviando mail al cliente
         $service_email = $this->get('Email');
 
-        $body = $this->render('frontEndBundle:mails:email_offer_available.html.twig', array(
+        $body = $this->render('FrontEndBundle:mails:email_offer_available.html.twig', array(
             'booking' => $id_booking,
             'user' => $user,
             'reservations' => $reservations,
@@ -790,11 +790,11 @@ class reservationController extends Controller {
         }
 
         // Log the reservations as sometimes too many emails are sent
-        $logger->info('array_ownres_by_house in reservationController::payment_processed, count: ' . count($array_ownres_by_house));
+        $logger->info('array_ownres_by_house in ReservationController::payment_processed, count: ' . count($array_ownres_by_house));
 
         // enviando mail a reservation team
         foreach ($array_ownres_by_house as $owns) {
-            $body_res = $this->render('frontEndBundle:mails:rt_payment_confirmation.html.twig', array(
+            $body_res = $this->render('FrontEndBundle:mails:rt_payment_confirmation.html.twig', array(
                 'user' => $user,
                 'user_tourist' => $user_tourist,
                 'reservations' => $owns,
@@ -816,7 +816,7 @@ class reservationController extends Controller {
 
         // enviando mail al propietario
         foreach ($array_ownres_by_house as $owns) {
-            $body_prop = $this->render('frontEndBundle:mails:email_house_confirmation.html.twig', array(
+            $body_prop = $this->render('FrontEndBundle:mails:email_house_confirmation.html.twig', array(
                 'user' => $user,
                 'user_tourist' => $user_tourist,
                 'reservations' => $owns,
@@ -930,7 +930,7 @@ class reservationController extends Controller {
         $totalPriceToPayAtServiceInCUC = $total_price - $total_percent_price;
 
         if ($to_print == true) {
-            return $this->render('frontEndBundle:reservation:boucherReservation.html.twig', array(
+            return $this->render('FrontEndBundle:reservation:boucherReservation.html.twig', array(
                         'own_res' => $own_res_distinct,
                         'own_res_rooms' => $own_res_rooms,
                         'own_res_payments' => $payments,
@@ -951,7 +951,7 @@ class reservationController extends Controller {
             ));
         }
 
-        return $this->render('frontEndBundle:reservation:confirmReservation.html.twig', array(
+        return $this->render('FrontEndBundle:reservation:confirmReservation.html.twig', array(
                     'own_res' => $own_res_distinct,
                     'own_res_rooms' => $own_res_rooms,
                     'own_res_payments' => $payments,
@@ -972,11 +972,11 @@ class reservationController extends Controller {
     }
 
     public function generatePdfVoucherAction($id_booking, $name = "voucher") {
-        $pdfResponse = $this->forward('frontEndBundle:reservation:view_confirmation', array('id_booking' => $id_booking, 'to_print' => true));
+        $pdfResponse = $this->forward('FrontEndBundle:reservation:view_confirmation', array('id_booking' => $id_booking, 'to_print' => true));
 
         $this->streamHtmlAsPdf($pdfResponse, $name);
 
-        return $this->forward('frontEndBundle:reservation:view_confirmation', array('id_booking' => $id_booking));
+        return $this->forward('FrontEndBundle:reservation:view_confirmation', array('id_booking' => $id_booking));
     }
 
     function remove_dir($dir) {

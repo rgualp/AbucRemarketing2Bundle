@@ -16,7 +16,7 @@
                                 <div class="row">
                                     {% for e in 1..4%}
                                         {% if popular_places[flag_item] is defined %}
-                                            {{ include('frontEndBundle:destination:homeItemDestination.html.twig',{'destination_id': popular_places[flag_item]['des_id'],
+                                            {{ include('FrontEndBundle:destination:homeItemDestination.html.twig',{'destination_id': popular_places[flag_item]['des_id'],
                                             'destination_name':popular_places[flag_item]['des_name'],
                                             'is_in_favorite': popular_places[flag_item]['is_in_favorites'],
                                             'photo': popular_places[flag_item]['photo'],
@@ -59,7 +59,7 @@
                                 <div class="row">
                                     {% for e in 1..4%}
                                         {% if last_added[flag_item] is defined %}
-                                            {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{
+                                            {{ include('FrontEndBundle:ownership:homeItemOwnership.html.twig',{
                                             'own_id': last_added[flag_item]['own_id'],
                                             'own_name': last_added[flag_item]['own_name'],
                                             'own_comments': last_added[flag_item]['comments_total'],
@@ -105,7 +105,7 @@
                                 <div class="row">
                                     {% for e in 1..4%}
                                         {% if economic_own_list[flag_item] is defined %}
-                                            {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{
+                                            {{ include('FrontEndBundle:ownership:homeItemOwnership.html.twig',{
                                             'own_id': economic_own_list[flag_item]['own_id'],
                                             'own_name': economic_own_list[flag_item]['own_name'],
                                             'own_comments': economic_own_list[flag_item]['comments_total'],
@@ -151,7 +151,7 @@
                                 <div class="row">
                                     {% for e in 1..4%}
                                         {% if medium_own_list[flag_item] is defined %}
-                                            {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{
+                                            {{ include('FrontEndBundle:ownership:homeItemOwnership.html.twig',{
                                             'own_id': medium_own_list[flag_item]['own_id'],
                                             'own_name':  medium_own_list[flag_item]['own_name'],
                                             'own_comments':  medium_own_list[flag_item]['comments_total'],
@@ -197,7 +197,7 @@
                                 <div class="row">
                                     {% for e in 1..4%}
                                         {% if premium_own_list[flag_item] is defined %}
-                                            {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',{
+                                            {{ include('FrontEndBundle:ownership:homeItemOwnership.html.twig',{
                                             'own_id': premium_own_list[flag_item]['own_id'],
                                             'own_name': premium_own_list[flag_item]['own_name'],
                                             'own_comments': premium_own_list[flag_item]['comments_total'],

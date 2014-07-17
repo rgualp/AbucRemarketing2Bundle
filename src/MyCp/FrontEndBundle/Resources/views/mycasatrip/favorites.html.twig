@@ -3,18 +3,18 @@
 {%else%}
 {%set menu = 8%}
 {%endif%}
-{% extends 'frontEndBundle:mycasatrip:layout.html.twig' %}
+{% extends 'FrontEndBundle:mycasatrip:layout.html.twig' %}
 {% block body_inner %}
 <div id="loading" class="hidden">
         <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}"/></div>
     </div>
 {%if favorite_type == "ownerships"%}
 <div id="div_result">
-                {{ include('frontEndBundle:ownership:ownershipArrayItemList.html.twig', 
+                {{ include('FrontEndBundle:ownership:ownershipArrayItemList.html.twig',
                 {'list': ownership_favorities,
                  'list_preffix': 'own_fav_preffix',
                  'is_in_favorites_list': true,
-                }) }}      
+                }) }}
 </div>
 {%if ownership_favorities | length and total_items > items_per_page%}
         <div class="text-center">
@@ -29,10 +29,10 @@
 }) }}
             </div>
             {%endif%}
-{%else%} 
+{%else%}
 {%if favorite_type == "ownershipfav"%}
 
-{{ include('frontEndBundle:favorite:ownershipArrayItemFavorite.html.twig', 
+{{ include('FrontEndBundle:favorite:ownershipArrayItemFavorite.html.twig',
                 {'list': ownership_favorities,
                 'list_preffix' : 'own_favorities',
                 'is_in_favorites_list': true
@@ -53,11 +53,11 @@
 {%else%}
 
     <div class="row result_list" id="div_result_destinations">
-        {{ include('frontEndBundle:destination:arrayItemListDestination.html.twig', 
+        {{ include('FrontEndBundle:destination:arrayItemListDestination.html.twig',
                 {'list': destination_favorities,
                 'list_preffix' : 'destination_favorities',
                 'is_in_favorites_list': true
-                }) }}      
+                }) }}
     </div>
 
         {%if destination_favorities | length and total_items > items_per_page%}

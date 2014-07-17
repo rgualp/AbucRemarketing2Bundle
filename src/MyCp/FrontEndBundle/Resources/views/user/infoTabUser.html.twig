@@ -12,7 +12,7 @@
             <div class="row-fluid">
                 {% for destination_array in destination_favorites %}
                     <div class="span3">
-                {{ include('frontEndBundle:destination:homeItemDestination.html.twig',{
+                {{ include('FrontEndBundle:destination:homeItemDestination.html.twig',{
                 'destination_id': destination_array['destination_id'],
                 'destination_name': destination_array['destination_name'],
                 'is_in_favorite': true,
@@ -30,7 +30,7 @@
             <div class="row-fluid">
                 {% for destination_array in history_destinations %}
                     <div class="span3">
-                {{ include('frontEndBundle:destination:homeItemDestination.html.twig',
+                {{ include('FrontEndBundle:destination:homeItemDestination.html.twig',
                    {'destination_id': destination_array['destination_id'],
                 'destination_name': destination_array['destination_name'],
                 'is_in_favorite': destination_array['is_in_favorites'],
@@ -47,7 +47,7 @@
         <div id="favorite_owns" class="tab-pane fade in">
             <div class="row-fluid">
                 {% for ownership_array in favorite_owns %}
-                {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',
+                {{ include('FrontEndBundle:ownership:homeItemOwnership.html.twig',
                     {'own_id': ownership_array['own_id'],
                      'own_name': ownership_array['own_name'],
                      'own_comments': ownership_array['comments_total'],
@@ -65,7 +65,7 @@
         <div id="history_owns" class="tab-pane fade in">
             <div class="row-fluid">
                 {% for ownership_array in history_owns %}
-                {{ include('frontEndBundle:ownership:homeItemOwnership.html.twig',
+                {{ include('FrontEndBundle:ownership:homeItemOwnership.html.twig',
                    {'own_id': ownership_array['own_id'],
                      'own_name': ownership_array['own_name'],
                      'own_comments': ownership_array['comments_total'],

@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use MyCp\mycpBundle\Entity\destination;
 use MyCp\mycpBundle\Entity\destinationLang;
 use MyCp\mycpBundle\Entity\destinationLocation;
-use MyCp\frontEndBundle\Helpers\Utils;
+use MyCp\FrontEndBundle\Helpers\Utils;
 
 /**
  * countryRepository

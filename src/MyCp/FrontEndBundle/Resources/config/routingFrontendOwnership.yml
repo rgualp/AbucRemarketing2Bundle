@@ -1,74 +1,74 @@
 frontend_get_reservation_calendar_ownership_callback:
     pattern:  /reservation-calendar/
-    defaults: { _controller: frontEndBundle:ownership:get_reservation_calendar }
+    defaults: { _controller: FrontEndBundle:Ownership:get_reservation_calendar }
 
 frontend_details_ownership:
     locales:  { en: "/accommodation/{own_name}", es: "/alojamiento/{own_name}", de: "/unterkunft/{own_name}" }
-    defaults: { _controller: frontEndBundle:ownership:details }
+    defaults: { _controller: FrontEndBundle:Ownership:details }
 
 frontend_last_added_ownership:
     locales:  { en: "/last-added-accommodation/", es: "/ultimos-alojamientos-agregados/", de: "/zuletzt-hinzugefuegte-unterkuenfte/" }
-    defaults: { _controller: frontEndBundle:ownership:last_added_list }
+    defaults: { _controller: FrontEndBundle:Ownership:last_added_list }
 
 frontend_category_ownership:
     locales:  { en: "/accommodations-by-category/{category}", es: "/alojamientos-por-categoria/{category}", de: "/unterkuenfte-nach-kategorie/{category}" }
-    defaults: { _controller: frontEndBundle:ownership:category }
+    defaults: { _controller: FrontEndBundle:Ownership:category }
 
 frontend_search_ownership:
     locales:  { en: "/accommodations/{text}/{arrival}/{departure}/{guests}/{rooms}", es: "/alojamientos/{text}/{arrival}/{departure}/{guests}/{rooms}", de: "/unterkuenfte/{text}/{arrival}/{departure}/{guests}/{rooms}" }
-    defaults: { _controller: frontEndBundle:ownership:search,text:'null',arrival:'null',departure:'null',guests:1,rooms:1 }
+    defaults: { _controller: FrontEndBundle:Ownership:search,text:'null',arrival:'null',departure:'null',guests:1,rooms:1 }
 
 frontend_order_search_results_ownership_callback:
     pattern:  /order-results/
-    defaults: { _controller: frontEndBundle:ownership:search_order_results }
+    defaults: { _controller: FrontEndBundle:Ownership:search_order_results }
     methods:  [POST]
 
 frontend_change_view_ownership_callback:
     pattern:  /change-results-view/
-    defaults: { _controller: frontEndBundle:ownership:search_change_view_results }
+    defaults: { _controller: FrontEndBundle:Ownership:search_change_view_results }
 
 frontend_research_ownership_callback:
   pattern: /research/
-  defaults: {_controller: frontEndBundle:ownership:research }
+  defaults: {_controller: FrontEndBundle:Ownership:research }
   requirements:
         _method:  GET|POST
 
 frontend_filter_ownership_callback:
     pattern:  /filter/
-    defaults: { _controller: frontEndBundle:ownership:filter }
+    defaults: { _controller: FrontEndBundle:Ownership:filter }
 
 frontend_filter_statistics_ownership_callback:
     pattern:  /filter-statistics/
-    defaults: { _controller: frontEndBundle:ownership:get_filters_statistics }
+    defaults: { _controller: FrontEndBundle:Ownership:get_filters_statistics }
 
 frontend_map_markers_ownership_callback:
     pattern:  /map-markers/
-    defaults: { _controller: frontEndBundle:ownership:map_markers_list }
+    defaults: { _controller: FrontEndBundle:Ownership:map_markers_list }
 
 frontend_update_rating_ownership:
     pattern:  /update-rating/{ownid}
-    defaults: { _controller: frontEndBundle:ownership:update_rating }
+    defaults: { _controller: FrontEndBundle:Ownership:update_rating }
 
 frontend_map_details_ownership_callback:
     pattern:  /map-details-ownership/{ownGeolocateX}/{ownGeolocateY}/{ownName}/{description}/{image}
-    defaults: { _controller: frontEndBundle:ownership:map_details_ownership }
+    defaults: { _controller: FrontEndBundle:Ownership:map_details_ownership }
 
 frontend_map_resized_ownership_callback:
     pattern:  /map-resized/{in_searcher}/{destination_name}
-    defaults: { _controller: frontEndBundle:ownership:map_resized }
+    defaults: { _controller: FrontEndBundle:Ownership:map_resized }
 
 frontend_voted_best_list_ownership:
     locales:  { en: "/top-rated-accommodations/", es: "/alojamientos-mejores-votados/", de: "/top-unterkuenfte/" }
-    defaults: { _controller: frontEndBundle:ownership:voted_best_list }
+    defaults: { _controller: FrontEndBundle:Ownership:voted_best_list }
 
 frontend_type_list_ownership:
     locales:  { en: "/accommodations-by-type/{type}", es: "/alojamientos-por-tipo/{type}", de: "/unterkuenfte-nach-typ/{type}" }
-    defaults: { _controller: frontEndBundle:ownership:type_list }
+    defaults: { _controller: FrontEndBundle:Ownership:type_list }
 
 frontend_top_rated_callback_ownership:
     pattern:  /top-rated-callback/
-    defaults: { _controller: frontEndBundle:ownership:top_rated_callback }
+    defaults: { _controller: FrontEndBundle:Ownership:top_rated_callback }
 
 frontend_top_rated_change_category_callback_ownership:
     pattern:  /top-rated-change-category-callback/
-    defaults: { _controller: frontEndBundle:ownership:top_rated_change_category_callback }
+    defaults: { _controller: FrontEndBundle:Ownership:top_rated_change_category_callback }

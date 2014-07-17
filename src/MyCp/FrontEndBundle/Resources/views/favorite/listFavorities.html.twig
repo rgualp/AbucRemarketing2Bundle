@@ -1,4 +1,4 @@
-{% extends 'frontEndBundle:layout:base.html.twig' %}
+{% extends 'FrontEndBundle:layout:base.html.twig' %}
 {% block title %}
 {{"FAVORITIES"  | trans }}
 {% endblock %}
@@ -22,20 +22,20 @@
     </div>
         <div id="owns_favorities" class="tab-pane active">
             <div class="row result_list ownerships_list thumbs-houses" id="div_result">
-                {{ include('frontEndBundle:favorite:ownershipArrayItemFavorite.html.twig', 
+                {{ include('FrontEndBundle:favorite:ownershipArrayItemFavorite.html.twig',
                 {'list': ownership_favorities,
                 'list_preffix' : 'own_favorities',
                 'is_in_favorites_list': true
-                }) }}      
+                }) }}
             </div>
         </div>
         <div id="destination_favorities" class="tab-pane in">
             <div class="row result_list container" id="div_result_destinations">
-                {{ include('frontEndBundle:destination:arrayItemListDestination.html.twig', 
+                {{ include('FrontEndBundle:destination:arrayItemListDestination.html.twig',
                 {'list': destination_favorities,
                 'list_preffix' : 'own_favorities',
                 'is_in_favorites_list': true
-                }) }}            
+                }) }}
             </div>
         </div>
     </div>
@@ -48,6 +48,6 @@
         win.scrollTop(win.scrollTop()-1);
     })
 </script>
-{% block include_javascripts %}   
+{% block include_javascripts %}
 {% endblock %}
 {% endblock %}

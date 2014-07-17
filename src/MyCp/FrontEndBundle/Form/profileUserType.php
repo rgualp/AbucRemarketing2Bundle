@@ -1,5 +1,5 @@
 <?php
-namespace MyCp\frontEndBundle\Form;
+namespace MyCp\FrontEndBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -13,7 +13,7 @@ class profileUserType extends AbstractType
 {
     private $translate;
     private $data;
-    
+
     function __construct($trans_entity, $data)
     {
         $this->translate = $trans_entity;
@@ -27,24 +27,24 @@ class profileUserType extends AbstractType
         {
             $array_countries[$country->getCoId()]=$country->getCoName();
         }
-        
+
         $array_gender = array();
         $array_gender[0] = $this->translate->trans('MALE');
         $array_gender[1] = $this->translate->trans('FEMALE');
-        
+
         $array_currencies=array();
         foreach($this->data['currencies'] as $currency)
         {
             $array_currencies[$currency->getCurrId()]=$currency->getCurrName();
         }
-        
+
         $array_languages=array();
         foreach($this->data['languages'] as $lang)
         {
             $array_languages[$lang->getLangId()]=$lang->getLangName();
         }
-        
-        
+
+
         $builder
             ->add('user_user_name','text',array(
                 'label'=>$this->translate->trans('FORMS_NAME'),

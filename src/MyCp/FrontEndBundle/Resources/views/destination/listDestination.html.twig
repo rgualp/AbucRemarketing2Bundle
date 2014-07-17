@@ -1,4 +1,4 @@
-{% extends 'frontEndBundle:layout:base.html.twig' %}
+{% extends 'FrontEndBundle:layout:base.html.twig' %}
 {% block title %}
 {{"POPULAR_DESTINATIONS_PAGE_TITLE" | trans}}
 {% endblock %}
@@ -52,12 +52,12 @@
 {% block body %}
 <div class="container cont-form" style="margin-top: -20px">
 <div id="main-search-2">
-    {{ render(controller('frontEndBundle:ownership:orangeSearchBar')) }}
+    {{ render(controller('FrontEndBundle:Ownership:orangeSearchBar')) }}
 </div>
 </div>
 
 <div class="container">
-    <h1 class="caecilia-roman text-center h-grey h-size-1">{{"HOMEPAGE_SUBTITLE_2" | trans}}</h1>   
+    <h1 class="caecilia-roman text-center h-grey h-size-1">{{"HOMEPAGE_SUBTITLE_2" | trans}}</h1>
     <div id="full-width-slider" class="royalSlider rsDefault">
     </div>
     <h1 class="caecilia-roman text-center h-orange h-size-2">{{"MAIN_CUBAN_DESTINATIONS" | trans}}</h1>
@@ -67,7 +67,7 @@
    {% if flag == 0 %}
     <div class="row thumbs-houses thumbs-destination">
    {% endif %}
-       {{ include('frontEndBundle:destination:destinationItem.html.twig',{
+       {{ include('FrontEndBundle:destination:destinationItem.html.twig',{
                         'des_name': destination[0].desName,
                         'des_photo': destination['photo'],
                         'des_poblation': destination[0].desPoblation,
@@ -87,9 +87,9 @@
 {% if flag != 0%}
 </div>
 {% endif %}
-    {{ render(controller('frontEndBundle:destination:get_map_by_province')) }}
+    {{ render(controller('FrontEndBundle:Destination:get_map_by_province')) }}
     <br/>
-    {{ render(controller('frontEndBundle:public:home_carrousel')) }}
+    {{ render(controller('FrontEndBundle:Public:home_carrousel')) }}
 </div>
 
 {% endblock %}

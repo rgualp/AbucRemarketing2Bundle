@@ -1,4 +1,4 @@
-{% extends 'frontEndBundle:layout:base.html.twig' %}
+{% extends 'FrontEndBundle:layout:base.html.twig' %}
 {% block title %}{{"USER_MY_PROFILE" | trans}}{% endblock %}
 {% block breadcrumbs %}
     <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
@@ -10,7 +10,7 @@
     {% if errors['used_email'] is defined%}<div class="alert alert-info">{{errors['used_email']}}</div>{% endif %}
     {% if errors['complete_form'] is defined%}<div class="alert alert-info">{{errors['complete_form']}}</div>{% endif %}
     <h2 class="caecilia-roman big-price-green text-center no-margin" style="font-weight: normal; margin-top: 20px">{{"USER_MY_PROFILE" | trans}}</h2>
-    <div><img src="{{ asset('bundles/frontend/img/line-gradient-green.png') }}" style="width: 100%; height: 1px; margin: 16px 0"></div> 
+    <div><img src="{{ asset('bundles/frontend/img/line-gradient-green.png') }}" style="width: 100%; height: 1px; margin: 16px 0"></div>
     <div class="row" style="margin-bottom: 30px">
             <div class="col-sm-4"></div>
         <div class="col-sm-4 houses-list thumbs-houses lazy-cont ">

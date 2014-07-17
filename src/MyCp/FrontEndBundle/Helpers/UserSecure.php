@@ -1,6 +1,6 @@
 <?php
 
-namespace MyCp\frontEndBundle\Helpers;
+namespace MyCp\FrontEndBundle\Helpers;
 
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
@@ -28,7 +28,7 @@ class UserSecure {
                 $login_route = $this->container->get('router')->generate('frontend_login');
                 $this->container->get('session')->getFlashBag()->add('message_error_local', 'NOT_ENABLED_USER');
                 $event->setResponse(new RedirectResponse($login_route));
-            } 
+            }
         }
     }
 

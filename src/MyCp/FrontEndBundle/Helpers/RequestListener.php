@@ -4,7 +4,7 @@
  *
  * @author Luis
  */
-namespace MyCp\frontEndBundle\Helpers;
+namespace MyCp\FrontEndBundle\Helpers;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -76,7 +76,7 @@ class RequestListener {
         if(!$this->container->get('session')->get('curr_acronym'))
         {
             $curr_by_default=$this->em->getRepository('mycpBundle:currency')->findOneBy(array('curr_default'=>1));
-            
+
             if(isset($curr_by_default))
             {
                 $this->container->get('session')->set("curr_rate", $curr_by_default->getCurrCucChange());

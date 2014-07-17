@@ -1,6 +1,6 @@
 {% block meta_description %}{{ keyword_description }}{% endblock %}
 {% block meta_keywords %}{{ keyword }}{% endblock %}
-{% extends 'frontEndBundle:layout:base.html.twig' %}
+{% extends 'FrontEndBundle:layout:base.html.twig' %}
 {% block title %}
 {{destination.desname}}
 {% endblock %}
@@ -15,7 +15,7 @@
 {% block body %}
     <div class="container cont-form" style="margin-top: -20px">
         <div id="main-search-2">
-            {{ render(controller('frontEndBundle:ownership:orangeSearchBar')) }}
+            {{ render(controller('FrontEndBundle:Ownership:orangeSearchBar')) }}
         </div>
     </div>
 <div  class="container">
@@ -53,7 +53,7 @@
                 <p style="margin: 20px 0; font-size: 14px; line-height: 24px; ">{{description | raw}}</p>
             </div>
             <div id="full-width-slider" class="royalSlider rsDefault">
-                
+
 
             </div>
         </div>
@@ -78,7 +78,7 @@
                         <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
                         {%endfor%}
                         {%if popular_list |length%}
-                           <a  class="fontsize_10" href="{{path('frontend_list_destinations')}}">{{"SEEMORE_LINK_TEXT" | trans}}</a>                         
+                           <a  class="fontsize_10" href="{{path('frontend_list_destinations')}}">{{"SEEMORE_LINK_TEXT" | trans}}</a>
                         {%endif%}
                         </div>
                     </div>
@@ -124,7 +124,7 @@
                     <div class="accordion-body collapse" id="collapseFour">
                         <div class="accordion-inner">
                             {%for province in provinces%}
-                                <a href="{{ path('frontend_search_ownership',{'text':provinces_for_url[province.provid], 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}">{{province.provName}}</a><br/>                        
+                                <a href="{{ path('frontend_search_ownership',{'text':provinces_for_url[province.provid], 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}">{{province.provName}}</a><br/>
                            {%else%}
                         <div class="alert a alert-info">{{"EMPTY_LIST" | trans}}</div>
                         {%endfor%}
@@ -132,7 +132,7 @@
                     </div>
                 </div>
             </div>
-            {{ include('frontEndBundle:favorite:detailsFavorite.html.twig',
+            {{ include('FrontEndBundle:favorite:detailsFavorite.html.twig',
             {'is_in_favorite': is_in_favorite,
             'favorite_type': 'destination',
             'element_id':destination.desid
@@ -158,16 +158,16 @@
                         </h1>
                     </div>
                     <div class="col-xs-4 text-right">
-                        
+
                         <a id="change_view_to_list" href="#nearby" data-url="{{path('frontend_change_view_destination_callback', {'destination_name':destination.desName,'destination_id': destination.desId})}}" rel="tooltip" data-placement="top" title="{{'LIST_VIEW' | trans}}"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon three-lines2-icon"></a>
                         <a id="change_view_to_photo" href="#nearby" data-url="{{path('frontend_change_view_destination_callback', {'destination_name':destination.desName,'destination_id': destination.desId})}}" rel="tooltip" data-placement="top" title="{{'MOISAIC_VIEW' | trans}}"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon cam-icon"></a>
                         <a id="change_view_to_map" href="#nearby" data-url="{{path('frontend_change_view_destination_callback', {'destination_name':destination.desName,'destination_id': destination.desId})}}" rel="tooltip" data-placement="top" title="{{'MAP_VIEW' | trans}}"><img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon point-icon"></a>
-                        
+
                     </div>
                 </div>
             </div>
             <div id="near_houses_container" class="houses-list" data-url="{{path('frontend_nearby_destination',{'destination_name': destination.desname | lower | replace(" ", "-"),'destination_id': destination.desid })}}">
-                {{include('frontEndBundle:destination:detailsOwnsNearByDestination.html.twig', 
+                {{include('FrontEndBundle:destination:detailsOwnsNearByDestination.html.twig',
                         {'owns_nearby': owns_nearby,
                          'destination_name': destination.desname | lower | replace(" ", "-"),
                          'destination_id': destination.desid,
@@ -177,7 +177,7 @@
         </div>
     </div>
     <br/>
-    {{ render(controller('frontEndBundle:public:home_carrousel')) }}
+    {{ render(controller('FrontEndBundle:Public:home_carrousel')) }}
 </div>
 {% block include_javascripts %}
 <script type="text/javascript">
@@ -236,7 +236,7 @@
                 change: false
             }
         });
-        
+
         {% for photo in  gallery_photos%}
             var slider = $("#full-width-slider").data('royalSlider');
             var img="{{asset('uploads/destinationImages/'~photo)}}";

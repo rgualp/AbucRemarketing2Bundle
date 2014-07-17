@@ -1,36 +1,36 @@
 <?php
 
-namespace MyCp\FrontendBundle\Controller;
+namespace MyCp\FrontEndBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
 
-class commentController extends Controller {
+class CommentController extends Controller {
 
 
     public function insertAction($ownid) {
 
         $request = $this->getRequest();
         $session = $request->getSession();
-        
+
         if($session->get('comments_cant') == null)
             $session->set('comments_cant', 1);
         else $session->set('comments_cant', 2);
-        
+
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $data = array();
         $data['com_ownership_id'] = $ownid;
         $data['com_rating'] = $request->request->get('com_rating');
         $data['com_comments'] = $request->request->get('com_comments');
-        
+
         if($session->get('comments_cant') == 1)
             $em->getRepository('mycpBundle:comment')->insert_comment($data, $user);
 
         if($session->get('comments_cant') == 2)
             $session->remove('comments_cant');
-        
+
          $paginator = $this->get('ideup.simple_paginator');
          $items_per_page = 5;
          $paginator->setItemsPerPage($items_per_page);
@@ -45,7 +45,7 @@ class commentController extends Controller {
                             'rating' => $own_obj->getOwnRating(),
                             'comments_total' => $own_obj->getOwnCommentsTotal());
 
-        $response = $this->renderView('frontEndBundle:comment:listComments.html.twig', array(
+        $response = $this->renderView('FrontEndBundle:comment:listComments.html.twig', array(
             'comments' => $comments,
             'friends' => $friends,
             'show_comments_and_friends' => count($paginator->getTotalItems()) + count($friends),
@@ -58,6 +58,6 @@ class commentController extends Controller {
         return new Response($response, 200);
     }
 
-    
+
 
 }

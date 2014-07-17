@@ -28,7 +28,7 @@
                         <span>{{own.category | trans}}</span><br/>
                     <small class="top">{{own['prov_name']}}, {{own['mun_name']}}<br/>{{own.type  | trans}} {%if (own.rooms_count != 0) %}
                         / {{own.rooms_count}} {% if own.rooms_count == 1%} {{"ROOM_SINGULAR" | trans}} {%else%} {{"ROOM_PLURAL" | trans}} {%endif%}{%endif%}</small><br/>
-                    
+
                     {%if own['rating'] > 0%}
                         {%for i in 1..own['rating']%}
                             <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon icon-2 tiny-star-icon">
@@ -39,15 +39,15 @@
                         {%for i in 1..(5-own['rating'])%}
                             <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon icon-2 tiny-star-off-icon">
                         {%endfor%}
-                    {%endif%}    
-                     <small>{{own['comments']}} {{"FORMS_COMMENTS" | trans | lower}}</small>                     
+                    {%endif%}
+                     <small>{{own['comments']}} {{"FORMS_COMMENTS" | trans | lower}}</small>
                     <br/>
                     <small>{{own.count_reservations}} {{"RESERVATIONS" | trans | lower}}</small>
                 </td>
                 <td class="text-right">
                     <small>{{"FROM_PRICES" | trans}}:</small><span class="big-price-blue">{{own['minimum_price'] | price}}</span><br/>
                     <br/>
-                        {{ include('frontEndBundle:favorite:itemFavorite.html.twig', 
+                        {{ include('FrontEndBundle:favorite:itemFavorite.html.twig',
                         {'is_in_favorite': own['is_in_favorites'],
                          'favorite_type': 'ownership',
                          'element_id':own['own_id'],

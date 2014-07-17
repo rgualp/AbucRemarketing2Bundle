@@ -35,12 +35,12 @@
                 {%for i in 1..(5-own['rating'])%}
         <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon icon-2 tiny-star-off-icon">
                 {%endfor%}
-                {%endif%}    
+                {%endif%}
         <small>{{own['comments']}} {{"FORMS_COMMENTS" | trans | lower}}</small>
     </div>
     <div class="col-sm-3 text-center">
         <small>{{"FROM_PRICES" | trans}}:</small><h2 class="no-margin h-grey margin-t">{{own['minimum_price'] | price}}</h2>
-                {{ include('frontEndBundle:favorite:itemFavorite.html.twig', 
+                {{ include('FrontEndBundle:favorite:itemFavorite.html.twig',
                         {'is_in_favorite': own['is_in_favorites'],
                          'favorite_type': 'ownershipfav',
                          'element_id':own['own_id'],

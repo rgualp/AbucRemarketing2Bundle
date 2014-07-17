@@ -1,4 +1,4 @@
-{% extends 'frontEndBundle:mycasatrip:layout_blank.html.twig' %}
+{% extends 'FrontEndBundle:mycasatrip:layout_blank.html.twig' %}
 {% block body_inner %}
 <div class="row" style="margin-top: 30px">
     <div class="col-sm-10">
@@ -61,7 +61,7 @@
                 </td>
             </tr>
         </tbody>
-    </table>           
+    </table>
 
     <table class="table table-type-1">
         <tbody>
@@ -96,7 +96,7 @@
         </table>
         {%for res_room in own_res_rooms[own.id]%}
         <h4 class="voucher-subtitle">
-            <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-voucher icon-vbed"> 
+            <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-voucher icon-vbed">
             {{"RESERVATION_DETAILS"|trans}}: {{"ROOM_SINGULAR"|trans | capitalize}} {{loop.index}}
         </h4>
         <table class="table table-type-1">
@@ -125,11 +125,11 @@
                     <td colspan="5">{{ res_room.room_bathroom|trans }}</td>
                 </tr>
             </tbody>
-        </table>       
+        </table>
         {%endfor%}
         <h4 class="voucher-subtitle">
-            <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-voucher icon-vcurrency"> 
-        {{"PAYMENT_DETAILS"|trans}}: 
+            <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-voucher icon-vcurrency">
+        {{"PAYMENT_DETAILS"|trans}}:
         </h4>
         <table class="table table-type-1">
             <tbody>
@@ -189,7 +189,7 @@
             <td><b>{{"TOTAL_ALL_PREPAYMENT" | trans}} ({% for comm in commissions %}{{comm}}%{% if not loop.last %}, {% endif %}{% endfor %})</b></td>
             <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (service_charge_total + ceil_round(prepayment_accommodations)) | number_format(2) }}</h4></td>
         </tr>
-        
+
         <tr>
             <td><b>{{"TOTAL_TO_PAY_SERVICING" | trans}}</b></td>
             <td class="text-right"><h4 class="no-margin">

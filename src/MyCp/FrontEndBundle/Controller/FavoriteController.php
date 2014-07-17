@@ -1,11 +1,11 @@
 <?php
 
-namespace MyCp\FrontendBundle\Controller;
+namespace MyCp\FrontEndBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
-class favoriteController extends Controller {
+class FavoriteController extends Controller {
 
     public function insertAction() {
         $request = $this->getRequest();
@@ -25,7 +25,7 @@ class favoriteController extends Controller {
 
         $em->getRepository('mycpBundle:favorite')->insert($data);
 
-        $response = $this->renderView('frontEndBundle:favorite:itemLinkFavorite.html.twig', array(
+        $response = $this->renderView('FrontEndBundle:favorite:itemLinkFavorite.html.twig', array(
             'is_in_favorite' => $em->getRepository('mycpBundle:favorite')->is_in_favorite($element_id, ($favorite_type == "ownership"), $user_ids["user_id"], $user_ids["session_id"]),
             'favorite_type' => $favorite_type,
             'element_id' => $element_id,
@@ -54,7 +54,7 @@ class favoriteController extends Controller {
 
         $em->getRepository('mycpBundle:favorite')->delete($data);
 
-        $response = $this->renderView('frontEndBundle:favorite:itemLinkFavorite.html.twig', array(
+        $response = $this->renderView('FrontEndBundle:favorite:itemLinkFavorite.html.twig', array(
             'is_in_favorite' => $em->getRepository('mycpBundle:favorite')->is_in_favorite($element_id, ($favorite_type == "ownership"), $user_ids["user_id"], $user_ids["session_id"]),
             'favorite_type' => $favorite_type,
             'element_id' => $element_id,
@@ -81,7 +81,7 @@ class favoriteController extends Controller {
 
         $em->getRepository('mycpBundle:favorite')->insert($data);
 
-        $response = $this->renderView('frontEndBundle:favorite:detailsFavorite.html.twig', array(
+        $response = $this->renderView('FrontEndBundle:favorite:detailsFavorite.html.twig', array(
             'is_in_favorite' => $em->getRepository('mycpBundle:favorite')->is_in_favorite($element_id, ($favorite_type == "ownership"), $user_ids["user_id"], $user_ids["session_id"]),
             'favorite_type' => $favorite_type,
             'element_id' => $element_id
@@ -106,7 +106,7 @@ class favoriteController extends Controller {
 
         $em->getRepository('mycpBundle:favorite')->delete($data);
 
-        $response = $this->renderView('frontEndBundle:favorite:detailsFavorite.html.twig', array(
+        $response = $this->renderView('FrontEndBundle:favorite:detailsFavorite.html.twig', array(
             'is_in_favorite' => $em->getRepository('mycpBundle:favorite')->is_in_favorite($element_id, ($favorite_type == "ownership"), $user_ids["user_id"], $user_ids["session_id"]),
             'favorite_type' => $favorite_type,
             'element_id' => $element_id
@@ -137,13 +137,13 @@ class favoriteController extends Controller {
             $session->set('user_fav_own_count', count($ownership_favorities));
 
             if($favorite_type == "ownership")
-            $response = $this->renderView('frontEndBundle:ownership:ownershipArrayItemList.html.twig', array(
+            $response = $this->renderView('FrontEndBundle:ownership:ownershipArrayItemList.html.twig', array(
                 'list' => $ownership_favorities,
                 'list_preffix' => 'own_favorities',
                 'is_in_favorites_list' => true
             ));
             else if($favorite_type == "ownershipfav")
-                $response = $this->renderView('frontEndBundle:favorite:ownershipArrayItemFavorite.html.twig', array(
+                $response = $this->renderView('FrontEndBundle:favorite:ownershipArrayItemFavorite.html.twig', array(
                 'list' => $ownership_favorities,
                 'list_preffix' => 'own_favorities',
                 'is_in_favorites_list' => true
@@ -151,7 +151,7 @@ class favoriteController extends Controller {
         } else if ($favorite_type == "destination") {
             $destination_favorities = $em->getRepository('mycpBundle:favorite')->get_favorite_destinations($user_ids["user_id"], $user_ids["session_id"]);
             $session->set('user_fav_dest_count', count($destination_favorities));
-            $response = $this->renderView('frontEndBundle:destination:arrayItemListDestination.html.twig', array(
+            $response = $this->renderView('FrontEndBundle:destination:arrayItemListDestination.html.twig', array(
                 'list' => $destination_favorities,
                 'list_preffix' => 'own_favorities',
                 'is_in_favorites_list' => true
@@ -170,7 +170,7 @@ class favoriteController extends Controller {
             $ownership_favorities = $em->getRepository('mycpBundle:favorite')->get_favorite_ownerships($user_ids["user_id"], $user_ids["session_id"]);
             $destination_favorities = $em->getRepository('mycpBundle:favorite')->get_favorite_destinations($user_ids["user_id"], $user_ids["session_id"], null, null, strtoupper($locale));
 
-            return $this->render('frontEndBundle:favorite:listFavorities.html.twig', array(
+            return $this->render('FrontEndBundle:favorite:listFavorities.html.twig', array(
                         'ownership_favorities' => $ownership_favorities,
                         'destination_favorities' => $destination_favorities,
             ));

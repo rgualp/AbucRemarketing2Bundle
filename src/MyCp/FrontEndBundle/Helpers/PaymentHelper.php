@@ -1,7 +1,7 @@
 <?php
 
 
-namespace MyCp\frontEndBundle\Helpers;
+namespace MyCp\FrontEndBundle\Helpers;
 
 final class PaymentHelper
 {

@@ -1,4 +1,4 @@
-{% extends 'frontEndBundle:mycasatrip:layout_blank.html.twig' %}
+{% extends 'FrontEndBundle:mycasatrip:layout_blank.html.twig' %}
 {% block body_inner %}
 {%if total_errors > 0%}
 <div class="alert alert-danger" style="margin-top: 40px">
@@ -73,7 +73,7 @@
             <option value="0" {%if (post["user_tourist_gender"] is defined and post["user_tourist_gender"]==0) or (user_tourist.UserTouristGender == 0)%}selected{%endif%}>{{"MALE" | trans}}</option>
             <option value="1" {%if (post["user_tourist_gender"] is defined and post["user_tourist_gender"]==1) or (user_tourist.UserTouristGender == 1)%}selected{%endif%}>{{"FEMALE" | trans}}</option>
         </select>
-        
+
         <label>{{"FORMS_NAME" | trans}} {%if errors["user_tourist_name"] is defined  and errors["user_tourist_name"] !="" %}<span class="reservation_error">{{errors["user_tourist_name"]|trim(':')}}</span>{%endif%}</label>
         <input type="text" name="user_tourist_name" class="form-control" value="{{ post["user_tourist_name"] is defined ? post["user_tourist_name"] | capitalize : user.getUserUserName |capitalize}}"/>
 
@@ -146,6 +146,6 @@
         else
             $('#btn_payment').attr('disabled','disabled');
     });
-   
+
 </script>
 {% endblock %}

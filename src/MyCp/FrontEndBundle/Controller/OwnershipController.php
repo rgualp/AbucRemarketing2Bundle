@@ -1,16 +1,16 @@
 <?php
 
-namespace MyCp\frontEndBundle\Controller;
+namespace MyCp\FrontEndBundle\Controller;
 
 use MyCp\mycpBundle\Entity\ownership;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use MyCp\frontEndBundle\Helpers\Utils;
+use MyCp\FrontEndBundle\Helpers\Utils;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 
-class ownershipController extends Controller {
+class OwnershipController extends Controller {
 
     public function get_reservation_calendarAction(Request $request) {
         $from = $request->get('from');
@@ -210,7 +210,7 @@ class ownershipController extends Controller {
             $flag_room++;
         }
         //$no_available_days_ready[351]=array(11,12,13,14,15,21,22);
-        return $this->render('frontEndBundle:ownership:ownershipReservationCalendar.html.twig', array(
+        return $this->render('FrontEndBundle:ownership:ownershipReservationCalendar.html.twig', array(
             'array_dates' => $array_dates_keys,
             'rooms' => $rooms,
             'array_prices' => $array_prices,
@@ -453,7 +453,7 @@ class ownershipController extends Controller {
             $real_category = 'mid_range';
         else if ($ownership_array['category'] == 'Premium')
             $real_category = 'premium';
-        return $this->render('frontEndBundle:ownership:ownershipDetails.html.twig', array(
+        return $this->render('FrontEndBundle:ownership:ownershipDetails.html.twig', array(
             'avail_array_prices' => $avail_array_prices,
             'available_rooms' => $available_rooms,
             'price_subtotal' => $price_subtotal,
@@ -498,7 +498,7 @@ class ownershipController extends Controller {
         if (isset($_GET['page']))
             $page = $_GET['page'];
 
-        return $this->render('frontEndBundle:ownership:lastAddedOwnership.html.twig', array(
+        return $this->render('FrontEndBundle:ownership:lastAddedOwnership.html.twig', array(
             'list' => $last_added_own_list,
             'list_preffix' => 'last_added',
             'items_per_page' => $items_per_page,
@@ -533,7 +533,7 @@ class ownershipController extends Controller {
             $page = $_GET['page'];
 
 
-        return $this->render('frontEndBundle:ownership:categoryListOwnership.html.twig', array(
+        return $this->render('FrontEndBundle:ownership:categoryListOwnership.html.twig', array(
             'category' => $category,
             'title' => str_replace(' ', '-', $category),
             'list' => $list,
@@ -645,7 +645,7 @@ class ownershipController extends Controller {
           exit(); */
 
         if ($check_filters != null)
-            return $this->render('frontEndBundle:ownership:searchOwnership.html.twig', array(
+            return $this->render('FrontEndBundle:ownership:searchOwnership.html.twig', array(
                 'search_text' => $search_text,
                 'search_guests' => $search_guests,
                 'search_arrival_date' => $arrival,
@@ -666,7 +666,7 @@ class ownershipController extends Controller {
                 'show_paginator' => true
             ));
         else
-            return $this->render('frontEndBundle:ownership:searchOwnership.html.twig', array(
+            return $this->render('FrontEndBundle:ownership:searchOwnership.html.twig', array(
                 'search_text' => $search_text,
                 'search_guests' => $search_guests,
                 'search_arrival_date' => $arrival,
@@ -721,7 +721,7 @@ class ownershipController extends Controller {
             $session->set('own_ids', $own_ids);
 
             if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'LIST') {
-                $response = $this->renderView('frontEndBundle:ownership:searchListOwnership.html.twig', array(
+                $response = $this->renderView('FrontEndBundle:ownership:searchListOwnership.html.twig', array(
                     'list' => $result_list,
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
@@ -730,7 +730,7 @@ class ownershipController extends Controller {
                     'show_paginator' => true
                 ));
             } elseif ($session->get('search_view_results') != null && $session->get('search_view_results') == 'PHOTOS') {
-                $response = $this->renderView('frontEndBundle:ownership:searchMosaicOwnership.html.twig', array(
+                $response = $this->renderView('FrontEndBundle:ownership:searchMosaicOwnership.html.twig', array(
                     'list' => $result_list,
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
@@ -739,7 +739,7 @@ class ownershipController extends Controller {
                     'show_paginator' => true
                 ));
             } elseif ($session->get('search_view_results') != null && $session->get('search_view_results') == 'MAP') {
-                $response = $this->renderView('frontEndBundle:ownership:searchMapOwnership.html.twig', array(
+                $response = $this->renderView('FrontEndBundle:ownership:searchMapOwnership.html.twig', array(
                     'list' => $result_list,
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
@@ -748,7 +748,7 @@ class ownershipController extends Controller {
                     'show_paginator' => true
                 ));
             } else { // guarantee that a response is always returned
-                $response = $this->renderView('frontEndBundle:ownership:searchListOwnership.html.twig', array(
+                $response = $this->renderView('FrontEndBundle:ownership:searchListOwnership.html.twig', array(
                     'list' => $result_list,
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
@@ -795,7 +795,7 @@ class ownershipController extends Controller {
 
 
         if (($session->get('search_view_results') != null && $session->get('search_view_results') == 'LIST') || $session->get('search_view_results') == null) {
-            $response = $this->renderView('frontEndBundle:ownership:searchListOwnership.html.twig', array(
+            $response = $this->renderView('FrontEndBundle:ownership:searchListOwnership.html.twig', array(
                 'list' => $results_list,
                 'items_per_page' => $items_per_page,
                 'total_items' => $paginator->getTotalItems(),
@@ -804,7 +804,7 @@ class ownershipController extends Controller {
                 'show_paginator' => true
             ));
         } else if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'PHOTOS')
-            $response = $this->renderView('frontEndBundle:ownership:searchMosaicOwnership.html.twig', array(
+            $response = $this->renderView('FrontEndBundle:ownership:searchMosaicOwnership.html.twig', array(
                 'list' => $results_list,
                 'items_per_page' => $items_per_page,
                 'total_items' => $paginator->getTotalItems(),
@@ -813,7 +813,7 @@ class ownershipController extends Controller {
                 'show_paginator' => true
             ));
         else if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'MAP')
-            $response = $this->renderView('frontEndBundle:ownership:searchMapOwnership.html.twig', array(
+            $response = $this->renderView('FrontEndBundle:ownership:searchMapOwnership.html.twig', array(
                 'list' => $results_list,
                 'items_per_page' => $items_per_page,
                 'total_items' => $paginator->getTotalItems(),
@@ -877,7 +877,7 @@ class ownershipController extends Controller {
                 $page = $_GET['page'];
 
             if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'LIST')
-                $response = $this->renderView('frontEndBundle:ownership:searchListOwnership.html.twig', array(
+                $response = $this->renderView('FrontEndBundle:ownership:searchListOwnership.html.twig', array(
                     'list' => $list,
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
@@ -885,7 +885,7 @@ class ownershipController extends Controller {
                     'list_preffix' => 'search'
                 ));
             else if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'PHOTOS')
-                $response = $this->renderView('frontEndBundle:ownership:searchMosaicOwnership.html.twig', array(
+                $response = $this->renderView('FrontEndBundle:ownership:searchMosaicOwnership.html.twig', array(
                     'list' => $list,
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
@@ -893,7 +893,7 @@ class ownershipController extends Controller {
                     'list_preffix' => 'search'
                 ));
             else if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'MAP')
-                $response = $this->renderView('frontEndBundle:ownership:searchMapOwnership.html.twig', array(
+                $response = $this->renderView('FrontEndBundle:ownership:searchMapOwnership.html.twig', array(
                     'list' => $list,
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
@@ -971,7 +971,7 @@ class ownershipController extends Controller {
         $view = $session->get('search_view_results');
 
         if ($view != null && $view == 'LIST')
-            $response = $this->renderView('frontEndBundle:ownership:searchListOwnership.html.twig', array(
+            $response = $this->renderView('FrontEndBundle:ownership:searchListOwnership.html.twig', array(
                 'list' => $list,
                 'items_per_page' => $items_per_page,
                 'total_items' => $paginator->getTotalItems(),
@@ -979,7 +979,7 @@ class ownershipController extends Controller {
                 'list_preffix' => 'search'
             ));
         else if ($view != null && $view == 'PHOTOS')
-            $response = $this->renderView('frontEndBundle:ownership:searchMosaicOwnership.html.twig', array(
+            $response = $this->renderView('FrontEndBundle:ownership:searchMosaicOwnership.html.twig', array(
                 'list' => $list,
                 'items_per_page' => $items_per_page,
                 'total_items' => $paginator->getTotalItems(),
@@ -987,7 +987,7 @@ class ownershipController extends Controller {
                 'list_preffix' => 'search'
             ));
         else if ($view != null && $view == 'MAP')
-            $response = $this->renderView('frontEndBundle:ownership:searchMapOwnership.html.twig', array(
+            $response = $this->renderView('FrontEndBundle:ownership:searchMapOwnership.html.twig', array(
                 'list' => $list,
                 'items_per_page' => $items_per_page,
                 'total_items' => $paginator->getTotalItems(),
@@ -1037,7 +1037,7 @@ class ownershipController extends Controller {
         $types_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsTypes($own_ids);
         $prices_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsPrices($own_ids);
 
-        $response = $this->renderView('frontEndBundle:ownership:filters.html.twig', array(
+        $response = $this->renderView('FrontEndBundle:ownership:filters.html.twig', array(
             'own_statistics' => $statisics,
             'check_filters' => $check_filters,
             'owns_categories' => $categories_own_list,
@@ -1080,7 +1080,7 @@ class ownershipController extends Controller {
             'rating' => $own_obj->getOwnRating(),
             'comments_total' => $own_obj->getOwnCommentsTotal());
 
-        $response = $this->renderView('frontEndBundle:ownership:ownershipRating.html.twig', array(
+        $response = $this->renderView('FrontEndBundle:ownership:ownershipRating.html.twig', array(
             'ownership' => $ownership
         ));
 
@@ -1125,7 +1125,7 @@ class ownershipController extends Controller {
         $ownership->setOwnGeolocateX($ownGeolocateX);
         $ownership->setOwnGeolocateY($ownGeolocateY);
 
-        return $this->render('frontEndBundle:ownership:ownershipDetailsMap.html.twig', array(
+        return $this->render('FrontEndBundle:ownership:ownershipDetailsMap.html.twig', array(
             'ownership' => $ownership,
             'description' => $description,
             'image' => $image
@@ -1158,7 +1158,7 @@ class ownershipController extends Controller {
             $page = $_GET['page'];
 
         if ($in_searcher == 'false' && $destination_name != null && $destination_name != "" && $destination_name != 'null')
-            $response = $this->renderView('frontEndBundle:ownership:searchListOwnership.html.twig', array(
+            $response = $this->renderView('FrontEndBundle:ownership:searchListOwnership.html.twig', array(
                 'list' => $list_paginated,
                 'items_per_page' => $items_per_page,
                 'total_items' => $paginator->getTotalItems(),
@@ -1170,7 +1170,7 @@ class ownershipController extends Controller {
                 'destination_name' => $destination_name
             ));
         else
-            $response = $this->renderView('frontEndBundle:ownership:searchListOwnership.html.twig', array(
+            $response = $this->renderView('FrontEndBundle:ownership:searchListOwnership.html.twig', array(
                 'list' => $list_paginated,
                 'items_per_page' => $items_per_page,
                 'total_items' => $paginator->getTotalItems(),
@@ -1216,7 +1216,7 @@ class ownershipController extends Controller {
         $prices_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsPrices($own_ids);
         $statistics_own_list = $em->getRepository('mycpBundle:ownership')->getSearchStatistics();
 
-        return $this->render('frontEndBundle:ownership:searchOwnership.html.twig', array(
+        return $this->render('FrontEndBundle:ownership:searchOwnership.html.twig', array(
             'search_text' => null,
             'search_guests' => '1',
             'search_arrival_date' => null,
@@ -1335,7 +1335,7 @@ class ownershipController extends Controller {
         $check_filters['own_others_pets'] = false;
         $check_filters['own_others_internet'] = false;
 
-        return $this->render('frontEndBundle:ownership:searchOwnership.html.twig', array(
+        return $this->render('FrontEndBundle:ownership:searchOwnership.html.twig', array(
             'search_text' => null,
             'search_guests' => '1',
             'search_arrival_date' => null,
@@ -1381,7 +1381,7 @@ class ownershipController extends Controller {
         if (isset($_GET['page']))
             $page = $_GET['page'];
 
-        $response = $this->renderView('frontEndBundle:ownership:homeTopRatedOwnership.html.twig', array(
+        $response = $this->renderView('FrontEndBundle:ownership:homeTopRatedOwnership.html.twig', array(
             'own_top20_list' => $own_top20_list,
             'top_rated_items_per_page' => $items_per_page,
             'top_rated_total_items' => $paginator->getTotalItems(),
@@ -1420,7 +1420,7 @@ class ownershipController extends Controller {
         if (isset($_GET['page']))
             $page = $_GET['page'];
 
-        $response = $this->renderView('frontEndBundle:ownership:homeTopRatedOwnership.html.twig', array(
+        $response = $this->renderView('FrontEndBundle:ownership:homeTopRatedOwnership.html.twig', array(
             'own_top20_list' => $own_top20_list,
             'top_rated_items_per_page' => $items_per_page,
             'top_rated_total_items' => $paginator->getTotalItems(),
@@ -1437,7 +1437,7 @@ class ownershipController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $session = $this->getRequest()->getSession();
 
-        return $this->render('frontEndBundle:ownership:orangeSearchBar.html.twig', array(
+        return $this->render('FrontEndBundle:ownership:orangeSearchBar.html.twig', array(
             'locale' => $this->get('translator')->getLocale(),
             'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocomplete_text_list(),
             'arrival_date' => $session->get("search_arrival_date"),
@@ -1449,7 +1449,7 @@ class ownershipController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $owner_photo = $em->getRepository('mycpBundle:userCasa')->get_owners_photos($ownership_id);
 
-        return $this->render('frontEndBundle:ownership:ownersPhotosOwnership.html.twig', array(
+        return $this->render('FrontEndBundle:ownership:ownersPhotosOwnership.html.twig', array(
             'owner_photo' => $owner_photo
         ));
     }
@@ -1460,7 +1460,7 @@ class ownershipController extends Controller {
         $history_owns = $em->getRepository('mycpBundle:userHistory')->get_list_entity($user_ids, true, 10, $exclude_ownership_id);
         $history_owns_photos = $em->getRepository('mycpBundle:ownership')->get_photos_array($history_owns);
 
-        return $this->render('frontEndBundle:ownership:historyOwnership.html.twig', array(
+        return $this->render('FrontEndBundle:ownership:historyOwnership.html.twig', array(
             'history_list' => $history_owns,
             'photos' => $history_owns_photos
         ));
@@ -1475,7 +1475,7 @@ class ownershipController extends Controller {
         if (count($destinations) < 3)
             $destinations = $em->getRepository('mycpBundle:destination')->get_popular_destination(3, $users_id["user_id"], $users_id["session_id"], $this->get('translator')->getLocale());
 
-        return $this->render('frontEndBundle:ownership:nearByDestinationsOwnership.html.twig', array(
+        return $this->render('FrontEndBundle:ownership:nearByDestinationsOwnership.html.twig', array(
             'destinations' => $destinations
         ));
     }

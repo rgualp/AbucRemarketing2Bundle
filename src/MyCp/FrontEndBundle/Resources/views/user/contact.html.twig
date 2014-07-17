@@ -1,4 +1,4 @@
-{% extends 'frontEndBundle:layout:base.html.twig' %}
+{% extends 'FrontEndBundle:layout:base.html.twig' %}
 {% block title %}{{"CONTACT_US" | trans}}{% endblock %}
 {% block breadcrumbs %}
     <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
@@ -57,21 +57,21 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="accordion-group">
                 <div class="accordion-heading">
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_contacts" href="#contact_owners">
                         {{"CONTACT_US_OWNER_HEADER" | trans}}
-                    </a>                       
+                    </a>
                 </div>
                 <div id="contact_owners" class="accordion-body {%if (app.session.get("form_type") != null and app.session.get("form_type") == 'owner_form')%} in {%endif%} collapse" {%if (app.session.get("form_type") != null and app.session.get("form_type") == 'owner_form')%}style="height: auto;"{%else%}style="height: 0px;"{%endif%}>
                     <div class="accordion-inner">
         <div class="row">
             <div class="col-sm-6">
-                <h4>{{"CONTACT_OWNER_QUESTION" | trans}}</h4> 
-                {{"CONTACT_OWNER_FILL_FORM" | trans}}<br/> 
+                <h4>{{"CONTACT_OWNER_QUESTION" | trans}}</h4>
+                {{"CONTACT_OWNER_FILL_FORM" | trans}}<br/>
                 <a href="mailto:casa@mycasaparticular.com">casa@mycasaparticular.com</a> <br/><br/>
- 
+
                 {{"CONTACT_OWNER_FILL_FORM" | trans}}
             </div>
             <div class="col-sm-6">
@@ -91,8 +91,8 @@
             </div>
             </div>
                 </div>
-            </div>  
-        </div> 
+            </div>
+        </div>
 </div>
 </div>
             <script type="text/javascript">

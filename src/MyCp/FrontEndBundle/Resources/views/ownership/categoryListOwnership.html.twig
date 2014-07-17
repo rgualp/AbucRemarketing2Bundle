@@ -1,4 +1,4 @@
-{% extends 'frontEndBundle:layout:base.html.twig' %}
+{% extends 'FrontEndBundle:layout:base.html.twig' %}
 {% block title %}
 {{("OWNERSHIP_"~title| upper~"_CATEGORYPAGE_TITLE")  | trans }}
 {% endblock %}
@@ -15,10 +15,10 @@
      {{(category | upper ~ "_OWNERSHIP") | trans}}
     </h1>
 <div class="row result_list ownerships_list" id="div_result">
-    {{ include('frontEndBundle:ownership:ownershipArrayItemList.html.twig', 
+    {{ include('FrontEndBundle:ownership:ownershipArrayItemList.html.twig',
                         {'list': list,
                          'list_preffix': list_preffix
-                         }) }}      
+                         }) }}
 </div>
 {%if list | length and total_items > items_per_page%}
     <div class="text-center">

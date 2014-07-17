@@ -4,7 +4,7 @@
     {%set cont=0%}
     {%for ownership in list%}
     {% if cont <3 %}
-    <div class="col-sm-4">    
+    <div class="col-sm-4">
         <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if ownership.comments_total > 0%}+{%endif%}{{ownership.comments_total}}&nbsp;&nbsp;&nbsp;">
             <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
                 <img alt="{{ ownership.own_name }}" class="lazy" data-src="{{ asset("uploads/ownershipImages/thumbnails/" ~  ownership.photo)}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
@@ -12,7 +12,7 @@
             </a>
         </div>
         <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
-        <h1 class="h-blue">{{ownership.own_name | title | slice(0, 27)}}{%if ownership.own_name | length > 27%}...{%endif%} 
+        <h1 class="h-blue">{{ownership.own_name | title | slice(0, 27)}}{%if ownership.own_name | length > 27%}...{%endif%}
             <small>({{ownership.prov_name}})</small></h1>
         </a>
         <h5>
@@ -41,13 +41,13 @@
                                 <img rel="tooltip" title="{{ownership.category | trans}}" class="icon icon-3 tiny-economic-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
                             {%endif%}
                         {%endif%}
-                        {{ include('frontEndBundle:favorite:itemFavorite.html.twig', 
+                        {{ include('FrontEndBundle:favorite:itemFavorite.html.twig',
                         {'is_in_favorite': ownership.is_in_favorites,
                          'favorite_type': 'ownership',
                          'element_id':ownership.own_id,
                          'list_preffix' : list_preffix,
                          'include_text': false
-                         }) }} 
+                         }) }}
                     </td>
                 </tr>
             </table>
@@ -61,14 +61,14 @@
 {% set cont=1 %}
 </div>
 <div class="row">
-  <div class="col-sm-4">    
+  <div class="col-sm-4">
         <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if ownership.comments_total > 0%}+{%endif%}{{ownership.comments_total}}&nbsp;&nbsp;&nbsp;">
             <a href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
                 <img src="{{ asset("uploads/ownershipImages/thumbnails/" ~ ownership.photo)}}">
             </a>
         </div>
         <a href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
-        <h1 class="h-blue">{{ownership.own_name | title | slice(0, 27)}}{%if ownership.own_name | length > 27%}...{%endif%} 
+        <h1 class="h-blue">{{ownership.own_name | title | slice(0, 27)}}{%if ownership.own_name | length > 27%}...{%endif%}
             <small>({{ownership.prov_name}})</small></h1>
         </a>
         <h5>
@@ -97,13 +97,13 @@
                                 <img rel="tooltip" title="{{ownership.category | trans}}" class="icon icon-3 tiny-economic-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}">
                             {%endif%}
                         {%endif%}
-                        {{ include('frontEndBundle:favorite:itemFavorite.html.twig', 
+                        {{ include('FrontEndBundle:favorite:itemFavorite.html.twig',
                         {'is_in_favorite': ownership.is_in_favorites,
                          'favorite_type': 'ownership',
                          'element_id':ownership.own_id,
                          'list_preffix' : list_preffix,
                          'include_text': false
-                         }) }} 
+                         }) }}
                     </td>
                 </tr>
             </table>
@@ -126,9 +126,9 @@
         'currentClass': 'current',
         'firstPageText': 'FIRST_PAGE' | trans,
         'lastPageText': 'LAST_PAGE' | trans,
-        'route_params': {'text': app.session.get('search_text'), 
-                        'arrival':app.session.get('search_arrival_date'), 
-                        'departure': app.session.get('search_departure_date'), 
+        'route_params': {'text': app.session.get('search_text'),
+                        'arrival':app.session.get('search_arrival_date'),
+                        'departure': app.session.get('search_departure_date'),
                         'guests': app.session.get('search_guests'),
                         'rooms': app.session.get('search_rooms')}
     }) }}
@@ -144,8 +144,7 @@
         $(function(){
             $('img.lazy').jail();
         });
-</script>           
-            
-    
+</script>
 
-           
+
+

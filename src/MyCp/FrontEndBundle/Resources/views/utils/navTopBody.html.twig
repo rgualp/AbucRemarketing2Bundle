@@ -6,13 +6,13 @@
             <li class="{%if  main_tab == 1 %}active{%endif%}">
                 <a title="{{"HOMEPAGE_TITLE" | trans}}" href="{{ path('frontend_welcome') }}">{{"HOME_MAIN_MENU" | trans}}</a></li>
             <li class="dropdown {%if  main_tab == 2 %}active{%endif%} main-menu">
-                {{ render(controller('frontEndBundle:public:get_main_menu_destinations')) }}
+                {{ render(controller('FrontEndBundle:Public:get_main_menu_destinations')) }}
             </li>
             <li class="dropdown {%if  main_tab == 5 %}active{%endif%} main-menu">
-                {{ render(controller('frontEndBundle:public:get_main_menu_accomodations')) }}
+                {{ render(controller('FrontEndBundle:Public:get_main_menu_accomodations')) }}
             </li>
             <li class="{%if  main_tab == 6 %}active{%endif%}">
-                {{ render(controller('frontEndBundle:public:get_main_menu_mycasatrip')) }}
+                {{ render(controller('FrontEndBundle:Public:get_main_menu_mycasatrip')) }}
             </li>
         </ul>
     </div>

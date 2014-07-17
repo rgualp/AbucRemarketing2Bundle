@@ -1,4 +1,4 @@
-{% extends 'frontEndBundle:layout:base.html.twig' %}
+{% extends 'FrontEndBundle:layout:base.html.twig' %}
 {% block title %}
 {{"POPULAR_DESTINATIONS_PAGE_TITLE" | trans}}
 {% endblock %}
@@ -20,7 +20,7 @@ destinos
 </ul>
 
 <div style="margin-bottom: 10px">
-    {{ render(controller('frontEndBundle:ownership:orangeSearchBar')) }}
+    {{ render(controller('FrontEndBundle:Ownership:orangeSearchBar')) }}
 </div>
 
 <div style="border: 1px solid gray; padding: 3px;">
@@ -58,8 +58,8 @@ destinos
                                 <div class="span8" style="font-size: 14px">
                                     <div style="font-weight: normal">{{"DES_POBLATION" | trans}}</div>
                                     <div>{{ destination.getDesPoblation }}</div>
-                                </div>   
-                            </div>               
+                                </div>
+                            </div>
                         </div>
                         <div class="row-fluid dest_stats_box" style="margin-top: 3px; height: 61px">
                             <div class="span12" style="background-color: #ECECEC; height: 100%">
@@ -69,8 +69,8 @@ destinos
                                 <div class="span8" style="font-size: 14px">
                                     <div style="font-weight: normal">{{"DES_REF_PLACE" | trans}}</div>
                                     <div>{{ destination.getDesRefPlace | slice(0, 20)}}</div>
-                                </div>   
-                            </div>               
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -98,11 +98,11 @@ destinos
     </div>
     <div class="tab-content">
         <div id="all_provinces" class="tab-pane fade in active">
-            <div class="row-fluid">  
+            <div class="row-fluid">
                  {%for province in provinces%}
                     <div class="span3" style="font-weight: bold; margin: 0 0 0 10px; font-size: 13px">
                         <a href="{{ path('frontend_search_ownership',{'text':province.provName, 'arrival':'null','departure':'null','guests':'1', 'rooms':'1'}) }}" title="{{province.provName}}">{{province.provName}}</a>
-                    </div>    
+                    </div>
                  {%endfor%}
              </div>
         </div>
@@ -110,11 +110,11 @@ destinos
             <div class="row-fluid">
                  {%for destination in all_destinations%}
                     <div class="span3" style="font-weight: bold; margin: 0 0 0 10px; font-size: 13px">
-                       <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}">{{destination.desName}}</a>   
-                    </div>    
+                       <a title="{{"MORE_INFO_PREFFIX" | trans}} {{destination.desName}}" href="{{ path('frontend_details_destination',{'destination_id':destination.desid}) }}">{{destination.desName}}</a>
+                    </div>
                  {%endfor%}
             </div>
-        </div>       
+        </div>
     </div>
 </div>
 

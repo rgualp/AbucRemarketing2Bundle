@@ -1,3 +1,3 @@
 frontend_insert_comment:
     pattern:  /insert-comment/{ownid}
-    defaults: { _controller: frontEndBundle:comment:insert }
+    defaults: { _controller: FrontEndBundle:Comment:insert }

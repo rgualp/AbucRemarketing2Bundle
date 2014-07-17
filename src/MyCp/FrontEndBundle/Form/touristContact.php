@@ -1,5 +1,5 @@
 <?php
-namespace MyCp\frontEndBundle\Form;
+namespace MyCp\FrontEndBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class touristContact extends AbstractType
 {
     private $translate;
-    
+
     function __construct($trans_entity)
     {
         $this->translate = $trans_entity;
