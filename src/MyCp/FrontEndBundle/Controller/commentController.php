@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
 
-class commentController extends Controller {
+class CommentController extends Controller {
 
 
     public function insertAction($ownid) {

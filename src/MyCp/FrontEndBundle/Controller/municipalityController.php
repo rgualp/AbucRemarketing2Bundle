@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\SecurityContext;
 
-class municipalityController extends Controller {
+class MunicipalityController extends Controller {
 
     public function findAction() {
         $request = $this->getRequest();

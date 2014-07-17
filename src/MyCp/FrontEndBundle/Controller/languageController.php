@@ -6,7 +6,7 @@ use BeSimple\I18nRoutingBundle\Tests\Routing\RouterTest;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class languageController extends Controller {
+class LanguageController extends Controller {
 
     public function get_languagesAction() {
 

@@ -1,45 +1,45 @@
 frontend_review_reservation:
     locales:  { en: "user/cart/", es: "usuario/cesta/", de: "user/cart/" }
-    defaults: { _controller: FrontEndBundle:reservation:review }
+    defaults: { _controller: FrontEndBundle:Reservation:review }
 
 frontend_add_to_cart_reservation:
     locales:  { en: "user/cart/add/{id_ownership}", es: "usuario/cesta/agregar/{id_ownership}", de: "user/cart/add/{id_ownership}" }
-    defaults: { _controller: FrontEndBundle:reservation:add_to_cart }
+    defaults: { _controller: FrontEndBundle:Reservation:add_to_cart }
 
 frontend_remove_from_cart_reservation_callback:
     pattern:  /user/remove/{data}
-    defaults: { _controller: FrontEndBundle:reservation:remove_from_cart }
+    defaults: { _controller: FrontEndBundle:Reservation:remove_from_cart }
 
 frontend_remove_cart_reservation:
     locales:  { en: "user/cart/clear/", es: "usuario/cesta/vaciar/", de: "benutzer/einkaufs-reservierungen/leer/" }
-    defaults: { _controller: FrontEndBundle:reservation:clear }
+    defaults: { _controller: FrontEndBundle:Reservation:clear }
 
 frontend_review_confirm_reservation:
     locales:  { en: "user/reservation/check-confirm/", es: "usuario/reservacion/chequear-confirmacion/", de: "user/reservation/check-confirm/" }
-    defaults: { _controller: FrontEndBundle:reservation:review_confirm }
+    defaults: { _controller: FrontEndBundle:Reservation:review_confirm }
 
 frontend_review_confirm_submit:
     pattern:  review_submit
-    defaults: { _controller: FrontEndBundle:reservation:review_confirm_submit }
+    defaults: { _controller: FrontEndBundle:Reservation:review_confirm_submit }
 
 frontend_redirect_reservation_reservation:
     locales:  { en: "user/reservation/redirect/", es: "usuario/reservacion/redireccionar/", de: "user/reservation/redirect/" }
-    defaults: { _controller: FrontEndBundle:reservation:redirect_reservation_reservation }
+    defaults: { _controller: FrontEndBundle:Reservation:redirect_reservation_reservation }
 
 frontend_reservation_reservation:
     locales:  { en: "user/reservation/", es: "usuario/reservacion/", de: "user/reservation/" }
-    defaults: { _controller: FrontEndBundle:reservation:reservation_reservation }
+    defaults: { _controller: FrontEndBundle:Reservation:reservation_reservation }
 
 frontend_confirmation_reservation:
     locales:  { en: "user/payment/{id_booking}/", es: "usuario/pago/{id_booking}/", de: "user/payment/{id_booking}/" }
-    defaults: { _controller: FrontEndBundle:reservation:confirmation }
+    defaults: { _controller: FrontEndBundle:Reservation:confirmation }
 
 frontend_view_confirmation_reservation:
     locales:  { en: "user/reservation/view/{id_booking}/", es: "usuario/reservacion/detalles/{id_booking}/", de: "user/reservation/view/{id_booking}/" }
-    defaults: { _controller: FrontEndBundle:reservation:view_confirmation }
+    defaults: { _controller: FrontEndBundle:Reservation:view_confirmation }
 
 frontend_boucher_reservation:
     locales:  { en: "user/confirmation/{id_booking}/", es: "usuario/confirmacion/{id_booking}/", de: "user/confirmation/{id_booking}/" }
-    defaults: { _controller: FrontEndBundle:reservation:generatePdfVoucher }
+    defaults: { _controller: FrontEndBundle:Reservation:generatePdfVoucher }
 
 

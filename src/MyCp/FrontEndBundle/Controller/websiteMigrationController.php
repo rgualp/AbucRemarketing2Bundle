@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 
-class websiteMigrationController extends Controller {
+class WebsiteMigrationController extends Controller {
 
     public function permanentRedirectAction($redirectTo, $locale = 'es', $args = array()) {
         return $this->executeRedirect(301, $redirectTo, $locale, $args);

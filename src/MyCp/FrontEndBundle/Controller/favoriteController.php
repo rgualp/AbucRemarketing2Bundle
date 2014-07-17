@@ -5,7 +5,7 @@ namespace MyCp\FrontEndBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
-class favoriteController extends Controller {
+class FavoriteController extends Controller {
 
     public function insertAction() {
         $request = $this->getRequest();

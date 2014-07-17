@@ -1,40 +1,40 @@
 frontend_mycasatrip_home:
     pattern:  /
-    defaults: { _controller: FrontEndBundle:mycasatrip:home }
+    defaults: { _controller: FrontEndBundle:Mycasatrip:home }
 
 frontend_mycasatrip_pending:
     locales:  { en: "/pending/{order_by}", es: "/pendientes/{order_by}", de: "/ausstehend/{order_by}" }
-    defaults: { _controller: FrontEndBundle:mycasatrip:reservations_pending ,order_by:0}
+    defaults: { _controller: FrontEndBundle:Mycasatrip:reservations_pending ,order_by:0}
 
 frontend_mycasatrip_available:
     locales:  { en: "/available/{order_by}", es: "/disponibles/{order_by}",de: "/verfuegbar/{order_by}" }
-    defaults: { _controller: FrontEndBundle:mycasatrip:reservations_available,order_by:0 }
+    defaults: { _controller: FrontEndBundle:Mycasatrip:reservations_available,order_by:0 }
 
 frontend_mycasatrip_reserve:
     locales:  { en: "/reserved/{order_by}", es: "/reservadas/{order_by}",de: "/reserviert/{order_by}" }
-    defaults: { _controller: FrontEndBundle:mycasatrip:reservations_reserve,order_by:0 }
+    defaults: { _controller: FrontEndBundle:Mycasatrip:reservations_reserve,order_by:0 }
 
 frontend_mycasatrip_historial_reserve:
     locales:  { en: "/booking-history/{order_by}", es: "/historial-reservas/{order_by}",de: "/buchungsverlauf/{order_by}" }
-    defaults: { _controller: FrontEndBundle:mycasatrip:history_reservations_reserve,order_by:0 }
+    defaults: { _controller: FrontEndBundle:Mycasatrip:history_reservations_reserve,order_by:0 }
 
 frontend_mycasatrip_payment:
     locales:  { en: "/payment-confirmed/{order_by}", es: "/confirmadas-pago/{order_by}", de: "/zahlung-bestaetigt/{order_by}" }
-    defaults: { _controller: FrontEndBundle:mycasatrip:reservations_payment,order_by:0 }
+    defaults: { _controller: FrontEndBundle:Mycasatrip:reservations_payment,order_by:0 }
 
 frontend_mycasatrip_historial_consult:
     locales:  { en: "/inquired-history/{order_by}", es: "/historial-consultadas/{order_by}",de: "/anfragenverlauf/{order_by}" }
-    defaults: { _controller: FrontEndBundle:mycasatrip:history_reservation_consult,order_by:0 }
+    defaults: { _controller: FrontEndBundle:Mycasatrip:history_reservation_consult,order_by:0 }
 
 frontend_mycasatrip_favorites_destinations:
     locales:  { en: "/favorites/destinations", es: "/favoritos/destinos",de: "/favoriten/reiseziele" }
-    defaults: { _controller: FrontEndBundle:mycasatrip:favorites_destinations }
+    defaults: { _controller: FrontEndBundle:Mycasatrip:favorites_destinations }
 
 frontend_mycasatrip_favorites_accomodations:
     locales:  { en: "/favorites/accomodations", es: "/favoritos/alojamientos", de: "/favoriten/unterkuenfte" }
-    defaults: { _controller: FrontEndBundle:mycasatrip:favorites_accomodations }
+    defaults: { _controller: FrontEndBundle:Mycasatrip:favorites_accomodations }
 
 frontend_mycasatrip_comments:
     locales:  { en: "/comments/{comment_type}", es: "/comentarios/{comment_type}",de: "/bewertungen/{comment_type}" }
-    defaults: { _controller: FrontEndBundle:mycasatrip:comments }
+    defaults: { _controller: FrontEndBundle:Mycasatrip:comments }
 

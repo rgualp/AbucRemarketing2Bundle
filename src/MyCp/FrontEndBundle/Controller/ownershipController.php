@@ -10,7 +10,7 @@ use MyCp\FrontEndBundle\Helpers\Utils;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 
-class ownershipController extends Controller {
+class OwnershipController extends Controller {
 
     public function get_reservation_calendarAction(Request $request) {
         $from = $request->get('from');

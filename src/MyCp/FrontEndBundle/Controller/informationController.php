@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
-class informationController extends Controller {
+class InformationController extends Controller {
 
      public function about_usAction(Request $request) {
         $em = $this->getDoctrine()->getManager();

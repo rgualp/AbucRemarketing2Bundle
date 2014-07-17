@@ -17,11 +17,11 @@ mycp:
 
 mycp_sitemap:
     path: /sitemap.{_format}
-    defaults: { _controller: FrontEndBundle:public:site_map }
+    defaults: { _controller: FrontEndBundle:Public:site_map }
 
 mycp_own_details:
     pattern:  /{own_code}/
-    defaults: { _controller: FrontEndBundle:ownership:own_details_direct }
+    defaults: { _controller: FrontEndBundle:Ownership:own_details_direct }
 
 mycp_frontend:
     resource: "@FrontEndBundle/Resources/config/routing.yml"
@@ -32,7 +32,7 @@ frontend_ckeck:
     pattern:  /user/check
 frontend_login:
     pattern:  /{_locale}/login/
-    defaults: { _controller: FrontEndBundle:public:login }
+    defaults: { _controller: FrontEndBundle:Public:login }
 frontend_logout:
     pattern: /user/logout
 
@@ -46,5 +46,5 @@ mycp_main:
 
 frontend_change_currency:
     pattern:  /change_currency/{curr_code}
-    defaults: { _controller: FrontEndBundle:currency:change_currency }
+    defaults: { _controller: FrontEndBundle:Currency:change_currency }
 

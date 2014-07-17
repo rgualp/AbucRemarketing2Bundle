@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Email;
 use MyCp\FrontEndBundle\Helpers\PaymentHelper;
 
-class reservationController extends Controller {
+class ReservationController extends Controller {
 
     const RELATIVE_VOUCHER_PATH = "/../tmp/vouchers/";
 
@@ -790,7 +790,7 @@ class reservationController extends Controller {
         }
 
         // Log the reservations as sometimes too many emails are sent
-        $logger->info('array_ownres_by_house in reservationController::payment_processed, count: ' . count($array_ownres_by_house));
+        $logger->info('array_ownres_by_house in ReservationController::payment_processed, count: ' . count($array_ownres_by_house));
 
         // enviando mail a reservation team
         foreach ($array_ownres_by_house as $owns) {

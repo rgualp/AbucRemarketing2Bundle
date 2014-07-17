@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
-class mycasatripController extends Controller {
+class MycasatripController extends Controller {
 
     public function homeAction() {
         /*$user = ﻿$this->getUser();

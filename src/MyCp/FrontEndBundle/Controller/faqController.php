@@ -5,7 +5,7 @@ namespace MyCp\FrontEndBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
-class faqController extends Controller {
+class FaqController extends Controller {
 
      public function listAction() {
         $em = $this->getDoctrine()->getManager();

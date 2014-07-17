@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
-class paymentController extends Controller
+class PaymentController extends Controller
 {
 
     private static $skrillPostUrl = 'https://www.moneybookers.com/app/payment.pl';

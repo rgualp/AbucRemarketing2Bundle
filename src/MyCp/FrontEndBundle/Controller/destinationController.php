@@ -6,7 +6,7 @@ use MyCp\FrontEndBundle\Helpers\Utils;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
-class destinationController extends Controller {
+class DestinationController extends Controller {
 
     public function get_big_mapAction()
     {

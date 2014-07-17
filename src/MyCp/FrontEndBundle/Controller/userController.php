@@ -13,7 +13,7 @@ use MyCp\mycpBundle\Entity\photo;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class userController extends Controller {
+class UserController extends Controller {
 
     public function registerAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
