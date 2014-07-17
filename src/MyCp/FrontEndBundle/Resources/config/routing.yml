@@ -1,63 +1,64 @@
 frontend_welcome:
     locales:  { en: "/welcome/", es: "/bienvenido/", de: "/willkommen/" }
-    defaults: { _controller: frontEndBundle:public:welcome }
+    defaults: { _controller: FrontEndBundle:public:welcome }
 
 frontend_destination:
-    resource: "@frontEndBundle/Resources/config/routingFrontendDestination.yml"
+    resource: "@FrontEndBundle/Resources/config/routingFrontendDestination.yml"
     type: be_simple_i18n
 
 frontend_municipality:
-    resource: "@frontEndBundle/Resources/config/routingFrontendMunicipality.yml"
+    resource: "@FrontEndBundle/Resources/config/routingFrontendMunicipality.yml"
     type: be_simple_i18n
 
 frontend_ownership:
-    resource: "@frontEndBundle/Resources/config/routingFrontendOwnership.yml"
+    resource: "@FrontEndBundle/Resources/config/routingFrontendOwnership.yml"
     type: be_simple_i18n
 
 frontend_comment:
-    resource: "@frontEndBundle/Resources/config/routingFrontendComment.yml"
+    resource: "@FrontEndBundle/Resources/config/routingFrontendComment.yml"
     type: be_simple_i18n
 
 frontend_user:
-    resource: "@frontEndBundle/Resources/config/routingFrontendUser.yml"
+    resource: "@FrontEndBundle/Resources/config/routingFrontendUser.yml"
     type: be_simple_i18n
 
 frontend_reservation:
-    resource: "@frontEndBundle/Resources/config/routingFrontendReservation.yml"
+    resource: "@FrontEndBundle/Resources/config/routingFrontendReservation.yml"
     type: be_simple_i18n
 
 frontend_currency:
-    resource: "@frontEndBundle/Resources/config/routingFrontendCurrency.yml"
+    resource: "@FrontEndBundle/Resources/config/routingFrontendCurrency.yml"
     type: be_simple_i18n
 
 frontend_information:
-    resource: "@frontEndBundle/Resources/config/routingFrontendInformation.yml"
+    resource: "@FrontEndBundle/Resources/config/routingFrontendInformation.yml"
     type: be_simple_i18n
 
 frontend_faq:
-    resource: "@frontEndBundle/Resources/config/routingFrontendFaq.yml"
+    resource: "@FrontEndBundle/Resources/config/routingFrontendFaq.yml"
     type: be_simple_i18n
 
 frontend_mycasatrip:
-    resource: "@frontEndBundle/Resources/config/routingFrontendMyCasaTrip.yml"
+    resource: "@FrontEndBundle/Resources/config/routingFrontendMyCasaTrip.yml"
     prefix: mycasatrip/
     type: be_simple_i18n
 
 frontend_payment:
-    resource: "@frontEndBundle/Resources/config/routingFrontendPayment.yml"
+    resource: "@FrontEndBundle/Resources/config/routingFrontendPayment.yml"
     type: be_simple_i18n
 
 frontend_favorite:
-    resource: "@frontEndBundle/Resources/config/routingFrontendFavorite.yml"
+    resource: "@FrontEndBundle/Resources/config/routingFrontendFavorite.yml"
     type: be_simple_i18n
 
 frontend_language:
-    resource: "@frontEndBundle/Resources/config/routingFrontendLanguage.yml"
+    resource: "@FrontEndBundle/Resources/config/routingFrontendLanguage.yml"
     type: be_simple_i18n
 
 frontend_emails:
-    resource: "@frontEndBundle/Resources/config/routingFrontendAjaxEmails.yml"
+    resource: "@FrontEndBundle/Resources/config/routingFrontendAjaxEmails.yml"
 
 frontend_public:
-    resource: "@frontEndBundle/Resources/config/routingFrontendPublic.yml"
+    resource: "@FrontEndBundle/Resources/config/routingFrontendPublic.yml"
     type: be_simple_i18n
+
