@@ -1,6 +1,6 @@
 frontend_welcome:
     locales:  { en: "/welcome/", es: "/bienvenido/", de: "/willkommen/" }
-    defaults: { _controller: FrontEndBundle:public:welcome }
+    defaults: { _controller: FrontEndBundle:Public:welcome }
 
 frontend_destination:
     resource: "@FrontEndBundle/Resources/config/routingFrontendDestination.yml"
