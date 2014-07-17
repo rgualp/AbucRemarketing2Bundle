@@ -52,7 +52,7 @@
 {% block body %}
 <div class="container cont-form" style="margin-top: -20px">
 <div id="main-search-2">
-    {{ render(controller('FrontEndBundle:ownership:orangeSearchBar')) }}
+    {{ render(controller('FrontEndBundle:Ownership:orangeSearchBar')) }}
 </div>
 </div>
 
@@ -87,9 +87,9 @@
 {% if flag != 0%}
 </div>
 {% endif %}
-    {{ render(controller('FrontEndBundle:destination:get_map_by_province')) }}
+    {{ render(controller('FrontEndBundle:Destination:get_map_by_province')) }}
     <br/>
-    {{ render(controller('FrontEndBundle:public:home_carrousel')) }}
+    {{ render(controller('FrontEndBundle:Public:home_carrousel')) }}
 </div>
 
 {% endblock %}

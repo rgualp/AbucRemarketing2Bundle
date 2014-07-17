@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="google-site-verification" content="D3B7Zo_ELB0RPsw2VojNY8ilJc4jeSyWiUB4va-vEx0" />
     {% block metas %}
-        {{ render(controller('FrontEndBundle:public:get_meta_tags')) }}
+        {{ render(controller('FrontEndBundle:Public:get_meta_tags')) }}
     {% endblock %}
     <meta name="author" content="ABUC media network GmbH">
     <meta name="copyright" content="ABUC media network GmbH">
@@ -79,7 +79,7 @@
                         <li><a title="{{"HOW_IT_WORKS" | trans }}" href="{{ path('frontend_how_it_works_information')}}"><img class="icon tiny-book-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/> {{"HOW_IT_WORKS" | trans }}</a></li>
                         <li><a title="{{"FAVORITIES" | trans }}" href="{{ path('frontend_list_favorite') }}"><img class="icon tiny-heart-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/> {{"FAVORITIES" | trans }}</a></li>
                         <li>
-                            {{ render(controller('FrontEndBundle:reservation:get_count_cart_items')) }}
+                            {{ render(controller('FrontEndBundle:Reservation:get_count_cart_items')) }}
                         </li>
                     </ul>
                 </div>
@@ -108,7 +108,7 @@
                             <a title="{{"LANGUAGE" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-lang-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/>
                                 {{(app.session.get('app_lang_name') == null or app.session.get('app_lang_name') == "") ? "Español" : app.session.get('app_lang_name')}} <b class="caret caret-new"></b></a>
                             <ul class="dropdown-menu">
-                                {{ render(controller('FrontEndBundle:language:get_languages')) }}
+                                {{ render(controller('FrontEndBundle:Language:get_languages')) }}
                             </ul>
                         </li>
                         <li class="nav-divider pull-right">&nbsp;</li>
@@ -116,7 +116,7 @@
                             <a title="{{"CURRENCY" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-curr-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/>
                                 {{(app.session.get('curr_acronym') == null or app.session.get('curr_acronym') == "") ? default_currency().currcode|upper : app.session.get('curr_acronym')|upper}} <b class="caret caret-new"></b></a>
                             <ul class="dropdown-menu">
-                                {{ render(controller('FrontEndBundle:currency:get_currencies', {'params': app.request.attributes.all})) }}
+                                {{ render(controller('FrontEndBundle:Currency:get_currencies', {'params': app.request.attributes.all})) }}
                             </ul>
                         </li>
                         <li class="nav-divider pull-right">&nbsp;</li>
