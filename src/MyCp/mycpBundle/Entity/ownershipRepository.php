@@ -254,11 +254,9 @@ class ownershipRepository extends EntityRepository {
         $em->flush();
     }
 
-    function edit_ownership($data) {
-
-        $ownership = new ownership();
+    function edit_ownership($data)
+    {
         $id_ownership = $data['edit_ownership'];
-        $active = 0;
 
         $active_top_20 = 0;
         if (isset($data['top_20']))
@@ -281,10 +279,13 @@ class ownershipRepository extends EntityRepository {
         if (isset($data['ownership_italian_lang']))
             $ownership_italian_lang = 1;
 
-        $langs_string = $ownership_english_lang . $ownership_french_lang . $ownership_german_lang . $ownership_italian_lang;
+        $langs_string = $ownership_english_lang .
+            $ownership_french_lang . $ownership_german_lang .
+            $ownership_italian_lang;
 
         $em = $this->getEntityManager();
-        $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
+        $ownership =
+            $em->getRepository('mycpBundle:ownership')->find($id_ownership);
         $ownership->setOwnLangs($langs_string);
         $ownership->setOwnName($data['ownership_name']);
         $ownership->setOwnLicenceNumber($data['ownership_licence_number']);
@@ -293,7 +294,8 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnAddressNumber($data['ownership_address_number']);
         $ownership->setOwnAddressBetweenStreet1($data['ownership_address_between_street_1']);
         $ownership->setOwnAddressBetweenStreet2($data['ownership_address_between_street_2']);
-        $prov = $em->getRepository('mycpBundle:province')->find($data['ownership_address_province']);
+        $prov =
+            $em->getRepository('mycpBundle:province')->find($data['ownership_address_province']);
         $ownership->setOwnAddressProvince($prov);
         $ownership->setOwnAddressMunicipality($em->getRepository('mycpBundle:municipality')->find($data['ownership_address_municipality']));
         $ownership->setOwnMobileNumber($data['ownership_mobile_number']);
@@ -320,12 +322,16 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnGeolocateX($data['geolocate_x']);
         $ownership->setOwnGeolocateY($data['geolocate_y']);
         $ownership->setOwnTop20($active_top_20);
-        $status = $em->getRepository('mycpBundle:ownershipStatus')->find($data['status']);
-        if(!isset($status))
-            $status = $em->getRepository('mycpBundle:ownershipStatus')->find(OwnershipStatuses::IN_PROCESS);
+        $status =
+            $em->getRepository('mycpBundle:ownershipStatus')->find($data['status']);
+        if (!isset($status))
+            $status =
+                $em->getRepository('mycpBundle:ownershipStatus')->find(OwnershipStatuses::IN_PROCESS);
         $ownership->setOwnStatus($status);
         $ownership->setOwnComment($data['comment']);
-        $old_rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $data['edit_ownership']));
+        $old_rooms =
+            $em->getRepository('mycpBundle:room')->findBy(array('room_ownership'
+            => $data['edit_ownership']));
         $ownership->setOwnCommissionPercent($data['ownership_percent_commission']);
 
         /**
@@ -342,46 +348,62 @@ class ownershipRepository extends EntityRepository {
         $em->persist($ownership);
 
         $old_unavailable = array();
+        $old_rooms_actives = array();
 
         foreach ($old_rooms as $old_room) {
             $id_old_room = $old_room->getRoomId();
-            array_push($old_unavailable, $em->getRepository('mycpBundle:unavailabilitydetails')->findBy(array('room' => $id_old_room)));
-            $query = $em->createQuery("DELETE mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
+            $old_rooms_actives[$old_room->getRoomNum()] =
+                $old_room->getRoomActive();
+            array_push($old_unavailable,
+                $em->getRepository('mycpBundle:unavailabilitydetails')->findBy(array('room'
+                => $id_old_room)));
+            $query = $em->createQuery("DELETE
+mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
             $query->execute();
         }
 
-        //var_dump($old_unavailable); exit();
+        //var_dump($old_rooms_actives); exit();
 
-        $query = $em->createQuery("DELETE mycpBundle:ownershipGeneralLang ogl WHERE ogl.ogl_ownership=$id_ownership");
+        $query = $em->createQuery("DELETE
+            mycpBundle:ownershipGeneralLang ogl WHERE
+            ogl.ogl_ownership=$id_ownership");
         $query->execute();
-        $query = $em->createQuery("DELETE mycpBundle:ownershipDescriptionLang odl WHERE odl.odl_ownership=$id_ownership");
+        $query = $em->createQuery("DELETE
+            mycpBundle:ownershipDescriptionLang odl WHERE
+            odl.odl_ownership=$id_ownership");
         $query->execute();
-        $query = $em->createQuery("DELETE mycpBundle:ownershipKeywordLang okl WHERE okl.okl_ownership=$id_ownership");
+        $query = $em->createQuery("DELETE
+            mycpBundle:ownershipKeywordLang okl WHERE
+            okl.okl_ownership=$id_ownership");
         $query->execute();
-        $query = $em->createQuery("DELETE mycpBundle:room r WHERE r.room_ownership=$id_ownership");
+        $query = $em->createQuery("DELETE mycpBundle:room r WHERE
+            r.room_ownership=$id_ownership");
         $query->execute();
-        /* $query = $em->createQuery("DELETE mycpBundle:ownershipPhoto op WHERE op.own_pho_own=$id_ownership");
-          $query->execute(); */
+        /* $query = $em->createQuery("DELETE mycpBundle:ownershipPhoto
+        op WHERE op.own_pho_own=$id_ownership");
+        $query->execute(); */
 
         $keys = array_keys($data);
 
         foreach ($keys as $item) {
             /* if(strpos($item, 'ownership_language')!==false)
-              {
+            {
 
-              $id=substr($item, 19, strlen($item));
-              $ogl= new ownershipGeneralLang();
-              $ogl->setOglIdLang($em->getRepository('mycpBundle:lang')->find($id));
-              $ogl->setOglOwnership($ownership);
-              $em->persist($ogl);
-              } */
+            $id=substr($item, 19, strlen($item));
+            $ogl= new ownershipGeneralLang();
+            $ogl->setOglIdLang($em->getRepository('mycpBundle:lang')->find($id));
+            $ogl->setOglOwnership($ownership);
+            $em->persist($ogl);
+            } */
 
             if (strpos($item, 'description_desc') !== false) {
 
                 $id = substr($item, 17, strlen($item));
                 $odl = new ownershipDescriptionLang();
+
                 $odl->setOdlIdLang($em->getRepository('mycpBundle:lang')->find($id));
                 $odl->setOdlDescription($data['description_desc_' . $id]);
+
                 $odl->setOdlBriefDescription($data['description_brief_desc_' . $id]);
                 $odl->setOdlOwnership($ownership);
                 $em->persist($odl);
@@ -391,6 +413,7 @@ class ownershipRepository extends EntityRepository {
 
                 $id = substr($item, 9, strlen($item));
                 $okl = new ownershipKeywordLang();
+
                 $okl->setOklIdLang($em->getRepository('mycpBundle:lang')->find($id));
                 $okl->setOklKeywords($data['keywords_' . $id]);
                 $okl->setOklOwnership($ownership);
@@ -398,7 +421,7 @@ class ownershipRepository extends EntityRepository {
             }
         }
 
-        var_dump($old_unavailable);
+        //var_dump($old_unavailable);
         //exit();
 
         /**
@@ -435,28 +458,34 @@ class ownershipRepository extends EntityRepository {
             $room->setRoomYard($data['room_yard_' . $e]);
             $room->setRoomOwnership($ownership);
             $room->setRoomNum($e);
+            $room->setRoomActive($old_rooms_actives[$e]);
             $em->persist($room);
 
-            foreach ($old_unavailable[$e - 1] as $unavail) {
-                $new_unavail = new unavailabilityDetails();
-                $new_unavail->setRoom($unavail->getRoom());
-                $new_unavail->setSyncSt($unavail->getSyncSt());
-                $new_unavail->setUdFromDate($unavail->getUdFromDate());
-                $new_unavail->setUdToDate($unavail->getUdToDate());
-                $new_unavail->setUdReason($unavail->getUdReason());
-                $new_unavail->setUdId($unavail->getUdId());
-                $em->persist($new_unavail);
+            if (count($old_unavailable)) {
+                foreach ($old_unavailable[$e - 1] as $unavail) {
+                    $new_unavail = new unavailabilityDetails();
+                    $new_unavail->setRoom($unavail->getRoom());
+                    $new_unavail->setSyncSt($unavail->getSyncSt());
+                    $new_unavail->setUdFromDate($unavail->getUdFromDate());
+                    $new_unavail->setUdToDate($unavail->getUdToDate());
+                    $new_unavail->setUdReason($unavail->getUdReason());
+                    $new_unavail->setUdId($unavail->getUdId());
+                    $em->persist($new_unavail);
+                }
             }
 
             /**
              * Codigo Yanet - Inicio
              */
-            if ($ownership->getOwnMinimumPrice() == 0 || $room->getRoomPriceDownFrom() < $ownership->getOwnMinimumPrice())
+            if ($ownership->getOwnMinimumPrice() == 0 ||
+                $room->getRoomPriceDownFrom() < $ownership->getOwnMinimumPrice())
                 $ownership->setOwnMinimumPrice($room->getRoomPriceDownFrom());
 
-            $ownership->setOwnMaximumNumberGuests($ownership->getOwnMaximumNumberGuests() + $room->getRoomBeds());
+            $ownership->setOwnMaximumNumberGuests($ownership->getOwnMaximumNumberGuests()
+                + $room->getRoomBeds());
 
-            if ($ownership->getOwnMaximumPrice() == 0 || $room->getRoomPriceUpTo() > $ownership->getOwnMaximumPrice())
+            if ($ownership->getOwnMaximumPrice() == 0 ||
+                $room->getRoomPriceUpTo() > $ownership->getOwnMaximumPrice())
                 $ownership->setOwnMaximumPrice($room->getRoomPriceUpTo());
 
             if ($room->getRoomBeds() > 0)
