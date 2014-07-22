@@ -820,17 +820,17 @@ class ownershipRepository extends EntityRepository {
 
                     if ($arrivalDate != null) {
                         $dates_where .= ($dates_where != '') ? " OR " : "";
-                        $dates_where .= "(owr.own_res_reservation_from_date <= :arrival_date AND r.own_res_reservation_to_date >= :arrival_date)";
+                        $dates_where .= "(owr.own_res_reservation_from_date <= :arrival_date AND owr.own_res_reservation_to_date >= :arrival_date)";
                     }
 
                     if ($leavingDate != null) {
                         $dates_where .= ($dates_where != '') ? " OR " : "";
-                        $dates_where .= "(r.own_res_reservation_from_date <= :leaving_date AND r.own_res_reservation_to_date >= :leaving_date)";
+                        $dates_where .= "(owr.own_res_reservation_from_date <= :leaving_date AND owr.own_res_reservation_to_date >= :leaving_date)";
                     }
 
                     if ($arrivalDate != null && $leavingDate != null) {
                         $dates_where .= ($dates_where != '') ? " OR " : "";
-                        $dates_where .= "(r.own_res_reservation_from_date >= :arrival_date AND r.own_res_reservation_to_date <= :leaving_date)";
+                        $dates_where .= "(owr.own_res_reservation_from_date >= :arrival_date AND owr.own_res_reservation_to_date <= :leaving_date)";
                     }
 
 
