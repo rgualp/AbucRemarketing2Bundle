@@ -813,7 +813,7 @@ class ownershipRepository extends EntityRepository {
 
                 if ($arrivalDate != null || $leavingDate != null) {
 
-                    $query_string = "SELECT owr FROM mycpBundle:ownerhipReservation owr
+                    $query_string = "SELECT owr FROM mycpBundle:ownershipReservation owr
                                 JOIN owr.own_res_gen_res_id r
                                 WHERE r.gen_res_own_id =" . $results[$i]['own_id'];
                     $dates_where = "";
