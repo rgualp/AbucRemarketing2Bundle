@@ -100,10 +100,10 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnGeolocateY($data['geolocate_y']);
         $ownership->setOwnTop20($active_top_20);
         $status = $em->getRepository('mycpBundle:ownershipStatus')->find($data['status']);
-        
+
         if(!isset($status))
             $status = $em->getRepository('mycpBundle:ownershipStatus')->find(OwnershipStatuses::IN_PROCESS);
-        
+
         $ownership->setOwnStatus($status);
         $ownership->setOwnRoomsTotal($data['count_rooms']);
         $ownership->setOwnComment($data['comment']);
@@ -117,7 +117,7 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnMaximumPrice(0);
         $ownership->setOwnMinimumPrice(0);
         $ownership->setOwnRoomsTotal(0);
-        
+
         if (isset($data['water_jacuzee']))
             $ownership->setOwnWaterJacuzee($data['water_jacuzee']);
         if (isset($data['water_sauna']))
@@ -162,7 +162,7 @@ class ownershipRepository extends EntityRepository {
         }
 
         $ownership->setOwnRoomsTotal($data['count_rooms']);
-        
+
         $beds_total = 0;
         for ($e = 1; $e <= $data['count_rooms']; $e++) {
             $room = new room();
@@ -501,25 +501,25 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT ow FROM mycpBundle:ownership ow
         WHERE ow.own_mcp_code LIKE :filter_code $string $string2 $string3 $string4 $string5");
-        
+
         if ($filter_active != 'null' && $filter_active != '')
             $query->setParameter('filter_active', $filter_active);
-        
+
         if ($filter_category != 'null' && $filter_category != '')
             $query->setParameter('filter_category', $filter_category);
-        
+
         if ($filter_province != 'null' && $filter_province != '')
             $query->setParameter('filter_province', $filter_province);
-        
+
         if ($filter_municipality != 'null' && $filter_municipality != '')
             $query->setParameter('filter_municipality', $filter_municipality);
-        
+
         if ($filter_type != 'null' && $filter_type != '')
             $query->setParameter('filter_type', $filter_type);
-        
+
         if(isset($filter_code))
             $query->setParameter('filter_code', "%".$filter_code."%");
-        
+
         return $query->getResult();
     }
 
@@ -549,7 +549,7 @@ class ownershipRepository extends EntityRepository {
         if (!$room_filter) {
             $query_string = "SELECT o.own_id as own_id,
                              o.own_name as own_name,
-                            (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id 
+                            (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id
                             AND (p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
                             where op1.own_pho_own = o.own_id) or p.pho_order is null) as photo,
                             prov.prov_name as prov_name,
@@ -573,13 +573,13 @@ class ownershipRepository extends EntityRepository {
                             o.own_description_pets as pets,
                             o.own_water_jacuzee as jacuzee,
                             o.own_langs as langs
-                             FROM mycpBundle:ownership o 
-                             JOIN o.own_address_province prov 
+                             FROM mycpBundle:ownership o
+                             JOIN o.own_address_province prov
                              JOIN o.own_address_municipality mun";
         } else {
             $query_string = "SELECT o.own_id as own_id,
                              o.own_name as own_name,
-                            (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id 
+                            (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id
                             AND (p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
                             where op1.own_pho_own = o.own_id) or p.pho_order is null) as photo,
                             prov.prov_name as prov_name,
@@ -603,8 +603,8 @@ class ownershipRepository extends EntityRepository {
                             o.own_description_pets as pets,
                             o.own_water_jacuzee as jacuzee,
                             o.own_langs as langs
-                             FROM mycpBundle:room r 
-                             JOIN r.room_ownership o 
+                             FROM mycpBundle:room r
+                             JOIN r.room_ownership o
                              JOIN o.own_address_province prov
                              JOIN o.own_address_municipality mun";
         }
@@ -786,19 +786,19 @@ class ownershipRepository extends EntityRepository {
         $query_string = $query_string . ' ORDER BY ' . $order;
 
         $query = $em->createQuery($query_string);
-        
+
         if($user_id != null)
             $query->setParameter('user_id', $user_id);
-        
+
         if($session_id != null)
             $query->setParameter('session_id', $session_id);
-        
+
         if ($text != null && $text != '' && $text != 'null')
             $query->setParameter('text',"%".$text."%");
-        
+
         if ($guest_total != null && $guest_total != 'null' && $guest_total != "")
             $query->setParameter ('guests_total', ($guest_total != "+10" ? $guest_total : 11));
-        
+
         if (isset($rooms_total) && $rooms_total != null && $rooms_total != 'null' && $rooms_total != "")
             $query->setParameter ('rooms_total', ($rooms_total != "+5" ? $rooms_total : 6));
 
@@ -813,14 +813,14 @@ class ownershipRepository extends EntityRepository {
 
                 if ($arrivalDate != null || $leavingDate != null) {
 
-                    $query_string = "SELECT or FROM mycpBundle:ownerhipReservation or
-                                JOIN or.own_res_gen_res_id r
+                    $query_string = "SELECT owr FROM mycpBundle:ownerhipReservation owr
+                                JOIN owr.own_res_gen_res_id r
                                 WHERE r.gen_res_own_id =" . $results[$i]['own_id'];
                     $dates_where = "";
 
                     if ($arrivalDate != null) {
                         $dates_where .= ($dates_where != '') ? " OR " : "";
-                        $dates_where .= "(or.own_res_reservation_from_date <= :arrival_date AND r.own_res_reservation_to_date >= :arrival_date)";
+                        $dates_where .= "(owr.own_res_reservation_from_date <= :arrival_date AND r.own_res_reservation_to_date >= :arrival_date)";
                     }
 
                     if ($leavingDate != null) {
@@ -834,16 +834,16 @@ class ownershipRepository extends EntityRepository {
                     }
 
 
-                    $query_string .= ($dates_where != '') ? " AND ($dates_where)" : "";                    
-                    
+                    $query_string .= ($dates_where != '') ? " AND ($dates_where)" : "";
+
                     $query_reservation = $em->createQuery($query_string);
-                    
+
                     if($arrivalDate != null)
                         $query_reservation->setParameter('arrival_date',$arrivalDate);
-                    
-                    if ($leavingDate != null) 
+
+                    if ($leavingDate != null)
                         $query_reservation->setParameter('leaving_date',$leavingDate);
-                    
+
                     $reservations = count($query_reservation->getResult());
 
                     if ($results[$i]['rooms_count'] > $reservations)
@@ -865,7 +865,7 @@ class ownershipRepository extends EntityRepository {
                          o.own_name as own_name,
                          prov.prov_name as prov_name,
                          o.own_comments_total as comments_total,
-                         (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id 
+                         (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id
                             AND (p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
                             where op1.own_pho_own = o.own_id) or p.pho_order is null) as photo,
                          (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = '$locale') as description,
@@ -1359,7 +1359,7 @@ class ownershipRepository extends EntityRepository {
         if (isset($own_ids)) {
             $query_string = "SELECT o.own_id as own_id,
                              o.own_name as own_name,
-                            (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id 
+                            (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id
                             AND (p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
                             where op1.own_pho_own = o.own_id) or p.pho_order is null) as photo,
                             prov.prov_name as prov_name,
@@ -1372,9 +1372,9 @@ class ownershipRepository extends EntityRepository {
                             (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
                             (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
                             (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = 5) as count_reservations,
-                            (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments 
-                         FROM mycpBundle:ownership o 
-                         JOIN o.own_address_province prov 
+                            (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments
+                         FROM mycpBundle:ownership o
+                         JOIN o.own_address_province prov
                          JOIN o.own_address_municipality mun
                          WHERE o.own_id IN ($own_ids)";
 
@@ -1411,7 +1411,7 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $query_string = "SELECT o.own_id as own_id,
                          o.own_name as own_name,
-                        (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id 
+                        (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id
                             AND (p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
                             where op1.own_pho_own = o.own_id) or p.pho_order is null) as photo,
                         prov.prov_name as prov_name,
@@ -1446,7 +1446,7 @@ class ownershipRepository extends EntityRepository {
     function get_details($own_name, $locale = "ES", $user_id = null, $session_id = null) {
         $em = $this->getEntityManager();
         $query_string = "SELECT o.own_id as own_id,
-                         o.own_name as ownname,                        
+                         o.own_name as ownname,
                         prov.prov_name as ownAddressProvince,
                         prov.prov_id as ownAddressProvince_id,
                         o.own_address_street as ownAddressStreet,
@@ -1487,9 +1487,9 @@ class ownershipRepository extends EntityRepository {
                         (SELECT min(dd.odl_description) FROM mycpBundle:ownershipDescriptionLang dd JOIN dd.odl_id_lang dl WHERE dd.odl_ownership = o.own_id AND dl.lang_code = '$locale') as description,
                         (SELECT kl.okl_keywords FROM mycpBundle:ownershipKeywordLang kl JOIN kl.okl_id_lang lang WHERE kl.okl_ownership = o.own_id AND lang.lang_code = '$locale') as keywords,
                         (SELECT count(o1.own_id) from mycpBundle:ownership o1 where o1.own_id = o.own_id AND o1.own_langs LIKE '1___') as english,
-                        (SELECT count(o2.own_id) from mycpBundle:ownership o2 where o2.own_id = o.own_id AND o2.own_langs LIKE '_1__') as french,    
-                        (SELECT count(o3.own_id) from mycpBundle:ownership o3 where o3.own_id = o.own_id AND o3.own_langs LIKE '__1_') as german,    
-                        (SELECT count(o4.own_id) from mycpBundle:ownership o4 where o4.own_id = o.own_id AND o4.own_langs LIKE '___1') as italian    
+                        (SELECT count(o2.own_id) from mycpBundle:ownership o2 where o2.own_id = o.own_id AND o2.own_langs LIKE '_1__') as french,
+                        (SELECT count(o3.own_id) from mycpBundle:ownership o3 where o3.own_id = o.own_id AND o3.own_langs LIKE '__1_') as german,
+                        (SELECT count(o4.own_id) from mycpBundle:ownership o4 where o4.own_id = o.own_id AND o4.own_langs LIKE '___1') as italian
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
                          JOIN o.own_address_municipality mun
@@ -1506,7 +1506,7 @@ class ownershipRepository extends EntityRepository {
         if ($exclude_id == null)
             $query_string = "SELECT o.own_id as own_id,
                          o.own_name as own_name,
-                        (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id 
+                        (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id
                             AND (p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
                             where op1.own_pho_own = o.own_id) or p.pho_order is null) as photo,
                         prov.prov_name as prov_name,
@@ -1519,7 +1519,7 @@ class ownershipRepository extends EntityRepository {
                         (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
                         (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
                         (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = 5) as count_reservations,
-                        (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments  
+                        (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
                          JOIN o.own_address_municipality mun
@@ -1530,7 +1530,7 @@ class ownershipRepository extends EntityRepository {
             $query_string = "SELECT o.own_id as own_id,
                          o.own_name as own_name,
                          o.own_type as own_type,
-                        (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id 
+                        (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id
                             AND (p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
                             where op1.own_pho_own = o.own_id) or p.pho_order is null) as photo,
                         prov.prov_name as prov_name,
@@ -1543,7 +1543,7 @@ class ownershipRepository extends EntityRepository {
                         (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
                         (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
                         (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = 5) as count_reservations,
-                        (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments 
+                        (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
                          JOIN o.own_address_municipality mun
@@ -1720,7 +1720,7 @@ class ownershipRepository extends EntityRepository {
             foreach ($own_list as $own) {
                 $own_id = $own->getOwnId();
                 $query = $em->createQuery("SELECT count(res) as reservations,
-                        (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = $own_id)  as comments                        
+                        (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = $own_id)  as comments
                         FROM mycpBundle:generalReservation res
                         WHERE res.gen_res_own_id = $own_id
                         AND res.gen_res_status=2");
