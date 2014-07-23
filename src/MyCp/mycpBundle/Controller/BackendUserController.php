@@ -280,19 +280,24 @@ class BackendUserController extends Controller
         }
         else
         {
-            $user_tourist=new userTourist();
-            $user_tourist=$em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user'=>$id_user));
-            $user_tourist=$user_tourist[0];
-            $data_user['user_name']=$user_tourist->getUserTouristUser()->getUserName();
-            $data_user['address']=$user_tourist->getUserTouristUser()->getUserAddress();
-            $data_user['email']=$user_tourist->getUserTouristUser()->getUserEmail();
-            $data_user['name']=$user_tourist->getUserTouristUser()->getUserUserName();
-            $data_user['last_name']=$user_tourist->getUserTouristUser()->getUserLastName();
-            $data_user['phone']=$user_tourist->getUserTouristUser()->getUserPhone();
-            $data_user['city']=$user_tourist->getUserTouristUser()->getUserCity();
-            $data_user['country']=$user_tourist->getUserTouristUser()->getUserCountry()->getCoId();
-            $data_user['currency']=$user_tourist->getUserTouristCurrency()->getCurrId();
-            $data_user['language']=$user_tourist->getUserTouristLanguage()->getLangId();
+            $user_tourist=null;
+            $user_tourist=$em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user'=>$id_user));
+            
+            $user = null;
+            if($user_tourist == null)
+                $user = $em->getRepository('mycpBundle:user')->findOneBy(array('user_id'=>$id_user));
+            /*var_dump($user_tourist); exit;
+            $user_tourist=$user_tourist[0];*/
+            $data_user['user_name']=($user_tourist != null) ? $user_tourist->getUserTouristUser()->getUserName() : $user->getUserName();
+            $data_user['address']=($user_tourist != null) ? $user_tourist->getUserTouristUser()->getUserAddress() : $user->getUserAddress();
+            $data_user['email']=($user_tourist != null) ? $user_tourist->getUserTouristUser()->getUserEmail() : $user->getUserEmail();
+            $data_user['name']=($user_tourist != null) ? $user_tourist->getUserTouristUser()->getUserUserName(): $user->getUserUserName();
+            $data_user['last_name']=($user_tourist != null) ? $user_tourist->getUserTouristUser()->getUserLastName(): $user->getUserLastName();
+            $data_user['phone']=($user_tourist != null) ? $user_tourist->getUserTouristUser()->getUserPhone(): $user->getUserPhone();
+            $data_user['city']=($user_tourist != null) ? $user_tourist->getUserTouristUser()->getUserCity(): $user->getUserCity();
+            $data_user['country']=($user_tourist != null) ? (($user_tourist->getUserTouristUser()->getUserCountry() != null) ? $user_tourist->getUserTouristUser()->getUserCountry()->getCoId() : null): (($user->getUserCountry() != null) ? $user->getUserCountry()->getCoId(): null);
+            $data_user['currency']=($user_tourist != null) ? $user_tourist->getUserTouristCurrency()->getCurrId(): null;
+            $data_user['language']=($user_tourist != null) ? $user_tourist->getUserTouristLanguage()->getLangId():null;
             $form->setData($data_user);
         }
         return $this->render('mycpBundle:user:newUserTourist.html.twig',array('form'=>$form->createView(),'data'=>$data,'id_role'=>'','edit_user'=>$id_user));

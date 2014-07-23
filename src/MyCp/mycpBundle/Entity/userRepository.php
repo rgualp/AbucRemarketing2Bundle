@@ -193,8 +193,13 @@ class userRepository extends EntityRepository {
         $post = $request->request->get('mycp_mycpbundle_client_touristtype');
         $em = $this->getEntityManager();
         $user_tourist = new userTourist();
-        $user_tourist = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $id_user));
-        $user_tourist = $user_tourist[0];
+        $user_tourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $id_user));
+        if($user_tourist == null)
+        {
+            $user_tourist =new userTourist();
+            $user = $em->getRepository('mycpBundle:user')->findOneBy(array('user_id' => $id_user));
+            $user_tourist->setUserTouristUser($user);
+        }
         $user_tourist->getUserTouristUser()->setUserName($post['user_name']);
         $user_tourist->getUserTouristUser()->setUserAddress($post['address']);
         $user_tourist->getUserTouristUser()->setUserEmail($post['email']);

@@ -177,6 +177,7 @@ class room {
     public function __construct() {
         $this->own_unavailability_details = new ArrayCollection();
         $this->room_sync_st = SyncStatuses::ADDED;
+        $this->room_active = true;
     }
 
     /**
