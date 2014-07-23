@@ -1821,11 +1821,11 @@
             </trans-unit>
             <trans-unit id="464">
                 <source>SERVICE_RECHARGE</source>
-                <target>Cargo por servicio de reserva</target>
+                <target>Cargo por servicio</target>
             </trans-unit>
             <trans-unit id="465">
                 <source>TOTAL_PREPAYMENT</source>
-                <target>Depósito inicial</target>
+                <target>Total de prepago</target>
             </trans-unit>
             <trans-unit id="466">
                 <source>LAST_VISITED_OWNERSHIPS</source>
@@ -2053,7 +2053,7 @@
                 </trans-unit>
                 <trans-unit id="522">
                     <source>TOTAL_TO_PAY_SERVICING</source>
-                    <target>Total a pagar directamente al efectuarse el servicio</target>
+                    <target>Total a pagar al arribo </target>
                 </trans-unit>
                 <trans-unit id="523">
                     <source>FILL_ALL_FIELDS</source>

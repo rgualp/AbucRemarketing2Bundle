@@ -152,7 +152,7 @@
                                     <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ ceil_round(own_res_payments[own.id].total_price)| number_format(2) }}</h4></td>
                                 </tr>
                                 <tr>
-                                    <td><b>{{"TOTAL_ALL_PREPAYMENT" | trans}} ({{own.commission_percent}} %)</b></td>
+                                    <td><b>{{"INITIAL_DEPOSIT" | trans}} ({{own.commission_percent}}%)</b></td>
                                     <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (ceil_round(own_res_payments[own.id].prepayment)) | number_format(2) }}</h4></td>
                                 </tr>
                                 <tr class="b-cyan">
@@ -186,11 +186,11 @@
             <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ ceil_round(accommodations_service_charge)| number_format(2) }}</h4></td>
         </tr>
         <tr>
-            <td>- {{"TOTAL_PREPAYMENT"|trans}} ({% for comm in commissions %}{{comm}}%{% if not loop.last %}, {% endif %}{% endfor %})</td>
+            <td>- {{"INITIAL_DEPOSIT"|trans}} ({% for comm in commissions %}{{comm}}%{% if not loop.last %}, {% endif %}{% endfor %})</td>
             <td class="text-right">{{ currency_symbol }} {{ ceil_round(prepayment_accommodations) | number_format(2) }}</td>
         </tr>
         <tr>
-            <td>- {{"RESERVATION_TOTAL" | trans}} {{"SERVICE_RECHARGE"|trans|lower}}</td>
+            <td>- {{"SERVICE_RECHARGE"|trans}}</td>
             <td class="text-right">{{ currency_symbol }} {{ service_charge_total | number_format(2)}}</td>
         </tr>
         <tr>
@@ -198,7 +198,7 @@
             <td class="text-right">{{ currency_symbol }} {{0 | number_format(2)}} </td>
         </tr>
         <tr>
-            <td><b>{{"TOTAL_ALL_PREPAYMENT" | trans}} ({% for comm in commissions %}{{comm}}%{% if not loop.last %}, {% endif %}{% endfor %})</b></td>
+            <td><b>{{"TOTAL_ALL_PREPAYMENT" | trans}}</b></td>
             <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (service_charge_total + ceil_round(prepayment_accommodations)) | number_format(2) }}</h4></td>
         </tr>
         

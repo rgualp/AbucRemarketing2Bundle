@@ -1820,11 +1820,11 @@
             </trans-unit>
             <trans-unit id="464">
                 <source>SERVICE_RECHARGE</source>
-                <target>Bearbeitungsgebühr</target>
+                <target>Kreditkartengebühr</target>
             </trans-unit>
             <trans-unit id="465">
                 <source>TOTAL_PREPAYMENT</source>
-                <target>Anzahlung</target>
+                <target>Gesamt Anzahlung</target>
             </trans-unit>
             <trans-unit id="466">
                 <source>LAST_VISITED_OWNERSHIPS</source>
@@ -2052,7 +2052,7 @@
                 </trans-unit>
                 <trans-unit id="522">
                     <source>TOTAL_TO_PAY_SERVICING</source>
-                    <target>Vor Ort zu zahlen</target>
+                    <target>Bezahlung vor Ort</target>
                 </trans-unit>
                 <trans-unit id="523">
                     <source>FILL_ALL_FIELDS</source>
@@ -2472,11 +2472,11 @@
             </trans-unit>
             <trans-unit id="628">
                 <source>END_OF_YOUR_RESERVATION</source>
-                <target>End of your Reservation</target>
+                <target>Ende der Reservierung</target>
             </trans-unit>
             <trans-unit id="629">
                 <source>PAYMENTS</source>
-                <target>Payments</target>
+                <target>Zahlung</target>
             </trans-unit>
         </body>
     </file>
