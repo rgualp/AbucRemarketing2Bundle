@@ -597,7 +597,6 @@ class ReservationController extends Controller {
                 //var_dump($booking); exit();
 
                 foreach ($own_reservations as $own_res) {
-                    $own = new ownershipReservation();
                     $own = $em->getRepository('mycpBundle:ownershipReservation')->find($own_res);
                     $own->setOwnResReservationBooking($booking);
                     $em->persist($own);
@@ -618,7 +617,7 @@ class ReservationController extends Controller {
                   $em->flush(); */
 
                 $bookingId = $booking->getBookingId();
-                return $this->forward('FrontEndBundle:payment:skrillPayment', array('bookingId' => $bookingId));
+                return $this->forward('FrontEndBundle:Payment:skrillPayment', array('bookingId' => $bookingId));
             }
         }
         $countries = $em->getRepository('mycpBundle:country')->findAll();
