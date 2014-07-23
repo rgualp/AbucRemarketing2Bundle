@@ -597,7 +597,6 @@ class ReservationController extends Controller {
                 //var_dump($booking); exit();
 
                 foreach ($own_reservations as $own_res) {
-                    $own = new ownershipReservation();
                     $own = $em->getRepository('mycpBundle:ownershipReservation')->find($own_res);
                     $own->setOwnResReservationBooking($booking);
                     $em->persist($own);
@@ -618,7 +617,7 @@ class ReservationController extends Controller {
                   $em->flush(); */
 
                 $bookingId = $booking->getBookingId();
-                return $this->forward('FrontEndBundle:payment:skrillPayment', array('bookingId' => $bookingId));
+                return $this->forward('FrontEndBundle:Payment:skrillPayment', array('bookingId' => $bookingId));
             }
         }
         $countries = $em->getRepository('mycpBundle:country')->findAll();
@@ -668,10 +667,10 @@ class ReservationController extends Controller {
                 return $this->renderPaymentConfirmationPage($id_booking);
 
             case PaymentHelper::STATUS_CANCELLED:
-                return $this->forward('FrontEndBundle:reservation:reservation_reservation');
+                return $this->forward('FrontEndBundle:Reservation:reservation_reservation');
 
             case PaymentHelper::STATUS_FAILED:
-                return $this->forward('FrontEndBundle:reservation:reservation_reservation');
+                return $this->forward('FrontEndBundle:Reservation:reservation_reservation');
 
             default:
                 throw $this->createNotFoundException();
@@ -749,7 +748,7 @@ class ReservationController extends Controller {
         $user_locale = $user_tourist[0]->getUserTouristLanguage()->getLangCode();
 
         //save pdf into disk to attach
-        $response = $this->forward('FrontEndBundle:reservation:view_confirmation', array('id_booking' => $id_booking, 'to_print' => true));
+        $response = $this->forward('FrontEndBundle:Reservation:view_confirmation', array('id_booking' => $id_booking, 'to_print' => true));
 
         $pdf_name = 'voucher' . $user->getUserId() . '_' . $booking->getBookingId();
         $pdfFilePath = $this->getPdfFilePath($pdf_name);
@@ -972,11 +971,11 @@ class ReservationController extends Controller {
     }
 
     public function generatePdfVoucherAction($id_booking, $name = "voucher") {
-        $pdfResponse = $this->forward('FrontEndBundle:reservation:view_confirmation', array('id_booking' => $id_booking, 'to_print' => true));
+        $pdfResponse = $this->forward('FrontEndBundle:Reservation:view_confirmation', array('id_booking' => $id_booking, 'to_print' => true));
 
         $this->streamHtmlAsPdf($pdfResponse, $name);
 
-        return $this->forward('FrontEndBundle:reservation:view_confirmation', array('id_booking' => $id_booking));
+        return $this->forward('FrontEndBundle:Reservation:view_confirmation', array('id_booking' => $id_booking));
     }
 
     function remove_dir($dir) {
