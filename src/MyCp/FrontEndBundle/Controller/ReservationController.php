@@ -667,10 +667,10 @@ class ReservationController extends Controller {
                 return $this->renderPaymentConfirmationPage($id_booking);
 
             case PaymentHelper::STATUS_CANCELLED:
-                return $this->forward('FrontEndBundle:reservation:reservation_reservation');
+                return $this->forward('FrontEndBundle:Reservation:reservation_reservation');
 
             case PaymentHelper::STATUS_FAILED:
-                return $this->forward('FrontEndBundle:reservation:reservation_reservation');
+                return $this->forward('FrontEndBundle:Reservation:reservation_reservation');
 
             default:
                 throw $this->createNotFoundException();
@@ -748,7 +748,7 @@ class ReservationController extends Controller {
         $user_locale = $user_tourist[0]->getUserTouristLanguage()->getLangCode();
 
         //save pdf into disk to attach
-        $response = $this->forward('FrontEndBundle:reservation:view_confirmation', array('id_booking' => $id_booking, 'to_print' => true));
+        $response = $this->forward('FrontEndBundle:Reservation:view_confirmation', array('id_booking' => $id_booking, 'to_print' => true));
 
         $pdf_name = 'voucher' . $user->getUserId() . '_' . $booking->getBookingId();
         $pdfFilePath = $this->getPdfFilePath($pdf_name);
@@ -971,11 +971,11 @@ class ReservationController extends Controller {
     }
 
     public function generatePdfVoucherAction($id_booking, $name = "voucher") {
-        $pdfResponse = $this->forward('FrontEndBundle:reservation:view_confirmation', array('id_booking' => $id_booking, 'to_print' => true));
+        $pdfResponse = $this->forward('FrontEndBundle:Reservation:view_confirmation', array('id_booking' => $id_booking, 'to_print' => true));
 
         $this->streamHtmlAsPdf($pdfResponse, $name);
 
-        return $this->forward('FrontEndBundle:reservation:view_confirmation', array('id_booking' => $id_booking));
+        return $this->forward('FrontEndBundle:Reservation:view_confirmation', array('id_booking' => $id_booking));
     }
 
     function remove_dir($dir) {
