@@ -101,7 +101,7 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnTop20($active_top_20);
         $status = $em->getRepository('mycpBundle:ownershipStatus')->find($data['status']);
 
-        if(!isset($status))
+        if (!isset($status))
             $status = $em->getRepository('mycpBundle:ownershipStatus')->find(OwnershipStatuses::IN_PROCESS);
 
         $ownership->setOwnStatus($status);
@@ -254,8 +254,7 @@ class ownershipRepository extends EntityRepository {
         $em->flush();
     }
 
-    function edit_ownership($data)
-    {
+    function edit_ownership($data) {
         $id_ownership = $data['edit_ownership'];
 
         $active_top_20 = 0;
@@ -280,12 +279,12 @@ class ownershipRepository extends EntityRepository {
             $ownership_italian_lang = 1;
 
         $langs_string = $ownership_english_lang .
-            $ownership_french_lang . $ownership_german_lang .
-            $ownership_italian_lang;
+                $ownership_french_lang . $ownership_german_lang .
+                $ownership_italian_lang;
 
         $em = $this->getEntityManager();
         $ownership =
-            $em->getRepository('mycpBundle:ownership')->find($id_ownership);
+                $em->getRepository('mycpBundle:ownership')->find($id_ownership);
         $ownership->setOwnLangs($langs_string);
         $ownership->setOwnName($data['ownership_name']);
         $ownership->setOwnLicenceNumber($data['ownership_licence_number']);
@@ -295,7 +294,7 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnAddressBetweenStreet1($data['ownership_address_between_street_1']);
         $ownership->setOwnAddressBetweenStreet2($data['ownership_address_between_street_2']);
         $prov =
-            $em->getRepository('mycpBundle:province')->find($data['ownership_address_province']);
+                $em->getRepository('mycpBundle:province')->find($data['ownership_address_province']);
         $ownership->setOwnAddressProvince($prov);
         $ownership->setOwnAddressMunicipality($em->getRepository('mycpBundle:municipality')->find($data['ownership_address_municipality']));
         $ownership->setOwnMobileNumber($data['ownership_mobile_number']);
@@ -323,14 +322,14 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnGeolocateY($data['geolocate_y']);
         $ownership->setOwnTop20($active_top_20);
         $status =
-            $em->getRepository('mycpBundle:ownershipStatus')->find($data['status']);
+                $em->getRepository('mycpBundle:ownershipStatus')->find($data['status']);
         if (!isset($status))
             $status =
-                $em->getRepository('mycpBundle:ownershipStatus')->find(OwnershipStatuses::IN_PROCESS);
+                    $em->getRepository('mycpBundle:ownershipStatus')->find(OwnershipStatuses::IN_PROCESS);
         $ownership->setOwnStatus($status);
         $ownership->setOwnComment($data['comment']);
         $old_rooms =
-            $em->getRepository('mycpBundle:room')->findBy(array('room_ownership'
+                $em->getRepository('mycpBundle:room')->findBy(array('room_ownership'
             => $data['edit_ownership']));
         $ownership->setOwnCommissionPercent($data['ownership_percent_commission']);
 
@@ -353,10 +352,9 @@ class ownershipRepository extends EntityRepository {
         foreach ($old_rooms as $old_room) {
             $id_old_room = $old_room->getRoomId();
             $old_rooms_actives[$old_room->getRoomNum()] =
-                $old_room->getRoomActive();
-            array_push($old_unavailable,
-                $em->getRepository('mycpBundle:unavailabilitydetails')->findBy(array('room'
-                => $id_old_room)));
+                    $old_room->getRoomActive();
+            array_push($old_unavailable, $em->getRepository('mycpBundle:unavailabilitydetails')->findBy(array('room'
+                        => $id_old_room)));
             $query = $em->createQuery("DELETE
 mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
             $query->execute();
@@ -380,21 +378,21 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
             r.room_ownership=$id_ownership");
         $query->execute();
         /* $query = $em->createQuery("DELETE mycpBundle:ownershipPhoto
-        op WHERE op.own_pho_own=$id_ownership");
-        $query->execute(); */
+          op WHERE op.own_pho_own=$id_ownership");
+          $query->execute(); */
 
         $keys = array_keys($data);
 
         foreach ($keys as $item) {
             /* if(strpos($item, 'ownership_language')!==false)
-            {
+              {
 
-            $id=substr($item, 19, strlen($item));
-            $ogl= new ownershipGeneralLang();
-            $ogl->setOglIdLang($em->getRepository('mycpBundle:lang')->find($id));
-            $ogl->setOglOwnership($ownership);
-            $em->persist($ogl);
-            } */
+              $id=substr($item, 19, strlen($item));
+              $ogl= new ownershipGeneralLang();
+              $ogl->setOglIdLang($em->getRepository('mycpBundle:lang')->find($id));
+              $ogl->setOglOwnership($ownership);
+              $em->persist($ogl);
+              } */
 
             if (strpos($item, 'description_desc') !== false) {
 
@@ -478,14 +476,13 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
              * Codigo Yanet - Inicio
              */
             if ($ownership->getOwnMinimumPrice() == 0 ||
-                $room->getRoomPriceDownFrom() < $ownership->getOwnMinimumPrice())
+                    $room->getRoomPriceDownFrom() < $ownership->getOwnMinimumPrice())
                 $ownership->setOwnMinimumPrice($room->getRoomPriceDownFrom());
 
-            $ownership->setOwnMaximumNumberGuests($ownership->getOwnMaximumNumberGuests()
-                + $room->getRoomBeds());
+            $ownership->setOwnMaximumNumberGuests($ownership->getOwnMaximumNumberGuests() + $room->getRoomBeds());
 
             if ($ownership->getOwnMaximumPrice() == 0 ||
-                $room->getRoomPriceUpTo() > $ownership->getOwnMaximumPrice())
+                    $room->getRoomPriceUpTo() > $ownership->getOwnMaximumPrice())
                 $ownership->setOwnMaximumPrice($room->getRoomPriceUpTo());
 
             if ($room->getRoomBeds() > 0)
@@ -546,8 +543,8 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
         if ($filter_type != 'null' && $filter_type != '')
             $query->setParameter('filter_type', $filter_type);
 
-        if(isset($filter_code))
-            $query->setParameter('filter_code', "%".$filter_code."%");
+        if (isset($filter_code))
+            $query->setParameter('filter_code', "%" . $filter_code . "%");
 
         return $query->getResult();
     }
@@ -816,71 +813,69 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
 
         $query = $em->createQuery($query_string);
 
-        if($user_id != null)
+        if ($user_id != null)
             $query->setParameter('user_id', $user_id);
 
-        if($session_id != null)
+        if ($session_id != null)
             $query->setParameter('session_id', $session_id);
 
         if ($text != null && $text != '' && $text != 'null')
-            $query->setParameter('text',"%".$text."%");
+            $query->setParameter('text', "%" . $text . "%");
 
         if ($guest_total != null && $guest_total != 'null' && $guest_total != "")
-            $query->setParameter ('guests_total', ($guest_total != "+10" ? $guest_total : 11));
+            $query->setParameter('guests_total', ($guest_total != "+10" ? $guest_total : 11));
 
         if (isset($rooms_total) && $rooms_total != null && $rooms_total != 'null' && $rooms_total != "")
-            $query->setParameter ('rooms_total', ($rooms_total != "+5" ? $rooms_total : 6));
+            $query->setParameter('rooms_total', ($rooms_total != "+5" ? $rooms_total : 6));
 
         $return_list = array();
         $results = $query->getResult();
 
+        
         for ($i = 0; $i < count($results); $i++) {
             if ($results[$i]['photo'] == null)
                 $results[$i]['photo'] = "no_photo.png";
-            else if (!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo']))) {
+            else if (!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo'])))
                 $results[$i]['photo'] = "no_photo.png";
 
-                if ($arrivalDate != null || $leavingDate != null) {
+            if ($arrivalDate != null || $leavingDate != null) {
 
-                    $query_string = "SELECT owr FROM mycpBundle:ownershipReservation owr
+                $query_string = "SELECT owr FROM mycpBundle:ownershipReservation owr
                                 JOIN owr.own_res_gen_res_id r
-                                WHERE r.gen_res_own_id =" . $results[$i]['own_id'];
-                    $dates_where = "";
+                                WHERE r.gen_res_own_id =" . $results[$i]['own_id'] . " AND owr.own_res_status = 5 ";
+                $dates_where = "";
 
-                    if ($arrivalDate != null) {
-                        $dates_where .= ($dates_where != '') ? " OR " : "";
-                        $dates_where .= "(owr.own_res_reservation_from_date <= :arrival_date AND owr.own_res_reservation_to_date >= :arrival_date)";
-                    }
-
-                    if ($leavingDate != null) {
-                        $dates_where .= ($dates_where != '') ? " OR " : "";
-                        $dates_where .= "(owr.own_res_reservation_from_date <= :leaving_date AND owr.own_res_reservation_to_date >= :leaving_date)";
-                    }
-
-                    if ($arrivalDate != null && $leavingDate != null) {
-                        $dates_where .= ($dates_where != '') ? " OR " : "";
-                        $dates_where .= "(owr.own_res_reservation_from_date >= :arrival_date AND owr.own_res_reservation_to_date <= :leaving_date)";
-                    }
-
-
-                    $query_string .= ($dates_where != '') ? " AND ($dates_where)" : "";
-
-                    $query_reservation = $em->createQuery($query_string);
-
-                    if($arrivalDate != null)
-                        $query_reservation->setParameter('arrival_date',$arrivalDate);
-
-                    if ($leavingDate != null)
-                        $query_reservation->setParameter('leaving_date',$leavingDate);
-
-                    $reservations = count($query_reservation->getResult());
-
-                    if ($results[$i]['rooms_count'] > $reservations)
-                        $return_list[] = $results[$i];
+                if ($arrivalDate != null) {
+                    $dates_where .= ($dates_where != '') ? " OR " : "";
+                    $dates_where .= "(owr.own_res_reservation_from_date <= :arrival_date AND owr.own_res_reservation_to_date >= :arrival_date)";
                 }
+
+                if ($leavingDate != null) {
+                    $dates_where .= ($dates_where != '') ? " OR " : "";
+                    $dates_where .= "(owr.own_res_reservation_from_date <= :leaving_date AND owr.own_res_reservation_to_date >= :leaving_date)";
+                }
+
+                if ($arrivalDate != null && $leavingDate != null) {
+                    $dates_where .= ($dates_where != '') ? " OR " : "";
+                    $dates_where .= "(owr.own_res_reservation_from_date >= :arrival_date AND owr.own_res_reservation_to_date <= :leaving_date)";
+                }
+
+                $query_string .= ($dates_where != '') ? " AND ($dates_where)" : "";
+
+                $query_reservation = $em->createQuery($query_string);
+
+                if ($arrivalDate != null)
+                    $query_reservation->setParameter('arrival_date', $arrivalDate);
+
+                if ($leavingDate != null)
+                    $query_reservation->setParameter('leaving_date', $leavingDate);
+
+                $reservations = count($query_reservation->getResult());
+
+                if ($results[$i]['rooms_count'] > $reservations)
+                    $return_list[] = $results[$i];
             }
         }
-
         return (count($return_list) > 0) ? $return_list : $results;
     }
 

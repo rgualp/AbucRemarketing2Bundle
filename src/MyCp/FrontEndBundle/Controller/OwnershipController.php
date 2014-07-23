@@ -561,6 +561,12 @@ class OwnershipController extends Controller {
         $arrival = ($request->get('arrival') != null && $request->get('arrival') != "" && $request->get('arrival') != "null") ? $request->get('arrival') : $session->get('search_arrival_date');
         $departure = ($request->get('departure') != null && $request->get('departure') != "" && $request->get('departure') != "null") ? $request->get('departure') : $session->get('search_departure_date');
 
+        $today = new \DateTime();
+        if($arrival == null)        
+            $arrival = $today->format('d-m-Y');
+        if($departure == null)
+            $departure = date_add($today,date_interval_create_from_date_string("2 days"))->format('d-m-Y');
+        
         $check_filters = $session->get("filter_array");
         $room_filter = $session->get("filter_room");
 
