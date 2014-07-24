@@ -11,3 +11,9 @@ services:
        arguments: [@abuc_remarketing.job.manager, "2 min"]
        tags:
            - { name: kernel.event_listener, event: abuc.events.user.signin,  method: onUserSignInEvent }
+
+   mycp.job.payment.confirmation.listener:
+       class: Abuc\RemarketingBundle\Event\SimpleEventListener
+       arguments: [@abuc_remarketing.job.manager, "abuc:mycp:accommodation:payment:confirmation"]
+       tags:
+           - { name: kernel.event_listener, event: mycp.events.payment.confirmation,  method: onEvent }
