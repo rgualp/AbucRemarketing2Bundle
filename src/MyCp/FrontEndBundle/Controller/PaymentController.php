@@ -2,6 +2,7 @@
 
 namespace MyCp\FrontEndBundle\Controller;
 
+use Abuc\RemarketingBundle\Event\JobEvent;
 use DateTime;
 use Doctrine\ORM\EntityNotFoundException;
 use MyCp\FrontEndBundle\Helpers\PaymentHelper;
@@ -12,6 +13,7 @@ use MyCp\mycpBundle\Entity\skrillPayment;
 use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Entity\userTourist;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
+use MyCp\mycpBundle\JobData\PaymentJobData;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -221,6 +223,9 @@ class PaymentController extends Controller
         $em->persist($payment);
         $em->persist($skrillPayment);
 
+        $this->updateReservationStatuses($em, $bookingId, $payment->getStatus());
+
+        /*
         $reservations = $em
             ->getRepository('mycpBundle:ownershipReservation')
             ->findBy(array('own_res_reservation_booking' => $booking->getBookingId()));
@@ -229,13 +234,40 @@ class PaymentController extends Controller
             $reservation->setOwnResSyncSt(SyncStatuses::UPDATED);
             $em->persist($reservation);
         }
+        */
 
         $em->flush();
 
         $this->log(date(DATE_RSS) . ' - PaymentController line ' . __LINE__ .
             ': Payment ID: ' . $payment->getId() . "\nSkrillRequest ID: " . $skrillPayment->getId());
 
+        /** @var \Symfony\Component\EventDispatcher\EventDispatcher $dispatcher */
+        $dispatcher = $this->get('event_dispatcher');
+        $eventData = new PaymentJobData($payment->getId());
+        $dispatcher->dispatch('mycp.events.payment.confirmation', new JobEvent($eventData));
+
         return new Response('Thanks', 200);
+    }
+
+    private function updateReservationStatuses($em, $bookingId, $paymentStatus)
+    {
+        $ownershipReservations = $em
+            ->getRepository('mycpBundle:ownershipReservation')
+            ->findBy(array('own_res_reservation_booking' => $bookingId));
+
+        foreach ($ownershipReservations as $own) {
+            $own->setOwnResSyncSt(SyncStatuses::UPDATED);
+
+            if ($paymentStatus == PaymentHelper::STATUS_PENDING
+                || $paymentStatus == PaymentHelper::STATUS_SUCCESS) {
+                $general = $own->getOwnResGenResId();
+                $general->setGenResStatus(2); // TODO: What is status 2????
+                $own->setOwnResStatus(5); // TODO: What is status 5???
+                $em->persist($general);
+            }
+
+            $em->persist($own);
+        }
     }
 
     /**
@@ -248,7 +280,8 @@ class PaymentController extends Controller
     public function skrillCancelAction()
     {
         return $this->render(
-                        'FrontEndBundle:payment:skrillResponseTest.html.twig', array('status' => 'Cancelled by Skrill'));
+            'FrontEndBundle:payment:skrillResponseTest.html.twig',
+            array('status' => 'Cancelled by Skrill'));
     }
 
     /**
@@ -260,7 +293,8 @@ class PaymentController extends Controller
     public function skrillTestResponseAction($status)
     {
         return $this->render(
-            'FrontEndBundle:payment:skrillResponseTest.html.twig', array('status' => $status));
+            'FrontEndBundle:payment:skrillResponseTest.html.twig',
+            array('status' => $status));
     }
 
     /**
