@@ -311,7 +311,7 @@ class BackendOwnershipController extends Controller {
         $post['ownership_type'] = $ownership->getOwnType();
         $post['comment'] = $ownership->getOwnComment();
         $post['ownership_percent_commission'] = $ownership->getOwnCommissionPercent();
-
+        
         $langs = $ownership->getOwnLangs();
         if ($langs[0] == 1)
             $post['ownership_english_lang'] = 1;
@@ -338,6 +338,7 @@ class BackendOwnershipController extends Controller {
         $post['geolocate_y'] = $ownership->getOwnGeolocateY();
         $post['top_20'] = $ownership->getOwnTop20();
         $data['country_code'] = $ownership->getOwnAddressProvince()->getProvId();
+        $data['municipality_code'] = $ownership->getOwnAddressMunicipality()->getMunId();
         $post['status'] = ($ownership->getOwnStatus() != null) ? $ownership->getOwnStatus()->getStatusId() :  null;
 
         if ($post['top_20'] == false)
@@ -526,6 +527,7 @@ class BackendOwnershipController extends Controller {
         $errors = array();
         $data = array();
         $data['country_code'] = '';
+        $data['municipality_code'] = '';
         $data['count_errors'] = 0;
 
         if ($request->getMethod() == 'POST') {
@@ -679,6 +681,7 @@ class BackendOwnershipController extends Controller {
 
                 $count_rooms = $request->request->get('count_rooms');
                 $data['country_code'] = $post['ownership_address_province'];
+                $data['municipality_code'] = $post['ownership_address_municipality'];
 
                 if ($data['count_errors'] == 0) {
                     // insert into database
@@ -849,7 +852,7 @@ class BackendOwnershipController extends Controller {
             }
         }
 
-        $post['ownership_address_municipality'] = '';
+        //$post['ownership_address_municipality'] = '';
         $languages = $em->getRepository('mycpBundle:lang')->get_all_languages();
         return $this->render('mycpBundle:ownership:new.html.twig', array('languages' => $languages, 'count_rooms' => $count_rooms, 'post' => $post, 'data' => $data, 'errors' => $errors, 'errors_tab' => $errors_tab));
     }

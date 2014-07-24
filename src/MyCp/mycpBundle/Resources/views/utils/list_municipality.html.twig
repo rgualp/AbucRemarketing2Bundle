@@ -1,4 +1,4 @@
 <option value=""></option>
 {% for municipality in municipalities %}
-    <option{% if( data['ownership_address_municipality'] is defined and data['ownership_address_municipality'] == municipality.getMunId) %} selected="TRUE" {% endif %} value="{{ municipality.getMunId }}"> {{ municipality.getMunName }}</option>
+    <option{% if(selected is defined and selected == municipality.getMunId) %} selected="TRUE" {% endif %} value="{{ municipality.getMunId }}"> {{ municipality.getMunName }}</option>
 {% endfor %}

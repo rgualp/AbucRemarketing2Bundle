@@ -70,8 +70,8 @@ mycp_logout:
   pattern: /logout
 
 mycp_get_mun_by_prov:
-    pattern:  /get_cities/{country_code}/{selected}
-    defaults: { _controller: mycpBundle:Public:get_mun_by_prov,selected:null}
+    pattern:  /get_cities/{country_code}
+    defaults: { _controller: mycpBundle:Public:get_mun_by_prov_callback,selected:null}
 
 mycp_access_denied:
     pattern:  /access_denied

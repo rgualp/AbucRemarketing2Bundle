@@ -37,16 +37,24 @@ class PublicController extends Controller
         return $this->render('mycpBundle:utils:access_denied.html.twig');
     }
 
-    public function get_mun_by_provAction($country_code,$selected,Request $request)
+    public function get_mun_by_provAction($post,Request $request)
     {
-        $post = $request->request->getIterator()->getArrayCopy();
-        if($selected)
+        //$post = $request->request->getIterator()->getArrayCopy();
+        $em = $this->getDoctrine()->getManager();
+        $selected = '';
+        if($post && isset($post['ownership_address_municipality']))
         {
-            $post['ownership_address_municipality']=$selected;
+            $selected = $post['ownership_address_municipality'];
         }
+        $municipalities = $em->getRepository('mycpBundle:municipality')->findBy(array('mun_prov_id'=>$post['ownership_address_province']));
+        return $this->render('mycpBundle:utils:list_municipality.html.twig', array('municipalities' => $municipalities,'selected'=>$selected));
+    }
+    
+    public function get_mun_by_prov_callbackAction($country_code,Request $request)
+    {
         $em = $this->getDoctrine()->getManager();
         $municipalities = $em->getRepository('mycpBundle:municipality')->findBy(array('mun_prov_id'=>$country_code));
-        return $this->render('mycpBundle:utils:list_municipality.html.twig', array('municipalities' => $municipalities,'data'=>$post));
+        return $this->render('mycpBundle:utils:list_municipality.html.twig', array('municipalities' => $municipalities));
     }
 
     public function get_munAction($post,Request $request)
@@ -66,11 +74,10 @@ class PublicController extends Controller
 
     public function get_cities_by_countryAction($country_code,Request $request)
     {
-        $post = $request->request->getIterator()->getArrayCopy();
         $em = $this->getDoctrine()->getManager();
         $country = $em->getRepository('mycpBundle:country')->find($country_code);
         $cities = $em->getRepository('mycpBundle:city')->findBy(array('cit_co_code'=>$country->getCoCode()));
-        return $this->render('mycpBundle:utils:list_municipality.html.twig', array('municipalities' => $cities,'data'=>$post));
+        return $this->render('mycpBundle:utils:list_municipality.html.twig', array('municipalities' => $cities));
     }
 
     public function get_provincesAction($post)
