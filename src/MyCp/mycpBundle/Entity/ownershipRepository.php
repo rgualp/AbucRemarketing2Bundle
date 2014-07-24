@@ -293,8 +293,7 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnAddressNumber($data['ownership_address_number']);
         $ownership->setOwnAddressBetweenStreet1($data['ownership_address_between_street_1']);
         $ownership->setOwnAddressBetweenStreet2($data['ownership_address_between_street_2']);
-        $prov =
-                $em->getRepository('mycpBundle:province')->find($data['ownership_address_province']);
+        $prov = $em->getRepository('mycpBundle:province')->find($data['ownership_address_province']);
         $ownership->setOwnAddressProvince($prov);
         $ownership->setOwnAddressMunicipality($em->getRepository('mycpBundle:municipality')->find($data['ownership_address_municipality']));
         $ownership->setOwnMobileNumber($data['ownership_mobile_number']);
@@ -321,16 +320,12 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnGeolocateX($data['geolocate_x']);
         $ownership->setOwnGeolocateY($data['geolocate_y']);
         $ownership->setOwnTop20($active_top_20);
-        $status =
-                $em->getRepository('mycpBundle:ownershipStatus')->find($data['status']);
+        $status = $em->getRepository('mycpBundle:ownershipStatus')->find($data['status']);
         if (!isset($status))
-            $status =
-                    $em->getRepository('mycpBundle:ownershipStatus')->find(OwnershipStatuses::IN_PROCESS);
+            $status = $em->getRepository('mycpBundle:ownershipStatus')->find(OwnershipStatuses::IN_PROCESS);
         $ownership->setOwnStatus($status);
         $ownership->setOwnComment($data['comment']);
-        $old_rooms =
-                $em->getRepository('mycpBundle:room')->findBy(array('room_ownership'
-            => $data['edit_ownership']));
+        $old_rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $data['edit_ownership']));
         $ownership->setOwnCommissionPercent($data['ownership_percent_commission']);
 
         /**
@@ -365,10 +360,10 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
             mycpBundle:ownershipGeneralLang ogl WHERE
             ogl.ogl_ownership=$id_ownership");
         $query->execute();
-        $query = $em->createQuery("DELETE
+        /*$query = $em->createQuery("DELETE
             mycpBundle:ownershipDescriptionLang odl WHERE
             odl.odl_ownership=$id_ownership");
-        $query->execute();
+        $query->execute();*/
         $query = $em->createQuery("DELETE
             mycpBundle:ownershipKeywordLang okl WHERE
             okl.okl_ownership=$id_ownership");
@@ -390,7 +385,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
             if (strpos($item, 'description_desc') !== false) {
 
                 $id = substr($item, 17, strlen($item));
-                $odl = new ownershipDescriptionLang();
+                $odl = $em->getRepository('mycpBundle:ownershipDescriptionLang')->find($data['description_id_' . $id]); //new ownershipDescriptionLang();
 
                 $odl->setOdlIdLang($em->getRepository('mycpBundle:lang')->find($id));
                 $odl->setOdlDescription($data['description_desc_' . $id]);

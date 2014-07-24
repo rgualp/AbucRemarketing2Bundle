@@ -381,6 +381,7 @@ class BackendOwnershipController extends Controller {
           } */
 
         foreach ($ownershipDescriptionLangs as $ownershipDescriptionLang) {
+            $post['description_id_'. $ownershipDescriptionLang->getOdlIdLang()->getLangId()] = $ownershipDescriptionLang->getOdlId();
             $post['description_desc_' . $ownershipDescriptionLang->getOdlIdLang()->getLangId()] = $ownershipDescriptionLang->getOdlDescription();
             $post['description_brief_desc_' . $ownershipDescriptionLang->getOdlIdLang()->getLangId()] = $ownershipDescriptionLang->getOdlBriefDescription();
         }

@@ -387,6 +387,7 @@
     <div class="row-fluid">
         <div class="span12">
             {% for language in languages %}
+                {% if data['edit_ownership'] is defined and post['description_id_'~language.lang_id] is defined%}<input name="description_id_{{language.lang_id}}" value="{{post['description_id_'~language.lang_id]}}" type="hidden"/>{%endif%}
                 <label>{{language.lang_name |title}} (*):</label>
                 {%if errors["description_brief_desc_"~language.lang_id] is defined %}<label class="error">{{errors["description_brief_desc_"~language.lang_id]|trim(':')}}</label>{%endif%}
                 <textarea class="textarea span12" name="description_brief_desc_{{language.lang_id}}">{%if post["description_brief_desc_"~language.lang_id] is defined %}{{post["description_brief_desc_"~language.lang_id]}}{%endif%}</textarea>
