@@ -387,6 +387,7 @@ class BackendOwnershipController extends Controller {
         }
 
         foreach ($ownershipKeywordsLangs as $ownershipKeywordsLang) {
+            $post['kw_id_'. $ownershipKeywordsLang->getOklIdLang()->getLangId()] = $ownershipKeywordsLang->getOklId();
             $post['keywords_' . $ownershipKeywordsLang->getOklIdLang()->getLangId()] = $ownershipKeywordsLang->getOklKeywords();
         }
 

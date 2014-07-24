@@ -354,8 +354,6 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
             $query->execute();
         }*/
 
-        //var_dump($old_rooms_actives); exit();
-
         $query = $em->createQuery("DELETE
             mycpBundle:ownershipGeneralLang ogl WHERE
             ogl.ogl_ownership=$id_ownership");
@@ -363,29 +361,23 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
         /*$query = $em->createQuery("DELETE
             mycpBundle:ownershipDescriptionLang odl WHERE
             odl.odl_ownership=$id_ownership");
-        $query->execute();*/
+        $query->execute();
         $query = $em->createQuery("DELETE
             mycpBundle:ownershipKeywordLang okl WHERE
             okl.okl_ownership=$id_ownership");
-        $query->execute();
+        $query->execute();*/
 
         $keys = array_keys($data);
 
         foreach ($keys as $item) {
-            /* if(strpos($item, 'ownership_language')!==false)
-              {
-
-              $id=substr($item, 19, strlen($item));
-              $ogl= new ownershipGeneralLang();
-              $ogl->setOglIdLang($em->getRepository('mycpBundle:lang')->find($id));
-              $ogl->setOglOwnership($ownership);
-              $em->persist($ogl);
-              } */
-
             if (strpos($item, 'description_desc') !== false) {
 
                 $id = substr($item, 17, strlen($item));
-                $odl = $em->getRepository('mycpBundle:ownershipDescriptionLang')->find($data['description_id_' . $id]); //new ownershipDescriptionLang();
+                
+                if(array_key_exists('description_id_' . $id, $data))
+                    $odl = $em->getRepository('mycpBundle:ownershipDescriptionLang')->find($data['description_id_' . $id]);
+                else
+                    $odl = new ownershipDescriptionLang();
 
                 $odl->setOdlIdLang($em->getRepository('mycpBundle:lang')->find($id));
                 $odl->setOdlDescription($data['description_desc_' . $id]);
@@ -398,15 +390,16 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
             if (strpos($item, 'keywords') !== false) {
 
                 $id = substr($item, 9, strlen($item));
-                $okl = new ownershipKeywordLang();
-
+                if(array_key_exists('kw_id_' . $id, $data))
+                    $okl = $em->getRepository('mycpBundle:ownershipKeywordLang')->find($data['kw_id_' . $id]); 
+                else
+                    $okl = new ownershipKeywordLang();
                 $okl->setOklIdLang($em->getRepository('mycpBundle:lang')->find($id));
                 $okl->setOklKeywords($data['keywords_' . $id]);
                 $okl->setOklOwnership($ownership);
                 $em->persist($okl);
             }
         }
-
         /**
          * Codigo Yanet - Inicio
          */
@@ -417,7 +410,10 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
         $beds_total = 0;
         for ($e = 1; $e <= $data['count_rooms']; $e++) {
             
-            $room = $em->getRepository('mycpBundle:room')->find($data['room_id_' . $e]);
+            if(array_key_exists('room_id_' . $e, $data))
+                    $room = $em->getRepository('mycpBundle:room')->find($data['room_id_' . $e]);
+            else
+                $room = new room();
             
             if (isset($old_rooms[$e - 1])) {
                 $metadata = $em->getClassMetadata(get_class($room));

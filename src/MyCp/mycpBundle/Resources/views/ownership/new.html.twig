@@ -410,6 +410,7 @@
     <div class="row-fluid">
         <div class="span12">
             {% for language in languages %}
+                {% if data['edit_ownership'] is defined and post['kw_id_'~language.lang_id] is defined%}<input name="kw_id_{{language.lang_id}}" value="{{post['kw_id_'~language.lang_id]}}" type="hidden"/>{%endif%}
                 <label>{{language.lang_name |title}} (*):</label>
                 {%if errors["keywords_"~language.lang_id] is defined %}<label class="error">{{errors["keywords_"~language.lang_id]|trim(':')}}</label>{%endif%}
                 <input type="text" class="span12" name="keywords_{{language.lang_id}}" value="{%if post["keywords_"~language.lang_id] is defined %}{{post["keywords_"~language.lang_id]}}{%endif%}"/>
