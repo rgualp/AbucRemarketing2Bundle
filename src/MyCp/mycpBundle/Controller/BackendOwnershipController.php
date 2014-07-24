@@ -687,13 +687,13 @@ class BackendOwnershipController extends Controller {
                         }
                         $service_log = $this->get('log');
                         $db_ownership = $em->getRepository('mycpBundle:ownership')->find($id_own);
-                        $old_status = $db_ownership->getOwnStatus()->getStatusId();
+                        $old_status = ($db_ownership->getOwnStatus() != null) ? $db_ownership->getOwnStatus()->getStatusId() :  null;//$db_ownership->getOwnStatus()->getStatusId();
                         $new_status = $request->request->get('status');
                         $new_status_db = $em->getRepository('mycpBundle:ownershipStatus')->find($new_status)->getStatusName();
                         $any_edit = false;
 
                         if ($old_status != $new_status) {
-                            $service_log->save_log('Edit entity (Change status. From ' . $db_ownership->getOwnStatus()->getStatusName() . ' to ' . $new_status_db . ' ) ' . $post['ownership_mcp_code'], 4);
+                            $service_log->save_log('Edit entity (Change status. From ' . (($db_ownership->getOwnStatus() != null) ? $db_ownership->getOwnStatus()->getStatusId() :  'Sin Estado') . ' to ' . $new_status_db . ' ) ' . $post['ownership_mcp_code'], 4);
                             $any_edit = true;
                         }
 
