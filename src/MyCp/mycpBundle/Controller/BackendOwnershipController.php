@@ -390,6 +390,7 @@ class BackendOwnershipController extends Controller {
         }
 
         for ($a = 1; $a <= $count_rooms; $a++) {
+            $post['room_id_' . $a] = $rooms[$a - 1]->getRoomId();
             $post['room_type_' . $a] = $rooms[$a - 1]->getRoomType();
             $post['room_beds_number_' . $a] = $rooms[$a - 1]->getRoomBeds();
             $post['room_price_up_from_' . $a] = $rooms[$a - 1]->getRoomPriceUpFrom();

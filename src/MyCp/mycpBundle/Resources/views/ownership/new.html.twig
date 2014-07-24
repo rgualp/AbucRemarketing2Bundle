@@ -211,6 +211,7 @@
     <div class="row-fluid" style="width:{{ 210 * count_rooms}}px" id="rooms">
         {% for i in 1..count_rooms %}
             <div class="span1" style="width: 200px; margin-left: 0px!important; margin-right: 10px;">
+                {% if data['edit_ownership'] is defined and post['room_id_'~i] is defined%}<input name="room_id_{{i}}" value="{{post['room_id_'~i]}}" type="hidden"/>{%endif%}
                 <label><span class="label label-info">Habitación # {{i}}</span></label>
                 <label>Tipo de habitación (*)</label>
                 {% if errors['room_type_'~i] is defined %}<label class="error">{{errors['room_type_'~i]|trim(':')}}</label>{%endif%}

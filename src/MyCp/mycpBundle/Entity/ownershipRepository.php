@@ -336,7 +336,6 @@ class ownershipRepository extends EntityRepository {
         /**
          * Codigo Yanet - Inicio
          */
-        //$ownership->setOwnCommentsTotal(0);
         $ownership->setOwnMaximumNumberGuests(0);
         $ownership->setOwnMaximumPrice(0);
         $ownership->setOwnMinimumPrice(0);
@@ -346,7 +345,7 @@ class ownershipRepository extends EntityRepository {
          */
         $em->persist($ownership);
 
-        $old_unavailable = array();
+        /*$old_unavailable = array();
         $old_rooms_actives = array();
 
         foreach ($old_rooms as $old_room) {
@@ -358,7 +357,7 @@ class ownershipRepository extends EntityRepository {
             $query = $em->createQuery("DELETE
 mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
             $query->execute();
-        }
+        }*/
 
         //var_dump($old_rooms_actives); exit();
 
@@ -374,12 +373,6 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
             mycpBundle:ownershipKeywordLang okl WHERE
             okl.okl_ownership=$id_ownership");
         $query->execute();
-        $query = $em->createQuery("DELETE mycpBundle:room r WHERE
-            r.room_ownership=$id_ownership");
-        $query->execute();
-        /* $query = $em->createQuery("DELETE mycpBundle:ownershipPhoto
-          op WHERE op.own_pho_own=$id_ownership");
-          $query->execute(); */
 
         $keys = array_keys($data);
 
@@ -419,9 +412,6 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
             }
         }
 
-        //var_dump($old_unavailable);
-        //exit();
-
         /**
          * Codigo Yanet - Inicio
          */
@@ -431,11 +421,13 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
          */
         $beds_total = 0;
         for ($e = 1; $e <= $data['count_rooms']; $e++) {
-            $room = new room();
+            
+            $room = $em->getRepository('mycpBundle:room')->find($data['room_id_' . $e]);
+            
             if (isset($old_rooms[$e - 1])) {
                 $metadata = $em->getClassMetadata(get_class($room));
                 $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
-                $room->setRoomId($old_rooms[$e - 1]->getRoomId());
+                //$room->setRoomId($old_rooms[$e - 1]->getRoomId());
             }
             $room->setRoomType($data['room_type_' . $e]);
             $room->setRoomBeds($data['room_beds_number_' . $e]);
@@ -456,10 +448,10 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
             $room->setRoomYard($data['room_yard_' . $e]);
             $room->setRoomOwnership($ownership);
             $room->setRoomNum($e);
-            $room->setRoomActive($old_rooms_actives[$e]);
+            //$room->setRoomActive($old_rooms_actives[$e]);
             $em->persist($room);
 
-            if (count($old_unavailable)) {
+            /*if (count($old_unavailable)) {
                 foreach ($old_unavailable[$e - 1] as $unavail) {
                     $new_unavail = new unavailabilityDetails();
                     $new_unavail->setRoom($unavail->getRoom());
@@ -470,7 +462,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                     $new_unavail->setUdId($unavail->getUdId());
                     $em->persist($new_unavail);
                 }
-            }
+            }*/
 
             /**
              * Codigo Yanet - Inicio
