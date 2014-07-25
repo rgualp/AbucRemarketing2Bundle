@@ -197,11 +197,19 @@ class generalReservationRepository extends EntityRepository {
         ))
                 ->getArrayResult();
     }
-    function get_reservations_by_user() {
+    function get_reservations_by_user($id_user) {
         $em = $this->getEntityManager();
-        $query = $em->createQuery("SELECT gre,(SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id) AS rooms,(SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id) AS adults,(SELECT SUM(owres3.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id) AS childrens,ow FROM mycpBundle:generalReservation gre
-        JOIN gre.gen_res_own_id ow ORDER BY gre.gen_res_id DESC");
-        return $query->getArrayResult();
+        $query = $em->createQuery("SELECT gre,
+            (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id) AS rooms,
+            (SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id) AS adults,
+            (SELECT SUM(owres3.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id) AS childrens,
+            ow 
+            FROM mycpBundle:generalReservation gre
+            JOIN gre.gen_res_own_id ow
+            JOIN gre.gen_res_user_id us
+            WHERE us.user_id = :user_id
+            ORDER BY gre.gen_res_id DESC");
+        return $query->setParameter('user_id', $id_user)->getArrayResult();
     }
 
     function find_by_user_and_status($id_user, $status_string, $string_sql) {
