@@ -116,6 +116,64 @@ class generalReservationRepository extends EntityRepository {
         }
         return $array_intersection;
     }
+    
+    function get_all_users($filter_user_name, $filter_user_email, $filter_user_city,
+                                  $filter_user_country, $sort_by) {
+        $filter_user_name = strtolower($filter_user_name);
+        $filter_user_email = strtolower($filter_user_email);
+        $filter_user_city = strtolower($filter_user_city);
+        $filter_user_country = strtolower($filter_user_country);
+
+        $string_order = '';
+        switch ($sort_by) {
+            case 0:
+            case 5:
+                $string_order = "ORDER BY total_reserves DESC";
+                break;
+            case 1:
+                $string_order = "ORDER BY us.user_user_name ASC";
+                break;
+            case 2:
+                $string_order = "ORDER BY us.user_city ASC";
+                break;
+            case 3:
+                $string_order = "ORDER BY us.user_email ASC";
+                break;
+            case 4:
+                $string_order = "ORDER BY cou.co_name ASC";
+                break;
+            
+        }
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT DISTINCT 
+            us.user_id,
+            us.user_user_name,
+            us.user_last_name,
+            us.user_city,
+            us.user_email, 
+            cou.co_name,
+            (SELECT count(g) FROM mycpBundle:generalReservation g WHERE g.gen_res_user_id = us.user_id) as total_reserves
+            FROM mycpBundle:generalReservation gre
+            JOIN gre.gen_res_own_id own
+            JOIN gre.gen_res_user_id us
+            JOIN us.user_country cou        
+            WHERE (us.user_user_name LIKE :filter_user_name
+            OR us.user_last_name LIKE :filter_user_name)
+            AND us.user_email LIKE :filter_user_email
+            AND us.user_city LIKE :filter_user_city
+            AND cou.co_id LIKE :filter_user_country $string_order");
+        
+        $query->setParameters(array(
+            'filter_user_name' => "%".$filter_user_name."%",
+            'filter_user_email' => "%".$filter_user_email."%",
+            'filter_user_city' => "%".$filter_user_city."%",
+            'filter_user_country' => "%".$filter_user_country."%",
+        ));
+        
+        $array_genres=$query->getArrayResult();
+        return $array_genres;
+    }
+    
     function get_all_bookings($filter_booking_number,$filter_date_booking,$filter_user_booking)
     {
         $em = $this->getEntityManager();
