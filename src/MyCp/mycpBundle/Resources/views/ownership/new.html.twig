@@ -106,8 +106,7 @@
         <div class="span6">
             <label>Municipio (*)</label>
             {% if errors['ownership_address_municipality'] is defined %}<label class="error">{{errors['ownership_address_municipality']|trim(':')}}</label>{%endif%}
-                <select class="input-block-level" type="text" name="ownership_address_municipality" id="ownership_address_municipality">
-                
+                <select class="input-block-level" type="text" name="ownership_address_municipality" id="ownership_address_municipality">                
                 {{ render(controller('mycpBundle:Public:get_mun_by_prov', {'post':post})) }}
             </select>
         </div>
