@@ -509,7 +509,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
 
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT ow FROM mycpBundle:ownership ow
-        WHERE ow.own_mcp_code LIKE :filter_code $string $string2 $string3 $string4 $string5");
+        WHERE ow.own_mcp_code LIKE :filter_code $string $string2 $string3 $string4 $string5 ORDER BY ow.own_mcp_code ASC");
 
         if ($filter_active != 'null' && $filter_active != '')
             $query->setParameter('filter_active', $filter_active);
