@@ -643,7 +643,8 @@ class ReservationController extends Controller {
         ));
     }
 
-    function confirmationAction($id_booking) {
+    public function confirmationAction($id_booking)
+    {
         $em = $this->getDoctrine()->getManager();
         $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array('booking' => $id_booking));
 
@@ -657,18 +658,12 @@ class ReservationController extends Controller {
                 return $this->renderPaymentConfirmationPage($id_booking);
 
             case PaymentHelper::STATUS_PENDING:
-                $this->processPaymentEmails($id_booking, 1);
-                $this->setPaymentStatusProcessed($em, $payment);
-                return $this->renderPaymentConfirmationPage($id_booking);
-
             case PaymentHelper::STATUS_SUCCESS:
-                $this->processPaymentEmails($id_booking);
-                $this->setPaymentStatusProcessed($em, $payment);
+                $logger = $this->get('logger');
+                $logger->critical("Payment for booking $id_booking should already have been processed");
                 return $this->renderPaymentConfirmationPage($id_booking);
 
             case PaymentHelper::STATUS_CANCELLED:
-                return $this->forward('FrontEndBundle:Reservation:reservation_reservation');
-
             case PaymentHelper::STATUS_FAILED:
                 return $this->forward('FrontEndBundle:Reservation:reservation_reservation');
 
@@ -677,167 +672,9 @@ class ReservationController extends Controller {
         }
     }
 
-    private function setPaymentStatusProcessed($em, $payment) {
-        $payment->setStatus(PaymentHelper::STATUS_PROCESSED);
-        $em->persist($payment);
-        $em->flush();
-    }
-
     private function renderPaymentConfirmationPage($id_booking) {
         $url = $this->generateUrl('frontend_view_confirmation_reservation', array('id_booking' => $id_booking));
         return $this->render('FrontEndBundle:reservation:afterpayment.html.twig', array('url' => $url));
-    }
-
-    private function processPaymentEmails($id_booking, $payment_pending = 0) {
-        $em = $this->getDoctrine()->getManager();
-        $user = $this->getUser();
-        if (!$user) {
-            throw $this->createNotFoundException();
-        }
-
-        $booking = $em->getRepository('mycpBundle:booking')->findOneBy(array('booking_id' => $id_booking, 'booking_user_id' => $user->getUserId()));
-        if (!$booking) {
-            throw $this->createNotFoundException();
-        }
-        $user = $em->getRepository('mycpBundle:user')->find($booking->getBookingUserId());
-        $reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking));
-        $user_tourist = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $user->getUserId()));
-        $array_photos = array();
-        $array_nigths = array();
-        $array_nigths_by_ownres = array();
-        $array_houses = array();
-        $array_houses_ids = array();
-        $array_ownres_by_house = array();
-        $service_time = $this->get('time');
-
-        $cont = 0;
-        foreach ($reservations as $own) {
-            $photos = $em->getRepository('mycpBundle:ownership')->getPhotos($own->getOwnResGenResId()->getGenResOwnId()->getOwnId());
-            array_push($array_photos, $photos);
-            $array_dates = $service_time->dates_between($own->getOwnResReservationFromDate()->getTimestamp(), $own->getOwnResReservationToDate()->getTimestamp());
-            array_push($array_nigths, count($array_dates) - 1);
-            $array_nigths_by_ownres[$own->getOwnResId()] = count($array_dates) - 1;
-
-            $insert = true;
-            foreach ($array_houses_ids as $item) {
-                if ($own->getOwnResGenResId()->getGenResOwnId()->getOwnId() == $item) {
-                    $insert = false;
-                }
-            }
-
-            if ($insert) {
-                array_push($array_houses_ids, $own->getOwnResGenResId()->getGenResOwnId()->getOwnId());
-                array_push($array_houses, $own->getOwnResGenResId()->getGenResOwnId());
-            }
-            if (isset($array_ownres_by_house[$own->getOwnResGenResId()->getGenResOwnId()->getOwnId()]))
-                $temp_array = $array_ownres_by_house[$own->getOwnResGenResId()->getGenResOwnId()->getOwnId()];
-            else
-                $temp_array = array();
-
-            array_push($temp_array, $own);
-            $array_ownres_by_house[$own->getOwnResGenResId()->getGenResOwnId()->getOwnId()] = $temp_array;
-            $cont++;
-        }
-
-        $user_locale = $user_tourist[0]->getUserTouristLanguage()->getLangCode();
-
-        //save pdf into disk to attach
-        $response = $this->forward('FrontEndBundle:Reservation:view_confirmation', array('id_booking' => $id_booking, 'to_print' => true));
-
-        $pdf_name = 'voucher' . $user->getUserId() . '_' . $booking->getBookingId();
-        $pdfFilePath = $this->getVoucherPdfFilePath($pdf_name);
-        $pdfService = $this->get('front_end.services.pdf');
-        $success = $pdfService->storeHtmlAsPdf($response, $pdfFilePath);
-
-        if (!$success) {
-            // PDF could not be stored, so ignore attachment for now
-            $pdfFilePath = null;
-        }
-
-        // Enviando mail al cliente
-        $service_email = $this->get('Email');
-
-        $body = $this->render('FrontEndBundle:mails:email_offer_available.html.twig', array(
-            'booking' => $id_booking,
-            'user' => $user,
-            'reservations' => $reservations,
-            'photos' => $array_photos,
-            'nights' => $array_nigths,
-            'user_locale' => $user_locale
-        ));
-
-        $locale = $this->get('translator');
-        $subject = $locale->trans('PAYMENT_CONFIRMATION', array(), "messages", $user_locale);
-
-        $logger = $this->get('logger');
-
-        try {
-            $userEmail = trim($user->getUserEmail());
-            $service_email->send_email(
-                    $subject, 'reservation1@mycasaparticular.com', $subject . ' - MyCasaParticular.com', $userEmail, $body, $pdfFilePath
-            );
-
-            $logger->info('Successfully sent email to user ' . $userEmail . ', PDF path : ' . (isset($pdfFilePath) ? $pdfFilePath : '<empty>'));
-        } catch (\Exception $e) {
-            $logger->error('EMAIL: Could not send Email to User. Booking ID: ' . $id_booking . ', Email: ' . $userEmail);
-            $logger->error($e->getMessage());
-        }
-
-        // Log the reservations as sometimes too many emails are sent
-        $logger->info('array_ownres_by_house in ReservationController::payment_processed, count: ' . count($array_ownres_by_house));
-
-        // enviando mail a reservation team
-        foreach ($array_ownres_by_house as $owns) {
-            $body_res = $this->render('FrontEndBundle:mails:rt_payment_confirmation.html.twig', array(
-                'user' => $user,
-                'user_tourist' => $user_tourist,
-                'reservations' => $owns,
-                'nights' => $array_nigths_by_ownres,
-                'payment_pending' => $payment_pending
-            ));
-
-            try {
-                $service_email->send_email(
-                        'Confirmación de pago', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', 'reservation@mycasaparticular.com', $body_res
-                );
-
-                $logger->info('Successfully sent email to reservation team. Booking ID: ' . $id_booking);
-            } catch (\Exception $e) {
-                $logger->error('EMAIL: Could not send Email to reservation team. Booking ID: ' . $id_booking);
-                $logger->error($e->getMessage());
-            }
-        }
-
-        // enviando mail al propietario
-        foreach ($array_ownres_by_house as $owns) {
-            $body_prop = $this->render('FrontEndBundle:mails:email_house_confirmation.html.twig', array(
-                'user' => $user,
-                'user_tourist' => $user_tourist,
-                'reservations' => $owns,
-                'nights' => $array_nigths_by_ownres
-            ));
-
-            $prop_email = $owns[0]->getOwnResGenResId()->getGenResOwnId()->getOwnEmail1();
-
-            if (empty($prop_email)) {
-                $logger->warning('EMAIL: Could not send Email to Casa Owner because the Email address is empty. Booking ID: ' .
-                        $id_booking . '. General Reservation ID: ' . $owns[0]->getOwnResGenResId()->getGenResId() . '.');
-            } else {
-                $prop_email = trim($prop_email);
-
-                try {
-                    $service_email->send_email(
-                            'Confirmación de reserva', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', $prop_email, $body_prop
-                    );
-
-                    $logger->info('Successfully sent email to Casa Owner. Booking ID: ' . $id_booking . ', Email: ' . $prop_email);
-                } catch (\Exception $e) {
-                    $logger->error('EMAIL: Could not send Email to Casa Owner. Booking ID: ' . $id_booking . '. General Reservation ID: ' .
-                            $owns[0]->getOwnResGenResId()->getGenResId() . '. Email: ' . $prop_email);
-                    $logger->error($e->getMessage());
-                }
-            }
-        }
     }
 
     public function view_confirmationAction(Request $request, $id_booking, $to_print = false, $no_user = false)
