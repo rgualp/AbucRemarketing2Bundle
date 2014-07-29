@@ -8,12 +8,12 @@ services:
 #        class: %front_end.example.class%
 #        arguments:
 
-    front_end.services.booking:
-        class: %front_end.services.booking.class%
-        arguments: [@doctrine.orm.entity_manager, "10"]
-        calls:
-            - [ setContainer, [ @service_container ] ]
-
     front_end.services.pdf:
         class: %front_end.services.pdf.class%
         arguments: ["%kernel.root_dir%/config/dompdf_config.inc.php"]
+
+    front_end.services.booking:
+        class: %front_end.services.booking.class%
+        arguments: [@doctrine.orm.entity_manager, "10", "%kernel.root_dir%/../tmp/vouchers/"]
+        calls:
+            - [ setContainer, [ @service_container ] ]
