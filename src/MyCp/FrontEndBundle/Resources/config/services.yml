@@ -1,7 +1,14 @@
 parameters:
-#    front_end.example.class: MyCp\FrontEndBundle\Example
+
+   front_end.services.reservation.class: MyCp\FrontEndBundle\Service\ReservationService
 
 services:
 #    front_end.example:
 #        class: %front_end.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+#        arguments:
+
+    front_end.services.reservation:
+        class: %front_end.services.reservation.class%
+        arguments: [@doctrine.orm.entity_manager, "10"]
+        calls:
+            - [ setContainer, [ @service_container ] ]
