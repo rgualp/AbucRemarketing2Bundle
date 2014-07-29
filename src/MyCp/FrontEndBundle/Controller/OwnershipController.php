@@ -248,7 +248,7 @@ class OwnershipController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $locale = $this->get('translator')->getLocale();
             //$own_name = Utils::url_normalize($ownership->getOwnName());
-            $ownership_array = $em->getRepository('mycpBundle:ownership')->get_details_by_code($mycp_code);
+            $ownership_array = $em->getRepository('mycpBundle:ownership')->get_details_by_code($mycp_code, strtoupper($locale));
          if($ownership_array && count($ownership_array) > 0) { 
             $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $ownership_array['own_id']));
             $own_photos = $em->getRepository('mycpBundle:ownership')->getPhotosAndDescription($ownership_array['own_id'], $locale);
@@ -278,7 +278,6 @@ class OwnershipController extends Controller {
 
         foreach ($langs_array as $lang)
             $languages .= ", " . $lang;
-        
         return $this->render('FrontEndBundle:ownership:ownershipSimpleDetails.html.twig', array(
             'ownership' => $ownership_array,
             'description' => $ownership_array['description'],

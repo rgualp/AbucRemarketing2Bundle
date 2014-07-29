@@ -1,5 +1,5 @@
 
-{% extends 'FrontEndBundle:layout:base.html.twig' %}
+{% extends 'FrontEndBundle:layout:baseSimple.html.twig' %}
 {% block metas %}
     <meta name="description" content="{{ownership.owntype  | trans}} {{"IN" | trans}} {{ownership.ownAddressProvince}}: {{ownership.ownname}} ({{ ownership.mycpcode }}).
                 {%if rooms is defined and rooms | length%}
@@ -42,22 +42,23 @@
     <div class="container">
     <div class="row">
     <div class="col-sm-8">
+        {%if gallery_photos | length%}
     <div class="tabbable">
         <ul class="nav nav-tabs">
-            {%if gallery_photos | length%}
-                <li onclick="javascript:hide_calendar()" class="active li-tabs"><a data-toggle="tab" href="#tab-photos">{{"PHOTO_TAB_DETAILS" | trans}}</a></li>
-            {%endif%}</ul>
+            
+                <li class="active li-tabs"><a data-toggle="tab" href="#tab-photos">{{"PHOTO_TAB_DETAILS" | trans}}</a></li>
+         </ul>
         <div class="tab-content">
-            {%if gallery_photos | length%}
                 <div id="tab-photos" class="tab-pane active">
                     <div id="full-width-slider" class="royalSlider rsDefault">
 
                     </div>
                 </div>
-            {%endif%}
+           
         </div>
     </div>
     <br/>
+     {%endif%}
     <div class="tabbable">
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#tab-desc">{{"DESCRIPTION_TAB_DETAILS" | trans}}</a></li>
@@ -360,7 +361,7 @@
 
 
     {% block include_javascripts %}
-        <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
+        <!--script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script-->
         <script src="{{ asset('bundles/frontend/js/jquery.royalslider.min.js') }}"></script>
         <script type="text/javascript">
 
@@ -402,7 +403,6 @@
 
         </script>
 
-        <script src="{{ asset('bundles/frontend/js/ownership.min.js') }}"></script>
     {% endblock %}
 {% endblock %}
 
