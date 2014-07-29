@@ -1,6 +1,7 @@
 parameters:
 
    front_end.services.booking.class: MyCp\FrontEndBundle\Service\BookingService
+   front_end.services.pdf.class: MyCp\FrontEndBundle\Service\PdfService
 
 services:
 #    front_end.example:
@@ -12,3 +13,7 @@ services:
         arguments: [@doctrine.orm.entity_manager, "10"]
         calls:
             - [ setContainer, [ @service_container ] ]
+
+    front_end.services.pdf:
+        class: %front_end.services.pdf.class%
+        arguments: ["%kernel.root_dir%/config/dompdf_config.inc.php"]
