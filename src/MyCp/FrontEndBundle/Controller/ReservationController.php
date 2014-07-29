@@ -839,10 +839,8 @@ class ReservationController extends Controller {
         }
     }
 
-    function view_confirmationAction(Request $request, $id_booking, $to_print = false, $no_user = false) {
-        $session = $request->getSession();
-        $currencySymbol = $session->get('curr_symbol') === null ? '$' : $session->get('curr_symbol');
-        $currencyRate = $session->get('curr_rate') === null ? 1 : $session->get('curr_rate');
+    function view_confirmationAction(Request $request, $id_booking, $to_print = false, $no_user = false)
+    {
         $serviceChargeInCuc = 10; // TODO: This value should better be stored somewhere in config or DB
 
         $service_time = $this->get('Time');
@@ -851,14 +849,28 @@ class ReservationController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $own_res_distinct = $em->getRepository('mycpBundle:ownershipReservation')->get_by_id_booking($id_booking);
+
         if ($no_user == false) {
             $booking = $em->getRepository('mycpBundle:booking')->findBy(array('booking_id' => $id_booking, 'booking_user_id' => $user->getUserId()));
         } else {
             $booking = $em->getRepository('mycpBundle:booking')->findBy(array('booking_id' => $id_booking));
         }
+
         if (!$booking) {
             throw $this->createNotFoundException();
         }
+
+        $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array('booking_id' => $id_booking));
+
+        if (empty($payment)) {
+            throw $this->createNotFoundException('No payment exists for confirmed booking with ID ' . $id_booking);
+        }
+
+        /** @var \MyCp\mycpBundle\Entity\currency  $currency */
+        $currency = $payment->getCurrency();
+        $currencySymbol = $currency->getCurrSymbol();
+        $currencyRate = $currency->getCurrCucChange();
+
         $booking = $booking[0];
         $nights = array();
         $rooms = array();
