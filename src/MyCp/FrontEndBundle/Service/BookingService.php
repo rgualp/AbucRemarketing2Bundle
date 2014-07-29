@@ -5,7 +5,7 @@ namespace MyCp\FrontEndBundle\Service;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class ReservationService extends Controller
+class BookingService extends Controller
 {
     /**
      * @var EntityManager
@@ -148,7 +148,7 @@ class ReservationService extends Controller
      * @param $bookingId
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function getPrintableReservationConfirmationResponse($bookingId)
+    public function getPrintableBookingConfirmationResponse($bookingId)
     {
         return $this->render('FrontEndBundle:reservation:boucherReservation.html.twig',
             $this->calculateBookingDetails($bookingId));
@@ -160,7 +160,7 @@ class ReservationService extends Controller
      * @param $bookingId
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function getReservationConfirmationResponse($bookingId)
+    public function getBookingConfirmationResponse($bookingId)
     {
         return $this->render('FrontEndBundle:reservation:confirmReservation.html.twig',
             $this->calculateBookingDetails($bookingId));

@@ -839,17 +839,17 @@ class ReservationController extends Controller {
         }
     }
 
-    function view_confirmationAction(Request $request, $id_booking, $to_print = false, $no_user = false)
+    public function view_confirmationAction(Request $request, $id_booking, $to_print = false, $no_user = false)
     {
-        /** @var \MyCp\FrontEndBundle\Service\ReservationService $reservationService */
-        $reservationService = $this->get('front_end.services.reservation');
+        /** @var \MyCp\FrontEndBundle\Service\BookingService $bookingService */
+        $bookingService = $this->get('front_end.services.booking');
 
         if ($to_print) {
-            return $reservationService
-                ->getPrintableReservationConfirmationResponse($id_booking);
+            return $bookingService
+                ->getPrintableBookingConfirmationResponse($id_booking);
         }
 
-        return $reservationService->getReservationConfirmationResponse($id_booking);
+        return $bookingService->getBookingConfirmationResponse($id_booking);
     }
 
     public function generatePdfVoucherAction($id_booking, $name = "voucher") {
