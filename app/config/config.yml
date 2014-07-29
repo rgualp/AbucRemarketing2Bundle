@@ -1,6 +1,8 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
+    - { resource: "@FrontEndBundle/Resources/config/services.yml" }
+    - { resource: "@mycpBundle/Resources/config/services.yml" }
 
 framework:
     #esi:             ~

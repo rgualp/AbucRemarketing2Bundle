@@ -841,139 +841,15 @@ class ReservationController extends Controller {
 
     function view_confirmationAction(Request $request, $id_booking, $to_print = false, $no_user = false)
     {
-        $serviceChargeInCuc = 10; // TODO: This value should better be stored somewhere in config or DB
+        /** @var \MyCp\FrontEndBundle\Service\ReservationService $reservationService */
+        $reservationService = $this->get('front_end.services.reservation');
 
-        $service_time = $this->get('Time');
-        $user = $this->getUser();
-
-        $em = $this->getDoctrine()->getManager();
-
-        $own_res_distinct = $em->getRepository('mycpBundle:ownershipReservation')->get_by_id_booking($id_booking);
-
-        if ($no_user == false) {
-            $booking = $em->getRepository('mycpBundle:booking')->findBy(array('booking_id' => $id_booking, 'booking_user_id' => $user->getUserId()));
-        } else {
-            $booking = $em->getRepository('mycpBundle:booking')->findBy(array('booking_id' => $id_booking));
+        if ($to_print) {
+            return $reservationService
+                ->getPrintableReservationConfirmationResponse($id_booking);
         }
 
-        if (!$booking) {
-            throw $this->createNotFoundException();
-        }
-
-        $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array('booking_id' => $id_booking));
-
-        if (empty($payment)) {
-            throw $this->createNotFoundException('No payment exists for confirmed booking with ID ' . $id_booking);
-        }
-
-        /** @var \MyCp\mycpBundle\Entity\currency  $currency */
-        $currency = $payment->getCurrency();
-        $currencySymbol = $currency->getCurrSymbol();
-        $currencyRate = $currency->getCurrCucChange();
-
-        $booking = $booking[0];
-        $nights = array();
-        $rooms = array();
-        $commissions = array();
-        $total_price = 0;
-        $total_percent_price = 0;
-        $own_res_rooms = array();
-        $payments = array();
-        foreach ($own_res_distinct as $own_r) {
-            $own_res_rooms[$own_r["id"]] = $em->getRepository('mycpBundle:ownershipReservation')->get_rooms_by_accomodation($id_booking, $own_r["id"]);
-
-            $own_commission = $own_r["commission_percent"];
-            $own_res = $em->getRepository('mycpBundle:ownershipReservation')->get_reservations_by_booking_and_ownership($id_booking,$own_r["id"]);
-            $total_price = 0;
-            $total_percent_price = 0;
-
-            foreach ($own_res as $own) {
-                $array_dates = $service_time->dates_between($own->getOwnResReservationFromDate()->getTimestamp(), $own->getOwnResReservationToDate()->getTimestamp());
-                $total_price += $own->getOwnResNightPrice() * (count($array_dates) - 1);
-                $total_percent_price += $own->getOwnResNightPrice() * (count($array_dates) - 1) * $own_commission / 100;
-
-            }
-
-
-            $payments[$own_r["id"]] = array(
-                'total_price' => $total_price * $currencyRate,
-                'prepayment' => $total_percent_price * $currencyRate,
-                'pay_at_service_cuc' => $total_price - $total_percent_price,
-                'pay_at_service' => ($total_price - $total_percent_price) * $currencyRate
-            );
-        }
-
-        $own_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking));
-        $total_price = 0;
-        $total_percent_price = 0;
-        foreach ($own_res as $own) {
-            $array_dates = $service_time->dates_between($own->getOwnResReservationFromDate()->getTimestamp(), $own->getOwnResReservationToDate()->getTimestamp());
-            array_push($nights, count($array_dates) - 1);
-            array_push($rooms, $em->getRepository('mycpBundle:room')->find($own->getOwnResSelectedRoomId()));
-            $total_price += $own->getOwnResNightPrice() * (count($array_dates) - 1);
-            $commission = $own->getOwnResGenResId()->GetGenResOwnId()->getOwnCommissionPercent();
-            $total_percent_price += $own->getOwnResNightPrice() * (count($array_dates) - 1) * $commission / 100;
-            $insert = 1;
-            foreach ($commissions as $com) {
-                if ($com == $commission) {
-                    $insert = 0;
-                    break;
-                }
-            }
-            if ($insert == 1) {
-                array_push($commissions, $commission);
-            }
-        }
-
-        $accommodationServiceCharge = $total_price * $currencyRate;
-        $prepaymentAccommodations = $total_percent_price * $currencyRate;
-        $serviceChargeTotal = $serviceChargeInCuc * $currencyRate;
-        $totalPrepayment = $serviceChargeTotal + $prepaymentAccommodations;
-        $totalPrepaymentInCuc = $totalPrepayment / $currencyRate;
-        $totalServicingPrice = ($total_price - $total_percent_price) * $currencyRate;
-
-        $totalPriceToPayAtServiceInCUC = $total_price - $total_percent_price;
-
-        if ($to_print == true) {
-            return $this->render('FrontEndBundle:reservation:boucherReservation.html.twig', array(
-                        'own_res' => $own_res_distinct,
-                        'own_res_rooms' => $own_res_rooms,
-                        'own_res_payments' => $payments,
-                        'user' => $user,
-                        'booking' => $booking,
-                        'nights' => $nights,
-                        'rooms' => $rooms,
-                        'commissions' => $commissions,
-                        'currency_symbol' => $currencySymbol,
-                        'currency_rate' => $currencyRate,
-                        'accommodations_service_charge' => $accommodationServiceCharge,
-                        'prepayment_accommodations' => $prepaymentAccommodations,
-                        'service_charge_total' => $serviceChargeTotal,
-                        'total_prepayment' => $totalPrepayment,
-                        'total_prepayment_cuc' => $totalPrepaymentInCuc,
-                        'total_servicing_price' => $totalServicingPrice,
-                        'total_price_to_pay_at_service_in_cuc' => $totalPriceToPayAtServiceInCUC
-            ));
-        }
-
-        return $this->render('FrontEndBundle:reservation:confirmReservation.html.twig', array(
-                    'own_res' => $own_res_distinct,
-                    'own_res_rooms' => $own_res_rooms,
-                    'own_res_payments' => $payments,
-                    'user' => $user,
-                    'booking' => $booking,
-                    'nights' => $nights,
-                    'rooms' => $rooms,
-                    'commissions' => $commissions,
-                    'currency_symbol' => $currencySymbol,
-                    'accommodations_service_charge' => $accommodationServiceCharge,
-                    'prepayment_accommodations' => $prepaymentAccommodations,
-                    'service_charge_total' => $serviceChargeTotal,
-                    'total_prepayment' => $totalPrepayment,
-                    'total_prepayment_cuc' => $totalPrepaymentInCuc,
-                    'total_servicing_price' => $totalServicingPrice,
-                    'total_price_to_pay_at_service_in_cuc' => $totalPriceToPayAtServiceInCUC
-        ));
+        return $reservationService->getReservationConfirmationResponse($id_booking);
     }
 
     public function generatePdfVoucherAction($id_booking, $name = "voucher") {
