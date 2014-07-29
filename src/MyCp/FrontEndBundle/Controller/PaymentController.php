@@ -225,17 +225,6 @@ class PaymentController extends Controller
 
         $this->updateReservationStatuses($em, $bookingId, $payment->getStatus());
 
-        /*
-        $reservations = $em
-            ->getRepository('mycpBundle:ownershipReservation')
-            ->findBy(array('own_res_reservation_booking' => $booking->getBookingId()));
-
-        foreach($reservations as $reservation) {
-            $reservation->setOwnResSyncSt(SyncStatuses::UPDATED);
-            $em->persist($reservation);
-        }
-        */
-
         $em->flush();
 
         $this->log(date(DATE_RSS) . ' - PaymentController line ' . __LINE__ .
@@ -249,6 +238,14 @@ class PaymentController extends Controller
         return new Response('Thanks', 200);
     }
 
+    /**
+     * Updates the statuses of the ownership and general reservations
+     * according to the corresponding payment status.
+     *
+     * @param $em
+     * @param $bookingId
+     * @param $paymentStatus
+     */
     private function updateReservationStatuses($em, $bookingId, $paymentStatus)
     {
         $ownershipReservations = $em
@@ -261,7 +258,7 @@ class PaymentController extends Controller
             if ($paymentStatus == PaymentHelper::STATUS_PENDING
                 || $paymentStatus == PaymentHelper::STATUS_SUCCESS) {
                 $general = $own->getOwnResGenResId();
-                $general->setGenResStatus(2); // TODO: What is status 2????
+                $general->setGenResStatus(2); // TODO: What is status 2??? Create helper with the statuses
                 $own->setOwnResStatus(5); // TODO: What is status 5???
                 $em->persist($general);
             }

@@ -712,12 +712,6 @@ class ReservationController extends Controller {
 
         $cont = 0;
         foreach ($reservations as $own) {
-            $general = $own->getOwnResGenResId();
-            $general->setGenResStatus(2);
-            $own->setOwnResStatus(5);
-            $em->persist($own);
-            $em->persist($general);
-
             $photos = $em->getRepository('mycpBundle:ownership')->getPhotos($own->getOwnResGenResId()->getGenResOwnId()->getOwnId());
             array_push($array_photos, $photos);
             $array_dates = $service_time->dates_between($own->getOwnResReservationFromDate()->getTimestamp(), $own->getOwnResReservationToDate()->getTimestamp());
@@ -744,7 +738,7 @@ class ReservationController extends Controller {
             $array_ownres_by_house[$own->getOwnResGenResId()->getGenResOwnId()->getOwnId()] = $temp_array;
             $cont++;
         }
-        $em->flush();
+
         $user_locale = $user_tourist[0]->getUserTouristLanguage()->getLangCode();
 
         //save pdf into disk to attach
