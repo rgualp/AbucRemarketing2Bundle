@@ -22,6 +22,10 @@ mycp_sitemap:
 mycp_own_details:
     pattern:  /{own_code}/
     defaults: { _controller: FrontEndBundle:Ownership:own_details_direct }
+    
+mycp_own_details:
+    pattern:  /simple/{mycp_code}/
+    defaults: { _controller: FrontEndBundle:Ownership:simple }
 
 mycp_frontend:
     resource: "@FrontEndBundle/Resources/config/routing.yml"

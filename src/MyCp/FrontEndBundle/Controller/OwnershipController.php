@@ -237,6 +237,63 @@ class OwnershipController extends Controller {
         else
             throw $this->createNotFoundException();
     }
+    
+    public function simpleAction($mycp_code) {
+        // There are so many browserconfig.xml requests from stupid IE6 that we check for it
+        // here to avoid Exceptions in the log files
+        if(strpos($mycp_code, 'browserconfig.xml') !== false) {
+            return new Response('not found', 404);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $locale = $this->get('translator')->getLocale();
+            //$own_name = Utils::url_normalize($ownership->getOwnName());
+            $ownership_array = $em->getRepository('mycpBundle:ownership')->get_details_by_code($mycp_code);
+         if($ownership_array && count($ownership_array) > 0) { 
+            $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $ownership_array['own_id']));
+            $own_photos = $em->getRepository('mycpBundle:ownership')->getPhotosAndDescription($ownership_array['own_id'], $locale);
+            
+            $real_category = "";
+        if ($ownership_array['category'] == 'Económica')
+            $real_category = 'economy';
+        else if ($ownership_array['category'] == 'Rango medio')
+            $real_category = 'mid_range';
+        else if ($ownership_array['category'] == 'Premium')
+            $real_category = 'premium';
+        
+        $langs_array = array();
+        if ($ownership_array['english'] == 1)
+            $langs_array[] = $this->get('translator')->trans("LANG_ENGLISH");
+
+        if ($ownership_array['french'] == 1)
+            $langs_array[] = $this->get('translator')->trans("LANG_FRENCH");
+
+        if ($ownership_array['german'] == 1)
+            $langs_array[] = $this->get('translator')->trans("LANG_GERMAN");
+
+        if ($ownership_array['italian'] == 1)
+            $langs_array[] = $this->get('translator')->trans("LANG_ITALIAN");
+
+        $languages = $this->get('translator')->trans('LANG_SPANISH');
+
+        foreach ($langs_array as $lang)
+            $languages .= ", " . $lang;
+        
+        return $this->render('FrontEndBundle:ownership:ownershipSimpleDetails.html.twig', array(
+            'ownership' => $ownership_array,
+            'description' => $ownership_array['description'],
+            'brief_description' => $ownership_array['brief_description'],
+            'rooms' => $rooms,
+            'gallery_photos' => $own_photos,
+            'locale' => $locale,
+            'real_category' => $real_category,
+            'languages' => $languages,
+            'keywords'=>$ownership_array['keywords']
+        ));
+        }
+        else
+            throw $this->createNotFoundException();
+    }
 
     public function detailsAction($own_name, Request $request) {
 

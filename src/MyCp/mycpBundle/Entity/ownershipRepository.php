@@ -1505,6 +1505,61 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
 
         return $em->createQuery($query_string)->setParameter('own_name', $own_name)->getOneOrNullResult();
     }
+    
+    function get_details_by_code($own_mycp_code, $locale = "ES") {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT o.own_id as own_id,
+                         o.own_name as ownname,
+                        prov.prov_name as ownAddressProvince,
+                        prov.prov_id as ownAddressProvince_id,
+                        o.own_address_street as ownAddressStreet,
+                        o.own_address_number as ownAddressNumber,
+                        o.own_type as owntype,
+                        mun.mun_name as ownaddressmunicipality,
+                        mun.mun_id as ownaddressmunicipality_id,
+                        o.own_comments_total as comments_total,
+                        o.own_rating as rating,
+                        o.own_mcp_code as mycpcode,
+                        o.own_category as category,
+                        o.own_minimum_price as ownminimumprice,
+                        o.own_geolocate_x as OwnGeolocateX,
+                        o.own_geolocate_y as OwnGeolocateY,
+                        o.own_facilities_breakfast as ownFacilitiesBreakfast,
+                        o.own_facilities_breakfast_price as ownFacilitiesBreakfastPrice,
+                        o.own_facilities_dinner as ownFacilitiesDinner,
+                        o.own_facilities_dinner_price_from as ownFacilitiesDinnerPriceFrom,
+                        o.own_facilities_dinner_price_to as ownFacilitiesDinnerPriceTo,
+                        o.own_facilities_parking as ownFacilitiesParking,
+                        o.own_facilities_parking_price as ownFacilitiesParkingPrice,
+                        o.own_description_bicycle_parking as ownDescriptionBicycleParking,
+                        o.own_maximun_number_guests as ownmaximumnumberguests,
+                        o.own_description_pets as ownDescriptionPets,
+                        o.own_description_laundry as ownDescriptionLaundry,
+                        o.own_description_internet as ownDescriptionInternet,
+                        o.own_water_jacuzee as ownWaterJacuzee,
+                        o.own_water_sauna as ownWaterSauna,
+                        o.own_water_piscina as ownWaterPiscina,
+                        o.own_homeowner_1 as owner1,
+                        o.own_homeowner_2 as owner2,
+                        o.own_commission_percent as OwnCommissionPercent,                        
+                        (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
+                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = 5) as count_reservations,
+                        (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments,
+                        (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = '$locale') as brief_description,
+                        (SELECT min(dd.odl_description) FROM mycpBundle:ownershipDescriptionLang dd JOIN dd.odl_id_lang dl WHERE dd.odl_ownership = o.own_id AND dl.lang_code = '$locale') as description,
+                        (SELECT kl.okl_keywords FROM mycpBundle:ownershipKeywordLang kl JOIN kl.okl_id_lang lang WHERE kl.okl_ownership = o.own_id AND lang.lang_code = '$locale') as keywords,
+                        (SELECT count(o1.own_id) from mycpBundle:ownership o1 where o1.own_id = o.own_id AND o1.own_langs LIKE '1___') as english,
+                        (SELECT count(o2.own_id) from mycpBundle:ownership o2 where o2.own_id = o.own_id AND o2.own_langs LIKE '_1__') as french,
+                        (SELECT count(o3.own_id) from mycpBundle:ownership o3 where o3.own_id = o.own_id AND o3.own_langs LIKE '__1_') as german,
+                        (SELECT count(o4.own_id) from mycpBundle:ownership o4 where o4.own_id = o.own_id AND o4.own_langs LIKE '___1') as italian
+                         FROM mycpBundle:ownership o
+                         JOIN o.own_address_province prov
+                         JOIN o.own_address_municipality mun
+                         WHERE o.own_mcp_code = :own_mycp_code
+                         ORDER BY o.own_id DESC";
+
+        return $em->createQuery($query_string)->setParameter('own_mycp_code', $own_mycp_code)->getOneOrNullResult();
+    }
 
     function getByCategory($category, $results_total = null, $exclude_id = null, $user_id = null, $session_id = null) {
         $em = $this->getEntityManager();
