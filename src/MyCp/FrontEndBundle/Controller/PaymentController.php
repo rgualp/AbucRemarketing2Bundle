@@ -12,7 +12,6 @@ use MyCp\mycpBundle\Entity\payment;
 use MyCp\mycpBundle\Entity\skrillPayment;
 use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Entity\userTourist;
-use MyCp\mycpBundle\Helpers\SyncStatuses;
 use MyCp\mycpBundle\JobData\PaymentJobData;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -179,6 +178,32 @@ class PaymentController extends Controller
 
         $this->log('PaymentController line ' . __LINE__ . "Request: \n" . print_r($request, true));
 
+        list($skrillPayment, $payment) = $this->updatePaymentData($em, $request);
+
+        $bookingService = $this->get('front_end.services.booking');
+        $bookingService->postProcessBookingPayment($payment);
+
+        $this->log(date(DATE_RSS) . ' - PaymentController line ' . __LINE__ .
+            ': Payment ID: ' . $payment->getId() . "\nSkrillRequest ID: " . $skrillPayment->getId());
+
+        $dispatcher = $this->get('event_dispatcher');
+        $eventData = new PaymentJobData($payment->getId());
+        $dispatcher->dispatch('mycp.event.accommodation.payment.confirmation', new JobEvent($eventData));
+
+        return new Response('Thanks', 200);
+    }
+
+    /**
+     * Updates or creates the payment and skrillPayment data according
+     * to the POST request received from Skrill.
+     *
+     * @param $em
+     * @param $request
+     * @return array
+     * @throws \LogicException
+     */
+    private function updatePaymentData($em, $request)
+    {
         $skrillPayment = new skrillPayment($request);
         $bookingId = $skrillPayment->getMerchantTransactionId();
         $this->log('PaymentController line ' . __LINE__ . ': Booking id=' . $bookingId . '');
@@ -211,8 +236,9 @@ class PaymentController extends Controller
         $currency = $this->getCurrencyFrom($currencyIsoCode);
 
         if (empty($currency)) {
-            $this->log(date(DATE_RSS) . ' - PaymentController line ' . __LINE__ . ': Currency ' . $currencyIsoCode . ' not found.');
-            return new Response('', 200);
+            $this->log(date(DATE_RSS) . ' - PaymentController line ' . __LINE__ .
+                ': Currency ' . $currencyIsoCode . ' not found.');
+            throw new \LogicException('Currency not found: ' . $currencyIsoCode);
         }
 
         $payment->setCurrency($currency);
@@ -222,49 +248,9 @@ class PaymentController extends Controller
         $skrillPayment->setPayment($payment);
         $em->persist($payment);
         $em->persist($skrillPayment);
-
-        $this->updateReservationStatuses($em, $bookingId, $payment->getStatus());
-
         $em->flush();
 
-        $this->log(date(DATE_RSS) . ' - PaymentController line ' . __LINE__ .
-            ': Payment ID: ' . $payment->getId() . "\nSkrillRequest ID: " . $skrillPayment->getId());
-
-        /** @var \Symfony\Component\EventDispatcher\EventDispatcher $dispatcher */
-        $dispatcher = $this->get('event_dispatcher');
-        $eventData = new PaymentJobData($payment->getId());
-        $dispatcher->dispatch('mycp.events.payment.confirmation', new JobEvent($eventData));
-
-        return new Response('Thanks', 200);
-    }
-
-    /**
-     * Updates the statuses of the ownership and general reservations
-     * according to the corresponding payment status.
-     *
-     * @param $em
-     * @param $bookingId
-     * @param $paymentStatus
-     */
-    private function updateReservationStatuses($em, $bookingId, $paymentStatus)
-    {
-        $ownershipReservations = $em
-            ->getRepository('mycpBundle:ownershipReservation')
-            ->findBy(array('own_res_reservation_booking' => $bookingId));
-
-        foreach ($ownershipReservations as $own) {
-            $own->setOwnResSyncSt(SyncStatuses::UPDATED);
-
-            if ($paymentStatus == PaymentHelper::STATUS_PENDING
-                || $paymentStatus == PaymentHelper::STATUS_SUCCESS) {
-                $general = $own->getOwnResGenResId();
-                $general->setGenResStatus(2); // TODO: What is status 2??? Create helper with the statuses
-                $own->setOwnResStatus(5); // TODO: What is status 5???
-                $em->persist($general);
-            }
-
-            $em->persist($own);
-        }
+        return array($skrillPayment, $payment);
     }
 
     /**
