@@ -745,8 +745,9 @@ class ReservationController extends Controller {
         $response = $this->forward('FrontEndBundle:Reservation:view_confirmation', array('id_booking' => $id_booking, 'to_print' => true));
 
         $pdf_name = 'voucher' . $user->getUserId() . '_' . $booking->getBookingId();
-        $pdfFilePath = $this->getPdfFilePath($pdf_name);
-        $success = $this->storeHtmlAsPdf($response, $pdfFilePath);
+        $pdfFilePath = $this->getVoucherPdfFilePath($pdf_name);
+        $pdfService = $this->get('front_end.services.pdf');
+        $success = $pdfService->storeHtmlAsPdf($response, $pdfFilePath);
 
         if (!$success) {
             // PDF could not be stored, so ignore attachment for now
@@ -852,78 +853,26 @@ class ReservationController extends Controller {
         return $bookingService->getBookingConfirmationResponse($id_booking);
     }
 
-    public function generatePdfVoucherAction($id_booking, $name = "voucher") {
-        $pdfResponse = $this->forward('FrontEndBundle:Reservation:view_confirmation', array('id_booking' => $id_booking, 'to_print' => true));
+    public function generatePdfVoucherAction($id_booking, $name = "voucher")
+    {
+        $pdfResponse = $this->forward(
+            'FrontEndBundle:Reservation:view_confirmation',
+            array('id_booking' => $id_booking, 'to_print' => true)
+        );
 
-        $this->streamHtmlAsPdf($pdfResponse, $name);
+        $pdfService = $this->get('front_end.services.pdf');
+        $pdfService->streamHtmlAsPdf($pdfResponse, $name);
 
-        return $this->forward('FrontEndBundle:Reservation:view_confirmation', array('id_booking' => $id_booking));
+        return $this->forward(
+            'FrontEndBundle:Reservation:view_confirmation',
+            array('id_booking' => $id_booking)
+        );
     }
 
-    function remove_dir($dir) {
-        foreach (glob($dir . '/*') as $file) {
-            if (is_dir($file))
-                remove_dir($file);
-            else
-                unlink($file);
-        }
-        @rmdir($dir);
-    }
-
-    /**
-     * @param string|Response $html
-     * @param string $filePath
-     * @return bool
-     */
-    private function storeHtmlAsPdf($html, $filePath) {
-        if (empty($filePath) || !is_string($filePath)) {
-            return false;
-        }
-
-        if ($html instanceof Response) {
-            $html = $html->getContent();
-        }
-
-        $dompdf = $this->getDomPdfObject($html);
-        $content_out = $dompdf->output();
-        $fpdf = fopen($filePath, 'w');
-
-        if ($fpdf === false) {
-            return false;
-        }
-
-        fwrite($fpdf, $content_out);
-        fclose($fpdf);
-        return file_exists($filePath);
-    }
-
-    /**
-     * @param string|Response $html
-     * @param string $name
-     */
-    private function streamHtmlAsPdf($html, $name) {
-        if ($html instanceof Response) {
-            $html = $html->getContent();
-        }
-
-        $dompdf = $this->getDomPdfObject($html);
-        $dompdf->stream($name . ".pdf", array("Attachment" => false));
-    }
-
-    private function getDomPdfObject($html) {
-        require_once($this->get('kernel')->getRootDir() . '/config/dompdf_config.inc.php');
-        $dompdf = new \DOMPDF();
-        $dompdf->load_html($html);
-        //$dompdf->set_paper("a4", "landscape");
-        $dompdf->set_paper("a4");
-        $dompdf->render();
-        return $dompdf;
-    }
-
-    private function getPdfFilePath($pdfName) {
+    private function getVoucherPdfFilePath($pdfName)
+    {
         $pdfFilePath = $this->container->getParameter('kernel.root_dir')
                 . self::RELATIVE_VOUCHER_PATH . "$pdfName.pdf";
         return $pdfFilePath;
     }
-
 }
