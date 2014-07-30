@@ -186,10 +186,6 @@ class PaymentController extends Controller
         $this->log(date(DATE_RSS) . ' - PaymentController line ' . __LINE__ .
             ': Payment ID: ' . $payment->getId() . "\nSkrillRequest ID: " . $skrillPayment->getId());
 
-        $dispatcher = $this->get('event_dispatcher');
-        $eventData = new PaymentJobData($payment->getId());
-        $dispatcher->dispatch('mycp.event.accommodation.payment.confirmation', new JobEvent($eventData));
-
         return new Response('Thanks', 200);
     }
 
