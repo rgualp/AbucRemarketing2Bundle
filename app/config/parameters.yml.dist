@@ -14,5 +14,9 @@ parameters:
     mailer_user:       ~
     mailer_password:   ~
 
+    router.request_context.host: www.mycasaparticular.com
+    router.request_context.scheme: https
+    router.request_context.base_url: /
+
     locale:            en
     secret:            ThisTokenIsNotSoSecretChangeIt
