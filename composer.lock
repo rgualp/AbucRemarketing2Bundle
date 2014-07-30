@@ -4,8 +4,44 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fd04921e5f5674960465cc5e3ed2a4a5",
+    "hash": "9bc1a7c2d110b7490e8b8d316c228dc7",
     "packages": [
+        {
+            "name": "abuc/remarketing-bundle",
+            "version": "dev-master",
+            "target-dir": "Abuc/RemarketingBundle",
+            "source": {
+                "type": "git",
+                "url": "git@bitbucket.org:abucmn/remarketingbundle.git",
+                "reference": "38f4e5c49e8c22cc79d31b5cd2e6ef464e716f0d"
+            },
+            "require": {
+                "doctrine/doctrine-bundle": "~1.2",
+                "doctrine/orm": "~2.2,>=2.2.3",
+                "leezy/pheanstalk-bundle": "2.*",
+                "php": ">=5.3.3"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "Abuc\\RemarketingBundle": ""
+                }
+            },
+            "authors": [
+                {
+                    "name": "Jakob Wanner",
+                    "email": "jakob.wanner@sourceengineers.com",
+                    "homepage": "http://www.sourceengineers.com"
+                }
+            ],
+            "description": "Reusable Remarketing components for ABUC",
+            "homepage": "https://github.com/ABUC/AbucRemarketingBundle",
+            "keywords": [
+                "email",
+                "remarketing"
+            ],
+            "time": "2014-07-30 09:23:06"
+        },
         {
             "name": "ass/xmlsecurity",
             "version": "dev-master",
@@ -2150,26 +2186,37 @@
         },
         {
             "name": "sensio/distribution-bundle",
-            "version": "v2.3.4",
+            "version": "v3.0.2",
             "target-dir": "Sensio/Bundle/DistributionBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioDistributionBundle.git",
-                "reference": "66df91b4bd637a83299d8072aed3658bfd3b3021"
+                "reference": "67b34359f91c25ad36b960f66a287df0615d7c54"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/66df91b4bd637a83299d8072aed3658bfd3b3021",
-                "reference": "66df91b4bd637a83299d8072aed3658bfd3b3021",
+                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/67b34359f91c25ad36b960f66a287df0615d7c54",
+                "reference": "67b34359f91c25ad36b960f66a287df0615d7c54",
                 "shasum": ""
             },
             "require": {
-                "symfony/framework-bundle": "~2.2"
+                "php": ">=5.3.3",
+                "symfony/class-loader": "~2.2",
+                "symfony/config": "~2.2",
+                "symfony/dependency-injection": "~2.2",
+                "symfony/filesystem": "~2.2",
+                "symfony/form": "~2.2",
+                "symfony/framework-bundle": "~2.2",
+                "symfony/http-foundation": "~2.2",
+                "symfony/http-kernel": "~2.2",
+                "symfony/process": "~2.2",
+                "symfony/validator": "~2.2",
+                "symfony/yaml": "~2.2"
             },
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3.x-dev"
+                    "dev-master": "3.0.x-dev"
                 }
             },
             "autoload": {
@@ -2194,7 +2241,7 @@
                 "configuration",
                 "distribution"
             ],
-            "time": "2013-08-22 05:04:53"
+            "time": "2014-07-16 07:46:27"
         },
         {
             "name": "sensio/framework-extra-bundle",
@@ -2910,7 +2957,8 @@
         "ass/xmlsecurity": 20,
         "besimple/soap-server": 20,
         "besimple/i18n-routing-bundle": 20,
-        "dompdf/dompdf": 20
+        "dompdf/dompdf": 20,
+        "abuc/remarketing-bundle": 20
     },
     "prefer-stable": false,
     "platform": {
