@@ -2,6 +2,9 @@
 
 namespace MyCp\FrontEndBundle\Controller;
 
+use Abuc\RemarketingBundle\Event\JobEvent;
+use Abuc\RemarketingBundle\Event\PredefinedEvents;
+use Abuc\RemarketingBundle\JobData\UserIdentificationJobData;
 use MyCp\FrontEndBundle\Form\changePasswordUserType;
 use MyCp\FrontEndBundle\Form\ownerContact;
 use MyCp\FrontEndBundle\Form\registerUserType;
@@ -64,6 +67,12 @@ class UserController extends Controller {
 
                 $message = $this->get('translator')->trans("USER_CREATE_ACCOUNT_SUCCESS");
                 $this->get('session')->getFlashBag()->add('message_global_success', $message);
+
+                // inform listeners that a new user has signed up
+                $dispatcher = $this->get('event_dispatcher');
+                $eventData = new UserIdentificationJobData($user_db->getUserId());
+                $dispatcher->dispatch(PredefinedEvents::USER_SIGN_UP, new JobEvent($eventData));
+
                 return $this->redirect($this->generateUrl('frontend_login'));
             }
         }
