@@ -1972,7 +1972,7 @@
             </trans-unit>
             <trans-unit id="502">
                 <source>EMAIL_ACCOUNT_REGISTERED_TEXT</source>
-                <target>Es wurde eine E-Mail gesendet, um Ihr Benutzerkonto zu aktivieren</target>
+                <target>Bitte benutzen Sie folgenden Link, um Ihr Benutzerkonto zu aktivieren:</target>
             </trans-unit>
              <trans-unit id="503">
                  <source>LOOK_FOR_ALTERNATIVE</source>
@@ -2164,7 +2164,7 @@
               </trans-unit>
               <trans-unit id="551">
                   <source>USER_ACCOUNT_ACTIVATION_EMAIL</source>
-                  <target>Aktivierung ihres Benutzerkontos in MyCasaParticular</target>
+                  <target>Aktivierung ihres Benutzerkontos bei MyCasaParticular</target>
               </trans-unit>
               <trans-unit id="552">
                   <source>USER_CONTACT_TOURIST_SUCCESS</source>
@@ -2477,6 +2477,14 @@
             <trans-unit id="629">
                 <source>PAYMENTS</source>
                 <target>Zahlung</target>
+            </trans-unit>
+            <trans-unit id="630">
+                <source>USER_ACCOUNT_ACTIVATION_EMAIL_REMINDER</source>
+                <target>Erinnerung: Aktivierung Ihres Benutzerkontos bei MyCasaParticular</target>
+            </trans-unit>
+            <trans-unit id="631">
+                <source>EMAIL_ACCOUNT_REGISTERED_SUBJECT_REMINDER</source>
+                <target>Erinnerung: Aktivieren Sie Ihr Konto bei MyCasaParticular</target>
             </trans-unit>
         </body>
     </file>

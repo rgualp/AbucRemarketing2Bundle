@@ -2479,6 +2479,14 @@
                 <source>PAYMENTS</source>
                 <target>Pagos</target>
             </trans-unit>
+            <trans-unit id="630">
+                <source>USER_ACCOUNT_ACTIVATION_EMAIL_REMINDER</source>
+                <target>Recuérde: Activación de su cuenta en MyCasaParticular</target>
+            </trans-unit>
+            <trans-unit id="631">
+                <source>EMAIL_ACCOUNT_REGISTERED_SUBJECT_REMINDER</source>
+                <target>Recuérde: Activación de su cuenta en MyCasaParticular</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
