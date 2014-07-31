@@ -19,6 +19,7 @@ class AccountActivationReminderWorkerCommand extends EmailWorker
     private $translatorService;
     private $securityService;
     private $router;
+    private $numRetries;
 
     /**
      * {@inheritDoc}
@@ -28,7 +29,7 @@ class AccountActivationReminderWorkerCommand extends EmailWorker
         $this
             ->setName('mycp:worker:signupreminder')
             ->setDefinition(array())
-            //->addArgument('name', InputArgument::OPTIONAL, 'Leave blank if client')
+            ->addArgument('retries', InputArgument::OPTIONAL, 'Number of retries for email sending')
             ->setDescription('Sends a reminder email after 24h if a user has not yet activated his account')
             ->setJobName(PredefinedJobs::JOB_SIGNUP_REMINDER);
     }
@@ -51,6 +52,7 @@ class AccountActivationReminderWorkerCommand extends EmailWorker
 
         $user = $this->getUserById($userId);
         $this->initializeLocale($user);
+        $this->initializeNumRetries($input);
 
         if (!$user->getUserEnabled()) {
             $output->writeln('Send Account Activation Reminder Email to User ID ' . $userId);
@@ -66,7 +68,7 @@ class AccountActivationReminderWorkerCommand extends EmailWorker
      * @param $user
      * @param $output
      */
-    private function sendReminderEmail($user, $output)
+    private function sendReminderEmail(user $user, OutputInterface $output)
     {
         $userId =  $user->getUserId();
         $userEmail = $user->getUserEmail();
@@ -83,14 +85,29 @@ class AccountActivationReminderWorkerCommand extends EmailWorker
 
         $output->writeln("Send email to $userEmail, subject '$emailSubject' for User ID $userId");
 
-        $this->emailService->send_templated_email(
-            $emailSubject,
-            'noreply@mycasaparticular.com',
-            $userEmail,
-            $emailBody
-        );
+        for ($numRetries = $this->numRetries; $numRetries > 0; $numRetries--) {
+            try {
+                $this->emailService->send_templated_email(
+                    $emailSubject,
+                    'noreply@mycasaparticular.com',
+                    $userEmail,
+                    $emailBody
+                );
 
-        $this->sendOutEmails();
+                $this->sendOutEmails();
+                break;
+            } catch (\Swift_TransportException $e) {
+                $message = 'Swift_TransportException on Email send-out: ' . PHP_EOL;
+                $message .= $e->getMessage() . PHP_EOL;
+                $message .= $e->getTraceAsString();
+
+                // retry on transport exceptions
+                $this->getLogger()->error($message);
+                $output->writeln($message);
+            }
+
+            sleep(2);
+        }
     }
 
     /**
@@ -119,6 +136,27 @@ class AccountActivationReminderWorkerCommand extends EmailWorker
         $userTourist = $this->getTouristByUser($user);
         $userLocale = strtolower($userTourist->getUserTouristLanguage()->getLangCode());
         $this->translatorService->setLocale($userLocale);
+    }
+
+    /**
+     * Initializes the number of email send-out retries.
+     *
+     * @param InputInterface $input
+     * @throws \InvalidArgumentException
+     */
+    private function initializeNumRetries(InputInterface $input)
+    {
+        $numRetries = $input->getArgument('retries');
+
+        if (!$numRetries) {
+            $numRetries = 3;
+        }
+
+        if (!is_numeric($numRetries)) {
+            throw new \InvalidArgumentException('Argument "retries" is not an integer');
+        }
+
+        $this->numRetries = (int) $numRetries;
     }
 
     /**
