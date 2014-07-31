@@ -3,7 +3,7 @@ parameters:
 services:
    mycp.job.user.signupreminder.listener:
        class: Abuc\RemarketingBundle\Event\DefaultEventListener
-       arguments: [@abuc_remarketing.job.manager, "abuc.job.labels.signupreminder", "24 hours"]
+       arguments: [@abuc_remarketing.job.manager, "abuc.job.labels.signupreminder", "1 min"] #"24 hours"]
        tags:
            - { name: kernel.event_listener, event: abuc.event.user.signup,  method: onEvent }
 
