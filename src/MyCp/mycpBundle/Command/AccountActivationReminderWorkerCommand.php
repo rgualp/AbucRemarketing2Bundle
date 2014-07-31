@@ -8,6 +8,7 @@ use Abuc\RemarketingBundle\Worker\EmailWorker;
 use Abuc\RemarketingBundle\JobData\JobData;
 use MyCp\mycpBundle\Entity\user;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 
@@ -29,7 +30,10 @@ class AccountActivationReminderWorkerCommand extends EmailWorker
         $this
             ->setName('mycp:worker:signupreminder')
             ->setDefinition(array())
-            ->addArgument('retries', InputArgument::OPTIONAL, 'Number of retries for email sending')
+            ->addOption('retries',
+                'r',
+                InputOption::VALUE_OPTIONAL,
+                'Number of retries for email sending. If not set retries=3 is set.')
             ->setDescription('Sends a reminder email after 24h if a user has not yet activated his account')
             ->setJobName(PredefinedJobs::JOB_SIGNUP_REMINDER);
     }
@@ -146,7 +150,7 @@ class AccountActivationReminderWorkerCommand extends EmailWorker
      */
     private function initializeNumRetries(InputInterface $input)
     {
-        $numRetries = $input->getArgument('retries');
+        $numRetries = $input->getOption('retries');
 
         if (!$numRetries) {
             $numRetries = 3;
