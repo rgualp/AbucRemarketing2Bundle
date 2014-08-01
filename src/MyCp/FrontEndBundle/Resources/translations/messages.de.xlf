@@ -2180,7 +2180,7 @@
               </trans-unit>
               <trans-unit id="555">
                     <source>VIEW_CONFIRMATION</source>
-                    <target>Bestätigung sehen</target>
+                    <target>Bestätigung ansehen</target>
                 </trans-unit>
                 <trans-unit id="556">
                     <source>PAYMENT_CONFIRMATION</source>
