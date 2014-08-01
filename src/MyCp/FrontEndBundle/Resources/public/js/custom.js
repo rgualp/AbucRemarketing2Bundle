@@ -123,8 +123,8 @@ function manage_favorities(favorite_class)
         , function(data) {
             $("." + result_id).html(data);
 
-            manage_favorities(".favorite_off_action");
-            manage_favorities(".favorite_on_action");
+            manage_favorities("#fav_" + element_id);
+            //manage_favorities(".favorite_on_action");
         });
     });
 }

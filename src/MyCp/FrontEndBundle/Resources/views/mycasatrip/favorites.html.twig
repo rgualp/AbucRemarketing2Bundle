@@ -18,7 +18,7 @@
 </div>
 {%if ownership_favorities | length and total_items > items_per_page%}
         <div class="text-center">
-    {{ simple_paginator_render('frontend_mycasatrip_favorites',null,{
+    {{ simple_paginator_render('frontend_mycasatrip_favorites_accomodations',null,{
     'container_class': 'pagination',
     'previousPageText': '«',
     'nextPageText': '»',
@@ -39,7 +39,7 @@
                 }) }}
 {%if ownership_favorities | length and total_items > items_per_page%}
         <div class="text-center">
-    {{ simple_paginator_render('frontend_mycasatrip_favorites',null,{
+    {{ simple_paginator_render('frontend_mycasatrip_favorites_accomodations',null,{
     'container_class': 'pagination',
     'previousPageText': '«',
     'nextPageText': '»',
@@ -62,7 +62,7 @@
 
         {%if destination_favorities | length and total_items > items_per_page%}
         <div class="text-center">
-    {{ simple_paginator_render('frontend_mycasatrip_favorites',null,{
+    {{ simple_paginator_render('frontend_mycasatrip_favorites_destinations',null,{
     'container_class': 'pagination',
     'previousPageText': '«',
     'nextPageText': '»',
