@@ -12,7 +12,29 @@ use MyCp\mycpBundle\Helpers\SyncStatuses;
  * @ORM\Table(name="ownershipreservation")
  * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\ownershipReservationRepository")
  */
-class ownershipReservation {
+class ownershipReservation
+{
+    /**
+     * All allowed statuses
+     */
+    const STATUS_AVAILABLE = 1;
+    const STATUS_AVAILABLE2 = 2;
+    const STATUS_NOT_AVAILABLE = 3;
+    const STATUS_CANCELLED = 4;
+    const STATUS_RESERVED = 5;
+
+    /**
+     * Contains all possible statuses
+     *
+     * @var array
+     */
+    private $statuses = array(
+        self::STATUS_AVAILABLE,
+        self::STATUS_AVAILABLE2,
+        self::STATUS_NOT_AVAILABLE,
+        self::STATUS_CANCELLED,
+        self::STATUS_RESERVED,
+    );
 
     /**
      * @var integer
@@ -136,7 +158,7 @@ class ownershipReservation {
     /**
      * Get own_res_reservation_hour
      *
-     * @return varchar 
+     * @return varchar
      */
     public function getOwnResHour() {
         return $this->own_res_reservation_hour;
@@ -157,7 +179,7 @@ class ownershipReservation {
     /**
      * Get own_res_selected_room_id
      *
-     * @return integer 
+     * @return integer
      */
     public function getOwnResSelectedRoomId() {
         return $this->own_res_selected_room_id;
@@ -178,7 +200,7 @@ class ownershipReservation {
     /**
      * Get own_res_count_adults
      *
-     * @return integer 
+     * @return integer
      */
     public function getOwnResCountAdults() {
         return $this->own_res_count_adults;
@@ -199,7 +221,7 @@ class ownershipReservation {
     /**
      * Get own_res_count_childrens
      *
-     * @return integer 
+     * @return integer
      */
     public function getOwnResCountChildrens() {
         return $this->own_res_count_childrens;
@@ -220,7 +242,7 @@ class ownershipReservation {
     /**
      * Get own_res_night_price
      *
-     * @return integer 
+     * @return integer
      */
     public function getOwnResNightPrice() {
         return $this->own_res_night_price;
@@ -241,7 +263,7 @@ class ownershipReservation {
     /**
      * Get own_res_gen_res_id
      *
-     * @return \MyCp\mycpBundle\Entity\generalReservation 
+     * @return \MyCp\mycpBundle\Entity\generalReservation
      */
     public function getOwnResGenResId() {
         return $this->own_res_gen_res_id;
@@ -252,8 +274,14 @@ class ownershipReservation {
      *
      * @param integer $ownResStatus
      * @return ownershipReservation
+     * @throws \InvalidArgumentException
      */
-    public function setOwnResStatus($ownResStatus) {
+    public function setOwnResStatus($ownResStatus)
+    {
+        if (!in_array($ownResStatus, $this->statuses)) {
+            throw new \InvalidArgumentException("Status $ownResStatus not allowed");
+        }
+
         $this->own_res_status = $ownResStatus;
 
         return $this;
@@ -262,7 +290,7 @@ class ownershipReservation {
     /**
      * Get own_res_status
      *
-     * @return integer 
+     * @return integer
      */
     public function getOwnResStatus() {
         return $this->own_res_status;
@@ -283,7 +311,7 @@ class ownershipReservation {
     /**
      * Get own_res_room_type
      *
-     * @return string 
+     * @return string
      */
     public function getOwnResRoomType() {
         return $this->own_res_room_type;
@@ -346,7 +374,7 @@ class ownershipReservation {
     /**
      * Get own_res_total_in_site
      *
-     * @return float 
+     * @return float
      */
     public function getOwnResTotalInSite() {
         return $this->own_res_total_in_site;
@@ -367,12 +395,12 @@ class ownershipReservation {
     /**
      * Get own_res_reservation_booking
      *
-     * @return \MyCp\mycpBundle\Entity\booking 
+     * @return \MyCp\mycpBundle\Entity\booking
      */
     public function getOwnResReservationBooking() {
         return $this->own_res_reservation_booking;
     }
-    
+
     public function getOwnResSyncSt() {
         return $this->own_res_sync_st;
     }
