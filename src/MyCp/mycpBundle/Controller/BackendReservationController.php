@@ -667,15 +667,6 @@ class BackendReservationController extends Controller
             $booking->setBookingUserId($user_tourist->getUserTouristUser()->getUserId());
             $em->persist($booking);
 
-            $payment= new payment();
-            $payment->setBooking($booking);
-            $payment->setCreated(new \DateTime(date('Y-m-d')));
-            $payment->setModified(new \DateTime(date('Y-m-d')));
-            $payment->setCurrency($user_tourist->getUserTouristCurrency());
-            $payment->setStatus(1);
-            $payment->setPayedAmount($prepay);
-            $em->persist($payment);
-
             $array_photos=array();
             $array_ownres_by_house=array();
             $service_time=$this->get('time');
