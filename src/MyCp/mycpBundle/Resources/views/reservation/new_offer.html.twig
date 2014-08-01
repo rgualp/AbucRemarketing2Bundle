@@ -194,9 +194,9 @@
                         date.setDate(date.getDate() + 2);
                         $('#filter_date_to').datepicker("setDate", date);
                         $('.datepicker').hide();
-
-                        refresh_calendar(ev.date.getDate() + '/' + (ev.date.getMonth() + 1) + '/' + ev.date.getFullYear(),date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
-
+                        
+                        own = $('#ownership').val();
+                        refresh_calendar(ev.date.getDate() + '/' + (ev.date.getMonth() + 1) + '/' + ev.date.getFullYear(),date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear(),own);
                     });
 
             var filter_date_to =$('#filter_date_to').datepicker({

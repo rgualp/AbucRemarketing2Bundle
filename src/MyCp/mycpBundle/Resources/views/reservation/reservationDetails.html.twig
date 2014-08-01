@@ -156,8 +156,8 @@
             <td><input name="date_from_{{reservation_rooms.getOwnResId}}" data-localization="es" type="text" class="input-block-level datepicker_textbox" value="{% if post['date_from_'~reservation_rooms.getOwnResId] is defined %}{{ post['date_from_'~reservation_rooms.getOwnResId] }}{% else %}{{ reservation_rooms.getOwnResReservationFromDate | date("d/m/Y") }}{% endif %}"/></td>
             <td><input name="date_to_{{reservation_rooms.getOwnResId}}" data-localization="es" type="text" class="input-block-level datepicker_textbox" value="{% if post['date_from_'~reservation_rooms.getOwnResId] is defined %}{{ post['date_to_'~reservation_rooms.getOwnResId] }}{% else %}{{ reservation_rooms.getOwnResReservationToDate | date("d/m/Y") }}{% endif %}"/></td>
             <td>{{nights[loop.index0]}}</td>
-            <td>{{ rooms[flag].getRoomPriceUpFrom() }}-{{ rooms[flag].getRoomPriceUpTo() }}</td>
-            <td>{{ rooms[flag].getRoomPriceDownFrom() }}-{{ rooms[flag].getRoomPriceDownTo() }}</td>
+            <td>{%if rooms[flag]%}{{ rooms[flag].getRoomPriceUpFrom() }}-{{ rooms[flag].getRoomPriceUpTo() }}{%endif%}</td>
+            <td>{%if rooms[flag]%}{{ rooms[flag].getRoomPriceDownFrom() }}-{{ rooms[flag].getRoomPriceDownTo() }}{%endif%}</td>
             <td style="width: 7%">
                 {% set price_own_res =0%}
 
