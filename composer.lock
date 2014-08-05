@@ -13,7 +13,7 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:abucmn/remarketingbundle.git",
-                "reference": "bef734611d087ce7221f22bc1bc3550ad02862b6"
+                "reference": "c3d3e1ffb6688e9478c968fcd4c61dcbcce0073a"
             },
             "require": {
                 "doctrine/doctrine-bundle": "~1.2",
@@ -21,12 +21,23 @@
                 "leezy/pheanstalk-bundle": "2.*",
                 "php": ">=5.3.3"
             },
+            "require-dev": {
+                "fabpot/php-cs-fixer": "0.4.*"
+            },
             "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "Abuc\\RemarketingBundle": ""
                 }
             },
+            "license": [
+                "proprietary"
+            ],
             "authors": [
                 {
                     "name": "Jakob Wanner",
@@ -40,7 +51,7 @@
                 "email",
                 "remarketing"
             ],
-            "time": "2014-07-31 13:59:17"
+            "time": "2014-08-05 12:49:55"
         },
         {
             "name": "ass/xmlsecurity",
