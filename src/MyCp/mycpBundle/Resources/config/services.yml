@@ -12,3 +12,7 @@ services:
        arguments: [@abuc_remarketing.job.manager, "mycp.job.reservation.bookingreminder", "1 min"] # TODO: change "2 min" to "24 hours"
        tags:
            - { name: kernel.event_listener, event: mycp.event.reservation.bookingreminder,  method: onEvent }
+
+   mycp.service.email_manager:
+       class: MyCp\mycpBundle\Helpers\EmailManager
+       arguments: [@doctrine.orm.entity_manager, @Email, @templating, @translator, @router, @mailer, @swiftmailer.transport.real, @logger, "noreply@mycasaparticular.com", "MyCasaParticular.com", "3"]
