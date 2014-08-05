@@ -55,7 +55,7 @@ class UserController extends Controller {
                 $user_db = $em->getRepository('mycpBundle:user')
                         ->registerUser($post, $request, $encoder, $this->get('translator'), $languageCode, $currency);
                 $service_security = $this->get('Secure');
-                $encode_string = $service_security->encode_string($user_db->getUserEmail() . '///' . $user_db->getUserId());
+                $encode_string = $service_security->getEncodedUserString($user_db);
 
                 //mailing
                 $enableRoute = 'frontend_enable_user';
@@ -120,7 +120,7 @@ class UserController extends Controller {
                 $user_db = $em->getRepository('mycpBundle:user')->findOneBy(array('user_email' => $post['user_email']));
                 if ($user_db) {
                     $service_security = $this->get('Secure');
-                    $encode_string = $service_security->encode_string($user_db->getUserEmail() . '///' . $user_db->getUserId());
+                    $encode_string = $service_security->getEncodedUserString($user_db);
 
                     $change_passwordRoute = 'frontend_change_password_user';
                     $changeUrl = $this->get('router')
@@ -138,7 +138,7 @@ class UserController extends Controller {
                     $errors['no_email'] = $this->get('translator')->trans("USER_PASSWORD_RECOVERY_ERROR");
                 }
                 /* $service_security= $this->get('Secure');
-                  $encode_string=$service_security->encode_string($user->getUserEmail().'///'.$user->getUserId());
+                  $encode_string=$service_security->getEncodedUserString($user);
                   echo '<url>/user_enable/'.$encode_string; */
             }
         }
@@ -152,7 +152,7 @@ class UserController extends Controller {
     public function change_password_startAction() {
         $service_security = $this->get('Secure');
         $user = $this->getUser();
-        $encode_string = $service_security->encode_string($user->getUserEmail() . '///' . $user->getUserId());
+        $encode_string = $service_security->getEncodedUserString($user);
         return $this->redirect($this->generateUrl('frontend_change_password_user', array('string' => $encode_string)));
     }
 
@@ -219,7 +219,7 @@ class UserController extends Controller {
                 if ($user_db) {
                     $user_db = $user_db[0];
                     $service_security = $this->get('Secure');
-                    $encode_string = $service_security->encode_string($user_db->getUserEmail() . '///' . $user_db->getUserId());
+                    $encode_string = $service_security->getEncodedUserString($user_db);
                     $enableRoute = 'frontend_enable_user';
                     $enableUrl = $this->get('router')
                             ->generate($enableRoute, array('string' => $encode_string), true);
@@ -260,7 +260,7 @@ class UserController extends Controller {
                     $tourist_comment = $post_tourist['tourist_comment'];
 
                     /* $service_security = $this->get('Secure');
-                      $encode_string = $service_security->encode_string($user_db->getUserEmail() . '///' . $user_db->getUserId());
+                      $encode_string = $service_security->getEncodedUserString($user_db);
                       $enableRoute = 'frontend_enable_user';
                       $enableUrl = $this->get('router')
                       ->generate($enableRoute, array('string' => $encode_string), true); */
@@ -297,7 +297,7 @@ class UserController extends Controller {
                     $owner_comment = $post_owner['owner_comment'];
 
                     /* $service_security = $this->get('Secure');
-                      $encode_string = $service_security->encode_string($user_db->getUserEmail() . '///' . $user_db->getUserId());
+                      $encode_string = $service_security->getEncodedUserString($user_db);
                       $enableRoute = 'frontend_enable_user';
                       $enableUrl = $this->get('router')
                       ->generate($enableRoute, array('string' => $encode_string), true); */

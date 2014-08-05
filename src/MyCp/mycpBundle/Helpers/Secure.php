@@ -1,6 +1,7 @@
 <?php
 namespace MyCp\mycpBundle\Helpers;
 use MyCp\mycpBundle\Entity\log;
+use MyCp\mycpBundle\Entity\user;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -58,6 +59,11 @@ class Secure
             }
 
         }
+    }
+
+    public function getEncodedUserString(user $user)
+    {
+        return $this->encode_string($user->getUserEmail() . '///' . $user->getUserId());
     }
 
     public function encode_string($string)
