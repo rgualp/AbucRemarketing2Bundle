@@ -17,6 +17,7 @@ class ownershipReservation
     /**
      * All allowed statuses
      */
+    const STATUS_PENDING = 0;
     const STATUS_AVAILABLE = 1;
     const STATUS_AVAILABLE2 = 2;
     const STATUS_NOT_AVAILABLE = 3;
@@ -29,6 +30,7 @@ class ownershipReservation
      * @var array
      */
     private $statuses = array(
+        self::STATUS_PENDING,
         self::STATUS_AVAILABLE,
         self::STATUS_AVAILABLE2,
         self::STATUS_NOT_AVAILABLE,
@@ -132,6 +134,7 @@ class ownershipReservation
      */
     public function __construct() {
         $this->own_res_sync_st = SyncStatuses::ADDED;
+        $this->own_res_status = ownershipReservation::STATUS_PENDING;
     }
 
     /**
