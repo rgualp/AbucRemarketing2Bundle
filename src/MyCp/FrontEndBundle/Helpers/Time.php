@@ -13,12 +13,10 @@ class Time
             return false; //The end date is before start date
         }
 
-        while($startdate < $enddate){
+        while($startdate <= $enddate){
             $arr[] = ($format) ? date($format, $startdate) : $startdate;
-            $startdate += 86400;
+            $startdate = strtotime("+1 day", $startdate);
         }
-        $arr[] = ($format) ? date($format, $enddate) : $enddate;
-
         return $arr;
     }
 
