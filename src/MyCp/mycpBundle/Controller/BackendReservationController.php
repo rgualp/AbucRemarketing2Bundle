@@ -2,8 +2,10 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use Abuc\RemarketingBundle\Event\JobEvent;
 use MyCp\mycpBundle\Entity\booking;
 use MyCp\mycpBundle\Entity\payment;
+use MyCp\mycpBundle\JobData\GeneralReservationJobData;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -775,6 +777,11 @@ class BackendReservationController extends Controller
             if(isset($custom_message[0]))
                 $custom_message[0]=strtoupper($custom_message[0]);
             $service_email->send_reservation($id_reservation,$custom_message);
+
+            // inform listeners that a reservation was sent out
+            $dispatcher = $this->get('event_dispatcher');
+            $eventData = new GeneralReservationJobData($id_reservation);
+            $dispatcher->dispatch('mycp.event.reservation.sent_out', new JobEvent($eventData));
         }
 
         $message='Reserva enviada satisfactoriamente';
