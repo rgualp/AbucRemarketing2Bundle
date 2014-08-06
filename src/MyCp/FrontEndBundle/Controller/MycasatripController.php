@@ -5,6 +5,7 @@ namespace MyCp\FrontEndBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use MyCp\mycpBundle\Entity\ownershipReservation;
 
 class MycasatripController extends Controller {
 
@@ -28,7 +29,7 @@ class MycasatripController extends Controller {
         $new_date = strtotime('-30 day', strtotime($date));
         $new_date = \date('Y-m-j', $new_date);
         $string_sql = "AND gre.gen_res_date > '$new_date'";
-        $status_string = 'ownre.own_res_status = 0';
+        $status_string = 'ownre.own_res_status = '.ownershipReservation::STATUS_PENDING;
 
         if ($this->getRequest()->getMethod() == 'POST') {
             $order_by = $request->get('mct_change_order');
@@ -69,7 +70,7 @@ class MycasatripController extends Controller {
         $new_date = strtotime('-60 hours', strtotime($date));
         $new_date = \date('Y-m-j', $new_date);
         $string_sql = "AND gre.gen_res_status_date > '$new_date'";
-        $status_string = 'ownre.own_res_status =1';
+        $status_string = 'ownre.own_res_status ='.ownershipReservation::STATUS_AVAILABLE;
 
         if ($this->getRequest()->getMethod() == 'POST') {
             $order_by = $request->get('mct_change_order');
@@ -175,7 +176,7 @@ class MycasatripController extends Controller {
         $new_date = strtotime('-30 day', strtotime($date));
         $new_date = \date('Y-m-j', $new_date);
         $string_sql = "AND gre.gen_res_date < '$new_date'";
-        $status_string = 'ownre.own_res_status =5';
+        $status_string = 'ownre.own_res_status ='.ownershipReservation::STATUS_RESERVED;
 
         if ($this->getRequest()->getMethod() == 'POST') {
             $order_by = $request->get('mct_change_order');
@@ -219,7 +220,7 @@ class MycasatripController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $string_sql = "";
-        $status_string = 'ownre.own_res_status =5';
+        $status_string = 'ownre.own_res_status ='.ownershipReservation::STATUS_RESERVED;
 
         if ($this->getRequest()->getMethod() == 'POST') {
             $order_by = $request->get('mct_change_order');
@@ -267,7 +268,7 @@ class MycasatripController extends Controller {
         $new_date = strtotime('-30 day', strtotime($date));
         $new_date = \date('Y-m-j', $new_date);
         $string_sql = "AND gre.gen_res_date < '$new_date'";
-        $status_string = 'ownre.own_res_status =0';
+        $status_string = 'ownre.own_res_status ='.ownershipReservation::STATUS_PENDING;
 
         if ($this->getRequest()->getMethod() == 'POST') {
             $order_by = $request->get('mct_change_order');

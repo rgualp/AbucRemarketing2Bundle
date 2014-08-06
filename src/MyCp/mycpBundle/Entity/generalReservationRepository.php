@@ -62,8 +62,8 @@ class generalReservationRepository extends EntityRepository {
         AND gre.gen_res_id LIKE :filter_offer_number
         AND own.own_mcp_code LIKE :filter_reference
         AND gre.gen_res_to_date LIKE :filter_date_to $string_order");
-        
-        
+
+
         $query->setParameters(array(
             'filter_date_reserve' => "%".$filter_date_reserve."%",
             'filter_date_from' => "%".$filter_date_from."%",
@@ -71,7 +71,7 @@ class generalReservationRepository extends EntityRepository {
             'filter_reference' => "%".$filter_reference."%",
             'filter_date_to' => "%".$filter_date_to."%",
         ));
-        
+
         $array_genres=$query->getArrayResult();
 
         $query = $em->createQuery("SELECT ownres,genres,booking FROM mycpBundle:ownershipReservation ownres
@@ -116,7 +116,7 @@ class generalReservationRepository extends EntityRepository {
         }
         return $array_intersection;
     }
-    
+
     function get_all_users($filter_user_name, $filter_user_email, $filter_user_city,
                                   $filter_user_country, $sort_by) {
         $filter_user_name = strtolower($filter_user_name);
@@ -142,38 +142,38 @@ class generalReservationRepository extends EntityRepository {
             case 4:
                 $string_order = "ORDER BY cou.co_name ASC";
                 break;
-            
+
         }
         $em = $this->getEntityManager();
-        $query = $em->createQuery("SELECT DISTINCT 
+        $query = $em->createQuery("SELECT DISTINCT
             us.user_id,
             us.user_user_name,
             us.user_last_name,
             us.user_city,
-            us.user_email, 
+            us.user_email,
             cou.co_name,
             (SELECT count(g) FROM mycpBundle:generalReservation g WHERE g.gen_res_user_id = us.user_id) as total_reserves
             FROM mycpBundle:generalReservation gre
             JOIN gre.gen_res_own_id own
             JOIN gre.gen_res_user_id us
-            JOIN us.user_country cou        
+            JOIN us.user_country cou
             WHERE (us.user_user_name LIKE :filter_user_name
             OR us.user_last_name LIKE :filter_user_name)
             AND us.user_email LIKE :filter_user_email
             AND us.user_city LIKE :filter_user_city
             AND cou.co_id LIKE :filter_user_country $string_order");
-        
+
         $query->setParameters(array(
             'filter_user_name' => "%".$filter_user_name."%",
             'filter_user_email' => "%".$filter_user_email."%",
             'filter_user_city' => "%".$filter_user_city."%",
             'filter_user_country' => "%".$filter_user_country."%",
         ));
-        
+
         $array_genres=$query->getArrayResult();
         return $array_genres;
     }
-    
+
     function get_all_bookings($filter_booking_number,$filter_date_booking,$filter_user_booking)
     {
         $em = $this->getEntityManager();
@@ -203,7 +203,7 @@ class generalReservationRepository extends EntityRepository {
             (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id) AS rooms,
             (SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id) AS adults,
             (SELECT SUM(owres3.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id) AS childrens,
-            ow 
+            ow
             FROM mycpBundle:generalReservation gre
             JOIN gre.gen_res_own_id ow
             JOIN gre.gen_res_user_id us
@@ -238,7 +238,7 @@ class generalReservationRepository extends EntityRepository {
         $hour = date('G');
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT gre FROM mycpBundle:generalReservation gre
-        WHERE gre.gen_res_status = 1 AND gre.gen_res_status_date = '$yesterday' AND gre.gen_res_hour = '$hour'");
+        WHERE gre.gen_res_status = ".generalReservation::STATUS_AVAILABLE." AND gre.gen_res_status_date = '$yesterday' AND gre.gen_res_hour = '$hour'");
         return $query->getResult();
     }
 
@@ -248,7 +248,7 @@ class generalReservationRepository extends EntityRepository {
         $hour = date('G');
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT gre FROM mycpBundle:generalReservation gre
-        WHERE gre.gen_res_status = 1 AND gre.gen_res_status_date = '$day' AND gre.gen_res_hour = '$hour'");
+        WHERE gre.gen_res_status = ".generalReservation::STATUS_AVAILABLE." AND gre.gen_res_status_date = '$day' AND gre.gen_res_hour = '$hour'");
         return $query->getResult();
     }
 

@@ -3,6 +3,7 @@
 namespace MyCp\FrontEndBundle\Helpers;
 
 use Swift_Message;
+use MyCp\mycpBundle\Entity\generalReservation;
 
 class Email {
 
@@ -68,7 +69,7 @@ class Email {
     {
         $templating = $this->container->get('templating');
         $reservation=$this->em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
-        $reservation->setGenResStatus(1);
+        $reservation->setGenResStatus(generalReservation::STATUS_AVAILABLE);
         $reservation->setGenResStatusDate(new \DateTime(date('Y-m-d')));
         $reservation->setGenResHour(date('G'));
         $this->em->persist($reservation);

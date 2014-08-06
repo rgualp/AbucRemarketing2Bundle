@@ -17,6 +17,26 @@ use MyCp\mycpBundle\Helpers\SyncStatuses;
 class generalReservation {
 
     /**
+     * All allowed statuses
+     */
+    const STATUS_PENDING = 0;
+    const STATUS_AVAILABLE = 1;
+    const STATUS_RESERVED = 2;
+    const STATUS_NOT_AVAILABLE = 3;
+
+    /**
+     * Contains all possible statuses
+     *
+     * @var array
+     */
+    private $statuses = array(
+        self::STATUS_PENDING,
+        self::STATUS_AVAILABLE,
+        self::STATUS_RESERVED,
+        self::STATUS_NOT_AVAILABLE,
+    );
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="gen_res_id", type="integer")
@@ -119,6 +139,8 @@ class generalReservation {
     public function __construct() {
         $this->gen_res_sync_st = SyncStatuses::ADDED;
         $this->own_reservations = new ArrayCollection();
+        $this->gen_res_status = generalReservation::STATUS_PENDING;
+        $this->gen_res_status_date = new \DateTime();
     }
 
     /**
@@ -179,8 +201,11 @@ class generalReservation {
      * @return generalReservation
      */
     public function setGenResStatus($genResStatus) {
-        $this->gen_res_status = $genResStatus;
+        if (!in_array($genResStatus, $this->statuses)) {
+            throw new \InvalidArgumentException("Status $genResStatus not allowed");
+        }
 
+        $this->gen_res_status = $genResStatus;
         return $this;
     }
 

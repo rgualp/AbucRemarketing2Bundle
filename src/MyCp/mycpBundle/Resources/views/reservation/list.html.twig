@@ -133,8 +133,12 @@
                 </thead>
                 <tbody>
                 {% set flag=0 %}
+                {%set pending = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PENDING')%}
+                {%set available = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_AVAILABLE')%}
+                {%set reserved = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED')%}
+                {%set not_available = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_NOT_AVAILABLE')%}
                 {% for reservation in reservations %}
-                <tr class="{% if reservation[0].gen_res_status==1 %}warning{%endif%}{% if reservation[0].gen_res_status==2 %}error{%endif%}{% if reservation[0].gen_res_status==3 %}info{%endif%}">
+                <tr class="{% if reservation[0].gen_res_status==available %}warning{%endif%}{% if reservation[0].gen_res_status==reserved %}error{%endif%}{% if reservation[0].gen_res_status==not_available %}info{%endif%}">
                     <td>{{reservation[0].gen_res_date |date("d/m/Y")}}</td>
                     <td>CAS.{{reservation[0].gen_res_id}}</td>
                     <td>{{reservation[0].gen_res_own_id.own_mcp_code}}</td>
@@ -144,7 +148,7 @@
                     <td>{{total_nights[loop.index0]}}</td>
                     <td>{{ reservation[0].gen_res_total_in_site }} CUC</td>
                     <td>
-                        <div style="text-align: center" class="badge {% if reservation[0].gen_res_status==0 %}">Pendiente{%endif%}{% if reservation[0].gen_res_status==1 %} badge-warning">Disponible{%endif%}{% if reservation[0].gen_res_status==2 %} badge-important">Reservada{%endif%}{% if reservation[0].gen_res_status==3 %} badge-info">No disponible{%endif%}</div>
+                        <div style="text-align: center" class="badge {% if reservation[0].gen_res_status==pending %}">Pendiente{%endif%}{% if reservation[0].gen_res_status==available %} badge-warning">Disponible{%endif%}{% if reservation[0].gen_res_status==reserved %} badge-important">Reservada{%endif%}{% if reservation[0].gen_res_status==not_available %} badge-info">No disponible{%endif%}</div>
                     </td>
                     <td style="text-align: right">
                         <a class="btn btn-mini" href="{{ path('mycp_details_reservation',{'id_reservation':reservation[0].gen_res_id}) }}">Detalles</a>

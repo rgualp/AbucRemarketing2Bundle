@@ -16,7 +16,7 @@ class ownershipReservation
 {
     /**
      * All allowed statuses
-     */
+     */ 
     const STATUS_PENDING = 0;
     const STATUS_AVAILABLE = 1;
     const STATUS_AVAILABLE2 = 2;

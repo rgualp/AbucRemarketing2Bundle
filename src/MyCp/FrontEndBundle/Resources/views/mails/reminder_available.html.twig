@@ -39,35 +39,35 @@
                                 </td>
                                 <td width="34%" valign="top" align="right" style="font-family: arial; font-size: 13px; line-height: 20px; text-align: right">
                                     <b>ID {{"RESERVATION_RESERVE"|trans({}, "messages", user_locale)}}:</b> CAS.{{reservation.getOwnResId}}<br/><br/>
-                                    {% if (reservation.getOwnResStatus == 1)%}
+                                    {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_AVAILABLE'))%}
                                         <span style="background-color: #FF7300; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"AVAILABLE"|trans({}, "messages", user_locale)}}&nbsp;&nbsp;&nbsp;</b></span><br/>
                                     {% endif %}
-                                    {% if (reservation.getOwnResStatus == 0)%}
+                                    {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_PENDING'))%}
                                         <span style="background-color: #BBBBBB; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"PENDING"|trans({}, "messages", user_locale)}}&nbsp;&nbsp;&nbsp;</b></span><br/>
                                     {% endif %}
-                                    {% if (reservation.getOwnResStatus > 1 and reservation.getOwnResStatus < 5)%}
+                                    {% if (reservation.getOwnResStatus > constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_AVAILABLE') and reservation.getOwnResStatus < constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_RESERVED'))%}
                                         <span style="background-color: #1E4C97; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"NOT_AVAILABLE"|trans({}, "messages", user_locale)}}&nbsp;&nbsp;&nbsp;</b></span><br/>
                                     {% endif %}
-                                    {% if (reservation.getOwnResStatus == 5 and booking is not defined)%}
+                                    {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_RESERVED') and booking is not defined)%}
                                         <span style="background-color: #1E4C97; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"NOT_AVAILABLE"|trans({}, "messages", user_locale)}}&nbsp;&nbsp;&nbsp;</b></span><br/>
                                     {% endif %}
-                                    {% if (reservation.getOwnResStatus == 5 and booking is defined)%}
+                                    {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_RESERVED') and booking is defined)%}
                                         <span style="background-color: #c43c35; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"PAYED"|trans({}, "messages", user_locale)}}&nbsp;&nbsp;&nbsp;</b></span><br/>
                                     {% endif %}
                                     <h3>{{"RESERVATION_TOTAL" | trans({}, "messages", user_locale) | upper}}: {{ (reservation.getOwnResNightPrice * nights[loop.index0]) | price }}</h3>
-                                    {% if (reservation.getOwnResStatus == 1)%}
+                                    {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_AVAILABLE'))%}
                                         <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_mycasatrip_available',{'locale':user_locale,'_locale':user_locale,}) }}">{{"CONTINUE_RESERVING"|trans({}, "messages", user_locale)}}</a>
                                     {% endif %}
-                                    {% if (reservation.getOwnResStatus == 0)%}
+                                    {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_PENDING'))%}
                                         <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize,'locale':user_locale,'_locale':user_locale,}) }}">{{"VIEW_DETAILS"|trans({}, "messages", user_locale)}}</a>
                                     {% endif %}
-                                    {% if (reservation.getOwnResStatus > 1 and reservation.getOwnResStatus < 5)%}
+                                    {% if (reservation.getOwnResStatus > constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_AVAILABLE') and reservation.getOwnResStatus < constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_RESERVED'))%}
                                         <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1','locale':user_locale,'_locale':user_locale,}) }}">{{"LOOK_FOR_ALTERNATIVE"|trans({}, "messages", user_locale)}}</a>
                                     {% endif %}
-                                    {% if (reservation.getOwnResStatus == 5 and booking is not defined)%}
+                                    {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_RESERVED') and booking is not defined)%}
                                         <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1','locale':user_locale,'_locale':user_locale,}) }}">{{"LOOK_FOR_ALTERNATIVE"|trans({}, "messages", user_locale)}}</a>
                                     {% endif %}
-                                    {% if (reservation.getOwnResStatus == 5 and booking is defined)%}
+                                    {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_RESERVED') and booking is defined)%}
                                         <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_view_confirmation_reservation',{'id_booking':booking,'locale':user_locale,'_locale':user_locale,}) }}">{{ 'VIEW_CONFIRMATION'|trans({}, "messages", user_locale) }}</a>
                                     {% endif %}
                                 </td>

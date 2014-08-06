@@ -8,6 +8,8 @@ use MyCp\mycpBundle\Entity\booking;
 use MyCp\mycpBundle\Entity\payment;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use MyCp\mycpBundle\Entity\generalReservation;
+use MyCp\mycpBundle\Entity\ownershipReservation;
 
 class BookingService extends Controller
 {
@@ -415,8 +417,8 @@ class BookingService extends Controller
             if ($paymentStatus == PaymentHelper::STATUS_PENDING
                 || $paymentStatus == PaymentHelper::STATUS_SUCCESS) {
                 $generalReservation = $own->getOwnResGenResId();
-                $generalReservation->setGenResStatus(2); // TODO: What is status 2??? Create helper with the statuses
-                $own->setOwnResStatus(5); // TODO: What is status 5??? Create helper with the statuses
+                $generalReservation->setGenResStatus(generalReservation::STATUS_RESERVED); // TODO: What is status 2??? Create helper with the statuses
+                $own->setOwnResStatus(ownershipReservation::STATUS_RESERVED); // TODO: What is status 5??? Create helper with the statuses
                 $this->em->persist($generalReservation);
             }
 

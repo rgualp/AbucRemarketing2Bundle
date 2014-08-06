@@ -285,7 +285,7 @@ class ReservationController extends Controller {
                     $general_reservation->setGenResDate(new \DateTime(date('Y-m-d')));
                     $general_reservation->setGenResStatusDate(new \DateTime(date('Y-m-d')));
                     $general_reservation->setGenResHour(date('G'));
-                    $general_reservation->setGenResStatus(0);
+                    $general_reservation->setGenResStatus(generalReservation::STATUS_PENDING);
                     $general_reservation->setGenResFromDate(new \DateTime(date("Y-m-d H:i:s", $res_item[0]['from_date'])));
                     $general_reservation->setGenResToDate(new \DateTime(date("Y-m-d H:i:s", $res_item[count($res_item) - 1]['to_date'])));
                     $general_reservation->setGenResSaved(0);
@@ -330,7 +330,7 @@ class ReservationController extends Controller {
                         $ownership_reservation->setOwnResCountAdults($item['guests']);
                         $ownership_reservation->setOwnResCountChildrens($item['kids']);
                         $ownership_reservation->setOwnResNightPrice(0);
-                        $ownership_reservation->setOwnResStatus(0);
+                        $ownership_reservation->setOwnResStatus(ownershipReservation::STATUS_PENDING);
                         $ownership_reservation->setOwnResReservationFromDate(new \DateTime(date("Y-m-d H:i:s", $item['from_date'])));
                         $ownership_reservation->setOwnResReservationToDate(new \DateTime(date("Y-m-d H:i:s", $item['to_date'])));
                         $ownership_reservation->setOwnResSelectedRoomId($item['room']);

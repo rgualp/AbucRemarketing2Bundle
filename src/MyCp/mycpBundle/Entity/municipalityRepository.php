@@ -23,7 +23,7 @@ class municipalityRepository extends EntityRepository
         WHERE m.mun_name LIKE '%$part_name%' ORDER BY m.mun_name ASC");
         return $query->getResult();
     }
-    
+
     function get_municipalities()
     {
         $em = $this->getEntityManager();
@@ -32,15 +32,15 @@ class municipalityRepository extends EntityRepository
         ORDER BY m.mun_name ASC");
         return $query->getResult();
     }
-    
+
     function get_with_reservations()
     {
         $em = $this->getEntityManager();
-         
+
         $query_string = "SELECT m.mun_id,
                          m.mun_name,
                          prov.prov_id,
-                         (SELECT count(gen_r) FROM mycpBundle:generalReservation gen_r  JOIN gen_r.gen_res_own_id o WHERE o.own_address_municipality = m.mun_id AND gen_r.gen_res_status = 2) as visits,
+                         (SELECT count(gen_r) FROM mycpBundle:generalReservation gen_r  JOIN gen_r.gen_res_own_id o WHERE o.own_address_municipality = m.mun_id AND gen_r.gen_res_status = ".generalReservation::STATUS_RESERVED.") as visits,
                          (SELECT count(o1) FROM mycpBundle:room r JOIN r.room_ownership o1 WHERE o1.own_status = 1 AND o1.own_address_municipality = m.mun_id ORDER BY o1.own_rating DESC, o1.own_id ASC) as total_ownerships,
                          (SELECT DISTINCT count(d.des_id)
                                 FROM mycpBundle:destinationLocation l
@@ -49,39 +49,39 @@ class municipalityRepository extends EntityRepository
                           (SELECT MIN(pho.pho_name) FROM mycpBundle:destinationPhoto dp
                            JOIN dp.des_pho_photo pho
                            JOIN dp.des_pho_destination dest
-                           WHERE dest.des_id = (SELECT min(d1.des_id) FROM mycpBundle:destinationLocation l1 JOIN l1.des_loc_destination d1 WHERE d1.des_active = 1 AND l1.des_loc_municipality = m.mun_id)  
+                           WHERE dest.des_id = (SELECT min(d1.des_id) FROM mycpBundle:destinationLocation l1 JOIN l1.des_loc_destination d1 WHERE d1.des_active = 1 AND l1.des_loc_municipality = m.mun_id)
                            AND dp.des_pho_destination = dest.des_id AND (pho.pho_order =
                            (SELECT MIN(pho2.pho_order) FROM mycpBundle:destinationPhoto dp2
                            JOIN dp2.des_pho_photo pho2 WHERE dp2.des_pho_destination = dp.des_pho_destination ) or pho.pho_order is null)) as photo
                          FROM mycpBundle:municipality m
                          JOIN m.mun_prov_id prov
-                         WHERE (SELECT count(gen_r1) FROM mycpBundle:generalReservation gen_r1  JOIN gen_r1.gen_res_own_id o2 WHERE o2.own_address_municipality = m.mun_id AND gen_r1.gen_res_status = 2) > 0
+                         WHERE (SELECT count(gen_r1) FROM mycpBundle:generalReservation gen_r1  JOIN gen_r1.gen_res_own_id o2 WHERE o2.own_address_municipality = m.mun_id AND gen_r1.gen_res_status = ".generalReservation::STATUS_RESERVED.") > 0
                          ORDER BY visits DESC,m.mun_name ASC";
-        
+
         $result = $em->createQuery($query_string)->getResult();
         $results = array();
-        
+
         for ($i = 0; $i < count($result); $i++) {
             if ($result[$i]['photo'] == null)
                 $result[$i]['photo'] = "no_photo.png";
             else if (!file_exists(realpath("uploads/destinationImages/" . $result[$i]['photo']))) {
                 $result[$i]['photo'] = "no_photo.png";
             }
-            
+
             $ownerships_list = "SELECT o.own_id as ownid,
                                 o.own_name as ownname
                                 FROM mycpBundle:ownership o
                                 WHERE o.own_status = 1
                                 AND o.own_address_municipality = ".$result[$i]['mun_id'].
                                 " ORDER BY o.own_rating DESC, o.own_id ASC";
-            
+
             $destinatios_list = "SELECT d.des_id as desid,
                                 d.des_name as desname
                                 FROM mycpBundle:destinationLocation l
                                 JOIN l.des_loc_destination d
                                 WHERE d.des_active = 1 AND l.des_loc_municipality = " . $result[$i]['mun_id'];
-            
-            $results[] = array('mun_id' => $result[$i]['mun_id'], 
+
+            $results[] = array('mun_id' => $result[$i]['mun_id'],
                                'municipality' => $result[$i]['mun_name'],
                                'prov_id' => $result[$i]['prov_id'],
                                'reservation_total' => $result[$i]['visits'],
@@ -90,7 +90,7 @@ class municipalityRepository extends EntityRepository
                                'owns_list' => $em->createQuery($ownerships_list)->setMaxResults(5)->getResult(),
                                'des_total' => $result[$i]['total_destinations'],
                                'des_list' => $em->createQuery($destinatios_list)->setMaxResults(5)->getResult());
-        }        
+        }
         return $results;
     }
 

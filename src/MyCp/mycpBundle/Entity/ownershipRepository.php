@@ -373,7 +373,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
             if (strpos($item, 'description_desc') !== false) {
 
                 $id = substr($item, 17, strlen($item));
-                
+
                 if(array_key_exists('description_id_' . $id, $data))
                     $odl = $em->getRepository('mycpBundle:ownershipDescriptionLang')->find($data['description_id_' . $id]);
                 else
@@ -391,7 +391,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
 
                 $id = substr($item, 9, strlen($item));
                 if(array_key_exists('kw_id_' . $id, $data))
-                    $okl = $em->getRepository('mycpBundle:ownershipKeywordLang')->find($data['kw_id_' . $id]); 
+                    $okl = $em->getRepository('mycpBundle:ownershipKeywordLang')->find($data['kw_id_' . $id]);
                 else
                     $okl = new ownershipKeywordLang();
                 $okl->setOklIdLang($em->getRepository('mycpBundle:lang')->find($id));
@@ -409,12 +409,12 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
          */
         $beds_total = 0;
         for ($e = 1; $e <= $data['count_rooms']; $e++) {
-            
+
             if(array_key_exists('room_id_' . $e, $data))
                     $room = $em->getRepository('mycpBundle:room')->find($data['room_id_' . $e]);
             else
                 $room = new room();
-            
+
             if (isset($old_rooms[$e - 1])) {
                 $metadata = $em->getClassMetadata(get_class($room));
                 $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
@@ -570,7 +570,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                             o.own_minimum_price as minimum_price,
                             (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = :user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = :session_id " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
                             (SELECT count(room) FROM mycpBundle:room room WHERE room.room_ownership=o.own_id) as rooms_count,
-                            (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = 5) as count_reservations,
+                            (SELECT count(res) FROM mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = ".ownershipReservation::STATUS_RESERVED.") as count_reservations,
                             (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments,
                             o.own_facilities_breakfast as breakfast,
                             o.own_facilities_dinner as dinner,
@@ -600,7 +600,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                             o.own_minimum_price as minimum_price,
                             (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = :user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = :session_id " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
                             (SELECT count(room) FROM mycpBundle:room room WHERE room.room_ownership=o.own_id) as rooms_count,
-                            (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = 5) as count_reservations,
+                            (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = ".ownershipReservation::STATUS_RESERVED.") as count_reservations,
                             (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments ,
                             o.own_facilities_breakfast as breakfast,
                             o.own_facilities_dinner as dinner,
@@ -814,7 +814,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
         $return_list = array();
         $results = $query->getResult();
 
-        
+
         for ($i = 0; $i < count($results); $i++) {
             if ($results[$i]['photo'] == null)
                 $results[$i]['photo'] = "no_photo.png";
@@ -825,7 +825,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
 
                 $query_string = "SELECT owr FROM mycpBundle:ownershipReservation owr
                                 JOIN owr.own_res_gen_res_id r
-                                WHERE r.gen_res_own_id =" . $results[$i]['own_id'] . " AND owr.own_res_status = 5 ";
+                                WHERE r.gen_res_own_id =" . $results[$i]['own_id'] . " AND owr.own_res_status = ".ownershipReservation::STATUS_RESERVED." ";
                 $dates_where = "";
 
                 if ($arrivalDate != null) {
@@ -876,7 +876,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                             AND (p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
                             where op1.own_pho_own = o.own_id) or p.pho_order is null) as photo,
                          (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = '$locale') as description,
-                             (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = 5) as count_reservations
+                         (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = ".ownershipReservation::STATUS_RESERVED.") as count_reservations
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
                          WHERE o.own_top_20=1
@@ -1378,7 +1378,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                             o.own_minimum_price as minimum_price,
                             (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
                             (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
-                            (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = 5) as count_reservations,
+                            (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = ".ownershipReservation::STATUS_RESERVED.") as count_reservations,
                             (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
@@ -1430,7 +1430,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                         o.own_minimum_price as minimum_price,
                         (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
                         (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
-                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = 5) as count_reservations,
+                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = ".ownershipReservation::STATUS_RESERVED.") as count_reservations,
                         (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
@@ -1488,7 +1488,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                         o.own_commission_percent as OwnCommissionPercent,
                         (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
                         (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
-                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = 5) as count_reservations,
+                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = ".ownershipReservation::STATUS_RESERVED.") as count_reservations,
                         (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments,
                         (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = '$locale') as brief_description,
                         (SELECT min(dd.odl_description) FROM mycpBundle:ownershipDescriptionLang dd JOIN dd.odl_id_lang dl WHERE dd.odl_ownership = o.own_id AND dl.lang_code = '$locale') as description,
@@ -1505,7 +1505,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
 
         return $em->createQuery($query_string)->setParameter('own_name', $own_name)->getOneOrNullResult();
     }
-    
+
     function get_details_by_code($own_mycp_code, $locale = "ES") {
         $em = $this->getEntityManager();
         $query_string = "SELECT o.own_id as own_id,
@@ -1541,9 +1541,9 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                         o.own_water_piscina as ownWaterPiscina,
                         o.own_homeowner_1 as owner1,
                         o.own_homeowner_2 as owner2,
-                        o.own_commission_percent as OwnCommissionPercent,                        
+                        o.own_commission_percent as OwnCommissionPercent,
                         (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
-                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = 5) as count_reservations,
+                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = ".ownershipReservation::STATUS_RESERVED.") as count_reservations,
                         (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments,
                         (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = '$locale') as brief_description,
                         (SELECT min(dd.odl_description) FROM mycpBundle:ownershipDescriptionLang dd JOIN dd.odl_id_lang dl WHERE dd.odl_ownership = o.own_id AND dl.lang_code = '$locale') as description,
@@ -1580,7 +1580,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                         o.own_minimum_price as minimum_price,
                         (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
                         (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
-                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = 5) as count_reservations,
+                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = ".ownershipReservation::STATUS_RESERVED.") as count_reservations,
                         (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
@@ -1604,7 +1604,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                         o.own_minimum_price as minimum_price,
                         (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
                         (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
-                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = 5) as count_reservations,
+                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = ".ownershipReservation::STATUS_RESERVED.") as count_reservations,
                         (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
@@ -1785,7 +1785,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                         (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = $own_id)  as comments
                         FROM mycpBundle:generalReservation res
                         WHERE res.gen_res_own_id = $own_id
-                        AND res.gen_res_status=2");
+                        AND res.gen_res_status=".generalReservation::STATUS_RESERVED);
                 $counts[$own_id] = $query->getArrayResult();
             }
         }

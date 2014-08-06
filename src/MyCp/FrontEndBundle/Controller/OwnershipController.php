@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use MyCp\FrontEndBundle\Helpers\Utils;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use MyCp\mycpBundle\Entity\ownershipReservation;
 
 
 class OwnershipController extends Controller {
@@ -113,27 +114,27 @@ class OwnershipController extends Controller {
                 if ($reservation->getOwnResSelectedRoomId() == $room->getRoomId()) {
 
                     if ($start_timestamp <= $reservation->getOwnResReservationFromDate()->getTimestamp() &&
-                        $end_timestamp >= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == 5) {
+                        $end_timestamp >= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) {
 
                         $array_no_available[$room->getRoomId()] = $room->getRoomId();
                     }
 
                     if ($start_timestamp >= $reservation->getOwnResReservationFromDate()->getTimestamp() &&
                         $start_timestamp <= $reservation->getOwnResReservationToDate()->getTimestamp() &&
-                        $end_timestamp >= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == 5) {
+                        $end_timestamp >= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) {
 
                         $array_no_available[$room->getRoomId()] = $room->getRoomId();
                     }
 
                     if ($start_timestamp <= $reservation->getOwnResReservationFromDate()->getTimestamp() &&
                         $end_timestamp <= $reservation->getOwnResReservationToDate()->getTimestamp() &&
-                        $end_timestamp >= $reservation->getOwnResReservationFromDate()->getTimestamp() && $reservation->getOwnResStatus() == 5) {
+                        $end_timestamp >= $reservation->getOwnResReservationFromDate()->getTimestamp() && $reservation->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) {
 
                         $array_no_available[$room->getRoomId()] = $room->getRoomId();
                     }
 
                     if ($start_timestamp >= $reservation->getOwnResReservationFromDate()->getTimestamp() &&
-                        $end_timestamp <= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == 5) {
+                        $end_timestamp <= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) {
 
                         $array_no_available[$room->getRoomId()] = $room->getRoomId();
                     }
@@ -142,7 +143,7 @@ class OwnershipController extends Controller {
                     $cont_numbers = 1;
                     foreach ($array_dates as $date) {
 
-                        if ($date >= $reservation->getOwnResReservationFromDate()->getTimestamp() && $date <= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == 5) {
+                        if ($date >= $reservation->getOwnResReservationFromDate()->getTimestamp() && $date <= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) {
                             array_push($array_numbers_check, $cont_numbers);
                         }
                         $cont_numbers++;
@@ -237,7 +238,7 @@ class OwnershipController extends Controller {
         else
             throw $this->createNotFoundException();
     }
-    
+
     public function simpleAction($mycp_code) {
         // There are so many browserconfig.xml requests from stupid IE6 that we check for it
         // here to avoid Exceptions in the log files
@@ -249,10 +250,10 @@ class OwnershipController extends Controller {
         $locale = $this->get('translator')->getLocale();
             //$own_name = Utils::url_normalize($ownership->getOwnName());
             $ownership_array = $em->getRepository('mycpBundle:ownership')->get_details_by_code($mycp_code, strtoupper($locale));
-         if($ownership_array && count($ownership_array) > 0) { 
+         if($ownership_array && count($ownership_array) > 0) {
             $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $ownership_array['own_id']));
             $own_photos = $em->getRepository('mycpBundle:ownership')->getPhotosAndDescription($ownership_array['own_id'], $locale);
-            
+
             $real_category = "";
         if ($ownership_array['category'] == 'Económica')
             $real_category = 'economy';
@@ -260,7 +261,7 @@ class OwnershipController extends Controller {
             $real_category = 'mid_range';
         else if ($ownership_array['category'] == 'Premium')
             $real_category = 'premium';
-        
+
         $langs_array = array();
         if ($ownership_array['english'] == 1)
             $langs_array[] = $this->get('translator')->trans("LANG_ENGLISH");
@@ -398,27 +399,27 @@ class OwnershipController extends Controller {
                 if ($reservation->getOwnResSelectedRoomId() == $room->getRoomId()) {
 
                     if ($start_timestamp <= $reservation->getOwnResReservationFromDate()->getTimestamp() &&
-                        $end_timestamp >= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == 5) {
+                        $end_timestamp >= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) {
 
                         $array_no_available[$room->getRoomId()] = $room->getRoomId();
                     }
 
                     if ($start_timestamp >= $reservation->getOwnResReservationFromDate()->getTimestamp() &&
                         $start_timestamp <= $reservation->getOwnResReservationToDate()->getTimestamp() &&
-                        $end_timestamp >= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == 5) {
+                        $end_timestamp >= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) {
 
                         $array_no_available[$room->getRoomId()] = $room->getRoomId();
                     }
 
                     if ($start_timestamp <= $reservation->getOwnResReservationFromDate()->getTimestamp() &&
                         $end_timestamp <= $reservation->getOwnResReservationToDate()->getTimestamp() &&
-                        $end_timestamp >= $reservation->getOwnResReservationFromDate()->getTimestamp() && $reservation->getOwnResStatus() == 5) {
+                        $end_timestamp >= $reservation->getOwnResReservationFromDate()->getTimestamp() && $reservation->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) {
 
                         $array_no_available[$room->getRoomId()] = $room->getRoomId();
                     }
 
                     if ($start_timestamp >= $reservation->getOwnResReservationFromDate()->getTimestamp() &&
-                        $end_timestamp <= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == 5) {
+                        $end_timestamp <= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) {
 
                         $array_no_available[$room->getRoomId()] = $room->getRoomId();
                     }
@@ -427,7 +428,7 @@ class OwnershipController extends Controller {
                     $cont_numbers = 1;
                     foreach ($array_dates as $date) {
 
-                        if ($date >= $reservation->getOwnResReservationFromDate()->getTimestamp() && $date <= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == 5) {
+                        if ($date >= $reservation->getOwnResReservationFromDate()->getTimestamp() && $date <= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) {
                             array_push($array_numbers_check, $cont_numbers);
                         }
                         $cont_numbers++;
@@ -618,11 +619,11 @@ class OwnershipController extends Controller {
         $departure = ($request->get('departure') != null && $request->get('departure') != "" && $request->get('departure') != "null") ? $request->get('departure') : $session->get('search_departure_date');
 
         $today = new \DateTime();
-        if($arrival == null)        
+        if($arrival == null)
             $arrival = $today->format('d-m-Y');
         if($departure == null)
             $departure = date_add($today,date_interval_create_from_date_string("2 days"))->format('d-m-Y');
-        
+
         $check_filters = $session->get("filter_array");
         $room_filter = $session->get("filter_room");
 

@@ -50,7 +50,7 @@ class ownershipReservationRepository extends EntityRepository {
         WHERE ore.own_res_reservation_date LIKE :filter_date_reserve AND ore.own_res_id LIKE :filter_offer_number
         AND ow.own_mcp_code LIKE :filter_reference AND ore.own_res_reservation_from_date LIKE :filter_date_from
         AND ore.own_res_reservation_to_date LIKE :filter_date_to $string_order");
-        
+
         $query->setParameters(array(
             'filter_date_reserve' => "%".$filter_date_reserve."%",
             'filter_offer_number' => "%".$filter_offer_number."%",
@@ -67,24 +67,24 @@ class ownershipReservationRepository extends EntityRepository {
         WHERE gre.gen_res_user_id = :id_user");
         return $query->setParameter('id_user', $id_user)->getArrayResult();
     }
-    
+
     function get_reservations_by_booking_and_ownership($id_booking, $own_id) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT ore FROM mycpBundle:ownershipReservation ore JOIN ore.own_res_gen_res_id gre
         WHERE ore.own_res_reservation_booking = :id_booking and gre.gen_res_own_id = :id_own");
         return $query->setParameter('id_booking', $id_booking)->setParameter('id_own', $own_id)->getResult();
     }
-    
+
     function get_by_id_booking($id_booking) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT DISTINCT
             o.own_id as id,
-            o.own_name as name, 
-            o.own_mcp_code as mycp_code, 
-            o.own_homeowner_1 as owner_1, 
-            o.own_homeowner_2 as owner_2, 
+            o.own_name as name,
+            o.own_mcp_code as mycp_code,
+            o.own_homeowner_1 as owner_1,
+            o.own_homeowner_2 as owner_2,
             o.own_address_street as main_street,
-            o.own_address_number as number, 
+            o.own_address_number as number,
             o.own_address_between_street_1 as street_1,
             o.own_address_between_street_2 as street_2,
             mun.mun_name as municipality,
@@ -101,7 +101,7 @@ class ownershipReservationRepository extends EntityRepository {
         WHERE ore.own_res_reservation_booking = :id_booking");
         return $query->setParameter('id_booking', $id_booking)->getArrayResult();
     }
-    
+
     function get_rooms_by_accomodation($id_booking, $own_id) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT ore.own_res_room_type,
@@ -169,7 +169,7 @@ class ownershipReservationRepository extends EntityRepository {
         $reservation->setOwnResReservationDate(new DateTime(date('Y-m-d')));
         $reservation->setOwnResReservationFromDate(new DateTime($date_from));
         $reservation->setOwnResReservationToDate(new DateTime($date_to));
-        $reservation->setOwnResReservationStatus(0);
+        $reservation->setOwnResReservationStatus(ownershipReservation::STATUS_PENDING);
         $reservation->setOwnResReservationStatusDate(new DateTime(date('Y-m-d')));
         $em->persist($reservation);
         $em->flush();
@@ -211,11 +211,11 @@ class ownershipReservationRepository extends EntityRepository {
 
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT count(ore_pend) as pending,
-        (SELECT count(ore_avail) FROM mycpBundle:ownershipReservation ore_avail JOIN ore_avail.own_res_gen_res_id gen_res WHERE gen_res.gen_res_user_id = $id_user AND ore_avail.own_res_status=1 AND gen_res.gen_res_status_date > '$date_days')  as available,
-        (SELECT count(ore_res) FROM mycpBundle:ownershipReservation ore_res JOIN ore_res.own_res_gen_res_id gen_res_r WHERE gen_res_r.gen_res_user_id = $id_user AND ore_res.own_res_status=5 AND gen_res_r.gen_res_date > '$new_date')  as reserve,
-        (SELECT count(ore_cons) FROM mycpBundle:ownershipReservation ore_cons JOIN ore_cons.own_res_gen_res_id gen_res_cons WHERE gen_res_cons.gen_res_user_id = $id_user AND ore_cons.own_res_status=0 AND gen_res_cons.gen_res_date < '$new_date')  as consult,
-        (SELECT count(owre_payed) FROM mycpBundle:ownershipReservation owre_payed JOIN owre_payed.own_res_gen_res_id gen_res_p WHERE gen_res_p.gen_res_user_id = $id_user AND owre_payed.own_res_status=5)  as payed,
-        (SELECT count(ore_res_hist) FROM mycpBundle:ownershipReservation ore_res_hist JOIN ore_res_hist.own_res_gen_res_id gen_res_h  WHERE gen_res_h.gen_res_user_id = $id_user AND ore_res_hist.own_res_status=5 AND gen_res_h.gen_res_date < '$new_date')  as reserve_history,
+        (SELECT count(ore_avail) FROM mycpBundle:ownershipReservation ore_avail JOIN ore_avail.own_res_gen_res_id gen_res WHERE gen_res.gen_res_user_id = $id_user AND ore_avail.own_res_status=".ownershipReservation::STATUS_AVAILABLE." AND gen_res.gen_res_status_date > '$date_days')  as available,
+        (SELECT count(ore_res) FROM mycpBundle:ownershipReservation ore_res JOIN ore_res.own_res_gen_res_id gen_res_r WHERE gen_res_r.gen_res_user_id = $id_user AND ore_res.own_res_status=".ownershipReservation::STATUS_RESERVED." AND gen_res_r.gen_res_date > '$new_date')  as reserve,
+        (SELECT count(ore_cons) FROM mycpBundle:ownershipReservation ore_cons JOIN ore_cons.own_res_gen_res_id gen_res_cons WHERE gen_res_cons.gen_res_user_id = $id_user AND ore_cons.own_res_status=".ownershipReservation::STATUS_PENDING." AND gen_res_cons.gen_res_date < '$new_date')  as consult,
+        (SELECT count(owre_payed) FROM mycpBundle:ownershipReservation owre_payed JOIN owre_payed.own_res_gen_res_id gen_res_p WHERE gen_res_p.gen_res_user_id = $id_user AND owre_payed.own_res_status=".ownershipReservation::STATUS_RESERVED.")  as payed,
+        (SELECT count(ore_res_hist) FROM mycpBundle:ownershipReservation ore_res_hist JOIN ore_res_hist.own_res_gen_res_id gen_res_h  WHERE gen_res_h.gen_res_user_id = $id_user AND ore_res_hist.own_res_status=".ownershipReservation::STATUS_RESERVED." AND gen_res_h.gen_res_date < '$new_date')  as reserve_history,
         (SELECT count(fav) FROM mycpBundle:favorite fav WHERE fav.favorite_user = $id_user AND fav.favorite_ownership IS NOT NULL)  as favorites_ownerships,
         (SELECT count(fav_des) FROM mycpBundle:favorite fav_des WHERE fav_des.favorite_user = $id_user AND fav_des.favorite_destination IS NOT NULL)  as favorites_destinations,
         (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_user = $id_user AND com.com_ownership IS NOT NULL AND com.com_public =1) as comments_ownerships
@@ -230,10 +230,10 @@ class ownershipReservationRepository extends EntityRepository {
 
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT count(ore_avail) as available
-                                   FROM mycpBundle:ownershipReservation ore_avail 
-                                   JOIN ore_avail.own_res_gen_res_id gen_res 
-                                   WHERE gen_res.gen_res_user_id = $id_user 
-                                     AND ore_avail.own_res_status=1 
+                                   FROM mycpBundle:ownershipReservation ore_avail
+                                   JOIN ore_avail.own_res_gen_res_id gen_res
+                                   WHERE gen_res.gen_res_user_id = $id_user
+                                     AND ore_avail.own_res_status=".ownershipReservation::STATUS_AVAILABLE."
                                      AND gen_res.gen_res_date > '$date_days'");
         return $query->getScalarResult();
     }

@@ -115,7 +115,7 @@ class BackendReservationController extends Controller
                 $general_reservation->setGenResDate(new \DateTime(date('Y-m-d')));
                 $general_reservation->setGenResStatusDate(new \DateTime(date('Y-m-d')));
                 $general_reservation->setGenResHour(date('G'));
-                $general_reservation->setGenResStatus(0);
+                $general_reservation->setGenResStatus(generalReservation::STATUS_PENDING);
                 $general_reservation->setGenResFromDate(new \DateTime(date("Y-m-d H:i:s", $services[0]['from_date'])));
                 $general_reservation->setGenResToDate(new \DateTime(date("Y-m-d H:i:s", $services[0]['to_date'])));
                 $general_reservation->setGenResSaved(0);
@@ -161,7 +161,7 @@ class BackendReservationController extends Controller
                     $ownership_reservation->setOwnResCountAdults($servi['guests']);
                     $ownership_reservation->setOwnResCountChildrens($servi['kids']);
                     $ownership_reservation->setOwnResNightPrice(0);
-                    $ownership_reservation->setOwnResStatus(0);
+                    $ownership_reservation->setOwnResStatus(ownershipReservation::STATUS_PENDING);
                     $ownership_reservation->setOwnResReservationFromDate(new \DateTime(date("Y-m-d H:i:s", $servi['from_date'])));
                     $ownership_reservation->setOwnResReservationToDate(new \DateTime(date("Y-m-d H:i:s", $servi['to_date'])));
                     $ownership_reservation->setOwnResSelectedRoomId($servi['room']);
@@ -317,7 +317,7 @@ class BackendReservationController extends Controller
         $em = $this->getDoctrine()->getManager();
         $booking=$em->getRepository('mycpBundle:booking')->find($id_booking);
         $user=$em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user'=>$booking->getBookingUserId()));
-        $reservations=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking'=>$id_booking,'own_res_status'=>5));
+        $reservations=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking'=>$id_booking,'own_res_status'=>  ownershipReservation::STATUS_RESERVED));
         return $this->render('mycpBundle:reservation:bookingDetails.html.twig',array(
             'user'=>$user,
             'reservations'=>$reservations,
@@ -590,12 +590,12 @@ class BackendReservationController extends Controller
                 $reservation->setGenResSaved(1);
                 if($not_available == true)
                 {
-                    if($reservation->getGenResStatus()!=2)
-                        $reservation->setGenResStatus(3);
+                    if($reservation->getGenResStatus()!= generalReservation::STATUS_RESERVED)
+                        $reservation->setGenResStatus(generalReservation::STATUS_NOT_AVAILABLE);
                 }
                 else
                 {
-                    $reservation->setGenResStatus(1);
+                    $reservation->setGenResStatus(generalReservation::STATUS_AVAILABLE);
                 }
                 $em->persist($reservation);
                 $em->flush();
@@ -638,13 +638,13 @@ class BackendReservationController extends Controller
 
         //send reserved reservations
         $em = $this->getDoctrine()->getManager();
-        $own_reservations=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id'=>$id_reservation,'own_res_status'=>5));
+        $own_reservations=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id'=>$id_reservation,'own_res_status'=>ownershipReservation::STATUS_RESERVED));
 
         $total_price=0;
         if($own_reservations)
         {
             $general_reservation=$own_reservations[0]->getOwnResGenResId();
-            $general_reservation->setGenResStatus(2);
+            $general_reservation->setGenResStatus(generalReservation::STATUS_RESERVED);
             $general_reservation->setGenResStatusDate(new \DateTime());
             $em->persist($general_reservation);
             $user=$own_reservations[0]->getOwnResGenResId()->getGenResUserId();
