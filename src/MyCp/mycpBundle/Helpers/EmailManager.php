@@ -282,8 +282,14 @@ class EmailManager
 
         for ($numRetries = $this->numRetries; $numRetries > 0; $numRetries--) {
             try {
+                // to avoid SwiftMailer connection problems start and stop mailerTransport before and after sending
+                // @see http://www.prowebdev.us/2013/06/swiftmailersymfony2-expected-response.html
+                $this->mailerTransport->start();
+
                 call_user_func_array($callback, $parameters);
                 $this->forceSendOutEmails();
+
+                $this->mailerTransport->stop();
                 return;
             } catch (\Swift_TransportException $e) {
                 $message = 'Swift_TransportException on Email send-out: ' . PHP_EOL;
@@ -295,7 +301,7 @@ class EmailManager
                 $exception = $e;
             }
 
-            sleep(2);
+            sleep(5);
         }
 
         throw $exception;
