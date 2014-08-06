@@ -534,7 +534,6 @@ class BackendReservationController extends Controller
     public function details_reservationAction($id_reservation,Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $reservation=new generalReservation();
         $reservation=$em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
         $ownership_reservations=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id'=>$id_reservation));
         $errors=array();
@@ -568,8 +567,6 @@ class BackendReservationController extends Controller
 
             if(count($errors)==0)
             {
-
-                $ownership_reservation=new ownershipReservation();
                 $temp_price=0;
                 foreach($ownership_reservations as $ownership_reservation)
                 {
