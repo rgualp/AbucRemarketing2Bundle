@@ -17,6 +17,7 @@ class ownershipReservation
     /**
      * All allowed statuses
      */
+    const STATUS_INITIAL = 0; // TODO: What is status 0? No doc to be found...
     const STATUS_AVAILABLE = 1;
     const STATUS_AVAILABLE2 = 2;
     const STATUS_NOT_AVAILABLE = 3;
@@ -29,6 +30,7 @@ class ownershipReservation
      * @var array
      */
     private $statuses = array(
+        self::STATUS_INITIAL,
         self::STATUS_AVAILABLE,
         self::STATUS_AVAILABLE2,
         self::STATUS_NOT_AVAILABLE,
