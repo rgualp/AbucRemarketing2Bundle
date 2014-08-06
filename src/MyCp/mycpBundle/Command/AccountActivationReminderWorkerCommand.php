@@ -106,12 +106,10 @@ class AccountActivationReminderWorkerCommand extends Worker
      */
     private function initializeServices()
     {
-        if (null === $this->emailManager) {
-            $this->emailManager = $this->getService('mycp.service.email_manager');
-            $this->translatorService = $this->getService('translator');
-            $this->securityService = $this->getService('Secure');
-            $this->router = $this->getService('router');
-        }
+        $this->emailManager = $this->getService('mycp.service.email_manager');
+        $this->translatorService = $this->getService('translator');
+        $this->securityService = $this->getService('Secure');
+        $this->router = $this->getService('router');
     }
 
     /**
