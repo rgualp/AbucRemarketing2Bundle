@@ -17,7 +17,7 @@ class ownershipReservation
     /**
      * All allowed statuses
      */
-    const STATUS_PENDING = 0; // TODO: What is status 0? No doc to be found...
+    const STATUS_PENDING = 0;
     const STATUS_AVAILABLE = 1;
     const STATUS_AVAILABLE2 = 2;
     const STATUS_NOT_AVAILABLE = 3;
