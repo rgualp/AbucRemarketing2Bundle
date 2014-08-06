@@ -157,11 +157,16 @@ class EmailManager
      * @param string $emailAddress
      * @param string $emailSubject
      * @param string $emailBody
+     * @param string $emailFrom
      */
-    public function sendTemplatedEmail($emailAddress, $emailSubject, $emailBody)
+    public function sendTemplatedEmail($emailAddress, $emailSubject, $emailBody, $emailFrom = null)
     {
+        if (null === $emailFrom) {
+            $emailFrom = $this->emailSenderAddress;
+        }
+
         $callback = array($this->emailService, 'send_templated_email');
-        $parameters = array($emailSubject, $this->emailSenderAddress, $emailAddress, $emailBody);
+        $parameters = array($emailSubject, $emailFrom, $emailAddress, $emailBody);
         $this->sendEmailWithRetries($callback, $parameters);
     }
 
@@ -171,12 +176,17 @@ class EmailManager
      * @param string $emailAddress
      * @param string $emailSubject
      * @param string $emailBody
+     * @param string $emailFrom
      * @param null|resource $attachment
      */
-    public function sendEmail($emailAddress, $emailSubject, $emailBody, $attachment = null)
+    public function sendEmail($emailAddress, $emailSubject, $emailBody, $emailFrom = null, $attachment = null)
     {
+        if (null === $emailFrom) {
+            $emailFrom = $this->emailSenderAddress;
+        }
+
         $callback = array($this->emailService, 'send_email');
-        $parameters = array($emailSubject, $this->emailSenderAddress, $this->emailSenderName,
+        $parameters = array($emailSubject, $emailFrom, $this->emailSenderName,
             $emailAddress, $emailBody, $attachment);
         $this->sendEmailWithRetries($callback, $parameters);
     }
@@ -240,9 +250,21 @@ class EmailManager
      */
     public function setLocaleByUser(user $user)
     {
+        $userLocale = $this->getUserLocale($user);
+        $this->translatorService->setLocale($userLocale);
+    }
+
+    /**
+     * Returns the locale of a user.
+     *
+     * @param user $user
+     * @return string
+     */
+    public function getUserLocale(user $user)
+    {
         $userTourist = $this->getTouristByUser($user);
         $userLocale = strtolower($userTourist->getUserTouristLanguage()->getLangCode());
-        $this->translatorService->setLocale($userLocale);
+        return $userLocale;
     }
 
     /**
