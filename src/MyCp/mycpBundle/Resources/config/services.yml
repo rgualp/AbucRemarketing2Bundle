@@ -7,11 +7,11 @@ services:
        tags:
            - { name: kernel.event_listener, event: abuc.event.user.signup,  method: onEvent }
 
-   mycp.job.reservation.bookingreminder.listener:
+   mycp.job.reservation.reminder.listener:
        class: Abuc\RemarketingBundle\Event\DefaultEventListener
-       arguments: [@abuc_remarketing.job.manager, "mycp.job.reservation.bookingreminder", "1 min"] # TODO: change "2 min" to "24 hours"
+       arguments: [@abuc_remarketing.job.manager, "mycp.job.reservation.reminder", "24 hours"]
        tags:
-           - { name: kernel.event_listener, event: mycp.event.reservation.bookingreminder,  method: onEvent }
+           - { name: kernel.event_listener, event: mycp.event.reservation.sent_out,  method: onEvent }
 
    mycp.service.email_manager:
        class: MyCp\mycpBundle\Helpers\EmailManager
