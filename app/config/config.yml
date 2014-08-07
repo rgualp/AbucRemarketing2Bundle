@@ -96,6 +96,8 @@ parameters:
     language.dir.photos: %kernel.root_dir%/../web/uploads/languageImages/
     user.dir.photos: %kernel.root_dir%/../web/uploads/userImages/
     encode.key: 65wq6td6gtdgb3dwoop21d54da54d8e86q2s3qd6a60998dgea4de8
+    configuration.triple.room.charge: 10
+    configuration.service.fee: 10
 
 services:
     twig.extension.utilsExtension:
