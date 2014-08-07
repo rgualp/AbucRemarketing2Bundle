@@ -95,7 +95,7 @@
                     <td>{{reservation[0]['gen_res_total_in_site']}} CUC</td>
                     <td>
                         <select name="resume_status_res_{{reservation[0]['gen_res_id']}}" class="input-block-level">
-                            {{ render(controller('mycpBundle:BackendReservation:get_reservation_status', {'post': {'selected':reservation[0]['gen_res_status']}})) }}
+                            {{ render(controller('mycpBundle:BackendReservation:get_general_reservation_status', {'post': {'selected':reservation[0]['gen_res_status']}})) }}
                         </select>
                     </td>
                     <td style="text-align: right">

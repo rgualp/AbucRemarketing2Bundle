@@ -905,6 +905,14 @@ class BackendReservationController extends Controller
         return $this->render('mycpBundle:utils:reservation_status.html.twig',array('selected'=>$selected));
     }
 
+    public function get_general_reservation_statusAction($post)
+    {
+        $selected='';
+        if(isset($post['selected']))
+            $selected=$post['selected'];
+        return $this->render('mycpBundle:utils:general_reservation_status.html.twig',array('selected'=>$selected));
+    }
+
     public function get_rooms_by_ownershipAction($id_ownership,$selected_room)
     {
         $em = $this->getDoctrine()->getEntityManager();
