@@ -87,7 +87,7 @@
                     Depósito inicial: $<span id="initial_deposit"></span>
                 </div>
                 <div class="span4">
-                    Cargo por servicio de reserva: $<span id="service_recharge">{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</span>
+                    Cargo por servicio de reserva: $<span id="service_recharge">{{configuration_service_fee * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</span>
                 </div>
             </div>
             <div class="text-center" style="font-size: 20px; margin-top: 10px">
@@ -194,7 +194,7 @@
                         date.setDate(date.getDate() + 2);
                         $('#filter_date_to').datepicker("setDate", date);
                         $('.datepicker').hide();
-                        
+
                         own = $('#ownership').val();
                         refresh_calendar(ev.date.getDate() + '/' + (ev.date.getMonth() + 1) + '/' + ev.date.getFullYear(),date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear(),own);
                     });

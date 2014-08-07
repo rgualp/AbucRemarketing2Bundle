@@ -180,8 +180,8 @@
         <td>{{total_price_own_res}} CUC</td>
         <td>{{ total_price_own_res * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100}} CUC</td>
         <td>{{total_price_own_res - (total_price_own_res * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100)}} CUC</td>
-        <td>10 CUC</td>
-        <td style="text-align: right"><b>{{(total_price_own_res * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) + 10}}CUC ({{((total_price_own_res * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) + 10) * user[0].getUserTouristCurrency.getCurrCucChange }} {{ user[0].getUserTouristCurrency.getCurrCode|upper }})</b></td>
+        <td>{{configuration_service_fee}} CUC</td>
+        <td style="text-align: right"><b>{{(total_price_own_res * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) + configuration_service_fee}}CUC ({{((total_price_own_res * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) + configuration_service_fee) * user[0].getUserTouristCurrency.getCurrCucChange }} {{ user[0].getUserTouristCurrency.getCurrCode|upper }})</b></td>
     </tr>
 </table>
 

@@ -130,7 +130,7 @@
                                 {{'INITIAL_DEPOSIT' | trans}} ({{ownership.OwnCommissionPercent}}%): {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol}} <span id="initial_deposit"></span>
                             </div>
                             <div class="col-sm-4">
-                                {{'SERVICE_RECHARGE' | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol}} <span id="service_recharge">{{10 * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</span>
+                                {{'SERVICE_RECHARGE' | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol}} <span id="service_recharge">{{configuration_service_fee * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</span>
                             </div>
                         </div>
                         <div class="text-center" style="font-size: 20px; margin-top: 10px">

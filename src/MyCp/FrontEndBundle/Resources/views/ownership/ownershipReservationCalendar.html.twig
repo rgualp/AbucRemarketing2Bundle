@@ -70,7 +70,7 @@
     </tbody>
 </table>
 <div style="text-align: right">
-    <img src="{{ asset('bundles/frontend/img/question.gif') }}" width="20px" rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{10 | price}}"/>
+    <img src="{{ asset('bundles/frontend/img/question.gif') }}" width="20px" rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}"/>
 </div>
 <script type="text/javascript">
     var cont_array_dates={{ array_dates | length}};

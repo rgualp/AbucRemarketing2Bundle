@@ -127,13 +127,14 @@ class BackendReservationController extends Controller
                 {
                     $array_dates = $service_time->dates_between($servi['from_date'], $servi['to_date']);
                     $temp_price = 0;
+                    $triple_room_recharge = $this->container->getParameter('configuration.triple.room.charge');
                     for ($a = 0; $a < count($array_dates); $a++) {
                         if ($a < count($array_dates) - 1) {
                             $season = $service_time->season_by_date($array_dates[$a]);
                             if ($season == 'down') {
                                 if ($servi['room_type'] == "Habitación Triple" && $servi['guests'] + $servi['kids'] >= 3) {
-                                    $total_price += $servi['room_price_down'] + 10;
-                                    $temp_price += $servi['room_price_down'] + 10;
+                                    $total_price += $servi['room_price_down'] + $triple_room_recharge;
+                                    $temp_price += $servi['room_price_down'] + $triple_room_recharge;
                                 }
                                 else {
                                     $total_price += $servi['room_price_down'];
@@ -143,8 +144,8 @@ class BackendReservationController extends Controller
                             }
                             else {
                                 if ($servi['room_type'] == "Habitación Triple" && $servi['guests'] + $servi['kids'] >= 3) {
-                                    $total_price += $servi['room_price_top'] + 10;
-                                    $temp_price += $servi['room_price_top'] + 10;
+                                    $total_price += $servi['room_price_top'] + $triple_room_recharge;
+                                    $temp_price += $servi['room_price_top'] + $triple_room_recharge;
 
                                 }
                                 else {
@@ -657,7 +658,8 @@ class BackendReservationController extends Controller
             }
 
             $total_price=$total_price * $own_reservations[0]->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent() / 100;
-            $prepay=($total_price + 10) * $user_tourist->getUserTouristCurrency()->getCurrCucChange();
+            $configuration_service_fee = $this->container->getParameter('configuration.service.fee');
+            $prepay=($total_price + $configuration_service_fee) * $user_tourist->getUserTouristCurrency()->getCurrCucChange();
             $booking= new booking();
             $booking->setBookingCurrency($user_tourist->getUserTouristCurrency());
             $booking->setBookingPrepay($prepay);

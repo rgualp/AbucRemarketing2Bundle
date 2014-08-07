@@ -53,10 +53,10 @@
         <span>{{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{ceil_round(total_percent_price *(app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))}}</span>
         <br/>
         {{"SERVICE_RECHARGE" | trans}}:
-        <span>{{10 | price}}</span>
+        <span>{{configuration_service_fee | price}}</span>
         <br/>
         {{"TOTAL_PREPAYMENT" | trans}}:
-        <span>{{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{ceil_round((total_percent_price + 10) *(app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))}}</span>
+        <span>{{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{ceil_round((total_percent_price + configuration_service_fee) *(app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))}}</span>
     </div>
 </div>
 <hr/>
@@ -129,10 +129,10 @@
 <label class="checkbox" style="font-weight: normal; margin-top: 20px"><input {% if post['terms_conditions'] is defined %} checked="checked" {% endif %} id="terms_conditions" name="terms_conditions" type="checkbox"> {{"ACCEPT_TERMS_CONDITIONS" | trans}}</label>
 <label class="checkbox" style="font-weight: normal"><input name="user_tourist_send_newsletter" type="checkbox" {% if post["user_tourist_send_newsletter"] is defined or user.UserNewsletters %}checked{%endif%}> {{"SEND_ME_OFFERS" | trans}}</label>
 
-<h3 class="h-grey">{{"AMOUNT_TO_PAY_NOW" | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{ceil_round((total_percent_price + 10) *(app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))}}</h3>
+<h3 class="h-grey">{{"AMOUNT_TO_PAY_NOW" | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{ceil_round((total_percent_price + configuration_service_fee) *(app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))}}</h3>
 
 <button id="btn_payment" style="margin-top: 35px"  type="submit" class="btn btn-action btn-warning" disabled="disabled"><b>{{"PAYMENT_CONFIRM" | trans}}</b></button>
-<p style="margin-top: 0; font-size: 12px; color: #6C726B">{{"PAYMENT_CONFIRMATION_TEXT" | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{ceil_round((total_percent_price + 10) *(app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))}}</p>
+<p style="margin-top: 0; font-size: 12px; color: #6C726B">{{"PAYMENT_CONFIRMATION_TEXT" | trans}}: {{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): '$'}}{{ceil_round((total_percent_price + configuration_service_fee) *(app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))}}</p>
 </form>
 <script type="text/javascript">
     if($('#terms_conditions').is(":checked"))

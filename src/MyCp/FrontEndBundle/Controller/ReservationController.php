@@ -293,6 +293,7 @@ class ReservationController extends Controller {
 
                     $total_price = 0;
                     $partial_total_price = array();
+                    $triple_room_recharge = $this->container->getParameter('configuration.triple.room.charge');
                     foreach ($res_item as $item) {
                         $array_dates = $service_time->dates_between($item['from_date'], $item['to_date']);
                         $temp_price = 0;
@@ -301,16 +302,16 @@ class ReservationController extends Controller {
                                 $season = $service_time->season_by_date($array_dates[$a]);
                                 if ($season == 'down') {
                                     if ($item['room_type'] == "Habitación Triple" && $item['guests'] + $item['kids'] >= 3) {
-                                        $total_price += $item['room_price_down'] + 10;
-                                        $temp_price += $item['room_price_down'] + 10;
+                                        $total_price += $item['room_price_down'] + $triple_room_recharge;
+                                        $temp_price += $item['room_price_down'] + $triple_room_recharge;
                                     } else {
                                         $total_price += $item['room_price_down'];
                                         $temp_price += $item['room_price_down'];
                                     }
                                 } else {
                                     if ($item['room_type'] == "Habitación Triple" && $item['guests'] + $item['kids'] >= 3) {
-                                        $total_price += $item['room_price_top'] + 10;
-                                        $temp_price += $item['room_price_top'] + 10;
+                                        $total_price += $item['room_price_top'] + $triple_room_recharge;
+                                        $temp_price += $item['room_price_top'] + $triple_room_recharge;
                                     } else {
                                         $total_price += $item['room_price_top'];
                                         $temp_price += $item['room_price_top'];
@@ -590,7 +591,8 @@ class ReservationController extends Controller {
                 }
 
                 $booking->setBookingCurrency($currency);
-                $booking->setBookingPrepay(($total_percent_price + 10) * $currency->getCurrCucChange());
+                $configuration_service_fee = $this->container->getParameter('configuration.service.fee');
+                $booking->setBookingPrepay(($total_percent_price + $configuration_service_fee) * $currency->getCurrCucChange());
                 $booking->setBookingUserId($user->getUserId());
                 $booking->setBookingUserDates($user->getUserUserName() . ', ' . $user->getUserEmail());
                 $em->persist($booking);
