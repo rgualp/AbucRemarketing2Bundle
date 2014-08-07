@@ -417,8 +417,8 @@ class BookingService extends Controller
             if ($paymentStatus == PaymentHelper::STATUS_PENDING
                 || $paymentStatus == PaymentHelper::STATUS_SUCCESS) {
                 $generalReservation = $own->getOwnResGenResId();
-                $generalReservation->setGenResStatus(generalReservation::STATUS_RESERVED); // TODO: What is status 2??? Create helper with the statuses
-                $own->setOwnResStatus(ownershipReservation::STATUS_RESERVED); // TODO: What is status 5??? Create helper with the statuses
+                $generalReservation->setGenResStatus(generalReservation::STATUS_RESERVED);
+                $own->setOwnResStatus(ownershipReservation::STATUS_RESERVED);
                 $this->em->persist($generalReservation);
             }
 
