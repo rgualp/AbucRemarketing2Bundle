@@ -551,7 +551,10 @@ class BackendReservationController extends Controller
             {
                 if(strpos($key, 'service_room_price')!==false)
                 {
-                    if(empty($post[$key])  OR !is_numeric($post[$key]))
+                    $splitted = explode("_", $key);
+                    $own_res_id = $splitted[count($splitted) -1];
+
+                    if((empty($post[$key])  || !is_numeric($post[$key])) && $post['service_own_res_status_'.$own_res_id] != ownershipReservation::STATUS_NOT_AVAILABLE )
                     {
                         $errors[$key]=1;
                     }
@@ -559,7 +562,7 @@ class BackendReservationController extends Controller
                 }
                 if(strpos($key, 'service_own_res_status')!==false)
                 {
-                    if($post[$key] < 3)
+                    if($post[$key] < ownershipReservation::STATUS_NOT_AVAILABLE)
                     {
                         $not_available=false;
                     }

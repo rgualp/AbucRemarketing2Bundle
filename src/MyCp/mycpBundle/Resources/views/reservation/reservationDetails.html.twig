@@ -165,7 +165,7 @@
                     {% set price_own_res=post['service_room_price_'~reservation_rooms.getOwnResId] %}
                 {% else %}
                     {% if reservation_rooms.getOwnResNightPrice ==0%}
-                        {% set price_own_res=1 %}
+                        {% set price_own_res=0 %}
                     {% else %}
                         {% set price_own_res=reservation_rooms.getOwnResNightPrice %}
                     {% endif %}
@@ -218,11 +218,11 @@
             <td>{{ total_price}} CUC</td>
             <td>{{ total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100}} CUC</td>
             <td>{{ total_price - ( total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100)}} CUC</td>
-            <td>{{configuration_service_fee}} CUC</td>
+            <td>{%if total_price%}{{configuration_service_fee}} CUC{%else%} - {%endif%}</td>
             {% if user[0].getUserTouristCurrency.getCurrCucChange is defined %}
-            <td style="text-align: right"><b>{{ (total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) + configuration_service_fee}} CUC ({{((total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) + configuration_service_fee) * user[0].getUserTouristCurrency.getCurrCucChange }} {{ user[0].getUserTouristCurrency.getCurrCode|upper }})</b></td>
+            <td style="text-align: right"><b>{{ (total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) + ((total_price)?configuration_service_fee: 0)}} CUC ({{((total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) + ((total_price)?configuration_service_fee: 0)) * user[0].getUserTouristCurrency.getCurrCucChange }} {{ user[0].getUserTouristCurrency.getCurrCode|upper }})</b></td>
             {% else %}
-            <td style="text-align: right"><b>{{ (total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) + configuration_service_fee}} CUC ({{((total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) + configuration_service_fee) }} CUC)</b></td>
+            <td style="text-align: right"><b>{{ (total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) + ((total_price)?configuration_service_fee: 0)}} CUC </b></td>
             {% endif %}
         </tr>
     </table>
