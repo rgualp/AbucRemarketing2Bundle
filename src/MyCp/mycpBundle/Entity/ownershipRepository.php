@@ -482,7 +482,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
         $em->flush();
     }
 
-    function get_all_ownerships($filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality, $filter_type) {
+    function get_all_ownerships($filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality, $filter_type, $filter_name) {
 
         $string = '';
         if ($filter_active != 'null' && $filter_active != '') {
@@ -506,10 +506,15 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
             $string5 = "AND ow.own_type = :filter_type";
         }
 
+        $string6 = '';
+        if ($filter_name != 'null' && $filter_name != '') {
+            $string6 = "AND ow.own_name LIKE :filter_name";
+        }
+
 
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT ow FROM mycpBundle:ownership ow
-        WHERE ow.own_mcp_code LIKE :filter_code $string $string2 $string3 $string4 $string5 ORDER BY ow.own_mcp_code ASC");
+        WHERE ow.own_mcp_code LIKE :filter_code $string $string2 $string3 $string4 $string5 $string6 ORDER BY ow.own_mcp_code ASC");
 
         if ($filter_active != 'null' && $filter_active != '')
             $query->setParameter('filter_active', $filter_active);
@@ -525,6 +530,9 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
 
         if ($filter_type != 'null' && $filter_type != '')
             $query->setParameter('filter_type', $filter_type);
+
+        if ($filter_name != 'null' && $filter_name != '')
+            $query->setParameter('filter_name', "%" . $filter_name . "%");
 
         if (isset($filter_code))
             $query->setParameter('filter_code', "%" . $filter_code . "%");
