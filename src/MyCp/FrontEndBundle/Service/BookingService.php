@@ -2,6 +2,7 @@
 
 namespace MyCp\FrontEndBundle\Service;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use MyCp\FrontEndBundle\Helpers\PaymentHelper;
 use MyCp\mycpBundle\Entity\booking;
@@ -19,7 +20,7 @@ class BookingService extends Controller
     private $voucherDirectoryPath;
 
     /**
-     * @var EntityManager
+     * @var ObjectManager
      */
     private $em;
 
@@ -29,7 +30,7 @@ class BookingService extends Controller
      */
     private $serviceChargeInCuc;
 
-    public function __construct(EntityManager $em, $serviceChargeInCuc, $voucherDirectoryPath)
+    public function __construct(ObjectManager $em, $serviceChargeInCuc, $voucherDirectoryPath)
     {
         $this->em = $em;
         $this->serviceChargeInCuc = (float)$serviceChargeInCuc;
