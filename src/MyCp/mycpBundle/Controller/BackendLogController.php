@@ -23,7 +23,7 @@ class BackendLogController extends Controller
             if(!isset($post['user']) OR isset($post['user']) && $post['user']=='')
             {
                 $message='Debe seleccionar un usuario.';
-                $this->get('session')->setFlash('message_error_local',$message);
+                $this->get('session')->getFlashBag()->add('message_error_local',$message);
                 $msg_session=1;
             }
             else
@@ -84,7 +84,7 @@ class BackendLogController extends Controller
         $em->flush();
 
         $message='Se han limpiado los logs satisfactoriamente.';
-        $this->get('session')->setFlash('message_ok',$message);
+        $this->get('session')->getFlashBag()->add('message_ok',$message);
 
         /*$service_log= $this->get('log');
         $service_log->save_log('Create category, '.$post['lang'.$languages[0]->getLangId()],3);*/
