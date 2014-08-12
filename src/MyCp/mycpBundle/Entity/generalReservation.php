@@ -23,6 +23,8 @@ class generalReservation {
     const STATUS_AVAILABLE = 1;
     const STATUS_RESERVED = 2;
     const STATUS_NOT_AVAILABLE = 3;
+    const STATUS_PARTIAL_AVAILABLE = 4;
+    const STATUS_PARTIAL_RESERVED = 5;
 
     /**
      * Contains all possible statuses
@@ -34,6 +36,8 @@ class generalReservation {
         self::STATUS_AVAILABLE,
         self::STATUS_RESERVED,
         self::STATUS_NOT_AVAILABLE,
+        self::STATUS_PARTIAL_AVAILABLE,
+        self::STATUS_PARTIAL_RESERVED
     );
 
     /**
