@@ -5,6 +5,7 @@ namespace MyCp\mycpBundle\Command;
 use Abuc\RemarketingBundle\JobData\JobData;
 use Abuc\RemarketingBundle\Worker\Worker;
 use MyCp\mycpBundle\Entity\generalReservation;
+use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\JobData\GeneralReservationJobData;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -105,9 +106,23 @@ class ReservationReminderWorkerCommand extends Worker
      */
     private function shallSendOutReminderEmail(generalReservation $generalReservation)
     {
-        $status = $generalReservation->getGenResStatus();
-        // TODO: wait for the correct status definitions to use them instead of "1"
-        return 1 == $status;
+        if (!$generalReservation->hasStatusAvailable()) {
+            return false;
+        }
+
+        $ownershipReservations = $this->getOwnershipReservations($generalReservation);
+        $isAtLeastOneOwnResAvailable = false;
+
+        /** @var $ownershipReservation ownershipReservation */
+        foreach ($ownershipReservations as $ownershipReservation) {
+
+            if ($ownershipReservation->hasStatusAvailable()) {
+                $isAtLeastOneOwnResAvailable = true;
+                break;
+            }
+        }
+
+        return $isAtLeastOneOwnResAvailable;
     }
 
     /**
