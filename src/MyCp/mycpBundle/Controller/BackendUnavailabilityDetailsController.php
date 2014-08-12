@@ -166,7 +166,7 @@ class BackendUnavailabilityDetailsController extends Controller {
                         ->setUdToDate($this->createDate($post_form['ud_to_date']))
                         ->setUdReason($post_form['ud_reason'])
                         ->setRoom($room);
-                 //       ->setSyncSt(SyncStatuses::UPDATED);
+                //       ->setSyncSt(SyncStatuses::UPDATED);
                 $em->persist($uDetails);
                 $em->flush();
                 $message = 'Detalle de no disponibilidad modificado satisfactoriamente';
@@ -195,10 +195,10 @@ class BackendUnavailabilityDetailsController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $uDetails = $em->getRepository('mycpBundle:unavailabilityDetails')->find($id_detail);
         $room = $uDetails->getRoom();
-        
+
         $uDetails->setSyncSt(SyncStatuses::DELETED);
-                $em->persist($uDetails);
-                $em->flush();
+        $em->persist($uDetails);
+        $em->flush();
         $message = 'Detalle de no disponibilidad eliminado satisfactoriamente';
         $this->get('session')->getFlashBag()->add('message_ok', $message);
 
@@ -209,8 +209,12 @@ class BackendUnavailabilityDetailsController extends Controller {
     }
 
     private function createDate($date_string) {
-        $date_array = explode('/', $date_string);
-        return new \DateTime($date_array[1] . '/' . $date_array[0] . '/' . $date_array[2]);
+        try {
+            $date_array = explode('/', $date_string);
+            return new \DateTime($date_array[1] . '/' . $date_array[0] . '/' . $date_array[2]);
+        } catch (\Exception $e) {
+            return new \DateTime();
+        }
     }
 
 }
