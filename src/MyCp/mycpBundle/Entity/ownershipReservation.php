@@ -16,7 +16,7 @@ class ownershipReservation
 {
     /**
      * All allowed statuses
-     */ 
+     */
     const STATUS_PENDING = 0;
     const STATUS_AVAILABLE = 1;
     const STATUS_AVAILABLE2 = 2;
@@ -412,4 +412,16 @@ class ownershipReservation
         $this->own_res_sync_st = $own_sync_st;
     }
 
+    /**
+     * Checks if the ownershipReservation has the status "available".
+     *
+     * @return bool Returns true if the status is "available", false if not.
+     */
+    public function hasStatusAvailable()
+    {
+        $status = $this->getOwnResStatus();
+
+        return self::STATUS_AVAILABLE === $status
+            || self::STATUS_AVAILABLE2 === $status;
+    }
 }

@@ -457,4 +457,16 @@ class generalReservation {
     {
         return $this->own_reservations;
     }
+
+    /**
+     * Checks if the generalReservation has the status "available".
+     *
+     * @return bool Returns true if the status is "available", false if not.
+     */
+    public function hasStatusAvailable()
+    {
+        $status = $this->getGenResStatus();
+
+        return self::STATUS_AVAILABLE === $status;
+    }
 }
