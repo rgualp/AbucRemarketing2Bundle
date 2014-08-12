@@ -454,7 +454,7 @@ class ReservationController extends Controller {
         $array_ids = $session->get('reservation_own_ids');
         //var_dump($array_ids); exit();
         if (!$array_ids) {
-            return $this->forward('FrontEndBundle:mycasatrip:reservations_available', array('order_by' => 0));
+            return $this->forward('FrontEndBundle:Mycasatrip:reservations_available', array('order_by' => 0));
         }
 
         $service_time = $this->get('time');
