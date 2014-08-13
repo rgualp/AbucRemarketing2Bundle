@@ -17,6 +17,7 @@ use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Entity\photoLang;
 use MyCp\mycpBundle\Entity\ownershipPhoto;
 use MyCp\mycpBundle\Helpers\OwnershipStatuses;
+use MyCp\mycpBundle\Entity\ownershipStatus;
 
 class BackendOwnershipController extends Controller {
 
@@ -73,7 +74,7 @@ class BackendOwnershipController extends Controller {
                 $count_errors = 0;
                 foreach ($files['files'] as $file) {
                     if ($file->getClientMimeType() != 'image/jpeg' && $file->getClientMimeType() != 'image/gif' && $file->getClientMimeType() != 'image/png') {
-                        //$file->getClientSize()< 102400
+//$file->getClientSize()< 102400
                         $data['error'] = 'Extensión de fichero no admitida.';
                         $count_errors++;
                         break;
@@ -99,7 +100,7 @@ class BackendOwnershipController extends Controller {
                         $fileName = uniqid('ownership-') . '-photo.jpg';
                         $file->move($dir, $fileName);
 
-                        //Creando thumbnail, redimensionando y colocando marca de agua
+//Creando thumbnail, redimensionando y colocando marca de agua
                         \MyCp\mycpBundle\Helpers\Images::create_thumbnail($dir . $fileName, $dir_thumbs . $fileName, $thumbs_size);
                         \MyCp\mycpBundle\Helpers\Images::resize_and_watermark($dir . $fileName, $dir_watermark, $photo_size);
 
@@ -223,8 +224,7 @@ class BackendOwnershipController extends Controller {
         return $this->redirect($this->generateUrl('mycp_list_photos_ownership', array('id_ownership' => $id_ownership)));
     }
 
-    public function delete_roomAction($id_room, $type)
-    {
+    public function delete_roomAction($id_room, $type) {
         $service_security = $this->get('Secure');
         $service_security->verify_access();
 
@@ -232,9 +232,10 @@ class BackendOwnershipController extends Controller {
         $ro = new room();
 
         $ro = $em->getRepository('mycpBundle:room')->find($id_room);
-        $id_ownership = $ro->getRoomOwnership()->getOwnId();;
+        $id_ownership = $ro->getRoomOwnership()->getOwnId();
+        ;
 
-        switch( $type ){
+        switch ($type) {
             case 0:
                 $ro->setRoomActive(false);
                 $em->persist($ro);
@@ -242,17 +243,16 @@ class BackendOwnershipController extends Controller {
                 $own = $ro->getRoomOwnership();
                 $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $own->getOwnId()));
                 $count = count($rooms);
-                foreach( $rooms as $room ){
-                    if ( !$room->getRoomActive() )
+                foreach ($rooms as $room) {
+                    if (!$room->getRoomActive())
                         $count--;
                 }
 
-                if ( $count <= 0 ){
+                if ($count <= 0) {
                     $status = new ownershipStatus();
                     $status = $em->getRepository('mycpBundle:ownershipstatus')->find(2);
                     $own->setOwnStatus($status);
                     $em->persist($own);
-
                 }
 
                 $em->flush();
@@ -291,6 +291,7 @@ class BackendOwnershipController extends Controller {
         $rooms = $em->getRepository('mycpBundle:room')->findby(array('room_ownership' => $id_ownership));
         $count_rooms = count($rooms);
 
+        $post['ownership_id'] = $ownership->getOwnId();
         $post['ownership_name'] = $ownership->getOwnName();
         $post['ownership_licence_number'] = $ownership->getOwnLicenceNumber();
         $post['ownership_mcp_code'] = $ownership->getOwnMcpCode();
@@ -311,7 +312,7 @@ class BackendOwnershipController extends Controller {
         $post['ownership_type'] = $ownership->getOwnType();
         $post['comment'] = $ownership->getOwnComment();
         $post['ownership_percent_commission'] = $ownership->getOwnCommissionPercent();
-        
+
         $langs = $ownership->getOwnLangs();
         if ($langs[0] == 1)
             $post['ownership_english_lang'] = 1;
@@ -339,7 +340,7 @@ class BackendOwnershipController extends Controller {
         $post['top_20'] = $ownership->getOwnTop20();
         $data['country_code'] = $ownership->getOwnAddressProvince()->getProvId();
         $data['municipality_code'] = $ownership->getOwnAddressMunicipality()->getMunId();
-        $post['status'] = ($ownership->getOwnStatus() != null) ? $ownership->getOwnStatus()->getStatusId() :  null;
+        $post['status'] = ($ownership->getOwnStatus() != null) ? $ownership->getOwnStatus()->getStatusId() : null;
 
         if ($post['top_20'] == false)
             $post['top_20'] = 0;
@@ -382,13 +383,13 @@ class BackendOwnershipController extends Controller {
           } */
 
         foreach ($ownershipDescriptionLangs as $ownershipDescriptionLang) {
-            $post['description_id_'. $ownershipDescriptionLang->getOdlIdLang()->getLangId()] = $ownershipDescriptionLang->getOdlId();
+            $post['description_id_' . $ownershipDescriptionLang->getOdlIdLang()->getLangId()] = $ownershipDescriptionLang->getOdlId();
             $post['description_desc_' . $ownershipDescriptionLang->getOdlIdLang()->getLangId()] = $ownershipDescriptionLang->getOdlDescription();
             $post['description_brief_desc_' . $ownershipDescriptionLang->getOdlIdLang()->getLangId()] = $ownershipDescriptionLang->getOdlBriefDescription();
         }
 
         foreach ($ownershipKeywordsLangs as $ownershipKeywordsLang) {
-            $post['kw_id_'. $ownershipKeywordsLang->getOklIdLang()->getLangId()] = $ownershipKeywordsLang->getOklId();
+            $post['kw_id_' . $ownershipKeywordsLang->getOklIdLang()->getLangId()] = $ownershipKeywordsLang->getOklId();
             $post['keywords_' . $ownershipKeywordsLang->getOklIdLang()->getLangId()] = $ownershipKeywordsLang->getOklKeywords();
         }
 
@@ -541,7 +542,7 @@ class BackendOwnershipController extends Controller {
                 $emailConstraint = new Email();
                 $emailConstraint->message = 'El email no es válido.';
                 $length_validator = new Length(array('max' => 10, 'maxMessage' => 'Este campo no debe exceder 255 caracteres.'));
-                // mejoras
+// mejoras
                 $array_keys = array_keys($post);
                 $count = $errors_validation = 0;
                 $count_checkbox_lang = 0;
@@ -565,7 +566,7 @@ class BackendOwnershipController extends Controller {
                         $data['count_errors']+=count($errors[$array_keys[$count]]);
                     }
 
-                    //if action is new client casa
+//if action is new client casa
                     if (isset($post['user_name']) && !empty($post['user_name'])) {
                         if ($post['user_password'] != $post['user_re_password']) {
                             $errors['match_password'] = 'Este valor no es válido.';
@@ -576,9 +577,9 @@ class BackendOwnershipController extends Controller {
                             $data['count_errors']+=1;
                         }
                         $file = $request->files->get('user_photo');
-                        //var_dump($file); exit();
+//var_dump($file); exit();
                         if ($file && $file->getClientMimeType() != 'image/jpeg' && $file->getClientMimeType() != 'image/gif' && $file->getClientMimeType() != 'image/png') {
-                            //$file->getClientSize()< 102400
+//$file->getClientSize()< 102400
                             $errors['user_photo'] = 'Extensión de fichero no admitida.';
                             $data['count_errors']+=1;
                         }
@@ -589,7 +590,7 @@ class BackendOwnershipController extends Controller {
                         }
                     }
 
-                    //Verificando que no existan otras propiedades con el mismo nombre
+//Verificando que no existan otras propiedades con el mismo nombre
                     if (!array_key_exists('edit_ownership', $post)) {
 
                         $similar_names = $em->getRepository('mycpBundle:ownership')->findBy(array('own_name' => $post['ownership_name']));
@@ -611,7 +612,7 @@ class BackendOwnershipController extends Controller {
                         }
                     }
 
-                    //Verificando que no existan otras propiedades con el mismo código
+//Verificando que no existan otras propiedades con el mismo código
 
                     if (!array_key_exists('edit_ownership', $post)) {
 
@@ -671,7 +672,7 @@ class BackendOwnershipController extends Controller {
                 $errors['geolocate_x'] = $this->get('validator')->validateValue($post['geolocate_x'], $not_blank_validator);
                 $errors['geolocate_y'] = $this->get('validator')->validateValue($post['geolocate_y'], $not_blank_validator);
 
-                //var_dump($errors['geolocate']); exit();
+//var_dump($errors['geolocate']); exit();
 
                 $data['count_errors']+=count($errors['facilities_breakfast']);
                 $data['count_errors']+=count($errors['facilities_dinner']);
@@ -684,7 +685,7 @@ class BackendOwnershipController extends Controller {
                 $data['municipality_code'] = $post['ownership_address_municipality'];
 
                 if ($data['count_errors'] == 0) {
-                    // insert into database
+// insert into database
                     if ($request->request->get('edit_ownership')) {
                         $id_own = $request->request->get('edit_ownership');
                         if ($request->request->get('status') == 4) {
@@ -692,13 +693,13 @@ class BackendOwnershipController extends Controller {
                         }
                         $service_log = $this->get('log');
                         $db_ownership = $em->getRepository('mycpBundle:ownership')->find($id_own);
-                        $old_status = ($db_ownership->getOwnStatus() != null) ? $db_ownership->getOwnStatus()->getStatusId() :  null;//$db_ownership->getOwnStatus()->getStatusId();
+                        $old_status = ($db_ownership->getOwnStatus() != null) ? $db_ownership->getOwnStatus()->getStatusId() : null; //$db_ownership->getOwnStatus()->getStatusId();
                         $new_status = $request->request->get('status');
                         $new_status_db = $em->getRepository('mycpBundle:ownershipStatus')->find($new_status)->getStatusName();
                         $any_edit = false;
 
                         if ($old_status != $new_status) {
-                            $service_log->save_log('Edit entity (Change status. From ' . (($db_ownership->getOwnStatus() != null) ? $db_ownership->getOwnStatus()->getStatusId() :  'Sin Estado') . ' to ' . $new_status_db . ' ) ' . $post['ownership_mcp_code'], 4);
+                            $service_log->save_log('Edit entity (Change status. From ' . (($db_ownership->getOwnStatus() != null) ? $db_ownership->getOwnStatus()->getStatusId() : 'Sin Estado') . ' to ' . $new_status_db . ' ) ' . $post['ownership_mcp_code'], 4);
                             $any_edit = true;
                         }
 
@@ -791,6 +792,15 @@ class BackendOwnershipController extends Controller {
                         $message = 'Propiedad añadida satisfactoriamente.';
                         $service_log = $this->get('log');
                         $service_log->save_log('Create entity ' . $post['ownership_mcp_code'], 4);
+
+                        //Enviar correo a los propietarios
+                        if($post['status'] == ownershipStatus::STATUS_ACTIVE)
+                        $this->send_owners_email($post['ownership_email_1'],
+                                $post['ownership_email_2'],
+                                $post['ownership_homeowner_1'],
+                                $post['ownership_homeowner_2'],
+                                $post['ownership_name'],
+                                $post['ownership_mcp_code']);
                     }
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
                     if ($request->get('save_reset_input') == 1) {
@@ -852,7 +862,7 @@ class BackendOwnershipController extends Controller {
             }
         }
 
-        //$post['ownership_address_municipality'] = '';
+//$post['ownership_address_municipality'] = '';
         $languages = $em->getRepository('mycpBundle:lang')->get_all_languages();
         return $this->render('mycpBundle:ownership:new.html.twig', array('languages' => $languages, 'count_rooms' => $count_rooms, 'post' => $post, 'data' => $data, 'errors' => $errors, 'errors_tab' => $errors_tab));
     }
@@ -909,6 +919,39 @@ class BackendOwnershipController extends Controller {
                     'photo' => $photo,
                     'id_ownership' => $id_ownership,
                     'post' => $post));
+    }
+
+    public function send_ownershipAction($own_id) {
+        $em = $this->getDoctrine()->getManager();
+        $own = $em->getRepository('mycpBundle:ownership')->find($own_id);
+
+        $own_mail_1 = $own->getOwnEmail1();
+        $own_mail_2 = $own->getOwnEmail2();
+        $owners_name_1 = $own->getOwnHomeowner1();
+        $owners_name_2 = $own->getOwnHomeowner2();
+
+        $this->send_owners_email($own_mail_1, $own_mail_2, $owners_name_1, $owners_name_2, $own->getOwnName(), $own->getOwnMcpCode());
+
+        return $this->redirect($this->generateUrl('mycp_edit_ownership', array('id_ownership' => $own_id)));
+    }
+
+    private function send_owners_email($own_email_1, $own_email_2, $own_homeowner_1, $own_homeowner_2, $own_name, $own_mycp_code) {
+        $service_email = $this->get('Email');
+        try {
+            $owners_name = $own_homeowner_1 . ( isset($own_homeowner_2) && isset($own_homeowner_1) && $own_homeowner_1 != "" && $own_homeowner_2 != "" ? " y " : "") . $own_homeowner_2;
+
+            if (isset($own_email_1) && $own_email_1 != "") {
+                $service_email->send_owners_mail($own_email_1, $owners_name, $own_name, $own_mycp_code);
+            }
+            if (isset($own_email_2) && $own_email_2 != "") {
+                $service_email->send_owners_mail($own_email_2, $owners_name, $own_name, $own_mycp_code);
+            }
+            $message = 'El correo de instrucciones ha sido enviado satisfactoriamente al propietario';
+            $this->get('session')->getFlashBag()->add('message_ok', $message);
+        } catch (\Exception $e) {
+            $message = 'Ha ocurrido un error en el envio del correo de instrucciones al propietario. ' . $e->getMessage();
+            $this->get('session')->getFlashBag()->add('message_error_main', $message);
+        }
     }
 
     public function get_ownership_categoriesAction($post) {
@@ -1089,8 +1132,8 @@ class BackendOwnershipController extends Controller {
 
         if (isset($post['status']))
             $selected = $post['status'];
-        /*else
-            $selected = OwnershipStatuses::IN_PROCESS;*/
+        /* else
+          $selected = ownershipStatus::STATUS_IN_PROCESS; */
 
         $status = $em->getRepository('mycpBundle:ownershipStatus')->findAll();
         return $this->render('mycpBundle:utils:ownership_status.html.twig', array('status' => $status, 'selected' => $selected, 'post' => $post));

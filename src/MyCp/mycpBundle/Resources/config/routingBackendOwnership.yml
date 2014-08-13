@@ -33,3 +33,7 @@ mycp_delete_photos_ownership:
 mycp_edit_photos_ownership:
     pattern:  /edit_photo/{id_photo}/{id_ownership}
     defaults: { _controller: mycpBundle:BackendOwnership:edit_photo }
+
+mycp_send_ownership:
+    pattern:  /send/{own_id}
+    defaults: { _controller: mycpBundle:BackendOwnership:send_ownership }

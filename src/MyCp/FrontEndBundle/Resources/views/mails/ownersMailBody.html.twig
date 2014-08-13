@@ -1,0 +1,15 @@
+{% extends 'FrontEndBundle:layout:baseMailTemplate.html.twig' %}
+
+{% block content %}
+<h4 style="font-family: Arial; font-size: 20px">Bienvenido a MyCasaParticular</h4>
+<p style="font-family: Arial; font-size: 14px">
+Estimado Sr(a)(s). {{owners_name}}: <br/>
+Ya Usted y su alojamiento son parte del equipo de MyCasaParticular.com!<br/>
+A partir de este momento su alojamiento, {{own_name}}, estará visible en nuestro sitio, con el código {{own_mycp_code}} y bajo la dirección
+<a href="{{ url('mycp_own_details',{'own_code':own_mycp_code}) }}">www.mycasaparticular.com/{{own_mycp_code}}</a>.<br/>
+Usted podrá contactarnos a través del teléfono (+537) 8673574, o a través de la dirección de correo electrónico
+<a href='mailto:casa@mycasaparticular.com'>casa@mycasaparticular.com</a>.<br/>
+Esperamos que nuestra relación de trabajo sea lo más fructífera posible para ambos, y que desde ya, se sienta parte de nuestro equipo.<br/>
+Saludos Cordiales,<br/>
+Equipo de MyCasaParticular.com</p>
+{% endblock %}

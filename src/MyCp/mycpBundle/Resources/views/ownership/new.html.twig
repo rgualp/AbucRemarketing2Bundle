@@ -28,6 +28,12 @@
     <div class="form-actions">
         <button class="btn btn-primary" type="submit">Guardar</button>
         <button class="btn btn-primary" type="button" onclick="javascript:submit_button()">Guardar y nuevo</button>
+        {% if(post['ownership_id'] is defined) %}
+        <a class="btn btn-warning" href="{{ path('mycp_list_photos_ownership',{'id_ownership':post['ownership_id']}) }}">Fotos</a>
+        {%if (post['ownership_email_1'] is defined and post['ownership_email_1'] != "") or (post['ownership_email_2'] is defined and post['ownership_email_2'] != "")%}
+        <button class="btn btn-danger" type="submit" onclick="send_message();">Enviar Correo de Instrucciones</button>
+        {%endif%}
+        {%endif%}
         <a class="btn" href="{{ path('mycp_list_ownerships') }}">Cancelar</a>
     </div>
     </form>
@@ -106,7 +112,7 @@
         <div class="span6">
             <label>Municipio (*)</label>
             {% if errors['ownership_address_municipality'] is defined %}<label class="error">{{errors['ownership_address_municipality']|trim(':')}}</label>{%endif%}
-                <select class="input-block-level" type="text" name="ownership_address_municipality" id="ownership_address_municipality">                
+                <select class="input-block-level" type="text" name="ownership_address_municipality" id="ownership_address_municipality">
                 {{ render(controller('mycpBundle:Public:get_mun_by_prov', {'post':post})) }}
             </select>
         </div>
@@ -187,7 +193,7 @@
     </div>
     <div class="row-fluid">
         <div class="span12">
-            <label><label>Comisión</label>
+            <label><label>Comisión (*)</label>
                 {% if errors['ownership_percent_commission'] is defined %}<label class="error">{{errors['ownership_percent_commission']|trim(':')}}</label>{%endif%}
                 <select name="ownership_percent_commission" class="input-block-level">
                     {% if post['ownership_percent_commission'] is defined %}
@@ -568,5 +574,13 @@
 <link href="{{ asset('bundles/mycp/css/bootstrap-wysihtml5.css') }}" rel="stylesheet" type="text/css" />
 <script>
     $('.textarea').wysihtml5();
+
+    function send_message()
+        {
+            url_submit="{%if post['ownership_id'] is defined%}{{path('mycp_send_ownership',{'own_id':post['ownership_id']})}}{%endif%}";
+            form=$('#form_ownership');
+            form.attr('action',url_submit);
+            form.submit();
+        }
 </script>
 {% endblock %}

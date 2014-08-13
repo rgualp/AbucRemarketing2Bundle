@@ -19,11 +19,11 @@ mycp_sitemap:
     path: /sitemap.{_format}
     defaults: { _controller: FrontEndBundle:Public:site_map }
 
-mycp_simple_details:
+mycp_own_details:
     pattern:  /{own_code}/
     defaults: { _controller: FrontEndBundle:Ownership:own_details_direct }
 
-mycp_own_details:
+mycp_simple_details:
     pattern:  /simple/{mycp_code}/
     defaults: { _controller: FrontEndBundle:Ownership:simple }
 

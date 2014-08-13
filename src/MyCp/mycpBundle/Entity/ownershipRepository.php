@@ -11,7 +11,7 @@ use MyCp\mycpBundle\Entity\ownershipKeywordLang;
 use MyCp\mycpBundle\Entity\room;
 use MyCp\mycpBundle\Entity\userCasa;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
-use MyCp\mycpBundle\Helpers\OwnershipStatuses;
+use MyCp\mycpBundle\Entity\ownershipStatus;
 
 /**
  * ownershipRepository
@@ -102,7 +102,7 @@ class ownershipRepository extends EntityRepository {
         $status = $em->getRepository('mycpBundle:ownershipStatus')->find($data['status']);
 
         if (!isset($status))
-            $status = $em->getRepository('mycpBundle:ownershipStatus')->find(OwnershipStatuses::IN_PROCESS);
+            $status = $em->getRepository('mycpBundle:ownershipStatus')->find(ownershipStatus::STATUS_IN_PROCESS);
 
         $ownership->setOwnStatus($status);
         $ownership->setOwnRoomsTotal($data['count_rooms']);
@@ -322,7 +322,7 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnTop20($active_top_20);
         $status = $em->getRepository('mycpBundle:ownershipStatus')->find($data['status']);
         if (!isset($status))
-            $status = $em->getRepository('mycpBundle:ownershipStatus')->find(OwnershipStatuses::IN_PROCESS);
+            $status = $em->getRepository('mycpBundle:ownershipStatus')->find(ownershipStatus::STATUS_IN_PROCESS);
         $ownership->setOwnStatus($status);
         $ownership->setOwnComment($data['comment']);
         $old_rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $data['edit_ownership']));
