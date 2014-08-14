@@ -13,8 +13,8 @@ class unavailabilityDetailsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('ud_from_date',null,array('widget'=>'single_text','format'=>'dd/MM/yyyy', 'label'=>'Desde (dia/mes/año - dd/mm/yyyy):', 'attr'=>array('class'=>'input-block-level datepicker')))
-            ->add('ud_to_date',null,array('widget'=>'single_text','format'=>'dd/MM/yyyy','label'=>'Hasta (dia/mes/año - dd/mm/yyyy):','attr'=>array('class'=>'input-block-level datepicker')))
+            ->add('ud_from_date',null,array('widget'=>'single_text','format'=>'dd/MM/yyyy', 'label'=>'Desde (dia/mes/año - dd/mm/yyyy):', 'attr'=>array('class'=>'input-block-level datepicker-from')))
+            ->add('ud_to_date',null,array('widget'=>'single_text','format'=>'dd/MM/yyyy','label'=>'Hasta (dia/mes/año - dd/mm/yyyy):','attr'=>array('class'=>'input-block-level datepicker-to')))
             ->add('ud_reason',null,array('label'=>'Motivo','attr'=>array('class'=>'input-block-level')))
         ;
 

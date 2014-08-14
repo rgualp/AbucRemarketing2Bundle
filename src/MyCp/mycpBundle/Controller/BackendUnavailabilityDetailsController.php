@@ -123,8 +123,16 @@ class BackendUnavailabilityDetailsController extends Controller {
             $post_form = $request->get('mycp_mycpbundle_unavailabilitydetailstype');
             $form->handleRequest($request);
             if ($form->isValid()) {
-                $uDetails->setUdFromDate($this->createDate($post_form['ud_from_date']))
-                        ->setUdToDate($this->createDate($post_form['ud_to_date']))
+                $date_from = $this->createDate($post_form['ud_from_date']);
+                $date_to = $this->createDate($post_form['ud_to_date']);
+
+                if($date_from > $date_to)
+                {
+                    $this->get('session')->getFlashBag()->add('message_error_main', "La fecha Desde tiene que ser menor o igual que la fecha Hasta");
+                }
+                else{
+                $uDetails->setUdFromDate($date_from)
+                        ->setUdToDate($date_to)
                         ->setUdReason($post_form['ud_reason'])
                         ->setRoom($room);
                 $em->persist($uDetails);
@@ -136,6 +144,7 @@ class BackendUnavailabilityDetailsController extends Controller {
                 $service_log->save_log('Create unavailable detaile from ' . $post_form['ud_from_date'] . ' to ' . $post_form['ud_to_date'], 5);
 
                 return $this->redirect($this->generateUrl('mycp_list_room_details_unavailabilityDetails', array('id_room' => $id_room, 'num_room' => $num_room)));
+                }
             }
         }
 
