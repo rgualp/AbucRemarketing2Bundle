@@ -312,6 +312,7 @@ class BackendOwnershipController extends Controller {
         $post['ownership_type'] = $ownership->getOwnType();
         $post['comment'] = $ownership->getOwnComment();
         $post['ownership_percent_commission'] = $ownership->getOwnCommissionPercent();
+        $post['recommendable'] = $ownership->getOwnRecommendable();
 
         $langs = $ownership->getOwnLangs();
         if ($langs[0] == 1)
@@ -342,30 +343,11 @@ class BackendOwnershipController extends Controller {
         $data['municipality_code'] = $ownership->getOwnAddressMunicipality()->getMunId();
         $post['status'] = ($ownership->getOwnStatus() != null) ? $ownership->getOwnStatus()->getStatusId() : null;
 
-        if ($post['top_20'] == false)
-            $post['top_20'] = 0;
-        else
-            $post['top_20'] = 1;
-
-        if ($post['facilities_breakfast'] == false)
-            $post['facilities_breakfast'] = 0;
-        else
-            $post['facilities_breakfast'] = 1;
-
-        if ($post['facilities_dinner'] == false)
-            $post['facilities_dinner'] = 0;
-        else
-            $post['facilities_dinner'] = 1;
-
-        if ($post['facilities_parking'] == false)
-            $post['facilities_parking'] = 0;
-        else
-            $post['facilities_parking'] = 1;
-
-        /* if($ownership->getOwnPublic()==1)
-          {
-          $post['public']=TRUE;
-          } */
+        $post['top_20'] = ($post['top_20'] == false) ? 0 : 1;
+        $post['recommendable'] = ($post['recommendable'] == false) ? 0 : 1;
+        $post['facilities_breakfast'] = ($post['facilities_breakfast'] == false) ? 0 : 1;
+        $post['facilities_dinner'] = ($post['facilities_dinner'] == false) ? 0 : 1;
+        $post['facilities_parking'] = ($post['facilities_parking'] == false) ? 0 : 1;
 
         if ($ownership->getOwnWaterJacuzee() == 1) {
             $post['water_jacuzee'] = TRUE;
@@ -376,11 +358,6 @@ class BackendOwnershipController extends Controller {
         if ($ownership->getOwnWaterSauna() == 1) {
             $post['water_sauna'] = TRUE;
         }
-
-        /* foreach($ownershipGeneralLangs as $ownershipGeneralLang)
-          {
-          $post['ownership_language_'.$ownershipGeneralLang->getOglIdLang()->getLangId()]=TRUE;
-          } */
 
         foreach ($ownershipDescriptionLangs as $ownershipDescriptionLang) {
             $post['description_id_' . $ownershipDescriptionLang->getOdlIdLang()->getLangId()] = $ownershipDescriptionLang->getOdlId();

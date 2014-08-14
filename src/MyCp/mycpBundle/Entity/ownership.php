@@ -307,6 +307,13 @@ class ownership {
     private $own_comment;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="own_recommendable", type="boolean")
+     */
+    private $own_recommendable;
+
+    /**
      * Codigo Yanet - Inicio
      */
 
@@ -357,12 +364,12 @@ class ownership {
      * @ORM\Column(name="own_sync_st", type="integer")
      */
     private $own_sync_st;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="ownershipDescriptionLang",mappedBy="odl_ownership")
      */
     private $own_description_langs;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="generalReservation",mappedBy="gen_res_own_id")
      */
@@ -381,20 +388,41 @@ class ownership {
     /**
      * Get own_id
      *
-     * @return integer 
+     * @return integer
      */
     public function getOwnId() {
         return $this->own_id;
     }
-    
+
     public function getOwnDescriptionLangs()
     {
         return $this->own_description_langs;
     }
-    
+
     public function getOwnGeneralReservations()
     {
         return $this->own_general_reservations;
+    }
+
+    /**
+     * Set own_recommendable
+     *
+     * @param string $ownRecommendable
+     * @return ownership
+     */
+    public function setOwnRecommendable($ownRecommendable) {
+        $this->own_recommendable = $ownRecommendable;
+
+        return $this;
+    }
+
+    /**
+     * Get own_recommendable
+     *
+     * @return string
+     */
+    public function getOwnRecommendable() {
+        return $this->own_recommendable;
     }
 
     /**
@@ -412,7 +440,7 @@ class ownership {
     /**
      * Get own_name
      *
-     * @return string 
+     * @return string
      */
     public function getOwnName() {
         return $this->own_name;
@@ -433,7 +461,7 @@ class ownership {
     /**
      * Get own_licence_number
      *
-     * @return string 
+     * @return string
      */
     public function getOwnLicenceNumber() {
         return $this->own_licence_number;
@@ -454,7 +482,7 @@ class ownership {
     /**
      * Get own_mcp_code
      *
-     * @return string 
+     * @return string
      */
     public function getOwnMcpCode() {
         return $this->own_mcp_code;
@@ -475,7 +503,7 @@ class ownership {
     /**
      * Get own_address_street
      *
-     * @return string 
+     * @return string
      */
     public function getOwnAddressStreet() {
         return $this->own_address_street;
@@ -496,7 +524,7 @@ class ownership {
     /**
      * Get own_address_number
      *
-     * @return string 
+     * @return string
      */
     public function getOwnAddressNumber() {
         return $this->own_address_number;
@@ -517,7 +545,7 @@ class ownership {
     /**
      * Get own_address_between_street_1
      *
-     * @return string 
+     * @return string
      */
     public function getOwnAddressBetweenStreet1() {
         return $this->own_address_between_street_1;
@@ -538,7 +566,7 @@ class ownership {
     /**
      * Get own_address_between_street_2
      *
-     * @return string 
+     * @return string
      */
     public function getOwnAddressBetweenStreet2() {
         return $this->own_address_between_street_2;
@@ -559,7 +587,7 @@ class ownership {
     /**
      * Get own_mobile_number
      *
-     * @return string 
+     * @return string
      */
     public function getOwnMobileNumber() {
         return $this->own_mobile_number;
@@ -580,7 +608,7 @@ class ownership {
     /**
      * Get own_homeowner_1
      *
-     * @return string 
+     * @return string
      */
     public function getOwnHomeowner1() {
         return $this->own_homeowner_1;
@@ -601,7 +629,7 @@ class ownership {
     /**
      * Get own_homeowner_2
      *
-     * @return string 
+     * @return string
      */
     public function getOwnHomeowner2() {
         return $this->own_homeowner_2;
@@ -622,7 +650,7 @@ class ownership {
     /**
      * Get own_phone_number
      *
-     * @return string 
+     * @return string
      */
     public function getOwnPhoneNumber() {
         return $this->own_phone_number;
@@ -643,7 +671,7 @@ class ownership {
     /**
      * Get own_email_1
      *
-     * @return string 
+     * @return string
      */
     public function getOwnEmail1() {
         return $this->own_email_1;
@@ -664,7 +692,7 @@ class ownership {
     /**
      * Get own_email_2
      *
-     * @return string 
+     * @return string
      */
     public function getOwnEmail2() {
         return $this->own_email_2;
@@ -685,7 +713,7 @@ class ownership {
     /**
      * Get own_category
      *
-     * @return string 
+     * @return string
      */
     public function getOwnCategory() {
         return $this->own_category;
@@ -706,7 +734,7 @@ class ownership {
     /**
      * Get own_type
      *
-     * @return string 
+     * @return string
      */
     public function getOwnType() {
         return $this->own_type;
@@ -727,7 +755,7 @@ class ownership {
     /**
      * Get own_facilities_breakfast
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getOwnFacilitiesBreakfast() {
         return $this->own_facilities_breakfast;
@@ -748,7 +776,7 @@ class ownership {
     /**
      * Get own_facilities_breakfast_price
      *
-     * @return string 
+     * @return string
      */
     public function getOwnFacilitiesBreakfastPrice() {
         return $this->own_facilities_breakfast_price;
@@ -769,7 +797,7 @@ class ownership {
     /**
      * Get own_facilities_dinner
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getOwnFacilitiesDinner() {
         return $this->own_facilities_dinner;
@@ -790,7 +818,7 @@ class ownership {
     /**
      * Get own_facilities_dinner_price_from
      *
-     * @return string 
+     * @return string
      */
     public function getOwnFacilitiesDinnerPriceFrom() {
         return $this->own_facilities_dinner_price_from;
@@ -811,7 +839,7 @@ class ownership {
     /**
      * Get own_facilities_dinner_price_to
      *
-     * @return string 
+     * @return string
      */
     public function getOwnFacilitiesDinnerPriceTo() {
         return $this->own_facilities_dinner_price_to;
@@ -832,7 +860,7 @@ class ownership {
     /**
      * Get own_facilities_parking
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getOwnFacilitiesParking() {
         return $this->own_facilities_parking;
@@ -853,7 +881,7 @@ class ownership {
     /**
      * Get own_facilities_parking_price
      *
-     * @return string 
+     * @return string
      */
     public function getOwnFacilitiesParkingPrice() {
         return $this->own_facilities_parking_price;
@@ -874,7 +902,7 @@ class ownership {
     /**
      * Get own_water_jacuzee
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getOwnWaterJacuzee() {
         return $this->own_water_jacuzee;
@@ -895,7 +923,7 @@ class ownership {
     /**
      * Get own_water_sauna
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getOwnWaterSauna() {
         return $this->own_water_sauna;
@@ -916,7 +944,7 @@ class ownership {
     /**
      * Get own_water_piscina
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getOwnWaterPiscina() {
         return $this->own_water_piscina;
@@ -937,7 +965,7 @@ class ownership {
     /**
      * Get own_description_bicycle_parking
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getOwnDescriptionBicycleParking() {
         return $this->own_description_bicycle_parking;
@@ -958,7 +986,7 @@ class ownership {
     /**
      * Get own_description_pets
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getOwnDescriptionPets() {
         return $this->own_description_pets;
@@ -979,7 +1007,7 @@ class ownership {
     /**
      * Get own_description_laundry
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getOwnDescriptionLaundry() {
         return $this->own_description_laundry;
@@ -1000,7 +1028,7 @@ class ownership {
     /**
      * Get own_description_internet
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getOwnDescriptionInternet() {
         return $this->own_description_internet;
@@ -1021,7 +1049,7 @@ class ownership {
     /**
      * Get own_address_province
      *
-     * @return \MyCp\mycpBundle\Entity\province 
+     * @return \MyCp\mycpBundle\Entity\province
      */
     public function getOwnAddressProvince() {
         return $this->own_address_province;
@@ -1042,7 +1070,7 @@ class ownership {
     /**
      * Get own_address_municipality
      *
-     * @return \MyCp\mycpBundle\Entity\municipality 
+     * @return \MyCp\mycpBundle\Entity\municipality
      */
     public function getOwnAddressMunicipality() {
         return $this->own_address_municipality;
@@ -1073,7 +1101,7 @@ class ownership {
     /**
      * Get own_rooms
      *
-     * @return Collection 
+     * @return Collection
      */
     public function getOwnRooms() {
         return $this->own_rooms;
@@ -1094,7 +1122,7 @@ class ownership {
     /**
      * Get own_top_20
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getOwnTop20() {
         return $this->own_top_20;
@@ -1232,7 +1260,7 @@ class ownership {
     /**
      * Get own_maximun_number_guests
      *
-     * @return integer 
+     * @return integer
      */
     public function getOwnMaximunNumberGuests() {
         return $this->own_maximun_number_guests;
@@ -1253,7 +1281,7 @@ class ownership {
     /**
      * Get own_facilities_notes
      *
-     * @return string 
+     * @return string
      */
     public function getOwnFacilitiesNotes() {
         return $this->own_facilities_notes;
@@ -1274,7 +1302,7 @@ class ownership {
     /**
      * Get own_langs
      *
-     * @return string 
+     * @return string
      */
     public function getOwnLangs() {
         return $this->own_langs;
@@ -1295,7 +1323,7 @@ class ownership {
     /**
      * Get own_geolocate_x
      *
-     * @return string 
+     * @return string
      */
     public function getOwnGeolocateX() {
         return $this->own_geolocate_x;
@@ -1316,7 +1344,7 @@ class ownership {
     /**
      * Get own_geolocate_y
      *
-     * @return string 
+     * @return string
      */
     public function getOwnGeolocateY() {
         return $this->own_geolocate_y;
@@ -1337,7 +1365,7 @@ class ownership {
     /**
      * Get own_phone_code
      *
-     * @return string 
+     * @return string
      */
     public function getOwnPhoneCode() {
         return $this->own_phone_code;
@@ -1358,7 +1386,7 @@ class ownership {
     /**
      * Get own_status
      *
-     * @return \MyCp\mycpBundle\Entity\ownershipStatus 
+     * @return \MyCp\mycpBundle\Entity\ownershipStatus
      */
     public function getOwnStatus() {
         return $this->own_status;
@@ -1379,7 +1407,7 @@ class ownership {
     /**
      * Get own_comment
      *
-     * @return string 
+     * @return string
      */
     public function getOwnComment() {
         return $this->own_comment;
@@ -1400,7 +1428,7 @@ class ownership {
     /**
      * Get own_commission_percent
      *
-     * @return integer 
+     * @return integer
      */
     public function getOwnCommissionPercent() {
         return $this->own_commission_percent;
@@ -1467,7 +1495,7 @@ class ownership {
     /**
      * Get own_sync_st
      *
-     * @return integer 
+     * @return integer
      */
     public function getOwnSyncSt() {
         return $this->own_sync_st;

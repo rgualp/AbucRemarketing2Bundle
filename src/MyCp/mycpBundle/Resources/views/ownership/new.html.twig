@@ -440,7 +440,11 @@
     <h3 class="title">Top 20</h3>
     <label class="checkbox">
         <input type="checkbox" {% if post['top_20'] is defined and post['top_20'] ==1 %} checked="TRUE" {% endif %} name="top_20"> Habilitar para Top 20
-    </label>
+    </label><br/>
+    <h3 class="title">Recomendable</h3>
+    <label class="checkbox">
+        <input type="checkbox" {% if post['recommendable'] is defined and post['recommendable'] ==1 %} checked="TRUE" {% endif %} name="recommendable"> Habilitar como recomendable en su destino
+    </label><br/>
     <h3 class="title">Publicado</h3>
     {%if errors["status"] is defined %}<label class="error">{{errors["status"]|trim(':')}}</label>{%endif%}
     <select name="status" class="input-block-level">
