@@ -1,0 +1,11 @@
+{% if salers %}
+{% set string ='[' %}
+{% for saler in salers %}
+{% if loop.last %}
+{% set string = string ~ '"'~saler.name~'"' %}
+{% else %}
+{% set string = string ~ '"'~saler.name~'",' %}
+{% endif %}
+{% endfor %}
+{% set string = string ~ ']' %}
+{{string}}{% endif %}

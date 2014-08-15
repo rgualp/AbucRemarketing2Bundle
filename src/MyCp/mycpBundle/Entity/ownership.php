@@ -314,6 +314,34 @@ class ownership {
     private $own_recommendable;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="own_saler", type="string", length=255, nullable=true)
+     */
+    private $own_saler;
+
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="own_visit_date", type="datetime", nullable=true)
+     */
+    private $own_visit_date;
+
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="own_creation_date", type="datetime", nullable=true)
+     */
+    private $own_creation_date;
+
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="own_last_update", type="datetime", nullable=true)
+     */
+    private $own_last_update;
+
+    /**
      * Codigo Yanet - Inicio
      */
 
@@ -383,6 +411,7 @@ class ownership {
         $this->own_description_langs = new ArrayCollection();
         $this->own_general_reservations = new ArrayCollection();
         $this->own_sync_st = SyncStatuses::ADDED;
+        //$this->own_creation_date = new \DateTime();
     }
 
     /**
@@ -402,6 +431,90 @@ class ownership {
     public function getOwnGeneralReservations()
     {
         return $this->own_general_reservations;
+    }
+
+    /**
+     * Set own_last_update
+     *
+     * @param datetime $ownLastUpdate
+     * @return ownership
+     */
+    public function setOwnLastUpdate($ownLastUpdate) {
+        $this->own_last_update = $ownLastUpdate;
+
+        return $this;
+    }
+
+    /**
+     * Get own_last_update
+     *
+     * @return datetime
+     */
+    public function getOwnLastUpdate() {
+        return $this->own_last_update;
+    }
+
+    /**
+     * Set own_creation_date
+     *
+     * @param datetime $ownVisitDate
+     * @return ownership
+     */
+    public function setOwnCreationDate($ownCreationDate) {
+        $this->own_creation_date = $ownCreationDate;
+
+        return $this;
+    }
+
+    /**
+     * Get own_creation_date
+     *
+     * @return datetime
+     */
+    public function getOwnCreationDate() {
+        return $this->own_creation_date;
+    }
+
+    /**
+     * Set own_visit_date
+     *
+     * @param datetime $ownVisitDate
+     * @return ownership
+     */
+    public function setOwnVisitDate($ownVisitDate) {
+        $this->own_visit_date = $ownVisitDate;
+
+        return $this;
+    }
+
+    /**
+     * Get own_visit_date
+     *
+     * @return datetime
+     */
+    public function getOwnVisitDate() {
+        return $this->own_visit_date;
+    }
+
+    /**
+     * Set own_saler
+     *
+     * @param string $ownSaler
+     * @return ownership
+     */
+    public function setOwnSaler($ownSaler) {
+        $this->own_saler = $ownSaler;
+
+        return $this;
+    }
+
+    /**
+     * Get own_saler
+     *
+     * @return string
+     */
+    public function getOwnSaler() {
+        return $this->own_saler;
     }
 
     /**

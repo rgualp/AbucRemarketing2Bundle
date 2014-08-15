@@ -9,6 +9,7 @@ use MyCp\mycpBundle\Entity\unavailabilityDetails;
 use MyCp\mycpBundle\Form\unavailabilityDetailsType;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
+use MyCp\mycpBundle\Helpers\Dates;
 
 class BackendUnavailabilityDetailsController extends Controller {
 
@@ -123,8 +124,8 @@ class BackendUnavailabilityDetailsController extends Controller {
             $post_form = $request->get('mycp_mycpbundle_unavailabilitydetailstype');
             $form->handleRequest($request);
             if ($form->isValid()) {
-                $date_from = $this->createDate($post_form['ud_from_date']);
-                $date_to = $this->createDate($post_form['ud_to_date']);
+                $date_from = Dates::createFromString($post_form['ud_from_date']);
+                $date_to = Dates::createFromString($post_form['ud_to_date']);
 
                 if($date_from > $date_to)
                 {
@@ -216,14 +217,4 @@ class BackendUnavailabilityDetailsController extends Controller {
 
         return $this->redirect($this->generateUrl('mycp_list_room_details_unavailabilityDetails', array('id_room' => $room->getRoomId(), 'num_room' => $num_room)));
     }
-
-    private function createDate($date_string) {
-        try {
-            $date_array = explode('/', $date_string);
-            return new \DateTime($date_array[1] . '/' . $date_array[0] . '/' . $date_array[2]);
-        } catch (\Exception $e) {
-            return new \DateTime();
-        }
-    }
-
 }

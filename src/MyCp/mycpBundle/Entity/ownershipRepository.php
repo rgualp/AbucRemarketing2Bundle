@@ -12,6 +12,7 @@ use MyCp\mycpBundle\Entity\room;
 use MyCp\mycpBundle\Entity\userCasa;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
 use MyCp\mycpBundle\Entity\ownershipStatus;
+use MyCp\mycpBundle\Helpers\Dates;
 
 /**
  * ownershipRepository
@@ -113,6 +114,10 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnRoomsTotal($data['count_rooms']);
         $ownership->setOwnComment($data['comment']);
         $ownership->setOwnCommissionPercent($data['ownership_percent_commission']);
+        $ownership->setOwnSaler($data['ownership_saler']);
+        $ownership->setOwnVisitDate(Dates::createFromString($data['ownership_visit_date']));
+        $ownership->setOwnLastUpdate(new \DateTime());
+        $ownership->setOwnCreationDate(new \DateTime());
         //var_dump($data);
         //exit();
 
@@ -337,6 +342,9 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnComment($data['comment']);
         $old_rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $data['edit_ownership']));
         $ownership->setOwnCommissionPercent($data['ownership_percent_commission']);
+        $ownership->setOwnLastUpdate(new \DateTime());
+        $ownership->setOwnSaler($data['ownership_saler']);
+        $ownership->setOwnVisitDate(Dates::createFromString($data['ownership_visit_date']));
 
         /**
          * Codigo Yanet - Inicio
@@ -492,39 +500,39 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
         $em->flush();
     }
 
-    function get_all_ownerships($filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality, $filter_type, $filter_name) {
+    function get_all_ownerships($filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality, $filter_type, $filter_name, $filter_saler, $filter_visit_date) {
 
-        $string = '';
+        $condition = '';
         if ($filter_active != 'null' && $filter_active != '') {
-            $string = "AND ow.own_status = :filter_active";
+            $condition .= "AND ow.own_status = :filter_active ";
         }
-
-        $string2 = '';
         if ($filter_category != 'null' && $filter_category != '') {
-            $string2 = "AND ow.own_category = :filter_category";
+            $condition .= " AND ow.own_category = :filter_category ";
         }
-        $string3 = '';
         if ($filter_province != 'null' && $filter_province != '') {
-            $string3 = "AND ow.own_address_province = :filter_province";
+            $condition .= " AND ow.own_address_province = :filter_province ";
         }
-        $string4 = '';
         if ($filter_municipality != 'null' && $filter_municipality != '') {
-            $string4 = "AND ow.own_address_municipality = :filter_municipality";
+            $condition .= " AND ow.own_address_municipality = :filter_municipality ";
         }
-        $string5 = '';
         if ($filter_type != 'null' && $filter_type != '') {
-            $string5 = "AND ow.own_type = :filter_type";
+            $condition .= " AND ow.own_type = :filter_type ";
         }
 
-        $string6 = '';
         if ($filter_name != 'null' && $filter_name != '') {
-            $string6 = "AND ow.own_name LIKE :filter_name";
+            $condition .= " AND ow.own_name LIKE :filter_name ";
+        }
+        if ($filter_saler != 'null' && $filter_saler != '') {
+            $condition .= " AND ow.own_saler LIKE :filter_saler ";
+        }
+        if ($filter_visit_date != 'null' && $filter_visit_date != '') {
+            $condition .= " AND ow.own_visit_date = :filter_visit_date ";
         }
 
 
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT ow FROM mycpBundle:ownership ow
-        WHERE ow.own_mcp_code LIKE :filter_code $string $string2 $string3 $string4 $string5 $string6 ORDER BY ow.own_mcp_code ASC");
+        WHERE ow.own_mcp_code LIKE :filter_code $condition ORDER BY ow.own_mcp_code ASC");
 
         if ($filter_active != 'null' && $filter_active != '')
             $query->setParameter('filter_active', $filter_active);
@@ -543,6 +551,12 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
 
         if ($filter_name != 'null' && $filter_name != '')
             $query->setParameter('filter_name', "%" . $filter_name . "%");
+
+        if ($filter_saler != 'null' && $filter_saler != '')
+            $query->setParameter('filter_saler', "%" . $filter_saler . "%");
+
+        if ($filter_visit_date != 'null' && $filter_visit_date != '')
+            $query->setParameter('filter_visit_date', Dates::createFromString($filter_visit_date,'-'));
 
         if (isset($filter_code))
             $query->setParameter('filter_code', "%" . $filter_code . "%");
@@ -925,6 +939,12 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                   (SELECT count(own2.own_id) FROM mycpBundle:ownership own2 WHERE own2.own_top_20 = 1 AND own2.own_status = 1 AND own2.own_category = 'Económica') as economic_total
                   FROM mycpBundle:ownership own WHERE own.own_top_20 = 1 AND own.own_status = 1 AND own.own_category = 'Premium'";
         return $em->createQuery($query)->getOneOrNullResult();
+    }
+
+    public function getSalersNames() {
+        $em = $this->getEntityManager();
+        $query = "SELECT DISTINCT own.own_saler as name FROM mycpBundle:ownership own ORDER BY own.own_saler";
+        return $em->createQuery($query)->getResult();
     }
 
     /**

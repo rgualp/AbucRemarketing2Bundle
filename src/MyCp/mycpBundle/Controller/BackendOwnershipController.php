@@ -151,8 +151,10 @@ class BackendOwnershipController extends Controller {
         $filter_type = $request->get('filter_type');
         $filter_category = $request->get('filter_category');
         $filter_code = $request->get('filter_code');
+        $filter_saler = $request->get('filter_saler');
+        $filter_visit_date = $request->get('filter_visit_date');
         if ($request->getMethod() == 'POST' && $filter_name == 'null' && $filter_active == 'null' && $filter_province == 'null' && $filter_municipality == 'null' &&
-                $filter_type == 'null' && $filter_category == 'null' && $filter_code == 'null'
+                $filter_type == 'null' && $filter_category == 'null' && $filter_code == 'null' && $filter_saler == 'null' && $filter_visit_date == 'null'
         ) {
             $message = 'Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
@@ -162,6 +164,11 @@ class BackendOwnershipController extends Controller {
             $filter_code = '';
         if ($filter_name == 'null')
             $filter_name = '';
+        if ($filter_saler == 'null')
+            $filter_saler = '';
+        if ($filter_visit_date == 'null')
+            $filter_visit_date = '';
+
         if (isset($_GET['page']))
             $page = $_GET['page'];
 
@@ -169,7 +176,7 @@ class BackendOwnershipController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $ownerships = $paginator->paginate($em->getRepository('mycpBundle:ownership')->get_all_ownerships(
-                                $filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality, $filter_type, $filter_name
+                                $filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality, $filter_type, $filter_name, $filter_saler, $filter_visit_date
                 ))->getResult();
         $data = array();
         foreach ($ownerships as $ownership) {
@@ -193,6 +200,8 @@ class BackendOwnershipController extends Controller {
                     'filter_province' => $filter_province,
                     'filter_municipality' => $filter_municipality,
                     'filter_type' => $filter_type,
+                    'filter_saler' => $filter_saler,
+                    'filter_visit_date' => $filter_visit_date
         ));
     }
 
@@ -313,6 +322,10 @@ class BackendOwnershipController extends Controller {
         $post['comment'] = $ownership->getOwnComment();
         $post['ownership_percent_commission'] = $ownership->getOwnCommissionPercent();
         $post['recommendable'] = $ownership->getOwnRecommendable();
+        $post['ownership_saler'] = $ownership->getOwnSaler();
+        $post['ownership_visit_date'] = $ownership->getOwnVisitDate();
+        $post['ownership_creation_date'] = $ownership->getOwnCreationDate();
+        $post['ownership_last_update'] = $ownership->getOwnLastUpdate();
 
         $langs = $ownership->getOwnLangs();
         if ($langs[0] == 1)
@@ -1098,6 +1111,11 @@ class BackendOwnershipController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $ownerships = $em->getRepository('mycpBundle:ownership')->findAll();
         return $this->render('mycpBundle:utils:ownership_names.html.twig', array('ownerships' => $ownerships));
+    }
+    public function get_salers_namesAction() {
+        $em = $this->getDoctrine()->getEntityManager();
+        $salers = $em->getRepository('mycpBundle:ownership')->getSalersNames();
+        return $this->render('mycpBundle:utils:saler_names.html.twig', array('salers' => $salers));
     }
 
     public function get_statusAction($post) {
