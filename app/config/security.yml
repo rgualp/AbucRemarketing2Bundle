@@ -47,7 +47,7 @@ security:
             form_login:
                 check_path: frontend_ckeck
                 login_path: frontend_login
-                remember_me: false
+                remember_me: true
             remember_me:
                 key: %secret%
                 #7dsa7ydasdy872187yegwhqeg9yw91hjsaa00
