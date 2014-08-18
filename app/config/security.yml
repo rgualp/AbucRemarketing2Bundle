@@ -27,12 +27,18 @@ security:
             form_login:
                 check_path: /backend/login_check
                 login_path: /backend/login
+                remember_me: true
             remember_me:
-                key: 7dsa7ydasdy872187yegwhqeg9yw91hjsaa00
+                key: %secret%
+                #7dsa7ydasdy872187yegwhqeg9yw91hjsaa00
                 lifetime: 86400
+                always_remember_me: true
+                path: /
+                domain: ~
             logout:
                 path:   /backend/logout
                 target: /backend
+                invalidate_session: false
             anonymous: ~
 
         user:
@@ -41,9 +47,13 @@ security:
             form_login:
                 check_path: frontend_ckeck
                 login_path: frontend_login
+                remember_me: false
             remember_me:
-                key: 7dsa7ydasdy872187yegwhqeg9yw91hjsaa00
+                key: %secret%
+                #7dsa7ydasdy872187yegwhqeg9yw91hjsaa00
                 lifetime: 86400
+                path: /
+                domain: ~
             logout:
                 path:   /logout
                 target: /
@@ -53,7 +63,8 @@ security:
     access_control:
         - { path: ^/backend/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backend/mycp_cf, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/backend, roles: [ROLE_CLIENT_STAFF,ROLE_CLIENT_CASA,ROLE_CLIENT_CASA] }
+        - { path: ^/backend, roles: IS_AUTHENTICATED_REMEMBERED}
+        #[ROLE_CLIENT_STAFF,ROLE_CLIENT_CASA,ROLE_CLIENT_CASA] }
         - { path: '^/[a-z]{2}/user/cart', roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: '^/[a-z]{2}/user/confirmation', roles: [ROLE_CLIENT_TOURIST]}
         - { path: '^/[a-z]{2}/user/cart/add', roles: IS_AUTHENTICATED_ANONYMOUSLY }
