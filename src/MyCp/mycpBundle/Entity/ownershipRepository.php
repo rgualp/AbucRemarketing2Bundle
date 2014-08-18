@@ -500,7 +500,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
         $em->flush();
     }
 
-    function get_all_ownerships($filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality, $filter_type, $filter_name, $filter_saler, $filter_visit_date) {
+    function get_all_ownerships($filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality, $filter_type, $filter_name, $filter_saler='', $filter_visit_date='') {
 
         $condition = '';
         if ($filter_active != 'null' && $filter_active != '') {
