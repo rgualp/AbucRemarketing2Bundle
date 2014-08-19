@@ -545,7 +545,8 @@ class BackendOwnershipController extends Controller {
                                 $array_keys[$count] != 'ownership_mobile_number' &&
                                 $array_keys[$count] != 'ownership_phone_number' &&
                                 $array_keys[$count] != 'ownership_email_2' &&
-                                $array_keys[$count] != 'ownership_homeowner_2'
+                                $array_keys[$count] != 'ownership_homeowner_2'&& $array_keys[$count] != 'ownership_saler' &&
+                                $array_keys[$count] != 'ownership_visit_date'
                         ) {
                             $errors[$array_keys[$count]] = $errors_validation = $this->get('validator')->validateValue($item, $not_blank_validator);
                             $data['count_errors']+=count($errors[$array_keys[$count]]);
@@ -812,6 +813,9 @@ class BackendOwnershipController extends Controller {
         $errors_keys = array_keys($errors);
         $errors_temp = array();
         $flag = 0;
+
+
+
         foreach ($errors as $error) {
             if (is_object($error)) {
                 if ($error->__toString() != '') {
@@ -825,6 +829,7 @@ class BackendOwnershipController extends Controller {
 
         $errors_tab = array();
         foreach ($errors_temp as $error) {
+
 
             if (strpos($error, 'ownership') === 0) {
                 $errors_tab['general_tab'] = true;
