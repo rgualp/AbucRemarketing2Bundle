@@ -56,10 +56,10 @@ class Secure {
     }
 
     public function getEncodedUserString(user $user) {
-        return $this->encode_string($user->getUserEmail() . '///' . $user->getUserId());
+        return $this->encodeString($user->getUserEmail() . '///' . $user->getUserId());
     }
 
-    public function encode_string($string) {
+    public function encodeString($string) {
         $key = $this->container->getParameter('encode.key');
         $result = '';
         for ($i = 0; $i < strlen($string); $i++) {
@@ -71,7 +71,7 @@ class Secure {
         return base64_encode($result);
     }
 
-    public function decode_string($string) {
+    public function decodeString($string) {
         $key = $this->container->getParameter('encode.key');
         $result = '';
         $string = base64_decode($string);

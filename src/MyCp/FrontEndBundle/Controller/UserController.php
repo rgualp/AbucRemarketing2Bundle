@@ -86,7 +86,7 @@ class UserController extends Controller {
 
     public function enableAction($string) {
         $service_security = $this->get('Secure');
-        $decode_string = $service_security->decode_string($string);
+        $decode_string = $service_security->decodeString($string);
         $user_atrib = explode('///', $decode_string);
 
         $em = $this->getDoctrine()->getManager();
@@ -165,7 +165,7 @@ class UserController extends Controller {
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $service_security = $this->get('Secure');
-                $decode_string = $service_security->decode_string($string);
+                $decode_string = $service_security->decodeString($string);
                 $user_atrib = explode('///', $decode_string);
                 if (isset($user_atrib[1])) {
                     $user = $em->getRepository('mycpBundle:user')->findOneBy(array('user_id' => $user_atrib[1], 'user_email' => $user_atrib[0]));
