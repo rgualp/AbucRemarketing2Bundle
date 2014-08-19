@@ -19,7 +19,7 @@ class BackendAlbumController extends Controller {
 
     function list_categoryAction($items_per_page, Request $request) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $languages = $em->getRepository('mycpBundle:lang')->findAll();
 
@@ -39,7 +39,7 @@ class BackendAlbumController extends Controller {
 
     function new_categoryAction(Request $request) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $languages = $em->getRepository('mycpBundle:lang')->findAll();
         $form = $this->createForm(new categoryType(array('languages' => $languages)));
@@ -75,7 +75,7 @@ class BackendAlbumController extends Controller {
 
     function edit_categoryAction($id_category, Request $request) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
 
         $languages = $em->getRepository('mycpBundle:lang')->findAll();
@@ -118,7 +118,7 @@ class BackendAlbumController extends Controller {
 
     function delete_categoryAction($id_category) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $category = $em->getRepository('mycpBundle:albumCategory')->find($id_category);
         $category_langs = $em->getRepository('mycpBundle:albumCategoryLang')->findby(array('album_cat_id_cat' => $category));
@@ -150,7 +150,7 @@ class BackendAlbumController extends Controller {
                 }
                 $em->remove($albums_photo);
                 $em->remove($photo);
-                
+
             }
             $em->remove($album);
         }
@@ -168,7 +168,7 @@ class BackendAlbumController extends Controller {
 
     function list_albumsAction($items_per_page, Request $request) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
 
         /* $permissions=$em->getRepository('mycpBundle:permission')->findAll();
           $role=$em->getRepository('mycpBundle:role')->find(4);
@@ -234,7 +234,7 @@ class BackendAlbumController extends Controller {
 
     public function new_albumAction(Request $request) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $errors = array();
         $post = $request->request->getIterator()->getArrayCopy();
         $em = $this->getDoctrine()->getEntityManager();
@@ -287,7 +287,7 @@ class BackendAlbumController extends Controller {
 
     public function delete_albumAction($id_album) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $dir = $this->container->getParameter('album.dir.photos');
         $dir_thumbs = $this->container->getParameter('album.dir.thumbnails');
@@ -309,7 +309,7 @@ class BackendAlbumController extends Controller {
             }
             $em->remove($albumPhoto);
             $em->remove($photo);
-            
+
         }
 
         $album = $em->getRepository('mycpBundle:album')->find($id_album);
@@ -328,7 +328,7 @@ class BackendAlbumController extends Controller {
 
     public function edit_albumAction($id_album) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $errors = array();
         $em = $this->getDoctrine()->getEntityManager();
         $album = $em->getRepository('mycpBundle:album')->find($id_album);
@@ -356,7 +356,7 @@ class BackendAlbumController extends Controller {
 
     public function list_photosAction($id_album, $items_per_page, Request $request) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $data = array();
         $page = 1;
         if (isset($_GET['page']))
@@ -385,7 +385,7 @@ class BackendAlbumController extends Controller {
 
     public function new_photosAction($id_album, Request $request) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $data = array();
         $errors = array();
         $post = '';
@@ -433,12 +433,12 @@ class BackendAlbumController extends Controller {
                         $photo = new photo();
                         $fileName = uniqid('destination-') . '-photo.jpg';
                         $file->move($dir, $fileName);
-                        
+
                         //Creando thumbnail, redimensionando y colocando marca de agua
                         \MyCp\mycpBundle\Helpers\Images::create_thumbnail($dir.$fileName, $dir_thumbs.$fileName, $thumbs_size);
                         \MyCp\mycpBundle\Helpers\Images::resize($dir.$fileName, $photo_size);
                         //\MyCp\mycpBundle\Helpers\Images::resize_and_watermark($dir.$fileName, $dir_watermark, 480);
-                        
+
                         $photo->setPhoName($fileName);
                         $albumPhoto->setAlbPhoAlbum($album);
                         $albumPhoto->setAlbPhoPhoto($photo);
@@ -476,7 +476,7 @@ class BackendAlbumController extends Controller {
 
     public function delete_photoAction($id_album, $id_photo) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $dir = $this->container->getParameter('album.dir.photos');
         $dir_thumbs = $this->container->getParameter('album.dir.thumbnails');
         $em = $this->getDoctrine()->getEntityManager();
@@ -504,7 +504,7 @@ class BackendAlbumController extends Controller {
 
     public function edit_photoAction($id_photo, $id_album, Request $request) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $post = '';
         $em = $this->getDoctrine()->getEntityManager();
         $errors = array();

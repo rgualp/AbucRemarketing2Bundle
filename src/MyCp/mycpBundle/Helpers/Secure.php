@@ -34,7 +34,7 @@ class Secure {
         $this->container->get('session')->set('permissions', $permissions);
     }
 
-    public function verify_access() {
+    public function verifyAccess() {
         if ($this->container->get('session')->get('permissions')) {
             $route = $this->container->get('request')->attributes->all();
 

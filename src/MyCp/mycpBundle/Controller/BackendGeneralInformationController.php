@@ -16,7 +16,7 @@ class BackendGeneralInformationController extends Controller
     function list_informationsAction(Request $request)
     {
         $service_security= $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $em=$this->getDoctrine()->getEntityManager();
         $informations=$em->getRepository('mycpBundle:informationLang')->get_informations();
         $categories = $em->getRepository('mycpBundle:information')->category_names($informations, "ES");
@@ -28,13 +28,13 @@ class BackendGeneralInformationController extends Controller
     function new_informationAction(Request $request)
     {
         $service_security= $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $errors=array();
         $post = $request->request->getIterator()->getArrayCopy();
         $em=$this->getDoctrine()->getEntityManager();
         $languages=$em->getRepository('mycpBundle:lang')->findAll();
         $information_types = $em->getRepository('mycpBundle:nomenclator')->get_by_category('information');
-        
+
         if($request->getMethod()=='POST')
         {
             $not_blank_validator = new NotBlank();
@@ -93,14 +93,14 @@ class BackendGeneralInformationController extends Controller
     function edit_informationAction($id_information,Request $request)
     {
         $service_security= $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $em=$this->getDoctrine()->getEntityManager();
         $languages=$em->getRepository('mycpBundle:lang')->findAll();
         $post=array();
         $information = $em->getRepository('mycpBundle:information')->find($id_information);
         $informations_langs=$em->getRepository('mycpBundle:informationLang')->findBy(array('info_lang_info'=>$id_information));
         $information_types = $em->getRepository('mycpBundle:nomenclator')->get_by_category('information');
-        
+
         $post['information_type'] = $information->getInfoIdNom()->getNomId();
         foreach($informations_langs as $information_lang)
         {
@@ -113,7 +113,7 @@ class BackendGeneralInformationController extends Controller
     function delete_informationAction($id_information,Request $request)
     {
         $service_security= $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
 
         $em=$this->getDoctrine()->getEntityManager();
         $information=$em->getRepository('mycpBundle:information')->find($id_information);

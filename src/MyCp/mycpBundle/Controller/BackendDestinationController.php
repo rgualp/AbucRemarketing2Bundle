@@ -20,7 +20,7 @@ class BackendDestinationController extends Controller
 {
     function new_categoryAction(Request $request) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $languages = $em->getRepository('mycpBundle:lang')->findAll();
         $form = $this->createForm(new categoryType(array('languages' => $languages,'des_photo'=>true)));
@@ -73,7 +73,7 @@ class BackendDestinationController extends Controller
 
     function edit_categoryAction($id_category, Request $request) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $languages = $em->getRepository('mycpBundle:lang')->findAll();
         $dest_cat_lang = $em->getRepository('mycpBundle:destinationCategoryLang')->findBy(array('des_cat_id_cat'=>$id_category));
@@ -136,7 +136,7 @@ class BackendDestinationController extends Controller
 
     function delete_categoryAction($id_category) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $category = $em->getRepository('mycpBundle:destinationCategory')->find($id_category);
         $category_langs = $em->getRepository('mycpBundle:destinationCategoryLang')->findby(array('des_cat_id_cat' => $category));
@@ -176,7 +176,7 @@ class BackendDestinationController extends Controller
 
     function list_categoryAction($items_per_page, Request $request) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $languages = $em->getRepository('mycpBundle:lang')->findAll();
 
@@ -197,7 +197,7 @@ class BackendDestinationController extends Controller
     public function new_destinationAction(Request $request)
     {
         $service_security= $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
 
         $errors = array();
         $post = $request->request->getIterator()->getArrayCopy();
@@ -273,7 +273,7 @@ class BackendDestinationController extends Controller
     public function list_destinationAction($items_per_page, Request $request)
     {
         $service_security= $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
 
         $page=1;
         $data='';
@@ -322,7 +322,7 @@ class BackendDestinationController extends Controller
     public function delete_destinationAction($id_destination)
     {
         $service_security= $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
 
         $em = $this->getDoctrine()->getEntityManager();
         $dir=$this->container->getParameter('destination.dir.photos');
@@ -363,7 +363,7 @@ class BackendDestinationController extends Controller
             {
                 $em->remove($destinationPhotoLang);
             }
-            
+
             $em->remove($destinationPhoto);
             $em->remove($photo);
         }
@@ -386,7 +386,7 @@ class BackendDestinationController extends Controller
     public function edit_destinationAction($id_destination)
     {
         $service_security= $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
 
         $errors = array();
         $em = $this->getDoctrine()->getEntityManager();
@@ -449,7 +449,7 @@ class BackendDestinationController extends Controller
     public function list_photosAction($id_destination,$items_per_page,Request $request)
     {
         $service_security= $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $data=array();
         $page=1;
         if(isset($_GET['page']))$page=$_GET['page'];
@@ -480,7 +480,7 @@ class BackendDestinationController extends Controller
     public function new_photosAction($id_destination,Request $request)
     {
         $service_security= $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $data=array();
         $errors=array();
         $post='';
@@ -491,7 +491,7 @@ class BackendDestinationController extends Controller
         $dir_watermark=$this->container->getParameter('dir.watermark');
         $photo_size = $this->container->getParameter('destination.dir.photos.size');
         $thumbs_size = $this->container->getParameter('thumbnail.size');
-        
+
         if ($request->getMethod() == 'POST') {
             $post = $request->request->getIterator()->getArrayCopy();
             $files = $request->files->get('images');
@@ -537,7 +537,7 @@ class BackendDestinationController extends Controller
                         \MyCp\mycpBundle\Helpers\Images::create_thumbnail($dir.$fileName, $dir_thumbs.$fileName, $thumbs_size);
                         //\MyCp\mycpBundle\Helpers\Images::resize_and_watermark($dir.$fileName, $dir_watermark, 480);
                         \MyCp\mycpBundle\Helpers\Images::resize($dir.$fileName, $photo_size);
-                        
+
                         $photo->setPhoName($fileName);
                         $destinationPhoto->setDesPhoDestination($destination);
                         $destinationPhoto->setDesPhoPhoto($photo);
@@ -631,7 +631,7 @@ class BackendDestinationController extends Controller
      public function delete_photoAction($id_destination,$id_photo)
      {
          $service_security= $this->get('Secure');
-         $service_security->verify_access();
+         $service_security->verifyAccess();
          $dir=$this->container->getParameter('destination.dir.photos');
          $dir_thumbnails=$this->container->getParameter('destination.dir.thumbnails');
          $em = $this->getDoctrine()->getEntityManager();
@@ -668,7 +668,7 @@ class BackendDestinationController extends Controller
     public function edit_photoAction($id_photo,$id_destination,Request $request)
     {
         $service_security= $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $post='';
         $em = $this->getDoctrine()->getEntityManager();
         $errors=array();

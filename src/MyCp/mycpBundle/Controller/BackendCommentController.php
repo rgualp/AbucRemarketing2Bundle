@@ -17,7 +17,7 @@ class BackendCommentController extends Controller
     public function list_commentAction($items_per_page, Request $request)
     {
         $service_security= $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
 
         $page=1;
         $data='';
@@ -59,7 +59,7 @@ class BackendCommentController extends Controller
     public function new_commentAction(Request $request)
     {
         $service_security= $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $comment=new comment();
         $form=$this->createForm( new commentType(),$comment);
         if($request->getMethod()=='POST')
@@ -93,7 +93,7 @@ class BackendCommentController extends Controller
     public function edit_commentAction($id_comment,Request $request)
     {
         $service_security= $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $message='';
         $em = $this->getDoctrine()->getEntityManager();
         $comment=$em->getRepository('mycpBundle:comment')->find($id_comment);
@@ -124,7 +124,7 @@ class BackendCommentController extends Controller
     public function delete_commentAction($id_comment)
     {
         $service_security= $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $comment=$em->getRepository('mycpBundle:comment')->find($id_comment);
 

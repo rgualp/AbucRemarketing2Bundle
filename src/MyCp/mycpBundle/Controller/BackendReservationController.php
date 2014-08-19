@@ -177,7 +177,7 @@ class BackendReservationController extends Controller {
 
     public function list_reservationsAction($items_per_page, Request $request) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $page = 1;
         $filter_date_reserve = $request->get('filter_date_reserve');
         $filter_offer_number = $request->get('filter_offer_number');
@@ -259,7 +259,7 @@ class BackendReservationController extends Controller {
 
     public function list_reservations_bookingAction($items_per_page, Request $request) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
 
         $filter_booking_number = $request->get('filter_booking_number');
         $filter_date_booking = $request->get('filter_date_booking');
@@ -305,7 +305,7 @@ class BackendReservationController extends Controller {
 
     public function details_bookingAction($id_booking) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
         $booking = $em->getRepository('mycpBundle:booking')->find($id_booking);
         $user = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $booking->getBookingUserId()));
@@ -319,7 +319,7 @@ class BackendReservationController extends Controller {
 
     public function list_reservations_userAction($items_per_page, Request $request) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $page = 1;
         $filter_user_name = $request->get('filter_user_name');
         $filter_user_email = $request->get('filter_user_email');
@@ -385,7 +385,7 @@ class BackendReservationController extends Controller {
     public function details_client_reservationAction($id_client, Request $request) {
 
         //$service_security= $this->get('Secure');
-        //$service_security->verify_access();
+        //$service_security->verifyAccess();
         //$service_log= $this->get('log');
         //$service_log->save_log('Visit',7);
 
@@ -450,7 +450,7 @@ class BackendReservationController extends Controller {
 
     public function new_reservationAction(Request $request) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $data = array();
         $em = $this->getDoctrine()->getEntityManager();
         $role = $em->getRepository('mycpBundle:role')->findBy(array('role_name' => 'ROLE_CLIENT_TOURIST'));
@@ -754,7 +754,7 @@ class BackendReservationController extends Controller {
 
     public function edit_reservationAction($id_reservation, Request $request) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $reservation = $em->getRepository('mycpBundle:ownershipReservation')->get_reservation_by_id($id_reservation);
 

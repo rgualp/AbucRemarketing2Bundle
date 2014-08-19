@@ -15,7 +15,7 @@ class BackendUnavailabilityDetailsController extends Controller {
 
     public function listAction($items_per_page, Request $request) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $page = 1;
         $filter_active = $request->get('filter_active');
 
@@ -66,7 +66,7 @@ class BackendUnavailabilityDetailsController extends Controller {
 
     public function list_roomsAction($id_ownership, $items_per_page, Request $request) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
@@ -88,7 +88,7 @@ class BackendUnavailabilityDetailsController extends Controller {
 
     public function room_detailsAction($id_room, $num_room, $items_per_page, Request $request) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
@@ -112,7 +112,7 @@ class BackendUnavailabilityDetailsController extends Controller {
 
     public function newAction($id_room, $num_room, Request $request) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
 
         $em = $this->getDoctrine()->getEntityManager();
         $room = $em->getRepository('mycpBundle:room')->find($id_room);
@@ -160,7 +160,7 @@ class BackendUnavailabilityDetailsController extends Controller {
 
     public function editAction($id_detail, $num_room, Request $request) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
 
         $em = $this->getDoctrine()->getEntityManager();
         $uDetails = $em->getRepository('mycpBundle:unavailabilityDetails')->find($id_detail);
@@ -201,7 +201,7 @@ class BackendUnavailabilityDetailsController extends Controller {
 
     public function deleteAction($id_detail, $num_room) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $uDetails = $em->getRepository('mycpBundle:unavailabilityDetails')->find($id_detail);
         $room = $uDetails->getRoom();

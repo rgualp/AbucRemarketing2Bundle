@@ -12,7 +12,7 @@ class BackendLogController extends Controller
     function list_logsAction(Request $request)
     {
         $service_security= $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $logs=array();
         $msg_count_logs=0;
         $msg_session=0;

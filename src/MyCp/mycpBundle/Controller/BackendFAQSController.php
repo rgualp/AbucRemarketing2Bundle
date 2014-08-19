@@ -17,7 +17,7 @@ class BackendFAQSController extends Controller
     function list_categoryAction($items_per_page,Request $request)
     {
         $service_security= $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $languages=$em->getRepository('mycpBundle:lang')->findAll();
         $paginator = $this->get('ideup.simple_paginator');
@@ -37,7 +37,7 @@ class BackendFAQSController extends Controller
     function new_categoryAction(Request $request)
     {
         $service_security= $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $languages=$em->getRepository('mycpBundle:lang')->findAll();
         $form = $this->createForm(new categoryType(array('languages'=>$languages)));
@@ -76,7 +76,7 @@ class BackendFAQSController extends Controller
     function edit_categoryAction($id_category, Request $request)
     {
         $service_security= $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
 
 
@@ -128,7 +128,7 @@ class BackendFAQSController extends Controller
     public function new_faqAction(Request $request)
     {
         $service_security= $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $errors = array();
         $post = $request->request->getIterator()->getArrayCopy();
         $em = $this->getDoctrine()->getEntityManager();
@@ -199,7 +199,7 @@ class BackendFAQSController extends Controller
     public function list_faqsAction($items_per_page,Request $request)
     {
         $service_security= $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $page=1;
         $filter_active=$request->get('filter_active');
         $filter_name=$request->get('filter_name');
@@ -244,7 +244,7 @@ class BackendFAQSController extends Controller
     function edit_faqAction($id_faq)
     {
         $service_security= $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $errors = array();
         $em = $this->getDoctrine()->getEntityManager();
         $faq=$em->getRepository('mycpBundle:faq')->find($id_faq);
@@ -273,7 +273,7 @@ class BackendFAQSController extends Controller
     function delete_faqAction($id_faq)
     {
         $service_security= $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $faqsLang=$em->getRepository('mycpBundle:faqLang')->findBy(array('faq_lang_faq'=>$id_faq));
         $old_entity=$faqsLang[0]->getFaqLangQuestion();
@@ -325,7 +325,7 @@ class BackendFAQSController extends Controller
     function delete_categoryAction($id_category)
     {
         $service_security= $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $category=$em->getRepository('mycpBundle:faqCategory')->find($id_category);
         $categoryLangs=$em->getRepository('mycpBundle:faqCategoryLang')->findby(array('faq_cat_id_cat'=>$category));

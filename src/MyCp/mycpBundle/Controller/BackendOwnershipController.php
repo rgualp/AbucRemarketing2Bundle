@@ -23,7 +23,7 @@ class BackendOwnershipController extends Controller {
 
     public function list_photosAction($id_ownership, $items_per_page, Request $request) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $data = array();
         $page = 1;
         if (isset($_GET['page']))
@@ -52,7 +52,7 @@ class BackendOwnershipController extends Controller {
 
     public function new_photosAction($id_ownership, Request $request) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $data = array();
         $post = '';
         $errors = array();
@@ -141,7 +141,7 @@ class BackendOwnershipController extends Controller {
 
     public function list_ownershipsAction($items_per_page, Request $request) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $page = 1;
         $filter_active = $request->get('filter_active');
 
@@ -207,7 +207,7 @@ class BackendOwnershipController extends Controller {
 
     public function delete_photoAction($id_ownership, $id_photo) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $dir = $this->container->getParameter('ownership.dir.photos');
         $dir_thumbnails = $this->container->getParameter('ownership.dir.thumbnails');
         $em = $this->getDoctrine()->getEntityManager();
@@ -235,7 +235,7 @@ class BackendOwnershipController extends Controller {
 
     public function delete_roomAction($id_room, $type) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
 
         $em = $this->getDoctrine()->getManager();
         $ro = new room();
@@ -285,7 +285,7 @@ class BackendOwnershipController extends Controller {
 
     public function edit_ownershipAction($id_ownership, Request $request) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $errors = array();
         $em = $this->getDoctrine()->getEntityManager();
         $ownership = new ownership();
@@ -438,7 +438,7 @@ class BackendOwnershipController extends Controller {
     public function delete_ownershipAction($id_ownership) {
 
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
 
         $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
@@ -511,7 +511,7 @@ class BackendOwnershipController extends Controller {
     public function new_ownershipAction(Request $request) {
 
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $count_rooms = 1;
         $post = $request->request->getIterator()->getArrayCopy();
@@ -864,7 +864,7 @@ class BackendOwnershipController extends Controller {
 
     public function edit_photoAction($id_photo, $id_ownership, Request $request) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $post = '';
         $em = $this->getDoctrine()->getEntityManager();
         $errors = array();

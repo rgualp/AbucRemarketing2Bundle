@@ -19,7 +19,7 @@ class BackendLanguageController extends Controller
     public function list_languagesAction($items_per_page)
     {
         $service_security= $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $page=1;
         if(isset($_GET['page']))$page=$_GET['page'];
         $em = $this->getDoctrine()->getEntityManager();
@@ -41,7 +41,7 @@ class BackendLanguageController extends Controller
     public function edit_languageAction($id_language,Request $request)
     {
         $service_security= $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $lang=$em->getRepository('mycpBundle:lang')->find($id_language);
         $lang_flag=$em->getRepository('mycpBundle:langFlag')->findBy(array('lang_flag_lang_id'=>$id_language));
@@ -97,7 +97,7 @@ class BackendLanguageController extends Controller
     public function new_languageAction(Request $request)
     {
         $service_security= $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $lang=new lang();
         $data=array();
         $form=$this->createForm( new langType(),$lang);
@@ -147,7 +147,7 @@ class BackendLanguageController extends Controller
     public function delete_languageAction($id_language)
     {
         $service_security= $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $language=$em->getRepository('mycpBundle:lang')->find($id_language);
         //delete relations

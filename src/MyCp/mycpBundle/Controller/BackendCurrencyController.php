@@ -13,7 +13,7 @@ class BackendCurrencyController extends Controller {
 
     public function list_currenciesAction($items_per_page) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
@@ -35,7 +35,7 @@ class BackendCurrencyController extends Controller {
 
     public function edit_currencyAction($id_currency, Request $request) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $message = '';
         $errors = array();
         $em = $this->getDoctrine()->getEntityManager();
@@ -86,7 +86,7 @@ class BackendCurrencyController extends Controller {
 
     public function new_currencyAction(Request $request) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $currency = new currency();
         $form = $this->createForm(new currencyType, $currency);
         if ($request->getMethod() == 'POST') {
@@ -122,7 +122,7 @@ class BackendCurrencyController extends Controller {
 
     public function delete_currencyAction($id_currency) {
         $service_security = $this->get('Secure');
-        $service_security->verify_access();
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $currency = $em->getRepository('mycpBundle:currency')->find($id_currency);
         $user = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_currency' => $currency));
