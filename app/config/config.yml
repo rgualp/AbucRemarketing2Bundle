@@ -109,6 +109,10 @@ services:
         arguments:
             session: "@session"
             entity_manager: "@doctrine.orm.entity_manager"
+    twig.extension.mycpExtension:
+        class: MyCp\mycpBundle\Twig\Extension\mycpExtension
+        tags:
+            - { name: twig.extension }
     log:
         class: MyCp\mycpBundle\Helpers\Logs
         tags:

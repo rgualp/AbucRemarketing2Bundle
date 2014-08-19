@@ -18,6 +18,7 @@ use MyCp\mycpBundle\Entity\photoLang;
 use MyCp\mycpBundle\Entity\ownershipPhoto;
 use MyCp\mycpBundle\Helpers\OwnershipStatuses;
 use MyCp\mycpBundle\Entity\ownershipStatus;
+use MyCp\mycpBundle\Helpers\BackendModuleName;
 
 class BackendOwnershipController extends Controller {
 
@@ -123,7 +124,7 @@ class BackendOwnershipController extends Controller {
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                     $service_log = $this->get('log');
-                    $service_log->saveLog('Create photo, entity ' . $ownership->getOwnName(), 4);
+                    $service_log->saveLog('Create photo, entity ' . $ownership->getOwnName(), BackendModuleName::MODULE_OWNERSHIP);
 
                     return $this->redirect($this->generateUrl('mycp_list_photos_ownership', array('id_ownership' => $id_ownership)));
                 }
@@ -185,7 +186,7 @@ class BackendOwnershipController extends Controller {
         }
 
         $service_log = $this->get('log');
-        $service_log->saveLog('Visit', 4);
+        $service_log->saveLog('Visit', BackendModuleName::MODULE_OWNERSHIP);
 
         return $this->render('mycpBundle:ownership:list.html.twig', array(
                     'ownerships' => $ownerships,
@@ -228,7 +229,7 @@ class BackendOwnershipController extends Controller {
         $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
 
         $service_log = $this->get('log');
-        $service_log->saveLog('Delete photo, entity ' . $ownership->getOwnName(), 4);
+        $service_log->saveLog('Delete photo, entity ' . $ownership->getOwnName(), BackendModuleName::MODULE_OWNERSHIP);
 
         return $this->redirect($this->generateUrl('mycp_list_photos_ownership', array('id_ownership' => $id_ownership)));
     }
@@ -503,7 +504,7 @@ class BackendOwnershipController extends Controller {
         $this->get('session')->getFlashBag()->add('message_ok', $message);
 
         $service_log = $this->get('log');
-        $service_log->saveLog('Delete entity ' . $old_code, 4);
+        $service_log->saveLog('Delete entity ' . $old_code, BackendModuleName::MODULE_OWNERSHIP);
 
         return $this->redirect($this->generateUrl('mycp_list_ownerships'));
     }
@@ -690,7 +691,7 @@ class BackendOwnershipController extends Controller {
                         $any_edit = false;
 
                         if ($old_status != $new_status) {
-                            $service_log->saveLog('Edit entity (Change status. From ' . (($db_ownership->getOwnStatus() != null) ? $db_ownership->getOwnStatus()->getStatusId() : 'Sin Estado') . ' to ' . $new_status_db . ' ) ' . $post['ownership_mcp_code'], 4);
+                            $service_log->saveLog('Edit entity (Change status. From ' . (($db_ownership->getOwnStatus() != null) ? $db_ownership->getOwnStatus()->getStatusId() : 'Sin Estado') . ' to ' . $new_status_db . ' ) ' . $post['ownership_mcp_code'], BackendModuleName::MODULE_OWNERSHIP);
                             $any_edit = true;
                         }
 
@@ -732,7 +733,7 @@ class BackendOwnershipController extends Controller {
                             }
 
                         if ($string_rooms_change_price != '') {
-                            $service_log->saveLog('Edit entity. ' . $string_rooms_change_price . ' ' . $post['ownership_mcp_code'], 4);
+                            $service_log->saveLog('Edit entity. ' . $string_rooms_change_price . ' ' . $post['ownership_mcp_code'], BackendModuleName::MODULE_OWNERSHIP);
                             $any_edit = true;
                         }
 
@@ -751,7 +752,7 @@ class BackendOwnershipController extends Controller {
                         if ($old_address_street != $new_address_street OR $old_number != $new_number OR $old_between_street_1 != $new_between_street_1 OR $old_between_street_2 != $new_between_street_2) {
                             $any_edit = true;
                             $service_log->saveLog('Edit entity. Change address from ' . $old_address_street . ' street #' . $old_number . ' between ' . $old_between_street_1 . ' and ' . $old_between_street_2 .
-                                    ' to ' . $new_address_street . ' street #' . $new_number . ' between ' . $new_between_street_1 . ' and ' . $new_between_street_2, 4);
+                                    ' to ' . $new_address_street . ' street #' . $new_number . ' between ' . $new_between_street_1 . ' and ' . $new_between_street_2, BackendModuleName::MODULE_OWNERSHIP);
                         }
 
                         $old_phone_number = $db_ownership->getOwnPhoneNumber();
@@ -763,11 +764,11 @@ class BackendOwnershipController extends Controller {
                         if ($old_phone_number != $new_phone_number OR $old_phone_code != $new_phone_code) {
                             $any_edit = true;
                             $service_log->saveLog('Edit entity. Change phone number from ' . $old_phone_code . ' ' . $old_phone_number . ' to '
-                                    . $new_phone_code . ' ' . $new_phone_number, 4);
+                                    . $new_phone_code . ' ' . $new_phone_number, BackendModuleName::MODULE_OWNERSHIP);
                         }
 
                         if ($any_edit == false) {
-                            $service_log->saveLog('Edit entity ' . $post['ownership_mcp_code'], 4);
+                            $service_log->saveLog('Edit entity ' . $post['ownership_mcp_code'], BackendModuleName::MODULE_OWNERSHIP);
                         }
 
                         $em->getRepository('mycpBundle:ownership')->edit_ownership($post);
@@ -782,7 +783,7 @@ class BackendOwnershipController extends Controller {
                             $em->getRepository('mycpBundle:ownership')->insert_ownership($post, $request, $dir, $factory, false);
                         $message = 'Propiedad añadida satisfactoriamente.';
                         $service_log = $this->get('log');
-                        $service_log->saveLog('Create entity ' . $post['ownership_mcp_code'], 4);
+                        $service_log->saveLog('Create entity ' . $post['ownership_mcp_code'], BackendModuleName::MODULE_OWNERSHIP);
 
                         //Enviar correo a los propietarios
                         if($post['status'] == ownershipStatus::STATUS_ACTIVE)
@@ -900,7 +901,7 @@ class BackendOwnershipController extends Controller {
                 $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
 
                 $service_log = $this->get('log');
-                $service_log->saveLog('Edit photo, entity ' . $ownership->getOwnName(), 4);
+                $service_log->saveLog('Edit photo, entity ' . $ownership->getOwnName(), BackendModuleName::MODULE_OWNERSHIP);
 
                 return $this->redirect($this->generateUrl('mycp_list_photos_ownership', array('id_ownership' => $id_ownership)));
             }

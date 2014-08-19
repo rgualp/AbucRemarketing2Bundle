@@ -11,6 +11,7 @@ use MyCp\mycpBundle\Entity\photo;
 use MyCp\mycpBundle\Entity\log;
 use MyCp\mycpBundle\Entity\langFlag;
 use MyCp\mycpBundle\Form\langType;
+use MyCp\mycpBundle\Helpers\BackendModuleName;
 
 
 
@@ -28,7 +29,7 @@ class BackendLanguageController extends Controller
         $languages=$paginator->paginate($em->getRepository('mycpBundle:lang')->findAll())->getResult();
 
         $service_log= $this->get('log');
-        $service_log->saveLog('Visit',6);
+        $service_log->saveLog('Visit',BackendModuleName::MODULE_LANGUAGE);
 
         return $this->render('mycpBundle:language:list.html.twig',array(
             'languages'=>$languages,
@@ -84,7 +85,7 @@ class BackendLanguageController extends Controller
                     $this->get('session')->getFlashBag()->add('message_ok',$message);
 
                     $service_log= $this->get('log');
-                    $service_log->saveLog('Edit entity '.$post_form['lang_name'],6);
+                    $service_log->saveLog('Edit entity '.$post_form['lang_name'],BackendModuleName::MODULE_LANGUAGE);
 
                     return $this->redirect($this->generateUrl('mycp_list_languages'));
                 }
@@ -133,7 +134,7 @@ class BackendLanguageController extends Controller
                     $this->get('session')->getFlashBag()->add('message_ok',$message);
 
                     $service_log= $this->get('log');
-                    $service_log->saveLog('Create entity '.$post_form['lang_name'],6);
+                    $service_log->saveLog('Create entity '.$post_form['lang_name'],BackendModuleName::MODULE_LANGUAGE);
 
                     return $this->redirect($this->generateUrl('mycp_list_languages'));
                 }
@@ -238,7 +239,7 @@ class BackendLanguageController extends Controller
         $this->get('session')->getFlashBag()->add('message_ok',$message);
 
         $service_log= $this->get('log');
-        $service_log->saveLog('Delete entity '.$name_lang,6);
+        $service_log->saveLog('Delete entity '.$name_lang,BackendModuleName::MODULE_LANGUAGE);
 
         return $this->redirect($this->generateUrl('mycp_list_languages'));
     }

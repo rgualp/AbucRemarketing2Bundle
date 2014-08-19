@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use MyCp\mycpBundle\Entity\comment;
 use MyCp\mycpBundle\Entity\log;
 use MyCp\mycpBundle\Form\commentType;
+use MyCp\mycpBundle\Helpers\BackendModuleName;
 
 class BackendCommentController extends Controller
 {
@@ -42,7 +43,7 @@ class BackendCommentController extends Controller
         //var_dump($destinations[0]->getDesLocMunicipality()->getMunName()); exit();
 
         $service_log= $this->get('log');
-        $service_log->saveLog('Visit module',10);
+        $service_log->saveLog('Visit module',  BackendModuleName::MODULE_COMMENT);
         return $this->render('mycpBundle:comment:list.html.twig', array(
             'comments' => $comments,
             'items_per_page'=>$items_per_page,
@@ -81,7 +82,7 @@ class BackendCommentController extends Controller
                 $em->flush();
 
                 $service_log= $this->get('log');
-                $service_log->saveLog('Create entity ',10);
+                $service_log->saveLog('Create entity ',BackendModuleName::MODULE_COMMENT);
 
                 return $this->redirect($this->generateUrl('mycp_list_comments'));
             }
@@ -110,7 +111,7 @@ class BackendCommentController extends Controller
                 $this->get('session')->getFlashBag()->add('message_ok',$message);
 
                 $service_log= $this->get('log');
-                $service_log->saveLog('Edit entity ',10);
+                $service_log->saveLog('Edit entity ',BackendModuleName::MODULE_COMMENT);
 
                 return $this->redirect($this->generateUrl('mycp_list_comments'));
             }
@@ -136,7 +137,7 @@ class BackendCommentController extends Controller
             $this->get('session')->getFlashBag()->add('message_ok',$message);
 
             $service_log= $this->get('log');
-            $service_log->saveLog('Delete entity ',10);
+            $service_log->saveLog('Delete entity ',BackendModuleName::MODULE_COMMENT);
 
             return $this->redirect($this->generateUrl('mycp_list_comments'));
     }

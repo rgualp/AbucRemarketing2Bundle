@@ -3,6 +3,7 @@ namespace MyCp\mycpBundle\Helpers;
 use MyCp\mycpBundle\Entity\log;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\HttpFoundation\Request;
+use MyCp\mycpBundle\Helpers\BackendModuleName;
 
 
 class Logs
@@ -47,42 +48,45 @@ class Logs
 
                 switch($module){
                     case 'destination':
-                        $module_number=1;
+                        $module_number= BackendModuleName::MODULE_DESTINATION;
                         break;
                     case 'faqs':
-                        $module_number=2;
+                        $module_number=BackendModuleName::MODULE_FAQS;
                         break;
                     case 'album':
-                        $module_number=3;
+                        $module_number=BackendModuleName::MODULE_ALBUM;
                         break;
                     case 'ownership':
-                        $module_number=4;
+                        $module_number=BackendModuleName::MODULE_OWNERSHIP;
                         break;
                     case 'currency':
-                        $module_number=5;
+                        $module_number=BackendModuleName::MODULE_CURRENCY;
                         break;
                     case 'language':
-                        $module_number=6;
+                        $module_number=BackendModuleName::MODULE_LANGUAGE;
                         break;
                     case 'reservation':
-                        $module_number=7;
+                        $module_number=BackendModuleName::MODULE_RESERVATION;
                         break;
                     case 'user':
-                        $module_number=8;
+                        $module_number=BackendModuleName::MODULE_USER;
                         break;
                     case 'general information':
-                        $module_number=9;
+                        $module_number=BackendModuleName::MODULE_GENERAL_INFORMATION;
                         break;
                     case 'comment':
-                        $module_number=10;
+                        $module_number=BackendModuleName::MODULE_COMMENT;
+                        break;
+                    case 'unavailability details':
+                        $module_number=BackendModuleName::MODULE_UNAVAILABILITY_DETAILS;
                         break;
                 }
             }
             else
-                $module_number=0;
+                $module_number=BackendModuleName::NO_MODULE;
         }
         else{
-            $module_number=0;
+            $module_number=BackendModuleName::NO_MODULE;
         }
 
         $this->saveLog('Login',$module_number);

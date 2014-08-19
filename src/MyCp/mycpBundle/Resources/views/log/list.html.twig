@@ -60,7 +60,7 @@
 
 <div class="row-fluid">
     <div class="span12">
-        <textarea class="input-block-level" style="height: 300px; font-size: 12px">{% if logs %}Logs{{'\n'}}-----------------------------------------------------{{'\n'}}{%endif%}{% for log in logs %}- {{log.getLogDescription}} {% if log.getLogDescription != 'Login'%}in module{% else %}into {% endif %}({% if log.getLogModule==0 %}MyCp{% endif %}{% if log.getLogModule==1 %}Destination{% endif %}{% if log.getLogModule==2 %}FAQ{% endif %}{% if log.getLogModule==3 %}Album{% endif %}{% if log.getLogModule==4 %}Ownership{% endif %}{% if log.getLogModule==5 %}Currency{% endif %}{% if log.getLogModule==6 %}Language{% endif %}{% if log.getLogModule==7 %}Reservation{% endif %}{% if log.getLogModule==8 %}User{% endif %}{% if log.getLogModule==9 %}General Information{% endif %}{% if log.getLogModule==10 %}Comment{% endif %}) by {{log.getlogUser.getUserName}} in date {{ log.getLogDate|date("d/m/Y") }} on time {{ log.getLogTime }}{{'\n'}}{% endfor %}</textarea>
+        <textarea class="input-block-level" style="height: 300px; font-size: 12px">{% if logs %}Logs{{'\n'}}-----------------------------------------------------{{'\n'}}{%endif%}{% for log in logs %}- {{log.getLogDescription}}{% if log.getLogDescription != 'Login'%} in module {% else %} into {% endif %}({{log.getLogModule | moduleName }}) by {{log.getlogUser.getUserName}} in date {{ log.getLogDate|date("d/m/Y") }} on time {{ log.getLogTime }}{{'\n'}}{% endfor %}</textarea>
     </div>
 </div>
 <div class="row-fluid">

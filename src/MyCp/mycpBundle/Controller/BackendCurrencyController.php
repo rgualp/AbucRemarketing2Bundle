@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use MyCp\mycpBundle\Entity\currency;
 use MyCp\mycpBundle\Entity\log;
 use MyCp\mycpBundle\Form\currencyType;
+use MyCp\mycpBundle\Helpers\BackendModuleName;
 
 class BackendCurrencyController extends Controller {
 
@@ -23,7 +24,7 @@ class BackendCurrencyController extends Controller {
         $currencies = $paginator->paginate($em->getRepository('mycpBundle:currency')->findAll())->getResult();
 
         $service_log = $this->get('log');
-        $service_log->saveLog('Visit', 5);
+        $service_log->saveLog('Visit', BackendModuleName::MODULE_CURRENCY);
 
         return $this->render('mycpBundle:currency:list.html.twig', array(
                     'currencies' => $currencies,
@@ -75,7 +76,7 @@ class BackendCurrencyController extends Controller {
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                     $service_log = $this->get('log');
-                    $service_log->saveLog('Edit entity ' . $post_form['curr_name'], 5);
+                    $service_log->saveLog('Edit entity ' . $post_form['curr_name'], BackendModuleName::MODULE_CURRENCY);
                     return $this->redirect($this->generateUrl('mycp_list_currencies'));
                 }
             }
@@ -112,7 +113,7 @@ class BackendCurrencyController extends Controller {
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
-                $service_log->saveLog('Create entity ' . $post_form['curr_name'], 5);
+                $service_log->saveLog('Create entity ' . $post_form['curr_name'], BackendModuleName::MODULE_CURRENCY);
 
                 return $this->redirect($this->generateUrl('mycp_list_currencies'));
             }
@@ -152,7 +153,7 @@ class BackendCurrencyController extends Controller {
             $this->get('session')->getFlashBag()->add('message_ok', $message);
 
             $service_log = $this->get('log');
-            $service_log->saveLog('Delete entity ' . $name_curr, 5);
+            $service_log->saveLog('Delete entity ' . $name_curr, BackendModuleName::MODULE_CURRENCY);
 
             return $this->redirect($this->generateUrl('mycp_list_currencies'));
         }

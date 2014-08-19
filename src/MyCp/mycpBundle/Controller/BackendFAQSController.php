@@ -11,6 +11,7 @@ use MyCp\mycpBundle\Entity\faqCategory;
 use MyCp\mycpBundle\Entity\log;
 use MyCp\mycpBundle\Entity\faqCategoryLang;
 use MyCp\mycpBundle\Form\categoryType;
+use MyCp\mycpBundle\Helpers\BackendModuleName;
 
 class BackendFAQSController extends Controller
 {
@@ -62,7 +63,7 @@ class BackendFAQSController extends Controller
                 $this->get('session')->getFlashBag()->add('message_ok',$message);
 
                 $service_log= $this->get('log');
-                $service_log->saveLog('Create category, '.$post['lang'.$languages[0]->getLangId()],2);
+                $service_log->saveLog('Create category, '.$post['lang'.$languages[0]->getLangId()],  BackendModuleName::MODULE_FAQS);
 
                 return $this->redirect($this->generateUrl('mycp_list_category_faq'));
             }
@@ -113,7 +114,7 @@ class BackendFAQSController extends Controller
                 $this->get('session')->getFlashBag()->add('message_ok',$message);
 
                 $service_log= $this->get('log');
-                $service_log->saveLog('Edit category, '.$post['lang'.$languages[0]->getLangId()],2);
+                $service_log->saveLog('Edit category, '.$post['lang'.$languages[0]->getLangId()], BackendModuleName::MODULE_FAQS);
 
                 return $this->redirect($this->generateUrl('mycp_list_category_faq'));
             }
@@ -168,7 +169,7 @@ class BackendFAQSController extends Controller
                     $faq_save=$em->getRepository('mycpBundle:faqLang')->findBy(array('faq_lang_faq'=>$post['edit_faq']));
 
                     $service_log= $this->get('log');
-                    $service_log->saveLog('Edit entity, '.$faq_save[0]->getFaqLangQuestion(),2);
+                    $service_log->saveLog('Edit entity, '.$faq_save[0]->getFaqLangQuestion(),BackendModuleName::MODULE_FAQS);
                 }
                 else
                 {
@@ -178,7 +179,7 @@ class BackendFAQSController extends Controller
                     $languages=$em->getRepository('mycpBundle:lang')->findAll();
 
                     $service_log= $this->get('log');
-                    $service_log->saveLog('Create entity, '.$post['question_'.$languages[0]->getLangId()],2);
+                    $service_log->saveLog('Create entity, '.$post['question_'.$languages[0]->getLangId()],BackendModuleName::MODULE_FAQS);
                 }
                 $this->get('session')->getFlashBag()->add('message_ok',$message);
                 return $this->redirect($this->generateUrl('mycp_list_faqs'));
@@ -227,7 +228,7 @@ class BackendFAQSController extends Controller
             $data[$faq->getFaqLangFaq()->getFaqId().'_category']=$em->getRepository('mycpBundle:faqCategoryLang')->findBy(array('faq_cat_id_cat'=>$faq->getFaqLangFaq()->getFaqCategory()));
         }
         $service_log= $this->get('log');
-        $service_log->saveLog('Visit',2);
+        $service_log->saveLog('Visit',BackendModuleName::MODULE_FAQS);
         return $this->render('mycpBundle:faq:list.html.twig', array(
             'faqs' => $faqs,
             'data'=>$data,
@@ -299,7 +300,7 @@ class BackendFAQSController extends Controller
         $this->get('session')->getFlashBag()->add('message_ok',$message);
 
         $service_log= $this->get('log');
-        $service_log->saveLog('Delete entity, '.$old_entity,2);
+        $service_log->saveLog('Delete entity, '.$old_entity,BackendModuleName::MODULE_FAQS);
 
         return $this->redirect($this->generateUrl('mycp_list_faqs'));
     }
@@ -352,7 +353,7 @@ class BackendFAQSController extends Controller
         $this->get('session')->getFlashBag()->add('message_ok',$message);
 
         $service_log= $this->get('log');
-        $service_log->saveLog('Delete category, '.$category_name,2);
+        $service_log->saveLog('Delete category, '.$category_name,BackendModuleName::MODULE_FAQS);
 
         return $this->redirect($this->generateUrl('mycp_list_category_faq'));
 

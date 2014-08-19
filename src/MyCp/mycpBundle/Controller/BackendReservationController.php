@@ -15,6 +15,7 @@ use MyCp\mycpBundle\Entity\log;
 use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use MyCp\mycpBundle\Form\reservationType;
+use MyCp\mycpBundle\Helpers\BackendModuleName;
 
 class BackendReservationController extends Controller {
 
@@ -226,7 +227,7 @@ class BackendReservationController extends Controller {
         $filter_date_from_twig = str_replace('/', '_', $filter_date_from);
         $filter_date_to_twig = str_replace('/', '_', $filter_date_to);
         $service_log = $this->get('log');
-        $service_log->saveLog('Visit', 7);
+        $service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
         $total_nights = array();
         $service_time = $this->get('time');
         foreach ($reservations as $res) {
@@ -288,7 +289,7 @@ class BackendReservationController extends Controller {
         $bookings = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
                                 ->get_all_bookings($filter_booking_number, $filter_date_booking, $filter_user_booking))->getResult();
         $service_log = $this->get('log');
-        $service_log->saveLog('Visit', 7);
+        $service_log->saveLog('Visit',  BackendModuleName::MODULE_RESERVATION);
 
         $filter_date_booking = str_replace('_', '/', $filter_date_booking);
 
@@ -354,7 +355,7 @@ class BackendReservationController extends Controller {
                                 ->get_all_users($filter_user_name, $filter_user_email, $filter_user_city, $filter_user_country, $sort_by))->getResult();
 
         $service_log = $this->get('log');
-        $service_log->saveLog('Visit', 7);
+        $service_log->saveLog('Visit',  BackendModuleName::MODULE_RESERVATION);
 
         $currencies = array();
         $languages = array();
@@ -387,7 +388,7 @@ class BackendReservationController extends Controller {
         //$service_security= $this->get('Secure');
         //$service_security->verifyAccess();
         //$service_log= $this->get('log');
-        //$service_log->saveLog('Visit',7);
+        //$service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
 
         $service_time = $this->get('time');
 
@@ -423,7 +424,7 @@ class BackendReservationController extends Controller {
             $message = 'Reservas actualizadas satisfactoriamente.';
 
             /* $service_log= $this->get('log');
-              $service_log->saveLog('Create entity for '.$ownership->getOwnMcpCode(),7); */
+              $service_log->saveLog('Create entity for '.$ownership->getOwnMcpCode(), BackendModuleName::MODULE_RESERVATION); */
 
             $this->get('session')->getFlashBag()->add('message_ok', $message);
             return $this->redirect($this->generateUrl('mycp_details_client_reservation', array('id_client' => $id_client)));
@@ -472,7 +473,7 @@ class BackendReservationController extends Controller {
                 $ownership = $em->getRepository('mycpBundle:ownership')->find($post['reservation_ownership']);
 
                 $service_log = $this->get('log');
-                $service_log->saveLog('Create entity for ' . $ownership->getOwnMcpCode(), 7);
+                $service_log->saveLog('Create entity for ' . $ownership->getOwnMcpCode(),  BackendModuleName::MODULE_RESERVATION);
 
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
                 return $this->redirect($this->generateUrl('mycp_list_reservations'));
@@ -580,7 +581,7 @@ class BackendReservationController extends Controller {
                 $em->persist($reservation);
                 $em->flush();
                 $service_log = $this->get('log');
-                $service_log->saveLog('Edit entity for CAS.' . $reservation->getGenResId(), 7);
+                $service_log->saveLog('Edit entity for CAS.' . $reservation->getGenResId(),  BackendModuleName::MODULE_RESERVATION);
 
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
             }
@@ -812,7 +813,7 @@ class BackendReservationController extends Controller {
                 $ownership = $em->getRepository('mycpBundle:ownership')->find($post['ownership']);
 
                 $service_log = $this->get('log');
-                $service_log->saveLog('Edit entity for ' . $ownership->getOwnMcpCode(), 7);
+                $service_log->saveLog('Edit entity for ' . $ownership->getOwnMcpCode(),  BackendModuleName::MODULE_RESERVATION);
 
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
                 return $this->redirect($this->generateUrl('mycp_edit_reservation', array('id_reservation' => $id_reservation)));
@@ -883,7 +884,7 @@ class BackendReservationController extends Controller {
         $message = 'Reserva eliminada satisfactoriamente.';
 
         $service_log = $this->get('log');
-        $service_log->saveLog('Delete entity for ' . $ownership->getOwnMcpCode(), 7);
+        $service_log->saveLog('Delete entity for ' . $ownership->getOwnMcpCode(),  BackendModuleName::MODULE_RESERVATION);
 
         $this->get('session')->getFlashBag()->add('message_ok', $message);
         return $this->redirect($this->generateUrl('mycp_list_reservations'));
