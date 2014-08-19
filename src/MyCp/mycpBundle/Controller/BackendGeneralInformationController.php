@@ -21,7 +21,7 @@ class BackendGeneralInformationController extends Controller
         $informations=$em->getRepository('mycpBundle:informationLang')->get_informations();
         $categories = $em->getRepository('mycpBundle:information')->category_names($informations, "ES");
         $service_log= $this->get('log');
-        $service_log->save_log('Visit',9);
+        $service_log->saveLog('Visit',9);
         return $this->render('mycpBundle:generalInformation:list.html.twig',array('informations'=>$informations, "categories"=>$categories));
     }
 
@@ -69,7 +69,7 @@ class BackendGeneralInformationController extends Controller
                     $message='Información actualizada satisfactoriamente.';
                     $this->get('session')->getFlashBag()->add('message_ok',$message);
                     $service_log= $this->get('log');
-                    $service_log->save_log('Edit entity, '.$post['info_name_'.$languages[0]->getLangId()],9);
+                    $service_log->saveLog('Edit entity, '.$post['info_name_'.$languages[0]->getLangId()],9);
                 }
                 else
                 {
@@ -77,7 +77,7 @@ class BackendGeneralInformationController extends Controller
                     $message='Información añadida satisfactoriamente.';
                     $this->get('session')->getFlashBag()->add('message_ok',$message);
                     $service_log= $this->get('log');
-                    $service_log->save_log('Create entity, '.$post['info_name_'.$languages[0]->getLangId()],9);;
+                    $service_log->saveLog('Create entity, '.$post['info_name_'.$languages[0]->getLangId()],9);;
                 }
                 return $this->redirect($this->generateUrl('mycp_list_informations'));
             }
@@ -134,7 +134,7 @@ class BackendGeneralInformationController extends Controller
                 $em->remove($information);
                 $em->flush();
                 $service_log= $this->get('log');
-                $service_log->save_log('Delete entity, '.$informations_lang[0]->getInfoLangName(),9);
+                $service_log->saveLog('Delete entity, '.$informations_lang[0]->getInfoLangName(),9);
             }
 
         }

@@ -61,7 +61,7 @@ class BackendDestinationController extends Controller
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
-                $service_log->save_log('Create category, ' . $post['lang' . $languages[0]->getLangId()], 1);
+                $service_log->saveLog('Create category, ' . $post['lang' . $languages[0]->getLangId()], 1);
 
                 return $this->redirect($this->generateUrl('mycp_list_category_destination'));
             }
@@ -122,7 +122,7 @@ class BackendDestinationController extends Controller
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
-                $service_log->save_log('Edit category, ' . $post['lang' . $languages[0]->getLangId()], 1);
+                $service_log->saveLog('Edit category, ' . $post['lang' . $languages[0]->getLangId()], 1);
 
                 return $this->redirect($this->generateUrl('mycp_list_category_destination'));
             }
@@ -169,7 +169,7 @@ class BackendDestinationController extends Controller
         $this->get('session')->getFlashBag()->add('message_ok', $message);
 
         $service_log = $this->get('log');
-        $service_log->save_log('Delete category, ' . $old_cat_lang, 1);
+        $service_log->saveLog('Delete category, ' . $old_cat_lang, 1);
 
         return $this->redirect($this->generateUrl('mycp_list_category_destination'));
     }
@@ -239,7 +239,7 @@ class BackendDestinationController extends Controller
                     $message='Destino actualizado satisfactoriamente.';
 
                     $service_log= $this->get('log');
-                    $service_log->save_log('Edit entity '.$post['name'],1);
+                    $service_log->saveLog('Edit entity '.$post['name'],1);
                 }
                 else
                 {
@@ -247,7 +247,7 @@ class BackendDestinationController extends Controller
                     $message='Destino añadido satisfactoriamente.';
 
                     $service_log= $this->get('log');
-                    $service_log->save_log('Create entity '.$post['name'],1);
+                    $service_log->saveLog('Create entity '.$post['name'],1);
                 }
 
                 $this->get('session')->getFlashBag()->add('message_ok',$message);
@@ -303,7 +303,7 @@ class BackendDestinationController extends Controller
         }
 
         $service_log= $this->get('log');
-        $service_log->save_log('Visit module',1);
+        $service_log->saveLog('Visit module',1);
 
         return $this->render('mycpBundle:destination:list.html.twig', array(
             'destinations' => $destinations,
@@ -378,7 +378,7 @@ class BackendDestinationController extends Controller
         $this->get('session')->getFlashBag()->add('message_ok',$message);
 
         $service_log= $this->get('log');
-        $service_log->save_log('Delete entity '.$name_destination,1);
+        $service_log->saveLog('Delete entity '.$name_destination,1);
 
         return $this->redirect($this->generateUrl('mycp_list_destination'));
     }
@@ -556,7 +556,7 @@ class BackendDestinationController extends Controller
                     $em->flush();
 
                     $service_log= $this->get('log');
-                    $service_log->save_log('Create photo, entity '.$destination->getDesName(),1);
+                    $service_log->saveLog('Create photo, entity '.$destination->getDesName(),1);
 
                     $message='Ficheros subidos satisfactoriamente.';
                     $this->get('session')->getFlashBag()->add('message_ok',$message);
@@ -608,7 +608,7 @@ class BackendDestinationController extends Controller
                         $em->flush();
 
                         $service_log= $this->get('log');
-                        $service_log->save_log('Create photo, entity '.$destination->getDesName(),1);
+                        $service_log->saveLog('Create photo, entity '.$destination->getDesName(),1);
 
                         $message='El fichero se ha subido satisfactoriamente.';
                         $this->get('session')->getFlashBag()->add('message_ok',$message);
@@ -652,7 +652,7 @@ class BackendDestinationController extends Controller
          $this->get('session')->getFlashBag()->add('message_ok',$message);
 
          $service_log= $this->get('log');
-         $service_log->save_log('Delete photo, entity '.$destination->getDesName(),1);
+         $service_log->saveLog('Delete photo, entity '.$destination->getDesName(),1);
 
          return $this->redirect($this->generateUrl('mycp_list_photos_destination',array('id_destination'=>$id_destination)));
      }
@@ -708,7 +708,7 @@ class BackendDestinationController extends Controller
                 $destination= $em->getRepository('mycpBundle:destination')->find($id_destination);
 
                 $service_log= $this->get('log');
-                $service_log->save_log('Edit photo, entity '.$destination->getDesName(),1);
+                $service_log->saveLog('Edit photo, entity '.$destination->getDesName(),1);
 
                 return $this->redirect($this->generateUrl('mycp_list_photos_destination',array('id_destination'=>$id_destination)));
 

@@ -28,7 +28,7 @@ class BackendLanguageController extends Controller
         $languages=$paginator->paginate($em->getRepository('mycpBundle:lang')->findAll())->getResult();
 
         $service_log= $this->get('log');
-        $service_log->save_log('Visit',6);
+        $service_log->saveLog('Visit',6);
 
         return $this->render('mycpBundle:language:list.html.twig',array(
             'languages'=>$languages,
@@ -84,7 +84,7 @@ class BackendLanguageController extends Controller
                     $this->get('session')->getFlashBag()->add('message_ok',$message);
 
                     $service_log= $this->get('log');
-                    $service_log->save_log('Edit entity '.$post_form['lang_name'],6);
+                    $service_log->saveLog('Edit entity '.$post_form['lang_name'],6);
 
                     return $this->redirect($this->generateUrl('mycp_list_languages'));
                 }
@@ -133,7 +133,7 @@ class BackendLanguageController extends Controller
                     $this->get('session')->getFlashBag()->add('message_ok',$message);
 
                     $service_log= $this->get('log');
-                    $service_log->save_log('Create entity '.$post_form['lang_name'],6);
+                    $service_log->saveLog('Create entity '.$post_form['lang_name'],6);
 
                     return $this->redirect($this->generateUrl('mycp_list_languages'));
                 }
@@ -238,7 +238,7 @@ class BackendLanguageController extends Controller
         $this->get('session')->getFlashBag()->add('message_ok',$message);
 
         $service_log= $this->get('log');
-        $service_log->save_log('Delete entity '.$name_lang,6);
+        $service_log->saveLog('Delete entity '.$name_lang,6);
 
         return $this->redirect($this->generateUrl('mycp_list_languages'));
     }

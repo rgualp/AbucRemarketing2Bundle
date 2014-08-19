@@ -87,7 +87,7 @@ class BackendLogController extends Controller
         $this->get('session')->getFlashBag()->add('message_ok',$message);
 
         /*$service_log= $this->get('log');
-        $service_log->save_log('Create category, '.$post['lang'.$languages[0]->getLangId()],3);*/
+        $service_log->saveLog('Create category, '.$post['lang'.$languages[0]->getLangId()],3);*/
 
         return $this->redirect($this->generateUrl('mycp_list_logs'));
     }

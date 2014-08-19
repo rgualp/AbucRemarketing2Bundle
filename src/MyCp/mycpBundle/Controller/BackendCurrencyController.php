@@ -23,7 +23,7 @@ class BackendCurrencyController extends Controller {
         $currencies = $paginator->paginate($em->getRepository('mycpBundle:currency')->findAll())->getResult();
 
         $service_log = $this->get('log');
-        $service_log->save_log('Visit', 5);
+        $service_log->saveLog('Visit', 5);
 
         return $this->render('mycpBundle:currency:list.html.twig', array(
                     'currencies' => $currencies,
@@ -75,7 +75,7 @@ class BackendCurrencyController extends Controller {
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                     $service_log = $this->get('log');
-                    $service_log->save_log('Edit entity ' . $post_form['curr_name'], 5);
+                    $service_log->saveLog('Edit entity ' . $post_form['curr_name'], 5);
                     return $this->redirect($this->generateUrl('mycp_list_currencies'));
                 }
             }
@@ -112,7 +112,7 @@ class BackendCurrencyController extends Controller {
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
-                $service_log->save_log('Create entity ' . $post_form['curr_name'], 5);
+                $service_log->saveLog('Create entity ' . $post_form['curr_name'], 5);
 
                 return $this->redirect($this->generateUrl('mycp_list_currencies'));
             }
@@ -152,7 +152,7 @@ class BackendCurrencyController extends Controller {
             $this->get('session')->getFlashBag()->add('message_ok', $message);
 
             $service_log = $this->get('log');
-            $service_log->save_log('Delete entity ' . $name_curr, 5);
+            $service_log->saveLog('Delete entity ' . $name_curr, 5);
 
             return $this->redirect($this->generateUrl('mycp_list_currencies'));
         }

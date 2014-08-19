@@ -50,7 +50,7 @@ class BackendUserController extends Controller
                     $this->get('session')->getFlashBag()->add('message_ok',$message);
 
                     $service_log= $this->get('log');
-                    $service_log->save_log('Create entity for user '.$post['mycp_mycpbundle_client_stafftype']['user_name'],8);
+                    $service_log->saveLog('Create entity for user '.$post['mycp_mycpbundle_client_stafftype']['user_name'],8);
 
                     return $this->redirect($this->generateUrl('mycp_list_users'));
                 }
@@ -88,7 +88,7 @@ class BackendUserController extends Controller
                 $message='Usuario actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok',$message);
                 $service_log= $this->get('log');
-                $service_log->save_log('Edit entity for user '.$request_form['user_name'],8);
+                $service_log->saveLog('Edit entity for user '.$request_form['user_name'],8);
                 return $this->redirect($this->generateUrl('mycp_list_users'));
             }
         }
@@ -139,7 +139,7 @@ class BackendUserController extends Controller
                     $this->get('session')->getFlashBag()->add('message_ok',$message);
 
                     $service_log= $this->get('log');
-                    $service_log->save_log('Create entity for user '.$post['mycp_mycpbundle_client_casatype']['user_name'],8);
+                    $service_log->saveLog('Create entity for user '.$post['mycp_mycpbundle_client_casatype']['user_name'],8);
 
                     return $this->redirect($this->generateUrl('mycp_list_users'));
                 }
@@ -175,7 +175,7 @@ class BackendUserController extends Controller
                 $message='Usuario actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok',$message);
                 $service_log= $this->get('log');
-                $service_log->save_log('Edit entity for user '.$request_form['user_name'],8);
+                $service_log->saveLog('Edit entity for user '.$request_form['user_name'],8);
                 $user = $this->get('security.context')->getToken()->getUser();
                 if($user->getUserRole()=='ROLE_CLIENT_STAFF')
                     return $this->redirect($this->generateUrl('mycp_list_users'));
@@ -233,7 +233,7 @@ class BackendUserController extends Controller
                     $this->get('session')->getFlashBag()->add('message_ok',$message);
 
                     $service_log= $this->get('log');
-                    $service_log->save_log('Create entity for user '.$post['mycp_mycpbundle_client_touristtype']['user_name'],8);
+                    $service_log->saveLog('Create entity for user '.$post['mycp_mycpbundle_client_touristtype']['user_name'],8);
 
                     return $this->redirect($this->generateUrl('mycp_list_users'));
                 }
@@ -274,7 +274,7 @@ class BackendUserController extends Controller
                 $message='Usuario actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok',$message);
                 $service_log= $this->get('log');
-                $service_log->save_log('Edit entity for user '.$request_form['user_name'],8);
+                $service_log->saveLog('Edit entity for user '.$request_form['user_name'],8);
                 return $this->redirect($this->generateUrl('mycp_list_users'));
             }
         }
@@ -335,7 +335,7 @@ class BackendUserController extends Controller
                     $message='Usuario añadido satisfactoriamente.';
                     $this->get('session')->getFlashBag()->add('message_ok',$message);
                     $service_log= $this->get('log');
-                    $service_log->save_log('Create entity for user '.$post['mycp_mycpbundle_client_partnertype']['user_name'],8);
+                    $service_log->saveLog('Create entity for user '.$post['mycp_mycpbundle_client_partnertype']['user_name'],8);
                     return $this->redirect($this->generateUrl('mycp_list_users'));
                 }
             }
@@ -375,7 +375,7 @@ class BackendUserController extends Controller
                 $message='Usuario actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok',$message);
                 $service_log= $this->get('log');
-                $service_log->save_log('Edit entity for user '.$request_form['user_name'],8);
+                $service_log->saveLog('Edit entity for user '.$request_form['user_name'],8);
                 return $this->redirect($this->generateUrl('mycp_list_users'));
             }
         }
@@ -434,7 +434,7 @@ class BackendUserController extends Controller
         $paginator->setItemsPerPage($items_per_page);
         $users= $paginator->paginate($em->getRepository('mycpBundle:user')->get_all_users($filter_user_name, $filter_role, $filter_city, $filter_country, $filter_name, $filter_last_name, $filter_email))->getResult();
         $service_log= $this->get('log');
-        $service_log->save_log('Visit',8);
+        $service_log->saveLog('Visit',8);
 
 
 
@@ -531,7 +531,7 @@ class BackendUserController extends Controller
             $this->get('session')->getFlashBag()->add('message_ok',$message);
 
             $service_log= $this->get('log');
-            $service_log->save_log('Delete entity for user '.$user_name,8);
+            $service_log->saveLog('Delete entity for user '.$user_name,8);
             return $this->redirect($this->generateUrl('mycp_list_users'));
         }
         else
@@ -679,7 +679,7 @@ class BackendUserController extends Controller
         $em->flush();
 
         /*$service_log= $this->get('log');
-        $service_log->save_log('Edit entity for user '.$request_form['user_name'],8);*/
+        $service_log->saveLog('Edit entity for user '.$request_form['user_name'],8);*/
 
         $message='Rol eliminado satisfactoriamente.';
         $this->get('session')->getFlashBag()->add('message_ok',$message);

@@ -42,7 +42,7 @@ class BackendCommentController extends Controller
         //var_dump($destinations[0]->getDesLocMunicipality()->getMunName()); exit();
 
         $service_log= $this->get('log');
-        $service_log->save_log('Visit module',10);
+        $service_log->saveLog('Visit module',10);
         return $this->render('mycpBundle:comment:list.html.twig', array(
             'comments' => $comments,
             'items_per_page'=>$items_per_page,
@@ -81,7 +81,7 @@ class BackendCommentController extends Controller
                 $em->flush();
 
                 $service_log= $this->get('log');
-                $service_log->save_log('Create entity ',10);
+                $service_log->saveLog('Create entity ',10);
 
                 return $this->redirect($this->generateUrl('mycp_list_comments'));
             }
@@ -110,7 +110,7 @@ class BackendCommentController extends Controller
                 $this->get('session')->getFlashBag()->add('message_ok',$message);
 
                 $service_log= $this->get('log');
-                $service_log->save_log('Edit entity ',10);
+                $service_log->saveLog('Edit entity ',10);
 
                 return $this->redirect($this->generateUrl('mycp_list_comments'));
             }
@@ -136,7 +136,7 @@ class BackendCommentController extends Controller
             $this->get('session')->getFlashBag()->add('message_ok',$message);
 
             $service_log= $this->get('log');
-            $service_log->save_log('Delete entity ',10);
+            $service_log->saveLog('Delete entity ',10);
 
             return $this->redirect($this->generateUrl('mycp_list_comments'));
     }

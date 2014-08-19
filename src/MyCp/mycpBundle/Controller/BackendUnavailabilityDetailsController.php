@@ -47,7 +47,7 @@ class BackendUnavailabilityDetailsController extends Controller {
                 ))->getResult();
 
         $service_log = $this->get('log');
-        $service_log->save_log('Visit', 4);
+        $service_log->saveLog('Visit', 4);
 
         return $this->render('mycpBundle:unavailabilityDetails:list.html.twig', array(
                     'ownerships' => $ownerships,
@@ -142,7 +142,7 @@ class BackendUnavailabilityDetailsController extends Controller {
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
-                $service_log->save_log('Create unavailable detaile from ' . $post_form['ud_from_date'] . ' to ' . $post_form['ud_to_date'], 5);
+                $service_log->saveLog('Create unavailable detaile from ' . $post_form['ud_from_date'] . ' to ' . $post_form['ud_to_date'], 5);
 
                 return $this->redirect($this->generateUrl('mycp_list_room_details_unavailabilityDetails', array('id_room' => $id_room, 'num_room' => $num_room)));
                 }
@@ -183,7 +183,7 @@ class BackendUnavailabilityDetailsController extends Controller {
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
-                $service_log->save_log('Update unavailable detaile from ' . $post_form['ud_from_date'] . ' to ' . $post_form['ud_to_date'], 5);
+                $service_log->saveLog('Update unavailable detaile from ' . $post_form['ud_from_date'] . ' to ' . $post_form['ud_to_date'], 5);
 
                 return $this->redirect($this->generateUrl('mycp_list_room_details_unavailabilityDetails', array('id_room' => $room->getRoomId(), 'num_room' => $num_room)));
             }
@@ -213,7 +213,7 @@ class BackendUnavailabilityDetailsController extends Controller {
         $this->get('session')->getFlashBag()->add('message_ok', $message);
 
         $service_log = $this->get('log');
-        $service_log->save_log('Delete unavailable detail from ' . $uDetails->getUdFromDate()->format('d/M/Y') . ' to ' . $uDetails->getUdToDate()->format('d/M/Y'), 5);
+        $service_log->saveLog('Delete unavailable detail from ' . $uDetails->getUdFromDate()->format('d/M/Y') . ' to ' . $uDetails->getUdToDate()->format('d/M/Y'), 5);
 
         return $this->redirect($this->generateUrl('mycp_list_room_details_unavailabilityDetails', array('id_room' => $room->getRoomId(), 'num_room' => $num_room)));
     }

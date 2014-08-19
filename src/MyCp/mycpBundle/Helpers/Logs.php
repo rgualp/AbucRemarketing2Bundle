@@ -19,7 +19,7 @@ class Logs
 
     }
 
-    public function save_log($description,$id_module)
+    public function saveLog($description,$id_module)
     {
         $user = $this->security_context->getToken()->getUser();
         $log= new log();
@@ -85,7 +85,7 @@ class Logs
             $module_number=0;
         }
 
-        $this->save_log('Login',$module_number);
+        $this->saveLog('Login',$module_number);
 
     }
 
