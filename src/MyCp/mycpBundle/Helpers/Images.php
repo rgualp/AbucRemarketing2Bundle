@@ -10,7 +10,7 @@ namespace MyCp\mycpBundle\Helpers;
 
 class Images {
 
-    public static function create_thumbnail($origin_file_full_path, $thumb_file_full_path, $height) {
+    public static function createThumbnail($origin_file_full_path, $thumb_file_full_path, $height) {
         if(!file_exists(realpath($thumb_file_full_path))){
         $imagine = new \Imagine\Gd\Imagine();
         $mode = \Imagine\Image\ImageInterface::THUMBNAIL_OUTBOUND;
@@ -36,7 +36,7 @@ class Images {
         return $new_width;
     }
 
-    public static function resize_diferent_directories($file_full_path_from, $file_full_path_to, $new_height) {
+    public static function resizeDiferentDirectories($file_full_path_from, $file_full_path_to, $new_height) {
         $imagine = new \Imagine\Gd\Imagine();
         $image = $imagine->open($file_full_path_from);
         $size = $image->getSize();
@@ -57,7 +57,7 @@ class Images {
         return true;
     }
 
-    public static function resize_and_watermark($origin_file_full_path, $watermark_full_path, $new_height) {
+    public static function resizeAndWatermark($origin_file_full_path, $watermark_full_path, $new_height) {
         $imagine = new \Imagine\Gd\Imagine();
 
         $new_width = Images::resize($origin_file_full_path, $new_height);
@@ -81,10 +81,10 @@ class Images {
                 ->save($origin_file_full_path, array('format' => 'jpeg','quality' => 100));
     }
 
-    public static function resize_diferent_directories_and_watermark($file_full_path_from, $file_full_path_to, $watermark_full_path, $new_height) {
+    public static function resizeDiferentDirectoriesAndWatermark($file_full_path_from, $file_full_path_to, $watermark_full_path, $new_height) {
         $imagine = new \Imagine\Gd\Imagine();
 
-        $new_width = Images::resize_diferent_directories($file_full_path_from, $file_full_path_to, $new_height);
+        $new_width = Images::resizeDiferentDirectories($file_full_path_from, $file_full_path_to, $new_height);
 
         $watermark = $imagine->open($watermark_full_path);
         $wSize = $watermark->getSize();
@@ -105,7 +105,7 @@ class Images {
                 ->save($file_full_path_to, array('format' => 'jpeg','quality' => 100));
     }
 
-    public static function process_images_with_database_info($entity_manager, $container) {
+    public static function processImagesWithDatabaseInfo($entity_manager, $container) {
         $dir_user = $container->getParameter('user.dir.photos');
         $dir_destination = $container->getParameter('destination.dir.photos');
         $dir_destination_thumbs = $container->getParameter('destination.dir.thumbnails');
@@ -114,7 +114,7 @@ class Images {
         $dir_ownership = $container->getParameter('ownership.dir.photos');
         $dir_ownership_thumbs = $container->getParameter('ownership.dir.thumbnails');
         $dir_watermark = $container->getParameter('dir.watermark');
-        
+
         $ownership_photo_size = $container->getParameter('ownership.dir.photos.size');
         $album_photo_size = $container->getParameter('album.dir.photos.size');
         $destination_photo_size = $container->getParameter('destination.dir.photos.size');
@@ -126,7 +126,7 @@ class Images {
             $photo = $albumPhoto->getAlbPhoPhoto();
             if ($photo != null && file_exists(realpath($dir_album . $photo->getPhoName()))) {
                 Images::resize($dir_album . $photo->getPhoName(), $album_photo_size);
-                Images::create_thumbnail($dir_album . $photo->getPhoName(), $dir_albums_thumbs . $photo->getPhoName(), $thumbs_size);
+                Images::createThumbnail($dir_album . $photo->getPhoName(), $dir_albums_thumbs . $photo->getPhoName(), $thumbs_size);
             }
         }
 
@@ -143,7 +143,7 @@ class Images {
             $photo = $destinationPhoto->getDesPhoPhoto();
             if ($photo != null && file_exists(realpath($dir_destination . $photo->getPhoName()))) {
                 Images::resize($dir_destination . $photo->getPhoName(), $destination_photo_size);
-                Images::create_thumbnail($dir_destination . $photo->getPhoName(), $dir_destination_thumbs . $photo->getPhoName(), $thumbs_size);
+                Images::createThumbnail($dir_destination . $photo->getPhoName(), $dir_destination_thumbs . $photo->getPhoName(), $thumbs_size);
             }
         }
 
@@ -151,13 +151,13 @@ class Images {
         foreach ($ownership_photos as $ownPhoto) {
             $photo = $ownPhoto->getOwnPhoPhoto();
             if ($photo != null && file_exists(realpath($dir_ownership . $photo->getPhoName()))) {
-                Images::resize_and_watermark($dir_ownership . $photo->getPhoName(), $dir_watermark, $ownership_photo_size);
-                Images::create_thumbnail($dir_ownership . $photo->getPhoName(), $dir_ownership_thumbs . $photo->getPhoName(), $thumbs_size);
+                Images::resizeAndWatermark($dir_ownership . $photo->getPhoName(), $dir_watermark, $ownership_photo_size);
+                Images::createThumbnail($dir_ownership . $photo->getPhoName(), $dir_ownership_thumbs . $photo->getPhoName(), $thumbs_size);
             }
         }
     }
 
-    public static function process_images_with_directory_info($container) {
+    public static function processImagesWithDirectoryInfo($container) {
         $dir_user = $container->getParameter('user.dir.photos');
         $dir_destination = $container->getParameter('destination.dir.photos');
         $dir_destination_thumbs = $container->getParameter('destination.dir.thumbnails');
@@ -166,7 +166,7 @@ class Images {
         $dir_ownership = $container->getParameter('ownership.dir.photos');
         $dir_ownership_thumbs = $container->getParameter('ownership.dir.thumbnails');
         $dir_watermark = $container->getParameter('dir.watermark');
-        
+
         $ownership_photo_size = $container->getParameter('ownership.dir.photos.size');
         $album_photo_size = $container->getParameter('album.dir.photos.size');
         $destination_photo_size = $container->getParameter('destination.dir.photos.size');
@@ -185,56 +185,56 @@ class Images {
 
 
         /* $results = "Redimensionando las fotos de los usuarios... <br/>";
-          $users_photos = Images::get_directory_images_content($dir_user);
+          $users_photos = Images::getDirectoryImagesContent($dir_user);
           Images::create_originals_directory($dir_user);
           foreach ($users_photos as $u_photo) {
           Images::save($dir_user . $u_photo,$dir_user.'/originals/'.$u_photo);
-          Images::resize_diferent_directories($dir_user.'/originals/'.$u_photo,$dir_user . $u_photo, 65);
+          Images::resizeDiferentDirectories($dir_user.'/originals/'.$u_photo,$dir_user . $u_photo, 65);
           } */
 
         $results .= "Redimensionando las fotos de los destinos y generando thumbnails...<br/>";
-        $destinations_photos = Images::get_directory_images_content_with_size($dir_destination, $total_images_to_process);
-        Images::create_directory($dir_destination . '/originals');
-        Images::create_directory($dir_destination . '/processed');
-        Images::create_directory($dir_destination_thumbs);
+        $destinations_photos = Images::getDirectoryImagesContentWithSize($dir_destination, $total_images_to_process);
+        Images::createDirectory($dir_destination . '/originals');
+        Images::createDirectory($dir_destination . '/processed');
+        Images::createDirectory($dir_destination_thumbs);
         $process_destination = true;
         foreach ($destinations_photos as $d_photo) {
             Images::save($dir_destination . $d_photo, $dir_destination . '/originals/' . $d_photo);
 
-            Images::create_thumbnail($dir_destination . '/originals/' . $d_photo, $dir_destination_thumbs . $d_photo, $thumbs_size);
-            Images::resize_diferent_directories($dir_destination . '/originals/' . $d_photo, $dir_destination . '/processed/' . $d_photo, $destination_photo_size);
+            Images::createThumbnail($dir_destination . '/originals/' . $d_photo, $dir_destination_thumbs . $d_photo, $thumbs_size);
+            Images::resizeDiferentDirectories($dir_destination . '/originals/' . $d_photo, $dir_destination . '/processed/' . $d_photo, $destination_photo_size);
             unlink($dir_destination . $d_photo);
         }
 
             if (count($destinations_photos) == 0 && $process_destination) {
                 $results .= "Redimensionando las fotos de los albums y generando thumbnails...<br/>";
-                $albums_photos = Images::get_directory_images_content_with_size($dir_album, $total_images_to_process);
-                Images::create_directory($dir_album . '/originals');
-                Images::create_directory($dir_album . '/processed');
-                Images::create_directory($dir_albums_thumbs);
+                $albums_photos = Images::getDirectoryImagesContentWithSize($dir_album, $total_images_to_process);
+                Images::createDirectory($dir_album . '/originals');
+                Images::createDirectory($dir_album . '/processed');
+                Images::createDirectory($dir_albums_thumbs);
                 $process_albums = true;
 
                 foreach ($albums_photos as $a_photo) {
                     Images::save($dir_album . $a_photo, $dir_album . '/originals/' . $a_photo);
 
-                    Images::create_thumbnail($dir_album . '/originals/' . $a_photo, $dir_albums_thumbs . $a_photo, $thumbs_size);
-                    Images::resize_diferent_directories($dir_album . '/originals/' . $a_photo, $dir_album . '/processed/' . $a_photo, $album_photo_size);
+                    Images::createThumbnail($dir_album . '/originals/' . $a_photo, $dir_albums_thumbs . $a_photo, $thumbs_size);
+                    Images::resizeDiferentDirectories($dir_album . '/originals/' . $a_photo, $dir_album . '/processed/' . $a_photo, $album_photo_size);
                     unlink($dir_album . $a_photo);
                 }
 
                     if (count($albums_photos) == 0 && $process_albums) {
                         $results .= "Redimensionando las fotos de los alojamientos, colocando marca de agua y generando thumbnails...<br/>";
-                        $own_photos = Images::get_directory_images_content_with_size($dir_ownership, $total_images_to_process);
-                        Images::create_directory($dir_ownership . '/originals');
-                        Images::create_directory($dir_ownership . '/processed');
-                        Images::create_directory($dir_ownership_thumbs);
+                        $own_photos = Images::getDirectoryImagesContentWithSize($dir_ownership, $total_images_to_process);
+                        Images::createDirectory($dir_ownership . '/originals');
+                        Images::createDirectory($dir_ownership . '/processed');
+                        Images::createDirectory($dir_ownership_thumbs);
                         $process_owns = true;
 
                         foreach ($own_photos as $o_photo) {
                             Images::save($dir_ownership . $o_photo, $dir_ownership . '/originals/' . $o_photo);
 
-                            Images::create_thumbnail($dir_ownership . '/originals/' . $o_photo, $dir_ownership_thumbs . $o_photo, $thumbs_size);
-                            Images::resize_diferent_directories_and_watermark($dir_ownership . '/originals/' . $o_photo, $dir_ownership . '/processed/' . $o_photo, $dir_watermark, $ownership_photo_size);
+                            Images::createThumbnail($dir_ownership . '/originals/' . $o_photo, $dir_ownership_thumbs . $o_photo, $thumbs_size);
+                            Images::resizeDiferentDirectoriesAndWatermark($dir_ownership . '/originals/' . $o_photo, $dir_ownership . '/processed/' . $o_photo, $dir_watermark, $ownership_photo_size);
 
                             unlink($dir_ownership . $o_photo);
                         }
@@ -249,7 +249,7 @@ class Images {
         return array('msg_text' => $results, 'finished' => 'false');
     }
 
-    public static function copy_from_processed_to_main_directory($container, $results) {
+    public static function copyFromProcessedToMainDirectory($container, $results) {
         $dir_user = $container->getParameter('user.dir.photos');
         $dir_destination = $container->getParameter('destination.dir.photos');
         $dir_destination_processed = $dir_destination . '/processed/';
@@ -269,7 +269,7 @@ class Images {
         $process_owns = false;
 
         $results .= "Copiando las fotos de los destinos hacia el directorio principal...<br/>";
-        $destinations_photos = Images::get_directory_images_content_with_size($dir_destination_processed, $total_images_to_process);
+        $destinations_photos = Images::getDirectoryImagesContentWithSize($dir_destination_processed, $total_images_to_process);
         $process_destination = true;
 
         foreach ($destinations_photos as $d_photo) {
@@ -279,7 +279,7 @@ class Images {
 
         if (count($destinations_photos) == 0 && $process_destination) {
             $results .= "Copiando las fotos de los albums hacia el directorio principal...<br/>";
-            $albums_photos = Images::get_directory_images_content_with_size($dir_albums_processed, $total_images_to_process);
+            $albums_photos = Images::getDirectoryImagesContentWithSize($dir_albums_processed, $total_images_to_process);
             $process_albums = true;
 
             foreach ($albums_photos as $a_photo) {
@@ -289,7 +289,7 @@ class Images {
 
             if (count($albums_photos) == 0 && $process_albums) {
                 $results .= "Copiando las fotos de los alojamientos en el directorio principal...<br/>";
-                $own_photos = Images::get_directory_images_content_with_size($dir_ownership_processed, $total_images_to_process);
+                $own_photos = Images::getDirectoryImagesContentWithSize($dir_ownership_processed, $total_images_to_process);
                 $process_owns = true;
 
                 foreach ($own_photos as $o_photo) {
@@ -315,7 +315,7 @@ class Images {
         return array('msg_text' => $results, 'finished' => 'false');
     }
 
-    public static function get_directory_images_content($directory) {
+    public static function getDirectoryImagesContent($directory) {
         $results = array();
         $handler = opendir($directory);
 
@@ -329,7 +329,7 @@ class Images {
         return $results;
     }
 
-    public static function get_directory_images_content_with_size($directory, $total_files) {
+    public static function getDirectoryImagesContentWithSize($directory, $total_files) {
         $results = array();
 
         if (is_dir($directory)) {
@@ -353,7 +353,7 @@ class Images {
         return $results;
     }
 
-    public static function create_directory($new_directory) {
+    public static function createDirectory($new_directory) {
         if (!is_dir($new_directory)) {
             mkdir($new_directory, 0755, true);
         }
