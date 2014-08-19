@@ -68,6 +68,13 @@ class ownershipReservationRepository extends EntityRepository {
         return $query->setParameter('id_user', $id_user)->getArrayResult();
     }
 
+    function getOwnResByOwnership($id_ownership) {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT ore,gre FROM mycpBundle:ownershipReservation ore JOIN ore.own_res_gen_res_id gre
+        WHERE gre.gen_res_own_id = :id_ownership");
+        return $query->setParameter('id_ownership', $id_ownership)->getArrayResult();
+    }
+
     function get_reservations_by_booking_and_ownership($id_booking, $own_id) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT ore FROM mycpBundle:ownershipReservation ore JOIN ore.own_res_gen_res_id gre

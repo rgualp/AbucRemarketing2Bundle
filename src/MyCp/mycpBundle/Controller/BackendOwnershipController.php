@@ -444,67 +444,87 @@ class BackendOwnershipController extends Controller {
 
         $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
         $old_code = $ownership->getOwnMcpCode();
-        $ownershipGeneralLangs = $em->getRepository('mycpBundle:ownershipGeneralLang')->findBy(array('ogl_ownership' => $id_ownership));
-        $ownershipDescLangs = $em->getRepository('mycpBundle:ownershipDescriptionLang')->findBy(array('odl_ownership' => $id_ownership));
-        $ownershipKeywords = $em->getRepository('mycpBundle:ownershipKeywordLang')->findBy(array('okl_ownership' => $id_ownership));
-        $ownershipRooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $id_ownership));
-        $ownershipPhotos = $em->getRepository('mycpBundle:ownershipPhoto')->findBy(array('own_pho_own' => $id_ownership));
-        $ownershipReservations = $em->getRepository('mycpBundle:ownershipReservation')->getOwnResByOwnership($id_ownership);
-        $ownershipComments = $em->getRepository('mycpBundle:comment')->findBy(array('com_ownership' => $id_ownership));
-        $userscasa = $em->getRepository('mycpBundle:userCasa')->findBy(array('user_casa_ownership' => $id_ownership));
 
-        $dir = $this->container->getParameter('ownership.dir.photos');
-        $dir_thumbs = $this->container->getParameter('ownership.dir.thumbnails');
+        $generalReservations = $em->getRepository('mycpBundle:generalReservation')->findBy(array('gen_res_own_id' => $id_ownership));
 
-        foreach ($ownershipComments as $ownershipComment) {
-            $em->remove($ownershipComment);
-        }
+        if (count($generalReservations) == 0) {
+            $ownershipReservations = $em->getRepository('mycpBundle:ownershipReservation')->getOwnResByOwnership($id_ownership);
+            $ownershipGeneralLangs = $em->getRepository('mycpBundle:ownershipGeneralLang')->findBy(array('ogl_ownership' => $id_ownership));
+            $ownershipDescLangs = $em->getRepository('mycpBundle:ownershipDescriptionLang')->findBy(array('odl_ownership' => $id_ownership));
+            $ownershipKeywords = $em->getRepository('mycpBundle:ownershipKeywordLang')->findBy(array('okl_ownership' => $id_ownership));
+            $ownershipRooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $id_ownership));
+            $ownershipPhotos = $em->getRepository('mycpBundle:ownershipPhoto')->findBy(array('own_pho_own' => $id_ownership));
+            $ownershipComments = $em->getRepository('mycpBundle:comment')->findBy(array('com_ownership' => $id_ownership));
+            $userscasa = $em->getRepository('mycpBundle:userCasa')->findBy(array('user_casa_ownership' => $id_ownership));
 
-        foreach ($ownershipGeneralLangs as $ownershipgLang) {
-            $em->remove($ownershipgLang);
-        }
+            $dir = $this->container->getParameter('ownership.dir.photos');
+            $dir_thumbs = $this->container->getParameter('ownership.dir.thumbnails');
 
-        foreach ($ownershipReservations as $ownershipReservation) {
-            $em->remove($ownershipReservation);
-        }
-
-        foreach ($ownershipDescLangs as $ownershipDescLang) {
-            $em->remove($ownershipDescLang);
-        }
-
-        foreach ($ownershipKeywords as $ownershipKeyword) {
-            $em->remove($ownershipKeyword);
-        }
-
-        foreach ($ownershipRooms as $ownershipRoom) {
-            $em->remove($ownershipRoom);
-        }
-
-        foreach ($ownershipPhotos as $ownershipPhoto) {
-            $photo = $em->getRepository('mycpBundle:photo')->find($ownershipPhoto->getOwnPhoPhoto()->getPhoId());
-            @unlink($dir . $photo->getPhoName());
-            @unlink($dir_thumbs . $photo->getPhoName());
-            $ownershipPhotoLangs = $em->getRepository('mycpBundle:photoLang')->findBy(array('pho_lang_id_photo' => $photo->getPhoId()));
-            foreach ($ownershipPhotoLangs as $ownPhotoLang) {
-                $em->remove($ownPhotoLang);
+            foreach ($ownershipComments as $ownershipComment) {
+                $em->remove($ownershipComment);
             }
 
-            $em->remove($ownershipPhoto);
-            $em->remove($photo);
+            foreach ($ownershipGeneralLangs as $ownershipgLang) {
+                $em->remove($ownershipgLang);
+            }
+
+            foreach ($ownershipReservations as $ownershipReservation) {
+                $em->remove($ownershipReservation);
+            }
+
+            foreach ($generalReservations as $generalReservation) {
+                $em->remove($generalReservation);
+            }
+
+            foreach ($ownershipDescLangs as $ownershipDescLang) {
+                $em->remove($ownershipDescLang);
+            }
+
+            foreach ($ownershipKeywords as $ownershipKeyword) {
+                $em->remove($ownershipKeyword);
+            }
+
+            foreach ($ownershipRooms as $ownershipRoom) {
+                $em->remove($ownershipRoom);
+            }
+
+            foreach ($ownershipPhotos as $ownershipPhoto) {
+                $photo = $em->getRepository('mycpBundle:photo')->find($ownershipPhoto->getOwnPhoPhoto()->getPhoId());
+                @unlink($dir . $photo->getPhoName());
+                @unlink($dir_thumbs . $photo->getPhoName());
+                $ownershipPhotoLangs = $em->getRepository('mycpBundle:photoLang')->findBy(array('pho_lang_id_photo' => $photo->getPhoId()));
+                foreach ($ownershipPhotoLangs as $ownPhotoLang) {
+                    $em->remove($ownPhotoLang);
+                }
+
+                $em->remove($ownershipPhoto);
+                $em->remove($photo);
+            }
+
+            foreach ($userscasa as $usercasa) {
+                $em->remove($usercasa);
+            }
+
+            $em->remove($ownership);
+            $em->flush();
+
+            $message = 'Propiedad eliminada satisfactoriamente.';
+            $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+            $service_log = $this->get('log');
+            $service_log->saveLog('Delete entity ' . $old_code, BackendModuleName::MODULE_OWNERSHIP);
+        } else {
+            $status = $em->getRepository('mycpBundle:ownershipStatus')->find(ownershipStatus::STATUS_INACTIVE);
+            $ownership->setOwnStatus($status);
+            $em->persist($ownership);
+            $em->flush();
+
+            $message = 'Esta propiedad tiene reservaciones y no puede ser eliminada. En consecuencia, su estado ha sido cambiado a INACTIVO';
+            $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+            $service_log = $this->get('log');
+            $service_log->saveLog('Update entity status to INACTIVE. Property code ' . $old_code, BackendModuleName::MODULE_OWNERSHIP);
         }
-
-        foreach ($userscasa as $usercasa) {
-            $em->remove($usercasa);
-        }
-
-        $em->remove($ownership);
-        $em->flush();
-
-        $message = 'Propiedad eliminada satisfactoriamente.';
-        $this->get('session')->getFlashBag()->add('message_ok', $message);
-
-        $service_log = $this->get('log');
-        $service_log->saveLog('Delete entity ' . $old_code, BackendModuleName::MODULE_OWNERSHIP);
 
         return $this->redirect($this->generateUrl('mycp_list_ownerships'));
     }
@@ -546,7 +566,7 @@ class BackendOwnershipController extends Controller {
                                 $array_keys[$count] != 'ownership_mobile_number' &&
                                 $array_keys[$count] != 'ownership_phone_number' &&
                                 $array_keys[$count] != 'ownership_email_2' &&
-                                $array_keys[$count] != 'ownership_homeowner_2'&& $array_keys[$count] != 'ownership_saler' &&
+                                $array_keys[$count] != 'ownership_homeowner_2' && $array_keys[$count] != 'ownership_saler' &&
                                 $array_keys[$count] != 'ownership_visit_date'
                         ) {
                             $errors[$array_keys[$count]] = $errors_validation = $this->get('validator')->validateValue($item, $not_blank_validator);
@@ -786,13 +806,8 @@ class BackendOwnershipController extends Controller {
                         $service_log->saveLog('Create entity ' . $post['ownership_mcp_code'], BackendModuleName::MODULE_OWNERSHIP);
 
                         //Enviar correo a los propietarios
-                        if($post['status'] == ownershipStatus::STATUS_ACTIVE)
-                        $this->send_owners_email($post['ownership_email_1'],
-                                $post['ownership_email_2'],
-                                $post['ownership_homeowner_1'],
-                                $post['ownership_homeowner_2'],
-                                $post['ownership_name'],
-                                $post['ownership_mcp_code']);
+                        if ($post['status'] == ownershipStatus::STATUS_ACTIVE)
+                            $this->send_owners_email($post['ownership_email_1'], $post['ownership_email_2'], $post['ownership_homeowner_1'], $post['ownership_homeowner_2'], $post['ownership_name'], $post['ownership_mcp_code']);
                     }
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
                     if ($request->get('save_reset_input') == 1) {
@@ -1118,6 +1133,7 @@ class BackendOwnershipController extends Controller {
         $ownerships = $em->getRepository('mycpBundle:ownership')->findAll();
         return $this->render('mycpBundle:utils:ownership_names.html.twig', array('ownerships' => $ownerships));
     }
+
     public function get_salers_namesAction() {
         $em = $this->getDoctrine()->getEntityManager();
         $salers = $em->getRepository('mycpBundle:ownership')->getSalersNames();
