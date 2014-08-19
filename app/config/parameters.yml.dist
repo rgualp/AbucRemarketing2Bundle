@@ -19,4 +19,4 @@ parameters:
     router.request_context.base_url: /
 
     locale:            en
-    secret:            ThisTokenIsNotSoSecretChangeIt
+    secret:            7dsa7ydasdy872187yegwhqeg9yw91hjsaa00
