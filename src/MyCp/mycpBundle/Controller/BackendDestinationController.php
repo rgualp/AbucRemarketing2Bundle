@@ -236,7 +236,7 @@ class BackendDestinationController extends Controller
 
                 if($request->request->get('edit_destination'))
                 {
-                    $em->getRepository('mycpBundle:destination')->edit_destination($post);
+                    $em->getRepository('mycpBundle:destination')->edit($post);
                     $message='Destino actualizado satisfactoriamente.';
 
                     $service_log= $this->get('log');
@@ -244,7 +244,7 @@ class BackendDestinationController extends Controller
                 }
                 else
                 {
-                    $em->getRepository('mycpBundle:destination')->insert_destination($post);
+                    $em->getRepository('mycpBundle:destination')->insert($post);
                     $message='Destino añadido satisfactoriamente.';
 
                     $service_log= $this->get('log');
@@ -294,7 +294,7 @@ class BackendDestinationController extends Controller
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $em = $this->getDoctrine()->getEntityManager();
-        $destinations= $paginator->paginate($em->getRepository('mycpBundle:destination')->get_all_destinations($filter_name,$filter_active,$filter_province, $filter_municipality,$sort_by))->getResult();
+        $destinations= $paginator->paginate($em->getRepository('mycpBundle:destination')->getAll($filter_name,$filter_active,$filter_province, $filter_municipality,$sort_by))->getResult();
         //var_dump($destinations[0]->getDesLocMunicipality()->getMunName()); exit();
 
         foreach($destinations as $destination)

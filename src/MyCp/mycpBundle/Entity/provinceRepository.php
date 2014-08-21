@@ -31,7 +31,7 @@ class provinceRepository extends EntityRepository
         return $query->getResult();
     }
 
-    function get_for_main_menu()
+    function getMainMenu()
     {
         $em = $this->getEntityManager();
         $query_string = "SELECT DISTINCT p.prov_id, p.prov_name,

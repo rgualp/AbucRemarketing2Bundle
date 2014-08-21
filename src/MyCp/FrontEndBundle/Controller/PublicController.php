@@ -85,7 +85,7 @@ class PublicController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
 
-        $popular_destinations_list = $em->getRepository('mycpBundle:destination')->get_popular_destination(12, $user_ids['user_id'], $user_ids['session_id']);
+        $popular_destinations_list = $em->getRepository('mycpBundle:destination')->getPopularDestinations(12, $user_ids['user_id'], $user_ids['session_id']);
         $last_added = $em->getRepository('mycpBundle:ownership')->lastAdded(12, $user_ids['user_id'], $user_ids['session_id']);
         $offers_list = array();
         $economic_own_list = $em->getRepository('mycpBundle:ownership')->getByCategory('Económica', 12,null, $user_ids['user_id'], $user_ids['session_id']);
@@ -132,7 +132,7 @@ class PublicController extends Controller {
     public function get_main_menu_destinationsAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $destinations = $em->getRepository('mycpBundle:destination')->get_for_main_menu();
+        $destinations = $em->getRepository('mycpBundle:destination')->getMainMenu();
 
          $for_url = array();
 
@@ -152,7 +152,7 @@ class PublicController extends Controller {
     public function get_main_menu_accomodationsAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $provinces = $em->getRepository('mycpBundle:province')->get_for_main_menu();
+        $provinces = $em->getRepository('mycpBundle:province')->getMainMenu();
 
         $for_url = array();
 
@@ -169,7 +169,7 @@ class PublicController extends Controller {
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $notifications = ($user != null && $user != "anon.") ? $em->getRepository('mycpBundle:ownershipReservation')->get_for_main_menu($user->getUserId()) : array();
+        $notifications = ($user != null && $user != "anon.") ? $em->getRepository('mycpBundle:ownershipReservation')->getMainMenu($user->getUserId()) : array();
 
         return $this->render('FrontEndBundle:utils:mainMenuMyCasaTripItems.html.twig', array(
               'notifications'=>($user != null && $user != "anon.") ?$notifications[0]['available']: 0

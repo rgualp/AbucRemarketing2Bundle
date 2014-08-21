@@ -30,7 +30,7 @@ class Email {
 
     public function recommendDestiny2Friend($email_from, $name_from, $email_to, $destiny) {
         /* remove after domain optimization. */
-        $photo = $this->em->getRepository('mycpBundle:destination')->get_destination_photos($destiny->getDesId());
+        $photo = $this->em->getRepository('mycpBundle:destination')->getAllPhotos($destiny->getDesId());
         if (isset($photo[0])) {
             $photo = $photo[0];
         } else {

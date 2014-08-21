@@ -358,21 +358,20 @@ class ReservationController extends Controller {
         }
 
         $request->getSession()->set('services_pre_reservation', null);
-
-
+        
         /*
          * Hallando otros ownerships en el mismo destino
          */
         $ownership = $em->getRepository('mycpBundle:ownership')->find($services[0]['ownership_id']);
 
-        $owns_in_destination = $em->getRepository("mycpBundle:destination")->recommendable_accommodations($ownership->getOwnMinimumPrice(),
+        $owns_in_destination = $em->getRepository("mycpBundle:destination")->getRecommendableAccommodations($ownership->getOwnMinimumPrice(),
                                     $ownership->getOwnRoomsTotal(),
                                     $ownership->getOwnAddressMunicipality()->getMunId(),
                                     $ownership->getOwnAddressProvince()->getProvId(),
                                     3, $services[0]['ownership_id'], $user->getUserId());
 
         $locale = $this->get('translator')->getLocale();
-        $destinations = $em->getRepository('mycpBundle:destination')->destination_filter($locale, null, $ownership->getOwnAddressProvince()->getProvId(), null, $ownership->getOwnAddressMunicipality()->getMunId(), 3, $user->getUserId(), null);
+        $destinations = $em->getRepository('mycpBundle:destination')->filter($locale, null, $ownership->getOwnAddressProvince()->getProvId(), null, $ownership->getOwnAddressMunicipality()->getMunId(), 3, $user->getUserId(), null);
 
         // Enviando mail al cliente
         $body = $this->render('FrontEndBundle:mails:email_check_available.html.twig', array(
@@ -425,7 +424,7 @@ class ReservationController extends Controller {
 
         return $this->render('FrontEndBundle:reservation:confirmReview.html.twig', array(
                     "owns_in_destination" => $owns_in_destination,
-                    //"owns_in_destination_total" => count($em->getRepository("mycpBundle:destination")->ownsership_nearby_destination($ownership->getOwnAddressMunicipality()->getMunId(), $ownership->getOwnAddressProvince()->getProvId())),
+                    //"owns_in_destination_total" => count($em->getRepository("mycpBundle:destination")->getAccommodationsNear($ownership->getOwnAddressMunicipality()->getMunId(), $ownership->getOwnAddressProvince()->getProvId())),
                     "other_destinations" => $destinations
         ));
     }

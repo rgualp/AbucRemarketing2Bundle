@@ -17,7 +17,7 @@ use MyCp\mycpBundle\Entity\ownershipStatus;
  */
 class destinationRepository extends EntityRepository {
 
-    function insert_destination($data) {
+    function insert($data) {
         //var_dump($data);
         $active = 0;
         if (isset($data['public']))
@@ -94,7 +94,7 @@ class destinationRepository extends EntityRepository {
         $em->flush();
     }
 
-    function edit_destination($data) {
+    function edit($data) {
         $id_destination = $data['edit_destination'];
         $active = 0;
         if (isset($data['public']))
@@ -166,13 +166,13 @@ class destinationRepository extends EntityRepository {
         //exit();
     }
 
-    function delete_destination($id_destination) {
+    /*function delete_destination($id_destination) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("DELETE mycpBundle:destinationlang des WHERE des.des_lang_des_id= :id_destination");
         return $query->setParameter('id_destination', $id_destination)->getArrayResult();
-    }
+    }*/
 
-    function get_all_destinations($filter_name, $filter_active, $filter_province, $filter_municipality, $sort_by) {
+    function getAll($filter_name, $filter_active, $filter_province, $filter_municipality, $sort_by) {
         $string = '';
         if ($filter_active != 'null' && $filter_active != '') {
             $string = "AND des.des_active = :filter_active";
@@ -284,15 +284,11 @@ class destinationRepository extends EntityRepository {
     }
 
     /**
-     * Yanet - Inicio
-     */
-
-    /**
      * Returns a set of destinations order by popularity
      * @param int $results_total Length of the return set
      * @return array
      */
-    function get_popular_destination($results_total = null, $user_id = null, $session_id = null, $locale = 'ES') {
+    function getPopularDestinations($results_total = null, $user_id = null, $session_id = null, $locale = 'ES') {
         $em = $this->getEntityManager();
         /* $query_string = "SELECT d FROM mycpBundle:destination d
           WHERE d.des_active <> 0
@@ -332,7 +328,7 @@ class destinationRepository extends EntityRepository {
         return $results;
     }
 
-    public function get_destination($destination_id, $locale) {
+    public function getDestination($destination_id, $locale) {
         $em = $this->getEntityManager();
 
         $query_string = "SELECT d,
@@ -361,7 +357,7 @@ class destinationRepository extends EntityRepository {
      * @param string $lang_code
      * @return array
      */
-    function get_destination_description($destination_array, $lang_code) {
+    function getDescription($destination_array, $lang_code) {
         if (is_array($destination_array)) {
             $descriptions_array = array();
             $em = $this->getEntityManager();
@@ -386,7 +382,7 @@ class destinationRepository extends EntityRepository {
      * @param array $destination_array
      * @return array
      */
-    function get_destination_photos($destination_array) {
+    function getAllPhotos($destination_array) {
         if (is_array($destination_array)) {
             $photos_array = array();
             $em = $this->getEntityManager();
@@ -417,7 +413,7 @@ class destinationRepository extends EntityRepository {
      * @param array $destination_array
      * @return array
      */
-    function get_destination_location($destination_array) {
+    function getLocation($destination_array) {
         if (is_array($destination_array)) {
             $location_array = array();
             $em = $this->getEntityManager();
@@ -438,7 +434,7 @@ class destinationRepository extends EntityRepository {
         }
     }
 
-    function get_destination_location_entity($destination_array) {
+    /*function get_destination_location_entity($destination_array) {
         if (is_array($destination_array)) {
             $location_array = array();
             $em = $this->getEntityManager();
@@ -450,9 +446,9 @@ class destinationRepository extends EntityRepository {
             }
             return $location_array;
         }
-    }
+    }*/
 
-    function get_destination_by_location($province, $municipality = null) {
+    function getByLocation($province, $municipality = null) {
         $em = $this->getEntityManager();
         $query_string = "SELECT l FROM mycpBundle:destinationLocation l
                          JOIN l.des_loc_destination d
@@ -466,7 +462,7 @@ class destinationRepository extends EntityRepository {
         return $em->createQuery($query_string)->getResult();
     }
 
-    function destination_filter($locale, $municipality_id = null, $province_id = null, $exclude_destination_id = null, $exclude_municipality = null, $max_result_set = null, $user_id = null, $session_id = null) {
+    function filter($locale, $municipality_id = null, $province_id = null, $exclude_destination_id = null, $exclude_municipality = null, $max_result_set = null, $user_id = null, $session_id = null) {
         $em = $this->getEntityManager();
         $query_string = "SELECT DISTINCT d.des_id as desid,
                          d.des_poblation as desPoblation,
@@ -513,7 +509,7 @@ class destinationRepository extends EntityRepository {
         return $results;
     }
 
-    function ownsership_nearby_destination($municipality_id = null, $province_id = null, $max_result_set = null, $exclude_own_id = null, $user_id = null, $session_id = null) {
+    function getAccommodationsNear($municipality_id = null, $province_id = null, $max_result_set = null, $exclude_own_id = null, $user_id = null, $session_id = null) {
         if ($municipality_id != null || $province_id != null) {
             $em = $this->getEntityManager();
             $query_string = "SELECT DISTINCT o.own_id,
@@ -562,7 +558,7 @@ class destinationRepository extends EntityRepository {
         return null;
     }
 
-    function recommendable_accommodations($price = null, $rooms_count = null, $municipality_id = null, $province_id = null, $max_result_set = null, $exclude_own_id = null, $user_id = null, $session_id = null) {
+    function getRecommendableAccommodations($price = null, $rooms_count = null, $municipality_id = null, $province_id = null, $max_result_set = null, $exclude_own_id = null, $user_id = null, $session_id = null) {
         if ($municipality_id != null || $province_id != null) {
             $em = $this->getEntityManager();
             $query_string = "SELECT DISTINCT o.own_id,
@@ -628,7 +624,7 @@ class destinationRepository extends EntityRepository {
         return null;
     }
 
-    function destinations_in_province_name($province_name) {
+    function getByProvinceName($province_name) {
 
         $em = $this->getEntityManager();
         $query_string = "SELECT DISTINCT d.des_id,
@@ -663,7 +659,7 @@ class destinationRepository extends EntityRepository {
         return $results;
     }
 
-    function get_destination_owns_statistics($destination_array) {
+    function getAccommodationsStatistics($destination_array) {
         if (is_array($destination_array)) {
             $statistics_array = array();
             $em = $this->getEntityManager();
@@ -723,16 +719,13 @@ class destinationRepository extends EntityRepository {
         return $photos_array;
     }
 
-    function get_list_by_ids($des_ids) {
+    function getByManyIds($des_ids) {
         $em = $this->getEntityManager();
         $query_string = "SELECT o FROM mycpBundle:destination o WHERE o.des_id IN ($des_ids)";
         return $em->createQuery($query_string)->getResult();
     }
 
-    /**
-     * Yanet - Fin
-     */
-    function get_for_main_menu() {
+    function getMainMenu() {
         $em = $this->getEntityManager();
         $query_string = "SELECT DISTINCT d.des_id, d.des_name,
                          (SELECT min(mun) FROM mycpBundle:destinationLocation loc JOIN loc.des_loc_municipality mun WHERE loc.des_loc_destination = d.des_id ) as municipality_id,
