@@ -202,7 +202,7 @@ class BackendAlbumController extends Controller {
 
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
-        $albums = $paginator->paginate($em->getRepository('mycpBundle:album')->get_all_albums($filter_name, $filter_active, $filter_category))->getResult();
+        $albums = $paginator->paginate($em->getRepository('mycpBundle:album')->getAll($filter_name, $filter_active, $filter_category))->getResult();
         $data = array();
         foreach ($albums as $album) {
 
@@ -259,13 +259,13 @@ class BackendAlbumController extends Controller {
                 //save into database
                 $service_log = $this->get('log');
                 if ($request->request->get('edit_album')) {
-                    $em->getRepository('mycpBundle:album')->edit_album($post);
+                    $em->getRepository('mycpBundle:album')->edit($post);
                     $message = 'Álbum actualizado satisfactoriamente.';
                     $album_lang_save = $em->getRepository('mycpBundle:albumLang')->findBy(array('album_lang_album' => $post['edit_album']));
 
                     $service_log->saveLog('Edit entity, ' . $album_lang_save[0]->getAlbumLangName(), BackendModuleName::MODULE_ALBUM);
                 } else {
-                    $em->getRepository('mycpBundle:album')->insert_album($post);
+                    $em->getRepository('mycpBundle:album')->insert($post);
                     $message = 'Álbum añadido satisfactoriamente.';
                     $languages = $em->getRepository('mycpBundle:lang')->findAll();
 
