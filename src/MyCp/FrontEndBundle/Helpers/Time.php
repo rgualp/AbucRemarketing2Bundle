@@ -4,7 +4,7 @@ namespace MyCp\FrontEndBundle\Helpers;
 
 class Time
 {
-    public static function dates_between($startdate, $enddate, $format=null){
+    public static function datesBetween($startdate, $enddate, $format=null){
 
         (is_int($startdate)) ? 1 : $startdate = strtotime($startdate);
         (is_int($enddate)) ? 1 : $enddate = strtotime($enddate);
@@ -20,7 +20,7 @@ class Time
         return $arr;
     }
 
-    public function season_by_date($date)
+    public function seasonByDate($date)
     {
         $temp=strtotime('2000-'.date('m', $date).'-'.date('d', $date));
 

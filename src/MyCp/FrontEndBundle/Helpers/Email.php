@@ -85,7 +85,7 @@ class Email {
         {
             $photos=$this->em->getRepository('mycpBundle:ownership')->getPhotos($res->getOwnResGenResId()->getGenResOwnId()->getOwnId());
             array_push($array_photos,$photos);
-            $array_dates= $service_time->dates_between($res->getOwnResReservationFromDate()->getTimestamp(),$res->getOwnResReservationToDate()->getTimestamp());
+            $array_dates= $service_time->datesBetween($res->getOwnResReservationFromDate()->getTimestamp(),$res->getOwnResReservationToDate()->getTimestamp());
             array_push($array_nigths,count($array_dates)-1);
         }
         $user_locale =  strtolower($user_tourist->getUserTouristLanguage()->getLangCode()) ;

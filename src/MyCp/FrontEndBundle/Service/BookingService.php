@@ -86,7 +86,7 @@ class BookingService extends Controller
             $totalPercentPrice = 0;
 
             foreach ($ownReservations as $own) {
-                $array_dates = $timeService->dates_between(
+                $array_dates = $timeService->datesBetween(
                         $own->getOwnResReservationFromDate()->getTimestamp(),
                         $own->getOwnResReservationToDate()->getTimestamp()
                     );
@@ -111,7 +111,7 @@ class BookingService extends Controller
         $totalPercentPrice = 0;
 
         foreach ($ownReservations as $own) {
-            $array_dates = $timeService->dates_between(
+            $array_dates = $timeService->datesBetween(
                     $own->getOwnResReservationFromDate()->getTimestamp(),
                     $own->getOwnResReservationToDate()->getTimestamp()
                 );
@@ -250,7 +250,7 @@ class BookingService extends Controller
                 ->getPhotos($rootOwnId);
 
             array_push($arrayPhotos, $photos);
-            $array_dates = $timeService->dates_between(
+            $array_dates = $timeService->datesBetween(
                 $own->getOwnResReservationFromDate()->getTimestamp(),
                 $own->getOwnResReservationToDate()->getTimestamp()
             );

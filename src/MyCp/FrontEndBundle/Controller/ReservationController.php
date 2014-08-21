@@ -202,7 +202,7 @@ class ReservationController extends Controller {
         }
 
         $service_time = $this->get('Time');
-        $array_dates = $service_time->dates_between($min_date, $max_date);
+        $array_dates = $service_time->datesBetween($min_date, $max_date);
         $array_dates_string_day = array();
         $array_dates_string = array();
         $array_season = array();
@@ -212,7 +212,7 @@ class ReservationController extends Controller {
             foreach ($array_dates as $date) {
                 array_push($array_dates_string, \date('/m/Y', $date));
                 array_push($array_dates_string_day, \date('d', $date));
-                $season = $service_time->season_by_date($date);
+                $season = $service_time->seasonByDate($date);
                 array_push($array_season, $season);
                 $insert = 1;
                 foreach ($services as $serv) {
@@ -295,11 +295,11 @@ class ReservationController extends Controller {
                     $partial_total_price = array();
                     $triple_room_recharge = $this->container->getParameter('configuration.triple.room.charge');
                     foreach ($res_item as $item) {
-                        $array_dates = $service_time->dates_between($item['from_date'], $item['to_date']);
+                        $array_dates = $service_time->datesBetween($item['from_date'], $item['to_date']);
                         $temp_price = 0;
                         for ($a = 0; $a < count($array_dates); $a++) {
                             if ($a < count($array_dates) - 1) {
-                                $season = $service_time->season_by_date($array_dates[$a]);
+                                $season = $service_time->seasonByDate($array_dates[$a]);
                                 if ($season == 'down') {
                                     if ($item['room_type'] == "Habitación Triple" && $item['guests'] + $item['kids'] >= 3) {
                                         $total_price += $item['room_price_down'] + $triple_room_recharge;
@@ -343,7 +343,7 @@ class ReservationController extends Controller {
                         $ownership_photo = $em->getRepository('mycpBundle:ownership')->get_ownership_photo($ownership_reservation->getOwnResGenResId()->getGenResOwnId()->getOwnId());
                         array_push($array_photos, $ownership_photo);
 
-                        $array_dates = $service_time->dates_between($ownership_reservation->getOwnResReservationFromDate()->getTimestamp(), $ownership_reservation->getOwnResReservationToDate()->getTimestamp());
+                        $array_dates = $service_time->datesBetween($ownership_reservation->getOwnResReservationFromDate()->getTimestamp(), $ownership_reservation->getOwnResReservationToDate()->getTimestamp());
                         array_push($nigths, count($array_dates) - 1);
 
                         $em->persist($ownership_reservation);
@@ -490,7 +490,7 @@ class ReservationController extends Controller {
             $temp[1] = $reservation->getOwnResReservationToDate()->getTimestamp();
             array_push($array_reservations_timestamp, $temp);
 
-            $array_dates_temp = $service_time->dates_between($reservation->getOwnResReservationFromDate()->getTimestamp(), $reservation->getOwnResReservationToDate()->getTimestamp());
+            $array_dates_temp = $service_time->datesBetween($reservation->getOwnResReservationFromDate()->getTimestamp(), $reservation->getOwnResReservationToDate()->getTimestamp());
             foreach ($array_dates_temp as $temp2) {
                 $array_partial_dates[$temp2] = '1';
             }
@@ -510,7 +510,7 @@ class ReservationController extends Controller {
                 array_push($commissions, $commission);
             }
         }
-        $array_dates = $service_time->dates_between($min_date, $max_date);
+        $array_dates = $service_time->datesBetween($min_date, $max_date);
 
         $array_dates_string = array();
         $array_dates_string_day = array();

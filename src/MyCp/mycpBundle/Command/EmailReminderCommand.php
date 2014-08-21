@@ -63,7 +63,7 @@ class EmailReminderCommand extends ContainerAwareCommand
                 }
 
                 $array_dates = $timeService
-                    ->dates_between(
+                    ->datesBetween(
                         $res->getOwnResReservationFromDate()->getTimestamp(),
                         $res->getOwnResReservationToDate()->getTimestamp()
                     );

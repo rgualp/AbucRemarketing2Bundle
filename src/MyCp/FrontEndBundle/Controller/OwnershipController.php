@@ -44,7 +44,7 @@ class OwnershipController extends Controller {
         $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $owner_id));
 
         $service_time = $this->get('Time');
-        $array_dates = $service_time->dates_between($start_timestamp, $end_timestamp);
+        $array_dates = $service_time->datesBetween($start_timestamp, $end_timestamp);
 
         $array_no_available = array();
         $no_available_days = array();
@@ -61,7 +61,7 @@ class OwnershipController extends Controller {
             {
                 foreach($unavailable_room as $ur)
                 {
-                    $unavailable_days = $service_time->dates_between($ur->getUdFromDate()->getTimestamp(), $ur->getUdToDate()->getTimestamp());
+                    $unavailable_days = $service_time->datesBetween($ur->getUdFromDate()->getTimestamp(), $ur->getUdToDate()->getTimestamp());
                     // unavailable details
                     if ($start_timestamp <= $ur->getUdFromDate()->getTimestamp() &&
                         $end_timestamp >= $ur->getUdToDate()->getTimestamp()) {
@@ -162,7 +162,7 @@ class OwnershipController extends Controller {
               } */
             for ($a = 0; $a < count($array_dates) - $x; $a++) {
 
-                $season = $service_time->season_by_date($array_dates[$a]);
+                $season = $service_time->seasonByDate($array_dates[$a]);
                 if ($season == 'top') {
                     $total_price_room += $room->getRoomPriceUpFrom();
                     array_push($prices_dates_temp, $room->getRoomPriceUpFrom());
@@ -384,7 +384,7 @@ class OwnershipController extends Controller {
         }
 
         $service_time = $this->get('Time');
-        $array_dates = $service_time->dates_between($start_timestamp, $end_timestamp);
+        $array_dates = $service_time->datesBetween($start_timestamp, $end_timestamp);
 
         $array_no_available = array();
         $no_available_days = array();
@@ -447,7 +447,7 @@ class OwnershipController extends Controller {
               } */
             for ($a = 0; $a < count($array_dates) - $x; $a++) {
 
-                $season = $service_time->season_by_date($array_dates[$a]);
+                $season = $service_time->seasonByDate($array_dates[$a]);
                 if ($season == 'top') {
                     $total_price_room += $room->getRoomPriceUpFrom();
                     array_push($prices_dates_temp, $room->getRoomPriceUpFrom());
@@ -1314,24 +1314,6 @@ class OwnershipController extends Controller {
             }
         }
         return false;
-    }
-
-    public static function dates_between($startdate, $enddate, $format = null) {
-
-        (is_int($startdate)) ? 1 : $startdate = strtotime($startdate);
-        (is_int($enddate)) ? 1 : $enddate = strtotime($enddate);
-
-        if ($startdate > $enddate) {
-            return false; //The end date is before start date
-        }
-
-        while ($startdate < $enddate) {
-            $arr[] = ($format) ? date($format, $startdate) : $startdate;
-            $startdate += 86400;
-        }
-        $arr[] = ($format) ? date($format, $enddate) : $enddate;
-
-        return $arr;
     }
 
     public function type_listAction($type) {

@@ -173,7 +173,7 @@ class ReservationReminderWorkerCommand extends Worker
             }
 
             $array_dates = $this->timeService
-                ->dates_between(
+                ->datesBetween(
                     $ownershipReservation->getOwnResReservationFromDate()->getTimestamp(),
                     $ownershipReservation->getOwnResReservationToDate()->getTimestamp()
                 );
