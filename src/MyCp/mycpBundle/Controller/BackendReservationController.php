@@ -699,7 +699,7 @@ class BackendReservationController extends Controller {
 
             $locale = $this->get('translator');
             $subject = $locale->trans('PAYMENT_CONFIRMATION', array(), "messages", $user_locale);
-            $service_email->send_email(
+            $service_email->sendEmail(
                     $subject, 'reservation1@mycasaparticular.com', $subject . ' - MyCasaParticular.com', $user_tourist->getUserTouristUser()->getUserEmail(), $body, $attach
             );
 
@@ -716,7 +716,7 @@ class BackendReservationController extends Controller {
                     'nights' => $array_nigths_by_ownres,
                     'payment_pending' => $payment_pending
                 ));
-                $service_email->send_email(
+                $service_email->sendEmail(
                         'Confirmación de pago', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', 'reservation@mycasaparticular.com', $body_res
                 );
             }
@@ -731,7 +731,7 @@ class BackendReservationController extends Controller {
                 ));
                 $prop_email = $owns[0]->getOwnResGenResId()->getGenResOwnId()->getOwnEmail1();
                 if ($prop_email)
-                    $service_email->send_email(
+                    $service_email->sendEmail(
                             'Confirmación de reserva', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', $prop_email, $body_prop
                     );
             }
@@ -740,7 +740,7 @@ class BackendReservationController extends Controller {
             $custom_message = $this->getRequest()->get('message_to_client');
             if (isset($custom_message[0]))
                 $custom_message[0] = strtoupper($custom_message[0]);
-            $service_email->send_reservation($id_reservation, $custom_message);
+            $service_email->sendReservation($id_reservation, $custom_message);
 
             // inform listeners that a reservation was sent out
             $dispatcher = $this->get('event_dispatcher');

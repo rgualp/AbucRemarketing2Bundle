@@ -18,14 +18,14 @@ class Email {
     // <editor-fold defaultstate="collapsed" desc="Recommend Mails">
     public function recommend2Friend($email_from, $name_from, $email_to) {
         $body = $this->container->get('templating')->render("FrontEndBundle:mails:recommend2FriendMailBody.html.twig", array('from' => $name_from));
-        $this->send_email($body, $email_from, $name_from, $email_to, $this->container->get('templating')->render("FrontEndBundle:mails:recommend2FriendMailTemplate.html.twig", array('from' => $name_from)));
+        $this->sendEmail($body, $email_from, $name_from, $email_to, $this->container->get('templating')->render("FrontEndBundle:mails:recommend2FriendMailTemplate.html.twig", array('from' => $name_from)));
     }
 
     public function recommendProperty2Friend($email_from, $name_from, $email_to, $property) {
         /* remove after domain optimization. */
         $photo = $this->em->getRepository('mycpBundle:ownership')->get_ownership_photo($property->getOwnId());
         $body = $this->container->get('templating')->render("FrontEndBundle:mails:recommendProperty2FriendMailBody.html.twig", array('from' => $name_from));
-        $this->send_email($body, $email_from, $name_from, $email_to, $this->container->get('templating')->render("FrontEndBundle:mails:recommendProperty2FriendMailTemplate.html.twig", array('from' => $name_from, 'property' => $property, 'photo' => $photo)));
+        $this->sendEmail($body, $email_from, $name_from, $email_to, $this->container->get('templating')->render("FrontEndBundle:mails:recommendProperty2FriendMailTemplate.html.twig", array('from' => $name_from, 'property' => $property, 'photo' => $photo)));
     }
 
     public function recommendDestiny2Friend($email_from, $name_from, $email_to, $destiny) {
@@ -36,19 +36,19 @@ class Email {
         } else {
             $photo = "no_photo.png";
         }
-        $this->send_email("", $email_from, $name_from, $email_to, $this->container->get('templating')->render("FrontEndBundle:mails:recommendDestiny2FriendMailTemplate.html.twig", array('from' => $name_from, 'destiny' => $destiny, 'photo' => $photo)));
+        $this->sendEmail("", $email_from, $name_from, $email_to, $this->container->get('templating')->render("FrontEndBundle:mails:recommendDestiny2FriendMailTemplate.html.twig", array('from' => $name_from, 'destiny' => $destiny, 'photo' => $photo)));
     }
 
 // </editor-fold>
 //-----------------------------------------------------------------------------
 
-    public function send_templated_email($subject, $email_from, $email_to, $content) {
+    public function sendTemplatedEmail($subject, $email_from, $email_to, $content) {
         $templating = $this->container->get('templating');
         $body = $templating->render("FrontEndBundle:mails:standardMailTemplate.html.twig", array('content' => $content));
-        $this->send_email($subject, $email_from, "MyCasaParticular.com", $email_to, $body);
+        $this->sendEmail($subject, $email_from, "MyCasaParticular.com", $email_to, $body);
     }
 
-    public function send_email($subject, $email_from, $name_from, $email_to, $sf_render,$attach=null) {
+    public function sendEmail($subject, $email_from, $name_from, $email_to, $sf_render,$attach=null) {
         if (is_object($sf_render)) {
             $sf_render = $sf_render->getContent();
         }
@@ -65,7 +65,7 @@ class Email {
         return $this->container->get('mailer')->send($message);
     }
 
-    public function send_reservation($id_reservation,$custom_message=null)
+    public function sendReservation($id_reservation,$custom_message=null)
     {
         $templating = $this->container->get('templating');
         $reservation=$this->em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
@@ -105,7 +105,7 @@ class Email {
         $locale = $this->container->get('translator');
         $subject=$locale->trans('REQUEST_STATUS_CHANGED', array(), "messages", $user_locale);
 
-        $this->send_email(
+        $this->sendEmail(
             $subject,
             'reservation@mycasaparticular.com',
             'MyCasaParticular.com',
@@ -114,7 +114,7 @@ class Email {
         );
     }
 
-    public function send_owners_mail($email_to, $owners_name, $own_name, $own_mycp_code)
+    public function sendOwnersMail($email_to, $owners_name, $own_name, $own_mycp_code)
     {
         $templating = $this->container->get('templating');
 
@@ -127,7 +127,7 @@ class Email {
             'own_mycp_code'=>$own_mycp_code
                 ));
 
-        $this->send_email(
+        $this->sendEmail(
             "Bienvenido a MyCasaParticular",
             'casa@mycasaparticular.com',
             'MyCasaParticular.com',

@@ -96,7 +96,7 @@ class EmailReminderCommand extends ContainerAwareCommand
                 . ' for General Reservation ID ' . $generalReservationId);
 
             try {
-                $emailService->send_email(
+                $emailService->sendEmail(
                     $subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com',
                     $emailAddress,
                     $body

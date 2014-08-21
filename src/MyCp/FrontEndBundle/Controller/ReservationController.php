@@ -386,7 +386,7 @@ class ReservationController extends Controller {
         $locale = $this->get('translator');
         $subject = $locale->trans('REQUEST_SENT');
         $service_email = $this->get('Email');
-        $service_email->send_email(
+        $service_email->sendEmail(
                 $subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $body
         );
 
@@ -417,7 +417,7 @@ class ReservationController extends Controller {
 
             $subject = "MyCasaParticular Reservas - " . strtoupper($user_tourist->getUserTouristLanguage()->getLangCode());
 
-            $service_email->send_email(
+            $service_email->sendEmail(
                     $subject, 'no.reply@mycasaparticular.com', $subject, 'reservation@mycasaparticular.com', $body
             );
         }

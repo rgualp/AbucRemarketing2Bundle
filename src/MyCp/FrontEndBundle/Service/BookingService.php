@@ -313,7 +313,7 @@ class BookingService extends Controller
         $userEmail = trim($user->getUserEmail());
 
         try {
-            $emailService->send_email(
+            $emailService->sendEmail(
                 $subject,
                 'reservation1@mycasaparticular.com',
                 $subject . ' - MyCasaParticular.com',
@@ -345,7 +345,7 @@ class BookingService extends Controller
             );
 
             try {
-                $emailService->send_email(
+                $emailService->sendEmail(
                     'Confirmación de pago',
                     'no-reply@mycasaparticular.com',
                     'MyCasaParticular.com',
@@ -381,7 +381,7 @@ class BookingService extends Controller
                     $owns[0]->getOwnResGenResId()->getGenResId() . '.');
             } else {
                 try {
-                    $emailService->send_email(
+                    $emailService->sendEmail(
                         'Confirmación de reserva',
                         'no-reply@mycasaparticular.com',
                         'MyCasaParticular.com',

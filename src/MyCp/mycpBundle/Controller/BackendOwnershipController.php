@@ -952,10 +952,10 @@ class BackendOwnershipController extends Controller {
             $owners_name = $own_homeowner_1 . ( isset($own_homeowner_2) && isset($own_homeowner_1) && $own_homeowner_1 != "" && $own_homeowner_2 != "" ? " y " : "") . $own_homeowner_2;
 
             if (isset($own_email_1) && $own_email_1 != "") {
-                $service_email->send_owners_mail($own_email_1, $owners_name, $own_name, $own_mycp_code);
+                $service_email->sendOwnersMail($own_email_1, $owners_name, $own_name, $own_mycp_code);
             }
             if (isset($own_email_2) && $own_email_2 != "") {
-                $service_email->send_owners_mail($own_email_2, $owners_name, $own_name, $own_mycp_code);
+                $service_email->sendOwnersMail($own_email_2, $owners_name, $own_name, $own_mycp_code);
             }
             $message = 'El correo de instrucciones ha sido enviado satisfactoriamente al propietario';
             $this->get('session')->getFlashBag()->add('message_ok', $message);
