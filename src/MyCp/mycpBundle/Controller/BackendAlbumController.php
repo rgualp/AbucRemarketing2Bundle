@@ -366,7 +366,7 @@ class BackendAlbumController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $data['languages'] = $em->getRepository('mycpBundle:lang')->get_all_languages();
-        $photos = $paginator->paginate($em->getRepository('mycpBundle:albumPhoto')->get_photos_by_id_album($id_album))->getResult();
+        $photos = $paginator->paginate($em->getRepository('mycpBundle:albumPhoto')->getPhotosByIdAlbum($id_album))->getResult();
         foreach ($photos as $photo) {
             $data['description_photo_' . $photo->getAlbPhoPhoto()->getPhoId()] = $em->getRepository('mycpBundle:photoLang')->findBy(array('pho_lang_id_photo' => $photo->getAlbPhoPhoto()->getPhoId()));
         }
