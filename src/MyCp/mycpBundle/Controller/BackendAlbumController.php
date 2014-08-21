@@ -26,7 +26,7 @@ class BackendAlbumController extends Controller {
 
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
-        $categories = $paginator->paginate($em->getRepository('mycpBundle:albumCategoryLang')->get_categories())->getResult();
+        $categories = $paginator->paginate($em->getRepository('mycpBundle:albumCategoryLang')->getCategories())->getResult();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
@@ -229,7 +229,7 @@ class BackendAlbumController extends Controller {
 
     function get_all_categoriesAction($data) {
         $em = $this->getDoctrine()->getEntityManager();
-        $categories = $em->getRepository('mycpBundle:albumCategoryLang')->get_categories();
+        $categories = $em->getRepository('mycpBundle:albumCategoryLang')->getCategories();
         return $this->render('mycpBundle:utils:category.html.twig', array('categories' => $categories, 'data' => $data));
     }
 
