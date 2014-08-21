@@ -183,7 +183,7 @@ class BackendDestinationController extends Controller
 
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
-        $categories = $paginator->paginate($em->getRepository('mycpBundle:destinationCategoryLang')->get_categories())->getResult();
+        $categories = $paginator->paginate($em->getRepository('mycpBundle:destinationCategoryLang')->getCategories())->getResult();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
@@ -265,7 +265,7 @@ class BackendDestinationController extends Controller
                 $post['id_destination']=$id_destination;
             }
         }
-        $categories= $em->getRepository('mycpBundle:destinationCategoryLang')->get_categories('object');
+        $categories= $em->getRepository('mycpBundle:destinationCategoryLang')->getCategories('object');
         $languages = $em->getRepository('mycpBundle:lang')->get_all_languages();
         return $this->render('mycpBundle:destination:new.html.twig', array('languages' => $languages, 'errors' => $errors, 'data' => $post,'categories'=>$categories));
 
@@ -442,7 +442,7 @@ class BackendDestinationController extends Controller
         }
 
         $data['edit_destination']=TRUE;
-        $categories= $em->getRepository('mycpBundle:destinationCategoryLang')->get_categories('object');
+        $categories= $em->getRepository('mycpBundle:destinationCategoryLang')->getCategories('object');
 
         return $this->render('mycpBundle:destination:new.html.twig', array('languages' => $languages, 'errors' => $errors, 'data' => $data,'categories'=>$categories));
     }
