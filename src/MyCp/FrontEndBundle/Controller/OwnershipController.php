@@ -231,7 +231,7 @@ class OwnershipController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $ownership = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code' => $own_code));
-        if ($ownership) {
+        if ($ownership && $ownership->getOwnStatus()->getStatusId() == \MyCp\mycpBundle\Entity\ownershipStatus::STATUS_ACTIVE) {
             $own_name = Utils::url_normalize($ownership->getOwnName());
             return $this->redirect($this->generateUrl('frontend_details_ownership', array('own_name' => $own_name)));
         }

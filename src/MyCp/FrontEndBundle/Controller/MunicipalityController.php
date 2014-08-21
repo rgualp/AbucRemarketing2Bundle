@@ -24,7 +24,7 @@ class MunicipalityController extends Controller {
 
         foreach ($municipalities as $mun) {
             $total = count($em->getRepository('mycpBundle:ownership')->findBy(array('own_address_municipality' => $mun->getMunId(),
-                        'own_status' => 1)));
+                        'own_status' => \MyCp\mycpBundle\Entity\ownershipStatus::STATUS_ACTIVE)));
             $mun_total_owns[$mun->getMunId()] = $total;
 
             if ($total > 0)

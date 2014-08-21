@@ -2481,11 +2481,31 @@
             </trans-unit>
             <trans-unit id="630">
                 <source>USER_ACCOUNT_ACTIVATION_EMAIL_REMINDER</source>
-                <target>Recuérde: Activación de su cuenta en MyCasaParticular</target>
+                <target>Recuerde: Activación de su cuenta en MyCasaParticular</target>
             </trans-unit>
             <trans-unit id="631">
                 <source>EMAIL_ACCOUNT_REGISTERED_SUBJECT_REMINDER</source>
-                <target>Recuérde: Activación de su cuenta en MyCasaParticular</target>
+                <target>Recuerde: Activación de su cuenta en MyCasaParticular</target>
+            </trans-unit>
+            <trans-unit id="632">
+                <source>OWN_STATUS_ACTIVE</source>
+                <target>Activa</target>
+            </trans-unit>
+            <trans-unit id="633">
+                <source>OWN_STATUS_DELETED</source>
+                <target>Eliminada</target>
+            </trans-unit>
+            <trans-unit id="634">
+                <source>OWN_STATUS_INACTIVE</source>
+                <target>Inactiva</target>
+            </trans-unit>
+            <trans-unit id="635">
+                <source>OWN_STATUS_IN_PROCESS</source>
+                <target>En Proceso</target>
+            </trans-unit>
+            <trans-unit id="636">
+                <source>OWN_NO_STATUS</source>
+                <target>Sin Estado</target>
             </trans-unit>
         </body>
     </file>

@@ -186,7 +186,7 @@ class PublicController extends Controller {
 
         //houses
         $url_houses=array();
-        $houses=$em->getRepository('mycpBundle:ownership')->findBy(array('own_status'=>1));
+        $houses=$em->getRepository('mycpBundle:ownership')->findBy(array('own_status'=>  \MyCp\mycpBundle\Entity\ownershipStatus::STATUS_ACTIVE));
         foreach($languages as $lang) {
             $routingParams = array('locale' => strtolower($lang->getLangCode()), '_locale' => strtolower($lang->getLangCode()));
 

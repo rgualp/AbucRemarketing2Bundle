@@ -21,6 +21,8 @@ class utilsExtension extends \Twig_Extension {
         return array(
             new \Twig_SimpleFilter('price', array($this, 'priceFilter')),
             new \Twig_SimpleFilter('urlNormalize', array($this, 'urlNormalize')),
+            new \Twig_SimpleFilter('statusName', array($this, 'statusName')),
+
         );
     }
 
@@ -79,5 +81,10 @@ class utilsExtension extends \Twig_Extension {
     public function urlNormalize($text)
     {
         return Utils::url_normalize($text);
+    }
+
+    public function statusName($status_id)
+    {
+        return \MyCp\mycpBundle\Entity\ownershipStatus::statusName($status_id);
     }
 }

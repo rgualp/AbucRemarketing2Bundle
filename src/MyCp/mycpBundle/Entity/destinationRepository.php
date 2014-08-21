@@ -7,6 +7,7 @@ use MyCp\mycpBundle\Entity\destination;
 use MyCp\mycpBundle\Entity\destinationLang;
 use MyCp\mycpBundle\Entity\destinationLocation;
 use MyCp\FrontEndBundle\Helpers\Utils;
+use MyCp\mycpBundle\Entity\ownershipStatus;
 
 /**
  * destinationRepository
@@ -256,7 +257,7 @@ class destinationRepository extends EntityRepository {
                            WHERE dp.des_pho_destination = d.des_id AND (pho.pho_order =
                            (SELECT MIN(pho2.pho_order) FROM mycpBundle:destinationPhoto dp2
                            JOIN dp2.des_pho_photo pho2 WHERE dp2.des_pho_destination = dp.des_pho_destination ) or pho.pho_order is null)) as photo,
-                           (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = 1 AND o.own_address_municipality = (SELECT min(mun.mun_id) FROM mycpBundle:destinationLocation loc JOIN loc.des_loc_municipality mun WHERE loc.des_loc_destination = d.des_id)
+                           (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE." AND o.own_address_municipality = (SELECT min(mun.mun_id) FROM mycpBundle:destinationLocation loc JOIN loc.des_loc_municipality mun WHERE loc.des_loc_destination = d.des_id)
                          AND o.own_address_province = (SELECT min(prov.prov_id) FROM mycpBundle:destinationLocation loc1 JOIN loc1.des_loc_province prov WHERE loc1.des_loc_destination = d.des_id)
                          AND (SELECT count(r1) FROM mycpBundle:room r1 WHERE r1.room_ownership = o.own_id) <> 0) as count_ownership,
                            (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_destination=d.des_id) as is_in_favorites
@@ -309,9 +310,9 @@ class destinationRepository extends EntityRepository {
                          (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_destination=d.des_id) as is_in_favorites,
                          (SELECT min(mun1.mun_name) FROM mycpBundle:destinationLocation loc2 JOIN loc2.des_loc_municipality mun1 WHERE loc2.des_loc_destination = d.des_id ) as municipality_name,
                          (SELECT min(prov1.prov_name) FROM mycpBundle:destinationLocation loc3 JOIN loc3.des_loc_province prov1 WHERE loc3.des_loc_destination = d.des_id ) as province_name,
-                         (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = 1 AND o.own_address_municipality = (SELECT min(mun.mun_id) FROM mycpBundle:destinationLocation loc JOIN loc.des_loc_municipality mun WHERE loc.des_loc_destination = d.des_id)
+                         (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE." AND o.own_address_municipality = (SELECT min(mun.mun_id) FROM mycpBundle:destinationLocation loc JOIN loc.des_loc_municipality mun WHERE loc.des_loc_destination = d.des_id)
                          AND o.own_address_province = (SELECT min(prov.prov_id) FROM mycpBundle:destinationLocation loc1 JOIN loc1.des_loc_province prov WHERE loc1.des_loc_destination = d.des_id)) as count_ownership,
-                         (SELECT MIN(o1.own_minimum_price) FROM mycpBundle:ownership o1 WHERE o1.own_status = 1 AND o1.own_address_municipality = (SELECT min(mun2.mun_id) FROM mycpBundle:destinationLocation loc4 JOIN loc4.des_loc_municipality mun2 WHERE loc4.des_loc_destination = d.des_id)
+                         (SELECT MIN(o1.own_minimum_price) FROM mycpBundle:ownership o1 WHERE o1.own_status = ".ownershipStatus::STATUS_ACTIVE." AND o1.own_address_municipality = (SELECT min(mun2.mun_id) FROM mycpBundle:destinationLocation loc4 JOIN loc4.des_loc_municipality mun2 WHERE loc4.des_loc_destination = d.des_id)
                          AND o1.own_address_province = (SELECT min(prov2.prov_id) FROM mycpBundle:destinationLocation loc5 JOIN loc5.des_loc_province prov2 WHERE loc5.des_loc_destination = d.des_id)) as min_price
                          FROM mycpBundle:destination d
                          WHERE d.des_active <> 0
@@ -476,7 +477,7 @@ class destinationRepository extends EntityRepository {
                         WHERE dp.des_pho_destination = d.des_id AND (pho.pho_order =
                         (SELECT MIN(pho2.pho_order) FROM mycpBundle:destinationPhoto dp2
                         JOIN dp2.des_pho_photo pho2 WHERE dp2.des_pho_destination = dp.des_pho_destination ) or pho.pho_order is null)) as photo,
-                         (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = 1 AND o.own_address_municipality = (SELECT min(mun.mun_id) FROM mycpBundle:destinationLocation loc JOIN loc.des_loc_municipality mun WHERE loc.des_loc_destination = d.des_id)
+                         (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE." AND o.own_address_municipality = (SELECT min(mun.mun_id) FROM mycpBundle:destinationLocation loc JOIN loc.des_loc_municipality mun WHERE loc.des_loc_destination = d.des_id)
                          AND o.own_address_province = (SELECT min(prov.prov_id) FROM mycpBundle:destinationLocation loc1 JOIN loc1.des_loc_province prov WHERE loc1.des_loc_destination = d.des_id)) as count_ownership,
                          (SELECT dl.des_lang_brief from mycpBundle:destinationLang dl
                           JOIN dl.des_lang_lang l WHERE dl.des_lang_destination = d.des_id AND l.lang_code = '$locale') as description,
@@ -535,7 +536,7 @@ class destinationRepository extends EntityRepository {
                              JOIN r1.room_ownership o
                              JOIN o.own_address_province prov
                              JOIN o.own_address_municipality mun
-                             WHERE o.own_status = 1";
+                             WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE;
 
             if ($municipality_id != null && $municipality_id != -1 && $municipality_id != '')
                 $query_string = $query_string . " AND o.own_address_municipality =$municipality_id";
@@ -584,7 +585,7 @@ class destinationRepository extends EntityRepository {
                              JOIN r1.room_ownership o
                              JOIN o.own_address_province prov
                              JOIN o.own_address_municipality mun
-                             WHERE o.own_status = 1 ";
+                             WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE;
 
             if ($municipality_id != null && $municipality_id != -1 && $municipality_id != '')
                 $query_string = $query_string . " AND o.own_address_municipality =$municipality_id";
@@ -674,7 +675,7 @@ class destinationRepository extends EntityRepository {
                     $province = $destination_location->getDesLocProvince();
                     $municipality = $destination_location->getDesLocMunicipality();
                     $query_string = "SELECT count(o),MIN(o.own_minimum_price) FROM mycpBundle:ownership o
-                         WHERE o.own_status = 1";
+                         WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE;
                     if ($municipality != null)
                         $query_string = $query_string . " AND o.own_address_municipality =" . $municipality->getMunId();
 
@@ -736,7 +737,11 @@ class destinationRepository extends EntityRepository {
         $query_string = "SELECT DISTINCT d.des_id, d.des_name,
                          (SELECT min(mun) FROM mycpBundle:destinationLocation loc JOIN loc.des_loc_municipality mun WHERE loc.des_loc_destination = d.des_id ) as municipality_id,
                          (SELECT min(prov) FROM mycpBundle:destinationLocation loc1 JOIN loc1.des_loc_province prov WHERE loc1.des_loc_destination = d.des_id ) as province_id,
-                         (SELECT count(o) FROM mycpBundle:ownership o where o.own_address_municipality = municipality_id AND o.own_address_province = province_id AND (SELECT count(r1) FROM mycpBundle:room r1 WHERE r1.room_ownership = o.own_id) <> 0 as total_owns
+                         (SELECT count(o) FROM mycpBundle:ownership o
+                                          WHERE o.own_address_municipality = municipality_id
+                                            AND o.own_address_province = province_id
+                                            AND (SELECT count(r1) FROM mycpBundle:room r1 WHERE r1.room_ownership = o.own_id) <> 0
+                                            AND o.own_status = ".ownershipStatus::STATUS_ACTIVE.") as total_owns
                          FROM mycpBundle:destination d
                          ORDER BY d.des_order ASC";
         return $em->createQuery($query_string)->getResult();

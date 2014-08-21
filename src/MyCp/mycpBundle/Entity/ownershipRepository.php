@@ -650,7 +650,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                              JOIN o.own_address_municipality mun";
         }
         $parameters[] = array('session_id', $session_id);
-        $where = ' WHERE o.own_status = 1 ';
+        $where = ' WHERE o.own_status = '.ownershipStatus::STATUS_ACTIVE;
         if ($text != null && $text != '' && $text != 'null')
             $where = $where . ($where != '' ? " AND " : " WHERE ") . "(prov.prov_name LIKE :text OR " . "o.own_name LIKE :text OR o.own_mcp_code LIKE :text OR mun.mun_name LIKE :text)";
 
@@ -912,7 +912,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
                          WHERE o.own_top_20=1
-                           AND o.own_status = 1";
+                           AND o.own_status = ".ownershipStatus::STATUS_ACTIVE;
 
         if ($category != null) {
             $query_string .= " AND LOWER(o.own_category) = '$category'";
@@ -935,9 +935,9 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
     public function top20_statistics() {
         $em = $this->getEntityManager();
         $query = "SELECT count(own.own_id) as premium_total,
-                  (SELECT count(own1.own_id) FROM mycpBundle:ownership own1 WHERE own1.own_top_20 = 1 AND own1.own_status = 1 AND LOWER(own1.own_category) = 'rango medio') as midrange_total,
-                  (SELECT count(own2.own_id) FROM mycpBundle:ownership own2 WHERE own2.own_top_20 = 1 AND own2.own_status = 1 AND own2.own_category = 'Económica') as economic_total
-                  FROM mycpBundle:ownership own WHERE own.own_top_20 = 1 AND own.own_status = 1 AND own.own_category = 'Premium'";
+                  (SELECT count(own1.own_id) FROM mycpBundle:ownership own1 WHERE own1.own_top_20 = 1 AND own1.own_status = ".ownershipStatus::STATUS_ACTIVE." AND LOWER(own1.own_category) = 'rango medio') as midrange_total,
+                  (SELECT count(own2.own_id) FROM mycpBundle:ownership own2 WHERE own2.own_top_20 = 1 AND own2.own_status = ".ownershipStatus::STATUS_ACTIVE." AND own2.own_category = 'Económica') as economic_total
+                  FROM mycpBundle:ownership own WHERE own.own_top_20 = 1 AND own.own_status = ".ownershipStatus::STATUS_ACTIVE." AND own.own_category = 'Premium'";
         return $em->createQuery($query)->getOneOrNullResult();
     }
 
@@ -964,10 +964,10 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
         foreach ($owns_categories as $category) {
             if (isset($own_ids))
                 $query_string = "SELECT count(o.own_type) FROM mycpBundle:ownership o
-                         WHERE o.own_status = 1 AND o.own_id IN ($own_ids) AND o.own_category='" . $category . "'";
+                         WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE." AND o.own_id IN ($own_ids) AND o.own_category='" . $category . "'";
             else
                 $query_string = "SELECT count(o.own_type) FROM mycpBundle:ownership o
-                         WHERE o.own_status = 1 AND o.own_category='" . $category . "'";
+                         WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE." AND o.own_category='" . $category . "'";
             $count = $em->createQuery($query_string)->getSingleScalarResult();
 
             $categories[] = array(trim($category), $count);
@@ -986,10 +986,10 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
         foreach ($prices as $price) {
             if (isset($own_ids))
                 $query_string = "SELECT count(o.own_maximum_price) FROM mycpBundle:ownership o
-                         WHERE o.own_status = 1 AND o.own_id IN ($own_ids) AND ((o.own_minimum_price<" . $price . " AND o.own_minimum_price >=$minimun_price))";
+                         WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE." AND o.own_id IN ($own_ids) AND ((o.own_minimum_price<" . $price . " AND o.own_minimum_price >=$minimun_price))";
             else
                 $query_string = "SELECT count(o.own_maximum_price) FROM mycpBundle:ownership o
-                         WHERE o.own_status = 1 AND ((o.own_minimum_price<" . $price . " AND o.own_minimum_price >=$minimun_price))";
+                         WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE." AND ((o.own_minimum_price<" . $price . " AND o.own_minimum_price >=$minimun_price))";
             $count = $em->createQuery($query_string)->getSingleScalarResult();
 
             $prices_result[] = array($minimun_price, $price, $count);
@@ -1019,10 +1019,10 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
         foreach ($owns_types as $type) {
             if (isset($own_ids))
                 $query_string = "SELECT count(o.own_type) FROM mycpBundle:ownership o
-                                 WHERE o.own_status = 1 AND o.own_id IN ($own_ids) AND o.own_type='" . $type . "'";
+                                 WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE." AND o.own_id IN ($own_ids) AND o.own_type='" . $type . "'";
             else
                 $query_string = "SELECT count(o.own_type) FROM mycpBundle:ownership o
-                                 WHERE o.own_status = 1 AND o.own_type='" . $type . "'";
+                                 WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE." AND o.own_type='" . $type . "'";
 
             $count = $em->createQuery($query_string)->getSingleScalarResult();
 
@@ -1107,8 +1107,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                             o.own_langs as langs
                             FROM mycpBundle:room r
                             join r.room_ownership o
-                            WHERE o.own_status = 1
-                            ";
+                            WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE;
         $query = $em->createQuery($query_string);
 
         $own_list = $query->getResult();
@@ -1473,7 +1472,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
                          JOIN o.own_address_municipality mun
-                         WHERE o.own_status = 1
+                         WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE."
                          ORDER BY o.own_id DESC";
 
         $results = ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult();
@@ -1548,6 +1547,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
         $em = $this->getEntityManager();
         $query_string = "SELECT o.own_id as own_id,
                          o.own_name as ownname,
+                         s.status_id,
                         prov.prov_name as ownAddressProvince,
                         prov.prov_id as ownAddressProvince_id,
                         o.own_address_street as ownAddressStreet,
@@ -1593,6 +1593,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
                          JOIN o.own_address_municipality mun
+                         JOIN o.own_status s
                          WHERE o.own_mcp_code = :own_mycp_code
                          ORDER BY o.own_id DESC";
 
@@ -1624,7 +1625,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                          JOIN o.own_address_province prov
                          JOIN o.own_address_municipality mun
                          WHERE o.own_category= :category
-                           AND o.own_status = 1
+                           AND o.own_status = ".ownershipStatus::STATUS_ACTIVE."
                          ORDER BY o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC";
         else
             $query_string = "SELECT o.own_id as own_id,
@@ -1648,7 +1649,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                          JOIN o.own_address_province prov
                          JOIN o.own_address_municipality mun
                          WHERE o.own_category= :category
-                           AND o.own_status = 1
+                           AND o.own_status = ".ownershipStatus::STATUS_ACTIVE."
                            AND o.own_id <> $exclude_id
                          ORDER BY o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC";
 
@@ -1711,7 +1712,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
         $em = $this->getEntityManager();
 
         $query = $em->createQuery("SELECT o FROM mycpBundle:ownership o
-        WHERE o.own_name LIKE '%$own_part_name%' AND o.own_status=1 ORDER BY o.own_name ASC");
+        WHERE o.own_name LIKE '%$own_part_name%' AND o.own_status=".ownershipStatus::STATUS_ACTIVE." ORDER BY o.own_name ASC");
         return $query->getResult();
     }
 
@@ -1719,7 +1720,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
         $em = $this->getEntityManager();
 
         $query = $em->createQuery("SELECT o FROM mycpBundle:ownership o
-        WHERE o.own_mcp_code LIKE '%$own_part_name%' AND o.own_status=1 ORDER BY o.own_mcp_code ASC");
+        WHERE o.own_mcp_code LIKE '%$own_part_name%' AND o.own_status=".ownershipStatus::STATUS_ACTIVE." ORDER BY o.own_mcp_code ASC");
         return $query->getResult();
     }
 
@@ -1727,7 +1728,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
         $em = $this->getEntityManager();
 
         $query = $em->createQuery("SELECT o FROM mycpBundle:ownership o
-        WHERE o.own_status=1 ORDER BY o.own_name ASC");
+        WHERE o.own_status=".ownershipStatus::STATUS_ACTIVE." ORDER BY o.own_name ASC");
         return $query->getResult();
     }
 
@@ -1749,7 +1750,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
 
         $query = $em->createQuery("SELECT o
             FROM mycpBundle:ownership o
-            WHERE o.own_status=1
+            WHERE o.own_status=".ownershipStatus::STATUS_ACTIVE."
               AND o.own_rating >= 4
             ORDER BY o.own_rating DESC, o.own_comments_total DESC");
         return $query->getResult();
@@ -1759,7 +1760,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
         $em = $this->getEntityManager();
         $query_string = "SELECT o
                         FROM mycpBundle:ownership o
-                        WHERE o.own_status=1
+                        WHERE o.own_status=".ownershipStatus::STATUS_ACTIVE."
                           AND o.own_comments_total > 0
                         ORDER BY o.own_rating DESC, o.own_comments_total DESC";
 
