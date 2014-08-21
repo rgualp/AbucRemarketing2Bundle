@@ -139,7 +139,7 @@ class PublicController extends Controller {
         foreach ($destinations as $prov)
         {
             $prov['des_name'] = str_replace("ñ", "nn", $prov['des_name']);
-            $for_url[$prov['des_id']] = Utils::url_normalize($prov['des_name']);
+            $for_url[$prov['des_id']] = Utils::urlNormalize($prov['des_name']);
             $for_url[$prov['des_id']] = str_replace("nn", "ñ", $for_url[$prov['des_id']]);
         }
 
@@ -157,7 +157,7 @@ class PublicController extends Controller {
         $for_url = array();
 
         foreach ($provinces as $prov)
-            $for_url[$prov['prov_id']] = Utils::url_normalize($prov['prov_name']);
+            $for_url[$prov['prov_id']] = Utils::urlNormalize($prov['prov_name']);
 
         return $this->render('FrontEndBundle:utils:mainMenuAccomodationItems.html.twig', array(
               'provinces'=>$provinces,
@@ -198,7 +198,7 @@ class PublicController extends Controller {
             array_push($url_houses,$url);
             foreach($houses as $house)
             {
-                $house_name=Utils::url_normalize($house->getOwnName());
+                $house_name=Utils::urlNormalize($house->getOwnName());
                 $url = array(
                     'loc' => $this->get('router')->generate('frontend_details_ownership',
                             array_merge($routingParams, array('own_name' => $house_name))),
@@ -225,7 +225,7 @@ class PublicController extends Controller {
             array_push($url_destinations,$url);
             foreach($destinations as $destination)
             {
-                $destination_name=Utils::url_normalize($destination->getDesName());
+                $destination_name=Utils::urlNormalize($destination->getDesName());
                 $url = array(
                     'loc' => $this->get('router')->generate('frontend_details_destination',
                             array_merge($routingParams, array('destination_name' => $destination_name))),

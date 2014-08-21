@@ -80,7 +80,7 @@ class utilsExtension extends \Twig_Extension {
 
     public function urlNormalize($text)
     {
-        return Utils::url_normalize($text);
+        return Utils::urlNormalize($text);
     }
 
     public function statusName($status_id)

@@ -658,7 +658,7 @@ class destinationRepository extends EntityRepository {
                 $results[$i]['photo'] = "no_photo.png";
             }
 
-            $results[$i]['des_name_for_url'] = Utils::url_normalize($results[$i]['des_name_for_url']);
+            $results[$i]['des_name_for_url'] = Utils::urlNormalize($results[$i]['des_name_for_url']);
         }
         return $results;
     }

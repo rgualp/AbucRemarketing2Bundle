@@ -232,7 +232,7 @@ class OwnershipController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $ownership = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code' => $own_code));
         if ($ownership && $ownership->getOwnStatus()->getStatusId() == \MyCp\mycpBundle\Entity\ownershipStatus::STATUS_ACTIVE) {
-            $own_name = Utils::url_normalize($ownership->getOwnName());
+            $own_name = Utils::urlNormalize($ownership->getOwnName());
             return $this->redirect($this->generateUrl('frontend_details_ownership', array('own_name' => $own_name)));
         }
         else
@@ -248,7 +248,7 @@ class OwnershipController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $locale = $this->get('translator')->getLocale();
-            //$own_name = Utils::url_normalize($ownership->getOwnName());
+            //$own_name = Utils::urlNormalize($ownership->getOwnName());
             $ownership_array = $em->getRepository('mycpBundle:ownership')->get_details_by_code($mycp_code, strtoupper($locale));
          if($ownership_array && count($ownership_array) > 0) {
             $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $ownership_array['own_id']));
@@ -612,7 +612,7 @@ class OwnershipController extends Controller {
         $rooms = ($rooms == "undefined") ? 1: $rooms;
 
 
-        $search_text = ($text != null && $text != '' && $text != $this->get('translator')->trans('PLACE_WATERMARK')) ? Utils::get_text_from_normalized($text) : null;
+        $search_text = ($text != null && $text != '' && $text != $this->get('translator')->trans('PLACE_WATERMARK')) ? Utils::getTextFromNormalized($text) : null;
         $search_guests = ($guests != null && $guests != '' && $guests != $this->get('translator')->trans('GUEST_WATERMARK')) ? $guests : "1";
         $search_rooms = ($rooms != null && $rooms != '' && $rooms != $this->get('translator')->trans('ROOM_WATERMARK')) ? $rooms : "1";
         $arrival = ($request->get('arrival') != null && $request->get('arrival') != "" && $request->get('arrival') != "null") ? $request->get('arrival') : $session->get('search_arrival_date');

@@ -73,23 +73,23 @@ class DestinationController extends Controller {
 
         $popular_destinations_for_url = array();
         foreach ($popular_destinations_list as $dest)
-            $popular_destinations_for_url[$dest['des_id']] = Utils::url_normalize($dest['des_name']);
+            $popular_destinations_for_url[$dest['des_id']] = Utils::urlNormalize($dest['des_name']);
 
 
         $other_destinations_in_municipality = $em->getRepository('mycpBundle:destination')->destination_filter($locale,$location_municipality_id, $location_province_id, $destination->getDesId(), null, 5);
         $other_destinations_in_municipality_for_url = array();
         foreach ($other_destinations_in_municipality as $dest)
-            $other_destinations_in_municipality_for_url[$dest['desid']] = Utils::url_normalize($dest['desname']);
+            $other_destinations_in_municipality_for_url[$dest['desid']] = Utils::urlNormalize($dest['desname']);
 
         $other_destinations_in_province = $em->getRepository('mycpBundle:destination')->destination_filter($locale,null, $location_province_id, $destination->getDesId(), null, 5);
         $other_destinations_in_province_for_url = array();
         foreach ($other_destinations_in_province as $dest)
-            $other_destinations_in_province_for_url[$dest['desid']] = Utils::url_normalize($dest['desname']);
+            $other_destinations_in_province_for_url[$dest['desid']] = Utils::urlNormalize($dest['desname']);
 
         $provinces = $em->getRepository("mycpBundle:province")->findAll();
         $provinces_for_url = array();
         foreach ($provinces as $prov)
-            $provinces_for_url[$prov->getProvId()] = Utils::url_normalize($prov->getProvName());
+            $provinces_for_url[$prov->getProvId()] = Utils::urlNormalize($prov->getProvName());
 
         $view = $session->get('search_view_results_destination');
         $paginator = $this->get('ideup.simple_paginator');
