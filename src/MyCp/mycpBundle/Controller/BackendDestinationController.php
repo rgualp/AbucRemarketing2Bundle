@@ -458,7 +458,7 @@ class BackendDestinationController extends Controller
         $data['languages']= $em->getRepository('mycpBundle:lang')->get_all_languages();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
-        $photos=$paginator->paginate($em->getRepository('mycpBundle:destinationPhoto')->get_photos_by_id_destination($id_destination))->getResult();
+        $photos=$paginator->paginate($em->getRepository('mycpBundle:destinationPhoto')->getByDestination($id_destination))->getResult();
         foreach($photos as $photo)
         {
             $data['description_photo_'.$photo->getDesPhoPhoto()->getPhoId()]=$em->getRepository('mycpBundle:photoLang')->findBy(array('pho_lang_id_photo'=>$photo->getDesPhoPhoto()->getPhoId()));
