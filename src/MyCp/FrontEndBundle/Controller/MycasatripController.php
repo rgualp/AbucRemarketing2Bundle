@@ -395,7 +395,7 @@ class MycasatripController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
         $paginator->setItemsPerPage($items_per_page);
-        $comments = $paginator->paginate($em->getRepository('mycpBundle:comment')->get_user_comments($user->getUserId()))->getResult();
+        $comments = $paginator->paginate($em->getRepository('mycpBundle:comment')->getByUser($user->getUserId()))->getResult();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];

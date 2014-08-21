@@ -345,7 +345,7 @@ class OwnershipController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 5;
         $paginator->setItemsPerPage($items_per_page);
-        $total_comments = $em->getRepository('mycpBundle:comment')->get_comments($owner_id);
+        $total_comments = $em->getRepository('mycpBundle:comment')->getByOwnership($owner_id);
         $comments = $paginator->paginate($total_comments)->getResult();
         $page = 1;
         if (isset($_GET['page']))
@@ -535,7 +535,7 @@ class OwnershipController extends Controller {
             'comments_items_per_page' => $items_per_page,
             'comments_total_items' => $paginator->getTotalItems(),
             'comments_current_page' => $page,
-            'can_comment' => $em->getRepository("mycpBundle:comment")->can_comment($user_ids["user_id"], $owner_id),
+            'can_comment' => $em->getRepository("mycpBundle:comment")->canComment($user_ids["user_id"], $owner_id),
             'locale' => $locale,
             'real_category' => $real_category,
             'languages' => $languages,
