@@ -13,6 +13,54 @@ use Doctrine\ORM\Mapping as ORM;
 class metaTag
 {
     /**
+     * All allowed sections
+     */
+    const SECTION_GENERAL = 1;
+    const SECTION_HOMEPAGE = 2;
+    const SECTION_DESTINATIONS = 3;
+    const SECTION_ACCOMMODATIONS = 4;
+    const SECTION_MYCASATRIP = 5;
+    const SECTION_FAVORITES = 6;
+    const SECTION_HOW_IT_WORKS = 7;
+    const SECTION_LAST_ADDED = 8;
+    const SECTION_ECONOMICS_LIST = 9;
+    const SECTION_MIDRANGE_LIST = 10;
+    const SECTION_PREMIUM_LIST = 11;
+    const SECTION_MOST_VISITED_CITIES = 12;
+    const SECTION_WHO_WE_ARE = 13;
+    const SECTION_CONTACT_US = 14;
+    const SECTION_FAQS = 15;
+    const SECTION_LEGAL_TERM = 16;
+    const SECTION_SECURITY_AND_PRIVACY = 17;
+    const SECTION_SITEMAP = 18;
+
+    /**
+     * Contains all possible sections
+     *
+     * @var array
+     */
+    private $sections = array(
+        self::SECTION_GENERAL,
+        self::SECTION_HOMEPAGE,
+        self::SECTION_DESTINATIONS,
+        self::SECTION_ACCOMMODATIONS,
+        self::SECTION_MYCASATRIP,
+        self::SECTION_FAVORITES,
+        self::SECTION_HOW_IT_WORKS,
+        self::SECTION_LAST_ADDED,
+        self::SECTION_ECONOMICS_LIST,
+        self::SECTION_MIDRANGE_LIST,
+        self::SECTION_PREMIUM_LIST,
+        self::SECTION_MOST_VISITED_CITIES,
+        self::SECTION_WHO_WE_ARE,
+        self::SECTION_CONTACT_US,
+        self::SECTION_FAQS,
+        self::SECTION_LEGAL_TERM,
+        self::SECTION_SECURITY_AND_PRIVACY,
+        self::SECTION_SITEMAP,
+    );
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="meta_id", type="integer")
@@ -63,6 +111,10 @@ class metaTag
      */
     public function setMetaSection($metaSection)
     {
+        if (!in_array($metaSection, $this->sections)) {
+            throw new \InvalidArgumentException("Section $metaSection not allowed");
+        }
+
         $this->meta_section = $metaSection;
 
         return $this;
