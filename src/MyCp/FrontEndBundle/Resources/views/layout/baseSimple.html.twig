@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html id="top">
 <head>
-    <title>MyCasaParticular *** {% block title %}{{"WELCOMEPAGE_TITLE" | trans | title}}{% endblock %}</title>
+    <title>{% block title %}{{"WELCOMEPAGE_TITLE" | trans | title}}{% endblock %} *** MyCasaParticular</title>
     <meta charset="utf-8">
     {% block metas %}
         {{ render(controller('FrontEndBundle:Public:get_meta_tags')) }}
