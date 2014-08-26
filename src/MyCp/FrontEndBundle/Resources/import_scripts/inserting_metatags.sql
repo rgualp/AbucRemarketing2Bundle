@@ -22,3 +22,10 @@ VALUES (1, "General",NULL),
 (16, "Términos Legales", 1),
 (17, "Seguridad y Privacidad", 1),
 (18, "Mapa del Sitio", 1);
+
+
+/*
+Current metaLang have to be associated with Genera metatag
+*/
+update metalang
+   set meta_tag = 1;

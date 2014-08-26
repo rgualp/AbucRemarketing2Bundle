@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * metaLang
  *
  * @ORM\Table(name="metatag")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\metaTagRepository")
  */
 class metaTag
 {
