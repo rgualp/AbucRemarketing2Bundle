@@ -76,6 +76,13 @@ class metaTag
      */
     private $meta_section;
 
+
+     /**
+     * @ORM\ManyToOne(targetEntity="metaTag",inversedBy="meta_children")
+     * @ORM\JoinColumn(name="meta_parent",referencedColumnName="meta_id", nullable=true)
+     */
+    private $meta_parent;
+
     /**
      * @var string
      *
@@ -88,9 +95,15 @@ class metaTag
      */
     private $meta_langs;
 
+    /**
+     * @ORM\OneToMany(targetEntity="metaTag",mappedBy="meta_section_parent")
+     */
+    private $meta_children;
+
     public function __construct()
     {
         $this->meta_langs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->meta_children = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -153,8 +166,36 @@ class metaTag
         return $this->meta_title;
     }
 
+    /**
+     * Set meta_parent
+     *
+     * @param metaTag $metaParent
+     * @return metaTag
+     */
+    public function setMetaParent($metaParent)
+    {
+        $this->meta_parent = $metaParent;
+
+        return $this;
+    }
+
+    /**
+     * Get meta_parent
+     *
+     * @return metaTag
+     */
+    public function getMetaParent()
+    {
+        return $this->meta_parent;
+    }
+
     public function getMetaLangs()
     {
         return $this->meta_langs;
+    }
+
+    public function getMetaChildren()
+    {
+        return $this->meta_children;
     }
 }
