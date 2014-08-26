@@ -6,6 +6,7 @@ use MyCp\FrontEndBundle\Helpers\Utils;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\SecurityContext;
+use MyCp\mycpBundle\Entity\metaTag;
 
 class PublicController extends Controller {
 
@@ -13,17 +14,24 @@ class PublicController extends Controller {
         return $this->redirect($this->generateUrl('frontend_welcome'));
     }
 
-    public function get_meta_tagsAction()
+    public function getMetaTagsAction($section = metaTag::SECTION_GENERAL, $onlyDescription = false)
     {
         $em = $this->getDoctrine()->getManager();
-        $lang=$em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code'=>$this->getRequest()->getLocale()));
-        $metas=$em->getRepository('mycpBundle:metaLang')->findOneBy(array('meta_lang_lang'=>$lang));
+        //$lang=$em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code'=>$this->getRequest()->getLocale()));
+        //$metas=$em->getRepository('mycpBundle:metaLang')->findOneBy(array('meta_lang_lang'=>$lang));
+        $lang_code = $this->getRequest()->getLocale();
+        $metas=$em->getRepository('mycpBundle:metaTag')->getMetas($section, $lang_code);
 
+        if(!$onlyDescription)
+        {
         $response = $this->render('FrontEndBundle:public:metas.html.twig', array(
             'metas'=>$metas
         ));
 
         return $response;
+        }
+        else
+            return new Response(($metas != null) ? $metas->getMetaLangDescription(): "");
     }
 
     public function welcomeAction() {

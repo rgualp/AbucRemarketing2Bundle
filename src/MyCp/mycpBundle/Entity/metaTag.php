@@ -22,17 +22,19 @@ class metaTag
     const SECTION_MYCASATRIP = 5;
     const SECTION_FAVORITES = 6;
     const SECTION_HOW_IT_WORKS = 7;
-    const SECTION_LAST_ADDED = 8;
-    const SECTION_ECONOMICS_LIST = 9;
-    const SECTION_MIDRANGE_LIST = 10;
-    const SECTION_PREMIUM_LIST = 11;
-    const SECTION_MOST_VISITED_CITIES = 12;
-    const SECTION_WHO_WE_ARE = 13;
-    const SECTION_CONTACT_US = 14;
-    const SECTION_FAQS = 15;
-    const SECTION_LEGAL_TERM = 16;
-    const SECTION_SECURITY_AND_PRIVACY = 17;
-    const SECTION_SITEMAP = 18;
+    const SECTION_ACCOMMODATIONS_LISTS = 8;
+    const SECTION_LAST_ADDED = 9;
+    const SECTION_ECONOMICS_LIST = 10;
+    const SECTION_MIDRANGE_LIST = 11;
+    const SECTION_PREMIUM_LIST = 12;
+    const SECTION_MOST_VISITED_CITIES = 13;
+    const SECTION_WHO_WE_ARE = 14;
+    const SECTION_CONTACT_US = 15;
+    const SECTION_FAQS = 16;
+    const SECTION_LEGAL_TERM = 17;
+    const SECTION_SECURITY_AND_PRIVACY = 18;
+    const SECTION_SITEMAP = 19;
+
 
     /**
      * Contains all possible sections
@@ -47,6 +49,7 @@ class metaTag
         self::SECTION_MYCASATRIP,
         self::SECTION_FAVORITES,
         self::SECTION_HOW_IT_WORKS,
+        self::SECTION_ACCOMMODATIONS_LISTS,
         self::SECTION_LAST_ADDED,
         self::SECTION_ECONOMICS_LIST,
         self::SECTION_MIDRANGE_LIST,
@@ -58,6 +61,7 @@ class metaTag
         self::SECTION_LEGAL_TERM,
         self::SECTION_SECURITY_AND_PRIVACY,
         self::SECTION_SITEMAP,
+
     );
 
     /**

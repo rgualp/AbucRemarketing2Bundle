@@ -11,21 +11,21 @@ VALUES (1, "General",NULL),
 (5, "MyCasaTrip", 1),
 (6, "Favoritos", 1),
 (7, "Cómo Funciona", 1),
-(8, "Últimos Alojamientos Añadidos", 4),
-(9, "Alojamientos Económicos", 4),
-(10, "Alojamientos Rango Medio", 4),
-(11, "Alojamientos Premium", 4),
-(12, "Ciudades Más Visitadas", 3),
-(13, "Quiénes Somos", 1),
-(14, "Contáctenos", 1),
-(15, "Preguntas Frecuentes", 1),
-(16, "Términos Legales", 1),
-(17, "Seguridad y Privacidad", 1),
-(18, "Mapa del Sitio", 1);
-
+(8, "Listados de Alojamientos", 4),
+(9, "Últimos Alojamientos Añadidos", 8),
+(10, "Alojamientos Económicos", 8),
+(11, "Alojamientos Rango Medio", 8),
+(12, "Alojamientos Premium", 8),
+(13, "Ciudades Más Visitadas", 3),
+(14, "Quiénes Somos", 1),
+(15, "Contáctenos", 1),
+(16, "Preguntas Frecuentes", 1),
+(17, "Términos Legales", 1),
+(18, "Seguridad y Privacidad", 1),
+(19, "Mapa del Sitio", 1);
 
 /*
 Current metaLang have to be associated with Genera metatag
 */
 update metalang
-   set meta_tag = 1;
+   set meta_tag = (select max(m.meta_id) FROM metatag m where m.meta_section = 1);

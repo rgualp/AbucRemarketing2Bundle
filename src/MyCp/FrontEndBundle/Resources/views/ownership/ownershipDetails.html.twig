@@ -3,6 +3,7 @@
 {%set end_date = (post['reservation_filter_date_to'] is defined) ? (post['reservation_filter_date_to']) : ((app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : ("+2 days" |date("d/m/Y")))%}
 
 {% extends 'FrontEndBundle:layout:base.html.twig' %}
+{%set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_ACCOMMODATIONS')%}
 {% block metas %}
     <meta name="description" content="{{ownership.owntype  | trans}} {{"IN" | trans}} {{ownership.ownAddressProvince}}: {{ownership.ownname}} ({{ ownership.mycpcode }}).
                 {%if rooms is defined and rooms | length%}

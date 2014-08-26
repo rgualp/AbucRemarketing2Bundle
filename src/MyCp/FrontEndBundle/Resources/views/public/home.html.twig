@@ -1,6 +1,7 @@
 {% set main_tab = 1 %}
 {% set is_home = 1 %}
 {% extends 'FrontEndBundle:layout:base.html.twig' %}
+{%set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_HOMEPAGE')%}
 
 {% block include_javascripts_and_css %}
 <script src="{{ asset('bundles/frontend/js/jquery.royalslider.min.js') }}"></script>

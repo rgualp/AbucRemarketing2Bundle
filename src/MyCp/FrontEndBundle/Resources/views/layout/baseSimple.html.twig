@@ -3,9 +3,16 @@
 <head>
     <title>MyCasaParticular *** {% block title %}{{"WELCOMEPAGE_TITLE" | trans | title}}{% endblock %}</title>
     <meta charset="utf-8">
+    {%if section is not defined%}
+        {%set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_GENERAL')%}
+    {%endif%}
+    {%if meta_description is not defined%}
+        {%set meta_description =render(controller('FrontEndBundle:Public:getMetaTags', {'section':section, 'onlyDescription': true}))%}
+    {%endif%}
     {% block metas %}
-        {{ render(controller('FrontEndBundle:Public:get_meta_tags')) }}
+        {{ render(controller('FrontEndBundle:Public:getMetaTags', {'section':section})) }}
     {% endblock %}
+
     <meta name="author" content="ABUC media network GmbH">
     <meta name="copyright" content="ABUC media network GmbH">
     <meta name="language-content" content="{{app.request.locale}}">
@@ -14,7 +21,7 @@
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@MyCP">
     <meta name="twitter:title" content="MyCasaParticular *** {{block('title')}}">
-    <meta name="twitter:description" content="{{block('meta_description')}}">
+    <meta name="twitter:description" content="{{meta_description}}">
     <meta name="twitter:creator" content="@MyCP">
     <meta name="twitter:image:src" content="{{app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/avatar.jpg') }}">
 
@@ -24,8 +31,8 @@
     <meta property="og:image" content="{{app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/avatar.jpg') }}" />
     <meta property="og:author" content="ABUC media network GmbH" />
     <meta property="og:site_name" content="MyCasaParticular" />
-    <meta property="og:description" content="{{block('meta_description')}}" />
-    <meta property="og:url" content="{# url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params') )  #}" />
+    <meta property="og:description" content="{{meta_description}}" />
+    <meta property="og:url" content="http://www.mycasaparticular.com" />
     <meta property=”fb:admins” content=”312774092497”/>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
