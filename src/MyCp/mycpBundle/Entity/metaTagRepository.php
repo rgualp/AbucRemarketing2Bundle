@@ -17,17 +17,16 @@ class metaTagRepository extends EntityRepository {
         $query = $em->createQuery("SELECT m.meta_id,
             m.meta_section,
             m.meta_title,
-            p.meta_title as parent_title,
-            (SELECT count(ml) FROM mycpBundle:metaLang ml WHERE ml.meta_tag = m.meta_id)
+           (SELECT max(p.meta_title) FROM mycpBundle:metatag p WHERE p.meta_id = m.meta_parent) as parent_title,
+            (SELECT count(ml) FROM mycpBundle:metaLang ml WHERE ml.meta_tag = m.meta_id) as langs_total
             FROM mycpBundle:metatag m
-            JOIN m.meta_parent p
             ORDER BY m.meta_section ASC");
         return $query->getResult();
     }
 
     function getMetaLangs($meta_id) {
         $em = $this->getEntityManager();
-        $query = $em->createQuery("SELECT ml FROM mycpBundle:metaLang ml WHERE ml.meta_tag = :$meta_id");
+        $query = $em->createQuery("SELECT ml FROM mycpBundle:metaLang ml WHERE ml.meta_tag = $meta_id");
         return $query->getResult();
     }
 

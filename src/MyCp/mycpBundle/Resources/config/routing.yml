@@ -58,9 +58,9 @@ mycp_unavailabilityDetails:
     resource: "@mycpBundle/Resources/config/routingBackendUnavailabilityDetails.yml"
     prefix:   backend/unavailability_details/
 
-mycp_edit_metatags:
-    pattern:  backend/metatags/
-    defaults: { _controller: mycpBundle:BackendMeta:edit_meta_tags}
+mycp_metatags:
+    resource: "@mycpBundle/Resources/config/routingBackendMetaTags.yml"
+    prefix:   backend/metatags/
 
 mycp_check:
   pattern: /check

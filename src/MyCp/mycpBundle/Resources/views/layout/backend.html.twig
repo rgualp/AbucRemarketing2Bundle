@@ -21,7 +21,7 @@
             {% set temp = temp|split("::")[0] %}
             <div id="collapseOne" class="accordion-body collapse {%if  temp == 'BackendMetaController' or temp == 'BackendGeneralInformationController' or temp == 'BackendCommentController' or temp == 'BackendDestinationController' or temp == 'BackendAlbumController' or temp == 'BackendFAQSController' or temp == 'BackendOwnershipController' or temp == 'BackendUnavailabilityDetailsController' %}in{%endif%}">
                 <div class="accordion-inner">
-                    <a href="{{ path('mycp_edit_metatags') }}"><i class="icon-search"></i> Meta Tags</a>
+                    <a href="{{ path('mycp_list_metatags') }}"><i class="icon-search"></i> Meta Tags</a>
                 </div>
                 <div class="accordion-inner">
                     <a href="{{ path('mycp_list_destination') }}"><i class="icon-briefcase"></i> Destinos</a>
@@ -44,7 +44,7 @@
                 <div class="accordion-inner">
                     <a href="{{ path('mycp_list_comments') }}"><i class="icon-bullhorn"></i> Comentarios</a>
                 </div>
-                
+
             </div>
         </div>
         <div class="accordion-group">
