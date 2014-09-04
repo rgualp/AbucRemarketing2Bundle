@@ -405,7 +405,7 @@ class UserController extends Controller {
             if ($form->isValid()) {
 
                 $user_db = $em->getRepository('mycpBundle:user')->findOneBy(array('user_email' => $post['user_email']));
-                if ($user_db->getUserId() == $user->getUserId()) {
+                if ($user_db == null || !isset($user_db) || $user_db->getUserId() == $user->getUserId()) {
 
                     $user->setUserUserName($post['user_user_name']);
                     $user->setUserLastName($post['user_last_name']);
