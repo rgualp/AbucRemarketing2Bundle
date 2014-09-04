@@ -358,7 +358,7 @@ class ReservationController extends Controller {
         }
 
         $request->getSession()->set('services_pre_reservation', null);
-        
+
         /*
          * Hallando otros ownerships en el mismo destino
          */
@@ -658,14 +658,9 @@ class ReservationController extends Controller {
         }
 
         switch ($payment->getStatus()) {
-            case PaymentHelper::STATUS_PROCESSED:
-                // all emails have already been sent, so just render the page
-                return $this->renderPaymentConfirmationPage($id_booking);
-
             case PaymentHelper::STATUS_PENDING:
             case PaymentHelper::STATUS_SUCCESS:
-                $logger = $this->get('logger');
-                $logger->critical("Payment for booking $id_booking should already have been processed");
+            case PaymentHelper::STATUS_PROCESSED:
                 return $this->renderPaymentConfirmationPage($id_booking);
 
             case PaymentHelper::STATUS_CANCELLED:
