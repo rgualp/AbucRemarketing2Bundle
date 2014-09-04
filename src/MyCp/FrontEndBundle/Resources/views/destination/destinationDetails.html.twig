@@ -1,8 +1,15 @@
-{% block meta_description %}{{ keyword_description }}{% endblock %}
-{% block meta_keywords %}{{ keyword }}{% endblock %}
 {% extends 'FrontEndBundle:layout:base.html.twig' %}
 {% block title %}
 {{destination.desname}}
+{% endblock %}
+{%set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_DESTINATIONS')%}
+{% block metas %}
+    {%if keyword_description != "" and keyword != ""%}
+    <meta name="description" content="{{keyword_description}}">
+    <meta name="keywords" content="{{keyword}}">
+    {%else%}
+    {{parent()}}
+    {%endif%}
 {% endblock %}
 {% set main_tab = 2 %}
 {% block breadcrumbs %}
