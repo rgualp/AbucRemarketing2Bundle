@@ -37,6 +37,11 @@ class Utils {
 
         return $furl;
     }
+    
+    public static function validateEmail($text)
+    {
+       return \Swift_Validate::email($text);
+    }
 
     public static function getTextFromNormalized($text)
     {

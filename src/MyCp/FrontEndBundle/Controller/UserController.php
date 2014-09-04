@@ -36,7 +36,13 @@ class UserController extends Controller {
             if ($user_db) {
                 $errors['used_email'] = $this->get('translator')->trans("USER_EMAIL_IN_USE");
             }
-            if ($form->isValid() && !$user_db) {
+            
+            $validate_email = \MyCp\FrontEndBundle\Helpers\Utils::validateEmail($post['user_email']);
+            
+            if(!$validate_email)
+                $errors['user_email'] = $this->get('translator')->trans("EMAIL_INVALID_MESSAGE");
+            
+            if ($form->isValid() && !$user_db && count($errors) == 0) {
                 $factory = $this->get('security.encoder_factory');
                 $user2 = new user();
                 $encoder = $factory->getEncoder($user2);
@@ -401,8 +407,13 @@ class UserController extends Controller {
             $post = $request->get('mycp_frontendbundle_profile_usertype');
             $all_post = $request->request->getIterator()->getArrayCopy();
             $form->handleRequest($request);
+            
+            $validate_email = \MyCp\FrontEndBundle\Helpers\Utils::validateEmail($post['user_email']);
+            
+            if(!$validate_email)
+                $errors['user_email'] = $this->get('translator')->trans("EMAIL_INVALID_MESSAGE");
 
-            if ($form->isValid()) {
+            if ($form->isValid() && count($errors) == 0) {
 
                 $user_db = $em->getRepository('mycpBundle:user')->findOneBy(array('user_email' => $post['user_email']));
                 if ($user_db == null || !isset($user_db) || $user_db->getUserId() == $user->getUserId()) {

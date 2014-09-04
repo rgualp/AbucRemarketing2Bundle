@@ -13,6 +13,9 @@
         {% if errors['used_email'] is defined%}
             <div class="alert alert-danger text-center">{{errors['used_email']}}</div>
         {% endif %}
+        {% if errors['user_email'] is defined%}
+            <div class="alert alert-danger text-center">{{errors['user_email']}}</div>
+        {% endif %}
     <div class="row">
         <div class="col-sm-4"></div>
         <div class="col-sm-4">
