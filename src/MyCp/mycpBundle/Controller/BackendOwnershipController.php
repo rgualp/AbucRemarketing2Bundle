@@ -322,7 +322,7 @@ class BackendOwnershipController extends Controller {
         $post['ownership_type'] = $ownership->getOwnType();
         $post['comment'] = $ownership->getOwnComment();
         $post['ownership_percent_commission'] = $ownership->getOwnCommissionPercent();
-        $post['recommendable'] = $ownership->getOwnRecommendable();
+        $post['not_recommendable'] = $ownership->getOwnNotRecommendable();
         $post['ownership_saler'] = $ownership->getOwnSaler();
         $post['ownership_visit_date'] = $ownership->getOwnVisitDate();
         $post['ownership_creation_date'] = $ownership->getOwnCreationDate();
@@ -355,10 +355,14 @@ class BackendOwnershipController extends Controller {
         $post['top_20'] = $ownership->getOwnTop20();
         $data['country_code'] = $ownership->getOwnAddressProvince()->getProvId();
         $data['municipality_code'] = $ownership->getOwnAddressMunicipality()->getMunId();
+         
         $post['status'] = ($ownership->getOwnStatus() != null) ? $ownership->getOwnStatus()->getStatusId() : null;
-
+        $data['status_id'] = $post['status'];
+        $data['status_name'] = ($ownership->getOwnStatus() != null) ? $ownership->getOwnStatus()->getStatusName() : null;
+        $data['not_recommendable'] =  ($post['not_recommendable'] == false) ? 0 : 1;
+        
         $post['top_20'] = ($post['top_20'] == false) ? 0 : 1;
-        $post['recommendable'] = ($post['recommendable'] == false) ? 0 : 1;
+        $post['not_recommendable'] = ($post['not_recommendable'] == false) ? 0 : 1;
         $post['facilities_breakfast'] = ($post['facilities_breakfast'] == false) ? 0 : 1;
         $post['facilities_dinner'] = ($post['facilities_dinner'] == false) ? 0 : 1;
         $post['facilities_parking'] = ($post['facilities_parking'] == false) ? 0 : 1;

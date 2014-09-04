@@ -558,7 +558,7 @@ class destinationRepository extends EntityRepository {
         return null;
     }
 
-    function getRecommendableAccommodations($price = null, $rooms_count = null, $municipality_id = null, $province_id = null, $max_result_set = null, $exclude_own_id = null, $user_id = null, $session_id = null) {
+    function getRecommendableAccommodations($checkin_date = null, $checkout_date = null,$price = null, $rooms_count = null, $municipality_id = null, $province_id = null, $max_result_set = null, $exclude_own_id = null, $user_id = null, $session_id = null) {
         if ($municipality_id != null || $province_id != null) {
             $em = $this->getEntityManager();
             $query_string = "SELECT DISTINCT o.own_id,
@@ -597,8 +597,8 @@ class destinationRepository extends EntityRepository {
 
             if ($price != null && $price != "")
                 $query_string = $query_string . " AND o.own_minimum_price <= $price AND o.own_maximum_price >= $price";
-
-            $query_string = $query_string . " ORDER BY o.own_recommendable ASC";
+            
+            $query_string = $query_string . " AND o.own_not_recommendable = 0";
 
             if ($max_result_set != null && $max_result_set > 0) {
                 $rows_total = count($em->createQuery($query_string)->getResult());

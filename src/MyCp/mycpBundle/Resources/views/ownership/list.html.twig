@@ -125,14 +125,14 @@
     </thead>
     <tbody>
     {% for ownership in ownerships %}
-    <tr {% if ownership.getOwnStatus != null and ownership.getOwnStatus.getStatusId!=1 %} class="red_row" {% endif %}>
+    <tr {% if (ownership.getOwnStatus != null and ownership.getOwnStatus.getStatusId!=1) %} class="red_row" {%elseif ownership.OwnNotRecommendable%} class="yellow_row" {% endif %} {%if ownership.OwnNotRecommendable%} title="Propiedad no recomendada" {%endif%}>
         <td>{{ownership.getOwnMcpCode}}</td>
         <td>{{ownership.getOwnName}}</td>
         <td>{{ownership.getOwnAddressMunicipality.getMunName}}</td>
         <td>{{ownership.getOwnAddressProvince.getProvName}}</td>
         <td>{% if ownership.getOwnComment %}<a class="tooltip_msg no_link" rel="tooltip" title="{{ownership.getOwnComment}}">{% endif %}
         {% if ownership.getOwnStatus%}
-            {% if ownership.getOwnStatus.getStatusId==1%}<span class="label label-success">Activo</span>{% else %} <span class="label label-important">{{ ownership.getOwnStatus.getStatusName }}</span>{% endif %}
+            {% if ownership.getOwnStatus.getStatusId==constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')%}<span class="label label-success">Activo</span>{% else %} <span class="label label-important">{{ ownership.getOwnStatus.getStatusName }}</span>{% endif %}
             {%else%}
              <span class="label label-warning">Sin estado</span>
             {% endif %}

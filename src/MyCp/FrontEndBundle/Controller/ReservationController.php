@@ -363,8 +363,12 @@ class ReservationController extends Controller {
          * Hallando otros ownerships en el mismo destino
          */
         $ownership = $em->getRepository('mycpBundle:ownership')->find($services[0]['ownership_id']);
+        $checkin_date = new \DateTime(date("Y-m-d H:i:s", $item['from_date']));
+        $checkout_date = new \DateTime(date("Y-m-d H:i:s", $item['to_date']));
 
-        $owns_in_destination = $em->getRepository("mycpBundle:destination")->getRecommendableAccommodations($ownership->getOwnMinimumPrice(),
+        $owns_in_destination = $em->getRepository("mycpBundle:destination")->getRecommendableAccommodations($checkin_date,
+                                    $checkout_date,
+                                    $ownership->getOwnMinimumPrice(),
                                     $ownership->getOwnRoomsTotal(),
                                     $ownership->getOwnAddressMunicipality()->getMunId(),
                                     $ownership->getOwnAddressProvince()->getProvId(),

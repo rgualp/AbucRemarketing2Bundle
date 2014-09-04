@@ -309,9 +309,9 @@ class ownership {
     /**
      * @var boolean
      *
-     * @ORM\Column(name="own_recommendable", type="boolean")
+     * @ORM\Column(name="own_not_recommendable", type="boolean")
      */
-    private $own_recommendable;
+    private $own_not_recommendable;
 
     /**
      * @var string
@@ -518,24 +518,24 @@ class ownership {
     }
 
     /**
-     * Set own_recommendable
+     * Set own_not_recommendable
      *
-     * @param string $ownRecommendable
+     * @param string $ownNotRecommendable
      * @return ownership
      */
-    public function setOwnRecommendable($ownRecommendable) {
-        $this->own_recommendable = $ownRecommendable;
+    public function setOwnNotRecommendable($ownNotRecommendable) {
+        $this->own_not_recommendable = $ownNotRecommendable;
 
         return $this;
     }
 
     /**
-     * Get own_recommendable
+     * Get own_not_recommendable
      *
-     * @return string
+     * @return boolean
      */
-    public function getOwnRecommendable() {
-        return $this->own_recommendable;
+    public function getOwnNotRecommendable() {
+        return $this->own_not_recommendable;
     }
 
     /**

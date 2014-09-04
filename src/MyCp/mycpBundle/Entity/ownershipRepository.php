@@ -43,9 +43,9 @@ class ownershipRepository extends EntityRepository {
         if (isset($data['top_20']))
             $active_top_20 = 1;
 
-        $active_recommendable = 0;
-        if (isset($data['recommendable']))
-            $active_recommendable = 1;
+        $active_not_recommendable = 0;
+        if (isset($data['not_recommendable']))
+            $active_not_recommendable = 1;
 
         //languages
         $ownership_english_lang = 0;
@@ -104,7 +104,7 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnGeolocateX($data['geolocate_x']);
         $ownership->setOwnGeolocateY($data['geolocate_y']);
         $ownership->setOwnTop20($active_top_20);
-        $ownership->setOwnRecommendable($active_recommendable);
+        $ownership->setOwnNotRecommendable($active_not_recommendable);
         $status = $em->getRepository('mycpBundle:ownershipStatus')->find($data['status']);
 
         if (!isset($status))
@@ -271,9 +271,9 @@ class ownershipRepository extends EntityRepository {
         if (isset($data['top_20']))
             $active_top_20 = 1;
 
-        $active_recommendable = 0;
-        if (isset($data['recommendable']))
-            $active_recommendable = 1;
+        $active_not_recommendable = 0;
+        if (isset($data['not_recommendable']))
+            $active_not_recommendable = 1;
 
         //languages
         $ownership_english_lang = 0;
@@ -334,7 +334,7 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnGeolocateX($data['geolocate_x']);
         $ownership->setOwnGeolocateY($data['geolocate_y']);
         $ownership->setOwnTop20($active_top_20);
-        $ownership->setOwnRecommendable($active_recommendable);
+        $ownership->setOwnNotRecommendable($active_not_recommendable);
         $status = $em->getRepository('mycpBundle:ownershipStatus')->find($data['status']);
         if (!isset($status))
             $status = $em->getRepository('mycpBundle:ownershipStatus')->find(ownershipStatus::STATUS_IN_PROCESS);

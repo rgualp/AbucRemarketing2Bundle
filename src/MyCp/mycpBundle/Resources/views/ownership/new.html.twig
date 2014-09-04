@@ -42,7 +42,16 @@
 <script type="text/javascript">
     var count_rooms=1;
 </script>
-<h2>{% if data['edit_ownership'] is defined %}Editar propiedad ({{data['name_ownership']}}){% else %} Adicionar propiedad {% endif %}</h2>
+<h2>{% if data['edit_ownership'] is defined %}Editar propiedad ({{data['name_ownership']}})
+ {% if data['status_id']%}
+            {% if data['status_id']== constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')%}<span class="label label-success vertical_middle">Activo</span>{% else %} <span class="label label-important vertical_middle">{{ data['status_name'] }}</span>{% endif %}
+            {%else%}
+             <span class="label label-warning vertical_middle">Sin estado</span>
+            {% endif %}
+  {%if data['not_recommendable']%}
+      <span class="label label-warning vertical_middle">No recomendable</span>       
+  {%endif%}
+{% else %} Adicionar propiedad {% endif %}</h2>
 <hr/>
 <form id="form_ownership" action="{{ path('mycp_new_ownership')}}" method="POST" enctype="multipart/form-data">
 <input id="save_reset_input" name="save_reset_input" value="0" class="hidden">
@@ -442,10 +451,12 @@
     <label class="checkbox">
         <input type="checkbox" {% if post['top_20'] is defined and post['top_20'] ==1 %} checked="TRUE" {% endif %} name="top_20"> Habilitar para Top 20
     </label><br/>
-    <h3 class="title">Recomendable</h3>
+    {% if is_granted('ROLE_CLIENT_STAFF') %}
+    <h3 class="title">No Recomendable</h3>
     <label class="checkbox">
-        <input type="checkbox" {% if post['recommendable'] is defined and post['recommendable'] ==1 %} checked="TRUE" {% endif %} name="recommendable"> Habilitar como recomendable en su destino
+        <input type="checkbox" {% if post['not_recommendable'] is defined and post['not_recommendable'] ==1 %} checked="TRUE" {% endif %} name="not_recommendable"> Habilitar como NO RECOMENDABLE en su destino
     </label><br/>
+    {%endif%}
     <h3 class="title">Publicado</h3>
     {%if errors["status"] is defined %}<label class="error">{{errors["status"]|trim(':')}}</label>{%endif%}
     <select name="status" class="input-block-level">
