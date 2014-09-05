@@ -353,6 +353,7 @@ class BackendOwnershipController extends Controller {
         $post['geolocate_x'] = $ownership->getOwnGeolocateX();
         $post['geolocate_y'] = $ownership->getOwnGeolocateY();
         $post['top_20'] = $ownership->getOwnTop20();
+        $data['top_20'] = $ownership->getOwnTop20();
         $data['country_code'] = $ownership->getOwnAddressProvince()->getProvId();
         $data['municipality_code'] = $ownership->getOwnAddressMunicipality()->getMunId();
          

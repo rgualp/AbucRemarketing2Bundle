@@ -44,12 +44,15 @@
 </script>
 <h2>{% if data['edit_ownership'] is defined %}Editar propiedad ({{data['name_ownership']}})
  {% if data['status_id']%}
-            {% if data['status_id']== constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')%}<span class="label label-success vertical_middle">Activo</span>{% else %} <span class="label label-important vertical_middle">{{ data['status_name'] }}</span>{% endif %}
+            {% if data['status_id']== constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')%}<span class="label label-success vertical_middle" title="Estado Activo">Activo</span>{% else %} <span class="label label-important vertical_middle" title="Estado {{ data['status_name'] }}">{{ data['status_name'] }}</span>{% endif %}
             {%else%}
-             <span class="label label-warning vertical_middle">Sin estado</span>
+             <span class="label label-warning vertical_middle" title="Sin estado">Sin estado</span>
             {% endif %}
+  {%if data['top_20']%}
+      <span class="label label-important vertical_middle" title="Top 20">Top 20</span>       
+  {%endif%}
   {%if data['not_recommendable']%}
-      <span class="label label-warning vertical_middle">No recomendable</span>       
+      <span class="label label-warning vertical_middle" title="No recomendables">No recomendable</span>       
   {%endif%}
 {% else %} Adicionar propiedad {% endif %}</h2>
 <hr/>
