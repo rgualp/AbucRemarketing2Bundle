@@ -24,7 +24,7 @@
 {% block content %}
 <h2>{%if(edit_user is defined)%}Editar usuario{%else%}Adicionar usuario{%endif%} client_partner</h2>
 <hr/>
-{% if data['error'] is defined %}<div class="alert alert-error">{{data['error']}}</div>{%endif%}
+{% if data['error'] is defined%}<div class="alert alert-error">{{data['error']}}</div>{%endif%}
 <form class="sfgen" {{form_enctype(form)}} method="POST" action="{% if edit_user is defined%}{{ path('mycp_edit_user_partner',{'id_user':edit_user}) }}{% else %}{{ path('mycp_new_user_partner',{'id_role':id_role})}}{% endif %}" novalidate="true">
     <div class="row-fluid">
         <div class="span3">{{form_row(form.user_name)}}</div>

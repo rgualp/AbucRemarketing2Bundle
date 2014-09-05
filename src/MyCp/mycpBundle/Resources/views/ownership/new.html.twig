@@ -43,15 +43,15 @@
     var count_rooms=1;
 </script>
 <h2>{% if data['edit_ownership'] is defined %}Editar propiedad ({{data['name_ownership']}})
- {% if data['status_id']%}
+ {% if data['status_id'] is defined and data['status_id']%}
             {% if data['status_id']== constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')%}<span class="label label-success vertical_middle" title="Estado Activo">Activo</span>{% else %} <span class="label label-important vertical_middle" title="Estado {{ data['status_name'] }}">{{ data['status_name'] }}</span>{% endif %}
             {%else%}
              <span class="label label-warning vertical_middle" title="Sin estado">Sin estado</span>
             {% endif %}
-  {%if data['top_20']%}
+  {%if data['top_20'] is defined and  data['top_20']%}
       <span class="label label-important vertical_middle" title="Top 20">Top 20</span>       
   {%endif%}
-  {%if data['not_recommendable']%}
+  {%if data['not_recommendable'] is defined and data['not_recommendable']%}
       <span class="label label-warning vertical_middle" title="No recomendables">No recomendable</span>       
   {%endif%}
 {% else %} Adicionar propiedad {% endif %}</h2>
@@ -370,8 +370,18 @@
 <div id="casa" class="tab-pane fade">
     <div class="row-fluid">
         <div class="span3">
-            {{ render(controller('mycpBundle:BackendOwnership:get_ownership_water', {'data':post})) }}
+            
+            <label class="checkbox" style="float: left; margin-right: 10px;">
+    <input type="checkbox" {% if(post['water_jacuzee'] is defined and (post['water_jacuzee'] or post['water_jacuzee'] == "on")) %} checked="TRUE" {% endif %} name="water_jacuzee"/> Jacuzee
+</label>
+<label class="checkbox" style="float: left; margin-right: 10px;">
+    <input type="checkbox" {% if(post['water_sauna'] is defined and (post['water_sauna'] or post['water_sauna'] == "on")) %} checked="TRUE" {% endif %} name="water_sauna"/> Sauna
+</label>
+<label class="checkbox" style="float: left; margin-right: 10px;">
+    <input type="checkbox" {% if(post['water_piscina'] is defined and (post['water_piscina'] or post['water_piscina'] == "on")) %} checked="TRUE" {% endif %} name="water_piscina"/> Piscina
+</label>
         </div>
+            
         <div class="span3">
             <label>Parqueo ciclos (Cajas) (*)</label>
             {% if errors['description_bicycle_parking'] is defined %}<label class="error">{{errors['description_bicycle_parking']|trim(':')}}</label>{%endif%}
@@ -452,12 +462,12 @@
     </div>
     <h3 class="title">Top 20</h3>
     <label class="checkbox">
-        <input type="checkbox" {% if post['top_20'] is defined and post['top_20'] ==1 %} checked="TRUE" {% endif %} name="top_20"> Habilitar para Top 20
+        <input type="checkbox" {% if post['top_20'] is defined and (post['top_20'] ==1 or post['top_20'] == 'on') %} checked="TRUE" {% endif %} name="top_20"> Habilitar para Top 20
     </label><br/>
     {% if is_granted('ROLE_CLIENT_STAFF') %}
     <h3 class="title">No Recomendable</h3>
     <label class="checkbox">
-        <input type="checkbox" {% if post['not_recommendable'] is defined and post['not_recommendable'] ==1 %} checked="TRUE" {% endif %} name="not_recommendable"> Habilitar como NO RECOMENDABLE en su destino
+        <input type="checkbox" {% if post['not_recommendable'] is defined and (post['not_recommendable'] ==1 or post['not_recommendable'] == 'on') %} checked="TRUE" {% endif %} name="not_recommendable"> Habilitar como NO RECOMENDABLE en su destino
     </label><br/>
     {%endif%}
     <h3 class="title">Publicado</h3>

@@ -551,6 +551,21 @@ class ReservationController extends Controller {
             $errors['user_tourist_email_confirm'] = $errors_validation = $this->get('validator')->validateValue($post['user_tourist_email_confirm'], $email_validator);
             $count_errors += count($errors_validation);
             $count++;
+            
+            
+            if(!\MyCp\FrontEndBundle\Helpers\Utils::validateEmail($post['user_tourist_email']))
+            {
+                $errors['user_tourist_email'] = $email_validator->message;
+                $count_errors ++;
+                $count++;
+            }
+            
+            if(!\MyCp\FrontEndBundle\Helpers\Utils::validateEmail($post['user_tourist_email_confirm']))
+            {
+                $errors['user_tourist_email_confirm'] = $email_validator->message;
+                $count_errors ++;
+                $count++;
+            }
 
             if ($post['user_tourist_email'] != $post['user_tourist_email_confirm']) {
                 $errors['user_tourist_email_confirm'] = $this->get('translator')->trans("NOT_EQUALS_EMAIL");
