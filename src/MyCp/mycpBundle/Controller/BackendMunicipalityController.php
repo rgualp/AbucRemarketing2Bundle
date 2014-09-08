@@ -90,4 +90,32 @@ class BackendMunicipalityController extends Controller {
         return $this->render('mycpBundle:municipality:new.html.twig', array('form' => $form->createView(), 'data' => $data, 'id_municipality' => $id_municipality, 'edit' => true));
     }
 
+    public function deleteAction($id_municipality)
+    {
+        /*$service_security= $this->get('Secure');
+        $service_security->verifyAccess();*/
+        $em = $this->getDoctrine()->getEntityManager();
+        $municipality=$em->getRepository('mycpBundle:municipality')->find($id_municipality);
+        $accommodations_total = count($em->getRepository('mycpBundle:ownership')->findBy(array('own_address_municipality'=> $municipality->getMunId())));
+        $destinations_total = count($em->getRepository('mycpBundle:destinationLocation')->findBy(array('des_loc_municipality'=> $municipality->getMunId())));
+
+        if($accommodations_total == 0 && $destinations_total == 0){
+        $mun_name=$municipality->getMunName();
+        $em->remove($municipality);
+        $em->flush();
+        $message='El municipio se ha eliminado satisfactoriamente.';
+        $this->get('session')->getFlashBag()->add('message_ok',$message);
+
+        $service_log= $this->get('log');
+        $service_log->saveLog('Delete entity '.$mun_name,BackendModuleName::MODULE_MUNICIPALITY);
+        }
+        else{
+            $message='Error: El municipio que desea eliminar posee datos asociados.';
+            $this->get('session')->getFlashBag()->add('message_error_main',$message);
+
+        }
+
+        return $this->redirect($this->generateUrl('mycp_list_municipality'));
+    }
+
 }

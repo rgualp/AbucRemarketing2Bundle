@@ -10,3 +10,7 @@ mycp_edit_municipality:
     pattern:  /edit/{id_municipality}
     defaults: { _controller: mycpBundle:BackendMunicipality:edit}
 
+mycp_delete_municipality:
+    pattern:  /delete/{id_municipality}
+    defaults: { _controller: mycpBundle:BackendMunicipality:delete}
+
