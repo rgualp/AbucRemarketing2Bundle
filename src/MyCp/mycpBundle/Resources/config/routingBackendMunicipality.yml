@@ -1,0 +1,4 @@
+mycp_list_municipality:
+    pattern:  /list/{items_per_page}
+    defaults: { _controller: mycpBundle:BackendMunicipality:list ,items_per_page: 20}
+

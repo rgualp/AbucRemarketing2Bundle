@@ -80,6 +80,9 @@ class Logs
                     case 'unavailability details':
                         $module_number=BackendModuleName::MODULE_UNAVAILABILITY_DETAILS;
                         break;
+                    case 'MUNICIPALITY':
+                        $module_number=BackendModuleName::MODULE_MUNICIPALITY;
+                        break;
                 }
             }
             else

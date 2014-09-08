@@ -23,6 +23,7 @@ class BackendModuleName {
     const MODULE_COMMENT = 10;
     const MODULE_UNAVAILABILITY_DETAILS = 11;
     const MODULE_METATAGS = 11;
+    const MODULE_MUNICIPALITY = 12;
 
 }
 

@@ -62,6 +62,10 @@ mycp_metatags:
     resource: "@mycpBundle/Resources/config/routingBackendMetaTags.yml"
     prefix:   backend/metatags/
 
+mycp_municipality:
+    resource: "@mycpBundle/Resources/config/routingBackendMunicipality.yml"
+    prefix:   backend/municipalities/
+
 mycp_check:
   pattern: /check
 

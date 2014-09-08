@@ -44,6 +44,7 @@ class mycpExtension extends \Twig_Extension {
             case BackendModuleName::MODULE_COMMENT: return "Comment";
             case BackendModuleName::MODULE_UNAVAILABILITY_DETAILS: return "Unavailability Details";
             case BackendModuleName::MODULE_METATAGS: return "Meta Tags";
+            case BackendModuleName::MODULE_MUNICIPALITY: return "Municipality";
             default: return "MyCP";
         }
     }

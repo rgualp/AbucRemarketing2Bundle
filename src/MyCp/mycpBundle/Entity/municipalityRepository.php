@@ -34,6 +34,19 @@ class municipalityRepository extends EntityRepository
         return $query->getResult();
     }
 
+    function getAll()
+    {
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery("SELECT m.mun_id, m.mun_name,p.prov_name,
+            (select count(o.own_id) FROM mycpBundle:ownership o WHERE o.own_address_municipality = m.mun_id) as accommodations,
+            (select count(distinct dl.des_loc_destination) FROM mycpBundle:destinationLocation dl WHERE dl.des_loc_municipality = m.mun_id) as destinations
+            FROM mycpBundle:municipality m
+            JOIN m.mun_prov_id p
+            ORDER BY m.mun_name ASC");
+        return $query->getResult();
+    }
+
     function get_with_reservations()
     {
         $em = $this->getEntityManager();
