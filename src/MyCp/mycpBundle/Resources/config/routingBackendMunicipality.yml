@@ -6,3 +6,7 @@ mycp_new_municipality:
     pattern:  /new
     defaults: { _controller: mycpBundle:BackendMunicipality:new}
 
+mycp_edit_municipality:
+    pattern:  /edit/{id_municipality}
+    defaults: { _controller: mycpBundle:BackendMunicipality:edit}
+

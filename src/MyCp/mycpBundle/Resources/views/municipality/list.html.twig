@@ -62,7 +62,7 @@
         <td style="text-align: center">{{mun.accommodations}}</td>
         <td style="text-align: center">{{mun.destinations}}</td>
         <td style="text-align: right">
-            <a class="btn btn-mini" href="">Editar</a>
+            <a class="btn btn-mini" href="{{path('mycp_edit_municipality',{'id_municipality': mun.mun_id})}}">Editar</a>
             <button data='' class="btn btn-mini btn-danger delete" {%if mun.accommodations > 0 or mun.destinations > 0%}disabled="disabled"{%endif%}>Eliminar</button>
 
         </td>

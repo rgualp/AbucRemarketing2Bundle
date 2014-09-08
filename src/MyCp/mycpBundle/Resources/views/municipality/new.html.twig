@@ -22,9 +22,9 @@
 </form>
 {% endblock %}
 {% block content %}
-<h2>{% if edit_lang is defined %}Editar {% else %}Adicionar {% endif %}municipio</h2>
+<h2>{% if edit is defined %}Editar {% else %}Adicionar {% endif %}municipio</h2>
 <hr/>
-<form class="sfgen" enctype="multipart/form-data" method="POST" action="{% if edit is defined %}{% else %}{{path('mycp_new_municipality')}}{% endif %}" novalidate="true">
+<form class="sfgen" enctype="multipart/form-data" method="POST" action="{% if edit is defined %}{{path('mycp_edit_municipality',{'id_municipality': id_municipality})}}{% else %}{{path('mycp_new_municipality')}}{% endif %}" novalidate="true">
 <div class="row-fluid">
     <div class="span4">
         {{form_row(form.mun_name)}}
