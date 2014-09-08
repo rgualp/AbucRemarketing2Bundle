@@ -3,51 +3,34 @@
 {% block top_body %}
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
-    <li><a href="{{ path('mycp_list_languages') }}">Idiomas</a> <span class="divider">/</span></li>
-    <li class="active">{% if edit_lang is defined %}Editar {% else %}Adicionar {% endif %}idioma</li>
-    <li class="pull-right"><a href="{{ path('mycp_list_languages') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+    <li><a href="{{ path('mycp_list_municipality') }}">Municipios</a> <span class="divider">/</span></li>
+    <li class="active">{% if edit is defined %}Editar {% else %}Adicionar {% endif %}municipio</li>
+    <li class="pull-right"><a href="{{ path('mycp_list_municipality') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 {% endblock %}
 {% block form_actions %}
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
-    <li><a href="{{ path('mycp_list_languages') }}">Idiomas</a> <span class="divider">/</span></li>
-    <li class="active">{% if edit_lang is defined %}Editar {% else %}Adicionar {% endif %}idioma</li>
-    <li class="pull-right"><a href="{{ path('mycp_list_languages') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
+    <li><a href="{{ path('mycp_list_municipality') }}">Municipios</a> <span class="divider">/</span></li>
+    <li class="active">{% if edit is defined %}Editar {% else %}Adicionar {% endif %}municipio</li>
+    <li class="pull-right"><a href="{{ path('mycp_list_municipality') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 <div class="form-actions">
     <button class="btn btn-primary" type="submit">Guardar</button>
-    <a class="btn" href="{{ path('mycp_list_languages') }}">Cancelar</a>
+    <a class="btn" href="{{ path('mycp_list_municipality') }}">Cancelar</a>
 </div>
 </form>
 {% endblock %}
 {% block content %}
-<h2>{% if edit_lang is defined %}Editar {% else %}Adicionar {% endif %}idioma</h2>
+<h2>{% if edit_lang is defined %}Editar {% else %}Adicionar {% endif %}municipio</h2>
 <hr/>
-<form class="sfgen" enctype="multipart/form-data" method="POST" action="{% if edit_lang is defined %}{{path('mycp_edit_language',{'id_language':id_language})}}{% else %}{{path('mycp_new_language')}}{% endif %}" novalidate="true">
+<form class="sfgen" enctype="multipart/form-data" method="POST" action="{% if edit is defined %}{% else %}{{path('mycp_new_municipality')}}{% endif %}" novalidate="true">
 <div class="row-fluid">
     <div class="span4">
-        {{form_row(form.lang_name)}}
-        {{form_row(form.lang_code)}}
-        <label>Imágen:</label>
-        {% if data['error'] is defined %}<ul><li>{{ data['error'] }}</li></ul>{% endif %}
-        <input type="file" title="Seleccionar fichero..." accept="image/*" name="photo" class="input-block-level"/>
-        <br/><br/>
-        {{form_row(form.lang_active)}}
-        <label>&nbsp;Publicado en el sitio</label>
+        {{form_row(form.mun_name)}}
+        {{form_row(form.mun_prov_id)}}
         {{form_rest(form)}}
     </div>
-    {% if data['lang_flag'][0] is defined %}
-    <div class="span8">
-        <div class="popover right" style="display: block; position: relative; margin-top: 95px; width: 138px;">
-            <div class="arrow"></div>
-            <h3 class="popover-title">Imágen actual</h3>
-            <div class="popover-content">
-                <img src="{{ asset('uploads/languageImages/'~data['lang_flag'][0].getLangFlagPhoto.getPhoName)}}" style="width: 100px; height: 80px;" class="img-polaroid"  alt=""/>
-            </div>
-        </div>
-    </div>
-    {% endif %}
 </div>
 <script src="{{ asset('bundles/mycp/js/bootstrap-fileinput.js') }}" type="text/javascript"></script>
 {% endblock %}

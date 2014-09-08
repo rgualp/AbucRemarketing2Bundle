@@ -9,7 +9,7 @@
 {% block content %}
 <h2>Municipios</h2>
 <hr/>
-<a class="btn" href=""><i class="icon-plus"></i> Adicionar municipio</a>&nbsp;
+<a class="btn" href="{{path('mycp_new_municipality')}}"><i class="icon-plus"></i> Adicionar municipio</a>&nbsp;
 <br/><br/>
 {% for message in app.session.flashbag.get('message_error_local') %}
 <div class="alert alert-error">{{ message }}</div>
