@@ -462,12 +462,12 @@
     </div>
     <h3 class="title">Top 20</h3>
     <label class="checkbox">
-        <input type="checkbox" {% if post['top_20'] is defined and (post['top_20'] ==1 or post['top_20'] == 'on') %} checked="TRUE" {% endif %} name="top_20"> Habilitar para Top 20
+        <input type="checkbox" {% if post['top_20'] is defined and (post['top_20'] ==1) %} checked="TRUE" {% endif %} name="top_20"> Habilitar para Top 20
     </label><br/>
     {% if is_granted('ROLE_CLIENT_STAFF') %}
     <h3 class="title">No Recomendable</h3>
     <label class="checkbox">
-        <input type="checkbox" {% if post['not_recommendable'] is defined and (post['not_recommendable'] ==1 or post['not_recommendable'] == 'on') %} checked="TRUE" {% endif %} name="not_recommendable"> Habilitar como NO RECOMENDABLE en su destino
+        <input type="checkbox" {% if (post['not_recommendable'] is defined and (post['not_recommendable'] ==1)) %} checked="TRUE" {% endif %} name="not_recommendable"> Habilitar como NO RECOMENDABLE en su destino
     </label><br/>
     {%endif%}
     <h3 class="title">Publicado</h3>
