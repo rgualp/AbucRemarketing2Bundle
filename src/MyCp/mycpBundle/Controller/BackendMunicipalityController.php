@@ -117,5 +117,29 @@ class BackendMunicipalityController extends Controller {
 
         return $this->redirect($this->generateUrl('mycp_list_municipality'));
     }
+    
+    public function list_accommodationsAction($id_municipality,$items_per_page)
+    {
+        $page = 1;
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+        $em = $this->getDoctrine()->getEntityManager();
+        $paginator = $this->get('ideup.simple_paginator');
+        $paginator->setItemsPerPage($items_per_page);
+        $accommodations = $paginator->paginate($em->getRepository('mycpBundle:municipality')->getAccommodations($id_municipality))->getResult();
+
+        $municipality = $em->getRepository('mycpBundle:municipality')->find($id_municipality);
+        $service_log = $this->get('log');
+        $service_log->saveLog('Visit accommodations list', BackendModuleName::MODULE_MUNICIPALITY);
+
+        return $this->render('mycpBundle:municipality:accommodations.html.twig', array(
+                    'accommodations' => $accommodations,
+                    'items_per_page' => $items_per_page,
+                    'current_page' => $page,
+                    'total_items' => $paginator->getTotalItems(),
+                    'municipality' => $municipality,
+            
+        ));
+    }
 
 }

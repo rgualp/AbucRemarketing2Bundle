@@ -59,7 +59,7 @@
     <tr>
         <td>{{ mun.mun_name }}</td>
         <td>{{ mun.prov_name }}</td>
-        <td style="text-align: center">{{mun.accommodations}}</td>
+        <td style="text-align: center"><a href="{{path('mycp_list_ownerships_municipality',{'id_municipality': mun.mun_id})}}">{{mun.accommodations}}</a></td>
         <td style="text-align: center">{{mun.destinations}}</td>
         <td style="text-align: right">
             <a class="btn btn-mini" href="{{path('mycp_edit_municipality',{'id_municipality': mun.mun_id})}}">Editar</a>

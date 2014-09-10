@@ -14,3 +14,6 @@ mycp_delete_municipality:
     pattern:  /delete/{id_municipality}
     defaults: { _controller: mycpBundle:BackendMunicipality:delete}
 
+mycp_list_ownerships_municipality:
+    pattern:  /list/accommodations/{id_municipality}/{items_per_page}
+    defaults: { _controller: mycpBundle:BackendMunicipality:list_accommodations ,items_per_page: 20}
