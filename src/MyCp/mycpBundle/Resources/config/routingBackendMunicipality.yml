@@ -17,3 +17,7 @@ mycp_delete_municipality:
 mycp_list_ownerships_municipality:
     pattern:  /list/accommodations/{id_municipality}/{items_per_page}
     defaults: { _controller: mycpBundle:BackendMunicipality:list_accommodations ,items_per_page: 20}
+    
+mycp_list_destinations_municipality:
+    pattern:  /list/destinations/{id_municipality}/{items_per_page}
+    defaults: { _controller: mycpBundle:BackendMunicipality:list_destinations ,items_per_page: 20}

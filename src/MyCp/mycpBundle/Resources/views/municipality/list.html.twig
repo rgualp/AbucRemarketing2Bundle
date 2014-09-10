@@ -59,8 +59,16 @@
     <tr>
         <td>{{ mun.mun_name }}</td>
         <td>{{ mun.prov_name }}</td>
-        <td style="text-align: center"><a href="{{path('mycp_list_ownerships_municipality',{'id_municipality': mun.mun_id})}}">{{mun.accommodations}}</a></td>
-        <td style="text-align: center">{{mun.destinations}}</td>
+        <td style="text-align: center">
+            {%if mun.accommodations%}
+            <a href="{{path('mycp_list_ownerships_municipality',{'id_municipality': mun.mun_id})}}">{{mun.accommodations}}</a>
+            {%else%} - {%endif%}
+            </td>
+        <td style="text-align: center">
+            {%if mun.destinations%}
+            <a href="{{path('mycp_list_destinations_municipality',{'id_municipality': mun.mun_id})}}">{{mun.destinations}}</a>
+            {%else%} - {%endif%}
+            </td>
         <td style="text-align: right">
             <a class="btn btn-mini" href="{{path('mycp_edit_municipality',{'id_municipality': mun.mun_id})}}">Editar</a>
             <button data='{{path('mycp_delete_municipality',{'id_municipality': mun.mun_id})}}' class="btn btn-mini btn-danger delete" {%if mun.accommodations > 0 or mun.destinations > 0%}disabled="disabled"{%endif%}>Eliminar</button>

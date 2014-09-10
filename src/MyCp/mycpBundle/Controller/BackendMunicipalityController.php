@@ -141,5 +141,29 @@ class BackendMunicipalityController extends Controller {
             
         ));
     }
+    
+    public function list_destinationsAction($id_municipality,$items_per_page)
+    {
+        $page = 1;
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+        $em = $this->getDoctrine()->getEntityManager();
+        $paginator = $this->get('ideup.simple_paginator');
+        $paginator->setItemsPerPage($items_per_page);
+        $destinations = $paginator->paginate($em->getRepository('mycpBundle:municipality')->getDestinations($id_municipality))->getResult();
+
+        $municipality = $em->getRepository('mycpBundle:municipality')->find($id_municipality);
+        $service_log = $this->get('log');
+        $service_log->saveLog('Visit destinations list', BackendModuleName::MODULE_MUNICIPALITY);
+
+        return $this->render('mycpBundle:municipality:destinations.html.twig', array(
+                    'destinations' => $destinations,
+                    'items_per_page' => $items_per_page,
+                    'current_page' => $page,
+                    'total_items' => $paginator->getTotalItems(),
+                    'municipality' => $municipality,
+            
+        ));
+    }
 
 }

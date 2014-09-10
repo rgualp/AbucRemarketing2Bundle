@@ -56,6 +56,17 @@ class municipalityRepository extends EntityRepository
                                    ORDER BY o.own_mcp_code ASC");
         return $query->getResult();
     }
+    
+    function getDestinations($id_municipality)
+    {
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery("SELECT d.des_id, d.des_name FROM mycpBundle:destinationLocation dl
+                                   JOIN dl.des_loc_destination d
+                                   WHERE dl.des_loc_municipality = $id_municipality 
+                                   ORDER BY d.des_name ASC");
+        return $query->getResult();
+    }
 
     function get_with_reservations()
     {
