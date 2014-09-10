@@ -560,7 +560,8 @@ class destinationRepository extends EntityRepository {
 
     function getRecommendableAccommodations($checkin_date = null, $checkout_date = null,$price = null, $rooms_count = null, $municipality_id = null, $province_id = null, $max_result_set = null, $exclude_own_id = null, $user_id = null, $session_id = null) {
         if ($municipality_id != null || $province_id != null) {
-            $em = $this->getEntityManager();
+            $em = $this->getEntityManager();   
+            
             $query_string = "SELECT DISTINCT o.own_id,
                              o.own_name,
                              prov.prov_name,
@@ -598,6 +599,31 @@ class destinationRepository extends EntityRepository {
             if ($price != null && $price != "")
                 $query_string = $query_string . " AND o.own_minimum_price <= $price AND o.own_maximum_price >= $price";
             
+            $owns_with_reservations = array();
+            if ($checkin_date != null && $checkin_date != "" && $checkout_date != null && $checkout_date != "")
+            {
+                $query_reservations = "SELECT DISTINCT o.own_id FROM mycpBundle:ownershipReservation ores
+                                   JOIN ores.own_res_gen_res_id gr
+                                   JOIN gr.gen_res_own_id o
+                                   WHERE ores.own_res_reservation_from_date >= :checkin_date
+                                     AND ores.own_res_reservation_to_date <= :checkout_date";
+                
+                $owns_with_reservations = $em->createQuery($query_reservations)
+                                             ->setParameter("checkin_date", $checkin_date)
+                                             ->setParameter("checkout_date", $checkout_date)
+                                             ->getResult();
+                
+                $owns_id = "0";
+                
+                foreach ($owns_with_reservations as $oid)
+                {
+                    $owns_id .= ",".$oid["own_id"];
+                }
+                                     
+                
+                $query_string = $query_string . " AND o.own_id NOT IN ($owns_id)";
+            }
+            
             $query_string = $query_string . " AND o.own_not_recommendable = 0";
 
             if ($max_result_set != null && $max_result_set > 0) {
@@ -609,7 +635,8 @@ class destinationRepository extends EntityRepository {
                         ->setFirstResult($offset)
                         ->getResult();
             } else {
-                $results = $em->createQuery($query_string)->getResult();
+                $results = $em->createQuery($query_string)
+                              ->getResult();
             }
 
             for ($i = 0; $i < count($results); $i++) {
