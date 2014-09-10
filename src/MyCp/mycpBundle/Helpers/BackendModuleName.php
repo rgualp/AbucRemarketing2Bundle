@@ -24,7 +24,7 @@ class BackendModuleName {
     const MODULE_UNAVAILABILITY_DETAILS = 11;
     const MODULE_METATAGS = 11;
     const MODULE_MUNICIPALITY = 12;
-
+    const MODULE_SEASON = 13;
 }
 
 ?>

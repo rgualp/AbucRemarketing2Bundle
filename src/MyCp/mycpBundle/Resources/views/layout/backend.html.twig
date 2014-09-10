@@ -73,7 +73,7 @@
                     Generales
                 </a>
             </div>
-            <div id="collapseThree" class="accordion-body collapse {%if  temp == 'BackendCurrencyController' or temp == 'BackendLanguageController' or temp == 'BackendLogController' or temp == 'BackendUserController'%}in{%endif%}">
+            <div id="collapseThree" class="accordion-body collapse {%if  temp == 'BackendCurrencyController' or temp == 'BackendSeasonController' or temp == 'BackendLanguageController' or temp == 'BackendLogController' or temp == 'BackendUserController'%}in{%endif%}">
                 <div class="accordion-inner">
                     <a href="{{ path('mycp_list_users') }}"><i class="icon-user"></i> Usuarios</a>
                 </div>
@@ -85,6 +85,9 @@
                 </div>
                 <div class="accordion-inner">
                     <a href="{{ path('mycp_list_languages') }}"><i class="icon-globe"></i> Idiomas</a>
+                </div>
+                <div class="accordion-inner">
+                    <a href="{{ path('mycp_list_season') }}"><i class="icon-tags"></i> Temporadas</a>
                 </div>
             </div>
         </div>
