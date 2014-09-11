@@ -9,7 +9,7 @@
 {% block content %}
 <h2>Temporadas</h2>
 <hr/>
-<a class="btn" href=""><i class="icon-plus"></i> Adicionar temporada</a>&nbsp;
+<a class="btn" href="{{path("mycp_new_season")}}"><i class="icon-plus"></i> Adicionar temporada</a>&nbsp;
 <br/><br/>
 {% for message in app.session.flashbag.get('message_error_local') %}
 <div class="alert alert-error">{{ message }}</div>
@@ -56,9 +56,9 @@
     </thead>
     <tbody>
     {% for season in seasons %}
-    <tr>
+    <tr {%if not season.seasondestination%}class="yellow_row"{%endif%} {%if not season.seasondestination%}title= "Temporada para todos los destinos"{%endif%}>
         <td>{{ season.seasonType | seasonType }}</td>
-        <td>{%if season.seasondestination%}{{season.seasonDestination.desname}}{%else%} - {%endif%}</td>
+        <td>{%if season.seasondestination%}{{season.seasonDestination.desname}}{%else%} Todos los destinos {%endif%}</td>
         <td style="text-align: center">{{season.seasonStartDate | date('d/m/Y')}}</td>
         <td style="text-align: center">{{season.seasonEndDate | date('d/m/Y')}}</td>
         <td style="text-align: right">

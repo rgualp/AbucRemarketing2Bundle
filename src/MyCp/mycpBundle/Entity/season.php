@@ -4,6 +4,7 @@
 namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * season
@@ -52,6 +53,7 @@ class season
      * @var datetime
      *
      * @ORM\Column(name="season_startdate", type="datetime")
+     * @Assert\NotBlank()
      */
     private $season_startdate;
 
@@ -59,12 +61,13 @@ class season
      * @var datetime
      *
      * @ORM\Column(name="season_enddate", type="datetime")
+     * @Assert\NotBlank()
      */
     private $season_enddate;
 
     /**
      * @ORM\ManyToOne(targetEntity="destination",inversedBy="")
-     * @ORM\JoinColumn(name="season_destination",referencedColumnName="des_id")
+     * @ORM\JoinColumn(name="season_destination",referencedColumnName="des_id", nullable=true)
      */
     private $season_destination;
     
@@ -163,7 +166,7 @@ class season
      * @param \MyCp\mycpBundle\Entity\destination $destination
      * @return season
      */
-    public function setSeasonDestination(\MyCp\mycpBundle\Entity\destination $destination = null)
+    public function setSeasonDestination($destination = null)
     {
         $this->season_destination = $destination;
     
@@ -178,5 +181,13 @@ class season
     public function getSeasonDestination()
     {
         return $this->season_destination;
+    }
+    
+    public static function getSeasonTypes()
+    {
+        $s_types = array();
+        $s_types[season::SEASON_TYPE_HIGH] = "Temporada Alta";
+        $s_types[season::SEASON_TYPE_SPECIAL] = "Temporada Especial";
+        return $s_types;
     }
 }

@@ -1,3 +1,7 @@
 mycp_list_season:
     pattern:  /list/{items_per_page}
     defaults: { _controller: mycpBundle:BackendSeason:list ,items_per_page: 20}
+    
+mycp_new_season:
+    pattern:  /new
+    defaults: { _controller: mycpBundle:BackendSeason:new}
