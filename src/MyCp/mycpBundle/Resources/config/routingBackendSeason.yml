@@ -9,3 +9,7 @@ mycp_new_season:
 mycp_edit_season:
     pattern:  /edit/{id_season}
     defaults: { _controller: mycpBundle:BackendSeason:edit}
+    
+mycp_delete_season:
+    pattern:  /delete/{id_season}
+    defaults: { _controller: mycpBundle:BackendSeason:delete}

@@ -63,7 +63,7 @@
         <td style="text-align: center">{{season.seasonEndDate | date('d/m/Y')}}</td>
         <td style="text-align: right">
             <a class="btn btn-mini" href="{{path("mycp_edit_season", {'id_season':season.seasonId})}}">Editar</a>
-            <button data='' class="btn btn-mini btn-danger delete">Eliminar</button>
+            <button data='{{path("mycp_delete_season", {'id_season':season.seasonId})}}' class="btn btn-mini btn-danger delete">Eliminar</button>
         </td>
     </tr>
     {% endfor %}

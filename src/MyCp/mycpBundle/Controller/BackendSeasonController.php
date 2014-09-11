@@ -65,7 +65,7 @@ class BackendSeasonController extends Controller {
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
-                $service_log->saveLog('Create entity from' . $post_form['season_startdate'] . " to " . $post_form['season_enddate'], BackendModuleName::MODULE_SEASON);
+                $service_log->saveLog('Create entity from ' . $post_form['season_startdate'] . " to " . $post_form['season_enddate'], BackendModuleName::MODULE_SEASON);
 
                 return $this->redirect($this->generateUrl('mycp_list_season'));
             }
@@ -112,12 +112,32 @@ class BackendSeasonController extends Controller {
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
-                $service_log->saveLog('Edit entity from' . $post_form['season_startdate'] . " to " . $post_form['season_enddate'], BackendModuleName::MODULE_SEASON);
+                $service_log->saveLog('Edit entity from ' . $post_form['season_startdate'] . " to " . $post_form['season_enddate'], BackendModuleName::MODULE_SEASON);
 
                 return $this->redirect($this->generateUrl('mycp_list_season'));
             }
         }
         return $this->render('mycpBundle:season:new.html.twig', array('form' => $form->createView(), 'data' => $data, 'id_season' => $id_season, 'edit' => true));
+    }
+    
+    public function deleteAction($id_season)
+    {
+        /*$service_security= $this->get('Secure');
+        $service_security->verifyAccess();*/
+        $em = $this->getDoctrine()->getEntityManager();
+        $season=$em->getRepository('mycpBundle:season')->find($id_season);
+        
+        $season_start=$season->getSeasonStartDate();
+        $season_end=$season->getSeasonEndDate();
+        $em->remove($season);
+        $em->flush();
+        $message='La temporada se ha eliminado satisfactoriamente.';
+        $this->get('session')->getFlashBag()->add('message_ok',$message);
+
+        $service_log= $this->get('log');
+        $service_log->saveLog('Delete entity from ' . date("d/m/Y",$season_start->getTimestamp()) . " to " . date("d/m/Y",$season_end->getTimestamp()),BackendModuleName::MODULE_SEASON);
+       
+        return $this->redirect($this->generateUrl('mycp_list_season'));
     }
 
 }
