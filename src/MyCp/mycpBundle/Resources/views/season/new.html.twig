@@ -24,7 +24,7 @@
 {% block content %}
 <h2>{% if edit is defined %}Editar {% else %}Adicionar {% endif %}temporada</h2>
 <hr/>
-<form class="sfgen" enctype="multipart/form-data" method="POST" action="{% if edit is defined %}{% else %}{{path('mycp_new_season')}}{% endif %}" novalidate="true">
+<form class="sfgen" enctype="multipart/form-data" method="POST" action="{% if edit is defined %}{{path("mycp_edit_season", {'id_season':id_season})}}{% else %}{{path('mycp_new_season')}}{% endif %}" novalidate="true">
 <div class="row-fluid">
     <div class="span6">
         {{form_row(form.season_type)}}

@@ -5,3 +5,7 @@ mycp_list_season:
 mycp_new_season:
     pattern:  /new
     defaults: { _controller: mycpBundle:BackendSeason:new}
+    
+mycp_edit_season:
+    pattern:  /edit/{id_season}
+    defaults: { _controller: mycpBundle:BackendSeason:edit}
