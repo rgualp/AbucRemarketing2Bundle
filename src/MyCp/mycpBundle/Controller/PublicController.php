@@ -62,6 +62,22 @@ class PublicController extends Controller
         return $this->render('mycpBundle:utils:list_municipality.html.twig', array('municipalities' => $municipalities));
     }
 
+    public function get_munAction($post,Request $request)
+    {
+        if(isset($post['filter_municipality']))
+        {
+            $post['ownership_address_municipality']=$post['filter_municipality'];
+        }
+        $em = $this->getDoctrine()->getManager();
+
+        if(isset($post['ownership_address_province']))
+            $municipalities = $em->getRepository('mycpBundle:municipality')->findBy(array('mun_prov_id' => $post['ownership_address_province']));
+        else
+            $municipalities = $em->getRepository('mycpBundle:municipality')->findAll();
+        return $this->render('mycpBundle:utils:list_municipality.html.twig', array('municipalities' => $municipalities,'data'=>$post));
+    }
+
+
     public function getDestinationByMunAction($post,Request $request)
     {
         //$post = $request->request->getIterator()->getArrayCopy();
@@ -87,19 +103,18 @@ class PublicController extends Controller
         return $this->render('mycpBundle:utils:list_destinations.html.twig', array('destinations' => $destinations));
     }
 
-    public function get_munAction($post,Request $request)
+    public function getDestinationsAction($post,Request $request)
     {
-        if(isset($post['filter_municipality']))
-        {
-            $post['ownership_address_municipality']=$post['filter_municipality'];
-        }
+        $selected='';
+        if($post && isset($post['ownership_destination']))
+            $selected=$post['ownership_destination'];
         $em = $this->getDoctrine()->getManager();
 
-        if(isset($post['ownership_address_province']))
-            $municipalities = $em->getRepository('mycpBundle:municipality')->findBy(array('mun_prov_id' => $post['ownership_address_province']));
+        if(isset($post['ownership_address_municipality']))
+            $destinations = $em->getRepository('mycpBundle:destination')->getByMunicipality($post['ownership_address_municipality']);
         else
-            $municipalities = $em->getRepository('mycpBundle:municipality')->findAll();
-        return $this->render('mycpBundle:utils:list_municipality.html.twig', array('municipalities' => $municipalities,'data'=>$post));
+            $destinations = $em->getRepository('mycpBundle:destination')->findAll();
+        return $this->render('mycpBundle:utils:list_destinations.html.twig', array('destinations' => $destinations,'selected'=>$selected));
     }
 
     public function get_cities_by_countryAction($country_code,Request $request)

@@ -147,6 +147,7 @@ class BackendOwnershipController extends Controller {
         $filter_active = $request->get('filter_active');
 
         $filter_province = $request->get('filter_province');
+        $filter_destination = $request->get('filter_destination');
         $filter_name = $request->get('filter_name');
         $filter_municipality = $request->get('filter_municipality');
         $filter_type = $request->get('filter_type');
@@ -155,7 +156,8 @@ class BackendOwnershipController extends Controller {
         $filter_saler = $request->get('filter_saler');
         $filter_visit_date = $request->get('filter_visit_date');
         if ($request->getMethod() == 'POST' && $filter_name == 'null' && $filter_active == 'null' && $filter_province == 'null' && $filter_municipality == 'null' &&
-                $filter_type == 'null' && $filter_category == 'null' && $filter_code == 'null' && $filter_saler == 'null' && $filter_visit_date == 'null'
+                $filter_type == 'null' && $filter_category == 'null' && $filter_code == 'null' && $filter_saler == 'null' && $filter_visit_date == 'null' && $filter_destination == 'null'
+
         ) {
             $message = 'Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
@@ -169,6 +171,8 @@ class BackendOwnershipController extends Controller {
             $filter_saler = '';
         if ($filter_visit_date == 'null')
             $filter_visit_date = '';
+        if ($filter_destination == 'null')
+            $filter_destination = '';
 
         if (isset($_GET['page']))
             $page = $_GET['page'];
@@ -177,7 +181,7 @@ class BackendOwnershipController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $ownerships = $paginator->paginate($em->getRepository('mycpBundle:ownership')->get_all_ownerships(
-                                $filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality, $filter_type, $filter_name, $filter_saler, $filter_visit_date
+                                $filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality,$filter_destination, $filter_type, $filter_name, $filter_saler, $filter_visit_date
                 ))->getResult();
         $data = array();
         foreach ($ownerships as $ownership) {
@@ -202,7 +206,8 @@ class BackendOwnershipController extends Controller {
                     'filter_municipality' => $filter_municipality,
                     'filter_type' => $filter_type,
                     'filter_saler' => $filter_saler,
-                    'filter_visit_date' => $filter_visit_date
+                    'filter_visit_date' => $filter_visit_date,
+                    'filter_destination' => $filter_destination
         ));
     }
 
