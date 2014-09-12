@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\booking;
+use MyCp\mycpBundle\Entity\season;
 use MyCp\mycpBundle\Entity\generalReservation;
 use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -209,11 +210,14 @@ class ReservationController extends Controller {
         $array_clear_date = array();
         //var_dump($services);
         if ($array_dates)
+        {
+            $em = $this->getDoctrine()->getManager();
+            $seasons = $em->getRepository("mycpBundle:season")->getSeasons($min_date, $max_date);
             foreach ($array_dates as $date) {
                 array_push($array_dates_string, \date('/m/Y', $date));
                 array_push($array_dates_string_day, \date('d', $date));
-                $season = $service_time->seasonByDate($date);
-                array_push($array_season, $season);
+                $seasonTypes = $service_time->seasonByDate($seasons,$date);
+                array_push($array_season, $seasonTypes);
                 $insert = 1;
                 foreach ($services as $serv) {
                     if ($date >= $serv['from_date'] && $date <= $serv['to_date']) {
@@ -224,6 +228,7 @@ class ReservationController extends Controller {
                     $array_clear_date[$date] = 1;
                 }
             }
+        }
         return $this->render('FrontEndBundle:reservation:bodyReviewReservation.html.twig', array(
                     'dates_string' => $array_dates_string,
                     'dates_string_day' => $array_dates_string_day,
@@ -297,10 +302,11 @@ class ReservationController extends Controller {
                     foreach ($res_item as $item) {
                         $array_dates = $service_time->datesBetween($item['from_date'], $item['to_date']);
                         $temp_price = 0;
+                        $seasons = $em->getRepository("mycpBundle:season")->getSeasons($item['from_date'], $item['to_date']);
                         for ($a = 0; $a < count($array_dates); $a++) {
                             if ($a < count($array_dates) - 1) {
-                                $season = $service_time->seasonByDate($array_dates[$a]);
-                                if ($season == 'down') {
+                                $season = $service_time->seasonTypeByDate($seasons,$array_dates[$a]);
+                                if ($season == season::SEASON_TYPE_LOW) {
                                     if ($item['room_type'] == "Habitación Triple" && $item['guests'] + $item['kids'] >= 3) {
                                         $total_price += $item['room_price_down'] + $triple_room_recharge;
                                         $temp_price += $item['room_price_down'] + $triple_room_recharge;
@@ -551,15 +557,15 @@ class ReservationController extends Controller {
             $errors['user_tourist_email_confirm'] = $errors_validation = $this->get('validator')->validateValue($post['user_tourist_email_confirm'], $email_validator);
             $count_errors += count($errors_validation);
             $count++;
-            
-            
+
+
             if(!\MyCp\FrontEndBundle\Helpers\Utils::validateEmail($post['user_tourist_email']))
             {
                 $errors['user_tourist_email'] = $email_validator->message;
                 $count_errors ++;
                 $count++;
             }
-            
+
             if(!\MyCp\FrontEndBundle\Helpers\Utils::validateEmail($post['user_tourist_email_confirm']))
             {
                 $errors['user_tourist_email_confirm'] = $email_validator->message;

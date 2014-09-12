@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use MyCp\FrontEndBundle\Helpers\Utils;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use MyCp\mycpBundle\Entity\ownershipReservation;
+use MyCp\mycpBundle\Entity\season;
 
 
 class OwnershipController extends Controller {
@@ -160,15 +161,17 @@ class OwnershipController extends Controller {
             /* if ($request->getMethod() != 'POST') {
               //$x = 2;
               } */
+
+            $seasons = $em->getRepository("mycpBundle:season")->getSeasons($from, $to);
             for ($a = 0; $a < count($array_dates) - $x; $a++) {
 
-                $season = $service_time->seasonByDate($array_dates[$a]);
-                if ($season == 'top') {
-                    $total_price_room += $room->getRoomPriceUpFrom();
-                    array_push($prices_dates_temp, $room->getRoomPriceUpFrom());
-                } else {
+                $season_type = $service_time->seasonTypeByDate($seasons,$array_dates[$a]);
+                if ($season_type == season::SEASON_TYPE_LOW) {
                     $total_price_room += $room->getRoomPriceDownFrom();
                     array_push($prices_dates_temp, $room->getRoomPriceDownFrom());
+                } else {
+                    $total_price_room += $room->getRoomPriceUpFrom();
+                    array_push($prices_dates_temp, $room->getRoomPriceUpFrom());
                 }
                 //var_dump($season);
             }
@@ -445,15 +448,16 @@ class OwnershipController extends Controller {
             /* if ($request->getMethod() != 'POST') {
               //$x = 2;
               } */
+            $seasons = $em->getRepository("mycpBundle:season")->getSeasons($start_date, $end_date);
             for ($a = 0; $a < count($array_dates) - $x; $a++) {
 
-                $season = $service_time->seasonByDate($array_dates[$a]);
-                if ($season == 'top') {
-                    $total_price_room += $room->getRoomPriceUpFrom();
-                    array_push($prices_dates_temp, $room->getRoomPriceUpFrom());
-                } else {
+                $season_type = $service_time->seasonTypeByDate($seasons,$array_dates[$a]);
+                if ($season_type == season::SEASON_TYPE_LOW) {
                     $total_price_room += $room->getRoomPriceDownFrom();
                     array_push($prices_dates_temp, $room->getRoomPriceDownFrom());
+                } else {
+                    $total_price_room += $room->getRoomPriceUpFrom();
+                    array_push($prices_dates_temp, $room->getRoomPriceUpFrom());
                 }
                 //var_dump($season);
             }

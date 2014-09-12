@@ -1,6 +1,6 @@
 <?php
 namespace MyCp\FrontEndBundle\Helpers;
-
+use \MyCp\mycpBundle\Entity\season;
 
 class Time
 {
@@ -20,25 +20,28 @@ class Time
         return $arr;
     }
 
-    public function seasonByDate($date)
+    public function seasonTypeByDate($seasons,$date_timestamp)
     {
-        $temp=strtotime('2000-'.date('m', $date).'-'.date('d', $date));
-
-        //top season
-        $top_from=strtotime('2000-07-15');
-        $top_to=strtotime('2000-08-31');
-
-        $top_from_2=strtotime('2000-12-16');
-        $top_to_2=strtotime('2000-03-15');
-
-        if($top_from <= $temp and $top_to >= $temp OR $top_from_2 <= $temp and $top_to_2 >= $temp)
+        foreach($seasons as $season)
         {
-            return 'top';
+            if($season->getSeasonStartDate()->getTimestamp() <= $date_timestamp && $season->getSeasonEndDate()->getTimestamp() >= $date_timestamp)
+                return $season->getSeasonType();
         }
-        else
+        return season::SEASON_TYPE_LOW;
+    }
+
+    public function seasonByDate($seasons,$date_timestamp)
+    {
+        foreach($seasons as $season)
         {
-            return 'down';
+            if($season->getSeasonStartDate()->getTimestamp() <= $date_timestamp && $season->getSeasonEndDate()->getTimestamp() >= $date_timestamp)
+                switch($season->getSeasonType()){
+                  case season::SEASON_TYPE_HIGH: return "top";
+                  case season::SEASON_TYPE_SPECIAL: return "special";
+                  default: return "down";
+                }
         }
+        return 'down';
     }
 
 }

@@ -21,4 +21,27 @@ class seasonRepository extends EntityRepository {
             ORDER BY s.season_startdate ASC");
         return $query->getResult();
     }
+
+    public function getSeasons($checkin_date, $checkeout_date, $id_destination = null)
+    {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT s FROM mycpBundle:season s
+                         WHERE ((s.season_startdate <= :checkin AND s.season_enddate >= :checkout)
+                            OR (s.season_startdate >= :checkin AND s.season_enddate <= :checkout)
+                            OR (s.season_startdate <= :checkin AND s.season_enddate <= :checkout)
+                            OR (s.season_startdate >= :checkin AND s.season_enddate >= :checkout))";
+
+        if(isset($id_destination))
+            $query_string .= " AND (s.season_destination = $id_destination OR s.season_destination IS NULL)";
+        else
+            $query_string .= " AND s.season_destination IS NULL ";
+
+        $query_string .= " ORDER BY s.season_startdate ASC ";
+
+        return $em->createQuery($query_string)
+                  ->setParameter("checkin", $checkin_date)
+                  ->setParameter("checkout", $checkeout_date)
+                  ->getResult();
+
+    }
 }
