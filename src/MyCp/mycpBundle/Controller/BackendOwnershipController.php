@@ -325,6 +325,10 @@ class BackendOwnershipController extends Controller {
         $post['ownership_visit_date'] = $ownership->getOwnVisitDate();
         $post['ownership_creation_date'] = $ownership->getOwnCreationDate();
         $post['ownership_last_update'] = $ownership->getOwnLastUpdate();
+        $post['ownership_destination'] = 0;
+
+        if($ownership->getOwnDestination() != null)
+            $post['ownership_destination'] = $ownership->getOwnDestination()->getDesId();
 
         $langs = $ownership->getOwnLangs();
         if ($langs[0] == 1)

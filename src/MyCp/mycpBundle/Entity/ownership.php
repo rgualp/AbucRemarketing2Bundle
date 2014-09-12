@@ -86,6 +86,12 @@ class ownership {
     private $own_address_municipality;
 
     /**
+     * @ORM\ManyToOne(targetEntity="destination")
+     * @ORM\JoinColumn(name="own_destination", referencedColumnName="des_id", nullable=true)
+     */
+    private $own_destination;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="own_mobile_number", type="string", length=255)
@@ -462,6 +468,27 @@ class ownership {
      */
     public function setOwnCreationDate($ownCreationDate) {
         $this->own_creation_date = $ownCreationDate;
+
+        return $this;
+    }
+
+    /**
+     * Get own_destination
+     *
+     * @return Entity\destination
+     */
+    public function getOwnDestination() {
+        return $this->own_destination;
+    }
+
+    /**
+     * Set own_destination
+     *
+     * @param datetime $ownDestination
+     * @return ownership
+     */
+    public function setOwnDestination($ownDestination) {
+        $this->own_destination = $ownDestination;
 
         return $this;
     }

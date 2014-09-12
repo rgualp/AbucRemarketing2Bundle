@@ -49,10 +49,10 @@
              <span class="label label-warning vertical_middle" title="Sin estado">Sin estado</span>
             {% endif %}
   {%if data['top_20'] is defined and  data['top_20']%}
-      <span class="label label-important vertical_middle" title="Top 20">Top 20</span>       
+      <span class="label label-important vertical_middle" title="Top 20">Top 20</span>
   {%endif%}
   {%if data['not_recommendable'] is defined and data['not_recommendable']%}
-      <span class="label label-warning vertical_middle" title="No recomendables">No recomendable</span>       
+      <span class="label label-warning vertical_middle" title="No recomendables">No recomendable</span>
   {%endif%}
 {% else %} Adicionar propiedad {% endif %}</h2>
 <hr/>
@@ -115,18 +115,25 @@
         </div>
     </div>
     <div class="row-fluid">
-        <div class="span6">
+        <div class="span4">
             <label>Provincia (*)</label>
             {% if errors['ownership_address_province'] is defined %}<label class="error">{{errors['ownership_address_province']|trim(':')}}</label>{%endif%}
             <select class="input-block-level" name="ownership_address_province" id="ownership_address_province"/>
             {{ render(controller('mycpBundle:Public:get_provinces', {'post': post})) }}
             </select>
         </div>
-        <div class="span6">
+        <div class="span4">
             <label>Municipio (*)</label>
             {% if errors['ownership_address_municipality'] is defined %}<label class="error">{{errors['ownership_address_municipality']|trim(':')}}</label>{%endif%}
                 <select class="input-block-level" type="text" name="ownership_address_municipality" id="ownership_address_municipality">
                 {{ render(controller('mycpBundle:Public:get_mun_by_prov', {'post':post})) }}
+            </select>
+        </div>
+        <div class="span4">
+            <label>Destino</label>
+            {% if errors['ownership_destination'] is defined %}<label class="error">{{errors['ownership_destination']|trim(':')}}</label>{%endif%}
+                <select class="input-block-level" type="text" name="ownership_destination" id="ownership_destination">
+                {{ render(controller('mycpBundle:Public:getDestinationByMun', {'post':post})) }}
             </select>
         </div>
 
@@ -370,7 +377,7 @@
 <div id="casa" class="tab-pane fade">
     <div class="row-fluid">
         <div class="span3">
-            
+
             <label class="checkbox" style="float: left; margin-right: 10px;">
     <input type="checkbox" {% if(post['water_jacuzee'] is defined and (post['water_jacuzee'] or post['water_jacuzee'] == "on")) %} checked="TRUE" {% endif %} name="water_jacuzee"/> Jacuzee
 </label>
@@ -381,7 +388,7 @@
     <input type="checkbox" {% if(post['water_piscina'] is defined and (post['water_piscina'] or post['water_piscina'] == "on")) %} checked="TRUE" {% endif %} name="water_piscina"/> Piscina
 </label>
         </div>
-            
+
         <div class="span3">
             <label>Parqueo ciclos (Cajas) (*)</label>
             {% if errors['description_bicycle_parking'] is defined %}<label class="error">{{errors['description_bicycle_parking']|trim(':')}}</label>{%endif%}
@@ -566,6 +573,10 @@
 <script type="text/javascript">
     url = "{{ path('mycp_get_mun_by_prov', { 'country_code': '-1'}) }}";
     url=url.replace('/-1','');
+
+    url_destination = "{{ path('mycp_get_destination_by_mun', { 'municipality': '-1'}) }}";
+    url_destination=url_destination.replace('/-1','');
+
     $('.datepicker').datepicker({
         format: 'dd/mm/yyyy',
         todayBtn: 'linked',
@@ -586,6 +597,20 @@
             success:function (msg) {
 
                 $('#ownership_address_municipality').html(msg);
+            }
+        });
+    });
+
+    $('#ownership_address_municipality').change(function(){
+
+        $('#ownership_destination').html('<option value="">Cargando...</option>');
+        mun = $('#ownership_address_municipality').val();
+        $.ajax({
+            type:"POST",
+            url:url_destination + '/' + mun,
+            success:function (msg) {
+
+                $('#ownership_destination').html(msg);
             }
         });
     });

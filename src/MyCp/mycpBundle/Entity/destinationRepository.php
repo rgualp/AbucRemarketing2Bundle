@@ -463,6 +463,17 @@ class destinationRepository extends EntityRepository {
         return $em->createQuery($query_string)->getResult();
     }
 
+    function getByMunicipality($municipality) {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT d.des_id as desId, d.des_name as desName FROM mycpBundle:destinationLocation l
+                         JOIN l.des_loc_destination d
+                         WHERE d.des_active = 1 AND l.des_loc_municipality = " . $municipality;
+
+        $query_string.= " ORDER BY d.des_order";
+
+        return $em->createQuery($query_string)->getResult();
+    }
+
     function filter($locale, $municipality_id = null, $province_id = null, $exclude_destination_id = null, $exclude_municipality = null, $max_result_set = null, $user_id = null, $session_id = null) {
         $em = $this->getEntityManager();
         $query_string = "SELECT DISTINCT d.des_id as desid,

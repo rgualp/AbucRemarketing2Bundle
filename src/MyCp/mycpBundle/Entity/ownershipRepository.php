@@ -46,7 +46,7 @@ class ownershipRepository extends EntityRepository {
         $active_not_recommendable = 0;
         if (isset($data['not_recommendable']))
             $active_not_recommendable = 1;
-        
+
         $water_jacuzee = 0;
         if (isset($data['water_jacuzee']))
             $water_jacuzee = 1;
@@ -91,6 +91,12 @@ class ownershipRepository extends EntityRepository {
         $prov = $em->getRepository('mycpBundle:province')->find($data['ownership_address_province']);
         $ownership->setOwnAddressProvince($prov);
         $ownership->setOwnAddressMunicipality($em->getRepository('mycpBundle:municipality')->find($data['ownership_address_municipality']));
+
+        if ($data['ownership_destination'] != 0) {
+            $destination = $em->getRepository('mycpBundle:destination')->find($data['ownership_destination']);
+            $ownership->setOwnDestination($destination);
+        }
+
         $ownership->setOwnMobileNumber($data['ownership_mobile_number']);
         $ownership->setOwnHomeowner1($data['ownership_homeowner_1']);
         $ownership->setOwnHomeowner2($data['ownership_homeowner_2']);
@@ -356,6 +362,12 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnGeolocateY($data['geolocate_y']);
         $ownership->setOwnTop20($active_top_20);
         $ownership->setOwnNotRecommendable($active_not_recommendable);
+
+        if ($data['ownership_destination'] != 0) {
+            $destination = $em->getRepository('mycpBundle:destination')->find($data['ownership_destination']);
+            $ownership->setOwnDestination($destination);
+        }
+
         $status = $em->getRepository('mycpBundle:ownershipStatus')->find($data['status']);
         if (!isset($status))
             $status = $em->getRepository('mycpBundle:ownershipStatus')->find(ownershipStatus::STATUS_IN_PROCESS);

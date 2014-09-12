@@ -125,7 +125,7 @@
             <div class="span2">
                 <a href="{{ path('mycp_list_photos_destination',{'id_destination':destination.getDesLocDestination.getDesId}) }}">({{ photo_count[destination.getDesLocDestination.getDesId~'_photo_count'] }}) Fotografías</a>
             </div>
-            <div class="span2">
+            <div class="span2" style="text-align: right">
                 <a class="btn btn-mini" href="{{ path('mycp_edit_destination',{'id_destination':destination.getDesLocDestination.getDesId}) }}">Editar</a>
                 <button data='{{ path('mycp_delete_destination',{'id_destination':destination.getDesLocDestination.getDesId}) }}' class="btn btn-mini btn-danger delete">Eliminar</button>
             </div>
