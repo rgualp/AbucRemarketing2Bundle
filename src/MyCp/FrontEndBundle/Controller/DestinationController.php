@@ -63,6 +63,10 @@ class DestinationController extends Controller {
             throw $this->createNotFoundException();
         }
         $destination_array = $em->getRepository('mycpBundle:destination')->getDestination($destination->getDesId(),$locale);
+        if($destination_array==null || count($destination_array) == 0)
+        {
+            throw $this->createNotFoundException();
+        }
 
         $photos = $em->getRepository('mycpBundle:destination')->getPhotos($destination->getDesId(),$locale);
 
