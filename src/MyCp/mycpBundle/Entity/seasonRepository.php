@@ -3,7 +3,6 @@
 namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use MyCp\mycpBundle\Entity\season;
 
 /**
  * seasonRepository

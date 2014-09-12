@@ -52,13 +52,20 @@ class BackendSeasonController extends Controller {
                 $this->get('session')->getFlashBag()->add('message_error_main', $message);
                 $count_errors++;
             }
-            
-            
-            if ($form->isValid() && $count_errors == 0) {                
+
+            if($post_form['season_type'] == season::SEASON_TYPE_SPECIAL && (!isset($post_form['season_reason']) || trim($post_form['season_reason']) == ""))
+            {
+                $message = 'Para crear una temporada especial tiene que escribir un motivo';
+                $this->get('session')->getFlashBag()->add('message_error_main', $message);
+                $count_errors++;
+            }
+
+            if ($form->isValid() && $count_errors == 0) {
                 if (isset($post_form['season_destination'])) {
                     $dest = $em->getRepository('mycpBundle:destination')->find($post_form['season_destination']);
                     $season->setSeasonDestination($dest);
                 }
+                $season->setSeasonReason(trim($post_form['season_reason']));
                 $em->persist($season);
                 $em->flush();
                 $message = 'Temporada añadida satisfactoriamente.';
@@ -72,40 +79,49 @@ class BackendSeasonController extends Controller {
         }
         return $this->render('mycpBundle:season:new.html.twig', array('form' => $form->createView(), 'data' => $data));
     }
-    
+
     public function editAction($id_season, Request $request) {
         /* $service_security= $this->get('Secure');
           $service_security->verifyAccess(); */
         $em = $this->getDoctrine()->getEntityManager();
         $season = $em->getRepository('mycpBundle:season')->find($id_season);
-        
+
         $current_destination = $season->getSeasonDestination();
         if(isset($current_destination))
             $season->setSeasonDestination($current_destination->getDesId());
-        
+
         $data = array();
         $destinations = $em->getRepository('mycpBundle:destination')->findAll();
         $data['destinations'] = $destinations;
         $data['season_types'] = season::getSeasonTypes();
         $form = $this->createForm(new seasonType($data), $season);
         $count_errors = 0;
-        
+
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             $post_form = $request->get('mycp_mycpbundle_seasontype');
-            
+
             if($post_form['season_type'] == season::SEASON_TYPE_SPECIAL && (!isset($post_form['season_destination']) || $post_form['season_destination'] == ""))
             {
                 $message = 'Para crear una temporada especial tiene que seleccionar un destino';
                 $this->get('session')->getFlashBag()->add('message_error_main', $message);
                 $count_errors++;
             }
-            
+
+            if($post_form['season_type'] == season::SEASON_TYPE_SPECIAL && (!isset($post_form['season_reason']) || trim($post_form['season_reason']) == ""))
+            {
+                $message = 'Para crear una temporada especial tiene que escribir un motivo';
+                $this->get('session')->getFlashBag()->add('message_error_main', $message);
+                $count_errors++;
+            }
+
             if ($form->isValid() && $count_errors == 0) {
                 if (isset($post_form['season_destination'])) {
                     $dest = $em->getRepository('mycpBundle:destination')->find($post_form['season_destination']);
                     $season->setSeasonDestination($dest);
                 }
+
+                $season->setSeasonReason(trim($post_form['season_reason']));
                 $em->persist($season);
                 $em->flush();
                 $message = 'Temporada actualizado satisfactoriamente.';
@@ -119,14 +135,14 @@ class BackendSeasonController extends Controller {
         }
         return $this->render('mycpBundle:season:new.html.twig', array('form' => $form->createView(), 'data' => $data, 'id_season' => $id_season, 'edit' => true));
     }
-    
+
     public function deleteAction($id_season)
     {
         /*$service_security= $this->get('Secure');
         $service_security->verifyAccess();*/
         $em = $this->getDoctrine()->getEntityManager();
         $season=$em->getRepository('mycpBundle:season')->find($id_season);
-        
+
         $season_start=$season->getSeasonStartDate();
         $season_end=$season->getSeasonEndDate();
         $em->remove($season);
@@ -136,7 +152,7 @@ class BackendSeasonController extends Controller {
 
         $service_log= $this->get('log');
         $service_log->saveLog('Delete entity from ' . date("d/m/Y",$season_start->getTimestamp()) . " to " . date("d/m/Y",$season_end->getTimestamp()),BackendModuleName::MODULE_SEASON);
-       
+
         return $this->redirect($this->generateUrl('mycp_list_season'));
     }
 

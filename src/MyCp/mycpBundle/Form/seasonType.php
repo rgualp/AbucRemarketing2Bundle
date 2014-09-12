@@ -29,7 +29,7 @@ class seasonType extends AbstractType
             'label'=>'Tipo:',
             'attr' => array('class' => 'dd_season_types'),
             'constraints'=>array(new NotBlank())
-            ))    
+            ))
             ->add('season_startdate',null,array('widget'=>'single_text','format'=>'dd/MM/yyyy','label'=>'Inicio:', 'attr'=>array('class'=>'input-block-level datepicker-from')))
             ->add('season_enddate',null,array('widget'=>'single_text','format'=>'dd/MM/yyyy','label'=>'Fin:', 'attr'=>array('class'=>'input-block-level datepicker-to')))
             ->add('season_destination',
@@ -37,6 +37,7 @@ class seasonType extends AbstractType
             'attr' => array('class' => 'dd_season_destination','disabled' => 'disabled'),
             'label'=>'Destino:'
             ))
+            ->add('season_reason','textarea',array('label'=>'Motivo:','attr'=>array('class'=>'input-block-level ta_season_reason', 'disabled' => 'disabled')))
         ;
     }
 

@@ -32,7 +32,7 @@ class season
         self::SEASON_TYPE_HIGH,
         self::SEASON_TYPE_SPECIAL,
     );
-    
+
     /**
      * @var integer
      *
@@ -70,7 +70,14 @@ class season
      * @ORM\JoinColumn(name="season_destination",referencedColumnName="des_id", nullable=true)
      */
     private $season_destination;
-    
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="season_reason", type="string", nullable=true)
+     */
+    private $season_reason;
+
     /**
      * Constructor
      */
@@ -81,7 +88,7 @@ class season
     /**
      * Get season_id
      *
-     * @return integer 
+     * @return integer
      */
     public function getSeasonId()
     {
@@ -99,15 +106,15 @@ class season
         if (!in_array($seasonType, $this->season_types)) {
             throw new \InvalidArgumentException("Season type $seasonType not allowed");
         }
-        
-        $this->season_type = $seasonType;    
+
+        $this->season_type = $seasonType;
         return $this;
     }
 
     /**
      * Get season_type
      *
-     * @return integer 
+     * @return integer
      */
     public function getSeasonType()
     {
@@ -123,14 +130,14 @@ class season
     public function setSeasonStartDate($startDate)
     {
         $this->season_startdate = $startDate;
-    
+
         return $this;
     }
 
     /**
      * Get season_startdate
      *
-     * @return datetime 
+     * @return datetime
      */
     public function getSeasonStartDate()
     {
@@ -146,7 +153,7 @@ class season
     public function setSeasonEndDate($endDate)
     {
         $this->season_enddate = $endDate;
-    
+
         return $this;
     }
 
@@ -169,7 +176,7 @@ class season
     public function setSeasonDestination($destination = null)
     {
         $this->season_destination = $destination;
-    
+
         return $this;
     }
 
@@ -182,7 +189,30 @@ class season
     {
         return $this->season_destination;
     }
-    
+
+    /**
+     * Set season_reason
+     *
+     * @param string $reason
+     * @return season
+     */
+    public function setSeasonReason($reason)
+    {
+        $this->season_reason = $reason;
+
+        return $this;
+    }
+
+    /**
+     * Get season_reason
+     *
+     * @return string
+     */
+    public function getSeasonReason()
+    {
+        return $this->season_reason;
+    }
+
     public static function getSeasonTypes()
     {
         $s_types = array();
