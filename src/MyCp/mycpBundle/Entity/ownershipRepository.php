@@ -238,48 +238,12 @@ class ownershipRepository extends EntityRepository {
 
         //save client casa
         if ($new_user) {
-            $user = new user();
-            $address = $data['ownership_address_street'] . ' #' . $data['ownership_address_number'];
-            $city = $em->getRepository('mycpBundle:municipality')->find($data['ownership_address_municipality']);
-            $country = $em->getRepository('mycpBundle:country')->findBy(array('co_name' => 'Cuba'));
-            $email = '';
-            if (!empty($data['ownership_email_1']))
-                $email = $data['ownership_email_1'];
-            else
-                $email = $data['ownership_email_2'];
-
-            $user->setUserAddress($address);
-            $user->setUserCity($city->getMunName());
-            $user->setUserCountry($country[0]);
-            $user->setUserEmail($email);
-            $user->setUserPhone($phone);
-            $user->setUserName($data['user_name']);
-            $user->setUserLastName($data['ownership_homeowner_1']);
-            $file = $request->files->get('user_photo');
-            if ($file) {
-                $photo = new photo();
-                $fileName = uniqid('user-') . '-photo.jpg';
-                $file->move($dir, $fileName);
-                $photo->setPhoName($fileName);
-                $user->setUserPhoto($photo);
-                $em->persist($photo);
-            }
-
-            $user->setUserRole('ROLE_CLIENT_CASA');
-            $user->setUserUserName($data['ownership_homeowner_1']);
-            $encoder = $factory->getEncoder($user);
-            $password = $encoder->encodePassword($data['user_password'], $user->getSalt());
-            $user->setUserPassword($password);
-            $user_casa = new userCasa();
-            $user_casa->setUserCasaOwnership($ownership);
-            $user_casa->setUserCasaUser($user);
-            $em->persist($user);
-            $em->persist($user_casa);
+            $em->getRepository('mycpBundle:userCasa')->createUser($data,$prov->getProvPhoneCode(),$dir,$request,$factory, $ownership);
         }
         $em->flush();
     }
 
-    function edit_ownership($data) {
+    function edit_ownership($data, $request, $dir, $factory, $new_user) {
         $id_ownership = $data['edit_ownership'];
 
         $active_top_20 = 0;
@@ -390,37 +354,12 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnMaximumPrice(0);
         $ownership->setOwnMinimumPrice(0);
         $ownership->setOwnRoomsTotal(0);
-        /**
-         * Codigo Yanet - Fin
-         */
         $em->persist($ownership);
-
-        /* $old_unavailable = array();
-          $old_rooms_actives = array();
-
-          foreach ($old_rooms as $old_room) {
-          $id_old_room = $old_room->getRoomId();
-          $old_rooms_actives[$old_room->getRoomNum()] =
-          $old_room->getRoomActive();
-          array_push($old_unavailable, $em->getRepository('mycpBundle:unavailabilitydetails')->findBy(array('room'
-          => $id_old_room)));
-          $query = $em->createQuery("DELETE
-          mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
-          $query->execute();
-          } */
 
         $query = $em->createQuery("DELETE
             mycpBundle:ownershipGeneralLang ogl WHERE
             ogl.ogl_ownership=$id_ownership");
         $query->execute();
-        /* $query = $em->createQuery("DELETE
-          mycpBundle:ownershipDescriptionLang odl WHERE
-          odl.odl_ownership=$id_ownership");
-          $query->execute();
-          $query = $em->createQuery("DELETE
-          mycpBundle:ownershipKeywordLang okl WHERE
-          okl.okl_ownership=$id_ownership");
-          $query->execute(); */
 
         $keys = array_keys($data);
 
@@ -494,25 +433,8 @@ class ownershipRepository extends EntityRepository {
             $room->setRoomYard($data['room_yard_' . $e]);
             $room->setRoomOwnership($ownership);
             $room->setRoomNum($e);
-            //$room->setRoomActive($old_rooms_actives[$e]);
             $em->persist($room);
 
-            /* if (count($old_unavailable)) {
-              foreach ($old_unavailable[$e - 1] as $unavail) {
-              $new_unavail = new unavailabilityDetails();
-              $new_unavail->setRoom($unavail->getRoom());
-              $new_unavail->setSyncSt($unavail->getSyncSt());
-              $new_unavail->setUdFromDate($unavail->getUdFromDate());
-              $new_unavail->setUdToDate($unavail->getUdToDate());
-              $new_unavail->setUdReason($unavail->getUdReason());
-              $new_unavail->setUdId($unavail->getUdId());
-              $em->persist($new_unavail);
-              }
-              } */
-
-            /**
-             * Codigo Yanet - Inicio
-             */
             if ($ownership->getOwnMinimumPrice() == 0 ||
                     $room->getRoomPriceDownFrom() < $ownership->getOwnMinimumPrice())
                 $ownership->setOwnMinimumPrice($room->getRoomPriceDownFrom());
@@ -527,12 +449,14 @@ class ownershipRepository extends EntityRepository {
                 $beds_total += $room->getRoomBeds();
 
             $em->persist($ownership);
-            /**
-             * Codigo Yanet - Fin
-             */
         }
         $ownership->setOwnMaximunNumberGuests($beds_total);
         $em->persist($ownership);
+
+        //save client casa
+        if ($new_user) {
+            $em->getRepository('mycpBundle:userCasa')->createUser($data,$prov->getProvPhoneCode(),$dir,$request,$factory, $ownership);
+        }
 
         $em->flush();
     }

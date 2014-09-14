@@ -66,9 +66,7 @@
     <li class=""><a data-toggle="tab" href="#facilidades">Facilidades</a></li>
     <li class=""><a {% if errors_tab['house_tab'] is defined %} class="tab_errors" {% endif %} data-toggle="tab" href="#casa">Casa</a></li>
     <li class=""><a data-toggle="tab" href="#sales">Ventas</a></li>
-    {% if data['edit_ownership'] is not defined %}
         <li class=""><a {% if errors_tab['user_tab'] is defined %} class="tab_errors" {% endif %} data-toggle="tab" href="#usuario">Usuario</a></li>
-    {%endif%}
     {% if data['edit_ownership'] is defined %}
         <li class=""><a data-toggle="tab" href="#comentarios">Comentarios</a></li>
     {% endif %}
@@ -511,16 +509,21 @@
             </div>
             {%endif%}
         </div>
-{% if data['edit_ownership'] is not defined %}
     <div id="usuario" class="tab-pane fade">
-        <h3 class="title">Seleccionar usuario</h3>
+        <!--h3 class="title">Seleccionar usuario</h3>
         <div class="row-fluid">
             <div class="span12">
                 <select id="user_selected" name="user_selected" class="input-block-level">
-                    {{ render(controller('mycpBundle:BackendUser:get_user_casa', {'post':post})) }}
+                    {#% if data['edit_ownership'] is defined %#}
+                    {#{ render(controller('mycpBundle:BackendUser:getUsersCasa', {'exclude_own_id':data['id_ownership']})) }#}
+                        {#%else%#}
+                        {#{ render(controller('mycpBundle:BackendUser:getUsersCasa')) }#}
+                        {#%endif%#}
                 </select>
             </div>
         </div>
+        <br/>
+        <br/-->
         <h3 class="title">Nuevo usuario</h3>
         <div class="row-fluid">
             <div class="span3">
@@ -545,14 +548,39 @@
                 <input class="input-block-level" type="password" value="" name="user_re_password" id="user_re_password"/>
             </div>
         </div>
+        {%if users is defined and users%}
         <br/>
+        <br/>
+        <h3 class="title">Usuarios Asociados</h3>
+        <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th style="width: 40%">Nombre</th>
+                        <th>Correo</th>
+                        <th style="text-align: right">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for user in users%}
+                    <tr>
+                    <td>{{user.usercasauser.username}}</td>
+                    <td>{{user.usercasauser.userusername}} {{user.usercasauser.userlastname}}</td>
+                    <td>{%if user.usercasauser.useremail%}{{user.usercasauser.useremail}}{%else%}-{%endif%}</td>
+                    <td style="text-align: right"><a class="btn btn-mini" target="_blank" href="{{ path('mycp_edit_user_casa',{'id_user':user.usercasauser.userid})}}">Editar</a></td>
+                    </tr>
+                  {%endfor%}
+                </tbody>
+            </table>
+        {%endif%}
+        <br/>
+
         <div class="row-fluid">
             <div class="span12">
                 <button class="btn btn-info pull-right"><i class="icon-envelope icon-white"></i> Notificar al cliente</button>
             </div>
         </div>
     </div>
-{%endif%}
 {% if data['edit_ownership'] is defined %}
     <div id="comentarios" class="tab-pane fade">
         {% render(controller('mycpBundle:BackendComment:get_comments_by_ownership', {'id_own':data['id_ownership']})) %}
@@ -622,7 +650,7 @@
 
     }
 
-    $("#user_selected").change(function(){
+   /* $("#user_selected").change(function(){
         if($("#user_selected").val()!='')
         {
             $("#user_name").attr('disabled','disabled');
@@ -645,7 +673,7 @@
         $("#user_re_password").attr('disabled','disabled');
         $("#user_password").attr('disabled','disabled');
         $("#user_photo").attr('disabled','disabled');
-    }
+    }*/
 
     function submit_button()
     {

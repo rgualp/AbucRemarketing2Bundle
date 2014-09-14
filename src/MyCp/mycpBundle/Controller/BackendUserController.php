@@ -646,11 +646,11 @@ class BackendUserController extends Controller {
         return $this->render('mycpBundle:utils:roles.html.twig', array('roles' => $roles, 'selected' => $selected));
     }
 
-    function get_user_casaAction($post) {
+    function getUsersCasaAction($exclude_own_id = null) {
         $em = $this->getDoctrine()->getEntityManager();
-        $users_casa = $em->getRepository('mycpBundle:userCasa')->get_users_casa();
+        $users_casa = $em->getRepository('mycpBundle:userCasa')->getUsers($exclude_own_id);
 
-        return $this->render('mycpBundle:utils:users_casa.html.twig', array('users' => $users_casa, 'post' => $post));
+        return $this->render('mycpBundle:utils:users_casa.html.twig', array('users' => $users_casa));
     }
 
     function get_all_usersAction($post) {

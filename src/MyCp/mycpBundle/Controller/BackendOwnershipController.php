@@ -158,7 +158,6 @@ class BackendOwnershipController extends Controller {
         $filter_visit_date = $request->get('filter_visit_date');
         if ($request->getMethod() == 'POST' && $filter_name == 'null' && $filter_active == 'null' && $filter_province == 'null' && $filter_municipality == 'null' &&
                 $filter_type == 'null' && $filter_category == 'null' && $filter_code == 'null' && $filter_saler == 'null' && $filter_visit_date == 'null' && $filter_destination == 'null'
-
         ) {
             $message = 'Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
@@ -182,13 +181,13 @@ class BackendOwnershipController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $ownerships = $paginator->paginate($em->getRepository('mycpBundle:ownership')->getAll(
-                                $filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality,$filter_destination, $filter_type, $filter_name, $filter_saler, $filter_visit_date
+                                $filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality, $filter_destination, $filter_type, $filter_name, $filter_saler, $filter_visit_date
                 ))->getResult();
-        /*$data = array();
-        foreach ($ownerships as $ownership) {
-            $photos = $em->getRepository('mycpBundle:ownershipPhoto')->findBy(array('own_pho_own' => $ownership->getOwnId()));
-            $data[$ownership->getOwnId() . '_photo_count'] = count($photos);
-        }*/
+        /* $data = array();
+          foreach ($ownerships as $ownership) {
+          $photos = $em->getRepository('mycpBundle:ownershipPhoto')->findBy(array('own_pho_own' => $ownership->getOwnId()));
+          $data[$ownership->getOwnId() . '_photo_count'] = count($photos);
+          } */
 
         $service_log = $this->get('log');
         $service_log->saveLog('Visit', BackendModuleName::MODULE_OWNERSHIP);
@@ -333,7 +332,9 @@ class BackendOwnershipController extends Controller {
         $post['ownership_last_update'] = $ownership->getOwnLastUpdate();
         $post['ownership_destination'] = 0;
 
-        if($ownership->getOwnDestination() != null)
+        $users_owner = $em->getRepository('mycpBundle:userCasa')->findBy(array('user_casa_ownership' => $id_ownership));
+
+        if ($ownership->getOwnDestination() != null)
             $post['ownership_destination'] = $ownership->getOwnDestination()->getDesId();
 
         $langs = $ownership->getOwnLangs();
@@ -440,7 +441,7 @@ class BackendOwnershipController extends Controller {
         $data['edit_ownership'] = TRUE;
         $data['id_ownership'] = $id_ownership;
         $data['name_ownership'] = $ownership->getOwnName();
-        return $this->render('mycpBundle:ownership:new.html.twig', array('languages' => $languages, 'count_rooms' => $count_rooms, 'post' => $post, 'data' => $data, 'errors' => $errors));
+        return $this->render('mycpBundle:ownership:new.html.twig', array('languages' => $languages, 'count_rooms' => $count_rooms, 'post' => $post, 'data' => $data, 'errors' => $errors, 'users' => $users_owner));
     }
 
     public function delete_ownershipAction($id_ownership) {
@@ -574,7 +575,8 @@ class BackendOwnershipController extends Controller {
                                 $array_keys[$count] != 'ownership_phone_number' &&
                                 $array_keys[$count] != 'ownership_email_2' &&
                                 $array_keys[$count] != 'ownership_homeowner_2' && $array_keys[$count] != 'ownership_saler' &&
-                                $array_keys[$count] != 'ownership_visit_date'
+                                $array_keys[$count] != 'ownership_visit_date' &&
+                                $array_keys[$count] != 'ownership_destination'
                         ) {
                             $errors[$array_keys[$count]] = $errors_validation = $this->get('validator')->validateValue($item, $not_blank_validator);
                             $data['count_errors']+=count($errors[$array_keys[$count]]);
@@ -604,8 +606,10 @@ class BackendOwnershipController extends Controller {
                         }
 
                         $user_db = $em->getRepository('mycpBundle:user')->findBy(array('user_name' => $post['user_name']));
-                        if ($user_db) {
+
+                        if (count($user_db) != 0) {
                             $errors['user_name'] = 'Ya existe un usuario con ese nombre.';
+                            $data['count_errors']+=1;
                         }
                     }
 
@@ -690,7 +694,9 @@ class BackendOwnershipController extends Controller {
                 $data['municipality_code'] = $post['ownership_address_municipality'];
 
                 if ($data['count_errors'] == 0) {
-                    // insert into database
+                    $dir = $this->container->getParameter('user.dir.photos');
+                    $factory = $this->get('security.encoder_factory');
+
                     if ($request->request->get('edit_ownership')) {
                         $id_own = $request->request->get('edit_ownership');
                         if ($request->request->get('status') == 4) {
@@ -783,16 +789,13 @@ class BackendOwnershipController extends Controller {
                         if ($any_edit == false) {
                             $service_log->saveLog('Edit entity ' . $post['ownership_mcp_code'], BackendModuleName::MODULE_OWNERSHIP);
                         }
-                        $em->getRepository('mycpBundle:ownership')->edit_ownership($post);
+
+                        $em->getRepository('mycpBundle:ownership')->edit_ownership($post, $request, $dir, $factory, (isset($post['user_name']) && !empty($post['user_name'])));
 
                         $message = 'Propiedad actualizada satisfactoriamente.';
                     } else {
-                        $dir = $this->container->getParameter('user.dir.photos');
-                        $factory = $this->get('security.encoder_factory');
-                        if (isset($post['user_name']) && !empty($post['user_name']))
-                            $em->getRepository('mycpBundle:ownership')->insert_ownership($post, $request, $dir, $factory, true);
-                        else
-                            $em->getRepository('mycpBundle:ownership')->insert_ownership($post, $request, $dir, $factory, false);
+
+                        $em->getRepository('mycpBundle:ownership')->insert_ownership($post, $request, $dir, $factory, (isset($post['user_name']) && !empty($post['user_name'])));
                         $message = 'Propiedad añadida satisfactoriamente.';
                         $service_log = $this->get('log');
                         $service_log->saveLog('Create entity ' . $post['ownership_mcp_code'], BackendModuleName::MODULE_OWNERSHIP);
@@ -943,7 +946,7 @@ class BackendOwnershipController extends Controller {
     }
 
     private function send_owners_email($own_email_1, $own_email_2, $own_homeowner_1, $own_homeowner_2, $own_name, $own_mycp_code) {
-        if((isset($own_email_1) && $own_email_1 != "") || (isset($own_email_2) && $own_email_2 != "")) {
+        if ((isset($own_email_1) && $own_email_1 != "") || (isset($own_email_2) && $own_email_2 != "")) {
             $service_email = $this->get('Email');
             try {
                 $owners_name = $own_homeowner_1 . ( isset($own_homeowner_2) && isset($own_homeowner_1) && $own_homeowner_1 != "" && $own_homeowner_2 != "" ? " y " : "") . $own_homeowner_2;
