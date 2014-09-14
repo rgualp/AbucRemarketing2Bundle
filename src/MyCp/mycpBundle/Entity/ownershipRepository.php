@@ -537,7 +537,7 @@ class ownershipRepository extends EntityRepository {
         $em->flush();
     }
 
-    function get_all_ownerships($filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality, $filter_destination = '', $filter_type, $filter_name, $filter_saler = '', $filter_visit_date = '') {
+    function get_all_ownerships($filter_code='', $filter_active='', $filter_category='', $filter_province='', $filter_municipality='', $filter_destination = '', $filter_type='', $filter_name='', $filter_saler = '', $filter_visit_date = '') {
 
         $condition = '';
         if ($filter_active != 'null' && $filter_active != '') {
@@ -553,7 +553,10 @@ class ownershipRepository extends EntityRepository {
             $condition .= " AND ow.own_address_municipality = :filter_municipality ";
         }
         if ($filter_destination != 'null' && $filter_destination != '') {
-            $condition .= " AND ow.own_destination = :filter_destination ";
+            if($filter_destination == "-1")
+                $condition .= " AND ow.own_destination IS NULL ";
+            else
+                $condition .= " AND ow.own_destination = :filter_destination ";
         }
         if ($filter_type != 'null' && $filter_type != '') {
             $condition .= " AND ow.own_type = :filter_type ";
@@ -586,7 +589,7 @@ class ownershipRepository extends EntityRepository {
         if ($filter_municipality != 'null' && $filter_municipality != '')
             $query->setParameter('filter_municipality', $filter_municipality);
 
-        if ($filter_destination != 'null' && $filter_destination != '')
+        if ($filter_destination != 'null' && $filter_destination != '' && $filter_destination != '-1')
             $query->setParameter('filter_destination', $filter_destination);
 
         if ($filter_type != 'null' && $filter_type != '')

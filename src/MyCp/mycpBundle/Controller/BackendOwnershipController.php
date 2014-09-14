@@ -147,6 +147,7 @@ class BackendOwnershipController extends Controller {
         $filter_active = $request->get('filter_active');
 
         $filter_province = $request->get('filter_province');
+
         $filter_destination = $request->get('filter_destination');
         $filter_name = $request->get('filter_name');
         $filter_municipality = $request->get('filter_municipality');
@@ -163,6 +164,7 @@ class BackendOwnershipController extends Controller {
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
             return $this->redirect($this->generateUrl('mycp_list_ownerships'));
         }
+
         if ($filter_code == 'null')
             $filter_code = '';
         if ($filter_name == 'null')
@@ -173,7 +175,6 @@ class BackendOwnershipController extends Controller {
             $filter_visit_date = '';
         if ($filter_destination == 'null')
             $filter_destination = '';
-
         if (isset($_GET['page']))
             $page = $_GET['page'];
 
