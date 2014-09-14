@@ -277,7 +277,6 @@ class BackendDestinationController extends Controller
         $service_security->verifyAccess();
 
         $page=1;
-        $data='';
         $filter_active=$request->get('filter_active');
         $filter_name=$request->get('filter_name');
         $sort_by=$request->get('sort_by');
@@ -295,20 +294,12 @@ class BackendDestinationController extends Controller
         $paginator->setItemsPerPage($items_per_page);
         $em = $this->getDoctrine()->getEntityManager();
         $destinations= $paginator->paginate($em->getRepository('mycpBundle:destination')->getAll($filter_name,$filter_active,$filter_province, $filter_municipality,$sort_by))->getResult();
-        //var_dump($destinations[0]->getDesLocMunicipality()->getMunName()); exit();
-
-        foreach($destinations as $destination)
-        {
-            $photos=$em->getRepository('mycpBundle:destinationPhoto')->findBy(array('des_pho_destination'=>$destination->getDesLocDestination()->getDesId()));
-            $data[$destination->getDesLocDestination()->getDesId().'_photo_count']=count($photos);
-        }
 
         $service_log= $this->get('log');
         $service_log->saveLog('Visit module',BackendModuleName::MODULE_DESTINATION);
 
         return $this->render('mycpBundle:destination:list.html.twig', array(
             'destinations' => $destinations,
-            'photo_count'=>$data,
             'items_per_page'=>$items_per_page,
             'current_page'=>$page,
             'total_items'=>$paginator->getTotalItems(),
@@ -333,6 +324,16 @@ class BackendDestinationController extends Controller
         $destinationFavorites=$em->getRepository('mycpBundle:favorite')->findBy(array('favorite_destination'=>$id_destination));
         $userHistories=$em->getRepository('mycpBundle:userHistory')->findBy(array('user_history_destination'=>$id_destination));
         $destination_location=$em->getRepository('mycpBundle:destinationLocation')->findBy(array('des_loc_destination'=>$id_destination));
+
+        $ownerships = $em->getRepository('mycpBundle:ownership')->findBy(array('own_destination' => $id_destination));
+
+        foreach($ownerships as $own)
+        {
+            $own->setOwnDestination(null);
+            $em->persist($own);
+        }
+
+        $em->flush();
 
         foreach($destinationLangs as $destinationLang)
         {
@@ -369,7 +370,6 @@ class BackendDestinationController extends Controller
             $em->remove($photo);
         }
 
-
         $destination=$em->getRepository('mycpBundle:destination')->find($id_destination);
         $name_destination=$destination->getDesName();
         if($destination)
@@ -397,8 +397,6 @@ class BackendDestinationController extends Controller
         $destinationsKeywordLang=$em->getRepository('mycpBundle:destinationKeywordLang')->findBy(array('dkl_destination'=>$id_destination));
         $destinationsLocation=$em->getRepository('mycpBundle:destinationLocation')->findBy(array('des_loc_destination'=>$id_destination));
 
-        //var_dump($destinationsLocation[0]->getDesLocMunicipality()->getMunId()); exit();
-
         $data['name_destination']=$destination->getDesName();
         $data['name']=$destination->getDesName();
         $data['poblation']=$destination->getDesPoblation();
@@ -411,7 +409,7 @@ class BackendDestinationController extends Controller
         $data['cat_location_prov_y']=$destination->getDesCatLocationProvY();
         $data['id_destination']=$id_destination;
         $data['ownership_address_province']=$destinationsLocation[0]->getDesLocProvince()->getProvId();
-        if($data['ownership_address_municipality']=$destinationsLocation[0]->getDesLocMunicipality())
+        if($data['ownership_address_municipality']==$destinationsLocation[0]->getDesLocMunicipality())
         $data['ownership_address_municipality']=$destinationsLocation[0]->getDesLocMunicipality()->getMunId();
 
         if($destination->getDesActive()==1)
@@ -423,7 +421,6 @@ class BackendDestinationController extends Controller
             {
                 $data['brief_'.$language['lang_id']]=$destinationsLang[$a]->getDesLangBrief();
                 $data['desc_'.$language['lang_id']]=$destinationsLang[$a]->getDesLangDesc();
-
             }
 
             if(isset($destinationsKeywordLang[$a]))
@@ -432,7 +429,6 @@ class BackendDestinationController extends Controller
                 $data['seo_description_'.$language['lang_id']]=$destinationsKeywordLang[$a]->getDklDescription();
             }
             $a++;
-
         }
 
         $des_categories = $destination->getDesCategories();
@@ -471,6 +467,26 @@ class BackendDestinationController extends Controller
             'photos'=>$photos,
             'dir'=>$dir,
             'id_destination'=>$id_destination,
+            'destination'=>$destination,
+            'items_per_page'=>$items_per_page,
+            'current_page'=>$page,
+            'total_items'=>$paginator->getTotalItems(),
+        ));
+    }
+
+    public function listAccommodationsAction($id_destination,$items_per_page,Request $request)
+    {
+        /*$service_security= $this->get('Secure');
+        $service_security->verifyAccess();*/
+        $page=1;
+        if(isset($_GET['page']))$page=$_GET['page'];
+        $em = $this->getDoctrine()->getEntityManager();
+        $paginator = $this->get('ideup.simple_paginator');
+        $paginator->setItemsPerPage($items_per_page);
+        $ownerships=$paginator->paginate($em->getRepository('mycpBundle:destination')->getAccommodations($id_destination))->getResult();
+        $destination=$em->getRepository('mycpBundle:destination')->find($id_destination);
+        return $this->render('mycpBundle:destination:accommodationsList.html.twig',array(
+            'ownerships'=>$ownerships,
             'destination'=>$destination,
             'items_per_page'=>$items_per_page,
             'current_page'=>$page,

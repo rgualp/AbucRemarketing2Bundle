@@ -166,12 +166,6 @@ class destinationRepository extends EntityRepository {
         //exit();
     }
 
-    /*function delete_destination($id_destination) {
-        $em = $this->getEntityManager();
-        $query = $em->createQuery("DELETE mycpBundle:destinationlang des WHERE des.des_lang_des_id= :id_destination");
-        return $query->setParameter('id_destination', $id_destination)->getArrayResult();
-    }*/
-
     function getAll($filter_name, $filter_active, $filter_province, $filter_municipality, $sort_by) {
         $string = '';
         if ($filter_active != 'null' && $filter_active != '') {
@@ -212,8 +206,13 @@ class destinationRepository extends EntityRepository {
 
         $em = $this->getEntityManager();
 
-        $query = $em->createQuery("SELECT dl,des FROM mycpBundle:destinationLocation dl
+        $query = $em->createQuery("SELECT des.des_id,des.des_name,prov.prov_name, mun.mun_name, des.des_active,
+        (SELECT count(photo) FROM mycpBundle:destinationPhoto photo WHERE photo.des_pho_destination = des.des_id) as photo_count,
+        (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_destination = des.des_id) as owns_count
+        FROM mycpBundle:destinationLocation dl
         JOIN dl.des_loc_destination des
+        JOIN dl.des_loc_province prov
+        JOIN dl.des_loc_municipality mun
         WHERE des.des_name LIKE :filter_name $string $string2 $string3 $string4
         ");
 
@@ -229,6 +228,13 @@ class destinationRepository extends EntityRepository {
         $query->setParameter('filter_name', "%" . $filter_name . "%");
 
         return $query->getResult();
+    }
+
+    function getAccommodations($id_destination) {
+        $em = $this->getEntityManager();
+
+        return $em->createQuery("SELECT o FROM mycpBundle:ownership o WHERE o.own_destination = $id_destination ORDER BY o.own_mcp_code ASC")
+                    ->getResult();
     }
 
 //-----------------------------------------------------------------------------
