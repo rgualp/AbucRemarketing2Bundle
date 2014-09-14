@@ -348,10 +348,6 @@ class ownership {
     private $own_last_update;
 
     /**
-     * Codigo Yanet - Inicio
-     */
-
-    /**
      * @var decimal
      *
      * @ORM\Column(name="own_rating", type="decimal")
@@ -409,6 +405,11 @@ class ownership {
      */
     private $own_general_reservations;
 
+     /**
+     * @ORM\OneToMany(targetEntity="ownershipKeywordLang",mappedBy="okl_ownership")
+     */
+    private $ownershipKeywordOwnership;
+
     /**
      * Constructor
      */
@@ -416,6 +417,7 @@ class ownership {
         $this->own_rooms = new ArrayCollection();
         $this->own_description_langs = new ArrayCollection();
         $this->own_general_reservations = new ArrayCollection();
+        $this->ownershipKeywordOwnership = new ArrayCollection();
         $this->own_sync_st = SyncStatuses::ADDED;
         //$this->own_creation_date = new \DateTime();
     }

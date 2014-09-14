@@ -22,13 +22,13 @@ class ownershipKeywordLang
     private $okl_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="lang",inversedBy="langslang")
+     * @ORM\ManyToOne(targetEntity="lang",inversedBy="ownershipKeywordLangs")
      * @ORM\JoinColumn(name="okl_id_lang",referencedColumnName="lang_id")
      */
     private $okl_id_lang;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ownership",inversedBy="ownershipKeywordLang")
+     * @ORM\ManyToOne(targetEntity="ownership",inversedBy="ownershipKeywordOwnership")
      * @ORM\JoinColumn(name="okl_id_ownership",referencedColumnName="own_id")
      */
     private $okl_ownership;
@@ -44,7 +44,7 @@ class ownershipKeywordLang
     /**
      * Get okl_id
      *
-     * @return integer 
+     * @return integer
      */
     public function getOklId()
     {
@@ -60,14 +60,14 @@ class ownershipKeywordLang
     public function setOklKeywords($oklKeywords)
     {
         $this->okl_keywords = $oklKeywords;
-    
+
         return $this;
     }
 
     /**
      * Get okl_keywords
      *
-     * @return string 
+     * @return string
      */
     public function getOklKeywords()
     {
@@ -83,14 +83,14 @@ class ownershipKeywordLang
     public function setOklIdLang(\MyCp\mycpBundle\Entity\lang $oklIdLang = null)
     {
         $this->okl_id_lang = $oklIdLang;
-    
+
         return $this;
     }
 
     /**
      * Get okl_id_lang
      *
-     * @return \MyCp\mycpBundle\Entity\lang 
+     * @return \MyCp\mycpBundle\Entity\lang
      */
     public function getOklIdLang()
     {
@@ -106,14 +106,14 @@ class ownershipKeywordLang
     public function setOklOwnership(\MyCp\mycpBundle\Entity\ownership $oklOwnership = null)
     {
         $this->okl_ownership = $oklOwnership;
-    
+
         return $this;
     }
 
     /**
      * Get okl_ownership
      *
-     * @return \MyCp\mycpBundle\Entity\ownership 
+     * @return \MyCp\mycpBundle\Entity\ownership
      */
     public function getOklOwnership()
     {
