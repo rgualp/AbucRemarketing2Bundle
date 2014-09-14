@@ -100,7 +100,7 @@ class metaTag
     private $meta_langs;
 
     /**
-     * @ORM\OneToMany(targetEntity="metaTag",mappedBy="meta_section_parent")
+     * @ORM\OneToMany(targetEntity="metaTag",mappedBy="meta_parent")
      */
     private $meta_children;
 
