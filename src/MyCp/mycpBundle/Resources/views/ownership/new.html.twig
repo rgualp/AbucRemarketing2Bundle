@@ -577,7 +577,7 @@
 
         <div class="row-fluid">
             <div class="span12">
-                <button class="btn btn-info pull-right"><i class="icon-envelope icon-white"></i> Notificar al cliente</button>
+                <button class="btn btn-info pull-right" {%if data['edit_ownership'] is not defined or (total_users is defined and total_users == 0)%}disabled="disabled"{%endif%}><i class="icon-envelope icon-white"></i> Notificar al cliente</button>
             </div>
         </div>
     </div>

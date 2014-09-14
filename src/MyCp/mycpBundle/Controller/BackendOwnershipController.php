@@ -441,7 +441,7 @@ class BackendOwnershipController extends Controller {
         $data['edit_ownership'] = TRUE;
         $data['id_ownership'] = $id_ownership;
         $data['name_ownership'] = $ownership->getOwnName();
-        return $this->render('mycpBundle:ownership:new.html.twig', array('languages' => $languages, 'count_rooms' => $count_rooms, 'post' => $post, 'data' => $data, 'errors' => $errors, 'users' => $users_owner));
+        return $this->render('mycpBundle:ownership:new.html.twig', array('languages' => $languages, 'count_rooms' => $count_rooms, 'post' => $post, 'data' => $data, 'errors' => $errors, 'users' => $users_owner, 'total_users' => count($users_owner) ));
     }
 
     public function delete_ownershipAction($id_ownership) {

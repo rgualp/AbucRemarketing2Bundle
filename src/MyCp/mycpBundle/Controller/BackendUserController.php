@@ -187,7 +187,7 @@ class BackendUserController extends Controller {
             $data_user['ownership'] = $user_casa->getUserCasaOwnership()->getOwnId();
             $form->setData($data_user);
         }
-        return $this->render('mycpBundle:user:newUserCasa.html.twig', array('form' => $form->createView(), 'data' => $data, 'id_role' => '', 'edit_user' => $id_user));
+        return $this->render('mycpBundle:user:newUserCasa.html.twig', array('form' => $form->createView(), 'data' => $data, 'id_role' => '', 'edit_user' => $id_user, 'user' => $data_user));
     }
 
     function new_user_touristAction($id_role, Request $request) {

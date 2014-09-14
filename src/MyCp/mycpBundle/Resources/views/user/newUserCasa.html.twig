@@ -41,11 +41,11 @@
         <div class="span4">{{form_row(form.user_password['Clave:'])}}</div>
         <div class="span4">{{form_row(form.user_password['Repetir_clave:'])}}</div>
     </div>
-    {% if edit_user is not defined%}
+    {% if edit_user is defined%}
     <br/>
     <div class="row-fluid">
         <div class="span12">
-            <button class="btn btn-info pull-right"><i class="icon-envelope icon-white"></i> Notificar al cliente</button>
+            <button class="btn btn-info pull-right" {%if user is not defined or user['email'] == ""%}disabled="disabled"{%endif%}><i class="icon-envelope icon-white"></i> Notificar al cliente</button>
         </div>
     </div>
     <br/>
