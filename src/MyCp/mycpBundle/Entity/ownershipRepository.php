@@ -537,7 +537,7 @@ class ownershipRepository extends EntityRepository {
         $em->flush();
     }
 
-    function get_all_ownerships($filter_code='', $filter_active='', $filter_category='', $filter_province='', $filter_municipality='', $filter_destination = '', $filter_type='', $filter_name='', $filter_saler = '', $filter_visit_date = '') {
+    function getAll($filter_code='', $filter_active='', $filter_category='', $filter_province='', $filter_municipality='', $filter_destination = '', $filter_type='', $filter_name='', $filter_saler = '', $filter_visit_date = '') {
 
         $condition = '';
         if ($filter_active != 'null' && $filter_active != '') {
@@ -574,7 +574,22 @@ class ownershipRepository extends EntityRepository {
 
 
         $em = $this->getEntityManager();
-        $query = $em->createQuery("SELECT ow FROM mycpBundle:ownership ow
+        $query = $em->createQuery("SELECT
+        ow.own_not_recommendable,
+        ow.own_mcp_code,
+        ow.own_name,
+        mun.mun_name,
+        prov.prov_name,
+        ow.own_comment,
+        ow.own_id,
+        ow.own_rooms_total,
+        (SELECT min(d.des_name) FROM mycpBundle:destination d WHERE d.des_id = ow.own_destination) as des_name,
+        (SELECT min(s.status_id) FROM mycpBundle:ownershipStatus s WHERE s.status_id = ow.own_status) as status_id,
+        (SELECT min(s1.status_name) FROM mycpBundle:ownershipStatus s1 WHERE s1.status_id = ow.own_status) as status_name,
+        (SELECT count(op) FROM mycpBundle:ownershipPhoto op WHERE op.own_pho_own = ow.own_id) as photos_count
+        FROM mycpBundle:ownership ow
+        JOIN ow.own_address_municipality mun
+        JOIN ow.own_address_province prov
         WHERE ow.own_mcp_code LIKE :filter_code $condition ORDER BY ow.own_mcp_code ASC");
 
         if ($filter_active != 'null' && $filter_active != '')

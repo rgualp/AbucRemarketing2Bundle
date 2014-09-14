@@ -64,9 +64,10 @@ class PublicController extends Controller
 
     public function get_munAction($post,Request $request)
     {
-        if(isset($post['filter_municipality']))
+        $selected = '';
+        if(isset($post['ownership_address_municipality']))
         {
-            $post['ownership_address_municipality']=$post['filter_municipality'];
+            $selected=$post['ownership_address_municipality'];
         }
         $em = $this->getDoctrine()->getManager();
 
@@ -74,7 +75,7 @@ class PublicController extends Controller
             $municipalities = $em->getRepository('mycpBundle:municipality')->findBy(array('mun_prov_id' => $post['ownership_address_province']), array('mun_name' => 'ASC'));
         else
             $municipalities = $em->getRepository('mycpBundle:municipality')->findBy(array(), array('mun_name' => 'ASC'));
-        return $this->render('mycpBundle:utils:list_municipality.html.twig', array('municipalities' => $municipalities,'data'=>$post));
+        return $this->render('mycpBundle:utils:list_municipality.html.twig', array('municipalities' => $municipalities,'selected'=>$selected));
     }
 
 
