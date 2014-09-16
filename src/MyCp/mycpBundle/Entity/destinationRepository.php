@@ -166,7 +166,7 @@ class destinationRepository extends EntityRepository {
         //exit();
     }
 
-    function getAll($filter_name, $filter_active, $filter_province, $filter_municipality, $sort_by) {
+    function getAll($filter_name="", $filter_active="", $filter_province="", $filter_municipality="", $sort_by=0) {
         $string = '';
         if ($filter_active != 'null' && $filter_active != '') {
             $string = "AND des.des_active = :filter_active";

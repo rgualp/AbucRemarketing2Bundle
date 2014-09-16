@@ -568,6 +568,50 @@ class ownershipRepository extends EntityRepository {
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($controller);
         $user_id = $user_ids['user_id'];
         $session_id = $user_ids['session_id'];
+        
+        $reservations_where = "0";
+        
+         if ($arrivalDate != null || $leavingDate != null) {
+
+                $query_string = "SELECT DISTINCT o.own_id FROM mycpBundle:ownershipReservation owr
+                                JOIN owr.own_res_gen_res_id r
+                                JOIN r.gen_res_own_id o
+                                WHERE owr.own_res_status = " . ownershipReservation::STATUS_RESERVED . 
+                                " AND (SELECT count(owr1) FROM mycpBundle:ownershipReservation owr1
+                                       JOIN owr1.own_res_gen_res_id r1 WHERE r1.gen_res_own_id = o.own_id
+                                       AND owr1.own_res_status = " . ownershipReservation::STATUS_RESERVED .") < o.own_rooms_total";
+                $dates_where = "";
+
+                if ($arrivalDate != null) {
+                    $dates_where .= ($dates_where != '') ? " OR " : "";
+                    $dates_where .= "(owr.own_res_reservation_from_date <= :arrival_date AND owr.own_res_reservation_to_date >= :arrival_date)";
+                }
+
+                if ($leavingDate != null) {
+                    $dates_where .= ($dates_where != '') ? " OR " : "";
+                    $dates_where .= "(owr.own_res_reservation_from_date <= :leaving_date AND owr.own_res_reservation_to_date >= :leaving_date)";
+                }
+
+                if ($arrivalDate != null && $leavingDate != null) {
+                    $dates_where .= ($dates_where != '') ? " OR " : "";
+                    $dates_where .= "(owr.own_res_reservation_from_date >= :arrival_date AND owr.own_res_reservation_to_date <= :leaving_date)";
+                }
+
+                $query_string .= ($dates_where != '') ? " AND ($dates_where)" : "";
+
+                $query_reservation = $em->createQuery($query_string);
+
+                if ($arrivalDate != null)
+                    $query_reservation->setParameter('arrival_date', $arrivalDate);
+
+                if ($leavingDate != null)
+                    $query_reservation->setParameter('leaving_date', $leavingDate);
+
+                $reservations = $query_reservation->getResult();
+
+                foreach($reservations as $res)
+                    $reservations_where .= ",".$res["own_id"];
+            }
 
         $query_string = "";
         $temp_array = null;
@@ -635,7 +679,7 @@ class ownershipRepository extends EntityRepository {
                              JOIN o.own_address_municipality mun";
         }
         $parameters[] = array('session_id', $session_id);
-        $where = ' WHERE o.own_status = ' . ownershipStatus::STATUS_ACTIVE;
+        $where = ' WHERE o.own_status = ' . ownershipStatus::STATUS_ACTIVE. " AND o.own_id NOT IN ($reservations_where)";
         if ($text != null && $text != '' && $text != 'null')
             $where = $where . ($where != '' ? " AND " : " WHERE ") . "(prov.prov_name LIKE :text OR " . "o.own_name LIKE :text OR o.own_mcp_code LIKE :text OR mun.mun_name LIKE :text)";
 
@@ -828,7 +872,7 @@ class ownershipRepository extends EntityRepository {
         if (isset($rooms_total) && $rooms_total != null && $rooms_total != 'null' && $rooms_total != "")
             $query->setParameter('rooms_total', ($rooms_total != "+5" ? $rooms_total : 6));
 
-        $return_list = array();
+        //$return_list = array();
         $results = $query->getResult();
 
 
@@ -838,45 +882,9 @@ class ownershipRepository extends EntityRepository {
             else if (!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo'])))
                 $results[$i]['photo'] = "no_photo.png";
 
-            if ($arrivalDate != null || $leavingDate != null) {
-
-                $query_string = "SELECT owr FROM mycpBundle:ownershipReservation owr
-                                JOIN owr.own_res_gen_res_id r
-                                WHERE r.gen_res_own_id =" . $results[$i]['own_id'] . " AND owr.own_res_status = " . ownershipReservation::STATUS_RESERVED . " ";
-                $dates_where = "";
-
-                if ($arrivalDate != null) {
-                    $dates_where .= ($dates_where != '') ? " OR " : "";
-                    $dates_where .= "(owr.own_res_reservation_from_date <= :arrival_date AND owr.own_res_reservation_to_date >= :arrival_date)";
-                }
-
-                if ($leavingDate != null) {
-                    $dates_where .= ($dates_where != '') ? " OR " : "";
-                    $dates_where .= "(owr.own_res_reservation_from_date <= :leaving_date AND owr.own_res_reservation_to_date >= :leaving_date)";
-                }
-
-                if ($arrivalDate != null && $leavingDate != null) {
-                    $dates_where .= ($dates_where != '') ? " OR " : "";
-                    $dates_where .= "(owr.own_res_reservation_from_date >= :arrival_date AND owr.own_res_reservation_to_date <= :leaving_date)";
-                }
-
-                $query_string .= ($dates_where != '') ? " AND ($dates_where)" : "";
-
-                $query_reservation = $em->createQuery($query_string);
-
-                if ($arrivalDate != null)
-                    $query_reservation->setParameter('arrival_date', $arrivalDate);
-
-                if ($leavingDate != null)
-                    $query_reservation->setParameter('leaving_date', $leavingDate);
-
-                $reservations = count($query_reservation->getResult());
-
-                if ($results[$i]['rooms_count'] > $reservations)
-                    $return_list[] = $results[$i];
-            }
+           
         }
-        return (count($return_list) > 0) ? $return_list : $results;
+        return $results;
     }
 
     /**

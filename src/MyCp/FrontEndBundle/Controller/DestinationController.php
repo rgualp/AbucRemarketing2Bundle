@@ -8,12 +8,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DestinationController extends Controller {
 
-    public function get_big_mapAction()
+    public function getBigMapAction()
     {
         $em = $this->getDoctrine()->getManager();
         $locale=$this->get('translator')->getLocale();
         $lang= $em->getRepository('mycpBundle:lang')->findBy(array('lang_code'=>$locale));
-        $destinations=$em->getRepository('mycpBundle:destination')->findAll();
+        $destinations=$em->getRepository('mycpBundle:destination')->findBy(array('des_active'=>1));
         $categories_lang = $em->getRepository('mycpBundle:destinationCategoryLang')->findBy(array('des_cat_id_lang'=>$lang[0]->getLangId()));
         //var_dump($categories_lang);exit();
         return $this->render('FrontEndBundle:public:map.html.twig',array(
@@ -25,12 +25,6 @@ class DestinationController extends Controller {
     {
         $em = $this->getDoctrine()->getManager();
         $dest_location = $em->getRepository('mycpBundle:destinationLocation')->findAll();
-        /*foreach($dest_location as $des)
-        {
-            var_dump($des->getDesLocDestination()->getDesName());
-            var_dump($des->getDesLocDestination()->getDesCategories()->first());
-        }
-         exit();*/
         return $this->render('FrontEndBundle:destination:destinationByProvince.html.twig', array(
             'locations_destinations' => $dest_location
         ));
