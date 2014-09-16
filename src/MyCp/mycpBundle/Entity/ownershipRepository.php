@@ -238,7 +238,7 @@ class ownershipRepository extends EntityRepository {
 
         //save client casa
         if ($new_user) {
-            $em->getRepository('mycpBundle:userCasa')->createUser($data,$prov->getProvPhoneCode(),$dir,$request,$factory, $ownership);
+            $em->getRepository('mycpBundle:userCasa')->createUser($data, $prov->getProvPhoneCode(), $dir, $request, $factory, $ownership);
         }
         $em->flush();
     }
@@ -455,13 +455,13 @@ class ownershipRepository extends EntityRepository {
 
         //save client casa
         if ($new_user) {
-            $em->getRepository('mycpBundle:userCasa')->createUser($data,$prov->getProvPhoneCode(),$dir,$request,$factory, $ownership);
+            $em->getRepository('mycpBundle:userCasa')->createUser($data, $prov->getProvPhoneCode(), $dir, $request, $factory, $ownership);
         }
 
         $em->flush();
     }
 
-    function getAll($filter_code='', $filter_active='', $filter_category='', $filter_province='', $filter_municipality='', $filter_destination = '', $filter_type='', $filter_name='', $filter_saler = '', $filter_visit_date = '') {
+    function getAll($filter_code = '', $filter_active = '', $filter_category = '', $filter_province = '', $filter_municipality = '', $filter_destination = '', $filter_type = '', $filter_name = '', $filter_saler = '', $filter_visit_date = '') {
 
         $condition = '';
         if ($filter_active != 'null' && $filter_active != '') {
@@ -477,7 +477,7 @@ class ownershipRepository extends EntityRepository {
             $condition .= " AND ow.own_address_municipality = :filter_municipality ";
         }
         if ($filter_destination != 'null' && $filter_destination != '') {
-            if($filter_destination == "-1")
+            if ($filter_destination == "-1")
                 $condition .= " AND ow.own_destination IS NULL ";
             else
                 $condition .= " AND ow.own_destination = :filter_destination ";
@@ -568,50 +568,50 @@ class ownershipRepository extends EntityRepository {
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($controller);
         $user_id = $user_ids['user_id'];
         $session_id = $user_ids['session_id'];
-        
-        $reservations_where = "0";
-        
-         if ($arrivalDate != null || $leavingDate != null) {
 
-                $query_string = "SELECT DISTINCT o.own_id FROM mycpBundle:ownershipReservation owr
+        $reservations_where = "0";
+
+        if ($arrivalDate != null || $leavingDate != null) {
+
+            $query_string = "SELECT DISTINCT o.own_id FROM mycpBundle:ownershipReservation owr
                                 JOIN owr.own_res_gen_res_id r
                                 JOIN r.gen_res_own_id o
-                                WHERE owr.own_res_status = " . ownershipReservation::STATUS_RESERVED . 
-                                " AND (SELECT count(owr1) FROM mycpBundle:ownershipReservation owr1
+                                WHERE owr.own_res_status = " . ownershipReservation::STATUS_RESERVED .
+                    " AND (SELECT count(owr1) FROM mycpBundle:ownershipReservation owr1
                                        JOIN owr1.own_res_gen_res_id r1 WHERE r1.gen_res_own_id = o.own_id
-                                       AND owr1.own_res_status = " . ownershipReservation::STATUS_RESERVED .") < o.own_rooms_total";
-                $dates_where = "";
+                                       AND owr1.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") < o.own_rooms_total";
+            $dates_where = "";
 
-                if ($arrivalDate != null) {
-                    $dates_where .= ($dates_where != '') ? " OR " : "";
-                    $dates_where .= "(owr.own_res_reservation_from_date <= :arrival_date AND owr.own_res_reservation_to_date >= :arrival_date)";
-                }
-
-                if ($leavingDate != null) {
-                    $dates_where .= ($dates_where != '') ? " OR " : "";
-                    $dates_where .= "(owr.own_res_reservation_from_date <= :leaving_date AND owr.own_res_reservation_to_date >= :leaving_date)";
-                }
-
-                if ($arrivalDate != null && $leavingDate != null) {
-                    $dates_where .= ($dates_where != '') ? " OR " : "";
-                    $dates_where .= "(owr.own_res_reservation_from_date >= :arrival_date AND owr.own_res_reservation_to_date <= :leaving_date)";
-                }
-
-                $query_string .= ($dates_where != '') ? " AND ($dates_where)" : "";
-
-                $query_reservation = $em->createQuery($query_string);
-
-                if ($arrivalDate != null)
-                    $query_reservation->setParameter('arrival_date', $arrivalDate);
-
-                if ($leavingDate != null)
-                    $query_reservation->setParameter('leaving_date', $leavingDate);
-
-                $reservations = $query_reservation->getResult();
-
-                foreach($reservations as $res)
-                    $reservations_where .= ",".$res["own_id"];
+            if ($arrivalDate != null) {
+                $dates_where .= ($dates_where != '') ? " OR " : "";
+                $dates_where .= "(owr.own_res_reservation_from_date <= :arrival_date AND owr.own_res_reservation_to_date >= :arrival_date)";
             }
+
+            if ($leavingDate != null) {
+                $dates_where .= ($dates_where != '') ? " OR " : "";
+                $dates_where .= "(owr.own_res_reservation_from_date <= :leaving_date AND owr.own_res_reservation_to_date >= :leaving_date)";
+            }
+
+            if ($arrivalDate != null && $leavingDate != null) {
+                $dates_where .= ($dates_where != '') ? " OR " : "";
+                $dates_where .= "(owr.own_res_reservation_from_date >= :arrival_date AND owr.own_res_reservation_to_date <= :leaving_date)";
+            }
+
+            $query_string .= ($dates_where != '') ? " AND ($dates_where)" : "";
+
+            $query_reservation = $em->createQuery($query_string);
+
+            if ($arrivalDate != null)
+                $query_reservation->setParameter('arrival_date', $arrivalDate);
+
+            if ($leavingDate != null)
+                $query_reservation->setParameter('leaving_date', $leavingDate);
+
+            $reservations = $query_reservation->getResult();
+
+            foreach ($reservations as $res)
+                $reservations_where .= "," . $res["own_id"];
+        }
 
         $query_string = "";
         $temp_array = null;
@@ -679,7 +679,7 @@ class ownershipRepository extends EntityRepository {
                              JOIN o.own_address_municipality mun";
         }
         $parameters[] = array('session_id', $session_id);
-        $where = ' WHERE o.own_status = ' . ownershipStatus::STATUS_ACTIVE. " AND o.own_id NOT IN ($reservations_where)";
+        $where = ' WHERE o.own_status = ' . ownershipStatus::STATUS_ACTIVE . " AND o.own_id NOT IN ($reservations_where)";
         if ($text != null && $text != '' && $text != 'null')
             $where = $where . ($where != '' ? " AND " : " WHERE ") . "(prov.prov_name LIKE :text OR " . "o.own_name LIKE :text OR o.own_mcp_code LIKE :text OR mun.mun_name LIKE :text)";
 
@@ -881,8 +881,6 @@ class ownershipRepository extends EntityRepository {
                 $results[$i]['photo'] = "no_photo.png";
             else if (!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo'])))
                 $results[$i]['photo'] = "no_photo.png";
-
-           
         }
         return $results;
     }
@@ -954,40 +952,71 @@ class ownershipRepository extends EntityRepository {
 
         $categories = array();
 
-        foreach ($owns_categories as $category) {
-            if (isset($own_ids))
-                $query_string = "SELECT count(o.own_type) FROM mycpBundle:ownership o
-                         WHERE o.own_status = " . ownershipStatus::STATUS_ACTIVE . " AND o.own_id IN ($own_ids) AND o.own_category='" . $category . "'";
-            else
-                $query_string = "SELECT count(o.own_type) FROM mycpBundle:ownership o
-                         WHERE o.own_status = " . ownershipStatus::STATUS_ACTIVE . " AND o.own_category='" . $category . "'";
-            $count = $em->createQuery($query_string)->getSingleScalarResult();
+        if (isset($own_ids))
+            $query_string = "SELECT count(o) as economic,
+                         (SELECT count(o1) FROM mycpBundle:ownership o1 WHERE o1.own_status = :own_status AND o1.own_id IN ($own_ids) AND o1.own_category='Rango medio') as middle_range,
+                         (SELECT count(o2) FROM mycpBundle:ownership o2 WHERE o2.own_status = :own_status AND o2.own_id IN ($own_ids) AND o2.own_category='Premium') as premium
+                         FROM mycpBundle:ownership o
+                         WHERE o.own_status = :own_status AND o.own_id IN ($own_ids) AND o.own_category='Económica'";
+        else
+            $query_string = "SELECT count(o) as economic,
+                         (SELECT count(o1) FROM mycpBundle:ownership o1 WHERE o1.own_status = :own_status AND o1.own_category='Rango medio') as middle_range,
+                         (SELECT count(o2) FROM mycpBundle:ownership o2 WHERE o2.own_status = :own_status AND o2.own_category='Premium') as premium
+                         FROM mycpBundle:ownership o
+                         WHERE o.own_status = :own_status AND o.own_category='Económica'";
+        $counts = $em->createQuery($query_string)->setParameter('own_status', ownershipStatus::STATUS_ACTIVE)->getSingleResult();
 
-            $categories[] = array(trim($category), $count);
-        }
+        $categories[] = array(trim("Económica"), $counts['economic']);
+        $categories[] = array(trim("Rango medio"), $counts['middle_range']);
+        $categories[] = array(trim("Premium"), $counts['premium']);
 
         return $categories;
     }
 
     function getOwnsPrices($own_ids = null) {
         $em = $this->getEntityManager();
-        $prices = range(25, 200, 25);
-        $prices[] = 300;
+        /* $prices = range(25, 200, 25);
+          $prices[] = 300; */
 
         $prices_result = array();
-        $minimun_price = 0;
-        foreach ($prices as $price) {
-            if (isset($own_ids))
-                $query_string = "SELECT count(o.own_maximum_price) FROM mycpBundle:ownership o
-                         WHERE o.own_status = " . ownershipStatus::STATUS_ACTIVE . " AND o.own_id IN ($own_ids) AND ((o.own_minimum_price<" . $price . " AND o.own_minimum_price >=$minimun_price))";
-            else
-                $query_string = "SELECT count(o.own_maximum_price) FROM mycpBundle:ownership o
-                         WHERE o.own_status = " . ownershipStatus::STATUS_ACTIVE . " AND ((o.own_minimum_price<" . $price . " AND o.own_minimum_price >=$minimun_price))";
-            $count = $em->createQuery($query_string)->getSingleScalarResult();
+        //$minimun_price = 0;
+        //foreach ($prices as $price) {
+        if (isset($own_ids))
+            $query_string = "SELECT count(o) as primero,
+                         (SELECT count(o1) FROM mycpBundle:ownership o1 WHERE o1.own_status = :own_status AND o1.own_id IN ($own_ids) AND o1.own_minimum_price< 50 AND o.own_minimum_price >=25) as segundo,
+                         (SELECT count(o2) FROM mycpBundle:ownership o2 WHERE o2.own_status = :own_status AND o2.own_id IN ($own_ids) AND o2.own_minimum_price< 75 AND o2.own_minimum_price >=50) as tercero,
+                         (SELECT count(o3) FROM mycpBundle:ownership o3 WHERE o3.own_status = :own_status AND o3.own_id IN ($own_ids) AND o3.own_minimum_price< 100 AND o3.own_minimum_price >=75) as cuarto,
+                         (SELECT count(o4) FROM mycpBundle:ownership o4 WHERE o4.own_status = :own_status AND o4.own_id IN ($own_ids) AND o4.own_minimum_price< 125 AND o4.own_minimum_price >=100) as quinto,
+                         (SELECT count(o5) FROM mycpBundle:ownership o5 WHERE o5.own_status = :own_status AND o5.own_id IN ($own_ids) AND o5.own_minimum_price< 150 AND o5.own_minimum_price >=125) as sexto,
+                         (SELECT count(o6) FROM mycpBundle:ownership o6 WHERE o6.own_status = :own_status AND o6.own_id IN ($own_ids) AND o6.own_minimum_price< 175 AND o6.own_minimum_price >=150) as septimo,
+                         (SELECT count(o7) FROM mycpBundle:ownership o7 WHERE o7.own_status = :own_status AND o7.own_id IN ($own_ids) AND o7.own_minimum_price< 200 AND o7.own_minimum_price >=175) as octavo,
+                         (SELECT count(o8) FROM mycpBundle:ownership o8 WHERE o8.own_status = :own_status AND o8.own_id IN ($own_ids) AND o8.own_minimum_price< 300 AND o8.own_minimum_price >=200) as noveno
+                         FROM mycpBundle:ownership o
+                         WHERE o.own_status = :own_status AND o.own_id IN ($own_ids) AND o.own_minimum_price< 25 AND o.own_minimum_price >=0";
+        else
+            $query_string = "SELECT count(o) as primero,
+                         (SELECT count(o1) FROM mycpBundle:ownership o1 WHERE o1.own_status = :own_status AND o1.own_minimum_price< 50 AND o.own_minimum_price >=25) as segundo,
+                         (SELECT count(o2) FROM mycpBundle:ownership o2 WHERE o2.own_status = :own_status AND o2.own_minimum_price< 75 AND o2.own_minimum_price >=50) as tercero,
+                         (SELECT count(o3) FROM mycpBundle:ownership o3 WHERE o3.own_status = :own_status AND o3.own_minimum_price< 100 AND o3.own_minimum_price >=75) as cuarto,
+                         (SELECT count(o4) FROM mycpBundle:ownership o4 WHERE o4.own_status = :own_status AND o4.own_minimum_price< 125 AND o4.own_minimum_price >=100) as quinto,
+                         (SELECT count(o5) FROM mycpBundle:ownership o5 WHERE o5.own_status = :own_status AND o5.own_minimum_price< 150 AND o5.own_minimum_price >=125) as sexto,
+                         (SELECT count(o6) FROM mycpBundle:ownership o6 WHERE o6.own_status = :own_status AND o6.own_minimum_price< 175 AND o6.own_minimum_price >=150) as septimo,
+                         (SELECT count(o7) FROM mycpBundle:ownership o7 WHERE o7.own_status = :own_status AND o7.own_minimum_price< 200 AND o7.own_minimum_price >=175) as octavo,
+                         (SELECT count(o8) FROM mycpBundle:ownership o8 WHERE o8.own_status = :own_status AND o8.own_minimum_price< 300 AND o8.own_minimum_price >=200) as noveno
+                         FROM mycpBundle:ownership o
+                         WHERE o.own_status = :own_status AND ((o.own_minimum_price< 25 AND o.own_minimum_price >=0))";
 
-            $prices_result[] = array($minimun_price, $price, $count);
-            $minimun_price = $price;
-        }
+        $counts = $em->createQuery($query_string)->setParameter('own_status', ownershipStatus::STATUS_ACTIVE)->getSingleResult();
+
+        $prices_result[] = array(0, 25, $counts['primero']);
+        $prices_result[] = array(25, 50, $counts['segundo']);
+        $prices_result[] = array(50, 75, $counts['tercero']);
+        $prices_result[] = array(75, 100, $counts['cuarto']);
+        $prices_result[] = array(100, 125, $counts['quinto']);
+        $prices_result[] = array(125, 150, $counts['sexto']);
+        $prices_result[] = array(150, 175, $counts['septimo']);
+        $prices_result[] = array(175, 200, $counts['octavo']);
+        $prices_result[] = array(200, 300, $counts['noveno']);
 
         return $prices_result;
     }
@@ -1008,19 +1037,30 @@ class ownershipRepository extends EntityRepository {
         $owns_types[] = "Casa particular";
 
         $types = array();
+        if (isset($own_ids))
+            $query_string = "SELECT count(o) as penthouse,
+                             (SELECT count(o1) FROM mycpBundle:ownership o1 WHERE o1.own_status = :own_status AND o1.own_id IN ($own_ids) AND o1.own_type='Villa con piscina') as villa,
+                             (SELECT count(o2) FROM mycpBundle:ownership o2 WHERE o2.own_status = :own_status AND o2.own_id IN ($own_ids) AND o2.own_type='Apartamento') as apartamento,
+                             (SELECT count(o3) FROM mycpBundle:ownership o3 WHERE o3.own_status = :own_status AND o3.own_id IN ($own_ids) AND o3.own_type='Propiedad completa') as propiedad,
+                             (SELECT count(o4) FROM mycpBundle:ownership o4 WHERE o4.own_status = :own_status AND o4.own_id IN ($own_ids) AND o4.own_type='Casa particular') as casa
+                             FROM mycpBundle:ownership o
+                             WHERE o.own_status = :own_status AND o.own_id IN ($own_ids) AND o.own_type='Penthouse'";
+        else
+            $query_string = "SELECT count(o) as penthouse,
+                             (SELECT count(o1) FROM mycpBundle:ownership o1 WHERE o1.own_status = :own_status AND o1.own_type='Villa con piscina') as villa,
+                             (SELECT count(o2) FROM mycpBundle:ownership o2 WHERE o2.own_status = :own_status AND o2.own_type='Apartamento') as apartamento,
+                             (SELECT count(o3) FROM mycpBundle:ownership o3 WHERE o3.own_status = :own_status AND o3.own_type='Propiedad completa') as propiedad,
+                             (SELECT count(o4) FROM mycpBundle:ownership o4 WHERE o4.own_status = :own_status AND o4.own_type='Casa particular') as casa
+                             FROM mycpBundle:ownership o
+                             WHERE o.own_status = :own_status AND o.own_type='Penthouse'";
 
-        foreach ($owns_types as $type) {
-            if (isset($own_ids))
-                $query_string = "SELECT count(o.own_type) FROM mycpBundle:ownership o
-                                 WHERE o.own_status = " . ownershipStatus::STATUS_ACTIVE . " AND o.own_id IN ($own_ids) AND o.own_type='" . $type . "'";
-            else
-                $query_string = "SELECT count(o.own_type) FROM mycpBundle:ownership o
-                                 WHERE o.own_status = " . ownershipStatus::STATUS_ACTIVE . " AND o.own_type='" . $type . "'";
+        $counts = $em->createQuery($query_string)->setParameter('own_status', ownershipStatus::STATUS_ACTIVE)->getSingleResult();
 
-            $count = $em->createQuery($query_string)->getSingleScalarResult();
-
-            $types[] = array(trim($type), $count);
-        }
+        $types[] = array("Penthouse", $counts['penthouse']);
+        $types[] = array("Villa con piscina", $counts['villa']);
+        $types[] = array("Apartamento", $counts['apartamento']);
+        $types[] = array("Propiedad completa", $counts['propiedad']);
+        $types[] = array("Casa particular", $counts['casa']);
 
         return $types;
     }
@@ -1097,16 +1137,36 @@ class ownershipRepository extends EntityRepository {
                             o.own_water_sauna as sauna,
                             o.own_description_pets as pets,
                             o.own_water_jacuzee as jacuzee,
-                            o.own_langs as langs
-                            FROM mycpBundle:room r
-                            join r.room_ownership o
+                            o.own_langs as langs,
+                            o.own_rooms_total
+                            FROM mycpBundle:ownership o
                             WHERE o.own_status = " . ownershipStatus::STATUS_ACTIVE;
         $query = $em->createQuery($query_string);
-
         $own_list = $query->getResult();
 
+        $query_string = "SELECT r FROM mycpBundle:room r join r.room_ownership o WHERE o.own_status = " . ownershipStatus::STATUS_ACTIVE . "
+                         ORDER BY r.room_ownership ASC";
+        $rooms = $em->createQuery($query_string)->getResult();
+
         foreach ($own_list as $own) {
-            $own_ids .= "," . $own['own_id'];
+
+            switch ($own['own_rooms_total']) {
+                case 1: $statistics['rooms_total_1'] += 1;
+                    break;
+                case 2: $statistics['rooms_total_2'] += 1;
+                    break;
+                case 3: $statistics['rooms_total_3'] += 1;
+                    break;
+                case 4: $statistics['rooms_total_4'] += 1;
+                    break;
+                case 5: $statistics['rooms_total_5'] += 1;
+                    break;
+                default:
+                    if ($own['own_rooms_total'] > 5) {
+                        $statistics['rooms_total_+5'] += 1;
+                        break;
+                    }
+            }
 
             if ($own['breakfast'] != null && $own['breakfast'])
                 $statistics['own_services_breakfast'] += 1;
@@ -1148,12 +1208,6 @@ class ownershipRepository extends EntityRepository {
                 $statistics['own_lang_italian'] += 1;
         }
 
-        $query_string = "SELECT r FROM mycpBundle:room r
-                         WHERE r.room_ownership IN ($own_ids) ORDER BY r.room_ownership ASC";
-
-        $rooms = $em->createQuery($query_string)->getResult();
-        $current_own_id = 0;
-        $total_rooms = 0;
         $is_room_individual = false;
         $is_room_double = false;
         $is_room_double_two_beds = false;
@@ -1174,54 +1228,24 @@ class ownershipRepository extends EntityRepository {
         $is_own_total_room = false;
 
         foreach ($rooms as $room) {
-
-            if ($room->getRoomOwnership()->getOwnId() != $current_own_id) {
-                if ($total_rooms != null && $total_rooms > 0 && !$is_own_total_room) {
-                    //$statistics['room_windows'] += 1;
-                    switch ($total_rooms) {
-                        case 1: $statistics['rooms_total_1'] += 1;
-                            break;
-                        case 2: $statistics['rooms_total_2'] += 1;
-                            break;
-                        case 3: $statistics['rooms_total_3'] += 1;
-                            break;
-                        case 4: $statistics['rooms_total_4'] += 1;
-                            break;
-                        case 5: $statistics['rooms_total_5'] += 1;
-                            break;
-                        default:
-                            if ($room->getRoomWindows() > 5) {
-                                $statistics['rooms_total_+5'] += 1;
-                                break;
-                            }
-                    }
-                    $is_own_total_room = true;
-                }
-
-
-                $current_own_id = $room->getRoomOwnership()->getOwnId();
-                $is_room_individual = false;
-                $is_room_double = false;
-                $is_room_double_two_beds = false;
-                $is_room_triple = false;
-                $is_room_climatization = false;
-                $is_room_audiovisual = false;
-                $is_room_kids = false;
-                $is_room_smoker = false;
-                $is_room_safe = false;
-                $is_room_windows = false;
-                $is_room_balcony = false;
-                $is_room_terrace = false;
-                $is_room_yard = false;
-                $is_room_bathromm_inner = false;
-                $is_room_bathroom_outer = false;
-                $is_room_bathroom_shared = false;
-                $is_room_total_bed = false;
-                $is_own_total_room = false;
-                $total_rooms = 0;
-            }
-
-            $total_rooms += 1;
+            $is_room_individual = false;
+            $is_room_double = false;
+            $is_room_double_two_beds = false;
+            $is_room_triple = false;
+            $is_room_climatization = false;
+            $is_room_audiovisual = false;
+            $is_room_kids = false;
+            $is_room_smoker = false;
+            $is_room_safe = false;
+            $is_room_windows = false;
+            $is_room_balcony = false;
+            $is_room_terrace = false;
+            $is_room_yard = false;
+            $is_room_bathromm_inner = false;
+            $is_room_bathroom_outer = false;
+            $is_room_bathroom_shared = false;
+            $is_room_total_bed = false;
+            $is_own_total_room = false;
 
             if ($room->getRoomType() != null && $room->getRoomType() == 'Habitación doble' && !$is_room_double) {
                 $statistics['room_double'] += 1;
@@ -1340,26 +1364,6 @@ class ownershipRepository extends EntityRepository {
             if ($room->getRoomBathroom() != null && $room->getRoomBathroom() == 'Compartido' && !$is_room_bathroom_shared) {
                 $statistics['own_bathroom_shared'] += 1;
                 $is_room_bathroom_shared = true;
-            }
-        }
-
-        if (count($own_list) == 1) {
-            switch ($total_rooms) {
-                case 1: $statistics['rooms_total_1'] += 1;
-                    break;
-                case 2: $statistics['rooms_total_2'] += 1;
-                    break;
-                case 3: $statistics['rooms_total_3'] += 1;
-                    break;
-                case 4: $statistics['rooms_total_4'] += 1;
-                    break;
-                case 5: $statistics['rooms_total_5'] += 1;
-                    break;
-                default:
-                    if ($room->getRoomWindows() > 5) {
-                        $statistics['rooms_total_+5'] += 1;
-                        break;
-                    }
             }
         }
 

@@ -170,7 +170,7 @@ class room {
     private $room_ownership;
 
     /**
-     * @OneToMany(targetEntity="unavailabilityDetails", mappedBy="room", fetch="EAGER")
+     * @OneToMany(targetEntity="unavailabilityDetails", mappedBy="room")
      */
     private $own_unavailability_details;
 

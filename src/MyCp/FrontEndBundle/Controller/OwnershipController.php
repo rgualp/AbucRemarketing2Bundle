@@ -634,11 +634,11 @@ class OwnershipController extends Controller {
         $session->set("filter_array", $check_filters);
         $session->set("filter_room", $room_filter);
 
-        //Marlon
-
         $list = $em->getRepository('mycpBundle:ownership')->search($this, $search_text, $arrival, $departure, $search_guests, $search_rooms, $session->get('search_order'), $room_filter, $check_filters);
 
-        $owns_list = array();
+        // <editor-fold defaultstate="collapsed" desc="Inside code was inserted into search method in ownershipRepository">
+        //Marlon
+        /*$owns_list = array();
 
         foreach($list as $tmp){
             //die(var_dump($tmp));
@@ -676,8 +676,10 @@ class OwnershipController extends Controller {
 
         }
 
-        $list = $owns_list;
+        $list = $owns_list;*/
         // End Marlon
+        // </editor-fold>
+
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
         $paginator->setItemsPerPage($items_per_page);
@@ -705,11 +707,6 @@ class OwnershipController extends Controller {
         $types_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsTypes();
         $prices_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsPrices();
         $statistics_own_list = $em->getRepository('mycpBundle:ownership')->getSearchStatistics();
-
-        /* echo "<pre>";
-          var_dump($search_results_list);
-          echo "</pre>";
-          exit(); */
 
         if ($check_filters != null)
             return $this->render('FrontEndBundle:ownership:searchOwnership.html.twig', array(
