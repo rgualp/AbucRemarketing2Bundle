@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a94f5bace8dcd101ff9c2d2b9442e00b",
+    "hash": "405b1243725f4afd832d5eb70170880e",
     "packages": [
         {
             "name": "abuc/remarketing-bundle",
@@ -188,17 +188,17 @@
         },
         {
             "name": "besimple/i18n-routing-bundle",
-            "version": "dev-master",
+            "version": "v2.3.0",
             "target-dir": "BeSimple/I18nRoutingBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BeSimple/BeSimpleI18nRoutingBundle.git",
-                "reference": "093fbd4efcbaec07a8b9fec19577b81038a504c2"
+                "reference": "36bc5704e462dc9680b13b83511eed128fb94a50"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BeSimple/BeSimpleI18nRoutingBundle/zipball/093fbd4efcbaec07a8b9fec19577b81038a504c2",
-                "reference": "093fbd4efcbaec07a8b9fec19577b81038a504c2",
+                "url": "https://api.github.com/repos/BeSimple/BeSimpleI18nRoutingBundle/zipball/36bc5704e462dc9680b13b83511eed128fb94a50",
+                "reference": "36bc5704e462dc9680b13b83511eed128fb94a50",
                 "shasum": ""
             },
             "require": {
@@ -252,7 +252,7 @@
                 "internationalisation",
                 "routing"
             ],
-            "time": "2014-08-20 07:56:26"
+            "time": "2014-08-20 07:55:47"
         },
         {
             "name": "besimple/soap-bundle",
@@ -322,17 +322,17 @@
         },
         {
             "name": "besimple/soap-common",
-            "version": "dev-master",
+            "version": "v0.2.5",
             "target-dir": "BeSimple/SoapCommon",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BeSimple/BeSimpleSoapCommon.git",
-                "reference": "cc88dca0e9b77907fda928b222b9a71ab7a790ce"
+                "reference": "08aa78c7f1cae4b23cce5e8928dca7243ca4e4fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BeSimple/BeSimpleSoapCommon/zipball/cc88dca0e9b77907fda928b222b9a71ab7a790ce",
-                "reference": "cc88dca0e9b77907fda928b222b9a71ab7a790ce",
+                "url": "https://api.github.com/repos/BeSimple/BeSimpleSoapCommon/zipball/08aa78c7f1cae4b23cce5e8928dca7243ca4e4fa",
+                "reference": "08aa78c7f1cae4b23cce5e8928dca7243ca4e4fa",
                 "shasum": ""
             },
             "require": {
@@ -347,7 +347,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.3-dev"
+                    "dev-master": "0.2-dev"
                 }
             },
             "autoload": {
@@ -379,7 +379,7 @@
                 "soap",
                 "soap-common"
             ],
-            "time": "2014-08-16 13:48:45"
+            "time": "2014-08-14 19:40:13"
         },
         {
             "name": "besimple/soap-server",
@@ -2996,9 +2996,7 @@
         "doctrine/doctrine-migrations-bundle": 20,
         "beberlei/doctrineextensions": 20,
         "ideup/simple-paginator-bundle": 20,
-        "besimple/soap-common": 20,
         "ass/xmlsecurity": 20,
-        "besimple/i18n-routing-bundle": 20,
         "dompdf/dompdf": 20,
         "abuc/remarketing-bundle": 20
     },
