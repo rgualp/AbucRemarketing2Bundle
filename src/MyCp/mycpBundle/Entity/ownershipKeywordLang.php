@@ -22,7 +22,7 @@ class ownershipKeywordLang
     private $okl_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="lang",inversedBy="ownershipKeywordLangs")
+     * @ORM\ManyToOne(targetEntity="lang",inversedBy="lang_ownership_keywords")
      * @ORM\JoinColumn(name="okl_id_lang",referencedColumnName="lang_id")
      */
     private $okl_id_lang;

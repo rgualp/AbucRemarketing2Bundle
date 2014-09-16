@@ -71,7 +71,12 @@ class lang
     /**
      * @ORM\OneToMany(targetEntity="ownershipKeywordLang",mappedBy="okl_id_lang")
      */
-    private $ownershipKeywordLangs;
+    private $lang_ownership_keywords;
+
+    /**
+     * @ORM\OneToMany(targetEntity="destinationKeywordLang",mappedBy="dkl_id_lang")
+     */
+    private $lang_destination_keywords;
 
     /**
      * Constructor
@@ -82,7 +87,8 @@ class lang
         $this->odl_langs = new \Doctrine\Common\Collections\ArrayCollection();
         $this->lang_metas = new \Doctrine\Common\Collections\ArrayCollection();
         $this->lang_destination_categories = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->ownershipKeywordLangs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->lang_ownership_keywords = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->lang_destination_keywords = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -108,6 +114,16 @@ class lang
     public function getLangDestinationCategories()
     {
         return $this->lang_destination_categories;
+    }
+
+    public function getLangOwnershipKeywords()
+    {
+        return $this->lang_ownership_keywords;
+    }
+
+    public function getLangDestinationKeywords()
+    {
+        return $this->lang_destination_keywords;
     }
 
     /**
