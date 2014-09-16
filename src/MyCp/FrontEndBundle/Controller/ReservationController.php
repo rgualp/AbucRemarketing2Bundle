@@ -434,7 +434,6 @@ class ReservationController extends Controller {
 
         return $this->render('FrontEndBundle:reservation:confirmReview.html.twig', array(
                     "owns_in_destination" => $owns_in_destination,
-                    //"owns_in_destination_total" => count($em->getRepository("mycpBundle:destination")->getAccommodationsNear($ownership->getOwnAddressMunicipality()->getMunId(), $ownership->getOwnAddressProvince()->getProvId())),
                     "other_destinations" => $destinations
         ));
     }

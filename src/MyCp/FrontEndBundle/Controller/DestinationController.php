@@ -93,7 +93,7 @@ class DestinationController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = ($view != null) ? ($view != 'PHOTOS' ? 5 : 9) : 5;;
         $paginator->setItemsPerPage($items_per_page);
-        $list = $em->getRepository('mycpBundle:destination')->getAccommodationsNear($location_municipality_id, $location_province_id, null,null, $users_id['user_id'], $users_id['session_id']);
+        $list = $em->getRepository('mycpBundle:destination')->getAccommodationsNear($destination->getDesId(), null,null, $users_id['user_id'], $users_id['session_id']);
         $owns_nearby = $paginator->paginate($list)->getResult();
 
         $em->getRepository('mycpBundle:userHistory')->insert(false, $destination->getDesId(), $users_id);
@@ -150,21 +150,11 @@ class DestinationController extends Controller {
             $session->set('destination_details_show_rows', 3);
 
         $view = $session->get('search_view_results_destination');
-        //var_dump("aaaa".$view);
-
-        $location = $em->getRepository('mycpBundle:destinationLocation')->findOneBy(array('des_loc_destination' => $destination_id));
-
-        $location_municipality = $location->getDesLocMunicipality();
-        $location_province = $location->getDesLocProvince();
-
-        $location_municipality_id = ($location_municipality != null) ? $location_municipality->getMunId() : null;
-        $location_province_id = ($location_province != null) ? $location_province->getProvId() : null;
 
         $paginator = $this->get('ideup.simple_paginator');
-        //$items_per_page = $session->get("destination_details_show_rows");
         $items_per_page = ($view != null) ? ($view != 'PHOTOS' ? 5 : 9) : 5;
         $paginator->setItemsPerPage($items_per_page);
-        $owns_nearby = $paginator->paginate($em->getRepository('mycpBundle:destination')->getAccommodationsNear($location_municipality_id, $location_province_id, null,null, $users_id['user_id'], $users_id['session_id']))->getResult();
+        $owns_nearby = $paginator->paginate($em->getRepository('mycpBundle:destination')->getAccommodationsNear($destination_id, null,null, $users_id['user_id'], $users_id['session_id']))->getResult();
 
 
         $response = $this->renderView('FrontEndBundle:destination:detailsOwnsNearByDestination.html.twig', array(
@@ -236,16 +226,11 @@ class DestinationController extends Controller {
         if ($session->get("destination_details_show_rows") == null)
             $session->set('destination_details_show_rows', 3);
 
-        $destination_array = $em->getRepository('mycpBundle:destination')->getDestination($destination_id,'ES');
-
-        $location_municipality_id = $destination_array['municipality_id'];
-        $location_province_id = $destination_array['province_id'];
-
         $paginator = $this->get('ideup.simple_paginator');
         //$items_per_page = $session->get("destination_details_show_rows");
         $items_per_page = ($view != null) ? ($view != 'PHOTOS' ? 5 : 6) : 5;
         $paginator->setItemsPerPage($items_per_page);
-        $owns_nearby = $paginator->paginate($em->getRepository('mycpBundle:destination')->getAccommodationsNear($location_municipality_id, $location_province_id, null,null, $users_id['user_id'], $users_id['session_id']))->getResult();
+        $owns_nearby = $paginator->paginate($em->getRepository('mycpBundle:destination')->getAccommodationsNear($destination_id, null,null, $users_id['user_id'], $users_id['session_id']))->getResult();
 
         $response = $this->renderView('FrontEndBundle:destination:detailsOwnsNearByDestination.html.twig', array(
             'owns_nearby' => $owns_nearby,
