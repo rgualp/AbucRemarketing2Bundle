@@ -447,9 +447,13 @@ class destinationRepository extends EntityRepository {
 
     function getByMunicipality($municipality) {
         $em = $this->getEntityManager();
+        
         $query_string = "SELECT d.des_id as desId, d.des_name as desName FROM mycpBundle:destinationLocation l
                          JOIN l.des_loc_destination d
-                         WHERE d.des_active = 1 AND l.des_loc_municipality = " . $municipality;
+                         WHERE d.des_active = 1";
+        
+        if($municipality != null && $municipality != "")
+            $query_string .= "AND l.des_loc_municipality = " . $municipality;
 
         $query_string.= " ORDER BY d.des_order";
 

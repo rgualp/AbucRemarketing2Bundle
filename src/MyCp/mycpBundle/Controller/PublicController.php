@@ -89,11 +89,10 @@ class PublicController extends Controller
             $selected = $post['ownership_destination'];
         }
         $destinations = array();
-
-        if($post && isset($post['ownership_destination']))
+        if(isset($post['ownership_address_municipality']))
             $destinations = $em->getRepository('mycpBundle:destination')->getByMunicipality($post['ownership_address_municipality']);
-        /*else
-            $municipalities = $em->getRepository ('mycpBundle:municipality')->findAll();*/
+        else
+            $destinations = $em->getRepository ('mycpBundle:destination')->findAll();
         return $this->render('mycpBundle:utils:list_destinations.html.twig', array('destinations' => $destinations,'selected'=>$selected));
     }
 
