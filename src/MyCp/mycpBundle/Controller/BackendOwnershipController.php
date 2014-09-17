@@ -576,7 +576,9 @@ class BackendOwnershipController extends Controller {
                                 $array_keys[$count] != 'ownership_email_2' &&
                                 $array_keys[$count] != 'ownership_homeowner_2' && $array_keys[$count] != 'ownership_saler' &&
                                 $array_keys[$count] != 'ownership_visit_date' &&
-                                $array_keys[$count] != 'ownership_destination'
+                                $array_keys[$count] != 'ownership_destination' &&
+                                $array_keys[$count] != 'user_create' &&
+                                $array_keys[$count] != 'user_send_mail'
                         ) {
                             $errors[$array_keys[$count]] = $errors_validation = $this->get('validator')->validateValue($item, $not_blank_validator);
                             $data['count_errors']+=count($errors[$array_keys[$count]]);
@@ -790,12 +792,12 @@ class BackendOwnershipController extends Controller {
                             $service_log->saveLog('Edit entity ' . $post['ownership_mcp_code'], BackendModuleName::MODULE_OWNERSHIP);
                         }
 
-                        $em->getRepository('mycpBundle:ownership')->edit_ownership($post, $request, $dir, $factory, (isset($post['user_name']) && !empty($post['user_name'])));
+                        $em->getRepository('mycpBundle:ownership')->edit_ownership($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])));
 
                         $message = 'Propiedad actualizada satisfactoriamente.';
                     } else {
 
-                        $em->getRepository('mycpBundle:ownership')->insert_ownership($post, $request, $dir, $factory, (isset($post['user_name']) && !empty($post['user_name'])));
+                        $em->getRepository('mycpBundle:ownership')->insert_ownership($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])));
                         $message = 'Propiedad añadida satisfactoriamente.';
                         $service_log = $this->get('log');
                         $service_log->saveLog('Create entity ' . $post['ownership_mcp_code'], BackendModuleName::MODULE_OWNERSHIP);

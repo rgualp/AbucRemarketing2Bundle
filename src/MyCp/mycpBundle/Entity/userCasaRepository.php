@@ -48,7 +48,7 @@ class userCasaRepository extends EntityRepository {
         $user->setUserCountry($country[0]);
         $user->setUserEmail($email);
         $user->setUserPhone($phone);
-        $user->setUserName($data['user_name']);
+        $user->setUserName($data['ownership_mcp_code']);
         $user->setUserLastName($data['ownership_homeowner_1']);
         $file = $request->files->get('user_photo');
         if ($file) {
@@ -66,7 +66,7 @@ class userCasaRepository extends EntityRepository {
         $user->setUserSubrole($subrole);
         $user->setUserUserName($data['ownership_homeowner_1']);
         $encoder = $factory->getEncoder($user);
-        $password = $encoder->encodePassword($data['user_password'], $user->getSalt());
+        $password = $encoder->encodePassword("casa_".$data['ownership_mcp_code'], $user->getSalt());
         $user->setUserPassword($password);
         $user_casa = new userCasa();
         $user_casa->setUserCasaOwnership($ownership);
