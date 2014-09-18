@@ -68,6 +68,17 @@ class PublicController extends Controller {
             'economic_total' => $statistics['economic_total']
         ));
 
+        // cache control
+        $response->setSharedMaxAge(60);
+
+        return $response;
+    }
+
+    public function topNavAction()
+    {
+        $response = $this->render('FrontEndBundle:layout:topNav.html.twig', array());
+
+
         return $response;
     }
 
@@ -118,10 +129,10 @@ class PublicController extends Controller {
         $email_to = $request->get('email_to');
         $em = $this->getDoctrine()->getManager();
         $service_email = $this->get('Email');
-        
+
         if(!Utils::validateEmail($email_from) || !Utils::validateEmail($email_to))
             return new Response("error");
-        
+
         switch ($email_type) {
             case 'recommend_general':
                 $result = $service_email->recommend2Friend($email_from, $name_from, $email_to);

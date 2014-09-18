@@ -12,7 +12,12 @@ class LanguageController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $languages = $em->getRepository('mycpBundle:lang')->findBy(array('lang_active' => 1), array('lang_name' => 'ASC'));
-        return $this->render('FrontEndBundle:language:languages.html.twig', array('languages' => $languages));
+        $response = $this->render('FrontEndBundle:language:languages.html.twig', array('languages' => $languages));
+
+        // cache control
+        $response->setSharedMaxAge(36000);
+
+        return $response;
     }
 
     public function changeAction($lang) {

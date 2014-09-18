@@ -14,7 +14,12 @@ class CurrencyController extends Controller {
         $request = $this->getRequest();
         $session = $request->getSession();
         $session->set("params_change_curr",$params);
-        return $this->render('FrontEndBundle:currency:currencies.html.twig', array('currencies' => $currencies));
+        $response = $this->render('FrontEndBundle:currency:currencies.html.twig', array('currencies' => $currencies));
+
+        // cache control
+        $response->setSharedMaxAge(36000);
+
+        return $response;
     }
 
     public function changeAction() {
