@@ -69,14 +69,18 @@ class PublicController extends Controller {
         ));
 
         // cache control
-        $response->setSharedMaxAge(60);
+        $response->setSharedMaxAge(600);
 
         return $response;
     }
 
-    public function topNavAction()
+    public function topNavAction($route, $routeParams = null)
     {
-        $response = $this->render('FrontEndBundle:layout:topNav.html.twig', array());
+        $routeParams = empty($routeParams) ? array() : $routeParams;
+        $response = $this->render('FrontEndBundle:layout:topNav.html.twig', array(
+                'route' => $route,
+                'routeParams' => $routeParams
+            ));
 
 
         return $response;

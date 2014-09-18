@@ -62,57 +62,9 @@
                 <img src="{{ asset('bundles/frontend/img/mycp.png') }}" style="max-width: 100%" alt="my casa particular"/>
             </a>
         </div>
-        <div id="top-nav" class="col-sm-8">
-            <div class="row">
-                <div class="col-sm-7" style="display: table">
-                    <ul class="nav nav-pills">
-                        <li><a title="{{"HOW_IT_WORKS" | trans }}" href="{{ path('frontend_how_it_works_information')}}"><img class="icon tiny-book-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/> {{"HOW_IT_WORKS" | trans }}</a></li>
-                        <li><a title="{{"FAVORITIES" | trans }}" href="{{ path('frontend_list_favorite') }}"><img class="icon tiny-heart-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/> {{"FAVORITIES" | trans }}</a></li>
-                        <li>
-                            {{ render(controller('FrontEndBundle:Reservation:get_count_cart_items')) }}
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-5" style="display: table; " id="top-right-menu">
-                    <ul class="nav nav-pills nav-pills-new">
-                        <li class="dropdown pull-right">
-                            <a title="{{"USER_ZONE" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-user-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/>
-                                {% if app.user.getUserUserName is defined %}
-                                    {{app.user.getUserUserName | slice(0,10)}}{% if app.user.getUserUserName|length > 10 %}...{% endif %}
-                                {%else%}
-                                    {{"USER_ZONE" | trans}}
-                                {%endif%}
-                                <b class="caret caret-new"></b></a>
-                            <ul class="dropdown-menu">
-                                {% if app.user.getUserUserName is defined %}
-                                    <li><a title="{{"USER_PROFILE" | trans }}" href="{{ path('frontend_profile_user') }}">{{"USER_PROFILE" | trans }}</a></li>
-                                    <li><a title="{{"LOG_OUT" | trans}}" href="{{ path('mycp_logout') }}">{{"LOG_OUT" | trans}} </a></li>
-                                {% else %}
-                                    <li><a title="{{"LOG_IN" | trans }}" href="{{ path('frontend_public_login') }}">{{"LOG_IN" | trans }}</a></li>
-                                    <li><a title="{{"USER_NEW_ACCOUNT" | trans }}" href="{{ path('frontend_register_user') }}">{{"USER_NEW_ACCOUNT" | trans }}</a></li>
-                                {% endif %}
-                            </ul>
-                        </li>
-                        <li class="nav-divider pull-right">&nbsp;</li>
-                        <li class="dropdown pull-right">
-                            <a title="{{"LANGUAGE" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-lang-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/>
-                                {{(app.session.get('app_lang_name') == null or app.session.get('app_lang_name') == "") ? "Español" : app.session.get('app_lang_name')}} <b class="caret caret-new"></b></a>
-                            <ul class="dropdown-menu">
-                                {{ render(controller('FrontEndBundle:Language:get_languages')) }}
-                            </ul>
-                        </li>
-                        <li class="nav-divider pull-right">&nbsp;</li>
-                        <li class="dropdown pull-right">
-                            <a title="{{"CURRENCY" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-curr-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/>
-                                {{(app.session.get('curr_acronym') == null or app.session.get('curr_acronym') == "") ? default_currency().currcode|upper : app.session.get('curr_acronym')|upper}} <b class="caret caret-new"></b></a>
-                            <ul class="dropdown-menu">
-                                {{ render(controller('FrontEndBundle:Currency:get_currencies', {'params': app.request.attributes.all})) }}
-                            </ul>
-                        </li>
-                        <li class="nav-divider pull-right">&nbsp;</li>
-                </div>
-            </div>
-        </div>
+
+        {{ render_esi(url('frontend_public_top_nav', { 'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')|json_encode|url_encode })) }}
+
     </div>
 </div>
 <div id="top-menu-cont" style="height: {% if is_home is defined %}52px;{% else %}{% if reservation_confirm is defined %}76px{% else %}95px{% endif %}{% endif %}">

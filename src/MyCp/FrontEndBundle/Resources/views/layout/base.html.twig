@@ -80,9 +80,7 @@
             </a>
         </div>
 
-        {{ render_esi(url('frontend_public_top_nav')) }}
-
-
+        {{ render_esi(url('frontend_public_top_nav', { 'route': app.request.get('_route'), 'routeParams': app.request.get('_route_params')|json_encode|url_encode })) }}
 
     </div>
 </div>
