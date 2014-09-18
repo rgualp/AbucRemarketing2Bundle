@@ -175,7 +175,7 @@ class BackendUserController extends Controller {
             if ($form->isValid()) {
                 $factory = $this->get('security.encoder_factory');
                 $dir = $this->container->getParameter('user.dir.photos');
-                $em->getRepository('mycpBundle:user')->edit_user_casa($id_user, $request, $dir, $factory);
+                $em->getRepository('mycpBundle:userCasa')->edit($id_user, $request, $dir, $factory);
                 $message = 'Usuario actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
                 $service_log = $this->get('log');
