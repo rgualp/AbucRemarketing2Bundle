@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class userRepository extends EntityRepository {
 
-    function new_user_casa($id_role, $data, $request, $dir, $factory) {
+    /*function new_user_casa($id_role, $data, $request, $dir, $factory) {
         $em = $this->getEntityManager();
         $user = new user();
         $address = $data['mycp_mycpbundle_client_casatype']['address'];
@@ -56,6 +56,7 @@ class userRepository extends EntityRepository {
         $em->persist($user_casa);
         $em->flush();
     }
+     */
 
     function edit_user_casa($id_user, $request, $dir, $factory) {
         $post = $request->request->getIterator()->getArrayCopy();
@@ -68,11 +69,12 @@ class userRepository extends EntityRepository {
         $user_casa->getUserCasaUser()->setUserUserName($post['mycp_mycpbundle_client_casatype']['name']);
         $user_casa->getUserCasaUser()->setUserLastName($post['mycp_mycpbundle_client_casatype']['last_name']);
         $user_casa->getUserCasaUser()->setUserEmail($post['mycp_mycpbundle_client_casatype']['email']);
-        if ($post['mycp_mycpbundle_client_casatype']['user_password']['Clave:'] != '') {
+        $user_casa->getUserCasaUser()->setUserPhone($post['mycp_mycpbundle_client_casatype']['phone']);
+        /*if ($post['mycp_mycpbundle_client_casatype']['user_password']['Clave:'] != '') {
             $encoder = $factory->getEncoder($user_casa->getUserCasaUser());
             $password = $encoder->encodePassword($post['mycp_mycpbundle_client_casatype']['user_password']['Clave:'], $user_casa->getUserCasaUser()->getSalt());
             $user_casa->getUserCasaUser()->setUserPassword($password);
-        }
+        }*/
         $file = $request->files->get('mycp_mycpbundle_client_casatype');
         if (isset($file['photo'])) {
             $photo_user = $user_casa->getUserCasaUser()->getUserPhoto();
@@ -508,6 +510,7 @@ class userRepository extends EntityRepository {
     /**
      * Yanet
      */
+    
     public function user_ids($controller) {
         $user_id = null;
         $session_id = null;

@@ -19,6 +19,7 @@ use MyCp\mycpBundle\Entity\ownershipPhoto;
 use MyCp\mycpBundle\Helpers\OwnershipStatuses;
 use MyCp\mycpBundle\Entity\ownershipStatus;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
+use MyCp\mycpBundle\Helpers\UserMails;
 
 class BackendOwnershipController extends Controller {
 
@@ -792,19 +793,19 @@ class BackendOwnershipController extends Controller {
                             $service_log->saveLog('Edit entity ' . $post['ownership_mcp_code'], BackendModuleName::MODULE_OWNERSHIP);
                         }
 
-                        $em->getRepository('mycpBundle:ownership')->edit_ownership($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])));
+                        $em->getRepository('mycpBundle:ownership')->edit($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])),(isset($post['user_send_mail']) && !empty($post['user_send_mail'])));
 
                         $message = 'Propiedad actualizada satisfactoriamente.';
                     } else {
 
-                        $em->getRepository('mycpBundle:ownership')->insert_ownership($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])));
+                        $em->getRepository('mycpBundle:ownership')->insert($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])),(isset($post['user_send_mail']) && !empty($post['user_send_mail'])));
                         $message = 'Propiedad añadida satisfactoriamente.';
                         $service_log = $this->get('log');
                         $service_log->saveLog('Create entity ' . $post['ownership_mcp_code'], BackendModuleName::MODULE_OWNERSHIP);
 
                         //Enviar correo a los propietarios
                         if ($post['status'] == ownershipStatus::STATUS_ACTIVE)
-                            $this->send_owners_email($post['ownership_email_1'], $post['ownership_email_2'], $post['ownership_homeowner_1'], $post['ownership_homeowner_2'], $post['ownership_name'], $post['ownership_mcp_code']);
+                            c($post['ownership_email_1'], $post['ownership_email_2'], $post['ownership_homeowner_1'], $post['ownership_homeowner_2'], $post['ownership_name'], $post['ownership_mcp_code']);
                     }
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
                     if ($request->get('save_reset_input') == 1) {
@@ -942,32 +943,11 @@ class BackendOwnershipController extends Controller {
         $owners_name_1 = $own->getOwnHomeowner1();
         $owners_name_2 = $own->getOwnHomeowner2();
 
-        $this->send_owners_email($own_mail_1, $own_mail_2, $owners_name_1, $owners_name_2, $own->getOwnName(), $own->getOwnMcpCode());
+        UserMails::sendOwnersMail($own_mail_1, $own_mail_2, $owners_name_1, $owners_name_2, $own->getOwnName(), $own->getOwnMcpCode());
 
         return $this->redirect($this->generateUrl('mycp_edit_ownership', array('id_ownership' => $own_id)));
     }
-
-    private function send_owners_email($own_email_1, $own_email_2, $own_homeowner_1, $own_homeowner_2, $own_name, $own_mycp_code) {
-        if ((isset($own_email_1) && $own_email_1 != "") || (isset($own_email_2) && $own_email_2 != "")) {
-            $service_email = $this->get('Email');
-            try {
-                $owners_name = $own_homeowner_1 . ( isset($own_homeowner_2) && isset($own_homeowner_1) && $own_homeowner_1 != "" && $own_homeowner_2 != "" ? " y " : "") . $own_homeowner_2;
-
-                if (isset($own_email_1) && $own_email_1 != "") {
-                    $service_email->sendOwnersMail($own_email_1, $owners_name, $own_name, $own_mycp_code);
-                }
-                if (isset($own_email_2) && $own_email_2 != "") {
-                    $service_email->sendOwnersMail($own_email_2, $owners_name, $own_name, $own_mycp_code);
-                }
-                $message = 'El correo de instrucciones ha sido enviado satisfactoriamente al propietario';
-                $this->get('session')->getFlashBag()->add('message_ok', $message);
-            } catch (\Exception $e) {
-                $message = 'Ha ocurrido un error en el envio del correo de instrucciones al propietario. ' . $e->getMessage();
-                $this->get('session')->getFlashBag()->add('message_error_main', $message);
-            }
-        }
-    }
-
+    
     public function get_ownership_categoriesAction($post) {
         return $this->render('mycpBundle:utils:ownership_category.html.twig', array('data_post' => $post));
     }

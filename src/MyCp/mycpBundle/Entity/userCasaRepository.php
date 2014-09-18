@@ -29,32 +29,30 @@ class userCasaRepository extends EntityRepository {
         return $query->getResult();
     }
 
-    function createUser($data, $code, $dir, $request, $factory, $ownership) {
+    function createUser($ownership, $file, $dir_file, $factory, $send_creation_mail) {
         $em = $this->getEntityManager();
-        $user = new user();
-        $address = $data['ownership_address_street'] . ' #' . $data['ownership_address_number'];
-        $phone = '(+53' . $code . ') ' . $data['ownership_phone_number'];
-        $city = $em->getRepository('mycpBundle:municipality')->find($data['ownership_address_municipality']);
+        $user = new user();        
         $country = $em->getRepository('mycpBundle:country')->findBy(array('co_name' => 'Cuba'));
-        $email = '';
         $subrole = $em->getRepository('mycpBundle:role')->findOneBy(array('role_name' => 'ROLE_CLIENT_CASA'));
-        if (!empty($data['ownership_email_1']))
-            $email = $data['ownership_email_1'];
-        else
-            $email = $data['ownership_email_2'];
-
+        
+        $address = $ownership->getOwnAddressStreet()." #".$ownership->getOwnAddressNumber().", ".$ownership->getOwnAddressMunicipality()->getMunName().", ".$ownership->getOwnAddressProvince()->getProvName();
+        $phone = '(+53' . $ownership->getOwnAddressProvince()->getProvPhoneCode() . ') ' . $ownership->getOwnPhoneNumber();
+        
+        $email = $ownership->getOwnEmail1();
+            if (empty($email))
+                $email = $ownership->getOwnEmail2();
+        
         $user->setUserAddress($address);
-        $user->setUserCity($city->getMunName());
+        $user->setUserCity($ownership->getOwnAddressMunicipality()->getMunName());
         $user->setUserCountry($country[0]);
         $user->setUserEmail($email);
         $user->setUserPhone($phone);
-        $user->setUserName($data['ownership_mcp_code']);
-        $user->setUserLastName($data['ownership_homeowner_1']);
-        $file = $request->files->get('user_photo');
+        $user->setUserName($ownership->getOwnMcpCode());
+        
         if ($file) {
             $photo = new photo();
             $fileName = uniqid('user-') . '-photo.jpg';
-            $file->move($dir, $fileName);
+            $file->move($dir_file, $fileName);
             $photo->setPhoName($fileName);
             $user->setUserPhoto($photo);
             $em->persist($photo);
@@ -64,13 +62,17 @@ class userCasaRepository extends EntityRepository {
         $user->setUserEnabled(false);
         $user->setUserCreatedByMigration(false);
         $user->setUserSubrole($subrole);
-        $user->setUserUserName($data['ownership_homeowner_1']);
-        $encoder = $factory->getEncoder($user);
-        $password = $encoder->encodePassword("casa_".$data['ownership_mcp_code'], $user->getSalt());
-        $user->setUserPassword($password);
+        $user_name = explode(' ', $ownership->getOwnHomeOwner1());
+        $user->setUserUserName($user_name[0]);
+        $user->setUserLastName($user_name[1]);
+        $user->setUserPassword(" ");
+        
         $user_casa = new userCasa();
         $user_casa->setUserCasaOwnership($ownership);
         $user_casa->setUserCasaUser($user);
+        $encoder = $factory->getEncoder($user);
+        $secret_token = $encoder->encodePassword("casa_".$ownership->getOwnMcpCode(), $user->getSalt());
+        $user_casa->setUserCasaSecretToken($secret_token);
         $em->persist($user);
         $em->persist($user_casa);
     }
@@ -91,6 +93,15 @@ class userCasaRepository extends EntityRepository {
         else if (!file_exists(realpath("uploads/userImages/" . $photo_name)))
             $photo_name = "no_photo.gif";
         return $photo_name;
+    }
+    
+    function getAccommodationsWithoutUser()
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT o FROM mycpBundle:ownership o
+        WHERE (SELECT count(user) FROM mycpBundle:userCasa user WHERE user.user_casa_ownership = o.own_id) = 0
+        ORDER BY o.own_mcp_code");
+        return $query->getResult();
     }
 
 }

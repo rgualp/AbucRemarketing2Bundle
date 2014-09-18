@@ -115,7 +115,7 @@ class BackendUserController extends Controller {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
-        $ownerships = $em->getRepository('mycpBundle:ownership')->findAll();
+        $ownerships = $em->getRepository('mycpBundle:userCasa')->getAccommodationsWithoutUser();
         $data['ownerships'] = $ownerships;
 
         $form = $this->createForm(new clientCasaType($data));
@@ -130,7 +130,12 @@ class BackendUserController extends Controller {
                 if (!isset($data['error'])) {
                     $dir = $this->container->getParameter('user.dir.photos');
                     $factory = $this->get('security.encoder_factory');
-                    $em->getRepository('mycpBundle:user')->new_user_casa($id_role, $post, $request, $dir, $factory);
+
+                    $ownership = $em->getRepository('mycpBundle:ownership')->find($post['mycp_mycpbundle_client_casatype']['ownership']);
+                    $file = $request->files->get('mycp_mycpbundle_client_casatype');
+                    $file = $file['photo'];
+
+                    $em->getRepository('mycpBundle:userCasa')->createUser($ownership, $file, $dir, $factory, true);
                     $message = 'Usuario añadido satisfactoriamente.';
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
 
@@ -153,8 +158,16 @@ class BackendUserController extends Controller {
         $ownerships = $em->getRepository('mycpBundle:ownership')->findAll();
         $data['ownerships'] = $ownerships;
         $data['edit'] = true;
+        $data_user = array();
+        $data_user['user_name'] = "";
+        $data_user['address'] = "";
+        $data_user['email'] = "";
+        $data_user['name'] = "";
+        $data_user['last_name'] = "";
+        $data_user['ownership'] = "";
+        $data_user['phone'] = "";
+
         $request_form = $request->get('mycp_mycpbundle_client_casatype');
-        $data['password'] = $request_form['user_password']['Clave:'];
         $form = $this->createForm(new clientCasaType($data));
         if ($request->getMethod() == 'POST') {
 
@@ -183,11 +196,14 @@ class BackendUserController extends Controller {
             $data_user['address'] = $user_casa->getUserCasaUser()->getUserAddress();
             $data_user['email'] = $user_casa->getUserCasaUser()->getUserEmail();
             $data_user['name'] = $user_casa->getUserCasaUser()->getUserUserName();
+            $data_user['phone'] = $user_casa->getUserCasaUser()->getUserPhone();
             $data_user['last_name'] = $user_casa->getUserCasaUser()->getUserLastName();
             $data_user['ownership'] = $user_casa->getUserCasaOwnership()->getOwnId();
             $form->setData($data_user);
         }
-        return $this->render('mycpBundle:user:newUserCasa.html.twig', array('form' => $form->createView(), 'data' => $data, 'id_role' => '', 'edit_user' => $id_user, 'user' => $data_user));
+        return $this->render('mycpBundle:user:newUserCasa.html.twig', array('form' => $form->createView(),
+                    'data' => $data, 'id_role' => '', 'edit_user' => $id_user,
+                    'user' => $data_user));
     }
 
     function new_user_touristAction($id_role, Request $request) {
