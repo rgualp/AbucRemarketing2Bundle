@@ -524,7 +524,7 @@
         </div>
         <br/>
         <br/-->
-        
+
         {%if users is defined and users%}
         {%for user in users%}
         <div class="row-fluid">
@@ -543,14 +543,14 @@
             <div class="row-fluid">
                 <div class="span3">Teléfono: </div> <div class="span9"> {%if user.usercasauser.userphone%}{{user.usercasauser.userphone}}{%else%}-{%endif%}</div>
             </div>
-        </div>        
+        </div>
         <br/>
         <div class="row-fluid">
             <div class="span9">
                 <a class="btn btn-mini pull-right" style="height:20px; padding-top:7px;" target="_blank" href="{{ path('mycp_edit_user_casa',{'id_user':user.usercasauser.userid})}}">Editar</a>
             </div>
             <div class="span3">
-                <a class="btn btn-info pull-right" {%if not user.usercasauser.useremail%}disabled="disabled"{%endif%}><i class="icon-envelope icon-white"></i> Notificar al cliente</a>
+                <a class="btn btn-info pull-right" href="{{path('mycp_send_created_usercasa_mail',{'userId':user.usercasauser.userid,'returnUrlName':'mycp_list_ownerships'})}}" {%if not user.usercasauser.useremail%}disabled="disabled"{%endif%}><i class="icon-envelope icon-white"></i> Notificar al cliente</a>
             </div>
         </div>
         <hr/>
@@ -565,7 +565,7 @@
             <input type="checkbox" name="user_send_mail" id="user_send_mail" disabled="disabled"/> Enviar los datos de la cuenta al correo del propietario
         </div>
         {%endif%}
-        
+
     </div>
 {% if data['edit_ownership'] is defined %}
     <div id="comentarios" class="tab-pane fade">
@@ -590,7 +590,7 @@
 
     url_destination = "{{ path('mycp_get_destination_by_mun', { 'municipality': '-1'}) }}";
     url_destination=url_destination.replace('/-1','');
-    
+
     $("#user_create").change(function(){
         if(this.checked)
         {

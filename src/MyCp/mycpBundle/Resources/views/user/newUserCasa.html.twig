@@ -39,7 +39,12 @@
     <div class="row-fluid">
         <div class="span4">{{form_row(form.phone)}}</div>
         <div class="span4">{{form_row(form.photo)}}</div>
-        
+        {% if not edit_user is defined%}
+        <div class="span4">
+        <input type="checkbox" name="user_send_mail" id="user_send_mail"/>Enviar los datos de la cuenta al correo del propietario
+        </div>
+        {%endif%}
+
         <!--div class="span4">{#{form_row(form.user_password['Clave:'])}#}</div>
         <div class="span4">{#{form_row(form.user_password['Repetir_clave:'])}#}</div-->
     </div>
@@ -47,7 +52,7 @@
     <br/>
     <div class="row-fluid">
         <div class="span12">
-            <button class="btn btn-info pull-right" {%if user is not defined or user['email'] == ""%}disabled="disabled"{%endif%}><i class="icon-envelope icon-white"></i> Notificar al cliente</button>
+            <a class="btn btn-info pull-right" href="{{path('mycp_send_created_usercasa_mail',{'userId':user.user_id,'returnUrlName':'mycp_list_users'})}}" {%if user is not defined or user['email'] == ""%}disabled="disabled"{%endif%}><i class="icon-envelope icon-white"></i> Notificar al cliente</a>
         </div>
     </div>
     <br/>
@@ -85,10 +90,10 @@
                 $('.email').val(email1);
                 address=array_own[id_own][2];
                 $('.address').val(address);
-                
+
                 login = array_own[id_own][3];
                 $('.login').val(login);
-                
+
                 var phone = "(+53" + array_own[id_own][4] + ") " + array_own[id_own][5];
                 $('.phone').val(phone);
             }

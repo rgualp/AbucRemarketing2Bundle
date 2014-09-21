@@ -96,3 +96,7 @@ mycp_get_cities_by_country:
 mycp_backend_front:
     pattern:  /backend/
     defaults: { _controller: mycpBundle:Backend:backend_front}
+
+mycp_send_created_usercasa_mail:
+    pattern:  /send_mail/create/user_casa/{userId}/{returnUrlName}
+    defaults: { _controller: mycpBundle:Public:sendMailCreateUserCasa}

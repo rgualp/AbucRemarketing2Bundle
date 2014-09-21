@@ -166,13 +166,24 @@ class BackendUserController extends Controller {
         $data_user['last_name'] = "";
         $data_user['ownership'] = "";
         $data_user['phone'] = "";
+        $data_user['user_id'] = "";
+
+        $count_errors = 0;
 
         $request_form = $request->get('mycp_mycpbundle_client_casatype');
         $form = $this->createForm(new clientCasaType($data));
         if ($request->getMethod() == 'POST') {
 
             $form->handleRequest($request);
-            if ($form->isValid()) {
+
+            if(!Utils::validateEmail($request_form['email']))
+            {
+                $message = 'La dirección de correo no es válida';
+                $this->get('session')->getFlashBag()->add('message_error_main', $message);
+                $count_errors++;
+            }
+
+            if ($form->isValid()&& $count_errors == 0) {
                 $factory = $this->get('security.encoder_factory');
                 $dir = $this->container->getParameter('user.dir.photos');
                 $em->getRepository('mycpBundle:userCasa')->edit($id_user, $request, $dir, $factory);
@@ -199,6 +210,9 @@ class BackendUserController extends Controller {
             $data_user['phone'] = $user_casa->getUserCasaUser()->getUserPhone();
             $data_user['last_name'] = $user_casa->getUserCasaUser()->getUserLastName();
             $data_user['ownership'] = $user_casa->getUserCasaOwnership()->getOwnId();
+            $data_user['phone'] = "";
+            $data_user['user_id'] = $user_casa->getUserCasaUser()->getUserId();
+
             $form->setData($data_user);
         }
         return $this->render('mycpBundle:user:newUserCasa.html.twig', array('form' => $form->createView(),

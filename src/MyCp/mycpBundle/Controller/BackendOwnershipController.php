@@ -943,11 +943,11 @@ class BackendOwnershipController extends Controller {
         $owners_name_1 = $own->getOwnHomeowner1();
         $owners_name_2 = $own->getOwnHomeowner2();
 
-        UserMails::sendOwnersMail($own_mail_1, $own_mail_2, $owners_name_1, $owners_name_2, $own->getOwnName(), $own->getOwnMcpCode());
+        UserMails::sendOwnersMail($this,$own_mail_1, $own_mail_2, $owners_name_1, $owners_name_2, $own->getOwnName(), $own->getOwnMcpCode());
 
         return $this->redirect($this->generateUrl('mycp_edit_ownership', array('id_ownership' => $own_id)));
     }
-    
+
     public function get_ownership_categoriesAction($post) {
         return $this->render('mycpBundle:utils:ownership_category.html.twig', array('data_post' => $post));
     }
