@@ -793,12 +793,12 @@ class BackendOwnershipController extends Controller {
                             $service_log->saveLog('Edit entity ' . $post['ownership_mcp_code'], BackendModuleName::MODULE_OWNERSHIP);
                         }
 
-                        $em->getRepository('mycpBundle:ownership')->edit($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])),(isset($post['user_send_mail']) && !empty($post['user_send_mail'])));
+                        $em->getRepository('mycpBundle:ownership')->edit($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])),(isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this);
 
                         $message = 'Propiedad actualizada satisfactoriamente.';
                     } else {
 
-                        $em->getRepository('mycpBundle:ownership')->insert($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])),(isset($post['user_send_mail']) && !empty($post['user_send_mail'])));
+                        $em->getRepository('mycpBundle:ownership')->insert($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])),(isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this);
                         $message = 'Propiedad añadida satisfactoriamente.';
                         $service_log = $this->get('log');
                         $service_log->saveLog('Create entity ' . $post['ownership_mcp_code'], BackendModuleName::MODULE_OWNERSHIP);

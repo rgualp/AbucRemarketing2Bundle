@@ -22,7 +22,7 @@ use MyCp\mycpBundle\Helpers\Dates;
  */
 class ownershipRepository extends EntityRepository {
 
-    function insert($data, $request, $dir, $factory, $new_user, $send_creation_mail) {
+    function insert($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller) {
 
         if ($data['facilities_breakfast'] == 'No')
             $data['facilities_breakfast'] = 0;
@@ -237,14 +237,14 @@ class ownershipRepository extends EntityRepository {
         $em->persist($ownership);
 
         //save client casa
-        if ($new_user) {            
+        if ($new_user) {
             $file = $request->files->get('user_photo');
-            $em->getRepository('mycpBundle:userCasa')->createUser($ownership,$file,$dir,$factory, $send_creation_mail);
+            $em->getRepository('mycpBundle:userCasa')->createUser($ownership,$file,$dir,$factory, $send_creation_mail, $controller);
         }
         $em->flush();
     }
 
-    function edit($data, $request, $dir, $factory, $new_user, $send_creation_mail) {
+    function edit($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller) {
         $id_ownership = $data['edit_ownership'];
 
         $active_top_20 = 0;
@@ -457,7 +457,7 @@ class ownershipRepository extends EntityRepository {
         //save client casa
         if ($new_user) {
             $file = $request->files->get('user_photo');
-            $em->getRepository('mycpBundle:userCasa')->createUser($ownership,$file,$dir,$factory, $send_creation_mail);
+            $em->getRepository('mycpBundle:userCasa')->createUser($ownership,$file,$dir,$factory, $send_creation_mail, $controller);
         }
 
         $em->flush();

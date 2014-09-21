@@ -45,6 +45,11 @@ class UserMails {
                 $controller->get('session')->getFlashBag()->add('message_error_main', $message);
             }
         }
+        else
+        {
+            $message = 'No se ha enviado la notificación porque el correo electrónico está en blanco.';
+            $controller->get('session')->getFlashBag()->add('message_error_main', $message);
+        }
     }
 
 }

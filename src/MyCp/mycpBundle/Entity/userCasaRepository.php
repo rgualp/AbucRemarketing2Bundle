@@ -29,26 +29,26 @@ class userCasaRepository extends EntityRepository {
         return $query->getResult();
     }
 
-    function createUser($ownership, $file, $dir_file, $factory, $send_creation_mail) {
+    function createUser($ownership, $file, $dir_file, $factory, $send_creation_mail, $controller) {
         $em = $this->getEntityManager();
-        $user = new user();        
+        $user = new user();
         $country = $em->getRepository('mycpBundle:country')->findBy(array('co_name' => 'Cuba'));
         $subrole = $em->getRepository('mycpBundle:role')->findOneBy(array('role_name' => 'ROLE_CLIENT_CASA'));
-        
+
         $address = $ownership->getOwnAddressStreet()." #".$ownership->getOwnAddressNumber().", ".$ownership->getOwnAddressMunicipality()->getMunName().", ".$ownership->getOwnAddressProvince()->getProvName();
         $phone = '(+53' . $ownership->getOwnAddressProvince()->getProvPhoneCode() . ') ' . $ownership->getOwnPhoneNumber();
-        
+
         $email = $ownership->getOwnEmail1();
             if (empty($email))
                 $email = $ownership->getOwnEmail2();
-        
+
         $user->setUserAddress($address);
         $user->setUserCity($ownership->getOwnAddressMunicipality()->getMunName());
         $user->setUserCountry($country[0]);
         $user->setUserEmail($email);
         $user->setUserPhone($phone);
         $user->setUserName($ownership->getOwnMcpCode());
-        
+
         if ($file) {
             $photo = new photo();
             $fileName = uniqid('user-') . '-photo.jpg';
@@ -66,7 +66,7 @@ class userCasaRepository extends EntityRepository {
         $user->setUserUserName($user_name[0]);
         $user->setUserLastName($user_name[1]);
         $user->setUserPassword(" ");
-        
+
         $user_casa = new userCasa();
         $user_casa->setUserCasaOwnership($ownership);
         $user_casa->setUserCasaUser($user);
@@ -75,8 +75,13 @@ class userCasaRepository extends EntityRepository {
         $user_casa->setUserCasaSecretToken($secret_token);
         $em->persist($user);
         $em->persist($user_casa);
+
+        if($send_creation_mail)
+        {
+            \MyCp\mycpBundle\Helpers\UserMails::sendCreateUserCasaMail($controller,$user->getUserEmail(), $user->getUserName(), $user->getUserUserName() . ' ' . $user->getUserLastName(), $user_casa->getUserCasaSecretToken(), $ownership->getOwnName(), $ownership->getOwnMcpCode());
+        }
     }
-    
+
      function edit($id_user, $request, $dir, $factory) {
         $post = $request->request->getIterator()->getArrayCopy();
         $em = $this->getEntityManager();
@@ -135,7 +140,7 @@ class userCasaRepository extends EntityRepository {
             $photo_name = "no_photo.gif";
         return $photo_name;
     }
-    
+
     function getAccommodationsWithoutUser()
     {
         $em = $this->getEntityManager();

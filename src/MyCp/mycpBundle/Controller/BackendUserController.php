@@ -135,7 +135,9 @@ class BackendUserController extends Controller {
                     $file = $request->files->get('mycp_mycpbundle_client_casatype');
                     $file = $file['photo'];
 
-                    $em->getRepository('mycpBundle:userCasa')->createUser($ownership, $file, $dir, $factory, true);
+                    $send_notification_email = (isset($post['user_send_mail']) && !empty($post['user_send_mail']));
+
+                    $em->getRepository('mycpBundle:userCasa')->createUser($ownership, $file, $dir, $factory, $send_notification_email, $this);
                     $message = 'Usuario añadido satisfactoriamente.';
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
 
