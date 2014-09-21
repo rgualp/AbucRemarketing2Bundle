@@ -1,0 +1,15 @@
+{% extends 'FrontEndBundle:layout:base.html.twig' %}
+{% block title %}{{"ACCOMMODATION" | trans}}{% endblock %}
+{% block breadcrumbs %}
+    <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+    <span>››</span>
+    <a href="#" class="active" title="{{"ACCOMMODATION" | trans}}">{{"ACCOMMODATION" | trans}}</a>
+{% endblock %}
+{% block body %}
+<div class="container">
+    <h2 class="caecilia-roman big-price-green text-center no-margin" style="font-weight: normal;">{{"ACCOMMODATION" | trans }}</h2>
+    <div><img src="{{ asset('bundles/frontend/img/line-gradient-green.png') }}" style="width: 100%; height: 1px; margin: 16px 0"></div>
+
+</div>
+
+{%endblock%}

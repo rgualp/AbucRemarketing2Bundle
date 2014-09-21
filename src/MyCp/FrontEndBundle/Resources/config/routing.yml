@@ -70,3 +70,6 @@ frontend_public:
     resource: "@FrontEndBundle/Resources/config/routingFrontendPublic.yml"
     type: be_simple_i18n
 
+frontend_userCasa:
+    resource: "@FrontEndBundle/Resources/config/routingFrontendUserCasa.yml"
+    type: be_simple_i18n
