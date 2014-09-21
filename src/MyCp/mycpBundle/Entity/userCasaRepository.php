@@ -150,4 +150,16 @@ class userCasaRepository extends EntityRepository {
         return $query->getResult();
     }
 
+    function getOneByOwnCode($own_code)
+    {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT uc
+                  FROM mycpBundle:userCasa uc
+                  JOIN uc.user_casa_ownership o
+                  WHERE o.own_mcp_code = '$own_code'";
+
+        $query = $em->createQuery($query_string);
+        return $query->getOneOrNullResult();
+    }
+
 }

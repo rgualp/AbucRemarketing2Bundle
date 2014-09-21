@@ -2507,6 +2507,14 @@
                 <source>OWN_NO_STATUS</source>
                 <target>Sin Estado</target>
             </trans-unit>
+            <trans-unit id="637">
+                <source>FORMS_SECRET_TOKEN</source>
+                <target>Token Secreto</target>
+            </trans-unit>
+            <trans-unit id="638">
+                <source>INVALID_SECRET_TOKEN</source>
+                <target>El token secreto no es válido </target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

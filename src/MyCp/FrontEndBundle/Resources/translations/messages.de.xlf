@@ -2506,6 +2506,14 @@
                 <source>OWN_NO_STATUS</source>
                 <target>No Status</target>
             </trans-unit>
+            <trans-unit id="637">
+                <source>FORMS_SECRET_TOKEN</source>
+                <target>Secret Token</target>
+            </trans-unit>
+            <trans-unit id="638">
+                <source>INVALID_SECRET_TOKEN</source>
+                <target>Invalid secret token</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
