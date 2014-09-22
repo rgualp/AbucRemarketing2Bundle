@@ -1,0 +1,11 @@
+mycp_short_edit_ownership:
+    pattern:  /edit/
+    defaults: { _controller: mycpBundle:LodgingOwnership:edit_ownership }
+
+mycp_short_update_ownership:
+    pattern:  /update/
+    defaults: { _controller: mycpBundle:LodgingOwnership:update_ownership }
+
+mycp_send_changes_mail_ownership:
+    pattern:  /sendmail/
+    defaults: { _controller: mycpBundle:LodgingOwnership:send_mail }

@@ -1,0 +1,4 @@
+mycp_list_readonly_comments:
+    pattern:  /list/{items_per_page}/{filter_ownership}/{filter_user}/{filter_keyword}/{filter_rate}/{sort_by}
+    defaults: { _controller: mycpBundle:LodgingComment:list_comment, items_per_page: 20,filter_ownership:'',filter_user:'',filter_keyword:'',filter_rate:'',sort_by:'0'}
+

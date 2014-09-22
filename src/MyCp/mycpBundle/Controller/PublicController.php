@@ -14,7 +14,7 @@ use MyCp\mycpBundle\Entity\user;
 class PublicController extends Controller
 {
 
-    public function loginAction()
+    public function loginAction($urlLogin)
     {
 
         $request = $this->getRequest();
@@ -29,6 +29,7 @@ class PublicController extends Controller
         return $this->render('mycpBundle:public:login.html.twig', array(
             'last_username' => $session->get(SecurityContext::LAST_USERNAME),
             'error' => $error,
+            'urlLogin' => $urlLogin,
         ));
     }
 

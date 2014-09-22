@@ -14,7 +14,52 @@ use MyCp\mycpBundle\Helpers\SyncStatuses;
 class generalReservationRepository extends EntityRepository {
 
     function get_all_reservations($filter_date_reserve, $filter_offer_number, $filter_reference,
-                                  $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number) {
+                                  $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number)
+    {
+        $gaQuery = "SELECT gre,
+        (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id),
+        (SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id),
+        (SELECT SUM(owres3.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id),
+        us, cou,own FROM mycpBundle:generalReservation gre
+        JOIN gre.gen_res_own_id own
+        JOIN gre.gen_res_user_id us
+        JOIN us.user_country cou
+        WHERE gre.gen_res_date LIKE :filter_date_reserve
+        AND gre.gen_res_from_date LIKE :filter_date_from
+        AND gre.gen_res_id LIKE :filter_offer_number
+        AND own.own_mcp_code LIKE :filter_reference
+        AND gre.gen_res_to_date LIKE :filter_date_to ";
+
+        return $this->get_reservations_by_query($filter_date_reserve, $filter_offer_number, $filter_reference,
+            $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, -1, $gaQuery);
+    }
+
+    function get_all_reservations_by_user_casa($filter_date_reserve, $filter_offer_number, $filter_reference,
+                                  $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $user_casa_id)
+    {
+        $gaQuery = "SELECT gre,
+        (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id),
+        (SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id),
+        (SELECT SUM(owres3.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id),
+        us, cou,own FROM mycpBundle:generalReservation gre
+        JOIN gre.gen_res_own_id own
+        JOIN gre.gen_res_user_id us
+        JOIN us.user_country cou
+        JOIN mycpBundle:userCasa uca with uca.user_casa_ownership = own.own_id
+        WHERE gre.gen_res_date LIKE :filter_date_reserve
+        AND gre.gen_res_from_date LIKE :filter_date_from
+        AND gre.gen_res_id LIKE :filter_offer_number
+        AND own.own_mcp_code LIKE :filter_reference
+        AND gre.gen_res_to_date LIKE :filter_date_to
+        AND uca.user_casa_id = :user_casa_id ";
+
+        return $this->get_reservations_by_query($filter_date_reserve, $filter_offer_number, $filter_reference,
+            $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $user_casa_id, $gaQuery);
+
+    }
+
+    function get_reservations_by_query($filter_date_reserve, $filter_offer_number, $filter_reference,
+                                  $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $user_casa_id, $queryStr) {
         $filter_offer_number = strtolower($filter_offer_number);
         $filter_booking_number = strtolower($filter_booking_number);
         $filter_offer_number = str_replace('cas.', '', $filter_offer_number);
@@ -49,28 +94,31 @@ class generalReservationRepository extends EntityRepository {
                 break;
         }
         $em = $this->getEntityManager();
-        $query = $em->createQuery("SELECT gre,
-        (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id),
-        (SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id),
-        (SELECT SUM(owres3.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id),
-        us, cou,own FROM mycpBundle:generalReservation gre
-        JOIN gre.gen_res_own_id own
-        JOIN gre.gen_res_user_id us
-        JOIN us.user_country cou
-        WHERE gre.gen_res_date LIKE :filter_date_reserve
-        AND gre.gen_res_from_date LIKE :filter_date_from
-        AND gre.gen_res_id LIKE :filter_offer_number
-        AND own.own_mcp_code LIKE :filter_reference
-        AND gre.gen_res_to_date LIKE :filter_date_to $string_order");
+        $queryStr = $queryStr . $string_order;
+        $query = $em->createQuery($queryStr);
 
+        if ($user_casa_id == -1)
+        {
+            $query->setParameters(array(
+                'filter_date_reserve' => "%".$filter_date_reserve."%",
+                'filter_date_from' => "%".$filter_date_from."%",
+                'filter_offer_number' => "%".$filter_offer_number."%",
+                'filter_reference' => "%".$filter_reference."%",
+                'filter_date_to' => "%".$filter_date_to."%",
+            ));
+        }
+        else
+        {
+            $query->setParameters(array(
+                'filter_date_reserve' => "%".$filter_date_reserve."%",
+                'filter_date_from' => "%".$filter_date_from."%",
+                'filter_offer_number' => "%".$filter_offer_number."%",
+                'filter_reference' => "%".$filter_reference."%",
+                'filter_date_to' => "%".$filter_date_to."%",
+                'user_casa_id' => $user_casa_id,
+            ));
+        }
 
-        $query->setParameters(array(
-            'filter_date_reserve' => "%".$filter_date_reserve."%",
-            'filter_date_from' => "%".$filter_date_from."%",
-            'filter_offer_number' => "%".$filter_offer_number."%",
-            'filter_reference' => "%".$filter_reference."%",
-            'filter_date_to' => "%".$filter_date_to."%",
-        ));
 
         $array_genres=$query->getArrayResult();
 

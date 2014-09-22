@@ -14,6 +14,10 @@ mycp_comments:
     resource: "@mycpBundle/Resources/config/routingBackendComment.yml"
     prefix:   backend/comment/
 
+mycp_lodging_comments:
+    resource: "@mycpBundle/Resources/config/routingLodgingComment.yml"
+    prefix:   alojamiento/comment/
+
 mycp_general_informations:
     resource: "@mycpBundle/Resources/config/routingBackendGeneralInformation.yml"
     prefix:   backend/general_information/
@@ -21,6 +25,10 @@ mycp_general_informations:
 mycp_reservations:
     resource: "@mycpBundle/Resources/config/routingBackendReservations.yml"
     prefix:   backend/reservation/
+
+mycp_lodging_reservations:
+    resource: "@mycpBundle/Resources/config/routingLodgingReservations.yml"
+    prefix:   alojamiento/reservation/
 
 mycp_faqs:
     resource: "@mycpBundle/Resources/config/routingBackendFAQs.yml"
@@ -34,9 +42,17 @@ mycp_ownership:
     resource: "@mycpBundle/Resources/config/routingBackendOwnership.yml"
     prefix:   backend/ownership/
 
+mycp_lodging_ownership:
+    resource: "@mycpBundle/Resources/config/routingLodgingOwnership.yml"
+    prefix:   alojamiento/ownership/
+
 mycp_user:
     resource: "@mycpBundle/Resources/config/routingBackendUser.yml"
     prefix:   backend/user/
+
+mycp_lodging_user:
+    resource: "@mycpBundle/Resources/config/routingLodgingUser.yml"
+    prefix:   alojamiento/user/
 
 mycp_currency:
     resource: "@mycpBundle/Resources/config/routingBackendCurrency.yml"
@@ -57,6 +73,11 @@ mycp_utils:
 mycp_unavailabilityDetails:
     resource: "@mycpBundle/Resources/config/routingBackendUnavailabilityDetails.yml"
     prefix:   backend/unavailability_details/
+
+mycp_lodging_unavailabilityDetails:
+    resource: "@mycpBundle/Resources/config/routingLodgingUnavaibilityDetails.yml"
+    prefix:   alojamiento/unavailability_details/
+
 
 mycp_edit_metatags:
     pattern:  backend/metatags/
@@ -84,3 +105,7 @@ mycp_get_cities_by_country:
 mycp_backend_front:
     pattern:  /backend/
     defaults: { _controller: mycpBundle:Backend:backend_front}
+
+mycp_lodging_front:
+    path:     /alojamiento/
+    defaults: { _controller: mycpBundle:Lodging:lodging_front }

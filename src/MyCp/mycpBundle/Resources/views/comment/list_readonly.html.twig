@@ -1,0 +1,164 @@
+{% extends 'mycpBundle:layout:lodging.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_lodging_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li class="active">Comentarios</li>
+</ul>
+{% endblock %}
+{% block content %}
+<h2>Comentarios</h2>
+<hr/>
+{% for message in app.session.flashbag.get('message_error_local') %}
+<div class="alert alert-error">{{ message }}</div>
+{% endfor %}
+<form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_list_readonly_comments')}}">
+<div class="well well-small">
+    <div class="row-fluid">
+    <div class="span3">
+        <label>Propiedad:</label>
+        <input id="filter_ownership" value="{{filter_ownership}}" class="input-block-level" name="filter_ownership" type="text"/>
+    </div>
+    <div class="span2">
+        <label>Usuario:</label>
+        <select id="filter_user" value="{{filter_user}}" class="input-block-level" name="filter_user">
+            {{ render(controller('mycpBundle:BackendUser:get_all_users', {'post': {'selected':filter_user}})) }}
+        </select>
+    </div>
+    <div class="span3">
+        <label>Palabra clave:</label>
+        <input id="filter_keyword" value="{{filter_keyword}}" class="input-block-level" name="filter_keyword" type="text"/>
+    </div>
+    <div class="span2">
+        <label>Valoración:</label>
+        <select id="filter_rate" value="{{filter_rate}}" class="input-block-level" name="filter_rate">
+            {{ render(controller('mycpBundle:BackendComment:get_all_rate', {'post': {'selected':filter_rate}})) }}
+        </select>
+    </div>
+    <div class="span2">
+        <label>&nbsp;</label>
+        <div class="row-fluid">
+            <div class="span6">
+                <a rel="tooltip" title="Filtrar listado" href="javascript:action_submit();" class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
+            </div>
+            <div class="span6">
+                <a rel="tooltip" title="Resetear filtrado " href="{{ path('mycp_list_readonly_comments') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+</form>
+{% if comments %}
+<div class="alert">
+    {% if filter_ownership ==''%}{% set filter_ownership='null'%}{%endif%}
+    {% if filter_user ==''%}{% set filter_user='null'%}{%endif%}
+    {% if filter_keyword ==''%}{% set filter_keyword='null'%}{%endif%}
+    {% if filter_rate ==''%}{% set filter_rate='null'%}{%endif%}
+    <div class="row-fluid">
+    <div class="pull-left">
+       Mostrando del {{items_per_page * current_page - items_per_page}} al {% if items_per_page * current_page >  total_items%}{{total_items }}{% else %}{{ items_per_page * current_page }}{% endif %} de {{total_items}} registros
+    </div>
+    <div class="pull-right">
+        Mostrar:
+            <a class="{% if items_per_page == 20 %}selected{% endif %}" href="{{ path('mycp_list_readonly_comments',{'items_per_page':20,'filter_ownership':filter_ownership,'filter_user':filter_user,'filter_keyword':filter_keyword,'filter_rate':filter_rate,'sort_by':sort_by})}}">20</a>
+            <a class="{% if items_per_page == 50 %}selected{% endif %}" href="{{ path('mycp_list_readonly_comments',{'items_per_page':50,'filter_ownership':filter_ownership,'filter_user':filter_user,'filter_keyword':filter_keyword,'filter_rate':filter_rate,'sort_by':sort_by})}}">50</a>
+            <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_readonly_comments',{'items_per_page':100,'filter_ownership':filter_ownership,'filter_user':filter_user,'filter_keyword':filter_keyword,'filter_rate':filter_rate,'sort_by':sort_by})}}">100</a>
+         <input class="hidden" name="items_per_page" value="100">
+    </div>
+
+    <div class="pull-right" style="margin-right: 30px;">
+        Organizar:
+        <a class="{% if sort_by == '0' %}selected{% endif %}" href="{{ path('mycp_list_readonly_comments',{'items_per_page':items_per_page,'filter_ownership':filter_ownership,'filter_user':filter_user,'filter_keyword':filter_keyword,'filter_rate':filter_rate,'sort_by':0})}}">A-Z</a>
+        <a class="{% if sort_by == '1' %}selected{% endif %}" href="{{ path('mycp_list_readonly_comments',{'items_per_page':items_per_page,'filter_ownership':filter_ownership,'filter_user':filter_user,'filter_keyword':filter_keyword,'filter_rate':filter_rate,'sort_by':1})}}">Z-A</a>
+    </div>
+    </div>
+</div>
+<div class="paginator-cont span11">
+    {% if filter_keyword ==''%}{% set filter_keyword='null'%}{%endif%}
+    {{ simple_paginator_render('mycp_list_readonly_comments',null,{
+'container_class': 'paginator',
+'previousPageText': '«',
+'nextPageText': '»',
+'currentClass': 'current',
+'firstPageText': 'Primera',
+'lastPageText': 'Última',
+'route_params': {'items_per_page':items_per_page,'filter_ownership':filter_ownership,'filter_user':filter_user,'filter_keyword':filter_keyword,'filter_rate':filter_rate,'sort_by':sort_by}
+}) }}
+</div>
+
+    {% if comments %}
+        {% for comment in comments %}
+            <div class="row-fluid" style="background-color: #ffffff">
+                <div class="span12">
+                    <div class="span2">
+                        <img class="img-polaroid" style="margin-bottom: 10px;" src="{{ asset('bundles/frontend/img/user_no_photo.gif') }}" alt="">
+                        <label class="name">{{ comment.getComUser.getUserName }}</label>
+                        <div class="rating_star">
+                            {% for i in 1 .. 5 %}{% if i <= comment.getComRate %}<img src="{{ asset('bundles/frontend/img/star_on.png')}}"/>{% else %}<img src="{{ asset('bundles/frontend/img/star_off.png')}}"/>{% endif %} {% endfor %}
+                        </div>
+                    </div>
+                    <div class="span10" style="font-size: 12px;">
+                        <b> Acerca de propiedad: {{ comment.getComOwnership.getOwnMcpCode }} </b><br />
+                        <p style="text-align: justify">{{ comment.getComComments }}</p>
+
+                    </div>
+                </div>
+            </div>
+            {% if not loop.last %}<hr/>{% endif %}
+        {% endfor %}
+    {% endif %}
+
+<div class="paginator-cont span11">
+    {% if filter_keyword ==''%}{% set filter_keyword='null'%}{%endif%}
+    {{ simple_paginator_render('mycp_list_readonly_comments',null,{
+'container_class': 'paginator',
+'previousPageText': '«',
+'nextPageText': '»',
+'currentClass': 'current',
+'firstPageText': 'Primera',
+'lastPageText': 'Última',
+'route_params': {'items_per_page':items_per_page,'filter_ownership':filter_ownership,'filter_user':filter_user,'filter_keyword':filter_keyword,'filter_rate':filter_rate,'sort_by':sort_by}
+}) }}
+</div>
+{% else %}
+       <p> <div class="alert alert-block">No hay Comentarios disponibles.</div></p>
+{% endif %}
+<script type="text/javascript">
+
+
+    function submit_filters(e)
+    {
+        if(e.keyCode==13)
+        {
+            action_submit();
+        }
+    }
+
+    function action_submit()
+    {
+
+        items_per_page={{items_per_page}};
+        filter_ownership=$('#filter_ownership').val();
+        if(filter_ownership=='')filter_ownership='null';
+
+        filter_user=$('#filter_user').val();
+        if(filter_user=='')filter_user='null';
+
+        filter_keyword=$('#filter_keyword').val();
+        if(filter_keyword=='')filter_keyword='null';
+
+        filter_rate=$('#filter_rate').val();
+        if(filter_rate=='')filter_rate='null';
+
+        url_submit=$('#filter').attr('action');
+        url_submit=url_submit+'/'+items_per_page+'/'+filter_ownership+'/'+filter_user+'/'+filter_keyword+'/'+filter_rate;
+        $('#filter').attr('action',url_submit);
+        $('#filter').submit();
+    }
+</script>
+{% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea eliminar el elemento?','confirmation_action_label':'Eliminar'}%}
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('bundles/mycp/js/common_list.js') }}"></script>
+{% endblock %}

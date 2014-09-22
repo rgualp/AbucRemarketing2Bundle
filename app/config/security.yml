@@ -11,6 +11,8 @@ security:
             entity: { class: mycpBundle:user, property: user_email }
         backend:
             entity: { class: mycpBundle:user, property: user_name }
+        lodging:
+            entity: { class: mycpBundle:user, property: user_name }
 
     firewalls:
         dev:
@@ -37,9 +39,30 @@ security:
                 domain: ~
             logout:
                 path:   /backend/logout
-                target: /backend
+                target: /backend/
                 invalidate_session: false
             anonymous: ~
+
+        lodging:
+            pattern:    ^/alojamiento
+            provider: lodging
+            form_login:
+                check_path: /alojamiento/login_check
+                login_path: /alojamiento/login
+                remember_me: true
+            remember_me:
+                key: %secret%
+                #7dsa7ydasdy872187yegwhqeg9yw91hjsaa00
+                lifetime: 86400
+                always_remember_me: true
+                path: /
+                domain: ~
+            logout:
+                path:   /alojamiento/logout
+                target: /alojamiento/
+                invalidate_session: false
+            anonymous: ~
+
 
         user:
             pattern:    ^/
@@ -64,6 +87,9 @@ security:
         - { path: ^/backend/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backend/mycp_cf, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backend, roles: IS_AUTHENTICATED_REMEMBERED}
+        - { path: ^/alojamiento/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/alojamiento/mycp_cf, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/alojamiento, roles: IS_AUTHENTICATED_REMEMBERED}
         #[ROLE_CLIENT_STAFF,ROLE_CLIENT_CASA,ROLE_CLIENT_CASA] }
         - { path: '^/[a-z]{2}/user/cart', roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: '^/[a-z]{2}/user/confirmation', roles: [ROLE_CLIENT_TOURIST]}

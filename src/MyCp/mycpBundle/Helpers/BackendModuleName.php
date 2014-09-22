@@ -22,7 +22,10 @@ class BackendModuleName {
     const MODULE_GENERAL_INFORMATION = 9;
     const MODULE_COMMENT = 10;
     const MODULE_UNAVAILABILITY_DETAILS = 11;
-
+    const MODULE_LODGING_RESERVATION = 12;
+    const MODULE_LODGING_COMMENT = 13;
+    const MODULE_LODGING_OWNERSHIP = 14;
+    const MODULE_LODGING_USER = 14;
 }
 
 ?>

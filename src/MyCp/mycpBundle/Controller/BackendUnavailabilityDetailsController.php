@@ -173,8 +173,8 @@ class BackendUnavailabilityDetailsController extends Controller {
             $post_form = $request->get('mycp_mycpbundle_unavailabilitydetailstype');
             $form->handleRequest($request);
             if ($form->isValid()) {
-                $uDetails->setUdFromDate($this->createDate($post_form['ud_from_date']))
-                        ->setUdToDate($this->createDate($post_form['ud_to_date']))
+                $uDetails->setUdFromDate(Dates::createFromString($post_form['ud_from_date']))
+                        ->setUdToDate(Dates::createFromString($post_form['ud_to_date']))
                         ->setUdReason($post_form['ud_reason'])
                         ->setRoom($room);
                 //       ->setSyncSt(SyncStatuses::UPDATED);

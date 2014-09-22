@@ -75,6 +75,37 @@ class ownershipReservationRepository extends EntityRepository {
         return $query->setParameter('id_ownership', $id_ownership)->getArrayResult();
     }
 
+    function getReservationReservedByOwnership($id_ownership)
+    {
+        $em = $this->getEntityManager();
+        $reservedCode = ownershipReservation::STATUS_RESERVED;
+        $query = $em->createQuery("SELECT ore FROM mycpBundle:ownershipReservation ore JOIN ore.own_res_gen_res_id gre join mycpBundle:room ro with ore.own_res_selected_room_id = ro.room_id
+        WHERE gre.gen_res_own_id = :id_ownership and ore.own_res_status = $reservedCode");
+        return $query->setParameter('id_ownership', $id_ownership)->getResult();
+    }
+
+    function getReservationReserved($startParam, $endParam)
+    {
+        $start = $startParam;
+        $end = $endParam;
+        $em = $this->getEntityManager();
+        $reservedCode = ownershipReservation::STATUS_RESERVED;
+        $query = $em->createQuery("SELECT own.own_mcp_code, ro.room_num, ore, gre.gen_res_id, gre.gen_res_from_date, gre.gen_res_to_date FROM mycpBundle:ownershipReservation ore JOIN mycpBundle:room ro with ore.own_res_selected_room_id = ro.room_id JOIN ore.own_res_gen_res_id gre JOIN gre.gen_res_own_id own
+        WHERE ore.own_res_status = $reservedCode AND gre.gen_res_from_date >= :start AND gre.gen_res_to_date <= :end");
+        return $query->setParameter('start', $start)->setParameter('end', $end)->getResult();
+    }
+
+    function getReservationReservedByOwnershipAndDate($ownership, $startParam, $endParam)
+    {
+        $start = '%' . $startParam . '%';
+        $end = '%' . $endParam . '%';
+        $em = $this->getEntityManager();
+        $reservedCode = ownershipReservation::STATUS_RESERVED;
+        $query = $em->createQuery("SELECT own.own_mcp_code, ro.room_num, ore, gre.gen_res_id, gre.gen_res_from_date, gre.gen_res_to_date FROM mycpBundle:ownershipReservation ore JOIN mycpBundle:room ro with ore.own_res_selected_room_id = ro.room_id JOIN ore.own_res_gen_res_id gre JOIN gre.gen_res_own_id own
+        WHERE ore.own_res_status = $reservedCode AND gre.gen_res_from_date >= :start AND gre.gen_res_to_date <= :end AND own.own_id = :own_id");
+        return $query->setParameter('start', $start)->setParameter('end', $end)->setParameter('own_id', $ownership)->getResult();
+    }
+
     function get_reservations_by_booking_and_ownership($id_booking, $own_id) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT ore FROM mycpBundle:ownershipReservation ore JOIN ore.own_res_gen_res_id gre

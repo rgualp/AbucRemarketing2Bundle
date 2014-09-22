@@ -500,6 +500,24 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
         $em->flush();
     }
 
+    function short_edit_ownership($data)
+    {
+        $id_ownership = $data['edit_ownership'];
+        $em = $this->getEntityManager();
+        $ownership =
+            $em->getRepository('mycpBundle:ownership')->find($id_ownership);
+
+        $prov = $em->getRepository('mycpBundle:province')->find($ownership->getOwnAddressProvince());
+        $ownership->setOwnMobileNumber($data['ownership_mobile_number']);
+        $ownership->setOwnPhoneCode('(+53' . $prov->getProvPhoneCode() . ')');
+        $ownership->setOwnPhoneNumber($data['ownership_phone_number']);
+        $ownership->setOwnEmail1($data['ownership_email_1']);
+        $ownership->setOwnEmail2($data['ownership_email_2']);
+        $ownership->setOwnLastUpdate(new \DateTime());
+        $em->persist($ownership);
+        $em->flush();
+    }
+
     function get_all_ownerships($filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality, $filter_type, $filter_name, $filter_saler='', $filter_visit_date='') {
 
         $condition = '';

@@ -1,0 +1,9 @@
+<?php
+
+namespace MyCp\mycpBundle\Tests\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+
+class LodgingUserControllerTest extends WebTestCase
+{
+}

@@ -1,0 +1,72 @@
+{% extends 'mycpBundle:layout:base.html.twig' %}
+
+{% block user_context_menu %}
+    <li role="presentation"><a href="{{ path('lodging_logout') }}"><i class="icon-off"></i> Cerrar sesión</a></li>
+{% endblock %}
+
+{% block body %}
+{% for message in app.session.flashbag.get('message_ok') %}
+<div class="alert alert-info">{{ message }}</div>
+{% endfor %}
+{% for message in app.session.flashbag.get('message_error_main') %}
+<div class="alert alert-error">{{ message }}</div>
+{% endfor %}
+<div class="row-fluid">
+<div class="span3">
+    <div class="accordion" id="accordion2">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                    Reservaciones
+                </a>
+            </div>
+            {% set temp = app.request.attributes.get('_controller')|split("\\")[3] %}
+            {% set temp = temp|split("::")[0] %}
+            <div id="collapseOne" class="accordion-body collapse {%if  temp == 'LodgingReservationController' or temp == 'LodgingUnavailabilityDetailsController' %}in{%endif%}">
+                <div class="accordion-inner">
+                    <a href="{{path('mycp_list_readonly_reservations')}}"><i class="icon-tags"></i> Reservas</a>
+                </div>
+
+                <div class="accordion-inner">
+                    <a href="{{ path('mycp_lodging_unavailabilityDetails_calendar') }}"><i class="icon-file"></i> Disponibilidad</a>
+                </div>
+                
+            </div>
+        </div>
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                    Opiniones
+                </a>
+            </div>
+            <div id="collapseTwo" class="accordion-body collapse {%if temp == 'LodgingCommentController'%}in{%endif%}">
+                <div class="accordion-inner">
+                    <a href="{{ path('mycp_list_readonly_comments') }}"><i class="icon-bullhorn"></i> Comentarios</a>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+                    Administraci&oacute;n
+                </a>
+            </div>
+            <div id="collapseThree" class="accordion-body collapse {%if  temp == 'LodgingUserController' or temp == 'LodgingOwnershipController' %}in{%endif%}">
+                <div class="accordion-inner">
+                    <a href="{{ path('mycp_lodging_edit_user') }}"><i class="icon-user"></i> Perfil</a>
+                </div>
+                <div class="accordion-inner">
+                    <a href="{{ path('mycp_short_edit_ownership') }}"><i class="icon-home"></i> Propiedades</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="span9">
+    {% block content %}
+    {% endblock %}
+</div>
+</div>
+
+{% endblock %}

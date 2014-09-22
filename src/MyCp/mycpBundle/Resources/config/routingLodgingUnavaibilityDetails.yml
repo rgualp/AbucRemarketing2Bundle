@@ -1,0 +1,20 @@
+mycp_lodging_unavailabilityDetails_get_json:
+    pattern:   /event/json
+    defaults: { _controller: mycpBundle:LodgingUnavailabilityDetails:get_ud_as_json}
+
+mycp_lodging_new_unavailabilityDetails:
+    pattern:   /detail/new/{id_room}/
+    defaults: { _controller: mycpBundle:LodgingUnavailabilityDetails:new}
+
+
+mycp_lodging_edit_unavailabilityDetails:
+    pattern:   /detail/edit/{id_detail}
+    defaults: { _controller: mycpBundle:LodgingUnavailabilityDetails:edit}
+
+mycp_lodging_delete_unavailabilityDetails:
+    pattern:  /detail/delete/{id_detail}
+    defaults: { _controller: mycpBundle:LodgingUnavailabilityDetails:delete }
+
+mycp_lodging_unavailabilityDetails_calendar:
+    pattern:   /calendar
+    defaults: { _controller: mycpBundle:LodgingUnavailabilityDetails:get_calendar}

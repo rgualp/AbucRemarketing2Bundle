@@ -57,6 +57,20 @@ class commentRepository extends EntityRepository
 
     function get_all_comment($filter_ownership,$filter_user,$filter_keyword, $filter_rate,$sort_by)
     {
+        $queryStr = "SELECT c,own,us FROM mycpBundle:comment c
+        JOIN c.com_ownership own JOIN c.com_user us WHERE own.own_mcp_code LIKE :filter_ownership";
+        return $this->get_all_comment_by_query($filter_ownership,$filter_user,$filter_keyword, $filter_rate,$sort_by, -1, $queryStr);
+    }
+
+    function get_comment_by_user_casa($filter_ownership,$filter_user,$filter_keyword, $filter_rate,$sort_by, $user_casa_id)
+    {
+        $queryStr = "SELECT c,own,us FROM mycpBundle:comment c
+        JOIN c.com_ownership own JOIN c.com_user us JOIN mycpBundle:userCasa uca WITH own.own_id = uca.user_casa_ownership WHERE own.own_mcp_code LIKE :filter_ownership and uca.user_casa_id = :user_casa_id";
+        return $this->get_all_comment_by_query($filter_ownership,$filter_user,$filter_keyword, $filter_rate,$sort_by, $user_casa_id, $queryStr);
+    }
+
+    function get_all_comment_by_query($filter_ownership,$filter_user,$filter_keyword, $filter_rate,$sort_by, $user_casa_id, $queryStr)
+    {
         $string='';
         if($filter_user!='null' && $filter_user!='')
         {
@@ -87,9 +101,10 @@ class commentRepository extends EntityRepository
 
 
         }
+
+        $queryStr = $queryStr . " " . $string . " " . $string2 . " " . $string3 . " " . $string4;
         $em = $this->getEntityManager();
-        $query = $em->createQuery("SELECT c,own,us FROM mycpBundle:comment c
-        JOIN c.com_ownership own JOIN c.com_user us WHERE own.own_mcp_code LIKE :filter_ownership $string $string2 $string3 $string4 ");
+        $query = $em->createQuery($queryStr);
 
         if($filter_user!='null' && $filter_user!='')
             $query->setParameter('filter_user', $filter_user);
@@ -100,7 +115,12 @@ class commentRepository extends EntityRepository
         if($filter_rate!='null' && $filter_rate!='')
             $query->setParameter('filter_rate', $filter_rate);
 
+        if ($user_casa_id != -1)
+            $query->setParameter("user_casa_id", $user_casa_id);
+
         $query->setParameter('filter_ownership', "%".$filter_ownership."%");
+
+
 
         return $query->getResult();
     }

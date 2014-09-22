@@ -1,0 +1,7 @@
+mycp_lodging_update_user:
+   pattern:  /update/profile/{id_user}
+   defaults: { _controller: mycpBundle:LodgingUser:update_profile }
+
+mycp_lodging_edit_user:
+   pattern:  /edit/profile/
+   defaults: { _controller: mycpBundle:LodgingUser:edit_profile }

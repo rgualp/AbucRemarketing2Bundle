@@ -97,6 +97,40 @@ class userRepository extends EntityRepository {
         $em->flush();
     }
 
+    function short_edit_user($id_user, $request, $dir, $factory) {
+        $post = $request->request->getIterator()->getArrayCopy();
+        $em = $this->getEntityManager();
+        $user = $em->getRepository('mycpBundle:user')->findOneBy(array('user_id' => $id_user));
+
+        if ($post['user_password'] != '') {
+            $encoder = $factory->getEncoder($user);
+            $password = $encoder->encodePassword($post['user_password'], $user->getSalt());
+            $user->setUserPassword($password);
+        }
+        $file = $request->files->get('user_photo');
+        if (isset($file)) {
+            $photo_user = $user->getUserPhoto();
+            if ($photo_user != null) {
+                $photo_old = $em->getRepository('mycpBundle:photo')->find($photo_user->getPhoId());
+                if ($photo_old)
+                    $em->remove($photo_old);
+                @unlink($dir . $user->getUserPhoto()->getPhoName());
+            }
+
+            $photo = new photo();
+            $fileName = uniqid('user-') . '-photo.jpg';
+            $file->move($dir, $fileName);
+            //Redimensionando la foto del usuario
+            \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 65);
+
+            $photo->setPhoName($fileName);
+            $user->setUserPhoto($photo);
+            $em->persist($photo);
+        }
+        $em->persist($user);
+        $em->flush();
+    }
+
     function registerUser($post, $request, $encoder, $translator, $languageCode, $currency) {
         $em = $this->getEntityManager();
         $language = $em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code' => $languageCode));

@@ -1,6 +1,9 @@
 {% extends 'mycpBundle:layout:base.html.twig' %}
 
 
+{% block logout_url %}
+    {{ path('backend_logout') }}
+{% endblock %}
 {% block body %}
 {% for message in app.session.flashbag.get('message_ok') %}
 <div class="alert alert-info">{{ message }}</div>
@@ -30,6 +33,9 @@
                     <a href="{{ path('mycp_list_ownerships') }}"><i class="icon-home"></i> Propiedades</a>
                 </div>
                 <div class="accordion-inner">
+                    <a href="{{ path('mycp_list_packages') }}"><i class="icon-tags"></i> Paquetes </a>
+                </div>
+                <div class="accordion-inner">
                     <a href="{{ path('mycp_list_unavailabilityDetails') }}"><i class="icon-file"></i> Disponibilidad</a>
                 </div>
                 <div class="accordion-inner">
@@ -44,6 +50,7 @@
                 <div class="accordion-inner">
                     <a href="{{ path('mycp_list_comments') }}"><i class="icon-bullhorn"></i> Comentarios</a>
                 </div>
+
                 
             </div>
         </div>

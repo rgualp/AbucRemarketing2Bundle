@@ -21,7 +21,7 @@
         {% if error %}
         <div class="alert alert-error">{{ error.message }}</div>
         {% endif %}
-<form class="form-horizontal" action="{{ path("backend_login_check") }}" method="post" id="login">
+<form class="form-horizontal" action="{{ path( urlLogin ) }}" method="post" id="login">
     <div class="control-group">
         <label class="control-label" for="inputUsername">Usuario</label>
         <div class="controls">

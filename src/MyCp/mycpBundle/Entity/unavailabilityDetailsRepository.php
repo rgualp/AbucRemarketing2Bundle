@@ -34,4 +34,27 @@ class unavailabilityDetailsRepository extends EntityRepository {
         return $em->createQuery($query_string)->setParameter("id_room", $id_room)->getResult();
     }
 
+    public function getAllNotDeletedByDate($start, $end){
+        $em = $this->getEntityManager();
+        $query_string = "SELECT o
+                        FROM mycpBundle:unavailabilityDetails o
+                        WHERE o.ud_sync_st<>" . SyncStatuses::DELETED .
+                        " AND o.ud_from_date >= '$start' AND o.ud_to_date <= '$end'" .
+                        " ORDER BY o.ud_from_date DESC";
+
+        return $em->createQuery($query_string)->getResult();
+    }
+
+    public function getAllNotDeletedByDateAndOwnership($ownership, $start, $end){
+        $em = $this->getEntityManager();
+        $query_string = "SELECT o
+                        FROM mycpBundle:unavailabilityDetails o JOIN o.room ro JOIN ro.room_ownership own
+                        WHERE o.ud_sync_st<>" . SyncStatuses::DELETED .
+            " AND o.ud_from_date >= '$start' AND o.ud_to_date <= '$end'" .
+            " AND own.own_id = $ownership" .
+            " ORDER BY o.ud_from_date DESC";
+
+        return $em->createQuery($query_string)->getResult();
+    }
+
 }
