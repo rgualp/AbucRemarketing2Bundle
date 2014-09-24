@@ -90,10 +90,10 @@ class BookingService extends Controller
                         $own->getOwnResReservationFromDate()->getTimestamp(),
                         $own->getOwnResReservationToDate()->getTimestamp()
                     );
-                $totalPrice += $own->getOwnResNightPrice() * (count($array_dates) - 1);
-                $totalPercentPrice +=
-                    $own->getOwnResNightPrice() * (count($array_dates) - 1) * $ownCommission / 100;
+                $totalPrice += \MyCp\FrontEndBundle\Helpers\ReservationHelper::getTotalPrice($em, $timeService, $own);
             }
+
+            $totalPercentPrice += $totalPrice * $ownCommission / 100;
 
             $payments[$own_r["id"]] = array(
                 'total_price' => $totalPrice * $currencyRate,
@@ -117,9 +117,9 @@ class BookingService extends Controller
                 );
             array_push($nights, count($array_dates) - 1);
             array_push($rooms, $em->getRepository('mycpBundle:room')->find($own->getOwnResSelectedRoomId()));
-            $totalPrice += $own->getOwnResNightPrice() * (count($array_dates) - 1);
+            $totalPrice += \MyCp\FrontEndBundle\Helpers\ReservationHelper::getTotalPrice($em, $timeService, $own);
             $commission = $own->getOwnResGenResId()->GetGenResOwnId()->getOwnCommissionPercent();
-            $totalPercentPrice += $own->getOwnResNightPrice() * (count($array_dates) - 1) * $commission / 100;
+
             $insert = 1;
 
             foreach ($commissions as $com) {
@@ -133,7 +133,7 @@ class BookingService extends Controller
                 array_push($commissions, $commission);
             }
         }
-
+        $totalPercentPrice += $totalPrice * $commission / 100;
         $accommodationServiceCharge = $totalPrice * $currencyRate;
         $prepaymentAccommodations = $totalPercentPrice * $currencyRate;
         $serviceChargeTotal = $serviceChargeInCuc * $currencyRate;
