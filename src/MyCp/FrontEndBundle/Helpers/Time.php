@@ -20,7 +20,7 @@ class Time
         return $arr;
     }
 
-    public function seasonTypeByDate($seasons,$date_timestamp)
+    public static function seasonTypeByDate($seasons,$date_timestamp)
     {
         foreach($seasons as $season)
         {
@@ -30,7 +30,7 @@ class Time
         return season::SEASON_TYPE_LOW;
     }
 
-    public function seasonByDate($seasons,$date_timestamp)
+    public static function seasonByDate($seasons,$date_timestamp)
     {
         foreach($seasons as $season)
         {

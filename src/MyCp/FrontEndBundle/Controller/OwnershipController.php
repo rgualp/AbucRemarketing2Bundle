@@ -167,11 +167,11 @@ class OwnershipController extends Controller {
 
                 $season_type = $service_time->seasonTypeByDate($seasons,$array_dates[$a]);
                 if ($season_type == season::SEASON_TYPE_LOW) {
-                    $total_price_room += $room->getRoomPriceDownFrom();
-                    array_push($prices_dates_temp, $room->getRoomPriceDownFrom());
+                    $total_price_room += $room->getRoomPriceDownTo();
+                    array_push($prices_dates_temp, $room->getRoomPriceDownTo());
                 } else {
-                    $total_price_room += $room->getRoomPriceUpFrom();
-                    array_push($prices_dates_temp, $room->getRoomPriceUpFrom());
+                    $total_price_room += $room->getRoomPriceUpTo();
+                    array_push($prices_dates_temp, $room->getRoomPriceUpTo());
                 }
                 //var_dump($season);
             }

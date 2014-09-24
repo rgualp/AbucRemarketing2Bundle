@@ -61,6 +61,27 @@ class ownershipReservation
     private $own_res_selected_room_id;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="own_res_room_price_up", type="string", length=255, nullable=true)
+     */
+    private $own_res_room_price_up;
+
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="own_res_room_price_down", type="string", length=255, nullable=true)
+     */
+    private $own_res_room_price_down;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="own_res_room_price_special", type="string", length=255, nullable=true)
+     */
+    private $own_res_room_price_special;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="own_res_count_adults", type="integer")
@@ -186,6 +207,69 @@ class ownershipReservation
      */
     public function getOwnResSelectedRoomId() {
         return $this->own_res_selected_room_id;
+    }
+
+    /**
+     * Set own_res_room_price_down
+     *
+     * @param integer $ownResRoomPriceDown
+     * @return ownershipReservation
+     */
+    public function setOwnResRoomPriceDown($ownResRoomPriceDown) {
+        $this->own_res_room_price_down = $ownResRoomPriceDown;
+
+        return $this;
+    }
+
+    /**
+     * Get own_res_room_price_down
+     *
+     * @return string
+     */
+    public function getOwnResRoomPriceDown() {
+        return $this->own_res_room_price_down;
+    }
+
+    /**
+     * Set own_res_room_price_up
+     *
+     * @param integer $ownResRoomPriceUp
+     * @return ownershipReservation
+     */
+    public function setOwnResRoomPriceUp($ownResRoomPriceUp) {
+        $this->own_res_room_price_up = $ownResRoomPriceUp;
+
+        return $this;
+    }
+
+    /**
+     * Get own_res_room_price_up
+     *
+     * @return string
+     */
+    public function getOwnResRoomPriceUp() {
+        return $this->own_res_room_price_up;
+    }
+
+    /**
+     * Set own_res_room_price_special
+     *
+     * @param integer $ownResRoomPriceSpecial
+     * @return ownershipReservation
+     */
+    public function setOwnResRoomPriceSpecial($ownResRoomPriceSpecial) {
+        $this->own_res_room_price_special = $ownResRoomPriceSpecial;
+
+        return $this;
+    }
+
+    /**
+     * Get own_res_room_price_special
+     *
+     * @return string
+     */
+    public function getOwnResRoomPriceSpecial() {
+        return $this->own_res_room_price_special;
     }
 
     /**

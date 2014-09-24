@@ -123,9 +123,10 @@ class BackendReservationController extends Controller {
                     $array_dates = $service_time->datesBetween($servi['from_date'], $servi['to_date']);
                     $temp_price = 0;
                     $triple_room_recharge = $this->container->getParameter('configuration.triple.room.charge');
+                    $seasons = $em->getRepository("mycpBundle:season")->getSeasons($servi['from_date'], $servi['to_date']);
                     for ($a = 0; $a < count($array_dates); $a++) {
                         if ($a < count($array_dates) - 1) {
-                            $season = $service_time->seasonByDate($array_dates[$a]);
+                            $season = $service_time->seasonByDate($seasons,$array_dates[$a]);
                             if ($season == 'down') {
                                 if ($servi['room_type'] == "Habitación Triple" && $servi['guests'] + $servi['kids'] >= 3) {
                                     $total_price += $servi['room_price_down'] + $triple_room_recharge;
@@ -155,6 +156,9 @@ class BackendReservationController extends Controller {
                     $ownership_reservation->setOwnResReservationFromDate(new \DateTime(date("Y-m-d H:i:s", $servi['from_date'])));
                     $ownership_reservation->setOwnResReservationToDate(new \DateTime(date("Y-m-d H:i:s", $servi['to_date'])));
                     $ownership_reservation->setOwnResSelectedRoomId($servi['room']);
+                    $ownership_reservation->setOwnResRoomPriceDown($servi['room_price_down']);
+                    $ownership_reservation->setOwnResRoomPriceUp($servi['room_price_top']);
+                    $ownership_reservation->setOwnResRoomPriceSpecial(0);
                     $ownership_reservation->setOwnResGenResId($general_reservation);
                     $ownership_reservation->setOwnResRoomType($servi['room_type']);
                     $ownership_reservation->setOwnResTotalInSite($temp_price);
@@ -289,7 +293,7 @@ class BackendReservationController extends Controller {
         $bookings = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
                                 ->get_all_bookings($filter_booking_number, $filter_date_booking, $filter_user_booking))->getResult();
         $service_log = $this->get('log');
-        $service_log->saveLog('Visit',  BackendModuleName::MODULE_RESERVATION);
+        $service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
 
         $filter_date_booking = str_replace('_', '/', $filter_date_booking);
 
@@ -355,7 +359,7 @@ class BackendReservationController extends Controller {
                                 ->get_all_users($filter_user_name, $filter_user_email, $filter_user_city, $filter_user_country, $sort_by))->getResult();
 
         $service_log = $this->get('log');
-        $service_log->saveLog('Visit',  BackendModuleName::MODULE_RESERVATION);
+        $service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
 
         $currencies = array();
         $languages = array();
@@ -473,7 +477,7 @@ class BackendReservationController extends Controller {
                 $ownership = $em->getRepository('mycpBundle:ownership')->find($post['reservation_ownership']);
 
                 $service_log = $this->get('log');
-                $service_log->saveLog('Create entity for ' . $ownership->getOwnMcpCode(),  BackendModuleName::MODULE_RESERVATION);
+                $service_log->saveLog('Create entity for ' . $ownership->getOwnMcpCode(), BackendModuleName::MODULE_RESERVATION);
 
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
                 return $this->redirect($this->generateUrl('mycp_list_reservations'));
@@ -551,12 +555,12 @@ class BackendReservationController extends Controller {
             if (count($errors) == 0) {
                 $temp_price = 0;
                 foreach ($ownership_reservations as $ownership_reservation) {
-                    $temp_price+=$post['service_room_price_' . $ownership_reservation->getOwnResId()] * (count($dates) - 1);
+                    $temp_price+=$ownership_reservation->getOwnResTotalInSite();
                     $ownership_reservation->setOwnResCountAdults($post['service_room_count_adults_' . $ownership_reservation->getOwnResId()]);
                     $ownership_reservation->setOwnResCountChildrens($post['service_room_count_childrens_' . $ownership_reservation->getOwnResId()]);
                     $ownership_reservation->setOwnResStatus($post['service_own_res_status_' . $ownership_reservation->getOwnResId()]);
                     $ownership_reservation->setOwnResRoomType($post['service_room_type_' . $ownership_reservation->getOwnResId()]);
-                    $ownership_reservation->setOwnResNightPrice($post['service_room_price_' . $ownership_reservation->getOwnResId()]);
+                    //$ownership_reservation->setOwnResNightPrice($post['service_room_price_' . $ownership_reservation->getOwnResId()]);
 
                     $start = explode('/', $post['date_from_' . $ownership_reservation->getOwnResId()]);
                     $end = explode('/', $post['date_to_' . $ownership_reservation->getOwnResId()]);
@@ -572,16 +576,15 @@ class BackendReservationController extends Controller {
                 if ($reservation->getGenResStatus() != generalReservation::STATUS_RESERVED) {
                     if ($non_available_total > 0 && $non_available_total == $details_total) {
                         $reservation->setGenResStatus(generalReservation::STATUS_NOT_AVAILABLE);
-                    } else if($available_total > 0 && $available_total == $details_total){
+                    } else if ($available_total > 0 && $available_total == $details_total) {
                         $reservation->setGenResStatus(generalReservation::STATUS_AVAILABLE);
-                    }
-                    else if($non_available_total > 0 && $available_total > 0)
+                    } else if ($non_available_total > 0 && $available_total > 0)
                         $reservation->setGenResStatus(generalReservation::STATUS_PARTIAL_AVAILABLE);
                 }
                 $em->persist($reservation);
                 $em->flush();
                 $service_log = $this->get('log');
-                $service_log->saveLog('Edit entity for CAS.' . $reservation->getGenResId(),  BackendModuleName::MODULE_RESERVATION);
+                $service_log->saveLog('Edit entity for CAS.' . $reservation->getGenResId(), BackendModuleName::MODULE_RESERVATION);
 
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
             }
@@ -813,7 +816,7 @@ class BackendReservationController extends Controller {
                 $ownership = $em->getRepository('mycpBundle:ownership')->find($post['ownership']);
 
                 $service_log = $this->get('log');
-                $service_log->saveLog('Edit entity for ' . $ownership->getOwnMcpCode(),  BackendModuleName::MODULE_RESERVATION);
+                $service_log->saveLog('Edit entity for ' . $ownership->getOwnMcpCode(), BackendModuleName::MODULE_RESERVATION);
 
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
                 return $this->redirect($this->generateUrl('mycp_edit_reservation', array('id_reservation' => $id_reservation)));
@@ -884,7 +887,7 @@ class BackendReservationController extends Controller {
         $message = 'Reserva eliminada satisfactoriamente.';
 
         $service_log = $this->get('log');
-        $service_log->saveLog('Delete entity for ' . $ownership->getOwnMcpCode(),  BackendModuleName::MODULE_RESERVATION);
+        $service_log->saveLog('Delete entity for ' . $ownership->getOwnMcpCode(), BackendModuleName::MODULE_RESERVATION);
 
         $this->get('session')->getFlashBag()->add('message_ok', $message);
         return $this->redirect($this->generateUrl('mycp_list_reservations'));
