@@ -397,10 +397,11 @@ class BackendOwnershipController extends Controller {
             $post['room_id_' . $a] = $rooms[$a - 1]->getRoomId();
             $post['room_type_' . $a] = $rooms[$a - 1]->getRoomType();
             $post['room_beds_number_' . $a] = $rooms[$a - 1]->getRoomBeds();
-            $post['room_price_up_from_' . $a] = $rooms[$a - 1]->getRoomPriceUpFrom();
+            //$post['room_price_up_from_' . $a] = $rooms[$a - 1]->getRoomPriceUpFrom();
             $post['room_price_up_to_' . $a] = $rooms[$a - 1]->getRoomPriceUpTo();
-            $post['room_price_down_from_' . $a] = $rooms[$a - 1]->getRoomPriceDownFrom();
+            //$post['room_price_down_from_' . $a] = $rooms[$a - 1]->getRoomPriceDownFrom();
             $post['room_price_down_to_' . $a] = $rooms[$a - 1]->getRoomPriceDownTo();
+            $post['room_price_special_' . $a] = $rooms[$a - 1]->getRoomPriceSpecial();
             $post['room_climate_' . $a] = $rooms[$a - 1]->getRoomClimate();
             $post['room_audiovisual_' . $a] = $rooms[$a - 1]->getRoomAudiovisual();
             $post['room_smoker_' . $a] = $rooms[$a - 1]->getRoomSmoker();
@@ -555,6 +556,12 @@ class BackendOwnershipController extends Controller {
             if ($request->request->get('new_room') == 1) {
                 $count_rooms = $request->request->get('count_rooms') + 1;
                 $data['new_room'] = TRUE;
+                if(isset($post['ownership_visit_date']))
+                    $post['ownership_visit_date'] = \MyCp\mycpBundle\Helpers\Dates::createFromString($post['ownership_visit_date'], '/',1);
+                if(isset($post['ownership_creation_date']))
+                    $post['ownership_creation_date'] = \MyCp\mycpBundle\Helpers\Dates::createFromString($post['ownership_creation_date'], '/',1);
+                if(isset($post['ownership_last_update']))
+                    $post['ownership_last_update'] = \MyCp\mycpBundle\Helpers\Dates::createFromString($post['ownership_last_update'], '/',1);
             } else {
 
                 $not_blank_validator = new NotBlank();
@@ -580,12 +587,14 @@ class BackendOwnershipController extends Controller {
                                 $array_keys[$count] != 'ownership_destination' &&
                                 $array_keys[$count] != 'user_create' &&
                                 $array_keys[$count] != 'user_send_mail'
+                                
                         ) {
                             $errors[$array_keys[$count]] = $errors_validation = $this->get('validator')->validateValue($item, $not_blank_validator);
                             $data['count_errors']+=count($errors[$array_keys[$count]]);
                         }
                     }
-                    if (strpos($array_keys[$count], 'room_') !== false && $array_keys[$count] != 'new_room') {
+                    if (strpos($array_keys[$count], 'room_') !== false && 
+                            $array_keys[$count] != 'new_room') {
                         $errors[$array_keys[$count]] = $errors_validation = $this->get('validator')->validateValue($item, $not_blank_validator);
                         $data['count_errors']+=count($errors[$array_keys[$count]]);
                     }
@@ -723,32 +732,40 @@ class BackendOwnershipController extends Controller {
                         $string_rooms_change_price = '';
                         if ($post['status'] == ownershipStatus::STATUS_ACTIVE)
                             foreach ($rooms_db as $room) {
-                                $db_price_up_from = $room->getRoomPriceUpFrom();
-                                $post_price_up_from = $post['room_price_up_from_' . $flag];
+                                /*$db_price_up_from = $room->getRoomPriceUpFrom();
+                                $post_price_up_from = $post['room_price_up_from_' . $flag];*/
 
                                 $db_price_up_to = $room->getRoomPriceUpTo();
                                 $post_price_up_to = $post['room_price_up_to_' . $flag];
 
-                                $db_price_down_from = $room->getRoomPriceDownFrom();
-                                $post_price_down_from = $post['room_price_down_from_' . $flag];
+                                /*$db_price_down_from = $room->getRoomPriceDownFrom();
+                                $post_price_down_from = $post['room_price_down_from_' . $flag];*/
 
                                 $db_price_down_to = $room->getRoomPriceDownTo();
                                 $post_price_down_to = $post['room_price_down_to_' . $flag];
+                                
+                                $db_price_special = $room->getRoomPriceSpecial();
+                                $post_price_special = $post['room_price_special_' . $flag];
 
-                                if ($db_price_up_from != $post_price_up_from) {
+
+                                /*if ($db_price_up_from != $post_price_up_from) {
                                     $string_rooms_change_price.=' Room ' . $flag . ' changed price (High season "FROM") from ' . $db_price_up_from . ' to ' . $post_price_up_from . '.';
-                                }
+                                }*/
 
                                 if ($db_price_up_to != $post_price_up_to) {
-                                    $string_rooms_change_price.=' Room ' . $flag . ' changed price (High season "TO") from ' . $db_price_up_to . ' to ' . $post_price_up_to . '.';
+                                    $string_rooms_change_price.=' Room ' . $flag . ' changed price (High season) from ' . $db_price_up_to . ' to ' . $post_price_up_to . '.';
                                 }
 
-                                if ($db_price_down_from != $post_price_down_from) {
+                                /*if ($db_price_down_from != $post_price_down_from) {
                                     $string_rooms_change_price.=' Room ' . $flag . ' changed price (Low season "FROM") from ' . $db_price_down_from . ' to ' . $post_price_down_from . '.';
-                                }
+                                }*/
 
                                 if ($db_price_down_to != $post_price_down_to) {
-                                    $string_rooms_change_price.=' Room ' . $flag . ' changed price (Low season "TO") from ' . $db_price_down_to . ' to ' . $post_price_down_to . '.';
+                                    $string_rooms_change_price.=' Room ' . $flag . ' changed price (Low season) from ' . $db_price_down_to . ' to ' . $post_price_down_to . '.';
+                                }
+                                
+                                if ($db_price_special != $post_price_special) {
+                                    $string_rooms_change_price.=' Room ' . $flag . ' changed price (Special season) from ' . $db_price_special . ' to ' . $post_price_special . '.';
                                 }
 
                                 $flag++;
@@ -805,7 +822,7 @@ class BackendOwnershipController extends Controller {
 
                         //Enviar correo a los propietarios
                         if ($post['status'] == ownershipStatus::STATUS_ACTIVE)
-                            c($post['ownership_email_1'], $post['ownership_email_2'], $post['ownership_homeowner_1'], $post['ownership_homeowner_2'], $post['ownership_name'], $post['ownership_mcp_code']);
+                            UserMails::sendOwnersMail($this,$post['ownership_email_1'], $post['ownership_email_2'], $post['ownership_homeowner_1'], $post['ownership_homeowner_2'], $post['ownership_name'], $post['ownership_mcp_code']);
                     }
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
                     if ($request->get('save_reset_input') == 1) {

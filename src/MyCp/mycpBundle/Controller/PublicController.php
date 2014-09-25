@@ -79,7 +79,7 @@ class PublicController extends Controller {
         if (isset($post['ownership_address_municipality']))
             $destinations = $em->getRepository('mycpBundle:destination')->getByMunicipality($post['ownership_address_municipality']);
         else
-            $destinations = $em->getRepository('mycpBundle:destination')->findAll();
+            $destinations = $em->getRepository('mycpBundle:destination')->getByMunicipality();
         return $this->render('mycpBundle:utils:list_destinations.html.twig', array('destinations' => $destinations, 'selected' => $selected));
     }
 
@@ -98,7 +98,7 @@ class PublicController extends Controller {
         if (isset($post['ownership_address_municipality']))
             $destinations = $em->getRepository('mycpBundle:destination')->getByMunicipality($post['ownership_address_municipality']);
         else
-            $destinations = $em->getRepository('mycpBundle:destination')->findBy(array(), array('des_name' => 'ASC'));
+            $destinations = $em->getRepository('mycpBundle:destination')->getByMunicipality(null);
         return $this->render('mycpBundle:utils:list_destinations.html.twig', array('destinations' => $destinations, 'selected' => $selected));
     }
 

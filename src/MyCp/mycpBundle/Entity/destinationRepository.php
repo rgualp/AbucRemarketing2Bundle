@@ -445,10 +445,13 @@ class destinationRepository extends EntityRepository {
         return $em->createQuery($query_string)->getResult();
     }
 
-    function getByMunicipality($municipality) {
+    function getByMunicipality($municipality = null) {
         $em = $this->getEntityManager();
         
-        $query_string = "SELECT d.des_id as desId, d.des_name as desName FROM mycpBundle:destinationLocation l
+        $query_string = "SELECT d.des_id as desId, 
+                         d.des_name as desName, 
+                         (select count(s) FROM mycpBundle:season s WHERE s.season_destination = d.des_id) as hasSeason
+                         FROM mycpBundle:destinationLocation l
                          JOIN l.des_loc_destination d
                          WHERE d.des_active = 1";
         

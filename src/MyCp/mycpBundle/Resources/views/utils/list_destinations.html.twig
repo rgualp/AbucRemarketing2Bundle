@@ -1,5 +1,5 @@
 <option value=""></option>
-<option {% if(selected is defined and selected == "-1") %} selected="TRUE" {% endif %} value="-1">(Sin Destino)</option>
+<option {% if(selected is defined and selected == "-1") %} selected="TRUE" {% endif %} value="-1" data-has-season = "0">(Sin Destino)</option>
 {% for des in destinations %}
-    <option{% if(selected is defined and selected == des.desId) %} selected="TRUE" {% endif %} value="{{ des.desId }}"> {{ des.desName }}</option>
+    <option{% if(selected is defined and selected == des.desId) %} selected="TRUE" {% endif %} value="{{ des.desId }}" data-has-season ="{{des.hasSeason}}"> {{ des.desName }}</option>
 {% endfor %}

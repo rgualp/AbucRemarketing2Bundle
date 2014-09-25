@@ -247,16 +247,18 @@
                 <select class="input-block-level" name="room_beds_number_{{ i }}">
                     {{ render(controller('mycpBundle:BackendOwnership:get_range_max_5', {'post':post,'id':i})) }}
                 </select>
-                <label>Rango precio (Temporada alta) (*)</label>
-                {% if errors['room_price_up_from_'~i] is defined %}<label class="error">{{errors['room_price_up_from_'~i]|trim(':')}}</label>{%endif%}
-                <input value="{% if(post['room_price_up_from_'~i] is defined) %}{{post['room_price_up_from_'~i]}}{% endif %}" class="input-block-level" placeholder="Desde" type="text" name="room_price_up_from_{{ i }}"/>
-                {% if errors['room_price_up_to_'~i] is defined %}<label class="error">{{errors['room_price_up_to_'~i]|trim(':')}}</label>{%endif%}
-                <input value="{% if(post['room_price_up_to_'~i] is defined) %}{{post['room_price_up_to_'~i]}}{% endif %}" class="input-block-level" placeholder="Hasta" type="text" name="room_price_up_to_{{ i }}"/>
-                <label>Rango precio (Temporada baja) (*)</label>
-                {% if errors['room_price_down_from_'~i] is defined %}<label class="error">{{errors['room_price_down_from_'~i]|trim(':')}}</label>{%endif%}
-                <input value="{% if(post['room_price_down_from_'~i] is defined) %}{{post['room_price_down_from_'~i]}}{% endif %}" class="input-block-level" placeholder="Desde" type="text" name="room_price_down_from_{{ i }}"/>
+                 <label>Precio (Temporada baja) (*)</label>
                 {% if errors['room_price_down_to_'~i] is defined %}<label class="error">{{errors['room_price_down_to_'~i]|trim(':')}}</label>{%endif%}
-                <input value="{% if(post['room_price_down_to_'~i] is defined) %}{{post['room_price_down_to_'~i]}}{% endif %}" class="input-block-level" placeholder="Hasta" type="text" name="room_price_down_to_{{ i }}"/>
+                <input value="{% if(post['room_price_down_to_'~i] is defined) %}{{post['room_price_down_to_'~i]}}{% endif %}" class="input-block-level" placeholder="Precio único" type="text" name="room_price_down_to_{{ i }}"/>
+                <label>Precio (Temporada alta) (*)</label>                
+                {% if errors['room_price_up_to_'~i] is defined %}<label class="error">{{errors['room_price_up_to_'~i]|trim(':')}}</label>{%endif%}
+                <input value="{% if(post['room_price_up_to_'~i] is defined) %}{{post['room_price_up_to_'~i]}}{% endif %}" class="input-block-level" placeholder="Precio único" type="text" name="room_price_up_to_{{ i }}"/>
+               <div id="div_special_season_price">
+                 <label>Precio (Temporada especial)</label>
+                {% if errors['room_price_special_'~i] is defined %}<label class="error">{{errors['room_price_special_'~i]|trim(':')}}</label>{%endif%}
+                <input value="{% if(post['room_price_special_'~i] is defined) %}{{post['room_price_special_'~i]}}{% endif %}" class="input-block-level" placeholder="Precio único" type="text" name="room_price_special_{{ i }}"/>   
+                </div>
+                
                 <label>Climatización (*)</label>
                 {% if errors['room_climate_'~i] is defined %}<label class="error">{{errors['room_climate_'~i]|trim(':')}}</label>{%endif%}
                 <select class="input-block-level" name="room_climate_{{ i }}">

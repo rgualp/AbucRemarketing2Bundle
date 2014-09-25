@@ -193,10 +193,11 @@ class ownershipRepository extends EntityRepository {
             $room = new room();
             $room->setRoomType($data['room_type_' . $e]);
             $room->setRoomBeds($data['room_beds_number_' . $e]);
-            $room->setRoomPriceUpFrom($data['room_price_up_from_' . $e]);
+            //$room->setRoomPriceUpFrom($data['room_price_up_from_' . $e]);
             $room->setRoomPriceUpTo($data['room_price_up_to_' . $e]);
-            $room->setRoomPriceDownFrom($data['room_price_down_from_' . $e]);
+            //$room->setRoomPriceDownFrom($data['room_price_down_from_' . $e]);
             $room->setRoomPriceDownTo($data['room_price_down_to_' . $e]);
+            $room->setRoomPriceSpecial($data['room_price_special_' . $e]);
             $room->setRoomClimate($data['room_climate_' . $e]);
             $room->setRoomAudiovisual($data['room_audiovisual_' . $e]);
             $room->setRoomSmoker($data['room_smoker_' . $e]);
@@ -215,13 +216,16 @@ class ownershipRepository extends EntityRepository {
             /**
              * Codigo Yanet - Inicio
              */
-            if ($ownership->getOwnMinimumPrice() == 0 || $room->getRoomPriceDownFrom() < $ownership->getOwnMinimumPrice())
-                $ownership->setOwnMinimumPrice($room->getRoomPriceDownFrom());
+            if ($ownership->getOwnMinimumPrice() == 0 || $room->getRoomPriceDownTo() < $ownership->getOwnMinimumPrice())
+                $ownership->setOwnMinimumPrice($room->getRoomPriceDownTo());
 
             $ownership->setOwnMaximumNumberGuests($ownership->getOwnMaximumNumberGuests() + $room->getRoomBeds());
 
             if ($ownership->getOwnMaximumPrice() == 0 || $room->getRoomPriceUpTo() > $ownership->getOwnMaximumPrice())
                 $ownership->setOwnMaximumPrice($room->getRoomPriceUpTo());
+            
+            if ($ownership->getOwnMaximumPrice() == 0 || $room->getRoomPriceSpecial() > $ownership->getOwnMaximumPrice())
+                $ownership->setOwnMaximumPrice($room->getRoomPriceSpecial());
 
             if ($room->getRoomBeds() > 0)
                 $beds_total += $room->getRoomBeds();
@@ -417,10 +421,11 @@ class ownershipRepository extends EntityRepository {
             }
             $room->setRoomType($data['room_type_' . $e]);
             $room->setRoomBeds($data['room_beds_number_' . $e]);
-            $room->setRoomPriceUpFrom($data['room_price_up_from_' . $e]);
+            //$room->setRoomPriceUpFrom($data['room_price_up_from_' . $e]);
             $room->setRoomPriceUpTo($data['room_price_up_to_' . $e]);
-            $room->setRoomPriceDownFrom($data['room_price_down_from_' . $e]);
+            //$room->setRoomPriceDownFrom($data['room_price_down_from_' . $e]);
             $room->setRoomPriceDownTo($data['room_price_down_to_' . $e]);
+            $room->setRoomPriceSpecial($data['room_price_special_' . $e]);
             $room->setRoomClimate($data['room_climate_' . $e]);
             $room->setRoomAudiovisual($data['room_audiovisual_' . $e]);
             $room->setRoomSmoker($data['room_smoker_' . $e]);
@@ -437,14 +442,18 @@ class ownershipRepository extends EntityRepository {
             $em->persist($room);
 
             if ($ownership->getOwnMinimumPrice() == 0 ||
-                    $room->getRoomPriceDownFrom() < $ownership->getOwnMinimumPrice())
-                $ownership->setOwnMinimumPrice($room->getRoomPriceDownFrom());
+                    $room->getRoomPriceDownTo() < $ownership->getOwnMinimumPrice())
+                $ownership->setOwnMinimumPrice($room->getRoomPriceDownTo());
 
             $ownership->setOwnMaximumNumberGuests($ownership->getOwnMaximumNumberGuests() + $room->getRoomBeds());
 
             if ($ownership->getOwnMaximumPrice() == 0 ||
                     $room->getRoomPriceUpTo() > $ownership->getOwnMaximumPrice())
                 $ownership->setOwnMaximumPrice($room->getRoomPriceUpTo());
+            
+            if ($ownership->getOwnMaximumPrice() == 0 ||
+                    $room->getRoomPriceSpecial() > $ownership->getOwnMaximumPrice())
+                $ownership->setOwnMaximumPrice($room->getRoomPriceSpecial());
 
             if ($room->getRoomBeds() > 0)
                 $beds_total += $room->getRoomBeds();
