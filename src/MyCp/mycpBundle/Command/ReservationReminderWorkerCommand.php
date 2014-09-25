@@ -178,7 +178,7 @@ class ReservationReminderWorkerCommand extends Worker
                     $ownershipReservation->getOwnResReservationToDate()->getTimestamp()
                 );
 
-            array_push($arrayNights, count($array_dates));
+            array_push($arrayNights, count($array_dates) - 1);
         }
 
         $body = $this->emailManager
