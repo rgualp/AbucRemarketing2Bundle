@@ -555,12 +555,17 @@ class BackendReservationController extends Controller {
             if (count($errors) == 0) {
                 $temp_price = 0;
                 foreach ($ownership_reservations as $ownership_reservation) {
-                    $temp_price+=$ownership_reservation->getOwnResTotalInSite();
+                    if(isset($post['service_room_price_' . $ownership_reservation->getOwnResId()]) && $post['service_room_price_' . $ownership_reservation->getOwnResId()]!= "" && $post['service_room_price_' . $ownership_reservation->getOwnResId()] != "0"){
+                        $temp_price+=$post['service_room_price_' . $ownership_reservation->getOwnResId()] * (count($dates) - 1);
+                        $ownership_reservation->setOwnResNightPrice($post['service_room_price_' . $ownership_reservation->getOwnResId()]);
+                    }
+                    else
+                        $temp_price+=$ownership_reservation->getOwnResTotalInSite();
                     $ownership_reservation->setOwnResCountAdults($post['service_room_count_adults_' . $ownership_reservation->getOwnResId()]);
                     $ownership_reservation->setOwnResCountChildrens($post['service_room_count_childrens_' . $ownership_reservation->getOwnResId()]);
                     $ownership_reservation->setOwnResStatus($post['service_own_res_status_' . $ownership_reservation->getOwnResId()]);
                     $ownership_reservation->setOwnResRoomType($post['service_room_type_' . $ownership_reservation->getOwnResId()]);
-                    //$ownership_reservation->setOwnResNightPrice($post['service_room_price_' . $ownership_reservation->getOwnResId()]);
+
 
                     $start = explode('/', $post['date_from_' . $ownership_reservation->getOwnResId()]);
                     $end = explode('/', $post['date_to_' . $ownership_reservation->getOwnResId()]);

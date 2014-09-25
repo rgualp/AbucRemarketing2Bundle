@@ -109,9 +109,8 @@
             <th>Entrada</th>
             <th>Salida</th>
             <th>Noches</th>
-            <th>Precio Alta</th>
-            <th>Precio Baja</th>
-            <!--th>Precio</th-->
+            <th>Precios</th>
+            <th>Precio/Noche</th>
             <th>Comisión</th>
             <th>Total</th>
             <th>Estado</th>
@@ -156,9 +155,17 @@
             <td><input name="date_from_{{reservation_rooms.getOwnResId}}" data-localization="es" type="text" class="input-block-level datepicker_textbox" value="{% if post['date_from_'~reservation_rooms.getOwnResId] is defined %}{{ post['date_from_'~reservation_rooms.getOwnResId] }}{% else %}{{ reservation_rooms.getOwnResReservationFromDate | date("d/m/Y") }}{% endif %}"/></td>
             <td><input name="date_to_{{reservation_rooms.getOwnResId}}" data-localization="es" type="text" class="input-block-level datepicker_textbox" value="{% if post['date_from_'~reservation_rooms.getOwnResId] is defined %}{{ post['date_to_'~reservation_rooms.getOwnResId] }}{% else %}{{ reservation_rooms.getOwnResReservationToDate | date("d/m/Y") }}{% endif %}"/></td>
             <td>{{nights[loop.index0]}}</td>
-            <td>{%if rooms[flag]%}{{ rooms[flag].getRoomPriceUpFrom() }}-{{ rooms[flag].getRoomPriceUpTo() }}{%endif%}</td>
-            <td>{%if rooms[flag]%}{{ rooms[flag].getRoomPriceDownFrom() }}-{{ rooms[flag].getRoomPriceDownTo() }}{%endif%}</td>
-            <!--td style="width: 7%">
+            <td nowrap=nowrap>
+                {%if rooms[flag]%}
+                    Baja: {{ rooms[flag].getRoomPriceDownTo }} CUC <br/>
+                    Alta: {{ rooms[flag].getRoomPriceUpTo }} CUC
+                    {%if rooms[flag].getRoomPriceSpecial is defined and rooms[flag].getRoomPriceSpecial != "" and rooms[flag].getRoomPriceSpecial != 0%}
+                    <br/>
+                    Especial: {{ rooms[flag].getRoomPriceSpecial }} CUC
+                    {%endif%}
+                {%endif%}
+            </td>
+            <td style="width: 7%">
                 {% set price_own_res =0%}
 
                 {% if post['service_room_price_'~reservation_rooms.getOwnResId] is defined %}
@@ -171,10 +178,16 @@
                     {% endif %}
                 {% endif %}
                 <input type="text" class="input-block-level" value="{{ price_own_res }}" name="service_room_price_{{reservation_rooms.getOwnResId}}"/>
-            </td-->
+            </td>
             <td>{{ reservation_rooms.getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent }}%</td>
-            <td>{{reservation_rooms.getOwnResTotalInSite}}CUC</td>
-            {%set total_price = total_price + reservation_rooms.getOwnResTotalInSite%}
+            <td>
+                {%if reservation_rooms.getOwnResNightPrice != 0%}
+                    {{nights[loop.index0] * reservation_rooms.getOwnResNightPrice}} CUC
+                    {%set total_price = total_price + (nights[loop.index0] * reservation_rooms.getOwnResNightPrice)%}
+                {%else%}
+                {{reservation_rooms.getOwnResTotalInSite}}CUC</td>
+                {%set total_price = total_price + reservation_rooms.getOwnResTotalInSite%} CUC
+            {%endif%}
             <td>
             <select style="width: 100px" class="input-block-level" name="service_own_res_status_{{reservation_rooms.getOwnResId}}">
                 {% if post['service_own_res_status_'~reservation_rooms.getOwnResId] is defined %}
