@@ -57,7 +57,13 @@
                                         <span style="background-color: #c43c35; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"PAYED"|trans({}, "messages", user_locale)}}&nbsp;&nbsp;&nbsp;</b></span><br/>
                                     {% endif %}
                                     {% if reservation.getOwnResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE') %}
-                                    <h3>{{"RESERVATION_TOTAL" | trans({}, "messages", user_locale) | upper}}: {{ (reservation.getOwnResNightPrice * nights[loop.index0]) | price}}</h3>
+                                    <h3>{{"RESERVATION_TOTAL" | trans({}, "messages", user_locale) | upper}}: 
+                                       {%if reservation.getOwnResNightPrice != 0%} 
+                                        {{ (reservation.getOwnResNightPrice * nights[loop.index0]) | price}}
+                                       {%else%}
+                                            {{ reservation.ownResTotalInSite | price}}
+                                       {%endif%}
+                                    </h3>
                                     {% else %}
                                     <br/>
                                     {% endif %}
