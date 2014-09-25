@@ -19,7 +19,7 @@ ID reserva: CAS.{{reservations[0].getOwnResGenResId.getGenResId}}
     <li><b>País:</b> {{user.getUserCountry.getCoName}}</li>
     <li><b>Teléfono:</b> {{user.getUserPhone}}</li>
     <li><b>Lenguaje:</b> {{user_tourist.getUserTouristLanguage.getLangName}}</li>
-    <li><b>Moneda:</b> {% if user_tourist.getUserTouristCurrency.getCurrName is defined %}
+    <li><b>Moneda:</b> {% if user_tourist.getUserTouristCurrency is defined and user_tourist.getUserTouristCurrency.getCurrName is defined %}
             {{user_tourist.getUserTouristCurrency.getCurrName}}
             {% else %}
                 default_currency().currcode|upper
@@ -41,7 +41,7 @@ ID reserva: CAS.{{reservations[0].getOwnResGenResId.getGenResId}}
 <h4>Datos de la casa</h4>
 <ul>
     <li><b>Nombre:</b> {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnName}}</li>
-    <li><b>Propietarios:</b> 
+    <li><b>Propietarios:</b>
         {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnHomeowner1}}
         {% if reservations[0].getOwnResGenResId.getGenResOwnId.getOwnHomeowner2 %}
         y {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnHomeowner2}}
