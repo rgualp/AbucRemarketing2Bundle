@@ -535,7 +535,7 @@ class BackendReservationController extends Controller {
 
             foreach ($keys as $key) {
                 $splitted = explode("_", $key);
-                    $own_res_id = $splitted[count($splitted) - 1];
+                $own_res_id = $splitted[count($splitted) - 1];
                 if (strpos($key, 'service_room_price') !== false) {
 
                     if ((empty($post[$key]) || !is_numeric($post[$key])) && $post['service_own_res_status_' . $own_res_id] != ownershipReservation::STATUS_NOT_AVAILABLE) {
@@ -552,57 +552,57 @@ class BackendReservationController extends Controller {
                 }
 
                 if (strpos($key, 'date_from') !== false) {
-                $start = explode('/', $post['date_from_' . $own_res_id]);
-                $end = explode('/', $post['date_to_' . $own_res_id]);
-                $start_timestamp = mktime(0, 0, 0, $start[1], $start[0], $start[2]);
-                $end_timestamp = mktime(0, 0, 0, $end[1], $end[0], $end[2]);
+                    $start = explode('/', $post['date_from_' . $own_res_id]);
+                    $end = explode('/', $post['date_to_' . $own_res_id]);
+                    $start_timestamp = mktime(0, 0, 0, $start[1], $start[0], $start[2]);
+                    $end_timestamp = mktime(0, 0, 0, $end[1], $end[0], $end[2]);
 
-                if ($start_timestamp > $end_timestamp)
-                    $errors[$key] = 1;
+                    if ($start_timestamp > $end_timestamp)
+                        $errors[$key] = 1;
                 }
             }
-        }
 
-        if (count($errors) == 0) {
-            $temp_price = 0;
-            foreach ($ownership_reservations as $ownership_reservation) {
-                if (isset($post['service_room_price_' . $ownership_reservation->getOwnResId()]) && $post['service_room_price_' . $ownership_reservation->getOwnResId()] != "" && $post['service_room_price_' . $ownership_reservation->getOwnResId()] != "0") {
-                    $temp_price+=$post['service_room_price_' . $ownership_reservation->getOwnResId()] * (count($dates) - 1);
-                    $ownership_reservation->setOwnResNightPrice($post['service_room_price_' . $ownership_reservation->getOwnResId()]);
+            if (count($errors) == 0) {
+                $temp_price = 0;
+                foreach ($ownership_reservations as $ownership_reservation) {
+                    if (isset($post['service_room_price_' . $ownership_reservation->getOwnResId()]) && $post['service_room_price_' . $ownership_reservation->getOwnResId()] != "" && $post['service_room_price_' . $ownership_reservation->getOwnResId()] != "0") {
+                        $temp_price+=$post['service_room_price_' . $ownership_reservation->getOwnResId()] * (count($dates) - 1);
+                        $ownership_reservation->setOwnResNightPrice($post['service_room_price_' . $ownership_reservation->getOwnResId()]);
+                    }
+                    else
+                        $temp_price+=$ownership_reservation->getOwnResTotalInSite();
+                    $ownership_reservation->setOwnResCountAdults($post['service_room_count_adults_' . $ownership_reservation->getOwnResId()]);
+                    $ownership_reservation->setOwnResCountChildrens($post['service_room_count_childrens_' . $ownership_reservation->getOwnResId()]);
+                    $ownership_reservation->setOwnResStatus($post['service_own_res_status_' . $ownership_reservation->getOwnResId()]);
+                    $ownership_reservation->setOwnResRoomType($post['service_room_type_' . $ownership_reservation->getOwnResId()]);
+
+
+                    $start = explode('/', $post['date_from_' . $ownership_reservation->getOwnResId()]);
+                    $end = explode('/', $post['date_to_' . $ownership_reservation->getOwnResId()]);
+                    $start_timestamp = mktime(0, 0, 0, $start[1], $start[0], $start[2]);
+                    $end_timestamp = mktime(0, 0, 0, $end[1], $end[0], $end[2]);
+
+                    $ownership_reservation->setOwnResReservationFromDate(new \DateTime(date("Y-m-d H:i:s", $start_timestamp)));
+                    $ownership_reservation->setOwnResReservationToDate(new \DateTime(date("Y-m-d H:i:s", $end_timestamp)));
+                    $em->persist($ownership_reservation);
                 }
-                else
-                    $temp_price+=$ownership_reservation->getOwnResTotalInSite();
-                $ownership_reservation->setOwnResCountAdults($post['service_room_count_adults_' . $ownership_reservation->getOwnResId()]);
-                $ownership_reservation->setOwnResCountChildrens($post['service_room_count_childrens_' . $ownership_reservation->getOwnResId()]);
-                $ownership_reservation->setOwnResStatus($post['service_own_res_status_' . $ownership_reservation->getOwnResId()]);
-                $ownership_reservation->setOwnResRoomType($post['service_room_type_' . $ownership_reservation->getOwnResId()]);
+                $message = 'Reserva actualizada satisfactoriamente.';
+                $reservation->setGenResSaved(1);
+                if ($reservation->getGenResStatus() != generalReservation::STATUS_RESERVED) {
+                    if ($non_available_total > 0 && $non_available_total == $details_total) {
+                        $reservation->setGenResStatus(generalReservation::STATUS_NOT_AVAILABLE);
+                    } else if ($available_total > 0 && $available_total == $details_total) {
+                        $reservation->setGenResStatus(generalReservation::STATUS_AVAILABLE);
+                    } else if ($non_available_total > 0 && $available_total > 0)
+                        $reservation->setGenResStatus(generalReservation::STATUS_PARTIAL_AVAILABLE);
+                }
+                $em->persist($reservation);
+                $em->flush();
+                $service_log = $this->get('log');
+                $service_log->saveLog('Edit entity for CAS.' . $reservation->getGenResId(), BackendModuleName::MODULE_RESERVATION);
 
-
-                $start = explode('/', $post['date_from_' . $ownership_reservation->getOwnResId()]);
-                $end = explode('/', $post['date_to_' . $ownership_reservation->getOwnResId()]);
-                $start_timestamp = mktime(0, 0, 0, $start[1], $start[0], $start[2]);
-                $end_timestamp = mktime(0, 0, 0, $end[1], $end[0], $end[2]);
-
-                $ownership_reservation->setOwnResReservationFromDate(new \DateTime(date("Y-m-d H:i:s", $start_timestamp)));
-                $ownership_reservation->setOwnResReservationToDate(new \DateTime(date("Y-m-d H:i:s", $end_timestamp)));
-                $em->persist($ownership_reservation);
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
             }
-            $message = 'Reserva actualizada satisfactoriamente.';
-            $reservation->setGenResSaved(1);
-            if ($reservation->getGenResStatus() != generalReservation::STATUS_RESERVED) {
-                if ($non_available_total > 0 && $non_available_total == $details_total) {
-                    $reservation->setGenResStatus(generalReservation::STATUS_NOT_AVAILABLE);
-                } else if ($available_total > 0 && $available_total == $details_total) {
-                    $reservation->setGenResStatus(generalReservation::STATUS_AVAILABLE);
-                } else if ($non_available_total > 0 && $available_total > 0)
-                    $reservation->setGenResStatus(generalReservation::STATUS_PARTIAL_AVAILABLE);
-            }
-            $em->persist($reservation);
-            $em->flush();
-            $service_log = $this->get('log');
-            $service_log->saveLog('Edit entity for CAS.' . $reservation->getGenResId(), BackendModuleName::MODULE_RESERVATION);
-
-            $this->get('session')->getFlashBag()->add('message_ok', $message);
         }
 
         $user = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $reservation->getGenResUserId()));
@@ -982,7 +982,4 @@ class BackendReservationController extends Controller {
     }
 
 }
-
-
-
 
