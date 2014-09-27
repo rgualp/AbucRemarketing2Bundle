@@ -197,7 +197,10 @@ class ownershipRepository extends EntityRepository {
             $room->setRoomPriceUpTo($data['room_price_up_to_' . $e]);
             //$room->setRoomPriceDownFrom($data['room_price_down_from_' . $e]);
             $room->setRoomPriceDownTo($data['room_price_down_to_' . $e]);
-            $room->setRoomPriceSpecial($data['room_price_special_' . $e]);
+            
+            if(isset($data['room_price_special_' . $e]))
+                $room->setRoomPriceSpecial($data['room_price_special_' . $e]);
+            
             $room->setRoomClimate($data['room_climate_' . $e]);
             $room->setRoomAudiovisual($data['room_audiovisual_' . $e]);
             $room->setRoomSmoker($data['room_smoker_' . $e]);
@@ -346,7 +349,9 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnCommissionPercent($data['ownership_percent_commission']);
         $ownership->setOwnLastUpdate(new \DateTime());
         $ownership->setOwnSaler($data['ownership_saler']);
-        $ownership->setOwnVisitDate(Dates::createFromString($data['ownership_visit_date']));
+        
+        if(isset($data['ownership_visit_date']))
+            $ownership->setOwnVisitDate(Dates::createFromString($data['ownership_visit_date']));
 
         $ownership->setOwnWaterJacuzee($water_jacuzee);
         $ownership->setOwnWaterSauna($water_sauna);
@@ -425,7 +430,10 @@ class ownershipRepository extends EntityRepository {
             $room->setRoomPriceUpTo($data['room_price_up_to_' . $e]);
             //$room->setRoomPriceDownFrom($data['room_price_down_from_' . $e]);
             $room->setRoomPriceDownTo($data['room_price_down_to_' . $e]);
-            $room->setRoomPriceSpecial($data['room_price_special_' . $e]);
+            
+            if(isset($data['room_price_special_' . $e]))
+                $room->setRoomPriceSpecial($data['room_price_special_' . $e]);
+            
             $room->setRoomClimate($data['room_climate_' . $e]);
             $room->setRoomAudiovisual($data['room_audiovisual_' . $e]);
             $room->setRoomSmoker($data['room_smoker_' . $e]);

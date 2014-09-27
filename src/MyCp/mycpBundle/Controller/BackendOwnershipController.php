@@ -747,8 +747,10 @@ class BackendOwnershipController extends Controller {
                                 $db_price_down_to = $room->getRoomPriceDownTo();
                                 $post_price_down_to = $post['room_price_down_to_' . $flag];
 
+                                if(isset($post['room_price_special_' . $flag])){
                                 $db_price_special = $room->getRoomPriceSpecial();
                                 $post_price_special = $post['room_price_special_' . $flag];
+                                }
 
 
                                 /* if ($db_price_up_from != $post_price_up_from) {
@@ -767,7 +769,7 @@ class BackendOwnershipController extends Controller {
                                     $string_rooms_change_price.=' Room ' . $flag . ' changed price (Low season) from ' . $db_price_down_to . ' to ' . $post_price_down_to . '.';
                                 }
 
-                                if ($db_price_special != $post_price_special) {
+                                if (isset($post['room_price_special_' . $flag]) && $db_price_special != $post_price_special) {
                                     $string_rooms_change_price.=' Room ' . $flag . ' changed price (Special season) from ' . $db_price_special . ' to ' . $post_price_special . '.';
                                 }
 
