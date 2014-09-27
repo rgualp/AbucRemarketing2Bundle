@@ -331,7 +331,7 @@ class BackendOwnershipController extends Controller {
         $post['ownership_visit_date'] = $ownership->getOwnVisitDate();
         $post['ownership_creation_date'] = $ownership->getOwnCreationDate();
         $post['ownership_last_update'] = $ownership->getOwnLastUpdate();
-        
+
         $data['ownership_visit_date'] = $ownership->getOwnVisitDate();
         $data['ownership_creation_date'] = $ownership->getOwnCreationDate();
         $data['ownership_last_update'] = $ownership->getOwnLastUpdate();
@@ -447,7 +447,7 @@ class BackendOwnershipController extends Controller {
         $data['edit_ownership'] = TRUE;
         $data['id_ownership'] = $id_ownership;
         $data['name_ownership'] = $ownership->getOwnName();
-        return $this->render('mycpBundle:ownership:new.html.twig', array('languages' => $languages, 'count_rooms' => $count_rooms, 'post' => $post, 'data' => $data, 'errors' => $errors, 'users' => $users_owner, 'total_users' => count($users_owner) ));
+        return $this->render('mycpBundle:ownership:new.html.twig', array('languages' => $languages, 'count_rooms' => $count_rooms, 'post' => $post, 'data' => $data, 'errors' => $errors, 'users' => $users_owner, 'total_users' => count($users_owner)));
     }
 
     public function delete_ownershipAction($id_ownership) {
@@ -560,7 +560,13 @@ class BackendOwnershipController extends Controller {
             if ($request->request->get('new_room') == 1) {
                 $count_rooms = $request->request->get('count_rooms') + 1;
                 $data['new_room'] = TRUE;
-           } else {
+                if (isset($data['ownership_visit_date']))
+                    $data['ownership_visit_date'] = \MyCp\mycpBundle\Helpers\Dates::createFromString($post['ownership_visit_date'], '/', 1);
+                if (isset($data['ownership_creation_date']))
+                    $data['ownership_creation_date'] = \MyCp\mycpBundle\Helpers\Dates::createFromString($post['ownership_creation_date'], '/', 1);
+                if (isset($data['ownership_last_update']))
+                    $data['ownership_last_update'] = \MyCp\mycpBundle\Helpers\Dates::createFromString($post['ownership_last_update'], '/', 1);
+            } else {
 
                 $not_blank_validator = new NotBlank();
                 $not_blank_validator->message = "Este campo no puede estar vacío.";
@@ -585,13 +591,12 @@ class BackendOwnershipController extends Controller {
                                 $array_keys[$count] != 'ownership_destination' &&
                                 $array_keys[$count] != 'user_create' &&
                                 $array_keys[$count] != 'user_send_mail'
-                                
                         ) {
                             $errors[$array_keys[$count]] = $errors_validation = $this->get('validator')->validateValue($item, $not_blank_validator);
                             $data['count_errors']+=count($errors[$array_keys[$count]]);
                         }
                     }
-                    if (strpos($array_keys[$count], 'room_') !== false && 
+                    if (strpos($array_keys[$count], 'room_') !== false &&
                             $array_keys[$count] != 'new_room') {
                         $errors[$array_keys[$count]] = $errors_validation = $this->get('validator')->validateValue($item, $not_blank_validator);
                         $data['count_errors']+=count($errors[$array_keys[$count]]);
@@ -730,38 +735,38 @@ class BackendOwnershipController extends Controller {
                         $string_rooms_change_price = '';
                         if ($post['status'] == ownershipStatus::STATUS_ACTIVE)
                             foreach ($rooms_db as $room) {
-                                /*$db_price_up_from = $room->getRoomPriceUpFrom();
-                                $post_price_up_from = $post['room_price_up_from_' . $flag];*/
+                                /* $db_price_up_from = $room->getRoomPriceUpFrom();
+                                  $post_price_up_from = $post['room_price_up_from_' . $flag]; */
 
                                 $db_price_up_to = $room->getRoomPriceUpTo();
                                 $post_price_up_to = $post['room_price_up_to_' . $flag];
 
-                                /*$db_price_down_from = $room->getRoomPriceDownFrom();
-                                $post_price_down_from = $post['room_price_down_from_' . $flag];*/
+                                /* $db_price_down_from = $room->getRoomPriceDownFrom();
+                                  $post_price_down_from = $post['room_price_down_from_' . $flag]; */
 
                                 $db_price_down_to = $room->getRoomPriceDownTo();
                                 $post_price_down_to = $post['room_price_down_to_' . $flag];
-                                
+
                                 $db_price_special = $room->getRoomPriceSpecial();
                                 $post_price_special = $post['room_price_special_' . $flag];
 
 
-                                /*if ($db_price_up_from != $post_price_up_from) {
-                                    $string_rooms_change_price.=' Room ' . $flag . ' changed price (High season "FROM") from ' . $db_price_up_from . ' to ' . $post_price_up_from . '.';
-                                }*/
+                                /* if ($db_price_up_from != $post_price_up_from) {
+                                  $string_rooms_change_price.=' Room ' . $flag . ' changed price (High season "FROM") from ' . $db_price_up_from . ' to ' . $post_price_up_from . '.';
+                                  } */
 
                                 if ($db_price_up_to != $post_price_up_to) {
                                     $string_rooms_change_price.=' Room ' . $flag . ' changed price (High season) from ' . $db_price_up_to . ' to ' . $post_price_up_to . '.';
                                 }
 
-                                /*if ($db_price_down_from != $post_price_down_from) {
-                                    $string_rooms_change_price.=' Room ' . $flag . ' changed price (Low season "FROM") from ' . $db_price_down_from . ' to ' . $post_price_down_from . '.';
-                                }*/
+                                /* if ($db_price_down_from != $post_price_down_from) {
+                                  $string_rooms_change_price.=' Room ' . $flag . ' changed price (Low season "FROM") from ' . $db_price_down_from . ' to ' . $post_price_down_from . '.';
+                                  } */
 
                                 if ($db_price_down_to != $post_price_down_to) {
                                     $string_rooms_change_price.=' Room ' . $flag . ' changed price (Low season) from ' . $db_price_down_to . ' to ' . $post_price_down_to . '.';
                                 }
-                                
+
                                 if ($db_price_special != $post_price_special) {
                                     $string_rooms_change_price.=' Room ' . $flag . ' changed price (Special season) from ' . $db_price_special . ' to ' . $post_price_special . '.';
                                 }
@@ -808,19 +813,19 @@ class BackendOwnershipController extends Controller {
                             $service_log->saveLog('Edit entity ' . $post['ownership_mcp_code'], BackendModuleName::MODULE_OWNERSHIP);
                         }
 
-                        $em->getRepository('mycpBundle:ownership')->edit($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])),(isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this);
+                        $em->getRepository('mycpBundle:ownership')->edit($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this);
 
                         $message = 'Propiedad actualizada satisfactoriamente.';
                     } else {
 
-                        $em->getRepository('mycpBundle:ownership')->insert($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])),(isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this);
+                        $em->getRepository('mycpBundle:ownership')->insert($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this);
                         $message = 'Propiedad añadida satisfactoriamente.';
                         $service_log = $this->get('log');
                         $service_log->saveLog('Create entity ' . $post['ownership_mcp_code'], BackendModuleName::MODULE_OWNERSHIP);
 
                         //Enviar correo a los propietarios
                         if ($post['status'] == ownershipStatus::STATUS_ACTIVE)
-                            UserMails::sendOwnersMail($this,$post['ownership_email_1'], $post['ownership_email_2'], $post['ownership_homeowner_1'], $post['ownership_homeowner_2'], $post['ownership_name'], $post['ownership_mcp_code']);
+                            UserMails::sendOwnersMail($this, $post['ownership_email_1'], $post['ownership_email_2'], $post['ownership_homeowner_1'], $post['ownership_homeowner_2'], $post['ownership_name'], $post['ownership_mcp_code']);
                     }
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
                     if ($request->get('save_reset_input') == 1) {
@@ -840,6 +845,9 @@ class BackendOwnershipController extends Controller {
                 $data['status_name'] = $ownership->getOwnStatus()->getStatusName();
                 $data['top_20'] = $ownership->getOwnTop20();
                 $data['not_recommendable'] = $ownership->getOwnNotRecommendable();
+                $data['ownership_visit_date'] = $ownership->getOwnVisitDate();
+                $data['ownership_creation_date'] = $ownership->getOwnCreationDate();
+                $data['ownership_last_update'] = $ownership->getOwnLastUpdate();
             }
         }
 
@@ -958,7 +966,7 @@ class BackendOwnershipController extends Controller {
         $owners_name_1 = $own->getOwnHomeowner1();
         $owners_name_2 = $own->getOwnHomeowner2();
 
-        UserMails::sendOwnersMail($this,$own_mail_1, $own_mail_2, $owners_name_1, $owners_name_2, $own->getOwnName(), $own->getOwnMcpCode());
+        UserMails::sendOwnersMail($this, $own_mail_1, $own_mail_2, $owners_name_1, $owners_name_2, $own->getOwnName(), $own->getOwnMcpCode());
 
         return $this->redirect($this->generateUrl('mycp_edit_ownership', array('id_ownership' => $own_id)));
     }
