@@ -62,12 +62,11 @@ function reservations_in_details()
 
                 if($(this).attr('data_type_room')==='Habitación Triple' && persons>=3)
                 {
-                    value=this.parentNode.parentNode.cells[2].innerHTML*(cont_array_dates-1) + (($(this).attr('data_curr')*10) * (cont_array_dates -1));
-
+                    value=$(this).attr('data_total')*$(this).attr('data_curr') + (($(this).attr('data_curr')*$(this).attr('data_triple_recharge')) * (cont_array_dates -1));
                 }
                 else
                 {
-                    value=this.parentNode.parentNode.cells[2].innerHTML*(cont_array_dates-1);
+                    value=$(this).attr('data_total')*$(this).attr('data_curr');
                 }
                 $('#guest_'+$(this).attr('data')).html($('#combo_guest_'+$(this).attr('data')).val());
                 $('#kids_'+$(this).attr('data')).html($('#combo_kids_'+$(this).attr('data')).val());
@@ -84,7 +83,7 @@ function reservations_in_details()
             persons=parseInt($('#combo_kids_'+$(this).attr('data')).val()) + parseInt($('#combo_guest_'+$(this).attr('data')).val());
             if($(this).attr('data_type_room')==='Habitación Triple' && persons>=3)
             {
-                value=$(this).attr('data_total')*$(this).attr('data_curr') +(($(this).attr('data_curr')*10) * (cont_array_dates -1)) ;
+                value=$(this).attr('data_total')*$(this).attr('data_curr') +(($(this).attr('data_curr')*$(this).attr('data_triple_recharge')) * (cont_array_dates -1)) ;
             }
             else
             {
