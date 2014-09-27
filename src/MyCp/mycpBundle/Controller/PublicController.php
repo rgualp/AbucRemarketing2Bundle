@@ -15,7 +15,10 @@ class PublicController extends Controller {
 
         $request = $this->getRequest();
         $session = $request->getSession();
-
+        $user = $this->get('security.context')->getToken()->getUser();
+        if(isset($user) && $user != null && $user != "anon.")
+            return $this->redirect($this->generateUrl('mycp_backend_front'));
+        
         if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
             $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
         } else {
