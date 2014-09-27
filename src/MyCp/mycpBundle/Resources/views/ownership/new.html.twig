@@ -494,19 +494,23 @@
 
                     <div class="span6">
             <label>Fecha de Visita (dd/mm/yyyy)</label>
-            <input value="{% if(post['ownership_visit_date'] is defined and post['ownership_visit_date'] != null) %}{{post['ownership_visit_date'] | date("d/m/Y")}}{% endif %}" class="input-block-level datepicker" type="text" name="ownership_visit_date"/>
+            {% if(data['ownership_visit_date'] is defined and data['ownership_visit_date'] != null) %}
+            <label>{{data['ownership_visit_date'] | date('d/m/Y')}}</label>
+            {%else%}
+            <input class="input-block-level datepicker" type="text" name="ownership_visit_date"/>
+            {%endif%}
                 </div>
             </div>
             {% if data['edit_ownership'] is defined %}
                 <div class="row-fluid">
                 <div class="span6">
             <label>Fecha de Creación</label>
-            <input value="{% if(post['ownership_creation_date'] is defined and post['ownership_creation_date'] != null) %}{{post['ownership_creation_date'] | date("d/m/Y, H:s")}}{% endif %}" class="input-block-level" type="text" disabled="disabled"/>
+            <label>{% if(data['ownership_creation_date'] is defined and data['ownership_creation_date'] != null) %}{{data['ownership_creation_date'] | date("d/m/Y, H:s")}}{%else%}(Sin definir){% endif %}</label>
                 </div>
 
                     <div class="span6">
             <label>Fecha de Última Modificación</label>
-            <input value="{% if(post['ownership_last_update'] is defined and post['ownership_last_update'] != null) %}{{post['ownership_last_update'] | date("d/m/Y, H:s")}}{% endif %}" class="input-block-level" type="text" disabled="disabled"/>
+            <label>{% if(data['ownership_last_update'] is defined and data['ownership_last_update'] != null) %}{{data['ownership_last_update'] | date("d/m/Y, H:s")}}{%else%}(Sin definir){% endif %}</label>
                 </div>
             </div>
             {%endif%}

@@ -331,6 +331,10 @@ class BackendOwnershipController extends Controller {
         $post['ownership_visit_date'] = $ownership->getOwnVisitDate();
         $post['ownership_creation_date'] = $ownership->getOwnCreationDate();
         $post['ownership_last_update'] = $ownership->getOwnLastUpdate();
+        
+        $data['ownership_visit_date'] = $ownership->getOwnVisitDate();
+        $data['ownership_creation_date'] = $ownership->getOwnCreationDate();
+        $data['ownership_last_update'] = $ownership->getOwnLastUpdate();
         $post['ownership_destination'] = 0;
 
         $users_owner = $em->getRepository('mycpBundle:userCasa')->findBy(array('user_casa_ownership' => $id_ownership));
@@ -556,13 +560,7 @@ class BackendOwnershipController extends Controller {
             if ($request->request->get('new_room') == 1) {
                 $count_rooms = $request->request->get('count_rooms') + 1;
                 $data['new_room'] = TRUE;
-                if(isset($post['ownership_visit_date']))
-                    $post['ownership_visit_date'] = \MyCp\mycpBundle\Helpers\Dates::createFromString($post['ownership_visit_date'], '/',1);
-                if(isset($post['ownership_creation_date']))
-                    $post['ownership_creation_date'] = \MyCp\mycpBundle\Helpers\Dates::createFromString($post['ownership_creation_date'], '/',1);
-                if(isset($post['ownership_last_update']))
-                    $post['ownership_last_update'] = \MyCp\mycpBundle\Helpers\Dates::createFromString($post['ownership_last_update'], '/',1);
-            } else {
+           } else {
 
                 $not_blank_validator = new NotBlank();
                 $not_blank_validator->message = "Este campo no puede estar vacío.";
