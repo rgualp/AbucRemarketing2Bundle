@@ -1506,7 +1506,7 @@ class ownershipRepository extends EntityRepository {
     function get_details($own_name, $locale = "ES", $user_id = null, $session_id = null) {
         $em = $this->getEntityManager();
         $query_string = "SELECT o.own_id as own_id,
-                        dest.des_id as des_id,
+                        (SELECT min(dest.des_id) FROM mycpBundle:destination dest WHERE dest.des_id = o.own_destination) as des_id,
                         o.own_name as ownname,
                         prov.prov_name as ownAddressProvince,
                         prov.prov_id as ownAddressProvince_id,
@@ -1554,7 +1554,6 @@ class ownershipRepository extends EntityRepository {
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
                          JOIN o.own_address_municipality mun
-                         JOIN o.own_destination dest
                          WHERE o.own_name = :own_name
                          ORDER BY o.own_id DESC";
 

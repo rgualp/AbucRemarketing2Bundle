@@ -102,6 +102,7 @@ class ReservationController extends Controller {
                     $service['kids'] = 0;
                 $service['ownership_name'] = $ownership->getOwnName();
                 $service['ownership_id'] = $ownership->getOwnId();
+                $service['ownership_destination'] = ($ownership->getOwnDestination() != null) ? $ownership->getOwnDestination()->getDesId() : -1;
                 $service['ownership_mun'] = $ownership->getOwnAddressMunicipality()->getMunName();
                 $service['ownership_prov'] = $ownership->getOwnAddressProvince()->getProvName();
                 $service['ownership_percent'] = $ownership->getOwnCommissionPercent();
@@ -109,6 +110,7 @@ class ReservationController extends Controller {
                 $service['room_type'] = $room->getRoomType();
                 $service['room_price_top'] = $room->getRoomPriceUpTo();
                 $service['room_price_down'] = $room->getRoomPriceDownTo();
+                $service['room_price_special'] = ($room->getRoomPriceSpecial() > 0) ? $room->getRoomPriceSpecial() : $room->getRoomPriceUpTo();
                 array_push($services, $service);
             }
         }
@@ -212,17 +214,20 @@ class ReservationController extends Controller {
         //var_dump($services);
         if ($array_dates) {
             $em = $this->getDoctrine()->getManager();
-            $seasons = $em->getRepository("mycpBundle:season")->getSeasons($min_date, $max_date);
             foreach ($array_dates as $date) {
                 array_push($array_dates_string, \date('/m/Y', $date));
                 array_push($array_dates_string_day, \date('d', $date));
-                $seasonTypes = $service_time->seasonByDate($seasons, $date);
-                array_push($array_season, $seasonTypes);
+
                 $insert = 1;
                 foreach ($services as $serv) {
                     if ($date >= $serv['from_date'] && $date <= $serv['to_date']) {
                         $insert = 0;
                     }
+                    
+                    $destination_id = isset($serv['ownership_destination']) ? $serv['ownership_destination'] : null;
+                    $seasons = $em->getRepository("mycpBundle:season")->getSeasons($min_date, $max_date, $destination_id);
+                    $seasonTypes = $service_time->seasonByDate($seasons, $date);
+                    array_push($array_season, $seasonTypes);
                 }
                 if ($insert == 1) {
                     $array_clear_date[$date] = 1;
