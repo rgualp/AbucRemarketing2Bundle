@@ -29,16 +29,24 @@
                                          {%if reservation.ownresnightprice != 0%}
                                                 {{reservation.ownresnightprice | price}}
                                          {%else%}
-                                            {%if seasons[loop.index0] == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_HIGH')%}
+                                            {%if seasons[flag_1] == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_HIGH')%}
                                                {{reservation.ownresroompriceup | price}}
-                                            {%elseif seasons[loop.index0] == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_SPECIAL')%}
-                                            {{reservation.ownresroompricespecial | price}}
+                                            {%elseif seasons[flag_1] == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_SPECIAL')%}
+                                                {%if reservation.ownresroompricespecial > 0%}
+                                                    {{reservation.ownresroompricespecial | price}}  
+                                                {%else%}
+                                                    {{reservation.ownresroompriceup | price}}
+                                                {%endif%}
                                             {%else%}
                                                   {{reservation.ownresroompricedown | price}}
                                             {%endif%}
                                          {%endif%}
-                                        </h3>
+                                        </h3><small class="margin-b-t"><i>{{ "PRICE_NIGHT"|trans }}</i></small>                                    
                                 </td>
+                                {%if reservation.ownrescountchildrens + reservation.ownrescountadults >= 3 and reservation.ownresroomtype == "Habitación Triple"%}
+                                <td style="vertical-align: top; padding-top: 2%"> + </td>
+                                <td style="vertical-align: top;"  rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}"><h5>{{configuration_triple_room_charge | price}}</h5></td>
+                                {%endif%}
                             </tr>
                         {% endif %}
                         {% endif %}
@@ -71,6 +79,11 @@
         <span>{{ceil_round((total_percent_price + configuration_service_fee)) | price}}</span>
     </div>
 </div>
+<div class="row">
+<div class="pull-right">
+    <img src="{{ asset('bundles/frontend/img/question.gif') }}" width="20px" rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}"/>
+    </div>
+    </div>
 <hr/>
 <h1 class="h-blue caecilia-roman h-size-1" style="font-weight: normal; margin-top: 20px">{{"YOUR_DATA" | trans}}</h1>
 <div class="h-blue t-size-12" style="font-weight: normal; margin-bottom: 0"><b >{{"REQUIRED_FIELDS_NEXT_STEP" | trans}}:</b> </div>
