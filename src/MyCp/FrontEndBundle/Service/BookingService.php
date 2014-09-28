@@ -29,11 +29,18 @@ class BookingService extends Controller
      * @var float
      */
     private $serviceChargeInCuc;
+    
+    /*
+     * Triple room charge
+     * @var float
+     */
+    private $tripleRoomCharge;
 
-    public function __construct(ObjectManager $em, $serviceChargeInCuc, $voucherDirectoryPath)
+    public function __construct(ObjectManager $em, $serviceChargeInCuc, $voucherDirectoryPath, $tripleRoomCharge)
     {
         $this->em = $em;
         $this->serviceChargeInCuc = (float)$serviceChargeInCuc;
+        $this->tripleRoomCharge = (float)$tripleRoomCharge;
 
         if (!is_dir($voucherDirectoryPath)) {
             throw new \InvalidArgumentException('Invalid directory given: ' . $voucherDirectoryPath);
@@ -90,7 +97,7 @@ class BookingService extends Controller
                         $own->getOwnResReservationFromDate()->getTimestamp(),
                         $own->getOwnResReservationToDate()->getTimestamp()
                     );
-                $totalPrice += \MyCp\FrontEndBundle\Helpers\ReservationHelper::getTotalPrice($em, $timeService, $own);
+                $totalPrice += \MyCp\FrontEndBundle\Helpers\ReservationHelper::getTotalPrice($em, $timeService, $own, $this->tripleRoomCharge);
             }
 
             $totalPercentPrice += $totalPrice * $ownCommission / 100;
@@ -117,7 +124,7 @@ class BookingService extends Controller
                 );
             array_push($nights, count($array_dates) - 1);
             array_push($rooms, $em->getRepository('mycpBundle:room')->find($own->getOwnResSelectedRoomId()));
-            $totalPrice += \MyCp\FrontEndBundle\Helpers\ReservationHelper::getTotalPrice($em, $timeService, $own);
+            $totalPrice += \MyCp\FrontEndBundle\Helpers\ReservationHelper::getTotalPrice($em, $timeService, $own, $this->tripleRoomCharge);
             $commission = $own->getOwnResGenResId()->GetGenResOwnId()->getOwnCommissionPercent();
 
             $insert = 1;

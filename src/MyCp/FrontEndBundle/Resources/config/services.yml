@@ -14,6 +14,6 @@ services:
 
     front_end.services.booking:
         class: %front_end.services.booking.class%
-        arguments: [@doctrine.orm.entity_manager, "%configuration.service.fee%", "%kernel.root_dir%/../tmp/vouchers/"]
+        arguments: [@doctrine.orm.entity_manager, "%configuration.service.fee%", "%kernel.root_dir%/../tmp/vouchers/","%configuration.triple.room.charge%"]
         calls:
             - [ setContainer, [ @service_container ] ]

@@ -151,8 +151,8 @@ class OwnershipController extends Controller {
             /* if ($request->getMethod() != 'POST') {
               //$x = 2;
               } */
-
-            $seasons = $em->getRepository("mycpBundle:season")->getSeasons($from, $to, $ownership->getOwnDestination()->getDesId());
+            $destination_id = ($ownership->getOwnDestination() != null) ? $ownership->getOwnDestination()->getDesId() : null;
+            $seasons = $em->getRepository("mycpBundle:season")->getSeasons($from, $to, $destination_id);
             for ($a = 0; $a < count($array_dates) - $x; $a++) {
 
                 $season_type = $service_time->seasonTypeByDate($seasons, $array_dates[$a]);

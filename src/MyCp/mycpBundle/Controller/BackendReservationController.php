@@ -119,34 +119,38 @@ class BackendReservationController extends Controller {
                 $em->persist($general_reservation);
                 $service_time = $this->get('Time');
                 $total_price = 0;
+
+                $destination_id = ($ownership->getOwnDestination() != null) ? $ownership->getOwnDestination()->getDesId() : null;
                 foreach ($services as $servi) {
                     $array_dates = $service_time->datesBetween($servi['from_date'], $servi['to_date']);
                     $temp_price = 0;
-                    $triple_room_recharge = $this->container->getParameter('configuration.triple.room.charge');
-                    $seasons = $em->getRepository("mycpBundle:season")->getSeasons($servi['from_date'], $servi['to_date']);
-                    for ($a = 0; $a < count($array_dates); $a++) {
-                        if ($a < count($array_dates) - 1) {
-                            $season = $service_time->seasonByDate($seasons, $array_dates[$a]);
-                            if ($season == 'down') {
-                                if ($servi['room_type'] == "Habitación Triple" && $servi['guests'] + $servi['kids'] >= 3) {
-                                    $total_price += $servi['room_price_down'] + $triple_room_recharge;
-                                    $temp_price += $servi['room_price_down'] + $triple_room_recharge;
-                                } else {
-                                    $total_price += $servi['room_price_down'];
-                                    $temp_price += $servi['room_price_down'];
-                                }
-                            } else {
-                                if ($servi['room_type'] == "Habitación Triple" && $servi['guests'] + $servi['kids'] >= 3) {
+                    $triple_room_recharge = ($servi['room_type'] == "Habitación Triple" && $servi['guests'] + $servi['kids'] >= 3) ? $this->container->getParameter('configuration.triple.room.charge') : 0;
+                    $seasons = $em->getRepository("mycpBundle:season")->getSeasons($servi['from_date'], $servi['to_date'], $destination_id);
+                    for ($a = 0; $a < count($array_dates) - 1; $a++) {
+                        $season = $service_time->seasonByDate($seasons, $array_dates[$a]);
+                        switch ($season) {
+                            case 'top': {
                                     $total_price += $servi['room_price_top'] + $triple_room_recharge;
                                     $temp_price += $servi['room_price_top'] + $triple_room_recharge;
-                                } else {
-                                    $total_price += $servi['room_price_top'];
-                                    $temp_price += $servi['room_price_top'];
+                                    break;
                                 }
-                            }
+                            case 'special': {
+                                    if (isset($servi['room_price_special'])) {
+                                        $total_price += $servi['room_price_special'] + $triple_room_recharge;
+                                        $temp_price += $servi['room_price_special'] + $triple_room_recharge;
+                                    } else {
+                                        $total_price += $servi['room_price_top'] + $triple_room_recharge;
+                                        $temp_price += $servi['room_price_top'] + $triple_room_recharge;
+                                    }
+                                    break;
+                                }
+                            default: {
+                                    $total_price += $servi['room_price_down'] + $triple_room_recharge;
+                                    $temp_price += $servi['room_price_down'] + $triple_room_recharge;
+                                    break;
+                                }
                         }
                     }
-
 
                     $ownership_reservation = new ownershipReservation();
                     $ownership_reservation->setOwnResCountAdults($servi['guests']);
@@ -538,7 +542,7 @@ class BackendReservationController extends Controller {
                 $own_res_id = $splitted[count($splitted) - 1];
                 if (strpos($key, 'service_room_price') !== false) {
 
-                    if ((empty($post[$key]) || !is_numeric($post[$key])) && $post['service_own_res_status_' . $own_res_id] != ownershipReservation::STATUS_NOT_AVAILABLE) {
+                    if (!is_numeric($post[$key])) {
                         $errors[$key] = 1;
                     }
                 }
@@ -570,7 +574,7 @@ class BackendReservationController extends Controller {
                         $ownership_reservation->setOwnResNightPrice($post['service_room_price_' . $ownership_reservation->getOwnResId()]);
                     }
                     else
-                        $temp_price+=$ownership_reservation->getOwnResTotalInSite();
+                    //$temp_price+=$ownership_reservation->getOwnResTotalInSite();
                     $ownership_reservation->setOwnResCountAdults($post['service_room_count_adults_' . $ownership_reservation->getOwnResId()]);
                     $ownership_reservation->setOwnResCountChildrens($post['service_room_count_childrens_' . $ownership_reservation->getOwnResId()]);
                     $ownership_reservation->setOwnResStatus($post['service_own_res_status_' . $ownership_reservation->getOwnResId()]);

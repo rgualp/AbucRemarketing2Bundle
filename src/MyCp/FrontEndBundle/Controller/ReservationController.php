@@ -223,7 +223,7 @@ class ReservationController extends Controller {
                     if ($date >= $serv['from_date'] && $date <= $serv['to_date']) {
                         $insert = 0;
                     }
-                    
+
                     $destination_id = isset($serv['ownership_destination']) ? $serv['ownership_destination'] : null;
                     $seasons = $em->getRepository("mycpBundle:season")->getSeasons($min_date, $max_date, $destination_id);
                     $seasonTypes = $service_time->seasonByDate($seasons, $date);
@@ -303,31 +303,36 @@ class ReservationController extends Controller {
 
                     $total_price = 0;
                     $partial_total_price = array();
-                    $triple_room_recharge = $this->container->getParameter('configuration.triple.room.charge');
+                    $destination_id = ($ownership->getOwnDestination() != null) ? $ownership->getOwnDestination()->getDesId() : null;
                     foreach ($res_item as $item) {
+                        $triple_room_recharge = ($item['room_type'] == "Habitación Triple" && $item['guests'] + $item['kids'] >= 3) ? $this->container->getParameter('configuration.triple.room.charge') : 0;
                         $array_dates = $service_time->datesBetween($item['from_date'], $item['to_date']);
                         $temp_price = 0;
-                        $seasons = $em->getRepository("mycpBundle:season")->getSeasons($item['from_date'], $item['to_date']);
-                        for ($a = 0; $a < count($array_dates); $a++) {
-                            if ($a < count($array_dates) - 1) {
-                                $season = $service_time->seasonTypeByDate($seasons, $array_dates[$a]);
-                                if ($season == season::SEASON_TYPE_LOW) {
-                                    if ($item['room_type'] == "Habitación Triple" && $item['guests'] + $item['kids'] >= 3) {
-                                        $total_price += $item['room_price_down'] + $triple_room_recharge;
-                                        $temp_price += $item['room_price_down'] + $triple_room_recharge;
-                                    } else {
-                                        $total_price += $item['room_price_down'];
-                                        $temp_price += $item['room_price_down'];
-                                    }
-                                } else {
-                                    if ($item['room_type'] == "Habitación Triple" && $item['guests'] + $item['kids'] >= 3) {
+                        $seasons = $em->getRepository("mycpBundle:season")->getSeasons($item['from_date'], $item['to_date'], $destination_id);
+                        for ($a = 0; $a < count($array_dates) - 1; $a++) {
+                           
+                            $season = $service_time->seasonTypeByDate($seasons, $array_dates[$a]);
+                            switch ($season) {
+                                case season::SEASON_TYPE_HIGH: {
                                         $total_price += $item['room_price_top'] + $triple_room_recharge;
                                         $temp_price += $item['room_price_top'] + $triple_room_recharge;
-                                    } else {
-                                        $total_price += $item['room_price_top'];
-                                        $temp_price += $item['room_price_top'];
+                                        break;
                                     }
-                                }
+                                case season::SEASON_TYPE_SPECIAL: {
+                                        if (isset($item['room_price_special']) && $item['room_price_special'] > 0) {
+                                            $total_price += $item['room_price_special'] + $triple_room_recharge;
+                                            $temp_price += $item['room_price_special'] + $triple_room_recharge;
+                                        } else {
+                                            $total_price += $item['room_price_top'] + $triple_room_recharge;
+                                            $temp_price += $item['room_price_top'] + $triple_room_recharge;
+                                        }
+                                        break;
+                                    }
+                                default: {
+                                        $total_price += $item['room_price_down'] + $triple_room_recharge;
+                                        $temp_price += $item['room_price_down'] + $triple_room_recharge;
+                                        break;
+                                    }
                             }
                         }
                         array_push($partial_total_price, $temp_price);
@@ -336,8 +341,8 @@ class ReservationController extends Controller {
                     $em->persist($general_reservation);
 
                     $flag_1 = 0;
-                    foreach ($res_item as $item) {
 
+                    foreach ($res_item as $item) {
                         $ownership_reservation = new ownershipReservation();
                         $ownership_reservation->setOwnResCountAdults($item['guests']);
                         $ownership_reservation->setOwnResCountChildrens($item['kids']);
@@ -348,7 +353,7 @@ class ReservationController extends Controller {
                         $ownership_reservation->setOwnResSelectedRoomId($item['room']);
                         $ownership_reservation->setOwnResRoomPriceDown($item['room_price_down']);
                         $ownership_reservation->setOwnResRoomPriceUp($item['room_price_top']);
-                        $ownership_reservation->setOwnResRoomPriceSpecial(0);
+                        $ownership_reservation->setOwnResRoomPriceSpecial($item['room_price_special']);
                         $ownership_reservation->setOwnResGenResId($general_reservation);
                         $ownership_reservation->setOwnResRoomType($item['room_type']);
                         $ownership_reservation->setOwnResTotalInSite($partial_total_price[$flag_1]);
@@ -490,6 +495,7 @@ class ReservationController extends Controller {
         $total_percent_price = 0;
         $commissions = array();
         $rooms = array();
+        $triple_room_recharge = $this->container->getParameter('configuration.triple.room.charge');
         foreach ($reservations as $reservation) {
             if ($min_date > $reservation->getOwnResReservationFromDate()->getTimestamp()) {
                 $min_date = $reservation->getOwnResReservationFromDate()->getTimestamp();
@@ -508,7 +514,7 @@ class ReservationController extends Controller {
             }
             $commission = $reservation->getOwnResGenResId()->GetGenResOwnId()->getOwnCommissionPercent();
             $array_limits_dates[$reservation->getOwnResReservationToDate()->getTimestamp()][$reservation->getOwnResId()] = 1;
-            $total_price += ReservationHelper::getTotalPrice($em, $service_time, $reservation);
+            $total_price += ReservationHelper::getTotalPrice($em, $service_time, $reservation, $triple_room_recharge);
             $total_percent_price += $total_price * $commission / 100;
 
             $insert = 1;
@@ -527,7 +533,8 @@ class ReservationController extends Controller {
         $array_dates_string = array();
         $array_dates_string_day = array();
         $season_types = array();
-        $seasons = $em->getRepository("mycpBundle:season")->getSeasons($min_date, $max_date);
+        $destination_id = ($reservation->getOwnResGenResId()->getGenResOwnId()->getOwnDestination() != null) ? $reservation->getOwnResGenResId()->getGenResOwnId()->getOwnDestination()->getDesId() : null;
+        $seasons = $em->getRepository("mycpBundle:season")->getSeasons($min_date, $max_date, $destination_id);
         foreach ($array_dates as $date) {
             array_push($array_dates_string, \date('/m/Y', $date));
             array_push($array_dates_string_day, \date('d', $date));
