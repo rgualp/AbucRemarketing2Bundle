@@ -35,7 +35,7 @@ class Time {
     }
 
     public static function seasonByDate($seasons, $date_timestamp) {
-        $season_type = $this->seasonTypeByDate($seasons, $date_timestamp);
+        $season_type = Time::seasonTypeByDate($seasons, $date_timestamp);
         switch ($season_type) {
             case season::SEASON_TYPE_HIGH: return "top";
             case season::SEASON_TYPE_SPECIAL: return "special";
