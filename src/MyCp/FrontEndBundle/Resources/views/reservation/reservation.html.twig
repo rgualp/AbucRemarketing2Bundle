@@ -23,7 +23,7 @@
                             {% if limit_dates[dates[flag_1]][reservation.getOwnResId] is not defined %}
                             <tr>
                                 <td style="width: 57%">{{reservation.getOwnResGenResId.getGenResOwnId.getOwnAddressMunicipality.getMunName}}, {{reservation.getOwnResGenResId.getGenResOwnId.getOwnName}}</td>
-                                <td style="width: 35%" class="text-center">{{reservation.getOwnResRoomType}}</td>
+                                <td style="width: 35%" class="text-center">{{reservation.getOwnResRoomType | trans}}</td>
                                 <td class="text-right cost">
                                         <h3 class="no-margin">
                                          {%if reservation.ownresnightprice != 0%}
