@@ -1,47 +1,47 @@
 <?php
+
 namespace MyCp\FrontEndBundle\Helpers;
+
 use \MyCp\mycpBundle\Entity\season;
 
-class Time
-{
-    public static function datesBetween($startdate, $enddate, $format=null){
+class Time {
+
+    public static function datesBetween($startdate, $enddate, $format = null) {
 
         (is_int($startdate)) ? 1 : $startdate = strtotime($startdate);
         (is_int($enddate)) ? 1 : $enddate = strtotime($enddate);
 
-        if($startdate > $enddate){
+        if ($startdate > $enddate) {
             return false; //The end date is before start date
         }
 
-        while($startdate <= $enddate){
+        while ($startdate <= $enddate) {
             $arr[] = ($format) ? date($format, $startdate) : $startdate;
             $startdate = strtotime("+1 day", $startdate);
         }
         return $arr;
     }
 
-    public static function seasonTypeByDate($seasons,$date_timestamp)
-    {
-        foreach($seasons as $season)
-        {
-            if($season->getSeasonStartDate()->getTimestamp() <= $date_timestamp && $season->getSeasonEndDate()->getTimestamp() >= $date_timestamp)
-                return $season->getSeasonType();
+    public static function seasonTypeByDate($seasons, $date_timestamp) {
+        $season_type = season::SEASON_TYPE_LOW;
+        foreach ($seasons as $season) {            
+            if ($season->getSeasonStartDate()->getTimestamp() <= $date_timestamp && $season->getSeasonEndDate()->getTimestamp() >= $date_timestamp) {
+                if ($season_type == season::SEASON_TYPE_LOW ||
+                        ($season_type == season::SEASON_TYPE_HIGH && $season->getSeasonType() == season::SEASON_TYPE_SPECIAL))
+                    $season_type = $season->getSeasonType();
+            }
         }
-        return season::SEASON_TYPE_LOW;
+        return $season_type;
     }
 
-    public static function seasonByDate($seasons,$date_timestamp)
-    {
-        foreach($seasons as $season)
-        {
-            if($season->getSeasonStartDate()->getTimestamp() <= $date_timestamp && $season->getSeasonEndDate()->getTimestamp() >= $date_timestamp)
-                switch($season->getSeasonType()){
-                  case season::SEASON_TYPE_HIGH: return "top";
-                  case season::SEASON_TYPE_SPECIAL: return "special";
-                  default: return "down";
-                }
+    public static function seasonByDate($seasons, $date_timestamp) {
+        $season_type = $this->seasonTypeByDate($seasons, $date_timestamp);
+        switch ($season_type) {
+            case season::SEASON_TYPE_HIGH: return "top";
+            case season::SEASON_TYPE_SPECIAL: return "special";
+            default: return "down";
         }
-        return 'down';
     }
-
 }
+
+    
