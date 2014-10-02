@@ -1,15 +1,19 @@
 {% set flag = 0%}
+{% set service_flag = 0%}
 {% set total_price = 0 %}
 {% set total_percent = 0 %}
 {% for date in dates_string %}
+    {% set service_flag = 0%}
     {% if array_clear_date[dates_timestamp[flag]] is not defined %}
         {% if not loop.last %}
             <div class="item" id="">
                 <table cellpadding="15" class="full-width">
                     <tbody><tr>
                         <td class="date"><span>{{dates_string_day[flag]}}</span>{{date}}</td>
-                        <td class="content_table">{% for service in services %}
+                        <td class="content_table">
+                                {% for service in services %}
                                 {% set plus = 0 %}
+                                {% set season_type = array_season[dates_timestamp[flag]][service_flag]%}
                                 {% if service['room_type']=='Habitación Triple' and  service['guests'] + service['kids'] >= 3 %}
                                     {% set plus = configuration_triple_room_charge %}
                                 {% endif %}
@@ -22,13 +26,13 @@
                                                 <td class="persons">{{"ADULTS"|trans}}: {{ service['guests']}} <br/> {{"KIDS"|trans}}: {{ service['kids']}}</td>
                                                 <td class="cost"><h3 class="no-margin">
 
-                                                        {% set total_percent =  total_percent + ((service['room_price_'~array_season[flag]]+plus) * service['ownership_percent'] / 100) %}
+                                                        {% set total_percent =  total_percent + ((service['room_price_'~season_type]+plus) * service['ownership_percent'] / 100) %}
                                                         {% if service['room_type']=='Habitación Triple' and  service['guests'] + service['kids'] >= 3 %}
-                                                            {{ (service['room_price_'~array_season[flag]]) | price}}
-                                                            {% set total_price = total_price +  (service['room_price_'~array_season[flag]] + plus) * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) %}
+                                                            {{ (service['room_price_'~season_type]) | price}}
+                                                            {% set total_price = total_price +  (service['room_price_'~season_type] + plus) * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) %}
                                                         {% else %}
-                                                            {{ service['room_price_'~array_season[flag]] | price}}
-                                                            {% set total_price = total_price + service['room_price_'~array_season[flag]] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) %}
+                                                            {{ service['room_price_'~season_type] | price}}
+                                                            {% set total_price = total_price + service['room_price_'~season_type] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) %}
                                                         {% endif %}
 
 
@@ -44,6 +48,7 @@
 
                                     {% endif %}
                                 {% endif %}
+                                {% set service_flag = service_flag + 1%}
                             {% endfor %}</td>
                     </tr>
                     </tbody></table>

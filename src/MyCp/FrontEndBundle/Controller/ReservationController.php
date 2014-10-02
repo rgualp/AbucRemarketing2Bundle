@@ -219,19 +219,23 @@ class ReservationController extends Controller {
                 array_push($array_dates_string_day, \date('d', $date));
 
                 $insert = 1;
+                $array_season_temp = array();
                 foreach ($services as $serv) {
-                    if ($date >= $serv['from_date'] && $date <= $serv['to_date']) {
-                        $insert = 0;
-                    }
-
                     $destination_id = isset($serv['ownership_destination']) ? $serv['ownership_destination'] : null;
                     $seasons = $em->getRepository("mycpBundle:season")->getSeasons($min_date, $max_date, $destination_id);
                     $seasonTypes = $service_time->seasonByDate($seasons, $date);
-                    array_push($array_season, $seasonTypes);
+                    array_push($array_season_temp, $seasonTypes);
+
+
+                    if ($date >= $serv['from_date'] && $date <= $serv['to_date']) {
+                        $insert = 0;
+                    }
                 }
                 if ($insert == 1) {
                     $array_clear_date[$date] = 1;
                 }
+
+                $array_season[$date] = $array_season_temp;
             }
         }
         return $this->render('FrontEndBundle:reservation:bodyReviewReservation.html.twig', array(
@@ -310,7 +314,7 @@ class ReservationController extends Controller {
                         $temp_price = 0;
                         $seasons = $em->getRepository("mycpBundle:season")->getSeasons($item['from_date'], $item['to_date'], $destination_id);
                         for ($a = 0; $a < count($array_dates) - 1; $a++) {
-                           
+
                             $season = $service_time->seasonTypeByDate($seasons, $array_dates[$a]);
                             switch ($season) {
                                 case season::SEASON_TYPE_HIGH: {
@@ -514,8 +518,9 @@ class ReservationController extends Controller {
             }
             $commission = $reservation->getOwnResGenResId()->GetGenResOwnId()->getOwnCommissionPercent();
             $array_limits_dates[$reservation->getOwnResReservationToDate()->getTimestamp()][$reservation->getOwnResId()] = 1;
-            $total_price += ReservationHelper::getTotalPrice($em, $service_time, $reservation, $triple_room_recharge);
-            $total_percent_price += $total_price * $commission / 100;
+            $total_price_current_reservation = ReservationHelper::getTotalPrice($em, $service_time, $reservation, $triple_room_recharge);
+            $total_price += $total_price_current_reservation;
+            $total_percent_price += $total_price_current_reservation * $commission / 100;
 
             $insert = 1;
             foreach ($commissions as $com) {
@@ -528,18 +533,30 @@ class ReservationController extends Controller {
                 array_push($commissions, $commission);
             }
         }
-        $array_dates = $service_time->datesBetween($min_date, $max_date);
-
         $array_dates_string = array();
         $array_dates_string_day = array();
-        $season_types = array();
-        $destination_id = ($reservation->getOwnResGenResId()->getGenResOwnId()->getOwnDestination() != null) ? $reservation->getOwnResGenResId()->getGenResOwnId()->getOwnDestination()->getDesId() : null;
-        $seasons = $em->getRepository("mycpBundle:season")->getSeasons($min_date, $max_date, $destination_id);
+        $array_dates = $service_time->datesBetween($min_date, $max_date);
         foreach ($array_dates as $date) {
             array_push($array_dates_string, \date('/m/Y', $date));
             array_push($array_dates_string_day, \date('d', $date));
-            $season_types[] = $service_time->seasonTypeByDate($seasons, $date);
         }
+
+        $season_types = array();
+        $season_types_temp = array();
+
+        foreach ($array_dates as $date) {
+            $season_types_temp = array();
+
+            foreach ($reservations as $res) {
+                $destination_id = ($res->getOwnResGenResId()->getGenResOwnId()->getOwnDestination() != null) ? $res->getOwnResGenResId()->getGenResOwnId()->getOwnDestination()->getDesId() : null;
+                $seasons = $em->getRepository("mycpBundle:season")->getSeasons($min_date, $max_date, $destination_id);
+                $season_types_temp[] = $service_time->seasonTypeByDate($seasons, $date);
+
+            }
+
+            $season_types[$date] = $season_types_temp;
+        }
+
         $errors = null;
         $post = null;
         $post_country = null;

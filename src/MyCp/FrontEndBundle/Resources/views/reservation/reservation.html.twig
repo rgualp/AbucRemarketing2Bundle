@@ -18,7 +18,9 @@
             <td>
                 <table style="width: 100%; border: none">
                     {% set flag = 0%}
+                    {% set flag_reservation = 0%}
                     {% for reservation in reservations %}
+                        {%set season_date= seasons[dates[flag_1]][flag_reservation]%}
                         {% if dates[flag_1]  >= reservations_timestamp[flag][0]  and  dates[flag_1]  <= reservations_timestamp[flag][1] %}
                             {% if limit_dates[dates[flag_1]][reservation.getOwnResId] is not defined %}
                             <tr>
@@ -29,11 +31,11 @@
                                          {%if reservation.ownresnightprice != 0%}
                                                 {{reservation.ownresnightprice | price}}
                                          {%else%}
-                                            {%if seasons[flag_1] == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_HIGH')%}
+                                            {%if season_date == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_HIGH')%}
                                                {{reservation.ownresroompriceup | price}}
-                                            {%elseif seasons[flag_1] == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_SPECIAL')%}
+                                            {%elseif season_date == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_SPECIAL')%}
                                                 {%if reservation.ownresroompricespecial > 0%}
-                                                    {{reservation.ownresroompricespecial | price}}  
+                                                    {{reservation.ownresroompricespecial | price}}
                                                 {%else%}
                                                     {{reservation.ownresroompriceup | price}}
                                                 {%endif%}
@@ -41,7 +43,7 @@
                                                   {{reservation.ownresroompricedown | price}}
                                             {%endif%}
                                          {%endif%}
-                                        </h3><small class="margin-b-t"><i>{{ "PRICE_NIGHT"|trans }}</i></small>                                    
+                                        </h3><small class="margin-b-t"><i>{{ "PRICE_NIGHT"|trans }}</i></small>
                                 </td>
                                 {%if reservation.ownrescountchildrens + reservation.ownrescountadults >= 3 and reservation.ownresroomtype == "Habitación Triple"%}
                                 <td style="vertical-align: top; padding-top: 2%"> + </td>
@@ -51,6 +53,7 @@
                         {% endif %}
                         {% endif %}
                         {% set flag = flag + 1%}
+                        {% set flag_reservation = flag_reservation + 1%}
                     {% endfor %}
                 </table>
             </td>
