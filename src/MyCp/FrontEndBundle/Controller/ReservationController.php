@@ -7,11 +7,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\booking;
+use MyCp\mycpBundle\Entity\season;
 use MyCp\mycpBundle\Entity\generalReservation;
 use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Email;
 use MyCp\FrontEndBundle\Helpers\PaymentHelper;
+use MyCp\FrontEndBundle\Helpers\ReservationHelper;
 
 class ReservationController extends Controller {
 
@@ -100,13 +102,15 @@ class ReservationController extends Controller {
                     $service['kids'] = 0;
                 $service['ownership_name'] = $ownership->getOwnName();
                 $service['ownership_id'] = $ownership->getOwnId();
+                $service['ownership_destination'] = ($ownership->getOwnDestination() != null) ? $ownership->getOwnDestination()->getDesId() : -1;
                 $service['ownership_mun'] = $ownership->getOwnAddressMunicipality()->getMunName();
                 $service['ownership_prov'] = $ownership->getOwnAddressProvince()->getProvName();
                 $service['ownership_percent'] = $ownership->getOwnCommissionPercent();
                 $service['room_id'] = $room->getRoomId();
                 $service['room_type'] = $room->getRoomType();
-                $service['room_price_top'] = $room->getRoomPriceUpFrom();
-                $service['room_price_down'] = $room->getRoomPriceDownFrom();
+                $service['room_price_top'] = $room->getRoomPriceUpTo();
+                $service['room_price_down'] = $room->getRoomPriceDownTo();
+                $service['room_price_special'] = ($room->getRoomPriceSpecial() > 0) ? $room->getRoomPriceSpecial() : $room->getRoomPriceUpTo();
                 array_push($services, $service);
             }
         }
@@ -202,28 +206,34 @@ class ReservationController extends Controller {
         }
 
         $service_time = $this->get('Time');
-        $array_dates = $service_time->dates_between($min_date, $max_date);
+        $array_dates = $service_time->datesBetween($min_date, $max_date);
         $array_dates_string_day = array();
         $array_dates_string = array();
         $array_season = array();
         $array_clear_date = array();
         //var_dump($services);
-        if ($array_dates)
+        if ($array_dates) {
+            $em = $this->getDoctrine()->getManager();
             foreach ($array_dates as $date) {
                 array_push($array_dates_string, \date('/m/Y', $date));
                 array_push($array_dates_string_day, \date('d', $date));
-                $season = $service_time->season_by_date($date);
-                array_push($array_season, $season);
+
                 $insert = 1;
                 foreach ($services as $serv) {
                     if ($date >= $serv['from_date'] && $date <= $serv['to_date']) {
                         $insert = 0;
                     }
+
+                    $destination_id = isset($serv['ownership_destination']) ? $serv['ownership_destination'] : null;
+                    $seasons = $em->getRepository("mycpBundle:season")->getSeasons($min_date, $max_date, $destination_id);
+                    $seasonTypes = $service_time->seasonByDate($seasons, $date);
+                    array_push($array_season, $seasonTypes);
                 }
                 if ($insert == 1) {
                     $array_clear_date[$date] = 1;
                 }
             }
+        }
         return $this->render('FrontEndBundle:reservation:bodyReviewReservation.html.twig', array(
                     'dates_string' => $array_dates_string,
                     'dates_string_day' => $array_dates_string_day,
@@ -293,30 +303,36 @@ class ReservationController extends Controller {
 
                     $total_price = 0;
                     $partial_total_price = array();
-                    $triple_room_recharge = $this->container->getParameter('configuration.triple.room.charge');
+                    $destination_id = ($ownership->getOwnDestination() != null) ? $ownership->getOwnDestination()->getDesId() : null;
                     foreach ($res_item as $item) {
-                        $array_dates = $service_time->dates_between($item['from_date'], $item['to_date']);
+                        $triple_room_recharge = ($item['room_type'] == "Habitación Triple" && $item['guests'] + $item['kids'] >= 3) ? $this->container->getParameter('configuration.triple.room.charge') : 0;
+                        $array_dates = $service_time->datesBetween($item['from_date'], $item['to_date']);
                         $temp_price = 0;
-                        for ($a = 0; $a < count($array_dates); $a++) {
-                            if ($a < count($array_dates) - 1) {
-                                $season = $service_time->season_by_date($array_dates[$a]);
-                                if ($season == 'down') {
-                                    if ($item['room_type'] == "Habitación Triple" && $item['guests'] + $item['kids'] >= 3) {
-                                        $total_price += $item['room_price_down'] + $triple_room_recharge;
-                                        $temp_price += $item['room_price_down'] + $triple_room_recharge;
-                                    } else {
-                                        $total_price += $item['room_price_down'];
-                                        $temp_price += $item['room_price_down'];
-                                    }
-                                } else {
-                                    if ($item['room_type'] == "Habitación Triple" && $item['guests'] + $item['kids'] >= 3) {
+                        $seasons = $em->getRepository("mycpBundle:season")->getSeasons($item['from_date'], $item['to_date'], $destination_id);
+                        for ($a = 0; $a < count($array_dates) - 1; $a++) {
+                           
+                            $season = $service_time->seasonTypeByDate($seasons, $array_dates[$a]);
+                            switch ($season) {
+                                case season::SEASON_TYPE_HIGH: {
                                         $total_price += $item['room_price_top'] + $triple_room_recharge;
                                         $temp_price += $item['room_price_top'] + $triple_room_recharge;
-                                    } else {
-                                        $total_price += $item['room_price_top'];
-                                        $temp_price += $item['room_price_top'];
+                                        break;
                                     }
-                                }
+                                case season::SEASON_TYPE_SPECIAL: {
+                                        if (isset($item['room_price_special']) && $item['room_price_special'] > 0) {
+                                            $total_price += $item['room_price_special'] + $triple_room_recharge;
+                                            $temp_price += $item['room_price_special'] + $triple_room_recharge;
+                                        } else {
+                                            $total_price += $item['room_price_top'] + $triple_room_recharge;
+                                            $temp_price += $item['room_price_top'] + $triple_room_recharge;
+                                        }
+                                        break;
+                                    }
+                                default: {
+                                        $total_price += $item['room_price_down'] + $triple_room_recharge;
+                                        $temp_price += $item['room_price_down'] + $triple_room_recharge;
+                                        break;
+                                    }
                             }
                         }
                         array_push($partial_total_price, $temp_price);
@@ -325,8 +341,8 @@ class ReservationController extends Controller {
                     $em->persist($general_reservation);
 
                     $flag_1 = 0;
-                    foreach ($res_item as $item) {
 
+                    foreach ($res_item as $item) {
                         $ownership_reservation = new ownershipReservation();
                         $ownership_reservation->setOwnResCountAdults($item['guests']);
                         $ownership_reservation->setOwnResCountChildrens($item['kids']);
@@ -335,6 +351,9 @@ class ReservationController extends Controller {
                         $ownership_reservation->setOwnResReservationFromDate(new \DateTime(date("Y-m-d H:i:s", $item['from_date'])));
                         $ownership_reservation->setOwnResReservationToDate(new \DateTime(date("Y-m-d H:i:s", $item['to_date'])));
                         $ownership_reservation->setOwnResSelectedRoomId($item['room']);
+                        $ownership_reservation->setOwnResRoomPriceDown($item['room_price_down']);
+                        $ownership_reservation->setOwnResRoomPriceUp($item['room_price_top']);
+                        $ownership_reservation->setOwnResRoomPriceSpecial($item['room_price_special']);
                         $ownership_reservation->setOwnResGenResId($general_reservation);
                         $ownership_reservation->setOwnResRoomType($item['room_type']);
                         $ownership_reservation->setOwnResTotalInSite($partial_total_price[$flag_1]);
@@ -343,7 +362,7 @@ class ReservationController extends Controller {
                         $ownership_photo = $em->getRepository('mycpBundle:ownership')->get_ownership_photo($ownership_reservation->getOwnResGenResId()->getGenResOwnId()->getOwnId());
                         array_push($array_photos, $ownership_photo);
 
-                        $array_dates = $service_time->dates_between($ownership_reservation->getOwnResReservationFromDate()->getTimestamp(), $ownership_reservation->getOwnResReservationToDate()->getTimestamp());
+                        $array_dates = $service_time->datesBetween($ownership_reservation->getOwnResReservationFromDate()->getTimestamp(), $ownership_reservation->getOwnResReservationToDate()->getTimestamp());
                         array_push($nigths, count($array_dates) - 1);
 
                         $em->persist($ownership_reservation);
@@ -359,20 +378,17 @@ class ReservationController extends Controller {
 
         $request->getSession()->set('services_pre_reservation', null);
 
-
         /*
          * Hallando otros ownerships en el mismo destino
          */
         $ownership = $em->getRepository('mycpBundle:ownership')->find($services[0]['ownership_id']);
+        $checkin_date = new \DateTime(date("Y-m-d H:i:s", $item['from_date']));
+        $checkout_date = new \DateTime(date("Y-m-d H:i:s", $item['to_date']));
 
-        $owns_in_destination = $em->getRepository("mycpBundle:destination")->recommendable_accommodations($ownership->getOwnMinimumPrice(),
-                                    $ownership->getOwnRoomsTotal(),
-                                    $ownership->getOwnAddressMunicipality()->getMunId(),
-                                    $ownership->getOwnAddressProvince()->getProvId(),
-                                    3, $services[0]['ownership_id'], $user->getUserId());
+        $owns_in_destination = $em->getRepository("mycpBundle:destination")->getRecommendableAccommodations($checkin_date, $checkout_date, $ownership->getOwnMinimumPrice(), $ownership->getOwnRoomsTotal(), $ownership->getOwnAddressMunicipality()->getMunId(), $ownership->getOwnAddressProvince()->getProvId(), 3, $services[0]['ownership_id'], $user->getUserId());
 
         $locale = $this->get('translator')->getLocale();
-        $destinations = $em->getRepository('mycpBundle:destination')->destination_filter($locale, null, $ownership->getOwnAddressProvince()->getProvId(), null, $ownership->getOwnAddressMunicipality()->getMunId(), 3, $user->getUserId(), null);
+        $destinations = $em->getRepository('mycpBundle:destination')->filter($locale, null, $ownership->getOwnAddressProvince()->getProvId(), null, $ownership->getOwnAddressMunicipality()->getMunId(), 3, $user->getUserId(), null);
 
         // Enviando mail al cliente
         $body = $this->render('FrontEndBundle:mails:email_check_available.html.twig', array(
@@ -386,7 +402,7 @@ class ReservationController extends Controller {
         $locale = $this->get('translator');
         $subject = $locale->trans('REQUEST_SENT');
         $service_email = $this->get('Email');
-        $service_email->send_email(
+        $service_email->sendEmail(
                 $subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $body
         );
 
@@ -417,7 +433,7 @@ class ReservationController extends Controller {
 
             $subject = "MyCasaParticular Reservas - " . strtoupper($user_tourist->getUserTouristLanguage()->getLangCode());
 
-            $service_email->send_email(
+            $service_email->sendEmail(
                     $subject, 'no.reply@mycasaparticular.com', $subject, 'reservation@mycasaparticular.com', $body
             );
         }
@@ -425,7 +441,6 @@ class ReservationController extends Controller {
 
         return $this->render('FrontEndBundle:reservation:confirmReview.html.twig', array(
                     "owns_in_destination" => $owns_in_destination,
-                    //"owns_in_destination_total" => count($em->getRepository("mycpBundle:destination")->ownsership_nearby_destination($ownership->getOwnAddressMunicipality()->getMunId(), $ownership->getOwnAddressProvince()->getProvId())),
                     "other_destinations" => $destinations
         ));
     }
@@ -470,6 +485,7 @@ class ReservationController extends Controller {
             array_push($reservations, $em->getRepository('mycpBundle:ownershipReservation')->find($id));
         }
 
+
         $min_date = $reservations[0]->getOwnResReservationFromDate()->getTimestamp();
         $max_date = $reservations[0]->getOwnResReservationFromDate()->getTimestamp();
         $array_reservations_timestamp = array();
@@ -478,6 +494,8 @@ class ReservationController extends Controller {
         $total_price = 0;
         $total_percent_price = 0;
         $commissions = array();
+        $rooms = array();
+        $triple_room_recharge = $this->container->getParameter('configuration.triple.room.charge');
         foreach ($reservations as $reservation) {
             if ($min_date > $reservation->getOwnResReservationFromDate()->getTimestamp()) {
                 $min_date = $reservation->getOwnResReservationFromDate()->getTimestamp();
@@ -490,14 +508,14 @@ class ReservationController extends Controller {
             $temp[1] = $reservation->getOwnResReservationToDate()->getTimestamp();
             array_push($array_reservations_timestamp, $temp);
 
-            $array_dates_temp = $service_time->dates_between($reservation->getOwnResReservationFromDate()->getTimestamp(), $reservation->getOwnResReservationToDate()->getTimestamp());
+            $array_dates_temp = $service_time->datesBetween($reservation->getOwnResReservationFromDate()->getTimestamp(), $reservation->getOwnResReservationToDate()->getTimestamp());
             foreach ($array_dates_temp as $temp2) {
                 $array_partial_dates[$temp2] = '1';
             }
             $commission = $reservation->getOwnResGenResId()->GetGenResOwnId()->getOwnCommissionPercent();
             $array_limits_dates[$reservation->getOwnResReservationToDate()->getTimestamp()][$reservation->getOwnResId()] = 1;
-            $total_price += $reservation->getOwnResNightPrice() * (count($array_dates_temp) - 1);
-            $total_percent_price += $reservation->getOwnResNightPrice() * (count($array_dates_temp) - 1) * $commission / 100;
+            $total_price += ReservationHelper::getTotalPrice($em, $service_time, $reservation, $triple_room_recharge);
+            $total_percent_price += $total_price * $commission / 100;
 
             $insert = 1;
             foreach ($commissions as $com) {
@@ -510,13 +528,17 @@ class ReservationController extends Controller {
                 array_push($commissions, $commission);
             }
         }
-        $array_dates = $service_time->dates_between($min_date, $max_date);
+        $array_dates = $service_time->datesBetween($min_date, $max_date);
 
         $array_dates_string = array();
         $array_dates_string_day = array();
+        $season_types = array();
+        $destination_id = ($reservation->getOwnResGenResId()->getGenResOwnId()->getOwnDestination() != null) ? $reservation->getOwnResGenResId()->getGenResOwnId()->getOwnDestination()->getDesId() : null;
+        $seasons = $em->getRepository("mycpBundle:season")->getSeasons($min_date, $max_date, $destination_id);
         foreach ($array_dates as $date) {
             array_push($array_dates_string, \date('/m/Y', $date));
             array_push($array_dates_string_day, \date('d', $date));
+            $season_types[] = $service_time->seasonTypeByDate($seasons, $date);
         }
         $errors = null;
         $post = null;
@@ -548,6 +570,19 @@ class ReservationController extends Controller {
             $errors['user_tourist_email_confirm'] = $errors_validation = $this->get('validator')->validateValue($post['user_tourist_email_confirm'], $email_validator);
             $count_errors += count($errors_validation);
             $count++;
+
+
+            if (!\MyCp\FrontEndBundle\Helpers\Utils::validateEmail($post['user_tourist_email'])) {
+                $errors['user_tourist_email'] = $email_validator->message;
+                $count_errors++;
+                $count++;
+            }
+
+            if (!\MyCp\FrontEndBundle\Helpers\Utils::validateEmail($post['user_tourist_email_confirm'])) {
+                $errors['user_tourist_email_confirm'] = $email_validator->message;
+                $count_errors++;
+                $count++;
+            }
 
             if ($post['user_tourist_email'] != $post['user_tourist_email_confirm']) {
                 $errors['user_tourist_email_confirm'] = $this->get('translator')->trans("NOT_EQUALS_EMAIL");
@@ -584,7 +619,7 @@ class ReservationController extends Controller {
                 else
                     $booking->setBookingCancelProtection(0);
 
-                $currency=null;
+                $currency = null;
 
                 $price_in_currency = $em->getRepository('mycpBundle:currency')->findOneBy(array('curr_site_price_in' => true));
 
@@ -645,12 +680,12 @@ class ReservationController extends Controller {
                     'total_percent_price' => $total_percent_price,
                     'post' => $post,
                     'post_country' => $post_country,
-                    'total_errors' => $count_errors
+                    'total_errors' => $count_errors,
+                    'seasons' => $season_types
         ));
     }
 
-    public function confirmationAction($id_booking)
-    {
+    public function confirmationAction($id_booking) {
         $em = $this->getDoctrine()->getManager();
         $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array('booking' => $id_booking));
 
@@ -659,14 +694,9 @@ class ReservationController extends Controller {
         }
 
         switch ($payment->getStatus()) {
-            case PaymentHelper::STATUS_PROCESSED:
-                // all emails have already been sent, so just render the page
-                return $this->renderPaymentConfirmationPage($id_booking);
-
             case PaymentHelper::STATUS_PENDING:
             case PaymentHelper::STATUS_SUCCESS:
-                $logger = $this->get('logger');
-                $logger->critical("Payment for booking $id_booking should already have been processed");
+            case PaymentHelper::STATUS_PROCESSED:
                 return $this->renderPaymentConfirmationPage($id_booking);
 
             case PaymentHelper::STATUS_CANCELLED:
@@ -683,39 +713,35 @@ class ReservationController extends Controller {
         return $this->render('FrontEndBundle:reservation:afterpayment.html.twig', array('url' => $url));
     }
 
-    public function view_confirmationAction(Request $request, $id_booking, $to_print = false, $no_user = false)
-    {
+    public function view_confirmationAction(Request $request, $id_booking, $to_print = false, $no_user = false) {
         /** @var \MyCp\FrontEndBundle\Service\BookingService $bookingService */
         $bookingService = $this->get('front_end.services.booking');
 
         if ($to_print) {
             return $bookingService
-                ->getPrintableBookingConfirmationResponse($id_booking);
+                            ->getPrintableBookingConfirmationResponse($id_booking);
         }
 
         return $bookingService->getBookingConfirmationResponse($id_booking);
     }
 
-    public function generatePdfVoucherAction($id_booking, $name = "voucher")
-    {
+    public function generatePdfVoucherAction($id_booking, $name = "voucher") {
         $pdfResponse = $this->forward(
-            'FrontEndBundle:Reservation:view_confirmation',
-            array('id_booking' => $id_booking, 'to_print' => true)
+                'FrontEndBundle:Reservation:view_confirmation', array('id_booking' => $id_booking, 'to_print' => true)
         );
 
         $pdfService = $this->get('front_end.services.pdf');
         $pdfService->streamHtmlAsPdf($pdfResponse, $name);
 
         return $this->forward(
-            'FrontEndBundle:Reservation:view_confirmation',
-            array('id_booking' => $id_booking)
+                        'FrontEndBundle:Reservation:view_confirmation', array('id_booking' => $id_booking)
         );
     }
 
-    private function getVoucherPdfFilePath($pdfName)
-    {
+    private function getVoucherPdfFilePath($pdfName) {
         $pdfFilePath = $this->container->getParameter('kernel.root_dir')
                 . self::RELATIVE_VOUCHER_PATH . "$pdfName.pdf";
         return $pdfFilePath;
     }
+
 }

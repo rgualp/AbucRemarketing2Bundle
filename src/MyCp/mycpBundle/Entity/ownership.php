@@ -86,6 +86,12 @@ class ownership {
     private $own_address_municipality;
 
     /**
+     * @ORM\ManyToOne(targetEntity="destination")
+     * @ORM\JoinColumn(name="own_destination", referencedColumnName="des_id", nullable=true)
+     */
+    private $own_destination;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="own_mobile_number", type="string", length=255)
@@ -309,9 +315,9 @@ class ownership {
     /**
      * @var boolean
      *
-     * @ORM\Column(name="own_recommendable", type="boolean")
+     * @ORM\Column(name="own_not_recommendable", type="boolean")
      */
-    private $own_recommendable;
+    private $own_not_recommendable;
 
     /**
      * @var string
@@ -340,10 +346,6 @@ class ownership {
      * @ORM\Column(name="own_last_update", type="datetime", nullable=true)
      */
     private $own_last_update;
-
-    /**
-     * Codigo Yanet - Inicio
-     */
 
     /**
      * @var decimal
@@ -403,6 +405,11 @@ class ownership {
      */
     private $own_general_reservations;
 
+     /**
+     * @ORM\OneToMany(targetEntity="ownershipKeywordLang",mappedBy="okl_ownership")
+     */
+    private $ownershipKeywordOwnership;
+
     /**
      * Constructor
      */
@@ -410,6 +417,7 @@ class ownership {
         $this->own_rooms = new ArrayCollection();
         $this->own_description_langs = new ArrayCollection();
         $this->own_general_reservations = new ArrayCollection();
+        $this->ownershipKeywordOwnership = new ArrayCollection();
         $this->own_sync_st = SyncStatuses::ADDED;
         //$this->own_creation_date = new \DateTime();
     }
@@ -467,6 +475,27 @@ class ownership {
     }
 
     /**
+     * Get own_destination
+     *
+     * @return Entity\destination
+     */
+    public function getOwnDestination() {
+        return $this->own_destination;
+    }
+
+    /**
+     * Set own_destination
+     *
+     * @param datetime $ownDestination
+     * @return ownership
+     */
+    public function setOwnDestination($ownDestination) {
+        $this->own_destination = $ownDestination;
+
+        return $this;
+    }
+
+    /**
      * Get own_creation_date
      *
      * @return datetime
@@ -518,24 +547,24 @@ class ownership {
     }
 
     /**
-     * Set own_recommendable
+     * Set own_not_recommendable
      *
-     * @param string $ownRecommendable
+     * @param string $ownNotRecommendable
      * @return ownership
      */
-    public function setOwnRecommendable($ownRecommendable) {
-        $this->own_recommendable = $ownRecommendable;
+    public function setOwnNotRecommendable($ownNotRecommendable) {
+        $this->own_not_recommendable = $ownNotRecommendable;
 
         return $this;
     }
 
     /**
-     * Get own_recommendable
+     * Get own_not_recommendable
      *
-     * @return string
+     * @return boolean
      */
-    public function getOwnRecommendable() {
-        return $this->own_recommendable;
+    public function getOwnNotRecommendable() {
+        return $this->own_not_recommendable;
     }
 
     /**

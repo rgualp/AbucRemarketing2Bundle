@@ -3,39 +3,50 @@
 namespace MyCp\FrontEndBundle\Controller;
 
 use BeSimple\I18nRoutingBundle\Tests\Routing\RouterTest;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class LanguageController extends Controller {
-
-    public function get_languagesAction() {
+class LanguageController extends Controller
+{
+    public function get_languagesAction($route, $routeParams = null)
+    {
+        $routeParams = empty($routeParams) ? array() : $routeParams;
 
         $em = $this->getDoctrine()->getManager();
-        $languages = $em->getRepository('mycpBundle:lang')->findBy(array('lang_active' => 1), array('lang_name' => 'ASC'));
-        return $this->render('FrontEndBundle:language:languages.html.twig', array('languages' => $languages));
+        $languages = $em
+            ->getRepository('mycpBundle:lang')
+            ->findBy(array('lang_active' => 1), array('lang_name' => 'ASC'));
+
+        $response = $this->render('FrontEndBundle:language:languages.html.twig', array(
+                'languages' => $languages,
+                'route' => $route,
+                'routeParams' => $routeParams
+            ));
+
+        // cache control -> languages rarely change
+        $response->setSharedMaxAge(3600);
+
+        return $response;
     }
 
-    public function changeAction($lang) {
-
-        $request = $this->getRequest();
-        $session = $request->getSession();
+    public function changeAction($lang, $route, $routeParams = null)
+    {
         $em = $this->getDoctrine()->getManager();
-        $last_route=$session->get('app_last_route');
-        $route_array=explode('.',$last_route);
-        $last_route=$route_array[0];
-        $last_route_params=$session->get('app_last_route_params');
-        $last_route_params['_locale']=$lang;
-        $last_route_params['locale']=$lang;
 
-        $last_route = empty($last_route) ? 'frontend_welcome' : $last_route;
-        $new_route=$this->get('router')->generate($last_route,$last_route_params);
+        $routeParams = empty($routeParams) ? array() : json_decode(urldecode($routeParams), true);
+        $routeParams['_locale'] = $lang;
+        $routeParams['locale'] = $lang;
+        $newRoute = $this->get('router')->generate($route, $routeParams);
 
         //Guardar en userTourist el lenguaje q cambio
         $lang = $em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code' => $lang));
         $user = $this->getUser();
 
-        if ($user != null && $user!='anon.') {
-            $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
+        if (!empty($user) && $user != 'anon.') {
+            $userTourist = $em
+                ->getRepository('mycpBundle:userTourist')
+                ->findOneBy(array('user_tourist_user' => $user->getUserId()));
 
             // if the user is not a tourist (e.g. a staff member), the
             // userTourist does not exist
@@ -46,7 +57,6 @@ class LanguageController extends Controller {
             }
         }
 
-        return $this->redirect($new_route);
+        return $this->redirect($newRoute);
     }
-
 }

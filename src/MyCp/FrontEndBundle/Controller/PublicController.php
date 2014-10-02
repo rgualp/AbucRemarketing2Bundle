@@ -6,6 +6,7 @@ use MyCp\FrontEndBundle\Helpers\Utils;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\SecurityContext;
+use MyCp\mycpBundle\Entity\metaTag;
 
 class PublicController extends Controller {
 
@@ -13,17 +14,24 @@ class PublicController extends Controller {
         return $this->redirect($this->generateUrl('frontend_welcome'));
     }
 
-    public function get_meta_tagsAction()
+    public function getMetaTagsAction($section = metaTag::SECTION_GENERAL, $onlyDescription = false)
     {
         $em = $this->getDoctrine()->getManager();
-        $lang=$em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code'=>$this->getRequest()->getLocale()));
-        $metas=$em->getRepository('mycpBundle:metaLang')->findOneBy(array('meta_lang_lang'=>$lang));
+        //$lang=$em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code'=>$this->getRequest()->getLocale()));
+        //$metas=$em->getRepository('mycpBundle:metaLang')->findOneBy(array('meta_lang_lang'=>$lang));
+        $lang_code = $this->getRequest()->getLocale();
+        $metas=$em->getRepository('mycpBundle:metaTag')->getMetas($section, $lang_code);
 
+        if(!$onlyDescription)
+        {
         $response = $this->render('FrontEndBundle:public:metas.html.twig', array(
             'metas'=>$metas
         ));
 
         return $response;
+        }
+        else
+            return new Response(($metas != null) ? $metas->getMetaLangDescription(): "");
     }
 
     public function welcomeAction() {
@@ -60,6 +68,21 @@ class PublicController extends Controller {
             'economic_total' => $statistics['economic_total']
         ));
 
+        // cache control
+        $response->setSharedMaxAge(600);
+
+        return $response;
+    }
+
+    public function topNavAction($route, $routeParams = null)
+    {
+        $routeParams = empty($routeParams) ? array() : $routeParams;
+        $response = $this->render('FrontEndBundle:layout:topNav.html.twig', array(
+                'route' => $route,
+                'routeParams' => $routeParams
+            ));
+
+
         return $response;
     }
 
@@ -85,7 +108,7 @@ class PublicController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
 
-        $popular_destinations_list = $em->getRepository('mycpBundle:destination')->get_popular_destination(12, $user_ids['user_id'], $user_ids['session_id']);
+        $popular_destinations_list = $em->getRepository('mycpBundle:destination')->getPopularDestinations(12, $user_ids['user_id'], $user_ids['session_id']);
         $last_added = $em->getRepository('mycpBundle:ownership')->lastAdded(12, $user_ids['user_id'], $user_ids['session_id']);
         $offers_list = array();
         $economic_own_list = $em->getRepository('mycpBundle:ownership')->getByCategory('Económica', 12,null, $user_ids['user_id'], $user_ids['session_id']);
@@ -110,6 +133,10 @@ class PublicController extends Controller {
         $email_to = $request->get('email_to');
         $em = $this->getDoctrine()->getManager();
         $service_email = $this->get('Email');
+
+        if(!Utils::validateEmail($email_from) || !Utils::validateEmail($email_to))
+            return new Response("error");
+
         switch ($email_type) {
             case 'recommend_general':
                 $result = $service_email->recommend2Friend($email_from, $name_from, $email_to);
@@ -132,14 +159,14 @@ class PublicController extends Controller {
     public function get_main_menu_destinationsAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $destinations = $em->getRepository('mycpBundle:destination')->get_for_main_menu();
+        $destinations = $em->getRepository('mycpBundle:destination')->getMainMenu();
 
          $for_url = array();
 
         foreach ($destinations as $prov)
         {
             $prov['des_name'] = str_replace("ñ", "nn", $prov['des_name']);
-            $for_url[$prov['des_id']] = Utils::url_normalize($prov['des_name']);
+            $for_url[$prov['des_id']] = Utils::urlNormalize($prov['des_name']);
             $for_url[$prov['des_id']] = str_replace("nn", "ñ", $for_url[$prov['des_id']]);
         }
 
@@ -152,12 +179,12 @@ class PublicController extends Controller {
     public function get_main_menu_accomodationsAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $provinces = $em->getRepository('mycpBundle:province')->get_for_main_menu();
+        $provinces = $em->getRepository('mycpBundle:province')->getMainMenu();
 
         $for_url = array();
 
         foreach ($provinces as $prov)
-            $for_url[$prov['prov_id']] = Utils::url_normalize($prov['prov_name']);
+            $for_url[$prov['prov_id']] = Utils::urlNormalize($prov['prov_name']);
 
         return $this->render('FrontEndBundle:utils:mainMenuAccomodationItems.html.twig', array(
               'provinces'=>$provinces,
@@ -169,7 +196,7 @@ class PublicController extends Controller {
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $notifications = ($user != null && $user != "anon.") ? $em->getRepository('mycpBundle:ownershipReservation')->get_for_main_menu($user->getUserId()) : array();
+        $notifications = ($user != null && $user != "anon.") ? $em->getRepository('mycpBundle:ownershipReservation')->getMainMenu($user->getUserId()) : array();
 
         return $this->render('FrontEndBundle:utils:mainMenuMyCasaTripItems.html.twig', array(
               'notifications'=>($user != null && $user != "anon.") ?$notifications[0]['available']: 0
@@ -186,7 +213,7 @@ class PublicController extends Controller {
 
         //houses
         $url_houses=array();
-        $houses=$em->getRepository('mycpBundle:ownership')->findBy(array('own_status'=>1));
+        $houses=$em->getRepository('mycpBundle:ownership')->findBy(array('own_status'=>  \MyCp\mycpBundle\Entity\ownershipStatus::STATUS_ACTIVE));
         foreach($languages as $lang) {
             $routingParams = array('locale' => strtolower($lang->getLangCode()), '_locale' => strtolower($lang->getLangCode()));
 
@@ -198,7 +225,7 @@ class PublicController extends Controller {
             array_push($url_houses,$url);
             foreach($houses as $house)
             {
-                $house_name=Utils::url_normalize($house->getOwnName());
+                $house_name=Utils::urlNormalize($house->getOwnName());
                 $url = array(
                     'loc' => $this->get('router')->generate('frontend_details_ownership',
                             array_merge($routingParams, array('own_name' => $house_name))),
@@ -225,7 +252,7 @@ class PublicController extends Controller {
             array_push($url_destinations,$url);
             foreach($destinations as $destination)
             {
-                $destination_name=Utils::url_normalize($destination->getDesName());
+                $destination_name=Utils::urlNormalize($destination->getDesName());
                 $url = array(
                     'loc' => $this->get('router')->generate('frontend_details_destination',
                             array_merge($routingParams, array('destination_name' => $destination_name))),

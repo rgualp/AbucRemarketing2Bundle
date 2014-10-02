@@ -1,0 +1,49 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li class="active">Meta Tags</li>
+</ul>
+{% endblock %}
+{% block content %}
+<h2>Meta Tags</h2>
+<hr/>
+
+<br/><br/>
+{% if metas %}
+<div class="row-fluid">
+    <div class="span5"><b>Sección</b></div>
+    <div class="span4"><b>Sección Padre</b></div>
+    <div class="span2" style="text-align:center"><b>Traducciones</b></div>
+    <div class="span1" style="text-align: right"><b>Acciones</b></div>
+</div>
+
+<ul id="sortable" class="ui-sortable">
+    {% set cont=0 %}
+    {% for meta in metas %}
+    <li id="{{meta.meta_id}}" {% if cont ==0 %}class="grey"{% set cont=1 %}{% else %}{% set cont=0 %}{% endif %}>
+        <div class="row-fluid">
+            <div class="span5">{{meta.meta_title}}</div>
+            <div class="span4">{{meta.parent_title}}</div>
+            <div class="span2" style="text-align:center">{% if meta.langs_total==0%}<span class="label label-important">Sin Traducir</span>{% else %} <span class="label label-success">{{meta.langs_total}}</span>{% endif %}</div>
+            <div class="span1 actions actions2 no-margin">
+                <a class="btn btn-mini" style="margin: 0" href="{{ path('mycp_edit_metatags',{'meta_id':meta.meta_id}) }}">Traducir</a>
+            </div>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+<script src="{{ asset('bundles/mycp/js/jquery.ui/jquery.ui.core.js') }}" type="text/javascript"></script>
+<script src="{{ asset('bundles/mycp/js/jquery.ui/jquery.ui.widget.js') }}" type="text/javascript"></script>
+<script src="{{ asset('bundles/mycp/js/jquery.ui/jquery.ui.mouse.js') }}" type="text/javascript"></script>
+<script src="{{ asset('bundles/mycp/js/jquery.ui/jquery.ui.sortable.js') }}" type="text/javascript"></script>
+
+{% else %}
+       <p> <div class="alert alert-block">No hay Meta Tags disponibles.</div></p>
+{% endif %}
+{% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea eliminar el elemento?','confirmation_action_label':'Eliminar'}%}
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('bundles/mycp/js/common_list.js') }}"></script>
+{% endblock %}

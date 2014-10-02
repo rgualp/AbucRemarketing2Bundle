@@ -75,7 +75,7 @@
         {% if filter_active ==''%}{% set filter_active='null'%}{%endif%}
         {% if filter_province ==''%}{% set filter_province='null'%}{%endif%}
         {% if filter_municipality ==''%}{% set filter_municipality='null'%}{%endif%}
-        <a class="{% if sort_by == '0' %}selected{% endif %}" href="{{ path('mycp_list_destination',{'items_per_page':items_per_page,'filter_name':filter_name,'filter_active':filter_active,'filter_province':filter_province,'filter_municipality':filter_municipality,'sort_by':'0'})}}">Órden</a>
+        <a class="{% if sort_by == '0' %}selected{% endif %}" href="{{ path('mycp_list_destination',{'items_per_page':items_per_page,'filter_name':filter_name,'filter_active':filter_active,'filter_province':filter_province,'filter_municipality':filter_municipality,'sort_by':'0'})}}">Orden</a>
         <a class="{% if sort_by == '1' %}selected{% endif %}" href="{{ path('mycp_list_destination',{'items_per_page':items_per_page,'filter_name':filter_name,'filter_active':filter_active,'filter_province':filter_province,'filter_municipality':filter_municipality,'sort_by':'1'})}}">A-Z</a>
         <a class="{% if sort_by == '2' %}selected{% endif %}" href="{{ path('mycp_list_destination',{'items_per_page':items_per_page,'filter_name':filter_name,'filter_active':filter_active,'filter_province':filter_province,'filter_municipality':filter_municipality,'sort_by':'2'})}}">Z-A</a>
         <a class="{% if sort_by == '3' %}selected{% endif %}" href="{{ path('mycp_list_destination',{'items_per_page':items_per_page,'filter_name':filter_name,'filter_active':filter_active,'filter_province':filter_province,'filter_municipality':filter_municipality,'sort_by':'3'})}}">Prov</a>
@@ -100,34 +100,38 @@
     <div class="span2"><b>Destino</b></div>
     <div class="span2"><b>Provincia</b></div>
     <div class="span2"><b>Municipio</b></div>
-    <div class="span2"><b>Estado</b></div>
-    <div class="span2"><b>Fotografías</b></div>
+    <div class="span1"><b>Estado</b></div>
+    <div class="span2" style="text-align:center"><b>Alojamientos</b></div>
+    <div class="span1" style="text-align:center"><b>Fotos</b></div>
     <div class="span2" style="text-align: right"><b>Acciones</b></div>
 </div>
 
 <ul id="sortable" class="ui-sortable">
     {% set cont=0 %}
     {% for destination in destinations %}
-    <li id="{{destination.getDesLocDestination.getDesId}}" {% if cont ==0 %}class="grey"{% set cont=1 %}{% else %}{% set cont=0 %}{% endif %}>
+    <li id="{{destination.des_id}}" {% if cont ==0 %}class="grey"{% set cont=1 %}{% else %}{% set cont=0 %}{% endif %}>
         <div class="row-fluid">
             <div class="span2">
-                {{destination.getDesLocDestination.getDesName}}
+                {{destination.des_name}}
             </div>
             <div class="span2">
-                {% if destination.getDesLocProvince.getProvName %}{{destination.getDesLocProvince.getProvName}}{%endif%}
+                {% if destination.prov_name %}{{destination.prov_name}}{%endif%}
             </div>
             <div class="span2">
-                {% if destination.getDesLocMunicipality.getMunName is defined %}{{destination.getDesLocMunicipality.getMunName}}{%endif%}
+                {% if destination.mun_name is defined %}{{destination.mun_name}}{%endif%}
             </div>
-            <div class="span2">
-                {% if destination.getDesLocDestination.getDesActive==0%}<span class="label label-important">No activo</span>{% else %} <span class="label label-success">Activo</span>{% endif %}
+            <div class="span1">
+                {% if destination.des_active==0%}<span class="label label-important">No activo</span>{% else %} <span class="label label-success">Activo</span>{% endif %}
             </div>
-            <div class="span2">
-                <a href="{{ path('mycp_list_photos_destination',{'id_destination':destination.getDesLocDestination.getDesId}) }}">({{ photo_count[destination.getDesLocDestination.getDesId~'_photo_count'] }}) Fotografías</a>
+                <div class="span2" style="text-align:center">
+                <a href="{{ path('mycp_list_ownerships_destination',{'id_destination':destination.des_id}) }}" title="Este destino tiene {{ destination.owns_count }} propiedades" >{{ destination.owns_count }}</a>
             </div>
-            <div class="span2">
-                <a class="btn btn-mini" href="{{ path('mycp_edit_destination',{'id_destination':destination.getDesLocDestination.getDesId}) }}">Editar</a>
-                <button data='{{ path('mycp_delete_destination',{'id_destination':destination.getDesLocDestination.getDesId}) }}' class="btn btn-mini btn-danger delete">Eliminar</button>
+            <div class="span1" style="text-align:center">
+                <a href="{{ path('mycp_list_photos_destination',{'id_destination':destination.des_id}) }}" title="Este destino tiene {{destination.photo_count}} fotografías">{{ destination.photo_count }}</a>
+            </div>
+            <div class="span2" style="text-align: right">
+                <a class="btn btn-mini" href="{{ path('mycp_edit_destination',{'id_destination':destination.des_id}) }}">Editar</a>
+                <button data='{{ path('mycp_delete_destination',{'id_destination':destination.des_id}) }}' class="btn btn-mini btn-danger delete">Eliminar</button>
             </div>
         </div>
     </li>

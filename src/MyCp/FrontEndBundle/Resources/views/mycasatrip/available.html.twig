@@ -43,7 +43,13 @@
                             </div>
                             <div class="col-sm-3 text-center grey">
                                 <div><input name="checkbox_{{res['own_res_id']}}" type="checkbox"> {{"SELECT_FOR_PAYMENT" | trans}}</div>
-                                <div class="big-price-blue">{{(res['own_res_night_price'] *(nights[loop.index0])) | price}}</div>
+                                <div class="big-price-blue">
+                                    {%if res['own_res_night_price'] != 0%}
+                                    {{(res['own_res_night_price'] *(nights[loop.index0])) | price}}
+                                    {%else%}
+                                        {{res['own_res_total_in_site'] | price}}
+                                    {%endif%}
+                                </div>
                                 <div>{{"ID_RESERVATION" | trans}}: <b>CAS.{{res['own_res_gen_res_id']['gen_res_id']}}</b></div>
                             </div>
                         </div>

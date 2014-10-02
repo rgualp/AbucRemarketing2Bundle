@@ -36,7 +36,13 @@ class UserController extends Controller {
             if ($user_db) {
                 $errors['used_email'] = $this->get('translator')->trans("USER_EMAIL_IN_USE");
             }
-            if ($form->isValid() && !$user_db) {
+            
+            $validate_email = \MyCp\FrontEndBundle\Helpers\Utils::validateEmail($post['user_email']);
+            
+            if(!$validate_email)
+                $errors['user_email'] = $this->get('translator')->trans("EMAIL_INVALID_MESSAGE");
+            
+            if ($form->isValid() && !$user_db && count($errors) == 0) {
                 $factory = $this->get('security.encoder_factory');
                 $user2 = new user();
                 $encoder = $factory->getEncoder($user2);
@@ -63,7 +69,7 @@ class UserController extends Controller {
                 $body = $this->render('FrontEndBundle:mails:enableAccount.html.twig', array('enableUrl' => $enableUrl));
 
                 $service_email = $this->get('Email');
-                $service_email->send_templated_email($this->get('translator')->trans('EMAIL_ACCOUNT_REGISTERED_SUBJECT'), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
+                $service_email->sendTemplatedEmail($this->get('translator')->trans('EMAIL_ACCOUNT_REGISTERED_SUBJECT'), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
 
                 $message = $this->get('translator')->trans("USER_CREATE_ACCOUNT_SUCCESS");
                 $this->get('session')->getFlashBag()->add('message_global_success', $message);
@@ -129,7 +135,7 @@ class UserController extends Controller {
                     $body = $this->render('FrontEndBundle:mails:restorePassword.html.twig', array('changeUrl' => $changeUrl));
 
                     $service_email = $this->get('Email');
-                    $service_email->send_templated_email(
+                    $service_email->sendTemplatedEmail(
                             $this->get('translator')->trans('EMAIL_RESTORE_ACCOUNT'), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
                     $message = $this->get('translator')->trans("USER_PASSWORD_RECOVERY");
                     $this->get('session')->getFlashBag()->add('message_global_success', $message);
@@ -184,7 +190,7 @@ class UserController extends Controller {
                         $message = $this->get('translator')->trans('EMAIL_PASS_CHANGED');
                         //mailing
                         $service_email = $this->get('Email');
-                        $service_email->send_templated_email(
+                        $service_email->sendTemplatedEmail(
                                 $message, 'noreply@mycasaparticular.com', $user->getUserEmail(), $message);
 
                         $this->get('session')->getFlashBag()->add('message_global_success', $message);
@@ -225,7 +231,7 @@ class UserController extends Controller {
                             ->generate($enableRoute, array('string' => $encode_string), true);
                     $service_email = $this->get('Email');
                     $body = $this->render('FrontEndBundle:mails:enableAccount.html.twig', array('enableUrl' => $enableUrl));
-                    $service_email->send_templated_email($this->get('translator')->trans("USER_ACCOUNT_ACTIVATION_EMAIL"), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
+                    $service_email->sendTemplatedEmail($this->get('translator')->trans("USER_ACCOUNT_ACTIVATION_EMAIL"), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
                     $message = $this->get('translator')->trans("USER_CREATE_ACCOUNT_SUCCESS");
                     $this->get('session')->getFlashBag()->add('message_global_success', $message);
                     return $this->redirect($this->generateUrl('frontend_login'));
@@ -273,7 +279,7 @@ class UserController extends Controller {
                         'tourist_email' => $tourist_email,
                         'tourist_comment' => $tourist_comment
                     ));
-                    $service_email->send_templated_email(
+                    $service_email->sendTemplatedEmail(
                             'Contacto de huesped', $tourist_email, 'info@mycasaparticular.com ', $content->getContent());
                     $message = $this->get('translator')->trans("USER_CONTACT_TOURIST_SUCCESS");
                     $this->get('session')->getFlashBag()->add('message_global_success', $message);
@@ -311,7 +317,7 @@ class UserController extends Controller {
                         'comments' => $owner_comment,
                         'email' => $owner_email
                     ));
-                    $service_email->send_templated_email(
+                    $service_email->sendTemplatedEmail(
                             'Contacto de propietario', $owner_email, 'casa@mycasaparticular.com', $content->getContent());
 
                     $message = $this->get('translator')->trans("USER_CONTACT_OWNER_SUCCESS");
@@ -401,11 +407,16 @@ class UserController extends Controller {
             $post = $request->get('mycp_frontendbundle_profile_usertype');
             $all_post = $request->request->getIterator()->getArrayCopy();
             $form->handleRequest($request);
+            
+            $validate_email = \MyCp\FrontEndBundle\Helpers\Utils::validateEmail($post['user_email']);
+            
+            if(!$validate_email)
+                $errors['user_email'] = $this->get('translator')->trans("EMAIL_INVALID_MESSAGE");
 
-            if ($form->isValid()) {
+            if ($form->isValid() && count($errors) == 0) {
 
                 $user_db = $em->getRepository('mycpBundle:user')->findOneBy(array('user_email' => $post['user_email']));
-                if ($user_db->getUserId() == $user->getUserId()) {
+                if ($user_db == null || !isset($user_db) || $user_db->getUserId() == $user->getUserId()) {
 
                     $user->setUserUserName($post['user_user_name']);
                     $user->setUserLastName($post['user_last_name']);

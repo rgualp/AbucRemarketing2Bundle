@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityRepository;
 class albumPhotoRepository extends EntityRepository
 {
 
-    function get_photos_by_id_album($id_album)
+    function getPhotosByIdAlbum($id_album)
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT ap,app FROM mycpBundle:albumphoto ap JOIN ap.alb_pho_photo app

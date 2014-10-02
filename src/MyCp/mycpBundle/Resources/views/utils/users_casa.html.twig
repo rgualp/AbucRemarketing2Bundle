@@ -1,4 +1,4 @@
 <option></option>
 {% for user in users %}
-<option {% if post['user_selected'] is defined  and post['user_selected']==user.getUserCasaId %}selected="selected" {% endif %} value="{{user.getUserCasaId}}">{{ user.getUserCasaUser.getUserName }}</option>
+<option value="{{user.user_id}}">{{ user.user_name }} ({{user.own_mcp_code}} - {{user.own_name}})</option>
 {% endfor %}

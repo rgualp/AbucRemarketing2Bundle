@@ -1,10 +1,10 @@
 <label class="checkbox" style="float: left; margin-right: 10px;">
-    <input type="checkbox" {% if(data['water_jacuzee'] is defined) %} checked="TRUE" {% endif %} name="water_jacuzee" value="1"/> Jacuzee
+    <input type="checkbox" {% if(data['water_jacuzee'] is defined) %} checked="TRUE" {% endif %} name="water_jacuzee" value="{{ (data['water_jacuzee'] is defined) ? data['water_jacuzee'] : 0 }}"/> Jacuzee
 </label>
 <label class="checkbox" style="float: left; margin-right: 10px;">
-    <input type="checkbox" {% if(data['water_sauna'] is defined) %} checked="TRUE" {% endif %} name="water_sauna" value="1"/> Sauna
+    <input type="checkbox" {% if(data['water_sauna'] is defined) %} checked="TRUE" {% endif %} name="water_sauna" value="{{ (data['water_sauna'] is defined) ? data['water_sauna'] : 0 }}"/> Sauna
 </label>
 <label class="checkbox" style="float: left; margin-right: 10px;">
-    <input type="checkbox" {% if(data['water_piscina'] is defined) %} checked="TRUE" {% endif %} name="water_piscina" value="1"/> Piscina
+    <input type="checkbox" {% if(data['water_piscina'] is defined) %} checked="TRUE" {% endif %} name="water_piscina" value="{{ (data['water_piscina'] is defined) ? data['water_piscina'] : 0 }}"/> Piscina
 </label>
 

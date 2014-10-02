@@ -23,7 +23,7 @@ class BackendFAQSController extends Controller
         $languages=$em->getRepository('mycpBundle:lang')->findAll();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
-        $categories=$paginator->paginate($em->getRepository('mycpBundle:faqCategoryLang')->get_categories())->getResult();
+        $categories=$paginator->paginate($em->getRepository('mycpBundle:faqCategoryLang')->getCategories())->getResult();
         $page=1;
         if(isset($_GET['page']))$page=$_GET['page'];
         return $this->render('mycpBundle:faq:categoryList.html.twig',array(
@@ -82,7 +82,7 @@ class BackendFAQSController extends Controller
 
 
         $languages=$em->getRepository('mycpBundle:lang')->findAll();
-        $faq_cat_langs=$em->getRepository('mycpBundle:faqCategoryLang')->get_categories();
+        $faq_cat_langs=$em->getRepository('mycpBundle:faqCategoryLang')->getCategories();
         $faq_cat_lang = $em->getRepository('mycpBundle:faqCategoryLang')->findBy(array('faq_cat_id_cat'=>$id_category));
 
         if($request->getMethod() == 'POST')
@@ -362,7 +362,7 @@ class BackendFAQSController extends Controller
     function get_all_categoriesAction($data)
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $categories=$em->getRepository('mycpBundle:faqCategoryLang')->get_categories();
+        $categories=$em->getRepository('mycpBundle:faqCategoryLang')->getCategories();
         return $this->render('mycpBundle:utils:category_faq.html.twig',array('categories'=>$categories,'data'=>$data));
     }
 }

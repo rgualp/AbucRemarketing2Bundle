@@ -52,22 +52,32 @@ class lang
      * @ORM\OneToMany(targetEntity="destinationLang",mappedBy="des_lang_lang")
      */
     private $destinationsLang;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="ownershipDescriptionLang",mappedBy="odl_id_lang")
      */
     private $odl_langs;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="metaLang",mappedBy="meta_lang_lang")
      */
     private $lang_metas;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="destinationCategoryLang",mappedBy="des_cat_id_lang")
      */
     private $lang_destination_categories;
-   
+
+    /**
+     * @ORM\OneToMany(targetEntity="ownershipKeywordLang",mappedBy="okl_id_lang")
+     */
+    private $lang_ownership_keywords;
+
+    /**
+     * @ORM\OneToMany(targetEntity="destinationKeywordLang",mappedBy="dkl_id_lang")
+     */
+    private $lang_destination_keywords;
+
     /**
      * Constructor
      */
@@ -77,33 +87,45 @@ class lang
         $this->odl_langs = new \Doctrine\Common\Collections\ArrayCollection();
         $this->lang_metas = new \Doctrine\Common\Collections\ArrayCollection();
         $this->lang_destination_categories = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->lang_ownership_keywords = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->lang_destination_keywords = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Get lang_id
      *
-     * @return integer 
+     * @return integer
      */
     public function getLangId()
     {
         return $this->lang_id;
     }
-    
+
     public function getOwnershipDescriptionLangs()
     {
         return $this->odl_langs;
     }
-    
+
     public function getLangMetas()
     {
         return $this->lang_metas;
     }
-    
+
     public function getLangDestinationCategories()
     {
         return $this->lang_destination_categories;
     }
-    
+
+    public function getLangOwnershipKeywords()
+    {
+        return $this->lang_ownership_keywords;
+    }
+
+    public function getLangDestinationKeywords()
+    {
+        return $this->lang_destination_keywords;
+    }
+
     /**
      * Set lang_name
      *
@@ -113,14 +135,14 @@ class lang
     public function setLangName($langName)
     {
         $this->lang_name = $langName;
-    
+
         return $this;
     }
 
     /**
      * Get lang_name
      *
-     * @return string 
+     * @return string
      */
     public function getLangName()
     {
@@ -136,14 +158,14 @@ class lang
     public function setLangCode($langCode)
     {
         $this->lang_code = $langCode;
-    
+
         return $this;
     }
 
     /**
      * Get lang_code
      *
-     * @return string 
+     * @return string
      */
     public function getLangCode()
     {
@@ -159,14 +181,14 @@ class lang
     public function setLangActive($langActive)
     {
         $this->lang_active = $langActive;
-    
+
         return $this;
     }
 
     /**
      * Get lang_active
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getLangActive()
     {
@@ -182,7 +204,7 @@ class lang
     public function addDestinationsLang(\MyCp\mycpBundle\Entity\destinationLang $destinationsLang)
     {
         $this->destinationsLang[] = $destinationsLang;
-    
+
         return $this;
     }
 
@@ -199,7 +221,7 @@ class lang
     /**
      * Get destinationsLang
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getDestinationsLang()
     {

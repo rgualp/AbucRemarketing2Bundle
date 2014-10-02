@@ -2486,6 +2486,34 @@
                 <source>EMAIL_ACCOUNT_REGISTERED_SUBJECT_REMINDER</source>
                 <target>Erinnerung: Aktivieren Sie Ihr Konto bei MyCasaParticular</target>
             </trans-unit>
+            <trans-unit id="632">
+                <source>OWN_STATUS_ACTIVE</source>
+                <target>Active</target>
+            </trans-unit>
+            <trans-unit id="633">
+                <source>OWN_STATUS_DELETED</source>
+                <target>Deleted</target>
+            </trans-unit>
+            <trans-unit id="634">
+                <source>OWN_STATUS_INACTIVE</source>
+                <target>Inactive</target>
+            </trans-unit>
+            <trans-unit id="635">
+                <source>OWN_STATUS_IN_PROCESS</source>
+                <target>In Process</target>
+            </trans-unit>
+            <trans-unit id="636">
+                <source>OWN_NO_STATUS</source>
+                <target>No Status</target>
+            </trans-unit>
+            <trans-unit id="637">
+                <source>FORMS_SECRET_TOKEN</source>
+                <target>Secret Token</target>
+            </trans-unit>
+            <trans-unit id="638">
+                <source>INVALID_SECRET_TOKEN</source>
+                <target>Invalid secret token</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

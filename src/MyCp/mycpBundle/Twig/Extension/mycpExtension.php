@@ -2,6 +2,7 @@
 
 namespace MyCp\mycpBundle\Twig\Extension;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
+use MyCp\mycpBundle\Entity\season;
 
 class mycpExtension extends \Twig_Extension {
 
@@ -20,6 +21,7 @@ class mycpExtension extends \Twig_Extension {
     public function getFilters() {
         return array(
             new \Twig_SimpleFilter('moduleName', array($this, 'moduleName')),
+            new \Twig_SimpleFilter('seasonType', array($this, 'seasonType')),
         );
     }
 
@@ -43,7 +45,20 @@ class mycpExtension extends \Twig_Extension {
             case BackendModuleName::MODULE_GENERAL_INFORMATION: return "General Information";
             case BackendModuleName::MODULE_COMMENT: return "Comment";
             case BackendModuleName::MODULE_UNAVAILABILITY_DETAILS: return "Unavailability Details";
+            case BackendModuleName::MODULE_METATAGS: return "Meta Tags";
+            case BackendModuleName::MODULE_MUNICIPALITY: return "Municipality";
+            case BackendModuleName::MODULE_SEASON: return "Season";
             default: return "MyCP";
+        }
+    }
+    
+    public function seasonType($season_type)
+    {
+        switch($season_type)
+        {
+            case season::SEASON_TYPE_HIGH: return "Alta";
+            case season::SEASON_TYPE_SPECIAL: return "Especial";
+            default: return "Baja";
         }
     }
 }

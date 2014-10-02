@@ -48,7 +48,7 @@ class room {
     /**
      * @var string
      *
-     * @ORM\Column(name="room_price_up_from", type="string", length=255)
+     * @ORM\Column(name="room_price_up_from", type="string", length=255, nullable=true)
      */
     private $room_price_up_from;
 
@@ -62,7 +62,7 @@ class room {
     /**
      * @var string
      *
-     * @ORM\Column(name="room_price_down_from", type="string", length=255)
+     * @ORM\Column(name="room_price_down_from", type="string", length=255, nullable=true)
      */
     private $room_price_down_from;
 
@@ -72,6 +72,13 @@ class room {
      * @ORM\Column(name="room_price_down_to", type="string", length=255)
      */
     private $room_price_down_to;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="room_price_special", type="string", length=255, nullable=true)
+     */
+    private $room_price_special;
 
     /**
      * @var string
@@ -170,7 +177,7 @@ class room {
     private $room_ownership;
 
     /**
-     * @OneToMany(targetEntity="unavailabilityDetails", mappedBy="room", fetch="EAGER")
+     * @OneToMany(targetEntity="unavailabilityDetails", mappedBy="room")
      */
     private $own_unavailability_details;
 
@@ -321,6 +328,27 @@ class room {
      */
     public function getRoomPriceDownTo() {
         return $this->room_price_down_to;
+    }
+    
+     /**
+     * Set room_price_special
+     *
+     * @param string $roomPriceSpecial
+     * @return room
+     */
+    public function setRoomPriceSpecial($roomPriceSpecial) {
+        $this->room_price_special = $roomPriceSpecial;
+
+        return $this;
+    }
+
+    /**
+     * Get room_price_special
+     *
+     * @return string
+     */
+    public function getRoomPriceSpecial() {
+        return $this->room_price_special;
     }
 
     /**

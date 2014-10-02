@@ -1,0 +1,15 @@
+{% extends 'FrontEndBundle:layout:baseMailTemplate.html.twig' %}
+
+{% block content %}
+<h4 style="font-family: Arial; font-size: 20px">Bienvenido a MyCasaParticular</h4>
+<p style="font-family: Arial; font-size: 14px">
+Estimado Sr(a). {{user_full_name}}: <br/>
+Le informamos que hemos creado un acceso para que Ud. pueda administrar algunas propiedades de su alojamiento, {{own_name}}, publicado en MyCasaParticular.com. <br/>
+Acceda a este módulo de administración a través del enlace <a href="#">www.mycasaparticular.com/alojamiento</a>. <br/>
+Su nombre de usuario se corresponde con el código de su casa en nuestro sitio: {{user_name}}<br/>
+Por favor, active su cuenta a través del siguiente enlace: <a href="{{ url('frontend_userCasa_activateAccount',{'own_code':user_name,'locale':'es','_locale':'es'}) }}">{{ url('frontend_userCasa_activateAccount',{'own_code':user_name,'locale':'es','_locale':'es'}) }}</a>
+El token secreto a introducir en la página anterior es: {{secret_token}}<br/>
+En este módulo de administración, Usted podrá verificar los datos fundamentales de su alojamiento, el estado de las reservas realizadas en su alojamiento a través de nuestro sitio, y actualizar y verificar la disponibilidad de las habitaciones.<br/>
+Saludos Cordiales,<br/>
+Equipo de MyCasaParticular.com</p>
+{% endblock %}

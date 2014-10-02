@@ -173,12 +173,12 @@ class ReservationReminderWorkerCommand extends Worker
             }
 
             $array_dates = $this->timeService
-                ->dates_between(
+                ->datesBetween(
                     $ownershipReservation->getOwnResReservationFromDate()->getTimestamp(),
                     $ownershipReservation->getOwnResReservationToDate()->getTimestamp()
                 );
 
-            array_push($arrayNights, count($array_dates));
+            array_push($arrayNights, count($array_dates) - 1);
         }
 
         $body = $this->emailManager

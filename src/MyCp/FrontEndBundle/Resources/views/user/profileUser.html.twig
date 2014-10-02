@@ -7,8 +7,9 @@
 {% endblock %}
 {% block body %}
 <div class="container">
-    {% if errors['used_email'] is defined%}<div class="alert alert-info">{{errors['used_email']}}</div>{% endif %}
-    {% if errors['complete_form'] is defined%}<div class="alert alert-info">{{errors['complete_form']}}</div>{% endif %}
+    {% if errors['used_email'] is defined%}<div class="alert alert-danger">{{errors['used_email']}}</div>{% endif %}
+    {% if errors['user_email'] is defined%}<div class="alert alert-danger">{{errors['user_email']}}</div>{% endif %}
+    {% if errors['complete_form'] is defined%}<div class="alert alert-danger">{{errors['complete_form']}}</div>{% endif %}
     <h2 class="caecilia-roman big-price-green text-center no-margin" style="font-weight: normal; margin-top: 20px">{{"USER_MY_PROFILE" | trans}}</h2>
     <div><img src="{{ asset('bundles/frontend/img/line-gradient-green.png') }}" style="width: 100%; height: 1px; margin: 16px 0"></div>
     <div class="row" style="margin-bottom: 30px">

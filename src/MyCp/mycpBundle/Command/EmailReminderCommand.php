@@ -63,11 +63,11 @@ class EmailReminderCommand extends ContainerAwareCommand
                 }
 
                 $array_dates = $timeService
-                    ->dates_between(
+                    ->datesBetween(
                         $res->getOwnResReservationFromDate()->getTimestamp(),
                         $res->getOwnResReservationToDate()->getTimestamp()
                     );
-                array_push($arrayNights, count($array_dates));
+                array_push($arrayNights, count($array_dates) - 1);
             }
 
             // Enviando mail al cliente
@@ -96,7 +96,7 @@ class EmailReminderCommand extends ContainerAwareCommand
                 . ' for General Reservation ID ' . $generalReservationId);
 
             try {
-                $emailService->send_email(
+                $emailService->sendEmail(
                     $subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com',
                     $emailAddress,
                     $body

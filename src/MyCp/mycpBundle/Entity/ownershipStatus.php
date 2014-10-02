@@ -34,6 +34,7 @@ class ownershipStatus
         self::STATUS_DELETED
     );
 
+
     /**
      * @var integer
      *
@@ -49,9 +50,6 @@ class ownershipStatus
      * @ORM\Column(name="status_name", type="string", length=255)
      */
     private $status_name;
-
-
-
 
     /**
      * Get status_id
@@ -84,5 +82,17 @@ class ownershipStatus
     public function getStatusName()
     {
         return $this->status_name;
+    }
+
+    public static function statusName($status_id)
+    {
+        switch($status_id)
+        {
+            case ownershipStatus::STATUS_ACTIVE: return "OWN_STATUS_ACTIVE";
+            case ownershipStatus::STATUS_DELETED: return "OWN_STATUS_DELETED";
+            case ownershipStatus::STATUS_INACTIVE: return "OWN_STATUS_INACTIVE";
+            case ownershipStatus::STATUS_IN_PROCESS: return "OWN_STATUS_IN_PROCESS";
+            default: return "OWN_NO_STATUS";
+        }
     }
 }

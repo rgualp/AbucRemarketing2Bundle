@@ -32,6 +32,13 @@ class userCasa
      * @ORM\JoinColumn(name="user_casa_ownership",referencedColumnName="own_id")
      */
     private $user_casa_ownership;
+    
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="user_casa_secret_token", type="string", length=255)
+     */
+    private $user_casa_secret_token;
 
 
 
@@ -89,5 +96,28 @@ class userCasa
     public function getUserCasaOwnership()
     {
         return $this->user_casa_ownership;
+    }
+    
+    /**
+     * Set user_casa_secret_token
+     *
+     * @param string $userCasaSecretToken
+     * @return userCasa
+     */
+    public function setUserCasaSecretToken($userCasaSecretToken)
+    {
+        $this->user_casa_secret_token = $userCasaSecretToken;
+    
+        return $this;
+    }
+
+    /**
+     * Get user_casa_secret_token
+     *
+     * @return string 
+     */
+    public function getUserCasaSecretToken()
+    {
+        return $this->user_casa_secret_token;
     }
 }

@@ -92,7 +92,7 @@ class MycasatripController extends Controller {
         $array_photos=array();
         foreach($res_available as $res)
         {
-            $array_dates=$service_time->dates_between($res['own_res_reservation_from_date']->getTimestamp(),$res['own_res_reservation_to_date']->getTimestamp());
+            $array_dates=$service_time->datesBetween($res['own_res_reservation_from_date']->getTimestamp(),$res['own_res_reservation_to_date']->getTimestamp());
             array_push($nights,count($array_dates)-1);
 
             $photo=$em->getRepository('mycpBundle:ownership')->get_ownership_photo($res['own_res_gen_res_id']['gen_res_own_id']['own_id']);
@@ -153,7 +153,7 @@ class MycasatripController extends Controller {
         $array_photos=array();
         foreach($res_available as $res)
         {
-            $array_dates=$service_time->dates_between($res['own_res_reservation_from_date']->getTimestamp(),$res['own_res_reservation_to_date']->getTimestamp());
+            $array_dates=$service_time->datesBetween($res['own_res_reservation_from_date']->getTimestamp(),$res['own_res_reservation_to_date']->getTimestamp());
             array_push($nights,count($array_dates)-1);
             $photo=$em->getRepository('mycpBundle:ownership')->get_ownership_photo($res['own_res_gen_res_id']['gen_res_own_id']['own_id']);
             array_push($array_photos,$photo);
@@ -198,7 +198,7 @@ class MycasatripController extends Controller {
         $array_photos=array();
         foreach($res_available as $res)
         {
-            $array_dates=$service_time->dates_between($res['own_res_reservation_from_date']->getTimestamp(),$res['own_res_reservation_to_date']->getTimestamp());
+            $array_dates=$service_time->datesBetween($res['own_res_reservation_from_date']->getTimestamp(),$res['own_res_reservation_to_date']->getTimestamp());
             array_push($nights,count($array_dates)-1);
             $photo=$em->getRepository('mycpBundle:ownership')->get_ownership_photo($res['own_res_gen_res_id']['gen_res_own_id']['own_id']);
             array_push($array_photos,$photo);
@@ -242,7 +242,7 @@ class MycasatripController extends Controller {
         $array_photos=array();
         foreach($res_payment as $res)
         {
-            $array_dates=$service_time->dates_between($res['own_res_reservation_from_date']->getTimestamp(),$res['own_res_reservation_to_date']->getTimestamp());
+            $array_dates=$service_time->datesBetween($res['own_res_reservation_from_date']->getTimestamp(),$res['own_res_reservation_to_date']->getTimestamp());
             array_push($nights,count($array_dates)-1);
             $photo=$em->getRepository('mycpBundle:ownership')->get_ownership_photo($res['own_res_gen_res_id']['gen_res_own_id']['own_id']);
             array_push($array_photos,$photo);
@@ -395,7 +395,7 @@ class MycasatripController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
         $paginator->setItemsPerPage($items_per_page);
-        $comments = $paginator->paginate($em->getRepository('mycpBundle:comment')->get_user_comments($user->getUserId()))->getResult();
+        $comments = $paginator->paginate($em->getRepository('mycpBundle:comment')->getByUser($user->getUserId()))->getResult();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];

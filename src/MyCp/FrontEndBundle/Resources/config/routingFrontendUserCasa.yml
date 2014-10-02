@@ -1,0 +1,10 @@
+
+frontend_userCasa_home:
+    locales:  { en: "/accommodation", es: "/alojamiento", de: "/unterkunft" }
+    defaults: { _controller: FrontEndBundle:UserCasa:home}
+
+frontend_userCasa_activateAccount:
+    locales:  { en: "/accommodation/user/activate/{own_code}", es: "/alojamiento/usuario/activar/{own_code}",de: "/unterkunft/user/activate/{own_code}" }
+    defaults: { _controller: FrontEndBundle:UserCasa:activateAccount, secret:null }
+
+

@@ -18,8 +18,8 @@
     </form>
 {% endblock %}
 {% block content %}
-<h2>Editar Meta Tags</h2>
+<h2>Editar Meta Tags ({{metaTag.metaTitle}})</h2>
 <hr/>
-<form class="sfgen" method="POST" action="{{ path('mycp_edit_metatags') }}" novalidate="true">
+<form class="sfgen" method="POST" action="{{ path('mycp_edit_metatags',{'meta_id':meta_id}) }}" novalidate="true">
     {{form_widget(form)}}
 {% endblock %}

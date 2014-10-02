@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class faqCategoryLangRepository extends EntityRepository
 {
-    function get_categories()
+    function getCategories()
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT cl,cat FROM mycpBundle:faqcategorylang cl

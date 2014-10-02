@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityRepository;
 class albumCategoryLangRepository extends EntityRepository
 {
 
-    function get_categories()
+    function getCategories()
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT cl,cat FROM mycpBundle:albumcategorylang cl

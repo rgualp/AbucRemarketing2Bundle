@@ -58,9 +58,17 @@ mycp_unavailabilityDetails:
     resource: "@mycpBundle/Resources/config/routingBackendUnavailabilityDetails.yml"
     prefix:   backend/unavailability_details/
 
-mycp_edit_metatags:
-    pattern:  backend/metatags/
-    defaults: { _controller: mycpBundle:BackendMeta:edit_meta_tags}
+mycp_metatags:
+    resource: "@mycpBundle/Resources/config/routingBackendMetaTags.yml"
+    prefix:   backend/metatags/
+
+mycp_municipality:
+    resource: "@mycpBundle/Resources/config/routingBackendMunicipality.yml"
+    prefix:   backend/municipalities/
+
+mycp_season:
+    resource: "@mycpBundle/Resources/config/routingBackendSeason.yml"
+    prefix:   backend/seasons/
 
 mycp_check:
   pattern: /check
@@ -73,6 +81,10 @@ mycp_get_mun_by_prov:
     pattern:  /get_cities/{country_code}
     defaults: { _controller: mycpBundle:Public:get_mun_by_prov_callback,selected:null}
 
+mycp_get_destination_by_mun:
+    pattern:  /get_destinations/{municipality}
+    defaults: { _controller: mycpBundle:Public:getDestinationByMunCallback,selected:null}
+
 mycp_access_denied:
     pattern:  /access_denied
     defaults: { _controller: mycpBundle:Public:access_denied}
@@ -84,3 +96,7 @@ mycp_get_cities_by_country:
 mycp_backend_front:
     pattern:  /backend/
     defaults: { _controller: mycpBundle:Backend:backend_front}
+
+mycp_send_created_usercasa_mail:
+    pattern:  /send_mail/create/user_casa/{userId}/{returnUrlName}
+    defaults: { _controller: mycpBundle:Public:sendMailCreateUserCasa}

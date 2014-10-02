@@ -3,6 +3,7 @@
 namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * municipality
@@ -23,7 +24,7 @@ class municipality
 
     /**
      * @ORM\ManyToOne(targetEntity="province", inversedBy="prov_municipalities")
-     * @ORM\JoinColumn(name="mun_prov_id", referencedColumnName="prov_id")
+     * @ORM\JoinColumn(name="mun_prov_id", referencedColumnName="prov_id", nullable=false)
      * @return integer
      */
     private $mun_prov_id;
@@ -31,21 +32,22 @@ class municipality
     /**
      * @var string
      *
-     * @ORM\Column(name="mun_name", type="string", length=255)
+     * @ORM\Column(name="mun_name", type="string", length=255, nullable=false)
+     * @Assert\NotBlank()
      */
     private $mun_name;
-    
-        
+
+
     /**
      * Get mun_id
      *
-     * @return integer 
+     * @return integer
      */
     public function getMunId()
     {
         return $this->mun_id;
     }
-    
+
 
     /**
      * Set mun_name
@@ -56,14 +58,14 @@ class municipality
     public function setMunName($munName)
     {
         $this->mun_name = $munName;
-    
+
         return $this;
     }
 
     /**
      * Get mun_name
      *
-     * @return string 
+     * @return string
      */
     public function getMunName()
     {
@@ -76,17 +78,17 @@ class municipality
      * @param \MyCp\mycpBundle\Entity\province $munProvId
      * @return municipality
      */
-    public function setMunProvId(\MyCp\mycpBundle\Entity\province $munProvId = null)
+    public function setMunProvId($munProvId)
     {
         $this->mun_prov_id = $munProvId;
-    
+
         return $this;
     }
 
     /**
      * Get mun_prov_id
      *
-     * @return \MyCp\mycpBundle\Entity\province 
+     * @return \MyCp\mycpBundle\Entity\province
      */
     public function getMunProvId()
     {

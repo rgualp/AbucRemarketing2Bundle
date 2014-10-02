@@ -3,6 +3,7 @@
 namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use MyCp\mycpBundle\Entity\ownershipStatus;
 
 /**
  * provinceRepository
@@ -12,9 +13,6 @@ use Doctrine\ORM\EntityRepository;
  */
 class provinceRepository extends EntityRepository
 {
-    /**
-     * Yanet - Inicio
-     */
     function getProvincesForAutocomplete($prov_part_name)
     {
         $em = $this->getEntityManager();
@@ -23,7 +21,7 @@ class provinceRepository extends EntityRepository
         WHERE p.prov_name LIKE '%$prov_part_name%' ORDER BY p.prov_name ASC");
         return $query->getResult();
     }
-    
+
     function getProvinces()
     {
         $em = $this->getEntityManager();
@@ -33,16 +31,11 @@ class provinceRepository extends EntityRepository
         return $query->getResult();
     }
 
-
-    /**
-     * Yanet - Fin
-     */
-    
-    function get_for_main_menu()
+    function getMainMenu()
     {
         $em = $this->getEntityManager();
-        $query_string = "SELECT DISTINCT p.prov_id, p.prov_name, 
-                        (SELECT count(o) FROM mycpBundle:ownership o where o.own_address_province = p.prov_id) as total_owns   
+        $query_string = "SELECT DISTINCT p.prov_id, p.prov_name,
+                        (SELECT count(o) FROM mycpBundle:ownership o where o.own_address_province = p.prov_id AND o.own_status = ".ownershipStatus::STATUS_ACTIVE.") as total_owns
                          FROM mycpBundle:province p
                          ORDER BY total_owns DESC
                          ";

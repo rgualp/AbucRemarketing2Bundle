@@ -49,7 +49,12 @@ class destination {
      */
     private $destinationsLang;
 
-    
+    /**
+     * @ORM\OneToMany(targetEntity="destinationKeywordLang",mappedBy="dkl_destination")
+     */
+    private $des_keyword_langs;
+
+
     private $destinationsMunicipality;
 
     private $destinationsPhoto;
@@ -124,15 +129,21 @@ class destination {
     public function __construct() {
         $this->destinationsLang = new ArrayCollection();
         $this->des_categories = new ArrayCollection();
+        $this->des_keyword_langs = new ArrayCollection();
     }
 
     /**
      * Get des_id
      *
-     * @return integer 
+     * @return integer
      */
     public function getDesId() {
         return $this->des_id;
+    }
+
+    public function getDesKeywordLangs()
+    {
+        return $this->des_keyword_langs;
     }
 
     /**
@@ -150,7 +161,7 @@ class destination {
     /**
      * Get des_name
      *
-     * @return string 
+     * @return string
      */
     public function getDesName() {
         return $this->des_name;
@@ -171,7 +182,7 @@ class destination {
     /**
      * Get des_order
      *
-     * @return integer 
+     * @return integer
      */
     public function getDesOrder() {
         return $this->des_order;
@@ -191,7 +202,7 @@ class destination {
     /**
      * Get des_active
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getDesActive() {
         return $this->des_active;
@@ -221,7 +232,7 @@ class destination {
     /**
      * Get destinationsLang
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getDestinationsLang() {
         return $this->destinationsLang;
@@ -255,7 +266,7 @@ class destination {
     /**
      * Get destinationsMunicipality
      *
-     * @return Collection 
+     * @return Collection
      */
     public function getDestinationsMunicipality() {
         return $this->destinationsMunicipality;
@@ -285,7 +296,7 @@ class destination {
     /**
      * Get destinationsPhoto
      *
-     * @return Collection 
+     * @return Collection
      */
     public function getDestinationsPhoto() {
         return $this->destinationsPhoto;
@@ -304,7 +315,7 @@ class destination {
     public function __toString() {
         return $this->getDesName();
     }
-    
+
     public function getDesPoblation() {
         return $this->des_poblation;
     }
@@ -320,7 +331,7 @@ class destination {
     public function setDesRefPlace($des_ref_place) {
         $this->des_ref_place = $des_ref_place;
     }
-    
+
     /**
      * Set des_geolocate_x
      *
@@ -336,7 +347,7 @@ class destination {
     /**
      * Get des_geolocate_x
      *
-     * @return string 
+     * @return string
      */
     public function getDesGeolocateX() {
         return $this->des_geolocate_x;
@@ -357,7 +368,7 @@ class destination {
     /**
      * Get des_geolocate_y
      *
-     * @return string 
+     * @return string
      */
     public function getDesGeolocateY() {
         return $this->des_geolocate_y;
@@ -455,14 +466,14 @@ class destination {
     public function setDesCatLocationProvX($desCatLocationProvX)
     {
         $this->des_cat_location_prov_x = $desCatLocationProvX;
-    
+
         return $this;
     }
 
     /**
      * Get des_cat_location_prov_x
      *
-     * @return integer 
+     * @return integer
      */
     public function getDesCatLocationProvX()
     {
@@ -478,14 +489,14 @@ class destination {
     public function setDesCatLocationProvY($desCatLocationProvY)
     {
         $this->des_cat_location_prov_y = $desCatLocationProvY;
-    
+
         return $this;
     }
 
     /**
      * Get des_cat_location_prov_y
      *
-     * @return integer 
+     * @return integer
      */
     public function getDesCatLocationProvY()
     {

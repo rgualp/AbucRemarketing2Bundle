@@ -3,6 +3,7 @@
 namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use MyCp\mycpBundle\Entity\ownershipStatus;
 
 /**
  * permissionRepository
@@ -206,9 +207,9 @@ class favoriteRepository extends EntityRepository {
                         (SELECT min(p.pho_name) FROM mycpBundle:destinationPhoto dp JOIN dp.des_pho_photo p WHERE dp.des_pho_destination=d.des_id) as photo,
                         (SELECT min(mun1.mun_name) FROM mycpBundle:destinationLocation loc2 JOIN loc2.des_loc_municipality mun1 WHERE loc2.des_loc_destination = d.des_id ) as municipality_name,
                         (SELECT min(prov1.prov_name) FROM mycpBundle:destinationLocation loc3 JOIN loc3.des_loc_province prov1 WHERE loc3.des_loc_destination = d.des_id ) as province_name,
-                        (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = 1 AND o.own_address_municipality = (SELECT min(mun.mun_id) FROM mycpBundle:destinationLocation loc JOIN loc.des_loc_municipality mun WHERE loc.des_loc_destination = d.des_id)
+                        (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE." AND o.own_address_municipality = (SELECT min(mun.mun_id) FROM mycpBundle:destinationLocation loc JOIN loc.des_loc_municipality mun WHERE loc.des_loc_destination = d.des_id)
                          AND o.own_address_province = (SELECT min(prov.prov_id) FROM mycpBundle:destinationLocation loc1 JOIN loc1.des_loc_province prov WHERE loc1.des_loc_destination = d.des_id)) as count_ownership,
-                        (SELECT MIN(o1.own_minimum_price) FROM mycpBundle:ownership o1 WHERE o1.own_status = 1 AND o1.own_address_municipality = (SELECT min(mun2.mun_id) FROM mycpBundle:destinationLocation loc4 JOIN loc4.des_loc_municipality mun2 WHERE loc4.des_loc_destination = d.des_id)
+                        (SELECT MIN(o1.own_minimum_price) FROM mycpBundle:ownership o1 WHERE o1.own_status = ".ownershipStatus::STATUS_ACTIVE." AND o1.own_address_municipality = (SELECT min(mun2.mun_id) FROM mycpBundle:destinationLocation loc4 JOIN loc4.des_loc_municipality mun2 WHERE loc4.des_loc_destination = d.des_id)
                          AND o1.own_address_province = (SELECT min(prov2.prov_id) FROM mycpBundle:destinationLocation loc5 JOIN loc5.des_loc_province prov2 WHERE loc5.des_loc_destination = d.des_id)) as min_price,
                          (SELECT dl.des_lang_brief from mycpBundle:destinationLang dl
                           JOIN dl.des_lang_lang l WHERE dl.des_lang_destination = d.des_id AND l.lang_code = '$locale') as desc_brief,
@@ -258,7 +259,7 @@ class favoriteRepository extends EntityRepository {
                         JOIN f.favorite_ownership o
                         JOIN o.own_address_province prov
                          JOIN o.own_address_municipality mun
-                        WHERE o.own_status = 1 ";
+                        WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE;
 
         if ($user_id != null)
             $where.= " AND f.favorite_user = $user_id";

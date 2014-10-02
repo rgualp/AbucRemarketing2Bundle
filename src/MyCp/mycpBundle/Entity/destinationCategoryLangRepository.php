@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityRepository;
 class destinationCategoryLangRepository extends EntityRepository
 {
 
-    function get_categories($type=null)
+    function getCategories($type=null)
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT dcl,cat FROM mycpBundle:destinationcategorylang dcl

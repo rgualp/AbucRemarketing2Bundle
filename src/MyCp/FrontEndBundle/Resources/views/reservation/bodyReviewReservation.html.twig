@@ -19,12 +19,12 @@
                                             <tr id="{{ service['id'] }}-{{ dates_timestamp[flag] }}">
                                                 <td class="name">{{ service['ownership_mun']}}, {{ service['ownership_name']}}</td>
                                                 <td class="room-type">{{ service['room_type']|trans}}</td>
-                                                <td class="persons">{{"ADULTS"|trans}}: {{ service['guests']}}, {{"KIDS"|trans}}: {{ service['kids']}}</td>
+                                                <td class="persons">{{"ADULTS"|trans}}: {{ service['guests']}} <br/> {{"KIDS"|trans}}: {{ service['kids']}}</td>
                                                 <td class="cost"><h3 class="no-margin">
 
                                                         {% set total_percent =  total_percent + ((service['room_price_'~array_season[flag]]+plus) * service['ownership_percent'] / 100) %}
                                                         {% if service['room_type']=='Habitación Triple' and  service['guests'] + service['kids'] >= 3 %}
-                                                            {{ (service['room_price_'~array_season[flag]] + plus) | price}}
+                                                            {{ (service['room_price_'~array_season[flag]]) | price}}
                                                             {% set total_price = total_price +  (service['room_price_'~array_season[flag]] + plus) * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) %}
                                                         {% else %}
                                                             {{ service['room_price_'~array_season[flag]] | price}}
@@ -33,6 +33,10 @@
 
 
                                                     </h3><small class="margin-b-t"><i>{{ "PRICE_NIGHT"|trans }}</i></small></td>
+                                                {% if service['room_type']=='Habitación Triple' and  service['guests'] + service['kids'] >= 3 %}
+                                                <td style="vertical-align: top; padding-top: 2%"> + </td>
+                                                <td style="vertical-align: top"  rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}"><h5>{{plus | price}}</h5></td>
+                                                {%endif%}
                                                 <td class="text-center"><button data="{{ service['id'] }}-{{ dates_timestamp[flag] }}" class="btn_delete" rel="tooltip" data-placement="top" title="{{ 'REMOVE_RESERVE'|trans }}"><i class="icon-remove-sign"></i></button></td>
                                             </tr>
                                         </table>

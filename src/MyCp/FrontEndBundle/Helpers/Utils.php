@@ -15,7 +15,7 @@ class Utils {
         echo "</pre>";
     }
 
-    public static function url_normalize($text)
+    public static function urlNormalize($text)
     {
         $furl=str_replace("-", "--", $text);
         $furl=str_replace(" ", "-", $furl);
@@ -37,8 +37,13 @@ class Utils {
 
         return $furl;
     }
+    
+    public static function validateEmail($text)
+    {
+       return \Swift_Validate::email($text);
+    }
 
-    public static function get_text_from_normalized($text)
+    public static function getTextFromNormalized($text)
     {
         $furl=str_replace("-", " ", $text);
         $furl=str_replace("  ", "-", $furl);

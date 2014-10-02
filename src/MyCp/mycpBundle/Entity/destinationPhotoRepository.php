@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityRepository;
 class destinationPhotoRepository extends EntityRepository
 {
 
-    function get_photos_by_id_destination($id_destination)
+    function getByDestination($id_destination)
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT dp,dpp FROM mycpBundle:destinationphoto dp JOIN dp.des_pho_photo dpp
