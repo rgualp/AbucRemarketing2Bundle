@@ -184,7 +184,13 @@ class generalReservationRepository extends EntityRepository {
             $filter_date_booking = $filter_date_booking_array[2] . '-' . $filter_date_booking_array[1] . '-' . $filter_date_booking_array[0];
         }
 
-        $query = $em->createQuery("SELECT payment,booking,curr FROM mycpBundle:payment payment JOIN payment.booking booking
+        $query = $em->createQuery("SELECT payment.created,
+        payment.payed_amount,
+        booking.booking_id,
+        curr.curr_code,
+        booking.booking_user_dates,
+        (SELECT min(co.co_name) FROM mycpBundle:user user JOIN user.user_country co WHERE user.user_id = booking.booking_user_id) as country
+        FROM mycpBundle:payment payment JOIN payment.booking booking
         JOIN payment.currency curr
         WHERE booking.booking_id LIKE :filter_booking_number
         AND booking.booking_user_dates LIKE :filter_user_booking

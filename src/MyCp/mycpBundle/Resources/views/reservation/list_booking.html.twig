@@ -79,6 +79,7 @@
                     <th>Prepago</th>
                     <th>Moneda</th>
                     <th>Usuario</th>
+                    <th>País</th>
                     <th style="text-align: right">Acciones</th>
                 </tr>
                 </thead>
@@ -87,14 +88,14 @@
                 {% for booking in bookings %}
                 <tr>
 
-                    <td>{{ booking['booking']['booking_id']}}</td>
-                    <td>{{ booking['created']|date("d/m/Y") }}</td>
-                    <td>{{ booking['payed_amount'] }} {{ booking['currency']['curr_code'] }}</td>
-                    <td>{{ booking['currency']['curr_code'] }}</td>
-                    <td>{{ booking['booking']['booking_user_dates'] }}</td>
-
+                    <td>{{ booking.booking_id}}</td>
+                    <td>{{ booking.created|date("d/m/Y") }}</td>
+                    <td>{{ booking.payed_amount }} {{ booking.curr_code }}</td>
+                    <td>{{ booking.curr_code }}</td>
+                    <td>{{ booking.booking_user_dates }}</td>
+                    <td>{{ booking.country }}</td>
                     <td style="text-align: right">
-                        <a class="btn btn-mini" href="{{ path('mycp_details_reservations_booking',{'id_booking':booking['booking']['booking_id']}) }}">Detalles</a>
+                        <a class="btn btn-mini" href="{{ path('mycp_details_reservations_booking',{'id_booking':booking.booking_id}) }}">Detalles</a>
                     </td>
                 </tr>
                 {% set flag = flag + 1%}
