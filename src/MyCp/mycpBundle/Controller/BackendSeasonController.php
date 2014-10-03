@@ -121,7 +121,8 @@ class BackendSeasonController extends Controller {
                     $season->setSeasonDestination($dest);
                 }
 
-                $season->setSeasonReason(trim($post_form['season_reason']));
+                if(isset($post_form['season_reason']))
+                    $season->setSeasonReason(trim($post_form['season_reason']));
                 $em->persist($season);
                 $em->flush();
                 $message = 'Temporada actualizado satisfactoriamente.';
