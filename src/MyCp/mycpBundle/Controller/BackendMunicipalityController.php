@@ -12,8 +12,8 @@ use MyCp\mycpBundle\Helpers\BackendModuleName;
 class BackendMunicipalityController extends Controller {
 
     public function listAction($items_per_page) {
-        /* $service_security= $this->get('Secure');
-          $service_security->verifyAccess(); */
+        $service_security= $this->get('Secure');
+        $service_security->verifyAccess(); 
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
@@ -34,8 +34,8 @@ class BackendMunicipalityController extends Controller {
     }
 
     public function newAction(Request $request) {
-        /* $service_security= $this->get('Secure');
-          $service_security->verifyAccess(); */
+        $service_security= $this->get('Secure');
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $municipality = new municipality();
         $provinces = $em->getRepository('mycpBundle:province')->findAll();
@@ -62,8 +62,8 @@ class BackendMunicipalityController extends Controller {
     }
 
     public function editAction($id_municipality, Request $request) {
-        /* $service_security= $this->get('Secure');
-          $service_security->verifyAccess(); */
+        $service_security= $this->get('Secure');
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $municipality = $em->getRepository('mycpBundle:municipality')->find($id_municipality);
         $municipality->setMunProvId($municipality->getMunProvId()->getProvId());
@@ -92,8 +92,8 @@ class BackendMunicipalityController extends Controller {
 
     public function deleteAction($id_municipality)
     {
-        /*$service_security= $this->get('Secure');
-        $service_security->verifyAccess();*/
+        $service_security= $this->get('Secure');
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $municipality=$em->getRepository('mycpBundle:municipality')->find($id_municipality);
         $accommodations_total = count($em->getRepository('mycpBundle:ownership')->findBy(array('own_address_municipality'=> $municipality->getMunId())));
@@ -120,6 +120,8 @@ class BackendMunicipalityController extends Controller {
     
     public function list_accommodationsAction($id_municipality,$items_per_page)
     {
+        $service_security= $this->get('Secure');
+        $service_security->verifyAccess();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
@@ -144,6 +146,8 @@ class BackendMunicipalityController extends Controller {
     
     public function list_destinationsAction($id_municipality,$items_per_page)
     {
+        $service_security= $this->get('Secure');
+        $service_security->verifyAccess();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
