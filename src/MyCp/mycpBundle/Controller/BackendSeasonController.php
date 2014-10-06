@@ -12,8 +12,8 @@ use MyCp\mycpBundle\Helpers\BackendModuleName;
 class BackendSeasonController extends Controller {
 
     public function listAction($items_per_page) {
-        /* $service_security= $this->get('Secure');
-          $service_security->verifyAccess(); */
+        $service_security= $this->get('Secure');
+        $service_security->verifyAccess();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
@@ -34,8 +34,8 @@ class BackendSeasonController extends Controller {
     }
 
     public function newAction(Request $request) {
-        /* $service_security= $this->get('Secure');
-          $service_security->verifyAccess(); */
+        $service_security= $this->get('Secure');
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $season = new season();
         $destinations = $em->getRepository('mycpBundle:destination')->findAll();
@@ -81,8 +81,8 @@ class BackendSeasonController extends Controller {
     }
 
     public function editAction($id_season, Request $request) {
-        /* $service_security= $this->get('Secure');
-          $service_security->verifyAccess(); */
+        $service_security= $this->get('Secure');
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $season = $em->getRepository('mycpBundle:season')->find($id_season);
 
@@ -139,8 +139,8 @@ class BackendSeasonController extends Controller {
 
     public function deleteAction($id_season)
     {
-        /*$service_security= $this->get('Secure');
-        $service_security->verifyAccess();*/
+        $service_security= $this->get('Secure');
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $season=$em->getRepository('mycpBundle:season')->find($id_season);
 
