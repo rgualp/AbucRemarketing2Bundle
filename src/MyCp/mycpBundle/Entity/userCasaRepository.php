@@ -12,14 +12,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class userCasaRepository extends EntityRepository {
 
-    function get_users_casa() {
+    function get_user_casa() {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT uc FROM mycpBundle:userCasa uc
         GROUP BY uc.user_casa_user");
         return $query->getResult();
     }
-
-    function getUsers($exclude_own_id = null) {
 
     function get_user_casa_by_user_id($user_id)
     {
@@ -29,15 +27,15 @@ class userCasaRepository extends EntityRepository {
         $query->setParameter(':user_id', $user_id);
         return $query->getSingleResult();
     }
-    
-    function get_owners_photos($ownership_id)
+
+    function getUser($exclude_own_id)
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT user.user_id, user.user_name, own.own_mcp_code, own.own_name FROM mycpBundle:userCasa uc
         JOIN uc.user_casa_user user
         JOIN uc.user_casa_ownership own" .
-                (($exclude_own_id != null) ? " WHERE own.own_id <> $exclude_own_id " : " ") .
-                " ORDER BY user.user_name");
+        (($exclude_own_id != null) ? " WHERE own.own_id <> $exclude_own_id " : " ") .
+        " ORDER BY user.user_name");
         return $query->getResult();
     }
 
@@ -51,8 +49,8 @@ class userCasaRepository extends EntityRepository {
         $phone = '(+53' . $ownership->getOwnAddressProvince()->getProvPhoneCode() . ') ' . $ownership->getOwnPhoneNumber();
 
         $email = $ownership->getOwnEmail1();
-            if (empty($email))
-                $email = $ownership->getOwnEmail2();
+        if (empty($email))
+            $email = $ownership->getOwnEmail2();
 
         $user->setUserAddress($address);
         $user->setUserCity($ownership->getOwnAddressMunicipality()->getMunName());
@@ -95,45 +93,45 @@ class userCasaRepository extends EntityRepository {
     }
 
      function edit($id_user, $request, $dir, $factory) {
-        $post = $request->request->getIterator()->getArrayCopy();
-        $em = $this->getEntityManager();
-        $user_casa = new userCasa();
-        $user_casa = $em->getRepository('mycpBundle:userCasa')->findBy(array('user_casa_user' => $id_user));
-        $user_casa = $user_casa[0];
-        $user_casa->getUserCasaUser()->setUserName($post['mycp_mycpbundle_client_casatype']['user_name']);
-        $user_casa->getUserCasaUser()->setUserAddress($post['mycp_mycpbundle_client_casatype']['address']);
-        $user_casa->getUserCasaUser()->setUserUserName($post['mycp_mycpbundle_client_casatype']['name']);
-        $user_casa->getUserCasaUser()->setUserLastName($post['mycp_mycpbundle_client_casatype']['last_name']);
-        $user_casa->getUserCasaUser()->setUserEmail($post['mycp_mycpbundle_client_casatype']['email']);
-        $user_casa->getUserCasaUser()->setUserPhone($post['mycp_mycpbundle_client_casatype']['phone']);
-        /*if ($post['mycp_mycpbundle_client_casatype']['user_password']['Clave:'] != '') {
-            $encoder = $factory->getEncoder($user_casa->getUserCasaUser());
-            $password = $encoder->encodePassword($post['mycp_mycpbundle_client_casatype']['user_password']['Clave:'], $user_casa->getUserCasaUser()->getSalt());
-            $user_casa->getUserCasaUser()->setUserPassword($password);
-        }*/
-        $file = $request->files->get('mycp_mycpbundle_client_casatype');
-        if (isset($file['photo'])) {
-            $photo_user = $user_casa->getUserCasaUser()->getUserPhoto();
-            if ($photo_user != null) {
-                $photo_old = $em->getRepository('mycpBundle:photo')->find($photo_user->getPhoId());
-                if ($photo_old)
-                    $em->remove($photo_old);
-                @unlink($dir . $user_casa->getUserCasaUser()->getUserPhoto()->getPhoName());
-            }
+         $post = $request->request->getIterator()->getArrayCopy();
+         $em = $this->getEntityManager();
+         $user_casa = new userCasa();
+         $user_casa = $em->getRepository('mycpBundle:userCasa')->findBy(array('user_casa_user' => $id_user));
+         $user_casa = $user_casa[0];
+         $user_casa->getUserCasaUser()->setUserName($post['mycp_mycpbundle_client_casatype']['user_name']);
+         $user_casa->getUserCasaUser()->setUserAddress($post['mycp_mycpbundle_client_casatype']['address']);
+         $user_casa->getUserCasaUser()->setUserUserName($post['mycp_mycpbundle_client_casatype']['name']);
+         $user_casa->getUserCasaUser()->setUserLastName($post['mycp_mycpbundle_client_casatype']['last_name']);
+         $user_casa->getUserCasaUser()->setUserEmail($post['mycp_mycpbundle_client_casatype']['email']);
+         $user_casa->getUserCasaUser()->setUserPhone($post['mycp_mycpbundle_client_casatype']['phone']);
+         /*if ($post['mycp_mycpbundle_client_casatype']['user_password']['Clave:'] != '') {
+             $encoder = $factory->getEncoder($user_casa->getUserCasaUser());
+             $password = $encoder->encodePassword($post['mycp_mycpbundle_client_casatype']['user_password']['Clave:'], $user_casa->getUserCasaUser()->getSalt());
+             $user_casa->getUserCasaUser()->setUserPassword($password);
+         }*/
+         $file = $request->files->get('mycp_mycpbundle_client_casatype');
+         if (isset($file['photo'])) {
+             $photo_user = $user_casa->getUserCasaUser()->getUserPhoto();
+             if ($photo_user != null) {
+                 $photo_old = $em->getRepository('mycpBundle:photo')->find($photo_user->getPhoId());
+                 if ($photo_old)
+                     $em->remove($photo_old);
+                 @unlink($dir . $user_casa->getUserCasaUser()->getUserPhoto()->getPhoName());
+             }
 
-            $photo = new photo();
-            $fileName = uniqid('user-') . '-photo.jpg';
-            $file['photo']->move($dir, $fileName);
-            //Redimensionando la foto del usuario
-            \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 65);
+             $photo = new photo();
+             $fileName = uniqid('user-') . '-photo.jpg';
+             $file['photo']->move($dir, $fileName);
+             //Redimensionando la foto del usuario
+             \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 65);
 
-            $photo->setPhoName($fileName);
-            $user_casa->getUserCasaUser()->setUserPhoto($photo);
-            $em->persist($photo);
-        }
-        $em->persist($user_casa);
-        $em->flush();
-    }
+             $photo->setPhoName($fileName);
+             $user_casa->getUserCasaUser()->setUserPhoto($photo);
+             $em->persist($photo);
+         }
+         $em->persist($user_casa);
+         $em->flush();
+     }
 
     function get_owners_photos($ownership_id) {
         $em = $this->getEntityManager();
@@ -175,5 +173,9 @@ class userCasaRepository extends EntityRepository {
         $query = $em->createQuery($query_string);
         return $query->getOneOrNullResult();
     }
+
+
+
+
 
 }

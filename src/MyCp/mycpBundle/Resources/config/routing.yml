@@ -74,6 +74,10 @@ mycp_unavailabilityDetails:
     resource: "@mycpBundle/Resources/config/routingBackendUnavailabilityDetails.yml"
     prefix:   backend/unavailability_details/
 
+mycp_lodging_unavailabilityDetails:
+    resource: "@mycpBundle/Resources/config/routingLodgingUnavaibilityDetails.yml"
+    prefix:   alojamiento/unavailability_details/
+
 mycp_edit_metatags:
     pattern:  backend/metatags/
     defaults: { _controller: mycpBundle:BackendMeta:edit_meta_tags}
@@ -112,3 +116,11 @@ mycp_get_cities_by_country:
 mycp_backend_front:
     pattern:  /backend/
     defaults: { _controller: mycpBundle:Backend:backend_front}
+
+mycp_lodging_front:
+    pattern:  /alojamiento/
+    defaults: { _controller: mycpBundle:Lodging:lodging_front}
+
+mycp_backend_metatags:
+    resource: "@mycpBundle/Resources/config/routingBackendMetaTags.yml"
+    prefix:   backend/metatags/

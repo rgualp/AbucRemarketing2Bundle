@@ -37,7 +37,7 @@ class LodgingCommentController extends Controller
         $user = $this->get('security.context')->getToken()->getUser();
 
         if($user->getUserRole()!='ROLE_CLIENT_CASA')
-            $comments_list = $em->getRepository('mycpBundle:comment')->get_all_comment($filter_ownership,$filter_user,$filter_keyword, $filter_rate,$sort_by);
+            $comments_list = $em->getRepository('mycpBundle:comment')->getAll($filter_ownership,$filter_user,$filter_keyword, $filter_rate,$sort_by);
         else
         {
             $user_casa = $em->getRepository('mycpBundle:userCasa')->get_user_casa_by_user_id($user->getUserId());

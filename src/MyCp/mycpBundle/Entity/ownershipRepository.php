@@ -480,7 +480,6 @@ class ownershipRepository extends EntityRepository {
         $em->flush();
     }
 
-    function getAll($filter_code = '', $filter_active = '', $filter_category = '', $filter_province = '', $filter_municipality = '', $filter_destination = '', $filter_type = '', $filter_name = '', $filter_saler = '', $filter_visit_date = '') {
     function short_edit_ownership($data)
     {
         $id_ownership = $data['edit_ownership'];
@@ -499,7 +498,7 @@ class ownershipRepository extends EntityRepository {
         $em->flush();
     }
 
-    function get_all_ownerships($filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality, $filter_type, $filter_name, $filter_saler='', $filter_visit_date='') {
+    function getAll($filter_code = '', $filter_active = '', $filter_category = '', $filter_province = '', $filter_municipality = '', $filter_destination = '', $filter_type = '', $filter_name = '', $filter_saler = '', $filter_visit_date = '') {
 
         $condition = '';
         if ($filter_active != 'null' && $filter_active != '') {
@@ -513,12 +512,6 @@ class ownershipRepository extends EntityRepository {
         }
         if ($filter_municipality != 'null' && $filter_municipality != '') {
             $condition .= " AND ow.own_address_municipality = :filter_municipality ";
-        }
-        if ($filter_destination != 'null' && $filter_destination != '') {
-            if ($filter_destination == "-1")
-                $condition .= " AND ow.own_destination IS NULL ";
-            else
-                $condition .= " AND ow.own_destination = :filter_destination ";
         }
         if ($filter_type != 'null' && $filter_type != '') {
             $condition .= " AND ow.own_type = :filter_type ";
@@ -566,9 +559,6 @@ class ownershipRepository extends EntityRepository {
         if ($filter_municipality != 'null' && $filter_municipality != '')
             $query->setParameter('filter_municipality', $filter_municipality);
 
-        if ($filter_destination != 'null' && $filter_destination != '' && $filter_destination != '-1')
-            $query->setParameter('filter_destination', $filter_destination);
-
         if ($filter_type != 'null' && $filter_type != '')
             $query->setParameter('filter_type', $filter_type);
 
@@ -615,9 +605,9 @@ class ownershipRepository extends EntityRepository {
                                 JOIN owr.own_res_gen_res_id r
                                 JOIN r.gen_res_own_id o
                                 WHERE owr.own_res_status = " . ownershipReservation::STATUS_RESERVED .
-                    " AND (SELECT count(owr1) FROM mycpBundle:ownershipReservation owr1
-                                       JOIN owr1.own_res_gen_res_id r1 WHERE r1.gen_res_own_id = o.own_id
-                                       AND owr1.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") < o.own_rooms_total";
+                " AND (SELECT count(owr1) FROM mycpBundle:ownershipReservation owr1
+                                   JOIN owr1.own_res_gen_res_id r1 WHERE r1.gen_res_own_id = o.own_id
+                                   AND owr1.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") < o.own_rooms_total";
             $dates_where = "";
 
             if ($arrivalDate != null) {
@@ -1819,7 +1809,7 @@ class ownershipRepository extends EntityRepository {
         $query_string = "SELECT op FROM mycpBundle:ownershipPhoto op
                         JOIN op.own_pho_photo p
                         WHERE op.own_pho_own = " . $own_id .
-                " ORDER BY p.pho_order ASC";
+            " ORDER BY p.pho_order ASC";
         $results = $em->createQuery($query_string)->setMaxResults(1)->getResult();
         $ownership_photo = ($results != null && count($results) > 0) ? $results[0] : null;
         $photo = null;
@@ -1913,5 +1903,6 @@ class ownershipRepository extends EntityRepository {
         }
         $em->flush();
     }
+
 
 }

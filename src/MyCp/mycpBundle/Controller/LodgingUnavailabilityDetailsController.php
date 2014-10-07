@@ -46,7 +46,7 @@ class LodgingUnavailabilityDetailsController extends Controller
         return $this->render('mycpBundle:unavailabilityDetails:ud_as_event.json.twig', array("details"=>$unDet, "reservations"=> $reser, "detailCount"=>$unDetCounter, 'reservationCount' => $reservationCounter, 'now'=>$now));
     }
 
-    public function get_calendarAction()
+    public function get_calendarAction(Request $request)
     {
         $service_security = $this->get('Secure');
         //$service_security->verifyAccess();
