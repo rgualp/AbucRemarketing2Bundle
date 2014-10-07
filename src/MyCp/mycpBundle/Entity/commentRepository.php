@@ -3,7 +3,6 @@
 namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use MyCp\mycpBundle\Entity\ownership;
 use MyCp\mycpBundle\Entity\comment;
 
 
@@ -15,7 +14,7 @@ use MyCp\mycpBundle\Entity\comment;
  */
 class commentRepository extends EntityRepository
 {
-    function insert_comment($data, $user)
+    function insert($data, $user)
     {
          $em = $this->getEntityManager();
 
@@ -44,7 +43,7 @@ class commentRepository extends EntityRepository
          $em->flush();
     }
 
-    function get_comments($ownsership_id)
+    function getByOwnership($ownsership_id)
     {
         $em = $this->getEntityManager();
         $query_string = "SELECT c FROM mycpBundle:comment c
@@ -55,7 +54,7 @@ class commentRepository extends EntityRepository
         return $em->createQuery($query_string)->setParameter('ownership_id', $ownsership_id)->getResult();
     }
 
-    function get_all_comment($filter_ownership,$filter_user,$filter_keyword, $filter_rate,$sort_by)
+    function getAll($filter_ownership,$filter_user,$filter_keyword, $filter_rate,$sort_by)
     {
         $queryStr = "SELECT c,own,us FROM mycpBundle:comment c
         JOIN c.com_ownership own JOIN c.com_user us WHERE own.own_mcp_code LIKE :filter_ownership";
@@ -125,7 +124,7 @@ class commentRepository extends EntityRepository
         return $query->getResult();
     }
 
-    function can_comment($user, $own_id)
+    function canComment($user, $own_id)
     {
 
         if ($user != null && $user != "anon.")
@@ -142,7 +141,7 @@ class commentRepository extends EntityRepository
         return false;
     }
 
-    function get_user_comments($id_user)
+    function getByUser($id_user)
     {
         if($id_user != null)
         {

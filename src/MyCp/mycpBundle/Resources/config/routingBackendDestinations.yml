@@ -38,6 +38,10 @@ mycp_list_photos_destination:
     pattern:  /photos/{id_destination}/{items_per_page}
     defaults: { _controller: mycpBundle:BackendDestination:list_photos ,items_per_page: 10}
 
+mycp_list_ownerships_destination:
+    pattern:  /accommodations/{id_destination}/{items_per_page}
+    defaults: { _controller: mycpBundle:BackendDestination:listAccommodations ,items_per_page: 50}
+
 mycp_delete_photos_destination:
     pattern:  /delete_photo/{id_destination}/{id_photo}
     defaults: { _controller: mycpBundle:BackendDestination:delete_photo }

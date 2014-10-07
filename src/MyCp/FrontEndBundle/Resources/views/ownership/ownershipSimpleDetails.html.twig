@@ -28,6 +28,9 @@
                     {{rooms | length}} {%if rooms | length == 1%} {{"ROOM_SINGULAR" | trans}} {%else%} {{"ROOM_PLURAL" | trans}} {%endif%}.
                 {%endif%}
                 {{"FROM_PRICES" | trans}} {{ownership.ownminimumprice | price}} {{"NIGHT_PER_ROOM" | trans}}
+                {%if ownership.status_id != constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')%}
+                <label style="color: #bd362f"> ({{ownership.status_id | statusName | trans}})</label>
+                {%endif%}
             </h1>
             <!--label class="place">
     {{ownership.owntype | trans}}
@@ -45,7 +48,7 @@
         {%if gallery_photos | length%}
     <div class="tabbable">
         <ul class="nav nav-tabs">
-            
+
                 <li class="active li-tabs"><a data-toggle="tab" href="#tab-photos">{{"PHOTO_TAB_DETAILS" | trans}}</a></li>
          </ul>
         <div class="tab-content">
@@ -54,7 +57,7 @@
 
                     </div>
                 </div>
-           
+
         </div>
     </div>
     <br/>

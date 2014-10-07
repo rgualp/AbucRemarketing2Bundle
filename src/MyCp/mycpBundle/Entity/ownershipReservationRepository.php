@@ -261,7 +261,7 @@ class ownershipReservationRepository extends EntityRepository {
         return $query->getArrayResult();
     }
 
-    function get_for_main_menu($id_user) {
+    function getMainMenu($id_user) {
         $date_days = \date('Y-m-j');
         $date_days = strtotime('-60 hours', strtotime($date_days));
         $date_days = \date('Y-m-j', $date_days);

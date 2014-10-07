@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9bc1a7c2d110b7490e8b8d316c228dc7",
+    "hash": "405b1243725f4afd832d5eb70170880e",
     "packages": [
         {
             "name": "abuc/remarketing-bundle",
@@ -59,12 +59,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aschamberger/XmlSecurity.git",
-                "reference": "a59318d0e307f79b850e7280f03cb27a1113cdb4"
+                "reference": "f2435d6c394651784573db18b9b05050d594d9c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aschamberger/XmlSecurity/zipball/a59318d0e307f79b850e7280f03cb27a1113cdb4",
-                "reference": "a59318d0e307f79b850e7280f03cb27a1113cdb4",
+                "url": "https://api.github.com/repos/aschamberger/XmlSecurity/zipball/f2435d6c394651784573db18b9b05050d594d9c9",
+                "reference": "f2435d6c394651784573db18b9b05050d594d9c9",
                 "shasum": ""
             },
             "require": {
@@ -111,7 +111,7 @@
                 "signature",
                 "xml"
             ],
-            "time": "2014-04-03 21:37:04"
+            "time": "2014-08-08 19:04:27"
         },
         {
             "name": "avalanche123/imagine-bundle",
@@ -188,30 +188,33 @@
         },
         {
             "name": "besimple/i18n-routing-bundle",
-            "version": "dev-master",
+            "version": "v2.3.0",
             "target-dir": "BeSimple/I18nRoutingBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BeSimple/BeSimpleI18nRoutingBundle.git",
-                "reference": "79c413109069b76da0f0b0d26e6df7ec96e26ab4"
+                "reference": "36bc5704e462dc9680b13b83511eed128fb94a50"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BeSimple/BeSimpleI18nRoutingBundle/zipball/79c413109069b76da0f0b0d26e6df7ec96e26ab4",
-                "reference": "79c413109069b76da0f0b0d26e6df7ec96e26ab4",
+                "url": "https://api.github.com/repos/BeSimple/BeSimpleI18nRoutingBundle/zipball/36bc5704e462dc9680b13b83511eed128fb94a50",
+                "reference": "36bc5704e462dc9680b13b83511eed128fb94a50",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2",
                 "symfony/framework-bundle": "~2.2"
             },
+            "require-dev": {
+                "doctrine/dbal": "~2.0"
+            },
             "suggest": {
-                "doctrine/dbal": ">=2.0"
+                "doctrine/dbal": "~2.0"
             },
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.3-dev"
                 }
             },
             "autoload": {
@@ -233,13 +236,12 @@
                     "email": "stof@notk.org"
                 },
                 {
-                    "name": "Francis Besset",
-                    "email": "francis.besset@gmail.com",
-                    "homepage": "http://www.apercite.fr"
-                },
-                {
                     "name": "BeSimple Community",
                     "homepage": "https://github.com/BeSimple/BeSimpleI18nRoutingBundle/contributors"
+                },
+                {
+                    "name": "Francis Besset",
+                    "email": "francis.besset@gmail.com"
                 }
             ],
             "description": "Full routing internationalized on your Symfony2 project ",
@@ -250,21 +252,21 @@
                 "internationalisation",
                 "routing"
             ],
-            "time": "2014-02-04 07:40:01"
+            "time": "2014-08-20 07:55:47"
         },
         {
             "name": "besimple/soap-bundle",
-            "version": "dev-master",
+            "version": "v0.2.5",
             "target-dir": "BeSimple/SoapBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BeSimple/BeSimpleSoapBundle.git",
-                "reference": "067abf65bf6d163db5ce541861f2fad4e773bad9"
+                "reference": "af19f56ce7a684639a2d308101d4ee8a78c00433"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BeSimple/BeSimpleSoapBundle/zipball/067abf65bf6d163db5ce541861f2fad4e773bad9",
-                "reference": "067abf65bf6d163db5ce541861f2fad4e773bad9",
+                "url": "https://api.github.com/repos/BeSimple/BeSimpleSoapBundle/zipball/af19f56ce7a684639a2d308101d4ee8a78c00433",
+                "reference": "af19f56ce7a684639a2d308101d4ee8a78c00433",
                 "shasum": ""
             },
             "require": {
@@ -298,17 +300,16 @@
             ],
             "authors": [
                 {
-                    "name": "Francis Besset",
-                    "email": "francis.besset@gmail.com",
-                    "homepage": "http://www.apercite.fr"
-                },
-                {
                     "name": "Andreas Schamberger",
                     "email": "mail@andreass.net"
                 },
                 {
                     "name": "Christian Kerl",
                     "email": "christian-kerl@web.de"
+                },
+                {
+                    "name": "Francis Besset",
+                    "email": "francis.besset@gmail.com"
                 }
             ],
             "description": "Build and consume SOAP and WSDL based web services with Symfony2",
@@ -317,21 +318,21 @@
                 "soap",
                 "soap-bundle"
             ],
-            "time": "2014-04-30 08:54:07"
+            "time": "2014-08-18 11:54:19"
         },
         {
             "name": "besimple/soap-common",
-            "version": "dev-master",
+            "version": "v0.2.5",
             "target-dir": "BeSimple/SoapCommon",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BeSimple/BeSimpleSoapCommon.git",
-                "reference": "274f9bbb55222f799241be89d03a5536bda43c4e"
+                "reference": "08aa78c7f1cae4b23cce5e8928dca7243ca4e4fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BeSimple/BeSimpleSoapCommon/zipball/274f9bbb55222f799241be89d03a5536bda43c4e",
-                "reference": "274f9bbb55222f799241be89d03a5536bda43c4e",
+                "url": "https://api.github.com/repos/BeSimple/BeSimpleSoapCommon/zipball/08aa78c7f1cae4b23cce5e8928dca7243ca4e4fa",
+                "reference": "08aa78c7f1cae4b23cce5e8928dca7243ca4e4fa",
                 "shasum": ""
             },
             "require": {
@@ -341,7 +342,7 @@
             },
             "require-dev": {
                 "ext-mcrypt": "*",
-                "mikey179/vfsstream": "dev-master"
+                "mikey179/vfsstream": "~1.0"
             },
             "type": "library",
             "extra": {
@@ -360,17 +361,16 @@
             ],
             "authors": [
                 {
-                    "name": "Francis Besset",
-                    "email": "francis.besset@gmail.com",
-                    "homepage": "http://www.apercite.fr"
-                },
-                {
                     "name": "Andreas Schamberger",
                     "email": "mail@andreass.net"
                 },
                 {
                     "name": "Christian Kerl",
                     "email": "christian-kerl@web.de"
+                },
+                {
+                    "name": "Francis Besset",
+                    "email": "francis.besset@gmail.com"
                 }
             ],
             "description": "Build and consume SOAP Common based web services",
@@ -379,21 +379,21 @@
                 "soap",
                 "soap-common"
             ],
-            "time": "2013-12-07 23:23:30"
+            "time": "2014-08-14 19:40:13"
         },
         {
             "name": "besimple/soap-server",
-            "version": "dev-master",
+            "version": "v0.2.5",
             "target-dir": "BeSimple/SoapServer",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BeSimple/BeSimpleSoapServer.git",
-                "reference": "75d4df7921b35774eeea07475b3ef5f771522a31"
+                "reference": "d7ecddb258ba940e89d016fb0f28513c9ff39b48"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BeSimple/BeSimpleSoapServer/zipball/75d4df7921b35774eeea07475b3ef5f771522a31",
-                "reference": "75d4df7921b35774eeea07475b3ef5f771522a31",
+                "url": "https://api.github.com/repos/BeSimple/BeSimpleSoapServer/zipball/d7ecddb258ba940e89d016fb0f28513c9ff39b48",
+                "reference": "d7ecddb258ba940e89d016fb0f28513c9ff39b48",
                 "shasum": ""
             },
             "require": {
@@ -419,17 +419,16 @@
             ],
             "authors": [
                 {
-                    "name": "Francis Besset",
-                    "email": "francis.besset@gmail.com",
-                    "homepage": "http://www.apercite.fr"
-                },
-                {
                     "name": "Andreas Schamberger",
                     "email": "mail@andreass.net"
                 },
                 {
                     "name": "Christian Kerl",
                     "email": "christian-kerl@web.de"
+                },
+                {
+                    "name": "Francis Besset",
+                    "email": "francis.besset@gmail.com"
                 }
             ],
             "description": "Build and consume SOAP Server based web services",
@@ -438,21 +437,21 @@
                 "soap",
                 "soap-server"
             ],
-            "time": "2013-12-02 15:02:29"
+            "time": "2014-08-14 19:40:13"
         },
         {
             "name": "besimple/soap-wsdl",
-            "version": "v0.2.3",
+            "version": "v0.2.5",
             "target-dir": "BeSimple/SoapWsdl",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BeSimple/BeSimpleSoapWsdl.git",
-                "reference": "8a964e2c38a2afaa7bcb6c2be58d85b229c453f2"
+                "reference": "8c1063fecc329066d90d0577347d9523afe65791"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BeSimple/BeSimpleSoapWsdl/zipball/8a964e2c38a2afaa7bcb6c2be58d85b229c453f2",
-                "reference": "8a964e2c38a2afaa7bcb6c2be58d85b229c453f2",
+                "url": "https://api.github.com/repos/BeSimple/BeSimpleSoapWsdl/zipball/8c1063fecc329066d90d0577347d9523afe65791",
+                "reference": "8c1063fecc329066d90d0577347d9523afe65791",
                 "shasum": ""
             },
             "require": {
@@ -475,13 +474,12 @@
             ],
             "authors": [
                 {
-                    "name": "Francis Besset",
-                    "email": "francis.besset@gmail.com",
-                    "homepage": "http://www.apercite.fr"
-                },
-                {
                     "name": "Christian Kerl",
                     "email": "christian-kerl@web.de"
+                },
+                {
+                    "name": "Francis Besset",
+                    "email": "francis.besset@gmail.com"
                 }
             ],
             "description": "Build and consume SOAP Common based web services",
@@ -490,7 +488,7 @@
                 "soap",
                 "soap-wsdl"
             ],
-            "time": "2013-12-10 14:25:09"
+            "time": "2014-08-14 11:39:12"
         },
         {
             "name": "doctrine/annotations",
@@ -930,12 +928,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineMigrationsBundle.git",
-                "reference": "f7138381aa884c0f679da4de41e369b94ead9cd3"
+                "reference": "81575a4316951125ce408c70f30547c77d98f78a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineMigrationsBundle/zipball/f7138381aa884c0f679da4de41e369b94ead9cd3",
-                "reference": "f7138381aa884c0f679da4de41e369b94ead9cd3",
+                "url": "https://api.github.com/repos/doctrine/DoctrineMigrationsBundle/zipball/81575a4316951125ce408c70f30547c77d98f78a",
+                "reference": "81575a4316951125ce408c70f30547c77d98f78a",
                 "shasum": ""
             },
             "require": {
@@ -961,18 +959,16 @@
             ],
             "authors": [
                 {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
-                },
-                {
                     "name": "Symfony Community",
                     "homepage": "http://symfony.com/contributors"
                 },
                 {
                     "name": "Doctrine Project",
                     "homepage": "http://www.doctrine-project.org"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
                 }
             ],
             "description": "Symfony DoctrineMigrationsBundle",
@@ -982,7 +978,7 @@
                 "migrations",
                 "schema"
             ],
-            "time": "2014-03-20 14:48:55"
+            "time": "2014-08-17 07:53:47"
         },
         {
             "name": "doctrine/inflector",
@@ -1106,12 +1102,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/migrations.git",
-                "reference": "4256449c5e2603a6b6ee5a78c7c4521d4d4430b8"
+                "reference": "1a9dffa64e33fdc10f4b4c3f5d7230b74d4a1021"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/4256449c5e2603a6b6ee5a78c7c4521d4d4430b8",
-                "reference": "4256449c5e2603a6b6ee5a78c7c4521d4d4430b8",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/1a9dffa64e33fdc10f4b4c3f5d7230b74d4a1021",
+                "reference": "1a9dffa64e33fdc10f4b4c3f5d7230b74d4a1021",
                 "shasum": ""
             },
             "require": {
@@ -1142,14 +1138,12 @@
             ],
             "authors": [
                 {
-                    "name": "Jonathan Wage",
-                    "email": "jonwage@gmail.com",
-                    "homepage": "http://www.jwage.com/",
-                    "role": "Creator"
-                },
-                {
                     "name": "Benjamin Eberlei",
                     "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com"
                 }
             ],
             "description": "Database Schema migrations using Doctrine DBAL",
@@ -1158,7 +1152,7 @@
                 "database",
                 "migrations"
             ],
-            "time": "2014-07-09 07:58:02"
+            "time": "2014-08-18 18:03:07"
         },
         {
             "name": "doctrine/orm",
@@ -1859,22 +1853,77 @@
             "time": "2014-04-26 15:49:46"
         },
         {
+            "name": "leaseweb/memcache-bundle",
+            "version": "v1.2.15",
+            "target-dir": "Lsw/MemcacheBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/LeaseWeb/LswMemcacheBundle.git",
+                "reference": "147e968232dc5d02bb77198686e2d7b39bdeeea1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/LeaseWeb/LswMemcacheBundle/zipball/147e968232dc5d02bb77198686e2d7b39bdeeea1",
+                "reference": "147e968232dc5d02bb77198686e2d7b39bdeeea1",
+                "shasum": ""
+            },
+            "require": {
+                "ext-memcached": ">=1.0",
+                "php": ">=5.3.2",
+                "symfony/framework-bundle": ">=2.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Lsw\\MemcacheBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Maurits van der Schee",
+                    "email": "m.vanderschee@leaseweb.com"
+                }
+            ],
+            "description": "Memcache Doctrine caching and session storage in the Web Debug Toolbar",
+            "homepage": "http://www.leaseweblabs.com",
+            "keywords": [
+                "cache",
+                "memcache",
+                "memcached",
+                "session"
+            ],
+            "time": "2014-09-09 14:59:09"
+        },
+        {
             "name": "leezy/pheanstalk-bundle",
-            "version": "2.3.0",
+            "version": "2.4.1",
             "target-dir": "Leezy/PheanstalkBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/armetiz/LeezyPheanstalkBundle.git",
-                "reference": "55936ac94e33d361f2303c826b22cc8520e9b148"
+                "reference": "b1b1aa4f0bc7f2b3fad0d98b55a7f58f5f0ee424"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/armetiz/LeezyPheanstalkBundle/zipball/55936ac94e33d361f2303c826b22cc8520e9b148",
-                "reference": "55936ac94e33d361f2303c826b22cc8520e9b148",
+                "url": "https://api.github.com/repos/armetiz/LeezyPheanstalkBundle/zipball/b1b1aa4f0bc7f2b3fad0d98b55a7f58f5f0ee424",
+                "reference": "b1b1aa4f0bc7f2b3fad0d98b55a7f58f5f0ee424",
                 "shasum": ""
             },
             "require": {
                 "pda/pheanstalk": ">=2.1.0,<3.0-dev",
+                "symfony/console": "~2.0",
                 "symfony/framework-bundle": ">=2.0",
                 "symfony/monolog-bridge": ">=2.0"
             },
@@ -1911,7 +1960,7 @@
                 "queueing",
                 "symfony"
             ],
-            "time": "2014-05-09 08:40:04"
+            "time": "2014-08-22 12:32:21"
         },
         {
             "name": "monolog/monolog",
@@ -2146,17 +2195,17 @@
         },
         {
             "name": "sensio/distribution-bundle",
-            "version": "v3.0.4",
+            "version": "v3.0.5",
             "target-dir": "Sensio/Bundle/DistributionBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioDistributionBundle.git",
-                "reference": "df82b1ee2b833be97677c0b95fca27e68fd4a344"
+                "reference": "ad10123f2532f6e311e583cce203ef368eedc469"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/df82b1ee2b833be97677c0b95fca27e68fd4a344",
-                "reference": "df82b1ee2b833be97677c0b95fca27e68fd4a344",
+                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/ad10123f2532f6e311e583cce203ef368eedc469",
+                "reference": "ad10123f2532f6e311e583cce203ef368eedc469",
                 "shasum": ""
             },
             "require": {
@@ -2195,26 +2244,26 @@
                 "configuration",
                 "distribution"
             ],
-            "time": "2014-08-06 09:24:35"
+            "time": "2014-08-26 13:14:47"
         },
         {
             "name": "sensio/framework-extra-bundle",
-            "version": "v3.0.1",
+            "version": "v3.0.2",
             "target-dir": "Sensio/Bundle/FrameworkExtraBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioFrameworkExtraBundle.git",
-                "reference": "dbc1e5aa830f3bf8063b29102add3c1e476d616e"
+                "reference": "9b22aaee517e80aad3238ea0328458b6f964066f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/dbc1e5aa830f3bf8063b29102add3c1e476d616e",
-                "reference": "dbc1e5aa830f3bf8063b29102add3c1e476d616e",
+                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/9b22aaee517e80aad3238ea0328458b6f964066f",
+                "reference": "9b22aaee517e80aad3238ea0328458b6f964066f",
                 "shasum": ""
             },
             "require": {
                 "doctrine/common": "~2.2",
-                "symfony/framework-bundle": "~2.5"
+                "symfony/framework-bundle": "~2.3"
             },
             "require-dev": {
                 "symfony/expression-language": "~2.4",
@@ -2242,9 +2291,7 @@
             "authors": [
                 {
                     "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
+                    "email": "fabien@symfony.com"
                 }
             ],
             "description": "This bundle provides a way to configure your controllers with annotations",
@@ -2252,7 +2299,7 @@
                 "annotations",
                 "controllers"
             ],
-            "time": "2014-05-22 23:27:44"
+            "time": "2014-09-02 07:11:30"
         },
         {
             "name": "sensio/generator-bundle",
@@ -2633,16 +2680,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v2.5.3",
+            "version": "v2.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "f077a238c781f845487a7c81fea8033ccd0e6a02"
+                "reference": "3a369dddea56596df91977d8c2083e70784852f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/f077a238c781f845487a7c81fea8033ccd0e6a02",
-                "reference": "f077a238c781f845487a7c81fea8033ccd0e6a02",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/3a369dddea56596df91977d8c2083e70784852f2",
+                "reference": "3a369dddea56596df91977d8c2083e70784852f2",
                 "shasum": ""
             },
             "require": {
@@ -2700,7 +2747,7 @@
                 "doctrine/data-fixtures": "1.0.*",
                 "doctrine/dbal": "~2.2",
                 "doctrine/orm": "~2.2,>=2.2.3",
-                "egulias/email-validator": "1.1.0",
+                "egulias/email-validator": "~1.2",
                 "ircmaxell/password-compat": "1.0.*",
                 "monolog/monolog": "~1.3",
                 "ocramius/proxy-manager": ">=0.3.1,<0.6-dev",
@@ -2743,7 +2790,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2014-08-06 07:03:01"
+            "time": "2014-09-03 09:51:48"
         },
         {
             "name": "twig/extensions",
@@ -2949,11 +2996,7 @@
         "doctrine/doctrine-migrations-bundle": 20,
         "beberlei/doctrineextensions": 20,
         "ideup/simple-paginator-bundle": 20,
-        "besimple/soap-bundle": 20,
-        "besimple/soap-common": 20,
         "ass/xmlsecurity": 20,
-        "besimple/soap-server": 20,
-        "besimple/i18n-routing-bundle": 20,
         "dompdf/dompdf": 20,
         "abuc/remarketing-bundle": 20
     },

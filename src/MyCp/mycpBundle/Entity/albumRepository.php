@@ -5,9 +5,6 @@ namespace MyCp\mycpBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 use MyCp\mycpBundle\Entity\album;
 use MyCp\mycpBundle\Entity\albumLang;
-use MyCp\mycpBundle\Entity\lang;
-use MyCp\mycpBundle\Entity\albumCategory;
-
 
 /**
  * albumRepository
@@ -17,7 +14,7 @@ use MyCp\mycpBundle\Entity\albumCategory;
  */
 class albumRepository extends EntityRepository
 {
-    function insert_album($data)
+    function insert($data)
     {
         $name='';
         $keys=array_keys($data);
@@ -60,7 +57,7 @@ class albumRepository extends EntityRepository
         $em->flush();
     }
 
-    function edit_album($data)
+    function edit($data)
     {
         $name='';
         $keys=array_keys($data);
@@ -107,14 +104,7 @@ class albumRepository extends EntityRepository
         $em->flush();
     }
 
-    function delete_destination($id_destination)
-    {
-        $em = $this->getEntityManager();
-        $query = $em->createQuery("DELETE mycpBundle:destinationlang des WHERE des.des_lang_des_id=$id_destination");
-        return $query->getArrayResult();
-    }
-
-    function get_all_albums($filter_name, $filter_active,$filter_category)
+    function getAll($filter_name, $filter_active,$filter_category)
     {
         $string='';
         if($filter_active!='null' && $filter_active!='')

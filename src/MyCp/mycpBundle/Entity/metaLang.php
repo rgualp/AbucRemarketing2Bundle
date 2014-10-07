@@ -43,9 +43,15 @@ class metaLang
     private $meta_lang_lang;
 
     /**
+     * @ORM\ManyToOne(targetEntity="metaTag",inversedBy="meta_langs")
+     * @ORM\JoinColumn(name="meta_tag",referencedColumnName="meta_id", nullable=true)
+     */
+    private $meta_tag;
+
+    /**
      * Get meta_lang_id
      *
-     * @return integer 
+     * @return integer
      */
     public function getMetaLangId()
     {
@@ -68,11 +74,34 @@ class metaLang
     /**
      * Get meta_lang_description
      *
-     * @return string 
+     * @return string
      */
     public function getMetaLangDescription()
     {
         return $this->meta_lang_description;
+    }
+
+    /**
+     * Set meta_tag
+     *
+     * @param metaTag $metaTag
+     * @return metaLang
+     */
+    public function setMetaTag($metaTag)
+    {
+        $this->meta_tag = $metaTag;
+
+        return $this;
+    }
+
+    /**
+     * Get meta_tag
+     *
+     * @return metaTag
+     */
+    public function getMetaTag()
+    {
+        return $this->meta_tag;
     }
 
     /**
@@ -91,7 +120,7 @@ class metaLang
     /**
      * Get meta_lang_keywords
      *
-     * @return string 
+     * @return string
      */
     public function getMetaLangKeywords()
     {
@@ -114,7 +143,7 @@ class metaLang
     /**
      * Get meta_lang_lang
      *
-     * @return \MyCp\mycpBundle\Entity\lang 
+     * @return \MyCp\mycpBundle\Entity\lang
      */
     public function getMetaLangLang()
     {

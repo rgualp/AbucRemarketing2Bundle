@@ -1,0 +1,23 @@
+mycp_list_municipality:
+    pattern:  /list/{items_per_page}
+    defaults: { _controller: mycpBundle:BackendMunicipality:list ,items_per_page: 20}
+
+mycp_new_municipality:
+    pattern:  /new
+    defaults: { _controller: mycpBundle:BackendMunicipality:new}
+
+mycp_edit_municipality:
+    pattern:  /edit/{id_municipality}
+    defaults: { _controller: mycpBundle:BackendMunicipality:edit}
+
+mycp_delete_municipality:
+    pattern:  /delete/{id_municipality}
+    defaults: { _controller: mycpBundle:BackendMunicipality:delete}
+
+mycp_list_ownerships_municipality:
+    pattern:  /list/accommodations/{id_municipality}/{items_per_page}
+    defaults: { _controller: mycpBundle:BackendMunicipality:list_accommodations ,items_per_page: 20}
+    
+mycp_list_destinations_municipality:
+    pattern:  /list/destinations/{id_municipality}/{items_per_page}
+    defaults: { _controller: mycpBundle:BackendMunicipality:list_destinations ,items_per_page: 20}

@@ -7,6 +7,7 @@ use MyCp\mycpBundle\Entity\destination;
 use MyCp\mycpBundle\Entity\destinationLang;
 use MyCp\mycpBundle\Entity\destinationLocation;
 use MyCp\FrontEndBundle\Helpers\Utils;
+use MyCp\mycpBundle\Entity\ownershipStatus;
 
 /**
  * destinationRepository
@@ -16,7 +17,7 @@ use MyCp\FrontEndBundle\Helpers\Utils;
  */
 class destinationRepository extends EntityRepository {
 
-    function insert_destination($data) {
+    function insert($data) {
         //var_dump($data);
         $active = 0;
         if (isset($data['public']))
@@ -93,7 +94,7 @@ class destinationRepository extends EntityRepository {
         $em->flush();
     }
 
-    function edit_destination($data) {
+    function edit($data) {
         $id_destination = $data['edit_destination'];
         $active = 0;
         if (isset($data['public']))
@@ -165,13 +166,7 @@ class destinationRepository extends EntityRepository {
         //exit();
     }
 
-    function delete_destination($id_destination) {
-        $em = $this->getEntityManager();
-        $query = $em->createQuery("DELETE mycpBundle:destinationlang des WHERE des.des_lang_des_id= :id_destination");
-        return $query->setParameter('id_destination', $id_destination)->getArrayResult();
-    }
-
-    function get_all_destinations($filter_name, $filter_active, $filter_province, $filter_municipality, $sort_by) {
+    function getAll($filter_name="", $filter_active="", $filter_province="", $filter_municipality="", $sort_by=0) {
         $string = '';
         if ($filter_active != 'null' && $filter_active != '') {
             $string = "AND des.des_active = :filter_active";
@@ -211,8 +206,13 @@ class destinationRepository extends EntityRepository {
 
         $em = $this->getEntityManager();
 
-        $query = $em->createQuery("SELECT dl,des FROM mycpBundle:destinationLocation dl
+        $query = $em->createQuery("SELECT des.des_id,des.des_name,prov.prov_name, mun.mun_name, des.des_active,
+        (SELECT count(photo) FROM mycpBundle:destinationPhoto photo WHERE photo.des_pho_destination = des.des_id) as photo_count,
+        (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_destination = des.des_id) as owns_count
+        FROM mycpBundle:destinationLocation dl
         JOIN dl.des_loc_destination des
+        JOIN dl.des_loc_province prov
+        JOIN dl.des_loc_municipality mun
         WHERE des.des_name LIKE :filter_name $string $string2 $string3 $string4
         ");
 
@@ -230,6 +230,13 @@ class destinationRepository extends EntityRepository {
         return $query->getResult();
     }
 
+    function getAccommodations($id_destination) {
+        $em = $this->getEntityManager();
+
+        return $em->createQuery("SELECT o FROM mycpBundle:ownership o WHERE o.own_destination = $id_destination ORDER BY o.own_mcp_code ASC")
+                    ->getResult();
+    }
+
 //-----------------------------------------------------------------------------
 
     /**
@@ -240,33 +247,19 @@ class destinationRepository extends EntityRepository {
      */
     public function getAllDestinations($locale, $user_id, $session_id, $results_total = null) {
         $em = $this->getEntityManager();
-        /* $query_string = "SELECT d, dl, dm, dp FROM mycpBundle:destination d
-          LEFT JOIN d.destinationsLang dl
-          JOIN d.destinationsMunicipality dm
-          LEFT JOIN d.destinationsPhoto dp
-          WHERE d.des_active = 1
-          ORDER BY d.des_order";
-
-          return $em->createQuery($query_string)->getResult(); */
         $query_string = "SELECT d,
-                         (SELECT dl.des_lang_brief from mycpBundle:destinationLang dl
-                          JOIN dl.des_lang_lang l WHERE dl.des_lang_destination = d.des_id AND l.lang_code = '$locale'),
-                          (SELECT MIN(pho.pho_name) FROM mycpBundle:destinationPhoto dp
+                        (SELECT dl.des_lang_brief from mycpBundle:destinationLang dl
+                        JOIN dl.des_lang_lang l WHERE dl.des_lang_destination = d.des_id AND l.lang_code = '$locale'),
+                        (SELECT MIN(pho.pho_name) FROM mycpBundle:destinationPhoto dp
                            JOIN dp.des_pho_photo pho
                            WHERE dp.des_pho_destination = d.des_id AND (pho.pho_order =
                            (SELECT MIN(pho2.pho_order) FROM mycpBundle:destinationPhoto dp2
                            JOIN dp2.des_pho_photo pho2 WHERE dp2.des_pho_destination = dp.des_pho_destination ) or pho.pho_order is null)) as photo,
-                           (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = 1 AND o.own_address_municipality = (SELECT min(mun.mun_id) FROM mycpBundle:destinationLocation loc JOIN loc.des_loc_municipality mun WHERE loc.des_loc_destination = d.des_id)
-                         AND o.own_address_province = (SELECT min(prov.prov_id) FROM mycpBundle:destinationLocation loc1 JOIN loc1.des_loc_province prov WHERE loc1.des_loc_destination = d.des_id)
-                         AND (SELECT count(r1) FROM mycpBundle:room r1 WHERE r1.room_ownership = o.own_id) <> 0) as count_ownership,
-                           (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_destination=d.des_id) as is_in_favorites
+                        (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE." AND o.own_destination = d.des_id AND (SELECT count(r1) FROM mycpBundle:room r1 WHERE r1.room_ownership = o.own_id) <> 0) as count_ownership,
+                        (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_destination=d.des_id) as is_in_favorites
                          FROM mycpBundle:destination d
                          WHERE d.des_active <> 0
                          ORDER BY d.des_order ASC";
-
-        /* $query = $em->createQuery($query_string);
-          var_dump(count($query->getResult()));
-          exit(); */
 
         $results = ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult();
 
@@ -277,26 +270,16 @@ class destinationRepository extends EntityRepository {
                 $results[$i]['photo'] = "no_photo.png";
             }
         }
-        /* var_dump($results[0]['photo']);
-          exit(); */
         return $results;
     }
-
-    /**
-     * Yanet - Inicio
-     */
 
     /**
      * Returns a set of destinations order by popularity
      * @param int $results_total Length of the return set
      * @return array
      */
-    function get_popular_destination($results_total = null, $user_id = null, $session_id = null, $locale = 'ES') {
+    function getPopularDestinations($results_total = null, $user_id = null, $session_id = null, $locale = 'ES') {
         $em = $this->getEntityManager();
-        /* $query_string = "SELECT d FROM mycpBundle:destination d
-          WHERE d.des_active <> 0
-          ORDER BY d.des_order ASC";
-          return ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult(); */
         $query_string = "SELECT d.des_id as des_id,
                           d.des_name as des_name,
                           (SELECT dl.des_lang_brief from mycpBundle:destinationLang dl
@@ -309,10 +292,8 @@ class destinationRepository extends EntityRepository {
                          (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_destination=d.des_id) as is_in_favorites,
                          (SELECT min(mun1.mun_name) FROM mycpBundle:destinationLocation loc2 JOIN loc2.des_loc_municipality mun1 WHERE loc2.des_loc_destination = d.des_id ) as municipality_name,
                          (SELECT min(prov1.prov_name) FROM mycpBundle:destinationLocation loc3 JOIN loc3.des_loc_province prov1 WHERE loc3.des_loc_destination = d.des_id ) as province_name,
-                         (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = 1 AND o.own_address_municipality = (SELECT min(mun.mun_id) FROM mycpBundle:destinationLocation loc JOIN loc.des_loc_municipality mun WHERE loc.des_loc_destination = d.des_id)
-                         AND o.own_address_province = (SELECT min(prov.prov_id) FROM mycpBundle:destinationLocation loc1 JOIN loc1.des_loc_province prov WHERE loc1.des_loc_destination = d.des_id)) as count_ownership,
-                         (SELECT MIN(o1.own_minimum_price) FROM mycpBundle:ownership o1 WHERE o1.own_status = 1 AND o1.own_address_municipality = (SELECT min(mun2.mun_id) FROM mycpBundle:destinationLocation loc4 JOIN loc4.des_loc_municipality mun2 WHERE loc4.des_loc_destination = d.des_id)
-                         AND o1.own_address_province = (SELECT min(prov2.prov_id) FROM mycpBundle:destinationLocation loc5 JOIN loc5.des_loc_province prov2 WHERE loc5.des_loc_destination = d.des_id)) as min_price
+                         (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE." AND o.own_destination = d.des_id) as count_ownership,
+                         (SELECT MIN(o1.own_minimum_price) FROM mycpBundle:ownership o1 WHERE o1.own_status = ".ownershipStatus::STATUS_ACTIVE." AND o1.own_destination = d.des_id) as min_price
                          FROM mycpBundle:destination d
                          WHERE d.des_active <> 0
                          ORDER BY d.des_order ASC";
@@ -326,12 +307,10 @@ class destinationRepository extends EntityRepository {
                 $results[$i]['photo'] = "no_photo.png";
             }
         }
-        /* var_dump($results[0]['photo']);
-          exit(); */
         return $results;
     }
 
-    public function get_destination($destination_id, $locale) {
+    public function getDestination($destination_id, $locale) {
         $em = $this->getEntityManager();
 
         $query_string = "SELECT d,
@@ -349,6 +328,7 @@ class destinationRepository extends EntityRepository {
                          (SELECT min(prov1.prov_name) FROM mycpBundle:destinationLocation loc3 JOIN loc3.des_loc_province prov1 WHERE loc3.des_loc_destination = d.des_id ) as province_name
                          FROM mycpBundle:destination d
                          WHERE d.des_id = $destination_id
+                           AND d.des_active <> 0
                          ORDER BY d.des_order ASC";
 
         return $em->createQuery($query_string)->getOneOrNullResult();
@@ -360,7 +340,7 @@ class destinationRepository extends EntityRepository {
      * @param string $lang_code
      * @return array
      */
-    function get_destination_description($destination_array, $lang_code) {
+    function getDescription($destination_array, $lang_code) {
         if (is_array($destination_array)) {
             $descriptions_array = array();
             $em = $this->getEntityManager();
@@ -385,7 +365,7 @@ class destinationRepository extends EntityRepository {
      * @param array $destination_array
      * @return array
      */
-    function get_destination_photos($destination_array) {
+    function getAllPhotos($destination_array) {
         if (is_array($destination_array)) {
             $photos_array = array();
             $em = $this->getEntityManager();
@@ -416,7 +396,7 @@ class destinationRepository extends EntityRepository {
      * @param array $destination_array
      * @return array
      */
-    function get_destination_location($destination_array) {
+    function getLocation($destination_array) {
         if (is_array($destination_array)) {
             $location_array = array();
             $em = $this->getEntityManager();
@@ -437,7 +417,7 @@ class destinationRepository extends EntityRepository {
         }
     }
 
-    function get_destination_location_entity($destination_array) {
+    /*function get_destination_location_entity($destination_array) {
         if (is_array($destination_array)) {
             $location_array = array();
             $em = $this->getEntityManager();
@@ -449,9 +429,9 @@ class destinationRepository extends EntityRepository {
             }
             return $location_array;
         }
-    }
+    }*/
 
-    function get_destination_by_location($province, $municipality = null) {
+    function getByLocation($province, $municipality = null) {
         $em = $this->getEntityManager();
         $query_string = "SELECT l FROM mycpBundle:destinationLocation l
                          JOIN l.des_loc_destination d
@@ -465,7 +445,25 @@ class destinationRepository extends EntityRepository {
         return $em->createQuery($query_string)->getResult();
     }
 
-    function destination_filter($locale, $municipality_id = null, $province_id = null, $exclude_destination_id = null, $exclude_municipality = null, $max_result_set = null, $user_id = null, $session_id = null) {
+    function getByMunicipality($municipality = null) {
+        $em = $this->getEntityManager();
+        
+        $query_string = "SELECT d.des_id as desId, 
+                         d.des_name as desName, 
+                         (select count(s) FROM mycpBundle:season s WHERE s.season_destination = d.des_id) as hasSeason
+                         FROM mycpBundle:destinationLocation l
+                         JOIN l.des_loc_destination d
+                         WHERE d.des_active = 1";
+        
+        if($municipality != null && $municipality != "")
+            $query_string .= "AND l.des_loc_municipality = " . $municipality;
+
+        $query_string.= " ORDER BY d.des_order";
+
+        return $em->createQuery($query_string)->getResult();
+    }
+
+    function filter($locale, $municipality_id = null, $province_id = null, $exclude_destination_id = null, $exclude_municipality = null, $max_result_set = null, $user_id = null, $session_id = null) {
         $em = $this->getEntityManager();
         $query_string = "SELECT DISTINCT d.des_id as desid,
                          d.des_poblation as desPoblation,
@@ -476,7 +474,7 @@ class destinationRepository extends EntityRepository {
                         WHERE dp.des_pho_destination = d.des_id AND (pho.pho_order =
                         (SELECT MIN(pho2.pho_order) FROM mycpBundle:destinationPhoto dp2
                         JOIN dp2.des_pho_photo pho2 WHERE dp2.des_pho_destination = dp.des_pho_destination ) or pho.pho_order is null)) as photo,
-                         (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = 1 AND o.own_address_municipality = (SELECT min(mun.mun_id) FROM mycpBundle:destinationLocation loc JOIN loc.des_loc_municipality mun WHERE loc.des_loc_destination = d.des_id)
+                         (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE." AND o.own_address_municipality = (SELECT min(mun.mun_id) FROM mycpBundle:destinationLocation loc JOIN loc.des_loc_municipality mun WHERE loc.des_loc_destination = d.des_id)
                          AND o.own_address_province = (SELECT min(prov.prov_id) FROM mycpBundle:destinationLocation loc1 JOIN loc1.des_loc_province prov WHERE loc1.des_loc_destination = d.des_id)) as count_ownership,
                          (SELECT dl.des_lang_brief from mycpBundle:destinationLang dl
                           JOIN dl.des_lang_lang l WHERE dl.des_lang_destination = d.des_id AND l.lang_code = '$locale') as description,
@@ -512,8 +510,8 @@ class destinationRepository extends EntityRepository {
         return $results;
     }
 
-    function ownsership_nearby_destination($municipality_id = null, $province_id = null, $max_result_set = null, $exclude_own_id = null, $user_id = null, $session_id = null) {
-        if ($municipality_id != null || $province_id != null) {
+    function getAccommodationsNear($destination_id, $max_result_set = null, $exclude_own_id = null, $user_id = null, $session_id = null) {
+
             $em = $this->getEntityManager();
             $query_string = "SELECT DISTINCT o.own_id,
                              o.own_name,
@@ -535,13 +533,10 @@ class destinationRepository extends EntityRepository {
                              JOIN r1.room_ownership o
                              JOIN o.own_address_province prov
                              JOIN o.own_address_municipality mun
-                             WHERE o.own_status = 1";
+                             WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE;
 
-            if ($municipality_id != null && $municipality_id != -1 && $municipality_id != '')
-                $query_string = $query_string . " AND o.own_address_municipality =$municipality_id";
-
-            if ($province_id != null && $province_id != -1 && $province_id != '')
-                $query_string = $query_string . " AND o.own_address_province =$province_id";
+            if ($destination_id != null && $destination_id != -1 && $destination_id != '')
+                $query_string = $query_string . " AND o.own_destination =$destination_id";
 
             if ($exclude_own_id != null && $exclude_own_id != "")
                 $query_string = $query_string . " AND o.own_id <>$exclude_own_id";
@@ -557,13 +552,12 @@ class destinationRepository extends EntityRepository {
                 }
             }
             return $results;
-        }
-        return null;
     }
 
-    function recommendable_accommodations($price = null, $rooms_count = null, $municipality_id = null, $province_id = null, $max_result_set = null, $exclude_own_id = null, $user_id = null, $session_id = null) {
+    function getRecommendableAccommodations($checkin_date = null, $checkout_date = null,$price = null, $rooms_count = null, $municipality_id = null, $province_id = null, $max_result_set = null, $exclude_own_id = null, $user_id = null, $session_id = null) {
         if ($municipality_id != null || $province_id != null) {
             $em = $this->getEntityManager();
+
             $query_string = "SELECT DISTINCT o.own_id,
                              o.own_name,
                              prov.prov_name,
@@ -584,7 +578,7 @@ class destinationRepository extends EntityRepository {
                              JOIN r1.room_ownership o
                              JOIN o.own_address_province prov
                              JOIN o.own_address_municipality mun
-                             WHERE o.own_status = 1 ";
+                             WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE;
 
             if ($municipality_id != null && $municipality_id != -1 && $municipality_id != '')
                 $query_string = $query_string . " AND o.own_address_municipality =$municipality_id";
@@ -601,7 +595,32 @@ class destinationRepository extends EntityRepository {
             if ($price != null && $price != "")
                 $query_string = $query_string . " AND o.own_minimum_price <= $price AND o.own_maximum_price >= $price";
 
-            $query_string = $query_string . " ORDER BY o.own_recommendable ASC";
+            $owns_with_reservations = array();
+            if ($checkin_date != null && $checkin_date != "" && $checkout_date != null && $checkout_date != "")
+            {
+                $query_reservations = "SELECT DISTINCT o.own_id FROM mycpBundle:ownershipReservation ores
+                                   JOIN ores.own_res_gen_res_id gr
+                                   JOIN gr.gen_res_own_id o
+                                   WHERE ores.own_res_reservation_from_date >= :checkin_date
+                                     AND ores.own_res_reservation_to_date <= :checkout_date";
+
+                $owns_with_reservations = $em->createQuery($query_reservations)
+                                             ->setParameter("checkin_date", $checkin_date)
+                                             ->setParameter("checkout_date", $checkout_date)
+                                             ->getResult();
+
+                $owns_id = "0";
+
+                foreach ($owns_with_reservations as $oid)
+                {
+                    $owns_id .= ",".$oid["own_id"];
+                }
+
+
+                $query_string = $query_string . " AND o.own_id NOT IN ($owns_id)";
+            }
+
+            $query_string = $query_string . " AND o.own_not_recommendable = 0";
 
             if ($max_result_set != null && $max_result_set > 0) {
                 $rows_total = count($em->createQuery($query_string)->getResult());
@@ -612,7 +631,8 @@ class destinationRepository extends EntityRepository {
                         ->setFirstResult($offset)
                         ->getResult();
             } else {
-                $results = $em->createQuery($query_string)->getResult();
+                $results = $em->createQuery($query_string)
+                              ->getResult();
             }
 
             for ($i = 0; $i < count($results); $i++) {
@@ -627,7 +647,7 @@ class destinationRepository extends EntityRepository {
         return null;
     }
 
-    function destinations_in_province_name($province_name) {
+    function getByProvinceName($province_name) {
 
         $em = $this->getEntityManager();
         $query_string = "SELECT DISTINCT d.des_id,
@@ -643,7 +663,8 @@ class destinationRepository extends EntityRepository {
                              FROM mycpBundle:destinationLocation dloc
                              JOIN dloc.des_loc_province prov
                              JOIN dloc.des_loc_destination d
-                             WHERE prov.prov_name LIKE :province_name";
+                             WHERE prov.prov_name LIKE :province_name
+                               AND d.des_active <> 0";
 
 
         //$query_string = $query_string . " ORDER BY o.own_rating DESC";
@@ -657,29 +678,20 @@ class destinationRepository extends EntityRepository {
                 $results[$i]['photo'] = "no_photo.png";
             }
 
-            $results[$i]['des_name_for_url'] = Utils::url_normalize($results[$i]['des_name_for_url']);
+            $results[$i]['des_name_for_url'] = Utils::urlNormalize($results[$i]['des_name_for_url']);
         }
         return $results;
     }
 
-    function get_destination_owns_statistics($destination_array) {
+    function getAccommodationsStatistics($destination_array) {
         if (is_array($destination_array)) {
             $statistics_array = array();
             $em = $this->getEntityManager();
 
             foreach ($destination_array as $destination) {
-                $destination_location = $em->getRepository('mycpBundle:destinationLocation')->findOneBy(array(
-                    'des_loc_destination' => $destination->getDesId()));
-                if ($destination_location != null) {
-                    $province = $destination_location->getDesLocProvince();
-                    $municipality = $destination_location->getDesLocMunicipality();
                     $query_string = "SELECT count(o),MIN(o.own_minimum_price) FROM mycpBundle:ownership o
-                         WHERE o.own_status = 1";
-                    if ($municipality != null)
-                        $query_string = $query_string . " AND o.own_address_municipality =" . $municipality->getMunId();
+                         WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE. " AND o.own_destination=".$destination->getDesId();
 
-                    if ($province != null)
-                        $query_string = $query_string . " AND o.own_address_province =" . $province->getProvId();
                     $results = $em->createQuery($query_string)->getResult();
                     $statistics_array[$destination->getDesId()] = array(
                         'total' => intval($results[0][1]),
@@ -689,7 +701,6 @@ class destinationRepository extends EntityRepository {
             }
             return $statistics_array;
         }
-    }
 
     function getPhotos($destination_id, $location) {
 
@@ -722,22 +733,21 @@ class destinationRepository extends EntityRepository {
         return $photos_array;
     }
 
-    function get_list_by_ids($des_ids) {
+    function getByManyIds($des_ids) {
         $em = $this->getEntityManager();
         $query_string = "SELECT o FROM mycpBundle:destination o WHERE o.des_id IN ($des_ids)";
         return $em->createQuery($query_string)->getResult();
     }
 
-    /**
-     * Yanet - Fin
-     */
-    function get_for_main_menu() {
+    function getMainMenu() {
         $em = $this->getEntityManager();
         $query_string = "SELECT DISTINCT d.des_id, d.des_name,
-                         (SELECT min(mun) FROM mycpBundle:destinationLocation loc JOIN loc.des_loc_municipality mun WHERE loc.des_loc_destination = d.des_id ) as municipality_id,
-                         (SELECT min(prov) FROM mycpBundle:destinationLocation loc1 JOIN loc1.des_loc_province prov WHERE loc1.des_loc_destination = d.des_id ) as province_id,
-                         (SELECT count(o) FROM mycpBundle:ownership o where o.own_address_municipality = municipality_id AND o.own_address_province = province_id AND (SELECT count(r1) FROM mycpBundle:room r1 WHERE r1.room_ownership = o.own_id) <> 0 as total_owns
+                         (SELECT count(o) FROM mycpBundle:ownership o
+                                          WHERE o.own_destination = d.des_id
+                                            AND (SELECT count(r1) FROM mycpBundle:room r1 WHERE r1.room_ownership = o.own_id) <> 0
+                                            AND o.own_status = ".ownershipStatus::STATUS_ACTIVE.") as total_owns
                          FROM mycpBundle:destination d
+                         WHERE d.des_active <> 0
                          ORDER BY d.des_order ASC";
         return $em->createQuery($query_string)->getResult();
     }

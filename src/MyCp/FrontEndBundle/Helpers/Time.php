@@ -1,44 +1,46 @@
 <?php
+
 namespace MyCp\FrontEndBundle\Helpers;
 
+use \MyCp\mycpBundle\Entity\season;
 
-class Time
-{
-    public static function dates_between($startdate, $enddate, $format=null){
+class Time {
+
+    public static function datesBetween($startdate, $enddate, $format = null) {
 
         (is_int($startdate)) ? 1 : $startdate = strtotime($startdate);
         (is_int($enddate)) ? 1 : $enddate = strtotime($enddate);
 
-        if($startdate > $enddate){
+        if ($startdate > $enddate) {
             return false; //The end date is before start date
         }
 
-        while($startdate <= $enddate){
+        while ($startdate <= $enddate) {
             $arr[] = ($format) ? date($format, $startdate) : $startdate;
             $startdate = strtotime("+1 day", $startdate);
         }
         return $arr;
     }
 
-    public function season_by_date($date)
-    {
-        $temp=strtotime('2000-'.date('m', $date).'-'.date('d', $date));
-
-        //top season
-        $top_from=strtotime('2000-07-15');
-        $top_to=strtotime('2000-08-31');
-
-        $top_from_2=strtotime('2000-12-16');
-        $top_to_2=strtotime('2000-03-15');
-
-        if($top_from <= $temp and $top_to >= $temp OR $top_from_2 <= $temp and $top_to_2 >= $temp)
-        {
-            return 'top';
+    public static function seasonTypeByDate($seasons, $date_timestamp) {
+        $season_type = season::SEASON_TYPE_LOW;
+        foreach ($seasons as $season) {    
+            if ($season->getSeasonStartDate()->getTimestamp() <= $date_timestamp && $season->getSeasonEndDate()->getTimestamp() >= $date_timestamp) {
+                if ($season_type == season::SEASON_TYPE_LOW ||
+                        ($season_type == season::SEASON_TYPE_HIGH && $season->getSeasonType() == season::SEASON_TYPE_SPECIAL))
+                    $season_type = $season->getSeasonType();
+            }
         }
-        else
-        {
-            return 'down';
-        }
+        return $season_type;
     }
 
+    public static function seasonByDate($seasons, $date_timestamp) {
+        $season_type = Time::seasonTypeByDate($seasons, $date_timestamp);
+        switch ($season_type) {
+            case season::SEASON_TYPE_HIGH: return "top";
+            case season::SEASON_TYPE_SPECIAL: return "special";
+            default: return "down";
+        }
+    }
 }
+

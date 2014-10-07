@@ -39,7 +39,7 @@ class BackendCommentController extends Controller
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $em = $this->getDoctrine()->getEntityManager();
-        $comments= $paginator->paginate($em->getRepository('mycpBundle:comment')->get_all_comment($filter_ownership,$filter_user,$filter_keyword, $filter_rate,$sort_by))->getResult();
+        $comments= $paginator->paginate($em->getRepository('mycpBundle:comment')->getAll($filter_ownership,$filter_user,$filter_keyword, $filter_rate,$sort_by))->getResult();
         //var_dump($destinations[0]->getDesLocMunicipality()->getMunName()); exit();
 
         $service_log= $this->get('log');

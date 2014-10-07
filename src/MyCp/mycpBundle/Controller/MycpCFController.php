@@ -20,7 +20,7 @@ class MycpCFController extends Controller {
 
     const SUCCESS_CONFIRM_MSG = "OK";
 
-//-----------------------------------------------------------------------------    
+//-----------------------------------------------------------------------------
     public function mycpFrontControllerAction(Request $request) {
         $operation = $request->get('operation');
         switch ($operation) {
@@ -201,7 +201,7 @@ class MycpCFController extends Controller {
         $service_email = $this->get('Email');
         foreach ($email_res_data as $email_data) {
             $entity_res = $email_data["res_ent"];
-            $service_email->send_reservation($entity_res->getGenResId(), $email_data["rtext"]);
+            $service_email->sendReservation($entity_res->getGenResId(), $email_data["rtext"]);
         }
 
         return self::SUCCESS_CONFIRM_MSG;

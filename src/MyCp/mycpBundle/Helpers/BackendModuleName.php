@@ -26,6 +26,9 @@ class BackendModuleName {
     const MODULE_LODGING_COMMENT = 13;
     const MODULE_LODGING_OWNERSHIP = 14;
     const MODULE_LODGING_USER = 14;
+    const MODULE_METATAGS = 11;
+    const MODULE_MUNICIPALITY = 12;
+    const MODULE_SEASON = 13;
 }
 
 ?>

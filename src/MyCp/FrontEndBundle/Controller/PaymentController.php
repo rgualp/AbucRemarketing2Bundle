@@ -145,6 +145,7 @@ class PaymentController extends Controller
         }
 
         switch ($payment->getStatus()) {
+            case PaymentHelper::STATUS_PROCESSED:
             case PaymentHelper::STATUS_SUCCESS:
                 return new JsonResponse(array('status' => 'payment_found'));
             case PaymentHelper::STATUS_FAILED:

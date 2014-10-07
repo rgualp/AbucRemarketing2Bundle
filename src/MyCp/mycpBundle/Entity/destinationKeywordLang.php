@@ -22,13 +22,13 @@ class destinationKeywordLang
     private $dkl_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="lang",inversedBy="langslang")
+     * @ORM\ManyToOne(targetEntity="lang",inversedBy="lang_destination_keywords")
      * @ORM\JoinColumn(name="dkl_id_lang",referencedColumnName="lang_id")
      */
     private $dkl_id_lang;
 
     /**
-     * @ORM\ManyToOne(targetEntity="destination",inversedBy="destinationKeywordLang")
+     * @ORM\ManyToOne(targetEntity="destination",inversedBy="des_keyword_langs")
      * @ORM\JoinColumn(name="dkl_id_destination",referencedColumnName="des_id")
      */
     private $dkl_destination;
@@ -51,7 +51,7 @@ class destinationKeywordLang
     /**
      * Get dkl_id
      *
-     * @return integer 
+     * @return integer
      */
     public function getDklId()
     {
@@ -74,7 +74,7 @@ class destinationKeywordLang
     /**
      * Get dkl_keywords
      *
-     * @return string 
+     * @return string
      */
     public function getDklKeywords()
     {
@@ -97,7 +97,7 @@ class destinationKeywordLang
     /**
      * Get dkl_description
      *
-     * @return string 
+     * @return string
      */
     public function getDklDescription()
     {
@@ -120,7 +120,7 @@ class destinationKeywordLang
     /**
      * Get dkl_id_lang
      *
-     * @return \MyCp\mycpBundle\Entity\lang 
+     * @return \MyCp\mycpBundle\Entity\lang
      */
     public function getDklIdLang()
     {
@@ -143,7 +143,7 @@ class destinationKeywordLang
     /**
      * Get dkl_destination
      *
-     * @return \MyCp\mycpBundle\Entity\destination 
+     * @return \MyCp\mycpBundle\Entity\destination
      */
     public function getDklDestination()
     {

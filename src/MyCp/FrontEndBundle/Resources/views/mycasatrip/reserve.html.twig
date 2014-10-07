@@ -36,7 +36,14 @@
                                     <br>
                                     <span class="badge badge-important">{{"RESERVE_SINGULAR" | trans}}</span>
 
-                                </p><h4>{{(res['own_res_night_price'] *(nights[loop.index0])) | price}}</h4>
+                                </p>
+                                <h4>
+                                   {%if res['own_res_night_price'] != 0%}
+                                    {{(res['own_res_night_price'] *(nights[loop.index0])) | price}}
+                                    {%else%}
+                                        {{res['own_res_total_in_site'] | price}}
+                                    {%endif%}
+                                </h4>
                             </td>
                         </tr>
                         </tbody></table>

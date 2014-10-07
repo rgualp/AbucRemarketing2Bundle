@@ -1,6 +1,7 @@
 <?php
 
 namespace MyCp\FrontEndBundle\Twig\Extension;
+
 use MyCp\FrontEndBundle\Helpers\Utils;
 
 class utilsExtension extends \Twig_Extension {
@@ -21,6 +22,7 @@ class utilsExtension extends \Twig_Extension {
         return array(
             new \Twig_SimpleFilter('price', array($this, 'priceFilter')),
             new \Twig_SimpleFilter('urlNormalize', array($this, 'urlNormalize')),
+            new \Twig_SimpleFilter('statusName', array($this, 'statusName')),
         );
     }
 
@@ -53,31 +55,38 @@ class utilsExtension extends \Twig_Extension {
         return (number_format($number_integer, 2));
     }
 
-    public function default_currency()
-    {
-        return  $this->entity_manager->getRepository('mycpBundle:currency')->findOneBy(array('curr_default' => true));
+    public function default_currency() {
+        return $this->entity_manager->getRepository('mycpBundle:currency')->findOneBy(array('curr_default' => true));
     }
 
-    public function price_in_currency()
-    {
-        return  $this->entity_manager->getRepository('mycpBundle:currency')->findOneBy(array('curr_site_price_in' => true));
+    public function price_in_currency() {
+        return $this->entity_manager->getRepository('mycpBundle:currency')->findOneBy(array('curr_site_price_in' => true));
     }
 
     public function priceFilter($number, $decimals = 2, $decPoint = '.', $thousandsSep = ',') {
-        $price_in_currency = $this->entity_manager->getRepository('mycpBundle:currency')->findOneBy(array('curr_site_price_in' => true));
 
-        $rate = ($this->session->get('curr_rate') == null ? $price_in_currency->getCurrCucChange() : $this->session->get('curr_rate'));
-        $price = number_format($number*$rate, $decimals, $decPoint, $thousandsSep);
+        if ($this->session->get('curr_rate') == null || $this->session->get('curr_symbol') == null) {
+            $price_in_currency = $this->entity_manager->getRepository('mycpBundle:currency')->findOneBy(array('curr_site_price_in' => true));
+            $this->session->set('curr_rate', $price_in_currency->getCurrCucChange());
+            $this->session->set('curr_symbol', $price_in_currency->getCurrSymbol());
+        }
 
-        $curr_symbol = ($this->session->get('curr_symbol') == null ? $price_in_currency->getCurrSymbol() : $this->session->get('curr_symbol'));
+        $rate = $this->session->get('curr_rate');
+        $price = number_format($number * $rate, $decimals, $decPoint, $thousandsSep);
+
+        $curr_symbol = $this->session->get('curr_symbol');
 
         $price = $curr_symbol . ' ' . $price;
 
         return $price;
     }
 
-    public function urlNormalize($text)
-    {
-        return Utils::url_normalize($text);
+    public function urlNormalize($text) {
+        return Utils::urlNormalize($text);
     }
+
+    public function statusName($status_id) {
+        return \MyCp\mycpBundle\Entity\ownershipStatus::statusName($status_id);
+    }
+
 }

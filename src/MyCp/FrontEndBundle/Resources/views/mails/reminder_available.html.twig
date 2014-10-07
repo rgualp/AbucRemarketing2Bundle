@@ -38,7 +38,7 @@
                                     </table>
                                 </td>
                                 <td width="34%" valign="top" align="right" style="font-family: arial; font-size: 13px; line-height: 20px; text-align: right">
-                                    <b>ID {{"RESERVATION_RESERVE"|trans({}, "messages", user_locale)}}:</b> CAS.{{reservation.getOwnResId}}<br/><br/>
+                                    <b>ID {{"RESERVATION_RESERVE"|trans({}, "messages", user_locale)}}:</b> CAS.{{reservation.getOwnResGenResId.getGenResId}}<br/><br/>
                                     {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_AVAILABLE'))%}
                                         <span style="background-color: #FF7300; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"AVAILABLE"|trans({}, "messages", user_locale)}}&nbsp;&nbsp;&nbsp;</b></span><br/>
                                     {% endif %}
@@ -54,7 +54,13 @@
                                     {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_RESERVED') and booking is defined)%}
                                         <span style="background-color: #c43c35; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"PAYED"|trans({}, "messages", user_locale)}}&nbsp;&nbsp;&nbsp;</b></span><br/>
                                     {% endif %}
-                                    <h3>{{"RESERVATION_TOTAL" | trans({}, "messages", user_locale) | upper}}: {{ (reservation.getOwnResNightPrice * nights[loop.index0]) | price }}</h3>
+                                    <h3>{{"RESERVATION_TOTAL" | trans({}, "messages", user_locale) | upper}}:
+                                       {%if reservation.getOwnResNightPrice != 0%}
+                                        {{ (reservation.getOwnResNightPrice * nights[loop.index0]) | price}}
+                                       {%else%}
+                                            {{ reservation.ownResTotalInSite | price}}
+                                       {%endif%}
+                                    </h3>
                                     {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_AVAILABLE'))%}
                                         <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_mycasatrip_available',{'locale':user_locale,'_locale':user_locale,}) }}">{{"CONTINUE_RESERVING"|trans({}, "messages", user_locale)}}</a>
                                     {% endif %}

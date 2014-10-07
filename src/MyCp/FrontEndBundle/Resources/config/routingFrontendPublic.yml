@@ -1,3 +1,7 @@
 frontend_public_login:
     locales:  { en: "/login/", es: "/login/", de: "/login/" }
     defaults: { _controller: FrontEndBundle:Public:login }
+
+frontend_public_top_nav:
+    locales:  { en: "/topNav/{route}/{routeParams}", es: "/topNav/{route}/{routeParams}", de: "/topNav/{route}/{routeParams}" }
+    defaults: { _controller: FrontEndBundle:Public:topNav, route: frontend_welcome, routeParams: null  }

@@ -1,2 +1,5 @@
 
+frontend_change_currency:
+    pattern:  /change_currency/{currencyCode}/{route}/{routeParams}
+    defaults: { _controller: FrontEndBundle:Currency:change_currency, route: frontend_welcome, routeParams: null }
 

@@ -77,7 +77,7 @@
                                 <b>{{"RESERVATION_NUMBER"|trans}}:</b> ID_{{ booking.getBookingId }}
                             </td>
                         </tr>
-                    </table> 
+                    </table>
                     <table  style="width: 100%">
                         <tr style="border-top:none;">
                             <td style="border-top:none; width:30%"><b>{{"ACCOMMODATION_NAME"|trans}}:</b></td>
@@ -138,12 +138,12 @@
                                 <td><b>{{"SELECT_BATHROOM_TYPE_OPTION"|trans}}:</b></td>
                                 <td colspan="5">{{ res_room.room_bathroom|trans }}</td>
                             </tr>
-                        </table>       
+                        </table>
         {%endfor%}
                         <br/>
                         <h4 class="voucher-subtitle no-margin">
-                            <img src="bundles/frontend/img/icons/vcurrency.png"> 
-        {{"PAYMENT_DETAILS"|trans}}: 
+                            <img src="bundles/frontend/img/icons/vcurrency.png">
+        {{"PAYMENT_DETAILS"|trans}}:
                         </h4>
                         <br/>
                         <table style="width:100%">
@@ -187,7 +187,7 @@
         </tr>
         <tr>
             <td>- {{"INITIAL_DEPOSIT"|trans}} ({% for comm in commissions %}{{comm}}%{% if not loop.last %}, {% endif %}{% endfor %})</td>
-            <td class="text-right">{{ currency_symbol }} {{ ceil_round(prepayment_accommodations) | number_format(2) }}</td>
+            <td class="text-right">{{ currency_symbol }} {{ ceil_round(prepayment_accommodations) }}</td>
         </tr>
         <tr>
             <td>- {{"SERVICE_RECHARGE"|trans}}</td>
@@ -201,14 +201,14 @@
             <td><b>{{"TOTAL_ALL_PREPAYMENT" | trans}}</b></td>
             <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (service_charge_total + ceil_round(prepayment_accommodations)) | number_format(2) }}</h4></td>
         </tr>
-        
+
         <tr>
             <td style="border-top: 1px solid #bbb"><b>{{"TOTAL_TO_PAY_SERVICING" | trans}}</b></td>
             <td style="border-top: 1px solid #bbb" class="text-right"><h4 class="no-margin">
-                CUC {{ ceil_round(total_price_to_pay_at_service_in_cuc) | number_format(2) }}
+                CUC {{ ceil_round(total_price_to_pay_at_service_in_cuc) }}
                 </h4>
                 <h6 class="no-margin">
-                    {{ currency_symbol }} {{ ceil_round(total_servicing_price) | number_format(2) }}
+                    {{ currency_symbol }} {{ ceil_round(total_servicing_price) | number_format(2)}}
                 </h6>
                 </td>
         </tr>

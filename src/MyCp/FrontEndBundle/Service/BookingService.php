@@ -29,11 +29,18 @@ class BookingService extends Controller
      * @var float
      */
     private $serviceChargeInCuc;
+    
+    /*
+     * Triple room charge
+     * @var float
+     */
+    private $tripleRoomCharge;
 
-    public function __construct(ObjectManager $em, $serviceChargeInCuc, $voucherDirectoryPath)
+    public function __construct(ObjectManager $em, $serviceChargeInCuc, $voucherDirectoryPath, $tripleRoomCharge)
     {
         $this->em = $em;
         $this->serviceChargeInCuc = (float)$serviceChargeInCuc;
+        $this->tripleRoomCharge = (float)$tripleRoomCharge;
 
         if (!is_dir($voucherDirectoryPath)) {
             throw new \InvalidArgumentException('Invalid directory given: ' . $voucherDirectoryPath);
@@ -86,14 +93,14 @@ class BookingService extends Controller
             $totalPercentPrice = 0;
 
             foreach ($ownReservations as $own) {
-                $array_dates = $timeService->dates_between(
+                $array_dates = $timeService->datesBetween(
                         $own->getOwnResReservationFromDate()->getTimestamp(),
                         $own->getOwnResReservationToDate()->getTimestamp()
                     );
-                $totalPrice += $own->getOwnResNightPrice() * (count($array_dates) - 1);
-                $totalPercentPrice +=
-                    $own->getOwnResNightPrice() * (count($array_dates) - 1) * $ownCommission / 100;
+                $totalPrice += \MyCp\FrontEndBundle\Helpers\ReservationHelper::getTotalPrice($em, $timeService, $own, $this->tripleRoomCharge);
             }
+
+            $totalPercentPrice += $totalPrice * $ownCommission / 100;
 
             $payments[$own_r["id"]] = array(
                 'total_price' => $totalPrice * $currencyRate,
@@ -111,15 +118,15 @@ class BookingService extends Controller
         $totalPercentPrice = 0;
 
         foreach ($ownReservations as $own) {
-            $array_dates = $timeService->dates_between(
+            $array_dates = $timeService->datesBetween(
                     $own->getOwnResReservationFromDate()->getTimestamp(),
                     $own->getOwnResReservationToDate()->getTimestamp()
                 );
             array_push($nights, count($array_dates) - 1);
             array_push($rooms, $em->getRepository('mycpBundle:room')->find($own->getOwnResSelectedRoomId()));
-            $totalPrice += $own->getOwnResNightPrice() * (count($array_dates) - 1);
+            $totalPrice += \MyCp\FrontEndBundle\Helpers\ReservationHelper::getTotalPrice($em, $timeService, $own, $this->tripleRoomCharge);
             $commission = $own->getOwnResGenResId()->GetGenResOwnId()->getOwnCommissionPercent();
-            $totalPercentPrice += $own->getOwnResNightPrice() * (count($array_dates) - 1) * $commission / 100;
+
             $insert = 1;
 
             foreach ($commissions as $com) {
@@ -133,7 +140,7 @@ class BookingService extends Controller
                 array_push($commissions, $commission);
             }
         }
-
+        $totalPercentPrice += $totalPrice * $commission / 100;
         $accommodationServiceCharge = $totalPrice * $currencyRate;
         $prepaymentAccommodations = $totalPercentPrice * $currencyRate;
         $serviceChargeTotal = $serviceChargeInCuc * $currencyRate;
@@ -250,7 +257,7 @@ class BookingService extends Controller
                 ->getPhotos($rootOwnId);
 
             array_push($arrayPhotos, $photos);
-            $array_dates = $timeService->dates_between(
+            $array_dates = $timeService->datesBetween(
                 $own->getOwnResReservationFromDate()->getTimestamp(),
                 $own->getOwnResReservationToDate()->getTimestamp()
             );
@@ -313,7 +320,7 @@ class BookingService extends Controller
         $userEmail = trim($user->getUserEmail());
 
         try {
-            $emailService->send_email(
+            $emailService->sendEmail(
                 $subject,
                 'reservation1@mycasaparticular.com',
                 $subject . ' - MyCasaParticular.com',
@@ -345,7 +352,7 @@ class BookingService extends Controller
             );
 
             try {
-                $emailService->send_email(
+                $emailService->sendEmail(
                     'Confirmación de pago',
                     'no-reply@mycasaparticular.com',
                     'MyCasaParticular.com',
@@ -381,7 +388,7 @@ class BookingService extends Controller
                     $owns[0]->getOwnResGenResId()->getGenResId() . '.');
             } else {
                 try {
-                    $emailService->send_email(
+                    $emailService->sendEmail(
                         'Confirmación de reserva',
                         'no-reply@mycasaparticular.com',
                         'MyCasaParticular.com',

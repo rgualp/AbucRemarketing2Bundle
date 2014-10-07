@@ -26,7 +26,7 @@ class CommentController extends Controller {
         $data['com_comments'] = $request->request->get('com_comments');
 
         if($session->get('comments_cant') == 1)
-            $em->getRepository('mycpBundle:comment')->insert_comment($data, $user);
+            $em->getRepository('mycpBundle:comment')->insert($data, $user);
 
         if($session->get('comments_cant') == 2)
             $session->remove('comments_cant');
@@ -34,7 +34,7 @@ class CommentController extends Controller {
          $paginator = $this->get('ideup.simple_paginator');
          $items_per_page = 5;
          $paginator->setItemsPerPage($items_per_page);
-         $comments = $paginator->paginate($em->getRepository('mycpBundle:comment')->get_comments($ownid))->getResult();
+         $comments = $paginator->paginate($em->getRepository('mycpBundle:comment')->getByOwnership($ownid))->getResult();
          $page = 1;
          if (isset($_GET['page']))
              $page = $_GET['page'];

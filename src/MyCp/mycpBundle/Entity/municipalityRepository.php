@@ -3,6 +3,7 @@
 namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use MyCp\mycpBundle\Entity\ownershipStatus;
 
 /**
  * municipalityRepository
@@ -33,6 +34,40 @@ class municipalityRepository extends EntityRepository
         return $query->getResult();
     }
 
+    function getAll()
+    {
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery("SELECT m.mun_id, m.mun_name,p.prov_name,
+            (select count(o.own_id) FROM mycpBundle:ownership o WHERE o.own_address_municipality = m.mun_id) as accommodations,
+            (select count(distinct dl.des_loc_destination) FROM mycpBundle:destinationLocation dl WHERE dl.des_loc_municipality = m.mun_id) as destinations
+            FROM mycpBundle:municipality m
+            JOIN m.mun_prov_id p
+            ORDER BY m.mun_name ASC");
+        return $query->getResult();
+    }
+    
+    function getAccommodations($id_municipality)
+    {
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery("SELECT o FROM mycpBundle:ownership o 
+                                   WHERE o.own_address_municipality = $id_municipality 
+                                   ORDER BY o.own_mcp_code ASC");
+        return $query->getResult();
+    }
+    
+    function getDestinations($id_municipality)
+    {
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery("SELECT d.des_id, d.des_name FROM mycpBundle:destinationLocation dl
+                                   JOIN dl.des_loc_destination d
+                                   WHERE dl.des_loc_municipality = $id_municipality 
+                                   ORDER BY d.des_name ASC");
+        return $query->getResult();
+    }
+
     function get_with_reservations()
     {
         $em = $this->getEntityManager();
@@ -41,7 +76,7 @@ class municipalityRepository extends EntityRepository
                          m.mun_name,
                          prov.prov_id,
                          (SELECT count(gen_r) FROM mycpBundle:generalReservation gen_r  JOIN gen_r.gen_res_own_id o WHERE o.own_address_municipality = m.mun_id AND gen_r.gen_res_status = ".generalReservation::STATUS_RESERVED.") as visits,
-                         (SELECT count(o1) FROM mycpBundle:room r JOIN r.room_ownership o1 WHERE o1.own_status = 1 AND o1.own_address_municipality = m.mun_id ORDER BY o1.own_rating DESC, o1.own_id ASC) as total_ownerships,
+                         (SELECT count(o1) FROM mycpBundle:room r JOIN r.room_ownership o1 WHERE o1.own_status = ".ownershipStatus::STATUS_ACTIVE." AND o1.own_address_municipality = m.mun_id ORDER BY o1.own_rating DESC, o1.own_id ASC) as total_ownerships,
                          (SELECT DISTINCT count(d.des_id)
                                 FROM mycpBundle:destinationLocation l
                                 JOIN l.des_loc_destination d
@@ -71,7 +106,7 @@ class municipalityRepository extends EntityRepository
             $ownerships_list = "SELECT o.own_id as ownid,
                                 o.own_name as ownname
                                 FROM mycpBundle:ownership o
-                                WHERE o.own_status = 1
+                                WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE."
                                 AND o.own_address_municipality = ".$result[$i]['mun_id'].
                                 " ORDER BY o.own_rating DESC, o.own_id ASC";
 

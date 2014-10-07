@@ -171,11 +171,11 @@
         <tbody>
         <tr>
             <td><b>{{"PRICE_OF_ACCOMMODATION_SERVICE"|trans}}</b></td>
-            <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ ceil_round(accommodations_service_charge)| number_format(2) }}</h4></td>
+            <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ ceil_round(accommodations_service_charge) | number_format(2) }}</h4></td>
         </tr>
         <tr>
             <td>- {{"INITIAL_DEPOSIT"|trans}} ({% for comm in commissions %}{{comm}}%{% if not loop.last %}, {% endif %}{% endfor %})</td>
-            <td class="text-right">{{ currency_symbol }} {{ ceil_round(prepayment_accommodations) | number_format(2) }}</td>
+            <td class="text-right">{{ currency_symbol }} {{ ceil_round(prepayment_accommodations) }}</td>
         </tr>
         <tr>
             <td>- {{"SERVICE_RECHARGE"|trans}}</td>
@@ -193,10 +193,10 @@
         <tr>
             <td><b>{{"TOTAL_TO_PAY_SERVICING" | trans}}</b></td>
             <td class="text-right"><h4 class="no-margin">
-                CUC {{ ceil_round(total_price_to_pay_at_service_in_cuc) | number_format(2) }}
+                CUC {{ ceil_round(total_price_to_pay_at_service_in_cuc)  }}
                 </h4>
                 <h6 class="no-margin">
-                    {{ currency_symbol }} {{ ceil_round(total_servicing_price) | number_format(2) }}
+                    {{ currency_symbol }} {{ ceil_round(total_servicing_price)| number_format(2) }}
                 </h6>
                 </td>
         </tr>

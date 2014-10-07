@@ -22,7 +22,7 @@ use MyCp\mycpBundle\Helpers\Dates;
  */
 class ownershipRepository extends EntityRepository {
 
-    function insert_ownership($data, $request, $dir, $factory, $new_user) {
+    function insert($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller) {
 
         if ($data['facilities_breakfast'] == 'No')
             $data['facilities_breakfast'] = 0;
@@ -43,9 +43,21 @@ class ownershipRepository extends EntityRepository {
         if (isset($data['top_20']))
             $active_top_20 = 1;
 
-        $active_recommendable = 0;
-        if (isset($data['recommendable']))
-            $active_recommendable = 1;
+        $active_not_recommendable = 0;
+        if (isset($data['not_recommendable']))
+            $active_not_recommendable = 1;
+
+        $water_jacuzee = 0;
+        if (isset($data['water_jacuzee']))
+            $water_jacuzee = 1;
+
+        $water_sauna = 0;
+        if (isset($data['water_sauna']))
+            $water_sauna = 1;
+
+        $water_pool = 0;
+        if (isset($data['water_piscina']))
+            $water_pool = 1;
 
         //languages
         $ownership_english_lang = 0;
@@ -79,6 +91,12 @@ class ownershipRepository extends EntityRepository {
         $prov = $em->getRepository('mycpBundle:province')->find($data['ownership_address_province']);
         $ownership->setOwnAddressProvince($prov);
         $ownership->setOwnAddressMunicipality($em->getRepository('mycpBundle:municipality')->find($data['ownership_address_municipality']));
+
+        if ($data['ownership_destination'] != 0) {
+            $destination = $em->getRepository('mycpBundle:destination')->find($data['ownership_destination']);
+            $ownership->setOwnDestination($destination);
+        }
+
         $ownership->setOwnMobileNumber($data['ownership_mobile_number']);
         $ownership->setOwnHomeowner1($data['ownership_homeowner_1']);
         $ownership->setOwnHomeowner2($data['ownership_homeowner_2']);
@@ -104,7 +122,7 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnGeolocateX($data['geolocate_x']);
         $ownership->setOwnGeolocateY($data['geolocate_y']);
         $ownership->setOwnTop20($active_top_20);
-        $ownership->setOwnRecommendable($active_recommendable);
+        $ownership->setOwnNotRecommendable($active_not_recommendable);
         $status = $em->getRepository('mycpBundle:ownershipStatus')->find($data['status']);
 
         if (!isset($status))
@@ -128,12 +146,9 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnMinimumPrice(0);
         $ownership->setOwnRoomsTotal(0);
 
-        if (isset($data['water_jacuzee']))
-            $ownership->setOwnWaterJacuzee($data['water_jacuzee']);
-        if (isset($data['water_sauna']))
-            $ownership->setOwnWaterSauna($data['water_sauna']);
-        if (isset($data['water_piscina']))
-            $ownership->setOwnWaterPiscina($data['water_piscina']);
+        $ownership->setOwnWaterJacuzee($water_jacuzee);
+        $ownership->setOwnWaterSauna($water_sauna);
+        $ownership->setOwnWaterPiscina($water_pool);
 
         $em->persist($ownership);
 
@@ -178,10 +193,14 @@ class ownershipRepository extends EntityRepository {
             $room = new room();
             $room->setRoomType($data['room_type_' . $e]);
             $room->setRoomBeds($data['room_beds_number_' . $e]);
-            $room->setRoomPriceUpFrom($data['room_price_up_from_' . $e]);
+            //$room->setRoomPriceUpFrom($data['room_price_up_from_' . $e]);
             $room->setRoomPriceUpTo($data['room_price_up_to_' . $e]);
-            $room->setRoomPriceDownFrom($data['room_price_down_from_' . $e]);
+            //$room->setRoomPriceDownFrom($data['room_price_down_from_' . $e]);
             $room->setRoomPriceDownTo($data['room_price_down_to_' . $e]);
+            
+            if(isset($data['room_price_special_' . $e]))
+                $room->setRoomPriceSpecial($data['room_price_special_' . $e]);
+            
             $room->setRoomClimate($data['room_climate_' . $e]);
             $room->setRoomAudiovisual($data['room_audiovisual_' . $e]);
             $room->setRoomSmoker($data['room_smoker_' . $e]);
@@ -200,13 +219,16 @@ class ownershipRepository extends EntityRepository {
             /**
              * Codigo Yanet - Inicio
              */
-            if ($ownership->getOwnMinimumPrice() == 0 || $room->getRoomPriceDownFrom() < $ownership->getOwnMinimumPrice())
-                $ownership->setOwnMinimumPrice($room->getRoomPriceDownFrom());
+            if ($ownership->getOwnMinimumPrice() == 0 || $room->getRoomPriceDownTo() < $ownership->getOwnMinimumPrice())
+                $ownership->setOwnMinimumPrice($room->getRoomPriceDownTo());
 
             $ownership->setOwnMaximumNumberGuests($ownership->getOwnMaximumNumberGuests() + $room->getRoomBeds());
 
             if ($ownership->getOwnMaximumPrice() == 0 || $room->getRoomPriceUpTo() > $ownership->getOwnMaximumPrice())
                 $ownership->setOwnMaximumPrice($room->getRoomPriceUpTo());
+            
+            if ($ownership->getOwnMaximumPrice() == 0 || $room->getRoomPriceSpecial() > $ownership->getOwnMaximumPrice())
+                $ownership->setOwnMaximumPrice($room->getRoomPriceSpecial());
 
             if ($room->getRoomBeds() > 0)
                 $beds_total += $room->getRoomBeds();
@@ -223,57 +245,34 @@ class ownershipRepository extends EntityRepository {
 
         //save client casa
         if ($new_user) {
-            $user = new user();
-            $address = $data['ownership_address_street'] . ' #' . $data['ownership_address_number'];
-            $city = $em->getRepository('mycpBundle:municipality')->find($data['ownership_address_municipality']);
-            $country = $em->getRepository('mycpBundle:country')->findBy(array('co_name' => 'Cuba'));
-            $email = '';
-            if (!empty($data['ownership_email_1']))
-                $email = $data['ownership_email_1'];
-            else
-                $email = $data['ownership_email_2'];
-
-            $user->setUserAddress($address);
-            $user->setUserCity($city->getMunName());
-            $user->setUserCountry($country[0]);
-            $user->setUserEmail($email);
-            $user->setUserPhone($phone);
-            $user->setUserName($data['user_name']);
-            $user->setUserLastName($data['ownership_homeowner_1']);
             $file = $request->files->get('user_photo');
-            if ($file) {
-                $photo = new photo();
-                $fileName = uniqid('user-') . '-photo.jpg';
-                $file->move($dir, $fileName);
-                $photo->setPhoName($fileName);
-                $user->setUserPhoto($photo);
-                $em->persist($photo);
-            }
-
-            $user->setUserRole('ROLE_CLIENT_CASA');
-            $user->setUserUserName($data['ownership_homeowner_1']);
-            $encoder = $factory->getEncoder($user);
-            $password = $encoder->encodePassword($data['user_password'], $user->getSalt());
-            $user->setUserPassword($password);
-            $user_casa = new userCasa();
-            $user_casa->setUserCasaOwnership($ownership);
-            $user_casa->setUserCasaUser($user);
-            $em->persist($user);
-            $em->persist($user_casa);
+            $em->getRepository('mycpBundle:userCasa')->createUser($ownership,$file,$dir,$factory, $send_creation_mail, $controller);
         }
         $em->flush();
     }
 
-    function edit_ownership($data) {
+    function edit($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller) {
         $id_ownership = $data['edit_ownership'];
 
         $active_top_20 = 0;
         if (isset($data['top_20']))
             $active_top_20 = 1;
 
-        $active_recommendable = 0;
-        if (isset($data['recommendable']))
-            $active_recommendable = 1;
+        $water_jacuzee = 0;
+        if (isset($data['water_jacuzee']))
+            $water_jacuzee = 1;
+
+        $water_sauna = 0;
+        if (isset($data['water_sauna']))
+            $water_sauna = 1;
+
+        $water_pool = 0;
+        if (isset($data['water_piscina']))
+            $water_pool = 1;
+
+        $active_not_recommendable = 0;
+        if (isset($data['not_recommendable']))
+            $active_not_recommendable = 1;
 
         //languages
         $ownership_english_lang = 0;
@@ -334,7 +333,13 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnGeolocateX($data['geolocate_x']);
         $ownership->setOwnGeolocateY($data['geolocate_y']);
         $ownership->setOwnTop20($active_top_20);
-        $ownership->setOwnRecommendable($active_recommendable);
+        $ownership->setOwnNotRecommendable($active_not_recommendable);
+
+        if ($data['ownership_destination'] != 0) {
+            $destination = $em->getRepository('mycpBundle:destination')->find($data['ownership_destination']);
+            $ownership->setOwnDestination($destination);
+        }
+
         $status = $em->getRepository('mycpBundle:ownershipStatus')->find($data['status']);
         if (!isset($status))
             $status = $em->getRepository('mycpBundle:ownershipStatus')->find(ownershipStatus::STATUS_IN_PROCESS);
@@ -344,7 +349,13 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnCommissionPercent($data['ownership_percent_commission']);
         $ownership->setOwnLastUpdate(new \DateTime());
         $ownership->setOwnSaler($data['ownership_saler']);
-        $ownership->setOwnVisitDate(Dates::createFromString($data['ownership_visit_date']));
+        
+        if(isset($data['ownership_visit_date']))
+            $ownership->setOwnVisitDate(Dates::createFromString($data['ownership_visit_date']));
+
+        $ownership->setOwnWaterJacuzee($water_jacuzee);
+        $ownership->setOwnWaterSauna($water_sauna);
+        $ownership->setOwnWaterPiscina($water_pool);
 
         /**
          * Codigo Yanet - Inicio
@@ -353,37 +364,12 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnMaximumPrice(0);
         $ownership->setOwnMinimumPrice(0);
         $ownership->setOwnRoomsTotal(0);
-        /**
-         * Codigo Yanet - Fin
-         */
         $em->persist($ownership);
-
-        /*$old_unavailable = array();
-        $old_rooms_actives = array();
-
-        foreach ($old_rooms as $old_room) {
-            $id_old_room = $old_room->getRoomId();
-            $old_rooms_actives[$old_room->getRoomNum()] =
-                    $old_room->getRoomActive();
-            array_push($old_unavailable, $em->getRepository('mycpBundle:unavailabilitydetails')->findBy(array('room'
-                        => $id_old_room)));
-            $query = $em->createQuery("DELETE
-mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
-            $query->execute();
-        }*/
 
         $query = $em->createQuery("DELETE
             mycpBundle:ownershipGeneralLang ogl WHERE
             ogl.ogl_ownership=$id_ownership");
         $query->execute();
-        /*$query = $em->createQuery("DELETE
-            mycpBundle:ownershipDescriptionLang odl WHERE
-            odl.odl_ownership=$id_ownership");
-        $query->execute();
-        $query = $em->createQuery("DELETE
-            mycpBundle:ownershipKeywordLang okl WHERE
-            okl.okl_ownership=$id_ownership");
-        $query->execute();*/
 
         $keys = array_keys($data);
 
@@ -392,7 +378,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
 
                 $id = substr($item, 17, strlen($item));
 
-                if(array_key_exists('description_id_' . $id, $data))
+                if (array_key_exists('description_id_' . $id, $data))
                     $odl = $em->getRepository('mycpBundle:ownershipDescriptionLang')->find($data['description_id_' . $id]);
                 else
                     $odl = new ownershipDescriptionLang();
@@ -408,7 +394,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
             if (strpos($item, 'keywords') !== false) {
 
                 $id = substr($item, 9, strlen($item));
-                if(array_key_exists('kw_id_' . $id, $data))
+                if (array_key_exists('kw_id_' . $id, $data))
                     $okl = $em->getRepository('mycpBundle:ownershipKeywordLang')->find($data['kw_id_' . $id]);
                 else
                     $okl = new ownershipKeywordLang();
@@ -428,8 +414,8 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
         $beds_total = 0;
         for ($e = 1; $e <= $data['count_rooms']; $e++) {
 
-            if(array_key_exists('room_id_' . $e, $data))
-                    $room = $em->getRepository('mycpBundle:room')->find($data['room_id_' . $e]);
+            if (array_key_exists('room_id_' . $e, $data))
+                $room = $em->getRepository('mycpBundle:room')->find($data['room_id_' . $e]);
             else
                 $room = new room();
 
@@ -440,10 +426,14 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
             }
             $room->setRoomType($data['room_type_' . $e]);
             $room->setRoomBeds($data['room_beds_number_' . $e]);
-            $room->setRoomPriceUpFrom($data['room_price_up_from_' . $e]);
+            //$room->setRoomPriceUpFrom($data['room_price_up_from_' . $e]);
             $room->setRoomPriceUpTo($data['room_price_up_to_' . $e]);
-            $room->setRoomPriceDownFrom($data['room_price_down_from_' . $e]);
+            //$room->setRoomPriceDownFrom($data['room_price_down_from_' . $e]);
             $room->setRoomPriceDownTo($data['room_price_down_to_' . $e]);
+            
+            if(isset($data['room_price_special_' . $e]))
+                $room->setRoomPriceSpecial($data['room_price_special_' . $e]);
+            
             $room->setRoomClimate($data['room_climate_' . $e]);
             $room->setRoomAudiovisual($data['room_audiovisual_' . $e]);
             $room->setRoomSmoker($data['room_smoker_' . $e]);
@@ -457,49 +447,40 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
             $room->setRoomYard($data['room_yard_' . $e]);
             $room->setRoomOwnership($ownership);
             $room->setRoomNum($e);
-            //$room->setRoomActive($old_rooms_actives[$e]);
             $em->persist($room);
 
-            /*if (count($old_unavailable)) {
-                foreach ($old_unavailable[$e - 1] as $unavail) {
-                    $new_unavail = new unavailabilityDetails();
-                    $new_unavail->setRoom($unavail->getRoom());
-                    $new_unavail->setSyncSt($unavail->getSyncSt());
-                    $new_unavail->setUdFromDate($unavail->getUdFromDate());
-                    $new_unavail->setUdToDate($unavail->getUdToDate());
-                    $new_unavail->setUdReason($unavail->getUdReason());
-                    $new_unavail->setUdId($unavail->getUdId());
-                    $em->persist($new_unavail);
-                }
-            }*/
-
-            /**
-             * Codigo Yanet - Inicio
-             */
             if ($ownership->getOwnMinimumPrice() == 0 ||
-                    $room->getRoomPriceDownFrom() < $ownership->getOwnMinimumPrice())
-                $ownership->setOwnMinimumPrice($room->getRoomPriceDownFrom());
+                    $room->getRoomPriceDownTo() < $ownership->getOwnMinimumPrice())
+                $ownership->setOwnMinimumPrice($room->getRoomPriceDownTo());
 
             $ownership->setOwnMaximumNumberGuests($ownership->getOwnMaximumNumberGuests() + $room->getRoomBeds());
 
             if ($ownership->getOwnMaximumPrice() == 0 ||
                     $room->getRoomPriceUpTo() > $ownership->getOwnMaximumPrice())
                 $ownership->setOwnMaximumPrice($room->getRoomPriceUpTo());
+            
+            if ($ownership->getOwnMaximumPrice() == 0 ||
+                    $room->getRoomPriceSpecial() > $ownership->getOwnMaximumPrice())
+                $ownership->setOwnMaximumPrice($room->getRoomPriceSpecial());
 
             if ($room->getRoomBeds() > 0)
                 $beds_total += $room->getRoomBeds();
 
             $em->persist($ownership);
-            /**
-             * Codigo Yanet - Fin
-             */
         }
         $ownership->setOwnMaximunNumberGuests($beds_total);
         $em->persist($ownership);
 
+        //save client casa
+        if ($new_user) {
+            $file = $request->files->get('user_photo');
+            $em->getRepository('mycpBundle:userCasa')->createUser($ownership,$file,$dir,$factory, $send_creation_mail, $controller);
+        }
+
         $em->flush();
     }
 
+    function getAll($filter_code = '', $filter_active = '', $filter_category = '', $filter_province = '', $filter_municipality = '', $filter_destination = '', $filter_type = '', $filter_name = '', $filter_saler = '', $filter_visit_date = '') {
     function short_edit_ownership($data)
     {
         $id_ownership = $data['edit_ownership'];
@@ -533,6 +514,12 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
         if ($filter_municipality != 'null' && $filter_municipality != '') {
             $condition .= " AND ow.own_address_municipality = :filter_municipality ";
         }
+        if ($filter_destination != 'null' && $filter_destination != '') {
+            if ($filter_destination == "-1")
+                $condition .= " AND ow.own_destination IS NULL ";
+            else
+                $condition .= " AND ow.own_destination = :filter_destination ";
+        }
         if ($filter_type != 'null' && $filter_type != '') {
             $condition .= " AND ow.own_type = :filter_type ";
         }
@@ -549,7 +536,22 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
 
 
         $em = $this->getEntityManager();
-        $query = $em->createQuery("SELECT ow FROM mycpBundle:ownership ow
+        $query = $em->createQuery("SELECT
+        ow.own_not_recommendable,
+        ow.own_mcp_code,
+        ow.own_name,
+        mun.mun_name,
+        prov.prov_name,
+        ow.own_comment,
+        ow.own_id,
+        ow.own_rooms_total,
+        (SELECT min(d.des_name) FROM mycpBundle:destination d WHERE d.des_id = ow.own_destination) as des_name,
+        (SELECT min(s.status_id) FROM mycpBundle:ownershipStatus s WHERE s.status_id = ow.own_status) as status_id,
+        (SELECT min(s1.status_name) FROM mycpBundle:ownershipStatus s1 WHERE s1.status_id = ow.own_status) as status_name,
+        (SELECT count(op) FROM mycpBundle:ownershipPhoto op WHERE op.own_pho_own = ow.own_id) as photos_count
+        FROM mycpBundle:ownership ow
+        JOIN ow.own_address_municipality mun
+        JOIN ow.own_address_province prov
         WHERE ow.own_mcp_code LIKE :filter_code $condition ORDER BY ow.own_mcp_code ASC");
 
         if ($filter_active != 'null' && $filter_active != '')
@@ -564,6 +566,9 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
         if ($filter_municipality != 'null' && $filter_municipality != '')
             $query->setParameter('filter_municipality', $filter_municipality);
 
+        if ($filter_destination != 'null' && $filter_destination != '' && $filter_destination != '-1')
+            $query->setParameter('filter_destination', $filter_destination);
+
         if ($filter_type != 'null' && $filter_type != '')
             $query->setParameter('filter_type', $filter_type);
 
@@ -574,7 +579,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
             $query->setParameter('filter_saler', "%" . $filter_saler . "%");
 
         if ($filter_visit_date != 'null' && $filter_visit_date != '')
-            $query->setParameter('filter_visit_date', Dates::createFromString($filter_visit_date,'-'));
+            $query->setParameter('filter_visit_date', Dates::createFromString($filter_visit_date, '-'));
 
         if (isset($filter_code))
             $query->setParameter('filter_code', "%" . $filter_code . "%");
@@ -602,6 +607,50 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
         $user_id = $user_ids['user_id'];
         $session_id = $user_ids['session_id'];
 
+        $reservations_where = "0";
+
+        if ($arrivalDate != null || $leavingDate != null) {
+
+            $query_string = "SELECT DISTINCT o.own_id FROM mycpBundle:ownershipReservation owr
+                                JOIN owr.own_res_gen_res_id r
+                                JOIN r.gen_res_own_id o
+                                WHERE owr.own_res_status = " . ownershipReservation::STATUS_RESERVED .
+                    " AND (SELECT count(owr1) FROM mycpBundle:ownershipReservation owr1
+                                       JOIN owr1.own_res_gen_res_id r1 WHERE r1.gen_res_own_id = o.own_id
+                                       AND owr1.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") < o.own_rooms_total";
+            $dates_where = "";
+
+            if ($arrivalDate != null) {
+                $dates_where .= ($dates_where != '') ? " OR " : "";
+                $dates_where .= "(owr.own_res_reservation_from_date <= :arrival_date AND owr.own_res_reservation_to_date >= :arrival_date)";
+            }
+
+            if ($leavingDate != null) {
+                $dates_where .= ($dates_where != '') ? " OR " : "";
+                $dates_where .= "(owr.own_res_reservation_from_date <= :leaving_date AND owr.own_res_reservation_to_date >= :leaving_date)";
+            }
+
+            if ($arrivalDate != null && $leavingDate != null) {
+                $dates_where .= ($dates_where != '') ? " OR " : "";
+                $dates_where .= "(owr.own_res_reservation_from_date >= :arrival_date AND owr.own_res_reservation_to_date <= :leaving_date)";
+            }
+
+            $query_string .= ($dates_where != '') ? " AND ($dates_where)" : "";
+
+            $query_reservation = $em->createQuery($query_string);
+
+            if ($arrivalDate != null)
+                $query_reservation->setParameter('arrival_date', $arrivalDate);
+
+            if ($leavingDate != null)
+                $query_reservation->setParameter('leaving_date', $leavingDate);
+
+            $reservations = $query_reservation->getResult();
+
+            foreach ($reservations as $res)
+                $reservations_where .= "," . $res["own_id"];
+        }
+
         $query_string = "";
         $temp_array = null;
         $parameters = array();
@@ -620,7 +669,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                             o.own_minimum_price as minimum_price,
                             (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = :user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = :session_id " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
                             (SELECT count(room) FROM mycpBundle:room room WHERE room.room_ownership=o.own_id) as rooms_count,
-                            (SELECT count(res) FROM mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = ".ownershipReservation::STATUS_RESERVED.") as count_reservations,
+                            (SELECT count(res) FROM mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations,
                             (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments,
                             o.own_facilities_breakfast as breakfast,
                             o.own_facilities_dinner as dinner,
@@ -861,7 +910,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
         if (isset($rooms_total) && $rooms_total != null && $rooms_total != 'null' && $rooms_total != "")
             $query->setParameter('rooms_total', ($rooms_total != "+5" ? $rooms_total : 6));
 
-        $return_list = array();
+        //$return_list = array();
         $results = $query->getResult();
 
 
@@ -870,46 +919,8 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                 $results[$i]['photo'] = "no_photo.png";
             else if (!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo'])))
                 $results[$i]['photo'] = "no_photo.png";
-
-            if ($arrivalDate != null || $leavingDate != null) {
-
-                $query_string = "SELECT owr FROM mycpBundle:ownershipReservation owr
-                                JOIN owr.own_res_gen_res_id r
-                                WHERE r.gen_res_own_id =" . $results[$i]['own_id'] . " AND owr.own_res_status = ".ownershipReservation::STATUS_RESERVED." ";
-                $dates_where = "";
-
-                if ($arrivalDate != null) {
-                    $dates_where .= ($dates_where != '') ? " OR " : "";
-                    $dates_where .= "(owr.own_res_reservation_from_date <= :arrival_date AND owr.own_res_reservation_to_date >= :arrival_date)";
-                }
-
-                if ($leavingDate != null) {
-                    $dates_where .= ($dates_where != '') ? " OR " : "";
-                    $dates_where .= "(owr.own_res_reservation_from_date <= :leaving_date AND owr.own_res_reservation_to_date >= :leaving_date)";
-                }
-
-                if ($arrivalDate != null && $leavingDate != null) {
-                    $dates_where .= ($dates_where != '') ? " OR " : "";
-                    $dates_where .= "(owr.own_res_reservation_from_date >= :arrival_date AND owr.own_res_reservation_to_date <= :leaving_date)";
-                }
-
-                $query_string .= ($dates_where != '') ? " AND ($dates_where)" : "";
-
-                $query_reservation = $em->createQuery($query_string);
-
-                if ($arrivalDate != null)
-                    $query_reservation->setParameter('arrival_date', $arrivalDate);
-
-                if ($leavingDate != null)
-                    $query_reservation->setParameter('leaving_date', $leavingDate);
-
-                $reservations = count($query_reservation->getResult());
-
-                if ($results[$i]['rooms_count'] > $reservations)
-                    $return_list[] = $results[$i];
-            }
         }
-        return (count($return_list) > 0) ? $return_list : $results;
+        return $results;
     }
 
     /**
@@ -926,11 +937,11 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                             AND (p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
                             where op1.own_pho_own = o.own_id) or p.pho_order is null) as photo,
                          (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = '$locale') as description,
-                         (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = ".ownershipReservation::STATUS_RESERVED.") as count_reservations
+                         (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
                          WHERE o.own_top_20=1
-                           AND o.own_status = 1";
+                           AND o.own_status = " . ownershipStatus::STATUS_ACTIVE;
 
         if ($category != null) {
             $query_string .= " AND LOWER(o.own_category) = '$category'";
@@ -953,9 +964,9 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
     public function top20_statistics() {
         $em = $this->getEntityManager();
         $query = "SELECT count(own.own_id) as premium_total,
-                  (SELECT count(own1.own_id) FROM mycpBundle:ownership own1 WHERE own1.own_top_20 = 1 AND own1.own_status = 1 AND LOWER(own1.own_category) = 'rango medio') as midrange_total,
-                  (SELECT count(own2.own_id) FROM mycpBundle:ownership own2 WHERE own2.own_top_20 = 1 AND own2.own_status = 1 AND own2.own_category = 'Económica') as economic_total
-                  FROM mycpBundle:ownership own WHERE own.own_top_20 = 1 AND own.own_status = 1 AND own.own_category = 'Premium'";
+                  (SELECT count(own1.own_id) FROM mycpBundle:ownership own1 WHERE own1.own_top_20 = 1 AND own1.own_status = " . ownershipStatus::STATUS_ACTIVE . " AND LOWER(own1.own_category) = 'rango medio') as midrange_total,
+                  (SELECT count(own2.own_id) FROM mycpBundle:ownership own2 WHERE own2.own_top_20 = 1 AND own2.own_status = " . ownershipStatus::STATUS_ACTIVE . " AND own2.own_category = 'Económica') as economic_total
+                  FROM mycpBundle:ownership own WHERE own.own_top_20 = 1 AND own.own_status = " . ownershipStatus::STATUS_ACTIVE . " AND own.own_category = 'Premium'";
         return $em->createQuery($query)->getOneOrNullResult();
     }
 
@@ -979,40 +990,71 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
 
         $categories = array();
 
-        foreach ($owns_categories as $category) {
-            if (isset($own_ids))
-                $query_string = "SELECT count(o.own_type) FROM mycpBundle:ownership o
-                         WHERE o.own_status = 1 AND o.own_id IN ($own_ids) AND o.own_category='" . $category . "'";
-            else
-                $query_string = "SELECT count(o.own_type) FROM mycpBundle:ownership o
-                         WHERE o.own_status = 1 AND o.own_category='" . $category . "'";
-            $count = $em->createQuery($query_string)->getSingleScalarResult();
+        if (isset($own_ids))
+            $query_string = "SELECT count(o) as economic,
+                         (SELECT count(o1) FROM mycpBundle:ownership o1 WHERE o1.own_status = :own_status AND o1.own_id IN ($own_ids) AND o1.own_category='Rango medio') as middle_range,
+                         (SELECT count(o2) FROM mycpBundle:ownership o2 WHERE o2.own_status = :own_status AND o2.own_id IN ($own_ids) AND o2.own_category='Premium') as premium
+                         FROM mycpBundle:ownership o
+                         WHERE o.own_status = :own_status AND o.own_id IN ($own_ids) AND o.own_category='Económica'";
+        else
+            $query_string = "SELECT count(o) as economic,
+                         (SELECT count(o1) FROM mycpBundle:ownership o1 WHERE o1.own_status = :own_status AND o1.own_category='Rango medio') as middle_range,
+                         (SELECT count(o2) FROM mycpBundle:ownership o2 WHERE o2.own_status = :own_status AND o2.own_category='Premium') as premium
+                         FROM mycpBundle:ownership o
+                         WHERE o.own_status = :own_status AND o.own_category='Económica'";
+        $counts = $em->createQuery($query_string)->setParameter('own_status', ownershipStatus::STATUS_ACTIVE)->getSingleResult();
 
-            $categories[] = array(trim($category), $count);
-        }
+        $categories[] = array(trim("Económica"), $counts['economic']);
+        $categories[] = array(trim("Rango medio"), $counts['middle_range']);
+        $categories[] = array(trim("Premium"), $counts['premium']);
 
         return $categories;
     }
 
     function getOwnsPrices($own_ids = null) {
         $em = $this->getEntityManager();
-        $prices = range(25, 200, 25);
-        $prices[] = 300;
+        /* $prices = range(25, 200, 25);
+          $prices[] = 300; */
 
         $prices_result = array();
-        $minimun_price = 0;
-        foreach ($prices as $price) {
-            if (isset($own_ids))
-                $query_string = "SELECT count(o.own_maximum_price) FROM mycpBundle:ownership o
-                         WHERE o.own_status = 1 AND o.own_id IN ($own_ids) AND ((o.own_minimum_price<" . $price . " AND o.own_minimum_price >=$minimun_price))";
-            else
-                $query_string = "SELECT count(o.own_maximum_price) FROM mycpBundle:ownership o
-                         WHERE o.own_status = 1 AND ((o.own_minimum_price<" . $price . " AND o.own_minimum_price >=$minimun_price))";
-            $count = $em->createQuery($query_string)->getSingleScalarResult();
+        //$minimun_price = 0;
+        //foreach ($prices as $price) {
+        if (isset($own_ids))
+            $query_string = "SELECT count(o) as primero,
+                         (SELECT count(o1) FROM mycpBundle:ownership o1 WHERE o1.own_status = :own_status AND o1.own_id IN ($own_ids) AND o1.own_minimum_price< 50 AND o.own_minimum_price >=25) as segundo,
+                         (SELECT count(o2) FROM mycpBundle:ownership o2 WHERE o2.own_status = :own_status AND o2.own_id IN ($own_ids) AND o2.own_minimum_price< 75 AND o2.own_minimum_price >=50) as tercero,
+                         (SELECT count(o3) FROM mycpBundle:ownership o3 WHERE o3.own_status = :own_status AND o3.own_id IN ($own_ids) AND o3.own_minimum_price< 100 AND o3.own_minimum_price >=75) as cuarto,
+                         (SELECT count(o4) FROM mycpBundle:ownership o4 WHERE o4.own_status = :own_status AND o4.own_id IN ($own_ids) AND o4.own_minimum_price< 125 AND o4.own_minimum_price >=100) as quinto,
+                         (SELECT count(o5) FROM mycpBundle:ownership o5 WHERE o5.own_status = :own_status AND o5.own_id IN ($own_ids) AND o5.own_minimum_price< 150 AND o5.own_minimum_price >=125) as sexto,
+                         (SELECT count(o6) FROM mycpBundle:ownership o6 WHERE o6.own_status = :own_status AND o6.own_id IN ($own_ids) AND o6.own_minimum_price< 175 AND o6.own_minimum_price >=150) as septimo,
+                         (SELECT count(o7) FROM mycpBundle:ownership o7 WHERE o7.own_status = :own_status AND o7.own_id IN ($own_ids) AND o7.own_minimum_price< 200 AND o7.own_minimum_price >=175) as octavo,
+                         (SELECT count(o8) FROM mycpBundle:ownership o8 WHERE o8.own_status = :own_status AND o8.own_id IN ($own_ids) AND o8.own_minimum_price< 300 AND o8.own_minimum_price >=200) as noveno
+                         FROM mycpBundle:ownership o
+                         WHERE o.own_status = :own_status AND o.own_id IN ($own_ids) AND o.own_minimum_price< 25 AND o.own_minimum_price >=0";
+        else
+            $query_string = "SELECT count(o) as primero,
+                         (SELECT count(o1) FROM mycpBundle:ownership o1 WHERE o1.own_status = :own_status AND o1.own_minimum_price< 50 AND o.own_minimum_price >=25) as segundo,
+                         (SELECT count(o2) FROM mycpBundle:ownership o2 WHERE o2.own_status = :own_status AND o2.own_minimum_price< 75 AND o2.own_minimum_price >=50) as tercero,
+                         (SELECT count(o3) FROM mycpBundle:ownership o3 WHERE o3.own_status = :own_status AND o3.own_minimum_price< 100 AND o3.own_minimum_price >=75) as cuarto,
+                         (SELECT count(o4) FROM mycpBundle:ownership o4 WHERE o4.own_status = :own_status AND o4.own_minimum_price< 125 AND o4.own_minimum_price >=100) as quinto,
+                         (SELECT count(o5) FROM mycpBundle:ownership o5 WHERE o5.own_status = :own_status AND o5.own_minimum_price< 150 AND o5.own_minimum_price >=125) as sexto,
+                         (SELECT count(o6) FROM mycpBundle:ownership o6 WHERE o6.own_status = :own_status AND o6.own_minimum_price< 175 AND o6.own_minimum_price >=150) as septimo,
+                         (SELECT count(o7) FROM mycpBundle:ownership o7 WHERE o7.own_status = :own_status AND o7.own_minimum_price< 200 AND o7.own_minimum_price >=175) as octavo,
+                         (SELECT count(o8) FROM mycpBundle:ownership o8 WHERE o8.own_status = :own_status AND o8.own_minimum_price< 300 AND o8.own_minimum_price >=200) as noveno
+                         FROM mycpBundle:ownership o
+                         WHERE o.own_status = :own_status AND ((o.own_minimum_price< 25 AND o.own_minimum_price >=0))";
 
-            $prices_result[] = array($minimun_price, $price, $count);
-            $minimun_price = $price;
-        }
+        $counts = $em->createQuery($query_string)->setParameter('own_status', ownershipStatus::STATUS_ACTIVE)->getSingleResult();
+
+        $prices_result[] = array(0, 25, $counts['primero']);
+        $prices_result[] = array(25, 50, $counts['segundo']);
+        $prices_result[] = array(50, 75, $counts['tercero']);
+        $prices_result[] = array(75, 100, $counts['cuarto']);
+        $prices_result[] = array(100, 125, $counts['quinto']);
+        $prices_result[] = array(125, 150, $counts['sexto']);
+        $prices_result[] = array(150, 175, $counts['septimo']);
+        $prices_result[] = array(175, 200, $counts['octavo']);
+        $prices_result[] = array(200, 300, $counts['noveno']);
 
         return $prices_result;
     }
@@ -1033,19 +1075,30 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
         $owns_types[] = "Casa particular";
 
         $types = array();
+        if (isset($own_ids))
+            $query_string = "SELECT count(o) as penthouse,
+                             (SELECT count(o1) FROM mycpBundle:ownership o1 WHERE o1.own_status = :own_status AND o1.own_id IN ($own_ids) AND o1.own_type='Villa con piscina') as villa,
+                             (SELECT count(o2) FROM mycpBundle:ownership o2 WHERE o2.own_status = :own_status AND o2.own_id IN ($own_ids) AND o2.own_type='Apartamento') as apartamento,
+                             (SELECT count(o3) FROM mycpBundle:ownership o3 WHERE o3.own_status = :own_status AND o3.own_id IN ($own_ids) AND o3.own_type='Propiedad completa') as propiedad,
+                             (SELECT count(o4) FROM mycpBundle:ownership o4 WHERE o4.own_status = :own_status AND o4.own_id IN ($own_ids) AND o4.own_type='Casa particular') as casa
+                             FROM mycpBundle:ownership o
+                             WHERE o.own_status = :own_status AND o.own_id IN ($own_ids) AND o.own_type='Penthouse'";
+        else
+            $query_string = "SELECT count(o) as penthouse,
+                             (SELECT count(o1) FROM mycpBundle:ownership o1 WHERE o1.own_status = :own_status AND o1.own_type='Villa con piscina') as villa,
+                             (SELECT count(o2) FROM mycpBundle:ownership o2 WHERE o2.own_status = :own_status AND o2.own_type='Apartamento') as apartamento,
+                             (SELECT count(o3) FROM mycpBundle:ownership o3 WHERE o3.own_status = :own_status AND o3.own_type='Propiedad completa') as propiedad,
+                             (SELECT count(o4) FROM mycpBundle:ownership o4 WHERE o4.own_status = :own_status AND o4.own_type='Casa particular') as casa
+                             FROM mycpBundle:ownership o
+                             WHERE o.own_status = :own_status AND o.own_type='Penthouse'";
 
-        foreach ($owns_types as $type) {
-            if (isset($own_ids))
-                $query_string = "SELECT count(o.own_type) FROM mycpBundle:ownership o
-                                 WHERE o.own_status = 1 AND o.own_id IN ($own_ids) AND o.own_type='" . $type . "'";
-            else
-                $query_string = "SELECT count(o.own_type) FROM mycpBundle:ownership o
-                                 WHERE o.own_status = 1 AND o.own_type='" . $type . "'";
+        $counts = $em->createQuery($query_string)->setParameter('own_status', ownershipStatus::STATUS_ACTIVE)->getSingleResult();
 
-            $count = $em->createQuery($query_string)->getSingleScalarResult();
-
-            $types[] = array(trim($type), $count);
-        }
+        $types[] = array("Penthouse", $counts['penthouse']);
+        $types[] = array("Villa con piscina", $counts['villa']);
+        $types[] = array("Apartamento", $counts['apartamento']);
+        $types[] = array("Propiedad completa", $counts['propiedad']);
+        $types[] = array("Casa particular", $counts['casa']);
 
         return $types;
     }
@@ -1122,17 +1175,36 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                             o.own_water_sauna as sauna,
                             o.own_description_pets as pets,
                             o.own_water_jacuzee as jacuzee,
-                            o.own_langs as langs
-                            FROM mycpBundle:room r
-                            join r.room_ownership o
-                            WHERE o.own_status = 1
-                            ";
+                            o.own_langs as langs,
+                            o.own_rooms_total
+                            FROM mycpBundle:ownership o
+                            WHERE o.own_status = " . ownershipStatus::STATUS_ACTIVE;
         $query = $em->createQuery($query_string);
-
         $own_list = $query->getResult();
 
+        $query_string = "SELECT r FROM mycpBundle:room r join r.room_ownership o WHERE o.own_status = " . ownershipStatus::STATUS_ACTIVE . "
+                         ORDER BY r.room_ownership ASC";
+        $rooms = $em->createQuery($query_string)->getResult();
+
         foreach ($own_list as $own) {
-            $own_ids .= "," . $own['own_id'];
+
+            switch ($own['own_rooms_total']) {
+                case 1: $statistics['rooms_total_1'] += 1;
+                    break;
+                case 2: $statistics['rooms_total_2'] += 1;
+                    break;
+                case 3: $statistics['rooms_total_3'] += 1;
+                    break;
+                case 4: $statistics['rooms_total_4'] += 1;
+                    break;
+                case 5: $statistics['rooms_total_5'] += 1;
+                    break;
+                default:
+                    if ($own['own_rooms_total'] > 5) {
+                        $statistics['rooms_total_+5'] += 1;
+                        break;
+                    }
+            }
 
             if ($own['breakfast'] != null && $own['breakfast'])
                 $statistics['own_services_breakfast'] += 1;
@@ -1174,12 +1246,6 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                 $statistics['own_lang_italian'] += 1;
         }
 
-        $query_string = "SELECT r FROM mycpBundle:room r
-                         WHERE r.room_ownership IN ($own_ids) ORDER BY r.room_ownership ASC";
-
-        $rooms = $em->createQuery($query_string)->getResult();
-        $current_own_id = 0;
-        $total_rooms = 0;
         $is_room_individual = false;
         $is_room_double = false;
         $is_room_double_two_beds = false;
@@ -1200,54 +1266,24 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
         $is_own_total_room = false;
 
         foreach ($rooms as $room) {
-
-            if ($room->getRoomOwnership()->getOwnId() != $current_own_id) {
-                if ($total_rooms != null && $total_rooms > 0 && !$is_own_total_room) {
-                    //$statistics['room_windows'] += 1;
-                    switch ($total_rooms) {
-                        case 1: $statistics['rooms_total_1'] += 1;
-                            break;
-                        case 2: $statistics['rooms_total_2'] += 1;
-                            break;
-                        case 3: $statistics['rooms_total_3'] += 1;
-                            break;
-                        case 4: $statistics['rooms_total_4'] += 1;
-                            break;
-                        case 5: $statistics['rooms_total_5'] += 1;
-                            break;
-                        default:
-                            if ($room->getRoomWindows() > 5) {
-                                $statistics['rooms_total_+5'] += 1;
-                                break;
-                            }
-                    }
-                    $is_own_total_room = true;
-                }
-
-
-                $current_own_id = $room->getRoomOwnership()->getOwnId();
-                $is_room_individual = false;
-                $is_room_double = false;
-                $is_room_double_two_beds = false;
-                $is_room_triple = false;
-                $is_room_climatization = false;
-                $is_room_audiovisual = false;
-                $is_room_kids = false;
-                $is_room_smoker = false;
-                $is_room_safe = false;
-                $is_room_windows = false;
-                $is_room_balcony = false;
-                $is_room_terrace = false;
-                $is_room_yard = false;
-                $is_room_bathromm_inner = false;
-                $is_room_bathroom_outer = false;
-                $is_room_bathroom_shared = false;
-                $is_room_total_bed = false;
-                $is_own_total_room = false;
-                $total_rooms = 0;
-            }
-
-            $total_rooms += 1;
+            $is_room_individual = false;
+            $is_room_double = false;
+            $is_room_double_two_beds = false;
+            $is_room_triple = false;
+            $is_room_climatization = false;
+            $is_room_audiovisual = false;
+            $is_room_kids = false;
+            $is_room_smoker = false;
+            $is_room_safe = false;
+            $is_room_windows = false;
+            $is_room_balcony = false;
+            $is_room_terrace = false;
+            $is_room_yard = false;
+            $is_room_bathromm_inner = false;
+            $is_room_bathroom_outer = false;
+            $is_room_bathroom_shared = false;
+            $is_room_total_bed = false;
+            $is_own_total_room = false;
 
             if ($room->getRoomType() != null && $room->getRoomType() == 'Habitación doble' && !$is_room_double) {
                 $statistics['room_double'] += 1;
@@ -1369,26 +1405,6 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
             }
         }
 
-        if (count($own_list) == 1) {
-            switch ($total_rooms) {
-                case 1: $statistics['rooms_total_1'] += 1;
-                    break;
-                case 2: $statistics['rooms_total_2'] += 1;
-                    break;
-                case 3: $statistics['rooms_total_3'] += 1;
-                    break;
-                case 4: $statistics['rooms_total_4'] += 1;
-                    break;
-                case 5: $statistics['rooms_total_5'] += 1;
-                    break;
-                default:
-                    if ($room->getRoomWindows() > 5) {
-                        $statistics['rooms_total_+5'] += 1;
-                        break;
-                    }
-            }
-        }
-
         return $statistics;
     }
 
@@ -1486,12 +1502,12 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                         o.own_minimum_price as minimum_price,
                         (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
                         (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
-                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = ".ownershipReservation::STATUS_RESERVED.") as count_reservations,
+                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations,
                         (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
                          JOIN o.own_address_municipality mun
-                         WHERE o.own_status = 1
+                         WHERE o.own_status = " . ownershipStatus::STATUS_ACTIVE . "
                          ORDER BY o.own_id DESC";
 
         $results = ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult();
@@ -1509,7 +1525,8 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
     function get_details($own_name, $locale = "ES", $user_id = null, $session_id = null) {
         $em = $this->getEntityManager();
         $query_string = "SELECT o.own_id as own_id,
-                         o.own_name as ownname,
+                        (SELECT min(dest.des_id) FROM mycpBundle:destination dest WHERE dest.des_id = o.own_destination) as des_id,
+                        o.own_name as ownname,
                         prov.prov_name as ownAddressProvince,
                         prov.prov_id as ownAddressProvince_id,
                         o.own_address_street as ownAddressStreet,
@@ -1544,7 +1561,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                         o.own_commission_percent as OwnCommissionPercent,
                         (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
                         (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
-                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = ".ownershipReservation::STATUS_RESERVED.") as count_reservations,
+                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations,
                         (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments,
                         (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = '$locale') as brief_description,
                         (SELECT min(dd.odl_description) FROM mycpBundle:ownershipDescriptionLang dd JOIN dd.odl_id_lang dl WHERE dd.odl_ownership = o.own_id AND dl.lang_code = '$locale') as description,
@@ -1566,6 +1583,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
         $em = $this->getEntityManager();
         $query_string = "SELECT o.own_id as own_id,
                          o.own_name as ownname,
+                         s.status_id,
                         prov.prov_name as ownAddressProvince,
                         prov.prov_id as ownAddressProvince_id,
                         o.own_address_street as ownAddressStreet,
@@ -1599,7 +1617,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                         o.own_homeowner_2 as owner2,
                         o.own_commission_percent as OwnCommissionPercent,
                         (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
-                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = ".ownershipReservation::STATUS_RESERVED.") as count_reservations,
+                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations,
                         (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments,
                         (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = '$locale') as brief_description,
                         (SELECT min(dd.odl_description) FROM mycpBundle:ownershipDescriptionLang dd JOIN dd.odl_id_lang dl WHERE dd.odl_ownership = o.own_id AND dl.lang_code = '$locale') as description,
@@ -1611,6 +1629,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
                          JOIN o.own_address_municipality mun
+                         JOIN o.own_status s
                          WHERE o.own_mcp_code = :own_mycp_code
                          ORDER BY o.own_id DESC";
 
@@ -1636,13 +1655,13 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                         o.own_minimum_price as minimum_price,
                         (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
                         (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
-                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = ".ownershipReservation::STATUS_RESERVED.") as count_reservations,
+                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations,
                         (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
                          JOIN o.own_address_municipality mun
                          WHERE o.own_category= :category
-                           AND o.own_status = 1
+                           AND o.own_status = " . ownershipStatus::STATUS_ACTIVE . "
                          ORDER BY o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC";
         else
             $query_string = "SELECT o.own_id as own_id,
@@ -1660,13 +1679,13 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                         o.own_minimum_price as minimum_price,
                         (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
                         (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
-                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = ".ownershipReservation::STATUS_RESERVED.") as count_reservations,
+                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations,
                         (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
                          JOIN o.own_address_municipality mun
                          WHERE o.own_category= :category
-                           AND o.own_status = 1
+                           AND o.own_status = " . ownershipStatus::STATUS_ACTIVE . "
                            AND o.own_id <> $exclude_id
                          ORDER BY o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC";
 
@@ -1729,7 +1748,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
         $em = $this->getEntityManager();
 
         $query = $em->createQuery("SELECT o FROM mycpBundle:ownership o
-        WHERE o.own_name LIKE '%$own_part_name%' AND o.own_status=1 ORDER BY o.own_name ASC");
+        WHERE o.own_name LIKE '%$own_part_name%' AND o.own_status=" . ownershipStatus::STATUS_ACTIVE . " ORDER BY o.own_name ASC");
         return $query->getResult();
     }
 
@@ -1737,7 +1756,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
         $em = $this->getEntityManager();
 
         $query = $em->createQuery("SELECT o FROM mycpBundle:ownership o
-        WHERE o.own_mcp_code LIKE '%$own_part_name%' AND o.own_status=1 ORDER BY o.own_mcp_code ASC");
+        WHERE o.own_mcp_code LIKE '%$own_part_name%' AND o.own_status=" . ownershipStatus::STATUS_ACTIVE . " ORDER BY o.own_mcp_code ASC");
         return $query->getResult();
     }
 
@@ -1745,7 +1764,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
         $em = $this->getEntityManager();
 
         $query = $em->createQuery("SELECT o FROM mycpBundle:ownership o
-        WHERE o.own_status=1 ORDER BY o.own_name ASC");
+        WHERE o.own_status=" . ownershipStatus::STATUS_ACTIVE . " ORDER BY o.own_name ASC");
         return $query->getResult();
     }
 
@@ -1767,7 +1786,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
 
         $query = $em->createQuery("SELECT o
             FROM mycpBundle:ownership o
-            WHERE o.own_status=1
+            WHERE o.own_status=" . ownershipStatus::STATUS_ACTIVE . "
               AND o.own_rating >= 4
             ORDER BY o.own_rating DESC, o.own_comments_total DESC");
         return $query->getResult();
@@ -1777,7 +1796,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
         $em = $this->getEntityManager();
         $query_string = "SELECT o
                         FROM mycpBundle:ownership o
-                        WHERE o.own_status=1
+                        WHERE o.own_status=" . ownershipStatus::STATUS_ACTIVE . "
                           AND o.own_comments_total > 0
                         ORDER BY o.own_rating DESC, o.own_comments_total DESC";
 
@@ -1841,7 +1860,7 @@ mycpBundle:unavailabilityDetails ud WHERE ud.room=$id_old_room");
                         (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = $own_id)  as comments
                         FROM mycpBundle:generalReservation res
                         WHERE res.gen_res_own_id = $own_id
-                        AND res.gen_res_status=".generalReservation::STATUS_RESERVED);
+                        AND res.gen_res_status=" . generalReservation::STATUS_RESERVED);
                 $counts[$own_id] = $query->getArrayResult();
             }
         }

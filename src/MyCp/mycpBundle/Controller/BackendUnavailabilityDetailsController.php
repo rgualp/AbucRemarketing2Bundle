@@ -26,8 +26,9 @@ class BackendUnavailabilityDetailsController extends Controller {
         $filter_type = $request->get('filter_type');
         $filter_category = $request->get('filter_category');
         $filter_code = $request->get('filter_code');
+        $filter_destination = $request->get('filter_destination');
         if ($request->getMethod() == 'POST' && $filter_name == 'null' && $filter_active == 'null' && $filter_province == 'null' && $filter_municipality == 'null' &&
-                $filter_type == 'null' && $filter_category == 'null' && $filter_code == 'null'
+                $filter_type == 'null' && $filter_category == 'null' && $filter_code == 'null' && $filter_destination == 'null'
         ) {
             $message = 'Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
@@ -43,8 +44,8 @@ class BackendUnavailabilityDetailsController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
-        $ownerships = $paginator->paginate($em->getRepository('mycpBundle:ownership')->get_all_ownerships(
-                                $filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality, $filter_type, $filter_name
+        $ownerships = $paginator->paginate($em->getRepository('mycpBundle:ownership')->getAll(
+                                $filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality,$filter_destination, $filter_type, $filter_name
                 ))->getResult();
 
         $service_log = $this->get('log');
@@ -62,6 +63,7 @@ class BackendUnavailabilityDetailsController extends Controller {
                     'filter_province' => $filter_province,
                     'filter_municipality' => $filter_municipality,
                     'filter_type' => $filter_type,
+                    'filter_destination' => $filter_destination,
         ));
     }
 

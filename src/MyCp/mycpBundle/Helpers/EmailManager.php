@@ -165,7 +165,7 @@ class EmailManager
             $emailFrom = $this->emailSenderAddress;
         }
 
-        $callback = array($this->emailService, 'send_templated_email');
+        $callback = array($this->emailService, 'sendTemplatedEmail');
         $parameters = array($emailSubject, $emailFrom, $emailAddress, $emailBody);
         $this->sendEmailWithRetries($callback, $parameters);
     }
@@ -185,7 +185,7 @@ class EmailManager
             $emailFrom = $this->emailSenderAddress;
         }
 
-        $callback = array($this->emailService, 'send_email');
+        $callback = array($this->emailService, 'sendEmail');
         $parameters = array($emailSubject, $emailFrom, $this->emailSenderName,
             $emailAddress, $emailBody, $attachment);
         $this->sendEmailWithRetries($callback, $parameters);
