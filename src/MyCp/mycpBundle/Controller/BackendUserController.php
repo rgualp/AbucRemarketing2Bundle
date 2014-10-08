@@ -36,7 +36,7 @@ class BackendUserController extends Controller {
                 $count_errors++;
             }
 
-            if ($post['mycp_mycpbundle_client_stafftype']['user_email'] != "" && !sUtils::validateEmail($post['mycp_mycpbundle_client_stafftype']['user_email'])) {
+            if ($post['mycp_mycpbundle_client_stafftype']['user_email'] != "" && !Utils::validateEmail($post['mycp_mycpbundle_client_stafftype']['user_email'])) {
                 $data['error'] = 'Correo no válido';
                 $count_errors++;
             }
