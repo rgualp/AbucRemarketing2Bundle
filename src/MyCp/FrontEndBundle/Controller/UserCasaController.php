@@ -33,6 +33,9 @@ class UserCasaController extends Controller {
 
         if (isset($own_code) && $own_code != null && $own_code != "" && $own_code != "0") {
             $userCasa = $em->getRepository('mycpBundle:userCasa')->getOneByOwnCode($own_code);
+            
+            if($userCasa)
+            {
             $complete_user = array(
                 'user_secret_token' => "",
                 'user_user_name' => $userCasa->getUserCasaUser()->getUserUserName(),
@@ -42,6 +45,9 @@ class UserCasaController extends Controller {
                 'user_address' => $userCasa->getUserCasaUser()->getUserAddress(),
                 'mycp_code' => $own_code,
                 'user_password' => "");
+            }
+            else
+                throw new \Exception("No existe un usuario asociado");
 
             $form = $this->createForm(new enableUserCasaType($this->get('translator')), $complete_user);
 
