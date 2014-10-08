@@ -452,11 +452,10 @@ class destinationRepository extends EntityRepository {
                          d.des_name as desName, 
                          (select count(s) FROM mycpBundle:season s WHERE s.season_destination = d.des_id) as hasSeason
                          FROM mycpBundle:destinationLocation l
-                         JOIN l.des_loc_destination d
-                         WHERE d.des_active = 1";
+                         JOIN l.des_loc_destination d";
         
         if($municipality != null && $municipality != "")
-            $query_string .= "AND l.des_loc_municipality = " . $municipality;
+            $query_string .= " WHERE l.des_loc_municipality = " . $municipality;
 
         $query_string.= " ORDER BY d.des_order";
 

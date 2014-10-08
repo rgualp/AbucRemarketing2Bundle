@@ -104,8 +104,43 @@ class PublicController extends Controller
         return $this->render('mycpBundle:utils:country.html.twig',array('selected'=>$selected,'countries'=>$countries));
     }
 
+    public function getDestinationByMunAction($post,Request $request)
+    {
+        //$post = $request->request->getIterator()->getArrayCopy();
+        $em = $this->getDoctrine()->getManager();
+        $selected = '';
+        if($post && isset($post['ownership_destination']))
+        {
+            $selected = $post['ownership_destination'];
+        }
+        $destinations = array();
 
+        if($post && isset($post['ownership_destination']))
+            $destinations = $em->getRepository('mycpBundle:destination')->getByMunicipality($post['ownership_address_municipality']);
+        /*else
+            $municipalities = $em->getRepository ('mycpBundle:municipality')->findAll();*/
+        return $this->render('mycpBundle:utils:list_destinations.html.twig', array('destinations' => $destinations,'selected'=>$selected));
+    }
 
+    public function getDestinationByMunCallbackAction($municipality,Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $destinations = $em->getRepository('mycpBundle:destination')->getByMunicipality($municipality);
+        return $this->render('mycpBundle:utils:list_destinations.html.twig', array('destinations' => $destinations));
+    }
 
+    public function getDestinationsAction($post,Request $request)
+    {
+        $selected='';
+        if($post && isset($post['ownership_destination']))
+            $selected=$post['ownership_destination'];
+        $em = $this->getDoctrine()->getManager();
+
+        if(isset($post['ownership_address_municipality']))
+            $destinations = $em->getRepository('mycpBundle:destination')->getByMunicipality($post['ownership_address_municipality']);
+        else
+            $destinations = $em->getRepository('mycpBundle:destination')->getByMunicipality();
+        return $this->render('mycpBundle:utils:list_destinations.html.twig', array('destinations' => $destinations,'selected'=>$selected));
+    }
 
 }
