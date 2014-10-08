@@ -125,7 +125,7 @@
         {% set total_adults = total_adults + reservation_rooms.getOwnResCountAdults %}
         {% set total_kids = total_kids + reservation_rooms.getOwnResCountChildrens %}
         {% set total_nights = total_nights + nights[loop.index0] %}
-        {% set total_price = total_price + nights[loop.index0] * reservation_rooms.getOwnResNightPrice %}
+        
         <tr>
             <td>CAS.{{reservation_rooms.getOwnResGenResId.getGenResId}}</td>
             {% set res_type ='' %}

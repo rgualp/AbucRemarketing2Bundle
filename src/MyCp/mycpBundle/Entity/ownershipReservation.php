@@ -96,9 +96,9 @@ class ownershipReservation
     private $own_res_count_childrens;
 
     /**
-     * @var integer
+     * @var floats
      *
-     * @ORM\Column(name="own_res_night_price", type="integer")
+     * @ORM\Column(name="own_res_night_price", type="float", precision=2)
      */
     private $own_res_night_price;
 
@@ -137,9 +137,9 @@ class ownershipReservation
     private $own_res_reservation_booking;
 
     /**
-     * @var integer
+     * @var float
      *
-     * @ORM\Column(name="own_res_total_in_site", type="float")
+     * @ORM\Column(name="own_res_total_in_site", type="float", precision=2)
      */
     private $own_res_total_in_site;
 
