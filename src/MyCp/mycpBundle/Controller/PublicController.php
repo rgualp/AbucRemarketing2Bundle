@@ -142,5 +142,18 @@ class PublicController extends Controller
             $destinations = $em->getRepository('mycpBundle:destination')->getByMunicipality();
         return $this->render('mycpBundle:utils:list_destinations.html.twig', array('destinations' => $destinations,'selected'=>$selected));
     }
+    
+    public function sendMailCreateUserCasaAction($userId, $returnUrlName) {
+        $em = $this->getDoctrine()->getManager();
+        $userCasa = $em->getRepository('mycpBundle:userCasa')->findOneBy(array('user_casa_user' => $userId));
+
+        if ($userCasa != null) {
+            \MyCp\mycpBundle\Helpers\UserMails::sendCreateUserCasaMail($this,$userCasa->getUserCasaUser()->getUserEmail(), $userCasa->getUserCasaUser()->getUserName(), $userCasa->getUserCasaUser()->getUserUserName() . ' ' . $userCasa->getUserCasaUser()->getUserLastName(), $userCasa->getUserCasaSecretToken(), $userCasa->getUserCasaOwnership()->getOwnName(), $userCasa->getUserCasaOwnership()->getOwnMcpCode());
+        } else {
+            $message = 'No existe un usuario casa asociado al identificador de usuario seleccionado.';
+            $this->get('session')->getFlashBag()->add('message_error_main', $message);
+        }
+        return $this->redirect($this->generateUrl($returnUrlName));
+    }
 
 }

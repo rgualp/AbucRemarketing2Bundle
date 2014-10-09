@@ -526,6 +526,9 @@ class ownershipRepository extends EntityRepository {
         if ($filter_visit_date != 'null' && $filter_visit_date != '') {
             $condition .= " AND ow.own_visit_date = :filter_visit_date ";
         }
+        if ($filter_destination != 'null' && $filter_destination != '') {
+            $condition .= " AND ow.own_destination = :filter_destination ";
+        }
 
 
         $em = $this->getEntityManager();
@@ -570,6 +573,9 @@ class ownershipRepository extends EntityRepository {
 
         if ($filter_visit_date != 'null' && $filter_visit_date != '')
             $query->setParameter('filter_visit_date', Dates::createFromString($filter_visit_date, '-'));
+        
+        if ($filter_destination != 'null' && $filter_destination != '') 
+            $query->setParameter('filter_destination', $filter_destination);
 
         if (isset($filter_code))
             $query->setParameter('filter_code', "%" . $filter_code . "%");
@@ -1515,7 +1521,7 @@ class ownershipRepository extends EntityRepository {
     function get_details($own_name, $locale = "ES", $user_id = null, $session_id = null) {
         $em = $this->getEntityManager();
         $query_string = "SELECT o.own_id as own_id,
-                        (SELECT min(dest.des_id) FROM mycpBundle:destination dest WHERE dest.des_id = o.own_destination) as des_id,
+                        dest.des_id as des_id,
                         o.own_name as ownname,
                         prov.prov_name as ownAddressProvince,
                         prov.prov_id as ownAddressProvince_id,
@@ -1563,6 +1569,7 @@ class ownershipRepository extends EntityRepository {
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
                          JOIN o.own_address_municipality mun
+                         JOIN o.own_destination dest
                          WHERE o.own_name = :own_name
                          ORDER BY o.own_id DESC";
 

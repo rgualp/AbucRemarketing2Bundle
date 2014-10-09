@@ -124,3 +124,7 @@ mycp_lodging_front:
 mycp_backend_metatags:
     resource: "@mycpBundle/Resources/config/routingBackendMetaTags.yml"
     prefix:   backend/metatags/
+    
+mycp_send_created_usercasa_mail:
+    pattern:  /send_mail/create/user_casa/{userId}/{returnUrlName}
+    defaults: { _controller: mycpBundle:Public:sendMailCreateUserCasa}

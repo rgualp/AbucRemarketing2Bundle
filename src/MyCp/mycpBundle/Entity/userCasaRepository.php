@@ -74,7 +74,8 @@ class userCasaRepository extends EntityRepository {
         $user->setUserSubrole($subrole);
         $user_name = explode(' ', $ownership->getOwnHomeOwner1());
         $user->setUserUserName($user_name[0]);
-        $user->setUserLastName($user_name[1]);
+        $lastName = (count($user_name) > 1) ? $user_name[1]: "";
+        $user->setUserLastName($lastName);
         $user->setUserPassword(" ");
 
         $user_casa = new userCasa();

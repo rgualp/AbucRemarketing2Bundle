@@ -1,17 +1,17 @@
 <?php
 
 namespace MyCp\mycpBundle\Twig\Extension;
+
 use MyCp\mycpBundle\Helpers\BackendModuleName;
 use MyCp\mycpBundle\Entity\season;
 
 class mycpExtension extends \Twig_Extension {
+    /* private $session;
+      private $entity_manager; */
 
-    /*private $session;
-    private $entity_manager;*/
-
-    public function __construct(/*$session, $entity_manager*/) {
-       /* $this->session = $session;
-        $this->entity_manager = $entity_manager;*/
+    public function __construct(/* $session, $entity_manager */) {
+        /* $this->session = $session;
+          $this->entity_manager = $entity_manager; */
     }
 
     public function getName() {
@@ -30,10 +30,8 @@ class mycpExtension extends \Twig_Extension {
         );
     }
 
-    public function moduleName($module_number)
-    {
-        switch($module_number)
-        {
+    public function moduleName($module_number) {
+        switch ($module_number) {
             case BackendModuleName::MODULE_DESTINATION: return "Destination";
             case BackendModuleName::MODULE_FAQS: return "FAQ";
             case BackendModuleName::MODULE_ALBUM: return "Album";
@@ -48,17 +46,21 @@ class mycpExtension extends \Twig_Extension {
             case BackendModuleName::MODULE_METATAGS: return "Meta Tags";
             case BackendModuleName::MODULE_MUNICIPALITY: return "Municipality";
             case BackendModuleName::MODULE_SEASON: return "Season";
+            case BackendModuleName::MODULE_LODGING_RESERVATION: return "Modulo Casa - Reservaciones";
+            case BackendModuleName::MODULE_LODGING_COMMENT: return "Modulo Casa - Comentarios";
+            case BackendModuleName::MODULE_LODGING_OWNERSHIP: return "Modulo Casa - Alojamiento";
+            case BackendModuleName::MODULE_LODGING_USER: return "Modulo Casa - Usuario";
+
             default: return "MyCP";
         }
     }
-    
-    public function seasonType($season_type)
-    {
-        switch($season_type)
-        {
+
+    public function seasonType($season_type) {
+        switch ($season_type) {
             case season::SEASON_TYPE_HIGH: return "Alta";
             case season::SEASON_TYPE_SPECIAL: return "Especial";
             default: return "Baja";
         }
     }
+
 }
