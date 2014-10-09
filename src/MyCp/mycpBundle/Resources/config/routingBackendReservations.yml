@@ -50,4 +50,8 @@ mycp_details_client_reservation:
 mycp_get_rooms_by_ownership:
     pattern:  /get_rooms/{id_ownership}/{selected_room}
     defaults: { _controller: mycpBundle:BackendReservation:get_rooms_by_ownership,selected_room:''}
+    
+mycp_set_not_available_reservation_callback:
+    pattern:  /set_not_available/
+    defaults: { _controller: mycpBundle:BackendReservation:setNotAvailableCallback }
 

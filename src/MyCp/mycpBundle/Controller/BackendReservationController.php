@@ -911,6 +911,11 @@ class BackendReservationController extends Controller {
         $this->get('session')->getFlashBag()->add('message_ok', $message);
         return $this->redirect($this->generateUrl('mycp_list_reservations'));
     }
+    
+    public function setNotAvailableCallbackAction()
+    {
+        
+    }
 
     function get_sort_byAction($sort_by) {
         $selected = '';
