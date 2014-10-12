@@ -575,7 +575,7 @@ class BackendReservationController extends Controller {
                     }
                     else
                     //$temp_price+=$ownership_reservation->getOwnResTotalInSite();
-                    $ownership_reservation->setOwnResCountAdults($post['service_room_count_adults_' . $ownership_reservation->getOwnResId()]);
+                        $ownership_reservation->setOwnResCountAdults($post['service_room_count_adults_' . $ownership_reservation->getOwnResId()]);
                     $ownership_reservation->setOwnResCountChildrens($post['service_room_count_childrens_' . $ownership_reservation->getOwnResId()]);
                     $ownership_reservation->setOwnResStatus($post['service_own_res_status_' . $ownership_reservation->getOwnResId()]);
                     $ownership_reservation->setOwnResRoomType($post['service_room_type_' . $ownership_reservation->getOwnResId()]);
@@ -911,10 +911,40 @@ class BackendReservationController extends Controller {
         $this->get('session')->getFlashBag()->add('message_ok', $message);
         return $this->redirect($this->generateUrl('mycp_list_reservations'));
     }
-    
-    public function setNotAvailableCallbackAction()
-    {
-        
+
+    public function setNotAvailableCallbackAction() {
+        $request = $this->getRequest();
+        $em = $this->getDoctrine()->getManager();
+        $reservations_ids = $request->request->get('reservations_ids');
+        $response = null;
+
+        //Modificar el estado
+        $em->getRepository('mycpBundle:generalReservation')->setAsNotAvailable($reservations_ids);
+
+        //Enviar por correo a los clientes
+        $service_email = $this->get('Email');
+
+        try {
+            foreach ($reservations_ids as $genResId) {
+                $service_email->sendReservation($genResId, null, false);
+
+                // inform listeners that a reservation was sent out
+                $dispatcher = $this->get('event_dispatcher');
+                $eventData = new GeneralReservationJobData($genResId);
+                $dispatcher->dispatch('mycp.event.reservation.sent_out', new JobEvent($eventData));
+            }
+
+            $message = 'Se han modificado ' . count($reservations_ids) . ' reservaciones como No Disponibles y se ha notificado a los clientes respectivos. Ambas operaciones fueron satisfactorias.';
+            $this->get('session')->getFlashBag()->add('message_ok', $message);
+            
+            $response = $this->generateUrl('mycp_list_reservations');
+            
+        } catch (\Exception $e) {
+            $message = 'Los correos no pudieron ser enviados.';
+            $this->get('session')->getFlashBag()->add('message_error_local', $message);
+            $response = "ERROR";
+        }
+        return new Response($response);
     }
 
     function get_sort_byAction($sort_by) {

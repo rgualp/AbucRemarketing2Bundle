@@ -13,9 +13,7 @@ use MyCp\mycpBundle\Helpers\SyncStatuses;
  */
 class generalReservationRepository extends EntityRepository {
 
-    function get_all_reservations($filter_date_reserve, $filter_offer_number, $filter_reference,
-                                  $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number)
-    {
+    function get_all_reservations($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number) {
         $gaQuery = "SELECT gre,
         (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id),
         (SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id),
@@ -30,13 +28,10 @@ class generalReservationRepository extends EntityRepository {
         AND own.own_mcp_code LIKE :filter_reference
         AND gre.gen_res_to_date LIKE :filter_date_to ";
 
-        return $this->get_reservations_by_query($filter_date_reserve, $filter_offer_number, $filter_reference,
-            $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, -1, $gaQuery);
+        return $this->get_reservations_by_query($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, -1, $gaQuery);
     }
 
-    function get_all_reservations_by_user_casa($filter_date_reserve, $filter_offer_number, $filter_reference,
-                                  $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $user_casa_id)
-    {
+    function get_all_reservations_by_user_casa($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $user_casa_id) {
         $gaQuery = "SELECT gre,
         (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id),
         (SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id),
@@ -53,13 +48,10 @@ class generalReservationRepository extends EntityRepository {
         AND gre.gen_res_to_date LIKE :filter_date_to
         AND uca.user_casa_id = :user_casa_id ";
 
-        return $this->get_reservations_by_query($filter_date_reserve, $filter_offer_number, $filter_reference,
-            $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $user_casa_id, $gaQuery);
-
+        return $this->get_reservations_by_query($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $user_casa_id, $gaQuery);
     }
 
-    function get_reservations_by_query($filter_date_reserve, $filter_offer_number, $filter_reference,
-                                  $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $user_casa_id, $queryStr) {
+    function get_reservations_by_query($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $user_casa_id, $queryStr) {
         $filter_offer_number = strtolower($filter_offer_number);
         $filter_booking_number = strtolower($filter_booking_number);
         $filter_offer_number = str_replace('cas.', '', $filter_offer_number);
@@ -97,76 +89,62 @@ class generalReservationRepository extends EntityRepository {
         $queryStr = $queryStr . $string_order;
         $query = $em->createQuery($queryStr);
 
-        if ($user_casa_id == -1)
-        {
+        if ($user_casa_id == -1) {
             $query->setParameters(array(
-                'filter_date_reserve' => "%".$filter_date_reserve."%",
-                'filter_date_from' => "%".$filter_date_from."%",
-                'filter_offer_number' => "%".$filter_offer_number."%",
-                'filter_reference' => "%".$filter_reference."%",
-                'filter_date_to' => "%".$filter_date_to."%",
+                'filter_date_reserve' => "%" . $filter_date_reserve . "%",
+                'filter_date_from' => "%" . $filter_date_from . "%",
+                'filter_offer_number' => "%" . $filter_offer_number . "%",
+                'filter_reference' => "%" . $filter_reference . "%",
+                'filter_date_to' => "%" . $filter_date_to . "%",
             ));
-        }
-        else
-        {
+        } else {
             $query->setParameters(array(
-                'filter_date_reserve' => "%".$filter_date_reserve."%",
-                'filter_date_from' => "%".$filter_date_from."%",
-                'filter_offer_number' => "%".$filter_offer_number."%",
-                'filter_reference' => "%".$filter_reference."%",
-                'filter_date_to' => "%".$filter_date_to."%",
+                'filter_date_reserve' => "%" . $filter_date_reserve . "%",
+                'filter_date_from' => "%" . $filter_date_from . "%",
+                'filter_offer_number' => "%" . $filter_offer_number . "%",
+                'filter_reference' => "%" . $filter_reference . "%",
+                'filter_date_to' => "%" . $filter_date_to . "%",
                 'user_casa_id' => $user_casa_id,
             ));
         }
 
 
-        $array_genres=$query->getArrayResult();
+        $array_genres = $query->getArrayResult();
 
         $query = $em->createQuery("SELECT ownres,genres,booking FROM mycpBundle:ownershipReservation ownres
         JOIN ownres.own_res_gen_res_id genres JOIN ownres.own_res_reservation_booking booking
         WHERE booking.booking_id LIKE :filter_booking_number");
-        $array_intersection= array();
-        $flag=0;
-        if($filter_booking_number!='')
-        {
-            $array_ownres=$query->setParameter('filter_booking_number',"%".$filter_booking_number."%")->getArrayResult();
-            foreach($array_genres as $gen)
-            {
-                foreach($array_ownres as $res)
-                {
-                    if($gen[0]['gen_res_id']==$res['own_res_gen_res_id']['gen_res_id'])
-                    {
-                        if($flag==0)
-                        {
+        $array_intersection = array();
+        $flag = 0;
+        if ($filter_booking_number != '') {
+            $array_ownres = $query->setParameter('filter_booking_number', "%" . $filter_booking_number . "%")->getArrayResult();
+            foreach ($array_genres as $gen) {
+                foreach ($array_ownres as $res) {
+                    if ($gen[0]['gen_res_id'] == $res['own_res_gen_res_id']['gen_res_id']) {
+                        if ($flag == 0) {
                             $flag++;
                             array_push($array_intersection, $gen);
-                        }
-                        else
-                        {
-                            $flag_2=1;
-                            foreach($array_intersection as $item)
-                            {
-                                if($item[0]['gen_res_id']==$gen[0]['gen_res_id'])
-                                {
-                                    $flag_2=0;
+                        } else {
+                            $flag_2 = 1;
+                            foreach ($array_intersection as $item) {
+                                if ($item[0]['gen_res_id'] == $gen[0]['gen_res_id']) {
+                                    $flag_2 = 0;
                                 }
                             }
-                            if($flag_2==1)
+                            if ($flag_2 == 1)
                                 array_push($array_intersection, $gen);
                         }
                     }
                 }
             }
         }
-        else
-        {
-            $array_intersection=$array_genres;
+        else {
+            $array_intersection = $array_genres;
         }
         return $array_intersection;
     }
 
-    function get_all_users($filter_user_name, $filter_user_email, $filter_user_city,
-                                  $filter_user_country, $sort_by) {
+    function get_all_users($filter_user_name, $filter_user_email, $filter_user_city, $filter_user_country, $sort_by) {
         $filter_user_name = strtolower($filter_user_name);
         $filter_user_email = strtolower($filter_user_email);
         $filter_user_city = strtolower($filter_user_city);
@@ -190,7 +168,6 @@ class generalReservationRepository extends EntityRepository {
             case 4:
                 $string_order = "ORDER BY cou.co_name ASC";
                 break;
-
         }
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT DISTINCT
@@ -212,23 +189,21 @@ class generalReservationRepository extends EntityRepository {
             AND cou.co_id LIKE :filter_user_country $string_order");
 
         $query->setParameters(array(
-            'filter_user_name' => "%".$filter_user_name."%",
-            'filter_user_email' => "%".$filter_user_email."%",
-            'filter_user_city' => "%".$filter_user_city."%",
-            'filter_user_country' => "%".$filter_user_country."%",
+            'filter_user_name' => "%" . $filter_user_name . "%",
+            'filter_user_email' => "%" . $filter_user_email . "%",
+            'filter_user_city' => "%" . $filter_user_city . "%",
+            'filter_user_country' => "%" . $filter_user_country . "%",
         ));
 
-        $array_genres=$query->getArrayResult();
+        $array_genres = $query->getArrayResult();
         return $array_genres;
     }
 
-    function get_all_bookings($filter_booking_number,$filter_date_booking,$filter_user_booking)
-    {
+    function get_all_bookings($filter_booking_number, $filter_date_booking, $filter_user_booking) {
         $em = $this->getEntityManager();
 
         $filter_date_booking_array = explode('_', $filter_date_booking);
-        if (count($filter_date_booking_array) > 1)
-        {
+        if (count($filter_date_booking_array) > 1) {
             $filter_date_booking = $filter_date_booking_array[2] . '-' . $filter_date_booking_array[1] . '-' . $filter_date_booking_array[0];
         }
 
@@ -245,12 +220,13 @@ class generalReservationRepository extends EntityRepository {
         AND payment.created LIKE :filter_date_booking
         ORDER BY payment.id DESC");
         return $query->setParameters(array(
-            'filter_booking_number' => "%".$filter_booking_number."%",
-            'filter_user_booking' => "%".$filter_user_booking."%",
-            'filter_date_booking' => "%".$filter_date_booking."%",
-        ))
-                ->getArrayResult();
+                            'filter_booking_number' => "%" . $filter_booking_number . "%",
+                            'filter_user_booking' => "%" . $filter_user_booking . "%",
+                            'filter_date_booking' => "%" . $filter_date_booking . "%",
+                        ))
+                        ->getArrayResult();
     }
+
     function get_reservations_by_user($id_user) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT gre,
@@ -292,7 +268,7 @@ class generalReservationRepository extends EntityRepository {
         $hour = date('G');
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT gre FROM mycpBundle:generalReservation gre
-        WHERE gre.gen_res_status = ".generalReservation::STATUS_AVAILABLE." AND gre.gen_res_status_date = '$yesterday' AND gre.gen_res_hour = '$hour'");
+        WHERE gre.gen_res_status = " . generalReservation::STATUS_AVAILABLE . " AND gre.gen_res_status_date = '$yesterday' AND gre.gen_res_hour = '$hour'");
         return $query->getResult();
     }
 
@@ -302,7 +278,7 @@ class generalReservationRepository extends EntityRepository {
         $hour = date('G');
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT gre FROM mycpBundle:generalReservation gre
-        WHERE gre.gen_res_status = ".generalReservation::STATUS_AVAILABLE." AND gre.gen_res_status_date = '$day' AND gre.gen_res_hour = '$hour'");
+        WHERE gre.gen_res_status = " . generalReservation::STATUS_AVAILABLE . " AND gre.gen_res_status_date = '$day' AND gre.gen_res_hour = '$hour'");
         return $query->getResult();
     }
 
@@ -323,6 +299,25 @@ class generalReservationRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $userTourist = $em->getRepository("mycpBundle:userTourist")->findOneBy(array('user_tourist_user' => $reservation->getGenResUserId()));
         return $userTourist != null ? $userTourist->getUserTouristCurrency()->getCurrCode() : "usd";
+    }
+
+    public function setAsNotAvailable($reservations_ids) {
+        $em = $this->getEntityManager();
+        foreach ($reservations_ids as $res_id) {
+            $genRes = $em->getRepository('mycpBundle:generalReservation')->find($res_id);
+            $genRes->setGenResStatus(generalReservation::STATUS_NOT_AVAILABLE);
+            $genRes->setGenResStatusDate(new \DateTime());
+            $genRes->setGenResHour(date('G'));
+            $em->persist($genRes);
+
+            $reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $res_id));
+
+            foreach ($reservations as $res) {
+                $res->setOwnResStatus(ownershipReservation::STATUS_NOT_AVAILABLE);
+                $em->persist($res);
+            }
+        }
+        $em->flush();
     }
 
 }

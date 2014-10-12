@@ -48,115 +48,102 @@ class Email {
         $this->sendEmail($subject, $email_from, "MyCasaParticular.com", $email_to, $body);
     }
 
-    public function sendEmail($subject, $email_from, $name_from, $email_to, $sf_render,$attach=null) {
+    public function sendEmail($subject, $email_from, $name_from, $email_to, $sf_render, $attach = null) {
         if (is_object($sf_render)) {
             $sf_render = $sf_render->getContent();
         }
         //echo $sf_render; exit();
-         $message = Swift_Message::newInstance()
-               ->setSubject($subject)
+        $message = Swift_Message::newInstance()
+                ->setSubject($subject)
                 ->setFrom($email_from, $name_from)
                 ->setTo($email_to)
                 ->setBody($sf_render, 'text/html');
-        if($attach!=null)
-        {
+        if ($attach != null) {
             $message->attach(\Swift_Attachment::fromPath($attach));
         }
         return $this->container->get('mailer')->send($message);
     }
 
-    public function sendReservation($id_reservation,$custom_message=null)
-    {
+    public function sendReservation($id_reservation, $custom_message = null, $change_genres_status = true) {
         $templating = $this->container->get('templating');
-        $reservation=$this->em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
-        $reservation->setGenResStatus(generalReservation::STATUS_AVAILABLE);
-        $reservation->setGenResStatusDate(new \DateTime(date('Y-m-d')));
-        $reservation->setGenResHour(date('G'));
-        $this->em->persist($reservation);
-        $this->em->flush();
-        $reservations=$this->em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id'=>$id_reservation));
-        $user=$reservation->getGenResUserId();
-        $user_tourist=$this->em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user'=>$user->getUserId()));
-        $array_photos=array();
-        $array_nigths=array();
-        $service_time=$this->container->get('time');
+        $reservation = $this->em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
 
-        foreach($reservations as $res)
-        {
-            $photos=$this->em->getRepository('mycpBundle:ownership')->getPhotos($res->getOwnResGenResId()->getGenResOwnId()->getOwnId());
-            array_push($array_photos,$photos);
-            $array_dates= $service_time->datesBetween($res->getOwnResReservationFromDate()->getTimestamp(),$res->getOwnResReservationToDate()->getTimestamp());
-            array_push($array_nigths,count($array_dates)-1);
+        if ($change_genres_status) {
+            $reservation->setGenResStatus(generalReservation::STATUS_AVAILABLE);
+            $reservation->setGenResStatusDate(new \DateTime(date('Y-m-d')));
+            $reservation->setGenResHour(date('G'));
+            $this->em->persist($reservation);
+            $this->em->flush();
         }
-        $user_locale =  strtolower($user_tourist->getUserTouristLanguage()->getLangCode()) ;
+        $reservations = $this->em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $id_reservation));
+        $user = $reservation->getGenResUserId();
+        $user_tourist = $this->em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
+        $array_photos = array();
+        $array_nigths = array();
+        $service_time = $this->container->get('time');
+
+        foreach ($reservations as $res) {
+            $photos = $this->em->getRepository('mycpBundle:ownership')->getPhotos($res->getOwnResGenResId()->getGenResOwnId()->getOwnId());
+            array_push($array_photos, $photos);
+            $array_dates = $service_time->datesBetween($res->getOwnResReservationFromDate()->getTimestamp(), $res->getOwnResReservationToDate()->getTimestamp());
+            array_push($array_nigths, count($array_dates) - 1);
+        }
+        $user_locale = strtolower($user_tourist->getUserTouristLanguage()->getLangCode());
 
         $locale = $this->container->get('translator')->setLocale($user_locale);
 
         // Enviando mail al cliente
 
-        $body=$templating->render('FrontEndBundle:mails:email_offer_available.html.twig',array(
-            'user'=>$user,
-            'reservations'=>$reservations,
-            'photos'=>$array_photos,
-            'nights'=>$array_nigths,
-            'message'=>$custom_message,
+        $body = $templating->render('FrontEndBundle:mails:email_offer_available.html.twig', array(
+            'user' => $user,
+            'reservations' => $reservations,
+            'photos' => $array_photos,
+            'nights' => $array_nigths,
+            'message' => $custom_message,
             'user_locale' => $user_locale
         ));
         $locale = $this->container->get('translator');
-        $subject=$locale->trans('REQUEST_STATUS_CHANGED', array(), "messages", $user_locale);
+        $subject = $locale->trans('REQUEST_STATUS_CHANGED', array(), "messages", $user_locale);
 
         $this->sendEmail(
-            $subject,
-            'reservation@mycasaparticular.com',
-            'MyCasaParticular.com',
-            $user->getUserEmail(),
-            $body
-        );
-    }
-
-    public function sendOwnersMail($email_to, $owners_name, $own_name, $own_mycp_code)
-    {
-        $templating = $this->container->get('templating');
-
-        if(!isset($email_to) || $email_to == "")
-            throw new \InvalidArgumentException("The email to can not be empty");
-
-        $content = $templating->render('FrontEndBundle:mails:ownersMailBody.html.twig',array(
-            'owners_name'=>$owners_name,
-            'own_name'=>$own_name,
-            'own_mycp_code'=>$own_mycp_code
-                ));
-
-        $this->sendEmail(
-            "Bienvenido a MyCasaParticular",
-            'casa@mycasaparticular.com',
-            'MyCasaParticular.com',
-            $email_to,
-            $content
+                $subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $body
         );
     }
     
-    public function sendCreateUserCasaMail($email_to, $userName, $userFullName, $secret_token, $own_mycp_code, $own_name)
-    {
+    
+    public function sendOwnersMail($email_to, $owners_name, $own_name, $own_mycp_code) {
         $templating = $this->container->get('templating');
 
-        if(!isset($email_to) || $email_to == "")
+        if (!isset($email_to) || $email_to == "")
             throw new \InvalidArgumentException("The email to can not be empty");
 
-        $content = $templating->render('FrontEndBundle:mails:createUserCasaMailBody.html.twig',array(
-            'user_name'=>$userName,
-            'user_full_name'=>$userFullName,
-            'own_name'=>$own_name,
-            'own_mycp_code'=>$own_mycp_code,
-            'secret_token' => $secret_token
-                ));
+        $content = $templating->render('FrontEndBundle:mails:ownersMailBody.html.twig', array(
+            'owners_name' => $owners_name,
+            'own_name' => $own_name,
+            'own_mycp_code' => $own_mycp_code
+        ));
 
         $this->sendEmail(
-            "Creación de cuenta de usuario",
-            'casa@mycasaparticular.com',
-            'MyCasaParticular.com',
-            $email_to,
-            $content
+                "Bienvenido a MyCasaParticular", 'casa@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content
+        );
+    }
+
+    public function sendCreateUserCasaMail($email_to, $userName, $userFullName, $secret_token, $own_mycp_code, $own_name) {
+        $templating = $this->container->get('templating');
+
+        if (!isset($email_to) || $email_to == "")
+            throw new \InvalidArgumentException("The email to can not be empty");
+
+        $content = $templating->render('FrontEndBundle:mails:createUserCasaMailBody.html.twig', array(
+            'user_name' => $userName,
+            'user_full_name' => $userFullName,
+            'own_name' => $own_name,
+            'own_mycp_code' => $own_mycp_code,
+            'secret_token' => $secret_token
+        ));
+
+        $this->sendEmail(
+                "Creación de cuenta de usuario", 'casa@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content
         );
     }
 

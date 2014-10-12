@@ -216,6 +216,10 @@
      $.post(url, {
         'reservations_ids': checkValues
     }, function(data) {
+        if(data != "ERROR")
+            window.location = data;
+        else
+            alert(data);
     });
     }
 
