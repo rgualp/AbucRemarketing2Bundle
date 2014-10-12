@@ -54,4 +54,8 @@ mycp_get_rooms_by_ownership:
 mycp_set_not_available_reservation_callback:
     pattern:  /set_not_available/
     defaults: { _controller: mycpBundle:BackendReservation:setNotAvailableCallback }
+    
+mycp_send_voucher_reservation:
+    pattern:  /send_voucher/{id_reservation}
+    defaults: { _controller: mycpBundle:BackendReservation:sendVoucherToReservationTeam }
 

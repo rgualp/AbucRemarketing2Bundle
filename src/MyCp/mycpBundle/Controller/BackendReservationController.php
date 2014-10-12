@@ -936,15 +936,46 @@ class BackendReservationController extends Controller {
 
             $message = 'Se han modificado ' . count($reservations_ids) . ' reservaciones como No Disponibles y se ha notificado a los clientes respectivos. Ambas operaciones fueron satisfactorias.';
             $this->get('session')->getFlashBag()->add('message_ok', $message);
-            
+
             $response = $this->generateUrl('mycp_list_reservations');
-            
         } catch (\Exception $e) {
             $message = 'Los correos no pudieron ser enviados.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
             $response = "ERROR";
         }
         return new Response($response);
+    }
+
+    public function sendVoucherToReservationTeamAction($id_reservation) {
+        $em = $this->getDoctrine()->getManager();
+        $bookings_ids = $em->getRepository('mycpBundle:generalReservation')->getBookings($id_reservation);
+        $genRes = $em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
+        $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' =>$genRes->getGenResUserId()));
+      
+        foreach ($bookings_ids as $bookId) {
+            $bookId = $bookId['booking_id'];
+            $response = $this->view_confirmation($bookId);
+            $pdf_name = 'voucher' . $genRes->getGenResUserId() . '_' . $bookId;
+            $this->download_pdf($response, $pdf_name, true);
+            $attach = "http://" . $_SERVER['HTTP_HOST'] . "/web/vouchers/$pdf_name.pdf";
+
+            // Enviando mail al equipo de reservación
+            $service_email = $this->get('Email');
+            
+            $body = $this->render('FrontEndBundle:mails:rt_voucher.html.twig', array(
+                    'user' => $userTourist->getUserTouristUser(),
+                    'user_tourist' => $userTourist,
+                    'booking_id' => $bookId,
+                    'generalReservation' => $genRes
+                ));
+                $service_email->sendEmail(
+                        'Voucher del booking ID_'.$bookId.' (CAS.'.$genRes->getGenResId().')', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', 'reservation@mycasaparticular.com', $body, $attach
+                );
+
+        }
+        $message = 'Se ha enviado satisfactoriamente el voucher asociado a la reservación CAS.'.$genRes->getGenResId();
+            $this->get('session')->getFlashBag()->add('message_ok', $message);
+        return $this->redirect($this->generateUrl('mycp_list_reservations'));
     }
 
     function get_sort_byAction($sort_by) {
@@ -955,7 +986,9 @@ class BackendReservationController extends Controller {
     }
 
     function view_confirmation($id_booking) {
-        $service_time = $this->get('Time');
+        $bookingService = $this->get('front_end.services.booking');
+        return $bookingService->getPrintableBookingConfirmationResponse($id_booking);
+        /*$service_time = $this->get('Time');
         $user = $this->getUser();
 
         $em = $this->getDoctrine()->getManager();
@@ -999,7 +1032,7 @@ class BackendReservationController extends Controller {
                     'total_price' => $total_price,
                     'total_percent_price' => $total_percent_price,
                     'commissions' => $commissions
-        ));
+        ));*/
     }
 
     function download_pdf($html, $name, $save_to_disk = false, $id_booking = null) {

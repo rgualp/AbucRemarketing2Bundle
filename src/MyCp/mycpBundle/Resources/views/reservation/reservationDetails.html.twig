@@ -16,11 +16,15 @@
     <li class="pull-right"><a href="{{ path('mycp_list_reservations') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 <div class="form-actions">
-    <button class="btn btn-primary" type="submit">Guardar</button>
-    <button class="btn" type="reset">Cancelar</button>
+    <button rel="tooltip" title="Guardar los cambios realizados" class="tooltip_msg btn btn-primary" type="submit">Guardar</button>
+    <button rel="tooltip" title="Cancelar los cambios realizados" class="tooltip_msg btn" type="reset">Cancelar</button>
     &nbsp;&nbsp;&nbsp;
-    <button {% if reservation.getGenResSaved!=0 %} onclick="send_message();" {% endif %}class="{% if reservation.getGenResSaved==0 %}disabled{% endif %} btn btn-danger" type="{% if reservation.getGenResSaved!=0 %}submit{% else %}button{% endif %}">Enviar</button>
-    <a href="{{ path('mycp_new_offer_reservation',{ 'id_tourist' :  reservation.getGenResUserId.getUserId,'id_reservation' :  reservation.getGenResId }) }}" class="btn btn-success">Nueva Oferta</a>
+    <button rel="tooltip" title="Enviar por correo la reservación al cliente" {% if reservation.getGenResSaved!=0 %} onclick="send_message();" {% endif %}class="tooltip_msg {% if reservation.getGenResSaved==0 %}disabled{% endif %} btn btn-danger" type="{% if reservation.getGenResSaved!=0 %}submit{% else %}button{% endif %}">Enviar</button>
+    <a rel="tooltip" title="Gestionar una nueva oferta para el cliente" href="{{ path('mycp_new_offer_reservation',{ 'id_tourist' :  reservation.getGenResUserId.getUserId,'id_reservation' :  reservation.getGenResId }) }}" class="tooltip_msg btn btn-success">Nueva Oferta</a>
+    
+    {%if reservation.genResStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED')%}
+        <a href="{{ path('mycp_send_voucher_reservation',{ 'id_reservation' :  reservation.getGenResId }) }}" rel="tooltip" title="Enviar el voucher asociado al equipo de reservación" class="tooltip_msg btn btn-warning">Recibir Voucher</a>
+    {%endif%}
 </div>
 </form>
 {% endblock %}

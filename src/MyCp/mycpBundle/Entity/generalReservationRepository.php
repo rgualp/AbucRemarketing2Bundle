@@ -319,5 +319,14 @@ class generalReservationRepository extends EntityRepository {
         }
         $em->flush();
     }
+    
+    public function getBookings($id_reservation)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT DISTINCT book.booking_id FROM mycpBundle:ownershipReservation res
+            JOIN res.own_res_reservation_booking book
+            WHERE res.own_res_gen_res_id = " . $id_reservation);
+        return $query->getResult();
+    }
 
 }
