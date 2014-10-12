@@ -955,7 +955,7 @@ class BackendReservationController extends Controller {
         foreach ($bookings_ids as $bookId) {
             $bookId = $bookId['booking_id'];
             $response = $this->view_confirmation($bookId);
-            $pdf_name = 'voucher' . $genRes->getGenResUserId() . '_' . $bookId;
+            $pdf_name = 'voucher' . $genRes->getGenResUserId()->getUserId() . '_' . $bookId;
             $this->download_pdf($response, $pdf_name, true);
             $attach = "http://" . $_SERVER['HTTP_HOST'] . "/web/vouchers/$pdf_name.pdf";
 
