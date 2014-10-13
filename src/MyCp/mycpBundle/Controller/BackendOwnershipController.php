@@ -157,8 +157,10 @@ class BackendOwnershipController extends Controller {
         $filter_code = $request->get('filter_code');
         $filter_saler = $request->get('filter_saler');
         $filter_visit_date = $request->get('filter_visit_date');
+        $filter_other = $request->get('filter_other');
         if ($request->getMethod() == 'POST' && $filter_name == 'null' && $filter_active == 'null' && $filter_province == 'null' && $filter_municipality == 'null' &&
                 $filter_type == 'null' && $filter_category == 'null' && $filter_code == 'null' && $filter_saler == 'null' && $filter_visit_date == 'null' && $filter_destination == 'null'
+                && $filter_other == 'null'
         ) {
             $message = 'Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
@@ -175,6 +177,8 @@ class BackendOwnershipController extends Controller {
             $filter_visit_date = '';
         if ($filter_destination == 'null')
             $filter_destination = '';
+        if ($filter_other == 'null')
+            $filter_other = '';
         if (isset($_GET['page']))
             $page = $_GET['page'];
 
@@ -182,7 +186,7 @@ class BackendOwnershipController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $ownerships = $paginator->paginate($em->getRepository('mycpBundle:ownership')->getAll(
-                                $filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality, $filter_destination, $filter_type, $filter_name, $filter_saler, $filter_visit_date
+                                $filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality, $filter_destination, $filter_type, $filter_name, $filter_saler, $filter_visit_date, $filter_other
                 ))->getResult();
         /* $data = array();
           foreach ($ownerships as $ownership) {
@@ -208,7 +212,8 @@ class BackendOwnershipController extends Controller {
                     'filter_type' => $filter_type,
                     'filter_saler' => $filter_saler,
                     'filter_visit_date' => $filter_visit_date,
-                    'filter_destination' => $filter_destination
+                    'filter_destination' => $filter_destination,
+                    'filter_other' => $filter_other
         ));
     }
 
@@ -370,6 +375,8 @@ class BackendOwnershipController extends Controller {
         $data['top_20'] = $ownership->getOwnTop20();
         $post['not_recommendable'] = $ownership->getOwnNotRecommendable();
         $data['not_recommendable'] = $ownership->getOwnNotRecommendable();
+        $post['selection'] = $ownership->getOwnSelection();
+        $data['selection'] = $ownership->getOwnSelection();
         $data['country_code'] = $ownership->getOwnAddressProvince()->getProvId();
         $data['municipality_code'] = $ownership->getOwnAddressMunicipality()->getMunId();
 
@@ -378,6 +385,7 @@ class BackendOwnershipController extends Controller {
         $data['status_name'] = ($ownership->getOwnStatus() != null) ? $ownership->getOwnStatus()->getStatusName() : null;
 
         $post['top_20'] = ($post['top_20'] == false) ? 0 : 1;
+        $post['selection'] = ($post['selection'] == false) ? 0 : 1;
         $post['not_recommendable'] = ($post['not_recommendable'] == false) ? 0 : 1;
         $post['facilities_breakfast'] = ($post['facilities_breakfast'] == false) ? 0 : 1;
         $post['facilities_dinner'] = ($post['facilities_dinner'] == false) ? 0 : 1;

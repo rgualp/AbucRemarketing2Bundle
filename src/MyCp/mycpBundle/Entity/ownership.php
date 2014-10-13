@@ -394,6 +394,13 @@ class ownership {
      * @ORM\Column(name="own_sync_st", type="integer")
      */
     private $own_sync_st;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="own_selection", type="boolean")
+     */
+    private $own_selection;
 
     /**
      * @ORM\OneToMany(targetEntity="ownershipDescriptionLang",mappedBy="odl_ownership")
@@ -1270,6 +1277,27 @@ class ownership {
         return $this->own_top_20;
     }
 
+    /**
+     * Set own_selection
+     *
+     * @param boolean $ownSelection
+     * @return ownership
+     */
+    public function setOwnSelection($ownSelection) {
+        $this->own_selection = $ownSelection;
+
+        return $this;
+    }
+
+    /**
+     * Get own_selection
+     *
+     * @return boolean
+     */
+    public function getOwnSelection() {
+        return $this->own_selection;
+    }
+    
     /**
      * Set own_rating
      *

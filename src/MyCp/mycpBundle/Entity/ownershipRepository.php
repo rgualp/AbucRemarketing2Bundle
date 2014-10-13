@@ -46,6 +46,10 @@ class ownershipRepository extends EntityRepository {
         $active_not_recommendable = 0;
         if (isset($data['not_recommendable']))
             $active_not_recommendable = 1;
+        
+        $active_selection = 0;
+        if (isset($data['selection']))
+            $active_selection = 1;
 
         $water_jacuzee = 0;
         if (isset($data['water_jacuzee']))
@@ -122,6 +126,7 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnGeolocateX($data['geolocate_x']);
         $ownership->setOwnGeolocateY($data['geolocate_y']);
         $ownership->setOwnTop20($active_top_20);
+        $ownership->setOwnSelection($active_selection);
         $ownership->setOwnNotRecommendable($active_not_recommendable);
         $status = $em->getRepository('mycpBundle:ownershipStatus')->find($data['status']);
 
@@ -273,6 +278,10 @@ class ownershipRepository extends EntityRepository {
         $active_not_recommendable = 0;
         if (isset($data['not_recommendable']))
             $active_not_recommendable = 1;
+        
+        $active_selection = 0;
+        if (isset($data['selection']))
+            $active_selection = 1;
 
         //languages
         $ownership_english_lang = 0;
@@ -333,6 +342,7 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnGeolocateX($data['geolocate_x']);
         $ownership->setOwnGeolocateY($data['geolocate_y']);
         $ownership->setOwnTop20($active_top_20);
+        $ownership->setOwnSelection($active_selection);
         $ownership->setOwnNotRecommendable($active_not_recommendable);
 
         if ($data['ownership_destination'] != 0) {
@@ -498,9 +508,17 @@ class ownershipRepository extends EntityRepository {
         $em->flush();
     }
 
-    function getAll($filter_code = '', $filter_active = '', $filter_category = '', $filter_province = '', $filter_municipality = '', $filter_destination = '', $filter_type = '', $filter_name = '', $filter_saler = '', $filter_visit_date = '') {
+    function getAll($filter_code = '', $filter_active = '', $filter_category = '', $filter_province = '', $filter_municipality = '', $filter_destination = '', $filter_type = '', $filter_name = '', $filter_saler = '', $filter_visit_date = '', $filter_other= "") {
 
         $condition = '';
+        
+        switch($filter_other)
+        {
+            case 'top_20': $condition .= "AND ow.own_top_20 = 1 ";break;
+            case 'selection': $condition .= "AND ow.own_selection = 1 ";break;
+            case 'not_recommendable': $condition .= "AND ow.own_not_recommendable = 1 ";break;
+        }
+        
         if ($filter_active != 'null' && $filter_active != '') {
             $condition .= "AND ow.own_status = :filter_active ";
         }
@@ -535,6 +553,8 @@ class ownershipRepository extends EntityRepository {
         $query = $em->createQuery("SELECT
         ow.own_not_recommendable,
         ow.own_mcp_code,
+        ow.own_top_20,
+        ow.own_selection,
         ow.own_name,
         mun.mun_name,
         prov.prov_name,

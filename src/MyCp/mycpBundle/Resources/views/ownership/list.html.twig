@@ -32,7 +32,7 @@
                 </div>
                 <div class="span3">
                     <label>Tipo:</label>
-                    <select class="input-block-level" name="filter_type" id="filter_type"/>
+                    <select class="input-block-level" name="filter_type" id="filter_type">
                 {{ render(controller('mycpBundle:BackendOwnership:get_ownership_types', {'post': {'ownership_type':filter_type}})) }}
                     </select>
                 </div>
@@ -40,19 +40,19 @@
             <div class="row-fluid">
                 <div class="span3">
                     <label>Provincia:</label>
-                    <select class="input-block-level" name="filter_province" id="filter_province"/>
+                    <select class="input-block-level" name="filter_province" id="filter_province">
                 {{ render(controller('mycpBundle:Public:get_provinces', {'post': {'ownership_address_province':filter_province}})) }}
                     </select>
                 </div>
                 <div class="span3">
                     <label>Municipio:</label>
-                    <select class="input-block-level" name="filter_municipality" id="filter_municipality"/>
+                    <select class="input-block-level" name="filter_municipality" id="filter_municipality">
                 {{ render(controller('mycpBundle:Public:get_mun', {'post': {'ownership_address_municipality':filter_municipality}})) }}
                     </select>
                 </div>
                 <div class="span3">
                     <label>Destino:</label>
-                    <select class="input-block-level" name="filter_destination" id="filter_destination"/>
+                    <select class="input-block-level" name="filter_destination" id="filter_destination">
                 {{ render(controller('mycpBundle:Public:getDestinations', {'post': {'ownership_destination':filter_destination}})) }}
                     </select>
                 </div>
@@ -65,15 +65,25 @@
 
                 </div>
                 <div class="row-fluid">
-                    <div class="span5">
+                    <div class="span3">
                         <label>Gestor:</label>
                         <input name="filter_saler" value="{{filter_saler}}" id="filter_saler" autocomplete="off" type="text" class="input-block-level" style="margin: 0 auto;" data-provide="typeahead" data-items="5" data-source='{{ render(controller('mycpBundle:BackendOwnership:get_salers_names')) }}'>
                     </div>
-                    <div class="span5">
+                    <div class="span3">
                         <label>Fecha Visita:</label>
                         <input name="filter_visit_date" value="{%if filter_visit_date is defined and filter_visit_date != null%}{{filter_visit_date | date('d/m/Y')}}{%endif%}" id="filter_visit_date" class="input-block-level datepicker">
                     </div>
-                    <div class="span2">
+                    <div class="span3">
+                        <label>Otros:</label>
+                        <select class="input-block-level" name="filter_other" id="filter_other">
+                            <option></option>
+                            <option value="top_20" {%if filter_other == 'top_20'%}selected="TRUE"{%endif%}>Top 20</option>
+                            <option value="selection" {%if filter_other == 'selection'%}selected="TRUE"{%endif%}>Casa Selección</option>
+                            <option value="not_recommendable" {%if filter_other == 'not_recommendable'%}selected="TRUE"{%endif%}>No recomendable</option>
+                        </select>
+                        
+                    </div>
+                    <div class="span3">
                         <label>&nbsp;</label>
                         <div class="row-fluid">
                             <div class="span6">
@@ -140,7 +150,7 @@
                 </thead>
                 <tbody>
     {% for ownership in ownerships %}
-                        <tr {% if (ownership.status_id != null and ownership.status_id!=constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')) %} class="red_row" {%elseif ownership.own_not_recommendable%} class="yellow_row" {% endif %} {%if ownership.own_not_recommendable%} title="Propiedad no recomendada" {%endif%}>
+                        <tr {% if (ownership.status_id != null and ownership.status_id!=constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')) %} class="red_row"{% endif %}>
                             <td>{{ownership.own_mcp_code}}</td>
                             <td>{{ownership.own_name}}</td>
                             <td>{{ownership.mun_name}}</td>
@@ -153,7 +163,19 @@
             {%else%}
                 <span class="label label-warning">Sin estado</span>
             {% endif %}
-        {% if ownership.own_comment %}</a>{% endif %}</td>
+        {% if ownership.own_comment %}</a>{% endif %}
+        {%if ownership.own_top_20%}
+          <br/><span class="label label-important">Top 20</span>                          
+        {%endif%}
+        {%if ownership.own_selection%}
+          <br/><span class="label label-info">Casa Selección</span>                          
+        {%endif%}
+        {%if ownership.own_not_recommendable%}
+          <br/><span class="label label-warning">No recomendable</span>                          
+        {%endif%}
+        
+                                
+                                </td>
                                     <td style="text-align: center"><a href="{{ path('mycp_list_photos_ownership',{'id_ownership':ownership.own_id}) }}" title="Esta propiedad tiene {{ ownership.photos_count }} fotografías">{{ ownership.photos_count }}</a></td>
                                     <td style="text-align: right"><a class="btn btn-mini" href="{{ path('mycp_edit_ownership',{'id_ownership':ownership.own_id}) }}">Editar</a>
                                        <!-- <button data='{{ path('mycp_delete_ownership',{'id_ownership':ownership.own_id}) }}' class="btn btn-mini btn-danger delete">Eliminar</button>-->

@@ -51,9 +51,13 @@
     {%if data['top_20'] is defined and  data['top_20']%}
     <span class="label label-important vertical_middle" title="Top 20">Top 20</span>
     {%endif%}
+    {%if data['selection'] is defined and  data['selection']%}
+    <span class="label label-info vertical_middle" title="Casa Selección">Casa Selección</span>
+    {%endif%}
     {%if data['not_recommendable'] is defined and data['not_recommendable']%}
     <span class="label label-warning vertical_middle" title="No recomendables">No recomendable</span>
     {%endif%}
+    
     {% else %} Adicionar propiedad {% endif %}</h2>
 <hr/>
 <form id="form_ownership" action="{{ path('mycp_new_ownership')}}" method="POST" enctype="multipart/form-data">
@@ -470,6 +474,10 @@
 <h3 class="title">Top 20</h3>
 <label class="checkbox">
     <input type="checkbox" {% if post['top_20'] is defined and (post['top_20'] ==1) %} checked="TRUE" {% endif %} name="top_20"> Habilitar para Top 20
+</label><br/>
+<h3 class="title">Casa Selección</h3>
+<label class="checkbox">
+    <input type="checkbox" {% if post['selection'] is defined and (post['selection'] ==1) %} checked="TRUE" {% endif %} name="selection"> Habilitar para Casa Selección
 </label><br/>
 {% if is_granted('ROLE_CLIENT_STAFF') %}
 <h3 class="title">No Recomendable</h3>
