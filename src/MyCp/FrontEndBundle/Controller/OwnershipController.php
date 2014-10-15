@@ -156,7 +156,7 @@ class OwnershipController extends Controller {
             for ($a = 0; $a < count($array_dates) - $x; $a++) {
 
                 $season_type = $service_time->seasonTypeByDate($seasons, $array_dates[$a]);
-
+                var_dump("Tipo ".$season_type);
                 switch ($season_type) {
                     case season::SEASON_TYPE_HIGH: {
                             $total_price_room += $room->getRoomPriceUpTo();
@@ -164,6 +164,7 @@ class OwnershipController extends Controller {
                             break;
                         }
                     case season::SEASON_TYPE_SPECIAL: {
+                        var_dump("Precio ".$room->getRoomPriceSpecial());
                             if ($room->getRoomPriceSpecial() > 0) {
                                 $total_price_room += $room->getRoomPriceSpecial();
                                 array_push($prices_dates_temp, $room->getRoomPriceSpecial());
