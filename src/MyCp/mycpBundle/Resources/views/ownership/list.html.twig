@@ -132,7 +132,10 @@
                  'filter_municipality':filter_municipality,
                  'filter_destination':filter_destination,
                  'filter_type':filter_type,
-                 'filter_name':filter_name, 'filter_saler': filter_saler, 'filter_visit_date': filter_visit_date}
+                 'filter_name':filter_name, 
+                 'filter_saler': filter_saler, 
+                 'filter_visit_date': filter_visit_date,
+                 'filter_other': filter_other}
 }) }}
             </div>
             <table class="table table-striped table-hover">
@@ -201,7 +204,10 @@
                  'filter_municipality':filter_municipality,
                  'filter_destination':filter_destination,
                  'filter_type':filter_type,
-                 'filter_name':filter_name, 'filter_saler': filter_saler, 'filter_visit_date': filter_visit_date}
+                 'filter_name':filter_name, 
+                 'filter_saler': filter_saler, 
+                 'filter_visit_date': filter_visit_date,
+                 'filter_other': filter_other}
 }) }}
                             </div>
     {% else %}
@@ -268,7 +274,7 @@
                                 filter_category = $('#filter_category').val();
                                 if (filter_category == '')
                                     filter_category = 'null';
-                                filter_active = $('#filter_active').val();
+                                
                                 filter_name = $('#filter_name').val();
                                 if (filter_name == '')
                                     filter_name = 'null';
@@ -279,10 +285,14 @@
                                 //filter_visit_date = filter_visit_date.replace()('/','-');
                                 if (filter_visit_date == '')
                                     filter_visit_date = 'null';
+                                filter_active = $('#filter_active').val();
                                 if (filter_active == '')
                                     filter_active = 'null';
+                                filter_other = $('#filter_other').val();
+                                if (filter_other == '')
+                                    filter_other = 'null';
                                 url_submit = $('#filter').attr('action');
-                                url_submit = url_submit + '/' + items_per_page + '/' + filter_code + '/' + filter_active + '/' + filter_category + '/' + filter_province + '/' + filter_municipality + '/' + filter_destination + '/' + filter_type + '/' + filter_name + '/' + filter_saler + '/' + filter_visit_date;
+                                url_submit = url_submit + '/' + items_per_page + '/' + filter_code + '/' + filter_active + '/' + filter_category + '/' + filter_province + '/' + filter_municipality + '/' + filter_destination + '/' + filter_type + '/' + filter_name + '/' + filter_saler + '/' + filter_visit_date + '/' + filter_other;
                                 $('#filter').attr('action', url_submit);
                                 $('#filter').submit();
                             }
