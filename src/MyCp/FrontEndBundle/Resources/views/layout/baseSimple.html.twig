@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html id="top">
 <head>
-    <title>MyCasaParticular *** {% block title %}{{"WELCOMEPAGE_TITLE" | trans | title}}{% endblock %}</title>
+    <title>{% block title %}{{"WELCOMEPAGE_TITLE" | trans | title}}{% endblock %} *** MyCasaParticular</title>
     <meta charset="utf-8">
     {%if section is not defined%}
         {%set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_GENERAL')%}
