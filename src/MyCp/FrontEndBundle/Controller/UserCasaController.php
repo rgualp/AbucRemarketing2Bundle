@@ -15,36 +15,31 @@ class UserCasaController extends Controller {
         return $this->render('FrontEndBundle:userCasa:home.html.twig');
     }
 
-    public function activateAccountAction($own_code, Request $request) {
+    public function activateAccountAction($token, Request $request) {
         $em = $this->getDoctrine()->getManager();
         $userCasa = null;
         $all_post = array();
         $count_error = 0;
 
         $complete_user = array(
-            'user_secret_token' => "",
             'user_user_name' => "",
             'user_last_name' => "",
             'user_email' => "",
             'user_phone' => "",
             'user_address' => "",
-            'mycp_code' => "",
             'user_password' => "");
 
-        if (isset($own_code) && $own_code != null && $own_code != "" && $own_code != "0") {
-            $userCasa = $em->getRepository('mycpBundle:userCasa')->getOneByOwnCode($own_code);
-            
-            if($userCasa)
-            {
-            $complete_user = array(
-                'user_secret_token' => "",
-                'user_user_name' => $userCasa->getUserCasaUser()->getUserUserName(),
-                'user_last_name' => $userCasa->getUserCasaUser()->getUserLastName(),
-                'user_email' => $userCasa->getUserCasaUser()->getUserEmail(),
-                'user_phone' => $userCasa->getUserCasaUser()->getUserPhone(),
-                'user_address' => $userCasa->getUserCasaUser()->getUserAddress(),
-                'mycp_code' => $own_code,
-                'user_password' => "");
+        if (isset($token) && $token != null && $token != "" && $token != "0") {
+            $userCasa = $em->getRepository('mycpBundle:userCasa')->getOneByToken($token);
+
+            if ($userCasa) {
+                $complete_user = array(
+                    'user_user_name' => $userCasa->getUserCasaUser()->getUserUserName(),
+                    'user_last_name' => $userCasa->getUserCasaUser()->getUserLastName(),
+                    'user_email' => $userCasa->getUserCasaUser()->getUserEmail(),
+                    'user_phone' => $userCasa->getUserCasaUser()->getUserPhone(),
+                    'user_address' => $userCasa->getUserCasaUser()->getUserAddress(),
+                    'user_password' => "");
             }
             else
                 throw new \Exception("No existe un usuario asociado");
@@ -61,6 +56,17 @@ class UserCasaController extends Controller {
                     $message = $this->get('translator')->trans("EMAIL_INVALID_MESSAGE");
                     $this->get('session')->getFlashBag()->add('message_global_success', $message);
                     $count_error++;
+                }
+                
+                if (isset($post['user_email'])) {
+                    $user_db = $em->getRepository('mycpBundle:user')->findBy(array(
+                        'user_email' => $post['user_email'],
+                        'user_created_by_migration' => false));
+                    if ($user_db) {
+                        $message = $this->get('translator')->trans("USER_EMAIL_IN_USE");
+                        $this->get('session')->getFlashBag()->add('message_global_success', $message);
+                        $count_error++;
+                    }
                 }
 
                 if ($userCasa->getUserCasaSecretToken() != $post['user_secret_token']) {
@@ -95,7 +101,7 @@ class UserCasaController extends Controller {
             return $this->render('FrontEndBundle:userCasa:activateAccount.html.twig', array(
                         'user' => $userCasa,
                         'form' => $form->createView(),
-                        'own_code' => $own_code
+                        'secret_token' => $token
             ));
         }
         else

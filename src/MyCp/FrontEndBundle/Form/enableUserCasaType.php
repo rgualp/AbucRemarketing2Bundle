@@ -20,11 +20,6 @@ class enableUserCasaType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('user_secret_token', 'text', array(
-                    'label' => $this->translate->trans('FORMS_SECRET_TOKEN'),
-                    'attr' => array('class' => 'form-control'),
-                    'constraints' => array(new NotBlank())
-                ))
                 ->add('user_password', 'repeated', array(
                     'first_name' => $this->translate->trans('FORMS_PASSWORD'),
                     'second_name' => $this->translate->trans('FORMS_REPEAT'),
