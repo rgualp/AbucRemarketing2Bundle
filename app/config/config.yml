@@ -102,6 +102,7 @@ parameters:
     encode.key: 65wq6td6gtdgb3dwoop21d54da54d8e86q2s3qd6a60998dgea4de8
     configuration.triple.room.charge: 10
     configuration.service.fee: 10
+    configuration.dir.vouchers: %kernel.root_dir%/../tmp/vouchers/
 
 services:
     twig.extension.utilsExtension:

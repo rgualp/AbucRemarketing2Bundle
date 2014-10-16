@@ -29,7 +29,7 @@ class BookingService extends Controller
      * @var float
      */
     private $serviceChargeInCuc;
-    
+
     /*
      * Triple room charge
      * @var float
@@ -222,6 +222,55 @@ class BookingService extends Controller
     }
 
     /**
+     * Returns the full voucher file path of a booking according to the
+     * corresponding booking ID and null in case no booking was found.
+     *
+     * @param $bookingId
+     * @return null|string
+     */
+    public function getVoucherFilePathByBookingId($bookingId)
+    {
+        $booking = $this->em->getRepository('mycpBundle:booking')->find($bookingId);
+
+        if (empty($booking)) {
+            return null;
+        }
+
+        $user = $this->getUserFromBooking($booking);
+        $userId = $user->getUserId();
+
+        return $this->getVoucherFilePathByUserIdAndBookingId($userId, $bookingId);
+    }
+
+    /**
+     * Creates the booking voucher for a booking with ID $bookingID and
+     * returns the full file path to the voucher and null if it could
+     * not be created. In case the voucher already exists the file path is returned.
+     *
+     * @param $bookingId
+     * @return null|string
+     */
+    public function createBookingVoucherIfNotExisting($bookingId)
+    {
+        $response = $this->getPrintableBookingConfirmationResponse($bookingId);
+        $pdfFilePath = $this->getVoucherFilePathByBookingId($bookingId);
+
+        if (file_exists($pdfFilePath)) {
+            return $pdfFilePath;
+        }
+
+        $pdfService = $this->get('front_end.services.pdf');
+        $success = $pdfService->storeHtmlAsPdf($response, $pdfFilePath);
+
+        if (!$success) {
+            // PDF could not be stored, so ignore attachment for now
+            $pdfFilePath = null;
+        }
+
+        return $pdfFilePath;
+    }
+
+    /**
      * Processes the payment emails by sending them out to
      *  - the customer
      *  - the reservation team
@@ -287,18 +336,7 @@ class BookingService extends Controller
             $cont++;
         }
 
-        $response = $this->getPrintableBookingConfirmationResponse($bookingId);
-
-        $pdfName = 'voucher' . $userId . '_' . $bookingId;
-        $pdfFilePath = $this->getVoucherPdfFilePath($pdfName);
-
-        $pdfService = $this->get('front_end.services.pdf');
-        $success = $pdfService->storeHtmlAsPdf($response, $pdfFilePath);
-
-        if (!$success) {
-            // PDF could not be stored, so ignore attachment for now
-            $pdfFilePath = null;
-        }
+        $pdfFilePath = $this->createBookingVoucherIfNotExisting($bookingId);
 
         // Send email to customer
         $emailService = $this->get('Email');
@@ -497,6 +535,19 @@ class BookingService extends Controller
             ->getRepository('mycpBundle:ownershipReservation')
             ->findBy(array('own_res_reservation_booking' => $bookingId));
         return $ownershipReservations;
+    }
+
+    /**
+     * Returns the voucher file path of a booking according to the user ID and the booking ID.
+     *
+     * @param $userId
+     * @param $bookingId
+     * @return string
+     */
+    private function getVoucherFilePathByUserIdAndBookingId($userId, $bookingId)
+    {
+        $pdfName = 'voucher' . $userId . '_' . $bookingId;
+        return $this->getVoucherPdfFilePath($pdfName);
     }
 
     /**
