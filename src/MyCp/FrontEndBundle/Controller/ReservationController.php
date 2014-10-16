@@ -15,10 +15,8 @@ use Symfony\Component\Validator\Constraints\Email;
 use MyCp\FrontEndBundle\Helpers\PaymentHelper;
 use MyCp\FrontEndBundle\Helpers\ReservationHelper;
 
-class ReservationController extends Controller {
-
-    const RELATIVE_VOUCHER_PATH = "/../tmp/vouchers/";
-
+class ReservationController extends Controller
+{
     public function get_count_cart_itemsAction(Request $request) {
         $services = array();
         if ($request->getSession()->get('services_pre_reservation'))
@@ -754,11 +752,4 @@ class ReservationController extends Controller {
                         'FrontEndBundle:Reservation:view_confirmation', array('id_booking' => $id_booking)
         );
     }
-
-    private function getVoucherPdfFilePath($pdfName) {
-        $pdfFilePath = $this->container->getParameter('kernel.root_dir')
-                . self::RELATIVE_VOUCHER_PATH . "$pdfName.pdf";
-        return $pdfFilePath;
-    }
-
 }
