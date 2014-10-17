@@ -950,31 +950,29 @@ class BackendReservationController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $bookings_ids = $em->getRepository('mycpBundle:generalReservation')->getBookings($id_reservation);
         $genRes = $em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
-        $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' =>$genRes->getGenResUserId()));
+        $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $genRes->getGenResUserId()));
 
         foreach ($bookings_ids as $bookId) {
             $bookId = $bookId['booking_id'];
-            $response = $this->view_confirmation($bookId);
-            $pdf_name = 'voucher' . $genRes->getGenResUserId()->getUserId() . '_' . $bookId;
-            $this->download_pdf($response, $pdf_name, true);
-            $attach = "http://" . $_SERVER['HTTP_HOST'] . "/web/vouchers/$pdf_name.pdf";
+            $bookingService = $this->get('front_end.services.booking');
 
-            // Enviando mail al equipo de reservación
-            $service_email = $this->get('Email');
+            // one could also use $bookingService->getVoucherFilePathByBookingId($bookingId) here, but then the PDF is not created
+            $pdfFilePath = $bookingService->createBookingVoucherIfNotExisting($bookId);
 
             $body = $this->render('FrontEndBundle:mails:rt_voucher.html.twig', array(
-                    'user' => $userTourist->getUserTouristUser(),
-                    'user_tourist' => $userTourist,
-                    'booking_id' => $bookId,
-                    'generalReservation' => $genRes
-                ));
-                $service_email->sendEmail(
-                        'Voucher del booking ID_'.$bookId.' (CAS.'.$genRes->getGenResId().')', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', 'reservation@mycasaparticular.com', $body, $attach
-                );
+                'user' => $userTourist->getUserTouristUser(),
+                'user_tourist' => $userTourist,
+                'booking_id' => $bookId,
+                'generalReservation' => $genRes
+            ));
 
+            $service_email = $this->get('mycp.service.email_manager');
+            $service_email->sendEmail(
+                    'Voucher del booking ID_' . $bookId . ' (CAS.' . $genRes->getGenResId() . ')', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', 'reservation@mycasaparticular.com', $body, $pdfFilePath
+            );
         }
-        $message = 'Se ha enviado satisfactoriamente el voucher asociado a la reservación CAS.'.$genRes->getGenResId();
-            $this->get('session')->getFlashBag()->add('message_ok', $message);
+        $message = 'Se ha enviado satisfactoriamente el voucher asociado a la reservación CAS.' . $genRes->getGenResId();
+        $this->get('session')->getFlashBag()->add('message_ok', $message);
         return $this->redirect($this->generateUrl('mycp_list_reservations'));
     }
 
