@@ -249,7 +249,7 @@ class ownershipRepository extends EntityRepository {
         $em->persist($ownership);
 
         //save client casa
-        if ($new_user) {
+        if ($new_user && $status->getStatusId() == ownershipStatus::STATUS_ACTIVE) {
             $file = $request->files->get('user_photo');
             $em->getRepository('mycpBundle:userCasa')->createUser($ownership,$file,$dir,$factory, $send_creation_mail, $controller);
         }
@@ -305,8 +305,9 @@ class ownershipRepository extends EntityRepository {
                 $ownership_italian_lang;
 
         $em = $this->getEntityManager();
-        $ownership =
-                $em->getRepository('mycpBundle:ownership')->find($id_ownership);
+        $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
+        $old_status = $ownership->getOwnStatus();
+        
         $ownership->setOwnLangs($langs_string);
         $ownership->setOwnName($data['ownership_name']);
         $ownership->setOwnLicenceNumber($data['ownership_licence_number']);
@@ -482,10 +483,17 @@ class ownershipRepository extends EntityRepository {
         $em->persist($ownership);
 
         //save client casa
-        if ($new_user) {
+        if ($new_user && $status->getStatusId() == ownershipStatus::STATUS_ACTIVE) {
             $file = $request->files->get('user_photo');
             $em->getRepository('mycpBundle:userCasa')->createUser($ownership,$file,$dir,$factory, $send_creation_mail, $controller);
         }
+        
+        //If the status of the accommodation change from active to inactive, then the userCasa account associated must be set to disabled
+        if($old_status->getStatusId() == ownershipStatus::STATUS_ACTIVE && $status->getStatusId() == ownershipStatus::STATUS_INACTIVE)
+            $em->getRepository('mycpBundle:userCasa')->changeStatus($ownership->getOwnId(), false);
+        
+        if($old_status->getStatusId() != ownershipStatus::STATUS_ACTIVE && $status->getStatusId() == ownershipStatus::STATUS_ACTIVE)
+            $em->getRepository('mycpBundle:userCasa')->changeStatus($ownership->getOwnId(), true);
 
         $em->flush();
     }

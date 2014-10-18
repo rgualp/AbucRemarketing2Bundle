@@ -158,8 +158,6 @@ class userCasaRepository extends EntityRepository {
         return $photo_name;
     }
 
-
-
     function getAccommodationsWithoutUser()
     {
         $em = $this->getEntityManager();
@@ -190,5 +188,24 @@ class userCasaRepository extends EntityRepository {
 
         $query = $em->createQuery($query_string);
         return $query->getOneOrNullResult();
+    }
+    
+    function changeStatus($ownId, $isEnabled)
+    {
+        $em = $this->getEntityManager();
+        $userCasa = $em->getRepository('mycpBundle:userCasa')->findOneBy(array('user_casa_ownership' => $ownId));
+        
+        if(isset($userCasa))
+        {
+            $user = $userCasa->getUserCasaUser();
+            $activationDate = $user->getUserActivationDate();
+            
+            if($isEnabled || (!$isEnabled && isset($activationDate)))
+            {
+                $user->setUserEnabled($isEnabled);
+                $em->persist($user);
+                $em->flush();
+            }
+        }
     }
 }

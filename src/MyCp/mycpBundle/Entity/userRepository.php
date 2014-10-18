@@ -11,51 +11,50 @@ use Doctrine\ORM\EntityRepository;
  * repository methods below.
  */
 class userRepository extends EntityRepository {
+    /* function new_user_casa($id_role, $data, $request, $dir, $factory) {
+      $em = $this->getEntityManager();
+      $user = new user();
+      $address = $data['mycp_mycpbundle_client_casatype']['address'];
+      $ownership = new ownership();
+      $ownership = $em->getRepository('mycpBundle:ownership')->find($data['mycp_mycpbundle_client_casatype']['ownership']);
+      $address = $data['mycp_mycpbundle_client_casatype']['address'];
+      $email = $data['mycp_mycpbundle_client_casatype']['email'];
+      $country = $em->getRepository('mycpBundle:country')->findBy(array('co_name' => 'Cuba'));
+      $user->setUserAddress($address);
+      $user->setUserCity($ownership->getOwnAddressMunicipality()->getMunName());
+      $user->setUserCountry($country[0]);
+      $user->setUserEmail($email);
+      $user->setUserCreatedByMigration(false);
+      $user->setUserPhone($ownership->getOwnPhoneCode() . ' ' . $ownership->getOwnPhoneNumber());
+      $user->setUserName($data['mycp_mycpbundle_client_casatype']['user_name']);
+      $user->setUserLastName($data['mycp_mycpbundle_client_casatype']['last_name']);
+      //$user->setUserCreationDate(new \DateTime());
+      $file = $request->files->get('mycp_mycpbundle_client_casatype');
+      if (isset($file['photo'])) {
+      $photo = new photo();
+      $fileName = uniqid('user-') . '-photo.jpg';
+      $file['photo']->move($dir, $fileName);
+      //Redimensionando la foto del usuario
+      \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 65);
 
-    /*function new_user_casa($id_role, $data, $request, $dir, $factory) {
-        $em = $this->getEntityManager();
-        $user = new user();
-        $address = $data['mycp_mycpbundle_client_casatype']['address'];
-        $ownership = new ownership();
-        $ownership = $em->getRepository('mycpBundle:ownership')->find($data['mycp_mycpbundle_client_casatype']['ownership']);
-        $address = $data['mycp_mycpbundle_client_casatype']['address'];
-        $email = $data['mycp_mycpbundle_client_casatype']['email'];
-        $country = $em->getRepository('mycpBundle:country')->findBy(array('co_name' => 'Cuba'));
-        $user->setUserAddress($address);
-        $user->setUserCity($ownership->getOwnAddressMunicipality()->getMunName());
-        $user->setUserCountry($country[0]);
-        $user->setUserEmail($email);
-        $user->setUserCreatedByMigration(false);
-        $user->setUserPhone($ownership->getOwnPhoneCode() . ' ' . $ownership->getOwnPhoneNumber());
-        $user->setUserName($data['mycp_mycpbundle_client_casatype']['user_name']);
-        $user->setUserLastName($data['mycp_mycpbundle_client_casatype']['last_name']);
-        //$user->setUserCreationDate(new \DateTime());
-        $file = $request->files->get('mycp_mycpbundle_client_casatype');
-        if (isset($file['photo'])) {
-            $photo = new photo();
-            $fileName = uniqid('user-') . '-photo.jpg';
-            $file['photo']->move($dir, $fileName);
-            //Redimensionando la foto del usuario
-            \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 65);
-
-            $photo->setPhoName($fileName);
-            $user->setUserPhoto($photo);
-            $em->persist($photo);
-        }
-        $role = $em->getRepository('mycpBundle:role')->find($id_role);
-        $user->setUserRole('ROLE_CLIENT_CASA');
-        $user->setUserSubrole($role);
-        $user->setUserUserName($data['mycp_mycpbundle_client_casatype']['name']);
-        $encoder = $factory->getEncoder($user);
-        $password = $encoder->encodePassword($data['mycp_mycpbundle_client_casatype']['user_password']['Clave:'], $user->getSalt());
-        $user->setUserPassword($password);
-        $user_casa = new userCasa();
-        $user_casa->setUserCasaOwnership($ownership);
-        $user_casa->setUserCasaUser($user);
-        $em->persist($user);
-        $em->persist($user_casa);
-        $em->flush();
-    }
+      $photo->setPhoName($fileName);
+      $user->setUserPhoto($photo);
+      $em->persist($photo);
+      }
+      $role = $em->getRepository('mycpBundle:role')->find($id_role);
+      $user->setUserRole('ROLE_CLIENT_CASA');
+      $user->setUserSubrole($role);
+      $user->setUserUserName($data['mycp_mycpbundle_client_casatype']['name']);
+      $encoder = $factory->getEncoder($user);
+      $password = $encoder->encodePassword($data['mycp_mycpbundle_client_casatype']['user_password']['Clave:'], $user->getSalt());
+      $user->setUserPassword($password);
+      $user_casa = new userCasa();
+      $user_casa->setUserCasaOwnership($ownership);
+      $user_casa->setUserCasaUser($user);
+      $em->persist($user);
+      $em->persist($user_casa);
+      $em->flush();
+      }
      */
 
     function short_edit_user($id_user, $request, $dir, $factory) {
@@ -102,7 +101,7 @@ class userRepository extends EntityRepository {
             'user_email' => $post['user_email'],
             'user_created_by_migration' => false));
 
-        if($user == null)
+        if ($user == null)
             $user = new user();
 
         $user_tourist = new userTourist();
@@ -189,9 +188,8 @@ class userRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $user_tourist = new userTourist();
         $user_tourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $id_user));
-        if($user_tourist == null)
-        {
-            $user_tourist =new userTourist();
+        if ($user_tourist == null) {
+            $user_tourist = new userTourist();
             $user = $em->getRepository('mycpBundle:user')->findOneBy(array('user_id' => $id_user));
             $user_tourist->setUserTouristUser($user);
         }
@@ -469,27 +467,27 @@ class userRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT u FROM mycpBundle:user u JOIN u.user_subrole sr
         WHERE u.user_name LIKE :filter_user_name $string_role $string_city $string_country $string_name $string_last_name $string_email");
-        
+
         if ($filter_role != 'null' && $filter_role != '')
-            $query->setParameter ('filter_role', $filter_role);
-        
+            $query->setParameter('filter_role', $filter_role);
+
         if ($filter_city != 'null' && $filter_city != '')
-            $query->setParameter ('filter_city', "%".$filter_city."%");
-        
+            $query->setParameter('filter_city', "%" . $filter_city . "%");
+
         if ($filter_country != 'null' && $filter_country != '')
-            $query->setParameter ('filter_country', $filter_country);
-        
+            $query->setParameter('filter_country', $filter_country);
+
         if ($filter_name != 'null' && $filter_name != '')
-             $query->setParameter ('filter_name', "%".$filter_name."%");
-        
+            $query->setParameter('filter_name', "%" . $filter_name . "%");
+
         if ($filter_last_name != 'null' && $filter_last_name != '')
-            $query->setParameter ('filter_last_name', "%".$filter_last_name."%");
-        
+            $query->setParameter('filter_last_name', "%" . $filter_last_name . "%");
+
         if ($filter_email != 'null' && $filter_email != '')
-            $query->setParameter ('filter_email', "%".$filter_email."%");
-        
-        $query->setParameter ('filter_user_name', "%".$filter_user_name."%");
-        
+            $query->setParameter('filter_email', "%" . $filter_email . "%");
+
+        $query->setParameter('filter_user_name', "%" . $filter_user_name . "%");
+
         return $query->getResult();
     }
 
@@ -503,7 +501,6 @@ class userRepository extends EntityRepository {
     /**
      * Yanet
      */
-    
     public function user_ids($controller) {
         $user_id = null;
         $session_id = null;
@@ -521,7 +518,7 @@ class userRepository extends EntityRepository {
                 $session = $controller->getRequest()->getSession();
                 $now = time();
                 $session_id = $session->getId(); //."_".$now;
-                setcookie("mycp_user_session", $session_id, time() + 60 * 60 * 24 * 365,'/');
+                setcookie("mycp_user_session", $session_id, time() + 60 * 60 * 24 * 365, '/');
             }
         }
 
@@ -552,20 +549,22 @@ class userRepository extends EntityRepository {
             $session_id = $request->cookies->get("mycp_user_session");
         return $session_id;
     }
-    
-    public function changeStatus($userId)
-    {
+
+    public function changeStatus($userId) {
         $em = $this->getEntityManager();
         $user = $em->getRepository('mycpBundle:user')->find($userId);
-        $currentStatus = $user->getUserEnabled();
-        $userActivationDate = $user->getUserActivationDate();
-        
-        $user->setUserEnabled(!$currentStatus);
-        
-        if(!$currentStatus && !isset($userActivationDate))
-            $user->setUserActivationDate(new \DateTime());
-        $em->persist($user);
-        $em->flush();
+
+        if (isset($user)) {
+            $currentStatus = $user->getUserEnabled();
+            $userActivationDate = $user->getUserActivationDate();
+
+            $user->setUserEnabled(!$currentStatus);
+
+            if (!$currentStatus && !isset($userActivationDate))
+                $user->setUserActivationDate(new \DateTime());
+            $em->persist($user);
+            $em->flush();
+        }
     }
 
 }
