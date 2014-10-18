@@ -178,14 +178,13 @@ class BackendUserController extends Controller {
 
             $form->handleRequest($request);
 
-            if(!Utils::validateEmail($request_form['email']))
-            {
+            if (!Utils::validateEmail($request_form['email'])) {
                 $message = 'La dirección de correo no es válida';
                 $this->get('session')->getFlashBag()->add('message_error_main', $message);
                 $count_errors++;
             }
 
-            if ($form->isValid()&& $count_errors == 0) {
+            if ($form->isValid() && $count_errors == 0) {
                 $factory = $this->get('security.encoder_factory');
                 $dir = $this->container->getParameter('user.dir.photos');
                 $em->getRepository('mycpBundle:userCasa')->edit($id_user, $request, $dir, $factory);
@@ -700,6 +699,24 @@ class BackendUserController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $roles = $em->getRepository('mycpBundle:user')->get_roles_staff();
         return $this->render('mycpBundle:utils:roles.html.twig', array('roles' => $roles, 'selected' => $selected));
+    }
+
+    function changeStatusAction($userId) {
+        try {
+            $em = $this->getDoctrine()->getEntityManager();
+            $em->getRepository('mycpBundle:user')->changeStatus($userId);
+            
+            $message = 'Se ha modificado satisfactoriamente el estado del usuario casa asociado.';
+            $this->get('session')->getFlashBag()->add('message_ok', $message);
+            
+            
+            
+        } catch (\Exception $e) {
+            $message = 'Ha ocurrido un error durante el cambio del estado del usuario casa asociado.';
+            $this->get('session')->getFlashBag()->add('message_error_main', $message);
+        }
+        
+        return $this->redirect($this->generateUrl('mycp_list_ownerships'));
     }
 
 }

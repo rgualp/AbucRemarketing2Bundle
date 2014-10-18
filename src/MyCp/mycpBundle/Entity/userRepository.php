@@ -552,5 +552,20 @@ class userRepository extends EntityRepository {
             $session_id = $request->cookies->get("mycp_user_session");
         return $session_id;
     }
+    
+    public function changeStatus($userId)
+    {
+        $em = $this->getEntityManager();
+        $user = $em->getRepository('mycpBundle:user')->find($userId);
+        $currentStatus = $user->getUserEnabled();
+        $userActivationDate = $user->getUserActivationDate();
+        
+        $user->setUserEnabled(!$currentStatus);
+        
+        if(!$currentStatus && !isset($userActivationDate))
+            $user->setUserActivationDate(new \DateTime());
+        $em->persist($user);
+        $em->flush();
+    }
 
 }

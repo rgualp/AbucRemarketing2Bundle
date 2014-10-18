@@ -45,3 +45,7 @@ mycp_list_users:
 mycp_delete_user:
     pattern:  /delete/{id_user}
     defaults: { _controller: mycpBundle:BackendUser:delete_user }
+    
+mycp_change_status_user:
+    pattern:  /change_status/user_casa/{userId}
+    defaults: { _controller: mycpBundle:BackendUser:changeStatus}
