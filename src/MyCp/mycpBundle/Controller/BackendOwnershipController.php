@@ -159,8 +159,7 @@ class BackendOwnershipController extends Controller {
         $filter_visit_date = $request->get('filter_visit_date');
         $filter_other = $request->get('filter_other');
         if ($request->getMethod() == 'POST' && $filter_name == 'null' && $filter_active == 'null' && $filter_province == 'null' && $filter_municipality == 'null' &&
-                $filter_type == 'null' && $filter_category == 'null' && $filter_code == 'null' && $filter_saler == 'null' && $filter_visit_date == 'null' && $filter_destination == 'null'
-                && $filter_other == 'null'
+                $filter_type == 'null' && $filter_category == 'null' && $filter_code == 'null' && $filter_saler == 'null' && $filter_visit_date == 'null' && $filter_destination == 'null' && $filter_other == 'null'
         ) {
             $message = 'Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
@@ -477,7 +476,7 @@ class BackendOwnershipController extends Controller {
             $ownershipRooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $id_ownership));
             $ownershipPhotos = $em->getRepository('mycpBundle:ownershipPhoto')->findBy(array('own_pho_own' => $id_ownership));
             $ownershipComments = $em->getRepository('mycpBundle:comment')->findBy(array('com_ownership' => $id_ownership));
-            $userscasa = $em->getRepository('mycpBundle:userCasa')->findBy(array('user_casa_ownership' => $id_ownership));
+
 
             $dir = $this->container->getParameter('ownership.dir.photos');
             $dir_thumbs = $this->container->getParameter('ownership.dir.thumbnails');
@@ -523,10 +522,6 @@ class BackendOwnershipController extends Controller {
                 $em->remove($photo);
             }
 
-            foreach ($userscasa as $usercasa) {
-                $em->remove($usercasa);
-            }
-
             $em->remove($ownership);
             $em->flush();
 
@@ -547,6 +542,12 @@ class BackendOwnershipController extends Controller {
             $service_log = $this->get('log');
             $service_log->saveLog('Update entity status to INACTIVE. Property code ' . $old_code, BackendModuleName::MODULE_OWNERSHIP);
         }
+
+        $userscasa = $em->getRepository('mycpBundle:userCasa')->findBy(array('user_casa_ownership' => $id_ownership));
+        foreach ($userscasa as $usercasa) {
+            $em->remove($usercasa);
+        }
+        $em->flush();
 
         return $this->redirect($this->generateUrl('mycp_list_ownerships'));
     }
@@ -722,7 +723,7 @@ class BackendOwnershipController extends Controller {
 
                     if ($request->request->get('edit_ownership')) {
                         $id_own = $request->request->get('edit_ownership');
-                        if ($request->request->get('status') == 4) {
+                        if ($request->request->get('status') == ownershipStatus::STATUS_DELETED) {
                             return $this->redirect($this->generateUrl('mycp_delete_ownership', array('id_ownership' => $id_own)));
                         }
                         $service_log = $this->get('log');
@@ -755,9 +756,9 @@ class BackendOwnershipController extends Controller {
                                 $db_price_down_to = $room->getRoomPriceDownTo();
                                 $post_price_down_to = $post['room_price_down_to_' . $flag];
 
-                                if(isset($post['room_price_special_' . $flag])){
-                                $db_price_special = $room->getRoomPriceSpecial();
-                                $post_price_special = $post['room_price_special_' . $flag];
+                                if (isset($post['room_price_special_' . $flag])) {
+                                    $db_price_special = $room->getRoomPriceSpecial();
+                                    $post_price_special = $post['room_price_special_' . $flag];
                                 }
 
 
