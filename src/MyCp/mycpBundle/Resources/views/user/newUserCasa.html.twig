@@ -43,6 +43,10 @@
         <div class="span4">
         <input type="checkbox" name="user_send_mail" id="user_send_mail"/>Enviar los datos de la cuenta al correo del propietario
         </div>
+        {%else%}
+        <div class="span4">
+        {{form_row(form.user_enabled)}}
+        </div>
         {%endif%}
 
         <!--div class="span4">{#{form_row(form.user_password['Clave:'])}#}</div>
@@ -52,7 +56,7 @@
     <br/>
     <div class="row-fluid">
         <div class="span12">
-            <a class="btn btn-info pull-right" href="{{path('mycp_send_created_usercasa_mail',{'userId':user.user_id,'returnUrlName':'mycp_list_users'})}}" {%if user is not defined or user['email'] == ""%}disabled="disabled"{%endif%}><i class="icon-envelope icon-white"></i> Notificar al cliente</a>
+            <a class="btn btn-info pull-right" href="{{path('mycp_send_created_usercasa_mail',{'userId':user.user_id,'returnUrlName':'mycp_list_users'})}}" {%if user is not defined or user['email'] == "" or not user.user_enabled%}disabled="disabled"{%endif%}><i class="icon-envelope icon-white"></i> Notificar al cliente</a>
         </div>
     </div>
     <br/>
@@ -100,5 +104,9 @@
         });
         $("input.readonly").attr('readonly',true);
     </script>
+    {%else%}
+     <script type="text/javascript">
+         $('.user_enabled').removeAttr('disabled');
+     </script>
     {% endif %}
 {% endblock %}

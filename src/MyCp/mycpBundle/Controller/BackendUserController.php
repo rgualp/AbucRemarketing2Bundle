@@ -168,7 +168,8 @@ class BackendUserController extends Controller {
         $data_user['last_name'] = "";
         $data_user['ownership'] = "";
         $data_user['phone'] = "";
-        $data_user['user_id'] = "";
+        $data_user['user_id'] = "0";
+        $data_user['user_enabled'] = false;
 
         $count_errors = 0;
 
@@ -213,6 +214,7 @@ class BackendUserController extends Controller {
             $data_user['ownership'] = $user_casa->getUserCasaOwnership()->getOwnId();
             $data_user['phone'] = "";
             $data_user['user_id'] = $user_casa->getUserCasaUser()->getUserId();
+            $data_user['user_enabled'] = $user_casa->getUserCasaUser()->getUserEnabled(); 
 
             $form->setData($data_user);
         }

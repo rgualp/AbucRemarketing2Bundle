@@ -111,6 +111,9 @@ class userCasaRepository extends EntityRepository {
          $user_casa->getUserCasaUser()->setUserLastName($post['mycp_mycpbundle_client_casatype']['last_name']);
          $user_casa->getUserCasaUser()->setUserEmail($post['mycp_mycpbundle_client_casatype']['email']);
          $user_casa->getUserCasaUser()->setUserPhone($post['mycp_mycpbundle_client_casatype']['phone']);
+         
+         $user_enabled = (isset($post['mycp_mycpbundle_client_casatype']['user_enabled']));
+         $user_casa->getUserCasaUser()->setUserEnabled($user_enabled);
          /*if ($post['mycp_mycpbundle_client_casatype']['user_password']['Clave:'] != '') {
              $encoder = $factory->getEncoder($user_casa->getUserCasaUser());
              $password = $encoder->encodePassword($post['mycp_mycpbundle_client_casatype']['user_password']['Clave:'], $user_casa->getUserCasaUser()->getSalt());
@@ -163,6 +166,7 @@ class userCasaRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT o FROM mycpBundle:ownership o
         WHERE (SELECT count(user) FROM mycpBundle:userCasa user WHERE user.user_casa_ownership = o.own_id) = 0
+        AND o.own_status =".ownershipStatus::STATUS_ACTIVE."
         ORDER BY o.own_mcp_code");
         return $query->getResult();
     }
