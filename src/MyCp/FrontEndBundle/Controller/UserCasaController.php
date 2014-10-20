@@ -58,7 +58,7 @@ class UserCasaController extends Controller {
                     $count_error++;
                 }
                 
-                if (isset($post['user_email'])) {
+               /* if (isset($post['user_email'])) {
                     $user_db = $em->getRepository('mycpBundle:user')->findBy(array(
                         'user_email' => $post['user_email'],
                         'user_created_by_migration' => false));
@@ -73,7 +73,7 @@ class UserCasaController extends Controller {
                     $message = $this->get('translator')->trans("INVALID_SECRET_TOKEN");
                     $this->get('session')->getFlashBag()->add('message_global_success', $message);
                     $count_error++;
-                }
+                }*/
                 if ($form->isValid() && $count_error == 0) {
                     $user = $userCasa->getUserCasaUser();
 
