@@ -20,3 +20,5 @@ parameters:
 
     locale:            en
     secret:            7dsa7ydasdy872187yegwhqeg9yw91hjsaa00
+
+    doctrine_cache_prefix: ~

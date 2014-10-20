@@ -65,10 +65,12 @@ lsw_memcache:
                 client: default
                 entity_manager: default          # the name of your entity_manager connection
                 document_manager: default        # the name of your document_manager connection
+                prefix: "%doctrine_cache_prefix%"
             result_cache:
                 client: default
                 entity_manager: default          # you may specify multiple entity_managers
-                prefix: "result_"                # you may specify a prefix for the entries
+                prefix: "%doctrine_cache_prefix%"
             query_cache:
                 client: default
                 entity_manager: default
+                prefix: "%doctrine_cache_prefix%"

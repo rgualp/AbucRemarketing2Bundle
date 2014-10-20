@@ -10,7 +10,7 @@
     <h2 class="caecilia-roman big-price-green text-center no-margin" style="font-weight: normal;">{{"ENABLE_ACCOUNT" | trans }}</h2>
     <div><img src="{{ asset('bundles/frontend/img/line-gradient-green.png') }}" style="width: 100%; height: 1px; margin: 16px 0"></div>
 
-    <form class="form-horizontal" method="POST" action="{{ path('frontend_userCasa_activateAccount',{'own_code':own_code}) }}" enctype="multipart/form-data" novalidate="true">
+    <form class="form-horizontal" method="POST" action="{{ path('frontend_userCasa_activateAccount',{'token':secret_token}) }}" enctype="multipart/form-data" novalidate="true">
 
       <div class="row">
         <div class="col-sm-4"></div>

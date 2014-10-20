@@ -83,6 +83,12 @@ class userCasaRepository extends EntityRepository {
         $user_casa->setUserCasaUser($user);
         $encoder = $factory->getEncoder($user);
         $secret_token = $encoder->encodePassword("casa_".$ownership->getOwnMcpCode(), $user->getSalt());
+        $secret_token = base64_encode($secret_token);
+        $secret_token = str_replace('/', '1', $secret_token);
+        $secret_token = str_replace(' ', '2', $secret_token);
+        $secret_token = str_replace('+', '3', $secret_token);
+        $secret_token = str_replace('=', '4', $secret_token);
+        $secret_token = str_replace('?', '5', $secret_token);
         $user_casa->setUserCasaSecretToken($secret_token);
         $em->persist($user);
         $em->persist($user_casa);
@@ -174,9 +180,15 @@ class userCasaRepository extends EntityRepository {
         $query = $em->createQuery($query_string);
         return $query->getOneOrNullResult();
     }
+    
+    function getOneByToken($token)
+    {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT uc
+                  FROM mycpBundle:userCasa uc
+                  WHERE uc.user_casa_secret_token = '$token'";
 
-
-
-
-
+        $query = $em->createQuery($query_string);
+        return $query->getOneOrNullResult();
+    }
 }
