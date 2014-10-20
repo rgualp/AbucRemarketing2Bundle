@@ -15,7 +15,7 @@ lodging_login_check:
     pattern:  /alojamiento/login_check
 lodging_login:
     pattern:  /alojamiento/login/
-    defaults: { _controller: mycpBundle:Public:login, urlLogin: 'backend_login_check' }
+    defaults: { _controller: mycpBundle:Public:login, urlLogin: 'lodging_login_check' }
 lodging_logout:
     pattern: /alojamiento/logout
 
