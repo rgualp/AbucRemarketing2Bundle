@@ -15,7 +15,7 @@ class LodgingController extends Controller
             $photo=$em->getRepository('mycpBundle:photo')->find($user->getUserPhoto()->getPhoId());
         else
             $photo=null;
-        return $this->render('mycpBundle:Lodging:welcome.html.twig', array('photo' => $photo));
+        return $this->render('mycpBundle:lodging:welcome.html.twig', array('photo' => $photo));
     }
 
 }
