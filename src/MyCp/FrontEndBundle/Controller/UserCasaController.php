@@ -52,13 +52,13 @@ class UserCasaController extends Controller {
                 $post = $post['mycp_frontendbundle_enabled_user_casatype'];
                 $form->handleRequest($request);
 
-                /*if (isset($post['user_email']) && !\MyCp\FrontEndBundle\Helpers\Utils::validateEmail($post['user_email'])) {
+                if (isset($post['user_email']) && !\MyCp\FrontEndBundle\Helpers\Utils::validateEmail($post['user_email'])) {
                     $message = $this->get('translator')->trans("EMAIL_INVALID_MESSAGE");
                     $this->get('session')->getFlashBag()->add('message_global_success', $message);
                     $count_error++;
                 }
                 
-                if (isset($post['user_email'])) {
+                /*if (isset($post['user_email'])) {
                     $user_db = $em->getRepository('mycpBundle:user')->findBy(array(
                         'user_email' => $post['user_email'],
                         'user_created_by_migration' => false));
