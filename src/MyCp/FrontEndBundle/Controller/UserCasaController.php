@@ -57,8 +57,9 @@ class UserCasaController extends Controller {
                     $this->get('session')->getFlashBag()->add('message_global_success', $message);
                     $count_error++;
                 }
-                
-               /* if (isset($post['user_email'])) {
+
+                /*if (isset($post['user_email'])) {
+
                     $user_db = $em->getRepository('mycpBundle:user')->findBy(array(
                         'user_email' => $post['user_email'],
                         'user_created_by_migration' => false));
@@ -105,7 +106,7 @@ class UserCasaController extends Controller {
             ));
         }
         else
-            throw new Exception("Wrong url arguments");
+            throw new \Exception("Wrong url arguments");
     }
 
 }
