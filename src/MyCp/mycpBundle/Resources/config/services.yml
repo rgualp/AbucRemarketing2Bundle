@@ -16,9 +16,9 @@ services:
    mycp.service.email_manager:
        class: MyCp\mycpBundle\Helpers\EmailManager
        arguments: [@doctrine.orm.entity_manager, @Email, @templating, @translator, @router, @mailer, @swiftmailer.transport.real, @logger, "noreply@mycasaparticular.com", "MyCasaParticular.com", "3"]
-   
+
    mycp.job.user.latesignupreminder.listener:
        class: Abuc\RemarketingBundle\Event\DefaultEventListener
        arguments: [@abuc_remarketing.job.manager, "mycp.job.latesignup.reminder", "48 hours"]
        tags:
-           - { name: kernel.event_listener, event: abuc.event.user.signup,  method: onEvent 
+           - { name: kernel.event_listener, event: abuc.event.user.signup,  method: onEvent }
