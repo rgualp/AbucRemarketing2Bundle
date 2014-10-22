@@ -62,11 +62,12 @@ class UserController extends Controller {
                         ->registerUser($post, $request, $encoder, $this->get('translator'), $languageCode, $currency);
                 $service_security = $this->get('Secure');
                 $encode_string = $service_security->getEncodedUserString($user_db);
+                $userName = $user_db->getUserCompleteName();
 
                 //mailing
                 $enableRoute = 'frontend_enable_user';
                 $enableUrl = $this->get('router')->generate($enableRoute, array('string' => $encode_string), true);
-                $body = $this->render('FrontEndBundle:mails:enableAccount.html.twig', array('enableUrl' => $enableUrl));
+                $body = $this->render('FrontEndBundle:mails:enableAccount.html.twig', array('enableUrl' => $enableUrl, 'user_name' => $userName));
 
                 $service_email = $this->get('Email');
                 $service_email->sendTemplatedEmail($this->get('translator')->trans('EMAIL_ACCOUNT_REGISTERED_SUBJECT'), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
@@ -230,7 +231,8 @@ class UserController extends Controller {
                     $enableUrl = $this->get('router')
                             ->generate($enableRoute, array('string' => $encode_string), true);
                     $service_email = $this->get('Email');
-                    $body = $this->render('FrontEndBundle:mails:enableAccount.html.twig', array('enableUrl' => $enableUrl));
+                    $userName = $user_db->getUserCompleteName();
+                    $body = $this->render('FrontEndBundle:mails:enableAccount.html.twig', array('enableUrl' => $enableUrl, 'user_name' => $userName));
                     $service_email->sendTemplatedEmail($this->get('translator')->trans("USER_ACCOUNT_ACTIVATION_EMAIL"), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
                     $message = $this->get('translator')->trans("USER_CREATE_ACCOUNT_SUCCESS");
                     $this->get('session')->getFlashBag()->add('message_global_success', $message);

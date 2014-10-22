@@ -56,6 +56,7 @@ foreach($users as $user) {
     echo '-----------------' . PHP_EOL;
     $userEmail = $user->getUserEmail();
     $userId = $user->getUserId();
+    $userName = $user->getUserCompleteName();
     echo 'Id/Email: ' . $userId . '/' . $userEmail . PHP_EOL;
 
     $userTourist = $userTouristRepo->findOneBy(array('user_tourist_user' => $userId));
@@ -77,7 +78,7 @@ foreach($users as $user) {
     echo 'URL: ' . $enableUrl . PHP_EOL;
 
     $body = $templating->renderResponse('FrontEndBundle:mails:enableAccount.html.twig',
-        array('enableUrl' => $enableUrl));
+        array('enableUrl' => $enableUrl, 'user_name' =>$userName));
 
     $translator->setLocale($locale);
     $emailSubject = $translator->trans('EMAIL_ACCOUNT_REGISTERED_SUBJECT');
