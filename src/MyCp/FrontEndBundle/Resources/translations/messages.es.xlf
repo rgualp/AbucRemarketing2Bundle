@@ -2559,6 +2559,18 @@
                 <source>MYCP_TEAM</source>
                 <target>Equipo MyCP</target>
             </trans-unit>
+            <trans-unit id="650">
+                <source>EMAIL_USER_ACTIVATION_BODY_TEXT_1</source>
+                <target>La información necesaria para el proceso de Registro en MyCasaParticular.com está completa. Para ingresar en nuestro sitio, y continuar con sus reservas, Usted debe</target>
+            </trans-unit>
+            <trans-unit id="651">
+                <source>USER_ACTIVATION_LINK_TEXT</source>
+                <target>activar su cuenta</target>
+            </trans-unit>
+             <trans-unit id="652">
+                <source>EMAIL_USER_ACTIVATION_BODY_TEXT_2</source>
+                <target>Si el enlace anterior no funcionara, le sugerimos copiar la siguiente URL en su navegador.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

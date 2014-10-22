@@ -1,4 +1,10 @@
 <h4 style="font-family: Arial; font-size: 20px">{{"USER_ACCOUNT_ACTIVATION_EMAIL"|trans}}</h4>
 <p style="font-family: arial; font-size: 14px">
-    {{ "EMAIL_ACCOUNT_REGISTERED_TEXT"|trans }} <a href='{{ enableUrl }}'>{{ 'ENABLE_ACCOUNT'|trans }}</a>
+    {{"DEAR_MR" | trans}} {{user_name}},<br/>
+    {{ "EMAIL_USER_ACTIVATION_BODY_TEXT_1"|trans }} <a href='{{ enableUrl }}'>{{ 'USER_ACTIVATION_LINK_TEXT'|trans }}</a>.<br/>
+    {{ "EMAIL_USER_ACTIVATION_BODY_TEXT_2"|trans }}<br/>
+    {{ enableUrl }}<br/>
+    {{"EMAIL_GREETINGS" | trans}}.<br/>
+    {{"EMAIL_GREETINGS_2" | trans}},<br/>
+    {{"MYCP_TEAM" | trans}}
 </p>

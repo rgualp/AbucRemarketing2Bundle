@@ -2558,6 +2558,18 @@
                 <source>MYCP_TEAM</source>
                 <target>MyCP Team</target>
             </trans-unit>
+            <trans-unit id="650">
+                <source>EMAIL_USER_ACTIVATION_BODY_TEXT_1</source>
+                <target>We have all the information we need for your Registration Process! In order to Log In our website and continue booking your accommodation, we suggest you to</target>
+            </trans-unit>
+            <trans-unit id="651">
+                <source>USER_ACTIVATION_LINK_TEXT</source>
+                <target>activate your account</target>
+            </trans-unit>
+             <trans-unit id="652">
+                <source>EMAIL_USER_ACTIVATION_BODY_TEXT_2</source>
+                <target>If the link doesn’t work, please copy the URL below, and paste it on your browser.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
