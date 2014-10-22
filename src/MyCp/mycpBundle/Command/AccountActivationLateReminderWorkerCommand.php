@@ -10,7 +10,7 @@ use MyCp\mycpBundle\Entity\user;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class AccountActivationReminderWorkerCommand extends Worker
+class AccountActivationLateReminderWorkerCommand extends Worker
 {
     /**
      * 'translator' service
@@ -45,10 +45,10 @@ class AccountActivationReminderWorkerCommand extends Worker
     protected function configureWorker()
     {
         $this
-            ->setName('mycp:worker:signupreminder')
+            ->setName('mycp:worker:latesignupreminder')
             ->setDefinition(array())
-            ->setDescription('Sends a reminder email after 24h if a user has not yet activated his account')
-            ->setJobName(PredefinedJobs::JOB_SIGNUP_REMINDER);
+            ->setDescription('Sends a reminder email after 48h if a user has not yet activated his account')
+            ->setJobName("mycp.job.latesignup.reminder");
     }
 
     /**
@@ -65,17 +65,17 @@ class AccountActivationReminderWorkerCommand extends Worker
         $this->initializeServices();
         $userId = $data->getUserId();
 
-        $output->writeln('Processing Account Activation Reminder for User ID ' . $userId);
+        $output->writeln('Processing Account Activation Late Reminder for User ID ' . $userId);
 
         $user = $this->emailManager->getUserById($userId);// $this->getUserById($userId);
         $this->emailManager->setLocaleByUser($user);
 
         if (!$user->getUserEnabled()) {
-            $output->writeln('Send Account Activation Reminder Email to User ID ' . $userId);
+            $output->writeln('Send Account Activation Late Reminder Email to User ID ' . $userId);
             $this->sendReminderEmail($user, $output);
         }
 
-        $output->writeln('Successfully finished Account Activation Reminder for User ID ' . $userId);
+        $output->writeln('Successfully finished Account Activation Late Reminder for User ID ' . $userId);
         return true;
     }
 
@@ -90,11 +90,11 @@ class AccountActivationReminderWorkerCommand extends Worker
         $userEmail = $user->getUserEmail();
         $userName = $user->getUserCompleteName();
 
-        $emailSubject = $this->translatorService->trans('EMAIL_ACCOUNT_REGISTERED_SUBJECT_REMINDER');
+        $emailSubject = $this->translatorService->trans('EMAIL_ACCOUNT_REGISTERED_SUBJECT_LATE_REMINDER');
         $activationUrl = $this->getActivationUrl($user);
 
         $emailBody = $this->emailManager->getViewContent(
-            'FrontEndBundle:mails:enableAccountReminder.html.twig',
+            'FrontEndBundle:mails:enableAccountLateReminder.html.twig',
             array('enableUrl' => $activationUrl, 'user_name' => $userName)
         );
 

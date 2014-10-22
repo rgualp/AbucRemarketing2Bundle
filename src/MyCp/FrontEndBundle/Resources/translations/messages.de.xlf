@@ -2514,6 +2514,50 @@
                 <source>INVALID_SECRET_TOKEN</source>
                 <target>Invalid secret token</target>
             </trans-unit>
+            <trans-unit id="639">
+                <source>USER_ACCOUNT_ACTIVATION_EMAIL_LATE_REMINDER</source>
+                <target>Not activated yet/Having any trouble?</target>
+            </trans-unit>
+            <trans-unit id="640">
+                <source>EMAIL_ACCOUNT_REGISTERED_SUBJECT_LATE_REMINDER</source>
+                <target>Not activated yet/Having any trouble?</target>
+            </trans-unit>
+             <trans-unit id="641">
+                <source>EMAIL_GREETINGS</source>
+                <target>Thank you in advance</target>
+            </trans-unit>
+            <trans-unit id="642">
+                <source>EMAIL_LATE_REMINDER_BODY_TEXT_1</source>
+                <target>Your account at MyCasaParticular.com is not activated yet, so the registration process is not completed yet. In order to activate your account, please click</target>
+            </trans-unit>
+            <trans-unit id="643">
+                <source>HERE</source>
+                <target>here</target>
+            </trans-unit>
+             <trans-unit id="644">
+                <source>EMAIL_LATE_REMINDER_BODY_TEXT_2</source>
+                <target>, or copy the URL below on your Internet browser.</target>
+            </trans-unit>
+            <trans-unit id="645">
+                <source>EMAIL_LATE_REMINDER_BODY_TEXT_3</source>
+                <target>If there is any problem during the process, please contact our</target>
+            </trans-unit>
+            <trans-unit id="646">
+                <source>SUPPORT_TEAM</source>
+                <target>Support Team</target>
+            </trans-unit>
+            <trans-unit id="647">
+                <source>EMAIL_LATE_REMINDER_BODY_TEXT_4</source>
+                <target>, and we will be glad to assist you.</target>
+            </trans-unit>
+            <trans-unit id="648">
+                <source>EMAIL_GREETINGS_2</source>
+                <target>Best Regards</target>
+            </trans-unit>
+            <trans-unit id="649">
+                <source>MYCP_TEAM</source>
+                <target>MyCP Team</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
