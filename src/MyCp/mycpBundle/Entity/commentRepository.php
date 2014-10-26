@@ -167,7 +167,7 @@ class commentRepository extends EntityRepository {
         }
     }
 
-    public function setAsPublic($ids) {
+    public function publicMultiples($ids) {
         $em = $this->getEntityManager();
         foreach ($ids as $com_id) {
             $comment = $em->getRepository('mycpBundle:comment')->find($com_id);
@@ -175,5 +175,15 @@ class commentRepository extends EntityRepository {
             $em->persist($comment);
         }
         $em->flush();
+    }
+
+    public function deleteMultiples($ids) {
+        $em = $this->getEntityManager();
+        foreach ($ids as $com_id) {
+            $comment = $em->getRepository('mycpBundle:comment')->find($com_id);
+            $em->remove($comment);
+            $em->flush();
+        }
+
     }
 }

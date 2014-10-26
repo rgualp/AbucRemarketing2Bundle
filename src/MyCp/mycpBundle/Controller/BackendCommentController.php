@@ -227,7 +227,7 @@ class BackendCommentController extends Controller {
 
         try {
             //Publicar comentarios
-            $em->getRepository('mycpBundle:comment')->setAsPublic($ids);
+            $em->getRepository('mycpBundle:comment')->publicMultiples($ids);
 
             $message = 'Se han publicado ' . count($ids) . ' comentarios.';
             $this->get('session')->getFlashBag()->add('message_ok', $message);
@@ -239,6 +239,34 @@ class BackendCommentController extends Controller {
             //return $this->redirect($this->generateUrl($returnUrl));
         } catch (\Exception $e) {
             $message = 'Ha ocurrido un error durante la publicación de los comentarios.';
+            $this->get('session')->getFlashBag()->add('message_error_local', $message);
+            $response = "ERROR";
+        }
+        return new Response($response);
+    }
+
+    public function deleteSelectedCallbackAction() {
+
+        $request = $this->getRequest();
+        $em = $this->getDoctrine()->getManager();
+        $ids = $request->request->get('comments_ids');
+        $returnUrl = $request->request->get('return_url');
+        $response = "OK";
+
+        try {
+            //Publicar comentarios
+            $em->getRepository('mycpBundle:comment')->deleteMultiples($ids);
+
+            $message = 'Se han eliminado ' . count($ids) . ' comentarios satisfactoriamente.';
+            $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+            $service_log = $this->get('log');
+            $service_log->saveLog('Delete '.count($ids).' comments', BackendModuleName::MODULE_COMMENT);
+
+            $response = $this->generateUrl($returnUrl);
+            //return $this->redirect($this->generateUrl($returnUrl));
+        } catch (\Exception $e) {
+            $message = 'Ha ocurrido un error durante la eliminación de los comentarios.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
             $response = "ERROR";
         }
