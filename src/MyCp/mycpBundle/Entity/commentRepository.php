@@ -19,6 +19,8 @@ class commentRepository extends EntityRepository
          $em = $this->getEntityManager();
 
          $ownership = $em->getRepository('mycpBundle:ownership')->find($data['com_ownership_id']);
+         $reservations=count($em->getRepository('mycpBundle:ownershipReservation')->getByOwnershipAndUser(ownershipReservation::STATUS_RESERVED,$ownership->getOwnId(),$user->getUserId()));
+         $is_public = $reservations > 0;
 
          $comment = new comment();
          $comment->setComDate(new \DateTime());
@@ -26,7 +28,7 @@ class commentRepository extends EntityRepository
          $comment->setComRate($data['com_rating']);
          $comment->setComComments($data['com_comments']);
          $comment->setComUser($user);
-         $comment->setComPublic(true);
+         $comment->setComPublic($is_public);
 
          $em->persist($comment);
          $em->flush();
@@ -34,7 +36,7 @@ class commentRepository extends EntityRepository
          $newRating = ($ownership->getOwnRating() + $comment->getComRate()) / 2;
          $ownership->setOwnRating($newRating);
 
-         if($comment->getComRate() >= 3)
+         if($comment->getComRate() >= 3 && $is_public)
          {
              $total_comments = $ownership->getOwnCommentsTotal() + 1;
              $ownership->setOwnCommentsTotal($total_comments);
@@ -127,21 +129,15 @@ class commentRepository extends EntityRepository
 
     function canComment($user, $own_id)
     {
-
         if ($user != null && $user != "anon.")
         {
             $em = $this->getEntityManager();
-            $query_string = "SELECT own_r FROM mycpBundle:ownershipReservation own_r JOIN own_r.own_res_gen_res_id gen_res
-                             WHERE gen_res.gen_res_own_id = :own_id".
-                             " AND gen_res.gen_res_user_id = :user_id".
-                             " AND own_r.own_res_status = ".ownershipReservation::STATUS_RESERVED;
-            $reservations=count($em->createQuery($query_string)->setParameters(array('own_id' => $own_id, 'user_id' => $user))->getResult());
+            $reservations=count($em->getRepository('mycpBundle:ownershipReservation')->getByOwnershipAndUser(ownershipReservation::STATUS_RESERVED,$own_id,$user));
 
             $query_string = "SELECT com FROM mycpBundle:comment com
                             WHERE com.com_ownership = :own_id
                               AND com.com_user = :user_id";
             $comments = count($em->createQuery($query_string)->setParameters(array('own_id' => $own_id, 'user_id' => $user))->getResult());
-            //var_dump($result); exit();
             return ($reservations > $comments) || ($reservations == 0 && $comments == 0);
         }
         return false;
