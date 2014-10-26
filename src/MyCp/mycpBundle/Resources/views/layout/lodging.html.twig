@@ -1,7 +1,7 @@
 {% extends 'mycpBundle:layout:base.html.twig' %}
 
 {% block user_context_menu %}
-    <li role="presentation"><a href="{{ path('lodging_logout') }}"><i class="icon-off"></i> Cerrar sesión</a></li>
+    <li role="presentation"><a href="{{ path('backend_logout') }}"><i class="icon-off"></i> Cerrar sesión</a></li>
 {% endblock %}
 
 {% block body %}
@@ -30,7 +30,7 @@
                 <div class="accordion-inner">
                     <a href="{{ path('mycp_lodging_unavailabilityDetails_calendar') }}"><i class="icon-file"></i> Disponibilidad</a>
                 </div>
-                
+
             </div>
         </div>
         <div class="accordion-group">

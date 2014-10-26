@@ -11,13 +11,13 @@ backend_login:
 backend_logout:
     pattern: /backend/logout
 
-lodging_login_check:
-    pattern:  /alojamiento/login_check
-lodging_login:
-    pattern:  /alojamiento/login/
-    defaults: { _controller: mycpBundle:Public:login, urlLogin: 'lodging_login_check' }
-lodging_logout:
-    pattern: /alojamiento/logout
+#lodging_login_check:
+#    pattern:  /alojamiento/login_check
+#lodging_login:
+#    pattern:  /alojamiento/login/
+#    defaults: { _controller: mycpBundle:Public:login, urlLogin: 'lodging_login_check' }
+#lodging_logout:
+#    pattern: /alojamiento/logout
 
 mycp:
     resource: "@mycpBundle/Resources/config/routing.yml"

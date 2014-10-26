@@ -19,6 +19,34 @@ class Secure {
         $this->security_context = $security_context;
     }
 
+    public function onKernelResponse(FilterResponseEvent $event) {
+        $token = $this->security_context->getToken();
+        var_dump($token);
+        exit;
+        if ($token != null && $token->getUser() != 'anon.') {
+            $user = $this->security_context->getToken()->getUser();
+            if ($user->getUserEnabled() != 1 || $this->security_context->isGranted('ROLE_CLIENT_TOURIST')) {
+                $this->security_context->setToken(null);
+                $this->container->get('request')->getSession()->invalidate();
+                $login_route = $this->container->get('router')->generate('backend_login');
+                $this->container->get('session')->getFlashBag()->add('message_error_local', 'NOT_ENABLED_USER');
+                $event->setResponse(new RedirectResponse($login_route));
+            }
+            else
+            {
+                if($this->security_context->isGranted('ROLE_CLIENT_CASA'))
+                {
+                    $route = $this->container->get('router')->generate('mycp_lodging_front');
+                    $event->setResponse(new RedirectResponse($route));
+                }
+                else{
+                    $route = $this->container->get('router')->generate('mycp_backend_front');
+                    $event->setResponse(new RedirectResponse($route));
+                }
+            }
+        }
+    }
+
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event) {
         $permissions = array();
         if ($this->security_context->isGranted('IS_AUTHENTICATED_REMEMBERED')) {

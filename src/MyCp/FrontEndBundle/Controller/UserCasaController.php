@@ -77,7 +77,6 @@ class UserCasaController extends Controller {
                 }*/
                 if ($form->isValid() && $count_error == 0) {
                     $user = $userCasa->getUserCasaUser();
-
                     $user->setUserUserName($post['user_user_name']);
                     $user->setUserLastName($post['user_last_name']);
                     $user->setUserEmail($post['user_email']);
@@ -88,14 +87,16 @@ class UserCasaController extends Controller {
                     $factory = $this->get('security.encoder_factory');
                     $user2 = new user();
                     $encoder = $factory->getEncoder($user2);
-                    $password = $encoder->encodePassword($post['user_password']['Password'], $user->getSalt());
+
+                    $keyPassword = $this->get('translator')->trans("FORMS_PASSWORD");
+                    $password = $encoder->encodePassword($post['user_password'][$keyPassword], $user->getSalt());
                     $user->setUserPassword($password);
                     $em->persist($user);
                     $em->flush();
 
                     $message = $this->get('translator')->trans("USER_ACTIVATE_ACCOUNT_SUCCESS");
                     $this->get('session')->getFlashBag()->add('message_global_success', $message);
-                    return $this->redirect($this->generateUrl('frontend_userCasa_home'));
+                    return $this->redirect($this->generateUrl('lodging_login'));
                 }
             }
 
