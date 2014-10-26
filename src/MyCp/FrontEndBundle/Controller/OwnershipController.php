@@ -388,7 +388,7 @@ class OwnershipController extends Controller {
                 $end_timestamp = mktime(0, 0, 0, $reservation_filter_date_to[1], $reservation_filter_date_to[0], $reservation_filter_date_to[2]);
             }
         } else {
-            
+
         }
 
         $service_time = $this->get('Time');
@@ -465,9 +465,9 @@ class OwnershipController extends Controller {
                         }
                     case season::SEASON_TYPE_SPECIAL: {
                             if ($room->getRoomPriceSpecial() > 0) {
-                                
+
                                 $total_price_room += $room->getRoomPriceSpecial();
-                                array_push($prices_dates_temp, $room->getRoomPriceSpecial());                                
+                                array_push($prices_dates_temp, $room->getRoomPriceSpecial());
                             } else {
                                 $total_price_room += $room->getRoomPriceUpTo();
                                 array_push($prices_dates_temp, $room->getRoomPriceUpTo());
@@ -559,6 +559,7 @@ class OwnershipController extends Controller {
                     'comments_total_items' => $paginator->getTotalItems(),
                     'comments_current_page' => $page,
                     'can_comment' => $em->getRepository("mycpBundle:comment")->canComment($user_ids["user_id"], $owner_id),
+                    'can_public_comment' => $em->getRepository("mycpBundle:comment")->canPublicComment($user_ids["user_id"], $owner_id),
                     'locale' => $locale,
                     'real_category' => $real_category,
                     'languages' => $languages,

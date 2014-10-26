@@ -2571,6 +2571,10 @@
                 <source>EMAIL_USER_ACTIVATION_BODY_TEXT_2</source>
                 <target>If the link doesn’t work, please copy the URL below, and paste it on your browser.</target>
             </trans-unit>
+            <trans-unit id="653">
+                <source>COMMENT_TO_PUBLIC</source>
+                <target>Thanks! Your comment will be public in the next hours.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

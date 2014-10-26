@@ -530,7 +530,7 @@
             <div id="loading" class="alert alert-info hidden">
                 <img src="{{ asset('bundles/frontend/img/loading.gif') }}"/>
             </div>
-            <div id="message_text" class="hidden" ok-message="{{"COMMENT_INSERTED" | trans}}"></div>
+            <div id="message_text" class="hidden" ok-message="{%if can_public_comment%}{{"COMMENT_INSERTED" | trans}}{%else%}{{"COMMENT_TO_PUBLIC" | trans}}{%endif%}"></div>
             <hr class="margin-t hr-green"/>
         {%endif%}
 
