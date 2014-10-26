@@ -49,7 +49,7 @@ class LodgingUnavailabilityDetailsController extends Controller
     public function get_calendarAction(Request $request)
     {
         $service_security = $this->get('Secure');
-        //$service_security->verifyAccess();
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $user = $this->get('security.context')->getToken()->getUser();
         $data = array();
@@ -63,7 +63,7 @@ class LodgingUnavailabilityDetailsController extends Controller
 
     public function newAction($id_room, Request $request) {
         $service_security = $this->get('Secure');
-        //$service_security->verifyAccess();
+        $service_security->verifyAccess();
 
         $em = $this->getDoctrine()->getEntityManager();
         $room = $em->getRepository('mycpBundle:room')->find($id_room);
@@ -112,7 +112,7 @@ class LodgingUnavailabilityDetailsController extends Controller
 
     public function editAction($id_detail, Request $request) {
         $service_security = $this->get('Secure');
-        //$service_security->verifyAccess();
+        $service_security->verifyAccess();
 
         $em = $this->getDoctrine()->getEntityManager();
         $uDetails = $em->getRepository('mycpBundle:unavailabilityDetails')->find($id_detail);
@@ -154,7 +154,7 @@ class LodgingUnavailabilityDetailsController extends Controller
 
     public function deleteAction($id_detail) {
         $service_security = $this->get('Secure');
-        //$service_security->verifyAccess();
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $uDetails = $em->getRepository('mycpBundle:unavailabilityDetails')->find($id_detail);
         $room = $uDetails->getRoom();

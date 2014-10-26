@@ -12,7 +12,7 @@ class LodgingCommentController extends Controller
     public function list_commentAction($items_per_page, Request $request)
     {
         $service_security= $this->get('Secure');
-        //$service_security->verifyAccess();
+        $service_security->verifyAccess();
 
         $page=1;
         $data='';

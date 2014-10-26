@@ -11,7 +11,7 @@ class LodgingUserController extends Controller
     function edit_profileAction(Request $request)
     {
         $service_security= $this->get('Secure');
-        //$service_security->verifyAccess();
+        $service_security->verifyAccess();
         $user = $this->get('security.context')->getToken()->getUser();
         $id_user = $user->getUserId();
         return $this->render('mycpBundle:user:user_casa_short_form.html.twig',array('edit_user'=>$id_user));
@@ -20,7 +20,7 @@ class LodgingUserController extends Controller
     function update_profileAction($id_user, Request $request)
     {
         $service_security= $this->get('Secure');
-        //$service_security->verifyAccess();
+        $service_security->verifyAccess();
 
         $data = array();
 

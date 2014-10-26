@@ -17,7 +17,7 @@ class LodgingOwnershipController extends Controller
     public function edit_ownershipAction(Request $request)
     {
         $service_security = $this->get('Secure');
-        //$service_security->verifyAccess();
+        $service_security->verifyAccess();
         $user = $this->get('security.context')->getToken()->getUser();
         $ownership = null;
         $errors = array();
@@ -105,7 +105,7 @@ class LodgingOwnershipController extends Controller
     public function update_ownershipAction(Request $request)
     {
         $service_security = $this->get('Secure');
-        //$service_security->verifyAccess();
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $count_rooms = 1;
         $post = $request->request->getIterator()->getArrayCopy();
@@ -234,7 +234,7 @@ class LodgingOwnershipController extends Controller
     public function send_mailAction(Request $request)
     {
         $service_security = $this->get('Secure');
-        //$service_security->verifyAccess();
+        $service_security->verifyAccess();
         $to_email = 'casa@mycasaparticular.com';
         $user = $this->get('security.context')->getToken()->getUser();
         $ownership = null;

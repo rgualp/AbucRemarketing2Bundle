@@ -21,7 +21,7 @@ class LodgingReservationController extends Controller
 {
     public function list_reservationsAction($items_per_page, Request $request) {
         $service_security = $this->get('Secure');
-        //$service_security->verifyAccess();
+        $service_security->verifyAccess();
         $page = 1;
         $filter_date_reserve = $request->get('filter_date_reserve');
         $filter_offer_number = $request->get('filter_offer_number');
@@ -115,7 +115,7 @@ class LodgingReservationController extends Controller
 
     public function details_reservationAction($id_reservation, $from_calendar,Request $request) {
         $service_security = $this->get('Secure');
-        //$service_security->verifyAccess();
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
         $reservation = $em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
         $ownership_reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $id_reservation));
