@@ -514,7 +514,7 @@
             {%if ownership.comments_total > 0%}+{%endif%}{{ownership.comments_total}}
         </h1>
         <hr class="no-margin" style="margin-bottom: 10px"/>
-        {% if app.user is defined and app.user.userusername is defined %}
+        {% if can_comment%}
             <span class="h-grey">{{"QUEST_COMMENTS_DETAILS" | trans}}</span>
             <div class="radio"><label><input type="radio" value="5" id="option5" name="radio_rating">{{"5_STARS_COMMENTS_DETAILS" | trans}}</label></div>
             <div class="radio"><label><input type="radio" value="4" id="option4" name="radio_rating">{{"4_STARS_COMMENTS_DETAILS" | trans}}</label></div>

@@ -49,6 +49,7 @@ class commentRepository extends EntityRepository
         $query_string = "SELECT c FROM mycpBundle:comment c
                          WHERE c.com_public=1
                            AND c.com_ownership = :ownership_id
+                           AND c.com_public = 1
                          ORDER BY c.com_date DESC";
 
         return $em->createQuery($query_string)->setParameter('ownership_id', $ownsership_id)->getResult();
@@ -134,9 +135,14 @@ class commentRepository extends EntityRepository
                              WHERE gen_res.gen_res_own_id = :own_id".
                              " AND gen_res.gen_res_user_id = :user_id".
                              " AND own_r.own_res_status = ".ownershipReservation::STATUS_RESERVED;
-            $result=$em->createQuery($query_string)->setParameters(array('own_id' => $own_id, 'user_id' => $user))->getResult();
+            $reservations=count($em->createQuery($query_string)->setParameters(array('own_id' => $own_id, 'user_id' => $user))->getResult());
+
+            $query_string = "SELECT com FROM mycpBundle:comment com
+                            WHERE com.com_ownership = :own_id
+                              AND com.com_user = :user_id";
+            $comments = count($em->createQuery($query_string)->setParameters(array('own_id' => $own_id, 'user_id' => $user))->getResult());
             //var_dump($result); exit();
-            return count($result) > 0;
+            return ($reservations > $comments) || ($reservations == 0 && $comments == 0);
         }
         return false;
     }
