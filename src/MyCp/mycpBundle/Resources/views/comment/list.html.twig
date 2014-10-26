@@ -92,27 +92,34 @@
 <table class="table table-striped table-hover">
     <thead>
     <tr>
-        <th>Propiedad</th>
-        <th>Usuario</th>
-        <th>Comentario</th>
-        <th>Valoración</th>
-        <th>Estado</th>
-        <th style="text-align: right">
-            Acciones
-        </th>
+        <th></th>
+        <th colspann="2">Comentario</th>
     </tr>
     </thead>
     <tbody>
     {% for comment in comments %}
     <tr>
-        <td>{{ comment.getComOwnership.getOwnMcpCode }}</td>
-        <td>{{ comment.getComUser.getUserName }}</td>
-        <td>{{ comment.getComComments | slice(0,30) }}...</td>
-        <td>{% for i in 1 .. 5 %}{% if i <= comment.getComRate %}<img src="{{ asset('bundles/frontend/img/star_on.png')}}"/>{% else %}<img src="{{ asset('bundles/frontend/img/star_off.png')}}"/>{% endif %} {% endfor %}</td>
-        <td>{% if comment.getComPublic==0%}<span class="label label-important">No activo</span>{% else %} <span class="label label-success">Activo</span>{% endif %}</td>
-        <td style="text-align: right">
+        <td>
+        </td>
+        <td>
+        <label class="name">{{ comment.getComUser.getUserName }}</label>
+        <div class="rating_star" style="text-wrap: avoid">
+            {% for i in 1 .. 5 %}{% if i <= comment.getComRate %}<img src="{{ asset('bundles/frontend/img/star_on.png')}}"/>{% else %}<img src="{{ asset('bundles/frontend/img/star_off.png')}}"/>{% endif %} {% endfor %}
+        </div>
+        {% if comment.getComPublic==0%}<span class="label label-important">No publicado</span>{% else %} <span class="label label-success">Publicado</span>{% endif %}
+        <em>{{comment.comdate |date("d/m/Y")}}</em>
+    </td>
+        <td>
+            <h5 style="margin:0">{{ comment.getComOwnership.getOwnMcpCode }}: {{comment.comownership.ownname}}</h5>
+        {{ comment.getComComments }}
+            <div class="row-fluid text-right" style="text-align: right">
             <a class="btn btn-mini" href="{{ path('mycp_edit_comment',{'id_comment':comment.getComId}) }}">Editar</a>
+            {%if not comment.compublic%}
+            <a class="btn btn-mini btn-success" href="{{ path('mycp_public_comment',{'id_comment':comment.getComId}) }}">Publicar</a>
+            {%endif%}
             <button data='{{ path('mycp_delete_comment',{'id_comment':comment.getComId}) }}' class="btn btn-mini btn-danger delete">Eliminar</button>
+
+            </div>
         </td>
     </tr>
     {% endfor %}

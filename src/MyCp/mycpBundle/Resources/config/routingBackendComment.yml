@@ -13,3 +13,7 @@ mycp_delete_comment:
 mycp_new_comment:
     pattern:  /new/
     defaults: { _controller: mycpBundle:BackendComment:new_comment }
+
+mycp_public_comment:
+    pattern:  /public/{id_comment}
+    defaults: { _controller: mycpBundle:BackendComment:public }

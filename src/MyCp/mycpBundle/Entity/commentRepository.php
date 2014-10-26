@@ -42,18 +42,18 @@ class commentRepository extends EntityRepository {
         $em->flush();
     }
 
-    function getByOwnership($ownsership_id) {
+    function getByOwnership($ownsership_id, $just_public = 1) {
         $em = $this->getEntityManager();
+        $just_public_query =($just_public) ? " AND c.com_public=1 ": "";
         $query_string = "SELECT c.com_rate,
                          c.com_date,c.com_comments,
                          u.user_user_name,
                          u.user_last_name
                          FROM mycpBundle:comment c
                          JOIN c.com_user u
-                         WHERE c.com_public=1
-                           AND c.com_ownership = :ownership_id
-                           AND c.com_public = 1
-                         ORDER BY c.com_date DESC";
+                         WHERE  c.com_ownership = :ownership_id".
+                         $just_public_query.
+                         "ORDER BY c.com_date DESC";
 
         return $em->createQuery($query_string)->setParameter('ownership_id', $ownsership_id)->getResult();
     }
