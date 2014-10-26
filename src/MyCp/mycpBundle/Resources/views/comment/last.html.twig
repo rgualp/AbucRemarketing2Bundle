@@ -10,17 +10,16 @@
 <h2>Comentarios</h2>
 <hr/>
 <ul class="nav nav-tabs" id="myTab">
-    <li class="active"><a data-toggle="tab" href="#comments">Comentarios</a></li>
-    <li class=""><a href="{{ path('mycp_last_comment') }}">Nuevos Comentarios</a></li>
+    <li class=""><a href="{{ path('mycp_list_comments') }}">Comentarios</a></li>
+    <li class="active"><a data-toggle="tab" href="#comments">Nuevos Comentarios</a></li>
 </ul>
     <div class="tab-content" id="myTabContent">
         <div id="comments" class="tab-pane fade active in">
-<a class="btn" href="{{ path('mycp_new_comment') }}"><i class="icon-plus"></i> Adicionar comentario</a>
 <br/><br/>
 {% for message in app.session.flashbag.get('message_error_local') %}
 <div class="alert alert-error">{{ message }}</div>
 {% endfor %}
-<form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_list_comments')}}">
+<form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_last_comment')}}">
 <div class="well well-small">
     <div class="row-fluid">
     <div class="span3">
@@ -50,7 +49,7 @@
                 <a rel="tooltip" title="Filtrar listado" href="javascript:action_submit();" class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
             </div>
             <div class="span6">
-                <a rel="tooltip" title="Resetear filtrado " href="{{ path('mycp_list_comments') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
+                <a rel="tooltip" title="Resetear filtrado " href="{{ path('mycp_last_comment') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
             </div>
         </div>
     </div>
@@ -69,22 +68,22 @@
     </div>
     <div class="pull-right">
         Mostrar:
-            <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_comments',{'items_per_page':100,'filter_ownership':filter_ownership,'filter_user':filter_user,'filter_keyword':filter_keyword,'filter_rate':filter_rate,'sort_by':sort_by})}}">100</a>
-            <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_comments',{'items_per_page':300,'filter_ownership':filter_ownership,'filter_user':filter_user,'filter_keyword':filter_keyword,'filter_rate':filter_rate,'sort_by':sort_by})}}">300</a>
-            <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_comments',{'items_per_page':500,'filter_ownership':filter_ownership,'filter_user':filter_user,'filter_keyword':filter_keyword,'filter_rate':filter_rate,'sort_by':sort_by})}}">500</a>
+            <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_last_comment',{'items_per_page':100,'filter_ownership':filter_ownership,'filter_user':filter_user,'filter_keyword':filter_keyword,'filter_rate':filter_rate,'sort_by':sort_by})}}">100</a>
+            <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_last_comment',{'items_per_page':300,'filter_ownership':filter_ownership,'filter_user':filter_user,'filter_keyword':filter_keyword,'filter_rate':filter_rate,'sort_by':sort_by})}}">300</a>
+            <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_last_comment',{'items_per_page':500,'filter_ownership':filter_ownership,'filter_user':filter_user,'filter_keyword':filter_keyword,'filter_rate':filter_rate,'sort_by':sort_by})}}">500</a>
          <input class="hidden" name="items_per_page" value="100">
     </div>
 
     <div class="pull-right" style="margin-right: 30px;">
         Organizar:
-        <a class="{% if sort_by == '0' %}selected{% endif %}" href="{{ path('mycp_list_comments',{'items_per_page':items_per_page,'filter_ownership':filter_ownership,'filter_user':filter_user,'filter_keyword':filter_keyword,'filter_rate':filter_rate,'sort_by':0})}}">A-Z</a>
-        <a class="{% if sort_by == '1' %}selected{% endif %}" href="{{ path('mycp_list_comments',{'items_per_page':items_per_page,'filter_ownership':filter_ownership,'filter_user':filter_user,'filter_keyword':filter_keyword,'filter_rate':filter_rate,'sort_by':1})}}">Z-A</a>
+        <a class="{% if sort_by == '0' %}selected{% endif %}" href="{{ path('mycp_last_comment',{'items_per_page':items_per_page,'filter_ownership':filter_ownership,'filter_user':filter_user,'filter_keyword':filter_keyword,'filter_rate':filter_rate,'sort_by':0})}}">A-Z</a>
+        <a class="{% if sort_by == '1' %}selected{% endif %}" href="{{ path('mycp_last_comment',{'items_per_page':items_per_page,'filter_ownership':filter_ownership,'filter_user':filter_user,'filter_keyword':filter_keyword,'filter_rate':filter_rate,'sort_by':1})}}">Z-A</a>
     </div>
     </div>
 </div>
 <div class="paginator-cont span11">
     {% if filter_keyword ==''%}{% set filter_keyword='null'%}{%endif%}
-    {{ simple_paginator_render('mycp_list_comments',null,{
+    {{ simple_paginator_render('mycp_last_comment',null,{
 'container_class': 'paginator',
 'previousPageText': '«',
 'nextPageText': '»',
@@ -119,11 +118,11 @@
             <h5 style="margin:0">{{ comment.getComOwnership.getOwnMcpCode }}: {{comment.comownership.ownname}}</h5>
         {{ comment.getComComments }}
             <div class="row-fluid text-right" style="text-align: right">
-            <a class="btn btn-mini" href="{{ path('mycp_edit_comment',{'id_comment':comment.getComId}) }}">Editar</a>
+            <a class="btn btn-mini" href="{{ path('mycp_edit_comment',{'id_comment':comment.getComId, 'return_url': 'mycp_last_comment'}) }}">Editar</a>
             {%if not comment.compublic%}
-            <a class="btn btn-mini btn-success" href="{{ path('mycp_public_comment',{'id_comment':comment.getComId}) }}">Publicar</a>
+            <a class="btn btn-mini btn-success" href="{{ path('mycp_public_comment',{'id_comment':comment.getComId, 'return_url': 'mycp_last_comment'}) }}">Publicar</a>
             {%endif%}
-            <button data='{{ path('mycp_delete_comment',{'id_comment':comment.getComId}) }}' class="btn btn-mini btn-danger delete">Eliminar</button>
+            <button data='{{ path('mycp_delete_comment',{'id_comment':comment.getComId, 'return_url': 'mycp_last_comment'}) }}' class="btn btn-mini btn-danger delete">Eliminar</button>
 
             </div>
         </td>
@@ -145,7 +144,7 @@
 }) }}
 </div>
 {% else %}
-       <p> <div class="alert alert-block">No hay Comentarios disponibles.</div></p>
+       <p> <div class="alert alert-block">No hay últimos comentarios disponibles.</div></p>
 {% endif %}
         </div>
         </div>
@@ -162,7 +161,6 @@
 
     function action_submit()
     {
-
         items_per_page={{items_per_page}};
         filter_ownership=$('#filter_ownership').val();
         if(filter_ownership=='')filter_ownership='null';

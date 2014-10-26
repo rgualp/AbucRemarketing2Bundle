@@ -64,6 +64,13 @@ class commentRepository extends EntityRepository {
         return $this->get_all_comment_by_query($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by, -1, $queryStr);
     }
 
+    function getLastAdded($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by) {
+        $queryStr = "SELECT c,own,us FROM mycpBundle:comment c
+        JOIN c.com_ownership own JOIN c.com_user us WHERE own.own_mcp_code LIKE :filter_ownership
+        AND c.com_public = 0";
+        return $this->get_all_comment_by_query($filter_ownership, $filter_user, $filter_keyword, $filter_rate, 2, -1, $queryStr);
+    }
+
     function get_comment_by_user_casa($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by, $user_casa_id) {
         $queryStr = "SELECT c,own,us FROM mycpBundle:comment c
         JOIN c.com_ownership own JOIN c.com_user us JOIN mycpBundle:userCasa uca WITH own.own_id = uca.user_casa_ownership WHERE own.own_mcp_code LIKE :filter_ownership and uca.user_casa_id = :user_casa_id";
@@ -94,6 +101,9 @@ class commentRepository extends EntityRepository {
 
             case 1:
                 $string4 = "ORDER BY own.own_mcp_code DESC";
+                break;
+            case 2:
+                $string4 = "ORDER BY c.com_date DESC";
                 break;
         }
 

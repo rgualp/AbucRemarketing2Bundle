@@ -86,7 +86,7 @@ class BackendCommentController extends Controller {
         return $this->render('mycpBundle:comment:new.html.twig', array('form' => $form->createView()));
     }
 
-    public function edit_commentAction($id_comment, Request $request) {
+    public function edit_commentAction($id_comment, $return_url, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $message = '';
@@ -105,14 +105,17 @@ class BackendCommentController extends Controller {
                 $service_log = $this->get('log');
                 $service_log->saveLog('Edit entity ', BackendModuleName::MODULE_COMMENT);
 
-                return $this->redirect($this->generateUrl('mycp_list_comments'));
+                if ($return_url == '' || $return_url == 'null' || $return_url == null)
+                    return $this->redirect($this->generateUrl('mycp_list_comments'));
+                else
+                    return $this->redirect($this->generateUrl($return_url));
             }
         }
-
+        
         return $this->render('mycpBundle:comment:new.html.twig', array('form' => $form->createView(), 'edit_comment' => $comment->getComId()));
     }
 
-    public function delete_commentAction($id_comment) {
+    public function delete_commentAction($id_comment, $return_url) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
@@ -128,7 +131,10 @@ class BackendCommentController extends Controller {
         $service_log = $this->get('log');
         $service_log->saveLog('Delete entity ', BackendModuleName::MODULE_COMMENT);
 
-        return $this->redirect($this->generateUrl('mycp_list_comments'));
+        if ($return_url == '' || $return_url == 'null' || $return_url == null)
+            return $this->redirect($this->generateUrl('mycp_list_comments'));
+        else
+            return $this->redirect($this->generateUrl($return_url));
     }
 
     public function get_comments_by_ownershipAction($id_own) {
@@ -144,9 +150,9 @@ class BackendCommentController extends Controller {
         return $this->render('mycpBundle:utils:range_max_5_no_0.html.twig', array('selected' => $selected));
     }
 
-    public function publicAction($id_comment, Request $request) {
-        /*$service_security = $this->get('Secure');
-        $service_security->verifyAccess();*/
+    public function publicAction($id_comment, $return_url, Request $request) {
+        /* $service_security = $this->get('Secure');
+          $service_security->verifyAccess(); */
         $em = $this->getDoctrine()->getEntityManager();
         $comment = $em->getRepository('mycpBundle:comment')->find($id_comment);
 
@@ -157,9 +163,55 @@ class BackendCommentController extends Controller {
         $this->get('session')->getFlashBag()->add('message_ok', $message);
 
         $service_log = $this->get('log');
-        $service_log->saveLog('Edit entity '.$id_comment, BackendModuleName::MODULE_COMMENT);
+        $service_log->saveLog('Edit entity ' . $id_comment, BackendModuleName::MODULE_COMMENT);
 
-        return $this->redirect($this->generateUrl('mycp_list_comments'));
+        if ($return_url == '' || $return_url == 'null' || $return_url == null)
+            return $this->redirect($this->generateUrl('mycp_list_comments'));
+        else
+            return $this->redirect($this->generateUrl($return_url));
+    }
+
+    public function lastAction($items_per_page, Request $request) {
+        /* $service_security = $this->get('Secure');
+          $service_security->verifyAccess(); */
+
+        $page = 1;
+        $data = '';
+        $filter_ownership = $request->get('filter_ownership');
+        $filter_user = $request->get('filter_user');
+        $sort_by = $request->get('sort_by');
+        $filter_keyword = $request->get('filter_keyword');
+        $filter_rate = $request->get('filter_rate');
+        if ($request->getMethod() == 'POST' && $filter_ownership == 'null' && $filter_user == 'null' && $filter_keyword == 'null' && $filter_rate == 'null') {
+            $message = 'Debe llenar al menos un campo para filtrar.';
+            $this->get('session')->getFlashBag()->add('message_error_local', $message);
+            return $this->redirect($this->generateUrl('mycp_list_comments'));
+        }
+        if ($filter_ownership == 'null')
+            $filter_ownership = '';
+        if ($filter_keyword == 'null')
+            $filter_keyword = '';
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+        $paginator = $this->get('ideup.simple_paginator');
+        $paginator->setItemsPerPage($items_per_page);
+        $em = $this->getDoctrine()->getEntityManager();
+        $comments = $paginator->paginate($em->getRepository('mycpBundle:comment')->getLastAdded($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by))->getResult();
+        //var_dump($destinations[0]->getDesLocMunicipality()->getMunName()); exit();
+
+        $service_log = $this->get('log');
+        $service_log->saveLog('Visit module', BackendModuleName::MODULE_COMMENT);
+        return $this->render('mycpBundle:comment:last.html.twig', array(
+                    'comments' => $comments,
+                    'items_per_page' => $items_per_page,
+                    'current_page' => $page,
+                    'total_items' => $paginator->getTotalItems(),
+                    'filter_ownership' => $filter_ownership,
+                    'filter_user' => $filter_user,
+                    'filter_keyword' => $filter_keyword,
+                    'filter_rate' => $filter_rate,
+                    'sort_by' => $sort_by
+        ));
     }
 
 }
