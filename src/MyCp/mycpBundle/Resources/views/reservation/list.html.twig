@@ -206,12 +206,19 @@
         todayBtn: 'linked',
         language: 'es'
     });
-    
+
     function sendReservation()
     {
         var checkValues = $('input[name=check_reservations]:checked').map(function() {
         return $(this).attr('data-reservation-id');
     }).get();
+
+    if(checkValues.length == 0)
+    {
+        alert("Seleccione alguno de los elementos");
+        return;
+    }
+
      var url = $(".btn-action-reservation").attr("data-url");
      $.post(url, {
         'reservations_ids': checkValues

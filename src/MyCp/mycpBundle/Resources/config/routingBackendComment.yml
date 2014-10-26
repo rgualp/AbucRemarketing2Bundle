@@ -21,3 +21,11 @@ mycp_public_comment:
 mycp_last_comment:
     pattern:  /last/{items_per_page}/{filter_ownership}/{filter_user}/{filter_keyword}/{filter_rate}/{sort_by}
     defaults: { _controller: mycpBundle:BackendComment:last, items_per_page: 100,filter_ownership:'',filter_user:'',filter_keyword:'',filter_rate:'',sort_by:'0'}
+
+mycp_public_selected_callback_comment:
+    pattern:  /public_selected/
+    defaults: { _controller: mycpBundle:BackendComment:publicSelectedCallback }
+
+mycp_delete_selected_callback_comment:
+    pattern:  /delete_selected/
+    defaults: { _controller: mycpBundle:BackendComment:deleteSelectedCallback }

@@ -52,7 +52,8 @@ class BackendCommentController extends Controller {
                     'filter_user' => $filter_user,
                     'filter_keyword' => $filter_keyword,
                     'filter_rate' => $filter_rate,
-                    'sort_by' => $sort_by
+                    'sort_by' => $sort_by,
+                    'return_url' => 'mycp_list_comments'
         ));
     }
 
@@ -111,7 +112,7 @@ class BackendCommentController extends Controller {
                     return $this->redirect($this->generateUrl($return_url));
             }
         }
-        
+
         return $this->render('mycpBundle:comment:new.html.twig', array('form' => $form->createView(), 'edit_comment' => $comment->getComId()));
     }
 
@@ -185,7 +186,7 @@ class BackendCommentController extends Controller {
         if ($request->getMethod() == 'POST' && $filter_ownership == 'null' && $filter_user == 'null' && $filter_keyword == 'null' && $filter_rate == 'null') {
             $message = 'Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
-            return $this->redirect($this->generateUrl('mycp_list_comments'));
+            return $this->redirect($this->generateUrl('mycp_last_comments'));
         }
         if ($filter_ownership == 'null')
             $filter_ownership = '';
@@ -201,7 +202,7 @@ class BackendCommentController extends Controller {
 
         $service_log = $this->get('log');
         $service_log->saveLog('Visit module', BackendModuleName::MODULE_COMMENT);
-        return $this->render('mycpBundle:comment:last.html.twig', array(
+        return $this->render('mycpBundle:comment:list.html.twig', array(
                     'comments' => $comments,
                     'items_per_page' => $items_per_page,
                     'current_page' => $page,
@@ -210,8 +211,38 @@ class BackendCommentController extends Controller {
                     'filter_user' => $filter_user,
                     'filter_keyword' => $filter_keyword,
                     'filter_rate' => $filter_rate,
-                    'sort_by' => $sort_by
+                    'sort_by' => $sort_by,
+                    'last_added' => true,
+                    'return_url' => 'mycp_last_comment'
         ));
+    }
+
+    public function publicSelectedCallbackAction() {
+
+        $request = $this->getRequest();
+        $em = $this->getDoctrine()->getManager();
+        $ids = $request->request->get('comments_ids');
+        $returnUrl = $request->request->get('return_url');
+        $response = "OK";
+
+        try {
+            //Publicar comentarios
+            $em->getRepository('mycpBundle:comment')->setAsPublic($ids);
+
+            $message = 'Se han publicado ' . count($ids) . ' comentarios.';
+            $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+            $service_log = $this->get('log');
+            $service_log->saveLog('Public '.count($ids).' comments', BackendModuleName::MODULE_COMMENT);
+
+            $response = $this->generateUrl($returnUrl);
+            //return $this->redirect($this->generateUrl($returnUrl));
+        } catch (\Exception $e) {
+            $message = 'Ha ocurrido un error durante la publicación de los comentarios.';
+            $this->get('session')->getFlashBag()->add('message_error_local', $message);
+            $response = "ERROR";
+        }
+        return new Response($response);
     }
 
 }

@@ -167,4 +167,13 @@ class commentRepository extends EntityRepository {
         }
     }
 
+    public function setAsPublic($ids) {
+        $em = $this->getEntityManager();
+        foreach ($ids as $com_id) {
+            $comment = $em->getRepository('mycpBundle:comment')->find($com_id);
+            $comment->setComPublic(true);
+            $em->persist($comment);
+        }
+        $em->flush();
+    }
 }
