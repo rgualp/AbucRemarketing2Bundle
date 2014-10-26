@@ -44,7 +44,12 @@ class commentRepository extends EntityRepository {
 
     function getByOwnership($ownsership_id) {
         $em = $this->getEntityManager();
-        $query_string = "SELECT c FROM mycpBundle:comment c
+        $query_string = "SELECT c.com_rate,
+                         c.com_date,c.com_comments,
+                         u.user_user_name,
+                         u.user_last_name
+                         FROM mycpBundle:comment c
+                         JOIN c.com_user u
                          WHERE c.com_public=1
                            AND c.com_ownership = :ownership_id
                            AND c.com_public = 1

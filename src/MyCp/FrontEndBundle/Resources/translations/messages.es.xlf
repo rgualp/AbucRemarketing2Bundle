@@ -2575,6 +2575,10 @@
                 <source>COMMENT_TO_PUBLIC</source>
                 <target>Gracias. Su comentario será publicado en las próximas horas.</target>
             </trans-unit>
+             <trans-unit id="654">
+                <source>USER_RESERVED_ACCOMMODATION</source>
+                <target>Reservó en este alojamiento a través de MyCasaParticular.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

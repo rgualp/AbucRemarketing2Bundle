@@ -1,37 +1,40 @@
 {%if show_comments_and_friends > 0%}
 <h3>{{"USER_COMMENTS_TAB" | trans}} ({{comments_total_items}})</h3>
-                <hr class="hr-green margin-t" style="margin-bottom: 20px"/>
-                <div class="comments">
+<hr class="hr-green margin-t" style="margin-bottom: 20px"/>
+<div class="comments">
                     {%for comment in comments%}
-                    <div class="row">
-                        <div class="col-xs-2">
-                            <img src="{{asset('uploads/userImages/no_photo.gif')}}"/>
-                        </div>
-                        <div class="col-xs-10">
-                             {%if comment.getComRate > 0%}
-                                        {%for i in 1..comment.getComRate%}
-                                   <img class="icon icon-2 tiny-star-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}">
-                                {%endfor%}
-                                        {%endif%}
-
-                                        {%if comment.getComRate < 5%}
-                                        {%for i in 1..(5-comment.getComRate)%}
-                                    <img class="icon icon-2 tiny-star-off-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}">
-                                    {%endfor%}
-                                        {%endif%}
-                            <br/>
-                            <h4 class="caecilia-roman">{{comment.getComUser.getUserCompleteName}} - <small>{{comment.comdate | date('M d, Y')}}</small></h4>
-                            <p>
-                                {{comment.getComComments}}
-                            </p>
-                        </div>
-                    </div>
-                    <hr class="margin-t"/>
+        <div class="row">
+            <div class="col-xs-2">
+                <img src="{{asset('uploads/userImages/no_photo.gif')}}"/>
+            </div>
+            <div class="col-xs-10">
+            {%if comment.com_rate > 0%}
+                    {%for i in 1..comment.com_rate%}
+                    <img class="icon icon-2 tiny-star-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}">
                     {%endfor%}
+                            {%endif%}
+
+                            {%if comment.com_rate < 5%}
+                            {%for i in 1..(5-comment.com_rate)%}
+                    <img class="icon icon-2 tiny-star-off-icon" src="{{asset('bundles/frontend/img/icons/pixel.gif')}}">
+                    {%endfor%}
+                        {%endif%}
+                    <br/>
+                    <h4 class="caecilia-roman">{{comment.user_user_name~" "~comment.user_last_name}} - <small>{{comment.com_date | date('M d, Y')}}</small></h4>
+                    <p>{{comment.com_comments}}</p>
+                    </div>
                 </div>
-                <div class="text-center">
-                     {%if comments | length and comments_total_items > comments_items_per_page%}   
-                        <div class="text-center">
+                {%if can_public_comment%}
+                <div class="row text-right">
+                    <h6><em>{{"USER_RESERVED_ACCOMMODATION" |trans}}</em></h6>
+                </div>
+                {%endif%}
+                <hr class="margin-t"/>
+                    {%endfor%}
+            </div>
+            <div class="text-center">
+                     {%if comments | length and comments_total_items > comments_items_per_page%}
+                    <div class="text-center">
                         {{ simple_paginator_render('frontend_details_ownership',null,{
                         'container_class': 'pagination',
                         'previousPageText': '«',
@@ -41,7 +44,7 @@
                         'lastPageText': 'LAST_PAGE' | trans,
                         'route_params': {'own_name':ownership.ownname|lower|replace(' ','-')}
                     }) }}
-                            </div>
-                    {%endif%}                    
-                </div>
+                        </div>
+                    {%endif%}
+                    </div>
 {%endif%}
