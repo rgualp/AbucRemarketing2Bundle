@@ -514,11 +514,11 @@
             {%if ownership.comments_total > 0%}+{%endif%}{{ownership.comments_total}}
         </h1>
         <hr class="no-margin" style="margin-bottom: 10px"/>
-        {% if can_comment %}
+        {% if app.user is defined and app.user.userusername is defined %}
             <span class="h-grey">{{"QUEST_COMMENTS_DETAILS" | trans}}</span>
-            <div class="radio"><label><input type="radio" checked="checked" value="5" id="option5" name="radio_rating">{{"5_STARS_COMMENTS_DETAILS" | trans}}</label></div>
+            <div class="radio"><label><input type="radio" value="5" id="option5" name="radio_rating">{{"5_STARS_COMMENTS_DETAILS" | trans}}</label></div>
             <div class="radio"><label><input type="radio" value="4" id="option4" name="radio_rating">{{"4_STARS_COMMENTS_DETAILS" | trans}}</label></div>
-            <div class="radio"><label><input type="radio" value="3" id="option3" name="radio_rating">{{"3_STARS_COMMENTS_DETAILS" | trans}}</label></div>
+            <div class="radio"><label><input type="radio" checked="checked" value="3" id="option3" name="radio_rating">{{"3_STARS_COMMENTS_DETAILS" | trans}}</label></div>
             <div class="radio"><label><input type="radio" value="2" id="option2" name="radio_rating">{{"2_STARS_COMMENTS_DETAILS" | trans}}</label></div>
             <div class="radio"><label><input type="radio" value="1" id="option1" name="radio_rating">{{"1_STARS_COMMENTS_DETAILS" | trans}}</label></div>
             <span class="h-grey">{{"TEXT_COMMENTS_DETAILS" | trans}} *</span><br/>
