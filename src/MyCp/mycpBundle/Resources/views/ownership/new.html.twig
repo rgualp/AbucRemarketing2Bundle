@@ -57,7 +57,7 @@
     {%if data['not_recommendable'] is defined and data['not_recommendable']%}
     <span class="label label-warning vertical_middle" title="No recomendables">No recomendable</span>
     {%endif%}
-    
+
     {% else %} Adicionar propiedad {% endif %}</h2>
 <hr/>
 <form id="form_ownership" action="{{ path('mycp_new_ownership')}}" method="POST" enctype="multipart/form-data">
@@ -254,13 +254,13 @@
                             <label>Precio (Temporada baja) (*)</label>
                             {% if errors['room_price_down_to_'~i] is defined %}<label class="error">{{errors['room_price_down_to_'~i]|trim(':')}}</label>{%endif%}
                             <input value="{% if(post['room_price_down_to_'~i] is defined) %}{{post['room_price_down_to_'~i]}}{% endif %}" class="input-block-level" placeholder="Precio único" type="text" name="room_price_down_to_{{ i }}"/>
-                            <label>Precio (Temporada alta) (*)</label>                
+                            <label>Precio (Temporada alta) (*)</label>
                             {% if errors['room_price_up_to_'~i] is defined %}<label class="error">{{errors['room_price_up_to_'~i]|trim(':')}}</label>{%endif%}
                             <input value="{% if(post['room_price_up_to_'~i] is defined) %}{{post['room_price_up_to_'~i]}}{% endif %}" class="input-block-level" placeholder="Precio único" type="text" name="room_price_up_to_{{ i }}"/>
 
                             <label>Precio (Temporada especial)</label>
                             {% if errors['room_price_special_'~i] is defined %}<label class="error">{{errors['room_price_special_'~i]|trim(':')}}</label>{%endif%}
-                            <input disabled='disabled' value="{% if(post['room_price_special_'~i] is defined) %}{{post['room_price_special_'~i]}}{% endif %}" class="input-block-level special_season_price" placeholder="Precio único" type="text" name="room_price_special_{{ i }}"/>   
+                            <input disabled='disabled' value="{% if(post['room_price_special_'~i] is defined) %}{{post['room_price_special_'~i]}}{% endif %}" class="input-block-level special_season_price" placeholder="Precio único" type="text" name="room_price_special_{{ i }}"/>
 
 
                             <label>Climatización (*)</label>
@@ -590,7 +590,7 @@
         <input type="checkbox" name="user_send_mail" id="user_send_mail" disabled="disabled"/> Enviar los datos de la cuenta al correo del propietario
     </div>
     </div>
-    
+
     <div id="notUserCasaMustCreate" {%if data['status_id']!= constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')%} style="display:block;"{%else%}style="display:none;"{%endif%}>
      El estado de esta propiedad no permite que se cree una cuenta de usuario.
     </div>
@@ -603,7 +603,7 @@
 </div>
 {% endif %}
 </div>
-
+{% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Desea realizar esta acción?','confirmation_action_label':'Eliminar'}%}
 {% if data['new_room'] is defined%}
 <script type="text/javascript">
     $('#myTab a[href="#habitaciones"]').tab('show');
@@ -653,7 +653,7 @@
             }
         });
     });
- 
+
     $('#ownership_address_municipality').change(function() {
 
         $('#ownership_destination').html('<option value="">Cargando...</option>');
@@ -670,7 +670,7 @@
 
     setSpecialSeasonPrice();
     $('#ownership_destination').change(setSpecialSeasonPrice);
-    
+
     var activeStatus = {{constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')}};
     $('#status').change(function(){
         selected_val = $('#status').val();
@@ -682,7 +682,7 @@
         else
         {
             $("#divCreateUserCasa").css("display", "none");
-            $("#notUserCasaMustCreate").css("display", "block");            
+            $("#notUserCasaMustCreate").css("display", "block");
         }
     });
 
@@ -721,7 +721,7 @@
      $("#user_photo").removeAttr('disabled');
      }
      })
-     
+
      if($("#user_selected").val()!='')
      {
      $("#user_name").attr('disabled','disabled');
@@ -740,8 +740,10 @@
 
 <script src="{{ asset('bundles/mycp/js/bootstrap-fileinput.js') }}" type="text/javascript"></script>
 <script src="{{ asset('bundles/mycp/js/wysihtml5-0.3.0.min.js') }}" type="text/javascript"></script>
+<script type="text/javascript" src="{{ asset('bundles/mycp/js/common_list.js') }}"></script>
 <script type="text/javascript">
     var url_css_color = "{{ asset('bundles/mycp/css/wysiwyg-color.css') }}";
+
 </script>
 <script src="{{ asset('bundles/mycp/js/bootstrap-wysihtml5.js') }}" type="text/javascript"></script>
 <link href="{{ asset('bundles/mycp/css/bootstrap-wysihtml5.css') }}" rel="stylesheet" type="text/css" />

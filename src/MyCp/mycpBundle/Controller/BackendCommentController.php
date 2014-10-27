@@ -140,7 +140,7 @@ class BackendCommentController extends Controller {
 
     public function get_comments_by_ownershipAction($id_own) {
         $em = $this->getDoctrine()->getEntityManager();
-        $comments = $em->getRepository('mycpBundle:comment')->findBy(array('com_ownership' => $id_own));
+        $comments = $em->getRepository('mycpBundle:comment')->findBy(array('com_ownership' => $id_own), array('com_public' => 'ASC', 'com_date' => "DESC"));
         return $this->render('mycpBundle:utils:comments.html.twig', array('comments' => $comments));
     }
 
