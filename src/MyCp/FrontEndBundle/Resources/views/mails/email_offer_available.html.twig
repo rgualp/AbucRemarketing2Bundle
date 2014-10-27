@@ -27,7 +27,11 @@
                                             </td>
                                             <td>&nbsp;</td>
                                             <td valign="top" style="font-family: arial; font-size: 13px; line-height: 18px">
-                                                <h3 style="color: #084D74">({{reservation.getOwnResGenResId.getGenResOwnId.getOwnMcpCode}}) {{reservation.getOwnResGenResId.getGenResOwnId.getOwnName}}</h3>
+                                                <h3 style="color: #084D74">
+                                                <a class="titleLink" href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize,'_locale':user_locale|lower,'locale':user_locale|lower}) }}">
+                                                ({{reservation.getOwnResGenResId.getGenResOwnId.getOwnMcpCode}}) {{reservation.getOwnResGenResId.getGenResOwnId.getOwnName}}
+                                                </a>
+                                                </h3>
                                                 {{reservation.getOwnResGenResId.getGenResOwnId.getOwnAddressProvince.getProvName}}
                                                 - {{reservation.getOwnResGenResId.getGenResOwnId.getOwnAddressMunicipality.getMunName}}<br/>
                                                 {{reservation.getOwnResRoomType|trans({}, "messages", user_locale)}}<br/>
@@ -57,8 +61,8 @@
                                         <span style="background-color: #c43c35; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"PAYED"|trans({}, "messages", user_locale)}}&nbsp;&nbsp;&nbsp;</b></span><br/>
                                     {% endif %}
                                     {% if reservation.getOwnResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE') %}
-                                    <h3>{{"RESERVATION_TOTAL" | trans({}, "messages", user_locale) | upper}}: 
-                                       {%if reservation.getOwnResNightPrice != 0%} 
+                                    <h3>{{"RESERVATION_TOTAL" | trans({}, "messages", user_locale) | upper}}:
+                                       {%if reservation.getOwnResNightPrice != 0%}
                                         {{ (reservation.getOwnResNightPrice * nights[loop.index0]) | price}}
                                        {%else%}
                                             {{ reservation.ownResTotalInSite | price}}

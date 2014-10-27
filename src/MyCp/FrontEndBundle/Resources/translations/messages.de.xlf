@@ -2424,7 +2424,7 @@
                 </trans-unit>
                 <trans-unit id="616">
                     <source>FOOTER_EMAIL</source>
-                    <target><![CDATA[Fügen Sie reservation@mycasaparticular.com zu Ihrem Adressbuch oder Ihrer Liste sicherer Absender hinzu, um sicherzustellen, dass Sie auch weiterhin E-Mails von uns erhalten können. <br/><br/>Unsere Datenschutzrichtlinie <a href="%policieslink%"> lesen Sie hier. </A><br/><br/>Die Preise können sich vor der Zahlung ändern. Die Preise beinhalten keine Bearbeitungsgebühren. Alle Unterkünfte sind auf Verfügbarkeit zu überprüfen. Lesen Sie unsere Nutzungsbedingungen für weitere Details. <br/><br/>MyCasaParticular.com ist ein Service der ABUC media network GmbH, Handelsregisternummer CH-270.4.002.844-1 in Basel, Schweiz.]]></target>
+                    <target><![CDATA[Fügen Sie reservation@mycasaparticular.com zu Ihrem Adressbuch oder Ihrer Liste sicherer Absender hinzu, um sicherzustellen, dass Sie auch weiterhin E-Mails von uns erhalten können. <br/><br/>Unsere Datenschutzrichtlinie <a href="%policieslink%"> lesen Sie hier. </a><br/><br/>Die Preise können sich vor der Zahlung ändern. Die Preise beinhalten keine Bearbeitungsgebühren. Alle Unterkünfte sind auf Verfügbarkeit zu überprüfen. Lesen Sie unsere <a href="%termlink%">Nutzungsbedingungen</a> für weitere Details. <br/><br/>MyCasaParticular.com ist ein Service der ABUC media network GmbH, Handelsregisternummer CH-270.4.002.844-1 in Basel, Schweiz.]]></target>
                 </trans-unit>
                 <trans-unit id="617">
                     <source>OF</source>
@@ -2452,7 +2452,7 @@
             </trans-unit>
             <trans-unit id="623">
                 <source>REMINDER_TRIP_ORGANISATION</source>
-                <target>Wir hoffen, dass die Organisation Ihrer Kuba-Reise gut vorankommt und Sie sich darauf freuen.</target>
+                <target>Some of the Casas Particulares you have selected are still available! In order to make your reservation effective, you should make an initial payment, up to </target>
             </trans-unit>
             <trans-unit id="624">
                 <source>REMINDER_OPPORTUNITY</source>
@@ -2577,6 +2577,10 @@
             <trans-unit id="654">
                 <source>USER_RESERVED_ACCOMMODATION</source>
                 <target>This user reserved this accommodation using MyCasaParticular.</target>
+            </trans-unit>
+            <trans-unit id="655">
+                <source>FOOTER_MAIL_1</source>
+                <target><![CDATA[If you do not want to receive another email from MyCasaParticular, click <a href="%link%">here.</a>]]></target>
             </trans-unit>
         </body>
     </file>

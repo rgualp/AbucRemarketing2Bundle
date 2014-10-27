@@ -2425,7 +2425,7 @@
                 </trans-unit>
                 <trans-unit id="616">
                     <source>FOOTER_EMAIL</source>
-                    <target><![CDATA[Add reservation@mycasaparticular.com to your address book or your safe senders list to ensure you continue to receive these emails. <br/><br/>Can also read our Privacy Policy <a href="%policieslink%"> Here. </A> <br/><br/>Prices may be subject to change before payment. Prices do not include applicable service charges. All accommodation is subject to availability check. See our Terms and Conditions for more details.<br/><br/>MyCasaParticular.com is a service GmbH ABUC media network with trade register number CH-270.4.002.844-1 in Basel. Switzerland.]]></target>
+                    <target><![CDATA[Add reservation@mycasaparticular.com to your address book or your safe senders list to ensure you continue to receive these emails. <br/><br/>Can also read our Privacy Policy <a href="%policieslink%"> Here. </A> <br/><br/>Prices may be subject to change before payment. Prices do not include applicable service charges. All accommodation is subject to availability check. See our <a href="%termlink%">Terms and Conditions</a> for more details.<br/><br/>MyCasaParticular.com is a service GmbH ABUC media network with trade register number CH-270.4.002.844-1 in Basel. Switzerland.]]></target>
                 </trans-unit>
                 <trans-unit id="617">
                     <source>OF</source>
@@ -2453,11 +2453,11 @@
             </trans-unit>
             <trans-unit id="623">
                 <source>REMINDER_TRIP_ORGANISATION</source>
-                <target>We hope that the organisation of your trip to Cuba is progressing well and that you look forward to it.</target>
+                <target>Some of the Casas Particulares you have selected are still available! In order to make your reservation effective, you should make an initial payment, up to </target>
             </trans-unit>
             <trans-unit id="624">
                 <source>REMINDER_OPPORTUNITY</source>
-                <target>Do not miss this opportunity and secure your accommodation for your vacation in Cuba.</target>
+                <target><![CDATA[To confirm your reservation, click <a href="%link%">here</a>, , or copy the URL below at your Internet Browser.]]></target>
             </trans-unit>
             <trans-unit id="625">
                 <source>VALID_OFFER_TWENTY_FOUR_ACCOMMODATION</source>
@@ -2578,6 +2578,10 @@
             <trans-unit id="654">
                 <source>USER_RESERVED_ACCOMMODATION</source>
                 <target>This user reserved this accommodation using MyCasaParticular.</target>
+            </trans-unit>
+            <trans-unit id="655">
+                <source>FOOTER_MAIL_1</source>
+                <target><![CDATA[If you do not want to receive another email from MyCasaParticular, click <a href="%link%">here.</a>]]></target>
             </trans-unit>
         </body>
     </file>

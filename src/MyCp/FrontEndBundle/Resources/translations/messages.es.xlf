@@ -2425,7 +2425,7 @@
                 </trans-unit>
                 <trans-unit id="616">
                     <source>FOOTER_EMAIL</source>
-                    <target><![CDATA[Añade reservation@mycasaparticular.com a tu agenda de contactos o tu lista de remitentes seguros para asegurarnos de que sigues recibiendo estos correos electrónicos.<br/><br/>También puedes leer nuestra Política de Privacidad <a href="%policieslink%">Aquí.</a><br/><br/>Los precios pueden estar sujetos a cambios antes de realizar el pago. Los precios no incluyen cargos por servicios aplicables. Todos los alojamientos están sujetos a chequeo de disponibilidad. Consulte nuestros Términos y condiciones para obtener información más detallada.<br/><br/>MyCasaParticular.com es un servicio de ABUC media network GmbH con número de registro comercial CH-270.4.002.844-1 en Basel. Suiza.]]></target>
+                    <target><![CDATA[Añade reservation@mycasaparticular.com a tu agenda de contactos o tu lista de remitentes seguros para asegurarnos de que sigues recibiendo estos correos electrónicos.<br/><br/>También puedes leer nuestra Política de Privacidad <a href="%policieslink%">Aquí.</a><br/><br/>Los precios pueden estar sujetos a cambios antes de realizar el pago. Los precios no incluyen cargos por servicios aplicables. Todos los alojamientos están sujetos a chequeo de disponibilidad. Consulte nuestros <a href="%termlink%">Términos y Condiciones</a> para obtener información más detallada.<br/><br/>MyCasaParticular.com es un servicio de ABUC media network GmbH con número de registro comercial CH-270.4.002.844-1 en Basel. Suiza.]]></target>
                 </trans-unit>
                 <trans-unit id="617">
                     <source>OF</source>
@@ -2453,11 +2453,11 @@
             </trans-unit>
             <trans-unit id="623">
                 <source>REMINDER_TRIP_ORGANISATION</source>
-                <target>Esperamos que la organización de sus vacaciones en Cuba marche bien.</target>
+                <target>Algunas de las casas que usted seleccionó aún están disponibles. Le recordamos que para hacer efectiva la reserva, usted debe efectuar un pago inicial, que asciende a </target>
             </trans-unit>
             <trans-unit id="624">
                 <source>REMINDER_OPPORTUNITY</source>
-                <target>No pierdas esta oportunidad de asegurar su alojamiento para sus vacaciones en Cuba.</target>
+                <target><![CDATA[Para confirmar su reserva, haga clic <a href="%link%">aquí</a>, o copie la URL siguiente en su navegador de Internet.]]></target>
             </trans-unit>
             <trans-unit id="625">
                 <source>VALID_OFFER_TWENTY_FOUR_ACCOMMODATION</source>
@@ -2561,7 +2561,7 @@
             </trans-unit>
             <trans-unit id="650">
                 <source>EMAIL_USER_ACTIVATION_BODY_TEXT_1</source>
-                <target>La información necesaria para el proceso de Registro en MyCasaParticular.com está completa. Para ingresar en nuestro sitio, y continuar con sus reservas, Usted debe</target>
+                <target>La información necesaria para el proceso de Registro en MyCasaParticular.com está completa. Para ingresar en nuestro sitio, y continuar con sus reservas, usted debe</target>
             </trans-unit>
             <trans-unit id="651">
                 <source>USER_ACTIVATION_LINK_TEXT</source>
@@ -2578,6 +2578,10 @@
              <trans-unit id="654">
                 <source>USER_RESERVED_ACCOMMODATION</source>
                 <target>Reservó en este alojamiento a través de MyCasaParticular.</target>
+            </trans-unit>
+             <trans-unit id="655">
+                <source>FOOTER_MAIL_1</source>
+                <target><![CDATA[Si no desea recibir más correos de MyCasaParticular, dé clic <a href="%link%">aquí.</a>]]></target>
             </trans-unit>
         </body>
     </file>

@@ -2,9 +2,13 @@
 
 {% block content %}
         <h4 style="font-family: Arial; font-size: 20px">{{"DEAR"|trans({}, "messages", user_locale)}} {{user.getUserUserName|capitalize}} {{user.getUserLastName|capitalize}}</h4>
-        <p style="font-size: 14px;font-family: arial">{{"REMINDER_TRIP_ORGANISATION"|trans({}, "messages", user_locale)}}</p>
+        <p style="font-size: 14px;font-family: arial">{{"REMINDER_TRIP_ORGANISATION"|trans({}, "messages", user_locale)}} {{initial_payment | price}}.</p>
+        <p style="font-size: 14px;font-family: arial"> {{"REMINDER_OPPORTUNITY"|trans({"%link%": url('frontend_mycasatrip_available',{'locale':user_locale,'_locale':user_locale,})}, "messages", user_locale)}}</p>
+        <p style="font-size: 14px;font-family: arial">
+            {{url('frontend_mycasatrip_available',{'locale':user_locale,'_locale':user_locale,})}}
+        </p>
         <p style="font-size: 14px;font-family: arial"><b>{{"VALID_OFFER_TWENTY_FOUR_ACCOMMODATION"|trans({}, "messages", user_locale)}}</b></p>
-    <p style="font-size: 14px;font-family: arial"> {{"REMINDER_OPPORTUNITY"|trans({}, "messages", user_locale)}}</p>
+
         {% for reservation in reservations %}
             <table width="100%" cellpadding="10" cellspacing="0" border="0">
                 <tr>
@@ -25,7 +29,11 @@
                                             </td>
                                             <td>&nbsp;</td>
                                             <td valign="top" style="font-family: arial; font-size: 13px; line-height: 18px">
-                                                <h3 style="color: #084D74">{{reservation.getOwnResGenResId.getGenResOwnId.getOwnName}}</h3>
+                                                <h3 style="color: #084D74">
+                                                <a class="titleLink" href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize,'_locale':user_locale|lower,'locale':user_locale|lower}) }}">
+                                                {{reservation.getOwnResGenResId.getGenResOwnId.getOwnName}}
+                                                </a>
+                                                </h3>
                                                 {{reservation.getOwnResGenResId.getGenResOwnId.getOwnAddressProvince.getProvName}}
                                                 - {{reservation.getOwnResGenResId.getGenResOwnId.getOwnAddressMunicipality.getMunName}}<br/>
                                                 {{reservation.getOwnResRoomType|trans({}, "messages", user_locale)}}<br/>
@@ -87,7 +95,8 @@
 
     <p style="font-size: 14px;font-family: arial"><b>{{"VALID_OFFER_TWENTY_FOUR"|trans({}, "messages", user_locale)}}</b></p>
     <h4 style="font-size: 16px; font-weight: normal; font-style: italic">
-        <p>{{"THANK_YOU_VERY_MUCH"|trans({}, "messages", user_locale)}}</p>
-        <p>{{"THE_RESERVATION_TEAM"|trans({}, "messages", user_locale)}}</p>
+        {{"EMAIL_GREETINGS" | trans}}.<br/>
+        {{"EMAIL_GREETINGS_2" | trans}},<br/>
+        {{"MYCP_TEAM" | trans}}
     </h4>
 {% endblock %}

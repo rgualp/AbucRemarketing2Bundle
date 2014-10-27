@@ -159,6 +159,8 @@ class ReservationReminderWorkerCommand extends Worker
         $arrayPhotos = array();
         $arrayNights = array();
 
+        $initialPayment = 0;
+
         foreach($ownershipReservations as $ownershipReservation)
         {
             $photos = $this->em
@@ -179,6 +181,13 @@ class ReservationReminderWorkerCommand extends Worker
                 );
 
             array_push($arrayNights, count($array_dates) - 1);
+
+            $comission = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent()/100;
+            //Initial down payment
+            if($ownershipReservation->getOwnResNightPrice() > 0)
+                $initialPayment += $ownershipReservation->getOwnResNightPrice() * (count($array_dates) - 1) * $comission;
+            else
+                $initialPayment += getOwnResTotalInSite() * $comission;
         }
 
         $body = $this->emailManager
@@ -187,7 +196,8 @@ class ReservationReminderWorkerCommand extends Worker
                 'reservations' => $ownershipReservations,
                 'photos' => $arrayPhotos,
                 'nights' => $arrayNights,
-                'user_locale' => $this->emailManager->getUserLocale($user)
+                'user_locale' => $this->emailManager->getUserLocale($user),
+                'initial_payment' => $initialPayment
             ));
 
         return $body;

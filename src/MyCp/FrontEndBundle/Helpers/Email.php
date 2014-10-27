@@ -109,8 +109,8 @@ class Email {
                 $subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $body
         );
     }
-    
-    
+
+
     public function sendOwnersMail($email_to, $owners_name, $own_name, $own_mycp_code) {
         $templating = $this->container->get('templating');
 
