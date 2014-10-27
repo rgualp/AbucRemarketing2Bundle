@@ -409,6 +409,11 @@ class MycasatripController extends Controller {
             ));
     }
 
+    public function cancelOfferAction($generalReservationId) {
+        $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
 
+        return $this->redirect($this->generateUrl('frontend_mycasatrip_pending'));
+    }
 
 }

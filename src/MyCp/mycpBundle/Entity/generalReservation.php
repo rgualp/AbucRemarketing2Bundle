@@ -471,6 +471,6 @@ class generalReservation {
     {
         $status = $this->getGenResStatus();
 
-        return self::STATUS_AVAILABLE === $status;
+        return (self::STATUS_AVAILABLE === $status || self::STATUS_PARTIAL_AVAILABLE === $status);
     }
 }

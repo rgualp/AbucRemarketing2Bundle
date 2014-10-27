@@ -38,3 +38,6 @@ frontend_mycasatrip_comments:
     locales:  { en: "/comments/{comment_type}", es: "/comentarios/{comment_type}",de: "/bewertungen/{comment_type}" }
     defaults: { _controller: FrontEndBundle:Mycasatrip:comments }
 
+frontend_mycasatrip_cancel_offer:
+    locales:  { en: "/cancel-offer/{generalReservationId}", es: "/cancelar-oferta/{generalReservationId}",de: "/cancel-offer/{generalReservationId}" }
+    defaults: { _controller: FrontEndBundle:Mycasatrip:cancelOffer }
