@@ -319,7 +319,7 @@ class generalReservationRepository extends EntityRepository {
         }
         $em->flush();
     }
-    
+
     public function getBookings($id_reservation)
     {
         $em = $this->getEntityManager();
@@ -327,6 +327,69 @@ class generalReservationRepository extends EntityRepository {
             JOIN res.own_res_reservation_booking book
             WHERE res.own_res_gen_res_id = " . $id_reservation);
         return $query->getResult();
+    }
+
+    /**
+     *
+     * @param generalReservation $generalReservation
+     * @return array An array of ownershipReservations
+     */
+    public function getOwnershipReservations(generalReservation $generalReservation)
+    {
+        $em = $this->getEntityManager();
+        $ownershipReservations = $em
+            ->getRepository('mycpBundle:ownershipReservation')
+            ->findBy(array('own_res_gen_res_id' => $generalReservation->getGenResId()));
+
+        return $ownershipReservations;
+    }
+
+    /**
+     * Returns whether or not a reminder email should be sent out.
+     *
+     * @param generalReservation $generalReservation
+     * @return bool
+     */
+    public function shallSendOutReminderEmail(generalReservation $generalReservation)
+    {
+        $em = $this->getEntityManager();
+
+        if (!$generalReservation->hasStatusAvailable()) {
+            return false;
+        }
+
+        $ownershipReservations = $em->getRepository('mycpBundle:generalReservation')->getOwnershipReservations($generalReservation);
+        $isAtLeastOneOwnResAvailable = false;
+
+        /** @var $ownershipReservation ownershipReservation */
+        foreach ($ownershipReservations as $ownershipReservation) {
+
+            if ($ownershipReservation->hasStatusAvailable()) {
+                $isAtLeastOneOwnResAvailable = true;
+                break;
+            }
+        }
+
+        return $isAtLeastOneOwnResAvailable;
+    }
+
+    /**
+     * @param $reservationId
+     * @return generalReservation
+     * @throws \LogicException
+     */
+    public function getGeneralReservationById($reservationId)
+    {
+        $em = $this->getEntityManager();
+        $generalReservation = $em
+            ->getRepository('mycpBundle:generalReservation')
+            ->find($reservationId);
+
+        if (empty($generalReservation)) {
+            throw new \LogicException('No reservation found for ID ' . $reservationId);
+        }
+
+        return $generalReservation;
     }
 
 }

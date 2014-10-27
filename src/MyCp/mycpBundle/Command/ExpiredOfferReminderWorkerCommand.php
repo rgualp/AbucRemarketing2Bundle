@@ -13,24 +13,7 @@ use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Helpers\EmailManager;
 use Doctrine\ORM\EntityManager;
 
-/**
- * Class ReservationReminderWorkerCommand
- *
- * Worker for sending out reservation reminder emails to customers.
- *
- * @package MyCp\mycpBundle\Command
- */
-class ReservationReminderWorkerCommand extends Worker
-{
-    /**
-     * @var  OutputInterface
-     */
-    private $output;
-
-    /**
-     * @var EntityManager
-     */
-    private $em;
+class ExpiredOfferReminderWorkerCommand extends Worker {
 
     /**
      * 'translator' service
@@ -39,46 +22,55 @@ class ReservationReminderWorkerCommand extends Worker
     private $translatorService;
 
     /**
-     * 'time' service
+     * @var  OutputInterface
+     */
+    private $output;
+
+    /**
+     * 'Secure' service
+     *
      * @var
      */
-    private $timeService;
+    private $securityService;
+
+    /**
+     * 'router' service
+     *
+     * @var
+     */
+    private $router;
 
     /**
      * 'mycp.service.email_manager' service
      *
-     * @var EmailManager
+     * @var \MyCp\mycpBundle\Helpers\EmailManager
      */
     private $emailManager;
 
     /**
      * {@inheritDoc}
      */
-    protected function configureWorker()
-    {
+    protected function configureWorker() {
         $this
-            ->setName('mycp:worker:reservationreminder')
-            ->setDefinition(array())
-            ->setDescription('Sends a reminder email after 24h if a user has not yet confirmed his reservation')
-            ->setJobName('mycp.job.reservation.reminder');
+                ->setName('mycp:worker:expiredofferriminder')
+                ->setDefinition(array())
+                ->setDescription('Sends a reminder email of expired offer after 48h')
+                ->setJobName('mycp.job.reservation.expired.offer.reminder');
     }
 
     /**
      * {@inheritDoc}
      */
-    protected function work(JobData $data,
-                            InputInterface $input,
-                            OutputInterface $output)
-    {
-        if(!($data instanceof GeneralReservationJobData)) {
+    protected function work(JobData $data, InputInterface $input, OutputInterface $output) {
+        if (!($data instanceof GeneralReservationJobData)) {
             throw new \InvalidArgumentException('Wrong datatype received: ' . get_class($data));
         }
 
-        $this->output = $output;
         $this->initializeServices();
         $reservationId = $data->getReservationId();
+        $this->output = $output;
 
-        $output->writeln('Processing Reservation Reminder for Reservation ID ' . $reservationId);
+        $output->writeln('Processing Offer Expired Reminder for Reservation ID ' . $reservationId);
 
         /** @var generalReservation $user */
         $generalReservation = $this->em
@@ -86,38 +78,32 @@ class ReservationReminderWorkerCommand extends Worker
                 ->getGeneralReservationById($reservationId);
 
         if ($this->em->getRepository('mycpBundle:generalReservation')->shallSendOutReminderEmail($generalReservation)) {
-
-            /** @var user $user */
             $user = $generalReservation->getGenResUserId();
             $this->emailManager->setLocaleByUser($user);
 
-            $output->writeln('Send Account Activation Reminder Email to User ID ' . $user->getUserId());
-            $this->sendReminderEmail($generalReservation, $user);
+            $output->writeln('Send Offer Expired Reminder Email for Reservation ID ' . $reservationId);
+            $this->sendReminderEmail($generalReservation,$user);
         }
 
-        $output->writeln('Successfully finished Reservation Reminder for Reservation ID ' . $reservationId);
-
+        $output->writeln('Successfully finished Offer Expired Reminder for Reservation ID ' . $reservationId);
         return true;
     }
 
     /**
-     * Sends a reservation reminder email to a user.
-     *
-     * @param generalReservation $generalReservation
-     * @param user $user
+     * Sends an account activation reminder email to a user.
+     * @param $user
+     * @param $output
      */
-    private function sendReminderEmail(generalReservation $generalReservation, user $user)
-    {
-        $userId =  $user->getUserId();
+    private function sendReminderEmail(generalReservation $generalReservation,user $user) {
+        $userId = $user->getUserId();
         $userEmail = $user->getUserEmail();
+
+        $emailSubject = $this->translatorService->trans('NOT_AVAILABLE_OFFER_SUBJECT');
+
         $emailBody = $this->renderEmailBody($user, $generalReservation);
 
-        $emailSubject = $this->translatorService->trans('REMINDER');
-
         $this->output->writeln("Send email to $userEmail, subject '$emailSubject' for User ID $userId");
-
-        $this->emailManager->sendEmail(
-            $userEmail, $emailSubject, $emailBody, 'reservation@mycasaparticular.com');
+        $this->emailManager->sendTemplatedEmail($userEmail, $emailSubject, $emailBody, 'reservation@mycasaparticular.com');
     }
 
     /**
@@ -136,10 +122,17 @@ class ReservationReminderWorkerCommand extends Worker
         $arrayPhotos = array();
         $arrayNights = array();
 
-        $initialPayment = 0;
+        //$initialPayment = 0;
+
+        //Set generalReservation status to Not Available
+        $generalReservation->setGenResStatus(generalReservation::STATUS_NOT_AVAILABLE);
+        $this->em->persist($generalReservation);
 
         foreach($ownershipReservations as $ownershipReservation)
         {
+            $ownershipReservation->setOwnResStatus(ownershipReservation::STATUS_NOT_AVAILABLE);
+            $this->em->persist($ownershipReservation);
+
             $photos = $this->em
                 ->getRepository('mycpBundle:ownership')
                 ->getPhotos(
@@ -159,22 +152,25 @@ class ReservationReminderWorkerCommand extends Worker
 
             array_push($arrayNights, count($array_dates) - 1);
 
-            $comission = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent()/100;
+            /*$comission = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent()/100;
             //Initial down payment
             if($ownershipReservation->getOwnResNightPrice() > 0)
                 $initialPayment += $ownershipReservation->getOwnResNightPrice() * (count($array_dates) - 1) * $comission;
             else
-                $initialPayment += getOwnResTotalInSite() * $comission;
+                $initialPayment += getOwnResTotalInSite() * $comission;*/
         }
 
+        $this->em->flush();
+
         $body = $this->emailManager
-            ->getViewContent('FrontEndBundle:mails:reminder_available.html.twig', array(
+            ->getViewContent('FrontEndBundle:mails:expired_offer_reminder.html.twig', array(
                 'user' => $user,
                 'reservations' => $ownershipReservations,
                 'photos' => $arrayPhotos,
                 'nights' => $arrayNights,
                 'user_locale' => $this->emailManager->getUserLocale($user),
-                'initial_payment' => $initialPayment
+                //'initial_payment' => $initialPayment,
+                //'generalReservationId' => $generalReservation->getGenResId()
             ));
 
         return $body;
@@ -183,11 +179,11 @@ class ReservationReminderWorkerCommand extends Worker
     /**
      * Initializes the services needed.
      */
-    private function initializeServices()
-    {
+    private function initializeServices() {
         $this->emailManager = $this->getService('mycp.service.email_manager');
-        $this->em = $this->getService('doctrine.orm.entity_manager');
-        $this->timeService = $this->getService('time');
         $this->translatorService = $this->getService('translator');
+        $this->securityService = $this->getService('Secure');
+        $this->router = $this->getService('router');
     }
+
 }

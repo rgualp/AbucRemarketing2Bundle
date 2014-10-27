@@ -2599,6 +2599,26 @@
                 <source>BOOK_OTHER_ACCOMMODATIONS</source>
                 <target>Reservar otros alojamientos</target>
             </trans-unit>
+             <trans-unit id="660">
+                <source>LAST_CHANCE_TO_BOOK_SUBJECT</source>
+                <target>Última oportunidad para reservar!</target>
+            </trans-unit>
+             <trans-unit id="661">
+                <source>NOT_AVAILABLE_OFFER_SUBJECT</source>
+                <target>Lo sentimos, su oferta ya no está disponible!</target>
+            </trans-unit>
+            <trans-unit id="662">
+                <source>EXPIRED_OFFER_TEXT_1</source>
+                <target><![CDATA[Los alojamientos por los cuales Usted se interesó anteriormente, no están disponibles ya. ¿Desea <a href="%link%">intentarlo de nuevo</a>?]]></target>
+            </trans-unit>
+            <trans-unit id="663">
+                <source>EXPIRED_OFFER_TEXT_2</source>
+                <target><![CDATA[¿Quizá prefiera contar con nuestra ayuda? Por favor, escríbanos a <a href="mailto:reservation@mycasaparticular.com">reservation@mycasaparticular.com</a>]]></target>
+            </trans-unit>
+            <trans-unit id="664">
+                <source>EXPIRED_OFFER_TEXT_3</source>
+                <target>Confiamos en poder ayudarle.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

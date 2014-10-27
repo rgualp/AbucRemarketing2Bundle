@@ -80,10 +80,12 @@ class LastReservationReminderWorkerCommand extends Worker
 
         $output->writeln('Processing Reservation Reminder for Reservation ID ' . $reservationId);
 
-        /** @var generalReservation $user */
-        $generalReservation = $this->getGeneralReservationById($reservationId);
+        /** @var generalReservation $reservationId */
+        $generalReservation = $this->em
+                ->getRepository('mycpBundle:generalReservation')
+                ->getGeneralReservationById($reservationId);
 
-        if ($this->shallSendOutReminderEmail($generalReservation)) {
+        if ($this->em->getRepository('mycpBundle:generalReservation')->shallSendOutReminderEmail($generalReservation)) {
 
             /** @var user $user */
             $user = $generalReservation->getGenResUserId();
@@ -99,33 +101,6 @@ class LastReservationReminderWorkerCommand extends Worker
     }
 
     /**
-     * Returns whether or not a reminder email should be sent out.
-     *
-     * @param generalReservation $generalReservation
-     * @return bool
-     */
-    private function shallSendOutReminderEmail(generalReservation $generalReservation)
-    {
-        if (!$generalReservation->hasStatusAvailable()) {
-            return false;
-        }
-
-        $ownershipReservations = $this->getOwnershipReservations($generalReservation);
-        $isAtLeastOneOwnResAvailable = false;
-
-        /** @var $ownershipReservation ownershipReservation */
-        foreach ($ownershipReservations as $ownershipReservation) {
-
-            if ($ownershipReservation->hasStatusAvailable()) {
-                $isAtLeastOneOwnResAvailable = true;
-                break;
-            }
-        }
-
-        return $isAtLeastOneOwnResAvailable;
-    }
-
-    /**
      * Sends a reservation reminder email to a user.
      *
      * @param generalReservation $generalReservation
@@ -137,7 +112,7 @@ class LastReservationReminderWorkerCommand extends Worker
         $userEmail = $user->getUserEmail();
         $emailBody = $this->renderEmailBody($user, $generalReservation);
 
-        $emailSubject = $this->translatorService->trans('REMINDER');
+        $emailSubject = $this->translatorService->trans('LAST_CHANCE_TO_BOOK_SUBJECT');
 
         $this->output->writeln("Send email to $userEmail, subject '$emailSubject' for User ID $userId");
 
@@ -154,7 +129,9 @@ class LastReservationReminderWorkerCommand extends Worker
      */
     private function renderEmailBody(user $user, generalReservation $generalReservation)
     {
-        $ownershipReservations = $this->getOwnershipReservations($generalReservation);
+        $ownershipReservations = $this->em
+                ->getRepository('mycpBundle:generalReservation')
+                ->getOwnershipReservations($generalReservation);
 
         $arrayPhotos = array();
         $arrayNights = array();
@@ -213,37 +190,5 @@ class LastReservationReminderWorkerCommand extends Worker
         $this->em = $this->getService('doctrine.orm.entity_manager');
         $this->timeService = $this->getService('time');
         $this->translatorService = $this->getService('translator');
-    }
-
-    /**
-     * @param $reservationId
-     * @return generalReservation
-     * @throws \LogicException
-     */
-    private function getGeneralReservationById($reservationId)
-    {
-        $generalReservation = $this->em
-            ->getRepository('mycpBundle:generalReservation')
-            ->find($reservationId);
-
-        if (empty($generalReservation)) {
-            throw new \LogicException('No user found for ID ' . $reservationId);
-        }
-
-        return $generalReservation;
-    }
-
-    /**
-     *
-     * @param generalReservation $generalReservation
-     * @return array An array of ownershipReservations
-     */
-    private function getOwnershipReservations(generalReservation $generalReservation)
-    {
-        $ownershipReservations = $this->em
-            ->getRepository('mycpBundle:ownershipReservation')
-            ->findBy(array('own_res_gen_res_id' => $generalReservation->getGenResId()));
-
-        return $ownershipReservations;
     }
 }

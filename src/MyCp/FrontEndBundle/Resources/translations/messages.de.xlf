@@ -2598,6 +2598,26 @@
                 <source>BOOK_OTHER_ACCOMMODATIONS</source>
                 <target>Book other accommodations</target>
             </trans-unit>
+            <trans-unit id="660">
+                <source>LAST_CHANCE_TO_BOOK_SUBJECT</source>
+                <target>Last chance to book!</target>
+            </trans-unit>
+            <trans-unit id="661">
+                <source>NOT_AVAILABLE_OFFER_SUBJECT</source>
+                <target>Sorry, Not available anymore!</target>
+            </trans-unit>
+            <trans-unit id="662">
+                <source>EXPIRED_OFFER_TEXT_1</source>
+                <target><![CDATA[The accommodations you have requested availability for before, are no longer available. Would you like to <a href="%link%">try again</a>?]]></target>
+            </trans-unit>
+            <trans-unit id="663">
+                <source>EXPIRED_OFFER_TEXT_2</source>
+                <target><![CDATA[Maybe you prefer to book with our assistance? Please, email to <a href="mailto:reservation@mycasaparticular.com">reservation@mycasaparticular.com</a>]]></target>
+            </trans-unit>
+            <trans-unit id="664">
+                <source>EXPIRED_OFFER_TEXT_3</source>
+                <target>We trust we can help you.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
