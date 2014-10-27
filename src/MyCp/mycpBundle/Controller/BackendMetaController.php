@@ -5,14 +5,14 @@ namespace MyCp\mycpBundle\Controller;
 use MyCp\mycpBundle\Entity\metaLang;
 use MyCp\mycpBundle\Form\metaType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use MyCp\mycpBundle\Entity\log;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
 
 class BackendMetaController extends Controller {
 
     function listAction(){
+        $service_security= $this->get('Secure');
+        $service_security->verifyAccess();
         $em=$this->getDoctrine()->getManager();
 
         $metas = $em->getRepository('mycpBundle:metaTag')->getAll();
@@ -26,6 +26,8 @@ class BackendMetaController extends Controller {
     }
 
     function editAction($meta_id,Request $request) {
+        $service_security= $this->get('Secure');
+        $service_security->verifyAccess();
         $em=$this->getDoctrine()->getManager();
         $langs=$em->getRepository('mycpBundle:lang')->findAll();
         $metas=$em->getRepository('mycpBundle:metaTag')->getMetaLangs($meta_id);
