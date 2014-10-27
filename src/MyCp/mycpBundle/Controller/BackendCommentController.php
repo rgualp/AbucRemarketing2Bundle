@@ -152,8 +152,8 @@ class BackendCommentController extends Controller {
     }
 
     public function publicAction($id_comment, $return_url, Request $request) {
-        /* $service_security = $this->get('Secure');
-          $service_security->verifyAccess(); */
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $comment = $em->getRepository('mycpBundle:comment')->find($id_comment);
 
@@ -173,8 +173,8 @@ class BackendCommentController extends Controller {
     }
 
     public function lastAction($items_per_page, Request $request) {
-        /* $service_security = $this->get('Secure');
-          $service_security->verifyAccess(); */
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
 
         $page = 1;
         $data = '';
@@ -218,7 +218,6 @@ class BackendCommentController extends Controller {
     }
 
     public function publicSelectedCallbackAction() {
-
         $request = $this->getRequest();
         $em = $this->getDoctrine()->getManager();
         $ids = $request->request->get('comments_ids');
@@ -246,7 +245,6 @@ class BackendCommentController extends Controller {
     }
 
     public function deleteSelectedCallbackAction() {
-
         $request = $this->getRequest();
         $em = $this->getDoctrine()->getManager();
         $ids = $request->request->get('comments_ids');
@@ -272,5 +270,4 @@ class BackendCommentController extends Controller {
         }
         return new Response($response);
     }
-
 }
