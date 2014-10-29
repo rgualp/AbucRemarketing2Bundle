@@ -89,6 +89,10 @@ mycp_municipality:
 mycp_season:
     resource: "@mycpBundle/Resources/config/routingBackendSeason.yml"
     prefix:   backend/seasons/
+    
+mycp_test_email_template:
+    resource: "@mycpBundle/Resources/config/routingBackendTestEmailTemplate.yml"
+    prefix:   backend/test/
 
 mycp_check:
   pattern: /check

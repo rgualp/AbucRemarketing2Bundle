@@ -1,0 +1,33 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li class="active">Testings</li>
+</ul>
+{% endblock %}
+{% block content %}
+<h2>Testings</h2>
+<hr/>
+
+<h4>Plantillas de correo</h4>
+<a href="{{path("mycp_test_accommodation_still_available", {'langCode':'es'})}}">Inquiry/Availability - Accommodation still available  - Español</a><br/>
+<a href="{{path("mycp_test_accommodation_still_available", {'langCode':'en'})}}">Inquiry/Availability - Accommodation still available  - Inglés</a><br/>
+<a href="{{path("mycp_test_accommodation_still_available", {'langCode':'de'})}}">Inquiry/Availability - Accommodation still available  - Alemán</a><br/>
+<br/>
+<a href="{{path("mycp_test_lastChanceToBook", {'langCode':'es'})}}">Inquiry/Availability - Last chance to book - Español</a><br/>
+<a href="{{path("mycp_test_lastChanceToBook", {'langCode':'en'})}}">Inquiry/Availability - Last chance to book - Inglés</a><br/>
+<a href="{{path("mycp_test_lastChanceToBook", {'langCode':'de'})}}">Inquiry/Availability - Last chance to book - Alemán</a><br/>
+<br/>
+<a href="{{path("mycp_test_not_available", {'langCode':'es'})}}">Inquiry/Availability - Sorry, Not available anymore! - Español</a><br/>
+<a href="{{path("mycp_test_not_available", {'langCode':'en'})}}">Inquiry/Availability - Sorry, Not available anymore! - Inglés</a><br/>
+<a href="{{path("mycp_test_not_available", {'langCode':'de'})}}">Inquiry/Availability - Sorry, Not available anymore! - Alemán</a><br/>
+
+<br/>
+<a href="{{path("mycp_test_activate_user_account", {'langCode':'es'})}}">Log In/Setup Account - Activate your account - Español</a><br/>
+<a href="{{path("mycp_test_activate_user_account", {'langCode':'en'})}}">Log In/Setup Account - Activate your account - Inglés</a><br/>
+<a href="{{path("mycp_test_activate_user_account", {'langCode':'de'})}}">Log In/Setup Account - Activate your account - Alemán</a><br/>
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('bundles/mycp/js/common_list.js') }}"></script>
+{% endblock %}

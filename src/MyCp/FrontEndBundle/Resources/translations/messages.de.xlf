@@ -2456,7 +2456,7 @@
             </trans-unit>
             <trans-unit id="624">
                 <source>REMINDER_OPPORTUNITY</source>
-                <target>Verpassen Sie diese Gelegenheit nicht und sichern Sie Ihre Unterkunft für Ihren Urlaub in Kuba. </target>
+                <target><![CDATA[To confirm your reservation, click <a href="%link%">here</a>, , or copy the URL below at your Internet Browser.]]></target>
             </trans-unit>
             <trans-unit id="625">
                 <source>VALID_OFFER_TWENTY_FOUR_ACCOMMODATION</source>

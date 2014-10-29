@@ -3,7 +3,7 @@
 {% block content %}
         <h4 style="font-family: Arial; font-size: 20px">{{"DEAR"|trans({}, "messages", user_locale)}} {{user.getUserUserName|capitalize}} {{user.getUserLastName|capitalize}}</h4>
         <p style="font-size: 14px;font-family: arial">{{"REMINDER_TRIP_ORGANISATION"|trans({}, "messages", user_locale)}} {{initial_payment | price}}.</p>
-        <p style="font-size: 14px;font-family: arial"> {{"REMINDER_OPPORTUNITY"|trans({"%link%": url('frontend_mycasatrip_available',{'locale':user_locale,'_locale':user_locale,})}, "messages", user_locale)}}</p>
+        <p style="font-size: 14px;font-family: arial"> {{"REMINDER_OPPORTUNITY"|trans({"%link%": url('frontend_mycasatrip_available',{'locale':user_locale,'_locale':user_locale,})}, "messages", user_locale) | raw}}</p>
         <p style="font-size: 14px;font-family: arial">
             {{url('frontend_mycasatrip_available',{'locale':user_locale,'_locale':user_locale,})}}
         </p>
@@ -95,8 +95,8 @@
 
     <p style="font-size: 14px;font-family: arial"><b>{{"VALID_OFFER_TWENTY_FOUR"|trans({}, "messages", user_locale)}}</b></p>
     <h4 style="font-size: 16px; font-weight: normal; font-style: italic">
-        {{"EMAIL_GREETINGS" | trans}}.<br/>
-        {{"EMAIL_GREETINGS_2" | trans}},<br/>
-        {{"MYCP_TEAM" | trans}}
+        {{"EMAIL_GREETINGS" | trans({}, "messages", user_locale)}}.<br/>
+        {{"EMAIL_GREETINGS_2" | trans({}, "messages", user_locale)}},<br/>
+        {{"MYCP_TEAM" | trans({}, "messages", user_locale)}}
     </h4>
 {% endblock %}
