@@ -2635,6 +2635,18 @@
                 <source>CANCEL_OFFER_TEXT_2</source>
                 <target>Si aún está interesado en reservarla, le recomendamos efectuar ahora un depósito inicial, que asciende a</target>
             </trans-unit>
+            <trans-unit id="669">
+                <source>CANCEL_OFFER_SUCESS</source>
+                <target>Ha cancelado la oferta CAS.</target>
+            </trans-unit>
+            <trans-unit id="670">
+                <source>NOT_ALLOW_OFFER</source>
+                <target>Esta oferta no pertenece a usted.</target>
+            </trans-unit>
+            <trans-unit id="671">
+                <source>NOT_ALLOW_STATUS_OFFER</source>
+                <target>Esta oferta no puede ser cancelada.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
