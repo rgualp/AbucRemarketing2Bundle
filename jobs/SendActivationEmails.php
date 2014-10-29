@@ -73,12 +73,14 @@ foreach($users as $user) {
 
     //mailing
     $enableRoute = 'frontend_enable_user';
-    $enableUrl = $router->generate($enableRoute, array('string' => $encode_string, '_locale' => $locale), true);
+    $enableUrl = $router->generate($enableRoute, array('string' => $encode_string, '_locale' => $locale, 'locale' => $locale), true);
 
     echo 'URL: ' . $enableUrl . PHP_EOL;
 
     $body = $templating->renderResponse('FrontEndBundle:mails:enableAccount.html.twig',
-        array('enableUrl' => $enableUrl, 'user_name' =>$userName));
+        array('enableUrl' => $enableUrl, 
+              'user_name' =>$userName,
+              'user_locale' => $locale));
 
     $translator->setLocale($locale);
     $emailSubject = $translator->trans('EMAIL_ACCOUNT_REGISTERED_SUBJECT');

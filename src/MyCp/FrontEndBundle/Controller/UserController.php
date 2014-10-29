@@ -66,8 +66,18 @@ class UserController extends Controller {
 
                 //mailing
                 $enableRoute = 'frontend_enable_user';
-                $enableUrl = $this->get('router')->generate($enableRoute, array('string' => $encode_string), true);
-                $body = $this->render('FrontEndBundle:mails:enableAccount.html.twig', array('enableUrl' => $enableUrl, 'user_name' => $userName));
+                $userTourist = $em->getRepository('mycpBundle:userTourist')
+                                       ->findOneBy(array('user_tourist_user' => $user_db->getUserId()));
+                    $userLocale = (isset($userTourist)) ? strtolower($userTourist->getUserTouristLanguage()->getLangCode()) : "en";
+                    
+                $enableUrl = $this->get('router')->generate($enableRoute, array(
+                    'string' => $encode_string,
+                    '_locale' => $userLocale, 
+                    'locale' => $userLocale), true);
+                $body = $this->render('FrontEndBundle:mails:enableAccount.html.twig', array(
+                    'enableUrl' => $enableUrl, 
+                    'user_name' => $userName,
+                    'user_locale' => $userLocale));
 
                 $service_email = $this->get('Email');
                 $service_email->sendTemplatedEmail($this->get('translator')->trans('EMAIL_ACCOUNT_REGISTERED_SUBJECT'), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
@@ -228,11 +238,21 @@ class UserController extends Controller {
                     $service_security = $this->get('Secure');
                     $encode_string = $service_security->getEncodedUserString($user_db);
                     $enableRoute = 'frontend_enable_user';
-                    $enableUrl = $this->get('router')
-                            ->generate($enableRoute, array('string' => $encode_string), true);
+                    $userTourist = $em->getRepository('mycpBundle:userTourist')
+                                       ->findOneBy(array('user_tourist_user' => $user_db->getUserId()));
+                    
+                    $userLocale = (isset($userTourist)) ? strtolower($userTourist->getUserTouristLanguage()->getLangCode()) : "en";
+                    $enableUrl = $this->get('router')->generate($enableRoute, array(
+                        'string' => $encode_string,
+                        '_locale' => $userLocale, 
+                        'locale' => $userLocale), true);
+                    
                     $service_email = $this->get('Email');
                     $userName = $user_db->getUserCompleteName();
-                    $body = $this->render('FrontEndBundle:mails:enableAccount.html.twig', array('enableUrl' => $enableUrl, 'user_name' => $userName));
+                    $body = $this->render('FrontEndBundle:mails:enableAccount.html.twig', array(
+                        'enableUrl' => $enableUrl, 
+                        'user_name' => $userName,
+                        'user_locale' => $userLocale));
                     $service_email->sendTemplatedEmail($this->get('translator')->trans("USER_ACCOUNT_ACTIVATION_EMAIL"), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
                     $message = $this->get('translator')->trans("USER_CREATE_ACCOUNT_SUCCESS");
                     $this->get('session')->getFlashBag()->add('message_global_success', $message);

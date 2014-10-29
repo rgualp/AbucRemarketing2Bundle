@@ -197,7 +197,35 @@ class BackendTestEmailTemplateController extends Controller {
         $activationUrl = $this->getActivationUrl($user, $langCode);
         $userName = $user->getUserCompleteName();
         
+         return $this->render('FrontEndBundle:mails:enableAccount.html.twig', array(
+                'enableUrl' => $activationUrl, 
+                'user_name' => $userName,
+                'user_locale' => $langCode
+            ));
+    }
+    
+    public function activateAccountReminderAction($langCode)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $user = $em->getRepository('mycpBundle:user')->findOneBy(array('user_enabled' => true));
+        $activationUrl = $this->getActivationUrl($user, $langCode);
+        $userName = $user->getUserCompleteName();
+        
          return $this->render('FrontEndBundle:mails:enableAccountReminder.html.twig', array(
+                'enableUrl' => $activationUrl, 
+                'user_name' => $userName,
+                'user_locale' => $langCode
+            ));
+    }
+    
+    public function activateAccountLastReminderAction($langCode)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $user = $em->getRepository('mycpBundle:user')->findOneBy(array('user_enabled' => true));
+        $activationUrl = $this->getActivationUrl($user, $langCode);
+        $userName = $user->getUserCompleteName();
+        
+         return $this->render('FrontEndBundle:mails:enableAccountLateReminder.html.twig', array(
                 'enableUrl' => $activationUrl, 
                 'user_name' => $userName,
                 'user_locale' => $langCode

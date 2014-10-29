@@ -1,14 +1,14 @@
 {% extends 'FrontEndBundle:layout:translatedbaseMailTemplate.html.twig' %}
 
 {% block content %}
-<h4 style="font-family: Arial; font-size: 20px">{{"USER_ACCOUNT_ACTIVATION_EMAIL_LATE_REMINDER"|trans}}</h4>
+<h4 style="font-family: Arial; font-size: 20px">{{"USER_ACCOUNT_ACTIVATION_EMAIL_LATE_REMINDER"|trans({}, "messages", user_locale)}}</h4>
 <p style="font-family: arial; font-size: 14px">
-    {{"DEAR_MR" | trans}} {{user_name}},<br/>
-    {{ "EMAIL_LATE_REMINDER_BODY_TEXT_1"|trans }} <a href='{{ enableUrl }}'>{{ 'HERE'|trans }}</a>{{ "EMAIL_LATE_REMINDER_BODY_TEXT_2"|trans }}<br/>
-    {{ enableUrl }}<br/>
-    {{"EMAIL_LATE_REMINDER_BODY_TEXT_3" | trans}} <a href="mailto:reservation@mycasaparticular.com">{{"SUPPORT_TEAM" | trans}}</a>{{"EMAIL_LATE_REMINDER_BODY_TEXT_4" | trans}}<br/>
-    {{"EMAIL_GREETINGS" | trans}}.<br/>
-    {{"EMAIL_GREETINGS_2" | trans}},<br/>
-    {{"MYCP_TEAM" | trans}}
+    {{"DEAR_MR" | trans({}, "messages", user_locale)}} {{user_name}},<br/><br/>
+    {{ "EMAIL_LATE_REMINDER_BODY_TEXT_1"|trans({}, "messages", user_locale) }} <a href='{{ enableUrl }}'>{{ 'HERE'|trans({}, "messages", user_locale) }}</a>{{ "EMAIL_LATE_REMINDER_BODY_TEXT_2"|trans({}, "messages", user_locale) }}<br/><br/>
+    {{ enableUrl }}<br/><br/>
+    {{"EMAIL_LATE_REMINDER_BODY_TEXT_3" | trans({}, "messages", user_locale)}} <a href="mailto:reservation@mycasaparticular.com">{{"SUPPORT_TEAM" | trans({}, "messages", user_locale)}}</a>{{"EMAIL_LATE_REMINDER_BODY_TEXT_4" | trans({}, "messages", user_locale)}}<br/><br/>
+    {{"EMAIL_GREETINGS" | trans({}, "messages", user_locale)}}.<br/>
+    {{"EMAIL_GREETINGS_2" | trans({}, "messages", user_locale)}},<br/>
+    {{"MYCP_TEAM" | trans({}, "messages", user_locale)}}
 </p>
 {% endblock %}
