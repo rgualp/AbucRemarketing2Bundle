@@ -32,14 +32,14 @@ class EmailManager
 
     /**
      * 'templating' service
-     * @var
+     * @var \Symfony\Component\Templating\EngineInterface
      */
     private $templatingService;
 
     /**
      * 'translator' service
      *
-     * @var
+     * @var \Symfony\Component\Translation\TranslatorInterface
      */
     private $translatorService;
 
@@ -59,21 +59,21 @@ class EmailManager
 
     /**
      * The email spool
-     * @var
+     * @var \Swift_Spool
      */
     private $spool;
 
     /**
      * 'swiftmailer.transport.real' service
      *
-     * @var
+     * @var \Swift_Transport
      */
     private $mailerTransport;
 
     /**
      * 'mailer' service
      *
-     * @var
+     * @var \Swift_Mailer
      */
     private $mailer;
 
@@ -299,6 +299,10 @@ class EmailManager
                 // retry on transport exceptions
                 $this->logger->error($message);
                 $exception = $e;
+
+                if ($this->mailerTransport->isStarted()) {
+                    $this->mailerTransport->stop();
+                }
             }
 
             sleep(5);
