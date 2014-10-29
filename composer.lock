@@ -13,7 +13,7 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:abucmn/remarketingbundle.git",
-                "reference": "2caba8f1c66f702a8481716a7bbdec94071a7de1"
+                "reference": "05fe88f85b10590a86cb763fbd2d0f525ca8fe2f"
             },
             "require": {
                 "doctrine/doctrine-bundle": "~1.2",
@@ -51,7 +51,7 @@
                 "email",
                 "remarketing"
             ],
-            "time": "2014-09-19 08:46:26"
+            "time": "2014-10-23 07:55:45"
         },
         {
             "name": "ass/xmlsecurity",
