@@ -2619,6 +2619,22 @@
                 <source>EXPIRED_OFFER_TEXT_3</source>
                 <target>We trust we can help you.</target>
             </trans-unit>
+            <trans-unit id="665">
+                <source>CANCEL_OFFER</source>
+                <target>Cancel offer</target>
+            </trans-unit>
+            <trans-unit id="666">
+                <source>CANCELLED</source>
+                <target>Canceled</target>
+            </trans-unit>
+            <trans-unit id="667">
+                <source>CANCEL_OFFER_TEXT_1</source>
+                <target>You are close to cancel the offer</target>
+            </trans-unit>
+            <trans-unit id="668">
+                <source>CANCEL_OFFER_TEXT_2</source>
+                <target>If you are still interested on reserve this offer, you have to make an initial deposit now, up to</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

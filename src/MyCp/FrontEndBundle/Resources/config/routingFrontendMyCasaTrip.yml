@@ -41,3 +41,7 @@ frontend_mycasatrip_comments:
 frontend_mycasatrip_cancel_offer:
     locales:  { en: "/cancel-offer/{generalReservationId}", es: "/cancelar-oferta/{generalReservationId}",de: "/cancel-offer/{generalReservationId}" }
     defaults: { _controller: FrontEndBundle:Mycasatrip:cancelOffer }
+    
+frontend_cancel_offer_callback:
+    locales:  { en: "/cancel-offer-callback/{genResID}", es: "/cancelar-oferta-callback/{genResID}",de: "/cancel-offer-callback/{genResID}" }
+    defaults: { _controller: FrontEndBundle:Mycasatrip:cancelOfferCallback }

@@ -4,6 +4,7 @@ namespace MyCp\mycpBundle\Twig\Extension;
 
 use MyCp\mycpBundle\Helpers\BackendModuleName;
 use MyCp\mycpBundle\Entity\season;
+use MyCp\mycpBundle\Entity\ownershipReservation;
 
 class mycpExtension extends \Twig_Extension {
     /* private $session;
@@ -22,6 +23,7 @@ class mycpExtension extends \Twig_Extension {
         return array(
             new \Twig_SimpleFilter('moduleName', array($this, 'moduleName')),
             new \Twig_SimpleFilter('seasonType', array($this, 'seasonType')),
+            new \Twig_SimpleFilter('ownershipReservationStatusType', array($this, 'ownershipReservationStatusType')),
         );
     }
 
@@ -60,6 +62,18 @@ class mycpExtension extends \Twig_Extension {
             case season::SEASON_TYPE_HIGH: return "Alta";
             case season::SEASON_TYPE_SPECIAL: return "Especial";
             default: return "Baja";
+        }
+    }
+    
+    public function ownershipReservationStatusType($status) {
+        switch ($status) {
+            case ownershipReservation::STATUS_PENDING: return "PENDING";
+            case ownershipReservation::STATUS_AVAILABLE: return "AVAILABLE";
+            case ownershipReservation::STATUS_AVAILABLE2: return "AVAILABLE";
+            case ownershipReservation::STATUS_NOT_AVAILABLE: return "NOT_AVAILABLE";
+            case ownershipReservation::STATUS_CANCELLED: return "CANCELLED";
+            case ownershipReservation::STATUS_RESERVED: return "RESERVE_SINGULAR";
+            default: return "PENDING";
         }
     }
 

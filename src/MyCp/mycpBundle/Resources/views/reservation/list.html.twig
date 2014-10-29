@@ -143,6 +143,8 @@
                 {%set not_available = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_NOT_AVAILABLE')%}
                 {%set partially_available = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_AVAILABLE')%}
                 {%set partially_reserved = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_RESERVED')%}
+                {%set cancelled = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED')%}
+                        
                 {% for reservation in reservations %}
                 <tr class="{% if reservation[0].gen_res_status==available %}warning{%endif%}{% if reservation[0].gen_res_status==reserved %}error{%endif%}{% if reservation[0].gen_res_status==not_available %}info{%endif%}">
                     <td>
@@ -166,6 +168,7 @@
                         {% if reservation[0].gen_res_status==reserved %} badge-important">Reservada{%endif%}
                         {% if reservation[0].gen_res_status==partially_reserved %} badge-important">Parcialmente<br/>Reservada{%endif%}
                         {% if reservation[0].gen_res_status==not_available %} badge-info">No disponible{%endif%}</div>
+                        {% if reservation[0].gen_res_status==cancelled %} badge-info">Cancelada{%endif%}</div>
                     </td>
                     <td style="text-align: right">
                         <a class="btn btn-mini" href="{{ path('mycp_details_reservation',{'id_reservation':reservation[0].gen_res_id}) }}">Detalles</a>

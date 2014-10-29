@@ -412,7 +412,85 @@ class MycasatripController extends Controller {
     public function cancelOfferAction($generalReservationId) {
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
+        $service_time=$this->get('time');
+        
+        $generalReservation = $em
+                ->getRepository('mycpBundle:generalReservation')
+                ->getGeneralReservationById($generalReservationId);
+        
+        $ownershipReservations = $em
+                ->getRepository('mycpBundle:generalReservation')
+                ->getOwnershipReservations($generalReservation);
 
+        $arrayPhotos = array();
+        $arrayNights = array();
+
+        $initialPayment = 0;
+
+        foreach($ownershipReservations as $ownershipReservation)
+        {
+            $photos = $em
+                ->getRepository('mycpBundle:ownership')
+                ->getPhotos(
+                    // TODO: This line is very strange. Why take the ownId of the genRes of the ownRes?!
+                    $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId()
+                );
+
+            if(!empty($photos)) {
+                array_push($arrayPhotos, $photos);
+            }
+
+            $array_dates = $service_time
+                ->datesBetween(
+                    $ownershipReservation->getOwnResReservationFromDate()->getTimestamp(),
+                    $ownershipReservation->getOwnResReservationToDate()->getTimestamp()
+                );
+
+            array_push($arrayNights, count($array_dates) - 1);
+
+            $comission = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent()/100;
+            //Initial down payment
+            if($ownershipReservation->getOwnResNightPrice() > 0)
+                $initialPayment += $ownershipReservation->getOwnResNightPrice() * (count($array_dates) - 1) * $comission;
+            else
+                $initialPayment += getOwnResTotalInSite() * $comission;
+        }
+
+        return $this->render('FrontEndBundle:mycasatrip:cancelOffer.html.twig', array(
+              'generalReservation' => $generalReservation,
+              'reservations' => $ownershipReservations,
+              'nights'=>$arrayNights,
+              'photos'=>$photos,
+              'initialPayment' => $initialPayment
+            ));
+    }
+    
+    public function cancelOfferCallbackAction($genResID)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $generalReservation = $em
+                ->getRepository('mycpBundle:generalReservation')
+                ->getGeneralReservationById($genResID);
+        
+        $ownershipReservations = $em
+                ->getRepository('mycpBundle:generalReservation')
+                ->getOwnershipReservations($generalReservation);
+        
+        foreach($ownershipReservations as $ownRes)
+        {
+            $ownRes->setOwnResStatus(ownershipReservation::STATUS_CANCELLED);        
+            $em->persist($ownRes);
+        }
+        
+        $generalReservation->setGenResStatus(\MyCp\mycpBundle\Entity\generalReservation::STATUS_CANCELLED);
+        $em->persist($generalReservation);
+        
+        $em->flush();
+        
+        $message = 'Ha cancelado la oferta CAS.'.$generalReservation->getGenResId();
+        $this->get('session')->getFlashBag()->add('message', $message);
+        
         return $this->redirect($this->generateUrl('frontend_mycasatrip_pending'));
     }
 
