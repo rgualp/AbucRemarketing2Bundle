@@ -193,7 +193,7 @@ class ownershipRepository extends EntityRepository {
 
         $ownership->setOwnRoomsTotal($data['count_rooms']);
 
-        $beds_total = 0;
+        $maximum_guest_total = 0;
         for ($e = 1; $e <= $data['count_rooms']; $e++) {
             $room = new room();
             $room->setRoomType($data['room_type_' . $e]);
@@ -235,17 +235,21 @@ class ownershipRepository extends EntityRepository {
             if ($ownership->getOwnMaximumPrice() == 0 || $room->getRoomPriceSpecial() > $ownership->getOwnMaximumPrice())
                 $ownership->setOwnMaximumPrice($room->getRoomPriceSpecial());
 
-            if ($room->getRoomBeds() > 0)
-                $beds_total += $room->getRoomBeds();
-            //$ownership->setOwnMaximunNumberGuests($ownership->getOwnMaximunNumberGuests() + $room->getRoomBeds());
-
+            switch($room->getRoomType())
+            {
+                case "Habitación individual": $maximum_guest_total += 1; break;
+                case "Habitación doble":
+                case "Habitación doble (Dos camas)": $maximum_guest_total += 2; break;
+                case "Habitación Triple": $maximum_guest_total += 3; break;
+            }
+            
             $em->persist($ownership);
             /**
              * Codigo Yanet - Fin
              */
         }
 
-        $ownership->setOwnMaximunNumberGuests($beds_total);
+        $ownership->setOwnMaximunNumberGuests($maximum_guest_total);
         $em->persist($ownership);
 
         //save client casa
@@ -422,7 +426,7 @@ class ownershipRepository extends EntityRepository {
         /**
          * Codigo Yanet - Fin
          */
-        $beds_total = 0;
+        $maximum_guest_total = 0;
         for ($e = 1; $e <= $data['count_rooms']; $e++) {
 
             if (array_key_exists('room_id_' . $e, $data))
@@ -474,12 +478,17 @@ class ownershipRepository extends EntityRepository {
                     $room->getRoomPriceSpecial() > $ownership->getOwnMaximumPrice())
                 $ownership->setOwnMaximumPrice($room->getRoomPriceSpecial());
 
-            if ($room->getRoomBeds() > 0)
-                $beds_total += $room->getRoomBeds();
+            switch($room->getRoomType())
+            {
+                case "Habitación individual": $maximum_guest_total += 1; break;
+                case "Habitación doble":
+                case "Habitación doble (Dos camas)": $maximum_guest_total += 2; break;
+                case "Habitación Triple": $maximum_guest_total += 3; break;
+            }
 
             $em->persist($ownership);
         }
-        $ownership->setOwnMaximunNumberGuests($beds_total);
+        $ownership->setOwnMaximunNumberGuests($maximum_guest_total);
         $em->persist($ownership);
 
         //save client casa
