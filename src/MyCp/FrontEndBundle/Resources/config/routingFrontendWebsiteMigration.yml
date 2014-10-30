@@ -46,7 +46,7 @@ frontend_website_migration_destination_details:
 
 frontend_website_migration_search_accommodations:
   pattern: /{locale}/busqueda.php
-  defaults: { _controller: FrontEndBundle:WebsiteMigration:permanentRedirect, redirectTo: frontend_search_ownership}
+  defaults: { _controller: FrontEndBundle:WebsiteMigration:permanentRedirect, redirectTo: frontend_welcome}
   requirements:
       locale:  en|es|ge
 
