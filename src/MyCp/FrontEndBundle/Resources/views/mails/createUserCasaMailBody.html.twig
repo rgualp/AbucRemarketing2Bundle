@@ -5,7 +5,7 @@
 <p style="font-family: Arial; font-size: 14px">
 Estimado Sr(a). {{user_full_name}}: <br/>
 Le informamos que hemos creado un acceso para que Ud. pueda administrar algunas propiedades de su alojamiento, {{own_name}}, publicado en MyCasaParticular.com. <br/>
-Acceda a este módulo de administración a través del enlace <a href="{{url('frontend_userCasa_home')}}">www.mycasaparticular.com/alojamiento</a>. <br/>
+Acceda a este módulo de administración a través de este <a href="{{url('backend_login')}}">enlace</a>. <br/>
 Su nombre de usuario se corresponde con el código de su casa en nuestro sitio: {{user_name}}<br/>
 Por favor, active su cuenta a través del siguiente enlace: <a href="{{ url('frontend_userCasa_activateAccount',{'token':secret_token,'locale':'es','_locale':'es'}) }}">Activar</a>
 <br/>
