@@ -50,7 +50,7 @@ class LodgingUnavailabilityDetailsController extends Controller
     {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $user = $this->get('security.context')->getToken()->getUser();
         $data = array();
         if($user->getUserRole()=='ROLE_CLIENT_CASA')
@@ -58,6 +58,8 @@ class LodgingUnavailabilityDetailsController extends Controller
             $user_casa = $em->getRepository('mycpBundle:userCasa')->get_user_casa_by_user_id($user->getUserId());
             $data['ownership'] = $user_casa->getUserCasaOwnership()->getOwnId();
         }
+
+        $data["today"] = new \DateTime();
         return $this->render('mycpBundle:unavailabilityDetails:calendar_view.html.twig', array('data'=>$data));
     }
 
@@ -65,7 +67,7 @@ class LodgingUnavailabilityDetailsController extends Controller
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $room = $em->getRepository('mycpBundle:room')->find($id_room);
         $ownership = $room->getRoomOwnership();
         $num_room = $room->getRoomNum();
@@ -114,7 +116,7 @@ class LodgingUnavailabilityDetailsController extends Controller
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $uDetails = $em->getRepository('mycpBundle:unavailabilityDetails')->find($id_detail);
         $room = $uDetails->getRoom();
         $num_room = $room->getRoomNum();
@@ -155,7 +157,7 @@ class LodgingUnavailabilityDetailsController extends Controller
     public function deleteAction($id_detail) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $uDetails = $em->getRepository('mycpBundle:unavailabilityDetails')->find($id_detail);
         $room = $uDetails->getRoom();
         $num_room = $room->getRoomNum();

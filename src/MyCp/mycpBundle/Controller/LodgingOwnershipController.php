@@ -106,7 +106,7 @@ class LodgingOwnershipController extends Controller
     {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $count_rooms = 1;
         $post = $request->request->getIterator()->getArrayCopy();
         $errors = array();

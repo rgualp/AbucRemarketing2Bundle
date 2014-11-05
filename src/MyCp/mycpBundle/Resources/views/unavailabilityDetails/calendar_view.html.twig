@@ -4,50 +4,6 @@
     <link href='{{ asset('bundles/mycp/css/fullcalendar.min.css') }}' rel='stylesheet'
           xmlns="http://www.w3.org/1999/html"/>
     <link href='{{ asset('bundles/mycp/css/fullcalendar.print.css') }}' rel='stylesheet' media='print' />
-    <script src='{{ asset('bundles/mycp/js/moment.min.js') }}'></script>
-    <script src='{{ asset('bundles/mycp/js/fullcalendar.min.js') }}'></script>
-    <script src='{{ asset('bundles/mycp/js/fullcalendar-lang-all.js') }}'></script>
-
-    <script>
-
-        $(document).ready(function() {
-
-            loadRooms();
-
-            $('#calendar').fullCalendar({
-                header: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: ''
-                },
-                defaultDate: '2014-09-12',
-                editable: true,
-                lang: 'es',
-                eventLimit: true, // allow "more" link when too many events
-                events: {
-                    url: '{{ path('mycp_lodging_unavailabilityDetails_get_json') }}',
-                    error: function() {
-                        $('#modal-warning').show();
-                    }
-                },
-                loading: function(bool) {
-                    if (bool)
-                    {
-                        $('#loading').show();
-
-                    }
-                    else
-                    {
-                        $('#loading').hide();
-
-
-                    }
-                }
-            });
-
-        });
-
-    </script>
 {% endblock %}
 {% block top_body %}
     <ul class="breadcrumb">
@@ -65,8 +21,8 @@
                     {{ render(controller('mycpBundle:BackendReservation:get_ownerships', {'data': data})) }}
                 </select>
             </div>
-            <div class="span2">
-                <select class="input-block-level" name="room_id" id="room_id" />
+            <div class="span3">
+                <select class="input-block-level form-control" name="room_id" id="room_id" />
                     {% if data['ownership'] is defined%}
                         {{ render(controller('mycpBundle:BackendReservation:get_rooms_by_ownership', {'id_ownership': data['ownership'], 'selected_room':'0'})) }}
                     {% endif %}
@@ -99,6 +55,50 @@
         </div>
     </div>
 
+    <script src='{{ asset('bundles/mycp/js/moment.min.js') }}'></script>
+    <script src='{{ asset('bundles/mycp/js/fullcalendar.min.js') }}'></script>
+    <script src='{{ asset('bundles/mycp/js/fullcalendar-lang-all.js') }}'></script>
+
+    <script>
+
+        $(document).ready(function() {
+
+            loadRooms();
+
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: ''
+                },
+                defaultDate: '{{ data.today | date("Y-m-d") }}',
+                editable: true,
+                lang: 'es',
+                eventLimit: true, // allow "more" link when too many events
+                events: {
+                    url: '{{ path('mycp_lodging_unavailabilityDetails_get_json') }}',
+                    error: function() {
+                        $('#modal-warning').show();
+                    }
+                },
+                loading: function(bool) {
+                    if (bool)
+                    {
+                        $('#loading').show();
+
+                    }
+                    else
+                    {
+                        $('#loading').hide();
+
+
+                    }
+                }
+            });
+
+        });
+
+    </script>
     <script type="text/javascript">
         function go_to_form()
         {
