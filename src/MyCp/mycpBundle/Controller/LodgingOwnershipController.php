@@ -271,7 +271,7 @@ class LodgingOwnershipController extends Controller
             ));
 
             $subject = 'Solicitud de cambio en la información de una propiedad por su propietario';
-            $service_email->send_email($subject, 'noreplay@mycasaparticular.com', $subject , $to_email, $body);
+            $service_email->sendEmail($subject, 'noreplay@mycasaparticular.com', $subject , $to_email, $body);
             $message_to_show = "Se ha enviado un mensaje de correo electrónico al equipo de MyCasaParticular con su solicitud de cambio con éxito";
             $this->get('session')->getFlashBag()->add('message_ok', $message_to_show);
         }
