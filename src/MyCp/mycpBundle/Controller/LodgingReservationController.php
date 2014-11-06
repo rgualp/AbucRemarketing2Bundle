@@ -123,14 +123,14 @@ class LodgingReservationController extends Controller
 
         $service_time = $this->get('time');
         $post = $request->request->getIterator()->getArrayCopy();
-        $dates = $service_time->dates_between($reservation->getGenResFromDate()->format('Y-m-d'), $reservation->getGenResToDate()->format('Y-m-d'));
+        $dates = $service_time->datesBetween($reservation->getGenResFromDate()->format('Y-m-d'), $reservation->getGenResToDate()->format('Y-m-d'));
 
 
         $user = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $reservation->getGenResUserId()));
         $array_nights = array();
         $rooms = array();
         foreach ($ownership_reservations as $res) {
-            $dates_temp = $service_time->dates_between($res->getOwnResReservationFromDate()->getTimestamp(), $res->getOwnResReservationToDate()->getTimestamp());
+            $dates_temp = $service_time->datesBetween($res->getOwnResReservationFromDate()->getTimestamp(), $res->getOwnResReservationToDate()->getTimestamp());
             array_push($rooms, $em->getRepository('mycpBundle:room')->find($res->getOwnResSelectedRoomId()));
             array_push($array_nights, count($dates_temp) - 1);
         }
