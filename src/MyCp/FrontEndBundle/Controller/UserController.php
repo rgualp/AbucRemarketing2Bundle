@@ -417,7 +417,7 @@ class UserController extends Controller {
             'user_address' => $user->getUserAddress(),
             'user_city' => $user->getUserCity(),
             'user_newsletter' => $user->getUserNewsletters(),
-            'user_country' => $user->getUserCountry()->getCoId(),
+            'user_country' => $user->getUserCountry() != null ? $user->getUserCountry()->getCoId() : '',
             'user_zip_code' => $userTourist->getUserTouristPostalCode(),
             'user_gender' => $userTourist->getUserTouristGender(),
             'user_currency' => ($userTourist->getUserTouristCurrency() != null) ? $userTourist->getUserTouristCurrency()->getCurrId() : 0,

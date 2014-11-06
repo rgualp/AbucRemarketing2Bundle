@@ -1,0 +1,3 @@
+facebook_login:
+    pattern: /facebook_login
+    defaults: { _controller: FrontEndBundle:OAuth:facebookLogin }
