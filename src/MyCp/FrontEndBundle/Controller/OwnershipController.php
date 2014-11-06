@@ -1033,7 +1033,8 @@ class OwnershipController extends Controller {
                 $check_filters['room_safe'] ||
                 $check_filters['room_balcony'] ||
                 $check_filters['room_terraza'] ||
-                $check_filters['room_courtyard']
+                $check_filters['room_courtyard'] ||
+                $check_filters['own_beds_total']
                 );
 
         $session->set("filter_array", $check_filters);

@@ -13,6 +13,7 @@ use MyCp\mycpBundle\Entity\userCasa;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
 use MyCp\mycpBundle\Entity\ownershipStatus;
 use MyCp\mycpBundle\Helpers\Dates;
+use MyCp\mycpBundle\Helpers\SearchUtils;
 
 /**
  * ownershipRepository
@@ -640,291 +641,38 @@ class ownershipRepository extends EntityRepository {
         $user_id = $user_ids['user_id'];
         $session_id = $user_ids['session_id'];
 
-        $reservations_where = "0";
+        $reservations_where = SearchUtils::createReservationWhere($em, $arrivalDate, $leavingDate);
 
-        if ($arrivalDate != null || $leavingDate != null) {
-
-            $query_string = "SELECT DISTINCT o.own_id FROM mycpBundle:ownershipReservation owr
-                                JOIN owr.own_res_gen_res_id r
-                                JOIN r.gen_res_own_id o
-                                WHERE owr.own_res_status = " . ownershipReservation::STATUS_RESERVED .
-                " AND (SELECT count(owr1) FROM mycpBundle:ownershipReservation owr1
-                                   JOIN owr1.own_res_gen_res_id r1 WHERE r1.gen_res_own_id = o.own_id
-                                   AND owr1.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") < o.own_rooms_total";
-            $dates_where = "";
-
-            if ($arrivalDate != null) {
-                $dates_where .= ($dates_where != '') ? " OR " : "";
-                $dates_where .= "(owr.own_res_reservation_from_date <= :arrival_date AND owr.own_res_reservation_to_date >= :arrival_date)";
-            }
-
-            if ($leavingDate != null) {
-                $dates_where .= ($dates_where != '') ? " OR " : "";
-                $dates_where .= "(owr.own_res_reservation_from_date <= :leaving_date AND owr.own_res_reservation_to_date >= :leaving_date)";
-            }
-
-            if ($arrivalDate != null && $leavingDate != null) {
-                $dates_where .= ($dates_where != '') ? " OR " : "";
-                $dates_where .= "(owr.own_res_reservation_from_date >= :arrival_date AND owr.own_res_reservation_to_date <= :leaving_date)";
-            }
-
-            $query_string .= ($dates_where != '') ? " AND ($dates_where)" : "";
-
-            $query_reservation = $em->createQuery($query_string);
-
-            if ($arrivalDate != null)
-                $query_reservation->setParameter('arrival_date', $arrivalDate);
-
-            if ($leavingDate != null)
-                $query_reservation->setParameter('leaving_date', $leavingDate);
-
-            $reservations = $query_reservation->getResult();
-
-            foreach ($reservations as $res)
-                $reservations_where .= "," . $res["own_id"];
-        }
-
-        $query_string = "";
-        $temp_array = null;
+        $query_string = SearchUtils::getBasicQuery($room_filter, $user_id, $session_id);
+        
         $parameters = array();
-        if (!$room_filter) {
-            $query_string = "SELECT o.own_id as own_id,
-                             o.own_name as own_name,
-                            (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id
-                            AND (p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
-                            where op1.own_pho_own = o.own_id) or p.pho_order is null) as photo,
-                            prov.prov_name as prov_name,
-                            mun.mun_name as mun_name,
-                            o.own_comments_total as comments_total,
-                            o.own_rating as rating,
-                            o.own_category as category,
-                            o.own_type as type,
-                            o.own_minimum_price as minimum_price,
-                            (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = :user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = :session_id " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
-                            (SELECT count(room) FROM mycpBundle:room room WHERE room.room_ownership=o.own_id) as rooms_count,
-                            (SELECT count(res) FROM mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations,
-                            (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments,
-                            o.own_facilities_breakfast as breakfast,
-                            o.own_facilities_dinner as dinner,
-                            o.own_facilities_parking as parking,
-                            o.own_water_piscina as pool,
-                            o.own_description_laundry as laundry,
-                            o.own_description_internet as internet,
-                            o.own_water_sauna as sauna,
-                            o.own_description_pets as pets,
-                            o.own_water_jacuzee as jacuzee,
-                            o.own_langs as langs
-                             FROM mycpBundle:ownership o
-                             JOIN o.own_address_province prov
-                             JOIN o.own_address_municipality mun";
-        } else {
-            $query_string = "SELECT o.own_id as own_id,
-                             o.own_name as own_name,
-                            (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id
-                            AND (p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
-                            where op1.own_pho_own = o.own_id) or p.pho_order is null) as photo,
-                            prov.prov_name as prov_name,
-                            mun.mun_name as mun_name,
-                            o.own_comments_total as comments_total,
-                            o.own_rating as rating,
-                            o.own_category as category,
-                            o.own_type as type,
-                            o.own_minimum_price as minimum_price,
-                            (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = :user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = :session_id " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
-                            (SELECT count(room) FROM mycpBundle:room room WHERE room.room_ownership=o.own_id) as rooms_count,
-                            (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = ".ownershipReservation::STATUS_RESERVED.") as count_reservations,
-                            (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments ,
-                            o.own_facilities_breakfast as breakfast,
-                            o.own_facilities_dinner as dinner,
-                            o.own_facilities_parking as parking,
-                            o.own_water_piscina as pool,
-                            o.own_description_laundry as laundry,
-                            o.own_description_internet as internet,
-                            o.own_water_sauna as sauna,
-                            o.own_description_pets as pets,
-                            o.own_water_jacuzee as jacuzee,
-                            o.own_langs as langs
-                             FROM mycpBundle:room r
-                             JOIN r.room_ownership o
-                             JOIN o.own_address_province prov
-                             JOIN o.own_address_municipality mun";
-        }
+        
         $parameters[] = array('session_id', $session_id);
         $where = ' WHERE o.own_status = 1 ';
-        if ($text != null && $text != '' && $text != 'null')
-            $where = $where . ($where != '' ? " AND " : " WHERE ") . "(prov.prov_name LIKE :text OR " . "o.own_name LIKE :text OR o.own_mcp_code LIKE :text OR mun.mun_name LIKE :text)";
+        $textWhere = SearchUtils::getTextWhere($text);
+        $where .= ($textWhere != "") ? " AND " . $textWhere : "";
 
-        if ($filters != null && is_array($filters) && in_array('own_beds_total', $filters) && $filters['own_beds_total'] != null && is_array($filters['own_beds_total']) && count($filters['own_beds_total']) > 0) {
-            $temp_array = $filters['own_beds_total'];
-
-            if (in_array('+5', $temp_array)) {
-                $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_maximun_number_guests > 5";
-
-                if (($key = array_search('+5', $temp_array)) !== false) {
-                    unset($temp_array[$key]);
-                }
-            }
-
-            $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_maximun_number_guests IN (" . $this->getStringFromArray($filters['own_beds_total'], false) . ")";
-        } else if ($guest_total != null && $guest_total != 'null' && $guest_total != "")
-            $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_maximun_number_guests >= :guests_total";
+        if ($guest_total != null && $guest_total != 'null' && $guest_total != "")
+            $where .= " AND " . "o.own_maximun_number_guests >= :guests_total";
 
         if (isset($rooms_total) && $rooms_total != null && $rooms_total != 'null' && $rooms_total != "")
-            $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_rooms_total >= :rooms_total";
+            $where .= " AND " . "o.own_rooms_total >= :rooms_total";
 
-
-        if ($filters != null && is_array($filters)) {
-
-            if (key_exists('own_category', $filters) && $filters['own_category'] != null && is_array($filters['own_category']) && count($filters['own_category']) > 0)
-                $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_category IN (" . $this->getStringFromArray($filters['own_category']) . ")";
-
-            if (key_exists('own_type', $filters) && $filters['own_type'] != null && is_array($filters['own_type']) && count($filters['own_type']) > 0)
-                $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_type IN (" . $this->getStringFromArray($filters['own_type']) . ")";
-
-
-            if (key_exists('own_price_from', $filters) && $filters['own_price_from'] != null && is_array($filters['own_price_from']) && count($filters['own_price_from']) > 0 && $filters['own_price_to'] != null && is_array($filters['own_price_to']) && count($filters['own_price_to']) > 0) {
-                $prices_where = "";
-
-                for ($i = 0; $i < count($filters['own_price_from']); $i++) {
-                    $prices_where .= ($prices_where != '' ? " AND " : "") . "(o.own_minimum_price >=" . $filters['own_price_from'][$i] . " AND o.own_minimum_price <=" . $filters['own_price_to'][$i] . ")";
-                }
-
-                $where = $where . (($prices_where != "") ? ($where != '' ? " AND " : " WHERE ") . "($prices_where)" : "");
-            }
-
-
-            if (key_exists('room_type', $filters) && $filters['room_type'] != null && is_array($filters['room_type']) && count($filters['room_type']) > 0)
-                $where = $where . ($where != '' ? " AND " : " WHERE ") . "r.room_type IN (" . $this->getStringFromArray($filters['room_type']) . ")";
-
-            if (key_exists('room_climatization', $filters) && $filters['room_climatization'] != null && $filters['room_climatization'] != 'null' && $filters['room_climatization'] != '')
-                $where = $where . ($where != '' ? " AND " : " WHERE ") . "r.room_climate LIKE '%" . $filters['room_climatization'] . "%'";
-
-            if (key_exists('room_safe', $filters) && $filters['room_safe'])
-                $where = $where . ($where != '' ? " AND " : " WHERE ") . "r.room_safe = 1";
-
-            if (key_exists('room_audiovisuals', $filters) && $filters['room_audiovisuals'])
-                $where = $where . ($where != '' ? " AND " : " WHERE ") . "(r.room_audiovisual <>'' OR r.room_audiovisual IS NOT NULL)";
-
-            if (key_exists('room_kids', $filters) && $filters['room_kids'])
-                $where = $where . ($where != '' ? " AND " : " WHERE ") . "r.room_baby = 1";
-
-            if (key_exists('room_smoker', $filters) && $filters['room_smoker'])
-                $where = $where . ($where != '' ? " AND " : " WHERE ") . "r.room_smoker = 1";
-
-            if (key_exists('room_windows_total', $filters) && $filters['room_windows_total'] != null && is_array($filters['room_windows_total']) && count($filters['room_windows_total']) > 0) {
-                $temp_array = $filters['room_windows_total'];
-
-                if (in_array('+5', $temp_array)) {
-                    $where = $where . ($where != '' ? " AND " : " WHERE ") . "r.room_windows > 5";
-
-                    if (($key = array_search('+5', $temp_array)) !== false) {
-                        unset($temp_array[$key]);
-                    }
-                }
-                $where = $where . ($where != '' ? " AND " : " WHERE ") . "r.room_windows IN (" . $this->getStringFromArray($temp_array, false) . ")";
-            }
-
-            if (key_exists('room_balcony', $filters) && $filters['room_balcony'])
-                $where = $where . ($where != '' ? " AND " : " WHERE ") . "r.room_balcony = 1";
-
-            if (key_exists('room_terraza', $filters) && $filters['room_terraza'])
-                $where = $where . ($where != '' ? " AND " : " WHERE ") . "r.room_terrace = 1";
-
-            if (key_exists('room_courtyard', $filters) && $filters['room_courtyard'])
-                $where = $where . ($where != '' ? " AND " : " WHERE ") . "r.room_yard = 1";
-
-            if (key_exists('room_bathroom', $filters) && $filters['room_bathroom'] != null && is_array($filters['room_bathroom']) && count($filters['room_bathroom']) > 0)
-                $where = $where . ($where != '' ? " AND " : " WHERE ") . "r.room_bathroom IN (" . $this->getStringFromArray($filters['room_bathroom']) . ")";
-
-            if (key_exists('own_others_pets', $filters) && $filters['own_others_pets'])
-                $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_description_pets = 1";
-
-            if (key_exists('own_others_internet', $filters) && $filters['own_others_internet'])
-                $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_description_internet = 1";
-
-            if (key_exists('own_others_languages', $filters) && $filters['own_others_languages'] != null && is_array($filters['own_others_languages']) && count($filters['own_others_languages']) > 0) {
-                $lang_where = "";
-
-                for ($i = 0; $i < count($filters['own_others_languages']); $i++) {
-                    $lang_where .= ($lang_where != '' ? " AND " : "") . "o.own_langs LIKE '" . $filters['own_others_languages'][$i] . "'";
-                }
-
-                $where = $where . (($lang_where != "") ? ($where != '' ? " AND " : " WHERE ") . "($lang_where)" : "");
-            }
-
-            if (key_exists('own_others_included', $filters) && $filters['own_others_included'] != null && is_array($filters['own_others_included']) && count($filters['own_others_included']) > 0) {
-                for ($i = 0; $i < count($filters['own_others_languages']); $i++) {
-                    switch ($filters['own_others_included'][$i]) {
-                        case 'JACUZZY':
-                            $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_water_jacuzee = 1";
-                            break;
-                        case 'SAUNA':
-                            $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_water_sauna = 1";
-                            break;
-                        case 'POOL':
-                            $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_water_piscina = 1";
-                            break;
-                    }
-                }
-            }
-
-            if (key_exists('own_others_not_included', $filters) && $filters['own_others_not_included'] != null && is_array($filters['own_others_not_included']) && count($filters['own_others_not_included']) > 0) {
-                for ($i = 0; $i < count($filters['own_others_not_included']); $i++) {
-                    switch ($filters['own_others_not_included'][$i]) {
-                        case 'BREAKFAST':
-                            $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_facilities_breakfast = 1";
-                            break;
-                        case 'DINNER':
-                            $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_facilities_dinner = 1";
-                            break;
-                        case 'LAUNDRY':
-                            $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_description_laundry = 1";
-                            break;
-                        case 'PARKING':
-                            $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_facilities_parking = 1";
-                            break;
-                    }
-                }
-            }
-
-            if (key_exists('own_rooms_number', $filters) && $filters['own_rooms_number'] != null && is_array($filters['own_rooms_number']) && count($filters['own_rooms_number']) > 0) {
-                $temp_array = $filters['own_rooms_number'];
-
-                if (in_array('+5', $temp_array)) {
-                    $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_rooms_total > 5";
-
-                    if (($key = array_search('+5', $temp_array)) !== false) {
-                        unset($temp_array[$key]);
-                    }
-                }
-                $where = $where . ($where != '' ? " AND " : " WHERE ") . "o.own_rooms_total IN (" . $this->getStringFromArray($temp_array, false) . ")";
-            }
-        }
+        
+        if($reservations_where != "")
+            $where .= " AND o.own_id NOT IN (".$reservations_where.")";
+        
+        $filterWhere = SearchUtils::getFilterWhere($filters); 
+        
+        $where .= ($filterWhere != "")? $filterWhere: "";
 
         if ($where != '')
-            $query_string = $query_string . $where;
+            $query_string .=  $where;
 
-        if ($order_by == "PRICE_LOW_HIGH")
-            $order = " o.own_minimum_price ASC, o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC";
-        else if ($order_by == "PRICE_HIGH_LOW")
-            $order = " o.own_minimum_price DESC, o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC ";
-        else if ($order_by == "BEST_VALUED")
-            $order = " o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC ";
-        else if ($order_by == "WORST_VALUED")
-            $order = " o.own_rating ASC, o.own_comments_total ASC, count_reservations DESC ";
-        else if ($order_by == "A_Z")
-            $order = " o.own_name ASC, o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC ";
-        else if ($order_by == "Z_A")
-            $order = " o.own_name DESC, o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC ";
-        else if ($order_by == "RESERVATIONS_HIGH_LOW")
-            $order = " count_reservations DESC, o.own_rating DESC, o.own_comments_total DESC ";
-        else if ($order_by == "RESERVATIONS_LOW_HIGH")
-            $order = " count_reservations ASC, o.own_rating DESC, o.own_comments_total DESC ";
-        else {
-            $order = " o.own_minimum_price ASC, o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC ";
-        }
-
-        $query_string = $query_string . ' ORDER BY ' . $order;
+        $order = SearchUtils::getOrder($order_by);
+        $query_string .= $order;
+        
+        var_dump($where);
 
         $query = $em->createQuery($query_string);
 
@@ -1800,19 +1548,6 @@ class ownershipRepository extends EntityRepository {
         $query = $em->createQuery("SELECT o FROM mycpBundle:ownership o
         WHERE o.own_status=" . ownershipStatus::STATUS_ACTIVE . " ORDER BY o.own_name ASC");
         return $query->getResult();
-    }
-
-    private function getStringFromArray($array, $has_string_items = true) {
-        if (is_array($array)) {
-            $quotas_element = (($has_string_items) ? "'" : "");
-            $string_value = $quotas_element . "0" . $quotas_element;
-
-            foreach ($array as $item) {
-                $string_value .= "," . $quotas_element . $item . $quotas_element;
-            }
-            return $string_value;
-        }
-        return null;
     }
 
     function get_best_ownership() {
