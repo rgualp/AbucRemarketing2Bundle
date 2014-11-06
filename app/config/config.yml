@@ -40,6 +40,7 @@ twig:
          global_abuc_address: ABUC media network GmbH, Peter Merian-Strasse 54, 4052 Basel, Switzerland.
          configuration_triple_room_charge: %configuration.triple.room.charge%
          configuration_service_fee: %configuration.service.fee%
+         fb_app_id: "%fb_app_id%"
 
 # Assetic Configuration
 assetic:

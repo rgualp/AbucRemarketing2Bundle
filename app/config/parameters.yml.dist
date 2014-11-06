@@ -22,3 +22,8 @@ parameters:
     secret:            7dsa7ydasdy872187yegwhqeg9yw91hjsaa00
 
     doctrine_cache_prefix: ~
+	#MyCP facebook apps ids
+    fb_app_id: '718673204884189' #for http://localhost:8000 (local development)
+    #fb_app_id: '718673678217475' #for http://develop.mycasaparticular.com (develop)
+    #fb_app_id: '718671738217669' #for http://mycasapaarticular.com (production)
+
