@@ -30,7 +30,7 @@ class OAuthController extends Controller
             );
 
             return $this->render(
-                'FrontEndBundle:OAuth:facebookLogin.html.twig',
+                'FrontEndBundle:oauth:facebookLogin.html.twig',
                 array('fbLoginForm' => $fbLoginForm->createView())
             );
         } else {
