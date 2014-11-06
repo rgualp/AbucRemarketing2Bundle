@@ -1,60 +1,111 @@
 {% extends 'FrontEndBundle:layout:base.html.twig' %}
-{% block title %}{{"LOG_IN" | trans }}{% endblock %}
+{% block title %}{{ "LOG_IN" | trans }}{% endblock %}
 {% block breadcrumbs %}
-    <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+    <a href="{{ path('frontend_welcome') }}" title="{{ "HOMEPAGE_TITLE" | trans }}">{{ "HOME_MAIN_MENU" | trans }}</a>
     <span>››</span>
-    <a href="#" class="active" title="{{"LOG_IN" | trans}}">{{"LOG_IN" | trans}}</a>
+    <a href="#" class="active" title="{{ "LOG_IN" | trans }}">{{ "LOG_IN" | trans }}</a>
 {% endblock %}
 {% block body %}
-    <div  class="container">
-    <h2 class="caecilia-roman big-price-green text-center no-margin" style="font-weight: normal;">{{"LOG_IN" | trans }}</h2>
-    <div><img src="{{ asset('bundles/frontend/img/line-gradient-green.png') }}" style="width: 100%; height: 1px; margin: 16px 0"></div>
+<div class="container">
+    <h2 class="caecilia-roman big-price-green text-center no-margin"
+        style="font-weight: normal;">{{ "LOG_IN" | trans }}
+    </h2>
+
+    <div>
+        <img src="{{ asset('bundles/frontend/img/line-gradient-green.png') }}"
+             style="width: 100%; height: 1px; margin: 16px 0"/>
+    </div>
+    <div class="login-container">
+        {# Errors row#}
         <div class="row">
-            <div class="col-sm-3"></div>
-            <div class="col-sm-6">
+            <div class="col-xs-12">
                 {% if error %}
-                    <div class="alert alert-danger text-center" style="margin-bottom: 15px">{{ error.message|trans }}</div>
+                    <div class="alert alert-danger text-center"
+                         style="margin-bottom: 15px">{{ error.message|trans }}</div>
                 {% endif %}
                 {% for message in app.session.flashbag.get('message_error_local') %}
-                    <div class="alert alert-danger text-center" style="margin-bottom: 15px">{{ message |trans}}</div>
+                    <div class="alert alert-danger text-center"
+                         style="margin-bottom: 15px">{{ message |trans }}</div>
                 {% endfor %}
             </div>
-            <div class="col-sm-3"></div>
         </div>
-    <div class="row">
-        <div class="col-sm-3"></div>
-        <div class="col-sm-6">
-            <form class="form-horizontal" action="{{ path("frontend_ckeck") }}" method="post">
-                <div class="row">
-                    <label  class="col-sm-3 control-label" for="inputUsername" style="font-weight: normal">{{"FORMS_EMAIL" | trans}}:</label>
-                    <div class="col-sm-7">
-                        <input type="text" class="form-control" id="inputUsername" name="_username" value="{{ last_username }}"/>
-                    </div>
-                </div>
-                <br/>
-                <div class="row">
-                    <label class="col-sm-3 control-label" for="inputPassword" style="font-weight: normal" >{{"FORMS_PASSWORD" | trans}}:</label>
-                    <div class="col-sm-7">
-                        <input type="password" id="inputPassword" class="form-control" name="_password">
-                        <div class="checkbox" style="margin: 13px 0">
-                            <label>
-                                <input name="_remember_me" type="checkbox"> {{"FORMS_REMEMBER_ME" | trans}}
-                            </label>
+
+        {# Form Row#}
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="hidden-fb-auth">
+                    <form class="form-horizontal" action="{{ path("frontend_ckeck") }}" role="form" method="post">
+                        <div class="form-group">
+                            <!--<label class="col-sm-3 control-label" for="inputUsername" style="font-weight: normal">{{ "FORMS_EMAIL" | trans }}:</label>#}-->
+                            <div class="text-center">
+                                <input type="text" class="form-control" id="inputUsername" name="_username"
+                                       value="{{ last_username }}" placeholder="{{ "FORMS_EMAIL" | trans }}"/>
+                            </div>
                         </div>
-                        <button class="btn btn-primary btn-block" type="submit">{{"FORMS_IDENTIFY" | trans}}</button>
-                        <a href="{{ path('frontend_restore_password_user') }}" style="display: block; margin: 15px 0 0">{{"FORMS_FORGOT_PASSWORD_QUESTION" | trans}}</a>
-                        <div class="span6"><a href="{{ path('frontend_register_confirmation_user') }}">{{"FORMS_CONFIRMATION_QUESTION" | trans}}</a></div>
-                    </div>
+
+                        <div class="form-group">
+                            <!--<label class="col-sm-3 control-label" for="inputPassword" style="font-weight: normal">{{ "FORMS_PASSWORD" | trans }}:</label>-->
+                            <div class="text-center">
+                                <input type="password" id="inputPassword" class="form-control" name="_password"
+                                       placeholder="{{ "FORMS_PASSWORD" | trans }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input name="_remember_me" type="checkbox"> {{ "FORMS_REMEMBER_ME" | trans }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="text-center">
+                                <button class="btn btn-primary btn-block"
+                                        type="submit">{{ "FORMS_IDENTIFY" | trans }}</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="text-center">
+                                <a href="{{ path('frontend_restore_password_user') }}">{{ "FORMS_FORGOT_PASSWORD_QUESTION" | trans }}</a>
+                            </div>
+                            <div class="text-center">
+                                <a href="{{ path('frontend_register_confirmation_user') }}">{{ "FORMS_CONFIRMATION_QUESTION" | trans }}</a>
+                            </div>
+                        </div>
+
+                    </form>
                 </div>
-                <div class="row">
-                    <div class="col-sm-3"></div>
-                    <div class="col-sm-9" style="margin-top: 12px">
-                        <a href="{{ path('frontend_register_user') }}" style="text-decoration: none; "><h4 class="caecilia-roman h-orange link-under-line">{{"FORMS_CREATE_ACCOUNT_QUESTION" | trans}}</h4></a>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="text-center fb-login-form">
+
+                            <fb:login-button scope="public_profile,email" onlogin="checkLoginState();" class="btn-fb-login">
+                                Log In with Facebook
+                            </fb:login-button>
+
+                            <div id="status" class="hide flash-message alert alert-info"></div>
+
+                            <div id="continueAfterLogin" class="hide">
+                                {{ render(controller('FrontEndBundle:OAuth:facebookLogin')) }}
+                            </div>
+                        </div>
                     </div>
+
+                    <div class="form-group hidden-fb-auth">
+                        <div class="text-center">
+                            <a href="{{ path('frontend_register_user') }}" style="text-decoration: none; ">
+                                <h4 class="caecilia-roman h-orange link-under-line">{{ "FORMS_CREATE_ACCOUNT_QUESTION" | trans }}</h4>
+                            </a>
+                        </div>
+                    </div>
+
                 </div>
-            </form>
+            </div>
         </div>
-        <div class="col-sm-3"></div>
     </div>
-    </div>
-{% endblock %}
+    {% endblock %}
