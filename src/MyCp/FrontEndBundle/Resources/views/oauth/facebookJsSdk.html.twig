@@ -41,11 +41,12 @@
 
         FB.api('/me', function (response) {
             var email = response.email;
+            var firstName = response.first_name;
             var lastName = response.last_name;
             var gender = response.gender;
 
-            $("#FacebookLoginType_name").val(name);
             $("#FacebookLoginType_email").val(email);
+            $("#FacebookLoginType_name").val(firstName);
             $("#FacebookLoginType_lastName").val(lastName);
             $("#FacebookLoginType_gender").val(gender);
 
