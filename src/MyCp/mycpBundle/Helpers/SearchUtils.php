@@ -269,7 +269,7 @@ class SearchUtils {
             if ($in_where != "0" && $in_where != "")
                 $where .= (($where != "") ? " OR " : "") . "$field_string IN (" . $in_where . ")";
         }
-        var_dump("Filtro " . $where);
+        //var_dump("Filtro " . $where);
         return $where;
     }
 
