@@ -45,11 +45,16 @@ class SearchUtils {
 
             $query_reservation = $entity_manager->createQuery($query_string);
 
-            if ($arrivalDate != null)
-                $query_reservation->setParameter('arrival_date', $arrivalDate);
+            if ($arrivalDate != null) {
+                $arrival = \DateTime::createFromFormat('d-m-Y', $arrivalDate);
+                $query_reservation->setParameter('arrival_date', $arrival->format("Y-m-d"));
+            }
 
             if ($leavingDate != null)
-                $query_reservation->setParameter('leaving_date', $leavingDate);
+            {
+                $departure = \DateTime::createFromFormat('d-m-Y', $leavingDate);
+                $query_reservation->setParameter('leaving_date', $departure->format("Y-m-d"));
+            }
 
             $reservations = $query_reservation->getResult();
 
@@ -135,7 +140,7 @@ class SearchUtils {
     public static function getFilterWhere($filters) {
         $where = "";
         if ($filters != null && is_array($filters)) {
-            
+
             if (key_exists('own_beds_total', $filters) && $filters['own_beds_total'] != null && is_array($filters['own_beds_total']) && count($filters['own_beds_total']) > 0)
                 $where .= " AND (" . SearchUtils::getPlusFilterString($filters['own_beds_total'], "r.room_beds", 6) . ")";
 
@@ -208,13 +213,13 @@ class SearchUtils {
 
             if (key_exists('own_others_included', $filters) && $filters['own_others_included'] != null && is_array($filters['own_others_included']) && count($filters['own_others_included']) > 0)
                 $where .= SearchUtils::getServicesIncludedFilterWhere($filters['own_others_included']);
-            
-            if (key_exists('own_others_not_included', $filters) && $filters['own_others_not_included'] != null && is_array($filters['own_others_not_included']) && count($filters['own_others_not_included']) > 0) 
+
+            if (key_exists('own_others_not_included', $filters) && $filters['own_others_not_included'] != null && is_array($filters['own_others_not_included']) && count($filters['own_others_not_included']) > 0)
                 $where .= SearchUtils::getServicesNotIncludedFilterWhere($filters['own_others_not_included']);
-            
+
             if (key_exists('own_rooms_number', $filters) && $filters['own_rooms_number'] != null && is_array($filters['own_rooms_number']) && count($filters['own_rooms_number']) > 0)
                 $where.= " AND (" . SearchUtils::getPlusFilterString($filters['own_rooms_number'], "o.own_rooms_total", 6) . ")";
-          }
+        }
         return $where;
     }
 
