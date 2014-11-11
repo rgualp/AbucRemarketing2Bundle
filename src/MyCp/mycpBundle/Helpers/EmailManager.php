@@ -204,8 +204,7 @@ class EmailManager
      * Convienience method to retrieve the user belonging to a userId.
      *
      * @param int|string $userId
-     * @return user
-     * @throws \LogicException
+     * @return null|user
      */
     public function getUserById($userId)
     {
@@ -214,7 +213,7 @@ class EmailManager
             ->find($userId);
 
         if (empty($user)) {
-            throw new \LogicException('No user found for ID ' . $userId);
+            return null;
         }
 
         return $user;
