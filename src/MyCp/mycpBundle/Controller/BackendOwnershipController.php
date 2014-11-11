@@ -195,7 +195,6 @@ class BackendOwnershipController extends Controller {
 
         $service_log = $this->get('log');
         $service_log->saveLog('Visit', BackendModuleName::MODULE_OWNERSHIP);
-
         return $this->render('mycpBundle:ownership:list.html.twig', array(
                     'ownerships' => $ownerships,
                     //'photo_count' => $data,
