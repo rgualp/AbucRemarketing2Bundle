@@ -67,7 +67,13 @@ class AccountActivationLateReminderWorkerCommand extends Worker
 
         $output->writeln('Processing Account Activation Late Reminder for User ID ' . $userId);
 
-        $user = $this->emailManager->getUserById($userId);// $this->getUserById($userId);
+        $user = $this->emailManager->getUserById($userId);
+
+        if (empty($user)) {
+            // the user does not exist anymore
+            return true;
+        }
+
         $this->emailManager->setLocaleByUser($user);
 
         if (!$user->getUserEnabled()) {
@@ -97,7 +103,7 @@ class AccountActivationLateReminderWorkerCommand extends Worker
         $emailBody = $this->emailManager->getViewContent(
             'FrontEndBundle:mails:enableAccountLateReminder.html.twig',
             array(
-                'enableUrl' => $activationUrl, 
+                'enableUrl' => $activationUrl,
                 'user_name' => $userName,
                 'user_locale' => $userLocale
          ));

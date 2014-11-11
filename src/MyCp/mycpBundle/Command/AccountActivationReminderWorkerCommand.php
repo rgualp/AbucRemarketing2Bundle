@@ -67,7 +67,13 @@ class AccountActivationReminderWorkerCommand extends Worker
 
         $output->writeln('Processing Account Activation Reminder for User ID ' . $userId);
 
-        $user = $this->emailManager->getUserById($userId);// $this->getUserById($userId);
+        $user = $this->emailManager->getUserById($userId);
+
+        if (empty($user)) {
+            // the user does not exist anymore
+            return true;
+        }
+
         $this->emailManager->setLocaleByUser($user);
 
         if (!$user->getUserEnabled()) {
@@ -96,7 +102,7 @@ class AccountActivationReminderWorkerCommand extends Worker
 
         $emailBody = $this->emailManager->getViewContent(
             'FrontEndBundle:mails:enableAccountReminder.html.twig',
-            array('enableUrl' => $activationUrl, 
+            array('enableUrl' => $activationUrl,
                   'user_name' => $userName,
                   'user_locale' => $userLocale  )
         );
