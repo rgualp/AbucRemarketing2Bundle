@@ -47,12 +47,16 @@ class SearchUtils {
 
             if ($arrivalDate != null) {
                 $arrival = \DateTime::createFromFormat('d-m-Y', $arrivalDate);
+                if($arrival == null)
+                    $arrival = \DateTime::createFromFormat('Y-m-d', $arrivalDate);
                 $query_reservation->setParameter('arrival_date', $arrival->format("Y-m-d"));
             }
 
             if ($leavingDate != null)
             {
                 $departure = \DateTime::createFromFormat('d-m-Y', $leavingDate);
+                if($departure == null)
+                    $departure = \DateTime::createFromFormat('Y-m-d', $leavingDate);
                 $query_reservation->setParameter('leaving_date', $departure->format("Y-m-d"));
             }
 
@@ -145,8 +149,9 @@ class SearchUtils {
                 $where .= " AND (" . SearchUtils::getPlusFilterString($filters['own_beds_total'], "r.room_beds", 6) . ")";
 
             if (key_exists('own_category', $filters) && $filters['own_category'] != null && is_array($filters['own_category']) && count($filters['own_category']) > 0)
+            {
                 $where .= " AND o.own_category IN (" . SearchUtils::getStringFromArray($filters['own_category']) . ")";
-
+            }
             if (key_exists('own_type', $filters) && $filters['own_type'] != null && is_array($filters['own_type']) && count($filters['own_type']) > 0)
                 $where .= " AND o.own_type IN (" . SearchUtils::getStringFromArray($filters['own_type']) . ")";
 
@@ -306,7 +311,7 @@ class SearchUtils {
             $string_value = "";
 
             foreach ($array as $item) {
-                if ($element_to_remove != null && $item != $element_to_remove)
+                if (($element_to_remove != null && $item != $element_to_remove) || $element_to_remove == null)
                     $string_value .= (($string_value != "") ? "," : "") . $quotas_element . $item . $quotas_element;
             }
             return $string_value;

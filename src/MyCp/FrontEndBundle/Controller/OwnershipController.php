@@ -388,7 +388,7 @@ class OwnershipController extends Controller {
                 $end_timestamp = mktime(0, 0, 0, $reservation_filter_date_to[1], $reservation_filter_date_to[0], $reservation_filter_date_to[2]);
             }
         } else {
-
+            
         }
 
         $service_time = $this->get('Time');
@@ -932,6 +932,7 @@ class OwnershipController extends Controller {
             $search_arrival_date = ($arriving_date != null && $arriving_date != '' && $arriving_date != $this->get('translator')->trans('ARRIVAL_WATERMARK')) ? $arriving_date : null;
             $search_departure_date = ($departure_date != null && $departure_date != '' && $departure_date != $this->get('translator')->trans('DEPARTURE_WATERMARK')) ? $departure_date : null;
             $text = $request->request->get('text');
+            $text = ($text == "") ? "null" : $text;
 
             $session->set('search_text', $text);
             $session->set('search_arrival_date', $search_arrival_date);
@@ -966,7 +967,8 @@ class OwnershipController extends Controller {
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
                     'current_page' => $page,
-                    'list_preffix' => 'search'
+                    'list_preffix' => 'search',
+                    'show_paginator' => true
                 ));
             else if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'PHOTOS')
                 $response = $this->renderView('FrontEndBundle:ownership:searchMosaicOwnership.html.twig', array(
@@ -974,7 +976,8 @@ class OwnershipController extends Controller {
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
                     'current_page' => $page,
-                    'list_preffix' => 'search'
+                    'list_preffix' => 'search',
+                    'show_paginator' => true
                 ));
             else if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'MAP')
                 $response = $this->renderView('FrontEndBundle:ownership:searchMapOwnership.html.twig', array(
@@ -982,7 +985,8 @@ class OwnershipController extends Controller {
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
                     'current_page' => $page,
-                    'list_preffix' => 'search'
+                    'list_preffix' => 'search',
+                    'show_paginator' => true
                 ));
 
             return new Response($response, 200);
@@ -1061,7 +1065,8 @@ class OwnershipController extends Controller {
                 'items_per_page' => $items_per_page,
                 'total_items' => $paginator->getTotalItems(),
                 'current_page' => $page,
-                'list_preffix' => 'search'
+                'list_preffix' => 'search',
+                'show_paginator' => true
             ));
         else if ($view != null && $view == 'PHOTOS')
             $response = $this->renderView('FrontEndBundle:ownership:searchMosaicOwnership.html.twig', array(
@@ -1069,7 +1074,8 @@ class OwnershipController extends Controller {
                 'items_per_page' => $items_per_page,
                 'total_items' => $paginator->getTotalItems(),
                 'current_page' => $page,
-                'list_preffix' => 'search'
+                'list_preffix' => 'search',
+                'show_paginator' => true
             ));
         else if ($view != null && $view == 'MAP')
             $response = $this->renderView('FrontEndBundle:ownership:searchMapOwnership.html.twig', array(
@@ -1077,7 +1083,8 @@ class OwnershipController extends Controller {
                 'items_per_page' => $items_per_page,
                 'total_items' => $paginator->getTotalItems(),
                 'current_page' => $page,
-                'list_preffix' => 'search'
+                'list_preffix' => 'search',
+                'show_paginator' => true
             ));
 
         return new Response($response, 200);
