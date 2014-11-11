@@ -21,6 +21,13 @@ class Dates {
             return new \DateTime();
         }
     }
+    
+    public static function createForQuery($date_string, $format_string)
+    {
+        $date = \DateTime::createFromFormat($format_string, $date_string);
+       
+        return ($date != null) ? $date->format("Y-m-d") : null;
+    }
 
 }
 

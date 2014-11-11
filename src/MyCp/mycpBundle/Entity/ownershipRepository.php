@@ -560,9 +560,10 @@ class ownershipRepository extends EntityRepository {
             $condition .= " AND ow.own_saler LIKE :filter_saler ";
         }
         if ($filter_visit_date != 'null' && $filter_visit_date != '') {
-            $condition .= " AND ow.own_visit_date = :filter_visit_date ";
+            $condition .= " AND ow.own_visit_date >= :filter_visit_date AND ow.own_visit_date < :filter_visit_date_plus_day";
         }
         if ($filter_destination != 'null' && $filter_destination != '') {
+            
             $condition .= " AND ow.own_destination = :filter_destination ";
         }
 
@@ -610,7 +611,13 @@ class ownershipRepository extends EntityRepository {
             $query->setParameter('filter_saler', "%" . $filter_saler . "%");
 
         if ($filter_visit_date != 'null' && $filter_visit_date != '')
-            $query->setParameter('filter_visit_date', Dates::createFromString($filter_visit_date, '-'));
+        {
+            $filter_date = \DateTime::createFromFormat('d-m-Y', $filter_visit_date);            
+            $query->setParameter('filter_visit_date', $filter_date->format("Y-m-d"));
+            
+            $filter_date->add(new \DateInterval("P1D"));            
+            $query->setParameter('filter_visit_date_plus_day', $filter_date->format("Y-m-d"));
+        }
         
         if ($filter_destination != 'null' && $filter_destination != '') 
             $query->setParameter('filter_destination', $filter_destination);
