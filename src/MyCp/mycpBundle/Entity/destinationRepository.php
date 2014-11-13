@@ -255,7 +255,7 @@ class destinationRepository extends EntityRepository {
                            WHERE dp.des_pho_destination = d.des_id AND (pho.pho_order =
                            (SELECT MIN(pho2.pho_order) FROM mycpBundle:destinationPhoto dp2
                            JOIN dp2.des_pho_photo pho2 WHERE dp2.des_pho_destination = dp.des_pho_destination ) or pho.pho_order is null)) as photo,
-                        (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE." AND o.own_destination = d.des_id AND (SELECT count(r1) FROM mycpBundle:room r1 WHERE r1.room_ownership = o.own_id) <> 0) as count_ownership,
+                        (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE." AND o.own_destination = d.des_id AND (SELECT count(r1) FROM mycpBundle:room r1 WHERE r1.room_ownership = o.own_id AND r1.room_active = 1) <> 0) as count_ownership,
                         (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_destination=d.des_id) as is_in_favorites
                          FROM mycpBundle:destination d
                          WHERE d.des_active <> 0
@@ -525,14 +525,14 @@ class destinationRepository extends EntityRepository {
                             AND (p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
                             where op1.own_pho_own = o.own_id) or p.pho_order is null) as photo,
                              (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
-                             (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
+                             (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id AND r.room_active = 1) as rooms_count,
                         (SELECT count(res) FROM mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations,
                         (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments
                              FROM mycpBundle:room r1
                              JOIN r1.room_ownership o
                              JOIN o.own_address_province prov
                              JOIN o.own_address_municipality mun
-                             WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE;
+                             WHERE r1.room_active = 1 AND o.own_status = ".ownershipStatus::STATUS_ACTIVE;
 
             if ($destination_id != null && $destination_id != -1 && $destination_id != '')
                 $query_string = $query_string . " AND o.own_destination =$destination_id";
@@ -570,14 +570,14 @@ class destinationRepository extends EntityRepository {
                             AND (p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
                             where op1.own_pho_own = o.own_id) or p.pho_order is null) as photo,
                              (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
-                             (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
+                             (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id AND r.room_active = 1) as rooms_count,
                         (SELECT count(res) FROM mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations,
                         (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments
                              FROM mycpBundle:room r1
                              JOIN r1.room_ownership o
                              JOIN o.own_address_province prov
                              JOIN o.own_address_municipality mun
-                             WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE;
+                             WHERE r1.room_active = 1 AND o.own_status = ".ownershipStatus::STATUS_ACTIVE;
 
             if ($municipality_id != null && $municipality_id != -1 && $municipality_id != '')
                 $query_string = $query_string . " AND o.own_address_municipality =$municipality_id";
@@ -743,7 +743,7 @@ class destinationRepository extends EntityRepository {
         $query_string = "SELECT DISTINCT d.des_id, d.des_name,
                          (SELECT count(o) FROM mycpBundle:ownership o
                                           WHERE o.own_destination = d.des_id
-                                            AND (SELECT count(r1) FROM mycpBundle:room r1 WHERE r1.room_ownership = o.own_id) <> 0
+                                            AND (SELECT count(r1) FROM mycpBundle:room r1 WHERE r1.room_ownership = o.own_id AND r1.room_active = 1) <> 0
                                             AND o.own_status = ".ownershipStatus::STATUS_ACTIVE.") as total_owns
                          FROM mycpBundle:destination d
                          WHERE d.des_active <> 0

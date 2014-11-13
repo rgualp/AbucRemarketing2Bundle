@@ -30,7 +30,7 @@ EOT
         
         foreach($ownerships as $own)
         {
-            $rooms_total = count($em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $own->getOwnId())));
+            $rooms_total = count($em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $own->getOwnId(), 'room_active' => true)));
             $own->setOwnRoomsTotal($rooms_total);
             $em->persist($own);
         }

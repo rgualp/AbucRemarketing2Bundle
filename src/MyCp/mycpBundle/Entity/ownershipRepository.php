@@ -47,7 +47,7 @@ class ownershipRepository extends EntityRepository {
         $active_not_recommendable = 0;
         if (isset($data['not_recommendable']))
             $active_not_recommendable = 1;
-        
+
         $active_selection = 0;
         if (isset($data['selection']))
             $active_selection = 1;
@@ -203,10 +203,10 @@ class ownershipRepository extends EntityRepository {
             $room->setRoomPriceUpTo($data['room_price_up_to_' . $e]);
             //$room->setRoomPriceDownFrom($data['room_price_down_from_' . $e]);
             $room->setRoomPriceDownTo($data['room_price_down_to_' . $e]);
-            
-            if(isset($data['room_price_special_' . $e]))
+
+            if (isset($data['room_price_special_' . $e]))
                 $room->setRoomPriceSpecial($data['room_price_special_' . $e]);
-            
+
             $room->setRoomClimate($data['room_climate_' . $e]);
             $room->setRoomAudiovisual($data['room_audiovisual_' . $e]);
             $room->setRoomSmoker($data['room_smoker_' . $e]);
@@ -232,18 +232,20 @@ class ownershipRepository extends EntityRepository {
 
             if ($ownership->getOwnMaximumPrice() == 0 || $room->getRoomPriceUpTo() > $ownership->getOwnMaximumPrice())
                 $ownership->setOwnMaximumPrice($room->getRoomPriceUpTo());
-            
+
             if ($ownership->getOwnMaximumPrice() == 0 || $room->getRoomPriceSpecial() > $ownership->getOwnMaximumPrice())
                 $ownership->setOwnMaximumPrice($room->getRoomPriceSpecial());
 
-            switch($room->getRoomType())
-            {
-                case "Habitación individual": $maximum_guest_total += 1; break;
+            switch ($room->getRoomType()) {
+                case "Habitación individual": $maximum_guest_total += 1;
+                    break;
                 case "Habitación doble":
-                case "Habitación doble (Dos camas)": $maximum_guest_total += 2; break;
-                case "Habitación Triple": $maximum_guest_total += 3; break;
+                case "Habitación doble (Dos camas)": $maximum_guest_total += 2;
+                    break;
+                case "Habitación Triple": $maximum_guest_total += 3;
+                    break;
             }
-            
+
             $em->persist($ownership);
             /**
              * Codigo Yanet - Fin
@@ -256,9 +258,14 @@ class ownershipRepository extends EntityRepository {
         //save client casa
         if ($new_user && $status->getStatusId() == ownershipStatus::STATUS_ACTIVE) {
             $file = $request->files->get('user_photo');
-            $em->getRepository('mycpBundle:userCasa')->createUser($ownership,$file,$dir,$factory, $send_creation_mail, $controller);
+            $em->getRepository('mycpBundle:userCasa')->createUser($ownership, $file, $dir, $factory, $send_creation_mail, $controller);
         }
         $em->flush();
+        
+        /*$roomsActiveTotal = count($em->getRepository('mycpBundle:room')->findBy(array('room_ownership'=>$ownership->getOwnId(), "room_active"=>true)));
+        $ownership->setOwnRoomsTotal($roomsActiveTotal);
+        $em->persist($ownership);
+        $em->flush();*/
     }
 
     function edit($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller) {
@@ -283,7 +290,7 @@ class ownershipRepository extends EntityRepository {
         $active_not_recommendable = 0;
         if (isset($data['not_recommendable']))
             $active_not_recommendable = 1;
-        
+
         $active_selection = 0;
         if (isset($data['selection']))
             $active_selection = 1;
@@ -312,7 +319,7 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
         $old_status = $ownership->getOwnStatus();
-        
+
         $ownership->setOwnLangs($langs_string);
         $ownership->setOwnName($data['ownership_name']);
         $ownership->setOwnLicenceNumber($data['ownership_licence_number']);
@@ -365,8 +372,8 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnCommissionPercent($data['ownership_percent_commission']);
         $ownership->setOwnLastUpdate(new \DateTime());
         $ownership->setOwnSaler($data['ownership_saler']);
-        
-        if(isset($data['ownership_visit_date']))
+
+        if (isset($data['ownership_visit_date']))
             $ownership->setOwnVisitDate(Dates::createFromString($data['ownership_visit_date']));
 
         $ownership->setOwnWaterJacuzee($water_jacuzee);
@@ -419,14 +426,7 @@ class ownershipRepository extends EntityRepository {
                 $okl->setOklOwnership($ownership);
                 $em->persist($okl);
             }
-        }
-        /**
-         * Codigo Yanet - Inicio
-         */
-        $ownership->setOwnRoomsTotal($data['count_rooms']);
-        /**
-         * Codigo Yanet - Fin
-         */
+        }        
         $maximum_guest_total = 0;
         for ($e = 1; $e <= $data['count_rooms']; $e++) {
 
@@ -446,10 +446,10 @@ class ownershipRepository extends EntityRepository {
             $room->setRoomPriceUpTo($data['room_price_up_to_' . $e]);
             //$room->setRoomPriceDownFrom($data['room_price_down_from_' . $e]);
             $room->setRoomPriceDownTo($data['room_price_down_to_' . $e]);
-            
-            if(isset($data['room_price_special_' . $e]))
+
+            if (isset($data['room_price_special_' . $e]))
                 $room->setRoomPriceSpecial($data['room_price_special_' . $e]);
-            
+
             $room->setRoomClimate($data['room_climate_' . $e]);
             $room->setRoomAudiovisual($data['room_audiovisual_' . $e]);
             $room->setRoomSmoker($data['room_smoker_' . $e]);
@@ -474,46 +474,50 @@ class ownershipRepository extends EntityRepository {
             if ($ownership->getOwnMaximumPrice() == 0 ||
                     $room->getRoomPriceUpTo() > $ownership->getOwnMaximumPrice())
                 $ownership->setOwnMaximumPrice($room->getRoomPriceUpTo());
-            
+
             if ($ownership->getOwnMaximumPrice() == 0 ||
                     $room->getRoomPriceSpecial() > $ownership->getOwnMaximumPrice())
                 $ownership->setOwnMaximumPrice($room->getRoomPriceSpecial());
 
-            switch($room->getRoomType())
-            {
-                case "Habitación individual": $maximum_guest_total += 1; break;
+            switch ($room->getRoomType()) {
+                case "Habitación individual": $maximum_guest_total += 1;
+                    break;
                 case "Habitación doble":
-                case "Habitación doble (Dos camas)": $maximum_guest_total += 2; break;
-                case "Habitación Triple": $maximum_guest_total += 3; break;
+                case "Habitación doble (Dos camas)": $maximum_guest_total += 2;
+                    break;
+                case "Habitación Triple": $maximum_guest_total += 3;
+                    break;
             }
 
             $em->persist($ownership);
         }
         $ownership->setOwnMaximunNumberGuests($maximum_guest_total);
+        
+        $roomsActiveTotal = count($em->getRepository('mycpBundle:room')->findBy(array('room_ownership'=>$id_ownership, "room_active"=>true)));
+        $ownership->setOwnRoomsTotal($roomsActiveTotal);
         $em->persist($ownership);
 
         //save client casa
         if ($new_user && $status->getStatusId() == ownershipStatus::STATUS_ACTIVE) {
             $file = $request->files->get('user_photo');
-            $em->getRepository('mycpBundle:userCasa')->createUser($ownership,$file,$dir,$factory, $send_creation_mail, $controller);
+            $em->getRepository('mycpBundle:userCasa')->createUser($ownership, $file, $dir, $factory, $send_creation_mail, $controller);
         }
-        
+
         //If the status of the accommodation change from active to inactive, then the userCasa account associated must be set to disabled
-        if($old_status->getStatusId() == ownershipStatus::STATUS_ACTIVE && $status->getStatusId() == ownershipStatus::STATUS_INACTIVE)
+        if ($old_status->getStatusId() == ownershipStatus::STATUS_ACTIVE && $status->getStatusId() == ownershipStatus::STATUS_INACTIVE)
             $em->getRepository('mycpBundle:userCasa')->changeStatus($ownership->getOwnId(), false);
-        
-        if($old_status->getStatusId() != ownershipStatus::STATUS_ACTIVE && $status->getStatusId() == ownershipStatus::STATUS_ACTIVE)
+
+        if ($old_status->getStatusId() != ownershipStatus::STATUS_ACTIVE && $status->getStatusId() == ownershipStatus::STATUS_ACTIVE)
             $em->getRepository('mycpBundle:userCasa')->changeStatus($ownership->getOwnId(), true);
 
         $em->flush();
     }
 
-    function short_edit_ownership($data)
-    {
+    function short_edit_ownership($data) {
         $id_ownership = $data['edit_ownership'];
         $em = $this->getEntityManager();
         $ownership =
-            $em->getRepository('mycpBundle:ownership')->find($id_ownership);
+                $em->getRepository('mycpBundle:ownership')->find($id_ownership);
 
         $prov = $em->getRepository('mycpBundle:province')->find($ownership->getOwnAddressProvince());
         $ownership->setOwnMobileNumber($data['ownership_mobile_number']);
@@ -526,17 +530,19 @@ class ownershipRepository extends EntityRepository {
         $em->flush();
     }
 
-    function getAll($filter_code = '', $filter_active = '', $filter_category = '', $filter_province = '', $filter_municipality = '', $filter_destination = '', $filter_type = '', $filter_name = '', $filter_saler = '', $filter_visit_date = '', $filter_other= "") {
+    function getAll($filter_code = '', $filter_active = '', $filter_category = '', $filter_province = '', $filter_municipality = '', $filter_destination = '', $filter_type = '', $filter_name = '', $filter_saler = '', $filter_visit_date = '', $filter_other = "") {
 
         $condition = '';
-        
-        switch($filter_other)
-        {
-            case 'top_20': $condition .= "AND ow.own_top_20 = 1 ";break;
-            case 'selection': $condition .= "AND ow.own_selection = 1 ";break;
-            case 'not_recommendable': $condition .= "AND ow.own_not_recommendable = 1 ";break;
+
+        switch ($filter_other) {
+            case 'top_20': $condition .= "AND ow.own_top_20 = 1 ";
+                break;
+            case 'selection': $condition .= "AND ow.own_selection = 1 ";
+                break;
+            case 'not_recommendable': $condition .= "AND ow.own_not_recommendable = 1 ";
+                break;
         }
-        
+
         if ($filter_active != 'null' && $filter_active != '') {
             $condition .= "AND ow.own_status = :filter_active ";
         }
@@ -563,7 +569,7 @@ class ownershipRepository extends EntityRepository {
             $condition .= " AND ow.own_visit_date >= :filter_visit_date AND ow.own_visit_date < :filter_visit_date_plus_day";
         }
         if ($filter_destination != 'null' && $filter_destination != '') {
-            
+
             $condition .= " AND ow.own_destination = :filter_destination ";
         }
 
@@ -610,16 +616,15 @@ class ownershipRepository extends EntityRepository {
         if ($filter_saler != 'null' && $filter_saler != '')
             $query->setParameter('filter_saler', "%" . $filter_saler . "%");
 
-        if ($filter_visit_date != 'null' && $filter_visit_date != '')
-        {
-            $filter_date = \DateTime::createFromFormat('d-m-Y', $filter_visit_date);            
+        if ($filter_visit_date != 'null' && $filter_visit_date != '') {
+            $filter_date = \DateTime::createFromFormat('d-m-Y', $filter_visit_date);
             $query->setParameter('filter_visit_date', $filter_date->format("Y-m-d"));
-            
-            $filter_date->add(new \DateInterval("P1D"));            
+
+            $filter_date->add(new \DateInterval("P1D"));
             $query->setParameter('filter_visit_date_plus_day', $filter_date->format("Y-m-d"));
         }
-        
-        if ($filter_destination != 'null' && $filter_destination != '') 
+
+        if ($filter_destination != 'null' && $filter_destination != '')
             $query->setParameter('filter_destination', $filter_destination);
 
         if (isset($filter_code))
@@ -651,11 +656,11 @@ class ownershipRepository extends EntityRepository {
         $reservations_where = SearchUtils::createDatesWhere($em, $arrivalDate, $leavingDate);
 
         $query_string = SearchUtils::getBasicQuery($room_filter, $user_id, $session_id);
-        
+
         $parameters = array();
-        
+
         $parameters[] = array('session_id', $session_id);
-        $where = ' WHERE o.own_status = 1 ';
+        $where = '';
         $textWhere = SearchUtils::getTextWhere($text);
         $where .= ($textWhere != "") ? " AND " . $textWhere : "";
 
@@ -665,20 +670,20 @@ class ownershipRepository extends EntityRepository {
         if (isset($rooms_total) && $rooms_total != null && $rooms_total != 'null' && $rooms_total != "")
             $where .= " AND " . "o.own_rooms_total >= :rooms_total";
 
-        
-        if($reservations_where != "")
-            $where .= " AND o.own_id NOT IN (".$reservations_where.")";
-        
-        $filterWhere = SearchUtils::getFilterWhere($filters); 
-        
-        $where .= ($filterWhere != "")? $filterWhere: "";
+
+        if ($reservations_where != "")
+            $where .= " AND o.own_id NOT IN (" . $reservations_where . ")";
+
+        $filterWhere = SearchUtils::getFilterWhere($filters);
+
+        $where .= ($filterWhere != "") ? $filterWhere : "";
 
         if ($where != '')
-            $query_string .=  $where;
+            $query_string .= $where;
 
         $order = SearchUtils::getOrder($order_by);
         $query_string .= $order;
-        
+
         //var_dump($where);
 
         $query = $em->createQuery($query_string);
@@ -970,7 +975,7 @@ class ownershipRepository extends EntityRepository {
         $query = $em->createQuery($query_string);
         $own_list = $query->getResult();
 
-        $query_string = "SELECT r FROM mycpBundle:room r join r.room_ownership o WHERE o.own_status = " . ownershipStatus::STATUS_ACTIVE . "
+        $query_string = "SELECT r FROM mycpBundle:room r join r.room_ownership o WHERE r.room_active = 1 AND o.own_status = " . ownershipStatus::STATUS_ACTIVE . "
                          ORDER BY r.room_ownership ASC";
         $rooms = $em->createQuery($query_string)->getResult();
 
@@ -1073,177 +1078,138 @@ class ownershipRepository extends EntityRepository {
             $is_room_total_bed = false;
             $is_own_total_room = false;
 
-            if ($room->getRoomType() != null && $room->getRoomType() == 'Habitación doble' && !$is_room_double) {
-                $statistics['room_double'] += 1;
-                $is_room_double = true;
-            }
-
-            if ($room->getRoomType() != null && $room->getRoomType() == 'Habitación doble (Dos camas)' && !$is_room_double_two_beds) {
-                $statistics['room_double_two_beds'] += 1;
-                $is_room_double_two_beds = true;
-            }
-
-            if ($room->getRoomType() != null && $room->getRoomType() == 'Habitación individual' && !$is_room_individual) {
-                $statistics['room_simple'] += 1;
-                $is_room_individual = true;
-            }
-
-            if ($room->getRoomType() != null && $room->getRoomType() == 'Habitación Triple' && !$is_room_triple) {
-                $statistics['room_triple'] += 1;
-                $is_room_triple = true;
-            }
-
-            if ($room->getRoomClimate() != null && ($room->getRoomClimate() == 'Aire acondicionado' || $room->getRoomClimate() == 'Aire acondicionado / Ventilador') && !$is_room_climatization) {
-                $statistics['room_climatization'] += 1;
-                $is_room_climatization = true;
-            }
-
-            if ($room->getRoomAudiovisual() != null && $room->getRoomAudiovisual() != '' && !$is_room_audiovisual) {
-                $statistics['room_audio_visuals'] += 1;
-                $is_room_audiovisual = true;
-            }
-
-            if ($room->getRoomBaby() != null && $room->getRoomBaby() && !$is_room_kids) {
-                $statistics['room_kids'] += 1;
-                $is_room_kids = true;
-            }
-
-            if ($room->getRoomSmoker() != null && $room->getRoomSmoker() && !$is_room_smoker) {
-                $statistics['room_smoker'] += 1;
-                $is_room_smoker = true;
-            }
-
-            if ($room->getRoomSafe() != null && $room->getRoomSafe() && !$is_room_safe) {
-                $statistics['room_safe'] += 1;
-                $is_room_safe = true;
-            }
-
-            if ($room->getRoomWindows() != null && $room->getRoomWindows() > 0 && !$is_room_windows) {
-                //$statistics['room_windows'] += 1;
-                switch ($room->getRoomWindows()) {
-                    case 1: $statistics['room_total_windows_1'] += 1;
-                        break;
-                    case 2: $statistics['room_total_windows_2'] += 1;
-                        break;
-                    case 3: $statistics['room_total_windows_3'] += 1;
-                        break;
-                    case 4: $statistics['room_total_windows_4'] += 1;
-                        break;
-                    case 5: $statistics['room_total_windows_5'] += 1;
-                        break;
-                    default:
-                        if ($room->getRoomWindows() > 5) {
-                            $statistics['room_total_windows_+5'] += 1;
-                            break;
-                        }
+            if ($room->getRoomActive()) {
+                if ($room->getRoomType() != null && $room->getRoomType() == 'Habitación doble' && !$is_room_double) {
+                    $statistics['room_double'] += 1;
+                    $is_room_double = true;
                 }
-                $is_room_windows = true;
-            }
 
-            if ($room->getRoomBeds() != null && $room->getRoomBeds() > 0 && !$is_room_total_bed) {
-                //$statistics['room_windows'] += 1;
-                switch ($room->getRoomBeds()) {
-                    case 1: $statistics['room_total_beds_1'] += 1;
-                        break;
-                    case 2: $statistics['room_total_beds_2'] += 1;
-                        break;
-                    case 3: $statistics['room_total_beds_3'] += 1;
-                        break;
-                    case 4: $statistics['room_total_beds_4'] += 1;
-                        break;
-                    case 5: $statistics['room_total_beds_5'] += 1;
-                        break;
-                    default:
-                        if ($room->getRoomBeds() > 5) {
-                            $statistics['room_total_beds_+5'] += 1;
-                            break;
-                        }
+                if ($room->getRoomType() != null && $room->getRoomType() == 'Habitación doble (Dos camas)' && !$is_room_double_two_beds) {
+                    $statistics['room_double_two_beds'] += 1;
+                    $is_room_double_two_beds = true;
                 }
-                $is_room_total_bed = true;
-            }
 
-            if ($room->getRoomBalcony() != null && $room->getRoomBalcony() > 0 && !$is_room_balcony) {
-                $statistics['room_balcony'] += 1;
-                $is_room_balcony = true;
-            }
+                if ($room->getRoomType() != null && $room->getRoomType() == 'Habitación individual' && !$is_room_individual) {
+                    $statistics['room_simple'] += 1;
+                    $is_room_individual = true;
+                }
 
-            if ($room->getRoomTerrace() != null && $room->getRoomTerrace() && !$is_room_terrace) {
-                $statistics['room_terrace'] += 1;
-                $is_room_terrace = true;
-            }
+                if ($room->getRoomType() != null && $room->getRoomType() == 'Habitación Triple' && !$is_room_triple) {
+                    $statistics['room_triple'] += 1;
+                    $is_room_triple = true;
+                }
 
-            if ($room->getRoomYard() != null && $room->getRoomYard() && !$is_room_yard) {
-                $statistics['room_yard'] += 1;
-                $is_room_yard = true;
-            }
+                if ($room->getRoomClimate() != null && ($room->getRoomClimate() == 'Aire acondicionado' || $room->getRoomClimate() == 'Aire acondicionado / Ventilador') && !$is_room_climatization) {
+                    $statistics['room_climatization'] += 1;
+                    $is_room_climatization = true;
+                }
 
-            if ($room->getRoomBathroom() != null && $room->getRoomBathroom() == 'Interior privado' && !$is_room_bathromm_inner) {
-                $statistics['own_bathroom_inner'] += 1;
-                $is_room_bathromm_inner = true;
-            }
+                if ($room->getRoomAudiovisual() != null && $room->getRoomAudiovisual() != '' && !$is_room_audiovisual) {
+                    $statistics['room_audio_visuals'] += 1;
+                    $is_room_audiovisual = true;
+                }
 
-            if ($room->getRoomBathroom() != null && $room->getRoomBathroom() == 'Exterior privado' && !$is_room_bathroom_outer) {
-                $statistics['own_bathroom_outer'] += 1;
-                $is_room_bathroom_outer = true;
-            }
+                if ($room->getRoomBaby() != null && $room->getRoomBaby() && !$is_room_kids) {
+                    $statistics['room_kids'] += 1;
+                    $is_room_kids = true;
+                }
 
-            if ($room->getRoomBathroom() != null && $room->getRoomBathroom() == 'Compartido' && !$is_room_bathroom_shared) {
-                $statistics['own_bathroom_shared'] += 1;
-                $is_room_bathroom_shared = true;
+                if ($room->getRoomSmoker() != null && $room->getRoomSmoker() && !$is_room_smoker) {
+                    $statistics['room_smoker'] += 1;
+                    $is_room_smoker = true;
+                }
+
+                if ($room->getRoomSafe() != null && $room->getRoomSafe() && !$is_room_safe) {
+                    $statistics['room_safe'] += 1;
+                    $is_room_safe = true;
+                }
+
+                if ($room->getRoomWindows() != null && $room->getRoomWindows() > 0 && !$is_room_windows) {
+                    //$statistics['room_windows'] += 1;
+                    switch ($room->getRoomWindows()) {
+                        case 1: $statistics['room_total_windows_1'] += 1;
+                            break;
+                        case 2: $statistics['room_total_windows_2'] += 1;
+                            break;
+                        case 3: $statistics['room_total_windows_3'] += 1;
+                            break;
+                        case 4: $statistics['room_total_windows_4'] += 1;
+                            break;
+                        case 5: $statistics['room_total_windows_5'] += 1;
+                            break;
+                        default:
+                            if ($room->getRoomWindows() > 5) {
+                                $statistics['room_total_windows_+5'] += 1;
+                                break;
+                            }
+                    }
+                    $is_room_windows = true;
+                }
+
+                if ($room->getRoomBeds() != null && $room->getRoomBeds() > 0 && !$is_room_total_bed) {
+                    //$statistics['room_windows'] += 1;
+                    switch ($room->getRoomBeds()) {
+                        case 1: $statistics['room_total_beds_1'] += 1;
+                            break;
+                        case 2: $statistics['room_total_beds_2'] += 1;
+                            break;
+                        case 3: $statistics['room_total_beds_3'] += 1;
+                            break;
+                        case 4: $statistics['room_total_beds_4'] += 1;
+                            break;
+                        case 5: $statistics['room_total_beds_5'] += 1;
+                            break;
+                        default:
+                            if ($room->getRoomBeds() > 5) {
+                                $statistics['room_total_beds_+5'] += 1;
+                                break;
+                            }
+                    }
+                    $is_room_total_bed = true;
+                }
+
+                if ($room->getRoomBalcony() != null && $room->getRoomBalcony() > 0 && !$is_room_balcony) {
+                    $statistics['room_balcony'] += 1;
+                    $is_room_balcony = true;
+                }
+
+                if ($room->getRoomTerrace() != null && $room->getRoomTerrace() && !$is_room_terrace) {
+                    $statistics['room_terrace'] += 1;
+                    $is_room_terrace = true;
+                }
+
+                if ($room->getRoomYard() != null && $room->getRoomYard() && !$is_room_yard) {
+                    $statistics['room_yard'] += 1;
+                    $is_room_yard = true;
+                }
+
+                if ($room->getRoomBathroom() != null && $room->getRoomBathroom() == 'Interior privado' && !$is_room_bathromm_inner) {
+                    $statistics['own_bathroom_inner'] += 1;
+                    $is_room_bathromm_inner = true;
+                }
+
+                if ($room->getRoomBathroom() != null && $room->getRoomBathroom() == 'Exterior privado' && !$is_room_bathroom_outer) {
+                    $statistics['own_bathroom_outer'] += 1;
+                    $is_room_bathroom_outer = true;
+                }
+
+                if ($room->getRoomBathroom() != null && $room->getRoomBathroom() == 'Compartido' && !$is_room_bathroom_shared) {
+                    $statistics['own_bathroom_shared'] += 1;
+                    $is_room_bathroom_shared = true;
+                }
             }
         }
 
         return $statistics;
     }
-
-    /* function getSearchStatisticsByIds($own_ids) {
-      $em = $this->getEntityManager();
-
-      if(isset($own_ids)){
-      $query_string = "SELECT o.own_id as own_id,
-      o.own_facilities_breakfast as breakfast,
-      o.own_facilities_dinner as dinner,
-      o.own_facilities_parking as parking,
-      o.own_water_piscina as pool,
-      o.own_description_laundry as laundry,
-      o.own_description_internet as internet,
-      o.own_water_sauna as sauna,
-      o.own_description_pets as pets,
-      o.own_water_jacuzee as jacuzee,
-      o.own_langs as langs FROM mycpBundle:ownership o WHERE o.own_id IN ($own_ids)";
-      $own_list = $em->createQuery($query_string)->getResult();
-      return $this->getSearchStatistics($own_list);
-      }else
-      {
-
-      }
-      } */
-
+    
     function getCompleteListByIds($own_ids, $user_id, $session_id) {
         $em = $this->getEntityManager();
         $results = array();
 
         if (isset($own_ids)) {
-            $query_string = "SELECT o.own_id as own_id,
-                             o.own_name as own_name,
-                            (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id
-                            AND (p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
-                            where op1.own_pho_own = o.own_id) or p.pho_order is null) as photo,
-                            prov.prov_name as prov_name,
-                            mun.mun_name as mun_name,
-                            o.own_comments_total as comments_total,
-                            o.own_rating as rating,
-                            o.own_category as category,
-                            o.own_type as type,
-                            o.own_minimum_price as minimum_price,
-                            (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
-                            (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
-                            (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = ".ownershipReservation::STATUS_RESERVED.") as count_reservations,
-                            (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments
-                         FROM mycpBundle:ownership o
-                         JOIN o.own_address_province prov
-                         JOIN o.own_address_municipality mun
-                         WHERE o.own_id IN ($own_ids)";
+            $query_string = $this->getBasicQuery($user_id, $session_id);
+            $query_string .= " WHERE o.own_id IN ($own_ids)";
 
             $results = $em->createQuery($query_string)->getResult();
 
@@ -1276,27 +1242,9 @@ class ownershipRepository extends EntityRepository {
      */
     function lastAdded($results_total = null, $user_id = null, $session_id = null) {
         $em = $this->getEntityManager();
-        $query_string = "SELECT o.own_id as own_id,
-                         o.own_name as own_name,
-                        (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id
-                            AND (p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
-                            where op1.own_pho_own = o.own_id) or p.pho_order is null) as photo,
-                        prov.prov_name as prov_name,
-                        mun.mun_name as mun_name,
-                        o.own_comments_total as comments_total,
-                        o.own_rating as rating,
-                        o.own_category as category,
-                        o.own_type as type,
-                        o.own_minimum_price as minimum_price,
-                        (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
-                        (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
-                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations,
-                        (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments
-                         FROM mycpBundle:ownership o
-                         JOIN o.own_address_province prov
-                         JOIN o.own_address_municipality mun
-                         WHERE o.own_status = " . ownershipStatus::STATUS_ACTIVE . "
-                         ORDER BY o.own_id DESC";
+        
+        $query_string = $this->getBasicQuery($user_id, $session_id);
+        $query_string .= " WHERE o.own_status = " . ownershipStatus::STATUS_ACTIVE . " ORDER BY o.own_id DESC";
 
         $results = ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult();
 
@@ -1312,115 +1260,17 @@ class ownershipRepository extends EntityRepository {
 
     function get_details($own_name, $locale = "ES", $user_id = null, $session_id = null) {
         $em = $this->getEntityManager();
-        $query_string = "SELECT o.own_id as own_id,
-                        dest.des_id as des_id,
-                        o.own_name as ownname,
-                        prov.prov_name as ownAddressProvince,
-                        prov.prov_id as ownAddressProvince_id,
-                        o.own_address_street as ownAddressStreet,
-                        o.own_address_number as ownAddressNumber,
-                        o.own_type as owntype,
-                        mun.mun_name as ownaddressmunicipality,
-                        mun.mun_id as ownaddressmunicipality_id,
-                        o.own_comments_total as comments_total,
-                        o.own_rating as rating,
-                        o.own_mcp_code as mycpcode,
-                        o.own_category as category,
-                        o.own_minimum_price as ownminimumprice,
-                        o.own_geolocate_x as OwnGeolocateX,
-                        o.own_geolocate_y as OwnGeolocateY,
-                        o.own_facilities_breakfast as ownFacilitiesBreakfast,
-                        o.own_facilities_breakfast_price as ownFacilitiesBreakfastPrice,
-                        o.own_facilities_dinner as ownFacilitiesDinner,
-                        o.own_facilities_dinner_price_from as ownFacilitiesDinnerPriceFrom,
-                        o.own_facilities_dinner_price_to as ownFacilitiesDinnerPriceTo,
-                        o.own_facilities_parking as ownFacilitiesParking,
-                        o.own_facilities_parking_price as ownFacilitiesParkingPrice,
-                        o.own_description_bicycle_parking as ownDescriptionBicycleParking,
-                        o.own_maximun_number_guests as ownmaximumnumberguests,
-                        o.own_description_pets as ownDescriptionPets,
-                        o.own_description_laundry as ownDescriptionLaundry,
-                        o.own_description_internet as ownDescriptionInternet,
-                        o.own_water_jacuzee as ownWaterJacuzee,
-                        o.own_water_sauna as ownWaterSauna,
-                        o.own_water_piscina as ownWaterPiscina,
-                        o.own_homeowner_1 as owner1,
-                        o.own_homeowner_2 as owner2,
-                        o.own_commission_percent as OwnCommissionPercent,
-                        (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
-                        (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
-                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations,
-                        (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments,
-                        (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = '$locale') as brief_description,
-                        (SELECT min(dd.odl_description) FROM mycpBundle:ownershipDescriptionLang dd JOIN dd.odl_id_lang dl WHERE dd.odl_ownership = o.own_id AND dl.lang_code = '$locale') as description,
-                        (SELECT kl.okl_keywords FROM mycpBundle:ownershipKeywordLang kl JOIN kl.okl_id_lang lang WHERE kl.okl_ownership = o.own_id AND lang.lang_code = '$locale') as keywords,
-                        (SELECT count(o1.own_id) from mycpBundle:ownership o1 where o1.own_id = o.own_id AND o1.own_langs LIKE '1___') as english,
-                        (SELECT count(o2.own_id) from mycpBundle:ownership o2 where o2.own_id = o.own_id AND o2.own_langs LIKE '_1__') as french,
-                        (SELECT count(o3.own_id) from mycpBundle:ownership o3 where o3.own_id = o.own_id AND o3.own_langs LIKE '__1_') as german,
-                        (SELECT count(o4.own_id) from mycpBundle:ownership o4 where o4.own_id = o.own_id AND o4.own_langs LIKE '___1') as italian
-                         FROM mycpBundle:ownership o
-                         JOIN o.own_address_province prov
-                         JOIN o.own_address_municipality mun
-                         JOIN o.own_destination dest
-                         WHERE o.own_name = :own_name
-                         ORDER BY o.own_id DESC";
+        
+        $query_string = $this->getDetailBasicQuery($user_id, $session_id, $locale);
+        $query_string .= " WHERE o.own_name = :own_name ORDER BY o.own_id DESC";
 
         return $em->createQuery($query_string)->setParameter('own_name', $own_name)->getOneOrNullResult();
     }
 
     function get_details_by_code($own_mycp_code, $locale = "ES") {
         $em = $this->getEntityManager();
-        $query_string = "SELECT o.own_id as own_id,
-                         o.own_name as ownname,
-                         s.status_id,
-                        prov.prov_name as ownAddressProvince,
-                        prov.prov_id as ownAddressProvince_id,
-                        o.own_address_street as ownAddressStreet,
-                        o.own_address_number as ownAddressNumber,
-                        o.own_type as owntype,
-                        mun.mun_name as ownaddressmunicipality,
-                        mun.mun_id as ownaddressmunicipality_id,
-                        o.own_comments_total as comments_total,
-                        o.own_rating as rating,
-                        o.own_mcp_code as mycpcode,
-                        o.own_category as category,
-                        o.own_minimum_price as ownminimumprice,
-                        o.own_geolocate_x as OwnGeolocateX,
-                        o.own_geolocate_y as OwnGeolocateY,
-                        o.own_facilities_breakfast as ownFacilitiesBreakfast,
-                        o.own_facilities_breakfast_price as ownFacilitiesBreakfastPrice,
-                        o.own_facilities_dinner as ownFacilitiesDinner,
-                        o.own_facilities_dinner_price_from as ownFacilitiesDinnerPriceFrom,
-                        o.own_facilities_dinner_price_to as ownFacilitiesDinnerPriceTo,
-                        o.own_facilities_parking as ownFacilitiesParking,
-                        o.own_facilities_parking_price as ownFacilitiesParkingPrice,
-                        o.own_description_bicycle_parking as ownDescriptionBicycleParking,
-                        o.own_maximun_number_guests as ownmaximumnumberguests,
-                        o.own_description_pets as ownDescriptionPets,
-                        o.own_description_laundry as ownDescriptionLaundry,
-                        o.own_description_internet as ownDescriptionInternet,
-                        o.own_water_jacuzee as ownWaterJacuzee,
-                        o.own_water_sauna as ownWaterSauna,
-                        o.own_water_piscina as ownWaterPiscina,
-                        o.own_homeowner_1 as owner1,
-                        o.own_homeowner_2 as owner2,
-                        o.own_commission_percent as OwnCommissionPercent,
-                        (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
-                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations,
-                        (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments,
-                        (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = '$locale') as brief_description,
-                        (SELECT min(dd.odl_description) FROM mycpBundle:ownershipDescriptionLang dd JOIN dd.odl_id_lang dl WHERE dd.odl_ownership = o.own_id AND dl.lang_code = '$locale') as description,
-                        (SELECT kl.okl_keywords FROM mycpBundle:ownershipKeywordLang kl JOIN kl.okl_id_lang lang WHERE kl.okl_ownership = o.own_id AND lang.lang_code = '$locale') as keywords,
-                        (SELECT count(o1.own_id) from mycpBundle:ownership o1 where o1.own_id = o.own_id AND o1.own_langs LIKE '1___') as english,
-                        (SELECT count(o2.own_id) from mycpBundle:ownership o2 where o2.own_id = o.own_id AND o2.own_langs LIKE '_1__') as french,
-                        (SELECT count(o3.own_id) from mycpBundle:ownership o3 where o3.own_id = o.own_id AND o3.own_langs LIKE '__1_') as german,
-                        (SELECT count(o4.own_id) from mycpBundle:ownership o4 where o4.own_id = o.own_id AND o4.own_langs LIKE '___1') as italian
-                         FROM mycpBundle:ownership o
-                         JOIN o.own_address_province prov
-                         JOIN o.own_address_municipality mun
-                         JOIN o.own_status s
-                         WHERE o.own_mcp_code = :own_mycp_code
-                         ORDER BY o.own_id DESC";
+        $query_string = $this->getDetailBasicQuery(null, null, $locale);
+        $query_string .= " WHERE o.own_mcp_code = :own_mycp_code ORDER BY o.own_id DESC";
 
         return $em->createQuery($query_string)->setParameter('own_mycp_code', $own_mycp_code)->getOneOrNullResult();
     }
@@ -1428,55 +1278,17 @@ class ownershipRepository extends EntityRepository {
     function getByCategory($category, $results_total = null, $exclude_id = null, $user_id = null, $session_id = null) {
         $em = $this->getEntityManager();
 
-        $query_string = '';
+        $query_string = $this->getBasicQuery($user_id, $session_id);
+        
         if ($exclude_id == null)
-            $query_string = "SELECT o.own_id as own_id,
-                         o.own_name as own_name,
-                        (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id
-                            AND (p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
-                            where op1.own_pho_own = o.own_id) or p.pho_order is null) as photo,
-                        prov.prov_name as prov_name,
-                        mun.mun_name as mun_name,
-                        o.own_comments_total as comments_total,
-                        o.own_rating as rating,
-                        o.own_category as category,
-                        o.own_type as type,
-                        o.own_minimum_price as minimum_price,
-                        (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
-                        (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
-                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations,
-                        (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments
-                         FROM mycpBundle:ownership o
-                         JOIN o.own_address_province prov
-                         JOIN o.own_address_municipality mun
-                         WHERE o.own_category= :category
-                           AND o.own_status = " . ownershipStatus::STATUS_ACTIVE . "
-                         ORDER BY o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC";
+            $query_string .= "WHERE o.own_category= :category AND o.own_status = " . ownershipStatus::STATUS_ACTIVE . "
+                              ORDER BY o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC";
+        
         else
-            $query_string = "SELECT o.own_id as own_id,
-                         o.own_name as own_name,
-                         o.own_type as own_type,
-                        (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id
-                            AND (p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
-                            where op1.own_pho_own = o.own_id) or p.pho_order is null) as photo,
-                        prov.prov_name as prov_name,
-                        mun.mun_name as mun_name,
-                        o.own_comments_total as comments_total,
-                        o.own_rating as rating,
-                        o.own_category as category,
-                        o.own_type as type,
-                        o.own_minimum_price as minimum_price,
-                        (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
-                        (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id) as rooms_count,
-                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations,
-                        (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments
-                         FROM mycpBundle:ownership o
-                         JOIN o.own_address_province prov
-                         JOIN o.own_address_municipality mun
-                         WHERE o.own_category= :category
+            $query_string .= "WHERE o.own_category= :category
                            AND o.own_status = " . ownershipStatus::STATUS_ACTIVE . "
                            AND o.own_id <> $exclude_id
-                         ORDER BY o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC";
+                         ORDER BY o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC";        
 
         $results = ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setParameter('category', $category)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->setParameter('category', $category)->getResult();
 
@@ -1595,7 +1407,7 @@ class ownershipRepository extends EntityRepository {
         $query_string = "SELECT op FROM mycpBundle:ownershipPhoto op
                         JOIN op.own_pho_photo p
                         WHERE op.own_pho_own = " . $own_id .
-            " ORDER BY p.pho_order ASC";
+                " ORDER BY p.pho_order ASC";
         $results = $em->createQuery($query_string)->setMaxResults(1)->getResult();
         $ownership_photo = ($results != null && count($results) > 0) ? $results[0] : null;
         $photo = null;
@@ -1619,7 +1431,7 @@ class ownershipRepository extends EntityRepository {
 
         if (is_array($own_list)) {
             foreach ($own_list as $own) {
-                $rooms[$own->getOwnId()] = count($em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $own->getOwnId())));
+                $rooms[$own->getOwnId()] = count($em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $own->getOwnId(), "room_active" => true)));
             }
         }
         return $rooms;
@@ -1689,6 +1501,84 @@ class ownershipRepository extends EntityRepository {
         }
         $em->flush();
     }
-
+    
+    private function getBasicQuery($user_id = null, $session_id = null)
+    {
+        $query_string = "SELECT o.own_id as own_id,
+                             o.own_name as own_name,
+                            (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id
+                            AND (p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
+                            where op1.own_pho_own = o.own_id) or p.pho_order is null) as photo,
+                            prov.prov_name as prov_name,
+                            mun.mun_name as mun_name,
+                            o.own_comments_total as comments_total,
+                            o.own_rating as rating,
+                            o.own_category as category,
+                            o.own_type as type,
+                            o.own_minimum_price as minimum_price,
+                            (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
+                            (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id AND r.room_active = 1) as rooms_count,
+                            (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations,
+                            (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments
+                         FROM mycpBundle:ownership o
+                         JOIN o.own_address_province prov
+                         JOIN o.own_address_municipality mun ";
+        return $query_string;        
+    }
+    
+    private function getDetailBasicQuery($user_id = null, $session_id = null, $locale = "ES")
+    {
+        $query_string = "SELECT o.own_id as own_id,
+                        dest.des_id as des_id,
+                        o.own_name as ownname,
+                        prov.prov_name as ownAddressProvince,
+                        prov.prov_id as ownAddressProvince_id,
+                        o.own_address_street as ownAddressStreet,
+                        o.own_address_number as ownAddressNumber,
+                        o.own_type as owntype,
+                        mun.mun_name as ownaddressmunicipality,
+                        mun.mun_id as ownaddressmunicipality_id,
+                        o.own_comments_total as comments_total,
+                        o.own_rating as rating,
+                        o.own_mcp_code as mycpcode,
+                        o.own_category as category,
+                        o.own_minimum_price as ownminimumprice,
+                        o.own_geolocate_x as OwnGeolocateX,
+                        o.own_geolocate_y as OwnGeolocateY,
+                        o.own_facilities_breakfast as ownFacilitiesBreakfast,
+                        o.own_facilities_breakfast_price as ownFacilitiesBreakfastPrice,
+                        o.own_facilities_dinner as ownFacilitiesDinner,
+                        o.own_facilities_dinner_price_from as ownFacilitiesDinnerPriceFrom,
+                        o.own_facilities_dinner_price_to as ownFacilitiesDinnerPriceTo,
+                        o.own_facilities_parking as ownFacilitiesParking,
+                        o.own_facilities_parking_price as ownFacilitiesParkingPrice,
+                        o.own_description_bicycle_parking as ownDescriptionBicycleParking,
+                        o.own_maximun_number_guests as ownmaximumnumberguests,
+                        o.own_description_pets as ownDescriptionPets,
+                        o.own_description_laundry as ownDescriptionLaundry,
+                        o.own_description_internet as ownDescriptionInternet,
+                        o.own_water_jacuzee as ownWaterJacuzee,
+                        o.own_water_sauna as ownWaterSauna,
+                        o.own_water_piscina as ownWaterPiscina,
+                        o.own_homeowner_1 as owner1,
+                        o.own_homeowner_2 as owner2,
+                        o.own_commission_percent as OwnCommissionPercent,
+                        (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
+                        (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id AND r.room_active = 1) as rooms_count,
+                        (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations,
+                        (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments,
+                        (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = '$locale') as brief_description,
+                        (SELECT min(dd.odl_description) FROM mycpBundle:ownershipDescriptionLang dd JOIN dd.odl_id_lang dl WHERE dd.odl_ownership = o.own_id AND dl.lang_code = '$locale') as description,
+                        (SELECT kl.okl_keywords FROM mycpBundle:ownershipKeywordLang kl JOIN kl.okl_id_lang lang WHERE kl.okl_ownership = o.own_id AND lang.lang_code = '$locale') as keywords,
+                        (SELECT count(o1.own_id) from mycpBundle:ownership o1 where o1.own_id = o.own_id AND o1.own_langs LIKE '1___') as english,
+                        (SELECT count(o2.own_id) from mycpBundle:ownership o2 where o2.own_id = o.own_id AND o2.own_langs LIKE '_1__') as french,
+                        (SELECT count(o3.own_id) from mycpBundle:ownership o3 where o3.own_id = o.own_id AND o3.own_langs LIKE '__1_') as german,
+                        (SELECT count(o4.own_id) from mycpBundle:ownership o4 where o4.own_id = o.own_id AND o4.own_langs LIKE '___1') as italian
+                         FROM mycpBundle:ownership o
+                         JOIN o.own_address_province prov
+                         JOIN o.own_address_municipality mun
+                         JOIN o.own_destination dest ";
+        return $query_string;
+    }
 
 }

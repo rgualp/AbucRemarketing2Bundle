@@ -76,7 +76,7 @@ class municipalityRepository extends EntityRepository
                          m.mun_name,
                          prov.prov_id,
                          (SELECT count(gen_r) FROM mycpBundle:generalReservation gen_r  JOIN gen_r.gen_res_own_id o WHERE o.own_address_municipality = m.mun_id AND gen_r.gen_res_status = ".generalReservation::STATUS_RESERVED.") as visits,
-                         (SELECT count(o1) FROM mycpBundle:room r JOIN r.room_ownership o1 WHERE o1.own_status = ".ownershipStatus::STATUS_ACTIVE." AND o1.own_address_municipality = m.mun_id ORDER BY o1.own_rating DESC, o1.own_id ASC) as total_ownerships,
+                         (SELECT count(o1) FROM mycpBundle:room r JOIN r.room_ownership o1 WHERE r.room_active = 1 AND o1.own_status = ".ownershipStatus::STATUS_ACTIVE." AND o1.own_address_municipality = m.mun_id ORDER BY o1.own_rating DESC, o1.own_id ASC) as total_ownerships,
                          (SELECT DISTINCT count(d.des_id)
                                 FROM mycpBundle:destinationLocation l
                                 JOIN l.des_loc_destination d

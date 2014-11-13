@@ -89,7 +89,10 @@ class informationRepository extends EntityRepository {
     function get_numbers()
     {
         $em = $this->getEntityManager();
-        $query_string = 'SELECT COUNT(accommodations) AS acc,(SELECT count(rms) FROM mycpBundle:room rms ) as rooms,(SELECT count(lng) FROM mycpBundle:lang lng WHERE lng.lang_active=1 ) as langs  FROM mycpBundle:ownership accommodations';
+        $query_string = 'SELECT COUNT(accommodations) AS acc,
+                        (SELECT count(rms) FROM mycpBundle:room rms AND rms.room_active = 1) as rooms,
+                        (SELECT count(lng) FROM mycpBundle:lang lng WHERE lng.lang_active=1 ) as langs  
+                        FROM mycpBundle:ownership accommodations';
         return $em->createQuery($query_string)->getResult();
     }
 

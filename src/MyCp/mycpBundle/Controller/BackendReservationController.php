@@ -465,7 +465,7 @@ class BackendReservationController extends Controller {
         $role = $em->getRepository('mycpBundle:role')->findBy(array('role_name' => 'ROLE_CLIENT_TOURIST'));
         $post = $request->get('mycp_mycpbundle_reservationtype');
         $ownerships = $em->getRepository('mycpBundle:ownership')->findAll();
-        $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $post['reservation_ownership']));
+        $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $post['reservation_ownership'], 'room_active' => true));
         $users = $em->getRepository('mycpBundle:user')->findAll();
         $data['ownerships'] = $ownerships;
         $data['rooms'] = $rooms;
@@ -892,7 +892,7 @@ class BackendReservationController extends Controller {
 
     public function get_rooms_by_ownershipAction($id_ownership, $selected_room) {
         $em = $this->getDoctrine()->getEntityManager();
-        $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $id_ownership));
+        $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $id_ownership, "room_active" => true));
         return $this->render('mycpBundle:utils:rooms.html.twig', array('rooms' => $rooms, 'selected_room' => $selected_room));
     }
 

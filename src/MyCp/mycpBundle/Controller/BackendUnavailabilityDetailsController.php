@@ -76,7 +76,7 @@ class BackendUnavailabilityDetailsController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
-        $rooms = $paginator->paginate($em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $id_ownership)))->getResult();
+        $rooms = $paginator->paginate($em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $id_ownership, "room_active" => true)))->getResult();
 
         $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
         return $this->render('mycpBundle:unavailabilityDetails:roomsList.html.twig', array(

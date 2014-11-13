@@ -171,7 +171,7 @@ class SearchUtils {
                             o.own_type as type,
                             o.own_minimum_price as minimum_price,
                             (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = :user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = :session_id " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
-                            (SELECT count(room) FROM mycpBundle:room room WHERE room.room_ownership=o.own_id) as rooms_count,
+                            (SELECT count(room) FROM mycpBundle:room room WHERE room.room_ownership=o.own_id AND room.room_active = 1) as rooms_count,
                             (SELECT count(res) FROM mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations,
                             (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments,
                             o.own_facilities_breakfast as breakfast,
@@ -186,7 +186,8 @@ class SearchUtils {
                             o.own_langs as langs
                              FROM mycpBundle:ownership o
                              JOIN o.own_address_province prov
-                             JOIN o.own_address_municipality mun";
+                             JOIN o.own_address_municipality mun
+                             WHERE o.own_status = 1 ";
         } else {
             $query_string = "SELECT DISTINCT o.own_id as own_id,
                              o.own_name as own_name,
@@ -201,7 +202,7 @@ class SearchUtils {
                             o.own_type as type,
                             o.own_minimum_price as minimum_price,
                             (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = :user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = :session_id " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
-                            (SELECT count(room) FROM mycpBundle:room room WHERE room.room_ownership=o.own_id) as rooms_count,
+                            (SELECT count(room) FROM mycpBundle:room room WHERE room.room_ownership=o.own_id AND room.room_active = 1) as rooms_count,
                             (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations,
                             (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments ,
                             o.own_facilities_breakfast as breakfast,
@@ -217,7 +218,9 @@ class SearchUtils {
                              FROM mycpBundle:room r
                              JOIN r.room_ownership o
                              JOIN o.own_address_province prov
-                             JOIN o.own_address_municipality mun";
+                             JOIN o.own_address_municipality mun
+                             WHERE o.own_status = 1
+                               AND r.room_active = 1 ";
         }
 
         return $query_string;

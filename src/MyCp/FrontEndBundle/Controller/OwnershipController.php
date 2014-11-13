@@ -40,7 +40,7 @@ class OwnershipController extends Controller {
         $reservation_to = explode('/', $to);
         $end_timestamp = mktime(0, 0, 0, $reservation_to[1], $reservation_to[0], $reservation_to[2]);
 
-        $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $owner_id));
+        $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $owner_id, 'room_active' => true));
 
         $service_time = $this->get('Time');
         $array_dates = $service_time->datesBetween($start_timestamp, $end_timestamp);
@@ -259,7 +259,7 @@ class OwnershipController extends Controller {
         //$own_name = Utils::urlNormalize($ownership->getOwnName());
         $ownership_array = $em->getRepository('mycpBundle:ownership')->get_details_by_code($mycp_code, strtoupper($locale));
         if ($ownership_array && count($ownership_array) > 0) {
-            $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $ownership_array['own_id']));
+            $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $ownership_array['own_id'], 'room_active' => true));
             $own_photos = $em->getRepository('mycpBundle:ownership')->getPhotosAndDescription($ownership_array['own_id'], $locale);
 
             $real_category = "";
@@ -359,7 +359,7 @@ class OwnershipController extends Controller {
         if (isset($_GET['page']))
             $page = $_GET['page'];
 
-        $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $owner_id));
+        $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $owner_id, 'room_active' => true));
         $friends = array();
         $own_photos = $em->getRepository('mycpBundle:ownership')->getPhotosAndDescription($owner_id, $locale);
 
