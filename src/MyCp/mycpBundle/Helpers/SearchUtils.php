@@ -12,35 +12,59 @@ use MyCp\mycpBundle\Entity\ownershipReservation;
 
 class SearchUtils {
 
-    public static function createReservationWhere($entity_manager, $arrivalDate = null, $leavingDate = null) {
-        $reservations_where = "0";
-
+    public static function createDatesWhere($entity_manager, $arrivalDate = null, $leavingDate = null) {
+        $where = "0";
+        $reservations = SearchUtils::getWithReservations($entity_manager, $arrivalDate, $leavingDate);
+        foreach ($reservations as $res)
+                $where .= "," . $res["own_id"];
+        
+        $uDetails = SearchUtils::getWithUnavailabilityDetails($entity_manager, $arrivalDate, $leavingDate);
+        foreach ($uDetails as $detail)
+                $where .= "," . $detail["own_id"];
+        return $where;
+    }
+    
+    private static function getWithReservations($entity_manager, $arrivalDate = null, $leavingDate = null)
+    {
+        $reservations = array();
         if ($arrivalDate != null || $leavingDate != null) {
+            
+            $dates_where = "";
+            $dates_where_count = "";
 
+            if ($arrivalDate != null) {
+                $dates_where .= ($dates_where != '') ? " OR " : "";                
+                $dates_where .= "(owr.own_res_reservation_from_date <= :arrival_date AND owr.own_res_reservation_to_date >= :arrival_date)";
+                
+                $dates_where_count .= ($dates_where_count != '') ? " OR " : "";
+                $dates_where_count .= "(owr1.own_res_reservation_from_date <= :arrival_date AND owr1.own_res_reservation_to_date >= :arrival_date)";
+            }
+
+            if ($leavingDate != null) {
+                $dates_where .= ($dates_where != '') ? " OR " : "";
+                $dates_where .= "(owr.own_res_reservation_from_date <= :leaving_date AND owr.own_res_reservation_to_date >= :leaving_date)";
+                
+                $dates_where_count .= ($dates_where_count != '') ? " OR " : "";
+                $dates_where_count .= "(owr1.own_res_reservation_from_date <= :leaving_date AND owr1.own_res_reservation_to_date >= :leaving_date)";
+            }
+
+            if ($arrivalDate != null && $leavingDate != null) {
+                $dates_where .= ($dates_where != '') ? " OR " : "";
+                $dates_where .= "(owr.own_res_reservation_from_date >= :arrival_date AND owr.own_res_reservation_to_date <= :leaving_date)";
+                
+                $dates_where_count .= ($dates_where_count != '') ? " OR " : "";
+                $dates_where_count .= "(owr1.own_res_reservation_from_date >= :arrival_date AND owr1.own_res_reservation_to_date <= :leaving_date)";
+            }
+            
             $query_string = "SELECT DISTINCT o.own_id FROM mycpBundle:ownershipReservation owr
                                 JOIN owr.own_res_gen_res_id r
                                 JOIN r.gen_res_own_id o
                                 WHERE owr.own_res_status = " . ownershipReservation::STATUS_RESERVED .
                     " AND (SELECT count(owr1) FROM mycpBundle:ownershipReservation owr1
                                    JOIN owr1.own_res_gen_res_id r1 WHERE r1.gen_res_own_id = o.own_id
-                                   AND owr1.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") < o.own_rooms_total";
-            $dates_where = "";
-
-            if ($arrivalDate != null) {
-                $dates_where .= ($dates_where != '') ? " OR " : "";
-                $dates_where .= "(owr.own_res_reservation_from_date <= :arrival_date AND owr.own_res_reservation_to_date >= :arrival_date)";
-            }
-
-            if ($leavingDate != null) {
-                $dates_where .= ($dates_where != '') ? " OR " : "";
-                $dates_where .= "(owr.own_res_reservation_from_date <= :leaving_date AND owr.own_res_reservation_to_date >= :leaving_date)";
-            }
-
-            if ($arrivalDate != null && $leavingDate != null) {
-                $dates_where .= ($dates_where != '') ? " OR " : "";
-                $dates_where .= "(owr.own_res_reservation_from_date >= :arrival_date AND owr.own_res_reservation_to_date <= :leaving_date)";
-            }
-
+                                   AND owr1.own_res_status = " . ownershipReservation::STATUS_RESERVED;
+            $query_string .= ($dates_where_count != '') ? " AND ($dates_where_count)" : "";
+            $query_string .= ") >= o.own_rooms_total";
             $query_string .= ($dates_where != '') ? " AND ($dates_where)" : "";
 
             $query_reservation = $entity_manager->createQuery($query_string);
@@ -61,11 +85,74 @@ class SearchUtils {
             }
 
             $reservations = $query_reservation->getResult();
-
-            foreach ($reservations as $res)
-                $reservations_where .= "," . $res["own_id"];
+            
         }
-        return $reservations_where;
+        return $reservations;
+    }
+    
+    private static function getWithUnavailabilityDetails($entity_manager, $arrivalDate = null, $leavingDate = null)
+    {
+        $uDetails = array();
+        if ($arrivalDate != null || $leavingDate != null) {
+            
+            $dates_where = "";
+            $dates_where_count = "";
+
+            if ($arrivalDate != null) {
+                $dates_where .= ($dates_where != '') ? " OR " : "";                
+                $dates_where .= "(ud.ud_from_date <= :arrival_date AND ud.ud_to_date >= :arrival_date)";
+                
+                $dates_where_count .= ($dates_where_count != '') ? " OR " : "";
+                $dates_where_count .= "(ud1.ud_from_date <= :arrival_date AND ud1.ud_to_date >= :arrival_date)";
+            }
+
+            if ($leavingDate != null) {
+                $dates_where .= ($dates_where != '') ? " OR " : "";
+                $dates_where .= "(ud.ud_from_date <= :leaving_date AND ud.ud_to_date >= :leaving_date)";
+                
+                $dates_where_count .= ($dates_where_count != '') ? " OR " : "";
+                $dates_where_count .= "(ud1.ud_from_date <= :leaving_date AND ud1.ud_to_date >= :leaving_date)";
+            }
+
+            if ($arrivalDate != null && $leavingDate != null) {
+                $dates_where .= ($dates_where != '') ? " OR " : "";
+                $dates_where .= "(ud.ud_from_date >= :arrival_date AND ud.ud_to_date <= :leaving_date)";
+                
+                $dates_where_count .= ($dates_where_count != '') ? " OR " : "";
+                $dates_where_count .= "(ud1.ud_from_date >= :arrival_date AND ud1.ud_to_date <= :leaving_date)";
+            }
+            
+            $query_string = "SELECT DISTINCT ow.own_id from mycpBundle:unavailabilityDetails ud 
+                             JOIN ud.room r
+                             JOIN r.room_ownership ow 
+                             WHERE (SELECT count(ud1) FROM mycpBundle:unavailabilityDetails ud1
+                                   JOIN ud1.room r1 WHERE r1.room_ownership = ow.own_id ";
+            
+            $query_string .= ($dates_where_count != '') ? " AND ($dates_where_count)" : "";
+            $query_string .= ") >= ow.own_rooms_total";
+            $query_string .= ($dates_where != '') ? " AND ($dates_where)" : "";
+
+            $query_details = $entity_manager->createQuery($query_string);
+
+            if ($arrivalDate != null) {
+                $arrival = \DateTime::createFromFormat('d-m-Y', $arrivalDate);
+                if($arrival == null)
+                    $arrival = \DateTime::createFromFormat('Y-m-d', $arrivalDate);
+                $query_details->setParameter('arrival_date', $arrival->format("Y-m-d"));
+            }
+
+            if ($leavingDate != null)
+            {
+                $departure = \DateTime::createFromFormat('d-m-Y', $leavingDate);
+                if($departure == null)
+                    $departure = \DateTime::createFromFormat('Y-m-d', $leavingDate);
+                $query_details->setParameter('leaving_date', $departure->format("Y-m-d"));
+            }
+
+            $uDetails = $query_details->getResult();
+            
+        }
+        return $uDetails;
     }
 
     public static function getBasicQuery($room_filter, $user_id, $session_id) {

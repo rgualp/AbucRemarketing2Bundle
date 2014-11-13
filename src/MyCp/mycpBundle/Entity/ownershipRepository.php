@@ -648,7 +648,7 @@ class ownershipRepository extends EntityRepository {
         $user_id = $user_ids['user_id'];
         $session_id = $user_ids['session_id'];
 
-        $reservations_where = SearchUtils::createReservationWhere($em, $arrivalDate, $leavingDate);
+        $reservations_where = SearchUtils::createDatesWhere($em, $arrivalDate, $leavingDate);
 
         $query_string = SearchUtils::getBasicQuery($room_filter, $user_id, $session_id);
         
