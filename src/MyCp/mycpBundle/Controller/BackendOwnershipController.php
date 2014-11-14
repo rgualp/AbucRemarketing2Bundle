@@ -244,8 +244,8 @@ class BackendOwnershipController extends Controller {
     }
 
     public function activeRoomAction($id_room, $activate) {
-        /*$service_security = $this->get('Secure');
-        $service_security->verifyAccess();*/
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
 
         $em = $this->getDoctrine()->getManager();
 
