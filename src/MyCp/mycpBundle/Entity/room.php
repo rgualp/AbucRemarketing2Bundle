@@ -72,7 +72,7 @@ class room {
      * @ORM\Column(name="room_price_down_to", type="string", length=255)
      */
     private $room_price_down_to;
-    
+
     /**
      * @var string
      *
@@ -329,8 +329,8 @@ class room {
     public function getRoomPriceDownTo() {
         return $this->room_price_down_to;
     }
-    
-     /**
+
+    /**
      * Set room_price_special
      *
      * @param string $roomPriceSpecial
@@ -660,6 +660,15 @@ class room {
         return (string) $this->room_id;
     }
 
+    public function getMaximumNumberGuests() {
+        switch ($this->room_type) {
+            case "Habitación individual": return 1;
+            case "Habitación doble":
+            case "Habitación doble (Dos camas)": return 2;
+            case "Habitación Triple": return 3;
+        }
+        return 0;
+    }
 
     /**
      * Set room_sync_st
@@ -667,8 +676,7 @@ class room {
      * @param integer $roomSyncSt
      * @return room
      */
-    public function setRoomSyncSt($roomSyncSt)
-    {
+    public function setRoomSyncSt($roomSyncSt) {
         $this->room_sync_st = $roomSyncSt;
 
         return $this;
@@ -679,8 +687,7 @@ class room {
      *
      * @return integer
      */
-    public function getRoomSyncSt()
-    {
+    public function getRoomSyncSt() {
         return $this->room_sync_st;
     }
 
@@ -690,8 +697,7 @@ class room {
      * @param \MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails
      * @return room
      */
-    public function addOwnUnavailabilityDetail(\MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails)
-    {
+    public function addOwnUnavailabilityDetail(\MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails) {
         $this->own_unavailability_details[] = $ownUnavailabilityDetails;
 
         return $this;
@@ -702,8 +708,7 @@ class room {
      *
      * @param \MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails
      */
-    public function removeOwnUnavailabilityDetail(\MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails)
-    {
+    public function removeOwnUnavailabilityDetail(\MyCp\mycpBundle\Entity\unavailabilityDetails $ownUnavailabilityDetails) {
         $this->own_unavailability_details->removeElement($ownUnavailabilityDetails);
     }
 
@@ -712,8 +717,8 @@ class room {
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getOwnUnavailabilityDetails()
-    {
+    public function getOwnUnavailabilityDetails() {
         return $this->own_unavailability_details;
     }
+
 }

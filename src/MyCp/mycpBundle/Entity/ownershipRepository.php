@@ -232,20 +232,10 @@ class ownershipRepository extends EntityRepository {
             if ($ownership->getOwnMaximumPrice() == 0 || $room->getRoomPriceSpecial() > $ownership->getOwnMaximumPrice())
                 $ownership->setOwnMaximumPrice($room->getRoomPriceSpecial());
 
-            switch ($room->getRoomType()) {
-                case "Habitación individual": $maximum_guest_total += 1;
-                    break;
-                case "Habitación doble":
-                case "Habitación doble (Dos camas)": $maximum_guest_total += 2;
-                    break;
-                case "Habitación Triple": $maximum_guest_total += 3;
-                    break;
-            }
-
-            $em->persist($ownership);
+           $maximum_guest_total += $room->getMaximumNumberGuests();
         }
 
-        $ownership->setOwnMaximunNumberGuests($maximum_guest_total);
+        $ownership->setOwnMaximumNumberGuests($maximum_guest_total);
         $em->persist($ownership);
 
         //save client casa
@@ -478,17 +468,9 @@ class ownershipRepository extends EntityRepository {
                 $ownership->setOwnMaximumPrice($room->getRoomPriceSpecial());
 
             if ($room->getRoomActive()) {
-                switch ($room->getRoomType()) {
-                    case "Habitación individual": $maximum_guest_total += 1;
-                        break;
-                    case "Habitación doble":
-                    case "Habitación doble (Dos camas)": $maximum_guest_total += 2;
-                        break;
-                    case "Habitación Triple": $maximum_guest_total += 3;
-                        break;
-                }
+                $maximum_guest_total += $room->getMaximumNumberGuests();
             }
-            $ownership->setOwnMaximunNumberGuests($maximum_guest_total);
+            $ownership->setOwnMaximumNumberGuests($maximum_guest_total);
         }
 
         $ownership->setOwnRoomsTotal($roomsActiveTotal);

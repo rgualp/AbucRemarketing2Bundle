@@ -111,7 +111,7 @@ class userCasaRepository extends EntityRepository {
          $user_casa->getUserCasaUser()->setUserLastName($post['mycp_mycpbundle_client_casatype']['last_name']);
          $user_casa->getUserCasaUser()->setUserEmail($post['mycp_mycpbundle_client_casatype']['email']);
          $user_casa->getUserCasaUser()->setUserPhone($post['mycp_mycpbundle_client_casatype']['phone']);
-         
+
          $user_enabled = (isset($post['mycp_mycpbundle_client_casatype']['user_enabled']));
          $user_casa->getUserCasaUser()->setUserEnabled($user_enabled);
          /*if ($post['mycp_mycpbundle_client_casatype']['user_password']['Clave:'] != '') {
@@ -153,11 +153,15 @@ class userCasaRepository extends EntityRepository {
 
         $query = $em->createQuery($query_string);
         $photo_name = $query->setMaxResults(1)->getResult();
-
+        
         if ($photo_name == null)
             $photo_name = "no_photo.gif";
-        else if (!file_exists(realpath("uploads/userImages/" . $photo_name)))
+        else
+        {
+            $photo_name = $photo_name[0]["photo"];
+            if (!file_exists(realpath("uploads/userImages/" . $photo_name)))
             $photo_name = "no_photo.gif";
+        }
         return $photo_name;
     }
 
@@ -182,7 +186,7 @@ class userCasaRepository extends EntityRepository {
         $query = $em->createQuery($query_string);
         return $query->getOneOrNullResult();
     }
-    
+
     function getOneByToken($token)
     {
         $em = $this->getEntityManager();
@@ -193,17 +197,17 @@ class userCasaRepository extends EntityRepository {
         $query = $em->createQuery($query_string);
         return $query->getOneOrNullResult();
     }
-    
+
     function changeStatus($ownId, $isEnabled)
     {
         $em = $this->getEntityManager();
         $userCasa = $em->getRepository('mycpBundle:userCasa')->findOneBy(array('user_casa_ownership' => $ownId));
-        
+
         if(isset($userCasa))
         {
             $user = $userCasa->getUserCasaUser();
             $activationDate = $user->getUserActivationDate();
-            
+
             if($isEnabled || (!$isEnabled && isset($activationDate)))
             {
                 $user->setUserEnabled($isEnabled);

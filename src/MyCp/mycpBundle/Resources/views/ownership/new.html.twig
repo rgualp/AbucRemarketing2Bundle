@@ -42,7 +42,7 @@
 <script type="text/javascript">
         var count_rooms = 1;
 </script>
-<h2>{% if data['edit_ownership'] is defined %}Editar propiedad ({{data['name_ownership']}})
+<h2>{% if data['edit_ownership'] is defined %}{{post['ownership_mcp_code']}} - {{data['name_ownership']}}
     {% if data['status_id'] is defined and data['status_id']%}
     {% if data['status_id']== constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')%}<span class="label label-success vertical_middle" title="Estado Activo">Activo</span>{% else %} <span class="label label-important vertical_middle" title="Estado {{ data['status_name'] }}">{{ data['status_name'] }}</span>{% endif %}
     {%else%}
@@ -240,7 +240,13 @@
                         {% for i in 1..count_rooms %}
                         <div class="span1" style="width: 200px; margin-left: 0px!important; margin-right: 10px;">
                             {% if data['edit_ownership'] is defined and post['room_id_'~i] is defined%}<input name="room_id_{{i}}" value="{{post['room_id_'~i]}}" type="hidden"/>{%endif%}
-                            <label><span class="label label-info">Habitación # {{i}}</span></label>
+                            <label><span class="label label-info">Habitación # {{i}}</span>
+                            {%if post['room_active_'~i]%}
+                              <span class="label label-success">Activa</span>
+                            {%else%}
+                              <span class="label label-warning">Inactiva</span>
+                            {%endif%}
+                            </label>
                             <label>Tipo de habitación (*)</label>
                             {% if errors['room_type_'~i] is defined %}<label class="error">{{errors['room_type_'~i]|trim(':')}}</label>{%endif%}
                             <select name="room_type_{{i}}" class="input-block-level">
@@ -318,22 +324,13 @@
                             <select class="input-block-level" name="room_yard_{{ i }}">
                                 {{ render(controller('mycpBundle:BackendOwnership:get_yard_list', {'post':post,'id':i})) }}
                             </select>
-                            {% if(post['room_id_'~i] is defined) %}
 
-                            {% if (post['room_delete_'~i] is defined) %}
-                            {% if post['room_delete_'~i] == 1 %}
-                            <a class="btn btn-danger" href="{{ path('mycp_delete_room', { 'id_room': post['room_id_'~i], 'type':1 }) }}">Eliminar</a>
-                            {% else %}
                             {% if (post['room_active_'~i] is defined) %}
-                            {% if post['room_active_'~i] == 0 %}
-                            <a class="btn btn-success" href="{{ path('mycp_delete_room', { 'id_room': post['room_id_'~i], 'type':2 }) }}">Habilitar</a>
-                            {% else %}
-                            <a class="btn btn-warning" href="{{ path('mycp_delete_room', { 'id_room': post['room_id_'~i], 'type':0 }) }}">Deshabilitar</a>
-                            {% endif %}
-                            {% endif %}
-
-                            {% endif %}
-                            {% endif %}
+                                {% if post['room_active_'~i] == 0 %}
+                                <a class="btn btn-success" href="{{ path('mycp_active_room', { 'id_room': post['room_id_'~i], 'activate':1 }) }}">Activar</a>
+                                {% else %}
+                                <a class="btn btn-warning" href="{{ path('mycp_active_room', { 'id_room': post['room_id_'~i], 'activate':0 }) }}">Desactivar</a>
+                                {% endif %}
                             {% endif %}
                         </div>
                         {% endfor %}

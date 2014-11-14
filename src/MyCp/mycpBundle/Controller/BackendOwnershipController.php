@@ -243,53 +243,43 @@ class BackendOwnershipController extends Controller {
         return $this->redirect($this->generateUrl('mycp_list_photos_ownership', array('id_ownership' => $id_ownership)));
     }
 
-    public function delete_roomAction($id_room, $type) {
-        $service_security = $this->get('Secure');
-        $service_security->verifyAccess();
+    public function activeRoomAction($id_room, $activate) {
+        /*$service_security = $this->get('Secure');
+        $service_security->verifyAccess();*/
 
         $em = $this->getDoctrine()->getManager();
-        $ro = new room();
 
         $ro = $em->getRepository('mycpBundle:room')->find($id_room);
         $id_ownership = $ro->getRoomOwnership()->getOwnId();
-        ;
 
-        switch ($type) {
-            case 0:
-                $ro->setRoomActive(false);
-                $em->persist($ro);
-                $own = new ownership();
-                $own = $ro->getRoomOwnership();
-                $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $own->getOwnId()));
-                $count = count($rooms);
-                foreach ($rooms as $room) {
-                    if (!$room->getRoomActive())
-                        $count--;
-                }
+        $ro->setRoomActive($activate);
+        $em->persist($ro);
+        $em->flush();
 
-                if ($count <= 0) {
-                    $status = new ownershipStatus();
-                    $status = $em->getRepository('mycpBundle:ownershipstatus')->find(2);
-                    $own->setOwnStatus($status);
-                    $em->persist($own);
-                }
-
-                $em->flush();
-                break;
-            case 1:
-                $own = new ownership();
-                $own = $ro->getRoomOwnership();
-                $em->remove($ro);
-                $own->removeOwnRoom($ro);
-                $em->flush();
-                break;
-            case 2:
-                $ro->setRoomActive(true);
-                $em->persist($ro);
-                $em->flush();
-                break;
+        $own = $ro->getRoomOwnership();
+        $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $own->getOwnId()));
+        $count = count($rooms);
+        $count_active = 0;
+        $maximum_guests = 0;
+        foreach ($rooms as $room) {
+            if (!$room->getRoomActive())
+                $count--;
+            else
+            {
+                $count_active++;
+                $maximum_guests += $room->getMaximumNumberGuests();
+            }
         }
 
+        $own->setOwnMaximumNumberGuests($maximum_guests);
+        $own->setOwnRoomsTotal($count_active);
+        if ($count <= 0) {
+            $status = $em->getRepository('mycpBundle:ownershipstatus')->find(ownershipStatus::STATUS_INACTIVE);
+            $own->setOwnStatus($status);
+            $em->persist($own);
+        }
+
+        $em->flush();
         return $this->redirect($this->generateUrl('mycp_edit_ownership', array('id_ownership' => $id_ownership)));
     }
 
