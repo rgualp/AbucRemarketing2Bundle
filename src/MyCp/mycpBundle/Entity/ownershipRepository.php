@@ -582,7 +582,7 @@ class ownershipRepository extends EntityRepository {
         prov.prov_name,
         ow.own_comment,
         ow.own_id,
-        ow.own_rooms_total,
+        (SELECT count(room) FROM mycpBundle:room room WHERE room.room_ownership = ow.own_id AND room.room_active = 1) as own_rooms_total,
         (SELECT min(d.des_name) FROM mycpBundle:destination d WHERE d.des_id = ow.own_destination) as des_name,
         (SELECT min(s.status_id) FROM mycpBundle:ownershipStatus s WHERE s.status_id = ow.own_status) as status_id,
         (SELECT min(s1.status_name) FROM mycpBundle:ownershipStatus s1 WHERE s1.status_id = ow.own_status) as status_name,

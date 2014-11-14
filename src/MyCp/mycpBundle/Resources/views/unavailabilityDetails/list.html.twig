@@ -128,7 +128,11 @@
         <td>{% if ownership.own_comment %}<a class="tooltip_msg no_link" rel="tooltip" title="{{ownership.own_comment}}">{% endif %}
         {% if ownership.status_id==constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')%}<span class="label label-success">Activo</span>
         {% else %} <span class="label label-important">{{ ownership.status_name }}</span>{% endif %}{% if ownership.own_comment %}</a>{% endif %}</td>
-        <td style="text-align: center"><a href="{{ path('mycp_list_rooms_unavailabilityDetails',{'id_ownership':ownership.own_id}) }}" title="Este alojamiento tiene {{ ownership.own_rooms_total }} habitaciones">{{ ownership.own_rooms_total }}</a></td>
+        <td style="text-align: center">
+            {%if ownership.own_rooms_total != 0%}
+            <a href="{{ path('mycp_list_rooms_unavailabilityDetails',{'id_ownership':ownership.own_id}) }}" title="Este alojamiento tiene {{ ownership.own_rooms_total }} habitaciones">{{ ownership.own_rooms_total }}</a>
+        {%else%}-{%endif%}
+        </td>
     </tr>
     {% endfor %}
     </tbody>
