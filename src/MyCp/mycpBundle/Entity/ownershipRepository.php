@@ -220,15 +220,11 @@ class ownershipRepository extends EntityRepository {
             $room->setRoomYard($data['room_yard_' . $e]);
             $room->setRoomOwnership($ownership);
             $room->setRoomNum($e);
+            $room->setRoomActive(true);
             $em->persist($room);
 
-            /**
-             * Codigo Yanet - Inicio
-             */
             if ($ownership->getOwnMinimumPrice() == 0 || $room->getRoomPriceDownTo() < $ownership->getOwnMinimumPrice())
                 $ownership->setOwnMinimumPrice($room->getRoomPriceDownTo());
-
-            $ownership->setOwnMaximumNumberGuests($ownership->getOwnMaximumNumberGuests() + $room->getRoomBeds());
 
             if ($ownership->getOwnMaximumPrice() == 0 || $room->getRoomPriceUpTo() > $ownership->getOwnMaximumPrice())
                 $ownership->setOwnMaximumPrice($room->getRoomPriceUpTo());
@@ -247,9 +243,6 @@ class ownershipRepository extends EntityRepository {
             }
 
             $em->persist($ownership);
-            /**
-             * Codigo Yanet - Fin
-             */
         }
 
         $ownership->setOwnMaximunNumberGuests($maximum_guest_total);
@@ -261,11 +254,11 @@ class ownershipRepository extends EntityRepository {
             $em->getRepository('mycpBundle:userCasa')->createUser($ownership, $file, $dir, $factory, $send_creation_mail, $controller);
         }
         $em->flush();
-        
-        /*$roomsActiveTotal = count($em->getRepository('mycpBundle:room')->findBy(array('room_ownership'=>$ownership->getOwnId(), "room_active"=>true)));
-        $ownership->setOwnRoomsTotal($roomsActiveTotal);
-        $em->persist($ownership);
-        $em->flush();*/
+
+        /* $roomsActiveTotal = count($em->getRepository('mycpBundle:room')->findBy(array('room_ownership'=>$ownership->getOwnId(), "room_active"=>true)));
+          $ownership->setOwnRoomsTotal($roomsActiveTotal);
+          $em->persist($ownership);
+          $em->flush(); */
     }
 
     function edit($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller) {
@@ -426,20 +419,27 @@ class ownershipRepository extends EntityRepository {
                 $okl->setOklOwnership($ownership);
                 $em->persist($okl);
             }
-        }        
+        }
         $maximum_guest_total = 0;
+        $roomsActiveTotal = 0;
         for ($e = 1; $e <= $data['count_rooms']; $e++) {
 
             if (array_key_exists('room_id_' . $e, $data))
                 $room = $em->getRepository('mycpBundle:room')->find($data['room_id_' . $e]);
-            else
+            else {
                 $room = new room();
+                $room->setRoomActive(true);
+            }
 
             if (isset($old_rooms[$e - 1])) {
                 $metadata = $em->getClassMetadata(get_class($room));
                 $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
                 //$room->setRoomId($old_rooms[$e - 1]->getRoomId());
             }
+
+            if ($room->getRoomActive())
+                $roomsActiveTotal++;
+
             $room->setRoomType($data['room_type_' . $e]);
             $room->setRoomBeds($data['room_beds_number_' . $e]);
             //$room->setRoomPriceUpFrom($data['room_price_up_from_' . $e]);
@@ -465,35 +465,32 @@ class ownershipRepository extends EntityRepository {
             $room->setRoomNum($e);
             $em->persist($room);
 
-            if ($ownership->getOwnMinimumPrice() == 0 ||
-                    $room->getRoomPriceDownTo() < $ownership->getOwnMinimumPrice())
+            if (($ownership->getOwnMinimumPrice() == 0 ||
+                    $room->getRoomPriceDownTo() < $ownership->getOwnMinimumPrice()) && $room->getRoomActive())
                 $ownership->setOwnMinimumPrice($room->getRoomPriceDownTo());
 
-            $ownership->setOwnMaximumNumberGuests($ownership->getOwnMaximumNumberGuests() + $room->getRoomBeds());
-
-            if ($ownership->getOwnMaximumPrice() == 0 ||
-                    $room->getRoomPriceUpTo() > $ownership->getOwnMaximumPrice())
+            if (($ownership->getOwnMaximumPrice() == 0 ||
+                    $room->getRoomPriceUpTo() > $ownership->getOwnMaximumPrice()) && $room->getRoomActive())
                 $ownership->setOwnMaximumPrice($room->getRoomPriceUpTo());
 
-            if ($ownership->getOwnMaximumPrice() == 0 ||
-                    $room->getRoomPriceSpecial() > $ownership->getOwnMaximumPrice())
+            if (($ownership->getOwnMaximumPrice() == 0 ||
+                    $room->getRoomPriceSpecial() > $ownership->getOwnMaximumPrice()) && $room->getRoomActive())
                 $ownership->setOwnMaximumPrice($room->getRoomPriceSpecial());
 
-            switch ($room->getRoomType()) {
-                case "Habitación individual": $maximum_guest_total += 1;
-                    break;
-                case "Habitación doble":
-                case "Habitación doble (Dos camas)": $maximum_guest_total += 2;
-                    break;
-                case "Habitación Triple": $maximum_guest_total += 3;
-                    break;
+            if ($room->getRoomActive()) {
+                switch ($room->getRoomType()) {
+                    case "Habitación individual": $maximum_guest_total += 1;
+                        break;
+                    case "Habitación doble":
+                    case "Habitación doble (Dos camas)": $maximum_guest_total += 2;
+                        break;
+                    case "Habitación Triple": $maximum_guest_total += 3;
+                        break;
+                }
             }
-
-            $em->persist($ownership);
+            $ownership->setOwnMaximunNumberGuests($maximum_guest_total);
         }
-        $ownership->setOwnMaximunNumberGuests($maximum_guest_total);
-        
-        $roomsActiveTotal = count($em->getRepository('mycpBundle:room')->findBy(array('room_ownership'=>$id_ownership, "room_active"=>true)));
+
         $ownership->setOwnRoomsTotal($roomsActiveTotal);
         $em->persist($ownership);
 
@@ -1202,7 +1199,7 @@ class ownershipRepository extends EntityRepository {
 
         return $statistics;
     }
-    
+
     function getCompleteListByIds($own_ids, $user_id, $session_id) {
         $em = $this->getEntityManager();
         $results = array();
@@ -1242,7 +1239,7 @@ class ownershipRepository extends EntityRepository {
      */
     function lastAdded($results_total = null, $user_id = null, $session_id = null) {
         $em = $this->getEntityManager();
-        
+
         $query_string = $this->getBasicQuery($user_id, $session_id);
         $query_string .= " WHERE o.own_status = " . ownershipStatus::STATUS_ACTIVE . " ORDER BY o.own_id DESC";
 
@@ -1260,7 +1257,7 @@ class ownershipRepository extends EntityRepository {
 
     function get_details($own_name, $locale = "ES", $user_id = null, $session_id = null) {
         $em = $this->getEntityManager();
-        
+
         $query_string = $this->getDetailBasicQuery($user_id, $session_id, $locale);
         $query_string .= " WHERE o.own_name = :own_name ORDER BY o.own_id DESC";
 
@@ -1279,16 +1276,15 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
 
         $query_string = $this->getBasicQuery($user_id, $session_id);
-        
+
         if ($exclude_id == null)
             $query_string .= "WHERE o.own_category= :category AND o.own_status = " . ownershipStatus::STATUS_ACTIVE . "
                               ORDER BY o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC";
-        
         else
             $query_string .= "WHERE o.own_category= :category
                            AND o.own_status = " . ownershipStatus::STATUS_ACTIVE . "
                            AND o.own_id <> $exclude_id
-                         ORDER BY o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC";        
+                         ORDER BY o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC";
 
         $results = ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setParameter('category', $category)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->setParameter('category', $category)->getResult();
 
@@ -1501,9 +1497,8 @@ class ownershipRepository extends EntityRepository {
         }
         $em->flush();
     }
-    
-    private function getBasicQuery($user_id = null, $session_id = null)
-    {
+
+    private function getBasicQuery($user_id = null, $session_id = null) {
         $query_string = "SELECT o.own_id as own_id,
                              o.own_name as own_name,
                             (SELECT min(p.pho_name) FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo p WHERE op.own_pho_own=o.own_id
@@ -1523,11 +1518,10 @@ class ownershipRepository extends EntityRepository {
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
                          JOIN o.own_address_municipality mun ";
-        return $query_string;        
+        return $query_string;
     }
-    
-    private function getDetailBasicQuery($user_id = null, $session_id = null, $locale = "ES")
-    {
+
+    private function getDetailBasicQuery($user_id = null, $session_id = null, $locale = "ES") {
         $query_string = "SELECT o.own_id as own_id,
                         dest.des_id as des_id,
                         o.own_name as ownname,
