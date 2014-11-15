@@ -13,4 +13,24 @@ use MyCp\mycpBundle\Entity\cart;
  */
 class cartRepository extends EntityRepository {
 
+    public function getCartItems($user_ids) {
+        try {
+            $em = $this->getEntityManager();
+            $query_string = "SELECT c FROM mycpBundle:cart c ";
+            $where = "";
+
+            if ($user_ids["user_id"] != null)
+                $where.= " WHERE c.cart_user = ".$user_ids['user_id'];
+            else if ($user_ids["session_id"] != null)
+                $where .= " WHERE c.cart_session_id = '".$user_ids["session_id"]."'";
+
+            if ($where != "")
+                return $em->createQuery($query_string . $where)->getResult();
+            else
+                return null;
+        } catch (Exception $e) {
+            return null;
+        }
+    }
+
 }

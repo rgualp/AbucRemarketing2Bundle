@@ -9,14 +9,15 @@ use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\booking;
 use MyCp\mycpBundle\Entity\season;
 use MyCp\mycpBundle\Entity\generalReservation;
+use MyCp\mycpBundle\Entity\cart;
 use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Email;
 use MyCp\FrontEndBundle\Helpers\PaymentHelper;
 use MyCp\FrontEndBundle\Helpers\ReservationHelper;
 
-class ReservationController extends Controller
-{
+class ReservationController extends Controller {
+
     public function get_count_cart_itemsAction(Request $request) {
         $services = array();
         if ($request->getSession()->get('services_pre_reservation'))
@@ -67,53 +68,69 @@ class ReservationController extends Controller
         $reservation_date_to = explode('&', $reservation_date_to);
         $end_timestamp = mktime(0, 0, 0, $reservation_date_to[1], $reservation_date_to[0], $reservation_date_to[2]);
 
-        $services = array();
-        if ($request->getSession()->get('services_pre_reservation'))
-            $services = $request->getSession()->get('services_pre_reservation');
+        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $cartItems = $em->getRepository('mycpBundle:cart')->getCartItems($user_ids);
+
+        /* $services = array();
+          if ($request->getSession()->get('services_pre_reservation'))
+          $services = $request->getSession()->get('services_pre_reservation'); */
 
         for ($a = 0; $a < count($array_ids_rooms); $a++) {
             $insert = 1;
-            $id = 0;
-            foreach ($services as $serv) {
-                if (isset($array_count_guests[$a]) && isset($array_count_kids[$a]) && $serv['from_date'] == $start_timestamp && $serv['to_date'] == $end_timestamp &&
-                        $serv['room'] == $array_ids_rooms[$a] && $serv['guests'] == $array_count_guests[$a] &&
-                        $serv['kids'] == $array_count_kids[$a] && $serv['ownership'] = $id_ownership
+            foreach ($cartItems as $item) {
+                if (isset($array_count_guests[$a]) && isset($array_count_kids[$a]) &&
+                        $item->getCartDateFrom() == $start_timestamp &&
+                        $item->getCartDateTo() == $end_timestamp &&
+                        $item->getCartRoom() == $array_ids_rooms[$a] &&
+                        $item->getCartCountAdults() == $array_count_guests[$a] &&
+                        $item->getCartCountChildren() == $array_count_kids[$a]
                 ) {
                     $insert = 0;
                 }
-                if ($serv['id'] > $id)
-                    $id = $serv['id'];
             }
             if ($insert == 1) {
                 $room = $em->getRepository('mycpBundle:room')->find($array_ids_rooms[$a]);
-                $service['id'] = $id + 1;
-                $service['from_date'] = $start_timestamp;
-                $service['to_date'] = $end_timestamp;
-                $service['room'] = $array_ids_rooms[$a];
-                if (isset($array_count_kids[$a]))
-                    $service['guests'] = $array_count_guests[$a];
+                $cart = new cart();
+                $cart->setCartDateFrom($start_timestamp);
+                $cart->setCartDateTo($end_timestamp);
+                $cart->setCartRoom($room);
+
+                if (isset($array_count_guests[$a]))
+                    $cart->setCartCountAdults($array_count_guests[$a]);
                 else
-                    $service['guests'] = 1;
+                    $cart->setCartCountAdults(1);
+
                 if (isset($array_count_kids[$a]))
-                    $service['kids'] = $array_count_kids[$a];
+                    $cart->setCartCountChildren($array_count_kids[$a]);
                 else
-                    $service['kids'] = 0;
-                $service['ownership_name'] = $ownership->getOwnName();
-                $service['ownership_id'] = $ownership->getOwnId();
-                $service['ownership_destination'] = ($ownership->getOwnDestination() != null) ? $ownership->getOwnDestination()->getDesId() : -1;
-                $service['ownership_mun'] = $ownership->getOwnAddressMunicipality()->getMunName();
-                $service['ownership_prov'] = $ownership->getOwnAddressProvince()->getProvName();
-                $service['ownership_percent'] = $ownership->getOwnCommissionPercent();
-                $service['room_id'] = $room->getRoomId();
-                $service['room_type'] = $room->getRoomType();
-                $service['room_price_top'] = $room->getRoomPriceUpTo();
-                $service['room_price_down'] = $room->getRoomPriceDownTo();
-                $service['room_price_special'] = ($room->getRoomPriceSpecial() > 0) ? $room->getRoomPriceSpecial() : $room->getRoomPriceUpTo();
-                array_push($services, $service);
+                    $cart->setCartCountChildren(0);
+
+                $cart->setCartCreatedDate(new \DateTime());
+                if ($user_ids["user_id"] != null) {
+                    $user = $em->getRepository("mycpBundle:user")->find($user_ids["user_id"]);
+                    $cart->setCartUser($user);
+                }
+                else if ($user_ids["session_id"] != null)
+                    $cart->setCartSessionId($user_ids["session_id"]);
+
+                /* $service['ownership_name'] = $ownership->getOwnName();
+                  $service['ownership_id'] = $ownership->getOwnId();
+                  $service['ownership_destination'] = ($ownership->getOwnDestination() != null) ? $ownership->getOwnDestination()->getDesId() : -1;
+                  $service['ownership_mun'] = $ownership->getOwnAddressMunicipality()->getMunName();
+                  $service['ownership_prov'] = $ownership->getOwnAddressProvince()->getProvName();
+                  $service['ownership_percent'] = $ownership->getOwnCommissionPercent();
+                  $service['room_id'] = $room->getRoomId();
+                  $service['room_type'] = $room->getRoomType();
+                  $service['room_price_top'] = $room->getRoomPriceUpTo();
+                  $service['room_price_down'] = $room->getRoomPriceDownTo();
+                  $service['room_price_special'] = ($room->getRoomPriceSpecial() > 0) ? $room->getRoomPriceSpecial() : $room->getRoomPriceUpTo();
+                  array_push($services, $service); */
+                $em->persist($cart);
+                $em->flush();
             }
         }
 
-        $request->getSession()->set('services_pre_reservation', $services);
+        //$request->getSession()->set('services_pre_reservation', $services);
         $request->getSession()->set('services_pre_reservation_last_own', $id_ownership);
         return $this->redirect($this->generateUrl('frontend_review_reservation'));
     }
@@ -549,7 +566,6 @@ class ReservationController extends Controller
                 $destination_id = ($res->getOwnResGenResId()->getGenResOwnId()->getOwnDestination() != null) ? $res->getOwnResGenResId()->getGenResOwnId()->getOwnDestination()->getDesId() : null;
                 $seasons = $em->getRepository("mycpBundle:season")->getSeasons($min_date, $max_date, $destination_id);
                 $season_types_temp[] = $service_time->seasonTypeByDate($seasons, $date);
-
             }
 
             $season_types[$date] = $season_types_temp;
@@ -752,4 +768,5 @@ class ReservationController extends Controller
                         'FrontEndBundle:Reservation:view_confirmation', array('id_booking' => $id_booking)
         );
     }
+
 }
