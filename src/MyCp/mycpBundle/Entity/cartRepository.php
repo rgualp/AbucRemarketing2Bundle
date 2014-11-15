@@ -54,4 +54,31 @@ class cartRepository extends EntityRepository {
         }
     }
 
+    public function emptyCart($user_ids)
+    {
+        try {
+            $em = $this->getEntityManager();
+            $query_string = "SELECT c FROM mycpBundle:cart c ";
+            $where = "";
+            $cartItems = null;
+
+            if ($user_ids["user_id"] != null)
+                $where.= " WHERE c.cart_user = ".$user_ids['user_id'];
+            else if ($user_ids["session_id"] != null)
+                $where .= " WHERE c.cart_session_id = '".$user_ids["session_id"]."'";
+
+            if ($where != "")
+                $cartItems = $em->createQuery($query_string . $where)->getResult();
+
+            foreach($cartItems as $item)
+            {
+                $em->remove($item);
+            }
+            $em->flush();
+
+        } catch (Exception $e) {
+
+        }
+    }
+
 }

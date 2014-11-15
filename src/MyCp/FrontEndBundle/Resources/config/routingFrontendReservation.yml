@@ -4,7 +4,7 @@ frontend_review_reservation:
 
 frontend_add_to_cart_reservation:
     locales:  { en: "user/cart/add/{id_ownership}", es: "usuario/cesta/agregar/{id_ownership}", de: "user/cart/add/{id_ownership}" }
-    defaults: { _controller: FrontEndBundle:Reservation:add_to_cart }
+    defaults: { _controller: FrontEndBundle:Reservation:addToCart }
 
 frontend_remove_from_cart_reservation_callback:
     pattern:  /user/remove/{data}
@@ -12,7 +12,7 @@ frontend_remove_from_cart_reservation_callback:
 
 frontend_remove_cart_reservation:
     locales:  { en: "user/cart/clear/", es: "usuario/cesta/vaciar/", de: "benutzer/einkaufs-reservierungen/leer/" }
-    defaults: { _controller: FrontEndBundle:Reservation:clear }
+    defaults: { _controller: FrontEndBundle:Reservation:emptyCart }
 
 frontend_review_confirm_reservation:
     locales:  { en: "user/reservation/check-confirm/", es: "usuario/reservacion/chequear-confirmacion/", de: "user/reservation/check-confirm/" }

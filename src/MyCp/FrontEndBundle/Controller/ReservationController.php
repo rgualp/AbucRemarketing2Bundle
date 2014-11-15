@@ -18,7 +18,7 @@ use MyCp\FrontEndBundle\Helpers\ReservationHelper;
 
 class ReservationController extends Controller {
 
-    public function get_count_cart_itemsAction(Request $request) {
+    public function get_count_cart_itemsAction() {
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
         $countItems = $em->getRepository('mycpBundle:cart')->countItems($user_ids);
@@ -28,17 +28,17 @@ class ReservationController extends Controller {
         ));
     }
 
-    public function clearAction(Request $request) {
-        $request->getSession()->remove('services_pre_reservation');
+    public function emptyCartAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $em->getRepository('mycpBundle:cart')->emptyCart($user_ids);
         $trans = $this->get('translator');
-        //var_dump($trans);exit();
         $message = $trans->trans('CART_EMPTY_SUCCESSFUL');
-        //var_dump($message); exit();
         $this->get('session')->getFlashBag()->add('message_global_success', $message);
         return $this->redirect($this->generateUrl('frontend_review_reservation'));
     }
 
-    public function add_to_cartAction($id_ownership, Request $request) {
+    public function addToCartAction($id_ownership, Request $request) {
         $em = $this->getDoctrine()->getManager();
         $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
         if (!$request->get('data_reservation'))
