@@ -11,37 +11,38 @@
                     <tbody><tr>
                         <td class="date"><span>{{dates_string_day[flag]}}</span>{{date}}</td>
                         <td class="content_table">
-                                {% for service in services %}
+                                {% for item in cartItems %}
                                 {% set plus = 0 %}
                                 {% set season_type = array_season[dates_timestamp[flag]][service_flag]%}
-                                {% if service['room_type']=='Habitación Triple' and  service['guests'] + service['kids'] >= 3 %}
+                                {% set roomPrice = roomPriceBySeason(item.cartRoom, season_type)%}
+                                {% if item.tripleRoomCharged %}
                                     {% set plus = configuration_triple_room_charge %}
                                 {% endif %}
-                                {% if dates_timestamp[flag] >= service['from_date'] and dates_timestamp[flag] <= service['to_date']%}
-                                    {% if dates_timestamp[flag] != service['to_date']  %}
+                                {% if dates_timestamp[flag] >= item.cartDateFrom | date("U") and dates_timestamp[flag] <= item.cartDateTo | date("U")%}
+                                    {% if dates_timestamp[flag] != item.cartDateTo | date("U") %}
                                         <table class="full-width">
-                                            <tr id="{{ service['id'] }}-{{ dates_timestamp[flag] }}">
-                                                <td class="name">{{ service['ownership_mun']}}, {{ service['ownership_name']}}</td>
-                                                <td class="room-type">{{ service['room_type']|trans}}</td>
-                                                <td class="persons">{{"ADULTS"|trans}}: {{ service['guests']}} <br/> {{"KIDS"|trans}}: {{ service['kids']}}</td>
+                                            <tr id="{{ item.cartId }}-{{ dates_timestamp[flag] }}">
+                                                <td class="name">{{ item.cartRoom.roomOwnership.ownAddressMunicipality.munName}}, {{ item.cartRoom.roomOwnership.ownName}}</td>
+                                                <td class="room-type">{{ item.cartRoom.roomType |trans}}</td>
+                                                <td class="persons">{{"ADULTS"|trans}}: {{ item.cartCountAdults}} <br/> {{"KIDS"|trans}}: {{ item.cartCountChildren}}</td>
                                                 <td class="cost"><h3 class="no-margin">
 
-                                                        {% set total_percent =  total_percent + ((service['room_price_'~season_type]+plus) * service['ownership_percent'] / 100) %}
-                                                        {% if service['room_type']=='Habitación Triple' and  service['guests'] + service['kids'] >= 3 %}
-                                                            {{ (service['room_price_'~season_type]) | price}}
-                                                            {% set total_price = total_price +  (service['room_price_'~season_type] + plus) * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) %}
+                                                        {% set total_percent =  total_percent + ((roomPrice + plus) * item.cartRoom.roomOwnership.ownCommissionPercent / 100) %}
+                                                        {% if item.tripleRoomCharged%}
+                                                            {{ roomPrice | price}}
+                                                            {% set total_price = total_price +  (roomPrice + plus) * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) %}
                                                         {% else %}
-                                                            {{ service['room_price_'~season_type] | price}}
-                                                            {% set total_price = total_price + service['room_price_'~season_type] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) %}
+                                                            {{ roomPrice | price}}
+                                                            {% set total_price = total_price + roomPrice * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) %}
                                                         {% endif %}
 
 
                                                     </h3><small class="margin-b-t"><i>{{ "PRICE_NIGHT"|trans }}</i></small></td>
-                                                {% if service['room_type']=='Habitación Triple' and  service['guests'] + service['kids'] >= 3 %}
+                                                {% if item.tripleRoomCharged %}
                                                 <td style="vertical-align: top; padding-top: 2%"> + </td>
                                                 <td style="vertical-align: top"  rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}"><h5>{{plus | price}}</h5></td>
                                                 {%endif%}
-                                                <td class="text-center"><button data="{{ service['id'] }}-{{ dates_timestamp[flag] }}" class="btn_delete" rel="tooltip" data-placement="top" title="{{ 'REMOVE_RESERVE'|trans }}"><i class="icon-remove-sign"></i></button></td>
+                                                <td class="text-center"><button data="{{ item.cartId }}-{{ dates_timestamp[flag] }}" class="btn_delete" rel="tooltip" data-placement="top" title="{{ 'REMOVE_RESERVE'|trans }}"><i class="icon-remove-sign"></i></button></td>
                                             </tr>
                                         </table>
                                     {% else %}

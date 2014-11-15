@@ -79,8 +79,8 @@ class ReservationController extends Controller {
             $insert = 1;
             foreach ($cartItems as $item) {
                 if (isset($array_count_guests[$a]) && isset($array_count_kids[$a]) &&
-                        $item->getCartDateFrom() == $start_timestamp &&
-                        $item->getCartDateTo() == $end_timestamp &&
+                        $item->getCartDateFrom()->getTimestamp() == $start_timestamp &&
+                        $item->getCartDateTo()->getTimestamp() == $end_timestamp &&
                         $item->getCartRoom() == $array_ids_rooms[$a] &&
                         $item->getCartCountAdults() == $array_count_guests[$a] &&
                         $item->getCartCountChildren() == $array_count_kids[$a]
@@ -91,8 +91,13 @@ class ReservationController extends Controller {
             if ($insert == 1) {
                 $room = $em->getRepository('mycpBundle:room')->find($array_ids_rooms[$a]);
                 $cart = new cart();
-                $cart->setCartDateFrom($start_timestamp);
-                $cart->setCartDateTo($end_timestamp);
+                $fromDate = new \DateTime();
+                $fromDate->setTimestamp($start_timestamp);
+                $cart->setCartDateFrom($fromDate);
+
+                $toDate = new \DateTime();
+                $toDate->setTimestamp($end_timestamp);
+                $cart->setCartDateTo($toDate);
                 $cart->setCartRoom($room);
 
                 if (isset($array_count_guests[$a]))
@@ -109,8 +114,7 @@ class ReservationController extends Controller {
                 if ($user_ids["user_id"] != null) {
                     $user = $em->getRepository("mycpBundle:user")->find($user_ids["user_id"]);
                     $cart->setCartUser($user);
-                }
-                else if ($user_ids["session_id"] != null)
+                } else if ($user_ids["session_id"] != null)
                     $cart->setCartSessionId($user_ids["session_id"]);
 
                 /* $service['ownership_name'] = $ownership->getOwnName();
@@ -178,46 +182,46 @@ class ReservationController extends Controller {
         if (count($services) < 1) {
             return new Response('0');
         }
-        return $this->get_body_review_reservation_2Action($request);
+        return $this->getCartBodyAction($request);
     }
 
-    public function reviewAction(Request $request) {
+    public function viewCartAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
-        $last_own = $request->getSession()->get('services_pre_reservation_last_own');
-        if ($last_own)
-            $ownership = $em->getRepository('mycpBundle:ownership')->find($last_own);
-        else
-            $ownership = 0;
-        $services = array();
-        if ($request->getSession()->get('services_pre_reservation'))
-            $services = $request->getSession()->get('services_pre_reservation');
+        /* $last_own = $request->getSession()->get('services_pre_reservation_last_own');
+          if ($last_own)
+          $ownership = $em->getRepository('mycpBundle:ownership')->find($last_own);
+          else
+          $ownership = 0; */
 
-        return $this->render('FrontEndBundle:reservation:reviewReservation.html.twig', array(
-                    'services' => $services,
-                    'ownership' => $ownership,
+        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $countItems = $em->getRepository('mycpBundle:cart')->countItems($user_ids);
+
+        return $this->render('FrontEndBundle:reservation:cart.html.twig', array(
+                    'countItems' => $countItems,
         ));
     }
 
-    public function get_body_review_reservation_2Action(Request $request) {
-        $services = array();
-        if ($request->getSession()->get('services_pre_reservation'))
-            $services = $request->getSession()->get('services_pre_reservation');
+    public function getCartBodyAction() {
+        /* $services = array();
+          if ($request->getSession()->get('services_pre_reservation'))
+          $services = $request->getSession()->get('services_pre_reservation'); */
+        $em = $this->getDoctrine()->getManager();
+        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $cartItems = $em->getRepository('mycpBundle:cart')->getCartItems($user_ids);
 
         $min_date = 0;
         $max_date = 0;
 
-        if (isset($services[0]))
-            $min_date = $services[0]['from_date'];
+        foreach ($cartItems as $item) {
+            if($min_date == 0)
+                $min_date = $item->getCartDateFrom()->getTimestamp();
+            else if ($item->getCartDateFrom()->getTimestamp() < $min_date)
+                $min_date = $item->getCartDateFrom()->getTimestamp();
 
-        if (isset($services[0]))
-            $max_date = $services[0]['to_date'];
-
-
-        foreach ($services as $serv) {
-            if ($serv['from_date'] < $min_date)
-                $min_date = $serv['from_date'];
-            if ($serv['to_date'] > $max_date)
-                $max_date = $serv['to_date'];
+            if($max_date == 0)
+                $max_date = $item->getCartDateTo()->getTimestamp();
+            else if ($item->getCartDateTo()->getTimestamp() > $max_date)
+                $max_date = $item->getCartDateTo()->getTimestamp();
         }
 
         $service_time = $this->get('Time');
@@ -226,7 +230,7 @@ class ReservationController extends Controller {
         $array_dates_string = array();
         $array_season = array();
         $array_clear_date = array();
-        //var_dump($services);
+
         if ($array_dates) {
             $em = $this->getDoctrine()->getManager();
             foreach ($array_dates as $date) {
@@ -235,14 +239,14 @@ class ReservationController extends Controller {
 
                 $insert = 1;
                 $array_season_temp = array();
-                foreach ($services as $serv) {
-                    $destination_id = isset($serv['ownership_destination']) ? $serv['ownership_destination'] : null;
+                foreach ($cartItems as $item) {
+                    $destination = $item->getCartRoom()->getRoomOwnership()->getOwnDestination();
+                    $destination_id = isset($destination) ? $item->getCartRoom()->getRoomOwnership()->getOwnDestination()->getDesId() : null;
                     $seasons = $em->getRepository("mycpBundle:season")->getSeasons($min_date, $max_date, $destination_id);
                     $seasonTypes = $service_time->seasonByDate($seasons, $date);
                     array_push($array_season_temp, $seasonTypes);
 
-
-                    if ($date >= $serv['from_date'] && $date <= $serv['to_date']) {
+                    if ($date >= $item->getCartDateFrom()->getTimestamp() && $date <= $item->getCartDateTo()->getTimestamp()) {
                         $insert = 0;
                     }
                 }
@@ -253,11 +257,12 @@ class ReservationController extends Controller {
                 $array_season[$date] = $array_season_temp;
             }
         }
-        return $this->render('FrontEndBundle:reservation:bodyReviewReservation.html.twig', array(
+
+        return $this->render('FrontEndBundle:reservation:bodyCart.html.twig', array(
                     'dates_string' => $array_dates_string,
                     'dates_string_day' => $array_dates_string_day,
                     'dates_timestamp' => $array_dates,
-                    'services' => $services,
+                    'cartItems' => $cartItems,
                     'array_season' => $array_season,
                     'array_clear_date' => $array_clear_date
         ));

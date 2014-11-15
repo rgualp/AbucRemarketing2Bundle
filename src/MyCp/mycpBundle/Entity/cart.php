@@ -58,14 +58,14 @@ class cart
     /**
      * @var timestamp
      *
-     * @ORM\Column(name="cart_date_from", type="bigint")
+     * @ORM\Column(name="cart_date_from", type="datetime")
      */
     private $cart_date_from;
 
     /**
      * @var timestamp
      *
-     * @ORM\Column(name="cart_date_to", type="bigint")
+     * @ORM\Column(name="cart_date_to", type="datetime")
      */
     private $cart_date_to;
 
@@ -214,7 +214,7 @@ class cart
     /**
      * Set cart_date_from
      *
-     * @param bigint $value
+     * @param datetime $value
      * @return cart
      */
     public function setCartDateFrom($value)
@@ -226,7 +226,7 @@ class cart
     /**
      * Get cart_date_from
      *
-     * @return bigint
+     * @return datetime
      */
     public function getCartDateFrom()
     {
@@ -236,7 +236,7 @@ class cart
     /**
      * Set cart_date_to
      *
-     * @param bigint $value
+     * @param datetime $value
      * @return cart
      */
     public function setCartDateTo($value)
@@ -248,7 +248,7 @@ class cart
     /**
      * Get cart_date_to
      *
-     * @return bigint
+     * @return datetime
      */
     public function getCartDateTo()
     {
@@ -275,5 +275,11 @@ class cart
     public function getCartCreatedDate()
     {
         return $this->cart_created_date;
+    }
+
+    public function getTripleRoomCharged()
+    {
+        return ($this->getCartRoom()->getRoomType() == "Habitación Triple") &&
+                ($this->cart_count_adults + $this->cart_count_children >= 3);
     }
 }

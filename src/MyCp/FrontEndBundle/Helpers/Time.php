@@ -24,7 +24,7 @@ class Time {
 
     public static function seasonTypeByDate($seasons, $date_timestamp) {
         $season_type = season::SEASON_TYPE_LOW;
-        foreach ($seasons as $season) {    
+        foreach ($seasons as $season) {
             if ($season->getSeasonStartDate()->getTimestamp() <= $date_timestamp && $season->getSeasonEndDate()->getTimestamp() >= $date_timestamp) {
                 if ($season_type == season::SEASON_TYPE_LOW ||
                         ($season_type == season::SEASON_TYPE_HIGH && $season->getSeasonType() == season::SEASON_TYPE_SPECIAL))

@@ -31,6 +31,7 @@ class utilsExtension extends \Twig_Extension {
             'ceil_round' => new \Twig_Function_Method($this, 'ceil_round'),
             'default_currency' => new \Twig_Function_Method($this, 'default_currency'),
             'price_in_currency' => new \Twig_Function_Method($this, 'price_in_currency'),
+            'roomPriceBySeason' => new \Twig_Function_Method($this, 'roomPriceBySeason'),
         );
     }
 
@@ -87,6 +88,16 @@ class utilsExtension extends \Twig_Extension {
 
     public function statusName($status_id) {
         return \MyCp\mycpBundle\Entity\ownershipStatus::statusName($status_id);
+    }
+
+    public function roomPriceBySeason($room, $seasonType)
+    {
+        switch($seasonType)
+        {
+            case \MyCp\mycpBundle\Entity\season::SEASON_TYPE_HIGH: return $room->getRoomPriceUpTo();
+            case \MyCp\mycpBundle\Entity\season::SEASON_TYPE_SPECIAL: return $room->getRoomPriceSpecial();
+            default: return $room->getRoomPriceDownTo();
+        }
     }
 
 }

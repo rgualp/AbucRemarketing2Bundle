@@ -1,6 +1,6 @@
 frontend_review_reservation:
     locales:  { en: "user/cart/", es: "usuario/cesta/", de: "user/cart/" }
-    defaults: { _controller: FrontEndBundle:Reservation:review }
+    defaults: { _controller: FrontEndBundle:Reservation:viewCart }
 
 frontend_add_to_cart_reservation:
     locales:  { en: "user/cart/add/{id_ownership}", es: "usuario/cesta/agregar/{id_ownership}", de: "user/cart/add/{id_ownership}" }
