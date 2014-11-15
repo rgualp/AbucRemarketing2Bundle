@@ -19,12 +19,12 @@ use MyCp\FrontEndBundle\Helpers\ReservationHelper;
 class ReservationController extends Controller {
 
     public function get_count_cart_itemsAction(Request $request) {
-        $services = array();
-        if ($request->getSession()->get('services_pre_reservation'))
-            $services = $request->getSession()->get('services_pre_reservation');
-        //var_dump($request->getSession()->get('services_pre_reservation'));
+        $em = $this->getDoctrine()->getManager();
+        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $countItems = $em->getRepository('mycpBundle:cart')->countItems($user_ids);
+
         return $this->render('FrontEndBundle:reservation:cartCountItems.html.twig', array(
-                    'count' => count($services)
+                    'count' => $countItems
         ));
     }
 

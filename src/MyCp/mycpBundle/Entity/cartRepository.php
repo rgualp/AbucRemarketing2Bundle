@@ -33,4 +33,25 @@ class cartRepository extends EntityRepository {
         }
     }
 
+    public function countItems($user_ids)
+    {
+        try {
+            $em = $this->getEntityManager();
+            $query_string = "SELECT DISTINCT r.room_id FROM mycpBundle:cart c JOIN c.cart_room r";
+            $where = "";
+
+            if ($user_ids["user_id"] != null)
+                $where.= " WHERE c.cart_user = ".$user_ids['user_id'];
+            else if ($user_ids["session_id"] != null)
+                $where .= " WHERE c.cart_session_id = '".$user_ids["session_id"]."'";
+
+            if ($where != "")
+                return count($em->createQuery($query_string . $where)->getResult());
+            else
+                return 0;
+        } catch (Exception $e) {
+            return 0;
+        }
+    }
+
 }
