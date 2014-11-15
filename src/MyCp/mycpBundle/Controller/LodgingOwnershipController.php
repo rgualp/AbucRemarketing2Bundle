@@ -29,7 +29,7 @@ class LodgingOwnershipController extends Controller
             $em = $this->getDoctrine()->getManager();
             $user_casa = $em->getRepository('mycpBundle:userCasa')->get_user_casa_by_user_id($user->getUserId());
             $ownership = $user_casa->getUserCasaOwnership();
-            $rooms = $em->getRepository('mycpBundle:room')->findby(array('room_ownership' => $ownership->getOwnId()));
+            $rooms = $em->getRepository('mycpBundle:room')->findby(array('room_ownership' => $ownership->getOwnId(), "room_active" => true));
             $count_rooms = count($rooms);
             $post['ownership_id'] = $ownership->getOwnId();
             $data['id_ownership'] = $ownership->getOwnId();
