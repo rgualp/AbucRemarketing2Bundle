@@ -40,7 +40,6 @@ class ReservationController extends Controller {
 
     public function addToCartAction($id_ownership, Request $request) {
         $em = $this->getDoctrine()->getManager();
-        $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
         if (!$request->get('data_reservation'))
             throw $this->createNotFoundException();
         $data = $request->get('data_reservation');
@@ -135,51 +134,61 @@ class ReservationController extends Controller {
         }
 
         //$request->getSession()->set('services_pre_reservation', $services);
-        $request->getSession()->set('services_pre_reservation_last_own', $id_ownership);
+        //$request->getSession()->set('services_pre_reservation_last_own', $id_ownership);
         return $this->redirect($this->generateUrl('frontend_review_reservation'));
     }
 
     public function remove_from_cartAction($data, Request $request) {
+        $em = $this->getDoctrine()->getManager();
         $array_data = explode('-', $data);
-        $services = $request->getSession()->get('services_pre_reservation');
-        $service = $services[$data[0] - 1];
-        if ($service['from_date'] == $array_data[1]) {
-            $service['from_date'] += 86400;
-        } else if ($service['to_date'] == $array_data[1]) {
-            $service['to_date'] -= 86400;
+        $cartItem = $em->getRepository("mycpBundle:cart")->find($data[0]); //$request->getSession()->get('services_pre_reservation');
+
+        if ($cartItem->getCartDateFrom()->getTimestamp() == $array_data[1]) {
+            $date = new \DateTime();
+            $date->setTimestamp(strtotime("+1 day", $cartItem->getCartDateFrom()->getTimestamp()));
+            $cartItem->setCartDateFrom($date);
+            //$service['from_date'] += 86400;
+        } else if ($cartItem->getCartDateTo()->getTimestamp() == $array_data[1]) {
+            $date = new \DateTime();
+            $date->setTimestamp(strtotime("-1 day", $cartItem->getCartDateTo()->getTimestamp()));
+            $cartItem->setCartDateTo($date);
+            //$service['to_date'] -= 86400;
         }
 
-        if ($array_data[1] < $service['to_date'] && $array_data[1] > $service['from_date']) {
-            $service_next = $service;
-            $service['to_date'] = $array_data[1] - 86400;
-            $service_next['from_date'] = $array_data[1] + 86400;
-            $id = 0;
-            foreach ($services as $serv) {
-                if ($serv['id'] > $id)
-                    $id = $serv['id'];
-            }
-            $service_next['id'] = $id + 1;
-            array_push($services, $service_next);
+        if ($array_data[1] < $cartItem->getCartDateTo()->getTimestamp() && $array_data[1] > $cartItem->getCartDateFrom()->getTimestamp()) {
+            $cartItemNext = $cartItem;
+            $date = new \DateTime();
+            $date->setTimestamp(strtotime("-1 day", $array_data[1]));
+            $cartItem->setCartDateTo($date);
+            //$service['to_date'] = $array_data[1] - 86400;
+
+            $date = new \DateTime();
+            $date->setTimestamp(strtotime("+1 day", $array_data[1]));
+            $cartItemNext->setCartDateFrom($date);
+            //$service_next['from_date'] = $array_data[1] + 86400;
+            $em->persist($cartItemNext);
         }
 
 
-        if ($service['to_date'] < $service['from_date'])
-            $service = 0;
-        $services[$data[0] - 1] = $service;
-
-        $keys = array_keys($services);
-        foreach ($keys as $key) {
-            if ($services[$key] == 0)
-                unset($services[$key]);
-
-            if ($services[$key]['from_date'] == $services[$key]['to_date'])
-                unset($services[$key]);
-        }
+        /*if ($cartItem->getCartDateTo()->getTimestamp() <= $cartItem->getCartDateFrom()->getTimestamp()) {
+            //eliminar el cartItem
+            $em->remove($cartItem);
+        }*/
         //var_dump($services);
+        //$request->getSession()->set('services_pre_reservation', $services);
+        $em->flush();
+        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $cartItems = $em->getRepository('mycpBundle:cart')->getCartItems($user_ids);
 
-        $request->getSession()->set('services_pre_reservation', $services);
+        foreach ($cartItems as $item) {
+            if ($item->getCartDateTo()->getTimestamp() <= $item->getCartDateFrom()->getTimestamp()) {
+                //eliminar el cartItem
+                $em->remove($cartItem);
+            }
+        }
+        $em->flush();
 
-        if (count($services) < 1) {
+        if (count($cartItems) < 1) {
             return new Response('0');
         }
         return $this->getCartBodyAction($request);
@@ -213,12 +222,12 @@ class ReservationController extends Controller {
         $max_date = 0;
 
         foreach ($cartItems as $item) {
-            if($min_date == 0)
+            if ($min_date == 0)
                 $min_date = $item->getCartDateFrom()->getTimestamp();
             else if ($item->getCartDateFrom()->getTimestamp() < $min_date)
                 $min_date = $item->getCartDateFrom()->getTimestamp();
 
-            if($max_date == 0)
+            if ($max_date == 0)
                 $max_date = $item->getCartDateTo()->getTimestamp();
             else if ($item->getCartDateTo()->getTimestamp() > $max_date)
                 $max_date = $item->getCartDateTo()->getTimestamp();
