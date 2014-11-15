@@ -54,7 +54,7 @@ class OwnershipController extends Controller {
 
         foreach ($rooms as $room) {
             $temp_local = array();
-            $unavailable_room = $em->getRepository('mycpBundle:unavailabilityDetails')->findBy(array('room' => $room->getRoomId()));
+            $unavailable_room = $em->getRepository('mycpBundle:unavailabilityDetails')->getRoomDetails($room->getRoomId());
             $flag = 0;
             if ($unavailable_room) {
                 foreach ($unavailable_room as $ur) {
@@ -388,7 +388,7 @@ class OwnershipController extends Controller {
                 $end_timestamp = mktime(0, 0, 0, $reservation_filter_date_to[1], $reservation_filter_date_to[0], $reservation_filter_date_to[2]);
             }
         } else {
-            
+
         }
 
         $service_time = $this->get('Time');
