@@ -282,4 +282,19 @@ class cart
         return ($this->getCartRoom()->getRoomType() == "Habitación Triple") &&
                 ($this->cart_count_adults + $this->cart_count_children >= 3);
     }
+
+    public function getClone()
+    {
+        $clone = new cart();
+        $clone->setCartCountAdults($this->cart_count_adults);
+        $clone->setCartCountChildren($this->cart_count_children);
+        $clone->setCartCreatedDate(new \DateTime());
+        $clone->setCartDateFrom($this->cart_date_from);
+        $clone->setCartDateTo($this->cart_date_to);
+        $clone->setCartRoom($this->cart_room);
+        $clone->setCartSessionId($this->cart_session_id);
+        $clone->setCartUser($this->cart_user);
+
+        return $clone;
+    }
 }

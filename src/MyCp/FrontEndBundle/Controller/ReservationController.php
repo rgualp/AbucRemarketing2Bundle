@@ -141,7 +141,8 @@ class ReservationController extends Controller {
     public function remove_from_cartAction($data, Request $request) {
         $em = $this->getDoctrine()->getManager();
         $array_data = explode('-', $data);
-        $cartItem = $em->getRepository("mycpBundle:cart")->find($data[0]); //$request->getSession()->get('services_pre_reservation');
+        $cartItem = $em->getRepository("mycpBundle:cart")->find($array_data[0]); //$request->getSession()->get('services_pre_reservation');
+
 
         if ($cartItem->getCartDateFrom()->getTimestamp() == $array_data[1]) {
             $date = new \DateTime();
@@ -149,31 +150,29 @@ class ReservationController extends Controller {
             $cartItem->setCartDateFrom($date);
             //$service['from_date'] += 86400;
         } else if ($cartItem->getCartDateTo()->getTimestamp() == $array_data[1]) {
-            $date = new \DateTime();
-            $date->setTimestamp(strtotime("-1 day", $cartItem->getCartDateTo()->getTimestamp()));
-            $cartItem->setCartDateTo($date);
+            $dateTo = new \DateTime();
+            $dateTo->setTimestamp(strtotime("-1 day", $cartItem->getCartDateTo()->getTimestamp()));
+            $cartItem->setCartDateTo($dateTo);
             //$service['to_date'] -= 86400;
-        }
-
-        if ($array_data[1] < $cartItem->getCartDateTo()->getTimestamp() && $array_data[1] > $cartItem->getCartDateFrom()->getTimestamp()) {
-            $cartItemNext = $cartItem;
+        } else if ($array_data[1] < $cartItem->getCartDateTo()->getTimestamp() && $array_data[1] > $cartItem->getCartDateFrom()->getTimestamp()) {
+            $cartItemNext = $cartItem->getClone();
             $date = new \DateTime();
             $date->setTimestamp(strtotime("-1 day", $array_data[1]));
             $cartItem->setCartDateTo($date);
             //$service['to_date'] = $array_data[1] - 86400;
 
             $date = new \DateTime();
-            $date->setTimestamp(strtotime("+1 day", $array_data[1]));
+            $date->setTimestamp($array_data[1]);
             $cartItemNext->setCartDateFrom($date);
             //$service_next['from_date'] = $array_data[1] + 86400;
             $em->persist($cartItemNext);
         }
 
-
-        /*if ($cartItem->getCartDateTo()->getTimestamp() <= $cartItem->getCartDateFrom()->getTimestamp()) {
-            //eliminar el cartItem
-            $em->remove($cartItem);
-        }*/
+        $em->persist($cartItem);
+        /* if ($cartItem->getCartDateTo()->getTimestamp() <= $cartItem->getCartDateFrom()->getTimestamp()) {
+          //eliminar el cartItem
+          $em->remove($cartItem);
+          } */
         //var_dump($services);
         //$request->getSession()->set('services_pre_reservation', $services);
         $em->flush();

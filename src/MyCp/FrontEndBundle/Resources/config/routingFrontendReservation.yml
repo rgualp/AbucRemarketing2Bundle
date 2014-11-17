@@ -7,7 +7,7 @@ frontend_add_to_cart_reservation:
     defaults: { _controller: FrontEndBundle:Reservation:addToCart }
 
 frontend_remove_from_cart_reservation_callback:
-    pattern:  /user/remove/{data}
+    pattern:  /user/cart/remove/{data}
     defaults: { _controller: FrontEndBundle:Reservation:remove_from_cart }
 
 frontend_remove_cart_reservation:

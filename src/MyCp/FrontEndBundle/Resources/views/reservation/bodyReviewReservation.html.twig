@@ -1,0 +1,84 @@
+{% set flag = 0%}
+{% set service_flag = 0%}
+{% set total_price = 0 %}
+{% set total_percent = 0 %}
+{% for date in dates_string %}
+    {% set service_flag = 0%}
+    {% if array_clear_date[dates_timestamp[flag]] is not defined %}
+        {% if not loop.last %}
+            <div class="item" id="">
+                <table cellpadding="15" class="full-width">
+                    <tbody><tr>
+                        <td class="date"><span>{{dates_string_day[flag]}}</span>{{date}}</td>
+                        <td class="content_table">
+                                {% for service in services %}
+                                {% set plus = 0 %}
+                                {% set season_type = array_season[dates_timestamp[flag]][service_flag]%}
+                                {% if service['room_type']=='Habitación Triple' and  service['guests'] + service['kids'] >= 3 %}
+                                    {% set plus = configuration_triple_room_charge %}
+                                {% endif %}
+                                {% if dates_timestamp[flag] >= service['from_date'] and dates_timestamp[flag] <= service['to_date']%}
+                                    {% if dates_timestamp[flag] != service['to_date']  %}
+                                        <table class="full-width">
+                                            <tr id="{{ service['id'] }}-{{ dates_timestamp[flag] }}">
+                                                <td class="name">{{ service['ownership_mun']}}, {{ service['ownership_name']}}</td>
+                                                <td class="room-type">{{ service['room_type']|trans}}</td>
+                                                <td class="persons">{{"ADULTS"|trans}}: {{ service['guests']}} <br/> {{"KIDS"|trans}}: {{ service['kids']}}</td>
+                                                <td class="cost"><h3 class="no-margin">
+
+                                                        {% set total_percent =  total_percent + ((service['room_price_'~season_type]+plus) * service['ownership_percent'] / 100) %}
+                                                        {% if service['room_type']=='Habitación Triple' and  service['guests'] + service['kids'] >= 3 %}
+                                                            {{ (service['room_price_'~season_type]) | price}}
+                                                            {% set total_price = total_price +  (service['room_price_'~season_type] + plus) * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) %}
+                                                        {% else %}
+                                                            {{ service['room_price_'~season_type] | price}}
+                                                            {% set total_price = total_price + service['room_price_'~season_type] * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')) %}
+                                                        {% endif %}
+
+
+                                                    </h3><small class="margin-b-t"><i>{{ "PRICE_NIGHT"|trans }}</i></small></td>
+                                                {% if service['room_type']=='Habitación Triple' and  service['guests'] + service['kids'] >= 3 %}
+                                                <td style="vertical-align: top; padding-top: 2%"> + </td>
+                                                <td style="vertical-align: top"  rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}"><h5>{{plus | price}}</h5></td>
+                                                {%endif%}
+                                                <td class="text-center"><button data="{{ service['id'] }}-{{ dates_timestamp[flag] }}" class="btn_delete" rel="tooltip" data-placement="top" title="{{ 'REMOVE_RESERVE'|trans }}"><i class="icon-remove-sign"></i></button></td>
+                                            </tr>
+                                        </table>
+                                    {% else %}
+
+                                    {% endif %}
+                                {% endif %}
+                                {% set service_flag = service_flag + 1%}
+                            {% endfor %}</td>
+                    </tr>
+                    </tbody></table>
+            </div>
+        {% endif %}
+    {% endif %}
+    {% set flag = flag + 1 %}
+{% endfor %}
+<!--label>Comentarios:</label-->
+<form method="POST" action="{{ path('frontend_review_confirm_submit') }}">
+<!--textarea style="height: 100px" name="comment_cart" class="form-control"></textarea-->
+<div class="row text-right h-blue prices-cart">
+    <div class="col-sm-3">{{"RESERVATION_TOTAL_PRICE" | trans}} <span>{{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol}} {{ceil_round(total_price)}}</span></div>
+    <div class="col-sm-3">{{"INITIAL_DEPOSIT" | trans}}: <span>{{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol}} {{ceil_round(total_percent * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))}}</span></div>
+    <div class="col-sm-3">{{"SERVICE_RECHARGE" | trans}}: <span>{{configuration_service_fee | price}}</span></div>
+    <div class="col-sm-3">{{"TOTAL_PREPAYMENT" | trans}}: <span>{{app.session.get('curr_symbol') != null ? app.session.get('curr_symbol'): default_currency().currsymbol}} {{ceil_round((total_percent +configuration_service_fee) * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate')))}}</span></div>
+</div>
+<script type="text/javascript">
+
+    $('.content_table').each(function(){
+
+        if($(this).children("table").length==0)
+        {
+            $(this).parent().parent().remove();
+        }
+    });
+    $('.btn_delete').click(function(){
+        $('#confirmation_modal').modal('show');
+        $('#delete_button').attr('data',$(this).attr('data'));
+        $('#delete_button').attr('btn_launch',$(this).attr('id'));
+    });
+
+</script>
