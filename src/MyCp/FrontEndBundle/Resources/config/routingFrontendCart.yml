@@ -13,4 +13,12 @@ frontend_remove_from_cart_callback:
 frontend_empty_cart:
     locales:  { en: "user/cart/clear/", es: "usuario/cesta/vaciar/", de: "benutzer/einkaufs-reservierungen/leer/" }
     defaults: { _controller: FrontEndBundle:Cart:emptyCart }
+    
+frontend_check_availability_cart:
+    locales:  { en: "user/reservation/check-confirm/", es: "usuario/reservacion/chequear-confirmacion/", de: "user/reservation/check-confirm/" }
+    defaults: { _controller: FrontEndBundle:Cart:checkAvailability }
+
+frontend_check_availability_submit_cart:
+    pattern:  review_submit
+    defaults: { _controller: FrontEndBundle:Cart:checkAvailabilitySubmit }
 

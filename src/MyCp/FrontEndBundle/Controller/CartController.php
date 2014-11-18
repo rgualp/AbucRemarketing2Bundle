@@ -6,7 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use MyCp\mycpBundle\Entity\ownershipReservation;
-use MyCp\mycpBundle\Entity\booking;
 use MyCp\mycpBundle\Entity\season;
 use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\cart;
@@ -116,7 +115,7 @@ class CartController extends Controller {
                 $em->flush();
             }
         }
-        
+
         return $this->redirect($this->generateUrl('frontend_view_cart'));
     }
 
@@ -254,4 +253,197 @@ class CartController extends Controller {
                     'array_clear_date' => $array_clear_date
         ));
     }
+
+    public function checkAvailabilitySubmitAction(Request $request) {
+        $request->getSession()->set('message_cart', strip_tags($request->get('comment_cart')));
+        return $this->redirect($this->generateUrl('frontend_check_availability_cart'));
+    }
+
+    public function checkAvailabilityAction(Request $request) {
+
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $services = array();
+        $reservations = array();
+        $own_ids = array();
+        $gen_res = array();
+        $array_photos = array();
+        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $cartItems = $em->getRepository('mycpBundle:cart')->getCartItems($user_ids);
+        $min_date = null;
+        $max_date = null;
+
+        if (count($cartItems) > 0) {
+            $res_array = array();
+            $own_visited = array();
+            foreach ($cartItems as $item) {
+
+                if ($min_date == null)
+                    $min_date = $item->getCartDateFrom();
+                else if ($item->getCartDateFrom() < $min_date)
+                    $min_date = $item->getCartDateFrom();
+
+                if ($max_date == null)
+                    $max_date = $item->getCartDateTo();
+                else if ($item->getCartDateTo() > $max_date)
+                    $max_date = $item->getCartDateTo();
+
+                $res_own_id = $item->getCartRoom()->getRoomOwnership()->getOwnId();
+
+                $array_group_by_own_id = array();
+                $flag = 1;
+                foreach ($own_visited as $own) {
+                    if ($own == $res_own_id) {
+                        $flag = 0;
+                    }
+                }
+                if ($flag == 1)
+                    foreach ($cartItems as $item) {
+                        if ($res_own_id == $item->getCartRoom()->getRoomOwnership()->getOwnId()) {
+                            array_push($array_group_by_own_id, $item);
+                        }
+                    }
+                array_push($res_array, $array_group_by_own_id);
+                array_push($own_visited, $res_own_id);
+            }
+            $service_time = $this->get('Time');
+            $nigths = array();
+            foreach ($res_array as $resByOwn) {
+                if (isset($resByOwn[0])) {
+                    $ownership = $em->getRepository('mycpBundle:ownership')->find($resByOwn[0]->getCartRoom()->getRoomOwnership()->getOwnId());
+                    $general_reservation = new generalReservation();
+                    $general_reservation->setGenResUserId($user);
+                    $general_reservation->setGenResDate(new \DateTime(date('Y-m-d')));
+                    $general_reservation->setGenResStatusDate(new \DateTime(date('Y-m-d')));
+                    $general_reservation->setGenResHour(date('G'));
+                    $general_reservation->setGenResStatus(generalReservation::STATUS_PENDING);
+                    $general_reservation->setGenResFromDate($min_date);
+                    $general_reservation->setGenResToDate($max_date);
+                    $general_reservation->setGenResSaved(0);
+                    $general_reservation->setGenResOwnId($ownership);
+
+                    $total_price = 0;
+                    $partial_total_price = array();
+                    $destination_id = ($ownership->getOwnDestination() != null) ? $ownership->getOwnDestination()->getDesId() : null;
+                    foreach ($resByOwn as $item) {
+                        $triple_room_recharge = ($item->getTripleRoomCharged()) ? $this->container->getParameter('configuration.triple.room.charge') : 0;
+                        $array_dates = $service_time->datesBetween($item->getCartDateFrom()->getTimestamp(), $item->getCartDateTo()->getTimestamp());
+                        $temp_price = 0;
+                        $seasons = $em->getRepository("mycpBundle:season")->getSeasons($item->getCartDateFrom()->getTimestamp(), $item->getCartDateTo()->getTimestamp(), $destination_id);
+
+                        for ($a = 0; $a < count($array_dates) - 1; $a++) {
+                            $seasonType = $service_time->seasonTypeByDate($seasons, $array_dates[$a]);
+                            $roomPrice = ReservationHelper::roomPriceBySeason($item->getCartRoom(), $seasonType);
+                            $total_price += $roomPrice + $triple_room_recharge;
+                            $temp_price += $roomPrice + $triple_room_recharge;
+                        }
+                        array_push($partial_total_price, $temp_price);
+                    }
+                    $general_reservation->setGenResTotalInSite($total_price);
+                    $em->persist($general_reservation);
+
+                    $flag_1 = 0;
+
+                    foreach ($resByOwn as $item) {
+                        $ownership_reservation = $item->createReservation($general_reservation, $partial_total_price[$flag_1]);
+                        /* $ownership_reservation->setOwnResCountAdults($item['guests']);
+                          $ownership_reservation->setOwnResCountChildrens($item['kids']);
+                          $ownership_reservation->setOwnResNightPrice(0);
+                          $ownership_reservation->setOwnResStatus(ownershipReservation::STATUS_PENDING);
+                          $ownership_reservation->setOwnResReservationFromDate(new \DateTime(date("Y-m-d H:i:s", $item['from_date'])));
+                          $ownership_reservation->setOwnResReservationToDate(new \DateTime(date("Y-m-d H:i:s", $item['to_date'])));
+                          $ownership_reservation->setOwnResSelectedRoomId($item['room']);
+                          $ownership_reservation->setOwnResRoomPriceDown($item['room_price_down']);
+                          $ownership_reservation->setOwnResRoomPriceUp($item['room_price_top']);
+                          $ownership_reservation->setOwnResRoomPriceSpecial($item['room_price_special']);
+                          $ownership_reservation->setOwnResGenResId($general_reservation);
+                          $ownership_reservation->setOwnResRoomType($item['room_type']);
+                          $ownership_reservation->setOwnResTotalInSite($partial_total_price[$flag_1]); */
+                        array_push($reservations, $ownership_reservation);
+
+                        $ownership_photo = $em->getRepository('mycpBundle:ownership')->get_ownership_photo($ownership_reservation->getOwnResGenResId()->getGenResOwnId()->getOwnId());
+                        array_push($array_photos, $ownership_photo);
+
+                        $array_dates = $service_time->datesBetween($ownership_reservation->getOwnResReservationFromDate()->getTimestamp(), $ownership_reservation->getOwnResReservationToDate()->getTimestamp());
+                        array_push($nigths, count($array_dates) - 1);
+
+                        $em->persist($ownership_reservation);
+                        $em->flush();
+                        array_push($own_ids, $ownership_reservation->getOwnResId());
+                        $flag_1++;
+                    }
+                }
+            }
+        } else {
+            return $this->redirect($this->generateUrl('frontend_view_cart'));
+        }
+
+        //Vaciar el carrito
+        $em->getRepository("mycpBundle:cart")->emptyCart($user_ids);
+        //$request->getSession()->set('services_pre_reservation', null);
+
+        /*
+         * Hallando otros ownerships en el mismo destino
+         */
+        $ownership = $em->getRepository('mycpBundle:ownership')->find($cartItems[0]->getCartRoom()->getRoomOwnership()->getOwnId());
+
+        $owns_in_destination = $em->getRepository("mycpBundle:destination")->getRecommendableAccommodations($min_date, $max_date, $ownership->getOwnMinimumPrice(), $ownership->getOwnRoomsTotal(), $ownership->getOwnAddressMunicipality()->getMunId(), $ownership->getOwnAddressProvince()->getProvId(), 3, $ownership->getOwnId(), $user->getUserId());
+
+        $locale = $this->get('translator')->getLocale();
+        $destinations = $em->getRepository('mycpBundle:destination')->filter($locale, null, $ownership->getOwnAddressProvince()->getProvId(), null, $ownership->getOwnAddressMunicipality()->getMunId(), 3, $user->getUserId(), null);
+
+        // Enviando mail al cliente
+        $body = $this->render('FrontEndBundle:mails:email_check_available.html.twig', array(
+            'user' => $user,
+            'reservations' => $reservations,
+            'ids' => $own_ids,
+            'nigths' => $nigths,
+            'photos' => $array_photos
+        ));
+
+        $locale = $this->get('translator');
+        $subject = $locale->trans('REQUEST_SENT');
+        $service_email = $this->get('Email');
+        $service_email->sendEmail(
+                $subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $body
+        );
+
+
+        $user_tourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
+        $array_own_res_home = array();
+        foreach ($reservations as $gen) {
+            $offset = $gen->getOwnResGenResId()->getGenResId();
+            $temp = array();
+            if (isset($array_own_res_home[$offset]))
+                $temp = $array_own_res_home[$offset];
+            array_push($temp, $gen);
+            $array_own_res_home[$offset] = $temp;
+        }
+        //Enviando mail al reservation team
+        $flag_3 = 0;
+        foreach ($array_own_res_home as $own_array) {
+            $temp_nigths = array_slice($nigths, $flag_3, count($own_array));
+            $flag_3 = count($own_array);
+            $body = $this->render('FrontEndBundle:mails:rt_email_check_available.html.twig', array(
+                'user' => $user,
+                'user_tourist' => $user_tourist,
+                'reservations' => $own_array,
+                'nigths' => $temp_nigths,
+                'comment' => $request->getSession()->get('message_cart')
+            ));
+
+            $subject = "MyCasaParticular Reservas - " . strtoupper($user_tourist->getUserTouristLanguage()->getLangCode());
+
+            $service_email->sendEmail(
+                    $subject, 'no.reply@mycasaparticular.com', $subject, 'reservation@mycasaparticular.com', $body
+            );
+        }
+        //exit();
+
+        return $this->render('FrontEndBundle:reservation:confirmReview.html.twig', array(
+                    "owns_in_destination" => $owns_in_destination,
+                    "other_destinations" => $destinations
+        ));
+    }
+
 }

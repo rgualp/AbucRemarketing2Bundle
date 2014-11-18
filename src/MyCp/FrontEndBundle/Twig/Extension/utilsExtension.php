@@ -92,12 +92,7 @@ class utilsExtension extends \Twig_Extension {
 
     public function roomPriceBySeason($room, $seasonType)
     {
-        switch($seasonType)
-        {
-            case \MyCp\mycpBundle\Entity\season::SEASON_TYPE_HIGH: return $room->getRoomPriceUpTo();
-            case \MyCp\mycpBundle\Entity\season::SEASON_TYPE_SPECIAL: return $room->getRoomPriceSpecial();
-            default: return $room->getRoomPriceDownTo();
-        }
+        return \MyCp\FrontEndBundle\Helpers\ReservationHelper::roomPriceBySeason($room, $seasonType);
     }
 
 }

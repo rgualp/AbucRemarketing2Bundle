@@ -11,8 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\cartRepository")
  *
  */
-class cart
-{
+class cart {
+
     /**
      * @var integer
      *
@@ -69,8 +69,7 @@ class cart
      */
     private $cart_date_to;
 
-
-     /**
+    /**
      * @var datetime
      *
      * @ORM\Column(name="cart_created_date", type="datetime")
@@ -84,14 +83,12 @@ class cart
         $this->cart_created_date = new \DateTime();
     }
 
-
     /**
      * Get cart_id
      *
      * @return integer
      */
-    public function getCartId()
-    {
+    public function getCartId() {
         return $this->cart_id;
     }
 
@@ -101,8 +98,7 @@ class cart
      * @param integer $value
      * @return cart
      */
-    public function setCartCountAdults($value)
-    {
+    public function setCartCountAdults($value) {
         $this->cart_count_adults = $value;
 
         return $this;
@@ -113,8 +109,7 @@ class cart
      *
      * @return integer
      */
-    public function getCartCountAdults()
-    {
+    public function getCartCountAdults() {
         return $this->cart_count_adults;
     }
 
@@ -124,8 +119,7 @@ class cart
      * @param integer $value
      * @return cart
      */
-    public function setCartCountChildren($value)
-    {
+    public function setCartCountChildren($value) {
         $this->cart_count_children = $value;
 
         return $this;
@@ -136,8 +130,7 @@ class cart
      *
      * @return integer
      */
-    public function getCartCountChildren()
-    {
+    public function getCartCountChildren() {
         return $this->cart_count_children;
     }
 
@@ -147,10 +140,9 @@ class cart
      * @param string $value
      * @return cart
      */
-    public function setCartSessionId($value = null)
-    {
-        if($value != null)
-           $this->cart_session_id = $value;
+    public function setCartSessionId($value = null) {
+        if ($value != null)
+            $this->cart_session_id = $value;
 
         return $this;
     }
@@ -160,8 +152,7 @@ class cart
      *
      * @return string
      */
-    public function getCartSessionId()
-    {
+    public function getCartSessionId() {
         return $this->cart_session_id;
     }
 
@@ -171,8 +162,7 @@ class cart
      * @param \MyCp\mycpBundle\Entity\room $value
      * @return cart
      */
-    public function setCartRoom(\MyCp\mycpBundle\Entity\room $value)
-    {
+    public function setCartRoom(\MyCp\mycpBundle\Entity\room $value) {
         $this->cart_room = $value;
         return $this;
     }
@@ -182,8 +172,7 @@ class cart
      *
      * @return \MyCp\mycpBundle\Entity\room
      */
-    public function getCartRoom()
-    {
+    public function getCartRoom() {
         return $this->cart_room;
     }
 
@@ -193,10 +182,9 @@ class cart
      * @param \MyCp\mycpBundle\Entity\user $value
      * @return cart
      */
-    public function setCartUser(\MyCp\mycpBundle\Entity\user $value = null)
-    {
-        if($value != null)
-           $this->cart_user = $value;
+    public function setCartUser(\MyCp\mycpBundle\Entity\user $value = null) {
+        if ($value != null)
+            $this->cart_user = $value;
 
         return $this;
     }
@@ -206,8 +194,7 @@ class cart
      *
      * @return \MyCp\mycpBundle\Entity\user
      */
-    public function getCartUser()
-    {
+    public function getCartUser() {
         return $this->cart_user;
     }
 
@@ -217,8 +204,7 @@ class cart
      * @param datetime $value
      * @return cart
      */
-    public function setCartDateFrom($value)
-    {
+    public function setCartDateFrom($value) {
         $this->cart_date_from = $value;
         return $this;
     }
@@ -228,8 +214,7 @@ class cart
      *
      * @return datetime
      */
-    public function getCartDateFrom()
-    {
+    public function getCartDateFrom() {
         return $this->cart_date_from;
     }
 
@@ -239,8 +224,7 @@ class cart
      * @param datetime $value
      * @return cart
      */
-    public function setCartDateTo($value)
-    {
+    public function setCartDateTo($value) {
         $this->cart_date_to = $value;
         return $this;
     }
@@ -250,8 +234,7 @@ class cart
      *
      * @return datetime
      */
-    public function getCartDateTo()
-    {
+    public function getCartDateTo() {
         return $this->cart_date_to;
     }
 
@@ -261,8 +244,7 @@ class cart
      * @param DateTime $value
      * @return cart
      */
-    public function setCartCreatedDate($value)
-    {
+    public function setCartCreatedDate($value) {
         $this->cart_created_date = $value;
         return $this;
     }
@@ -272,19 +254,16 @@ class cart
      *
      * @return DateTime
      */
-    public function getCartCreatedDate()
-    {
+    public function getCartCreatedDate() {
         return $this->cart_created_date;
     }
 
-    public function getTripleRoomCharged()
-    {
+    public function getTripleRoomCharged() {
         return ($this->getCartRoom()->getRoomType() == "Habitación Triple") &&
                 ($this->cart_count_adults + $this->cart_count_children >= 3);
     }
 
-    public function getClone()
-    {
+    public function getClone() {
         $clone = new cart();
         $clone->setCartCountAdults($this->cart_count_adults);
         $clone->setCartCountChildren($this->cart_count_children);
@@ -297,4 +276,28 @@ class cart
 
         return $clone;
     }
+
+    public function createReservation($generalReservation, $calculatedPrice = 0, $calculateTotalPrice = false) {
+        $ownership_reservation = new ownershipReservation();
+        $ownership_reservation->setOwnResCountAdults($this->cart_count_adults);
+        $ownership_reservation->setOwnResCountChildrens($this->cart_count_children);
+        $ownership_reservation->setOwnResNightPrice(0);
+        $ownership_reservation->setOwnResStatus(ownershipReservation::STATUS_PENDING);
+        $ownership_reservation->setOwnResReservationFromDate($this->cart_date_from);
+        $ownership_reservation->setOwnResReservationToDate($this->cart_date_to);
+        $ownership_reservation->setOwnResSelectedRoomId($this->cart_room);
+        $ownership_reservation->setOwnResRoomPriceDown($this->cart_room->getRoomPriceDownTo());
+        $ownership_reservation->setOwnResRoomPriceUp($this->cart_room->getRoomPriceUpTo());
+        $ownership_reservation->setOwnResRoomPriceSpecial($this->cart_room->getRoomPriceSpecial());
+        $ownership_reservation->setOwnResGenResId($generalReservation);
+        $ownership_reservation->setOwnResRoomType($this->cart_room->getRoomType());
+        
+        if($calculateTotalPrice)
+            $ownership_reservation->setOwnResTotalInSite(0); //TODO: Calcular segun los cambios de estaciones
+        else
+            $ownership_reservation->setOwnResTotalInSite($calculatedPrice);            
+        
+        return $ownership_reservation;
+    }
+
 }
