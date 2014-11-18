@@ -263,10 +263,8 @@ class CartController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $services = array();
         $reservations = array();
         $own_ids = array();
-        $gen_res = array();
         $array_photos = array();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
         $cartItems = $em->getRepository('mycpBundle:cart')->getCartItems($user_ids);
@@ -345,20 +343,7 @@ class CartController extends Controller {
                     $flag_1 = 0;
 
                     foreach ($resByOwn as $item) {
-                        $ownership_reservation = $item->createReservation($general_reservation, $partial_total_price[$flag_1]);
-                        /* $ownership_reservation->setOwnResCountAdults($item['guests']);
-                          $ownership_reservation->setOwnResCountChildrens($item['kids']);
-                          $ownership_reservation->setOwnResNightPrice(0);
-                          $ownership_reservation->setOwnResStatus(ownershipReservation::STATUS_PENDING);
-                          $ownership_reservation->setOwnResReservationFromDate(new \DateTime(date("Y-m-d H:i:s", $item['from_date'])));
-                          $ownership_reservation->setOwnResReservationToDate(new \DateTime(date("Y-m-d H:i:s", $item['to_date'])));
-                          $ownership_reservation->setOwnResSelectedRoomId($item['room']);
-                          $ownership_reservation->setOwnResRoomPriceDown($item['room_price_down']);
-                          $ownership_reservation->setOwnResRoomPriceUp($item['room_price_top']);
-                          $ownership_reservation->setOwnResRoomPriceSpecial($item['room_price_special']);
-                          $ownership_reservation->setOwnResGenResId($general_reservation);
-                          $ownership_reservation->setOwnResRoomType($item['room_type']);
-                          $ownership_reservation->setOwnResTotalInSite($partial_total_price[$flag_1]); */
+                        $ownership_reservation = $item->createReservation($general_reservation, $partial_total_price[$flag_1]);                     
                         array_push($reservations, $ownership_reservation);
 
                         $ownership_photo = $em->getRepository('mycpBundle:ownership')->get_ownership_photo($ownership_reservation->getOwnResGenResId()->getGenResOwnId()->getOwnId());
@@ -380,7 +365,6 @@ class CartController extends Controller {
 
         //Vaciar el carrito
         $em->getRepository("mycpBundle:cart")->emptyCart($user_ids);
-        //$request->getSession()->set('services_pre_reservation', null);
 
         /*
          * Hallando otros ownerships en el mismo destino
