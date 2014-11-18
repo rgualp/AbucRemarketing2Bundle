@@ -150,7 +150,7 @@
                         {% else %}
                             {% set date_to = "+6 day"|date("d&m&Y") %}
                         {% endif %}
-                        <form action="{{ path('frontend_add_to_cart_reservation',{'id_ownership':ownership.own_id}) }}" method="POST">
+                        <form action="{{ path('frontend_add_to_cart',{'id_ownership':ownership.own_id}) }}" method="POST">
                             <div class="row">
                                 <div class="col-sm-4"></div>
                                 <div class="col-sm-4 text-center">

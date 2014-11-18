@@ -290,7 +290,7 @@ class PublicController extends Controller {
             array_push($url_sites,$url);
 
             $url = array(
-                'loc' => $this->get('router')->generate('frontend_review_reservation', $routingParams),
+                'loc' => $this->get('router')->generate('frontend_view_cart', $routingParams),
                 'priority' => '0.5',
                 'changefreq'=> 'daily'
             );

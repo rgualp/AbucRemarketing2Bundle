@@ -24,12 +24,12 @@
         </table>
     {%if countItems > 0%}
 
-    <a href="{{ path('frontend_remove_cart_reservation') }}" class="btn pull-right btn-danger" style="margin-top: -40px"><i class="icon-trash icon-white"></i> {{"EMPTY_CART"|trans}}</a>
+    <a href="{{ path('frontend_empty_cart') }}" class="btn pull-right btn-danger" style="margin-top: -40px"><i class="icon-trash icon-white"></i> {{"EMPTY_CART"|trans}}</a>
     {%endif%}
     <div id="res_main_cont">
         {% if countItems > 0 %}
         <div id="cart-cont" class="items-cart">
-            {{ render(controller('FrontEndBundle:Reservation:getCartBody')) }}
+            {{ render(controller('FrontEndBundle:Cart:getCartBody')) }}
         </div>
 
         {% else %}
@@ -76,7 +76,7 @@
 
 <script type="text/javascript">
     $('#delete_button').click(function(){
-            string_url="{{ path('frontend_remove_from_cart_reservation_callback',{'data':0})}}";
+            string_url="{{ path('frontend_remove_from_cart_callback',{'data':0})}}";
             data_remove=$(this).attr('data');
             $('.btn_delete').attr('disabled','disable');
             string_url=string_url.substr(0,string_url.length -1);
@@ -91,7 +91,7 @@
                     $('.btn_delete').removeAttr('disabled');
                     if(msg=='0')
                     {
-                        window.location='{{path('frontend_review_reservation')}}';
+                        window.location='{{path('frontend_view_cart')}}';
                     }
                     else
                     {
