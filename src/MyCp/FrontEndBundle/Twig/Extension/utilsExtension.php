@@ -32,6 +32,7 @@ class utilsExtension extends \Twig_Extension {
             'default_currency' => new \Twig_Function_Method($this, 'default_currency'),
             'price_in_currency' => new \Twig_Function_Method($this, 'price_in_currency'),
             'roomPriceBySeason' => new \Twig_Function_Method($this, 'roomPriceBySeason'),
+            'reservationPriceBySeason' => new \Twig_Function_Method($this, 'reservationPriceBySeason'),
         );
     }
 
@@ -93,6 +94,11 @@ class utilsExtension extends \Twig_Extension {
     public function roomPriceBySeason($room, $seasonType)
     {
         return \MyCp\FrontEndBundle\Helpers\ReservationHelper::roomPriceBySeason($room, $seasonType);
+    }
+    
+    public function reservationPriceBySeason($reservation, $seasonType)
+    {
+        return \MyCp\FrontEndBundle\Helpers\ReservationHelper::reservationPriceBySeason($reservation, $seasonType);
     }
 
 }

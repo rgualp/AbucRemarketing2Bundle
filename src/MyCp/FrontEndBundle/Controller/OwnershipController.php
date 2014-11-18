@@ -156,29 +156,10 @@ class OwnershipController extends Controller {
             for ($a = 0; $a < count($array_dates) - $x; $a++) {
 
                 $season_type = $service_time->seasonTypeByDate($seasons, $array_dates[$a]);
+                $roomPrice = \MyCp\FrontEndBundle\Helpers\ReservationHelper::roomPriceBySeason($room, $season_type);
 
-                switch ($season_type) {
-                    case season::SEASON_TYPE_HIGH: {
-                            $total_price_room += $room->getRoomPriceUpTo();
-                            array_push($prices_dates_temp, $room->getRoomPriceUpTo());
-                            break;
-                        }
-                    case season::SEASON_TYPE_SPECIAL: {
-                            if ($room->getRoomPriceSpecial() > 0) {
-                                $total_price_room += $room->getRoomPriceSpecial();
-                                array_push($prices_dates_temp, $room->getRoomPriceSpecial());
-                            } else {
-                                $total_price_room += $room->getRoomPriceUpTo();
-                                array_push($prices_dates_temp, $room->getRoomPriceUpTo());
-                            }
-                            break;
-                        }
-                    default: {
-                            $total_price_room += $room->getRoomPriceDownTo();
-                            array_push($prices_dates_temp, $room->getRoomPriceDownTo());
-                            break;
-                        }
-                }
+                $total_price_room += $roomPrice;
+                array_push($prices_dates_temp, $roomPrice);
             }
             array_push($array_prices, $total_price_room);
             array_push($prices_dates, $prices_dates_temp);
@@ -457,29 +438,9 @@ class OwnershipController extends Controller {
             for ($a = 0; $a < count($array_dates) - $x; $a++) {
 
                 $season_type = $service_time->seasonTypeByDate($seasons, $array_dates[$a]);
-                switch ($season_type) {
-                    case season::SEASON_TYPE_HIGH: {
-                            $total_price_room += $room->getRoomPriceUpTo();
-                            array_push($prices_dates_temp, $room->getRoomPriceUpTo());
-                            break;
-                        }
-                    case season::SEASON_TYPE_SPECIAL: {
-                            if ($room->getRoomPriceSpecial() > 0) {
-
-                                $total_price_room += $room->getRoomPriceSpecial();
-                                array_push($prices_dates_temp, $room->getRoomPriceSpecial());
-                            } else {
-                                $total_price_room += $room->getRoomPriceUpTo();
-                                array_push($prices_dates_temp, $room->getRoomPriceUpTo());
-                            }
-                            break;
-                        }
-                    default: {
-                            $total_price_room += $room->getRoomPriceDownTo();
-                            array_push($prices_dates_temp, $room->getRoomPriceDownTo());
-                            break;
-                        }
-                }
+                $roomPrice = \MyCp\FrontEndBundle\Helpers\ReservationHelper::roomPriceBySeason($room, $season_type);
+                $total_price_room += $roomPrice;
+                array_push($prices_dates_temp, $roomPrice);
             }
             array_push($array_prices, $total_price_room);
             array_push($prices_dates, $prices_dates_temp);
