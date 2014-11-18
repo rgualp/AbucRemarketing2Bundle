@@ -259,7 +259,7 @@ class cart {
     }
 
     public function getTripleRoomCharged() {
-        return ($this->getCartRoom()->getRoomType() == "Habitación Triple") &&
+        return ($this->cart_room->isTriple()) &&
                 ($this->cart_count_adults + $this->cart_count_children >= 3);
     }
 
