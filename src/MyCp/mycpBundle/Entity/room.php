@@ -720,5 +720,10 @@ class room {
     public function getOwnUnavailabilityDetails() {
         return $this->own_unavailability_details;
     }
+    
+    public function isTriple()
+    {
+        return $this->room_type == "Habitación Triple";
+    }
 
 }
