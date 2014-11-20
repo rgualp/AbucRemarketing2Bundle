@@ -299,4 +299,25 @@ class cart {
         return $ownership_reservation;
     }
 
+    public function calculatePrice($entity_manager, $service_time, $triple_charge, $service_feed)
+    {
+        $total_price = 0;
+
+        $destination_id = ($this->cart_room->getRoomOwnership()->getOwnDestination() != null) ? $this->cart_room->getRoomOwnership()->getOwnDestination()->getDesId(): null;
+        $seasons = $entity_manager->getRepository("mycpBundle:season")->getSeasons($this->cart_date_from, $this->cart_date_to, $destination_id);
+        $array_dates = $service_time->datesBetween($this->cart_date_from->getTimestamp(), $this->cart_date_to->getTimestamp());
+
+        $triple_feed = ($this->getTripleRoomCharged()) ? $triple_charge : 0;
+
+        for ($i = 0; $i < count($array_dates) - 1; $i++) {
+                $seasonType = $service_time->seasonTypeByDate($seasons, $array_dates[$i]);
+                $total_price += $this->cart_room->getPriceBySeasonType($seasonType) + $triple_feed;
+        }
+        $prices = array(
+            'totalPrice' => $total_price,
+            'initialPayment' => ($total_price * $this->cart_room->getRoomOwnership()->getOwnCommissionPercent()/100) + $service_feed
+        );
+        return $prices;
+    }
+
 }

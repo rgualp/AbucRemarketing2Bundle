@@ -156,7 +156,7 @@ class OwnershipController extends Controller {
             for ($a = 0; $a < count($array_dates) - $x; $a++) {
 
                 $season_type = $service_time->seasonTypeByDate($seasons, $array_dates[$a]);
-                $roomPrice = \MyCp\FrontEndBundle\Helpers\ReservationHelper::roomPriceBySeason($room, $season_type);
+                $roomPrice = $room->getPriceBySeasonType($season_type);
 
                 $total_price_room += $roomPrice;
                 array_push($prices_dates_temp, $roomPrice);
@@ -438,7 +438,7 @@ class OwnershipController extends Controller {
             for ($a = 0; $a < count($array_dates) - $x; $a++) {
 
                 $season_type = $service_time->seasonTypeByDate($seasons, $array_dates[$a]);
-                $roomPrice = \MyCp\FrontEndBundle\Helpers\ReservationHelper::roomPriceBySeason($room, $season_type);
+                $roomPrice = $room->getPriceBySeasonType($season_type);
                 $total_price_room += $roomPrice;
                 array_push($prices_dates_temp, $roomPrice);
             }

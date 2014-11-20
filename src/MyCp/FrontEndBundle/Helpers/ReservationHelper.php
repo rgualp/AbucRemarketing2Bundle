@@ -20,23 +20,18 @@ class ReservationHelper {
         } else {
             $total_price += $reservation->getOwnResNightPrice() * (count($array_dates) - 1);
         }
-        
+
         if($reservation->getTripleRoomCharged())
             $total_price += $triple_room_charge * (count($array_dates) - 1);
-        
+
         return $total_price;
     }
-    
+
     public static function roomPriceBySeason($room, $seasonType)
     {
-        switch($seasonType)
-        {
-            case \MyCp\mycpBundle\Entity\season::SEASON_TYPE_HIGH: return $room->getRoomPriceUpTo();
-            case \MyCp\mycpBundle\Entity\season::SEASON_TYPE_SPECIAL: return ($room->getRoomPriceSpecial() != null && $room->getRoomPriceSpecial() > 0) ? $room->getRoomPriceSpecial(): $room->getRoomPriceUpTo();
-            default: return $room->getRoomPriceDownTo();
-        }
+        return $room->getPriceBySeasonType($seasonType);
     }
-    
+
     public static function reservationPriceBySeason($reservation, $seasonType)
     {
         switch($seasonType)

@@ -2647,6 +2647,22 @@
                 <source>NOT_ALLOW_STATUS_OFFER</source>
                 <target>Esta oferta no puede ser cancelada.</target>
             </trans-unit>
+            <trans-unit id="672">
+                <source>USER_CART_FULL_REMINDER</source>
+                <target>Carrito de compras lleno. ¿Qué operación desea realizar?</target>
+            </trans-unit>
+            <trans-unit id="673">
+                <source>USER_CART_FULL_TEXT1</source>
+                <target>En su cesta de compra hay varios alojamientos que podrían estar disponibles. ¿Qué le gustaría hacer con ellos?</target>
+            </trans-unit>
+            <trans-unit id="674">
+                <source>FROM_DATE</source>
+                <target>Desde</target>
+            </trans-unit>
+            <trans-unit id="675">
+                <source>TO_DATE</source>
+                <target>hasta</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

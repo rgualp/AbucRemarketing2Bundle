@@ -105,4 +105,29 @@ class cartRepository extends EntityRepository {
         }
         $em->flush();
     }
+
+    public function testValues($testUser)
+    {
+        $em = $this->getEntityManager();
+        $cartItems = array();
+        $room = $em->getRepository("mycpBundle:room")->findOneBy(array("room_type" => "Habitación Triple"));
+
+        $cart = new cart();
+        $cart->setCartCountAdults(2);
+        $cart->setCartCountChildren(1);
+        $cart->setCartCreatedDate(new \DateTime());
+        $date = new \DateTime();
+        $dateFrom = $date->setTimestamp(strtotime("-1 day", $date->getTimestamp()));
+        $date = new \DateTime();
+        $dateTo = $date->setTimestamp(strtotime("+4 day", $date->getTimestamp()));
+        $cart->setCartDateFrom($dateFrom);
+        $cart->setCartDateTo($dateTo);
+        $cart->setCartRoom($room);
+        $cart->setCartUser($testUser);
+
+        array_push($cartItems, $cart);
+
+        return $cartItems;
+    }
+
 }

@@ -322,7 +322,7 @@ class CartController extends Controller {
 
                         for ($a = 0; $a < count($array_dates) - 1; $a++) {
                             $seasonType = $service_time->seasonTypeByDate($seasons, $array_dates[$a]);
-                            $roomPrice = ReservationHelper::roomPriceBySeason($item->getCartRoom(), $seasonType);
+                            $roomPrice = $item->getCartRoom()->getPriceBySeasonType($seasonType);
                             $total_price += $roomPrice + $triple_room_recharge;
                             $temp_price += $roomPrice + $triple_room_recharge;
                         }

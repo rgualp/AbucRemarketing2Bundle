@@ -42,7 +42,7 @@ class BackendReservationController extends Controller {
             $from_date = $data[0];
             $to_date = $data[1];
             $ids_rooms = $data[2];
-            
+
             $count_guests = $data[3];
             $count_kids = $data[4];
             $array_ids_rooms = explode('&', $ids_rooms);
@@ -90,7 +90,7 @@ class BackendReservationController extends Controller {
                 $seasons = $em->getRepository("mycpBundle:season")->getSeasons($start_timestamp, $end_timestamp, $destination_id);
                 for ($a = 0; $a < count($array_dates) - 1; $a++) {
                     $seasonType = $service_time->seasonTypeByDate($seasons, $array_dates[$a]);
-                    $roomPrice = \MyCp\FrontEndBundle\Helpers\ReservationHelper::roomPriceBySeason($room, $seasonType);
+                    $roomPrice = $room->getPriceBySeasonType($seasonType);
                     $total_price += $roomPrice + $triple_room_recharge;
                     $temp_price += $roomPrice + $triple_room_recharge;
                 }
@@ -116,7 +116,7 @@ class BackendReservationController extends Controller {
             $em->flush();
             $message = "Reserva añadida satisfactoriamente";
             $this->get('session')->getFlashBag()->add('message_ok', $message);
-            
+
             return $this->redirect($this->generateUrl('mycp_list_reservations'));
         }
         return $this->render('mycpBundle:reservation:new_offer.html.twig', array(
