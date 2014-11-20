@@ -141,8 +141,7 @@ class cart {
      * @return cart
      */
     public function setCartSessionId($value = null) {
-        if ($value != null)
-            $this->cart_session_id = $value;
+        $this->cart_session_id = $value;
 
         return $this;
     }
@@ -291,12 +290,12 @@ class cart {
         $ownership_reservation->setOwnResRoomPriceSpecial($this->cart_room->getRoomPriceSpecial());
         $ownership_reservation->setOwnResGenResId($generalReservation);
         $ownership_reservation->setOwnResRoomType($this->cart_room->getRoomType());
-        
-        if($calculateTotalPrice)
+
+        if ($calculateTotalPrice)
             $ownership_reservation->setOwnResTotalInSite(0); //TODO: Calcular segun los cambios de estaciones
         else
-            $ownership_reservation->setOwnResTotalInSite($calculatedPrice);            
-        
+            $ownership_reservation->setOwnResTotalInSite($calculatedPrice);
+
         return $ownership_reservation;
     }
 
