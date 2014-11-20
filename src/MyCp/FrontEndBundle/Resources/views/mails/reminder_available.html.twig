@@ -64,9 +64,9 @@
                                     {% endif %}
                                     <h3>{{"RESERVATION_TOTAL" | trans({}, "messages", user_locale) | upper}}:
                                        {%if reservation.getOwnResNightPrice != 0%}
-                                        {{ (reservation.getOwnResNightPrice * nights[loop.index0]) | price}}
+                                        {{ (reservation.getOwnResNightPrice * nights[loop.index0]) | price(user_currency)}}
                                        {%else%}
-                                            {{ reservation.ownResTotalInSite | price}}
+                                            {{ reservation.ownResTotalInSite | price(user_currency)}}
                                        {%endif%}
                                     </h3>
                                     {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_AVAILABLE'))%}

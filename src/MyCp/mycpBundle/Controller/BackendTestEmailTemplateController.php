@@ -24,6 +24,8 @@ class BackendTestEmailTemplateController extends Controller {
                 ->findOneBy(array('gen_res_status'=> generalReservation::STATUS_AVAILABLE));
 
         $user = $generalReservation->getGenResUserId();
+        $userTourist = $em->getRepository("mycpBundle:userTourist")->findOneBy(array("user_tourist_user" => $user->getUserId()));
+
         $ownershipReservations = $em
                 ->getRepository('mycpBundle:generalReservation')
                 ->getOwnershipReservations($generalReservation);
@@ -59,7 +61,7 @@ class BackendTestEmailTemplateController extends Controller {
             if($ownershipReservation->getOwnResNightPrice() > 0)
                 $initialPayment += $ownershipReservation->getOwnResNightPrice() * (count($array_dates) - 1) * $comission;
             else
-                $initialPayment += getOwnResTotalInSite() * $comission;
+                $initialPayment += $ownershipReservation->getOwnResTotalInSite() * $comission;
         }
 
         return $this->render('FrontEndBundle:mails:last_reminder_available.html.twig', array(
@@ -69,7 +71,8 @@ class BackendTestEmailTemplateController extends Controller {
                 'nights' => $arrayNights,
                 'user_locale' => $langCode,
                 'initial_payment' => $initialPayment,
-                'generalReservationId' => $generalReservation->getGenResId()
+                'generalReservationId' => $generalReservation->getGenResId(),
+                'user_currency' => ($userTourist != null) ? $userTourist->getUserTouristCurrency() : null
             ));
     }
 
@@ -83,6 +86,7 @@ class BackendTestEmailTemplateController extends Controller {
                 ->findOneBy(array('gen_res_status'=> generalReservation::STATUS_AVAILABLE));
 
         $user = $generalReservation->getGenResUserId();
+        $userTourist = $em->getRepository("mycpBundle:userTourist")->findOneBy(array("user_tourist_user" => $user->getUserId()));
         $ownershipReservations = $em
                 ->getRepository('mycpBundle:generalReservation')
                 ->getOwnershipReservations($generalReservation);
@@ -118,7 +122,7 @@ class BackendTestEmailTemplateController extends Controller {
             if($ownershipReservation->getOwnResNightPrice() > 0)
                 $initialPayment += $ownershipReservation->getOwnResNightPrice() * (count($array_dates) - 1) * $comission;
             else
-                $initialPayment += getOwnResTotalInSite() * $comission;
+                $initialPayment += $ownershipReservation->getOwnResTotalInSite() * $comission;
         }
 
         return $this->render('FrontEndBundle:mails:reminder_available.html.twig', array(
@@ -127,7 +131,8 @@ class BackendTestEmailTemplateController extends Controller {
                 'photos' => $arrayPhotos,
                 'nights' => $arrayNights,
                 'user_locale' => $langCode,
-                'initial_payment' => $initialPayment
+                'initial_payment' => $initialPayment,
+                'user_currency' => ($userTourist != null) ? $userTourist->getUserTouristCurrency() : null
             ));
     }
 
@@ -141,6 +146,8 @@ class BackendTestEmailTemplateController extends Controller {
                 ->findOneBy(array('gen_res_status'=> generalReservation::STATUS_AVAILABLE));
 
         $user = $generalReservation->getGenResUserId();
+        $userTourist = $em->getRepository("mycpBundle:userTourist")->findOneBy(array("user_tourist_user" => $user->getUserId()));
+
         $ownershipReservations = $em
                 ->getRepository('mycpBundle:generalReservation')
                 ->getOwnershipReservations($generalReservation);
@@ -176,7 +183,7 @@ class BackendTestEmailTemplateController extends Controller {
             if($ownershipReservation->getOwnResNightPrice() > 0)
                 $initialPayment += $ownershipReservation->getOwnResNightPrice() * (count($array_dates) - 1) * $comission;
             else
-                $initialPayment += getOwnResTotalInSite() * $comission;
+                $initialPayment += $ownershipReservation->getOwnResTotalInSite() * $comission;
         }
 
         return $this->render('FrontEndBundle:mails:expired_offer_reminder.html.twig', array(
@@ -186,7 +193,8 @@ class BackendTestEmailTemplateController extends Controller {
                 'nights' => $arrayNights,
                 'user_locale' => $langCode,
                 'initial_payment' => $initialPayment,
-                'generalReservationId' => $generalReservation->getGenResId()
+                'generalReservationId' => $generalReservation->getGenResId(),
+                'user_currency' => ($userTourist != null) ? $userTourist->getUserTouristCurrency() : null
             ));
     }
 

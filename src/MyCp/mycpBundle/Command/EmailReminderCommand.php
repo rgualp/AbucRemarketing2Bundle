@@ -86,7 +86,8 @@ class EmailReminderCommand extends ContainerAwareCommand
                     'reservations' => $reservations,
                     'photos' => $arrayPhotos,
                     'nights' => $arrayNights,
-                    'user_locale' => $userLocale
+                    'user_locale' => $userLocale,
+                    'user_currency' => $user_tourist->getUserTouristCurrency()
                 ));
 
             $subject = $translatorService->trans('REMINDER', array(), "messages", $userLocale);
