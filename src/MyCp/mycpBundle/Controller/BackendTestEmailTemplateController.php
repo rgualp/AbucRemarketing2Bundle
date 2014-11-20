@@ -8,21 +8,21 @@ use Symfony\Component\HttpFoundation\Request;
 use MyCp\mycpBundle\Entity\generalReservation;
 
 class BackendTestEmailTemplateController extends Controller {
-    
+
     public function homeAction()
     {
          return $this->render('mycpBundle:test:home.html.twig');
     }
-    
+
     public function lastChanceToBookAction($langCode)
     {
         $em = $this->getDoctrine()->getEntityManager();
         $service_time = $this->get('time');
-        
+
         $generalReservation = $em
                 ->getRepository('mycpBundle:generalReservation')
                 ->findOneBy(array('gen_res_status'=> generalReservation::STATUS_AVAILABLE));
-          
+
         $user = $generalReservation->getGenResUserId();
         $ownershipReservations = $em
                 ->getRepository('mycpBundle:generalReservation')
@@ -61,7 +61,7 @@ class BackendTestEmailTemplateController extends Controller {
             else
                 $initialPayment += getOwnResTotalInSite() * $comission;
         }
-        
+
         return $this->render('FrontEndBundle:mails:last_reminder_available.html.twig', array(
                 'user' => $user,
                 'reservations' => $ownershipReservations,
@@ -72,16 +72,16 @@ class BackendTestEmailTemplateController extends Controller {
                 'generalReservationId' => $generalReservation->getGenResId()
             ));
     }
-    
+
     public function accommodationStillAvailableAction($langCode)
     {
         $em = $this->getDoctrine()->getEntityManager();
         $service_time = $this->get('time');
-        
+
         $generalReservation = $em
                 ->getRepository('mycpBundle:generalReservation')
                 ->findOneBy(array('gen_res_status'=> generalReservation::STATUS_AVAILABLE));
-          
+
         $user = $generalReservation->getGenResUserId();
         $ownershipReservations = $em
                 ->getRepository('mycpBundle:generalReservation')
@@ -120,7 +120,7 @@ class BackendTestEmailTemplateController extends Controller {
             else
                 $initialPayment += getOwnResTotalInSite() * $comission;
         }
-        
+
         return $this->render('FrontEndBundle:mails:reminder_available.html.twig', array(
                 'user' => $user,
                 'reservations' => $ownershipReservations,
@@ -130,16 +130,16 @@ class BackendTestEmailTemplateController extends Controller {
                 'initial_payment' => $initialPayment
             ));
     }
-    
+
     public function notAvailableAction($langCode)
     {
         $em = $this->getDoctrine()->getEntityManager();
         $service_time = $this->get('time');
-        
+
         $generalReservation = $em
                 ->getRepository('mycpBundle:generalReservation')
                 ->findOneBy(array('gen_res_status'=> generalReservation::STATUS_AVAILABLE));
-          
+
         $user = $generalReservation->getGenResUserId();
         $ownershipReservations = $em
                 ->getRepository('mycpBundle:generalReservation')
@@ -178,7 +178,7 @@ class BackendTestEmailTemplateController extends Controller {
             else
                 $initialPayment += getOwnResTotalInSite() * $comission;
         }
-        
+
         return $this->render('FrontEndBundle:mails:expired_offer_reminder.html.twig', array(
                 'user' => $user,
                 'reservations' => $ownershipReservations,
@@ -189,49 +189,63 @@ class BackendTestEmailTemplateController extends Controller {
                 'generalReservationId' => $generalReservation->getGenResId()
             ));
     }
-    
+
     public function activateAccountAction($langCode)
     {
         $em = $this->getDoctrine()->getEntityManager();
         $user = $em->getRepository('mycpBundle:user')->findOneBy(array('user_enabled' => true));
         $activationUrl = $this->getActivationUrl($user, $langCode);
         $userName = $user->getUserCompleteName();
-        
+
          return $this->render('FrontEndBundle:mails:enableAccount.html.twig', array(
-                'enableUrl' => $activationUrl, 
+                'enableUrl' => $activationUrl,
                 'user_name' => $userName,
                 'user_locale' => $langCode
             ));
     }
-    
+
     public function activateAccountReminderAction($langCode)
     {
         $em = $this->getDoctrine()->getEntityManager();
         $user = $em->getRepository('mycpBundle:user')->findOneBy(array('user_enabled' => true));
         $activationUrl = $this->getActivationUrl($user, $langCode);
         $userName = $user->getUserCompleteName();
-        
+
          return $this->render('FrontEndBundle:mails:enableAccountReminder.html.twig', array(
-                'enableUrl' => $activationUrl, 
+                'enableUrl' => $activationUrl,
                 'user_name' => $userName,
                 'user_locale' => $langCode
             ));
     }
-    
+
     public function activateAccountLastReminderAction($langCode)
     {
         $em = $this->getDoctrine()->getEntityManager();
         $user = $em->getRepository('mycpBundle:user')->findOneBy(array('user_enabled' => true));
         $activationUrl = $this->getActivationUrl($user, $langCode);
         $userName = $user->getUserCompleteName();
-        
+
          return $this->render('FrontEndBundle:mails:enableAccountLateReminder.html.twig', array(
-                'enableUrl' => $activationUrl, 
+                'enableUrl' => $activationUrl,
                 'user_name' => $userName,
                 'user_locale' => $langCode
             ));
     }
-    
+
+    public function cartFullReminderAction($langCode)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $user = $em->getRepository('mycpBundle:user')->findOneBy(array('user_enabled' => true));
+        $activationUrl = $this->getActivationUrl($user, $langCode);
+        $userName = $user->getUserCompleteName();
+
+         return $this->render('FrontEndBundle:mails:cartFull.html.twig', array(
+                'enableUrl' => $activationUrl,
+                'user_name' => $userName,
+                'user_locale' => $langCode
+            ));
+    }
+
     private function getActivationUrl($user, $userLocale)
     {
         $encodedString =$this->get('Secure')->getEncodedUserString($user);

@@ -13,7 +13,7 @@ mycp_test_accommodation_still_available:
 mycp_test_not_available:
     pattern:  /not-available/{langCode}
     defaults: { _controller: mycpBundle:BackendTestEmailTemplate:notAvailable}
-    
+
 mycp_test_activate_user_reminder_account:
     pattern:  /activate-account-reminder/{langCode}
     defaults: { _controller: mycpBundle:BackendTestEmailTemplate:activateAccountReminder}
@@ -25,3 +25,7 @@ mycp_test_activate_user_account:
 mycp_test_activate_user_last_reminder_account:
     pattern:  /activate-account-last-reminder/{langCode}
     defaults: { _controller: mycpBundle:BackendTestEmailTemplate:activateAccountLastReminder}
+
+mycp_test_cart_full_reminder:
+    pattern:  /cart-full-reminder/{langCode}
+    defaults: { _controller: mycpBundle:BackendTestEmailTemplate:cartFullReminder}
