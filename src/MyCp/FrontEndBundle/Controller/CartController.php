@@ -9,10 +9,6 @@ use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\season;
 use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\cart;
-use Symfony\Component\Validator\Constraints\DateTime;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Email;
-use MyCp\FrontEndBundle\Helpers\PaymentHelper;
 use MyCp\FrontEndBundle\Helpers\ReservationHelper;
 
 class CartController extends Controller {
@@ -124,45 +120,39 @@ class CartController extends Controller {
         $array_data = explode('-', $data);
         $cartItem = $em->getRepository("mycpBundle:cart")->find($array_data[0]);
 
+        $cartItemDateFrom = $cartItem->getCartDateFrom()->getTimestamp();
+        $cartItemDateTo = $cartItem->getCartDateTo()->getTimestamp();
+        $cartItemDateToBefore = strtotime("-1 day", $cartItemDateTo);
+        $deleteToAfter = strtotime("+1 day", $array_data[1]);
 
-        if ($cartItem->getCartDateFrom()->getTimestamp() == $array_data[1]) {
+        if ( $cartItemDateFrom == $array_data[1]) {
             $date = new \DateTime();
-            $date->setTimestamp(strtotime("+1 day", $cartItem->getCartDateFrom()->getTimestamp()));
+            $date->setTimestamp(strtotime("+1 day", $cartItemDateFrom));
             $cartItem->setCartDateFrom($date);
-            //$service['from_date'] += 86400;
-        } else if ($cartItem->getCartDateTo()->getTimestamp() == $array_data[1]) {
+        } else if ($cartItemDateTo == $deleteToAfter) {
             $dateTo = new \DateTime();
-            $dateTo->setTimestamp(strtotime("-1 day", $cartItem->getCartDateTo()->getTimestamp()));
+            $dateTo->setTimestamp($cartItemDateToBefore);
             $cartItem->setCartDateTo($dateTo);
-            //$service['to_date'] -= 86400;
-        } else if ($array_data[1] < $cartItem->getCartDateTo()->getTimestamp() && $array_data[1] > $cartItem->getCartDateFrom()->getTimestamp()) {
+        } else if ($array_data[1] < $cartItemDateTo && $array_data[1] > $cartItemDateFrom) {
             $cartItemNext = $cartItem->getClone();
             $date = new \DateTime();
-            $date->setTimestamp(strtotime("-1 day", $array_data[1]));
+            $date->setTimestamp($array_data[1]);
             $cartItem->setCartDateTo($date);
-            //$service['to_date'] = $array_data[1] - 86400;
 
             $date = new \DateTime();
-            $date->setTimestamp($array_data[1]);
+            $date->setTimestamp($deleteToAfter);
             $cartItemNext->setCartDateFrom($date);
             //$service_next['from_date'] = $array_data[1] + 86400;
             $em->persist($cartItemNext);
         }
-
         $em->persist($cartItem);
-        /* if ($cartItem->getCartDateTo()->getTimestamp() <= $cartItem->getCartDateFrom()->getTimestamp()) {
-          //eliminar el cartItem
-          $em->remove($cartItem);
-          } */
-        //var_dump($services);
-        //$request->getSession()->set('services_pre_reservation', $services);
         $em->flush();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
         $cartItems = $em->getRepository('mycpBundle:cart')->getCartItems($user_ids);
 
         foreach ($cartItems as $item) {
             if ($item->getCartDateTo()->getTimestamp() <= $item->getCartDateFrom()->getTimestamp()) {
-                //eliminar el cartItem
+                //delete cartItem
                 $em->remove($cartItem);
             }
         }
@@ -343,7 +333,7 @@ class CartController extends Controller {
                     $flag_1 = 0;
 
                     foreach ($resByOwn as $item) {
-                        $ownership_reservation = $item->createReservation($general_reservation, $partial_total_price[$flag_1]);                     
+                        $ownership_reservation = $item->createReservation($general_reservation, $partial_total_price[$flag_1]);
                         array_push($reservations, $ownership_reservation);
 
                         $ownership_photo = $em->getRepository('mycpBundle:ownership')->get_ownership_photo($ownership_reservation->getOwnResGenResId()->getGenResOwnId()->getOwnId());
