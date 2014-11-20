@@ -81,4 +81,28 @@ class cartRepository extends EntityRepository {
         }
     }
 
+    public function setToUser($user, $session_id) {
+        $em = $this->getEntityManager();
+        $to_set = $em->getRepository("mycpBundle:cart")->findBy(array('cart_session_id' => $session_id,
+                                                                          'cart_user' => null));
+
+        foreach($to_set as $cartItem)
+        {
+            if($cartItem->getCartRoom() != null)
+                $count = count($em->getRepository('mycpBundle:cart')->findBy(array('cart_user' => $user->getUserId(),
+                         'cart_room' => $cartItem->getCartRoom(),
+                         'cart_date_from' => $cartItem->getCartDateFrom(),
+                         'cart_date_to' => $cartItem->getCartDateTo())));
+
+            if($count == 0)
+            {
+                $cartItem->setCartSessionId(null);
+                $cartItem->setCartUser($user);
+                $em->persist($cartItem);
+            }
+            else
+                $em->remove($cartItem);
+        }
+        $em->flush();
+    }
 }

@@ -40,11 +40,11 @@ class UserSecure {
         $session_id = $this->em->getRepository('mycpBundle:user')->get_session_id_with_request($this->container->get('request'));
 
         if ($session_id != null)
-            $this->em->getRepository('mycpBundle:favorite')->set_to_user($user->getUserId(), $session_id);
-
-        //Pasar lo q esta en el historial al usuario loggueado
-        if ($session_id != null)
-            $this->em->getRepository('mycpBundle:userHistory')->set_to_user($user->getUserId(), $session_id);
+        {
+            $this->em->getRepository('mycpBundle:favorite')->setToUser($user, $session_id);
+            $this->em->getRepository('mycpBundle:userHistory')->setToUser($user, $session_id);
+            $this->em->getRepository('mycpBundle:cart')->setToUser($user, $session_id);
+        }
 
         //Cambiar el sitio a la moneda y lenguaje ultimo del sitio almacenados en userTourist
         $userTourist = $this->em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));

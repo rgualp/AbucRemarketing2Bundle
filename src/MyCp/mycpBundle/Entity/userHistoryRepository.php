@@ -137,20 +137,18 @@ class userHistoryRepository extends EntityRepository
         }
     }
 
-    public function set_to_user($user_id, $session_id) {
+    public function setToUser($user, $session_id) {
         $em = $this->getEntityManager();
         $to_set = $em->getRepository("mycpBundle:userHistory")->findBy(array('user_history_session_id' => $session_id,
                                                                           'user_history_user' => null));
 
-        $user = $em->getRepository('mycpBundle:user')->find($user_id);
-
         foreach($to_set as $history)
         {
             if($history->getUserHistoryOwnership() != null)
-                $hElement = $em->getRepository('mycpBundle:userHistory')->findOneBy(array('user_history_user' => $user_id,
+                $hElement = $em->getRepository('mycpBundle:userHistory')->findOneBy(array('user_history_user' => $user->getUserId(),
                                                                                        'user_history_ownership' => $history->getUserHistoryOwnership()));
             else if($history->getUserHistoryDestination())
-                $hElement = $em->getRepository('mycpBundle:userHistory')->findBy(array('user_history_user' => $user_id,
+                $hElement = $em->getRepository('mycpBundle:userHistory')->findBy(array('user_history_user' => $user->getUserId(),
                                                                                        'user_history_destination' => $history->getUserHistoryDestination()));
 
             if($hElement == null)
