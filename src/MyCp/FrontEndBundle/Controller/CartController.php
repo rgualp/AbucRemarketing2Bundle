@@ -142,9 +142,10 @@ class CartController extends Controller {
             $date = new \DateTime();
             $date->setTimestamp($deleteToAfter);
             $cartItemNext->setCartDateFrom($date);
-            //$service_next['from_date'] = $array_data[1] + 86400;
             $em->persist($cartItemNext);
         }
+
+        $cartItem->setCartCreatedDate(new \DateTime());
         $em->persist($cartItem);
         $em->flush();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
