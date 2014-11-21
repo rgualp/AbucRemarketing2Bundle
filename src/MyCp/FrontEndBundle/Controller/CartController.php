@@ -5,11 +5,8 @@ namespace MyCp\FrontEndBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use MyCp\mycpBundle\Entity\ownershipReservation;
-use MyCp\mycpBundle\Entity\season;
 use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\cart;
-use MyCp\FrontEndBundle\Helpers\ReservationHelper;
 
 class CartController extends Controller {
 
@@ -109,6 +106,11 @@ class CartController extends Controller {
 
                 $em->persist($cart);
                 $em->flush();
+
+                // inform listeners that a reservation was sent out
+            $dispatcher = $this->get('event_dispatcher');
+            $eventData = new \MyCp\mycpBundle\JobData\CartJobData($user_ids["user_id"], $user_ids["session_id"]);
+            $dispatcher->dispatch('mycp.event.cart.full', new JobEvent($eventData));
             }
         }
 
