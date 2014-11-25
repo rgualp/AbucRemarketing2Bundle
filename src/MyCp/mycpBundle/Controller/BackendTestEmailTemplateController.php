@@ -281,6 +281,48 @@ class BackendTestEmailTemplateController extends Controller {
                 'user_currency' => $userTourist->getUserTouristCurrency()
             ));
     }
+    
+    public function feedbackReminderAction($langCode)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array());
+        $userName = $userTourist->getUserTouristUser()->getUserCompleteName();
+        $cartItems = $em->getRepository('mycpBundle:cart')->testValues($userTourist->getUserTouristUser());
+        $service_time = $this->get('Time');
+
+        $accommodations = array();
+        $cartAccommodations = array();
+        $cartPrices = array();
+
+        $current_own_id = 0;
+
+        foreach($cartItems as $item)
+        {
+            if($item->getCartRoom()->getRoomOwnership()->getOwnId() != $current_own_id)
+            {
+                $current_own_id = $item->getCartRoom()->getRoomOwnership()->getOwnId();
+                array_push($accommodations, $item->getCartRoom()->getRoomOwnership());
+
+                $cartAccommodations[$current_own_id] = array();
+                $cartPrices[$current_own_id] = array();
+            }
+
+            array_push($cartAccommodations[$current_own_id], $item);
+            array_push($cartPrices[$current_own_id], $item->calculatePrice($em,$service_time,$this->container->getParameter('configuration.triple.room.charge'), $this->container->getParameter('configuration.service.fee')));
+        }
+
+        $photos = $em->getRepository("mycpBundle:ownership")->get_photos_array($accommodations);
+
+         return $this->render('FrontEndBundle:mails:feedback.html.twig', array(
+                'user_name' => $userName,
+                'user_locale' => $langCode,
+                'owns' => $accommodations,
+                'cartItems' => $cartAccommodations,
+                'photos' => $photos,
+                'prices' => $cartPrices,
+                'user_currency' => $userTourist->getUserTouristCurrency()
+            ));
+    }
 
     private function getActivationUrl($user, $userLocale)
     {
