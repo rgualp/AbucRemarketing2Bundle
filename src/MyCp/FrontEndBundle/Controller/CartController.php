@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\cart;
+use Abuc\RemarketingBundle\Event\JobEvent;
 
 class CartController extends Controller {
 
@@ -14,7 +15,7 @@ class CartController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
         $countItems = $em->getRepository('mycpBundle:cart')->countItems($user_ids);
-
+        
         return $this->render('FrontEndBundle:cart:cartCountItems.html.twig', array(
                     'count' => $countItems
         ));

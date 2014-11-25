@@ -2649,7 +2649,7 @@
             </trans-unit>
             <trans-unit id="672">
                 <source>USER_CART_FULL_REMINDER</source>
-                <target>Carrito de compras lleno. ¿Qué operación desea realizar?</target>
+                <target>Cesta de reservaciones llena. ¿Qué operación desea realizar?</target>
             </trans-unit>
             <trans-unit id="673">
                 <source>USER_CART_FULL_TEXT1</source>

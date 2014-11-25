@@ -31,6 +31,13 @@ class FullCartReminderWorkerCommand extends Worker
      * @var
      */
     private $router;
+    
+    /**
+     * 'time' service
+     *
+     * @var
+     */
+    private $timer;
 
     /**
      * 'mycp.service.email_manager' service
@@ -38,6 +45,8 @@ class FullCartReminderWorkerCommand extends Worker
      * @var \MyCp\mycpBundle\Helpers\EmailManager
      */
     private $emailManager;
+    
+    private $em;
 
     /**
      * {@inheritDoc}
@@ -62,12 +71,13 @@ class FullCartReminderWorkerCommand extends Worker
             throw new \InvalidArgumentException('Wrong datatype received: ' . get_class($data));
         }
 
-        /*$this->initializeServices();
+        $this->initializeServices();
         $userId = $data->getUserId();
 
-        $output->writeln('Processing Account Activation Late Reminder for User ID ' . $userId);
+        $output->writeln('Processing Full Cart Reminder for User ID ' . $userId);
 
         $user = $this->emailManager->getUserById($userId);
+        $isCartFullToSendReminder = $this->em->getRepository('mycpBundle:cart')->isFullCartForReminder($userId);
 
         if (empty($user)) {
             // the user does not exist anymore
@@ -76,12 +86,12 @@ class FullCartReminderWorkerCommand extends Worker
 
         $this->emailManager->setLocaleByUser($user);
 
-        if (!$user->getUserEnabled()) {
-            $output->writeln('Send Account Activation Late Reminder Email to User ID ' . $userId);
+        if ($isCartFullToSendReminder) {
+            $output->writeln('Send Full Cart Reminder Email to User ID ' . $userId);
             $this->sendReminderEmail($user, $output);
         }
 
-        $output->writeln('Successfully finished Account Activation Late Reminder for User ID ' . $userId);*/
+        $output->writeln('Successfully finished Full Cart Reminder for User ID ' . $userId);
         return true;
     }
 
@@ -90,27 +100,56 @@ class FullCartReminderWorkerCommand extends Worker
      * @param $user
      * @param $output
      */
-   /* private function sendReminderEmail(user $user, OutputInterface $output)
+    private function sendReminderEmail(user $user, OutputInterface $output)
     {
         $userId =  $user->getUserId();
         $userEmail = $user->getUserEmail();
         $userName = $user->getUserCompleteName();
 
-        $emailSubject = $this->translatorService->trans('EMAIL_ACCOUNT_REGISTERED_SUBJECT_LATE_REMINDER');
-        $userLocale = $this->emailManager->getUserLocale($user);
-        $activationUrl = $this->getActivationUrl($user, $userLocale);
+        $emailSubject = $this->translatorService->trans('USER_CART_FULL_REMINDER');
+        
+        $userTourist = $this->emailManager->getTouristByUser($user);
+        $userLocale = strtolower($userTourist->getUserTouristLanguage()->getLangCode());
+        $cartItems = $this->em->getCartItemsByUser($userId);
+        
+        $accommodations = array();
+        $cartAccommodations = array();
+        $cartPrices = array();
+        
+        $current_own_id = 0;
+
+        foreach($cartItems as $item)
+        {
+            if($item->getCartRoom()->getRoomOwnership()->getOwnId() != $current_own_id)
+            {
+                $current_own_id = $item->getCartRoom()->getRoomOwnership()->getOwnId();
+                array_push($accommodations, $item->getCartRoom()->getRoomOwnership());
+
+                $cartAccommodations[$current_own_id] = array();
+                $cartPrices[$current_own_id] = array();
+            }
+
+            array_push($cartAccommodations[$current_own_id], $item);
+            array_push($cartPrices[$current_own_id], $item->calculatePrice($this->em,$this->timer,$this->getContainer()->getParameter('configuration.triple.room.charge'), $this->getContainer()->getParameter('configuration.service.fee')));
+        }
+
+        $photos = $this->em->getRepository("mycpBundle:ownership")->get_photos_array($accommodations);
 
         $emailBody = $this->emailManager->getViewContent(
-            'FrontEndBundle:mails:enableAccountLateReminder.html.twig',
+            'FrontEndBundle:mails:cartFull.html.twig',
             array(
-                'enableUrl' => $activationUrl,
+                'owns' => $accommodations,
+                'cartItems' => $cartAccommodations,
+                'photos' => $photos,
+                'prices' => $cartPrices,
+                'user_currency' => $userTourist->getUserTouristCurrency(),
                 'user_name' => $userName,
                 'user_locale' => $userLocale
          ));
 
         $output->writeln("Send email to $userEmail, subject '$emailSubject' for User ID $userId");
         $this->emailManager->sendTemplatedEmail($userEmail, $emailSubject, $emailBody);
-    }*/
+    }
 
     /**
      * Initializes the services needed.
@@ -121,5 +160,7 @@ class FullCartReminderWorkerCommand extends Worker
         $this->translatorService = $this->getService('translator');
         $this->securityService = $this->getService('Secure');
         $this->router = $this->getService('router');
+        $this->timer = $this->getService('Time');
+        $this->em = $this->getContainer()->get('doctrine')->getEntityManager();
     }
 }

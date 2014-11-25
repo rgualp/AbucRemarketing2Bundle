@@ -20,9 +20,9 @@ class cartRepository extends EntityRepository {
             $where = "";
 
             if ($user_ids["user_id"] != null)
-                $where.= " WHERE c.cart_user = ".$user_ids['user_id'];
+                $where.= " WHERE c.cart_user = " . $user_ids['user_id'];
             else if ($user_ids["session_id"] != null)
-                $where .= " WHERE c.cart_session_id = '".$user_ids["session_id"]."'";
+                $where .= " WHERE c.cart_session_id = '" . $user_ids["session_id"] . "'";
 
             if ($where != "")
                 return $em->createQuery($query_string . $where)->getResult();
@@ -33,17 +33,40 @@ class cartRepository extends EntityRepository {
         }
     }
 
-    public function countItems($user_ids)
-    {
+    public function getCartItemsByUser($userId) {
+        try {
+            $em = $this->getEntityManager();
+            $query_string = "SELECT c FROM mycpBundle:cart c WHERE c.cart_user = " . $userId;
+            return $em->createQuery($query_string)->getResult();
+            
+        } catch (Exception $e) {
+            return null;
+        }
+    }
+
+    public function isFullCartForReminder($user_id) {
+        try {
+            $em = $this->getEntityManager();
+            $query_string = "SELECT c FROM mycpBundle:cart c WHERE c.cart_user = " . $user_id;
+            $date = new \DateTime();
+            $where = " AND c.cart_created_date <= '" . date("Y-m-d H:i:s", strtotime("-3 hours", $date->getTimestamp())) . "'";
+
+            return count($em->createQuery($query_string . $where)->getResult());
+        } catch (Exception $e) {
+            return null;
+        }
+    }
+
+    public function countItems($user_ids) {
         try {
             $em = $this->getEntityManager();
             $query_string = "SELECT DISTINCT r.room_id FROM mycpBundle:cart c JOIN c.cart_room r";
             $where = "";
 
             if ($user_ids["user_id"] != null)
-                $where.= " WHERE c.cart_user = ".$user_ids['user_id'];
+                $where.= " WHERE c.cart_user = " . $user_ids['user_id'];
             else if ($user_ids["session_id"] != null)
-                $where .= " WHERE c.cart_session_id = '".$user_ids["session_id"]."'";
+                $where .= " WHERE c.cart_session_id = '" . $user_ids["session_id"] . "'";
 
             if ($where != "")
                 return count($em->createQuery($query_string . $where)->getResult());
@@ -54,8 +77,7 @@ class cartRepository extends EntityRepository {
         }
     }
 
-    public function emptyCart($user_ids)
-    {
+    public function emptyCart($user_ids) {
         try {
             $em = $this->getEntityManager();
             $query_string = "SELECT c FROM mycpBundle:cart c ";
@@ -63,39 +85,35 @@ class cartRepository extends EntityRepository {
             $cartItems = null;
 
             if ($user_ids["user_id"] != null)
-                $where.= " WHERE c.cart_user = ".$user_ids['user_id'];
+                $where.= " WHERE c.cart_user = " . $user_ids['user_id'];
             else if ($user_ids["session_id"] != null)
-                $where .= " WHERE c.cart_session_id = '".$user_ids["session_id"]."'";
+                $where .= " WHERE c.cart_session_id = '" . $user_ids["session_id"] . "'";
 
             if ($where != "")
                 $cartItems = $em->createQuery($query_string . $where)->getResult();
 
-            foreach($cartItems as $item)
-            {
+            foreach ($cartItems as $item) {
                 $em->remove($item);
             }
             $em->flush();
-
         } catch (Exception $e) {
-
+            
         }
     }
 
     public function setToUser($user, $session_id) {
         $em = $this->getEntityManager();
         $to_set = $em->getRepository("mycpBundle:cart")->findBy(array('cart_session_id' => $session_id,
-                                                                          'cart_user' => null));
+            'cart_user' => null));
 
-        foreach($to_set as $cartItem)
-        {
-            if($cartItem->getCartRoom() != null)
+        foreach ($to_set as $cartItem) {
+            if ($cartItem->getCartRoom() != null)
                 $count = count($em->getRepository('mycpBundle:cart')->findBy(array('cart_user' => $user->getUserId(),
-                         'cart_room' => $cartItem->getCartRoom(),
-                         'cart_date_from' => $cartItem->getCartDateFrom(),
-                         'cart_date_to' => $cartItem->getCartDateTo())));
+                            'cart_room' => $cartItem->getCartRoom(),
+                            'cart_date_from' => $cartItem->getCartDateFrom(),
+                            'cart_date_to' => $cartItem->getCartDateTo())));
 
-            if($count == 0)
-            {
+            if ($count == 0) {
                 $cartItem->setCartSessionId(null);
                 $cartItem->setCartUser($user);
                 $em->persist($cartItem);
@@ -106,8 +124,7 @@ class cartRepository extends EntityRepository {
         $em->flush();
     }
 
-    public function testValues($testUser)
-    {
+    public function testValues($testUser) {
         $em = $this->getEntityManager();
         $cartItems = array();
         $room = $em->getRepository("mycpBundle:room")->findOneBy(array("room_type" => "Habitación Triple"));
