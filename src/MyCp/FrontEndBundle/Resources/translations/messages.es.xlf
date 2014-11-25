@@ -2663,6 +2663,22 @@
                 <source>TO_DATE</source>
                 <target>hasta</target>
             </trans-unit>
+            <trans-unit id="676">
+                <source>FEEDBACK_REMINDER</source>
+                <target>¿Regresando de Cuba? Por favor, déjenos su opición</target>
+            </trans-unit>
+            <trans-unit id="677">
+                <source>USER_FEEDBACK_TEXT1</source>
+                <target>¡Esperamos que su viaje a Cuba haya sido una experiencia inolvidable!</target>
+            </trans-unit>
+            <trans-unit id="678">
+                <source>USER_FEEDBACK_TEXT2</source>
+                <target>Si no le causa molestia, le pedimos que nos haga llegar sus recomendaciones, comentarios y sugerencias, tanto sobre nuestros servicios como sobre las casas que visitó. Esto le servirá a nuestro equipo, para mejorar nuestros servicios, y a otros viajeros, que podrán retroalimentarse de sus opiniones.</target>
+            </trans-unit>
+            <trans-unit id="679">
+                <source>COMMENT</source>
+                <target>Comentar</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -285,42 +285,53 @@ class BackendTestEmailTemplateController extends Controller {
     public function feedbackReminderAction($langCode)
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array());
+        $service_time = $this->get('time');
+
+        $generalReservation = $em
+                ->getRepository('mycpBundle:generalReservation')
+                ->findOneBy(array('gen_res_status'=> generalReservation::STATUS_RESERVED));
+
+        $user = $generalReservation->getGenResUserId();
+        $userTourist = $em->getRepository("mycpBundle:userTourist")->findOneBy(array("user_tourist_user" => $user->getUserId()));
         $userName = $userTourist->getUserTouristUser()->getUserCompleteName();
-        $cartItems = $em->getRepository('mycpBundle:cart')->testValues($userTourist->getUserTouristUser());
-        $service_time = $this->get('Time');
+        
+        $ownershipReservations = $em
+                ->getRepository('mycpBundle:generalReservation')
+                ->getOwnershipReservations($generalReservation);
 
-        $accommodations = array();
-        $cartAccommodations = array();
-        $cartPrices = array();
+        $arrayPhotos = array();
+        $arrayNights = array();
 
-        $current_own_id = 0;
-
-        foreach($cartItems as $item)
+        foreach($ownershipReservations as $ownershipReservation)
         {
-            if($item->getCartRoom()->getRoomOwnership()->getOwnId() != $current_own_id)
-            {
-                $current_own_id = $item->getCartRoom()->getRoomOwnership()->getOwnId();
-                array_push($accommodations, $item->getCartRoom()->getRoomOwnership());
+            $photos = $em
+                ->getRepository('mycpBundle:ownership')
+                ->getPhotos(
+                    // TODO: This line is very strange. Why take the ownId of the genRes of the ownRes?!
+                    $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId()
+                );
 
-                $cartAccommodations[$current_own_id] = array();
-                $cartPrices[$current_own_id] = array();
+            if(!empty($photos)) {
+                array_push($arrayPhotos, $photos);
             }
 
-            array_push($cartAccommodations[$current_own_id], $item);
-            array_push($cartPrices[$current_own_id], $item->calculatePrice($em,$service_time,$this->container->getParameter('configuration.triple.room.charge'), $this->container->getParameter('configuration.service.fee')));
+            $array_dates = $service_time
+                ->datesBetween(
+                    $ownershipReservation->getOwnResReservationFromDate()->getTimestamp(),
+                    $ownershipReservation->getOwnResReservationToDate()->getTimestamp()
+                );
+
+            array_push($arrayNights, count($array_dates) - 1);
         }
-
-        $photos = $em->getRepository("mycpBundle:ownership")->get_photos_array($accommodations);
-
+        
          return $this->render('FrontEndBundle:mails:feedback.html.twig', array(
+                'reservations' => $ownershipReservations,
+                'photos' => $arrayPhotos,
+                'nights' => $arrayNights,
+                'user_locale' => $langCode,
+                'generalReservationId' => $generalReservation->getGenResId(),
                 'user_name' => $userName,
                 'user_locale' => $langCode,
-                'owns' => $accommodations,
-                'cartItems' => $cartAccommodations,
-                'photos' => $photos,
-                'prices' => $cartPrices,
-                'user_currency' => $userTourist->getUserTouristCurrency()
             ));
     }
 

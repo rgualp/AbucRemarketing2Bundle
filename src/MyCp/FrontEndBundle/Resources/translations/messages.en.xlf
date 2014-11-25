@@ -2663,6 +2663,22 @@
                 <source>TO_DATE</source>
                 <target>to</target>
             </trans-unit>
+            <trans-unit id="676">
+                <source>FEEDBACK_REMINDER</source>
+                <target>Back from Cuba? Please Feedback</target>
+            </trans-unit>
+            <trans-unit id="677">
+                <source>USER_FEEDBACK_TEXT1</source>
+                <target>We hope your travel to Cuba has been an amazing experience!</target>
+            </trans-unit>
+            <trans-unit id="678">
+                <source>USER_FEEDBACK_TEXT2</source>
+                <target>If it doesn’t cause you trouble, we hope you could help us to improve our services, or that you could help other travelers to feedback from your experiences, by giving us your suggestions, comments or opinions. This will truly help us!</target>
+            </trans-unit>
+            <trans-unit id="679">
+                <source>COMMENT</source>
+                <target>Comment</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
