@@ -2452,11 +2452,11 @@
             </trans-unit>
             <trans-unit id="623">
                 <source>REMINDER_TRIP_ORGANISATION</source>
-                <target>Some of the Casas Particulares you have selected are still available! In order to make your reservation effective, you should make an initial payment, up to </target>
+                <target>Einige von Casas Particulares die Sie angefragt haben sind immer noch verfuegbar!! Damit die Reservation gueltig wird, sollten Sie die Voarauszahlung von ……CUC durchfuehren</target>
             </trans-unit>
             <trans-unit id="624">
                 <source>REMINDER_OPPORTUNITY</source>
-                <target><![CDATA[To confirm your reservation, click <a href="%link%">here</a>, , or copy the URL below at your Internet Browser.]]></target>
+                <target><![CDATA[Um die Reservation zu bestaetigen, klicken Sie <a href="%link%">hier</a>, oder kopieren Sie bitte den unterstehende URL in Ihren Browser ein.]]></target>
             </trans-unit>
             <trans-unit id="625">
                 <source>VALID_OFFER_TWENTY_FOUR_ACCOMMODATION</source>
@@ -2488,23 +2488,23 @@
             </trans-unit>
             <trans-unit id="632">
                 <source>OWN_STATUS_ACTIVE</source>
-                <target>Active</target>
+                <target>Aktiv</target>
             </trans-unit>
             <trans-unit id="633">
                 <source>OWN_STATUS_DELETED</source>
-                <target>Deleted</target>
+                <target>Geloescht</target>
             </trans-unit>
             <trans-unit id="634">
                 <source>OWN_STATUS_INACTIVE</source>
-                <target>Inactive</target>
+                <target>Inaktiv</target>
             </trans-unit>
             <trans-unit id="635">
                 <source>OWN_STATUS_IN_PROCESS</source>
-                <target>In Process</target>
+                <target>In Ausfuehrung</target>
             </trans-unit>
             <trans-unit id="636">
                 <source>OWN_NO_STATUS</source>
-                <target>No Status</target>
+                <target>Ohne Status</target>
             </trans-unit>
             <trans-unit id="637">
                 <source>FORMS_SECRET_TOKEN</source>
@@ -2516,43 +2516,43 @@
             </trans-unit>
             <trans-unit id="639">
                 <source>USER_ACCOUNT_ACTIVATION_EMAIL_LATE_REMINDER</source>
-                <target>Not activated yet/Having any trouble?</target>
+                <target>Das Konto ist noch nicht aktiv? Haben Sie ein Problem?</target>
             </trans-unit>
             <trans-unit id="640">
                 <source>EMAIL_ACCOUNT_REGISTERED_SUBJECT_LATE_REMINDER</source>
-                <target>Not activated yet/Having any trouble?</target>
+                <target>Das Konto ist noch nicht aktiv? Haben Sie ein Problem?</target>
             </trans-unit>
              <trans-unit id="641">
                 <source>EMAIL_GREETINGS</source>
-                <target>Thank you in advance</target>
+                <target>Vielen Dank fuer Ihre Zeit</target>
             </trans-unit>
             <trans-unit id="642">
                 <source>EMAIL_LATE_REMINDER_BODY_TEXT_1</source>
-                <target>Your account at MyCasaParticular.com is not activated yet, so the registration process is not completed yet. In order to activate your account, please click</target>
+                <target>Ihr Konto bei MCP ist noch nicht aktiviert, deswegen ist die Registrierung noch nicht abgeschlossen. Um das Konto zu aktivieren, klicken Sie bitte</target>
             </trans-unit>
             <trans-unit id="643">
                 <source>HERE</source>
-                <target>here</target>
+                <target>hier</target>
             </trans-unit>
              <trans-unit id="644">
                 <source>EMAIL_LATE_REMINDER_BODY_TEXT_2</source>
-                <target>, or copy the URL below on your Internet browser.</target>
+                <target>, oder kopieren Sie die URL auf Ihren Internet-Browser.</target>
             </trans-unit>
             <trans-unit id="645">
                 <source>EMAIL_LATE_REMINDER_BODY_TEXT_3</source>
-                <target>If there is any problem during the process, please contact our</target>
+                <target>Falls Sie Probleme mit Kontoaktivierung haben, kontaktieren Sie bitte unsere</target>
             </trans-unit>
             <trans-unit id="646">
                 <source>SUPPORT_TEAM</source>
-                <target>Support Team</target>
+                <target>technische Abteilung</target>
             </trans-unit>
             <trans-unit id="647">
                 <source>EMAIL_LATE_REMINDER_BODY_TEXT_4</source>
-                <target>, and we will be glad to assist you.</target>
+                <target>, wir wuerden Ihnen gerne helfen.</target>
             </trans-unit>
             <trans-unit id="648">
                 <source>EMAIL_GREETINGS_2</source>
-                <target>Best Regards</target>
+                <target>Mit freundlichen Gruessen</target>
             </trans-unit>
             <trans-unit id="649">
                 <source>MYCP_TEAM</source>
@@ -2560,91 +2560,90 @@
             </trans-unit>
             <trans-unit id="650">
                 <source>EMAIL_USER_ACTIVATION_BODY_TEXT_1</source>
-                <target>We have all the information we need for your Registration Process! In order to Log In our website and continue booking your accommodation, we suggest you to</target>
+                <target>Wir haben alle erfoerderliche Infomationen fuer die Registrierung bei MCP erhalten. Damit sie Zutritt zu unsere Webseite haben und die Reservierung fortsetzen koennen</target>
             </trans-unit>
             <trans-unit id="651">
                 <source>USER_ACTIVATION_LINK_TEXT</source>
-                <target>activate your account</target>
+                <target>aktivieren Sie bitte Ihr Konto</target>
             </trans-unit>
              <trans-unit id="652">
                 <source>EMAIL_USER_ACTIVATION_BODY_TEXT_2</source>
-                <target>If the link doesn’t work, please copy the URL below, and paste it on your browser.</target>
+                <target>Sollte der Link nicht funktionieren, kopieren Sie bitte den folgenden URL in Ihren Browser ein.</target>
             </trans-unit>
             <trans-unit id="653">
                 <source>COMMENT_TO_PUBLIC</source>
-                <target>Thanks! Your comment will be public in the next hours.</target>
+                <target>Vielen Dank. Ihre Bewertung wird demnaechst publiziert.</target>
             </trans-unit>
             <trans-unit id="654">
                 <source>USER_RESERVED_ACCOMMODATION</source>
-                <target>This user reserved this accommodation using MyCasaParticular.</target>
+                <target>Dieser Benutzer hat die Reservierung ueber MyCasaParticular gemacht.</target>
             </trans-unit>
             <trans-unit id="655">
                 <source>FOOTER_MAIL_1</source>
-                <target><![CDATA[If you do not want to receive another email from MyCasaParticular, click <a href="%link%">here.</a>]]></target>
+                <target><![CDATA[Falls Sie keine Emails von MCP wuenschen, klicken Sie bitte <a href="%link%">hier.</a>]]></target>
             </trans-unit>
             <trans-unit id="656">
                 <source>LAST_REMINDER_TEXT_1</source>
-                <target><![CDATA[The accommodations you have requested availability for, will no longer be available in a few hours. This is why we recommend you, if you are still interested on them, that you <a href="%link%">make an initial deposit now</a>, up to ]]></target>
+                <target><![CDATA[Die angefragte Unterkuenfte werden in wenigen Stunden nicht mehr verfuegbar sein. Wir empfehlen Ihnen, falls Sie noch interessiert sind, die <a href="%link%">Vorauszahlung von </a>, jetzt auszufuehren ]]></target>
             </trans-unit>
             <trans-unit id="657">
                 <source>LAST_REMINDER_TEXT_2</source>
-                <target>In case you are not interested anymore, or if you want to book some other accommodations, please, let us know.</target>
+                <target>Falls Sie nicht mehr daran interessiert sind oder andere Unterkuenfte anfragen moechten, geben Sie uns bitte Bescheid.</target>
             </trans-unit>
             <trans-unit id="658">
                 <source>NOT_INTERESTED_ANYMORE</source>
-                <target>I am no longer interested</target>
+                <target>Ich bin nicht mehr daran interessiert</target>
             </trans-unit>
             <trans-unit id="659">
                 <source>BOOK_OTHER_ACCOMMODATIONS</source>
-                <target>Book other accommodations</target>
+                <target>Andere Unterkuenfte buchen</target>
             </trans-unit>
             <trans-unit id="660">
                 <source>LAST_CHANCE_TO_BOOK_SUBJECT</source>
-                <target>Last chance to book!</target>
+                <target>Letzte Chance zum buchen!</target>
             </trans-unit>
             <trans-unit id="661">
                 <source>NOT_AVAILABLE_OFFER_SUBJECT</source>
-                <target>Sorry, Not available anymore!</target>
+                <target>Diese Offerte ist leider nicht mehr verfuegbar!</target>
             </trans-unit>
             <trans-unit id="662">
                 <source>EXPIRED_OFFER_TEXT_1</source>
-                <target><![CDATA[The accommodations you have requested availability for before, are no longer available. Would you like to <a href="%link%">try again</a>?]]></target>
+                <target><![CDATA[Die von Ihnen angefragte Unterkuenfte sind nicht mehr verfuegbar. Moechten Sie <a href="%link%">es erneut versuchen</a>?]]></target>
             </trans-unit>
             <trans-unit id="663">
                 <source>EXPIRED_OFFER_TEXT_2</source>
-                <target><![CDATA[Maybe you prefer to book with our assistance? Please, email to <a href="mailto:reservation@mycasaparticular.com">reservation@mycasaparticular.com</a>]]></target>
+                <target><![CDATA[Moechten Sie unsere Hilfe beanspruchen? Schreiben Sie uns bitte <a href="mailto:reservation@mycasaparticular.com">reservation@mycasaparticular.com</a>]]></target>
             </trans-unit>
             <trans-unit id="664">
                 <source>EXPIRED_OFFER_TEXT_3</source>
-                <target>We trust we can help you.</target>
+                <target>Wir sind sicher das wir Ihnen helfen koennen.</target>
             </trans-unit>
             <trans-unit id="665">
                 <source>CANCEL_OFFER</source>
-                <target>Cancel offer</target>
+                <target>Offerte annullieren</target>
             </trans-unit>
             <trans-unit id="666">
                 <source>CANCELLED</source>
-                <target>Canceled</target>
+                <target>Annulliert</target>
             </trans-unit>
             <trans-unit id="667">
                 <source>CANCEL_OFFER_TEXT_1</source>
-                <target>You are close to cancel the offer</target>
+                <target>Sie sind dabei die Offerte zu annullieren</target>
             </trans-unit>
             <trans-unit id="668">
                 <source>CANCEL_OFFER_TEXT_2</source>
-                <target>If you are still interested on reserve this offer, you have to make an initial deposit now, up to</target>
-            </trans-unit>
+                <target>Falls Sie die Unterkunft reservieren moechten, wir bitten Sie die Vorauzahlung von jetzt zu machen</target>            </trans-unit>
             <trans-unit id="669">
                 <source>CANCEL_OFFER_SUCESS</source>
-                <target>You cancell the offer CAS.</target>
+                <target>Sie haben das Angebot annulliert CAS.</target>
             </trans-unit>
             <trans-unit id="670">
                 <source>NOT_ALLOW_OFFER</source>
-                <target>This offer do not belong to you.</target>
+                <target>Diese Offerte ist nicht fuer Sie.</target>
             </trans-unit>
             <trans-unit id="671">
                 <source>NOT_ALLOW_STATUS_OFFER</source>
-                <target>This offer can not be cancelled.</target>
+                <target>Dieses Angebot kann nicht storniert/annulliert werden.</target>
             </trans-unit>
         </body>
     </file>
