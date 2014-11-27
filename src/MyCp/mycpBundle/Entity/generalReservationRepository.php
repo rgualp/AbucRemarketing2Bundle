@@ -372,6 +372,27 @@ class generalReservationRepository extends EntityRepository {
 
         return $isAtLeastOneOwnResAvailable;
     }
+    
+    public function shallSendOutFeedbackReminderEmail(generalReservation $generalReservation)
+    {
+        $em = $this->getEntityManager();
+
+        if (!$generalReservation->hasStatusReserved()) {
+            return false;
+        }
+        $ownershipReservations = $em->getRepository('mycpBundle:generalReservation')->getOwnershipReservations($generalReservation);
+        
+
+        /** @var $ownershipReservation ownershipReservation */
+        foreach ($ownershipReservations as $ownershipReservation) {
+
+            if (!$ownershipReservation->hasStatusReserved()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     /**
      * @param $reservationId

@@ -37,6 +37,7 @@ class cartRepository extends EntityRepository {
         try {
             $em = $this->getEntityManager();
             $query_string = "SELECT c FROM mycpBundle:cart c WHERE c.cart_user = " . $userId;
+            
             return $em->createQuery($query_string)->getResult();
             
         } catch (Exception $e) {
@@ -44,14 +45,42 @@ class cartRepository extends EntityRepository {
         }
     }
 
-    public function isFullCartForReminder($user_id) {
+    public function isFullCartForReminder($user_id = null, $sessionId = null) {
         try {
             $em = $this->getEntityManager();
-            $query_string = "SELECT c FROM mycpBundle:cart c WHERE c.cart_user = " . $user_id;
+            $query_string = "SELECT c FROM mycpBundle:cart c ";
+            
+            $where = "";
+            
+            if($user_id != null)
+                $where = "WHERE c.cart_user = " . $user_id;
+            else if($sessionId != null)
+                $where = "WHERE c.cart_user <> NULL AND c.cart_session_id = '".$sessionId."'";
+            
             $date = new \DateTime();
-            $where = " AND c.cart_created_date <= '" . date("Y-m-d H:i:s", strtotime("-3 hours", $date->getTimestamp())) . "'";
+            $where .= " AND c.cart_created_date <= '" . date("Y-m-d H:i:s", strtotime("-3 hours", $date->getTimestamp())) . "'";
 
             return count($em->createQuery($query_string . $where)->getResult());
+        } catch (Exception $e) {
+            return null;
+        }
+    }
+    
+    public function getUserFromCart($user_id = null, $sessionId = null) {
+        try {
+            $em = $this->getEntityManager();
+            $query_string = "SELECT c FROM mycpBundle:cart c ";
+            
+            $where = "";
+            
+            if($user_id != null)
+                $where = "WHERE c.cart_user = " . $user_id;
+            else if($sessionId != null)
+                $where = "WHERE c.cart_user <> NULL AND c.cart_session_id = '".$sessionId."'";
+            
+            $cartItem = $em->createQuery($query_string . $where)->getOneOrNullResult();
+            
+            return $cartItem->getCartUser();
         } catch (Exception $e) {
             return null;
         }
@@ -114,7 +143,6 @@ class cartRepository extends EntityRepository {
                             'cart_date_to' => $cartItem->getCartDateTo())));
 
             if ($count == 0) {
-                $cartItem->setCartSessionId(null);
                 $cartItem->setCartUser($user);
                 $em->persist($cartItem);
             }

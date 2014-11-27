@@ -11,6 +11,8 @@ use MyCp\mycpBundle\Helpers\SyncStatuses;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\ownershipReservation;
+use Abuc\RemarketingBundle\Event\JobEvent;
+use Abuc\RemarketingBundle\Event\FixedDateJobEvent;
 
 class BookingService extends Controller
 {
@@ -444,6 +446,11 @@ class BookingService extends Controller
                     $logger->error($e->getMessage());
                 }
             }
+            
+            //Suscripción al evento para feedback
+            $dispatcher = $this->get('event_dispatcher');
+            $eventData = new \MyCp\mycpBundle\JobData\GeneralReservationJobData($owns[0]->getOwnResGenResId());
+            $dispatcher->dispatch('mycp.event.feedback', new FixedDateJobEvent($owns[0]->getOwnResGenResId()->getGenResToDate(),$eventData));
         }
     }
 

@@ -110,7 +110,7 @@ class CartController extends Controller {
 
                 // inform listeners that a reservation was sent out
             $dispatcher = $this->get('event_dispatcher');
-            $eventData = new \MyCp\mycpBundle\JobData\CartJobData($user_ids["user_id"], $user_ids["session_id"]);
+            $eventData = new \MyCp\mycpBundle\JobData\UserJobData($user_ids["user_id"], $user_ids["session_id"]);
             $dispatcher->dispatch('mycp.event.cart.full', new JobEvent($eventData));
             }
         }

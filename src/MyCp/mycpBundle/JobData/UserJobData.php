@@ -4,7 +4,7 @@ namespace MyCp\mycpBundle\JobData;
 
 use Abuc\RemarketingBundle\JobData\JobData;
 
-class CartJobData extends JobData
+class UserJobData extends JobData
 {
     /**
      * @var int

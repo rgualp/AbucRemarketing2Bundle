@@ -3,7 +3,7 @@
 namespace MyCp\mycpBundle\Command;
 
 use Abuc\RemarketingBundle\Job\PredefinedJobs;
-use MyCp\mycpBundle\JobData\CartJobData;
+use MyCp\mycpBundle\JobData\UserJobData;
 use Abuc\RemarketingBundle\Worker\Worker;
 use Abuc\RemarketingBundle\JobData\JobData;
 use MyCp\mycpBundle\Entity\user;
@@ -67,7 +67,7 @@ class FullCartReminderWorkerCommand extends Worker
                             InputInterface $input,
                             OutputInterface $output)
     {
-        if(!($data instanceof CartJobData)) {
+        if(!($data instanceof UserJobData)) {
             throw new \InvalidArgumentException('Wrong datatype received: ' . get_class($data));
         }
 
@@ -76,9 +76,14 @@ class FullCartReminderWorkerCommand extends Worker
 
         $output->writeln('Processing Full Cart Reminder for User ID ' . $userId);
 
-        $user = $this->emailManager->getUserById($userId);
-        $isCartFullToSendReminder = $this->em->getRepository('mycpBundle:cart')->isFullCartForReminder($userId);
+        $isCartFullToSendReminder = $this->em->getRepository('mycpBundle:cart')->isFullCartForReminder($userId, $data->getSessionId());
 
+        $user = null;
+        if($userId != null)
+            $user = $this->emailManager->getUserById($userId);
+        else
+            $user = $this->em->getRepository('mycpBundle:cart')->getUserFromCart($userId, $data->getSessionId());
+        
         if (empty($user)) {
             // the user does not exist anymore
             return true;
@@ -161,6 +166,6 @@ class FullCartReminderWorkerCommand extends Worker
         $this->securityService = $this->getService('Secure');
         $this->router = $this->getService('router');
         $this->timer = $this->getService('Time');
-        $this->em = $this->getContainer()->get('doctrine')->getEntityManager();
+        $this->em = $this->getService('doctrine.orm.entity_manager');
     }
 }

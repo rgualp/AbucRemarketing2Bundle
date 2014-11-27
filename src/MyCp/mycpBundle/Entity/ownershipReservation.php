@@ -510,5 +510,12 @@ class ownershipReservation {
         return ($this->own_res_room_type == "Habitación Triple") &&
                 ($this->own_res_count_adults + $this->own_res_count_childrens >= 3);
     }
+    
+    public function hasStatusReserved()
+    {
+        $status = $this->getOwnResStatus();
+
+        return (self::STATUS_RESERVED === $status);
+    }
 
 }
