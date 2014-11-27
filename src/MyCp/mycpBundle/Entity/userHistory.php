@@ -21,7 +21,7 @@ class userHistory
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $user_history_id;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="user",inversedBy="")
      * @ORM\JoinColumn(name="user_history_user",referencedColumnName="user_id", nullable=true)
@@ -34,26 +34,26 @@ class userHistory
      * @ORM\Column(name="user_history_session_id", type="string", length=255, nullable=true)
      */
     private $user_history_session_id;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="ownership",inversedBy="")
      * @ORM\JoinColumn(name="user_history_ownership",referencedColumnName="own_id", nullable=true)
      */
     private $user_history_ownership;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="destination",inversedBy="")
      * @ORM\JoinColumn(name="user_history_destination",referencedColumnName="des_id", nullable=true)
      */
     private $user_history_destination;
-    
+
      /**
      * @var datetime
      *
      * @ORM\Column(name="user_history_visit_date", type="datetime", nullable=true)
      */
     private $user_history_visit_date;
-    
+
     /**
      * @var integer
      *
@@ -64,13 +64,13 @@ class userHistory
     /**
      * Get user_history_id
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserHistoryId()
     {
         return $this->user_history_id;
     }
-    
+
     /**
      * Set user_history_visit_count
      *
@@ -80,20 +80,20 @@ class userHistory
     public function setUserHistoryVisitCount($value)
     {
         $this->user_history_visit_count = $value;
-    
+
         return $this;
     }
 
     /**
      * Get user_history_visit_count
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUserHistoryVisitCount()
     {
         return $this->user_history_visit_count;
     }
-    
+
     /**
      * Set user_history_visit_date
      *
@@ -103,14 +103,14 @@ class userHistory
     public function setUserHistoryVisitDate($value)
     {
         $this->user_history_visit_date = $value;
-    
+
         return $this;
     }
 
     /**
      * Get user_history_visit_date
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUserHistoryVisitDate()
     {
@@ -125,16 +125,14 @@ class userHistory
      */
     public function setUserHistorySessionId($value = null)
     {
-        if($value != null)
-           $this->user_history_session_id = $value;
-    
+        $this->user_history_session_id = $value;
         return $this;
     }
 
     /**
      * Get user_history_session_id
      *
-     * @return string 
+     * @return string
      */
     public function getUserHistorySessionId()
     {
@@ -151,14 +149,14 @@ class userHistory
     {
         if($value != null)
            $this->user_history_ownership = $value;
-    
+
         return $this;
     }
 
     /**
      * Get user_history_ownership
      *
-     * @return \MyCp\mycpBundle\Entity\ownership 
+     * @return \MyCp\mycpBundle\Entity\ownership
      */
     public function getUserHistoryOwnership()
     {
@@ -175,14 +173,14 @@ class userHistory
     {
         if($value != null)
            $this->user_history_destination = $value;
-    
+
         return $this;
     }
 
     /**
      * Get user_history_destination
      *
-     * @return \MyCp\mycpBundle\Entity\destination 
+     * @return \MyCp\mycpBundle\Entity\destination
      */
     public function getUserHistoryDestination()
     {
@@ -199,14 +197,14 @@ class userHistory
     {
         if($value != null)
            $this->user_history_user = $value;
-    
+
         return $this;
     }
 
     /**
      * Get favorite_user
      *
-     * @return \MyCp\mycpBundle\Entity\user 
+     * @return \MyCp\mycpBundle\Entity\user
      */
     public function getUserHistoryUser()
     {

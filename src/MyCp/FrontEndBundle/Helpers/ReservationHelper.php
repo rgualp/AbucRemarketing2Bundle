@@ -14,30 +14,32 @@ class ReservationHelper {
 
         if ($reservation->getOwnResNightPrice() == 0) {
             for ($i = 0; $i < count($array_dates) - 1; $i++) {
-                switch ($service_time->seasonTypeByDate($seasons, $array_dates[$i])) {
-                    case season::SEASON_TYPE_HIGH: $total_price += $reservation->getOwnResRoomPriceUp();
-                        break;
-                    case season::SEASON_TYPE_SPECIAL: 
-                    {
-                        if($reservation->getOwnResRoomPriceSpecial() > 0)
-                            $total_price += $reservation->getOwnResRoomPriceSpecial();
-                        else
-                            $total_price += $reservation->getOwnResRoomPriceUp();
-                        break;
-                    }
-                    default: $total_price += $reservation->getOwnResRoomPriceDown();
-                        break;
-                }
+                $seasonType = $service_time->seasonTypeByDate($seasons, $array_dates[$i]);
+                $total_price += ReservationHelper::reservationPriceBySeason($reservation, $seasonType);
             }
         } else {
             $total_price += $reservation->getOwnResNightPrice() * (count($array_dates) - 1);
         }
-        $total_persons = $reservation->getOwnResCountAdults() + $reservation->getOwnResCountChildrens();
-        
-        if($total_persons >= 3 && $reservation->getOwnResRoomType() == "Habitación Triple")
+
+        if($reservation->getTripleRoomCharged())
             $total_price += $triple_room_charge * (count($array_dates) - 1);
-        
+
         return $total_price;
+    }
+
+    public static function roomPriceBySeason($room, $seasonType)
+    {
+        return $room->getPriceBySeasonType($seasonType);
+    }
+
+    public static function reservationPriceBySeason($reservation, $seasonType)
+    {
+        switch($seasonType)
+        {
+            case \MyCp\mycpBundle\Entity\season::SEASON_TYPE_HIGH: return $reservation->getOwnResRoomPriceUp();
+            case \MyCp\mycpBundle\Entity\season::SEASON_TYPE_SPECIAL: return ($reservation->getOwnResRoomPriceSpecial() != null && $reservation->getOwnResRoomPriceSpecial() > 0) ? $reservation->getOwnResRoomPriceSpecial(): $reservation->getOwnResRoomPriceUp();
+            default: return $reservation->getOwnResRoomPriceDown();
+        }
     }
 
 }

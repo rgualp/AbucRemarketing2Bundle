@@ -5,7 +5,7 @@
                 <li><a title="{{"HOW_IT_WORKS" | trans }}" href="{{ path('frontend_how_it_works_information')}}"><img class="icon tiny-book-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/> {{"HOW_IT_WORKS" | trans }}</a></li>
                 <li><a title="{{"FAVORITIES" | trans }}" href="{{ path('frontend_list_favorite') }}"><img class="icon tiny-heart-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/> {{"FAVORITIES" | trans }}</a></li>
                 <li>
-                    {{ render(controller('FrontEndBundle:Reservation:get_count_cart_items')) }}
+                    {{ render(controller('FrontEndBundle:Cart:countCartItems')) }}
                 </li>
             </ul>
         </div>

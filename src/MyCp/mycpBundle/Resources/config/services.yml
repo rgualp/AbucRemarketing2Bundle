@@ -34,3 +34,15 @@ services:
        arguments: [@abuc_remarketing.job.manager, "mycp.job.latesignup.reminder", "48 hours"]
        tags:
            - { name: kernel.event_listener, event: abuc.event.user.signup,  method: onEvent }
+
+   mycp.job.user.fullcart.listener:
+       class: Abuc\RemarketingBundle\Event\DefaultEventListener
+       arguments: [@abuc_remarketing.job.manager, "mycp.job.fullcart.reminder", "3 hours"]
+       tags:
+           - { name: kernel.event_listener, event: mycp.event.cart.full,  method: onEvent }
+           
+   mycp.job.user.feedback.listener:
+       class: Abuc\RemarketingBundle\Event\DefaultEventListener
+       arguments: [@abuc_remarketing.job.manager, "mycp.job.feedback.reminder"]
+       tags:
+           - { name: kernel.event_listener, event: mycp.event.feedback,  method: onEvent }

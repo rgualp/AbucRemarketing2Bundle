@@ -31,6 +31,8 @@ class utilsExtension extends \Twig_Extension {
             'ceil_round' => new \Twig_Function_Method($this, 'ceil_round'),
             'default_currency' => new \Twig_Function_Method($this, 'default_currency'),
             'price_in_currency' => new \Twig_Function_Method($this, 'price_in_currency'),
+            'roomPriceBySeason' => new \Twig_Function_Method($this, 'roomPriceBySeason'),
+            'reservationPriceBySeason' => new \Twig_Function_Method($this, 'reservationPriceBySeason'),
         );
     }
 
@@ -63,20 +65,28 @@ class utilsExtension extends \Twig_Extension {
         return $this->entity_manager->getRepository('mycpBundle:currency')->findOneBy(array('curr_site_price_in' => true));
     }
 
-    public function priceFilter($number, $decimals = 2, $decPoint = '.', $thousandsSep = ',') {
+    public function priceFilter($number, $currency = null, $decimals = 2, $decPoint = '.', $thousandsSep = ',') {
+        $rate = 0;
+        $symbol = "";
 
-        if ($this->session->get('curr_rate') == null || $this->session->get('curr_symbol') == null) {
+        if($currency != null)
+        {
+            $rate = $currency->getCurrCucChange();
+            $symbol = $currency->getCurrSymbol();
+        }
+        else if ($this->session->get('curr_rate') == null || $this->session->get('curr_symbol') == null) {
             $price_in_currency = $this->entity_manager->getRepository('mycpBundle:currency')->findOneBy(array('curr_site_price_in' => true));
-            $this->session->set('curr_rate', $price_in_currency->getCurrCucChange());
-            $this->session->set('curr_symbol', $price_in_currency->getCurrSymbol());
+            $rate = $price_in_currency->getCurrCucChange();
+            $symbol = $price_in_currency->getCurrSymbol();
+        }
+        else
+        {
+            $rate = $this->session->get('curr_rate');
+            $symbol = $this->session->get('curr_symbol');
         }
 
-        $rate = $this->session->get('curr_rate');
         $price = number_format($number * $rate, $decimals, $decPoint, $thousandsSep);
-
-        $curr_symbol = $this->session->get('curr_symbol');
-
-        $price = $curr_symbol . ' ' . $price;
+        $price = $symbol . ' ' . $price;
 
         return $price;
     }
@@ -87,6 +97,16 @@ class utilsExtension extends \Twig_Extension {
 
     public function statusName($status_id) {
         return \MyCp\mycpBundle\Entity\ownershipStatus::statusName($status_id);
+    }
+
+    public function roomPriceBySeason($room, $seasonType)
+    {
+        return $room->getPriceBySeasonType($seasonType);
+    }
+
+    public function reservationPriceBySeason($reservation, $seasonType)
+    {
+        return \MyCp\FrontEndBundle\Helpers\ReservationHelper::reservationPriceBySeason($reservation, $seasonType);
     }
 
 }

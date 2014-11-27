@@ -2647,6 +2647,38 @@
                 <source>NOT_ALLOW_STATUS_OFFER</source>
                 <target>This offer can not be cancelled.</target>
             </trans-unit>
+            <trans-unit id="672">
+                <source>USER_CART_FULL_REMINDER</source>
+                <target>Shopping Cart full. What do you want to do?</target>
+            </trans-unit>
+            <trans-unit id="673">
+                <source>USER_CART_FULL_TEXT1</source>
+                <target>Your shopping cart is full with some accommodations that may be available. What would you like to do with them?</target>
+            </trans-unit>
+            <trans-unit id="674">
+                <source>FROM_DATE</source>
+                <target>From</target>
+            </trans-unit>
+            <trans-unit id="675">
+                <source>TO_DATE</source>
+                <target>to</target>
+            </trans-unit>
+            <trans-unit id="676">
+                <source>FEEDBACK_REMINDER</source>
+                <target>Back from Cuba? Please Feedback</target>
+            </trans-unit>
+            <trans-unit id="677">
+                <source>USER_FEEDBACK_TEXT1</source>
+                <target>We hope your travel to Cuba has been an amazing experience!</target>
+            </trans-unit>
+            <trans-unit id="678">
+                <source>USER_FEEDBACK_TEXT2</source>
+                <target>If it doesn’t cause you trouble, we hope you could help us to improve our services, or that you could help other travelers to feedback from your experiences, by giving us your suggestions, comments or opinions. This will truly help us!</target>
+            </trans-unit>
+            <trans-unit id="679">
+                <source>COMMENT</source>
+                <target>Comment</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

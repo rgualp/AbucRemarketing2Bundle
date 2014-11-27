@@ -21,7 +21,7 @@ class favorite
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $favorite_id;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="user",inversedBy="")
      * @ORM\JoinColumn(name="favorite_user",referencedColumnName="user_id", nullable=true)
@@ -34,19 +34,19 @@ class favorite
      * @ORM\Column(name="favorite_session_id", type="string", length=255, nullable=true)
      */
     private $favorite_session_id;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="ownership",inversedBy="")
      * @ORM\JoinColumn(name="favorite_ownership",referencedColumnName="own_id", nullable=true)
      */
     private $favorite_ownership;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="destination",inversedBy="")
      * @ORM\JoinColumn(name="favorite_destination",referencedColumnName="des_id", nullable=true)
      */
     private $favorite_destination;
-    
+
      /**
      * @var datetime
      *
@@ -57,13 +57,13 @@ class favorite
     /**
      * Get favorite_id
      *
-     * @return integer 
+     * @return integer
      */
     public function getFavoriteId()
     {
         return $this->favorite_id;
     }
-    
+
     /**
      * Set favorite_creation_date
      *
@@ -73,14 +73,14 @@ class favorite
     public function setFavoriteCreationDate($value)
     {
         $this->favorite_creation_date = $value;
-    
+
         return $this;
     }
 
     /**
      * Get favorite_creation_date
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getFavoriteCreationDate()
     {
@@ -95,16 +95,14 @@ class favorite
      */
     public function setFavoriteSessionId($value = null)
     {
-        if($value != null)
-           $this->favorite_session_id = $value;
-    
+        $this->favorite_session_id = $value;
         return $this;
     }
 
     /**
      * Get favorite_session_id
      *
-     * @return string 
+     * @return string
      */
     public function getFavoriteSessionId()
     {
@@ -121,14 +119,14 @@ class favorite
     {
         if($value != null)
            $this->favorite_ownership = $value;
-    
+
         return $this;
     }
 
     /**
      * Get favorite_ownership
      *
-     * @return \MyCp\mycpBundle\Entity\ownership 
+     * @return \MyCp\mycpBundle\Entity\ownership
      */
     public function getFavoriteOwnership()
     {
@@ -145,14 +143,14 @@ class favorite
     {
         if($value != null)
            $this->favorite_destination = $value;
-    
+
         return $this;
     }
 
     /**
      * Get favorite_destination
      *
-     * @return \MyCp\mycpBundle\Entity\destination 
+     * @return \MyCp\mycpBundle\Entity\destination
      */
     public function getFavoriteDestination()
     {
@@ -169,14 +167,14 @@ class favorite
     {
         if($value != null)
            $this->favorite_user = $value;
-    
+
         return $this;
     }
 
     /**
      * Get favorite_user
      *
-     * @return \MyCp\mycpBundle\Entity\user 
+     * @return \MyCp\mycpBundle\Entity\user
      */
     public function getFavoriteUser()
     {

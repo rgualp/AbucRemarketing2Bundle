@@ -670,6 +670,16 @@ class room {
         return 0;
     }
 
+    public function getPriceBySeasonType($seasonType)
+    {
+        switch($seasonType)
+        {
+            case \MyCp\mycpBundle\Entity\season::SEASON_TYPE_HIGH: return $this->room_price_up_to;
+            case \MyCp\mycpBundle\Entity\season::SEASON_TYPE_SPECIAL: return ($this->room_price_special != null && $this->room_price_special > 0) ? $this->room_price_special: $this->room_price_up_to;
+            default: return $this->room_price_down_to;
+        }
+    }
+
     /**
      * Set room_sync_st
      *
@@ -719,6 +729,11 @@ class room {
      */
     public function getOwnUnavailabilityDetails() {
         return $this->own_unavailability_details;
+    }
+
+    public function isTriple()
+    {
+        return $this->room_type == "Habitación Triple";
     }
 
 }

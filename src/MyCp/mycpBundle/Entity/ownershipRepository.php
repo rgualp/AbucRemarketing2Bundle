@@ -1073,7 +1073,7 @@ class ownershipRepository extends EntityRepository {
                     $is_room_individual = true;
                 }
 
-                if ($room->getRoomType() != null && $room->getRoomType() == 'Habitación Triple' && !$is_room_triple) {
+                if ($room->getRoomType() != null && $room->isTriple() && !$is_room_triple) {
                     $statistics['room_triple'] += 1;
                     $is_room_triple = true;
                 }

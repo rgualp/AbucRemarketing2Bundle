@@ -12,11 +12,11 @@ use MyCp\mycpBundle\Helpers\SyncStatuses;
  * @ORM\Table(name="ownershipreservation")
  * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\ownershipReservationRepository")
  */
-class ownershipReservation
-{
+class ownershipReservation {
     /**
      * All allowed statuses
      */
+
     const STATUS_PENDING = 0;
     const STATUS_AVAILABLE = 1;
     const STATUS_AVAILABLE2 = 2;
@@ -67,7 +67,7 @@ class ownershipReservation
      */
     private $own_res_room_price_up;
 
-     /**
+    /**
      * @var string
      *
      * @ORM\Column(name="own_res_room_price_down", type="string", length=255, nullable=true)
@@ -363,8 +363,7 @@ class ownershipReservation
      * @return ownershipReservation
      * @throws \InvalidArgumentException
      */
-    public function setOwnResStatus($ownResStatus)
-    {
+    public function setOwnResStatus($ownResStatus) {
         if (!in_array($ownResStatus, $this->statuses)) {
             throw new \InvalidArgumentException("Status $ownResStatus not allowed");
         }
@@ -501,11 +500,22 @@ class ownershipReservation
      *
      * @return bool Returns true if the status is "available", false if not.
      */
-    public function hasStatusAvailable()
+    public function hasStatusAvailable() {
+        $status = $this->getOwnResStatus();
+
+        return self::STATUS_AVAILABLE === $status || self::STATUS_AVAILABLE2 === $status;
+    }
+
+    public function getTripleRoomCharged() {
+        return ($this->own_res_room_type == "Habitación Triple") &&
+                ($this->own_res_count_adults + $this->own_res_count_childrens >= 3);
+    }
+    
+    public function hasStatusReserved()
     {
         $status = $this->getOwnResStatus();
 
-        return self::STATUS_AVAILABLE === $status
-            || self::STATUS_AVAILABLE2 === $status;
+        return (self::STATUS_RESERVED === $status);
     }
+
 }

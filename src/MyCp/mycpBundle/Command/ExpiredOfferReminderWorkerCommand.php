@@ -119,6 +119,8 @@ class ExpiredOfferReminderWorkerCommand extends Worker {
                 ->getRepository('mycpBundle:generalReservation')
                 ->getOwnershipReservations($generalReservation);
 
+        $userTourist = $this->em->getRepository("mycpBundle:userTourist")->findOneBy(array("user_tourist_user" => $user->getUserId()));
+
         $arrayPhotos = array();
         $arrayNights = array();
 
@@ -169,6 +171,7 @@ class ExpiredOfferReminderWorkerCommand extends Worker {
                 'photos' => $arrayPhotos,
                 'nights' => $arrayNights,
                 'user_locale' => $this->emailManager->getUserLocale($user),
+                'user_currency' => ($userTourist != null) ? $userTourist->getUserTouristCurrency() : null
                 //'initial_payment' => $initialPayment,
                 //'generalReservationId' => $generalReservation->getGenResId()
             ));

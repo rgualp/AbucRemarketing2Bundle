@@ -137,6 +137,7 @@ class LastReservationReminderWorkerCommand extends Worker
         $arrayNights = array();
 
         $initialPayment = 0;
+        $userTourist = $this->em->getRepository("mycpBundle:userTourist")->findOneBy(array("user_tourist_user" => $user->getUserId()));
 
         foreach($ownershipReservations as $ownershipReservation)
         {
@@ -164,7 +165,7 @@ class LastReservationReminderWorkerCommand extends Worker
             if($ownershipReservation->getOwnResNightPrice() > 0)
                 $initialPayment += $ownershipReservation->getOwnResNightPrice() * (count($array_dates) - 1) * $comission;
             else
-                $initialPayment += getOwnResTotalInSite() * $comission;
+                $initialPayment += $ownershipReservation->getOwnResTotalInSite() * $comission;
         }
 
         $body = $this->emailManager
@@ -175,7 +176,8 @@ class LastReservationReminderWorkerCommand extends Worker
                 'nights' => $arrayNights,
                 'user_locale' => $this->emailManager->getUserLocale($user),
                 'initial_payment' => $initialPayment,
-                'generalReservationId' => $generalReservation->getGenResId()
+                'generalReservationId' => $generalReservation->getGenResId(),
+                'user_currency' => ($userTourist != null) ? $userTourist->getUserTouristCurrency() : null
             ));
 
         return $body;

@@ -171,20 +171,18 @@ class favoriteRepository extends EntityRepository {
         }
     }
 
-    public function set_to_user($user_id, $session_id) {
+    public function setToUser($user, $session_id) {
         $em = $this->getEntityManager();
         $to_set = $em->getRepository("mycpBundle:favorite")->findBy(array('favorite_session_id' => $session_id,
                                                                           'favorite_user' => null));
 
-        $user = $em->getRepository('mycpBundle:user')->find($user_id);
-
         foreach($to_set as $favorite)
         {
             if($favorite->getFavoriteOwnership() != null)
-                $count = count($em->getRepository('mycpBundle:favorite')->findBy(array('favorite_user' => $user_id,
+                $count = count($em->getRepository('mycpBundle:favorite')->findBy(array('favorite_user' => $user->getUserId(),
                                                                                        'favorite_ownership' => $favorite->getFavoriteOwnership())));
             else if($favorite->getFavoriteDestination())
-                $count = count($em->getRepository('mycpBundle:favorite')->findBy(array('favorite_user' => $user_id,
+                $count = count($em->getRepository('mycpBundle:favorite')->findBy(array('favorite_user' => $user->getUserId(),
                                                                                        'favorite_destination' => $favorite->getFavoriteDestination())));
 
             if($count == 0)

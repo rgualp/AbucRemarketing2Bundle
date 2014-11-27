@@ -1,3 +1,3 @@
-<a title="{{"CART" | trans }}" href="{{ path('frontend_review_reservation') }}" style="margin-top: 10px">
+<a title="{{"CART" | trans }}" href="{{ path('frontend_view_cart') }}" style="margin-top: 10px">
   <img style="width: 26px; height: 23px;" class="icon {%if count > 0%}cart-full-icon{%else%}cart-icon{%endif%}" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/>
    {{"CART" | trans }} <span {%if count > 0%}style="color: #87AB41;{% endif %} font-size: 13px"><b>({{count}})</b></span></a>
