@@ -8,10 +8,12 @@ class utilsExtension extends \Twig_Extension {
 
     private $session;
     private $entity_manager;
+    private $generator;
 
-    public function __construct($session, $entity_manager) {
+    public function __construct($session, $entity_manager, $generator) {
         $this->session = $session;
         $this->entity_manager = $entity_manager;
+        $this->generator = $generator;
     }
 
     public function getName() {
