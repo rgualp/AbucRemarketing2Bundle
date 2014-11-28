@@ -33,6 +33,7 @@ class utilsExtension extends \Twig_Extension {
             'price_in_currency' => new \Twig_Function_Method($this, 'price_in_currency'),
             'roomPriceBySeason' => new \Twig_Function_Method($this, 'roomPriceBySeason'),
             'reservationPriceBySeason' => new \Twig_Function_Method($this, 'reservationPriceBySeason'),
+            'getUrl' => new \Twig_Function_Method($this, 'getUrl'),
         );
     }
 
@@ -107,6 +108,16 @@ class utilsExtension extends \Twig_Extension {
     public function reservationPriceBySeason($reservation, $seasonType)
     {
         return \MyCp\FrontEndBundle\Helpers\ReservationHelper::reservationPriceBySeason($reservation, $seasonType);
+    }
+    
+    public function getUrl($routeName, $routeParameters = null)
+    {
+        if($routeParameters != null)
+            $url = $this->generator->generate($routeName, $routeParameters);
+        else
+            $url = $this->generator->generate($routeName);
+        
+        return str_replace("//", "/", $url);
     }
 
 }
