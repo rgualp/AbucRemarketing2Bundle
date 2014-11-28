@@ -52,6 +52,14 @@
                     <div class="pull-left">
                         Mostrando del {{items_per_page * current_page - items_per_page}} al {% if items_per_page * current_page >  total_items%}{{total_items }}{% else %}{{ items_per_page * current_page }}{% endif %} de {{total_items}} registros
                     </div>
+                    <div class="pull-right">
+                        Líneas por página:
+                        <a class="{% if items_per_page == 50 %}selected{% endif %}" href="{{ path('mycp_list_reservations_booking',{'items_per_page':50,'filter_booking_number':filter_booking_number,'filter_date_booking':filter_date_booking,'filter_user_booking':filter_user_booking})}}">50</a>
+                        <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_reservations_booking',{'items_per_page':100,'filter_booking_number':filter_booking_number,'filter_date_booking':filter_date_booking,'filter_user_booking':filter_user_booking})}}">100</a>
+                        <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_reservations_booking',{'items_per_page':300,'filter_booking_number':filter_booking_number,'filter_date_booking':filter_date_booking,'filter_user_booking':filter_user_booking})}}">300</a>
+                        <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_reservations_booking',{'items_per_page':500,'filter_booking_number':filter_booking_number,'filter_date_booking':filter_date_booking,'filter_user_booking':filter_user_booking})}}">500</a>
+                        <input class="hidden" name="items_per_page" value="100">
+                    </div>
                 </div>
             </div>
             <div class="row-fluid">
