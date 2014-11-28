@@ -33,8 +33,7 @@ class utilsExtension extends \Twig_Extension {
         return array(
             'ceil_round' => new \Twig_Function_Method($this, 'ceil_round'),
             'default_currency' => new \Twig_Function_Method($this, 'default_currency'),
-            'price_in_currency' => new \Twig_Function_Method($this, 'price_in_currency'),
-            'getUrl' => new \Twig_Function_Method($this, 'getUrl'),
+            'price_in_currency' => new \Twig_Function_Method($this, 'price_in_currency'),            
         );
     }
 
@@ -93,14 +92,6 @@ class utilsExtension extends \Twig_Extension {
         return \MyCp\mycpBundle\Entity\ownershipStatus::statusName($status_id);
     }
     
-    public function getUrl($routeName, $routeParameters = null)
-    {
-        if($routeParameters != null)
-            $url = $this->generator->generate($routeName, $routeParameters);
-        else
-            $url = $this->generator->generate($routeName);
-        
-        return str_replace("//", "/", $url);
-    }
+    
 
 }
