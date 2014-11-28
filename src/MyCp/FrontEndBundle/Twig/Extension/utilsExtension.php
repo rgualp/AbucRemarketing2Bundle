@@ -3,15 +3,18 @@
 namespace MyCp\FrontEndBundle\Twig\Extension;
 
 use MyCp\FrontEndBundle\Helpers\Utils;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class utilsExtension extends \Twig_Extension {
 
     private $session;
     private $entity_manager;
+    private $generator;
 
-    public function __construct($session, $entity_manager) {
+    public function __construct($session, $entity_manager, UrlGeneratorInterface $generator) {
         $this->session = $session;
         $this->entity_manager = $entity_manager;
+        $this->generator = $generator;
     }
 
     public function getName() {
@@ -31,6 +34,7 @@ class utilsExtension extends \Twig_Extension {
             'ceil_round' => new \Twig_Function_Method($this, 'ceil_round'),
             'default_currency' => new \Twig_Function_Method($this, 'default_currency'),
             'price_in_currency' => new \Twig_Function_Method($this, 'price_in_currency'),
+            'getUrl' => new \Twig_Function_Method($this, 'getUrl'),
         );
     }
 
@@ -87,6 +91,16 @@ class utilsExtension extends \Twig_Extension {
 
     public function statusName($status_id) {
         return \MyCp\mycpBundle\Entity\ownershipStatus::statusName($status_id);
+    }
+    
+    public function getUrl($routeName, $routeParameters = null)
+    {
+        if($routeParameters != null)
+            $url = $this->generator->generate($routeName, $routeParameters);
+        else
+            $url = $this->generator->generate($routeName);
+        
+        return str_replace("//", "/", $url);
     }
 
 }
