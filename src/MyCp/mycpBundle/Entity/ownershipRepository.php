@@ -663,7 +663,7 @@ class ownershipRepository extends EntityRepository {
         $order = SearchUtils::getOrder($order_by);
         $query_string .= $order;
 
-        //var_dump($where);
+        //var_dump($query_string);
 
         $query = $em->createQuery($query_string);
 
