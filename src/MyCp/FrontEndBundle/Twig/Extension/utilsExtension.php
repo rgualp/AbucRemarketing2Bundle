@@ -3,18 +3,15 @@
 namespace MyCp\FrontEndBundle\Twig\Extension;
 
 use MyCp\FrontEndBundle\Helpers\Utils;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class utilsExtension extends \Twig_Extension {
 
     private $session;
     private $entity_manager;
-    private $generator;
 
-    public function __construct($session, $entity_manager, UrlGeneratorInterface $generator) {
+    public function __construct($session, $entity_manager) {
         $this->session = $session;
         $this->entity_manager = $entity_manager;
-        $this->generator = $generator;
     }
 
     public function getName() {

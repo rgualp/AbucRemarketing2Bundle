@@ -114,7 +114,6 @@ services:
         arguments:
             session: "@session"
             entity_manager: "@doctrine.orm.entity_manager"
-            generator: "@router"
     twig.extension.mycpExtension:
         class: MyCp\mycpBundle\Twig\Extension\mycpExtension
         tags:
