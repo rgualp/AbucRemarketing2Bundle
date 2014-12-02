@@ -553,6 +553,7 @@ class BackendOwnershipController extends Controller {
         $data['country_code'] = '';
         $data['municipality_code'] = '';
         $data['count_errors'] = 0;
+        $data['status_id'] = 0;
 
         if ($request->getMethod() == 'POST') {
             if ($request->request->get('new_room') == 1) {

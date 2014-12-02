@@ -1505,7 +1505,7 @@ class ownershipRepository extends EntityRepository {
 
     private function getDetailBasicQuery($user_id = null, $session_id = null, $locale = "ES") {
         $query_string = "SELECT o.own_id as own_id,
-                        dest.des_id as des_id,
+                        (SELECT max(dest.des_id) FROM mycpBundle:destination dest WHERE dest.des_id = o.own_destination) as des_id,
                         o.own_name as ownname,
                         prov.prov_name as ownAddressProvince,
                         prov.prov_id as ownAddressProvince_id,
@@ -1552,8 +1552,7 @@ class ownershipRepository extends EntityRepository {
                         (SELECT count(o4.own_id) from mycpBundle:ownership o4 where o4.own_id = o.own_id AND o4.own_langs LIKE '___1') as italian
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
-                         JOIN o.own_address_municipality mun
-                         JOIN o.own_destination dest ";
+                         JOIN o.own_address_municipality mun  ";
         return $query_string;
     }
 
