@@ -13,8 +13,8 @@ use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Helpers\EmailManager;
 use Doctrine\ORM\EntityManager;
 
-class ExpiredOfferReminderWorkerCommand extends Worker {
-
+class ExpiredOfferReminderWorkerCommand extends Worker
+{
     /**
      * 'translator' service
      * @var
@@ -25,6 +25,11 @@ class ExpiredOfferReminderWorkerCommand extends Worker {
      * @var  OutputInterface
      */
     private $output;
+
+    /**
+     * @var EntityManager
+     */
+    private $em;
 
     /**
      * 'Secure' service
@@ -43,7 +48,7 @@ class ExpiredOfferReminderWorkerCommand extends Worker {
     /**
      * 'mycp.service.email_manager' service
      *
-     * @var \MyCp\mycpBundle\Helpers\EmailManager
+     * @var EmailManager
      */
     private $emailManager;
 
@@ -61,7 +66,8 @@ class ExpiredOfferReminderWorkerCommand extends Worker {
     /**
      * {@inheritDoc}
      */
-    protected function work(JobData $data, InputInterface $input, OutputInterface $output) {
+    protected function work(JobData $data, InputInterface $input, OutputInterface $output)
+    {
         if (!($data instanceof GeneralReservationJobData)) {
             throw new \InvalidArgumentException('Wrong datatype received: ' . get_class($data));
         }
@@ -91,10 +97,12 @@ class ExpiredOfferReminderWorkerCommand extends Worker {
 
     /**
      * Sends an account activation reminder email to a user.
-     * @param $user
-     * @param $output
+     *
+     * @param generalReservation $generalReservation
+     * @param user $user
      */
-    private function sendReminderEmail(generalReservation $generalReservation,user $user) {
+    private function sendReminderEmail(generalReservation $generalReservation, user $user)
+    {
         $userId = $user->getUserId();
         $userEmail = $user->getUserEmail();
 
@@ -181,6 +189,7 @@ class ExpiredOfferReminderWorkerCommand extends Worker {
      */
     private function initializeServices() {
         $this->emailManager = $this->getService('mycp.service.email_manager');
+        $this->em = $this->getService('doctrine.orm.entity_manager');
         $this->translatorService = $this->getService('translator');
         $this->securityService = $this->getService('Secure');
         $this->router = $this->getService('router');

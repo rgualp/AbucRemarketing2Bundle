@@ -164,7 +164,7 @@ class ReservationReminderWorkerCommand extends Worker
             if($ownershipReservation->getOwnResNightPrice() > 0)
                 $initialPayment += $ownershipReservation->getOwnResNightPrice() * (count($array_dates) - 1) * $comission;
             else
-                $initialPayment += getOwnResTotalInSite() * $comission;
+                $initialPayment += $ownershipReservation->getOwnResTotalInSite() * $comission;
         }
 
         $body = $this->emailManager
