@@ -32,6 +32,12 @@ class ExpiredOfferReminderWorkerCommand extends Worker
     private $em;
 
     /**
+     * 'time' service
+     * @var
+     */
+    private $timeService;
+
+    /**
      * 'Secure' service
      *
      * @var
@@ -88,7 +94,7 @@ class ExpiredOfferReminderWorkerCommand extends Worker
             $this->emailManager->setLocaleByUser($user);
 
             $output->writeln('Send Offer Expired Reminder Email for Reservation ID ' . $reservationId);
-            $this->sendReminderEmail($generalReservation,$user);
+            $this->sendReminderEmail($generalReservation, $user);
         }
 
         $output->writeln('Successfully finished Offer Expired Reminder for Reservation ID ' . $reservationId);
@@ -190,6 +196,7 @@ class ExpiredOfferReminderWorkerCommand extends Worker
     private function initializeServices() {
         $this->emailManager = $this->getService('mycp.service.email_manager');
         $this->em = $this->getService('doctrine.orm.entity_manager');
+        $this->timeService = $this->getService('time');
         $this->translatorService = $this->getService('translator');
         $this->securityService = $this->getService('Secure');
         $this->router = $this->getService('router');
