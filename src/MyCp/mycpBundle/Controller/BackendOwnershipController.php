@@ -553,6 +553,7 @@ class BackendOwnershipController extends Controller {
         $data['country_code'] = '';
         $data['municipality_code'] = '';
         $data['count_errors'] = 0;
+        $data['status_id'] = 0;
 
         if ($request->getMethod() == 'POST') {
             if ($request->request->get('new_room') == 1) {
@@ -815,6 +816,10 @@ class BackendOwnershipController extends Controller {
 
                         $em->getRepository('mycpBundle:ownership')->edit($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this);
 
+                        //Enviar correo a los propietarios
+                        if ($new_status == ownershipStatus::STATUS_ACTIVE && $old_status == ownershipStatus::STATUS_IN_PROCESS)
+                            UserMails::sendOwnersMail($this, $post['ownership_email_1'], $post['ownership_email_2'], $post['ownership_homeowner_1'], $post['ownership_homeowner_2'], $post['ownership_name'], $post['ownership_mcp_code']);
+                        
                         $message = 'Propiedad actualizada satisfactoriamente.';
                     } else {
 

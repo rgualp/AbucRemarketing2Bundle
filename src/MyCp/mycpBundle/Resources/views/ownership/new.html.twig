@@ -241,11 +241,13 @@
                         <div class="span1" style="width: 200px; margin-left: 0px!important; margin-right: 10px;">
                             {% if data['edit_ownership'] is defined and post['room_id_'~i] is defined%}<input name="room_id_{{i}}" value="{{post['room_id_'~i]}}" type="hidden"/>{%endif%}
                             <label><span class="label label-info">Habitación # {{i}}</span>
-                            {%if post['room_active_'~i]%}
+                            {%if post['room_active_'~i] is defined%}
+                              {%if post['room_active_'~i]%}
                               <span class="label label-success">Activa</span>
                             {%else%}
                               <span class="label label-warning">Inactiva</span>
                             {%endif%}
+                              {%endif%}
                             </label>
                             <label>Tipo de habitación (*)</label>
                             {% if errors['room_type_'~i] is defined %}<label class="error">{{errors['room_type_'~i]|trim(':')}}</label>{%endif%}
