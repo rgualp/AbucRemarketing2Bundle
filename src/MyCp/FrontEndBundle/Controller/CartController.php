@@ -15,7 +15,7 @@ class CartController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
         $countItems = $em->getRepository('mycpBundle:cart')->countItems($user_ids);
-        
+
         return $this->render('FrontEndBundle:cart:cartCountItems.html.twig', array(
                     'count' => $countItems
         ));
@@ -335,7 +335,6 @@ class CartController extends Controller {
                     $em->persist($general_reservation);
 
                     $flag_1 = 0;
-
                     foreach ($resByOwn as $item) {
                         $ownership_reservation = $item->createReservation($general_reservation, $partial_total_price[$flag_1]);
                         array_push($reservations, $ownership_reservation);
@@ -365,7 +364,7 @@ class CartController extends Controller {
          */
         $ownership = $em->getRepository('mycpBundle:ownership')->find($cartItems[0]->getCartRoom()->getRoomOwnership()->getOwnId());
 
-        $owns_in_destination = $em->getRepository("mycpBundle:destination")->getRecommendableAccommodations($min_date, $max_date, $ownership->getOwnMinimumPrice(), $ownership->getOwnRoomsTotal(), $ownership->getOwnAddressMunicipality()->getMunId(), $ownership->getOwnAddressProvince()->getProvId(), 3, $ownership->getOwnId(), $user->getUserId());
+        $owns_in_destination = $em->getRepository("mycpBundle:destination")->getRecommendableAccommodations($min_date, $max_date, $ownership->getOwnMinimumPrice(), $ownership->getOwnAddressMunicipality()->getMunId(), $ownership->getOwnAddressProvince()->getProvId(), 3, $ownership->getOwnId(), $user->getUserId());
 
         $locale = $this->get('translator')->getLocale();
         $destinations = $em->getRepository('mycpBundle:destination')->filter($locale, null, $ownership->getOwnAddressProvince()->getProvId(), null, $ownership->getOwnAddressMunicipality()->getMunId(), 3, $user->getUserId(), null);
