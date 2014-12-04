@@ -719,7 +719,7 @@ class ownershipRepository extends EntityRepository {
             $query_string .= " AND LOWER(o.own_category) = '$category'";
         }
 
-        $query_string .= " ORDER BY o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC";
+        $query_string .= " ORDER BY o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC";
 
         $results = $em->createQuery($query_string)->getResult();
 
@@ -1261,12 +1261,12 @@ class ownershipRepository extends EntityRepository {
 
         if ($exclude_id == null)
             $query_string .= "WHERE o.own_category= :category AND o.own_status = " . ownershipStatus::STATUS_ACTIVE . "
-                              ORDER BY o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC";
+                              ORDER BY o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC";
         else
             $query_string .= "WHERE o.own_category= :category
                            AND o.own_status = " . ownershipStatus::STATUS_ACTIVE . "
                            AND o.own_id <> $exclude_id
-                         ORDER BY o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC";
+                         ORDER BY o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC";
 
         $results = ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setParameter('category', $category)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->setParameter('category', $category)->getResult();
 
@@ -1354,7 +1354,7 @@ class ownershipRepository extends EntityRepository {
             FROM mycpBundle:ownership o
             WHERE o.own_status=" . ownershipStatus::STATUS_ACTIVE . "
               AND o.own_rating >= 4
-            ORDER BY o.own_rating DESC, o.own_comments_total DESC");
+            ORDER BY o.own_ranking DESC, o.own_comments_total DESC");
         return $query->getResult();
     }
 
@@ -1364,7 +1364,7 @@ class ownershipRepository extends EntityRepository {
                         FROM mycpBundle:ownership o
                         WHERE o.own_status=" . ownershipStatus::STATUS_ACTIVE . "
                           AND o.own_comments_total > 0
-                        ORDER BY o.own_rating DESC, o.own_comments_total DESC";
+                        ORDER BY o.own_ranking DESC, o.own_comments_total DESC";
 
         return $em->createQuery($query_string)->getResult();
     }
@@ -1554,6 +1554,26 @@ class ownershipRepository extends EntityRepository {
                          JOIN o.own_address_province prov
                          JOIN o.own_address_municipality mun  ";
         return $query_string;
+    }
+
+    public function getRankingFormula($ownership)
+    {
+        $em = $this->getEntityManager();
+        $commentsTotal = count($em->getRepository("mycpBundle:comment")->findBy(array('com_ownership' => $ownership->getOwnId(), 'com_public' => 1)));
+        $recommendationsTotal = count($em->getRepository("mycpBundle:comment")->getRecommendations($ownership->getOwnId()));
+        $reservationsTotal = count($em->getRepository("mycpBundle: generalReservation")->findBy(array("gen_res_own_id" => $ownership->getOwnId(), "gen_res_status" => generalReservation::STATUS_RESERVED)));
+
+        return $commentsTotal * $recommendationsTotal * $reservationsTotal;
+    }
+
+    public function updateRanking($ownership)
+    {
+        $em = $this->getEntityManager();
+        $ranking = $this->getRankingFormula($ownership);
+        $ownership->setOwnRanking($ranking);
+
+        $em->persist($ownership);
+        $em->flush();
     }
 
 }

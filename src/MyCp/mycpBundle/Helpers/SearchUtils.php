@@ -17,25 +17,25 @@ class SearchUtils {
         $reservations = SearchUtils::getWithReservations($entity_manager, $arrivalDate, $leavingDate);
         foreach ($reservations as $res)
                 $where .= "," . $res["own_id"];
-        
+
         $uDetails = SearchUtils::getWithUnavailabilityDetails($entity_manager, $arrivalDate, $leavingDate);
         foreach ($uDetails as $detail)
                 $where .= "," . $detail["own_id"];
         return $where;
     }
-    
+
     private static function getWithReservations($entity_manager, $arrivalDate = null, $leavingDate = null)
     {
         $reservations = array();
         if ($arrivalDate != null || $leavingDate != null) {
-            
+
             $dates_where = "";
             $dates_where_count = "";
 
             if ($arrivalDate != null) {
-                $dates_where .= ($dates_where != '') ? " OR " : "";                
+                $dates_where .= ($dates_where != '') ? " OR " : "";
                 $dates_where .= "(owr.own_res_reservation_from_date <= :arrival_date AND owr.own_res_reservation_to_date >= :arrival_date)";
-                
+
                 $dates_where_count .= ($dates_where_count != '') ? " OR " : "";
                 $dates_where_count .= "(owr1.own_res_reservation_from_date <= :arrival_date AND owr1.own_res_reservation_to_date >= :arrival_date)";
             }
@@ -43,7 +43,7 @@ class SearchUtils {
             if ($leavingDate != null) {
                 $dates_where .= ($dates_where != '') ? " OR " : "";
                 $dates_where .= "(owr.own_res_reservation_from_date <= :leaving_date AND owr.own_res_reservation_to_date >= :leaving_date)";
-                
+
                 $dates_where_count .= ($dates_where_count != '') ? " OR " : "";
                 $dates_where_count .= "(owr1.own_res_reservation_from_date <= :leaving_date AND owr1.own_res_reservation_to_date >= :leaving_date)";
             }
@@ -51,11 +51,11 @@ class SearchUtils {
             if ($arrivalDate != null && $leavingDate != null) {
                 $dates_where .= ($dates_where != '') ? " OR " : "";
                 $dates_where .= "(owr.own_res_reservation_from_date >= :arrival_date AND owr.own_res_reservation_to_date <= :leaving_date)";
-                
+
                 $dates_where_count .= ($dates_where_count != '') ? " OR " : "";
                 $dates_where_count .= "(owr1.own_res_reservation_from_date >= :arrival_date AND owr1.own_res_reservation_to_date <= :leaving_date)";
             }
-            
+
             $query_string = "SELECT DISTINCT o.own_id FROM mycpBundle:ownershipReservation owr
                                 JOIN owr.own_res_gen_res_id r
                                 JOIN r.gen_res_own_id o
@@ -85,23 +85,23 @@ class SearchUtils {
             }
 
             $reservations = $query_reservation->getResult();
-            
+
         }
         return $reservations;
     }
-    
+
     private static function getWithUnavailabilityDetails($entity_manager, $arrivalDate = null, $leavingDate = null)
     {
         $uDetails = array();
         if ($arrivalDate != null || $leavingDate != null) {
-            
+
             $dates_where = "";
             $dates_where_count = "";
 
             if ($arrivalDate != null) {
-                $dates_where .= ($dates_where != '') ? " OR " : "";                
+                $dates_where .= ($dates_where != '') ? " OR " : "";
                 $dates_where .= "(ud.ud_from_date <= :arrival_date AND ud.ud_to_date >= :arrival_date)";
-                
+
                 $dates_where_count .= ($dates_where_count != '') ? " OR " : "";
                 $dates_where_count .= "(ud1.ud_from_date <= :arrival_date AND ud1.ud_to_date >= :arrival_date)";
             }
@@ -109,7 +109,7 @@ class SearchUtils {
             if ($leavingDate != null) {
                 $dates_where .= ($dates_where != '') ? " OR " : "";
                 $dates_where .= "(ud.ud_from_date <= :leaving_date AND ud.ud_to_date >= :leaving_date)";
-                
+
                 $dates_where_count .= ($dates_where_count != '') ? " OR " : "";
                 $dates_where_count .= "(ud1.ud_from_date <= :leaving_date AND ud1.ud_to_date >= :leaving_date)";
             }
@@ -117,17 +117,17 @@ class SearchUtils {
             if ($arrivalDate != null && $leavingDate != null) {
                 $dates_where .= ($dates_where != '') ? " OR " : "";
                 $dates_where .= "(ud.ud_from_date >= :arrival_date AND ud.ud_to_date <= :leaving_date)";
-                
+
                 $dates_where_count .= ($dates_where_count != '') ? " OR " : "";
                 $dates_where_count .= "(ud1.ud_from_date >= :arrival_date AND ud1.ud_to_date <= :leaving_date)";
             }
-            
-            $query_string = "SELECT DISTINCT ow.own_id from mycpBundle:unavailabilityDetails ud 
+
+            $query_string = "SELECT DISTINCT ow.own_id from mycpBundle:unavailabilityDetails ud
                              JOIN ud.room r
-                             JOIN r.room_ownership ow 
+                             JOIN r.room_ownership ow
                              WHERE (SELECT count(ud1) FROM mycpBundle:unavailabilityDetails ud1
                                    JOIN ud1.room r1 WHERE r1.room_ownership = ow.own_id ";
-            
+
             $query_string .= ($dates_where_count != '') ? " AND ($dates_where_count)" : "";
             $query_string .= ") >= ow.own_rooms_total";
             $query_string .= ($dates_where != '') ? " AND ($dates_where)" : "";
@@ -150,7 +150,7 @@ class SearchUtils {
             }
 
             $uDetails = $query_details->getResult();
-            
+
         }
         return $uDetails;
     }
@@ -231,7 +231,7 @@ class SearchUtils {
             return "(prov.prov_name LIKE :text OR o.own_name LIKE :text OR o.own_mcp_code LIKE :text OR mun.mun_name LIKE :text)";
     }
 
-    
+
 public static function getFilterWhere($filters) {
         $where = "";
         if ($filters != null && is_array($filters)) {
@@ -242,22 +242,22 @@ public static function getFilterWhere($filters) {
                 if($insideWhere != "")
                     $where .= " AND (" . $insideWhere . ")";
             }
-            
+
             if (key_exists('own_category', $filters) && $filters['own_category'] != null && is_array($filters['own_category']) && count($filters['own_category']) > 0)
             {
                 $insideWhere = SearchUtils::getStringFromArray($filters['own_category']);
                 if($insideWhere != "")
                     $where .= " AND o.own_category IN (" . $insideWhere . ")";
             }
-            
+
             if (key_exists('own_type', $filters) && $filters['own_type'] != null && is_array($filters['own_type']) && count($filters['own_type']) > 0)
             {
                 $insideWhere = SearchUtils::getStringFromArray($filters['own_type']);
-                
+
                 if($insideWhere != "")
                     $where .= " AND o.own_type IN (" . $insideWhere . ")";
             }
-            
+
             if (key_exists('own_price_from', $filters) && $filters['own_price_from'] != null && is_array($filters['own_price_from']) && count($filters['own_price_from']) > 0 && $filters['own_price_to'] != null && is_array($filters['own_price_to']) && count($filters['own_price_to']) > 0) {
                 $prices_where = "";
 
@@ -272,13 +272,13 @@ public static function getFilterWhere($filters) {
             if (key_exists('room_type', $filters) && $filters['room_type'] != null && is_array($filters['room_type']) && count($filters['room_type']) > 0)
             {
                 $insideWhere = SearchUtils::getStringFromArray($filters['room_type']);
-                
+
                 if($insideWhere != "")
                     $where .= " AND r.room_type IN (" . $insideWhere . ")";
             }
-            
+
             if (key_exists('room_climatization', $filters) && $filters['room_climatization'] != null && $filters['room_climatization'] != 'null' && $filters['room_climatization'] != '')
-            {                
+            {
                 $where .= " AND r.room_climate LIKE '%" . $filters['room_climatization'] . "%'";
             }
 
@@ -294,10 +294,10 @@ public static function getFilterWhere($filters) {
             if (key_exists('room_smoker', $filters) && $filters['room_smoker'])
                 $where .= " AND r.room_smoker = 1";
 
-            if (key_exists('room_windows_total', $filters) && $filters['room_windows_total'] != null && is_array($filters['room_windows_total']) && count($filters['room_windows_total']) > 0) 
+            if (key_exists('room_windows_total', $filters) && $filters['room_windows_total'] != null && is_array($filters['room_windows_total']) && count($filters['room_windows_total']) > 0)
             {
                 $insideWhere = SearchUtils::getPlusFilterString($filters['room_windows_total'], "r.room_windows", 6);
-                
+
                 if($insideWhere != "")
                     $where .= " AND (" . $insideWhere . ")";
             }
@@ -314,11 +314,11 @@ public static function getFilterWhere($filters) {
             if (key_exists('room_bathroom', $filters) && $filters['room_bathroom'] != null && is_array($filters['room_bathroom']) && count($filters['room_bathroom']) > 0)
             {
                 $insideWhere = SearchUtils::getStringFromArray($filters['room_bathroom']);
-                
+
                 if($insideWhere != "")
                     $where .= " AND r.room_bathroom IN (" . $insideWhere . ")";
             }
-            
+
             if (key_exists('own_others_pets', $filters) && $filters['own_others_pets'])
                 $where .= " AND o.own_description_pets = 1";
 
@@ -343,8 +343,8 @@ public static function getFilterWhere($filters) {
 
             if (key_exists('own_rooms_number', $filters) && $filters['own_rooms_number'] != null && is_array($filters['own_rooms_number']) && count($filters['own_rooms_number']) > 0)
             {
-                $insideWhere =  SearchUtils::getPlusFilterString($filters['own_rooms_number'], "o.own_rooms_total", 6); 
-                
+                $insideWhere =  SearchUtils::getPlusFilterString($filters['own_rooms_number'], "o.own_rooms_total", 6);
+
                 if($insideWhere != "")
                     $where.= " AND (" .$insideWhere. ")";
             }
@@ -409,23 +409,23 @@ public static function getFilterWhere($filters) {
 
     public static function getOrder($order_by) {
         if ($order_by == "PRICE_LOW_HIGH")
-            return "  ORDER BY o.own_minimum_price ASC, o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC";
+            return "  ORDER BY o.own_minimum_price ASC, o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC";
         else if ($order_by == "PRICE_HIGH_LOW")
-            return "  ORDER BY o.own_minimum_price DESC, o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC ";
+            return "  ORDER BY o.own_minimum_price DESC, o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC ";
         else if ($order_by == "BEST_VALUED")
-            return "  ORDER BY o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC ";
+            return "  ORDER BY o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC ";
         else if ($order_by == "WORST_VALUED")
-            return "  ORDER BY o.own_rating ASC, o.own_comments_total ASC, count_reservations DESC ";
+            return "  ORDER BY o.own_ranking ASC, o.own_comments_total ASC, count_reservations DESC ";
         else if ($order_by == "A_Z")
-            return "  ORDER BY o.own_name ASC, o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC ";
+            return "  ORDER BY o.own_name ASC, o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC ";
         else if ($order_by == "Z_A")
-            return "  ORDER BY o.own_name DESC, o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC ";
+            return "  ORDER BY o.own_name DESC, o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC ";
         else if ($order_by == "RESERVATIONS_HIGH_LOW")
-            return "  ORDER BY count_reservations DESC, o.own_rating DESC, o.own_comments_total DESC ";
+            return "  ORDER BY count_reservations DESC, o.own_ranking DESC, o.own_comments_total DESC ";
         else if ($order_by == "RESERVATIONS_LOW_HIGH")
-            return "  ORDER BY count_reservations ASC, o.own_rating DESC, o.own_comments_total DESC ";
+            return "  ORDER BY count_reservations ASC, o.own_ranking DESC, o.own_comments_total DESC ";
         else {
-            return "  ORDER BY o.own_minimum_price ASC, o.own_rating DESC, o.own_comments_total DESC, count_reservations DESC ";
+            return "  ORDER BY o.own_minimum_price ASC, o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC ";
         }
     }
 

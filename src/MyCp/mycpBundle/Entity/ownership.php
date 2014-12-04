@@ -306,6 +306,13 @@ class ownership {
     private $own_commission_percent;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="own_ranking", type="integer")
+     */
+    private $own_ranking;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="own_comment", type="string", length=255, nullable=true)
@@ -394,7 +401,7 @@ class ownership {
      * @ORM\Column(name="own_sync_st", type="integer")
      */
     private $own_sync_st;
-    
+
     /**
      * @var boolean
      *
@@ -498,6 +505,26 @@ class ownership {
      */
     public function setOwnDestination($ownDestination) {
         $this->own_destination = $ownDestination;
+
+        return $this;
+    }
+    /**
+     * Get own_ranking
+     *
+     * @return integer
+     */
+    public function getOwnRanking() {
+        return $this->own_ranking;
+    }
+
+    /**
+     * Set own_ranking
+     *
+     * @param integer $ownRanking
+     * @return ownership
+     */
+    public function setOwnRanking($ownRanking) {
+        $this->own_ranking = $ownRanking;
 
         return $this;
     }
@@ -1297,7 +1324,7 @@ class ownership {
     public function getOwnSelection() {
         return $this->own_selection;
     }
-    
+
     /**
      * Set own_rating
      *

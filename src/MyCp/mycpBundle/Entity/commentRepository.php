@@ -31,8 +31,13 @@ class commentRepository extends EntityRepository {
         $em->persist($comment);
         $em->flush();
 
-        $newRating = ($ownership->getOwnRating() + $comment->getComRate()) / 2;
-        $ownership->setOwnRating($newRating);
+        if ($is_public) {
+            $newRating = ($ownership->getOwnRating() + $comment->getComRate()) / 2;
+            $ownership->setOwnRating($newRating);
+
+            $newRanking = $em->getRepository("mycpBundle:ownership")->getRankingFormula($ownership);
+            $ownership->setOwnRanking($newRanking);
+        }
 
         if ($comment->getComRate() >= 3 && $is_public) {
             $total_comments = $ownership->getOwnCommentsTotal() + 1;
@@ -54,6 +59,15 @@ class commentRepository extends EntityRepository {
                          WHERE  c.com_ownership = :ownership_id" .
                 $just_public_query .
                 "ORDER BY c.com_date DESC";
+
+        return $em->createQuery($query_string)->setParameter('ownership_id', $ownsership_id)->getResult();
+    }
+
+    function getRecommendations($ownsership_id) {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT c
+                         FROM mycpBundle:comment c
+                         WHERE  c.com_ownership = :ownership_id AND c.com_public=1 AND c.com_rate >= 3";
 
         return $em->createQuery($query_string)->setParameter('ownership_id', $ownsership_id)->getResult();
     }
