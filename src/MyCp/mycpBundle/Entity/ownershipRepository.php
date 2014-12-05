@@ -232,7 +232,7 @@ class ownershipRepository extends EntityRepository {
             if ($ownership->getOwnMaximumPrice() == 0 || $room->getRoomPriceSpecial() > $ownership->getOwnMaximumPrice())
                 $ownership->setOwnMaximumPrice($room->getRoomPriceSpecial());
 
-           $maximum_guest_total += $room->getMaximumNumberGuests();
+            $maximum_guest_total += $room->getMaximumNumberGuests();
         }
 
         $ownership->setOwnMaximumNumberGuests($maximum_guest_total);
@@ -1241,15 +1241,19 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
 
         $query_string = $this->getDetailBasicQuery($user_id, $session_id, $locale);
-        $query_string .= " WHERE o.own_name = :own_name ORDER BY o.own_id DESC";
+        $query_string .= " WHERE o.own_name = :own_name AND o.own_status = " . ownershipStatus::STATUS_ACTIVE . " ORDER BY o.own_id DESC";
 
         return $em->createQuery($query_string)->setParameter('own_name', $own_name)->getOneOrNullResult();
     }
 
-    function get_details_by_code($own_mycp_code, $locale = "ES") {
+    function get_details_by_code($own_mycp_code, $locale = "ES", $isSimple = false) {
         $em = $this->getEntityManager();
         $query_string = $this->getDetailBasicQuery(null, null, $locale);
-        $query_string .= " WHERE o.own_mcp_code = :own_mycp_code ORDER BY o.own_id DESC";
+
+        if (!$isSimple)
+            $query_string .= " WHERE o.own_mcp_code = :own_mycp_code  AND o.own_status = ".ownershipStatus::STATUS_ACTIVE." ORDER BY o.own_id DESC";
+        else
+            $query_string .= " WHERE o.own_mcp_code = :own_mycp_code ORDER BY o.own_id DESC";
 
         return $em->createQuery($query_string)->setParameter('own_mycp_code', $own_mycp_code)->getOneOrNullResult();
     }
@@ -1539,6 +1543,7 @@ class ownershipRepository extends EntityRepository {
                         o.own_homeowner_1 as owner1,
                         o.own_homeowner_2 as owner2,
                         o.own_commission_percent as OwnCommissionPercent,
+                        (SELECT min(os.status_id) FROM mycpBundle:ownershipStatus os where o.own_status = os.status_id) as status_id,
                         (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
                         (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id AND r.room_active = 1) as rooms_count,
                         (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations,
@@ -1556,18 +1561,15 @@ class ownershipRepository extends EntityRepository {
         return $query_string;
     }
 
-    public function getRankingFormula($ownership)
-    {
+    public function getRankingFormula($ownership) {
         $em = $this->getEntityManager();
         $commentsTotal = count($em->getRepository("mycpBundle:comment")->findBy(array('com_ownership' => $ownership->getOwnId(), 'com_public' => 1)));
-        $recommendationsTotal = count($em->getRepository("mycpBundle:comment")->getRecommendations($ownership->getOwnId()));
         $reservationsTotal = count($em->getRepository("mycpBundle: generalReservation")->findBy(array("gen_res_own_id" => $ownership->getOwnId(), "gen_res_status" => generalReservation::STATUS_RESERVED)));
 
-        return $commentsTotal * $recommendationsTotal * $reservationsTotal;
+        return sqrt($commentsTotal * $reservationsTotal);
     }
 
-    public function updateRanking($ownership)
-    {
+    public function updateRanking($ownership) {
         $em = $this->getEntityManager();
         $ranking = $this->getRankingFormula($ownership);
         $ownership->setOwnRanking($ranking);

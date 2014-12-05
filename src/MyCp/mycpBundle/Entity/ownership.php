@@ -308,7 +308,7 @@ class ownership {
     /**
      * @var integer
      *
-     * @ORM\Column(name="own_ranking", type="integer")
+     * @ORM\Column(name="own_ranking", type="float")
      */
     private $own_ranking;
 
