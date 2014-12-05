@@ -5,7 +5,7 @@
         <p style="font-size: 14px;font-family: arial">{{"REMINDER_TRIP_ORGANISATION"|trans({}, "messages", user_locale)}} {{initial_payment | price}}.</p>
         <p style="font-size: 14px;font-family: arial"> {{"REMINDER_OPPORTUNITY"|trans({"%link%": app.request.getSchemeAndHttpHost()~getUrl('frontend_mycasatrip_available',{'locale':user_locale,'_locale':user_locale,})}, "messages", user_locale) | raw}}</p>
         <p style="font-size: 14px;font-family: arial">
-            {{app.request.getSchemeAndHttpHost()~getUrl('frontend_mycasatrip_available',{'locale':user_locale,'_locale':user_locale,})}}
+            {{app.request.getSchemeAndHttpHost() ~ getUrl('frontend_mycasatrip_available',{'locale':user_locale,'_locale':user_locale,})}}
         </p>
         <p style="font-size: 14px;font-family: arial"><b>{{"VALID_OFFER_TWENTY_FOUR_ACCOMMODATION"|trans({}, "messages", user_locale)}}</b></p>
 
