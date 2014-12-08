@@ -2,7 +2,7 @@
 
 {% block content %}
         <h4 style="font-family: Arial; font-size: 20px">{{"DEAR_MR"|trans({}, "messages", user_locale)}} {{user.getUserUserName|capitalize}} {{user.getUserLastName|capitalize}}</h4>
-        <p style="font-size: 14px;font-family: arial">{{"LAST_REMINDER_TEXT_1"|trans({"%link%": app.request.getSchemeAndHttpHost() ~ getUrl('frontend_mycasatrip_available',{'locale':user_locale,'_locale':user_locale,})}, "messages", user_locale) | raw}} {{initial_payment | price}}.</p>
+        <p style="font-size: 14px;font-family: arial">{{"LAST_REMINDER_TEXT_1"|trans({"%link%":app.request.getSchemeAndHttpHost() ~ getUrl('frontend_mycasatrip_available',{'locale':user_locale,'_locale':user_locale,})}, "messages", user_locale) | raw}} {{initial_payment | price}}.</p>
         <p style="font-size: 14px;font-family: arial"> {{"LAST_REMINDER_TEXT_2"|trans({}, "messages", user_locale)}}</p>
         <p style="font-size: 14px;font-family: arial">
             <a href="{{app.request.getSchemeAndHttpHost() ~ getUrl('frontend_mycasatrip_cancel_offer',{'locale':user_locale,'_locale':user_locale,'generalReservationId':generalReservationId})}}">{{"NOT_INTERESTED_ANYMORE"|trans({}, "messages", user_locale)}}</a><br/><br/>
@@ -19,18 +19,18 @@
                                     <table cellpadding="4" border="0" cellspacing="0">
                                         <tr>
                                             <td style="background-color: #FFFFFF; border: solid 1px #cccccc;">
-                                                <a href="{{ app.request.getSchemeAndHttpHost() ~ getUrl('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize,'locale':user_locale,'_locale':user_locale,}) }}">
+                                                <a href="{{app.request.getSchemeAndHttpHost()~ getUrl('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize,'locale':user_locale,'_locale':user_locale,}) }}">
                                                     {% if photos[loop.index0][0].getPhoName is defined %}
-                                                        <img width="100%" style="display:block;" border="0" src="{{app.request.getSchemeAndHttpHost() ~ getUrl('mycp_main')~'../uploads/ownershipImages/thumbnails/'~photos[loop.index0][0].getPhoName}}">
+                                                        <img width="100%" style="display:block;" border="0" src="{{app.request.getSchemeAndHttpHost()~ getUrl('mycp_main')~'../uploads/ownershipImages/thumbnails/'~photos[loop.index0][0].getPhoName}}">
                                                     {% else %}
-                                                        <img width="100%" style="display:block;" border="0" src="{{app.request.getSchemeAndHttpHost() ~ getUrl('mycp_main')~'../uploads/ownershipImages/no_photo_square.gif'}}">
+                                                        <img width="100%" style="display:block;" border="0" src="{{app.request.getSchemeAndHttpHost()~ getUrl('mycp_main')~'../uploads/ownershipImages/no_photo_square.gif'}}">
                                                     {% endif %}
                                                 </a>
                                             </td>
                                             <td>&nbsp;</td>
                                             <td valign="top" style="font-family: arial; font-size: 13px; line-height: 18px">
                                                 <h3 style="color: #084D74">
-                                                <a class="titleLink" href="{{app.request.getSchemeAndHttpHost() ~ getUrl('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize,'_locale':user_locale|lower,'locale':user_locale|lower}) }}">
+                                                <a class="titleLink" href="{{app.request.getSchemeAndHttpHost()~ getUrl('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize,'_locale':user_locale|lower,'locale':user_locale|lower}) }}">
                                                 {{reservation.getOwnResGenResId.getGenResOwnId.getOwnName}}
                                                 </a>
                                                 </h3>
@@ -64,25 +64,25 @@
                                     {% endif %}
                                     <h3>{{"RESERVATION_TOTAL" | trans({}, "messages", user_locale) | upper}}:
                                        {%if reservation.getOwnResNightPrice != 0%}
-                                        {{ (reservation.getOwnResNightPrice * nights[loop.index0]) | price(user_currency)}}
+                                        {{ (reservation.getOwnResNightPrice * nights[loop.index0]) | price}}
                                        {%else%}
-                                            {{ reservation.ownResTotalInSite | price(user_currency)}}
+                                            {{ reservation.ownResTotalInSite | price}}
                                        {%endif%}
                                     </h3>
                                     {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_AVAILABLE'))%}
-                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{app.request.getSchemeAndHttpHost() ~ getUrl('frontend_mycasatrip_available',{'locale':user_locale,'_locale':user_locale,}) }}">{{"CONTINUE_RESERVING"|trans({}, "messages", user_locale)}}</a>
+                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{app.request.getSchemeAndHttpHost()~ getUrl('frontend_mycasatrip_available',{'locale':user_locale,'_locale':user_locale,}) }}">{{"CONTINUE_RESERVING"|trans({}, "messages", user_locale)}}</a>
                                     {% endif %}
                                     {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_PENDING'))%}
-                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{app.request.getSchemeAndHttpHost() ~ getUrl('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize,'locale':user_locale,'_locale':user_locale,}) }}">{{"VIEW_DETAILS"|trans({}, "messages", user_locale)}}</a>
+                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{app.request.getSchemeAndHttpHost()~ getUrl('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize,'locale':user_locale,'_locale':user_locale,}) }}">{{"VIEW_DETAILS"|trans({}, "messages", user_locale)}}</a>
                                     {% endif %}
                                     {% if (reservation.getOwnResStatus > constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_AVAILABLE') and reservation.getOwnResStatus < constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_RESERVED'))%}
-                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{app.request.getSchemeAndHttpHost() ~ getUrl('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1','locale':user_locale,'_locale':user_locale,}) }}">{{"LOOK_FOR_ALTERNATIVE"|trans({}, "messages", user_locale)}}</a>
+                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{app.request.getSchemeAndHttpHost()~ getUrl('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1','locale':user_locale,'_locale':user_locale,}) }}">{{"LOOK_FOR_ALTERNATIVE"|trans({}, "messages", user_locale)}}</a>
                                     {% endif %}
                                     {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_RESERVED') and booking is not defined)%}
-                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{app.request.getSchemeAndHttpHost() ~ getUrl('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1','locale':user_locale,'_locale':user_locale,}) }}">{{"LOOK_FOR_ALTERNATIVE"|trans({}, "messages", user_locale)}}</a>
+                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{app.request.getSchemeAndHttpHost()~ getUrl('frontend_search_ownership',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1','locale':user_locale,'_locale':user_locale,}) }}">{{"LOOK_FOR_ALTERNATIVE"|trans({}, "messages", user_locale)}}</a>
                                     {% endif %}
                                     {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_RESERVED') and booking is defined)%}
-                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{app.request.getSchemeAndHttpHost() ~ getUrl('frontend_view_confirmation_reservation',{'id_booking':booking,'locale':user_locale,'_locale':user_locale,}) }}">{{ 'VIEW_CONFIRMATION'|trans({}, "messages", user_locale) }}</a>
+                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{app.request.getSchemeAndHttpHost()~ getUrl('frontend_view_confirmation_reservation',{'id_booking':booking,'locale':user_locale,'_locale':user_locale,}) }}">{{ 'VIEW_CONFIRMATION'|trans({}, "messages", user_locale) }}</a>
                                     {% endif %}
                                 </td>
                             </tr>
