@@ -1510,6 +1510,7 @@ class ownershipRepository extends EntityRepository {
     private function getDetailBasicQuery($user_id = null, $session_id = null, $locale = "ES") {
         $query_string = "SELECT o.own_id as own_id,
                         (SELECT max(dest.des_id) FROM mycpBundle:destination dest WHERE dest.des_id = o.own_destination) as des_id,
+                        (SELECT max(st.status_id) FROM mycpBundle:ownershipStatus st WHERE st.status_id = o.own_status) as status_id,
                         o.own_name as ownname,
                         prov.prov_name as ownAddressProvince,
                         prov.prov_id as ownAddressProvince_id,
