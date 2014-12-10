@@ -24,7 +24,7 @@
             <table width="600px" bgcolor="#FFFFFF" border="0" cellpadding="15" cellspacing="0" style="border: solid 1px #DDDDDD; background-color: #FFFFFF">
                 <tr>
                     <td width="260px">
-                        <a href="http://www.mycasaparticular.com"><img alt="MyCasaParticular" style="display:block" border="0"  src="{{app.request.getSchemeAndHttpHost() ~ getUrl('mycp_main')}}../bundles/frontend/img/mycp.png"/></a></td>
+                        <a href="http://www.mycasaparticular.com"><img alt="MyCasaParticular" style="display:block" border="0"  src="{{app.request.getSchemeAndHttpHost()~getUrl('mycp_main')}}../bundles/frontend/img/mycp.png"/></a></td>
                     <td align="right" style="font-family: Arial;color: #1C70AC; font-style: italic; font-size: 16px">{{"STAY_WHERE_CUBA_CUBA_IS"|trans({}, "messages", user_locale)}}</td>
                 </tr>
                 <tr>
@@ -39,9 +39,9 @@
                             <tr>
                                 <td colspan="2" style="font-size: 11px; line-height: 18px; font-family: arial">
                                     <hr style="color: #cccccc; background-color: #cccccc; height: 1px; border: medium none;"/>
-                                    {{ 'FOOTER_EMAIL'| trans({'%policieslink%': app.request.getSchemeAndHttpHost() ~ getUrl('frontend_security_privacity', { 'locale': user_locale|lower,'_locale':user_locale|lower }), '%termlink%': getUrl('frontend_legal_terms', { 'locale': user_locale|lower,'_locale':user_locale|lower })}, "messages", user_locale) |raw }}
+                                    {{ 'FOOTER_EMAIL'| trans({'%policieslink%': app.request.getSchemeAndHttpHost()~ getUrl('frontend_security_privacity', { 'locale': user_locale|lower,'_locale':user_locale|lower }), '%termlink%': app.request.getSchemeAndHttpHost()~ getUrl('frontend_legal_terms', { 'locale': user_locale|lower,'_locale':user_locale|lower })}, "messages", user_locale) |raw }}
                                     <br/><br/>
-                                    {#{"FOOTER_MAIL_1" | trans({'%link%': app.request.getSchemeAndHttpHost() ~ getUrl('frontend_security_privacity', { 'locale': user_locale|lower,'_locale':user_locale|lower })}) | raw}#}
+                                    {#{"FOOTER_MAIL_1" | trans({'%link%': app.request.getSchemeAndHttpHost()~ getUrl('frontend_security_privacity', { 'locale': user_locale|lower,'_locale':user_locale|lower })}) | raw}#}
                                 </td>
                             </tr>
                         </table>
@@ -61,9 +61,9 @@
                             <tr>
                                 <td colspan="2">
                                     <a href="http://www.facebook.com/MyCasaParticular"><img border="0" src="{{app.request.getSchemeAndHttpHost() ~ getUrl('mycp_main')}}../bundles/frontend/img/facebook.gif"/></a>&nbsp;&nbsp;&nbsp;
-                                    <a href="https://twitter.com/MyCP"><img border="0" src="{{app.request.getSchemeAndHttpHost() ~ getUrl('mycp_main')}}../bundles/frontend/img/twitter.gif"/></a>&nbsp;&nbsp;&nbsp;
+                                    <a href="https://twitter.com/MyCP"><img border="0" src="{{app.request.getSchemeAndHttpHost()~ getUrl('mycp_main')}}../bundles/frontend/img/twitter.gif"/></a>&nbsp;&nbsp;&nbsp;
                                     <a href="https://pinterest.com/MyCasaParticular"><img border="0" src="{{app.request.getSchemeAndHttpHost() ~ getUrl('mycp_main')}}../bundles/frontend/img/pinenterest.gif"/></a>&nbsp;&nbsp;&nbsp;
-                                    <a href="#"><img border="0" src="{{app.request.getSchemeAndHttpHost() ~ getUrl('mycp_main')}}../bundles/frontend/img/youtube.png"/></a>
+                                    <a href="#"><img border="0" src="{{app.request.getSchemeAndHttpHost()~ getUrl('mycp_main')}}../bundles/frontend/img/youtube.png"/></a>
                                 </td>
                             </tr>
                             <tr>
