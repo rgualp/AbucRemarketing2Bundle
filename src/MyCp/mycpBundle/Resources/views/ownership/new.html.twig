@@ -617,8 +617,7 @@
     url = "{{ path('mycp_get_mun_by_prov', { 'country_code': '-1'}) }}";
     url = url.replace('/-1', '');
 
-    url_destination = "{{ path('mycp_get_destination_by_mun', { 'municipality': '-1'}) }}";
-    url_destination = url_destination.replace('/-1', '');
+    url_destination = "{{ path('mycp_get_destination_by_mun') }}";
 
     $("#user_create").change(function() {
         if (this.checked)
@@ -657,9 +656,10 @@
 
         $('#ownership_destination').html('<option value="">Cargando...</option>');
         mun = $('#ownership_address_municipality').val();
+        prov = $('#ownership_address_province').val();
         $.ajax({
             type: "POST",
-            url: url_destination + '/' + mun,
+            url: url_destination + '/' + mun + '/' + prov,
             success: function(msg) {
 
                 $('#ownership_destination').html(msg);
