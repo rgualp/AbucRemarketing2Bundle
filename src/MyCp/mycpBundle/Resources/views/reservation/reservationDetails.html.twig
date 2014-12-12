@@ -125,11 +125,14 @@
         {% set total_kids = 0 %}
         {% set total_nights = 0 %}
         {% set total_price = 0 %}
+        {% set total_rooms = 0 %}
         {% for reservation_rooms in reservations%}
+        {%if reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE') and reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}
         {% set total_adults = total_adults + reservation_rooms.getOwnResCountAdults %}
         {% set total_kids = total_kids + reservation_rooms.getOwnResCountChildrens %}
         {% set total_nights = total_nights + nights[loop.index0] %}
-        
+        {% set total_rooms = total_rooms + 1 %}
+        {%endif%}
         <tr>
             <td>CAS.{{reservation_rooms.getOwnResGenResId.getGenResId}}</td>
             {% set res_type ='' %}
@@ -196,10 +199,14 @@
             <td>
                 {%if reservation_rooms.getOwnResNightPrice != 0%}
                     {{nights[loop.index0] * reservation_rooms.getOwnResNightPrice}} CUC
-                    {%set total_price = total_price + (nights[loop.index0] * reservation_rooms.getOwnResNightPrice)%}
+                    {%if reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE') and reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}
+                        {%set total_price = total_price + (nights[loop.index0] * reservation_rooms.getOwnResNightPrice)%}
+                    {%endif%}
                 {%else%}
                 {{reservation_rooms.getOwnResTotalInSite}}CUC</td>
-                {%set total_price = total_price + reservation_rooms.getOwnResTotalInSite%} CUC
+                {%if reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE') and reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}
+                {%set total_price = total_price + reservation_rooms.getOwnResTotalInSite%}
+                {%endif%}
             {%endif%}
             <td>
             <select style="width: 100px" class="input-block-level" name="service_own_res_status_{{reservation_rooms.getOwnResId}}">
@@ -237,7 +244,7 @@
         </thead>
 
         <tr>
-            <td>{{ reservations|length }}</td>
+            <td>{{ total_rooms }}</td>
             <td>{{ total_adults }}</td>
             <td>{{ total_kids }}</td>
             <td>{{ total_nights }}</td>

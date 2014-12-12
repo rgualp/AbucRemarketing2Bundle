@@ -77,10 +77,10 @@
                 <th>Habitación</th>
                 <th>Adultos</th>
                 <th>Niños</th>
-                <th>Entrada</th>
-                <th>Salida</th>
+                <th>Período</th>
                 <th>Noches</th>
-                <th>Precio</th>
+                <th>Precios</th>
+                <th>Precio/Noche</th>                
                 <th>Comisión</th>
                 <th>Total</th>
                 <th>Estado</th>
@@ -91,12 +91,15 @@
             {% set total_childrens = 0 %}
             {% set total_nights = 0 %}
             {% set total_price_own_res = 0%}
+            {% set total_price = 0 %}
+            {% set total_rooms = 0 %}
             {% for reservation_rooms in reservations%}
+            {%if reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE') and reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}
             {% set total_adults = total_adults +  reservation_rooms.getOwnResCountAdults %}
             {% set total_childrens = total_childrens +  reservation_rooms.getOwnResCountChildrens %}
             {% set total_nights = total_nights +  nights[loop.index0] %}
             {% set total_price_own_res = total_price_own_res +   nights[loop.index0] * reservation_rooms.getOwnResNightPrice %}
-
+            {%endif%}
             <tr>
                 {% set res_type ='' %}
                 {% if reservation_rooms.getOwnResRoomType %}
@@ -122,21 +125,47 @@
                         {{ render(controller('mycpBundle:BackendReservation:get_numeric_list_0', {'post': {'selected':reservation_rooms.getOwnResCountChildrens}})) }}
                     {% endif %}
                 </select></td>
-                <td>{{ reservation.getGenResFromDate | date("d/m/Y") }}</td>
-                <td>{{ reservation.getGenResToDate | date("d/m/Y") }}</td>
+                <td>{{ reservation.getGenResFromDate | date("d/m/Y") }} <br/>
+                    {{ reservation.getGenResToDate | date("d/m/Y") }}</td>
                 <td>{{ nights[loop.index0] }}</td>
+                <td nowrap=nowrap>
+                {%if rooms[flag]%}
+                    Baja: {{ rooms[flag].getRoomPriceDownTo }} CUC <br/>
+                    Alta: {{ rooms[flag].getRoomPriceUpTo }} CUC
+                    {%if rooms[flag].getRoomPriceSpecial is defined and rooms[flag].getRoomPriceSpecial != "" and rooms[flag].getRoomPriceSpecial != 0%}
+                    <br/>
+                    Especial: {{ rooms[flag].getRoomPriceSpecial }} CUC
+                    {%endif%}
+                {%endif%}
+            </td>
                 <td style="width: 7%">
                     {% set price_own_res =0%}
 
-                    {% if post['service_room_price_'~reservation_rooms.getOwnResId] is defined %}
+                {% if post['service_room_price_'~reservation_rooms.getOwnResId] is defined %}
                     {% set price_own_res=post['service_room_price_'~reservation_rooms.getOwnResId] %}
+                {% else %}
+                    {% if reservation_rooms.getOwnResNightPrice ==0%}
+                        {% set price_own_res=0 %}
                     {% else %}
-                    {% set price_own_res=reservation_rooms.getOwnResNightPrice %}
+                        {% set price_own_res=reservation_rooms.getOwnResNightPrice %}
                     {% endif %}
-                    <input type="text" class="price_offer input-block-level" value="{{ price_own_res }}" name="service_room_price_{{reservation_rooms.getOwnResId}}"/>
+                {% endif %}
+                <input type="text" class="input-block-level" value="{{ price_own_res }}" name="service_room_price_{{reservation_rooms.getOwnResId}}"/>
                 </td>
                 <td>{{ reservation.genResOwnId.getOwnCommissionPercent }}%</td>
-                <td>{{ nights[loop.index0] * price_own_res }}CUC</td>
+                <td>
+                {%if reservation_rooms.getOwnResNightPrice != 0%}
+                    {{nights[loop.index0] * reservation_rooms.getOwnResNightPrice}} CUC
+                    {%if reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE') and reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}
+                        {%set total_price = total_price + (nights[loop.index0] * reservation_rooms.getOwnResNightPrice)%}
+                    {%endif%}
+                {%else%}
+                {{reservation_rooms.getOwnResTotalInSite}}CUC</td>
+                {%if reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE') and reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}
+                {%set total_price = total_price + reservation_rooms.getOwnResTotalInSite%}
+                {%endif%}
+            {%endif%}
+                </td>
                 <td>
                     <select class="input-block-level" name="service_own_res_status_{{reservation_rooms.getOwnResId}}">
                         {% if post['service_own_res_status_'~reservation_rooms.getOwnResId] is defined %}
@@ -177,11 +206,15 @@
         <td>{{ total_adults }}</td>
         <td>{{ total_childrens }}</td>
         <td>{{ total_nights }}</td>
-        <td>{{total_price_own_res}} CUC</td>
-        <td>{{ total_price_own_res * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100}} CUC</td>
-        <td>{{total_price_own_res - (total_price_own_res * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100)}} CUC</td>
-        <td>{%if total_price_own_res%}{{configuration_service_fee}} CUC{%else%} - {%endif%}</td>
-        <td style="text-align: right"><b>{{(total_price_own_res * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) + ((total_price_own_res)?configuration_service_fee: 0)}}CUC ({{((total_price_own_res * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) + ((total_price_own_res)?configuration_service_fee: 0)) * user[0].getUserTouristCurrency.getCurrCucChange }} {{ user[0].getUserTouristCurrency.getCurrCode|upper }})</b></td>
+        <td>{{total_price}} CUC</td>
+        <td>{{ total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100}} CUC</td>
+            <td>{{ total_price - ( total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100)}} CUC</td>
+            <td>{%if total_price%}{{configuration_service_fee}} CUC{%else%} - {%endif%}</td>
+            {% if user[0].getUserTouristCurrency.getCurrCucChange is defined %}
+            <td style="text-align: right"><b>{{ (total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) + ((total_price)?configuration_service_fee: 0)}} CUC ({{((total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) + ((total_price)?configuration_service_fee: 0)) * user[0].getUserTouristCurrency.getCurrCucChange }} {{ user[0].getUserTouristCurrency.getCurrCode|upper }})</b></td>
+            {% else %}
+            <td style="text-align: right"><b>{{ (total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) + ((total_price)?configuration_service_fee: 0)}} CUC </b></td>
+            {% endif %}
     </tr>
 </table>
 
