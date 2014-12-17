@@ -100,6 +100,8 @@ class BackendCommentController extends Controller {
             if ($form->isValid()) {
                 $em->persist($comment);
                 $em->flush();
+                $ownership = $comment->getComOwnership();
+                $em->getRepository("mycpBundle:ownership")->updateRanking($ownership);
                 $message = 'Comentario actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
@@ -160,6 +162,9 @@ class BackendCommentController extends Controller {
         $comment->setComPublic(true);
         $em->persist($comment);
         $em->flush();
+        
+        $ownership = $comment->getComOwnership();
+        $em->getRepository("mycpBundle:ownership")->updateRanking($ownership);
         $message = 'Comentario publicado satisfactoriamente.';
         $this->get('session')->getFlashBag()->add('message_ok', $message);
 

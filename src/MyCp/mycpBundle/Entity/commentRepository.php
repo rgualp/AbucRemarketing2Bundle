@@ -198,8 +198,12 @@ class commentRepository extends EntityRepository {
             $comment = $em->getRepository('mycpBundle:comment')->find($com_id);
             $comment->setComPublic(true);
             $em->persist($comment);
+            $em->flush();
+            
+            $ownership = $comment->getComOwnership();
+            $em->getRepository("mycpBundle:ownership")->updateRanking($ownership);
         }
-        $em->flush();
+        
     }
 
     public function deleteMultiples($ids) {

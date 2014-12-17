@@ -1510,7 +1510,6 @@ class ownershipRepository extends EntityRepository {
     private function getDetailBasicQuery($user_id = null, $session_id = null, $locale = "ES") {
         $query_string = "SELECT o.own_id as own_id,
                         (SELECT max(dest.des_id) FROM mycpBundle:destination dest WHERE dest.des_id = o.own_destination) as des_id,
-                        (SELECT max(st.status_id) FROM mycpBundle:ownershipStatus st WHERE st.status_id = o.own_status) as status_id,
                         o.own_name as ownname,
                         prov.prov_name as ownAddressProvince,
                         prov.prov_id as ownAddressProvince_id,
@@ -1564,10 +1563,15 @@ class ownershipRepository extends EntityRepository {
 
     public function getRankingFormula($ownership) {
         $em = $this->getEntityManager();
-        $commentsTotal = count($em->getRepository("mycpBundle:comment")->findBy(array('com_ownership' => $ownership->getOwnId(), 'com_public' => 1)));
-        $reservationsTotal = count($em->getRepository("mycpBundle: generalReservation")->findBy(array("gen_res_own_id" => $ownership->getOwnId(), "gen_res_status" => generalReservation::STATUS_RESERVED)));
+        $commentsTotal = 0;
+        $comments = $em->getRepository("mycpBundle:comment")->findBy(array('com_ownership' => $ownership->getOwnId(), 'com_public' => true));
+        
+        foreach($comments as $comment)
+            $commentsTotal += $comment->getComRate();
+        
+        $reservationsTotal = count($em->getRepository("mycpBundle:generalReservation")->findBy(array("gen_res_own_id" => $ownership->getOwnId(), "gen_res_status" => generalReservation::STATUS_RESERVED)));
 
-        return sqrt($commentsTotal * $reservationsTotal);
+        return sqrt(($commentsTotal +  1) * ($reservationsTotal + 1) * ($reservationsTotal + 1));
     }
 
     public function updateRanking($ownership) {

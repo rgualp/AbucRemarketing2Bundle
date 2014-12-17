@@ -52,6 +52,7 @@ class CommentController extends Controller {
             'comments_items_per_page' => $items_per_page,
             'comments_total_items' => $paginator->getTotalItems(),
             'comments_current_page' => $page,
+            'can_public_comment' => $em->getRepository("mycpBundle:comment")->canPublicComment($user->getUserId(), $ownid),
             'ownership' => $ownership
                 ));
 

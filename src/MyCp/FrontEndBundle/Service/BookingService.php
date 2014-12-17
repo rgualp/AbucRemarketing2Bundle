@@ -473,7 +473,11 @@ class BookingService extends Controller
                 $generalReservation = $own->getOwnResGenResId();
                 $generalReservation->setGenResStatus(generalReservation::STATUS_RESERVED);
                 $own->setOwnResStatus(ownershipReservation::STATUS_RESERVED);
-                $this->em->persist($generalReservation);
+                $this->em->persist($generalReservation);                
+                $this->em->flush();
+                
+                $ownership = $generalReservation->getGenResOwnId();
+                $this->em->getRepository("mycpBundle:ownership")->updateRanking($ownership);
             }
 
             $this->em->persist($own);
