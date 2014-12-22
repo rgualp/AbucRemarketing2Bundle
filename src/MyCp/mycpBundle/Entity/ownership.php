@@ -308,7 +308,7 @@ class ownership {
     /**
      * @var integer
      *
-     * @ORM\Column(name="own_ranking", type="float")
+     * @ORM\Column(name="own_ranking", type="float", nullable=true)
      */
     private $own_ranking;
 
@@ -408,6 +408,12 @@ class ownership {
      * @ORM\Column(name="own_selection", type="boolean")
      */
     private $own_selection;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="photo",inversedBy="")
+     * @ORM\JoinColumn(name="own_owner_photo",referencedColumnName="pho_id")
+     */
+    private $own_owner_photo;
 
     /**
      * @ORM\OneToMany(targetEntity="ownershipDescriptionLang",mappedBy="odl_ownership")
@@ -1696,6 +1702,27 @@ class ownership {
      */
     public function getOwnSyncSt() {
         return $this->own_sync_st;
+    }
+    
+    /**
+     * Get own_owner_photo
+     *
+     * @return Photo
+     */
+    public function getOwnOwnerPhoto() {
+        return $this->own_owner_photo;
+    }
+
+    /**
+     * Set own_owner_photo
+     *
+     * @param integer $ownPhoto
+     * @return ownership
+     */
+    public function setOwnOwnerPhoto($ownPhoto) {
+        $this->own_owner_photo = $ownPhoto;
+
+        return $this;
     }
 
 }

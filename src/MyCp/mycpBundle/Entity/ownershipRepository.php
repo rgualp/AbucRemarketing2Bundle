@@ -23,7 +23,7 @@ use MyCp\mycpBundle\Helpers\SearchUtils;
  */
 class ownershipRepository extends EntityRepository {
 
-    function insert($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller) {
+    function insert($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller, $dir) {
 
         if ($data['facilities_breakfast'] == 'No')
             $data['facilities_breakfast'] = 0;
@@ -243,6 +243,10 @@ class ownershipRepository extends EntityRepository {
             $file = $request->files->get('user_photo');
             $em->getRepository('mycpBundle:userCasa')->createUser($ownership, $file, $dir, $factory, $send_creation_mail, $controller);
         }
+        
+        //save owner photo
+        $this->saveOwnerPhoto($em, $ownership, $dir, $request);
+        
         $em->flush();
 
         /* $roomsActiveTotal = count($em->getRepository('mycpBundle:room')->findBy(array('room_ownership'=>$ownership->getOwnId(), "room_active"=>true)));
@@ -251,7 +255,7 @@ class ownershipRepository extends EntityRepository {
           $em->flush(); */
     }
 
-    function edit($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller) {
+    function edit($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller, $dir) {
         $id_ownership = $data['edit_ownership'];
 
         $active_top_20 = 0;
@@ -489,7 +493,29 @@ class ownershipRepository extends EntityRepository {
         if ($old_status->getStatusId() != ownershipStatus::STATUS_ACTIVE && $status->getStatusId() == ownershipStatus::STATUS_ACTIVE)
             $em->getRepository('mycpBundle:userCasa')->changeStatus($ownership->getOwnId(), true);
 
+        //save owner photo
+        $this->saveOwnerPhoto($em, $ownership,$dir, $request);
+        
         $em->flush();
+    }
+
+    private function saveOwnerPhoto($em, $ownership, $dir, $request) {
+        //subir photos
+        $file = $request->files->get('own_ownership_photo');
+        // var_dump($request->files);
+        if (isset($file)) {
+            $photo = new photo();
+            $fileName = uniqid('owner-') . '-photo.jpg';
+            $file->move($dir, $fileName);
+            //Redimensionando la foto del propietario
+            \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 150);
+
+            $photo->setPhoName($fileName);
+            $ownership->setOwnOwnerPhoto($photo);
+            $em->persist($photo);
+            
+            $em->persist($ownership);
+        }
     }
 
     function short_edit_ownership($data) {
@@ -1251,7 +1277,7 @@ class ownershipRepository extends EntityRepository {
         $query_string = $this->getDetailBasicQuery(null, null, $locale);
 
         if (!$isSimple)
-            $query_string .= " WHERE o.own_mcp_code = :own_mycp_code  AND o.own_status = ".ownershipStatus::STATUS_ACTIVE." ORDER BY o.own_id DESC";
+            $query_string .= " WHERE o.own_mcp_code = :own_mycp_code  AND o.own_status = " . ownershipStatus::STATUS_ACTIVE . " ORDER BY o.own_id DESC";
         else
             $query_string .= " WHERE o.own_mcp_code = :own_mycp_code ORDER BY o.own_id DESC";
 
@@ -1565,13 +1591,13 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $commentsTotal = 0;
         $comments = $em->getRepository("mycpBundle:comment")->findBy(array('com_ownership' => $ownership->getOwnId(), 'com_public' => true));
-        
-        foreach($comments as $comment)
+
+        foreach ($comments as $comment)
             $commentsTotal += $comment->getComRate();
-        
+
         $reservationsTotal = count($em->getRepository("mycpBundle:generalReservation")->findBy(array("gen_res_own_id" => $ownership->getOwnId(), "gen_res_status" => generalReservation::STATUS_RESERVED)));
 
-        return sqrt(($commentsTotal +  1) * ($reservationsTotal + 1) * ($reservationsTotal + 1));
+        return sqrt(($commentsTotal + 1) * ($reservationsTotal + 1) * ($reservationsTotal + 1));
     }
 
     public function updateRanking($ownership) {

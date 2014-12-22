@@ -325,6 +325,7 @@ class BackendOwnershipController extends Controller {
         $post['ownership_creation_date'] = $ownership->getOwnCreationDate();
         $post['ownership_last_update'] = $ownership->getOwnLastUpdate();
 
+        $data['ownership_owner'] = ($ownership->getOwnOwnerPhoto() != null) ? $ownership->getOwnOwnerPhoto()->getPhoName() : "no_photo.png";
         $data['ownership_visit_date'] = $ownership->getOwnVisitDate();
         $data['ownership_creation_date'] = $ownership->getOwnCreationDate();
         $data['ownership_last_update'] = $ownership->getOwnLastUpdate();
@@ -554,6 +555,7 @@ class BackendOwnershipController extends Controller {
         $data['municipality_code'] = '';
         $data['count_errors'] = 0;
         $data['status_id'] = 0;
+        $data['ownership_owner'] = "no_photo.png";
 
         if ($request->getMethod() == 'POST') {
             if ($request->request->get('new_room') == 1) {
@@ -814,7 +816,7 @@ class BackendOwnershipController extends Controller {
                             $service_log->saveLog('Edit entity ' . $post['ownership_mcp_code'], BackendModuleName::MODULE_OWNERSHIP);
                         }
 
-                        $em->getRepository('mycpBundle:ownership')->edit($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this);
+                        $em->getRepository('mycpBundle:ownership')->edit($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this, $this->container->getParameter('ownership.dir.thumbnails'));
 
                         //Enviar correo a los propietarios
                         if ($new_status == ownershipStatus::STATUS_ACTIVE && $old_status == ownershipStatus::STATUS_IN_PROCESS)
@@ -823,7 +825,7 @@ class BackendOwnershipController extends Controller {
                         $message = 'Propiedad actualizada satisfactoriamente.';
                     } else {
 
-                        $em->getRepository('mycpBundle:ownership')->insert($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this);
+                        $em->getRepository('mycpBundle:ownership')->insert($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this, $this->container->getParameter('ownership.dir.thumbnails'));
                         $message = 'Propiedad añadida satisfactoriamente.';
                         $service_log = $this->get('log');
                         $service_log->saveLog('Create entity ' . $post['ownership_mcp_code'], BackendModuleName::MODULE_OWNERSHIP);
@@ -853,6 +855,7 @@ class BackendOwnershipController extends Controller {
                 $data['ownership_visit_date'] = $ownership->getOwnVisitDate();
                 $data['ownership_creation_date'] = $ownership->getOwnCreationDate();
                 $data['ownership_last_update'] = $ownership->getOwnLastUpdate();
+                $data['ownership_owner'] = ($ownership->getOwnOwnerPhoto() != null) ? $ownership->getOwnOwnerPhoto()->getPhoName() : "no_photo.png";
             }
         }
 
