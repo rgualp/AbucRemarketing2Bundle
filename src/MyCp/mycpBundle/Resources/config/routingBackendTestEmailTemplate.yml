@@ -29,7 +29,11 @@ mycp_test_activate_user_last_reminder_account:
 mycp_test_cart_full_reminder:
     pattern:  /cart-full-reminder/{langCode}
     defaults: { _controller: mycpBundle:BackendTestEmailTemplate:cartFullReminder}
-    
+
 mycp_test_feedback_reminder:
     pattern:  /feedback-reminder/{langCode}
     defaults: { _controller: mycpBundle:BackendTestEmailTemplate:feedbackReminder}
+
+mycp_test_check_available_rt:
+    pattern:  /check-available
+    defaults: { _controller: mycpBundle:BackendTestEmailTemplate:checkAvailable}

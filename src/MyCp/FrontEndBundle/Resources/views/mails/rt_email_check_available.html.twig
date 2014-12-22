@@ -35,6 +35,7 @@ ID reserva: CAS.{{reservations[0].getOwnResGenResId.getGenResId}}
     <li><b>Adultos:</b> {{reservation.getOwnResCountAdults}}</li>
     <li><b>Niños:</b> {{reservation.getOwnResCountChildrens}}</li>
     <li><b>Fecha de arribo:</b> {{reservation.getOwnResReservationFromDate|date("d/m/Y")}}</li>
+    <li><b>Fecha de salida:</b> {{reservation.getOwnResReservationToDate|date("d/m/Y")}}</li>
     <li><b>Noches:</b> {{nigths[loop.index0]}}</li>
 </ul>
 {% endfor %}
@@ -51,7 +52,7 @@ ID reserva: CAS.{{reservations[0].getOwnResGenResId.getGenResId}}
         {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressStreet}}
         No. {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressNumber}}
         e/ {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressBetweenStreet1}} y {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressBetweenStreet2}}. {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressProvince.getProvName}}, {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressMunicipality.getMunName}}</li>
-    <li><b>Teléfono:</b> {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnPhoneNumber}}</li>
+    <li><b>Teléfono:</b> (+53{{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressProvince.provPhoneCode}}) {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnPhoneNumber}}</li>
     <li><b>Celular: </b>{{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnMobileNumber}}</li>
 </ul>
 </body>

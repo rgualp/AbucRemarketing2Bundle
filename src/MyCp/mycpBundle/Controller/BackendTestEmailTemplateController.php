@@ -13,6 +13,42 @@ class BackendTestEmailTemplateController extends Controller {
         return $this->render('mycpBundle:test:home.html.twig');
     }
 
+    public function checkAvailableAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $service_time = $this->get('time');
+        $generalReservation = $em
+                ->getRepository('mycpBundle:generalReservation')
+                ->findOneBy(array('gen_res_status' => generalReservation::STATUS_AVAILABLE));
+
+        $user = $generalReservation->getGenResUserId();
+        $userTourist = $em->getRepository("mycpBundle:userTourist")->findOneBy(array("user_tourist_user" => $user->getUserId()));
+
+        $ownershipReservations = $em
+                ->getRepository('mycpBundle:generalReservation')
+                ->getOwnershipReservations($generalReservation);
+
+        $arrayNights = array();
+
+        foreach ($ownershipReservations as $ownershipReservation) {
+            $array_dates = $service_time
+                    ->datesBetween(
+                    $ownershipReservation->getOwnResReservationFromDate()->getTimestamp(), $ownershipReservation->getOwnResReservationToDate()->getTimestamp()
+            );
+
+            array_push($arrayNights, count($array_dates) - 1);
+        }
+
+        return $this->render('FrontEndBundle:mails:rt_email_check_available.html.twig', array(
+                'user' => $user,
+                'user_tourist' => $userTourist,
+                'reservations' => $ownershipReservations,
+                'nigths' => $arrayNights,
+                'comment' => $request->getSession()->get('message_cart')
+            ));
+
+    }
+
     public function lastChanceToBookAction($langCode) {
         $em = $this->getDoctrine()->getEntityManager();
         $service_time = $this->get('time');
