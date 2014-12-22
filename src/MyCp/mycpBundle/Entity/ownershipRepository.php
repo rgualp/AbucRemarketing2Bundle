@@ -243,10 +243,10 @@ class ownershipRepository extends EntityRepository {
             $file = $request->files->get('user_photo');
             $em->getRepository('mycpBundle:userCasa')->createUser($ownership, $file, $dir, $factory, $send_creation_mail, $controller);
         }
-        
+
         //save owner photo
         $this->saveOwnerPhoto($em, $ownership, $dir, $request);
-        
+
         $em->flush();
 
         /* $roomsActiveTotal = count($em->getRepository('mycpBundle:room')->findBy(array('room_ownership'=>$ownership->getOwnId(), "room_active"=>true)));
@@ -494,8 +494,8 @@ class ownershipRepository extends EntityRepository {
             $em->getRepository('mycpBundle:userCasa')->changeStatus($ownership->getOwnId(), true);
 
         //save owner photo
-        $this->saveOwnerPhoto($em, $ownership,$dir, $request);
-        
+        $this->saveOwnerPhoto($em, $ownership, $dir, $request);
+
         $em->flush();
     }
 
@@ -504,16 +504,16 @@ class ownershipRepository extends EntityRepository {
         $file = $request->files->get('own_ownership_photo');
         // var_dump($request->files);
         if (isset($file)) {
-            $photo = new photo();
-            $fileName = uniqid('owner-') . '-photo.jpg';
-            $file->move($dir, $fileName);
-            //Redimensionando la foto del propietario
-            \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 150);
+                $photo = ($ownership->getOwnOwnerPhoto() == null) ? new photo() : $ownership->getOwnOwnerPhoto();
+                $fileName = ($ownership->getOwnOwnerPhoto() == null) ? uniqid('owner-') . '-photo.jpg' : $ownership->getOwnOwnerPhoto()->getPhoName();
+                $file->move($dir, $fileName);
+                //Redimensionando la foto del propietario
+                \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 150);
 
-            $photo->setPhoName($fileName);
-            $ownership->setOwnOwnerPhoto($photo);
-            $em->persist($photo);
-            
+                $photo->setPhoName($fileName);
+                $ownership->setOwnOwnerPhoto($photo);
+                $em->persist($photo);
+
             $em->persist($ownership);
         }
     }
@@ -1569,6 +1569,7 @@ class ownershipRepository extends EntityRepository {
                         o.own_homeowner_1 as owner1,
                         o.own_homeowner_2 as owner2,
                         o.own_commission_percent as OwnCommissionPercent,
+                        (select min(op.pho_name) from mycpBundle:photo op where op.pho_id = o.own_owner_photo) as ownerPhotoName,
                         (SELECT min(os.status_id) FROM mycpBundle:ownershipStatus os where o.own_status = os.status_id) as status_id,
                         (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
                         (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id AND r.room_active = 1) as rooms_count,

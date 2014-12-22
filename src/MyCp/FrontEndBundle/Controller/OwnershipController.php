@@ -369,7 +369,7 @@ class OwnershipController extends Controller {
                 $end_timestamp = mktime(0, 0, 0, $reservation_filter_date_to[1], $reservation_filter_date_to[0], $reservation_filter_date_to[2]);
             }
         } else {
-
+            
         }
 
         $service_time = $this->get('Time');
@@ -1480,12 +1480,14 @@ class OwnershipController extends Controller {
         ));
     }
 
-    public function owners_photosAction($ownership_id) {
-        $em = $this->getDoctrine()->getManager();
-        $owner_photo = $em->getRepository('mycpBundle:userCasa')->get_owners_photos($ownership_id);
+    public function owners_photosAction($ownership_id, $photo) {
+        if ($photo == null) {
+            $em = $this->getDoctrine()->getManager();
+            $photo = $em->getRepository('mycpBundle:userCasa')->get_owners_photos($ownership_id);
+        }
 
         return $this->render('FrontEndBundle:ownership:ownersPhotosOwnership.html.twig', array(
-                    'owner_photo' => $owner_photo
+                    'owner_photo' => $photo
         ));
     }
 
