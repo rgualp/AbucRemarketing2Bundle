@@ -651,7 +651,7 @@ class ownershipRepository extends EntityRepository {
      * @param string $order_by
      * @return array of MyCp\mycpBundle\Entity\ownership
      */
-    function search($controller, $text = null, $arrivalDate = null, $leavingDate = null, $guest_total = 1, $rooms_total = 1, $order_by = 'PRICE_LOW_HIGH', $room_filter = false, $filters = null) {
+    function search($controller, $text = null, $arrivalDate = null, $leavingDate = null, $guest_total = 1, $rooms_total = 1, $order_by = 'BEST_VALUED', $room_filter = false, $filters = null) {
 
         $em = $this->getEntityManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($controller);

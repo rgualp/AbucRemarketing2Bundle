@@ -369,7 +369,7 @@ class OwnershipController extends Controller {
                 $end_timestamp = mktime(0, 0, 0, $reservation_filter_date_to[1], $reservation_filter_date_to[0], $reservation_filter_date_to[2]);
             }
         } else {
-            
+
         }
 
         $service_time = $this->get('Time');
@@ -876,7 +876,7 @@ class OwnershipController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         if ($session->get('search_order') == null || $session->get('search_order') == '')
-            $session->set('search_order', 'PRICE_LOW_HIGH');
+            $session->set('search_order', 'BEST_VALUED');
 
         if ($session->get('search_view_results') == null || $session->get('search_view_results') == '')
             $session->set('search_view_results', 'LIST');
