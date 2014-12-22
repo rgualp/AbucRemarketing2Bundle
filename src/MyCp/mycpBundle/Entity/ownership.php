@@ -327,6 +327,13 @@ class ownership {
     private $own_not_recommendable;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="own_sended_to_team", type="boolean")
+     */
+    private $own_sended_to_team;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="own_saler", type="string", length=255, nullable=true)
@@ -408,7 +415,7 @@ class ownership {
      * @ORM\Column(name="own_selection", type="boolean")
      */
     private $own_selection;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="photo",inversedBy="")
      * @ORM\JoinColumn(name="own_owner_photo",referencedColumnName="pho_id")
@@ -1703,11 +1710,11 @@ class ownership {
     public function getOwnSyncSt() {
         return $this->own_sync_st;
     }
-    
+
     /**
      * Get own_owner_photo
      *
-     * @return Photo
+     * @return photo
      */
     public function getOwnOwnerPhoto() {
         return $this->own_owner_photo;
@@ -1716,11 +1723,32 @@ class ownership {
     /**
      * Set own_owner_photo
      *
-     * @param integer $ownPhoto
+     * @param photo $ownPhoto
      * @return ownership
      */
     public function setOwnOwnerPhoto($ownPhoto) {
         $this->own_owner_photo = $ownPhoto;
+
+        return $this;
+    }
+
+    /**
+     * Get own_sended_to_team
+     *
+     * @return boolean
+     */
+    public function getOwnSendedToTeam() {
+        return $this->own_sended_to_team;
+    }
+
+    /**
+     * Set own_sended_to_team
+     *
+     * @param boolean $ownSended
+     * @return ownership
+     */
+    public function setOwnSendedToTeam($ownSended) {
+        $this->own_sended_to_team = $ownSended;
 
         return $this;
     }
