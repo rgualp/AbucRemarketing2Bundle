@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+</head>
+<body style="font-family: Arial; font-size: 15px">
+<h3>Últimos alojamientos añadidos</h3>
+<table>
+    <tr>
+        <td><b>Propiedad</b></td>
+        <td><b>Habitaciones</b></td>
+        <td><b>Propietario 1</b></td>
+        <td><b>Propietario 2</b></td>
+        <td><b>Teléfono</b></td>
+        <td><b>Móvil</b></td>
+        <td><b>Dirección</b></td>
+        <td><b>Provincia</b></td>
+        <td><b>Municipio</b></td>
+        <td><b>Estado</b></td>
+    </tr>
+    {%for own in ownerships%}
+    <td>{{own.ownMcpCode}}</td>
+    <td>{{own.ownRoomsTotal}}</td>
+    <td>{{own.ownHomeowner1}}</td>
+    <td>{{own.ownHomeowner2}}</td>
+    <td>(+53{{own.ownAddressProvince.provPhoneCode}}) {{own.ownPhoneNumber}}</td>
+    <td>{{own.ownMobileNumber}}</td>
+    <td>{{own.ownAddressStreet}} {{own.ownAddressNumber}} entre {{own.ownAddressBetweenStreet1}} y {{own.ownAddressBetweenStreet2}}</td>
+    <td>{{own.ownAddressProvince.provName}}</td>
+    <td>{{own.ownAddressMunicipality.munName}}</td>
+    <td>{{own.ownStatus.getStatusName}}</td>
+    {%endfor%}
+</table>
+</body>
+</html>

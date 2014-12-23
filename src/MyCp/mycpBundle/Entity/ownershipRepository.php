@@ -759,6 +759,20 @@ class ownershipRepository extends EntityRepository {
         return $results;
     }
 
+    function getNotSendedToReservationTeam() {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT o, prov, mun, s
+                         FROM mycpBundle:ownership o
+                         JOIN o.own_address_province prov
+                         JOIN o.own_address_municipality mun
+                         JOIN o.own_status s
+                         WHERE o.own_sended_to_team=0 ORDER BY o.own_mcp_code ASC";
+
+        $results = $em->createQuery($query_string)->getResult();
+
+        return $results;
+    }
+
     public function top20_statistics() {
         $em = $this->getEntityManager();
         $query = "SELECT count(own.own_id) as premium_total,
