@@ -4,6 +4,7 @@ namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use MyCp\mycpBundle\Entity\comment;
+use MyCp\mycpBundle\Helpers\CommentSortField;
 
 /**
  * commentRepository
@@ -87,7 +88,9 @@ class commentRepository extends EntityRepository {
 
     function get_comment_by_user_casa($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by, $user_casa_id) {
         $queryStr = "SELECT c,own,us FROM mycpBundle:comment c
-        JOIN c.com_ownership own JOIN c.com_user us JOIN mycpBundle:userCasa uca WITH own.own_id = uca.user_casa_ownership WHERE own.own_mcp_code LIKE :filter_ownership and uca.user_casa_id = :user_casa_id";
+        JOIN c.com_ownership own
+        JOIN c.com_user us
+        JOIN mycpBundle:userCasa uca WITH own.own_id = uca.user_casa_ownership WHERE own.own_mcp_code LIKE :filter_ownership and uca.user_casa_id = :user_casa_id";
         return $this->get_all_comment_by_query($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by, $user_casa_id, $queryStr);
     }
 
@@ -109,15 +112,25 @@ class commentRepository extends EntityRepository {
 
         $string4 = '';
         switch ($sort_by) {
-            case 0:
+            case CommentSortField::COMMENT_ACCOMMODATION_CODE_ASC:
                 $string4 = "ORDER BY own.own_mcp_code ASC";
                 break;
 
-            case 1:
+            case CommentSortField::COMMENT_ACCOMMODATION_CODE_DESC:
                 $string4 = "ORDER BY own.own_mcp_code DESC";
                 break;
-            case 2:
+            case CommentSortField::COMMENT_DEFAULT:
+            case CommentSortField::COMMENT_DATE:
                 $string4 = "ORDER BY c.com_date DESC";
+                break;
+            case CommentSortField::COMMENT_RATING:
+                $string4 = "ORDER BY c.com_rate DESC";
+                break;
+            case CommentSortField::COMMENT_USER_NAME_ASC:
+                $string4 = "ORDER BY us.user_name ASC";
+                break;
+            case CommentSortField::COMMENT_USER_NAME_DESC:
+                $string4 = "ORDER BY us.user_name DESC";
                 break;
         }
 
@@ -199,11 +212,11 @@ class commentRepository extends EntityRepository {
             $comment->setComPublic(true);
             $em->persist($comment);
             $em->flush();
-            
+
             $ownership = $comment->getComOwnership();
             $em->getRepository("mycpBundle:ownership")->updateRanking($ownership);
         }
-        
+
     }
 
     public function deleteMultiples($ids) {

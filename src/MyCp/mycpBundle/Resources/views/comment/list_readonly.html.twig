@@ -32,8 +32,10 @@
 
     <div class="pull-right" style="margin-right: 30px;">
         Organizar:
-        <a class="{% if sort_by == '0' %}selected{% endif %}" href="{{ path('mycp_list_readonly_comments',{'items_per_page':items_per_page,'filter_ownership':filter_ownership,'filter_user':filter_user,'filter_keyword':filter_keyword,'filter_rate':filter_rate,'sort_by':0})}}">A-Z</a>
-        <a class="{% if sort_by == '1' %}selected{% endif %}" href="{{ path('mycp_list_readonly_comments',{'items_per_page':items_per_page,'filter_ownership':filter_ownership,'filter_user':filter_user,'filter_keyword':filter_keyword,'filter_rate':filter_rate,'sort_by':1})}}">Z-A</a>
+        <a class="{% if sort_by == constant('\\MyCp\\mycpBundle\\Helpers\\CommentSortField::COMMENT_USER_NAME_ASC') %}selected{% endif %}" href="{{ path('mycp_list_readonly_comments',{'items_per_page':items_per_page,'filter_ownership':filter_ownership,'filter_user':filter_user,'filter_keyword':filter_keyword,'filter_rate':filter_rate,'sort_by':constant('\\MyCp\\mycpBundle\\Helpers\\CommentSortField::COMMENT_USER_NAME_ASC')})}}">A-Z</a>
+        <a class="{% if sort_by == constant('\\MyCp\\mycpBundle\\Helpers\\CommentSortField::COMMENT_USER_NAME_DESC') %}selected{% endif %}" href="{{ path('mycp_list_readonly_comments',{'items_per_page':items_per_page,'filter_ownership':filter_ownership,'filter_user':filter_user,'filter_keyword':filter_keyword,'filter_rate':filter_rate,'sort_by':constant('\\MyCp\\mycpBundle\\Helpers\\CommentSortField::COMMENT_USER_NAME_DESC')})}}">Z-A</a>
+        <a class="{% if sort_by == constant('\\MyCp\\mycpBundle\\Helpers\\CommentSortField::COMMENT_DATE') or sort_by == constant('\\MyCp\\mycpBundle\\Helpers\\CommentSortField::COMMENT_DEFAULT')%}selected{% endif %}" href="{{ path('mycp_list_readonly_comments',{'items_per_page':items_per_page,'filter_ownership':filter_ownership,'filter_user':filter_user,'filter_keyword':filter_keyword,'filter_rate':filter_rate,'sort_by':constant('\\MyCp\\mycpBundle\\Helpers\\CommentSortField::COMMENT_DATE')})}}">Fecha</a>
+        <a class="{% if sort_by == constant('\\MyCp\\mycpBundle\\Helpers\\CommentSortField::COMMENT_RATING') %}selected{% endif %}" href="{{ path('mycp_list_readonly_comments',{'items_per_page':items_per_page,'filter_ownership':filter_ownership,'filter_user':filter_user,'filter_keyword':filter_keyword,'filter_rate':filter_rate,'sort_by':constant('\\MyCp\\mycpBundle\\Helpers\\CommentSortField::COMMENT_RATING')})}}">Puntuación</a>
     </div>
     </div>
 </div>
