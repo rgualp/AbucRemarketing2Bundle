@@ -11,6 +11,7 @@
 <hr/>
 <ul class="nav nav-tabs" id="myTab">
     <li class="active"><a data-toggle="tab" href="#reservas">Reservas</a></li>
+    <li class=""><a href="">Clientes</a></li>
 </ul>
     <div class="tab-content" id="myTabContent">
         <div id="reservas" class="tab-pane fade active in">
@@ -21,18 +22,10 @@
             <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_list_readonly_reservations')}}">
                 <div class="well well-small">
                     <div class="row-fluid">
-                        <div class="span4"><label>ID Reserva:</label>
+                        <div class="span2"><label>Número de reserva:</label>
                             <input id="filter_offer_number" name="filter_offer_number" type="text" class="input-block-level" value="{{filter_offer_number}}"/>
                         </div>
-                        <div class="span4"><label>ID Casa:</label>
-                            <input id="filter_reference" name="filter_reference" type="text" class="input-block-level" value="{{filter_reference}}"/>
-                        </div>
-                        <div class="span4"><label>ID Booking:</label>
-                            <input id="filter_booking_number" name="filter_booking_number" type="text" class="input-block-level" value="{{ filter_booking_number }}"/>
-                        </div>
-                    </div>
-                    <div class="row-fluid">
-                        <div class="span4"><label>Fecha reserva:</label>
+                        <div class="span2"><label>Fecha reserva:</label>
                             <input id="filter_date_reserve" name="filter_date_reserve" type="text" class="datepicker input-block-level" value="{{filter_date_reserve}}"/>
                         </div>
                         <div class="span3"><label>Fecha de llegada:</label>
@@ -106,7 +99,7 @@
                         </div>
                         <div class="span8">
                             <select name="sort_by" id="sort_by" onchange="javascript:action_submit()" class="input-block-level pull-right">
-                                {{ render(controller('mycpBundle:BackendReservation:get_sort_by', {'sort_by': sort_by})) }}
+                                {{ render(controller('mycpBundle:BackendReservation:getLodgingSortBy', {'sort_by': sort_by})) }}
                             </select>
                         </div>
                     </div>
@@ -118,8 +111,7 @@
                 <thead>
                 <tr>
                     <th>Fecha</th>
-                    <th>Reservation ID</th>
-                    <th>ID Casa</th>
+                    <th>Número de reserva</th>
                     <th>Habit.</th>
                     <th>Huésp.</th>
                     <th>Llegada</th>
@@ -138,12 +130,11 @@
                 {%set partially_available = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_AVAILABLE')%}
                 {%set partially_reserved = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_RESERVED')%}
                 {%set cancelled = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED')%}
-                        
+
                 {% for reservation in reservations %}
                 <tr class="{% if reservation[0].gen_res_status==available %}warning{%endif%}{% if reservation[0].gen_res_status==reserved %}error{%endif%}{% if reservation[0].gen_res_status==not_available %}info{%endif%}">
                     <td>{{reservation[0].gen_res_date |date("d/m/Y")}}</td>
                     <td>CAS.{{reservation[0].gen_res_id}}</td>
-                    <td>{{reservation[0].gen_res_own_id.own_mcp_code}}</td>
                     <td>{{reservation[1]}}</td>
                     <td>{{reservation[3]+reservation[5]}}</td>
                     <td>{{reservation[0].gen_res_from_date|date("d/m/Y")}}</td>
@@ -181,7 +172,7 @@
                 </div>
             </div>
             {% else %}
-            <p> <div class="alert alert-block">No hay Reservas disponibles.</div></p>
+            <p> <div class="alert alert-block">No hay reservas disponibles.</div></p>
             {% endif %}
         </div>
 
@@ -193,7 +184,8 @@
     $('.datepicker').datepicker({
         format: 'dd/mm/yyyy',
         todayBtn: 'linked',
-        language: 'es'
+        language: 'es',
+        autoclose: true
     });
 
     function submit_filters(ev)
@@ -211,10 +203,10 @@
         if(filter_date_reserve=='')filter_date_reserve='null';
         filter_offer_number=$('#filter_offer_number').val();
         if(filter_offer_number=='')filter_offer_number='null';
-        filter_booking_number=$('#filter_booking_number').val();
-        if(filter_booking_number=='')filter_booking_number='null';
-        filter_reference=$('#filter_reference').val();
-        if(filter_reference=='')filter_reference='null';
+        filter_booking_number='null';//$('#filter_booking_number').val();
+        //if(filter_booking_number=='')filter_booking_number='null';
+        filter_reference='null';//$('#filter_reference').val();
+        //if(filter_reference=='')filter_reference='null';
         filter_date_from=$('#filter_date_from').val();
         if(filter_date_from=='')filter_date_from='null';
         filter_date_to=$('#filter_date_to').val();

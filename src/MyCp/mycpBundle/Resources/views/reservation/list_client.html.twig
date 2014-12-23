@@ -29,7 +29,7 @@
                         <div class="span6"><label>Correo:</label>
                             <input id="filter_user_email" name="filter_user_email" type="text" class="input-block-level" value="{{filter_user_email}}"/>
                         </div>
-                        
+
                     </div>
                     <div class="row-fluid">
                         <div class="span5"><label>Ciudad:</label>
@@ -101,7 +101,7 @@
                         </div>
                         <div class="span8">
                             <select name="sort_by" id="sort_by" onchange="javascript:action_submit()" class="input-block-level pull-right">
-                                {{ render(controller('mycpBundle:BackendReservation:get_sort_by', {'sort_by': sort_by})) }}
+                                {{ render(controller('mycpBundle:BackendReservation:getClientSortBy', {'sort_by': sort_by})) }}
                             </select>
                         </div>
                     </div>
@@ -111,7 +111,7 @@
             </form>
             <table class="table table-hover table-striped" style="font-size: 12px">
                 <thead>
-                <tr>                   
+                <tr>
                     <th>Nombre</th>
                     <th>Correo</th>
                     <th>Ciudad</th>
@@ -125,7 +125,7 @@
                 <tbody>
                 {% set flag=0 %}
                 {% for reservation in reservations %}
-                <tr>                    
+                <tr>
                     <td>{{ reservation['user_user_name'] }} {{ reservation['user_last_name'] }}</td>
                     <td>{{ reservation['user_email'] }}</td>
                     <td>{{ reservation['user_city'] }}</td>
@@ -188,10 +188,10 @@
         filter_user_city=$('#filter_user_city').val();
         if(filter_user_city=='')filter_user_city='null';
         filter_user_country=$('#filter_user_country').val();
-        if(filter_user_country=='')filter_user_country='null';        
+        if(filter_user_country=='')filter_user_country='null';
         sort_by=$('#sort_by').val();
         if(sort_by=='')sort_by='null';
-        
+
         url_submit=$('#filter').attr('action');
         url_submit=url_submit+'/'+items_per_page+'/'+filter_user_name+'/'+filter_user_email+'/'+filter_user_city+'/'+filter_user_country+'/'+sort_by;
         $('#filter').attr('action',url_submit);

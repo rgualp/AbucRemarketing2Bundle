@@ -1,0 +1,8 @@
+
+
+<option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\ReservationSortField::RESERVATION_DEFAULT')}}"></option>
+<option {% if selected== constant('\\MyCp\\mycpBundle\\Helpers\\ReservationSortField::CLIENT_RESERVATIONS_TOTAL') %} selected="TRUE" {% endif %} value="{{constant('\\MyCp\\mycpBundle\\Helpers\\ReservationSortField::CLIENT_RESERVATIONS_TOTAL')}}">Total de Reservas</option>
+<option {% if selected== constant('\\MyCp\\mycpBundle\\Helpers\\ReservationSortField::CLIENT_NAME') %} selected="TRUE" {% endif %} value="{{constant('\\MyCp\\mycpBundle\\Helpers\\ReservationSortField::CLIENT_NAME')}}">Nombre del cliente</option>
+<option {% if selected== constant('\\MyCp\\mycpBundle\\Helpers\\ReservationSortField::CLIENT_CITY') %} selected="TRUE" {% endif %} value="{{constant('\\MyCp\\mycpBundle\\Helpers\\ReservationSortField::CLIENT_CITY')}}">Ciudad del cliente</option>
+<option {% if selected== constant('\\MyCp\\mycpBundle\\Helpers\\ReservationSortField::CLIENT_EMAIL') %} selected="TRUE" {% endif %} value="{{constant('\\MyCp\\mycpBundle\\Helpers\\ReservationSortField::CLIENT_EMAIL')}}">Correo del cliente</option>
+<option {% if selected== constant('\\MyCp\\mycpBundle\\Helpers\\ReservationSortField::CLIENT_COUNTRY') %} selected="TRUE" {% endif %} value="{{constant('\\MyCp\\mycpBundle\\Helpers\\ReservationSortField::CLIENT_COUNTRY')}}">País del cliente</option>

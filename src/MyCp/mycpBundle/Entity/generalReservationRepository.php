@@ -4,6 +4,7 @@ namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
+use MyCp\mycpBundle\Helpers\ReservationSortField;
 
 /**
  * ownershipReservationRepository
@@ -69,20 +70,24 @@ class generalReservationRepository extends EntityRepository {
 
         $string_order = '';
         switch ($sort_by) {
-            case 0:
+            case ReservationSortField::RESERVATION_DEFAULT:
+            case ReservationSortField::RESERVATION_NUMBER:
                 $string_order = "ORDER BY gre.gen_res_id DESC";
                 break;
-            case 1:
+            case ReservationSortField::RESERVATION_DATE:
                 $string_order = "ORDER BY gre.gen_res_date ASC";
                 break;
-            case 2:
-                $string_order = "ORDER BY gre.gen_res_own_id ASC";
+            case ReservationSortField::RESERVATION_ACCOMMODATION_CODE:
+                $string_order = "ORDER BY own.own_mcp_code ASC";
                 break;
-            case 3:
+            case ReservationSortField::RESERVATION_DATE_ARRIVE:
                 $string_order = "ORDER BY gre.gen_res_from_date ASC";
                 break;
-            case 4:
+            case ReservationSortField::RESERVATION_STATUS:
                 $string_order = "ORDER BY gre.gen_res_status ASC";
+                break;
+            case ReservationSortField::RESERVATION_PRICE_TOTAL:
+                $string_order = "ORDER BY gre.gen_res_total_in_site DESC";
                 break;
         }
         $em = $this->getEntityManager();
@@ -152,20 +157,20 @@ class generalReservationRepository extends EntityRepository {
 
         $string_order = '';
         switch ($sort_by) {
-            case 0:
-            case 5:
+            case ReservationSortField::RESERVATION_DEFAULT:
+            case ReservationSortField::CLIENT_RESERVATIONS_TOTAL:
                 $string_order = "ORDER BY total_reserves DESC";
                 break;
-            case 1:
+            case ReservationSortField::CLIENT_NAME:
                 $string_order = "ORDER BY us.user_user_name ASC";
                 break;
-            case 2:
+            case ReservationSortField::CLIENT_CITY:
                 $string_order = "ORDER BY us.user_city ASC";
                 break;
-            case 3:
+            case ReservationSortField::CLIENT_EMAIL:
                 $string_order = "ORDER BY us.user_email ASC";
                 break;
-            case 4:
+            case ReservationSortField::CLIENT_COUNTRY:
                 $string_order = "ORDER BY cou.co_name ASC";
                 break;
         }
@@ -372,7 +377,7 @@ class generalReservationRepository extends EntityRepository {
 
         return $isAtLeastOneOwnResAvailable;
     }
-    
+
     public function shallSendOutFeedbackReminderEmail(generalReservation $generalReservation)
     {
         $em = $this->getEntityManager();
@@ -381,7 +386,7 @@ class generalReservationRepository extends EntityRepository {
             return false;
         }
         $ownershipReservations = $em->getRepository('mycpBundle:generalReservation')->getOwnershipReservations($generalReservation);
-        
+
 
         /** @var $ownershipReservation ownershipReservation */
         foreach ($ownershipReservations as $ownershipReservation) {
