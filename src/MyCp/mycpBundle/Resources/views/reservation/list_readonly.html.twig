@@ -147,8 +147,9 @@
                         {% if reservation[0].gen_res_status==partially_available %} badge-warning">Parcialmente<br/>Disponible{%endif%}
                         {% if reservation[0].gen_res_status==reserved %} badge-important">Reservada{%endif%}
                         {% if reservation[0].gen_res_status==partially_reserved %} badge-important">Parcialmente<br/>Reservada{%endif%}
-                        {% if reservation[0].gen_res_status==not_available %} badge-info">No disponible{%endif%}</div>
-                        {% if reservation[0].gen_res_status==cancelled %} badge-info">Cancelada{%endif%}</div>
+                        {% if reservation[0].gen_res_status==not_available %} badge-info">No disponible{%endif%}
+                        {% if reservation[0].gen_res_status==cancelled %} badge-info">Cancelada{%endif%}
+                       </div>
                     </td>
                     <td style="text-align: right">
                         <a class="btn btn-mini" href="{{ path('mycp_details_readonly_reservation',{'id_reservation':reservation[0].gen_res_id}) }}">Detalles</a>

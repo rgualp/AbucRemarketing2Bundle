@@ -834,6 +834,10 @@ class BackendReservationController extends Controller {
         return $this->render('mycpBundle:utils:general_reservation_status.html.twig', array('selected' => $selected));
     }
 
+    public function reservationStatusNameAction($status) {
+        return $this->render('mycpBundle:utils:reservation_status_name.html.twig', array('status' => $status));
+    }
+
     public function get_rooms_by_ownershipAction($id_ownership, $selected_room) {
         $em = $this->getDoctrine()->getEntityManager();
         $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $id_ownership, "room_active" => true));

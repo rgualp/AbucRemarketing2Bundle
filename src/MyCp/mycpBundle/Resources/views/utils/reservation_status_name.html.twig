@@ -1,0 +1,8 @@
+<div style="text-align: center" class="badge
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_PENDING') %}">Pendiente{%endif%}
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_AVAILABLE') %} badge-warning">Disponible{%endif%}
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_AVAILABLE2') %} badge-warning">Disponible{%endif%}
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_RESERVED') %} badge-important">Reservada{%endif%}
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE') %} badge-info">No disponible{%endif%}
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED') %} badge-info">Cancelada{%endif%}
+</div>

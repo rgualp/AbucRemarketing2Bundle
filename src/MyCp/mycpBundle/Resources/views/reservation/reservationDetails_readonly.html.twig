@@ -17,39 +17,9 @@
 </ul>
 {% endblock %}
 {% block content %}
-<h2>Detalles de Reserva ({{ reservation.getGenResOwnId.getOwnMcpCode }} {{ reservation.getGenResOwnId.getOwnName }})</h2>
+<h2>Detalles de Reserva (CAS.{{ reservation.getGenResId }})</h2>
 <hr/>
 <div class="row-fluid">
-<div class="span6">
-    <ul class="nav nav-tabs">
-        <li class="active">
-            <a href="#reservas" data-toggle="tab">Casa</a>
-        </li>
-    </ul>
-    <table class="table table-striped " style="font-size: 12px">
-        <tr>
-            <td><b>ID Casa:</b></td>
-            <td>{{ reservation.getGenResOwnId.getOwnMcpCode }} {{ reservation.getGenResOwnId.getOwnName }}</td>
-        </tr>
-        <tr>
-            <td><b>Tipo de propiedad:</b></td>
-            <td>{{ reservation.getGenResOwnId.getOwnType }}</td>
-        </tr>
-        <tr>
-            <td><b>Propietario:</b></td>
-            <td>{{ reservation.getGenResOwnId.getOwnHomeowner1 }}</td>
-        </tr>
-        <tr>
-            <td><b>Dirección:</b></td>
-            <td>{{ reservation.getGenResOwnId.getOwnAddressStreet }} {{ reservation.getGenResOwnId.getOwnAddressNumber }} e/ {{ reservation.getGenResOwnId.getOwnAddressBetweenStreet1 }} y {{ reservation.getGenResOwnId.getOwnAddressBetweenStreet2 }} {{ reservation.getGenResOwnId.getOwnAddressMunicipality }}</td>
-        </tr>
-        <tr>
-            <td><b>Teléfono:</b></td>
-            <td>{{ reservation.getGenResOwnId.getOwnPhoneCode }} {{ reservation.getGenResOwnId.getOwnPhoneNumber }}</td>
-        </tr>
-    </table>
-</div>
-    <div class="span6">
         <ul class="nav nav-tabs">
             <li class="active">
                 <a href="#reservas" data-toggle="tab">Cliente</a>
@@ -57,51 +27,99 @@
         </ul>
         <table class="table table-striped" style="font-size: 12px">
             <tr>
-                <td><b>Nombre:</b></td>
-                <td colspan="3">{{ reservation.getGenResUserId.getUserUserName }} {{ reservation.getGenResUserId.getUserLastName }}</td>
+                <td><b>Nombre:</b> {{ reservation.getGenResUserId.getUserUserName }} {{ reservation.getGenResUserId.getUserLastName }}</td>
+                <td><b>Correo:</b> {{ reservation.getGenResUserId.getUserEmail }}</td>
+                <td><b>Ciudad:</b> {%if reservation.getGenResUserId.getUserCity != null%}{{ reservation.getGenResUserId.getUserCity }}{%else%}-{%endif%}</td>
             </tr>
             <tr>
-                <td><b>Dirección:</b></td>
-                <td colspan="3">{{ reservation.getGenResUserId.getUserAddress }}</td>
+                <td><b>Idioma:</b> {{ user[0].getUserTouristLanguage.getLangName }}</td>
+                <td><b>Moneda:</b> {% if user[0].getUserTouristCurrency.getCurrName is defined %}{{ user[0].getUserTouristCurrency.getCurrName }}{% endif %}</td>
+                <td><b>País:</b> {{ reservation.getGenResUserId.getUserCountry }}</td>
             </tr>
+            {%if reservation.getGenResUserId.getUserAddress != null%}
             <tr>
-                <td><b>Ciudad:</b></td>
-                <td>{{ reservation.getGenResUserId.getUserCity }}</td>
-                <td><b>País:</b></td>
-                <td>{{ reservation.getGenResUserId.getUserCountry }}</td>
+                <td colspan="3"><b>Dirección:</b> {{ reservation.getGenResUserId.getUserAddress }}</td>
             </tr>
-            <tr>
-                <td><b>Email:</b></td>
-                <td colspan="3">{{ reservation.getGenResUserId.getUserEmail }}</td>
-            </tr>
-            <tr>
-                <td><b>Idioma:</b></td>
-                <td>{{ user[0].getUserTouristLanguage.getLangName }}</td>
-                <td><b>Moneda:</b></td>
-                <td>{% if user[0].getUserTouristCurrency.getCurrName is defined %}{{ user[0].getUserTouristCurrency.getCurrName }}{% endif %}</td>
-            </tr>
+            {%endif%}
         </table>
     </div>
 
+<div class="row-fluid">
     <ul class="nav nav-tabs">
         <li class="active">
-            <a href="#reservas" data-toggle="tab">Resumen de Reserva</a>
+            <a href="#reservas" data-toggle="tab">Habitaciones reservadas</a>
         </li>
     </ul>
+        <table class="table" style="font-size: 12px;">
+        <thead>
+        <tr>
+            <th>Habitación</th>
+            <th>Adultos</th>
+            <th>Niños</th>
+            <th>Entrada</th>
+            <th>Salida</th>
+            <th>Noches</th>
+            <th>Precio Total</th>
+            <th>Comisión MyCP</th>
+            <th>Pago en casa</th>
+            <th>Estado</th>
+        </tr>
+        </thead>
     {% set total_adults = 0 %}
     {% set total_kids = 0 %}
     {% set total_nights = 0 %}
     {% set total_price = 0 %}
+        {% set total_rooms = 0 %}
     {% for reservation_rooms in reservations%}
+     {%if reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE') and reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}
     {% set total_adults = total_adults + reservation_rooms.getOwnResCountAdults %}
     {% set total_kids = total_kids + reservation_rooms.getOwnResCountChildrens %}
     {% set total_nights = total_nights + nights[loop.index0] %}
     {% set total_price = total_price + nights[loop.index0] * reservation_rooms.getOwnResNightPrice %}
-    {% endfor %}
+        {% set total_rooms = total_rooms + 1 %}
+    {%endif%}
+        {% set partial_price = 0 %}
+        <tr>
+            <td>{{ reservation_rooms.getOwnResRoomType }}</td>
+            <td>{{ reservation_rooms.getOwnResCountAdults }}</td>
+            <td>{{ reservation_rooms.getOwnResCountChildrens }}</td>
+            <td>{{reservation_rooms.getOwnResReservationFromDate | date("d/m/Y")}}</td>
+            <td>{{reservation_rooms.getOwnResReservationToDate | date("d/m/Y")}}</td>
+            <td>{{ nights[loop.index0] }}</td>
+            <td>
+                {%if reservation_rooms.getOwnResNightPrice != 0%}
+                    {{nights[loop.index0] * reservation_rooms.getOwnResNightPrice}} CUC
+                    {%if reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE') and reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}
+                        {%set partial_price = (nights[loop.index0] * reservation_rooms.getOwnResNightPrice)%}
+                    {%endif%}
+                {%else%}
+                {{reservation_rooms.getOwnResTotalInSite}}CUC</td>
+                {%if reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE') and reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}
+                {%set partial_price = reservation_rooms.getOwnResTotalInSite%}
+                {%endif%}
+            {%endif%}
+                {%set total_price = total_price + partial_price%}
+            </td>
+            <td>{{ partial_price * reservation_rooms.getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100}} CUC</td>
+            <td>{{ partial_price - ( partial_price * reservation_rooms.getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100)}} CUC</td>
+            <td>
+            {{ render(controller('mycpBundle:BackendReservation:reservationStatusName', {'status': reservation_rooms.getOwnResStatus})) }}
+            </td>
+         </tr>
+         {% endfor %}
+    </table>
+
+</div>
+
+<ul class="nav nav-tabs">
+        <li class="active">
+            <a href="#reservas" data-toggle="tab">Resumen</a>
+        </li>
+    </ul>
     <table class="table" style="font-size: 12px;">
         <thead>
         <tr>
-            <th>Habitación</th>
+            <th>Habitaciones</th>
             <th>Adultos</th>
             <th>Niños</th>
             <th>Noches</th>
@@ -112,15 +130,14 @@
         </thead>
 
         <tr>
-            <td>{{ reservations|length }}</td>
+            <td>{{ total_rooms }}</td>
             <td>{{ total_adults }}</td>
             <td>{{ total_kids }}</td>
             <td>{{ total_nights }}</td>
             <td>{{ total_price}} CUC</td>
             <td>{{ total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100}} CUC</td>
             <td>{{ total_price - ( total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100)}} CUC</td>
+
         </tr>
     </table>
-
-</div>
 {% endblock %}
