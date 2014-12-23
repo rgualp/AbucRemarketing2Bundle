@@ -1,6 +1,10 @@
 {% extends 'mycpBundle:layout:base.html.twig' %}
 
+{% block lodging_accommodation_name %}
+{{ render(controller('mycpBundle:Lodging:getAccommodationName')) }}
+{% endblock %}
 {% block user_context_menu %}
+<li role="presentation"><a href="{{ path('mycp_lodging_edit_user') }}"><i class="icon-user"></i> Perfil de usuario</a></li>
     <li role="presentation"><a href="{{ path('backend_logout') }}"><i class="icon-off"></i> Cerrar sesión</a></li>
 {% endblock %}
 
@@ -53,10 +57,10 @@
             </div>
             <div id="collapseThree" class="accordion-body collapse {%if  temp == 'LodgingUserController' or temp == 'LodgingOwnershipController' %}in{%endif%}">
                 <div class="accordion-inner">
-                    <a href="{{ path('mycp_lodging_edit_user') }}"><i class="icon-user"></i> Perfil</a>
+                    <a href="{{ path('mycp_lodging_edit_user') }}"><i class="icon-user"></i> Perfil de usuario</a>
                 </div>
                 <div class="accordion-inner">
-                    <a href="{{ path('mycp_short_edit_ownership') }}"><i class="icon-home"></i> Propiedades</a>
+                    <a href="{{ path('mycp_short_edit_ownership') }}"><i class="icon-home"></i> MyCasa</a>
                 </div>
             </div>
         </div>

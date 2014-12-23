@@ -20,7 +20,7 @@
 </form>
 {% endblock %}
 {% block content %}
-<h2>Editar usuario</h2>
+<h2>Perfil de usuario</h2>
 <hr/>
 {% if data['error'] is defined %}<div class="alert alert-error">{{data['error']}}</div>{%endif%}
 <form class="sfgen"  method="POST" action="{{ path('mycp_lodging_update_user',{'id_user':edit_user}) }}" novalidate="true" enctype="multipart/form-data">

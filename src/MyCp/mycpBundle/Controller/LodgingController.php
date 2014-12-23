@@ -18,4 +18,16 @@ class LodgingController extends Controller
         return $this->render('mycpBundle:lodging:welcome.html.twig', array('photo' => $photo));
     }
 
+    public function getAccommodationNameAction()
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $user_id=$user->getUserId();
+        $em=$this->getDoctrine()->getManager();
+        $userCasa = $em->getRepository('mycpBundle:userCasa')->get_user_casa_by_user_id($user_id);
+
+        return $this->render('mycpBundle:utils:lodging_accommodation_name.html.twig', array(
+            'ownership' => $userCasa->getUserCasaOwnership()
+         ));
+    }
+
 }
