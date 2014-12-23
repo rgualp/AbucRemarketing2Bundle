@@ -11,3 +11,10 @@ set o.own_ranking = SQRT(
 
 update ownership
    set own_sended_to_team = 1;
+
+/*Permissions for new routes in Lodging Module*/
+insert into permission(perm_description, perm_category, perm_route)
+values ('Reservaciones - Clientes', 'Módulo Casa', 'mycp_list_readonly_reservations_user');
+
+insert rolepermission (rp_role, rp_permission)
+values ((select max(role_id) from role where role_name = 'ROLE_CLIENT_CASA'), (select max(perm_id) from permission where perm_route = 'mycp_list_readonly_reservations_user'));

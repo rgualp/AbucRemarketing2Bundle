@@ -17,8 +17,8 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use MyCp\mycpBundle\Form\reservationType;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
 
-class LodgingReservationController extends Controller
-{
+class LodgingReservationController extends Controller {
+
     public function list_reservationsAction($items_per_page, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
@@ -32,7 +32,7 @@ class LodgingReservationController extends Controller
         $price = 0;
         $sort_by = $request->get('sort_by');
         if ($request->getMethod() == 'POST' && $filter_date_reserve == 'null' && $filter_offer_number == 'null' && $filter_reference == 'null' &&
-            $filter_date_from == 'null' && $filter_date_to == 'null' && $sort_by == 'null' && $filter_booking_number == 'null'
+                $filter_date_from == 'null' && $filter_date_to == 'null' && $sort_by == 'null' && $filter_booking_number == 'null'
         ) {
             $message = 'Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
@@ -67,10 +67,9 @@ class LodgingReservationController extends Controller
 
         $user = $this->get('security.context')->getToken()->getUser();
 
-        if($user->getUserRole()!='ROLE_CLIENT_CASA')
+        if ($user->getUserRole() != 'ROLE_CLIENT_CASA')
             $reser = $em->getRepository('mycpBundle:generalReservation')->get_all_reservations($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number);
-        else
-        {
+        else {
             $userCasa = $em->getRepository('mycpBundle:userCasa')->get_user_casa_by_user_id($user->getUserId());
             //$reser = $em->getRepository('mycpBundle:generalReservation')->get_all_reservations($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number);
             $reser = $em->getRepository('mycpBundle:generalReservation')->get_all_reservations_by_user_casa($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $userCasa->getUserCasaId());
@@ -95,25 +94,25 @@ class LodgingReservationController extends Controller
             array_push($total_nights, $temp_total_nights);
         }
         return $this->render('mycpBundle:reservation:list_readonly.html.twig', array(
-            'total_nights' => $total_nights,
-            'reservations' => $reservations,
-            'items_per_page' => $items_per_page,
-            'current_page' => $page,
-            'total_items' => $paginator->getTotalItems(),
-            'filter_date_reserve' => $filter_date_reserve,
-            'filter_offer_number' => $filter_offer_number,
-            'filter_booking_number' => $filter_booking_number,
-            'filter_reference' => $filter_reference,
-            'filter_date_from' => $filter_date_from,
-            'filter_date_to' => $filter_date_to,
-            'sort_by' => $sort_by,
-            'filter_date_reserve_twig' => $filter_date_reserve_twig,
-            'filter_date_from_twig' => $filter_date_from_twig,
-            'filter_date_to_twig' => $filter_date_to_twig
+                    'total_nights' => $total_nights,
+                    'reservations' => $reservations,
+                    'items_per_page' => $items_per_page,
+                    'current_page' => $page,
+                    'total_items' => $paginator->getTotalItems(),
+                    'filter_date_reserve' => $filter_date_reserve,
+                    'filter_offer_number' => $filter_offer_number,
+                    'filter_booking_number' => $filter_booking_number,
+                    'filter_reference' => $filter_reference,
+                    'filter_date_from' => $filter_date_from,
+                    'filter_date_to' => $filter_date_to,
+                    'sort_by' => $sort_by,
+                    'filter_date_reserve_twig' => $filter_date_reserve_twig,
+                    'filter_date_from_twig' => $filter_date_from_twig,
+                    'filter_date_to_twig' => $filter_date_to_twig
         ));
     }
 
-    public function details_reservationAction($id_reservation, $from_calendar,Request $request) {
+    public function details_reservationAction($id_reservation, $from_calendar, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
@@ -137,14 +136,84 @@ class LodgingReservationController extends Controller
 
         array_pop($dates);
         return $this->render('mycpBundle:reservation:reservationDetails_readonly.html.twig', array(
-            'post' => $post,
-            'errors' => $errors,
-            'reservation' => $reservation,
-            'user' => $user,
-            'reservations' => $ownership_reservations,
-            'rooms' => $rooms,
-            'nights' => $array_nights,
-            'id_reservation' => $id_reservation,
-            'from_calendar' => $from_calendar));
+                    'post' => $post,
+                    'errors' => $errors,
+                    'reservation' => $reservation,
+                    'user' => $user,
+                    'reservations' => $ownership_reservations,
+                    'rooms' => $rooms,
+                    'nights' => $array_nights,
+                    'id_reservation' => $id_reservation,
+                    'from_calendar' => $from_calendar));
     }
+
+    public function listReservationsByUserAction($items_per_page, Request $request) {
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
+        $page = 1;
+        $filter_user_name = $request->get('filter_user_name');
+        $filter_user_email = $request->get('filter_user_email');
+        $filter_user_city = $request->get('filter_user_city');
+        $filter_user_country = $request->get('filter_user_country');
+
+        $sort_by = $request->get('sort_by');
+        if ($request->getMethod() == 'POST' && ($sort_by == "" || $sort_by == "null" || $sort_by == "0") && $filter_user_name == 'null' && $filter_user_email == 'null' && $filter_user_city == 'null' &&
+                $filter_user_country == 'null') {
+            $message = 'Debe llenar al menos un campo para filtrar o seleccionar un criterio de ordenación.';
+            $this->get('session')->getFlashBag()->add('message_error_local', $message);
+            return $this->redirect($this->generateUrl('mycp_list_readonly_reservations'));
+        }
+        if ($filter_user_name == 'null')
+            $filter_user_name = '';
+        if ($filter_user_email == 'null')
+            $filter_user_email = '';
+        if ($filter_user_city == 'null')
+            $filter_user_city = '';
+        if ($filter_user_country == 'null')
+            $filter_user_country = '';
+        if ($sort_by == 'null')
+            $sort_by = '';
+
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $paginator = $this->get('ideup.simple_paginator');
+        $paginator->setItemsPerPage($items_per_page);
+
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        if ($user->getUserRole() != 'ROLE_CLIENT_CASA')
+            $reser = $em->getRepository('mycpBundle:generalReservation')->get_all_users($filter_user_name, $filter_user_email, $filter_user_city, $filter_user_country, $sort_by);
+        else {
+            $userCasa = $em->getRepository('mycpBundle:userCasa')->get_user_casa_by_user_id($user->getUserId());
+            $reser = $em->getRepository('mycpBundle:generalReservation')->get_all_users($filter_user_name, $filter_user_email, $filter_user_city, $filter_user_country, $sort_by, $userCasa->getUserCasaOwnership()->getOwnId());
+        }
+
+        $reservations = $paginator->paginate($reser)->getResult();
+
+        $service_log = $this->get('log');
+        $service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
+
+        $languages = array();
+        foreach ($reservations as $reservation) {
+            $user_tourist = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $reservation['user_id']));
+            if ($user_tourist[0]->getUserTouristLanguage())
+                array_push($languages, $user_tourist[0]->getUserTouristLanguage()->getLangName());
+        }
+
+        return $this->render('mycpBundle:reservation:list_client_readonly.html.twig', array(
+                    'languages' => $languages,
+                    'reservations' => $reservations,
+                    'items_per_page' => $items_per_page,
+                    'current_page' => $page,
+                    'total_items' => $paginator->getTotalItems(),
+                    'filter_user_name' => $filter_user_name,
+                    'filter_user_email' => $filter_user_email,
+                    'filter_user_city' => $filter_user_city,
+                    'filter_user_country' => $filter_user_country,
+                    'sort_by' => $sort_by
+        ));
+    }
+
 }

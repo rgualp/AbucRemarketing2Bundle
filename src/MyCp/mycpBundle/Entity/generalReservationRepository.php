@@ -149,7 +149,7 @@ class generalReservationRepository extends EntityRepository {
         return $array_intersection;
     }
 
-    function get_all_users($filter_user_name, $filter_user_email, $filter_user_city, $filter_user_country, $sort_by) {
+    function get_all_users($filter_user_name, $filter_user_email, $filter_user_city, $filter_user_country, $sort_by, $ownId = null) {
         $filter_user_name = strtolower($filter_user_name);
         $filter_user_email = strtolower($filter_user_email);
         $filter_user_city = strtolower($filter_user_city);
@@ -174,15 +174,25 @@ class generalReservationRepository extends EntityRepository {
                 $string_order = "ORDER BY cou.co_name ASC";
                 break;
         }
+
+        $whereOwn = "";
+        $countReservations = "";
+
+        if($ownId != null)
+        {
+            $whereOwn = " AND own.own_id = $ownId";
+            $countReservations = " AND g.gen_res_own_id = $ownId";
+        }
+
         $em = $this->getEntityManager();
-        $query = $em->createQuery("SELECT DISTINCT
+        $queryString = "SELECT DISTINCT
             us.user_id,
             us.user_user_name,
             us.user_last_name,
             us.user_city,
             us.user_email,
             cou.co_name,
-            (SELECT count(g) FROM mycpBundle:generalReservation g WHERE g.gen_res_user_id = us.user_id) as total_reserves
+            (SELECT count(g) FROM mycpBundle:generalReservation g WHERE g.gen_res_user_id = us.user_id $countReservations) as total_reserves
             FROM mycpBundle:generalReservation gre
             JOIN gre.gen_res_own_id own
             JOIN gre.gen_res_user_id us
@@ -191,7 +201,9 @@ class generalReservationRepository extends EntityRepository {
             OR us.user_last_name LIKE :filter_user_name)
             AND us.user_email LIKE :filter_user_email
             AND us.user_city LIKE :filter_user_city
-            AND cou.co_id LIKE :filter_user_country $string_order");
+            AND cou.co_id LIKE :filter_user_country $whereOwn $string_order";
+
+        $query = $em->createQuery($queryString);
 
         $query->setParameters(array(
             'filter_user_name' => "%" . $filter_user_name . "%",
