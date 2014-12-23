@@ -1,0 +1,97 @@
+<button type="button" onclick="javascript:close_tab({{ reservation.getGenResId }})" style="margin-top: -6px" class="close_tab pull-right btn btn-mini btn-danger"><i class="icon-white icon-remove"></i> Cerrar pestaña</button>
+<div class="row-fluid">
+<div class="row-fluid">
+    <div class="span12">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#reservas" data-toggle="tab">Habitaciones reservadas</a>
+            </li>
+        </ul>
+        <table class="table table-striped" style="font-size: 12px">
+            <thead>
+            <tr>
+                <th>Habitación</th>
+                <th>Adultos</th>
+                <th>Niños</th>
+                <th>Llegada</th>
+                <th>Salida</th>
+                <th>Noches</th>
+                <th>Precio Total</th>
+                <th>Comisión MyCP</th>
+                <th>Pago en casa</th>
+                <th>Estado</th>
+            </tr>
+            </thead>
+            {% set flag = 0 %}
+            {% set total_adults = 0 %}
+            {% set total_childrens = 0 %}
+            {% set total_nights = 0 %}
+            {% set total_price_own_res = 0%}
+            {% set total_price = 0 %}
+            {% set total_rooms = 0 %}
+            {% for reservation_rooms in reservations%}
+            {%if reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE') and reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}
+            {% set total_adults = total_adults +  reservation_rooms.getOwnResCountAdults %}
+            {% set total_childrens = total_childrens +  reservation_rooms.getOwnResCountChildrens %}
+            {% set total_nights = total_nights +  nights[loop.index0] %}
+            {% set total_rooms = total_rooms + 1 %}
+            {%endif%}
+            {% set partial_price =0%}
+            <tr>
+                <td>{{reservation_rooms.getOwnResRoomType }}</td>
+                <td>{{reservation_rooms.getOwnResCountAdults}}</td>
+                <td>{{reservation_rooms.getOwnResCountChildrens}}</td>
+                <td>{{ reservation.getGenResFromDate | date("d/m/Y") }}</td>
+                <td>{{ reservation.getGenResToDate | date("d/m/Y") }}</td>
+                <td>{{ nights[loop.index0] }}</td>
+                <td>
+                {%if reservation_rooms.getOwnResNightPrice != 0%}
+                        {% set partial_price =nights[loop.index0] * reservation_rooms.getOwnResNightPrice%}
+                {%else%}
+                        {% set partial_price =reservation_rooms.getOwnResTotalInSite%}
+                {%endif%}
+                {%if reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE') and reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}
+                        {%set total_price = total_price + partial_price%}
+                    {%endif%}
+                {{partial_price}} CUC
+                </td>
+                <td>{{ reservation.genResOwnId.getOwnCommissionPercent * partial_price / 100 }} CUC</td>
+                <td>{{partial_price - (reservation.genResOwnId.getOwnCommissionPercent * partial_price / 100)}} CUC</td>
+                <td>{{ render(controller('mycpBundle:BackendReservation:reservationStatusName', {'status': reservation_rooms.getOwnResStatus})) }}</td>
+            </tr>
+            {% set flag = flag + 1%}
+            {% endfor %}
+        </table>
+    </div>
+</div>
+<ul class="nav nav-tabs">
+    <li class="active">
+        <a href="#reservas" data-toggle="tab">Resumen</a>
+    </li>
+</ul>
+<table class="table" style="font-size: 12px;">
+    <thead>
+    <tr>
+        <th>Habitaciones</th>
+        <th>Adultos</th>
+        <th>Niños</th>
+        <th>Noches</th>
+        <th>Precio Total</th>
+        <th>Comisión MyCP</th>
+        <th>Pago en casa</th>
+    </tr>
+    </thead>
+
+    <tr>
+        <td>{{ total_rooms }}</td>
+        <td>{{ total_adults }}</td>
+        <td>{{ total_childrens }}</td>
+        <td>{{ total_nights }}</td>
+        <td>{{total_price}} CUC</td>
+        <td>{{ total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100}} CUC</td>
+        <td>{{ total_price - ( total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100)}} CUC</td>
+    </tr>
+</table>
+
+
+</div>

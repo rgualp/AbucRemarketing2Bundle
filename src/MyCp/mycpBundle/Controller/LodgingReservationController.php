@@ -273,7 +273,7 @@ class LodgingReservationController extends Controller {
             array_push($total_nights, $temp_total_nights);
         }
 
-        return $this->render('mycpBundle:reservation:reservationDetailsPartial.html.twig', array(
+        return $this->render('mycpBundle:reservation:reservationDetailsPartialReadonly.html.twig', array(
                     'nights' => $total_nights,
                     'reservation' => $reservation,
                     'user' => $user,
