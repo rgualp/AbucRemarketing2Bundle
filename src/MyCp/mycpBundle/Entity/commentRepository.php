@@ -113,24 +113,24 @@ class commentRepository extends EntityRepository {
         $string4 = '';
         switch ($sort_by) {
             case CommentSortField::COMMENT_ACCOMMODATION_CODE_ASC:
-                $string4 = "ORDER BY own.own_mcp_code ASC";
+                $string4 = "ORDER BY own.own_mcp_code ASC, c.com_date DESC";
                 break;
 
             case CommentSortField::COMMENT_ACCOMMODATION_CODE_DESC:
-                $string4 = "ORDER BY own.own_mcp_code DESC";
+                $string4 = "ORDER BY own.own_mcp_code DESC, c.com_date DESC";
                 break;
             case CommentSortField::COMMENT_DEFAULT:
             case CommentSortField::COMMENT_DATE:
                 $string4 = "ORDER BY c.com_date DESC";
                 break;
             case CommentSortField::COMMENT_RATING:
-                $string4 = "ORDER BY c.com_rate DESC";
+                $string4 = "ORDER BY c.com_rate DESC, c.com_date DESC";
                 break;
             case CommentSortField::COMMENT_USER_NAME_ASC:
-                $string4 = "ORDER BY us.user_name ASC";
+                $string4 = "ORDER BY us.user_name ASC, c.com_date DESC";
                 break;
             case CommentSortField::COMMENT_USER_NAME_DESC:
-                $string4 = "ORDER BY us.user_name DESC";
+                $string4 = "ORDER BY us.user_name DESC, c.com_date DESC";
                 break;
         }
 

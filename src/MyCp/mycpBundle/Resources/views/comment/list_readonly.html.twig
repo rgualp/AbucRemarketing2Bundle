@@ -57,14 +57,16 @@
             <div class="row-fluid" style="background-color: #ffffff">
                 <div class="span12">
                     <div class="span2">
-                        <img class="img-polaroid" style="margin-bottom: 10px;" src="{{ asset('bundles/frontend/img/user_no_photo.gif') }}" alt="">
-                        <label class="name">{{ comment.getComUser.getUserName }}</label>
+                        <img class="img-polaroid" src="{{ asset('bundles/frontend/img/user_no_photo.gif') }}" alt=""><br/>
+                        <em>{{ comment.getComUser.getUserName }} {{ comment.getComUser.getUserLastName }}</em><br/>
                         <div class="rating_star">
                             {% for i in 1 .. 5 %}{% if i <= comment.getComRate %}<img src="{{ asset('bundles/frontend/img/star_on.png')}}"/>{% else %}<img src="{{ asset('bundles/frontend/img/star_off.png')}}"/>{% endif %} {% endfor %}
                         </div>
                     </div>
                     <div class="span10" style="font-size: 12px;">
-                        <b>{{comment.comDate | date('d/m/Y')}}</b><br />
+                        <b style="margin-right: 10px">{{comment.comDate | date('d/m/Y')}}</b>
+                        {% if comment.getComPublic==0%}<span class="label label-important">No publicado</span>{% else %} <span class="label label-success">Publicado</span>{% endif %}
+                        <br />
                         <p style="text-align: justify">{{ comment.getComComments }}</p>
 
                     </div>
