@@ -2,6 +2,10 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <style>
+     table td{ padding:3px;}
+     tr.content td{font-size: 12px;}
+    </style>
 </head>
 <body style="font-family: Arial; font-size: 15px">
 <h3>Últimos alojamientos añadidos</h3>
@@ -19,6 +23,7 @@
         <td><b>Estado</b></td>
     </tr>
     {%for own in ownerships%}
+    <tr class="content">
     <td>{{own.ownMcpCode}}</td>
     <td>{{own.ownRoomsTotal}}</td>
     <td>{{own.ownHomeowner1}}</td>
@@ -29,6 +34,7 @@
     <td>{{own.ownAddressProvince.provName}}</td>
     <td>{{own.ownAddressMunicipality.munName}}</td>
     <td>{{own.ownStatus.getStatusName}}</td>
+    </tr>
     {%endfor%}
 </table>
 </body>

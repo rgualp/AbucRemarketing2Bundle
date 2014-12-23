@@ -37,3 +37,7 @@ mycp_test_feedback_reminder:
 mycp_test_check_available_rt:
     pattern:  /check-available
     defaults: { _controller: mycpBundle:BackendTestEmailTemplate:checkAvailable}
+
+mycp_test_accommodation_notification_rt:
+    pattern:  /accommodation-notification
+    defaults: { _controller: mycpBundle:BackendTestEmailTemplate:accommodationNotification}

@@ -263,6 +263,15 @@ class BackendTestEmailTemplateController extends Controller {
         ));
     }
 
+    public function accommodationNotificationAction() {
+        $em = $this->getDoctrine()->getEntityManager();
+        $ownerships = $em->getRepository('mycpBundle:ownership')->getNotSendedToReservationTeam();
+
+        return $this->render('FrontEndBundle:mails:rt_accommodation_notification.html.twig', array(
+                    'ownerships' => $ownerships
+        ));
+    }
+
     public function cartFullReminderAction($langCode) {
         $em = $this->getDoctrine()->getEntityManager();
         $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array());
