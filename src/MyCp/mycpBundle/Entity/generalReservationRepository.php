@@ -244,9 +244,17 @@ class generalReservationRepository extends EntityRepository {
                         ->getArrayResult();
     }
 
-    function get_reservations_by_user($id_user) {
+    function get_reservations_by_user($id_user, $ownId = null) {
         $em = $this->getEntityManager();
-        $query = $em->createQuery("SELECT gre,
+
+        $whereOwn = "";
+
+        if($ownId != null)
+        {
+            $whereOwn = " AND ow.own_id= $ownId ";
+        }
+
+        $queryString = "SELECT gre,
             (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id) AS rooms,
             (SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id) AS adults,
             (SELECT SUM(owres3.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id) AS childrens,
@@ -254,8 +262,10 @@ class generalReservationRepository extends EntityRepository {
             FROM mycpBundle:generalReservation gre
             JOIN gre.gen_res_own_id ow
             JOIN gre.gen_res_user_id us
-            WHERE us.user_id = :user_id
-            ORDER BY gre.gen_res_id DESC");
+            WHERE us.user_id = :user_id $whereOwn
+            ORDER BY gre.gen_res_id DESC";
+
+        $query = $em->createQuery($queryString);
         return $query->setParameter('user_id', $id_user)->getArrayResult();
     }
 

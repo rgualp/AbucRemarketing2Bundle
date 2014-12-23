@@ -216,4 +216,70 @@ class LodgingReservationController extends Controller {
         ));
     }
 
+    public function detailsClientReservationAction($id_client, Request $request) {
+
+        //$service_security= $this->get('Secure');
+        //$service_security->verifyAccess();
+        //$service_log= $this->get('log');
+        //$service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
+
+        $service_time = $this->get('time');
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $client = $em->getRepository('mycpBundle:user')->find($id_client);
+        $user = $this->get('security.context')->getToken()->getUser();
+        $userCasa = $em->getRepository('mycpBundle:userCasa')->get_user_casa_by_user_id($user->getUserId());
+        $reservations = $em->getRepository('mycpBundle:generalReservation')->get_reservations_by_user($id_client, $userCasa->getUserCasaOwnership()->getOwnId());
+        $price = 0;
+        $total_nights = array();
+
+        $service_time = $this->get('time');
+        foreach ($reservations as $reservation) {
+            $temp_total_nights = 0;
+            $owns_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $reservation[0]['gen_res_id']));
+
+            foreach ($owns_res as $own) {
+                $array_dates = $service_time->datesBetween($own->getOwnResReservationFromDate()->getTimestamp(), $own->getOwnResReservationToDate()->getTimestamp());
+                $temp_total_nights+=count($array_dates) - 1;
+            }
+            array_push($total_nights, $temp_total_nights);
+        }
+        return $this->render('mycpBundle:reservation:reservationDetailsClientReadonly.html.twig', array(
+                    'total_nights' => $total_nights,
+                    'reservations' => $reservations,
+                    'client' => $client,
+                    'errors' => ''
+        ));
+    }
+
+    public function detailsReservationPartialAction($id_reservation) {
+        $em = $this->getDoctrine()->getEntityManager();
+        $reservation = new generalReservation();
+        $reservation = $em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
+        $ownership_reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $id_reservation));
+
+        $service_time = $this->get('time');
+
+        $user = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $reservation->getGenResUserId()));
+
+        $rooms = array();
+        $total_nights = array();
+        foreach ($ownership_reservations as $res) {
+            array_push($rooms, $em->getRepository('mycpBundle:room')->find($res->getOwnResSelectedRoomId()));
+            $temp_total_nights = 0;
+            $array_dates = $service_time->datesBetween($res->getOwnResReservationFromDate()->getTimestamp(), $res->getOwnResReservationToDate()->getTimestamp());
+            $temp_total_nights+=count($array_dates) - 1;
+
+            array_push($total_nights, $temp_total_nights);
+        }
+
+        return $this->render('mycpBundle:reservation:reservationDetailsPartial.html.twig', array(
+                    'nights' => $total_nights,
+                    'reservation' => $reservation,
+                    'user' => $user,
+                    'reservations' => $ownership_reservations,
+                    'rooms' => $rooms,
+                    'id_reservation' => $id_reservation
+        ));
+    }
 }

@@ -14,7 +14,11 @@ update ownership
 
 /*Permissions for new routes in Lodging Module*/
 insert into permission(perm_description, perm_category, perm_route)
-values ('Reservaciones - Clientes', 'Módulo Casa', 'mycp_list_readonly_reservations_user');
+values ('Reservaciones - Clientes', 'Módulo Casa', 'mycp_list_readonly_reservations_user'),
+('Reservaciones - Detalle Clientes', 'Módulo Casa', 'mycp_details_readonly_client_reservation'),
+('Clientes - Detalle de una reservación', 'Módulo Casa', 'mycp_details_readonly_reservation_partial');
 
 insert rolepermission (rp_role, rp_permission)
-values ((select max(role_id) from role where role_name = 'ROLE_CLIENT_CASA'), (select max(perm_id) from permission where perm_route = 'mycp_list_readonly_reservations_user'));
+values ((select max(role_id) from role where role_name = 'ROLE_CLIENT_CASA'), (select max(perm_id) from permission where perm_route = 'mycp_list_readonly_reservations_user')),
+((select max(role_id) from role where role_name = 'ROLE_CLIENT_CASA'), (select max(perm_id) from permission where perm_route = 'mycp_details_readonly_client_reservation')),
+((select max(role_id) from role where role_name = 'ROLE_CLIENT_CASA'), (select max(perm_id) from permission where perm_route = 'mycp_details_readonly_reservation_partial'));

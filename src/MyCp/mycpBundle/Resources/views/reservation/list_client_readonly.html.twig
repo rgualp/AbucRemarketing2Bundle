@@ -2,7 +2,7 @@
 {% block title %}Administración{% endblock %}
 {% block top_body %}
 <ul class="breadcrumb">
-    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{path('mycp_lodging_front')}}">Administración</a> <span class="divider">/</span></li>
     <li class="active">Reservas</li>
 </ul>
 {% endblock %}
@@ -123,7 +123,7 @@
                     <td>{{ languages[flag]}}</td>
                     <td>{{ reservation['total_reserves'] }}</td>
                     <td style="text-align: right">
-                        <a class="btn btn-mini" href="{{ path('mycp_details_client_reservation',{'id_client':reservation['user_id']}) }}">Detalles</a>
+                        <a class="btn btn-mini" href="{{ path('mycp_details_readonly_client_reservation',{'id_client':reservation['user_id']}) }}">Detalles</a>
                     </td>
                 </tr>
                 {% set flag = flag + 1%}
