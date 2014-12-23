@@ -180,8 +180,8 @@ class generalReservationRepository extends EntityRepository {
 
         if($ownId != null)
         {
-            $whereOwn = " AND own.own_id = $ownId";
-            $countReservations = " AND g.gen_res_own_id = $ownId";
+            $whereOwn = " AND own.own_id = $ownId AND (gre.gen_res_status = ".generalReservation::STATUS_RESERVED. " OR gre.gen_res_status = ".generalReservation::STATUS_PARTIAL_RESERVED.")";
+            $countReservations = " AND g.gen_res_own_id = $ownId AND (g.gen_res_status = ".generalReservation::STATUS_RESERVED. " OR g.gen_res_status = ".generalReservation::STATUS_PARTIAL_RESERVED.")";
         }
 
         $em = $this->getEntityManager();
