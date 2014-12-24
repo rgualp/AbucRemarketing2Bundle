@@ -3,38 +3,124 @@
 {% block top_body %}
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
-    <li class="active">Testings</li>
+    <li class="active">Plantillas de correo</li>
 </ul>
 {% endblock %}
 {% block content %}
-<h2>Testings</h2>
+<h2>Plantillas de correo</h2>
 <hr/>
 
-<h4>Plantillas de correo</h4>
-<a href="{{path("mycp_test_accommodation_still_available", {'langCode':'es'})}}">Inquiry/Availability - Accommodation still available  - Español</a><br/>
-<a href="{{path("mycp_test_accommodation_still_available", {'langCode':'en'})}}">Inquiry/Availability - Accommodation still available  - Inglés</a><br/>
-<a href="{{path("mycp_test_accommodation_still_available", {'langCode':'de'})}}">Inquiry/Availability - Accommodation still available  - Alemán</a><br/>
-<br/>
-<a href="{{path("mycp_test_lastChanceToBook", {'langCode':'es'})}}">Inquiry/Availability - Last chance to book - Español</a><br/>
-<a href="{{path("mycp_test_lastChanceToBook", {'langCode':'en'})}}">Inquiry/Availability - Last chance to book - Inglés</a><br/>
-<a href="{{path("mycp_test_lastChanceToBook", {'langCode':'de'})}}">Inquiry/Availability - Last chance to book - Alemán</a><br/>
-<br/>
-<a href="{{path("mycp_test_not_available", {'langCode':'es'})}}">Inquiry/Availability - Sorry, Not available anymore! - Español</a><br/>
-<a href="{{path("mycp_test_not_available", {'langCode':'en'})}}">Inquiry/Availability - Sorry, Not available anymore! - Inglés</a><br/>
-<a href="{{path("mycp_test_not_available", {'langCode':'de'})}}">Inquiry/Availability - Sorry, Not available anymore! - Alemán</a><br/>
-<br/>
-<a href="{{path("mycp_test_activate_user_account", {'langCode':'es'})}}">Log In/Setup Account - Activate your account - Español</a><br/>
-<a href="{{path("mycp_test_activate_user_account", {'langCode':'en'})}}">Log In/Setup Account - Activate your account - Inglés</a><br/>
-<a href="{{path("mycp_test_activate_user_account", {'langCode':'de'})}}">Log In/Setup Account - Activate your account - Alemán</a><br/>
-<br/>
-<a href="{{path("mycp_test_activate_user_reminder_account", {'langCode':'es'})}}">Log In/Setup Account - Activate your account (reminder) - Español</a><br/>
-<a href="{{path("mycp_test_activate_user_reminder_account", {'langCode':'en'})}}">Log In/Setup Account - Activate your account (reminder) - Inglés</a><br/>
-<a href="{{path("mycp_test_activate_user_reminder_account", {'langCode':'de'})}}">Log In/Setup Account - Activate your account (reminder) - Alemán</a><br/>
-<br/>
-<a href="{{path("mycp_test_activate_user_last_reminder_account", {'langCode':'es'})}}">Log In/Setup Account - Not activated yet/Having any trouble? - Español</a><br/>
-<a href="{{path("mycp_test_activate_user_last_reminder_account", {'langCode':'en'})}}">Log In/Setup Account - Not activated yet/Having any trouble? - Inglés</a><br/>
-<a href="{{path("mycp_test_activate_user_last_reminder_account", {'langCode':'de'})}}">Log In/Setup Account - Not activated yet/Having any trouble? - Alemán</a><br/>
+<form id="form" method="post" action="">
+    <div class="row-fluid"><b>Correo: </b>
+        <input type="text" name="tEmail" id="tEmail"/>
+    </div>
+</form>
+<div class="row-fluid">
+<a href="{{path("mycp_test_accommodation_still_available", {'langCode':'es'})}}">Inquiry/Availability - Accommodation still available  - Español</a>
+<button class="btn btn-primary bAction" data-url="{{path("mycp_test_accommodation_still_available_send", {'langCode':'es', 'newMethod':0})}}">Método Anterior</button>
+<button class="btn btn-success bAction" data-url="{{path("mycp_test_accommodation_still_available_send", {'langCode':'es', 'newMethod':1})}}">Método actual</button>
+</div><br/>
+<div class="row-fluid">
+<a href="{{path("mycp_test_accommodation_still_available", {'langCode':'en'})}}">Inquiry/Availability - Accommodation still available  - Inglés</a>
+<button class="btn btn-primary bAction" data-url="{{path("mycp_test_accommodation_still_available_send", {'langCode':'en', 'newMethod':0})}}">Método Anterior</button>
+<button class="btn btn-success bAction" data-url="{{path("mycp_test_accommodation_still_available_send", {'langCode':'en', 'newMethod':1})}}">Método actual</button>
+</div><br/>
+<div class="row-fluid">
+<a href="{{path("mycp_test_accommodation_still_available", {'langCode':'de'})}}">Inquiry/Availability - Accommodation still available  - Alemán</a>
+<button class="btn btn-primary bAction" data-url="{{path("mycp_test_accommodation_still_available_send", {'langCode':'de', 'newMethod':0})}}">Método Anterior</button>
+<button class="btn btn-success bAction" data-url="{{path("mycp_test_accommodation_still_available_send", {'langCode':'de', 'newMethod':1})}}">Método actual</button>
+</div>
+<hr/>
+<div class="row-fluid">
+<a href="{{path("mycp_test_lastChanceToBook", {'langCode':'es'})}}">Inquiry/Availability - Last chance to book - Español</a>
+<button class="btn btn-primary bAction" data-url="{{path("mycp_test_lastChanceToBook_send", {'langCode':'en', 'newMethod':0})}}">Método Anterior</button>
+<button class="btn btn-success bAction" data-url="{{path("mycp_test_lastChanceToBook_send", {'langCode':'en', 'newMethod':1})}}">Método actual</button>
+</div><br/>
+<div class="row-fluid">
+<a href="{{path("mycp_test_lastChanceToBook", {'langCode':'en'})}}">Inquiry/Availability - Last chance to book - Inglés</a>
+<button class="btn btn-primary bAction" data-url="{{path("mycp_test_lastChanceToBook_send", {'langCode':'en', 'newMethod':0})}}">Método Anterior</button>
+<button class="btn btn-success bAction" data-url="{{path("mycp_test_lastChanceToBook_send", {'langCode':'en', 'newMethod':1})}}">Método actual</button>
+</div><br/>
+<div class="row-fluid">
+<a href="{{path("mycp_test_lastChanceToBook", {'langCode':'de'})}}">Inquiry/Availability - Last chance to book - Alemán</a>
+<button class="btn btn-primary bAction" data-url="{{path("mycp_test_lastChanceToBook_send", {'langCode':'en', 'newMethod':0})}}">Método Anterior</button>
+<button class="btn btn-success bAction" data-url="{{path("mycp_test_lastChanceToBook_send", {'langCode':'en', 'newMethod':1})}}">Método actual</button>
+</div><br/>
+<hr/>
+<div class="row-fluid">
+<a href="{{path("mycp_test_not_available", {'langCode':'es'})}}">Inquiry/Availability - Sorry, Not available anymore! - Español</a>
+<button class="btn btn-primary bAction" data-url="{{path("mycp_test_not_available_send", {'langCode':'en', 'newMethod':0})}}">Método Anterior</button>
+<button class="btn btn-success bAction" data-url="{{path("mycp_test_not_available_send", {'langCode':'en', 'newMethod':1})}}">Método actual</button>
+</div><br/>
+<div class="row-fluid">
+<a href="{{path("mycp_test_not_available", {'langCode':'en'})}}">Inquiry/Availability - Sorry, Not available anymore! - Inglés</a>
+<button class="btn btn-primary bAction" data-url="{{path("mycp_test_not_available_send", {'langCode':'en', 'newMethod':0})}}">Método Anterior</button>
+<button class="btn btn-success bAction" data-url="{{path("mycp_test_not_available_send", {'langCode':'en', 'newMethod':1})}}">Método actual</button>
+</div><br/>
+<div class="row-fluid">
+<a href="{{path("mycp_test_not_available", {'langCode':'de'})}}">Inquiry/Availability - Sorry, Not available anymore! - Alemán</a>
+<button class="btn btn-primary bAction" data-url="{{path("mycp_test_not_available_send", {'langCode':'en', 'newMethod':0})}}">Método Anterior</button>
+<button class="btn btn-success bAction" data-url="{{path("mycp_test_not_available_send", {'langCode':'en', 'newMethod':1})}}">Método actual</button>
+</div><br/>
+<hr/>
+<div class="row-fluid">
+<a href="{{path("mycp_test_activate_user_account", {'langCode':'es'})}}">Log In/Setup Account - Activate your account - Español</a>
+<button class="btn btn-primary bAction" data-url="{{path("mycp_test_activate_user_account_send", {'langCode':'en', 'newMethod':0})}}">Método Anterior</button>
+<button class="btn btn-success bAction" data-url="{{path("mycp_test_activate_user_account_send", {'langCode':'en', 'newMethod':1})}}">Método actual</button>
+</div><br/>
+<div class="row-fluid">
+<a href="{{path("mycp_test_activate_user_account", {'langCode':'en'})}}">Log In/Setup Account - Activate your account - Inglés</a>
+<button class="btn btn-primary bAction" data-url="{{path("mycp_test_activate_user_account_send", {'langCode':'en', 'newMethod':0})}}">Método Anterior</button>
+<button class="btn btn-success bAction" data-url="{{path("mycp_test_activate_user_account_send", {'langCode':'en', 'newMethod':1})}}">Método actual</button>
+</div><br/>
+<div class="row-fluid">
+<a href="{{path("mycp_test_activate_user_account", {'langCode':'de'})}}">Log In/Setup Account - Activate your account - Alemán</a>
+<button class="btn btn-primary bAction" data-url="{{path("mycp_test_activate_user_account_send", {'langCode':'en', 'newMethod':0})}}">Método Anterior</button>
+<button class="btn btn-success bAction" data-url="{{path("mycp_test_activate_user_account_send", {'langCode':'en', 'newMethod':1})}}">Método actual</button>
+</div><br/>
+<hr/>
+<div class="row-fluid">
+<a href="{{path("mycp_test_activate_user_reminder_account", {'langCode':'es'})}}">Log In/Setup Account - Activate your account (reminder) - Español</a>
+<button class="btn btn-primary bAction" data-url="{{path("mycp_test_activate_user_reminder_account_send", {'langCode':'en', 'newMethod':0})}}">Método Anterior</button>
+<button class="btn btn-success bAction" data-url="{{path("mycp_test_activate_user_reminder_account_send", {'langCode':'en', 'newMethod':1})}}">Método actual</button>
+</div><br/>
+<div class="row-fluid">
+<a href="{{path("mycp_test_activate_user_reminder_account", {'langCode':'en'})}}">Log In/Setup Account - Activate your account (reminder) - Inglés</a>
+<button class="btn btn-primary bAction" data-url="{{path("mycp_test_activate_user_reminder_account_send", {'langCode':'en', 'newMethod':0})}}">Método Anterior</button>
+<button class="btn btn-success bAction" data-url="{{path("mycp_test_activate_user_reminder_account_send", {'langCode':'en', 'newMethod':1})}}">Método actual</button>
+</div><br/>
+<div class="row-fluid">
+<a href="{{path("mycp_test_activate_user_reminder_account", {'langCode':'de'})}}">Log In/Setup Account - Activate your account (reminder) - Alemán</a>
+<button class="btn btn-primary bAction" data-url="{{path("mycp_test_activate_user_reminder_account_send", {'langCode':'en', 'newMethod':0})}}">Método Anterior</button>
+<button class="btn btn-success bAction" data-url="{{path("mycp_test_activate_user_reminder_account_send", {'langCode':'en', 'newMethod':1})}}">Método actual</button>
+</div><br/>
+<hr/>
+<div class="row-fluid">
+<a href="{{path("mycp_test_activate_user_last_reminder_account", {'langCode':'es'})}}">Log In/Setup Account - Not activated yet/Having any trouble? - Español</a>
+<button class="btn btn-primary bAction" data-url="{{path("mycp_test_activate_user_last_reminder_account_send", {'langCode':'en', 'newMethod':0})}}">Método Anterior</button>
+<button class="btn btn-success bAction" data-url="{{path("mycp_test_activate_user_last_reminder_account_send", {'langCode':'en', 'newMethod':1})}}">Método actual</button>
+</div><br/>
+<div class="row-fluid">
+<a href="{{path("mycp_test_activate_user_last_reminder_account", {'langCode':'en'})}}">Log In/Setup Account - Not activated yet/Having any trouble? - Inglés</a>
+<button class="btn btn-primary bAction" data-url="{{path("mycp_test_activate_user_last_reminder_account_send", {'langCode':'en', 'newMethod':0})}}">Método Anterior</button>
+<button class="btn btn-success bAction" data-url="{{path("mycp_test_activate_user_last_reminder_account_send", {'langCode':'en', 'newMethod':1})}}">Método actual</button>
+</div><br/>
+<div class="row-fluid">
+<a href="{{path("mycp_test_activate_user_last_reminder_account", {'langCode':'de'})}}">Log In/Setup Account - Not activated yet/Having any trouble? - Alemán</a>
+<button class="btn btn-primary bAction" data-url="{{path("mycp_test_activate_user_last_reminder_account_send", {'langCode':'en', 'newMethod':0})}}">Método Anterior</button>
+<button class="btn btn-success bAction" data-url="{{path("mycp_test_activate_user_last_reminder_account_send", {'langCode':'en', 'newMethod':1})}}">Método actual</button>
+</div><br/>
 {% endblock %}
 {% block javascripts %}
 <script type="text/javascript" src="{{ asset('bundles/mycp/js/common_list.js') }}"></script>
+
+<script type="text/javascript">
+    $(".bAction").click(function(){
+        url = $(this).attr("data-url");
+        mail = $("#tEmail").val();
+        url=url+'/'+mail;
+        $('#form').attr('action',url);
+        $('#form').submit();
+    });
+</script>
 {% endblock %}
