@@ -6,30 +6,54 @@ mycp_test_lastChanceToBook:
     pattern:  /last-chance-to-book/{langCode}
     defaults: { _controller: mycpBundle:BackendTestEmailTemplate:lastChanceToBook}
 
+mycp_test_lastChanceToBook_send:
+    pattern:  /last-chance-to-book-send/{langCode}/{newMethod}/{mail}
+    defaults: { _controller: mycpBundle:BackendTestEmailTemplate:lastChanceToBookSend, mail:null}
+
 mycp_test_accommodation_still_available:
     pattern:  /accommodation-still-available/{langCode}
     defaults: { _controller: mycpBundle:BackendTestEmailTemplate:accommodationStillAvailable}
+
+mycp_test_accommodation_still_available_send:
+    pattern:  /accommodation-still-available-send/{langCode}/{newMethod}/{mail}
+    defaults: { _controller: mycpBundle:BackendTestEmailTemplate:accommodationStillAvailableSend, mail:null}
 
 mycp_test_not_available:
     pattern:  /not-available/{langCode}
     defaults: { _controller: mycpBundle:BackendTestEmailTemplate:notAvailable}
 
+mycp_test_not_available_send:
+    pattern:  /not-available-send/{langCode}/{newMethod}/{mail}
+    defaults: { _controller: mycpBundle:BackendTestEmailTemplate:notAvailableSend, mail:null}
+
 mycp_test_activate_user_reminder_account:
     pattern:  /activate-account-reminder/{langCode}
     defaults: { _controller: mycpBundle:BackendTestEmailTemplate:activateAccountReminder}
+
+mycp_test_activate_user_reminder_account_send:
+    pattern:  /activate-account-reminder-send/{langCode}/{newMethod}/{mail}
+    defaults: { _controller: mycpBundle:BackendTestEmailTemplate:activateAccountReminderSend, mail:null}
 
 mycp_test_activate_user_account:
     pattern:  /activate-account/{langCode}
     defaults: { _controller: mycpBundle:BackendTestEmailTemplate:activateAccount}
 
+mycp_test_activate_user_account_send:
+    pattern:  /activate-account-send/{langCode}/{newMethod}/{mail}
+    defaults: { _controller: mycpBundle:BackendTestEmailTemplate:activateAccountSend, mail:null}
+
 mycp_test_activate_user_last_reminder_account:
     pattern:  /activate-account-last-reminder/{langCode}
     defaults: { _controller: mycpBundle:BackendTestEmailTemplate:activateAccountLastReminder}
 
+mycp_test_activate_user_last_reminder_account_send:
+    pattern:  /activate-account-last-reminder-send/{langCode}/{newMethod}/{mail}
+    defaults: { _controller: mycpBundle:BackendTestEmailTemplate:activateAccountLastReminderSend, mail:null}
+    
 mycp_test_cart_full_reminder:
     pattern:  /cart-full-reminder/{langCode}
     defaults: { _controller: mycpBundle:BackendTestEmailTemplate:cartFullReminder}
-    
+
 mycp_test_feedback_reminder:
     pattern:  /feedback-reminder/{langCode}
     defaults: { _controller: mycpBundle:BackendTestEmailTemplate:feedbackReminder}
