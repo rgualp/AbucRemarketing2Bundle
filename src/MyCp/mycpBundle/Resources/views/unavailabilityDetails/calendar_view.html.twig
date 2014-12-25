@@ -12,34 +12,28 @@
     </ul>
 {% endblock %}
 {% block content %}
-<h2>Disponibilidad</h2>
-<hr/>
-    <form id="newUDForm" method="POST">
-        <div class="row-fluid well span10">
-            <div class="span3">
-                <select class="input-block-level" name="ownership_id" id="ownership_id" {% if data['ownership'] is defined%} disabled="disabled" {% endif %}/>
-                    {{ render(controller('mycpBundle:BackendReservation:get_ownerships', {'data': data})) }}
-                </select>
-            </div>
-            <div class="span3">
-                <select class="input-block-level form-control" name="room_id" id="room_id" />
-                    {% if data['ownership'] is defined%}
-                        {{ render(controller('mycpBundle:BackendReservation:get_rooms_by_ownership', {'id_ownership': data['ownership'], 'selected_room':'0'})) }}
-                    {% endif %}
-                </select>
-            </div>
-            <div class="span3">
-                <a class="btn" href="javascript:go_to_form()"><i class="icon-plus"></i> Adicionar Detalle</a>
-            </div>
-            <div id="loading" class="span3">
+    <div class="row-fluid">
+        <div class="span3"><h2>Disponibilidad</h2></div>
+        <div id="loading" class="span9">
                 <img src="{{ asset('bundles/mycp/images/ajax-loader-7.gif') }}">
             </div>
-        </div>
-    </form>
+    </div>
+
+
+<hr/>
 
     <div id="calendar-div" class="row-fluid">
-        <div id='calendar' class="span10"></div>
+        <div class="span8">
+        <div id='calendar' class="row_fluid"></div>
+        <div class="row_fluid" style="text-align: right;padding-top: 3px">
+        <div style="text-align: center; width:100px; display:inline;" class="badge badge-success">No disponible</div>
+        <div style="text-align: center; width:100px; display:inline;" class="badge badge-important">Reservada MyCP</div>
+        <div style="text-align: center; width:120px; display:inline;" class="badge badge-info">Cancelada por cliente</div>
     </div>
+        </div>
+        <div class="span4">Editor</div>
+    </div>
+
 
 
     <div class="modal hide fade" id="modal-warning">
