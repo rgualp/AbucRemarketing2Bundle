@@ -35,6 +35,16 @@
         <h4>Gestionar disponibilidad</h4>
         <form class="sfgen" {{form_enctype(form)}} method="POST" action="" novalidate="true">
         {{form_widget(form)}}
+          <div class="row-fluid">
+              <label class="required">Estado</label>
+              <select name="status" id="status" style="width:100%" required="required">
+                  <option></option>
+                  <option value="0" {% if edit_detail is defined %}selected="true"{%endif%}>No disponible</option>
+                  {% if edit_detail is defined %}
+                  <option value="1">Disponible</option>
+                  {%endif%}
+              </select>
+          </div>
         <div>
           <button class="btn btn-primary" type="submit">Guardar</button>
           <a class="btn" href="{{path('mycp_lodging_unavailabilityDetails_calendar')}}">Cancelar</a>

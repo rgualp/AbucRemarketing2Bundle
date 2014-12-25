@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use MyCp\mycpBundle\Entity\unavailabilityDetails;
-use MyCp\mycpBundle\Form\unavailabilityDetailsType;
+use MyCp\mycpBundle\Form\lodgingUnavailabilityDetailsType;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
 use MyCp\mycpBundle\Helpers\Dates;
@@ -53,16 +53,15 @@ class LodgingUnavailabilityDetailsController extends Controller
         $em = $this->getDoctrine()->getManager();
         $user = $this->get('security.context')->getToken()->getUser();
         $data = array();
-        if($user->getUserRole()=='ROLE_CLIENT_CASA')
-        {
-            $user_casa = $em->getRepository('mycpBundle:userCasa')->get_user_casa_by_user_id($user->getUserId());
-            $data['ownership'] = $user_casa->getUserCasaOwnership()->getOwnId();
-        }
+        $user_casa = $em->getRepository('mycpBundle:userCasa')->get_user_casa_by_user_id($user->getUserId());
+        $data['ownership'] = $user_casa->getUserCasaOwnership()->getOwnId();
+        $rooms = $em->getRepository("mycpBundle:room")->findBy(array("room_ownership" => $data["ownership"]));
+
 
         $data["today"] = new \DateTime();
 
         $uDetails = new unavailabilityDetails();
-        $form = $this->createForm(new unavailabilityDetailsType, $uDetails);
+        $form = $this->createForm(new lodgingUnavailabilityDetailsType($rooms), $uDetails);
 
         return $this->render('mycpBundle:unavailabilityDetails:calendar_view.html.twig', array('data'=>$data, 'form' => $form->createView()));
     }
@@ -77,7 +76,7 @@ class LodgingUnavailabilityDetailsController extends Controller
         $num_room = $room->getRoomNum();
 
         $uDetails = new unavailabilityDetails();
-        $form = $this->createForm(new unavailabilityDetailsType, $uDetails);
+        $form = $this->createForm(new lodgingUnavailabilityDetailsType, $uDetails);
         if ($request->getMethod() == 'POST') {
             $post_form = $request->get('mycp_mycpbundle_unavailabilitydetailstype');
             $form->handleRequest($request);
@@ -126,7 +125,7 @@ class LodgingUnavailabilityDetailsController extends Controller
         $num_room = $room->getRoomNum();
         $ownership = $room->getRoomOwnership();
 
-        $form = $this->createForm(new unavailabilityDetailsType, $uDetails);
+        $form = $this->createForm(new lodgingUnavailabilityDetailsType, $uDetails);
         if ($request->getMethod() == 'POST') {
             $post_form = $request->get('mycp_mycpbundle_unavailabilitydetailstype');
             $form->handleRequest($request);
