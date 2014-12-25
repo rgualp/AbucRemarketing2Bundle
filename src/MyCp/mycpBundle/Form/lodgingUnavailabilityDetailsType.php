@@ -24,9 +24,9 @@ class lodgingUnavailabilityDetailsType extends AbstractType
 
 
         $builder
-            ->add('room','choice',array('choices'=>$array_rooms,'empty_value' => '','label'=>'Habitación:','attr'=>array('class'=>'input-block-level selected_room')))
-            ->add('ud_from_date',null,array('widget'=>'single_text','format'=>'dd/MM/yyyy', 'label'=>'Desde (dia/mes/año - dd/mm/yyyy):', 'attr'=>array('class'=>'input-block-level datepicker-from')))
-            ->add('ud_to_date',null,array('widget'=>'single_text','format'=>'dd/MM/yyyy','label'=>'Hasta (dia/mes/año - dd/mm/yyyy):','attr'=>array('class'=>'input-block-level datepicker-to')))
+            ->add('room','choice',array('choices'=>$array_rooms,'empty_value' => '','label'=>'Habitación (*):','attr'=>array('class'=>'input-block-level selected_room')))
+            ->add('ud_from_date',null,array('widget'=>'single_text','format'=>'dd/MM/yyyy', 'label'=>'Desde (dia/mes/año - dd/mm/yyyy) (*):', 'attr'=>array('class'=>'input-block-level datepicker-from')))
+            ->add('ud_to_date',null,array('widget'=>'single_text','format'=>'dd/MM/yyyy','label'=>'Hasta (dia/mes/año - dd/mm/yyyy) (*):','attr'=>array('class'=>'input-block-level datepicker-to')))
            // ->add('ud_reason',null,array('label'=>'Motivo','attr'=>array('class'=>'input-block-level')))
         ;
 

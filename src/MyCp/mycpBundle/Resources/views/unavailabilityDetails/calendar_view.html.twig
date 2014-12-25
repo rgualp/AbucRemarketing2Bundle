@@ -33,10 +33,13 @@
         </div>
         <div class="span4">
         <h4>Gestionar disponibilidad</h4>
-        <form class="sfgen" {{form_enctype(form)}} method="POST" action="" novalidate="true">
+        {%if hasError%}
+        <label class="error">Los campos marcados con (*) son obligatorios</label>
+        {%endif%}
+        <form class="sfgen" {{form_enctype(form)}} method="POST" action="{% if edit_detail is defined %}{{path('mycp_lodging_edit_unavailabilityDetails',{'id_detail':edit_detail})}}{% else %}{{path('mycp_lodging_unavailabilityDetails_calendar')}}{% endif %}" novalidate="true">
         {{form_widget(form)}}
           <div class="row-fluid">
-              <label class="required">Estado</label>
+              <label class="required">Estado (*)</label>
               <select name="status" id="status" style="width:100%" required="required">
                   <option></option>
                   <option value="0" {% if edit_detail is defined %}selected="true"{%endif%}>No disponible</option>

@@ -62,8 +62,45 @@ class LodgingUnavailabilityDetailsController extends Controller
 
         $uDetails = new unavailabilityDetails();
         $form = $this->createForm(new lodgingUnavailabilityDetailsType($rooms), $uDetails);
+        $hasError = false;
+        if ($request->getMethod() == 'POST') {
+            $post_form = $request->get('mycp_mycpbundle_unavailabilitydetailstype');
+            $form->handleRequest($request);
+            if ($form->isValid() && $post_form['ud_from_date'] != "" && $post_form["ud_to_date"] != "" &&
+                    $post_form["room"] != "" && $request->get("status") != "") {
+                $date_from = Dates::createFromString($post_form['ud_from_date']);
+                $date_to = Dates::createFromString($post_form['ud_to_date']);
+                $room = $em->getRepository('mycpBundle:room')->find($post_form['room']);
 
-        return $this->render('mycpBundle:unavailabilityDetails:calendar_view.html.twig', array('data'=>$data, 'form' => $form->createView()));
+                if($date_from > $date_to)
+                {
+                    $this->get('session')->getFlashBag()->add('message_error_main', "La fecha Desde tiene que ser menor o igual que la fecha Hasta");
+                }
+                else{
+                    $uDetails->setUdFromDate($date_from)
+                        ->setUdToDate($date_to)
+                        ->setUdReason("No disponibilidad colocada por el cliente mediante el módulo casa")
+                        ->setRoom($room);
+                    $em->persist($uDetails);
+                    $em->flush();
+                    $message = 'Detalle de no disponibilidad añadido satisfactoriamente';
+                    $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+                    $service_log = $this->get('log');
+                    $service_log->saveLog('Create unavailable detaile from ' . $post_form['ud_from_date'] . ' to ' . $post_form['ud_to_date'], BackendModuleName::MODULE_UNAVAILABILITY_DETAILS);
+
+                    return $this->redirect($this->generateUrl('mycp_lodging_unavailabilityDetails_calendar'));
+                }
+            }
+            else
+            {
+                $hasError = true;
+            }
+        }
+
+        return $this->render('mycpBundle:unavailabilityDetails:calendar_view.html.twig', array('data'=>$data,
+            "hasError" => $hasError,
+            'form' => $form->createView()));
     }
 
     public function newAction($id_room, Request $request) {
