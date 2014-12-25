@@ -60,7 +60,11 @@ class LodgingUnavailabilityDetailsController extends Controller
         }
 
         $data["today"] = new \DateTime();
-        return $this->render('mycpBundle:unavailabilityDetails:calendar_view.html.twig', array('data'=>$data));
+
+        $uDetails = new unavailabilityDetails();
+        $form = $this->createForm(new unavailabilityDetailsType, $uDetails);
+
+        return $this->render('mycpBundle:unavailabilityDetails:calendar_view.html.twig', array('data'=>$data, 'form' => $form->createView()));
     }
 
     public function newAction($id_room, Request $request) {
