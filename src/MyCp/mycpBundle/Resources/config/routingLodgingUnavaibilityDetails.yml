@@ -16,5 +16,5 @@ mycp_lodging_delete_unavailabilityDetails:
     defaults: { _controller: mycpBundle:LodgingUnavailabilityDetails:delete }
 
 mycp_lodging_unavailabilityDetails_calendar:
-    pattern:   /calendar
-    defaults: { _controller: mycpBundle:LodgingUnavailabilityDetails:get_calendar}
+    pattern:   /calendar/{edit_detail}
+    defaults: { _controller: mycpBundle:LodgingUnavailabilityDetails:get_calendar, edit_detail:null}

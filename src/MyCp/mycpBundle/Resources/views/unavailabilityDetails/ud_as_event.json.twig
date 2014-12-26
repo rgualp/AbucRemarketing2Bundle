@@ -4,7 +4,7 @@
 {% if it != 0 %},{% endif %}{
 {% set actualDetailId = actualDetail.getId %}
 "title": "Hab. # {{ actualDetail.getRoom.getRoomNum }} - No disponible",
-{% if actualDetail.getUdToDate > now %}"url": "{{ path('mycp_lodging_edit_unavailabilityDetails', {"id_detail":actualDetailId} ) }}",{% endif %}
+{% if actualDetail.getUdToDate > now %}"url": "{{ path('mycp_lodging_unavailabilityDetails_calendar', {"id_detail":actualDetailId} ) }}",{% endif %}
 "start": "{{ actualDetail.getUdFromDate | date("Y-m-d")}}",
 "end": "{{ actualDetail.getUdToDate | date("Y-m-d")}}T23:59:00",
 "color":"#468847",
