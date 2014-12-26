@@ -25,40 +25,30 @@
 </form>
 {% endblock %}
 {% block content %}
-<h2>Detalles de cliente: {{client.getUserUserName}} {{client.getUserLastName}}</h2>
+<h2>Cliente: {{client.getUserUserName}} {{client.getUserLastName}}</h2>
 <hr/>
 {% if errors %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
 <form id="form" action="{{ path('mycp_details_client_reservation',{'id_client':client.getUserId}) }}" method="POST">
     <ul class="nav nav-tabs">
         <li class="active">
-            <a href="#reservas" data-toggle="tab">Info: Client Tourist</a>
+            <a href="#reservas" data-toggle="tab">Información</a>
         </li>
     </ul>
     <table class="table table-striped" style="font-size: 12px;">
         <tr>
-            <td style="width: 20%"><b>Nombre:</b></td>
-            <td>{{client.getUserUserName}} {{client.getUserLastName}}</td>
+            <td><b>Nombre:</b> {{client.getUserUserName}} {{client.getUserLastName}}</td>
+            <td><b>Correo:</b> {{client.getUserEmail}}</td>
+            <td><b>País:</b> {{client.getUserCountry.getCoName}}</td>
         </tr>
         <tr>
-            <td><b>Dirección:</b></td>
-            <td>{{client.getUserAddress}}</td>
-        </tr>
-        <tr>
-            <td><b>Ciudad:</b></td>
-            <td>{{client.getUserCity}}</td>
-        </tr>
-        <tr>
-            <td><b>País:</b></td>
-            <td>{{client.getUserCountry.getCoName}}</td>
-        </tr>
-        <tr>
-            <td><b>Email:</b></td>
-            <td>{{client.getUserEmail}}</td>
+            <td><b>Ciudad:</b> {%if client.getUserCity != null%}{{client.getUserCity}}{%else%}-{%endif%}</td>
+            <td colspan="2"><b>Dirección:</b> {%if client.getUserAddress != null%}{{client.getUserAddress}}{%else%}-{%endif%}</td>
         </tr>
     </table>
+    <div id="tabReservas">
     <ul class="nav nav-tabs reserves">
         <li id="li_res" class="active">
-            <a href="#res" data-toggle="tab">Resumen de reserva de cliente</a>
+            <a href="#res" data-toggle="tab">Reservas</a>
         </li>
 
     </ul>
@@ -69,8 +59,8 @@
                 <tr>
                     <th>No.</th>
                     <th>Fecha</th>
-                    <th>ID Reserva</th>
-                    <th>ID Casa</th>
+                    <th>Reservación</th>
+                    <th>Propiedad</th>
                     <th>Habitaciones</th>
                     <th>Adultos</th>
                     <th>Niños</th>
@@ -109,6 +99,7 @@
         </div>
 
     </div>
+        </div>
 
     <ul class="nav nav-tabs">
         <li class="active">
@@ -166,9 +157,10 @@
             {
                 visibles[count]=tab_name;
                 count++;
-                new_tab='<li id="tab'+res_id+'li" class=""><a href="#'+tab_name_id+'" data-toggle="tab">ID Reserva '+tab_name+'</a></li>';
+                $("#tabReservas .active").removeClass("active");
+                new_tab='<li id="tab'+res_id+'li" class="active"><a href="#'+tab_name_id+'" data-toggle="tab">Reserva '+tab_name+'</a></li>';
                 new_cont=document.createElement("div");
-                new_cont.setAttribute("class","tab-pane");
+                new_cont.setAttribute("class","tab-pane active");
                 new_cont.setAttribute("id",tab_name_id);
                 $(".reserve_details").attr('disabled','disabled');
                 new_cont.innerHTML='<p style="font-size: 12px;">Cargando...<br/><br/></p>';
