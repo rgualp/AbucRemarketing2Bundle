@@ -21,7 +21,7 @@
     &nbsp;&nbsp;&nbsp;
     <button rel="tooltip" title="Enviar por correo la reservación al cliente" {% if reservation.getGenResSaved!=0 %} onclick="send_message();" {% endif %}class="tooltip_msg {% if reservation.getGenResSaved==0 %}disabled{% endif %} btn btn-danger" type="{% if reservation.getGenResSaved!=0 %}submit{% else %}button{% endif %}">Enviar</button>
     <a rel="tooltip" title="Gestionar una nueva oferta para el cliente" href="{{ path('mycp_new_offer_reservation',{ 'id_tourist' :  reservation.getGenResUserId.getUserId,'id_reservation' :  reservation.getGenResId }) }}" class="tooltip_msg btn btn-success">Nueva Oferta</a>
-    
+
     {%if reservation.genResStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED')%}
         <a href="{{ path('mycp_send_voucher_reservation',{ 'id_reservation' :  reservation.getGenResId }) }}" rel="tooltip" title="Enviar el voucher asociado al equipo de reservación" class="tooltip_msg btn btn-warning">Recibir Voucher</a>
     {%endif%}
@@ -29,7 +29,7 @@
 </form>
 {% endblock %}
 {% block content %}
-<h2>Detalles de Reserva ({{ reservation.getGenResOwnId.getOwnMcpCode }} {{ reservation.getGenResOwnId.getOwnName }})</h2>
+<h2>Reserva CAS.{{reservation.genResId}} ({{ reservation.getGenResOwnId.getOwnMcpCode }} {{ reservation.getGenResOwnId.getOwnName }})</h2>
 <hr/>
 {% if errors %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
 <form id="form_edit_reserve" action="{{ path('mycp_details_reservation', { 'id_reservation' : id_reservation } ) }}" method="POST">
@@ -37,62 +37,44 @@
 <div class="span6">
     <ul class="nav nav-tabs">
         <li class="active">
-            <a href="#reservas" data-toggle="tab">Info: Casa</a>
+            <a href="#reservas" data-toggle="tab">Propiedad</a>
         </li>
     </ul>
     <table class="table table-striped " style="font-size: 12px">
         <tr>
-            <td><b>ID Casa:</b></td>
-            <td>{{ reservation.getGenResOwnId.getOwnMcpCode }} {{ reservation.getGenResOwnId.getOwnName }}</td>
+            <td colspan="2"><b>Propiedad: </b>{{ reservation.getGenResOwnId.getOwnMcpCode }} {{ reservation.getGenResOwnId.getOwnName }}</td>
         </tr>
         <tr>
-            <td><b>Tipo de propiedad:</b></td>
-            <td>{{ reservation.getGenResOwnId.getOwnType }}</td>
+            <td><b>Tipo: </b>{{ reservation.getGenResOwnId.getOwnType }}</td>
+            <td><b>Propietario: </b>{{ reservation.getGenResOwnId.getOwnHomeowner1 }}</td>
         </tr>
         <tr>
-            <td><b>Propietario:</b></td>
-            <td>{{ reservation.getGenResOwnId.getOwnHomeowner1 }}</td>
-        </tr>
-        <tr>
-            <td><b>Dirección:</b></td>
-            <td>{{ reservation.getGenResOwnId.getOwnAddressStreet }} {{ reservation.getGenResOwnId.getOwnAddressNumber }} e/ {{ reservation.getGenResOwnId.getOwnAddressBetweenStreet1 }} y {{ reservation.getGenResOwnId.getOwnAddressBetweenStreet2 }} {{ reservation.getGenResOwnId.getOwnAddressMunicipality }}</td>
-        </tr>
-        <tr>
-            <td><b>Teléfono:</b></td>
-            <td>{{ reservation.getGenResOwnId.getOwnPhoneCode }} {{ reservation.getGenResOwnId.getOwnPhoneNumber }}</td>
+            <td><b>Dirección: </b>{{ reservation.getGenResOwnId.getOwnAddressStreet }} {{ reservation.getGenResOwnId.getOwnAddressNumber }} e/ {{ reservation.getGenResOwnId.getOwnAddressBetweenStreet1 }} y {{ reservation.getGenResOwnId.getOwnAddressBetweenStreet2 }} {{ reservation.getGenResOwnId.getOwnAddressMunicipality }}</td>
+            <td><b>Teléfono: </b>{{ reservation.getGenResOwnId.getOwnPhoneCode }} {{ reservation.getGenResOwnId.getOwnPhoneNumber }}</td>
         </tr>
     </table>
 </div>
     <div class="span6">
         <ul class="nav nav-tabs">
             <li class="active">
-                <a href="#reservas" data-toggle="tab">Info: Cliente Tourist</a>
+                <a href="#reservas" data-toggle="tab">Cliente</a>
             </li>
         </ul>
         <table class="table table-striped" style="font-size: 12px">
             <tr>
-                <td><b>Nombre:</b></td>
-                <td colspan="3">{{ reservation.getGenResUserId.getUserUserName }} {{ reservation.getGenResUserId.getUserLastName }}</td>
+                <td><b>Nombre: </b>{{ reservation.getGenResUserId.getUserUserName }} {{ reservation.getGenResUserId.getUserLastName }}</td>
+                <td><b>País: </b>{{ reservation.getGenResUserId.getUserCountry }}</td>
             </tr>
             <tr>
-                <td><b>Dirección:</b></td>
-                <td colspan="3">{{ reservation.getGenResUserId.getUserAddress }}</td>
+                <td><b>Correo: </b>{{ reservation.getGenResUserId.getUserEmail }}</td>
+                <td><b>Ciudad:</b>{{ reservation.getGenResUserId.getUserCity }}</td>
             </tr>
             <tr>
-                <td><b>Ciudad:</b></td>
-                <td>{{ reservation.getGenResUserId.getUserCity }}</td>
-                <td><b>País:</b></td>
-                <td>{{ reservation.getGenResUserId.getUserCountry }}</td>
+                <td><b>Idioma: </b>{{ user[0].getUserTouristLanguage.getLangName }}</td>
+                <td><b>Moneda: </b>{% if user[0].getUserTouristCurrency.getCurrName is defined %}{{ user[0].getUserTouristCurrency.getCurrName }}{% endif %}</td>
             </tr>
             <tr>
-                <td><b>Email:</b></td>
-                <td colspan="3">{{ reservation.getGenResUserId.getUserEmail }}</td>
-            </tr>
-            <tr>
-                <td><b>Idioma:</b></td>
-                <td>{{ user[0].getUserTouristLanguage.getLangName }}</td>
-                <td><b>Moneda:</b></td>
-                <td>{% if user[0].getUserTouristCurrency.getCurrName is defined %}{{ user[0].getUserTouristCurrency.getCurrName }}{% endif %}</td>
+                <td colspan="2"><b>Dirección:</b>{{ reservation.getGenResUserId.getUserAddress }}</td>
             </tr>
         </table>
     </div>
@@ -100,7 +82,7 @@
     <div class="span12">
     <ul class="nav nav-tabs">
         <li class="active">
-            <a href="#reservas" data-toggle="tab">Servicio: Alojamiento</a>
+            <a href="#reservas" data-toggle="tab">Habitaciones reservadas</a>
         </li>
     </ul>
     <table class="table table-striped" style="font-size: 12px">
@@ -225,7 +207,7 @@
     </div>
     <ul class="nav nav-tabs">
         <li class="active">
-            <a href="#reservas" data-toggle="tab">Resumen de Reserva</a>
+            <a href="#reservas" data-toggle="tab">Resumen</a>
         </li>
     </ul>
     <table class="table" style="font-size: 12px;">
