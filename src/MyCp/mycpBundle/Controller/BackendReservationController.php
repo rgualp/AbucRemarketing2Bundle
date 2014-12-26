@@ -259,13 +259,13 @@ class BackendReservationController extends Controller {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
-        $booking = $em->getRepository('mycpBundle:booking')->find($id_booking);
-        $user = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $booking->getBookingUserId()));
+        $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array("booking"=>$id_booking));
+        $user = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $payment->getBooking()->getBookingUserId()));
         $reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking, 'own_res_status' => ownershipReservation::STATUS_RESERVED));
         return $this->render('mycpBundle:reservation:bookingDetails.html.twig', array(
                     'user' => $user,
                     'reservations' => $reservations,
-                    'booking' => $id_booking
+                    'payment' => $payment
         ));
     }
 
