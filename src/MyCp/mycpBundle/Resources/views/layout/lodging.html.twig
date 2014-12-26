@@ -17,6 +17,7 @@
 {% endfor %}
 <div class="row-fluid">
 <div class="span3">
+<div class="row-fluid">
     <div class="accordion" id="accordion2">
         <div class="accordion-group">
             <div class="accordion-heading">
@@ -40,7 +41,8 @@
                 </div>
 
             </div>
-        </div>
+            </div>
+
         <div class="accordion-group">
             <div class="accordion-heading">
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
@@ -68,8 +70,21 @@
                 </div>
             </div>
         </div>
+        {%if block("helpContent") != ""%}
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseHelp">
+                    Ayuda
+                </a>
+            </div>
+                <div id="collapseHelp" class="accordion-body collapse in">
+                    <div class="accordion-inner" style="font-size: 12px;color:#666">{% block helpContent %}{% endblock %}</div>
+                </div>
+            </div>
+        {%endif%}
 
     </div>
+        </div>
 </div>
 <div class="span9">
     {% block content %}

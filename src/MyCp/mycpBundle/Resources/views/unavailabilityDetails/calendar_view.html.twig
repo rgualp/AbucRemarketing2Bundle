@@ -11,6 +11,11 @@
         <li class="active">Disponibilidad</li>
     </ul>
 {% endblock %}
+    {% block helpContent %}
+    <p>Utilice el formulario de la derecha para agregar no disponibilidades en alguna de las habitaciones de su propiedad.</p>
+    <p>Si da clic sobre algún elemento del calendario etiquetado como "Reservada MyCP" o "Cancelada por cliente" se mostrará la página que contiene los detalles de la reservación correspondiente. Este tipo de elemento no podrá ser editado ni eliminado.</p>
+    <p>Los elementos etiquetados como "No disponibles" podrán ser modificados o eliminados sólo si la fecha en que ocurren es mayor o igual a la fecha del día de hoy. Para modificar o eliminar estos elementos, dé clic sobre ellos y se visualizará su información en el formulario que aparece en la derecha.</p>
+    {% endblock %}
 {% block content %}
     <div class="row-fluid">
         <div class="span3"><h2>Disponibilidad</h2></div>
