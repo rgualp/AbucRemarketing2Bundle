@@ -8,6 +8,10 @@
     <li class="pull-right"><a href="{{ path('mycp_list_readonly_reservations_user') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 {% endblock %}
+{% block helpContent %}
+<p>Esta sección muestra la información de un cliente seleccionado junto al listado de todas las reservaciones que ha realizado en su propiedad a través de MyCasaParticular.</p>
+<p>Cada reservación posee un botón "Detalles" a la derecha. Si acciona sobre este, se adicionará una pestaña o tab a la derecha que contiene la información detallada de la reservación seleccionada.</p>
+{% endblock %}
 {% block content %}
 <h2>Cliente: {{client.getUserUserName}} {{client.getUserLastName}}</h2>
 <hr/>
@@ -112,9 +116,10 @@
             {
                 visibles[count]=tab_name;
                 count++;
-                new_tab='<li id="tab'+res_id+'li" class=""><a href="#'+tab_name_id+'" data-toggle="tab">Reserva '+tab_name+'</a></li>';
+                $(".active").removeClass("active");
+                new_tab='<li id="tab'+res_id+'li" class="active"><a href="#'+tab_name_id+'" data-toggle="tab">Reserva '+tab_name+'</a></li>';
                 new_cont=document.createElement("div");
-                new_cont.setAttribute("class","tab-pane");
+                new_cont.setAttribute("class","tab-pane active");
                 new_cont.setAttribute("id",tab_name_id);
                 $(".reserve_details").attr('disabled','disabled');
                 new_cont.innerHTML='<p style="font-size: 12px;">Cargando...<br/><br/></p>';

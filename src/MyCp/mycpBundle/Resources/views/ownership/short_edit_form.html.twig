@@ -1,5 +1,9 @@
 {% extends 'mycpBundle:layout:lodging.html.twig' %}
 {% block title %}Administración{% endblock %}
+{% block helpContent %}
+<p>Esta sección muestra los datos principales de su propiedad que MyCasa tiene registrados. De ellos, solo podrá modificar los que se pueden editar. Para salvar los cambios dé clic sobre el botón "Guardar".</p>
+<p>Si desea que alguna otra información se modifique por nuestro equipo, por favor, accione sobre el botón "Solicitar cambio" y descríbalo. Su petición se reflejará en nuestro sitio lo antes posible.</p>
+    {% endblock %}
 {% block top_body %}
     <div class="modal hide fade" id="mailModal">
         <div class="modal-header">
@@ -33,7 +37,7 @@
     <div class="form-actions">
         <button class="btn btn-primary" type="submit">Guardar</button>
         <a class="btn" href="{{ path('mycp_lodging_front') }}">Cancelar</a>
-        <button  onclick="open_mail_modal();" class="btn btn-success" type="button">Solicitar otro cambio</button>
+        <button  onclick="open_mail_modal();" class="btn btn-success" type="button">Solicitar cambio</button>
     </div>
     </form>
 {% endblock %}

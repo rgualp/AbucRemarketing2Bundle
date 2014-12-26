@@ -6,6 +6,11 @@
     <li class="active">Reservas</li>
 </ul>
 {% endblock %}
+{% block helpContent %}
+<p>Esta sección muestra el listado de todas las reservaciones que ha recibido su propiedad a través de MyCasaParticular.</p>
+<p>Puede realizar búsquedas en el listado utilizando el formulario que aparece en el recuadro gris justo encima del listado.</p>
+<p>Cada reservación posee un botón "Detalles" a la derecha. Si acciona sobre este, se visualizará una página que contiene la información de la reservación seleccionada.</p>
+{% endblock %}
 {% block content %}
 <h2>Reservas</h2>
 <hr/>
@@ -55,7 +60,7 @@
                         Mostrando del {{items_per_page * current_page - items_per_page}} al {% if items_per_page * current_page >  total_items%}{{total_items }}{% else %}{{ items_per_page * current_page }}{% endif %} de {{total_items}} registros
                     </div>
                     <div class="pull-right">
-                        Líneas por página:
+                        Mostrar:
                         {% if filter_date_reserve ==''%}{% set filter_date_reserve='null'%}{%endif%}
                         {% if filter_offer_number ==''%}{% set filter_offer_number='null'%}{%endif%}
                         {% if filter_reference ==''%}{% set filter_reference='null'%}{%endif%}

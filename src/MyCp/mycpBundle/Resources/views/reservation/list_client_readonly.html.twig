@@ -6,6 +6,11 @@
     <li class="active">Reservas</li>
 </ul>
 {% endblock %}
+{% block helpContent %}
+<p>Esta sección muestra el listado de todos los clientes que han reservado satisfactoriamente en su propiedad a través de MyCasaParticular y la cantidad de veces que lo ha hecho.</p>
+<p>Puede realizar búsquedas en el listado utilizando el formulario que aparece en el recuadro gris justo encima del listado.</p>
+<p>Cada cliente posee un botón "Detalles" a la derecha. Si acciona sobre este, se visualizará una página que contiene la información del cliente junto al listado de todas las reservaciones realizadas por él/ella en su propiedad a través de MyCasaParticular.</p>
+{% endblock %}
 {% block content %}
 <h2>Reservas</h2>
 <hr/>
@@ -54,7 +59,7 @@
                         Mostrando del {{items_per_page * current_page - items_per_page}} al {% if items_per_page * current_page >  total_items%}{{total_items }}{% else %}{{ items_per_page * current_page }}{% endif %} de {{total_items}} registros
                     </div>
                     <div class="pull-right">
-                        Líneas por página:
+                        Mostrar:
                         {% if filter_user_name ==''%}{% set filter_user_name='null'%}{%endif%}
                         {% if filter_user_email ==''%}{% set filter_user_email='null'%}{%endif%}
                         {% if filter_user_city ==''%}{% set filter_user_city='null'%}{%endif%}
