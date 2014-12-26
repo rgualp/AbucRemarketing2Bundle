@@ -180,7 +180,10 @@ class LodgingUnavailabilityDetailsController extends Controller {
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
         $uDetails = $em->getRepository('mycpBundle:unavailabilityDetails')->find($id_detail);
-        $uDetails->setSyncSt(SyncStatuses::DELETED);
+        $room = $em->getRepository('mycpBundle:room')->find($uDetails->getRoom());
+
+        $uDetails->setRoom($room)
+                ->setSyncSt(SyncStatuses::DELETED);
         $em->persist($uDetails);
         $em->flush();
         $message = 'Detalle de no disponibilidad eliminado satisfactoriamente';
@@ -208,10 +211,10 @@ class LodgingUnavailabilityDetailsController extends Controller {
                     if ($request->get("status") == 0) {
                         $uDetails->setUdFromDate($date_from)
                                 ->setUdToDate($date_to)
-                                ->setUdReason("No disponibilidad colocada por el cliente mediante el módulo casa")
+                                ->setUdReason("Insertada mediante el módulo casa")
                                 ->setRoom($room);
 
-                        if($inEditMode)
+                        if ($inEditMode)
                             $uDetails->setSyncSt(SyncStatuses::UPDATED);
 
                         $em->persist($uDetails);
@@ -227,7 +230,7 @@ class LodgingUnavailabilityDetailsController extends Controller {
                         $room = $em->getRepository('mycpBundle:room')->find($uDetails->getRoom());
 
                         $uDetails->setRoom($room)
-                                 ->setSyncSt(SyncStatuses::DELETED);
+                                ->setSyncSt(SyncStatuses::DELETED);
                         $em->persist($uDetails);
                         $em->flush();
                         $message = 'Detalle de no disponibilidad eliminado satisfactoriamente';
