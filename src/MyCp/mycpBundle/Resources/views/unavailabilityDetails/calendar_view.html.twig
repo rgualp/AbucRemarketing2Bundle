@@ -83,8 +83,6 @@
 
         $(document).ready(function() {
 
-            loadRooms();
-
             $('.datepicker-from').datepicker({
             format:'dd/mm/yyyy',
             todayBtn:'linked',
@@ -136,44 +134,6 @@
             });
 
         });
-
-    </script>
-    <script type="text/javascript">
-        function go_to_form()
-        {
-            id_own = $("#ownership_id").val();
-            id_room = $("#room_id").val();
-
-            if (id_own == "" || id_room == "")
-            {
-                alert('Debe seleccionar una propiedad y una habitación');
-            }
-            else
-            {
-                url='{{ path('mycp_lodging_new_unavailabilityDetails', {'id_room':'-1'}) }}';
-                url=url.replace('/-1','');
-                $(location).attr('href',url+id_room);
-            }
-        }
-
-        $('#ownership_id').change(function(){
-            loadRooms();
-        });
-
-        function loadRooms()
-        {
-            $('#room_id').html('<option value="">Cargando...</option>');
-            code = $('#ownership_id').val();
-            url = '{{ path('mycp_get_rooms_by_ownership', {'id_ownership':'-1'}) }}';
-            url=url.replace('/-1','');
-            $.ajax({
-                type:"POST",
-                url:url + '/' + code,
-                success:function (msg) {
-                    $('#room_id').html(msg);
-                }
-            });
-        }
 
     </script>
 {% endblock content %}

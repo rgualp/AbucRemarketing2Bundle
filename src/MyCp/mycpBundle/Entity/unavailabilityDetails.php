@@ -63,7 +63,7 @@ class unavailabilityDetails {
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId() {
         return $this->ud_id;
@@ -84,7 +84,7 @@ class unavailabilityDetails {
     /**
      * Get ud_id
      *
-     * @return integer 
+     * @return integer
      */
     public function getUdId() {
         return $this->ud_id;
@@ -105,7 +105,7 @@ class unavailabilityDetails {
     /**
      * Get ud_from_date
      *
-     * @return DateTime 
+     * @return DateTime
      */
     public function getUdFromDate() {
         return $this->ud_from_date;
@@ -126,7 +126,7 @@ class unavailabilityDetails {
     /**
      * Get ud_to_date
      *
-     * @return DateTime 
+     * @return DateTime
      */
     public function getUdToDate() {
         return $this->ud_to_date;
@@ -147,7 +147,7 @@ class unavailabilityDetails {
     /**
      * Get ud_reason
      *
-     * @return string 
+     * @return string
      */
     public function getUdReason() {
         return $this->ud_reason;
@@ -160,15 +160,16 @@ class unavailabilityDetails {
     public function setSyncSt($ud_sync_st) {
         $this->ud_sync_st = $ud_sync_st;
     }
-    
+
     public function getRoom() {
         return $this->room;
     }
 
     public function setRoom($room) {
         $this->room = $room;
+        return $this;
     }
-    
+
 
     /**
      * Set ud_sync_st
@@ -186,7 +187,7 @@ class unavailabilityDetails {
     /**
      * Get ud_sync_st
      *
-     * @return integer 
+     * @return integer
      */
     public function getUdSyncSt()
     {

@@ -12,10 +12,9 @@ use MyCp\mycpBundle\Helpers\SyncStatuses;
 use MyCp\mycpBundle\Helpers\Dates;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
 
-class LodgingUnavailabilityDetailsController extends Controller
-{
-    public function get_ud_as_jsonAction(Request $request)
-    {
+class LodgingUnavailabilityDetailsController extends Controller {
+
+    public function get_ud_as_jsonAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $user = $this->get('security.context')->getToken()->getUser();
         $startParam = $request->get('start');
@@ -24,18 +23,14 @@ class LodgingUnavailabilityDetailsController extends Controller
         $reser = array();
 
 
-        if($user->getUserRole()!='ROLE_CLIENT_CASA')
-        {
+        if ($user->getUserRole() != 'ROLE_CLIENT_CASA') {
             $unDet = $em->getRepository('mycpBundle:unavailabilityDetails')->getAllNotDeletedByDate($startParam, $endParam);
             $reser = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReserved($startParam, $endParam);
-        }
-        else
-        {
+        } else {
             $user_casa = $em->getRepository('mycpBundle:userCasa')->get_user_casa_by_user_id($user->getUserId());
             $ownership = $user_casa->getUserCasaOwnership();
             $unDet = $em->getRepository('mycpBundle:unavailabilityDetails')->getAllNotDeletedByDateAndOwnership($ownership->getOwnId(), $startParam, $endParam);
             $reser = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReservedByOwnershipAndDate($ownership->getOwnId(), $startParam, $endParam);
-
         }
 
         $unDetCounter = count($unDet);
@@ -43,11 +38,10 @@ class LodgingUnavailabilityDetailsController extends Controller
 
         $now = new \DateTime();
 
-        return $this->render('mycpBundle:unavailabilityDetails:ud_as_event.json.twig', array("details"=>$unDet, "reservations"=> $reser, "detailCount"=>$unDetCounter, 'reservationCount' => $reservationCounter, 'now'=>$now));
+        return $this->render('mycpBundle:unavailabilityDetails:ud_as_event.json.twig', array("details" => $unDet, "reservations" => $reser, "detailCount" => $unDetCounter, 'reservationCount' => $reservationCounter, 'now' => $now));
     }
 
-    public function get_calendarAction($edit_detail, Request $request)
-    {
+    public function get_calendarAction($edit_detail, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
@@ -61,14 +55,12 @@ class LodgingUnavailabilityDetailsController extends Controller
         $data["today"] = new \DateTime();
         $hasError = false;
 
-        if($request->getQueryString() != null && $request->getQueryString() != "")
-        {
+        if ($request->getQueryString() != null && $request->getQueryString() != "") {
             $qValue = explode("=", $request->getQueryString());
             $edit_detail = $qValue[1];
         }
 
-        if($edit_detail != null)
-        {
+        if ($edit_detail != null) {
             $uDetails = $em->getRepository("mycpBundle:unavailabilityDetails")->find($edit_detail);
             $idRoom = $uDetails->getRoom()->getRoomId();
             $uDetails->setRoom($idRoom);
@@ -76,23 +68,22 @@ class LodgingUnavailabilityDetailsController extends Controller
         else
             $uDetails = new unavailabilityDetails();
         $form = $this->createForm(new lodgingUnavailabilityDetailsType($rooms), $uDetails);
-        if ($request->getMethod() == 'POST')
-        {
+        if ($request->getMethod() == 'POST') {
             $hasError = !$this->manageData($request, $form, $em, $uDetails, ($edit_detail != null));
 
-        if(!$hasError)
-            return $this->redirect($this->generateUrl('mycp_lodging_unavailabilityDetails_calendar'));
+            if (!$hasError)
+                return $this->redirect($this->generateUrl('mycp_lodging_unavailabilityDetails_calendar'));
         }
 
 
-        if($edit_detail != null)
-            return $this->render('mycpBundle:unavailabilityDetails:calendar_view.html.twig', array('data'=>$data,
-                "hasError" => $hasError,
-                'form' => $form->createView(), "edit_detail" => $edit_detail));
+        if ($edit_detail != null)
+            return $this->render('mycpBundle:unavailabilityDetails:calendar_view.html.twig', array('data' => $data,
+                        "hasError" => $hasError,
+                        'form' => $form->createView(), "edit_detail" => $edit_detail));
         else
-            return $this->render('mycpBundle:unavailabilityDetails:calendar_view.html.twig', array('data'=>$data,
-            "hasError" => $hasError,
-            'form' => $form->createView()));
+            return $this->render('mycpBundle:unavailabilityDetails:calendar_view.html.twig', array('data' => $data,
+                        "hasError" => $hasError,
+                        'form' => $form->createView()));
     }
 
     public function newAction($id_room, Request $request) {
@@ -113,15 +104,13 @@ class LodgingUnavailabilityDetailsController extends Controller
                 $date_from = Dates::createFromString($post_form['ud_from_date']);
                 $date_to = Dates::createFromString($post_form['ud_to_date']);
 
-                if($date_from > $date_to)
-                {
+                if ($date_from > $date_to) {
                     $this->get('session')->getFlashBag()->add('message_error_main', "La fecha Desde tiene que ser menor o igual que la fecha Hasta");
-                }
-                else{
+                } else {
                     $uDetails->setUdFromDate($date_from)
-                        ->setUdToDate($date_to)
-                        ->setUdReason($post_form['ud_reason'])
-                        ->setRoom($room);
+                            ->setUdToDate($date_to)
+                            ->setUdReason($post_form['ud_reason'])
+                            ->setRoom($room);
                     $em->persist($uDetails);
                     $em->flush();
                     $message = 'Detalle de no disponibilidad añadido satisfactoriamente';
@@ -136,11 +125,11 @@ class LodgingUnavailabilityDetailsController extends Controller
         }
 
         return $this->render('mycpBundle:unavailabilityDetails:lodging_form.html.twig', array(
-            'room' => $room,
-            'num_room' => $num_room,
-            'id_room' => $id_room,
-            'ownership' => $ownership,
-            'form' => $form->createView()
+                    'room' => $room,
+                    'num_room' => $num_room,
+                    'id_room' => $id_room,
+                    'ownership' => $ownership,
+                    'form' => $form->createView()
         ));
     }
 
@@ -160,9 +149,9 @@ class LodgingUnavailabilityDetailsController extends Controller
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $uDetails->setUdFromDate(Dates::createFromString($post_form['ud_from_date']))
-                    ->setUdToDate(Dates::createFromString($post_form['ud_to_date']))
-                    ->setUdReason($post_form['ud_reason'])
-                    ->setRoom($room);
+                        ->setUdToDate(Dates::createFromString($post_form['ud_to_date']))
+                        ->setUdReason($post_form['ud_reason'])
+                        ->setRoom($room);
                 //       ->setSyncSt(SyncStatuses::UPDATED);
                 $em->persist($uDetails);
                 $em->flush();
@@ -177,12 +166,12 @@ class LodgingUnavailabilityDetailsController extends Controller
         }
 
         return $this->render('mycpBundle:unavailabilityDetails:lodging_form.html.twig', array(
-            'room' => $room,
-            'num_room' => $num_room,
-            'id_room' => $room->getRoomId(),
-            'ownership' => $ownership,
-            'form' => $form->createView(),
-            'edit_detail' => $uDetails->getUdId()
+                    'room' => $room,
+                    'num_room' => $num_room,
+                    'id_room' => $room->getRoomId(),
+                    'ownership' => $ownership,
+                    'form' => $form->createView(),
+                    'edit_detail' => $uDetails->getUdId()
         ));
     }
 
@@ -191,8 +180,6 @@ class LodgingUnavailabilityDetailsController extends Controller
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
         $uDetails = $em->getRepository('mycpBundle:unavailabilityDetails')->find($id_detail);
-        $room = $uDetails->getRoom();
-        $num_room = $room->getRoomNum();
         $uDetails->setSyncSt(SyncStatuses::DELETED);
         $em->persist($uDetails);
         $em->flush();
@@ -205,8 +192,7 @@ class LodgingUnavailabilityDetailsController extends Controller
         return $this->redirect($this->generateUrl('mycp_lodging_unavailabilityDetails_calendar'));
     }
 
-    private function manageData($request, $form, $em, $uDetails, $inEditMode = false)
-    {
+    private function manageData($request, $form, $em, $uDetails, $inEditMode = false) {
         if ($request->getMethod() == 'POST') {
             $post_form = $request->get('mycp_mycpbundle_unavailabilitydetailstype');
             $form->handleRequest($request);
@@ -216,27 +202,46 @@ class LodgingUnavailabilityDetailsController extends Controller
                 $date_to = Dates::createFromString($post_form['ud_to_date']);
                 $room = $em->getRepository('mycpBundle:room')->find($post_form['room']);
 
-                if($date_from > $date_to)
-                {
+                if ($date_from > $date_to) {
                     $this->get('session')->getFlashBag()->add('message_error_main', "La fecha Desde tiene que ser menor o igual que la fecha Hasta");
-                }
-                else{
-                    $uDetails->setUdFromDate($date_from)
-                        ->setUdToDate($date_to)
-                        ->setUdReason("No disponibilidad colocada por el cliente mediante el módulo casa")
-                        ->setRoom($room);
-                    $em->persist($uDetails);
-                    $em->flush();
-                    $message = ($inEditMode) ? 'Detalle de no disponibilidad actualizado satisfactoriamente' : 'Detalle de no disponibilidad añadido satisfactoriamente';
-                    $this->get('session')->getFlashBag()->add('message_ok', $message);
+                } else {
+                    if ($request->get("status") == 0) {
+                        $uDetails->setUdFromDate($date_from)
+                                ->setUdToDate($date_to)
+                                ->setUdReason("No disponibilidad colocada por el cliente mediante el módulo casa")
+                                ->setRoom($room);
 
-                    $service_log = $this->get('log');
-                    $service_log->saveLog('Create unavailable detaile from ' . $post_form['ud_from_date'] . ' to ' . $post_form['ud_to_date'], BackendModuleName::MODULE_UNAVAILABILITY_DETAILS);
+                        if($inEditMode)
+                            $uDetails->setSyncSt(SyncStatuses::UPDATED);
 
-                    return true;
+                        $em->persist($uDetails);
+                        $em->flush();
+                        $message = ($inEditMode) ? 'Detalle de no disponibilidad actualizado satisfactoriamente' : 'Detalle de no disponibilidad añadido satisfactoriamente';
+                        $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+                        $service_log = $this->get('log');
+                        $service_log->saveLog('Create unavailable detaile from ' . $post_form['ud_from_date'] . ' to ' . $post_form['ud_to_date'], BackendModuleName::MODULE_UNAVAILABILITY_DETAILS);
+
+                        return true;
+                    } else if ($request->get("status") == 1) {
+                        $room = $em->getRepository('mycpBundle:room')->find($uDetails->getRoom());
+
+                        $uDetails->setRoom($room)
+                                 ->setSyncSt(SyncStatuses::DELETED);
+                        $em->persist($uDetails);
+                        $em->flush();
+                        $message = 'Detalle de no disponibilidad eliminado satisfactoriamente';
+                        $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+                        $service_log = $this->get('log');
+                        $service_log->saveLog('Delete unavailable detail from ' . $uDetails->getUdFromDate()->format('d/M/Y') . ' to ' . $uDetails->getUdToDate()->format('d/M/Y'), BackendModuleName::MODULE_UNAVAILABILITY_DETAILS);
+
+                        return true;
+                    }
                 }
             }
             return false;
         }
     }
+
 }
