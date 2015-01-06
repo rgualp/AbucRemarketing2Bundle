@@ -19,9 +19,9 @@
                                             <td style="background-color: #FFFFFF; border: solid 1px #cccccc;">
                                                 <a href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize,'locale':user_locale,'_locale':user_locale,}) }}">
                                                     {% if photos[loop.index0][0].getPhoName is defined %}
-                                                        <img width="100%" style="display:block;" border="0" src="{{ app.request.getSchemeAndHttpHost() ~ asset('uploads/ownershipImages/thumbnails/'~photos[loop.index0][0].getPhoName)}}">
+                                                        <img width="100%" style="display:block;" border="0" src="{{ asset('uploads/ownershipImages/thumbnails/'~photos[loop.index0][0].getPhoName, absolute=true)}}">
                                                     {% else %}
-                                                        <img width="100%" style="display:block;" border="0" src="{{ app.request.getSchemeAndHttpHost() ~ asset('uploads/ownershipImages/no_photo_square.gif')}}">
+                                                        <img width="100%" style="display:block;" border="0" src="{{ asset('uploads/ownershipImages/no_photo_square.gif', absolute=true)}}">
                                                     {% endif %}
                                                 </a>
                                             </td>
