@@ -599,8 +599,8 @@ class destinationRepository extends EntityRepository {
             if ($exclude_own_id != null && $exclude_own_id != "")
                 $query_string = $query_string . " AND o.own_id <>$exclude_own_id";
 
-            if ($rooms_count != null && $rooms_count != "")
-                $query_string = $query_string . " AND o.own_rooms_total >= $rooms_count";
+            /*if ($rooms_count != null && $rooms_count != "")
+                $query_string = $query_string . " AND o.own_rooms_total >= $rooms_count";*/
 
             if ($price != null && $price != "")
                 $query_string = $query_string . " AND o.own_minimum_price <= $price AND o.own_maximum_price >= $price";
