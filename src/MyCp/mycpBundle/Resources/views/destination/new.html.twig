@@ -76,7 +76,8 @@
     <div class="span6">
         <label>Municipio:</label>
         <select class="input-block-level" name="ownership_address_municipality" id="ownership_address_municipality"/>
-        {{ render(controller('mycpBundle:Public:get_mun', {'post': {'ownership_address_municipality':data['ownership_address_municipality']}})) }}
+        {{ render(controller('mycpBundle:Public:get_mun', {'post': {'ownership_address_municipality':data['ownership_address_municipality'],
+                                                                    'ownership_address_province' : data['ownership_address_province']}})) }}
         </select>
     </div>
     </div>
