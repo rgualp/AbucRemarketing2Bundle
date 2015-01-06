@@ -564,7 +564,7 @@ class destinationRepository extends EntityRepository {
             return $results;
     }
 
-    function getRecommendableAccommodations($checkin_date = null, $checkout_date = null,$price = null, $rooms_count = null, $municipality_id = null, $province_id = null, $max_result_set = null, $exclude_own_id = null, $user_id = null, $session_id = null) {
+    function getRecommendableAccommodations($checkin_date = null, $checkout_date = null,$price = null, $municipality_id = null, $province_id = null, $max_result_set = null, $exclude_own_id = null, $user_id = null, $session_id = null) {
         if ($municipality_id != null || $province_id != null) {
             $em = $this->getEntityManager();
 
@@ -598,9 +598,6 @@ class destinationRepository extends EntityRepository {
 
             if ($exclude_own_id != null && $exclude_own_id != "")
                 $query_string = $query_string . " AND o.own_id <>$exclude_own_id";
-
-            /*if ($rooms_count != null && $rooms_count != "")
-                $query_string = $query_string . " AND o.own_rooms_total >= $rooms_count";*/
 
             if ($price != null && $price != "")
                 $query_string = $query_string . " AND o.own_minimum_price <= $price AND o.own_maximum_price >= $price";
