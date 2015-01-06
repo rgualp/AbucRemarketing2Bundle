@@ -17,7 +17,7 @@
                                     <table cellpadding="4" border="0" cellspacing="0">
                                         <tr>
                                             <td style="background-color: #FFFFFF; border: solid 1px #cccccc;">
-                                                <a href="{{ app.request.getSchemeAndHttpHost() ~ getUrl('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize,'locale':user_locale,'_locale':user_locale,}) }}">
+                                                <a href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize,'locale':user_locale,'_locale':user_locale,}) }}">
                                                     {% if photos[loop.index0][0].getPhoName is defined %}
                                                         <img width="100%" style="display:block;" border="0" src="{{ app.request.getSchemeAndHttpHost() ~ asset('uploads/ownershipImages/thumbnails/'~photos[loop.index0][0].getPhoName)}}">
                                                     {% else %}
@@ -28,7 +28,7 @@
                                             <td>&nbsp;</td>
                                             <td valign="top" style="font-family: arial; font-size: 13px; line-height: 18px">
                                                 <h3 style="color: #084D74">
-                                                <a class="titleLink" href="{{ app.request.getSchemeAndHttpHost() ~ getUrl('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize,'_locale':user_locale|lower,'locale':user_locale|lower}) }}">
+                                                <a class="titleLink" href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize,'_locale':user_locale|lower,'locale':user_locale|lower}) }}">
                                                 {{reservation.getOwnResGenResId.getGenResOwnId.getOwnName}}
                                                 </a>
                                                 </h3>
@@ -46,7 +46,7 @@
                                 <td width="34%" valign="top" align="right" style="font-family: arial; font-size: 13px; line-height: 20px; text-align: right">
                                     <b>ID {{"RESERVATION_RESERVE"|trans({}, "messages", user_locale)}}:</b> CAS.{{reservation.getOwnResGenResId.getGenResId}}<br/><br/>
                                     <span style="background-color: #c43c35; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"PAYED"|trans({}, "messages", user_locale)}}&nbsp;&nbsp;&nbsp;</b></span><br/><br/><br/>
-                                    <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ app.request.getSchemeAndHttpHost() ~ getUrl('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize,'locale':user_locale,'_locale':user_locale,})  }}">{{ 'COMMENT'|trans({}, "messages", user_locale) }}</a>
+                                    <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize,'locale':user_locale,'_locale':user_locale,})  }}">{{ 'COMMENT'|trans({}, "messages", user_locale) }}</a>
                                 </td>
                             </tr>
                         </table>
