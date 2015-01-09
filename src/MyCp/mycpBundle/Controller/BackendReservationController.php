@@ -660,7 +660,8 @@ class BackendReservationController extends Controller {
                 'photos' => $array_photos,
                 'nights' => $array_nigths,
                 'user_locale' => $user_locale,
-                'user_currency' => ($user_tourist != null) ? $user_tourist->getUserTouristCurrency() : null
+                'user_currency' => ($user_tourist != null) ? $user_tourist->getUserTouristCurrency() : null,
+                'reservationStatus' => (count($own_reservations) > 0) ? $own_reservations[0]->getOwnResGenResId()->getGenResStatus() : generalReservation::STATUS_NONE
             ));
 
             $locale = $this->get('translator');

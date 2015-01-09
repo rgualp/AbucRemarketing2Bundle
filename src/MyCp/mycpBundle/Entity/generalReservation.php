@@ -19,6 +19,7 @@ class generalReservation {
     /**
      * All allowed statuses
      */
+    const STATUS_NONE = -1;
     const STATUS_PENDING = 0;
     const STATUS_AVAILABLE = 1;
     const STATUS_RESERVED = 2;
@@ -33,6 +34,7 @@ class generalReservation {
      * @var array
      */
     private $statuses = array(
+        self::STATUS_NONE,
         self::STATUS_PENDING,
         self::STATUS_AVAILABLE,
         self::STATUS_RESERVED,

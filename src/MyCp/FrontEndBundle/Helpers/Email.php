@@ -101,7 +101,8 @@ class Email {
             'nights' => $array_nigths,
             'message' => $custom_message,
             'user_locale' => $user_locale,
-            'user_currency' => ($user_tourist != null) ? $user_tourist->getUserTouristCurrency() : null
+            'user_currency' => ($user_tourist != null) ? $user_tourist->getUserTouristCurrency() : null,
+            'reservationStatus' => $reservation->getGenResStatus()
         ));
         $locale = $this->container->get('translator');
         $subject = $locale->trans('REQUEST_STATUS_CHANGED', array(), "messages", $user_locale);

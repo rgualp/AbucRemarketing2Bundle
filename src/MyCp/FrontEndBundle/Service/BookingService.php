@@ -351,7 +351,8 @@ class BookingService extends Controller
             'photos' => $arrayPhotos,
             'nights' => $arrayNights,
             'user_locale' => $userLocale,
-            'user_currency' => ($userTourist != null) ? $userTourist->getUserTouristCurrency() : null
+            'user_currency' => ($userTourist != null) ? $userTourist->getUserTouristCurrency() : null,
+            'reservationStatus' => (count($ownershipReservations) > 0) ? $ownershipReservations[0]->getOwnResGenResId()->getGenResStatus() : generalReservation::STATUS_NONE
         ));
 
         $locale = $this->get('translator');

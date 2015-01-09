@@ -4,7 +4,7 @@
         <h4 style="font-family: Arial; font-size: 20px">{{"GOOD_MORNING"|trans({}, "messages", user_locale)}} {{user.getUserUserName|capitalize}} {{user.getUserLastName|capitalize}}</h4>
         {% if message is defined and message|length %}{{ message }}{% endif %}
         <p style="font-size: 14px;font-family: arial"> {{"REQUEST_STATUS_CHANGED"|trans({}, "messages", user_locale)}}</p>
-        {% if  booking is not defined %}
+        {% if  booking is not defined  and reservationStatus != constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_NONE') and reservationStatus != constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_NOT_AVAILABLE') %}
         <p style="font-size: 14px;font-family: arial"> {{"VALID_OFFER_FOUR_EIGHT"|trans({}, "messages", user_locale)}}</p>
         {% endif %}
         {% for reservation in reservations %}
