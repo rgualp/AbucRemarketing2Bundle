@@ -116,7 +116,7 @@
                 defaultDate: '{{ data.today | date("Y-m-d") }}',
                 editable: false,
                 lang: 'es',
-                eventLimit: true, // allow "more" link when too many events
+                eventLimit: false, // allow "more" link when too many events
                 events: {
                     url: '{{ path('mycp_lodging_unavailabilityDetails_get_json') }}',
                     error: function() {
