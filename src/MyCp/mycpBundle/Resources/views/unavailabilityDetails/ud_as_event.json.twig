@@ -6,7 +6,7 @@
 "title": "Hab. # {{ actualDetail.getRoom.getRoomNum }} - No disponible",
 {% if actualDetail.getUdToDate > now %}"url": "{{ path('mycp_lodging_unavailabilityDetails_calendar', {"id_detail":actualDetailId} ) }}",{% endif %}
 "start": "{{ actualDetail.getUdFromDate | date("Y-m-d")}}",
-"end": "{{ actualDetail.getUdToDate | date("Y-m-d")}}T23:59:00",
+"end": "{{ actualDetail.getUdToDate | date_modify("+1 day")| date("Y-m-d")}}",
 "color":"#468847",
 "allDay":"true"
 }
