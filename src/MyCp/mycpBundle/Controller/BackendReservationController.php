@@ -579,10 +579,12 @@ class BackendReservationController extends Controller {
 
         //send reserved reservations
         $em = $this->getDoctrine()->getManager();
+        $generalReservation = $em->getRepository("mycpBundle:generalReservation")->find($id_reservation);
         $own_reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $id_reservation, 'own_res_status' => ownershipReservation::STATUS_RESERVED));
-
+       
         $total_price = 0;
         if ($own_reservations) {
+            
             $general_reservation = $own_reservations[0]->getOwnResGenResId();
             $general_reservation->setGenResStatus(generalReservation::STATUS_RESERVED);
             $general_reservation->setGenResStatusDate(new \DateTime());
@@ -652,6 +654,7 @@ class BackendReservationController extends Controller {
 
             // Enviando mail al cliente
             $service_email = $this->get('Email');
+            
 
             $body = $this->render('FrontEndBundle:mails:email_offer_available.html.twig', array(
                 'booking' => $booking->getBookingId(),
@@ -661,7 +664,7 @@ class BackendReservationController extends Controller {
                 'nights' => $array_nigths,
                 'user_locale' => $user_locale,
                 'user_currency' => ($user_tourist != null) ? $user_tourist->getUserTouristCurrency() : null,
-                'reservationStatus' => (count($own_reservations) > 0) ? $own_reservations[0]->getOwnResGenResId()->getGenResStatus() : generalReservation::STATUS_NONE
+                'reservationStatus' => $generalReservation->getGenResStatus()
             ));
 
             $locale = $this->get('translator');
@@ -839,8 +842,8 @@ class BackendReservationController extends Controller {
         return $this->render('mycpBundle:utils:reservation_status_name.html.twig', array('status' => $status));
     }
 
-    public function getGeneralReservationStatusNameAction($status) {
-        return $this->render('mycpBundle:utils:general_reservation_status_name.html.twig', array('status' => $status));
+    public function getGeneralReservationStatusNameAction($status, $showInDiv = true, $wrap = true) {
+        return $this->render('mycpBundle:utils:general_reservation_status_name.html.twig', array('status' => $status, 'wrap' => $wrap, 'showInDiv' => $showInDiv));
     }
 
     public function get_rooms_by_ownershipAction($id_ownership, $selected_room) {

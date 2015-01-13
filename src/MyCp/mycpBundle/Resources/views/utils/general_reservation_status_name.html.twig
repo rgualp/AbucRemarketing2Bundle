@@ -1,10 +1,18 @@
 
+{%if showInDiv%}
 <div style="text-align: center" class="badge
+{%else%}
+<span style="text-align: center" class="badge
+{%endif%}
 {% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PENDING') %}">Pendiente{%endif%}
 {% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_AVAILABLE') %} badge-warning">Disponible{%endif%}
-{% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_AVAILABLE') %} badge-warning">Parcialmente Disponible{%endif%}
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_AVAILABLE') %} badge-warning">Parcialmente {%if wrap is defined and not wrap%}<br/>{%endif%} Disponible{%endif%}
 {% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED') %} badge-important">Reservada{%endif%}
-{% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_RESERVED') %} badge-important">Parcialmente Reservada{%endif%}
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_RESERVED') %} badge-important">Parcialmente {%if wrap is defined and not wrap%}<br/>{%endif%} Reservada{%endif%}
 {% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_NOT_AVAILABLE') %} badge-info">No disponible{%endif%}
 {% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED') %} badge-info">Cancelada{%endif%}
-</div>
+{%if showInDiv%}
+</divs>
+{%else%}
+</span>
+{%endif%}
