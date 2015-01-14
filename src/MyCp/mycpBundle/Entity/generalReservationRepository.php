@@ -390,8 +390,14 @@ class generalReservationRepository extends EntityRepository {
                 return false;
             }
         }
-
-        return true;
+        
+        $userId = $generalReservation->getGenResUserId()->getUserId();
+        $ownershipId = $generalReservation->getGenResOwnId()->getOwnId();
+        $date = $generalReservation->getGenResFromDate();
+        
+        $comments = count($em->getRepository("mycpBundle:comment")->getByUserOwnership($userId, $ownershipId, $date));
+        
+        return $comments == 0;
     }
 
     /**

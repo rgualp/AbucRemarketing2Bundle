@@ -196,5 +196,23 @@ class commentRepository extends EntityRepository {
             $em->flush();
         }
     }
+    
+    function getByUserOwnership($id_user, $id_ownership, $date) {
+        if ($id_user != null) {
+            $em = $this->getEntityManager();
+
+            $query_string = "SELECT com FROM mycpBundle:comment com
+                             WHERE com.com_user = :id_user
+                             AND com.com_ownership = :id_ownership
+                             AND com.com_date >= :date
+                             ORDER BY com.com_date DESC";
+
+            return $em->createQuery($query_string)
+                    ->setParameter('id_user', $id_user)
+                    ->setParameter('id_ownership', $id_ownership)
+                    ->setParameter('date', $date)
+                    ->getResult();
+        }
+    }
 
 }
