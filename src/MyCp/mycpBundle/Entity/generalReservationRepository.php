@@ -353,7 +353,13 @@ class generalReservationRepository extends EntityRepository {
     public function shallSendOutReminderEmail(generalReservation $generalReservation)
     {
         $em = $this->getEntityManager();
+        
+        $userId = $generalReservation->getGenResUserId()->getUserId();
+        $previousPayedReservations = count($em->getRepository("mycpBundle:generalReservation")->getPayedReservations($userId));
 
+        if($previousPayedReservations > 0)
+            return false;
+        
         if (!$generalReservation->hasStatusAvailable()) {
             return false;
         }
@@ -371,6 +377,17 @@ class generalReservationRepository extends EntityRepository {
         }
 
         return $isAtLeastOneOwnResAvailable;
+    }
+    
+    public function getPayedReservations($user_id)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT genRes FROM mycpBundle:generalReservation genRes
+            WHERE genRes.gen_res_user_id = $user_id 
+                AND (genRes.gen_res_status = ".generalReservation::STATUS_PARTIAL_RESERVED." OR 
+                    genRes.gen_res_status = ".generalReservation::STATUS_RESERVED.")"
+                );
+        return $query->getResult();
     }
     
     public function shallSendOutFeedbackReminderEmail(generalReservation $generalReservation)
