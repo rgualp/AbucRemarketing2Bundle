@@ -43,6 +43,25 @@ EOT
             
             $output->writeln($outString);
         }
+        
+        $output->writeln("2. Testing shallSendOutReminderEmail...");
+
+        foreach ($reservations as $res) {
+            $result = $em->getRepository("mycpBundle:generalReservation")->shallSendOutReminderEmail($res);
+            $userId = $res->getGenResUserId()->getUserId();
+            
+            $payedReservations = count($em->getRepository("mycpBundle:generalReservation")->getPayedReservations($userId));
+            
+            $outString = "Reservation CAS." . $res->getGenResId();
+            $outString .= ": Usuario - ".$userId;
+            $outString .= ", Previas - ".$payedReservations;
+            //$outString .= ", Fecha - ".$date;
+            $outString .= ", Estado - ".$res->getGenResStatus();
+            $outString .= ", Resultado - ".($result ? "SI" : "NO");
+            
+            $output->writeln($outString);
+        }
+
 
 
         $output->writeln("End of testings");
