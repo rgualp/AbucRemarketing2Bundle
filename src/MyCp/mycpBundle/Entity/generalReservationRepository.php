@@ -380,7 +380,13 @@ class generalReservationRepository extends EntityRepository {
     public function shallSendOutReminderEmail(generalReservation $generalReservation)
     {
         $em = $this->getEntityManager();
+        
+        $userId = $generalReservation->getGenResUserId()->getUserId();
+        $previousPayedReservations = count($em->getRepository("mycpBundle:generalReservation")->getPayedReservations($userId));
 
+        if($previousPayedReservations > 0)
+            return false;
+        
         if (!$generalReservation->hasStatusAvailable()) {
             return false;
         }
@@ -399,7 +405,18 @@ class generalReservationRepository extends EntityRepository {
 
         return $isAtLeastOneOwnResAvailable;
     }
-
+    
+    public function getPayedReservations($user_id)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT genRes FROM mycpBundle:generalReservation genRes
+            WHERE genRes.gen_res_user_id = $user_id 
+                AND (genRes.gen_res_status = ".generalReservation::STATUS_PARTIAL_RESERVED." OR 
+                    genRes.gen_res_status = ".generalReservation::STATUS_RESERVED.")"
+                );
+        return $query->getResult();
+    }
+    
     public function shallSendOutFeedbackReminderEmail(generalReservation $generalReservation)
     {
         $em = $this->getEntityManager();
@@ -408,7 +425,7 @@ class generalReservationRepository extends EntityRepository {
             return false;
         }
         $ownershipReservations = $em->getRepository('mycpBundle:generalReservation')->getOwnershipReservations($generalReservation);
-
+        
 
         /** @var $ownershipReservation ownershipReservation */
         foreach ($ownershipReservations as $ownershipReservation) {
@@ -417,8 +434,14 @@ class generalReservationRepository extends EntityRepository {
                 return false;
             }
         }
-
-        return true;
+        
+        $userId = $generalReservation->getGenResUserId()->getUserId();
+        $ownershipId = $generalReservation->getGenResOwnId()->getOwnId();
+        $date = $generalReservation->getGenResFromDate();
+        
+        $comments = count($em->getRepository("mycpBundle:comment")->getByUserOwnership($userId, $ownershipId, $date));
+        
+        return $comments == 0;
     }
 
     /**
