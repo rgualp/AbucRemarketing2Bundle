@@ -108,7 +108,7 @@ class municipalityRepository extends EntityRepository
                                 FROM mycpBundle:ownership o
                                 WHERE o.own_status = ".ownershipStatus::STATUS_ACTIVE."
                                 AND o.own_address_municipality = ".$result[$i]['mun_id'].
-                                " ORDER BY o.own_rating DESC, o.own_id ASC";
+                                " ORDER BY o.own_ranking DESC,o.own_rating DESC, o.own_id ASC";
 
             $destinatios_list = "SELECT d.des_id as desid,
                                 d.des_name as desname
