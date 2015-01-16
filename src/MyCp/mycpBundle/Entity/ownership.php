@@ -329,7 +329,7 @@ class ownership {
     /**
      * @var boolean
      *
-     * @ORM\Column(name="own_sended_to_team", type="boolean")
+     * @ORM\Column(name="own_sended_to_team", type="boolean", nullable=true)
      */
     private $own_sended_to_team;
 
