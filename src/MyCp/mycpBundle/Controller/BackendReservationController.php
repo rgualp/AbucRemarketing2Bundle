@@ -903,33 +903,20 @@ class BackendReservationController extends Controller {
     }
 
     public function sendVoucherToReservationTeamAction($id_reservation) {
+        try {
         $em = $this->getDoctrine()->getManager();
-        $bookings_ids = $em->getRepository('mycpBundle:generalReservation')->getBookings($id_reservation);
-        $genRes = $em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
-        $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $genRes->getGenResUserId()));
-
-        foreach ($bookings_ids as $bookId) {
-            $bookId = $bookId['booking_id'];
-            $bookingService = $this->get('front_end.services.booking');
-
-            // one could also use $bookingService->getVoucherFilePathByBookingId($bookingId) here, but then the PDF is not created
-            $pdfFilePath = $bookingService->createBookingVoucherIfNotExisting($bookId);
-
-            $body = $this->render('FrontEndBundle:mails:rt_voucher.html.twig', array(
-                'user' => $userTourist->getUserTouristUser(),
-                'user_tourist' => $userTourist,
-                'booking_id' => $bookId,
-                'generalReservation' => $genRes
-            ));
-
-            $service_email = $this->get('mycp.service.email_manager');
-            $service_email->sendEmail(
-                    'Voucher del booking ID_' . $bookId . ' (CAS.' . $genRes->getGenResId() . ')', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', 'reservation@mycasaparticular.com', $body, $pdfFilePath
-            );
+        $bookingService = $this->get('front_end.services.booking');
+        $service_email = $this->get('mycp.service.email_manager');
+        $emailToSend = 'reservation@mycasaparticular.com';       
+        
+         \MyCp\mycpBundle\Helpers\VoucherHelper::sendVoucher($em, $bookingService, $service_email, $this, $id_reservation, $emailToSend);
+        } catch (\Exception $e) {
+            $message = 'Error al enviar el voucher asociado a la reservación CAS.' . $id_reservation. ". ".$e->getMessage();
+            $this->get('session')->getFlashBag()->add('message_error_main', $message);
         }
-        $message = 'Se ha enviado satisfactoriamente el voucher asociado a la reservación CAS.' . $genRes->getGenResId();
-        $this->get('session')->getFlashBag()->add('message_ok', $message);
+        
         return $this->redirect($this->generateUrl('mycp_list_reservations'));
+        
     }
 
     function getLodgingSortByAction($sort_by) {
