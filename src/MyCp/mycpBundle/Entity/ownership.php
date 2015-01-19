@@ -446,6 +446,7 @@ class ownership {
         $this->own_general_reservations = new ArrayCollection();
         $this->ownershipKeywordOwnership = new ArrayCollection();
         $this->own_sync_st = SyncStatuses::ADDED;
+        $this->own_sended_to_team = false;
         //$this->own_creation_date = new \DateTime();
     }
 
