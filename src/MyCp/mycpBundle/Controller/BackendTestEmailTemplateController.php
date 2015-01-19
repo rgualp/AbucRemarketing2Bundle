@@ -465,6 +465,7 @@ class BackendTestEmailTemplateController extends Controller {
             $service_email = $this->get('mycp.service.email_manager');
             \MyCp\mycpBundle\Helpers\VoucherHelper::sendVoucher($em, $bookingService, $service_email, $this, $generalReservation->getGenResId(), $mail);
         }
+        return $this->redirect($this->generateUrl('mycp_test_home'));
     }
 
 }
