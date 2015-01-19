@@ -83,8 +83,8 @@ class BackendTestEmailTemplateController extends Controller {
                     'user_currency' => ($userTourist != null) ? $userTourist->getUserTouristCurrency() : null
         ));
     }
-    // </editor-fold>
 
+    // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Accommodation still available">
     public function accommodationStillAvailableAction($langCode) {
         return $this->getAccommodationStillAvailableBody($langCode);
@@ -153,8 +153,8 @@ class BackendTestEmailTemplateController extends Controller {
                     'user_currency' => ($userTourist != null) ? $userTourist->getUserTouristCurrency() : null
         ));
     }
-    // </editor-fold>
 
+    // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="No available">
     public function notAvailableAction($langCode) {
         return $this->getNotAvailableBody($langCode);
@@ -225,6 +225,7 @@ class BackendTestEmailTemplateController extends Controller {
                     'user_currency' => ($userTourist != null) ? $userTourist->getUserTouristCurrency() : null
         ));
     }
+
     // </editor-fold>
 
     public function activateAccountAction($langCode) {
@@ -308,22 +309,20 @@ class BackendTestEmailTemplateController extends Controller {
         return $enableUrl;
     }
 
-    private function sendEmail($newMethod, $mail, $body, $subject)
-    {
+    private function sendEmail($newMethod, $mail, $body, $subject) {
         if ($newMethod) {
-                $service_email = $this->get('mycp.service.email_manager');
-                $service_email->sendEmail($mail, $subject. " (Nuevo)" , $body);
+            $service_email = $this->get('mycp.service.email_manager');
+            $service_email->sendEmail($mail, $subject . " (Nuevo)", $body);
 
-                $message = 'Mensaje enviado utilizando el método actual.';
-                $this->get('session')->getFlashBag()->add('message_ok', $message);
+            $message = 'Mensaje enviado utilizando el método actual.';
+            $this->get('session')->getFlashBag()->add('message_ok', $message);
+        } else {
+            $service_email = $this->get('Email');
+            $service_email->sendEmail($subject . " (Antiguo)", 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', $mail, $body);
 
-            } else {
-                $service_email = $this->get('Email');
-                $service_email->sendEmail($subject. " (Antiguo)", 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', $mail, $body);
-
-                $message = 'Mensaje enviado utilizando el método antiguo.';
-                $this->get('session')->getFlashBag()->add('message_ok', $message);
-            }
+            $message = 'Mensaje enviado utilizando el método antiguo.';
+            $this->get('session')->getFlashBag()->add('message_ok', $message);
+        }
         return $this->redirect($this->generateUrl('mycp_test_home'));
     }
 
@@ -422,8 +421,7 @@ class BackendTestEmailTemplateController extends Controller {
         ));
     }
 
-    public function checkAvailableAction(Request $request)
-    {
+    public function checkAvailableAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
         $service_time = $this->get('time');
         $generalReservation = $em
@@ -449,18 +447,25 @@ class BackendTestEmailTemplateController extends Controller {
         }
 
         return $this->render('FrontEndBundle:mails:rt_email_check_available.html.twig', array(
-                'user' => $user,
-                'user_tourist' => $userTourist,
-                'reservations' => $ownershipReservations,
-                'nigths' => $arrayNights,
-                'comment' => $request->getSession()->get('message_cart')
-            ));
+                    'user' => $user,
+                    'user_tourist' => $userTourist,
+                    'reservations' => $ownershipReservations,
+                    'nigths' => $arrayNights,
+                    'comment' => $request->getSession()->get('message_cart')
+        ));
+    }
 
+    public function sendVoucherAction($mail, Request $request) {
+        if ($request->getMethod() == 'POST') {
+            $em = $this->getDoctrine()->getEntityManager();
+            $generalReservation = $em
+                    ->getRepository('mycpBundle:generalReservation')
+                    ->findOneBy(array('gen_res_status' => generalReservation::STATUS_RESERVED));
+            $bookingService = $this->get('front_end.services.booking');
+            $service_email = $this->get('mycp.service.email_manager');
+            \MyCp\mycpBundle\Helpers\VoucherHelper::sendVoucher($em, $bookingService, $service_email, $this, $generalReservation->getGenResId(), $mail);
+        }
     }
 
 }
-
-
-
-
 
