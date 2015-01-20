@@ -455,7 +455,7 @@ class BackendTestEmailTemplateController extends Controller {
         ));
     }
 
-    public function sendVoucherAction($mail, Request $request) {
+    public function sendVoucherAction($mail, Request $request) {        
         if ($request->getMethod() == 'POST') {
             $em = $this->getDoctrine()->getEntityManager();
             $generalReservation = $em

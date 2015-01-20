@@ -31,7 +31,10 @@ class VoucherHelper {
                 ));
 
                 $emailService->sendEmail(
-                        'Voucher del booking ID_' . $bookId . ' (CAS.' . $genRes->getGenResId() . ')', 'no-reply@mycasaparticular.com', 'MyCasaParticular.com', $emailToSend, $body, $pdfFilePath
+                        $emailToSend,
+                        'Voucher del booking ID_' . $bookId . ' (CAS.' . $genRes->getGenResId() . ')',
+                        $body,
+                        'no-reply@mycasaparticular.com', $pdfFilePath
                 );
             }
 
