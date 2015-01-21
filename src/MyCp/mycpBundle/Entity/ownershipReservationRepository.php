@@ -315,5 +315,16 @@ class ownershipReservationRepository extends EntityRepository {
 
         return $results;
     }
+    
+    function getReservationReservedByGeneralAndDate($genRes, $startParam, $endParam) {
+        $em = $this->getEntityManager();
+        $reservedCode = ownershipReservation::STATUS_RESERVED;
+        $query = $em->createQuery("SELECT ore
+            FROM mycpBundle:ownershipReservation ore
+            JOIN ore.own_res_gen_res_id gre
+        WHERE (ore.own_res_status = $reservedCode) AND (ore.own_res_reservation_from_date >= :start OR ore.own_res_reservation_to_date <= :end) AND gre.gen_res_id = :gen_res_id");
+        return $query->setParameter('start', $startParam)->setParameter('end', $endParam)->setParameter('gen_res_id', $genRes)->getResult();
+    }
+
 
 }

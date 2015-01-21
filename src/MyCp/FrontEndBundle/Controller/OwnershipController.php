@@ -16,6 +16,16 @@ class OwnershipController extends Controller {
     public function get_reservation_calendarAction(Request $request) {
         $from = $request->get('from');
         $to = $request->get('to');
+        
+        $reservation_from = explode('/', $from);
+        $dateFrom = new \DateTime();
+        $start_timestamp = mktime(0, 0, 0, $reservation_from[1], $reservation_from[0], $reservation_from[2]);
+        $dateFrom->setTimestamp($start_timestamp);
+
+        $reservation_to = explode('/', $to);
+        $dateTo = new \DateTime();
+        $end_timestamp = mktime(0, 0, 0, $reservation_to[1], $reservation_to[0], $reservation_to[2]);
+        $dateTo->setTimestamp($end_timestamp);
         $owner_id = $request->get('own_id');
 
         if (!$owner_id) {
@@ -29,16 +39,12 @@ class OwnershipController extends Controller {
         $general_reservations = $em->getRepository('mycpBundle:generalReservation')->findBy(array('gen_res_own_id' => $owner_id));
         $reservations = array();
         foreach ($general_reservations as $gen_res) {
-            $own_reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $gen_res->getGenResId()));
+            $own_reservations = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReservedByGeneralAndDate($gen_res->getGenResId(),$dateFrom, $dateTo);//findBy(array('own_res_gen_res_id' => $gen_res->getGenResId()));
             foreach ($own_reservations as $own_res) {
                 array_push($reservations, $own_res);
             }
         }
-        $reservation_from = explode('/', $from);
-        $start_timestamp = mktime(0, 0, 0, $reservation_from[1], $reservation_from[0], $reservation_from[2]);
-
-        $reservation_to = explode('/', $to);
-        $end_timestamp = mktime(0, 0, 0, $reservation_to[1], $reservation_to[0], $reservation_to[2]);
+        
 
         $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $owner_id, 'room_active' => true));
 
@@ -103,29 +109,34 @@ class OwnershipController extends Controller {
             foreach ($reservations as $reservation) {
 
                 if ($reservation->getOwnResSelectedRoomId() == $room->getRoomId()) {
+                    $reservationStartDate = $reservation->getOwnResReservationFromDate()->getTimestamp();
+                    $reservationEndDate = $reservation->getOwnResReservationToDate()->getTimestamp();
+                    $date = new \DateTime();
+                    $date->setTimestamp(strtotime("-1 day", $reservationEndDate));
+                    $reservationEndDate = $date->getTimestamp();
 
-                    if ($start_timestamp <= $reservation->getOwnResReservationFromDate()->getTimestamp() &&
-                            $end_timestamp >= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) {
-
-                        $array_no_available[$room->getRoomId()] = $room->getRoomId();
-                    }
-
-                    if ($start_timestamp >= $reservation->getOwnResReservationFromDate()->getTimestamp() &&
-                            $start_timestamp <= $reservation->getOwnResReservationToDate()->getTimestamp() &&
-                            $end_timestamp >= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) {
+                    if ($start_timestamp <= $reservationStartDate &&
+                            $end_timestamp >= $reservationEndDate && $reservation->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) {
 
                         $array_no_available[$room->getRoomId()] = $room->getRoomId();
                     }
 
-                    if ($start_timestamp <= $reservation->getOwnResReservationFromDate()->getTimestamp() &&
-                            $end_timestamp <= $reservation->getOwnResReservationToDate()->getTimestamp() &&
-                            $end_timestamp >= $reservation->getOwnResReservationFromDate()->getTimestamp() && $reservation->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) {
+                    if ($start_timestamp >= $reservationStartDate &&
+                            $start_timestamp <= $reservationEndDate &&
+                            $end_timestamp >= $reservationEndDate && $reservation->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) {
 
                         $array_no_available[$room->getRoomId()] = $room->getRoomId();
                     }
 
-                    if ($start_timestamp >= $reservation->getOwnResReservationFromDate()->getTimestamp() &&
-                            $end_timestamp <= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) {
+                    if ($start_timestamp <= $reservationStartDate &&
+                            $end_timestamp <= $reservationEndDate &&
+                            $end_timestamp >= $reservationStartDate && $reservation->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) {
+
+                        $array_no_available[$room->getRoomId()] = $room->getRoomId();
+                    }
+
+                    if ($start_timestamp >= $reservationStartDate &&
+                            $end_timestamp <= $reservationEndDate && $reservation->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) {
 
                         $array_no_available[$room->getRoomId()] = $room->getRoomId();
                     }
@@ -134,7 +145,7 @@ class OwnershipController extends Controller {
                     $cont_numbers = 1;
                     foreach ($array_dates as $date) {
 
-                        if ($date >= $reservation->getOwnResReservationFromDate()->getTimestamp() && $date <= $reservation->getOwnResReservationToDate()->getTimestamp() && $reservation->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) {
+                        if ($date >= $reservationStartDate && $date <= $reservationEndDate && $reservation->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) {
                             array_push($array_numbers_check, $cont_numbers);
                         }
                         $cont_numbers++;
