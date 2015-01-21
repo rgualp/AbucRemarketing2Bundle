@@ -62,18 +62,26 @@ class CartController extends Controller {
 
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
         $cartItems = $em->getRepository('mycpBundle:cart')->getCartItems($user_ids);
+        $showError = false;
 
         for ($a = 0; $a < count($array_ids_rooms); $a++) {
             $insert = 1;
             foreach ($cartItems as $item) {
+                $cartDateFrom = $item->getCartDateFrom()->getTimestamp();
+                $cartDateTo = $item->getCartDateTo()->getTimestamp();
+                $date = new \DateTime();
+                $date->setTimestamp(strtotime("-1 day", $cartDateTo));
+                $cartDateTo = $date->getTimestamp();
+                
                 if (isset($array_count_guests[$a]) && isset($array_count_kids[$a]) &&
-                        $item->getCartDateFrom()->getTimestamp() == $start_timestamp &&
-                        $item->getCartDateTo()->getTimestamp() == $end_timestamp &&
-                        $item->getCartRoom() == $array_ids_rooms[$a] &&
+                        (($cartDateFrom <= $start_timestamp && $cartDateTo >= $start_timestamp) || 
+                        ($cartDateFrom <= $end_timestamp && $cartDateTo >= $end_timestamp)) &&
+                        $item->getCartRoom() == $array_ids_rooms[$a] /*&&
                         $item->getCartCountAdults() == $array_count_guests[$a] &&
-                        $item->getCartCountChildren() == $array_count_kids[$a]
+                        $item->getCartCountChildren() == $array_count_kids[$a]*/
                 ) {
                     $insert = 0;
+                    $showError = 1;
                 }
             }
             if ($insert == 1) {
@@ -112,8 +120,13 @@ class CartController extends Controller {
             $dispatcher = $this->get('event_dispatcher');
             $eventData = new \MyCp\mycpBundle\JobData\UserJobData($user_ids["user_id"], $user_ids["session_id"]);
             $dispatcher->dispatch('mycp.event.cart.full', new JobEvent($eventData));
-            }
+            }            
         }
+        if($showError)
+            {
+                $message = $this->get('translator')->trans("ADD_TO_CART_ERROR");
+                $this->get('session')->getFlashBag()->add('message_global_error', $message);
+            }
 
         return $this->redirect($this->generateUrl('frontend_view_cart'));
     }

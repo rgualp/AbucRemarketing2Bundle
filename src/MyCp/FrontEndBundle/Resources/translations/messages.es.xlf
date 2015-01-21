@@ -2679,6 +2679,10 @@
                 <source>COMMENT</source>
                 <target>Comentar</target>
             </trans-unit>
+            <trans-unit id="680">
+                <source>ADD_TO_CART_ERROR</source>
+                <target>Una de las habitaciones ya existe en su carrito y el rango de fechas seleccionado colisiona con el que está almacenado. Por favor, modifique el rango de fechas.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -116,6 +116,12 @@
         <div class="alert alert-info" style="margin-bottom: 10px">{{ message }}</div>
     </div>
 {% endfor %}
+{% for message in app.session.flashbag.get('message_global_error') %}
+    <div class="container">
+        <br/>
+        <div class="alert alert-danger" style="margin-bottom: 10px">{{ message }}</div>
+    </div>
+{% endfor %}
 {% block body %}
     {% block include_javascripts %}{% endblock %}
 {% endblock %}
