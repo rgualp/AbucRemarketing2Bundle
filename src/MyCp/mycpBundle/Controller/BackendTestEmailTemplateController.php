@@ -421,12 +421,17 @@ class BackendTestEmailTemplateController extends Controller {
         ));
     }
 
-    public function checkAvailableAction(Request $request) {
+    public function checkAvailableAction($casId, Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
         $service_time = $this->get('time');
+
+        if($casId == null)
         $generalReservation = $em
                 ->getRepository('mycpBundle:generalReservation')
                 ->findOneBy(array('gen_res_status' => generalReservation::STATUS_AVAILABLE));
+        else
+            $generalReservation = $em
+                ->getRepository('mycpBundle:generalReservation')->find($casId);
 
         $user = $generalReservation->getGenResUserId();
         $userTourist = $em->getRepository("mycpBundle:userTourist")->findOneBy(array("user_tourist_user" => $user->getUserId()));
@@ -455,7 +460,7 @@ class BackendTestEmailTemplateController extends Controller {
         ));
     }
 
-    public function sendVoucherAction($mail, Request $request) {        
+    public function sendVoucherAction($mail, Request $request) {
         if ($request->getMethod() == 'POST') {
             $em = $this->getDoctrine()->getEntityManager();
             $generalReservation = $em

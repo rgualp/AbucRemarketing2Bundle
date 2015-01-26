@@ -18,16 +18,22 @@
 <h5>Equipo de Reservación</h5>
 <table style="width:100%" class="table">
     <thead>
-    <th style="width: 90%; text-align: left">Correo</th>
+    <th style="width: 82%; text-align: left">Correo</th>
     <th>Acción</th>
     </thead>
     <tr>
         <td>Enviar voucher</td>
-        <td><button class="btn btn-primary bAction" data-url="{{path("mycp_test_send_voucher_rt")}}">Test</button></td>
+        <td style="text-align: right"><button class="btn btn-primary bAction" data-url="{{path("mycp_test_send_voucher_rt")}}">Test</button></td>
     </tr>
     <tr>
         <td><a href="{{path("mycp_test_check_available_rt")}}">Consulta de disponibilidad</a></td>
-        <td></td>
+        <td style="text-align: right">
+                <div class="row-fluid">
+                    <b>CAS.: </b>
+                    <input type="text" name="tReservation" id="tReservation" style="width:50px"/>
+                    <button title="Escriba el identificador de una reservación para ver el contenido del correo que se le envia al equipo de reservación" class="btn btn-danger bActionDisponibility" data-url="{{path("mycp_test_check_available_rt")}}">Ver</button>
+                </div>
+        </td>
     </tr>
     <tr>
         <td><a href="{{path("mycp_test_accommodation_notification_rt")}}">Comando: Notificación de últimos alojamientos añadidos</a></td>
@@ -184,6 +190,15 @@
         url=url+'/'+mail;
         $('#form').attr('action',url);
         $('#form').submit();
+    });
+
+    $(".bActionDisponibility").click(function(){
+        url = $(this).attr("data-url");
+        reservation = $("#tReservation").val();
+        url=url+'/'+reservation;
+        /*$('#form').attr('action',url);
+        $('#form').submit();*/
+        window.location = url;
     });
 </script>
 {% endblock %}

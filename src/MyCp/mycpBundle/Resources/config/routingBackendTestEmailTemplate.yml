@@ -49,7 +49,7 @@ mycp_test_activate_user_last_reminder_account:
 mycp_test_activate_user_last_reminder_account_send:
     pattern:  /activate-account-last-reminder-send/{langCode}/{newMethod}/{mail}
     defaults: { _controller: mycpBundle:BackendTestEmailTemplate:activateAccountLastReminderSend, mail:null}
-    
+
 mycp_test_cart_full_reminder:
     pattern:  /cart-full-reminder/{langCode}
     defaults: { _controller: mycpBundle:BackendTestEmailTemplate:cartFullReminder}
@@ -58,13 +58,13 @@ mycp_test_feedback_reminder:
     pattern:  /feedback-reminder/{langCode}
     defaults: { _controller: mycpBundle:BackendTestEmailTemplate:feedbackReminder}
 mycp_test_check_available_rt:
-    pattern:  /check-available
-    defaults: { _controller: mycpBundle:BackendTestEmailTemplate:checkAvailable}
+    pattern:  /check-available/{casId}
+    defaults: { _controller: mycpBundle:BackendTestEmailTemplate:checkAvailable, casId:null}
 
 mycp_test_accommodation_notification_rt:
     pattern:  /accommodation-notification
     defaults: { _controller: mycpBundle:BackendTestEmailTemplate:accommodationNotification}
-    
+
 mycp_test_send_voucher_rt:
     pattern:  /send-voucher/{mail}
     defaults: { _controller: mycpBundle:BackendTestEmailTemplate:sendVoucher, mail:null}
