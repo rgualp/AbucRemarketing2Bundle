@@ -61,6 +61,11 @@ mycp_test_cart_full_reminder_send:
 mycp_test_feedback_reminder:
     pattern:  /feedback-reminder/{langCode}
     defaults: { _controller: mycpBundle:BackendTestEmailTemplate:feedbackReminder}
+    
+mycp_test_feedback_reminder_send:
+    pattern:  /feedback-reminder-send/{langCode}/{newMethod}/{mail}
+    defaults: { _controller: mycpBundle:BackendTestEmailTemplate:feedbackReminderSend, mail:null}
+    
 mycp_test_check_available_rt:
     pattern:  /check-available/{casId}
     defaults: { _controller: mycpBundle:BackendTestEmailTemplate:checkAvailable, casId:null}

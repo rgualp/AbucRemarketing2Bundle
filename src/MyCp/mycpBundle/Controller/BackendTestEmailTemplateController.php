@@ -378,6 +378,17 @@ class BackendTestEmailTemplateController extends Controller {
     }
 
     public function feedbackReminderAction($langCode) {
+        return $this->getFeedbackReminderBody($langCode);
+    }
+    
+    public function feedbackReminderSendAction($langCode, $newMethod, $mail, Request $request) {
+        if ($request->getMethod() == 'POST') {
+            $body = $this->getFeedbackReminderBody($langCode);
+            return $this->sendEmail($newMethod, $mail, $body, "Testings: Feedback recordatorio");
+        }
+    }
+
+    public function getFeedbackReminderBody($langCode) {
         $em = $this->getDoctrine()->getEntityManager();
         $service_time = $this->get('time');
 
