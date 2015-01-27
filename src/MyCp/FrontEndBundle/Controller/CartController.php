@@ -403,8 +403,13 @@ class CartController extends Controller {
                 $subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $body
         );
 
-
-        $user_tourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
+        //Enviando mail al reservation team
+        foreach($generalReservations as $genResId)
+        {
+            \MyCp\FrontEndBundle\Helpers\ReservationHelper::sendingEmailToReservationTeam($genResId, $em, $this, $service_email, $service_time, $request, 'reservation@mycasaparticular.com', 'no.reply@mycasaparticular.com');
+        }
+        
+        /*$user_tourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
         $array_own_res_home = array();
         foreach ($reservations as $gen) {
             $offset = $gen->getOwnResGenResId()->getGenResId();
@@ -432,7 +437,7 @@ class CartController extends Controller {
             $service_email->sendEmail(
                     $subject, 'no.reply@mycasaparticular.com', $subject, 'reservation@mycasaparticular.com', $body
             );
-        }
+        }*/
         //exit();
 
         return $this->render('FrontEndBundle:reservation:confirmReview.html.twig', array(

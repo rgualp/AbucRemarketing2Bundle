@@ -41,6 +41,45 @@ class ReservationHelper {
             default: return $reservation->getOwnResRoomPriceDown();
         }
     }
+    
+    public static function sendingEmailToReservationTeam($genResId, $em, $controller, $service_email, $service_time, $request, $toAddress, $fromAddress)
+    {
+        $generalReservation = $em
+                ->getRepository('mycpBundle:generalReservation')->find($genResId);
+        
+        $user = $generalReservation->getGenResUserId();
+        $user_tourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
+        
+        $ownershipReservations = $em
+                ->getRepository('mycpBundle:generalReservation')
+                ->getOwnershipReservations($generalReservation);
+
+        $arrayNights = array();
+
+        foreach ($ownershipReservations as $ownershipReservation) {
+            $array_dates = $service_time
+                    ->datesBetween(
+                    $ownershipReservation->getOwnResReservationFromDate()->getTimestamp(), $ownershipReservation->getOwnResReservationToDate()->getTimestamp()
+            );
+
+            array_push($arrayNights, count($array_dates) - 1);
+        }      
+        
+        
+        $body = $controller->render('FrontEndBundle:mails:rt_email_check_available.html.twig', array(
+                'user' => $user,
+                'user_tourist' => $user_tourist,
+                'reservations' => $ownershipReservations,
+                'nigths' => $arrayNights,
+                'comment' => $request->getSession()->get('message_cart')
+            ));
+
+            $subject = "MyCasaParticular Reservas - " . strtoupper($user_tourist->getUserTouristLanguage()->getLangCode());
+
+            $service_email->sendEmail(
+                    $subject, $fromAddress, $subject, $toAddress, $body
+            );
+    }
 
 }
 
