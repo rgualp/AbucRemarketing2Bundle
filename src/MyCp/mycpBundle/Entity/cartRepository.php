@@ -33,13 +33,33 @@ class cartRepository extends EntityRepository {
         }
     }
 
+    public function getCartItemsForCheck($user_ids) {
+        try {
+            $em = $this->getEntityManager();
+            $query_string = "SELECT c, room, o FROM mycpBundle:cart c JOIN c.cart_room room JOIN room.room_ownership o";
+            $where = "";
+
+            if ($user_ids["user_id"] != null)
+                $where.= " WHERE c.cart_user = " . $user_ids['user_id'];
+            else if ($user_ids["session_id"] != null)
+                $where .= " WHERE c.cart_session_id = '" . $user_ids["session_id"] . "'";
+
+            if ($where != "")
+                return $em->createQuery($query_string . $where." ORDER BY o.own_id ASC, c.cart_date_from ASC")->getResult();
+            else
+                return null;
+        } catch (Exception $e) {
+            return null;
+        }
+    }
+
     public function getCartItemsByUser($userId) {
         try {
             $em = $this->getEntityManager();
             $query_string = "SELECT c FROM mycpBundle:cart c WHERE c.cart_user = " . $userId;
-            
+
             return $em->createQuery($query_string)->getResult();
-            
+
         } catch (Exception $e) {
             return null;
         }
@@ -49,14 +69,14 @@ class cartRepository extends EntityRepository {
         try {
             $em = $this->getEntityManager();
             $query_string = "SELECT c FROM mycpBundle:cart c ";
-            
+
             $where = "";
-            
+
             if($user_id != null)
                 $where = "WHERE c.cart_user = " . $user_id;
             else if($sessionId != null)
                 $where = "WHERE c.cart_user <> NULL AND c.cart_session_id = '".$sessionId."'";
-            
+
             $date = new \DateTime();
             $where .= " AND c.cart_created_date <= '" . date("Y-m-d H:i:s", strtotime("-3 hours", $date->getTimestamp())) . "'";
 
@@ -65,21 +85,21 @@ class cartRepository extends EntityRepository {
             return null;
         }
     }
-    
+
     public function getUserFromCart($user_id = null, $sessionId = null) {
         try {
             $em = $this->getEntityManager();
             $query_string = "SELECT c FROM mycpBundle:cart c ";
-            
+
             $where = "";
-            
+
             if($user_id != null)
                 $where = "WHERE c.cart_user = " . $user_id;
             else if($sessionId != null)
                 $where = "WHERE c.cart_user <> NULL AND c.cart_session_id = '".$sessionId."'";
-            
+
             $cartItem = $em->createQuery($query_string . $where)->getOneOrNullResult();
-            
+
             return $cartItem->getCartUser();
         } catch (Exception $e) {
             return null;
@@ -126,7 +146,7 @@ class cartRepository extends EntityRepository {
             }
             $em->flush();
         } catch (Exception $e) {
-            
+
         }
     }
 

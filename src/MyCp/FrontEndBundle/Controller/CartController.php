@@ -72,9 +72,9 @@ class CartController extends Controller {
                 $date = new \DateTime();
                 $date->setTimestamp(strtotime("-1 day", $cartDateTo));
                 $cartDateTo = $date->getTimestamp();
-                
+
                 if (isset($array_count_guests[$a]) && isset($array_count_kids[$a]) &&
-                        (($cartDateFrom <= $start_timestamp && $cartDateTo >= $start_timestamp) || 
+                        (($cartDateFrom <= $start_timestamp && $cartDateTo >= $start_timestamp) ||
                         ($cartDateFrom <= $end_timestamp && $cartDateTo >= $end_timestamp)) &&
                         $item->getCartRoom() == $array_ids_rooms[$a] /*&&
                         $item->getCartCountAdults() == $array_count_guests[$a] &&
@@ -120,7 +120,7 @@ class CartController extends Controller {
             $dispatcher = $this->get('event_dispatcher');
             $eventData = new \MyCp\mycpBundle\JobData\UserJobData($user_ids["user_id"], $user_ids["session_id"]);
             $dispatcher->dispatch('mycp.event.cart.full', new JobEvent($eventData));
-            }            
+            }
         }
         if($showError)
             {
@@ -277,6 +277,7 @@ class CartController extends Controller {
         $cartItems = $em->getRepository('mycpBundle:cart')->getCartItems($user_ids);
         $min_date = null;
         $max_date = null;
+        $generalReservations = array();
 
         if (count($cartItems) > 0) {
             $res_array = array();
@@ -363,6 +364,10 @@ class CartController extends Controller {
                         array_push($own_ids, $ownership_reservation->getOwnResId());
                         $flag_1++;
                     }
+                    //update generalReservation dates
+                    $em->getRepository("mycpBundle:generalReservation")->updateDates($general_reservation);                    
+                    array_push($generalReservations, $general_reservation->getGenResId());
+                    
                 }
             }
         } else {

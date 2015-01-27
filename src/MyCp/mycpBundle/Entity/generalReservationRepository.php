@@ -179,10 +179,9 @@ class generalReservationRepository extends EntityRepository {
         $whereOwn = "";
         $countReservations = "";
 
-        if($ownId != null)
-        {
-            $whereOwn = " AND own.own_id = $ownId AND (gre.gen_res_status = ".generalReservation::STATUS_RESERVED. " OR gre.gen_res_status = ".generalReservation::STATUS_PARTIAL_RESERVED.")";
-            $countReservations = " AND g.gen_res_own_id = $ownId AND (g.gen_res_status = ".generalReservation::STATUS_RESERVED. " OR g.gen_res_status = ".generalReservation::STATUS_PARTIAL_RESERVED.")";
+        if ($ownId != null) {
+            $whereOwn = " AND own.own_id = $ownId AND (gre.gen_res_status = " . generalReservation::STATUS_RESERVED . " OR gre.gen_res_status = " . generalReservation::STATUS_PARTIAL_RESERVED . ")";
+            $countReservations = " AND g.gen_res_own_id = $ownId AND (g.gen_res_status = " . generalReservation::STATUS_RESERVED . " OR g.gen_res_status = " . generalReservation::STATUS_PARTIAL_RESERVED . ")";
         }
 
         $em = $this->getEntityManager();
@@ -250,8 +249,7 @@ class generalReservationRepository extends EntityRepository {
 
         $whereOwn = "";
 
-        if($ownId != null)
-        {
+        if ($ownId != null) {
             $whereOwn = " AND ow.own_id= $ownId ";
         }
 
@@ -348,8 +346,7 @@ class generalReservationRepository extends EntityRepository {
         $em->flush();
     }
 
-    public function getBookings($id_reservation)
-    {
+    public function getBookings($id_reservation) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT DISTINCT book.booking_id FROM mycpBundle:ownershipReservation res
             JOIN res.own_res_reservation_booking book
@@ -362,12 +359,11 @@ class generalReservationRepository extends EntityRepository {
      * @param generalReservation $generalReservation
      * @return array An array of ownershipReservations
      */
-    public function getOwnershipReservations(generalReservation $generalReservation)
-    {
+    public function getOwnershipReservations(generalReservation $generalReservation) {
         $em = $this->getEntityManager();
         $ownershipReservations = $em
-            ->getRepository('mycpBundle:ownershipReservation')
-            ->findBy(array('own_res_gen_res_id' => $generalReservation->getGenResId()));
+                ->getRepository('mycpBundle:ownershipReservation')
+                ->findBy(array('own_res_gen_res_id' => $generalReservation->getGenResId()));
 
         return $ownershipReservations;
     }
@@ -378,16 +374,15 @@ class generalReservationRepository extends EntityRepository {
      * @param generalReservation $generalReservation
      * @return bool
      */
-    public function shallSendOutReminderEmail(generalReservation $generalReservation)
-    {
+    public function shallSendOutReminderEmail(generalReservation $generalReservation) {
         $em = $this->getEntityManager();
-        
+
         $userId = $generalReservation->getGenResUserId()->getUserId();
         $previousPayedReservations = count($em->getRepository("mycpBundle:generalReservation")->getPayedReservations($userId));
 
-        if($previousPayedReservations > 0)
+        if ($previousPayedReservations > 0)
             return false;
-        
+
         if (!$generalReservation->hasStatusAvailable()) {
             return false;
         }
@@ -406,27 +401,25 @@ class generalReservationRepository extends EntityRepository {
 
         return $isAtLeastOneOwnResAvailable;
     }
-    
-    public function getPayedReservations($user_id)
-    {
+
+    public function getPayedReservations($user_id) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT genRes FROM mycpBundle:generalReservation genRes
             WHERE genRes.gen_res_user_id = $user_id 
-                AND (genRes.gen_res_status = ".generalReservation::STATUS_PARTIAL_RESERVED." OR 
-                    genRes.gen_res_status = ".generalReservation::STATUS_RESERVED.")"
-                );
+                AND (genRes.gen_res_status = " . generalReservation::STATUS_PARTIAL_RESERVED . " OR 
+                    genRes.gen_res_status = " . generalReservation::STATUS_RESERVED . ")"
+        );
         return $query->getResult();
     }
-    
-    public function shallSendOutFeedbackReminderEmail(generalReservation $generalReservation)
-    {
+
+    public function shallSendOutFeedbackReminderEmail(generalReservation $generalReservation) {
         $em = $this->getEntityManager();
 
         if (!$generalReservation->hasStatusReserved()) {
             return false;
         }
         $ownershipReservations = $em->getRepository('mycpBundle:generalReservation')->getOwnershipReservations($generalReservation);
-        
+
 
         /** @var $ownershipReservation ownershipReservation */
         foreach ($ownershipReservations as $ownershipReservation) {
@@ -435,13 +428,13 @@ class generalReservationRepository extends EntityRepository {
                 return false;
             }
         }
-        
+
         $userId = $generalReservation->getGenResUserId()->getUserId();
         $ownershipId = $generalReservation->getGenResOwnId()->getOwnId();
         $date = $generalReservation->getGenResFromDate();
-        
+
         $comments = count($em->getRepository("mycpBundle:comment")->getByUserOwnership($userId, $ownershipId, $date));
-        
+
         return $comments == 0;
     }
 
@@ -450,18 +443,48 @@ class generalReservationRepository extends EntityRepository {
      * @return generalReservation
      * @throws \LogicException
      */
-    public function getGeneralReservationById($reservationId)
-    {
+    public function getGeneralReservationById($reservationId) {
         $em = $this->getEntityManager();
         $generalReservation = $em
-            ->getRepository('mycpBundle:generalReservation')
-            ->find($reservationId);
+                ->getRepository('mycpBundle:generalReservation')
+                ->find($reservationId);
 
         if (empty($generalReservation)) {
             throw new \LogicException('No reservation found for ID ' . $reservationId);
         }
 
         return $generalReservation;
+    }
+
+    public function updateDates(generalReservation $generalReservation) {
+        $em = $this->getEntityManager();
+        $ownReservations = $em
+                ->getRepository('mycpBundle:ownershipReservation')
+                ->findBy(array("own_res_gen_res_id" => $generalReservation->getGenResId()));
+
+        if (count($ownReservations) > 0) {
+            $min_date = null;
+            $max_date = null;
+
+            foreach ($ownReservations as $item) {
+
+                if ($min_date == null)
+                    $min_date = $item->getOwnResReservationFromDate();
+                else if ($item->getOwnResReservationFromDate() < $min_date)
+                    $min_date = $item->getOwnResReservationFromDate();
+
+                if ($max_date == null)
+                    $max_date = $item->getOwnResReservationToDate();
+                else if ($item->getOwnResReservationToDate() > $max_date)
+                    $max_date = $item->getOwnResReservationToDate();
+            }
+            
+            $generalReservation->setGenResFromDate($min_date);
+            $generalReservation->setGenResToDate($max_date);
+            
+            $em->persist($generalReservation);
+            $em->flush();
+        }
     }
 
 }
