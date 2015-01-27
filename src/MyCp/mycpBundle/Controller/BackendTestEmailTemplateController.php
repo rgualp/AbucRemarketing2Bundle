@@ -328,6 +328,17 @@ class BackendTestEmailTemplateController extends Controller {
     }
 
     public function cartFullReminderAction($langCode) {
+        return $this->getCartFullReminderBody($langCode);
+    }
+    
+    public function cartFullReminderSendAction($langCode, $newMethod, $mail, Request $request) {
+        if ($request->getMethod() == 'POST') {
+            $body = $this->getCartFullReminderBody($langCode);
+            return $this->sendEmail($newMethod, $mail, $body, "Testings: Carrito lleno recordatorio");
+        }
+    }
+
+    public function getCartFullReminderBody($langCode) {
         $em = $this->getDoctrine()->getEntityManager();
         $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array());
         $userName = $userTourist->getUserTouristUser()->getUserCompleteName();
