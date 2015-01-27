@@ -31,7 +31,7 @@ ID reserva: CAS.{{reservations[0].getOwnResGenResId.getGenResId}}
 <h4>Datos de reserva ({{reservations|length}} {% if reservations|length == 1%}Habitación{% else %}Habitaciones{% endif %})</h4>
 {% for reservation in reservations %}
 <ul>
-    <li><b>Habitación:</b> Hab. #{{roomNums[loop.index0]}} {{reservation.getOwnResRoomType}}</li>
+    <li><b>Habitación:</b> Hab #{{roomNums[loop.index0]}} {{reservation.getOwnResRoomType}}</li>
     <li><b>Adultos:</b> {{reservation.getOwnResCountAdults}}</li>
     <li><b>Niños:</b> {{reservation.getOwnResCountChildrens}}</li>
     <li><b>Fecha de arribo:</b> {{reservation.getOwnResReservationFromDate|date("d/m/Y")}}</li>
