@@ -8,7 +8,7 @@ class ReservationHelper {
 
     public static function getTotalPrice($em, $service_time, $reservation, $triple_room_charge) {
         $total_price = 0;
-        $destination_id = ($reservation->getOwnResGenResId()->getGenResOwnId()->getOwnDestination() != null) ? $reservation->getOwnResGenResId()->getGenResOwnId()->getOwnDestination()->getDesId(): null;
+        $destination_id = ($reservation->getOwnResGenResId()->getGenResOwnId()->getOwnDestination() != null) ? $reservation->getOwnResGenResId()->getGenResOwnId()->getOwnDestination()->getDesId() : null;
         $seasons = $em->getRepository("mycpBundle:season")->getSeasons($reservation->getOwnResReservationFromDate(), $reservation->getOwnResReservationToDate(), $destination_id);
         $array_dates = $service_time->datesBetween($reservation->getOwnResReservationFromDate()->getTimestamp(), $reservation->getOwnResReservationToDate()->getTimestamp());
 
@@ -21,35 +21,31 @@ class ReservationHelper {
             $total_price += $reservation->getOwnResNightPrice() * (count($array_dates) - 1);
         }
 
-        if($reservation->getTripleRoomCharged())
+        if ($reservation->getTripleRoomCharged())
             $total_price += $triple_room_charge * (count($array_dates) - 1);
 
         return $total_price;
     }
 
-    public static function roomPriceBySeason($room, $seasonType)
-    {
+    public static function roomPriceBySeason($room, $seasonType) {
         return $room->getPriceBySeasonType($seasonType);
     }
 
-    public static function reservationPriceBySeason($reservation, $seasonType)
-    {
-        switch($seasonType)
-        {
+    public static function reservationPriceBySeason($reservation, $seasonType) {
+        switch ($seasonType) {
             case \MyCp\mycpBundle\Entity\season::SEASON_TYPE_HIGH: return $reservation->getOwnResRoomPriceUp();
-            case \MyCp\mycpBundle\Entity\season::SEASON_TYPE_SPECIAL: return ($reservation->getOwnResRoomPriceSpecial() != null && $reservation->getOwnResRoomPriceSpecial() > 0) ? $reservation->getOwnResRoomPriceSpecial(): $reservation->getOwnResRoomPriceUp();
+            case \MyCp\mycpBundle\Entity\season::SEASON_TYPE_SPECIAL: return ($reservation->getOwnResRoomPriceSpecial() != null && $reservation->getOwnResRoomPriceSpecial() > 0) ? $reservation->getOwnResRoomPriceSpecial() : $reservation->getOwnResRoomPriceUp();
             default: return $reservation->getOwnResRoomPriceDown();
         }
     }
-    
-    public static function sendingEmailToReservationTeam($genResId, $em, $controller, $service_email, $service_time, $request, $toAddress, $fromAddress)
-    {
+
+    public static function sendingEmailToReservationTeamBody($genResId, $em, $controller, $service_time, $request) {
         $generalReservation = $em
-                ->getRepository('mycpBundle:generalReservation')->find($genResId);
-        
+                        ->getRepository('mycpBundle:generalReservation')->find($genResId);
+
         $user = $generalReservation->getGenResUserId();
         $user_tourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
-        
+
         $ownershipReservations = $em
                 ->getRepository('mycpBundle:generalReservation')
                 ->getOwnershipReservations($generalReservation);
@@ -63,22 +59,30 @@ class ReservationHelper {
             );
 
             array_push($arrayNights, count($array_dates) - 1);
-        }      
+        }
+        $results = array();
+        $results[] = $controller->render('FrontEndBundle:mails:rt_email_check_available.html.twig', array(
+            'user' => $user,
+            'user_tourist' => $user_tourist,
+            'reservations' => $ownershipReservations,
+            'nigths' => $arrayNights,
+            'comment' => $request->getSession()->get('message_cart')
+        ));
         
+        $results[] = "MyCasaParticular Reservas - " . strtoupper($user_tourist->getUserTouristLanguage()->getLangCode());
+
+        return $results;
+    }
+
+    public static function sendingEmailToReservationTeam($genResId, $em, $controller, $service_email, $service_time, $request, $toAddress, $fromAddress) {
         
-        $body = $controller->render('FrontEndBundle:mails:rt_email_check_available.html.twig', array(
-                'user' => $user,
-                'user_tourist' => $user_tourist,
-                'reservations' => $ownershipReservations,
-                'nigths' => $arrayNights,
-                'comment' => $request->getSession()->get('message_cart')
-            ));
+        $texts = ReservationHelper::sendingEmailToReservationTeamBody($genResId, $em, $controller, $service_time, $request);
+        $subject = $texts[1];
+        $body = $texts[0];
 
-            $subject = "MyCasaParticular Reservas - " . strtoupper($user_tourist->getUserTouristLanguage()->getLangCode());
-
-            $service_email->sendEmail(
-                    $subject, $fromAddress, $subject, $toAddress, $body
-            );
+        $service_email->sendEmail(
+                $subject, $fromAddress, $subject, $toAddress, $body
+        );
     }
 
 }

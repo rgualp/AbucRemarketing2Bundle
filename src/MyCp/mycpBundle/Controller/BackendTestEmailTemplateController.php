@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use MyCp\mycpBundle\Entity\generalReservation;
+use MyCp\FrontEndBundle\Helpers\ReservationHelper;
 
 class BackendTestEmailTemplateController extends Controller {
 
@@ -424,8 +425,11 @@ class BackendTestEmailTemplateController extends Controller {
     public function checkAvailableAction($casId, Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
         $service_time = $this->get('time');
-
-        if($casId == null)
+        
+        $texts = ReservationHelper::sendingEmailToReservationTeamBody($casId, $em, $this, $service_time, $request);
+        
+        return $texts[0];
+        /*if($casId == null)
         $generalReservation = $em
                 ->getRepository('mycpBundle:generalReservation')
                 ->findOneBy(array('gen_res_status' => generalReservation::STATUS_AVAILABLE));
@@ -457,7 +461,7 @@ class BackendTestEmailTemplateController extends Controller {
                     'reservations' => $ownershipReservations,
                     'nigths' => $arrayNights,
                     'comment' => $request->getSession()->get('message_cart')
-        ));
+        ));*/
     }
 
     public function sendVoucherAction($mail, Request $request) {
