@@ -51,14 +51,18 @@ class ReservationHelper {
                 ->getOwnershipReservations($generalReservation);
 
         $arrayNights = array();
+        $roomNums = array();
 
         foreach ($ownershipReservations as $ownershipReservation) {
             $array_dates = $service_time
                     ->datesBetween(
                     $ownershipReservation->getOwnResReservationFromDate()->getTimestamp(), $ownershipReservation->getOwnResReservationToDate()->getTimestamp()
-            );
+            );            
 
             array_push($arrayNights, count($array_dates) - 1);
+            
+            $room = $em->getRepository("mycpBundle:room")->find($ownershipReservation->getOwnResSelectedRoomId());
+            array_push($roomNums, $room->getRoomNum());
         }
         $results = array();
         $results[] = $controller->render('FrontEndBundle:mails:rt_email_check_available.html.twig', array(
@@ -66,7 +70,8 @@ class ReservationHelper {
             'user_tourist' => $user_tourist,
             'reservations' => $ownershipReservations,
             'nigths' => $arrayNights,
-            'comment' => $request->getSession()->get('message_cart')
+            'comment' => $request->getSession()->get('message_cart'),
+            'roomNums' => $roomNums
         ));
         
         $results[] = "MyCasaParticular Reservas - " . strtoupper($user_tourist->getUserTouristLanguage()->getLangCode());
