@@ -30,7 +30,7 @@ class BackendLogController extends Controller
             if($post['user']!='' or $post['module']!='' or $post['from_date']!='' or $post['to_date']!='')
             {
                 $em = $this->getDoctrine()->getEntityManager();
-                $logs=$em->getRepository('mycpBundle:log')->get_logs($post);
+                $logs=$em->getRepository('mycpBundle:log')->getLogs($post);
                 $msg_count_logs=count($logs);
             }
 

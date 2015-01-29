@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityRepository;
 class logRepository extends EntityRepository
 {
 
-    function get_logs($post)
+    function getLogs($post)
     {
         $user=$post['user'];
         $module=$post['module'];
