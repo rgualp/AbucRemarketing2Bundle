@@ -89,7 +89,7 @@ class BackendMailListController extends Controller {
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
-                $service_log->saveLog('Update mailList, ' . $listId, BackendModuleName::MODULE_MAIL_LIST);
+                $service_log->saveLog('Update mailList, ' . $post_form['mail_list_name'], BackendModuleName::MODULE_MAIL_LIST);
 
                 return $this->redirect($this->generateUrl('mycp_list_mail_list'));
             }
@@ -125,13 +125,24 @@ class BackendMailListController extends Controller {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
-        $users = $em->getRepository('mycpBundle:mailListUser')->findBy(array('mail_list' => $mailList));
-        //TODO
+        $mList = $em->getRepository("mycpBundle:mailList")->find($mailList);
+        $page = 1;
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+        $paginator = $this->get('ideup.simple_paginator');
+        $paginator->setItemsPerPage($items_per_page);
+        $list = $paginator->paginate($em->getRepository('mycpBundle:mailListUser')->findBy(array('mail_list' => $mailList)))->getResult();
 
         $service_log = $this->get('log');
         $service_log->saveLog('Visit users for a mail list', BackendModuleName::MODULE_MAIL_LIST);
 
-        //TODO
+        return $this->render('mycpBundle:mailList:users.html.twig', array(
+                    'list' => $list,
+                    'mailList' => $mList,
+                    'items_per_page' => $items_per_page,
+                    'current_page' => $page,
+                    'total_items' => $paginator->getTotalItems()
+        ));
     }
 
     function addUserAction($mailList) {

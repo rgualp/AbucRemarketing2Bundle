@@ -54,7 +54,7 @@ class mailList
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="mail_list_creation_date", type="date")
+     * @ORM\Column(name="mail_list_creation_date", type="datetime")
      */
     private $mail_list_creation_date;
 
