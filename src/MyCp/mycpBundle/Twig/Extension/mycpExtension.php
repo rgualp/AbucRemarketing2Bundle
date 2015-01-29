@@ -24,6 +24,7 @@ class mycpExtension extends \Twig_Extension {
             new \Twig_SimpleFilter('moduleName', array($this, 'moduleName')),
             new \Twig_SimpleFilter('seasonType', array($this, 'seasonType')),
             new \Twig_SimpleFilter('ownershipReservationStatusType', array($this, 'ownershipReservationStatusType')),
+            new \Twig_SimpleFilter('mailListFunction', array($this, 'mailListFunction')),
         );
     }
 
@@ -76,6 +77,9 @@ class mycpExtension extends \Twig_Extension {
             case ownershipReservation::STATUS_RESERVED: return "RESERVE_SINGULAR";
             default: return "PENDING";
         }
+    }
+    public function mailListFunction($function) {
+        return \MyCp\mycpBundle\Entity\mailList::getMailFunctionName($function);
     }
 
 }
