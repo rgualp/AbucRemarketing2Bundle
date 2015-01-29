@@ -96,7 +96,7 @@ mycp_test_email_template:
 
 mycp_mail_list:
     resource: "@mycpBundle/Resources/config/routingBackendMailList.yml"
-    prefix:   backend/mail-list/
+    prefix:   backend/mail_list/
 
 mycp_check:
   pattern: /check

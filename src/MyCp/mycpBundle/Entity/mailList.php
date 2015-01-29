@@ -104,7 +104,7 @@ class mailList
      */
     public function setMailListFunction($function)
     {
-        if (!in_array($function, $this->mailFunctions)) {
+        if ($function != null && !in_array($function, $this->mailFunctions)) {
             throw new \InvalidArgumentException("Mail function $function not allowed");
         }
 

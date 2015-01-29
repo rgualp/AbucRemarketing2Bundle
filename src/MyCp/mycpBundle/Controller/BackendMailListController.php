@@ -45,7 +45,7 @@ class BackendMailListController extends Controller {
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $mailListWithFunction = $em->getRepository("mycpBundle:mailList")->findBy(array("mail_list_function" => $post_form['mail_list_function']));
-                if (count($mailListWithFunction) == 0) {
+                if (count($mailListWithFunction) == 0 && $post_form['mail_list_function'] != 0) {
                     $em->persist($mailList);
                     $em->flush();
                     $message = 'Lista de correo añadida satisfactoriamente.';
@@ -56,8 +56,14 @@ class BackendMailListController extends Controller {
 
                     return $this->redirect($this->generateUrl('mycp_list_mail_list'));
                 } else {
-                    $message = 'Ya existe una lista asociada a esta función o comando.';
-                    $this->get('session')->getFlashBag()->add('message_error_main', $message);
+                    if (count($mailListWithFunction) != 0) {
+                        $message = 'Ya existe una lista asociada a esta función o comando.';
+                        $this->get('session')->getFlashBag()->add('message_error_main', $message);
+                    }
+                    if ($post_form['mail_list_function'] == 0) {
+                        $message = 'Debe seleccionar una función o comando de la lista desplegable.';
+                        $this->get('session')->getFlashBag()->add('message_error_main', $message);
+                    }
                 }
             }
         }
@@ -68,14 +74,17 @@ class BackendMailListController extends Controller {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
+        $mailList = $em->getRepository('mycpBundle:mailList')->find($listId);
+        $mailFunction = $mailList->getMailListFunction();
 
-        //TODO
-
+        $form = $this->createForm(new mailListType(), $mailList);
         if ($request->getMethod() == 'POST') {
+            $post_form = $request->get('mycp_mycpbundle_maillisttype');
             $form->handleRequest($request);
             if ($form->isValid()) {
-                //TODO
-
+                $mailList->setMailListFunction($mailFunction);
+                $em->persist($mailList);
+                $em->flush();
                 $message = 'Lista de correo modificada satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
@@ -86,7 +95,7 @@ class BackendMailListController extends Controller {
             }
         }
 
-        //TODO
+        return $this->render('mycpBundle:mailList:new.html.twig', array('form' => $form->createView(), 'listId' => $listId, 'edit' => true));
     }
 
     function deleteAction($listId) {

@@ -19,7 +19,7 @@ class mailListType extends AbstractType
 
         $builder
             ->add('mail_list_name',null,array('label'=>'Nombre:', 'attr'=>array('class'=>'input-block-level')))
-            ->add('mail_list_function','choice', array('choices'=>$functions,'label'=>'Función o comando','attr'=>array('class'=>'input-block-level')))
+            ->add('mail_list_function','choice', array('choices'=>$functions,'label'=>'Función o comando','attr'=>array('class'=>'input-block-level functionList')))
         ;
     }
 

@@ -33,4 +33,11 @@
     </div>
 </div>
 <script src="{{ asset('bundles/mycp/js/bootstrap-fileinput.js') }}" type="text/javascript"></script>
+{%if edit is defined%}
+<script>
+    $(document).ready(function() {
+        $(".functionList").attr("disabled", "disabled");
+    });
+</script>
+{%endif%}
 {% endblock %}
