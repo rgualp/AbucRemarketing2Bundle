@@ -68,11 +68,11 @@ class LodgingReservationController extends Controller {
         $user = $this->get('security.context')->getToken()->getUser();
 
         if ($user->getUserRole() != 'ROLE_CLIENT_CASA')
-            $reser = $em->getRepository('mycpBundle:generalReservation')->get_all_reservations($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number);
+            $reser = $em->getRepository('mycpBundle:generalReservation')->getAll($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number);
         else {
             $userCasa = $em->getRepository('mycpBundle:userCasa')->get_user_casa_by_user_id($user->getUserId());
-            //$reser = $em->getRepository('mycpBundle:generalReservation')->get_all_reservations($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number);
-            $reser = $em->getRepository('mycpBundle:generalReservation')->get_all_reservations_by_user_casa($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $userCasa->getUserCasaId());
+            //$reser = $em->getRepository('mycpBundle:generalReservation')->getAll($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number);
+            $reser = $em->getRepository('mycpBundle:generalReservation')->getByUserCasa($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $userCasa->getUserCasaId());
         }
 
 
@@ -184,10 +184,10 @@ class LodgingReservationController extends Controller {
         $user = $this->get('security.context')->getToken()->getUser();
 
         if ($user->getUserRole() != 'ROLE_CLIENT_CASA')
-            $reser = $em->getRepository('mycpBundle:generalReservation')->get_all_users($filter_user_name, $filter_user_email, $filter_user_city, $filter_user_country, $sort_by);
+            $reser = $em->getRepository('mycpBundle:generalReservation')->getUsers($filter_user_name, $filter_user_email, $filter_user_city, $filter_user_country, $sort_by);
         else {
             $userCasa = $em->getRepository('mycpBundle:userCasa')->get_user_casa_by_user_id($user->getUserId());
-            $reser = $em->getRepository('mycpBundle:generalReservation')->get_all_users($filter_user_name, $filter_user_email, $filter_user_city, $filter_user_country, $sort_by, $userCasa->getUserCasaOwnership()->getOwnId());
+            $reser = $em->getRepository('mycpBundle:generalReservation')->getUsers($filter_user_name, $filter_user_email, $filter_user_city, $filter_user_country, $sort_by, $userCasa->getUserCasaOwnership()->getOwnId());
         }
 
         $reservations = $paginator->paginate($reser)->getResult();
@@ -229,7 +229,7 @@ class LodgingReservationController extends Controller {
         $client = $em->getRepository('mycpBundle:user')->find($id_client);
         $user = $this->get('security.context')->getToken()->getUser();
         $userCasa = $em->getRepository('mycpBundle:userCasa')->get_user_casa_by_user_id($user->getUserId());
-        $reservations = $em->getRepository('mycpBundle:generalReservation')->get_reservations_by_user($id_client, $userCasa->getUserCasaOwnership()->getOwnId());
+        $reservations = $em->getRepository('mycpBundle:generalReservation')->getByUser($id_client, $userCasa->getUserCasaOwnership()->getOwnId());
         $price = 0;
         $total_nights = array();
 

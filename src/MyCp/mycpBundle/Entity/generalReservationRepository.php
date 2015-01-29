@@ -14,7 +14,7 @@ use MyCp\mycpBundle\Helpers\ReservationSortField;
  */
 class generalReservationRepository extends EntityRepository {
 
-    function get_all_reservations($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number) {
+    function getAll($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number) {
         $gaQuery = "SELECT gre,
         (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id),
         (SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id),
@@ -30,10 +30,10 @@ class generalReservationRepository extends EntityRepository {
         AND own.own_mcp_code LIKE :filter_reference
         AND gre.gen_res_to_date LIKE :filter_date_to ";
 
-        return $this->get_reservations_by_query($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, -1, $gaQuery);
+        return $this->getByQuery($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, -1, $gaQuery);
     }
 
-    function get_all_reservations_by_user_casa($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $user_casa_id) {
+    function getByUserCasa($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $user_casa_id) {
         $gaQuery = "SELECT gre,
         (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id),
         (SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id),
@@ -50,10 +50,10 @@ class generalReservationRepository extends EntityRepository {
         AND gre.gen_res_to_date LIKE :filter_date_to
         AND uca.user_casa_id = :user_casa_id ";
 
-        return $this->get_reservations_by_query($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $user_casa_id, $gaQuery);
+        return $this->getByQuery($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $user_casa_id, $gaQuery);
     }
 
-    function get_reservations_by_query($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $user_casa_id, $queryStr) {
+    function getByQuery($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $user_casa_id, $queryStr) {
         $filter_offer_number = strtolower($filter_offer_number);
         $filter_booking_number = strtolower($filter_booking_number);
         $filter_offer_number = str_replace('cas.', '', $filter_offer_number);
@@ -150,7 +150,7 @@ class generalReservationRepository extends EntityRepository {
         return $array_intersection;
     }
 
-    function get_all_users($filter_user_name, $filter_user_email, $filter_user_city, $filter_user_country, $sort_by, $ownId = null) {
+    function getUsers($filter_user_name, $filter_user_email, $filter_user_city, $filter_user_country, $sort_by, $ownId = null) {
         $filter_user_name = strtolower($filter_user_name);
         $filter_user_email = strtolower($filter_user_email);
         $filter_user_city = strtolower($filter_user_city);
@@ -216,7 +216,7 @@ class generalReservationRepository extends EntityRepository {
         return $array_genres;
     }
 
-    function get_all_bookings($filter_booking_number, $filter_date_booking, $filter_user_booking) {
+    function getAllBookings($filter_booking_number, $filter_date_booking, $filter_user_booking) {
         $em = $this->getEntityManager();
 
         $filter_date_booking_array = explode('_', $filter_date_booking);
@@ -244,7 +244,7 @@ class generalReservationRepository extends EntityRepository {
                         ->getArrayResult();
     }
 
-    function get_reservations_by_user($id_user, $ownId = null) {
+    function getByUser($id_user, $ownId = null) {
         $em = $this->getEntityManager();
 
         $whereOwn = "";
@@ -268,7 +268,7 @@ class generalReservationRepository extends EntityRepository {
         return $query->setParameter('user_id', $id_user)->getArrayResult();
     }
 
-    function find_by_user_and_status($id_user, $status_string, $string_sql) {
+    function findByUserAndStatus($id_user, $status_string, $string_sql) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT us,gre,
         (SELECT pho.pho_name FROM mycpBundle:ownershipPhoto owpho JOIN owpho.own_pho_photo pho WHERE owpho.own_pho_own = gre.gen_res_own_id AND pho.pho_order =
@@ -282,14 +282,14 @@ class generalReservationRepository extends EntityRepository {
         return $query->getArrayResult();
     }
 
-    function get_reservation_available_by_user($id_reservation, $id_user) {
+    function getAvailableByUser($id_reservation, $id_user) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT gre FROM mycpBundle:generalReservation gre
         WHERE gre.gen_res_id = $id_reservation AND gre.gen_res_user_id = $id_user");
         return $query->getResult();
     }
 
-    function get_reminder_available() {
+    function getReminderAvailable() {
         $yesterday = date("Y-m-d", strtotime('yesterday'));
         $hour = date('G');
         $em = $this->getEntityManager();
@@ -298,7 +298,7 @@ class generalReservationRepository extends EntityRepository {
         return $query->getResult();
     }
 
-    function get_time_over_reservations() {
+    function getTimeOverReservations() {
         // pone las reservaciones no disponibles despues de 48 horas.
         $day = date("Y-m-d", strtotime('-2 day'));
         $hour = date('G');
@@ -405,8 +405,8 @@ class generalReservationRepository extends EntityRepository {
     public function getPayedReservations($user_id) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT genRes FROM mycpBundle:generalReservation genRes
-            WHERE genRes.gen_res_user_id = $user_id 
-                AND (genRes.gen_res_status = " . generalReservation::STATUS_PARTIAL_RESERVED . " OR 
+            WHERE genRes.gen_res_user_id = $user_id
+                AND (genRes.gen_res_status = " . generalReservation::STATUS_PARTIAL_RESERVED . " OR
                     genRes.gen_res_status = " . generalReservation::STATUS_RESERVED . ")"
         );
         return $query->getResult();
@@ -478,10 +478,10 @@ class generalReservationRepository extends EntityRepository {
                 else if ($item->getOwnResReservationToDate() > $max_date)
                     $max_date = $item->getOwnResReservationToDate();
             }
-            
+
             $generalReservation->setGenResFromDate($min_date);
             $generalReservation->setGenResToDate($max_date);
-            
+
             $em->persist($generalReservation);
             $em->flush();
         }

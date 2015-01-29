@@ -39,7 +39,7 @@ class MycasatripController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
         $paginator->setItemsPerPage($items_per_page);
-        $list = $em->getRepository('mycpBundle:ownershipReservation')->find_by_user_and_status($user->getUserId(), $status_string, $string_sql);
+        $list = $em->getRepository('mycpBundle:ownershipReservation')->findByUserAndStatus($user->getUserId(), $status_string, $string_sql);
         $res_pending = $paginator->paginate($list)->getResult();
         $page = 1;
         if (isset($_GET['page']))
@@ -80,7 +80,7 @@ class MycasatripController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
         $paginator->setItemsPerPage($items_per_page);
-        $list = $em->getRepository('mycpBundle:ownershipReservation')->find_by_user_and_status($user->getUserId(), $status_string, $string_sql);
+        $list = $em->getRepository('mycpBundle:ownershipReservation')->findByUserAndStatus($user->getUserId(), $status_string, $string_sql);
         $res_available = $paginator->paginate($list)->getResult();
         $page = 1;
         if (isset($_GET['page']))
@@ -142,7 +142,7 @@ class MycasatripController extends Controller {
 
           $string_sql.=$this->get_order_by_sql($order_by);
 
-          $res_available = $em->getRepository('mycpBundle:ownershipReservation')->find_by_user_and_status($user->getUserId(), $status_string, $string_sql);
+          $res_available = $em->getRepository('mycpBundle:ownershipReservation')->findByUserAndStatus($user->getUserId(), $status_string, $string_sql);
 
           $service_time=$this->get('time');
           $nights=array();
@@ -183,7 +183,7 @@ class MycasatripController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
         $paginator->setItemsPerPage($items_per_page);
-        $list = $em->getRepository('mycpBundle:ownershipReservation')->find_by_user_and_status($user->getUserId(), $status_string, $string_sql);
+        $list = $em->getRepository('mycpBundle:ownershipReservation')->findByUserAndStatus($user->getUserId(), $status_string, $string_sql);
         $res_available = $paginator->paginate($list)->getResult();
         $page = 1;
         if (isset($_GET['page']))
@@ -226,7 +226,7 @@ class MycasatripController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
         $paginator->setItemsPerPage($items_per_page);
-        $list = $em->getRepository('mycpBundle:ownershipReservation')->find_by_user_and_status($user->getUserId(), $status_string, $string_sql);
+        $list = $em->getRepository('mycpBundle:ownershipReservation')->findByUserAndStatus($user->getUserId(), $status_string, $string_sql);
         $res_payment = $paginator->paginate($list)->getResult();
         $page = 1;
         if (isset($_GET['page']))
@@ -273,7 +273,7 @@ class MycasatripController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
         $paginator->setItemsPerPage($items_per_page);
-        $list = $em->getRepository('mycpBundle:ownershipReservation')->find_by_user_and_status($user->getUserId(), $status_string, $string_sql);
+        $list = $em->getRepository('mycpBundle:ownershipReservation')->findByUserAndStatus($user->getUserId(), $status_string, $string_sql);
         $res_consult = $paginator->paginate($list)->getResult();
         $page = 1;
         if (isset($_GET['page']))

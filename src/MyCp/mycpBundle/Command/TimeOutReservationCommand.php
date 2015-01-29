@@ -28,7 +28,7 @@ class TimeOutReservationCommand extends ContainerAwareCommand
         $output->writeln('Working...');
         $container = $this->getContainer();
         $em = $container->get('doctrine')->getEntityManager();
-        $gen_reservations =  $em->getRepository('mycpBundle:generalReservation')->get_time_over_reservations();
+        $gen_reservations =  $em->getRepository('mycpBundle:generalReservation')->getTimeOverReservations();
         if($gen_reservations)
             foreach($gen_reservations as $gen_reservation)
             {

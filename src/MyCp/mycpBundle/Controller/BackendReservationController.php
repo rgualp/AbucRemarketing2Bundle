@@ -173,7 +173,7 @@ class BackendReservationController extends Controller {
         $paginator->setItemsPerPage($items_per_page);
 
         $reservations = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
-                                ->get_all_reservations($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number))->getResult();
+                                ->getAll($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number))->getResult();
         $filter_date_reserve_twig = str_replace('/', '_', $filter_date_reserve);
         $filter_date_from_twig = str_replace('/', '_', $filter_date_from);
         $filter_date_to_twig = str_replace('/', '_', $filter_date_to);
@@ -238,7 +238,7 @@ class BackendReservationController extends Controller {
         $paginator->setItemsPerPage($items_per_page);
 
         $bookings = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
-                                ->get_all_bookings($filter_booking_number, $filter_date_booking, $filter_user_booking))->getResult();
+                                ->getAllBookings($filter_booking_number, $filter_date_booking, $filter_user_booking))->getResult();
         $service_log = $this->get('log');
         $service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
 
@@ -303,7 +303,7 @@ class BackendReservationController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $reservations = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
-                                ->get_all_users($filter_user_name, $filter_user_email, $filter_user_city, $filter_user_country, $sort_by))->getResult();
+                                ->getUsers($filter_user_name, $filter_user_email, $filter_user_city, $filter_user_country, $sort_by))->getResult();
 
         $service_log = $this->get('log');
         $service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
@@ -346,7 +346,7 @@ class BackendReservationController extends Controller {
 
         $em = $this->getDoctrine()->getEntityManager();
         $client = $em->getRepository('mycpBundle:user')->find($id_client);
-        $reservations = $em->getRepository('mycpBundle:generalReservation')->get_reservations_by_user($id_client);
+        $reservations = $em->getRepository('mycpBundle:generalReservation')->getByUser($id_client);
         $price = 0;
         $total_nights = array();
 
@@ -581,10 +581,10 @@ class BackendReservationController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $generalReservation = $em->getRepository("mycpBundle:generalReservation")->find($id_reservation);
         $own_reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $id_reservation, 'own_res_status' => ownershipReservation::STATUS_RESERVED));
-       
+
         $total_price = 0;
         if ($own_reservations) {
-            
+
             $general_reservation = $own_reservations[0]->getOwnResGenResId();
             $general_reservation->setGenResStatus(generalReservation::STATUS_RESERVED);
             $general_reservation->setGenResStatusDate(new \DateTime());
@@ -654,7 +654,7 @@ class BackendReservationController extends Controller {
 
             // Enviando mail al cliente
             $service_email = $this->get('Email');
-            
+
 
             $body = $this->render('FrontEndBundle:mails:email_offer_available.html.twig', array(
                 'booking' => $booking->getBookingId(),
@@ -907,16 +907,16 @@ class BackendReservationController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $bookingService = $this->get('front_end.services.booking');
         $service_email = $this->get('mycp.service.email_manager');
-        $emailToSend = 'reservation@mycasaparticular.com';       
-        
+        $emailToSend = 'reservation@mycasaparticular.com';
+
          \MyCp\mycpBundle\Helpers\VoucherHelper::sendVoucher($em, $bookingService, $service_email, $this, $id_reservation, $emailToSend);
         } catch (\Exception $e) {
             $message = 'Error al enviar el voucher asociado a la reservación CAS.' . $id_reservation. ". ".$e->getMessage();
             $this->get('session')->getFlashBag()->add('message_error_main', $message);
         }
-        
+
         return $this->redirect($this->generateUrl('mycp_list_reservations'));
-        
+
     }
 
     function getLodgingSortByAction($sort_by) {

@@ -23,7 +23,7 @@ class EmailReminderCommand extends ContainerAwareCommand
     {
         $container = $this->getContainer();
         $em = $container->get('doctrine')->getManager();
-        $generalReservations = $em->getRepository('mycpBundle:generalReservation')->get_reminder_available();
+        $generalReservations = $em->getRepository('mycpBundle:generalReservation')->getReminderAvailable();
 
         $output->writeln(date(DATE_W3C) . ': Starting reminder emails command...');
 

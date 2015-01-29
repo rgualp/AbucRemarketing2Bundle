@@ -14,7 +14,7 @@ use MyCp\mycpBundle\Helpers\SyncStatuses;
  */
 class ownershipReservationRepository extends EntityRepository {
 
-    function get_all_reservations($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by) {
+    function getAll($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by) {
         $filter_offer_number = strtolower($filter_offer_number);
         $filter_offer_number = str_replace('cas.', '', $filter_offer_number);
         $filter_offer_number = str_replace('cas', '', $filter_offer_number);
@@ -220,7 +220,7 @@ class ownershipReservationRepository extends EntityRepository {
         $em->flush();
     }
 
-    function get_reservation_available_by_user($id_reservation, $id_user) {
+    function getAvailableByUser($id_reservation, $id_user) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT owre,genres,own,mun FROM mycpBundle:ownershipReservation owre
         JOIN owre.own_res_gen_res_id genres JOIN owre.own_res_own_id own JOIN own.own_address_municipality mun
@@ -232,7 +232,7 @@ class ownershipReservationRepository extends EntityRepository {
                         ->getArrayResult();
     }
 
-    function find_by_user_and_status($id_user, $status_string, $string_sql) {
+    function findByUserAndStatus($id_user, $status_string, $string_sql) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT us,ownre,
         ow,mun,prov,gre,booking FROM mycpBundle:ownershipReservation ownre JOIN ownre.own_res_gen_res_id gre
@@ -315,7 +315,7 @@ class ownershipReservationRepository extends EntityRepository {
 
         return $results;
     }
-    
+
     function getReservationReservedByGeneralAndDate($genRes, $startParam, $endParam) {
         $em = $this->getEntityManager();
         $reservedCode = ownershipReservation::STATUS_RESERVED;
