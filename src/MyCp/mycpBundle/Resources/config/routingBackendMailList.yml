@@ -1,0 +1,28 @@
+mycp_list_mail_list:
+    pattern:  /list
+    defaults: { _controller: mycpBundle:BackendMailList:list }
+
+mycp_add_mail_list:
+    pattern:  /add
+    defaults: { _controller: mycpBundle:BackendMailList:add }
+
+mycp_edit_mail_list:
+    pattern:  /edit/{id}
+    defaults: { _controller: mycpBundle:BackendMailList:edit }
+
+mycp_delete_mail_list:
+    pattern:  /delete/{id}
+    defaults: { _controller: mycpBundle:BackendMailList:delete }
+
+mycp_list_mail_list_user:
+    pattern:  /users/{mailList}
+    defaults: { _controller: mycpBundle:BackendMailList:users }
+
+mycp_add_mail_list_user:
+    pattern:  /users/add/{mailList}
+    defaults: { _controller: mycpBundle:BackendMailList:addUser }
+
+mycp_delete_mail_list_user:
+    pattern:  /users/delete/{id}
+    defaults: { _controller: mycpBundle:BackendMailList:deleteUser }
+
