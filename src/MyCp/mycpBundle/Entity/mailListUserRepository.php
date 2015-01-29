@@ -12,5 +12,15 @@ use Doctrine\ORM\EntityRepository;
  */
 class mailListUserRepository extends EntityRepository {
 
+    function getUsersInListByCommand($functionId)
+    {
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery("SELECT mlUser,u, l FROM mycpBundle:mailListUser mlUser
+        JOIN mlUser.mail_list_user u
+        JOIN mlUser.mail_list l WHERE l.mail_list_function = $functionId");
+        return $query->getResult();
+    }
+
 }
 
