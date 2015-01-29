@@ -86,6 +86,9 @@ class Logs
                     case 'season':
                         $module_number=BackendModuleName::MODULE_SEASON;
                         break;
+                    case 'mailList':
+                        $module_number=BackendModuleName::MODULE_MAIL_LIST;
+                        break;
                 }
             }
             else

@@ -48,10 +48,11 @@ class mycpExtension extends \Twig_Extension {
             case BackendModuleName::MODULE_METATAGS: return "Meta Tags";
             case BackendModuleName::MODULE_MUNICIPALITY: return "Municipality";
             case BackendModuleName::MODULE_SEASON: return "Season";
-            case BackendModuleName::MODULE_LODGING_RESERVATION: return "Modulo Casa - Reservaciones";
-            case BackendModuleName::MODULE_LODGING_COMMENT: return "Modulo Casa - Comentarios";
-            case BackendModuleName::MODULE_LODGING_OWNERSHIP: return "Modulo Casa - Alojamiento";
-            case BackendModuleName::MODULE_LODGING_USER: return "Modulo Casa - Usuario";
+            case BackendModuleName::MODULE_LODGING_RESERVATION: return "Lodging - Reservations";
+            case BackendModuleName::MODULE_LODGING_COMMENT: return "Lodging - Comments";
+            case BackendModuleName::MODULE_LODGING_OWNERSHIP: return "Lodging - MyCasa";
+            case BackendModuleName::MODULE_LODGING_USER: return "Lodging - User Profile";
+            case BackendModuleName::MODULE_MAIL_LIST: return "Mail List";
 
             default: return "MyCP";
         }
@@ -64,7 +65,7 @@ class mycpExtension extends \Twig_Extension {
             default: return "Baja";
         }
     }
-    
+
     public function ownershipReservationStatusType($status) {
         switch ($status) {
             case ownershipReservation::STATUS_PENDING: return "PENDING";

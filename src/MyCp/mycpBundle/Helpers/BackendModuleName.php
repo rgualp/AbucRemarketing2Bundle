@@ -29,7 +29,8 @@ class BackendModuleName {
     const MODULE_LODGING_COMMENT = 16;
     const MODULE_LODGING_OWNERSHIP = 17;
     const MODULE_LODGING_USER = 18;
-    
+    const MODULE_MAIL_LIST = 19;
+
 }
 
 ?>

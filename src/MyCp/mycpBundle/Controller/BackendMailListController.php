@@ -18,7 +18,7 @@ class BackendMailListController extends Controller {
         //TODO
 
         $service_log = $this->get('log');
-        $service_log->saveLog('Visit', BackendModuleName::MODULE_METATAGS);
+        $service_log->saveLog('Visit', BackendModuleName::MODULE_MAIL_LIST);
 
         //TODO
     }
@@ -31,7 +31,7 @@ class BackendMailListController extends Controller {
         //TODO
 
         $service_log = $this->get('log');
-        $service_log->saveLog('Insert new mail list', BackendModuleName::MODULE_METATAGS);
+        $service_log->saveLog('Insert new mail list', BackendModuleName::MODULE_MAIL_LIST);
 
         //TODO
     }
@@ -52,7 +52,7 @@ class BackendMailListController extends Controller {
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
-                $service_log->saveLog('Update mailList, ' . $listId, BackendModuleName::MODULE_METATAGS);
+                $service_log->saveLog('Update mailList, ' . $listId, BackendModuleName::MODULE_MAIL_LIST);
 
                 return $this->redirect($this->generateUrl('mycp_list_mail_list'));
             }
@@ -77,7 +77,7 @@ class BackendMailListController extends Controller {
         $em->flush();
 
          $service_log= $this->get('log');
-          $service_log->saveLog('Remove mail list '.$listId, BackendModuleName::MODULE_USER);
+          $service_log->saveLog('Remove mail list '.$listId, BackendModuleName::MODULE_MAIL_LIST);
 
         $message = 'Lista de correo eliminada satisfactoriamente.';
         $this->get('session')->getFlashBag()->add('message_ok', $message);
@@ -92,7 +92,7 @@ class BackendMailListController extends Controller {
         //TODO
 
         $service_log = $this->get('log');
-        $service_log->saveLog('Visit', BackendModuleName::MODULE_METATAGS);
+        $service_log->saveLog('Visit users for a mail list', BackendModuleName::MODULE_MAIL_LIST);
 
         //TODO
     }
@@ -105,7 +105,7 @@ class BackendMailListController extends Controller {
         //TODO
 
         $service_log = $this->get('log');
-        $service_log->saveLog('Insert new mail list user', BackendModuleName::MODULE_METATAGS);
+        $service_log->saveLog('Insert new mail list user', BackendModuleName::MODULE_MAIL_LIST);
 
         //TODO
     }
@@ -122,7 +122,7 @@ class BackendMailListController extends Controller {
         $em->flush();
 
          $service_log= $this->get('log');
-          $service_log->saveLog('Remove mail list user '.$mailListUserId, BackendModuleName::MODULE_USER);
+          $service_log->saveLog('Remove mail list user '.$mailListUserId, BackendModuleName::MODULE_MAIL_LIST);
 
         $message = 'El usuario ha sido eliminado de la lista de correo satisfactoriamente.';
         $this->get('session')->getFlashBag()->add('message_ok', $message);
