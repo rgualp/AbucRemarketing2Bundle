@@ -21,19 +21,35 @@
         <td><b>Provincia</b></td>
         <td><b>Municipio</b></td>
         <td><b>Estado</b></td>
+        <td><b>Temporada Baja</b></td>
+        <td><b>Temporada Alta</b></td>
     </tr>
     {%for own in ownerships%}
     <tr class="content">
-    <td>{{own.ownMcpCode}}</td>
-    <td>{{own.ownRoomsTotal}}</td>
-    <td>{{own.ownHomeowner1}}</td>
-    <td>{{own.ownHomeowner2}}</td>
-    <td>(+53{{own.ownAddressProvince.provPhoneCode}}) {{own.ownPhoneNumber}}</td>
-    <td>{{own.ownMobileNumber}}</td>
-    <td>{{own.ownAddressStreet}} {{own.ownAddressNumber}} entre {{own.ownAddressBetweenStreet1}} y {{own.ownAddressBetweenStreet2}}</td>
-    <td>{{own.ownAddressProvince.provName}}</td>
-    <td>{{own.ownAddressMunicipality.munName}}</td>
-    <td>{{own.ownStatus.getStatusName}}</td>
+    <td>{{own.mycpCode}}</td>
+    <td>{{own.totalRooms}}</td>
+    <td>{{own.owner1}}</td>
+    <td>{{own.owner2}}</td>
+    <td>(+53{{own.provCode}}) {{own.phone}}</td>
+    <td>{{own.mobile}}</td>
+    <td>{{own.street}} {{own.number}} entre {{own.between1}} y {{own.between2}}</td>
+    <td>{{own.province}}</td>
+    <td>{{own.municipality}}</td>
+    <td>{{own.status}}</td>
+    <td>
+        {%if own.lowDown != own.highDown%}
+            {{own.lowDown}} - {{own.highDown}} CUC
+        {%else%}
+            {{own.highDown}} CUC
+        {%endif%}
+    </td>
+    <td>
+        {%if own.lowUp != own.highUp%}
+            {{own.lowUp}} - {{own.highUp}} CUC
+        {%else%}
+            {{own.highUp}} CUC
+        {%endif%}
+    </td>
     </tr>
     {%endfor%}
 </table>
