@@ -33,7 +33,7 @@ class BackendOwnershipController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
-        $data['languages'] = $em->getRepository('mycpBundle:lang')->get_all_languages();
+        $data['languages'] = $em->getRepository('mycpBundle:lang')->getAll();
         $photos = $paginator->paginate($em->getRepository('mycpBundle:ownershipPhoto')->get_photos_by_id_ownership($id_ownership))->getResult();
         foreach ($photos as $photo) {
             $data['description_photo_' . $photo->getOwnPhoPhoto()->getPhoId()] = $em->getRepository('mycpBundle:photoLang')->findBy(array('pho_lang_id_photo' => $photo->getOwnPhoPhoto()->getPhoId()));
@@ -59,7 +59,7 @@ class BackendOwnershipController extends Controller {
         $post = '';
         $errors = array();
         $em = $this->getDoctrine()->getEntityManager();
-        $data['languages'] = $em->getRepository('mycpBundle:lang')->get_all_languages();
+        $data['languages'] = $em->getRepository('mycpBundle:lang')->getAll();
         $dir = $this->container->getParameter('ownership.dir.photos');
         $dir_thumbs = $this->container->getParameter('ownership.dir.thumbnails');
         $dir_watermark = $this->container->getParameter('dir.watermark');
@@ -221,7 +221,7 @@ class BackendOwnershipController extends Controller {
         $dir = $this->container->getParameter('ownership.dir.photos');
         $dir_thumbnails = $this->container->getParameter('ownership.dir.thumbnails');
         $em = $this->getDoctrine()->getEntityManager();
-        $data['languages'] = $em->getRepository('mycpBundle:lang')->get_all_languages();
+        $data['languages'] = $em->getRepository('mycpBundle:lang')->getAll();
         $photo = $em->getRepository('mycpBundle:photo')->find($id_photo);
         $photoLangs = $em->getRepository('mycpBundle:photoLang')->findBy(array('pho_lang_id_photo' => $id_photo));
         foreach ($photoLangs as $photoLang)
@@ -289,7 +289,7 @@ class BackendOwnershipController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $ownership = new ownership();
         $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
-        $languages = $em->getRepository('mycpBundle:lang')->get_all_languages();
+        $languages = $em->getRepository('mycpBundle:lang')->getAll();
         //$ownershipGeneralLangs = $em->getRepository('mycpBundle:ownershipGeneralLang')->findBy(array('ogl_ownership' => $id_ownership));
         $ownershipDescriptionLangs = $em->getRepository('mycpBundle:ownershipDescriptionLang')->findBy(array('odl_ownership' => $id_ownership));
         $ownershipKeywordsLangs = $em->getRepository('mycpBundle:ownershipKeywordLang')->findBy(array('okl_ownership' => $id_ownership));
@@ -821,7 +821,7 @@ class BackendOwnershipController extends Controller {
                         //Enviar correo a los propietarios
                         if ($new_status == ownershipStatus::STATUS_ACTIVE && $old_status == ownershipStatus::STATUS_IN_PROCESS)
                             UserMails::sendOwnersMail($this, $post['ownership_email_1'], $post['ownership_email_2'], $post['ownership_homeowner_1'], $post['ownership_homeowner_2'], $post['ownership_name'], $post['ownership_mcp_code']);
-                        
+
                         $message = 'Propiedad actualizada satisfactoriamente.';
                     } else {
 
@@ -907,7 +907,7 @@ class BackendOwnershipController extends Controller {
         }
 
 //$post['ownership_address_municipality'] = '';
-        $languages = $em->getRepository('mycpBundle:lang')->get_all_languages();
+        $languages = $em->getRepository('mycpBundle:lang')->getAll();
         return $this->render('mycpBundle:ownership:new.html.twig', array('languages' => $languages, 'count_rooms' => $count_rooms, 'post' => $post, 'data' => $data, 'errors' => $errors, 'errors_tab' => $errors_tab));
     }
 
@@ -955,7 +955,7 @@ class BackendOwnershipController extends Controller {
             }
         }
         $photo = $em->getRepository('mycpBundle:photo')->find($id_photo);
-        $data['languages'] = $em->getRepository('mycpBundle:lang')->get_all_languages();
+        $data['languages'] = $em->getRepository('mycpBundle:lang')->getAll();
         return $this->render('mycpBundle:ownership:photoEdit.html.twig', array(
                     'errors' => $errors,
                     'data' => $data,

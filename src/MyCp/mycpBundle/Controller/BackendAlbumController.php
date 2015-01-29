@@ -282,7 +282,7 @@ class BackendAlbumController extends Controller {
             }
         }
 
-        $languages = $em->getRepository('mycpBundle:lang')->get_all_languages();
+        $languages = $em->getRepository('mycpBundle:lang')->getAll();
         return $this->render('mycpBundle:album:new.html.twig', array('languages' => $languages, 'errors' => $errors, 'data' => $post));
     }
 
@@ -333,7 +333,7 @@ class BackendAlbumController extends Controller {
         $errors = array();
         $em = $this->getDoctrine()->getEntityManager();
         $album = $em->getRepository('mycpBundle:album')->find($id_album);
-        $languages = $em->getRepository('mycpBundle:lang')->get_all_languages();
+        $languages = $em->getRepository('mycpBundle:lang')->getAll();
         $albumsLang = $em->getRepository('mycpBundle:albumLang')->findBy(array('album_lang_album' => $id_album));
 
         $data['name_album'] = $album->getAlbumName();
@@ -365,7 +365,7 @@ class BackendAlbumController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
-        $data['languages'] = $em->getRepository('mycpBundle:lang')->get_all_languages();
+        $data['languages'] = $em->getRepository('mycpBundle:lang')->getAll();
         $photos = $paginator->paginate($em->getRepository('mycpBundle:albumPhoto')->getPhotosByIdAlbum($id_album))->getResult();
         foreach ($photos as $photo) {
             $data['description_photo_' . $photo->getAlbPhoPhoto()->getPhoId()] = $em->getRepository('mycpBundle:photoLang')->findBy(array('pho_lang_id_photo' => $photo->getAlbPhoPhoto()->getPhoId()));
@@ -391,7 +391,7 @@ class BackendAlbumController extends Controller {
         $errors = array();
         $post = '';
         $em = $this->getDoctrine()->getEntityManager();
-        $data['languages'] = $em->getRepository('mycpBundle:lang')->get_all_languages();
+        $data['languages'] = $em->getRepository('mycpBundle:lang')->getAll();
         $dir = $this->container->getParameter('album.dir.photos');
         $dir_thumbs = $this->container->getParameter('album.dir.thumbnails');
         $photo_size = $this->container->getParameter('album.dir.photos.size');
@@ -482,7 +482,7 @@ class BackendAlbumController extends Controller {
         $dir_thumbs = $this->container->getParameter('album.dir.thumbnails');
         $em = $this->getDoctrine()->getEntityManager();
         $album = $em->getRepository('mycpBundle:album')->find($id_album);
-        $data['languages'] = $em->getRepository('mycpBundle:lang')->get_all_languages();
+        $data['languages'] = $em->getRepository('mycpBundle:lang')->getAll();
         $photo = $em->getRepository('mycpBundle:photo')->find($id_photo);
         $photoLangs = $em->getRepository('mycpBundle:photoLang')->findBy(array('pho_lang_id_photo' => $id_photo));
         foreach ($photoLangs as $photoLang)
@@ -547,7 +547,7 @@ class BackendAlbumController extends Controller {
             }
         }
         $photo = $em->getRepository('mycpBundle:photo')->find($id_photo);
-        $data['languages'] = $em->getRepository('mycpBundle:lang')->get_all_languages();
+        $data['languages'] = $em->getRepository('mycpBundle:lang')->getAll();
         return $this->render('mycpBundle:album:photoEdit.html.twig', array(
                     'errors' => $errors,
                     'data' => $data,

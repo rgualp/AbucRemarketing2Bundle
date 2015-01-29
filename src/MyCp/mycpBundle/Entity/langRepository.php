@@ -13,17 +13,14 @@ use Doctrine\ORM\EntityRepository;
 class langRepository extends EntityRepository
 {
 
-    function get_all_languages()
+    function getAll()
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery('SELECT l FROM mycpBundle:lang l');
         $query->useResultCache(TRUE);
         return $query->getArrayResult();
     }
-    /**
-     * Yanet - Inicio
-     */
-    function get_active_languages()
+    function getActive()
     {
         $em = $this->getEntityManager();
         $query_string = "SELECT l FROM mycpBundle:lang l
@@ -32,7 +29,4 @@ class langRepository extends EntityRepository
 
         return $em->createQuery($query_string)->getResult();
     }
-    /**
-     * Yanet - Fin
-     */
 }

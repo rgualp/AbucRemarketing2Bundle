@@ -266,7 +266,7 @@ class BackendDestinationController extends Controller
             }
         }
         $categories= $em->getRepository('mycpBundle:destinationCategoryLang')->getCategories('object');
-        $languages = $em->getRepository('mycpBundle:lang')->get_all_languages();
+        $languages = $em->getRepository('mycpBundle:lang')->getAll();
         return $this->render('mycpBundle:destination:new.html.twig', array('languages' => $languages, 'errors' => $errors, 'data' => $post,'categories'=>$categories));
 
     }
@@ -392,7 +392,7 @@ class BackendDestinationController extends Controller
         $errors = array();
         $em = $this->getDoctrine()->getEntityManager();
         $destination=$em->getRepository('mycpBundle:destination')->find($id_destination);
-        $languages = $em->getRepository('mycpBundle:lang')->get_all_languages();
+        $languages = $em->getRepository('mycpBundle:lang')->getAll();
         $destinationsLang=$em->getRepository('mycpBundle:destinationLang')->findBy(array('des_lang_destination'=>$id_destination));
         $destinationsKeywordLang=$em->getRepository('mycpBundle:destinationKeywordLang')->findBy(array('dkl_destination'=>$id_destination));
         $destinationsLocation=$em->getRepository('mycpBundle:destinationLocation')->findBy(array('des_loc_destination'=>$id_destination));
@@ -451,7 +451,7 @@ class BackendDestinationController extends Controller
         $page=1;
         if(isset($_GET['page']))$page=$_GET['page'];
         $em = $this->getDoctrine()->getEntityManager();
-        $data['languages']= $em->getRepository('mycpBundle:lang')->get_all_languages();
+        $data['languages']= $em->getRepository('mycpBundle:lang')->getAll();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $photos=$paginator->paginate($em->getRepository('mycpBundle:destinationPhoto')->getByDestination($id_destination))->getResult();
@@ -502,7 +502,7 @@ class BackendDestinationController extends Controller
         $errors=array();
         $post='';
         $em = $this->getDoctrine()->getEntityManager();
-        $data['languages']= $em->getRepository('mycpBundle:lang')->get_all_languages();
+        $data['languages']= $em->getRepository('mycpBundle:lang')->getAll();
         $dir=$this->container->getParameter('destination.dir.photos');
         $dir_thumbs=$this->container->getParameter('destination.dir.thumbnails');
         $dir_watermark=$this->container->getParameter('dir.watermark');
@@ -652,7 +652,7 @@ class BackendDestinationController extends Controller
          $dir=$this->container->getParameter('destination.dir.photos');
          $dir_thumbnails=$this->container->getParameter('destination.dir.thumbnails');
          $em = $this->getDoctrine()->getEntityManager();
-         $data['languages']= $em->getRepository('mycpBundle:lang')->get_all_languages();
+         $data['languages']= $em->getRepository('mycpBundle:lang')->getAll();
          $destination= $em->getRepository('mycpBundle:destination')->find($id_destination);
          $photo=$em->getRepository('mycpBundle:photo')->find($id_photo);
          $photoLangs=$em->getRepository('mycpBundle:photoLang')->findBy(array('pho_lang_id_photo'=>$id_photo));
@@ -732,7 +732,7 @@ class BackendDestinationController extends Controller
             }
         }
         $photo= $em->getRepository('mycpBundle:photo')->find($id_photo);
-        $data['languages']= $em->getRepository('mycpBundle:lang')->get_all_languages();
+        $data['languages']= $em->getRepository('mycpBundle:lang')->getAll();
         return $this->render('mycpBundle:destination:photoEdit.html.twig',array(
             'errors'=>$errors,
             'data'=>$data,

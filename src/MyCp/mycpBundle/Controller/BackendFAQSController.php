@@ -193,7 +193,7 @@ class BackendFAQSController extends Controller
             }
 
         }
-        $languages = $em->getRepository('mycpBundle:lang')->get_all_languages();
+        $languages = $em->getRepository('mycpBundle:lang')->getAll();
         return $this->render('mycpBundle:faq:new.html.twig', array('languages' => $languages, 'errors' => $errors, 'data' => $post,'faqs_text'=>$array_faqs));
     }
 
@@ -249,7 +249,7 @@ class BackendFAQSController extends Controller
         $errors = array();
         $em = $this->getDoctrine()->getEntityManager();
         $faq=$em->getRepository('mycpBundle:faq')->find($id_faq);
-        $languages = $em->getRepository('mycpBundle:lang')->get_all_languages();
+        $languages = $em->getRepository('mycpBundle:lang')->getAll();
         $faqsLang=$em->getRepository('mycpBundle:faqLang')->findBy(array('faq_lang_faq'=>$id_faq));
         $data['name']=$faqsLang[0]->getFaqLangQuestion();
         $data['category']=$faq->getFaqCategory()->getFaqCatId();
