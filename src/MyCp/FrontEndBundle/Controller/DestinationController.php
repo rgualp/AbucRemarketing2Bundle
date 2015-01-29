@@ -105,7 +105,7 @@ class DestinationController extends Controller {
 
         return $this->render('FrontEndBundle:destination:destinationDetails.html.twig', array(
                     'destination' => $destination_array[0],
-                    'is_in_favorite' => $em->getRepository('mycpBundle:favorite')->is_in_favorite($destination->getDesId(), false, $users_id["user_id"], $users_id["session_id"]),
+                    'is_in_favorite' => $em->getRepository('mycpBundle:favorite')->isInFavorite($destination->getDesId(), false, $users_id["user_id"], $users_id["session_id"]),
                     'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocomplete_text_list(),
                     'locale' => $this->get('translator')->getLocale(),
                     'location' => $destination_array['municipality_name'].' / '.$destination_array['province_name'],

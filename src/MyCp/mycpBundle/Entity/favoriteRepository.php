@@ -29,7 +29,7 @@ class favoriteRepository extends EntityRepository {
 
         $is_ownership = $data['favorite_ownership_id'] != null;
         $element_id = ($is_ownership) ? $data['favorite_ownership_id'] : $data['favorite_destination_id'];
-        if (!$this->is_in_favorite($element_id, $is_ownership, $data['favorite_user_id'], $data['favorite_session_id'])) {
+        if (!$this->isInFavorite($element_id, $is_ownership, $data['favorite_user_id'], $data['favorite_session_id'])) {
             $favorite = new favorite();
             $favorite->setFavoriteCreationDate(new \DateTime());
             $favorite->setFavoriteOwnership($ownership);
@@ -61,7 +61,7 @@ class favoriteRepository extends EntityRepository {
         $query->execute();
     }
 
-    public function get_total($user_id = null, $session_id = null) {
+    public function getTotal($user_id = null, $session_id = null) {
         try {
             $em = $this->getEntityManager();
             $query_string = "SELECT f FROM mycpBundle:favorite f";
@@ -77,7 +77,7 @@ class favoriteRepository extends EntityRepository {
         }
     }
 
-    public function is_in_favorite($element_id, $is_ownership = true, $user_id = null, $session_id = null) {
+    public function isInFavorite($element_id, $is_ownership = true, $user_id = null, $session_id = null) {
         try {
             $em = $this->getEntityManager();
             $query_string = "SELECT f FROM mycpBundle:favorite f";
@@ -99,13 +99,13 @@ class favoriteRepository extends EntityRepository {
         }
     }
 
-    public function is_in_favorite_array($array_elements, $is_ownership = true, $user_id = null, $session_id = null) {
+    public function isInFavoriteArray($array_elements, $is_ownership = true, $user_id = null, $session_id = null) {
         if (is_array($array_elements)) {
             $results = array();
             foreach ($array_elements as $element) {
                 if ($element != null) {
                     $id = ($is_ownership) ? $element->getOwnId() : $element->getDesId();
-                    $results[$id] = $this->is_in_favorite($id, $is_ownership, $user_id, $session_id);
+                    $results[$id] = $this->isInFavorite($id, $is_ownership, $user_id, $session_id);
                 }
             }
             return $results;
@@ -113,7 +113,7 @@ class favoriteRepository extends EntityRepository {
         return null;
     }
 
-    public function get_list($is_ownership = true, $user_id = null, $session_id = null, $max_results = null, $exclude_id_element = null) {
+    public function getList($is_ownership = true, $user_id = null, $session_id = null, $max_results = null, $exclude_id_element = null) {
         try {
             $em = $this->getEntityManager();
             $query_string = "SELECT f FROM mycpBundle:favorite f";
@@ -139,7 +139,7 @@ class favoriteRepository extends EntityRepository {
         }
     }
 
-    public function get_element_id_list($is_ownership = true, $user_id = null, $session_id = null, $max_results = null, $exclude_id_element = null) {
+    public function getElementIdList($is_ownership = true, $user_id = null, $session_id = null, $max_results = null, $exclude_id_element = null) {
         try {
             $em = $this->getEntityManager();
             $query_string = "SELECT f FROM mycpBundle:favorite f";
@@ -197,7 +197,7 @@ class favoriteRepository extends EntityRepository {
         $em->flush();
     }
 
-    public function get_favorite_destinations($user_id = null, $session_id = null, $max_results = null, $exclude_id_element = null, $locale="ES") {
+    public function getFavoriteDestinations($user_id = null, $session_id = null, $max_results = null, $exclude_id_element = null, $locale="ES") {
         $where = "";
         $em = $this->getEntityManager();
         $query_string = "SELECT f, d.des_id as destination_id,
@@ -235,7 +235,7 @@ class favoriteRepository extends EntityRepository {
         return $results;
     }
 
-    public function get_favorite_ownerships($user_id = null, $session_id = null, $max_results = null, $exclude_id_element = null) {
+    public function getFavoriteAccommodations($user_id = null, $session_id = null, $max_results = null, $exclude_id_element = null) {
         $where = "";
         $em = $this->getEntityManager();
         $query_string = "SELECT f, o.own_id as own_id,

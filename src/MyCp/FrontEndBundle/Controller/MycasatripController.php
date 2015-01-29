@@ -339,7 +339,7 @@ class MycasatripController extends Controller {
         $session->set('mycasatrip_favorite_type', $favorite_type);
 
         if ($favorite_type == "ownerships" || $favorite_type == "ownershipfav") {
-            $favorite_ownerships_list = $em->getRepository('mycpBundle:favorite')->get_favorite_ownerships($user->getUserId());
+            $favorite_ownerships_list = $em->getRepository('mycpBundle:favorite')->getFavoriteAccommodations($user->getUserId());
 
             $paginator = $this->get('ideup.simple_paginator');
             $items_per_page = 15;
@@ -358,7 +358,7 @@ class MycasatripController extends Controller {
             ));
         } else {
             $locale = $this->get('translator')->getLocale();
-            $favorite_destination_list = $em->getRepository('mycpBundle:favorite')->get_favorite_destinations($user->getUserId());
+            $favorite_destination_list = $em->getRepository('mycpBundle:favorite')->getFavoriteDestinations($user->getUserId());
 
             $paginator = $this->get('ideup.simple_paginator');
             $items_per_page = 15;
@@ -418,7 +418,7 @@ class MycasatripController extends Controller {
         if ($generalReservation->getGenResStatus() != \MyCp\mycpBundle\Entity\generalReservation::STATUS_PENDING &&
             $generalReservation->getGenResStatus() != \MyCp\mycpBundle\Entity\generalReservation::STATUS_AVAILABLE &&
             $generalReservation->getGenResStatus() != \MyCp\mycpBundle\Entity\generalReservation::STATUS_PARTIAL_AVAILABLE) {
-            
+
             $message = $this->get('translator')->trans("NOT_ALLOW_STATUS_OFFER");
             $this->get('session')->getFlashBag()->add('message', $message);
 

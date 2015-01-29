@@ -36,12 +36,12 @@ class UserController extends Controller {
             if ($user_db) {
                 $errors['used_email'] = $this->get('translator')->trans("USER_EMAIL_IN_USE");
             }
-            
+
             $validate_email = \MyCp\FrontEndBundle\Helpers\Utils::validateEmail($post['user_email']);
-            
+
             if(!$validate_email)
                 $errors['user_email'] = $this->get('translator')->trans("EMAIL_INVALID_MESSAGE");
-            
+
             if ($form->isValid() && !$user_db && count($errors) == 0) {
                 $factory = $this->get('security.encoder_factory');
                 $user2 = new user();
@@ -69,13 +69,13 @@ class UserController extends Controller {
                 $userTourist = $em->getRepository('mycpBundle:userTourist')
                                        ->findOneBy(array('user_tourist_user' => $user_db->getUserId()));
                     $userLocale = (isset($userTourist)) ? strtolower($userTourist->getUserTouristLanguage()->getLangCode()) : "en";
-                    
+
                 $enableUrl = $this->get('router')->generate($enableRoute, array(
                     'string' => $encode_string,
-                    '_locale' => $userLocale, 
+                    '_locale' => $userLocale,
                     'locale' => $userLocale), true);
                 $body = $this->render('FrontEndBundle:mails:enableAccount.html.twig', array(
-                    'enableUrl' => $enableUrl, 
+                    'enableUrl' => $enableUrl,
                     'user_name' => $userName,
                     'user_locale' => $userLocale));
 
@@ -240,17 +240,17 @@ class UserController extends Controller {
                     $enableRoute = 'frontend_enable_user';
                     $userTourist = $em->getRepository('mycpBundle:userTourist')
                                        ->findOneBy(array('user_tourist_user' => $user_db->getUserId()));
-                    
+
                     $userLocale = (isset($userTourist)) ? strtolower($userTourist->getUserTouristLanguage()->getLangCode()) : "en";
                     $enableUrl = $this->get('router')->generate($enableRoute, array(
                         'string' => $encode_string,
-                        '_locale' => $userLocale, 
+                        '_locale' => $userLocale,
                         'locale' => $userLocale), true);
-                    
+
                     $service_email = $this->get('Email');
                     $userName = $user_db->getUserCompleteName();
                     $body = $this->render('FrontEndBundle:mails:enableAccount.html.twig', array(
-                        'enableUrl' => $enableUrl, 
+                        'enableUrl' => $enableUrl,
                         'user_name' => $userName,
                         'user_locale' => $userLocale));
                     $service_email->sendTemplatedEmail($this->get('translator')->trans("USER_ACCOUNT_ACTIVATION_EMAIL"), 'noreply@mycasaparticular.com', $user_db->getUserEmail(), $body->getContent());
@@ -361,7 +361,7 @@ class UserController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
 
-        $favorite_destinations = $em->getRepository('mycpBundle:favorite')->get_favorite_destinations($user_ids["user_id"], $user_ids["session_id"], 4, $destination_id);
+        $favorite_destinations = $em->getRepository('mycpBundle:favorite')->getFavoriteDestinations($user_ids["user_id"], $user_ids["session_id"], 4, $destination_id);
 
         for ($i = 0; $i < count($favorite_destinations); $i++) {
             if (!file_exists(realpath("uploads/destinationImages/" . $favorite_destinations[$i]['photo'])))
@@ -369,7 +369,7 @@ class UserController extends Controller {
         }
 
 
-        $ownership_favorities = $em->getRepository('mycpBundle:favorite')->get_favorite_ownerships($user_ids["user_id"], $user_ids["session_id"], 4, $ownership_id);
+        $ownership_favorities = $em->getRepository('mycpBundle:favorite')->getFavoriteAccommodations($user_ids["user_id"], $user_ids["session_id"], 4, $ownership_id);
 
         for ($i = 0; $i < count($ownership_favorities); $i++) {
             if (!file_exists(realpath("uploads/ownershipImages/" . $ownership_favorities[$i]['photo'])))
@@ -429,9 +429,9 @@ class UserController extends Controller {
             $post = $request->get('mycp_frontendbundle_profile_usertype');
             $all_post = $request->request->getIterator()->getArrayCopy();
             $form->handleRequest($request);
-            
+
             $validate_email = \MyCp\FrontEndBundle\Helpers\Utils::validateEmail($post['user_email']);
-            
+
             if(!$validate_email)
                 $errors['user_email'] = $this->get('translator')->trans("EMAIL_INVALID_MESSAGE");
 
