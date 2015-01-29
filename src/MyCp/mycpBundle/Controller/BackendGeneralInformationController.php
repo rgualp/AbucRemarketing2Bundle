@@ -20,7 +20,7 @@ class BackendGeneralInformationController extends Controller
         $service_security->verifyAccess();
         $em=$this->getDoctrine()->getEntityManager();
         $informations=$em->getRepository('mycpBundle:informationLang')->getInformations();
-        $categories = $em->getRepository('mycpBundle:information')->category_names($informations, "ES");
+        $categories = $em->getRepository('mycpBundle:information')->categoryNames($informations, "ES");
         $service_log= $this->get('log');
         $service_log->saveLog('Visit',  BackendModuleName::MODULE_GENERAL_INFORMATION);
         return $this->render('mycpBundle:generalInformation:list.html.twig',array('informations'=>$informations, "categories"=>$categories));
@@ -66,7 +66,7 @@ class BackendGeneralInformationController extends Controller
             {
                 if(isset($post['edit_information']))
                 {
-                    $em->getRepository('mycpBundle:information')->edit_information($post);
+                    $em->getRepository('mycpBundle:information')->edit($post);
                     $message='Información actualizada satisfactoriamente.';
                     $this->get('session')->getFlashBag()->add('message_ok',$message);
                     $service_log= $this->get('log');
@@ -74,7 +74,7 @@ class BackendGeneralInformationController extends Controller
                 }
                 else
                 {
-                    $em->getRepository('mycpBundle:information')->new_information($post);
+                    $em->getRepository('mycpBundle:information')->insert($post);
                     $message='Información añadida satisfactoriamente.';
                     $this->get('session')->getFlashBag()->add('message_ok',$message);
                     $service_log= $this->get('log');

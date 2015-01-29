@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class informationRepository extends EntityRepository {
 
-    function new_information($post) {
+    function insert($post) {
         $em = $this->getEntityManager();
         $languages = $em->getRepository('mycpBundle:lang')->findAll();
         $nomenclator = $em->getRepository('mycpBundle:nomenclator')->find($post['information_type']);
@@ -32,7 +32,7 @@ class informationRepository extends EntityRepository {
         $em->flush();
     }
 
-    function edit_information($post) {
+    function edit($post) {
         $em = $this->getEntityManager();
         $languages = $em->getRepository('mycpBundle:lang')->findAll(); ///edit_information
 
@@ -61,7 +61,7 @@ class informationRepository extends EntityRepository {
         $em->flush();
     }
 
-    function list_information($information_type, $language) {
+    function getByType($information_type, $language) {
         $em = $this->getEntityManager();
         $query_string = "SELECT il FROM mycpBundle:informationLang il
                         JOIN il.info_lang_info info
@@ -75,7 +75,7 @@ class informationRepository extends EntityRepository {
                 ->getResult();
     }
 
-    function category_names($informations_lang, $language_code) {
+    function categoryNames($informations_lang, $language_code) {
         $em = $this->getEntityManager();
         $nomenclators = array();
 
@@ -86,17 +86,17 @@ class informationRepository extends EntityRepository {
         return $nomenclators;
     }
 
-    function get_numbers()
+    function getNumbers()
     {
         $em = $this->getEntityManager();
-        $query_string = 'SELECT COUNT(accommodations) AS acc,
-                        (SELECT count(rms) FROM mycpBundle:room rms AND rms.room_active = 1) as rooms,
-                        (SELECT count(lng) FROM mycpBundle:lang lng WHERE lng.lang_active=1 ) as langs  
-                        FROM mycpBundle:ownership accommodations';
+        $query_string = 'SELECT COUNT(o) AS acc,
+                        (SELECT count(r) FROM mycpBundle:room r WHERE r.room_active = 1) as rooms,
+                        (SELECT count(lng) FROM mycpBundle:lang lng WHERE lng.lang_active=1 ) as langs
+                        FROM mycpBundle:ownership o';
         return $em->createQuery($query_string)->getResult();
     }
 
-    function get_information_about_us($language_code)
+    function getAboutUs($language_code)
     {
         $em = $this->getEntityManager();
         $query_string = "SELECT info_lang

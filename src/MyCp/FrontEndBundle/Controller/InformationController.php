@@ -11,10 +11,10 @@ class InformationController extends Controller {
 
      public function about_usAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
-        $numbers=$em->getRepository('mycpBundle:information')->get_numbers();
+        $numbers=$em->getRepository('mycpBundle:information')->getNumbers();
         $numbers=$numbers[0];
         $lang=$request->getLocale();
-        $information_about_us=$em->getRepository('mycpBundle:information')->get_information_about_us($lang);
+        $information_about_us=$em->getRepository('mycpBundle:information')->getAboutUs($lang);
         return $this->render('FrontEndBundle:information:aboutUs.html.twig', array(
             'numbers'=>$numbers,
             'information'=>$information_about_us
@@ -47,7 +47,7 @@ class InformationController extends Controller {
         $locale=$this->get('translator')->getLocale();
         $em = $this->getDoctrine()->getManager();
 
-        $list=$em->getRepository('mycpBundle:information')->list_information('legal_terms', $locale);
+        $list=$em->getRepository('mycpBundle:information')->getByType('legal_terms', $locale);
 
 
         return $this->render('FrontEndBundle:information:legal_terms.html.twig' , array(
@@ -61,7 +61,7 @@ class InformationController extends Controller {
         $locale=$this->get('translator')->getLocale();
         $em = $this->getDoctrine()->getManager();
 
-        $list=$em->getRepository('mycpBundle:information')->list_information('security_privacity', $locale);
+        $list=$em->getRepository('mycpBundle:information')->getByType('security_privacity', $locale);
 
         return $this->render('FrontEndBundle:information:security_privacity.html.twig' , array(
             'list'=>$list
