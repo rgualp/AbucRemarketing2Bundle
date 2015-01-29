@@ -2,18 +2,18 @@
 
 namespace MyCp\mycpBundle\Controller;
 
-use MyCp\mycpBundle\Entity\metaLang;
-use MyCp\mycpBundle\Form\metaType;
+use MyCp\mycpBundle\Entity\mailList;
+use MyCp\mycpBundle\Form\mailListType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
 
 class BackendMailListController extends Controller {
 
-    function listAction($items_per_page = 20){
-        $service_security= $this->get('Secure');
+    function listAction($items_per_page = 20) {
+        $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em=$this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
@@ -32,23 +32,42 @@ class BackendMailListController extends Controller {
         ));
     }
 
-    function addAction(){
-        $service_security= $this->get('Secure');
+    function addAction(Request $request) {
+        $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em=$this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
 
-        //TODO
+        $mailList = new mailList();
+        $form = $this->createForm(new mailListType(), $mailList);
 
-        $service_log = $this->get('log');
-        $service_log->saveLog('Insert new mail list', BackendModuleName::MODULE_MAIL_LIST);
+        if ($request->getMethod() == 'POST') {
+            $post_form = $request->get('mycp_mycpbundle_maillisttype');
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $mailListWithFunction = $em->getRepository("mycpBundle:mailList")->findBy(array("mail_list_function" => $post_form['mail_list_function']));
+                if (count($mailListWithFunction) == 0) {
+                    $em->persist($mailList);
+                    $em->flush();
+                    $message = 'Lista de correo añadida satisfactoriamente.';
+                    $this->get('session')->getFlashBag()->add('message_ok', $message);
 
-        //TODO
+                    $service_log = $this->get('log');
+                    $service_log->saveLog('Create entity ' . $post_form['mail_list_name'], BackendModuleName::MODULE_MAIL_LIST);
+
+                    return $this->redirect($this->generateUrl('mycp_list_mail_list'));
+                } else {
+                    $message = 'Ya existe una lista asociada a esta función o comando.';
+                    $this->get('session')->getFlashBag()->add('message_error_main', $message);
+                }
+            }
+        }
+        return $this->render('mycpBundle:mailList:new.html.twig', array('form' => $form->createView()));
     }
 
-    function editAction($listId,Request $request) {
-        $service_security= $this->get('Secure');
+    function editAction($listId, Request $request) {
+        $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em=$this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
 
         //TODO
 
@@ -71,7 +90,7 @@ class BackendMailListController extends Controller {
     }
 
     function deleteAction($listId) {
-        $service_security= $this->get('Secure');
+        $service_security = $this->get('Secure');
         $service_security->verifyAccess();
 
         $em = $this->getDoctrine()->getEntityManager();
@@ -85,18 +104,18 @@ class BackendMailListController extends Controller {
         $em->remove($list);
         $em->flush();
 
-         $service_log= $this->get('log');
-          $service_log->saveLog('Remove mail list '.$listId, BackendModuleName::MODULE_MAIL_LIST);
+        $service_log = $this->get('log');
+        $service_log->saveLog('Remove mail list ' . $listId, BackendModuleName::MODULE_MAIL_LIST);
 
         $message = 'Lista de correo eliminada satisfactoriamente.';
         $this->get('session')->getFlashBag()->add('message_ok', $message);
         return $this->redirect($this->generateUrl('mycp_list_mail_list'));
     }
 
-    function usersAction($mailList,$items_per_page = 20){
-        $service_security= $this->get('Secure');
+    function usersAction($mailList, $items_per_page = 20) {
+        $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em=$this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
         $users = $em->getRepository('mycpBundle:mailListUser')->findBy(array('mail_list' => $mailList));
         //TODO
 
@@ -106,10 +125,10 @@ class BackendMailListController extends Controller {
         //TODO
     }
 
-    function addUserAction($mailList){
-        $service_security= $this->get('Secure');
+    function addUserAction($mailList) {
+        $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em=$this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
 
         //TODO
 
@@ -120,7 +139,7 @@ class BackendMailListController extends Controller {
     }
 
     function deleteUserAction($mailListUserId) {
-        $service_security= $this->get('Secure');
+        $service_security = $this->get('Secure');
         $service_security->verifyAccess();
 
         $em = $this->getDoctrine()->getEntityManager();
@@ -130,11 +149,12 @@ class BackendMailListController extends Controller {
         $em->remove($listUser);
         $em->flush();
 
-         $service_log= $this->get('log');
-          $service_log->saveLog('Remove mail list user '.$mailListUserId, BackendModuleName::MODULE_MAIL_LIST);
+        $service_log = $this->get('log');
+        $service_log->saveLog('Remove mail list user ' . $mailListUserId, BackendModuleName::MODULE_MAIL_LIST);
 
         $message = 'El usuario ha sido eliminado de la lista de correo satisfactoriamente.';
         $this->get('session')->getFlashBag()->add('message_ok', $message);
         return $this->redirect($this->generateUrl('mycp_list_mail_list_user', array('mailList' => $mailListId)));
     }
+
 }
