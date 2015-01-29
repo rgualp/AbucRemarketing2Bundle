@@ -36,7 +36,7 @@
                     <a href="{{ path('mycp_list_ownerships') }}"><i class="icon-home"></i> Propiedades</a>
                 </div>
                 <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_unavailabilityDetails') }}"><i class="icon-file"></i> Disponibilidad</a>
+                    <a href="{{ path('mycp_list_unavailabilityDetails') }}"><i class="icon-calendar"></i> Disponibilidad</a>
                 </div>
                 <div class="accordion-inner">
                     <a href="{{ path('mycp_list_albums') }}"><i class="icon-picture"></i> Álbumes</a>
@@ -45,10 +45,10 @@
                     <a href="{{ path('mycp_list_faqs') }}"><i class="icon-question-sign"></i> Preguntas frecuentes</a>
                 </div>
                 <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_informations') }}"><i class="icon-th-list"></i> Informaciónes Generales</a>
+                    <a href="{{ path('mycp_list_informations') }}"><i class="icon-list"></i> Informaciónes Generales</a>
                 </div>
                 <div class="accordion-inner">
-                    <a href="{{ path('mycp_list_comments') }}"><i class="icon-bullhorn"></i> Comentarios</a>
+                    <a href="{{ path('mycp_list_comments') }}"><i class="icon-comment"></i> Comentarios</a>
                 </div>
 
 
@@ -78,7 +78,7 @@
                     Generales
                 </a>
             </div>
-            <div id="collapseThree" class="accordion-body collapse {%if  temp == 'BackendCurrencyController' or temp == 'BackendSeasonController' or temp == 'BackendLanguageController' or temp == 'BackendLogController' or temp == 'BackendUserController'  or temp == 'BackendTestEmailTemplateController'%}in{%endif%}">
+            <div id="collapseThree" class="accordion-body collapse {%if  temp == 'BackendCurrencyController' or temp == 'BackendSeasonController' or temp == 'BackendLanguageController' or temp == 'BackendLogController' or temp == 'BackendUserController'%}in{%endif%}">
                 <div class="accordion-inner">
                     <a href="{{ path('mycp_list_users') }}"><i class="icon-user"></i> Usuarios</a>
                 </div>
@@ -94,6 +94,29 @@
                 <div class="accordion-inner">
                     <a href="{{ path('mycp_list_season') }}"><i class="icon-tags"></i> Temporadas</a>
                 </div>
+            </div>
+        </div>
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseConfig">
+                    Configuraciones
+                </a>
+            </div>
+            <div id="collapseConfig" class="accordion-body collapse {%if temp == 'BackendConfigurationController'%}in{%endif%}">
+
+                <div class="accordion-inner">
+                    <a href="{{ path('mycp_test_home') }}"><i class="icon-bullhorn"></i> Listas de correo</a>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTest">
+                    Testings
+                </a>
+            </div>
+            <div id="collapseTest" class="accordion-body collapse {%if temp == 'BackendTestEmailTemplateController'%}in{%endif%}">
+
                 <div class="accordion-inner">
                     <a href="{{ path('mycp_test_home') }}"><i class="icon-envelope"></i> Plantillas de correos</a>
                 </div>
