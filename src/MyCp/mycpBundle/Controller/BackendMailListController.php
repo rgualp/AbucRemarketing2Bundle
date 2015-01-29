@@ -10,17 +10,26 @@ use MyCp\mycpBundle\Helpers\BackendModuleName;
 
 class BackendMailListController extends Controller {
 
-    function listAction(){
+    function listAction($items_per_page = 20){
         $service_security= $this->get('Secure');
         $service_security->verifyAccess();
         $em=$this->getDoctrine()->getManager();
-
-        //TODO
+        $page = 1;
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+        $paginator = $this->get('ideup.simple_paginator');
+        $paginator->setItemsPerPage($items_per_page);
+        $list = $paginator->paginate($em->getRepository('mycpBundle:mailList')->findAll())->getResult();
 
         $service_log = $this->get('log');
         $service_log->saveLog('Visit', BackendModuleName::MODULE_MAIL_LIST);
 
-        //TODO
+        return $this->render('mycpBundle:mailList:list.html.twig', array(
+                    'list' => $list,
+                    'items_per_page' => $items_per_page,
+                    'current_page' => $page,
+                    'total_items' => $paginator->getTotalItems()
+        ));
     }
 
     function addAction(){
@@ -84,7 +93,7 @@ class BackendMailListController extends Controller {
         return $this->redirect($this->generateUrl('mycp_list_mail_list'));
     }
 
-    function usersAction($mailList){
+    function usersAction($mailList,$items_per_page = 20){
         $service_security= $this->get('Secure');
         $service_security->verifyAccess();
         $em=$this->getDoctrine()->getManager();

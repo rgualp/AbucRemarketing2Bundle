@@ -1,6 +1,6 @@
 mycp_list_mail_list:
-    pattern:  /list
-    defaults: { _controller: mycpBundle:BackendMailList:list }
+    pattern:  /list/{items_per_page}
+    defaults: { _controller: mycpBundle:BackendMailList:list, items_per_page:20 }
 
 mycp_add_mail_list:
     pattern:  /add
@@ -15,8 +15,8 @@ mycp_delete_mail_list:
     defaults: { _controller: mycpBundle:BackendMailList:delete }
 
 mycp_list_mail_list_user:
-    pattern:  /users/{mailList}
-    defaults: { _controller: mycpBundle:BackendMailList:users }
+    pattern:  /users/{mailList}/{items_per_page}
+    defaults: { _controller: mycpBundle:BackendMailList:users, items_per_page:20 }
 
 mycp_add_mail_list_user:
     pattern:  /users/add/{mailList}
