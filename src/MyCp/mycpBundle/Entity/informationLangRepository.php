@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class informationLangRepository extends EntityRepository
 {
-    function get_informations()
+    function getInformations()
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT il,inf FROM mycpBundle:informationlang il

@@ -19,7 +19,7 @@ class BackendGeneralInformationController extends Controller
         $service_security= $this->get('Secure');
         $service_security->verifyAccess();
         $em=$this->getDoctrine()->getEntityManager();
-        $informations=$em->getRepository('mycpBundle:informationLang')->get_informations();
+        $informations=$em->getRepository('mycpBundle:informationLang')->getInformations();
         $categories = $em->getRepository('mycpBundle:information')->category_names($informations, "ES");
         $service_log= $this->get('log');
         $service_log->saveLog('Visit',  BackendModuleName::MODULE_GENERAL_INFORMATION);
