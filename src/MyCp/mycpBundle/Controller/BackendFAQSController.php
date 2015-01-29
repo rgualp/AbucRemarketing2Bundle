@@ -164,7 +164,7 @@ class BackendFAQSController extends Controller
 
                 if($request->request->get('edit_faq'))
                 {
-                    $em->getRepository('mycpBundle:faq')->edit_faq($post);
+                    $em->getRepository('mycpBundle:faq')->edit($post);
                     $message='Pregunta actualizada satisfactoriamente.';
                     $faq_save=$em->getRepository('mycpBundle:faqLang')->findBy(array('faq_lang_faq'=>$post['edit_faq']));
 
@@ -174,7 +174,7 @@ class BackendFAQSController extends Controller
                 else
                 {
 
-                    $em->getRepository('mycpBundle:faq')->insert_faq($post);
+                    $em->getRepository('mycpBundle:faq')->insert($post);
                     $message='Pregunta añadida satisfactoriamente.';
                     $languages=$em->getRepository('mycpBundle:lang')->findAll();
 
@@ -220,7 +220,7 @@ class BackendFAQSController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
-        $faqs= $paginator->paginate($em->getRepository('mycpBundle:faq')->get_all_faqs($filter_name,$filter_active,$filter_category,$sort_by))->getResult();
+        $faqs= $paginator->paginate($em->getRepository('mycpBundle:faq')->getAll($filter_name,$filter_active,$filter_category,$sort_by))->getResult();
         $data=array();
 
         foreach($faqs as $faq)

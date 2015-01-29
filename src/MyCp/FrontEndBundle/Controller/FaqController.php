@@ -13,10 +13,10 @@ class FaqController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
         $paginator->setItemsPerPage($items_per_page);
-        $faq_list=$paginator->paginate($em->getRepository('mycpBundle:faq')->get_faq_list_by_category($locale))->getResult();
+        $faq_list=$paginator->paginate($em->getRepository('mycpBundle:faq')->getByCategory($locale))->getResult();
         $page=1;
         if(isset($_GET['page']))$page=$_GET['page'];
-        $category_list = $em->getRepository('mycpBundle:faq')->get_faq_category_list($locale);
+        $category_list = $em->getRepository('mycpBundle:faq')->getCategoryList($locale);
 
         return $this->render('FrontEndBundle:faq:listFaq.html.twig', array(
             'categories' => $category_list,
@@ -35,7 +35,7 @@ class FaqController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
         $paginator->setItemsPerPage($items_per_page);
-        $faq_list=$paginator->paginate($em->getRepository('mycpBundle:faq')->get_faq_list_by_category($locale, $category_id))->getResult();
+        $faq_list=$paginator->paginate($em->getRepository('mycpBundle:faq')->getByCategory($locale, $category_id))->getResult();
         $page=1;
         if(isset($_GET['page']))$page=$_GET['page'];
 

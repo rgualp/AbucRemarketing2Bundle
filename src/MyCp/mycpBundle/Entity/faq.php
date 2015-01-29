@@ -36,11 +36,6 @@ class faq
     private $faq_active;
 
     /**
-     * @ORM\OneToMany(targetEntity="destinationLang",mappedBy="destination")
-     */
-    private $destinationsLang;
-
-    /**
      * @ORM\ManyToOne(targetEntity="faqCategory",inversedBy="")
      * @ORM\JoinColumn(name="faq_faq_cat_id",referencedColumnName="faq_cat_id")
      */
@@ -53,11 +48,11 @@ class faq
     {
         $this->destinationsLang = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Get faq_id
      *
-     * @return integer 
+     * @return integer
      */
     public function getFaqId()
     {
@@ -73,14 +68,14 @@ class faq
     public function setFaqOrder($faqOrder)
     {
         $this->faq_order = $faqOrder;
-    
+
         return $this;
     }
 
     /**
      * Get faq_order
      *
-     * @return integer 
+     * @return integer
      */
     public function getFaqOrder()
     {
@@ -96,51 +91,18 @@ class faq
     public function setFaqActive($faqActive)
     {
         $this->faq_active = $faqActive;
-    
+
         return $this;
     }
 
     /**
      * Get faq_active
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getFaqActive()
     {
         return $this->faq_active;
-    }
-
-    /**
-     * Add destinationsLang
-     *
-     * @param \MyCp\mycpBundle\Entity\destinationLang $destinationsLang
-     * @return faq
-     */
-    public function addDestinationsLang(\MyCp\mycpBundle\Entity\destinationLang $destinationsLang)
-    {
-        $this->destinationsLang[] = $destinationsLang;
-    
-        return $this;
-    }
-
-    /**
-     * Remove destinationsLang
-     *
-     * @param \MyCp\mycpBundle\Entity\destinationLang $destinationsLang
-     */
-    public function removeDestinationsLang(\MyCp\mycpBundle\Entity\destinationLang $destinationsLang)
-    {
-        $this->destinationsLang->removeElement($destinationsLang);
-    }
-
-    /**
-     * Get destinationsLang
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getDestinationsLang()
-    {
-        return $this->destinationsLang;
     }
 
     /**
@@ -152,14 +114,14 @@ class faq
     public function setFaqCategory(\MyCp\mycpBundle\Entity\faqCategory $faqCategory = null)
     {
         $this->faq_category = $faqCategory;
-    
+
         return $this;
     }
 
     /**
      * Get faq_category
      *
-     * @return \MyCp\mycpBundle\Entity\faqCategory 
+     * @return \MyCp\mycpBundle\Entity\faqCategory
      */
     public function getFaqCategory()
     {

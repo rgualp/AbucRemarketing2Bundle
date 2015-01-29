@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class faqRepository extends EntityRepository
 {
-    function insert_faq($data)
+    function insert($data)
     {
         $active=0;
         if(isset($data['public']))
@@ -45,7 +45,7 @@ class faqRepository extends EntityRepository
         $em->flush();
     }
 
-    function edit_faq($data)
+    function edit($data)
     {
         $id_faq=$data['edit_faq'];
         $active=0;
@@ -85,7 +85,7 @@ class faqRepository extends EntityRepository
 
     }
 
-    function get_all_faqs($filter_name,$filter_active,$filter_category,$sort_by)
+    function getAll($filter_name,$filter_active,$filter_category,$sort_by)
     {
         $string='';
         if($filter_active!='null' && $filter_active!='')
@@ -116,23 +116,19 @@ class faqRepository extends EntityRepository
         $string2
         GROUP BY f.faq_id
         ORDER BY $string3");
-        
+
         $query->setParameter('filter_name', "%".$filter_name."%");
-        
+
         if($filter_active!='null' && $filter_active!='')
             $query->setParameter ('filter_active', $filter_active);
-        
+
         if($filter_category!='null' && $filter_category!='')
             $query->setParameter ('filter_category', $filter_category);
-        
+
         return $query->getResult();
     }
 
-    /*     * *
-    * Codigo Yanet
-    */
-
-    function get_faq_category_list($lang_code) {
+    function getCategoryList($lang_code) {
         $em = $this->getEntityManager();
         $query_string = "SELECT catLang FROM mycpBundle:faqCategoryLang catLang
                         JOIN catLang.faq_cat_id_cat category
@@ -142,7 +138,7 @@ class faqRepository extends EntityRepository
         return $em->createQuery($query_string)->setParameter('lang_code', $lang_code)->getResult();
     }
 
-    function get_faq_list_by_category($lang_code, $category_id = null) {
+    function getByCategory($lang_code, $category_id = null) {
         $em = $this->getEntityManager();
         $query_string = "SELECT faqLang FROM mycpBundle:faqLang faqLang
                         JOIN faqLang.faq_lang_faq faq
@@ -154,10 +150,10 @@ class faqRepository extends EntityRepository
         $query_string .= " ORDER BY faq.faq_order ASC ";
 
         $query = $em->createQuery($query_string)->setParameter('lang_code', $lang_code);
-        
+
         if ($category_id != null && $category_id != "")
             $query->setParameter ('category_id', $category_id);
-        
+
          return $query->getResult();
     }
 
