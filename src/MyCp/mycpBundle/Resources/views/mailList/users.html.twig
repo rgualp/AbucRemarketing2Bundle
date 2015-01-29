@@ -54,11 +54,11 @@
     <tbody>
     {% for item in list %}
     <tr>
-        <td>{{ item.mailListUser.userName }}</td>
+        <td>{{ item.mailListUser.userCompleteName }}</td>
         <td>{{ item.mailListUser.userEmail }}</td>
         <td>{{ item.mailListUser.userRole }}</td>
         <td style="text-align: right">
-            <button data='{{path('mycp_delete_mail_list',{'listId': item.mailListId})}}' class="btn btn-mini btn-danger delete">Eliminar de la lista</button>
+            <button data='{{path('mycp_delete_mail_list_user',{'mailListUserId': item.mailListUserId})}}' class="btn btn-mini btn-danger delete">Eliminar de la lista</button>
         </td>
     </tr>
     {% endfor %}

@@ -261,7 +261,7 @@ class userRepository extends EntityRepository {
         $user->setUserSubrole($role);
         $user->setUserUserName($form_post['user_name']);
         $encoder = $factory->getEncoder($user);
-        //$user->setUserCreationDate(new \DateTime());       
+        //$user->setUserCreationDate(new \DateTime());
         $password = $encoder->encodePassword($form_post['user_password']['Clave:'], $user->getSalt());
         $user->setUserPassword($password);
         $user_partner->setUserPartnerCurrency($currency);
@@ -498,9 +498,6 @@ class userRepository extends EntityRepository {
         return $query->getResult();
     }
 
-    /**
-     * Yanet
-     */
     public function user_ids($controller) {
         $user_id = null;
         $session_id = null;
@@ -565,6 +562,14 @@ class userRepository extends EntityRepository {
             $em->persist($user);
             $em->flush();
         }
+    }
+
+    public function getUsersStaff()
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT u FROM mycpBundle:user u
+        WHERE u.user_role LIKE 'ROLE_CLIENT_STAFF%' order by u.user_user_name ASC");
+        return $query->getResult();
     }
 
 }

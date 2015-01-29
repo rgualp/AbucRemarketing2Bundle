@@ -4,6 +4,8 @@ namespace MyCp\mycpBundle\Controller;
 
 use MyCp\mycpBundle\Entity\mailList;
 use MyCp\mycpBundle\Form\mailListType;
+use MyCp\mycpBundle\Entity\mailListUser;
+use MyCp\mycpBundle\Form\mailListUserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
@@ -145,17 +147,42 @@ class BackendMailListController extends Controller {
         ));
     }
 
-    function addUserAction($mailList) {
+    function addUserAction($mailList, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
+        $mList = $em->getRepository("mycpBundle:mailList")->find($mailList);
+        $mlUser = new mailListUser();
+        $mlUser->setMailList($mList);
+        $data = array();
+        $data["users"] = $em->getRepository("mycpBundle:user")->getUsersStaff();
+        $form = $this->createForm(new mailListUserType($data), $mlUser);
 
-        //TODO
+        if ($request->getMethod() == 'POST') {
+            $post_form = $request->get('mycp_mycpbundle_maillistusertype');
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $userInMailList = $em->getRepository("mycpBundle:mailListUser")->findBy(array("mail_list_user" => $post_form['mail_list_user'], "mail_list" => $mailList));
 
-        $service_log = $this->get('log');
-        $service_log->saveLog('Insert new mail list user', BackendModuleName::MODULE_MAIL_LIST);
+                if (count($userInMailList) == 0) {
+                    $user = $em->getRepository("mycpBundle:user")->find($post_form['mail_list_user']);
+                    $mlUser->setMailListUser($user);
+                    $em->persist($mlUser);
+                    $em->flush();
+                    $message = 'Usuario añadido a la lista satisfactoriamente.';
+                    $this->get('session')->getFlashBag()->add('message_ok', $message);
 
-        //TODO
+                    $service_log = $this->get('log');
+                    $service_log->saveLog('Create mail list user, ' . $mlUser->getMailListUserId(), BackendModuleName::MODULE_MAIL_LIST);
+
+                    return $this->redirect($this->generateUrl('mycp_list_mail_list_user', array("mailList" => $mailList)));
+                } else {
+                    $message = 'Ya este usuario pertenece a la lista seleccionada.';
+                    $this->get('session')->getFlashBag()->add('message_error_main', $message);
+                }
+            }
+        }
+        return $this->render('mycpBundle:mailList:newUser.html.twig', array('form' => $form->createView(), "mailList" => $mList));
     }
 
     function deleteUserAction($mailListUserId) {
