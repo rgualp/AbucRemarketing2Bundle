@@ -7,11 +7,11 @@ mycp_add_mail_list:
     defaults: { _controller: mycpBundle:BackendMailList:add }
 
 mycp_edit_mail_list:
-    pattern:  /edit/{id}
+    pattern:  /edit/{listId}
     defaults: { _controller: mycpBundle:BackendMailList:edit }
 
 mycp_delete_mail_list:
-    pattern:  /delete/{id}
+    pattern:  /delete/{listId}
     defaults: { _controller: mycpBundle:BackendMailList:delete }
 
 mycp_list_mail_list_user:
@@ -23,6 +23,6 @@ mycp_add_mail_list_user:
     defaults: { _controller: mycpBundle:BackendMailList:addUser }
 
 mycp_delete_mail_list_user:
-    pattern:  /users/delete/{id}
+    pattern:  /users/delete/{mailListUserId}
     defaults: { _controller: mycpBundle:BackendMailList:deleteUser }
 

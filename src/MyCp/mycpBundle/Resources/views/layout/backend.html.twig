@@ -102,10 +102,10 @@
                     Configuraciones
                 </a>
             </div>
-            <div id="collapseConfig" class="accordion-body collapse {%if temp == 'BackendConfigurationController'%}in{%endif%}">
+            <div id="collapseConfig" class="accordion-body collapse {%if temp == 'BackendMailListController'%}in{%endif%}">
 
                 <div class="accordion-inner">
-                    <a href="{{ path('mycp_test_home') }}"><i class="icon-bullhorn"></i> Listas de correo</a>
+                    <a href="{{ path('mycp_list_mail_list') }}"><i class="icon-bullhorn"></i> Listas de correo</a>
                 </div>
             </div>
         </div>
@@ -118,7 +118,7 @@
             <div id="collapseTest" class="accordion-body collapse {%if temp == 'BackendTestEmailTemplateController'%}in{%endif%}">
 
                 <div class="accordion-inner">
-                    <a href="{{ path('mycp_test_home') }}"><i class="icon-envelope"></i> Plantillas de correos</a>
+                    <a href="{{ path('mycp_test_home') }}"><i class="icon-envelope"></i> Correos</a>
                 </div>
             </div>
         </div>
