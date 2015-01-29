@@ -1,0 +1,39 @@
+Frontend:
+    - Revisar calendario de reservaciones. Cuando cambio el desde, debajo me pone desde un dia antes y no desde el que marqué. Cuando esto sucede, el hasta se pone +2dias.
+    - En destinos cercanos, poner un cargando
+    - Al comentar, ocultar el div del comentario. O revisar porq solo se puede comentar por cada reservacion que se tenga en la casa
+    - Cuando una casa pasa de En Proceso a Activa no sale en las Últimas Añadidas, utilizar el campo de fecha de modificacion para traer las últimas añadidas
+    - Con el sitio en español, las fechas de los comentarios salen en ingles. Usar intl para esto. No hay q instalarlo.
+    - En destinos detalle, quitar el Ver mas dentro del municipio, siempre va a estar vacio.
+
+Funciones:
+    - Poner en ownershipReservation y en generalReservation una funcion que me devuelva el CAS.# y utilizarla
+    - Funcion en Time que me dé la cantidad de noches sin tener que hacer -1 siempre
+    - Hacer PSR Standarization para todas las funciones del sitio.
+
+Correo:
+    - En el template general, poner debajo un enlace que diga "No deseo recibir más correos"
+    - Usar siempre el servicio de Jakob para enviar correos
+
+Diseño:
+    - Pedir que Fidel diseñe varios iconos para los comentarios:
+        *Total de comentarios realizados en Mycp (pueden ser varios iconos, y darle una categoria a los clientes según el total de comentarios realizados en MyCasa)
+        *Total de reservaciones realizadas mediante MyCP (pueden ser varios iconos, y darle una categoria a los clientes según el total de reservaciones que tenga en MyCasa)
+        *Este cliente reservó en este alojamiento (si es más de una vez, poner el número)
+
+Backend:
+    - Cambiar diseño de accessDenied para que en el modulo casa no salga el menu completo
+    - En el filtro de ownership en el listado Destino no sale el cargando.
+    - (Ticket 96, actualizarlo) - En el correo de chequeo de disponibilidad que se envia al equipo de reservacion, agregar el precio por noche que el cliente vio en el sitio (DUDA, que hacer cuando hay un cambio de temporada en el medio del periodo?)
+    - Administración de permisos
+    - Modificar diseño en REservaciones-Clientes-Detalle. Poder filtrar por estado de la reservacion. Creo que no debería permitirse el modificar el estado de las reservaciones por aqui. REvisar la parte de enviarle un mensaje al cliente desde la parte del listado.
+    - Los detalles de reservacion que se cargan por AJAX, muestran aun el listado de habitacion seleccionable. Ponerlo como esta en el detalle de reservacion general si Luis los aprueba.
+    - Crear un directorio de alojamientos descargable en EXCEL que se actualice semanalmente junto al comando de envio de nuevas casas. Que se pueda descargar desde el sitio. El Excel debe tener una hoja por cada provincia
+
+Módulo Casa:
+    - En el calendario, agregar un filtro que al seleccionar una de las habitaciones de la casa, solo se carguen las reservaciones y no disponibilidades de la habitacion seleccionada.
+    - Pasar el formulario de activar cuenta del modulo casa para el backend.
+
+Facebook:
+    - Logguearse por Facebook
+    - Compartir en Facebook una casa.
