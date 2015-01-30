@@ -12,7 +12,7 @@ set gr.gen_res_from_date = (SELECT MIN(ow.own_res_reservation_from_date) FROM ow
 
 /*Adding permissions for new backend routes*/
 insert into permission(perm_description, perm_category, perm_route)
-values ('Litas de correo', 'Listas de correo', 'mycp_list_mail_list'),
+values ('Listas de correo', 'Listas de correo', 'mycp_list_mail_list'),
        ('Insertar lista de correo', 'Listas de correo', 'mycp_add_mail_list'),
        ('Editar lista de correo', 'Listas de correo', 'mycp_edit_mail_list'),
        ('Eliminar lista de correo', 'Listas de correo', 'mycp_delete_mail_list'),

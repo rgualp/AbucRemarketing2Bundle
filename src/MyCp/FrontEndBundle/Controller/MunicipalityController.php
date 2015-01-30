@@ -74,7 +74,7 @@ class MunicipalityController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
         $paginator->setItemsPerPage($items_per_page);
-        $municipalities = $paginator->paginate($em->getRepository('mycpBundle:municipality')->get_with_reservations())->getResult();
+        $municipalities = $paginator->paginate($em->getRepository('mycpBundle:municipality')->getWithReservations())->getResult();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];

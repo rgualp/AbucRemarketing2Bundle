@@ -1500,7 +1500,7 @@ class ownershipRepository extends EntityRepository {
         //$term = $request->get('term');
         $em = $this->getEntityManager();
         $provinces = $em->getRepository('mycpBundle:province')->getProvinces();
-        $municipalities = $em->getRepository('mycpBundle:municipality')->get_municipalities();
+        $municipalities = $em->getRepository('mycpBundle:municipality')->getMunicipalities();
         $ownerships = $em->getRepository('mycpBundle:ownership')->getPublicOwnerships();
 
         $result = array();

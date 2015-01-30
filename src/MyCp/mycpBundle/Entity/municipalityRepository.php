@@ -13,10 +13,7 @@ use MyCp\mycpBundle\Entity\ownershipStatus;
  */
 class municipalityRepository extends EntityRepository
 {
-    /**
-     * Yanet - Inicio
-     */
-    function get_municipalities_for_autocomplete($part_name)
+    function getMunicipalitiesForAutocomplete($part_name)
     {
         $em = $this->getEntityManager();
 
@@ -25,7 +22,7 @@ class municipalityRepository extends EntityRepository
         return $query->getResult();
     }
 
-    function get_municipalities()
+    function getMunicipalities()
     {
         $em = $this->getEntityManager();
 
@@ -46,29 +43,29 @@ class municipalityRepository extends EntityRepository
             ORDER BY m.mun_name ASC");
         return $query->getResult();
     }
-    
+
     function getAccommodations($id_municipality)
     {
         $em = $this->getEntityManager();
 
-        $query = $em->createQuery("SELECT o FROM mycpBundle:ownership o 
-                                   WHERE o.own_address_municipality = $id_municipality 
+        $query = $em->createQuery("SELECT o FROM mycpBundle:ownership o
+                                   WHERE o.own_address_municipality = $id_municipality
                                    ORDER BY o.own_mcp_code ASC");
         return $query->getResult();
     }
-    
+
     function getDestinations($id_municipality)
     {
         $em = $this->getEntityManager();
 
         $query = $em->createQuery("SELECT d.des_id, d.des_name FROM mycpBundle:destinationLocation dl
                                    JOIN dl.des_loc_destination d
-                                   WHERE dl.des_loc_municipality = $id_municipality 
+                                   WHERE dl.des_loc_municipality = $id_municipality
                                    ORDER BY d.des_name ASC");
         return $query->getResult();
     }
 
-    function get_with_reservations()
+    function getWithReservations()
     {
         $em = $this->getEntityManager();
 
@@ -128,10 +125,4 @@ class municipalityRepository extends EntityRepository
         }
         return $results;
     }
-
-
-    /**
-     * Yanet - Fin
-     */
-
 }
