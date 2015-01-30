@@ -41,7 +41,8 @@
         "leaseweb/memcache-bundle": "*",
         "dompdf/dompdf": "dev-master",
         "leezy/pheanstalk-bundle": "2.*",
-        "abuc/remarketing-bundle": "dev-master"
+        "abuc/remarketing-bundle": "dev-master",
+        "PHPOffice/PHPExcel": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [
