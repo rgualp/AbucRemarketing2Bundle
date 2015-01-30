@@ -34,7 +34,7 @@ class BackendGeneralInformationController extends Controller
         $post = $request->request->getIterator()->getArrayCopy();
         $em=$this->getDoctrine()->getEntityManager();
         $languages=$em->getRepository('mycpBundle:lang')->findAll();
-        $information_types = $em->getRepository('mycpBundle:nomenclator')->get_by_category('information');
+        $information_types = $em->getRepository('mycpBundle:nomenclator')->getByCategory('information');
 
         if($request->getMethod()=='POST')
         {
@@ -100,7 +100,7 @@ class BackendGeneralInformationController extends Controller
         $post=array();
         $information = $em->getRepository('mycpBundle:information')->find($id_information);
         $informations_langs=$em->getRepository('mycpBundle:informationLang')->findBy(array('info_lang_info'=>$id_information));
-        $information_types = $em->getRepository('mycpBundle:nomenclator')->get_by_category('information');
+        $information_types = $em->getRepository('mycpBundle:nomenclator')->getByCategory('information');
 
         $post['information_type'] = $information->getInfoIdNom()->getNomId();
         foreach($informations_langs as $information_lang)

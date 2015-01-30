@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class nomenclatorRepository extends EntityRepository
 {
-    public function get_by_category($category, $lang_code = "ES")
+    public function getByCategory($category, $lang_code = "ES")
     {
         $em=$this->getEntityManager();
         $query_string = "SELECT nl FROM mycpBundle:nomenclatorLang nl
@@ -26,8 +26,8 @@ class nomenclatorRepository extends EntityRepository
                   ->setParameters(array('lang_code' => $lang_code, 'category' => $category))
                   ->getResult();
     }
-    
-    public function get_by_id($id_nomenclator, $lang_code)
+
+    public function getById($id_nomenclator, $lang_code)
     {
         $em=$this->getEntityManager();
         $query_string = "SELECT nl FROM mycpBundle:nomenclatorLang nl

@@ -80,7 +80,7 @@ class informationRepository extends EntityRepository {
         $nomenclators = array();
 
         foreach ($informations_lang as $info) {
-            $nomenclators[$info->getInfoLangId()] = $em->getRepository('mycpBundle:nomenclator')->get_by_id($info->getInfoLangInfo()->getInfoIdNom()->getNomId(), $language_code);
+            $nomenclators[$info->getInfoLangId()] = $em->getRepository('mycpBundle:nomenclator')->getById($info->getInfoLangInfo()->getInfoIdNom()->getNomId(), $language_code);
         }
 
         return $nomenclators;
