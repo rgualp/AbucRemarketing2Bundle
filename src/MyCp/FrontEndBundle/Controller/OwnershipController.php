@@ -16,7 +16,7 @@ class OwnershipController extends Controller {
     public function get_reservation_calendarAction(Request $request) {
         $from = $request->get('from');
         $to = $request->get('to');
-        
+
         $reservation_from = explode('/', $from);
         $dateFrom = new \DateTime();
         $start_timestamp = mktime(0, 0, 0, $reservation_from[1], $reservation_from[0], $reservation_from[2]);
@@ -44,7 +44,7 @@ class OwnershipController extends Controller {
                 array_push($reservations, $own_res);
             }
         }
-        
+
 
         $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $owner_id, 'room_active' => true));
 
@@ -249,7 +249,7 @@ class OwnershipController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $locale = $this->get('translator')->getLocale();
         //$own_name = Utils::urlNormalize($ownership->getOwnName());
-        $ownership_array = $em->getRepository('mycpBundle:ownership')->get_details_by_code($mycp_code, strtoupper($locale), true);
+        $ownership_array = $em->getRepository('mycpBundle:ownership')->getDetailsByCode($mycp_code, strtoupper($locale), true);
         if ($ownership_array && count($ownership_array) > 0) {
             $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $ownership_array['own_id'], 'room_active' => true));
             $own_photos = $em->getRepository('mycpBundle:ownership')->getPhotosAndDescription($ownership_array['own_id'], $locale);
@@ -306,7 +306,7 @@ class OwnershipController extends Controller {
         $own_name = str_replace('  ', '-', $own_name);
         //$own_name = str_replace("nn", "ñ", $own_name);
 
-        $ownership_array = $em->getRepository('mycpBundle:ownership')->get_details($own_name, $locale, $user_ids["user_id"], $user_ids["session_id"]);
+        $ownership_array = $em->getRepository('mycpBundle:ownership')->getDetails($own_name, $locale, $user_ids["user_id"], $user_ids["session_id"]);
         if ($ownership_array == null) {
             throw $this->createNotFoundException();
         }
@@ -713,7 +713,7 @@ class OwnershipController extends Controller {
                         'view_results' => $session->get('search_view_results'),
                         'own_statistics' => $statistics_own_list,
                         'locale' => $this->get('translator')->getLocale(),
-                        'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocomplete_text_list(),
+                        'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocompleteTextList(),
                         'list' => $result_list,
                         'items_per_page' => $items_per_page,
                         'total_items' => $paginator->getTotalItems(),
@@ -734,7 +734,7 @@ class OwnershipController extends Controller {
                         'view_results' => $session->get('search_view_results'),
                         'own_statistics' => $statistics_own_list,
                         'locale' => $this->get('translator')->getLocale(),
-                        'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocomplete_text_list(),
+                        'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocompleteTextList(),
                         'list' => $result_list,
                         'items_per_page' => $items_per_page,
                         'total_items' => $paginator->getTotalItems(),
@@ -1127,7 +1127,7 @@ class OwnershipController extends Controller {
                     'longitude' => $own->getOwnGeolocateY(),
                     'title' => $own->getOwnName(),
                     'content' => $this->get('translator')->trans('FROM_PRICES') . ($session->get("curr_symbol") != null ? " " . $session->get('curr_symbol') . " " : " $ ") . $prize . " " . strtolower($this->get('translator')->trans("BYNIGHTS_PRICES")),
-                    'image' => $this->container->get('templating.helper.assets')->getUrl('uploads/ownershipImages/thumbnails/' . $em->getRepository('mycpBundle:ownership')->get_ownership_photo($own->getOwnId())), //$this->get_ownership_photo($own->getOwnId()),
+                    'image' => $this->container->get('templating.helper.assets')->getUrl('uploads/ownershipImages/thumbnails/' . $em->getRepository('mycpBundle:ownership')->getOwnershipPhoto($own->getOwnId())), //$this->get_ownership_photo($own->getOwnId()),
                     'id' => $own->getOwnId());
             }
         }
@@ -1293,7 +1293,7 @@ class OwnershipController extends Controller {
                     'order' => $session->get('search_order'),
                     'own_statistics' => $statistics_own_list,
                     'locale' => $this->get('translator')->getLocale(),
-                    'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocomplete_text_list(),
+                    'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocompleteTextList(),
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
                     'current_page' => $page,
@@ -1393,7 +1393,7 @@ class OwnershipController extends Controller {
                     'order' => $session->get('search_order'),
                     'own_statistics' => $statistics_own_list,
                     'locale' => $this->get('translator')->getLocale(),
-                    'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocomplete_text_list(),
+                    'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocompleteTextList(),
                     'check_filters' => $check_filters,
                     'list_preffix' => 'search',
                     'list' => $search_results_list
@@ -1415,7 +1415,7 @@ class OwnershipController extends Controller {
         if ($session->get("top_rated_category") == null)
             $session->set("top_rated_category", "todos");
 
-        $statistics = $em->getRepository("mycpBundle:ownership")->top20_statistics();
+        $statistics = $em->getRepository("mycpBundle:ownership")->top20Statistics();
 
         $category = $session->get("top_rated_category");
         $paginator = $this->get('ideup.simple_paginator');
@@ -1455,7 +1455,7 @@ class OwnershipController extends Controller {
         if ($session->get("top_rated_show_rows") == null)
             $session->set("top_rated_show_rows", 2);
 
-        $statistics = $em->getRepository("mycpBundle:ownership")->top20_statistics();
+        $statistics = $em->getRepository("mycpBundle:ownership")->top20Statistics();
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 4 * $session->get("top_rated_show_rows");
         $paginator->setItemsPerPage($items_per_page);
@@ -1485,7 +1485,7 @@ class OwnershipController extends Controller {
 
         return $this->render('FrontEndBundle:ownership:orangeSearchBar.html.twig', array(
                     'locale' => $this->get('translator')->getLocale(),
-                    'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocomplete_text_list(),
+                    'autocomplete_text_list' => $em->getRepository('mycpBundle:ownership')->autocompleteTextList(),
                     'arrival_date' => $session->get("search_arrival_date"),
                     'departure_date' => $session->get("search_departure_date")
         ));
@@ -1506,7 +1506,7 @@ class OwnershipController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
         $history_owns = $em->getRepository('mycpBundle:userHistory')->get_list_entity($user_ids, true, 10, $exclude_ownership_id);
-        $history_owns_photos = $em->getRepository('mycpBundle:ownership')->get_photos_array($history_owns);
+        $history_owns_photos = $em->getRepository('mycpBundle:ownership')->getPhotosArray($history_owns);
 
         return $this->render('FrontEndBundle:ownership:historyOwnership.html.twig', array(
                     'history_list' => $history_owns,

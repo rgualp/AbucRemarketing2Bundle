@@ -353,7 +353,7 @@ class CartController extends Controller {
                         $ownership_reservation = $item->createReservation($general_reservation, $partial_total_price[$flag_1]);
                         array_push($reservations, $ownership_reservation);
 
-                        $ownership_photo = $em->getRepository('mycpBundle:ownership')->get_ownership_photo($ownership_reservation->getOwnResGenResId()->getGenResOwnId()->getOwnId());
+                        $ownership_photo = $em->getRepository('mycpBundle:ownership')->getOwnershipPhoto($ownership_reservation->getOwnResGenResId()->getGenResOwnId()->getOwnId());
                         array_push($array_photos, $ownership_photo);
 
                         $array_dates = $service_time->datesBetween($ownership_reservation->getOwnResReservationFromDate()->getTimestamp(), $ownership_reservation->getOwnResReservationToDate()->getTimestamp());
@@ -365,9 +365,9 @@ class CartController extends Controller {
                         $flag_1++;
                     }
                     //update generalReservation dates
-                    $em->getRepository("mycpBundle:generalReservation")->updateDates($general_reservation);                    
+                    $em->getRepository("mycpBundle:generalReservation")->updateDates($general_reservation);
                     array_push($generalReservations, $general_reservation->getGenResId());
-                    
+
                 }
             }
         } else {
@@ -408,7 +408,7 @@ class CartController extends Controller {
         {
             \MyCp\FrontEndBundle\Helpers\ReservationHelper::sendingEmailToReservationTeam($genResId, $em, $this, $service_email, $service_time, $request, 'reservation@mycasaparticular.com', 'no.reply@mycasaparticular.com');
         }
-        
+
         /*$user_tourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
         $array_own_res_home = array();
         foreach ($reservations as $gen) {

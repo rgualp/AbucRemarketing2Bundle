@@ -23,7 +23,7 @@ class Email {
 
     public function recommendProperty2Friend($email_from, $name_from, $email_to, $property) {
         /* remove after domain optimization. */
-        $photo = $this->em->getRepository('mycpBundle:ownership')->get_ownership_photo($property->getOwnId());
+        $photo = $this->em->getRepository('mycpBundle:ownership')->getOwnershipPhoto($property->getOwnId());
         $body = $this->container->get('templating')->render("FrontEndBundle:mails:recommendProperty2FriendMailBody.html.twig", array('from' => $name_from));
         $this->sendEmail($body, $email_from, $name_from, $email_to, $this->container->get('templating')->render("FrontEndBundle:mails:recommendProperty2FriendMailTemplate.html.twig", array('from' => $name_from, 'property' => $property, 'photo' => $photo)));
     }

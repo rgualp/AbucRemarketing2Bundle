@@ -8,7 +8,6 @@ update generalreservation gr
 set gr.gen_res_from_date = (SELECT MIN(ow.own_res_reservation_from_date) FROM ownershipreservation ow WHERE ow.own_res_gen_res_id =  gr.gen_res_id ),
 		gr.gen_res_to_date = (SELECT MAX(ow1.own_res_reservation_to_date) FROM ownershipreservation ow1 WHERE ow1.own_res_gen_res_id =  gr.gen_res_id );
 
-/*call setRoomNumbers;*/
 
 /*Adding permissions for new backend routes*/
 insert into permission(perm_description, perm_category, perm_route)
@@ -28,3 +27,5 @@ values ((select max(role_id) from role where role_name = 'ROLE_CLIENT_STAFF'), (
 ((select max(role_id) from role where role_name = 'ROLE_CLIENT_STAFF'), (select max(perm_id) from permission where perm_route = 'mycp_list_mail_list_user')),
 ((select max(role_id) from role where role_name = 'ROLE_CLIENT_STAFF'), (select max(perm_id) from permission where perm_route = 'mycp_add_mail_list_user')),
 ((select max(role_id) from role where role_name = 'ROLE_CLIENT_STAFF'), (select max(perm_id) from permission where perm_route = 'mycp_delete_mail_list_user'));
+
+call setRoomNumbers;

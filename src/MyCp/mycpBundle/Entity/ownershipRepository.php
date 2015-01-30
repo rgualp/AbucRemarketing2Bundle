@@ -518,7 +518,7 @@ class ownershipRepository extends EntityRepository {
         }
     }
 
-    function short_edit_ownership($data) {
+    function shortEditOwnership($data) {
         $id_ownership = $data['edit_ownership'];
         $em = $this->getEntityManager();
         $ownership =
@@ -638,9 +638,6 @@ class ownershipRepository extends EntityRepository {
         return $query->getResult();
     }
 
-    /**
-     * Codigo Yanet - Inicio
-     */
 
     /**
      * Realiza busquedas segun los criterios seleccionados
@@ -791,7 +788,7 @@ class ownershipRepository extends EntityRepository {
         return $results;
     }
 
-    public function top20_statistics() {
+    public function top20Statistics() {
         $em = $this->getEntityManager();
         $query = "SELECT count(own.own_id) as premium_total,
                   (SELECT count(own1.own_id) FROM mycpBundle:ownership own1 WHERE own1.own_top_20 = 1 AND own1.own_status = " . ownershipStatus::STATUS_ACTIVE . " AND LOWER(own1.own_category) = 'rango medio') as midrange_total,
@@ -1271,8 +1268,6 @@ class ownershipRepository extends EntityRepository {
         return $results;
     }
 
-    //Yanet - Fin
-
     /**
      * Devuelve un list con las ultimas casas agregadas
      * @return type list
@@ -1295,7 +1290,7 @@ class ownershipRepository extends EntityRepository {
         return $results;
     }
 
-    function get_details($own_name, $locale = "ES", $user_id = null, $session_id = null) {
+    function getDetails($own_name, $locale = "ES", $user_id = null, $session_id = null) {
         $em = $this->getEntityManager();
 
         $query_string = $this->getDetailBasicQuery($user_id, $session_id, $locale);
@@ -1304,7 +1299,7 @@ class ownershipRepository extends EntityRepository {
         return $em->createQuery($query_string)->setParameter('own_name', $own_name)->getOneOrNullResult();
     }
 
-    function get_details_by_code($own_mycp_code, $locale = "ES", $isSimple = false) {
+    function getDetailsByCode($own_mycp_code, $locale = "ES", $isSimple = false) {
         $em = $this->getEntityManager();
         $query_string = $this->getDetailBasicQuery(null, null, $locale);
 
@@ -1385,7 +1380,7 @@ class ownershipRepository extends EntityRepository {
         return $photos;
     }
 
-    function getOwnershipForAutocomplete_ByName($own_part_name) {
+    function getOwnershipForAutocompleteByName($own_part_name) {
         $em = $this->getEntityManager();
 
         $query = $em->createQuery("SELECT o FROM mycpBundle:ownership o
@@ -1393,7 +1388,7 @@ class ownershipRepository extends EntityRepository {
         return $query->getResult();
     }
 
-    function getOwnershipForAutocomplete_ByCode($own_part_name) {
+    function getOwnershipForAutocompleteByCode($own_part_name) {
         $em = $this->getEntityManager();
 
         $query = $em->createQuery("SELECT o FROM mycpBundle:ownership o
@@ -1409,7 +1404,7 @@ class ownershipRepository extends EntityRepository {
         return $query->getResult();
     }
 
-    function get_best_ownership() {
+    function getBest() {
         $em = $this->getEntityManager();
 
         $query = $em->createQuery("SELECT o
@@ -1420,7 +1415,7 @@ class ownershipRepository extends EntityRepository {
         return $query->getResult();
     }
 
-    function get_voted_best_ownerships() {
+    function getVotedBest() {
         $em = $this->getEntityManager();
         $query_string = "SELECT o
                         FROM mycpBundle:ownership o
@@ -1431,18 +1426,18 @@ class ownershipRepository extends EntityRepository {
         return $em->createQuery($query_string)->getResult();
     }
 
-    function get_photos_array($own_list) {
+    function getPhotosArray($own_list) {
         $photos = array();
 
         if (is_array($own_list)) {
             foreach ($own_list as $own) {
-                $photos[$own->getOwnId()] = $this->get_ownership_photo($own->getOwnId());
+                $photos[$own->getOwnId()] = $this->getOwnershipPhoto($own->getOwnId());
             }
         }
         return $photos;
     }
 
-    function get_ownership_photo($own_id) {
+    function getOwnershipPhoto($own_id) {
         $em = $this->getEntityManager();
         $query_string = "SELECT op FROM mycpBundle:ownershipPhoto op
                         JOIN op.own_pho_photo p
@@ -1465,7 +1460,7 @@ class ownershipRepository extends EntityRepository {
         return $photo;
     }
 
-    function get_rooms_array($own_list) {
+    function getRoomsArray($own_list) {
         $em = $this->getEntityManager();
         $rooms = array();
 
@@ -1477,7 +1472,7 @@ class ownershipRepository extends EntityRepository {
         return $rooms;
     }
 
-    function get_counts_for_search($own_list) {
+    function getCountsForSearch($own_list) {
         $em = $this->getEntityManager();
         $counts = array();
 
@@ -1496,12 +1491,13 @@ class ownershipRepository extends EntityRepository {
         return $counts;
     }
 
-    public function autocomplete_text_list() {
+    public function autocompleteTextList() {
         //$term = $request->get('term');
         $em = $this->getEntityManager();
         $provinces = $em->getRepository('mycpBundle:province')->getProvinces();
         $municipalities = $em->getRepository('mycpBundle:municipality')->getMunicipalities();
         $ownerships = $em->getRepository('mycpBundle:ownership')->getPublicOwnerships();
+
 
         $result = array();
         foreach ($provinces as $prov) {

@@ -56,7 +56,7 @@ class PublicController extends Controller {
         $items_per_page = 4 * ($session->get("top_rated_show_rows") != null ? $session->get("top_rated_show_rows") : 2);
         $paginator->setItemsPerPage($items_per_page);
         $own_top20_list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->top20($glogal_locale))->getResult();
-        $statistics = $em->getRepository("mycpBundle:ownership")->top20_statistics();
+        $statistics = $em->getRepository("mycpBundle:ownership")->top20Statistics();
 
         $response = $this->render('FrontEndBundle:public:home.html.twig', array(
             'locale' => $glogal_locale,

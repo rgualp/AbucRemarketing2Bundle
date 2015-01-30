@@ -330,7 +330,7 @@ class BackendTestEmailTemplateController extends Controller {
     public function cartFullReminderAction($langCode) {
         return $this->getCartFullReminderBody($langCode);
     }
-    
+
     public function cartFullReminderSendAction($langCode, $newMethod, $mail, Request $request) {
         if ($request->getMethod() == 'POST') {
             $body = $this->getCartFullReminderBody($langCode);
@@ -364,7 +364,7 @@ class BackendTestEmailTemplateController extends Controller {
             array_push($cartPrices[$current_own_id], $item->calculatePrice($em, $service_time, $this->container->getParameter('configuration.triple.room.charge'), $this->container->getParameter('configuration.service.fee')));
         }
 
-        $photos = $em->getRepository("mycpBundle:ownership")->get_photos_array($accommodations);
+        $photos = $em->getRepository("mycpBundle:ownership")->getPhotosArray($accommodations);
 
         return $this->render('FrontEndBundle:mails:cartFull.html.twig', array(
                     'user_name' => $userName,
@@ -380,7 +380,7 @@ class BackendTestEmailTemplateController extends Controller {
     public function feedbackReminderAction($langCode) {
         return $this->getFeedbackReminderBody($langCode);
     }
-    
+
     public function feedbackReminderSendAction($langCode, $newMethod, $mail, Request $request) {
         if ($request->getMethod() == 'POST') {
             $body = $this->getFeedbackReminderBody($langCode);
@@ -447,9 +447,9 @@ class BackendTestEmailTemplateController extends Controller {
     public function checkAvailableAction($casId, Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
         $service_time = $this->get('time');
-        
+
         $texts = ReservationHelper::sendingEmailToReservationTeamBody($casId, $em, $this, $service_time, $request);
-        
+
         return $texts[0];
     }
 

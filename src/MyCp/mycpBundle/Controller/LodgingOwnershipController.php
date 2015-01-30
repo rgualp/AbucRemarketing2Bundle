@@ -176,7 +176,7 @@ class LodgingOwnershipController extends Controller
                             $service_log->saveLog('Edit entity ' . $db_ownership->getOwnMcpCode(), BackendModuleName::MODULE_LODGING_OWNERSHIP);
                         }
 
-                        $em->getRepository('mycpBundle:ownership')->short_edit_ownership($post);
+                        $em->getRepository('mycpBundle:ownership')->shortEditOwnership($post);
 
                         $message = 'Propiedad actualizada satisfactoriamente.';
                     } else {
