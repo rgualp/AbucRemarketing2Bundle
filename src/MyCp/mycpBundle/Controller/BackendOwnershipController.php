@@ -34,7 +34,7 @@ class BackendOwnershipController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $data['languages'] = $em->getRepository('mycpBundle:lang')->getAll();
-        $photos = $paginator->paginate($em->getRepository('mycpBundle:ownershipPhoto')->get_photos_by_id_ownership($id_ownership))->getResult();
+        $photos = $paginator->paginate($em->getRepository('mycpBundle:ownershipPhoto')->getPhotosByIdOwnership($id_ownership))->getResult();
         foreach ($photos as $photo) {
             $data['description_photo_' . $photo->getOwnPhoPhoto()->getPhoId()] = $em->getRepository('mycpBundle:photoLang')->findBy(array('pho_lang_id_photo' => $photo->getOwnPhoPhoto()->getPhoId()));
         }

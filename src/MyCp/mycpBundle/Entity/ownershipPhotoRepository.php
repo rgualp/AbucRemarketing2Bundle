@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityRepository;
 class ownershipPhotoRepository extends EntityRepository
 {
 
-    function get_photos_by_id_ownership($id_ownership)
+    function getPhotosByIdOwnership($id_ownership)
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT op,opp FROM mycpBundle:ownershipPhoto op JOIN op.own_pho_photo opp
