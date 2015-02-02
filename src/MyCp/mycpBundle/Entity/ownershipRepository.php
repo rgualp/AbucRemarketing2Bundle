@@ -788,6 +788,38 @@ class ownershipRepository extends EntityRepository {
         return $results;
     }
 
+    function getByProvince($idProvince) {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT o.own_id as ownId,
+                         o.own_mcp_code as mycpCode,
+                         o.own_rooms_total as totalRooms,
+                         o.own_homeowner_1 as owner1,
+                         o.own_homeowner_2 as owner2,
+                         prov.prov_phone_code as provCode,
+                         o.own_phone_number as phone,
+                         o.own_mobile_number as mobile,
+                         o.own_address_street as street,
+                         o.own_address_number as number,
+                         o.own_address_between_street_1 as between1,
+                         o.own_address_between_street_2 as between2,
+                         prov.prov_name as province,
+                         mun.mun_name as municipality,
+                         s.status_name as status,
+                         (select min(r1.room_price_down_to) from mycpBundle:room r1 where r1.room_ownership = o.own_id) as lowDown,
+                         (select max(r2.room_price_down_to) from mycpBundle:room r2 where r2.room_ownership = o.own_id) as highDown,
+                         (select min(r3.room_price_up_to) from mycpBundle:room r3 where r3.room_ownership = o.own_id) as lowUp,
+                         (select max(r4.room_price_up_to) from mycpBundle:room r4 where r4.room_ownership = o.own_id) as highUp
+                         FROM mycpBundle:ownership o
+                         JOIN o.own_address_province prov
+                         JOIN o.own_address_municipality mun
+                         JOIN o.own_status s
+                         WHERE o.own_address_province=$idProvince ORDER BY o.own_mcp_code ASC";
+
+        $results = $em->createQuery($query_string)->getResult();
+
+        return $results;
+    }
+
     public function top20Statistics() {
         $em = $this->getEntityManager();
         $query = "SELECT count(own.own_id) as premium_total,
