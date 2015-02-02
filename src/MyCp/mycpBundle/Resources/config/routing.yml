@@ -98,6 +98,10 @@ mycp_mail_list:
     resource: "@mycpBundle/Resources/config/routingBackendMailList.yml"
     prefix:   backend/mail_list/
 
+mycp_export:
+    resource: "@mycpBundle/Resources/config/routingBackendExport.yml"
+    prefix:   backend/export/
+
 mycp_check:
   pattern: /check
 

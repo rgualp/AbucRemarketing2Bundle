@@ -118,8 +118,8 @@
                                             'filter_municipality':(filter_municipality == "" ? "null": filter_municipality),
                                             'filter_destination':(filter_destination == "" ? "null": filter_destination),
                                             'filter_type':(filter_type == "" ? "null": filter_type),
-                                            'filter_name':(filter_name == "" ? "null": filter_name), 
-                                            'filter_saler': (filter_saler == "" ? "null": filter_saler), 
+                                            'filter_name':(filter_name == "" ? "null": filter_name),
+                                            'filter_saler': (filter_saler == "" ? "null": filter_saler),
                                             'filter_visit_date': (filter_visit_date == "" ? "null": filter_visit_date),
                                             'filter_other': (filter_other == "" ? "null": filter_other)})}}">20</a>
                                     <a class="{% if items_per_page == 50 %}selected{% endif %}" href="{{ path('mycp_list_ownerships',{'items_per_page':50,
@@ -130,8 +130,8 @@
                                             'filter_municipality':(filter_municipality == "" ? "null": filter_municipality),
                                             'filter_destination':(filter_destination == "" ? "null": filter_destination),
                                             'filter_type':(filter_type == "" ? "null": filter_type),
-                                            'filter_name':(filter_name == "" ? "null": filter_name), 
-                                            'filter_saler': (filter_saler == "" ? "null": filter_saler), 
+                                            'filter_name':(filter_name == "" ? "null": filter_name),
+                                            'filter_saler': (filter_saler == "" ? "null": filter_saler),
                                             'filter_visit_date': (filter_visit_date == "" ? "null": filter_visit_date),
                                             'filter_other': (filter_other == "" ? "null": filter_other)})}}">50</a>
                                     <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_ownerships',{'items_per_page':100,
@@ -142,8 +142,8 @@
                                             'filter_municipality':(filter_municipality == "" ? "null": filter_municipality),
                                             'filter_destination':(filter_destination == "" ? "null": filter_destination),
                                             'filter_type':(filter_type == "" ? "null": filter_type),
-                                            'filter_name':(filter_name == "" ? "null": filter_name), 
-                                            'filter_saler': (filter_saler == "" ? "null": filter_saler), 
+                                            'filter_name':(filter_name == "" ? "null": filter_name),
+                                            'filter_saler': (filter_saler == "" ? "null": filter_saler),
                                             'filter_visit_date': (filter_visit_date == "" ? "null": filter_visit_date),
                                             'filter_other': (filter_other == "" ? "null": filter_other)})}}">100</a>
                                     <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_ownerships',{'items_per_page':300,
@@ -154,8 +154,8 @@
                                             'filter_municipality':(filter_municipality == "" ? "null": filter_municipality),
                                             'filter_destination':(filter_destination == "" ? "null": filter_destination),
                                             'filter_type':(filter_type == "" ? "null": filter_type),
-                                            'filter_name':(filter_name == "" ? "null": filter_name), 
-                                            'filter_saler': (filter_saler == "" ? "null": filter_saler), 
+                                            'filter_name':(filter_name == "" ? "null": filter_name),
+                                            'filter_saler': (filter_saler == "" ? "null": filter_saler),
                                             'filter_visit_date': (filter_visit_date == "" ? "null": filter_visit_date),
                                             'filter_other': (filter_other == "" ? "null": filter_other)})}}">300</a>
                                     <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_ownerships',{'items_per_page':500,
@@ -166,16 +166,20 @@
                                             'filter_municipality':(filter_municipality == "" ? "null": filter_municipality),
                                             'filter_destination':(filter_destination == "" ? "null": filter_destination),
                                             'filter_type':(filter_type == "" ? "null": filter_type),
-                                            'filter_name':(filter_name == "" ? "null": filter_name), 
-                                            'filter_saler': (filter_saler == "" ? "null": filter_saler), 
+                                            'filter_name':(filter_name == "" ? "null": filter_name),
+                                            'filter_saler': (filter_saler == "" ? "null": filter_saler),
                                             'filter_visit_date': (filter_visit_date == "" ? "null": filter_visit_date),
                                             'filter_other': (filter_other == "" ? "null": filter_other)})}}">500</a>
-                                    
+
                                     <input class="hidden" name="items_per_page" value="100">
                                 </div>
                             </div>
                         </div>
-                        <div class="paginator-cont span11">
+<div class="row-fluid">
+                        <div class="span2">
+                            <a href="{{path('mycp_accommodations_export_excel')}}">Descargar listado</a>
+                        </div>
+                        <div class="paginator-cont span9">
     {% if filter_code ==''%}{% set filter_code='null'%}{%endif%}
     {{ simple_paginator_render('mycp_list_ownerships',null,{
 'container_class': 'paginator',
@@ -192,12 +196,13 @@
                  'filter_municipality':(filter_municipality == "" ? "null": filter_municipality),
                  'filter_destination':(filter_destination == "" ? "null": filter_destination),
                  'filter_type':(filter_type == "" ? "null": filter_type),
-                 'filter_name':(filter_name == "" ? "null": filter_name), 
-                 'filter_saler': (filter_saler == "" ? "null": filter_saler), 
+                 'filter_name':(filter_name == "" ? "null": filter_name),
+                 'filter_saler': (filter_saler == "" ? "null": filter_saler),
                  'filter_visit_date': (filter_visit_date == "" ? "null": filter_visit_date),
                  'filter_other': (filter_other == "" ? "null": filter_other)}
 }) }}
                             </div>
+    </div>
                             <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>
@@ -228,13 +233,13 @@
             {% endif %}
         {% if ownership.own_comment %}</a>{% endif %}
         {%if ownership.own_top_20%}
-                                                        <br/><span class="label label-important">Top 20</span>                          
+                                                        <br/><span class="label label-important">Top 20</span>
         {%endif%}
         {%if ownership.own_selection%}
-                                                        <br/><span class="label label-info">Casa Selección</span>                          
+                                                        <br/><span class="label label-info">Casa Selección</span>
         {%endif%}
         {%if ownership.own_not_recommendable%}
-                                                        <br/><span class="label label-warning">No recomendable</span>                          
+                                                        <br/><span class="label label-warning">No recomendable</span>
         {%endif%}
 
 
@@ -264,8 +269,8 @@
                  'filter_municipality':(filter_municipality == "" ? "null": filter_municipality),
                  'filter_destination':(filter_destination == "" ? "null": filter_destination),
                  'filter_type':(filter_type == "" ? "null": filter_type),
-                 'filter_name':(filter_name == "" ? "null": filter_name), 
-                 'filter_saler': (filter_saler == "" ? "null": filter_saler), 
+                 'filter_name':(filter_name == "" ? "null": filter_name),
+                 'filter_saler': (filter_saler == "" ? "null": filter_saler),
                  'filter_visit_date': (filter_visit_date == "" ? "null": filter_visit_date),
                  'filter_other': (filter_other == "" ? "null": filter_other)}
 }) }}

@@ -105,6 +105,7 @@ parameters:
     configuration.triple.room.charge: 10
     configuration.service.fee: 10
     configuration.dir.vouchers: %kernel.root_dir%/../tmp/vouchers/
+    configuration.dir.excels: %kernel.root_dir%/../tmp/excels/
 
 services:
     twig.extension.utilsExtension:
