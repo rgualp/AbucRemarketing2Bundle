@@ -57,10 +57,7 @@
                 {% else %}
                 {% set res_type = rooms[flag].getRoomType %}
                 {% endif %}
-                <td><select name="service_room_type_{{reservation_rooms.getOwnResId}}" class="input-block-level">
-                    {% if post['service_room_type_'~reservation_rooms.getOwnResId] is defined %}{% set res_type = post['service_room_type_'~reservation_rooms.getOwnResId] %}{% endif %}
-                    {{ render(controller('mycpBundle:BackendOwnership:get_room_type_list', {'post': {'service_room_type':res_type, 'not_blank':1},'id':0})) }}
-                </select></td>
+                <td>Hab #{{rooms[flag].getRoomNum}} - {{rooms[flag].getRoomType}}</td>
                 <td><select name="service_room_count_adults_{{reservation_rooms.getOwnResId}}" class="input-block-level">
                     {% if post['service_room_count_adults_'~reservation_rooms.getOwnResId] is defined %}
                         {{ render(controller('mycpBundle:BackendReservation:get_numeric_list', {'post': {'selected':post['service_room_count_adults_'~reservation_rooms.getOwnResId]}})) }}
