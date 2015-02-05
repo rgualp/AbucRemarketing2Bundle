@@ -17,3 +17,8 @@ services:
         arguments: [@doctrine.orm.entity_manager, "%configuration.service.fee%", "%configuration.dir.vouchers%","%configuration.triple.room.charge%"]
         calls:
             - [ setContainer, [ @service_container ] ]
+
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }

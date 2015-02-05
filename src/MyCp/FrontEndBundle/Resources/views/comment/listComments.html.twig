@@ -20,7 +20,7 @@
                     {%endfor%}
                         {%endif%}
                     <br/>
-                    <h4 class="caecilia-roman">{{comment.user_user_name~" "~comment.user_last_name}} - <small>{{comment.com_date | date('M d, Y')}}</small></h4>
+                    <h4 class="caecilia-roman">{{comment.user_user_name~" "~comment.user_last_name}} - <small>{{comment.com_date | localizeddate('none', 'none', app.request.locale, null, "MMM d, Y") | capitalize}}</small></h4>
                     <p>{{comment.com_comments}}</p>
                     </div>
                 </div>

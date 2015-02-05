@@ -2,8 +2,6 @@ Frontend:
     - Revisar calendario de reservaciones. Cuando cambio el desde, debajo me pone desde un dia antes y no desde el que marqué. Cuando esto sucede, el hasta se pone +2dias.
     - En destinos cercanos, poner un cargando
     - Al comentar, ocultar el div del comentario. O revisar porq solo se puede comentar por cada reservacion que se tenga en la casa
-    - Cuando una casa pasa de En Proceso a Activa no sale en las Últimas Añadidas, utilizar el campo de fecha de modificacion para traer las últimas añadidas
-    - Con el sitio en español, las fechas de los comentarios salen en ingles. Usar intl para esto. No hay q instalarlo.
     - En destinos detalle, quitar el Ver mas dentro del municipio, siempre va a estar vacio.
 
 Funciones:
@@ -28,7 +26,7 @@ Backend:
     - Administración de permisos
     - Modificar diseño en REservaciones-Clientes-Detalle. Poder filtrar por estado de la reservacion. Creo que no debería permitirse el modificar el estado de las reservaciones por aqui. REvisar la parte de enviarle un mensaje al cliente desde la parte del listado.
     - Los detalles de reservacion que se cargan por AJAX, muestran aun el listado de habitacion seleccionable. Ponerlo como esta en el detalle de reservacion general si Luis los aprueba.
-   
+
 Módulo Casa:
     - En el calendario, agregar un filtro que al seleccionar una de las habitaciones de la casa, solo se carguen las reservaciones y no disponibilidades de la habitacion seleccionada.
     - Pasar el formulario de activar cuenta del modulo casa para el backend.
