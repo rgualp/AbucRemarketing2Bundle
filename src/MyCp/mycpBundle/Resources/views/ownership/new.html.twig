@@ -520,6 +520,12 @@
         <label>{% if(data['ownership_last_update'] is defined and data['ownership_last_update'] != null) %}{{data['ownership_last_update'] | date("d/m/Y, H:s")}}{%else%}(Sin definir){% endif %}</label>
     </div>
 </div>
+<div class="row-fluid">
+    <div class="span6">
+        <label>Fecha de Publicación</label>
+        <label>{% if(data['ownership_publish_date'] is defined and data['ownership_publish_date'] != null) %}{{data['ownership_publish_date'] | date("d/m/Y, H:s")}}{%else%}(Sin definir){% endif %}</label>
+    </div>
+</div>
 {%endif%}
 </div>
 <div id="usuario" class="tab-pane fade">
@@ -604,9 +610,9 @@
         </div>
         <div class="span9">
             <input title="Seleccionar fichero..." type="file" name="own_ownership_photo" id="own_ownership_photo" accept="image/*"/>
-            
+
         </div>
-        
+
     </div>
 </div>
 {% if data['edit_ownership'] is defined %}

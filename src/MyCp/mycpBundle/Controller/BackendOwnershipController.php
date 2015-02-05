@@ -323,11 +323,13 @@ class BackendOwnershipController extends Controller {
         $post['ownership_visit_date'] = $ownership->getOwnVisitDate();
         $post['ownership_creation_date'] = $ownership->getOwnCreationDate();
         $post['ownership_last_update'] = $ownership->getOwnLastUpdate();
+        $post['ownership_publish_date'] = $ownership->getOwnPublishDate();
 
         $data['ownership_owner'] = ($ownership->getOwnOwnerPhoto() != null) ? $ownership->getOwnOwnerPhoto()->getPhoName() : "no_photo.gif";
         $data['ownership_visit_date'] = $ownership->getOwnVisitDate();
         $data['ownership_creation_date'] = $ownership->getOwnCreationDate();
         $data['ownership_last_update'] = $ownership->getOwnLastUpdate();
+        $data['ownership_publish_date'] = $ownership->getOwnPublishDate();
         $post['ownership_destination'] = 0;
 
         $users_owner = $em->getRepository('mycpBundle:userCasa')->findBy(array('user_casa_ownership' => $id_ownership));
@@ -566,6 +568,8 @@ class BackendOwnershipController extends Controller {
                     $data['ownership_creation_date'] = \MyCp\mycpBundle\Helpers\Dates::createFromString($post['ownership_creation_date'], '/', 1);
                 if (isset($data['ownership_last_update']))
                     $data['ownership_last_update'] = \MyCp\mycpBundle\Helpers\Dates::createFromString($post['ownership_last_update'], '/', 1);
+                if (isset($data['ownership_publish_date']))
+                    $data['ownership_publish_date'] = \MyCp\mycpBundle\Helpers\Dates::createFromString($post['ownership_publish_date'], '/', 1);
             } else {
 
                 $not_blank_validator = new NotBlank();
@@ -865,6 +869,7 @@ class BackendOwnershipController extends Controller {
                 $data['ownership_visit_date'] = $ownership->getOwnVisitDate();
                 $data['ownership_creation_date'] = $ownership->getOwnCreationDate();
                 $data['ownership_last_update'] = $ownership->getOwnLastUpdate();
+                $data['ownership_publish_date'] = $ownership->getOwnPublishDate();
                 $data['ownership_owner'] = ($ownership->getOwnOwnerPhoto() != null) ? $ownership->getOwnOwnerPhoto()->getPhoName() : "no_photo.gif";
             }
         }
