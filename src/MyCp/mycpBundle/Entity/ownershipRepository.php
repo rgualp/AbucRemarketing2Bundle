@@ -156,6 +156,10 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnWaterSauna($water_sauna);
         $ownership->setOwnWaterPiscina($water_pool);
 
+        /*Si el estado es activo directamente, publicar la casa*/
+        if($status->getStatusId() == ownershipStatus::STATUS_ACTIVE)
+            $ownership->setOwnPublishDate (new \DateTime());
+
         $em->persist($ownership);
 
         $keys = array_keys($data);
