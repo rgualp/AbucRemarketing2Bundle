@@ -28,8 +28,7 @@ Backend:
     - Administración de permisos
     - Modificar diseño en REservaciones-Clientes-Detalle. Poder filtrar por estado de la reservacion. Creo que no debería permitirse el modificar el estado de las reservaciones por aqui. REvisar la parte de enviarle un mensaje al cliente desde la parte del listado.
     - Los detalles de reservacion que se cargan por AJAX, muestran aun el listado de habitacion seleccionable. Ponerlo como esta en el detalle de reservacion general si Luis los aprueba.
-    - Crear un directorio de alojamientos descargable en EXCEL que se actualice semanalmente junto al comando de envio de nuevas casas. Que se pueda descargar desde el sitio. El Excel debe tener una hoja por cada provincia
-
+   
 Módulo Casa:
     - En el calendario, agregar un filtro que al seleccionar una de las habitaciones de la casa, solo se carguen las reservaciones y no disponibilidades de la habitacion seleccionada.
     - Pasar el formulario de activar cuenta del modulo casa para el backend.

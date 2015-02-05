@@ -17,6 +17,8 @@ class BackendExportController extends Controller
 {
     function exportAccommodationsToExcelAction()
     {
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
         $exporter = $this->get("mycp.service.export_to_excel");
 
         return $exporter->exportAccommodationsDirectory();
