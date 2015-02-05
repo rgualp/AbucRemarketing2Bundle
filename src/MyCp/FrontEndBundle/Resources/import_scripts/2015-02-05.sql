@@ -9,3 +9,8 @@ values ('Exportar a Excel', 'Exportar a Excel', 'mycp_accommodations_export_exce
 
 insert rolepermission (rp_role, rp_permission)
 values ((select max(role_id) from role where role_name = 'ROLE_CLIENT_STAFF'), (select max(perm_id) from permission where perm_route = 'mycp_accommodations_export_excel'));
+
+update ownership
+   set own_publish_date = own_creation_date
+where own_creation_date is not null and own_status = 1;
+

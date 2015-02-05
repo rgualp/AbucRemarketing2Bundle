@@ -1308,7 +1308,7 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
 
         $query_string = $this->getBasicQuery($user_id, $session_id);
-        $query_string .= " WHERE o.own_status = " . ownershipStatus::STATUS_ACTIVE . " ORDER BY o.own_id DESC";
+        $query_string .= " WHERE o.own_status = " . ownershipStatus::STATUS_ACTIVE . " ORDER BY o.own_publish_date DESC, o.own_id DESC";
 
         $results = ($results_total != null && $results_total > 0) ? $em->createQuery($query_string)->setMaxResults($results_total)->getResult() : $em->createQuery($query_string)->getResult();
 

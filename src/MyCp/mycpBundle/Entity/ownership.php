@@ -357,6 +357,13 @@ class ownership {
     /**
      * @var datetime
      *
+     * @ORM\Column(name="own_publish_date", type="datetime", nullable=true)
+     */
+    private $own_publish_date;
+
+    /**
+     * @var datetime
+     *
      * @ORM\Column(name="own_last_update", type="datetime", nullable=true)
      */
     private $own_last_update;
@@ -1750,6 +1757,27 @@ class ownership {
      */
     public function setOwnSendedToTeam($ownSended) {
         $this->own_sended_to_team = $ownSended;
+
+        return $this;
+    }
+
+    /**
+     * Get own_publish_date
+     *
+     * @return datetime
+     */
+    public function getOwnPublishDate() {
+        return $this->own_publish_date;
+    }
+
+    /**
+     * Set own_publish_date
+     *
+     * @param datetime $publishDate
+     * @return ownership
+     */
+    public function setOwnPublishDate($publishDate) {
+        $this->own_publish_date = $publishDate;
 
         return $this;
     }
