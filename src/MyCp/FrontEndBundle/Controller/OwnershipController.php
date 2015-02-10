@@ -535,7 +535,8 @@ class OwnershipController extends Controller {
                     'locale' => $locale,
                     'real_category' => $real_category,
                     'languages' => $languages,
-                    'keywords' => $ownership_array['keywords']
+                    'keywords' => $ownership_array['keywords'],
+                    'locale' => $locale
         ));
     }
 
