@@ -41,7 +41,7 @@ twig:
          configuration_triple_room_charge: %configuration.triple.room.charge%
          configuration_service_fee: %configuration.service.fee%
          #Note: enable the following line in order to read the value from parameters.yml
-         #fb_app_id: "%fb_app_id%"
+         fb_app_id: "%fb_app_id%"
 
 # Assetic Configuration
 assetic:
