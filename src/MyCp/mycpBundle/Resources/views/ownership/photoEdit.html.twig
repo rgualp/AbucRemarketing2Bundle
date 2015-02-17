@@ -4,7 +4,7 @@
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
     <li><a href="{{ path('mycp_list_ownerships') }}">Propiedades</a> <span class="divider">/</span></li>
-    <li class="active">Fotografías</li>
+    <li><a href="{{ path('mycp_list_photos_ownership',{'id_ownership': id_ownership}) }}">Fotografías</a></li>
     <li class="pull-right"><a href="{{ path('mycp_list_photos_ownership',{'id_ownership':id_ownership }) }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 {% endblock %}
@@ -12,7 +12,7 @@
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
     <li><a href="{{ path('mycp_list_ownerships') }}">Propiedades</a> <span class="divider">/</span></li>
-    <li class="active">Fotografías</li>
+    <li><a href="{{ path('mycp_list_photos_ownership',{'id_ownership': id_ownership}) }}">Fotografías</a></li>
     <li class="pull-right"><a href="{{ path('mycp_list_photos_ownership',{'id_ownership':id_ownership }) }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 <div class="form-actions">
@@ -23,12 +23,15 @@
 {% endblock %}
 {% block content %}
 <div class="row-fluid">
-<h2>Propiedades (Editar fotografía)</h2>
+<h2>Fotografía de {{ownership.getOwnMcpCode}} - {{ownership.getOwnName}}
+{% if ownership.ownStatus.statusId== constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')%}<span class="label label-success vertical_middle" title="Estado Activo">Activo</span>{% else %} <span class="label label-important vertical_middle" title="Estado {{ ownership.ownStatus.getStatusName }}">{{ ownership.ownStatus.getStatusName }}</span>{% endif %}
+    </h2>
 <hr/>
 </div>
 {% if errors %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
 <form action="{{ path('mycp_edit_photos_ownership',{'id_photo':id_photo,'id_ownership':id_ownership}) }}" method="POST" enctype="multipart/form-data">
     <div class="row-fluid">
+    <a class="btn" href="{{ path('mycp_edit_ownership',{'id_ownership':id_ownership}) }}"><i class="icon-pencil"></i> Editar propiedad</a>
     <img src="{{ asset('uploads/ownershipImages/thumbnails/'~photo.getPhoName)}}" class="img-polaroid pull-right"  alt=""/>
     </div>
     {% for language in data['languages'] %}

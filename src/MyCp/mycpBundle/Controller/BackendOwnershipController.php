@@ -925,7 +925,6 @@ class BackendOwnershipController extends Controller {
             }
         }
 
-//$post['ownership_address_municipality'] = '';
         $languages = $em->getRepository('mycpBundle:lang')->getAll();
         return $this->render('mycpBundle:ownership:new.html.twig', array('languages' => $languages, 'count_rooms' => $count_rooms, 'post' => $post, 'data' => $data, 'errors' => $errors, 'errors_tab' => $errors_tab));
     }
@@ -933,8 +932,9 @@ class BackendOwnershipController extends Controller {
     public function edit_photoAction($id_photo, $id_ownership, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $post = '';
         $em = $this->getDoctrine()->getEntityManager();
+        $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
+        $post = '';
         $errors = array();
         $photo_langs = $em->getRepository('mycpBundle:photoLang')->findBy(array('pho_lang_id_photo' => $id_photo));
         $data = array();
@@ -965,7 +965,6 @@ class BackendOwnershipController extends Controller {
                 $em->flush();
                 $message = 'Imagen actualizada satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
-                $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
 
                 $service_log = $this->get('log');
                 $service_log->saveLog('Edit photo, entity ' . $ownership->getOwnName(), BackendModuleName::MODULE_OWNERSHIP);
@@ -981,6 +980,7 @@ class BackendOwnershipController extends Controller {
                     'id_photo' => $id_photo,
                     'photo' => $photo,
                     'id_ownership' => $id_ownership,
+                    'ownership' => $ownership,
                     'post' => $post));
     }
 
