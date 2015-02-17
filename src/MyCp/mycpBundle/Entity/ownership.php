@@ -424,6 +424,13 @@ class ownership {
     private $own_selection;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="own_inmediate_booking", type="boolean", nullable=true)
+     */
+    private $own_inmediate_booking;
+
+    /**
      * @ORM\ManyToOne(targetEntity="photo",inversedBy="")
      * @ORM\JoinColumn(name="own_owner_photo",referencedColumnName="pho_id")
      */
@@ -1778,6 +1785,27 @@ class ownership {
      */
     public function setOwnPublishDate($publishDate) {
         $this->own_publish_date = $publishDate;
+
+        return $this;
+    }
+
+    /**
+     * Get own_inmediate_booking
+     *
+     * @return boolean
+     */
+    public function getOwnInmediateBooking() {
+        return $this->own_inmediate_booking;
+    }
+
+    /**
+     * Set own_inmediate_booking
+     *
+     * @param boolean $inmediateBooking
+     * @return ownership
+     */
+    public function setOwnInmediateBooking($inmediateBooking) {
+        $this->own_inmediate_booking = $inmediateBooking;
 
         return $this;
     }
