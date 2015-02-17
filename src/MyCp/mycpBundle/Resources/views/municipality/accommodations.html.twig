@@ -44,6 +44,7 @@
     <tr>
         <th>Código</th>
         <th>Nombre</th>
+        <th>Estado</th>
         <th style="text-align: right">
             Acciones
         </th>
@@ -54,6 +55,7 @@
     <tr>
         <td>{{ own.ownmcpcode }}</td>
         <td>{{ own.ownname }}</td>
+        <td>{% include 'mycpBundle:utils:ownership_labels.html.twig' with {'ownership':own}%}</td>
         <td style="text-align: right">
             <a class="btn btn-mini" target="_blank" href="{{path('mycp_edit_ownership',{'id_ownership':own.ownid})}}">Editar</a>
         </td>

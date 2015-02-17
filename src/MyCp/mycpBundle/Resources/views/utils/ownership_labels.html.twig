@@ -1,0 +1,20 @@
+{% if ownership.ownComment %}<a class="tooltip_msg no_link" rel="tooltip" title="{{ownership.ownComment}}">{% endif %}
+{% if ownership.ownStatus is defined%}
+            {% if ownership.ownStatus.statusId==constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')%}<span class="label label-success">Activo</span>
+            {% else %} <span class="label label-important">{{ ownership.ownStatus.getStatusName }}</span>{% endif %}
+            {%else%}
+                                                            <span class="label label-warning">Sin estado</span>
+            {% endif %}
+        {% if ownership.ownComment %}</a>{% endif %}
+        {%if ownership.ownTop20%}
+                                                        <br/><span class="label label-important">Top 20</span>
+        {%endif%}
+        {%if ownership.ownSelection%}
+                                                        <br/><span class="label label-info">Casa Selección</span>
+        {%endif%}
+        {%if ownership.ownInmediateBooking%}
+                                                        <br/><span class="label label-info1">Reserva Inmediata</span>
+        {%endif%}
+        {%if ownership.ownNotRecommendable%}
+                                                        <br/><span class="label label-warning">No recomendable</span>
+        {%endif%}

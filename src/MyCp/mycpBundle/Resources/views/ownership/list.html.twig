@@ -227,34 +227,11 @@
                                             <td>{{ownership.mun_name}}</td>
                                             <td>{{ownership.prov_name}}</td>
                                             <td> {%if ownership.des_name%}{{ownership.des_name}}{%else%} - {%endif%} </td>
-                                            <td>{% if ownership.own_comment %}<a class="tooltip_msg no_link" rel="tooltip" title="{{ownership.own_comment}}">{% endif %}
-        {% if ownership.status_id%}
-            {% if ownership.status_id==constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')%}<span class="label label-success">Activo</span>
-            {% else %} <span class="label label-important">{{ ownership.status_name }}</span>{% endif %}
-            {%else%}
-                                                            <span class="label label-warning">Sin estado</span>
-            {% endif %}
-        {% if ownership.own_comment %}</a>{% endif %}
-        {%if ownership.own_top_20%}
-                                                        <br/><span class="label label-important">Top 20</span>
-        {%endif%}
-        {%if ownership.own_selection%}
-                                                        <br/><span class="label label-info">Casa Selección</span>
-        {%endif%}
-        {%if ownership.own_inmediate_booking%}
-                                                        <br/><span class="label label-info1">Reserva Inmediata</span>
-        {%endif%}
-        {%if ownership.own_not_recommendable%}
-                                                        <br/><span class="label label-warning">No recomendable</span>
-        {%endif%}
-
-
-                                                    </td>
-                                                    <td style="text-align: center"><a href="{{ path('mycp_list_photos_ownership',{'id_ownership':ownership.own_id}) }}" title="Esta propiedad tiene {{ ownership.photos_count }} fotografías">{{ ownership.photos_count }}</a></td>
-                                                    <td style="text-align: right"><a class="btn btn-mini" href="{{ path('mycp_edit_ownership',{'id_ownership':ownership.own_id}) }}">Editar</a>
-                                                       <!-- <button data='{{ path('mycp_delete_ownership',{'id_ownership':ownership.own_id}) }}' class="btn btn-mini btn-danger delete">Eliminar</button>-->
-                                                    </td>
-                                                </tr>
+                                            <td>{% include 'mycpBundle:utils:ownership_array_labels.html.twig' with {'ownership':ownership}%}</td>
+                                            <td style="text-align: center"><a href="{{ path('mycp_list_photos_ownership',{'id_ownership':ownership.own_id}) }}" title="Esta propiedad tiene {{ ownership.photos_count }} fotografías">{{ ownership.photos_count }}</a></td>
+                                            <td style="text-align: right"><a class="btn btn-mini" href="{{ path('mycp_edit_ownership',{'id_ownership':ownership.own_id}) }}">Editar</a>
+                                            </td>
+                                           </tr>
     {% endfor %}
                                             </tbody>
                                         </table>

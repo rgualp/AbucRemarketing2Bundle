@@ -119,15 +119,13 @@
     </thead>
     <tbody>
     {% for ownership in ownerships %}
-    <tr {% if ownership.status_id!=constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE') %} class="red_row" {%elseif ownership.own_not_recommendable%} class="yellow_row" {% endif %} {%if ownership.own_not_recommendable%} title="Propiedad no recomendada" {%endif%}>
+    <tr {% if ownership.status_id!=constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE') %} class="red_row" {% endif %}>
         <td>{{ownership.own_mcp_code}}</td>
         <td>{{ownership.own_name}}</td>
         <td>{{ownership.mun_name}}</td>
         <td>{{ownership.prov_name}}</td>
         <td>{%if ownership.des_name%}{{ownership.des_name}}{%else%} - {%endif%}</td>
-        <td>{% if ownership.own_comment %}<a class="tooltip_msg no_link" rel="tooltip" title="{{ownership.own_comment}}">{% endif %}
-        {% if ownership.status_id==constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')%}<span class="label label-success">Activo</span>
-        {% else %} <span class="label label-important">{{ ownership.status_name }}</span>{% endif %}{% if ownership.own_comment %}</a>{% endif %}</td>
+        <td>{% include 'mycpBundle:utils:ownership_array_labels.html.twig' with {'ownership':ownership}%}</td>
         <td style="text-align: center">
             {%if ownership.own_rooms_total != 0%}
             <a href="{{ path('mycp_list_rooms_unavailabilityDetails',{'id_ownership':ownership.own_id}) }}" title="Este alojamiento tiene {{ ownership.own_rooms_total }} habitaciones">{{ ownership.own_rooms_total }}</a>
