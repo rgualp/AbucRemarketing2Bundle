@@ -17,9 +17,15 @@
 </ul>
 {% endblock %}
 {% block content %}
-<h2>Propiedades (Fotografías '{{ownership.getOwnName}}')</h2>
+<h2>Fotografías: {{ownership.getOwnMcpCode}} - {{ownership.getOwnName}}
+{% if ownership.ownStatus.statusId== constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')%}<span class="label label-success vertical_middle" title="Estado Activo">Activo</span>{% else %} <span class="label label-important vertical_middle" title="Estado {{ ownership.ownStatus.getStatusName }}">{{ ownership.ownStatus.getStatusName }}</span>{% endif %}
+</h2>
 <hr/>
 <a class="btn" href="{{ path('mycp_new_photos_ownership',{'id_ownership':id_ownership}) }}"><i class="icon-plus"></i> Adicionar fotografía</a>
+{% if photos and ownership.ownStatus.statusId != constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')%}
+<a class="btn" href="{{ path('mycp_publish_ownership',{'idOwnership':id_ownership}) }}"><i class="icon-globe"></i> Publicar propiedad</a>
+{%endif%}
+<a class="btn" href="{{ path('mycp_edit_ownership',{'id_ownership':id_ownership}) }}"><i class="icon-pencil"></i> Editar propiedad</a>
 <br/><br/>
 {% if photos %}
 <div class="alert">

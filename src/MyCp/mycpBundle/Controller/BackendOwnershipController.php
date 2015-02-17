@@ -72,7 +72,7 @@ class BackendOwnershipController extends Controller {
             $files = $request->files->get('images');
 
             if ($files['files'][0] === null) {
-                $data['error'] = 'Debe seleccionar una imágen.';
+                $data['error'] = 'Debe seleccionar una imagen.';
             } else {
                 $count_errors = 0;
                 foreach ($files['files'] as $file) {
@@ -853,11 +853,9 @@ class BackendOwnershipController extends Controller {
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
                     if ($request->get('save_operation') == Operations::SAVE_AND_NEW) {
                         return $this->redirect($this->generateUrl('mycp_new_ownership'));
-                    }
-                    else if ($request->get('save_operation') == Operations::SAVE_AND_ADD_PHOTOS) {
+                    } else if ($request->get('save_operation') == Operations::SAVE_AND_ADD_PHOTOS) {
                         return $this->redirect($this->generateUrl('mycp_new_photos_ownership', array("id_ownership" => $current_ownership_id)));
-                    }
-                    else {
+                    } else {
                         return $this->redirect($this->generateUrl('mycp_list_ownerships'));
                     }
                 }
@@ -965,7 +963,7 @@ class BackendOwnershipController extends Controller {
                     }
                 }
                 $em->flush();
-                $message = 'Imágen actualizada satisfactoriamente.';
+                $message = 'Imagen actualizada satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
                 $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
 
@@ -1189,6 +1187,25 @@ class BackendOwnershipController extends Controller {
 
         $status = $em->getRepository('mycpBundle:ownershipStatus')->findAll();
         return $this->render('mycpBundle:utils:ownership_status.html.twig', array('status' => $status, 'selected' => $selected, 'post' => $post));
+    }
+
+    public function publishAction($idOwnership) {
+        $em = $this->getDoctrine()->getEntityManager();
+        $ownership = $em->getRepository("mycpBundle:ownership")->find($idOwnership);
+
+        $status = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_ACTIVE);
+
+        if ($ownership->getOwnStatus()->getStatusId() == ownershipStatus::STATUS_IN_PROCESS)
+            $ownership->setOwnPublishDate(new \DateTime());
+
+        $ownership->setOwnStatus($status);
+        $em->persist($ownership);
+        $em->flush();
+
+        $message = 'Propiedad publicada satisfactoriamente.';
+        $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+        return $this->redirect($this->generateUrl('mycp_list_photos_ownership', array("id_ownership" => $idOwnership)));
     }
 
 }

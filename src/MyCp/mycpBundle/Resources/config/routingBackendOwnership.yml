@@ -37,3 +37,7 @@ mycp_edit_photos_ownership:
 mycp_send_ownership:
     pattern:  /send/{own_id}
     defaults: { _controller: mycpBundle:BackendOwnership:send_ownership }
+
+mycp_publish_ownership:
+    pattern:  /publish/{idOwnership}
+    defaults: { _controller: mycpBundle:BackendOwnership:publish }
