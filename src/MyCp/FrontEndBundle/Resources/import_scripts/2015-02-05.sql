@@ -14,3 +14,6 @@ update ownership
    set own_publish_date = own_creation_date
 where own_creation_date is not null and own_status = 1;
 
+update ownership
+set own_inmediate_booking = false;
+
