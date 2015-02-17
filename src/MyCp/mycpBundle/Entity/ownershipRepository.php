@@ -52,6 +52,10 @@ class ownershipRepository extends EntityRepository {
         if (isset($data['selection']))
             $active_selection = 1;
 
+        $active_inmediate_booking = 0;
+        if (isset($data['inmediate_booking']))
+            $active_inmediate_booking = 1;
+
         $water_jacuzee = 0;
         if (isset($data['water_jacuzee']))
             $water_jacuzee = 1;
@@ -128,6 +132,7 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnGeolocateY($data['geolocate_y']);
         $ownership->setOwnTop20($active_top_20);
         $ownership->setOwnSelection($active_selection);
+        $ownership->setOwnInmediateBooking($active_inmediate_booking);
         $ownership->setOwnNotRecommendable($active_not_recommendable);
         $status = $em->getRepository('mycpBundle:ownershipStatus')->find($data['status']);
 
@@ -283,6 +288,10 @@ class ownershipRepository extends EntityRepository {
         if (isset($data['selection']))
             $active_selection = 1;
 
+        $active_inmediate_booking = 0;
+        if (isset($data['inmediate_booking']))
+            $active_inmediate_booking = 1;
+
         //languages
         $ownership_english_lang = 0;
         if (isset($data['ownership_english_lang']))
@@ -344,6 +353,7 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnGeolocateY($data['geolocate_y']);
         $ownership->setOwnTop20($active_top_20);
         $ownership->setOwnSelection($active_selection);
+        $ownership->setOwnInmediateBooking($active_inmediate_booking);
         $ownership->setOwnNotRecommendable($active_not_recommendable);
 
         if ($data['ownership_destination'] != 0) {

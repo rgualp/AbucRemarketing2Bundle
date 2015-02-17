@@ -365,6 +365,8 @@ class BackendOwnershipController extends Controller {
         $data['not_recommendable'] = $ownership->getOwnNotRecommendable();
         $post['selection'] = $ownership->getOwnSelection();
         $data['selection'] = $ownership->getOwnSelection();
+        $post['inmediate_booking'] = $ownership->getOwnInmediateBooking();
+        $data['inmediate_booking'] = $ownership->getOwnInmediateBooking();
         $data['country_code'] = $ownership->getOwnAddressProvince()->getProvId();
         $data['municipality_code'] = $ownership->getOwnAddressMunicipality()->getMunId();
 
@@ -374,6 +376,7 @@ class BackendOwnershipController extends Controller {
 
         $post['top_20'] = ($post['top_20'] == false) ? 0 : 1;
         $post['selection'] = ($post['selection'] == false) ? 0 : 1;
+        $post['inmediate_booking'] = ($post['inmediate_booking'] == false) ? 0 : 1;
         $post['not_recommendable'] = ($post['not_recommendable'] == false) ? 0 : 1;
         $post['facilities_breakfast'] = ($post['facilities_breakfast'] == false) ? 0 : 1;
         $post['facilities_dinner'] = ($post['facilities_dinner'] == false) ? 0 : 1;
