@@ -26,8 +26,9 @@
 
 </ul>
 <div class="form-actions">
-    <button class="btn btn-primary" type="submit">Guardar</button>
-    <button class="btn btn-primary" type="button" onclick="javascript:submit_button()">Guardar y nuevo</button>
+    <button class="btn btn-primary" type="button" onclick="javascript:add_photos_button()">Agregar fotos</button>
+    <button class="btn btn-info" type="submit">Guardar y salir</button>
+    <button class="btn btn-success" type="button" onclick="javascript:submit_button()">Guardar y nuevo</button>
     {% if(post['ownership_id'] is defined) %}
     <a class="btn btn-warning" href="{{ path('mycp_list_photos_ownership',{'id_ownership':post['ownership_id']}) }}">Fotos</a>
     {%if (post['ownership_email_1'] is defined and post['ownership_email_1'] != "") or (post['ownership_email_2'] is defined and post['ownership_email_2'] != "")%}
@@ -751,6 +752,12 @@
     function submit_button()
     {
         $("#save_reset_input").val(1);
+        $("#form_ownership").submit();
+    }
+
+    function add_photos_button()
+    {
+        $("#save_reset_input").val(2);
         $("#form_ownership").submit();
     }
 

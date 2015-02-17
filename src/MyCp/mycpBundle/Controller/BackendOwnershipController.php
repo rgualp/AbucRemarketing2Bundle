@@ -557,6 +557,7 @@ class BackendOwnershipController extends Controller {
         $data['count_errors'] = 0;
         $data['status_id'] = 0;
         $data['ownership_owner'] = "no_photo.gif";
+        $current_ownership_id = -1;
 
         if ($request->getMethod() == 'POST') {
             if ($request->request->get('new_room') == 1) {
@@ -797,7 +798,7 @@ class BackendOwnershipController extends Controller {
                         $old_between_street_2 = $db_ownership->getOwnAddressBetweenStreet2();
                         $new_between_street_2 = $request->request->get('ownership_address_between_street_2');
 
-                        if ($old_address_street != $new_address_street OR $old_number != $new_number OR $old_between_street_1 != $new_between_street_1 OR $old_between_street_2 != $new_between_street_2) {
+                        if ($old_address_street != $new_address_street || $old_number != $new_number || $old_between_street_1 != $new_between_street_1 || $old_between_street_2 != $new_between_street_2) {
                             $any_edit = true;
                             $service_log->saveLog('Edit entity. Change address from ' . $old_address_street . ' street #' . $old_number . ' between ' . $old_between_street_1 . ' and ' . $old_between_street_2 .
                                     ' to ' . $new_address_street . ' street #' . $new_number . ' between ' . $new_between_street_1 . ' and ' . $new_between_street_2, BackendModuleName::MODULE_OWNERSHIP);
@@ -819,7 +820,7 @@ class BackendOwnershipController extends Controller {
                             $service_log->saveLog('Edit entity ' . $post['ownership_mcp_code'], BackendModuleName::MODULE_OWNERSHIP);
                         }
 
-                        $em->getRepository('mycpBundle:ownership')->edit($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this, $this->container->getParameter('user.dir.photos'));
+                        $current_ownership_id = $em->getRepository('mycpBundle:ownership')->edit($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this, $this->container->getParameter('user.dir.photos'));
 
                         //Enviar correo a los propietarios
                         if ($new_status == ownershipStatus::STATUS_ACTIVE && $old_status == ownershipStatus::STATUS_IN_PROCESS) {
@@ -839,7 +840,7 @@ class BackendOwnershipController extends Controller {
                         $message = 'Propiedad actualizada satisfactoriamente.';
                     } else {
 
-                        $em->getRepository('mycpBundle:ownership')->insert($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this, $this->container->getParameter('user.dir.photos'));
+                        $current_ownership_id = $em->getRepository('mycpBundle:ownership')->insert($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this, $this->container->getParameter('user.dir.photos'));
                         $message = 'Propiedad añadida satisfactoriamente.';
                         $service_log = $this->get('log');
                         $service_log->saveLog('Create entity ' . $post['ownership_mcp_code'], BackendModuleName::MODULE_OWNERSHIP);
@@ -851,7 +852,11 @@ class BackendOwnershipController extends Controller {
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
                     if ($request->get('save_reset_input') == 1) {
                         return $this->redirect($this->generateUrl('mycp_new_ownership'));
-                    } else {
+                    }
+                    else if ($request->get('save_reset_input') == 2) {
+                        return $this->redirect($this->generateUrl('mycp_new_photos_ownership', array("id_ownership" => $current_ownership_id)));
+                    }
+                    else {
                         return $this->redirect($this->generateUrl('mycp_list_ownerships'));
                     }
                 }

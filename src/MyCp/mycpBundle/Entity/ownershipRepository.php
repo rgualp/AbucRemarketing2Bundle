@@ -253,10 +253,7 @@ class ownershipRepository extends EntityRepository {
 
         $em->flush();
 
-        /* $roomsActiveTotal = count($em->getRepository('mycpBundle:room')->findBy(array('room_ownership'=>$ownership->getOwnId(), "room_active"=>true)));
-          $ownership->setOwnRoomsTotal($roomsActiveTotal);
-          $em->persist($ownership);
-          $em->flush(); */
+        return $ownership->getOwnId();
     }
 
     function edit($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller, $dir) {
@@ -501,6 +498,8 @@ class ownershipRepository extends EntityRepository {
         $this->saveOwnerPhoto($em, $ownership, $dir, $request);
 
         $em->flush();
+
+        return $ownership->getOwnId();
     }
 
     private function saveOwnerPhoto($em, $ownership, $dir, $request) {
