@@ -228,21 +228,8 @@ class BackendOwnershipController extends Controller {
     public function delete_photoAction($id_ownership, $id_photo) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $dir = $this->container->getParameter('ownership.dir.photos');
-        $dir_thumbnails = $this->container->getParameter('ownership.dir.thumbnails');
         $em = $this->getDoctrine()->getEntityManager();
-        $data['languages'] = $em->getRepository('mycpBundle:lang')->getAll();
-        $photo = $em->getRepository('mycpBundle:photo')->find($id_photo);
-        $photoLangs = $em->getRepository('mycpBundle:photoLang')->findBy(array('pho_lang_id_photo' => $id_photo));
-        foreach ($photoLangs as $photoLang)
-            $em->remove($photoLang);
-        $photoDel = $photo;
-        $album_photo = $em->getRepository('mycpBundle:ownershipPhoto')->findBy(array('own_pho_photo' => $id_photo));
-        $em->remove($album_photo[0]);
-        $em->remove($photo);
-        $em->flush();
-        @unlink($dir . $photoDel->getPhoName());
-        @unlink($dir_thumbnails . $photoDel->getPhoName());
+        $em->getRepository("mycpBundle:ownershipPhoto")->deleteOwnPhoto($id_photo, $this->container);
         $message = 'El fichero se ha eliminado satisfactoriamente.';
         $this->get('session')->getFlashBag()->add('message_ok', $message);
         $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
@@ -1208,6 +1195,28 @@ class BackendOwnershipController extends Controller {
         $this->get('session')->getFlashBag()->add('message_ok', $message);
 
         return $this->redirect($this->generateUrl('mycp_list_photos_ownership', array("id_ownership" => $idOwnership)));
+    }
+
+    public function deleteMultiplesPhotosCallbackAction($idOwnership)
+    {
+        $request = $this->getRequest();
+        $em = $this->getDoctrine()->getManager();
+        $photos_ids = $request->request->get('photos_ids');
+
+        try {
+        foreach($photos_ids as $photoId)
+            $em->getRepository("mycpBundle:ownershipPhoto")->deleteOwnPhoto($photoId, $this->container);
+
+        $message = 'Fotografías eliminadas satisfactoriamente.';
+        $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+        $response = $this->generateUrl('mycp_list_photos_ownership', array("id_ownership" => $idOwnership));
+        } catch (\Exception $e) {
+            $message = 'Las fotografías no pudieron ser eliminadas.';
+            $this->get('session')->getFlashBag()->add('message_error_local', $message);
+            $response = "ERROR";
+        }
+        return new Response($response);
     }
 
 }

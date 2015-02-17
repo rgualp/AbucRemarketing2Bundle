@@ -64,7 +64,7 @@
                         Mostrando del {{items_per_page * current_page - items_per_page}} al {% if items_per_page * current_page >  total_items%}{{total_items }}{% else %}{{ items_per_page * current_page }}{% endif %} de {{total_items}} registros
                     </div>
                     <div class="pull-right">
-                        Líneas por página:
+                        Mostrar:
                         {% if filter_date_reserve ==''%}{% set filter_date_reserve='null'%}{%endif%}
                         {% if filter_offer_number ==''%}{% set filter_offer_number='null'%}{%endif%}
                         {% if filter_reference ==''%}{% set filter_reference='null'%}{%endif%}
@@ -144,7 +144,7 @@
                 {%set partially_available = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_AVAILABLE')%}
                 {%set partially_reserved = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_RESERVED')%}
                 {%set cancelled = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED')%}
-                        
+
                 {% for reservation in reservations %}
                 <tr class="{% if reservation[0].gen_res_status==available %}warning{%endif%}{% if reservation[0].gen_res_status==reserved %}error{%endif%}{% if reservation[0].gen_res_status==not_available %}info{%endif%}">
                     <td>
@@ -161,7 +161,7 @@
                     <td>{{total_nights[loop.index0]}}</td>
                     <td>{{ reservation[0].gen_res_total_in_site }} CUC</td>
                     <td>
-                        {{ render(controller('mycpBundle:BackendReservation:getGeneralReservationStatusName', {'status': reservation[0].gen_res_status, 'wrap': false, 'showInDiv': true})) }}                        
+                        {{ render(controller('mycpBundle:BackendReservation:getGeneralReservationStatusName', {'status': reservation[0].gen_res_status, 'wrap': false, 'showInDiv': true})) }}
                     </td>
                     <td style="text-align: right">
                         <a class="btn btn-mini" href="{{ path('mycp_details_reservation',{'id_reservation':reservation[0].gen_res_id}) }}">Detalles</a>

@@ -41,3 +41,7 @@ mycp_send_ownership:
 mycp_publish_ownership:
     pattern:  /publish/{idOwnership}
     defaults: { _controller: mycpBundle:BackendOwnership:publish }
+
+mycp_delete_multiple_photo_ownership_callback:
+    pattern:  /delete-multiple-photos-callback/{idOwnership}
+    defaults: { _controller: mycpBundle:BackendOwnership:deleteMultiplesPhotosCallback }

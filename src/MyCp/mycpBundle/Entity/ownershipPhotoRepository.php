@@ -21,4 +21,26 @@ class ownershipPhotoRepository extends EntityRepository
         ORDER BY opp.pho_order ASC");
         return $query->getResult();
     }
+
+    public function deleteOwnPhoto($id_photo, $container)
+    {
+        $dir = $container->getParameter('ownership.dir.photos');
+        $dir_thumbnails = $container->getParameter('ownership.dir.thumbnails');
+        $em = $this->getEntityManager();
+        $photo = $em->getRepository('mycpBundle:photo')->find($id_photo);
+        $photoName = $photo->getPhoName();
+
+        $photoLangs = $em->getRepository('mycpBundle:photoLang')->findBy(array('pho_lang_id_photo' => $id_photo));
+        foreach ($photoLangs as $photoLang)
+            $em->remove($photoLang);
+
+        $ownPhotos = $em->getRepository('mycpBundle:ownershipPhoto')->findBy(array('own_pho_photo' => $id_photo));
+        foreach ($ownPhotos as $ownPhoto)
+            $em->remove($ownPhoto);
+
+        $em->remove($photo);
+        $em->flush();
+        @unlink($dir . $photoName);
+        @unlink($dir_thumbnails . $photoName);
+    }
 }
