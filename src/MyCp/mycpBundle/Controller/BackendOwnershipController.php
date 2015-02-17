@@ -20,6 +20,7 @@ use MyCp\mycpBundle\Helpers\OwnershipStatuses;
 use MyCp\mycpBundle\Entity\ownershipStatus;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
 use MyCp\mycpBundle\Helpers\UserMails;
+use MyCp\mycpBundle\Helpers\Operations;
 
 class BackendOwnershipController extends Controller {
 
@@ -850,10 +851,10 @@ class BackendOwnershipController extends Controller {
                             UserMails::sendOwnersMail($this, $post['ownership_email_1'], $post['ownership_email_2'], $post['ownership_homeowner_1'], $post['ownership_homeowner_2'], $post['ownership_name'], $post['ownership_mcp_code']);
                     }
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
-                    if ($request->get('save_reset_input') == 1) {
+                    if ($request->get('save_operation') == Operations::SAVE_AND_NEW) {
                         return $this->redirect($this->generateUrl('mycp_new_ownership'));
                     }
-                    else if ($request->get('save_reset_input') == 2) {
+                    else if ($request->get('save_operation') == Operations::SAVE_AND_ADD_PHOTOS) {
                         return $this->redirect($this->generateUrl('mycp_new_photos_ownership', array("id_ownership" => $current_ownership_id)));
                     }
                     else {
