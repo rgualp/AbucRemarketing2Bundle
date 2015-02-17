@@ -19,7 +19,7 @@
 </ul>
 {% endblock %}
 {% block content %}
-<h2>Habitaciones '{{ownership.ownName}}'</h2><br/>
+<h2>Habitaciones: {% include 'mycpBundle:utils:ownership_header.html.twig' with {'ownership':ownership}%}</h2><br/>
 <h5>Hab. #{{num_room}} - {{room.roomType}}</h5>
 <hr/>
  <a class="btn" href="{{ path('mycp_new_unavailabilityDetails', {'num_room':num_room, 'id_room': id_room}) }}"><i class="icon-plus"></i> Adicionar no disponibilidad</a>&nbsp;

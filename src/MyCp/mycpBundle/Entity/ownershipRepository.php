@@ -602,6 +602,7 @@ class ownershipRepository extends EntityRepository {
         ow.own_mcp_code,
         ow.own_top_20,
         ow.own_selection,
+        ow.own_inmediate_booking,
         ow.own_name,
         mun.mun_name,
         prov.prov_name,

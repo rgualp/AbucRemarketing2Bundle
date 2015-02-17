@@ -29,9 +29,7 @@
 </form>
 {% endblock %}
 {% block content %}
-<h2>Fotografía de {{ownership.getOwnMcpCode}} - {{ownership.getOwnName}}
-{% if ownership.ownStatus.statusId== constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')%}<span class="label label-success vertical_middle" title="Estado Activo">Activo</span>{% else %} <span class="label label-important vertical_middle" title="Estado {{ ownership.ownStatus.getStatusName }}">{{ ownership.ownStatus.getStatusName }}</span>{% endif %}
- </h2>
+<h2>Fotografía de {% include 'mycpBundle:utils:ownership_header.html.twig' with {'ownership':ownership}%}</h2>
 <hr/>
 {% if errors is defined and errors or data['error'] is defined %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
 <form id="form" action="{{ path('mycp_new_photos_ownership',{'id_ownership':id_ownership}) }}" method="POST" enctype="multipart/form-data">

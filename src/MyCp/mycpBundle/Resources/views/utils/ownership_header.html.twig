@@ -1,0 +1,22 @@
+
+{{ownership.ownMcpCode}} - {{ownership.ownName}}
+    {% if ownership.ownStatus is defined %}
+        {% if ownership.ownStatus.statusId== constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')%}<span class="label label-success vertical_middle" title="Estado Activo">Activo</span>
+        {% else %}
+            <span class="label label-important vertical_middle" title="Estado {{ ownership.ownStatus.getStatusName }}">{{ ownership.ownStatus.getStatusName }}</span>
+        {% endif %}
+    {%else%}
+    <span class="label label-warning vertical_middle" title="Sin estado">Sin estado</span>
+    {% endif %}
+    {%if ownership.ownTop20 is defined and  ownership.ownTop20%}
+    <span class="label label-important vertical_middle" title="Top 20">Top 20</span>
+    {%endif%}
+    {%if ownership.ownSelection is defined and  ownership.ownSelection%}
+    <span class="label label-info vertical_middle" title="Casa Selección">Casa Selección</span>
+    {%endif%}
+    {%if ownership.ownInmediateBooking is defined and  ownership.ownInmediateBooking%}
+    <span class="label label-info1 vertical_middle" title="Reserva Inmediata">Reserva Inmediata</span>
+    {%endif%}
+    {%if ownership.ownNotRecommendable is defined and ownership.ownNotRecommendable%}
+    <span class="label label-warning vertical_middle" title="No recomendables">No recomendable</span>
+    {%endif%}

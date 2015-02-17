@@ -17,7 +17,7 @@
 </ul>
 {% endblock %}
 {% block content %}
-<h2>Habitaciones '{{ownership.getOwnName}}'</h2>
+<h2>Habitaciones: {% include 'mycpBundle:utils:ownership_header.html.twig' with {'ownership':ownership}%}</h2>
 <hr/>
 {% if rooms %}
 <div class="alert">

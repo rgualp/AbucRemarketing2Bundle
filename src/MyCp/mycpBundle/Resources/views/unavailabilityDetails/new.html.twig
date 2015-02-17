@@ -47,7 +47,7 @@
     </script>
 {% endblock %}
 {% block content %}
-<h2>Habitaciones '{{ownership.ownName}}'</h2><br/>
+<h2>Habitaciones: {% include 'mycpBundle:utils:ownership_header.html.twig' with {'ownership':ownership}%}</h2><br/>
 <h5>Hab. #{{num_room}} - {{room.roomType}}</h5>
 <hr/>
 <h4>{% if edit_detail is defined %}Editar {% else %}Adicionar {% endif %} no disponibilidad</h4>
