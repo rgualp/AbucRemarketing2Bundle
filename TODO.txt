@@ -10,7 +10,6 @@ Funciones:
     - Hacer PSR Standarization para todas las funciones del sitio.
 
 Correo:
-    - En el template general, poner debajo un enlace que diga "No deseo recibir más correos"
     - Usar siempre el servicio de Jakob para enviar correos
 
 Diseño:
