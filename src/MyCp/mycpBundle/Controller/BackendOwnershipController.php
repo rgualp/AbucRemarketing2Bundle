@@ -230,6 +230,7 @@ class BackendOwnershipController extends Controller {
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $em->getRepository("mycpBundle:ownershipPhoto")->deleteOwnPhoto($id_photo, $this->container);
+        $em->getRepository("mycpBundle:ownershipPhoto")->checkOwnershipToInactivate($id_ownership);
         $message = 'El fichero se ha eliminado satisfactoriamente.';
         $this->get('session')->getFlashBag()->add('message_ok', $message);
         $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
@@ -1206,6 +1207,8 @@ class BackendOwnershipController extends Controller {
         try {
         foreach($photos_ids as $photoId)
             $em->getRepository("mycpBundle:ownershipPhoto")->deleteOwnPhoto($photoId, $this->container);
+
+        $em->getRepository("mycpBundle:ownershipPhoto")->checkOwnershipToInactivate($idOwnership);
 
         $message = 'Fotografías eliminadas satisfactoriamente.';
         $this->get('session')->getFlashBag()->add('message_ok', $message);

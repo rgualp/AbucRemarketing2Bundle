@@ -515,6 +515,7 @@ class ownershipRepository extends EntityRepository {
 
                 $photo->setPhoName($fileName);
                 $ownership->setOwnOwnerPhoto($photo);
+                $ownership->setOwnLastUpdate(new \DateTime());
                 $em->persist($photo);
 
             $em->persist($ownership);
@@ -1668,7 +1669,7 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $ranking = $this->getRankingFormula($ownership);
         $ownership->setOwnRanking($ranking);
-
+        $ownership->setOwnLastUpdate(new \DateTime());
         $em->persist($ownership);
         $em->flush();
     }
@@ -1682,6 +1683,7 @@ class ownershipRepository extends EntityRepository {
             $ownership->setOwnPublishDate(new \DateTime());
 
         $ownership->setOwnStatus($status);
+        $ownership->setOwnLastUpdate(new \DateTime());
         $em->persist($ownership);
         $em->flush();
     }
