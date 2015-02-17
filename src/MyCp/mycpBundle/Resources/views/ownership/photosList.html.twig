@@ -75,7 +75,7 @@
             <div class="span6">{% for desc in data['description_photo_'~item.getOwnPhoPhoto.getPhoId] %}- {{ desc.getPhoLangDescription |slice(0,60) |capitalize}}...<br/>{% endfor %}</div>
             <div class="span3 actions">
                 <a class="btn btn-mini" style="margin: 0" href="{{ path('mycp_edit_photos_ownership',{'id_photo':item.getOwnPhoPhoto.getPhoId,'id_ownership':id_ownership}) }}">Editar</a>
-                <a class="btn btn-mini btn-danger" href="{{ path('mycp_delete_photos_ownership',{'id_ownership':id_ownership,'id_photo':item.getOwnPhoPhoto.getPhoId}) }}">Eliminar</a>
+                <a class="btn btn-mini btn-danger delete" href="{{ path('mycp_delete_photos_ownership',{'id_ownership':id_ownership,'id_photo':item.getOwnPhoPhoto.getPhoId}) }}">Eliminar</a>
             </div>
         </div>
     </li>
@@ -150,6 +150,10 @@
     }
 </script>
 {% else %}
-<p> <div class="alert alert-block">No hay Fotografías disponibles.</div></p>
+<p> <div class="alert alert-block">No hay fotografías disponibles.</div></p>
 {% endif %}
+{% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Desea realizar esta acción?','confirmation_action_label':'Eliminar'}%}
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('bundles/mycp/js/common_list.js') }}"></script>
 {% endblock %}
