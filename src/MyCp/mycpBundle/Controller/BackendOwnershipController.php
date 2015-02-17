@@ -66,6 +66,7 @@ class BackendOwnershipController extends Controller {
         $dir_watermark = $this->container->getParameter('dir.watermark');
         $photo_size = $this->container->getParameter('ownership.dir.photos.size');
         $thumbs_size = $this->container->getParameter('thumbnail.size');
+        $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
 
         if ($request->getMethod() == 'POST') {
             $post = $request->request->getIterator()->getArrayCopy();
@@ -95,7 +96,6 @@ class BackendOwnershipController extends Controller {
                 }
 
                 if ($count_errors == 0) {
-                    $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
                     $langs = $em->getRepository('mycpBundle:lang')->findAll();
                     foreach ($files['files'] as $file) {
                         $ownershipPhoto = new ownershipPhoto();
@@ -128,11 +128,20 @@ class BackendOwnershipController extends Controller {
                     $service_log = $this->get('log');
                     $service_log->saveLog('Create photo, entity ' . $ownership->getOwnName(), BackendModuleName::MODULE_OWNERSHIP);
 
-                    return $this->redirect($this->generateUrl('mycp_list_photos_ownership', array('id_ownership' => $id_ownership)));
+                    switch($request->get('save_operation'))
+                    {
+                        case Operations::SAVE_AND_EXIT:
+                            return $this->redirect($this->generateUrl('mycp_list_photos_ownership', array('id_ownership' => $id_ownership)));
+                        case Operations::SAVE_AND_NEW:
+                            return $this->redirect($this->generateUrl('mycp_new_photos_ownership', array('id_ownership' => $id_ownership)));
+                        case Operations::SAVE_AND_PUBLISH_ACCOMMODATION:
+                            return $this->redirect($this->generateUrl('mycp_publish_ownership', array('idOwnership' => $id_ownership)));
+
+                    }
+
                 }
             }
         }
-        $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
         return $this->render('mycpBundle:ownership:photosNew.html.twig', array(
                     'data' => $data,
                     'dir' => $dir,
@@ -1193,14 +1202,7 @@ class BackendOwnershipController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $ownership = $em->getRepository("mycpBundle:ownership")->find($idOwnership);
 
-        $status = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_ACTIVE);
-
-        if ($ownership->getOwnStatus()->getStatusId() == ownershipStatus::STATUS_IN_PROCESS)
-            $ownership->setOwnPublishDate(new \DateTime());
-
-        $ownership->setOwnStatus($status);
-        $em->persist($ownership);
-        $em->flush();
+        $em->getRepository("mycpBundle:ownership")->publish($ownership);
 
         $message = 'Propiedad publicada satisfactoriamente.';
         $this->get('session')->getFlashBag()->add('message_ok', $message);

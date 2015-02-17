@@ -1673,4 +1673,17 @@ class ownershipRepository extends EntityRepository {
         $em->flush();
     }
 
+    public function publish($ownership)
+    {
+        $em = $this->getEntityManager();
+        $status = $em->getRepository("mycpBundle:ownershipStatus")->find(ownershipStatus::STATUS_ACTIVE);
+
+        if ($ownership->getOwnStatus()->getStatusId() == ownershipStatus::STATUS_IN_PROCESS)
+            $ownership->setOwnPublishDate(new \DateTime());
+
+        $ownership->setOwnStatus($status);
+        $em->persist($ownership);
+        $em->flush();
+    }
+
 }
