@@ -81,9 +81,10 @@
                                         <label>Otros:</label>
                                         <select class="input-block-level" name="filter_other" id="filter_other">
                                             <option></option>
-                                            <option value="top_20" {%if filter_other == 'top_20'%}selected="TRUE"{%endif%}>Top 20</option>
-                                            <option value="selection" {%if filter_other == 'selection'%}selected="TRUE"{%endif%}>Casa Selección</option>
-                                            <option value="not_recommendable" {%if filter_other == 'not_recommendable'%}selected="TRUE"{%endif%}>No recomendable</option>
+                                            <option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_TOP20')}}" {%if filter_other == constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_TOP20')%}selected="TRUE"{%endif%}>Top 20</option>
+                                            <option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_SELECTION')}}" {%if filter_other == constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_SELECTION')%}selected="TRUE"{%endif%}>Casa Selección</option>
+                                            <option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_INMEDIATE_BOOKING')}}" {%if filter_other == constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_INMEDIATE_BOOKING')%}selected="TRUE"{%endif%}>Reserva Inmediata</option>
+                                            <option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_NOT_RECOMMENDABLE')}}" {%if filter_other == constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_NOT_RECOMMENDABLE')%}selected="TRUE"{%endif%}>No recomendable</option>
                                         </select>
 
                                     </div>

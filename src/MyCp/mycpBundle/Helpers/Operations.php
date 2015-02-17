@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Description of OwnershipStatuses
+ * Description of Operations
  *
  * @author Yanet
  */

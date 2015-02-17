@@ -14,6 +14,7 @@ use MyCp\mycpBundle\Helpers\SyncStatuses;
 use MyCp\mycpBundle\Entity\ownershipStatus;
 use MyCp\mycpBundle\Helpers\Dates;
 use MyCp\mycpBundle\Helpers\SearchUtils;
+use MyCp\mycpBundle\Helpers\FilterHelper;
 
 /**
  * ownershipRepository
@@ -554,11 +555,13 @@ class ownershipRepository extends EntityRepository {
         $condition = '';
 
         switch ($filter_other) {
-            case 'top_20': $condition .= "AND ow.own_top_20 = 1 ";
+            case FilterHelper::ACCOMMODATION_TOP20: $condition .= "AND ow.own_top_20 = 1 ";
                 break;
-            case 'selection': $condition .= "AND ow.own_selection = 1 ";
+            case FilterHelper::ACCOMMODATION_SELECTION: $condition .= "AND ow.own_selection = 1 ";
                 break;
-            case 'not_recommendable': $condition .= "AND ow.own_not_recommendable = 1 ";
+            case FilterHelper::ACCOMMODATION_NOT_RECOMMENDABLE: $condition .= "AND ow.own_not_recommendable = 1 ";
+                break;
+            case FilterHelper::ACCOMMODATION_INMEDIATE_BOOKING: $condition .= "AND ow.own_inmediate_booking = 1 ";
                 break;
         }
 
