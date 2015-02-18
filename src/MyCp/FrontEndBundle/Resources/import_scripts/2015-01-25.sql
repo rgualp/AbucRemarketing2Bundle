@@ -2,8 +2,10 @@
 SQL Script: Creating store procedure to update rooms numbers
 Author: Yanet Morales Ramirez
 */
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `setRoomNumbers` $$
 
-CREATE PROCEDURE `setRoomNumbers`()
+CREATE DEFINER=`root`@`%` PROCEDURE `setRoomNumbers`()
 begin
 
   DECLARE done INT DEFAULT FALSE;
@@ -31,4 +33,6 @@ begin
 
   CLOSE own_cursor;
 
-end
+END $$
+
+DELIMITER ;
