@@ -11,7 +11,8 @@
 <h3>Últimos alojamientos añadidos</h3>
 <table>
     <tr>
-        <td><b>Propiedad</b></td>
+        <td><b>Código</b></td>
+        <td><b>Nombre</b></td>
         <td><b>Habitaciones</b></td>
         <td><b>Propietario 1</b></td>
         <td><b>Propietario 2</b></td>
@@ -27,6 +28,7 @@
     {%for own in ownerships%}
     <tr class="content">
     <td>{{own.mycpCode}}</td>
+    <td>{{own.name}}</td>
     <td>{{own.totalRooms}}</td>
     <td>{{own.owner1}}</td>
     <td>{{own.owner2}}</td>

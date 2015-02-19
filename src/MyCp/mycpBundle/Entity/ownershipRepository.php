@@ -778,6 +778,7 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $query_string = "SELECT o.own_id as ownId,
                          o.own_mcp_code as mycpCode,
+                         o.own_name as name,
                          o.own_rooms_total as totalRooms,
                          o.own_homeowner_1 as owner1,
                          o.own_homeowner_2 as owner2,
