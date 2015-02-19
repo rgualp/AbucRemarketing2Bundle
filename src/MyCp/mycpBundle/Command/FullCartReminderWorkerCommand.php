@@ -115,7 +115,7 @@ class FullCartReminderWorkerCommand extends Worker
 
         $userTourist = $this->emailManager->getTouristByUser($user);
         $userLocale = strtolower($userTourist->getUserTouristLanguage()->getLangCode());
-        $cartItems = $this->em->getCartItemsByUser($userId);
+        $cartItems = $this->em->getRepository('mycpBundle:cart')->getCartItemsByUser($userId);
 
         $accommodations = array();
         $cartAccommodations = array();
