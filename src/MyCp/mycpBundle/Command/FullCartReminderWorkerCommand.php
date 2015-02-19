@@ -31,7 +31,7 @@ class FullCartReminderWorkerCommand extends Worker
      * @var
      */
     private $router;
-    
+
     /**
      * 'time' service
      *
@@ -45,7 +45,7 @@ class FullCartReminderWorkerCommand extends Worker
      * @var \MyCp\mycpBundle\Helpers\EmailManager
      */
     private $emailManager;
-    
+
     private $em;
 
     /**
@@ -83,7 +83,7 @@ class FullCartReminderWorkerCommand extends Worker
             $user = $this->emailManager->getUserById($userId);
         else
             $user = $this->em->getRepository('mycpBundle:cart')->getUserFromCart($userId, $data->getSessionId());
-        
+
         if (empty($user)) {
             // the user does not exist anymore
             return true;
@@ -112,15 +112,15 @@ class FullCartReminderWorkerCommand extends Worker
         $userName = $user->getUserCompleteName();
 
         $emailSubject = $this->translatorService->trans('USER_CART_FULL_REMINDER');
-        
+
         $userTourist = $this->emailManager->getTouristByUser($user);
         $userLocale = strtolower($userTourist->getUserTouristLanguage()->getLangCode());
-        $cartItems = $this->em->getCartItemsByUser($userId);
-        
+        $cartItems = $this->em->getRepository('mycpBundle:cart')->getCartItemsByUser($userId);
+
         $accommodations = array();
         $cartAccommodations = array();
         $cartPrices = array();
-        
+
         $current_own_id = 0;
 
         foreach($cartItems as $item)
