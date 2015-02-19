@@ -105,7 +105,7 @@ class BackendReservationController extends Controller {
                 $ownership_reservation->setOwnResSelectedRoomId($room);
                 $ownership_reservation->setOwnResRoomPriceDown($room->getRoomPriceDownTo());
                 $ownership_reservation->setOwnResRoomPriceUp($room->getRoomPriceUpTo());
-                $specialPrice = ($room->getRoomPriceSpecial() != null && $room->getRoomPriceSpecial() > 0)? $room->getRoomPriceSpecial() : $room->getRoomPriceUpTo();
+                $specialPrice = ($room->getRoomPriceSpecial() != null && $room->getRoomPriceSpecial() > 0) ? $room->getRoomPriceSpecial() : $room->getRoomPriceUpTo();
                 $ownership_reservation->setOwnResRoomPriceSpecial($specialPrice);
                 $ownership_reservation->setOwnResGenResId($general_reservation);
                 $ownership_reservation->setOwnResRoomType($room->getRoomType());
@@ -259,7 +259,7 @@ class BackendReservationController extends Controller {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
-        $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array("booking"=>$id_booking));
+        $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array("booking" => $id_booking));
         $user = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $payment->getBooking()->getBookingUserId()));
         $reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking, 'own_res_status' => ownershipReservation::STATUS_RESERVED));
         return $this->render('mycpBundle:reservation:bookingDetails.html.twig', array(
@@ -512,18 +512,6 @@ class BackendReservationController extends Controller {
             if (count($errors) == 0) {
                 $temp_price = 0;
                 foreach ($ownership_reservations as $ownership_reservation) {
-                    if (isset($post['service_room_price_' . $ownership_reservation->getOwnResId()]) && $post['service_room_price_' . $ownership_reservation->getOwnResId()] != "" && $post['service_room_price_' . $ownership_reservation->getOwnResId()] != "0") {
-                        $temp_price+=$post['service_room_price_' . $ownership_reservation->getOwnResId()] * (count($dates) - 1);
-                        $ownership_reservation->setOwnResNightPrice($post['service_room_price_' . $ownership_reservation->getOwnResId()]);
-                    }
-                    else
-                    //$temp_price+=$ownership_reservation->getOwnResTotalInSite();
-                        $ownership_reservation->setOwnResCountAdults($post['service_room_count_adults_' . $ownership_reservation->getOwnResId()]);
-                    $ownership_reservation->setOwnResCountChildrens($post['service_room_count_childrens_' . $ownership_reservation->getOwnResId()]);
-                    $ownership_reservation->setOwnResStatus($post['service_own_res_status_' . $ownership_reservation->getOwnResId()]);
-                    $ownership_reservation->setOwnResRoomType($post['service_room_type_' . $ownership_reservation->getOwnResId()]);
-
-
                     $start = explode('/', $post['date_from_' . $ownership_reservation->getOwnResId()]);
                     $end = explode('/', $post['date_to_' . $ownership_reservation->getOwnResId()]);
                     $start_timestamp = mktime(0, 0, 0, $start[1], $start[0], $start[2]);
@@ -531,6 +519,37 @@ class BackendReservationController extends Controller {
 
                     $ownership_reservation->setOwnResReservationFromDate(new \DateTime(date("Y-m-d H:i:s", $start_timestamp)));
                     $ownership_reservation->setOwnResReservationToDate(new \DateTime(date("Y-m-d H:i:s", $end_timestamp)));
+
+                    if (isset($post['service_room_price_' . $ownership_reservation->getOwnResId()]) && $post['service_room_price_' . $ownership_reservation->getOwnResId()] != "" && $post['service_room_price_' . $ownership_reservation->getOwnResId()] != "0") {
+                        $temp_price+=$post['service_room_price_' . $ownership_reservation->getOwnResId()] * (count($dates) - 1);
+                        $ownership_reservation->setOwnResNightPrice($post['service_room_price_' . $ownership_reservation->getOwnResId()]);
+                    } else {
+                        //$temp_price+=$ownership_reservation->getOwnResTotalInSite();
+                        $currentGuestTotal = $ownership_reservation->getOwnResCountAdults() + $ownership_reservation->getOwnResCountChildrens();
+                        $newGuestTotal = $post['service_room_count_adults_' . $ownership_reservation->getOwnResId()] + $post['service_room_count_childrens_' . $ownership_reservation->getOwnResId()];
+
+                        if ($ownership_reservation->getOwnResRoomType() == "Habitación Triple") {
+                            $tripleRoomFeed = $this->container->getParameter('configuration.triple.room.charge');
+                            $currentSitePrice = $ownership_reservation->getOwnResTotalInSite();
+                            $dates_temp = $service_time->datesBetween($ownership_reservation->getOwnResReservationFromDate()->getTimestamp(), $ownership_reservation->getOwnResReservationToDate()->getTimestamp());
+                            $nights = count($dates_temp) - 1;
+                            if ($currentGuestTotal >= 3 && $newGuestTotal < 3) {
+                                //restar el recargo
+                                $ownership_reservation->setOwnResTotalInSite($currentSitePrice - $tripleRoomFeed*$nights);
+                            } else if ($currentGuestTotal < 3 && $newGuestTotal >= 3) {
+                                //sumar el recargo
+                                $ownership_reservation->setOwnResTotalInSite($currentSitePrice + $tripleRoomFeed*$nights);
+                            }
+                        }
+                    }
+
+                    $ownership_reservation->setOwnResCountAdults($post['service_room_count_adults_' . $ownership_reservation->getOwnResId()]);
+                    $ownership_reservation->setOwnResCountChildrens($post['service_room_count_childrens_' . $ownership_reservation->getOwnResId()]);
+                    $ownership_reservation->setOwnResStatus($post['service_own_res_status_' . $ownership_reservation->getOwnResId()]);
+                    //$ownership_reservation->setOwnResRoomType($post['service_room_type_' . $ownership_reservation->getOwnResId()]);
+
+
+
                     $em->persist($ownership_reservation);
                 }
                 $message = 'Reserva actualizada satisfactoriamente.';
@@ -904,19 +923,18 @@ class BackendReservationController extends Controller {
 
     public function sendVoucherToReservationTeamAction($id_reservation) {
         try {
-        $em = $this->getDoctrine()->getManager();
-        $bookingService = $this->get('front_end.services.booking');
-        $service_email = $this->get('mycp.service.email_manager');
-        $emailToSend = 'reservation@mycasaparticular.com';
+            $em = $this->getDoctrine()->getManager();
+            $bookingService = $this->get('front_end.services.booking');
+            $service_email = $this->get('mycp.service.email_manager');
+            $emailToSend = 'reservation@mycasaparticular.com';
 
-         \MyCp\mycpBundle\Helpers\VoucherHelper::sendVoucher($em, $bookingService, $service_email, $this, $id_reservation, $emailToSend);
+            \MyCp\mycpBundle\Helpers\VoucherHelper::sendVoucher($em, $bookingService, $service_email, $this, $id_reservation, $emailToSend);
         } catch (\Exception $e) {
-            $message = 'Error al enviar el voucher asociado a la reservación CAS.' . $id_reservation. ". ".$e->getMessage();
+            $message = 'Error al enviar el voucher asociado a la reservación CAS.' . $id_reservation . ". " . $e->getMessage();
             $this->get('session')->getFlashBag()->add('message_error_main', $message);
         }
 
         return $this->redirect($this->generateUrl('mycp_list_reservations'));
-
     }
 
     function getLodgingSortByAction($sort_by) {
