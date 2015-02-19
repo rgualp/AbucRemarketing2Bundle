@@ -1194,6 +1194,11 @@ class BackendOwnershipController extends Controller {
         $ownership = $em->getRepository("mycpBundle:ownership")->find($idOwnership);
 
         $em->getRepository("mycpBundle:ownership")->publish($ownership);
+        $email1 = $ownership->getOwnEmail1();
+        $email2 = $ownership->getOwnEmail2();
+        $owner1 = $ownership->getOwnHomeowner1();
+        $owner2 = $ownership->getOwnHomeowner2();
+        UserMails::sendOwnersMail($this, $email1, $email2, $owner1, $owner2, $ownership->getOwnName(), $ownership->getOwnMcpCode());
 
         $message = 'Propiedad publicada satisfactoriamente.';
         $this->get('session')->getFlashBag()->add('message_ok', $message);
