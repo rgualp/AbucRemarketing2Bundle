@@ -58,25 +58,22 @@ class ExportToExcel {
 
             $data[0] = $own["mycpCode"];
             $data[1] = $own["totalRooms"];
-            $data[2] = $own["owner1"];
-            $data[3] = $own["owner2"];
-            $data[4] = "{+53".$own["provCode"].") ".$own["phone"];
-            $data[5] = $own["mobile"];
-            $data[6] = $own["street"]." ".$own["number"]." entre ".$own["between1"]." y ".$own["between2"];
-            $data[7] = $own["province"];
-            $data[8] = $own["municipality"];
-            $data[9] = $own["status"];
+            $data[2] = $own["owner1"].(($own["owner2"] != "")? " / ". $own["owner2"] : "");
+            $data[3] = (($own["phone"] != "")?"{+53) ".$own["provCode"]. " ".$own["phone"] : "").(($own["mobile"] != "" && $own["phone"] != "") ? " / ": "").(($own["mobile"] != "") ? $own["mobile"]: "");
+            $data[4] = "Calle ". $own["street"]." No.".$own["number"].(($own["between1"] != "" && $own["between2"] != "") ? " entre ".$own["between1"]." y ".$own["between2"] : "");
+            $data[5] = $own["municipality"];
+            $data[6] = $own["status"];
 
             if($own["lowDown"] != $own["highDown"])
-                $data[10] = $own["lowDown"]." - ".$own["highDown"]." CUC";
+                $data[7] = $own["lowDown"]." - ".$own["highDown"]." CUC";
             else
-                $data[10] = $own["highDown"]." CUC";
+                $data[7] = $own["highDown"]." CUC";
 
 
             if($own["lowUp"] != $own["highUp"])
-                $data[11] = $own["lowUp"]." - ".$own["highUp"]." CUC";
+                $data[8] = $own["lowUp"]." - ".$own["highUp"]." CUC";
             else
-                $data[11] = $own["highUp"]." CUC";
+                $data[8] = $own["highUp"]." CUC";
 
             array_push($results, $data);
         }
@@ -88,22 +85,19 @@ class ExportToExcel {
         $sheet = $this->createSheet($excel, $sheetName);
         $sheet->setCellValue('a1', 'Propiedad');
         $sheet->setCellValue('b1', 'Habitaciones');
-        $sheet->setCellValue('c1', 'Propietario 1');
-        $sheet->setCellValue('d1', 'Propietario 2');
-        $sheet->setCellValue('e1', 'Teléfono');
-        $sheet->setCellValue('f1', 'Móvil');
-        $sheet->setCellValue('g1', 'Dirección');
-        $sheet->setCellValue('h1', 'Provincia');
-        $sheet->setCellValue('i1', 'Municipio');
-        $sheet->setCellValue('j1', 'Estado');
-        $sheet->setCellValue('k1', 'Temporada Baja');
-        $sheet->setCellValue('l1', 'Temporada Alta');
+        $sheet->setCellValue('c1', 'Propietario(s)');
+        $sheet->setCellValue('d1', 'Teléfono(s)');
+        $sheet->setCellValue('e1', 'Dirección');
+        $sheet->setCellValue('f1', 'Municipio');
+        $sheet->setCellValue('g1', 'Estado');
+        $sheet->setCellValue('h1', 'Temporada Baja');
+        $sheet->setCellValue('i1', 'Temporada Alta');
 
-        $sheet = $this->styleHeader("a1:l1", $sheet);
+        $sheet = $this->styleHeader("a1:i1", $sheet);
 
         $sheet->fromArray($data, ' ', 'A2');
 
-        $this->setColumnAutoSize("a", "l", $sheet);
+        $this->setColumnAutoSize("a", "i", $sheet);
         return $excel;
     }
 
