@@ -27,6 +27,7 @@ class generalReservation {
     const STATUS_PARTIAL_AVAILABLE = 4;
     const STATUS_PARTIAL_RESERVED = 5;
     const STATUS_CANCELLED = 6;
+    const STATUS_PARTIAL_CANCELLED = 7;
 
     /**
      * Contains all possible statuses
@@ -41,7 +42,8 @@ class generalReservation {
         self::STATUS_NOT_AVAILABLE,
         self::STATUS_PARTIAL_AVAILABLE,
         self::STATUS_PARTIAL_RESERVED,
-        self::STATUS_CANCELLED
+        self::STATUS_CANCELLED,
+        self::STATUS_PARTIAL_CANCELLED
     );
 
     /**
@@ -477,7 +479,7 @@ class generalReservation {
 
         return (self::STATUS_AVAILABLE === $status || self::STATUS_PARTIAL_AVAILABLE === $status);
     }
-    
+
     public function hasStatusReserved()
     {
         $status = $this->getGenResStatus();

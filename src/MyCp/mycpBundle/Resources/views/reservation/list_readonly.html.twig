@@ -135,9 +135,10 @@
                 {%set partially_available = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_AVAILABLE')%}
                 {%set partially_reserved = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_RESERVED')%}
                 {%set cancelled = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED')%}
+                {%set partially_cancelled = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_CANCELLED')%}
 
                 {% for reservation in reservations %}
-                <tr class="{% if reservation[0].gen_res_status==available %}warning{%endif%}{% if reservation[0].gen_res_status==reserved %}error{%endif%}{% if reservation[0].gen_res_status==not_available %}info{%endif%}">
+                <tr class="{% if reservation[0].gen_res_status==available %}warning{%endif%}{% if reservation[0].gen_res_status==reserved %}error{%endif%}{% if reservation[0].gen_res_status==not_available or reservation[0].gen_res_status==cancelled or reservation[0].gen_res_status==partially_cancelled%}info{%endif%}">
                     <td>{{reservation[0].gen_res_date |date("d/m/Y")}}</td>
                     <td>CAS.{{reservation[0].gen_res_id}}</td>
                     <td>{{reservation[1]}}</td>

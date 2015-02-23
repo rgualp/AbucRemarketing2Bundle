@@ -477,6 +477,7 @@ class BackendReservationController extends Controller {
         $details_total = 0;
         $available_total = 0;
         $non_available_total = 0;
+        $cancelled_total = 0;
         if ($request->getMethod() == 'POST') {
             $keys = array_keys($post);
 
@@ -491,10 +492,11 @@ class BackendReservationController extends Controller {
                 }
                 if (strpos($key, 'service_own_res_status') !== false) {
                     $details_total++;
-                    if ($post[$key] == ownershipReservation::STATUS_NOT_AVAILABLE) {
-                        $non_available_total++;
-                    } else if ($post[$key] == ownershipReservation::STATUS_AVAILABLE) {
-                        $available_total++;
+                    switch($post[$key])
+                    {
+                        case ownershipReservation::STATUS_NOT_AVAILABLE: $non_available_total++; break;
+                        case ownershipReservation::STATUS_AVAILABLE: $available_total++; break;
+                        case ownershipReservation::STATUS_CANCELLED: $cancelled_total++; break;
                     }
                 }
 
@@ -548,8 +550,6 @@ class BackendReservationController extends Controller {
                     $ownership_reservation->setOwnResStatus($post['service_own_res_status_' . $ownership_reservation->getOwnResId()]);
                     //$ownership_reservation->setOwnResRoomType($post['service_room_type_' . $ownership_reservation->getOwnResId()]);
 
-
-
                     $em->persist($ownership_reservation);
                 }
                 $message = 'Reserva actualizada satisfactoriamente.';
@@ -561,6 +561,12 @@ class BackendReservationController extends Controller {
                         $reservation->setGenResStatus(generalReservation::STATUS_AVAILABLE);
                     } else if ($non_available_total > 0 && $available_total > 0)
                         $reservation->setGenResStatus(generalReservation::STATUS_PARTIAL_AVAILABLE);
+                    else if($cancelled_total > 0 && $cancelled_total == $details_total){
+                        $reservation->setGenResStatus(generalReservation::STATUS_CANCELLED);
+                    }
+                    else if($cancelled_total > 0 && $cancelled_total != $details_total){
+                        $reservation->setGenResStatus(generalReservation::STATUS_PARTIAL_CANCELLED);
+                    }
                 }
                 $em->persist($reservation);
                 $em->flush();

@@ -11,6 +11,7 @@
 {% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_RESERVED') %} badge-important">Parcialmente {%if wrap is defined and not wrap%}<br/>{%endif%} Reservada{%endif%}
 {% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_NOT_AVAILABLE') %} badge-info">No disponible{%endif%}
 {% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED') %} badge-info">Cancelada{%endif%}
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_CANCELLED') %} badge-info">Parcialmente {%if wrap is defined and not wrap%}<br/>{%endif%} Cancelada{%endif%}
 {%if showInDiv%}
 </divs>
 {%else%}
