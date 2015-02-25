@@ -32,12 +32,12 @@ class TimeOutReservationCommand extends ContainerAwareCommand
         if($gen_reservations)
             foreach($gen_reservations as $gen_reservation)
             {
-                $gen_reservation->setGenResStatus(generalReservation::STATUS_NOT_AVAILABLE);
+                $gen_reservation->setGenResStatus(generalReservation::STATUS_OUTDATED);
                 $em->persist($gen_reservation);
                 $reservations=$em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id'=>$gen_reservation->getGenResId()));
                 foreach($reservations as $res)
                 {
-                    $res->setOwnResStatus(ownershipReservation::STATUS_NOT_AVAILABLE);
+                    $res->setOwnResStatus(ownershipReservation::STATUS_OUTDATED);
                     $em->persist($res);
                 }
             }

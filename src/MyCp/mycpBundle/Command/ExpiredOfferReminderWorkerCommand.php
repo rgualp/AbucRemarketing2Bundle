@@ -141,12 +141,13 @@ class ExpiredOfferReminderWorkerCommand extends Worker
         //$initialPayment = 0;
 
         //Set generalReservation status to Not Available
-        $generalReservation->setGenResStatus(generalReservation::STATUS_NOT_AVAILABLE);
+        $generalReservation->setGenResStatus(generalReservation::STATUS_OUTDATED);
+        $generalReservation->setGenResStatusDate(new \DateTime());
         $this->em->persist($generalReservation);
 
         foreach($ownershipReservations as $ownershipReservation)
         {
-            $ownershipReservation->setOwnResStatus(ownershipReservation::STATUS_NOT_AVAILABLE);
+            $ownershipReservation->setOwnResStatus(ownershipReservation::STATUS_OUTDATED);
             $this->em->persist($ownershipReservation);
 
             $photos = $this->em
