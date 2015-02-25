@@ -216,13 +216,23 @@ class generalReservationRepository extends EntityRepository {
         return $array_genres;
     }
 
-    function getAllBookings($filter_booking_number, $filter_date_booking, $filter_user_booking) {
+    function getAllBookings($filter_booking_number, $filter_date_booking, $filter_user_booking, $filter_arrive_date_booking) {
         $em = $this->getEntityManager();
 
         $filter_date_booking_array = explode('_', $filter_date_booking);
         if (count($filter_date_booking_array) > 1) {
             $filter_date_booking = $filter_date_booking_array[2] . '-' . $filter_date_booking_array[1] . '-' . $filter_date_booking_array[0];
         }
+
+        $filter_arrive_date_booking_array = explode('_', $filter_arrive_date_booking);
+        if (count($filter_arrive_date_booking_array) > 1) {
+            $filter_arrive_date_booking = $filter_arrive_date_booking_array[2] . '-' . $filter_arrive_date_booking_array[1] . '-' . $filter_arrive_date_booking_array[0];
+        }
+
+        $where_arrival = "";
+
+        if($filter_arrive_date_booking != "")
+            $where_arrival = "AND (SELECT min(ow1.own_res_reservation_from_date) FROM mycpBundle:ownershipReservation ow1 WHERE ow1.own_res_reservation_booking = booking.booking_id) = '$filter_arrive_date_booking'";
 
         $query = $em->createQuery("SELECT payment.created,
         payment.payed_amount,
@@ -236,6 +246,7 @@ class generalReservationRepository extends EntityRepository {
         WHERE booking.booking_id LIKE :filter_booking_number
         AND booking.booking_user_dates LIKE :filter_user_booking
         AND payment.created LIKE :filter_date_booking
+        $where_arrival
         ORDER BY payment.id DESC");
         return $query->setParameters(array(
                             'filter_booking_number' => "%" . $filter_booking_number . "%",

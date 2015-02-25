@@ -216,8 +216,9 @@ class BackendReservationController extends Controller {
         $filter_booking_number = $request->get('filter_booking_number');
         $filter_date_booking = $request->get('filter_date_booking');
         $filter_user_booking = $request->get('filter_user_booking');
+        $filter_arrive_date_booking = $request->get('filter_arrive_date_booking');
 
-        if ($request->getMethod() == 'POST' && $filter_booking_number == 'null' && $filter_date_booking == 'null' && $filter_user_booking == 'null') {
+        if ($request->getMethod() == 'POST' && $filter_booking_number == 'null' && $filter_date_booking == 'null' && $filter_user_booking == 'null' && $filter_arrive_date_booking == 'null') {
             $message = 'Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
             return $this->redirect($this->generateUrl('mycp_list_reservations_booking'));
@@ -229,6 +230,8 @@ class BackendReservationController extends Controller {
             $filter_date_booking = '';
         if ($filter_user_booking == 'null')
             $filter_user_booking = '';
+        if ($filter_arrive_date_booking == 'null')
+            $filter_arrive_date_booking = '';
 
         $page = 1;
         if (isset($_GET['page']))
@@ -238,11 +241,12 @@ class BackendReservationController extends Controller {
         $paginator->setItemsPerPage($items_per_page);
 
         $bookings = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
-                                ->getAllBookings($filter_booking_number, $filter_date_booking, $filter_user_booking))->getResult();
+                                ->getAllBookings($filter_booking_number, $filter_date_booking, $filter_user_booking, $filter_arrive_date_booking))->getResult();
         $service_log = $this->get('log');
         $service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
 
         $filter_date_booking = str_replace('_', '/', $filter_date_booking);
+        $filter_arrive_date_booking = str_replace('_', '/', $filter_arrive_date_booking);
 
         return $this->render('mycpBundle:reservation:list_booking.html.twig', array(
                     "bookings" => $bookings,
@@ -251,6 +255,7 @@ class BackendReservationController extends Controller {
                     'filter_booking_number' => $filter_booking_number,
                     'filter_date_booking' => $filter_date_booking,
                     'filter_user_booking' => $filter_user_booking,
+                    'filter_arrive_date_booking' => $filter_arrive_date_booking,
                     'total_items' => $paginator->getTotalItems(),
         ));
     }

@@ -1,5 +1,10 @@
 {% extends 'mycpBundle:layout:backend.html.twig' %}
 {% block title %}Administración{% endblock %}
+{%set number = (filter_booking_number == "") ? "null" : filter_booking_number%}
+{%set date = (filter_date_booking == "") ? "null" : filter_date_booking | replace("/", "_")%}
+{%set user = (filter_user_booking == "") ? "null" : filter_user_booking%}
+{%set arrive = (filter_arrive_date_booking == "") ? "null" : filter_arrive_date_booking | replace("/", "_")%}
+
 {% block top_body %}
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
@@ -23,14 +28,17 @@
             <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_list_reservations_booking')}}">
                 <div class="well well-small">
                     <div class="row-fluid">
-                        <div class="span3"><label>ID Booking:</label>
+                        <div class="span2"><label>ID Booking:</label>
                             <input id="filter_booking_number" name="filter_booking_number" type="text" class="input-block-level" value="{{ filter_booking_number }}"/>
                         </div>
-                        <div class="span3"><label>Fecha Booking:</label>
+                        <div class="span2"><label>Fecha Booking:</label>
                             <input id="filter_date_booking" name="filter_date_booking" type="text" class="datepicker input-block-level" value="{{ filter_date_booking }}"/>
                         </div>
-                        <div class="span4"><label>Usuario:</label>
+                        <div class="span3"><label>Usuario:</label>
                             <input id="filter_user_booking" name="filter_user_booking" type="text" class="input-block-level" value="{{ filter_user_booking }}"/>
+                        </div>
+                        <div class="span3"><label>Fecha Llegada:</label>
+                            <input id="filter_arrive_date_booking" name="filter_arrive_date_booking" type="text" class="datepicker input-block-level" value="{{ filter_arrive_date_booking }}"/>
                         </div>
                         <div class="span2">
                             <label>&nbsp;</label>
@@ -53,11 +61,11 @@
                         Mostrando del {{items_per_page * current_page - items_per_page}} al {% if items_per_page * current_page >  total_items%}{{total_items }}{% else %}{{ items_per_page * current_page }}{% endif %} de {{total_items}} registros
                     </div>
                     <div class="pull-right">
-                        Líneas por página:
-                        <a class="{% if items_per_page == 50 %}selected{% endif %}" href="{{ path('mycp_list_reservations_booking',{'items_per_page':50,'filter_booking_number':filter_booking_number,'filter_date_booking':filter_date_booking,'filter_user_booking':filter_user_booking})}}">50</a>
-                        <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_reservations_booking',{'items_per_page':100,'filter_booking_number':filter_booking_number,'filter_date_booking':filter_date_booking,'filter_user_booking':filter_user_booking})}}">100</a>
-                        <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_reservations_booking',{'items_per_page':300,'filter_booking_number':filter_booking_number,'filter_date_booking':filter_date_booking,'filter_user_booking':filter_user_booking})}}">300</a>
-                        <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_reservations_booking',{'items_per_page':500,'filter_booking_number':filter_booking_number,'filter_date_booking':filter_date_booking,'filter_user_booking':filter_user_booking})}}">500</a>
+                        Mostrar:
+                        <a class="{% if items_per_page == 50 %}selected{% endif %}" href="{{ path('mycp_list_reservations_booking',{'items_per_page':50,'filter_booking_number':number,'filter_date_booking':date ,'filter_user_booking':user,'filter_arrive_date_booking':arrive})}}">50</a>
+                        <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_reservations_booking',{'items_per_page':100})}}">100</a>
+                        <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_reservations_booking',{'items_per_page':300})}}">300</a>
+                        <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_reservations_booking',{'items_per_page':500})}}">500</a>
                         <input class="hidden" name="items_per_page" value="100">
                     </div>
                 </div>
@@ -72,7 +80,7 @@
                         'currentClass': 'current',
                         'firstPageText': 'Primera',
                         'lastPageText': 'Última',
-                        'route_params': {'items_per_page':items_per_page,'filter_booking_number':filter_booking_number,'filter_date_booking':filter_date_booking,'filter_user_booking':filter_user_booking}
+                        'route_params': {'items_per_page':items_per_page,'filter_booking_number':number,'filter_date_booking':date,'filter_user_booking':user,'filter_arrive_date_booking':arrive}
                         }) }}
                     </div>
                 </div>
@@ -122,7 +130,7 @@
                         'currentClass': 'current',
                         'firstPageText': 'Primera',
                         'lastPageText': 'Última',
-                        'route_params': {'items_per_page':items_per_page,'filter_booking_number':filter_booking_number,'filter_date_booking':filter_date_booking,'filter_user_booking':filter_user_booking}
+                        'route_params': {'items_per_page':items_per_page,'filter_booking_number':number,'filter_date_booking':date,'filter_user_booking':user,'filter_arrive_date_booking':arrive}
                         }) }}
                     </div>
                 </div>
@@ -166,8 +174,12 @@
         if(filter_date_booking=='')filter_date_booking='null';
         filter_user_booking=$('#filter_user_booking').val();
         if(filter_user_booking=='')filter_user_booking='null';
+        filter_arrive_date_booking=$('#filter_arrive_date_booking').val();
+        filter_arrive_date_booking=filter_arrive_date_booking.replace('/',"_");
+        filter_arrive_date_booking=filter_arrive_date_booking.replace('/',"_");
+        if(filter_arrive_date_booking=='')filter_arrive_date_booking='null';
         url_submit=$('#filter').attr('action');
-        url_submit=url_submit+'/'+items_per_page+'/'+filter_booking_number+'/'+filter_date_booking+'/'+filter_user_booking;
+        url_submit=url_submit+'/'+items_per_page+'/'+filter_booking_number+'/'+filter_date_booking+'/'+filter_user_booking+'/'+filter_arrive_date_booking;
         $('#filter').attr('action',url_submit);
         $('#filter').submit();
     }
