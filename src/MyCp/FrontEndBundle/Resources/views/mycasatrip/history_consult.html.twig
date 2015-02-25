@@ -16,8 +16,20 @@
 {% for res in res_contult %}
 <div class="row no-margin">
     <div class="col-sm-3">
-        <div data-text="&nbsp;&nbsp;&nbsp;{{'PENDING' | trans}}&nbsp;&nbsp;&nbsp;" class="thumbnail has-ribbon-grey has-ribbon has-ribbon-left">
-            {% if photos[loop.index0]%}
+        <div
+        {%if res.own_res_status == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_PENDING')%}
+         data-text="&nbsp;&nbsp;&nbsp;{{'PENDING' | trans}}&nbsp;&nbsp;&nbsp;" class="thumbnail has-ribbon-grey has-ribbon has-ribbon-left">
+        {%elseif res.own_res_status == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE')%}
+         data-text="&nbsp;&nbsp;&nbsp;{{'NOT_AVAILABLE' | trans}}&nbsp;&nbsp;&nbsp;" class="thumbnail has-ribbon-blue has-ribbon has-ribbon-left">
+        {%elseif res.own_res_status == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}
+         data-text="&nbsp;&nbsp;&nbsp;{{'CANCELLED' | trans}}&nbsp;&nbsp;&nbsp;" class="thumbnail has-ribbon-blue has-ribbon has-ribbon-left">
+        {%elseif res.own_res_status == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_AVAILABLE')%}
+         data-text="&nbsp;&nbsp;&nbsp;{{'AVAILABLE' | trans}}&nbsp;&nbsp;&nbsp;" class="thumbnail has-ribbon-orange has-ribbon has-ribbon-left">
+        {%elseif res.own_res_status == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_OUTDATED')%}
+         data-text="&nbsp;&nbsp;&nbsp;{{'OUTDATED' | trans}}&nbsp;&nbsp;&nbsp;" class="thumbnail has-ribbon-black has-ribbon has-ribbon-left">
+        {%else%}>
+        {%endif%}
+           {% if photos[loop.index0]%}
                 <a href="{{ path('frontend_details_ownership',{'own_name':res['own_res_gen_res_id']['gen_res_own_id']['own_name']  | urlNormalize}) }}">
                     <img class="lazy" data-src="{{ asset('uploads/ownershipImages/thumbnails/'~ photos[loop.index0]) }}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
                     <noscript><img class="nolazy" src="{{ asset('uploads/ownershipImages/thumbnails/'~ photos[loop.index0]) }}"></noscript>

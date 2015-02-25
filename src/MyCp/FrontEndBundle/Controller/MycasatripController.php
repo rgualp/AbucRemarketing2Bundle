@@ -262,7 +262,7 @@ class MycasatripController extends Controller {
         $new_date = strtotime('-30 day', strtotime($date));
         $new_date = \date('Y-m-j', $new_date);
         $string_sql = "AND gre.gen_res_date < '$new_date'";
-        $status_string = 'ownre.own_res_status =' . ownershipReservation::STATUS_PENDING;
+        $status_string = 'ownre.own_res_status <>' . ownershipReservation::STATUS_RESERVED;
 
         if ($this->getRequest()->getMethod() == 'POST') {
             $order_by = $request->get('mct_change_order');

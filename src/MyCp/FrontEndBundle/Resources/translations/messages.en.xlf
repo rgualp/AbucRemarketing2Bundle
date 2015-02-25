@@ -2691,6 +2691,10 @@
                 <source>ADDRESS_NUMBER</source>
                 <target>No.</target>
             </trans-unit>
+            <trans-unit id="683">
+                <source>OUTDATED</source>
+                <target>Outdated</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

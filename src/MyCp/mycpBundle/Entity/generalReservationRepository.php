@@ -316,7 +316,7 @@ class generalReservationRepository extends EntityRepository {
         $hour = date('G');
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT gre FROM mycpBundle:generalReservation gre
-        WHERE gre.gen_res_status = " . generalReservation::STATUS_AVAILABLE . " AND gre.gen_res_status_date = '$day' AND gre.gen_res_hour = '$hour'");
+        WHERE gre.gen_res_status = " . generalReservation::STATUS_AVAILABLE . " AND gre.gen_res_status_date <= '$day' AND gre.gen_res_hour = '$hour'");
         return $query->getResult();
     }
 
