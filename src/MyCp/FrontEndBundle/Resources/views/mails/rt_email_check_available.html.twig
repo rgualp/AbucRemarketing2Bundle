@@ -49,10 +49,18 @@ ID reserva: CAS.{{reservations[0].getOwnResGenResId.getGenResId}}
         {% endif %}
     </li>
     <li><b>Dirección:</b>
-        {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressStreet}}
+        Calle {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressStreet}}
         No. {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressNumber}}
-        e/ {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressBetweenStreet1}} y {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressBetweenStreet2}}. {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressProvince.getProvName}}, {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressMunicipality.getMunName}}</li>
-    <li><b>Teléfono:</b> (+53{{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressProvince.provPhoneCode}}) {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnPhoneNumber}}</li>
+        {%if reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressBetweenStreet1 != "" and reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressBetweenStreet2 != ""%}
+        e/ {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressBetweenStreet1}} y {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressBetweenStreet2}}.
+        {%else%}.{%endif%}
+        {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressMunicipality.getMunName}}, {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressProvince.getProvName}}
+    </li>
+    <li><b>Teléfono:</b>
+        {%if reservations[0].getOwnResGenResId.getGenResOwnId.getOwnPhoneNumber != ""%}
+        (+53) {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnAddressProvince.provPhoneCode}} {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnPhoneNumber}}
+        {%endif%}
+        </li>
     <li><b>Celular: </b>{{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnMobileNumber}}</li>
 </ul>
 </body>
