@@ -229,7 +229,8 @@ class generalReservationRepository extends EntityRepository {
         booking.booking_id,
         curr.curr_code,
         booking.booking_user_dates,
-        (SELECT min(co.co_name) FROM mycpBundle:user user JOIN user.user_country co WHERE user.user_id = booking.booking_user_id) as country
+        (SELECT min(co.co_name) FROM mycpBundle:user user JOIN user.user_country co WHERE user.user_id = booking.booking_user_id) as country,
+        (SELECT min(ow.own_res_reservation_from_date) FROM mycpBundle:ownershipReservation ow WHERE ow.own_res_reservation_booking = booking.booking_id) as arrivalDate
         FROM mycpBundle:payment payment JOIN payment.booking booking
         JOIN payment.currency curr
         WHERE booking.booking_id LIKE :filter_booking_number
