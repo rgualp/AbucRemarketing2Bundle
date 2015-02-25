@@ -5,4 +5,5 @@
 {% if status==constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_RESERVED') %} badge-important">Reservada{%endif%}
 {% if status==constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE') %} badge-info">No disponible{%endif%}
 {% if status==constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED') %} badge-info">Cancelada{%endif%}
+{% if status==constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_OUTDATED') %} badge-inverse">Vencida{%endif%}
 </div>

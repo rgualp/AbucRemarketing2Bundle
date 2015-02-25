@@ -483,6 +483,7 @@ class BackendReservationController extends Controller {
         $available_total = 0;
         $non_available_total = 0;
         $cancelled_total = 0;
+        $outdated_total = 0;
         if ($request->getMethod() == 'POST') {
             $keys = array_keys($post);
 
@@ -502,6 +503,7 @@ class BackendReservationController extends Controller {
                         case ownershipReservation::STATUS_NOT_AVAILABLE: $non_available_total++; break;
                         case ownershipReservation::STATUS_AVAILABLE: $available_total++; break;
                         case ownershipReservation::STATUS_CANCELLED: $cancelled_total++; break;
+                        case ownershipReservation::STATUS_OUTDATED: $outdated_total++; break;
                     }
                 }
 
@@ -572,6 +574,8 @@ class BackendReservationController extends Controller {
                     else if($cancelled_total > 0 && $cancelled_total != $details_total){
                         $reservation->setGenResStatus(generalReservation::STATUS_PARTIAL_CANCELLED);
                     }
+                    else if($outdated_total > 0 && $outdated_total == $details_total)
+                        $reservation->setGenResStatus(generalReservation::STATUS_OUTDATED);
                 }
                 $em->persist($reservation);
                 $em->flush();

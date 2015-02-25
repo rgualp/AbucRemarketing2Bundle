@@ -23,6 +23,7 @@ class ownershipReservation {
     const STATUS_NOT_AVAILABLE = 3;
     const STATUS_CANCELLED = 4;
     const STATUS_RESERVED = 5;
+    const STATUS_OUTDATED = 6;
 
     /**
      * Contains all possible statuses
@@ -36,6 +37,7 @@ class ownershipReservation {
         self::STATUS_NOT_AVAILABLE,
         self::STATUS_CANCELLED,
         self::STATUS_RESERVED,
+        self::STATUS_OUTDATED
     );
 
     /**
@@ -510,7 +512,7 @@ class ownershipReservation {
         return ($this->own_res_room_type == "Habitación Triple") &&
                 ($this->own_res_count_adults + $this->own_res_count_childrens >= 3);
     }
-    
+
     public function hasStatusReserved()
     {
         $status = $this->getOwnResStatus();

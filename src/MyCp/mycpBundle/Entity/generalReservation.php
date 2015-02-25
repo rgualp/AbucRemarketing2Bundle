@@ -28,6 +28,7 @@ class generalReservation {
     const STATUS_PARTIAL_RESERVED = 5;
     const STATUS_CANCELLED = 6;
     const STATUS_PARTIAL_CANCELLED = 7;
+    const STATUS_OUTDATED = 8;
 
     /**
      * Contains all possible statuses
@@ -43,7 +44,8 @@ class generalReservation {
         self::STATUS_PARTIAL_AVAILABLE,
         self::STATUS_PARTIAL_RESERVED,
         self::STATUS_CANCELLED,
-        self::STATUS_PARTIAL_CANCELLED
+        self::STATUS_PARTIAL_CANCELLED,
+        self::STATUS_OUTDATED
     );
 
     /**

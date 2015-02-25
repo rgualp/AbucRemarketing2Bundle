@@ -20,8 +20,9 @@
     <button rel="tooltip" title="Cancelar los cambios realizados" class="tooltip_msg btn" type="reset">Cancelar</button>
     &nbsp;&nbsp;&nbsp;
     <button rel="tooltip" title="Enviar por correo la reservación al cliente" {% if reservation.getGenResSaved!=0 %} onclick="send_message();" {% endif %}class="tooltip_msg {% if reservation.getGenResSaved==0 %}disabled{% endif %} btn btn-danger" type="{% if reservation.getGenResSaved!=0 %}submit{% else %}button{% endif %}">Enviar</button>
+    {%if reservation.genResStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED')%}
     <a rel="tooltip" title="Gestionar una nueva oferta para el cliente" href="{{ path('mycp_new_offer_reservation',{ 'id_tourist' :  reservation.getGenResUserId.getUserId,'id_reservation' :  reservation.getGenResId }) }}" class="tooltip_msg btn btn-success">Nueva Oferta</a>
-
+    {%endif%}
     {%if reservation.genResStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED')%}
         <a href="{{ path('mycp_send_voucher_reservation',{ 'id_reservation' :  reservation.getGenResId }) }}" rel="tooltip" title="Enviar el voucher asociado al equipo de reservación" class="tooltip_msg btn btn-warning">Recibir Voucher</a>
     {%endif%}
@@ -30,7 +31,7 @@
 {% endblock %}
 {% block content %}
 <h2>
-    Reserva CAS.{{reservation.genResId}} ({{ reservation.getGenResOwnId.getOwnMcpCode }} {{ reservation.getGenResOwnId.getOwnName }}) 
+    Reserva CAS.{{reservation.genResId}} ({{ reservation.getGenResOwnId.getOwnMcpCode }} {{ reservation.getGenResOwnId.getOwnName }})
     {{ render(controller('mycpBundle:BackendReservation:getGeneralReservationStatusName', {'status': reservation.genresstatus, 'showInDiv': false})) }}</h2>
 <hr/>
 {% if errors %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
