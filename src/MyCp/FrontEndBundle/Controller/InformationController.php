@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class InformationController extends Controller {
 
-     public function about_usAction(Request $request) {
+     public function aboutUsAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $numbers=$em->getRepository('mycpBundle:information')->getNumbers();
         $numbers=$numbers[0];
@@ -26,7 +26,7 @@ class InformationController extends Controller {
         return $this->render('FrontEndBundle:information:sitemap.html.twig');
     }
 
-    public function how_it_worksAction()
+    public function howItWorksAction()
     {
         $locale=$this->get('translator')->getLocale();
         $em = $this->getDoctrine()->getManager();
@@ -42,7 +42,7 @@ class InformationController extends Controller {
         return $this->render('FrontEndBundle:information:howItWorks.html.twig' , array('contents'=>$content));
     }
 
-    public function legal_termsAction()
+    public function legalTermsAction()
     {
         $locale=$this->get('translator')->getLocale();
         $em = $this->getDoctrine()->getManager();
@@ -56,7 +56,7 @@ class InformationController extends Controller {
 
     }
 
-    public function security_privacityAction()
+    public function securityPrivacityAction()
     {
         $locale=$this->get('translator')->getLocale();
         $em = $this->getDoctrine()->getManager();
