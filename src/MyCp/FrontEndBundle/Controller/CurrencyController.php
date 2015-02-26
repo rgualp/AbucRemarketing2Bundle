@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 class CurrencyController extends Controller
 {
 
-    public function get_currenciesAction(Request $request, $params, $route, $routeParams = null)
+    public function getCurrenciesAction(Request $request, $params, $route, $routeParams = null)
     {
         $em = $this->getDoctrine()->getManager();
         $currencies = $em->getRepository('mycpBundle:currency')->findAll();
@@ -28,7 +28,7 @@ class CurrencyController extends Controller
         return $response;
     }
 
-    public function change_currencyAction(Request $request,
+    public function changeCurrencyAction(Request $request,
                                           $currencyCode,
                                           $route,
                                           $routeParams = null)

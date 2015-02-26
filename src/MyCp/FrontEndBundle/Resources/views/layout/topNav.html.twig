@@ -42,7 +42,7 @@
                     <a title="{{"CURRENCY" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-curr-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/>
                         {{(app.session.get('curr_acronym') == null or app.session.get('curr_acronym') == "") ? default_currency().currcode|upper : app.session.get('curr_acronym')|upper}} <b class="caret caret-new"></b></a>
                     <ul class="dropdown-menu">
-                        {{ render_esi(controller('FrontEndBundle:Currency:get_currencies', {'params': app.request.attributes.all, 'route': route, 'routeParams': routeParams})) }}
+                        {{ render_esi(controller('FrontEndBundle:Currency:getCurrencies', {'params': app.request.attributes.all, 'route': route, 'routeParams': routeParams})) }}
                     </ul>
                 </li>
                 <li class="nav-divider pull-right">&nbsp;</li>
