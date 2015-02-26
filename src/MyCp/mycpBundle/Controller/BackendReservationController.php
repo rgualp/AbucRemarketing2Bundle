@@ -22,6 +22,7 @@ class BackendReservationController extends Controller {
     public function new_offerAction($id_tourist, $id_reservation) {
 
         $em = $this->getDoctrine()->getManager();
+        $service_time = $this->get('time');
         $user = $em->getRepository('mycpBundle:user')->find($id_tourist);
         $tourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array("user_tourist_user" => $id_tourist));
         $gen_res = $em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
@@ -29,6 +30,13 @@ class BackendReservationController extends Controller {
         $bookings = $em->getRepository("mycpBundle:booking")->getByGeneralReservation($id_reservation);
         $idProv = $gen_res->getGenResOwnId()->getOwnAddressProvince();
         $ownerships = $em->getRepository('mycpBundle:ownership')->findBy(array('own_address_province' => $idProv));
+        $array_nights = array();
+        $rooms = array();
+        foreach ($reservations as $res) {
+            $dates_temp = $service_time->datesBetween($res->getOwnResReservationFromDate()->getTimestamp(), $res->getOwnResReservationToDate()->getTimestamp());
+            array_push($rooms, $em->getRepository('mycpBundle:room')->find($res->getOwnResSelectedRoomId()));
+            array_push($array_nights, count($dates_temp) - 1);
+        }
 
         if ($this->getRequest()->getMethod() == 'POST') {
             $request = $this->getRequest();
@@ -135,7 +143,10 @@ class BackendReservationController extends Controller {
                     'user' => $user,
                     'tourist' => $tourist,
                     'ownerships' => $ownerships,
-                    'bookings' => $bookings
+                    'bookings' => $bookings,
+                    'reservations' => $reservations,
+                    'rooms' => $rooms,
+                    'nights' => $array_nights
         ));
     }
 
