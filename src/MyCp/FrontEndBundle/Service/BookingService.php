@@ -80,17 +80,17 @@ class BookingService extends Controller
         $payments = array();
         $ownResDistinct = $em
             ->getRepository('mycpBundle:ownershipReservation')
-            ->get_by_id_booking($bookingId);
+            ->getByBooking($bookingId);
 
         foreach ($ownResDistinct as $own_r) {
             $ownResRooms[$own_r["id"]] = $em
                 ->getRepository('mycpBundle:ownershipReservation')
-                ->get_rooms_by_accomodation($bookingId, $own_r["id"]);
+                ->getRoomsByAccomodation($bookingId, $own_r["id"]);
 
             $ownCommission = $own_r["commission_percent"];
             $ownReservations = $em
                 ->getRepository('mycpBundle:ownershipReservation')
-                ->get_reservations_by_booking_and_ownership($bookingId,$own_r["id"]);
+                ->getByBookingAndOwnership($bookingId,$own_r["id"]);
             $totalPrice = 0;
             $totalPercentPrice = 0;
 
@@ -447,7 +447,7 @@ class BookingService extends Controller
                     $logger->error($e->getMessage());
                 }
             }
-            
+
             //Suscripción al evento para feedback
             $dispatcher = $this->get('event_dispatcher');
             $eventData = new \MyCp\mycpBundle\JobData\GeneralReservationJobData($owns[0]->getOwnResGenResId());
@@ -474,9 +474,9 @@ class BookingService extends Controller
                 $generalReservation = $own->getOwnResGenResId();
                 $generalReservation->setGenResStatus(generalReservation::STATUS_RESERVED);
                 $own->setOwnResStatus(ownershipReservation::STATUS_RESERVED);
-                $this->em->persist($generalReservation);                
+                $this->em->persist($generalReservation);
                 $this->em->flush();
-                
+
                 $ownership = $generalReservation->getGenResOwnId();
                 $this->em->getRepository("mycpBundle:ownership")->updateRanking($ownership);
             }

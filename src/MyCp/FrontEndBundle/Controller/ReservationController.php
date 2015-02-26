@@ -234,7 +234,7 @@ class ReservationController extends Controller {
                 }
                 $em->flush();
                 $request->getSession()->set('reservation_own_ids', null);
-                $all_own_available = $em->getRepository('mycpBundle:ownershipReservation')->find_by_user_and_status_object($user->getUserId(), 1);
+                $all_own_available = $em->getRepository('mycpBundle:ownershipReservation')->getByUserAndStatus($user->getUserId(), 1);
 
                 /* foreach ($all_own_available as $own) {
                   $own->

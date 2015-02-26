@@ -447,7 +447,7 @@ class BackendReservationController extends Controller {
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
-                $em->getRepository('mycpBundle:ownershipReservation')->new_reservation($post);
+                $em->getRepository('mycpBundle:ownershipReservation')->insert($post);
                 $message = 'Reserva añadida satisfactoriamente.';
                 $ownership = $em->getRepository('mycpBundle:ownership')->find($post['reservation_ownership']);
 
@@ -785,10 +785,10 @@ class BackendReservationController extends Controller {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
-        $reservation = $em->getRepository('mycpBundle:ownershipReservation')->get_reservation_by_id($id_reservation);
+        $reservation = $em->getRepository('mycpBundle:ownershipReservation')->getById($id_reservation);
 
         $user_id = $reservation[0]['own_res_gen_res_id']['gen_res_user_id']['user_id'];
-        $reservations_user = $em->getRepository('mycpBundle:ownershipReservation')->get_reservations_by_id_user($user_id);
+        $reservations_user = $em->getRepository('mycpBundle:ownershipReservation')->getReservationsByIdUser($user_id);
 
         $data['total'] = 0;
         $data['post'] = 0;
@@ -836,7 +836,7 @@ class BackendReservationController extends Controller {
             }
 
             if ($count_errors == 0) {
-                $em->getRepository('mycpBundle:ownershipReservation')->edit_reservation($reservation[0], $post);
+                $em->getRepository('mycpBundle:ownershipReservation')->edit($reservation[0], $post);
                 $message = 'Reserva actualizada satisfactoriamente.';
                 $ownership = $em->getRepository('mycpBundle:ownership')->find($post['ownership']);
 

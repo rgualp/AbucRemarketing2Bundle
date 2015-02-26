@@ -299,7 +299,7 @@ class MycasatripController extends Controller {
     function get_menu_countAction($menu_selected) {
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
-        $counts = $em->getRepository('mycpBundle:ownershipReservation')->find_count_for_menu($user->getUserId());
+        $counts = $em->getRepository('mycpBundle:ownershipReservation')->countForMenu($user->getUserId());
         //var_dump($counts); exit();
         return $this->render('FrontEndBundle:mycasatrip:menu.html.twig', array('menu' => $menu_selected, 'counts' => $counts[0]));
     }

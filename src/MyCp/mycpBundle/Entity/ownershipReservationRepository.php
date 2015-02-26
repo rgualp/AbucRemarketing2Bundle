@@ -61,7 +61,7 @@ class ownershipReservationRepository extends EntityRepository {
         return $query->getArrayResult();
     }
 
-    function get_reservations_by_id_user($id_user) {
+    function getReservationsByIdUser($id_user) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT ore,gre FROM mycpBundle:ownershipReservation ore JOIN ore.own_res_gen_res_id gre
         WHERE gre.gen_res_user_id = :id_user");
@@ -113,14 +113,14 @@ class ownershipReservationRepository extends EntityRepository {
         return $query->setParameter('start', $startParam)->setParameter('end', $endParam)->setParameter('own_id', $ownership)->getResult();
     }
 
-    function get_reservations_by_booking_and_ownership($id_booking, $own_id) {
+    function getByBookingAndOwnership($id_booking, $own_id) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT ore FROM mycpBundle:ownershipReservation ore JOIN ore.own_res_gen_res_id gre
         WHERE ore.own_res_reservation_booking = :id_booking and gre.gen_res_own_id = :id_own");
         return $query->setParameter('id_booking', $id_booking)->setParameter('id_own', $own_id)->getResult();
     }
 
-    function get_by_id_booking($id_booking) {
+    function getByBooking($id_booking) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT DISTINCT
             o.own_id as id,
@@ -147,7 +147,7 @@ class ownershipReservationRepository extends EntityRepository {
         return $query->setParameter('id_booking', $id_booking)->getArrayResult();
     }
 
-    function get_rooms_by_accomodation($id_booking, $own_id) {
+    function getRoomsByAccomodation($id_booking, $own_id) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT ore.own_res_room_type,
             ore.own_res_reservation_from_date,
@@ -160,7 +160,7 @@ class ownershipReservationRepository extends EntityRepository {
         return $query->setParameter('id_booking', $id_booking)->setParameter('id_own', $own_id)->getArrayResult();
     }
 
-    function get_reservation_by_id($id_reservation) {
+    function getById($id_reservation) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT ore,gre,us, ow,owm,owp,uc FROM mycpBundle:ownershipReservation ore
         JOIN ore.own_res_gen_res_id gre JOIN gre.gen_res_user_id us JOIN ore.own_res_own_id ow
@@ -170,7 +170,7 @@ class ownershipReservationRepository extends EntityRepository {
         return $query->setParameter('id_reservation', $id_reservation)->getArrayResult();
     }
 
-    function edit_reservation($reservation, $data) {
+    function edit($reservation, $data) {
         $em = $this->getEntityManager();
         $reservation = $em->getRepository('mycpBundle:ownershipReservation')->find($reservation['own_res_id']);
         $ownership = $em->getRepository('mycpBundle:ownership')->find($data['ownership']);
@@ -190,7 +190,7 @@ class ownershipReservationRepository extends EntityRepository {
         $em->flush();
     }
 
-    function new_reservation($data) {
+    function insert($data) {
         $em = $this->getEntityManager();
         $ownership = $em->getRepository('mycpBundle:ownership')->findBy(array('own_id' => $data['reservation_ownership']));
         $user = $em->getRepository('mycpBundle:user')->findBy(array('user_id' => $data['user']));
@@ -245,7 +245,7 @@ class ownershipReservationRepository extends EntityRepository {
         return $query->getArrayResult();
     }
 
-    function find_count_for_menu($id_user) {
+    function countForMenu($id_user) {
         $date = \date('Y-m-j');
         $new_date = strtotime('-30 day', strtotime($date));
         $new_date = \date('Y-m-j', $new_date);
@@ -283,7 +283,7 @@ class ownershipReservationRepository extends EntityRepository {
         return $query->getScalarResult();
     }
 
-    function find_by_user_and_status_object($id_user, $status) {
+    function getByUserAndStatus($id_user, $status) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT ownre FROM mycpBundle:ownershipReservation ownre JOIN ownre.own_res_gen_res_id genres
         WHERE genres.gen_res_user_id= :id_user AND ownre.own_res_status= :status");
@@ -325,6 +325,5 @@ class ownershipReservationRepository extends EntityRepository {
         WHERE (ore.own_res_status = $reservedCode) AND (ore.own_res_reservation_from_date >= :start OR ore.own_res_reservation_to_date <= :end) AND gre.gen_res_id = :gen_res_id");
         return $query->setParameter('start', $startParam)->setParameter('end', $endParam)->setParameter('gen_res_id', $genRes)->getResult();
     }
-
 
 }
