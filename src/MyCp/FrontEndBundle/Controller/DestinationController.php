@@ -21,7 +21,7 @@ class DestinationController extends Controller {
             'des_categories_lang'=>$categories_lang));
     }
 
-    public function get_map_by_provinceAction()
+    public function getMapByProvinceAction()
     {
         $em = $this->getDoctrine()->getManager();
         $dest_location = $em->getRepository('mycpBundle:destinationLocation')->findAll();
@@ -30,7 +30,7 @@ class DestinationController extends Controller {
         ));
     }
 
-    public function popular_listAction() {
+    public function popularListAction() {
         $em = $this->getDoctrine()->getManager();
         $locale = $this->get('translator')->getLocale();
         $users_id = $em->getRepository('mycpBundle:user')->getIds($this);
@@ -137,7 +137,7 @@ class DestinationController extends Controller {
         ));
     }
 
-    public function owns_nearby_callbackAction($destination_name,$destination_id) {
+    public function ownsNearbyCallbackAction($destination_name,$destination_id) {
         $request = $this->getRequest();
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
@@ -168,7 +168,7 @@ class DestinationController extends Controller {
         return new Response($response, 200);
     }
 
-    public function byprovinceAction()
+    public function byProvinceAction()
     {
         $request = $this->getRequest();
         $em = $this->getDoctrine()->getManager();
@@ -214,7 +214,7 @@ class DestinationController extends Controller {
         return new Response($response, 200);
     }
 
-    public function search_change_view_resultsAction($destination_name,$destination_id) {
+    public function searchChangeViewResultsAction($destination_name,$destination_id) {
         $request = $this->getRequest();
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();

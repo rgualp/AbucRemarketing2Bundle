@@ -1,14 +1,14 @@
 frontend_list_destinations:
     locales:  { en: "/destinations/", es: "/destinos/", de: "/reiseziele/", }
-    defaults: { _controller:FrontEndBundle:Destination:popular_list }
+    defaults: { _controller:FrontEndBundle:Destination:popularList }
 
 frontend_filter_by_municipality_destinations:
     pattern:  /destinations/{province_id}/{municipality_id}/
-    defaults: { _controller:FrontEndBundle:Destination:popular_list }
+    defaults: { _controller:FrontEndBundle:Destination:popularList }
 
 frontend_filter_by_province_destinations:
     pattern:  /destinations/{province_id}/
-    defaults: { _controller:FrontEndBundle:Destination:popular_list }
+    defaults: { _controller:FrontEndBundle:Destination:popularList }
 
 frontend_details_destination:
     locales:  { en: "/destination/{destination_name}", es: "/destino/{destination_name}", de: "/reiseziel/{destination_name}" }
@@ -20,12 +20,12 @@ frontend_filter_destination:
 
 frontend_nearby_destination:
     pattern:  /owns-nearby/{destination_name}/{destination_id}
-    defaults: { _controller:FrontEndBundle:Destination:owns_nearby_callback }
+    defaults: { _controller:FrontEndBundle:Destination:ownsNearbyCallback }
 
 frontend_change_view_destination_callback:
     pattern:  /change-results-view/{destination_name}/{destination_id}
-    defaults: { _controller:FrontEndBundle:Destination:search_change_view_results }
+    defaults: { _controller:FrontEndBundle:Destination:searchChangeViewResults }
 
 frontend_byprovince_destination_callback:
     pattern:  /byprovince
-    defaults: { _controller:FrontEndBundle:Destination:byprovince }
+    defaults: { _controller:FrontEndBundle:Destination:byProvince }
