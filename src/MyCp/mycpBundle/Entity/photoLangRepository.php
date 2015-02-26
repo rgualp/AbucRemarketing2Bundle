@@ -13,7 +13,7 @@ use MyCp\mycpBundle\Entity\photoLang;
  */
 class photoLangRepository extends EntityRepository
 {
-    public function insert_photo_lang($data,$id_photo)
+    public function insert($data,$id_photo)
     {
         $em = $this->getEntityManager();
         $keys=array_keys($data);

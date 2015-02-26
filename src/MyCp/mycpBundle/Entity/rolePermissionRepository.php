@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class rolePermissionRepository extends EntityRepository
 {
-    function get_permissions_by_role($id_role)
+    function getByRole($id_role)
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT rp,per FROM mycpBundle:rolePermission rp JOIN rp.rp_permission per

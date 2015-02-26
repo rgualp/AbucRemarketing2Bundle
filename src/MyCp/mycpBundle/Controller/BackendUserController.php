@@ -214,7 +214,7 @@ class BackendUserController extends Controller {
             $data_user['ownership'] = $user_casa->getUserCasaOwnership()->getOwnId();
             $data_user['phone'] = "";
             $data_user['user_id'] = $user_casa->getUserCasaUser()->getUserId();
-            $data_user['user_enabled'] = $user_casa->getUserCasaUser()->getUserEnabled(); 
+            $data_user['user_enabled'] = $user_casa->getUserCasaUser()->getUserEnabled();
 
             $form->setData($data_user);
         }
@@ -560,7 +560,7 @@ class BackendUserController extends Controller {
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
 
-        $permissions = $em->getRepository('mycpBundle:rolePermission')->get_permissions_by_role($id_role);
+        $permissions = $em->getRepository('mycpBundle:rolePermission')->getByRole($id_role);
         $role = $em->getRepository('mycpBundle:role')->find($id_role);
         $role_parent = $em->getRepository('mycpBundle:role')->find($role->getRoleParent());
 
@@ -707,17 +707,17 @@ class BackendUserController extends Controller {
         try {
             $em = $this->getDoctrine()->getEntityManager();
             $em->getRepository('mycpBundle:user')->changeStatus($userId);
-            
+
             $message = 'Se ha modificado satisfactoriamente el estado del usuario casa asociado.';
             $this->get('session')->getFlashBag()->add('message_ok', $message);
-            
-            
-            
+
+
+
         } catch (\Exception $e) {
             $message = 'Ha ocurrido un error durante el cambio del estado del usuario casa asociado.';
             $this->get('session')->getFlashBag()->add('message_error_main', $message);
         }
-        
+
         return $this->redirect($this->generateUrl('mycp_list_ownerships'));
     }
 
