@@ -65,7 +65,7 @@ class FavoriteController extends Controller {
         return new Response($response, 200);
     }
 
-    public function details_insertAction() {
+    public function detailsInsertAction() {
         $request = $this->getRequest();
         $em = $this->getDoctrine()->getManager();
 
@@ -90,7 +90,7 @@ class FavoriteController extends Controller {
         return new Response($response, 200);
     }
 
-    public function details_deleteAction() {
+    public function detailsDeleteAction() {
         $request = $this->getRequest();
         $em = $this->getDoctrine()->getManager();
 
@@ -115,7 +115,7 @@ class FavoriteController extends Controller {
         return new Response($response, 200);
     }
 
-    public function delete_from_listAction() {
+    public function deleteFromListAction() {
         $request = $this->getRequest();
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);

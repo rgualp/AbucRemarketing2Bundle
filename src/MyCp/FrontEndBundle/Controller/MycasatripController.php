@@ -108,7 +108,7 @@ class MycasatripController extends Controller {
         ));
     }
 
-    public function update_favorites_statistics_callbackAction() {
+    public function updateFavoritesStatisticsCallbackAction() {
         $request = $this->getRequest();
         $session = $request->getSession();
 
