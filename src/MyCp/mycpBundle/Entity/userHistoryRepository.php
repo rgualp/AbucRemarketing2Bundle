@@ -28,7 +28,7 @@ class userHistoryRepository extends EntityRepository
         if ($user_ids["user_id"] != null)
             $user = $em->getRepository('mycpBundle:user')->find($user_ids["user_id"]);
 
-        $array_element = $this->get_from_history($user_ids, $element_id,$is_ownership);
+        $array_element = $this->getFromHistory($user_ids, $element_id,$is_ownership);
         $element = (count($array_element) >= 1) ? $array_element[0] : null;
         if($element == null)
         {
@@ -52,7 +52,7 @@ class userHistoryRepository extends EntityRepository
         }
     }
 
-     public function get_from_history($user_ids, $element_id, $is_ownership = true) {
+    public function getFromHistory($user_ids, $element_id, $is_ownership = true) {
         try {
             $em = $this->getEntityManager();
             $query_string = "SELECT h FROM mycpBundle:userHistory h ";
@@ -74,7 +74,7 @@ class userHistoryRepository extends EntityRepository
         }
     }
 
-    public function get_list($user_ids, $is_ownership = true, $max_results = null, $exclude_id_element = null) {
+    public function getList($user_ids, $is_ownership = true, $max_results = null, $exclude_id_element = null) {
         try {
             $em = $this->getEntityManager();
             $query_string = "SELECT h FROM mycpBundle:userHistory h ";
@@ -101,7 +101,7 @@ class userHistoryRepository extends EntityRepository
         }
     }
 
-    public function get_list_entity($user_ids, $is_ownership = true, $max_results = null, $exclude_id_element = null) {
+    public function getListEntity($user_ids, $is_ownership = true, $max_results = null, $exclude_id_element = null) {
         try {
             $em = $this->getEntityManager();
             $query_string = "SELECT h FROM mycpBundle:userHistory h ";
@@ -180,7 +180,7 @@ class userHistoryRepository extends EntityRepository
         $query->execute();*/
     }
 
-    public function get_history_destinations($user_id = null, $session_id = null, $max_results = null, $exclude_id_element = null) {
+    public function getDestinations($user_id = null, $session_id = null, $max_results = null, $exclude_id_element = null) {
         $where = "";
         $em = $this->getEntityManager();
         $query_string = "SELECT f, d.des_id as destination_id,
@@ -207,7 +207,7 @@ class userHistoryRepository extends EntityRepository
         return ($max_results != null) ? $em->createQuery($query_string.$where)->setMaxResults($max_results)->getResult() : $em->createQuery($query_string.$where)->getResult();
     }
 
-    public function get_history_ownerships($user_id = null, $session_id = null, $max_results = null, $exclude_id_element = null) {
+    public function getOwnerships($user_id = null, $session_id = null, $max_results = null, $exclude_id_element = null) {
         $where = "";
         $em = $this->getEntityManager();
         $query_string = "SELECT f, o.own_id as own_id,

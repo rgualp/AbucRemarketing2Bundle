@@ -376,13 +376,13 @@ class UserController extends Controller {
                 $ownership_favorities[$i]['photo'] = 'no_photo.png';
         }
 
-        $history_destinations = $em->getRepository('mycpBundle:userHistory')->get_history_destinations($user_ids["user_id"], $user_ids["session_id"], 4, $destination_id);
+        $history_destinations = $em->getRepository('mycpBundle:userHistory')->getDestinations($user_ids["user_id"], $user_ids["session_id"], 4, $destination_id);
         for ($i = 0; $i < count($history_destinations); $i++) {
             if (!file_exists(realpath("uploads/destinationImages/" . $history_destinations[$i]['photo'])))
                 $history_destinations[$i]['photo'] = 'no_photo.png';
         }
 
-        $history_owns = $em->getRepository('mycpBundle:userHistory')->get_history_ownerships($user_ids["user_id"], $user_ids["session_id"], 4, $ownership_id);
+        $history_owns = $em->getRepository('mycpBundle:userHistory')->getOwnerships($user_ids["user_id"], $user_ids["session_id"], 4, $ownership_id);
         for ($i = 0; $i < count($history_owns); $i++) {
             if (!file_exists(realpath("uploads/ownershipImages/" . $history_owns[$i]['photo'])))
                 $history_owns[$i]['photo'] = 'no_photo.png';

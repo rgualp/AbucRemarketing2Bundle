@@ -1506,7 +1506,7 @@ class OwnershipController extends Controller {
     public function last_owns_visitedAction($exclude_ownership_id = null) {
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
-        $history_owns = $em->getRepository('mycpBundle:userHistory')->get_list_entity($user_ids, true, 10, $exclude_ownership_id);
+        $history_owns = $em->getRepository('mycpBundle:userHistory')->getListEntity($user_ids, true, 10, $exclude_ownership_id);
         $history_owns_photos = $em->getRepository('mycpBundle:ownership')->getPhotosArray($history_owns);
 
         return $this->render('FrontEndBundle:ownership:historyOwnership.html.twig', array(
