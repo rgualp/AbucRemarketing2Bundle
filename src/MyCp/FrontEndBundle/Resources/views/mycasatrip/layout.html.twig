@@ -3,15 +3,15 @@
 {% block title %}MyCasaTrip{% endblock %}
 {% set main_tab = 6 %}
 {% block body %}
-<div  class="container">  
+<div  class="container">
  {% for message in app.session.flashbag.get('message') %}
   <div class="alert alert-info" style="margin-bottom: 10px">{{ message }}</div>
 {% endfor %}
-  
+
 {% if menu is not defined %}
    {% set menu = 0 %}
    {% endif %}
-    {{ render(controller('FrontEndBundle:Mycasatrip:get_menu_count', {'menu_selected': menu})) }}
+    {{ render(controller('FrontEndBundle:Mycasatrip:getMenuCount', {'menu_selected': menu})) }}
 
 {% block body_inner %}
    {% endblock %}

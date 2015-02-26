@@ -20,7 +20,7 @@ class MycasatripController extends Controller {
         return $this->redirect($this->generateUrl('frontend_mycasatrip_pending'));
     }
 
-    public function reservations_pendingAction($order_by, Request $request) {
+    public function pendingAction($order_by, Request $request) {
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
 
@@ -34,7 +34,7 @@ class MycasatripController extends Controller {
         if ($this->getRequest()->getMethod() == 'POST') {
             $order_by = $request->get('mct_change_order');
         }
-        $string_sql.=$this->get_order_by_sql($order_by);
+        $string_sql.=$this->getOrderBy($order_by);
 
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
@@ -60,7 +60,7 @@ class MycasatripController extends Controller {
         ));
     }
 
-    public function reservations_availableAction($order_by, Request $request) {
+    public function availableAction($order_by, Request $request) {
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
 
@@ -75,7 +75,7 @@ class MycasatripController extends Controller {
             $order_by = $request->get('mct_change_order');
         }
 
-        $string_sql.=$this->get_order_by_sql($order_by);
+        $string_sql.=$this->getOrderBy($order_by);
 
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
@@ -125,7 +125,7 @@ class MycasatripController extends Controller {
         return new Response($total, 200);
     }
 
-    public function reservations_reserveAction($order_by, Request $request) {
+    public function reserveAction($order_by, Request $request) {
         /* $user = $this->getUser();
           $em = $this->getDoctrine()->getManager();
 
@@ -140,7 +140,7 @@ class MycasatripController extends Controller {
           $order_by = $request->get('mct_change_order');
           }
 
-          $string_sql.=$this->get_order_by_sql($order_by);
+          $string_sql.=$this->getOrderBy($order_by);
 
           $res_available = $em->getRepository('mycpBundle:ownershipReservation')->findByUserAndStatus($user->getUserId(), $status_string, $string_sql);
 
@@ -162,7 +162,7 @@ class MycasatripController extends Controller {
           )); */
     }
 
-    public function history_reservations_reserveAction($order_by, Request $request) {
+    public function historyReserveAction($order_by, Request $request) {
 
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
@@ -178,7 +178,7 @@ class MycasatripController extends Controller {
             $order_by = $request->get('mct_change_order');
         }
 
-        $string_sql.=$this->get_order_by_sql($order_by);
+        $string_sql.=$this->getOrderBy($order_by);
 
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
@@ -210,7 +210,7 @@ class MycasatripController extends Controller {
         ));
     }
 
-    public function reservations_paymentAction($order_by, Request $request) {
+    public function paymentsAction($order_by, Request $request) {
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
 
@@ -221,7 +221,7 @@ class MycasatripController extends Controller {
             $order_by = $request->get('mct_change_order');
         }
 
-        $string_sql.=$this->get_order_by_sql($order_by);
+        $string_sql.=$this->getOrderBy($order_by);
 
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
@@ -253,7 +253,7 @@ class MycasatripController extends Controller {
         ));
     }
 
-    function history_reservation_consultAction($order_by, Request $request) {
+    function historyConsultAction($order_by, Request $request) {
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
 
@@ -268,7 +268,7 @@ class MycasatripController extends Controller {
             $order_by = $request->get('mct_change_order');
         }
 
-        $string_sql.=$this->get_order_by_sql($order_by);
+        $string_sql.=$this->getOrderBy($order_by);
 
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
@@ -296,7 +296,7 @@ class MycasatripController extends Controller {
         ));
     }
 
-    function get_menu_countAction($menu_selected) {
+    function getMenuCountAction($menu_selected) {
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
         $counts = $em->getRepository('mycpBundle:ownershipReservation')->countForMenu($user->getUserId());
@@ -304,7 +304,7 @@ class MycasatripController extends Controller {
         return $this->render('FrontEndBundle:mycasatrip:menu.html.twig', array('menu' => $menu_selected, 'counts' => $counts[0]));
     }
 
-    function get_order_by_sql($order_by) {
+    function getOrderBy($order_by) {
         $order_by_string = '';
         switch ($order_by) {
             case 0:
@@ -320,14 +320,11 @@ class MycasatripController extends Controller {
         return $order_by_string;
     }
 
-    /**
-     * Yanet
-     */
-    function favorites_destinationsAction() {
+    function favoritesDestinationsAction() {
         return $this->favoritesAction('destinations');
     }
 
-    function favorites_accomodationsAction() {
+    function favoritesAccomodationsAction() {
         return $this->favoritesAction('ownerships');
     }
 
