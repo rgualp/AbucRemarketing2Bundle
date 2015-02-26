@@ -11,53 +11,8 @@ use Doctrine\ORM\EntityRepository;
  * repository methods below.
  */
 class userRepository extends EntityRepository {
-    /* function new_user_casa($id_role, $data, $request, $dir, $factory) {
-      $em = $this->getEntityManager();
-      $user = new user();
-      $address = $data['mycp_mycpbundle_client_casatype']['address'];
-      $ownership = new ownership();
-      $ownership = $em->getRepository('mycpBundle:ownership')->find($data['mycp_mycpbundle_client_casatype']['ownership']);
-      $address = $data['mycp_mycpbundle_client_casatype']['address'];
-      $email = $data['mycp_mycpbundle_client_casatype']['email'];
-      $country = $em->getRepository('mycpBundle:country')->findBy(array('co_name' => 'Cuba'));
-      $user->setUserAddress($address);
-      $user->setUserCity($ownership->getOwnAddressMunicipality()->getMunName());
-      $user->setUserCountry($country[0]);
-      $user->setUserEmail($email);
-      $user->setUserCreatedByMigration(false);
-      $user->setUserPhone($ownership->getOwnPhoneCode() . ' ' . $ownership->getOwnPhoneNumber());
-      $user->setUserName($data['mycp_mycpbundle_client_casatype']['user_name']);
-      $user->setUserLastName($data['mycp_mycpbundle_client_casatype']['last_name']);
-      //$user->setUserCreationDate(new \DateTime());
-      $file = $request->files->get('mycp_mycpbundle_client_casatype');
-      if (isset($file['photo'])) {
-      $photo = new photo();
-      $fileName = uniqid('user-') . '-photo.jpg';
-      $file['photo']->move($dir, $fileName);
-      //Redimensionando la foto del usuario
-      \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 65);
 
-      $photo->setPhoName($fileName);
-      $user->setUserPhoto($photo);
-      $em->persist($photo);
-      }
-      $role = $em->getRepository('mycpBundle:role')->find($id_role);
-      $user->setUserRole('ROLE_CLIENT_CASA');
-      $user->setUserSubrole($role);
-      $user->setUserUserName($data['mycp_mycpbundle_client_casatype']['name']);
-      $encoder = $factory->getEncoder($user);
-      $password = $encoder->encodePassword($data['mycp_mycpbundle_client_casatype']['user_password']['Clave:'], $user->getSalt());
-      $user->setUserPassword($password);
-      $user_casa = new userCasa();
-      $user_casa->setUserCasaOwnership($ownership);
-      $user_casa->setUserCasaUser($user);
-      $em->persist($user);
-      $em->persist($user_casa);
-      $em->flush();
-      }
-     */
-
-    function short_edit_user($id_user, $request, $dir, $factory) {
+    function shortEdit($id_user, $request, $dir, $factory) {
         $post = $request->request->getIterator()->getArrayCopy();
         $em = $this->getEntityManager();
         $user = $em->getRepository('mycpBundle:user')->findOneBy(array('user_id' => $id_user));
@@ -134,216 +89,7 @@ class userRepository extends EntityRepository {
         return $user;
     }
 
-    function new_user_tourist($id_role, $request, $dir, $factory) {
-        $em = $this->getEntityManager();
-        $form_post = $request->get('mycp_mycpbundle_client_touristtype');
-
-        $lang = $em->getRepository('mycpBundle:lang')->find($form_post['language']);
-        $currency = $em->getRepository('mycpBundle:currency')->find($form_post['currency']);
-        $country = $em->getRepository('mycpBundle:country')->find($form_post['country']);
-        //var_dump($lang); exit();
-        $user = new user();
-        $user_tourist = new userTourist();
-
-        $user->setUserAddress($form_post['address']);
-        $user->setUserCity($form_post['city']);
-        $user->setUserCountry($country);
-        $user->setUserEmail($form_post['email']);
-        $user->setUserPhone($form_post['phone']);
-        $user->setUserName($form_post['user_name']);
-        $user->setUserLastName($form_post['last_name']);
-        $user->setUserCreatedByMigration(false);
-        $role = $em->getRepository('mycpBundle:role')->find($id_role);
-        $user->setUserRole('ROLE_CLIENT_TOURIST');
-        $user->setUserSubrole($role);
-        $user->setUserUserName($form_post['name']);
-        $encoder = $factory->getEncoder($user);
-        //$user->setUserCreationDate(new \DateTime());
-        $password = $encoder->encodePassword($form_post['user_password']['Clave:'], $user->getSalt());
-        $user->setUserPassword($password);
-        $user_tourist->setUserTouristCurrency($currency);
-        $user_tourist->setUserTouristLanguage($lang);
-        $user_tourist->setUserTouristUser($user);
-
-        $file = $request->files->get('mycp_mycpbundle_client_touristtype');
-        if (isset($file['photo'])) {
-            $photo = new photo();
-            $fileName = uniqid('user-') . '-photo.jpg';
-            $file['photo']->move($dir, $fileName);
-
-            //Redimensionando la foto del usuario
-            \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 65);
-
-            $photo->setPhoName($fileName);
-            $user->setUserPhoto($photo);
-            $em->persist($photo);
-        }
-        $em->persist($user);
-        $em->persist($user_tourist);
-        $em->flush();
-    }
-
-    function edit_user_tourist($id_user, $request, $dir, $factory) {
-        $post = $request->request->get('mycp_mycpbundle_client_touristtype');
-        $em = $this->getEntityManager();
-        $user_tourist = new userTourist();
-        $user_tourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $id_user));
-        if ($user_tourist == null) {
-            $user_tourist = new userTourist();
-            $user = $em->getRepository('mycpBundle:user')->findOneBy(array('user_id' => $id_user));
-            $user_tourist->setUserTouristUser($user);
-        }
-        $user_tourist->getUserTouristUser()->setUserName($post['user_name']);
-        $user_tourist->getUserTouristUser()->setUserAddress($post['address']);
-        $user_tourist->getUserTouristUser()->setUserEmail($post['email']);
-        $user_tourist->getUserTouristUser()->setUserUserName($post['name']);
-        $user_tourist->getUserTouristUser()->setUserLastName($post['last_name']);
-        $user_tourist->getUserTouristUser()->setUserPhone($post['phone']);
-        $user_tourist->getUserTouristUser()->setUserCity($post['city']);
-        $country = $em->getRepository('mycpBundle:country')->find($post['country']);
-        $currency = $em->getRepository('mycpBundle:currency')->find($post['currency']);
-        $language = $em->getRepository('mycpBundle:lang')->find($post['language']);
-        $user_tourist->getUserTouristUser()->setUserCountry($country);
-        $user_tourist->setUserTouristCurrency($currency);
-        $user_tourist->setUserTouristLanguage($language);
-
-        if ($post['user_password']['Clave:'] != '') {
-            $encoder = $factory->getEncoder($user_tourist->getUserTouristUser());
-            $password = $encoder->encodePassword($post['user_password']['Clave:'], $user_tourist->getUserTouristUser()->getSalt());
-            $user_tourist->getUserTouristUser()->setUserPassword($password);
-        }
-        $file = $request->files->get('mycp_mycpbundle_client_touristtype');
-        if (isset($file['photo'])) {
-            $user_photo = $user_tourist->getUserTouristUser()->getUserPhoto();
-            if ($user_photo != null) {
-                $photo_old = $em->getRepository('mycpBundle:photo')->find($user_photo->getPhoId());
-                if ($photo_old)
-                    $em->remove($photo_old);
-                @unlink($dir . $user_tourist->getUserTouristUser()->getUserPhoto()->getPhoName());
-            }
-
-            $photo = new photo();
-            $fileName = uniqid('user-') . '-photo.jpg';
-            $file['photo']->move($dir, $fileName);
-
-            //Redimensionando la foto del usuario
-            \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 65);
-
-            $photo->setPhoName($fileName);
-            $user_tourist->getUserTouristUser()->setUserPhoto($photo);
-            $em->persist($photo);
-        }
-        $em->persist($user_tourist);
-        $em->flush();
-    }
-
-    function new_user_partner($id_role, $request, $dir, $factory) {
-        $em = $this->getEntityManager();
-        $form_post = $request->get('mycp_mycpbundle_client_partnertype');
-
-        $lang = $em->getRepository('mycpBundle:lang')->find($form_post['language']);
-        $currency = $em->getRepository('mycpBundle:currency')->find($form_post['currency']);
-        $country = $em->getRepository('mycpBundle:country')->find($form_post['country']);
-
-        $user = new user();
-        $user_partner = new userPartner();
-
-        $user->setUserAddress($form_post['address']);
-        $user->setUserCity($form_post['city']);
-        $user->setUserCountry($country);
-        $user->setUserEmail($form_post['email']);
-        $user->setUserPhone($form_post['phone']);
-        $user->setUserName($form_post['user_name']);
-        $user->setUserLastName($form_post['user_name']);
-        $user->setUserCreatedByMigration(false);
-        $role = $em->getRepository('mycpBundle:role')->find($id_role);
-        $user->setUserRole('ROLE_CLIENT_PARTNER');
-        $user->setUserSubrole($role);
-        $user->setUserUserName($form_post['user_name']);
-        $encoder = $factory->getEncoder($user);
-        //$user->setUserCreationDate(new \DateTime());
-        $password = $encoder->encodePassword($form_post['user_password']['Clave:'], $user->getSalt());
-        $user->setUserPassword($password);
-        $user_partner->setUserPartnerCurrency($currency);
-        $user_partner->setUserPartnerLanguage($lang);
-        $user_partner->setUserPartnerUser($user);
-        $user_partner->setUserPartnerContactPerson($form_post['contact_person']);
-        $user_partner->setUserPartnerCompanyCode($form_post['company_code']);
-        $user_partner->setUserPartnerCompanyName($form_post['company_name']);
-
-        $file = $request->files->get('mycp_mycpbundle_client_partnertype');
-        if (isset($file['photo'])) {
-            $photo = new photo();
-            $fileName = uniqid('user-') . '-photo.jpg';
-            $file['photo']->move($dir, $fileName);
-
-            //Redimensionando la foto del usuario
-            \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 65);
-
-            $photo->setPhoName($fileName);
-            $user->setUserPhoto($photo);
-            $em->persist($photo);
-        }
-        $em->persist($user);
-        $em->persist($user_partner);
-        $em->flush();
-    }
-
-    function edit_user_partner($id_user, $request, $dir, $factory) {
-        $post = $request->request->get('mycp_mycpbundle_client_partnertype');
-        $em = $this->getEntityManager();
-        $user_partner = new userPartner();
-        $user_partner = $em->getRepository('mycpBundle:userPartner')->findBy(array('user_partner_user' => $id_user));
-        $user_partner = $user_partner[0];
-        $user_partner->getUserPartnerUser()->setUserName($post['user_name']);
-        $user_partner->getUserPartnerUser()->setUserAddress($post['address']);
-        $user_partner->getUserPartnerUser()->setUserEmail($post['email']);
-        $user_partner->getUserPartnerUser()->setUserUserName($post['user_name']);
-        $user_partner->getUserPartnerUser()->setUserLastName($post['user_name']);
-        $user_partner->getUserPartnerUser()->setUserPhone($post['phone']);
-        $user_partner->getUserPartnerUser()->setUserCity($post['city']);
-        $country = $em->getRepository('mycpBundle:country')->find($post['country']);
-        $currency = $em->getRepository('mycpBundle:currency')->find($post['currency']);
-        $language = $em->getRepository('mycpBundle:lang')->find($post['language']);
-        $user_partner->getUserPartnerUser()->setUserCountry($country);
-        $user_partner->setUserPartnerCurrency($currency);
-        $user_partner->setUserPartnerLanguage($language);
-        $user_partner->setUserPartnerCompanyCode($post['company_code']);
-        $user_partner->setUserPartnerCompanyName($post['company_name']);
-        $user_partner->setUserPartnerContactPerson($post['contact_person']);
-
-        if ($post['user_password']['Clave:'] != '') {
-            $encoder = $factory->getEncoder($user_partner->getUserPartnerUser());
-            $password = $encoder->encodePassword($post['user_password']['Clave:'], $user_partner->getUserPartnerUser()->getSalt());
-            $user_partner->getUserPartnerUser()->setUserPassword($password);
-        }
-        $file = $request->files->get('mycp_mycpbundle_client_partnertype');
-        if (isset($file['photo'])) {
-            $photo_user = $user_partner->getUserPartnerUser()->getUserPhoto();
-
-            if ($photo_user != null) {
-                $photo_old = $em->getRepository('mycpBundle:photo')->find($photo_user->getPhoId());
-                if ($photo_old)
-                    $em->remove($photo_old);
-                @unlink($dir . $user_partner->getUserPartnerUser()->getUserPhoto()->getPhoName());
-            }
-
-            $photo = new photo();
-            $fileName = uniqid('user-') . '-photo.jpg';
-            $file['photo']->move($dir, $fileName);
-
-            //Redimensionando la foto del usuario
-            \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 65);
-
-            $photo->setPhoName($fileName);
-            $user_partner->getUserPartnerUser()->setUserPhoto($photo);
-            $em->persist($photo);
-        }
-        $em->persist($user_partner);
-        $em->flush();
-    }
-
-    function new_user_staff($id_role, $request, $dir, $factory) {
+    function insertUserStaff($id_role, $request, $dir, $factory) {
         $em = $this->getEntityManager();
         $form_post = $request->get('mycp_mycpbundle_client_stafftype');
         $country = $em->getRepository('mycpBundle:country')->find($form_post['user_country']);
@@ -384,7 +130,7 @@ class userRepository extends EntityRepository {
         $em->flush();
     }
 
-    function edit_user_staff($id_user, $request, $dir, $factory) {
+    function editUserStaff($id_user, $request, $dir, $factory) {
         $post = $request->request->get('mycp_mycpbundle_client_stafftype');
         $em = $this->getEntityManager();
         $user = new user();
@@ -433,7 +179,7 @@ class userRepository extends EntityRepository {
         $em->flush();
     }
 
-    public function get_all_users($filter_user_name, $filter_role, $filter_city, $filter_country, $filter_name, $filter_last_name, $filter_email) {
+    public function getAll($filter_user_name, $filter_role, $filter_city, $filter_country, $filter_name, $filter_last_name, $filter_email) {
         $string_role = '';
         if ($filter_role != 'null' && $filter_role != '') {
             $string_role = "AND sr.role_name = :filter_role";
@@ -491,14 +237,7 @@ class userRepository extends EntityRepository {
         return $query->getResult();
     }
 
-    function get_roles_staff() {
-        $em = $this->getEntityManager();
-        $query = $em->createQuery("SELECT r FROM mycpBundle:role r
-        WHERE r.role_name LIKE 'ROLE_CLIENT_STAFF%'");
-        return $query->getResult();
-    }
-
-    public function user_ids($controller) {
+    public function getIds($controller) {
         $user_id = null;
         $session_id = null;
         $request = $controller->getRequest();
@@ -522,7 +261,7 @@ class userRepository extends EntityRepository {
         return array('user_id' => $user_id, 'session_id' => $session_id);
     }
 
-    public function get_session_id($controller) {
+    public function getSessionId($controller) {
         $session_id = null;
         $request = $controller->getRequest();
 
@@ -531,7 +270,7 @@ class userRepository extends EntityRepository {
         return $session_id;
     }
 
-    public function get_user_id($controller) {
+    public function getUserId($controller) {
         $user = $controller->get('security.context')->getToken()->getUser();
 
         if ($user != null && $user != "anon.")
@@ -540,7 +279,7 @@ class userRepository extends EntityRepository {
         return -1;
     }
 
-    public function get_session_id_with_request($request) {
+    public function getSessionIdWithRequest($request) {
         $session_id = null;
         if ($request->cookies->has("mycp_user_session"))
             $session_id = $request->cookies->get("mycp_user_session");

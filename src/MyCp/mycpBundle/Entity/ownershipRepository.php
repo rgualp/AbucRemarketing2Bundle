@@ -669,7 +669,7 @@ class ownershipRepository extends EntityRepository {
     function search($controller, $text = null, $arrivalDate = null, $leavingDate = null, $guest_total = 1, $rooms_total = 1, $order_by = 'BEST_VALUED', $room_filter = false, $filters = null) {
 
         $em = $this->getEntityManager();
-        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($controller);
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($controller);
         $user_id = $user_ids['user_id'];
         $session_id = $user_ids['session_id'];
 

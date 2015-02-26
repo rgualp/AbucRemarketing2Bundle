@@ -12,4 +12,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class roleRepository extends EntityRepository
 {
+    function getStaffRoles() {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT r FROM mycpBundle:role r
+        WHERE r.role_name LIKE 'ROLE_CLIENT_STAFF%'");
+        return $query->getResult();
+    }
 }

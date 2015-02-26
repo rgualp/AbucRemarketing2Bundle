@@ -359,7 +359,7 @@ class UserController extends Controller {
 
     public function info_tab_userAction($destination_id = null, $ownership_id = null) {
         $em = $this->getDoctrine()->getManager();
-        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
 
         $favorite_destinations = $em->getRepository('mycpBundle:favorite')->getFavoriteDestinations($user_ids["user_id"], $user_ids["session_id"], 4, $destination_id);
 

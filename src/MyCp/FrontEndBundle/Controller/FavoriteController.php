@@ -11,7 +11,7 @@ class FavoriteController extends Controller {
         $request = $this->getRequest();
         $em = $this->getDoctrine()->getManager();
 
-        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $favorite_type = $request->request->get("favorite_type");
         $element_id = $request->request->get("element_id");
         $list_preffix = $request->request->get("list_preffix");
@@ -40,7 +40,7 @@ class FavoriteController extends Controller {
         $request = $this->getRequest();
         $em = $this->getDoctrine()->getManager();
 
-        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $favorite_type = $request->request->get("favorite_type");
         $element_id = $request->request->get("element_id");
         $list_preffix = $request->request->get("list_preffix");
@@ -69,7 +69,7 @@ class FavoriteController extends Controller {
         $request = $this->getRequest();
         $em = $this->getDoctrine()->getManager();
 
-        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $favorite_type = $request->request->get("favorite_type");
         $element_id = $request->request->get("element_id");
 
@@ -94,7 +94,7 @@ class FavoriteController extends Controller {
         $request = $this->getRequest();
         $em = $this->getDoctrine()->getManager();
 
-        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $favorite_type = $request->request->get("favorite_type");
         $element_id = $request->request->get("element_id");
 
@@ -118,7 +118,7 @@ class FavoriteController extends Controller {
     public function delete_from_listAction() {
         $request = $this->getRequest();
         $em = $this->getDoctrine()->getManager();
-        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $session = $request->getSession();
 
         $favorite_type = $request->request->get("favorite_type");
@@ -164,7 +164,7 @@ class FavoriteController extends Controller {
     public function listAction() {
         $em = $this->getDoctrine()->getManager();
         $locale = $this->get('translator')->getLocale();
-        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
 
         if ($user_ids["user_id"] == null || $user_ids["user_id"] == "anon.") {
             $ownership_favorities = $em->getRepository('mycpBundle:favorite')->getFavoriteAccommodations($user_ids["user_id"], $user_ids["session_id"]);

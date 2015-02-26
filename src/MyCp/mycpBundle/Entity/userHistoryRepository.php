@@ -15,7 +15,7 @@ class userHistoryRepository extends EntityRepository
 {
     public function insert($is_ownership, $element_id, $user_ids) {
         $em = $this->getEntityManager();
-        //$user_ids = $em->getRepository('mycpBundle:user')->user_ids($controller);
+        //$user_ids = $em->getRepository('mycpBundle:user')->getIds($controller);
 
         $ownership = null;
         $user = null;

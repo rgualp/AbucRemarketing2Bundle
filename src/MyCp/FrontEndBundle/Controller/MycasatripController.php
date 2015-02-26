@@ -12,7 +12,7 @@ class MycasatripController extends Controller {
     public function homeAction() {
         /* $user = ﻿$this->getUser();
           $em = $this->getDoctrine()->getManager();
-          $session_id = $em->getRepository('mycpBundle:user')->get_session_id($this);
+          $session_id = $em->getRepository('mycpBundle:user')->getSessionId($this);
 
           if ($user != null && $user != "anon." && $session_id != null && $session_id != "")
           $em->getRepository('mycpBundle:favorite')->set_to_user($user->getUserId(), $session_id); */

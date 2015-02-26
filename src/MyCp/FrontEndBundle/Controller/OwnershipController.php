@@ -298,7 +298,7 @@ class OwnershipController extends Controller {
     public function detailsAction($own_name, Request $request) {
 
         $em = $this->getDoctrine()->getManager();
-        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $locale = $this->get('translator')->getLocale();
 
 
@@ -542,7 +542,7 @@ class OwnershipController extends Controller {
 
     public function last_added_listAction() {
         $em = $this->getDoctrine()->getManager();
-        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
 
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 15;
@@ -563,7 +563,7 @@ class OwnershipController extends Controller {
 
     public function categoryAction($category) {
         $em = $this->getDoctrine()->getManager();
-        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
 
         $real_category = $category;
 
@@ -1202,7 +1202,7 @@ class OwnershipController extends Controller {
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
         $markers_id_list = $request->request->get('own_ids');
-        $users_id = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $users_id = $em->getRepository('mycpBundle:user')->getIds($this);
 
         $own_ids = "0";
 
@@ -1505,7 +1505,7 @@ class OwnershipController extends Controller {
 
     public function last_owns_visitedAction($exclude_ownership_id = null) {
         $em = $this->getDoctrine()->getManager();
-        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $history_owns = $em->getRepository('mycpBundle:userHistory')->getListEntity($user_ids, true, 10, $exclude_ownership_id);
         $history_owns_photos = $em->getRepository('mycpBundle:ownership')->getPhotosArray($history_owns);
 
@@ -1517,7 +1517,7 @@ class OwnershipController extends Controller {
 
     public function near_by_destinationsAction($municipality_id, $province_id) {
         $em = $this->getDoctrine()->getManager();
-        $users_id = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $users_id = $em->getRepository('mycpBundle:user')->getIds($this);
 
         $destinations = $em->getRepository('mycpBundle:destination')->filter($municipality_id, $province_id, null, null, 3);
 

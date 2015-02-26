@@ -33,7 +33,7 @@ class DestinationController extends Controller {
     public function popular_listAction() {
         $em = $this->getDoctrine()->getManager();
         $locale = $this->get('translator')->getLocale();
-        $users_id = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $users_id = $em->getRepository('mycpBundle:user')->getIds($this);
         $dest_list = $em->getRepository('mycpBundle:destination')->getAllDestinations($locale, $users_id["user_id"], $users_id["session_id"]);
 
         return $this->render('FrontEndBundle:destination:listDestination.html.twig', array(
@@ -47,7 +47,7 @@ class DestinationController extends Controller {
         $request = $this->getRequest();
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
-        $users_id = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $users_id = $em->getRepository('mycpBundle:user')->getIds($this);
         $locale = $this->get('translator')->getLocale();
         $original_destination_name = $destination_name;
         $destination_name=str_replace('-',' ',$destination_name);
@@ -141,7 +141,7 @@ class DestinationController extends Controller {
         $request = $this->getRequest();
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
-        $users_id = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $users_id = $em->getRepository('mycpBundle:user')->getIds($this);
         $show_rows = $request->request->get('show_rows');
 
         if ($show_rows != null)
@@ -218,7 +218,7 @@ class DestinationController extends Controller {
         $request = $this->getRequest();
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
-        $users_id = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $users_id = $em->getRepository('mycpBundle:user')->getIds($this);
 
         $view = $request->request->get('view');
         $session->set('search_view_results_destination', $view);

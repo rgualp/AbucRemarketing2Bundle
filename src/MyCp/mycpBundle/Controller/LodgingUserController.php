@@ -40,7 +40,7 @@ class LodgingUserController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $factory = $this->get('security.encoder_factory');
         $dir=$this->container->getParameter('user.dir.photos');
-        $em->getRepository('mycpBundle:user')->short_edit_user($id_user,$request,$dir,$factory);
+        $em->getRepository('mycpBundle:user')->shortEdit($id_user,$request,$dir,$factory);
         $user_name = $em->getRepository('mycpBundle:user')->findOneBy(array('user_id' => $id_user))->getUserName();
         $message='Usuario actualizado satisfactoriamente.';
         $this->get('session')->getFlashBag()->add('message_ok',$message);

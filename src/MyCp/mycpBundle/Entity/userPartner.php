@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * userpartner
  *
  * @ORM\Table(name="userpartner")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\userPartnerRepository")
  */
 class userPartner
 {
@@ -66,7 +66,7 @@ class userPartner
     /**
      * Get user_partner_id
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserPartnerId()
     {
@@ -82,14 +82,14 @@ class userPartner
     public function setUserPartnerCompanyCode($userPartnerCompanyCode)
     {
         $this->user_partner_company_code = $userPartnerCompanyCode;
-    
+
         return $this;
     }
 
     /**
      * Get user_partner_company_code
      *
-     * @return string 
+     * @return string
      */
     public function getUserPartnerCompanyCode()
     {
@@ -105,14 +105,14 @@ class userPartner
     public function setUserPartnerCompanyName($userPartnerCompanyName)
     {
         $this->user_partner_company_name = $userPartnerCompanyName;
-    
+
         return $this;
     }
 
     /**
      * Get user_partner_company_name
      *
-     * @return string 
+     * @return string
      */
     public function getUserPartnerCompanyName()
     {
@@ -128,14 +128,14 @@ class userPartner
     public function setUserPartnerContactPerson($userPartnerContactPerson)
     {
         $this->user_partner_contact_person = $userPartnerContactPerson;
-    
+
         return $this;
     }
 
     /**
      * Get user_partner_contact_person
      *
-     * @return string 
+     * @return string
      */
     public function getUserPartnerContactPerson()
     {
@@ -151,14 +151,14 @@ class userPartner
     public function setUserPartnerCurrency(\MyCp\mycpBundle\Entity\currency $userPartnerCurrency = null)
     {
         $this->user_partner_currency = $userPartnerCurrency;
-    
+
         return $this;
     }
 
     /**
      * Get user_partner_currency
      *
-     * @return \MyCp\mycpBundle\Entity\currency 
+     * @return \MyCp\mycpBundle\Entity\currency
      */
     public function getUserPartnerCurrency()
     {
@@ -174,14 +174,14 @@ class userPartner
     public function setUserPartnerLanguage(\MyCp\mycpBundle\Entity\lang $userPartnerLanguage = null)
     {
         $this->user_partner_language = $userPartnerLanguage;
-    
+
         return $this;
     }
 
     /**
      * Get user_partner_language
      *
-     * @return \MyCp\mycpBundle\Entity\lang 
+     * @return \MyCp\mycpBundle\Entity\lang
      */
     public function getUserPartnerLanguage()
     {
@@ -197,14 +197,14 @@ class userPartner
     public function setUserPartnerUser(\MyCp\mycpBundle\Entity\user $userPartnerUser = null)
     {
         $this->user_partner_user = $userPartnerUser;
-    
+
         return $this;
     }
 
     /**
      * Get user_partner_user
      *
-     * @return \MyCp\mycpBundle\Entity\user 
+     * @return \MyCp\mycpBundle\Entity\user
      */
     public function getUserPartnerUser()
     {

@@ -103,7 +103,7 @@ class PublicController extends Controller {
 
     public function home_carrouselAction() {
         $em = $this->getDoctrine()->getManager();
-        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
 
         $popular_destinations_list = $em->getRepository('mycpBundle:destination')->getPopularDestinations(12, $user_ids['user_id'], $user_ids['session_id']);
         $last_added = $em->getRepository('mycpBundle:ownership')->lastAdded(12, $user_ids['user_id'], $user_ids['session_id']);

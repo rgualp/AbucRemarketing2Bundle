@@ -13,7 +13,7 @@ class CartController extends Controller {
 
     public function countCartItemsAction() {
         $em = $this->getDoctrine()->getManager();
-        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $countItems = $em->getRepository('mycpBundle:cart')->countItems($user_ids);
 
         return $this->render('FrontEndBundle:cart:cartCountItems.html.twig', array(
@@ -23,7 +23,7 @@ class CartController extends Controller {
 
     public function emptyCartAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
-        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $em->getRepository('mycpBundle:cart')->emptyCart($user_ids);
         $trans = $this->get('translator');
         $message = $trans->trans('CART_EMPTY_SUCCESSFUL');
@@ -60,7 +60,7 @@ class CartController extends Controller {
         $reservation_date_to = explode('&', $reservation_date_to);
         $end_timestamp = mktime(0, 0, 0, $reservation_date_to[1], $reservation_date_to[0], $reservation_date_to[2]);
 
-        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $cartItems = $em->getRepository('mycpBundle:cart')->getCartItems($user_ids);
         $showError = false;
 
@@ -164,7 +164,7 @@ class CartController extends Controller {
         $cartItem->setCartCreatedDate(new \DateTime());
         $em->persist($cartItem);
         $em->flush();
-        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $cartItems = $em->getRepository('mycpBundle:cart')->getCartItems($user_ids);
 
         foreach ($cartItems as $item) {
@@ -189,7 +189,7 @@ class CartController extends Controller {
           else
           $ownership = 0; */
 
-        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $countItems = $em->getRepository('mycpBundle:cart')->countItems($user_ids);
 
         return $this->render('FrontEndBundle:cart:cart.html.twig', array(
@@ -199,7 +199,7 @@ class CartController extends Controller {
 
     public function getCartBodyAction() {
         $em = $this->getDoctrine()->getManager();
-        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $cartItems = $em->getRepository('mycpBundle:cart')->getCartItems($user_ids);
 
         $min_date = 0;
@@ -273,7 +273,7 @@ class CartController extends Controller {
         $reservations = array();
         $own_ids = array();
         $array_photos = array();
-        $user_ids = $em->getRepository('mycpBundle:user')->user_ids($this);
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $cartItems = $em->getRepository('mycpBundle:cart')->getCartItems($user_ids);
         $min_date = null;
         $max_date = null;

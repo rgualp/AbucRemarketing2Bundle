@@ -37,7 +37,7 @@ class UserSecure {
         $session = $this->container->get('session');
 
         //Pasar lo q esta en los favoritos al usuario loggueado
-        $session_id = $this->em->getRepository('mycpBundle:user')->get_session_id_with_request($this->container->get('request'));
+        $session_id = $this->em->getRepository('mycpBundle:user')->getSessionIdWithRequest($this->container->get('request'));
 
         if ($session_id != null)
         {

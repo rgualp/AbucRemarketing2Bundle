@@ -45,7 +45,7 @@ class BackendUserController extends Controller {
             if ($form->isValid() && $count_errors == 0) {
                 $dir = $this->container->getParameter('user.dir.photos');
                 $factory = $this->get('security.encoder_factory');
-                $em->getRepository('mycpBundle:user')->new_user_staff($id_role, $request, $dir, $factory);
+                $em->getRepository('mycpBundle:user')->insertUserStaff($id_role, $request, $dir, $factory);
                 $message = 'Usuario añadido satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
@@ -87,7 +87,7 @@ class BackendUserController extends Controller {
             if ($form->isValid() && $count_errors == 0) {
                 $factory = $this->get('security.encoder_factory');
                 $dir = $this->container->getParameter('user.dir.photos');
-                $em->getRepository('mycpBundle:user')->edit_user_staff($id_user, $request, $dir, $factory);
+                $em->getRepository('mycpBundle:user')->editUserStaff($id_user, $request, $dir, $factory);
                 $message = 'Usuario actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
                 $service_log = $this->get('log');
@@ -251,7 +251,7 @@ class BackendUserController extends Controller {
             if ($form->isValid() && $count_errors == 0) {
                 $dir = $this->container->getParameter('user.dir.photos');
                 $factory = $this->get('security.encoder_factory');
-                $em->getRepository('mycpBundle:user')->new_user_tourist($id_role, $request, $dir, $factory);
+                $em->getRepository('mycpBundle:userTourist')->insert($id_role, $request, $dir, $factory);
                 $message = 'Usuario añadido satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
@@ -294,7 +294,7 @@ class BackendUserController extends Controller {
             if ($form->isValid() && $count_errors == 0) {
                 $factory = $this->get('security.encoder_factory');
                 $dir = $this->container->getParameter('user.dir.photos');
-                $em->getRepository('mycpBundle:user')->edit_user_tourist($id_user, $request, $dir, $factory);
+                $em->getRepository('mycpBundle:userTourist')->edit($id_user, $request, $dir, $factory);
                 $message = 'Usuario actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
                 $service_log = $this->get('log');
@@ -353,7 +353,7 @@ class BackendUserController extends Controller {
             if ($form->isValid() && $count_errors == 0) {
                 $dir = $this->container->getParameter('user.dir.photos');
                 $factory = $this->get('security.encoder_factory');
-                $em->getRepository('mycpBundle:user')->new_user_partner($id_role, $request, $dir, $factory);
+                $em->getRepository('mycpBundle:userPartner')->insert($id_role, $request, $dir, $factory);
                 $message = 'Usuario añadido satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
                 $service_log = $this->get('log');
@@ -395,7 +395,7 @@ class BackendUserController extends Controller {
             if ($form->isValid() && $count_errors == 0) {
                 $factory = $this->get('security.encoder_factory');
                 $dir = $this->container->getParameter('user.dir.photos');
-                $em->getRepository('mycpBundle:user')->edit_user_partner($id_user, $request, $dir, $factory);
+                $em->getRepository('mycpBundle:userPartner')->edit($id_user, $request, $dir, $factory);
                 $message = 'Usuario actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
                 $service_log = $this->get('log');
@@ -457,7 +457,7 @@ class BackendUserController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
-        $users = $paginator->paginate($em->getRepository('mycpBundle:user')->get_all_users($filter_user_name, $filter_role, $filter_city, $filter_country, $filter_name, $filter_last_name, $filter_email))->getResult();
+        $users = $paginator->paginate($em->getRepository('mycpBundle:user')->getAll($filter_user_name, $filter_role, $filter_city, $filter_country, $filter_name, $filter_last_name, $filter_email))->getResult();
         $service_log = $this->get('log');
         $service_log->saveLog('Visit', BackendModuleName::MODULE_USER);
 
@@ -699,7 +699,7 @@ class BackendUserController extends Controller {
     function get_roles_staffAction() {
         $selected = '';
         $em = $this->getDoctrine()->getEntityManager();
-        $roles = $em->getRepository('mycpBundle:user')->get_roles_staff();
+        $roles = $em->getRepository('mycpBundle:role')->getStaffRoles();
         return $this->render('mycpBundle:utils:roles.html.twig', array('roles' => $roles, 'selected' => $selected));
     }
 
