@@ -40,7 +40,7 @@ class LodgingCommentController extends Controller
             $comments_list = $em->getRepository('mycpBundle:comment')->getAll($filter_ownership,$filter_user,$filter_keyword, $filter_rate,$sort_by);
         else
         {
-            $user_casa = $em->getRepository('mycpBundle:userCasa')->get_user_casa_by_user_id($user->getUserId());
+            $user_casa = $em->getRepository('mycpBundle:userCasa')->getByUser($user->getUserId());
             $comments_list = $em->getRepository('mycpBundle:comment')->get_comment_by_user_casa($filter_ownership,$filter_user,$filter_keyword, $filter_rate,$sort_by, $user_casa->getUserCasaId());
         }
 

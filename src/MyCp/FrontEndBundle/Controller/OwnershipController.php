@@ -1495,7 +1495,7 @@ class OwnershipController extends Controller {
     public function owners_photosAction($ownership_id, $photo) {
         if ($photo == null) {
             $em = $this->getDoctrine()->getManager();
-            $photo = $em->getRepository('mycpBundle:userCasa')->get_owners_photos($ownership_id);
+            $photo = $em->getRepository('mycpBundle:userCasa')->getOwnersPhotos($ownership_id);
         }
 
         return $this->render('FrontEndBundle:ownership:ownersPhotosOwnership.html.twig', array(

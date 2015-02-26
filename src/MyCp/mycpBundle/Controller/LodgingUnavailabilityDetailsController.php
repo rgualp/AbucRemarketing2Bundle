@@ -27,7 +27,7 @@ class LodgingUnavailabilityDetailsController extends Controller {
             $unDet = $em->getRepository('mycpBundle:unavailabilityDetails')->getAllNotDeletedByDate($startParam, $endParam);
             $reser = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReserved($startParam, $endParam);
         } else {
-            $user_casa = $em->getRepository('mycpBundle:userCasa')->get_user_casa_by_user_id($user->getUserId());
+            $user_casa = $em->getRepository('mycpBundle:userCasa')->getByUser($user->getUserId());
             $ownership = $user_casa->getUserCasaOwnership();
             $unDet = $em->getRepository('mycpBundle:unavailabilityDetails')->getAllNotDeletedByDateAndOwnership($ownership->getOwnId(), $startParam, $endParam);
             $reser = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReservedByOwnershipAndDate($ownership->getOwnId(), $startParam, $endParam);
@@ -47,7 +47,7 @@ class LodgingUnavailabilityDetailsController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $user = $this->get('security.context')->getToken()->getUser();
         $data = array();
-        $user_casa = $em->getRepository('mycpBundle:userCasa')->get_user_casa_by_user_id($user->getUserId());
+        $user_casa = $em->getRepository('mycpBundle:userCasa')->getByUser($user->getUserId());
         $data['ownership'] = $user_casa->getUserCasaOwnership()->getOwnId();
         $rooms = $em->getRepository("mycpBundle:room")->findBy(array("room_ownership" => $data["ownership"]));
 

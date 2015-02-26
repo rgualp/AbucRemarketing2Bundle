@@ -12,14 +12,14 @@ use Doctrine\ORM\EntityRepository;
  */
 class userCasaRepository extends EntityRepository {
 
-    function get_user_casa() {
+    function getAll() {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT uc FROM mycpBundle:userCasa uc
         GROUP BY uc.user_casa_user");
         return $query->getResult();
     }
 
-    function get_user_casa_by_user_id($user_id)
+    function getByUser($user_id)
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT uc FROM mycpBundle:userCasa uc join uc.user_casa_user us
@@ -99,7 +99,7 @@ class userCasaRepository extends EntityRepository {
         }
     }
 
-     function edit($id_user, $request, $dir, $factory) {
+    function edit($id_user, $request, $dir, $factory) {
          $post = $request->request->getIterator()->getArrayCopy();
          $em = $this->getEntityManager();
          $user_casa = new userCasa();
@@ -143,7 +143,7 @@ class userCasaRepository extends EntityRepository {
          $em->flush();
      }
 
-    function get_owners_photos($ownership_id) {
+    function getOwnersPhotos($ownership_id) {
         $em = $this->getEntityManager();
         $query_string = "SELECT pho.pho_name as photo
                   FROM mycpBundle:userCasa uc
@@ -153,7 +153,7 @@ class userCasaRepository extends EntityRepository {
 
         $query = $em->createQuery($query_string);
         $photo_name = $query->setMaxResults(1)->getResult();
-        
+
         if ($photo_name == null)
             $photo_name = "no_photo.gif";
         else

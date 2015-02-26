@@ -27,7 +27,7 @@ class LodgingOwnershipController extends Controller
 
         if ($user->getUserRole() == 'ROLE_CLIENT_CASA') {
             $em = $this->getDoctrine()->getManager();
-            $user_casa = $em->getRepository('mycpBundle:userCasa')->get_user_casa_by_user_id($user->getUserId());
+            $user_casa = $em->getRepository('mycpBundle:userCasa')->getByUser($user->getUserId());
             $ownership = $user_casa->getUserCasaOwnership();
             $rooms = $em->getRepository('mycpBundle:room')->findby(array('room_ownership' => $ownership->getOwnId(), "room_active" => true));
             $count_rooms = count($rooms);
@@ -248,7 +248,7 @@ class LodgingOwnershipController extends Controller
         $ownership_mcp = '';
         if ($user->getUserRole() == 'ROLE_CLIENT_CASA') {
             $em = $this->getDoctrine()->getManager();
-            $user_casa = $em->getRepository('mycpBundle:userCasa')->get_user_casa_by_user_id($user->getUserId());
+            $user_casa = $em->getRepository('mycpBundle:userCasa')->getByUser($user->getUserId());
             $ownership = $user_casa->getUserCasaOwnership();
             $owner_name = $user_casa->getUserCasaUser()->getUserName() . " " . $user_casa->getUserCasaUser()->getUserLastName();
             $owner_phone = $ownership->getOwnPhoneCode() . " " . $ownership->getOwnPhoneNumber();
