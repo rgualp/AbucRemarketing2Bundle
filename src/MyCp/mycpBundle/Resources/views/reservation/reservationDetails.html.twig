@@ -58,28 +58,7 @@
     </table>
 </div>
     <div class="span6">
-        <ul class="nav nav-tabs">
-            <li class="active">
-                <a href="#reservas" data-toggle="tab">Cliente</a>
-            </li>
-        </ul>
-        <table class="table table-striped" style="font-size: 12px">
-            <tr>
-                <td><b>Nombre: </b>{{ reservation.getGenResUserId.getUserUserName }} {{ reservation.getGenResUserId.getUserLastName }}</td>
-                <td><b>País: </b>{{ reservation.getGenResUserId.getUserCountry }}</td>
-            </tr>
-            <tr>
-                <td><b>Correo: </b>{{ reservation.getGenResUserId.getUserEmail }}</td>
-                <td><b>Ciudad:</b>{{ reservation.getGenResUserId.getUserCity }}</td>
-            </tr>
-            <tr>
-                <td><b>Idioma: </b>{{ user[0].getUserTouristLanguage.getLangName }}</td>
-                <td><b>Moneda: </b>{% if user[0].getUserTouristCurrency.getCurrName is defined %}{{ user[0].getUserTouristCurrency.getCurrName }}{% endif %}</td>
-            </tr>
-            <tr>
-                <td colspan="2"><b>Dirección:</b>{{ reservation.getGenResUserId.getUserAddress }}</td>
-            </tr>
-        </table>
+        {{include('mycpBundle:utils:clientInfoShortTab.html.twig', {"user":reservation.getGenResUserId, "tourist": user[0]})}}
     </div>
     <div class="row-fluid">
     <div class="span12">

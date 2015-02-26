@@ -29,22 +29,8 @@
 <hr/>
 {% if errors %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
 <form id="form" action="{{ path('mycp_details_client_reservation',{'id_client':client.getUserId}) }}" method="POST">
-    <ul class="nav nav-tabs">
-        <li class="active">
-            <a href="#reservas" data-toggle="tab">Información</a>
-        </li>
-    </ul>
-    <table class="table table-striped" style="font-size: 12px;">
-        <tr>
-            <td><b>Nombre:</b> {{client.getUserUserName}} {{client.getUserLastName}}</td>
-            <td><b>Correo:</b> {{client.getUserEmail}}</td>
-            <td><b>País:</b> {{client.getUserCountry.getCoName}}</td>
-        </tr>
-        <tr>
-            <td><b>Ciudad:</b> {%if client.getUserCity != null%}{{client.getUserCity}}{%else%}-{%endif%}</td>
-            <td colspan="2"><b>Dirección:</b> {%if client.getUserAddress != null%}{{client.getUserAddress}}{%else%}-{%endif%}</td>
-        </tr>
-    </table>
+    {{include('mycpBundle:utils:clientInfoTab.html.twig', {"user":client})}}
+
     <div id="tabReservas">
     <ul class="nav nav-tabs reserves">
         <li id="li_res" class="active">

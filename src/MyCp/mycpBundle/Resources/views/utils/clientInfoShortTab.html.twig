@@ -1,0 +1,22 @@
+<ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#reservas" data-toggle="tab">Cliente</a>
+            </li>
+        </ul>
+        <table class="table table-striped" style="font-size: 12px">
+            <tr>
+                <td><b>Nombre: </b>{{ user.getUserUserName }} {{ user.getUserLastName }}</td>
+                <td><b>País: </b>{{ user.getUserCountry }}</td>
+            </tr>
+            <tr>
+                <td><b>Correo: </b>{{ user.getUserEmail }}</td>
+                <td><b>Ciudad:</b>{{ user.getUserCity }}</td>
+            </tr>
+            <tr>
+                <td><b>Idioma: </b>{{ tourist.getUserTouristLanguage.getLangName }}</td>
+                <td><b>Moneda: </b>{% if tourist.getUserTouristCurrency.getCurrName is defined %}{{ tourist.getUserTouristCurrency.getCurrName }}{% endif %}</td>
+            </tr>
+            <tr>
+                <td colspan="2"><b>Dirección:</b>{{ user.getUserAddress }}</td>
+            </tr>
+        </table>

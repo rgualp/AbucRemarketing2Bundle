@@ -3,6 +3,7 @@
 namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use MyCp\FrontEndBundle\Helpers\PaymentHelper;
 
 /**
  * bookingRepository
@@ -12,4 +13,22 @@ use Doctrine\ORM\EntityRepository;
  */
 class bookingRepository extends EntityRepository
 {
+    public function getByGeneralReservation($idReservation) {
+        try {
+            $em = $this->getEntityManager();
+            $query_string = "SELECT DISTINCT b.booking_id, b.booking_prepay,
+                             (SELECT SUM(p.payed_amount) FROM mycpBundle:payment p WHERE p.booking = b.booking_id and p.status = ".PaymentHelper::STATUS_SUCCESS.") as payed,
+                             c.curr_cuc_change as booking_rate,
+                             c.curr_code as booking_code
+                             FROM mycpBundle:ownershipReservation ow
+                             JOIN ow.own_res_reservation_booking b
+                             JOIN b.booking_currency c
+                             WHERE ow.own_res_gen_res_id = " . $idReservation;
+
+            return $em->createQuery($query_string)->getResult();
+
+        } catch (Exception $e) {
+            return null;
+        }
+    }
 }

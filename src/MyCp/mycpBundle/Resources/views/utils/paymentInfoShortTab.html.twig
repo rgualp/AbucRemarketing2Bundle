@@ -1,0 +1,23 @@
+<ul class="nav nav-tabs">
+    <li class="active">
+        <a href="#reservas" data-toggle="tab">Pagos</a>
+    </li>
+</ul>
+{%if bookings%}
+<table class="table table-striped" style="font-size: 12px">
+    <tr>
+        <td><b>Booking</b></td>
+        <td><b>Prepago</b></td>
+        <td><b>Pagado</b></td>
+    </tr>
+    {%for booking in bookings%}
+        <tr>
+        <td>{{booking.booking_id}}</td>
+        <td>{{booking.booking_prepay * booking.booking_rate}} CUC</td>
+        <td>{{booking.payed * booking.booking_rate}} CUC</td>
+        </tr>
+    {%endfor%}
+</table>
+{%else%}
+        <div class="alert alert-error">No hay pagos asociados</div>
+{%endif%}

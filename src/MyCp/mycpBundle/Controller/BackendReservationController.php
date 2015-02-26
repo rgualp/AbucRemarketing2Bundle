@@ -23,9 +23,12 @@ class BackendReservationController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('mycpBundle:user')->find($id_tourist);
+        $tourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array("user_tourist_user" => $id_tourist));
         $gen_res = $em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
-        $id_mun = $gen_res->getGenResOwnId()->getOwnAddressMunicipality();
-        $ownerships = $em->getRepository('mycpBundle:ownership')->findBy(array('own_address_municipality' => $id_mun));
+        $reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array("own_res_gen_res_id" => $id_reservation));
+        $bookings = $em->getRepository("mycpBundle:booking")->getByGeneralReservation($id_reservation);
+        $idProv = $gen_res->getGenResOwnId()->getOwnAddressProvince();
+        $ownerships = $em->getRepository('mycpBundle:ownership')->findBy(array('own_address_province' => $idProv));
 
         if ($this->getRequest()->getMethod() == 'POST') {
             $request = $this->getRequest();
@@ -119,11 +122,20 @@ class BackendReservationController extends Controller {
 
             return $this->redirect($this->generateUrl('mycp_list_reservations'));
         }
+
+        if($gen_res->getGenResStatus() != generalReservation::STATUS_CANCELLED || count($bookings) == 0)
+        {
+            $message = 'Solo se puede ofrecer una nueva oferta si la reservación original está cancelada y tiene algún pago asociado.';
+            $this->get('session')->getFlashBag()->add('message_error_local', $message);
+        }
+
         return $this->render('mycpBundle:reservation:new_offer.html.twig', array(
-                    'id_reservation' => $id_reservation,
+                    'reservation' => $gen_res,
                     'id_tourist' => $id_tourist,
                     'user' => $user,
-                    'ownerships' => $ownerships
+                    'tourist' => $tourist,
+                    'ownerships' => $ownerships,
+                    'bookings' => $bookings
         ));
     }
 
@@ -568,15 +580,16 @@ class BackendReservationController extends Controller {
                         $reservation->setGenResStatus(generalReservation::STATUS_AVAILABLE);
                     } else if ($non_available_total > 0 && $available_total > 0)
                         $reservation->setGenResStatus(generalReservation::STATUS_PARTIAL_AVAILABLE);
-                    else if($cancelled_total > 0 && $cancelled_total == $details_total){
-                        $reservation->setGenResStatus(generalReservation::STATUS_CANCELLED);
-                    }
+
                     else if($cancelled_total > 0 && $cancelled_total != $details_total){
                         $reservation->setGenResStatus(generalReservation::STATUS_PARTIAL_CANCELLED);
                     }
                     else if($outdated_total > 0 && $outdated_total == $details_total)
                         $reservation->setGenResStatus(generalReservation::STATUS_OUTDATED);
                 }
+                if($cancelled_total > 0 && $cancelled_total == $details_total){
+                        $reservation->setGenResStatus(generalReservation::STATUS_CANCELLED);
+                    }
                 $em->persist($reservation);
                 $em->flush();
                 $service_log = $this->get('log');
