@@ -4,4 +4,4 @@ frontend_change_language_callback:
 
 frontend_get_languages:
     pattern:  /get-languages/{route}/{routeParams}
-    defaults: { _controller: FrontEndBundle:Language:get_languages, route: frontend_welcome, routeParams: null }
+    defaults: { _controller: FrontEndBundle:Language:getLanguages, route: frontend_welcome, routeParams: null }

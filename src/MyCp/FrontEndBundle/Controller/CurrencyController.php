@@ -28,7 +28,7 @@ class CurrencyController extends Controller
         return $response;
     }
 
-    public function changeCurrencyAction(Request $request,
+    public function changeAction(Request $request,
                                           $currencyCode,
                                           $route,
                                           $routeParams = null)

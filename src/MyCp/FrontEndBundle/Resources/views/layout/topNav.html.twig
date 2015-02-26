@@ -34,7 +34,7 @@
                     <a title="{{"LANGUAGE" | trans }}" data-toggle="dropdown" class="dropdown-toggle" href="#"><img class="icon tiny-lang-icon" src="{{ asset('bundles/frontend/img/icons/pixel.gif')}}"/>
                         {{(app.session.get('app_lang_name') == null or app.session.get('app_lang_name') == "") ? "Español" : app.session.get('app_lang_name')}} <b class="caret caret-new"></b></a>
                     <ul class="dropdown-menu">
-                        {{ render_esi(controller('FrontEndBundle:Language:get_languages', {'route': route, 'routeParams': routeParams})) }}
+                        {{ render_esi(controller('FrontEndBundle:Language:getLanguages', {'route': route, 'routeParams': routeParams})) }}
                     </ul>
                 </li>
                 <li class="nav-divider pull-right">&nbsp;</li>

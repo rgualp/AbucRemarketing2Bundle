@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class LanguageController extends Controller
 {
-    public function get_languagesAction($route, $routeParams = null)
+    public function getLanguagesAction($route, $routeParams = null)
     {
         $routeParams = empty($routeParams) ? array() : $routeParams;
 
