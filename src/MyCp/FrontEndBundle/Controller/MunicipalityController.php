@@ -40,7 +40,7 @@ class MunicipalityController extends Controller {
         return new Response($response, 200);
     }
 
-    public function find_for_destinationsAction() {
+    public function findForDestinationsAction() {
         $request = $this->getRequest();
         $em = $this->getDoctrine()->getManager();
 
@@ -68,7 +68,7 @@ class MunicipalityController extends Controller {
         return new Response($response, 200);
     }
 
-    public function get_with_reservationsAction() {
+    public function getWithReservationsAction() {
         $em = $this->getDoctrine()->getManager();
 
         $paginator = $this->get('ideup.simple_paginator');

@@ -4,8 +4,8 @@ frontend_find_municipality:
 
 frontend_find_for_destinations_municipality:
     pattern:  /find-for-destinations-municipality/
-    defaults: { _controller: FrontEndBundle:Municipality:find_for_destinations }
+    defaults: { _controller: FrontEndBundle:Municipality:findForDestinations }
 
 frontend_get_with_reservations_municipality:
     locales:  { en: "/most-visited-cities/", es: "/ciudades-mas-visitadas/", de: "/meist-besuchte-staedte/" }
-    defaults: { _controller: FrontEndBundle:Municipality:get_with_reservations }
+    defaults: { _controller: FrontEndBundle:Municipality:getWithReservations }
