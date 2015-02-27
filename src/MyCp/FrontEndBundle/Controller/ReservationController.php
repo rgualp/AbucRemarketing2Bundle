@@ -18,7 +18,7 @@ use MyCp\FrontEndBundle\Helpers\ReservationHelper;
 
 class ReservationController extends Controller {
 
-    public function redirect_reservation_reservationAction(Request $request) {
+    public function redirectReservationAction(Request $request) {
 
         if ($request->getMethod() == "POST") {
             $post = $request->request->getIterator()->getArrayCopy();
@@ -40,7 +40,7 @@ class ReservationController extends Controller {
             return $this->redirect($this->generateUrl('frontend_mycasatrip_available'));
     }
 
-    public function reservation_reservationAction(Request $request) {
+    public function reservationAction(Request $request) {
         $session = $request->getSession();
 
         $array_ids = $session->get('reservation_own_ids');
@@ -286,7 +286,7 @@ class ReservationController extends Controller {
 
             case PaymentHelper::STATUS_CANCELLED:
             case PaymentHelper::STATUS_FAILED:
-                return $this->forward('FrontEndBundle:Reservation:reservation_reservation');
+                return $this->forward('FrontEndBundle:Reservation:reservation');
 
             default:
                 throw $this->createNotFoundException();
@@ -298,7 +298,7 @@ class ReservationController extends Controller {
         return $this->render('FrontEndBundle:reservation:afterpayment.html.twig', array('url' => $url));
     }
 
-    public function view_confirmationAction(Request $request, $id_booking, $to_print = false, $no_user = false) {
+    public function viewConfirmationAction(Request $request, $id_booking, $to_print = false, $no_user = false) {
         /** @var \MyCp\FrontEndBundle\Service\BookingService $bookingService */
         $bookingService = $this->get('front_end.services.booking');
 
@@ -312,14 +312,14 @@ class ReservationController extends Controller {
 
     public function generatePdfVoucherAction($id_booking, $name = "voucher") {
         $pdfResponse = $this->forward(
-                'FrontEndBundle:Reservation:view_confirmation', array('id_booking' => $id_booking, 'to_print' => true)
+                'FrontEndBundle:Reservation:viewConfirmation', array('id_booking' => $id_booking, 'to_print' => true)
         );
 
         $pdfService = $this->get('front_end.services.pdf');
         $pdfService->streamHtmlAsPdf($pdfResponse, $name);
 
         return $this->forward(
-                        'FrontEndBundle:Reservation:view_confirmation', array('id_booking' => $id_booking)
+                        'FrontEndBundle:Reservation:viewConfirmation', array('id_booking' => $id_booking)
         );
     }
 
