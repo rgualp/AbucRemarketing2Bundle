@@ -536,7 +536,7 @@
             </trans-unit>
             <trans-unit id="143">
                 <source>KIDS_ROOMS</source>
-                <target>Niños</target>
+                <target>Cuna</target>
             </trans-unit>
             <trans-unit id="144">
                 <source>FROM_PRICES</source>
@@ -1989,7 +1989,7 @@
               </trans-unit>
               <trans-unit id="506">
                   <source>DEAR_MR</source>
-                  <target>Estimado(a) Sr(a).</target>
+                  <target>Sr(a).</target>
               </trans-unit>
               <trans-unit id="507">
                   <source>THANKS_RESERVATION_MYCP</source>

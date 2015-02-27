@@ -536,7 +536,7 @@
             </trans-unit>
             <trans-unit id="143">
                 <source>KIDS_ROOMS</source>
-                <target>Children</target>
+                <target>Cradle</target>
             </trans-unit>
             <trans-unit id="144">
                 <source>FROM_PRICES</source>
@@ -1989,7 +1989,7 @@
               </trans-unit>
               <trans-unit id="506">
                   <source>DEAR_MR</source>
-                  <target>Dear Mr.</target>
+                  <target>Mr./Mrs.</target>
               </trans-unit>
               <trans-unit id="507">
                   <source>THANKS_RESERVATION_MYCP</source>
