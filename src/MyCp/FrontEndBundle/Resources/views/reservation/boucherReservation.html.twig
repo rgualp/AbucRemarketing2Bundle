@@ -98,13 +98,13 @@
                         </tr>
                         <tr>
                             <td><b>{{"ADDRESS"|trans}}:</b></td>
-                            <td>{{ own.main_street }} {{ own.number }}, {{ own.street_1 }} & {{ own.street_2 }}.
+                            <td>{{"ADDRESS_STREET" | trans}} {{ own.main_street }} {{"ADDRESS_NUMBER" | trans}} {{ own.number }} {%if own.street_1 != "" and own.street_2 != ""%}, {{ own.street_1 }} & {{ own.street_2 }}{%endif%}.
                     {{ own.municipality }}, {{own.province }}.
                                 </td>
                             </tr>
                             <tr>
                                 <td><b>{{"FORMS_PHONE"|trans}}:</b></td>
-                                <td>(+53{{ own.prov_code }}) {{ own.phone_number }}</td>
+                                <td>{%if own.phone_number != ""%}(+53) {{ own.prov_code }} {{ own.phone_number }}{%else%} - {%endif%}</td>
                             </tr>
                         </table>
 {%for res_room in own_res_rooms[own.id]%}
