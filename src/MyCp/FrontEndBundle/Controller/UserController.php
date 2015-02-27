@@ -126,7 +126,7 @@ class UserController extends Controller {
         throw $this->createNotFoundException($this->get('translator')->trans("USER_ACTIVATE_ERROR"));
     }
 
-    public function restore_passwordAction(Request $request) {
+    public function restorePasswordAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $errors = array();
         $form = $this->createForm(new restorePasswordUserType($this->get('translator')));
@@ -166,14 +166,14 @@ class UserController extends Controller {
         ));
     }
 
-    public function change_password_startAction() {
+    public function changePasswordStartAction() {
         $service_security = $this->get('Secure');
         $user = $this->getUser();
         $encode_string = $service_security->getEncodedUserString($user);
         return $this->redirect($this->generateUrl('frontend_change_password_user', array('string' => $encode_string)));
     }
 
-    public function change_passwordAction($string, Request $request) {
+    public function changePasswordAction($string, Request $request) {
         $em = $this->getDoctrine()->getManager();
         $errors = array();
         $form = $this->createForm(new changePasswordUserType($this->get('translator')));
@@ -221,7 +221,7 @@ class UserController extends Controller {
         ));
     }
 
-    public function register_user_confirmationAction(Request $request) {
+    public function registerUserConfirmationAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $errors = array();
 
@@ -357,7 +357,7 @@ class UserController extends Controller {
         ));
     }
 
-    public function info_tab_userAction($destination_id = null, $ownership_id = null) {
+    public function infoTabUserAction($destination_id = null, $ownership_id = null) {
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
 
