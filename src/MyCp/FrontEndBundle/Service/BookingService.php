@@ -124,7 +124,8 @@ class BookingService extends Controller
                     $own->getOwnResReservationFromDate()->getTimestamp(),
                     $own->getOwnResReservationToDate()->getTimestamp()
                 );
-            array_push($nights, count($array_dates) - 1);
+            //array_push($nights, count($array_dates) - 1);
+            $nights[$own->getOwnResId()] = count($array_dates) - 1;
             array_push($rooms, $em->getRepository('mycpBundle:room')->find($own->getOwnResSelectedRoomId()));
             $totalPrice += \MyCp\FrontEndBundle\Helpers\ReservationHelper::getTotalPrice($em, $timeService, $own, $this->tripleRoomCharge);
             $commission = $own->getOwnResGenResId()->GetGenResOwnId()->getOwnCommissionPercent();
@@ -447,7 +448,7 @@ class BookingService extends Controller
                     $logger->error($e->getMessage());
                 }
             }
-            
+
             //Suscripción al evento para feedback
             $dispatcher = $this->get('event_dispatcher');
             $eventData = new \MyCp\mycpBundle\JobData\GeneralReservationJobData($owns[0]->getOwnResGenResId());
@@ -474,9 +475,9 @@ class BookingService extends Controller
                 $generalReservation = $own->getOwnResGenResId();
                 $generalReservation->setGenResStatus(generalReservation::STATUS_RESERVED);
                 $own->setOwnResStatus(ownershipReservation::STATUS_RESERVED);
-                $this->em->persist($generalReservation);                
+                $this->em->persist($generalReservation);
                 $this->em->flush();
-                
+
                 $ownership = $generalReservation->getGenResOwnId();
                 $this->em->getRepository("mycpBundle:ownership")->updateRanking($ownership);
             }

@@ -124,7 +124,7 @@
                                 <td><b>{{"DEPARTURE_RESERVATION"|trans}}:</b></td>
                                 <td>{{ res_room.own_res_reservation_to_date| date("d/m/Y") }}</td>
                                 <td><b>{{"NIGHTS"|trans}}:</b></td>
-                                <td>{{ nights[loop.index0] }}</td>
+                                <td>{{ nights[res_room.own_res_id] }}</td>
                             </tr>
                             <tr>
                                 <td><b>{{"SELECT_ROOM_TYPE_OPTION"|trans}}:</b></td>
@@ -158,10 +158,10 @@
                                 <tr class="b-cyan">
                                     <td><b>{{"TOTAL_TO_PAY_SERVICING" | trans}}</b></td>
                                     <td class="text-right"><h4 class="no-margin">
-                                            CUC {{ ceil_round(own_res_payments[own.id].pay_at_service_cuc) | number_format(2) }}
+                                            CUC {{ ceil_round(own_res_payments[own.id].pay_at_service_cuc)  }}
                                         </h4>
                                         <h6 class="no-margin">
-                    {{ currency_symbol }} {{ (ceil_round(own_res_payments[own.id].pay_at_service)) | number_format(2) }}
+                    {{ currency_symbol }} {{ (ceil_round(own_res_payments[own.id].pay_at_service))  }}
                                             </h6>
                                         </td>
                                     </tr>
