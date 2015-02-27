@@ -174,7 +174,7 @@ be_simple_i18n_routing: ~
 
 # TODO: Gehört eigentlich ins Remarketing bundle. Wie soll das dorthin kommen?
 leezy_pheanstalk:
-    enabled: true
+    enabled: false
     pheanstalks:
         primary:
             server: 127.0.0.1

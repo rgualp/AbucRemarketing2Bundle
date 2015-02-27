@@ -124,7 +124,8 @@ class BookingService extends Controller
                     $own->getOwnResReservationFromDate()->getTimestamp(),
                     $own->getOwnResReservationToDate()->getTimestamp()
                 );
-            array_push($nights, count($array_dates) - 1);
+            //array_push($nights, count($array_dates) - 1);
+            $nights[$own->getOwnResId()] = count($array_dates) - 1;
             array_push($rooms, $em->getRepository('mycpBundle:room')->find($own->getOwnResSelectedRoomId()));
             $totalPrice += \MyCp\FrontEndBundle\Helpers\ReservationHelper::getTotalPrice($em, $timeService, $own, $this->tripleRoomCharge);
             $commission = $own->getOwnResGenResId()->GetGenResOwnId()->getOwnCommissionPercent();

@@ -536,7 +536,7 @@
             </trans-unit>
             <trans-unit id="143">
                 <source>KIDS_ROOMS</source>
-                <target>Kinder</target>
+                <target>Wiege</target>
             </trans-unit>
             <trans-unit id="144">
                 <source>FROM_PRICES</source>
@@ -720,7 +720,7 @@
             </trans-unit>
             <trans-unit id="189">
                 <source>KIDS_FILTER</source>
-                <target>Einrichtungen für Babys</target>
+                <target>Einrichtungen für Babys (Wiege)</target>
             </trans-unit>
             <trans-unit id="190">
                 <source>SMOKER_FILTER</source>
@@ -756,7 +756,7 @@
             </trans-unit>
             <trans-unit id="198">
                 <source>INNER_PRIVATE_BATHROOM_FILTER</source>
-                <target>Eigenes Bad am Zimmer</target>
+                <target>Eigenes Bad im Zimmer</target>
             </trans-unit>
             <trans-unit id="199">
                 <source>OUTER_PRIVATE_BATHROOM_FILTER</source>
@@ -1820,7 +1820,7 @@
             </trans-unit>
             <trans-unit id="464">
                 <source>SERVICE_RECHARGE</source>
-                <target>Kreditkartengebühr</target>
+                <target>Buchungsgebuehr</target>
             </trans-unit>
             <trans-unit id="465">
                 <source>TOTAL_PREPAYMENT</source>
@@ -1988,7 +1988,7 @@
               </trans-unit>
               <trans-unit id="506">
                   <source>DEAR_MR</source>
-                  <target>Herr</target>
+                  <target>Herr/Frau</target>
               </trans-unit>
               <trans-unit id="507">
                   <source>THANKS_RESERVATION_MYCP</source>

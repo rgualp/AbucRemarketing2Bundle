@@ -149,7 +149,9 @@ class ownershipReservationRepository extends EntityRepository {
 
     function getRoomsByAccomodation($id_booking, $own_id) {
         $em = $this->getEntityManager();
-        $query = $em->createQuery("SELECT ore.own_res_room_type,
+        $query = $em->createQuery("SELECT
+            ore.own_res_id,
+            ore.own_res_room_type,
             ore.own_res_reservation_from_date,
             ore.own_res_reservation_to_date,
             ore.own_res_count_adults,
