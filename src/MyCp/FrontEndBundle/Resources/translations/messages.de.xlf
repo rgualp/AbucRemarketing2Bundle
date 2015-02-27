@@ -720,7 +720,7 @@
             </trans-unit>
             <trans-unit id="189">
                 <source>KIDS_FILTER</source>
-                <target>Angebote für Kinder</target>
+                <target>Wiege</target>
             </trans-unit>
             <trans-unit id="190">
                 <source>SMOKER_FILTER</source>
@@ -756,7 +756,7 @@
             </trans-unit>
             <trans-unit id="198">
                 <source>INNER_PRIVATE_BATHROOM_FILTER</source>
-                <target>Eigenes Bad am Zimmer</target>
+                <target>Eigenes Bad im Zimmer</target>
             </trans-unit>
             <trans-unit id="199">
                 <source>OUTER_PRIVATE_BATHROOM_FILTER</source>
@@ -1820,7 +1820,7 @@
             </trans-unit>
             <trans-unit id="464">
                 <source>SERVICE_RECHARGE</source>
-                <target>Kreditkartengebühr</target>
+                <target>Buchungsgebuehr</target>
             </trans-unit>
             <trans-unit id="465">
                 <source>TOTAL_PREPAYMENT</source>
@@ -2680,6 +2680,14 @@
             <trans-unit id="680">
                 <source>ADD_TO_CART_ERROR</source>
                 <target>Eines der Zimmer ist bereits in Ihrem Warenkorb, und die ausgewählten Datumsbereich kollidiert mit dem es gespeichert ist. Bitte ändern Sie das Datumsbereich.</target>
+            </trans-unit>
+            <trans-unit id="681">
+                <source>ADDRESS_STREET</source>
+                <target>Strasse</target>
+            </trans-unit>
+            <trans-unit id="682">
+                <source>ADDRESS_NUMBER</source>
+                <target>Nr.</target>
             </trans-unit>
         </body>
     </file>
