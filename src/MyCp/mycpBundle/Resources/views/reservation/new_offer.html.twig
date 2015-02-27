@@ -126,8 +126,10 @@
                 <input type="text" class="input-block-level" value="{{ price_own_res }}" name="service_room_price_{{reservation_rooms.getOwnResId}}"/>
                 {% if reservation_rooms.getOwnResNightPrice ==0%}
                 ({{ceil_round(reservation_rooms.getOwnResTotalInSite / nights[loop.index0]) }} CUC)
+                <input name="price_{{reservation_rooms.getOwnResId}}" type="hidden" value="{{ceil_round(reservation_rooms.getOwnResTotalInSite / nights[loop.index0])}}"/>
                 {%else%}
-                ({{ceil_round(reservation_rooms.getOwnResNightPrice)}} CUC)
+                ({{reservation_rooms.getOwnResNightPrice}} CUC)
+                <input name="price_{{reservation_rooms.getOwnResId}}" type="hidden" value="{{reservation_rooms.getOwnResNightPrice}}"/>
                 {%endif%}
             </td>
             <td>{{ reservation_rooms.getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent }}%</td>

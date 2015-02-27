@@ -170,6 +170,8 @@ class BackendReservationController extends Controller {
 
                     if (!is_numeric($post[$key])) {
                         $errors[$key] = 1;
+                        $message = 'En el campo precio por noche tiene que introducir un valor numérico.';
+                       $this->get('session')->getFlashBag()->add('message_error_local', $message);
                     }
                 }
             }
@@ -185,36 +187,45 @@ class BackendReservationController extends Controller {
                 $fromDate = null;
                 $toDate = null;
                 foreach ($ownership_reservations as $ownership_reservation) {
-                    $start = explode('/', $post['date_from_' . $ownership_reservation->getOwnResId()]);
-                    $nights = $post['nights_' . $ownership_reservation->getOwnResId()];
-                    $start_timestamp = mktime(0, 0, 0, $start[1], $start[0], $start[2]);
-                    $end_timestamp = strtotime("+" . $nights . " day", $start_timestamp);
 
-                    $newOwnRes = $ownership_reservation->getClone();
-                    $newOwnRes->setOwnResGenResId($newGeneralReservation);
-                    $newOwnRes->setOwnResStatus(ownershipReservation::STATUS_RESERVED);
+                    if ($post['service_room_price_' . $ownership_reservation->getOwnResId()] != 0 && $post["price_" . $ownership_reservation->getOwnResId()] != $post['service_room_price_' . $ownership_reservation->getOwnResId()]) {
+                       $errors['service_room_price_' . $ownership_reservation->getOwnResId()] = 1;
+                       $message = 'El precio por noche tiene que coincidir con el sugerido.';
+                       $this->get('session')->getFlashBag()->add('message_error_local', $message);
+                       $em->remove($newGeneralReservation);
+                       $em->flush();
+                    } else {
 
-                    $newOwnRes->setOwnResReservationFromDate(new \DateTime(date("Y-m-d H:i:s", $start_timestamp)));
-                    $newOwnRes->setOwnResReservationToDate(new \DateTime(date("Y-m-d H:i:s", $end_timestamp)));
+                        $start = explode('/', $post['date_from_' . $ownership_reservation->getOwnResId()]);
+                        $nights = $post['nights_' . $ownership_reservation->getOwnResId()];
+                        $start_timestamp = mktime(0, 0, 0, $start[1], $start[0], $start[2]);
+                        $end_timestamp = strtotime("+" . $nights . " day", $start_timestamp);
 
-                    if (isset($post['service_room_price_' . $ownership_reservation->getOwnResId()]) && $post['service_room_price_' . $ownership_reservation->getOwnResId()] != "" && $post['service_room_price_' . $ownership_reservation->getOwnResId()] != "0") {
-                        $temp_price+=$post['service_room_price_' . $ownership_reservation->getOwnResId()] * $nights;
-                        $newOwnRes->setOwnResNightPrice($post['service_room_price_' . $ownership_reservation->getOwnResId()]);
+                        $newOwnRes = $ownership_reservation->getClone();
+                        $newOwnRes->setOwnResGenResId($newGeneralReservation);
+                        $newOwnRes->setOwnResStatus(ownershipReservation::STATUS_RESERVED);
+
+                        $newOwnRes->setOwnResReservationFromDate(new \DateTime(date("Y-m-d H:i:s", $start_timestamp)));
+                        $newOwnRes->setOwnResReservationToDate(new \DateTime(date("Y-m-d H:i:s", $end_timestamp)));
+
+                        if (isset($post['service_room_price_' . $ownership_reservation->getOwnResId()]) && $post['service_room_price_' . $ownership_reservation->getOwnResId()] != "" && $post['service_room_price_' . $ownership_reservation->getOwnResId()] != "0") {
+                            $temp_price+=$post['service_room_price_' . $ownership_reservation->getOwnResId()] * $nights;
+                            $newOwnRes->setOwnResNightPrice($post['service_room_price_' . $ownership_reservation->getOwnResId()]);
+                        }
+
+
+                        if ($fromDate == null || $newOwnRes->getOwnResReservationFromDate() < $fromDate)
+                            $fromDate = $newOwnRes->getOwnResReservationFromDate();
+                        if ($toDate == null || $newOwnRes->getOwnResReservationToDate() > $toDate)
+                            $toDate = $newOwnRes->getOwnResReservationToDate();
+
+                        $em->persist($newOwnRes);
+
+                        $ownership_reservation->setOwnResReservationBooking(null);
+                        $em->persist($ownership_reservation);
                     }
-
-
-                    if ($fromDate == null || $newOwnRes->getOwnResReservationFromDate() < $fromDate)
-                        $fromDate = $newOwnRes->getOwnResReservationFromDate();
-                    if ($toDate == null || $newOwnRes->getOwnResReservationToDate() > $toDate)
-                        $toDate = $newOwnRes->getOwnResReservationToDate();
-
-                    $em->persist($newOwnRes);
-
-                    $ownership_reservation->setOwnResReservationBooking(null);
-                    $em->persist($ownership_reservation);
                 }
 
-                $message = 'Nueva oferta creada satisfactoriamente.';
                 $newGeneralReservation->setGenResSaved(1);
                 $newGeneralReservation->setGenResFromDate($fromDate);
                 $newGeneralReservation->setGenResToDate($toDate);
@@ -224,13 +235,16 @@ class BackendReservationController extends Controller {
                 $service_log = $this->get('log');
                 $service_log->saveLog('New offer for CAS.' . $reservation->getGenResId(), BackendModuleName::MODULE_RESERVATION);
 
+                $message = 'Nueva oferta creada satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
-                //Enviar corroes
+                //Enviar correo al cliente con el texto escrito y el voucher como adjunto
             }
         }
-
-        return $this->redirect($this->generateUrl('mycp_list_reservations'));
+        if(count($errors) == 0)
+            return $this->redirect($this->generateUrl('mycp_list_reservations'));
+        else
+            return $this->redirect($this->generateUrl('mycp_new_offer_reservation', array("id_tourist" => $id_tourist, "id_reservation" => $id_reservation)));
     }
 
     public function list_reservationsAction($items_per_page, Request $request) {
