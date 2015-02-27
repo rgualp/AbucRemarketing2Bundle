@@ -10,7 +10,7 @@ use MyCp\mycpBundle\Entity\metaTag;
 
 class PublicController extends Controller {
 
-    public function home_pageAction() {
+    public function homePageAction() {
         return $this->redirect($this->generateUrl('frontend_welcome'));
     }
 
@@ -101,7 +101,7 @@ class PublicController extends Controller {
         ));
     }
 
-    public function home_carrouselAction() {
+    public function homeCarrouselAction() {
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
 
@@ -153,7 +153,7 @@ class PublicController extends Controller {
         return new Response($result ? "ok" : "error");
     }
 
-    public function get_main_menu_destinationsAction()
+    public function getMainMenuDestinationsAction()
     {
         $em = $this->getDoctrine()->getManager();
         $destinations = $em->getRepository('mycpBundle:destination')->getMainMenu();
@@ -173,7 +173,7 @@ class PublicController extends Controller {
         ));
     }
 
-    public function get_main_menu_accomodationsAction()
+    public function getMainMenuAccomodationsAction()
     {
         $em = $this->getDoctrine()->getManager();
         $provinces = $em->getRepository('mycpBundle:province')->getMainMenu();
@@ -189,7 +189,7 @@ class PublicController extends Controller {
         ));
     }
 
-    public function get_main_menu_mycasatripAction()
+    public function getMainMenuMycasatripAction()
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -200,7 +200,7 @@ class PublicController extends Controller {
         ));
     }
 
-    public function site_mapAction()
+    public function siteMapAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
         $urls = array();

@@ -25,7 +25,7 @@ mycp:
 
 mycp_sitemap:
     path: /sitemap.{_format}
-    defaults: { _controller: FrontEndBundle:Public:site_map }
+    defaults: { _controller: FrontEndBundle:Public:siteMap }
 
 mycp_own_details:
     pattern:  /{own_code}/
