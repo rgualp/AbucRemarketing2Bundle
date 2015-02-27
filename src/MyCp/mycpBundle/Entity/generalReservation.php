@@ -488,4 +488,23 @@ class generalReservation {
 
         return (self::STATUS_RESERVED === $status || self::STATUS_PARTIAL_RESERVED === $status);
     }
+
+    public function getClone()
+    {
+        $genRes = new generalReservation();
+        $genRes->setGenResArrivalHour($this->gen_res_arrival_hour);
+        $genRes->setGenResDate($this->gen_res_date);
+        $genRes->setGenResFromDate($this->gen_res_from_date);
+        $genRes->setGenResHour($this->gen_res_hour);
+        $genRes->setGenResOwnId($this->gen_res_own_id);
+        $genRes->setGenResSaved($this->gen_res_saved);
+        $genRes->setGenResStatus($this->gen_res_status);
+        $genRes->setGenResStatusDate($this->gen_res_status_date);
+        $genRes->setGenResSyncSt(SyncStatuses::ADDED);
+        $genRes->setGenResToDate($this->gen_res_to_date);
+        $genRes->setGenResTotalInSite($this->gen_res_total_in_site);
+        $genRes->setGenResUserId($this->gen_res_user_id);
+
+        return $genRes;
+    }
 }

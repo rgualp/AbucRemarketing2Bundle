@@ -17,6 +17,9 @@
         <td>{{booking.payed * booking.booking_rate}} CUC</td>
         </tr>
     {%endfor%}
+        <tr>
+            <td colspan="3"><b>Pago al arribar:</b> {{payment}} CUC</td>
+        </tr>
 </table>
 {%else%}
         <div class="alert alert-error">No hay pagos asociados</div>

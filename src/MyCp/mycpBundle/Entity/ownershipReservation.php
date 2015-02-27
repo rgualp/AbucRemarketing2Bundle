@@ -520,4 +520,26 @@ class ownershipReservation {
         return (self::STATUS_RESERVED === $status);
     }
 
+    public function getClone()
+    {
+        $ownRes = new ownershipReservation();
+        $ownRes->setOwnResCountAdults($this->own_res_count_adults);
+        $ownRes->setOwnResCountChildrens($this->own_res_count_childrens);
+        $ownRes->setOwnResGenResId($this->own_res_gen_res_id);
+        $ownRes->setOwnResNightPrice($this->own_res_night_price);
+        $ownRes->setOwnResReservationBooking($this->own_res_reservation_booking);
+        $ownRes->setOwnResReservationFromDate($this->own_res_reservation_from_date);
+        $ownRes->setOwnResReservationToDate($this->own_res_reservation_to_date);
+        $ownRes->setOwnResRoomPriceDown($this->own_res_room_price_down);
+        $ownRes->setOwnResRoomPriceSpecial($this->own_res_room_price_special);
+        $ownRes->setOwnResRoomPriceUp($this->own_res_room_price_up);
+        $ownRes->setOwnResRoomType($this->own_res_room_type);
+        $ownRes->setOwnResSelectedRoomId($this->own_res_selected_room_id);
+        $ownRes->setOwnResStatus($this->own_res_status);
+        $ownRes->setOwnResSyncSt(SyncStatuses::ADDED);
+        $ownRes->setOwnResTotalInSite($this->own_res_total_in_site);
+
+        return $ownRes;
+    }
+
 }

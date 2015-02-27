@@ -32,10 +32,13 @@ class BackendReservationController extends Controller {
         $ownerships = $em->getRepository('mycpBundle:ownership')->findBy(array('own_address_province' => $idProv));
         $array_nights = array();
         $rooms = array();
+        $payment = 0;
         foreach ($reservations as $res) {
             $dates_temp = $service_time->datesBetween($res->getOwnResReservationFromDate()->getTimestamp(), $res->getOwnResReservationToDate()->getTimestamp());
             array_push($rooms, $em->getRepository('mycpBundle:room')->find($res->getOwnResSelectedRoomId()));
             array_push($array_nights, count($dates_temp) - 1);
+
+            $payment += $res->getOwnResTotalInSite() - $res->getOwnResTotalInSite() * $res->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent() / 100;
         }
 
         if ($this->getRequest()->getMethod() == 'POST') {
@@ -131,8 +134,7 @@ class BackendReservationController extends Controller {
             return $this->redirect($this->generateUrl('mycp_list_reservations'));
         }
 
-        if($gen_res->getGenResStatus() != generalReservation::STATUS_CANCELLED || count($bookings) == 0)
-        {
+        if ($gen_res->getGenResStatus() != generalReservation::STATUS_CANCELLED || count($bookings) == 0) {
             $message = 'Solo se puede ofrecer una nueva oferta si la reservación original está cancelada y tiene algún pago asociado.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
         }
@@ -146,8 +148,89 @@ class BackendReservationController extends Controller {
                     'bookings' => $bookings,
                     'reservations' => $reservations,
                     'rooms' => $rooms,
-                    'nights' => $array_nights
+                    'nights' => $array_nights,
+                    'payment' => $payment
         ));
+    }
+
+    public function changeDatesAction($id_tourist, $id_reservation, Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $reservation = $em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
+        $ownership_reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $id_reservation));
+        $errors = array();
+        $post = $request->request->getIterator()->getArrayCopy();
+
+        if ($request->getMethod() == 'POST') {
+
+            $keys = array_keys($post);
+
+            foreach ($keys as $key) {
+                $splitted = explode("_", $key);
+                if (strpos($key, 'service_room_price') !== false) {
+
+                    if (!is_numeric($post[$key])) {
+                        $errors[$key] = 1;
+                    }
+                }
+            }
+
+            if (count($errors) == 0) {
+                $newGeneralReservation = $reservation->getClone();
+                $newGeneralReservation->setGenResStatus(generalReservation::STATUS_RESERVED);
+                $newGeneralReservation->setGenResDate(new \DateTime());
+                $em->persist($newGeneralReservation);
+                $em->flush();
+
+                $temp_price = 0;
+                $fromDate = null;
+                $toDate = null;
+                foreach ($ownership_reservations as $ownership_reservation) {
+                    $start = explode('/', $post['date_from_' . $ownership_reservation->getOwnResId()]);
+                    $nights = $post['nights_' . $ownership_reservation->getOwnResId()];
+                    $start_timestamp = mktime(0, 0, 0, $start[1], $start[0], $start[2]);
+                    $end_timestamp = strtotime("+" . $nights . " day", $start_timestamp);
+
+                    $newOwnRes = $ownership_reservation->getClone();
+                    $newOwnRes->setOwnResGenResId($newGeneralReservation);
+                    $newOwnRes->setOwnResStatus(ownershipReservation::STATUS_RESERVED);
+
+                    $newOwnRes->setOwnResReservationFromDate(new \DateTime(date("Y-m-d H:i:s", $start_timestamp)));
+                    $newOwnRes->setOwnResReservationToDate(new \DateTime(date("Y-m-d H:i:s", $end_timestamp)));
+
+                    if (isset($post['service_room_price_' . $ownership_reservation->getOwnResId()]) && $post['service_room_price_' . $ownership_reservation->getOwnResId()] != "" && $post['service_room_price_' . $ownership_reservation->getOwnResId()] != "0") {
+                        $temp_price+=$post['service_room_price_' . $ownership_reservation->getOwnResId()] * $nights;
+                        $newOwnRes->setOwnResNightPrice($post['service_room_price_' . $ownership_reservation->getOwnResId()]);
+                    }
+
+
+                    if ($fromDate == null || $newOwnRes->getOwnResReservationFromDate() < $fromDate)
+                        $fromDate = $newOwnRes->getOwnResReservationFromDate();
+                    if ($toDate == null || $newOwnRes->getOwnResReservationToDate() > $toDate)
+                        $toDate = $newOwnRes->getOwnResReservationToDate();
+
+                    $em->persist($newOwnRes);
+
+                    $ownership_reservation->setOwnResReservationBooking(null);
+                    $em->persist($ownership_reservation);
+                }
+
+                $message = 'Nueva oferta creada satisfactoriamente.';
+                $newGeneralReservation->setGenResSaved(1);
+                $newGeneralReservation->setGenResFromDate($fromDate);
+                $newGeneralReservation->setGenResToDate($toDate);
+
+                $em->persist($newGeneralReservation);
+                $em->flush();
+                $service_log = $this->get('log');
+                $service_log->saveLog('New offer for CAS.' . $reservation->getGenResId(), BackendModuleName::MODULE_RESERVATION);
+
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+                //Enviar corroes
+            }
+        }
+
+        return $this->redirect($this->generateUrl('mycp_list_reservations'));
     }
 
     public function list_reservationsAction($items_per_page, Request $request) {
@@ -521,12 +604,15 @@ class BackendReservationController extends Controller {
                 }
                 if (strpos($key, 'service_own_res_status') !== false) {
                     $details_total++;
-                    switch($post[$key])
-                    {
-                        case ownershipReservation::STATUS_NOT_AVAILABLE: $non_available_total++; break;
-                        case ownershipReservation::STATUS_AVAILABLE: $available_total++; break;
-                        case ownershipReservation::STATUS_CANCELLED: $cancelled_total++; break;
-                        case ownershipReservation::STATUS_OUTDATED: $outdated_total++; break;
+                    switch ($post[$key]) {
+                        case ownershipReservation::STATUS_NOT_AVAILABLE: $non_available_total++;
+                            break;
+                        case ownershipReservation::STATUS_AVAILABLE: $available_total++;
+                            break;
+                        case ownershipReservation::STATUS_CANCELLED: $cancelled_total++;
+                            break;
+                        case ownershipReservation::STATUS_OUTDATED: $outdated_total++;
+                            break;
                     }
                 }
 
@@ -567,10 +653,10 @@ class BackendReservationController extends Controller {
                             $nights = count($dates_temp) - 1;
                             if ($currentGuestTotal >= 3 && $newGuestTotal < 3) {
                                 //restar el recargo
-                                $ownership_reservation->setOwnResTotalInSite($currentSitePrice - $tripleRoomFeed*$nights);
+                                $ownership_reservation->setOwnResTotalInSite($currentSitePrice - $tripleRoomFeed * $nights);
                             } else if ($currentGuestTotal < 3 && $newGuestTotal >= 3) {
                                 //sumar el recargo
-                                $ownership_reservation->setOwnResTotalInSite($currentSitePrice + $tripleRoomFeed*$nights);
+                                $ownership_reservation->setOwnResTotalInSite($currentSitePrice + $tripleRoomFeed * $nights);
                             }
                         }
                     }
@@ -592,15 +678,14 @@ class BackendReservationController extends Controller {
                     } else if ($non_available_total > 0 && $available_total > 0)
                         $reservation->setGenResStatus(generalReservation::STATUS_PARTIAL_AVAILABLE);
 
-                    else if($cancelled_total > 0 && $cancelled_total != $details_total){
+                    else if ($cancelled_total > 0 && $cancelled_total != $details_total) {
                         $reservation->setGenResStatus(generalReservation::STATUS_PARTIAL_CANCELLED);
-                    }
-                    else if($outdated_total > 0 && $outdated_total == $details_total)
+                    } else if ($outdated_total > 0 && $outdated_total == $details_total)
                         $reservation->setGenResStatus(generalReservation::STATUS_OUTDATED);
                 }
-                if($cancelled_total > 0 && $cancelled_total == $details_total){
-                        $reservation->setGenResStatus(generalReservation::STATUS_CANCELLED);
-                    }
+                if ($cancelled_total > 0 && $cancelled_total == $details_total) {
+                    $reservation->setGenResStatus(generalReservation::STATUS_CANCELLED);
+                }
                 $em->persist($reservation);
                 $em->flush();
                 $service_log = $this->get('log');

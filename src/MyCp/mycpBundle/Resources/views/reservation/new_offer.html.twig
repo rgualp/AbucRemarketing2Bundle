@@ -17,12 +17,6 @@
         <li class="active">Nueva Oferta</li>
         <li class="pull-right"><a href="{{ path('mycp_details_reservation',{'id_reservation':reservation.genResId}) }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
     </ul>
-    <div class="form-actions">
-        {%if bookings and reservation.genresStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED')%}
-        <button class="btn btn-primary" id="btn_submit">Guardar</button>
-        {%endif%}
-        <a class="btn" href="{{ path('mycp_details_reservation',{'id_reservation':reservation.genResId}) }}">Cancelar</a>
-    </div>
     <script type="text/javascript">
         $('#btn_submit').click(function(){
             if($('.calendar-results').css('display')=='block'){
@@ -48,10 +42,10 @@
     {% endfor %}
     <div class="row-fluid">
         <div class="span6">
-        {{include('mycpBundle:utils:clientInfoTab.html.twig', {"user":user})}}
+        {{include('mycpBundle:utils:clientInfoShortTab.html.twig', {"user":user, "tourist": tourist})}}
         </div>
         <div class="span6">
-        {{include('mycpBundle:utils:paymentInfoShortTab.html.twig', {"bookings":bookings})}}
+        {{include('mycpBundle:utils:paymentInfoShortTab.html.twig', {"bookings":bookings, "payment": payment})}}
         </div>
      </div>
     {%if bookings and reservation.genresStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED')%}
@@ -67,6 +61,7 @@
     <div class="tab-content tabs_cont">
         <div class="tab-pane active" id="dates">
         <h5>{{reservation.genResOwnId.ownMcpCode}} - {{reservation.genResOwnId.ownName}}</h5>
+        <form id="form_dates" action="{{ path('mycp_changes_dates_reservation',{'id_tourist':id_tourist,'id_reservation':reservation.genResId}) }}" method="POST">
     <table class="table table-striped" style="font-size: 12px">
         <thead>
         <tr>
@@ -74,7 +69,6 @@
             <th>Adultos</th>
             <th>Niños</th>
             <th>Entrada</th>
-            <th>Salida</th>
             <th>Noches</th>
             <th>Precios</th>
             <th>Precio/Noche</th>
@@ -103,11 +97,11 @@
                 {%if errors['date_from_' ~ reservation_rooms.getOwnResId] is defined%}
                     <label class="error">Rango incorrecto</label>
                 {%endif%}
-                <input name="date_from_{{reservation_rooms.getOwnResId}}" data-localization="es" type="text" class="input-block-level datepicker_textbox" value="{% if post['date_from_'~reservation_rooms.getOwnResId] is defined %}{{ post['date_from_'~reservation_rooms.getOwnResId] }}{% else %}{{ reservation_rooms.getOwnResReservationFromDate | date("d/m/Y") }}{% endif %}"/></td>
-            <td>
-                {{ reservation_rooms.getOwnResReservationToDate | date("d/m/Y") }}
+                <input name="date_from_{{reservation_rooms.getOwnResId}}" data-localization="es" type="text" data-res-id="{{reservation_rooms.getOwnResId}}" data-night="{{nights[loop.index0]}}" class="input-block-level datepicker_textbox" value="{% if post['date_from_'~reservation_rooms.getOwnResId] is defined %}{{ post['date_from_'~reservation_rooms.getOwnResId] }}{% else %}{{ reservation_rooms.getOwnResReservationFromDate | date("d/m/Y") }}{% endif %}"/></td>
+
+            <td>{{nights[loop.index0]}}
+            <input name="nights_{{reservation_rooms.getOwnResId}}" type="hidden" value="{{nights[loop.index0]}}"/>
             </td>
-            <td>{{nights[loop.index0]}}</td>
             <td nowrap=nowrap>
                 {%if rooms[flag]%}
                     Baja: {{ rooms[flag].getRoomPriceDownTo }} CUC <br/>
@@ -130,6 +124,11 @@
                     {% endif %}
                 {% endif %}
                 <input type="text" class="input-block-level" value="{{ price_own_res }}" name="service_room_price_{{reservation_rooms.getOwnResId}}"/>
+                {% if reservation_rooms.getOwnResNightPrice ==0%}
+                ({{ceil_round(reservation_rooms.getOwnResTotalInSite / nights[loop.index0]) }} CUC)
+                {%else%}
+                ({{ceil_round(reservation_rooms.getOwnResNightPrice)}} CUC)
+                {%endif%}
             </td>
             <td>{{ reservation_rooms.getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent }}%</td>
             <td>
@@ -148,6 +147,16 @@
         {% set flag = flag + 1%}
         {% endfor %}
     </table>
+                <hr/>
+    <h4>Mensaje</h4>
+    <textarea name="message_body" style="width:95%"></textarea>
+    <div class="row-fluid" style="text-align: right">
+        {%if bookings and reservation.genresStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED')%}
+        <button class="btn btn-primary" id="btn_dates">Guardar</button>
+        {%endif%}
+        <a class="btn" href="{{ path('mycp_details_reservation',{'id_reservation':reservation.genResId}) }}">Cancelar</a>
+    </div>
+            </form>
         </div>
     <div class="tab-pane" id="house">
     <div class="row-fluid">
@@ -165,7 +174,7 @@
             <input value="{{ end_date }}" type="text" id="filter_date_to" class="form-control input-block-level" placeholder="Salida" data-localization='es'>
         </div>
     </div>
-
+     <form id="form_submit" action="{{ path('mycp_new_offer_reservation',{'id_tourist':id_tourist,'id_reservation':reservation.genResId}) }}" method="POST">
     <div class="container_loading" id="body_calendar" style="overflow-x: auto;">
 
     </div>
@@ -217,7 +226,7 @@
             {% else %}
                 {% set date_to = "+6 day"|date("d&m&Y") %}
             {% endif %}
-            <form id="form_submit" action="{{ path('mycp_new_offer_reservation',{'id_tourist':id_tourist,'id_reservation':reservation.genResId}) }}" method="POST">
+
                 <div class="row">
                     <div class="col-sm-4"></div>
                     <div class="col-sm-4 text-center">
@@ -227,14 +236,21 @@
                         </div>
                     </div>
                 </div>
-            </form>
+
         </li>
     </ul>
-        </div>
-        </div>
-    <hr/>
-    <h4>Mensaje</h4>
+             <h4>Mensaje</h4>
     <textarea name="message_body" style="width:95%"></textarea>
+            <div class="row-fluid" style="text-align: right">
+        {%if bookings and reservation.genresStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED')%}
+        <button class="btn btn-primary" id="btn_submit">Guardar</button>
+        {%endif%}
+        <a class="btn" href="{{ path('mycp_details_reservation',{'id_reservation':reservation.genResId}) }}">Cancelar</a>
+        </form>
+    </div>
+        </div>
+        </div>
+
 
     <script src="{{ asset('bundles/mycp/js/wysihtml5-0.3.0.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
@@ -340,7 +356,8 @@
             language: 'es',
             format:'dd/mm/yyyy'
         }).on('changeDate', function(ev){
-                    $('.datepicker').hide();
+             $('.datepicker').hide();
+
                 });
     </script>
     <script src="{{ asset('bundles/frontend/js/ownership.calendar.js') }}"></script>
