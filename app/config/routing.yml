@@ -29,7 +29,7 @@ mycp_sitemap:
 
 mycp_own_details:
     pattern:  /{own_code}/
-    defaults: { _controller: FrontEndBundle:Ownership:own_details_direct }
+    defaults: { _controller: FrontEndBundle:Ownership:ownDetailsDirect }
 
 mycp_simple_details:
     pattern:  /simple/{mycp_code}/

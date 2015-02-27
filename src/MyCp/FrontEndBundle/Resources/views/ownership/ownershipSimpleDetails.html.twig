@@ -337,7 +337,7 @@
             <li class="lead"><h1 class="no-margin"><small class="h-white-1">{{"FROM_PRICES" | trans | lower}}</small> {{ownership.ownminimumprice | price}}</h1></li>
          </ul>
         <hr class="margin-t"/>
-        {{ render(controller( 'FrontEndBundle:Ownership:owners_photos', { 'ownership_id': ownership.own_id} )) }}
+        {{ render(controller( 'FrontEndBundle:Ownership:ownersPhotos', { 'ownership_id': ownership.own_id, 'photo': ownership.ownerPhotoName} )) }}
         {% if ownership.owner1 %}
             <div class="text-center">
                 <h4>

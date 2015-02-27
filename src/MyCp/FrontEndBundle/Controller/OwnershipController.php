@@ -13,7 +13,7 @@ use MyCp\mycpBundle\Entity\season;
 
 class OwnershipController extends Controller {
 
-    public function get_reservation_calendarAction(Request $request) {
+    public function getReservationCalendarAction(Request $request) {
         $from = $request->get('from');
         $to = $request->get('to');
 
@@ -222,7 +222,7 @@ class OwnershipController extends Controller {
         ));
     }
 
-    public function own_details_directAction($own_code) {
+    public function ownDetailsDirectAction($own_code) {
         // There are so many browserconfig.xml requests from stupid IE6 that we check for it
         // here to avoid Exceptions in the log files
         if (strpos($own_code, 'browserconfig.xml') !== false) {
@@ -540,7 +540,7 @@ class OwnershipController extends Controller {
         ));
     }
 
-    public function last_added_listAction() {
+    public function lastAddedListAction() {
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
 
@@ -744,7 +744,7 @@ class OwnershipController extends Controller {
             ));
     }
 
-    public function search_order_resultsAction() {
+    public function searchOrderResultsAction() {
 
         $request = $this->getRequest();
         $session = $request->getSession();
@@ -821,7 +821,7 @@ class OwnershipController extends Controller {
         throw new MethodNotAllowedHttpException(array('POST'));
     }
 
-    public function search_change_view_resultsAction() {
+    public function searchChangeViewResultsAction() {
         $request = $this->getRequest();
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
@@ -1063,7 +1063,7 @@ class OwnershipController extends Controller {
         return new Response($response, 200);
     }
 
-    public function get_filters_statisticsAction() {
+    public function getFiltersStatisticsAction() {
         $request = $this->getRequest();
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
@@ -1113,7 +1113,7 @@ class OwnershipController extends Controller {
         return new Response($response, 200);
     }
 
-    public function map_markers_listAction() {
+    public function mapMarkersListAction() {
         $request = $this->getRequest();
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
@@ -1136,7 +1136,7 @@ class OwnershipController extends Controller {
         return new Response(json_encode($result), 200);
     }
 
-    public function update_ratingAction($ownid) {
+    public function updateRatingAction($ownid) {
         $request = $this->getRequest();
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
@@ -1155,7 +1155,7 @@ class OwnershipController extends Controller {
         return new Response($response, 200);
     }
 
-    function add_favorite_ownershipAction($id_ownership) {
+    function addFavoriteOwnershipAction($id_ownership) {
         $string_favorites = '';
         $ownership_in_cookies = false;
 
@@ -1184,7 +1184,7 @@ class OwnershipController extends Controller {
         return $this->redirect($this->generateUrl('frontend_details_ownership', array('ownerid' => $id_ownership)));
     }
 
-    public function map_details_ownershipAction($ownGeolocateX, $ownGeolocateY, $ownName, $description, $image) {
+    public function mapDetailsOwnershipAction($ownGeolocateX, $ownGeolocateY, $ownName, $description, $image) {
         $ownership = new ownership();
         $ownership->setOwnName($ownName);
         $ownership->setOwnGeolocateX($ownGeolocateX);
@@ -1197,7 +1197,7 @@ class OwnershipController extends Controller {
         ));
     }
 
-    public function map_resizedAction($in_searcher = 'true', $destination_name = null) {
+    public function mapResizedAction($in_searcher = 'true', $destination_name = null) {
         $request = $this->getRequest();
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
@@ -1248,7 +1248,7 @@ class OwnershipController extends Controller {
         return new Response($response, 200);
     }
 
-    public function voted_best_listAction() {
+    public function votedBestListAction() {
         $em = $this->getDoctrine()->getManager();
 
         $session = $this->getRequest()->getSession();
@@ -1302,23 +1302,7 @@ class OwnershipController extends Controller {
         ));
     }
 
-    private function is_ownership_in_cookie($id_own) {
-        if (isset($_COOKIE["mycp_favorites_ownerships"])) {
-            $string_favorites = $_COOKIE["mycp_favorites_ownerships"];
-            echo $string_favorites;
-            $array_ownerships = explode('*', $string_favorites);
-            array_pop($array_ownerships);
-            foreach ($array_ownerships as $ownership) {
-
-                if ($ownership == $id_own) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public function type_listAction($type) {
+    public function typeListAction($type) {
         $em = $this->getDoctrine()->getManager();
 
         $session = $this->getRequest()->getSession();
@@ -1401,7 +1385,7 @@ class OwnershipController extends Controller {
         ));
     }
 
-    public function top_rated_callbackAction() {
+    public function topRatedCallbackAction() {
         $request = $this->getRequest();
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
@@ -1441,7 +1425,7 @@ class OwnershipController extends Controller {
         return new Response($response, 200);
     }
 
-    public function top_rated_change_category_callbackAction() {
+    public function topRatedChangeCategoryCallbackAction() {
         $request = $this->getRequest();
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
@@ -1492,7 +1476,7 @@ class OwnershipController extends Controller {
         ));
     }
 
-    public function owners_photosAction($ownership_id, $photo) {
+    public function ownersPhotosAction($ownership_id, $photo) {
         if ($photo == null) {
             $em = $this->getDoctrine()->getManager();
             $photo = $em->getRepository('mycpBundle:userCasa')->getOwnersPhotos($ownership_id);
@@ -1503,7 +1487,7 @@ class OwnershipController extends Controller {
         ));
     }
 
-    public function last_owns_visitedAction($exclude_ownership_id = null) {
+    public function lastOwnsVisitedAction($exclude_ownership_id = null) {
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $history_owns = $em->getRepository('mycpBundle:userHistory')->getListEntity($user_ids, true, 10, $exclude_ownership_id);
@@ -1515,7 +1499,7 @@ class OwnershipController extends Controller {
         ));
     }
 
-    public function near_by_destinationsAction($municipality_id, $province_id) {
+    public function nearByDestinationsAction($municipality_id, $province_id) {
         $em = $this->getDoctrine()->getManager();
         $users_id = $em->getRepository('mycpBundle:user')->getIds($this);
 
