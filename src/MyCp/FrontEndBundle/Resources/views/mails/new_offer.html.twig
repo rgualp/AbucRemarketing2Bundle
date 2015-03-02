@@ -1,0 +1,12 @@
+{% extends 'FrontEndBundle:layout:translatedbaseMailTemplate.html.twig' %}
+
+{% block content %}
+        <h4 style="font-family: Arial; font-size: 20px">{{"GOOD_MORNING"|trans({}, "messages", user_locale)}} {{user.getUserUserName|capitalize}} {{user.getUserLastName|capitalize}}</h4>
+        {% if message is defined and message|length %}{{ message }}{% endif %}
+        
+        {% for reservation in reservations %}
+            {{ include('FrontEndBundle:utils:reservationControl.html.twig', {"index" : loop.index0, "reservation": reservation}) }}
+            <br/>
+        {% endfor %}
+    <h4 style="font-size: 16px; font-weight: normal; font-style: italic">{{"THANKS_RESERVATION_TEAM"|trans({}, "messages", user_locale)}}</h4>
+{% endblock %}

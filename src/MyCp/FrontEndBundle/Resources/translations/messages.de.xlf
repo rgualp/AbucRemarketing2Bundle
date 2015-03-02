@@ -2693,6 +2693,10 @@
                 <source>OUTDATED</source>
                 <target>Outdated</target>
             </trans-unit>
+            <trans-unit id="684">
+                <source>NEW_OFFER_SUBJECT</source>
+                <target>Neues Angebot</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
