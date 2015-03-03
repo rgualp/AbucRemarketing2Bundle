@@ -48,14 +48,14 @@ class PublicController extends Controller
             $selected = $post['ownership_address_municipality'];
         }
         $municipalities = array();
-        
+
         if($post && isset($post['ownership_address_province']))
             $municipalities = $em->getRepository('mycpBundle:municipality')->findBy(array('mun_prov_id'=>$post['ownership_address_province']));
         /*else
             $municipalities = $em->getRepository ('mycpBundle:municipality')->findAll();*/
         return $this->render('mycpBundle:utils:list_municipality.html.twig', array('municipalities' => $municipalities,'selected'=>$selected));
     }
-    
+
     public function get_mun_by_prov_callbackAction($country_code,Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -74,9 +74,9 @@ class PublicController extends Controller
         {
             $selected=$post['filter_municipality'];
         }
-        
+
         $em = $this->getDoctrine()->getManager();
-        
+
         if(isset($post['ownership_address_province']))
             $municipalities = $em->getRepository('mycpBundle:municipality')->findBy(array('mun_prov_id' => $post['ownership_address_province']));
         else
@@ -120,18 +120,18 @@ class PublicController extends Controller
         {
             $selected = $post['ownership_destination'];
         }
-        
+
         $municipality = null;
         $province = null;
 
         if(isset($post['ownership_address_municipality']))
             $municipality = $post['ownership_address_municipality'];
-        
+
         if(isset($post['ownership_address_province']))
             $province = $post['ownership_address_province'];
-        
+
         $destinations = $em->getRepository('mycpBundle:destination')->getByMunicipality($municipality, $province);
-        
+
         return $this->render('mycpBundle:utils:list_destinations.html.twig', array('destinations' => $destinations,'selected'=>$selected));
     }
 
@@ -153,14 +153,14 @@ class PublicController extends Controller
 
         if(isset($post['ownership_address_municipality']))
             $municipality = $post['ownership_address_municipality'];
-        
+
         if(isset($post['ownership_address_province']))
             $province = $post['ownership_address_province'];
-        
+
         $destinations = $em->getRepository('mycpBundle:destination')->getByMunicipality($municipality, $province);
         return $this->render('mycpBundle:utils:list_destinations.html.twig', array('destinations' => $destinations,'selected'=>$selected));
     }
-    
+
     public function sendMailCreateUserCasaAction($userId, $returnUrlName) {
         $em = $this->getDoctrine()->getManager();
         $userCasa = $em->getRepository('mycpBundle:userCasa')->findOneBy(array('user_casa_user' => $userId));
