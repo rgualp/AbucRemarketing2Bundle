@@ -6,6 +6,12 @@ use \MyCp\mycpBundle\Entity\season;
 
 class Time {
 
+    public static function nights($startdate, $enddate, $format = null)
+    {
+        $dates = Time::datesBetween($startdate, $enddate, $format);
+        return count($dates) - 1;
+    }
+
     public static function datesBetween($startdate, $enddate, $format = null) {
 
         (is_int($startdate)) ? 1 : $startdate = strtotime($startdate);

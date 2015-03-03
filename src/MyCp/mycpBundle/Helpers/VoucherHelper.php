@@ -31,10 +31,7 @@ class VoucherHelper {
                 ));
 
                 $emailService->sendEmail(
-                        $emailToSend,
-                        'Voucher del booking ID_' . $bookId . ' (CAS.' . $genRes->getGenResId() . ')',
-                        $body,
-                        'no-reply@mycasaparticular.com', $pdfFilePath
+                        $emailToSend, 'Voucher del booking ID_' . $bookId . ' (CAS.' . $genRes->getGenResId() . ')', $body, 'no-reply@mycasaparticular.com', $pdfFilePath
                 );
             }
 
@@ -58,24 +55,30 @@ class VoucherHelper {
                 $bookId = $bookId['booking_id'];
 
                 // one could also use $bookingService->getVoucherFilePathByBookingId($bookingId) here, but then the PDF is not created
-                $pdfFilePath = $bookingService->createBookingVoucherIfNotExisting($bookId);
-                $ownershipReservations = $this->getOwnershipReservations($bookId);
+                $pdfFilePath = $bookingService->createBookingVoucher($bookId);
+                $ownershipReservations = $entity_manager->getRepository('mycpBundle:ownershipReservation')
+                        ->findBy(array('own_res_reservation_booking' => $bookId));
+                $serviceTime = $controller->get('time');
+                $nights = array();
+
+                foreach ($ownershipReservations as $res) {
+                    $resNights = $serviceTime->nights($res->getOwnResReservationFromDate()->getTimestamp(), $res->getOwnResReservationToDate()->getTimestamp());
+                    array_push($nights, $resNights);
+                }
 
                 $userLocale = strtolower($userTourist->getUserTouristLanguage()->getLangCode());
-                $body = $this->render('FrontEndBundle:mails:new_offer.html.twig', array(
+                $body = $controller->render('FrontEndBundle:mails:new_offer.html.twig', array(
                     'user_locale' => $userLocale,
                     'user' => $user,
                     'reservations' => $ownershipReservations,
-                    'message' => $message
+                    'message' => $message,
+                    'nights' => $nights
                 ));
 
-                $locale = $this->get('translator');
+                $locale = $controller->get('translator');
                 $subject = $locale->trans('NEW_OFFER_SUBJECT', array(), "messages", $userLocale);
                 $emailService->sendEmail(
-                        $user->getUserEmail(),
-                        $subject,
-                        $body,
-                        'no-reply@mycasaparticular.com', $pdfFilePath
+                        $user->getUserEmail(), $subject, $body, 'no-reply@mycasaparticular.com', $pdfFilePath
                 );
             }
 
