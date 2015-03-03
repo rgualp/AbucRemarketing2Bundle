@@ -107,6 +107,12 @@ parameters:
     configuration.dir.vouchers: %kernel.root_dir%/../tmp/vouchers/
     configuration.dir.excels: %kernel.root_dir%/../tmp/excels/
 
+doctrine_migrations:
+    dir_name: %kernel.root_dir%/migrations
+    namespace: MyCp\Migrations
+    table_name: migration_versions
+    name: MyCp Migrations
+
 services:
     twig.extension.utilsExtension:
         class: MyCp\FrontEndBundle\Twig\Extension\utilsExtension
