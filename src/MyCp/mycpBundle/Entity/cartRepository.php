@@ -45,7 +45,7 @@ class cartRepository extends EntityRepository {
                 $where .= " WHERE c.cart_session_id = '" . $user_ids["session_id"] . "'";
 
             if ($where != "")
-                return $em->createQuery($query_string . $where." ORDER BY o.own_id ASC, c.cart_date_from ASC")->getResult();
+                return $em->createQuery($query_string . $where . " ORDER BY o.own_id ASC, c.cart_date_from ASC")->getResult();
             else
                 return null;
         } catch (Exception $e) {
@@ -59,7 +59,6 @@ class cartRepository extends EntityRepository {
             $query_string = "SELECT c FROM mycpBundle:cart c WHERE c.cart_user = " . $userId;
 
             return $em->createQuery($query_string)->getResult();
-
         } catch (Exception $e) {
             return null;
         }
@@ -72,13 +71,13 @@ class cartRepository extends EntityRepository {
 
             $where = "";
 
-            if($user_id != null)
+            if ($user_id != null)
                 $where = "WHERE c.cart_user = " . $user_id;
-            else if($sessionId != null)
-                $where = "WHERE c.cart_user <> NULL AND c.cart_session_id = '".$sessionId."'";
+            else if ($sessionId != null)
+                $where = "WHERE c.cart_user is not NULL AND c.cart_session_id = '" . $sessionId . "'";
 
             $date = new \DateTime();
-            $where .= " AND c.cart_created_date <= '" . date("Y-m-d H:i:s", strtotime("-3 hours", $date->getTimestamp())) . "'";
+            $where .= " AND c.cart_created_date <= '" . date("Y-m-d H:i:s", strtotime("-6 hours", $date->getTimestamp())) . "'";
 
             return count($em->createQuery($query_string . $where)->getResult());
         } catch (Exception $e) {
@@ -89,18 +88,22 @@ class cartRepository extends EntityRepository {
     public function getUserFromCart($user_id = null, $sessionId = null) {
         try {
             $em = $this->getEntityManager();
-            $query_string = "SELECT c FROM mycpBundle:cart c ";
+            $query_string = "SELECT DISTINCT u.user_id FROM mycpBundle:cart c JOIN c.cart_user u ";
 
             $where = "";
 
-            if($user_id != null)
+            if ($user_id != null)
                 $where = "WHERE c.cart_user = " . $user_id;
-            else if($sessionId != null)
-                $where = "WHERE c.cart_user <> NULL AND c.cart_session_id = '".$sessionId."'";
+            else if ($sessionId != null)
+                $where = "WHERE c.cart_user IS NOT NULL AND c.cart_session_id = '" . $sessionId . "'";
 
-            $cartItem = $em->createQuery($query_string . $where)->getOneOrNullResult();
+            $cartUser = $em->createQuery($query_string . $where)->getResult();
 
-            return $cartItem->getCartUser();
+            if (count($cartUser) > 0) {
+                $user = $em->getRepository("mycpBundle:user")->find($cartUser[0]["user_id"]);
+                return $user;
+            }
+            return null;
         } catch (Exception $e) {
             return null;
         }
