@@ -9,7 +9,7 @@
                                             <td style="background-color: #FFFFFF; border: solid 1px #cccccc;">
                                                 <a href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize,'locale':user_locale,'_locale':user_locale,}) }}">
                                                     {% if photos[index][0].getPhoName is defined %}
-                                                        <img width="100%" style="display:block;" border="0" src="{{url('mycp_main')~'uploads/ownershipImages/thumbnails/'~photos[loop.index0][0].getPhoName}}">
+                                                        <img width="100%" style="display:block;" border="0" src="{{url('mycp_main')~'uploads/ownershipImages/thumbnails/'~photos[index][0].getPhoName}}">
                                                     {% else %}
                                                         <img width="100%" style="display:block;" border="0" src="{{url('mycp_main')~'uploads/ownershipImages/no_photo_square.gif'}}">
                                                     {% endif %}
@@ -28,7 +28,7 @@
                                                 {{reservation.getOwnResCountAdults}} {{"ADULTS"|trans({}, "messages", user_locale)}}<br/>
                                                 {{reservation.getOwnResCountChildrens}} {{"KIDS"|trans({}, "messages", user_locale)}}<br/>
                                                 {{"ARRIVAL_RESERVATION"|trans({}, "messages", user_locale)}}: {{reservation.getOwnResReservationFromDate | date('d/m/Y')}}<br/>
-                                                {{"NIGHTS"|trans({}, "messages", user_locale)}}: {{nights[loop.index0]}}
+                                                {{"NIGHTS"|trans({}, "messages", user_locale)}}: {{nights[index]}}
                                             </td>
                                         </tr>
                                     </table>
@@ -56,7 +56,7 @@
                                     {% endif %}
                                     <h3>{{"RESERVATION_TOTAL" | trans({}, "messages", user_locale) | upper}}:
                                        {%if reservation.getOwnResNightPrice != 0%}
-                                        {{ (reservation.getOwnResNightPrice * nights[loop.index0]) | price}}
+                                        {{ (reservation.getOwnResNightPrice * nights[index]) | price}}
                                        {%else%}
                                             {{ reservation.ownResTotalInSite | price}}
                                        {%endif%}

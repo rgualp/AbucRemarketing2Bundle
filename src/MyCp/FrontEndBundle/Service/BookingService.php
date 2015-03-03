@@ -274,6 +274,35 @@ class BookingService extends Controller
     }
 
     /**
+     * Creates the booking voucher for a booking with ID $bookingID and
+     * returns the full file path to the voucher and null if it could
+     * not be created. In case the voucher already deletes it and create a new one.
+     * This is use in create new offer from a payed reservation case.
+     *
+     * @param $bookingId
+     * @return null|string
+     */
+    public function createBookingVoucher($bookingId)
+    {
+        $response = $this->getPrintableBookingConfirmationResponse($bookingId);
+        $pdfFilePath = $this->getVoucherFilePathByBookingId($bookingId);
+
+        if (file_exists($pdfFilePath)) {
+            unlink($pdfFilePath);
+        }
+
+        $pdfService = $this->get('front_end.services.pdf');
+        $success = $pdfService->storeHtmlAsPdf($response, $pdfFilePath);
+
+        if (!$success) {
+            // PDF could not be stored, so ignore attachment for now
+            $pdfFilePath = null;
+        }
+
+        return $pdfFilePath;
+    }
+
+    /**
      * Processes the payment emails by sending them out to
      *  - the customer
      *  - the reservation team

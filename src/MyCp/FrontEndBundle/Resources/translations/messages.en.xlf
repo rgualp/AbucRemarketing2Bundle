@@ -2695,6 +2695,14 @@
                 <source>OUTDATED</source>
                 <target>Outdated</target>
             </trans-unit>
+            <trans-unit id="684">
+                <source>NEW_OFFER_SUBJECT</source>
+                <target>New offer</target>
+            </trans-unit>
+            <trans-unit id="685">
+                <source>Aire acondicionado / Ventilador</source>
+                <target>Air Conditioning / Fan</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

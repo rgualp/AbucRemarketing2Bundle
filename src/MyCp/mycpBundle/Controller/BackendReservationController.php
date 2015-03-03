@@ -235,10 +235,15 @@ class BackendReservationController extends Controller {
                 $service_log = $this->get('log');
                 $service_log->saveLog('New offer for CAS.' . $reservation->getGenResId(), BackendModuleName::MODULE_RESERVATION);
 
+                //Enviar correo al cliente con el texto escrito y el voucher como adjunto
+                $mailMessage = ($post["message_body"] != null && $post["message_body"] != "") ? $post["message_body"] : null;
+                $bookingService = $this->get('front_end.services.booking');
+                $emailService = $this->get('mycp.service.email_manager');
+                \MyCp\mycpBundle\Helpers\VoucherHelper::sendNewVoucherToClient($em, $bookingService, $emailService, $this, $newGeneralReservation, $mailMessage);
+
                 $message = 'Nueva oferta creada satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
-                //Enviar correo al cliente con el texto escrito y el voucher como adjunto
             }
         }
         if(count($errors) == 0)
