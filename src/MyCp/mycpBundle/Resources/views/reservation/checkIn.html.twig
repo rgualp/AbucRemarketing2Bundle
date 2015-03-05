@@ -48,7 +48,7 @@
                 <thead>
                 <tr>
                     <th><h4>Día {{ filter_date_from }}</h4></th>
-                    <th style="text-align: right">Descargar Excel</th>
+            <th style="text-align: right"><a href="{{path("mycp_checkin_export_excel", {'date':filter_date_from | replace("/","_")})}}">Descargar Excel</a></th>
                 </tr>
                 </thead>
                 <tbody>

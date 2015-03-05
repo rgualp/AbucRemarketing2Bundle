@@ -32,8 +32,97 @@ class ExportToExcel {
         $this->excelDirectoryPath = $excelDirectoryPath;
     }
 
+    /*
+     * Crea un fichero excel con los check-in que ocurrirán en la fecha introducida
+     * El formato del parametro $date será 'd/m/Y'
+     */
+    public function exportCheckinExcel($date) {
+        $excel = $this->configExcel("Check-in $date", "Check-in del $date - MyCasaParticular", "check-in");
+        $array_date_from = explode('/', $date);
+        $checkinDate="";
+        if (count($array_date_from) > 1)
+            $checkinDate = $array_date_from[2] . $array_date_from[1] . $array_date_from[0];
+        $fileName = "CheckIn_$checkinDate.xlsx";
+
+        $data = $this->dataForCheckin($date);
+
+        if(count($data) > 0)
+             $excel = $this->createSheetForCheckin($excel, $date, $data);
+
+        return $this->export($excel, $fileName);
+    }
+
+    private function createSheetForCheckin($excel, $sheetName, $data) {
+        $sheet = $this->createSheet($excel, $sheetName);
+        $sheet->setCellValue('a1', 'Reserva');
+        $sheet->setCellValue('b1', 'Fecha Reserva');
+        $sheet->setCellValue('c1', 'Propiedad');
+        $sheet->setCellValue('d1', 'Propietario(s)');
+        $sheet->setCellValue('e1', 'Teléfono (s)');
+        $sheet->setCellValue('f1', 'Habitaciones');
+        $sheet->setCellValue('g1', 'Huéspedes');
+        $sheet->setCellValue('h1', 'Fecha Pago');
+        $sheet->setCellValue('i1', 'Pago en Casa');
+        $sheet->setCellValue('j1', 'Cliente');
+        $sheet->setCellValue('k1', 'País');
+        $sheet->setCellValue('l1', 'Contactado');
+
+        $sheet = $this->styleHeader("a1:l1", $sheet);
+
+        $sheet->fromArray($data, ' ', 'A2');
+
+        $this->setColumnAutoSize("a", "l", $sheet);
+        return $excel;
+    }
+
+    private function dataForCheckin($date) {
+        $results = array();
+
+        $checkins = $this->em->getRepository("mycpBundle:generalReservation")->getCheckins($date);
+
+        foreach ($checkins as $check) {
+            $data = array();
+
+            $data[0] = CAS.$check[0]["gen_res_id"];
+            $data[1] = $check[0]["gen_res_date"]->format("d/m/Y");
+            $data[2] = $check[0]["gen_res_own_id"]["own_mcp_code"];
+            $data[3] = $check[0]["gen_res_own_id"]["own_homeowner_1"];
+            if($check[0]["gen_res_own_id"]["own_homeowner_2"] != "")
+                $data[3] .= " / ". $check[0]["gen_res_own_id"]["own_homeowner_2"];
+
+            $data[4] = "";
+            if($check[0]["gen_res_own_id"]["own_phone_number"] != "")
+                $data[4] .= "(+53) ".$check[0]["gen_res_own_id"]["own_address_province"]["prov_phone_code"]." ".$check[0]["gen_res_own_id"]["own_phone_number"];
+
+            if($check[0]["gen_res_own_id"]["own_phone_number"] != "" && $check[0]["gen_res_own_id"]["own_mobile_number"] != "")
+                $data[4] .= " / ";
+
+            $data[4] .= $check[0]["gen_res_own_id"]["own_mobile_number"];
+
+            //Total de habitaciones
+            $data[5] = $check[1];
+
+            //Total de huéspedes
+            $data[6] = $check[3]+$check[5];
+
+            //Fecha de Pago
+            $data[7] = $check[7]->format("d/m/Y");
+
+            //Pago en casa
+            $data[8] = $check[0]["gen_res_total_in_site"]-$check[0]["gen_res_total_in_site"]*$check[0]["gen_res_own_id"]["own_commission_percent"]/100;
+            //Cliente
+            $data[9] = $check[0]["gen_res_user_id"]["user_user_name"]." ".$check[0]["gen_res_user_id"]["user_last_name"];
+            $data[10] = $check[0]["gen_res_user_id"]["user_country"]["co_name"];
+
+
+            array_push($results, $data);
+        }
+
+        return $results;
+    }
+
     public function exportAccommodationsDirectory($fileName = "directorio.xlsx") {
-        $excel = $this->configExcel();
+        $excel = $this->configExcel("Directorio de alojamientos", "Directorio de alojamientos de MyCasaParticular", "alojamientos");
 
         $provinces = $this->em->getRepository("mycpBundle:province")->findBy(array(), array("prov_code" => "ASC"));
 
@@ -107,18 +196,18 @@ class ExportToExcel {
         return $excel;
     }
 
-    private function configExcel() {
+    private function configExcel($title, $description, $category) {
         $excel = new \PHPExcel();
 
         $properties = new \PHPExcel_DocumentProperties();
 
         $properties->setCreator("MyCasaParticular.com")
-                ->setTitle("Directorio de alojamientos")
+                ->setTitle($title)
                 ->setLastModifiedBy("MyCasaParticular.com")
-                ->setDescription("Directorio de alojamientos de MyCasaParticular")
-                ->setSubject("Directorio de alojamientos")
-                ->setKeywords("excel MyCasaParticular alojamientos")
-                ->setCategory("alojamientos");
+                ->setDescription($description)
+                ->setSubject($title)
+                ->setKeywords("excel MyCasaParticular $category")
+                ->setCategory($category);
         $excel->setProperties($properties);
         return $excel;
     }

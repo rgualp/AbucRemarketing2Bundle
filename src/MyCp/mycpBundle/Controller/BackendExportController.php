@@ -23,4 +23,15 @@ class BackendExportController extends Controller
 
         return $exporter->exportAccommodationsDirectory();
     }
+
+    function checkInToExcelAction($date)
+    {
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
+        $exporter = $this->get("mycp.service.export_to_excel");
+
+        $date = str_replace("_", "/", $date);
+
+        return $exporter->exportCheckinExcel($date);
+    }
 }
