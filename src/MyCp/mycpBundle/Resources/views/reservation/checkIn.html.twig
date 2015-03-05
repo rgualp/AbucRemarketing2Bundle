@@ -48,13 +48,14 @@
                 <thead>
                 <tr>
                     <th><h4>Día {{ filter_date_from }}</h4></th>
+                    <th style="text-align: right">Descargar Excel</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% set flag=0 %}
                 {% for check in list %}
                 <tr>
-                    <td>
+                    <td colspan="2">
                         <table style="width:100%" class="stylessTable">
                             <tr>
                                 <td style="background: #fff"><b>Reserva:</b> CAS.{{check[0].gen_res_id}}</td>
@@ -62,7 +63,7 @@
                                 <td style="background: #fff"><b>Habitaciones:</b> {{check[1]}}</td>
                                 <td style="background: #fff"><b>Huéspedes:</b> {{check[3]+check[5]}}</td>
                                 <td style="background: #fff"><b>Pagado:</b> {{check[7]|date("d/m/Y")}}</td>
-                                <td style="background: #fff"><b>Noches:</b> 89</td>
+                                <td style="background: #fff"><b>Noches:</b> {{nights[loop.index0]}}</td>
                                 <td style="background: #fff"><b>Pago en casa:</b> {{ check[0].gen_res_total_in_site - check[0].gen_res_total_in_site * check[0].gen_res_own_id.own_commission_percent /100}} CUC</td>
                             </tr>
                             <tr>

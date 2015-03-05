@@ -1000,9 +1000,22 @@ class BackendReservationController extends Controller {
 
         $checkins = $em->getRepository("mycpBundle:generalReservation")->getCheckins($filter_date_from);
 
+        $total_nights = array();
+        $service_time = $this->get('time');
+        foreach ($checkins as $res) {
+            $owns_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $res[0]['gen_res_id']));
+            $temp_total_nights = 0;
+            foreach ($owns_res as $own) {
+                $array_dates = $service_time->datesBetween($own->getOwnResReservationFromDate()->getTimestamp(), $own->getOwnResReservationToDate()->getTimestamp());
+                $temp_total_nights+=count($array_dates) - 1;
+            }
+            array_push($total_nights, $temp_total_nights);
+        }
+
         return $this->render('mycpBundle:reservation:checkIn.html.twig', array(
                     'list' => $checkins,
-                    'filter_date_from' => $filter_date_from));
+                    'filter_date_from' => $filter_date_from,
+                    'nights' => $total_nights));
     }
 
 }
