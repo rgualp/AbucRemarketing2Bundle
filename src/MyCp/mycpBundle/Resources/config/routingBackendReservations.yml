@@ -59,7 +59,10 @@ mycp_send_voucher_reservation:
     pattern:  /send_voucher/{id_reservation}
     defaults: { _controller: mycpBundle:BackendReservation:sendVoucherToReservationTeam }
 
+mycp_list_reservations_checkin:
+    pattern:  /check-in/{startDate}
+    defaults: { _controller: mycpBundle:BackendReservation:checkin,startDate:'' }
+
 mycp_changes_dates_reservation:
     pattern:  /change_dates/{id_tourist}/{id_reservation}
     defaults: { _controller: mycpBundle:BackendReservation:changeDates }
-

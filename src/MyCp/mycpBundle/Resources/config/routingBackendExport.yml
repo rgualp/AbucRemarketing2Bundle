@@ -2,3 +2,6 @@ mycp_accommodations_export_excel:
     pattern:  /excel/accommodations
     defaults: { _controller: mycpBundle:BackendExport:exportAccommodationsToExcel }
 
+mycp_checkin_export_excel:
+    pattern:  /excel/check-in/{date}
+    defaults: { _controller: mycpBundle:BackendExport:checkInToExcel}
