@@ -32,6 +32,6 @@ class BackendExportController extends Controller
 
         $date = str_replace("_", "/", $date);
 
-        return $exporter->exportCheckinExcel($date);
+        return $exporter->createCheckinExcel($date, true);
     }
 }

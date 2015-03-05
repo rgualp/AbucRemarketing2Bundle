@@ -36,7 +36,7 @@ class ExportToExcel {
      * Crea un fichero excel con los check-in que ocurrirán en la fecha introducida
      * El formato del parametro $date será 'd/m/Y'
      */
-    public function exportCheckinExcel($date) {
+    public function createCheckinExcel($date, $export=false) {
         $excel = $this->configExcel("Check-in $date", "Check-in del $date - MyCasaParticular", "check-in");
         $array_date_from = explode('/', $date);
         $checkinDate="";
@@ -49,7 +49,13 @@ class ExportToExcel {
         if(count($data) > 0)
              $excel = $this->createSheetForCheckin($excel, str_replace("/","-",$date), $data);
 
-        return $this->export($excel, $fileName);
+        if($export)
+            return $this->export($excel, $fileName);
+        else
+        {
+            $this->save($excel, $fileName);
+            return $this->excelDirectoryPath . $fileName;
+        }
     }
 
     private function createSheetForCheckin($excel, $sheetName, $data) {
@@ -257,14 +263,7 @@ class ExportToExcel {
     }
 
     private function export($excel, $fileName) {
-        if (!is_dir($this->excelDirectoryPath)) {
-            mkdir($this->excelDirectoryPath, 0755, true);
-        }
-
-        $excel->setActiveSheetIndex(0);
-
-        $writer = new \PHPExcel_Writer_Excel2007($excel);
-        $writer->save($this->excelDirectoryPath . $fileName);
+        $this->save($excel, $fileName);
 
         $content = file_get_contents($this->excelDirectoryPath . $fileName);
         return new Response(
@@ -273,6 +272,17 @@ class ExportToExcel {
             'Content-Disposition' => 'attachment; filename="' . $fileName . '"'
                 )
         );
+    }
+
+    private function save($excel, $fileName) {
+        if (!is_dir($this->excelDirectoryPath)) {
+            mkdir($this->excelDirectoryPath, 0755, true);
+        }
+
+        $excel->setActiveSheetIndex(0);
+
+        $writer = new \PHPExcel_Writer_Excel2007($excel);
+        $writer->save($this->excelDirectoryPath . $fileName);
     }
 
 }
