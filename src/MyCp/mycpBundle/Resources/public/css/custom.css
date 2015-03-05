@@ -76,3 +76,6 @@ label.permission{margin-left: 15px;}
 .text-center{text-align: center}
 .rooms_selected{width: 100%}
 .label_info1{background-color: #49afcd;}
+
+.stylessTable{border: 1px solid #ddd;}
+.stylessTable td{border:none; background-color: #FFFFFF;}

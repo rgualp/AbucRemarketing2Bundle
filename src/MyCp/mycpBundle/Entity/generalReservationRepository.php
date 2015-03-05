@@ -487,4 +487,35 @@ class generalReservationRepository extends EntityRepository {
         }
     }
 
+    function getCheckins($checkinDate) {
+        $queryStr = "SELECT gre,
+        (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id),
+        (SELECT SUM(owres1.own_res_count_adults) FROM mycpBundle:ownershipReservation owres1 WHERE owres1.own_res_gen_res_id = gre.gen_res_id),
+        (SELECT SUM(owres2.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id),
+        us, cou,own,prov,
+        (SELECT MIN(p.created) FROM mycpBundle:payment p JOIN p.booking b WHERE b.booking_id = (SELECT MIN(owres3.own_res_reservation_booking) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id))
+        FROM mycpBundle:generalReservation gre
+        JOIN gre.gen_res_own_id own
+        JOIN gre.gen_res_user_id us
+        JOIN us.user_country cou
+        JOIN own.own_address_province prov
+        WHERE gre.gen_res_from_date LIKE :filter_date_from
+        AND gre.gen_res_status =" . generalReservation::STATUS_RESERVED;
+
+        $array_date_from = explode('/', $checkinDate);
+        if (count($array_date_from) > 1)
+            $checkinDate = $array_date_from[2] . '-' . $array_date_from[1] . '-' . $array_date_from[0];
+
+        $em = $this->getEntityManager();
+        $query = $em->createQuery($queryStr);
+
+
+
+        $query->setParameters(array(
+            'filter_date_from' => "%" . $checkinDate . "%",
+        ));
+
+        return $query->getArrayResult();
+    }
+
 }
