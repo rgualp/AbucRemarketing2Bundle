@@ -47,7 +47,7 @@ class ExportToExcel {
         $data = $this->dataForCheckin($date);
 
         if(count($data) > 0)
-             $excel = $this->createSheetForCheckin($excel, $date, $data);
+             $excel = $this->createSheetForCheckin($excel, str_replace("/","-",$date), $data);
 
         return $this->export($excel, $fileName);
     }
@@ -59,19 +59,20 @@ class ExportToExcel {
         $sheet->setCellValue('c1', 'Propiedad');
         $sheet->setCellValue('d1', 'Propietario(s)');
         $sheet->setCellValue('e1', 'Teléfono (s)');
-        $sheet->setCellValue('f1', 'Habitaciones');
-        $sheet->setCellValue('g1', 'Huéspedes');
-        $sheet->setCellValue('h1', 'Fecha Pago');
-        $sheet->setCellValue('i1', 'Pago en Casa');
-        $sheet->setCellValue('j1', 'Cliente');
-        $sheet->setCellValue('k1', 'País');
-        $sheet->setCellValue('l1', 'Contactado');
+        $sheet->setCellValue('f1', 'Hab.');
+        $sheet->setCellValue('g1', 'Huésp.');
+        $sheet->setCellValue('h1', 'Noches');
+        $sheet->setCellValue('i1', 'Fecha Pago');
+        $sheet->setCellValue('j1', 'A Pagar');
+        $sheet->setCellValue('k1', 'Cliente');
+        $sheet->setCellValue('l1', 'País');
+        $sheet->setCellValue('m1', 'Contactado');
 
-        $sheet = $this->styleHeader("a1:l1", $sheet);
+        $sheet = $this->styleHeader("a1:m1", $sheet);
 
         $sheet->fromArray($data, ' ', 'A2');
 
-        $this->setColumnAutoSize("a", "l", $sheet);
+        $this->setColumnAutoSize("a", "m", $sheet);
         return $excel;
     }
 
@@ -80,11 +81,24 @@ class ExportToExcel {
 
         $checkins = $this->em->getRepository("mycpBundle:generalReservation")->getCheckins($date);
 
+        $total_nights = array();
+        $service_time = $this->container->get('time');
+        foreach ($checkins as $res) {
+            $owns_res = $this->em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $res[0]['gen_res_id']));
+            $temp_total_nights = 0;
+            foreach ($owns_res as $own) {
+                $array_dates = $service_time->datesBetween($own->getOwnResReservationFromDate()->getTimestamp(), $own->getOwnResReservationToDate()->getTimestamp());
+                $temp_total_nights+=count($array_dates) - 1;
+            }
+            $total_nights[$res[0]["gen_res_id"]] = $temp_total_nights;
+        }
+
         foreach ($checkins as $check) {
             $data = array();
 
-            $data[0] = CAS.$check[0]["gen_res_id"];
-            $data[1] = $check[0]["gen_res_date"]->format("d/m/Y");
+            $data[0] = "CAS.".$check[0]["gen_res_id"];
+            $resDate = $check[0]["gen_res_date"];
+            $data[1] = $resDate->format("d/m/Y");
             $data[2] = $check[0]["gen_res_own_id"]["own_mcp_code"];
             $data[3] = $check[0]["gen_res_own_id"]["own_homeowner_1"];
             if($check[0]["gen_res_own_id"]["own_homeowner_2"] != "")
@@ -105,14 +119,19 @@ class ExportToExcel {
             //Total de huéspedes
             $data[6] = $check[3]+$check[5];
 
+            //Noches
+            $data[7] = $total_nights[$check[0]["gen_res_id"]];
+
             //Fecha de Pago
-            $data[7] = $check[7]->format("d/m/Y");
+            $payDate = new \DateTime($check[7]);
+            $data[8] = $payDate->format("d/m/Y");
 
             //Pago en casa
-            $data[8] = $check[0]["gen_res_total_in_site"]-$check[0]["gen_res_total_in_site"]*$check[0]["gen_res_own_id"]["own_commission_percent"]/100;
+            $data[9] = $check[0]["gen_res_total_in_site"]-$check[0]["gen_res_total_in_site"]*$check[0]["gen_res_own_id"]["own_commission_percent"]/100;
+            $data[9] .= " CUC";
             //Cliente
-            $data[9] = $check[0]["gen_res_user_id"]["user_user_name"]." ".$check[0]["gen_res_user_id"]["user_last_name"];
-            $data[10] = $check[0]["gen_res_user_id"]["user_country"]["co_name"];
+            $data[10] = $check[0]["gen_res_user_id"]["user_user_name"]." ".$check[0]["gen_res_user_id"]["user_last_name"];
+            $data[11] = $check[0]["gen_res_user_id"]["user_country"]["co_name"];
 
 
             array_push($results, $data);

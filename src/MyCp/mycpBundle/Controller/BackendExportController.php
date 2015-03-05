@@ -26,8 +26,8 @@ class BackendExportController extends Controller
 
     function checkInToExcelAction($date)
     {
-        $service_security = $this->get('Secure');
-        $service_security->verifyAccess();
+        /*$service_security = $this->get('Secure');
+        $service_security->verifyAccess();*/
         $exporter = $this->get("mycp.service.export_to_excel");
 
         $date = str_replace("_", "/", $date);
