@@ -157,8 +157,9 @@ class BackendReservationController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $reservation = $em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
         $ownership_reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $id_reservation));
-        $errors = array();
+        $errors = array("numeric_price" => 0, "price" => 0, "date" => 0);
         $post = $request->request->getIterator()->getArrayCopy();
+        $message = "";
 
         if ($request->getMethod() == 'POST') {
 
@@ -166,12 +167,31 @@ class BackendReservationController extends Controller {
 
             foreach ($keys as $key) {
                 $splitted = explode("_", $key);
+                $resId = $splitted[count($splitted) - 1];
                 if (strpos($key, 'service_room_price') !== false) {
 
-                    if (!is_numeric($post[$key])) {
-                        $errors[$key] = 1;
-                        $message = 'En el campo precio por noche tiene que introducir un valor numérico.';
-                       $this->get('session')->getFlashBag()->add('message_error_local', $message);
+                    if (!is_numeric($post[$key]) && !$errors["numeric_price"]) {
+                        $errors["numeric_price"] = 1;
+                        $message .= 'En el campo precio por noche tiene que introducir un valor numérico.<br/>';
+                    }
+                    else if($post[$key] != "")
+                    {
+                        $reservationPrice = $post["price_".$resId];
+
+                        if($post[$key] != 0 && $post[$key] != $reservationPrice && !$errors["price"])
+                        {
+                            $errors["price"] = 1;
+                            $message .= 'El precio por noche tiene que ser igual al sugerido.<br/>';
+                        }
+                    }
+                }
+                if (strpos($key, 'date_from') !== false) {
+                    $originalDate = $post["original_date_".$resId];
+
+                    if($post[$key] == $originalDate && !$errors["date"])
+                    {
+                        $errors["date"] = 1;
+                        $message .= 'La fecha no puede ser la misma de la reservación. <br/>';
                     }
                 }
             }
@@ -245,6 +265,8 @@ class BackendReservationController extends Controller {
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
             }
+            else
+                $this->get('session')->getFlashBag()->add('message_error_local', $message);
         }
         if(count($errors) == 0)
             return $this->redirect($this->generateUrl('mycp_list_reservations'));

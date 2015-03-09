@@ -18,7 +18,7 @@
         <li class="pull-right"><a href="{{ path('mycp_details_reservation',{'id_reservation':reservation.genResId}) }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
     </ul>
     <script type="text/javascript">
-        $('#btn_submit').click(function(){
+        /*$('#btn_submit').click(function(){
             if($('.calendar-results').css('display')=='block'){
                 $('#form_submit').submit();
             }
@@ -26,7 +26,7 @@
             {
 
             }
-        });
+        });*/
     </script>
 {% endblock %}
 {% block content %}
@@ -38,7 +38,7 @@
     </h2>
     <hr/>
     {% for message in app.session.flashbag.get('message_error_local') %}
-        <div class="alert alert-error">{{ message }}</div>
+        <div class="alert alert-error">{{ message | raw }}</div>
     {% endfor %}
     <div class="row-fluid">
         <div class="span6">
@@ -98,7 +98,7 @@
                     <label class="error">Rango incorrecto</label>
                 {%endif%}
                 <input name="date_from_{{reservation_rooms.getOwnResId}}" data-localization="es" type="text" data-res-id="{{reservation_rooms.getOwnResId}}" data-night="{{nights[loop.index0]}}" class="input-block-level datepicker_textbox" value="{% if post['date_from_'~reservation_rooms.getOwnResId] is defined %}{{ post['date_from_'~reservation_rooms.getOwnResId] }}{% else %}{{ reservation_rooms.getOwnResReservationFromDate | date("d/m/Y") }}{% endif %}"/></td>
-
+                <input type="hidden" name="original_date_{{reservation_rooms.getOwnResId}}" data-res-id="{{reservation_rooms.getOwnResId}}" value="{{ reservation_rooms.getOwnResReservationFromDate | date("d/m/Y") }}" />
             <td>{{nights[loop.index0]}}
             <input name="nights_{{reservation_rooms.getOwnResId}}" type="hidden" value="{{nights[loop.index0]}}"/>
             </td>
@@ -266,6 +266,10 @@
         var today_date = "{{"now"|date("d/m/Y") }}";
         var start_date = "{{ start_date }}";
         var end_date = "{{ end_date }}";
+
+        $("#btn_dates").click(function(){
+           $('#form_dates').submit();
+        });
 
         function create_date_in(date_text) {
             var date = date_text.split('/');
