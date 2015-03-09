@@ -68,6 +68,8 @@ class BookingService extends Controller
         $booking = $this->getBooking($bookingId);
         $payment = $this->getPaymentByBooking($booking);
         $user = $this->getUserByBooking($booking);
+        $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));
+        $userLocale = strtolower($userTourist->getUserTouristLanguage()->getLangCode());
 
         $currency = $payment->getCurrency();
         $currencySymbol = $currency->getCurrSymbol();
@@ -154,6 +156,7 @@ class BookingService extends Controller
         $totalPriceToPayAtServiceInCUC = $totalPrice - $totalPercentPrice;
 
         return array(
+            'user_locale' => $userLocale,
             'own_res' => $ownResDistinct,
             'own_res_rooms' => $ownResRooms,
             'own_res_payments' => $payments,

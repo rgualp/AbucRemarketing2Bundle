@@ -23,6 +23,7 @@
                 .no-margin{margin: 0}
                 table{border-collapse: collapse; width: 100%; border-spacing: 0;}
                 /*table td{ padding: 2px; border-top: 1px solid #bbb;}*/
+                .cursive{font-style: italic;}
             </style>
         </head>
         <body>
@@ -37,28 +38,28 @@
                     </tr>
                 </table>
                 <br/>
-                <h2 class="h-green no-margin">{{ 'RESERVATION_CONFIRM'|trans }}</h2>
+                <h2 class="h-green no-margin">{{ 'RESERVATION_CONFIRM'|trans({}, "messages", user_locale) }}</h2>
                 <hr/>
-                <h4 style="font-size: 14px; margin: 10px 0px 0px 5px">{{"DEAR_MR"|trans}} {{ user.getUserUserName }} {{ user.getUserLastName }}</h4>
+                <h4 style="font-size: 14px; margin: 10px 0px 0px 5px">{{"DEAR_MR"|trans({}, "messages", user_locale)}} {{ user.getUserUserName }} {{ user.getUserLastName }}</h4>
                 <p>
-    {{"THANKS_RESERVATION_MYCP"|trans}} <a href="{{ url('frontend_welcome') }}">MyCasaParticular.com</a><br/>
-    {{"PLEASE_PRINT_CONFIRMATION_OF_SERVICE"|trans}}<br/>
-    {{"CAN_FOLLOWING_RESERVATIONS_MYCT"|trans}} <a href="{{ url('frontend_mycasatrip_pending') }}">MyCasaTrip</a>
+    {{"THANKS_RESERVATION_MYCP"|trans({}, "messages", user_locale)}} <a href="{{ url('frontend_welcome') }}">MyCasaParticular.com</a><br/>
+    {{"PLEASE_PRINT_CONFIRMATION_OF_SERVICE"|trans({}, "messages", user_locale)}}<br/>
+    {{"CAN_FOLLOWING_RESERVATIONS_MYCT"|trans({}, "messages", user_locale)}} <a href="{{ url('frontend_mycasatrip_pending') }}">MyCasaTrip</a>
                     </p>
-                    <h2 class="h-green no-margin">{{ 'CLIENT_INFORMATION'|trans }}</h2>
+                    <h2 class="h-green no-margin">{{ 'CLIENT_INFORMATION'|trans({}, "messages", user_locale) }}</h2>
                     <hr/>
                     <p>
                     <table style="width: 100%">
                         <tr>
-                            <td><b>{{"RESERVATION_NUMBER"|trans}}:</b></td>
+                            <td><b>{{"RESERVATION_NUMBER"|trans({}, "messages", user_locale)}}:</b></td>
                             <td>ID_{{ booking.getBookingId }}</td>
-                            <td><b>{{"EMAIL_TO"|trans}}</b></td>
+                            <td><b>{{"EMAIL_TO"|trans({}, "messages", user_locale)}}</b></td>
                             <td>{{ user.getUserEmail }}</td>
                         </tr>
                         <tr>
-                            <td><b>{{"CLIENT_NAME"|trans}}:</b></td>
+                            <td><b>{{"CLIENT_NAME"|trans({}, "messages", user_locale)}}:</b></td>
                             <td>{{ user.getUserUserName }} {{ user.getUserLastName }}</td>
-                            <td><b>{{"NACIONALITY"|trans}}:</b></td>
+                            <td><b>{{"NACIONALITY"|trans({}, "messages", user_locale)}}:</b></td>
                             <td>{{ user.getUserCountry.getCoName }}</td>
                         </tr>
                     </table>
@@ -70,17 +71,17 @@
                             <td style="width: 70%">
                                 <h3 class="h-green h-green-line"  style="padding-bottom: 5px">
                                     <img src="bundles/frontend/img/icons/vhouse.png">
-                            {{"ACCOMMODATION"|trans}} {{loop.index}}
+                            {{"ACCOMMODATION"|trans({}, "messages", user_locale)}} {{loop.index}}
                                 </h3>
                             </td>
                             <td style="vertical-align: middle; text-align: right;width:30%">
-                                <b>{{"RESERVATION_NUMBER"|trans}}:</b> ID_{{ booking.getBookingId }}
+                                <b>{{"RESERVATION_NUMBER"|trans({}, "messages", user_locale)}}:</b> ID_{{ booking.getBookingId }}
                             </td>
                         </tr>
                     </table>
                     <table  style="width: 100%">
                         <tr style="border-top:none;">
-                            <td style="border-top:none; width:30%"><b>{{"ACCOMMODATION_NAME"|trans}}:</b></td>
+                            <td style="border-top:none; width:30%"><b>{{"ACCOMMODATION_NAME"|trans({}, "messages", user_locale)}}:</b></td>
                             <td style="border-top:none; width:40%">{{ own.name }}</td>
                             <td rowspan="5" style="border-top:none;">
                                 <div class="thumbnail" style="padding: 12px; margin-left: 12px;">
@@ -89,21 +90,21 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><b>{{"ID_HOME"|trans}}:</b></td>
+                            <td><b>{{"ID_HOME"|trans({}, "messages", user_locale)}}:</b></td>
                             <td>{{ own.mycp_code }}</td>
                         </tr>
                         <tr>
-                            <td><b>{{"OWNERS_NAME"|trans}}:</b></td>
+                            <td><b>{{"OWNERS_NAME"|trans({}, "messages", user_locale)}}:</b></td>
                             <td>{{ own.owner_1 }} {% if own.owner_2 %}& {{ own.owner_2 }}{% endif %}</td>
                         </tr>
                         <tr>
-                            <td><b>{{"ADDRESS"|trans}}:</b></td>
-                            <td>{{"ADDRESS_STREET" | trans}} {{ own.main_street }} {{"ADDRESS_NUMBER" | trans}} {{ own.number }} {%if own.street_1 != "" and own.street_2 != ""%}, {{ own.street_1 }} & {{ own.street_2 }}{%endif%}.
+                            <td><b>{{"ADDRESS"|trans({}, "messages", user_locale)}}:</b></td>
+                            <td>{{"ADDRESS_STREET" | trans({}, "messages", user_locale)}} {{ own.main_street }} {{"ADDRESS_NUMBER" | trans({}, "messages", user_locale)}} {{ own.number }} {%if own.street_1 != "" and own.street_2 != ""%}, {{ own.street_1 }} & {{ own.street_2 }}{%endif%}.
                     {{ own.municipality }}, {{own.province }}.
                                 </td>
                             </tr>
                             <tr>
-                                <td><b>{{"FORMS_PHONE"|trans}}:</b></td>
+                                <td><b>{{"FORMS_PHONE"|trans({}, "messages", user_locale)}}:</b></td>
                                 <td>{%if own.phone_number != ""%}(+53) {{ own.prov_code }} {{ own.phone_number }}{%else%} - {%endif%}</td>
                             </tr>
                         </table>
@@ -111,57 +112,60 @@
                         <br/>
                         <h4 class="voucher-subtitle no-margin" style="margin-bottom: 0px;">
                             <img src="bundles/frontend/img/icons/vbed.png">
-            {{"RESERVATION_DETAILS"|trans}}: {{"ROOM_SINGULAR"|trans | capitalize}} {{loop.index}}
+            {{"RESERVATION_DETAILS"|trans({}, "messages", user_locale)}}: {{"ROOM_SINGULAR"|trans({}, "messages", user_locale) | capitalize}} {{loop.index}}
                         </h4>
                         <br/>
                         <table style="width:100%">
                             <tr>
-                                <td colspan="6"><h4 class="h-only-blue no-margin">{{res_room.own_res_room_type|trans}}</h4></td>
+                                <td colspan="6"><h4 class="h-only-blue no-margin">{{res_room.own_res_room_type|trans({}, "messages", user_locale)}}</h4></td>
                             </tr>
                             <tr>
-                                <td><b>{{"ARRIVAL_RESERVATION"|trans}}:</b></td>
+                                <td><b>{{"ARRIVAL_RESERVATION"|trans({}, "messages", user_locale)}}:</b></td>
                                 <td>{{ res_room.own_res_reservation_from_date| date("d/m/Y") }}</td>
-                                <td><b>{{"DEPARTURE_RESERVATION"|trans}}:</b></td>
+                                <td><b>{{"DEPARTURE_RESERVATION"|trans({}, "messages", user_locale)}}:</b></td>
                                 <td>{{ res_room.own_res_reservation_to_date| date("d/m/Y") }}</td>
-                                <td><b>{{"NIGHTS"|trans}}:</b></td>
+                                <td><b>{{"NIGHTS"|trans({}, "messages", user_locale)}}:</b></td>
                                 <td>{{ nights[res_room.own_res_id] }}</td>
                             </tr>
                             <tr>
-                                <td><b>{{"SELECT_ROOM_TYPE_OPTION"|trans}}:</b></td>
-                                <td>{{ res_room.own_res_room_type|trans }}</td>
-                                <td><b>{{"ADULTS"|trans}}:</b></td>
+                                <td><b>{{"SELECT_ROOM_TYPE_OPTION"|trans({}, "messages", user_locale)}}:</b></td>
+                                <td>{{ res_room.own_res_room_type|trans({}, "messages", user_locale) }}</td>
+                                <td><b>{{"ADULTS"|trans({}, "messages", user_locale)}}:</b></td>
                                 <td>{{ res_room.own_res_count_adults }}</td>
-                                <td><b>{{"KIDS"|trans}}:</b></td>
+                                <td><b>{{"KIDS"|trans({}, "messages", user_locale)}}:</b></td>
                                 <td>{{ res_room.own_res_count_childrens }}</td>
                             </tr>
                             <tr>
-                                <td><b>{{"SELECT_BATHROOM_TYPE_OPTION"|trans}}:</b></td>
-                                <td colspan="5">{{ res_room.room_bathroom|trans }}</td>
+                                <td><b>{{"SELECT_BATHROOM_TYPE_OPTION"|trans({}, "messages", user_locale)}}:</b></td>
+                                <td colspan="5">{{ res_room.room_bathroom|trans({}, "messages", user_locale) }}</td>
                             </tr>
                         </table>
         {%endfor%}
                         <br/>
                         <h4 class="voucher-subtitle no-margin">
                             <img src="bundles/frontend/img/icons/vcurrency.png">
-        {{"PAYMENT_DETAILS"|trans}}:
+        {{"PAYMENT_DETAILS"|trans({}, "messages", user_locale)}}:
                         </h4>
                         <br/>
                         <table style="width:100%">
                                 <tr>
-                                    <td><b>{{"PRICE_OF_ACCOMMODATION_SERVICE"|trans}}</b></td>
+                                    <td><b>{{"PRICE_OF_ACCOMMODATION_SERVICE"|trans({}, "messages", user_locale)}}</b></td>
                                     <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ ceil_round(own_res_payments[own.id].total_price)| number_format(2) }}</h4></td>
                                 </tr>
                                 <tr>
-                                    <td><b>{{"INITIAL_DEPOSIT" | trans}} ({{own.commission_percent}}%)</b></td>
+                                    <td><b>{{"INITIAL_DEPOSIT" | trans({}, "messages", user_locale)}} ({{own.commission_percent}}%)</b></td>
                                     <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (ceil_round(own_res_payments[own.id].prepayment)) | number_format(2) }}</h4></td>
                                 </tr>
                                 <tr class="b-cyan">
-                                    <td><b>{{"TOTAL_TO_PAY_SERVICING" | trans}}</b></td>
+                                    <td><b>{{"TOTAL_TO_PAY_SERVICING" | trans({}, "messages", user_locale)}}</b></td>
                                     <td class="text-right"><h4 class="no-margin">
                                             CUC {{ ceil_round(own_res_payments[own.id].pay_at_service_cuc)  }}
                                         </h4>
                                         <h6 class="no-margin">
                     {{ currency_symbol }} {{ (ceil_round(own_res_payments[own.id].pay_at_service))  }}
+                                            </h6>
+                                            <h6 class="no-margin cursive h-only-blue">
+                                                1 CUC = {{currency_rate}} {{currency_symbol}}
                                             </h6>
                                         </td>
                                     </tr>
@@ -174,41 +178,44 @@
                         <hr class="upper-bottom"/>
                     </td>
                     <td style="text-wrap: none; border-top:none;text-align: right;padding:0px" nowrap="nowrap">
-                        <h3 class="no-margin c-bbbb">{{"END_OF_YOUR_RESERVATION" | trans}}</h3>
+                        <h3 class="no-margin c-bbbb">{{"END_OF_YOUR_RESERVATION" | trans({}, "messages", user_locale)}}</h3>
                     </td>
                 </tr>
             </table>
             <br/>
-            <h3 class="h-green h-green-line"  style="padding-bottom: 5px">{{"PAYMENTS"|trans}}</h3>
+            <h3 class="h-green h-green-line"  style="padding-bottom: 5px">{{"PAYMENTS"|trans({}, "messages", user_locale)}}</h3>
             <table style="width:100%">
         <tr>
-            <td><b>{{"PRICE_OF_ACCOMMODATION_SERVICE"|trans}}</b></td>
+            <td><b>{{"PRICE_OF_ACCOMMODATION_SERVICE"|trans({}, "messages", user_locale)}}</b></td>
             <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ ceil_round(accommodations_service_charge)| number_format(2) }}</h4></td>
         </tr>
         <tr>
-            <td>- {{"INITIAL_DEPOSIT"|trans}} ({% for comm in commissions %}{{comm}}%{% if not loop.last %}, {% endif %}{% endfor %})</td>
+            <td>- {{"INITIAL_DEPOSIT"|trans({}, "messages", user_locale)}} ({% for comm in commissions %}{{comm}}%{% if not loop.last %}, {% endif %}{% endfor %})</td>
             <td class="text-right">{{ currency_symbol }} {{ ceil_round(prepayment_accommodations) }}</td>
         </tr>
         <tr>
-            <td>- {{"SERVICE_RECHARGE"|trans}}</td>
+            <td>- {{"SERVICE_RECHARGE"|trans({}, "messages", user_locale)}}</td>
             <td class="text-right">{{ currency_symbol }} {{ service_charge_total | number_format(2)}}</td>
         </tr>
         <tr>
-            <td>- {{"OTHER_SERVICES_HEADING_FILTER"|trans}}</td>
+            <td>- {{"OTHER_SERVICES_HEADING_FILTER"|trans({}, "messages", user_locale)}}</td>
             <td class="text-right">{{ currency_symbol }} {{0 | number_format(2)}} </td>
         </tr>
         <tr>
-            <td><b>{{"TOTAL_ALL_PREPAYMENT" | trans}}</b></td>
+            <td><b>{{"TOTAL_ALL_PREPAYMENT" | trans({}, "messages", user_locale)}}</b></td>
             <td class="text-right"><h4 class="no-margin">{{ currency_symbol }} {{ (service_charge_total + ceil_round(prepayment_accommodations)) | number_format(2) }}</h4></td>
         </tr>
 
         <tr>
-            <td style="border-top: 1px solid #bbb"><b>{{"TOTAL_TO_PAY_SERVICING" | trans}}</b></td>
+            <td style="border-top: 1px solid #bbb"><b>{{"TOTAL_TO_PAY_SERVICING" | trans({}, "messages", user_locale)}}</b></td>
             <td style="border-top: 1px solid #bbb" class="text-right"><h4 class="no-margin">
                 CUC {{ ceil_round(total_price_to_pay_at_service_in_cuc) }}
                 </h4>
                 <h6 class="no-margin">
                     {{ currency_symbol }} {{ ceil_round(total_servicing_price) | number_format(2)}}
+                </h6>
+                <h6 class="no-margin cursive h-only-blue">
+                    1 CUC = {{currency_rate}} {{currency_symbol}}
                 </h6>
                 </td>
         </tr>

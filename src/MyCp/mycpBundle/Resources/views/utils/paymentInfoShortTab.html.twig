@@ -13,8 +13,8 @@
     {%for booking in bookings%}
         <tr>
         <td>{{booking.booking_id}}</td>
-        <td>{{booking.booking_prepay * booking.booking_rate}} CUC</td>
-        <td>{{booking.payed * booking.booking_rate}} CUC</td>
+        <td>{{ceil_round(booking.booking_prepay * booking.booking_rate)}} CUC</td>
+        <td>{{ceil_round(booking.payed * booking.booking_rate)}} CUC</td>
         </tr>
     {%endfor%}
         <tr>
