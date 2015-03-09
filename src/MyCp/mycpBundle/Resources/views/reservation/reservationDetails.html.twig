@@ -193,7 +193,7 @@
             <th>Precio Total</th>
             <th>Prepago</th>
             <th>Pago en casa</th>
-            <th>T. de Crédito</th>
+            <th>Pago por servicio</th>
             <th style="text-align: right">Anticipo total a pagar</th>
         </tr>
         </thead>
@@ -212,6 +212,13 @@
             {% else %}
             <td style="text-align: right"><b>{{ (total_price * reservations[0].getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100) + ((total_price)?configuration_service_fee: 0)}} CUC </b></td>
             {% endif %}
+        </tr>
+        <tr>
+            <td colspan="9" style="text-align: right; border:none; margin-top: 0; padding-top: 0; font-style: italic">
+                {% if user[0].getUserTouristCurrency.getCurrCucChange is defined %}
+                    <b>1 CUC = {{user[0].getUserTouristCurrency.getCurrCucChange }} {{ user[0].getUserTouristCurrency.getCurrCode|upper }}</b>
+                {%endif%}
+            </td>
         </tr>
     </table>
     <ul class="nav nav-tabs">

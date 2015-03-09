@@ -22,6 +22,8 @@ Fecha: {{ "now"|date("D, d M Y H:m:s O") }}
 <br/>
 <b>Idioma:</b> {{ user_tourist[0].getUserTouristLanguage.getLangName }}
 <br/>
+<b>Moneda:</b> {{ user_tourist[0].getUserTouristCurrency.getCurrName }}
+<br/>
 <br/>
 <b>Casa:</b> {{ reservations[0].getOwnResGenResId.getGenResOwnId.getOwnMcpCode }}
 <br/>
@@ -55,6 +57,9 @@ Fecha: {{ "now"|date("D, d M Y H:m:s O") }}
 <br/>
 <br/>
 <b>Saldo pagado:</b> {{ total_payed + configuration_service_fee }} CUC en efectivo.
+<br/>
+<br/>
+<b>Tasa de cambio:</b> 1 CUC = {{ user_tourist[0].getUserTouristCurrency.getCurrCucChange }} {{ user_tourist[0].getUserTouristCurrency.getCurrCode | upper }}
 
 <br/>
 <br/>
