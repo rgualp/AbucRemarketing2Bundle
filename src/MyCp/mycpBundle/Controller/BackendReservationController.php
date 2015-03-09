@@ -284,10 +284,11 @@ class BackendReservationController extends Controller {
         $filter_date_from = $request->get('filter_date_from');
         $filter_date_to = $request->get('filter_date_to');
         $filter_booking_number = $request->get('filter_booking_number');
+        $filter_status = $request->get('filter_status');
         $price = 0;
         $sort_by = $request->get('sort_by');
         if ($request->getMethod() == 'POST' && $filter_date_reserve == 'null' && $filter_offer_number == 'null' && $filter_reference == 'null' &&
-                $filter_date_from == 'null' && $filter_date_to == 'null' && $sort_by == 'null' && $filter_booking_number == 'null'
+                $filter_date_from == 'null' && $filter_date_to == 'null' && $sort_by == 'null' && $filter_booking_number == 'null' && $filter_status == 'null'
         ) {
             $message = 'Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
@@ -306,6 +307,8 @@ class BackendReservationController extends Controller {
             $filter_date_from = '';
         if ($filter_date_to == 'null')
             $filter_date_to = '';
+        if ($filter_status == 'null')
+            $filter_status = '';
         if ($sort_by == 'null')
             $sort_by = '';
 
@@ -320,7 +323,7 @@ class BackendReservationController extends Controller {
         $paginator->setItemsPerPage($items_per_page);
 
         $reservations = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
-                                ->getAll($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number))->getResult();
+                                ->getAll($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status))->getResult();
         $filter_date_reserve_twig = str_replace('/', '_', $filter_date_reserve);
         $filter_date_from_twig = str_replace('/', '_', $filter_date_from);
         $filter_date_to_twig = str_replace('/', '_', $filter_date_to);
@@ -352,7 +355,8 @@ class BackendReservationController extends Controller {
                     'sort_by' => $sort_by,
                     'filter_date_reserve_twig' => $filter_date_reserve_twig,
                     'filter_date_from_twig' => $filter_date_from_twig,
-                    'filter_date_to_twig' => $filter_date_to_twig
+                    'filter_date_to_twig' => $filter_date_to_twig,
+                    'filter_status' => $filter_status
         ));
     }
 
@@ -1016,8 +1020,8 @@ class BackendReservationController extends Controller {
     }
 
     public function get_general_reservation_statusAction($post) {
-        $selected = '';
-        if (isset($post['selected']))
+        $selected = '-1';
+        if (isset($post['selected']) && $post['selected'] != "")
             $selected = $post['selected'];
         return $this->render('mycpBundle:utils:general_reservation_status.html.twig', array('selected' => $selected));
     }
