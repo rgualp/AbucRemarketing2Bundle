@@ -162,17 +162,17 @@
         </div>
     <div class="tab-pane" id="house">
     <div class="row-fluid">
-        <div class="span4">
-            <select id="ownership" name="own" class="combobox">
+        <div class="span6">
+            <select id="ownership" name="own" class="input-block-level">
                 {% for own in ownerships %}
                     <option data-percent="{{ own.own_commission_percent }}" value="{{ own.own_id }}">{{own.own_mcp_code}} - {{ own.own_name }}</option>
                 {% endfor %}
             </select>
         </div>
-        <div class="span4">
+        <div class="span3">
             <input value="{{start_date}}"  type="text" id="filter_date_from" class="form-control input-block-level" placeholder="Entrada" data-localization='es'>
         </div>
-        <div class="span4">
+        <div class="span3">
             <input value="{{ end_date }}" type="text" id="filter_date_to" class="form-control input-block-level" placeholder="Salida" data-localization='es'>
         </div>
     </div>
@@ -262,6 +262,8 @@
     <script src="{{ asset('bundles/frontend/js/bootstrap-datepicker.js') }}"></script>
     <script src="{{ asset('bundles/frontend/js/bootstrap-datepicker.es.js') }}"></script>
     <link href="{{ asset('bundles/mycp/css/bootstrap-wysihtml5.css') }}" rel="stylesheet" type="text/css" />
+    <script src="{{ asset('bundles/mycp/js/bootstrap-combobox.js') }}"></script>
+    <link href="{{ asset('bundles/mycp/css/bootstrap-combobox.css') }}" rel="stylesheet" type="text/css" />
 
     <script type="text/javascript">
         var today_date = "{{"now"|date("d/m/Y") }}";
@@ -271,8 +273,6 @@
         $("#btn_dates").click(function(){
            $('#form_dates').submit();
         });
-
-        $("select#ownership").combobox();
 
         function create_date_in(date_text) {
             var date = date_text.split('/');
@@ -308,6 +308,7 @@
                         $('#data_reservation').attr('to_date', to);
                         fields_dates.removeAttr('disabled');
                     });
+
         }
 
         $('input#filter_date_to,#ownership').change(function() {
@@ -344,6 +345,7 @@
 
                         own = $('#ownership').val();
                         refresh_calendar(ev.date.getDate() + '/' + (ev.date.getMonth() + 1) + '/' + ev.date.getFullYear(),date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear(),own);
+
                     });
 
             var filter_date_to =$('#filter_date_to').datepicker({
