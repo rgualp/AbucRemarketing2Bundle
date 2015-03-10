@@ -28,8 +28,16 @@ class BackendReservationController extends Controller {
         $gen_res = $em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
         $reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array("own_res_gen_res_id" => $id_reservation));
         $bookings = $em->getRepository("mycpBundle:booking")->getByGeneralReservation($id_reservation);
-        $idProv = $gen_res->getGenResOwnId()->getOwnAddressProvince();
-        $ownerships = $em->getRepository('mycpBundle:ownership')->findBy(array('own_address_province' => $idProv));
+        $ownership = $gen_res->getGenResOwnId();
+        $resRooms = array();
+
+        foreach($reservations as $res)
+        {
+            $room = $em->getRepository("mycpBundle:room")->find($res->getOwnResSelectedRoomId());
+            array_push($resRooms, $room);
+        }
+
+        $ownerships = $em->getRepository('mycpBundle:ownership')->getSimilars($ownership, $resRooms);
         $array_nights = array();
         $rooms = array();
         $payment = 0;

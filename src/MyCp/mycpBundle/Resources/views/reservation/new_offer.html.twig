@@ -31,8 +31,8 @@
 {% endblock %}
 {% block content %}
     <link href="{{ asset('bundles/mycp/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
-    {%set start_date = "now" |date("d/m/Y")%}
-    {%set end_date = "+2 days" |date("d/m/Y")%}
+    {%set start_date = reservation.genResFromDate |date("d/m/Y")%}
+    {%set end_date = reservation.genResToDate |date("d/m/Y")%}
     <h2>Nueva Oferta - Reserva CAS.{{reservation.genResId}}
     {{ render(controller('mycpBundle:BackendReservation:getGeneralReservationStatusName', {'status': reservation.genresstatus, 'showInDiv': false})) }}
     </h2>
@@ -163,9 +163,9 @@
     <div class="tab-pane" id="house">
     <div class="row-fluid">
         <div class="span4">
-            <select id="ownership" name="own" class="input-block-level">
+            <select id="ownership" name="own" class="combobox">
                 {% for own in ownerships %}
-                    <option data-percent="{{ own.getOwnCommissionPercent }}" value="{{ own.getOwnId }}">{{ own.getOwnName }}</option>
+                    <option data-percent="{{ own.own_commission_percent }}" value="{{ own.own_id }}">{{own.own_mcp_code}} - {{ own.own_name }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -262,6 +262,7 @@
     <script src="{{ asset('bundles/frontend/js/bootstrap-datepicker.js') }}"></script>
     <script src="{{ asset('bundles/frontend/js/bootstrap-datepicker.es.js') }}"></script>
     <link href="{{ asset('bundles/mycp/css/bootstrap-wysihtml5.css') }}" rel="stylesheet" type="text/css" />
+
     <script type="text/javascript">
         var today_date = "{{"now"|date("d/m/Y") }}";
         var start_date = "{{ start_date }}";
@@ -270,6 +271,8 @@
         $("#btn_dates").click(function(){
            $('#form_dates').submit();
         });
+
+        $("select#ownership").combobox();
 
         function create_date_in(date_text) {
             var date = date_text.split('/');

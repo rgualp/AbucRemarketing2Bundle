@@ -1703,4 +1703,49 @@ class ownershipRepository extends EntityRepository {
         $em->flush();
     }
 
+    public function getSimilars($ownership, $rooms)
+    {
+        $em = $this->getEntityManager();
+        $roomTypes = array();
+        $roomDownPrices = array();
+        $roomUpPrices = array();
+        $roomBathroomTypes = array();
+        $roomClimate = array();
+
+        foreach($rooms as $room)
+        {
+            array_push($roomTypes, $room->getRoomType());
+            array_push($roomDownPrices, $room->getRoomPriceDownTo());
+            array_push($roomUpPrices, $room->getRoomPriceUpTo());
+            array_push($roomBathroomTypes, $room->getRoomBathroom());
+            array_push($roomClimate, $room->getRoomClimate());
+        }
+
+        $queryString = "SELECT DISTINCT ow.own_id, ow.own_name, ow.own_commission_percent, ow.own_mcp_code FROM mycpBundle:room room
+                        JOIN room.room_ownership ow
+                        WHERE ow.own_address_province = :province
+                          AND ow.own_rooms_total >= :roomsTotal
+                          AND room.room_price_down_to IN (:pricesDown)
+                          AND room.room_price_up_to IN (:pricesUp)
+                          AND room.room_type IN (:roomTypes)
+                          AND room.room_bathroom IN (:roomBathroomTypes)
+                          AND room.room_climate IN (:roomClimateTypes)
+                          AND ow.own_commission_percent = :commission
+                          AND ow.own_id <> :ownId
+                        ORDER BY ow.own_mcp_code ASC";
+
+        //$em->createQuery($query_string)->getResult();
+        return $em->createQuery($queryString)
+                  ->setParameters(array("province" => $ownership->getOwnAddressProvince()->getProvId(),
+                                        "commission" => $ownership->getOwnCommissionPercent(),
+                                        "ownId" => $ownership->getOwnId(),
+                                        "roomsTotal" => $ownership->getOwnRoomsTotal(),
+                                        "pricesDown" => $roomDownPrices,
+                                        "pricesUp" => $roomUpPrices,
+                                        "roomTypes" => $roomTypes,
+                                        "roomBathroomTypes" => $roomBathroomTypes,
+                                        "roomClimateTypes" => $roomClimate))
+                  ->getResult();
+    }
+
 }
