@@ -30,6 +30,7 @@ function total_price(curr,percent)
     $('#subtotal_price').html(normalize_prices(total_price_var));
     percent_value=total_price_var * percent / 100;
     $('#initial_deposit').html(normalize_prices(percent_value));
+    $('#pay_at_service').html(normalize_prices(total_price_var - percent_value));
     $('#total_prepayment').html(normalize_prices(percent_value + 10*curr));
     $('.calendar-results').css({display: 'block'});
 }

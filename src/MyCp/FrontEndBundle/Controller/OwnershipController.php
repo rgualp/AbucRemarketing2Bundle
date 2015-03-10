@@ -16,6 +16,8 @@ class OwnershipController extends Controller {
     public function getReservationCalendarAction(Request $request) {
         $from = $request->get('from');
         $to = $request->get('to');
+        $fromBackend = $request->get('backend');
+        $fromBackend = ($fromBackend != "" && $fromBackend);
 
         $reservation_from = explode('/', $from);
         $dateFrom = new \DateTime();
@@ -219,6 +221,7 @@ class OwnershipController extends Controller {
                     'no_available_days' => $no_available_days_ready,
                     'prices_dates' => $prices_dates,
                     'reservations' => $array_no_available,
+                    'fromBackend' => $fromBackend
         ));
     }
 

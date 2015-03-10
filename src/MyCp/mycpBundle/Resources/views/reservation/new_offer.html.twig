@@ -202,19 +202,22 @@
         <br/>
         <li class="lead">
             <div class="row-fluid all-prices-numbers">
-                <div class="span4">
-                    Precio total: $<span id="total_price"></span>
+                <div class="span2">
+                    Precio total:<br/> <span id="total_price"></span> CUC
                 </div>
-                <div class="span4">
-                    Depósito inicial: $<span id="initial_deposit"></span>
+                <div class="span2">
+                    Comisión MyCP: <br/> <span id="initial_deposit"></span> CUC
                 </div>
-                <div class="span4">
-                    Cargo por servicio de reserva: $<span id="service_recharge">{{configuration_service_fee * (app.session.get('curr_rate') == null ? 1 : app.session.get('curr_rate'))}}</span>
+                <div class="span2">
+                    Cargo por servicio:<br/>  <span id="service_recharge">{{configuration_service_fee}}</span> CUC
                 </div>
+            <div class="span2">
+                Pago inicial: <br/><span id="total_prepayment"></span> CUC
             </div>
-            <div class="text-center" style="font-size: 20px; margin-top: 10px">
-                Depósito inicial: $<span id="total_prepayment"></span>
+            <div class="span4">
+                Pago al arribar:<br/> <span id="pay_at_service"></span> CUC
             </div>
+                </div>
         </li>
         <li class="lead-2">
             {% if post['reservation_filter_date_from'] is defined %}
@@ -295,7 +298,7 @@
 
             $.ajax({
                 url: "{{ path('frontend_get_reservation_calendar_ownership_callback') }}",
-                data: {from: from, to: to, own_id: own_id}
+                data: {from: from, to: to, own_id: own_id, backend: true}
 
             }).done(function(resp) {
                         element.removeAttr('class');
