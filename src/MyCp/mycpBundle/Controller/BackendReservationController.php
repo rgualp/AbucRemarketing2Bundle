@@ -58,6 +58,7 @@ class BackendReservationController extends Controller {
             if (!$request->get('data_reservation'))
                 throw $this->createNotFoundException();
             $data = $request->get('data_reservation');
+
             $data = explode('/', $data);
 
             $from_date = $data[0];
@@ -149,11 +150,13 @@ class BackendReservationController extends Controller {
                 $emailService = $this->get('mycp.service.email_manager');
                 \MyCp\mycpBundle\Helpers\VoucherHelper::sendNewVoucherToClient($em, $bookingService, $emailService, $this, $general_reservation, $mailMessage);
 
+                }
+
                 $message = 'Nueva oferta CAS.' . $general_reservation->getGenResId() . ' creada satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 return $this->redirect($this->generateUrl('mycp_list_reservations'));
-            }
+
         }
 
         if ($gen_res->getGenResStatus() != generalReservation::STATUS_CANCELLED || count($bookings) == 0) {
