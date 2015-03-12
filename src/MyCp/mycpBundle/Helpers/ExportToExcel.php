@@ -90,13 +90,10 @@ class ExportToExcel {
         $total_nights = array();
         $service_time = $this->container->get('time');
         foreach ($checkins as $res) {
-            $owns_res = $this->em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $res[0]['gen_res_id']));
-            $temp_total_nights = 0;
-            foreach ($owns_res as $own) {
-                $array_dates = $service_time->datesBetween($own->getOwnResReservationFromDate()->getTimestamp(), $own->getOwnResReservationToDate()->getTimestamp());
-                $temp_total_nights+=count($array_dates) - 1;
-            }
-            $total_nights[$res[0]["gen_res_id"]] = $temp_total_nights;
+            $genRes = $this->em->getRepository('mycpBundle:generalReservation')->find($res[0]['gen_res_id']);
+            $array_dates = $service_time->datesBetween($genRes->getGenResFromDate()->getTimestamp(), $genRes->getGenResToDate()->getTimestamp());
+
+            $total_nights[$res[0]["gen_res_id"]] = count($array_dates) - 1;
         }
 
         foreach ($checkins as $check) {
