@@ -215,8 +215,11 @@
             <div class="span2">
                 Pago inicial: <br/><span id="total_prepayment"></span> CUC
             </div>
-            <div class="span4">
+            <div class="span2">
                 Pago al arribar:<br/> <span id="pay_at_service"></span> CUC
+            </div>
+            <div class="span2">
+                <span id="error" class="alert-error">El nuevo precio total no coincide con el precio anterior</span>
             </div>
                 </div>
         </li>
@@ -249,7 +252,7 @@
     <textarea name="message_body" style="width:95%"></textarea>
             <div class="row-fluid" style="text-align: right">
         {%if bookings and reservation.genresStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED')%}
-        <button class="btn btn-primary" id="btn_submit">Guardar</button>
+        <button class="btn btn-primary" id="btn_submit" disabled="disabled">Guardar</button>
         {%endif%}
         <a class="btn" href="{{ path('mycp_details_reservation',{'id_reservation':reservation.genResId}) }}">Cancelar</a>
         </form>
@@ -273,6 +276,7 @@
         var today_date = "{{"now"|date("d/m/Y") }}";
         var start_date = "{{ start_date }}";
         var end_date = "{{ end_date }}";
+        var originalTotalPrice = {{reservation.getGenResTotalInSite}};
 
         $("#btn_dates").click(function(){
            $('#form_dates').submit();

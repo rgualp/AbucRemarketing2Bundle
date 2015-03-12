@@ -31,8 +31,7 @@ class BackendReservationController extends Controller {
         $ownership = $gen_res->getGenResOwnId();
         $resRooms = array();
 
-        foreach($reservations as $res)
-        {
+        foreach ($reservations as $res) {
             $room = $em->getRepository("mycpBundle:room")->find($res->getOwnResSelectedRoomId());
             array_push($resRooms, $room);
         }
@@ -136,24 +135,24 @@ class BackendReservationController extends Controller {
                 $general_reservation->setGenResTotalInSite($total_price);
                 $general_reservation->setGenResSaved(1);
                 $em->persist($ownership_reservation);
-            }
-            foreach($reservations as $res)
-            {
-                $res->setOwnResReservationBooking(null);
-                $em->persist($res);
-            }
-            $em->flush();
-            //Enviar correo al cliente con el texto escrito y el voucher como adjunto
-            $postMessageBody = $request->get("message_body");
+
+                foreach ($reservations as $res) {
+                    $res->setOwnResReservationBooking(null);
+                    $em->persist($res);
+                }
+                $em->flush();
+                //Enviar correo al cliente con el texto escrito y el voucher como adjunto
+                $postMessageBody = $request->get("message_body");
                 $mailMessage = ($postMessageBody != null && $postMessageBody != "") ? $postMessageBody : null;
                 $bookingService = $this->get('front_end.services.booking');
                 $emailService = $this->get('mycp.service.email_manager');
                 \MyCp\mycpBundle\Helpers\VoucherHelper::sendNewVoucherToClient($em, $bookingService, $emailService, $this, $general_reservation, $mailMessage);
 
-                $message = 'Nueva oferta CAS.'.$general_reservation->getGenResId().' creada satisfactoriamente.';
+                $message = 'Nueva oferta CAS.' . $general_reservation->getGenResId() . ' creada satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
-            return $this->redirect($this->generateUrl('mycp_list_reservations'));
+                return $this->redirect($this->generateUrl('mycp_list_reservations'));
+            }
         }
 
         if ($gen_res->getGenResStatus() != generalReservation::STATUS_CANCELLED || count($bookings) == 0) {
@@ -195,23 +194,19 @@ class BackendReservationController extends Controller {
                     if (!is_numeric($post[$key]) && !$errors["numeric_price"]) {
                         $errors["numeric_price"] = 1;
                         $message .= 'En el campo precio por noche tiene que introducir un valor numérico.<br/>';
-                    }
-                    else if($post[$key] != "")
-                    {
-                        $reservationPrice = $post["price_".$resId];
+                    } else if ($post[$key] != "") {
+                        $reservationPrice = $post["price_" . $resId];
 
-                        if($post[$key] != 0 && $post[$key] != $reservationPrice && !$errors["price"])
-                        {
+                        if ($post[$key] != 0 && $post[$key] != $reservationPrice && !$errors["price"]) {
                             $errors["price"] = 1;
                             $message .= 'El precio por noche tiene que ser igual al sugerido.<br/>';
                         }
                     }
                 }
                 if (strpos($key, 'date_from') !== false) {
-                    $originalDate = $post["original_date_".$resId];
+                    $originalDate = $post["original_date_" . $resId];
 
-                    if($post[$key] == $originalDate && !$errors["date"])
-                    {
+                    if ($post[$key] == $originalDate && !$errors["date"]) {
                         $errors["date"] = 1;
                         $message .= 'La fecha no puede ser la misma de la reservación. <br/>';
                     }
@@ -231,11 +226,11 @@ class BackendReservationController extends Controller {
                 foreach ($ownership_reservations as $ownership_reservation) {
 
                     if ($post['service_room_price_' . $ownership_reservation->getOwnResId()] != 0 && $post["price_" . $ownership_reservation->getOwnResId()] != $post['service_room_price_' . $ownership_reservation->getOwnResId()]) {
-                       $errors['service_room_price_' . $ownership_reservation->getOwnResId()] = 1;
-                       $message = 'El precio por noche tiene que coincidir con el sugerido.';
-                       $this->get('session')->getFlashBag()->add('message_error_local', $message);
-                       $em->remove($newGeneralReservation);
-                       $em->flush();
+                        $errors['service_room_price_' . $ownership_reservation->getOwnResId()] = 1;
+                        $message = 'El precio por noche tiene que coincidir con el sugerido.';
+                        $this->get('session')->getFlashBag()->add('message_error_local', $message);
+                        $em->remove($newGeneralReservation);
+                        $em->flush();
                     } else {
 
                         $start = explode('/', $post['date_from_' . $ownership_reservation->getOwnResId()]);
@@ -283,14 +278,13 @@ class BackendReservationController extends Controller {
                 $emailService = $this->get('mycp.service.email_manager');
                 \MyCp\mycpBundle\Helpers\VoucherHelper::sendNewVoucherToClient($em, $bookingService, $emailService, $this, $newGeneralReservation, $mailMessage);
 
-                $message = 'Nueva oferta CAS.'.$general_reservation->getGenResId().' creada satisfactoriamente.';
+                $message = 'Nueva oferta CAS.' . $general_reservation->getGenResId() . ' creada satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
-
             }
             else
                 $this->get('session')->getFlashBag()->add('message_error_local', $message);
         }
-        if(count($errors) == 0)
+        if (count($errors) == 0)
             return $this->redirect($this->generateUrl('mycp_list_reservations'));
         else
             return $this->redirect($this->generateUrl('mycp_new_offer_reservation', array("id_tourist" => $id_tourist, "id_reservation" => $id_reservation)));

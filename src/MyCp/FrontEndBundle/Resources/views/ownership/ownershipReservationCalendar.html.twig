@@ -95,4 +95,8 @@
     $("#body_calendar").scrollLeft(999999);
     var today_date="{{"now"|date("d/m/Y") }}";
 </script>
+{%if fromBackend%}
+<script src="{{ asset('bundles/mycp/js/ownership.calendar.js') }}"></script>
+{%else%}
 <script src="{{ asset('bundles/frontend/js/ownership.calendar.js') }}"></script>
+{%endif%}

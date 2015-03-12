@@ -1,5 +1,5 @@
-reservations_in_details();
-function total_price(curr,percent)
+reservationsBody();
+function totalPrice(curr,percent)
 {
     real_price=0;
     total_price_var=0;
@@ -33,8 +33,22 @@ function total_price(curr,percent)
     $('#pay_at_service').html(normalize_prices(total_price_var - percent_value));
     $('#total_prepayment').html(normalize_prices(percent_value + 10*curr));
     $('.calendar-results').css({display: 'block'});
+    if(total_price_var !== originalTotalPrice)
+    {
+        $("#btn_submit").attr("disabled", true);
+        $("#error").css({display: 'block'});
+        $(".all-prices-numbers").addClass("error");
+
+    }
+    else
+    {
+        $("#btn_submit").removeAttr("disabled");
+        $("#error").css({display: 'none'});
+        $(".all-prices-numbers").removeClass("error");
+
+    }
 }
-function reservations_in_details()
+function reservationsBody()
 {
 
     $('#rooms_selected > tbody tr').each(function(){
@@ -53,7 +67,7 @@ function reservations_in_details()
                 }
                 else
                 {
-                    total_price($(this).attr('data_curr'),$(this).attr('percent_charge'));
+                    totalPrice($(this).attr('data_curr'),$(this).attr('percent_charge'));
                 }
             }
             else
@@ -73,7 +87,7 @@ function reservations_in_details()
                 $('#kids_'+$(this).attr('data')).html($('#combo_kids_'+$(this).attr('data')).val());
                 $('#price_'+$(this).attr('data')).html(value);
                 $('#rooms_selected').css({display: 'block'});
-                total_price($(this).attr('data_curr'),$(this).attr('percent_charge'));
+                totalPrice($(this).attr('data_curr'),$(this).attr('percent_charge'));
 
             }
         }
@@ -104,7 +118,7 @@ function reservations_in_details()
                 '<td class="kids" id="kids_'+$(this).attr('data')+'">'+$('#combo_kids_'+$(this).attr('data')).val()+'</td>'+
                 '<td class="price-room" id="price_'+$(this).attr('data')+'">'+value+'</td>');
 
-            total_price($(this).attr('data_curr'),$(this).attr('percent_charge'));
+            totalPrice($(this).attr('data_curr'),$(this).attr('percent_charge'));
         }
     });
 }
