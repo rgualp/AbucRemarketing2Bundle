@@ -91,9 +91,9 @@ class ExportToExcel {
         $service_time = $this->container->get('time');
         foreach ($checkins as $res) {
             $genRes = $this->em->getRepository('mycpBundle:generalReservation')->find($res[0]['gen_res_id']);
-            $array_dates = $service_time->datesBetween($genRes->getGenResFromDate()->getTimestamp(), $genRes->getGenResToDate()->getTimestamp());
+            $nights = $service_time->nights($genRes->getGenResFromDate()->getTimestamp(), $genRes->getGenResToDate()->getTimestamp());
 
-            $total_nights[$res[0]["gen_res_id"]] = count($array_dates) - 1;
+            $total_nights[$res[0]["gen_res_id"]] = $nights;
         }
 
         foreach ($checkins as $check) {
