@@ -90,8 +90,8 @@ class MycasatripController extends Controller {
         $nights = array();
         $array_photos = array();
         foreach ($res_available as $res) {
-            $array_dates = $service_time->datesBetween($res['own_res_reservation_from_date']->getTimestamp(), $res['own_res_reservation_to_date']->getTimestamp());
-            array_push($nights, count($array_dates) - 1);
+            $totalNights = $service_time->nights($res['own_res_reservation_from_date']->getTimestamp(), $res['own_res_reservation_to_date']->getTimestamp());
+            array_push($nights, $totalNights);
 
             $photo = $em->getRepository('mycpBundle:ownership')->getOwnershipPhoto($res['own_res_gen_res_id']['gen_res_own_id']['own_id']);
             array_push($array_photos, $photo);
@@ -149,8 +149,8 @@ class MycasatripController extends Controller {
           $array_photos=array();
           foreach($res_available as $res)
           {
-          $array_dates=$service_time->datesBetween($res['own_res_reservation_from_date']->getTimestamp(),$res['own_res_reservation_to_date']->getTimestamp());
-          array_push($nights,count($array_dates)-1);
+          $totalNights=$service_time->nights($res['own_res_reservation_from_date']->getTimestamp(),$res['own_res_reservation_to_date']->getTimestamp());
+          array_push($nights,$totalNights);
           $photo=$em->getRepository('mycpBundle:ownership')->getOwnershipPhoto($res['own_res_gen_res_id']['gen_res_own_id']['own_id']);
           array_push($array_photos,$photo);
           }
@@ -193,8 +193,8 @@ class MycasatripController extends Controller {
         $nights = array();
         $array_photos = array();
         foreach ($res_available as $res) {
-            $array_dates = $service_time->datesBetween($res['own_res_reservation_from_date']->getTimestamp(), $res['own_res_reservation_to_date']->getTimestamp());
-            array_push($nights, count($array_dates) - 1);
+            $totalNights = $service_time->nights($res['own_res_reservation_from_date']->getTimestamp(), $res['own_res_reservation_to_date']->getTimestamp());
+            array_push($nights, $totalNights);
             $photo = $em->getRepository('mycpBundle:ownership')->getOwnershipPhoto($res['own_res_gen_res_id']['gen_res_own_id']['own_id']);
             array_push($array_photos, $photo);
         }
@@ -236,8 +236,8 @@ class MycasatripController extends Controller {
         $nights = array();
         $array_photos = array();
         foreach ($res_payment as $res) {
-            $array_dates = $service_time->datesBetween($res['own_res_reservation_from_date']->getTimestamp(), $res['own_res_reservation_to_date']->getTimestamp());
-            array_push($nights, count($array_dates) - 1);
+            $totalNights = $service_time->nights($res['own_res_reservation_from_date']->getTimestamp(), $res['own_res_reservation_to_date']->getTimestamp());
+            array_push($nights, $totalNights);
             $photo = $em->getRepository('mycpBundle:ownership')->getOwnershipPhoto($res['own_res_gen_res_id']['gen_res_own_id']['own_id']);
             array_push($array_photos, $photo);
         }
@@ -443,17 +443,17 @@ class MycasatripController extends Controller {
                 array_push($arrayPhotos, $photos);
             }
 
-            $array_dates = $service_time
-                    ->datesBetween(
+            $totalNights = $service_time
+                    ->nights(
                     $ownershipReservation->getOwnResReservationFromDate()->getTimestamp(), $ownershipReservation->getOwnResReservationToDate()->getTimestamp()
             );
 
-            array_push($arrayNights, count($array_dates) - 1);
+            array_push($arrayNights, $totalNights);
 
             $comission = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent() / 100;
             //Initial down payment
             if ($ownershipReservation->getOwnResNightPrice() > 0)
-                $initialPayment += $ownershipReservation->getOwnResNightPrice() * (count($array_dates) - 1) * $comission;
+                $initialPayment += $ownershipReservation->getOwnResNightPrice() * $totalNights * $comission;
             else
                 $initialPayment += getOwnResTotalInSite() * $comission;
         }

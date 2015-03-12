@@ -123,12 +123,12 @@ class FeedbackReminderWorkerCommand extends Worker {
         }
 
         foreach ($ownershipReservations as $ownershipReservation) {
-            $array_dates = $this->timer
-                    ->datesBetween(
+            $nights = $this->timer
+                    ->nights(
                     $ownershipReservation->getOwnResReservationFromDate()->getTimestamp(), $ownershipReservation->getOwnResReservationToDate()->getTimestamp()
             );
 
-            array_push($arrayNights, count($array_dates) - 1);
+            array_push($arrayNights, $nights);
         }
 
         $emailBody = $this->emailManager->getViewContent(
@@ -141,7 +141,7 @@ class FeedbackReminderWorkerCommand extends Worker {
                 'user_locale' => $userLocale,
             ));
 
-        $output->writeln("Send email to $userEmail, subject '$emailSubject' for User ID $userId");
+        $output->writeln("Send email to $userEmail, subject '$emailSubject' for User  $userEmail");
         $this->emailManager->sendTemplatedEmail($userEmail, $emailSubject, $emailBody);
     }
 

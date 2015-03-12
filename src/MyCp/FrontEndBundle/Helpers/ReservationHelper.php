@@ -54,12 +54,12 @@ class ReservationHelper {
         $roomNums = array();
 
         foreach ($ownershipReservations as $ownershipReservation) {
-            $array_dates = $service_time
-                    ->datesBetween(
+            $nights = $service_time
+                    ->nights(
                     $ownershipReservation->getOwnResReservationFromDate()->getTimestamp(), $ownershipReservation->getOwnResReservationToDate()->getTimestamp()
-            );            
+            );
 
-            array_push($arrayNights, count($array_dates) - 1);
+            array_push($arrayNights, $nights);
             
             $room = $em->getRepository("mycpBundle:room")->find($ownershipReservation->getOwnResSelectedRoomId());
             array_push($roomNums, $room->getRoomNum());
@@ -73,14 +73,14 @@ class ReservationHelper {
             'comment' => $request->getSession()->get('message_cart'),
             'roomNums' => $roomNums
         ));
-        
+
         $results[] = "MyCasaParticular Reservas - " . strtoupper($user_tourist->getUserTouristLanguage()->getLangCode());
 
         return $results;
     }
 
     public static function sendingEmailToReservationTeam($genResId, $em, $controller, $service_email, $service_time, $request, $toAddress, $fromAddress) {
-        
+
         $texts = ReservationHelper::sendingEmailToReservationTeamBody($genResId, $em, $controller, $service_time, $request);
         $subject = $texts[1];
         $body = $texts[0];

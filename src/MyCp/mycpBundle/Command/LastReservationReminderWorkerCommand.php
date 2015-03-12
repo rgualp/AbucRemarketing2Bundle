@@ -152,18 +152,18 @@ class LastReservationReminderWorkerCommand extends Worker
                 array_push($arrayPhotos, $photos);
             }
 
-            $array_dates = $this->timeService
-                ->datesBetween(
+            $nights = $this->timeService
+                ->nights(
                     $ownershipReservation->getOwnResReservationFromDate()->getTimestamp(),
                     $ownershipReservation->getOwnResReservationToDate()->getTimestamp()
                 );
 
-            array_push($arrayNights, count($array_dates) - 1);
+            array_push($arrayNights, $nights);
 
             $comission = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent()/100;
             //Initial down payment
             if($ownershipReservation->getOwnResNightPrice() > 0)
-                $initialPayment += $ownershipReservation->getOwnResNightPrice() * (count($array_dates) - 1) * $comission;
+                $initialPayment += $ownershipReservation->getOwnResNightPrice() * $nights * $comission;
             else
                 $initialPayment += $ownershipReservation->getOwnResTotalInSite() * $comission;
         }

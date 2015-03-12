@@ -62,12 +62,12 @@ class EmailReminderCommand extends ContainerAwareCommand
                     array_push($arrayPhotos,$photos);
                 }
 
-                $array_dates = $timeService
-                    ->datesBetween(
+                $nights = $timeService
+                    ->nights(
                         $res->getOwnResReservationFromDate()->getTimestamp(),
                         $res->getOwnResReservationToDate()->getTimestamp()
                     );
-                array_push($arrayNights, count($array_dates) - 1);
+                array_push($arrayNights, $nights);
             }
 
             // Enviando mail al cliente

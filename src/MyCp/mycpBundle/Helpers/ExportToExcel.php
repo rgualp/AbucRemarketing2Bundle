@@ -93,8 +93,8 @@ class ExportToExcel {
             $owns_res = $this->em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $res[0]['gen_res_id']));
             $temp_total_nights = 0;
             foreach ($owns_res as $own) {
-                $array_dates = $service_time->datesBetween($own->getOwnResReservationFromDate()->getTimestamp(), $own->getOwnResReservationToDate()->getTimestamp());
-                $temp_total_nights+=count($array_dates) - 1;
+                $nights = $service_time->nights($own->getOwnResReservationFromDate()->getTimestamp(), $own->getOwnResReservationToDate()->getTimestamp());
+                $temp_total_nights+=$nights;
             }
             $total_nights[$res[0]["gen_res_id"]] = $temp_total_nights;
         }

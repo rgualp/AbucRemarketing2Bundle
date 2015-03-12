@@ -356,8 +356,8 @@ class CartController extends Controller {
                         $ownership_photo = $em->getRepository('mycpBundle:ownership')->getOwnershipPhoto($ownership_reservation->getOwnResGenResId()->getGenResOwnId()->getOwnId());
                         array_push($array_photos, $ownership_photo);
 
-                        $array_dates = $service_time->datesBetween($ownership_reservation->getOwnResReservationFromDate()->getTimestamp(), $ownership_reservation->getOwnResReservationToDate()->getTimestamp());
-                        array_push($nigths, count($array_dates) - 1);
+                        $nightsCount = $service_time->nights($ownership_reservation->getOwnResReservationFromDate()->getTimestamp(), $ownership_reservation->getOwnResReservationToDate()->getTimestamp());
+                        array_push($nigths, $nightsCount);
 
                         $em->persist($ownership_reservation);
                         $em->flush();

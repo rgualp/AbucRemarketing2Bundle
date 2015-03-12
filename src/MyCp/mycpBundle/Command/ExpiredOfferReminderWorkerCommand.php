@@ -161,13 +161,13 @@ class ExpiredOfferReminderWorkerCommand extends Worker
                 array_push($arrayPhotos, $photos);
             }
 
-            $array_dates = $this->timeService
-                ->datesBetween(
+            $nights = $this->timeService
+                ->nights(
                     $ownershipReservation->getOwnResReservationFromDate()->getTimestamp(),
                     $ownershipReservation->getOwnResReservationToDate()->getTimestamp()
                 );
 
-            array_push($arrayNights, count($array_dates) - 1);
+            array_push($arrayNights, $nights);
 
             /*$comission = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent()/100;
             //Initial down payment

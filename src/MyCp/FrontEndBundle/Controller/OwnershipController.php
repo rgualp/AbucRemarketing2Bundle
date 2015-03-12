@@ -392,7 +392,6 @@ class OwnershipController extends Controller {
         $array_no_available = array();
         $no_available_days = array();
 
-        $service_time = $this->get('time');
         $array_prices = array();
         $prices_dates = array();
 
