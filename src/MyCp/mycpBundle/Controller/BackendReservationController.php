@@ -97,6 +97,7 @@ class BackendReservationController extends Controller {
             $service_time = $this->get('Time');
             $total_price = 0;
 
+            $booking = $em->getRepository("mycpBundle:booking")->find($bookings[0]["booking_id"]);
             $destination_id = ($ownership->getOwnDestination() != null) ? $ownership->getOwnDestination()->getDesId() : null;
             $count_adults = 0;
             $count_children = 0;
@@ -131,7 +132,7 @@ class BackendReservationController extends Controller {
                 $ownership_reservation->setOwnResGenResId($general_reservation);
                 $ownership_reservation->setOwnResRoomType($room->getRoomType());
                 $ownership_reservation->setOwnResTotalInSite($temp_price);
-                $ownership_reservation->setOwnResReservationBooking($bookings[0]);
+                $ownership_reservation->setOwnResReservationBooking($booking);
                 $general_reservation->setGenResTotalInSite($total_price);
                 $general_reservation->setGenResSaved(1);
                 $em->persist($ownership_reservation);
