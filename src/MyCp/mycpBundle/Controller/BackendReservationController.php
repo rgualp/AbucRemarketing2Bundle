@@ -693,7 +693,7 @@ class BackendReservationController extends Controller {
             }
 
             if (count($errors) == 0) {
-                $temp_price = 0;
+                $totalPrice = 0;
                 foreach ($ownership_reservations as $ownership_reservation) {
                     $start = explode('/', $post['date_from_' . $ownership_reservation->getOwnResId()]);
                     $end = explode('/', $post['date_to_' . $ownership_reservation->getOwnResId()]);
@@ -704,36 +704,24 @@ class BackendReservationController extends Controller {
                     $ownership_reservation->setOwnResReservationToDate(new \DateTime(date("Y-m-d H:i:s", $end_timestamp)));
 
                     if (isset($post['service_room_price_' . $ownership_reservation->getOwnResId()]) && $post['service_room_price_' . $ownership_reservation->getOwnResId()] != "" && $post['service_room_price_' . $ownership_reservation->getOwnResId()] != "0") {
-                        $temp_price+=$post['service_room_price_' . $ownership_reservation->getOwnResId()] * (count($dates) - 1);
                         $ownership_reservation->setOwnResNightPrice($post['service_room_price_' . $ownership_reservation->getOwnResId()]);
-                    } else {
-                        //$temp_price+=$ownership_reservation->getOwnResTotalInSite();
-                        $currentGuestTotal = $ownership_reservation->getOwnResCountAdults() + $ownership_reservation->getOwnResCountChildrens();
-                        $newGuestTotal = $post['service_room_count_adults_' . $ownership_reservation->getOwnResId()] + $post['service_room_count_childrens_' . $ownership_reservation->getOwnResId()];
-
-                        if ($ownership_reservation->getOwnResRoomType() == "Habitación Triple") {
-                            $tripleRoomFeed = $this->container->getParameter('configuration.triple.room.charge');
-                            $currentSitePrice = $ownership_reservation->getOwnResTotalInSite();
-                            $dates_temp = $service_time->datesBetween($ownership_reservation->getOwnResReservationFromDate()->getTimestamp(), $ownership_reservation->getOwnResReservationToDate()->getTimestamp());
-                            $nights = count($dates_temp) - 1;
-                            if ($currentGuestTotal >= 3 && $newGuestTotal < 3) {
-                                //restar el recargo
-                                $ownership_reservation->setOwnResTotalInSite($currentSitePrice - $tripleRoomFeed * $nights);
-                            } else if ($currentGuestTotal < 3 && $newGuestTotal >= 3) {
-                                //sumar el recargo
-                                $ownership_reservation->setOwnResTotalInSite($currentSitePrice + $tripleRoomFeed * $nights);
-                            }
-                        }
                     }
+                    else
+                        $ownership_reservation->setOwnResNightPrice(0);
 
                     $ownership_reservation->setOwnResCountAdults($post['service_room_count_adults_' . $ownership_reservation->getOwnResId()]);
                     $ownership_reservation->setOwnResCountChildrens($post['service_room_count_childrens_' . $ownership_reservation->getOwnResId()]);
                     $ownership_reservation->setOwnResStatus($post['service_own_res_status_' . $ownership_reservation->getOwnResId()]);
-                    //$ownership_reservation->setOwnResRoomType($post['service_room_type_' . $ownership_reservation->getOwnResId()]);
+
+                    $tripleRoomFeed = $this->container->getParameter('configuration.triple.room.charge');
+                    $partialTotalPrice = \MyCp\FrontEndBundle\Helpers\ReservationHelper::getTotalPrice($em, $service_time, $ownership_reservation, $tripleRoomFeed);
+                    $totalPrice+=$partialTotalPrice;
+                    $ownership_reservation->setOwnResTotalInSite($partialTotalPrice);
 
                     $em->persist($ownership_reservation);
                 }
                 $message = 'Reserva actualizada satisfactoriamente.';
+                $reservation->setGenResTotalInSite($totalPrice);
                 $reservation->setGenResSaved(1);
                 if ($reservation->getGenResStatus() != generalReservation::STATUS_RESERVED) {
                     if ($non_available_total > 0 && $non_available_total == $details_total) {
