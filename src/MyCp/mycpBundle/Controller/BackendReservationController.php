@@ -88,7 +88,7 @@ class BackendReservationController extends Controller {
             $general_reservation->setGenResDate(new \DateTime(date('Y-m-d')));
             $general_reservation->setGenResStatusDate(new \DateTime(date('Y-m-d')));
             $general_reservation->setGenResHour(date('G'));
-            $general_reservation->setGenResStatus(generalReservation::STATUS_PENDING);
+            $general_reservation->setGenResStatus(generalReservation::STATUS_RESERVED);
             $general_reservation->setGenResFromDate(new \DateTime(date("Y-m-d H:i:s", $start_timestamp)));
             $general_reservation->setGenResToDate(new \DateTime(date("Y-m-d H:i:s", $end_timestamp)));
             $general_reservation->setGenResSaved(0);
@@ -121,7 +121,7 @@ class BackendReservationController extends Controller {
                 $ownership_reservation->setOwnResCountAdults($count_adults);
                 $ownership_reservation->setOwnResCountChildrens($count_children);
                 $ownership_reservation->setOwnResNightPrice(0);
-                $ownership_reservation->setOwnResStatus(ownershipReservation::STATUS_PENDING);
+                $ownership_reservation->setOwnResStatus(ownershipReservation::STATUS_RESERVED);
                 $ownership_reservation->setOwnResReservationFromDate(new \DateTime(date("Y-m-d H:i:s", $start_timestamp)));
                 $ownership_reservation->setOwnResReservationToDate(new \DateTime(date("Y-m-d H:i:s", $end_timestamp)));
                 $ownership_reservation->setOwnResSelectedRoomId($room);
@@ -132,12 +132,26 @@ class BackendReservationController extends Controller {
                 $ownership_reservation->setOwnResGenResId($general_reservation);
                 $ownership_reservation->setOwnResRoomType($room->getRoomType());
                 $ownership_reservation->setOwnResTotalInSite($temp_price);
+                $ownership_reservation->setOwnResReservationBooking($bookings[0]);
                 $general_reservation->setGenResTotalInSite($total_price);
+                $general_reservation->setGenResSaved(1);
                 $em->persist($ownership_reservation);
             }
+            foreach($reservations as $res)
+            {
+                $res->setOwnResReservationBooking(null);
+                $em->persist($res);
+            }
             $em->flush();
-            $message = "Reserva añadida satisfactoriamente";
-            $this->get('session')->getFlashBag()->add('message_ok', $message);
+            //Enviar correo al cliente con el texto escrito y el voucher como adjunto
+            $postMessageBody = $request->get("message_body");
+                $mailMessage = ($postMessageBody != null && $postMessageBody != "") ? $postMessageBody : null;
+                $bookingService = $this->get('front_end.services.booking');
+                $emailService = $this->get('mycp.service.email_manager');
+                \MyCp\mycpBundle\Helpers\VoucherHelper::sendNewVoucherToClient($em, $bookingService, $emailService, $this, $general_reservation, $mailMessage);
+
+                $message = 'Nueva oferta CAS.'.$general_reservation->getGenResId().' creada satisfactoriamente.';
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
 
             return $this->redirect($this->generateUrl('mycp_list_reservations'));
         }
@@ -269,7 +283,7 @@ class BackendReservationController extends Controller {
                 $emailService = $this->get('mycp.service.email_manager');
                 \MyCp\mycpBundle\Helpers\VoucherHelper::sendNewVoucherToClient($em, $bookingService, $emailService, $this, $newGeneralReservation, $mailMessage);
 
-                $message = 'Nueva oferta creada satisfactoriamente.';
+                $message = 'Nueva oferta CAS.'.$general_reservation->getGenResId().' creada satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
             }

@@ -18,15 +18,16 @@
         <li class="pull-right"><a href="{{ path('mycp_details_reservation',{'id_reservation':reservation.genResId}) }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
     </ul>
     <script type="text/javascript">
-        /*$('#btn_submit').click(function(){
+        $('#btn_submit').click(function(){
             if($('.calendar-results').css('display')=='block'){
                 $('#form_submit').submit();
+
             }
             else
             {
 
             }
-        });*/
+        });
     </script>
 {% endblock %}
 {% block content %}
@@ -374,6 +375,6 @@
 
                 });
     </script>
-    <script src="{{ asset('bundles/frontend/js/ownership.calendar.js') }}"></script>
+    <script src="{{ asset('bundles/mycp/js/ownership.calendar.js') }}"></script>
     {%endif%}
 {% endblock %}
