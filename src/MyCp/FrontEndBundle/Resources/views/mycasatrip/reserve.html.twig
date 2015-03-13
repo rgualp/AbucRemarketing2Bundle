@@ -31,7 +31,7 @@
                                 </p>
                             </td>
                             <td>
-                                <p class="note"><b>{{"ID_RESERVATION" | trans}}:</b> CAS.{{res['own_res_gen_res_id']['gen_res_id']}}</b>
+                                <p class="note"><b>{{"ID_RESERVATION" | trans}}:</b> {{res['own_res_gen_res_id']['gen_res_id'] | getCASId}}</b>
                                     <br>
                                     <br>
                                     <span class="badge badge-important">{{"RESERVE_SINGULAR" | trans}}</span>

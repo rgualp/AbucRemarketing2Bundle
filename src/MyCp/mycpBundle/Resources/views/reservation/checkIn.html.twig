@@ -58,7 +58,7 @@
                     <td colspan="2">
                         <table style="width:100%" class="stylessTable">
                             <tr>
-                                <td style="background: #fff"><b>Reserva:</b> CAS.{{check[0].gen_res_id}}</td>
+                                <td style="background: #fff"><b>Reserva:</b> {{check[0].gen_res_id | getCASId}}</td>
                                 <td style="background: #fff"><b>Fecha:</b> {{check[0].gen_res_date |date("d/m/Y")}}</td>
                                 <td style="background: #fff"><b>Habitaciones:</b> {{check[1]}}</td>
                                 <td style="background: #fff"><b>Huéspedes:</b> {{check[3]+check[5]}}</td>

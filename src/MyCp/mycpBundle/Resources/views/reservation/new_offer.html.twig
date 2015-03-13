@@ -4,7 +4,7 @@
     <ul class="breadcrumb">
         <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
         <li><a href="{{ path('mycp_list_reservations') }}">Reservas</a> <span class="divider">/</span></li>
-        <li><a href="{{ path('mycp_details_reservation',{'id_reservation':reservation.genResId}) }}">Reserva CAS.{{ reservation.genResId }}</a> <span class="divider">/</span></li>
+        <li><a href="{{ path('mycp_details_reservation',{'id_reservation':reservation.genResId}) }}">Reserva {{ reservation.getCASId }}</a> <span class="divider">/</span></li>
         <li class="active">Nueva Oferta</li>
         <li class="pull-right"><a href="{{ path('mycp_details_reservation',{'id_reservation':reservation.genResId}) }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
     </ul>
@@ -13,7 +13,7 @@
     <ul class="breadcrumb">
         <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
         <li><a href="{{ path('mycp_list_reservations') }}">Reservas</a> <span class="divider">/</span></li>
-        <li><a href="{{ path('mycp_details_reservation',{'id_reservation':reservation.genResId}) }}">Reserva CAS.{{ reservation.genResId }}</a> <span class="divider">/</span></li>
+        <li><a href="{{ path('mycp_details_reservation',{'id_reservation':reservation.genResId}) }}">Reserva {{ reservation.getCASId }}</a> <span class="divider">/</span></li>
         <li class="active">Nueva Oferta</li>
         <li class="pull-right"><a href="{{ path('mycp_details_reservation',{'id_reservation':reservation.genResId}) }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
     </ul>
@@ -34,7 +34,7 @@
     <link href="{{ asset('bundles/mycp/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
     {%set start_date = reservation.genResFromDate |date("d/m/Y")%}
     {%set end_date = reservation.genResToDate |date("d/m/Y")%}
-    <h2>Nueva Oferta - Reserva CAS.{{reservation.genResId}}
+    <h2>Nueva Oferta - Reserva {{reservation.getCASId}}
     {{ render(controller('mycpBundle:BackendReservation:getGeneralReservationStatusName', {'status': reservation.genresstatus, 'showInDiv': false})) }}
     </h2>
     <hr/>

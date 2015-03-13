@@ -163,7 +163,7 @@
                         {%endif%}
                     </td>
                     <td>{{reservation[0].gen_res_date |date("d/m/Y")}}</td>
-                    <td>CAS.{{reservation[0].gen_res_id}}</td>
+                    <td>{{reservation[0].gen_res_id | getCASId}}</td>
                     <td>{{reservation[0].gen_res_own_id.own_mcp_code}}</td>
                     <td>{{reservation[1]}}</td>
                     <td>{{reservation[3]+reservation[5]}}</td>

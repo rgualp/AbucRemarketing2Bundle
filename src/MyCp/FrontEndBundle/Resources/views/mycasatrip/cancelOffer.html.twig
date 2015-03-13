@@ -11,7 +11,7 @@
     <div class="container">
         <div class="row-fluid">
         <h4>
-            {{"CANCEL_OFFER_TEXT_1" | trans}} CAS.{{generalReservation.genResId}}. {{"CANCEL_OFFER_TEXT_2" | trans}} {{initialPayment | price}}.
+            {{"CANCEL_OFFER_TEXT_1" | trans}} {{generalReservation.getCASId}}. {{"CANCEL_OFFER_TEXT_2" | trans}} {{initialPayment | price}}.
         </h4>
         <br/>
         </div>
@@ -60,7 +60,7 @@
             </h2>
             <div>
                 </div>
-                <div style="margin-top: 10px">{{"ID_RESERVATION" | trans}}: <b>CAS.{{generalReservation.genResId}}</b></div>
+                <div style="margin-top: 10px">{{"ID_RESERVATION" | trans}}: <b>{{generalReservation.getCASId}}</b></div>
             </div>
         </div>
         <hr/>

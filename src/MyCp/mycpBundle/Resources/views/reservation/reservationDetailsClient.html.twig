@@ -62,7 +62,7 @@
                 <tr>
                     <td>{{ flag }}</td>
                     <td>{{ reservation[0]['gen_res_date']|date("d/m/Y") }}</td>
-                    <td>CAS.{{reservation[0].gen_res_id}}</td>
+                    <td>{{reservation[0].gen_res_id | getCASId}}</td>
                     <td>{{reservation[0]['gen_res_own_id']['own_mcp_code']}}</td>
                     <td>{{reservation['rooms']}}</td>
                     <td>{{reservation['adults']}}</td>
@@ -75,7 +75,7 @@
                         </select>
                     </td>
                     <td style="text-align: right">
-                        <button data_res_id="{{reservation[0].gen_res_id}}" data_name_id="{{reservation[0].gen_res_id}}tab" data_name="CAS.{{reservation[0].gen_res_id}}" type="button" class="reserve_details btn btn-mini" href="">Detalles</button>
+                        <button data_res_id="{{reservation[0].gen_res_id}}" data_name_id="{{reservation[0].gen_res_id}}tab" data_name="{{reservation[0].gen_res_id | getCASId}}" type="button" class="reserve_details btn btn-mini" href="">Detalles</button>
                     </td>
                 </tr>
                 {% set flag = flag + 1 %}

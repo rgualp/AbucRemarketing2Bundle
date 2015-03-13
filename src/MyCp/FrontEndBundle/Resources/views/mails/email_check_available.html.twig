@@ -39,7 +39,7 @@
                                     </table>
                                 </td>
                                 <td width="34%" valign="top" align="right" style="font-family: arial; font-size: 13px; line-height: 20px; text-align: right">
-                                    <b>ID {{"RESERVATION_RESERVE"|trans}}:</b> CAS.{{ reservations[loop.index0].getOwnResGenResId.getGenResId }}<br/><br/>
+                                    <b>{{"ID_RESERVATION"|trans}}:</b> {{ reservations[loop.index0].getOwnResGenResId.getCASId }}<br/><br/>
                                     <span style="background-color: #BBBBBB; color: #ffffff;"><b>&nbsp;&nbsp;&nbsp;{{"PENDING"|trans}}&nbsp;&nbsp;&nbsp;</b></span><br/>
                                     <h3>{{"RESERVATION_TOTAL" | trans | upper}}: {{reservation.getOwnResTotalInSite | price}}</h3>
                                     <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_details_ownership',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize}) }}" class="btn mycp_btn_green">{{"VIEW_DETAILS"|trans}}</a>

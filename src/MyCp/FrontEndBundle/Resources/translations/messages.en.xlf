@@ -2637,7 +2637,7 @@
             </trans-unit>
             <trans-unit id="669">
                 <source>CANCEL_OFFER_SUCESS</source>
-                <target>You cancell the offer CAS.</target>
+                <target>You cancell the offer</target>
             </trans-unit>
             <trans-unit id="670">
                 <source>NOT_ALLOW_OFFER</source>

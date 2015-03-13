@@ -32,33 +32,33 @@ EOT
             $result = $em->getRepository("mycpBundle:generalReservation")->shallSendOutFeedbackReminderEmail($res);
             $userId = $res->getGenResUserId()->getUserId();
             $ownershipId = $res->getGenResOwnId()->getOwnId();
-            $date = $res->getGenResFromDate(); 
-            
-            $outString = "Reservation CAS." . $res->getGenResId();
+            $date = $res->getGenResFromDate();
+
+            $outString = "Reservation " . $res->getCASId();
             $outString .= ": Usuario - ".$userId;
             $outString .= ", Casa - ".$ownershipId;
             //$outString .= ", Fecha - ".$date;
             $outString .= ", Estado - ".$res->getGenResStatus();
             $outString .= ", Resultado - ".($result ? "SI" : "NO");
-            
+
             $output->writeln($outString);
         }
-        
+
         $output->writeln("2. Testing shallSendOutReminderEmail...");
 
         foreach ($reservations as $res) {
             $result = $em->getRepository("mycpBundle:generalReservation")->shallSendOutReminderEmail($res);
             $userId = $res->getGenResUserId()->getUserId();
-            
+
             $payedReservations = count($em->getRepository("mycpBundle:generalReservation")->getPayedReservations($userId));
-            
-            $outString = "Reservation CAS." . $res->getGenResId();
+
+            $outString = "Reservation " . $res->getCASId();
             $outString .= ": Usuario - ".$userId;
             $outString .= ", Previas - ".$payedReservations;
             //$outString .= ", Fecha - ".$date;
             $outString .= ", Estado - ".$res->getGenResStatus();
             $outString .= ", Resultado - ".($result ? "SI" : "NO");
-            
+
             $output->writeln($outString);
         }
 

@@ -470,7 +470,7 @@ class PaymentController extends Controller
                 break;
             }
 
-            $detailString = 'CAS.' . $generalReservationId;
+            $detailString = \MyCp\FrontEndBundle\Helpers\ReservationHelper::getCASId($generalReservationId);
 
             if (strlen($finalDetailsString . ', ' . $detailString) > self::MAX_SKRILL_DETAIL_STRING_LENGTH) {
                 $detail = $this->getSkrillDetail($num, $finalDetailsString);

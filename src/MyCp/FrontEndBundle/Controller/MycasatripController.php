@@ -488,7 +488,7 @@ class MycasatripController extends Controller {
 
         $em->flush();
 
-        $message = $this->get('translator')->trans("CANCEL_OFFER_SUCESS") . $generalReservation->getGenResId();
+        $message = $this->get('translator')->trans("CANCEL_OFFER_SUCESS")." ". $generalReservation->getCASId();
         $this->get('session')->getFlashBag()->add('message', $message);
 
         return $this->redirect($this->generateUrl('frontend_mycasatrip_pending'));

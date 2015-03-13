@@ -49,7 +49,7 @@
                         <div>
                             <a style="width: 150px; color: #ffffff" target="_blank" class="btn btn-danger" href="{{ path('frontend_view_confirmation_reservation',{'id_booking':res['own_res_reservation_booking']['booking_id']}) }}">
                 {{ 'VIEW_CONFIRMATION'|trans }}</a></div>
-                            <div style="margin-top: 10px">{{"ID_RESERVATION" | trans}}: <b>CAS.{{res['own_res_gen_res_id']['gen_res_id']}}</b></div>
+                            <div style="margin-top: 10px">{{"ID_RESERVATION" | trans}}: <b>{{res['own_res_gen_res_id']['gen_res_id'] | getCASId}}</b></div>
                         </div>
                     </div>
                     <hr/>

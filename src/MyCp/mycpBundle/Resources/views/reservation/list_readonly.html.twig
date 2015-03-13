@@ -140,7 +140,7 @@
                 {% for reservation in reservations %}
                 <tr class="{% if reservation[0].gen_res_status==available %}warning{%endif%}{% if reservation[0].gen_res_status==reserved %}error{%endif%}{% if reservation[0].gen_res_status==not_available or reservation[0].gen_res_status==cancelled or reservation[0].gen_res_status==partially_cancelled%}info{%endif%}">
                     <td>{{reservation[0].gen_res_date |date("d/m/Y")}}</td>
-                    <td>CAS.{{reservation[0].gen_res_id}}</td>
+                    <td>{{reservation[0].gen_res_id | getCASId}}</td>
                     <td>{{reservation[1]}}</td>
                     <td>{{reservation[3]+reservation[5]}}</td>
                     <td>{{reservation[0].gen_res_from_date|date("d/m/Y")}}</td>

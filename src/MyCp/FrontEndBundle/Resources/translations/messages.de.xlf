@@ -2635,7 +2635,7 @@
                 <target>Falls Sie die Unterkunft reservieren moechten, wir bitten Sie die Vorauzahlung von jetzt zu machen</target>            </trans-unit>
             <trans-unit id="669">
                 <source>CANCEL_OFFER_SUCESS</source>
-                <target>Sie haben das Angebot annulliert CAS.</target>
+                <target>Sie haben das Angebot annulliert</target>
             </trans-unit>
             <trans-unit id="670">
                 <source>NOT_ALLOW_OFFER</source>

@@ -31,14 +31,15 @@ class VoucherHelper {
                 ));
 
                 $emailService->sendEmail(
-                        $emailToSend, 'Voucher del booking ID_' . $bookId . ' (CAS.' . $genRes->getGenResId() . ')', $body, 'no-reply@mycasaparticular.com', $pdfFilePath
+                        $emailToSend, 'Voucher del booking ID_' . $bookId . ' (' . $genRes->getCASId() . ')', $body, 'no-reply@mycasaparticular.com', $pdfFilePath
                 );
             }
 
-            $message = 'Se ha enviado satisfactoriamente el voucher asociado a la reservación CAS.' . $genRes->getGenResId();
+            $message = 'Se ha enviado satisfactoriamente el voucher asociado a la reservación ' . $genRes->getCASId();
             $controller->get('session')->getFlashBag()->add('message_ok', $message);
         } catch (\Exception $e) {
-            $message = 'Error al enviar el voucher asociado a la reservación CAS.' . $idReservation . ". " . $e->getMessage();
+            $CASId = \MyCp\FrontEndBundle\Helpers\ReservationHelper::getCASId($idReservation);
+            $message = 'Error al enviar el voucher asociado a la reservación ' . $CASId . ". " . $e->getMessage();
             $controller->get('session')->getFlashBag()->add('message_error_main', $message);
         }
     }
@@ -82,10 +83,11 @@ class VoucherHelper {
                 );
             }
 
-            $message = 'Se ha enviado satisfactoriamente al cliente el voucher asociado a la reservación CAS.' . $genRes->getGenResId();
+            $message = 'Se ha enviado satisfactoriamente al cliente el voucher asociado a la reservación ' . $genRes->getCASId();
             $controller->get('session')->getFlashBag()->add('message_ok', $message);
         } catch (\Exception $e) {
-            $message = 'Error al enviar el voucher asociado a la reservación CAS.' . $idReservation . ". " . $e->getMessage();
+            $CASId = \MyCp\FrontEndBundle\Helpers\ReservationHelper::getCASId($idReservation);
+            $message = 'Error al enviar el voucher asociado a la reservación ' . $CASId . ". " . $e->getMessage();
             $controller->get('session')->getFlashBag()->add('message_error_main', $message);
         }
     }

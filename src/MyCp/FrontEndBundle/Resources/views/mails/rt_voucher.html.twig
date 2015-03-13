@@ -7,7 +7,7 @@
 <h2>Voucher del booking ID_{{booking_id}}</h2>
 Fecha de Envío: {{ "now"|date("D, d M Y H:m:s O") }}
 <br/><br/>
-<b>Reservación:</b> CAS.{{ generalReservation.getGenResId }}
+<b>Reservación:</b> {{ generalReservation.getCASId }}
 <br/>
 <b>Cliente:</b> {{ user.getUserUserName }} {{ user.getUserLastName }}
 <br/>

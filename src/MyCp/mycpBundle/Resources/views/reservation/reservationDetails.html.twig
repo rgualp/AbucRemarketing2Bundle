@@ -31,7 +31,7 @@
 {% endblock %}
 {% block content %}
 <h2>
-    Reserva CAS.{{reservation.genResId}} ({{ reservation.getGenResOwnId.getOwnMcpCode }} {{ reservation.getGenResOwnId.getOwnName }})
+    Reserva {{reservation.getCASId}} ({{ reservation.getGenResOwnId.getOwnMcpCode }} {{ reservation.getGenResOwnId.getOwnName }})
     {{ render(controller('mycpBundle:BackendReservation:getGeneralReservationStatusName', {'status': reservation.genresstatus, 'showInDiv': false})) }}</h2>
 <hr/>
 {% if errors %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
@@ -64,7 +64,7 @@
     <div class="span12">
     <ul class="nav nav-tabs">
         <li class="active">
-            <a href="#reservas" data-toggle="tab">Habitaciones reservadas (CAS.{{reservation.genResId}})</a>
+            <a href="#reservas" data-toggle="tab">Habitaciones reservadas ({{reservation.getCASId}})</a>
         </li>
     </ul>
     <table class="table table-striped" style="font-size: 12px">

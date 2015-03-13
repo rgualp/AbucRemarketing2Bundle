@@ -152,7 +152,7 @@ class BackendReservationController extends Controller {
 
                 }
 
-                $message = 'Nueva oferta CAS.' . $general_reservation->getGenResId() . ' creada satisfactoriamente.';
+                $message = 'Nueva oferta ' . $general_reservation->getCASId() . ' creada satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 return $this->redirect($this->generateUrl('mycp_list_reservations'));
@@ -274,7 +274,7 @@ class BackendReservationController extends Controller {
                 $em->persist($newGeneralReservation);
                 $em->flush();
                 $service_log = $this->get('log');
-                $service_log->saveLog('New offer for CAS.' . $reservation->getGenResId(), BackendModuleName::MODULE_RESERVATION);
+                $service_log->saveLog('Nueva oferta para ' . $reservation->getCASId(), BackendModuleName::MODULE_RESERVATION);
 
                 //Enviar correo al cliente con el texto escrito y el voucher como adjunto
                 $mailMessage = ($post["message_body"] != null && $post["message_body"] != "") ? $post["message_body"] : null;
@@ -282,7 +282,7 @@ class BackendReservationController extends Controller {
                 $emailService = $this->get('mycp.service.email_manager');
                 \MyCp\mycpBundle\Helpers\VoucherHelper::sendNewVoucherToClient($em, $bookingService, $emailService, $this, $newGeneralReservation, $mailMessage);
 
-                $message = 'Nueva oferta CAS.' . $general_reservation->getGenResId() . ' creada satisfactoriamente.';
+                $message = 'Nueva oferta ' . $newGeneralReservation->getCASId() . ' creada satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
             }
             else
@@ -740,7 +740,7 @@ class BackendReservationController extends Controller {
                 $em->persist($reservation);
                 $em->flush();
                 $service_log = $this->get('log');
-                $service_log->saveLog('Edit entity for CAS.' . $reservation->getGenResId(), BackendModuleName::MODULE_RESERVATION);
+                $service_log->saveLog('Edit entity for ' . $reservation->getCASId(), BackendModuleName::MODULE_RESERVATION);
 
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
             }
@@ -1105,7 +1105,8 @@ class BackendReservationController extends Controller {
 
             \MyCp\mycpBundle\Helpers\VoucherHelper::sendVoucher($em, $bookingService, $service_email, $this, $id_reservation, $emailToSend);
         } catch (\Exception $e) {
-            $message = 'Error al enviar el voucher asociado a la reservación CAS.' . $id_reservation . ". " . $e->getMessage();
+            $CASId = \MyCp\FrontEndBundle\Helpers\ReservationHelper::getCASId($id_reservation);
+            $message = 'Error al enviar el voucher asociado a la reservación ' . $CASId . ". " . $e->getMessage();
             $this->get('session')->getFlashBag()->add('message_error_main', $message);
         }
 

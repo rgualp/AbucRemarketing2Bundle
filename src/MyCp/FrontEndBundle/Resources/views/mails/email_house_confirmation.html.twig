@@ -13,7 +13,7 @@ Fecha: {{ "now"|date("D, d M Y H:m:s O") }}
 <br/><br/>
 <b>Casa particular:</b> {{ reservations[0].getOwnResGenResId.getGenResOwnId.getOwnName }}
 <br/><br/>
-Por este medio le confirmamos la reservación (CAS.{{ reservations[0].getOwnResGenResId.getGenResId }}) del cliente:
+Por este medio le confirmamos la reservación ({{ reservations[0].getOwnResGenResId.getCASId }}) del cliente:
 <br/>
 <b>Nombre:</b> {{ user.getUserUserName }}
 <br/>

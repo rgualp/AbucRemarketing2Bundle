@@ -99,7 +99,7 @@ class ExportToExcel {
         foreach ($checkins as $check) {
             $data = array();
 
-            $data[0] = "CAS.".$check[0]["gen_res_id"];
+            $data[0] = \MyCp\FrontEndBundle\Helpers\ReservationHelper::getCASId($check[0]["gen_res_id"]);
             $resDate = $check[0]["gen_res_date"];
             $data[1] = $resDate->format("d/m/Y");
             $data[2] = $check[0]["gen_res_own_id"]["own_mcp_code"];

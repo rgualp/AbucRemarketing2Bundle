@@ -10,7 +10,7 @@ Fecha: {{ "now"|date("D, d M Y H:m:s O") }}
 {% if payment_pending == 1%}
   <h2 style="color: #eb2200">Pendiente de control de pago</h2>
 {% endif %}
-<b>Reservación:</b> CAS.{{ reservations[0].getOwnResGenResId.getGenResId }}
+<b>Reservación:</b> {{ reservations[0].getOwnResGenResId.getCASId }}
 <br/>
 <b>Cliente:</b> {{ user.getUserUserName }} {{ user.getUserLastName }}
 <br/>

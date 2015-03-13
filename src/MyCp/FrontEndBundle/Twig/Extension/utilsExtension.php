@@ -25,6 +25,7 @@ class utilsExtension extends \Twig_Extension {
             new \Twig_SimpleFilter('price', array($this, 'priceFilter')),
             new \Twig_SimpleFilter('urlNormalize', array($this, 'urlNormalize')),
             new \Twig_SimpleFilter('statusName', array($this, 'statusName')),
+            new \Twig_SimpleFilter('getCASId', array($this, 'getCASId')),
         );
     }
 
@@ -100,6 +101,10 @@ class utilsExtension extends \Twig_Extension {
 
     public function statusName($status_id) {
         return \MyCp\mycpBundle\Entity\ownershipStatus::statusName($status_id);
+    }
+
+    public function getCASId($generalReservationId) {
+        return \MyCp\FrontEndBundle\Helpers\ReservationHelper::getCASId($generalReservationId);
     }
 
     public function roomPriceBySeason($room, $seasonType)

@@ -50,7 +50,7 @@
                                         {{res['own_res_total_in_site'] | price}}
                                     {%endif%}
                                 </div>
-                                <div>{{"ID_RESERVATION" | trans}}: <b>CAS.{{res['own_res_gen_res_id']['gen_res_id']}}</b></div>
+                                <div>{{"ID_RESERVATION" | trans}}: <b>{{res['own_res_gen_res_id']['gen_res_id'] | getCASId}}</b></div>
                             </div>
                         </div>
                         <hr/>
