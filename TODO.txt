@@ -5,8 +5,10 @@ Frontend:
     - En destinos detalle, quitar el Ver mas dentro del municipio, siempre va a estar vacio.
 
 Funciones:
-    - Poner en ownershipReservation y en generalReservation una funcion que me devuelva el CAS.# y utilizarla
     - Hacer PSR Standarization para todas las funciones del sitio.
+    - Hacer una funcion que cuente las noches en qe un usuario pasa realmente en una casa, mas alla que contar el rango de noches en la fecha del generalReservation
+    - Hacer una funcion para el formato telefonico y usarla
+    - Hacer una funcion para el formato de direccion y usarla
 
 Correo:
     - Usar siempre el servicio de Jakob para enviar correos

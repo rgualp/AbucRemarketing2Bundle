@@ -29,10 +29,11 @@ class LodgingReservationController extends Controller {
         $filter_date_from = $request->get('filter_date_from');
         $filter_date_to = $request->get('filter_date_to');
         $filter_booking_number = $request->get('filter_booking_number');
+        $filter_status = $request->get('filter_status');
         $price = 0;
         $sort_by = $request->get('sort_by');
         if ($request->getMethod() == 'POST' && $filter_date_reserve == 'null' && $filter_offer_number == 'null' && $filter_reference == 'null' &&
-                $filter_date_from == 'null' && $filter_date_to == 'null' && $sort_by == 'null' && $filter_booking_number == 'null'
+                $filter_date_from == 'null' && $filter_date_to == 'null' && $sort_by == 'null' && $filter_booking_number == 'null' && $filter_status == 'null'
         ) {
             $message = 'Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
@@ -53,6 +54,8 @@ class LodgingReservationController extends Controller {
             $filter_date_to = '';
         if ($sort_by == 'null')
             $sort_by = '';
+        if ($filter_status == 'null')
+            $filter_status = '';
 
         if (isset($_GET['page']))
             $page = $_GET['page'];
@@ -68,11 +71,10 @@ class LodgingReservationController extends Controller {
         $user = $this->get('security.context')->getToken()->getUser();
 
         if ($user->getUserRole() != 'ROLE_CLIENT_CASA')
-            $reser = $em->getRepository('mycpBundle:generalReservation')->getAll($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number);
+            $reser = $em->getRepository('mycpBundle:generalReservation')->getAll($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status);
         else {
             $userCasa = $em->getRepository('mycpBundle:userCasa')->getByUser($user->getUserId());
-            //$reser = $em->getRepository('mycpBundle:generalReservation')->getAll($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number);
-            $reser = $em->getRepository('mycpBundle:generalReservation')->getByUserCasa($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $userCasa->getUserCasaId());
+            $reser = $em->getRepository('mycpBundle:generalReservation')->getByUserCasa($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $userCasa->getUserCasaId(), $filter_status);
         }
 
 
@@ -108,7 +110,8 @@ class LodgingReservationController extends Controller {
                     'sort_by' => $sort_by,
                     'filter_date_reserve_twig' => $filter_date_reserve_twig,
                     'filter_date_from_twig' => $filter_date_from_twig,
-                    'filter_date_to_twig' => $filter_date_to_twig
+                    'filter_date_to_twig' => $filter_date_to_twig,
+                    'filter_status' => $filter_status,
         ));
     }
 

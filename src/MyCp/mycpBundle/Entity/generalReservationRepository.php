@@ -36,7 +36,7 @@ class generalReservationRepository extends EntityRepository {
         return $this->getByQuery($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, -1, $gaQuery);
     }
 
-    function getByUserCasa($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $user_casa_id) {
+    function getByUserCasa($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $user_casa_id, $filter_status) {
         $gaQuery = "SELECT gre,
         (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id),
         (SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id),
@@ -53,7 +53,10 @@ class generalReservationRepository extends EntityRepository {
         AND gre.gen_res_to_date LIKE :filter_date_to
         AND uca.user_casa_id = :user_casa_id ";
 
-        return $this->getByQuery($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $user_casa_id, $gaQuery);
+        if($filter_status != "" && $filter_status != "-1" && $filter_status != "null")
+            $gaQuery .= "AND gre.gen_res_status = :filter_status ";
+
+        return $this->getByQuery($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $user_casa_id, $gaQuery);
     }
 
     function getByQuery($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $user_casa_id, $queryStr) {

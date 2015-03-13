@@ -1,6 +1,6 @@
 mycp_list_readonly_reservations:
-    pattern:  /list/{items_per_page}/{filter_date_reserve}/{filter_offer_number}/{filter_reference}/{filter_date_from}/{filter_date_to}/{sort_by}/{filter_booking_number}
-    defaults: { _controller: mycpBundle:LodgingReservation:list_reservations,items_per_page:100,filter_date_reserve:'',filter_offer_number:'',filter_reference:'',filter_date_from:'',filter_date_to:'',filter_booking_number:'',sort_by:0}
+    pattern:  /list/{items_per_page}/{filter_date_reserve}/{filter_offer_number}/{filter_reference}/{filter_date_from}/{filter_date_to}/{sort_by}/{filter_booking_number}/{filter_status}
+    defaults: { _controller: mycpBundle:LodgingReservation:list_reservations,items_per_page:100,filter_date_reserve:'',filter_offer_number:'',filter_reference:'',filter_date_from:'',filter_date_to:'',filter_booking_number:'', filter_status:'',sort_by:0}
 
 mycp_details_readonly_reservation:
     pattern:  /details/{id_reservation}/{from_calendar}
