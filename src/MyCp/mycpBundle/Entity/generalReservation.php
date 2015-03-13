@@ -507,4 +507,9 @@ class generalReservation {
 
         return $genRes;
     }
+
+    public function getCASId()
+    {
+        return \MyCp\FrontEndBundle\Helpers\ReservationHelper::getCASId($this->gen_res_id);
+    }
 }

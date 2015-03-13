@@ -109,16 +109,16 @@ class utilsExtension extends \Twig_Extension {
 
     public function reservationPriceBySeason($reservation, $seasonType)
     {
-        return \MyCp\FrontEndBundle\Helpers\ReservationHelper::reservationPriceBySeason($reservation, $seasonType);
+        return $reservation->getPriceBySeason($seasonType) ;
     }
-    
+
     public function getUrl($routeName, $routeParameters = null)
     {
         if($routeParameters != null)
             $url = $this->generator->generate($routeName, $routeParameters);
         else
             $url = $this->generator->generate($routeName);
-        
+
         return str_replace("//", "/", $url);
     }
 

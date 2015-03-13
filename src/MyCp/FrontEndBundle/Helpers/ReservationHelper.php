@@ -6,6 +6,14 @@ use MyCp\mycpBundle\Entity\season;
 
 class ReservationHelper {
 
+    /**
+     * Calculate the total price for an ownershipReservation. The calculation is made according to seasons in the dates of the reservation. The result price is in the currency of the data in database
+     * @param EntityManager $em
+     * @param Time Service $service_time
+     * @param ownershipReservation $reservation
+     * @param int $triple_room_charge
+     * @return int
+     */
     public static function getTotalPrice($em, $service_time, $reservation, $triple_room_charge) {
         $total_price = 0;
         $destination_id = ($reservation->getOwnResGenResId()->getGenResOwnId()->getOwnDestination() != null) ? $reservation->getOwnResGenResId()->getGenResOwnId()->getOwnDestination()->getDesId() : null;
@@ -15,7 +23,7 @@ class ReservationHelper {
         if ($reservation->getOwnResNightPrice() == 0) {
             for ($i = 0; $i < count($array_dates) - 1; $i++) {
                 $seasonType = $service_time->seasonTypeByDate($seasons, $array_dates[$i]);
-                $total_price += ReservationHelper::reservationPriceBySeason($reservation, $seasonType);
+                $total_price += $reservation->getPriceBySeason($seasonType);
             }
         } else {
             $total_price += $reservation->getOwnResNightPrice() * (count($array_dates) - 1);
@@ -27,10 +35,22 @@ class ReservationHelper {
         return $total_price;
     }
 
+    /**
+     * Returns the price of a room according to the season. DEPRECATED
+     * @param room $room
+     * @param int $seasonType
+     * @return float
+     */
     public static function roomPriceBySeason($room, $seasonType) {
         return $room->getPriceBySeasonType($seasonType);
     }
 
+    /**
+     * Resturns the reservation price by season. DEPRECATED
+     * @param ownershipReservation $reservation
+     * @param int $seasonType
+     * @return float
+     */
     public static function reservationPriceBySeason($reservation, $seasonType) {
         switch ($seasonType) {
             case \MyCp\mycpBundle\Entity\season::SEASON_TYPE_HIGH: return $reservation->getOwnResRoomPriceUp();
@@ -60,7 +80,7 @@ class ReservationHelper {
             );
 
             array_push($arrayNights, $nights);
-            
+
             $room = $em->getRepository("mycpBundle:room")->find($ownershipReservation->getOwnResSelectedRoomId());
             array_push($roomNums, $room->getRoomNum());
         }
@@ -88,6 +108,16 @@ class ReservationHelper {
         $service_email->sendEmail(
                 $subject, $fromAddress, $subject, $toAddress, $body
         );
+    }
+
+    /**
+     * Returns the CAS identification for a generalReservation
+     * @param int $generalReservationId: Database identity for a generalReservation
+     * @return string
+     */
+    public static function getCASId($generalReservationId)
+    {
+        return "CAS.".$generalReservationId;
     }
 
 }
