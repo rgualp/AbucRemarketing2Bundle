@@ -164,9 +164,9 @@
                                         <h6 class="no-margin">
                     {{ currency_symbol }} {{ (ceil_round(own_res_payments[own.id].pay_at_service))  }}
                                             </h6>
-                                            <h6 class="no-margin cursive h-only-blue">
-                                                1 CUC = {{currency_rate}} {{currency_symbol}}
-                                            </h6>
+                                            <!--h6 class="no-margin cursive h-only-blue">
+                                                1 CUC = {#{currency_rate}#} {#{currency_symbol}#}
+                                            </h6-->
                                         </td>
                                     </tr>
                             </table>
@@ -214,9 +214,9 @@
                 <h6 class="no-margin">
                     {{ currency_symbol }} {{ ceil_round(total_servicing_price) | number_format(2)}}
                 </h6>
-                <h6 class="no-margin cursive h-only-blue">
-                    1 CUC = {{currency_rate}} {{currency_symbol}}
-                </h6>
+                <!--h6 class="no-margin cursive h-only-blue">
+                    1 CUC = {#{currency_rate}#} {#{currency_symbol}#}
+                </h6-->
                 </td>
         </tr>
     </table>
