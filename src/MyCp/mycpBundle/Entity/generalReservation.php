@@ -15,10 +15,10 @@ use MyCp\mycpBundle\Helpers\SyncStatuses;
  * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\generalReservationRepository")
  */
 class generalReservation {
-
     /**
      * All allowed statuses
      */
+
     const STATUS_NONE = -1;
     const STATUS_PENDING = 0;
     const STATUS_AVAILABLE = 1;
@@ -139,7 +139,6 @@ class generalReservation {
      * @ORM\Column(name="gen_res_sync_st", type="integer")
      */
     private $gen_res_sync_st;
-
 
     /**
      * Constructor
@@ -439,8 +438,7 @@ class generalReservation {
      * @param \MyCp\mycpBundle\Entity\ownershipReservation $ownReservations
      * @return generalReservation
      */
-    public function addOwnReservation(\MyCp\mycpBundle\Entity\ownershipReservation $ownReservations)
-    {
+    public function addOwnReservation(\MyCp\mycpBundle\Entity\ownershipReservation $ownReservations) {
         $this->own_reservations[] = $ownReservations;
 
         return $this;
@@ -451,8 +449,7 @@ class generalReservation {
      *
      * @param \MyCp\mycpBundle\Entity\ownershipReservation $ownReservations
      */
-    public function removeOwnReservation(\MyCp\mycpBundle\Entity\ownershipReservation $ownReservations)
-    {
+    public function removeOwnReservation(\MyCp\mycpBundle\Entity\ownershipReservation $ownReservations) {
         $this->own_reservations->removeElement($ownReservations);
     }
 
@@ -461,8 +458,7 @@ class generalReservation {
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getOwnReservations()
-    {
+    public function getOwnReservations() {
         return $this->own_reservations;
     }
 
@@ -471,17 +467,51 @@ class generalReservation {
      *
      * @return bool Returns true if the status is "available", false if not.
      */
-    public function hasStatusAvailable()
-    {
+    public function hasStatusAvailable() {
         $status = $this->getGenResStatus();
 
         return (self::STATUS_AVAILABLE === $status || self::STATUS_PARTIAL_AVAILABLE === $status);
     }
-    
-    public function hasStatusReserved()
-    {
+
+    public function hasStatusReserved() {
         $status = $this->getGenResStatus();
 
         return (self::STATUS_RESERVED === $status || self::STATUS_PARTIAL_RESERVED === $status);
     }
+
+    public function getTotalPayedNights($ownershipReservations, $timeService) {
+        $nightsCount = 0;
+
+        foreach ($ownershipReservations as $ownRes) {
+            $fromDate = $ownRes->getOwnResReservationFromDate();
+            $toDate = $ownRes->getOwnResReservationToDate();
+            $dates = $timeService->datesBetween($fromDate->getTimestamp(), $toDate->getTimestamp());
+            $nightsCount += count($dates) - 1;
+        }
+
+        return $nightsCount;
+    }
+
+    /**
+     * Returns the total nights the client wiil stay at the accommodation
+     * @param list of ownershipReservations $ownershipReservations - this list must be ordered by the own_res_reservation_from_date
+     * @param service $timeService - instance of the Time service
+     */
+    public function getTotalStayedNights($ownershipReservations, $timeService) {
+        $fromDate = null;
+        $toDate = null;
+        $nightsCount = 0;
+
+        foreach ($ownershipReservations as $ownRes) {
+            if (($fromDate == null || $fromDate != $ownRes->getOwnResReservationFromDate()) && ($toDate == null || $toDate != $ownRes->getOwnResReservationToDate())) {
+                $fromDate = $ownRes->getOwnResReservationFromDate();
+                $toDate = $ownRes->getOwnResReservationToDate();
+                $dates = $timeService->datesBetween($fromDate->getTimestamp(), $toDate->getTimestamp());
+                $nightsCount += count($dates) - 1;
+            }
+        }
+
+        return $nightsCount;
+    }
+
 }
