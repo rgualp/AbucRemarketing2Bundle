@@ -482,8 +482,8 @@ class generalReservation {
 
         return (self::STATUS_RESERVED === $status || self::STATUS_PARTIAL_RESERVED === $status);
     }
-public function getClone()
-    {
+
+    public function getClone() {
         $genRes = new generalReservation();
         $genRes->setGenResArrivalHour($this->gen_res_arrival_hour);
         $genRes->setGenResDate($this->gen_res_date);
@@ -500,14 +500,14 @@ public function getClone()
 
         return $genRes;
     }
- public function getTotalPayedNights($ownershipReservations, $timeService) {
+
+    public static function getTotalPayedNights($ownershipReservations, $timeService) {
         $nightsCount = 0;
 
         foreach ($ownershipReservations as $ownRes) {
             $fromDate = $ownRes->getOwnResReservationFromDate();
             $toDate = $ownRes->getOwnResReservationToDate();
-            $dates = $timeService->datesBetween($fromDate->getTimestamp(), $toDate->getTimestamp());
-            $nightsCount += count($dates) - 1;
+            $nightsCount += $timeService->nights($fromDate->getTimestamp(), $toDate->getTimestamp());
         }
 
         return $nightsCount;
@@ -527,16 +527,14 @@ public function getClone()
             if (($fromDate == null || $fromDate != $ownRes->getOwnResReservationFromDate()) && ($toDate == null || $toDate != $ownRes->getOwnResReservationToDate())) {
                 $fromDate = $ownRes->getOwnResReservationFromDate();
                 $toDate = $ownRes->getOwnResReservationToDate();
-                $dates = $timeService->datesBetween($fromDate->getTimestamp(), $toDate->getTimestamp());
-                $nightsCount += count($dates) - 1;
+                $nightsCount += $timeService->nights($fromDate->getTimestamp(), $toDate->getTimestamp());;
             }
         }
 
         return $nightsCount;
     }
-       
-public function getCASId()
-    {
+
+    public function getCASId() {
         return \MyCp\FrontEndBundle\Helpers\ReservationHelper::getCASId($this->gen_res_id);
     }
 
