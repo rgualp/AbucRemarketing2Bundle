@@ -24,7 +24,7 @@ class BackendExportController extends Controller
         return $exporter->exportAccommodationsDirectory();
     }
 
-    function checkInToExcelAction($date)
+    function checkInToExcelAction($date, $sort_by)
     {
         /*$service_security = $this->get('Secure');
         $service_security->verifyAccess();*/
@@ -32,6 +32,6 @@ class BackendExportController extends Controller
 
         $date = str_replace("_", "/", $date);
 
-        return $exporter->createCheckinExcel($date, true);
+        return $exporter->createCheckinExcel($date, $sort_by, true);
     }
 }

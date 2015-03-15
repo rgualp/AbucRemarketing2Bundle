@@ -984,9 +984,13 @@ class BackendReservationController extends Controller {
     public function checkinAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $filter_date_from = $request->get('filter_date_from');
+        $sort_by = $request->get('sort_by');
 
         if ($filter_date_from == 'null')
             $filter_date_from = '';
+
+        if ($sort_by == 'null')
+            $sort_by = \MyCp\mycpBundle\Helpers\OrderByHelper::DEFAULT_ORDER_BY;
 
         if ($filter_date_from == "") {
             $filter_date_from = new \DateTime();
@@ -998,7 +1002,7 @@ class BackendReservationController extends Controller {
             $filter_date_from = str_replace('_', '/', $filter_date_from);
         }
 
-        $checkins = $em->getRepository("mycpBundle:generalReservation")->getCheckins($filter_date_from);
+        $checkins = $em->getRepository("mycpBundle:generalReservation")->getCheckins($filter_date_from, $sort_by);
 
         $total_nights = array();
         $service_time = $this->get('time');
@@ -1012,6 +1016,7 @@ class BackendReservationController extends Controller {
         return $this->render('mycpBundle:reservation:checkIn.html.twig', array(
                     'list' => $checkins,
                     'filter_date_from' => $filter_date_from,
+                    'sort_by' => $sort_by,
                     'nights' => $total_nights));
     }
 
