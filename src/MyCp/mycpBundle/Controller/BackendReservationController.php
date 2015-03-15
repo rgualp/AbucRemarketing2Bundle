@@ -189,6 +189,7 @@ class BackendReservationController extends Controller {
         if ($request->getMethod() == 'POST') {
 
             $keys = array_keys($post);
+            $existError = false;
 
             foreach ($keys as $key) {
                 $splitted = explode("_", $key);
@@ -198,12 +199,14 @@ class BackendReservationController extends Controller {
                     if (!is_numeric($post[$key]) && !$errors["numeric_price"]) {
                         $errors["numeric_price"] = 1;
                         $message .= 'En el campo precio por noche tiene que introducir un valor numérico.<br/>';
+                        $existError = true;
                     } else if ($post[$key] != "") {
                         $reservationPrice = $post["price_" . $resId];
 
                         if ($post[$key] != 0 && $post[$key] != $reservationPrice && !$errors["price"]) {
                             $errors["price"] = 1;
                             $message .= 'El precio por noche tiene que ser igual al sugerido.<br/>';
+                            $existError = true;
                         }
                     }
                 }
@@ -213,11 +216,12 @@ class BackendReservationController extends Controller {
                     if ($post[$key] == $originalDate && !$errors["date"]) {
                         $errors["date"] = 1;
                         $message .= 'La fecha no puede ser la misma de la reservación. <br/>';
+                        $existError = true;
                     }
                 }
             }
 
-            if (count($errors) == 0) {
+            if (!$existError) {
                 $newGeneralReservation = $reservation->getClone();
                 $newGeneralReservation->setGenResStatus(generalReservation::STATUS_RESERVED);
                 $newGeneralReservation->setGenResDate(new \DateTime());
@@ -284,14 +288,14 @@ class BackendReservationController extends Controller {
 
                 $message = 'Nueva oferta ' . $newGeneralReservation->getCASId() . ' creada satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
+                return $this->redirect($this->generateUrl('mycp_list_reservations'));
             }
             else
+            {
                 $this->get('session')->getFlashBag()->add('message_error_local', $message);
+                return $this->redirect($this->generateUrl('mycp_new_offer_reservation', array("id_tourist" => $id_tourist, "id_reservation" => $id_reservation)));
+            }
         }
-        if (count($errors) == 0)
-            return $this->redirect($this->generateUrl('mycp_list_reservations'));
-        else
-            return $this->redirect($this->generateUrl('mycp_new_offer_reservation', array("id_tourist" => $id_tourist, "id_reservation" => $id_reservation)));
     }
 
     public function list_reservationsAction($items_per_page, Request $request) {
