@@ -5,6 +5,7 @@ namespace MyCp\mycpBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
 use MyCp\mycpBundle\Helpers\ReservationSortField;
+use MyCp\mycpBundle\Helpers\OrderByHelper;
 
 /**
  * ownershipReservationRepository
@@ -505,7 +506,7 @@ class generalReservationRepository extends EntityRepository {
         }
     }
 
-    function getCheckins($checkinDate) {
+    function getCheckins($checkinDate, $orderBy = OrderByHelper::CHECKIN_ORDER_BY_ACCOMMODATION_CODE) {
         $queryStr = "SELECT gre,
         (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id),
         (SELECT SUM(owres1.own_res_count_adults) FROM mycpBundle:ownershipReservation owres1 WHERE owres1.own_res_gen_res_id = gre.gen_res_id),
@@ -519,6 +520,19 @@ class generalReservationRepository extends EntityRepository {
         JOIN own.own_address_province prov
         WHERE gre.gen_res_from_date LIKE :filter_date_from
         AND gre.gen_res_status =" . generalReservation::STATUS_RESERVED;
+
+        switch($orderBy)
+        {
+            case OrderByHelper::DEFAULT_ORDER_BY:
+            case OrderByHelper::CHECKIN_ORDER_BY_ACCOMMODATION_CODE:
+                $queryStr .= " ORDER BY own.own_mcp_code ASC ";break;
+            case OrderByHelper::CHECKIN_ORDER_BY_ACCOMMODATION_PROVINCE:
+                $queryStr .= " ORDER BY prov.prov_name ASC, own.own_mcp_code ASC "; break;
+            case OrderByHelper::CHECKIN_ORDER_BY_RESERVATION_CASCODE;
+                $queryStr .= " ORDER BY gre.gen_res_id ASC ";break;
+            case OrderByHelper::CHECKIN_ORDER_BY_RESERVATION_RESERVED_DATE;
+                $queryStr .= " ORDER BY gre.gen_res_date ASC, own.own_mcp_code ASC "; break;
+        }
 
         $array_date_from = explode('/', $checkinDate);
         if (count($array_date_from) > 1)
