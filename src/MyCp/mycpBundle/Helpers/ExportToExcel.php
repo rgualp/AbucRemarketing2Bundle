@@ -36,7 +36,7 @@ class ExportToExcel {
      * Crea un fichero excel con los check-in que ocurrirán en la fecha introducida
      * El formato del parametro $date será 'd/m/Y'
      */
-    public function createCheckinExcel($date, $export=false) {
+    public function createCheckinExcel($date, $sort_by, $export=false) {
         $excel = $this->configExcel("Check-in $date", "Check-in del $date - MyCasaParticular", "check-in");
         $array_date_from = explode('/', $date);
         $checkinDate="";
@@ -44,7 +44,7 @@ class ExportToExcel {
             $checkinDate = $array_date_from[2] . $array_date_from[1] . $array_date_from[0];
         $fileName = "CheckIn_$checkinDate.xlsx";
 
-        $data = $this->dataForCheckin($date);
+        $data = $this->dataForCheckin($date, $sort_by);
 
         if(count($data) > 0)
              $excel = $this->createSheetForCheckin($excel, str_replace("/","-",$date), $data);
@@ -82,16 +82,17 @@ class ExportToExcel {
         return $excel;
     }
 
-    private function dataForCheckin($date) {
+    private function dataForCheckin($date, $sort_by) {
         $results = array();
 
-        $checkins = $this->em->getRepository("mycpBundle:generalReservation")->getCheckins($date);
+        $checkins = $this->em->getRepository("mycpBundle:generalReservation")->getCheckins($date, $sort_by);
 
         $total_nights = array();
         $service_time = $this->container->get('time');
         foreach ($checkins as $res) {
             $genRes = $this->em->getRepository('mycpBundle:generalReservation')->find($res[0]['gen_res_id']);
-            $nights = $service_time->nights($genRes->getGenResFromDate()->getTimestamp(), $genRes->getGenResToDate()->getTimestamp());
+            $reservations = $this->em->getRepository('mycpBundle:ownershipReservation')->findBy(array("own_res_gen_res_id" => $res[0]['gen_res_id']), array("own_res_reservation_from_date" => "ASC"));
+            $nights = $genRes->getTotalStayedNights($reservations, $service_time);
 
             $total_nights[$res[0]["gen_res_id"]] = $nights;
         }

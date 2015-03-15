@@ -1,4 +1,6 @@
 {% extends 'mycpBundle:layout:backend.html.twig' %}
+{% if filter_date_from ==''%}{% set filter_date_from='null'%}{%endif%}
+{% if sort_by ==''%}{% set sort_by='null'%}{%endif%}
 {% block title %}Administración{% endblock %}
 {% block top_body %}
 <ul class="breadcrumb">
@@ -44,18 +46,25 @@
 
             {% if list %}
             </form>
+
             <table class="table table-hover table-striped" style="font-size: 12px">
                 <thead>
                 <tr>
                     <th><h4>Día {{ filter_date_from }}</h4></th>
-            <th style="text-align: right"><a href="{{path("mycp_checkin_export_excel", {'date':filter_date_from | replace("/","_")})}}">Descargar Excel</a></th>
+            <th style="text-align: right;padding-right: 50px;"><a href="{{path("mycp_checkin_export_excel", {'date':filter_date_from | replace("/","_"),'sort_by': sort_by})}}">Descargar Excel</a></th>
+            <th style="width: 200px">
+                Ordenar por
+                <select name="sort_by" id="sort_by" onchange="javascript:action_submit()" class="input-block-level pull-right">
+                    {{ render(controller('mycpBundle:BackendUtils:orderBy', {'sortBy': sort_by, 'elementToOrder': constant('\\MyCp\\mycpBundle\\Helpers\\ElementToOrder::CHECKIN')})) }}
+                </select>
+            </th>
                 </tr>
                 </thead>
                 <tbody>
                 {% set flag=0 %}
                 {% for check in list %}
                 <tr>
-                    <td colspan="2">
+                    <td colspan="3">
                         <table style="width:100%" class="stylessTable">
                             <tr>
                                 <td style="background: #fff"><b>Reserva:</b> {{check[0].gen_res_id | getCASId}}</td>
@@ -122,9 +131,11 @@
         filter_date_from=filter_date_from.replace('/',"_");
         filter_date_from=filter_date_from.replace('/',"_");
         if(filter_date_from=='')filter_date_from='null';
+        sort_by=$('#sort_by').val();
+        if(sort_by=='')sort_by='null';
 
         url_submit=$('#filter').attr('action');
-        url_submit=url_submit+'/'+filter_date_from;
+        url_submit=url_submit+'/'+filter_date_from+'/'+sort_by;
         $('#filter').attr('action',url_submit);
         $('#filter').submit();
     }

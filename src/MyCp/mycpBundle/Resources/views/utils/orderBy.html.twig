@@ -1,0 +1,6 @@
+
+
+<option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\OrderByHelper::DEFAULT_ORDER_BY')}}"></option>
+{%for orderItem in orderItems%}
+<option {% if selected== orderItem[0] %} selected="TRUE" {% endif %} value="{{orderItem[0]}}">{{orderItem[1]}}</option>
+{%endfor%}
