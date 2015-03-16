@@ -21,7 +21,7 @@ class LodgingCommentController extends Controller
         $sort_by=$request->get('sort_by');
         $filter_keyword=$request->get('filter_keyword');
         $filter_rate=$request->get('filter_rate');
-        if($request->getMethod()=='POST' && $filter_ownership=='null' && $filter_user=='null' && $filter_keyword=='null' && $filter_rate=='null')
+        if($request->getMethod()=='POST' && $filter_ownership=='null' && $filter_user=='null' && $filter_keyword=='null' && $filter_rate=='null' && $sort_by == "null")
         {
             $message='Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local',$message);
@@ -29,6 +29,7 @@ class LodgingCommentController extends Controller
         }
         if($filter_ownership=='null') $filter_ownership='';
         if($filter_keyword=='null') $filter_keyword='';
+        if($sort_by=='null') $sort_by=  \MyCp\mycpBundle\Helpers\OrderByHelper::DEFAULT_ORDER_BY;
         if(isset($_GET['page']))$page=$_GET['page'];
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);

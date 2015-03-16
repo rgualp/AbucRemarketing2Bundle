@@ -15,6 +15,7 @@ class ElementToOrder
     const CLIENT = 3;
     const RESERVATION_LODGING_MODULE = 4;
     const COMMENT = 5;
+    const COMMENT_LODGING_MODULE = 6;
 }
 
 class OrderByHelper {
@@ -77,6 +78,11 @@ class OrderByHelper {
                                 return array(array(self::COMMENT_ACCOMMODATION_CODE_ASC, "Código Propiedad (A-Z)"),
                                              array(self::COMMENT_ACCOMMODATION_CODE_DESC, "Código Propiedad (Z-A)"),
                                              array(self::COMMENT_DATE, "Fecha comentario"),
+                                             array(self::COMMENT_USER_NAME_ASC, "Nombre cliente (A-Z)"),
+                                             array(self::COMMENT_USER_NAME_DESC, "Nombre cliente (Z-A)"),
+                                             array(self::COMMENT_RATING, "Puntuación otorgada"));
+           case ElementToOrder::COMMENT_LODGING_MODULE:
+                                return array(array(self::COMMENT_DATE, "Fecha comentario"),
                                              array(self::COMMENT_USER_NAME_ASC, "Nombre cliente (A-Z)"),
                                              array(self::COMMENT_USER_NAME_DESC, "Nombre cliente (Z-A)"),
                                              array(self::COMMENT_RATING, "Puntuación otorgada"));

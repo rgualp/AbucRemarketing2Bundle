@@ -21,6 +21,7 @@
     {% if filter_user ==''%}{% set filter_user='null'%}{%endif%}
     {% if filter_keyword ==''%}{% set filter_keyword='null'%}{%endif%}
     {% if filter_rate ==''%}{% set filter_rate='null'%}{%endif%}
+    {% if sort_by ==''%}{% set sort_by='null'%}{%endif%}
     <div class="row-fluid">
     <div class="pull-left">
        Mostrando del {{items_per_page * current_page - items_per_page}} al {% if items_per_page * current_page >  total_items%}{{total_items }}{% else %}{{ items_per_page * current_page }}{% endif %} de {{total_items}} registros
@@ -32,17 +33,10 @@
             <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_readonly_comments',{'items_per_page':100,'filter_ownership':filter_ownership,'filter_user':filter_user,'filter_keyword':filter_keyword,'filter_rate':filter_rate,'sort_by':sort_by})}}">100</a>
          <input class="hidden" name="items_per_page" value="100">
     </div>
-
-    <div class="pull-right" style="margin-right: 30px;">
-        Ordenar:
-        <a class="{% if sort_by == constant('\\MyCp\\mycpBundle\\Helpers\\CommentSortField::COMMENT_USER_NAME_ASC') %}selected{% endif %}" href="{{ path('mycp_list_readonly_comments',{'items_per_page':items_per_page,'filter_ownership':filter_ownership,'filter_user':filter_user,'filter_keyword':filter_keyword,'filter_rate':filter_rate,'sort_by':constant('\\MyCp\\mycpBundle\\Helpers\\CommentSortField::COMMENT_USER_NAME_ASC')})}}">A-Z</a>
-        <a class="{% if sort_by == constant('\\MyCp\\mycpBundle\\Helpers\\CommentSortField::COMMENT_USER_NAME_DESC') %}selected{% endif %}" href="{{ path('mycp_list_readonly_comments',{'items_per_page':items_per_page,'filter_ownership':filter_ownership,'filter_user':filter_user,'filter_keyword':filter_keyword,'filter_rate':filter_rate,'sort_by':constant('\\MyCp\\mycpBundle\\Helpers\\CommentSortField::COMMENT_USER_NAME_DESC')})}}">Z-A</a>
-        <a class="{% if sort_by == constant('\\MyCp\\mycpBundle\\Helpers\\CommentSortField::COMMENT_DATE') or sort_by == constant('\\MyCp\\mycpBundle\\Helpers\\CommentSortField::COMMENT_DEFAULT')%}selected{% endif %}" href="{{ path('mycp_list_readonly_comments',{'items_per_page':items_per_page,'filter_ownership':filter_ownership,'filter_user':filter_user,'filter_keyword':filter_keyword,'filter_rate':filter_rate,'sort_by':constant('\\MyCp\\mycpBundle\\Helpers\\CommentSortField::COMMENT_DATE')})}}">Fecha</a>
-        <a class="{% if sort_by == constant('\\MyCp\\mycpBundle\\Helpers\\CommentSortField::COMMENT_RATING') %}selected{% endif %}" href="{{ path('mycp_list_readonly_comments',{'items_per_page':items_per_page,'filter_ownership':filter_ownership,'filter_user':filter_user,'filter_keyword':filter_keyword,'filter_rate':filter_rate,'sort_by':constant('\\MyCp\\mycpBundle\\Helpers\\CommentSortField::COMMENT_RATING')})}}">Puntuación</a>
-    </div>
     </div>
 </div>
-<div class="paginator-cont span11">
+<div class="row-fluid">
+<div class="paginator-cont span9">
     {% if filter_keyword ==''%}{% set filter_keyword='null'%}{%endif%}
     {{ simple_paginator_render('mycp_list_readonly_comments',null,{
 'container_class': 'paginator',
@@ -54,7 +48,21 @@
 'route_params': {'items_per_page':items_per_page,'filter_ownership':filter_ownership,'filter_user':filter_user,'filter_keyword':filter_keyword,'filter_rate':filter_rate,'sort_by':sort_by}
 }) }}
 </div>
-
+        <div class="span3" style="margin-top: 10px" >
+            <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path("mycp_list_readonly_comments")}}">
+                    <div class="row-fluid">
+                        <div class="span4" style="margin-top: 4px; font-size: 12px">
+                            Organizar:
+                        </div>
+                        <div class="span8">
+                            <select name="sort_by" id="sort_by" onchange="javascript:action_submit()" class="input-block-level pull-right">
+                                {{ render(controller('mycpBundle:BackendUtils:orderBy', {'sortBy': sort_by, 'elementToOrder': constant('\\MyCp\\mycpBundle\\Helpers\\ElementToOrder::COMMENT_LODGING_MODULE')})) }}
+                            </select>
+                        </div>
+                    </div>
+                </form>
+                </div>
+    </div>
     {% if comments %}
         {% for comment in comments %}
             <div class="row-fluid" style="background-color: #ffffff">
@@ -109,20 +117,27 @@
     {
 
         items_per_page={{items_per_page}};
-        filter_ownership=$('#filter_ownership').val();
-        if(filter_ownership=='')filter_ownership='null';
+        /*filter_ownership=$('#filter_ownership').val();
+        if(filter_ownership=='')*/
+        filter_ownership='null';
 
-        filter_user=$('#filter_user').val();
-        if(filter_user=='')filter_user='null';
+        /*filter_user=$('#filter_user').val();
+        if(filter_user=='')*/
+        filter_user='null';
 
-        filter_keyword=$('#filter_keyword').val();
-        if(filter_keyword=='')filter_keyword='null';
+        /*filter_keyword=$('#filter_keyword').val();
+        if(filter_keyword=='')*/
+        filter_keyword='null';
 
-        filter_rate=$('#filter_rate').val();
-        if(filter_rate=='')filter_rate='null';
+        /*filter_rate=$('#filter_rate').val();
+        if(filter_rate=='')*/
+        filter_rate='null';
+
+        sort_by=$('#sort_by').val();
+        if(sort_by=='')sort_by='null';
 
         url_submit=$('#filter').attr('action');
-        url_submit=url_submit+'/'+items_per_page+'/'+filter_ownership+'/'+filter_user+'/'+filter_keyword+'/'+filter_rate;
+        url_submit=url_submit+'/'+items_per_page+'/'+filter_ownership+'/'+filter_user+'/'+filter_keyword+'/'+filter_rate+'/'+sort_by;
         $('#filter').attr('action',url_submit);
         $('#filter').submit();
     }
