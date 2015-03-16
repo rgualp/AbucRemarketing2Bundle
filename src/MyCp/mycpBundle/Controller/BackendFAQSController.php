@@ -205,11 +205,14 @@ class BackendFAQSController extends Controller
         $filter_active=$request->get('filter_active');
         $filter_name=$request->get('filter_name');
         $filter_category=$request->get('category');
+        $sort_by=$request->get('sort_by');
 
         if($filter_category=='')
             $filter_category='null';
-        $sort_by=$request->get('sort_by');
-        if($request->getMethod()=='POST' && $filter_active=='null' && $filter_name=='null' && $filter_category=='null')
+        if($sort_by=='')
+            $sort_by= \MyCp\mycpBundle\Helpers\OrderByHelper::DEFAULT_ORDER_BY;
+        
+        if($request->getMethod()=='POST' && $filter_active=='null' && $filter_name=='null' && $filter_category=='null' && $sort_by=='null')
         {
             $message='Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local',$message);

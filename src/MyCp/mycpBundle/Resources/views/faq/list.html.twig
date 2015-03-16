@@ -59,19 +59,11 @@
             <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_faqs',{'items_per_page':500})}}">500</a>
             <input class="hidden" name="items_per_page" value="100">
         </div>
-        <div class="pull-right" style="margin-right: 30px;">
-            Organizar:
-            {% if filter_name ==''%}{% set filter_name='null'%}{%endif%}
-            {% if filter_active ==''%}{% set filter_active='null'%}{%endif%}
-            <a class="{% if sort_by == 'null' %}selected{% endif %}" href="{{ path('mycp_list_faqs',{'items_per_page':items_per_page,'filter_name':filter_name,'filter_active':filter_active,'category':category,'sort_by':'0'})}}">Órden</a>
-            <a class="{% if sort_by == 'ASC' %}selected{% endif %}" href="{{ path('mycp_list_faqs',{'items_per_page':items_per_page,'filter_name':filter_name,'filter_active':filter_active,'category':category,'sort_by':'ASC'})}}">A-Z</a>
-            <a class="{% if sort_by == 'DESC' %}selected{% endif %}" href="{{ path('mycp_list_faqs',{'items_per_page':items_per_page,'filter_name':filter_name,'filter_active':filter_active,'category':category,'sort_by':'DESC'})}}">Z-A</a>
-
-        </div>
     </div>
 
 </div>
-<div class="paginator-cont span11">
+<div class="row-fluid">
+<div class="paginator-cont span9">
     {% if filter_name ==''%}{% set filter_name='null'%}{%endif%}
     {{ simple_paginator_render('mycp_list_faqs',null,{
 'container_class': 'paginator',
@@ -83,11 +75,24 @@
 'route_params': {'items_per_page':items_per_page,'filter_name':filter_name,'filter_active':filter_active,'category':category}
 }) }}
 </div>
+        <div class="span3" style="margin-top: 10px" >
+                    <div class="row-fluid">
+                        <div class="span4" style="margin-top: 4px; font-size: 12px">
+                            Organizar:
+                        </div>
+                        <div class="span8">
+                            <select name="sort_by" id="sort_by" onchange="javascript:action_submit()" class="input-block-level pull-right">
+                                {{ render(controller('mycpBundle:BackendUtils:orderBy', {'sortBy': sort_by, 'elementToOrder': constant('\\MyCp\\mycpBundle\\Helpers\\ElementToOrder::FAQ')})) }}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+    </div>
 <div class="row-fluid">
-    <div class="span3"><b>Pregunta</b></div>
-    <div class="span3"><b>Categoría</b></div>
-    <div class="span3"><b>Estado</b></div>
-    <div class="span3" style="text-align: right"><b>Acciones</b></div>
+    <div class="span5"><b>Pregunta</b></div>
+    <div class="span4"><b>Categoría</b></div>
+    <div class="span1"><b>Estado</b></div>
+    <div class="span2" style="text-align: right"><b>Acciones</b></div>
 </div>
 
 <ul id="sortable" class="ui-sortable">
@@ -95,10 +100,10 @@
     {% for faq in faqs %}
     <li id="{{faq.getFaqLangFaq.getFaqId}}" {% if cont ==0 %}class="grey"{% set cont=1 %}{% else %}{% set cont=0 %}{% endif %}>
         <div class="row-fluid">
-            <div class="span3">{{faq.getFaqLangQuestion}}</div>
-            <div class="span3">{{data[faq.getFaqLangFaq.getFaqId~'_category'][0].getFaqCatDescription}}</div>
-            <div class="span3">{% if faq.getFaqLangFaq.getFaqActive==0%}<span class="label label-important">No activo</span>{% else %} <span class="label label-success">Activo</span>{% endif %}</div>
-            <div class="span3 actions actions2 no-margin">
+            <div class="span5">{{faq.getFaqLangQuestion}}</div>
+            <div class="span4">{{data[faq.getFaqLangFaq.getFaqId~'_category'][0].getFaqCatDescription}}</div>
+            <div class="span1">{% if faq.getFaqLangFaq.getFaqActive==0%}<span class="label label-important">No activo</span>{% else %} <span class="label label-success">Activo</span>{% endif %}</div>
+            <div class="span2 actions actions2 no-margin">
                 <a class="btn btn-mini" style="margin: 0" href="{{ path('mycp_edit_faq',{'id_faq':faq.getFaqLangFaq.getFaqId}) }}">Editar</a>
                 <button data='{{ path('mycp_delete_faq',{'id_faq':faq.getFaqLangFaq.getFaqId}) }}' class="btn btn-mini btn-danger delete">Eliminar</button>
             </div>
@@ -161,8 +166,10 @@
         filter_active=$('#filter_active').val();
         category=$('#category').val();
         if(category=='')category='null';
+        sort_by=$('#sort_by').val();
+        if(sort_by=='')sort_by='null';
         url_submit=$('#filter').attr('action');
-        url_submit=url_submit+'/'+items_per_page+'/'+filter_name+'/'+filter_active+'/'+category;
+        url_submit=url_submit+'/'+items_per_page+'/'+filter_name+'/'+filter_active+'/'+category+'/'+sort_by;
         $('#filter').attr('action',url_submit);
         $('#filter').submit();
     }

@@ -3,6 +3,7 @@
 namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use MyCp\mycpBundle\Helpers\OrderByHelper;
 
 /**
  * faqRepository
@@ -100,13 +101,13 @@ class faqRepository extends EntityRepository
         }
 
         $string3='';
-        if($sort_by=='null')
+        switch($sort_by)
         {
-            $string3='f.faq_order ASC';
-        }
-        else
-        {
-            $string3="fl.faq_lang_question $sort_by";
+            case OrderByHelper::DEFAULT_ORDER_BY:
+            case OrderByHelper::FAQ_ORDER: $string3='f.faq_order ASC'; break;
+            case OrderByHelper::FAQ_QUESTION_ASC: $string3="fl.faq_lang_question ASC, f.faq_order ASC"; break;
+            case OrderByHelper::FAQ_QUESTION_DESC: $string3="fl.faq_lang_question DESC, f.faq_order ASC"; break;
+            case OrderByHelper::FAQ_CREATION_DATE: $string3="f.faq_id DESC, f.faq_order ASC"; break;
         }
 
         $em = $this->getEntityManager();
