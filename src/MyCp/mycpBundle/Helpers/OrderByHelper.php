@@ -13,6 +13,7 @@ class ElementToOrder
     const CHECKIN = 1;
     const RESERVATION = 2;
     const CLIENT = 3;
+    const RESERVATION_LODGING_MODULE = 4;
 }
 
 class OrderByHelper {
@@ -51,11 +52,13 @@ class OrderByHelper {
                                              array(self::CLIENT_CITY, "Ciudad del cliente"),
                                              array(self::CLIENT_EMAIL, "Correo del cliente"),
                                              array(self::CLIENT_COUNTRY, "País del cliente"));
-            case ElementToOrder::CHECKIN:
-                                return array(array(self::CHECKIN_ORDER_BY_ACCOMMODATION_CODE, "Propiedad"),
-                                             array(self::CHECKIN_ORDER_BY_ACCOMMODATION_PROVINCE, "Provincia"),
-                                             array(self::CHECKIN_ORDER_BY_RESERVATION_CASCODE, "Código Reservación"),
-                                             array(self::CHECKIN_ORDER_BY_RESERVATION_RESERVED_DATE, "Fecha Reservación"));
+            case ElementToOrder::RESERVATION:
+                                return array(array(self::RESERVATION_NUMBER, "Número de reserva"),
+                                             array(self::RESERVATION_DATE, "Fecha reserva"),
+                                             array(self::RESERVATION_DATE_ARRIVE, "Fecha llegada"),
+                                             array(self::RESERVATION_PRICE_TOTAL, "Precio total"),
+                                             array(self::RESERVATION_STATUS, "Estado de reserva"),
+                                             array(self::RESERVATION_ACCOMMODATION_CODE, "Código de la propiedad"));
         }
     }
 

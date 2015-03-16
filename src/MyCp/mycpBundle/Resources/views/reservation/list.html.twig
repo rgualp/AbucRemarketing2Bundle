@@ -120,7 +120,7 @@
                         </div>
                         <div class="span8">
                             <select name="sort_by" id="sort_by" onchange="javascript:action_submit()" class="input-block-level pull-right">
-                                {{ render(controller('mycpBundle:BackendReservation:get_sort_by', {'sort_by': sort_by})) }}
+                                {{ render(controller('mycpBundle:BackendUtils:orderBy', {'sortBy': sort_by, 'elementToOrder': constant('\\MyCp\\mycpBundle\\Helpers\\ElementToOrder::RESERVATION')})) }}
                             </select>
                         </div>
                     </div>

@@ -4,7 +4,6 @@ namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
-use MyCp\mycpBundle\Helpers\ReservationSortField;
 use MyCp\mycpBundle\Helpers\OrderByHelper;
 
 /**
@@ -78,24 +77,24 @@ class generalReservationRepository extends EntityRepository {
 
         $string_order = '';
         switch ($sort_by) {
-            case ReservationSortField::RESERVATION_DEFAULT:
-            case ReservationSortField::RESERVATION_NUMBER:
+            case OrderByHelper::DEFAULT_ORDER_BY:
+            case OrderByHelper::RESERVATION_NUMBER:
                 $string_order = "ORDER BY gre.gen_res_id DESC";
                 break;
-            case ReservationSortField::RESERVATION_DATE:
-                $string_order = "ORDER BY gre.gen_res_date ASC";
+            case OrderByHelper::RESERVATION_DATE:
+                $string_order = "ORDER BY gre.gen_res_date DESC, gre.gen_res_id DESC";
                 break;
-            case ReservationSortField::RESERVATION_ACCOMMODATION_CODE:
-                $string_order = "ORDER BY own.own_mcp_code ASC";
+            case OrderByHelper::RESERVATION_ACCOMMODATION_CODE:
+                $string_order = "ORDER BY own.own_mcp_code ASC, gre.gen_res_id DESC";
                 break;
-            case ReservationSortField::RESERVATION_DATE_ARRIVE:
-                $string_order = "ORDER BY gre.gen_res_from_date ASC";
+            case OrderByHelper::RESERVATION_DATE_ARRIVE:
+                $string_order = "ORDER BY gre.gen_res_from_date DESC, gre.gen_res_id DESC";
                 break;
-            case ReservationSortField::RESERVATION_STATUS:
-                $string_order = "ORDER BY gre.gen_res_status ASC";
+            case OrderByHelper::RESERVATION_STATUS:
+                $string_order = "ORDER BY gre.gen_res_status ASC, gre.gen_res_id DESC";
                 break;
-            case ReservationSortField::RESERVATION_PRICE_TOTAL:
-                $string_order = "ORDER BY gre.gen_res_total_in_site DESC";
+            case OrderByHelper::RESERVATION_PRICE_TOTAL:
+                $string_order = "ORDER BY gre.gen_res_total_in_site DESC, gre.gen_res_id DESC";
                 break;
         }
         $em = $this->getEntityManager();
