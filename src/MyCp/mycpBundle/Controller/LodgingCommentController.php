@@ -41,7 +41,7 @@ class LodgingCommentController extends Controller
         else
         {
             $user_casa = $em->getRepository('mycpBundle:userCasa')->getByUser($user->getUserId());
-            $comments_list = $em->getRepository('mycpBundle:comment')->get_comment_by_user_casa($filter_ownership,$filter_user,$filter_keyword, $filter_rate,$sort_by, $user_casa->getUserCasaId());
+            $comments_list = $em->getRepository('mycpBundle:comment')->getByUserCasa($filter_ownership,$filter_user,$filter_keyword, $filter_rate,$sort_by, $user_casa->getUserCasaId());
         }
 
         $comments= $paginator->paginate($comments_list)->getResult();

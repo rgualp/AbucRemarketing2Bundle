@@ -14,6 +14,7 @@ class ElementToOrder
     const RESERVATION = 2;
     const CLIENT = 3;
     const RESERVATION_LODGING_MODULE = 4;
+    const COMMENT = 5;
 }
 
 class OrderByHelper {
@@ -36,6 +37,13 @@ class OrderByHelper {
     const CLIENT_EMAIL = 33;
     const CLIENT_COUNTRY = 34;
     const CLIENT_RESERVATIONS_TOTAL = 35;
+
+    const COMMENT_ACCOMMODATION_CODE_ASC = 51;
+    const COMMENT_ACCOMMODATION_CODE_DESC = 52;
+    const COMMENT_DATE = 53;
+    const COMMENT_USER_NAME_ASC = 54;
+    const COMMENT_USER_NAME_DESC = 55;
+    const COMMENT_RATING = 56;
 
     public static function getOrdersFor($elementToOrder)
     {
@@ -65,6 +73,13 @@ class OrderByHelper {
                                              array(self::RESERVATION_DATE_ARRIVE, "Fecha llegada"),
                                              array(self::RESERVATION_PRICE_TOTAL, "Precio total"),
                                              array(self::RESERVATION_STATUS, "Estado de reserva"));
+           case ElementToOrder::COMMENT:
+                                return array(array(self::COMMENT_ACCOMMODATION_CODE_ASC, "Código Propiedad (A-Z)"),
+                                             array(self::COMMENT_ACCOMMODATION_CODE_DESC, "Código Propiedad (Z-A)"),
+                                             array(self::COMMENT_DATE, "Fecha comentario"),
+                                             array(self::COMMENT_USER_NAME_ASC, "Nombre cliente (A-Z)"),
+                                             array(self::COMMENT_USER_NAME_DESC, "Nombre cliente (Z-A)"),
+                                             array(self::COMMENT_RATING, "Puntuación otorgada"));
         }
     }
 

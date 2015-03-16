@@ -24,7 +24,7 @@ class BackendCommentController extends Controller {
         $sort_by = $request->get('sort_by');
         $filter_keyword = $request->get('filter_keyword');
         $filter_rate = $request->get('filter_rate');
-        if ($request->getMethod() == 'POST' && $filter_ownership == 'null' && $filter_user == 'null' && $filter_keyword == 'null' && $filter_rate == 'null') {
+        if ($request->getMethod() == 'POST' && $filter_ownership == 'null' && $filter_user == 'null' && $filter_keyword == 'null' && $filter_rate == 'null' && $sort_by == 'null') {
             $message = 'Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
             return $this->redirect($this->generateUrl('mycp_list_comments'));
@@ -162,7 +162,7 @@ class BackendCommentController extends Controller {
         $comment->setComPublic(true);
         $em->persist($comment);
         $em->flush();
-        
+
         $ownership = $comment->getComOwnership();
         $em->getRepository("mycpBundle:ownership")->updateRanking($ownership);
         $message = 'Comentario publicado satisfactoriamente.';

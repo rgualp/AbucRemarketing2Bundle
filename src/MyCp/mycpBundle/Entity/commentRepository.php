@@ -4,7 +4,7 @@ namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use MyCp\mycpBundle\Entity\comment;
-use MyCp\mycpBundle\Helpers\CommentSortField;
+use MyCp\mycpBundle\Helpers\OrderByHelper;
 
 /**
  * commentRepository
@@ -76,25 +76,25 @@ class commentRepository extends EntityRepository {
     function getAll($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by) {
         $queryStr = "SELECT c,own,us FROM mycpBundle:comment c
         JOIN c.com_ownership own JOIN c.com_user us WHERE own.own_mcp_code LIKE :filter_ownership";
-        return $this->get_all_comment_by_query($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by, -1, $queryStr);
+        return $this->getAllByQuery($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by, -1, $queryStr);
     }
 
     function getLastAdded($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by) {
         $queryStr = "SELECT c,own,us FROM mycpBundle:comment c
         JOIN c.com_ownership own JOIN c.com_user us WHERE own.own_mcp_code LIKE :filter_ownership
         AND c.com_public = 0";
-        return $this->get_all_comment_by_query($filter_ownership, $filter_user, $filter_keyword, $filter_rate, 2, -1, $queryStr);
+        return $this->getAllByQuery($filter_ownership, $filter_user, $filter_keyword, $filter_rate, 2, -1, $queryStr);
     }
 
-    function get_comment_by_user_casa($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by, $user_casa_id) {
+    function getByUserCasa($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by, $user_casa_id) {
         $queryStr = "SELECT c,own,us FROM mycpBundle:comment c
         JOIN c.com_ownership own
         JOIN c.com_user us
         JOIN mycpBundle:userCasa uca WITH own.own_id = uca.user_casa_ownership WHERE own.own_mcp_code LIKE :filter_ownership and uca.user_casa_id = :user_casa_id";
-        return $this->get_all_comment_by_query($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by, $user_casa_id, $queryStr);
+        return $this->getAllByQuery($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by, $user_casa_id, $queryStr);
     }
 
-    function get_all_comment_by_query($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by, $user_casa_id, $queryStr) {
+    function getAllByQuery($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by, $user_casa_id, $queryStr) {
         $string = '';
         if ($filter_user != 'null' && $filter_user != '') {
             $string = "AND c.com_user = :filter_user";
@@ -112,24 +112,24 @@ class commentRepository extends EntityRepository {
 
         $string4 = '';
         switch ($sort_by) {
-            case CommentSortField::COMMENT_ACCOMMODATION_CODE_ASC:
+            case OrderByHelper::COMMENT_ACCOMMODATION_CODE_ASC:
                 $string4 = "ORDER BY own.own_mcp_code ASC, c.com_date DESC";
                 break;
 
-            case CommentSortField::COMMENT_ACCOMMODATION_CODE_DESC:
+            case OrderByHelper::COMMENT_ACCOMMODATION_CODE_DESC:
                 $string4 = "ORDER BY own.own_mcp_code DESC, c.com_date DESC";
                 break;
-            case CommentSortField::COMMENT_DEFAULT:
-            case CommentSortField::COMMENT_DATE:
+            case OrderByHelper::DEFAULT_ORDER_BY:
+            case OrderByHelper::COMMENT_DATE:
                 $string4 = "ORDER BY c.com_date DESC";
                 break;
-            case CommentSortField::COMMENT_RATING:
+            case OrderByHelper::COMMENT_RATING:
                 $string4 = "ORDER BY c.com_rate DESC, c.com_date DESC";
                 break;
-            case CommentSortField::COMMENT_USER_NAME_ASC:
+            case OrderByHelper::COMMENT_USER_NAME_ASC:
                 $string4 = "ORDER BY us.user_name ASC, c.com_date DESC";
                 break;
-            case CommentSortField::COMMENT_USER_NAME_DESC:
+            case OrderByHelper::COMMENT_USER_NAME_DESC:
                 $string4 = "ORDER BY us.user_name DESC, c.com_date DESC";
                 break;
         }
@@ -227,7 +227,7 @@ class commentRepository extends EntityRepository {
             $em->flush();
         }
     }
-    
+
     function getByUserOwnership($id_user, $id_ownership, $date) {
         if ($id_user != null) {
             $em = $this->getEntityManager();
