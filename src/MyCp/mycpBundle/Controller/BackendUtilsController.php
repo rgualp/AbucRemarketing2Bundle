@@ -33,12 +33,12 @@ class BackendUtilsController extends Controller
         return $this->render('mycpBundle:utils:active.html.twig',array('selected'=>$selected));
     }
 
-    function orderByAction($sortBy, $elementToOrder) {
+    function orderByAction($sortBy, $elementToOrder, $doTranlations = false) {
         $selected = '';
         if (isset($sortBy))
             $selected = $sortBy;
         $orderItems = \MyCp\mycpBundle\Helpers\OrderByHelper::getOrdersFor($elementToOrder);
-        return $this->render('mycpBundle:utils:orderBy.html.twig', array('selected' => $selected, "orderItems" => $orderItems));
+        return $this->render('mycpBundle:utils:orderBy.html.twig', array('selected' => $selected, "orderItems" => $orderItems, "translate" => $doTranlations));
     }
 
 

@@ -10,6 +10,7 @@ use MyCp\FrontEndBundle\Helpers\Utils;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\season;
+use MyCp\mycpBundle\Helpers\OrderByHelper;
 
 class OwnershipController extends Controller {
 
@@ -606,7 +607,7 @@ class OwnershipController extends Controller {
         $session = $this->getRequest()->getSession();
 
         if ($session->get('search_order') == null || $session->get('search_order') == '')
-            $session->set('search_order', 'PRICE_LOW_HIGH');
+            $session->set('search_order', OrderByHelper::DEFAULT_ORDER_BY);
 
         $rooms = ($rooms == "undefined") ? 1 : $rooms;
 
@@ -890,7 +891,7 @@ class OwnershipController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         if ($session->get('search_order') == null || $session->get('search_order') == '')
-            $session->set('search_order', 'BEST_VALUED');
+            $session->set('search_order', OrderByHelper::DEFAULT_ORDER_BY);
 
         if ($session->get('search_view_results') == null || $session->get('search_view_results') == '')
             $session->set('search_view_results', 'LIST');
@@ -1254,7 +1255,7 @@ class OwnershipController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $session = $this->getRequest()->getSession();
-        $session->set('search_order', 'BEST_VALUED');
+        $session->set('search_order', OrderByHelper::SEARCHER_BEST_VALUED);
 
         $list = $em->getRepository('mycpBundle:ownership')->search($this, null, null, null, '1', '1', $session->get('search_order'));
         $paginator = $this->get('ideup.simple_paginator');
@@ -1308,7 +1309,7 @@ class OwnershipController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $session = $this->getRequest()->getSession();
-        $session->set('search_order', 'BEST_VALUED');
+        $session->set('search_order', OrderByHelper::SEARCHER_BEST_VALUED);
 
         $filters = array();
         $filters['own_type'] = array(str_replace("-", " ", ucfirst($type)));

@@ -18,6 +18,7 @@ class ElementToOrder
     const COMMENT_LODGING_MODULE = 6;
     const DESTINATION = 7;
     const FAQ = 8;
+    const SEARCHER = 9;
 }
 
 class OrderByHelper {
@@ -48,16 +49,25 @@ class OrderByHelper {
     const COMMENT_USER_NAME_DESC = 55;
     const COMMENT_RATING = 56;
 
-    const DESTINATION_NAME_ASC = 61;
-    const DESTINATION_NAME_DESC = 62;
-    const DESTINATION_PROVINCE = 63;
-    const DESTINATION_MUNICIPALITY = 64;
-    const DESTINATION_CREATION_DATE = 65;
+    const DESTINATION_NAME_ASC = 71;
+    const DESTINATION_NAME_DESC = 72;
+    const DESTINATION_PROVINCE = 73;
+    const DESTINATION_MUNICIPALITY = 74;
+    const DESTINATION_CREATION_DATE = 75;
 
-    const FAQ_ORDER = 71;
-    const FAQ_QUESTION_ASC = 72;
-    const FAQ_QUESTION_DESC = 73;
-    const FAQ_CREATION_DATE = 74;
+    const FAQ_ORDER = 81;
+    const FAQ_QUESTION_ASC = 82;
+    const FAQ_QUESTION_DESC = 83;
+    const FAQ_CREATION_DATE = 84;
+
+    const SEARCHER_PRICE_LOW_HIGH = 91;
+    const SEARCHER_PRICE_HIGH_LOW = 92;
+    const SEARCHER_BEST_VALUED = 93;
+    const SEARCHER_WORST_VALUED = 94;
+    const SEARCHER_A_Z = 95;
+    const SEARCHER_Z_A = 96;
+    const SEARCHER_RESERVATIONS_HIGH_LOW = 97;
+    const SEARCHER_RESERVATIONS_LOW_HIGH = 98;
 
     public static function getOrdersFor($elementToOrder)
     {
@@ -110,6 +120,15 @@ class OrderByHelper {
                              array(self::FAQ_QUESTION_ASC, "Pregunta (A-Z)"),
                              array(self::FAQ_QUESTION_DESC, "Pregunta (Z-A)"),
                              array(self::FAQ_CREATION_DATE, "Fecha creación"));
+           case ElementToOrder::SEARCHER:
+                return array(array(self::SEARCHER_PRICE_LOW_HIGH, "PRICE_LOW_HIGH_ORDER_BY"),
+                             array(self::SEARCHER_PRICE_HIGH_LOW, "PRICE_HIGH_LOW_ORDER_BY"),
+                             array(self::SEARCHER_BEST_VALUED, "BEST_VALUED_ORDER_BY"),
+                             array(self::SEARCHER_WORST_VALUED, "WORST_VALUED_ORDER_BY"),
+                             array(self::SEARCHER_A_Z, "A_Z_ORDER_BY"),
+                             array(self::SEARCHER_Z_A, "Z_A_ORDER_BY"),
+                             array(self::SEARCHER_RESERVATIONS_HIGH_LOW, "RESERVATIONS_HIGH_LOW_ORDERBY"),
+                             array(self::SEARCHER_RESERVATIONS_LOW_HIGH, "RESERVATIONS_LOW_HIGH_ORDERBY"));
         }
     }
 

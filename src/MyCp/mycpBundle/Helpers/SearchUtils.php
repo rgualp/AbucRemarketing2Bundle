@@ -10,6 +10,7 @@ namespace MyCp\mycpBundle\Helpers;
 
 use MyCp\mycpBundle\Entity\ownershipReservation;
 
+
 class SearchUtils {
 
     public static function createDatesWhere($entity_manager, $arrivalDate = null, $leavingDate = null) {
@@ -408,25 +409,29 @@ public static function getFilterWhere($filters) {
     }
 
     public static function getOrder($order_by) {
-        if ($order_by == "PRICE_LOW_HIGH")
-            return "  ORDER BY o.own_minimum_price ASC, o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC";
-        else if ($order_by == "PRICE_HIGH_LOW")
-            return "  ORDER BY o.own_minimum_price DESC, o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC ";
-        else if ($order_by == "BEST_VALUED")
-            return "  ORDER BY o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC ";
-        else if ($order_by == "WORST_VALUED")
-            return "  ORDER BY o.own_ranking ASC, o.own_comments_total ASC, count_reservations DESC ";
-        else if ($order_by == "A_Z")
-            return "  ORDER BY o.own_name ASC, o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC ";
-        else if ($order_by == "Z_A")
-            return "  ORDER BY o.own_name DESC, o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC ";
-        else if ($order_by == "RESERVATIONS_HIGH_LOW")
-            return "  ORDER BY count_reservations DESC, o.own_ranking DESC, o.own_comments_total DESC ";
-        else if ($order_by == "RESERVATIONS_LOW_HIGH")
-            return "  ORDER BY count_reservations ASC, o.own_ranking DESC, o.own_comments_total DESC ";
-        else {
-            return "  ORDER BY o.own_minimum_price ASC, o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC ";
+        switch($order_by)
+        {
+            case OrderByHelper::DEFAULT_ORDER_BY:
+            case OrderByHelper::SEARCHER_BEST_VALUED:
+                return "  ORDER BY o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC ";
+            case OrderByHelper::SEARCHER_A_Z:
+                return "  ORDER BY o.own_name ASC, o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC ";
+            case OrderByHelper::SEARCHER_Z_A:
+                return "  ORDER BY o.own_name DESC, o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC ";
+            case OrderByHelper::SEARCHER_PRICE_HIGH_LOW:
+                return "  ORDER BY o.own_minimum_price DESC, o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC ";
+            case OrderByHelper::SEARCHER_PRICE_LOW_HIGH:
+                return "  ORDER BY o.own_minimum_price ASC, o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC";
+            case OrderByHelper::SEARCHER_RESERVATIONS_HIGH_LOW:
+                return "  ORDER BY count_reservations DESC, o.own_ranking DESC, o.own_comments_total DESC ";
+            case OrderByHelper::SEARCHER_RESERVATIONS_LOW_HIGH:
+                return "  ORDER BY count_reservations ASC, o.own_ranking DESC, o.own_comments_total DESC ";
+            case OrderByHelper::SEARCHER_WORST_VALUED:
+                return "  ORDER BY o.own_ranking ASC, o.own_comments_total ASC, count_reservations DESC ";
+
+
         }
+        
     }
 
     private static function getStringFromArray($array, $has_string_items = true, $element_to_remove = null) {
