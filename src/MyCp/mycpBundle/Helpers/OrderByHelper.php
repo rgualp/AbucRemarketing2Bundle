@@ -16,6 +16,7 @@ class ElementToOrder
     const RESERVATION_LODGING_MODULE = 4;
     const COMMENT = 5;
     const COMMENT_LODGING_MODULE = 6;
+    const DESTINATION = 7;
 }
 
 class OrderByHelper {
@@ -45,6 +46,12 @@ class OrderByHelper {
     const COMMENT_USER_NAME_ASC = 54;
     const COMMENT_USER_NAME_DESC = 55;
     const COMMENT_RATING = 56;
+
+    const DESTINATION_NAME_ASC = 61;
+    const DESTINATION_NAME_DESC = 62;
+    const DESTINATION_PROVINCE = 63;
+    const DESTINATION_MUNICIPALITY = 64;
+    const DESTINATION_CREATION_DATE = 65;
 
     public static function getOrdersFor($elementToOrder)
     {
@@ -86,6 +93,12 @@ class OrderByHelper {
                                              array(self::COMMENT_USER_NAME_ASC, "Nombre cliente (A-Z)"),
                                              array(self::COMMENT_USER_NAME_DESC, "Nombre cliente (Z-A)"),
                                              array(self::COMMENT_RATING, "Puntuación otorgada"));
+           case ElementToOrder::DESTINATION:
+                                return array(array(self::DESTINATION_NAME_ASC, "Nombre (A-Z)"),
+                                             array(self::DESTINATION_NAME_DESC, "Nombre (Z-A)"),
+                                             array(self::DESTINATION_PROVINCE, "Provincia"),
+                                             array(self::DESTINATION_MUNICIPALITY, "Municipio"),
+                                             array(self::DESTINATION_CREATION_DATE, "Fecha creación"));
         }
     }
 

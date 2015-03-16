@@ -8,6 +8,7 @@ use MyCp\mycpBundle\Entity\destinationLang;
 use MyCp\mycpBundle\Entity\destinationLocation;
 use MyCp\FrontEndBundle\Helpers\Utils;
 use MyCp\mycpBundle\Entity\ownershipStatus;
+use MyCp\mycpBundle\Helpers\OrderByHelper;
 
 /**
  * destinationRepository
@@ -117,10 +118,10 @@ class destinationRepository extends EntityRepository {
         $municipality = $em->getRepository('mycpBundle:municipality')->find($data['ownership_address_municipality']);
         $province = $em->getRepository('mycpBundle:province')->find($data['ownership_address_province']);
         $destination_location = $em->getRepository('mycpBundle:destinationLocation')->findOneBy(array('des_loc_destination' => $id_destination));
-        
+
         if($destination_location == null)
             $destination_location = new destinationLocation();
-        
+
         $destination_location->setDesLocProvince($province);
         $destination_location->setDesLocMunicipality($municipality);
         $em->persist($destination_location);
@@ -170,7 +171,7 @@ class destinationRepository extends EntityRepository {
         //exit();
     }
 
-    function getAll($filter_name="", $filter_active="", $filter_province="", $filter_municipality="", $sort_by=0) {
+    function getAll($filter_name="", $filter_active="", $filter_province="", $filter_municipality="", $sort_by = OrderByHelper::DEFAULT_ORDER_BY) {
         $string = '';
         if ($filter_active != 'null' && $filter_active != '') {
             $string = "AND des.des_active = :filter_active";
@@ -187,23 +188,24 @@ class destinationRepository extends EntityRepository {
 
         $string4 = '';
         switch ($sort_by) {
-            case 0:
+            case OrderByHelper::DEFAULT_ORDER_BY:
+            case OrderByHelper::DESTINATION_CREATION_DATE:
                 $string4 = "ORDER BY des.des_order ASC";
                 break;
 
-            case 1:
+            case OrderByHelper::DESTINATION_NAME_ASC:
                 $string4 = "ORDER BY des.des_name ASC";
                 break;
 
-            case 2:
+            case OrderByHelper::DESTINATION_NAME_DESC:
                 $string4 = "ORDER BY des.des_name DESC";
                 break;
 
-            case 3:
+            case OrderByHelper::DESTINATION_PROVINCE:
                 $string4 = "ORDER BY dl.des_loc_province ASC";
                 break;
 
-            case 4:
+            case OrderByHelper::DESTINATION_MUNICIPALITY:
                 $string4 = "ORDER BY dl.des_loc_municipality ASC";
                 break;
         }
@@ -212,8 +214,8 @@ class destinationRepository extends EntityRepository {
 
         $query = $em->createQuery("SELECT des.des_id,
          des.des_name,
-         prov.prov_name, 
-        (select min(mun.mun_name) FROM mycpBundle:municipality mun WHERE dl.des_loc_municipality = mun.mun_id) as mun_name, 
+         prov.prov_name,
+        (select min(mun.mun_name) FROM mycpBundle:municipality mun WHERE dl.des_loc_municipality = mun.mun_id) as mun_name,
          des.des_active,
         (SELECT count(photo) FROM mycpBundle:destinationPhoto photo WHERE photo.des_pho_destination = des.des_id) as photo_count,
         (SELECT count(o) FROM mycpBundle:ownership o WHERE o.own_destination = des.des_id) as owns_count
@@ -454,17 +456,17 @@ class destinationRepository extends EntityRepository {
 
     function getByMunicipality($municipality = null, $province = null) {
         $em = $this->getEntityManager();
-        
-        $query_string = "SELECT d.des_id as desId, 
-                         d.des_name as desName, 
+
+        $query_string = "SELECT d.des_id as desId,
+                         d.des_name as desName,
                          (select count(s) FROM mycpBundle:season s WHERE s.season_destination = d.des_id) as hasSeason
                          FROM mycpBundle:destinationLocation l
                          JOIN l.des_loc_destination d";
-        
+
         $where = "";
         if($municipality != null && $municipality != "")
             $where .= (($where != "") ? " OR " : " WHERE "). " l.des_loc_municipality = " . $municipality;
-        
+
         if($province != null && $province != "")
             $where .= (($where != "") ? " OR " : " WHERE "). " l.des_loc_province = " . $province;
 

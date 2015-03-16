@@ -282,13 +282,14 @@ class BackendDestinationController extends Controller
         $sort_by=$request->get('sort_by');
         $filter_province=$request->get('filter_province');
         $filter_municipality=$request->get('filter_municipality');
-        if($request->getMethod()=='POST' && $filter_active=='null' && $filter_name=='null' && $filter_province=='null' && $filter_municipality=='null')
+        if($request->getMethod()=='POST' && $filter_active=='null' && $filter_name=='null' && $filter_province=='null' && $filter_municipality=='null' && $sort_by == "null")
         {
             $message='Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local',$message);
             return $this->redirect($this->generateUrl('mycp_list_destination'));
         }
         if($filter_name=='null') $filter_name='';
+        if($sort_by=='null') $sort_by=  \MyCp\mycpBundle\Helpers\OrderByHelper::DEFAULT_ORDER_BY;
         if(isset($_GET['page']))$page=$_GET['page'];
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);

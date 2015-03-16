@@ -68,23 +68,15 @@
             <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_destination',{'items_per_page':500})}}">500</a>
          <input class="hidden" name="items_per_page" value="100">
     </div>
-
-    <div class="pull-right" style="margin-right: 30px;">
-        Organizar:
-        {% if filter_name ==''%}{% set filter_name='null'%}{%endif%}
+    </div>
+</div>
+{% if filter_name ==''%}{% set filter_name='null'%}{%endif%}
         {% if filter_active ==''%}{% set filter_active='null'%}{%endif%}
         {% if filter_province ==''%}{% set filter_province='null'%}{%endif%}
         {% if filter_municipality ==''%}{% set filter_municipality='null'%}{%endif%}
-        <a class="{% if sort_by == '0' %}selected{% endif %}" href="{{ path('mycp_list_destination',{'items_per_page':items_per_page,'filter_name':filter_name,'filter_active':filter_active,'filter_province':filter_province,'filter_municipality':filter_municipality,'sort_by':'0'})}}">Orden</a>
-        <a class="{% if sort_by == '1' %}selected{% endif %}" href="{{ path('mycp_list_destination',{'items_per_page':items_per_page,'filter_name':filter_name,'filter_active':filter_active,'filter_province':filter_province,'filter_municipality':filter_municipality,'sort_by':'1'})}}">A-Z</a>
-        <a class="{% if sort_by == '2' %}selected{% endif %}" href="{{ path('mycp_list_destination',{'items_per_page':items_per_page,'filter_name':filter_name,'filter_active':filter_active,'filter_province':filter_province,'filter_municipality':filter_municipality,'sort_by':'2'})}}">Z-A</a>
-        <a class="{% if sort_by == '3' %}selected{% endif %}" href="{{ path('mycp_list_destination',{'items_per_page':items_per_page,'filter_name':filter_name,'filter_active':filter_active,'filter_province':filter_province,'filter_municipality':filter_municipality,'sort_by':'3'})}}">Prov</a>
-        <a class="{% if sort_by == '4' %}selected{% endif %}" href="{{ path('mycp_list_destination',{'items_per_page':items_per_page,'filter_name':filter_name,'filter_active':filter_active,'filter_province':filter_province,'filter_municipality':filter_municipality,'sort_by':'4'})}}">Mun</a>
-
-    </div>
-    </div>
-</div>
-<div class="paginator-cont span11">
+        {% if sort_by ==''%}{% set sort_by='null'%}{%endif%}
+<div class="row-fluid">
+<div class="paginator-cont span9">
     {% if filter_name ==''%}{% set filter_name='null'%}{%endif%}
     {{ simple_paginator_render('mycp_list_destination',null,{
 'container_class': 'paginator',
@@ -96,6 +88,19 @@
 'route_params': {'items_per_page':items_per_page,'filter_name':filter_name,'filter_active':filter_active,'filter_province':filter_province,'filter_municipality':filter_municipality,'sort_by':sort_by}
 }) }}
 </div>
+        <div class="span3" style="margin-top: 10px" >
+                    <div class="row-fluid">
+                        <div class="span4" style="margin-top: 4px; font-size: 12px">
+                            Organizar:
+                        </div>
+                        <div class="span8">
+                            <select name="sort_by" id="sort_by" onchange="javascript:action_submit()" class="input-block-level pull-right">
+                                {{ render(controller('mycpBundle:BackendUtils:orderBy', {'sortBy': sort_by, 'elementToOrder': constant('\\MyCp\\mycpBundle\\Helpers\\ElementToOrder::DESTINATION')})) }}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+    </div>
 <div class="row-fluid">
     <div class="span2"><b>Destino</b></div>
     <div class="span2"><b>Provincia</b></div>
@@ -219,8 +224,10 @@
         if(filter_province=='')filter_province='null';
         filter_municipality=$('#filter_municipality').val();
         if(filter_municipality=='')filter_municipality='null';
+        sort_by=$('#sort_by').val();
+        if(sort_by=='')sort_by='null';
         url_submit=$('#filter').attr('action');
-        url_submit=url_submit+'/'+items_per_page+'/'+filter_name+'/'+filter_active+'/'+filter_province+'/'+filter_municipality;
+        url_submit=url_submit+'/'+items_per_page+'/'+filter_name+'/'+filter_active+'/'+filter_province+'/'+filter_municipality+'/'+sort_by;
         $('#filter').attr('action',url_submit);
         $('#filter').submit();
     }
