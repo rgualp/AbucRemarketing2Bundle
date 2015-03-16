@@ -168,21 +168,21 @@ class generalReservationRepository extends EntityRepository {
 
         $string_order = '';
         switch ($sort_by) {
-            case ReservationSortField::RESERVATION_DEFAULT:
-            case ReservationSortField::CLIENT_RESERVATIONS_TOTAL:
+            case OrderByHelper::DEFAULT_ORDER_BY:
+            case OrderByHelper::CLIENT_RESERVATIONS_TOTAL:
                 $string_order = "ORDER BY total_reserves DESC";
                 break;
-            case ReservationSortField::CLIENT_NAME:
+            case OrderByHelper::CLIENT_NAME:
                 $string_order = "ORDER BY us.user_user_name ASC";
                 break;
-            case ReservationSortField::CLIENT_CITY:
-                $string_order = "ORDER BY us.user_city ASC";
+            case OrderByHelper::CLIENT_CITY:
+                $string_order = "ORDER BY us.user_city ASC, total_reserves DESC";
                 break;
-            case ReservationSortField::CLIENT_EMAIL:
+            case OrderByHelper::CLIENT_EMAIL:
                 $string_order = "ORDER BY us.user_email ASC";
                 break;
-            case ReservationSortField::CLIENT_COUNTRY:
-                $string_order = "ORDER BY cou.co_name ASC";
+            case OrderByHelper::CLIENT_COUNTRY:
+                $string_order = "ORDER BY cou.co_name ASC, total_reserves DESC";
                 break;
         }
 

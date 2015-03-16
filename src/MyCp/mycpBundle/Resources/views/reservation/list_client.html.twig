@@ -62,7 +62,7 @@
                         Mostrando del {{items_per_page * current_page - items_per_page}} al {% if items_per_page * current_page >  total_items%}{{total_items }}{% else %}{{ items_per_page * current_page }}{% endif %} de {{total_items}} registros
                     </div>
                     <div class="pull-right">
-                        Líneas por página:
+                        Mostrar:
                         {% if filter_user_name ==''%}{% set filter_user_name='null'%}{%endif%}
                         {% if filter_user_email ==''%}{% set filter_user_email='null'%}{%endif%}
                         {% if filter_user_city ==''%}{% set filter_user_city='null'%}{%endif%}
@@ -102,7 +102,7 @@
                         </div>
                         <div class="span8">
                             <select name="sort_by" id="sort_by" onchange="javascript:action_submit()" class="input-block-level pull-right">
-                                {{ render(controller('mycpBundle:BackendReservation:getClientSortBy', {'sort_by': sort_by})) }}
+                                {{ render(controller('mycpBundle:BackendUtils:orderBy', {'sortBy': sort_by, 'elementToOrder': constant('\\MyCp\\mycpBundle\\Helpers\\ElementToOrder::CLIENT')})) }}
                             </select>
                         </div>
                     </div>
