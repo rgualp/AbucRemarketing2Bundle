@@ -46,7 +46,7 @@ class userCasaRepository extends EntityRepository {
         $subrole = $em->getRepository('mycpBundle:role')->findOneBy(array('role_name' => 'ROLE_CLIENT_CASA'));
 
         $address = $ownership->getOwnAddressStreet()." #".$ownership->getOwnAddressNumber().", ".$ownership->getOwnAddressMunicipality()->getMunName().", ".$ownership->getOwnAddressProvince()->getProvName();
-        $phone = '(+53' . $ownership->getOwnAddressProvince()->getProvPhoneCode() . ') ' . $ownership->getOwnPhoneNumber();
+        $phone = '(+53) ' . $ownership->getOwnAddressProvince()->getProvPhoneCode() . ' ' . $ownership->getOwnPhoneNumber();
 
         $email = $ownership->getOwnEmail1();
         if (empty($email))

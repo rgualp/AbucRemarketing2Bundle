@@ -171,7 +171,7 @@ class ExportToExcel {
             $data[0] = $own["mycpCode"];
             $data[1] = $own["totalRooms"];
             $data[2] = $own["owner1"].(($own["owner2"] != "")? " / ". $own["owner2"] : "");
-            $data[3] = (($own["phone"] != "")?"{+53) ".$own["provCode"]. " ".$own["phone"] : "").(($own["mobile"] != "" && $own["phone"] != "") ? " / ": "").(($own["mobile"] != "") ? $own["mobile"]: "");
+            $data[3] = (($own["phone"] != "")?"(+53) ".$own["provCode"]. " ".$own["phone"] : "").(($own["mobile"] != "" && $own["phone"] != "") ? " / ": "").(($own["mobile"] != "") ? $own["mobile"]: "");
             $data[4] = "Calle ". $own["street"]." No.".$own["number"].(($own["between1"] != "" && $own["between2"] != "") ? " entre ".$own["between1"]." y ".$own["between2"] : "");
             $data[5] = $own["municipality"];
             $data[6] = $own["status"];

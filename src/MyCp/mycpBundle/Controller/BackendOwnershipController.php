@@ -309,7 +309,7 @@ class BackendOwnershipController extends Controller {
         $post['ownership_mobile_number'] = $ownership->getOwnMobileNumber();
         $post['ownership_homeowner_1'] = $ownership->getOwnHomeowner1();
         $post['ownership_homeowner_2'] = $ownership->getOwnHomeowner2();
-        $post['ownership_phone_code'] = $ownership->getOwnPhoneCode();
+        $post['ownership_phone_code'] = "(+53) ". $ownership->getOwnAddressProvince()->getProvPhoneCode();
         $post['ownership_phone_number'] = $ownership->getOwnPhoneNumber();
         $post['ownership_email_1'] = $ownership->getOwnEmail1();
         $post['ownership_email_2'] = $ownership->getOwnEmail2();

@@ -664,8 +664,8 @@
     $('#ownership_address_province').change(function() {
 
         code_prov = $('#ownership_address_province option:selected').attr('class');
-        $('#province_code').html('(+53' + code_prov + ')');
-        $('#ownership_phone_code').val('(+53' + code_prov + ')');
+        $('#province_code').html('(+53) ' + code_prov);
+        $('#ownership_phone_code').val('(+53)' + code_prov );
 
         $('#ownership_address_municipality').html('<option value="">Cargando...</option>');
         code = $('#ownership_address_province').val();

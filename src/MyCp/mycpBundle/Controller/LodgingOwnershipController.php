@@ -42,7 +42,7 @@ class LodgingOwnershipController extends Controller
             $post['ownership_address_province'] = $ownership->getOwnAddressProvince()->getProvId();
             $post['ownership_address_municipality'] = $ownership->getOwnAddressMunicipality()->getMunId();
             $post['ownership_mobile_number'] = $ownership->getOwnMobileNumber();
-            $post['ownership_phone_code'] = $ownership->getOwnPhoneCode();
+            $post['ownership_phone_code'] = "(+53) ". $ownership->getOwnAddressProvince()->getProvPhoneCode();
             $post['ownership_phone_number'] = $ownership->getOwnPhoneNumber();
             $post['ownership_email_1'] = $ownership->getOwnEmail1();
             $post['ownership_email_2'] = $ownership->getOwnEmail2();

@@ -6,7 +6,6 @@ Frontend:
 
 Funciones:
     - Hacer PSR Standarization para todas las funciones del sitio.
-    - Hacer una funcion que cuente las noches en qe un usuario pasa realmente en una casa, mas alla que contar el rango de noches en la fecha del generalReservation
     - Hacer una funcion para el formato telefonico y usarla
     - Hacer una funcion para el formato de direccion y usarla
 

@@ -110,8 +110,7 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnMobileNumber($data['ownership_mobile_number']);
         $ownership->setOwnHomeowner1($data['ownership_homeowner_1']);
         $ownership->setOwnHomeowner2($data['ownership_homeowner_2']);
-        $ownership->setOwnPhoneCode('(+53' . $prov->getProvPhoneCode() . ')');
-        $phone = '(+53' . $prov->getProvPhoneCode() . ') ' . $data['ownership_phone_number'];
+        $ownership->setOwnPhoneCode('(+53) ' . $prov->getProvPhoneCode());
         $ownership->setOwnPhoneNumber($data['ownership_phone_number']);
         $ownership->setOwnEmail1($data['ownership_email_1']);
         $ownership->setOwnEmail2($data['ownership_email_2']);
@@ -332,7 +331,7 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnMobileNumber($data['ownership_mobile_number']);
         $ownership->setOwnHomeowner1($data['ownership_homeowner_1']);
         $ownership->setOwnHomeowner2($data['ownership_homeowner_2']);
-        $ownership->setOwnPhoneCode('(+53' . $prov->getProvPhoneCode() . ')');
+        $ownership->setOwnPhoneCode('(+53) ' . $prov->getProvPhoneCode());
         $ownership->setOwnPhoneNumber($data['ownership_phone_number']);
         $ownership->setOwnEmail1($data['ownership_email_1']);
         $ownership->setOwnEmail2($data['ownership_email_2']);
@@ -541,7 +540,7 @@ class ownershipRepository extends EntityRepository {
 
         $prov = $em->getRepository('mycpBundle:province')->find($ownership->getOwnAddressProvince());
         $ownership->setOwnMobileNumber($data['ownership_mobile_number']);
-        $ownership->setOwnPhoneCode('(+53' . $prov->getProvPhoneCode() . ')');
+        $ownership->setOwnPhoneCode('(+53) ' . $prov->getProvPhoneCode());
         $ownership->setOwnPhoneNumber($data['ownership_phone_number']);
         $ownership->setOwnEmail1($data['ownership_email_1']);
         $ownership->setOwnEmail2($data['ownership_email_2']);
