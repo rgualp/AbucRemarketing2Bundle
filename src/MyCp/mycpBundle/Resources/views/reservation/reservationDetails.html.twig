@@ -221,40 +221,13 @@
             </td>
         </tr>
     </table>
-    <ul class="nav nav-tabs">
-        <li class="active">
-            <a href="#new_message" data-toggle="tab">Nuevo mensaje al cliente</a>
-        </li>
-        <li class="">
-            <a href="#client_messages" data-toggle="tab">Mensajes al cliente</a>
-        </li>
-        <li class="">
-            <a href="#comment" data-toggle="tab">Comentarios</a>
-        </li>
-    </ul>
-    <div class="tab-content" id="">
-        <div id="new_message" class="tab-pane fade in active">
-            <textarea class="span12 textarea" name="message_to_client">{% if post['message_to_client'] is defined %}{{ post['message_to_client'] }}{% endif %}</textarea>
-        </div>
-        <div id="client_messages" class="tab-pane fade">
-
-        </div>
-        <div id="comment" class="tab-pane fade">
-
-        </div>
-    </div>
+    {% include 'mycpBundle:utils:messages.html.twig'%}
 </div>
-    <script src="{{ asset('bundles/mycp/js/wysihtml5-0.3.0.min.js') }}" type="text/javascript"></script>
-    <script type="text/javascript">
-        var url_css_color="{{ asset('bundles/mycp/css/wysiwyg-color.css') }}";
-    </script>
-    <script src="{{ asset('bundles/mycp/js/bootstrap-wysihtml5.js') }}" type="text/javascript"></script>
+
     <script src="{{ asset('bundles/mycp/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bundles/mycp/js/bootstrap-datepicker.es.js') }}" type="text/javascript"></script>
-    <link href="{{ asset('bundles/mycp/css/bootstrap-wysihtml5.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('bundles/mycp/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
     <script type="text/javascript">
-        $('.textarea').wysihtml5();
         $('.datepicker_textbox').datepicker({
             language: 'es',
             format:'dd/mm/yyyy'
