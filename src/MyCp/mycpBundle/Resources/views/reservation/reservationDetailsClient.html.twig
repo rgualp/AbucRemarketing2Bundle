@@ -70,9 +70,7 @@
                     <td>{{total_nights[loop.index0]}}</td>
                     <td>{{reservation[0]['gen_res_total_in_site']}} CUC</td>
                     <td>
-                        <select name="resume_status_res_{{reservation[0]['gen_res_id']}}" class="input-block-level">
-                            {{ render(controller('mycpBundle:BackendReservation:get_general_reservation_status', {'post': {'selected':reservation[0]['gen_res_status']}})) }}
-                        </select>
+                        {{ render(controller('mycpBundle:BackendReservation:getGeneralReservationStatusName', {'status': reservation[0].gen_res_status, 'wrap': false, 'showInDiv': true})) }}
                     </td>
                     <td style="text-align: right">
                         <button data_res_id="{{reservation[0].gen_res_id}}" data_name_id="{{reservation[0].gen_res_id}}tab" data_name="{{reservation[0].gen_res_id | getCASId}}" type="button" class="reserve_details btn btn-mini" href="">Detalles</button>

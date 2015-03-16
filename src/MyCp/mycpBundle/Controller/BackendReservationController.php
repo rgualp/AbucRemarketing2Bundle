@@ -530,8 +530,8 @@ class BackendReservationController extends Controller {
 
             $post = $request->request->getIterator()->getArrayCopy();
             //var_dump($post); exit();
-            foreach ($reservations as $reservation) {
-                $res_db = $em->getRepository('mycpBundle:generalReservation')->find($reservation[0]['gen_res_id']);
+            /*foreach ($reservations as $reservation) {
+                /*$res_db = $em->getRepository('mycpBundle:generalReservation')->find($reservation[0]['gen_res_id']);
                 $res_db->setGenResStatus($post['resume_status_res_' . $reservation[0]['gen_res_id']]);
                 $em->persist($res_db);
 
@@ -553,7 +553,7 @@ class BackendReservationController extends Controller {
             /* $service_log= $this->get('log');
               $service_log->saveLog('Create entity for '.$ownership->getOwnMcpCode(), BackendModuleName::MODULE_RESERVATION); */
 
-            $this->get('session')->getFlashBag()->add('message_ok', $message);
+            /*$this->get('session')->getFlashBag()->add('message_ok', $message);*/
             return $this->redirect($this->generateUrl('mycp_details_client_reservation', array('id_client' => $id_client)));
         }
 
