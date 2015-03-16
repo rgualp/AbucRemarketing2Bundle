@@ -59,6 +59,12 @@ class OrderByHelper {
                                              array(self::RESERVATION_PRICE_TOTAL, "Precio total"),
                                              array(self::RESERVATION_STATUS, "Estado de reserva"),
                                              array(self::RESERVATION_ACCOMMODATION_CODE, "Código de la propiedad"));
+            case ElementToOrder::RESERVATION_LODGING_MODULE:
+                                return array(array(self::RESERVATION_NUMBER, "Número de reserva"),
+                                             array(self::RESERVATION_DATE, "Fecha reserva"),
+                                             array(self::RESERVATION_DATE_ARRIVE, "Fecha llegada"),
+                                             array(self::RESERVATION_PRICE_TOTAL, "Precio total"),
+                                             array(self::RESERVATION_STATUS, "Estado de reserva"));
         }
     }
 

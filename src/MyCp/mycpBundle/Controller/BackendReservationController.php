@@ -1109,13 +1109,6 @@ class BackendReservationController extends Controller {
         return $this->redirect($this->generateUrl('mycp_list_reservations'));
     }
 
-    function getLodgingSortByAction($sort_by) {
-        $selected = '';
-        if (isset($sort_by))
-            $selected = $sort_by;
-        return $this->render('mycpBundle:utils:lodging_reservation_sort_by.html.twig', array('selected' => $selected));
-    }
-
     function view_confirmation($id_booking) {
         $bookingService = $this->get('front_end.services.booking');
         return $bookingService->getPrintableBookingConfirmationResponse($id_booking);
