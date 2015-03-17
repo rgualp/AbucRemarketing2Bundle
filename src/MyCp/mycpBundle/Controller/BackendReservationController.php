@@ -522,6 +522,7 @@ class BackendReservationController extends Controller {
 
         $em = $this->getDoctrine()->getEntityManager();
         $client = $em->getRepository('mycpBundle:user')->find($id_client);
+        $userTourist = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $id_client));
         $reservations = $em->getRepository('mycpBundle:generalReservation')->getByUser($id_client);
         $price = 0;
         $total_nights = array();
@@ -567,7 +568,8 @@ class BackendReservationController extends Controller {
                     'total_nights' => $total_nights,
                     'reservations' => $reservations,
                     'client' => $client,
-                    'errors' => ''
+                    'errors' => '',
+                    'tourist' => $userTourist[0]
         ));
     }
 

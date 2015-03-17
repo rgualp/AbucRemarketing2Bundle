@@ -84,7 +84,7 @@
 
     </div>
         </div>
-    {% include 'mycpBundle:utils:messages.html.twig'%}
+    {{ render(controller('mycpBundle:BackendMessage:messageControl', {'userTourist': tourist})) }}
 
     <script type="text/javascript">
 

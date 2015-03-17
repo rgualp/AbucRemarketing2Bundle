@@ -140,3 +140,7 @@ mycp_backend_metatags:
 mycp_send_created_usercasa_mail:
     pattern:  /send_mail/create/user_casa/{userId}/{returnUrlName}
     defaults: { _controller: mycpBundle:Public:sendMailCreateUserCasa}
+
+mycp_backend_message:
+    resource: "@mycpBundle/Resources/config/routingBackendMessage.yml"
+    prefix:   backend/message/
