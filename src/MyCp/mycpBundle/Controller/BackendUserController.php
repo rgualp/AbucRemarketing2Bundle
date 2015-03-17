@@ -322,7 +322,7 @@ class BackendUserController extends Controller {
             $data_user['language'] = ($user_tourist != null) ? $user_tourist->getUserTouristLanguage()->getLangId() : null;
             $form->setData($data_user);
         }
-        return $this->render('mycpBundle:user:newUserTourist.html.twig', array('form' => $form->createView(), 'data' => $data, 'id_role' => '', 'edit_user' => $id_user));
+        return $this->render('mycpBundle:user:newUserTourist.html.twig', array('form' => $form->createView(), 'data' => $data, 'id_role' => '', 'edit_user' => $id_user, 'tourist'=> $user_tourist));
     }
 
     function new_user_partnerAction($id_role, Request $request) {
