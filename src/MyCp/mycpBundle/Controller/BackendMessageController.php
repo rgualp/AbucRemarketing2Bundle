@@ -13,7 +13,15 @@ class BackendMessageController extends Controller {
 
     public function messageControlAction($userTourist)
     {
-        return $this->render('mycpBundle:message:messages.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $messages = $em->getRepository("mycpBundle:message")->findBy(array("message_send_to" => $userTourist->getUserTouristUser()->getUserId()), array("message_date" => "DESC"));
+
+        return $this->render('mycpBundle:message:messages.html.twig', array(
+            'userTourist' => $userTourist,
+            'userLogged' => $user,
+            'messages' => $messages
+        ));
     }
 
 }
