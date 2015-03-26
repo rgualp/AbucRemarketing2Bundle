@@ -34,4 +34,11 @@ class BackendExportController extends Controller
 
         return $exporter->createCheckinExcel($date, $sort_by, true);
     }
+
+    function zipDownloadOwnPhotoAction($idOwnership, $ownMycpCode)
+    {
+        $zip = $this->get("mycp.service.zip");
+
+        return $zip->createDownLoadPhotoZipFile($idOwnership, $ownMycpCode);
+    }
 }
