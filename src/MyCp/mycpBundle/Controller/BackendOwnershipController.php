@@ -105,7 +105,7 @@ class BackendOwnershipController extends Controller {
 
 //Creando thumbnail, redimensionando y colocando marca de agua
                         \MyCp\mycpBundle\Helpers\Images::createThumbnail($dir . $fileName, $dir_thumbs . $fileName, $thumbs_size);
-                        \MyCp\mycpBundle\Helpers\Images::resizeAndWatermark($dir . $fileName, $dir_watermark, $photo_size);
+                        \MyCp\mycpBundle\Helpers\Images::resizeAndWatermark($dir,$fileName, $dir_watermark, $photo_size, $this->container);
 
                         $photo->setPhoName($fileName);
                         $ownershipPhoto->setOwnPhoOwn($ownership);

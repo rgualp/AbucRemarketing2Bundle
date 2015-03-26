@@ -438,7 +438,7 @@ class BackendAlbumController extends Controller {
                         //Creando thumbnail, redimensionando y colocando marca de agua
                         \MyCp\mycpBundle\Helpers\Images::createThumbnail($dir.$fileName, $dir_thumbs.$fileName, $thumbs_size);
                         \MyCp\mycpBundle\Helpers\Images::resize($dir.$fileName, $photo_size);
-                        //\MyCp\mycpBundle\Helpers\Images::resizeAndWatermark($dir.$fileName, $dir_watermark, 480);
+                        //\MyCp\mycpBundle\Helpers\Images::resizeAndWatermark($dir,$fileName, $dir_watermark, 480, $this->container);
 
                         $photo->setPhoName($fileName);
                         $albumPhoto->setAlbPhoAlbum($album);
