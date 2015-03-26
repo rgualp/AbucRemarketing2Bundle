@@ -16,7 +16,32 @@ class ZipService {
         $this->container = $container;
     }
 
-    public function createDownLoadPhotoZipFile($idOwnership, $ownMyCPCode) {
+    public function createDownLoadPhotoZipFile($idOwnership, $ownMyCPCode, $deleteZip = true) {
+        $zipFileName = $this->createZipFile($idOwnership, $ownMyCPCode);
+
+        if(!$zipFileName)
+            return null;
+
+        $content = file_get_contents($zipFileName);
+        $response = new Response(
+                $content, 200, array(
+            'Content-Type' => 'application/zip',
+            'Content-Disposition' => 'attachment; filename="' . basename($zipFileName) . '"'
+                )
+        );
+
+        if ($deleteZip) {
+            //Deleting the Zip File
+            if (file_exists($zipFileName)) {
+                unlink($zipFileName);
+            }
+        }
+
+        return $response;
+    }
+
+    public function createZipFile($idOwnership, $ownMyCPCode)
+    {
         $photos = $this->em->getRepository("mycpBundle:ownershipPhoto")->getPhotosByIdOwnership($idOwnership);
         $pathToZip = $this->container->getParameter('ownership.dir.photos.zips');
         $pathToPhotos = $this->container->getParameter('ownership.dir.photos');
@@ -25,6 +50,7 @@ class ZipService {
         Images::createDirectory($pathToZip);
         $zip = new ZipArchive();
         $zipName = $ownMyCPCode . ".zip";
+        $filesCount = 0;
         if ($zip->open($pathToZip . $zipName, \ZipArchive::CREATE)) {
             $photoFile = "";
             foreach ($photos as $ownPhoto) {
@@ -34,25 +60,23 @@ class ZipService {
                     $photoFile = $pathToPhotos . $ownPhoto->getOwnPhoPhoto()->getPhoName();
 
                 if ($photoFile != "")
+                {
                     $zip->addFromString($ownPhoto->getOwnPhoPhoto()->getPhoName(), file_get_contents($photoFile));
+                    $filesCount++;
+                }
             }
         }
         $zip->close();
 
-        $content = file_get_contents($pathToZip . $zipName);
-        $response = new Response(
-                $content, 200, array(
-            'Content-Type' => 'application/zip',
-            'Content-Disposition' => 'attachment; filename="' . $zipName . '"'
-                )
-        );
-
-        //Deleting the Zip File
-        if (file_exists($pathToZip . $zipName)) {
-            unlink($pathToZip . $zipName);
+        if ($filesCount) {
+            //Deleting the Zip File
+            if (file_exists($pathToZip . $zipName)) {
+                unlink($pathToZip . $zipName);
+            }
         }
+        else return null;
 
-        return $response;
+        return $pathToZip . $zipName;
     }
 
 }
