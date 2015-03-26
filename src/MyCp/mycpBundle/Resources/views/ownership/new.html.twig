@@ -31,6 +31,7 @@
     <button class="btn btn-success" type="button" onclick="javascript:submit_button({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_AND_NEW')}})">Guardar y nuevo</button>
     {% if(post['ownership_id'] is defined) %}
     <a class="btn btn-warning" href="{{ path('mycp_list_photos_ownership',{'id_ownership':post['ownership_id']}) }}">Fotos</a>
+    <a class="btn btn-warning" title="Descargar fotos - {{data['name_ownership']}}" href="{{path("mycp_download_zip_photo", {"idOwnership": post['ownership_id'], "ownMycpCode": post['ownership_mcp_code']})}}"><i class="icon-download-alt"></i> Descargar Fotos</a>
     {%if (post['ownership_email_1'] is defined and post['ownership_email_1'] != "") or (post['ownership_email_2'] is defined and post['ownership_email_2'] != "")%}
     <button class="btn btn-danger" type="submit" onclick="send_message();">Enviar Correo de Instrucciones</button>
     {%endif%}
