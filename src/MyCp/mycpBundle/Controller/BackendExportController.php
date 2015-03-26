@@ -41,7 +41,7 @@ class BackendExportController extends Controller {
 
         if (!$response) {
             $request = $this->getRequest();
-            $this->get('session')->getFlashBag()->add('message_error_local', "No hay ficheros para formar el fichero ZIP");
+            $this->get('session')->getFlashBag()->add('message_error_local', "No hay ficheros para formar el archivo ZIP");
             return $this->redirect($request->server->get('HTTP_REFERER'));
         }
 
