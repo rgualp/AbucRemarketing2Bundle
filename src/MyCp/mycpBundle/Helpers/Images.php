@@ -60,6 +60,11 @@ class Images {
     public static function resizeAndWatermark($origin_file_full_path, $fileName, $watermark_full_path, $new_height, $container) {
         $imagine = new \Imagine\Gd\Imagine();
 
+        $dirOriginalsPhotos= $container->getParameter('ownership.dir.photos.originals');
+        self::createDirectory($dirOriginalsPhotos);
+        $imagine->open($origin_file_full_path.$fileName)
+                ->save($dirOriginalsPhotos.$fileName, array('format' => 'jpeg','quality' => 100));
+
         $new_width = Images::resize($origin_file_full_path.$fileName, $new_height);
 
         $watermark = $imagine->open($watermark_full_path);
@@ -74,11 +79,6 @@ class Images {
         }
 
         $point = new \Imagine\Image\Point(($new_width - $wSize->getWidth() - 10), 10);
-
-        $dirOriginalsPhotos= $container->getParameter('ownership.dir.photos.originals');
-        self::createDirectory($dirOriginalsPhotos);
-        $imagine->open($origin_file_full_path.$fileName)
-                ->save($dirOriginalsPhotos.$fileName, array('format' => 'jpeg','quality' => 100));
 
         $imagine->open($origin_file_full_path.$fileName)
                 //->paste($watermark_resize, $point)
