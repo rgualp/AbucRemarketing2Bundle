@@ -75,11 +75,10 @@ class Images {
 
         $point = new \Imagine\Image\Point(($new_width - $wSize->getWidth() - 10), 10);
 
-        $dir_ownership = $container->getParameter('ownership.dir.photos');
-        $dir_ownership .= "originals/";
-        self::createDirectory($dir_ownership);
+        $dirOriginalsPhotos= $container->getParameter('ownership.dir.photos.originals');
+        self::createDirectory($dirOriginalsPhotos);
         $imagine->open($origin_file_full_path.$fileName)
-                ->save($dir_ownership.$fileName, array('format' => 'jpeg','quality' => 100));
+                ->save($dirOriginalsPhotos.$fileName, array('format' => 'jpeg','quality' => 100));
 
         $imagine->open($origin_file_full_path.$fileName)
                 //->paste($watermark_resize, $point)

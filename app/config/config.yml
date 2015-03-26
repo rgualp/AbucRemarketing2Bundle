@@ -97,6 +97,8 @@ parameters:
     album.dir.photos.size: 480
     album.dir.thumbnails: %kernel.root_dir%/../web/uploads/albumImages/thumbnails/
     ownership.dir.photos: %kernel.root_dir%/../web/uploads/ownershipImages/
+    ownership.dir.photos.zips: %kernel.root_dir%/../web/uploads/ownershipImages/zips/
+    ownership.dir.photos.originals: %kernel.root_dir%/../web/uploads/ownershipImages/originals/
     ownership.dir.photos.size: 480
     ownership.dir.thumbnails: %kernel.root_dir%/../web/uploads/ownershipImages/thumbnails/
     language.dir.photos: %kernel.root_dir%/../web/uploads/languageImages/
@@ -157,6 +159,12 @@ services:
         class: MyCp\FrontEndBundle\Helpers\RequestListener
         tags:
             - { name: kernel.event_listener, event: kernel.request }
+        arguments:
+            entity_manager: "@doctrine.orm.entity_manager"
+            container: "@service_container"
+
+    mycp.zip:
+        class: MyCp\mycpBundle\Helpers\ZipService
         arguments:
             entity_manager: "@doctrine.orm.entity_manager"
             container: "@service_container"
