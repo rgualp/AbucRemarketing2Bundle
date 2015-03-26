@@ -59,7 +59,7 @@
 }) }}
                     </div>
         <div class="span3 text-right">
-            <a class="btn btn-success" title="Descargar fotos - {{ownership.ownName}}"><i class="icon-download-alt"></i> Descargar Fotos</a>
+            <a class="btn btn-success" title="Descargar fotos - {{ownership.ownName}}" href="{{path("mycp_download_zip_photo", {"idOwnership": ownership.ownId, "ownMycpCode": ownership.ownMcpCode})}}"><i class="icon-download-alt"></i> Descargar Fotos</a>
         </div>
 </div>
 <div class="row-fluid">

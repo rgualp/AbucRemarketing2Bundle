@@ -1,8 +1,7 @@
 <?php
 namespace MyCp\mycpBundle\Helpers;
-use MyCp\mycpBundle\Entity\log;
-use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use \ZipArchive;
 
 
@@ -20,7 +19,7 @@ class ZipService
 
     public function createDownLoadPhotoZipFile($idOwnership, $ownMyCPCode)
     {
-        $photos = $this->em->getRepository("mycpBundle:ownershipPhoto")->findBy(array("own_pho_own", $idOwnership));
+        $photos = $this->em->getRepository("mycpBundle:ownershipPhoto")->getPhotosByIdOwnership($idOwnership);
         $pathToZip = $this->container->getParameter('ownership.dir.photos.zips');
         $pathToPhotos = $this->container->getParameter('ownership.dir.photos');
         $pathToOriginalsPhotos = $this->container->getParameter('ownership.dir.photos.originals');
@@ -35,21 +34,21 @@ class ZipService
             {
                 if(file_exists(realpath($pathToOriginalsPhotos . $ownPhoto->getOwnPhoPhoto()->getPhoName())))
                         $photoFile = $pathToOriginalsPhotos . $ownPhoto->getOwnPhoPhoto()->getPhoName();
-                else
+                else if(file_exists(realpath($pathToPhotos . $ownPhoto->getOwnPhoPhoto()->getPhoName())))
                     $photoFile = $pathToPhotos . $ownPhoto->getOwnPhoPhoto()->getPhoName();
 
-
-                $zip->addFile($photoFile);
+                if($photoFile != "")
+                    $zip->addFromString(basename($photoFile), file_get_contents($photoFile));
             }
         }
-
-        $response = new Response(file_get_contents($zip->filename));
-
-        $headers = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $zipName);
-        $response->headers->set('Content-Disposition', $headers);
-
         $zip->close();
 
-        return $response;
+        $content = file_get_contents($pathToZip.$ownMyCPCode.$zipName);
+        return new Response(
+                $content, 200, array(
+            'Content-Type' => 'application/zip',
+            'Content-Disposition' => 'attachment; filename="' . $zipName . '"'
+                )
+        );
     }
 }

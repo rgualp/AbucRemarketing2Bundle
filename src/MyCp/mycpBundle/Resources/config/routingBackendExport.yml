@@ -5,3 +5,7 @@ mycp_accommodations_export_excel:
 mycp_checkin_export_excel:
     pattern:  /excel/check-in/{date}/{sort_by}
     defaults: { _controller: mycpBundle:BackendExport:checkInToExcel}
+
+mycp_download_zip_photo:
+    pattern:  /zip-download/photo/{idOwnership}/{ownMycpCode}
+    defaults: { _controller: mycpBundle:BackendExport:zipDownloadOwnPhoto}
