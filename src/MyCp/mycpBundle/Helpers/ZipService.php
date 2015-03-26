@@ -27,7 +27,7 @@ class ZipService
         Images::createDirectory($pathToZip);
         $zip = new ZipArchive();
         $zipName = $ownMyCPCode.".zip";
-        if($zip->open($pathToZip.$ownMyCPCode.$zipName, \ZipArchive::CREATE))
+        if($zip->open($pathToZip.$zipName, \ZipArchive::CREATE))
         {
             $photoFile = "";
             foreach($photos as $ownPhoto)
