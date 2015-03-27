@@ -9,3 +9,11 @@ mycp_checkin_export_excel:
 mycp_download_zip_photo:
     pattern:  /zip-download/photo/{idOwnership}/{ownMycpCode}
     defaults: { _controller: mycpBundle:BackendExport:zipDownloadOwnPhoto}
+
+mycp_download_info:
+    pattern:  /download
+    defaults: { _controller: mycpBundle:BackendExport:download}
+
+mycp_download_info_airbnb:
+    pattern:  /airbnb-download
+    defaults: { _controller: mycpBundle:BackendExport:airbnbDownload}

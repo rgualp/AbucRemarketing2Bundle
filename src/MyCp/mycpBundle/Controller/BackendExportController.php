@@ -48,4 +48,21 @@ class BackendExportController extends Controller {
         return $response;
     }
 
+    function downloadAction()
+    {
+        return $this->render('mycpBundle:export:home.html.twig');
+    }
+
+    function airbnbDownloadAction(Request $request)
+    {
+        if ($request->getMethod() == 'POST') {
+            $ownToExport = $request->get('txtCodes');
+
+            $exporter = $this->get("mycp.service.export_to_excel");
+            return $exporter->exportToAirBnb($ownToExport);
+        }
+
+        return $this->redirect($this->generateUrl('mycp_download_info'));
+    }
+
 }
