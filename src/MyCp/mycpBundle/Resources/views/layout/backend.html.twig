@@ -106,10 +106,13 @@
                     Configuraciones
                 </a>
             </div>
-            <div id="collapseConfig" class="accordion-body collapse {%if temp == 'BackendMailListController'%}in{%endif%}">
+            <div id="collapseConfig" class="accordion-body collapse {%if temp == 'BackendMailListController' or temp == 'BackendExportController'%}in{%endif%}">
 
                 <div class="accordion-inner">
                     <a href="{{ path('mycp_list_mail_list') }}"><i class="icon-bullhorn"></i> Listas de correo</a>
+                </div>
+                <div class="accordion-inner">
+                    <a href="{{ path('mycp_download_info') }}"><i class="icon-download-alt"></i> Descargas</a>
                 </div>
             </div>
         </div>

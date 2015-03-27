@@ -844,6 +844,46 @@ class ownershipRepository extends EntityRepository {
         return $results;
     }
 
+    function getByCodesArray($ownsCodesArray) {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT o.own_id as ownId,
+                         o.own_mcp_code as mycpCode,
+                         o.own_name as name,
+                         o.own_rooms_total as totalRooms,
+                         o.own_homeowner_1 as owner1,
+                         o.own_homeowner_2 as owner2,
+                         o.own_address_street as street,
+                         o.own_address_number as number,
+                         o.own_address_between_street_1 as between1,
+                         o.own_address_between_street_2 as between2,
+                         prov.prov_name as province,
+                         mun.mun_name as municipality,
+                         (select min(r1.room_price_down_to) from mycpBundle:room r1 where r1.room_ownership = o.own_id) as priceDown,
+                         (select max(r4.room_price_up_to) from mycpBundle:room r4 where r4.room_ownership = o.own_id) as priceUp,
+                         o.own_facilities_breakfast as breakfast,
+                         o.own_facilities_breakfast_price as breakfastPrice,
+                         o.own_facilities_parking as parking,
+                         o.own_facilities_parking_price as parkingPrice,
+                         o.own_water_jacuzee as hotTub,
+                         o.own_water_piscina as pool,
+                         o.own_description_pets as pets,
+                         o.own_description_laundry as washer,
+                         o.own_description_internet as internet,
+                         (select sum(r2.room_beds) from mycpBundle:room r2 where r2.room_ownership = o.own_id) as bedsTotal
+                         FROM mycpBundle:ownership o
+                         JOIN o.own_address_province prov
+                         JOIN o.own_address_municipality mun
+                         WHERE o.own_mcp_code IN ($ownsCodesArray)
+                         AND o.own_status = :status
+                         ORDER BY o.own_mcp_code ASC";
+
+        $results = $em->createQuery($query_string)
+                ->setParameter("status", ownershipStatus::STATUS_ACTIVE)
+                ->getResult();
+
+        return $results;
+    }
+
     public function top20Statistics() {
         $em = $this->getEntityManager();
         $query = "SELECT count(own.own_id) as premium_total,
