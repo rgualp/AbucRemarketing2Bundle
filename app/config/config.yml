@@ -169,12 +169,6 @@ services:
             entity_manager: "@doctrine.orm.entity_manager"
             container: "@service_container"
 
-    mycp.service.zip:
-        class: MyCp\mycpBundle\Helpers\ZipService
-        arguments:
-            entity_manager: "@doctrine.orm.entity_manager"
-            container: "@service_container"
-
 avalanche_imagine:
     web_root:     %kernel.root_dir%/../web
     cache_prefix: imagine
