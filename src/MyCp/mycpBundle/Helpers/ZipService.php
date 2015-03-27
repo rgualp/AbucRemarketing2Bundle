@@ -61,10 +61,11 @@ class ZipService {
         if ($zip->open($this->zipDirectoryPath . $zipName, \ZipArchive::CREATE)) {
             $photoFile = "";
             foreach ($photos as $ownPhoto) {
+
                 if (file_exists(realpath($this->originalDirectoryPath . $ownPhoto->getOwnPhoPhoto()->getPhoName())))
-                    $photoFile = $this->originalDirectoryPath . $ownPhoto->getOwnPhoPhoto()->getPhoName();
+                    $photoFile = realpath($this->originalDirectoryPath . $ownPhoto->getOwnPhoPhoto()->getPhoName());
                 else if (file_exists(realpath($this->photoDirectoryPath . $ownPhoto->getOwnPhoPhoto()->getPhoName())))
-                    $photoFile = $this->photoDirectoryPath . $ownPhoto->getOwnPhoPhoto()->getPhoName();
+                    $photoFile = realpath($this->photoDirectoryPath . $ownPhoto->getOwnPhoPhoto()->getPhoName());
 
                 if ($photoFile != "")
                 {
@@ -80,8 +81,9 @@ class ZipService {
             if (file_exists($this->zipDirectoryPath . $zipName)) {
                 unlink($this->zipDirectoryPath . $zipName);
             }
+
+            return null;
         }
-        else return null;
 
         return $this->zipDirectoryPath . $zipName;
     }
