@@ -24,7 +24,7 @@ class AppKernel extends Kernel
             new MyCp\FrontEndBundle\FrontEndBundle(),
             new Avalanche\Bundle\ImagineBundle\AvalancheImagineBundle(),
             new BeSimple\I18nRoutingBundle\BeSimpleI18nRoutingBundle(),
-            //new Lsw\MemcacheBundle\LswMemcacheBundle(),
+            new Lsw\MemcacheBundle\LswMemcacheBundle(),
             //new BeSimple\SoapBundle\BeSimpleSoapBundle()
 //            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Leezy\PheanstalkBundle\LeezyPheanstalkBundle(),
