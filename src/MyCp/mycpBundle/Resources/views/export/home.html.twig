@@ -11,7 +11,7 @@
 <h2>Descargas</h2>
 <hr/>
 <h5>Listado para AirBnb</h5>
-<form action="{{path("mycp_download_info_airbnb")}}">
+<form action="{{path("mycp_download_info_airbnb")}}" method="POST">
     <div class="row-fluid">
     <textarea name="txtCodes" id="txtCodes" style="width: 95%"></textarea>
     <em>Escriba los códigos de las casas cuya informacion desea descargar. Los códigos tienen que estar separados por comas (,)</em>

@@ -227,7 +227,7 @@ class ExportToExcel {
             $data = $this->dataAirBnb($ownsIdArray);
 
             if(count($data) > 0)
-                $excel = $this->createSheetAirBnb($excel, "Listado");
+                $excel = $this->createSheetAirBnb($excel, "Listado", $data);
 
             return $this->export($excel, $fileName);
         }
@@ -239,29 +239,52 @@ class ExportToExcel {
         $ownerships = $this->em->getRepository("mycpBundle:ownership")->getByCodesArray($ownsCodesArray);
 
         foreach ($ownerships as $own) {
+            $bathrooms = 0;
+            $smoker = 0;
+            $airconditioning = 0;
+            $tv = 0;
+            $guests = 0;
+
+            $rooms = $this->em->getRepository("mycpBundle:room")->findBy(array("room_ownership" => $own["ownId"]));
+
+            foreach($rooms as $room)
+            {
+                if($room->getRoomBathroom() != "") $bathrooms++;
+                if($room->getRoomSmoker()) $smoker++;
+                if (strpos($room->getRoomClimate(),'Aire acondicionado') !== false) $airconditioning++;
+                if($room->getRoomAudiovisual() != "No") $tv++;
+                $guests += $room->getMaximumNumberGuests();
+            }
+
             $data = array();
 
             $data[0] = $own["mycpCode"];
-            $data[1] = $own["totalRooms"];
+            $data[1] = $own["name"];
             $data[2] = $own["owner1"];
-            $data[3] = $own["owner2"];
-            $data[4] = "{+53".$own["provCode"].") ".$own["phone"];
-            $data[5] = $own["mobile"];
-            $data[6] = $own["street"]." ".$own["number"]." entre ".$own["between1"]." y ".$own["between2"];
-            $data[7] = $own["province"];
-            $data[8] = $own["municipality"];
-            $data[9] = $own["status"];
-
-            if($own["lowDown"] != $own["highDown"])
-                $data[10] = $own["lowDown"]." - ".$own["highDown"]." CUC";
+            if($own["owner2"] != "")
+                $data[2] .= " / ". $own["owner2"];
+            $data[3] = "Calle ".$own["street"]." No. ".$own["number"]." entre ".$own["between1"]." y ".$own["between2"].". ".$own["municipality"].". ".$own["province"];
+            $data[4] = $own["totalRooms"];
+            $data[5] = $bathrooms;
+            $data[6] = $own["bedsTotal"];
+            $data[7] = $guests;
+            if($own["priceDown"] != $own["priceUp"])
+                $data[8] = $own["priceDown"]." - ".$own["priceUp"]." CUC";
             else
-                $data[10] = $own["highDown"]." CUC";
+                $data[8] = $own["priceUp"]." CUC";
 
+            $data[9] = ($own["internet"] > 0)? "Yes" : "No";
+            $data[10] = ($tv > 0)? "Yes" : "No";
+            $data[11] = ($airconditioning > 0)? "Yes" : "No";
+            $data[12] = ($own["washer"] > 0)? "Extra" : "No";
+            $data[13] = ($own["washer"] > 0)? "Extra" : "No";
+            $data[13] = ($own["breakfast"] > 0)? (($own["breakfastPrice"] > 0) ? "Extra" : "Yes") : "No";
+            $data[14] = ($own["pets"] > 0)? "Yes" : "No";
+            $data[15] = ($smoker > 0)? "Yes" : "No";
+            $data[16] = ($own["parking"] > 0)? (($own["parkingPrice"] > 0) ? "Extra" : "Yes") : "No";
+            $data[17] = ($own["pool"] > 0)? "Yes" : "No";
+            $data[18] = ($own["hotTub"] > 0)? "Yes" : "No";
 
-            if($own["lowUp"] != $own["highUp"])
-                $data[11] = $own["lowUp"]." - ".$own["highUp"]." CUC";
-            else
-                $data[11] = $own["highUp"]." CUC";
 
             array_push($results, $data);
         }

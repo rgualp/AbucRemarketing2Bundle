@@ -57,10 +57,9 @@ class BackendExportController extends Controller {
     {
         if ($request->getMethod() == 'POST') {
             $ownToExport = $request->get('txtCodes');
-            $arrayOwnToExporte = explode(",", $ownToExport);
 
             $exporter = $this->get("mycp.service.export_to_excel");
-            return $exporter->exportToAirBnb($arrayOwnToExporte);
+            return $exporter->exportToAirBnb($ownToExport);
         }
 
         return $this->redirect($this->generateUrl('mycp_download_info'));

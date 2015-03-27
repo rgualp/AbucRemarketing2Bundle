@@ -843,6 +843,7 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $query_string = "SELECT o.own_id as ownId,
                          o.own_mcp_code as mycpCode,
+                         o.own_name as name,
                          o.own_rooms_total as totalRooms,
                          o.own_homeowner_1 as owner1,
                          o.own_homeowner_2 as owner2,
@@ -863,23 +864,15 @@ class ownershipRepository extends EntityRepository {
                          o.own_description_pets as pets,
                          o.own_description_laundry as washer,
                          o.own_description_internet as internet,
-                         (select sum(r2.room_beds) from mycpBundle:room r2 where r2.room_ownership = o.own_id) as bedsTotal,
-                         (select count(r3.room_id) from mycpBundle:room r3 where r3.room_ownership = o.own_id where r3.room_bathroom <> '') as bathrooms,
-                         (select count(r5.room_id) from mycpBundle:room r5 where r5.room_ownership = o.own_id where r5.room_smoker = 1) as smoker,
-                         (select count(r6.room_id) from mycpBundle:room r6 where r6.room_ownership = o.own_id where r6.room_climate LIKE '%Aire acondicionado%') as airConditioning,
-                         (select count(r7.room_id) from mycpBundle:room r7 where r7.room_ownership = o.own_id where r7.room_audiovisual <> 'No') as tv,
-                         (select count(r8.room_id) from mycpBundle:room r8 where r8.room_ownership = o.own_id where r8.room_type = 'Habitación individual') as guess1,
-                         (select 2*count(r9.room_id) from mycpBundle:room r9 where r9.room_ownership = o.own_id where r9.room_type LIKE '%Habitación doble%') as guess2,
-                         (select 3*count(r10.room_id) from mycpBundle:room r10 where r10.room_ownership = o.own_id where r10.room_type = 'Habitación Triple') as guess3
+                         (select sum(r2.room_beds) from mycpBundle:room r2 where r2.room_ownership = o.own_id) as bedsTotal
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
                          JOIN o.own_address_municipality mun
-                         WHERE o.own_mcp_code IN (:codes)
+                         WHERE o.own_mcp_code IN ($ownsCodesArray)
                          AND o.own_status = :status
                          ORDER BY o.own_mcp_code ASC";
 
         $results = $em->createQuery($query_string)
-                ->setParameter("codes", $ownsCodesArray)
                 ->setParameter("status", ownershipStatus::STATUS_ACTIVE)
                 ->getResult();
 
