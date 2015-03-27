@@ -268,9 +268,9 @@ class ExportToExcel {
             $data[5] = $bathrooms;
             $data[6] = $own["bedsTotal"];
             $data[7] = $guests;
-            if($own["priceDown"] != $own["priceUp"])
+            /*if($own["priceDown"] != $own["priceUp"])
                 $data[8] = $own["priceDown"]." - ".$own["priceUp"]." CUC";
-            else
+            else*/
                 $data[8] = $own["priceUp"]." CUC";
 
             $data[9] = ($own["internet"] > 0)? "Yes" : "No";
