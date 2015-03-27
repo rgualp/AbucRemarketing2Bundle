@@ -219,6 +219,86 @@ class ExportToExcel {
         return $excel;
     }
 
+    public function exportToAirBnb($ownsIdArray, $fileName = "airBnbDirectorio.xlsx")
+    {
+        if(count($ownsIdArray))
+        {
+            $excel = $this->configExcel("Directorio de alojamientos", "Directorio de alojamientos de MyCasaParticular", "alojamientos");
+            $data = $this->dataAirBnb($ownsIdArray);
+
+            if(count($data) > 0)
+                $excel = $this->createSheetAirBnb($excel, "Listado");
+
+            return $this->export($excel, $fileName);
+        }
+    }
+
+    private function dataAirBnb($ownsCodesArray) {
+        $results = array();
+
+        $ownerships = $this->em->getRepository("mycpBundle:ownership")->getByCodesArray($ownsCodesArray);
+
+        foreach ($ownerships as $own) {
+            $data = array();
+
+            $data[0] = $own["mycpCode"];
+            $data[1] = $own["totalRooms"];
+            $data[2] = $own["owner1"];
+            $data[3] = $own["owner2"];
+            $data[4] = "{+53".$own["provCode"].") ".$own["phone"];
+            $data[5] = $own["mobile"];
+            $data[6] = $own["street"]." ".$own["number"]." entre ".$own["between1"]." y ".$own["between2"];
+            $data[7] = $own["province"];
+            $data[8] = $own["municipality"];
+            $data[9] = $own["status"];
+
+            if($own["lowDown"] != $own["highDown"])
+                $data[10] = $own["lowDown"]." - ".$own["highDown"]." CUC";
+            else
+                $data[10] = $own["highDown"]." CUC";
+
+
+            if($own["lowUp"] != $own["highUp"])
+                $data[11] = $own["lowUp"]." - ".$own["highUp"]." CUC";
+            else
+                $data[11] = $own["highUp"]." CUC";
+
+            array_push($results, $data);
+        }
+
+        return $results;
+    }
+
+    private function createSheetAirBnb($excel, $sheetName, $data) {
+        $sheet = $this->createSheet($excel, $sheetName);
+        $sheet->setCellValue('a1', 'Code');
+        $sheet->setCellValue('b1', 'Name');
+        $sheet->setCellValue('c1', 'Owner (s)');
+        $sheet->setCellValue('d1', 'Address');
+        $sheet->setCellValue('e1', 'Bedrooms');
+        $sheet->setCellValue('f1', 'Bathrooms');
+        $sheet->setCellValue('g1', 'Beds');
+        $sheet->setCellValue('h1', 'Accommodates');
+        $sheet->setCellValue('i1', 'Prices');
+        $sheet->setCellValue('j1', 'Internet');
+        $sheet->setCellValue('k1', 'TV');
+        $sheet->setCellValue('l1', 'AirConditioning');
+        $sheet->setCellValue('m1', 'Washer');
+        $sheet->setCellValue('n1', 'Breakfast');
+        $sheet->setCellValue('o1', 'Pets');
+        $sheet->setCellValue('p1', 'Smokers');
+        $sheet->setCellValue('q1', 'Parking');
+        $sheet->setCellValue('r1', 'Pool');
+        $sheet->setCellValue('s1', 'HotTube');
+
+        $sheet = $this->styleHeader("a1:s1", $sheet);
+
+        $sheet->fromArray($data, ' ', 'A2');
+
+        $this->setColumnAutoSize("a", "l", $sheet);
+        return $excel;
+    }
+
     private function configExcel($title, $description, $category) {
         $excel = new \PHPExcel();
 

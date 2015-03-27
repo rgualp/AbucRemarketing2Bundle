@@ -1,0 +1,37 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li class="active">Configuraciones<span class="divider">/</span></li>
+    <li class="active">Descargas</li>
+</ul>
+{% endblock %}
+{% block content %}
+<h2>Descargas</h2>
+<hr/>
+<h5>Listado para AirBnb</h5>
+<form action="{{path("mycp_download_info_airbnb")}}">
+    <div class="row-fluid">
+    <textarea name="txtCodes" id="txtCodes" style="width: 95%"></textarea>
+    <em>Escriba los códigos de las casas cuya informacion desea descargar. Los códigos tienen que estar separados por comas (,)</em>
+    </div>
+        <div class="row-fluid text-right">
+            <input type="submit" class="btn btn-danger" value="Descargar listado"/>
+        </div>
+</form>
+
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('bundles/mycp/js/common_list.js') }}"></script>
+
+<script type="text/javascript">
+    $(".bAction").click(function(){
+        url = $(this).attr("data-url");
+        mail = $("#tEmail").val();
+        url=url+'/'+mail;
+        $('#form').attr('action',url);
+        $('#form').submit();
+    });
+</script>
+{% endblock %}
