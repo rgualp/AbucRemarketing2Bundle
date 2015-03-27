@@ -20,6 +20,9 @@
 <h2>Fotografías: {% include 'mycpBundle:utils:ownership_header.html.twig' with {'ownership':ownership}%}
 </h2>
 <hr/>
+{% for message in app.session.flashbag.get('message_error_local') %}
+<div class="alert alert-error">{{ message }}</div>
+{% endfor %}
 <a class="btn" href="{{ path('mycp_new_photos_ownership',{'id_ownership':id_ownership}) }}"><i class="icon-plus"></i> Adicionar fotografía</a>
 {% if photos and ownership.ownStatus.statusId != constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')%}
 <a class="btn" href="{{ path('mycp_publish_ownership',{'idOwnership':id_ownership}) }}"><i class="icon-globe"></i> Publicar propiedad</a>

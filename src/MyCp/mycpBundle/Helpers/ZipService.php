@@ -10,10 +10,20 @@ class ZipService {
 
     private $em;
     private $container;
+    /**
+     * @var string
+     */
+    private $zipDirectoryPath;
+    private $photoDirectoryPath;
+    private $originalDirectoryPath;
 
-    public function __construct($entity_manager, $container) {
+    public function __construct($entity_manager, $container, $zipDirectoryPath, $photoDirectoryPath, $originalDirectoryPath) {
         $this->em = $entity_manager;
         $this->container = $container;
+        $this->zipDirectoryPath = $zipDirectoryPath;
+        $this->photoDirectoryPath = $photoDirectoryPath;
+        $this->originalDirectoryPath = $originalDirectoryPath;
+
     }
 
     public function createDownLoadPhotoZipFile($idOwnership, $ownMyCPCode, $deleteZip = true) {
@@ -43,25 +53,23 @@ class ZipService {
     public function createZipFile($idOwnership, $ownMyCPCode)
     {
         $photos = $this->em->getRepository("mycpBundle:ownershipPhoto")->getPhotosByIdOwnership($idOwnership);
-        $pathToZip = $this->container->getParameter('ownership.dir.photos.zips');
-        $pathToPhotos = $this->container->getParameter('ownership.dir.photos');
-        $pathToOriginalsPhotos = $this->container->getParameter('ownership.dir.photos.originals');
 
-        Images::createDirectory($pathToZip);
+        Images::createDirectory($this->zipDirectoryPath);
         $zip = new ZipArchive();
         $zipName = $ownMyCPCode . ".zip";
         $filesCount = 0;
-        if ($zip->open($pathToZip . $zipName, \ZipArchive::CREATE)) {
+        if ($zip->open($this->zipDirectoryPath . $zipName, \ZipArchive::CREATE)) {
             $photoFile = "";
             foreach ($photos as $ownPhoto) {
-                if (file_exists(realpath($pathToOriginalsPhotos . $ownPhoto->getOwnPhoPhoto()->getPhoName())))
-                    $photoFile = $pathToOriginalsPhotos . $ownPhoto->getOwnPhoPhoto()->getPhoName();
-                else if (file_exists(realpath($pathToPhotos . $ownPhoto->getOwnPhoPhoto()->getPhoName())))
-                    $photoFile = $pathToPhotos . $ownPhoto->getOwnPhoPhoto()->getPhoName();
+
+                if (file_exists(realpath($this->originalDirectoryPath . $ownPhoto->getOwnPhoPhoto()->getPhoName())))
+                    $photoFile = realpath($this->originalDirectoryPath . $ownPhoto->getOwnPhoPhoto()->getPhoName());
+                else if (file_exists(realpath($this->photoDirectoryPath . $ownPhoto->getOwnPhoPhoto()->getPhoName())))
+                    $photoFile = realpath($this->photoDirectoryPath . $ownPhoto->getOwnPhoPhoto()->getPhoName());
 
                 if ($photoFile != "")
                 {
-                    $zip->addFromString($ownPhoto->getOwnPhoPhoto()->getPhoName(), file_get_contents(realpath($photoFile)));
+                    $zip->addFromString($ownPhoto->getOwnPhoPhoto()->getPhoName(), file_get_contents($photoFile));
                     $filesCount++;
                 }
             }
@@ -70,13 +78,14 @@ class ZipService {
 
         if ($filesCount===0) {
             //Deleting the Zip File
-            if (file_exists(realpath($pathToZip . $zipName))) {
-                unlink(realpath($pathToZip . $zipName));
+            if (file_exists($this->zipDirectoryPath . $zipName)) {
+                unlink($this->zipDirectoryPath . $zipName);
             }
-        }
-        else return null;
 
-        return realpath($pathToZip . $zipName);
+            return null;
+        }
+
+        return $this->zipDirectoryPath . $zipName;
     }
 
 }
