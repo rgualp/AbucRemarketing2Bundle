@@ -68,7 +68,7 @@ class ZipService {
         }
         $zip->close();
 
-        if ($filesCount) {
+        if ($filesCount===0) {
             //Deleting the Zip File
             if (file_exists(realpath($pathToZip . $zipName))) {
                 unlink(realpath($pathToZip . $zipName));
