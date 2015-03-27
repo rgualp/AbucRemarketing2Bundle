@@ -38,7 +38,14 @@ class ZipPhotosCommand extends ContainerAwareCommand {
 
         foreach($ownerships as $own)
         {
+            try{
             $zipService->createZipFile($own->getOwnId(), $own->getOwnMcpCode());
+            }
+            catch(\Exception $e)
+            {
+                $output->writeln($e->getMessage());
+                return 0;
+            }
         }
 
 

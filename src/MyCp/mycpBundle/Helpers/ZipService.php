@@ -61,22 +61,22 @@ class ZipService {
 
                 if ($photoFile != "")
                 {
-                    $zip->addFromString($ownPhoto->getOwnPhoPhoto()->getPhoName(), file_get_contents($photoFile));
+                    $zip->addFromString($ownPhoto->getOwnPhoPhoto()->getPhoName(), file_get_contents(realpath($photoFile)));
                     $filesCount++;
                 }
             }
         }
         $zip->close();
 
-        if ($filesCount) {
+        if ($filesCount===0) {
             //Deleting the Zip File
-            if (file_exists($pathToZip . $zipName)) {
-                unlink($pathToZip . $zipName);
+            if (file_exists(realpath($pathToZip . $zipName))) {
+                unlink(realpath($pathToZip . $zipName));
             }
         }
         else return null;
 
-        return $pathToZip . $zipName;
+        return realpath($pathToZip . $zipName);
     }
 
 }
