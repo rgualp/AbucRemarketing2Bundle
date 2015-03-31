@@ -80,14 +80,17 @@
     <li id="{{item.getOwnPhoPhoto.getPhoId}}" {% if cont ==0 %}class="grey"{% set cont=1 %}{% else %}{% set cont=0 %}{% endif %}>
         <div class="row-fluid">
             <div class="span1"><input type="checkbox" name="check_photo" class="ch_photo" data-id="{{item.getOwnPhoPhoto.getPhoId}}"/></div>
-            <div class="span2"><img src="{{ asset('uploads/ownershipImages/thumbnails/'~item.getOwnPhoPhoto.getPhoName)}}" class="img-polaroid"/></div>
+            <div class="span2">
+                <a href="{{ path('mycp_edit_photos_ownership',{'id_photo':item.getOwnPhoPhoto.getPhoId,'id_ownership':id_ownership}) }}" title="Editar"><img src="{{ asset('uploads/ownershipImages/thumbnails/'~item.getOwnPhoPhoto.getPhoName)}}" class="img-polaroid"/></a></div>
             <div class="span6">{% for desc in data['description_photo_'~item.getOwnPhoPhoto.getPhoId] %}- {{ desc.getPhoLangDescription |slice(0,60) |capitalize}}...<br/>{% endfor %}</div>
-            <div class="span3 actions">
+            <div class="span3 actions" style="margin-top: 0">
+                <div class="row-fluid" style="padding: 0; margin-bottom: 40px;">
                 {% if is_granted('ROLE_CLIENT_STAFF')%}
-                <a class="btn btn-mini btn-success" style="margin: 0" href="{{ path('mycp_download_single_zip_photo',{'idPhoto':item.getOwnPhoPhoto.getPhoId,'ownMcpCode': ownership.ownMcpCode}) }}" title="Descargar esta foto"><i class="icon-download-alt"></i></a>
+                <a class="btn btn-mini btn-success" style="margin: 0" href="{{ path('mycp_download_single_zip_photo',{'idPhoto':item.getOwnPhoPhoto.getPhoId,'ownMcpCode': ownership.ownMcpCode}) }}" title="Descargar esta foto"><i class="icon-download-alt"></i> Descargar</a>
                 {%endif%}
-                <a class="btn btn-mini" style="margin: 0" href="{{ path('mycp_edit_photos_ownership',{'id_photo':item.getOwnPhoPhoto.getPhoId,'id_ownership':id_ownership}) }}" title="Editar"><i class="icon-edit"></i></a>
-                <a class="btn btn-mini btn-danger delete" href="{{ path('mycp_delete_photos_ownership',{'id_ownership':id_ownership,'id_photo':item.getOwnPhoPhoto.getPhoId}) }}" title="Eliminar"><i class="icon-trash"></i></a>
+                <a class="btn btn-mini" href="{{ path('mycp_edit_photos_ownership',{'id_photo':item.getOwnPhoPhoto.getPhoId,'id_ownership':id_ownership}) }}" title="Editar"><i class="icon-edit"></i> Editar</a>
+                </div>
+                <a class="btn btn-mini btn-danger delete" href="{{ path('mycp_delete_photos_ownership',{'id_ownership':id_ownership,'id_photo':item.getOwnPhoPhoto.getPhoId}) }}" title="Eliminar"><i class="icon-trash"></i> Eliminar</a>
             </div>
         </div>
     </li>
