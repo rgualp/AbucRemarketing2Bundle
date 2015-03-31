@@ -11,6 +11,35 @@
 <h2>Descargas</h2>
 <hr/>
 <h5>Listado para AirBnb</h5>
+<div>
+                        <div id="selected_cont" data-url="{{path("mycp_export_accommodation_list")}}">
+                            <div class="disable_table_cont"></div>
+                            <img class="load_table_cont" src="{{asset('bundles/mycp/images/loading.gif')}}"/>
+                            <ul class="cont_list">
+
+                            </ul>
+                        </div>
+
+                        <div class="contacts_selectors">
+                            <div id="option_cont">
+                                <div class="selectors_cont">
+                                    (
+                                    <a id="select_all_cont" href="">Todos</a>
+                                    |
+                                    <a id="unselect_all_cont" href="">Ninguno</a>
+                                    |
+                                    <a id="invert_selection_cont" href="">Invertir</a>
+                                    )
+                                </div>
+
+                                <button id="del_cont">Eliminar</button>
+
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+
+                        <div class="clear"></div>
+                    </div>
 <form action="{{path("mycp_download_info_airbnb")}}" method="POST">
     <div class="row-fluid">
     <textarea name="txtCodes" id="txtCodes" style="width: 95%"></textarea>
@@ -23,7 +52,7 @@
 
 {% endblock %}
 {% block javascripts %}
-<script type="text/javascript" src="{{ asset('bundles/mycp/js/common_list.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/mycp/js/export.js') }}"></script>
 
 <script type="text/javascript">
     $(".bAction").click(function(){

@@ -65,4 +65,21 @@ class BackendExportController extends Controller {
         return $this->redirect($this->generateUrl('mycp_download_info'));
     }
 
+    public function getAccommodationsAction() {
+        $request = $this->getRequest();
+
+        $method = $request->getMethod();
+
+        if ($method == 'POST') {
+            $repo = $this->getDoctrine()->getEntityManager()->getRepository('mycpBundle:ownership');
+
+            $ownerships = $repo->findBy(array(), array("own_mcp_code" => "ASC"));
+
+            $result = $this->renderView('mycpBundle:export:accommodationsContent.html.twig', array('ownerships' => $ownerships));
+
+            return new Response($result, 200);
+        }
+        return $this->redirect($this->generateUrl('index'));
+    }
+
 }
