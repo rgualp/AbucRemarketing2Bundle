@@ -20,7 +20,7 @@ function selectAll()
 
 function unselectAll()
 {
-    $('#selected_cont input').filter(IsSelectedOption).attr('checked', false);
+    $('#selected_cont input').attr('checked', false);
     return false;
 }
 
@@ -29,7 +29,7 @@ function invertSelection()
     $('#selected_cont input').each(function()
     {
         var option = $(this);
-        if (option.attr('checked') == true)
+        if (option.attr('checked') === true)
         {
             option.attr('checked', false);
         }

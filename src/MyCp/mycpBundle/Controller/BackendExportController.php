@@ -73,7 +73,7 @@ class BackendExportController extends Controller {
         if ($method == 'POST') {
             $repo = $this->getDoctrine()->getEntityManager()->getRepository('mycpBundle:ownership');
 
-            $ownerships = $repo->findBy(array(), array("own_mcp_code" => "ASC"));
+            $ownerships = $repo->findBy(array("own_status" => \MyCp\mycpBundle\Entity\ownershipStatus::STATUS_ACTIVE), array("own_mcp_code" => "ASC"));
 
             $result = $this->renderView('mycpBundle:export:accommodationsContent.html.twig', array('ownerships' => $ownerships));
 
