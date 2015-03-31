@@ -45,7 +45,9 @@
 </div>
 <div class="paginator-cont row-fluid">
     <div class="span3"  style="margin-top: 10px">
-        <input type="button" class="btn btn-danger btn-action-photo"  onclick="deleteSelected();" value="Eliminar seleccionadas" data-url="{{path("mycp_delete_multiple_photo_ownership_callback", {"idOwnership": id_ownership})}}"/>
+        <a class="btn btn-danger btn-action-photo"  onclick="deleteSelected();"data-url="{{path("mycp_delete_multiple_photo_ownership_callback", {"idOwnership": id_ownership})}}">
+        <i class="icon-trash"></i> Eliminar seleccionadas
+        </a>
     </div>
         <div id="loading" class="span1 load-div hidden">
         <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}"/></div>
@@ -81,8 +83,11 @@
             <div class="span2"><img src="{{ asset('uploads/ownershipImages/thumbnails/'~item.getOwnPhoPhoto.getPhoName)}}" class="img-polaroid"/></div>
             <div class="span6">{% for desc in data['description_photo_'~item.getOwnPhoPhoto.getPhoId] %}- {{ desc.getPhoLangDescription |slice(0,60) |capitalize}}...<br/>{% endfor %}</div>
             <div class="span3 actions">
-                <a class="btn btn-mini" style="margin: 0" href="{{ path('mycp_edit_photos_ownership',{'id_photo':item.getOwnPhoPhoto.getPhoId,'id_ownership':id_ownership}) }}">Editar</a>
-                <a class="btn btn-mini btn-danger delete" href="{{ path('mycp_delete_photos_ownership',{'id_ownership':id_ownership,'id_photo':item.getOwnPhoPhoto.getPhoId}) }}">Eliminar</a>
+                {% if is_granted('ROLE_CLIENT_STAFF')%}
+                <a class="btn btn-mini btn-success" style="margin: 0" href="{{ path('mycp_download_single_zip_photo',{'idPhoto':item.getOwnPhoPhoto.getPhoId,'ownMcpCode': ownership.ownMcpCode}) }}" title="Descargar esta foto"><i class="icon-download-alt"></i></a>
+                {%endif%}
+                <a class="btn btn-mini" style="margin: 0" href="{{ path('mycp_edit_photos_ownership',{'id_photo':item.getOwnPhoPhoto.getPhoId,'id_ownership':id_ownership}) }}" title="Editar"><i class="icon-edit"></i></a>
+                <a class="btn btn-mini btn-danger delete" href="{{ path('mycp_delete_photos_ownership',{'id_ownership':id_ownership,'id_photo':item.getOwnPhoPhoto.getPhoId}) }}" title="Eliminar"><i class="icon-trash"></i></a>
             </div>
         </div>
     </li>
@@ -90,7 +95,9 @@
 </ul>
 <div class="paginator-cont row-fluid">
     <div class="span3"  style="margin-top: 10px">
-        <input type="button" class="btn btn-danger btn-action-photo"  onclick="deleteSelected();" value="Eliminar seleccionadas" data-url="{{path("mycp_delete_multiple_photo_ownership_callback", {"idOwnership": id_ownership})}}"/>
+        <a class="btn btn-danger btn-action-photo"  onclick="deleteSelected();" data-url="{{path("mycp_delete_multiple_photo_ownership_callback", {"idOwnership": id_ownership})}}">
+        <i class="icon-trash"></i> Eliminar seleccionadas
+        </a>
     </div>
         <div id="loading" class="span1 load-div hidden">
         <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}"/></div>
