@@ -1,0 +1,19 @@
+{%for own in ownerships%}
+<li class="{{ cycle(['odd', 'even'], loop.index) }}">
+    <div class="option_ex_div">
+        <table class="users_table">
+            <tbody>
+                <tr>
+                    <td class="checked_column">
+                        <input class="check_ex" type="checkbox" name="executor" value="{{own.ownId}}" checked="checked"/>
+                    </td>
+                    <td class="data_column">
+                        <div class="data_ex">
+                          <h6 class="nameSort">{{own.ownMcpCode}} - </h6> <h6 class="chargeSort">{{own.ownName}}</h6>
+                        </div>
+                    </td>
+            </tbody>
+        </table>
+    </div>
+</li>
+{% endfor %}
