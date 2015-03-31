@@ -21,3 +21,7 @@ mycp_download_info_airbnb:
 mycp_export_accommodation_list:
     pattern:  /accommodation-list
     defaults: { _controller: mycpBundle:BackendExport:getAccommodations}
+
+mycp_download_single_zip_photo:
+    pattern:  /zip-download/single-photo/{idPhoto}/{ownMcpCode}
+    defaults: { _controller: mycpBundle:BackendExport:zipDownloadSinglePhoto}
