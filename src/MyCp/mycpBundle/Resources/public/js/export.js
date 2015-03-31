@@ -7,9 +7,35 @@ function init()
     $('#invert_selection_cont').click(invertSelection);
     $('#del_cont').click(deleteFromList);
     $('.data_ex').click(selectOption);
+    $("#exportToAirBnb").click(exportList);
 
     search();
 
+}
+
+function exportList()
+{
+    var url = $("#exportToAirBnb").attr('data-url');
+
+    disabledTable();
+
+    var searchIDs = $("#selected_cont input:checkbox:checked").map(function(){
+      return $(this).val();
+    }).get();
+    var idsString ="0";
+    for(var i= 0; i< searchIDs.length; i++)
+        idsString += "," + searchIDs[i];
+
+    $.post(url,{'codes':idsString},
+    function(data)
+    {
+        $('#downloadFrame').remove(); // This shouldn't fail if frame doesn't exist
+        $('body').append('<iframe id="downloadFrame" style="display:none"></iframe>');
+        $('#downloadFrame').attr('src',data);
+        selectAll();
+        enabledTable();
+    });
+    return false;
 }
 
 function selectAll()

@@ -55,14 +55,14 @@ class BackendExportController extends Controller {
 
     function airbnbDownloadAction(Request $request)
     {
-        if ($request->getMethod() == 'POST') {
-            $ownToExport = $request->get('txtCodes');
+            $ownToExport = $request->get('codes');
 
             $exporter = $this->get("mycp.service.export_to_excel");
-            return $exporter->exportToAirBnb($ownToExport);
-        }
+            $url =  $this->get('router')->getContext()->getBaseUrl()."/tmp/excels/";
+            $response = $url.$exporter->exportToAirBnb($ownToExport);
 
-        return $this->redirect($this->generateUrl('mycp_download_info'));
+            return new Response($response, 200);
+
     }
 
     public function getAccommodationsAction() {

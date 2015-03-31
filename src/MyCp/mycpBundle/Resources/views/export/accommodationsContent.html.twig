@@ -5,11 +5,11 @@
             <tbody>
                 <tr>
                     <td class="checked_column">
-                        <input class="check_ex" type="checkbox" name="executor" value="{{own.ownId}}" checked="checked"/>
+                        <input class="check_ex" type="checkbox" name="ownership" value="{{own.ownId}}" checked="checked"/>
                     </td>
                     <td class="data_column">
                         <div class="data_ex">
-                          {{own.ownMcpCode}} - {{own.ownName}}
+                            <a title="Editar" href="{{path("mycp_edit_ownership", {"id_ownership": own.ownId})}}" target="_blank">{{own.ownMcpCode}} - {{own.ownName}}</a>
                         </div>
                     </td>
             </tbody>
