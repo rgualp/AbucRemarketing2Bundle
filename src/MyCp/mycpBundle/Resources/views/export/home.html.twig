@@ -11,27 +11,46 @@
 <h2>Descargas</h2>
 <hr/>
 <h5>Listado para AirBnb</h5>
-<form action="{{path("mycp_download_info_airbnb")}}" method="POST">
-    <div class="row-fluid">
-    <textarea name="txtCodes" id="txtCodes" style="width: 95%"></textarea>
-    <em>Escriba los códigos de las casas cuya informacion desea descargar. Los códigos tienen que estar separados por comas (,)</em>
+<div>
+    <div id="selected_cont" data-url="{{path("mycp_export_accommodation_list")}}">
+        <div class="disable_table_cont"></div>
+        <img class="load_table_cont" src="{{asset('bundles/mycp/images/loading.gif')}}"/>
+        <ul class="cont_list" id="double">
+
+        </ul>
     </div>
-        <div class="row-fluid text-right">
-            <input type="submit" class="btn btn-danger" value="Descargar listado"/>
+
+    <div class="contacts_selectors">
+        <div id="option_cont">
+            <div class="selectors_cont">
+                (
+                <a id="select_all_cont" href="">Todos</a>
+                |
+                <a id="unselect_all_cont" href="">Ninguno</a>
+                )
+            </div>
+                <button class="btn btn-success exportButton" data-url="{{path("mycp_download_info_airbnb")}}" id="exportToAirBnb">Descargar listado</button>
+            <button id="del_cont" class="btn btn-danger exportButton">Borrar del listado</button>
+
+
+            <div class="clear"></div>
         </div>
-</form>
+    </div>
+
+    <div class="clear"></div>
+</div>
 
 {% endblock %}
 {% block javascripts %}
-<script type="text/javascript" src="{{ asset('bundles/mycp/js/common_list.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/mycp/js/export.js') }}"></script>
 
 <script type="text/javascript">
-    $(".bAction").click(function(){
+    $(".bAction").click(function() {
         url = $(this).attr("data-url");
         mail = $("#tEmail").val();
-        url=url+'/'+mail;
-        $('#form').attr('action',url);
+        url = url + '/' + mail;
+        $('#form').attr('action', url);
         $('#form').submit();
     });
-</script>
+    </script>
 {% endblock %}

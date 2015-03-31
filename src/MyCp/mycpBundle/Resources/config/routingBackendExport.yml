@@ -17,3 +17,7 @@ mycp_download_info:
 mycp_download_info_airbnb:
     pattern:  /airbnb-download
     defaults: { _controller: mycpBundle:BackendExport:airbnbDownload}
+
+mycp_export_accommodation_list:
+    pattern:  /accommodation-list
+    defaults: { _controller: mycpBundle:BackendExport:getAccommodations}
