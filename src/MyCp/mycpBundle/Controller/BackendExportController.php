@@ -82,4 +82,19 @@ class BackendExportController extends Controller {
         return $this->redirect($this->generateUrl('index'));
     }
 
+    public function zipDownloadSinglePhotoAction($idPhoto, $ownMcpCode)
+    {
+        $zip = $this->get("mycp.service.zip");
+
+        $response = $zip->createDownloadSinglePhotoZipFile($idPhoto, $ownMcpCode);
+
+        if (!$response) {
+            $request = $this->getRequest();
+            $this->get('session')->getFlashBag()->add('message_error_local', "No existe el fichero para formar el archivo ZIP");
+            return $this->redirect($request->server->get('HTTP_REFERER'));
+        }
+
+        return $response;
+    }
+
 }

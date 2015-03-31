@@ -25,12 +25,20 @@
 <div class="row-fluid">
 <h2>Fotografía de {% include 'mycpBundle:utils:ownership_header.html.twig' with {'ownership':ownership}%}</h2>
 <hr/>
+{% for message in app.session.flashbag.get('message_error_local') %}
+<div class="alert alert-error">{{ message }}</div>
+{% endfor %}
 </div>
 {% if errors %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
 <form action="{{ path('mycp_edit_photos_ownership',{'id_photo':id_photo,'id_ownership':id_ownership}) }}" method="POST" enctype="multipart/form-data">
     <div class="row-fluid">
     <a class="btn" href="{{ path('mycp_edit_ownership',{'id_ownership':id_ownership}) }}"><i class="icon-pencil"></i> Editar propiedad</a>
-    <img src="{{ asset('uploads/ownershipImages/thumbnails/'~photo.getPhoName)}}" class="img-polaroid pull-right"  alt=""/>
+    <div class="pull-right text-center">
+    <img src="{{ asset('uploads/ownershipImages/thumbnails/'~photo.getPhoName)}}" class="img-polaroid"  alt=""/>
+    {% if is_granted('ROLE_CLIENT_STAFF')%}
+                <br/><br/><a class="btn btn-success" style="margin: 0" href="{{ path('mycp_download_single_zip_photo',{'idPhoto':photo.getPhoId,'ownMcpCode': ownership.ownMcpCode}) }}" title="Descargar esta foto"><i class="icon-download-alt"></i> Descargar</a>
+                {%endif%}
+    </div>
     </div>
     {% for language in data['languages'] %}
     <label>{{language.lang_name |title}}:</label>
