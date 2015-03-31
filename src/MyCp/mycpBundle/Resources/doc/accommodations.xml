@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<accommodations>
+    <accommodation top20="0" selection="0" inmediateBooking="0" notRecommendable="0">
+        <sales gestorName="" visitDate="d/m/Y"/>
+        <general>
+            <name></name>
+            <mycpCode></mycpCode>
+            <licenseNumber></licenseNumber>
+            <address street="" number="">
+                <between street1="" street2=""/>
+            </address>
+            <owners owner1="" owner2=""/>
+            <phoneNumbers phone="" mobile=""/>
+            <emails email1="" email2=""/>
+            <category economic="0" middleRange="0" premium="0"/>
+            <type penthouse="0" villageWithPool="0" apartment="0" completeProperty="0" casaParticular="0"/>
+            <languages english="0" french="0" german="0" italian="0"/>
+            <commissionPercent commission10="0" commission15="0" commission20="0"/>
+        </general>
+        <services>
+            <breakfast hasService="0" price=""/>
+            <parking hasService="0" price=""/>
+            <dinner hasService="0" priceFrom="" priceTo=""/>
+            <bikeParking hasService="0"/>
+            <pets hasService="0"/>
+            <laundry hasService="0"/>
+            <internet hasService="0"/>
+            <hotTube hasService="0"/>
+            <sauna hasService="0"/>
+            <pool hasService="0"/>
+            <notes></notes>
+        </services>
+        <descriptions>
+            <shortDescriptions>
+                <description language="ES" text=""/>
+                <description language="EN" text=""/>
+                <description language="DE" text=""/>
+            </shortDescriptions>
+            <longDescriptions>
+                <description language="ES" text=""/>
+                <description language="EN" text=""/>
+                <description language="DE" text=""/>
+            </longDescriptions>
+            <keywords>
+                <keyword language="ES" text=""/>
+                <keyword language="EN" text=""/>
+                <keyword language="DE" text=""/>
+            </keywords>
+        </descriptions>
+        <geolocalization geoX="" geoY=""/>
+        <rooms>
+            <room number="1" active="1">
+                <type individual="0" double="0" double2Beds="0" triple="0"/>
+                <general bedsNumber="2" windowsNumber="2" balconyNumber="2" />
+                <prices lowSeason="2" highSeason="2" specialSeason="2"/>
+                <cimatization airConditionerAndFan="0" airConditioner="0" fan="0" natural="0"/>
+                <audiovisuals tv="0" tvDvdVideo="0" tvCable="0" noAudiovisuals="0"/>
+                <bathroom interiorPrivate="0" exteriorPrivate="0" shared="0"/>
+                <others smoker="0" safe="0" babiesFacilities="0" stereo="0" terrace="0" backyard="0"/>
+            </room>
+        </rooms>
+    </accommodation>
+</accommodations>
