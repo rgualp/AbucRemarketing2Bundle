@@ -77,6 +77,26 @@ label.permission{margin-left: 15px;}
 .text-center{text-align: center}
 .rooms_selected{width: 100%}
 .label_info1{background-color: #49afcd;}
-
 .stylessTable{border: 1px solid #ddd;}
 .stylessTable td{border:none; background-color: #FFFFFF;}
+.cont_list{list-style-type: none;padding: 0;width: 100%;overflow-y: auto;overflow-x: hidden;height: 100%;margin: 0;border: #cccccc inset 1px;}
+.cont_list li{margin: 0;padding: 0;float:left;display:inline;color:#000;}
+#double li  { width:50%;}
+.check_ex{margin: auto 5px;}
+.data_ex{cursor: pointer;}
+.data_ex h6{margin:0;}
+.exportButton{float: right;margin-right: 5px;}
+#sort_contacts{width: 100%;margin-bottom: 2px;}
+#sort_cont{width: 100%;}
+.contacts_selectors{width: 100%;margin-top: 5px;}
+#option_cont{width: 100%;}
+.selectors_cont{display: inline;width: 100%;}
+.selectors_cont a{font-size: 12px;color: #000000;text-decoration: none;}
+.selectors_cont a:hover{color: #999999;}
+#select_sort{width: 100px;}
+#search_element_contacts{font-size: 16px;font-weight: bold;margin-top: 10px;}
+.load_cont{display: none;visibility: hidden;margin: 0 auto;}
+.option_ex_div{padding: 1px;width: 100%;margin: 0 auto;}
+.disable_table_cont{background-color: #ccc;z-index: 10;top: 0px;left: 0px;width: 100%;height: 100%;visibility: hidden;position: absolute;}
+.load_table_cont{position: absolute;top: 30%;z-index: 15;left: 39%;visibility: hidden;}
+#selected_cont{height: 500px;padding: 0;position: relative;width: 100%;}

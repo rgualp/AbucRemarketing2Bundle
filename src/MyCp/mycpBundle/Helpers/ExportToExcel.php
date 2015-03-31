@@ -223,14 +223,15 @@ class ExportToExcel {
             if(count($data) > 0)
                 $excel = $this->createSheetAirBnb($excel, "Listado", $data);
 
-            return $this->export($excel, $fileName);
+            $this->save($excel, $fileName);
+            return $fileName;
         }
     }
 
     private function dataAirBnb($ownsCodesArray) {
         $results = array();
 
-        $ownerships = $this->em->getRepository("mycpBundle:ownership")->getByCodesArray($ownsCodesArray);
+        $ownerships = $this->em->getRepository("mycpBundle:ownership")->getByIdsArray($ownsCodesArray);
 
         foreach ($ownerships as $own) {
             $bathrooms = 0;

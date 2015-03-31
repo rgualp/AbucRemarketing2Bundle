@@ -1,0 +1,19 @@
+{%for own in ownerships%}
+<li>
+    <div class="option_ex_div">
+        <table class="users_table">
+            <tbody>
+                <tr>
+                    <td class="checked_column">
+                        <input class="check_ex" type="checkbox" name="ownership" value="{{own.ownId}}" checked="checked"/>
+                    </td>
+                    <td class="data_column">
+                        <div class="data_ex">
+                            <a title="Editar" href="{{path("mycp_edit_ownership", {"id_ownership": own.ownId})}}" target="_blank">{{own.ownMcpCode}} - {{own.ownName}}</a>
+                        </div>
+                    </td>
+            </tbody>
+        </table>
+    </div>
+</li>
+{% endfor %}
