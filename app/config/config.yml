@@ -108,6 +108,7 @@ parameters:
     configuration.service.fee: 10
     configuration.dir.vouchers: %kernel.root_dir%/../tmp/vouchers/
     configuration.dir.excels: %kernel.root_dir%/../tmp/excels/
+    configuration.dir..downloaded.excels: %kernel.root_dir%/../web/excels/
 
 services:
     twig.extension.utilsExtension:
