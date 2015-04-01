@@ -219,17 +219,20 @@ class ExportToExcel {
         return $excel;
     }
 
-    public function exportToAirBnb($ownsIdArray, $fileName = "airBnbDirectorio.xlsx")
+    public function exportToAirBnb($ownsIdArray, $filePath="", $fileName = "airBnbDirectorio.xlsx")
     {
         if(count($ownsIdArray))
         {
+            if($filePath != "")
+                $this->excelDirectoryPath = $filePath;
+
             $excel = $this->configExcel("Directorio de alojamientos", "Directorio de alojamientos de MyCasaParticular", "alojamientos");
             $data = $this->dataAirBnb($ownsIdArray);
 
             if(count($data) > 0)
                 $excel = $this->createSheetAirBnb($excel, "Listado", $data);
 
-            $this->save($excel, $fileName);
+            $this->save($excel, $fileName, $filePath);
             return $fileName;
         }
     }
@@ -377,6 +380,7 @@ class ExportToExcel {
     }
 
     private function save($excel, $fileName) {
+
         if (!is_dir($this->excelDirectoryPath)) {
             mkdir($this->excelDirectoryPath, 0755, true);
         }
