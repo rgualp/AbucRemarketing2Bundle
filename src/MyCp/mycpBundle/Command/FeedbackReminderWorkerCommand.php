@@ -141,7 +141,7 @@ class FeedbackReminderWorkerCommand extends Worker {
                 'user_locale' => $userLocale,
             ));
 
-        $output->writeln("Send email to $userEmail, subject '$emailSubject' for User  $userEmail");
+        $output->writeln("Send email to $userEmail, subject '$emailSubject'");
         $this->emailManager->sendTemplatedEmail($userEmail, $emailSubject, $emailBody);
     }
 

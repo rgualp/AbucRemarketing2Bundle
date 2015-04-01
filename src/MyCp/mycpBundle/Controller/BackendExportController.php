@@ -58,10 +58,15 @@ class BackendExportController extends Controller {
             $ownToExport = $request->get('codes');
 
             $exporter = $this->get("mycp.service.export_to_excel");
-            $url =  $this->get('router')->getContext()->getBaseUrl()."/tmp/excels/";
-            $response = $url.$exporter->exportToAirBnb($ownToExport);
+            $fileName = $exporter->exportToAirBnb($ownToExport, $this->container->getParameter("configuration.dir.downloaded.excels"));
+            $url = $this->getRequest()->getUriForPath('/web/excels/'.$fileName);
 
-            return new Response($response, 200);
+            if(strpos($url, "/web/app_dev.php") !== false)
+                $url = str_replace ("/web/app_dev.php", "", $url);
+            else if(strpos($url, "/app_dev.php") !== false)
+                $url = str_replace ("/app_dev.php", "", $url);
+
+            return new Response($url, 200);
 
     }
 
