@@ -35,7 +35,7 @@ class message
      *
      * @ORM\Column(name="mesage_body", type="text")
      */
-    private $mesage_body;
+    private $message_body;
 
     /**
      * @ORM\ManyToOne(targetEntity="user")
@@ -167,7 +167,7 @@ class message
      * @param DateTime $messageDate
      * @return message
      */
-    public function setMessageDate(DateTime $messageDate)
+    public function setMessageDate($messageDate)
     {
         $this->message_date = $messageDate;
 

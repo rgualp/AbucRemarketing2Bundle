@@ -1,0 +1,3 @@
+mycp_send_message:
+    pattern:  /send
+    defaults: { _controller: mycpBundle:BackendMessage:send }
