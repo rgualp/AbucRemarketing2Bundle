@@ -28,12 +28,12 @@ class roomRepository extends EntityRepository {
         $query_string = "SELECT o
                         FROM mycpBundle:ownershipReservation o
                         WHERE o.own_res_selected_room_id = :roomId
-                          AND (o.own_res_status = :statusReserved or o.own_res_status = :statusUnaivalable)";
+                          AND (o.own_res_status = :statusReserved)";
 
         return $em->createQuery($query_string)
                 ->setParameter('roomId', $roomId)
                 ->setParameter('statusReserved', ownershipReservation::STATUS_RESERVED)
-                ->setParameter('statusUnaivalable', ownershipReservation::STATUS_NOT_AVAILABLE)
+                //->setParameter('statusUnaivalable', ownershipReservation::STATUS_NOT_AVAILABLE)
                 ->setParameter('roomId', $roomId)
                 ->getResult();
     }

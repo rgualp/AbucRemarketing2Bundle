@@ -41,7 +41,7 @@ class CalendarManager {
 
         foreach($ownerships as $own)
         {
-            $this->createICalForAccommodation($own->getOwmId());
+            $this->createICalForAccommodation($own->getOwnId());
         }
     }
 

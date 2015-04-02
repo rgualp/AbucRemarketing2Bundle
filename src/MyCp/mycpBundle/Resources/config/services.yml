@@ -55,6 +55,6 @@ services:
         class: MyCp\mycpBundle\Helpers\ZipService
         arguments: [@doctrine.orm.entity_manager,@service_container, %ownership.dir.photos.zips%, %ownership.dir.photos%, %ownership.dir.photos.originals%]
 
-   mycp.service.ical:
+   mycp.service.calendar:
        class: MyCp\mycpBundle\Helpers\CalendarManager
        arguments: [@doctrine.orm.entity_manager, @service_container,"%configuration.dir.ical%"]
