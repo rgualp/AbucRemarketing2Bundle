@@ -51,7 +51,7 @@ class BackendMessageController extends Controller {
 
             $serviceEmail->sendEmail(
                     $message->getMessageSubject(),
-                    'reservation1@mycasaparticular.com',
+                    'reservation@mycasaparticular.com',
                     $message->getMessageSubject() . ' - MyCasaParticular.com', $userTourist->getUserTouristUser()->getUserEmail(), $templateBody
             );
 
