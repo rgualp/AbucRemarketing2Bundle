@@ -53,21 +53,22 @@ class BackendExportController extends Controller {
         return $this->render('mycpBundle:export:home.html.twig');
     }
 
-    function airbnbDownloadAction(Request $request)
+    function airbnbGenerateAction(Request $request)
     {
             $ownToExport = $request->get('codes');
 
             $exporter = $this->get("mycp.service.export_to_excel");
-            $fileName = $exporter->exportToAirBnb($ownToExport, $this->container->getParameter("configuration.dir.downloaded.excels"));
+            $fileName = $exporter->generateToAirBnb($ownToExport, $this->container->getParameter("configuration.dir.downloaded.excels"));
             $url = $this->getRequest()->getUriForPath('/web/excels/'.$fileName);
 
-            if(strpos($url, "/web/app_dev.php") !== false)
-                $url = str_replace ("/web/app_dev.php", "", $url);
-            else if(strpos($url, "/app_dev.php") !== false)
-                $url = str_replace ("/app_dev.php", "", $url);
+            return new Response("OK", 200);
 
-            return new Response($url, 200);
+    }
 
+    function airbnbDownloadAction(Request $request)
+    {
+            $exporter = $this->get("mycp.service.export_to_excel");
+            return $exporter->exportToAirBnb($this->container->getParameter("configuration.dir.downloaded.excels"));
     }
 
     public function getAccommodationsAction() {
