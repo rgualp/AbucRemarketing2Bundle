@@ -42,7 +42,8 @@
         "dompdf/dompdf": "dev-master",
         "leezy/pheanstalk-bundle": "2.*",
         "abuc/remarketing-bundle": "dev-master",
-        "PHPOffice/PHPExcel": "dev-master"
+        "PHPOffice/PHPExcel": "dev-master",
+        "sabre/vobject": "~3.4"
     },
     "scripts": {
         "post-install-cmd": [
