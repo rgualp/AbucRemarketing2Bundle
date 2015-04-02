@@ -109,6 +109,7 @@ parameters:
     configuration.dir.vouchers: %kernel.root_dir%/../tmp/vouchers/
     configuration.dir.excels: %kernel.root_dir%/../tmp/excels/
     configuration.dir.downloaded.excels: %kernel.root_dir%/../web/excels/
+    configuration.dir.ical: %kernel.root_dir%/../web/calendars/
 
 doctrine_migrations:
     dir_name: %kernel.root_dir%/migrations

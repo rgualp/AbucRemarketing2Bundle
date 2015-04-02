@@ -661,7 +661,12 @@ class room {
     }
 
     public function getMaximumNumberGuests() {
-        switch ($this->room_type) {
+        return room::getTotalGuests($this->room_type);
+    }
+
+    public static function getTotalGuests($roomType)
+    {
+         switch ($roomType) {
             case "Habitación individual": return 1;
             case "Habitación doble":
             case "Habitación doble (Dos camas)": return 2;
@@ -734,6 +739,12 @@ class room {
     public function isTriple()
     {
         return $this->room_type == "Habitación Triple";
+    }
+
+
+    public function getRoomCode()
+    {
+        return $this->getRoomOwnership()->getOwnMcpCode()."-".$this->room_num;
     }
 
 }

@@ -7,7 +7,7 @@ function init()
     $('#invert_selection_cont').click(invertSelection);
     $('#del_cont').click(deleteFromList);
     $('.data_ex').click(selectOption);
-    $("#exportToAirBnb").click(exportList);
+    $("#generateToAirBnb").click(exportList);
 
     search();
 
@@ -15,9 +15,10 @@ function init()
 
 function exportList()
 {
-    var url = $("#exportToAirBnb").attr('data-url');
+    var url = $("#generateToAirBnb").attr('data-url');
 
     disabledTable();
+    $("#downloadToAirBnb").attr("disabled", "disabled");
 
     var searchIDs = $("#selected_cont input:checkbox:checked").map(function(){
       return $(this).val();
@@ -29,9 +30,10 @@ function exportList()
     $.post(url,{'codes':idsString},
     function(data)
     {
-        $('#downloadFrame').remove(); // This shouldn't fail if frame doesn't exist
-        $('body').append('<iframe id="downloadFrame" style="display:none"></iframe>');
-        $('#downloadFrame').attr('src',data);
+        if(data === "OK")
+        {
+            $("#downloadToAirBnb").removeAttr("disabled");
+        }
         selectAll();
         enabledTable();
     });

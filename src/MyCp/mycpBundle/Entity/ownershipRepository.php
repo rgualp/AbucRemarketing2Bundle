@@ -888,8 +888,9 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $query_string = "SELECT o.own_id as ownId,
                          o.own_mcp_code as mycpCode,
+                         r.room_num as roomNumber,
                          o.own_name as name,
-                         o.own_rooms_total as totalRooms,
+                         1 as totalRooms,
                          o.own_homeowner_1 as owner1,
                          o.own_homeowner_2 as owner2,
                          o.own_address_street as street,
@@ -898,8 +899,7 @@ class ownershipRepository extends EntityRepository {
                          o.own_address_between_street_2 as between2,
                          prov.prov_name as province,
                          mun.mun_name as municipality,
-                         (select min(r1.room_price_down_to) from mycpBundle:room r1 where r1.room_ownership = o.own_id) as priceDown,
-                         (select max(r4.room_price_up_to) from mycpBundle:room r4 where r4.room_ownership = o.own_id) as priceUp,
+                         r.room_price_up_to as priceUp,
                          o.own_facilities_breakfast as breakfast,
                          o.own_facilities_breakfast_price as breakfastPrice,
                          o.own_facilities_parking as parking,
@@ -909,13 +909,21 @@ class ownershipRepository extends EntityRepository {
                          o.own_description_pets as pets,
                          o.own_description_laundry as washer,
                          o.own_description_internet as internet,
-                         (select sum(r2.room_beds) from mycpBundle:room r2 where r2.room_ownership = o.own_id) as bedsTotal
-                         FROM mycpBundle:ownership o
+                         r.room_beds as bedsTotal,
+                         r.room_smoker as smoker,
+                         r.room_climate as climate,
+                         r.room_bathroom as bathroom,
+                         r.room_audiovisual as audiovisual,
+                         r.room_type as type,
+                         o.own_geolocate_x as geoX,
+                         o.own_geolocate_y as geoY
+                         FROM mycpBundle:room r
+                         JOIN r.room_ownership o
                          JOIN o.own_address_province prov
                          JOIN o.own_address_municipality mun
                          WHERE o.own_id IN ($ownsIdsArray)
                          AND o.own_status = :status
-                         ORDER BY o.own_mcp_code ASC";
+                         ORDER BY o.own_mcp_code ASC, r.room_num ASC";
 
         $results = $em->createQuery($query_string)
                 ->setParameter("status", ownershipStatus::STATUS_ACTIVE)

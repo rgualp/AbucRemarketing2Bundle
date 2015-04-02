@@ -14,6 +14,10 @@ mycp_download_info:
     pattern:  /download
     defaults: { _controller: mycpBundle:BackendExport:download}
 
+mycp_generate_info_airbnb:
+    pattern:  /airbnb-generate
+    defaults: { _controller: mycpBundle:BackendExport:airbnbGenerate}
+
 mycp_download_info_airbnb:
     pattern:  /airbnb-download
     defaults: { _controller: mycpBundle:BackendExport:airbnbDownload}
