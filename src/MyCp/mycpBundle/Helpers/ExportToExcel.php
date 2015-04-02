@@ -255,7 +255,7 @@ class ExportToExcel {
         foreach ($ownerships as $own) {
             $data = array();
 
-            $data[0] = $own["mycpCode"]." - ".$own["roomNumber"];
+            $data[0] = $own["mycpCode"]."-".$own["roomNumber"];
             $data[1] = $own["name"];
             $data[2] = $own["owner1"];
             if($own["owner2"] != "")

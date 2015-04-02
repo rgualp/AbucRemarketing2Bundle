@@ -744,7 +744,7 @@ class room {
 
     public function getRoomCode()
     {
-        return $this->getRoomOwnership()->getOwnMcpCode()." - ".$this->room_num;
+        return $this->getRoomOwnership()->getOwnMcpCode()."-".$this->room_num;
     }
 
 }
