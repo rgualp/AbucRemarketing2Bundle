@@ -741,4 +741,10 @@ class room {
         return $this->room_type == "Habitación Triple";
     }
 
+
+    public function getRoomCode()
+    {
+        return $this->getRoomOwnership()->getOwnMcpCode()." - ".$this->room_num;
+    }
+
 }
