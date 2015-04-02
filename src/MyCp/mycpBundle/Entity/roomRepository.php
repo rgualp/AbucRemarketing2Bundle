@@ -22,4 +22,20 @@ class roomRepository extends EntityRepository {
         return $em->createQuery($query_string)->getResult();
     }
 
+    public function getReservationsForCalendar($roomId)
+    {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT o
+                        FROM mycpBundle:ownershipReservation o
+                        WHERE o.own_res_selected_room_id = :roomId
+                          AND (o.own_res_status = :statusReserved)";
+
+        return $em->createQuery($query_string)
+                ->setParameter('roomId', $roomId)
+                ->setParameter('statusReserved', ownershipReservation::STATUS_RESERVED)
+                //->setParameter('statusUnaivalable', ownershipReservation::STATUS_NOT_AVAILABLE)
+                ->setParameter('roomId', $roomId)
+                ->getResult();
+    }
+
 }

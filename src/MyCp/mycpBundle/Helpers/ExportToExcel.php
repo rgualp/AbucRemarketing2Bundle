@@ -50,7 +50,10 @@ class ExportToExcel {
              $excel = $this->createSheetForCheckin($excel, str_replace("/","-",$date), $data);
 
         if($export)
-            return $this->export($excel, $fileName);
+        {
+            $this->save($excel, $fileName);
+            return $this->export($fileName);
+        }
         else
         {
             $this->save($excel, $fileName);
@@ -156,8 +159,8 @@ class ExportToExcel {
             if(count($data) > 0)
                 $excel = $this->createSheetForAccommodationsDirectory($excel, $prov->getProvCode(), $data);
         }
-
-        return $this->export($excel, $fileName);
+        $this->save($excel, $fileName);
+        return $this->export($fileName);
     }
 
     private function dataForAccommodationsDirectory($idProvince) {
@@ -213,7 +216,7 @@ class ExportToExcel {
         return $excel;
     }
 
-    public function exportToAirBnb($ownsIdArray, $filePath="", $fileName = "airBnbDirectorio.xlsx")
+    public function generateToAirBnb($ownsIdArray, $filePath="", $fileName = "airBnbDirectorio.xlsx")
     {
         if(count($ownsIdArray))
         {
@@ -231,57 +234,44 @@ class ExportToExcel {
         }
     }
 
+    public function exportToAirBnb($filePath="", $fileName = "airBnbDirectorio.xlsx")
+    {
+        if($filePath != "")
+                $this->excelDirectoryPath = $filePath;
+        return $this->export($fileName);
+    }
+
     private function dataAirBnb($ownsCodesArray) {
         $results = array();
 
         $ownerships = $this->em->getRepository("mycpBundle:ownership")->getByIdsArray($ownsCodesArray);
 
         foreach ($ownerships as $own) {
-            $bathrooms = 0;
-            $smoker = 0;
-            $airconditioning = 0;
-            $tv = 0;
-            $guests = 0;
-
-            $rooms = $this->em->getRepository("mycpBundle:room")->findBy(array("room_ownership" => $own["ownId"]));
-
-            foreach($rooms as $room)
-            {
-                if($room->getRoomBathroom() != "") $bathrooms++;
-                if($room->getRoomSmoker()) $smoker++;
-                if (strpos($room->getRoomClimate(),'Aire acondicionado') !== false) $airconditioning++;
-                if($room->getRoomAudiovisual() != "No") $tv++;
-                $guests += $room->getMaximumNumberGuests();
-            }
-
             $data = array();
 
-            $data[0] = $own["mycpCode"];
+            $data[0] = $own["mycpCode"]."-".$own["roomNumber"];
             $data[1] = $own["name"];
             $data[2] = $own["owner1"];
             if($own["owner2"] != "")
                 $data[2] .= " / ". $own["owner2"];
             $data[3] = "Calle ".$own["street"]." No. ".$own["number"]." entre ".$own["between1"]." y ".$own["between2"].". ".$own["municipality"].". ".$own["province"];
             $data[4] = $own["totalRooms"];
-            $data[5] = $bathrooms;
+            $data[5] = ($own["bathroom"] != "") ? 1 : 0;
             $data[6] = $own["bedsTotal"];
-            $data[7] = $guests;
-            /*if($own["priceDown"] != $own["priceUp"])
-                $data[8] = $own["priceDown"]." - ".$own["priceUp"]." CUC";
-            else*/
-                $data[8] = $own["priceUp"]." CUC";
-
+            $data[7] = \MyCp\mycpBundle\Entity\room::getTotalGuests($own["type"]);
+            $data[8] = $own["priceUp"]." CUC";
             $data[9] = ($own["internet"] > 0)? "Yes" : "No";
-            $data[10] = ($tv > 0)? "Yes" : "No";
-            $data[11] = ($airconditioning > 0)? "Yes" : "No";
+            $data[10] = ($own["audiovisual"] != "No")? "Yes" : "No";
+            $data[11] = ((strpos($own["climate"],'Aire acondicionado') !== false))? "Yes" : "No";
             $data[12] = ($own["washer"] > 0)? "Extra" : "No";
-            $data[13] = ($own["washer"] > 0)? "Extra" : "No";
             $data[13] = ($own["breakfast"] > 0)? (($own["breakfastPrice"] > 0) ? "Extra" : "Yes") : "No";
             $data[14] = ($own["pets"] > 0)? "Yes" : "No";
-            $data[15] = ($smoker > 0)? "Yes" : "No";
+            $data[15] = ($own["smoker"] > 0)? "Yes" : "No";
             $data[16] = ($own["parking"] > 0)? (($own["parkingPrice"] > 0) ? "Extra" : "Yes") : "No";
             $data[17] = ($own["pool"] > 0)? "Yes" : "No";
             $data[18] = ($own["hotTub"] > 0)? "Yes" : "No";
+            $data[19] = $own["geoX"];
+            $data[20] = $own["geoY"];;
 
 
             array_push($results, $data);
@@ -311,8 +301,10 @@ class ExportToExcel {
         $sheet->setCellValue('q1', 'Parking');
         $sheet->setCellValue('r1', 'Pool');
         $sheet->setCellValue('s1', 'HotTube');
+        $sheet->setCellValue('t1', 'GeoX');
+        $sheet->setCellValue('u1', 'GeoY');
 
-        $sheet = $this->styleHeader("a1:s1", $sheet);
+        $sheet = $this->styleHeader("a1:u1", $sheet);
 
         $sheet->fromArray($data, ' ', 'A2');
 
@@ -361,9 +353,7 @@ class ExportToExcel {
         return $sheet;
     }
 
-    private function export($excel, $fileName) {
-        $this->save($excel, $fileName);
-
+    private function export($fileName) {
         $content = file_get_contents($this->excelDirectoryPath . $fileName);
         return new Response(
                 $content, 200, array(
