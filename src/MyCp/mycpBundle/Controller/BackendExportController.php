@@ -59,13 +59,13 @@ class BackendExportController extends Controller {
 
             $exporter = $this->get("mycp.service.export_to_excel");
             $fileName = $exporter->generateToAirBnb($ownToExport, $this->container->getParameter("configuration.dir.downloaded.excels"));
-            $url = $this->getRequest()->getUriForPath('/web/excels/'.$fileName);
+            //$url = $this->getRequest()->getUriForPath('/web/excels/'.$fileName);
 
             return new Response("OK", 200);
 
     }
 
-    function airbnbDownloadAction(Request $request)
+    function airbnbDownloadAction()
     {
             $exporter = $this->get("mycp.service.export_to_excel");
             return $exporter->exportToAirBnb($this->container->getParameter("configuration.dir.downloaded.excels"));
