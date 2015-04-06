@@ -747,4 +747,26 @@ class room {
         return $this->getRoomOwnership()->getOwnMcpCode()."-".$this->room_num;
     }
 
+    public function getICalUrl($controller)
+    {
+        return self::getCalendarUrl($this->getRoomCode(), $controller->getRequest());
+    }
+
+    public function getICalUrlFromRequest($request)
+    {
+        return self::getCalendarUrl($this->getRoomCode(), $request);
+    }
+
+    public static function getCalendarUrl($roomCode, $request)
+    {
+        $url = $request->getUriForPath('/web/calendars/' . $roomCode . ".ics");
+
+        if (strpos($url, "/web/app_dev.php") !== false)
+            $url = str_replace("/web/app_dev.php", "", $url);
+        else if (strpos($url, "/app_dev.php") !== false)
+            $url = str_replace("/app_dev.php", "", $url);
+
+        return $url;
+    }
+
 }

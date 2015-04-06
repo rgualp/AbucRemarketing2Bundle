@@ -10,8 +10,9 @@ namespace MyCp\mycpBundle\Helpers;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class ExportToExcel {
+class ExportToExcel extends Controller{
 
     /**
      * 'doctrine.orm.entity_manager' service
@@ -19,7 +20,7 @@ class ExportToExcel {
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
-    private $container;
+    protected $container;
 
     /**
      * @var string
@@ -271,7 +272,8 @@ class ExportToExcel {
             $data[17] = ($own["pool"] > 0)? "Yes" : "No";
             $data[18] = ($own["hotTub"] > 0)? "Yes" : "No";
             $data[19] = $own["geoX"];
-            $data[20] = $own["geoY"];;
+            $data[20] = $own["geoY"];
+            $data[21] = \MyCp\mycpBundle\Entity\room::getCalendarUrl($data[0], $this->getRequest());
 
 
             array_push($results, $data);
@@ -303,8 +305,9 @@ class ExportToExcel {
         $sheet->setCellValue('s1', 'HotTube');
         $sheet->setCellValue('t1', 'GeoX');
         $sheet->setCellValue('u1', 'GeoY');
+        $sheet->setCellValue('v1', 'Calendar (.ics)');
 
-        $sheet = $this->styleHeader("a1:u1", $sheet);
+        $sheet = $this->styleHeader("a1:v1", $sheet);
 
         $sheet->fromArray($data, ' ', 'A2');
 

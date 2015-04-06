@@ -252,11 +252,16 @@
                             {% if data['edit_ownership'] is defined and post['room_id_'~i] is defined%}<input name="room_id_{{i}}" value="{{post['room_id_'~i]}}" type="hidden"/>{%endif%}
                             <label><span class="label label-info">Habitación # {{i}}</span>
                             {%if post['room_active_'~i] is defined%}
+                              <input type="hidden" name="room_active_{{ i }}" value="{{post['room_active_'~i]}}"/>
                               {%if post['room_active_'~i]%}
                               <span class="label label-success">Activa</span>
                             {%else%}
                               <span class="label label-warning">Inactiva</span>
                             {%endif%}
+                              {%endif%}
+                              {%if post['room_ical_url_'~i] is defined%}
+                              <input type="hidden" name="room_ical_url_{{ i }}" value="{{post['room_ical_url_'~i]}}"/>
+                              <a class="btn btn-mini btn-info" href="{{post['room_ical_url_'~i]}}" title="Descargar calendario (.ics)"><i class="icon-calendar"></i></a>
                               {%endif%}
                             </label>
                             <label>Tipo de habitación (*)</label>
@@ -336,6 +341,10 @@
                             <select class="input-block-level" name="room_yard_{{ i }}">
                                 {{ render(controller('mycpBundle:BackendOwnership:get_yard_list', {'post':post,'id':i})) }}
                             </select>
+                            {%if post['room_ical_url_'~i] is defined%}
+                              <label>Url Calendario (.ics)</label>
+                              <label style="font-size: 11px">{{post['room_ical_url_'~i]}}</label>
+                            {%endif%}
 
                             {% if (post['room_active_'~i] is defined) %}
                                 {% if post['room_active_'~i] == 0 %}

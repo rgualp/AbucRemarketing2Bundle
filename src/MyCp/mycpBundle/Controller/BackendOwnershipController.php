@@ -417,6 +417,7 @@ class BackendOwnershipController extends Controller {
             $post['room_terrace_' . $a] = $rooms[$a - 1]->getRoomTerrace();
             $post['room_yard_' . $a] = $rooms[$a - 1]->getRoomYard();
             $post['room_id_' . $a] = $rooms[$a - 1]->getRoomId();
+            $post['room_ical_url_' . $a] = $rooms[$a - 1]->getICalUrl($this);
 
             $reservation = new ownershipReservation();
 

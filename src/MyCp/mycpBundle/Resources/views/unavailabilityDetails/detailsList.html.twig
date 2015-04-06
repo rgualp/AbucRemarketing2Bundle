@@ -21,9 +21,11 @@
 {% block content %}
 <h2>Habitaciones: {% include 'mycpBundle:utils:ownership_header.html.twig' with {'ownership':ownership}%}</h2><br/>
 <h5>Hab. #{{num_room}} - {{room.roomType}}</h5>
+<h5>Calendario (.ics): {{room.getICalUrlFromRequest(app.request)}}</h5>
 <hr/>
  <a class="btn" href="{{ path('mycp_new_unavailabilityDetails', {'num_room':num_room, 'id_room': id_room}) }}"><i class="icon-plus"></i> Adicionar no disponibilidad</a>&nbsp;
-<br/><br/>
+ <a class="btn btn-info" href="{{room.getICalUrlFromRequest(app.request)}}" title="Descargar calendario (.ics)"><i class="icon-calendar"></i> Descargar calendario</a>
+ <br/><br/>
 {% if details %}
 <div class="alert">
     <div class="row-fluid">

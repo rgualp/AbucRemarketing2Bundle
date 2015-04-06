@@ -28,12 +28,16 @@ class roomRepository extends EntityRepository {
         $query_string = "SELECT o
                         FROM mycpBundle:ownershipReservation o
                         WHERE o.own_res_selected_room_id = :roomId
-                          AND (o.own_res_status = :statusReserved)";
+                          AND (o.own_res_status = :statusReserved)
+                          AND (o.own_res_reservation_from_date >= :dateFrom OR (o.own_res_reservation_from_date < :dateFrom AND o.own_res_reservation_to_date >= :dateFrom))
+                        ORDER BY o.own_res_reservation_from_date DESC";
+
+        $dateFrom = date("Y")."-01-01";
 
         return $em->createQuery($query_string)
                 ->setParameter('roomId', $roomId)
                 ->setParameter('statusReserved', ownershipReservation::STATUS_RESERVED)
-                //->setParameter('statusUnaivalable', ownershipReservation::STATUS_NOT_AVAILABLE)
+                ->setParameter('dateFrom', $dateFrom)
                 ->setParameter('roomId', $roomId)
                 ->getResult();
     }

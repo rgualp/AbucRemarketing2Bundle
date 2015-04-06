@@ -29,6 +29,7 @@ class GenerateCalendarsCommand extends ContainerAwareCommand {
         $output->writeln(date(DATE_W3C) . ': Starting to generate calendars...');
 
         try {
+            
             $calendarService->createICalForAllAccommodations();
 
         } catch (\Exception $e) {
