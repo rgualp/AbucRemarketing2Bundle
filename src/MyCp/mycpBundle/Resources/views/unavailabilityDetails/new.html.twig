@@ -49,9 +49,12 @@
 {% block content %}
 <h2>Habitaciones: {% include 'mycpBundle:utils:ownership_header.html.twig' with {'ownership':ownership}%}</h2><br/>
 <h5>Hab. #{{num_room}} - {{room.roomType}}</h5>
+<h5>Calendario (.ics): {{room.getICalUrlFromRequest(app.request)}}</h5>
+<a class="btn btn-info" href="{{room.getICalUrlFromRequest(app.request)}}" title="Descargar calendario (.ics)"><i class="icon-calendar"></i> Descargar calendario</a>
 <hr/>
+
 <h4>{% if edit_detail is defined %}Editar {% else %}Adicionar {% endif %} no disponibilidad</h4>
-<hr/>
+
 <form class="sfgen" {{form_enctype(form)}} method="POST" action="{% if edit_detail is defined %}{{path('mycp_edit_unavailabilityDetails',{'id_detail':edit_detail, 'num_room': num_room})}}{% else %}{{path('mycp_new_unavailabilityDetails',{'id_room':id_room, 'num_room': num_room})}}{% endif %}" novalidate="true">
 {{form_widget(form)}}
 

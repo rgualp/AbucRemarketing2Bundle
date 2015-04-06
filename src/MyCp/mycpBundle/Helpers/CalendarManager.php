@@ -14,7 +14,7 @@ use Sabre\VObject;
 use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\ownershipStatus;
 
-class CalendarManager {
+class CalendarManager{
 
     /**
      * 'doctrine.orm.entity_manager' service
@@ -56,7 +56,7 @@ class CalendarManager {
     }
 
     public function createICalForRoom($roomId, $roomCode) {
-        $unavailabilyDetails = $this->em->getRepository("mycpBundle:unavailabilityDetails")->getRoomDetails($roomId);
+        $unavailabilyDetails = $this->em->getRepository("mycpBundle:unavailabilityDetails")->getRoomDetailsForCalendar($roomId);
         $reservations = $this->em->getRepository("mycpBundle:room")->getReservationsForCalendar($roomId);
 
         $calendar = new VObject\Component\VCalendar();
@@ -71,9 +71,9 @@ class CalendarManager {
 
         foreach ($reservations as $event) {
             $calendar->add('VEVENT', [
-                'SUMMARY' => ($event->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) ? "Reservada en MyCasaParticular" : "Reserva no disponible",
+                'SUMMARY' => ($event->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) ? "Reservada en MyCasaParticular - ".$event->getOwnResGenResId()->getCASId() : "Reserva no disponible",
                 'DTSTART' => $event->getOwnResReservationFromDate(),
-                'DTEND' => $event->getOwnResReservationToDate(),
+                'DTEND' => $event->getOwnResReservationToDate()->modify("-1 day"),
             ]);
         }
 

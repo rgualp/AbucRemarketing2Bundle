@@ -45,11 +45,11 @@ class BackendUnavailabilityDetailsController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $ownerships = $paginator->paginate($em->getRepository('mycpBundle:ownership')->getAll(
-                                $filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality,$filter_destination, $filter_type, $filter_name
+                                $filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality, $filter_destination, $filter_type, $filter_name
                 ))->getResult();
 
         $service_log = $this->get('log');
-        $service_log->saveLog('Visit',  BackendModuleName::MODULE_UNAVAILABILITY_DETAILS);
+        $service_log->saveLog('Visit', BackendModuleName::MODULE_UNAVAILABILITY_DETAILS);
 
         return $this->render('mycpBundle:unavailabilityDetails:list.html.twig', array(
                     'ownerships' => $ownerships,
@@ -130,24 +130,26 @@ class BackendUnavailabilityDetailsController extends Controller {
                 $date_from = Dates::createFromString($post_form['ud_from_date']);
                 $date_to = Dates::createFromString($post_form['ud_to_date']);
 
-                if($date_from > $date_to)
-                {
+                if ($date_from > $date_to) {
                     $this->get('session')->getFlashBag()->add('message_error_main', "La fecha Desde tiene que ser menor o igual que la fecha Hasta");
-                }
-                else{
-                $uDetails->setUdFromDate($date_from)
-                        ->setUdToDate($date_to)
-                        ->setUdReason($post_form['ud_reason'])
-                        ->setRoom($room);
-                $em->persist($uDetails);
-                $em->flush();
-                $message = 'Detalle de no disponibilidad añadido satisfactoriamente';
-                $this->get('session')->getFlashBag()->add('message_ok', $message);
+                } else {
+                    $uDetails->setUdFromDate($date_from)
+                            ->setUdToDate($date_to)
+                            ->setUdReason($post_form['ud_reason'])
+                            ->setRoom($room);
+                    $em->persist($uDetails);
+                    $em->flush();
 
-                $service_log = $this->get('log');
-                $service_log->saveLog('Create unavailable detaile from ' . $post_form['ud_from_date'] . ' to ' . $post_form['ud_to_date'], BackendModuleName::MODULE_UNAVAILABILITY_DETAILS);
+                    //Update iCal of selected room
+                    $message = $this->updateICal($room);
 
-                return $this->redirect($this->generateUrl('mycp_list_room_details_unavailabilityDetails', array('id_room' => $id_room, 'num_room' => $num_room)));
+                    $message = 'Detalle de no disponibilidad añadido satisfactoriamente. ' . $message;
+                    $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+                    $service_log = $this->get('log');
+                    $service_log->saveLog('Create unavailable detaile from ' . $post_form['ud_from_date'] . ' to ' . $post_form['ud_to_date'], BackendModuleName::MODULE_UNAVAILABILITY_DETAILS);
+
+                    return $this->redirect($this->generateUrl('mycp_list_room_details_unavailabilityDetails', array('id_room' => $id_room, 'num_room' => $num_room)));
                 }
             }
         }
@@ -182,7 +184,11 @@ class BackendUnavailabilityDetailsController extends Controller {
                 //       ->setSyncSt(SyncStatuses::UPDATED);
                 $em->persist($uDetails);
                 $em->flush();
-                $message = 'Detalle de no disponibilidad modificado satisfactoriamente';
+
+                //Update iCal of selected room
+                $message = $this->updateICal($room);
+
+                $message = 'Detalle de no disponibilidad modificado satisfactoriamente. ' . $message;
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
@@ -212,7 +218,11 @@ class BackendUnavailabilityDetailsController extends Controller {
         $uDetails->setSyncSt(SyncStatuses::DELETED);
         $em->persist($uDetails);
         $em->flush();
-        $message = 'Detalle de no disponibilidad eliminado satisfactoriamente';
+
+        //Update iCal of selected room
+        $message = $this->updateICal($room);
+
+        $message = 'Detalle de no disponibilidad eliminado satisfactoriamente. '.$message;
         $this->get('session')->getFlashBag()->add('message_ok', $message);
 
         $service_log = $this->get('log');
@@ -220,4 +230,15 @@ class BackendUnavailabilityDetailsController extends Controller {
 
         return $this->redirect($this->generateUrl('mycp_list_room_details_unavailabilityDetails', array('id_room' => $room->getRoomId(), 'num_room' => $num_room)));
     }
+
+    private function updateICal($room) {
+        try {
+            $calendarService = $this->get('mycp.service.calendar');
+            $calendarService->createICalForRoom($room->getRoomId(), $room->getRoomCode());
+            return "Se actualizó satisfactoriamente el fichero .ics asociado a esta habitación.";
+        } catch (\Exception $e) {
+            return "Ha ocurrido un error mientras se actualizaba el fichero .ics de la habitación. Error: " . $e->getMessage();
+        }
+    }
+
 }
