@@ -749,7 +749,12 @@ class room {
 
     public function getICalUrl($controller)
     {
-        $url = $controller->getRequest()->getUriForPath('/web/calendars/' . $this->getRoomCode() . ".ics");
+        return $this->getICalUrlFromRequest($controller->getRequest());
+    }
+
+    public function getICalUrlFromRequest($request)
+    {
+        $url = $request->getUriForPath('/web/calendars/' . $this->getRoomCode() . ".ics");
 
         if (strpos($url, "/web/app_dev.php") !== false)
             $url = str_replace("/web/app_dev.php", "", $url);
