@@ -368,6 +368,10 @@ class BackendReservationController extends Controller {
                         $own_reservation->setOwnResNightPrice($post['service_room_price_' . $own_reservation->getOwnResId()]);
                         $own_reservation->setOwnResStatus($post['service_own_res_status_' . $own_reservation->getOwnResId()]);
                         $em->persist($own_reservation);
+
+                        if ($post['service_own_res_status_' . $own_reservation->getOwnResId()] == ownershipReservation::STATUS_RESERVED) {
+                            $this->updateICal($em,$own_reservation->getOwnResSelectedRoomId());
+                        }
                     }
                 }
             }
@@ -548,9 +552,11 @@ class BackendReservationController extends Controller {
                     $ownership_reservation->setOwnResStatus($post['service_own_res_status_' . $ownership_reservation->getOwnResId()]);
                     //$ownership_reservation->setOwnResRoomType($post['service_room_type_' . $ownership_reservation->getOwnResId()]);
 
-
-
                     $em->persist($ownership_reservation);
+
+                    if ($post['service_own_res_status_' . $ownership_reservation->getOwnResId()] == ownershipReservation::STATUS_RESERVED) {
+                        $this->updateICal($em,$ownership_reservation->getOwnResSelectedRoomId());
+                    }
                 }
                 $message = 'Reserva actualizada satisfactoriamente.';
                 $reservation->setGenResSaved(1);
@@ -1018,6 +1024,18 @@ class BackendReservationController extends Controller {
                     'filter_date_from' => $filter_date_from,
                     'sort_by' => $sort_by,
                     'nights' => $total_nights));
+    }
+
+    private function updateICal($em,$roomId) {
+        try {
+            $calendarService = $this->get('mycp.service.calendar');
+            $room = $em->getRepository("mycpBundle:room")->find($roomId);
+            $calendarService->createICalForRoom($room->getRoomId(), $room->getRoomCode());
+            return "Se actualizó satisfactoriamente el fichero .ics asociado a esta habitación.";
+        } catch (\Exception $e) {
+            var_dump( "Ha ocurrido un error mientras se actualizaba el fichero .ics de la habitación. Error: " . $e->getMessage());
+            exit;
+        }
     }
 
 }

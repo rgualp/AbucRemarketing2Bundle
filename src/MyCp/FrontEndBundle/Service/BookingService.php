@@ -480,12 +480,25 @@ class BookingService extends Controller
 
                 $ownership = $generalReservation->getGenResOwnId();
                 $this->em->getRepository("mycpBundle:ownership")->updateRanking($ownership);
+
+                $this->updateICal($own->getOwnResSelectedRoomId());
             }
 
             $this->em->persist($own);
         }
 
         $this->em->flush();
+    }
+
+    private function updateICal($roomId) {
+        try {
+            $calendarService = $this->get('mycp.service.calendar');
+            $room = $this->em->getRepository("mycpBundle:room")->find($roomId);
+            $calendarService->createICalForRoom($room->getRoomId(), $room->getRoomCode());
+            return "Se actualizó satisfactoriamente el fichero .ics asociado a esta habitación.";
+        } catch (\Exception $e) {
+            return "Ha ocurrido un error mientras se actualizaba el fichero .ics de la habitación. Error: " . $e->getMessage();
+        }
     }
 
     /**
