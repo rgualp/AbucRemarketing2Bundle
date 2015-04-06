@@ -71,7 +71,7 @@ class CalendarManager{
 
         foreach ($reservations as $event) {
             $calendar->add('VEVENT', [
-                'SUMMARY' => ($event->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) ? "Reservada en MyCasaParticular - CAS.".$event->getOwnResGenResId()->getGenResId() : "Reserva no disponible",
+                'SUMMARY' => ($event->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) ? "Reservada en MyCasaParticular - ".$event->getOwnResGenResId()->getCASId() : "Reserva no disponible",
                 'DTSTART' => $event->getOwnResReservationFromDate(),
                 'DTEND' => $event->getOwnResReservationToDate()->modify("-1 day"),
             ]);
