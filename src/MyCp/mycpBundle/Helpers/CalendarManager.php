@@ -56,7 +56,7 @@ class CalendarManager{
     }
 
     public function createICalForRoom($roomId, $roomCode) {
-        $unavailabilyDetails = $this->em->getRepository("mycpBundle:unavailabilityDetails")->getRoomDetails($roomId);
+        $unavailabilyDetails = $this->em->getRepository("mycpBundle:unavailabilityDetails")->getRoomDetailsForCalendar($roomId);
         $reservations = $this->em->getRepository("mycpBundle:room")->getReservationsForCalendar($roomId);
 
         $calendar = new VObject\Component\VCalendar();
