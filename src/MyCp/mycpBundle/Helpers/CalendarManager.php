@@ -14,7 +14,7 @@ use Sabre\VObject;
 use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\ownershipStatus;
 
-class CalendarManager {
+class CalendarManager{
 
     /**
      * 'doctrine.orm.entity_manager' service
@@ -71,9 +71,9 @@ class CalendarManager {
 
         foreach ($reservations as $event) {
             $calendar->add('VEVENT', [
-                'SUMMARY' => ($event->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) ? "Reservada en MyCasaParticular" : "Reserva no disponible",
+                'SUMMARY' => ($event->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) ? "Reservada en MyCasaParticular - CAS.".$event->getOwnResGenResId()->getGenResId() : "Reserva no disponible",
                 'DTSTART' => $event->getOwnResReservationFromDate(),
-                'DTEND' => $event->getOwnResReservationToDate(),
+                'DTEND' => $event->getOwnResReservationToDate()->modify("-1 day"),
             ]);
         }
 
