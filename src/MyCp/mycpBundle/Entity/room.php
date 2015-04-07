@@ -759,7 +759,7 @@ class room {
 
     public static function getCalendarUrl($roomCode, $request)
     {
-        $url = $request->getUriForPath('/web/calendars/' . $roomCode . ".ics");
+        $url = $request->getUriForPath('/calendars/' . $roomCode . ".ics");
 
         if (strpos($url, "/web/app_dev.php") !== false)
             $url = str_replace("/web/app_dev.php", "", $url);

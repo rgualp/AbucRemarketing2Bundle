@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class ExportToExcel extends Controller{
+class ExportToExcel extends Controller {
 
     /**
      * 'doctrine.orm.entity_manager' service
@@ -37,26 +37,24 @@ class ExportToExcel extends Controller{
      * Crea un fichero excel con los check-in que ocurrirán en la fecha introducida
      * El formato del parametro $date será 'd/m/Y'
      */
-    public function createCheckinExcel($date, $sort_by, $export=false) {
+
+    public function createCheckinExcel($date, $sort_by, $export = false) {
         $excel = $this->configExcel("Check-in $date", "Check-in del $date - MyCasaParticular", "check-in");
         $array_date_from = explode('/', $date);
-        $checkinDate="";
+        $checkinDate = "";
         if (count($array_date_from) > 1)
             $checkinDate = $array_date_from[2] . $array_date_from[1] . $array_date_from[0];
         $fileName = "CheckIn_$checkinDate.xlsx";
 
         $data = $this->dataForCheckin($date, $sort_by);
 
-        if(count($data) > 0)
-             $excel = $this->createSheetForCheckin($excel, str_replace("/","-",$date), $data);
+        if (count($data) > 0)
+            $excel = $this->createSheetForCheckin($excel, str_replace("/", "-", $date), $data);
 
-        if($export)
-        {
+        if ($export) {
             $this->save($excel, $fileName);
             return $this->export($fileName);
-        }
-        else
-        {
+        } else {
             $this->save($excel, $fileName);
             return $this->excelDirectoryPath . $fileName;
         }
@@ -109,14 +107,14 @@ class ExportToExcel extends Controller{
             $data[1] = $resDate->format("d/m/Y");
             $data[2] = $check[0]["gen_res_own_id"]["own_mcp_code"];
             $data[3] = $check[0]["gen_res_own_id"]["own_homeowner_1"];
-            if($check[0]["gen_res_own_id"]["own_homeowner_2"] != "")
-                $data[3] .= " / ". $check[0]["gen_res_own_id"]["own_homeowner_2"];
+            if ($check[0]["gen_res_own_id"]["own_homeowner_2"] != "")
+                $data[3] .= " / " . $check[0]["gen_res_own_id"]["own_homeowner_2"];
 
             $data[4] = "";
-            if($check[0]["gen_res_own_id"]["own_phone_number"] != "")
-                $data[4] .= "(+53) ".$check[0]["gen_res_own_id"]["own_address_province"]["prov_phone_code"]." ".$check[0]["gen_res_own_id"]["own_phone_number"];
+            if ($check[0]["gen_res_own_id"]["own_phone_number"] != "")
+                $data[4] .= "(+53) " . $check[0]["gen_res_own_id"]["own_address_province"]["prov_phone_code"] . " " . $check[0]["gen_res_own_id"]["own_phone_number"];
 
-            if($check[0]["gen_res_own_id"]["own_phone_number"] != "" && $check[0]["gen_res_own_id"]["own_mobile_number"] != "")
+            if ($check[0]["gen_res_own_id"]["own_phone_number"] != "" && $check[0]["gen_res_own_id"]["own_mobile_number"] != "")
                 $data[4] .= " / ";
 
             $data[4] .= $check[0]["gen_res_own_id"]["own_mobile_number"];
@@ -125,7 +123,7 @@ class ExportToExcel extends Controller{
             $data[5] = $check[1];
 
             //Total de huéspedes
-            $data[6] = $check[3]+$check[5];
+            $data[6] = $check[3] + $check[5];
 
             //Noches
             $data[7] = $total_nights[$check[0]["gen_res_id"]];
@@ -135,10 +133,10 @@ class ExportToExcel extends Controller{
             $data[8] = $payDate->format("d/m/Y");
 
             //Pago en casa
-            $data[9] = $check[0]["gen_res_total_in_site"]-$check[0]["gen_res_total_in_site"]*$check[0]["gen_res_own_id"]["own_commission_percent"]/100;
+            $data[9] = $check[0]["gen_res_total_in_site"] - $check[0]["gen_res_total_in_site"] * $check[0]["gen_res_own_id"]["own_commission_percent"] / 100;
             $data[9] .= " CUC";
             //Cliente
-            $data[10] = $check[0]["gen_res_user_id"]["user_user_name"]." ".$check[0]["gen_res_user_id"]["user_last_name"];
+            $data[10] = $check[0]["gen_res_user_id"]["user_user_name"] . " " . $check[0]["gen_res_user_id"]["user_last_name"];
             $data[11] = $check[0]["gen_res_user_id"]["user_country"]["co_name"];
 
 
@@ -157,7 +155,7 @@ class ExportToExcel extends Controller{
             //TODO: Hacer una hoja por cada provincia
             $data = $this->dataForAccommodationsDirectory($prov->getProvId());
 
-            if(count($data) > 0)
+            if (count($data) > 0)
                 $excel = $this->createSheetForAccommodationsDirectory($excel, $prov->getProvCode(), $data);
         }
         $this->save($excel, $fileName);
@@ -217,28 +215,20 @@ class ExportToExcel extends Controller{
         return $excel;
     }
 
-    public function generateToAirBnb($ownsIdArray, $filePath="", $fileName = "airBnbDirectorio.xlsx")
-    {
-        if(count($ownsIdArray))
-        {
-            if($filePath != "")
-                $this->excelDirectoryPath = $filePath;
-
+    public function generateToAirBnb($ownsIdArray, $fileName = "airBnbDirectorio.xlsx") {
+        if (count($ownsIdArray)) {
             $excel = $this->configExcel("Directorio de alojamientos", "Directorio de alojamientos de MyCasaParticular", "alojamientos");
             $data = $this->dataAirBnb($ownsIdArray);
 
-            if(count($data) > 0)
+            if (count($data) > 0)
                 $excel = $this->createSheetAirBnb($excel, "Listado", $data);
 
-            $this->save($excel, $fileName, $filePath);
+            $this->save($excel, $fileName);
             return $fileName;
         }
     }
 
-    public function exportToAirBnb($filePath="", $fileName = "airBnbDirectorio.xlsx")
-    {
-        if($filePath != "")
-                $this->excelDirectoryPath = $filePath;
+    public function exportToAirBnb($fileName = "airBnbDirectorio.xlsx") {
         return $this->export($fileName);
     }
 
@@ -250,27 +240,27 @@ class ExportToExcel extends Controller{
         foreach ($ownerships as $own) {
             $data = array();
 
-            $data[0] = $own["mycpCode"]."-".$own["roomNumber"];
+            $data[0] = $own["mycpCode"] . "-" . $own["roomNumber"];
             $data[1] = $own["name"];
             $data[2] = $own["owner1"];
-            if($own["owner2"] != "")
-                $data[2] .= " / ". $own["owner2"];
-            $data[3] = "Calle ".$own["street"]." No. ".$own["number"]." entre ".$own["between1"]." y ".$own["between2"].". ".$own["municipality"].". ".$own["province"];
+            if ($own["owner2"] != "")
+                $data[2] .= " / " . $own["owner2"];
+            $data[3] = "Calle " . $own["street"] . " No. " . $own["number"] . " entre " . $own["between1"] . " y " . $own["between2"] . ". " . $own["municipality"] . ". " . $own["province"];
             $data[4] = $own["totalRooms"];
             $data[5] = ($own["bathroom"] != "") ? 1 : 0;
             $data[6] = $own["bedsTotal"];
             $data[7] = \MyCp\mycpBundle\Entity\room::getTotalGuests($own["type"]);
-            $data[8] = $own["priceUp"]." CUC";
-            $data[9] = ($own["internet"] > 0)? "Yes" : "No";
-            $data[10] = ($own["audiovisual"] != "No")? "Yes" : "No";
-            $data[11] = ((strpos($own["climate"],'Aire acondicionado') !== false))? "Yes" : "No";
-            $data[12] = ($own["washer"] > 0)? "Extra" : "No";
-            $data[13] = ($own["breakfast"] > 0)? (($own["breakfastPrice"] > 0) ? "Extra" : "Yes") : "No";
-            $data[14] = ($own["pets"] > 0)? "Yes" : "No";
-            $data[15] = ($own["smoker"] > 0)? "Yes" : "No";
-            $data[16] = ($own["parking"] > 0)? (($own["parkingPrice"] > 0) ? "Extra" : "Yes") : "No";
-            $data[17] = ($own["pool"] > 0)? "Yes" : "No";
-            $data[18] = ($own["hotTub"] > 0)? "Yes" : "No";
+            $data[8] = $own["priceUp"] . " CUC";
+            $data[9] = ($own["internet"] > 0) ? "Yes" : "No";
+            $data[10] = ($own["audiovisual"] != "No") ? "Yes" : "No";
+            $data[11] = ((strpos($own["climate"], 'Aire acondicionado') !== false)) ? "Yes" : "No";
+            $data[12] = ($own["washer"] > 0) ? "Extra" : "No";
+            $data[13] = ($own["breakfast"] > 0) ? (($own["breakfastPrice"] > 0) ? "Extra" : "Yes") : "No";
+            $data[14] = ($own["pets"] > 0) ? "Yes" : "No";
+            $data[15] = ($own["smoker"] > 0) ? "Yes" : "No";
+            $data[16] = ($own["parking"] > 0) ? (($own["parkingPrice"] > 0) ? "Extra" : "Yes") : "No";
+            $data[17] = ($own["pool"] > 0) ? "Yes" : "No";
+            $data[18] = ($own["hotTub"] > 0) ? "Yes" : "No";
             $data[19] = $own["geoX"];
             $data[20] = $own["geoY"];
             $data[21] = \MyCp\mycpBundle\Entity\room::getCalendarUrl($data[0], $this->getRequest());
@@ -370,6 +360,10 @@ class ExportToExcel extends Controller{
 
         if (!is_dir($this->excelDirectoryPath)) {
             mkdir($this->excelDirectoryPath, 0755, true);
+        }
+
+        if (file_exists($this->excelDirectoryPath . $fileName)) {
+            unlink($this->excelDirectoryPath . $fileName);
         }
 
         $excel->setActiveSheetIndex(0);

@@ -29,7 +29,7 @@ class ZipService {
     public function createDownloadSinglePhotoZipFile($idPhoto, $ownMcpCode, $deleteZip = true)
     {
         $ownPhoto = $this->em->getRepository("mycpBundle:ownershipPhoto")->findOneBy(array("own_pho_photo" => $idPhoto));
-        $zipName = $ownMcpCode. " - ".$ownPhoto->getOwnPhoPhoto()->getPhoName() . ".zip";
+        $zipName = $ownMcpCode. "-".$idPhoto.".zip";
         $zipFileName = $this->createZipPhotoFile($zipName, array($ownPhoto));
          return $this->download($zipFileName, $deleteZip);
     }

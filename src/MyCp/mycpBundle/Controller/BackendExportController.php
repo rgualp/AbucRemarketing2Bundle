@@ -57,7 +57,7 @@ class BackendExportController extends Controller {
     {
             $ownToExport = $request->get('codes');
             $exporter = $this->get("mycp.service.export_to_excel");
-            $exporter->generateToAirBnb($ownToExport, $this->container->getParameter("configuration.dir.downloaded.excels"));
+            $exporter->generateToAirBnb($ownToExport);
 
             return new Response("OK", 200);
 
@@ -66,7 +66,7 @@ class BackendExportController extends Controller {
     function airbnbDownloadAction()
     {
             $exporter = $this->get("mycp.service.export_to_excel");
-            return $exporter->exportToAirBnb($this->container->getParameter("configuration.dir.downloaded.excels"));
+            return $exporter->exportToAirBnb();
     }
 
     public function getAccommodationsAction() {
