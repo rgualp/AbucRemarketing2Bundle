@@ -27,12 +27,12 @@ class SearchUtils {
     private static function getWithReservations($entity_manager, $arrivalDate = null, $leavingDate = null)
     {
         $reservations = array();
-        if ($arrivalDate != null || $leavingDate != null) {
+        if (self::isDefined($arrivalDate) || self::isDefined($leavingDate)) {
 
             $dates_where = "";
             $dates_where_count = "";
 
-            if ($arrivalDate != null) {
+            if (self::isDefined($arrivalDate)) {
                 $dates_where .= ($dates_where != '') ? " OR " : "";
                 $dates_where .= "(owr.own_res_reservation_from_date <= :arrival_date AND owr.own_res_reservation_to_date >= :arrival_date)";
 
@@ -40,7 +40,7 @@ class SearchUtils {
                 $dates_where_count .= "(owr1.own_res_reservation_from_date <= :arrival_date AND owr1.own_res_reservation_to_date >= :arrival_date)";
             }
 
-            if ($leavingDate != null) {
+            if (self::isDefined($leavingDate)) {
                 $dates_where .= ($dates_where != '') ? " OR " : "";
                 $dates_where .= "(owr.own_res_reservation_from_date <= :leaving_date AND owr.own_res_reservation_to_date >= :leaving_date)";
 
@@ -48,7 +48,7 @@ class SearchUtils {
                 $dates_where_count .= "(owr1.own_res_reservation_from_date <= :leaving_date AND owr1.own_res_reservation_to_date >= :leaving_date)";
             }
 
-            if ($arrivalDate != null && $leavingDate != null) {
+            if (self::isDefined($arrivalDate) && self::isDefined($leavingDate)) {
                 $dates_where .= ($dates_where != '') ? " OR " : "";
                 $dates_where .= "(owr.own_res_reservation_from_date >= :arrival_date AND owr.own_res_reservation_to_date <= :leaving_date)";
 
@@ -69,14 +69,14 @@ class SearchUtils {
 
             $query_reservation = $entity_manager->createQuery($query_string);
 
-            if ($arrivalDate != null) {
+            if (self::isDefined($arrivalDate)) {
                 $arrival = \DateTime::createFromFormat('d-m-Y', $arrivalDate);
                 if($arrival == null)
                     $arrival = \DateTime::createFromFormat('Y-m-d', $arrivalDate);
                 $query_reservation->setParameter('arrival_date', $arrival->format("Y-m-d"));
             }
 
-            if ($leavingDate != null)
+            if (self::isDefined($leavingDate))
             {
                 $departure = \DateTime::createFromFormat('d-m-Y', $leavingDate);
                 if($departure == null)
@@ -88,6 +88,11 @@ class SearchUtils {
 
         }
         return $reservations;
+    }
+
+    private static function isDefined($variable)
+    {
+        return $variable != null && isset($variable) && !empty($variable) && !is_null($variable);
     }
 
     private static function getWithUnavailabilityDetails($entity_manager, $arrivalDate = null, $leavingDate = null)
