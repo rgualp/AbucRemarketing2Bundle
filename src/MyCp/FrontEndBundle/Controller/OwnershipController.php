@@ -39,7 +39,7 @@ class OwnershipController extends Controller {
         $general_reservations = $em->getRepository('mycpBundle:generalReservation')->findBy(array('gen_res_own_id' => $owner_id));
         $reservations = array();
         foreach ($general_reservations as $gen_res) {
-            $own_reservations = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReservedByGeneralAndDate($gen_res->getGenResId(), $dateFrom, $dateTo); //findBy(array('own_res_gen_res_id' => $gen_res->getGenResId()));
+            $own_reservations = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReservedByGeneralAndDate($gen_res->getGenResId(),$dateFrom, $dateTo);//findBy(array('own_res_gen_res_id' => $gen_res->getGenResId()));
             foreach ($own_reservations as $own_res) {
                 array_push($reservations, $own_res);
             }
@@ -357,8 +357,8 @@ class OwnershipController extends Controller {
 
         $session = $this->get('session');
         $post = $request->request->getIterator()->getArrayCopy();
-        $start_date = (isset($post['top_reservation_filter_date_from'])) ? ($post['top_reservation_filter_date_from']) : (($session->get('search_arrival_date') != null) ? $session->get('search_arrival_date') : 'today');
-        $end_date = (isset($post['top_reservation_filter_date_to'])) ? ($post['top_reservation_filter_date_to']) : (($session->get('search_departure_date') != null) ? $session->get('search_departure_date') : "+2 d");
+        $start_date = (isset($post['top_reservation_filter_date_from'])) ? ($post['top_reservation_filter_date_from']) : (($session->get('search_arrival_date') != null) ? $session->get('search_arrival_date') : 'now');
+        $end_date = (isset($post['top_reservation_filter_date_to'])) ? ($post['top_reservation_filter_date_to']) : (($session->get('search_departure_date') != null) ? $session->get('search_departure_date') : '+2 day');
 
         $start_timestamp = strtotime($start_date);
         $end_timestamp = strtotime($end_date);
@@ -612,22 +612,14 @@ class OwnershipController extends Controller {
         $search_text = ($text != null && $text != '' && $text != $this->get('translator')->trans('PLACE_WATERMARK')) ? Utils::getTextFromNormalized($text) : null;
         $search_guests = ($guests != null && $guests != '' && $guests != $this->get('translator')->trans('GUEST_WATERMARK')) ? $guests : "1";
         $search_rooms = ($rooms != null && $rooms != '' && $rooms != $this->get('translator')->trans('ROOM_WATERMARK')) ? $rooms : "1";
-        $arrival = ($request->get('arrival') != null && $request->get('arrival') != "" && $request->get('arrival') != "null") ? $request->get('arrival') : null;
-        $departure = ($request->get('departure') != null && $request->get('departure') != "" && $request->get('departure') != "null") ? $request->get('departure') : null;
-
+        $arrival = ($request->get('arrival') != null && $request->get('arrival') != "" && $request->get('arrival') != "null") ? $request->get('arrival') : $session->get('search_arrival_date');
+        $departure = ($request->get('departure') != null && $request->get('departure') != "" && $request->get('departure') != "null") ? $request->get('departure') : $session->get('search_departure_date');
 
         $today = new \DateTime();
-        if ($arrival == null || $arrival == "null")
+        if ($arrival == null)
             $arrival = $today->format('d-m-Y');
-        if ($departure == null || $departure == "null") {
-            if ($arrival != null)
-            {
-                $arrivalDateTime = \DateTime::createFromFormat('d-m-Y', $arrival);
-                $departure = date_add($arrivalDateTime, date_interval_create_from_date_string("2 days"))->format('d-m-Y');
-            }
-            else
-                $departure = date_add($today, date_interval_create_from_date_string("2 days"))->format('d-m-Y');
-        }
+        if ($departure == null)
+            $departure = date_add($today, date_interval_create_from_date_string("2 days"))->format('d-m-Y');
 
         $check_filters = $session->get("filter_array");
         $room_filter = $session->get("filter_room");
@@ -914,19 +906,6 @@ class OwnershipController extends Controller {
             $search_departure_date = ($departure_date != null && $departure_date != '' && $departure_date != $this->get('translator')->trans('DEPARTURE_WATERMARK')) ? $departure_date : null;
             $text = $request->request->get('text');
             $text = ($text == "") ? "null" : $text;
-
-            $today = new \DateTime();
-            if ($search_arrival_date == null)
-                $search_arrival_date = $today->format('d-m-Y');
-            if ($search_departure_date == null) {
-                if ($search_arrival_date != null)
-                {
-                    $arrivalDateTime = \DateTime::createFromFormat('d-m-Y', $search_arrival_date);
-                    $search_departure_date = date_add($arrivalDateTime, date_interval_create_from_date_string("2 days"))->format('d-m-Y');
-                }
-                else
-                    $search_departure_date = date_add($today, date_interval_create_from_date_string("2 days"))->format('d-m-Y');
-            }
 
             $session->set('search_text', $text);
             $session->set('search_arrival_date', $search_arrival_date);
