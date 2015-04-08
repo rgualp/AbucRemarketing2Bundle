@@ -256,13 +256,20 @@ class BookingService extends Controller
      * @param $bookingId
      * @return null|string
      */
-    public function createBookingVoucherIfNotExisting($bookingId)
+    public function createBookingVoucherIfNotExisting($bookingId, $replaceExistingVoucher = false)
     {
         $response = $this->getPrintableBookingConfirmationResponse($bookingId);
         $pdfFilePath = $this->getVoucherFilePathByBookingId($bookingId);
 
         if (file_exists($pdfFilePath)) {
-            return $pdfFilePath;
+            if($replaceExistingVoucher)
+            {
+                unlink($pdfFilePath);
+            }
+            else
+            {
+                return $pdfFilePath;
+            }
         }
 
         $pdfService = $this->get('front_end.services.pdf');

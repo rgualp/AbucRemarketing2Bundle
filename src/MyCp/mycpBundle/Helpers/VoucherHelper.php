@@ -10,7 +10,7 @@ namespace MyCp\mycpBundle\Helpers;
 
 class VoucherHelper {
 
-    public static function sendVoucher($entity_manager, $bookingService, $emailService, $controller, $idReservation, $emailToSend) {
+    public static function sendVoucher($entity_manager, $bookingService, $emailService, $controller, $idReservation, $emailToSend, $replaceExistingVoucher = false) {
 
         try {
             $bookings_ids = $entity_manager->getRepository('mycpBundle:generalReservation')->getBookings($idReservation);
@@ -21,7 +21,8 @@ class VoucherHelper {
                 $bookId = $bookId['booking_id'];
 
                 // one could also use $bookingService->getVoucherFilePathByBookingId($bookingId) here, but then the PDF is not created
-                $pdfFilePath = $bookingService->createBookingVoucherIfNotExisting($bookId);
+
+                $pdfFilePath = $bookingService->createBookingVoucherIfNotExisting($bookId, $replaceExistingVoucher);
 
                 $body = $controller->render('FrontEndBundle:mails:rt_voucher.html.twig', array(
                     'user' => $userTourist->getUserTouristUser(),

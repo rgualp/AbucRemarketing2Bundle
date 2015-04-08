@@ -1105,7 +1105,7 @@ class BackendReservationController extends Controller {
             $service_email = $this->get('mycp.service.email_manager');
             $emailToSend = 'reservation@mycasaparticular.com';
 
-            \MyCp\mycpBundle\Helpers\VoucherHelper::sendVoucher($em, $bookingService, $service_email, $this, $id_reservation, $emailToSend);
+            \MyCp\mycpBundle\Helpers\VoucherHelper::sendVoucher($em, $bookingService, $service_email, $this, $id_reservation, $emailToSend, true);
         } catch (\Exception $e) {
             $CASId = \MyCp\FrontEndBundle\Helpers\ReservationHelper::getCASId($id_reservation);
             $message = 'Error al enviar el voucher asociado a la reservación ' . $CASId . ". " . $e->getMessage();
