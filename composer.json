@@ -30,7 +30,7 @@
         "kriswallsmith/assetic": "1.1.*@dev",
         "doctrine/migrations": "dev-master",
         "doctrine/doctrine-migrations-bundle": "dev-master",
-        "beberlei/doctrineextensions": "dev-master",
+        "beberlei/doctrineextensions": "0.3.*",
         "ideup/simple-paginator-bundle": "dev-master",
         "avalanche123/imagine-bundle": "v2.1",
         "besimple/soap-bundle": "0.2.*",
