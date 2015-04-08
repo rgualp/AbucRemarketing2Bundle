@@ -461,7 +461,7 @@ class BackendTestEmailTemplateController extends Controller {
                     ->findOneBy(array('gen_res_status' => generalReservation::STATUS_RESERVED));
             $bookingService = $this->get('front_end.services.booking');
             $service_email = $this->get('mycp.service.email_manager');
-            \MyCp\mycpBundle\Helpers\VoucherHelper::sendVoucher($em, $bookingService, $service_email, $this, $generalReservation->getGenResId(), $mail);
+            \MyCp\mycpBundle\Helpers\VoucherHelper::sendVoucher($em, $bookingService, $service_email, $this, $generalReservation->getGenResId(), $mail, true);
         }
         return $this->redirect($this->generateUrl('mycp_test_home'));
     }
