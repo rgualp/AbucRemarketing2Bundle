@@ -97,10 +97,10 @@ class BookingService extends Controller
             $totalPercentPrice = 0;
 
             foreach ($ownReservations as $own) {
-                /*$array_dates = $timeService->datesBetween(
+                $array_dates = $timeService->datesBetween(
                         $own->getOwnResReservationFromDate()->getTimestamp(),
                         $own->getOwnResReservationToDate()->getTimestamp()
-                    );*/
+                    );
                 $totalPrice += \MyCp\FrontEndBundle\Helpers\ReservationHelper::getTotalPrice($em, $timeService, $own, $this->tripleRoomCharge);
             }
 
@@ -122,12 +122,12 @@ class BookingService extends Controller
         $totalPercentPrice = 0;
 
         foreach ($ownReservations as $own) {
-            $totalNights = $timeService->nights(
+            $array_dates = $timeService->datesBetween(
                     $own->getOwnResReservationFromDate()->getTimestamp(),
                     $own->getOwnResReservationToDate()->getTimestamp()
                 );
             //array_push($nights, count($array_dates) - 1);
-            $nights[$own->getOwnResId()] = $totalNights;
+            $nights[$own->getOwnResId()] = count($array_dates) - 1;
             array_push($rooms, $em->getRepository('mycpBundle:room')->find($own->getOwnResSelectedRoomId()));
             $totalPrice += \MyCp\FrontEndBundle\Helpers\ReservationHelper::getTotalPrice($em, $timeService, $own, $this->tripleRoomCharge);
             $commission = $own->getOwnResGenResId()->GetGenResOwnId()->getOwnCommissionPercent();
@@ -348,12 +348,12 @@ class BookingService extends Controller
                 ->getPhotos($rootOwnId);
 
             array_push($arrayPhotos, $photos);
-            $totalNights = $timeService->nights(
+            $array_dates = $timeService->datesBetween(
                 $own->getOwnResReservationFromDate()->getTimestamp(),
                 $own->getOwnResReservationToDate()->getTimestamp()
             );
-            array_push($arrayNights, $totalNights);
-            $arrayNightsByOwnershipReservation[$own->getOwnResId()] = $totalNights;
+            array_push($arrayNights, count($array_dates) - 1);
+            $arrayNightsByOwnershipReservation[$own->getOwnResId()] = count($array_dates) - 1;
 
             $insert = true;
             foreach ($arrayHousesIds as $item) {
