@@ -81,7 +81,7 @@
 <hr/>
 <h1 class="h-blue caecilia-roman h-size-1" style="font-weight: normal; margin-top: 20px">{{"YOUR_DATA" | trans}}</h1>
 <div class="h-blue t-size-12" style="font-weight: normal; margin-bottom: 0"><b >{{"REQUIRED_FIELDS_NEXT_STEP" | trans}}:</b> </div>
-<form  method="POST" action="{{ path('frontend_payment_skrill_test_payment') }}" novalidate>
+<form  method="POST" action="{{ path('frontend_reservation_reservation') }}" novalidate>
     <input type="hidden"  name="user_tourist_gender" id="user_tourist_gender" value="{{ post["user_tourist_gender"] is defined  ? post["user_tourist_gender"] : user_tourist.getUserTouristGender}}"/>
     <input type="hidden" name="user_tourist_nationality" id="user_tourist_nationality" value="{{post["user_tourist_nationality"] is defined and post["user_tourist_nationality"] != "" ? post["user_tourist_nationality"] : user.UserCountry.coid}}"/>
     <input type="hidden" name="reservation_hour" id="reservation_hour" value="{{post["reservation_hour"] is defined and post["reservation_hour"] != "" ? post["reservation_hour"]: ("SELECT" | trans)}}"/>
