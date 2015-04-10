@@ -225,6 +225,12 @@ class BookingService extends Controller
         $this->updateReservationStatuses($bookingId, $status);
         $this->processPaymentEmails($booking, $paymentPending);
         $this->setPaymentStatusProcessed($payment);
+
+        $ownershipReservations = $this->getOwnershipReservations($bookingId);
+        foreach ($ownershipReservations as $own) {
+            $this->updateICal($own->getOwnResSelectedRoomId());
+        }
+
     }
 
     /**
@@ -526,11 +532,6 @@ class BookingService extends Controller
         }
 
         $this->em->flush();
-        foreach ($ownershipReservations as $own) {
-            $this->updateICal($own->getOwnResSelectedRoomId());
-        }
-
-
     }
 
     private function updateICal($roomId) {
