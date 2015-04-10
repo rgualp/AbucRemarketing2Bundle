@@ -70,10 +70,12 @@ class CalendarManager{
         }
 
         foreach ($reservations as $event) {
+            $startDate = $event->getOwnResReservationFromDate();
+            $endDate = $event->getOwnResReservationToDate();
             $calendar->add('VEVENT', [
                 'SUMMARY' => ($event->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) ? "Reservada en MyCasaParticular - ".$event->getOwnResGenResId()->getCASId() : "Reserva no disponible",
-                'DTSTART' => $event->getOwnResReservationFromDate(),
-                'DTEND' => $event->getOwnResReservationToDate()->modify("-1 day"),
+                'DTSTART' => $startDate,
+                'DTEND' => $endDate->modify("-1 day"),
             ]);
         }
 

@@ -520,13 +520,17 @@ class BookingService extends Controller
                 $ownership = $generalReservation->getGenResOwnId();
                 $this->em->getRepository("mycpBundle:ownership")->updateRanking($ownership);
 
-                $this->updateICal($own->getOwnResSelectedRoomId());
             }
 
             $this->em->persist($own);
         }
 
         $this->em->flush();
+        foreach ($ownershipReservations as $own) {
+            $this->updateICal($own->getOwnResSelectedRoomId());
+        }
+
+
     }
 
     private function updateICal($roomId) {
