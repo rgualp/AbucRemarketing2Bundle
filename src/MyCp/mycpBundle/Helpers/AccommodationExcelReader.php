@@ -142,6 +142,7 @@ class AccommodationExcelReader extends ExcelReader {
 
 
                 //Add status, destination, province and municipality entities and general data
+                $this->setLocalization($ownership);
                 $ownership->setOwnStatus($this->batchProcessStatus);
                 $ownership->setOwnSyncSt(SyncStatuses::ADDED);
                 $ownership->setOwnCreationDate(new \DateTime());
@@ -172,6 +173,18 @@ class AccommodationExcelReader extends ExcelReader {
     {
         $own = $this->em->getRepository("mycpBundle:ownership")->findBy(array("own_mcp_code" => $code));
         return count($own) > 0;
+    }
+
+    private function setLocalization(ownership $ownership)
+    {
+        $destination = $this->em->getRepository("mycpBundle:destination")->find($this->idDestination);
+        $destinationLocation = $this->em->getRepository("mycpBundle:destinationLocation")->findOneBy(array('des_loc_destination' => $destination->getDesId()));
+        $municipality = $destinationLocation->getDesLocMunicipality();
+        $province = $destinationLocation->getDesLocProvince();
+
+        $ownership->setOwnDestination($destination);
+        $ownership->setOwnAddressMunicipality($municipality);
+        $ownership->setOwnAddressProvince($province);
     }
 
     private function processPhoneNumber($phoneValue)
