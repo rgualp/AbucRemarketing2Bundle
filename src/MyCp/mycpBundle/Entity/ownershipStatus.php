@@ -20,6 +20,7 @@ class ownershipStatus
     const STATUS_INACTIVE = 2;
     const STATUS_IN_PROCESS = 3;
     const STATUS_DELETED = 4;
+    const STATUS_BATCH_PROCESS = 5;
 
     /**
      * Contains all possible statuses
@@ -31,7 +32,8 @@ class ownershipStatus
         self::STATUS_ACTIVE,
         self::STATUS_INACTIVE,
         self::STATUS_IN_PROCESS,
-        self::STATUS_DELETED
+        self::STATUS_DELETED,
+        self::STATUS_BATCH_PROCESS
     );
 
 

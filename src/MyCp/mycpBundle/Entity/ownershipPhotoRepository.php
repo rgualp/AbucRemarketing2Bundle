@@ -3,6 +3,7 @@
 namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use MyCp\mycpBundle\Helpers\FileIO;
 
 /**
  * ownershipPhotoRepository
@@ -37,8 +38,8 @@ class ownershipPhotoRepository extends EntityRepository {
 
         $em->remove($photo);
         $em->flush();
-        @unlink($dir . $photoName);
-        @unlink($dir_thumbnails . $photoName);
+        FileIO::deleteFile($dir . $photoName);
+        FileIO::deleteFile($dir_thumbnails . $photoName);
     }
 
     public function checkOwnershipToInactivate($ownershipId) {

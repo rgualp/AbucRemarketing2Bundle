@@ -67,10 +67,7 @@ class ZipService {
 
         if ($filesCount === 0) {
             //Deleting the Zip File
-            if (file_exists($this->zipDirectoryPath . $zipName)) {
-                unlink($this->zipDirectoryPath . $zipName);
-            }
-
+            FileIO::deleteFile($this->zipDirectoryPath . $zipName);
             return null;
         }
 
@@ -92,9 +89,7 @@ class ZipService {
 
         if ($deleteZip) {
             //Deleting the Zip File
-            if (file_exists($zipFileName)) {
-                unlink($zipFileName);
-            }
+            FileIO::deleteFile($zipFileName);
         }
 
         return $response;

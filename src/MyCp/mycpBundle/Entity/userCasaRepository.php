@@ -3,6 +3,7 @@
 namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use MyCp\mycpBundle\Helpers\FileIO;
 
 /**
  * userCasaRepository
@@ -126,7 +127,7 @@ class userCasaRepository extends EntityRepository {
                  $photo_old = $em->getRepository('mycpBundle:photo')->find($photo_user->getPhoId());
                  if ($photo_old)
                      $em->remove($photo_old);
-                 @unlink($dir . $user_casa->getUserCasaUser()->getUserPhoto()->getPhoName());
+                 FileIO::deleteFile($dir . $user_casa->getUserCasaUser()->getUserPhoto()->getPhoName());
              }
 
              $photo = new photo();

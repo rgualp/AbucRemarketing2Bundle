@@ -825,7 +825,7 @@ class BackendOwnershipController extends Controller {
                         $current_ownership_id = $em->getRepository('mycpBundle:ownership')->edit($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this, $this->container->getParameter('user.dir.photos'));
 
                         //Enviar correo a los propietarios
-                        if ($new_status == ownershipStatus::STATUS_ACTIVE && $old_status == ownershipStatus::STATUS_IN_PROCESS) {
+                        if ($new_status == ownershipStatus::STATUS_ACTIVE && ($old_status == ownershipStatus::STATUS_IN_PROCESS or $old_status == ownershipStatus::STATUS_BATCH_PROCESS)) {
                             $id_ownership = $post['edit_ownership'];
                             $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
                             $publishDate = $ownership->getOwnPublishDate();

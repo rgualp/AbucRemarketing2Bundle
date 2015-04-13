@@ -152,7 +152,7 @@ class ExportToExcel extends Controller {
         $provinces = $this->em->getRepository("mycpBundle:province")->findBy(array(), array("prov_code" => "ASC"));
 
         foreach ($provinces as $prov) {
-            //TODO: Hacer una hoja por cada provincia
+            //Hacer una hoja por cada provincia
             $data = $this->dataForAccommodationsDirectory($prov->getProvId());
 
             if (count($data) > 0)
@@ -357,14 +357,8 @@ class ExportToExcel extends Controller {
     }
 
     private function save($excel, $fileName) {
-
-        if (!is_dir($this->excelDirectoryPath)) {
-            mkdir($this->excelDirectoryPath, 0755, true);
-        }
-
-        if (file_exists($this->excelDirectoryPath . $fileName)) {
-            unlink($this->excelDirectoryPath . $fileName);
-        }
+        FileIO::createDirectoryIfNotExist($this->excelDirectoryPath);
+        FileIO::deleteFile($this->excelDirectoryPath . $fileName);
 
         $excel->setActiveSheetIndex(0);
 
