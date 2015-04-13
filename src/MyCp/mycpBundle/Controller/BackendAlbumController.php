@@ -2,8 +2,8 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use MyCp\mycpBundle\Helpers\FileIO;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use MyCp\mycpBundle\Entity\albumCategory;
 use MyCp\mycpBundle\Entity\albumCategoryLang;
@@ -11,7 +11,6 @@ use MyCp\mycpBundle\Entity\album;
 use MyCp\mycpBundle\Entity\albumPhoto;
 use MyCp\mycpBundle\Entity\photo;
 use MyCp\mycpBundle\Entity\photoLang;
-use MyCp\mycpBundle\Entity\log;
 use MyCp\mycpBundle\Form\categoryType;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
@@ -96,7 +95,6 @@ class BackendAlbumController extends Controller {
                 $post = $form->getData();
 
                 foreach ($languages as $language) {
-                    $album_cat_lang = new albumCategoryLang();
                     $album_cat_lang = $em->getRepository('mycpBundle:albumCategoryLang')->findBy(array('album_cat_id_lang' => $language,'album_cat_id_cat'=>$id_category));
                     $album_cat_lang[0]->setAlbumCatDescription($post['lang' . $language->getLangId()]);
                     $em->persist($album_cat_lang[0]);
@@ -143,8 +141,8 @@ class BackendAlbumController extends Controller {
             $albums_photos = $em->getRepository('mycpBundle:albumPhoto')->findby(array('alb_pho_album' => $album->getAlbumId()));
             foreach ($albums_photos as $albums_photo) {
                 $photo = $em->getRepository('mycpBundle:photo')->find($albums_photo->getAlbPhoPhoto()->getPhoId());
-                @unlink($dir . $photo->getPhoName());
-                @unlink($dir_thumbs . $photo->getPhoName());
+                FileIO::deleteFile($dir . $photo->getPhoName());
+                FileIO::deleteFile($dir_thumbs . $photo->getPhoName());
                 $albumsPhotoLangs = $em->getRepository('mycpBundle:photoLang')->findBy(array('pho_lang_id_photo' => $photo->getPhoId()));
                 foreach ($albumsPhotoLangs as $albumPhotoLang) {
                     $em->remove($albumPhotoLang);
@@ -302,8 +300,8 @@ class BackendAlbumController extends Controller {
 
         foreach ($albumPhotos as $albumPhoto) {
             $photo = $em->getRepository('mycpBundle:photo')->find($albumPhoto->getAlbPhoPhoto()->getPhoId());
-            @unlink($dir . $photo->getPhoName());
-            @unlink($dir_thumbs . $photo->getPhoName());
+            FileIO::deleteFile($dir . $photo->getPhoName());
+            FileIO::deleteFile($dir_thumbs . $photo->getPhoName());
             $destinationPhotoLangs = $em->getRepository('mycpBundle:photoLang')->findBy(array('pho_lang_id_photo' => $photo->getPhoId()));
             foreach ($destinationPhotoLangs as $destinationPhotoLang) {
                 $em->remove($destinationPhotoLang);
@@ -492,8 +490,8 @@ class BackendAlbumController extends Controller {
         $em->remove($album_photo[0]);
         $em->remove($photo);
         $em->flush();
-        @unlink($dir . $photoDel->getPhoName());
-        @unlink($dir_thumbs . $photoDel->getPhoName());
+        FileIO::deleteFile($dir . $photoDel->getPhoName());
+        FileIO::deleteFile($dir_thumbs . $photoDel->getPhoName());
         $message = 'El fichero se ha eliminado satisfactoriamente.';
         $this->get('session')->getFlashBag()->add('message_ok', $message);
 

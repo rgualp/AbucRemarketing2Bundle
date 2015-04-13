@@ -30,6 +30,7 @@ abstract class ExcelReader extends BatchProcessManager{
         $this->container = $container;
         $this->excelDirectoryPath = $excelDirectoryPath;
 
+        FileIO::createDirectoryIfNotExist($this->excelDirectoryPath);
     }
 
     protected function processExcel($excelFileName)

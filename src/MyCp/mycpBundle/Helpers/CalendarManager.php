@@ -95,9 +95,7 @@ class CalendarManager{
 
     private function save($fileName, $content) {
 
-        if (!is_dir($this->directoryPath)) {
-            mkdir($this->directoryPath, 0755, true);
-        }
+        FileIO::createDirectoryIfNotExist($this->directoryPath);
         $fp = fopen($this->directoryPath . "/".$fileName, "wb");
         fwrite($fp, $content);
         fclose($fp);

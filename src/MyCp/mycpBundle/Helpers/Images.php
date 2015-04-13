@@ -61,7 +61,7 @@ class Images {
         $imagine = new \Imagine\Gd\Imagine();
 
         $dirOriginalsPhotos= $container->getParameter('ownership.dir.photos.originals');
-        self::createDirectory($dirOriginalsPhotos);
+        FileIO::createDirectoryIfNotExist($dirOriginalsPhotos);
         $imagine->open($origin_file_full_path.$fileName)
                 ->save($dirOriginalsPhotos.$fileName, array('format' => 'jpeg','quality' => 100));
 
@@ -156,7 +156,7 @@ class Images {
         foreach ($ownership_photos as $ownPhoto) {
             $photo = $ownPhoto->getOwnPhoPhoto();
             if ($photo != null && file_exists(realpath($dir_ownership . $photo->getPhoName()))) {
-                Images::resizeAndWatermark($dir_ownership . $photo->getPhoName(), $dir_watermark, $ownership_photo_size);
+                Images::resizeAndWatermark($dir_ownership, $photo->getPhoName(), $dir_watermark, $ownership_photo_size, null);
                 Images::createThumbnail($dir_ownership . $photo->getPhoName(), $dir_ownership_thumbs . $photo->getPhoName(), $thumbs_size);
             }
         }
@@ -199,24 +199,24 @@ class Images {
 
         $results .= "Redimensionando las fotos de los destinos y generando thumbnails...<br/>";
         $destinations_photos = Images::getDirectoryImagesContentWithSize($dir_destination, $total_images_to_process);
-        Images::createDirectory($dir_destination . '/originals');
-        Images::createDirectory($dir_destination . '/processed');
-        Images::createDirectory($dir_destination_thumbs);
+        FileIO::createDirectoryIfNotExist($dir_destination . '/originals');
+        FileIO::createDirectoryIfNotExist($dir_destination . '/processed');
+        FileIO::createDirectoryIfNotExist($dir_destination_thumbs);
         $process_destination = true;
         foreach ($destinations_photos as $d_photo) {
             Images::save($dir_destination . $d_photo, $dir_destination . '/originals/' . $d_photo);
 
             Images::createThumbnail($dir_destination . '/originals/' . $d_photo, $dir_destination_thumbs . $d_photo, $thumbs_size);
             Images::resizeDiferentDirectories($dir_destination . '/originals/' . $d_photo, $dir_destination . '/processed/' . $d_photo, $destination_photo_size);
-            unlink($dir_destination . $d_photo);
+            FileIO::deleteFile($dir_destination . $d_photo);
         }
 
             if (count($destinations_photos) == 0 && $process_destination) {
                 $results .= "Redimensionando las fotos de los albums y generando thumbnails...<br/>";
                 $albums_photos = Images::getDirectoryImagesContentWithSize($dir_album, $total_images_to_process);
-                Images::createDirectory($dir_album . '/originals');
-                Images::createDirectory($dir_album . '/processed');
-                Images::createDirectory($dir_albums_thumbs);
+                FileIO::createDirectoryIfNotExist($dir_album . '/originals');
+                FileIO::createDirectoryIfNotExist($dir_album . '/processed');
+                FileIO::createDirectoryIfNotExist($dir_albums_thumbs);
                 $process_albums = true;
 
                 foreach ($albums_photos as $a_photo) {
@@ -224,15 +224,15 @@ class Images {
 
                     Images::createThumbnail($dir_album . '/originals/' . $a_photo, $dir_albums_thumbs . $a_photo, $thumbs_size);
                     Images::resizeDiferentDirectories($dir_album . '/originals/' . $a_photo, $dir_album . '/processed/' . $a_photo, $album_photo_size);
-                    unlink($dir_album . $a_photo);
+                    FileIO::deleteFile($dir_album . $a_photo);
                 }
 
                     if (count($albums_photos) == 0 && $process_albums) {
                         $results .= "Redimensionando las fotos de los alojamientos, colocando marca de agua y generando thumbnails...<br/>";
                         $own_photos = Images::getDirectoryImagesContentWithSize($dir_ownership, $total_images_to_process);
-                        Images::createDirectory($dir_ownership . '/originals');
-                        Images::createDirectory($dir_ownership . '/processed');
-                        Images::createDirectory($dir_ownership_thumbs);
+                        FileIO::createDirectoryIfNotExist($dir_ownership . '/originals');
+                        FileIO::createDirectoryIfNotExist($dir_ownership . '/processed');
+                        FileIO::createDirectoryIfNotExist($dir_ownership_thumbs);
                         $process_owns = true;
 
                         foreach ($own_photos as $o_photo) {
@@ -241,7 +241,7 @@ class Images {
                             Images::createThumbnail($dir_ownership . '/originals/' . $o_photo, $dir_ownership_thumbs . $o_photo, $thumbs_size);
                             Images::resizeDiferentDirectoriesAndWatermark($dir_ownership . '/originals/' . $o_photo, $dir_ownership . '/processed/' . $o_photo, $dir_watermark, $ownership_photo_size);
 
-                            unlink($dir_ownership . $o_photo);
+                            FileIO::deleteFile($dir_ownership . $o_photo);
                         }
                     }
                 }
@@ -279,7 +279,7 @@ class Images {
 
         foreach ($destinations_photos as $d_photo) {
             Images::save($dir_destination_processed . $d_photo, $dir_destination . $d_photo);
-            unlink($dir_destination_processed . $d_photo);
+            FileIO::deleteFile($dir_destination_processed . $d_photo);
         }
 
         if (count($destinations_photos) == 0 && $process_destination) {
@@ -289,7 +289,7 @@ class Images {
 
             foreach ($albums_photos as $a_photo) {
                 Images::save($dir_albums_processed . $a_photo, $dir_album . $a_photo);
-                unlink($dir_albums_processed . $a_photo);
+                FileIO::deleteFile($dir_albums_processed . $a_photo);
             }
 
             if (count($albums_photos) == 0 && $process_albums) {
@@ -299,19 +299,14 @@ class Images {
 
                 foreach ($own_photos as $o_photo) {
                     Images::save($dir_ownership_processed . $o_photo, $dir_ownership . $o_photo);
-                    unlink($dir_ownership_processed . $o_photo);
+                    FileIO::deleteFile($dir_ownership_processed . $o_photo);
                 }
             }
         }
         if (count($own_photos) == 0 && $process_owns) {
-            if (is_dir($dir_albums_processed))
-                rmdir($dir_albums_processed);
-
-            if (is_dir($dir_destination_processed))
-                rmdir($dir_destination_processed);
-
-            if (is_dir($dir_ownership_processed))
-                rmdir($dir_ownership_processed);
+            FileIO::deleteDirectory($dir_albums_processed);
+            FileIO::deleteDirectory($dir_destination_processed);
+            FileIO::deleteDirectory($dir_ownership_processed);
 
             $results .= "Fin del procesamiento";
             return array('msg_text' => $results, 'finished' => 'true');
@@ -357,13 +352,6 @@ class Images {
         }
         return $results;
     }
-
-    public static function createDirectory($new_directory) {
-        if (!is_dir($new_directory)) {
-            mkdir($new_directory, 0755, true);
-        }
-    }
-
 }
 
 ?>
