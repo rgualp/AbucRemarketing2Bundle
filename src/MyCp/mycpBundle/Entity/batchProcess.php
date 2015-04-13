@@ -77,6 +77,13 @@ class batchProcess
     private $batch_error_messages;
 
     /**
+     * @var text
+     *
+     * @ORM\Column(name="batch_messages", type="text")
+     */
+    private $batch_messages;
+
+    /**
      * @var datetime
      *
      * @ORM\Column(name="batch_start_date", type="datetime")
@@ -103,7 +110,7 @@ class batchProcess
     /**
      * Set batch_elements_count
      *
-     * @param integr $value
+     * @param int $value
      * @return batchProcess
      */
     public function setBatchElementsCount($value)
@@ -126,7 +133,7 @@ class batchProcess
     /**
      * Set batch_end_date
      *
-     * @param datetime $value
+     * @param \DateTime $value
      * @return batchProcess
      */
     public function setBatchEndDate($value)
@@ -155,6 +162,29 @@ class batchProcess
     public function setBatchErrorMessages($value)
     {
         $this->batch_error_messages = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get batch_messages
+     *
+     * @return string
+     */
+    public function getBatchMessages()
+    {
+        return $this->batch_messages;
+    }
+
+    /**
+     * Set batch_messages
+     *
+     * @param string $value
+     * @return batchProcess
+     */
+    public function setBatchMessages($value)
+    {
+        $this->batch_messages = $value;
 
         return $this;
     }
@@ -218,7 +248,7 @@ class batchProcess
     /**
      * Set batch_start_date
      *
-     * @param datetime $value
+     * @param \DateTime $value
      * @return batchProcess
      */
     public function setBatchStartDate($value)

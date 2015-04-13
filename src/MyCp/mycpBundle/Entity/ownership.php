@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
+use \DateTime as DateTime;
 
 /**
  * ownership
@@ -341,7 +342,7 @@ class ownership {
     private $own_saler;
 
     /**
-     * @var datetime
+     * @var \DateTime
      *
      * @ORM\Column(name="own_visit_date", type="datetime", nullable=true)
      */
@@ -369,7 +370,7 @@ class ownership {
     private $own_last_update;
 
     /**
-     * @var decimal
+     * @var float
      *
      * @ORM\Column(name="own_rating", type="decimal")
      */
@@ -383,14 +384,14 @@ class ownership {
     private $own_maximun_number_guests;
 
     /**
-     * @var decimal
+     * @var integer
      *
      * @ORM\Column(name="own_minimum_price", type="integer")
      */
     private $own_minimum_price;
 
     /**
-     * @var decimal
+     * @var integer
      *
      * @ORM\Column(name="own_maximum_price", type="integer")
      */
@@ -507,7 +508,7 @@ class ownership {
     /**
      * Set own_creation_date
      *
-     * @param datetime $ownVisitDate
+     * @param DateTime $ownCreationDate
      * @return ownership
      */
     public function setOwnCreationDate($ownCreationDate) {
@@ -519,7 +520,7 @@ class ownership {
     /**
      * Get own_destination
      *
-     * @return Entity\destination
+     * @return destination
      */
     public function getOwnDestination() {
         return $this->own_destination;
@@ -528,7 +529,7 @@ class ownership {
     /**
      * Set own_destination
      *
-     * @param datetime $ownDestination
+     * @param destination $ownDestination
      * @return ownership
      */
     public function setOwnDestination($ownDestination) {
@@ -1241,10 +1242,10 @@ class ownership {
     /**
      * Set own_address_province
      *
-     * @param \MyCp\mycpBundle\Entity\province $ownAddressProvince
+     * @param province $ownAddressProvince
      * @return ownership
      */
-    public function setOwnAddressProvince(\MyCp\mycpBundle\Entity\province $ownAddressProvince = null) {
+    public function setOwnAddressProvince(province $ownAddressProvince = null) {
         $this->own_address_province = $ownAddressProvince;
 
         return $this;
@@ -1253,7 +1254,7 @@ class ownership {
     /**
      * Get own_address_province
      *
-     * @return \MyCp\mycpBundle\Entity\province
+     * @return province
      */
     public function getOwnAddressProvince() {
         return $this->own_address_province;
@@ -1262,10 +1263,10 @@ class ownership {
     /**
      * Set own_address_municipality
      *
-     * @param \MyCp\mycpBundle\Entity\municipality $ownAddressMunicipality
+     * @param municipality $ownAddressMunicipality
      * @return ownership
      */
-    public function setOwnAddressMunicipality(\MyCp\mycpBundle\Entity\municipality $ownAddressMunicipality = null) {
+    public function setOwnAddressMunicipality(municipality $ownAddressMunicipality = null) {
         $this->own_address_municipality = $ownAddressMunicipality;
 
         return $this;
@@ -1274,7 +1275,7 @@ class ownership {
     /**
      * Get own_address_municipality
      *
-     * @return \MyCp\mycpBundle\Entity\municipality
+     * @return municipality
      */
     public function getOwnAddressMunicipality() {
         return $this->own_address_municipality;
@@ -1283,10 +1284,10 @@ class ownership {
     /**
      * Add own_rooms
      *
-     * @param \MyCp\mycpBundle\Entity\room $ownRooms
+     * @param room $ownRooms
      * @return ownership
      */
-    public function addOwnRoom(\MyCp\mycpBundle\Entity\room $ownRooms) {
+    public function addOwnRoom(room $ownRooms) {
         $this->own_rooms[] = $ownRooms;
         $this->own_rooms_total++;
         return $this;
@@ -1295,9 +1296,9 @@ class ownership {
     /**
      * Remove own_rooms
      *
-     * @param \MyCp\mycpBundle\Entity\room $ownRooms
+     * @param room $ownRooms
      */
-    public function removeOwnRoom(\MyCp\mycpBundle\Entity\room $ownRooms) {
+    public function removeOwnRoom(room $ownRooms) {
         $this->own_rooms->removeElement($ownRooms);
         $this->own_rooms_total--;
     }
@@ -1356,7 +1357,7 @@ class ownership {
     /**
      * Set own_rating
      *
-     * @param decimal $ownRating
+     * @param float $ownRating
      * @return ownership
      */
     public function setOwnRating($ownRating) {
@@ -1368,7 +1369,7 @@ class ownership {
     /**
      * Get own_rating
      *
-     * @return decimal
+     * @return float
      */
     public function getOwnRating() {
         return $this->own_rating;
@@ -1398,7 +1399,7 @@ class ownership {
     /**
      * Set own_minimum_price
      *
-     * @param decimal $ownMinimumPrice
+     * @param float $ownMinimumPrice
      * @return ownership
      */
     public function setOwnMinimumPrice($ownMinimumPrice) {
@@ -1410,7 +1411,7 @@ class ownership {
     /**
      * Get own_minimum_price
      *
-     * @return decimal
+     * @return float
      */
     public function getOwnMinimumPrice() {
         return $this->own_minimum_price;
@@ -1419,7 +1420,7 @@ class ownership {
     /**
      * Set own_maximum_price
      *
-     * @param decimal $ownMaximumPrice
+     * @param float $ownMaximumPrice
      * @return ownership
      */
     public function setOwnMaximumPrice($ownMaximumPrice) {
@@ -1431,7 +1432,7 @@ class ownership {
     /**
      * Get own_maximum_price
      *
-     * @return decimal
+     * @return float
      */
     public function getOwnMaximumPrice() {
         return $this->own_maximum_price;
@@ -1599,10 +1600,10 @@ class ownership {
     /**
      * Set own_status
      *
-     * @param \MyCp\mycpBundle\Entity\ownershipStatus $ownStatus
+     * @param ownershipStatus $ownStatus
      * @return ownership
      */
-    public function setOwnStatus(\MyCp\mycpBundle\Entity\ownershipStatus $ownStatus = null) {
+    public function setOwnStatus(ownershipStatus $ownStatus = null) {
         $this->own_status = $ownStatus;
 
         return $this;
@@ -1611,7 +1612,7 @@ class ownership {
     /**
      * Get own_status
      *
-     * @return \MyCp\mycpBundle\Entity\ownershipStatus
+     * @return ownershipStatus
      */
     public function getOwnStatus() {
         return $this->own_status;
