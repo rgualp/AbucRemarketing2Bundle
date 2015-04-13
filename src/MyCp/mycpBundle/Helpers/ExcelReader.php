@@ -68,7 +68,7 @@ abstract class ExcelReader extends BatchProcessManager{
         }
 
         $this->endProcess();
-        $this->processBatch();
+        $this->setStatus();
         $this->saveProcess();
     }
 

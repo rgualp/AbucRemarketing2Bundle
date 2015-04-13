@@ -82,7 +82,7 @@ abstract class BatchProcessManager {
         $this->batchProcess->setBatchSavedElementsCount($batchElements);
     }
 
-    protected function processBatch()
+    protected function setStatus()
     {
         if(!$this->hasErrors())
             $this->batchProcess->setBatchStatus(batchStatus::BATCH_STATUS_SUCCESS);
