@@ -2,6 +2,7 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use MyCp\mycpBundle\Entity\batchType;
 use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\room;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -278,6 +279,46 @@ class BackendOwnershipController extends Controller {
 
         $em->flush();
         return $this->redirect($this->generateUrl('mycp_edit_ownership', array('id_ownership' => $id_ownership)));
+    }
+
+    public function batchProcessAction($items_per_page, Request $request)
+    {
+        /*$service_security = $this->get('Secure');
+        $service_security->verifyAccess();*/
+        $page = 1;
+        $filter_status = $request->get('filter_status');
+        $filter_start_date = $request->get('filter_start_date');
+
+        if ($request->getMethod() == 'POST' && $filter_status == 'null' && $filter_start_date == 'null') {
+            $message = 'Debe llenar al menos un campo para filtrar.';
+            $this->get('session')->getFlashBag()->add('message_error_local', $message);
+            return $this->redirect($this->generateUrl('mycp_batch_process_ownership'));
+        }
+
+        if ($filter_status == 'null')
+            $filter_status = '';
+        if ($filter_start_date == 'null')
+            $filter_start_date = '';
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $paginator = $this->get('ideup.simple_paginator');
+        $paginator->setItemsPerPage($items_per_page);
+        $batchList = $paginator->paginate($em->getRepository('mycpBundle:batchProcess')->getAllByType(batchType::BATCH_TYPE_ACCOMMODATION,
+            $filter_status, $filter_start_date))->getResult();
+
+        $service_log = $this->get('log');
+        $service_log->saveLog('Visit', BackendModuleName::MODULE_OWNERSHIP);
+        return $this->render('mycpBundle:ownership:batchProcessList.html.twig', array(
+            'batchList' => $batchList,
+            'items_per_page' => $items_per_page,
+            'current_page' => $page,
+            'total_items' => $paginator->getTotalItems(),
+            'filter_status' => $filter_status,
+            'filter_start_date' => $filter_start_date
+
+        ));
     }
 
     public function edit_ownershipAction($id_ownership, Request $request) {

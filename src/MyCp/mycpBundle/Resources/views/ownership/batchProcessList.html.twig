@@ -1,0 +1,171 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{path('mycp_list_ownerships')}}">Propiedades</a> <span class="divider">/</span></li>
+    <li class="active">Inserción múltiple</li>
+</ul>
+{% endblock %}
+{% block content %}
+<h2>Inserción múltiple de alojamientos</h2>
+<hr/>
+
+<br/><br/>
+{% for message in app.session.flashbag.get('message_error_local') %}
+<div class="alert alert-error">{{ message }}</div>
+{% endfor %}
+<form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_batch_process_ownership')}}">
+    <div class="well well-small">
+        <div class="row-fluid">
+            <div class="span5">
+                <label>Fecha:</label><input id="filter_start_date" value="{{filter_start_date}}" class="input-block-level datepicker" name="filter_start_date" type="text"/>
+            </div>
+            <div class="span5">
+                <label>Estado:</label>
+                <select id="filter_status" class="input-block-level" name="filter_status">
+                    {{ render(controller('mycpBundle:BackendOwnership:get_status', {'post': filter_status})) }}
+                    </select>
+                </div>
+            <div class="span1">
+                <br/>
+                <a rel="tooltip" title="Filtrar listado" href="javascript:action_submit();" class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
+            </div>
+            <div class="span1">
+                <br/>
+                <a rel="tooltip" title="Resetear filtrado" href="{{ path('mycp_batch_process_ownership', {'items_per_page':items_per_page}) }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
+            </div>
+                </div>
+                            </div>
+ </form>
+    {% if batchList %}
+                        <div class="alert">
+                            <div class="row-fluid">
+                                <div class="pull-left">
+                                    Mostrando del {{items_per_page * current_page - items_per_page}} al {% if items_per_page * current_page >  total_items%}{{total_items }}{% else %}{{ items_per_page * current_page }}{% endif %} de {{total_items}} registros
+                                </div>
+                                <div class="pull-right">
+                                    Mostrar:
+                                    <a class="{% if items_per_page == 20 %}selected{% endif %}" href="{{ path('mycp_batch_process_ownership',{'items_per_page':20,
+                                            'filter_status':(filter_status == "" ? "null": filter_status),
+                                            'filter_start_date':(filter_start_date == "" ? "null": filter_start_date)})}}">20</a>
+                                    <a class="{% if items_per_page == 50 %}selected{% endif %}" href="{{ path('mycp_batch_process_ownership',{'items_per_page':50,
+                                    'filter_status':(filter_status == "" ? "null": filter_status),
+                                    'filter_start_date':(filter_start_date == "" ? "null": filter_start_date)})}}">50</a>
+                                    <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_batch_process_ownership',{'items_per_page':100,
+                                    'filter_status':(filter_status == "" ? "null": filter_status),
+                                    'filter_start_date':(filter_start_date == "" ? "null": filter_start_date)})}}">100</a>
+                                    <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_batch_process_ownership',{'items_per_page':300,
+                                    'filter_status':(filter_status == "" ? "null": filter_status),
+                                    'filter_start_date':(filter_start_date == "" ? "null": filter_start_date)})}}">300</a>
+                                    <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_batch_process_ownership',{'items_per_page':500,
+                                    'filter_status':(filter_status == "" ? "null": filter_status),
+                                    'filter_start_date':(filter_start_date == "" ? "null": filter_start_date)})}}">500</a>
+
+                                    <input class="hidden" name="items_per_page" value="100">
+                                </div>
+                            </div>
+                        </div>
+<div class="row-fluid">
+                        <div class="paginator-cont">
+    {{ simple_paginator_render('mycp_batch_process_ownership',null,{
+'container_class': 'paginator',
+'previousPageText': '«',
+'nextPageText': '»',
+'currentClass': 'current',
+'firstPageText': 'Primera',
+'lastPageText': 'Última',
+'route_params': {'items_per_page':items_per_page,
+    'filter_status':(filter_status == "" ? "null": filter_status),
+    'filter_start_date':(filter_start_date == "" ? "null": filter_start_date)}
+}) }}
+                            </div>
+    </div>
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Inicio</th>
+                                        <th>Fin</th>
+                                        <th>Elementos</th>
+                                        <th>Errores</th>
+                                        <th>Salvados</th>
+                                        <th>Estado</th>
+                                        <th style="text-align: right">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+    {% for process in batchList %}
+            <tr {% if (process.batchStatus != null and process.batchStatus!=constant('\\MyCp\\mycpBundle\\Entity\\batchStatus::BATCH_STATUS_SUCCESS')) %} class="red_row"{% endif %}>
+                <td>{{process.batchStartDate | date("d/m/Y H:i")}}</td>
+                <td>{{process.batchEndDate | date("d/m/Y H:i")}}</td>
+                <td>{{process.batchElementsCount}}</td>
+                <td>{{process.batchErrosCount}}</td>
+                <td> {{process.batchSavedElementsCount}}</td>
+                <td>{% include 'mycpBundle:utils:batchProcess_status_labels.html.twig' with {'batchStatus':process.batchStatus}%}</td>
+               <td style="text-align: right">
+                    <a class="btn btn-mini"><i class="icon-eye-open"></i></a>
+                </td>
+               </tr>
+    {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        <div class="row-fluid">
+                                            <div class="paginator-cont">
+                                                {{ simple_paginator_render('mycp_batch_process_ownership',null,{
+                                                'container_class': 'paginator',
+                                                'previousPageText': '«',
+                                                'nextPageText': '»',
+                                                'currentClass': 'current',
+                                                'firstPageText': 'Primera',
+                                                'lastPageText': 'Última',
+                                                'route_params': {'items_per_page':items_per_page,
+                                                'filter_status':(filter_status == "" ? "null": filter_status),
+                                                'filter_start_date':(filter_start_date == "" ? "null": filter_start_date)}
+                                                }) }}
+                                            </div>
+                                            </div>
+    {% else %}
+                                            <p> <div class="alert alert-block">No hay inserciones múltiples disponibles.</div></p>
+    {% endif %}
+                                        <link href="{{ asset('bundles/mycp/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
+                                        <script src="{{ asset('bundles/mycp/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
+                                        <script type="text/javascript" src="{{ asset('bundles/mycp/js/bootstrap-datepicker.es.js') }}" charset="UTF-8"></script>
+
+<script type="text/javascript">
+    $('.datepicker').datepicker({
+        format: 'dd-mm-yyyy',
+        todayBtn: 'linked',
+        autoclose: true,
+        language: 'es'
+    });
+
+    function submit_filters(ev)
+    {
+        if (ev.keyCode == 13)
+        {
+            action_submit();
+        }
+    }
+    function action_submit()
+    {
+
+        items_per_page ={{items_per_page}} ;
+        filter_status = $('#filter_status').val();
+        if (filter_status == '')
+            filter_status = 'null';
+        filter_start_date = $('#filter_start_date').val();
+        if (filter_start_date == '')
+            filter_start_date = 'null';
+        url_submit = $('#filter').attr('action');
+        url_submit = url_submit + '/' + items_per_page + '/' + filter_status + '/' + filter_start_date;
+        $('#filter').attr('action', url_submit);
+        $('#filter').submit();
+    }
+</script>
+
+<script src="{{ asset('bundles/mycp/js/bootstrap-typeahead.js') }}" type="text/javascript"></script>
+{% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea eliminar el elemento?','confirmation_action_label':'Eliminar'}%}
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('bundles/mycp/js/common_list.js') }}"></script>
+{% endblock %}
