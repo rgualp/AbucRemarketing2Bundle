@@ -1,7 +1,7 @@
 {% if batchStatus is defined%}
-    {% if batchStatus==constant('\\MyCp\\mycpBundle\\Entity\\bathStatus::BATCH_STATUS_SUCCESS')%}<span class="label label-success">Completo</span>
-    {% elseif  batchStatus==constant('\\MyCp\\mycpBundle\\Entity\\bathStatus::BATCH_STATUS_INCOMPLETE'%} <span class="label label-warning">Incompleto</span>
-    {% elseif  batchStatus==constant('\\MyCp\\mycpBundle\\Entity\\bathStatus::BATCH_STATUS_WITH_ERRORS_ERROR'%} <span class="label label-important">Con errores</span>
+    {% if batchStatus==constant('\\MyCp\\mycpBundle\\Entity\\batchStatus::BATCH_STATUS_SUCCESS')%}<span class="label label-success">Completo</span>
+    {% elseif  batchStatus==constant('\\MyCp\\mycpBundle\\Entity\\batchStatus::BATCH_STATUS_INCOMPLETE')%} <span class="label label-warning">Incompleto</span>
+    {% elseif  batchStatus==constant('\\MyCp\\mycpBundle\\Entity\\batchStatus::BATCH_STATUS_WITH_ERRORS_ERROR')%} <span class="label label-important">Con errores</span>
     {%else%}
          <span class="label label-inverse">Sin estado</span>
     {% endif %}

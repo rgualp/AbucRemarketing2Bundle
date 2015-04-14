@@ -10,11 +10,20 @@
 {% block content %}
 <h2>Inserción múltiple de alojamientos</h2>
 <hr/>
-
-<br/><br/>
 {% for message in app.session.flashbag.get('message_error_local') %}
 <div class="alert alert-error">{{ message }}</div>
 {% endfor %}
+    <form method="POST" action="{{ path("mycp_batch_process_insert_ownership") }}" enctype="multipart/form-data">
+        <div class="row-fluid">
+            <div class="span3">
+            <input id="file_excel" class="input-block-level" name="file_excel" type="file" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+            </div>
+            <div class="span1">
+            <input id="btn_process"class="btn" name="btn_process" type="submit" value="Procesar"/>
+            </div>
+        </div>
+    </form>
+    <br/><br/>
 <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_batch_process_ownership')}}">
     <div class="well well-small">
         <div class="row-fluid">
@@ -99,7 +108,7 @@
                 <td>{{process.batchStartDate | date("d/m/Y H:i")}}</td>
                 <td>{{process.batchEndDate | date("d/m/Y H:i")}}</td>
                 <td>{{process.batchElementsCount}}</td>
-                <td>{{process.batchErrosCount}}</td>
+                <td>{{process.batchErrorsCount}}</td>
                 <td> {{process.batchSavedElementsCount}}</td>
                 <td>{% include 'mycpBundle:utils:batchProcess_status_labels.html.twig' with {'batchStatus':process.batchStatus}%}</td>
                <td style="text-align: right">

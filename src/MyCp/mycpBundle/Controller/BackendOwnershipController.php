@@ -5,6 +5,7 @@ namespace MyCp\mycpBundle\Controller;
 use MyCp\mycpBundle\Entity\batchType;
 use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\room;
+use MyCp\mycpBundle\Helpers\FileIO;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -279,6 +280,45 @@ class BackendOwnershipController extends Controller {
 
         $em->flush();
         return $this->redirect($this->generateUrl('mycp_edit_ownership', array('id_ownership' => $id_ownership)));
+    }
+
+    public function batchInsertAction(Request $request)
+    {
+       if ($request->getMethod() == 'POST') {
+           $post = $request->request->getIterator()->getArrayCopy();
+           $dir = $this->container->getParameter('configuration.dir.accommodation.batch.process.excels');
+           $message = "";
+           $file = $request->files->get('file_excel');
+
+           if ($file === null) {
+               $message = 'Debe seleccionar un fichero Excel.';
+               $this->get('session')->getFlashBag()->add('message_error_local', $message);
+           } else {
+               $count_errors = 0;
+               if ($file->getClientMimeType() != 'application/vnd.ms-excel' && $file->getClientMimeType() != 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+                   $message = 'Extensión de fichero no admitida.';
+                   $this->get('session')->getFlashBag()->add('message_error_local', $message);
+                   $count_errors++;
+               }
+
+               if ($count_errors == 0) {
+                   FileIO::createDirectoryIfNotExist($dir);
+                   $extension = ($file->getClientMimeType() != 'application/vnd.ms-excel') ? "xls": "xlsx";
+                   $fileName = uniqid('excel-') . '-batchProcess.'.$extension;
+                   $file->move($dir, $fileName);
+
+                   //Crear el servicio e importar
+                   $batchService = $this->get('mycp_accommodation_batchProcess');
+                   $batchService->import($fileName, 2);
+
+                   //TODO: En el Formulario serleccionar provincia, municipio, destino y quitar el 22 que todas las esta guardando en Centro Habana
+                   //TODO:Guardar el log correspondiente
+               }
+
+           }
+       }
+
+        return $this->redirect($this->generateUrl('mycp_batch_process_ownership'));
     }
 
     public function batchProcessAction($items_per_page, Request $request)

@@ -72,14 +72,14 @@ class batchProcess
     /**
      * @var text
      *
-     * @ORM\Column(name="batch_error_messages", type="text")
+     * @ORM\Column(name="batch_error_messages", type="text", nullable=true)
      */
     private $batch_error_messages;
 
     /**
      * @var text
      *
-     * @ORM\Column(name="batch_messages", type="text")
+     * @ORM\Column(name="batch_messages", type="text", nullable=true)
      */
     private $batch_messages;
 

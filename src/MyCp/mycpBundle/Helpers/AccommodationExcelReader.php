@@ -41,10 +41,10 @@ class AccommodationExcelReader extends ExcelReader {
         $this->languages["DE"] = $this->em->getRepository("mycpBundle:lang")->findOneBy(array("lang_code" => "DE"));
     }
 
-    public function import($excelFullPath, $idDestination)
+    public function import($excelFileName, $idDestination)
     {
         $this->idDestination = $idDestination;
-        $this->processExcel($excelFullPath);
+        $this->processExcel($excelFileName);
     }
 
     protected function processRowData($rowData)
@@ -81,6 +81,8 @@ class AccommodationExcelReader extends ExcelReader {
                 $commission = trim($rowData[22]);
                 $commission = str_replace("%", "", $commission);
                 $ownership->setOwnCommissionPercent($commission);
+
+
 
                 //Add rooms to collection
                 for ($roomNumber = 1; $roomNumber <= 6; $roomNumber++) {
@@ -137,9 +139,20 @@ class AccommodationExcelReader extends ExcelReader {
                 $ownership->setOwnComment(trim($rowData[150]));
                 $ownership->setOwnSaler(trim($rowData[151]));
 
-                $visitDate = \DateTime::createFromFormat("d/m/Y", trim($rowData[152]));
-                $ownership->setOwnVisitDate($visitDate);
+                /*
+                if($rowData[152] != "") {
+                    $visitDate = \DateTime::createFromFormat("d/m/Y", trim($rowData[152]));
+                    $ownership->setOwnVisitDate($visitDate);
+                }
+                */
 
+                //TODO: Reset this counters
+                $ownership->setOwnCommentsTotal(0);
+                $ownership->setOwnMaximumNumberGuests(0);
+                $ownership->setOwnRating(0);
+                $ownership->setOwnMaximumPrice(0);
+                $ownership->setOwnMinimumPrice(0);
+                $ownership->setOwnRoomsTotal(0);
 
                 //Add status, destination, province and municipality entities and general data
                 $this->setLocalization($ownership);
@@ -157,6 +170,7 @@ class AccommodationExcelReader extends ExcelReader {
                 $this->addSavedElement();
                 $this->clearCollections();
             } catch (\Exception $e) {
+                $this->reopenEntityManager();
                 $this->addError($e->getMessage());
             }
         }
@@ -207,29 +221,31 @@ class AccommodationExcelReader extends ExcelReader {
 
     private function addRoom($roomNumber, $ownership, $roomData)
     {
+
         if($roomData[0] != "") {
-            $room = new room();
-            $room->setRoomNum($roomNumber);
-            $room->setRoomOwnership($ownership);
 
-            $room->setRoomType(trim($roomData[0]));
-            $room->setRoomBeds(trim($roomData[1]));
-            $room->setRoomPriceDownTo($this->processPrice($roomData[2]));
-            $room->setRoomPriceUpTo($this->processPrice($roomData[3]));
-            $room->setRoomPriceSpecial($this->processPrice($roomData[4]));
-            $room->setRoomClimate(trim($roomData[5]));
-            $room->setRoomAudiovisual(trim($roomData[6]));
-            $room->setRoomSmoker($this->processBooleanValue($roomData[7]));
-            $room->setRoomSafe($this->processBooleanValue($roomData[8]));
-            $room->setRoomBaby($this->processBooleanValue($roomData[9]));
-            $room->setRoomBathroom(trim($roomData[10]));
-            $room->setRoomStereo($this->processBooleanValue($roomData[11]));
-            $room->setRoomWindows(trim($roomData[12]));
-            $room->setRoomBalcony(trim($roomData[13]));
-            $room->setRoomTerrace($this->processBooleanValue($roomData[14]));
-            $room->setRoomYard($this->processBooleanValue($roomData[15]));
+                $room = new room();
+                $room->setRoomNum($roomNumber);
+                $room->setRoomOwnership($ownership);
 
-            $this->rooms->add($room);
+                $room->setRoomType(trim($roomData[0]));
+                $room->setRoomBeds(trim($roomData[1]));
+                $room->setRoomPriceDownTo($this->processPrice($roomData[2]));
+                $room->setRoomPriceUpTo($this->processPrice($roomData[3]));
+                $room->setRoomPriceSpecial($this->processPrice($roomData[4]));
+                $room->setRoomClimate(trim($roomData[5]));
+                $room->setRoomAudiovisual(trim($roomData[6]));
+                $room->setRoomSmoker($this->processBooleanValue($roomData[7]));
+                $room->setRoomSafe($this->processBooleanValue($roomData[8]));
+                $room->setRoomBaby($this->processBooleanValue($roomData[9]));
+                $room->setRoomBathroom(trim($roomData[10]));
+                $room->setRoomStereo($this->processBooleanValue($roomData[11]));
+                $room->setRoomWindows(trim($roomData[12]));
+                $room->setRoomBalcony(trim($roomData[13]));
+                $room->setRoomTerrace($this->processBooleanValue($roomData[14]));
+                $room->setRoomYard($this->processBooleanValue($roomData[15]));
+
+                $this->rooms->add($room);
         }
     }
 
@@ -261,14 +277,19 @@ class AccommodationExcelReader extends ExcelReader {
 
     private function processPrice($dataValue)
     {
-        $price = trim($dataValue);
-        $price = str_replace("$","", $price);
+        if($dataValue != "") {
+            $price = trim($dataValue);
+            $price = str_replace("$", "", $price);
 
-        $parts = explode(".",$price);
+            $parts = explode(".", $price);
 
-        if($parts[1] == "00")
-            return $parts[0];
-        else return $price;
+            if(count($parts)) {
+                if ($parts[1] == "00")
+                    return $parts[0];
+                else return $price;
+            }
+        }
+        return "";
     }
 
     private function processBooleanValue($boolValue)
@@ -285,6 +306,7 @@ class AccommodationExcelReader extends ExcelReader {
 
     private function saveCollections()
     {
+        $this->reopenEntityManager();
         foreach($this->rooms as $room)
         {
             $this->em->persist($room);

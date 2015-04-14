@@ -51,7 +51,7 @@ abstract class ExcelReader extends BatchProcessManager{
 
         $this->startProcess();
 
-        for ($row = 1; $row <= $highestRow; $row++){
+        for ($row = 2; $row <= $highestRow; $row++){
             $this->addElement();
 
             try {
@@ -63,7 +63,7 @@ abstract class ExcelReader extends BatchProcessManager{
             }
             catch(\Exception $e)
             {
-                $this->addError($e->getMessage());
+                $this->addError($e->getMessage().": ".$e->getTraceAsString());
                 continue;
             }
         }

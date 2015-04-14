@@ -32,6 +32,9 @@ abstract class BatchProcessManager {
     {
         $this->batchProcess->setBatchStartDate(new \DateTime());
         $this->batchProcess->setBatchStatus(batchStatus::BATCH_STATUS_INCOMPLETE);
+        $this->batchProcess->setBatchElementsCount(0);
+        $this->batchProcess->setBatchErrorsCount(0);
+        $this->batchProcess->setBatchSavedElementsCount(0);
     }
 
     protected function endProcess()
@@ -93,11 +96,12 @@ abstract class BatchProcessManager {
 
     protected function hasErrors()
     {
-        return $this->batchProcess->getBatchErrorsCount() == 0 && $this->batchProcess->getBatchErrorMessages() == "";
+        return $this->batchProcess->getBatchErrorsCount() == 0 || $this->batchProcess->getBatchErrorMessages() != "";
     }
 
     protected function saveProcess()
     {
+        $this->reopenEntityManager();
         $this->em->persist($this->batchProcess);
         $this->em->flush();
     }
@@ -105,6 +109,16 @@ abstract class BatchProcessManager {
     protected function getBatchProcessObject()
     {
         return $this->batchProcess;
+    }
+
+    protected function reopenEntityManager()
+    {
+        if (!$this->em->isOpen()) {
+            $this->em = $this->em->create(
+                $this->em->getConnection(),
+                $this->em->getConfiguration()
+            );
+        }
     }
 
     protected abstract function configBatchProcess();
