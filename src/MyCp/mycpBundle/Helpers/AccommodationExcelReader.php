@@ -175,7 +175,11 @@ class AccommodationExcelReader extends ExcelReader {
             }
         }
         else
+        {
+            $this->reopenEntityManager();
             $this->addMessage("Ya existe un alojamiento con el código ".$code);
+        }
+
     }
 
     protected function configBatchProcess()

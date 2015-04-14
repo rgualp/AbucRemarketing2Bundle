@@ -104,7 +104,7 @@
                                 </thead>
                                 <tbody>
     {% for process in batchList %}
-            <tr {% if (process.batchStatus != null and process.batchStatus!=constant('\\MyCp\\mycpBundle\\Entity\\batchStatus::BATCH_STATUS_SUCCESS')) %} class="red_row"{% endif %}>
+            <tr {% if (process.batchStatus != null and process.batchStatus==constant('\\MyCp\\mycpBundle\\Entity\\batchStatus::BATCH_STATUS_WITH_ERRORS_ERROR')) %} class="red_row"{% endif %}>
                 <td>{{process.batchStartDate | date("d/m/Y H:i")}}</td>
                 <td>{{process.batchEndDate | date("d/m/Y H:i")}}</td>
                 <td>{{process.batchElementsCount}}</td>

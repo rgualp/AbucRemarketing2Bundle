@@ -67,7 +67,7 @@ abstract class BatchProcessManager {
             $savedMessage .= "<br/>";
         }
 
-        $this->batchProcess->setBatchErrorMessages($savedMessage.$message);
+        $this->batchProcess->setBatchMessages($savedMessage.$message);
 
     }
 
@@ -88,7 +88,13 @@ abstract class BatchProcessManager {
     protected function setStatus()
     {
         if(!$this->hasErrors())
-            $this->batchProcess->setBatchStatus(batchStatus::BATCH_STATUS_SUCCESS);
+        {
+            if($this->batchProcess->getBatchElementsCount() == $this->batchProcess->getBatchSavedElementsCount())
+                $this->batchProcess->setBatchStatus(batchStatus::BATCH_STATUS_SUCCESS);
+            else
+                $this->batchProcess->setBatchStatus(batchStatus::BATCH_STATUS_INCOMPLETE);
+        }
+
         else
             $this->batchProcess->setBatchStatus(batchStatus::BATCH_STATUS_WITH_ERRORS_ERROR);
 
@@ -96,7 +102,7 @@ abstract class BatchProcessManager {
 
     protected function hasErrors()
     {
-        return $this->batchProcess->getBatchErrorsCount() == 0 || $this->batchProcess->getBatchErrorMessages() != "";
+        return $this->batchProcess->getBatchErrorsCount() > 0 || $this->batchProcess->getBatchErrorMessages() != "";
     }
 
     protected function saveProcess()
