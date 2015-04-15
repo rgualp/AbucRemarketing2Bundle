@@ -284,6 +284,9 @@ class BackendOwnershipController extends Controller {
 
     public function batchInsertAction(Request $request)
     {
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
+
        if ($request->getMethod() == 'POST') {
            $post = $request->request->getIterator()->getArrayCopy();
            $dir = $this->container->getParameter('configuration.dir.accommodation.batch.process.excels');
@@ -347,8 +350,8 @@ class BackendOwnershipController extends Controller {
 
     public function batchProcessAction($items_per_page, Request $request)
     {
-        /*$service_security = $this->get('Secure');
-        $service_security->verifyAccess();*/
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
         $page = 1;
         $filter_status = $request->get('filter_status');
         $filter_start_date = $request->get('filter_start_date');
@@ -389,8 +392,8 @@ class BackendOwnershipController extends Controller {
 
     public function batchViewAction($batchId)
     {
-        /*$service_security = $this->get('Secure');
-        $service_security->verifyAccess();*/
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $batchProcess = $em->getRepository("mycpBundle:batchProcess")->find($batchId);
 
