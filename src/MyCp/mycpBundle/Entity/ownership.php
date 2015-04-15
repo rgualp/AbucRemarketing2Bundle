@@ -294,7 +294,7 @@ class ownership {
     private $own_top_20;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ownershipStatus")
+     * @ORM\ManyToOne(targetEntity="ownershipStatus",cascade={"persist"})
      * @ORM\JoinColumn(name="own_status", referencedColumnName="status_id")
      */
     private $own_status;

@@ -1,0 +1,5 @@
+<option value=""></option>
+<option {% if(filter_status is defined and  filter_status== constant("\\MyCp\\mycpBundle\\Entity\\batchStatus::BATCH_STATUS_SUCCESS")) %} selected="TRUE" {% endif %} value="{{ constant("\\MyCp\\mycpBundle\\Entity\\batchStatus::BATCH_STATUS_SUCCESS") }}">Completo</option>
+<option {% if (filter_status is defined and  filter_status== constant("\\MyCp\\mycpBundle\\Entity\\batchStatus::BATCH_STATUS_INCOMPLETE")) %} selected="TRUE" {% endif %} value="{{ constant("\\MyCp\\mycpBundle\\Entity\\batchStatus::BATCH_STATUS_INCOMPLETE") }}">Incompleto</option>
+<option {% if(filter_status is defined and  filter_status== constant("\\MyCp\\mycpBundle\\Entity\\batchStatus::BATCH_STATUS_WITH_ERRORS_ERROR")) %} selected="TRUE" {% endif %} value="{{ constant("\\MyCp\\mycpBundle\\Entity\\batchStatus::BATCH_STATUS_WITH_ERRORS_ERROR") }}">Con errores</option>
+

@@ -41,18 +41,35 @@ class AccommodationExcelReader extends ExcelReader {
         $this->languages["DE"] = $this->em->getRepository("mycpBundle:lang")->findOneBy(array("lang_code" => "DE"));
     }
 
-    public function import($excelFullPath, $idDestination)
+    public function import($excelFileName, $idDestination)
     {
         $this->idDestination = $idDestination;
-        $this->processExcel($excelFullPath);
+        $this->processExcel($excelFileName);
+        $this->reopenEntityManager();
     }
 
-    protected function processRowData($rowData)
+    protected function processRowData($rowData, $sheet, $rowNumber)
     {
         $this->clearCollections();
         $code = trim($rowData[2]);
+        $name = trim($rowData[0]);
+        $doProcess = true;
 
-        if(!$this->existAccommodationCode($code)) {
+        if($this->existAccommodationCode($code))
+        {
+            $doProcess = false;
+            $this->reopenEntityManager();
+            $this->addMessage("<b>Fila $rowNumber: </b>Ya existe un alojamiento con el código <em>".$code."</em>");
+        }
+
+        if($this->existAccommodationName($name))
+        {
+            $doProcess = false;
+            $this->reopenEntityManager();
+            $this->addMessage("<b>Fila $rowNumber: </b>Ya existe un alojamiento con el nombre <em>".$name."</em>");
+        }
+
+        if($doProcess) {
             $ownership = new ownership();
 
             try {
@@ -80,7 +97,14 @@ class AccommodationExcelReader extends ExcelReader {
 
                 $commission = trim($rowData[22]);
                 $commission = str_replace("%", "", $commission);
-                $ownership->setOwnCommissionPercent($commission);
+                $cell = $sheet->getCell('W' . $rowNumber);
+
+                if($cell->getDataType() == \PHPExcel_Cell_DataType::TYPE_NUMERIC) {
+
+                    if($cell->getStyle()->getNumberFormat()->getFormatCode() == \PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE || $cell->getStyle()->getNumberFormat()->getFormatCode() == \PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00)
+                        $ownership->setOwnCommissionPercent($commission * 100);
+                }
+
 
                 //Add rooms to collection
                 for ($roomNumber = 1; $roomNumber <= 6; $roomNumber++) {
@@ -137,9 +161,23 @@ class AccommodationExcelReader extends ExcelReader {
                 $ownership->setOwnComment(trim($rowData[150]));
                 $ownership->setOwnSaler(trim($rowData[151]));
 
-                $visitDate = \DateTime::createFromFormat("d/m/Y", trim($rowData[152]));
-                $ownership->setOwnVisitDate($visitDate);
 
+                $cell = $sheet->getCell('EW' . $rowNumber);
+                if($rowData[152] != "" && \PHPExcel_Shared_Date::isDateTime($cell)) {
+                    $visitDate = \DateTime::createFromFormat("d/m/Y", date("d/m/Y", \PHPExcel_Shared_Date::ExcelToPHP($cell->getValue())));
+                    $ownership->setOwnVisitDate($visitDate);
+                }
+
+                //Reset global counters
+                $ownership->setOwnCommentsTotal(0);
+                $ownership->setOwnMaximumNumberGuests(0);
+                $ownership->setOwnRating(0);
+                $ownership->setOwnMaximumPrice(0);
+                $ownership->setOwnMinimumPrice(0);
+                $ownership->setOwnRoomsTotal(0);
+
+                //Calculate values in global counters
+                $this->calculateGlobalCounters($ownership);
 
                 //Add status, destination, province and municipality entities and general data
                 $this->setLocalization($ownership);
@@ -157,11 +195,11 @@ class AccommodationExcelReader extends ExcelReader {
                 $this->addSavedElement();
                 $this->clearCollections();
             } catch (\Exception $e) {
-                $this->addError($e->getMessage());
+                $this->reopenEntityManager();
+                $this->addError("<b>Fila $rowNumber: </b>".$e->getMessage()." <br/> ". $e->getTraceAsString());
             }
         }
-        else
-            $this->addMessage("Ya existe un alojamiento con el código ".$code);
+
     }
 
     protected function configBatchProcess()
@@ -207,29 +245,31 @@ class AccommodationExcelReader extends ExcelReader {
 
     private function addRoom($roomNumber, $ownership, $roomData)
     {
+
         if($roomData[0] != "") {
-            $room = new room();
-            $room->setRoomNum($roomNumber);
-            $room->setRoomOwnership($ownership);
 
-            $room->setRoomType(trim($roomData[0]));
-            $room->setRoomBeds(trim($roomData[1]));
-            $room->setRoomPriceDownTo($this->processPrice($roomData[2]));
-            $room->setRoomPriceUpTo($this->processPrice($roomData[3]));
-            $room->setRoomPriceSpecial($this->processPrice($roomData[4]));
-            $room->setRoomClimate(trim($roomData[5]));
-            $room->setRoomAudiovisual(trim($roomData[6]));
-            $room->setRoomSmoker($this->processBooleanValue($roomData[7]));
-            $room->setRoomSafe($this->processBooleanValue($roomData[8]));
-            $room->setRoomBaby($this->processBooleanValue($roomData[9]));
-            $room->setRoomBathroom(trim($roomData[10]));
-            $room->setRoomStereo($this->processBooleanValue($roomData[11]));
-            $room->setRoomWindows(trim($roomData[12]));
-            $room->setRoomBalcony(trim($roomData[13]));
-            $room->setRoomTerrace($this->processBooleanValue($roomData[14]));
-            $room->setRoomYard($this->processBooleanValue($roomData[15]));
+                $room = new room();
+                $room->setRoomNum($roomNumber);
+                $room->setRoomOwnership($ownership);
 
-            $this->rooms->add($room);
+                $room->setRoomType(trim($roomData[0]));
+                $room->setRoomBeds(trim($roomData[1]));
+                $room->setRoomPriceDownTo($this->processPrice($roomData[2]));
+                $room->setRoomPriceUpTo($this->processPrice($roomData[3]));
+                $room->setRoomPriceSpecial($this->processPrice($roomData[4]));
+                $room->setRoomClimate(trim($roomData[5]));
+                $room->setRoomAudiovisual(trim($roomData[6]));
+                $room->setRoomSmoker($this->processBooleanValue($roomData[7]));
+                $room->setRoomSafe($this->processBooleanValue($roomData[8]));
+                $room->setRoomBaby($this->processBooleanValue($roomData[9]));
+                $room->setRoomBathroom(trim($roomData[10]));
+                $room->setRoomStereo($this->processBooleanValue($roomData[11]));
+                $room->setRoomWindows(trim($roomData[12]));
+                $room->setRoomBalcony(trim($roomData[13]));
+                $room->setRoomTerrace($this->processBooleanValue($roomData[14]));
+                $room->setRoomYard($this->processBooleanValue($roomData[15]));
+
+                $this->rooms->add($room);
         }
     }
 
@@ -261,14 +301,19 @@ class AccommodationExcelReader extends ExcelReader {
 
     private function processPrice($dataValue)
     {
-        $price = trim($dataValue);
-        $price = str_replace("$","", $price);
+        if($dataValue != "") {
+            $price = trim($dataValue);
+            $price = str_replace("$", "", $price);
 
-        $parts = explode(".",$price);
+            $parts = explode(".", $price);
 
-        if($parts[1] == "00")
-            return $parts[0];
-        else return $price;
+            if(count($parts)) {
+                if ($parts[1] == "00")
+                    return $parts[0];
+                else return $price;
+            }
+        }
+        return "";
     }
 
     private function processBooleanValue($boolValue)
@@ -285,6 +330,7 @@ class AccommodationExcelReader extends ExcelReader {
 
     private function saveCollections()
     {
+        $this->reopenEntityManager();
         foreach($this->rooms as $room)
         {
             $this->em->persist($room);
@@ -299,6 +345,39 @@ class AccommodationExcelReader extends ExcelReader {
         {
             $this->em->persist($keyword);
         }
+    }
+
+    private function existAccommodationName($accommodationName)
+    {
+        $own = $this->em->getRepository("mycpBundle:ownership")->findBy(array("own_name" => $accommodationName));
+        return count($own) > 0;
+    }
+
+    private function calculateGlobalCounters($ownership)
+    {
+        $maximumGuestNumber = 0;
+        $minimumPrice = 0;
+        $maximumPrice = 0;
+        $roomsTotal = $this->rooms->count();
+
+        foreach($this->rooms as $room)
+        {
+            $maximumGuestNumber += $room->getMaximumNumberGuests();
+
+            if ($minimumPrice == 0 || $room->getRoomPriceDownTo() < $minimumPrice)
+                $minimumPrice = $room->getRoomPriceDownTo();
+
+            if ($maximumPrice == 0 || $room->getRoomPriceUpTo() > $maximumPrice)
+                $maximumPrice = $room->getRoomPriceUpTo();
+
+            if ($maximumPrice == 0 || $room->getRoomPriceSpecial() > $maximumPrice)
+                $maximumPrice = $room->getRoomPriceSpecial();
+        }
+
+        $ownership->setOwnMaximumNumberGuests($maximumGuestNumber);
+        $ownership->setOwnMaximumPrice($maximumPrice);
+        $ownership->setOwnMinimumPrice($minimumPrice);
+        $ownership->setOwnRoomsTotal($roomsTotal);
     }
 }
 

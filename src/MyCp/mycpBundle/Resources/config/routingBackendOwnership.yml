@@ -45,3 +45,15 @@ mycp_publish_ownership:
 mycp_delete_multiple_photo_ownership_callback:
     pattern:  /delete-multiple-photos-callback/{idOwnership}
     defaults: { _controller: mycpBundle:BackendOwnership:deleteMultiplesPhotosCallback }
+
+mycp_batch_process_ownership:
+    pattern:  /batch/{items_per_page}/{filter_status}/{filter_start_date}
+    defaults: { _controller: mycpBundle:BackendOwnership:batchProcess, items_per_page: 100,filter_status:'',filter_start_date:'' }
+
+mycp_batch_process_insert_ownership:
+    pattern:  /batch-process
+    defaults: { _controller: mycpBundle:BackendOwnership:batchInsert}
+
+mycp_batch_view_ownership:
+    pattern:  /batch-view/{batchId}
+    defaults: { _controller: mycpBundle:BackendOwnership:batchView}

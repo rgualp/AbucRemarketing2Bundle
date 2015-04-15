@@ -10,6 +10,7 @@
 <h2>Propiedades</h2>
 <hr/>
 <a class="btn" href="{{ path('mycp_new_ownership') }}"><i class="icon-plus"></i> Adicionar propiedad</a>&nbsp;
+<a class="btn" href="{{ path('mycp_batch_process_ownership') }}"><i class="icon-tasks"></i> Adicionar múltiples propiedades</a>&nbsp;
 <br/><br/>
 {% for message in app.session.flashbag.get('message_error_local') %}
 <div class="alert alert-error">{{ message }}</div>

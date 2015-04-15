@@ -22,7 +22,7 @@ class ownershipDescriptionLang
     private $odl_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="lang",inversedBy="odl_langs")
+     * @ORM\ManyToOne(targetEntity="lang",inversedBy="odl_langs" ,cascade={"persist"})
      * @ORM\JoinColumn(name="odl_id_lang",referencedColumnName="lang_id")
      */
     private $odl_id_lang;

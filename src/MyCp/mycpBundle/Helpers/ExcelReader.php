@@ -51,7 +51,7 @@ abstract class ExcelReader extends BatchProcessManager{
 
         $this->startProcess();
 
-        for ($row = 1; $row <= $highestRow; $row++){
+        for ($row = 2; $row <= $highestRow; $row++){
             $this->addElement();
 
             try {
@@ -59,11 +59,11 @@ abstract class ExcelReader extends BatchProcessManager{
                     NULL,
                     TRUE,
                     FALSE);
-                $this->processRowData($rowData[0]);
+                $this->processRowData($rowData[0], $sheet, $row);
             }
             catch(\Exception $e)
             {
-                $this->addError($e->getMessage());
+                $this->addError("<b>Fila $row: </b>".$e->getMessage()." <br/> ".$e->getTraceAsString());
                 continue;
             }
         }
@@ -71,9 +71,11 @@ abstract class ExcelReader extends BatchProcessManager{
         $this->endProcess();
         $this->setStatus();
         $this->saveProcess();
+        FileIO::deleteFile($excelFileNameFullPath);
+
     }
 
-    protected abstract function processRowData($rowData);
+    protected abstract function processRowData($rowData, $sheet, $rowNumber);
 }
 
 ?>

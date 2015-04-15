@@ -12,4 +12,35 @@ use Doctrine\ORM\EntityRepository;
  */
 class batchProcessRepository extends EntityRepository
 {
+    public function getAllByType($batchProcessType, $filter_status = "", $filter_start_date = "")
+    {
+        $condition = '';
+
+        if ($filter_status != 'null' && $filter_status != '') {
+            $condition .= "AND b.batch_status = :filter_status ";
+        }
+        if ($filter_start_date != 'null' && $filter_start_date != '') {
+            $condition .= " AND b.batch_start_date >= :filter_start_date AND b.batch_start_date < :filter_start_date_plus_day";
+        }
+
+
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT b
+        FROM mycpBundle:batchProcess b
+        WHERE b.batch_type = :batchType $condition ORDER BY b.batch_start_date DESC");
+
+        $query->setParameter('batchType', $batchProcessType);
+        if ($filter_status != 'null' && $filter_status != '')
+            $query->setParameter('filter_status', $filter_status);
+
+        if ($filter_start_date != 'null' && $filter_start_date != '') {
+            $filter_date = \DateTime::createFromFormat('d-m-Y', $filter_start_date);
+            $query->setParameter('filter_start_date', $filter_date->format("Y-m-d"));
+
+            $filter_date->add(new \DateInterval("P1D"));
+            $query->setParameter('filter_start_date_plus_day', $filter_date->format("Y-m-d"));
+
+        }
+        return $query->getResult();
+    }
 }

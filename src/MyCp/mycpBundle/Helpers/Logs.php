@@ -89,6 +89,9 @@ class Logs
                     case 'mailList':
                         $module_number=BackendModuleName::MODULE_MAIL_LIST;
                         break;
+                    case 'batch process':
+                        $module_number=BackendModuleName::MODULE_BATCH_PROCESS;
+                        break;
                 }
             }
             else

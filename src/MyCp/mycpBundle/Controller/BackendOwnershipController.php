@@ -2,8 +2,10 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use MyCp\mycpBundle\Entity\batchType;
 use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\room;
+use MyCp\mycpBundle\Helpers\FileIO;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -278,6 +280,130 @@ class BackendOwnershipController extends Controller {
 
         $em->flush();
         return $this->redirect($this->generateUrl('mycp_edit_ownership', array('id_ownership' => $id_ownership)));
+    }
+
+    public function batchInsertAction(Request $request)
+    {
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
+
+       if ($request->getMethod() == 'POST') {
+           $post = $request->request->getIterator()->getArrayCopy();
+           $dir = $this->container->getParameter('configuration.dir.accommodation.batch.process.excels');
+           $message = "";
+           $file = $request->files->get('file_excel');
+           $province = $request->get('batch_province');
+           $municipality = $request->get('batch_municipality');
+           $destiny = $request->get('batch_destiny');
+           $count_errors = 0;
+
+           if ($file === null) {
+               $message .= 'Seleccione un fichero Excel. <br/>';
+               $count_errors++;
+           } else {
+
+               if ($file->getClientMimeType() != 'application/vnd.ms-excel' && $file->getClientMimeType() != 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+                   $message .= 'Extensión de fichero no admitida. <br/>';
+                   $count_errors++;
+               }
+           }
+
+               if($province == "")
+               {
+                   $message .= "Seleccione una provincia. <br/>";
+                   $count_errors++;
+               }
+
+               if($municipality == "")
+               {
+                   $message .= "Seleccione un municipio. <br/>";
+                   $count_errors++;
+               }
+
+               if($destiny == "")
+               {
+                   $message .= "Seleccione un destino. <br/>";
+                   $count_errors++;
+               }
+
+               if ($count_errors == 0) {
+                   FileIO::createDirectoryIfNotExist($dir);
+                   $extension = ($file->getClientMimeType() != 'application/vnd.ms-excel') ? "xls": "xlsx";
+                   $fileName = uniqid('excel-') . '-batchProcess.'.$extension;
+                   $file->move($dir, $fileName);
+
+                   $service_log = $this->get('log');
+                   $service_log->saveLog('Process batch process', BackendModuleName::MODULE_BATCH_PROCESS);
+
+                   //Crear el servicio e importar
+                   $batchService = $this->get('mycp_accommodation_batchProcess');
+                   $batchService->import($fileName, $destiny);
+
+               }
+               else
+                   $this->get('session')->getFlashBag()->add('message_error_local', $message);
+
+           }
+
+        return $this->redirect($this->generateUrl('mycp_batch_process_ownership'));
+    }
+
+    public function batchProcessAction($items_per_page, Request $request)
+    {
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
+        $page = 1;
+        $filter_status = $request->get('filter_status');
+        $filter_start_date = $request->get('filter_start_date');
+
+        if ($request->getMethod() == 'POST' && $filter_status == 'null' && $filter_start_date == 'null') {
+            $message = 'Debe llenar al menos un campo para filtrar.';
+            $this->get('session')->getFlashBag()->add('message_error_local', $message);
+            return $this->redirect($this->generateUrl('mycp_batch_process_ownership'));
+        }
+
+        if ($filter_status == 'null')
+            $filter_status = '';
+        if ($filter_start_date == 'null')
+            $filter_start_date = '';
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $paginator = $this->get('ideup.simple_paginator');
+        $paginator->setItemsPerPage($items_per_page);
+        $batchList = $paginator->paginate($em->getRepository('mycpBundle:batchProcess')->getAllByType(batchType::BATCH_TYPE_ACCOMMODATION,
+            $filter_status, $filter_start_date))->getResult();
+
+        $service_log = $this->get('log');
+        $service_log->saveLog('Visit', BackendModuleName::MODULE_BATCH_PROCESS);
+
+        return $this->render('mycpBundle:ownership:batchProcessList.html.twig', array(
+            'batchList' => $batchList,
+            'items_per_page' => $items_per_page,
+            'current_page' => $page,
+            'total_items' => $paginator->getTotalItems(),
+            'filter_status' => $filter_status,
+            'filter_start_date' => $filter_start_date,
+            "post" => array()
+
+        ));
+    }
+
+    public function batchViewAction($batchId)
+    {
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
+        $em = $this->getDoctrine()->getEntityManager();
+        $batchProcess = $em->getRepository("mycpBundle:batchProcess")->find($batchId);
+
+        $service_log = $this->get('log');
+        $service_log->saveLog('View batch process '.$batchId, BackendModuleName::MODULE_BATCH_PROCESS);
+
+        return $this->render('mycpBundle:ownership:batchView.html.twig', array(
+            'batchProcess' => $batchProcess
+
+        ));
     }
 
     public function edit_ownershipAction($id_ownership, Request $request) {
