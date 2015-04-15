@@ -52,8 +52,24 @@ class AccommodationExcelReader extends ExcelReader {
     {
         $this->clearCollections();
         $code = trim($rowData[2]);
+        $name = trim($rowData[0]);
+        $doProcess = true;
 
-        if(!$this->existAccommodationCode($code)) {
+        if($this->existAccommodationCode($code))
+        {
+            $doProcess = false;
+            $this->reopenEntityManager();
+            $this->addMessage("<b>Fila $rowNumber: </b>Ya existe un alojamiento con el código ".$code);
+        }
+
+        if($this->existAccommodationName($name))
+        {
+            $doProcess = false;
+            $this->reopenEntityManager();
+            $this->addMessage("<b>Fila $rowNumber: </b>Ya existe un alojamiento con el nombre ".$name);
+        }
+
+        if($doProcess) {
             $ownership = new ownership();
 
             try {
@@ -179,11 +195,6 @@ class AccommodationExcelReader extends ExcelReader {
                 $this->reopenEntityManager();
                 $this->addError("<b>Fila $rowNumber: </b>".$e->getMessage()." <br/> ". $e->getTraceAsString());
             }
-        }
-        else
-        {
-            $this->reopenEntityManager();
-            $this->addMessage("<b>Fila $rowNumber: </b>Ya existe un alojamiento con el código ".$code);
         }
 
     }
@@ -331,6 +342,12 @@ class AccommodationExcelReader extends ExcelReader {
         {
             $this->em->persist($keyword);
         }
+    }
+
+    private function existAccommodationName($accommodationName)
+    {
+        $own = $this->em->getRepository("mycpBundle:ownership")->findBy(array("own_name" => $accommodationName));
+        return count($own) > 0;
     }
 }
 
