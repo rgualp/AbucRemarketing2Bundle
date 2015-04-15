@@ -45,6 +45,7 @@ class AccommodationExcelReader extends ExcelReader {
     {
         $this->idDestination = $idDestination;
         $this->processExcel($excelFileName);
+        $this->reopenEntityManager();
     }
 
     protected function processRowData($rowData, $sheet, $rowNumber)

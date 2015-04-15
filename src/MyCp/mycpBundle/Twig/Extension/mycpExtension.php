@@ -54,6 +54,7 @@ class mycpExtension extends \Twig_Extension {
             case BackendModuleName::MODULE_LODGING_OWNERSHIP: return "Lodging - MyCasa";
             case BackendModuleName::MODULE_LODGING_USER: return "Lodging - User Profile";
             case BackendModuleName::MODULE_MAIL_LIST: return "Mail List";
+            case BackendModuleName::MODULE_BATCH_PROCESS: return "Batch Process";
 
             default: return "MyCP";
         }

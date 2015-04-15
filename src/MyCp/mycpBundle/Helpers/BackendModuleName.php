@@ -30,6 +30,7 @@ class BackendModuleName {
     const MODULE_LODGING_OWNERSHIP = 17;
     const MODULE_LODGING_USER = 18;
     const MODULE_MAIL_LIST = 19;
+    const MODULE_BATCH_PROCESS = 20;
 
 }
 

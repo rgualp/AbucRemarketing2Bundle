@@ -72,6 +72,7 @@ abstract class ExcelReader extends BatchProcessManager{
         $this->setStatus();
         $this->saveProcess();
         FileIO::deleteFile($excelFileNameFullPath);
+
     }
 
     protected abstract function processRowData($rowData, $sheet, $rowNumber);

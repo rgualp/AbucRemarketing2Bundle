@@ -329,12 +329,13 @@ class BackendOwnershipController extends Controller {
                    $fileName = uniqid('excel-') . '-batchProcess.'.$extension;
                    $file->move($dir, $fileName);
 
+                   $service_log = $this->get('log');
+                   $service_log->saveLog('Process batch process', BackendModuleName::MODULE_BATCH_PROCESS);
+
                    //Crear el servicio e importar
                    $batchService = $this->get('mycp_accommodation_batchProcess');
                    $batchService->import($fileName, $destiny);
 
-                   //TODO: En el Formulario serleccionar provincia, municipio, destino y quitar el 22 que todas las esta guardando en Centro Habana
-                   //TODO:Guardar el log correspondiente
                }
                else
                    $this->get('session')->getFlashBag()->add('message_error_local', $message);
@@ -372,7 +373,8 @@ class BackendOwnershipController extends Controller {
             $filter_status, $filter_start_date))->getResult();
 
         $service_log = $this->get('log');
-        $service_log->saveLog('Visit', BackendModuleName::MODULE_OWNERSHIP);
+        $service_log->saveLog('Visit', BackendModuleName::MODULE_BATCH_PROCESS);
+
         return $this->render('mycpBundle:ownership:batchProcessList.html.twig', array(
             'batchList' => $batchList,
             'items_per_page' => $items_per_page,
@@ -393,7 +395,7 @@ class BackendOwnershipController extends Controller {
         $batchProcess = $em->getRepository("mycpBundle:batchProcess")->find($batchId);
 
         $service_log = $this->get('log');
-        $service_log->saveLog('Visit', BackendModuleName::MODULE_OWNERSHIP);
+        $service_log->saveLog('View batch process '.$batchId, BackendModuleName::MODULE_BATCH_PROCESS);
 
         return $this->render('mycpBundle:ownership:batchView.html.twig', array(
             'batchProcess' => $batchProcess
