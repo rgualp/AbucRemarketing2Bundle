@@ -54,7 +54,7 @@ abstract class BatchProcessManager {
         }
 
         $this->batchProcess->setBatchErrorsCount($errorCount);
-        $this->batchProcess->setBatchErrorMessages($savedErrorMessage.$errorMessage);
+        $this->batchProcess->setBatchErrorMessages("<p>".$savedErrorMessage.$errorMessage."</p>");
 
     }
 
@@ -67,7 +67,7 @@ abstract class BatchProcessManager {
             $savedMessage .= "<br/>";
         }
 
-        $this->batchProcess->setBatchMessages($savedMessage.$message);
+        $this->batchProcess->setBatchMessages("<p>".$savedMessage.$message."</p>");
 
     }
 

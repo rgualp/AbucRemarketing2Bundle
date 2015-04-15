@@ -176,13 +176,13 @@ class AccommodationExcelReader extends ExcelReader {
                 $this->clearCollections();
             } catch (\Exception $e) {
                 $this->reopenEntityManager();
-                $this->addError($e->getMessage());
+                $this->addError("<b>Fila $rowNumber: </b>".$e->getMessage()." <br/> ". $e->getTraceAsString());
             }
         }
         else
         {
             $this->reopenEntityManager();
-            $this->addMessage("Ya existe un alojamiento con el código ".$code);
+            $this->addMessage("<b>Fila $rowNumber: </b>Ya existe un alojamiento con el código ".$code);
         }
 
     }

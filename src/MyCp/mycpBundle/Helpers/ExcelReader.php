@@ -63,7 +63,7 @@ abstract class ExcelReader extends BatchProcessManager{
             }
             catch(\Exception $e)
             {
-                $this->addError($e->getMessage().": ".$e->getTraceAsString());
+                $this->addError("<b>Fila $row: </b>".$e->getMessage()." <br/> ".$e->getTraceAsString());
                 continue;
             }
         }
