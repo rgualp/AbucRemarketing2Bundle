@@ -9,7 +9,7 @@
     </ul>
 {% endblock %}
 {% block content %}
-    <h2>Detalles de inserción múltiple {% include 'mycpBundle:utils:batchProcess_status_labels.html.twig' with {'batchStatus':batchProcess.batchStatus}%}</h2>
+    <h2>Detalles de inserción múltiple {% if batchProcess %}{% include 'mycpBundle:utils:batchProcess_status_labels.html.twig' with {'batchStatus':batchProcess.batchStatus}%}{% endif %}</h2>
     <hr/>
     {% if batchProcess %}
         <div class="row-fluid">

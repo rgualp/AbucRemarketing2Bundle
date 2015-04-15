@@ -58,7 +58,7 @@
             <div class="span5">
                 <label>Estado:</label>
                 <select id="filter_status" class="input-block-level" name="filter_status">
-                    {{ render(controller('mycpBundle:BackendOwnership:get_status', {'post': filter_status})) }}
+                    {% include 'mycpBundle:utils:batchProcess_status.html.twig'%}
                     </select>
                 </div>
             <div class="span1">

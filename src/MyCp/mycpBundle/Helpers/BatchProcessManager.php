@@ -79,11 +79,13 @@ abstract class BatchProcessManager {
         if(!$this->hasErrors())
         {
             if($this->batchProcess->getBatchElementsCount() == $this->batchProcess->getBatchSavedElementsCount())
+            {
                 $this->batchProcess->setBatchStatus(batchStatus::BATCH_STATUS_SUCCESS);
+                $this->addMessage("Operación finalizada con éxito.");
+            }
             else
                 $this->batchProcess->setBatchStatus(batchStatus::BATCH_STATUS_INCOMPLETE);
         }
-
         else
             $this->batchProcess->setBatchStatus(batchStatus::BATCH_STATUS_WITH_ERRORS_ERROR);
 
