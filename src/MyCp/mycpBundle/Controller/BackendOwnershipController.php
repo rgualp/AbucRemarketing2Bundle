@@ -289,15 +289,37 @@ class BackendOwnershipController extends Controller {
            $dir = $this->container->getParameter('configuration.dir.accommodation.batch.process.excels');
            $message = "";
            $file = $request->files->get('file_excel');
+           $province = $request->get('batch_province');
+           $municipality = $request->get('batch_municipality');
+           $destiny = $request->get('batch_destiny');
+           $count_errors = 0;
 
            if ($file === null) {
-               $message = 'Debe seleccionar un fichero Excel.';
-               $this->get('session')->getFlashBag()->add('message_error_local', $message);
+               $message .= 'Seleccione un fichero Excel. <br/>';
+               $count_errors++;
            } else {
-               $count_errors = 0;
+
                if ($file->getClientMimeType() != 'application/vnd.ms-excel' && $file->getClientMimeType() != 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
-                   $message = 'Extensión de fichero no admitida.';
-                   $this->get('session')->getFlashBag()->add('message_error_local', $message);
+                   $message .= 'Extensión de fichero no admitida. <br/>';
+                   $count_errors++;
+               }
+           }
+
+               if($province == "")
+               {
+                   $message .= "Seleccione una provincia. <br/>";
+                   $count_errors++;
+               }
+
+               if($municipality == "")
+               {
+                   $message .= "Seleccione un municipio. <br/>";
+                   $count_errors++;
+               }
+
+               if($destiny == "")
+               {
+                   $message .= "Seleccione un destino. <br/>";
                    $count_errors++;
                }
 
@@ -309,14 +331,15 @@ class BackendOwnershipController extends Controller {
 
                    //Crear el servicio e importar
                    $batchService = $this->get('mycp_accommodation_batchProcess');
-                   $batchService->import($fileName, 2);
+                   $batchService->import($fileName, $destiny);
 
                    //TODO: En el Formulario serleccionar provincia, municipio, destino y quitar el 22 que todas las esta guardando en Centro Habana
                    //TODO:Guardar el log correspondiente
                }
+               else
+                   $this->get('session')->getFlashBag()->add('message_error_local', $message);
 
            }
-       }
 
         return $this->redirect($this->generateUrl('mycp_batch_process_ownership'));
     }
@@ -356,7 +379,8 @@ class BackendOwnershipController extends Controller {
             'current_page' => $page,
             'total_items' => $paginator->getTotalItems(),
             'filter_status' => $filter_status,
-            'filter_start_date' => $filter_start_date
+            'filter_start_date' => $filter_start_date,
+            "post" => array()
 
         ));
     }
