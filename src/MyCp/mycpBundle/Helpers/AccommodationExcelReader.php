@@ -47,7 +47,7 @@ class AccommodationExcelReader extends ExcelReader {
         $this->processExcel($excelFileName);
     }
 
-    protected function processRowData($rowData)
+    protected function processRowData($rowData, $sheet, $rowNumber)
     {
         $this->clearCollections();
         $code = trim($rowData[2]);
@@ -80,8 +80,13 @@ class AccommodationExcelReader extends ExcelReader {
 
                 $commission = trim($rowData[22]);
                 $commission = str_replace("%", "", $commission);
-                $ownership->setOwnCommissionPercent($commission);
+                $cell = $sheet->getCell('W' . $rowNumber);
 
+                if($cell->getDataType() == \PHPExcel_Cell_DataType::TYPE_NUMERIC) {
+
+                    if($cell->getStyle()->getNumberFormat()->getFormatCode() == \PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE || $cell->getStyle()->getNumberFormat()->getFormatCode() == \PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00)
+                        $ownership->setOwnCommissionPercent($commission * 100);
+                }
 
 
                 //Add rooms to collection
@@ -139,12 +144,12 @@ class AccommodationExcelReader extends ExcelReader {
                 $ownership->setOwnComment(trim($rowData[150]));
                 $ownership->setOwnSaler(trim($rowData[151]));
 
-                /*
-                if($rowData[152] != "") {
-                    $visitDate = \DateTime::createFromFormat("d/m/Y", trim($rowData[152]));
+
+                $cell = $sheet->getCell('EW' . $rowNumber);
+                if($rowData[152] != "" && \PHPExcel_Shared_Date::isDateTime($cell)) {
+                    $visitDate = \DateTime::createFromFormat("d/m/Y", date("d/m/Y", \PHPExcel_Shared_Date::ExcelToPHP($cell->getValue())));
                     $ownership->setOwnVisitDate($visitDate);
                 }
-                */
 
                 //TODO: Reset this counters
                 $ownership->setOwnCommentsTotal(0);
