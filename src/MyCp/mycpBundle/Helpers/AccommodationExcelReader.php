@@ -59,14 +59,14 @@ class AccommodationExcelReader extends ExcelReader {
         {
             $doProcess = false;
             $this->reopenEntityManager();
-            $this->addMessage("<b>Fila $rowNumber: </b>Ya existe un alojamiento con el código ".$code);
+            $this->addMessage("<b>Fila $rowNumber: </b>Ya existe un alojamiento con el código <em>".$code."</em>");
         }
 
         if($this->existAccommodationName($name))
         {
             $doProcess = false;
             $this->reopenEntityManager();
-            $this->addMessage("<b>Fila $rowNumber: </b>Ya existe un alojamiento con el nombre ".$name);
+            $this->addMessage("<b>Fila $rowNumber: </b>Ya existe un alojamiento con el nombre <em>".$name."</em>");
         }
 
         if($doProcess) {
@@ -168,13 +168,16 @@ class AccommodationExcelReader extends ExcelReader {
                     $ownership->setOwnVisitDate($visitDate);
                 }
 
-                //TODO: Reset this counters
+                //Reset global counters
                 $ownership->setOwnCommentsTotal(0);
                 $ownership->setOwnMaximumNumberGuests(0);
                 $ownership->setOwnRating(0);
                 $ownership->setOwnMaximumPrice(0);
                 $ownership->setOwnMinimumPrice(0);
                 $ownership->setOwnRoomsTotal(0);
+
+                //Calculate values in global counters
+                $this->calculateGlobalCounters($ownership);
 
                 //Add status, destination, province and municipality entities and general data
                 $this->setLocalization($ownership);
@@ -348,6 +351,33 @@ class AccommodationExcelReader extends ExcelReader {
     {
         $own = $this->em->getRepository("mycpBundle:ownership")->findBy(array("own_name" => $accommodationName));
         return count($own) > 0;
+    }
+
+    private function calculateGlobalCounters($ownership)
+    {
+        $maximumGuestNumber = 0;
+        $minimumPrice = 0;
+        $maximumPrice = 0;
+        $roomsTotal = $this->rooms->count();
+
+        foreach($this->rooms as $room)
+        {
+            $maximumGuestNumber += $room->getMaximumNumberGuests();
+
+            if ($minimumPrice == 0 || $room->getRoomPriceDownTo() < $minimumPrice)
+                $minimumPrice = $room->getRoomPriceDownTo();
+
+            if ($maximumPrice == 0 || $room->getRoomPriceUpTo() > $maximumPrice)
+                $maximumPrice = $room->getRoomPriceUpTo();
+
+            if ($maximumPrice == 0 || $room->getRoomPriceSpecial() > $maximumPrice)
+                $maximumPrice = $room->getRoomPriceSpecial();
+        }
+
+        $ownership->setOwnMaximumNumberGuests($maximumGuestNumber);
+        $ownership->setOwnMaximumPrice($maximumPrice);
+        $ownership->setOwnMinimumPrice($minimumPrice);
+        $ownership->setOwnRoomsTotal($roomsTotal);
     }
 }
 
