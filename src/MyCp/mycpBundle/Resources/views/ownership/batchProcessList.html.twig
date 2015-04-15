@@ -137,7 +137,7 @@
                 <td> {{process.batchSavedElementsCount}}</td>
                 <td>{% include 'mycpBundle:utils:batchProcess_status_labels.html.twig' with {'batchStatus':process.batchStatus}%}</td>
                <td style="text-align: right">
-                    <a class="btn btn-mini"><i class="icon-eye-open"></i></a>
+                    <a class="btn btn-mini" href="{{ path("mycp_batch_view_ownership", {"batchId": process.batchId}) }}" title="Ver detalles"><i class="icon-eye-open"></i></a>
                 </td>
                </tr>
     {% endfor %}

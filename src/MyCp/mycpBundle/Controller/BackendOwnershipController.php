@@ -385,6 +385,22 @@ class BackendOwnershipController extends Controller {
         ));
     }
 
+    public function batchViewAction($batchId)
+    {
+        /*$service_security = $this->get('Secure');
+        $service_security->verifyAccess();*/
+        $em = $this->getDoctrine()->getEntityManager();
+        $batchProcess = $em->getRepository("mycpBundle:batchProcess")->find($batchId);
+
+        $service_log = $this->get('log');
+        $service_log->saveLog('Visit', BackendModuleName::MODULE_OWNERSHIP);
+
+        return $this->render('mycpBundle:ownership:batchView.html.twig', array(
+            'batchProcess' => $batchProcess
+
+        ));
+    }
+
     public function edit_ownershipAction($id_ownership, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();

@@ -48,26 +48,15 @@ abstract class BatchProcessManager {
         $errorCount = $this->batchProcess->getBatchErrorsCount();
         $errorCount += 1;
 
-        if($savedErrorMessage != "")
-        {
-            $savedErrorMessage .= "<br/>";
-        }
-
         $this->batchProcess->setBatchErrorsCount($errorCount);
-        $this->batchProcess->setBatchErrorMessages("<p>".$savedErrorMessage.$errorMessage."</p>");
+        $this->batchProcess->setBatchErrorMessages($savedErrorMessage."<p>".$errorMessage."</p>");
 
     }
 
     protected function addMessage($message)
     {
         $savedMessage = $this->batchProcess->getBatchMessages();
-
-        if($savedMessage != "")
-        {
-            $savedMessage .= "<br/>";
-        }
-
-        $this->batchProcess->setBatchMessages("<p>".$savedMessage.$message."</p>");
+        $this->batchProcess->setBatchMessages($savedMessage."<p>".$message."</p>");
 
     }
 
