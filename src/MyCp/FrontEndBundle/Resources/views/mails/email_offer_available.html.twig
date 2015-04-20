@@ -8,7 +8,7 @@
         <p style="font-size: 14px;font-family: arial"> {{"VALID_OFFER_FOUR_EIGHT"|trans({}, "messages", user_locale)}}</p>
         {% endif %}
         {% for reservation in reservations %}
-            {{ include('FrontEndBundle:utils:reservationControl.html.twig', {"index" : loop.index0, "reservation": reservation}) }}
+            {{ include('FrontEndBundle:utils:reservationControlRemarketing.html.twig', {"index" : loop.index0, "reservation": reservation}) }}
             <br/>
         {% endfor %}
     <h4 style="font-size: 16px; font-weight: normal; font-style: italic">{{"THANKS_RESERVATION_TEAM"|trans({}, "messages", user_locale)}}</h4>
