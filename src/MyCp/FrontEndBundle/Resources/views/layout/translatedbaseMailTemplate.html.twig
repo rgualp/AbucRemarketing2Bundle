@@ -39,7 +39,7 @@
                             <tr>
                                 <td colspan="2" style="font-size: 11px; line-height: 18px; font-family: arial">
                                     <hr style="color: #cccccc; background-color: #cccccc; height: 1px; border: medium none;"/>
-                                    {{ 'FOOTER_EMAIL'| trans({'%policieslink%': url('frontend_security_privacity', { 'locale': user_locale|lower,'_locale':user_locale|lower }), '%termlink%': url('frontend_legal_terms', { 'locale': user_locale|lower,'_locale':user_locale|lower })}, "messages", user_locale) |raw }}
+                                    {{ 'FOOTER_EMAIL'| trans({'%policieslink%': url('frontend_security_privacity_remarketing', { 'locale': user_locale|lower,'_locale':user_locale|lower }), '%termlink%': url('frontend_legal_terms_remarketing', { 'locale': user_locale|lower,'_locale':user_locale|lower })}, "messages", user_locale) |raw }}
                                     <br/><br/>
                                     {#{"FOOTER_MAIL_1" | trans({'%link%': url('frontend_security_privacity', { 'locale': user_locale|lower,'_locale':user_locale|lower })}) | raw}#}
                                 </td>

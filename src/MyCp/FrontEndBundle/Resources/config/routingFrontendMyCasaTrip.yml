@@ -45,3 +45,17 @@ frontend_mycasatrip_cancel_offer:
 frontend_cancel_offer_callback:
     locales:  { en: "/cancel-offer-callback/{genResID}", es: "/cancelar-oferta-callback/{genResID}",de: "/offerte-annullieren-callback/{genResID}" }
     defaults: { _controller: FrontEndBundle:Mycasatrip:cancelOfferCallback }
+
+frontend_mycasatrip_available_remarketing:
+    locales:  { en: "available-email", es: "disponibles-correo",de: "verfuegbar-email" }
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: frontend_mycasatrip_available
+        permanent: true
+
+frontend_mycasatrip_cancel_offer_remarketing:
+    locales:  { en: "cancel-offer-email/{generalReservationId}", es: "cancelar-oferta-correo/{generalReservationId}",de: "offerte-annullieren-email/{generalReservationId}" }
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: frontend_mycasatrip_cancel_offer
+        permanent: true

@@ -22,3 +22,10 @@ frontend_check_availability_submit_cart:
     pattern:  /review_submit
     defaults: { _controller: FrontEndBundle:Cart:checkAvailabilitySubmit }
 
+frontend_check_availability_cart_remarketing:
+    locales:  { en: "user-email/reservation/check-confirm/", es: "usuario-correo/reservacion/chequear-confirmacion/", de: "user-email/reservation/check-confirm/" }
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: frontend_check_availability_cart
+        permanent: true
+

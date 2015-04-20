@@ -6,8 +6,8 @@
     {{"DEAR_MR" | trans({}, "messages", user_locale)}} {{user_name}},<br/><br/>
     {{ "USER_CART_FULL_TEXT1"|trans({}, "messages", user_locale) }} <br/><br/>
     <p style="font-size: 14px;font-family: arial">
-            <a href="{{url('frontend_check_availability_cart',{'locale':user_locale,'_locale':user_locale})}}">{{"RESERVATION_CHECK_AVAILABILITY"|trans({}, "messages", user_locale)}}</a><br/><br/>
-            <a href="{{url('frontend_search_ownership',{'locale':user_locale,'_locale':user_locale,})}}">{{"BOOK_OTHER_ACCOMMODATIONS"|trans({}, "messages", user_locale)}}</a>
+            <a href="{{url('frontend_check_availability_cart_remarketing',{'locale':user_locale,'_locale':user_locale})}}">{{"RESERVATION_CHECK_AVAILABILITY"|trans({}, "messages", user_locale)}}</a><br/><br/>
+            <a href="{{url('frontend_search_ownership_remarketing',{'locale':user_locale,'_locale':user_locale,})}}">{{"BOOK_OTHER_ACCOMMODATIONS"|trans({}, "messages", user_locale)}}</a>
         </p>
         {% for own in owns %}
             <table width="100%" cellpadding="10" cellspacing="0" border="0">
@@ -19,14 +19,14 @@
                                     <table cellpadding="4" border="0" cellspacing="0">
                                         <tr>
                                             <td style="background-color: #FFFFFF; border: solid 1px #cccccc;">
-                                                <a href="{{ url('frontend_details_ownership',{'own_name':own.ownName | urlNormalize,'locale':user_locale,'_locale':user_locale,}) }}">
+                                                <a href="{{ url('frontend_details_ownership_remarketing',{'own_name':own.ownName | urlNormalize,'locale':user_locale,'_locale':user_locale,}) }}">
                                                     <img width="100%" style="display:block;" border="0" src="{{ url('mycp_main')~'uploads/ownershipImages/thumbnails/'~photos[own.ownid]}}">
                                                 </a>
                                             </td>
                                             <td>&nbsp;</td>
                                             <td valign="top" style="font-family: arial; font-size: 13px; line-height: 18px">
                                                 <h3 style="color: #084D74">
-                                                <a class="titleLink" href="{{ url('frontend_details_ownership',{'own_name':own.ownName | urlNormalize,'_locale':user_locale|lower,'locale':user_locale|lower}) }}">
+                                                <a class="titleLink" href="{{ url('frontend_details_ownership_remarketing',{'own_name':own.ownName | urlNormalize,'_locale':user_locale|lower,'locale':user_locale|lower}) }}">
                                                 {{own.ownName}}
                                                 </a>
                                                 </h3>
@@ -49,7 +49,7 @@
                                         <h3 style="padding:0; margin:0">{{prices[own.ownid][0].initialPayment | price(user_currency)}}</h3><br/>
                                         {{"RESERVATION_TOTAL" | trans({}, "messages", user_locale) | upper}}<br/>
                                         <h3 style="padding:0; margin:0">{{prices[own.ownid][0].totalPrice | price(user_currency)}}</h3><br/>
-                                      <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_details_ownership',{'own_name':own.getOwnName | urlNormalize,'locale':user_locale,'_locale':user_locale,}) }}">{{"VIEW_DETAILS"|trans({}, "messages", user_locale)}}</a>
+                                      <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('frontend_details_ownership_remarketing',{'own_name':own.getOwnName | urlNormalize,'locale':user_locale,'_locale':user_locale,}) }}">{{"VIEW_DETAILS"|trans({}, "messages", user_locale)}}</a>
 
                                 </td>
                             </tr>
