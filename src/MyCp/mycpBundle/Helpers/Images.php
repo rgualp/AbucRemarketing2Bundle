@@ -72,11 +72,12 @@ class Images {
         //$watermark_height = ($wSize->getHeight() * ($new_width - 10)) / $wSize->getWidth();
         //$watermark_resize = $watermark->resize(new \Imagine\Image\Box($new_width - 10, $watermark_height));
         //$point = new \Imagine\Image\Point(3, (int) $new_height / 2);
-        if ($wSize->getWidth() > $new_width) {
-            $watermark_width = (($wSize->getHeight() - 10) * ($new_width - 10)) / $new_height;
+        if ($wSize->getWidth() > $new_width || ($new_width - $wSize->getWidth()) < 10 ) {
+            $watermark_width = $wSize->getWidth() - 20;//(($wSize->getHeight() - 10) * ($new_width - 10)) / $new_height;
             $watermark = $watermark->resize(new \Imagine\Image\Box($watermark_width, ($wSize->getHeight() - 10)));
             $wSize = $watermark->getSize();
         }
+
 
         $point = new \Imagine\Image\Point(($new_width - $wSize->getWidth() - 10), 10);
 
