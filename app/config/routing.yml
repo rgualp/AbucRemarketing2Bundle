@@ -91,3 +91,10 @@ remarketing_mycasatrip_cancel_offer:
         route: frontend_mycasatrip_cancel_offer
         permanent: true
 
+remarketing_search_ownership:
+    pattern:  /accommodations-email/{_locale}/{locale}
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: frontend_search_ownership
+        permanent: true
+
