@@ -80,9 +80,3 @@ frontend_search_ownership_remarketing:
         route: frontend_search_ownership
         permanent: true
 
-frontend_details_ownership_remarketing:
-    locales:  { en: "accommodation-email/{own_name}", es: "alojamiento-correo/{own_name}", de: "unterkunft-email/{own_name}" }
-    defaults:
-        _controller: FrameworkBundle:Redirect:redirect
-        route: frontend_details_ownership
-        permanent: true

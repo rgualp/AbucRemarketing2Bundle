@@ -7,7 +7,7 @@
                                     <table cellpadding="4" border="0" cellspacing="0">
                                         <tr>
                                             <td style="background-color: #FFFFFF; border: solid 1px #cccccc;">
-                                                <a href="{{ url('frontend_details_ownership_remarketing',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize,'locale':user_locale,'_locale':user_locale,}) }}">
+                                                <a href="{{ url('mycp_main') ~'accommodation-email/'~reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize~'/'~ user_locale|lower~'/'~ user_locale|lower }}">
                                                     {% if photos[index][0].getPhoName is defined %}
                                                         <img width="100%" style="display:block;" border="0" src="{{url('mycp_main')~'uploads/ownershipImages/thumbnails/'~photos[index][0].getPhoName}}">
                                                     {% else %}
@@ -18,7 +18,7 @@
                                             <td>&nbsp;</td>
                                             <td valign="top" style="font-family: arial; font-size: 13px; line-height: 18px">
                                                 <h3 style="color: #084D74">
-                                                <a class="titleLink" href="{{ url('frontend_details_ownership_remarketing',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize,'_locale':user_locale|lower,'locale':user_locale|lower}) }}">
+                                                <a class="titleLink" href="{{ url('mycp_main') ~'accommodation-email/'~reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize~'/'~ user_locale|lower~'/'~ user_locale|lower }}">
                                                 {{reservation.getOwnResGenResId.getGenResOwnId.getOwnName}}
                                                 </a>
                                                 </h3>
@@ -65,7 +65,7 @@
                                         <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{url('mycp_main') ~'mycasatrip-email/available/'~ user_locale|lower~'/'~ user_locale|lower }}">{{"CONTINUE_RESERVING"|trans({}, "messages", user_locale)}}</a>
                                     {% endif %}
                                     {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_PENDING'))%}
-                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{url('frontend_details_ownership_remarketing',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize,'locale':user_locale,'_locale':user_locale,}) }}">{{"VIEW_DETAILS"|trans({}, "messages", user_locale)}}</a>
+                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{url('mycp_main') ~'accommodation-email/'~reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize~'/'~ user_locale|lower~'/'~ user_locale|lower }}">{{"VIEW_DETAILS"|trans({}, "messages", user_locale)}}</a>
                                     {% endif %}
                                     {% if (reservation.getOwnResStatus > constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_AVAILABLE') and reservation.getOwnResStatus < constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_RESERVED'))%}
                                         <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{url('frontend_search_ownership_remarketing',{'text':'null', 'arrival':'null','departure':'null','guests':'1', 'rooms':'1','locale':user_locale,'_locale':user_locale,}) }}">{{"LOOK_FOR_ALTERNATIVE"|trans({}, "messages", user_locale)}}</a>
