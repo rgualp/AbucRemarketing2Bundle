@@ -3,9 +3,9 @@
 {% block content %}
         <h4 style="font-family: Arial; font-size: 20px">{{"DEAR_MR"|trans({}, "messages", user_locale)}} {{user.getUserUserName|capitalize}} {{user.getUserLastName|capitalize}}</h4>
         <p style="font-size: 14px;font-family: arial">{{"REMINDER_TRIP_ORGANISATION"|trans({}, "messages", user_locale)}} {{initial_payment | price}}.</p>
-        <p style="font-size: 14px;font-family: arial"> {{"REMINDER_OPPORTUNITY"|trans({"%link%": url('mycp_main') ~'en/mycasatrip/available'}, "messages", user_locale) | raw}}</p>
+        <p style="font-size: 14px;font-family: arial"> {{"REMINDER_OPPORTUNITY"|trans({"%link%": url('mycp_main') ~'mycasatrip-email/available/'~ user_locale|lower~'/'~ user_locale|lower}, "messages", user_locale) | raw}}</p>
         <p style="font-size: 14px;font-family: arial">
-            {{url('mycp_main') ~'en/mycasatrip/available'}}
+            {{url('mycp_main') ~'mycasatrip-email/available/'~ user_locale|lower~'/'~ user_locale|lower}}
         </p>
         <p style="font-size: 14px;font-family: arial"><b>{{"VALID_OFFER_TWENTY_FOUR_ACCOMMODATION"|trans({}, "messages", user_locale)}}</b></p>
 
