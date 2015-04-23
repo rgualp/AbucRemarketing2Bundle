@@ -2,6 +2,7 @@
 
 namespace MyCp\mycpBundle\Command;
 
+use MyCp\mycpBundle\Helpers\FileIO;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -40,9 +41,9 @@ EOT
 
         $output->writeln("Step 1 of 3. Resizing destinations' photos and generating thumbnails...");
         $destinations_photos = Images::getDirectoryImagesContent($dir_destination);
-        Images::createDirectory($dir_destination . '/originals');
-        //Images::createDirectory($dir_destination . '/processed');
-        Images::createDirectory($dir_destination_thumbs);
+        FileIO::createDirectoryIfNotExist($dir_destination . '/originals');
+        //FileIO::createDirectory($dir_destination . '/processed');
+        FileIO::createDirectoryIfNotExist($dir_destination_thumbs);
         foreach ($destinations_photos as $d_photo) {
             Images::save($dir_destination . $d_photo, $dir_destination . '/originals/' . $d_photo);
             Images::createThumbnail($dir_destination . '/originals/' . $d_photo, $dir_destination_thumbs . $d_photo, $thumbnail_size);
@@ -51,9 +52,9 @@ EOT
 
         $output->writeln("Step 2 of 3. Resizing albums' photos and generating thumbnails...");
         $albums_photos = Images::getDirectoryImagesContent($dir_album);
-        Images::createDirectory($dir_album . '/originals');
-        //Images::createDirectory($dir_album . '/processed');
-        Images::createDirectory($dir_albums_thumbs);
+        FileIO::createDirectoryIfNotExist($dir_album . '/originals');
+        //FileIO::createDirectoryIfNotExist($dir_album . '/processed');
+        FileIO::createDirectoryIfNotExist($dir_albums_thumbs);
 
         foreach ($albums_photos as $a_photo) {
             Images::save($dir_album . $a_photo, $dir_album . '/originals/' . $a_photo);
@@ -64,9 +65,9 @@ EOT
 
         $output->writeln("Step 3 of 3. Resizing ownerships' photos, pasting watermark image and generating thumbnails...");
         $own_photos = Images::getDirectoryImagesContent($dir_ownership);
-        Images::createDirectory($dir_ownership . '/originals');
-        //Images::createDirectory($dir_ownership . '/processed');
-        Images::createDirectory($dir_ownership_thumbs);
+        FileIO::createDirectoryIfNotExist($dir_ownership . '/originals');
+        //FileIO::createDirectoryIfNotExist($dir_ownership . '/processed');
+        FileIO::createDirectoryIfNotExist($dir_ownership_thumbs);
 
         foreach ($own_photos as $o_photo) {
             Images::save($dir_ownership . $o_photo, $dir_ownership . '/originals/' . $o_photo);

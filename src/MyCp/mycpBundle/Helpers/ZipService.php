@@ -44,7 +44,7 @@ class ZipService {
 
     public function createZipPhotoFile($zipName, $zipPhotoContent) {
 
-        Images::createDirectory($this->zipDirectoryPath);
+        FileIO::createDirectoryIfNotExist($this->zipDirectoryPath);
         $zip = new ZipArchive();
 
         $filesCount = 0;
