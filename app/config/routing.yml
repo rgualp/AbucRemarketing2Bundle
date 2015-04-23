@@ -56,4 +56,59 @@ mycp_main:
     pattern:  /
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: frontend_welcome, _locale: en }
 
+remarketing_legal_terms:
+    pattern:  /legal-terms-email/{_locale}/{locale}
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: frontend_legal_terms
+        permanent: true
+
+remarketing_security_privacity:
+    pattern:  /security-privacy-email/{_locale}/{locale}
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: frontend_security_privacity
+        permanent: true
+
+remarketing_mycasatrip_available:
+    pattern:  /mycasatrip-email/available/{_locale}/{locale}
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: frontend_mycasatrip_available
+        permanent: true
+
+remarketing_details_ownership:
+    pattern:  /accommodation-email/{own_name}/{_locale}/{locale}
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: frontend_details_ownership
+        permanent: true
+
+remarketing_mycasatrip_cancel_offer:
+    pattern:  /cancel-offer-email/{generalReservationId}/{_locale}/{locale}
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: frontend_mycasatrip_cancel_offer
+        permanent: true
+
+remarketing_search_ownership:
+    pattern:  /accommodations-email/{_locale}/{locale}
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: frontend_search_ownership
+        permanent: true
+
+remarketing_check_availability_cart:
+    pattern:  /check-cart-email/{_locale}/{locale}
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: frontend_check_availability_cart
+        permanent: true
+
+remarketing_view_confirmation_reservation:
+    pattern:  view-reservation-email/{id_booking}/{_locale}/{locale}
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: frontend_view_confirmation_reservation
+        permanent: true
 
