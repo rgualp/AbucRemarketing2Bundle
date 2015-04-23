@@ -84,3 +84,10 @@ remarketing_details_ownership:
         route: frontend_details_ownership
         permanent: true
 
+remarketing_mycasatrip_cancel_offer:
+    pattern:  /cancel-offer-email/{generalReservationId}/{_locale}/{locale}
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: frontend_mycasatrip_cancel_offer
+        permanent: true
+
