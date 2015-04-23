@@ -56,4 +56,18 @@ mycp_main:
     pattern:  /
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: frontend_welcome, _locale: en }
 
+remarketing_legal_terms:
+    pattern:  /legal-terms-email/{_locale}/{locale}
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: frontend_legal_terms
+        permanent: true
+
+remarketing_security_privacity:
+    pattern:  /security-privacy-email/{_locale}/{locale}
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: frontend_security_privacity
+        permanent: true
+
 

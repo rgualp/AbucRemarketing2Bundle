@@ -18,16 +18,4 @@ frontend_how_it_works_information:
     locales:  { en: "/how-it-works/", es: "/como-funciona/", de: "/so-funktioniert-es/" }
     defaults: { _controller: FrontEndBundle:Information:howItWorks }
 
-frontend_legal_terms_remarketing:
-    locales:  { en: "legal-terms-email/", es: "terminos-legales-correo/",de: "allgemeine-geschaeftsbedingungen-email/" }
-    defaults:
-        _controller: FrameworkBundle:Redirect:redirect
-        route: frontend_legal_terms
-        permanent: true
 
-frontend_security_privacity_remarketing:
-    locales:  { en: "security-privacy-email/", es: "seguridad-privacidad-correo/",de: "datenschutz-email/" }
-    defaults:
-        _controller: FrameworkBundle:Redirect:redirect
-        route: frontend_security_privacity
-        permanent: true

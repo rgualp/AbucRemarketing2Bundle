@@ -62,7 +62,7 @@
                                        {%endif%}
                                     </h3>
                                     {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_AVAILABLE'))%}
-                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{url('frontend_mycasatrip_available_remarketing',{'locale':user_locale,'_locale':user_locale,}) }}">{{"CONTINUE_RESERVING"|trans({}, "messages", user_locale)}}</a>
+                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{url('mycp_main') ~'en/mycasatrip/available' }}">{{"CONTINUE_RESERVING"|trans({}, "messages", user_locale)}}</a>
                                     {% endif %}
                                     {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_PENDING'))%}
                                         <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{url('frontend_details_ownership_remarketing',{'own_name':reservation.getOwnResGenResId.getGenResOwnId.getOwnName | urlNormalize,'locale':user_locale,'_locale':user_locale,}) }}">{{"VIEW_DETAILS"|trans({}, "messages", user_locale)}}</a>
