@@ -18,11 +18,6 @@ frontend_boucher_reservation:
     locales:  { en: "/user/confirmation/{id_booking}/", es: "/usuario/confirmacion/{id_booking}/", de: "/user/confirmation/{id_booking}/" }
     defaults: { _controller: FrontEndBundle:Reservation:generatePdfVoucher }
 
-frontend_view_confirmation_reservation_remarketing:
-    locales:  { en: "user-email/reservation/view/{id_booking}/", es: "usuario-correo/reservacion/detalles/{id_booking}/", de: "user-email/reservation/view/{id_booking}/" }
-    defaults:
-        _controller: FrameworkBundle:Redirect:redirect
-        route: frontend_view_confirmation_reservation
-        permanent: true
+
 
 

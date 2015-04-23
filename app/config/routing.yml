@@ -98,3 +98,17 @@ remarketing_search_ownership:
         route: frontend_search_ownership
         permanent: true
 
+remarketing_check_availability_cart:
+    pattern:  /check-cart-email/{_locale}/{locale}
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: frontend_check_availability_cart
+        permanent: true
+
+remarketing_view_confirmation_reservation:
+    pattern:  view-reservation-email/{id_booking}/{_locale}/{locale}
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: frontend_view_confirmation_reservation
+        permanent: true
+

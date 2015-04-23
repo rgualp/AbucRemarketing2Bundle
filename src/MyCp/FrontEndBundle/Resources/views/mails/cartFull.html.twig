@@ -6,7 +6,7 @@
     {{"DEAR_MR" | trans({}, "messages", user_locale)}} {{user_name}},<br/><br/>
     {{ "USER_CART_FULL_TEXT1"|trans({}, "messages", user_locale) }} <br/><br/>
     <p style="font-size: 14px;font-family: arial">
-            <a href="{{url('frontend_check_availability_cart_remarketing',{'locale':user_locale,'_locale':user_locale})}}">{{"RESERVATION_CHECK_AVAILABILITY"|trans({}, "messages", user_locale)}}</a><br/><br/>
+            <a href="{{url('mycp_main') ~ 'check-cart-email/'~ user_locale|lower~'/'~ user_locale|lower}}">{{"RESERVATION_CHECK_AVAILABILITY"|trans({}, "messages", user_locale)}}</a><br/><br/>
             <a href="{{url('mycp_main') ~ 'accommodations-email/'~ user_locale|lower~'/'~ user_locale|lower}}">{{"BOOK_OTHER_ACCOMMODATIONS"|trans({}, "messages", user_locale)}}</a>
         </p>
         {% for own in owns %}

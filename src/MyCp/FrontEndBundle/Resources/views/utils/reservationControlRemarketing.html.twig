@@ -74,7 +74,7 @@
                                         <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{url('mycp_main') ~ 'accommodations-email/'~ user_locale|lower~'/'~ user_locale|lower }}">{{"LOOK_FOR_ALTERNATIVE"|trans({}, "messages", user_locale)}}</a>
                                     {% endif %}
                                     {% if (reservation.getOwnResStatus == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_RESERVED') and booking is defined)%}
-                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{url('frontend_view_confirmation_reservation_remarketing',{'id_booking':booking,'locale':user_locale,'_locale':user_locale,}) }}">{{ 'VIEW_CONFIRMATION'|trans({}, "messages", user_locale) }}</a>
+                                        <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{url('mycp_main') ~ 'view-reservation-email/'~booking~'/'~ user_locale|lower~'/'~ user_locale|lower }}">{{ 'VIEW_CONFIRMATION'|trans({}, "messages", user_locale) }}</a>
                                     {% endif %}
                                 </td>
                             </tr>
