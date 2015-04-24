@@ -166,7 +166,7 @@
         <div class="span6">
             <select id="ownership" name="own" class="input-block-level">
                 {% for own in ownerships %}
-                    <option data-percent="{{ own.own_commission_percent }}" value="{{ own.own_id }}">{{own.own_mcp_code}} - {{ own.own_name }}</option>
+                    <option data-percent="{{ own.own_commission_percent }}" value="{{ own.own_id }}" {% if loop.index == 0 %}selected{% endif %}>{{own.own_mcp_code}} - {{ own.own_name }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -276,6 +276,7 @@
         var today_date = "{{"now"|date("d/m/Y") }}";
         var start_date = "{{ start_date }}";
         var end_date = "{{ end_date }}";
+        var reservation_own_id = {{ reservation.genResOwnId.ownId }};
         var originalTotalPrice = {{reservation.getGenResTotalInSite}};
 
         $("#btn_dates").click(function(){
@@ -300,6 +301,8 @@
             fields_dates=$('.form-control')
             btn_refresh=$('#button_refresh_calendar')
             fields_dates.attr('disabled','true');
+            /*if(own_id === null)
+                own_id = reservation_own_id;*/
 
             $.ajax({
                 url: "{{ path('frontend_get_reservation_calendar_ownership_callback') }}",
