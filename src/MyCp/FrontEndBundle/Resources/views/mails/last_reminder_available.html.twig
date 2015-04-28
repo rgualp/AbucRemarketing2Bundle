@@ -1,12 +1,22 @@
 {% extends 'FrontEndBundle:layout:translatedbaseMailTemplate.html.twig' %}
 
+{% if paymentUrl is not defined %}
+{% set mailPaymentUrl = url('mycp_main') ~'mycasatrip-email/available/'~ user_locale|lower~'/'~ user_locale|lower%}
+{% else %}
+{% set  mailPaymentUrl = paymentUrl%}
+
+{% if cancelReservationUrl is not defined %}
+{% set mailCancelReservationUrl = url('mycp_main') ~'cancel-offer-email/'~generalReservationId ~'/'~ user_locale|lower~'/'~ user_locale|lower%}
+{% else %}
+{% set  mailCancelReservationUrl = cancelReservationUrl%}
+
 {% block content %}
         <h4 style="font-family: Arial; font-size: 20px">{{"DEAR_MR"|trans({}, "messages", user_locale)}} {{user.getUserUserName|capitalize}} {{user.getUserLastName|capitalize}}</h4>
-        <p style="font-size: 14px;font-family: arial">{{"LAST_REMINDER_TEXT_1"|trans({"%link%":url('mycp_main') ~'mycasatrip-email/available/'~ user_locale|lower~'/'~ user_locale|lower}, "messages", user_locale) | raw}} {{initial_payment | price}}.</p>
+        <p style="font-size: 14px;font-family: arial">{{"LAST_REMINDER_TEXT_1"|trans({"%link%":mailPaymentUrl}, "messages", user_locale) | raw}} {{initial_payment | price}}.</p>
         <p style="font-size: 14px;font-family: arial"> {{"LAST_REMINDER_TEXT_2"|trans({}, "messages", user_locale)}}</p>
         <p style="font-size: 14px;font-family: arial">
-            <a href="{{url('mycp_main') ~'cancel-offer-email/'~generalReservationId ~'/'~ user_locale|lower~'/'~ user_locale|lower}}">{{"NOT_INTERESTED_ANYMORE"|trans({}, "messages", user_locale)}}</a><br/><br/>
-            <a href="{{url('mycp_main') ~ 'accommodations-email/'~ user_locale|lower~'/'~ user_locale|lower}}">{{"BOOK_OTHER_ACCOMMODATIONS"|trans({}, "messages", user_locale)}}</a>
+            <a href="{{mailCancelReservationUrl}}">{{"NOT_INTERESTED_ANYMORE"|trans({}, "messages", user_locale)}}</a><br/><br/>
+            <a href="{{mailPaymentUrl}}">{{"BOOK_OTHER_ACCOMMODATIONS"|trans({}, "messages", user_locale)}}</a>
         </p>
 
         {% for reservation in reservations %}

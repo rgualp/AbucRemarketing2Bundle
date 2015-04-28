@@ -52,6 +52,13 @@ class ReservationReminderWorkerCommand extends Worker
     private $emailManager;
 
     /**
+     * 'router' service
+     *
+     * @var
+     */
+    private $router;
+
+    /**
      * {@inheritDoc}
      */
     protected function configureWorker()
@@ -167,6 +174,8 @@ class ReservationReminderWorkerCommand extends Worker
             else
                 $initialPayment += $ownershipReservation->getOwnResTotalInSite() * $comission;
         }
+        $user_locale = $this->emailManager->getUserLocale($user);
+        $paymentUrl = $this->getPaymentUrl($user_locale);
 
         $body = $this->emailManager
             ->getViewContent('FrontEndBundle:mails:reminder_available.html.twig', array(
@@ -174,7 +183,8 @@ class ReservationReminderWorkerCommand extends Worker
                 'reservations' => $ownershipReservations,
                 'photos' => $arrayPhotos,
                 'nights' => $arrayNights,
-                'user_locale' => $this->emailManager->getUserLocale($user),
+                'user_locale' => $user_locale,
+                'paymentUrl' => $paymentUrl,
                 'initial_payment' => $initialPayment,
                 'user_currency' => ($userTourist != null) ? $userTourist->getUserTouristCurrency() : null
             ));
@@ -191,5 +201,19 @@ class ReservationReminderWorkerCommand extends Worker
         $this->em = $this->getService('doctrine.orm.entity_manager');
         $this->timeService = $this->getService('time');
         $this->translatorService = $this->getService('translator');
+        $this->router = $this->getService('router');
+    }
+
+    /**
+     * @param $userLocale
+     * @return string
+     */
+    private function getPaymentUrl($userLocale)
+    {
+        $enableUrl = $this->router->generate('frontend_mycasatrip_available', array(
+            'locale' => $userLocale,
+            '_locale' => $userLocale
+        ), true);
+        return $enableUrl;
     }
 }
