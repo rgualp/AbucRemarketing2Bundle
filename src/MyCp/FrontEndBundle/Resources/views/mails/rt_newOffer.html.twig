@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+</head>
+<body style="font-family: Arial; font-size: 15px">
+<h2>Nueva oferta pagada:</h2>
+Fecha: {{ "now"|date("D, d M Y H:m:s O") }}
+<br/><br/>
+<b>Reservación Anterior:</b> {{ oldReservation.getCASId }}
+<b>Reservación:</b> {{ reservations[0].getOwnResGenResId.getCASId }}
+<br/>
+<b>Cliente:</b> {{ user.getUserUserName }} {{ user.getUserLastName }}
+<br/>
+<b>Ciudad:</b> {{ user.getUserCity }}
+<br/>
+<b>País:</b> {{ user.getUserCountry.getCoName }}
+<br/>
+<b>Correo electrónico:</b> <a href="mailto:{{ user.getUserEmail }}">{{ user.getUserEmail }}</a>
+<br/>
+<b>Idioma:</b> {{ user_tourist[0].getUserTouristLanguage.getLangName }}
+<br/>
+<b>Moneda:</b> {{ user_tourist[0].getUserTouristCurrency.getCurrName }}
+<br/>
+<br/>
+<b>Casa:</b> {{ reservations[0].getOwnResGenResId.getGenResOwnId.getOwnMcpCode }}
+<br/>
+<br/>
+<h3>Habitaciones</h3>
+{% set total_price = 0 %}
+{% set total_payed = 0 %}
+{% for reservation in reservations %}
+<b>Habitación: </b> {{ reservation.getOwnResRoomType }}
+<br/>
+<b>Adultos: </b> {{ reservation.getOwnResCountAdults }}
+<br/>
+<b>Niños: </b> {{ reservation.getOwnResCountChildrens }}
+<br/>
+<b>Fecha de arribo: </b> {{ reservation.getOwnResReservationFromDate|date('d/m/Y') }}
+<br/>
+<b>Noches: </b> {{ nights[reservation.getOwnResId] }}
+{%if reservation.getOwnResNightPrice != 0%}
+    {% set subtotal = (nights[reservation.getOwnResId] * reservation.getOwnResNightPrice) - ( nights[reservation.getOwnResId] * reservation.getOwnResNightPrice * reservation.getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100)  %}
+    {% set subtotal_payed = ( nights[reservation.getOwnResId] * reservation.getOwnResNightPrice * reservation.getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100)  %}
+{%else%}
+    {% set subtotal = reservation.ownResTotalInSite - ( reservation.ownResTotalInSite * reservation.getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100)  %}
+    {% set subtotal_payed = ( reservation.ownResTotalInSite * reservation.getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100)  %}
+{%endif%}
+{% set total_price = total_price + subtotal %}
+{% set total_payed = total_payed + subtotal_payed %}
+<br/>
+<br/>
+{% endfor %}
+<b>A pagar en casa:</b> {{ total_price }} CUC en efectivo.
+<br/>
+<br/>
+<b>Saldo pagado:</b> {{ total_payed + configuration_service_fee }} CUC en efectivo.
+<br/>
+<br/>
+<b>Tasa de cambio:</b> 1 CUC = {{ user_tourist[0].getUserTouristCurrency.getCurrCucChange }} {{ user_tourist[0].getUserTouristCurrency.getCurrCode | upper }}
+
+<br/>
+<br/>
+<b>ID de transacción de Moneybooker:</b>
+<br/>
+<br/>
+<b>MSID:</b>
+<br/>
+<br/>
+</body>
+</html>
