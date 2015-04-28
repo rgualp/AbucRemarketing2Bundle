@@ -426,7 +426,7 @@
                 </select>
             </div>
             <div class="span2">
-                <label>Lavanderia (*)</label>
+                <label>Lavanderia (*){{ post['description_laundry'] }}</label>
                 {% if errors['description_laundry'] is defined %}<label class="error">{{errors['description_laundry']|trim(':')}}</label>{%endif%}
                 <select class="input-block-level" name="description_laundry">
                     {{ render(controller('mycpBundle:BackendOwnership:get_laundry_list', {'post':post})) }}
