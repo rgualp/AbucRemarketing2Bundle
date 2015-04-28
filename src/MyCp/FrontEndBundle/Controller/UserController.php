@@ -323,6 +323,7 @@ class UserController extends Controller {
                     $owner_province = $post_owner['owner_province'];
                     $owner_mun = $post_owner['owner_mun'];
                     $owner_comment = $post_owner['owner_comment'];
+                    $owner_phone = $post_owner['owner_phone'];
 
                     /* $service_security = $this->get('Secure');
                       $encode_string = $service_security->getEncodedUserString($user_db);
@@ -337,7 +338,8 @@ class UserController extends Controller {
                         'province' => $owner_province,
                         'municipality' => $owner_mun,
                         'comments' => $owner_comment,
-                        'email' => $owner_email
+                        'email' => $owner_email,
+                        'phone' => $owner_phone
                     ));
                     $service_email->sendTemplatedEmail(
                             'Contacto de propietario', $owner_email, 'casa@mycasaparticular.com', $content->getContent());

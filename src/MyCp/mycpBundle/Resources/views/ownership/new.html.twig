@@ -71,6 +71,7 @@
 <div class="alert alert-error">{{ message }}</div>
 {% endfor %}
 <form id="form_ownership" action="{{ path('mycp_new_ownership')}}" method="POST" enctype="multipart/form-data">
+
     <input id="save_operation" name="save_operation" value="{{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_AND_EXIT')}}" class="hidden">
         {% if data['edit_ownership'] is defined %}<input style="display: none;" name="edit_ownership" value="{{data['id_ownership']}}"> {% endif %}
             {% if data['count_errors']>0 %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}

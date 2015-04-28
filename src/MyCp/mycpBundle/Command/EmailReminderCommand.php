@@ -11,6 +11,13 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
 class EmailReminderCommand extends ContainerAwareCommand
 {
+    /**
+     * 'router' service
+     *
+     * @var
+     */
+    private $router;
+
     protected function configure()
     {
         $this
@@ -80,6 +87,8 @@ class EmailReminderCommand extends ContainerAwareCommand
             $userLocale = strtolower($user_tourist->getUserTouristLanguage()->getLangCode());
             $translatorService->setLocale($userLocale);
 
+            $paymentUrl = $this->getPaymentUrl($userLocale);
+
             $body = $templatingService
                 ->renderResponse('FrontEndBundle:mails:reminder_available.html.twig', array(
                     'user' => $generalReservation->getGenResUserId(),
@@ -87,6 +96,7 @@ class EmailReminderCommand extends ContainerAwareCommand
                     'photos' => $arrayPhotos,
                     'nights' => $arrayNights,
                     'user_locale' => $userLocale,
+                    'paymentUrl' => $paymentUrl,
                     'user_currency' => $user_tourist->getUserTouristCurrency()
                 ));
 
@@ -114,5 +124,27 @@ class EmailReminderCommand extends ContainerAwareCommand
 
         $output->writeln('Operation completed!!!');
         return 0;
+    }
+
+    /**
+     * Initializes the services needed.
+     */
+    private function initializeServices()
+    {
+        $this->router = $this->getContainer()->get('router');
+    }
+
+    /**
+     * @param $userLocale
+     * @return string
+     */
+    private function getPaymentUrl($userLocale)
+    {
+        $this->initializeServices();
+        $enableUrl = $this->router->generate('frontend_mycasatrip_available', array(
+            'locale' => $userLocale,
+            '_locale' => $userLocale
+        ), true);
+        return $enableUrl;
     }
 }

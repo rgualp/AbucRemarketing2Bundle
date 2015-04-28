@@ -1,6 +1,6 @@
 
 <option value=""></option>
-<option {% if selected== 'Si' or selected== '1' %} selected="TRUE" {% endif %} value="1">Si</option>
-<option  {% if selected =='' %}selected="TRUE" {%endif%}{% if selected== 'No' or selected== '0' %} selected="TRUE" {% endif %} value="0">No</option>
+<option {% if selected== 1  %} selected="TRUE" {% endif %} value="1">Si</option>
+<option {% if selected != 1 %} selected="TRUE" {% endif %} value="0">No</option>
 
 

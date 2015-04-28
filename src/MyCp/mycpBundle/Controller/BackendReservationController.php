@@ -5,6 +5,7 @@ namespace MyCp\mycpBundle\Controller;
 use Abuc\RemarketingBundle\Event\JobEvent;
 use MyCp\mycpBundle\Entity\booking;
 use MyCp\mycpBundle\Entity\payment;
+use MyCp\mycpBundle\Helpers\Reservation;
 use MyCp\mycpBundle\JobData\GeneralReservationJobData;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -98,65 +99,85 @@ class BackendReservationController extends Controller {
             $service_time = $this->get('Time');
             $total_price = 0;
 
-            $booking = $em->getRepository("mycpBundle:booking")->find($bookings[0]["booking_id"]);
-            $destination_id = ($ownership->getOwnDestination() != null) ? $ownership->getOwnDestination()->getDesId() : null;
-            $count_adults = 0;
-            $count_children = 0;
-            for ($i = 0; $i < count($array_ids_rooms); $i++) {
-                $room = $em->getRepository('mycpBundle:room')->find($array_ids_rooms[$i]);
-                $count_adults = (isset($array_count_kids[$i])) ? $array_count_guests[$i] : 1;
-                $count_children = (isset($array_count_kids[$i])) ? $array_count_kids[$i] : 0;
+            if(count($bookings) > 0) {
+                $booking = $em->getRepository("mycpBundle:booking")->find($bookings[0]["booking_id"]);
+                $destination_id = ($ownership->getOwnDestination() != null) ? $ownership->getOwnDestination()->getDesId() : null;
+                $count_adults = 0;
+                $count_children = 0;
+                $newReservations = array();
+                $arrayNightsByOwnershipReservation = array();
+                for ($i = 0; $i < count($array_ids_rooms); $i++) {
+                    $room = $em->getRepository('mycpBundle:room')->find($array_ids_rooms[$i]);
+                    $count_adults = (isset($array_count_kids[$i])) ? $array_count_guests[$i] : 1;
+                    $count_children = (isset($array_count_kids[$i])) ? $array_count_kids[$i] : 0;
 
-                $array_dates = $service_time->datesBetween($start_timestamp, $end_timestamp);
-                $temp_price = 0;
-                $triple_room_recharge = ($room->isTriple() && $count_adults + $count_children >= 3) ? $this->container->getParameter('configuration.triple.room.charge') : 0;
-                $seasons = $em->getRepository("mycpBundle:season")->getSeasons($start_timestamp, $end_timestamp, $destination_id);
-                for ($a = 0; $a < count($array_dates) - 1; $a++) {
-                    $seasonType = $service_time->seasonTypeByDate($seasons, $array_dates[$a]);
-                    $roomPrice = $room->getPriceBySeasonType($seasonType);
-                    $total_price += $roomPrice + $triple_room_recharge;
-                    $temp_price += $roomPrice + $triple_room_recharge;
+                    $array_dates = $service_time->datesBetween($start_timestamp, $end_timestamp);
+                    $temp_price = 0;
+                    $triple_room_recharge = ($room->isTriple() && $count_adults + $count_children >= 3) ? $this->container->getParameter('configuration.triple.room.charge') : 0;
+                    $seasons = $em->getRepository("mycpBundle:season")->getSeasons($start_timestamp, $end_timestamp, $destination_id);
+                    for ($a = 0; $a < count($array_dates) - 1; $a++) {
+                        $seasonType = $service_time->seasonTypeByDate($seasons, $array_dates[$a]);
+                        $roomPrice = $room->getPriceBySeasonType($seasonType);
+                        $total_price += $roomPrice + $triple_room_recharge;
+                        $temp_price += $roomPrice + $triple_room_recharge;
+                    }
+
+                    $ownership_reservation = new ownershipReservation();
+                    $ownership_reservation->setOwnResCountAdults($count_adults);
+                    $ownership_reservation->setOwnResCountChildrens($count_children);
+                    $ownership_reservation->setOwnResNightPrice(0);
+                    $ownership_reservation->setOwnResStatus(ownershipReservation::STATUS_RESERVED);
+                    $ownership_reservation->setOwnResReservationFromDate(new \DateTime(date("Y-m-d H:i:s", $start_timestamp)));
+                    $ownership_reservation->setOwnResReservationToDate(new \DateTime(date("Y-m-d H:i:s", $end_timestamp)));
+                    $ownership_reservation->setOwnResSelectedRoomId($room);
+                    $ownership_reservation->setOwnResRoomPriceDown($room->getRoomPriceDownTo());
+                    $ownership_reservation->setOwnResRoomPriceUp($room->getRoomPriceUpTo());
+                    $specialPrice = ($room->getRoomPriceSpecial() != null && $room->getRoomPriceSpecial() > 0) ? $room->getRoomPriceSpecial() : $room->getRoomPriceUpTo();
+                    $ownership_reservation->setOwnResRoomPriceSpecial($specialPrice);
+                    $ownership_reservation->setOwnResGenResId($general_reservation);
+                    $ownership_reservation->setOwnResRoomType($room->getRoomType());
+                    $ownership_reservation->setOwnResTotalInSite($temp_price);
+                    $ownership_reservation->setOwnResReservationBooking($booking);
+                    $general_reservation->setGenResTotalInSite($total_price);
+                    $general_reservation->setGenResSaved(1);
+                    $em->persist($ownership_reservation);
+                    array_push($newReservations, $ownership_reservation);
+
                 }
-
-                $ownership_reservation = new ownershipReservation();
-                $ownership_reservation->setOwnResCountAdults($count_adults);
-                $ownership_reservation->setOwnResCountChildrens($count_children);
-                $ownership_reservation->setOwnResNightPrice(0);
-                $ownership_reservation->setOwnResStatus(ownershipReservation::STATUS_RESERVED);
-                $ownership_reservation->setOwnResReservationFromDate(new \DateTime(date("Y-m-d H:i:s", $start_timestamp)));
-                $ownership_reservation->setOwnResReservationToDate(new \DateTime(date("Y-m-d H:i:s", $end_timestamp)));
-                $ownership_reservation->setOwnResSelectedRoomId($room);
-                $ownership_reservation->setOwnResRoomPriceDown($room->getRoomPriceDownTo());
-                $ownership_reservation->setOwnResRoomPriceUp($room->getRoomPriceUpTo());
-                $specialPrice = ($room->getRoomPriceSpecial() != null && $room->getRoomPriceSpecial() > 0) ? $room->getRoomPriceSpecial() : $room->getRoomPriceUpTo();
-                $ownership_reservation->setOwnResRoomPriceSpecial($specialPrice);
-                $ownership_reservation->setOwnResGenResId($general_reservation);
-                $ownership_reservation->setOwnResRoomType($room->getRoomType());
-                $ownership_reservation->setOwnResTotalInSite($temp_price);
-                $ownership_reservation->setOwnResReservationBooking($booking);
-                $general_reservation->setGenResTotalInSite($total_price);
-                $general_reservation->setGenResSaved(1);
-                $em->persist($ownership_reservation);
-
                 foreach ($reservations as $res) {
                     $res->setOwnResReservationBooking(null);
                     $em->persist($res);
                 }
                 $em->flush();
-                //Enviar correo al cliente con el texto escrito y el voucher como adjunto
-                $postMessageBody = $request->get("message_body");
-                $mailMessage = ($postMessageBody != null && $postMessageBody != "") ? $postMessageBody : null;
-                $bookingService = $this->get('front_end.services.booking');
-                $emailService = $this->get('mycp.service.email_manager');
-                \MyCp\mycpBundle\Helpers\VoucherHelper::sendNewVoucherToClient($em, $bookingService, $emailService, $this, $general_reservation, $mailMessage);
 
+                foreach ($newReservations as $nReservation) {
+                    $arrayNightsByOwnershipReservation[$nReservation->getOwnResId()] = count($array_dates) - 1;
+                }
+
+                try {
+                    $emailService = $this->get('mycp.service.email_manager');
+                    //Enviar correo al cliente con el texto escrito y el voucher como adjunto
+                    $postMessageBody = $request->get("message_body");
+                    $mailMessage = ($postMessageBody != null && $postMessageBody != "") ? $postMessageBody : null;
+                    $bookingService = $this->get('front_end.services.booking');
+                    \MyCp\mycpBundle\Helpers\VoucherHelper::sendNewVoucherToClient($em, $bookingService, $emailService, $this, $general_reservation, $mailMessage);
+
+                    //Enviar correo al equipo de reservación
+                    Reservation::sendNewOfferToTeam($this, $emailService, $tourist, $newReservations, $arrayNightsByOwnershipReservation, $gen_res);
+                } catch (\Exception $e) {
+                    $this->get('session')->getFlashBag()->add('message_error_local', $e->getMessage());
                 }
 
                 $message = 'Nueva oferta ' . $general_reservation->getCASId() . ' creada satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
-                return $this->redirect($this->generateUrl('mycp_list_reservations'));
+                return $this->redirect($this->generateUrl('mycp_details_reservation', array('id_reservation' => $general_reservation->getGenResId())));
 
+            }
+            else{
+                $message = 'Solo se puede ofrecer una nueva oferta si la reservación original está cancelada y tiene algún pago asociado.';
+                $this->get('session')->getFlashBag()->add('message_error_local', $message);
+            }
         }
 
         if ($gen_res->getGenResStatus() != generalReservation::STATUS_CANCELLED || count($bookings) == 0) {
@@ -231,6 +252,8 @@ class BackendReservationController extends Controller {
                 $temp_price = 0;
                 $fromDate = null;
                 $toDate = null;
+                $newReservations = array();
+                $ownNights = array();
                 foreach ($ownership_reservations as $ownership_reservation) {
 
                     if ($post['service_room_price_' . $ownership_reservation->getOwnResId()] != 0 && $post["price_" . $ownership_reservation->getOwnResId()] != $post['service_room_price_' . $ownership_reservation->getOwnResId()]) {
@@ -265,6 +288,7 @@ class BackendReservationController extends Controller {
                             $toDate = $newOwnRes->getOwnResReservationToDate();
 
                         $em->persist($newOwnRes);
+                        array_push($newReservations, $newOwnRes);
 
                         $ownership_reservation->setOwnResReservationBooking(null);
                         $em->persist($ownership_reservation);
@@ -277,18 +301,36 @@ class BackendReservationController extends Controller {
 
                 $em->persist($newGeneralReservation);
                 $em->flush();
+
+                $time = $this->get("Time");
+                foreach($newReservations as $nReservation)
+                {
+                    $ownNights[$nReservation->getOwnResId()] =  $time->nights($nReservation->getOwnResReservationFromDate()->getTimestamp(),$nReservation->getOwnResReservationToDate()->getTimestamp());
+                }
+
                 $service_log = $this->get('log');
                 $service_log->saveLog('Nueva oferta para ' . $reservation->getCASId(), BackendModuleName::MODULE_RESERVATION);
 
                 //Enviar correo al cliente con el texto escrito y el voucher como adjunto
-                $mailMessage = ($post["message_body"] != null && $post["message_body"] != "") ? $post["message_body"] : null;
-                $bookingService = $this->get('front_end.services.booking');
-                $emailService = $this->get('mycp.service.email_manager');
-                \MyCp\mycpBundle\Helpers\VoucherHelper::sendNewVoucherToClient($em, $bookingService, $emailService, $this, $newGeneralReservation, $mailMessage);
+                try {
+                    $mailMessage = ($post["message_body"] != null && $post["message_body"] != "") ? $post["message_body"] : null;
+                    $bookingService = $this->get('front_end.services.booking');
+                    $emailService = $this->get('mycp.service.email_manager');
+                    \MyCp\mycpBundle\Helpers\VoucherHelper::sendNewVoucherToClient($em, $bookingService, $emailService, $this, $newGeneralReservation, $mailMessage);
+
+                    //Enviar correo al equipo de reserva
+                    $user = $newGeneralReservation->getGenResUserId();
+                    $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user));
+                    Reservation::sendNewOfferToTeam($this, $emailService, $userTourist, $newReservations, $ownNights, $reservation);
+                }
+                catch(\Exception $e)
+                {
+                    $this->get('session')->getFlashBag()->add('message_error_local', $e->getMessage());
+                }
 
                 $message = 'Nueva oferta ' . $newGeneralReservation->getCASId() . ' creada satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
-                return $this->redirect($this->generateUrl('mycp_list_reservations'));
+                return $this->redirect($this->generateUrl('mycp_details_reservation', array('id_reservation' => $newGeneralReservation->getGenResId())));
             }
             else
             {
