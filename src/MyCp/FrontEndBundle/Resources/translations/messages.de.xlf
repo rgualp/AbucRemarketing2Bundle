@@ -2701,6 +2701,22 @@
                 <source>Aire acondicionado / Ventilador</source>
                 <target>Klimaanlage / Ventilator</target>
             </trans-unit>
+            <trans-unit id="686">
+                <source>FORM_OPTIONS</source>
+                <target>Options</target>
+            </trans-unit>
+            <trans-unit id="687">
+                <source>FORM_OPTIONS_INSTRUCTIONS</source>
+                <target>Ich möchte eine E-Mail mit Anweisungen zu meiner Unterkunft registrieren erhalten</target>
+            </trans-unit>
+             <trans-unit id="688">
+                <source>INSTRUCTIONS_CONTACT_SUBJECT</source>
+                <target>Anleitung zur Registrierung von Unterkunft</target>
+            </trans-unit>
+            <trans-unit id="689">
+                 <source>SEND_INSTRUCTIONS_MESSAGE_SUCCESS</source>
+                 <target>Vielen Dank für Ihre Kontaktaufnahme. Wir haben eine E-Mail mit Anweisungen geschickt, um Ihre Unterkunft zu erfassen.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

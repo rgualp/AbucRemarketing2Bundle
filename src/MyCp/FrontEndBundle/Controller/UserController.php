@@ -13,6 +13,7 @@ use MyCp\FrontEndBundle\Form\touristContact;
 use MyCp\FrontEndBundle\Form\profileUserType;
 use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Entity\photo;
+use MyCp\mycpBundle\Helpers\Operations;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -275,37 +276,20 @@ class UserController extends Controller {
         $form_tourist = $this->createForm(new touristContact($this->get('translator')));
         $form_owner = $this->createForm(new ownerContact($this->get('translator')));
         if ($request->getMethod() == 'POST') {
+            $contactService = $this->get('front_end.services.contact');
             $post_tourist = $request->get('mycp_frontendbundle_contact_tourist');
             if ($post_tourist != null) {
                 $form_tourist->handleRequest($request);
                 $this->get('session')->set("form_type", "tourist_form");
 
                 if ($form_tourist->isValid()) {
-                    $tourist_name = $post_tourist['tourist_name'];
-                    $tourist_last_name = $post_tourist['tourist_last_name'];
-                    $tourist_email = $post_tourist['tourist_email'];
-                    $tourist_phone = $post_tourist['tourist_phone'];
-                    $tourist_comment = $post_tourist['tourist_comment'];
+                    $touristName = $post_tourist['tourist_name'];
+                    $touristLastName = $post_tourist['tourist_last_name'];
+                    $touristEmail = $post_tourist['tourist_email'];
+                    $touristPhone = $post_tourist['tourist_phone'];
+                    $touristComment = $post_tourist['tourist_comment'];
 
-                    /* $service_security = $this->get('Secure');
-                      $encode_string = $service_security->getEncodedUserString($user_db);
-                      $enableRoute = 'frontend_enable_user';
-                      $enableUrl = $this->get('router')
-                      ->generate($enableRoute, array('string' => $encode_string), true); */
-
-                    $service_email = $this->get('Email');
-                    $content = $this->render('FrontEndBundle:mails:contactMailBody.html.twig', array(
-                        'tourist_name' => $tourist_name,
-                        'tourist_last_name' => $tourist_last_name,
-                        'tourist_phone' => $tourist_phone,
-                        'tourist_email' => $tourist_email,
-                        'tourist_comment' => $tourist_comment
-                    ));
-                    $service_email->sendTemplatedEmail(
-                            'Contacto de huesped', $tourist_email, 'info@mycasaparticular.com ', $content->getContent());
-                    $message = $this->get('translator')->trans("USER_CONTACT_TOURIST_SUCCESS");
-                    $this->get('session')->getFlashBag()->add('message_global_success', $message);
-
+                    $contactService->sendTouristContact($touristName, $touristLastName, $touristPhone, $touristEmail, $touristComment);
                     return $this->redirect($this->generateUrl('frontend_contact_user'));
                 }
             }
@@ -317,35 +301,23 @@ class UserController extends Controller {
                 $this->get('session')->set("form_type", "owner_form");
 
                 if ($form_owner->isValid()) {
-                    $owner_full_name = $post_owner['owner_full_name'];
-                    $owner_own_name = $post_owner['owner_own_name'];
-                    $owner_email = $post_owner['owner_email'];
-                    $owner_province = $post_owner['owner_province'];
-                    $owner_mun = $post_owner['owner_mun'];
-                    $owner_comment = $post_owner['owner_comment'];
-                    $owner_phone = $post_owner['owner_phone'];
+                    $ownerFullName = $post_owner['owner_full_name'];
+                    $ownerEmail = $post_owner['owner_email'];
+                    $owner_instructions = $post_owner['owner_instructions'];
 
-                    /* $service_security = $this->get('Secure');
-                      $encode_string = $service_security->getEncodedUserString($user_db);
-                      $enableRoute = 'frontend_enable_user';
-                      $enableUrl = $this->get('router')
-                      ->generate($enableRoute, array('string' => $encode_string), true); */
+                    if($owner_instructions == Operations::CONTACT_FORM_RECEIVE_INSTRUCTIONS)
+                    {
+                        $contactService->sendInstructionsEmail("es", $ownerEmail, $ownerFullName);
+                    }
+                    else {
+                        $ownerProvince = $post_owner['owner_province'];
+                        $ownerMunicipality = $post_owner['owner_mun'];
+                        $ownerComment = $post_owner['owner_comment'];
+                        $ownerPhone = $post_owner['owner_phone'];
+                        $ownerOwnName = $post_owner['owner_own_name'];
 
-                    $service_email = $this->get('Email');
-                    $content = $this->render('FrontEndBundle:mails:ownerContactMailBody.html.twig', array(
-                        'owner_fullname' => $owner_full_name,
-                        'own_name' => $owner_own_name,
-                        'province' => $owner_province,
-                        'municipality' => $owner_mun,
-                        'comments' => $owner_comment,
-                        'email' => $owner_email,
-                        'phone' => $owner_phone
-                    ));
-                    $service_email->sendTemplatedEmail(
-                            'Contacto de propietario', $owner_email, 'casa@mycasaparticular.com', $content->getContent());
-
-                    $message = $this->get('translator')->trans("USER_CONTACT_OWNER_SUCCESS");
-                    $this->get('session')->getFlashBag()->add('message_global_success', $message);
+                        $contactService->sendOwnerContactToTeam($ownerFullName, $ownerOwnName, $ownerProvince, $ownerMunicipality, $ownerComment, $ownerEmail, $ownerPhone);
+                    }
 
                     return $this->redirect($this->generateUrl('frontend_contact_user'));
                 }

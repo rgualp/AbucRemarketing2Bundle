@@ -1,6 +1,7 @@
 <?php
 namespace MyCp\FrontEndBundle\Form;
 
+use MyCp\mycpBundle\Helpers\Operations;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -36,7 +37,7 @@ class ownerContact extends AbstractType
                 'attr'=>array('class'=>'form-control'),
                 'constraints'=>array(new NotBlank()),
             ))
-            ->add('owner_email','text',array(
+            ->add('owner_email','email',array(
                 'label'=>$this->translate->trans('FORMS_EMAIL'),
                 'attr'=>array('class'=>'form-control'),
                 'constraints'=>array(new NotBlank(),new Email()),
@@ -51,10 +52,15 @@ class ownerContact extends AbstractType
                 'attr'=>array('class'=>'form-control'),
                 'constraints'=>array(new NotBlank()),
             ))
+            ->add('owner_instructions','choice',array(
+                'choices' => array(Operations::CONTACT_FORM_RECEIVE_INSTRUCTIONS => $this->translate->trans('FORM_OPTIONS_INSTRUCTIONS')),
+                'required' => false,
+                'label' => $this->translate->trans('FORM_OPTIONS'),
+                'attr'=>array('class'=>'form-control'),
+            ))
             ->add('owner_comment','textarea',array(
                 'label' => $this->translate->trans('FORMS_COMMENTS'),
-                'attr'=>array('class'=>'form-control'),
-                'constraints'=>array(new NotBlank()),
+                'attr'=>array('class'=>'form-control', 'id' => 'checkForInstructions'),
             ));
 
     }
