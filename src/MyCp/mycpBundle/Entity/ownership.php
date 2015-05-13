@@ -13,6 +13,7 @@ use \DateTime as DateTime;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\ownershipRepository")
+ * @ORM\EntityListeners({"MyCp\mycpBundle\Listener\OwnershipListener"})
  */
 class ownership {
 
