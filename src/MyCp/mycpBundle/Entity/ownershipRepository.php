@@ -815,6 +815,7 @@ class ownershipRepository extends EntityRepository {
     function getByProvince($idProvince) {
         $em = $this->getEntityManager();
         $query_string = "SELECT o.own_id as ownId,
+                         o.own_mcp_code_generated as generatedCode,
                          o.own_mcp_code as mycpCode,
                          o.own_rooms_total as totalRooms,
                          o.own_homeowner_1 as owner1,
