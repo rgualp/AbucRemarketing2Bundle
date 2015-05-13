@@ -453,6 +453,20 @@ class ownership {
     private $ownershipKeywordOwnership;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="own_automatic_mcp_code", type="integer", nullable=true)
+     */
+    private $own_automatic_mcp_code;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="own_mcp_code_generated", type="string", nullable=true)
+     */
+    private $own_mcp_code_generated;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -1809,6 +1823,50 @@ class ownership {
         $this->own_inmediate_booking = $inmediateBooking;
 
         return $this;
+    }
+
+    /**
+     * Set own_automatic_mcp_code
+     *
+     * @param int $ownAutomaticMcpCode
+     * @return ownership
+     */
+    public function setOwnAutomaticMcpCode($ownAutomaticMcpCode) {
+        $this->own_automatic_mcp_code = $ownAutomaticMcpCode;
+
+        return $this;
+    }
+
+    /**
+     * Get own_automatic_mcp_code
+     *
+     * @return int
+     */
+    public function getOwnAutomaticMcpCode() {
+
+        return $this->own_automatic_mcp_code;
+    }
+
+    /**
+     * Set own_mcp_code_generated
+     *
+     * @param string $ownMcpCodeGenerated
+     * @return ownership
+     */
+    public function setOwnMcpCodeGenerated($ownMcpCodeGenerated) {
+        $this->own_mcp_code_generated = $ownMcpCodeGenerated;
+
+        return $this;
+    }
+
+    /**
+     * Get own_mcp_code_generated
+     *
+     * @return string
+     */
+    public function getOwnMcpCodeGenerated() {
+
+        return $this->own_mcp_code_generated;
     }
 
 }
