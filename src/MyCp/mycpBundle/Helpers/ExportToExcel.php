@@ -153,7 +153,7 @@ class ExportToExcel extends Controller {
 
         foreach ($provinces as $prov) {
             //Hacer una hoja por cada provincia
-            $data = $this->dataForAccommodationsDirectory($prov->getProvId());
+            $data = $this->dataForAccommodationsDirectory($excel,$prov->getProvId());
 
             if (count($data) > 0)
                 $excel = $this->createSheetForAccommodationsDirectory($excel, $prov->getProvCode(), $data);
@@ -162,7 +162,7 @@ class ExportToExcel extends Controller {
         return $this->export($fileName);
     }
 
-    private function dataForAccommodationsDirectory($idProvince) {
+    private function dataForAccommodationsDirectory($excel,$idProvince) {
         $results = array();
 
         $ownerships = $this->em->getRepository("mycpBundle:ownership")->getByProvince($idProvince);
@@ -171,23 +171,24 @@ class ExportToExcel extends Controller {
             $data = array();
 
             $data[0] = $own["mycpCode"];
-            $data[1] = $own["totalRooms"];
-            $data[2] = $own["owner1"].(($own["owner2"] != "")? " / ". $own["owner2"] : "");
-            $data[3] = (($own["phone"] != "")?"(+53) ".$own["provCode"]. " ".$own["phone"] : "").(($own["mobile"] != "" && $own["phone"] != "") ? " / ": "").(($own["mobile"] != "") ? $own["mobile"]: "");
-            $data[4] = "Calle ". $own["street"]." No.".$own["number"].(($own["between1"] != "" && $own["between2"] != "") ? " entre ".$own["between1"]." y ".$own["between2"] : "");
-            $data[5] = $own["municipality"];
-            $data[6] = $own["status"];
+            $data[1] = $own["generatedCode"];
+            $data[2] = $own["totalRooms"];
+            $data[3] = $own["owner1"].(($own["owner2"] != "")? " / ". $own["owner2"] : "");
+            $data[4] = (($own["phone"] != "")?"(+53) ".$own["provCode"]. " ".$own["phone"] : "").(($own["mobile"] != "" && $own["phone"] != "") ? " / ": "").(($own["mobile"] != "") ? $own["mobile"]: "");
+            $data[5] = "Calle ". $own["street"]." No.".$own["number"].(($own["between1"] != "" && $own["between2"] != "") ? " entre ".$own["between1"]." y ".$own["between2"] : "");
+            $data[6] = $own["municipality"];
+            $data[7] = $own["status"];
 
             if($own["lowDown"] != $own["highDown"])
-                $data[7] = $own["lowDown"]." - ".$own["highDown"]." CUC";
+                $data[8] = $own["lowDown"]." - ".$own["highDown"]." CUC";
             else
-                $data[7] = $own["highDown"]." CUC";
+                $data[8] = $own["highDown"]." CUC";
 
 
             if($own["lowUp"] != $own["highUp"])
-                $data[8] = $own["lowUp"]." - ".$own["highUp"]." CUC";
+                $data[9] = $own["lowUp"]." - ".$own["highUp"]." CUC";
             else
-                $data[8] = $own["highUp"]." CUC";
+                $data[9] = $own["highUp"]." CUC";
 
             array_push($results, $data);
         }
@@ -198,20 +199,35 @@ class ExportToExcel extends Controller {
     private function createSheetForAccommodationsDirectory($excel, $sheetName, $data) {
         $sheet = $this->createSheet($excel, $sheetName);
         $sheet->setCellValue('a1', 'Propiedad');
-        $sheet->setCellValue('b1', 'Habitaciones');
-        $sheet->setCellValue('c1', 'Propietario(s)');
-        $sheet->setCellValue('d1', 'Teléfono(s)');
-        $sheet->setCellValue('e1', 'Dirección');
-        $sheet->setCellValue('f1', 'Municipio');
-        $sheet->setCellValue('g1', 'Estado');
-        $sheet->setCellValue('h1', 'Temporada Baja');
-        $sheet->setCellValue('i1', 'Temporada Alta');
+        $sheet->setCellValue('b1', 'Codigo Automatico');
+        $sheet->setCellValue('c1', 'Habitaciones');
+        $sheet->setCellValue('d1', 'Propietario(s)');
+        $sheet->setCellValue('e1', 'Teléfono(s)');
+        $sheet->setCellValue('f1', 'Dirección');
+        $sheet->setCellValue('g1', 'Municipio');
+        $sheet->setCellValue('h1', 'Estado');
+        $sheet->setCellValue('i1', 'Temporada Baja');
+        $sheet->setCellValue('j1', 'Temporada Alta');
 
-        $sheet = $this->styleHeader("a1:i1", $sheet);
+        $sheet = $this->styleHeader("a1:j1", $sheet);
 
         $sheet->fromArray($data, ' ', 'A2');
 
-        $this->setColumnAutoSize("a", "i", $sheet);
+        $this->setColumnAutoSize("a", "j", $sheet);
+
+        for($i = 0; $i < count($data); $i++)
+        {
+            if($data[$i][1] === "" || $data[$i][0] !== $data[$i][1])
+            {
+                $style = array(
+                    'font' => array(
+                        'color' => array('rgb' => 'FF0000'),
+                    ),
+                );
+                $sheet->getStyle("A".($i + 2).":J".($i + 2))->applyFromArray($style);
+            }
+        }
+
         return $excel;
     }
 
@@ -325,6 +341,17 @@ class ExportToExcel extends Controller {
         $sheet = new \PHPExcel_Worksheet($excel, $sheetName);
         $excel->addSheet($sheet, -1);
         $sheet->setTitle($sheetName);
+        return $sheet;
+    }
+
+    private function styleError($row, $sheet) {
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'color' => array('rgb' => 'FF0000'),
+            ),
+        );
+        $sheet->getStyle($row)->applyFromArray($style);
         return $sheet;
     }
 

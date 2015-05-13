@@ -111,6 +111,7 @@ parameters:
     configuration.dir.accommodation.batch.process.excels: %kernel.root_dir%/../tmp/excels/batchProcess/
     configuration.dir.downloaded.excels: %kernel.root_dir%/../web/excels/
     configuration.dir.ical: %kernel.root_dir%/../web/calendars/
+    configuration.dir.additionalsFiles: %kernel.root_dir%/../web/files/
 
 doctrine_migrations:
     dir_name: %kernel.root_dir%/migrations
@@ -171,6 +172,12 @@ services:
         arguments:
             entity_manager: "@doctrine.orm.entity_manager"
             container: "@service_container"
+
+    ownership.listener:
+        class: MyCp\mycpBundle\Listener\OwnershipListener
+        tags:
+            - { name: doctrine.orm.entity_listener }
+            - { name: doctrine.orm.entity_listener, entity_manager: ownership }
 
 avalanche_imagine:
     web_root:     %kernel.root_dir%/../web

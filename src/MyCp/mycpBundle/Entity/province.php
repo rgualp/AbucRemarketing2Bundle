@@ -41,6 +41,13 @@ class province
      * @ORM\Column(name="prov_code", type="string", length=5, nullable=true)
      */
     private $prov_code;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="prov_own_code", type="string", length=3, nullable=true)
+     */
+    private $prov_own_code;
     
     /**
      * @ORM\OneToMany(targetEntity="municipality",mappedBy="mun_prov_id")
@@ -152,6 +159,29 @@ class province
     public function getProvCode()
     {
         return $this->prov_code;
+    }
+
+    /**
+     * Set prov_own_code
+     *
+     * @param string $provOwnCode
+     * @return province
+     */
+    public function setProvOwnCode($provOwnCode)
+    {
+        $this->prov_own_code = $provOwnCode;
+
+        return $this;
+    }
+
+    /**
+     * Get prov_own_code
+     *
+     * @return string
+     */
+    public function getProvOwnCode()
+    {
+        return $this->prov_own_code;
     }
 
 }

@@ -2703,6 +2703,22 @@
                 <source>Aire acondicionado / Ventilador</source>
                 <target>Aire acondicionado / Ventilador</target>
             </trans-unit>
+            <trans-unit id="686">
+                <source>FORM_OPTIONS</source>
+                <target>Opciones</target>
+            </trans-unit>
+            <trans-unit id="687">
+                <source>FORM_OPTIONS_INSTRUCTIONS</source>
+                <target>Deseo recibir un correo con instrucciones para inscribir mi alojamiento</target>
+            </trans-unit>
+            <trans-unit id="688">
+                <source>INSTRUCTIONS_CONTACT_SUBJECT</source>
+                <target>Instrucciones para registrar alojamiento</target>
+            </trans-unit>
+            <trans-unit id="689">
+                 <source>SEND_INSTRUCTIONS_MESSAGE_SUCCESS</source>
+                 <target>Gracias por contactar con nosotros. Le hemos enviado un correo con instrucciones para el registro de su alojamiento.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

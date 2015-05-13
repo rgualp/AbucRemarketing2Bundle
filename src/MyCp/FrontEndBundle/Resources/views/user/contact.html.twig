@@ -71,16 +71,15 @@
             <div class="col-sm-6">
                 <h4>{{"CONTACT_OWNER_QUESTION" | trans}}</h4>
                 {{"CONTACT_OWNER_FILL_FORM" | trans}}<br/>
-                <a href="mailto:casa@mycasaparticular.com">casa@mycasaparticular.com</a> <br/><br/>
-
-                {{"CONTACT_OWNER_FILL_FORM" | trans}}
+                <a href="mailto:casa@mycasaparticular.com">casa@mycasaparticular.com</a>
             </div>
             <div class="col-sm-6">
                 <div class="thumbnail">
                     <div style="padding: 10px 20px" class="form-cont">
-                        <form novalidate class="sfgen" method="POST">
+                        <form novalidate class="sfgen" method="POST" id="ownerContact">
             {% if errors['no_email'] is defined%}<div class="alert alert-error">{{errors['no_email']}}</div>{% endif %}
-            {{form_widget(form_owner)}}
+
+                            {{form_widget(form_owner)}}
                                 <br/>
                                 <button class="btn btn-lg btn-primary btn-block" style="margin: auto" type="submit" id="btn_owner_contact">
                                  {{'SEND' | trans}}
@@ -98,5 +97,17 @@
 </div>
             <script type="text/javascript">
                 $('.sfgen input').addClass('form-control')
+                var receiveInstructions = "{{ constant('\\MyCp\\mycpBundle\\Helpers\\Operations::CONTACT_FORM_RECEIVE_INSTRUCTIONS') }}";
+
+                $("#mycp_frontendbundle_contact_owner_owner_instructions").change(function (){
+                   if($("#mycp_frontendbundle_contact_owner_owner_instructions").val() === receiveInstructions){
+                        $("#mycp_frontendbundle_contact_owner_owner_comment").attr('disabled','disabled');
+                        $("#mycp_frontendbundle_contact_owner_owner_comment").removeAttr("required");
+                   }
+                    else {
+                       $("#mycp_frontendbundle_contact_owner_owner_comment").removeAttr('disabled');
+                       $("#mycp_frontendbundle_contact_owner_owner_comment").attr('required', 'required');
+                   }
+                });
                 </script>
 {%endblock%}
