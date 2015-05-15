@@ -2,16 +2,16 @@
 {% for item in status %}
 {% if post['edit_ownership'] is not defined and item.getStatusId!=4%}
 {% if item.getStatusId == selected %}
-<option value="{{ item.getStatusId }}" selected="selected">{{ item.getStatusName }}</option>
+<option value="{{ item.getStatusId }}" selected="selected" class="status-option-{{ item.getStatusId }}">{{ item.getStatusName }}</option>
 {% else %}
-<option value="{{ item.getStatusId }}">{{ item.getStatusName }}</option>
+<option value="{{ item.getStatusId }}" class="status-option-{{ item.getStatusId }}">{{ item.getStatusName }}</option>
 {% endif %}
 {% endif %}
 {% if post['edit_ownership'] is defined %}
 {% if item.getStatusId == selected %}
-<option value="{{ item.getStatusId }}" selected="selected">{{ item.getStatusName }}</option>
+<option value="{{ item.getStatusId }}" selected="selected" class="status-option-{{ item.getStatusId }}">{{ item.getStatusName }}</option>
 {% else %}
-<option value="{{ item.getStatusId }}">{{ item.getStatusName }}</option>
+<option value="{{ item.getStatusId }}" class="status-option-{{ item.getStatusId }}">{{ item.getStatusName }}</option>
 {% endif %}
 {% endif %}
 {% endfor %}

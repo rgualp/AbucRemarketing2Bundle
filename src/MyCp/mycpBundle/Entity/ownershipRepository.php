@@ -25,22 +25,6 @@ use MyCp\mycpBundle\Helpers\FilterHelper;
 class ownershipRepository extends EntityRepository {
 
     function insert($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller, $dir) {
-
-        if ($data['facilities_breakfast'] == 'No')
-            $data['facilities_breakfast'] = 0;
-        else
-            $data['facilities_breakfast'] = 1;
-
-        if ($data['facilities_dinner'] == 'No')
-            $data['facilities_dinner'] = 0;
-        else
-            $data['facilities_dinner'] = 1;
-
-        if ($data['facilities_parking'] == 'No')
-            $data['facilities_parking'] = 0;
-        else
-            $data['facilities_parking'] = 1;
-
         $active_top_20 = 0;
         if (isset($data['top_20']))
             $active_top_20 = 1;
@@ -258,7 +242,7 @@ class ownershipRepository extends EntityRepository {
 
         $em->flush();
 
-        return $ownership->getOwnId();
+        return $ownership;
     }
 
     function edit($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller, $dir) {
@@ -509,7 +493,7 @@ class ownershipRepository extends EntityRepository {
 
         $em->flush();
 
-        return $ownership->getOwnId();
+        return $ownership;
     }
 
     private function saveOwnerPhoto($em, $ownership, $dir, $request) {
