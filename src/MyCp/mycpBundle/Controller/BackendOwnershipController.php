@@ -711,8 +711,9 @@ class BackendOwnershipController extends Controller {
                 $count = $errors_validation = 0;
                 $count_checkbox_lang = 0;
                 foreach ($post as $item) {
-                    if (strpos($array_keys[$count], 'ownership_') !== false) {
-                        if ($array_keys[$count] != 'ownership_licence_number' &&
+                    if($post['status'] == OwnershipStatuses::ACTIVE) {
+                        if (strpos($array_keys[$count], 'ownership_') !== false) {
+                            if ($array_keys[$count] != 'ownership_licence_number' &&
                                 $array_keys[$count] != 'ownership_email_1' &&
                                 $array_keys[$count] != 'ownership_address_between_street_1' &&
                                 $array_keys[$count] != 'ownership_address_between_street_2' &&
@@ -724,17 +725,31 @@ class BackendOwnershipController extends Controller {
                                 $array_keys[$count] != 'ownership_destination' &&
                                 $array_keys[$count] != 'user_create' &&
                                 $array_keys[$count] != 'user_send_mail'
+                            ) {
+                                $errors[$array_keys[$count]] = $errors_validation = $this->get('validator')->validateValue($item, $not_blank_validator);
+                                $data['count_errors'] += count($errors[$array_keys[$count]]);
+                            }
+                        }
+                        if (strpos($array_keys[$count], 'room_') !== false &&
+                            $array_keys[$count] != 'new_room'
                         ) {
                             $errors[$array_keys[$count]] = $errors_validation = $this->get('validator')->validateValue($item, $not_blank_validator);
-                            $data['count_errors']+=count($errors[$array_keys[$count]]);
+                            $data['count_errors'] += count($errors[$array_keys[$count]]);
                         }
                     }
-                    if (strpos($array_keys[$count], 'room_') !== false &&
-                            $array_keys[$count] != 'new_room') {
-                        $errors[$array_keys[$count]] = $errors_validation = $this->get('validator')->validateValue($item, $not_blank_validator);
-                        $data['count_errors']+=count($errors[$array_keys[$count]]);
+                    else
+                    {
+                        if (strpos($array_keys[$count], 'ownership_') !== false) {
+                            if ($array_keys[$count] == 'ownership_name' ||
+                                $array_keys[$count] == 'ownership_mcp_code' ||
+                                $array_keys[$count] == 'ownership_address_province' ||
+                                $array_keys[$count] == 'ownership_address_municipality'
+                            ) {
+                                $errors[$array_keys[$count]] = $errors_validation = $this->get('validator')->validateValue($item, $not_blank_validator);
+                                $data['count_errors'] += count($errors[$array_keys[$count]]);
+                            }
+                        }
                     }
-
 //if action is new client casa
                     if (isset($post['user_name']) && !empty($post['user_name'])) {
                         if ($post['user_password'] != $post['user_re_password']) {
@@ -824,18 +839,24 @@ class BackendOwnershipController extends Controller {
                     $data['count_errors']++;
                     $count++;
                 }
-                $errors['facilities_breakfast'] = $this->get('validator')->validateValue($post['facilities_breakfast'], $not_blank_validator);
+
                 $errors['status'] = $this->get('validator')->validateValue($post['status'], $not_blank_validator);
+                $errors['facilities_breakfast'] = $this->get('validator')->validateValue($post['facilities_breakfast'], $not_blank_validator);
                 $errors['facilities_dinner'] = $this->get('validator')->validateValue($post['facilities_dinner'], $not_blank_validator);
                 $errors['facilities_parking'] = $this->get('validator')->validateValue($post['facilities_parking'], $not_blank_validator);
-                $errors['geolocate_x'] = $this->get('validator')->validateValue($post['geolocate_x'], $not_blank_validator);
-                $errors['geolocate_y'] = $this->get('validator')->validateValue($post['geolocate_y'], $not_blank_validator);
 
-                $data['count_errors']+=count($errors['facilities_breakfast']);
-                $data['count_errors']+=count($errors['facilities_dinner']);
-                $data['count_errors']+=count($errors['facilities_parking']);
-                $data['count_errors']+=count($errors['geolocate_x']);
-                $data['count_errors']+=count($errors['geolocate_y']);
+                $data['count_errors'] += count($errors['facilities_breakfast']);
+                $data['count_errors'] += count($errors['facilities_dinner']);
+                $data['count_errors'] += count($errors['facilities_parking']);
+
+                if($post['status'] == OwnershipStatuses::ACTIVE) {
+
+                    $errors['geolocate_x'] = $this->get('validator')->validateValue($post['geolocate_x'], $not_blank_validator);
+                    $errors['geolocate_y'] = $this->get('validator')->validateValue($post['geolocate_y'], $not_blank_validator);
+
+                    $data['count_errors'] += count($errors['geolocate_x']);
+                    $data['count_errors'] += count($errors['geolocate_y']);
+                }
 
                 $count_rooms = $request->request->get('count_rooms');
                 $data['country_code'] = $post['ownership_address_province'];
@@ -868,14 +889,8 @@ class BackendOwnershipController extends Controller {
                         $string_rooms_change_price = '';
                         if ($post['status'] == ownershipStatus::STATUS_ACTIVE)
                             foreach ($rooms_db as $room) {
-                                /* $db_price_up_from = $room->getRoomPriceUpFrom();
-                                  $post_price_up_from = $post['room_price_up_from_' . $flag]; */
-
                                 $db_price_up_to = $room->getRoomPriceUpTo();
                                 $post_price_up_to = $post['room_price_up_to_' . $flag];
-
-                                /* $db_price_down_from = $room->getRoomPriceDownFrom();
-                                  $post_price_down_from = $post['room_price_down_from_' . $flag]; */
 
                                 $db_price_down_to = $room->getRoomPriceDownTo();
                                 $post_price_down_to = $post['room_price_down_to_' . $flag];
@@ -885,18 +900,9 @@ class BackendOwnershipController extends Controller {
                                     $post_price_special = $post['room_price_special_' . $flag];
                                 }
 
-
-                                /* if ($db_price_up_from != $post_price_up_from) {
-                                  $string_rooms_change_price.=' Room ' . $flag . ' changed price (High season "FROM") from ' . $db_price_up_from . ' to ' . $post_price_up_from . '.';
-                                  } */
-
                                 if ($db_price_up_to != $post_price_up_to) {
                                     $string_rooms_change_price.=' Room ' . $flag . ' changed price (High season) from ' . $db_price_up_to . ' to ' . $post_price_up_to . '.';
                                 }
-
-                                /* if ($db_price_down_from != $post_price_down_from) {
-                                  $string_rooms_change_price.=' Room ' . $flag . ' changed price (Low season "FROM") from ' . $db_price_down_from . ' to ' . $post_price_down_from . '.';
-                                  } */
 
                                 if ($db_price_down_to != $post_price_down_to) {
                                     $string_rooms_change_price.=' Room ' . $flag . ' changed price (Low season) from ' . $db_price_down_to . ' to ' . $post_price_down_to . '.';
@@ -948,12 +954,12 @@ class BackendOwnershipController extends Controller {
                             $service_log->saveLog('Edit entity ' . $post['ownership_mcp_code'], BackendModuleName::MODULE_OWNERSHIP);
                         }
 
-                        $current_ownership_id = $em->getRepository('mycpBundle:ownership')->edit($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this, $this->container->getParameter('user.dir.photos'));
+                        $ownership = $em->getRepository('mycpBundle:ownership')->edit($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this, $this->container->getParameter('user.dir.photos'));
 
                         //Enviar correo a los propietarios
                         if ($new_status == ownershipStatus::STATUS_ACTIVE && ($old_status == ownershipStatus::STATUS_IN_PROCESS or $old_status == ownershipStatus::STATUS_BATCH_PROCESS)) {
-                            $id_ownership = $post['edit_ownership'];
-                            $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
+                            /*$id_ownership = $post['edit_ownership'];
+                            $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);*/
                             $publishDate = $ownership->getOwnPublishDate();
 
                             if (!isset($publishDate) || $publishDate == null) {
@@ -965,11 +971,11 @@ class BackendOwnershipController extends Controller {
                             }
                         }
 
-                        $message = 'Propiedad actualizada satisfactoriamente.';
+                        $message = 'La propiedad '.$ownership->getOwnMcpCode().'(Código automático: '.$ownership->getOwnMcpCodeGenerated().') ha sido actualizada satisfactoriamente.';
                     } else {
 
-                        $current_ownership_id = $em->getRepository('mycpBundle:ownership')->insert($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this, $this->container->getParameter('user.dir.photos'));
-                        $message = 'Propiedad añadida satisfactoriamente.';
+                        $ownership = $em->getRepository('mycpBundle:ownership')->insert($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this, $this->container->getParameter('user.dir.photos'));
+                        $message = 'La propiedad '.$ownership->getOwnMcpCode().'(Código automático: '.$ownership->getOwnMcpCodeGenerated().') ha sido añadida satisfactoriamente.';
                         $service_log = $this->get('log');
                         $service_log->saveLog('Create entity ' . $post['ownership_mcp_code'], BackendModuleName::MODULE_OWNERSHIP);
 
@@ -1009,8 +1015,6 @@ class BackendOwnershipController extends Controller {
         $errors_temp = array();
         $flag = 0;
 
-
-
         foreach ($errors as $error) {
             if (is_object($error)) {
                 if ($error->__toString() != '') {
@@ -1025,7 +1029,6 @@ class BackendOwnershipController extends Controller {
         $errors_tab = array();
         foreach ($errors_temp as $error) {
 
-
             if (strpos($error, 'ownership') === 0) {
                 $errors_tab['general_tab'] = true;
             }
@@ -1033,11 +1036,6 @@ class BackendOwnershipController extends Controller {
             if (strpos($error, 'room') === 0) {
                 $errors_tab['room_tab'] = true;
             }
-
-            /* if(strpos($error,'facilities')===0)
-              {
-              $errors_tab['facilities_tab']=true;
-              } */
 
             if (strpos($error, 'geolocate') === 0) {
                 $errors_tab['house_tab'] = true;

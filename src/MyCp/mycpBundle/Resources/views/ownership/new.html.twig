@@ -868,6 +868,7 @@
         var mainStreet = $('[name="ownership_address_street"]').val();
         var streetNumber = $('[name="ownership_address_number"]').val();
         var province = $('[name="ownership_address_province"]').val();
+        var municipality = $('[name="ownership_address_municipality"]').val();
         var owner = $('[name="ownership_homeowner_1"]').val();
         var phone = $('[name="ownership_phone_number"]').val();
         var movil = $('[name="ownership_mobile_number"]').val();
@@ -879,7 +880,7 @@
         var geoX = $('[name="geolocate_x"]').val();
         var geoY = $('[name="geolocate_y"]').val();
 
-        if(name === "" || code === "" || mainStreet === "" || streetNumber === "" || province === "" || owner === "" ||
+        if(name === "" || code === "" || mainStreet === "" || streetNumber === "" || province === "" || owner === "" || municipality === "" ||
                 (phone + movil === "")  || category === ""  || type === ""  || commission === "" || notSelectedRoom || notDescriptions || geoX === "" || geoY === "")
             $(".status-option-1").addClass("hidden");
         else
