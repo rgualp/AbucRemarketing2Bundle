@@ -26,9 +26,9 @@
 
 </ul>
 <div class="form-actions">
-    <button class="btn btn-primary" type="button" onclick="javascript:submit_button({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_AND_ADD_PHOTOS')}})">Guardar y agregar fotos</button>
-    <button class="btn btn-info" type="submit">Guardar y salir</button>
-    <button class="btn btn-success" type="button" onclick="javascript:submit_button({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_AND_NEW')}})">Guardar y nuevo</button>
+    <button class="btn btn-primary" onclick="javascript:submit_button({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_AND_ADD_PHOTOS')}})">Guardar y agregar fotos</button>
+    <button class="btn btn-info" onclick="javascript:submit_button({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_AND_EXIT')}})">Guardar y salir</button>
+    <button class="btn btn-success" onclick="javascript:submit_button({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_AND_NEW')}})">Guardar y nuevo</button>
     {% if(post['ownership_id'] is defined) %}
     <a class="btn btn-warning" href="{{ path('mycp_list_photos_ownership',{'id_ownership':post['ownership_id']}) }}">Fotos</a>
     {% if is_granted('ROLE_CLIENT_STAFF')%}
@@ -76,7 +76,7 @@
         {% if data['edit_ownership'] is defined %}<input style="display: none;" name="edit_ownership" value="{{data['id_ownership']}}"> {% endif %}
             {% if data['count_errors']>0 %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
             <ul class="nav nav-tabs" id="myTab">
-                <li class="active"><a {% if errors_tab['general_tab'] is defined %} class="tab_errors" {% endif %} data-toggle="tab" href="#generales">Datos generales</a></li>
+                <li class="active"><a id="tabGeneral" {% if errors_tab['general_tab'] is defined %} class="tab_errors" {% endif %} data-toggle="tab" href="#generales">Datos generales</a></li>
                 <li class=""><a {% if errors_tab['room_tab'] is defined %} class="tab_errors" {% endif %} data-toggle="tab" href="#habitaciones">Habitaciones</a></li>
                 <li class=""><a data-toggle="tab" href="#facilidades">Facilidades</a></li>
                 <li class=""><a {% if errors_tab['house_tab'] is defined %} class="tab_errors" {% endif %} data-toggle="tab" href="#casa">Casa</a></li>
@@ -91,7 +91,7 @@
                     <div class="row-fluid">
                         <div class="span6">
                             <label>Nombre de la casa (*)</label>
-                            {% if errors['ownership_name'] is defined %}<label class="error">{{errors['ownership_name']|trim(':')}}</label>{%endif%}
+                            <label class="error {% if errors['ownership_name'] is not defined %}hidden{% endif %}" id="errorName">Este campo no puede estar vacío.</label>
                             <input value="{% if(post['ownership_name'] is defined) %}{{post['ownership_name']}}{% endif %}" class="input-block-level" type="text" name="ownership_name"/>
                         </div>
                         <div class="span3">
@@ -226,7 +226,7 @@
                     </div>
                     <div class="row-fluid">
                         <div class="span12">
-                            <label><label>Comisión (*)</label>
+                            <label>Comisión (*)</label>
                                 {% if errors['ownership_percent_commission'] is defined %}<label class="error">{{errors['ownership_percent_commission']|trim(':')}}</label>{%endif%}
                                 <select name="ownership_percent_commission" class="input-block-level">
                                     {% if post['ownership_percent_commission'] is defined %}
@@ -449,7 +449,7 @@
                 {% if data['edit_ownership'] is defined and post['description_id_'~language.lang_id] is defined%}<input name="description_id_{{language.lang_id}}" value="{{post['description_id_'~language.lang_id]}}" type="hidden"/>{%endif%}
                 <label>{{language.lang_name |title}} (*):</label>
                 {%if errors["description_brief_desc_"~language.lang_id] is defined %}<label class="error">{{errors["description_brief_desc_"~language.lang_id]|trim(':')}}</label>{%endif%}
-                <textarea class="textarea span12" name="description_brief_desc_{{language.lang_id}}">{%if post["description_brief_desc_"~language.lang_id] is defined %}{{post["description_brief_desc_"~language.lang_id]}}{%endif%}</textarea>
+                <textarea class="textarea span12 textarea-brief-{{ language.lang_code | lower }}" name="description_brief_desc_{{language.lang_id}}">{%if post["description_brief_desc_"~language.lang_id] is defined %}{{post["description_brief_desc_"~language.lang_id]}}{%endif%}</textarea>
                 {% endfor %}
             </div>
         </div>
@@ -460,7 +460,7 @@
                 {% for language in languages %}
                 <label>{{language.lang_name |title}} (*):</label>
                 {%if errors["description_desc_"~language.lang_id] is defined %}<label class="error">{{errors["description_desc_"~language.lang_id]|trim(':')}}</label>{%endif%}
-                <textarea class="textarea span12" name="description_desc_{{language.lang_id}}">{%if post["description_desc_"~language.lang_id] is defined %}{{post["description_desc_"~language.lang_id]}}{%endif%}</textarea>
+                <textarea class="textarea span12 textarea-description-{{ language.lang_code | lower }}" name="description_desc_{{language.lang_id}}">{%if post["description_desc_"~language.lang_id] is defined %}{{post["description_desc_"~language.lang_id]}}{%endif%}</textarea>
                 {% endfor %}
             </div>
         </div>
@@ -472,7 +472,7 @@
                 {% if data['edit_ownership'] is defined and post['kw_id_'~language.lang_id] is defined%}<input name="kw_id_{{language.lang_id}}" value="{{post['kw_id_'~language.lang_id]}}" type="hidden"/>{%endif%}
                 <label>{{language.lang_name |title}} (*):</label>
                 {%if errors["keywords_"~language.lang_id] is defined %}<label class="error">{{errors["keywords_"~language.lang_id]|trim(':')}}</label>{%endif%}
-                <input type="text" class="span12" name="keywords_{{language.lang_id}}" value="{%if post["keywords_"~language.lang_id] is defined %}{{post["keywords_"~language.lang_id]}}{%endif%}"/>
+                <input type="text" class="span12 input-keywords-{{ language.lang_code | lower }}" name="keywords_{{language.lang_id}}" value="{%if post["keywords_"~language.lang_id] is defined %}{{post["keywords_"~language.lang_id]}}{%endif%}"/>
                        {% endfor %}
         </div>
     </div>
@@ -662,6 +662,8 @@
 
     url_destination = "{{ path('mycp_get_destination_by_mun') }}";
 
+    canActivate();
+
     $("#user_create").change(function() {
         if (this.checked)
         {
@@ -747,36 +749,144 @@
         });
     }
 
-    /* $("#user_selected").change(function(){
-     if($("#user_selected").val()!='')
-     {
-     $("#user_name").attr('disabled','disabled');
-     $("#user_re_password").attr('disabled','disabled');
-     $("#user_password").attr('disabled','disabled');
-     $("#user_photo").attr('disabled','disabled');
-     }
-     else
-     {
-     $("#user_name").removeAttr('disabled');
-     $("#user_re_password").removeAttr('disabled');
-     $("#user_password").removeAttr('disabled');
-     $("#user_photo").removeAttr('disabled');
-     }
-     })
 
-     if($("#user_selected").val()!='')
-     {
-     $("#user_name").attr('disabled','disabled');
-     $("#user_re_password").attr('disabled','disabled');
-     $("#user_password").attr('disabled','disabled');
-     $("#user_photo").attr('disabled','disabled');
-     }*/
 
     function submit_button(operation)
     {
         $("#save_operation").val(operation);
         $("#form_ownership").submit();
     }
+
+    $('input').keyup(function () {
+        canActivate();
+    });
+    $('select').change(function () {
+        canActivate();
+    });
+
+    function checkRoomsToActivate()
+    {
+        var notSelectedType = true;
+        $('[name^="room_type_"]').each(function() {
+            if($(this).val() !== "")
+            {
+                notSelectedType = false;
+            }
+        });
+        var notSelectedBeds = true;
+        $('[name^="room_beds_number_"]').each(function () {
+            if ($(this).val() !== "") {
+                notSelectedBeds = false;
+            }
+        });
+        var notSelectedPriceDown = true;
+        $('[name^="room_price_down_to_"]').each(function() {
+            if($(this).val() !== "")
+            {
+                notSelectedPriceDown = false;
+            }
+        });
+        var notSelectedPriceTo = true;
+        $('[name^="room_price_up_to_"]').each(function() {
+            if($(this).val() !== "")
+            {
+                notSelectedPriceTo = false;
+            }
+        });
+        var notSelectedClimate = true;
+        $('[name^="room_climate_"]').each(function() {
+            if($(this).val() !== "")
+            {
+                notSelectedClimate = false;
+            }
+        });
+        var notSelectedAudiovisual = true;
+        $('[name^="room_audiovisual_"]').each(function() {
+            if($(this).val() !== "")
+            {
+                notSelectedAudiovisual = false;
+            }
+        });
+        var notSelectedBathroom = true;
+        $('[name^="room_bathroom_"]').each(function() {
+            if($(this).val() !== "")
+            {
+                notSelectedBathroom = false;
+            }
+        });
+        var notSelectedWindows = true;
+        $('[name^="room_windows_"]').each(function() {
+            if($(this).val() !== "")
+            {
+                notSelectedWindows = false;
+            }
+        });
+        var notSelectedBalcony = true;
+        $('[name^="room_balcony_"]').each(function() {
+            if($(this).val() !== "")
+            {
+                notSelectedBalcony = false;
+            }
+        });
+
+        return notSelectedType || notSelectedBeds || notSelectedPriceDown || notSelectedPriceTo || notSelectedClimate || notSelectedAudiovisual || notSelectedBathroom || notSelectedWindows || notSelectedBalcony;
+    }
+
+    function checkDescriptionsToActivate()
+    {
+        var notSelectedBrief = true;
+        $('[name^="description_brief_desc_"]').each(function() {
+            if($(this).val() !== "" || $(this).hasClass("textarea-brief-de"))
+            {
+                notSelectedBrief = false;
+            }
+        });
+
+        var notSelectedDescription = true;
+        $('[name^="description_desc_"]').each(function() {
+            if($(this).val() !== "" || $(this).hasClass("textarea-description-de"))
+            {
+                notSelectedDescription = false;
+            }
+        });
+
+        var notSelectedKeyword = true;
+        $('[name^="keywords_"]').each(function() {
+            if($(this).val() !== "" || $(this).hasClass("input-keywords-de"))
+            {
+                notSelectedKeyword = false;
+            }
+        });
+
+        return notSelectedBrief || notSelectedDescription || notSelectedKeyword
+    }
+
+    function canActivate()
+    {
+        var name = $('[name="ownership_name"]').val();
+        var code = $('[name="ownership_mcp_code"]').val();
+        var mainStreet = $('[name="ownership_address_street"]').val();
+        var streetNumber = $('[name="ownership_address_number"]').val();
+        var province = $('[name="ownership_address_province"]').val();
+        var owner = $('[name="ownership_homeowner_1"]').val();
+        var phone = $('[name="ownership_phone_number"]').val();
+        var movil = $('[name="ownership_mobile_number"]').val();
+        var category = $('[name="ownership_category"]').val();
+        var type = $('[name="ownership_type"]').val();
+        var commission = $('[name="ownership_percent_commission"]').val();
+        var notSelectedRoom = checkRoomsToActivate();
+        var notDescriptions = checkDescriptionsToActivate();
+        var geoX = $('[name="geolocate_x"]').val();
+        var geoY = $('[name="geolocate_y"]').val();
+
+        if(name === "" || code === "" || mainStreet === "" || streetNumber === "" || province === "" || owner === "" ||
+                (phone + movil === "")  || category === ""  || type === ""  || commission === "" || notSelectedRoom || notDescriptions || geoX === "" || geoY === "")
+            $(".status-option-1").addClass("hidden");
+        else
+            $(".status-option-1").removeClass("hidden");
+    }
+
+
 
 </script>
 

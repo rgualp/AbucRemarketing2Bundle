@@ -29,14 +29,14 @@ class ownership {
     /**
      * @var string
      *
-     * @ORM\Column(name="own_name", type="string", length=255)
+     * @ORM\Column(name="own_name", type="string", length=255, nullable=true)
      */
     private $own_name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="own_licence_number", type="string", length=255)
+     * @ORM\Column(name="own_licence_number", type="string", length=255, nullable=true)
      */
     private $own_licence_number;
 
@@ -50,28 +50,28 @@ class ownership {
     /**
      * @var string
      *
-     * @ORM\Column(name="own_address_street", type="string", length=255)
+     * @ORM\Column(name="own_address_street", type="string", length=255, nullable=true)
      */
     private $own_address_street;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="own_address_number", type="string", length=255)
+     * @ORM\Column(name="own_address_number", type="string", length=255, nullable=true)
      */
     private $own_address_number;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="own_address_between_street_1", type="string", length=255)
+     * @ORM\Column(name="own_address_between_street_1", type="string", length=255, nullable=true)
      */
     private $own_address_between_street_1;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="own_address_between_street_2", type="string", length=255)
+     * @ORM\Column(name="own_address_between_street_2", type="string", length=255, nullable=true)
      */
     private $own_address_between_street_2;
 
@@ -96,21 +96,21 @@ class ownership {
     /**
      * @var string
      *
-     * @ORM\Column(name="own_mobile_number", type="string", length=255)
+     * @ORM\Column(name="own_mobile_number", type="string", length=255, nullable=true)
      */
     private $own_mobile_number;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="own_homeowner_1", type="string", length=255)
+     * @ORM\Column(name="own_homeowner_1", type="string", length=255, nullable=true)
      */
     private $own_homeowner_1;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="own_homeowner_2", type="string", length=255)
+     * @ORM\Column(name="own_homeowner_2", type="string", length=255, nullable=true)
      */
     private $own_homeowner_2;
 
@@ -124,7 +124,7 @@ class ownership {
     /**
      * @var string
      *
-     * @ORM\Column(name="own_phone_number", type="string", length=255)
+     * @ORM\Column(name="own_phone_number", type="string", length=255, nullable=true)
      */
     private $own_phone_number;
 
@@ -138,21 +138,21 @@ class ownership {
     /**
      * @var string
      *
-     * @ORM\Column(name="own_email_2", type="string", length=255)
+     * @ORM\Column(name="own_email_2", type="string", length=255, nullable=true)
      */
     private $own_email_2;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="own_category", type="string", length=255)
+     * @ORM\Column(name="own_category", type="string", length=255, nullable=true)
      */
     private $own_category;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="own_type", type="string", length=255)
+     * @ORM\Column(name="own_type", type="string", length=255, nullable=true)
      */
     private $own_type;
 
@@ -171,7 +171,7 @@ class ownership {
     /**
      * @var string
      *
-     * @ORM\Column(name="own_facilities_breakfast_price", type="string", length=255)
+     * @ORM\Column(name="own_facilities_breakfast_price", type="string", length=255, nullable=true)
      */
     private $own_facilities_breakfast_price;
 
@@ -185,14 +185,14 @@ class ownership {
     /**
      * @var string
      *
-     * @ORM\Column(name="own_facilities_dinner_price_from", type="string", length=255)
+     * @ORM\Column(name="own_facilities_dinner_price_from", type="string", length=255, nullable=true)
      */
     private $own_facilities_dinner_price_from;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="own_facilities_dinner_price_to", type="string", length=255)
+     * @ORM\Column(name="own_facilities_dinner_price_to", type="string", length=255, nullable=true)
      */
     private $own_facilities_dinner_price_to;
 
@@ -206,7 +206,7 @@ class ownership {
     /**
      * @var string
      *
-     * @ORM\Column(name="own_facilities_parking_price", type="string", length=255)
+     * @ORM\Column(name="own_facilities_parking_price", type="string", length=255, nullable=true)
      */
     private $own_facilities_parking_price;
 
@@ -220,7 +220,7 @@ class ownership {
     /**
      * @var string
      *
-     * @ORM\Column(name="own_langs", type="string", length=4))
+     * @ORM\Column(name="own_langs", type="string", length=4, nullable=true)
      */
     private $own_langs;
 
@@ -276,14 +276,14 @@ class ownership {
     /**
      * @var string
      *
-     * @ORM\Column(name="own_geolocate_x", type="string", length=255)
+     * @ORM\Column(name="own_geolocate_x", type="string", length=255, nullable=true)
      */
     private $own_geolocate_x;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="own_geolocate_y", type="string", length=255)
+     * @ORM\Column(name="own_geolocate_y", type="string", length=255, nullable=true)
      */
     private $own_geolocate_y;
 
@@ -303,7 +303,7 @@ class ownership {
     /**
      * @var integer
      *
-     * @ORM\Column(name="own_commission_percent", type="integer")
+     * @ORM\Column(name="own_commission_percent", type="integer", nullable=true)
      */
     private $own_commission_percent;
 
@@ -373,48 +373,48 @@ class ownership {
     /**
      * @var float
      *
-     * @ORM\Column(name="own_rating", type="decimal")
+     * @ORM\Column(name="own_rating", type="decimal", nullable=true)
      */
     private $own_rating;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="own_maximun_number_guests", type="integer")
+     * @ORM\Column(name="own_maximun_number_guests", type="integer", nullable=true)
      */
     private $own_maximun_number_guests;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="own_minimum_price", type="integer")
+     * @ORM\Column(name="own_minimum_price", type="integer", nullable=true)
      */
     private $own_minimum_price;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="own_maximum_price", type="integer")
+     * @ORM\Column(name="own_maximum_price", type="integer", nullable=true)
      */
     private $own_maximum_price;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="own_comments_total", type="integer")
+     * @ORM\Column(name="own_comments_total", type="integer", nullable=true)
      */
     private $own_comments_total;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="own_rooms_total", type="integer")
+     * @ORM\Column(name="own_rooms_total", type="integer", nullable=true)
      */
     private $own_rooms_total;
 
     /**
      * @var string
-     * @ORM\Column(name="own_sync_st", type="integer")
+     * @ORM\Column(name="own_sync_st", type="integer", nullable=true)
      */
     private $own_sync_st;
 
