@@ -512,7 +512,7 @@
                                                                                                               </a>
                                                                                                           <hr class="no-margin" style="margin-bottom: 5px"/>
                                                                                           <div>
-                                                                                              <a class="click" onClick="shareInFacebook('Text');">
+                                                                                              <a class="click" href="https://www.facebook.com/dialog/share?app_id={{ fb_app_id }}&display=popup&href={{url('frontend_details_ownership',{'own_name':ownership.ownname  | urlNormalize})}}&redirect_uri={{url('frontend_details_ownership',{'own_name':ownership.ownname  | urlNormalize})}}">
                                                                                                   <button  class="btn btn-default btn-block" style="padding: 6px 0">
                                                                                                       <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon icon-mail"/>
                                                                                                       {{"SHARE_FACEBOOK" | trans}}
@@ -710,28 +710,6 @@
                                                                                                                   </script>
 
                                                                                                                   <div id="fb-root"></div>
-    <script>
-        var fb_id = {{ fb_app_id }};
-        var ownName = "{{ ownership.ownname }}";
-        var url = "{{url('frontend_details_ownership',{'own_name':ownership.ownname  | urlNormalize})}}";
-
-        function shareInFacebook(){
-            FB.ui(
-                    {
-                        display: 'popup',
-                        method: 'share',
-                        href: url
-                    },
-                    function(response) {
-                        /*if (response && response.post_id) {
-                            alert('Post was published.');
-                        } else {
-                            alert('Post was not published.');
-                        }*/
-                    });
-
-        };
-    </script>
       <script>(function(d, s, id) {
               var js, fjs = d.getElementsByTagName(s)[0];
               if (d.getElementById(id))
