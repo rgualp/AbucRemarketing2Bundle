@@ -2,6 +2,7 @@
 {%set start_date = (post['reservation_filter_date_from'] is defined) ? ( post['reservation_filter_date_from']) : ((app.session.get('search_arrival_date') != null) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now" |date("d/m/Y")))%}
 {%set end_date = (post['reservation_filter_date_to'] is defined) ? (post['reservation_filter_date_to']) : ((app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : ("+2 days" |date("d/m/Y")))%}
 {%set image = ((gallery_photos[0] is defined) ? gallery_photos[0].photo_name : "no_photo.png")%}
+{% set facebookShareLink =  url('frontend_details_ownership',{'own_name':ownership.ownname  | urlNormalize%}
 
 {% extends 'FrontEndBundle:layout:base.html.twig' %}
 {%set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_ACCOMMODATIONS')%}
@@ -511,8 +512,8 @@
                                                                                                                        </button>
                                                                                                               </a>
                                                                                                           <hr class="no-margin" style="margin-bottom: 5px"/>
-                                                                                          {% set link_url =  url('frontend_details_ownership',{'own_name':ownership.ownname  | urlNormalize%}
-                                                                                          <a class="click" href="http://www.facebook.com/dialog/feed?app_id={{fb_app_id}}&link={{link_url}}&&display=popup&redirect_uri={{link_url}}" target="_blank">
+
+                                                                                          <a class="click" href="https://www.facebook.com/sharer/sharer.php?u={{facebookShareLink}}" target="_blank">
                                                                                               Share
                                                                                           </a>
                                                                                           <hr class="margin-t"/>
