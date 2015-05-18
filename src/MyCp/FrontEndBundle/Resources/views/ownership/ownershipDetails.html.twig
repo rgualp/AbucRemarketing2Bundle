@@ -511,8 +511,13 @@
                                                                                                                        </button>
                                                                                                               </a>
                                                                                                           <hr class="no-margin" style="margin-bottom: 5px"/>
-                                                                                                          <!--div class="fb-share-button" data-href="{{url('frontend_details_ownership',{'own_name':ownership.ownname  | urlNormalize})}}" data-layout="button" data-title="Compartir"></div>
-                                                                                                              <hr class="margin-t"/-->
+                                                                                          {% set link_url =  url('frontend_details_ownership',{'own_name':ownership.ownname  | urlNormalize%}
+                                                                                          {% set share_message = "Compartir" %}
+                                                                                          <a class="click" href="http://www.facebook.com/dialog/feed?app_id={{fb_app_id}}&link={{link_url}}&message={{share_message|urlencode}}&display=popup&redirect_uri={{link_url}}" target="_blank">
+                                                                                              Share
+                                                                                          </a>
+                                                                                                          <!--div class="fb-share-button" data-href="{{url('frontend_details_ownership',{'own_name':ownership.ownname  | urlNormalize})}}" data-layout="button" data-title="Compartir"></div-->
+                                                                                                              <hr class="margin-t"/>
         {{ include('FrontEndBundle:ownership:ownershipRating.html.twig',
         {'ownership': ownership}) }}
 
