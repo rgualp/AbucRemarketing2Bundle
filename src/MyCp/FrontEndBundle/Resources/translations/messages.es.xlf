@@ -2719,6 +2719,10 @@
                  <source>SEND_INSTRUCTIONS_MESSAGE_SUCCESS</source>
                  <target>Gracias por contactar con nosotros. Le hemos enviado un correo con instrucciones para el registro de su alojamiento.</target>
             </trans-unit>
+            <trans-unit id="690">
+                 <source>SHARE_FACEBOOK</source>
+                 <target>Compartir</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
