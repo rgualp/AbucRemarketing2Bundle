@@ -2,7 +2,6 @@
 {%set start_date = (post['reservation_filter_date_from'] is defined) ? ( post['reservation_filter_date_from']) : ((app.session.get('search_arrival_date') != null) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now" |date("d/m/Y")))%}
 {%set end_date = (post['reservation_filter_date_to'] is defined) ? (post['reservation_filter_date_to']) : ((app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : ("+2 days" |date("d/m/Y")))%}
 {%set image = ((gallery_photos[0] is defined) ? gallery_photos[0].photo_name : "no_photo.png")%}
-{% set facebookShareLink =  url('frontend_details_ownership',{'own_name':ownership.ownname  | urlNormalize%}
 
 {% extends 'FrontEndBundle:layout:base.html.twig' %}
 {%set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_ACCOMMODATIONS')%}
@@ -512,11 +511,13 @@
                                                                                                                        </button>
                                                                                                               </a>
                                                                                                           <hr class="no-margin" style="margin-bottom: 5px"/>
-
-                                                                                          <a class="click" href="https://www.facebook.com/sharer/sharer.php?u={{facebookShareLink}}" target="_blank">
-                                                                                              Share
-                                                                                          </a>
-                                                                                          <hr class="margin-t"/>
+                                                                                          <div>
+                                                                                              <a class="click" href="https://www.facebook.com/sharer/sharer.php?u={{url('frontend_details_ownership',{'own_name':ownership.ownname  | urlNormalize})}}" target="_blank">
+                                                                                                  Share
+                                                                                              </a>
+                                                                                          </div>
+                                                                                                          <!--div class="fb-share-button" data-href="{{url('frontend_details_ownership',{'own_name':ownership.ownname  | urlNormalize})}}" data-layout="button" data-title="Compartir"></div>
+                                                                                                              <hr class="margin-t"/-->
         {{ include('FrontEndBundle:ownership:ownershipRating.html.twig',
         {'ownership': ownership}) }}
 
@@ -560,9 +561,9 @@
 
     {% block include_javascripts %}
                                                                                                       <script type="text/javascript">
-                                                                                                                  var reservation_see_prices_text = "{{"RESERVATION_SEE_PRICES" | trans}}"
-                                                                                                                  var own_id = "{{ownership.own_id}}"
-                                                                                                                  var today_date = "{{"now"|date("d/m/Y") }}"
+                                                                                                                  var reservation_see_prices_text = "{{"RESERVATION_SEE_PRICES" | trans}}";
+                                                                                                                  var own_id = "{{ownership.own_id}}";
+                                                                                                                  var today_date = "{{"now"|date("d/m/Y") }}";
                                                                                                           </script>
                                                                                                           <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
                                                                                                           <script src="{{ asset('bundles/frontend/js/jquery.ui.map.js') }}"></script>
