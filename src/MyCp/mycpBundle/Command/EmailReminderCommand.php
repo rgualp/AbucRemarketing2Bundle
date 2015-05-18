@@ -11,12 +11,6 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
 class EmailReminderCommand extends ContainerAwareCommand
 {
-    /**
-     * 'router' service
-     *
-     * @var
-     */
-    private $router;
 
     protected function configure()
     {
@@ -30,7 +24,7 @@ class EmailReminderCommand extends ContainerAwareCommand
     {
         $container = $this->getContainer();
         $em = $container->get('doctrine')->getManager();
-        $generalReservations = $em->getRepository('mycpBundle:generalReservation')->getReminderAvailable();
+        $generalReservations = $em->getRepository('mycpBundle:generalReservation')->findBy(array("gen_res_id" => 19896 ));//->getReminderAvailable();
 
         $output->writeln(date(DATE_W3C) . ': Starting reminder emails command...');
 
@@ -43,6 +37,7 @@ class EmailReminderCommand extends ContainerAwareCommand
 
         $arrayPhotos = array();
         $arrayNights = array();
+        $initialPayment = 0;
         $timeService = $container->get('time');
         $emailService = $container->get('Email');
         $templatingService = $container->get('templating');
@@ -75,6 +70,13 @@ class EmailReminderCommand extends ContainerAwareCommand
                         $res->getOwnResReservationToDate()->getTimestamp()
                     );
                 array_push($arrayNights, $nights);
+
+                $comission = $res->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent()/100;
+                //Initial down payment
+                if($res->getOwnResNightPrice() > 0)
+                    $initialPayment += $res->getOwnResNightPrice() * $nights * $comission;
+                else
+                    $initialPayment += $res->getOwnResTotalInSite() * $comission;
             }
 
             // Enviando mail al cliente
@@ -87,8 +89,6 @@ class EmailReminderCommand extends ContainerAwareCommand
             $userLocale = strtolower($user_tourist->getUserTouristLanguage()->getLangCode());
             $translatorService->setLocale($userLocale);
 
-            $paymentUrl = $this->getPaymentUrl($userLocale);
-
             $body = $templatingService
                 ->renderResponse('FrontEndBundle:mails:reminder_available.html.twig', array(
                     'user' => $generalReservation->getGenResUserId(),
@@ -96,9 +96,10 @@ class EmailReminderCommand extends ContainerAwareCommand
                     'photos' => $arrayPhotos,
                     'nights' => $arrayNights,
                     'user_locale' => $userLocale,
-                    'paymentUrl' => $paymentUrl,
+                    'initial_payment' => $initialPayment,
                     'user_currency' => $user_tourist->getUserTouristCurrency()
                 ));
+            $output->writeln($body);
 
             $subject = $translatorService->trans('REMINDER', array(), "messages", $userLocale);
             $emailAddress = $generalReservation->getGenResUserId()->getUserEmail();
@@ -126,25 +127,5 @@ class EmailReminderCommand extends ContainerAwareCommand
         return 0;
     }
 
-    /**
-     * Initializes the services needed.
-     */
-    private function initializeServices()
-    {
-        $this->router = $this->getContainer()->get('router');
-    }
 
-    /**
-     * @param $userLocale
-     * @return string
-     */
-    private function getPaymentUrl($userLocale)
-    {
-        $this->initializeServices();
-        $enableUrl = $this->router->generate('frontend_mycasatrip_available', array(
-            'locale' => $userLocale,
-            '_locale' => $userLocale
-        ), true);
-        return $enableUrl;
-    }
 }

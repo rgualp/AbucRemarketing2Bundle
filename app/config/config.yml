@@ -42,6 +42,7 @@ twig:
          configuration_service_fee: %configuration.service.fee%
          #Note: enable the following line in order to read the value from parameters.yml
          fb_app_id: "%fb_app_id%"
+         mail_base_url: "%router.request_context.scheme%://%router.request_context.host%"
 
 # Assetic Configuration
 assetic:

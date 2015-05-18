@@ -1,15 +1,20 @@
 {% extends 'FrontEndBundle:layout:translatedbaseMailTemplate.html.twig' %}
 
+{% set checkCartUrl = mail_base_url ~ '/check-cart-email/'~ user_locale|lower~'/'~ user_locale|lower %}
+{% set searchAccommodations = mail_base_url ~ '/accommodations-email/'~ user_locale|lower~'/'~ user_locale|lower %}
+
 {% block content %}
 <h4 style="font-family: Arial; font-size: 20px">{{"USER_CART_FULL_REMINDER"|trans({}, "messages", user_locale)}}</h4>
 <p style="font-family: arial; font-size: 14px">
     {{"DEAR_MR" | trans({}, "messages", user_locale)}} {{user_name}},<br/><br/>
     {{ "USER_CART_FULL_TEXT1"|trans({}, "messages", user_locale) }} <br/><br/>
     <p style="font-size: 14px;font-family: arial">
-            <a href="{{url('mycp_main') ~ 'check-cart-email/'~ user_locale|lower~'/'~ user_locale|lower}}">{{"RESERVATION_CHECK_AVAILABILITY"|trans({}, "messages", user_locale)}}</a><br/><br/>
-            <a href="{{url('mycp_main') ~ 'accommodations-email/'~ user_locale|lower~'/'~ user_locale|lower}}">{{"BOOK_OTHER_ACCOMMODATIONS"|trans({}, "messages", user_locale)}}</a>
+            <a href="{{checkCartUrl}}">{{"RESERVATION_CHECK_AVAILABILITY"|trans({}, "messages", user_locale)}}</a><br/><br/>
+            <a href="{{searchAccommodations}}">{{"BOOK_OTHER_ACCOMMODATIONS"|trans({}, "messages", user_locale)}}</a>
         </p>
         {% for own in owns %}
+            {% set accommdationDetailsUrl = mail_base_url ~'/accommodation-email/'~own.ownName | urlNormalize~'/'~ user_locale|lower~'/'~ user_locale|lower%}
+
             <table width="100%" cellpadding="10" cellspacing="0" border="0">
                 <tr>
                     <td bgcolor="#F5F5F5" style="background-color: #F5F5F5;border: 1px solid #E3E3E3;">
@@ -19,14 +24,14 @@
                                     <table cellpadding="4" border="0" cellspacing="0">
                                         <tr>
                                             <td style="background-color: #FFFFFF; border: solid 1px #cccccc;">
-                                                <a href="{{ url('mycp_main') ~'accommodation-email/'~own.ownName | urlNormalize~'/'~ user_locale|lower~'/'~ user_locale|lower  }}">
-                                                    <img width="100%" style="display:block;" border="0" src="{{ url('mycp_main')~'uploads/ownershipImages/thumbnails/'~photos[own.ownid]}}">
+                                                <a href="{{ accommdationDetailsUrl  }}">
+                                                    <img width="100%" style="display:block;" border="0" src="{{ mail_base_url~'/uploads/ownershipImages/thumbnails/'~photos[own.ownid]}}">
                                                 </a>
                                             </td>
                                             <td>&nbsp;</td>
                                             <td valign="top" style="font-family: arial; font-size: 13px; line-height: 18px">
                                                 <h3 style="color: #084D74">
-                                                <a class="titleLink" href="{{ url('mycp_main') ~'accommodation-email/'~own.ownName | urlNormalize~'/'~ user_locale|lower~'/'~ user_locale|lower }}">
+                                                <a class="titleLink" href="{{ accommdationDetailsUrl }}">
                                                 {{own.ownName}}
                                                 </a>
                                                 </h3>
@@ -49,7 +54,7 @@
                                         <h3 style="padding:0; margin:0">{{prices[own.ownid][0].initialPayment | price(user_currency)}}</h3><br/>
                                         {{"RESERVATION_TOTAL" | trans({}, "messages", user_locale) | upper}}<br/>
                                         <h3 style="padding:0; margin:0">{{prices[own.ownid][0].totalPrice | price(user_currency)}}</h3><br/>
-                                      <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ url('mycp_main') ~'accommodation-email/'~own.ownName | urlNormalize~'/'~ user_locale|lower~'/'~ user_locale|lower }}">{{"VIEW_DETAILS"|trans({}, "messages", user_locale)}}</a>
+                                      <a  style="color: #F89406; font-size: 14px; font-weight: bold" href="{{ accommdationDetailsUrl }}">{{"VIEW_DETAILS"|trans({}, "messages", user_locale)}}</a>
 
                                 </td>
                             </tr>

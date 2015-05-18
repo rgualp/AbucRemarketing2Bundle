@@ -1,14 +1,9 @@
 {% extends 'FrontEndBundle:layout:translatedbaseMailTemplate.html.twig' %}
 
-{% if paymentUrl is not defined %}
-{% set mailPaymentUrl = url('mycp_main') ~'mycasatrip-email/available/'~ user_locale|lower~'/'~ user_locale|lower%}
-{% else %}
-{% set  mailPaymentUrl = paymentUrl%}
-
-{% if cancelReservationUrl is not defined %}
-{% set mailCancelReservationUrl = url('mycp_main') ~'cancel-offer-email/'~generalReservationId ~'/'~ user_locale|lower~'/'~ user_locale|lower%}
-{% else %}
-{% set  mailCancelReservationUrl = cancelReservationUrl%}
+{#% set  mailPaymentUrl = url('frontend_mycasatrip_available', { 'locale': user_locale|lower,'_locale':user_locale|lower })%#}
+{#% set  mailCancelReservationUrl = url('frontend_mycasatrip_cancel_offer', { 'generalReservationId':generalReservationId, 'locale': user_locale|lower,'_locale':user_locale|lower })%#}
+{% set mailPaymentUrl = mail_base_url ~ '/mycasatrip-email/available/'~ user_locale|lower~'/'~ user_locale|lower %}
+{% set mailCancelReservationUrl = mail_base_url ~ '/cancel-offer-email/'~generalReservationId~'/'~ user_locale|lower~'/'~ user_locale|lower %}
 
 {% block content %}
         <h4 style="font-family: Arial; font-size: 20px">{{"DEAR_MR"|trans({}, "messages", user_locale)}} {{user.getUserUserName|capitalize}} {{user.getUserLastName|capitalize}}</h4>
