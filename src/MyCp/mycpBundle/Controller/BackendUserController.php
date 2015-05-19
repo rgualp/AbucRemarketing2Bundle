@@ -15,6 +15,7 @@ use MyCp\mycpBundle\Form\clientPartnerType;
 use MyCp\mycpBundle\Entity\userPartner;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
 use \MyCp\FrontEndBundle\Helpers\Utils;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class BackendUserController extends Controller {
 
@@ -559,7 +560,6 @@ class BackendUserController extends Controller {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
-
         $permissions = $em->getRepository('mycpBundle:rolePermission')->getByRole($id_role);
         $role = $em->getRepository('mycpBundle:role')->find($id_role);
         $role_parent = $em->getRepository('mycpBundle:role')->find($role->getRoleParent());

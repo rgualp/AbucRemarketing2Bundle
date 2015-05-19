@@ -33,7 +33,6 @@ mycp_edit_user_staff:
 mycp_new_role:
     pattern:  /new_role/{id_role}
     defaults: { _controller: mycpBundle:BackendUser:new_role }
-
 mycp_delete_role:
     pattern:  /delete_role/{id_role}
     defaults: { _controller: mycpBundle:BackendUser:delete_role }

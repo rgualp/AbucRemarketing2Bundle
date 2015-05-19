@@ -88,7 +88,4 @@ class rolePermission
     {
         return $this->rp_permission;
     }
-    public function __toString(){
-        return $this->getRpPermission()->getPermDescription();
-    }
 }

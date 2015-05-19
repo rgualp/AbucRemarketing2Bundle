@@ -24,7 +24,7 @@ class AppKernel extends Kernel
             new MyCp\FrontEndBundle\FrontEndBundle(),
             new Avalanche\Bundle\ImagineBundle\AvalancheImagineBundle(),
             new BeSimple\I18nRoutingBundle\BeSimpleI18nRoutingBundle(),
-            new Lsw\MemcacheBundle\LswMemcacheBundle(),
+            //new Lsw\MemcacheBundle\LswMemcacheBundle(),
             //new BeSimple\SoapBundle\BeSimpleSoapBundle()
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Leezy\PheanstalkBundle\LeezyPheanstalkBundle(),
@@ -32,6 +32,7 @@ class AppKernel extends Kernel
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
+            $bundles[] = new \Symfony\Bundle\DebugBundle\DebugBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
