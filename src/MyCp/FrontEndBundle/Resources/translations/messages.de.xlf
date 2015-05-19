@@ -2721,6 +2721,10 @@
                  <source>SHARE_FACEBOOK</source>
                  <target>Teilen auf Facebook</target>
             </trans-unit>
+            <trans-unit id="691">
+                 <source>SEND_VOUCHER_SUBJECT</source>
+                 <target>Gutschein im Wert von Ihrer Reservierung</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

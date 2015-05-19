@@ -45,7 +45,7 @@ class VoucherHelper {
         }
     }
 
-    public static function sendNewVoucherToClient($entity_manager, $bookingService, $emailService, $controller, $genRes, $message = null) {
+    public static function sendVoucherToClient($entity_manager, $bookingService, $emailService, $controller, $genRes, $subjectTranslatedKey, $message = null, $createVoucher = true) {
 
         $idReservation = $genRes->getGenResId();
         try {
@@ -56,8 +56,12 @@ class VoucherHelper {
             foreach ($bookings_ids as $bookId) {
                 $bookId = $bookId['booking_id'];
 
-                // one could also use $bookingService->getVoucherFilePathByBookingId($bookingId) here, but then the PDF is not created
-                $pdfFilePath = $bookingService->createBookingVoucher($bookId);
+                $pdfFilePath = "";
+                if($createVoucher)
+                    $pdfFilePath = $bookingService->createBookingVoucher($bookId);
+                else
+                    $pdfFilePath = $bookingService->createBookingVoucherIfNotExisting($bookId);
+
                 $ownershipReservations = $entity_manager->getRepository('mycpBundle:ownershipReservation')
                         ->findBy(array('own_res_reservation_booking' => $bookId));
                 $serviceTime = $controller->get('time');
@@ -69,7 +73,7 @@ class VoucherHelper {
                 }
 
                 $userLocale = strtolower($userTourist->getUserTouristLanguage()->getLangCode());
-                $body = $controller->render('FrontEndBundle:mails:new_offer.html.twig', array(
+                $body = $controller->render('FrontEndBundle:mails:sendVoucher.html.twig', array(
                     'user_locale' => $userLocale,
                     'user' => $user,
                     'reservations' => $ownershipReservations,
@@ -78,7 +82,7 @@ class VoucherHelper {
                 ));
 
                 $locale = $controller->get('translator');
-                $subject = $locale->trans('NEW_OFFER_SUBJECT', array(), "messages", $userLocale);
+                $subject = $locale->trans($subjectTranslatedKey, array(), "messages", $userLocale);
                 $emailService->sendEmail(
                         $user->getUserEmail(), $subject, $body, 'no-reply@mycasaparticular.com', $pdfFilePath
                 );

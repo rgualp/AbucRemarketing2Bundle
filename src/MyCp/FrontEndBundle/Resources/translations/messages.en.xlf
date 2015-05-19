@@ -2723,6 +2723,10 @@
                  <source>SHARE_FACEBOOK</source>
                  <target>Share on Facebook</target>
             </trans-unit>
+             <trans-unit id="691">
+                 <source>SEND_VOUCHER_SUBJECT</source>
+                 <target>Voucher of your reservation</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
