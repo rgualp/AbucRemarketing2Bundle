@@ -1,0 +1,41 @@
+{% extends 'FrontEndBundle:layout:base.html.twig' %}
+
+{% block body %}
+<div>
+    <a class="click" onclick="facebookPopup();">
+    <button  class="btn btn-default btn-block" style="padding: 6px 10%; text-align: left">
+        <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-facebook"/>
+        {{"SHARE_FACEBOOK" | trans}}
+    </button>
+    </a>
+</div>
+<script type="text/javascript">
+    var faceAppId = "718673204884189";
+    var shareUrl = "{{url('frontend_details_ownership',{'own_name':ownership.ownname  | urlNormalize})}}";
+
+    function facebookPopup()
+    {
+        FB.ui({
+            method: 'share',
+            href: shareUrl
+        }, function(response){});
+    }
+
+
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : faceAppId,
+            xfbml      : true,
+            version    : 'v2.3'
+        });
+    };
+
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+{% endblock %}

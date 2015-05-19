@@ -122,4 +122,7 @@ class permission
     {
         return $this->perm_route;
     }
+    public function __toString(){
+        return $this->getPermDescription();
+    }
 }

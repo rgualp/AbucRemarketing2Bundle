@@ -45,13 +45,6 @@ class ExpiredOfferReminderWorkerCommand extends Worker
     private $securityService;
 
     /**
-     * 'router' service
-     *
-     * @var
-     */
-    private $router;
-
-    /**
      * 'mycp.service.email_manager' service
      *
      * @var EmailManager
@@ -203,7 +196,6 @@ class ExpiredOfferReminderWorkerCommand extends Worker
         $this->timeService = $this->getService('time');
         $this->translatorService = $this->getService('translator');
         $this->securityService = $this->getService('Secure');
-        $this->router = $this->getService('router');
     }
 
 }

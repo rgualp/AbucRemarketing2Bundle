@@ -50,6 +50,14 @@ class Utils {
 
         return $furl;
     }
+
+    public static function removeNewlines($text)
+    {
+        $text = str_replace("\n", "", $text);
+        $text = str_replace("\r", "", $text);
+
+        return $text;
+    }
 }
 
 ?>

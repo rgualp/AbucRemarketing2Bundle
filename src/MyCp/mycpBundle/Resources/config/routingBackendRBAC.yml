@@ -1,0 +1,24 @@
+mycp_rbac_add_role:
+    pattern:  /role/new
+    defaults: { _controller: mycpBundle:BackendRbac:addRole }
+mycp_rbac_edit_role:
+    pattern:  /role/edit/{id}
+    defaults: { _controller: mycpBundle:BackendRbac:editRole }
+mycp_rbac_delete_role:
+    pattern:  /role/delete/{id}
+    defaults: { _controller: mycpBundle:BackendRbac:deleteRole }
+mycp_rbac_list_roles:
+    pattern:  /role/list
+    defaults: { _controller: mycpBundle:BackendRbac:listRoles }
+mycp_add_privilege:
+    pattern:  /privilege/new
+    defaults: { _controller: mycpBundle:BackendRbac:addPrivilege }
+mycp_edit_privilege:
+    pattern:  /privilege/edit/{id}
+    defaults: { _controller: mycpBundle:BackendRbac:editPrivilege }
+mycp_delete_privilege:
+    pattern:  /privilege/delete/{id}
+    defaults: { _controller: mycpBundle:BackendRbac:deletePrivilege }
+mycp_list_privileges:
+    pattern:  /privileges/list
+    defaults: { _controller: mycpBundle:BackendRbac:listPrivileges }

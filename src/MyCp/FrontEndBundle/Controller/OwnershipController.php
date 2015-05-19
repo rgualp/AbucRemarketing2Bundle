@@ -281,12 +281,14 @@ class OwnershipController extends Controller {
 
             $languages = $this->get('translator')->trans('LANG_SPANISH');
 
+            $brief_description = Utils::removeNewlines($ownership_array['brief_description']);
+
             foreach ($langs_array as $lang)
                 $languages .= ", " . $lang;
-            return $this->render('FrontEndBundle:ownership:ownershipSimpleDetails.html.twig', array(
+            return $this->render('FrontEndBundle:ownership:ownershipSimpleDetails.html.twig', array( //'FrontEndBundle:ownership:test.html.twig'
                         'ownership' => $ownership_array,
                         'description' => $ownership_array['description'],
-                        'brief_description' => $ownership_array['brief_description'],
+                        'brief_description' => $brief_description,
                         'rooms' => $rooms,
                         'gallery_photos' => $own_photos,
                         'locale' => $locale,
@@ -508,6 +510,9 @@ class OwnershipController extends Controller {
             $real_category = 'mid_range';
         else if ($ownership_array['category'] == 'Premium')
             $real_category = 'premium';
+
+        $brief_description = Utils::removeNewlines($ownership_array['brief_description']);
+
         return $this->render('FrontEndBundle:ownership:ownershipDetails.html.twig', array(
                     'avail_array_prices' => $avail_array_prices,
                     'available_rooms' => $available_rooms,
@@ -517,7 +522,7 @@ class OwnershipController extends Controller {
                     'prices_dates' => $prices_dates,
                     'ownership' => $ownership_array,
                     'description' => $ownership_array['description'],
-                    'brief_description' => $ownership_array['brief_description'],
+                    'brief_description' => $brief_description,
                     'similar_houses' => array_slice($similar_houses, 0, 5),
                     'total_similar_houses' => $total_similar_houses,
                     'comments' => $comments,

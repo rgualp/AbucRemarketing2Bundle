@@ -127,47 +127,4 @@ class role
     {
         return $this->role_fixed;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->permissions = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add permissions
-     *
-     * @param \MyCp\mycpBundle\Entity\rolePermission $permissions
-     * @return role
-     */
-    public function addPermission(\MyCp\mycpBundle\Entity\rolePermission $permissions)
-    {
-        $this->permissions[] = $permissions;
-
-        return $this;
-    }
-
-    /**
-     * Remove permissions
-     *
-     * @param \MyCp\mycpBundle\Entity\rolePermission $permissions
-     */
-    public function removePermission(\MyCp\mycpBundle\Entity\rolePermission $permissions)
-    {
-        $this->permissions->removeElement($permissions);
-    }
-
-    /**
-     * Get permissions
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getPermissions()
-    {
-        return $this->permissions;
-    }
-    public function __toString(){
-        return $this->role_name;
-    }
 }

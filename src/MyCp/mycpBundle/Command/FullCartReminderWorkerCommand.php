@@ -26,13 +26,6 @@ class FullCartReminderWorkerCommand extends Worker {
     private $securityService;
 
     /**
-     * 'router' service
-     *
-     * @var
-     */
-    private $router;
-
-    /**
      * 'time' service
      *
      * @var
@@ -156,7 +149,6 @@ class FullCartReminderWorkerCommand extends Worker {
         $this->emailManager = $this->getService('mycp.service.email_manager');
         $this->translatorService = $this->getService('translator');
         $this->securityService = $this->getService('Secure');
-        $this->router = $this->getService('router');
         $this->timer = $this->getService('Time');
         $this->em = $this->getService('doctrine.orm.entity_manager');
     }

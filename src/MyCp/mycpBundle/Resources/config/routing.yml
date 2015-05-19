@@ -49,6 +49,9 @@ mycp_lodging_ownership:
 mycp_user:
     resource: "@mycpBundle/Resources/config/routingBackendUser.yml"
     prefix:   backend/user/
+mycp_rbac:
+    resource: "@mycpBundle/Resources/config/routingBackendRBAC.yml"
+    prefix:   backend/rbac/
 
 mycp_lodging_user:
     resource: "@mycpBundle/Resources/config/routingLodgingUser.yml"

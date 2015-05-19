@@ -1,0 +1,27 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+    <ul class="breadcrumb">
+        <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+        <li class="active">Permisos</li>
+    </ul>
+{% endblock %}
+{% block form_actions %}
+    <ul class="breadcrumb">
+        <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+        <li class="active">Permisos</li>
+    </ul>
+    <div class="form-actions">
+        <button class="btn btn-primary" type="submit">Guardar</button>
+        <a class="btn" href="{{ path('mycp_backend_front') }}">Cancelar</a>
+    </div>
+    </form>
+{% endblock %}
+{% block content %}
+    <h2>Editar Permiso</h2>
+    <hr/>
+    <form class="sfgen" method="POST" action="{{ path('mycp_edit_privilege', {'id': permission.permId}) }}" novalidate="true">
+        {{form_widget(form)}}
+
+    </form>
+{% endblock %}

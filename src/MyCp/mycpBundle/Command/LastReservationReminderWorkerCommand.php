@@ -51,12 +51,6 @@ class LastReservationReminderWorkerCommand extends Worker
      */
     private $emailManager;
 
-    /**
-     * 'router' service
-     *
-     * @var
-     */
-    private $router;
 
     /**
      * {@inheritDoc}
@@ -177,8 +171,6 @@ class LastReservationReminderWorkerCommand extends Worker
 
         $userLocale = $this->emailManager->getUserLocale($user);
         $genResId = $generalReservation->getGenResId();
-        $paymentUrl = $this->getPaymentUrl($userLocale);
-        $cancelReservationUrl = $this->getCancelReservationUrl($genResId, $userLocale);
 
         $body = $this->emailManager
             ->getViewContent('FrontEndBundle:mails:last_reminder_available.html.twig', array(
@@ -186,8 +178,6 @@ class LastReservationReminderWorkerCommand extends Worker
                 'reservations' => $ownershipReservations,
                 'photos' => $arrayPhotos,
                 'nights' => $arrayNights,
-                'paymentUrl' => $paymentUrl,
-                'cancelReservationUrl' => $cancelReservationUrl,
                 'user_locale' => $userLocale,
                 'initial_payment' => $initialPayment,
                 'generalReservationId' => $genResId,
@@ -206,33 +196,5 @@ class LastReservationReminderWorkerCommand extends Worker
         $this->em = $this->getService('doctrine.orm.entity_manager');
         $this->timeService = $this->getService('time');
         $this->translatorService = $this->getService('translator');
-        $this->router = $this->getService('router');
-    }
-
-    /**
-     * @param $userLocale
-     * @return string
-     */
-    private function getPaymentUrl($userLocale)
-    {
-        $enableUrl = $this->router->generate('frontend_mycasatrip_available', array(
-            'locale' => $userLocale,
-            '_locale' => $userLocale
-        ), true);
-        return $enableUrl;
-    }
-
-    /**
-     * @param $userLocale
-     * @return string
-     */
-    private function getCancelReservationUrl($generalReservationId, $userLocale)
-    {
-        $enableUrl = $this->router->generate('frontend_mycasatrip_cancel_offer', array(
-            'locale' => $userLocale,
-            '_locale' => $userLocale,
-            'generalReservationId' => $generalReservationId
-        ), true);
-        return $enableUrl;
     }
 }
