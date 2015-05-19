@@ -21,8 +21,8 @@
     <meta property="og:image" content="{{app.request.getSchemeAndHttpHost() ~ asset('uploads/ownershipImages/') ~ image }}" />
     <meta property="og:author" content="ABUC media network GmbH" />
     <meta property="og:site_name" content="MyCasaParticular" />
-    <meta property="og:description" content="{{description| raw |slice(0, 50) }}..." />
-    <meta property="og:see_also" content="http://www.mycasaparticular.com"/>
+    <meta property="og:description" content="{{brief_description| raw  }}" />
+    <meta property="og:see_also" content="{{ mail_base_url }}"/>
     <meta property="og:locale" content="{{locale|lower}}_{{locale|upper}}"/>
     <meta property="og:url" content="{{url('frontend_details_ownership',{'own_name':ownership.ownname  | urlNormalize})}}" />
     <meta property=”fb:admins” content=”312774092497”/>
@@ -504,7 +504,7 @@
         }) }}
                                                                                                           <hr class="no-margin" style="margin-bottom: 5px"/>
                                                                                                           <a href="#send_to_friend_popup" title="{{'SEND_TO_FRIEND' | trans}}" data-toggle="modal" style="text-decoration: none">
-                                                                                                              <button  class="btn btn-default btn-block" style="padding: 6px 0" onclick="$('#send_to_friend_popup').attr('data-email-type', 'recommend_property');
+                                                                                                              <button  class="btn btn-default btn-block" style="padding: 6px 10%; text-align: left" onclick="$('#send_to_friend_popup').attr('data-email-type', 'recommend_property');
                         $('#send_to_friend_popup').attr('data-dest-prop-id', '{{ownership.own_id}}');">
                                                                                                                            <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon icon-mail"/>
                 {{"TELL_A_FRIEND" | trans}}
@@ -512,15 +512,13 @@
                                                                                                               </a>
                                                                                                           <hr class="no-margin" style="margin-bottom: 5px"/>
                                                                                           <div>
-                                                                                              <a class="click" href="https://www.facebook.com/dialog/share?app_id={{ fb_app_id }}&display=popup&href={{url('frontend_details_ownership',{'own_name':ownership.ownname  | urlNormalize})}}&redirect_uri={{url('frontend_details_ownership',{'own_name':ownership.ownname  | urlNormalize})}}">
-                                                                                                  <button  class="btn btn-default btn-block" style="padding: 6px 0">
-                                                                                                      <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon icon-mail"/>
+                                                                                              <a class="click" onclick="facebookPopup();">
+                                                                                                  <button  class="btn btn-default btn-block" style="padding: 6px 10%; text-align: left">
+                                                                                                      <img src="{{asset('bundles/frontend/img/icons/pixel.gif')}}" class="icon-facebook"/>
                                                                                                       {{"SHARE_FACEBOOK" | trans}}
                                                                                                   </button>
                                                                                               </a>
                                                                                           </div>
-                                                                                                          <!--div class="fb-share-button" data-href="{{url('frontend_details_ownership',{'own_name':ownership.ownname  | urlNormalize})}}" data-layout="button" data-title="Compartir"></div>
-                                                                                                              <hr class="margin-t"/-->
         {{ include('FrontEndBundle:ownership:ownershipRating.html.twig',
         {'ownership': ownership}) }}
 
@@ -703,24 +701,41 @@
                                                                                                               <script src="{{ asset('bundles/frontend/js/ownership.min.js') }}"></script>
                                                                                                               <script src="{{ asset('bundles/frontend/js/ownership.calendar.js') }}"></script>
     {% endblock %}
-                                                                                                              <script type="text/javascript">
-                                                                                                                              from = $('#filter_date_from').val();
-                                                                                                                              to = $('#filter_date_to').val();
-                                                                                                                              refresh_calendar(from, to);
-                                                                                                                  </script>
+       <script type="text/javascript">
+                  from = $('#filter_date_from').val();
+                  to = $('#filter_date_to').val();
+                  refresh_calendar(from, to);
 
-                                                                                                                  <div id="fb-root"></div>
-      <script>(function(d, s, id) {
-              var js, fjs = d.getElementsByTagName(s)[0];
-              if (d.getElementById(id))
-                  return;
-              js = d.createElement(s);
-              js.id = id;
-              js.src = "//connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v2.0";
-              fjs.parentNode.insertBefore(js, fjs);
-          }(document, 'script', 'facebook-jssdk'));
+                  var faceAppId = "{{ fb_app_id }}";
+                  var shareUrl = "{{url('frontend_details_ownership',{'own_name':ownership.ownname  | urlNormalize})}}";
 
+                  function facebookPopup()
+                  {
+                      FB.ui({
+                          method: 'share',
+                          href: shareUrl
+                      }, function(response){});
+                  }
+
+
+                  window.fbAsyncInit = function() {
+                      FB.init({
+                          appId      : faceAppId,
+                          xfbml      : true,
+                          version    : 'v2.3'
+                      });
+                  };
+
+                  (function(d, s, id){
+                      var js, fjs = d.getElementsByTagName(s)[0];
+                      if (d.getElementById(id)) {return;}
+                      js = d.createElement(s); js.id = id;
+                      js.src = "//connect.facebook.net/en_US/sdk.js";
+                      fjs.parentNode.insertBefore(js, fjs);
+                  }(document, 'script', 'facebook-jssdk'));
       </script>
+
+      <div id="fb-root"></div>
 
 
 {% endblock %}

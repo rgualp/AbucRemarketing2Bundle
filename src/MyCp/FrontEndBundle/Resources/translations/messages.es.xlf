@@ -2721,7 +2721,7 @@
             </trans-unit>
             <trans-unit id="690">
                  <source>SHARE_FACEBOOK</source>
-                 <target>Compartir</target>
+                 <target>Compartir en Facebook</target>
             </trans-unit>
         </body>
     </file>
