@@ -9,7 +9,7 @@ use MyCp\mycpBundle\Entity\message;
 
 class BackendMessageController extends Controller {
 
-    public function messageControlAction($userTourist)
+    public function messageControlAction($userTourist, $showSubject = false)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -18,7 +18,8 @@ class BackendMessageController extends Controller {
         return $this->render('mycpBundle:message:messages.html.twig', array(
             'userTourist' => $userTourist,
             'userLogged' => $user,
-            'messages' => $messages
+            'messages' => $messages,
+            'showSubject' => $showSubject
         ));
     }
 
@@ -26,44 +27,31 @@ class BackendMessageController extends Controller {
     {
         $em = $this->getDoctrine()->getManager();
         $userTourist = $em->getRepository("mycpBundle:userTourist")->find($request->get("touristId"));
-        $sender = $this->getUser();
+        $from = $this->getUser();
         $userId = $request->get("userId");
-        $sendTo = $em->getRepository("mycpBundle:user")->find($userId);
+        $to = $em->getRepository("mycpBundle:user")->find($userId);
         $subject = $request->get("subject");
         $messageBody = $request->get("messageBody");
 
         //Create message object
-        $message = new message();
-        $message->setMessageBody($messageBody);
-        $message->setMessageDate(new \DateTime());
-        $message->setMessageSendTo($sendTo);
-        $message->setMessageSender($sender);
-        $message->setMessageSubject($subject);
+        $em->getRepository("mycpBundle:message")->insert($from, $to, $subject, $messageBody);
 
 
         //Send message to user email
-        $serviceEmail = $this->get('Email');
+        $serviceEmail = $this->get('mycp.service.email_manager');
         $userLocale = $userTourist->getUserTouristLanguage()->getLangCode();
         $templateBody = $this->render('FrontEndBundle:mails:standardTemplatedMailTemplate.html.twig', array(
-                'content' => $message->getMessageBody(),
+                'content' => $messageBody,
                 'user_locale' => $userLocale
             ));
 
-            $serviceEmail->sendEmail(
-                    $message->getMessageSubject(),
-                    'reservation@mycasaparticular.com',
-                    $message->getMessageSubject() . ' - MyCasaParticular.com', $userTourist->getUserTouristUser()->getUserEmail(), $templateBody
-            );
-
-        //Save message to database
-        $em->persist($message);
-        $em->flush();
+        $serviceEmail->sendEmail($to->getUserEmail(), $subject . ' - MyCasaParticular.com', $templateBody);
 
         $messages = $em->getRepository("mycpBundle:message")->findBy(array("message_send_to" => $userId), array("message_date" => "DESC"));
 
         $data = $this->render('mycpBundle:message:messages.html.twig', array(
             'userTourist' => $userTourist,
-            'userLogged' => $sender,
+            'userLogged' => $from,
             'messages' => $messages
         ));
 

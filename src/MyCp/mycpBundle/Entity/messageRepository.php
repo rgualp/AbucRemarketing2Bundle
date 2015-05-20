@@ -14,6 +14,7 @@ class messageRepository extends EntityRepository
 {
 
     /**
+     * Creating a new message sended from Reservation Team to the client
      * @param user $fromUser
      * @param user $toUser
      * @param $subject

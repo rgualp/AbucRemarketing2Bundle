@@ -19,7 +19,7 @@
     <a class="btn btn-primary" href="javascript:submit()">Guardar</a>
     <button class="btn" type="reset">Cancelar</button>
     &nbsp;&nbsp;&nbsp;
-    <button type="button" class="btn btn-danger">Enviar</button>
+    <a class="btn btn-danger" onclick="sendMessage()">Enviar</a>
 
 </div>
 </form>
@@ -84,7 +84,9 @@
 
     </div>
         </div>
-    {{ render(controller('mycpBundle:BackendMessage:messageControl', {'userTourist': tourist})) }}
+    <div id="messageContainer">
+    {{ render(controller('mycpBundle:BackendMessage:messageControl', {'userTourist': tourist, 'showSubject': true})) }}
+    </div>
 
     <script type="text/javascript">
 
@@ -171,6 +173,7 @@
             }
 
         }
+
     </script>
     <div class="modal hide fade" id="modal_error" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-header">

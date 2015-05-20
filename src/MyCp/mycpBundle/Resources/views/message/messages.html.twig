@@ -13,8 +13,18 @@
     <div class="tab-content" id="senMessageDiv" data-url="{{path("mycp_send_message")}}">
         <div id="new_message" class="tab-pane fade in active">
             <div class="row-fluid"><b>Cliente:</b> {{userTourist.userTouristUser.UserUserName}} {{userTourist.userTouristUser.UserLastName}}</div>
+            {% if showSubject is defined and showSubject%}
+
+            <div class="row-fluid" style="vertical-align: middle">
+                <b>Asunto:</b> <input type="text" id="messageSubject" style="width: 91%" name="messge_subject"/>
+                <label class="error hidden" id="lblSubjectAlert">Por favor, introduzca el asunto del mensaje</label>
+            </div>
+            {% endif %}
             <div class="row-fluid">
-                <textarea class="textarea" id="messageBody" style="width: 97%" name="message_to_client"></textarea></div>
+                <textarea class="textarea" id="messageBody" style="width: 97%" name="message_to_client"></textarea>
+                <label class="error hidden" id="lblBodyAlert">Por favor, introduzca el cuerpo del mensaje</label>
+
+            </div>
             <div class="row-fluid">
                 <em>
                     A este cliente debe escribirle en <b>{{userTourist.userTouristLanguage.langName}}</b>.<br/>
@@ -63,28 +73,51 @@
         <script type="text/javascript">
         $('.textarea').wysihtml5();
 
-        $("#bSendMessage").click(function() {
+        function sendMessage() {
             var userId = $("#userId").val();
             var touristId = $("#touristId").val();
             var subject = $("#messageSubject").val();
             var messageBody = $("#messageBody").val();
             var url = $("#senMessageDiv").attr("data-url");
+            var isValidated = validateMessage(subject, messageBody);
 
-            $("#loadingImg").removeClass("hidden");
+            if(isValidated) {
+                $("#loadingImg").removeClass("hidden");
 
-            $.post(url, {
-                userId: userId,
-                touristId: touristId,
-                subject: subject,
-                messageBody: messageBody
-            },
-            function(data)
-            {
-                $("#divMessageContainer").html(data);
-                $("#messageSubject").val("");
-                $("#messageBody").val("");
-                $("#loadingImg").addClass("hidden");
-            });
+                $.post(url, {
+                            userId: userId,
+                            touristId: touristId,
+                            subject: subject,
+                            messageBody: messageBody
+                        },
+                        function (data) {
+                            $("#divMessageContainer").html(data);
+                            $("#messageSubject").val("");
+                            $("#messageBody").val("");
+                            $("#loadingImg").addClass("hidden");
+                        });
+            }
             return false;
-        });
+        }
+
+    function validateMessage(subject, messageBody)
+    {
+        if(subject === "")
+        {
+            $("#lblSubjectAlert").removeClass("hidden");
+        }
+        else{
+            $("#lblSubjectAlert").addClass("hidden");
+        }
+
+        if(messageBody === "")
+        {
+            $("#lblBodyAlert").removeClass("hidden");
+        }
+        else{
+            $("#lblBodyAlert").addClass("hidden");
+        }
+
+        return (subject !== "") && (messageBody !== "");
+    }
    </script>
