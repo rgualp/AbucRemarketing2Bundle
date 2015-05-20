@@ -12,20 +12,17 @@
     </ul>
     <div class="tab-content" id="senMessageDiv" data-url="{{path("mycp_send_message")}}">
         <div id="new_message" class="tab-pane fade in active">
-            <div class="row-fluid"><b>DE:</b> MyCasaParticular</div>
-            <div class="row-fluid"><b>PARA:</b> {{userTourist.userTouristUser.UserUserName}} {{userTourist.userTouristUser.UserLastName}}</div>
-            <div class="row-fluid" style="vertical-align: middle"><b>ASUNTO:</b> <input type="text" id="messageSubject" style="width: 91%"/></div>
+            <div class="row-fluid"><b>Cliente:</b> {{userTourist.userTouristUser.UserUserName}} {{userTourist.userTouristUser.UserLastName}}</div>
             <div class="row-fluid">
-                <textarea class="textarea" id="messageBody" style="width: 97%"></textarea></div>
+                <textarea class="textarea" id="messageBody" style="width: 97%" name="message_to_client"></textarea></div>
             <div class="row-fluid">
                 <em>
                     A este cliente debe escribirle en <b>{{userTourist.userTouristLanguage.langName}}</b>.<br/>
-                    El correo llegará al cliente como si se hubiese escrito desde <b>reservation@mycasaparticular.com</b>.<br/>
+                    El mensaje que escriba en esta área sólo se enviará cuando accione sobre el botón <b>Enviar</b>.<br/>
                     <b>Nota de redacción: </b> Escriba en un lenguaje cordial y respetuoso al cliente.
                     El correo llegará en forma de plantilla de correo MyCasa con el texto que usted ha introducido por tanto le corresponde saludar y despedirse del cliente.
                 </em></div>
 
-                <button id="bSendMessage" class="btn pull-right btn-success">Enviar mensaje</button>
             <img id="loadingImg" class="pull-right hidden" src="{{asset("bundles/mycp/images/loading.gif")}}" style="margin-right: 5px;"/>
             <input type="hidden" id="userId" value="{{userTourist.userTouristUser.userId}}"/>
             <input type="hidden" id="touristId" value="{{userTourist.userTouristId}}"/>

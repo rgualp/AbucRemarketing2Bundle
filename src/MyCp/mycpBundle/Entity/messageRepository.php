@@ -13,4 +13,24 @@ use Doctrine\ORM\EntityRepository;
 class messageRepository extends EntityRepository
 {
 
+    /**
+     * @param user $fromUser
+     * @param user $toUser
+     * @param $subject
+     * @param $messageBody
+     */
+    public function insert(user $fromUser, user $toUser, $subject, $messageBody)
+    {
+        $em = $this->getEntityManager();
+
+        $message = new message();
+        $message->setMessageBody($messageBody);
+        $message->setMessageDate(new \DateTime());
+        $message->setMessageSendTo($toUser);
+        $message->setMessageSender($fromUser);
+        $message->setMessageSubject($subject);
+
+        $em->persist($message);
+        $em->flush();
+    }
 }

@@ -17,6 +17,7 @@ use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use MyCp\mycpBundle\Form\reservationType;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
+use MyCp\mycpBundle\Helpers\VoucherHelper;
 
 class BackendReservationController extends Controller {
 
@@ -816,16 +817,23 @@ class BackendReservationController extends Controller {
     public function send_reservationAction($id_reservation) {
         $em = $this->getDoctrine()->getManager();
         $generalReservation = $em->getRepository("mycpBundle:generalReservation")->find($id_reservation);
+        $custom_message = $this->getRequest()->get('message_to_client');
+        if($custom_message !== "")
+        {
+            $from = $this->getUser();
+            $to = $generalReservation->getGenResUserId();
+            $subject = "Reservación ".$generalReservation->getCASId();
+
+            $em->getRepository("mycpBundle:message")->insert($from, $to, $subject, $custom_message);
+        }
+
         if ($generalReservation->getGenResStatus() == generalReservation::STATUS_RESERVED || $generalReservation->getGenResStatus() == generalReservation::STATUS_PARTIAL_RESERVED) {
             $bookingService = $this->get('front_end.services.booking');
             $emailService = $this->get('mycp.service.email_manager');
-            $mailMessage = "";
-            \MyCp\mycpBundle\Helpers\VoucherHelper::sendVoucherToClient($em, $bookingService, $emailService, $this, $generalReservation, 'SEND_VOUCHER_SUBJECT', $mailMessage, false);
+            VoucherHelper::sendVoucherToClient($em, $bookingService, $emailService, $this, $generalReservation, 'SEND_VOUCHER_SUBJECT', $custom_message, false);
         }
         else {
-            $custom_message = $this->getRequest()->get('message_to_client');
-            if (isset($custom_message[0]))
-                $custom_message[0] = strtoupper($custom_message[0]);
+
             $service_email = $this->get('Email');
             $service_email->sendReservation($id_reservation, $custom_message);
 
