@@ -1,0 +1,20 @@
+{%if messages is defined and messages%}
+    <table class="table table-striped table-hover" style="font-size: 12px;">
+        <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Enviado Por</th>
+            <th>Mensaje</th>
+        </tr>
+        </thead>
+        {%for message in messages%}
+            <tr>
+                <td>{{message.messageDate | date("d/m/Y H:i")}}</td>
+                <td>{{message.messageSender.userUserName}} {{message.messageSender.userLastName}}</td>
+                <td style="width: 70%"><b>Asunto: </b>{{message.messageSubject}}. <b>Mensaje: </b>{{message.messageBody | striptags}}</td>
+            </tr>
+        {%endfor%}
+    </table>
+{%else%}
+    <p> <div class="alert alert-block">No se han enviado mensajes a este cliente.</div></p>
+{%endif%}

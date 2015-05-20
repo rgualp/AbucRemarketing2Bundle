@@ -1,3 +1,7 @@
 mycp_send_message:
     pattern:  /send
     defaults: { _controller: mycpBundle:BackendMessage:send }
+
+mycp_list_message:
+    pattern:  /list
+    defaults: { _controller: mycpBundle:BackendMessage:list }

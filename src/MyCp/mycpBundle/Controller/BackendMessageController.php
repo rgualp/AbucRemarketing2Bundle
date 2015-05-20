@@ -11,14 +11,11 @@ class BackendMessageController extends Controller {
 
     public function messageControlAction($userTourist, $showSubject = false)
     {
-        $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $messages = $em->getRepository("mycpBundle:message")->findBy(array("message_send_to" => $userTourist->getUserTouristUser()->getUserId()), array("message_date" => "DESC"));
 
         return $this->render('mycpBundle:message:messages.html.twig', array(
             'userTourist' => $userTourist,
             'userLogged' => $user,
-            'messages' => $messages,
             'showSubject' => $showSubject
         ));
     }
@@ -47,15 +44,25 @@ class BackendMessageController extends Controller {
 
         $serviceEmail->sendEmail($to->getUserEmail(), $subject . ' - MyCasaParticular.com', $templateBody);
 
-        $messages = $em->getRepository("mycpBundle:message")->findBy(array("message_send_to" => $userId), array("message_date" => "DESC"));
-
         $data = $this->render('mycpBundle:message:messages.html.twig', array(
             'userTourist' => $userTourist,
-            'userLogged' => $from,
-            'messages' => $messages
-        ));
+            'userLogged' => $from
+        ))->getContent();
 
         return new Response($data,200);
+    }
+
+    public function listAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $userId = $request->get("userId");
+        $messages = $em->getRepository("mycpBundle:message")->findBy(array("message_send_to" => $userId), array("message_date" => "DESC"));
+
+        $data = $this->render('mycpBundle:message:clientMessagesList.html.twig', array(
+            'messages' => $messages
+        ))->getContent();
+
+        return new Response($data, 200);
     }
 
 }
