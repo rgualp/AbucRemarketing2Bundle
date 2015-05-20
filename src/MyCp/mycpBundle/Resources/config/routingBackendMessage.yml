@@ -5,3 +5,11 @@ mycp_send_message:
 mycp_list_message:
     pattern:  /list
     defaults: { _controller: mycpBundle:BackendMessage:list }
+
+mycp_list_clientComment:
+    pattern:  /client-comment/list
+    defaults: { _controller: mycpBundle:BackendMessage:listComments }
+
+mycp_insert_clientComment:
+    pattern:  /client-comment/insert
+    defaults: { _controller: mycpBundle:BackendMessage:insertClientComment }

@@ -1,0 +1,65 @@
+<div class="row-fluid">
+    <div class="span10">
+        <textarea id="clientCommentText" style="width: 97%; height: 50px;" rows="3"></textarea>
+    </div>
+    <div class="span2" style="vertical-align: bottom">
+        <a id="btnSaveComment" class="btn btn-success" onclick="insertClientComment();" disabled="disabled">Guardar</a>
+        <label id="lblAlert"></label>
+    </div>
+</div>
+
+<div id="clientCommentList" data-url="{{ path("mycp_insert_clientComment") }}">
+{%if comments is defined and comments%}
+    <table class="table table-striped table-hover" style="font-size: 12px;">
+        <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Realizado Por</th>
+            <th>Comentario</th>
+        </tr>
+        </thead>
+        {%for comment in comments%}
+            <tr>
+                <td>{{comment.commentDate | date("d/m/Y H:i")}}</td>
+                <td>{{comment.commentStaffUser.userUserName}} {{comment.commentStaffUser.userLastName}}</td>
+                <td style="width: 70%">{{comment.commentText | striptags}}</td>
+            </tr>
+        {%endfor%}
+    </table>
+{%else%}
+    <p> <div class="alert alert-block">No hay comentarios almacenados sobre este cliente.</div></p>
+{%endif%}
+    </div>
+
+<script>
+    $("#clientCommentText").keyup(function() {
+        if($("#clientCommentText").val() !== "")
+        {
+            $("#btnSaveComment").removeAttr("disabled");
+        }
+        else
+            $("#btnSaveComment").attr("disabled", "disabled");
+    });
+
+    function insertClientComment()
+    {
+        var userId = $("#userId").val();
+        var commentText = $("#clientCommentText").val();
+        var url = $("#clientCommentList").attr("data-url");
+
+        $("#lblAlert").html("Guardando...");
+
+        $.post(url, {
+                    userId: userId,
+                    commentText: commentText
+                },
+                function (data) {
+                    $("#comment").html(data);
+                    $("#clientCommentText").val("");
+                    $("#lblAlert").html("");
+                    $('#tabs a[href="#comment"]').tab('show');
+                });
+        return false;
+    }
+
+</script>

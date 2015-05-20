@@ -65,4 +65,39 @@ class BackendMessageController extends Controller {
         return new Response($data, 200);
     }
 
+    public function listCommentsAction(Request $request)
+    {
+        $userId = $request->get("userId");
+        $data = $this->getCommentList($userId);
+        return new Response($data, 200);
+    }
+
+    public function insertClientCommentAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $staffUser = $this->getUser();
+        $userId = $request->get("userId");
+        $clientUser = $em->getRepository("mycpBundle:user")->find($userId);
+        $commentText = $request->get("commentText");
+
+        //Insert comment
+        $em->getRepository("mycpBundle:clientComment")->insert($clientUser, $staffUser, $commentText);
+
+        $data = $this->getCommentList($userId);
+        return new Response($data, 200);
+    }
+
+    private function getCommentList($userId)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $comments = $em->getRepository("mycpBundle:clientComment")->findBy(array("comment_client_user" => $userId), array("comment_date" => "DESC"));
+
+        $data = $this->render('mycpBundle:message:clientComments.html.twig', array(
+            'comments' => $comments
+        ))->getContent();
+
+        return $data;
+    }
+
 }
