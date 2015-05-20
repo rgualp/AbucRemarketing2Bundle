@@ -153,6 +153,13 @@ class ownershipReservation {
     private $own_res_sync_st;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="own_res_nights", type="integer", nullable=true)
+     */
+    private $own_res_nights;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -188,6 +195,28 @@ class ownershipReservation {
      */
     public function getOwnResHour() {
         return $this->own_res_reservation_hour;
+    }
+
+
+    /**
+     * Set own_res_nights
+     *
+     * @param integer $ownResNights
+     * @return ownershipReservation
+     */
+    public function setOwnResNights($ownResNights = null) {
+        $this->own_res_nights = $ownResNights;
+
+        return $this;
+    }
+
+    /**
+     * Get own_res_nights
+     *
+     * @return integer
+     */
+    public function getOwnResNights() {
+        return $this->own_res_nights;
     }
 
     /**
