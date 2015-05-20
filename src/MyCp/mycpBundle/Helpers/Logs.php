@@ -92,6 +92,12 @@ class Logs
                     case 'batch process':
                         $module_number=BackendModuleName::MODULE_BATCH_PROCESS;
                         break;
+                    case 'client messages':
+                        $module_number=BackendModuleName::MODULE_CLIENT_MESSAGES;
+                        break;
+                    case 'client comments':
+                        $module_number=BackendModuleName::MODULE_CLIENT_COMMENTS;
+                        break;
                 }
             }
             else

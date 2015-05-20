@@ -31,6 +31,8 @@ class BackendModuleName {
     const MODULE_LODGING_USER = 18;
     const MODULE_MAIL_LIST = 19;
     const MODULE_BATCH_PROCESS = 20;
+    const MODULE_CLIENT_MESSAGES = 21;
+    const MODULE_CLIENT_COMMENTS = 22;
 
 }
 

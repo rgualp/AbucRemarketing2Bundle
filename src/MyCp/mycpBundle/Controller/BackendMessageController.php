@@ -2,6 +2,7 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use MyCp\mycpBundle\Helpers\BackendModuleName;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,6 +33,8 @@ class BackendMessageController extends Controller {
 
         //Create message object
         $em->getRepository("mycpBundle:message")->insert($from, $to, $subject, $messageBody);
+        $service_log= $this->get('log');
+        $service_log->saveLog('Insert client message',  BackendModuleName::MODULE_CLIENT_MESSAGES);
 
 
         //Send message to user email
@@ -82,6 +85,8 @@ class BackendMessageController extends Controller {
 
         //Insert comment
         $em->getRepository("mycpBundle:clientComment")->insert($clientUser, $staffUser, $commentText);
+        $service_log= $this->get('log');
+        $service_log->saveLog('Insert client comment',  BackendModuleName::MODULE_CLIENT_COMMENTS);
 
         $data = $this->getCommentList($userId);
         return new Response($data, 200);

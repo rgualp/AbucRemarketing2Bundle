@@ -825,6 +825,8 @@ class BackendReservationController extends Controller {
             $subject = "Reservación ".$generalReservation->getCASId();
 
             $em->getRepository("mycpBundle:message")->insert($from, $to, $subject, $custom_message);
+            $service_log= $this->get('log');
+            $service_log->saveLog('Insert client message',  BackendModuleName::MODULE_CLIENT_MESSAGES);
         }
 
         if ($generalReservation->getGenResStatus() == generalReservation::STATUS_RESERVED || $generalReservation->getGenResStatus() == generalReservation::STATUS_PARTIAL_RESERVED) {
