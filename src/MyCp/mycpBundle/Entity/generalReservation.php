@@ -145,6 +145,13 @@ class generalReservation {
     private $gen_res_sync_st;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="gen_res_nights", type="integer", nullable=true)
+     */
+    private $gen_res_nights;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -162,6 +169,28 @@ class generalReservation {
     public function getGenResId() {
         return $this->gen_res_id;
     }
+
+    /**
+     * Set gen_res_nights
+     *
+     * @param integer $genResNights
+     * @return generalReservation
+     */
+    public function setGenResNights($genResNights = null) {
+        $this->gen_res_nights = $genResNights;
+
+        return $this;
+    }
+
+    /**
+     * Get gen_res_nights
+     *
+     * @return integer
+     */
+    public function getGenResNights() {
+        return $this->gen_res_nights;
+    }
+
 
     /**
      * Set gen_res_user_id
