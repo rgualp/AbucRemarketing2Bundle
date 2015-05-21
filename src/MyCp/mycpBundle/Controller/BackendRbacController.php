@@ -151,7 +151,7 @@ class BackendRbacController extends Controller {
              'choices'=>$routesArr,
              'label'=> 'Ruta Asociada',
              'attr'=>array(
-                 'class'=> 'span6'
+                 'class'=> 'span6 select2'
              )
          ))
             ->getForm()
@@ -200,7 +200,7 @@ class BackendRbacController extends Controller {
                 'choices'=>$routesArr,
                 'label'=> 'Ruta Asociada',
                 'attr'=>array(
-                    'class'=> 'span6'
+                    'class'=> 'span6 select2'
                 )
             ))
             ->getForm()

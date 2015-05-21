@@ -1,4 +1,8 @@
 {% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block another_in_head %}
+    {{ parent() }}
+    <link href="{{ asset('bundles/mycp/vendors/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
 {% block title %}Administración{% endblock %}
 {% block top_body %}
     <ul class="breadcrumb">
@@ -22,6 +26,14 @@
     <hr/>
     <form class="sfgen" method="POST" action="{{ path('mycp_edit_privilege', {'id': permission.permId}) }}" novalidate="true">
         {{form_widget(form)}}
-
-    </form>
+{% endblock %}
+        {% block javascripts %}
+        {{ parent() }}
+        <script src="{{ asset('bundles/mycp/vendors/select2/js/select2.min.js') }}"></script>
+        <script src="{{ asset('bundles/mycp/vendors/select2/js/i18n/es.js') }}"></script>
+        <script type="text/javascript">
+            $(document).on('ready', function(){
+                $('.select2').select2();
+            });
+        </script>
 {% endblock %}

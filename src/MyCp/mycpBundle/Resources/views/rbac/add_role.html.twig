@@ -48,10 +48,15 @@
                 {% set cat=perm.permCategory %}
                 </div>
          <div class="span3" style="margin-left: 0;">
-                <h4 class="title">{{ cat }}</h4>
+                {#<h4 class="title">{{ cat }}</h4>#}
+             <label class="checkbox">
+                 <input name="all_select_{{cat}}" class="all_select {{cat}}" type="checkbox"/>
+                 {{cat}}
+             </label>
+
               {% endif %}
-            <label for="{{ choice.vars.id }}" class="checkbox">
-                {{ form_widget(choice) }}
+            <label for="{{ choice.vars.id }}" class="checkbox permission">
+                {{ form_widget(choice, {'attr': {'class': cat}}) }}
                 {{ choice.vars.label }}
             </label>
 
@@ -65,5 +70,18 @@
             {#</div>#}
     {#{% endfor %}#}
     </div>
-    </form>
+    <script type="text/javascript">
+        $(".all_select").change(function(){
+            class_name=this.className;
+            array_class_name=class_name.split(' ');
+            if(this.checked)
+            {
+                $("input:checkbox."+array_class_name[1]).attr('checked','checked');
+            }
+            else
+            {
+                $("input:checkbox."+array_class_name[1]).removeAttr('checked');
+            }
+        })
+    </script>
 {% endblock %}
