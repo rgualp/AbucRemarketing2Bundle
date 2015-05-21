@@ -18,6 +18,9 @@
 <div class="form-actions">
     <button class="btn btn-primary" type="submit">Guardar</button>
     <a class="btn" href="{{ path('mycp_list_users') }}">Cancelar</a>
+    {% if tourist is defined and tourist != null %}
+        <a class="btn btn-danger" onclick="sendMessage()">Enviar</a>
+    {% endif %}
 </div>
 </form>
 {% endblock %}
@@ -56,6 +59,8 @@
     <script src="{{ asset('bundles/mycp/js/bootstrap-fileinput.js') }}" type="text/javascript"></script>
     {% if edit_user is defined%}
         <hr/>
-        {{ render(controller('mycpBundle:BackendMessage:messageControl', {'userTourist': tourist})) }}
+        {% if tourist is defined and tourist != null %}
+        {{ render(controller('mycpBundle:BackendMessage:messageControl', {'userTourist': tourist, 'showSubject' : true})) }}
+        {% endif %}
     {%endif%}
 {% endblock %}
