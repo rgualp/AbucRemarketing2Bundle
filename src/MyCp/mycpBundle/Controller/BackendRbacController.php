@@ -7,6 +7,7 @@
  */
 
 namespace MyCp\mycpBundle\Controller;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityRepository;
 use MyCp\mycpBundle\Entity\permission;
 use MyCp\mycpBundle\Form\roleType;
@@ -24,7 +25,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class BackendRbacController extends Controller {
 
     function addRoleAction(Request $request){
-//        throw new NotFoundHttpException("Under construction");
+
         //        $service_security= $this->get('Secure');
 //        $service_security->verifyAccess();
    /*     $rol=new role();
@@ -58,7 +59,10 @@ class BackendRbacController extends Controller {
      //   dump($arr); die;
         $role=new role();
         $form = $this->createFormBuilder($role)
-            ->add('role_name')
+            ->add('role_name', 'text', array(
+                'required'=>true,
+                'label'=> 'Nombre del rol'
+            ))
             ->add('role_parent','choice', array(
                 'choices'=>$roles,
                 'placeholder'=>'Selecciona el rol padre'
@@ -87,6 +91,26 @@ class BackendRbacController extends Controller {
             ->getForm();
         $form->handleRequest($request);
         if($form->isValid()){
+//            dump($role->getPermissions()); die;
+            $roleN=new role();
+            $roleN->setRoleName($role->getRoleName());
+            $roleN->setRoleParent($role->getRoleParent());
+            $roleN->setRoleFixed($role->getRoleFixed());
+            foreach($role->getPermissions() as $permission){
+                $rp=new rolePermission();
+                $rp->setRpRole($roleN);
+                $rp->setRpPermission($permission);
+                $roleN->addPermission($rp);
+            }
+       //     dump($roleN); die;
+            $em->persist($roleN);
+            $em->flush();
+            $request->getSession()->getFlashBag()->add(
+                'success',
+                'El rol fue creado'
+            );
+            return $this->redirectToRoute('mycp_rbac_list_roles');
+
 
         }
         return $this->render('mycpBundle:rbac:add_role.html.twig', array(
@@ -94,7 +118,113 @@ class BackendRbacController extends Controller {
         ));
     }
     function editRoleAction($id, Request $request){
-        throw new NotFoundHttpException("Under construction");
+  //      throw new NotFoundHttpException("Under construction");
+        //        $service_security= $this->get('Secure');
+//        $service_security->verifyAccess();
+        /*     $rol=new role();
+             $em=$this->getDoctrine()->getManager();
+             $privileges = $em->getRepository('mycpBundle:permission')->findAll();
+             foreach($privileges as $privilege){
+                 $rp = new rolePermission();
+                 $rp->setRpPermission($privilege);
+                 $rp->setRpRole($rol);
+                 $rol->addPermission($rp);
+             }
+             $form = $this->createForm(new roleType(), $rol);*/
+        $em=$this->getDoctrine()->getManager();
+        $roles=$em->getRepository('mycpBundle:role')->findAll();
+        $repository = $em->getRepository('mycpBundle:permission');
+        $query = $repository->createQueryBuilder('p')
+            ->orderBy('p.perm_category', 'ASC')->getQuery();
+        $privileges = $query->getResult();
+        $cat='';
+        $arr=array();
+        foreach($privileges as $privilege){
+            $arr["".$privilege->getPermId()]=$privilege->getPermDescription();
+            /* if($privilege->getPermCategory()!=$cat){
+                 $cat=$privilege->getPermCategory();
+              $arr[$cat]=array();
+             }
+                $arr[$cat][$privilege->getPermId()]=$privilege->getPermDescription();
+                */
+
+        }
+        //   dump($arr); die;
+        $role=$em->getRepository('mycpBundle:role')->findOneBy(array('role_id'=>$id));
+        $permissionsArr= new ArrayCollection();
+
+        foreach($role->getPermissions() as $permission){
+            $permissionsArr->add($permission->getRpPermission());
+        }
+    //    $permissionsArr->
+ //      dump($permissionsArr);die;
+
+        $form = $this->createFormBuilder($role)
+            ->add('role_name', 'text', array(
+                'required'=>true,
+                'label'=> 'Nombre del rol'
+            ))
+            ->add('role_parent','choice', array(
+                'choices'=>$roles,
+                'placeholder'=>'Selecciona el rol padre'
+            ))
+            ->add('role_fixed')
+            ->add('permissions','entity', array(
+                'class' => 'mycpBundle:permission',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('p')
+                        ->orderBy('p.perm_category', 'ASC');
+                    //  ->groupBy('p.perm_category');
+                },
+                'expanded'=>true,
+                'multiple'=>true
+            ))
+//            ->add('permissions', 'entity', array(
+//                'class' => 'mycpBundle:permission',
+//                'query_builder' => function (EntityRepository $er) {
+//                    return $er->createQueryBuilder('p')
+//                        ->orderBy('p.perm_category', 'ASC');
+//                    //  ->groupBy('p.perm_category');
+//                },
+//                'expanded'=>true,
+//                'multiple'=>true
+//            ))
+            ->getForm();
+        $form->handleRequest($request);
+        if($form->isValid()){
+        //            dump($role->getPermissions()); die;
+
+//           dump($role->getPermissions()); die;
+            $rPerms=$role->getPermissions();
+           $perm = new ArrayCollection();
+            $rP=$em->getRepository('mycpBundle:rolePermission')->findBy(array('rp_role'=>$role));
+            foreach($rP as $rps){
+              //  $rps->setRpRole(null);
+                $em->remove($rps);
+            }
+           // $em->flush();
+            foreach($rPerms as $permTemp){
+                $rp=new rolePermission();
+                $rp->setRpRole($role);
+                $rp->setRpPermission($permTemp);
+                $perm->add($rp);
+            }
+            $role->setPermissions($perm);
+            $em->persist($role);
+            $em->flush();
+            $request->getSession()->getFlashBag()->add(
+                'success',
+                'El rol fue actualizado'
+            );
+            return $this->redirectToRoute('mycp_rbac_list_roles');
+
+
+        }
+        return $this->render('mycpBundle:rbac:edit_role.html.twig', array(
+            'form' => $form->createView(),
+            'role'=>$role,
+            'rolePermissions'=>$permissionsArr
+        ));
     }
     function deleteRoleAction($id, Request $request){
         throw new NotFoundHttpException("Under construction");

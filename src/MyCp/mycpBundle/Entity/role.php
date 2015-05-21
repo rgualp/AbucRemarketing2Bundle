@@ -2,6 +2,7 @@
 
 namespace MyCp\mycpBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,7 +32,7 @@ class role
     /**
      * @var integer
      *
-     * @ORM\Column(name="role_parent", type="integer")
+     * @ORM\Column(name="role_parent", type="integer", nullable=true)
      */
     private $role_parent;
 
@@ -43,7 +44,7 @@ class role
     private $role_fixed;
 
     /**
-     * @ORM\OneToMany(targetEntity="rolePermission", mappedBy="rp_role")
+     * @ORM\OneToMany(targetEntity="rolePermission", mappedBy="rp_role", cascade={"persist", "remove"})
      *
      */
     private $permissions;
@@ -166,6 +167,11 @@ class role
     public function getPermissions()
     {
         return $this->permissions;
+    }
+    public function setPermissions(ArrayCollection $perm)
+    {
+         $this->permissions = $perm;
+        return $this;
     }
     public function __toString(){
         return $this->role_name;

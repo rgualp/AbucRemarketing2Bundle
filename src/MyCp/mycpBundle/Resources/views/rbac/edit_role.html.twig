@@ -18,9 +18,9 @@
     </form>
 {% endblock %}
 {% block content %}
-   <h2>Crear Rol</h2>
+   <h2>Editar Rol: {{ role.roleId }}</h2>
     <hr/>
-<form class="sfgen" method="POST" action="{{ path('mycp_rbac_add_role') }}" novalidate="true">
+<form class="sfgen" method="POST" action="{{ path('mycp_rbac_edit_role',{'id':role.roleId}) }}" novalidate="true">
     {#{{form_widget(form)}}#}
     {{form_row(form._token)}}
     <div class="span4">
@@ -40,7 +40,7 @@
     <div class="clearfix"></div>
     <h3 class="title">Acceso a módulos</h3>
     <div id="permissions" class="row-fluid">
-        {#{{ form_row(form.permissions) }}#}
+          {#{{ form_row(form.permissions) }}#}
     {% set cat='' %}
         <div>
         {% for choice in form.permissions.children %}
@@ -57,7 +57,11 @@
 
               {% endif %}
             <label for="{{ choice.vars.id }}" class="checkbox permission">
+              {% if rolePermissions.contains(perm) %}
+                  {{ form_widget(choice, {'attr': {'class': cat, 'checked':'checked'}}) }}
+              {% else %}
                 {{ form_widget(choice, {'attr': {'class': cat}}) }}
+            {% endif %}
                 {{ choice.vars.label }}
             </label>
 
