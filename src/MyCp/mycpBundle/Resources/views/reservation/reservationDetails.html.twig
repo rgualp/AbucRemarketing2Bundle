@@ -89,11 +89,12 @@
         {% set total_nights = 0 %}
         {% set total_price = 0 %}
         {% set total_rooms = 0 %}
+
         {% for reservation_rooms in reservations%}
         {%if reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE') and reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}
         {% set total_adults = total_adults + reservation_rooms.getOwnResCountAdults %}
         {% set total_kids = total_kids + reservation_rooms.getOwnResCountChildrens %}
-        {% set total_nights = total_nights + nights[loop.index0] %}
+        {% set total_nights = total_nights + reservation_rooms.ownResNights %}
         {% set total_rooms = total_rooms + 1 %}
         {%endif%}
         <tr>
@@ -125,7 +126,7 @@
                 {%endif%}
                 <input name="date_to_{{reservation_rooms.getOwnResId}}" data-localization="es" type="text" class="input-block-level datepicker_textbox" value="{% if post['date_from_'~reservation_rooms.getOwnResId] is defined %}{{ post['date_to_'~reservation_rooms.getOwnResId] }}{% else %}{{ reservation_rooms.getOwnResReservationToDate | date("d/m/Y") }}{% endif %}"/>
             </td>
-            <td>{{nights[loop.index0]}}</td>
+            <td>{{reservation_rooms.ownResNights}}</td>
             <td nowrap=nowrap>
                 {%if rooms[flag]%}
                     Baja: {{ rooms[flag].getRoomPriceDownTo }} CUC <br/>
@@ -153,9 +154,9 @@
             <td>{{ reservation_rooms.getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent }}%</td>
             <td>
                 {%if reservation_rooms.getOwnResNightPrice != 0%}
-                    {{nights[loop.index0] * reservation_rooms.getOwnResNightPrice}} CUC
+                    {{reservation_rooms.ownResNights * reservation_rooms.getOwnResNightPrice}} CUC
                     {%if reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE') and reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}
-                        {%set total_price = total_price + (nights[loop.index0] * reservation_rooms.getOwnResNightPrice)%}
+                        {%set total_price = total_price + (reservation_rooms.ownResNights * reservation_rooms.getOwnResNightPrice)%}
                     {%endif%}
                 {%else%}
                 {{reservation_rooms.getOwnResTotalInSite}}CUC</td>

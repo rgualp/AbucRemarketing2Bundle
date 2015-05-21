@@ -67,7 +67,7 @@
                     <td>{{reservation['rooms']}}</td>
                     <td>{{reservation['adults']}}</td>
                     <td>{{reservation['childrens']}}</td>
-                    <td>{{total_nights[loop.index0]}}</td>
+                    <td>{{reservation[0].gen_res_nights}}</td>
                     <td>{{reservation[0]['gen_res_total_in_site']}} CUC</td>
                     <td>
                         {{ render(controller('mycpBundle:BackendReservation:getGeneralReservationStatusName', {'status': reservation[0].gen_res_status, 'wrap': false, 'showInDiv': true})) }}

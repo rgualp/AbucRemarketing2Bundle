@@ -486,8 +486,11 @@ class generalReservationRepository extends EntityRepository {
         if (count($ownReservations) > 0) {
             $min_date = null;
             $max_date = null;
+            $nights = 0;
 
             foreach ($ownReservations as $item) {
+
+                $nights += $item->getOwnResNights();
 
                 if ($min_date == null)
                     $min_date = $item->getOwnResReservationFromDate();
@@ -502,6 +505,7 @@ class generalReservationRepository extends EntityRepository {
 
             $generalReservation->setGenResFromDate($min_date);
             $generalReservation->setGenResToDate($max_date);
+            $generalReservation->setGenResNights($nights);
 
             $em->persist($generalReservation);
             $em->flush();
