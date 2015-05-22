@@ -1,0 +1,8 @@
+mycp_reports:
+    pattern:  /
+    defaults: { _controller: mycpBundle:BackendReport:reports}
+
+mycp_reports_daily_in_place_clients:
+    pattern:  /clients/daily-in-place
+    defaults: { _controller: mycpBundle:BackendReport:dailyInPlaceClients}
+

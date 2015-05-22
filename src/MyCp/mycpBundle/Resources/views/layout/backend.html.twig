@@ -99,6 +99,19 @@
                 </div>
             </div>
         </div>
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseReports">
+                    Estadísticas
+                </a>
+            </div>
+            <div id="collapseReports" class="accordion-body collapse {%if temp == 'BackendReportController'%}in{%endif%}">
+
+                <div class="accordion-inner">
+                    <a href="{{ path('mycp_reports') }}"><i class="icon-folder-open"></i> Reportes</a>
+                </div>
+            </div>
+        </div>
         {% if is_granted('ROLE_CLIENT_STAFF')%}
         <div class="accordion-group">
             <div class="accordion-heading">

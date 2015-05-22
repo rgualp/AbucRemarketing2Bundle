@@ -1,0 +1,18 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li class="active">Reportes</li>
+</ul>
+{% endblock %}
+{% block content %}
+<h2>Reportes</h2>
+<hr/>
+{% for message in app.session.flashbag.get('message_error_local') %}
+<div class="alert alert-error">{{ message }}</div>
+{% endfor %}
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('bundles/mycp/js/common_list.js') }}"></script>
+{% endblock %}
