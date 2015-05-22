@@ -3,6 +3,10 @@ mycp_reports:
     defaults: { _controller: mycpBundle:BackendReport:reports}
 
 mycp_reports_daily_in_place_clients:
-    pattern:  /clients/daily-in-place
+    pattern:  /clients/daily-in-place/{date}
     defaults: { _controller: mycpBundle:BackendReport:dailyInPlaceClients}
+
+mycp_reports_daily_in_place_clients_excel:
+    pattern:  /clients/excel-daily-in-place/{date}
+    defaults: { _controller: mycpBundle:BackendReport:dailyInPlaceClientsExcel}
 

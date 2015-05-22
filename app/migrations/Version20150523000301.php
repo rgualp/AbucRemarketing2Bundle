@@ -25,20 +25,20 @@ class Version20150523000301 extends AbstractMigration
         $this->addSql("insert into nomenclator(nom_name, nom_category) values ('clients','reportCategory')");
         $this->addSql("insert into nomenclator(nom_name, nom_category) values ('payments','reportCategory')");
 
-        $this->addSql("insert into nomenclatorLang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'general'), 'Generales')");
-        $this->addSql("insert into nomenclatorLang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'revision'), 'Revision')");
-        $this->addSql("insert into nomenclatorLang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'reservations'), 'Reservaciones')");
-        $this->addSql("insert into nomenclatorLang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'clients'), 'Clientes')");
-        $this->addSql("insert into nomenclatorLang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'payments'), 'Pagos')");
+        $this->addSql("insert into nomenclatorlang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'general'), 'Generales')");
+        $this->addSql("insert into nomenclatorlang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'revision'), 'Revision')");
+        $this->addSql("insert into nomenclatorlang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'reservations'), 'Reservaciones')");
+        $this->addSql("insert into nomenclatorlang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'clients'), 'Clientes')");
+        $this->addSql("insert into nomenclatorlang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'payments'), 'Pagos')");
 
         /*Parameter types*/
         $this->addSql("insert into nomenclator(nom_name, nom_category) values ('date','parameterType')");
         $this->addSql("insert into nomenclator(nom_name, nom_category) values ('dateRangeFrom','parameterType')");
         $this->addSql("insert into nomenclator(nom_name, nom_category) values ('dateRangeTo','parameterType')");
 
-        $this->addSql("insert into nomenclatorLang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'date'), 'Fecha')");
-        $this->addSql("insert into nomenclatorLang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'dateRangeFrom'), 'Rango de Fecha (Desde)')");
-        $this->addSql("insert into nomenclatorLang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'dateRangeTo'), 'Rango de Fecha (Hasta)')");
+        $this->addSql("insert into nomenclatorlang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'date'), 'Fecha')");
+        $this->addSql("insert into nomenclatorlang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'dateRangeFrom'), 'Rango de Fecha (Desde)')");
+        $this->addSql("insert into nomenclatorlang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'dateRangeTo'), 'Rango de Fecha (Hasta)')");
     }
 
     /**

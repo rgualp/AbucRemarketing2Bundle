@@ -16,9 +16,14 @@ class BackendReportController extends Controller
         ));
     }
 
-    function dailyInPlaceClientsAction()
+    function dailyInPlaceClientsAction($date)
     {
         return $this->render('mycpBundle:reports:layout.html.twig', array(
         ));
+    }
+
+    public function dailyInPlaceClientsExcelAction($date)
+    {
+        throw \Exception("Under construction");
     }
 }
