@@ -113,6 +113,8 @@ parameters:
     configuration.dir.downloaded.excels: %kernel.root_dir%/../web/excels/
     configuration.dir.ical: %kernel.root_dir%/../web/calendars/
     configuration.dir.additionalsFiles: %kernel.root_dir%/../web/files/
+    configuration.default.currency.code: EUR
+    configuration.default.language.code: EN
 
 doctrine_migrations:
     dir_name: %kernel.root_dir%/migrations

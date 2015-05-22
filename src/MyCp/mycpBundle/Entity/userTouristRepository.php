@@ -3,8 +3,8 @@
 namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use MyCp\mycpBundle\Entity\userTourist;
 use MyCp\mycpBundle\Helpers\Images;
+use Symfony\Component\PropertyAccess\Exception\InvalidArgumentException;
 
 /**
  * userTouristRepository
@@ -115,5 +115,36 @@ class userTouristRepository extends EntityRepository
         }
         $em->persist($user_tourist);
         $em->flush();
+    }
+
+    /**
+     * If not exist a userTourist entity associated to a user with role ROLE_USER_TOURIST, this function create a default userTourist entity.
+     * @param $defaultLanguageCode
+     * @param $defaultCurrencyCode
+     * @param user $user
+     * @return userTourist
+     */
+    function createDefaultTourist($defaultLanguageCode, $defaultCurrencyCode, user $user)
+    {
+        $em = $this->getEntityManager();
+        $defaultCurrency = $em->getRepository("mycpBundle:currency")->findOneBy(array("curr_code" =>strtoupper($defaultCurrencyCode)));
+        $defaulLanguage = $em->getRepository("mycpBundle:lang")->findOneBy(array("lang_code" =>strtoupper($defaultLanguageCode)));
+
+        if($defaultCurrency === null)
+            throw new InvalidArgumentException("The default currency code is not valid. Change its value in config.yml, parameter's name: configuration.default.currency.code");
+
+        if($defaulLanguage === null)
+            throw new InvalidArgumentException("The default language code is not valid. Change its value in config.yml, parameter's name: configuration.default.language.code");
+
+
+        $userTourist = new userTourist();
+        $userTourist->setUserTouristCurrency($defaultCurrency);
+        $userTourist->setUserTouristLanguage($defaulLanguage);
+        $userTourist->setUserTouristUser($user);
+
+        $em->persist($userTourist);
+        $em->flush();
+
+        return $userTourist;
     }
 }

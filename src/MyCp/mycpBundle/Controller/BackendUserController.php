@@ -307,8 +307,13 @@ class BackendUserController extends Controller {
             $user_tourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $id_user));
 
             $user = null;
-            if ($user_tourist == null)
+            if ($user_tourist == null) {
                 $user = $em->getRepository('mycpBundle:user')->findOneBy(array('user_id' => $id_user));
+                $defaultLangCode = $this->container->getParameter('configuration.default.language.code');
+                $defaultCurrencyCode = $this->container->getParameter('configuration.default.currency.code');
+
+                $user_tourist = $em->getRepository('mycpBundle:userTourist')->createDefaultTourist($defaultLangCode, $defaultCurrencyCode, $user);
+            }
             /* var_dump($user_tourist); exit;
               $user_tourist=$user_tourist[0]; */
             $data_user['user_name'] = ($user_tourist != null) ? $user_tourist->getUserTouristUser()->getUserName() : $user->getUserName();
