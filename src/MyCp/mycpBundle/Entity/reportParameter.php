@@ -41,6 +41,13 @@ class reportParameter
     private $parameter_report;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="parameter_order", type="integer", nullable=true)
+     */
+    private $parameter_order;
+
+    /**
      * Get parameter_id
      *
      * @return integer 
@@ -48,6 +55,11 @@ class reportParameter
     public function getParameterId()
     {
         return $this->parameter_id;
+    }
+
+    public function __construct()
+    {
+        $this->parameter_order = 1;
     }
 
     /**
@@ -71,6 +83,29 @@ class reportParameter
     public function getParameterName()
     {
         return $this->parameter_name;
+    }
+
+    /**
+     * Set parameter_order
+     *
+     * @param string $parameterOrder
+     * @return reportParameter
+     */
+    public function setParameterOrder($parameterOrder)
+    {
+        $this->parameter_order = $parameterOrder;
+
+        return $this;
+    }
+
+    /**
+     * Get parameter_order
+     *
+     * @return integer
+     */
+    public function getParameterOrder()
+    {
+        return $this->parameter_order;
     }
 
     /**

@@ -33,12 +33,10 @@ class Version20150523000301 extends AbstractMigration
 
         /*Parameter types*/
         $this->addSql("insert into nomenclator(nom_name, nom_category) values ('date','parameterType')");
-        $this->addSql("insert into nomenclator(nom_name, nom_category) values ('dateRangeFrom','parameterType')");
-        $this->addSql("insert into nomenclator(nom_name, nom_category) values ('dateRangeTo','parameterType')");
+        $this->addSql("insert into nomenclator(nom_name, nom_category) values ('dateRange','parameterType')");
 
         $this->addSql("insert into nomenclatorlang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'date'), 'Fecha')");
-        $this->addSql("insert into nomenclatorlang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'dateRangeFrom'), 'Rango de Fecha (Desde)')");
-        $this->addSql("insert into nomenclatorlang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'dateRangeTo'), 'Rango de Fecha (Hasta)')");
+        $this->addSql("insert into nomenclatorlang(nom_lang_id_lang, nom_lang_id_nomenclator, nom_lang_description) values ((select max(lang_id) from lang where lang_code = 'ES'),(select max(nom_id) from nomenclator where nom_name = 'dateRange'), 'Rango de Fecha')");
     }
 
     /**

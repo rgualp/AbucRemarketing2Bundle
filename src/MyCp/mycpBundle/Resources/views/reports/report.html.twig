@@ -1,0 +1,64 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li class="active">Reportes</li>
+</ul>
+{% endblock %}
+{% block content %}
+<h2>Reportes</h2>
+<hr/>
+{% for message in app.session.flashbag.get('message_error_local') %}
+<div class="alert alert-error">{{ message }}</div>
+{% endfor %}
+        <div class="well well-small">
+        <div class="row-fluid">
+            <div class="span6">
+                <label>Categoría:</label>
+                <select class="input-block-level" id="ddlCategory" name="ddlCategory">
+                    <option></option>
+                    {% for category in categories %}
+                        <option value="{{ category.categoryId }}">{{ category.categoryName }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="span6">
+                <label>Reporte:</label>
+                <select class="input-block-level" id="ddlReport" name="ddlReport">
+                </select>
+            </div>
+            </div>
+        <div class="row-fluid">
+            <div class="span9">
+                <div id="divParameters">
+                </div>
+            </div>
+            <div class="span3">
+                <label id="lblLoadingReport">&nbsp;</label>
+                <div class="row-fluid">
+                    <div class="span4">
+                        <a rel="tooltip" id="bViewReport" title="Ver reporte"  class="tooltip_msg btn btn-block btn-success" disabled="disabled"><i class="icon-search icon-white"></i></a>
+                    </div>
+                    <div class="span4">
+                        <a rel="tooltip" id="bExcel" title="Descargar Excel"  class="tooltip_msg btn btn-block btn-info" disabled="disabled"><i class="icon-download-alt icon-white"></i></a>
+                    </div>
+                    <div class="span4">
+                        <a rel="tooltip" title="Cancelar" href="{{ path('mycp_reports')}}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="row-fluid" id="reportContent">
+
+</div>
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('bundles/mycp/js/common_list.js') }}"></script>
+<script>
+    var loadReportsUrl = "{{ path('mycp_get_report_by_category') }}";
+    var loadParametersUrl = "{{ path('mycp_get_report_parameters') }}";
+</script>
+<script type="text/javascript" src="{{ asset('bundles/mycp/js/report.js') }}"></script>
+{% endblock %}

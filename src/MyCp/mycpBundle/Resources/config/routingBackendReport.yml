@@ -4,9 +4,17 @@ mycp_reports:
 
 mycp_reports_daily_in_place_clients:
     pattern:  /clients/daily-in-place/{date}
-    defaults: { _controller: mycpBundle:BackendReport:dailyInPlaceClients}
+    defaults: { _controller: mycpBundle:BackendReport:dailyInPlaceClients,date:''}
 
 mycp_reports_daily_in_place_clients_excel:
     pattern:  /clients/excel-daily-in-place/{date}
-    defaults: { _controller: mycpBundle:BackendReport:dailyInPlaceClientsExcel}
+    defaults: { _controller: mycpBundle:BackendReport:dailyInPlaceClientsExcel,date:''}
+
+mycp_get_report_by_category:
+    pattern:  /get-by-category
+    defaults: { _controller: mycpBundle:BackendReport:getByCategoryCallback}
+
+mycp_get_report_parameters:
+    pattern:  /get-parameters
+    defaults: { _controller: mycpBundle:BackendReport:getParametersCallback}
 

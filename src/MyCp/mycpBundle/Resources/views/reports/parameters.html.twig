@@ -1,0 +1,50 @@
+{% set textParams = "" %}
+{% for parameter in parameters %}
+  <div class="row-fluid">
+      <label>{{ parameter.parameterName | capitalize }}:</label>
+ {% if parameter.parameterType.nomName == constant("\\MyCp\\mycpBundle\\Helpers\\ReportParameterHelper::DATE_NOMENCLATOR_NAME") %}
+     <input type="text" name="dateParam" id="dateParam" class="datepicker input-block-level" value="{{ "today" | date("d/m/Y") }}" style="width: 200px"/>
+     {% set textParams = textParams ~ "/_date" %}
+ {% elseif  parameter.parameterType.nomName == constant("\\MyCp\\mycpBundle\\Helpers\\ReportParameterHelper::DATE_RANGE_NOMENCLATOR_NAME")%}
+     <input type="text" name="dateRangeFrom" id="dateRangeFrom" class="datepicker input-block-level" value="{{ "today" | date("d/m/Y") }}" style="width: 200px"/> -
+     <input type="text" name="dateRangeTo" id="dateRangeTo" class="datepicker input-block-level" value="{{ "+1 day" | date("d/m/Y") }}" style="width: 200px"/>
+     {% set textParams = textParams ~ "/_dateFrom/_dateTo" %}
+ {% endif %}
+  </div>
+{% endfor %}
+
+<input type="hidden" id="hdReportUrl" value="{{ path(report.reportRouteName) }}"/>
+<input type="hidden" id="hdReportExportUrl" value="{{ path(report.reportExcelExportRouteName) }}"/>
+<input type="hidden" id="hdParamText" value="{{ textParams }}"/>
+
+<link href="{{ asset('bundles/mycp/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
+<script src="{{ asset('bundles/mycp/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
+<script type="text/javascript" src="{{ asset('bundles/mycp/js/bootstrap-datepicker.es.js') }}" charset="UTF-8"></script>
+
+<script>
+    $('.datepicker').datepicker({
+        format: 'dd/mm/yyyy',
+        todayBtn: 'linked',
+        language: 'es',
+        autoclose: true
+    });
+
+    $('#dateRangeFrom').datepicker({
+        format:'dd/mm/yyyy',
+        todayBtn:'linked',
+        language:'es',
+        autoclose: true
+    }).on('changeDate', function(ev){
+        var date = new Date(ev.date);
+        date.setDate(date.getDate() + 1);
+        datepicker_to.setStartDate(date);
+        datepicker_to.setDate(date);
+    });
+
+    var datepicker_to = $('#dateRangeTo').datepicker({
+        format:'dd/mm/yyyy',
+        todayBtn:'linked',
+        autoclose: true,
+        language: 'es'
+    }).data('datepicker');
+</script>
