@@ -24,9 +24,25 @@ class BackendReportController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $date = $request->get("dateParam");
+        $errorText = "";
+        $content = array();
 
-        return $this->render('@mycp/reports/dailyInPlaceClients.html.twig', array(
-            'content' => array()
+        if($date == null || $date == "null")
+        {
+            $errorText = "Seleccione una fecha para generar el reporte";
+        }
+        else
+        {
+            $timer = $this->get('time');
+            $dateRangeFrom = $timer->add("-30 days",$date, "Y-m-d");
+            $dateRangeTo = $timer->add("+30 days",$date, "Y-m-d");
+
+            $content = $em->getRepository("mycpBundle:report")->rpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo);
+        }
+
+        return $this->render('mycpBundle:reports:dailyInPlaceClients.html.twig', array(
+            'content' => $content,
+            'errorText' => $errorText
         ));
     }
 

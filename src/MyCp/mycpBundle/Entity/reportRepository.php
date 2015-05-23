@@ -30,4 +30,56 @@ class reportRepository extends EntityRepository
         return $query->setParameter('spanishId', $spanish->getLangId())->getResult();
     }
 
+    function rpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo)
+    {
+        $em = $this->getEntityManager();
+        $queryString = "SELECT u.user_id as clientId,
+        u.user_user_name as clientName,
+        u.user_last_name as clientLastName,
+        co.co_name as clientCountry,
+        co.co_code as clientCountryCode,
+        u.user_email as clientEmail,
+        own.own_id as ownId,
+        own.own_mcp_code as ownCode,
+        prov.prov_phone_code as phoneCode,
+        own.own_phone_number as ownPhoneNumber,
+        own.own_mobile_number as ownMobile,
+        own.own_homeowner_1 as owner1,
+        own.own_homeowner_2 as owner2,
+        '' as itinerary,
+        (SELECT SUM(owr1.own_res_nights) FROM mycpBundle:ownershipReservation owr1 JOIN owr1.own_res_gen_res_id gres1 JOIN owr1.own_res_reservation_booking b1 WHERE owr1.own_res_status = :status
+             AND u.user_id = gres1.gen_res_user_id AND ((owr1.own_res_reservation_from_date >= :dateRangeFrom AND owr1.own_res_reservation_to_date <= :dateRangeTo) OR
+              (owr1.own_res_reservation_from_date <= :dateRangeFrom AND owr1.own_res_reservation_to_date >= :dateRangeFrom) OR (owr1.own_res_reservation_from_date <= :dateRangeTo AND owr1.own_res_reservation_from_date >= :dateRangeTo))) as bookedNights,
+        (SELECT COUNT(DISTINCT own2.own_address_province) FROM mycpBundle:ownershipReservation owr2 JOIN owr2.own_res_gen_res_id gres2 JOIN owr2.own_res_reservation_booking b2 JOIN gres2.gen_res_own_id own2  WHERE owr2.own_res_status = :status
+             AND u.user_id = gres2.gen_res_user_id AND ((owr2.own_res_reservation_from_date >= :dateRangeFrom AND owr2.own_res_reservation_to_date <= :dateRangeTo) OR
+              (owr2.own_res_reservation_from_date <= :dateRangeFrom AND owr2.own_res_reservation_to_date >= :dateRangeFrom) OR (owr2.own_res_reservation_from_date <= :dateRangeTo AND owr2.own_res_reservation_from_date >= :dateRangeTo))) as bookedDestinations,
+        (SELECT MIN(owr3.own_res_reservation_from_date) FROM mycpBundle:ownershipReservation owr3 JOIN owr3.own_res_gen_res_id gres3 JOIN owr3.own_res_reservation_booking b3 WHERE owr3.own_res_status = :status
+             AND u.user_id = gres3.gen_res_user_id AND ((owr3.own_res_reservation_from_date >= :dateRangeFrom AND owr3.own_res_reservation_to_date <= :dateRangeTo) OR
+              (owr3.own_res_reservation_from_date <= :dateRangeFrom AND owr3.own_res_reservation_to_date >= :dateRangeFrom) OR (owr3.own_res_reservation_from_date <= :dateRangeTo AND owr3.own_res_reservation_from_date >= :dateRangeTo))) as arrivalDate,
+        (SELECT MAX(owr4.own_res_reservation_to_date) FROM mycpBundle:ownershipReservation owr4 JOIN owr4.own_res_gen_res_id gres4 JOIN owr4.own_res_reservation_booking b4 WHERE owr4.own_res_status = :status
+             AND u.user_id = gres4.gen_res_user_id AND ((owr4.own_res_reservation_from_date >= :dateRangeFrom AND owr4.own_res_reservation_to_date <= :dateRangeTo) OR
+              (owr4.own_res_reservation_from_date <= :dateRangeFrom AND owr4.own_res_reservation_to_date >= :dateRangeFrom) OR (owr4.own_res_reservation_from_date <= :dateRangeTo AND owr4.own_res_reservation_from_date >= :dateRangeTo))) as leavingDate
+        FROM mycpBundle:ownershipReservation owr
+        JOIN owr.own_res_gen_res_id gres
+        JOIN gres.gen_res_user_id u
+        JOIN gres.gen_res_own_id own
+        JOIN u.user_country co
+        JOIN owr.own_res_reservation_booking b
+        JOIN own.own_address_province prov
+        WHERE (select count(p) FROM mycpBundle:payment p WHERE p.booking = b.booking_id) > 0
+          AND owr.own_res_status = :status
+          AND owr.own_res_reservation_from_date <= :date AND owr.own_res_reservation_to_date > :date
+       GROUP BY owr.own_res_gen_res_id
+       ORDER BY bookedDestinations ASC, u.user_user_name";
+
+        $query = $em->createQuery($queryString)
+                    ->setParameters(array(
+                        'date' => $date,
+                        'status' => ownershipReservation::STATUS_RESERVED,
+                        'dateRangeFrom' => $dateRangeFrom,
+                        'dateRangeTo' => $dateRangeTo
+                    ));
+        return $query->getArrayResult();
+    }
+
 }

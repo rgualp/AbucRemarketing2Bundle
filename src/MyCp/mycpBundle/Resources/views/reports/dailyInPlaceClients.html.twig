@@ -1,9 +1,11 @@
-
+{% if errorText %}
+    <p> <div class="alert alert-error">{{ errorText }}</div></p>
+{% else %}
 {% if content %}
     <div class="alert">
         <div class="row-fluid">
             <div class="pull-left">
-                Cantidad de elementos
+                Resultado: {{ content | length }} elementos
             </div>
         </div>
     </div>
@@ -12,32 +14,48 @@
     <tr>
         <th>Cliente</th>
         <th>País</th>
-        <th>Correo</th>
         <th>Alojamiento</th>
-        <th style="text-align: center">Noches Reservadas</th>
-        <th style="text-align: center">Destinos Reservados</th>
-        <th>Itinerario</th>
-        <th>Fecha Llegada</th>
-        <th>Fecha Partida</th>
+        <th style="text-align: center">Noches Reservadas(*)</th>
+        <th style="text-align: center">Destinos Reservados(*)</th>
+        <th>Itinerario(*)</th>
+        <th>Estancia(*)</th>
     </tr>
     </thead>
     <tbody>
     {% for cont in content %}
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td style="text-align: center"></td>
-        <td style="text-align: center"></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>
+            <a target="_blank" href="{{ path("mycp_details_client_reservation", {"id_client": content[loop.index0].clientId}) }}">{{ content[loop.index0].clientName }} {{ content[loop.index0].clientLastName }}</a>
+            <br/><small>{{ content[loop.index0].clientEmail }}</small>
+        </td>
+        <td title="{{ content[loop.index0].clientCountry }}" style="vertical-align: middle"><small>{{ content[loop.index0].clientCountry }}</small></td>
+        <td>
+            <small><a target="_blank" href="{{ path("mycp_edit_ownership", {"id_ownership": content[loop.index0].ownId}) }}">{{ content[loop.index0].ownCode }}</a> <br/>
+               Telf: {% if content[loop.index0].ownPhoneNumber != "" %}
+                (+53) {{ content[loop.index0].phoneCode }} {{ content[loop.index0].ownPhoneNumber }}
+                {% endif %}
+                {% if content[loop.index0].ownMobile != "" %}
+                / {{ content[loop.index0].ownMobile }}
+                {% endif %}
+            </small><br/>
+            <small>
+                Propietarios: {{ content[loop.index0].owner1 }}
+                {% if content[loop.index0].owner2 != "" and content[loop.index0].owner1 != ""%} / {% endif %}
+                {{ content[loop.index0].owner2 }}
+            </small>
+        </td>
+        <td style="text-align: center; vertical-align: middle">{{ content[loop.index0].bookedNights }}</td>
+        <td style="text-align: center; vertical-align: middle">{{ content[loop.index0].bookedDestinations }}</td>
+        <td>{{ content[loop.index0].itinerary }}</td>
+        <td style="vertical-align: middle;"><small>{{ content[loop.index0].arrivalDate | date("d/m/Y") }} - {{ content[loop.index0].leavingDate | date("d/m/Y") }}</small></td>
     </tr>
     {% endfor %}
     </tbody>
 </table>
+    <hr/>
+    <div class="row-fluid"><em>(*) Los datos fueron calculados teniendo en cuenta el rango comprendido entre 30 días antes y 30 días después de la fecha seleccionada.</em></div>
     {% else %}
-    <p> <div class="alert alert-block">No hay datos almacenados para este reporte</div></p>
+    <p> <div class="alert alert-block">No hay datos almacenados para este reporte.</div></p>
     {% endif %}
+{% endif %}
 

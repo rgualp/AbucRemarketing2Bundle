@@ -62,7 +62,9 @@ function viewReport()
 
     reportUrl = reportUrl + parameters;
 
-    $('#lblLoadingReport').html('Cargando...');
+    $('#reportContent').html('Cargando...');
+    $("#bViewReport").attr("disabled", "disabled");
+    $("#bExcel").attr("disabled", "disabled");
 
     $.post(
         reportUrl,
@@ -76,6 +78,7 @@ function viewReport()
             $('#reportContent').html(data);
             $('#lblLoadingReport').html('&nbsp;');
             $("#bExcel").removeAttr("disabled");
+            $("#bViewReport").removeAttr("disabled");
         });
 }
 

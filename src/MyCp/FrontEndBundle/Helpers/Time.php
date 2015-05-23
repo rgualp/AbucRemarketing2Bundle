@@ -48,5 +48,22 @@ class Time {
             default: return "down";
         }
     }
+
+    /**
+     * Add a time date string to a time string with certain format
+     * @param $timeStringToAdd
+     * @param $dateString
+     * @param $dateStringFormat
+     * @return \DateTime
+     */
+    public static function add($timeStringToAdd, $dateString, $dateStringFormat)
+    {
+        $dateAdded = \DateTime::createFromFormat($dateStringFormat, $dateString);
+        $dateAddedTimeStamp = $dateAdded->getTimestamp();
+        $dateAddedTimeStamp = strtotime($timeStringToAdd, $dateAddedTimeStamp);
+        $dateAdded->setTimestamp($dateAddedTimeStamp);
+
+        return $dateAdded->format($dateStringFormat);
+    }
 }
 
