@@ -25,12 +25,12 @@
     {% for cont in content %}
     <tr>
         <td>
-            <a target="_blank" href="{{ path("mycp_details_client_reservation", {"id_client": content[loop.index0].clientId}) }}">{{ content[loop.index0].clientName }} {{ content[loop.index0].clientLastName }}</a>
+            <a target="_blank" title="Ver historial del cliente" href="{{ path("mycp_details_client_reservation", {"id_client": content[loop.index0].clientId}) }}">{{ content[loop.index0].clientName }} {{ content[loop.index0].clientLastName }}</a>
             <br/><small>{{ content[loop.index0].clientEmail }}</small>
         </td>
         <td title="{{ content[loop.index0].clientCountry }}" style="vertical-align: middle"><small>{{ content[loop.index0].clientCountry }}</small></td>
         <td>
-            <small><a target="_blank" href="{{ path("mycp_edit_ownership", {"id_ownership": content[loop.index0].ownId}) }}">{{ content[loop.index0].ownCode }}</a> <br/>
+            <small><a target="_blank" title="Ver detalles del alojamiento" href="{{ path("mycp_edit_ownership", {"id_ownership": content[loop.index0].ownId}) }}">{{ content[loop.index0].ownCode }}</a> <br/>
                Telf: {% if content[loop.index0].ownPhoneNumber != "" %}
                 (+53) {{ content[loop.index0].phoneCode }} {{ content[loop.index0].ownPhoneNumber }}
                 {% endif %}
@@ -46,7 +46,19 @@
         </td>
         <td style="text-align: center; vertical-align: middle">{{ content[loop.index0].bookedNights }}</td>
         <td style="text-align: center; vertical-align: middle">{{ content[loop.index0].bookedDestinations }}</td>
-        <td>{{ content[loop.index0].itinerary }}</td>
+        <td>
+            <small>
+                {% set itineraryLength = (content[loop.index0].itinerary | length) %}
+                {% set currentItinerary = content[loop.index0].ownCode %}
+            {% for itinerary in content[loop.index0].itinerary %}
+                {% if currentItinerary == itinerary["own_mcp_code"] %}<b>{% endif %}
+                <a target="_blank" title="Ver detalles de la reserva" href="{{ path("mycp_details_reservation", {'id_reservation': itinerary["gen_res_id"]}) }}">{{ itinerary["prov_name"] }} ({{ itinerary["own_mcp_code"] }})</a>
+                {% if currentItinerary == itinerary["own_mcp_code"] %}</b>{% endif %}
+                {% if loop.index != itineraryLength %}, {% endif %}
+
+            {% endfor %}
+            </small>
+        </td>
         <td style="vertical-align: middle;"><small>{{ content[loop.index0].arrivalDate | date("d/m/Y") }} - {{ content[loop.index0].leavingDate | date("d/m/Y") }}</small></td>
     </tr>
     {% endfor %}

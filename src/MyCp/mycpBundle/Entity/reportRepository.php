@@ -79,7 +79,40 @@ class reportRepository extends EntityRepository
                         'dateRangeFrom' => $dateRangeFrom,
                         'dateRangeTo' => $dateRangeTo
                     ));
-        return $query->getArrayResult();
+        $content = $query->getArrayResult();
+
+
+        for($i= 0; $i < count($content); $i++)
+        {
+            $content[$i]["itinerary"] = $this->calculateItinerary($content[$i]["clientId"], $dateRangeFrom, $dateRangeTo);
+        }
+
+        return $content;
+    }
+
+    function calculateItinerary($userId, $dateRangeFrom, $dateRangeTo)
+    {
+        $em = $this->getEntityManager();
+        $queryString = "SELECT DISTINCT own.own_mcp_code, prov.prov_name, prov.prov_code, gres.gen_res_id FROM mycpBundle:ownershipReservation owr
+        JOIN owr.own_res_gen_res_id gres
+        JOIN gres.gen_res_own_id own
+        JOIN owr.own_res_reservation_booking b
+        JOIN own.own_address_province prov
+        WHERE owr.own_res_status = :status
+          AND gres.gen_res_user_id = :userId
+          AND ((owr.own_res_reservation_from_date >= :dateRangeFrom AND owr.own_res_reservation_to_date <= :dateRangeTo) OR
+              (owr.own_res_reservation_from_date <= :dateRangeFrom AND owr.own_res_reservation_to_date >= :dateRangeFrom) OR (owr.own_res_reservation_from_date <= :dateRangeTo AND owr.own_res_reservation_from_date >= :dateRangeTo))
+        ORDER BY owr.own_res_reservation_from_date ASC";
+
+        $query = $em->createQuery($queryString)
+            ->setParameters(array(
+                'userId' => $userId,
+                'status' => ownershipReservation::STATUS_RESERVED,
+                'dateRangeFrom' => $dateRangeFrom,
+                'dateRangeTo' => $dateRangeTo
+            ));
+
+        return $query->getResult();
     }
 
 }
