@@ -46,9 +46,18 @@ class BackendReportController extends Controller
         ));
     }
 
-    public function dailyInPlaceClientsExcelAction($date)
+    public function dailyInPlaceClientsExcelAction($date, $report)
     {
-        throw \Exception("Under construction");
+        $em = $this->getDoctrine()->getManager();
+        if($date != null && $date != "null" && $report != null && $report != "null")
+        {
+            $timer = $this->get('time');
+            $dateRangeFrom = $timer->add("-30 days",$date, "Y-m-d");
+            $dateRangeTo = $timer->add("+30 days",$date, "Y-m-d");
+
+            $exporter = $this->get("mycp.service.export_to_excel");
+            return $exporter->exportRpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo, $report);
+        }
     }
 
     public function getByCategoryCallbackAction(Request $request)

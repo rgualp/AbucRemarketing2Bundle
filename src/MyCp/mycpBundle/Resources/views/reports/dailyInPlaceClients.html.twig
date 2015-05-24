@@ -28,13 +28,13 @@
             <a target="_blank" title="Ver historial del cliente" href="{{ path("mycp_details_client_reservation", {"id_client": content[loop.index0].clientId}) }}">{{ content[loop.index0].clientName }} {{ content[loop.index0].clientLastName }}</a>
             <br/><small>{{ content[loop.index0].clientEmail }}</small>
         </td>
-        <td title="{{ content[loop.index0].clientCountry }}" style="vertical-align: middle"><small>{{ content[loop.index0].clientCountry }}</small></td>
+        <td title="{{ content[loop.index0].clientCountry }}"><small>{{ content[loop.index0].clientCountry }}</small></td>
         <td>
             <small><a target="_blank" title="Ver detalles del alojamiento" href="{{ path("mycp_edit_ownership", {"id_ownership": content[loop.index0].ownId}) }}">{{ content[loop.index0].ownCode }}</a> <br/>
                Telf: {% if content[loop.index0].ownPhoneNumber != "" %}
                 (+53) {{ content[loop.index0].phoneCode }} {{ content[loop.index0].ownPhoneNumber }}
                 {% endif %}
-                {% if content[loop.index0].ownMobile != "" %}
+                {% if content[loop.index0].ownMobile != "" and  content[loop.index0].ownPhoneNumber != ""%}
                 / {{ content[loop.index0].ownMobile }}
                 {% endif %}
             </small><br/>

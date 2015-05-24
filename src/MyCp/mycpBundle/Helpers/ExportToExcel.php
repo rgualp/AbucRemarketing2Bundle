@@ -33,6 +33,100 @@ class ExportToExcel extends Controller {
         $this->excelDirectoryPath = $excelDirectoryPath;
     }
 
+    public function exportRpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo, $reportId, $fileName = "clientes_en_dia.xlsx") {
+        $excel = $this->configExcel("Reporte de clientes en un dia", "Reporte de clientes en un dia de MyCasaParticular", "reportes");
+
+        $data = $this->dataForRpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo, $reportId);
+
+        if (count($data) > 0)
+            $excel = $this->createSheetForRpDailyInPlaceClients($excel, $date, $reportId, $date, $data);
+
+        $this->save($excel, $fileName);
+        return $this->export($fileName);
+    }
+
+    private function dataForRpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo) {
+        $results = array();
+
+        $reportContent = $this->em->getRepository("mycpBundle:report")->rpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo);
+
+        foreach ($reportContent as $content) {
+            $data = array();
+
+            $data[0] = $content["clientName"].' '.$content["clientLastName"];
+            $data[1] = $content["clientCountry"];
+            $data[2] = $content["clientEmail"];
+            $data[3] = $content["ownCode"];
+            $data[4] = $content["owner1"].(($content["owner1"] != "" && $content["owner2"] != "")? " / ". $content["owner2"] : "");
+            $data[5] = (($content["ownPhoneNumber"] != "")?"(+53) ".$content["phoneCode"]. " ".$content["ownPhoneNumber"] : "").((trim($content["ownMobile"]) != "" && trim($content["ownPhoneNumber"]) != "") ? " / ": "").(($content["ownMobile"] != "") ? $content["ownMobile"]: "");
+            $data[6] = $content["bookedNights"];
+            $data[7] = $content["bookedDestinations"];
+
+            //Itinerario
+            $itinerary = "";
+            for($i = 0; $i < count($content['itinerary']); $i++)
+            {
+                $itineraryItem = $content['itinerary'][$i];
+                $itinerary.= $itineraryItem['prov_name'].' ('.$itineraryItem['own_mcp_code'].')';
+
+                if($i != count($content['itinerary']) - 1)
+                    $itinerary .= ", ";
+            }
+
+            $data[8] = $itinerary;
+
+            $arrival = \DateTime::createFromFormat('Y-m-d', $content["arrivalDate"]);
+            $data[9] = $arrival->format('d/m/Y');
+
+            $leaving = \DateTime::createFromFormat('Y-m-d', $content["leavingDate"]);
+            $data[10] = $leaving->format('d/m/Y');
+
+            array_push($results, $data);
+        }
+
+        return $results;
+    }
+
+    private function createSheetForRpDailyInPlaceClients($excel, $sheetName, $reportId, $date, $data) {
+
+        $report = $this->em->getRepository("mycpBundle:report")->find($reportId);
+        $sheet = $this->createSheet($excel, $sheetName);
+        $sheet->setCellValue('a1', "Reporte: ".$report->getReportName());
+        $dateObject = \DateTime::createFromFormat('Y-m-d', $date);
+        $date = $dateObject->format('d/m/Y');
+        $sheet->setCellValue('a2', 'Fecha: '.$date);
+        $now = new \DateTime();
+        $sheet->setCellValue('c2', 'Generado: '.$now->format('d/m/Y H:s'));
+       // $sheet->setCellValue('a3', "(*) Los datos fueron calculados teniendo en cuenta el rango comprendido entre 30 días antes y 30 días después de la fecha seleccionada.");
+
+        $sheet->setCellValue('a5', 'Cliente');
+        $sheet->setCellValue('b5', 'País');
+        $sheet->setCellValue('c5', 'Correo');
+        $sheet->setCellValue('d5', 'Alojamiento');
+        $sheet->setCellValue('e5', 'Propietario(s)');
+        $sheet->setCellValue('f5', 'Teléfono(s)');
+        $sheet->setCellValue('g5', 'Noches Reservadas(*)');
+        $sheet->setCellValue('h5', 'Destinos Reservados(*)');
+        $sheet->setCellValue('i5', 'Itinerario(*)');
+        $sheet->setCellValue('j5', 'Llegada(*)');
+        $sheet->setCellValue('k5', 'Salida(*)');
+
+        $sheet = $this->styleHeader("a5:k5", $sheet);
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+
+        $sheet->fromArray($data, ' ', 'A6');
+
+        $this->setColumnAutoSize("a", "k", $sheet);
+
+        return $excel;
+    }
+
     /*
      * Crea un fichero excel con los check-in que ocurrirán en la fecha introducida
      * El formato del parametro $date será 'd/m/Y'
@@ -265,7 +359,7 @@ class ExportToExcel extends Controller {
             $data[4] = $own["totalRooms"];
             $data[5] = ($own["bathroom"] != "") ? 1 : 0;
             $data[6] = $own["bedsTotal"];
-            $data[7] = \MyCp\mycpBundle\Entity\room::getTotalGuests($own["type"]);
+            $data[7] = room::getTotalGuests($own["type"]);
             $data[8] = $own["priceUp"] . " CUC";
             $data[9] = ($own["internet"] > 0) ? "Yes" : "No";
             $data[10] = ($own["audiovisual"] != "No") ? "Yes" : "No";
@@ -279,7 +373,7 @@ class ExportToExcel extends Controller {
             $data[18] = ($own["hotTub"] > 0) ? "Yes" : "No";
             $data[19] = $own["geoX"];
             $data[20] = $own["geoY"];
-            $data[21] = \MyCp\mycpBundle\Entity\room::getCalendarUrl($data[0], $this->getRequest());
+            $data[21] = room::getCalendarUrl($data[0], $this->getRequest());
 
 
             array_push($results, $data);

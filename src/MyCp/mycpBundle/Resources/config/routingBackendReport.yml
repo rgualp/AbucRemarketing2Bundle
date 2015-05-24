@@ -7,8 +7,8 @@ mycp_reports_daily_in_place_clients:
     defaults: { _controller: mycpBundle:BackendReport:dailyInPlaceClients,date:''}
 
 mycp_reports_daily_in_place_clients_excel:
-    pattern:  /clients/excel-daily-in-place/{date}
-    defaults: { _controller: mycpBundle:BackendReport:dailyInPlaceClientsExcel,date:''}
+    pattern:  /clients/excel-daily-in-place/{date}/{report}
+    defaults: { _controller: mycpBundle:BackendReport:dailyInPlaceClientsExcel,date:'', report:''}
 
 mycp_get_report_by_category:
     pattern:  /get-by-category

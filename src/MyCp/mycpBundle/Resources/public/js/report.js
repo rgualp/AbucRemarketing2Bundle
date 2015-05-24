@@ -48,7 +48,10 @@ function loadParameters()
 
 function viewReport()
 {
+    $('#reportContent').html('Cargando...');
+
     var reportUrl = $('#hdReportUrl').val();
+    var exportUrl = $('#hdReportExportUrl').val();
     var parameters = $('#hdParamText').val();
 
     var dateParam = ($('#dateParam').val() !== undefined) ? dateToYMD($('#dateParam').val()) : "";
@@ -62,7 +65,11 @@ function viewReport()
 
     reportUrl = reportUrl + parameters;
 
-    $('#reportContent').html('Cargando...');
+    var report = $('#ddlReport').val();
+    exportUrl = exportUrl + parameters + '/' + report;
+
+
+    $("#bExcel").attr('href', exportUrl);
     $("#bViewReport").attr("disabled", "disabled");
     $("#bExcel").attr("disabled", "disabled");
 
