@@ -1126,5 +1126,9 @@ class BackendReservationController extends Controller {
         }
     }
 
+    public function newCleanOfferAction()
+    {
+        throw new \Exception("Under construction");
+    }
 }
 

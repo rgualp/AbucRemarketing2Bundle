@@ -26,7 +26,8 @@
     <tr>
         <td>
             <a target="_blank" title="Ver historial del cliente" href="{{ path("mycp_details_client_reservation", {"id_client": content[loop.index0].clientId}) }}">{{ content[loop.index0].clientName }} {{ content[loop.index0].clientLastName }}</a>
-            <br/><small>{{ content[loop.index0].clientEmail }}</small>
+            <br/><small>{{ content[loop.index0].clientEmail }}</small><br/>
+            <a title="Nueva oferta" class="btn btn-mini btn-info" href="{{path('mycp_new_offer_to_client', {'idClient': content[loop.index0].clientId})}}"><i class="icon-asterisk icon-white"></i> Oferta</a>
         </td>
         <td title="{{ content[loop.index0].clientCountry }}"><small>{{ content[loop.index0].clientCountry }}</small></td>
         <td>
@@ -60,6 +61,7 @@
             </small>
         </td>
         <td style="vertical-align: middle;"><small>{{ content[loop.index0].arrivalDate | date("d/m/Y") }} - {{ content[loop.index0].leavingDate | date("d/m/Y") }}</small></td>
+
     </tr>
     {% endfor %}
     </tbody>

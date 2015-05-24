@@ -66,3 +66,7 @@ mycp_list_reservations_checkin:
 mycp_changes_dates_reservation:
     pattern:  /change_dates/{id_tourist}/{id_reservation}
     defaults: { _controller: mycpBundle:BackendReservation:changeDates }
+
+mycp_new_offer_to_client:
+    pattern:  /new-offer-to-client/{idClient}
+    defaults: { _controller: mycpBundle:BackendReservation:newCleanOffer, idClient:'' }
