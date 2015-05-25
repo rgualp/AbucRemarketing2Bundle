@@ -1,0 +1,45 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+
+{% block another_in_head %}
+    {{ parent() }}
+    <link href="{{ asset('bundles/mycp/vendors/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li><a href="{{path('mycp_list_reservations')}}">Reservas</a> <span class="divider">/</span></li>
+    <li class="active">Nueva Oferta</li>
+</ul>
+{% endblock %}
+{% block content %}
+<h2>Nueva Oferta</h2>
+<hr/>
+<div class="row-fluid">
+{% if client is defined and client != null %}
+    {{include('mycpBundle:utils:clientInfoShortTab.html.twig', {"user":client, "tourist": tourist})}}
+    <input type="hidden" name="idUser" id="idUser" value="{{ client.userId }}"/>
+{% else %}
+    {{ render(controller('mycpBundle:BackendReservation:searchClients')) }}
+{% endif %}
+</div>
+
+<link href="{{ asset('bundles/mycp/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
+<script src="{{ asset('bundles/mycp/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
+<script type="text/javascript" src="{{ asset('bundles/mycp/js/bootstrap-datepicker.es.js') }}" charset="UTF-8"></script>
+<script>
+
+
+</script>
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('bundles/mycp/js/common_list.js') }}"></script>
+<script src="{{ asset('bundles/mycp/vendors/select2/js/select2.min.js') }}"></script>
+<script src="{{ asset('bundles/mycp/vendors/select2/js/i18n/es.js') }}"></script>
+    <script type="text/javascript">
+        $(document).on('ready', function(){
+            $('.select').select2();
+        });
+    </script>
+{% endblock %}

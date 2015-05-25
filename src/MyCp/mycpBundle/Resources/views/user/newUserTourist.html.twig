@@ -17,9 +17,14 @@
 </ul>
 <div class="form-actions">
     <button class="btn btn-primary" type="submit">Guardar</button>
+    {% if edit_user is not defined %}
+        <button class="btn btn-info" type="submit">Guardar y nueva oferta</button>
+    {% endif %}
     <a class="btn" href="{{ path('mycp_list_users') }}">Cancelar</a>
     &nbsp;&nbsp;&nbsp;
-    <a title="Nueva oferta" class="btn btn-info" href="{{path('mycp_new_offer_to_client', {'idClient': edit_user})}}"><i class="icon-asterisk icon-white"></i> Oferta</a>
+    {% if edit_user is defined %}
+        <a title="Nueva oferta" class="btn btn-info" href="{{path('mycp_new_offer_to_client', {'idClient': edit_user})}}"><i class="icon-asterisk icon-white"></i> Oferta</a>
+    {% endif %}
     {% if tourist is defined and tourist != null %}
         <a class="btn btn-danger" onclick="sendMessage()">Enviar</a>
     {% endif %}

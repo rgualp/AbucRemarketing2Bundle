@@ -1126,9 +1126,38 @@ class BackendReservationController extends Controller {
         }
     }
 
-    public function newCleanOfferAction()
+    public function newCleanOfferAction($idClient)
     {
-        throw new \Exception("Under construction");
+        $em = $this->getDoctrine()->getManager();
+
+        $client = null;
+        $tourist = null;
+
+        if($idClient != null && $idClient != "null" && $idClient != "")
+        {
+            $client = $em->getRepository("mycpBundle:user")->find($idClient);
+            $tourist = $em->getRepository("mycpBundle:userTourist")->findOneBy(array('user_tourist_user' => $client->getUserId()));
+
+            if($tourist == null)
+            {
+                $defaultLangCode = $this->container->getParameter('configuration.default.language.code');
+                $defaultCurrencyCode = $this->container->getParameter('configuration.default.currency.code');
+                $tourist = $em->getRepository('mycpBundle:userTourist')->createDefaultTourist($defaultLangCode, $defaultCurrencyCode, $client);
+            }
+        }
+
+
+        return $this->render('mycpBundle:reservation:newCleanOffer.html.twig', array(
+            'client' => $client, 'tourist' => $tourist));
+    }
+
+    public function searchClientsAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $touristClients = $em->getRepository("mycpBundle:user")->findBy(array("user_role" => "ROLE_CLIENT_TOURIST"), array("user_user_name" => "ASC"));
+
+        return $this->render('mycpBundle:utils:searchClientsTab.html.twig', array(
+            'users' => $touristClients));
     }
 }
 

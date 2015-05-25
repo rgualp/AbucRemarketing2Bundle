@@ -1,0 +1,25 @@
+<div class="row-fluid">
+    Buscar:
+    <select class="select" id="ddlUsersEmail" name="ddlUsersEmail" style="width: 400px;">
+        {% for user in users %}
+            <option value="{{ user.userId}}">{{ user.userUserName | capitalize }} {{ user.userLastName | capitalize }} ({{ user.userEmail | lower }})</option>
+        {% endfor %}
+    </select>
+    <button id="btnSelect" class="btn btn-primary">Seleccionar</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a class="btn btn-success" href="{{ path("mycp_new_user_tourist") }}">Nuevo cliente</a>
+
+    <input id="hClientData" type="hidden" value="{{ path("mycp_new_offer_to_client") }}"
+</div>
+<div></div>
+
+<script>
+
+$("#btnSelect").click(function (){
+    var url = $("#hClientData").val();
+    url = url + "/" + $("#ddlUsersEmail").val();
+
+    window.location = url;
+});
+
+</script>

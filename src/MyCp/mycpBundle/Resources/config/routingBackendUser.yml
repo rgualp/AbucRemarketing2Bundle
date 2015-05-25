@@ -1,6 +1,6 @@
 mycp_new_user_tourist:
     pattern:  /new/client_tourist/{id_role}
-    defaults: { _controller: mycpBundle:BackendUser:new_user_tourist }
+    defaults: { _controller: mycpBundle:BackendUser:new_user_tourist, id_role:'' }
 
 mycp_edit_user_tourist:
     pattern:  /edit/client_tourist/{id_user}

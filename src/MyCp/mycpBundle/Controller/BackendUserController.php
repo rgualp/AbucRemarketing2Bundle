@@ -236,6 +236,12 @@ class BackendUserController extends Controller {
         $data['languages'] = $langs;
         $count_errors = 0;
 
+        if($id_role == null)
+        {
+            $touristRole = $em->getRepository("mycpBundle:role")->findOneBy(array("role_name" => "ROLE_CLIENT_TOURIST"));
+            $id_role = $touristRole->getRoleId();
+        }
+
         $form = $this->createForm(new clientTouristType($data));
         if ($request->getMethod() == 'POST') {
             $post = $request->request->get('mycp_mycpbundle_client_touristtype');
