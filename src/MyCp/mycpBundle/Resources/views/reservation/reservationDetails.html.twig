@@ -17,11 +17,12 @@
 </ul>
 <div class="form-actions">
     <button rel="tooltip" title="Guardar los cambios realizados" class="tooltip_msg btn btn-primary" type="submit">Guardar</button>
+    <a title="Nueva oferta" class="btn btn-info" href="{{path('mycp_new_offer_to_client', {'idClient': reservation.getGenResUserId.getUserId})}}"><i class="icon-asterisk icon-white"></i> Oferta</a>
     <button rel="tooltip" title="Cancelar los cambios realizados" class="tooltip_msg btn" type="reset">Cancelar</button>
     &nbsp;&nbsp;&nbsp;
     <button rel="tooltip" title="Enviar por correo la reservación al cliente" {% if reservation.getGenResSaved!=0 %} onclick="send_message();" {% endif %}class="tooltip_msg {% if reservation.getGenResSaved==0 %}disabled{% endif %} btn btn-danger" type="{% if reservation.getGenResSaved!=0 %}submit{% else %}button{% endif %}">Enviar</button>
     {%if reservation.genResStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED')%}
-    <a rel="tooltip" title="Gestionar una nueva oferta para el cliente" href="{{ path('mycp_new_offer_reservation',{ 'id_tourist' :  reservation.getGenResUserId.getUserId,'id_reservation' :  reservation.getGenResId }) }}" class="tooltip_msg btn btn-success">Nueva Oferta</a>
+    <a rel="tooltip" title="Gestionar una nueva oferta para el pago" href="{{ path('mycp_new_offer_reservation',{ 'id_tourist' :  reservation.getGenResUserId.getUserId,'id_reservation' :  reservation.getGenResId }) }}" class="tooltip_msg btn btn-success">Nueva Oferta Pagada</a>
     {%endif%}
     {%if reservation.genResStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED')%}
         <a href="{{ path('mycp_send_voucher_reservation',{ 'id_reservation' :  reservation.getGenResId }) }}" rel="tooltip" title="Enviar el voucher asociado al equipo de reservación" class="tooltip_msg btn btn-warning">Recibir Voucher</a>
