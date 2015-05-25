@@ -61,6 +61,8 @@ class userTouristRepository extends EntityRepository
         $em->persist($user);
         $em->persist($user_tourist);
         $em->flush();
+
+        return $user_tourist;
     }
 
     function edit($id_user, $request, $dir, $factory) {

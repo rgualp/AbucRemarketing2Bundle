@@ -2,6 +2,7 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use MyCp\mycpBundle\Helpers\Operations;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use MyCp\mycpBundle\Entity\user;
@@ -258,14 +259,21 @@ class BackendUserController extends Controller {
             if ($form->isValid() && $count_errors == 0) {
                 $dir = $this->container->getParameter('user.dir.photos');
                 $factory = $this->get('security.encoder_factory');
-                $em->getRepository('mycpBundle:userTourist')->insert($id_role, $request, $dir, $factory);
+                $operation = $request->request->get('save_operation');
+                $userTourist = $em->getRepository('mycpBundle:userTourist')->insert($id_role, $request, $dir, $factory);
                 $message = 'Usuario añadido satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
                 $service_log->saveLog('Create entity for user ' . $post['user_name'], BackendModuleName::MODULE_USER);
 
-                return $this->redirect($this->generateUrl('mycp_list_users'));
+                switch($operation)
+                {
+                    case Operations::SAVE_AND_EXIT: return $this->redirect($this->generateUrl('mycp_list_users'));
+                    case Operations::SAVE_USER_AND_NEW_OFFER: return $this->redirect($this->generateUrl('mycp_new_offer_to_client', array("idClient" => $userTourist->getUserTouristUser()->getUserId() )));
+                    default: return $this->redirect($this->generateUrl('mycp_list_users'));
+                }
+
             } else {
                 if (!isset($data['error']))
                     $data['error'] = 'Debe llenar el formulario correctamente.';

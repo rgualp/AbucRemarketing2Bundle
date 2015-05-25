@@ -15,6 +15,8 @@ class Operations {
     const SAVE_AND_ADD_PHOTOS = 2;
     const SAVE_AND_PUBLISH_ACCOMMODATION = 3;
     const CONTACT_FORM_RECEIVE_INSTRUCTIONS = 4;
+    const SAVE_USER_AND_NEW_OFFER = 5;
+
 
 }
 

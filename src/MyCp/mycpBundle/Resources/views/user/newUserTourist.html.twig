@@ -16,9 +16,9 @@
     <li class="pull-right"><a href="{{ path('mycp_list_users') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 <div class="form-actions">
-    <button class="btn btn-primary" type="submit">Guardar</button>
+    <button class="btn btn-primary" onclick="javascript:submit_button({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_AND_EXIT')}})">Guardar</button>
     {% if edit_user is not defined %}
-        <button class="btn btn-info" type="submit">Guardar y nueva oferta</button>
+        <button class="btn btn-info" onclick="javascript:submit_button({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_USER_AND_NEW_OFFER')}})">Guardar y nueva oferta</button>
     {% endif %}
     <a class="btn" href="{{ path('mycp_list_users') }}">Cancelar</a>
     &nbsp;&nbsp;&nbsp;
@@ -36,6 +36,7 @@
 <hr/>
 {% if data['error'] is defined %}<div class="alert alert-error">{{data['error']}}</div>{%endif%}
 <form class="sfgen" {{form_enctype(form)}} method="POST" action="{% if edit_user is defined%}{{ path('mycp_edit_user_tourist',{'id_user':edit_user}) }}{% else %}{{ path('mycp_new_user_tourist',{'id_role':id_role})}}{% endif %}" novalidate="true">
+    <input id="save_operation" name="save_operation" value="{{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_AND_EXIT')}}" class="hidden"/>
     <div class="row-fluid">
         <div class="span3">{{form_row(form.user_name)}}</div>
         <div class="span3">{{form_row(form.name)}}</div>
@@ -70,4 +71,12 @@
         {{ render(controller('mycpBundle:BackendMessage:messageControl', {'userTourist': tourist, 'showSubject' : true})) }}
         {% endif %}
     {%endif%}
+
+    <script>
+        function submit_button(operation)
+        {
+            $("#save_operation").val(operation);
+            $("#form_ownership").submit();
+        }
+    </script>
 {% endblock %}
