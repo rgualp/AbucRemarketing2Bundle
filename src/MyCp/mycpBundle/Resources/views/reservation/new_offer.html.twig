@@ -164,7 +164,7 @@
     <div class="tab-pane" id="house">
     <div class="row-fluid">
         <div class="span6">
-            <select id="ownership" name="own" class="input-block-level">
+            <select id="ownership" name="own" class="select input-block-level">
                 {% for own in ownerships %}
                     <option data-percent="{{ own.own_commission_percent }}" value="{{ own.own_id }}" {% if loop.index == 0 %}selected{% endif %}>{{own.own_mcp_code}} - {{ own.own_name }}</option>
                 {% endfor %}
@@ -383,5 +383,12 @@
                 });
     </script>
     <script src="{{ asset('bundles/mycp/js/ownership.calendar.js') }}"></script>
+    <script src="{{ asset('bundles/mycp/vendors/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('bundles/mycp/vendors/select2/js/i18n/es.js') }}"></script>
+    <script type="text/javascript">
+        $(document).on('ready', function(){
+            $('.select').select2();
+        });
+    </script>
     {%endif%}
 {% endblock %}

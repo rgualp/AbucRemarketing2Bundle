@@ -5,6 +5,7 @@ namespace MyCp\mycpBundle\Controller;
 use Abuc\RemarketingBundle\Event\JobEvent;
 use MyCp\mycpBundle\Entity\booking;
 use MyCp\mycpBundle\Entity\payment;
+use MyCp\mycpBundle\Helpers\OwnershipStatuses;
 use MyCp\mycpBundle\Helpers\Reservation;
 use MyCp\mycpBundle\JobData\GeneralReservationJobData;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -1158,6 +1159,15 @@ class BackendReservationController extends Controller {
 
         return $this->render('mycpBundle:utils:searchClientsTab.html.twig', array(
             'users' => $touristClients));
+    }
+
+    public function searchAccommodationsAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $ownerships = $em->getRepository("mycpBundle:ownership")->findBy(array("own_status" => OwnershipStatuses::ACTIVE), array("own_mcp_code" => "ASC"));
+
+        return $this->render('mycpBundle:utils:offerAccommodationControl.html.twig', array(
+            'ownerships' => $ownerships));
     }
 }
 

@@ -1,0 +1,216 @@
+{% if start_date is not defined %}
+{% set start_date = "today" | date("d/m/Y") %}
+{% endif %}
+{% if end_date is not defined %}
+{% set end_date = "+2 days" | date("d/m/Y") %}
+{% endif %}
+<div class="row-fluid">
+    <div class="span6">
+        <select id="ownership" name="own" class="input-block-level select">
+            {% for own in ownerships %}
+                <option data-percent="{{ own.ownCommissionPercent }}" value="{{ own.ownId }}" {% if loop.index == 0 %}selected{% endif %}>{{own.ownMcpCode}} - {{ own.ownName }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="span3">
+        <input type="text" value="{{ start_date }}" id="filter_date_from" class="form-control input-block-level" placeholder="Entrada" data-localization='es'>
+    </div>
+    <div class="span3">
+        <input type="text" value="{{ end_date }}" id="filter_date_to" class="form-control input-block-level" placeholder="Salida" data-localization='es'>
+    </div>
+</div>
+
+    <div class="container_loading" id="body_calendar" style="overflow-x: auto;">
+
+    </div>
+
+    <ul class="price calendar-cont calendar-results">
+        <li class="lead-2">
+            <table id="rooms_selected" class="table" style="margin-bottom: 0px; display: none;">
+                <thead>
+                <tr>
+                    <th>Habitaciones seleccionadas</th>
+                    <th>Tipo</th>
+                    <th>No. de habitaciones</th>
+                    <th>Adultos</th>
+                    <th>Niños</th>
+                    <th>Precio</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </li>
+        <br/>
+        <li class="lead">
+            <div class="row-fluid all-prices-numbers">
+                <div class="span2">
+                    Precio total:<br/> <span id="total_price"></span> CUC
+                </div>
+                <div class="span2">
+                    Comisión MyCP: <br/> <span id="initial_deposit"></span> CUC
+                </div>
+                <div class="span2">
+                    Cargo por servicio:<br/>  <span id="service_recharge">{{configuration_service_fee}}</span> CUC
+                </div>
+                <div class="span2">
+                    Pago inicial: <br/><span id="total_prepayment"></span> CUC
+                </div>
+                <div class="span2">
+                    Pago al arribar:<br/> <span id="pay_at_service"></span> CUC
+                </div>
+                <div class="span2">
+                    <span id="error" class="alert-error">El nuevo precio total no coincide con el precio anterior</span>
+                </div>
+            </div>
+        </li>
+        <li class="lead-2">
+            {% if post['reservation_filter_date_from'] is defined %}
+                {% set date_from = post['reservation_filter_date_from']|replace("/","&") %}
+            {% else %}
+                {% set date_from = "now"|date("d&m&Y") %}
+            {% endif %}
+
+            {% if post['reservation_filter_date_to'] is defined%}
+                {% set date_to = post['reservation_filter_date_to']|replace("/","&") %}
+            {% else %}
+                {% set date_to = "+6 day"|date("d&m&Y") %}
+            {% endif %}
+
+            <div class="row">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4 text-center">
+                    <div class="col-sm-4">
+                        <input from_date="{{ start_date | replace('/','&') }}" to_date="{{ end_date | replace('/','&') }}" type="text" style="visibility: hidden; margin-bottom: -50px" name="data_reservation" id="data_reservation"/>
+                        <input type="text" style="visibility: hidden; margin-bottom: -50px" name="data_ownership" id="data_ownership" value=""/>
+                    </div>
+                </div>
+            </div>
+
+        </li>
+    </ul>
+    <h4>Mensaje</h4>
+    <textarea name="message_body" style="width:95%"></textarea>
+
+
+<script src="{{ asset('bundles/mycp/js/wysihtml5-0.3.0.min.js') }}" type="text/javascript"></script>
+<script type="text/javascript">
+    var url_css_color="{{ asset('bundles/mycp/css/wysiwyg-color.css') }}";
+</script>
+<script src="{{ asset('bundles/mycp/js/bootstrap-wysihtml5.js') }}" type="text/javascript"></script>
+<script src="{{ asset('bundles/frontend/js/bootstrap-datepicker.js') }}"></script>
+<script src="{{ asset('bundles/frontend/js/bootstrap-datepicker.es.js') }}"></script>
+<link href="{{ asset('bundles/mycp/css/bootstrap-wysihtml5.css') }}" rel="stylesheet" type="text/css" />
+<script src="{{ asset('bundles/mycp/js/bootstrap-combobox.js') }}"></script>
+<link href="{{ asset('bundles/mycp/css/bootstrap-combobox.css') }}" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+    var today_date = "{{"now"|date("d/m/Y") }}";
+    var start_date = "{{ start_date }}";
+    var end_date = "{{ end_date }}";
+    var checkTotalPrice = false;
+    var originalTotalPrice = 0;
+
+    $("#btn_dates").click(function(){
+        $('#form_dates').submit();
+    });
+
+    function create_date_in(date_text) {
+        var date = date_text.split('/');
+        new_date = date[2] + '-' + date[1] + '-' + date[0];
+        return new_date;
+    }
+
+    function refresh_calendar(from, to , own_id)
+    {
+        $('.calendar-results').css({display: 'none'});
+        element = $("#body_calendar");
+        element.attr('class', 'container_loading');
+        element.html('<div>&nbsp;</div>');
+        $('#rooms_selected').css({display: 'none'});
+        $('#all_data_numbers').css({display: 'none'});
+
+        fields_dates=$('.form-control')
+        btn_refresh=$('#button_refresh_calendar')
+        fields_dates.attr('disabled','true');
+
+        $.ajax({
+            url: "{{ path('frontend_get_reservation_calendar_ownership_callback') }}",
+            data: {from: from, to: to, own_id: own_id, backend: true}
+
+        }).done(function(resp) {
+            element.removeAttr('class');
+            element.html(resp);
+            from = from.replace('/', '&');
+            from = from.replace('/', '&');
+            to = to.replace('/', '&');
+            to = to.replace('/', '&');
+            $('#data_reservation').attr('from_date', from);
+            $('#data_reservation').attr('to_date', to);
+            fields_dates.removeAttr('disabled');
+        });
+
+    }
+
+    $('input#filter_date_to,#ownership').change(function() {
+        from = $('#filter_date_from').val();
+        to = $('#filter_date_to').val();
+        own = $('#ownership').val();
+        refresh_calendar(from, to, own);
+        $('#data_ownership').val(own);
+
+    });
+
+    from = $('#filter_date_from').val();
+    to = $('#filter_date_to').val();
+    own = $('#ownership').val();
+    refresh_calendar(from, to,own);
+
+
+    function datePickersStarUp(){
+        $('#filter_date_from').datepicker({
+            format:'dd/mm/yyyy',
+            todayBtn:'linked',
+            autoclose: true,
+            startDate: new Date(),
+            date: start_date,
+            language: $('#filter_date_from').attr('data-localization')
+        }).on('changeDate', function(ev){
+            var startDate = new Date(ev.date);
+            startDate.setDate(startDate.getDate() + 1);
+            $('#filter_date_to').datepicker("setStartDate", startDate);
+            var date = new Date(ev.date);
+            date.setDate(date.getDate() + 2);
+            $('#filter_date_to').datepicker("setDate", date);
+            $('.datepicker').hide();
+
+            own = $('#ownership').val();
+            refresh_calendar(ev.date.getDate() + '/' + (ev.date.getMonth() + 1) + '/' + ev.date.getFullYear(),date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear(),own);
+
+        });
+
+        var filter_date_to =$('#filter_date_to').datepicker({
+            format:'dd/mm/yyyy',
+            todayBtn:false,
+            autoclose: true,
+            startDate: '+2d',
+            date: end_date,
+            language: $('#filter_date_to').attr('data-localization')
+        }).data('datepicker');
+    }
+    datePickersStarUp();
+    own = $('#ownership').val();
+    $('#data_ownership').val(own);
+</script>
+<script type="text/javascript">
+    $('.textarea').wysihtml5();
+    $('.datepicker_textbox').datepicker({
+        language: 'es',
+        format:'dd/mm/yyyy'
+    }).on('changeDate', function(ev){
+        $('.datepicker').hide();
+
+    });
+</script>
+<script src="{{ asset('bundles/mycp/js/ownership.calendar.js') }}"></script>

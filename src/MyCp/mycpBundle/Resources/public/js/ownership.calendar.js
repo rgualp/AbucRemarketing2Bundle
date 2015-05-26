@@ -33,19 +33,28 @@ function totalPrice(curr,percent)
     $('#pay_at_service').html(normalize_prices(total_price_var - percent_value));
     $('#total_prepayment').html(normalize_prices(percent_value + 10*curr));
     $('.calendar-results').css({display: 'block'});
-    if(total_price_var !== originalTotalPrice)
-    {
-        $("#btn_submit").attr("disabled", true);
-        $("#error").css({display: 'block'});
-        $(".all-prices-numbers").addClass("error");
 
+    if(checkTotalPrice) {
+        if (total_price_var !== originalTotalPrice) {
+            $("#btn_submit").attr("disabled", true);
+            $(".btn_submit").attr("disabled", true);
+            $("#error").css({display: 'block'});
+            $(".all-prices-numbers").addClass("error");
+
+        }
+        else {
+            $("#btn_submit").removeAttr("disabled");
+            $(".btn_submit").removeAttr("disabled");
+            $("#error").css({display: 'none'});
+            $(".all-prices-numbers").removeClass("error");
+
+        }
     }
-    else
-    {
+    else{
         $("#btn_submit").removeAttr("disabled");
+        $(".btn_submit").removeAttr("disabled");
         $("#error").css({display: 'none'});
         $(".all-prices-numbers").removeClass("error");
-
     }
 }
 function reservationsBody()
