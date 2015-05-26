@@ -2,6 +2,7 @@
 
 namespace MyCp\mycpBundle\Form;
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -78,6 +79,25 @@ class clientStaffType extends AbstractType
                 'type' => 'password',
                 'constraints'=>array(new NotBlank(),new Length(array('min'=>6)))
             ));
+        }
+        if(isset($this->data['user_role'])){
+            if(($this->data['user_role'])!='ROLE_CLIENT_TOURIST'&&($this->data['user_role'])!='ROLE_CLIENT_CASA'){
+              //  $builder->add('user_role');
+                $builder->add('user_role','entity', array(
+                    'class' => 'mycpBundle:role',
+                    'property'=>'role_name',
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('r')
+                            ->where('r.role_name!=:rol1')
+                            ->andWhere('r.role_name!=:rol2')
+                            ->setParameter('rol1','ROLE_CLIENT_CASA')
+                            ->setParameter('rol2','ROLE_CLIENT_TOURIST')
+                            ->orderBy('r.role_name', 'ASC');
+                        //  ->groupBy('p.perm_category');
+                    },
+
+                ));
+            }
         }
 
     }

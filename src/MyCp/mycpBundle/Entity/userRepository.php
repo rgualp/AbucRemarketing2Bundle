@@ -142,6 +142,13 @@ class userRepository extends EntityRepository {
         $user->setUserUserName($post['user_user_name']);
         $user->setUserLastName($post['user_last_name']);
         $user->setUserPhone($post['user_phone']);
+        if($post['user_role']){
+            $userRole = $em->getRepository('mycpBundle:role')->findOneBy(array('role_id'=>$post['user_role']));
+          //  dump($userRole);die;
+            $user->setUserRole($userRole->getRoleName());
+            $user->setUserSubrole($userRole);
+        }
+
         $country = $em->getRepository('mycpBundle:country')->find($post['user_country']);
 
         $user->setUserCountry($country);
