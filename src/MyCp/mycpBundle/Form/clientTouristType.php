@@ -66,15 +66,15 @@ class clientTouristType extends AbstractType
         ));
         $builder->add('phone','text',array(
             'label'=>'Teléfono:',
-            'constraints'=>array(new NotBlank())
+            //'constraints'=>array(new NotBlank())
         ));
         $builder->add('address','text',array(
             'label'=>'Dirección particular:',
-            'constraints'=>array(new NotBlank())
+            //'constraints'=>array(new NotBlank())
         ));
         $builder->add('city','text',array(
             'label'=>'Ciudad:',
-            'constraints'=>array(new NotBlank())
+            //'constraints'=>array(new NotBlank())
         ));
         $builder->add('currency',
             'choice',array('empty_value' => '','choices'=>$array_currencies,

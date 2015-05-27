@@ -55,14 +55,14 @@ class user implements UserInterface,  \Serializable
     /**
      * @var string
      *
-     * @ORM\Column(name="user_address", type="string", length=255)
+     * @ORM\Column(name="user_address", type="string", length=255, nullable=true)
      */
     private $user_address;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="user_city", type="string", length=255)
+     * @ORM\Column(name="user_city", type="string", length=255, nullable=true)
      */
     private $user_city;
 
@@ -96,7 +96,7 @@ class user implements UserInterface,  \Serializable
     /**
      * @var string
      *
-     * @ORM\Column(name="user_phone", type="string", length=255)
+     * @ORM\Column(name="user_phone", type="string", length=255, nullable=true)
      */
     private $user_phone;
 

@@ -32,7 +32,7 @@ class userTouristRepository extends EntityRepository
         $user->setUserPhone($form_post['phone']);
         $user->setUserName($form_post['user_name']);
         $user->setUserLastName($form_post['last_name']);
-        $user->setUserCreatedByMigration(false);
+        $user->setUserCreatedByMigration(true);
         $role = $em->getRepository('mycpBundle:role')->find($id_role);
         $user->setUserRole('ROLE_CLIENT_TOURIST');
         $user->setUserSubrole($role);
@@ -44,6 +44,7 @@ class userTouristRepository extends EntityRepository
         $user_tourist->setUserTouristCurrency($currency);
         $user_tourist->setUserTouristLanguage($lang);
         $user_tourist->setUserTouristUser($user);
+
 
         $file = $request->files->get('mycp_mycpbundle_client_touristtype');
         if (isset($file['photo'])) {
