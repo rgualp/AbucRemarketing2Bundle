@@ -30,13 +30,15 @@
             <a href="#accommodation" data-toggle="tab">Alojamiento</a>
         </li>
     </ul>
-<form id="form_submit" action="#" method="POST">
+<form id="form_submit" action="{{ path("mycp_new_offer_to_client", {"idClient": client.userId}) }}" method="POST">
     {{ render(controller('mycpBundle:BackendReservation:searchAccommodations')) }}
     <div class="row-fluid" style="text-align: right">
-        <button class="btn btn-primary btn_submit" id="btn_submit" disabled="disabled">Guardar y ver oferta</button>
-        <button class="btn btn-danger btn_submit" id="btn_sendSubmit" disabled="disabled">Guardar y enviar</button>
+        <button class="btn btn-primary btn_submit" id="btn_submit" disabled="disabled" onclick="javascript:submit_button({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_AND_EXIT')}})">Guardar</button>
+        <button class="btn btn-warning btn_submit" id="btn_submit" disabled="disabled" onclick="javascript:submit_button({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_OFFER_AND_VIEW')}})">Guardar y ver oferta</button>
+        <button class="btn btn-danger btn_submit" id="btn_sendSubmit" disabled="disabled" onclick="javascript:submit_button({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_OFFER_AND_SEND')}})">Guardar y enviar</button>
         <a class="btn" href="{{ path('mycp_list_reservations') }}">Cancelar</a>
     </div>
+    <input id="save_operation" name="save_operation" value="{{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_AND_EXIT')}}" class="hidden">
 </form>
 {% endif %}
 
@@ -56,5 +58,15 @@
         $(document).on('ready', function(){
             $('.select').select2();
         });
+
+        function submit_button(operation)
+        {
+            $("#save_operation").val(operation);
+            if($('.calendar-results').css('display')=='block'){
+                $('#form_submit').submit();
+
+            }
+        }
     </script>
+
 {% endblock %}

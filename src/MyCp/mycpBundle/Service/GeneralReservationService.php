@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManager;
 use MyCp\FrontEndBundle\Helpers\Time;
 use MyCp\mycpBundle\Entity\booking;
 use MyCp\mycpBundle\Entity\generalReservation;
+use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\user;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -28,7 +29,17 @@ class GeneralReservationService extends Controller
         $this->tripleRoomCharge = $tripleRoomCharge;
     }
 
-    public function createOfferFromRequest($request, user $user, booking $booking = null)
+    public function createAvailableOfferFromRequest($request, user $user)
+    {
+        return $this->createOfferFromRequest($request, $user, generalReservation::STATUS_AVAILABLE, ownershipReservation::STATUS_AVAILABLE);
+    }
+
+    public function createReservedOfferFromRequest($request, user $user, booking $booking)
+    {
+        return $this->createOfferFromRequest($request, $user, generalReservation::STATUS_RESERVED, ownershipReservation::STATUS_RESERVED, $booking);
+    }
+
+    private function createOfferFromRequest($request, user $user, $generalReservationStatus, $ownReservationsStatus, booking $booking = null)
     {
         $id_ownership = $request->get('data_ownership');
         $reservations = array();
@@ -69,7 +80,7 @@ class GeneralReservationService extends Controller
         $general_reservation->setGenResDate(new \DateTime(date('Y-m-d')));
         $general_reservation->setGenResStatusDate(new \DateTime(date('Y-m-d')));
         $general_reservation->setGenResHour(date('G'));
-        $general_reservation->setGenResStatus(generalReservation::STATUS_RESERVED);
+        $general_reservation->setGenResStatus($generalReservationStatus);
         $general_reservation->setGenResFromDate(new \DateTime(date("Y-m-d H:i:s", $start_timestamp)));
         $general_reservation->setGenResToDate(new \DateTime(date("Y-m-d H:i:s", $end_timestamp)));
         $general_reservation->setGenResSaved(0);
@@ -101,7 +112,7 @@ class GeneralReservationService extends Controller
             $ownership_reservation->setOwnResCountAdults($count_adults);
             $ownership_reservation->setOwnResCountChildrens($count_children);
             $ownership_reservation->setOwnResNightPrice(0);
-            $ownership_reservation->setOwnResStatus(ownershipReservation::STATUS_RESERVED);
+            $ownership_reservation->setOwnResStatus($ownReservationsStatus);
             $ownership_reservation->setOwnResReservationFromDate(new \DateTime(date("Y-m-d H:i:s", $start_timestamp)));
             $ownership_reservation->setOwnResReservationToDate(new \DateTime(date("Y-m-d H:i:s", $end_timestamp)));
             $ownership_reservation->setOwnResSelectedRoomId($room);
@@ -127,7 +138,6 @@ class GeneralReservationService extends Controller
         foreach ($reservations as $nReservation) {
             $nights[$nReservation->getOwnResId()] = count($array_dates) - 1;
         }
-
 
         return array('reservations' => $reservations, 'nights' => $nights, 'generalReservation' => $general_reservation);
     }

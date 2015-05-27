@@ -5,6 +5,7 @@ namespace MyCp\mycpBundle\Controller;
 use Abuc\RemarketingBundle\Event\JobEvent;
 use MyCp\mycpBundle\Entity\booking;
 use MyCp\mycpBundle\Entity\payment;
+use MyCp\mycpBundle\Helpers\Operations;
 use MyCp\mycpBundle\Helpers\OwnershipStatuses;
 use MyCp\mycpBundle\Helpers\Reservation;
 use MyCp\mycpBundle\JobData\GeneralReservationJobData;
@@ -57,7 +58,7 @@ class BackendReservationController extends Controller {
 
             if(count($bookings) > 0) {
                 $booking = $em->getRepository("mycpBundle:booking")->find($bookings[0]["booking_id"]);
-                $resultReservations = $reservationService->createOfferFromRequest($request,$user,$booking);
+                $resultReservations = $reservationService->createReservedOfferFromRequest($request,$user,$booking);
                 $newReservations = $resultReservations['reservations'];
                 $arrayNightsByOwnershipReservation = $resultReservations['nights'];
                 $general_reservation = $resultReservations['generalReservation'];
@@ -1058,6 +1059,38 @@ class BackendReservationController extends Controller {
                 $defaultCurrencyCode = $this->container->getParameter('configuration.default.currency.code');
                 $tourist = $em->getRepository('mycpBundle:userTourist')->createDefaultTourist($defaultLangCode, $defaultCurrencyCode, $client);
             }
+        }
+
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $request = $this->getRequest();
+            $reservationService = $this->get("mycp.reservation.service");
+            $resultReservations = $reservationService->createAvailableOfferFromRequest($request, $client);
+            $newReservations = $resultReservations['reservations'];
+            $arrayNightsByOwnershipReservation = $resultReservations['nights'];
+            $general_reservation = $resultReservations['generalReservation'];
+            $operation = $request->get("save_operation");
+
+            $message = 'Nueva oferta ' . $general_reservation->getCASId() . ' creada satisfactoriamente.';
+            $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+            switch($operation)
+            {
+                case Operations::SAVE_OFFER_AND_SEND: {
+                    //Enviar correo al cliente incluyendo el texto
+                                                          
+
+                    return $this->redirect($this->generateUrl('mycp_list_reservations'));
+                }
+                case Operations::SAVE_OFFER_AND_VIEW:
+                {
+                    return $this->redirect($this->generateUrl('mycp_details_reservation', array('id_reservation' => $general_reservation->getGenResId())));
+                }
+                case Operations::SAVE_AND_EXIT:
+                {
+                    return $this->redirect($this->generateUrl('mycp_list_reservations'));
+                }
+            }
+
         }
 
 
