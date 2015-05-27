@@ -188,6 +188,13 @@ services:
             - {name: doctrine.orm.entity_listener, entity_manager: ownershipReservation}
         arguments: ["@Time"]
 
+    mycp.reservation.service:
+        class: MyCp\mycpBundle\Service\GeneralReservationService
+        arguments:
+            em: "@doctrine.orm.entity_manager"
+            timer: "@Time"
+            tripleRoomCharge: "%configuration.triple.room.charge%"
+
 avalanche_imagine:
     web_root:     %kernel.root_dir%/../web
     cache_prefix: imagine
