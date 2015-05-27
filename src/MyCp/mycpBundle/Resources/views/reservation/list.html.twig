@@ -97,6 +97,7 @@
             <div class="row-fluid">
                 <div class="span3"  style="margin-top: 10px">
                     <input type="button" class="btn-mini btn-success btn-action-reservation"  onclick="sendReservation();" value="Enviar como No Disponibles" data-url="{{path("mycp_set_not_available_reservation_callback")}}"/>
+                    <div class="lblLoading hidden" style="width: 100px; display: inline">Cargando...</div>
                 </div>
                 <div class="span6">
                     <div class="paginator-cont">
@@ -186,7 +187,9 @@
             <div class="row-fluid">
                 <div class="span3"  style="margin-top: 10px">
                     <input type="button" class="btn-mini btn-success btn-action-reservation"  onclick="sendReservation();" value="Enviar como No Disponibles" data-url="{{path("mycp_set_not_available_reservation_callback")}}"/>
+                    <div class="lblLoading hidden" style="width: 100px; display: inline">Cargando...</div>
                 </div>
+
                 <div class="paginator-cont span9">
                     {{ simple_paginator_render('mycp_list_reservations',null,{
                 'container_class': 'paginator',
@@ -217,6 +220,7 @@
 
     function sendReservation()
     {
+        $(".lblLoading").removeClass("hidden");
         var checkValues = $('input[name=check_reservations]:checked').map(function() {
         return $(this).attr('data-reservation-id');
     }).get();
@@ -232,9 +236,13 @@
         'reservations_ids': checkValues
     }, function(data) {
         if(data != "ERROR")
+        {
             window.location = data;
-        else
+        }
+        else {
             alert(data);
+            $(".lblLoading").addClass("hidden");
+        }
     });
     }
 
