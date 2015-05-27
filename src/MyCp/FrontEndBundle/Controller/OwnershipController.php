@@ -616,18 +616,30 @@ class OwnershipController extends Controller {
 
         $rooms = ($rooms == "undefined") ? 1 : $rooms;
 
-
+        $session->set('search_arrival_date', null);
+        $session->set('search_departure_date', null);
+        $today = new \DateTime();
         $search_text = ($text != null && $text != '' && $text != $this->get('translator')->trans('PLACE_WATERMARK')) ? Utils::getTextFromNormalized($text) : null;
         $search_guests = ($guests != null && $guests != '' && $guests != $this->get('translator')->trans('GUEST_WATERMARK')) ? $guests : "1";
         $search_rooms = ($rooms != null && $rooms != '' && $rooms != $this->get('translator')->trans('ROOM_WATERMARK')) ? $rooms : "1";
-        $arrival = ($request->get('arrival') != null && $request->get('arrival') != "" && $request->get('arrival') != "null") ? $request->get('arrival') : $session->get('search_arrival_date');
-        $departure = ($request->get('departure') != null && $request->get('departure') != "" && $request->get('departure') != "null") ? $request->get('departure') : $session->get('search_departure_date');
+        $arrival = ($request->get('arrival') != null && $request->get('arrival') != "" && $request->get('arrival') != "null") ? $request->get('arrival') : $today->format('d-m-Y');
 
-        $today = new \DateTime();
-        if ($arrival == null)
+        $departure = null;
+        if($request->get('departure') != null && $request->get('departure') != "" && $request->get('departure') != "null")
+            $departure = $request->get('departure');
+        else if($arrival != null)
+        {
+            $arrivalDateTime = \DateTime::createFromFormat("d-m-Y",$arrival);
+            $departure = date_add($arrivalDateTime, date_interval_create_from_date_string("2 days"))->format('d-m-Y');
+        }
+        else
+            $departure = date_add($today, date_interval_create_from_date_string("2 days"))->format('d-m-Y');
+
+
+        /*if ($arrival == null)
             $arrival = $today->format('d-m-Y');
         if ($departure == null)
-            $departure = date_add($today, date_interval_create_from_date_string("2 days"))->format('d-m-Y');
+            $departure = date_add($today, date_interval_create_from_date_string("2 days"))->format('d-m-Y');*/
 
         $check_filters = $session->get("filter_array");
         $room_filter = $session->get("filter_room");
@@ -908,10 +920,25 @@ class OwnershipController extends Controller {
             $arriving_date = $request->request->get('arrival');
             $departure_date = $request->request->get('departure');
 
+            $session->set('search_arrival_date', null);
+            $session->set('search_departure_date', null);
+            $today = new \DateTime();
+
             $search_guests = ($guests != null && $guests != '' && $guests != $this->get('translator')->trans('GUEST_WATERMARK')) ? $guests : "1";
             $search_rooms = ($rooms != null && $rooms != '' && $rooms != $this->get('translator')->trans('ROOM_WATERMARK')) ? $rooms : "1";
-            $search_arrival_date = ($arriving_date != null && $arriving_date != '' && $arriving_date != $this->get('translator')->trans('ARRIVAL_WATERMARK')) ? $arriving_date : null;
-            $search_departure_date = ($departure_date != null && $departure_date != '' && $departure_date != $this->get('translator')->trans('DEPARTURE_WATERMARK')) ? $departure_date : null;
+            $search_arrival_date = ($arriving_date != null && $arriving_date != '' && $arriving_date != $this->get('translator')->trans('ARRIVAL_WATERMARK')) ? $arriving_date : $today->format('d-m-Y');
+     
+            $search_departure_date = null;
+            if($departure_date != null && $departure_date != "" && $departure_date != "null" && $departure_date != $this->get('translator')->trans('DEPARTURE_WATERMARK'))
+                $search_departure_date = $departure_date;
+            else if($search_arrival_date != null)
+            {
+                $arrivalDateTime = \DateTime::createFromFormat("d-m-Y",$search_arrival_date);
+                $search_departure_date = date_add($arrivalDateTime, date_interval_create_from_date_string("2 days"))->format('d-m-Y');
+            }
+            else
+                $search_departure_date = date_add($today, date_interval_create_from_date_string("2 days"))->format('d-m-Y');
+
             $text = $request->request->get('text');
             $text = ($text == "") ? "null" : $text;
 
