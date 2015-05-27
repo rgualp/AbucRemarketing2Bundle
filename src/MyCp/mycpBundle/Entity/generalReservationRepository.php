@@ -514,18 +514,18 @@ class generalReservationRepository extends EntityRepository {
 
     function getCheckins($checkinDate, $orderBy = OrderByHelper::CHECKIN_ORDER_BY_ACCOMMODATION_CODE) {
         $queryStr = "SELECT gre,
-        (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id),
-        (SELECT SUM(owres1.own_res_count_adults) FROM mycpBundle:ownershipReservation owres1 WHERE owres1.own_res_gen_res_id = gre.gen_res_id),
-        (SELECT SUM(owres2.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id),
+        (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id AND owres.own_res_status = :reservationStatus),
+        (SELECT SUM(owres1.own_res_count_adults) FROM mycpBundle:ownershipReservation owres1 WHERE owres1.own_res_gen_res_id = gre.gen_res_id AND owres1.own_res_status = :reservationStatus),
+        (SELECT SUM(owres2.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id AND owres2.own_res_status = :reservationStatus),
         us, cou,own,prov,
-        (SELECT MIN(p.created) FROM mycpBundle:payment p JOIN p.booking b WHERE b.booking_id = (SELECT MIN(owres3.own_res_reservation_booking) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id))
+        (SELECT MIN(p.created) FROM mycpBundle:payment p JOIN p.booking b WHERE b.booking_id = (SELECT MIN(owres3.own_res_reservation_booking) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id AND owres3.own_res_status = :reservationStatus))
         FROM mycpBundle:generalReservation gre
         JOIN gre.gen_res_own_id own
         JOIN gre.gen_res_user_id us
         JOIN us.user_country cou
         JOIN own.own_address_province prov
         WHERE gre.gen_res_from_date LIKE :filter_date_from
-        AND gre.gen_res_status =" . generalReservation::STATUS_RESERVED;
+        AND gre.gen_res_status = :generalReservationReservedStatus OR gre.gen_res_status = :generalReservationPartialReservedStatus";
 
         switch($orderBy)
         {
@@ -547,13 +547,13 @@ class generalReservationRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $query = $em->createQuery($queryStr);
 
-
-
         $query->setParameters(array(
             'filter_date_from' => "%" . $checkinDate . "%",
+            'reservationStatus' => ownershipReservation::STATUS_RESERVED,
+            'generalReservationReservedStatus' => generalReservation::STATUS_RESERVED,
+            'generalReservationPartialReservedStatus' => generalReservation::STATUS_PARTIAL_RESERVED
         ));
 
         return $query->getArrayResult();
     }
-
 }
