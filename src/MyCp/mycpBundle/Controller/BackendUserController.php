@@ -73,7 +73,10 @@ class BackendUserController extends Controller {
         $count_errors = 0;
 
         $data['edit'] = true;
+        $user= $em->getRepository('mycpBundle:user')->findOneBy(array('user_id'=>$id_user));
+//        dump($user); die;
 
+        $data['user_role'] = $user->getUserRole();
         $request_form = $request->get('mycp_mycpbundle_client_stafftype');
         $data['password'] = $request_form['user_password']['Clave:'];
         $form = $this->createForm(new clientStaffType($data));
@@ -107,7 +110,9 @@ class BackendUserController extends Controller {
             $data_user['user_phone'] = $user->getUserPhone();
             $data_user['user_city'] = $user->getUserCity();
             $data_user['user_country'] = $user->getUserCountry()->getCoId();
-
+           // $data_user['user_role'] = $user->getUserRole();
+            $userRole = $em->getRepository('mycpBundle:role')->findOneBy(array('role_name'=>$user->getUserRole()));
+            $data_user['user_role'] = $userRole;
             $form->setData($data_user);
         }
         return $this->render('mycpBundle:user:newUserStaff.html.twig', array('form' => $form->createView(), 'data' => $data, 'id_role' => '', 'edit_user' => $id_user, 'message_error' => $data["error"]));
@@ -480,8 +485,6 @@ class BackendUserController extends Controller {
         $users = $paginator->paginate($em->getRepository('mycpBundle:user')->getAll($filter_user_name, $filter_role, $filter_city, $filter_country, $filter_name, $filter_last_name, $filter_email))->getResult();
         $service_log = $this->get('log');
         $service_log->saveLog('Visit', BackendModuleName::MODULE_USER);
-
-
 
         return $this->render('mycpBundle:user:list.html.twig', array(
                     'users' => $users,
