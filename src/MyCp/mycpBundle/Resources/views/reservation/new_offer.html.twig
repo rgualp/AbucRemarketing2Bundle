@@ -283,6 +283,7 @@
         var end_date = "{{ end_date }}";
         var reservation_own_id = {{ reservation.genResOwnId.ownId }};
         var originalTotalPrice = {{reservation.getGenResTotalInSite}};
+        var checkTotalPrice = true;
 
         $("#btn_dates").click(function(){
            $('#form_dates').submit();

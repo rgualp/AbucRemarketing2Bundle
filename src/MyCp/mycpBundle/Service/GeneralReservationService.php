@@ -44,7 +44,6 @@ class GeneralReservationService extends Controller
         $id_ownership = $request->get('data_ownership');
         $reservations = array();
 
-        $this->em = $this->getDoctrine()->getManager();
         $ownership = $this->em->getRepository('mycpBundle:ownership')->find($id_ownership);
 
         if (!$request->get('data_reservation'))

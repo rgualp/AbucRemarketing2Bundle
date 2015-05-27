@@ -27,6 +27,7 @@ class BackendReservationController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $service_time = $this->get('time');
+        $service_log= $this->get('log');
         $reservationService = $this->get('mycp.reservation.service');
         $user = $em->getRepository('mycpBundle:user')->find($id_tourist);
         $tourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array("user_tourist_user" => $id_tourist));
@@ -74,6 +75,16 @@ class BackendReservationController extends Controller {
                     $emailService = $this->get('mycp.service.email_manager');
                     //Enviar correo al cliente con el texto escrito y el voucher como adjunto
                     $postMessageBody = $request->get("message_body");
+                    if($postMessageBody !== "")
+                    {
+                        $from = $this->getUser();
+                        $to = $general_reservation->getGenResUserId();
+                        $subject = "Reservación ".$general_reservation->getCASId();
+
+                        $em->getRepository("mycpBundle:message")->insert($from, $to, $subject, $postMessageBody);
+                        $service_log->saveLog('Insert client message',  BackendModuleName::MODULE_CLIENT_MESSAGES);
+                    }
+
                     $mailMessage = ($postMessageBody != null && $postMessageBody != "") ? $postMessageBody : null;
                     $bookingService = $this->get('front_end.services.booking');
                     VoucherHelper::sendVoucherToClient($em, $bookingService, $emailService, $this, $general_reservation, 'NEW_OFFER_SUBJECT', $mailMessage, true);
@@ -86,6 +97,8 @@ class BackendReservationController extends Controller {
 
                 $message = 'Nueva oferta ' . $general_reservation->getCASId() . ' creada satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+                $service_log->saveLog('Create new offer '.$general_reservation->getCASId(),  BackendModuleName::MODULE_RESERVATION);
 
                 return $this->redirect($this->generateUrl('mycp_details_reservation', array('id_reservation' => $general_reservation->getGenResId())));
 
@@ -1064,7 +1077,10 @@ class BackendReservationController extends Controller {
         if ($this->getRequest()->getMethod() == 'POST') {
             $request = $this->getRequest();
             $reservationService = $this->get("mycp.reservation.service");
+            $service_log= $this->get('log');
+
             $resultReservations = $reservationService->createAvailableOfferFromRequest($request, $client);
+
             $newReservations = $resultReservations['reservations'];
             $arrayNightsByOwnershipReservation = $resultReservations['nights'];
             $general_reservation = $resultReservations['generalReservation'];
@@ -1073,11 +1089,33 @@ class BackendReservationController extends Controller {
             $message = 'Nueva oferta ' . $general_reservation->getCASId() . ' creada satisfactoriamente.';
             $this->get('session')->getFlashBag()->add('message_ok', $message);
 
+            // inform listeners that a reservation was sent out (remarketing)
+            $dispatcher = $this->get('event_dispatcher');
+            $eventData = new GeneralReservationJobData($general_reservation->getGenResId());
+            $dispatcher->dispatch('mycp.event.reservation.sent_out', new JobEvent($eventData));
+
+            $service_log->saveLog('Create new offer '.$general_reservation->getCASId(),  BackendModuleName::MODULE_RESERVATION);
+
             switch($operation)
             {
                 case Operations::SAVE_OFFER_AND_SEND: {
                     //Enviar correo al cliente incluyendo el texto
-                                                          
+                    $custom_message = $request->get('message_body');
+                    if($custom_message !== "")
+                    {
+                        $from = $this->getUser();
+                        $to = $general_reservation->getGenResUserId();
+                        $subject = "Reservación ".$general_reservation->getCASId();
+
+                        $em->getRepository("mycpBundle:message")->insert($from, $to, $subject, $custom_message);
+                        $service_log->saveLog('Insert client message',  BackendModuleName::MODULE_CLIENT_MESSAGES);
+                    }
+
+                    $mailer = $this->get('Email');
+                    $mailer->sendReservation($general_reservation->getGenResId(), $custom_message);
+
+                    $message = 'Oferta '.$general_reservation->getCASId().' enviada satisfactoriamente.';
+                    $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                     return $this->redirect($this->generateUrl('mycp_list_reservations'));
                 }
