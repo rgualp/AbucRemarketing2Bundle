@@ -27,6 +27,9 @@
 <hr/>
 {% if data['error'] is defined %}<div class="alert alert-error">{{data['error']}}</div>{%endif%}
 <form class="sfgen"  method="POST" action="{{ path('mycp_lodging_update_user',{'id_user':edit_user}) }}" novalidate="true" enctype="multipart/form-data">
+    {% if edit_user is defined%}
+        {{ render(controller('mycpBundle:BackendUser:getUserPhotoPath', {'userId': edit_user})) }}
+    {% endif %}
     <div class="row-fluid">
         <div class="span3"><div><label for="user_photo" class="required">Foto del Propietario:</label><input type="file" id="user_photo" name="user_photo" required="required" title="Seleccionar fichero..." accept="image/*" /></div></div>
     </div>

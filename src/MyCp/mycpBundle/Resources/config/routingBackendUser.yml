@@ -48,3 +48,7 @@ mycp_delete_user:
 mycp_change_status_user:
     pattern:  /change_status/user_casa/{userId}
     defaults: { _controller: mycpBundle:BackendUser:changeStatus}
+
+mycp_get_user_photo:
+    pattern:  /user-photo/{userId}
+    defaults: { _controller: mycpBundle:BackendUser:getUserPhotoPath}

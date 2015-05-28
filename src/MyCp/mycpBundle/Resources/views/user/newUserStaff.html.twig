@@ -26,7 +26,9 @@
 <hr/>
 {% if message_error is defined and message_error %}<label class="alert alert-error">{{message_error}}</label>{%endif%}
 <form class="sfgen" {{form_enctype(form)}} method="POST" action="{%if(edit_user is defined)%}{{path('mycp_edit_user_staff',{'id_user':edit_user})}}{%else%}{{path('mycp_new_user_staff',{'id_role':id_role})}}{%endif%}" enctype="multipart/form-data" novalidate="true">
-
+    {% if edit_user is defined%}
+        {{ render(controller('mycpBundle:BackendUser:getUserPhotoPath', {'userId': edit_user})) }}
+    {% endif %}
     <div class="row-fluid">
         <div class="span3">{{ form_label(form.user_name)}}{{ form_errors(form.user_name) }}{{ form_widget(form.user_name) }}</div>
         <div class="span3">{{ form_label(form.user_user_name)}}{{ form_errors(form.user_user_name) }}{{ form_widget(form.user_user_name) }}</div>

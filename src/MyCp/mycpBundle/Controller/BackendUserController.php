@@ -16,6 +16,7 @@ use MyCp\mycpBundle\Form\clientPartnerType;
 use MyCp\mycpBundle\Entity\userPartner;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
 use \MyCp\FrontEndBundle\Helpers\Utils;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class BackendUserController extends Controller {
@@ -721,6 +722,22 @@ class BackendUserController extends Controller {
         }
 
         return $this->redirect($this->generateUrl('mycp_list_ownerships'));
+    }
+
+    public function getUserPhotoPathAction($userId)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $user = $em->getRepository('mycpBundle:user')->find($userId);
+        $dir = $this->container->getParameter('user.dir.photos');
+
+        $fileName = "no_photo.gif";
+        if($user->getUserPhoto() != null && file_exists($dir.$user->getUserPhoto()->getPhoName())) {
+            $fileName = $user->getUserPhoto()->getPhoName();
+        }
+
+        $dir = $this->container->get('templating.helper.assets')->getUrl("uploads/userImages/");
+
+        return new Response("<img  class='img-polaroid' title='".$user->getUserCompleteName()."' src='".$dir.$fileName."'/>");
     }
 
 }

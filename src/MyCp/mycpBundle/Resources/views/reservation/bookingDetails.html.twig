@@ -15,35 +15,15 @@
     <li class="active">Detalles de Booking</li>
     <li class="pull-right"><a href="{{ path('mycp_list_reservations_booking') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
+    <div class="form-actions">
+       <a class="btn btn-danger" onclick="sendMessage()">Enviar</a>
+    </div>
 {% endblock %}
 {% block content %}
 <h2>Booking {{ payment.booking.bookingId }}</h2>
 <hr/>
 <div class="row-fluid">
-    <div class="span12">
-        <ul class="nav nav-tabs">
-            <li class="active">
-                <a href="#reservas" data-toggle="tab">Cliente</a>
-            </li>
-        </ul>
-        <table class="table table-striped" style="font-size: 12px">
-            <tr>
-                <td><b>Nombre: </b>{{ user.getUserTouristUser.getUserUserName }} {{ user.getUserTouristUser.getUserLastName }}</td>
-                <td><b>País: </b>{{ user.getUserTouristUser.getUserCountry }}</td>
-            </tr>
-            <tr>
-                <td><b>Correo: </b>{{ user.getUserTouristUser.getUserEmail }}</td>
-                <td><b>Ciudad:</b>{{ user.getUserTouristUser.getUserCity }}</td>
-            </tr>
-            <tr>
-                <td><b>Idioma: </b>{{ user.getUserTouristLanguage.getLangName }}</td>
-                <td><b>Moneda: </b>{% if user.getUserTouristCurrency.getCurrName is defined %}{{ user.getUserTouristCurrency.getCurrName }}{% endif %}</td>
-            </tr>
-            <tr>
-                <td colspan="2"><b>Dirección:</b>{{ user.getUserTouristUser.getUserAddress }}</td>
-            </tr>
-        </table>
-    </div>
+    {{include('mycpBundle:utils:clientInfoTab.html.twig', {"user":user.getUserTouristUser, "tourist": user})}}
     <div class="row-fluid">
     <div class="span12">
     <ul class="nav nav-tabs">
@@ -83,4 +63,7 @@
 </div>
 </div>
 </div>
+        <hr/>
+  {{ render(controller('mycpBundle:BackendMessage:messageControl', {'userTourist': user, 'showSubject' : true})) }}
+
 {% endblock %}
