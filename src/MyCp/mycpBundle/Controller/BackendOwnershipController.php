@@ -64,10 +64,6 @@ class BackendOwnershipController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $data['languages'] = $em->getRepository('mycpBundle:lang')->getAll();
         $dir = $this->container->getParameter('ownership.dir.photos');
-        $dir_thumbs = $this->container->getParameter('ownership.dir.thumbnails');
-        $dir_watermark = $this->container->getParameter('dir.watermark');
-        $photo_size = $this->container->getParameter('ownership.dir.photos.size');
-        $thumbs_size = $this->container->getParameter('thumbnail.size');
         $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
 
         if ($request->getMethod() == 'POST') {
@@ -98,49 +94,35 @@ class BackendOwnershipController extends Controller {
                 }
 
                 if ($count_errors == 0) {
-                    $langs = $em->getRepository('mycpBundle:lang')->findAll();
+                    $insertErrors = 0;
                     foreach ($files['files'] as $file) {
-                        $ownershipPhoto = new ownershipPhoto();
-                        $photo = new photo();
-                        $fileName = uniqid('ownership-') . '-photo.jpg';
-                        $file->move($dir, $fileName);
-
-//Creando thumbnail, redimensionando y colocando marca de agua
-                        \MyCp\mycpBundle\Helpers\Images::createThumbnail($dir . $fileName, $dir_thumbs . $fileName, $thumbs_size);
-                        \MyCp\mycpBundle\Helpers\Images::resizeAndWatermark($dir, $fileName, $dir_watermark, $photo_size, $this->container);
-
-                        $photo->setPhoName($fileName);
-                        $ownershipPhoto->setOwnPhoOwn($ownership);
-                        $ownershipPhoto->setOwnPhoPhoto($photo);
-                        $em->persist($ownershipPhoto);
-                        $em->persist($photo);
-
-                        foreach ($langs as $lang) {
-                            $photoLang = new photoLang();
-                            $photoLang->setPhoLangDescription($post['description_' . $lang->getLangId()]);
-                            $photoLang->setPhoLangIdLang($lang);
-                            $photoLang->setPhoLangIdPhoto($photo);
-                            $em->persist($photoLang);
+                        try{
+                            $em->getRepository("mycpBundle:ownershipPhoto")->createPhotoFromRequest($ownership,$file,$this->container,$post);
+                        }
+                        catch (\Exception $e){
+                            $insertErrors++;
+                            $message = 'Ha ocurrido un error. '.$e->getMessage();
+                            $this->get('session')->getFlashBag()->add('message_error_main', $message);
                         }
                     }
-                    $em->flush();
-                    $message = 'Ficheros subidos satisfactoriamente.';
-                    $this->get('session')->getFlashBag()->add('message_ok', $message);
 
-                    $service_log = $this->get('log');
-                    $service_log->saveLog('Create photo, entity ' . $ownership->getOwnName(), BackendModuleName::MODULE_OWNERSHIP);
+                    if($insertErrors == 0) {
+                        $message = 'Ficheros subidos satisfactoriamente.';
+                        $this->get('session')->getFlashBag()->add('message_ok', $message);
 
-                    switch($request->get('save_operation'))
-                    {
-                        case Operations::SAVE_AND_EXIT:
-                            return $this->redirect($this->generateUrl('mycp_list_photos_ownership', array('id_ownership' => $id_ownership)));
-                        case Operations::SAVE_AND_NEW:
-                            return $this->redirect($this->generateUrl('mycp_new_photos_ownership', array('id_ownership' => $id_ownership)));
-                        case Operations::SAVE_AND_PUBLISH_ACCOMMODATION:
-                            return $this->redirect($this->generateUrl('mycp_publish_ownership', array('idOwnership' => $id_ownership)));
+                        $service_log = $this->get('log');
+                        $service_log->saveLog('Create photo, entity ' . $ownership->getOwnName(), BackendModuleName::MODULE_OWNERSHIP);
 
+                        switch ($request->get('save_operation')) {
+                            case Operations::SAVE_AND_EXIT:
+                                return $this->redirect($this->generateUrl('mycp_list_photos_ownership', array('id_ownership' => $id_ownership)));
+                            case Operations::SAVE_AND_NEW:
+                                return $this->redirect($this->generateUrl('mycp_new_photos_ownership', array('id_ownership' => $id_ownership)));
+                            case Operations::SAVE_AND_PUBLISH_ACCOMMODATION:
+                                return $this->redirect($this->generateUrl('mycp_publish_ownership', array('idOwnership' => $id_ownership)));
+
+                        }
                     }
-
                 }
             }
         }
@@ -1348,7 +1330,7 @@ class BackendOwnershipController extends Controller {
 
         $response = $this->generateUrl('mycp_list_photos_ownership', array("id_ownership" => $idOwnership));
         } catch (\Exception $e) {
-            $message = 'Las fotografías no pudieron ser eliminadas.';
+            $message = 'Las fotografías no pudieron ser eliminadas. '.$e->getMessage();
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
             $response = "ERROR";
         }

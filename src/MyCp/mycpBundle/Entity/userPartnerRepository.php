@@ -14,8 +14,11 @@ use MyCp\mycpBundle\Helpers\Images;
  */
 class userPartnerRepository extends EntityRepository
 {
-    function insert($id_role, $request, $dir, $factory) {
+    function insert($id_role, $request, $container, $factory) {
         $em = $this->getEntityManager();
+        $dir = $container->getParameter('user.dir.photos');
+        $photoSize = $container->getParameter('user.photo.size');
+
         $form_post = $request->get('mycp_mycpbundle_client_partnertype');
 
         $lang = $em->getRepository('mycpBundle:lang')->find($form_post['language']);
@@ -24,7 +27,6 @@ class userPartnerRepository extends EntityRepository
 
         $user = new user();
         $user_partner = new userPartner();
-
         $user->setUserAddress($form_post['address']);
         $user->setUserCity($form_post['city']);
         $user->setUserCountry($country);
@@ -38,7 +40,6 @@ class userPartnerRepository extends EntityRepository
         $user->setUserSubrole($role);
         $user->setUserUserName($form_post['user_name']);
         $encoder = $factory->getEncoder($user);
-        //$user->setUserCreationDate(new \DateTime());
         $password = $encoder->encodePassword($form_post['user_password']['Clave:'], $user->getSalt());
         $user->setUserPassword($password);
         $user_partner->setUserPartnerCurrency($currency);
@@ -55,7 +56,7 @@ class userPartnerRepository extends EntityRepository
             $file['photo']->move($dir, $fileName);
 
             //Redimensionando la foto del usuario
-            Images::resize($dir . $fileName, 65);
+            Images::resize($dir . $fileName, $photoSize);
 
             $photo->setPhoName($fileName);
             $user->setUserPhoto($photo);
@@ -66,10 +67,12 @@ class userPartnerRepository extends EntityRepository
         $em->flush();
     }
 
-    function edit($id_user, $request, $dir, $factory) {
+    function edit($id_user, $request, $container, $factory) {
         $post = $request->request->get('mycp_mycpbundle_client_partnertype');
+        $dir = $container->getParameter('user.dir.photos');
+        $photoSize = $container->getParameter('user.photo.size');
         $em = $this->getEntityManager();
-        $user_partner = new userPartner();
+
         $user_partner = $em->getRepository('mycpBundle:userPartner')->findBy(array('user_partner_user' => $id_user));
         $user_partner = $user_partner[0];
         $user_partner->getUserPartnerUser()->setUserName($post['user_name']);
@@ -110,7 +113,7 @@ class userPartnerRepository extends EntityRepository
             $file['photo']->move($dir, $fileName);
 
             //Redimensionando la foto del usuario
-            Images::resize($dir . $fileName, 65);
+            Images::resize($dir . $fileName, $photoSize);
 
             $photo->setPhoName($fileName);
             $user_partner->getUserPartnerUser()->setUserPhoto($photo);

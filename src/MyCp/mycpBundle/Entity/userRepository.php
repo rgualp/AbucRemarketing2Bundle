@@ -3,6 +3,7 @@
 namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use MyCp\mycpBundle\Helpers\Images;
 
 /**
  * userRepository
@@ -12,9 +13,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class userRepository extends EntityRepository {
 
-    function shortEdit($id_user, $request, $dir, $factory) {
+    function shortEdit($id_user, $request, $container, $factory) {
         $post = $request->request->getIterator()->getArrayCopy();
         $em = $this->getEntityManager();
+        $dir=$container->getParameter('user.dir.photos');
+        $photoSize = $container->getParameter('user.photo.size');
+
         $user = $em->getRepository('mycpBundle:user')->findOneBy(array('user_id' => $id_user));
 
         if ($post['user_password'] != '') {
@@ -36,7 +40,7 @@ class userRepository extends EntityRepository {
             $fileName = uniqid('user-') . '-photo.jpg';
             $file->move($dir, $fileName);
             //Redimensionando la foto del usuario
-            \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 65);
+            Images::resize($dir . $fileName, $photoSize);
 
             $photo->setPhoName($fileName);
             $user->setUserPhoto($photo);
@@ -75,7 +79,6 @@ class userRepository extends EntityRepository {
         if ($request->get('user_newsletters'))
             $user->setUserNewsletters(1);
         $user->setUserEnabled(0);
-        //$user->setUserCreationDate(new \DateTime());
         $password = $encoder->encodePassword($post['user_password'][$translator->trans("FORMS_PASSWORD")], $user->getSalt());
 
         $user->setUserPassword($password);
@@ -89,8 +92,11 @@ class userRepository extends EntityRepository {
         return $user;
     }
 
-    function insertUserStaff($id_role, $request, $dir, $factory) {
+    function insertUserStaff($id_role, $request, $container, $factory) {
         $em = $this->getEntityManager();
+        $dir = $container->getParameter('user.dir.photos');
+        $photoSize = $container->getParameter('user.photo.size');
+
         $form_post = $request->get('mycp_mycpbundle_client_stafftype');
         $country = $em->getRepository('mycpBundle:country')->find($form_post['user_country']);
 
@@ -120,7 +126,7 @@ class userRepository extends EntityRepository {
             $fileName = uniqid('user-') . '-photo.jpg';
             $file['user_photo']->move($dir, $fileName);
             //Redimensionando la foto del usuario
-            \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 65);
+            Images::resize($dir . $fileName, $photoSize);
 
             $photo->setPhoName($fileName);
             $user->setUserPhoto($photo);
@@ -130,10 +136,12 @@ class userRepository extends EntityRepository {
         $em->flush();
     }
 
-    function editUserStaff($id_user, $request, $dir, $factory) {
+    function editUserStaff($id_user, $request, $container, $factory) {
         $post = $request->request->get('mycp_mycpbundle_client_stafftype');
         $em = $this->getEntityManager();
-        $user = new user();
+        $dir = $container->getParameter('user.dir.photos');
+        $photoSize = $container->getParameter('user.photo.size');
+
         $user = $em->getRepository('mycpBundle:user')->find($id_user);
         $user->setUserName($post['user_name']);
         $user->setUserAddress($post['user_address']);
@@ -144,7 +152,6 @@ class userRepository extends EntityRepository {
         $user->setUserPhone($post['user_phone']);
         if($post['user_role']){
             $userRole = $em->getRepository('mycpBundle:role')->findOneBy(array('role_id'=>$post['user_role']));
-          //  dump($userRole);die;
             $user->setUserRole($userRole->getRoleName());
             $user->setUserSubrole($userRole);
         }
@@ -153,7 +160,6 @@ class userRepository extends EntityRepository {
 
         $user->setUserCountry($country);
 
-        //var_dump($post['user_password']['Clave:']); exit();
         if ($post['user_password']['Clave:'] != '') {
             $user_enc = new user();
             $encoder = $factory->getEncoder($user_enc);
@@ -162,8 +168,6 @@ class userRepository extends EntityRepository {
         }
         $file = $request->files->get('mycp_mycpbundle_client_stafftype');
         if (isset($file['user_photo'])) {
-            //var_dump($user->getUserPhoto());
-
             if ($user->getUserPhoto() != null) {
                 $photo_old = $em->getRepository('mycpBundle:photo')->find($user->getUserPhoto()->getPhoId());
                 if ($photo_old)
@@ -171,12 +175,11 @@ class userRepository extends EntityRepository {
                 @unlink($dir . $user->getUserPhoto()->getPhoName());
             }
 
-
             $photo = new photo();
             $fileName = uniqid('user-') . '-photo.jpg';
             $file['user_photo']->move($dir, $fileName);
             //Redimensionando la foto del usuario
-            \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 65);
+            Images::resize($dir . $fileName, $photoSize);
 
             $photo->setPhoName($fileName);
             $user->setUserPhoto($photo);
@@ -255,12 +258,10 @@ class userRepository extends EntityRepository {
 
         if ($user_id == null) {
             if ($request->cookies->has("mycp_user_session")) {
-                //var_dump ($request->cookies->get("mycp_user_session"));
                 $session_id = $request->cookies->get("mycp_user_session");
             } else {
                 $session = $controller->getRequest()->getSession();
-                $now = time();
-                $session_id = $session->getId(); //."_".$now;
+                $session_id = $session->getId();
                 setcookie("mycp_user_session", $session_id, time() + 60 * 60 * 24 * 365, '/');
             }
         }

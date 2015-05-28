@@ -40,8 +40,10 @@ class userCasaRepository extends EntityRepository {
         return $query->getResult();
     }
 
-    function createUser($ownership, $file, $dir_file, $factory, $send_creation_mail, $controller) {
+    function createUser($ownership, $file, $container, $factory, $send_creation_mail, $controller) {
         $em = $this->getEntityManager();
+        $dir_file = $container->getParameter('user.dir.photos');
+        $photoSize = $container->getParameter('user.photo.size');
         $user = new user();
         $country = $em->getRepository('mycpBundle:country')->findBy(array('co_name' => 'Cuba'));
         $subrole = $em->getRepository('mycpBundle:role')->findOneBy(array('role_name' => 'ROLE_CLIENT_CASA'));
@@ -64,6 +66,8 @@ class userCasaRepository extends EntityRepository {
             $photo = new photo();
             $fileName = uniqid('user-') . '-photo.jpg';
             $file->move($dir_file, $fileName);
+            //Redimensionando la foto del usuario
+            \MyCp\mycpBundle\Helpers\Images::resize($dir_file . $fileName, $photoSize);
             $photo->setPhoName($fileName);
             $user->setUserPhoto($photo);
             $em->persist($photo);
@@ -100,10 +104,11 @@ class userCasaRepository extends EntityRepository {
         }
     }
 
-    function edit($id_user, $request, $dir, $factory) {
+    function edit($id_user, $request, $container, $factory) {
          $post = $request->request->getIterator()->getArrayCopy();
          $em = $this->getEntityManager();
-         $user_casa = new userCasa();
+         $dir = $container->getParameter('user.dir.photos');
+         $photoSize = $container->getParameter('user.photo.size');
          $user_casa = $em->getRepository('mycpBundle:userCasa')->findBy(array('user_casa_user' => $id_user));
          $user_casa = $user_casa[0];
          $user_casa->getUserCasaUser()->setUserName($post['mycp_mycpbundle_client_casatype']['user_name']);
@@ -134,7 +139,7 @@ class userCasaRepository extends EntityRepository {
              $fileName = uniqid('user-') . '-photo.jpg';
              $file['photo']->move($dir, $fileName);
              //Redimensionando la foto del usuario
-             \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, 65);
+             \MyCp\mycpBundle\Helpers\Images::resize($dir . $fileName, $photoSize);
 
              $photo->setPhoName($fileName);
              $user_casa->getUserCasaUser()->setUserPhoto($photo);

@@ -4,6 +4,8 @@ namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use MyCp\mycpBundle\Helpers\FileIO;
+use MyCp\mycpBundle\Helpers\Images;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * ownershipPhotoRepository
@@ -55,6 +57,65 @@ class ownershipPhotoRepository extends EntityRepository {
             $em->persist($ownership);
             $em->flush();
         }
+    }
+
+    public function createPhotoFromRequest(ownership $ownership, UploadedFile $file, $container, $post)
+    {
+        $em = $this->getEntityManager();
+
+        $dir = $container->getParameter('ownership.dir.photos');
+        $dir_thumbs = $container->getParameter('ownership.dir.thumbnails');
+        $dir_watermark = $container->getParameter('dir.watermark');
+        $photo_size = $container->getParameter('ownership.dir.photos.size');
+        $thumbs_size = $container->getParameter('thumbnail.size');
+        $dirUserPhoto = $container->getParameter('user.dir.photos');
+        $userPhotoSize = $container->getParameter('user.photo.size');
+
+        $langs = $em->getRepository('mycpBundle:lang')->findAll();
+        $nameOrder = str_replace(".".$file->getClientOriginalExtension(),"",$file->getClientOriginalName());
+
+        $ownershipPhoto = new ownershipPhoto();
+        $photo = new photo();
+
+        if($nameOrder == 0)
+        {
+            $fileName = uniqid('user-') . '-photo.jpg';
+            $file->move($dirUserPhoto, $fileName);
+            Images::resize($dirUserPhoto . $fileName, $userPhotoSize);
+            $photo->setPhoName($fileName);
+
+            $ownership->setOwnOwnerPhoto($photo);
+            $em->persist($ownership);
+        }
+        else {
+            $fileName = uniqid('ownership-') . '-photo.jpg';
+            $file->move($dir, $fileName);
+            $photo->setPhoName($fileName);
+
+            //Creando thumbnail, redimensionando y colocando marca de agua
+            Images::createThumbnail($dir . $fileName, $dir_thumbs . $fileName, $thumbs_size);
+            Images::resizeAndWatermark($dir, $fileName, $dir_watermark, $photo_size, $container);
+
+            $ownershipPhoto->setOwnPhoOwn($ownership);
+            $ownershipPhoto->setOwnPhoPhoto($photo);
+            $em->persist($ownershipPhoto);
+        }
+
+        if (preg_match('/^[0-9]*$/', $nameOrder) && $nameOrder != 0){
+            $photo->setPhoOrder($nameOrder);
+        }
+
+        $em->persist($photo);
+
+        foreach ($langs as $lang) {
+            $photoLang = new photoLang();
+            $photoLang->setPhoLangDescription($post['description_' . $lang->getLangId()]);
+            $photoLang->setPhoLangIdLang($lang);
+            $photoLang->setPhoLangIdPhoto($photo);
+            $em->persist($photoLang);
+        }
+
+        $em->flush();
     }
 
 }

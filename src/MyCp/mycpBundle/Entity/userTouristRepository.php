@@ -14,14 +14,17 @@ use Symfony\Component\PropertyAccess\Exception\InvalidArgumentException;
  */
 class userTouristRepository extends EntityRepository
 {
-    function insert($id_role, $request, $dir, $factory) {
+    function insert($id_role, $request, $container, $factory) {
         $em = $this->getEntityManager();
+        $dir = $container->getParameter('user.dir.photos');
+        $photoSize = $container->getParameter('user.photo.size');
+
         $form_post = $request->get('mycp_mycpbundle_client_touristtype');
 
         $lang = $em->getRepository('mycpBundle:lang')->find($form_post['language']);
         $currency = $em->getRepository('mycpBundle:currency')->find($form_post['currency']);
         $country = $em->getRepository('mycpBundle:country')->find($form_post['country']);
-        //var_dump($lang); exit();
+
         $user = new user();
         $user_tourist = new userTourist();
 
@@ -38,13 +41,11 @@ class userTouristRepository extends EntityRepository
         $user->setUserSubrole($role);
         $user->setUserUserName($form_post['name']);
         $encoder = $factory->getEncoder($user);
-        //$user->setUserCreationDate(new \DateTime());
         $password = $encoder->encodePassword($form_post['user_password']['Clave:'], $user->getSalt());
         $user->setUserPassword($password);
         $user_tourist->setUserTouristCurrency($currency);
         $user_tourist->setUserTouristLanguage($lang);
         $user_tourist->setUserTouristUser($user);
-
 
         $file = $request->files->get('mycp_mycpbundle_client_touristtype');
         if (isset($file['photo'])) {
@@ -53,7 +54,7 @@ class userTouristRepository extends EntityRepository
             $file['photo']->move($dir, $fileName);
 
             //Redimensionando la foto del usuario
-            Images::resize($dir . $fileName, 65);
+            Images::resize($dir . $fileName, $photoSize);
 
             $photo->setPhoName($fileName);
             $user->setUserPhoto($photo);
@@ -66,10 +67,12 @@ class userTouristRepository extends EntityRepository
         return $user_tourist;
     }
 
-    function edit($id_user, $request, $dir, $factory) {
+    function edit($id_user, $request, $container, $factory) {
         $post = $request->request->get('mycp_mycpbundle_client_touristtype');
         $em = $this->getEntityManager();
-        $user_tourist = new userTourist();
+        $dir = $container->getParameter('user.dir.photos');
+        $photoSize = $container->getParameter('user.photo.size');
+
         $user_tourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $id_user));
         if ($user_tourist == null) {
             $user_tourist = new userTourist();
@@ -110,7 +113,7 @@ class userTouristRepository extends EntityRepository
             $file['photo']->move($dir, $fileName);
 
             //Redimensionando la foto del usuario
-            Images::resize($dir . $fileName, 65);
+            Images::resize($dir . $fileName, $photoSize);
 
             $photo->setPhoName($fileName);
             $user_tourist->getUserTouristUser()->setUserPhoto($photo);

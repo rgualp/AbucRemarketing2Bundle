@@ -45,9 +45,8 @@ class BackendUserController extends Controller {
 
             $form->handleRequest($request);
             if ($form->isValid() && $count_errors == 0) {
-                $dir = $this->container->getParameter('user.dir.photos');
                 $factory = $this->get('security.encoder_factory');
-                $em->getRepository('mycpBundle:user')->insertUserStaff($id_role, $request, $dir, $factory);
+                $em->getRepository('mycpBundle:user')->insertUserStaff($id_role, $request, $this->container, $factory);
                 $message = 'Usuario añadido satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
@@ -91,8 +90,7 @@ class BackendUserController extends Controller {
             $form->handleRequest($request);
             if ($form->isValid() && $count_errors == 0) {
                 $factory = $this->get('security.encoder_factory');
-                $dir = $this->container->getParameter('user.dir.photos');
-                $em->getRepository('mycpBundle:user')->editUserStaff($id_user, $request, $dir, $factory);
+                $em->getRepository('mycpBundle:user')->editUserStaff($id_user, $request, $this->container, $factory);
                 $message = 'Usuario actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
                 $service_log = $this->get('log');
@@ -135,7 +133,6 @@ class BackendUserController extends Controller {
             $form->handleRequest($request);
             if ($form->isValid()) {
                 if (!isset($data['error'])) {
-                    $dir = $this->container->getParameter('user.dir.photos');
                     $factory = $this->get('security.encoder_factory');
 
                     $ownership = $em->getRepository('mycpBundle:ownership')->find($post['mycp_mycpbundle_client_casatype']['ownership']);
@@ -144,7 +141,7 @@ class BackendUserController extends Controller {
 
                     $send_notification_email = (isset($post['user_send_mail']) && !empty($post['user_send_mail']));
 
-                    $em->getRepository('mycpBundle:userCasa')->createUser($ownership, $file, $dir, $factory, $send_notification_email, $this);
+                    $em->getRepository('mycpBundle:userCasa')->createUser($ownership, $file, $this->container, $factory, $send_notification_email, $this);
                     $message = 'Usuario añadido satisfactoriamente.';
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
 
@@ -194,8 +191,7 @@ class BackendUserController extends Controller {
 
             if ($form->isValid() && $count_errors == 0) {
                 $factory = $this->get('security.encoder_factory');
-                $dir = $this->container->getParameter('user.dir.photos');
-                $em->getRepository('mycpBundle:userCasa')->edit($id_user, $request, $dir, $factory);
+                $em->getRepository('mycpBundle:userCasa')->edit($id_user, $request, $this->container, $factory);
                 $message = 'Usuario actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
                 $service_log = $this->get('log');
@@ -208,9 +204,7 @@ class BackendUserController extends Controller {
             }
         }
         else {
-            $user_casa = new userCasa();
             $user_casa = $em->getRepository('mycpBundle:userCasa')->findBy(array('user_casa_user' => $id_user));
-            //var_dump($id_user); exit();
             $user_casa = $user_casa[0];
             $data_user['user_name'] = $user_casa->getUserCasaUser()->getUserName();
             $data_user['address'] = $user_casa->getUserCasaUser()->getUserAddress();
@@ -262,10 +256,10 @@ class BackendUserController extends Controller {
             }
             $form->handleRequest($request);
             if ($form->isValid() && $count_errors == 0) {
-                $dir = $this->container->getParameter('user.dir.photos');
+
                 $factory = $this->get('security.encoder_factory');
                 $operation = $request->request->get('save_operation');
-                $userTourist = $em->getRepository('mycpBundle:userTourist')->insert($id_role, $request, $dir, $factory);
+                $userTourist = $em->getRepository('mycpBundle:userTourist')->insert($id_role, $request, $this->container, $factory);
                 $message = 'Usuario añadido satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
@@ -313,8 +307,7 @@ class BackendUserController extends Controller {
             $form->handleRequest($request);
             if ($form->isValid() && $count_errors == 0) {
                 $factory = $this->get('security.encoder_factory');
-                $dir = $this->container->getParameter('user.dir.photos');
-                $em->getRepository('mycpBundle:userTourist')->edit($id_user, $request, $dir, $factory);
+                $em->getRepository('mycpBundle:userTourist')->edit($id_user, $request, $this->container, $factory);
                 $message = 'Usuario actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
                 $service_log = $this->get('log');
@@ -333,8 +326,7 @@ class BackendUserController extends Controller {
 
                 $user_tourist = $em->getRepository('mycpBundle:userTourist')->createDefaultTourist($defaultLangCode, $defaultCurrencyCode, $user);
             }
-            /* var_dump($user_tourist); exit;
-              $user_tourist=$user_tourist[0]; */
+
             $data_user['user_name'] = ($user_tourist != null) ? $user_tourist->getUserTouristUser()->getUserName() : $user->getUserName();
             $data_user['address'] = ($user_tourist != null) ? $user_tourist->getUserTouristUser()->getUserAddress() : $user->getUserAddress();
             $data_user['email'] = ($user_tourist != null) ? $user_tourist->getUserTouristUser()->getUserEmail() : $user->getUserEmail();
@@ -376,9 +368,8 @@ class BackendUserController extends Controller {
             }
             $form->handleRequest($request);
             if ($form->isValid() && $count_errors == 0) {
-                $dir = $this->container->getParameter('user.dir.photos');
                 $factory = $this->get('security.encoder_factory');
-                $em->getRepository('mycpBundle:userPartner')->insert($id_role, $request, $dir, $factory);
+                $em->getRepository('mycpBundle:userPartner')->insert($id_role, $request, $this->container, $factory);
                 $message = 'Usuario añadido satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
                 $service_log = $this->get('log');
@@ -419,8 +410,7 @@ class BackendUserController extends Controller {
             $form->handleRequest($request);
             if ($form->isValid() && $count_errors == 0) {
                 $factory = $this->get('security.encoder_factory');
-                $dir = $this->container->getParameter('user.dir.photos');
-                $em->getRepository('mycpBundle:userPartner')->edit($id_user, $request, $dir, $factory);
+                $em->getRepository('mycpBundle:userPartner')->edit($id_user, $request, $this->container, $factory);
                 $message = 'Usuario actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
                 $service_log = $this->get('log');
@@ -428,7 +418,6 @@ class BackendUserController extends Controller {
                 return $this->redirect($this->generateUrl('mycp_list_users'));
             }
         } else {
-            $user_partner = new userPartner();
             $user_partner = $em->getRepository('mycpBundle:userPartner')->findBy(array('user_partner_user' => $id_user));
             $user_partner = $user_partner[0];
             $data_user['user_name'] = $user_partner->getUserPartnerUser()->getUserName();
@@ -510,8 +499,6 @@ class BackendUserController extends Controller {
         $dir = $this->container->getParameter('user.dir.photos');
 
         if ($id_loged_user != $id_user) {
-            $user = new user();
-
             $user = $em->getRepository('mycpBundle:user')->find($id_user);
             $user_casa = $em->getRepository('mycpBundle:userCasa')->findBy(array('user_casa_user' => $id_user));
             $user_logs = $em->getRepository('mycpBundle:log')->findBy(array('log_user' => $id_user));
@@ -563,7 +550,7 @@ class BackendUserController extends Controller {
 
             $em->remove($user);
             $em->flush();
-            $users = $em->getRepository('mycpBundle:user')->findAll();
+            //$users = $em->getRepository('mycpBundle:user')->findAll();
 
             $message = 'Usuario eliminado satisfactoriamente.';
             $this->get('session')->getFlashBag()->add('message_ok', $message);
@@ -644,9 +631,7 @@ class BackendUserController extends Controller {
         $cont = 0;
         if ($permissions) {
             $section_name = $permissions[0]->getRpPermission()->getPermCategory();
-            //var_dump($permissions);exit();
             foreach ($permissions as $per) {
-                //var_dump($section_name);
                 if ($section_name == $per->getRpPermission()->getPermCategory()) {
                     $cont++;
                 } else {
@@ -657,7 +642,6 @@ class BackendUserController extends Controller {
             }
             array_push($array_count_permissions, $cont);
         }
-        //var_dump($array_count_permissions); exit();
         $data['array_count'] = $array_count_permissions;
         return $this->render('mycpBundle:user:newRole.html.twig', array('permissions' => $permissions, 'role' => $role, 'data' => $data, 'post' => $post));
     }
@@ -666,7 +650,6 @@ class BackendUserController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $role = $em->getRepository('mycpBundle:role')->find($id_role);
         $users = $em->getRepository('mycpBundle:user')->findBy(array('user_subrole' => $id_role));
-        //var_dump($users); exit();
         if ($role->getRoleFixed() == 1) {
             $message = 'No se puede eliminar el rol ' . $role->getRoleName() . ', es un elemento estático.';
             $this->get('session')->getFlashBag()->add('message_error_local2', $message);
@@ -676,7 +659,6 @@ class BackendUserController extends Controller {
             $this->get('session')->getFlashBag()->add('message_error_local2', $message);
             return $this->redirect($this->generateUrl('mycp_list_users'));
         }
-
 
         $permissions = $em->getRepository('mycpBundle:rolePermission')->findBy(array('rp_role' => $id_role));
         if ($permissions) {
@@ -732,8 +714,6 @@ class BackendUserController extends Controller {
 
             $message = 'Se ha modificado satisfactoriamente el estado del usuario casa asociado.';
             $this->get('session')->getFlashBag()->add('message_ok', $message);
-
-
 
         } catch (\Exception $e) {
             $message = 'Ha ocurrido un error durante el cambio del estado del usuario casa asociado.';
