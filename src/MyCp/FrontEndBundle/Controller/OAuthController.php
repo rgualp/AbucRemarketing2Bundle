@@ -14,6 +14,7 @@ use MyCp\mycpBundle\Entity\currency;
 use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Entity\userTourist;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -71,8 +72,9 @@ class OAuthController extends Controller
                         $currency = $em->getRepository('mycpBundle:currency')->findOneBy(array('curr_default' => true));
 
                         //default language for the user
-                        $languageCode = $request->attributes->get('app_lang_code');
-                        $languageCode = empty($languageCode) ? $request->attributes->get('_locale') : $request->getSession()->get('_locale', 'en');
+//                        $languageCode = $request->attributes->get('app_lang_code');
+//                        $languageCode = empty($languageCode) ? $request->attributes->get('_locale') : $request->getSession()->get('_locale', 'en');
+                        $languageCode =$fbLoginData->getLanguage()?$fbLoginData->getLanguage(): $request->attributes->get('app_lang_code');
                         $languageCode = strtoupper($languageCode);
                         $language = $em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code' => $languageCode));
 
@@ -80,8 +82,8 @@ class OAuthController extends Controller
                         $gender = $fbLoginData->getGender() == "male" ? 0 : 1;
 
                         //default country for the user
-                        $country = $em->getRepository('mycpBundle:country')->find('USA');
-
+                        //$country = $em->getRepository('mycpBundle:country')->find('USA');
+                        $user->setUserCountry($fbLoginData->getCountry());
                         $userTourist->setUserTouristCurrency($currency);
                         $userTourist->setUserTouristLanguage($language);
                         $userTourist->setUserTouristUser($user);
@@ -101,5 +103,15 @@ class OAuthController extends Controller
             }
         }
         return $this->redirect($this->generateUrl("frontend_welcome"));
+    }
+
+    public function checkEmailAction(Request $request){
+        $email=$request->get('email');
+        $em=$this->getDoctrine()->getManager();
+        $userRepository = $em->getRepository("mycpBundle:user");
+        $user = $userRepository->findOneBy(array('user_email' => $email));
+        $response=array();
+        $response['exists']=($user!=null)?true:false;
+        return new JsonResponse($response);
     }
 }

@@ -1,3 +1,6 @@
 facebook_login:
     pattern: /facebook_login
     defaults: { _controller: FrontEndBundle:OAuth:facebookLogin }
+check_email:
+    pattern: /check_email
+    defaults: { _controller: FrontEndBundle:OAuth:checkEmail }

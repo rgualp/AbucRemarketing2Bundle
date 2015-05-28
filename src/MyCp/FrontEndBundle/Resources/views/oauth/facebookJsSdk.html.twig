@@ -44,18 +44,40 @@
             var email = response.email;
             var lastName = response.last_name;
             var gender = response.gender;
-
+            var locale = response.locale;
+            var language=locale.split('_')[0];
+            //ver si es asi como viene
             $("#FacebookLoginType_name").val(name);
             $("#FacebookLoginType_email").val(email);
             $("#FacebookLoginType_lastName").val(lastName);
             $("#FacebookLoginType_gender").val(gender);
+            $("#FacebookLoginType_language").val(language);
+            console.log(response);
+          //  $("#FacebookLoginType_country").val(city);
+            data={
+                email: email
+            };
+            $.ajax({
+                type: "POST",
+                url: "{{ path('check_email') }}",
+                data: data,
+                success: function(data){
+                    $("#continueAfterLogin").removeClass("hide").fadeIn();
 
-            $("#continueAfterLogin").removeClass("hide").fadeIn();
+                    $("#status")
+                            .html("Thanks for logging in, " + response.name + "!")
+                            .removeClass('hide')
+                            .fadeIn();
+                 if (data['exists']==false){
+                  //alert(true);
+                     $("#FacebookLoginType_country").removeClass('hide').fadeIn();
+                     $("#FacebookLoginType_country").prev().removeClass('hide').fadeIn();
+                 }
+                 //
+                }
+            });
 
-            $("#status")
-                    .html("Thanks for logging in, " + response.name + "!")
-                    .removeClass('hide')
-                    .fadeIn();
+
         });
     }
 </script>
