@@ -8,6 +8,7 @@
 
 namespace MyCp\FrontEndBundle\Form;
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -32,6 +33,25 @@ class FacebookLoginType extends AbstractType
             ->add("lastName", "hidden")
             ->add("gender", "hidden")
             ->add("email", "hidden")
+           ->add("country", 'entity', array(
+                'label'=> 'Select your country',
+                'attr'=>array(
+                    'class'=>'hide'
+                ),
+               'label_attr'=>array(
+                    'class'=>'hide'
+                ),
+                'required'=> true,
+                'class' => 'mycpBundle:country',
+                'query_builder' => function (EntityRepository $er) {
+                 return $er->createQueryBuilder('c')
+                ->orderBy('c.co_code', 'ASC');
+        //  ->groupBy('p.perm_category');
+               }
+
+
+            ))
+            ->add("language", "hidden")
             ->add("Continue to My Casa Particular", "submit", array("attr" => array("class" => "btn btn-success")));
     }
 }

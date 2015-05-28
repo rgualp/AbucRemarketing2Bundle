@@ -18,6 +18,10 @@ class FacebookLogin
 
     protected $gender;
 
+    protected $country;
+
+    protected $language;
+
     /**
      * @return mixed
      */
@@ -32,6 +36,36 @@ class FacebookLogin
     public function setName($name)
     {
         $this->name = $name;
+    }
+    /**
+     * @return mixed
+     */
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+    /**
+     * @param mixed $language
+     */
+    public function setLanguage($language)
+    {
+        $this->language = $language;
+    }
+    /**
+     * @return mixed
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * @param mixed $country
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
     }
 
     /**

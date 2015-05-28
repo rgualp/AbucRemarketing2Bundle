@@ -6,6 +6,7 @@
     <a href="#" class="active" title="{{ "LOG_IN" | trans }}">{{ "LOG_IN" | trans }}</a>
 {% endblock %}
 {% block body %}
+    {% include 'FrontEndBundle:oauth:facebookJsSdk.html.twig' %}
 <div class="container">
     <h2 class="caecilia-roman big-price-green text-center no-margin"
         style="font-weight: normal;">{{ "LOG_IN" | trans }}
@@ -15,7 +16,7 @@
         <img src="{{ asset('bundles/frontend/img/line-gradient-green.png') }}"
              style="width: 100%; height: 1px; margin: 16px 0"/>
     </div>
-    <div class="login-container">
+    <div class="col-md-12">
         {# Errors row#}
         <div class="row">
             <div class="col-xs-12">
@@ -32,7 +33,22 @@
 
         {# Form Row#}
         <div class="row">
-            <div class="col-xs-12">
+                       <div class="col-sm-6">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="text-center fb-login-form ">
+
+                            <a class="btn-fb" href="javascript:void(0);" onclick="javascript:FB.login(checkLoginState, {scope: 'public_profile,email'});"><img src="{{ asset('bundles/frontend/img/login-facebook.png') }}"><div><span>{{ 'Log In with Facebook'|trans }}</span> </div></a>
+                            <div id="status" class="hide flash-message alert alert-info"></div>
+
+                            <div id="continueAfterLogin" class="hide">
+                                {{ render(controller('FrontEndBundle:OAuth:facebookLogin')) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                   </div>
+            <div class="col-sm-6">
                 <div class="hidden-fb-auth">
                     <form class="form-horizontal" action="{{ path("frontend_ckeck") }}" role="form" method="post">
                         <div class="form-group">
@@ -79,35 +95,23 @@
 
                     </form>
                 </div>
+               </div>
 
-                <div class="form-horizontal">
-                    <!--div class="form-group">
-                        <div class="text-center fb-login-form">
-
-                            <fb:login-button scope="public_profile,email" onlogin="checkLoginState();" class="btn-fb-login">
-                                Log In with Facebook
-                            </fb:login-button>
-
-                            <div id="status" class="hide flash-message alert alert-info"></div>
-
-                            <div id="continueAfterLogin" class="hide">
-                                {#{ render(controller('FrontEndBundle:OAuth:facebookLogin')) }#}
-                            </div>
-                        </div>
-                    </div-->
-
-                    <div class="form-group hidden-fb-auth">
+            </div>
+                    <div class="clearfix"></div>
+                   <div class="col-sm-12">
+                                       <div class="form-group hidden-fb-auth">
                         <div class="text-center">
                             <a href="{{ path('frontend_register_user') }}" style="text-decoration: none; ">
                                 <h4 class="caecilia-roman h-orange link-under-line">{{ "FORMS_CREATE_ACCOUNT_QUESTION" | trans }}</h4>
                             </a>
                         </div>
                     </div>
-
-                </div>
-            </div>
+                       </div>
         </div>
     </div>
     </div>
+<script type="text/javascript">
 
+</script>
     {% endblock %}
