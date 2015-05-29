@@ -193,7 +193,7 @@
                 <tr>
                     <th>Habitaciones seleccionadas</th>
                     <th>Tipo</th>
-                    <th>No. de habitaciones</th>
+                    <th>Noches</th>
                     <th>Adultos</th>
                     <th>Niños</th>
                     <th>Precio</th>
@@ -211,7 +211,7 @@
                     Precio total:<br/> <span id="total_price"></span> CUC
                 </div>
                 <div class="span2">
-                    Comisión MyCP: <br/> <span id="initial_deposit"></span> CUC
+                    Comisión MyCP (<span id="commissionPercent"></span>%): <br/> <span id="initial_deposit"></span> CUC
                 </div>
                 <div class="span2">
                     Cargo por servicio:<br/>  <span id="service_recharge">{{configuration_service_fee}}</span> CUC
@@ -388,7 +388,7 @@
 
                 });
     </script>
-    <script src="{{ asset('bundles/mycp/js/ownership.calendar.js') }}"></script>
+    <script src="{{ asset('bundles/mycp/js/ownership.calendar.backend.js') }}"></script>
     <script src="{{ asset('bundles/mycp/vendors/select2/js/select2.min.js') }}"></script>
     <script src="{{ asset('bundles/mycp/vendors/select2/js/i18n/es.js') }}"></script>
     <script type="text/javascript">

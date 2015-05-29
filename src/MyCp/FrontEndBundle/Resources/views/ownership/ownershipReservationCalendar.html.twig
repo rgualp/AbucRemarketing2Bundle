@@ -16,6 +16,7 @@
     {% for room in rooms %}
 
         <input class="hidden real_price_room" value="{{ room.getRoomPriceUpFrom }}">
+
         {% set available = 1 %}
         <tr {% if reservations[room.getRoomId] is defined %} style="color: #ff0008!important;" {% set available = 0 %} {% endif %}>
             <td style="width: 100px">{{'RESERVATION_ROOM' | trans}} # {{cont}}</td>
@@ -87,6 +88,7 @@
     {% endfor %}
     </tbody>
 </table>
+<input type="hidden" id="totalNights" value="{{ nights}}"/>
 <div style="text-align: right">
     <img src="{{ asset('bundles/frontend/img/question.gif') }}" width="20px" rel="tooltip" title="{{ "RESERVATION_TRIPLE_CHARGE" | trans}} {{configuration_triple_room_charge | price}}"/>
 </div>
@@ -96,7 +98,7 @@
     var today_date="{{"now"|date("d/m/Y") }}";
 </script>
 {%if fromBackend%}
-<script src="{{ asset('bundles/mycp/js/ownership.calendar.js') }}"></script>
+<script src="{{ asset('bundles/mycp/js/ownership.calendar.backend.js') }}"></script>
 {%else%}
 <script src="{{ asset('bundles/frontend/js/ownership.calendar.js') }}"></script>
 {%endif%}

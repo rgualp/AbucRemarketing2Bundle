@@ -90,6 +90,8 @@ class GeneralReservationService extends Controller
         $destination_id = ($ownership->getOwnDestination() != null) ? $ownership->getOwnDestination()->getDesId() : null;
         $count_adults = 0;
         $count_children = 0;
+        $totalNights = 0;
+        $partialTotalNights = 0;
 
         for ($i = 0; $i < count($array_ids_rooms); $i++) {
             $room = $this->em->getRepository('mycpBundle:room')->find($array_ids_rooms[$i]);
@@ -97,6 +99,8 @@ class GeneralReservationService extends Controller
             $count_children = (isset($array_count_kids[$i])) ? $array_count_kids[$i] : 0;
 
             $array_dates = $this->timer->datesBetween($start_timestamp, $end_timestamp);
+            $partialTotalNights = $this->timer->nights($start_timestamp, $end_timestamp);
+            $totalNights += $partialTotalNights;
             $temp_price = 0;
             $triple_room_recharge = ($room->isTriple() && $count_adults + $count_children >= 3) ? $this->tripleRoomCharge : 0;
             $seasons = $this->em->getRepository("mycpBundle:season")->getSeasons($start_timestamp, $end_timestamp, $destination_id);
@@ -123,20 +127,26 @@ class GeneralReservationService extends Controller
             $ownership_reservation->setOwnResRoomType($room->getRoomType());
             $ownership_reservation->setOwnResTotalInSite($temp_price);
             $ownership_reservation->setOwnResReservationBooking($booking);
+            $ownership_reservation->setOwnResNights($partialTotalNights);
             $general_reservation->setGenResTotalInSite($total_price);
             $general_reservation->setGenResSaved(1);
             $this->em->persist($ownership_reservation);
             array_push($reservations, $ownership_reservation);
-
         }
 
+        $general_reservation->setGenResNights($totalNights);
+        $this->em->persist($general_reservation);
         $this->em->flush();
 
         $nights = array();
-
         foreach ($reservations as $nReservation) {
             $nights[$nReservation->getOwnResId()] = count($array_dates) - 1;
         }
+
+        $general_reservation->setGenResNights($totalNights);
+        $this->em->persist($general_reservation);
+        $this->em->flush();
+
 
         return array('reservations' => $reservations, 'nights' => $nights, 'generalReservation' => $general_reservation);
     }

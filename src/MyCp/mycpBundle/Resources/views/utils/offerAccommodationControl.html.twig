@@ -31,7 +31,7 @@
                 <tr>
                     <th>Habitaciones seleccionadas</th>
                     <th>Tipo</th>
-                    <th>No. de habitaciones</th>
+                    <th>Noches</th>
                     <th>Adultos</th>
                     <th>Niños</th>
                     <th>Precio</th>
@@ -46,10 +46,13 @@
         <li class="lead">
             <div class="row-fluid all-prices-numbers">
                 <div class="span2">
+                    Noches:<br/> <span id="totalNightsToShow"></span>
+                </div>
+                <div class="span2">
                     Precio total:<br/> <span id="total_price"></span> CUC
                 </div>
                 <div class="span2">
-                    Comisión MyCP: <br/> <span id="initial_deposit"></span> CUC
+                    Comisión MyCP (<span id="commissionPercent"></span>%): <br/> <span id="initial_deposit"></span> CUC
                 </div>
                 <div class="span2">
                     Cargo por servicio:<br/>  <span id="service_recharge">{{configuration_service_fee}}</span> CUC
@@ -60,9 +63,9 @@
                 <div class="span2">
                     Pago al arribar:<br/> <span id="pay_at_service"></span> CUC
                 </div>
-                <div class="span2">
-                    <span id="error" class="alert-error">El nuevo precio total no coincide con el precio anterior</span>
-                </div>
+            </div>
+            <div class="row-fluid">
+                <span id="error" class="alert-error">El nuevo precio total no coincide con el precio anterior</span>
             </div>
         </li>
         <li class="lead-2">
@@ -213,4 +216,4 @@
 
     });
 </script>
-<script src="{{ asset('bundles/mycp/js/ownership.calendar.js') }}"></script>
+<script src="{{ asset('bundles/mycp/js/ownership.calendar.backend.js') }}"></script>

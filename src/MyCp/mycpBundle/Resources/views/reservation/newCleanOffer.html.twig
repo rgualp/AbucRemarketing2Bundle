@@ -18,7 +18,7 @@
 <hr/>
 <div class="row-fluid">
 {% if client is defined and client != null %}
-    {{include('mycpBundle:utils:clientInfoShortTab.html.twig', {"user":client, "tourist": tourist})}}
+    {{include('mycpBundle:utils:clientInfoTab.html.twig', {"user":client, "tourist": tourist})}}
     <input type="hidden" name="idUser" id="idUser" value="{{ client.userId }}"/>
 {% else %}
     {{ render(controller('mycpBundle:BackendReservation:searchClients')) }}

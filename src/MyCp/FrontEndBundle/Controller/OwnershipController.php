@@ -18,6 +18,7 @@ class OwnershipController extends Controller {
         $from = $request->get('from');
         $to = $request->get('to');
         $fromBackend = $request->get('backend');
+        $timer = $this->get("Time");
         $fromBackend = ($fromBackend != "" && $fromBackend);
 
         $reservation_from = explode('/', $from);
@@ -30,6 +31,8 @@ class OwnershipController extends Controller {
         $end_timestamp = mktime(0, 0, 0, $reservation_to[1], $reservation_to[0], $reservation_to[2]);
         $dateTo->setTimestamp($end_timestamp);
         $owner_id = $request->get('own_id');
+
+        $nights = $timer->nights($dateFrom->getTimestamp(), $dateTo->getTimestamp());
 
         if (!$owner_id) {
             throw $this->createNotFoundException();
@@ -222,7 +225,8 @@ class OwnershipController extends Controller {
                     'no_available_days' => $no_available_days_ready,
                     'prices_dates' => $prices_dates,
                     'reservations' => $array_no_available,
-                    'fromBackend' => $fromBackend
+                    'fromBackend' => $fromBackend,
+                    'nights' => $nights
         ));
     }
 
