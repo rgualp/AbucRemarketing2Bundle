@@ -7,7 +7,7 @@
             <a href="#client_messages" data-toggle="tab">Mensajes al cliente</a>
         </li>
         <li class="">
-            <a href="#comment" data-toggle="tab">Comentarios</a>
+            <a href="#comment" data-toggle="tab">Comentarios <span id="lblCommentsTotal" title="Hay {{ commentsTotal }} comentario(s) sobre este cliente" class="label label-important vertical_middle {% if commentsTotal == 0 %}hidden{% endif %}">{{ commentsTotal }}</span></a>
         </li>
     </ul>
     <div class="tab-content" id="senMessageDiv" data-url="{{path("mycp_send_message")}}">

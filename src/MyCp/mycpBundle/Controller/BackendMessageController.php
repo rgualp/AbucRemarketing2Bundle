@@ -12,12 +12,15 @@ class BackendMessageController extends Controller {
 
     public function messageControlAction($userTourist, $showSubject = false)
     {
+        $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
+        $commentsTotal = $em->getRepository("mycpBundle:clientComment")->getCommentsTotal($userTourist->getUserTouristUser());
 
         return $this->render('mycpBundle:message:messages.html.twig', array(
             'userTourist' => $userTourist,
             'userLogged' => $user,
-            'showSubject' => $showSubject
+            'showSubject' => $showSubject,
+            'commentsTotal' => $commentsTotal
         ));
     }
 

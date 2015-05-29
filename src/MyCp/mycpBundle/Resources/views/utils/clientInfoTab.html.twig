@@ -9,7 +9,7 @@
             <td><b>Nombre:</b> <a title="Editar" href="{{ path("mycp_edit_user_tourist", {'id_user': user.userId}) }}">{{user.getUserUserName}} {{user.getUserLastName}}</a></td>
             <td><b>Correo:</b> <a href="mailto:{{ user.getUserEmail | lower }}">{{user.getUserEmail | lower}}</a></td>
             <td colspan="2"><b>País:</b> {{user.getUserCountry.getCoName}}
-                {%if user.getUserCity != null%}({{user.getUserCity}}){%endif%}
+                {%if user.getUserCity != null%}(Ciudad: {{user.getUserCity}}){%endif%}
             </td>
         </tr>
         <tr>

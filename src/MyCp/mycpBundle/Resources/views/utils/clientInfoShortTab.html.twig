@@ -8,12 +8,11 @@
                 <td rowspan="4" style="width: 100px"><a title="Editar" href="{{ path("mycp_edit_user_tourist", {'id_user': user.userId}) }}">{{ render(controller('mycpBundle:BackendUser:getUserPhotoPath', {'userId': user.userId})) }}</a></td>
                 <td colspan="2"><b>Nombre: </b><a title="Editar" href="{{ path("mycp_edit_user_tourist", {'id_user': user.userId}) }}">{{ user.getUserUserName }} {{ user.getUserLastName }}</a></td>
             </tr>
-            <tr><td colspan="2"><b>País: </b>{{ user.getUserCountry }}</td></tr>
-            <tr><td colspan="2"><b>Correo: </b><a href="mailto:{{ user.getUserEmail | lower }}">{{user.getUserEmail | lower}}</a>
-                {% if user.getUserCity != "" %}
-                    ({{ user.getUserCity }})
-                {% endif %}
-                </td></tr>
+            <tr><td colspan="2"><b>País: </b>{{ user.getUserCountry }}
+                    {% if user.getUserCity != "" %}
+                        (Ciudad: {{ user.getUserCity }})
+                    {% endif %}</td></tr>
+            <tr><td colspan="2"><b>Correo: </b><a href="mailto:{{ user.getUserEmail | lower }}">{{user.getUserEmail | lower}}</a></td></tr>
             <tr>
                 <td><b>Idioma: </b>{{ tourist.getUserTouristLanguage.getLangName }}</td>
                 <td><b>Moneda: </b>{% if tourist.getUserTouristCurrency.getCurrName is defined %}{{ tourist.getUserTouristCurrency.getCurrName }}{% endif %}</td>

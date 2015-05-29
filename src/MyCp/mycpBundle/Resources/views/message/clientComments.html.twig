@@ -58,6 +58,15 @@
                     $("#clientCommentText").val("");
                     $("#lblAlert").html("");
                     $('#tabs a[href="#comment"]').tab('show');
+
+                    //Mostrar numero de comentario
+                    $("#lblCommentsTotal").removeClass("hidden");
+                    totalCommentsString = $("#lblCommentsTotal").html();
+                    totalComments = parseInt(totalCommentsString);
+                    totalComments++;
+
+                    $("#lblCommentsTotal").html(totalComments);
+                    $("#lblCommentsTotal").attr("title", "Hay " + totalComments + " comentario(s) sobre este cliente");
                 });
         return false;
     }

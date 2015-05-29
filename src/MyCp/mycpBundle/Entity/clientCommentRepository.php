@@ -31,4 +31,12 @@ class clientCommentRepository extends EntityRepository
         $em->persist($comment);
         $em->flush();
     }
+
+    public function getCommentsTotal(user $client)
+    {
+        $em = $this->getEntityManager();
+        $queryString = "SELECT COUNT(com) from mycpBundle:clientComment com WHERE com.comment_client_user = :clientId";
+
+        return $em->createQuery($queryString)->setParameter('clientId', $client->getUserId())->getSingleScalarResult();
+    }
 }
