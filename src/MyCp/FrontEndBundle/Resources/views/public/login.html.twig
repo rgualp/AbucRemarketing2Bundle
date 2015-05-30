@@ -7,6 +7,31 @@
 {% endblock %}
 {% block body %}
     {% include 'FrontEndBundle:oauth:facebookJsSdk.html.twig' %}
+    <style>
+    .btn-fb:hover,.btn-fb:focus,.btn-fb:active  {
+    text-decoration: none;
+    }
+    @media (min-width: 768px){
+    .fb-login-form{
+    padding-top: 50px;
+    padding-left: 50px;
+    }
+    }
+
+    @media (max-width: 768px){
+        .col-xs-offset-1 {
+    margin-left: 8.33333%;
+     }
+     .col-xs-offset-2
+     {
+    margin-left: 16.6666%;
+     }
+     .col-xs-offset-3 {
+    margin-left: 25%;
+     }
+    }
+
+</style>
 <div class="container">
     <h2 class="caecilia-roman big-price-green text-center no-margin"
         style="font-weight: normal;">{{ "LOG_IN" | trans }}
@@ -32,13 +57,17 @@
         </div>
 
         {# Form Row#}
-        <div class="row">
+        <div class="row" style="margin-top:30px;">
                        <div class="col-sm-6">
                 <div class="form-horizontal">
                     <div class="form-group">
                         <div class="text-center fb-login-form ">
 
-                            <a class="btn-fb" href="javascript:void(0);" onclick="javascript:FB.login(checkLoginState, {scope: 'public_profile,email'});"><img src="{{ asset('bundles/frontend/img/login-facebook.png') }}"><div><span>{{ 'Log In with Facebook'|trans }}</span> </div></a>
+                            <a class="btn-fb" href="javascript:void(0);" onclick="javascript:FB.login(checkLoginState, {scope: 'public_profile,email'});">
+                            <img style="margin-top: -5px;" src="{{ asset('bundles/frontend/img/facebook-logo.png') }}">
+                            <span style="color: #3C5A98; font-size: 20px; margin-left: 10px;">{{ 'with Facebook'|trans }}</span>
+                             </a>
+                             <span style="color: #777777; font-size: 20px;"> {{ 'or'|trans }}...</span>
                             <div id="status" class="hide flash-message alert alert-info"></div>
 
                             <div id="continueAfterLogin" class="hide">
@@ -48,8 +77,8 @@
                     </div>
                 </div>
                    </div>
-            <div class="col-sm-6">
-                <div class="hidden-fb-auth">
+            <div class="col-sm-6" style="border-left: 1px solid #E9E9E9;" >
+                <div class="hidden-fb-auth col-sm-8 col-sm-offset-1 col-xs-8 col-xs-offset-2">
                     <form class="form-horizontal" action="{{ path("frontend_ckeck") }}" role="form" method="post">
                         <div class="form-group">
                             <!--<label class="col-sm-3 control-label" for="inputUsername" style="font-weight: normal">{{ "FORMS_EMAIL" | trans }}:</label>#}-->
