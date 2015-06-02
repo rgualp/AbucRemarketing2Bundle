@@ -61,3 +61,7 @@ mycp_batch_view_ownership:
 mycp_delete_photo_owner_ownership:
     pattern:  /delete-photo-owner
     defaults: { _controller: mycpBundle:BackendOwnership:deletePhotoOwnerCallback }
+
+mycp_save_photo_owner_ownership:
+    pattern:  /save-photo-owner/{idOwnership}
+    defaults: { _controller: mycpBundle:BackendOwnership:savePhotoOwner }

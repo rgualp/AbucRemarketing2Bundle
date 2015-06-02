@@ -20,8 +20,12 @@
 <h2>Fotografías: {% include 'mycpBundle:utils:ownership_header.html.twig' with {'ownership':ownership}%}
 </h2>
 <hr/>
+    {% set photoError = (app.session.flashbag.get('hasError') | length)  %}
 {% for message in app.session.flashbag.get('message_error_local') %}
-<div class="alert alert-error">{{ message }}</div>
+    <div class="alert alert-error">{{ message }}</div>
+{% endfor %}
+{% for message in app.session.flashbag.get('message_error_local_owner') %}
+    <div class="alert alert-error">{{ message }}</div>
 {% endfor %}
 <a class="btn" href="{{ path('mycp_new_photos_ownership',{'id_ownership':id_ownership}) }}"><i class="icon-plus"></i> Adicionar fotografía</a>
 {% if photos and ownership.ownStatus.statusId != constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')%}
@@ -36,11 +40,11 @@
     </div>
 
 <ul class="nav nav-tabs" id="myTab">
-    <li class="active"><a data-toggle="tab" href="#accommodation">Alojamiento</a></li>
-    <li class=""><a data-toggle="tab" href="#owner">Propietario(a)</a></li>
+    <li {% if not photoError %}class="active"{% else %} class=""{% endif %}><a data-toggle="tab" href="#accommodation">Alojamiento</a></li>
+    <li {% if photoError %}class="active"{% else %} class=""{% endif %}><a data-toggle="tab" href="#owner" {% if photoError %} class="tab_errors" {% endif %}>Propietario(a)</a></li>
 </ul>
 <div class="tab-content" id="myTabContent">
-    <div id="accommodation" class="tab-pane fade active in">
+    <div id="accommodation" class="tab-pane fade {% if not photoError %}active in{% endif %}">
     {% if photos %}
         <div class="alert">
             <div class="row-fluid">
@@ -126,10 +130,15 @@
             </div>
         </div>
     </div>
-    <div id="owner" class="tab-pane fade">
+    <div id="owner" class="tab-pane fade {% if photoError %}active in{% endif %}">
+        <form action="{{ path('mycp_save_photo_owner_ownership', {'idOwnership': id_ownership})}}" method="POST" enctype="multipart/form-data">
         <div class="row-fluid photoOwnerContainer">
             {{ render(controller("mycpBundle:BackendOwnership:getOwnerPhoto", {'ownershipPhoto': null, 'ownershipId': id_ownership, 'fromPhotoList': true})) }}
         </div>
+            <div class="row-fluid">
+                <button type="submit" class="btn btn-primary pull-right">Guardar</button>
+            </div>
+        </form>
     </div>
 </div>
 

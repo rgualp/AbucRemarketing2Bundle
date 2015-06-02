@@ -496,7 +496,7 @@ class ownershipRepository extends EntityRepository {
         return $ownership;
     }
 
-    private function saveOwnerPhoto($em, $ownership, $dir, $request) {
+    public function saveOwnerPhoto($em, $ownership, $dir, $request) {
         //subir photos
         $file = $request->files->get('own_ownership_photo');
         // var_dump($request->files);
@@ -513,7 +513,10 @@ class ownershipRepository extends EntityRepository {
                 $em->persist($photo);
 
             $em->persist($ownership);
+
+            return $fileName;
         }
+        return null;
     }
 
     function shortEditOwnership($data) {
