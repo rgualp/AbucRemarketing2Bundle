@@ -89,21 +89,24 @@
                                             <option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_WITH_ERRORS_PHONE')}}" {%if filter_other == constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_WITH_ERRORS_PHONE')%}selected="TRUE"{%endif%}>Con errores (En teléfono)</option>
                                             <option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_WITH_ERRORS_ADDRESS')}}" {%if filter_other == constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_WITH_ERRORS_ADDRESS')%}selected="TRUE"{%endif%}>Con errores (En dirección)</option>
                                         </select>
-
                                     </div>
                                     <div class="span3">
-                                        <label>&nbsp;</label>
-                                        <div class="row-fluid">
-                                            <div class="span6">
-                                                <a rel="tooltip" title="Filtrar listado" href="javascript:action_submit();" class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
-                                            </div>
-                                            <div class="span6">
-                                                <a rel="tooltip" title="Resetear filtrado" href="{{ path('mycp_list_ownerships', {'items_per_page':items_per_page}) }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
-                                            </div>
-
-                                        </div>
+                                        <label>Comisión</label>
+                                        <select name="filter_commission" id="filter_commission" class="input-block-level">
+                                           {{ render(controller('mycpBundle:BackendReservation:get_percent_list', {'post':{'percent': filter_commission}})) }}
+                                        </select>
                                     </div>
                                 </div>
+        <div class="row-fluid" style="margin-top: 10px">
+            <div class="span10">&nbsp;</div>
+            <div class="span1">
+                <a rel="tooltip" title="Filtrar listado" href="javascript:action_submit();" class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
+            </div>
+            <div class="span1">
+                <a rel="tooltip" title="Resetear filtrado" href="{{ path('mycp_list_ownerships', {'items_per_page':items_per_page}) }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
+            </div>
+
+        </div>
                             </div>
                         </form>
     {% if ownerships %}
@@ -125,7 +128,8 @@
                                             'filter_name':(filter_name == "" ? "null": filter_name),
                                             'filter_saler': (filter_saler == "" ? "null": filter_saler),
                                             'filter_visit_date': (filter_visit_date == "" ? "null": filter_visit_date),
-                                            'filter_other': (filter_other == "" ? "null": filter_other)})}}">20</a>
+                                            'filter_other': (filter_other == "" ? "null": filter_other),
+                                            'filter_commission': (filter_commission == "" ? "null": filter_commission)})}}">20</a>
                                     <a class="{% if items_per_page == 50 %}selected{% endif %}" href="{{ path('mycp_list_ownerships',{'items_per_page':50,
                                             'filter_code':(filter_code == "" ? "null": filter_code),
                                             'filter_active':(filter_active == "" ? "null": filter_active),
@@ -137,7 +141,8 @@
                                             'filter_name':(filter_name == "" ? "null": filter_name),
                                             'filter_saler': (filter_saler == "" ? "null": filter_saler),
                                             'filter_visit_date': (filter_visit_date == "" ? "null": filter_visit_date),
-                                            'filter_other': (filter_other == "" ? "null": filter_other)})}}">50</a>
+                                            'filter_other': (filter_other == "" ? "null": filter_other),
+                                            'filter_commission': (filter_commission == "" ? "null": filter_commission)})}}">50</a>
                                     <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_ownerships',{'items_per_page':100,
                                             'filter_code':(filter_code == "" ? "null": filter_code),
                                             'filter_active':(filter_active == "" ? "null": filter_active),
@@ -149,7 +154,8 @@
                                             'filter_name':(filter_name == "" ? "null": filter_name),
                                             'filter_saler': (filter_saler == "" ? "null": filter_saler),
                                             'filter_visit_date': (filter_visit_date == "" ? "null": filter_visit_date),
-                                            'filter_other': (filter_other == "" ? "null": filter_other)})}}">100</a>
+                                            'filter_other': (filter_other == "" ? "null": filter_other),
+                                            'filter_commission': (filter_commission == "" ? "null": filter_commission)})}}">100</a>
                                     <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_ownerships',{'items_per_page':300,
                                             'filter_code':(filter_code == "" ? "null": filter_code),
                                             'filter_active':(filter_active == "" ? "null": filter_active),
@@ -161,7 +167,8 @@
                                             'filter_name':(filter_name == "" ? "null": filter_name),
                                             'filter_saler': (filter_saler == "" ? "null": filter_saler),
                                             'filter_visit_date': (filter_visit_date == "" ? "null": filter_visit_date),
-                                            'filter_other': (filter_other == "" ? "null": filter_other)})}}">300</a>
+                                            'filter_other': (filter_other == "" ? "null": filter_other),
+                                            'filter_commission': (filter_commission == "" ? "null": filter_commission)})}}">300</a>
                                     <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_ownerships',{'items_per_page':500,
                                             'filter_code':(filter_code == "" ? "null": filter_code),
                                             'filter_active':(filter_active == "" ? "null": filter_active),
@@ -173,7 +180,8 @@
                                             'filter_name':(filter_name == "" ? "null": filter_name),
                                             'filter_saler': (filter_saler == "" ? "null": filter_saler),
                                             'filter_visit_date': (filter_visit_date == "" ? "null": filter_visit_date),
-                                            'filter_other': (filter_other == "" ? "null": filter_other)})}}">500</a>
+                                            'filter_other': (filter_other == "" ? "null": filter_other),
+                                            'filter_commission': (filter_commission == "" ? "null": filter_commission)})}}">500</a>
 
                                     <input class="hidden" name="items_per_page" value="100">
                                 </div>
@@ -205,7 +213,8 @@
                  'filter_name':(filter_name == "" ? "null": filter_name),
                  'filter_saler': (filter_saler == "" ? "null": filter_saler),
                  'filter_visit_date': (filter_visit_date == "" ? "null": filter_visit_date),
-                 'filter_other': (filter_other == "" ? "null": filter_other)}
+                 'filter_other': (filter_other == "" ? "null": filter_other),
+                 'filter_commission': (filter_commission == "" ? "null": filter_commission)}
 }) }}
                             </div>
     </div>
@@ -268,16 +277,17 @@
                  'filter_name':(filter_name == "" ? "null": filter_name),
                  'filter_saler': (filter_saler == "" ? "null": filter_saler),
                  'filter_visit_date': (filter_visit_date == "" ? "null": filter_visit_date),
-                 'filter_other': (filter_other == "" ? "null": filter_other)}
+                 'filter_other': (filter_other == "" ? "null": filter_other),
+                 'filter_commission': (filter_commission == "" ? "null": filter_commission)}
 }) }}
                                             </div>
                                             </div>
     {% else %}
-                                            <p> <div class="alert alert-block">No hay Propiedades disponibles.</div></p>
+         <p> <div class="alert alert-block">No hay Propiedades disponibles.</div></p>
     {% endif %}
-                                        <link href="{{ asset('bundles/mycp/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
-                                        <script src="{{ asset('bundles/mycp/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
-                                        <script type="text/javascript" src="{{ asset('bundles/mycp/js/bootstrap-datepicker.es.js') }}" charset="UTF-8"></script>
+    <link href="{{ asset('bundles/mycp/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
+    <script src="{{ asset('bundles/mycp/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
+    <script type="text/javascript" src="{{ asset('bundles/mycp/js/bootstrap-datepicker.es.js') }}" charset="UTF-8"></script>
 
 <script type="text/javascript">
     url = "{{ path('mycp_get_mun_by_prov', { 'country_code': '-1' }) }}";
@@ -353,8 +363,12 @@
         filter_other = $('#filter_other').val();
         if (filter_other == '')
             filter_other = 'null';
+        filter_commission = $('#filter_commission').val();
+        if (filter_commission == '')
+            filter_commission = 'null';
+
         url_submit = $('#filter').attr('action');
-        url_submit = url_submit + '/' + items_per_page + '/' + filter_code + '/' + filter_active + '/' + filter_category + '/' + filter_province + '/' + filter_municipality + '/' + filter_destination + '/' + filter_type + '/' + filter_name + '/' + filter_saler + '/' + filter_visit_date + '/' + filter_other;
+        url_submit = url_submit + '/' + items_per_page + '/' + filter_code + '/' + filter_active + '/' + filter_category + '/' + filter_province + '/' + filter_municipality + '/' + filter_destination + '/' + filter_type + '/' + filter_name + '/' + filter_saler + '/' + filter_visit_date + '/' + filter_other + '/' + filter_commission;
         $('#filter').attr('action', url_submit);
         $('#filter').submit();
     }

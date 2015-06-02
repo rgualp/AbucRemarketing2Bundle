@@ -536,7 +536,7 @@ class ownershipRepository extends EntityRepository {
         $em->flush();
     }
 
-    function getAll($filter_code = '', $filter_active = '', $filter_category = '', $filter_province = '', $filter_municipality = '', $filter_destination = '', $filter_type = '', $filter_name = '', $filter_saler = '', $filter_visit_date = '', $filter_other = "") {
+    function getAll($filter_code = '', $filter_active = '', $filter_category = '', $filter_province = '', $filter_municipality = '', $filter_destination = '', $filter_type = '', $filter_name = '', $filter_saler = '', $filter_visit_date = '', $filter_other = "", $filter_commission = "") {
 
         $condition = '';
 
@@ -585,6 +585,10 @@ class ownershipRepository extends EntityRepository {
         if ($filter_destination != 'null' && $filter_destination != '') {
 
             $condition .= " AND ow.own_destination = :filter_destination ";
+        }
+        if ($filter_commission != 'null' && $filter_commission != '') {
+
+            $condition .= " AND ow.own_commission_percent = :filter_commission ";
         }
 
 
@@ -644,6 +648,9 @@ class ownershipRepository extends EntityRepository {
 
         if (isset($filter_code))
             $query->setParameter('filter_code', "%" . $filter_code . "%");
+
+        if ($filter_commission != 'null' && $filter_commission != '')
+            $query->setParameter('filter_commission', $filter_commission);
 
         return $query->getResult();
     }
