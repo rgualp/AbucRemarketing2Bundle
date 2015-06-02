@@ -18,7 +18,6 @@ class BackendUtilsController extends Controller
         $order=1;
         foreach($ids_array as $id)
         {
-            $photo=new \MyCp\mycpBundle\Entity\photo();
             $photo=$em->getRepository('mycpBundle:photo')->find($id);
             $photo->setPhoOrder($order);
             $em->persist($photo);

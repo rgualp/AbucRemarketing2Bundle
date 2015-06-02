@@ -23,6 +23,14 @@ class ownershipPhotoRepository extends EntityRepository {
         return $query->getResult();
     }
 
+    function getOwnerPhoto($id_ownership) {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT o, p FROM mycpBundle:ownership o JOIN o.own_owner_photo p
+        WHERE o.own_id=$id_ownership
+        AND o.own_owner_photo is not null");
+        return $query->getResult();
+    }
+
     public function deleteOwnPhoto($id_photo, $container) {
         $dir = $container->getParameter('ownership.dir.photos');
         $dir_thumbnails = $container->getParameter('ownership.dir.thumbnails');

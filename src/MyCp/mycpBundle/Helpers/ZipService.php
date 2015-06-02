@@ -17,13 +17,15 @@ class ZipService {
     private $zipDirectoryPath;
     private $photoDirectoryPath;
     private $originalDirectoryPath;
+    private $userDirectoryPath;
 
-    public function __construct($entity_manager, $container, $zipDirectoryPath, $photoDirectoryPath, $originalDirectoryPath) {
+    public function __construct($entity_manager, $container, $zipDirectoryPath, $photoDirectoryPath, $originalDirectoryPath, $userDirectoryPath) {
         $this->em = $entity_manager;
         $this->container = $container;
         $this->zipDirectoryPath = $zipDirectoryPath;
         $this->photoDirectoryPath = $photoDirectoryPath;
         $this->originalDirectoryPath = $originalDirectoryPath;
+        $this->userDirectoryPath = $userDirectoryPath;
     }
 
     public function createDownloadSinglePhotoZipFile($idPhoto, $ownMcpCode, $deleteZip = true)
@@ -36,13 +38,14 @@ class ZipService {
 
     public function createDownLoadPhotoZipFile($idOwnership, $ownMyCPCode, $deleteZip = true) {
         $photos = $this->em->getRepository("mycpBundle:ownershipPhoto")->getPhotosByIdOwnership($idOwnership);
+        $ownerPhotos = $this->em->getRepository("mycpBundle:ownershipPhoto")->getOwnerPhoto($idOwnership);
         $zipName = $ownMyCPCode . ".zip";
-        $zipFileName = $this->createZipPhotoFile($zipName, $photos);
+        $zipFileName = $this->createZipPhotoFile($zipName, $photos, $ownerPhotos);
 
         return $this->download($zipFileName, $deleteZip);
     }
 
-    public function createZipPhotoFile($zipName, $zipPhotoContent) {
+    public function createZipPhotoFile($zipName, $zipPhotoContent, $additionalPhotoContent) {
 
         FileIO::createDirectoryIfNotExist($this->zipDirectoryPath);
         $zip = new ZipArchive();
@@ -50,6 +53,20 @@ class ZipService {
         $filesCount = 0;
         if ($zip->open($this->zipDirectoryPath . $zipName, \ZipArchive::CREATE)) {
             $photoFile = "";
+
+            foreach($additionalPhotoContent as $ownerPhoto)
+            {
+                $photoFile = "";
+                if (file_exists(realpath($this->userDirectoryPath . $ownerPhoto->getOwnOwnerPhoto()->getPhoName()))) {
+                    $photoFile = realpath($this->userDirectoryPath . $ownerPhoto->getOwnOwnerPhoto()->getPhoName());
+                }
+
+                if ($photoFile != "") {
+                    $zip->addFromString("Propietario.jpg", file_get_contents($photoFile));
+                    $filesCount++;
+                }
+            }
+
             foreach ($zipPhotoContent as $ownPhoto) {
 
                 if (file_exists(realpath($this->originalDirectoryPath . $ownPhoto->getOwnPhoPhoto()->getPhoName())))

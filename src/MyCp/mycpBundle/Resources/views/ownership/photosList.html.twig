@@ -93,8 +93,10 @@
                     <div class="row-fluid" style="padding: 0">
                         <div class="span1"><input type="checkbox" name="check_photo" class="ch_photo" data-id="{{item.getOwnPhoPhoto.getPhoId}}"/></div>
                         <div class="span2">
-                            <a href="{{ path('mycp_edit_photos_ownership',{'id_photo':item.getOwnPhoPhoto.getPhoId,'id_ownership':id_ownership}) }}" title="Editar"><img src="{{ asset('uploads/ownershipImages/thumbnails/'~item.getOwnPhoPhoto.getPhoName)}}" class="img-polaroid"/></a></div>
-                        <div class="span6">{% for desc in data['description_photo_'~item.getOwnPhoPhoto.getPhoId] %}- {{ desc.getPhoLangDescription |slice(0,60) |capitalize}}...<br/>{% endfor %}</div>
+                            <a href="{{ path('mycp_edit_photos_ownership',{'id_photo':item.getOwnPhoPhoto.getPhoId,'id_ownership':id_ownership}) }}" title="Editar"><img src="{{ asset('uploads/ownershipImages/thumbnails/'~item.getOwnPhoPhoto.getPhoName)}}" class="img-polaroid"/></a>
+                         </div>
+                        <div class="span6">
+                            {% for desc in data['description_photo_'~item.getOwnPhoPhoto.getPhoId] %}- {{ desc.getPhoLangDescription |slice(0,60) |capitalize}}...<br/>{% endfor %}</div>
                         <div class="span3 actions" style="margin-top: 0">
                             <div class="row-fluid" style="padding: 0; margin-bottom: 40px;">
                                 {% if is_granted('ROLE_CLIENT_STAFF')%}
@@ -147,23 +149,29 @@
 <script src="{{ asset('bundles/mycp/js/jquery.ui/jquery.ui.mouse.js') }}" type="text/javascript"></script>
 <script src="{{ asset('bundles/mycp/js/jquery.ui/jquery.ui.sortable.js') }}" type="text/javascript"></script>
 <script>
+    var idOwnership = {{ id_ownership }}
     $(function() {
+
         $( "#sortable" ).sortable({
             stop: function(event, ui) {
+                $(".load-div").removeClass("hidden");
                 var result = $('#sortable').sortable('toArray');
                 url = "{{ path('mycp_set_img_order_utils', { 'ids': '-1' }) }}";
                 url=url.replace('/-1','');
 
                 $.ajax({
                     type:"POST",
-                    url:url + '/' + result,
+                    url:url + '/' + idOwnership + '/' + result,
                     success:function (msg) {
+                        $(".load-div").addClass("hidden");
                     }
                 });
             }
 
         });
         $( "#sortable" ).disableSelection();
+
+
     });
 
     function deleteSelected()
