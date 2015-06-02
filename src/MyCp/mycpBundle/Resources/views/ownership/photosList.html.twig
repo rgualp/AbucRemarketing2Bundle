@@ -29,94 +29,110 @@
 {%endif%}
 <a class="btn" href="{{ path('mycp_edit_ownership',{'id_ownership':id_ownership}) }}"><i class="icon-pencil"></i> Editar propiedad</a>
 <br/><br/>
-{% if photos %}
-<div class="alert">
     <div class="row-fluid">
-        <div class="pull-left">
-            Mostrando del {{items_per_page * current_page - items_per_page}} al {% if items_per_page * current_page >  total_items%}{{total_items }}{% else %}{{ items_per_page * current_page }}{% endif %} de {{total_items}} registros
-        </div>
-        <div class="pull-right">
-            Mostrar:
-            <a class="{% if items_per_page == 10 %}selected{% endif %}" href="{{ path('mycp_list_photos_ownership',{'items_per_page':10, 'id_ownership':id_ownership})}}">10</a>
-            <a class="{% if items_per_page == 50 %}selected{% endif %}" href="{{ path('mycp_list_photos_ownership',{'items_per_page':50, 'id_ownership':id_ownership})}}">50</a>
-            <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_photos_ownership',{'items_per_page':100, 'id_ownership':id_ownership})}}">100</a>
-        </div>
+        {% if is_granted('ROLE_CLIENT_STAFF')%}
+            <a class="btn btn-success pull-right" title="Descargar fotos - {{ownership.ownName}}" href="{{path("mycp_download_zip_photo", {"idOwnership": ownership.ownId, "ownMycpCode": ownership.ownMcpCode})}}"><i class="icon-download-alt"></i> Descargar Fotos</a>
+        {%endif%}
     </div>
-</div>
-<div class="paginator-cont row-fluid">
-    <div class="span3"  style="margin-top: 10px">
-        <a class="btn btn-danger btn-action-photo"  onclick="deleteSelected();"data-url="{{path("mycp_delete_multiple_photo_ownership_callback", {"idOwnership": id_ownership})}}">
-        <i class="icon-trash"></i> Eliminar seleccionadas
-        </a>
-    </div>
-        <div id="loading" class="span1 load-div hidden">
-        <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}"/></div>
-    </div>
-    <div class="span5">
-{{ simple_paginator_render('mycp_list_photos_ownership',null,{
-'container_class': 'paginator',
-'previousPageText': '«',
-'nextPageText': '»',
-'currentClass': 'current',
-'firstPageText': 'Primera',
-'lastPageText': 'Última',
-'route_params': {'id_ownership':id_ownership,'items_per_page':items_per_page}
-}) }}
-                    </div>
-        <div class="span3 text-right">
-            {% if is_granted('ROLE_CLIENT_STAFF')%}
-                <a class="btn btn-success" title="Descargar fotos - {{ownership.ownName}}" href="{{path("mycp_download_zip_photo", {"idOwnership": ownership.ownId, "ownMycpCode": ownership.ownMcpCode})}}"><i class="icon-download-alt"></i> Descargar Fotos</a>
-            {%endif%}
-        </div>
-</div>
-<div class="row-fluid">
-    <div class="span1"></div>
-    <div class="span9"><b>Fotografía</b></div>
-    <div class="span2" style="text-align: right"><b>Acciones</b></div>
-</div>
-<ul id="sortable" class="ui-sortable">
-    {% set cont=0 %}
-    {% for item in photos %}
-    <li id="{{item.getOwnPhoPhoto.getPhoId}}" {% if cont ==0 %}class="grey"{% set cont=1 %}{% else %}{% set cont=0 %}{% endif %}>
-        <div class="row-fluid">
-            <div class="span1"><input type="checkbox" name="check_photo" class="ch_photo" data-id="{{item.getOwnPhoPhoto.getPhoId}}"/></div>
-            <div class="span2">
-                <a href="{{ path('mycp_edit_photos_ownership',{'id_photo':item.getOwnPhoPhoto.getPhoId,'id_ownership':id_ownership}) }}" title="Editar"><img src="{{ asset('uploads/ownershipImages/thumbnails/'~item.getOwnPhoPhoto.getPhoName)}}" class="img-polaroid"/></a></div>
-            <div class="span6">{% for desc in data['description_photo_'~item.getOwnPhoPhoto.getPhoId] %}- {{ desc.getPhoLangDescription |slice(0,60) |capitalize}}...<br/>{% endfor %}</div>
-            <div class="span3 actions" style="margin-top: 0">
-                <div class="row-fluid" style="padding: 0; margin-bottom: 40px;">
-                {% if is_granted('ROLE_CLIENT_STAFF')%}
-                <a class="btn btn-mini btn-success" style="margin: 0" href="{{ path('mycp_download_single_zip_photo',{'idPhoto':item.getOwnPhoPhoto.getPhoId,'ownMcpCode': ownership.ownMcpCode}) }}" title="Descargar esta foto"><i class="icon-download-alt"></i> Descargar</a>
-                {%endif%}
-                <a class="btn btn-mini" href="{{ path('mycp_edit_photos_ownership',{'id_photo':item.getOwnPhoPhoto.getPhoId,'id_ownership':id_ownership}) }}" title="Editar"><i class="icon-edit"></i> Editar</a>
+
+<ul class="nav nav-tabs" id="myTab">
+    <li class="active"><a data-toggle="tab" href="#accommodation">Alojamiento</a></li>
+    <li class=""><a data-toggle="tab" href="#owner">Propietario(a)</a></li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div id="accommodation" class="tab-pane fade active in">
+    {% if photos %}
+        <div class="alert">
+            <div class="row-fluid">
+                <div class="pull-left">
+                    Mostrando del {{items_per_page * current_page - items_per_page}} al {% if items_per_page * current_page >  total_items%}{{total_items }}{% else %}{{ items_per_page * current_page }}{% endif %} de {{total_items}} registros
                 </div>
-                <a class="btn btn-mini btn-danger delete" href="{{ path('mycp_delete_photos_ownership',{'id_ownership':id_ownership,'id_photo':item.getOwnPhoPhoto.getPhoId}) }}" title="Eliminar"><i class="icon-trash"></i> Eliminar</a>
+                <div class="pull-right">
+                    Mostrar:
+                    <a class="{% if items_per_page == 10 %}selected{% endif %}" href="{{ path('mycp_list_photos_ownership',{'items_per_page':10, 'id_ownership':id_ownership})}}">10</a>
+                    <a class="{% if items_per_page == 50 %}selected{% endif %}" href="{{ path('mycp_list_photos_ownership',{'items_per_page':50, 'id_ownership':id_ownership})}}">50</a>
+                    <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_photos_ownership',{'items_per_page':100, 'id_ownership':id_ownership})}}">100</a>
+                </div>
             </div>
         </div>
-    </li>
-    {% endfor %}
-</ul>
-<div class="paginator-cont row-fluid">
-    <div class="span3"  style="margin-top: 10px">
-        <a class="btn btn-danger btn-action-photo"  onclick="deleteSelected();" data-url="{{path("mycp_delete_multiple_photo_ownership_callback", {"idOwnership": id_ownership})}}">
-        <i class="icon-trash"></i> Eliminar seleccionadas
-        </a>
-    </div>
-        <div id="loading" class="span1 load-div hidden">
-        <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}"/></div>
-    </div>
-    <div class="span5">
-    {{ simple_paginator_render('mycp_list_photos_ownership',null,{
-'container_class': 'paginator',
-'previousPageText': '«',
-'nextPageText': '»',
-'currentClass': 'current',
-'firstPageText': 'Primera',
-'lastPageText': 'Última',
-'route_params': {'id_ownership':id_ownership,'items_per_page':items_per_page}
-}) }}
+        <div class="paginator-cont row-fluid">
+            <div class="span3"  style="margin-top: 10px">
+                <a class="btn btn-danger btn-action-photo"  onclick="deleteSelected();"data-url="{{path("mycp_delete_multiple_photo_ownership_callback", {"idOwnership": id_ownership})}}">
+                    <i class="icon-trash"></i> Eliminar seleccionadas
+                </a>
+            </div>
+            <div id="loading" class="span1 load-div hidden">
+                <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}"/></div>
+            </div>
+            <div class="span8">
+                {{ simple_paginator_render('mycp_list_photos_ownership',null,{
+                'container_class': 'paginator',
+                'previousPageText': '«',
+                'nextPageText': '»',
+                'currentClass': 'current',
+                'firstPageText': 'Primera',
+                'lastPageText': 'Última',
+                'route_params': {'id_ownership':id_ownership,'items_per_page':items_per_page}
+                }) }}
+            </div>
+
         </div>
+        <div class="row-fluid">
+            <div class="span1"></div>
+            <div class="span9"><b>Fotografía</b></div>
+            <div class="span2" style="text-align: right"><b>Acciones</b></div>
+        </div>
+        <ul id="sortable" class="ui-sortable">
+            {% set cont=0 %}
+            {% for item in photos %}
+                <li id="{{item.getOwnPhoPhoto.getPhoId}}" {% if cont ==0 %}class="grey"{% set cont=1 %}{% else %}{% set cont=0 %}{% endif %}>
+                    <div class="row-fluid" style="padding: 0">
+                        <div class="span1"><input type="checkbox" name="check_photo" class="ch_photo" data-id="{{item.getOwnPhoPhoto.getPhoId}}"/></div>
+                        <div class="span2">
+                            <a href="{{ path('mycp_edit_photos_ownership',{'id_photo':item.getOwnPhoPhoto.getPhoId,'id_ownership':id_ownership}) }}" title="Editar"><img src="{{ asset('uploads/ownershipImages/thumbnails/'~item.getOwnPhoPhoto.getPhoName)}}" class="img-polaroid"/></a></div>
+                        <div class="span6">{% for desc in data['description_photo_'~item.getOwnPhoPhoto.getPhoId] %}- {{ desc.getPhoLangDescription |slice(0,60) |capitalize}}...<br/>{% endfor %}</div>
+                        <div class="span3 actions" style="margin-top: 0">
+                            <div class="row-fluid" style="padding: 0; margin-bottom: 40px;">
+                                {% if is_granted('ROLE_CLIENT_STAFF')%}
+                                    <a class="btn btn-mini btn-success" style="margin: 0" href="{{ path('mycp_download_single_zip_photo',{'idPhoto':item.getOwnPhoPhoto.getPhoId,'ownMcpCode': ownership.ownMcpCode}) }}" title="Descargar esta foto"><i class="icon-download-alt"></i> Descargar</a>
+                                {%endif%}
+                                <a class="btn btn-mini" href="{{ path('mycp_edit_photos_ownership',{'id_photo':item.getOwnPhoPhoto.getPhoId,'id_ownership':id_ownership}) }}" title="Editar"><i class="icon-edit"></i> Editar</a>
+                            </div>
+                            <a class="btn btn-mini btn-danger delete" href="{{ path('mycp_delete_photos_ownership',{'id_ownership':id_ownership,'id_photo':item.getOwnPhoPhoto.getPhoId}) }}" title="Eliminar"><i class="icon-trash"></i> Eliminar</a>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="paginator-cont row-fluid">
+            <div class="span3"  style="margin-top: 10px">
+                <a class="btn btn-danger btn-action-photo"  onclick="deleteSelected();" data-url="{{path("mycp_delete_multiple_photo_ownership_callback", {"idOwnership": id_ownership})}}">
+                    <i class="icon-trash"></i> Eliminar seleccionadas
+                </a>
+            </div>
+            <div id="loading" class="span1 load-div hidden">
+                <div class="loading-signal"><img class="img-circle load-icon" src="{{ asset('bundles/frontend/img/loading.gif') }}"/></div>
+            </div>
+            <div class="span5">
+                {{ simple_paginator_render('mycp_list_photos_ownership',null,{
+                'container_class': 'paginator',
+                'previousPageText': '«',
+                'nextPageText': '»',
+                'currentClass': 'current',
+                'firstPageText': 'Primera',
+                'lastPageText': 'Última',
+                'route_params': {'id_ownership':id_ownership,'items_per_page':items_per_page}
+                }) }}
+            </div>
+        </div>
+    </div>
+    <div id="owner" class="tab-pane fade">
+        <div class="row-fluid photoOwnerContainer">
+            {{ render(controller("mycpBundle:BackendOwnership:getOwnerPhoto", {'ownershipPhoto': null, 'ownershipId': id_ownership, 'fromPhotoList': true})) }}
+        </div>
+    </div>
 </div>
+
 <script src="{{ asset('bundles/mycp/js/jquery.ui/jquery.ui.core.js') }}" type="text/javascript"></script>
 <script src="{{ asset('bundles/mycp/js/jquery.ui/jquery.ui.widget.js') }}" type="text/javascript"></script>
 <script src="{{ asset('bundles/mycp/js/jquery.ui/jquery.ui.mouse.js') }}" type="text/javascript"></script>

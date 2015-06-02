@@ -1359,9 +1359,17 @@ class BackendOwnershipController extends Controller {
         return new Response($view);
     }
 
-    public function getOwnerPhotoAction($ownershipPhoto, $ownershipId)
+    public function getOwnerPhotoAction($ownershipId, $ownershipPhoto = null, $fromPhotoList = false)
     {
         $photoDir = $this->container->getParameter("user.dir.photos");
+
+
+        if($ownershipPhoto == null && $fromPhotoList)
+        {
+            $em = $this->getDoctrine()->getManager();
+            $ownership = $em->getRepository("mycpBundle:ownership")->find($ownershipId);
+            $ownershipPhoto = $ownership->getOwnOwnerPhoto();
+        }
 
         if($ownershipPhoto == null || $ownershipPhoto == "")
         {
