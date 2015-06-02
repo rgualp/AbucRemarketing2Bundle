@@ -957,6 +957,7 @@ class BackendOwnershipController extends Controller {
                     } else {
 
                         $ownership = $em->getRepository('mycpBundle:ownership')->insert($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this, $this->container->getParameter('user.dir.photos'));
+                        $current_ownership_id = $ownership->getOwnId();
                         $message = 'La propiedad '.$ownership->getOwnMcpCode().'(Código automático: '.$ownership->getOwnMcpCodeGenerated().') ha sido añadida satisfactoriamente.';
                         $service_log = $this->get('log');
                         $service_log->saveLog('Create entity ' . $post['ownership_mcp_code'], BackendModuleName::MODULE_OWNERSHIP);
@@ -969,7 +970,7 @@ class BackendOwnershipController extends Controller {
                     if ($request->get('save_operation') == Operations::SAVE_AND_NEW) {
                         return $this->redirect($this->generateUrl('mycp_new_ownership'));
                     } else if ($request->get('save_operation') == Operations::SAVE_AND_ADD_PHOTOS) {
-                        return $this->redirect($this->generateUrl('mycp_new_photos_ownership', array("id_ownership" => $current_ownership_id)));
+                        return $this->redirect($this->generateUrl('mycp_new_photos_ownership', array("id_ownership" => $ownership->getOwnId())));
                     } else {
                         return $this->redirect($this->generateUrl('mycp_list_ownerships'));
                     }
