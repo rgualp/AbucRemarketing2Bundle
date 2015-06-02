@@ -1337,4 +1337,43 @@ class BackendOwnershipController extends Controller {
         return new Response($response);
     }
 
+    public function deletePhotoOwnerCallbackAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $idOwnership = $request->get("idOwnership");
+        $ownership = $em->getRepository("mycpBundle:ownership")->find($idOwnership);
+
+        $photoDir = $this->container->getParameter("user.dir.photos");
+        $fileName = $ownership->getOwnOwnerPhoto()->getPhoName();
+        FileIO::deleteFile($photoDir.$fileName);
+
+        $ownership->setOwnOwnerPhoto(null);
+        $em->persist($ownership);
+        $em->flush();
+
+        $ownershipPhotoName = "no_photo.gif";
+        $hasPhoto = false;
+
+        $view = $this->renderView("mycpBundle:utils:ownershipPhotoOwner.html.twig", array('photo' => $ownershipPhotoName, 'idOwnership' => $idOwnership, 'hasPhoto' => $hasPhoto));
+
+        return new Response($view);
+    }
+
+    public function getOwnerPhotoAction($ownershipPhoto, $ownershipId)
+    {
+        $photoDir = $this->container->getParameter("user.dir.photos");
+
+        if($ownershipPhoto == null || $ownershipPhoto == "")
+        {
+            $ownershipPhoto = "no_photo.gif";
+        }
+        else if(!file_exists($photoDir.$ownershipPhoto)){
+            $ownershipPhoto = "no_photo.gif";
+        }
+
+        $hasPhoto = ( $ownershipPhoto != "no_photo.gif");
+
+        return $this->render('mycpBundle:utils:ownershipPhotoOwner.html.twig', array('photo' => $ownershipPhoto, 'idOwnership' => $ownershipId, 'hasPhoto' => $hasPhoto));
+    }
+
 }

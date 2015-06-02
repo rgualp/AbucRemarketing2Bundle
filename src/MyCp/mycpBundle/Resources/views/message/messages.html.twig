@@ -59,34 +59,34 @@
             loadComments();
         });
 
-            function sendMessage() {
-                    var userId = $("#userId").val();
-                    var touristId = $("#touristId").val();
-                    var subject = $("#messageSubject").val();
-                    var messageBody = $("#messageBody").val();
-                    var url = $("#senMessageDiv").attr("data-url");
-                    var isValidated = validateMessage(subject, messageBody);
+        function sendMessage() {
+            var userId = $("#userId").val();
+            var touristId = $("#touristId").val();
+            var subject = $("#messageSubject").val();
+            var messageBody = $("#messageBody").val();
+            var url = $("#senMessageDiv").attr("data-url");
+            var isValidated = validateMessage(subject, messageBody);
 
-                    if(isValidated) {
-                        $("#loadingImg").removeClass("hidden");
-                        $("#lblSuccess").addClass("hidden");
+            if(isValidated) {
+                $("#loadingImg").removeClass("hidden");
+                $("#lblSuccess").addClass("hidden");
 
-                        $.post(url, {
-                                    userId: userId,
-                                    touristId: touristId,
-                                    subject: subject,
-                                    messageBody: messageBody
-                                },
-                                function (data) {
-                                    $("#divMessageContainer").html(data);
-                                    $("#messageSubject").val("");
-                                    $("#messageBody").val("");
-                                    $("#loadingImg").addClass("hidden");
-                                    $("#lblSuccess").removeClass("hidden");
-                                });
-                    }
-                    return false;
-                }
+                $.post(url, {
+                            userId: userId,
+                            touristId: touristId,
+                            subject: subject,
+                            messageBody: messageBody
+                        },
+                        function (data) {
+                            $("#divMessageContainer").html(data);
+                            $("#messageSubject").val("");
+                            $("#messageBody").val("");
+                            $("#loadingImg").addClass("hidden");
+                            $("#lblSuccess").removeClass("hidden");
+                        });
+            }
+            return false;
+        }
 
             function validateMessage(subject, messageBody)
             {

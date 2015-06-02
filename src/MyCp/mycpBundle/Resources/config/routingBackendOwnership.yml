@@ -57,3 +57,7 @@ mycp_batch_process_insert_ownership:
 mycp_batch_view_ownership:
     pattern:  /batch-view/{batchId}
     defaults: { _controller: mycpBundle:BackendOwnership:batchView}
+
+mycp_delete_photo_owner_ownership:
+    pattern:  /delete-photo-owner
+    defaults: { _controller: mycpBundle:BackendOwnership:deletePhotoOwnerCallback }

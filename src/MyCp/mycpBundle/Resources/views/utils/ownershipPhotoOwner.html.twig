@@ -1,0 +1,40 @@
+<h3 class="title">Foto del propietario</h3>
+<div class="row-fluid">
+    <div class="span3  text-center">
+        <div class="row-fluid">
+         <img src="{{ asset('uploads/userImages/'~ photo)}}" class="img-polaroid"  alt=""/>
+        </div>
+        {% if hasPhoto %}
+        <div class="row-fluid">
+           <a style="margin-top: 10px;" class="btn btn-mini btn-danger" id="deletePhotoOwner" data-url="{{ path("mycp_delete_photo_owner_ownership") }}">Eliminar</a>
+           <img style="margin-top: 10px;" id="loadingImg" class="hidden" src="{{asset("bundles/mycp/images/loading.gif")}}" style="margin-right: 5px;"/>
+        </div>
+        {% endif %}
+    </div>
+    <div class="span9">
+        <input title="Seleccionar fichero..." type="file" name="own_ownership_photo" id="own_ownership_photo" accept="image/*"/>
+
+    </div>
+</div>
+
+<script>
+    var idOwnership = {{ idOwnership }};
+
+    $('#deletePhotoOwner').click(function () {
+        deletePhotoOwner();
+    });
+
+    function deletePhotoOwner() {
+        var url = $("#deletePhotoOwner").attr("data-url");
+        $("#loadingImg").removeClass("hidden");
+
+        $.post(url, {
+                    idOwnership: idOwnership
+                },
+                function (data) {
+                    $(".photoOwnerContainer").html(data);
+                    $("#loadingImg").addClass("hidden");
+                });
+        return false;
+    }
+</script>
