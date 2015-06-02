@@ -4,6 +4,7 @@
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
     <li><a href="{{ path('mycp_list_ownerships') }}">Propiedades</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_edit_ownership',{'id_ownership':id_ownership}) }}">{{ ownership.ownMcpCode }}</a> <span class="divider">/</span></li>
     <li class="active">Fotografías </li>
     <li class="pull-right"><a href="{{ path('mycp_list_ownerships') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
@@ -12,6 +13,7 @@
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
     <li><a href="{{ path('mycp_list_ownerships') }}">Propiedades</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_edit_ownership',{'id_ownership':id_ownership}) }}">{{ ownership.ownMcpCode }}</a> <span class="divider">/</span></li>
     <li class="active">Fotografías </li>
     <li class="pull-right"><a href="{{ path('mycp_list_ownerships') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
