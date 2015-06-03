@@ -328,4 +328,20 @@ class ownershipReservationRepository extends EntityRepository {
         return $query->setParameter('start', $startParam)->setParameter('end', $endParam)->setParameter('gen_res_id', $genRes)->getResult();
     }
 
+    function getOwnReservationsTotal()
+    {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT count(own_r) FROM mycpBundle:ownershipReservation own_r";
+        return $em->createQuery($query_string)
+            ->getSingleScalarResult();
+    }
+
+    function getOwnReservationsByPages($startIndex, $pageSize)
+    {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT own_r FROM mycpBundle:ownershipReservation own_r";
+        return $em->createQuery($query_string)
+            ->setFirstResult($startIndex)->setMaxResults($pageSize)->getResult();
+    }
+
 }
