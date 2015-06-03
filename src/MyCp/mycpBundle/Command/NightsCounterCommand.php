@@ -38,15 +38,22 @@ class NightsCounterCommand extends ContainerAwareCommand {
         $em = $container->get('doctrine')->getManager();
         $timer = $container->get("Time");
 
-        $reservations = $em->getRepository("mycpBundle:ownershipReservation")->findAll();
+        $startIndex = 0;
+        $pageSize = 10;
+        $totalReservations = $em->getRepository("mycpBundle:ownershipReservation")->getOwnReservationsTotal();
 
-        foreach($reservations as $reservation)
-        {
-            $output->writeln('Updating ownershipReservation: '.$reservation->getOwnResId() );
-            $nights = $timer->nights($reservation->getOwnResReservationFromDate()->getTimestamp(), $reservation->getOwnResReservationToDate()->getTimestamp());
-            $reservation->setOwnResNights($nights);
-            $em->persist($reservation);
+        $output->writeln('Reservations total: '.$totalReservations);
+        while($startIndex < $totalReservations) {
+            $output->writeln('Index: '.$startIndex);
+            $reservations = $em->getRepository("mycpBundle:ownershipReservation")->getOwnReservationsByPages($startIndex, $pageSize);
+            foreach ($reservations as $reservation) {
+                $output->writeln('Updating ownershipReservation: ' . $reservation->getOwnResId());
+                $nights = $timer->nights($reservation->getOwnResReservationFromDate()->getTimestamp(), $reservation->getOwnResReservationToDate()->getTimestamp());
+                $reservation->setOwnResNights($nights);
+                $em->persist($reservation);
+            }
             $em->flush();
+            $startIndex += $pageSize;
         }
     }
 
@@ -55,7 +62,14 @@ class NightsCounterCommand extends ContainerAwareCommand {
         $container = $this->getContainer();
         $em = $container->get('doctrine')->getManager();
 
-        $generalReservations = $em->getRepository("mycpBundle:generalReservation")->findAll();
+        $startIndex = 0;
+        $pageSize = 10;
+        $totalReservations = $em->getRepository("mycpBundle:generalReservation")->getReservationsTotal();
+        $output->writeln('Reservations total: '.$totalReservations);
+
+        while($startIndex < $totalReservations) {
+            $output->writeln('Index: '.$startIndex);
+            $generalReservations = $em->getRepository("mycpBundle:generalReservation")->getReservationsByPages($startIndex, $pageSize);
 
         foreach($generalReservations as $gres)
         {
@@ -79,7 +93,9 @@ class NightsCounterCommand extends ContainerAwareCommand {
                 $gres->setGenResTotalInSite($price);
 
             $em->persist($gres);
+        }
             $em->flush();
+            $startIndex += $pageSize;
         }
     }
 
