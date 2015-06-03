@@ -46,7 +46,13 @@ class Version20150520222643 extends AbstractMigration implements ContainerAwareI
         $em = $this->container->get('doctrine.orm.entity_manager');
         $timer = $this->container->get('Time');
 
-        $reservations = $em->getRepository("mycpBundle:ownershipReservation")->findAll();
+
+        $startIndex = 0;
+        $pageSize = 10;
+        $totalReservations = $em->getRepository("mycpBundle:ownershipReservation")->getOwnReservationsTotal();
+
+        while($startIndex < $totalReservations) {
+            $reservations = $em->getRepository("mycpBundle:ownershipReservation")->getOwnReservationsByPages($startIndex, $pageSize);
 
         foreach($reservations as $reservation)
         {
@@ -55,7 +61,8 @@ class Version20150520222643 extends AbstractMigration implements ContainerAwareI
 
             $em->persist($reservation);
         }
-
-        $em->flush();
+            $em->flush();
+            $startIndex += $pageSize;
+        }
     }
 }
