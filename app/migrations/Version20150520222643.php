@@ -49,10 +49,10 @@ class Version20150520222643 extends AbstractMigration implements ContainerAwareI
 
         $startIndex = 0;
         $pageSize = 10;
-        $totalReservations = $em->getRepository("mycpBundle:ownershipReservation")->getOwnReservationsTotal();
+        $totalReservations = $em->getRepository("mycpBundle:ownershipReservation")->getOwnReservationsForNightsCounterTotal();
 
         while($startIndex < $totalReservations) {
-            $reservations = $em->getRepository("mycpBundle:ownershipReservation")->getOwnReservationsByPages($startIndex, $pageSize);
+            $reservations = $em->getRepository("mycpBundle:ownershipReservation")->getOwnReservationsByPagesForNightsCounter($startIndex, $pageSize);
 
         foreach($reservations as $reservation)
         {
