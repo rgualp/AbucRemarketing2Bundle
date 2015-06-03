@@ -43,7 +43,7 @@ class Version20150520222643 extends AbstractMigration implements ContainerAwareI
 
     public function postUp(Schema $schema)
     {
-        $em = $this->container->get('doctrine.orm.entity_manager');
+        /*$em = $this->container->get('doctrine.orm.entity_manager');
         $timer = $this->container->get('Time');
 
 
@@ -63,6 +63,6 @@ class Version20150520222643 extends AbstractMigration implements ContainerAwareI
         }
             $em->flush();
             $startIndex += $pageSize;
-        }
+        }*/
     }
 }
