@@ -560,7 +560,7 @@ class generalReservationRepository extends EntityRepository {
     function getReservationsForNightCounterTotal()
     {
         $em = $this->getEntityManager();
-        $query_string = "SELECT count(own_r) FROM mycpBundle:generalReservation own_r WHERE own_r.gen_res_nights is null";
+        $query_string = "SELECT count(own_r) FROM mycpBundle:generalReservation own_r";
         return $em->createQuery($query_string)
             ->getSingleScalarResult();
     }
@@ -568,7 +568,7 @@ class generalReservationRepository extends EntityRepository {
     function getReservationsByPagesForNightsCounter($startIndex, $pageSize)
     {
         $em = $this->getEntityManager();
-        $query_string = "SELECT own_r FROM mycpBundle:generalReservation own_r WHERE own_r.gen_res_nights is null";
+        $query_string = "SELECT own_r FROM mycpBundle:generalReservation own_r";
         return $em->createQuery($query_string)
             ->setFirstResult($startIndex)->setMaxResults($pageSize)->getResult();
     }
