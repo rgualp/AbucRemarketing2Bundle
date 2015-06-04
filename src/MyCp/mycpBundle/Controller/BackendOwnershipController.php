@@ -537,7 +537,7 @@ class BackendOwnershipController extends Controller {
             $reservation = $em->getRepository('mycpBundle:ownershipReservation')->findOneBy(array('own_res_selected_room_id' => $rooms[$a - 1]->getRoomId()));
 
             $post['room_delete_' . $a] = $reservation ? 0 : 1;
-            $post['room_active_' . $a] = $rooms[$a - 1]->getRoomActive();
+            $post['room_active_' . $a] = ($rooms[$a - 1]->getRoomActive()) ? 1: 0;
 
             if ($post['room_terrace_' . $a] == true)
                 $post['room_terrace_' . $a] = 1;
@@ -551,8 +551,10 @@ class BackendOwnershipController extends Controller {
                 $post['room_safe_box_' . $a] = 1;
             if ($post['room_smoker_' . $a] == true)
                 $post['room_smoker_' . $a] = 1;
-            if ($post['room_active_' . $a] == true)
+            /*if ($post['room_active_' . $a] == true)
                 $post['room_active_' . $a] = 1;
+            else
+                $post['room_active_' . $a] = 0;*/
         }
 
         $post['edit_ownership'] = TRUE;
@@ -1015,6 +1017,7 @@ class BackendOwnershipController extends Controller {
         }
 
         $errors_tab = array();
+        dump($errors_temp); die;
         foreach ($errors_temp as $error) {
 
             if (strpos($error, 'ownership') === 0) {
