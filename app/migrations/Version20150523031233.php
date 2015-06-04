@@ -18,9 +18,21 @@ class Version20150523031233 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE reportParameter ADD parameter_order INT DEFAULT NULL');
+        $columns = $this->connection->getSchemaManager()->listTableColumns('reportParameter');
+        $existColumn = false;
 
-        $this->addSql('update reportParameter set parameter_order = 1');
+        foreach ($columns as $column) {
+            if($column->getName() == "reportParameter")
+            {
+                $existColumn = true;
+                break;
+            }
+        }
+
+        if(!$existColumn) {
+            $this->addSql('ALTER TABLE reportParameter ADD parameter_order INT DEFAULT NULL');
+            $this->addSql('update reportParameter set parameter_order = 1');
+        }
     }
 
     /**
