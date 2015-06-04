@@ -47,10 +47,12 @@ class NightsCounterCommand extends ContainerAwareCommand {
             $output->writeln('Index: '.$startIndex);
             $reservations = $em->getRepository("mycpBundle:ownershipReservation")->getOwnReservationsByPagesForNightsCounter($startIndex, $pageSize);
             foreach ($reservations as $reservation) {
-                $output->writeln('Updating ownershipReservation: ' . $reservation->getOwnResId());
-                $nights = $timer->nights($reservation->getOwnResReservationFromDate()->getTimestamp(), $reservation->getOwnResReservationToDate()->getTimestamp());
-                $reservation->setOwnResNights($nights);
-                $em->persist($reservation);
+                if($reservation->getOwnResNights() == 0 || $reservation->setOwnResNights() == null) {
+                    $output->writeln('Updating ownershipReservation: ' . $reservation->getOwnResId());
+                    $nights = $timer->nights($reservation->getOwnResReservationFromDate()->getTimestamp(), $reservation->getOwnResReservationToDate()->getTimestamp());
+                    $reservation->setOwnResNights($nights);
+                    $em->persist($reservation);
+                }
             }
             $em->flush();
             $startIndex += $pageSize;
@@ -67,32 +69,33 @@ class NightsCounterCommand extends ContainerAwareCommand {
         $totalReservations = $em->getRepository("mycpBundle:generalReservation")->getReservationsForNightCounterTotal();
         $output->writeln('Reservations total: '.$totalReservations);
 
-        while($startIndex < $totalReservations) {
+        while($startIndex < $totalReservations || $totalReservations == 0) {
             $output->writeln('Index: '.$startIndex);
             $generalReservations = $em->getRepository("mycpBundle:generalReservation")->getReservationsByPagesForNightsCounter($startIndex, $pageSize);
 
         foreach($generalReservations as $gres)
         {
-            $output->writeln('Updating: '.$gres->getCASId() );
-            $reservations = $em->getRepository("mycpBundle:ownershipReservation")->findBy(array("own_res_gen_res_id" => $gres->getGenResId()));
-            $nights = 0;
-            $price = 0;
+            if($gres->getGenResNights() == 0 || $gres->getGenResNights() == null) {
+                $output->writeln('Updating: ' . $gres->getCASId());
+                $reservations = $em->getRepository("mycpBundle:ownershipReservation")->findBy(array("own_res_gen_res_id" => $gres->getGenResId()));
+                $nights = 0;
+                $price = 0;
 
-            foreach($reservations as $reservation)
-            {
-                $nights += $reservation->getOwnResNights();
+                foreach ($reservations as $reservation) {
+                    $nights += $reservation->getOwnResNights();
 
-                if($reservation->getOwnResNightPrice() != 0)
-                    $price += $reservation->getOwnResNightPrice() * $reservation->getOwnResNights();
-                else
-                    $price += $reservation->getOwnResTotalInSite();
+                    if ($reservation->getOwnResNightPrice() != 0)
+                        $price += $reservation->getOwnResNightPrice() * $reservation->getOwnResNights();
+                    else
+                        $price += $reservation->getOwnResTotalInSite();
+                }
+
+                $gres->setGenResNights($nights);
+                if ($price != $gres->getGenResTotalInSite())
+                    $gres->setGenResTotalInSite($price);
+
+                $em->persist($gres);
             }
-
-            $gres->setGenResNights($nights);
-            if($price != $gres->getGenResTotalInSite())
-                $gres->setGenResTotalInSite($price);
-
-            $em->persist($gres);
         }
             $em->flush();
             $startIndex += $pageSize;
