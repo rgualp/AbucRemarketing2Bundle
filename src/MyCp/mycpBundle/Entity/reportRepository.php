@@ -30,7 +30,7 @@ class reportRepository extends EntityRepository
         return $query->setParameter('spanishId', $spanish->getLangId())->getResult();
     }
 
-    function rpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo)
+    function rpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo, $timer)
     {
         $em = $this->getEntityManager();
         $queryString = "SELECT u.user_id as clientId,
@@ -85,6 +85,9 @@ class reportRepository extends EntityRepository
         for($i= 0; $i < count($content); $i++)
         {
             $content[$i]["itinerary"] = $this->calculateItinerary($content[$i]["clientId"], $dateRangeFrom, $dateRangeTo);
+
+            //if($content[$i]["bookedNights"] == null || $content[$i]["bookedNights"] == 0)
+                $content[$i]["bookedNights"] = $timer->nights($content[$i]["arrivalDate"], $content[$i]["leavingDate"]);
         }
 
         return $content;
@@ -114,5 +117,4 @@ class reportRepository extends EntityRepository
 
         return $query->getResult();
     }
-
 }

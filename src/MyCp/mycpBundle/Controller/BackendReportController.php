@@ -37,7 +37,9 @@ class BackendReportController extends Controller
             $dateRangeFrom = $timer->add("-30 days",$date, "Y-m-d");
             $dateRangeTo = $timer->add("+30 days",$date, "Y-m-d");
 
-            $content = $em->getRepository("mycpBundle:report")->rpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo);
+            $timer = $this->container->get("Time");
+
+            $content = $em->getRepository("mycpBundle:report")->rpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo, $timer);
         }
 
         return $this->render('mycpBundle:reports:dailyInPlaceClients.html.twig', array(

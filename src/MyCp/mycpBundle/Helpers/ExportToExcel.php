@@ -33,10 +33,10 @@ class ExportToExcel extends Controller {
         $this->excelDirectoryPath = $excelDirectoryPath;
     }
 
-    public function exportRpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo, $reportId, $fileName = "clientes_en_dia.xlsx") {
+    public function exportRpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo, $reportId, $timer, $fileName = "clientes_en_dia.xlsx") {
         $excel = $this->configExcel("Reporte de clientes en un dia", "Reporte de clientes en un dia de MyCasaParticular", "reportes");
 
-        $data = $this->dataForRpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo, $reportId);
+        $data = $this->dataForRpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo, $timer);
 
         if (count($data) > 0)
             $excel = $this->createSheetForRpDailyInPlaceClients($excel, $date, $reportId, $date, $data);
@@ -45,10 +45,10 @@ class ExportToExcel extends Controller {
         return $this->export($fileName);
     }
 
-    private function dataForRpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo) {
+    private function dataForRpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo, $timer) {
         $results = array();
 
-        $reportContent = $this->em->getRepository("mycpBundle:report")->rpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo);
+        $reportContent = $this->em->getRepository("mycpBundle:report")->rpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo, $timer);
 
         foreach ($reportContent as $content) {
             $data = array();
