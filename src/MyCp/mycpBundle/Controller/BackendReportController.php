@@ -58,7 +58,7 @@ class BackendReportController extends Controller
             $dateRangeTo = $timer->add("+30 days",$date, "Y-m-d");
 
             $exporter = $this->get("mycp.service.export_to_excel");
-            return $exporter->exportRpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo, $report);
+            return $exporter->exportRpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo, $report,$timer);
         }
     }
 
