@@ -49,10 +49,12 @@ class BackendMessageController extends Controller {
             ));
 
         $serviceEmail->sendEmail($to->getUserEmail(), $subject . ' - MyCasaParticular.com', $templateBody);
+        $commentsTotal = $em->getRepository("mycpBundle:clientComment")->getCommentsTotal($userTourist->getUserTouristUser());
 
         $data = $this->render('mycpBundle:message:messages.html.twig', array(
             'userTourist' => $userTourist,
-            'userLogged' => $from
+            'userLogged' => $from,
+            'commentsTotal' => $commentsTotal
         ))->getContent();
 
         return new Response($data,200);
@@ -86,10 +88,15 @@ class BackendMessageController extends Controller {
         $clientUser = $em->getRepository("mycpBundle:user")->find($userId);
         $commentText = $request->get("commentText");
 
+
         //Insert comment
-        $em->getRepository("mycpBundle:clientComment")->insert($clientUser, $staffUser, $commentText);
-        $service_log= $this->get('log');
-        $service_log->saveLog('Insert client comment',  BackendModuleName::MODULE_CLIENT_COMMENTS);
+        $totalEqualComments = count($em->getRepository("mycpBundle:clientComment")->findBy(array("comment_client_user" => $userId, "comment_text" => $commentText)));
+
+        if($totalEqualComments == 0) {
+            $em->getRepository("mycpBundle:clientComment")->insert($clientUser, $staffUser, $commentText);
+            $service_log = $this->get('log');
+            $service_log->saveLog('Insert client comment', BackendModuleName::MODULE_CLIENT_COMMENTS);
+        }
 
         $data = $this->getCommentList($userId);
         return new Response($data, 200);
