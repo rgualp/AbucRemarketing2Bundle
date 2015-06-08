@@ -22,3 +22,7 @@ mycp_edit_unavailabilityDetails:
     pattern:  /room/detail/edit/{id_detail}/{num_room}
     defaults: { _controller: mycpBundle:BackendUnavailabilityDetails:edit }
 
+mycp_get_unavailability_details_json:
+    pattern:   /details-json/{idRoom}
+    defaults: { _controller: mycpBundle:BackendUnavailabilityDetails:getUnavailabilityDetailsJSON}
+

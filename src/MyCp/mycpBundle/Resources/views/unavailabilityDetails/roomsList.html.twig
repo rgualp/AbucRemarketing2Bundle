@@ -4,7 +4,7 @@
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
     <li><a href="{{ path('mycp_list_unavailabilityDetails') }}">Disponibilidad</a> <span class="divider">/</span></li>
-    <li class="active">Habitaciones </li>
+    <li class="active">{{ ownership.ownMcpCode }} </li>
     <li class="pull-right"><a href="{{ path('mycp_list_unavailabilityDetails') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 {% endblock %}

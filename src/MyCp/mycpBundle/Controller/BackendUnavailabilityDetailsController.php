@@ -89,6 +89,23 @@ class BackendUnavailabilityDetailsController extends Controller {
         ));
     }
 
+    public function getUnavailabilityDetailsJSONAction($idRoom,Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->get('security.context')->getToken()->getUser();
+        $startParam = $request->get('start');
+        $endParam = $request->get('end');
+
+        $unDet = $em->getRepository('mycpBundle:unavailabilityDetails')->getAllNotDeletedByDateAndRoom($idRoom,$startParam, $endParam);
+        $reser = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReservedByRoom($idRoom,$startParam, $endParam);
+
+        $unDetCounter = count($unDet);
+        $reservationCounter = count($reser);
+
+        $now = new \DateTime();
+
+        return $this->render('mycpBundle:unavailabilityDetails:room_calendar.json.twig', array("details" => $unDet, "reservations" => $reser, "detailCount" => $unDetCounter, 'reservationCount' => $reservationCounter, 'now' => $now));
+    }
+
     public function room_detailsAction($id_room, $num_room, $items_per_page, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
