@@ -83,23 +83,63 @@
             },
             selectHelper: true,
             select: function(start, end) {
-                var confirmCreate = confirm('¿Desea crear una nueva no disponibilidad?');
+                $('#calendar').fullCalendar('loading', true);
+                var reason = prompt('Escriba una razón');
                 var eventData;
-                if (confirmCreate) {
-                    eventData = {
-                        title: "No disponible",
-                        start: start,
-                        end: end,
-                        color: "#468847"
-                    };
+                if (reason) {
+                   var url = '{{ path("mycp_create_event_callback") }}';
+                    $.post(
+                            url,
+                            {
+                                'idRoom':{{ id_room}},
+                                'start' : start.format('DD/MM/YYYY'),
+                                'end': end.format('DD/MM/YYYY'),
+                                'reason': reason
+                            },
+                            function(data)
+                            {
+                                var response = jQuery.parseJSON(data);
 
-                    $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                                if(response.errorMessage !== "")
+                                {
+                                    alert(response.errorMessage);
+                                }
+                                else {
+                                    eventData = {
+                                        id: response.eventId,
+                                        title: response.title,
+                                        start: start,
+                                        end: end,
+                                        color: "#468847",
+                                        url: response.url
+                                    };
+
+                                    $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                                }
+                            });
                 }
                 $('#calendar').fullCalendar('unselect');
+                $('#calendar').fullCalendar('loading', false);
             },
             eventRender: function(event, element) {
                 $(element).tooltip({title: event.title});
-            }
+            }/*,
+            eventDrop: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
+                if (event.id.match("^1-") && confirm("¿Desea mover la no disponibilidad?")){
+                    alert("yes");
+                }
+
+            },
+
+            eventResize: function (event, dayDelta, minuteDelta, revertFunc) {
+
+                if (confirm("¿Desea modificar el rango de fechas de la no disponibilidad?")) {
+                    UpdateEvent(event.id, event.start, event.end);
+                }
+                else {
+                    revertFunc();
+                }
+            }*/
         });
 
     });

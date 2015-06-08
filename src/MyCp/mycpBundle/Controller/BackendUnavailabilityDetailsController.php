@@ -271,4 +271,56 @@ class BackendUnavailabilityDetailsController extends Controller {
         }
     }
 
+    public function createEventCallbackAction(Request $request) {
+        /*$service_security = $this->get('Secure');
+        $service_security->verifyAccess();*/
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $idRoom = $request->get("idRoom");
+        $start = $request->get("start");
+        $end = $request->get("end");
+        $reason = $request->get("reason");
+        $room = $em->getRepository('mycpBundle:room')->find($idRoom);
+        $errorMessage = "";
+        $eventId = 0;
+        //$ownership = $room->getRoomOwnership();
+
+        $date_from = Dates::createFromString($start);
+        $date_to = Dates::createFromString($end);
+
+        $uDetails = $em->getRepository('mycpBundle:unavailabilityDetails')->findOneBy(array(
+            "ud_from_date" => $date_from,
+            "ud_to_date" => $date_to,
+            "room" => $idRoom
+        ));
+
+        if($uDetails == null)
+            $uDetails = new unavailabilityDetails();
+
+        $uDetails->setUdFromDate($date_from)
+            ->setUdToDate($date_to)
+            ->setUdReason($reason)
+            ->setRoom($room);
+        $em->persist($uDetails);
+        $em->flush();
+
+        $eventId = $uDetails->getId();
+
+        //Update iCal of selected room
+        $message = $this->updateICal($room);
+
+        $service_log = $this->get('log');
+        $service_log->saveLog('Create unavailable detaile from ' . $date_from->format("d/m/Y") . ' to ' . $date_to->format("d/m/Y"), BackendModuleName::MODULE_UNAVAILABILITY_DETAILS);
+
+        $response = array(
+            "errorMessage" => $errorMessage,
+            "eventId" => "1-".$eventId,
+            "title" => "Hab. #".$room->getRoomNum()." - No disponible",
+            "url" => $this->generateUrl("mycp_edit_unavailabilityDetails", array("id_detail" => $eventId, "num_room" => $room->getRoomNum()))
+        );
+
+
+        return new Response(json_encode($response), 200);
+    }
+
 }
