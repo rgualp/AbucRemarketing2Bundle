@@ -18,6 +18,7 @@
     <meta name="copyright" content="ABUC media network GmbH">
     <meta name="language-content" content="{{app.request.locale}}">
 
+    {% block open_graph_metas %}
     <!-- Twitter -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@MyCP">
@@ -26,7 +27,6 @@
     <meta name="twitter:creator" content="@MyCP">
     <meta name="twitter:image:src" content="{{app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/avatar.jpg') }}">
 
-    {% block open_graph_metas %}
     <!-- Propiedades Open Graph -->
     <meta property="og:title" content="MyCasaParticular *** {{block('title')}}" />
     <meta property="og:type" content="website" />
