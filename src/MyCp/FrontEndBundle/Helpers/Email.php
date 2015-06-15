@@ -9,10 +9,12 @@ class Email {
 
     private $em; //remove after domain optimization.
     private $container;
+    private $defaultLanguageCode;
 
-    public function __construct($entity_manager, $container) {
+    public function __construct($entity_manager, $container, $defaultLanguageCode) {
         $this->em = $entity_manager; //remove after domain optimization.
         $this->container = $container;
+        $this->defaultLanguageCode = $defaultLanguageCode;
     }
 
     // <editor-fold defaultstate="collapsed" desc="Recommend Mails">
@@ -88,7 +90,8 @@ class Email {
             $totalNights = $service_time->nights($res->getOwnResReservationFromDate()->getTimestamp(), $res->getOwnResReservationToDate()->getTimestamp());
             array_push($array_nigths, $totalNights);
         }
-        $user_locale = strtolower($user_tourist->getUserTouristLanguage()->getLangCode());
+        $touristLanguage = $user_tourist->getUserTouristLanguage();
+        $user_locale = (!isset($touristLanguage) || $touristLanguage === null || $touristLanguage === "") ? strtolower($touristLanguage->getLangCode()): strtolower($this->defaultLanguageCode);
 
         // Enviando mail al cliente
 

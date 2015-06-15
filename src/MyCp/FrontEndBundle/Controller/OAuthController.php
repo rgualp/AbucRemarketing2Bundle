@@ -78,6 +78,12 @@ class OAuthController extends Controller
                         $languageCode = strtoupper($languageCode);
                         $language = $em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code' => $languageCode));
 
+                        if($language === null || !isset($language) || $language === "")
+                        {
+                            $defaultLanguageCode = $this->container->getParameter("configuration.default.language.code");
+                            $language = $em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code' => $defaultLanguageCode));
+                        }
+
                         //we can get the gender of the user from $fbLoginData->getGender() as male or female
                         $gender = $fbLoginData->getGender() == "male" ? 0 : 1;
 
