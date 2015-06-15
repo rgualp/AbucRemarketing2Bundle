@@ -77,7 +77,7 @@ class ownershipPhotoRepository extends EntityRepository {
         $ownershipPhoto = new ownershipPhoto();
         $photo = new photo();
 
-        if($nameOrder == 0)
+        if($nameOrder == "0")
         {
             $fileName = uniqid('user-') . '-photo.jpg';
             $file->move($dirUserPhoto, $fileName);
@@ -101,7 +101,7 @@ class ownershipPhotoRepository extends EntityRepository {
             $em->persist($ownershipPhoto);
         }
 
-        if (preg_match('/^[0-9]*$/', $nameOrder) && $nameOrder != 0){
+        if (preg_match('/^[0-9]*$/', $nameOrder) && $nameOrder != "0"){
             $photo->setPhoOrder($nameOrder);
         }
 
