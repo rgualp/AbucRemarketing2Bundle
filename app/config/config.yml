@@ -150,6 +150,7 @@ services:
         arguments:
             entity_manager: "@doctrine.orm.entity_manager"
             container: "@service_container"
+            defaultLanguageCode: "%configuration.default.language.code%"
     Secure:
         class: MyCp\mycpBundle\Helpers\Secure
         tags:
