@@ -129,9 +129,10 @@ class BookingService extends Controller
             //array_push($nights, count($array_dates) - 1);
             $nights[$own->getOwnResId()] = count($array_dates) - 1;
             array_push($rooms, $em->getRepository('mycpBundle:room')->find($own->getOwnResSelectedRoomId()));
-            $totalPrice += \MyCp\FrontEndBundle\Helpers\ReservationHelper::getTotalPrice($em, $timeService, $own, $this->tripleRoomCharge);
+            $partialPrice = \MyCp\FrontEndBundle\Helpers\ReservationHelper::getTotalPrice($em, $timeService, $own, $this->tripleRoomCharge);
+            $totalPrice += $partialPrice;
             $commission = $own->getOwnResGenResId()->GetGenResOwnId()->getOwnCommissionPercent();
-            $totalPercentPrice += $totalPrice * $commission / 100;
+            $totalPercentPrice += $partialPrice * $commission / 100;
 
             $insert = 1;
 
