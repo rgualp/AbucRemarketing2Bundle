@@ -24,7 +24,7 @@ class nomenclatorStat
     private $nom_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="nomenclatorStat",inversedBy="")
+     * @ORM\ManyToOne(targetEntity="nomenclatorStat",inversedBy="children")
      * @ORM\JoinColumn(name="nom_parent",referencedColumnName="nom_id", nullable=true)
      */
     private $nom_parent;
@@ -35,6 +35,19 @@ class nomenclatorStat
      * @ORM\Column(name="nom_name", type="string")
      */
     private $nom_name;
+
+    /**
+     * @ORM\OneToMany(targetEntity="nomenclatorStat", mappedBy="nom_parent")
+     */
+    private $children;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
 
     /**
@@ -90,6 +103,48 @@ class nomenclatorStat
      */
     public function getNomName()
     {
+        return $this->nom_name;
+    }
+
+    /**
+     * Add child
+     *
+     * @param nomenclatorStat $child
+     * @return nomenclatorStat
+     */
+    public function addChild(nomenclatorStat $child)
+    {
+        $this->children[] = $child;
+
+        return $this;
+    }
+
+    /**
+     * Remove child
+     *
+     * @param nomenclatorStat $child
+     */
+    public function removeChild(nomenclatorStat $child)
+    {
+        $this->children->removeElement($child);
+    }
+
+    /**
+     * Get children
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+    public function setChildren(ArrayCollection $children)
+    {
+        $this->children = $children;
+        return $this;
+    }
+
+    public function __toString(){
         return $this->nom_name;
     }
 
