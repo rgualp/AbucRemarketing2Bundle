@@ -131,6 +131,7 @@ class BookingService extends Controller
             array_push($rooms, $em->getRepository('mycpBundle:room')->find($own->getOwnResSelectedRoomId()));
             $totalPrice += \MyCp\FrontEndBundle\Helpers\ReservationHelper::getTotalPrice($em, $timeService, $own, $this->tripleRoomCharge);
             $commission = $own->getOwnResGenResId()->GetGenResOwnId()->getOwnCommissionPercent();
+            $totalPercentPrice += $totalPrice * $commission / 100;
 
             $insert = 1;
 
@@ -145,7 +146,7 @@ class BookingService extends Controller
                 array_push($commissions, $commission);
             }
         }
-        $totalPercentPrice += $totalPrice * $commission / 100;
+
         $accommodationServiceCharge = $totalPrice * $currencyRate;
         $prepaymentAccommodations = $totalPercentPrice * $currencyRate;
         $serviceChargeTotal = $serviceChargeInCuc * $currencyRate;
