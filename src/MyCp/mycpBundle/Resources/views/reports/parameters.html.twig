@@ -91,6 +91,7 @@
 
     url = "{{ path('mycp_get_mun_by_prov', { 'country_code': '-1' }) }}";
     url=url.replace('/-1','');
+    url_destination = "{{ path('mycp_get_destination_by_mun') }}";
     $('#filter_province').change(function(){
         code = $('#filter_province').val();
         if(code!='')
@@ -107,5 +108,19 @@
                 }
             });
         }
+    });
+    $('#filter_municipality').change(function() {
+
+        $('#filter_destination').html('<option value="">Cargando...</option>');
+        mun = $('#filter_municipality').val();
+        prov = $('#filter_province').val();
+        $.ajax({
+            type: "POST",
+            url: url_destination + '/' + mun + '/' + prov,
+            success: function(msg) {
+
+                $('#filter_destination').html(msg);
+            }
+        });
     });
 </script>
