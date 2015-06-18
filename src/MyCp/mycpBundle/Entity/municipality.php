@@ -37,6 +37,18 @@ class municipality
      */
     private $mun_name;
 
+    /**
+     * @ORM\OneToMany(targetEntity="ownershipStat", mappedBy="nom_parent")
+     */
+    private $statMunicipalities;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->statMunicipalities = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get mun_id
@@ -96,8 +108,44 @@ class municipality
     }
 
     /**
-     * Codigo Yanet - Inicio
+     * Add stat
+     *
+     * @param ownershipStat $stat
+     * @return municipality
      */
+    public function addStatMinicipalities(ownershipStat $stat)
+    {
+        $this->statMunicipalities[] = $stat;
+
+        return $this;
+    }
+
+    /**
+     * Remove stat
+     *
+     * @param ownershipStat $stat
+     */
+    public function removeStatMinicipalities(ownershipStat $stat)
+    {
+        $this->statMunicipalities->removeElement($stat);
+    }
+
+    /**
+     * Get stats
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getStatMinicipalities()
+    {
+        return $this->statMunicipalities;
+    }
+    public function setStatMinicipalities(ArrayCollection $stats)
+    {
+        $this->statMunicipalities = $stats;
+        return $this;
+    }
+
+
     /**
      * Retur object as string
      * @return string
@@ -106,7 +154,4 @@ class municipality
     {
         return $this->getMunName();
     }
-    /**
-     * Codigo Yanet - Fin
-     */
 }

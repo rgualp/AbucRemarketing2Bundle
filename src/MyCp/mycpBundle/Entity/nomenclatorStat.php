@@ -42,11 +42,17 @@ class nomenclatorStat
     private $children;
 
     /**
+     * @ORM\OneToMany(targetEntity="ownershipStat", mappedBy="$stat_nomenclator")
+     */
+    private $ownershipStats;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->ownershipStats = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -138,9 +144,48 @@ class nomenclatorStat
     {
         return $this->children;
     }
-    public function setChildren(ArrayCollection $children)
+    public function setChildren($children)
     {
         $this->children = $children;
+        return $this;
+    }
+
+    /**
+     * Add stat
+     *
+     * @param ownershipStat $stat
+     * @return nomenclatorStat
+     */
+    public function addOwnershipStat(ownershipStat $stat)
+    {
+        $this->ownershipStats[] = $stat;
+
+        return $this;
+    }
+
+    /**
+     * Remove stat
+     *
+     * @param ownershipStat $stat
+     */
+    public function removeOwnershipStat(ownershipStat $stat)
+    {
+        $this->ownershipStats->removeElement($stat);
+    }
+
+    /**
+     * Get children
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getOwnershipStat()
+    {
+        return $this->ownershipStats;
+    }
+
+    public function setOwnershipStat($stats)
+    {
+        $this->ownershipStats = $stats;
         return $this;
     }
 
