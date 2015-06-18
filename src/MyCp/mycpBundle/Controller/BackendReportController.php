@@ -62,6 +62,26 @@ class BackendReportController extends Controller
         }
     }
 
+   public function ownershipGeneralStatsAction(Request $request)
+    {
+      //to do
+    }
+
+    public function ownershipGeneralStatsExcelAction($location, $report)
+    {
+       //to do
+    }
+
+    public function ownershipVsReservationsStatsAction(Request $request)
+    {
+      //to do
+    }
+
+    public function ownershipVsReservationsStatsExcelAction($location_full, $report)
+    {
+       //to do
+    }
+
     public function getByCategoryCallbackAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();

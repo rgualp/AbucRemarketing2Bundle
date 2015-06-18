@@ -9,6 +9,21 @@ mycp_reports_daily_in_place_clients:
 mycp_reports_daily_in_place_clients_excel:
     pattern:  /clients/excel-daily-in-place/{date}/{report}
     defaults: { _controller: mycpBundle:BackendReport:dailyInPlaceClientsExcel,date:'', report:''}
+mycp_reports_ownership_general_stats:
+    pattern:  /ownership/general-stats/{location}
+    defaults: { _controller: mycpBundle:BackendReport:ownershipGeneralStats,location:''}
+
+mycp_reports_ownership_general_stats_excel:
+    pattern:  /ownership/general-stats/{location}/{report}
+    defaults: { _controller: mycpBundle:BackendReport:ownershipGeneralStatsExcel,location:'', report:''}
+
+mycp_reports_ownership_vsReservations_stats:
+    pattern:  /ownership/vsReservation/{location_full}
+    defaults: { _controller: mycpBundle:BackendReport:ownershipVsReservationsStats,location_full:''}
+
+mycp_reports_ownership_vsReservations_stats_excel:
+    pattern:  ownership/vsReservation/{location_full}/{report}
+    defaults: { _controller: mycpBundle:BackendReport:ownershipVsReservationsStatsExcel,location_full:'', report:''}
 
 mycp_get_report_by_category:
     pattern:  /get-by-category
