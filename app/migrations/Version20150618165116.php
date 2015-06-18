@@ -34,7 +34,7 @@ class Version20150618165116 extends AbstractMigration
         $this->addSql("insert into reportParameter(parameter_type, parameter_report, parameter_name) values ((select max(nom_id) from nomenclator where nom_name = 'location'),(select max(report_id) from report where report_route_name = 'mycp_reports_ownership_general_stats'), 'Localización')");
 
         $this->addSql("insert into report(report_category, report_name, report_route_name, report_excel_export_route_name) values ((select max(nom_id) from nomenclator where nom_name = 'ownership'),'Propiedades vs Reservas', 'mycp_reports_ownership_vsReservations_stats', 'mycp_reports_ownership_vsReservations_stats_excel')");
-        $this->addSql("insert into reportParameter(parameter_type, parameter_report, parameter_name) values ((select max(nom_id) from nomenclator where nom_name = 'location'),(select max(report_id) from report where report_route_name = 'mycp_reports_ownership_vsReservations_stats'), 'Localización')");
+        $this->addSql("insert into reportParameter(parameter_type, parameter_report, parameter_name) values ((select max(nom_id) from nomenclator where nom_name = 'location_full'),(select max(report_id) from report where report_route_name = 'mycp_reports_ownership_vsReservations_stats'), 'Localización Full')");
         $this->addSql("insert into reportParameter(parameter_type, parameter_report, parameter_name) values ((select max(nom_id) from nomenclator where nom_name = 'dateRange'),(select max(report_id) from report where report_route_name = 'mycp_reports_ownership_vsReservations_stats'), 'Rango de fechas')");
 
     }

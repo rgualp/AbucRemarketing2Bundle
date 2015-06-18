@@ -10,13 +10,44 @@
      <input type="text" name="dateRangeTo" id="dateRangeTo" class="datepicker input-block-level" value="{{ "+1 day" | date("d/m/Y") }}" style="width: 200px"/>
      {% set textParams = textParams ~ "/_dateFrom/_dateTo" %}
  {% elseif  parameter.parameterType.nomName == constant("\\MyCp\\mycpBundle\\Helpers\\ReportParameterHelper::LOCATION_NOMENCLATOR_NAME")%}
-     <input type="text" name="dateRangeFrom" id="dateRangeFrom" class="datepicker input-block-level" value="{{ "today" | date("d/m/Y") }}" style="width: 200px"/> -
-     <input type="text" name="dateRangeTo" id="dateRangeTo" class="datepicker input-block-level" value="{{ "+1 day" | date("d/m/Y") }}" style="width: 200px"/>
-     {% set textParams = textParams ~ "/_dateFrom/_dateTo" %}
+     <div class="span3">
+         <label>Provincia:</label>
+         <select class="input-block-level" name="filter_province" id="filter_province">
+         {{ render(controller('mycpBundle:Public:get_provinces', {'post': {'ownership_address_province':''}})) }}
+         </select>
+     </div>
+     <div class="span3">
+         <label>Municipio:</label>
+         <select class="input-block-level" name="filter_municipality" id="filter_municipality">
+         {{ render(controller('mycpBundle:Public:get_mun', {'post': {'ownership_address_municipality':''}})) }}
+         </select>
+     </div>
+     {% set textParams = textParams ~ "/_location" %}
  {% elseif  parameter.parameterType.nomName == constant("\\MyCp\\mycpBundle\\Helpers\\ReportParameterHelper::LOCATION_FULL_NOMENCLATOR_NAME")%}
-     <input type="text" name="dateRangeFrom" id="dateRangeFrom" class="datepicker input-block-level" value="{{ "today" | date("d/m/Y") }}" style="width: 200px"/> -
-     <input type="text" name="dateRangeTo" id="dateRangeTo" class="datepicker input-block-level" value="{{ "+1 day" | date("d/m/Y") }}" style="width: 200px"/>
-     {% set textParams = textParams ~ "/_dateFrom/_dateTo" %}
+     <div class="row-fluid">
+         <div class="span3">
+             <label>Provincia:</label>
+             <select class="input-block-level" name="filter_province" id="filter_province">
+                 {{ render(controller('mycpBundle:Public:get_provinces', {'post': {'ownership_address_province':''}})) }}
+             </select>
+         </div>
+         <div class="span3">
+             <label>Municipio:</label>
+             <select class="input-block-level" name="filter_municipality" id="filter_municipality">
+              {{ render(controller('mycpBundle:Public:get_mun', {'post': {'ownership_address_municipality':''}})) }}
+
+             </select>
+         </div>
+         <div class="span3">
+             <label>Destino:</label>
+             <select class="input-block-level" name="filter_destination" id="filter_destination">
+                 {{ render(controller('mycpBundle:Public:getDestinations', {'post': {'ownership_destination':''}})) }}
+             </select>
+         </div>
+
+     </div>
+
+     {% set textParams = textParams ~ "/_location_full" %}
 
  {% endif %}
   </div>
@@ -56,4 +87,25 @@
         autoclose: true,
         language: 'es'
     }).data('datepicker');
+
+
+    url = "{{ path('mycp_get_mun_by_prov', { 'country_code': '-1' }) }}";
+    url=url.replace('/-1','');
+    $('#filter_province').change(function(){
+        code = $('#filter_province').val();
+        if(code!='')
+        {
+            $('#filter_municipality').html('<option value="">Cargando...</option>');
+
+
+            $.ajax({
+                type:"POST",
+                url:url + '/' + code,
+                success:function (msg) {
+
+                    $('#filter_municipality').html(msg);
+                }
+            });
+        }
+    });
 </script>
