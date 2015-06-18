@@ -17,9 +17,4 @@ class nomenclatorStatRepository extends EntityRepository
         $query_string = "SELECT n FROM mycpBundle:nomenclatorStat n WHERE n.nom_parent IS NULL";
         return $em->createQuery($query_string)->getResult();
     }
-
-    public function getChilds(nomenclatorStat $nomenclator)
-    {
-
-    }
 }
