@@ -359,8 +359,9 @@ class BackendReservationController extends Controller {
         $filter_date_booking = $request->get('filter_date_booking');
         $filter_user_booking = $request->get('filter_user_booking');
         $filter_arrive_date_booking = $request->get('filter_arrive_date_booking');
+        $filter_reservation = $request->get("filter_reservation");
 
-        if ($request->getMethod() == 'POST' && $filter_booking_number == 'null' && $filter_date_booking == 'null' && $filter_user_booking == 'null' && $filter_arrive_date_booking == 'null') {
+        if ($request->getMethod() == 'POST' && $filter_booking_number == 'null' && $filter_date_booking == 'null' && $filter_user_booking == 'null' && $filter_arrive_date_booking == 'null' && $filter_reservation == 'null') {
             $message = 'Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
             return $this->redirect($this->generateUrl('mycp_list_reservations_booking'));
@@ -374,6 +375,8 @@ class BackendReservationController extends Controller {
             $filter_user_booking = '';
         if ($filter_arrive_date_booking == 'null')
             $filter_arrive_date_booking = '';
+        if ($filter_reservation == 'null')
+            $filter_reservation = '';
 
         $page = 1;
         if (isset($_GET['page']))
@@ -383,7 +386,7 @@ class BackendReservationController extends Controller {
         $paginator->setItemsPerPage($items_per_page);
 
         $bookings = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
-                                ->getAllBookings($filter_booking_number, $filter_date_booking, $filter_user_booking, $filter_arrive_date_booking))->getResult();
+                                ->getAllBookings($filter_booking_number, $filter_date_booking, $filter_user_booking, $filter_arrive_date_booking, $filter_reservation))->getResult();
         $service_log = $this->get('log');
         $service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
 
@@ -398,6 +401,7 @@ class BackendReservationController extends Controller {
                     'filter_date_booking' => $filter_date_booking,
                     'filter_user_booking' => $filter_user_booking,
                     'filter_arrive_date_booking' => $filter_arrive_date_booking,
+                    'filter_reservation' => $filter_reservation,
                     'total_items' => $paginator->getTotalItems(),
         ));
     }
