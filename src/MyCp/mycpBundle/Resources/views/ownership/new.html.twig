@@ -623,7 +623,9 @@
     <br/>
     <h3 class="title">Foto del propietario(a)</h3>
     <div class="photoOwnerContainer">
+        {% if data['id_ownership'] is defined %}
         {{ render(controller("mycpBundle:BackendOwnership:getOwnerPhoto", {'ownershipPhoto': data['ownership_owner'], 'ownershipId': data['id_ownership']})) }}
+       {% endif %}
     </div>
 </div>
 {% if data['edit_ownership'] is defined %}

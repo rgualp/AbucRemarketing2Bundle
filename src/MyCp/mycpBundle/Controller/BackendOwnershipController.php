@@ -1017,7 +1017,7 @@ class BackendOwnershipController extends Controller {
         }
 
         $errors_tab = array();
-        dump($errors_temp); die;
+        //dump($errors_temp); die;
         foreach ($errors_temp as $error) {
 
             if (strpos($error, 'ownership') === 0) {
