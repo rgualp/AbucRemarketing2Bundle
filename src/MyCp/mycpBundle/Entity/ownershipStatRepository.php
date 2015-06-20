@@ -43,10 +43,24 @@ class ownershipStatRepository extends EntityRepository
         $em->persist($stat);
         $em->flush();
     }
+    public function insertOrUpdateObj(ownershipStat $stat)
+    {   $em = $this->getEntityManager();
+        $statDb = $em->getRepository("mycpBundle:ownershipStat")->findOneBy(array("stat_municipality" => $stat->getStatMunicipality()->getMunId(), "stat_nomenclator" => $stat->getStatNomenclator()->getNomId()));
+
+        if($statDb === null)
+            $statDb = new ownershipStat();
+
+        $statDb->setStatNomenclator($stat->getStatNomenclator());
+        $statDb->setStatMunicipality($stat->getStatMunicipality());
+        $statDb->setStatValue($stat->getStatValue());
+
+        $em->persist($stat);
+       // $em->flush();
+    }
 
    function getMunicipalities(){
        $em = $this->getEntityManager();
-       $municipalities = $em->getRepository('mycpBundle:destination')->getByMunicipality();
+       $municipalities = $em->getRepository('mycpBundle:municipality')->findAll();
        return $municipalities;
    }
     public function getOwnershipTotalsByStatus($municipalities=null)
