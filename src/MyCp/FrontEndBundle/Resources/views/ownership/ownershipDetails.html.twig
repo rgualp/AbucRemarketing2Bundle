@@ -706,6 +706,8 @@
                   to = $('#filter_date_to').val();
                   locale = {{locale|lower}};
                   fullLocale = {{locale|lower}} + "_" + {{locale|upper}};
+                  alert(fullLocale);
+                  alert("//connect.facebook.net/"+fullLocale+"/sdk.js");
 
 
                   refresh_calendar(from, to);
@@ -734,7 +736,7 @@
                       var js, fjs = d.getElementsByTagName(s)[0];
                       if (d.getElementById(id)) {return;}
                       js = d.createElement(s); js.id = id;
-                      if(locale == "en")
+                      if(locale === "en")
                        js.src = "//connect.facebook.net/en_US/sdk.js";
                       else
                           js.src = "//connect.facebook.net/"+fullLocale+"/sdk.js";
