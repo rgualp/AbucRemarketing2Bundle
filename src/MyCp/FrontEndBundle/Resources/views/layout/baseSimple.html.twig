@@ -13,6 +13,7 @@
         {{ render(controller('FrontEndBundle:Public:getMetaTags', {'section':section})) }}
     {% endblock %}
 
+    {% block open_graph_metas %}
     <meta name="author" content="ABUC media network GmbH">
     <meta name="copyright" content="ABUC media network GmbH">
     <meta name="language-content" content="{{app.request.locale}}">
@@ -34,6 +35,7 @@
     <meta property="og:description" content="{{meta_description}}" />
     <meta property="og:url" content="http://www.mycasaparticular.com" />
     <meta property=”fb:admins” content=”312774092497”/>
+    {% endblock %}
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{{ asset('bundles/frontend/css/custom.css') }}" rel="stylesheet" media="screen">

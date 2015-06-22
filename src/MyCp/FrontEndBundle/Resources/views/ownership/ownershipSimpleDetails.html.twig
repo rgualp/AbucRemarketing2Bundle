@@ -19,6 +19,19 @@
     <span>››</span>
     <a href="#" class="active"  title="{{ ownership.ownname }}">{{ ownership.ownname }}</a>
 {% endblock %}
+{% block open_graph_metas %}
+    <!-- Propiedades Open Graph -->
+    <meta property="og:title" content="{{ownership.ownname}} - MyCasaParticular" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="{{app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/avatar.jpg') }}" />
+    <meta property="og:author" content="ABUC media network GmbH" />
+    <meta property="og:site_name" content="MyCasaParticular" />
+    <meta property="og:description" content="{{brief_description| raw  }}" />
+    <meta property="og:see_also" content="{{ mail_base_url }}"/>
+    <meta property="og:locale" content="{{locale|lower}}_{{locale|upper}}"/>
+    <meta property="og:url" content="{{url('frontend_details_ownership',{'own_name':ownership.ownname  | urlNormalize})}}" />
+    <meta property=”fb:admins” content=”312774092497”/>
+{% endblock %}
 {% block body %}
     <div class="bg-solid-ligth-blue" style="margin-top: -16px">
         <div class="container">
