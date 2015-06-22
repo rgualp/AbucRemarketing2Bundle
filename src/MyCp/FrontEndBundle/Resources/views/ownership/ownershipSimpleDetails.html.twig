@@ -414,10 +414,10 @@
 
         </script>
         <script type="text/javascript">
-            var faceAppId = "718673204884189";
+            var faceAppId = "718673678217475";
             var shareUrl = "{{url('frontend_details_ownership',{'own_name':ownership.ownname  | urlNormalize})}}";
             locale = {{locale|lower}};
-            fullLocale = {{locale|lower}} + "_" + {##}{locale|upper}};
+            fullLocale = {{locale|lower}} + "_" + {{locale|upper}};
             alert(fullLocale);
             alert("//connect.facebook.net/"+fullLocale+"/sdk.js");
 

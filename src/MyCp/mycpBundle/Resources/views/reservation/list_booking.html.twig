@@ -5,6 +5,7 @@
 {%set user = (filter_user_booking == "") ? "null" : filter_user_booking%}
 {%set arrive = (filter_arrive_date_booking == "") ? "null" : filter_arrive_date_booking | replace("/", "_")%}
 {%set reservation = (filter_reservation == "") ? "null" : filter_reservation%}
+{% set ownership = (filter_ownership == "") ? "null" : filter_ownership %}
 
 {% block top_body %}
 <ul class="breadcrumb">
@@ -48,7 +49,11 @@
                         </div>
                     </div>
                     <div class="row-fluid">
-                        <div class="span2">
+                        <div class="span4">
+                            <label>Alojamiento:</label>
+                            <input id="filter_ownership" name="filter_ownership" type="text" class="input-block-level" value="{{ filter_ownership }}"/>
+                        </div>
+                        <div class="span4">
                             <label>&nbsp;</label>
                             <div class="row-fluid">
                                 <div class="span6">
@@ -70,10 +75,10 @@
                     </div>
                     <div class="pull-right">
                         Mostrar:
-                        <a class="{% if items_per_page == 50 %}selected{% endif %}" href="{{ path('mycp_list_reservations_booking',{'items_per_page':50,'filter_booking_number':number,'filter_date_booking':date ,'filter_user_booking':user,'filter_arrive_date_booking':arrive, 'filter_reservation': reservation})}}">50</a>
-                        <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_reservations_booking',{'items_per_page':100,'filter_booking_number':number,'filter_date_booking':date ,'filter_user_booking':user,'filter_arrive_date_booking':arrive, 'filter_reservation': reservation})}}">100</a>
-                        <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_reservations_booking',{'items_per_page':300,'filter_booking_number':number,'filter_date_booking':date ,'filter_user_booking':user,'filter_arrive_date_booking':arrive, 'filter_reservation': reservation})}}">300</a>
-                        <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_reservations_booking',{'items_per_page':500,'filter_booking_number':number,'filter_date_booking':date ,'filter_user_booking':user,'filter_arrive_date_booking':arrive, 'filter_reservation': reservation})}}">500</a>
+                        <a class="{% if items_per_page == 50 %}selected{% endif %}" href="{{ path('mycp_list_reservations_booking',{'items_per_page':50,'filter_booking_number':number,'filter_date_booking':date ,'filter_user_booking':user,'filter_arrive_date_booking':arrive, 'filter_reservation': reservation, 'filter_ownership' : ownership})}}">50</a>
+                        <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_reservations_booking',{'items_per_page':100,'filter_booking_number':number,'filter_date_booking':date ,'filter_user_booking':user,'filter_arrive_date_booking':arrive, 'filter_reservation': reservation, 'filter_ownership' : ownership})}}">100</a>
+                        <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_reservations_booking',{'items_per_page':300,'filter_booking_number':number,'filter_date_booking':date ,'filter_user_booking':user,'filter_arrive_date_booking':arrive, 'filter_reservation': reservation, 'filter_ownership' : ownership})}}">300</a>
+                        <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_reservations_booking',{'items_per_page':500,'filter_booking_number':number,'filter_date_booking':date ,'filter_user_booking':user,'filter_arrive_date_booking':arrive, 'filter_reservation': reservation, 'filter_ownership' : ownership})}}">500</a>
                         <input class="hidden" name="items_per_page" value="100">
                     </div>
                 </div>
@@ -88,7 +93,7 @@
                         'currentClass': 'current',
                         'firstPageText': 'Primera',
                         'lastPageText': 'Última',
-                        'route_params': {'items_per_page':items_per_page,'filter_booking_number':number,'filter_date_booking':date,'filter_user_booking':user,'filter_arrive_date_booking':arrive, 'filter_reservation': reservation}
+                        'route_params': {'items_per_page':items_per_page,'filter_booking_number':number,'filter_date_booking':date,'filter_user_booking':user,'filter_arrive_date_booking':arrive, 'filter_reservation': reservation, 'filter_ownership' : ownership}
                         }) }}
                     </div>
                 </div>
@@ -138,7 +143,7 @@
                         'currentClass': 'current',
                         'firstPageText': 'Primera',
                         'lastPageText': 'Última',
-                        'route_params': {'items_per_page':items_per_page,'filter_booking_number':number,'filter_date_booking':date,'filter_user_booking':user,'filter_arrive_date_booking':arrive, 'filter_reservation': reservation}
+                        'route_params': {'items_per_page':items_per_page,'filter_booking_number':number,'filter_date_booking':date,'filter_user_booking':user,'filter_arrive_date_booking':arrive, 'filter_reservation': reservation, 'filter_ownership' : ownership}
                         }) }}
                     </div>
                 </div>
@@ -190,8 +195,11 @@
         filter_reservation=$('#filter_reservation').val();
         if(filter_reservation=='')filter_reservation='null';
 
+        filter_ownership=$('#filter_ownership').val();
+        if(filter_ownership=='')filter_ownership='null';
+
         url_submit=$('#filter').attr('action');
-        url_submit=url_submit+'/'+items_per_page+'/'+filter_booking_number+'/'+filter_date_booking+'/'+filter_user_booking+'/'+filter_arrive_date_booking+'/'+filter_reservation;
+        url_submit=url_submit+'/'+items_per_page+'/'+filter_booking_number+'/'+filter_date_booking+'/'+filter_user_booking+'/'+filter_arrive_date_booking+'/'+filter_reservation+'/'+filter_ownership;
         $('#filter').attr('action',url_submit);
         $('#filter').submit();
     }

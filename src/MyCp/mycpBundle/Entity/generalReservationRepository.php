@@ -225,7 +225,7 @@ class generalReservationRepository extends EntityRepository {
         return $array_genres;
     }
 
-    function getAllBookings($filter_booking_number, $filter_date_booking, $filter_user_booking, $filter_arrive_date_booking, $filter_reservation) {
+    function getAllBookings($filter_booking_number, $filter_date_booking, $filter_user_booking, $filter_arrive_date_booking, $filter_reservation, $filter_ownership) {
         $em = $this->getEntityManager();
 
         $filter_date_booking_array = explode('_', $filter_date_booking);
@@ -244,6 +244,9 @@ class generalReservationRepository extends EntityRepository {
 
         if($filter_reservation != "")
             $where .= " AND (SELECT min(ow2.own_res_gen_res_id) FROM mycpBundle:ownershipReservation ow2 WHERE ow2.own_res_reservation_booking = booking.booking_id) = '$filter_reservation' ";
+
+        if($filter_ownership != "")
+            $where .= " AND (SELECT min(own_own_mcp_code) FROM mycpBundle:ownershipReservation ow3 JOIN ow3.own_res_gen_res_id gres3 JOIN gres3.gen_res_own_id own WHERE ow3.own_res_reservation_booking = booking.booking_id) = '$filter_ownership' ";
 
 
         $query = $em->createQuery("SELECT payment.created,
