@@ -289,8 +289,7 @@ class OwnershipController extends Controller {
 
             foreach ($langs_array as $lang)
                 $languages .= ", " . $lang;
-            dump($locale); die;
-            return $this->render('FrontEndBundle:ownership:test.html.twig', array( //'FrontEndBundle:ownership:test.html.twig'ownershipSimpleDetails
+            return $this->render('FrontEndBundle:ownership:ownershipSimpleDetails.html.twig', array( //'FrontEndBundle:ownership:test.html.twig'
                         'ownership' => $ownership_array,
                         'description' => $ownership_array['description'],
                         'brief_description' => $brief_description,
