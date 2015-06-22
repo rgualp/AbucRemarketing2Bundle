@@ -20,10 +20,10 @@ function loadReportsByCategory()
         $.post(
             loadReportsUrl,
             {'category':category},
-        function(data)
-        {
-            $('#ddlReport').html(data);
-        });
+            function(data)
+            {
+                $('#ddlReport').html(data);
+            });
     }
 }
 
@@ -63,6 +63,17 @@ function viewReport()
     var dateRangeTo = ($('#dateRangeTo').val() !== undefined) ?   dateToYMD($('#dateRangeTo').val()) : "";
     parameters = parameters.replace('_dateTo', dateParam);
 
+    var filter_province = ($('#filter_province').val() !== undefined) ?   $('#filter_province').val() : "";
+    parameters = parameters.replace('_location', filter_province);
+
+    var filter_municipality = ($('#filter_municipality').val() !== undefined) ?   $('#filter_municipality').val() : "";
+    if(filter_municipality!='')
+    parameters = parameters.replace('_location', filter_municipality);
+
+    var filter_destination = ($('#filter_destination').val() !== undefined) ?   $('#filter_destination').val() : "";
+    if(filter_destination!='')
+    parameters = parameters.replace('_location', filter_destination);
+    console.log(parameters);
     reportUrl = reportUrl + parameters;
 
     var report = $('#ddlReport').val();
@@ -78,7 +89,10 @@ function viewReport()
         {
             'dateParam':dateParam,
             'dateRangeFrom': dateRangeFrom,
-            'dateRangeTo': dateRangeTo
+            'dateRangeTo': dateRangeTo,
+            'filter_province':filter_province,
+            'filter_municipality':filter_municipality,
+            'filter_destination':filter_destination
         },
         function(data)
         {

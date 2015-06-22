@@ -64,7 +64,32 @@ class BackendReportController extends Controller
 
    public function ownershipGeneralStatsAction(Request $request)
     {
-      //to do
+//        dump($request); die;
+       $em = $this->getDoctrine()->getManager();
+        $province = $request->get("filter_province");
+        $mun = $request->get("filter_municipality");
+        $errorText = "";
+        $content = array();
+//
+//        if(($province == null || $province == "null")&&($mun == null || $mun == "null"))
+//        {
+//            $errorText = "Seleccione una fecha para generar el reporte";
+//        }
+//        else
+//        {
+//            $timer = $this->get('time');
+//            $dateRangeFrom = $timer->add("-30 days",$date, "Y-m-d");
+//            $dateRangeTo = $timer->add("+30 days",$date, "Y-m-d");
+//
+//            $timer = $this->container->get("Time");
+//
+//            $content = $em->getRepository("mycpBundle:report")->rpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo, $timer);
+//        }
+//
+//        return $this->render('mycpBundle:reports:dailyInPlaceClients.html.twig', array(
+//            'content' => $content,
+//            'errorText' => $errorText
+//        ));
     }
 
     public function ownershipGeneralStatsExcelAction($location, $report)
