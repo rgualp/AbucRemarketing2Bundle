@@ -21,7 +21,7 @@
     <meta property="og:image" content="{{app.request.getSchemeAndHttpHost() ~ asset('uploads/ownershipImages/') ~ image }}" />
     <meta property="og:author" content="ABUC media network GmbH" />
     <meta property="og:site_name" content="MyCasaParticular" />
-    <meta property="og:description" content="{{brief_description| raw  }}" />
+    <meta property="og:description" content="{{ownership.owntype  | trans}} {{"IN" | trans}} {{ownership.ownAddressProvince}}: {{ownership.ownname}} ({{ ownership.mycpcode }}). {%if rooms is defined and rooms | length%}{{rooms | length}} {%if rooms | length == 1%}{{"ROOM_SINGULAR" | trans | trim}}{%else%}{{"ROOM_PLURAL" | trans | trim}} {%endif%}{%endif%}. {{"FROM_PRICES" | trans}} {{ownership.ownminimumprice | price}} {{"NIGHT_PER_ROOM" | trans}}" />
     <meta property="og:see_also" content="{{ mail_base_url }}"/>
     <!--meta property="og:locale" content="en_US"/-->
     <meta property="og:url" content="{{url('frontend_details_ownership',{'own_name':ownership.ownname  | urlNormalize})}}" />
