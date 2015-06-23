@@ -7,8 +7,9 @@
                 {%endif%}
                 {{"FROM_PRICES" | trans}} {{ownership.ownminimumprice | price}} {{"NIGHT_PER_ROOM" | trans}}">
     <meta name="keywords" content="{{ ownership.owntype }} {{ownership.owntype | trans}} {{ownership.ownaddressmunicipality}} {{ownership.ownAddressProvince}} Cuba {{ownership.ownname}}">
-
+    <meta property="og:description" content="{{ownership.owntype  | trans}} {{"IN" | trans}} {{ownership.ownAddressProvince}}: {{ownership.ownname}} ({{ ownership.mycpcode }}). {%if rooms is defined and rooms | length%}{{rooms | length}} {%if rooms | length == 1%}{{"ROOM_SINGULAR" | trans | trim}}{%else%}{{"ROOM_PLURAL" | trans | trim}} {%endif%}{%endif%}. {{"FROM_PRICES" | trans}} {{ownership.ownminimumprice | price}} {{"NIGHT_PER_ROOM" | trans}}" />
 {% endblock %}
+
 
 {% block title %}{{ownership.ownname}}{% endblock %}
 {% set main_tab = 5 %}
