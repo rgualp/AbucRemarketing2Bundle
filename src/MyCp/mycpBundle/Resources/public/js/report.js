@@ -64,8 +64,10 @@ function viewReport()
     parameters = parameters.replace('_dateTo', dateParam);
 
     var filter_province = ($('#filter_province').val() !== undefined) ?   $('#filter_province').val() : "";
+    if(filter_province!='')
     parameters = parameters.replace('_location', filter_province);
-
+    else
+    parameters = parameters.replace('_location', 'all');
     var filter_municipality = ($('#filter_municipality').val() !== undefined) ?   $('#filter_municipality').val() : "";
     if(filter_municipality!='')
     parameters = parameters.replace('_location', filter_municipality);

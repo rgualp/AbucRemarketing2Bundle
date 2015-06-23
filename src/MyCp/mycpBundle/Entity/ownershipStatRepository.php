@@ -11,6 +11,34 @@ use Doctrine\ORM\EntityRepository;
 class ownershipStatRepository extends EntityRepository
 {
 
+    public function getBulb($nomenclatorStatParent=null,$province=null,$municipality=null ){
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+            if($municipality==null) {
+                $qb->select('os','sn', 'np','SUM(os.stat_value) AS stat_value');
+               $qb->groupBy('sn.nom_id');
+                if($province!=null){
+                    $municipalities = $em->getRepository('mycpBundle:municipality')->findBy(array('mun_prov_id'=>$province));
+                    $qb->where('os.stat_municipality in (:mun)')->setParameter('mun',(array)$municipalities);
+                }
+            }
+            else{
+                $qb->select('os','sn', 'np','os.stat_value AS stat_value');
+                $qb->where("os.stat_municipality = :municipalityId")
+                    ->setParameter("municipalityId", $municipality->getMunId());
+
+            }
+
+            $qb->from("mycpBundle:ownershipStat", "os")
+            ->join("os.stat_nomenclator", "sn")
+            ->join("sn.nom_parent", "np");
+           $qb->orderBy('np.nom_id', 'ASC');
+           $qb->addOrderBy('sn.nom_id', 'ASC');
+            if($nomenclatorStatParent!=null){
+                $qb->where('sn.nom_parent = :nomStat')
+            ->setParameter('nomStat',$nomenclatorStatParent);}
+        return $qb->getQuery()->getResult();
+    }
     public function getData($nomenclatorStat, $municipality = null)
     {
         $em = $this->getEntityManager();
@@ -24,6 +52,24 @@ class ownershipStatRepository extends EntityRepository
             $qb->andWhere("os.stat_municipality = :municipalityId")
                ->setParameter("municipalityId", $municipality->getMunId());
         }
+
+        return $qb->getQuery()->getResult();
+    }
+    public function getDataForProvince($nomenclatorStat, $province)
+    {
+        $em = $this->getEntityManager();
+        $municipalities = $em->getRepository('mycpBundle:municipality')->findBy(array('mun_prov_id'=>$province));
+        $qb = $em->createQueryBuilder()
+             ->select('os')
+             ->from("mycpBundle:ownershipStat", "os")
+             ->where("os.stat_nomenclator = :nomenclatorId")
+             ->setParameter("nomenclatorId", $nomenclatorStat->getNomId());
+       $qb->andWhere("os.stat_municipality  IN (:municipalities)")
+           ->setParameter("municipalities", $municipalities);
+//        foreach($municipalities as $municipality) {
+//            $qb->a("os.stat_municipality = :municipalityId")
+//               ->setParameter("municipalityId", $municipality->getMunId());
+//        }
 
         return $qb->getQuery()->getResult();
     }
@@ -45,7 +91,7 @@ class ownershipStatRepository extends EntityRepository
     }
     public function insertOrUpdateObj(ownershipStat $stat)
     {   $em = $this->getEntityManager();
-        $statDb = $em->getRepository("mycpBundle:ownershipStat")->findOneBy(array("stat_municipality" => $stat->getStatMunicipality()->getMunId(), "stat_nomenclator" => $stat->getStatNomenclator()->getNomId()));
+        $statDb = $em->getRepository("mycpBundle:ownershipStat")->findOneBy(array("stat_municipality" => $stat->getStatMunicipality(), "stat_nomenclator" => $stat->getStatNomenclator()));
 
         if($statDb === null)
             $statDb = new ownershipStat();
@@ -54,7 +100,7 @@ class ownershipStatRepository extends EntityRepository
         $statDb->setStatMunicipality($stat->getStatMunicipality());
         $statDb->setStatValue($stat->getStatValue());
 
-        $em->persist($stat);
+        $em->persist($statDb);
        // $em->flush();
     }
 
@@ -144,7 +190,7 @@ class ownershipStatRepository extends EntityRepository
         $nomenclatorRepository=$em->getRepository("mycpBundle:nomenclatorStat");
         $result = array();
         foreach($municipalities as $municipality){
-            $nomTotal=$nomenclatorRepository->findOneBy(array('nom_name'=>'Resúmen'));
+            $nomTotal=$nomenclatorRepository->findOneBy(array('nom_name'=>'Total'));
             $nomCasaSelec=$nomenclatorRepository->findOneBy(array('nom_name'=>'Casa Selección'));
             $nomReservInm=$nomenclatorRepository->findOneBy(array('nom_name'=>'Reserva Inmediata'));
             $owns=  $ownershipRepository->findBy(array('own_address_municipality'=>$municipality));
@@ -239,9 +285,9 @@ class ownershipStatRepository extends EntityRepository
         $nomenRooms=$nomenclatorRepository->findBy(array('nom_parent'=>$nomenRoom));
         $result = array();
         foreach($municipalities as $municipality){
-            $ownsRest=  $ownershipRepository->findBy(array('own_address_municipality'=>$municipality));
+            $ownsRest= $ownershipRepository->findBy(array('own_address_municipality'=>$municipality));
             foreach($nomenRooms as $ownCat){
-                if(is_int($ownCat->getNomName())) {
+                if(($ownCat->getNomName()!='+5')) {
                     $owns = $ownershipRepository->findBy(array('own_address_municipality' => $municipality, 'own_rooms_total' => (int)$ownCat->getNomName()));
                     $ownsRest=array_diff($ownsRest,$owns);
 

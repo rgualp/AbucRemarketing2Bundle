@@ -9,6 +9,7 @@
 namespace MyCp\mycpBundle\Helpers;
 
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -43,6 +44,18 @@ class ExportToExcel extends Controller {
 
         $this->save($excel, $fileName);
         return $this->export($fileName);
+    }
+
+    public function exportOwnershipGeneralStats(Request $request, $reportId,  $fileName = "resumen_propiedades.xlsx") {
+//        $excel = $this->configExcel("Reporte resumen de propiedades", "Reporte resumen de propiedades de MyCasaParticular", "reportes");
+//
+//        $data = $this->dataForRpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo, $timer);
+//
+//        if (count($data) > 0)
+//            $excel = $this->createSheetForRpDailyInPlaceClients($excel, $date, $reportId, $date, $data);
+//
+//        $this->save($excel, $fileName);
+//        return $this->export($fileName);
     }
 
     private function dataForRpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo, $timer) {

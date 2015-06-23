@@ -1,1 +1,15 @@
-Hello world!!
+<h3>Propiedades en {{ location }}</h3>
+{% set nom_parent='' %}
+<div class="bulb">
+{% for stat in content %}
+    {% if stat[0].statNomenclator.nomParent!=nom_parent  %}
+        </div>
+    <div class="bulb">
+    {% set nom_parent=stat[0].statNomenclator.nomParent%}
+   <h4>Por {{ stat[0].statNomenclator.nomParent }}</h4>
+    {% endif %}
+    <div class="row-fluid">
+        <div class="span6">{{ stat[0].statNomenclator }}</div>
+        <div class="span6">{{ stat['stat_value'] }}</div>
+        </div>
+{% endfor %}

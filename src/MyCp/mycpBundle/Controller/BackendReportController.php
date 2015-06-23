@@ -69,32 +69,37 @@ class BackendReportController extends Controller
         $province = $request->get("filter_province");
         $mun = $request->get("filter_municipality");
         $errorText = "";
-        $content = array();
-//
-//        if(($province == null || $province == "null")&&($mun == null || $mun == "null"))
-//        {
-//            $errorText = "Seleccione una fecha para generar el reporte";
-//        }
-//        else
-//        {
-//            $timer = $this->get('time');
-//            $dateRangeFrom = $timer->add("-30 days",$date, "Y-m-d");
-//            $dateRangeTo = $timer->add("+30 days",$date, "Y-m-d");
-//
-//            $timer = $this->container->get("Time");
-//
-//            $content = $em->getRepository("mycpBundle:report")->rpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo, $timer);
-//        }
-//
-//        return $this->render('mycpBundle:reports:dailyInPlaceClients.html.twig', array(
-//            'content' => $content,
-//            'errorText' => $errorText
-//        ));
+    //    $content = array();
+        $location='el país';
+        if(($province == null || $province == "null")&&($mun == null || $mun == "null")){
+            $resp=$em->getRepository('mycpBundle:ownershipStat')->getBulb();
+        }
+       else if($mun == null || $mun == "null"){
+           $province = $em->getRepository('mycpBundle:province')->find($province);
+           $resp=$em->getRepository('mycpBundle:ownershipStat')->getBulb(null, $province,null);
+           $location=$province->getProvName();
+        }
+       else{
+            $municipality = $em->getRepository('mycpBundle:municipality')->find($mun);
+            $resp=$em->getRepository('mycpBundle:ownershipStat')->getBulb(null, null, $municipality);
+            $location=$municipality->getMunName();
+
+        }
+//       dump($resp);die;
+
+        return $this->render('mycpBundle:reports:ownershipGeneralStats.html.twig', array(
+            'content' => $resp,
+            'location' => $location,
+            'errorText' => $errorText
+        ));
     }
 
-    public function ownershipGeneralStatsExcelAction($location, $report)
+    public function ownershipGeneralStatsExcelAction(Request $request, $location, $report)
     {
-       //to do
+        $exporter = $this->get("mycp.service.export_to_excel");
+        return $exporter->exportOwnershipGeneralStats($request, $report);
+
+
     }
 
     public function ownershipVsReservationsStatsAction(Request $request)
