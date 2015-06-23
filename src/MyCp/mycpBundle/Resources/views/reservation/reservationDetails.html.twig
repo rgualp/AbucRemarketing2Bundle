@@ -191,7 +191,14 @@
         <li class="active">
             <a href="#reservas" data-toggle="tab">Resumen</a>
         </li>
+        {% if reservation.genResStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED')  %}
+        <li>
+            <a href="#booking" data-toggle="tab">Bookings</a>
+        </li>
+        {% endif %}
     </ul>
+<div class="tab-content" id="myTabContent">
+    <div id="reservas" class="tab-pane fade active in">
     <table class="table" style="font-size: 12px;">
         <thead>
         <tr>
@@ -230,6 +237,13 @@
             </td>
         </tr>
     </table>
+    </div>
+    {% if reservation.genResStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED')  %}
+    <div id="booking" class="tab-pane fade" data-url="#">
+
+    </div>
+    {% endif %}
+    </div>
     {{ render(controller('mycpBundle:BackendMessage:messageControl', {'userTourist': user[0]})) }}
 </div>
 
@@ -243,12 +257,33 @@
         }).on('changeDate', function(ev){
                     $('.datepicker').hide();
                 });
+
+        $('#tabs a[href="#booking"]').click(function () {
+            loadBookings();
+        });
+
         function send_message()
         {
             url_submit="{{path('mycp_send_reservation',{'id_reservation':id_reservation})}}";
             form=$('#form_edit_reserve');
             form.attr('action',url_submit);
             form.submit();
+        }
+
+        function loadBookings()
+        {
+            var reservation = {{ id_reservation }};
+            var url = $("#booking").attr("data-url");
+            $("#booking").html("Cargando....");
+            $.post(url, {
+                        reservation: reservation
+                    },
+                    function (data) {
+                        $("#booking").html(data);
+                        $('#tabs a[href="#booking"]').tab('show');
+                    });
+
+            return false;
         }
     </script>
 {% endblock %}
