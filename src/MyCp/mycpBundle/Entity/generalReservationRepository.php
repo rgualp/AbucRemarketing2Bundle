@@ -225,7 +225,7 @@ class generalReservationRepository extends EntityRepository {
         return $array_genres;
     }
 
-    function getAllBookings($filter_booking_number, $filter_date_booking, $filter_user_booking, $filter_arrive_date_booking, $filter_reservation, $filter_ownership) {
+    function getAllBookings($filter_booking_number, $filter_date_booking, $filter_user_booking, $filter_arrive_date_booking, $filter_reservation, $filter_ownership, $filter_currency) {
         $em = $this->getEntityManager();
 
         $filter_date_booking_array = explode('_', $filter_date_booking);
@@ -261,12 +261,14 @@ class generalReservationRepository extends EntityRepository {
         WHERE booking.booking_id LIKE :filter_booking_number
         AND booking.booking_user_dates LIKE :filter_user_booking
         AND payment.created LIKE :filter_date_booking
+        ANd curr.curr_id LIKE :filter_currency
         $where
         ORDER BY payment.id DESC");
         return $query->setParameters(array(
                             'filter_booking_number' => "%" . $filter_booking_number . "%",
                             'filter_user_booking' => "%" . $filter_user_booking . "%",
                             'filter_date_booking' => "%" . $filter_date_booking . "%",
+                            'filter_currency' => "%" . $filter_currency . "%",
                         ))
                         ->getArrayResult();
     }

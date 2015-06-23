@@ -174,4 +174,11 @@ class PublicController extends Controller
         return $this->redirect($this->generateUrl($returnUrlName));
     }
 
+    public function getCurrenciesAction($selected)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $currencies=$em->getRepository('mycpBundle:currency')->findBy(array(), array("curr_name" => "ASC"));
+        return $this->render('mycpBundle:utils:currency.html.twig',array('selected'=>$selected,'currencies'=>$currencies));
+    }
 }

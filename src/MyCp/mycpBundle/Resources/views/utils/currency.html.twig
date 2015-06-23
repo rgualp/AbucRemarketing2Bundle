@@ -1,0 +1,4 @@
+<option value=""></option>
+{% for currency in currencies %}
+<option {% if selected== currency.getCurrId %} selected="TRUE" {% endif %} value="{{ currency.getCurrId }}">{{ currency.getCurrName }}</option>
+{% endfor %}
