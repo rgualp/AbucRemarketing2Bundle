@@ -241,6 +241,8 @@ class PaymentController extends Controller
         $payment->setCurrency($currency);
         $payment->setModified(new DateTime());
         $payment->setStatus(SkrillHelper::getInternalStatusCodeFrom($skrillPayment->getStatus()));
+        $currencyRate = $currency->getCurrCucChange();
+        $payment->setCurrentCucChangeRate($currencyRate);
 
         $skrillPayment->setPayment($payment);
         $em->persist($payment);

@@ -62,6 +62,13 @@ class payment
      */
     private $status = null;
 
+    /**
+     * @var decimal
+     *
+     * @ORM\Column(name="current_cuc_change_rate", type="decimal", precision=10, scale=2, nullable=true)
+     */
+    private $current_cuc_change_rate;
+
 
     /**
      * Get id
@@ -209,5 +216,28 @@ class payment
     public function getCurrency()
     {
         return $this->currency;
+    }
+
+    /**
+     * Set current_cuc_change_rate
+     *
+     * @param float $currentCucChangeRate
+     * @return payment
+     */
+    public function setCurrentCucChangeRate($currentCucChangeRate)
+    {
+        $this->current_cuc_change_rate = $currentCucChangeRate;
+
+        return $this;
+    }
+
+    /**
+     * Get current_cuc_change_rate
+     *
+     * @return float
+     */
+    public function getCurrentCucChangeRate()
+    {
+        return $this->current_cuc_change_rate;
     }
 }
