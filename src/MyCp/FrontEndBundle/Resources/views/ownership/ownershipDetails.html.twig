@@ -23,7 +23,7 @@
     <meta property="og:site_name" content="MyCasaParticular" />
     <meta property="og:description" content="{{brief_description| raw  }}" />
     <meta property="og:see_also" content="{{ mail_base_url }}"/>
-    <meta property="og:locale" content="{{locale|lower}}_{{locale|upper}}"/>
+    <meta property="og:locale" content="en_US"/>
     <meta property="og:url" content="{{url('frontend_details_ownership',{'own_name':ownership.ownname  | urlNormalize})}}" />
     <meta property=”fb:admins” content=”312774092497”/>
     {% endblock %}
@@ -704,8 +704,6 @@
        <script type="text/javascript">
                   from = $('#filter_date_from').val();
                   to = $('#filter_date_to').val();
-                  locale = {{locale|lower}};
-                  fullLocale = {{locale|lower}} + "_" + {{locale|upper}};
 
                   refresh_calendar(from, to);
 
@@ -733,10 +731,7 @@
                       var js, fjs = d.getElementsByTagName(s)[0];
                       if (d.getElementById(id)) {return;}
                       js = d.createElement(s); js.id = id;
-                      if(locale === "en")
-                       js.src = "//connect.facebook.net/en_US/sdk.js";
-                      else
-                          js.src = "//connect.facebook.net/"+fullLocale+"/sdk.js";
+                      js.src = "//connect.facebook.net/en_US/sdk.js";
                       fjs.parentNode.insertBefore(js, fjs);
                   }(document, 'script', 'facebook-jssdk'));
       </script>
