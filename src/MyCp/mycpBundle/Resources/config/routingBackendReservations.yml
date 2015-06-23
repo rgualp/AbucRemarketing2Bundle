@@ -70,3 +70,7 @@ mycp_changes_dates_reservation:
 mycp_new_offer_to_client:
     pattern:  /new-offer-to-client/{idClient}
     defaults: { _controller: mycpBundle:BackendReservation:newCleanOffer, idClient:'' }
+
+mycp_reservation_bookings_callback:
+    pattern:  /reservation-bookings-callback/
+    defaults: { _controller: mycpBundle:BackendReservation:getBookingsCallback }

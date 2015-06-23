@@ -871,6 +871,12 @@ class BackendReservationController extends Controller {
         return $this->render('mycpBundle:reservation:reservationEdit.html.twig', array('errors' => $errors, 'data' => $data, 'reservation' => $reservation, 'id_reservation' => $id_reservation, 'post' => $post));
     }
 
+    public function getBookingsCallbackAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $reservationId = $request->get("reservation");
+    }
+
     public function get_ownershipsAction($data) {
         $em = $this->getDoctrine()->getEntityManager();
         $ownerships = $em->getRepository('mycpBundle:ownership')->findAll();
