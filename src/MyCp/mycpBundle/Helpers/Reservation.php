@@ -9,13 +9,8 @@
 namespace MyCp\mycpBundle\Helpers;
 
 use Doctrine\ORM\EntityManager;
-use MyCp\mycpBundle\Entity\batchType;
-use MyCp\mycpBundle\Entity\ownership;
-use MyCp\mycpBundle\Entity\ownershipDescriptionLang;
-use MyCp\mycpBundle\Entity\ownershipKeywordLang;
-use MyCp\mycpBundle\Entity\ownershipStatus;
 use Doctrine\Common\Collections\ArrayCollection;
-use MyCp\mycpBundle\Entity\room;
+use MyCp\mycpBundle\Entity\ownershipReservation;
 
 class Reservation  {
 

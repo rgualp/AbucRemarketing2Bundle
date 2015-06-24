@@ -634,126 +634,22 @@ class BackendReservationController extends Controller {
         $errors = array();
 
         $service_time = $this->get('time');
-        $post = $request->request->getIterator()->getArrayCopy();
+        $reservationService = $this->get('mycp.reservation.service');
+
         $dates = $service_time->datesBetween($reservation->getGenResFromDate()->format('Y-m-d'), $reservation->getGenResToDate()->format('Y-m-d'));
-        $not_available = true;
-        $details_total = 0;
-        $available_total = 0;
-        $non_available_total = 0;
-        $cancelled_total = 0;
-        $outdated_total = 0;
+        $post = $request->request->getIterator()->getArrayCopy();
         if ($request->getMethod() == 'POST') {
-            $keys = array_keys($post);
-
-            foreach ($keys as $key) {
-                $splitted = explode("_", $key);
-                $own_res_id = $splitted[count($splitted) - 1];
-                if (strpos($key, 'service_room_price') !== false) {
-
-                    if (!is_numeric($post[$key])) {
-                        $errors[$key] = 1;
-                    }
-                }
-                if (strpos($key, 'service_own_res_status') !== false) {
-                    $details_total++;
-                    switch ($post[$key]) {
-                        case ownershipReservation::STATUS_NOT_AVAILABLE: $non_available_total++;
-                            break;
-                        case ownershipReservation::STATUS_AVAILABLE: $available_total++;
-                            break;
-                        case ownershipReservation::STATUS_CANCELLED: $cancelled_total++;
-                            break;
-                        case ownershipReservation::STATUS_OUTDATED: $outdated_total++;
-                            break;
-                    }
-                }
-
-                if (strpos($key, 'date_from') !== false) {
-                    $start = explode('/', $post['date_from_' . $own_res_id]);
-                    $end = explode('/', $post['date_to_' . $own_res_id]);
-                    $start_timestamp = mktime(0, 0, 0, $start[1], $start[0], $start[2]);
-                    $end_timestamp = mktime(0, 0, 0, $end[1], $end[0], $end[2]);
-
-                    if ($start_timestamp > $end_timestamp) {
-                        $errors[$key] = 1;
-                        $errors["date_from"] = 1;
-                    }
-                }
-
-                if(strpos($key, 'service_room_count_adults') !== false)
-                {
-                    $adults =  $post['service_room_count_adults_' . $own_res_id];
-                    $children =  $post['service_room_count_childrens_' . $own_res_id];
-
-                    if($adults + $children == 0)
-                    {
-                        $errors["guest_number_" . $own_res_id] = 1;
-                        $errors["guest_number"] = 1;
-                    }
+            try {
+                $errors = $reservationService->updateReservationFromRequest($post, $reservation, $ownership_reservations);
+                if(count($errors) == 0) {
+                    $message = 'Reserva actualizada satisfactoriamente.';
+                    $this->get('session')->getFlashBag()->add('message_ok', $message);
                 }
             }
-
-            if (count($errors) == 0) {
-                $totalPrice = 0;
-                $nights = 0;
-                foreach ($ownership_reservations as $ownership_reservation) {
-                    $start = explode('/', $post['date_from_' . $ownership_reservation->getOwnResId()]);
-                    $end = explode('/', $post['date_to_' . $ownership_reservation->getOwnResId()]);
-                    $start_timestamp = mktime(0, 0, 0, $start[1], $start[0], $start[2]);
-                    $end_timestamp = mktime(0, 0, 0, $end[1], $end[0], $end[2]);
-
-                    $ownership_reservation->setOwnResReservationFromDate(new \DateTime(date("Y-m-d H:i:s", $start_timestamp)));
-                    $ownership_reservation->setOwnResReservationToDate(new \DateTime(date("Y-m-d H:i:s", $end_timestamp)));
-
-                    if (isset($post['service_room_price_' . $ownership_reservation->getOwnResId()]) && $post['service_room_price_' . $ownership_reservation->getOwnResId()] != "" && $post['service_room_price_' . $ownership_reservation->getOwnResId()] != "0") {
-                        $ownership_reservation->setOwnResNightPrice($post['service_room_price_' . $ownership_reservation->getOwnResId()]);
-                    }
-                    else
-                        $ownership_reservation->setOwnResNightPrice(0);
-
-                    $ownership_reservation->setOwnResCountAdults($post['service_room_count_adults_' . $ownership_reservation->getOwnResId()]);
-                    $ownership_reservation->setOwnResCountChildrens($post['service_room_count_childrens_' . $ownership_reservation->getOwnResId()]);
-                    $ownership_reservation->setOwnResStatus($post['service_own_res_status_' . $ownership_reservation->getOwnResId()]);
-
-                    $tripleRoomFeed = $this->container->getParameter('configuration.triple.room.charge');
-                    $partialTotalPrice = \MyCp\FrontEndBundle\Helpers\ReservationHelper::getTotalPrice($em, $service_time, $ownership_reservation, $tripleRoomFeed);
-                    $totalPrice+=$partialTotalPrice;
-                    $ownership_reservation->setOwnResTotalInSite($partialTotalPrice);
-
-                    $partialNights = $service_time->nights($start_timestamp, $end_timestamp);
-                    $nights+=$partialNights;
-                    $ownership_reservation->setOwnResNights($partialNights);
-
-                    if ($post['service_own_res_status_' . $ownership_reservation->getOwnResId()] == ownershipReservation::STATUS_RESERVED) {
-                        $this->updateICal($em,$ownership_reservation->getOwnResSelectedRoomId());
-                    }
-                }
-                $message = 'Reserva actualizada satisfactoriamente.';
-                $reservation->setGenResTotalInSite($totalPrice);
-                $reservation->setGenResSaved(1);
-                $reservation->setGenResNights($nights);
-                if ($reservation->getGenResStatus() != generalReservation::STATUS_RESERVED) {
-                    if ($non_available_total > 0 && $non_available_total == $details_total) {
-                        $reservation->setGenResStatus(generalReservation::STATUS_NOT_AVAILABLE);
-                    } else if ($available_total > 0 && $available_total == $details_total) {
-                        $reservation->setGenResStatus(generalReservation::STATUS_AVAILABLE);
-                    } else if ($non_available_total > 0 && $available_total > 0)
-                        $reservation->setGenResStatus(generalReservation::STATUS_PARTIAL_AVAILABLE);
-
-                    else if ($cancelled_total > 0 && $cancelled_total != $details_total) {
-                        $reservation->setGenResStatus(generalReservation::STATUS_PARTIAL_CANCELLED);
-                    } else if ($outdated_total > 0 && $outdated_total == $details_total)
-                        $reservation->setGenResStatus(generalReservation::STATUS_OUTDATED);
-                }
-                if ($cancelled_total > 0 && $cancelled_total == $details_total) {
-                    $reservation->setGenResStatus(generalReservation::STATUS_CANCELLED);
-                }
-                $em->persist($reservation);
-                $em->flush();
-                $service_log = $this->get('log');
-                $service_log->saveLog('Edit entity for ' . $reservation->getCASId(), BackendModuleName::MODULE_RESERVATION);
-
-                $this->get('session')->getFlashBag()->add('message_ok', $message);
+            catch(\Exception $e)
+            {
+                $message = 'Error: '.$e->getMessage();
+                $this->get('session')->getFlashBag()->add('message_error_main', $message);
             }
         }
 
@@ -1084,17 +980,6 @@ class BackendReservationController extends Controller {
                     'nights' => $total_nights));
     }
 
-    private function updateICal($em,$roomId) {
-        try {
-            $calendarService = $this->get('mycp.service.calendar');
-            $room = $em->getRepository("mycpBundle:room")->find($roomId);
-            $calendarService->createICalForRoom($room->getRoomId(), $room->getRoomCode());
-            return "Se actualizó satisfactoriamente el fichero .ics asociado a esta habitación.";
-        } catch (\Exception $e) {
-            var_dump( "Ha ocurrido un error mientras se actualizaba el fichero .ics de la habitación. Error: " . $e->getMessage());
-            exit;
-        }
-    }
 
     public function newCleanOfferAction($idClient)
     {

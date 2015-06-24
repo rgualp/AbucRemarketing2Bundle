@@ -195,6 +195,8 @@ services:
             em: "@doctrine.orm.entity_manager"
             timer: "@Time"
             tripleRoomCharge: "%configuration.triple.room.charge%"
+            calendarService: "@mycp.service.calendar"
+            logger: "@log"
 
 avalanche_imagine:
     web_root:     %kernel.root_dir%/../web
