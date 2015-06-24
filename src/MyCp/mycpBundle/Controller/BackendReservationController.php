@@ -597,7 +597,7 @@ class BackendReservationController extends Controller {
     public function details_reservation_partialAction($id_reservation) {
         $em = $this->getDoctrine()->getEntityManager();
         $reservation = $em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
-        $ownership_reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $id_reservation));
+        $ownership_reservations = $em->getRepository('mycpBundle:ownershipReservation')->getByIdObj($id_reservation);
 
         $service_time = $this->get('time');
 

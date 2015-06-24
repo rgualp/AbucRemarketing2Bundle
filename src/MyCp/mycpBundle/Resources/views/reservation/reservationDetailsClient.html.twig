@@ -16,8 +16,8 @@
     <li class="pull-right"><a href="{{ path('mycp_list_reservations_user') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 <div class="form-actions">
-    <a class="btn btn-primary" href="javascript:submit()">Guardar</a>
-    <button class="btn" type="reset">Cancelar</button>
+    <!--a class="btn btn-primary" href="javascript:submit()">Guardar</a>
+    <button class="btn" type="reset">Cancelar</button-->
     &nbsp;&nbsp;&nbsp;
     <a title="Nueva oferta" class="btn btn-info" href="{{path('mycp_new_offer_to_client', {'idClient': client.userId})}}"><i class="icon-asterisk icon-white"></i> Oferta</a>
     <a class="btn btn-danger" onclick="sendMessage()">Enviar</a>
@@ -63,8 +63,8 @@
                 <tr>
                     <td>{{ flag }}</td>
                     <td>{{ reservation[0]['gen_res_date']|date("d/m/Y") }}</td>
-                    <td>{{reservation[0].gen_res_id | getCASId}}</td>
-                    <td>{{reservation[0]['gen_res_own_id']['own_mcp_code']}}</td>
+                    <td><a href="{{ path("mycp_details_reservation", {"id_reservation": reservation[0].gen_res_id}) }}">{{reservation[0].gen_res_id | getCASId}}</a></td>
+                    <td><a href="{{ path("mycp_edit_ownership", {"id_ownership": reservation[0]['gen_res_own_id']['own_id']}) }}">{{reservation[0]['gen_res_own_id']['own_mcp_code']}}</a></td>
                     <td>{{reservation['rooms']}}</td>
                     <td>{{reservation['adults']}}</td>
                     <td>{{reservation['childrens']}}</td>
@@ -74,7 +74,7 @@
                         {{ render(controller('mycpBundle:BackendReservation:getGeneralReservationStatusName', {'status': reservation[0].gen_res_status, 'wrap': false, 'showInDiv': true})) }}
                     </td>
                     <td style="text-align: right">
-                        <button data_res_id="{{reservation[0].gen_res_id}}" data_name_id="{{reservation[0].gen_res_id}}tab" data_name="{{reservation[0].gen_res_id | getCASId}}" type="button" class="reserve_details btn btn-mini" href="">Detalles</button>
+                        <button data_res_id="{{reservation[0].gen_res_id}}" data_name_id="{{reservation[0].gen_res_id}}tab" data_name="{{reservation[0].gen_res_id | getCASId}}" type="button" class="reserve_details btn btn-mini" href="">Ver</button>
                     </td>
                 </tr>
                 {% set flag = flag + 1 %}

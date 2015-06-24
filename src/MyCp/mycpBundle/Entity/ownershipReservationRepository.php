@@ -165,11 +165,21 @@ class ownershipReservationRepository extends EntityRepository {
     function getById($id_reservation) {
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT ore,gre,us, ow,owm,owp,uc FROM mycpBundle:ownershipReservation ore
-        JOIN ore.own_res_gen_res_id gre JOIN gre.gen_res_user_id us JOIN ore.own_res_own_id ow
+        JOIN ore.own_res_gen_res_id gre JOIN gre.gen_res_user_id us JOIN gre.gen_res_own_id ow
         JOIN ow.own_address_municipality owm JOIN ow.own_address_province owp
         JOIN us.user_country uc
-        WHERE ore.own_res_id= :id_reservation");
+        WHERE ore.own_res_gen_res_id= :id_reservation");
         return $query->setParameter('id_reservation', $id_reservation)->getArrayResult();
+    }
+
+    function getByIdObj($id_reservation) {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT ore,gre,us, ow,owm,owp,uc FROM mycpBundle:ownershipReservation ore
+        JOIN ore.own_res_gen_res_id gre JOIN gre.gen_res_user_id us JOIN gre.gen_res_own_id ow
+        JOIN ow.own_address_municipality owm JOIN ow.own_address_province owp
+        JOIN us.user_country uc
+        WHERE ore.own_res_gen_res_id= :id_reservation");
+        return $query->setParameter('id_reservation', $id_reservation)->getResult();
     }
 
     function edit($reservation, $data) {
