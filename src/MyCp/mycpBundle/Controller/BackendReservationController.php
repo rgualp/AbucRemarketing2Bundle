@@ -614,13 +614,16 @@ class BackendReservationController extends Controller {
            array_push($total_nights, $temp_total_nights);
         }
 
+        $bookings = $em->getRepository("mycpBundle:generalReservation")->getAllBookings(null, null, null, null, $id_reservation, null, null);
+
         return $this->render('mycpBundle:reservation:reservationDetailsPartial.html.twig', array(
                     'nights' => $total_nights,
                     'reservation' => $reservation,
                     'user' => $user,
                     'reservations' => $ownership_reservations,
                     'rooms' => $rooms,
-                    'id_reservation' => $id_reservation
+                    'id_reservation' => $id_reservation,
+                    'bookings' => $bookings
         ));
     }
 
@@ -875,6 +878,12 @@ class BackendReservationController extends Controller {
     {
         $em = $this->getDoctrine()->getEntityManager();
         $reservationId = $request->get("reservation");
+
+        $bookings = $em->getRepository("mycpBundle:generalReservation")->getAllBookings(null, null, null, null, $reservationId, null, null);
+
+        $content = $this->renderView("mycpBundle:utils:bookings.html.twig", array("bookings" => $bookings));
+
+        return new Response($content, 200);
     }
 
     public function get_ownershipsAction($data) {

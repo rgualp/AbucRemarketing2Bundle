@@ -239,7 +239,7 @@
     </table>
     </div>
     {% if reservation.genResStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED')  %}
-    <div id="booking" class="tab-pane fade" data-url="{{ path("mycp_reservation_bookings_callback") }}">
+    <div id="booking" class="tab-pane fade" data-url="{{ path("mycp_reservation_bookings_callback") }}" data-has-content = "false">
 
     </div>
     {% endif %}
@@ -251,6 +251,7 @@
     <script src="{{ asset('bundles/mycp/js/bootstrap-datepicker.es.js') }}" type="text/javascript"></script>
     <link href="{{ asset('bundles/mycp/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
     <script type="text/javascript">
+
         $('.datepicker_textbox').datepicker({
             language: 'es',
             format:'dd/mm/yyyy'
@@ -272,17 +273,21 @@
 
         function loadBookings()
         {
-            var reservation = {{ id_reservation }};
-            var url = $("#booking").attr("data-url");
-            $("#booking").html("Cargando....");
-            $.post(url, {
-                        reservation: reservation
-                    },
-                    function (data) {
-                        $("#booking").html(data);
-                        $('#tabs a[href="#booking"]').tab('show');
-                    });
+            var bookingHasContent = $("#booking").attr("data-has-content");
 
+            if(bookingHasContent == "false") {
+                var reservation = {{ id_reservation }};
+                var url = $("#booking").attr("data-url");
+                $("#booking").html("Cargando....");
+                $.post(url, {
+                            reservation: reservation
+                        },
+                        function (data) {
+                            $("#booking").html(data);
+                            $('#tabs a[href="#booking"]').tab('show');
+                            $("#booking").attr("data-has-content", "true");
+                        });
+            }
             return false;
         }
     </script>

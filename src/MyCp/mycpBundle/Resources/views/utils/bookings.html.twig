@@ -1,0 +1,28 @@
+{% if bookings %}
+<table class="table table-hover table-striped" style="font-size: 12px">
+    <thead>
+    <tr>
+        <th>Booking</th>
+        <th>Fecha</th>
+        <th>Prepago</th>
+        <th>Moneda</th><th style="text-align: right">Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+{% for booking in bookings %}
+    <tr>
+
+        <td><a href="{{ path('mycp_details_reservations_booking',{'id_booking':booking.booking_id}) }}">{{ booking.booking_id}}</a></td>
+        <td>{{ booking.created|date("d/m/Y") }}</td>
+        <td>{{ booking.payed_amount }} {{ booking.curr_code }}</td>
+        <td>{{ booking.curr_code }}</td>
+        <td style="text-align: right">
+            <a class="btn btn-mini" href="{{ path('mycp_details_reservations_booking',{'id_booking':booking.booking_id}) }}">Detalles</a>
+        </td>
+    </tr>
+{% endfor %}
+</tbody>
+</table>
+{% else %}
+    <p> <div class="alert alert-block">No hay bookings asociados a esta reservación.</div></p>
+{% endif %}
