@@ -68,14 +68,21 @@
             <a href="#reservas" data-toggle="tab">Habitaciones reservadas ({{reservation.getCASId}})</a>
         </li>
     </ul>
+        <div>
+            {%if errors['date_from'] is defined%}
+                <label class="error">El rango de fechas es incorrecto</label>
+            {%endif%}
+            {%if errors['guest_number'] is defined%}
+                <label class="error">La cantidad de adultos más la cantidad de niños, en una misma habitación, no puede ser 0.</label>
+            {%endif%}
     <table class="table table-striped" style="font-size: 12px">
         <thead>
         <tr>
             <th>Habitación</th>
-            <th>Adultos</th>
-            <th>Niños</th>
-            <th>Entrada</th>
-            <th>Salida</th>
+            <th {%if errors['guest_number'] is defined%}class="error"{% endif %}>Adultos</th>
+            <th {%if errors['guest_number'] is defined%}class="error"{% endif %}>Niños</th>
+            <th {%if errors['date_from'] is defined%}class="error"{% endif %}>Entrada</th>
+            <th {%if errors['date_from'] is defined%}class="error"{% endif %}>Salida</th>
             <th>Noches</th>
             <th>Precios</th>
             <th>Precio/Noche</th>
@@ -103,14 +110,14 @@
             <td>
                Hab #{{rooms[flag].getRoomNum}} - {{rooms[flag].getRoomType}}
              </td>
-            <td style="width: 50px"><select name="service_room_count_adults_{{reservation_rooms.getOwnResId}}" class="input-block-level">
+            <td style="width: 50px"><select name="service_room_count_adults_{{reservation_rooms.getOwnResId}}" class="input-block-level {%if errors['guest_number_' ~ reservation_rooms.getOwnResId] is defined%}class='errorControl'{% endif %}">
                 {% if post['service_room_count_adults_'~reservation_rooms.getOwnResId] is defined %}
-                    {{ render(controller('mycpBundle:BackendReservation:get_numeric_list', {'post': {'selected':post['service_room_count_adults_'~reservation_rooms.getOwnResId]}})) }}
+                    {{ render(controller('mycpBundle:BackendReservation:get_numeric_list_0', {'post': {'selected':post['service_room_count_adults_'~reservation_rooms.getOwnResId]}})) }}
                 {% else %}
-                    {{ render(controller('mycpBundle:BackendReservation:get_numeric_list', {'post': {'selected':reservation_rooms.getOwnResCountAdults}})) }}
+                    {{ render(controller('mycpBundle:BackendReservation:get_numeric_list_0', {'post': {'selected':reservation_rooms.getOwnResCountAdults}})) }}
                 {% endif %}
             </select></td>
-            <td><select style="width: 50px" name="service_room_count_childrens_{{reservation_rooms.getOwnResId}}" class="input-block-level">
+            <td><select style="width: 50px" name="service_room_count_childrens_{{reservation_rooms.getOwnResId}}" class="input-block-level {%if errors['guest_number_' ~ reservation_rooms.getOwnResId] is defined%}class='errorControl'{% endif %}">
                 {% if post['service_room_count_childrens_'~reservation_rooms.getOwnResId] is defined %}
                     {{ render(controller('mycpBundle:BackendReservation:get_numeric_list_0', {'post': {'selected':post['service_room_count_childrens_'~reservation_rooms.getOwnResId]}})) }}
                 {% else %}
@@ -118,15 +125,9 @@
                 {% endif %}
             </select></td>
             <td>
-                {%if errors['date_from_' ~ reservation_rooms.getOwnResId] is defined%}
-                    <label class="error">Rango incorrecto</label>
-                {%endif%}
-                <input name="date_from_{{reservation_rooms.getOwnResId}}" data-localization="es" type="text" class="input-block-level datepicker_textbox" value="{% if post['date_from_'~reservation_rooms.getOwnResId] is defined %}{{ post['date_from_'~reservation_rooms.getOwnResId] }}{% else %}{{ reservation_rooms.getOwnResReservationFromDate | date("d/m/Y") }}{% endif %}"/></td>
+                <input name="date_from_{{reservation_rooms.getOwnResId}}" data-localization="es" type="text" class="input-block-level datepicker_textbox {%if errors['date_from_' ~ reservation_rooms.getOwnResId] is defined%}class="errorControl"{% endif %}" value="{% if post['date_from_'~reservation_rooms.getOwnResId] is defined %}{{ post['date_from_'~reservation_rooms.getOwnResId] }}{% else %}{{ reservation_rooms.getOwnResReservationFromDate | date("d/m/Y") }}{% endif %}"/></td>
             <td>
-                {%if errors['date_from_' ~ reservation_rooms.getOwnResId] is defined%}
-                    <label class="error">Rango incorrecto</label>
-                {%endif%}
-                <input name="date_to_{{reservation_rooms.getOwnResId}}" data-localization="es" type="text" class="input-block-level datepicker_textbox" value="{% if post['date_from_'~reservation_rooms.getOwnResId] is defined %}{{ post['date_to_'~reservation_rooms.getOwnResId] }}{% else %}{{ reservation_rooms.getOwnResReservationToDate | date("d/m/Y") }}{% endif %}"/>
+                <input name="date_to_{{reservation_rooms.getOwnResId}}" data-localization="es" type="text" class="input-block-level datepicker_textbox {%if errors['date_from_' ~ reservation_rooms.getOwnResId] is defined%}class="errorControl"{% endif %}" value="{% if post['date_from_'~reservation_rooms.getOwnResId] is defined %}{{ post['date_to_'~reservation_rooms.getOwnResId] }}{% else %}{{ reservation_rooms.getOwnResReservationToDate | date("d/m/Y") }}{% endif %}"/>
             </td>
             <td>{{nights[loop.index0]}}{#{reservation_rooms.ownResNights}#}</td>
             <td nowrap=nowrap>
@@ -185,6 +186,7 @@
         {% set flag = flag + 1%}
         {% endfor %}
     </table>
+    </div>
     </div>
     </div>
     <ul class="nav nav-tabs" id="tabs">

@@ -674,8 +674,22 @@ class BackendReservationController extends Controller {
                     $start_timestamp = mktime(0, 0, 0, $start[1], $start[0], $start[2]);
                     $end_timestamp = mktime(0, 0, 0, $end[1], $end[0], $end[2]);
 
-                    if ($start_timestamp > $end_timestamp)
+                    if ($start_timestamp > $end_timestamp) {
                         $errors[$key] = 1;
+                        $errors["date_from"] = 1;
+                    }
+                }
+
+                if(strpos($key, 'service_room_count_adults') !== false)
+                {
+                    $adults =  $post['service_room_count_adults_' . $own_res_id];
+                    $children =  $post['service_room_count_childrens_' . $own_res_id];
+
+                    if($adults + $children == 0)
+                    {
+                        $errors["guest_number_" . $own_res_id] = 1;
+                        $errors["guest_number"] = 1;
+                    }
                 }
             }
 
