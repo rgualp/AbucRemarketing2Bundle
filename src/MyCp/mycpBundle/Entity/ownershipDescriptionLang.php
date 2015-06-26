@@ -47,7 +47,12 @@ class ownershipDescriptionLang
      */
     private $odl_brief_description;
 
-
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="odl_automatic_translation", type="boolean")
+     */
+    private $odl_automatic_translation;
 
     /**
      * Get odl_id
@@ -152,8 +157,27 @@ class ownershipDescriptionLang
     }
 
     /**
-     * Codigo Yanet - Inicio
+     * Set odl_automatic_translation
+     *
+     * @param boolean $odlAutomaticTranslation
+     * @return ownershipDescriptionLang
      */
+    public function setOdlAutomaticTranslation($odlAutomaticTranslation)
+    {
+        $this->odl_automatic_translation = $odlAutomaticTranslation;
+
+        return $this;
+    }
+
+    /**
+     * Get odl_automatic_translation
+     *
+     * @return boolean
+     */
+    public function getOdlAutomaticTranslation()
+    {
+        return $this->odl_automatic_translation;
+    }
 
     /**
      * Retur object as string
@@ -163,8 +187,4 @@ class ownershipDescriptionLang
     {
         return $this->getOdlDescription();
     }
-
-    /**
-     * Codigo Yanet - Fin
-     */
 }
