@@ -27,3 +27,6 @@ parameters:
     #fb_app_id: '718673678217475' #for http://develop.mycasaparticular.com (develop)
     fb_app_id: '718671738217669' #for http://mycasapaarticular.com (production)
 
+    #MyCP tranlatos google api key
+    translator_google_api_key: '1234'
+

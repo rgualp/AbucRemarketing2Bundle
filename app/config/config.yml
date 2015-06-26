@@ -43,6 +43,7 @@ twig:
          #Note: enable the following line in order to read the value from parameters.yml
          fb_app_id: "%fb_app_id%"
          mail_base_url: "%router.request_context.scheme%://%router.request_context.host%"
+         translator_google_api_key: "%translator_google_api_key%"
 
 # Assetic Configuration
 assetic:
@@ -197,6 +198,14 @@ services:
             tripleRoomCharge: "%configuration.triple.room.charge%"
             calendarService: "@mycp.service.calendar"
             logger: "@log"
+
+    mycp.reservation.service:
+        class: MyCp\mycpBundle\Service\TranslatorService
+        arguments:
+            em: "@doctrine.orm.entity_manager"
+            logger: "@log"
+            translatorApiKey: "%translator_google_api_key%"
+
 
 avalanche_imagine:
     web_root:     %kernel.root_dir%/../web
