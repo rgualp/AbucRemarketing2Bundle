@@ -54,29 +54,18 @@ class TranslatorService extends Controller
     {
         $url = 'https://www.googleapis.com/language/translate/v2?key=' . $this->translatorApiKey . '&q=' . rawurlencode($sourceText) . '&source='.$sourceLanguageCode.'&target='.$targetLanguageCode;
 
-        /*$handle = curl_init($url);
-        curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($handle);
-        $responseDecoded = json_decode($response, true);
-        $responseCode = curl_getinfo($handle, CURLINFO_HTTP_CODE);
-        curl_close($handle);*/
+        $json = json_decode($this->curl_get_contents($url));
 
-        $json = json_decode(file_get_contents($url));
+        $code = (isset($json->error)) ? $json->error->code : 200;
 
         return new TranslatorResponse(
-            $json->responseStatus,
-            ($json->responseStatus != 200) ? $json->error->errors[0]->message : "",
-            ($json->responseStatus != 200) ? "" : $json->data->translations[0]->translatedText
+            $code,
+            ($code != 200) ? $json->error->errors[0]->message : "",
+            ($code != 200) ? "" : $json->data->translations[0]->translatedText
             );
     }
 
-    /**
-     * Translate multiple tests in a single request to Google. This is the best way
-     * @param $sourceTextsArray
-     * @param $sourceLanguageCode
-     * @param $targetLanguageCode
-     * @return array
-     */
+
     public function multipleTranslations($sourceTextsArray, $sourceLanguageCode, $targetLanguageCode)
     {
         $qQueryPart = "";
@@ -86,15 +75,16 @@ class TranslatorService extends Controller
 
         $url = 'https://www.googleapis.com/language/translate/v2?key=' . $this->translatorApiKey . $qQueryPart . '&source='.$sourceLanguageCode.'&target='.$targetLanguageCode;
 
-        $json = json_decode(file_get_contents($url));
+        $json = json_decode($this->curl_get_contents($url));
         $responseArray = array();
+        $code = (isset($json->error)) ? $json->error->code : 200;
 
         for($i = 0; $i < count($sourceTextsArray);$i++)
         {
             $response = new TranslatorResponse(
-                $json->responseStatus,
-                ($json->responseStatus != 200) ? $json->error->errors[$i]->message : "",
-                ($json->responseStatus != 200) ? "" : $json->data->translations[$i]->translatedText
+                $code,
+                ($code != 200) ? ((count($json->error->errors) > 1) ? $json->error->errors[$i]->message : $json->error->errors[0]->message) : "",
+                ($code != 200) ? "" : $json->data->translations[$i]->translatedText
             );
             array_push($responseArray, $response);
         }
@@ -102,14 +92,17 @@ class TranslatorService extends Controller
         return $responseArray;
     }
 
-    /*
-         * The response is a json like this
-         * {
-             "data": {
-              "translations": [{"translatedText": "Bonjour tout le monde!"}]
-             }
-            }
-         * */
+    private function curl_get_contents($url)
+    {
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        $data = curl_exec($ch);
+        curl_close($ch);
+        return $data;
+    }
 }
 
 

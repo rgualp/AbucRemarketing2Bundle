@@ -199,7 +199,7 @@ services:
             calendarService: "@mycp.service.calendar"
             logger: "@log"
 
-    mycp.reservation.service:
+    mycp.translator.service:
         class: MyCp\mycpBundle\Service\TranslatorService
         arguments:
             em: "@doctrine.orm.entity_manager"
