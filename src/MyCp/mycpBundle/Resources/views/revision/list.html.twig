@@ -3,18 +3,17 @@
 {% block top_body %}
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
-    <li class="active">Propiedades</li>
+    <li><a href="{{ path('mycp_list_ownerships') }}">Propiedades</a> <span class="divider">/</span></li>
+    <li class="active">Revisión</li>
 </ul>
 {% endblock %}
 {% block content %}
-<h2>Propiedades</h2>
+<h2>Revisión</h2>
 <hr/>
-<a class="btn" href="{{ path('mycp_new_ownership') }}"><i class="icon-plus"></i> Adicionar propiedad</a>&nbsp;
-<a class="btn" href="{{ path('mycp_batch_process_ownership') }}"><i class="icon-tasks"></i> Adicionar múltiples propiedades</a>&nbsp;
 <br/><br/>
     <ul class="nav nav-tabs" id="myTab">
-        <li class="active"><a data-toggle="tab" href="#accommodations">Propiedades</a></li>
-        <li class=""><a href="{{ path('mycp_accommodations_revision_list') }}">Revisión</a></li>
+        <li class=""><a href="{{ path('mycp_list_ownerships') }}">Propiedades</a></li>
+        <li class="active"><a data-toggle="tab" href="#accommodations">Revisión</a></li>
     </ul>
 <div class="tab-content" id="myTabContent">
 <div id="accommodations" class="tab-pane fade active in">
@@ -38,10 +37,13 @@
                     </select>
                 </div>
                 <div class="span3">
-                    <label>Tipo:</label>
-                    <select class="input-block-level" name="filter_type" id="filter_type">
-                {{ render(controller('mycpBundle:BackendOwnership:get_ownership_types', {'post': {'ownership_type':filter_type}})) }}
-                        </select>
+                    <label>Fotos:</label>
+                    <select class="input-block-level" name="filter_photos" id="filter_photos">
+                        <option></option>
+                        <option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_WITH_NO_PHOTOS')}}" {%if filter_other == constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_WITH_NO_PHOTOS')%}selected="TRUE"{%endif%}>Sin fotos</option>
+                        <option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_PHOTOS_LESS_5')}}" {%if filter_other == constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_PHOTOS_LESS_5')%}selected="TRUE"{%endif%}>Con menos de 5 fotos</option>
+                        <option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_WITH_NO_OWNER_PHOTO')}}" {%if filter_other == constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_WITH_NO_OWNER_PHOTO')%}selected="TRUE"{%endif%}>Sin foto del propietario</option>
+                    </select>
                     </div>
                 </div>
                 <div class="row-fluid">
@@ -68,10 +70,15 @@
                                     </select>
                                 </div>
                                 <div class="span3">
-                                    <label>Categoría:</label>
-                                    <select name="filter_category" class="input-block-level" id="filter_category">
-                    {{ render(controller('mycpBundle:BackendOwnership:get_ownership_categories', {'post': {'ownership_category':filter_category}})) }}
-                                        </select>
+                                    <label>Información:</label>
+                                    <select class="input-block-level" name="filter_full_info" id="filter_full_info">
+                                        <option></option>
+                                        <option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_INFO_GENERAL')}}" {%if filter_other == constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_INFO_GENERAL')%}selected="TRUE"{%endif%}>Información incompleta</option>
+                                        <option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_INFO_ROOMS')}}" {%if filter_other == constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_INFO_ROOMS')%}selected="TRUE"{%endif%}>Habitaciones incompletas</option>
+                                        <option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_INFO_INACTIVE_ROOMS')}}" {%if filter_other == constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_INFO_INACTIVE_ROOMS')%}selected="TRUE"{%endif%}>Con habitaciones desactivadas</option>
+                                        <option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_INFO_NO_PHONE_OR_MOBILE')}}" {%if filter_other == constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_INFO_NO_PHONE_OR_MOBILE')%}selected="TRUE"{%endif%}>Sin teléfono o móvil</option>
+                                        <option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_INFO_NO_EMAIL')}}" {%if filter_other == constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_INFO_NO_EMAIL')%}selected="TRUE"{%endif%}>Sin correo</option>
+                                    </select>
                                     </div>
 
                                 </div>
@@ -85,26 +92,28 @@
                                         <input name="filter_visit_date" value="{%if filter_visit_date is defined and filter_visit_date != null%}{{filter_visit_date | date('d/m/Y')}}{%endif%}" id="filter_visit_date" class="input-block-level datepicker">
                                     </div>
                                     <div class="span3">
-                                        <label>Otros:</label>
+                                        <label>Errores:</label>
                                         <select class="input-block-level" name="filter_other" id="filter_other">
                                             <option></option>
-                                            <option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_TOP20')}}" {%if filter_other == constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_TOP20')%}selected="TRUE"{%endif%}>Top 20</option>
-                                            <option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_SELECTION')}}" {%if filter_other == constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_SELECTION')%}selected="TRUE"{%endif%}>Casa Selección</option>
-                                            <option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_INMEDIATE_BOOKING')}}" {%if filter_other == constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_INMEDIATE_BOOKING')%}selected="TRUE"{%endif%}>Reserva Inmediata</option>
-                                            <option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_NOT_RECOMMENDABLE')}}" {%if filter_other == constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_NOT_RECOMMENDABLE')%}selected="TRUE"{%endif%}>No recomendable</option>
-                                            <option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_WITH_ERRORS_PHONE')}}" {%if filter_other == constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_WITH_ERRORS_PHONE')%}selected="TRUE"{%endif%}>Con errores (En teléfono)</option>
-                                            <option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_WITH_ERRORS_ADDRESS')}}" {%if filter_other == constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_WITH_ERRORS_ADDRESS')%}selected="TRUE"{%endif%}>Con errores (En dirección)</option>
+                                            <option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_WITH_ERRORS_PHONE')}}" {%if filter_other == constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_WITH_ERRORS_PHONE')%}selected="TRUE"{%endif%}>En teléfono</option>
+                                            <option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_WITH_ERRORS_ADDRESS')}}" {%if filter_other == constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_WITH_ERRORS_ADDRESS')%}selected="TRUE"{%endif%}>En dirección</option>
+                                            <option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_ERROR_GEOLOCALIZATION')}}" {%if filter_other == constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_ERROR_GEOLOCALIZATION')%}selected="TRUE"{%endif%}>En geolocalización</option>
                                         </select>
                                     </div>
                                     <div class="span3">
-                                        <label>Comisión</label>
-                                        <select name="filter_commission" id="filter_commission" class="input-block-level">
-                                           {{ render(controller('mycpBundle:BackendReservation:get_percent_list', {'post':{'percent': filter_commission}})) }}
+                                        <label>Traducciones</label>
+                                        <select name="filter_translations" id="filter_translations" class="input-block-level">
+                                            <option></option>
+                                            <option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_INFO_TRANSLATE')}}" {%if filter_other == constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_INFO_TRANSLATE')%}selected="TRUE"{%endif%}>Traducción incompleta</option>
+                                            <option value="{{constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_TRANSLATION_AUTOMATIC')}}" {%if filter_other == constant('\\MyCp\\mycpBundle\\Helpers\\FilterHelper::ACCOMMODATION_TRANSLATION_AUTOMATIC')%}selected="TRUE"{%endif%}>Con traducción automática</option>
                                         </select>
                                     </div>
                                 </div>
         <div class="row-fluid" style="margin-top: 10px">
-            <div class="span10">&nbsp;</div>
+            <div class="span9">&nbsp;</div>
+            <div class="span1">
+                <a rel="tooltip" title="Descargar listado" href="#" class="tooltip_msg btn btn-block btn-warning"><i class="icon-download-alt icon-white"></i></a>
+            </div>
             <div class="span1">
                 <a rel="tooltip" title="Filtrar listado" href="javascript:action_submit();" class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
             </div>
@@ -195,9 +204,6 @@
                         </div>
 <div class="row-fluid">
                         <div class="span3">
-                            {% if is_granted('ROLE_CLIENT_STAFF') %}
-                            <a class="btn btn-mini btn-success" href="{{ path('mycp_accommodations_export_excel') }}">Descargar listado completo</a>&nbsp;
-                            {%endif%}
                         </div>
                         <div class="paginator-cont span9">
     {% if filter_code ==''%}{% set filter_code='null'%}{%endif%}
@@ -228,12 +234,14 @@
                                 <thead>
                                     <tr>
                                         <th>Propiedad</th>
-                                        <th>Nombre</th>
-                                        <th>Municipio</th>
-                                        <th>Provincia</th>
                                         <th>Destino</th>
-                                        <th>Estado</th>
                                         <th style="text-align: center">Fotos</th>
+                                        <th style="text-align: center">Foto Propietario</th>
+                                        <th style="text-align: center">Habitaciones</th>
+                                        <th style="text-align: center">Información</th>
+                                        <th style="text-align: center">Traducción</th>
+                                        <th style="text-align: center">Errores</th>
+                                        <th>Estado</th>
                                         <th style="text-align: right">Acciones</th>
                                     </tr>
                                 </thead>
@@ -241,12 +249,15 @@
     {% for ownership in ownerships %}
                                         <tr {% if (ownership.status_id != null and ownership.status_id!=constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')) %} class="red_row"{% endif %}>
                                             <td><a href="{{ path('mycp_edit_ownership',{'id_ownership':ownership.own_id}) }}" title="Editar - {{ownership.own_name}}">{{ownership.own_mcp_code}}</a></td>
-                                            <td><a href="{{ path('mycp_edit_ownership',{'id_ownership':ownership.own_id}) }}" title="Editar - {{ownership.own_name}}">{{ownership.own_name}}</a></td>
-                                            <td>{{ownership.mun_name}}</td>
-                                            <td>{{ownership.prov_name}}</td>
-                                            <td> {%if ownership.des_name%}{{ownership.des_name}}{%else%} - {%endif%} </td>
-                                            <td>{% include 'mycpBundle:utils:ownership_array_labels.html.twig' with {'ownership':ownership}%}</td>
+                                            <td>{%if ownership.des_name%}{{ownership.des_name}}{%else%} - {%endif%}</td>
                                             <td style="text-align: center"><a href="{{ path('mycp_list_photos_ownership',{'id_ownership':ownership.own_id}) }}" title="Esta propiedad tiene {{ ownership.photos_count }} fotografías">{{ ownership.photos_count }}</a></td>
+                                            <td style="text-align: center"><input type="checkbox" checked="checked" disabled="disabled"/></td>
+                                            <td style="text-align: center">{% include 'mycpBundle:utils:percentControl.html.twig' with {'elements':3, 'total' : 4}%}</td>
+                                            <td style="text-align: center">{% include 'mycpBundle:utils:percentControl.html.twig' with {'elements':10, 'total' : 20}%}</td>
+                                            <td style="text-align: center">{% include 'mycpBundle:utils:percentControl.html.twig' with {'elements':5, 'total' : 6}%}</td>
+                                            <td style="text-align: center">4</td>
+                                            <td>{% include 'mycpBundle:utils:ownership_array_labels.html.twig' with {'ownership':ownership}%}</td>
+
                                             <td style="text-align: right">
                                                 {% if is_granted('ROLE_CLIENT_STAFF')%}
                                                     <a class="btn btn-mini btn-success" title="Descargar fotos - {{ownership.own_name}}" href="{{path("mycp_download_zip_photo", {"idOwnership": ownership.own_id, "ownMycpCode": ownership.own_mcp_code})}}"><i class="icon-download-alt"></i></a>
@@ -259,9 +270,7 @@
                                         </table>
                                         <div class="row-fluid">
                         <div class="span3">
-                            {% if is_granted('ROLE_CLIENT_STAFF') %}
-                            <a class="btn btn-mini btn-success" href="{{ path('mycp_accommodations_export_excel') }}">Descargar listado completo</a>&nbsp;
-                            {%endif%}
+
                         </div>
                         <div class="paginator-cont span9">
 {% if filter_code ==''%}{% set filter_code='null'%}{%endif%}

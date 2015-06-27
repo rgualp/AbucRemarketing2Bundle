@@ -105,6 +105,10 @@ mycp_export:
     resource: "@mycpBundle/Resources/config/routingBackendExport.yml"
     prefix:   backend/export/
 
+mycp_revision:
+    resource: "@mycpBundle/Resources/config/routingBackendRevision.yml"
+    prefix:   backend/revision/
+
 mycp_check:
   pattern: /check
 

@@ -171,10 +171,11 @@ class ownershipRepository extends EntityRepository {
                 $id = substr($item, 17, strlen($item));
                 $currentLanguage = $em->getRepository('mycpBundle:lang')->find($id);
                 $odl = new ownershipDescriptionLang();
-                $odl->setOdlIdLang($currentLanguage);
-                $odl->setOdlDescription($data['description_desc_' . $id]);
-                $odl->setOdlBriefDescription($data['description_brief_desc_' . $id]);
-                $odl->setOdlOwnership($ownership);
+                $odl->setOdlIdLang($currentLanguage)
+                    ->setOdlDescription($data['description_desc_' . $id])
+                    ->setOdlBriefDescription($data['description_brief_desc_' . $id])
+                    ->setOdlOwnership($ownership)
+                    ->setOdlAutomaticTranslation(false);
                 $em->persist($odl);
 
                 if($currentLanguage->getLangId() == $sourceLanguage->getLangId() && (!isset($data["description_desc_".$targetLanguage->getLangId()]) || !isset($data["description_brief_desc_".$targetLanguage->getLangId()])))
@@ -417,7 +418,7 @@ class ownershipRepository extends EntityRepository {
                     ->setOdlBriefDescription($data['description_brief_desc_' . $id])
                     ->setOdlOwnership($ownership)
                     ->setOdlAutomaticTranslation(false);
-                
+
                 $em->persist($odl);
 
                 if($doTranslate && $currentLanguage->getLangId() == $sourceLanguage->getLangId())
