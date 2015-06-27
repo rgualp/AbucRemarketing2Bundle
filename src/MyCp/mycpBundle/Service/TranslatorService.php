@@ -8,6 +8,7 @@ use MyCp\FrontEndBundle\Helpers\ReservationHelper;
 use MyCp\FrontEndBundle\Helpers\Time;
 use MyCp\mycpBundle\Entity\booking;
 use MyCp\mycpBundle\Entity\generalReservation;
+use MyCp\mycpBundle\Entity\lang;
 use MyCp\mycpBundle\Entity\ownership;
 use MyCp\mycpBundle\Entity\ownershipDescriptionLang;
 use MyCp\mycpBundle\Entity\ownershipReservation;
@@ -168,6 +169,33 @@ class TranslatorService extends Controller
             $this->em->flush();
 
             $this->logger->saveLog('Translate accommodation '.$ownership->getOwnMcpCode()." from ".strtoupper($sourceLanguageCode)." to ".strtoupper($targetLanguage),  BackendModuleName::MODULE_OWNERSHIP);
+        }
+    }
+
+    public function translateAccommodationObj(ownershipDescriptionLang $description, lang $sourceLanguage, lang $targetLanguage, $doFlush = false)
+    {
+        $translations = $this->multipleTranslations(array($description->getOdlBriefDescription(), $description->getOdlDescription()), strtolower($sourceLanguage->getLangCode()), strtolower($targetLanguage->getLangCode()));
+
+        if(count($translations) > 0 && $translations[0]->getCode() == TranslatorResponseStatusCode::STATUS_200){
+            $ownership = $description->getOdlOwnership();
+
+            $translatedDescription = $this->em->getRepository("mycpBundle:ownershipDescriptionLang")->getDescriptionsByAccommodation($ownership, strtoupper($targetLanguage->getLangCode()));
+
+            if($translatedDescription == null)
+                $translatedDescription = new ownershipDescriptionLang();
+
+            $translatedDescription->setOdlAutomaticTranslation(true)
+                ->setOdlBriefDescription($translations[0]->getTranslation())
+                ->setOdlDescription($translations[1]->getTranslation())
+                ->setOdlOwnership($ownership)
+                ->setOdlIdLang($targetLanguage);
+
+            $this->em->persist($translatedDescription);
+
+            if($doFlush) {
+                $this->em->flush();
+                $this->logger->saveLog('Translate accommodation ' . $ownership->getOwnMcpCode() . " from " . strtoupper($sourceLanguage->getLangCode()) . " to " . strtoupper($targetLanguage->getLangCode()), BackendModuleName::MODULE_OWNERSHIP);
+            }
         }
     }
 

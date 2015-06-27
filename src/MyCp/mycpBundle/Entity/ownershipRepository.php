@@ -24,7 +24,7 @@ use MyCp\mycpBundle\Helpers\FilterHelper;
  */
 class ownershipRepository extends EntityRepository {
 
-    function insert($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller, $dir) {
+    function insert($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller, $dir, $translator) {
         $active_top_20 = 0;
         if (isset($data['top_20']))
             $active_top_20 = 1;
@@ -153,6 +153,8 @@ class ownershipRepository extends EntityRepository {
 
         $keys = array_keys($data);
 
+        $targetLanguage = $em->getRepository('mycpBundle:lang')->findOneBy(array("lang_code" => "DE"));
+        $sourceLanguage = $em->getRepository('mycpBundle:lang')->findOneBy(array("lang_code" => "EN"));
         foreach ($keys as $item) {
             if (strpos($item, 'ownership_language') !== false) {
 
@@ -165,13 +167,21 @@ class ownershipRepository extends EntityRepository {
 
             if (strpos($item, 'description_desc') !== false) {
 
+
                 $id = substr($item, 17, strlen($item));
+                $currentLanguage = $em->getRepository('mycpBundle:lang')->find($id);
                 $odl = new ownershipDescriptionLang();
-                $odl->setOdlIdLang($em->getRepository('mycpBundle:lang')->find($id));
+                $odl->setOdlIdLang($currentLanguage);
                 $odl->setOdlDescription($data['description_desc_' . $id]);
                 $odl->setOdlBriefDescription($data['description_brief_desc_' . $id]);
                 $odl->setOdlOwnership($ownership);
                 $em->persist($odl);
+
+                if($currentLanguage->getLangId() == $sourceLanguage->getLangId() && (!isset($data["description_desc_".$targetLanguage->getLangId()]) || !isset($data["description_brief_desc_".$targetLanguage->getLangId()])))
+                {
+                    //Translate with Google Translator
+                    $translator->translateAccommodationObj($odl, $sourceLanguage, $targetLanguage);
+                }
             }
 
             if (strpos($item, 'keywords') !== false) {
@@ -245,7 +255,7 @@ class ownershipRepository extends EntityRepository {
         return $ownership;
     }
 
-    function edit($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller, $dir) {
+    function edit($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller, $dir, $translator) {
         $id_ownership = $data['edit_ownership'];
 
         $active_top_20 = 0;
@@ -362,9 +372,6 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnWaterSauna($water_sauna);
         $ownership->setOwnWaterPiscina($water_pool);
 
-        /**
-         * Codigo Yanet - Inicio
-         */
         $ownership->setOwnMaximumNumberGuests(0);
         $ownership->setOwnMaximumPrice(0);
         $ownership->setOwnMinimumPrice(0);
@@ -377,23 +384,36 @@ class ownershipRepository extends EntityRepository {
         $query->execute();
 
         $keys = array_keys($data);
+        $targetLanguage = $em->getRepository('mycpBundle:lang')->findOneBy(array("lang_code" => "DE"));
+        $sourceLanguage = $em->getRepository('mycpBundle:lang')->findOneBy(array("lang_code" => "EN"));
 
         foreach ($keys as $item) {
             if (strpos($item, 'description_desc') !== false) {
 
                 $id = substr($item, 17, strlen($item));
+                $currentLanguage = $em->getRepository('mycpBundle:lang')->find($id);
+                $doTranslate = true;
 
-                if (array_key_exists('description_id_' . $id, $data))
+                if (array_key_exists('description_id_' . $id, $data)) {
                     $odl = $em->getRepository('mycpBundle:ownershipDescriptionLang')->find($data['description_id_' . $id]);
+
+                    $doTranslate = $odl->getOdlBriefDescription() != $data['description_brief_desc_' . $id] || $odl->getOdlDescription() != $data['description_desc_' . $id];
+                }
                 else
                     $odl = new ownershipDescriptionLang();
 
-                $odl->setOdlIdLang($em->getRepository('mycpBundle:lang')->find($id));
+                $odl->setOdlIdLang($currentLanguage);
                 $odl->setOdlDescription($data['description_desc_' . $id]);
 
                 $odl->setOdlBriefDescription($data['description_brief_desc_' . $id]);
                 $odl->setOdlOwnership($ownership);
                 $em->persist($odl);
+
+                if($doTranslate && $currentLanguage->getLangId() == $sourceLanguage->getLangId() && (!isset($data["description_desc_".$targetLanguage->getLangId()]) || !isset($data["description_brief_desc_".$targetLanguage->getLangId()])))
+                {
+                    //Translate with Google Translator
+                    $translator->translateAccommodationObj($odl, $sourceLanguage, $targetLanguage);
+                }
             }
 
             if (strpos($item, 'keywords') !== false) {
