@@ -26,10 +26,16 @@ class TranslationCommand extends ContainerAwareCommand {
 
         $output->writeln(date(DATE_W3C) . ': Starting translator command...');
 
-        /*$test = $translatorService->multipleTranslations(array("Hello World!", "Error message"), "en", "de");
-        var_dump($test);*/
-
         //Select all ownership with description in English and no description in Deutch
+        $untranslatedAccommodations = $em->getRepository("mycpBundle:ownershipDescriptionLang")->getAccommodationsToTranslate("en", "de");
+
+        $output->writeln('Translating '.count($untranslatedAccommodations).' accommodations');
+        foreach($untranslatedAccommodations as $untranslated)
+        {
+            $output->writeln('Translating '.$untranslated->getOwnMcpCode());
+            $description = $em->getRepository("mycpBundle:ownershipDescriptionLang")->getDescriptionsByAccommodation($untranslated, "en");
+            $translatorService->translateAccommodation($description,"en", "de");
+        }
 
 
         $output->writeln('Operation completed!!!');
