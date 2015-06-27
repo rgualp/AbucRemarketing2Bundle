@@ -398,18 +398,29 @@ class ownershipRepository extends EntityRepository {
                     $odl = $em->getRepository('mycpBundle:ownershipDescriptionLang')->find($data['description_id_' . $id]);
 
                     $doTranslate = $odl->getOdlBriefDescription() != $data['description_brief_desc_' . $id] || $odl->getOdlDescription() != $data['description_desc_' . $id];
+
+                    if($doTranslate)
+                    {
+                        $targetDescription = $em->getRepository('mycpBundle:ownershipDescriptionLang')->getDescriptionsByAccommodation($ownership, "DE");
+
+                        $doTranslate = $doTranslate && (!isset($data["description_desc_".$targetLanguage->getLangId()]) ||
+                                !isset($data["description_brief_desc_".$targetLanguage->getLangId()]) ||
+                                $targetDescription->getOdlDescription() == $data["description_desc_".$targetLanguage->getLangId()] ||
+                                    $targetDescription->getOdlBriefDescription() == $data["description_brief_desc_".$targetLanguage->getLangId()]);
+                    }
                 }
                 else
                     $odl = new ownershipDescriptionLang();
 
-                $odl->setOdlIdLang($currentLanguage);
-                $odl->setOdlDescription($data['description_desc_' . $id]);
-
-                $odl->setOdlBriefDescription($data['description_brief_desc_' . $id]);
-                $odl->setOdlOwnership($ownership);
+                $odl->setOdlIdLang($currentLanguage)
+                    ->setOdlDescription($data['description_desc_' . $id])
+                    ->setOdlBriefDescription($data['description_brief_desc_' . $id])
+                    ->setOdlOwnership($ownership)
+                    ->setOdlAutomaticTranslation(false);
+                
                 $em->persist($odl);
 
-                if($doTranslate && $currentLanguage->getLangId() == $sourceLanguage->getLangId() && (!isset($data["description_desc_".$targetLanguage->getLangId()]) || !isset($data["description_brief_desc_".$targetLanguage->getLangId()])))
+                if($doTranslate && $currentLanguage->getLangId() == $sourceLanguage->getLangId())
                 {
                     //Translate with Google Translator
                     $translator->translateAccommodationObj($odl, $sourceLanguage, $targetLanguage);
