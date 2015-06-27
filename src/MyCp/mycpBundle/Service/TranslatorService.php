@@ -153,7 +153,11 @@ class TranslatorService extends Controller
             $ownership = $description->getOdlOwnership();
             $targetLanguage = $this->em->getRepository("mycpBundle:lang")->findOneBy(array("lang_code" => strtoupper($targetLanguageCode)));
 
-            $translatedDescription = new ownershipDescriptionLang();
+            $translatedDescription = $this->em->getRepository("mycpBundle:ownershipDescriptionLang")->getDescriptionsByAccommodation($ownership, strtoupper($targetLanguageCode));
+
+            if($translatedDescription == null)
+                $translatedDescription = new ownershipDescriptionLang();
+
             $translatedDescription->setOdlAutomaticTranslation(true)
                 ->setOdlBriefDescription($translations[0]->getTranslation())
                 ->setOdlDescription($translations[1]->getTranslation())

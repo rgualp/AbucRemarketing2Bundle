@@ -2725,6 +2725,10 @@
                  <source>SEND_VOUCHER_SUBJECT</source>
                  <target>Gutschein im Wert von Ihrer Reservierung</target>
             </trans-unit>
+            <trans-unit id="692">
+                 <source>AUTOMATIC_TRANSLATED</source>
+                 <target>Automatic translated by Google Translator</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

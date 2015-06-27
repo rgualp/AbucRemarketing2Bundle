@@ -2727,6 +2727,10 @@
                  <source>SEND_VOUCHER_SUBJECT</source>
                  <target>Voucher de su reservación</target>
             </trans-unit>
+            <trans-unit id="692">
+                 <source>AUTOMATIC_TRANSLATED</source>
+                 <target>Traducido automáticamente utilizando Google Translator</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -90,6 +90,11 @@
                 <p>
                     {{description| raw }}
                 </p>
+                {% if automaticTranslation %}
+                    <br/>
+                    <br/>
+                    <em>{{ "AUTOMATIC_TRANSLATED" | trans }}</em>
+                {% endif %}
             </div>
             <div class="col-sm-5">
                 <ul class="span4 price">
