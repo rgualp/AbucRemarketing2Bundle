@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * ownershipDescriptionLang
  *
  * @ORM\Table(name="ownershipdescriptionlang")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\ownershipDescriptionLangRepository")
  */
 class ownershipDescriptionLang
 {

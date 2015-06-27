@@ -8,21 +8,64 @@ use MyCp\FrontEndBundle\Helpers\ReservationHelper;
 use MyCp\FrontEndBundle\Helpers\Time;
 use MyCp\mycpBundle\Entity\booking;
 use MyCp\mycpBundle\Entity\generalReservation;
+use MyCp\mycpBundle\Entity\ownership;
+use MyCp\mycpBundle\Entity\ownershipDescriptionLang;
 use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class TranslatorResponse{
-    public $code;
-    public $errorMessage;
-    public $translation;
+    private $code;
+    private $errorMessage;
+    private $translation;
 
     public function __construct($code, $errorMessage, $translation){
         $this->code = $code;
         $this->errorMessage = $errorMessage;
         $this->translation = $translation;
     }
+
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    public function setCode($code)
+    {
+        $this->code = $code;
+        return $this;
+    }
+
+    public function getErrorMessage()
+    {
+        return $this->errorMessage;
+    }
+
+    public function setErrorMessage($value)
+    {
+        $this->errorMessage = $value;
+        return $this;
+    }
+
+    public function getTranslation()
+    {
+        return $this->translation;
+    }
+
+    public function setTranslation($value)
+    {
+        $this->translation = $value;
+        return $this;
+    }
+}
+
+class TranslatorResponseStatusCode {
+
+    const STATUS_200 = 200;
+    const STATUS_403 = 403;
+    const STATUS_500 = 500;
+
 }
 
 class TranslatorService extends Controller
@@ -44,7 +87,7 @@ class TranslatorService extends Controller
     }
 
     /**
-     * Translate a single text in the request to Google
+     * Translate a single text in the request to Google. Do strip_tags
      * @param $sourceText
      * @param $sourceLanguageCode
      * @param $targetLanguageCode
@@ -52,44 +95,76 @@ class TranslatorService extends Controller
      */
     public function translate($sourceText, $sourceLanguageCode, $targetLanguageCode)
     {
-        $url = 'https://www.googleapis.com/language/translate/v2?key=' . $this->translatorApiKey . '&q=' . rawurlencode($sourceText) . '&source='.$sourceLanguageCode.'&target='.$targetLanguageCode;
+        $url = 'https://www.googleapis.com/language/translate/v2?key=' . $this->translatorApiKey . '&q=' . rawurlencode(strip_tags($sourceText)) . '&source='.strtolower($sourceLanguageCode).'&target='.strtolower($targetLanguageCode);
 
         $json = json_decode($this->curl_get_contents($url));
 
-        $code = (isset($json->error)) ? $json->error->code : 200;
+        $code = (isset($json->error)) ? $json->error->code : TranslatorResponseStatusCode::STATUS_200;
 
         return new TranslatorResponse(
             $code,
-            ($code != 200) ? $json->error->errors[0]->message : "",
-            ($code != 200) ? "" : $json->data->translations[0]->translatedText
+            ($code != TranslatorResponseStatusCode::STATUS_200) ? $json->error->errors[0]->message : "",
+            ($code != TranslatorResponseStatusCode::STATUS_200) ? "" : $json->data->translations[0]->translatedText
             );
     }
 
 
+    /**
+     * Translate multiples text in the request to Google. Do strip_tags
+     * @param $sourceTextsArray
+     * @param $sourceLanguageCode
+     * @param $targetLanguageCode
+     * @return array
+     */
     public function multipleTranslations($sourceTextsArray, $sourceLanguageCode, $targetLanguageCode)
     {
         $qQueryPart = "";
 
         foreach($sourceTextsArray as $sourceText)
-            $qQueryPart .= "&q=".rawurlencode($sourceText);
+            $qQueryPart .= "&q=".rawurlencode(strip_tags($sourceText));
 
-        $url = 'https://www.googleapis.com/language/translate/v2?key=' . $this->translatorApiKey . $qQueryPart . '&source='.$sourceLanguageCode.'&target='.$targetLanguageCode;
+        $url = 'https://www.googleapis.com/language/translate/v2?key=' . $this->translatorApiKey . $qQueryPart . '&source='.strtolower($sourceLanguageCode).'&target='.strtolower($targetLanguageCode);
 
         $json = json_decode($this->curl_get_contents($url));
         $responseArray = array();
-        $code = (isset($json->error)) ? $json->error->code : 200;
+        $code = (isset($json->error)) ? $json->error->code : TranslatorResponseStatusCode::STATUS_200;
 
         for($i = 0; $i < count($sourceTextsArray);$i++)
         {
-            $response = new TranslatorResponse(
-                $code,
-                ($code != 200) ? ((count($json->error->errors) > 1) ? $json->error->errors[$i]->message : $json->error->errors[0]->message) : "",
-                ($code != 200) ? "" : $json->data->translations[$i]->translatedText
-            );
+            if($code != TranslatorResponseStatusCode::STATUS_200)
+            {
+                $response = new TranslatorResponse($code,$json->error->errors[0]->message,"");
+                array_push($responseArray, $response);
+                break;
+            }
+
+            $response = new TranslatorResponse($code,"",$json->data->translations[$i]->translatedText);
             array_push($responseArray, $response);
         }
 
         return $responseArray;
+    }
+
+    public function translateAccommodation(ownershipDescriptionLang $description, $sourceLanguageCode, $targetLanguageCode)
+    {
+        $translations = $this->multipleTranslations(array($description->getOdlBriefDescription(), $description->getOdlDescription()), $sourceLanguageCode, $targetLanguageCode);
+
+        if(count($translations) > 0 && $translations[0]->getCode() == TranslatorResponseStatusCode::STATUS_200){
+            $ownership = $description->getOdlOwnership();
+            $targetLanguage = $this->em->getRepository("mycpBundle:lang")->findOneBy(array("lang_code" => strtoupper($targetLanguageCode)));
+
+            $translatedDescription = new ownershipDescriptionLang();
+            $translatedDescription->setOdlAutomaticTranslation(true)
+                ->setOdlBriefDescription($translations[0]->getTranslation())
+                ->setOdlDescription($translations[1]->getTranslation())
+                ->setOdlOwnership($ownership)
+                ->setOdlIdLang($targetLanguage);
+
+            $this->em->persist($translatedDescription);
+            $this->em->flush();
+
+            $this->logger->saveLog('Translate accommodation '.$ownership->getOwnMcpCode()." from ".strtoupper($sourceLanguageCode)." to ".strtoupper($targetLanguage),  BackendModuleName::MODULE_OWNERSHIP);
+        }
     }
 
     private function curl_get_contents($url)

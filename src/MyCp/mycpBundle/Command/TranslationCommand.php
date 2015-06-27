@@ -29,7 +29,7 @@ class TranslationCommand extends ContainerAwareCommand {
         /*$test = $translatorService->multipleTranslations(array("Hello World!", "Error message"), "en", "de");
         var_dump($test);*/
 
-        //TODO: Adding command body
+        //Select all ownership with description in English and no description in Deutch
 
 
         $output->writeln('Operation completed!!!');
