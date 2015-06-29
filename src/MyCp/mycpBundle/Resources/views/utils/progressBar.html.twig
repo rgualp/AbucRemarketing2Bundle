@@ -1,0 +1,14 @@
+{% set percent = 100 * elements / total %}
+{% if percent == 100 %}
+ {% set class = "sucessfull" %}
+{% elseif percent >= 70 and percent < 100%}
+ {% set class = "warning" %}
+{% else %}
+    {% set class = "danger" %}
+{% endif %}
+<div class="progress progress-{{ class }}">
+    <div class="bar" role="progressbar" aria-valuenow="{{ percent | round }}"
+         aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+        <span class="sr-only">{{ percent | round }}%</span>
+    </div>
+</div>

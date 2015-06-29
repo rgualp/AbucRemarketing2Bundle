@@ -252,9 +252,9 @@
                                             <td>{%if ownership.des_name%}{{ownership.des_name}}{%else%} - {%endif%}</td>
                                             <td style="text-align: center"><a href="{{ path('mycp_list_photos_ownership',{'id_ownership':ownership.own_id}) }}" title="Esta propiedad tiene {{ ownership.photos_count }} fotografías">{{ ownership.photos_count }}</a></td>
                                             <td style="text-align: center"><input type="checkbox" checked="checked" disabled="disabled"/></td>
-                                            <td style="text-align: center">{% include 'mycpBundle:utils:percentControl.html.twig' with {'elements':3, 'total' : 4}%}</td>
-                                            <td style="text-align: center">{% include 'mycpBundle:utils:percentControl.html.twig' with {'elements':10, 'total' : 20}%}</td>
-                                            <td style="text-align: center">{% include 'mycpBundle:utils:percentControl.html.twig' with {'elements':5, 'total' : 6}%}</td>
+                                            <td style="text-align: center">{% include 'mycpBundle:utils:progressBar.html.twig' with {'elements':3, 'total' : 4}%}</td>
+                                            <td style="text-align: center">{% include 'mycpBundle:utils:progressBar.html.twig' with {'elements':10, 'total' : 20}%}</td>
+                                            <td style="text-align: center">{% include 'mycpBundle:utils:progressBar.html.twig' with {'elements':5, 'total' : 6}%}</td>
                                             <td style="text-align: center">4</td>
                                             <td>{% include 'mycpBundle:utils:ownership_array_labels.html.twig' with {'ownership':ownership}%}</td>
 
