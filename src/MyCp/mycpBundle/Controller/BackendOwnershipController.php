@@ -937,6 +937,7 @@ class BackendOwnershipController extends Controller {
                         }
 
                         $ownership = $em->getRepository('mycpBundle:ownership')->edit($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this, $this->container->getParameter('user.dir.photos'));
+                        $current_ownership_id = $ownership->getOwnId();
 
                         //Enviar correo a los propietarios
                         if ($new_status == ownershipStatus::STATUS_ACTIVE && ($old_status == ownershipStatus::STATUS_IN_PROCESS or $old_status == ownershipStatus::STATUS_BATCH_PROCESS)) {
@@ -957,6 +958,8 @@ class BackendOwnershipController extends Controller {
                     } else {
 
                         $ownership = $em->getRepository('mycpBundle:ownership')->insert($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this, $this->container->getParameter('user.dir.photos'));
+                        $current_ownership_id = $ownership->getOwnId();
+
                         $message = 'La propiedad '.$ownership->getOwnMcpCode().'(Código automático: '.$ownership->getOwnMcpCodeGenerated().') ha sido añadida satisfactoriamente.';
                         $service_log = $this->get('log');
                         $service_log->saveLog('Create entity ' . $post['ownership_mcp_code'], BackendModuleName::MODULE_OWNERSHIP);
@@ -966,12 +969,13 @@ class BackendOwnershipController extends Controller {
                             UserMails::sendOwnersMail($this, $post['ownership_email_1'], $post['ownership_email_2'], $post['ownership_homeowner_1'], $post['ownership_homeowner_2'], $post['ownership_name'], $post['ownership_mcp_code']);
                     }
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
-                    if ($request->get('save_operation') == Operations::SAVE_AND_NEW) {
-                        return $this->redirect($this->generateUrl('mycp_new_ownership'));
-                    } else if ($request->get('save_operation') == Operations::SAVE_AND_ADD_PHOTOS) {
-                        return $this->redirect($this->generateUrl('mycp_new_photos_ownership', array("id_ownership" => $current_ownership_id)));
-                    } else {
-                        return $this->redirect($this->generateUrl('mycp_list_ownerships'));
+
+                    switch($request->get('save_operation'))
+                    {
+                        case Operations::SAVE_AND_NEW: return $this->redirect($this->generateUrl('mycp_new_ownership'));
+                        case Operations::SAVE_AND_ADD_PHOTOS: return $this->redirect($this->generateUrl('mycp_new_photos_ownership', array("id_ownership" => $current_ownership_id)));
+                        case Operations::SAVE: return $this->redirect($this->generateUrl("mycp_edit_ownership", array("id_ownership" => $current_ownership_id)));
+                        case Operations::SAVE_AND_EXIT: return $this->redirect($this->generateUrl('mycp_list_ownerships'));
                     }
                 }
             }
