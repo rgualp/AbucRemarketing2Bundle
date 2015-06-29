@@ -33,7 +33,6 @@
 {% if photos and ownership.ownStatus.statusId != constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')%}
 <a class="btn" href="{{ path('mycp_publish_ownership',{'idOwnership':id_ownership}) }}"><i class="icon-globe"></i> Publicar propiedad</a>
 {%endif%}
-<a class="btn" href="{{ path('mycp_edit_ownership',{'id_ownership':id_ownership}) }}"><i class="icon-pencil"></i> Editar propiedad</a>
 <br/><br/>
     <div class="row-fluid">
         {% if is_granted('ROLE_CLIENT_STAFF')%}

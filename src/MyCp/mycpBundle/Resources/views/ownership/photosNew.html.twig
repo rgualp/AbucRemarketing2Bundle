@@ -4,6 +4,7 @@
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
     <li><a href="{{ path('mycp_list_ownerships') }}">Propiedades</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_edit_ownership',{'id_ownership':id_ownership}) }}">{{ ownership.ownMcpCode }}</a> <span class="divider">/</span></li>
     <li><a href="{{ path('mycp_list_photos_ownership',{'id_ownership':id_ownership })}}">Fotografías</a> <span class="divider">/</span></li>
     <li class="active">Adicionar fotografía</li>
     <li class="pull-right"><a href="{{ path('mycp_list_photos_ownership',{'id_ownership':id_ownership }) }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
@@ -13,18 +14,37 @@
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
     <li><a href="{{ path('mycp_list_ownerships') }}">Propiedades</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_edit_ownership',{'id_ownership':id_ownership}) }}">{{ ownership.ownMcpCode }}</a> <span class="divider">/</span></li>
     <li><a href="{{ path('mycp_list_photos_ownership',{'id_ownership':id_ownership })}}">Fotografías</a> <span class="divider">/</span></li>
     <li class="active">Adicionar fotografía</li>
     <li class="pull-right"><a href="{{ path('mycp_list_photos_ownership',{'id_ownership':id_ownership }) }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 <div class="form-actions">
-    <button class="btn btn-primary" type="submit">Guardar y salir</button>
-    {% if ownership.ownStatus.statusId!= constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')%}
-    <button class="btn btn-info" type="button" onclick="javascript:submit_button({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_AND_PUBLISH_ACCOMMODATION')}})">Guardar y publicar propiedad</button>
-    {%endif%}
-    <button class="btn btn-success" type="button" onclick="javascript:submit_button({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_AND_NEW')}})">Guardar y agregar nuevas</button>
-
-    <a class="btn" href="{{ path('mycp_list_photos_ownership',{'id_ownership':id_ownership }) }}">Cancelar</a>
+    <div class="btn-toolbar" role="toolbar">
+        <div class="btn-group dropup">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+                <span class="sr-only"></span>
+            </button>
+            <ul class="dropdown-menu pull-right" role="menu">
+                {% if ownership.ownStatus.statusId!= constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')%}
+                <li><a style="cursor: hand" onclick="javascript:submit_button({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_AND_PUBLISH_ACCOMMODATION')}})">Guardar y publicar propiedad</a></li>
+                {%endif%}
+                <li><a style="cursor: hand" onclick="javascript:submit_button({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_AND_NEW')}})">Guardar y agregar nuevas</a></li>
+            </ul>
+        </div>
+        <div class="btn-group dropup">
+            <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
+                Alojamiento <span class="caret"></span>
+                <span class="sr-only"></span>
+            </button>
+            <ul class="dropdown-menu pull-right" role="menu">
+                <li><a href="{{ path('mycp_edit_ownership',{'id_ownership':id_ownership}) }}"><i class="icon-pencil"></i> Editar</a></li>
+            </ul>
+        </div>
+        <a class="btn" href="{{ path('mycp_list_photos_ownership',{'id_ownership':id_ownership }) }}">Cancelar</a>
+    </div>
 </div>
 </form>
 {% endblock %}
@@ -35,7 +55,6 @@
 <form id="form" action="{{ path('mycp_new_photos_ownership',{'id_ownership':id_ownership}) }}" method="POST" enctype="multipart/form-data">
     <input id="save_operation" name="save_operation" value="{{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_AND_EXIT')}}" class="hidden">
     {% if data['error'] is defined %}<label class="error">{{ data['error'] }}</label>{% endif %}
-    <a class="btn" href="{{ path('mycp_edit_ownership',{'id_ownership':id_ownership}) }}"><i class="icon-pencil"></i> Editar propiedad</a>
     <input title="Seleccionar fichero..." type="file" name="images[files][]" multiple='multiple' accept="image/*"/>
     <br/><br/>
     <h3 class="title">Descripción breve</h3>

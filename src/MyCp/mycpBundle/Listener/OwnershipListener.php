@@ -24,10 +24,16 @@ class OwnershipListener {
     public function preUpdate(ownership $entity, PreUpdateEventArgs $args)
     {
         $em = $args->getEntityManager();
-        if($args->hasChangedField('own_address_province') || $args->hasChangedField("own_destination"))
+        $changeSet = $args->getEntityChangeSet();
+        if(isset($changeSet["own_address_province"]))
+        {
+            if($args->hasChangedField('own_address_province'))
+                $this->generateAutomaticCode($em, $entity, $args->getNewValue("own_address_province"));
+        }
+        /*if((isset($changeSet["own_address_province"]) && $args->hasChangedField('own_address_province')) || (isset($changeSet["own_destination"]) && $args->hasChangedField("own_destination")))
         {
             $this->generateAutomaticCode($em, $entity, $args->getNewValue("own_address_province"));
-        }
+        }*/
     }
 
     private function generateAutomaticCode($em, $entity, $province)

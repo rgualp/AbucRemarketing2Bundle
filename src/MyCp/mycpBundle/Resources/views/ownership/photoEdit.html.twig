@@ -4,6 +4,7 @@
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
     <li><a href="{{ path('mycp_list_ownerships') }}">Propiedades</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_edit_ownership',{'id_ownership':id_ownership}) }}">{{ ownership.ownMcpCode }}</a> <span class="divider">/</span></li>
     <li><a href="{{ path('mycp_list_photos_ownership',{'id_ownership': id_ownership}) }}">Fotografías</a></li>
     <li class="pull-right"><a href="{{ path('mycp_list_photos_ownership',{'id_ownership':id_ownership }) }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
@@ -12,12 +13,24 @@
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
     <li><a href="{{ path('mycp_list_ownerships') }}">Propiedades</a> <span class="divider">/</span></li>
+    <li><a href="{{ path('mycp_edit_ownership',{'id_ownership':id_ownership}) }}">{{ ownership.ownMcpCode }}</a> <span class="divider">/</span></li>
     <li><a href="{{ path('mycp_list_photos_ownership',{'id_ownership': id_ownership}) }}">Fotografías</a></li>
     <li class="pull-right"><a href="{{ path('mycp_list_photos_ownership',{'id_ownership':id_ownership }) }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 <div class="form-actions">
+    <div class="btn-toolbar" role="toolbar">
     <button class="btn btn-primary" type="submit">Guardar</button>
+        <div class="btn-group dropup">
+            <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
+                Alojamiento <span class="caret"></span>
+                <span class="sr-only"></span>
+            </button>
+            <ul class="dropdown-menu pull-right" role="menu">
+                <li><a href="{{ path('mycp_edit_ownership',{'id_ownership':id_ownership}) }}"><i class="icon-pencil"></i> Editar</a></li>
+            </ul>
+        </div>
     <a class="btn" href="{{path('mycp_list_photos_ownership',{'id_ownership':id_ownership }) }}">Cancelar</a>
+        </div>
 </div>
 </form>
 {% endblock %}
@@ -32,8 +45,7 @@
 {% if errors %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
 <form action="{{ path('mycp_edit_photos_ownership',{'id_photo':id_photo,'id_ownership':id_ownership}) }}" method="POST" enctype="multipart/form-data">
     <div class="row-fluid">
-    <a class="btn" href="{{ path('mycp_edit_ownership',{'id_ownership':id_ownership}) }}"><i class="icon-pencil"></i> Editar propiedad</a>
-    <div class="pull-right text-center">
+        <div class="pull-right text-center">
     <img src="{{ asset('uploads/ownershipImages/thumbnails/'~photo.getPhoName)}}" class="img-polaroid"  alt=""/>
     {% if is_granted('ROLE_CLIENT_STAFF')%}
                 <br/><br/><a class="btn btn-success" style="margin: 0" href="{{ path('mycp_download_single_zip_photo',{'idPhoto':photo.getPhoId,'ownMcpCode': ownership.ownMcpCode}) }}" title="Descargar esta foto"><i class="icon-download-alt"></i> Descargar</a>
