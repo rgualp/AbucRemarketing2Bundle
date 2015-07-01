@@ -644,9 +644,15 @@
     <br/>
     <h3 class="title">Foto del propietario(a)</h3>
     <div class="photoOwnerContainer">
-        {% if data['id_ownership'] is defined %}
-        {{ render(controller("mycpBundle:BackendOwnership:getOwnerPhoto", {'ownershipPhoto': data['ownership_owner'], 'ownershipId': data['id_ownership']})) }}
-       {% endif %}
+        <div class="span3">
+            {%if data['ownership_owner'] is defined%}
+                <img src="{{ asset('uploads/userImages/'~ data['ownership_owner'])}}" class="img-polaroid pull-right"  alt=""/>
+            {%endif%}
+        </div>
+        <div class="span9">
+            <input title="Seleccionar fichero..." type="file" name="own_ownership_photo" id="own_ownership_photo" accept="image/*"/>
+
+        </div>
     </div>
 </div>
 {% if data['edit_ownership'] is defined %}

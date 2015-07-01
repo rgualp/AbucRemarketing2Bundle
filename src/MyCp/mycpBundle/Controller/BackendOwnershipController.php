@@ -662,6 +662,7 @@ class BackendOwnershipController extends Controller {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
+        $translator = $this->get("mycp.translator.service");
         $count_rooms = 1;
         $post = $request->request->getIterator()->getArrayCopy();
         $errors = array();
@@ -940,7 +941,7 @@ class BackendOwnershipController extends Controller {
                             $service_log->saveLog('Edit entity ' . $post['ownership_mcp_code'], BackendModuleName::MODULE_OWNERSHIP);
                         }
 
-                        $ownership = $em->getRepository('mycpBundle:ownership')->edit($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this, $this->container->getParameter('user.dir.photos'));
+                        $ownership = $em->getRepository('mycpBundle:ownership')->edit($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this, $this->container->getParameter('user.dir.photos'), $translator);
                         $current_ownership_id = $ownership->getOwnId();
 
                         //Enviar correo a los propietarios
@@ -961,7 +962,7 @@ class BackendOwnershipController extends Controller {
                         $message = 'La propiedad '.$ownership->getOwnMcpCode().'(Código automático: '.$ownership->getOwnMcpCodeGenerated().') ha sido actualizada satisfactoriamente.';
                     } else {
 
-                        $ownership = $em->getRepository('mycpBundle:ownership')->insert($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this, $this->container->getParameter('user.dir.photos'));
+                        $ownership = $em->getRepository('mycpBundle:ownership')->insert($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this, $this->container->getParameter('user.dir.photos'),$translator);
                         $current_ownership_id = $ownership->getOwnId();
 
                         $message = 'La propiedad '.$ownership->getOwnMcpCode().'(Código automático: '.$ownership->getOwnMcpCodeGenerated().') ha sido añadida satisfactoriamente.';
