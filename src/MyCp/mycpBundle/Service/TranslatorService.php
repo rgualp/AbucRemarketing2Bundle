@@ -172,17 +172,17 @@ class TranslatorService extends Controller
         }
     }
 
-    public function translateAccommodationObj(ownershipDescriptionLang $description, lang $sourceLanguage, lang $targetLanguage, $doFlush = false)
+    public function translateAccommodationObj(ownershipDescriptionLang $description, ownershipDescriptionLang $translatedDescription, lang $sourceLanguage, lang $targetLanguage)
     {
         $translations = $this->multipleTranslations(array($description->getOdlBriefDescription(), $description->getOdlDescription()), strtolower($sourceLanguage->getLangCode()), strtolower($targetLanguage->getLangCode()));
 
         if(count($translations) > 0 && $translations[0]->getCode() == TranslatorResponseStatusCode::STATUS_200){
             $ownership = $description->getOdlOwnership();
 
-            $translatedDescription = $this->em->getRepository("mycpBundle:ownershipDescriptionLang")->getDescriptionsByAccommodation($ownership, strtoupper($targetLanguage->getLangCode()));
+           /* $translatedDescription = $this->em->getRepository("mycpBundle:ownershipDescriptionLang")->getDescriptionsByAccommodation($ownership, strtoupper($targetLanguage->getLangCode()));
 
             if($translatedDescription == null)
-                $translatedDescription = new ownershipDescriptionLang();
+                $translatedDescription = new ownershipDescriptionLang();*/
 
             $translatedDescription->setOdlAutomaticTranslation(true)
                 ->setOdlBriefDescription($translations[0]->getTranslation())
@@ -190,13 +190,15 @@ class TranslatorService extends Controller
                 ->setOdlOwnership($ownership)
                 ->setOdlIdLang($targetLanguage);
 
-            $this->em->persist($translatedDescription);
+            return $translatedDescription;
+            /*$this->em->persist($translatedDescription);
 
             if($doFlush) {
                 $this->em->flush();
                 $this->logger->saveLog('Translate accommodation ' . $ownership->getOwnMcpCode() . " from " . strtoupper($sourceLanguage->getLangCode()) . " to " . strtoupper($targetLanguage->getLangCode()), BackendModuleName::MODULE_OWNERSHIP);
-            }
+            }*/
         }
+        return null;
     }
 
     private function curl_get_contents($url)
