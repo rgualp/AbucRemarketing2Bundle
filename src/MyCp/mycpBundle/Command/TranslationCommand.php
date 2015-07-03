@@ -2,6 +2,8 @@
 
 namespace MyCp\mycpBundle\Command;
 
+use MyCp\mycpBundle\Entity\ownershipDescriptionLang;
+use MyCp\mycpBundle\Service\TranslatorResponseStatusCode;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -30,14 +32,61 @@ class TranslationCommand extends ContainerAwareCommand {
         $untranslatedAccommodations = $em->getRepository("mycpBundle:ownershipDescriptionLang")->getAccommodationsToTranslate("en", "de");
 
         $output->writeln('Translating '.count($untranslatedAccommodations).' accommodations');
-        foreach($untranslatedAccommodations as $untranslated)
-        {
-            $output->writeln('Translating '.$untranslated->getOwnMcpCode());
-            $description = $em->getRepository("mycpBundle:ownershipDescriptionLang")->getDescriptionsByAccommodation($untranslated, "en");
-            $translatorService->translateAccommodation($description,"en", "de");
+        $targetLanguage = $em->getRepository('mycpBundle:lang')->findOneBy(array("lang_code" => "DE"));
+        foreach($untranslatedAccommodations as $untranslatedOwnership) {
+            $output->writeln('Translating ' . $untranslatedOwnership->getOwnMcpCode());
+            $sourceDescription = $em->getRepository("mycpBundle:ownershipDescriptionLang")->getDescriptionsByAccommodation($untranslatedOwnership, "en");
+
+            $translatedDescription = $em->getRepository("mycpBundle:ownershipDescriptionLang")->getDescriptionsByAccommodation($untranslatedOwnership, "de");
+
+            if ($translatedDescription == null)
+                $translatedDescription = new ownershipDescriptionLang();
+
+            $briefDescription = $translatedDescription->getOdlBriefDescription();
+
+            $description = $translatedDescription->getOdlDescription();
+            $translated = $translatedDescription->getOdlAutomaticTranslation();
+
+            if ($sourceDescription != null) {
+                if ($briefDescription == "" && $description == "" && $sourceDescription->getOdlDescription() != "" && $sourceDescription->getOdlBriefDescription() != "") {
+                    $response = $translatorService->multipleTranslations(array($sourceDescription->getOdlDescription(), $sourceDescription->getOdlBriefDescription()), "en", "de");
+
+                    if ($response[0]->getCode() == TranslatorResponseStatusCode::STATUS_200) {
+                        $description = $response[0]->getTranslation();
+                        $translated = true;
+                    }
+
+                    if ($response[1]->getCode() == TranslatorResponseStatusCode::STATUS_200) {
+                        $briefDescription = $response[1]->getTranslation();
+                        //$translated = true;
+                    }
+                } else if ($briefDescription == "" && $sourceDescription->getOdlBriefDescription() != "") {
+                    $response = $translatorService->translate($sourceDescription->getOdlBriefDescription(), "en", "de");
+
+                    if ($response->getCode() == TranslatorResponseStatusCode::STATUS_200) {
+                        $briefDescription = $response->getTranslation();
+                        //$translated = true;
+                    }
+                } else if ($description == "" && $sourceDescription->getOdlDescription() != "") {
+                    $response = $translatorService->translate($sourceDescription->getOdlDescription(), "en", "de");
+
+                    if ($response->getCode() == TranslatorResponseStatusCode::STATUS_200) {
+                        $description = $response->getTranslation();
+                        $translated = true;
+                    }
+                }
+
+                $translatedDescription->setOdlIdLang($targetLanguage)
+                    ->setOdlDescription($description)
+                    ->setOdlBriefDescription($briefDescription)
+                    ->setOdlOwnership($untranslatedOwnership)
+                    ->setOdlAutomaticTranslation($translated);
+
+                $em->persist($translatedDescription);
+            }
         }
 
-
+        $em->flush();
         $output->writeln('Operation completed!!!');
         return 0;
     }

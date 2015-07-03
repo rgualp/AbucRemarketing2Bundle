@@ -39,6 +39,7 @@ class ownershipDescriptionLangRepository extends EntityRepository {
             ->from("mycpBundle:ownership", "o")
             ->where("(SELECT count(odl) FROM mycpBundle:ownershipDescriptionLang odl JOIN odl.odl_id_lang lang WHERE odl.odl_ownership = o.own_id AND lang.lang_code = :sourceLangCode) > 0")
             ->andWhere("(SELECT count(odl1) FROM mycpBundle:ownershipDescriptionLang odl1 JOIN odl1.odl_id_lang lang1 WHERE odl1.odl_ownership = o.own_id AND lang1.lang_code = :targetLangCode) = 0")
+            ->orWhere("(SELECT count(odl2) FROM mycpBundle:ownershipDescriptionLang odl2 JOIN odl2.odl_id_lang lang2 WHERE odl2.odl_ownership = o.own_id AND lang2.lang_code = :targetLangCode AND (odl2.odl_brief_description = '' OR odl2.odl_description = '')) > 0")
             ->setParameters(array("sourceLangCode" => strtoupper($sourceLangCode), "targetLangCode" => strtoupper($targetLangsCode)));
 
         return $qb->getQuery()->getResult();
