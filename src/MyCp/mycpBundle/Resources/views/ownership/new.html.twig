@@ -364,12 +364,14 @@
                                 {{ render(controller('mycpBundle:BackendOwnership:get_yard_list', {'post':post,'id':i})) }}
                             </select>
 
+                            {% if post['room_id_'~i] is defined %}
                             {% if (post['room_active_'~i] is defined) %}
                                 {% if post['room_active_'~i] == 0 %}
                                 <a class="btn btn-success" href="{{ path('mycp_active_room', { 'id_room': post['room_id_'~i], 'activate':1 }) }}">Activar</a>
                                 {% else %}
                                 <a class="btn btn-warning" href="{{ path('mycp_active_room', { 'id_room': post['room_id_'~i], 'activate':0 }) }}">Desactivar</a>
                                 {% endif %}
+                            {% endif %}
                             {% endif %}
                         </div>
                         {% endfor %}
@@ -467,6 +469,7 @@
                 <label>{{language.lang_name |title}} (*):</label>
                 {%if errors["description_brief_desc_"~language.lang_id] is defined %}<label class="error">{{errors["description_brief_desc_"~language.lang_id]|trim(':')}}</label>{%endif%}
                 <textarea class="textarea span12 textarea-brief-{{ language.lang_code | lower }}" name="description_brief_desc_{{language.lang_id}}">{%if post["description_brief_desc_"~language.lang_id] is defined %}{{post["description_brief_desc_"~language.lang_id]}}{%endif%}</textarea>
+
                 {% endfor %}
             </div>
         </div>
@@ -478,6 +481,9 @@
                 <label>{{language.lang_name |title}} (*):</label>
                 {%if errors["description_desc_"~language.lang_id] is defined %}<label class="error">{{errors["description_desc_"~language.lang_id]|trim(':')}}</label>{%endif%}
                 <textarea class="textarea span12 textarea-description-{{ language.lang_code | lower }}" name="description_desc_{{language.lang_id}}">{%if post["description_desc_"~language.lang_id] is defined %}{{post["description_desc_"~language.lang_id]}}{%endif%}</textarea>
+                    {% if data["description_translated_"~language.lang_id] is defined and data["description_translated_"~language.lang_id]%}
+                        <br/><em>Traducido automáticamente por Google Translate</em>
+                    {% endif %}
                 {% endfor %}
             </div>
         </div>

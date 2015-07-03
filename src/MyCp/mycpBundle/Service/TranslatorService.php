@@ -109,6 +109,13 @@ class TranslatorService extends Controller
             );
     }
 
+    public function translateTest($sourceText, $sourceLanguageCode, $targetLanguageCode)
+    {
+        $code = TranslatorResponseStatusCode::STATUS_200;
+
+        return new TranslatorResponse($code,"","Texto traducido");
+    }
+
 
     /**
      * Translate multiples text in the request to Google. Do strip_tags
@@ -140,6 +147,20 @@ class TranslatorService extends Controller
             }
 
             $response = new TranslatorResponse($code,"",$json->data->translations[$i]->translatedText);
+            array_push($responseArray, $response);
+        }
+
+        return $responseArray;
+    }
+
+    public function multipleTranslationsTest($sourceTextsArray, $sourceLanguageCode, $targetLanguageCode)
+    {
+        $responseArray = array();
+        $code = TranslatorResponseStatusCode::STATUS_200;
+
+        for($i = 0; $i < count($sourceTextsArray);$i++)
+        {
+            $response = new TranslatorResponse($code,"","Texto traducido");
             array_push($responseArray, $response);
         }
 

@@ -15,6 +15,7 @@ use MyCp\mycpBundle\Entity\ownershipStatus;
 use MyCp\mycpBundle\Helpers\Dates;
 use MyCp\mycpBundle\Helpers\SearchUtils;
 use MyCp\mycpBundle\Helpers\FilterHelper;
+use MyCp\mycpBundle\Service\TranslatorResponseStatusCode;
 
 /**
  * ownershipRepository
@@ -166,23 +167,62 @@ class ownershipRepository extends EntityRepository {
             }
 
             if (strpos($item, 'description_desc') !== false) {
-
-
                 $id = substr($item, 17, strlen($item));
                 $currentLanguage = $em->getRepository('mycpBundle:lang')->find($id);
-                $odl = new ownershipDescriptionLang();
-                $odl->setOdlIdLang($currentLanguage)
-                    ->setOdlDescription($data['description_desc_' . $id])
-                    ->setOdlBriefDescription($data['description_brief_desc_' . $id])
-                    ->setOdlOwnership($ownership)
-                    ->setOdlAutomaticTranslation(false);
-                $em->persist($odl);
+                $briefDescription = $data['description_brief_desc_' . $id];
+                $description = $data['description_desc_' . $id];
+                $translated = false;
 
-                if($currentLanguage->getLangId() == $sourceLanguage->getLangId() && (!isset($data["description_desc_".$targetLanguage->getLangId()]) || !isset($data["description_brief_desc_".$targetLanguage->getLangId()])))
+                if($currentLanguage->getLangId() == $targetLanguage->getLangId())
                 {
-                    //Translate with Google Translator
-                    $translator->translateAccommodationObj($odl, $sourceLanguage, $targetLanguage);
+                    //Solo traducir descripcion breve si la descripcion breve en aleman está vacía, si la descripcion breve en ingles tiene texto y si la descripcion en ingles esta vacía
+                    if($briefDescription == ""  && ($data["description_brief_desc_".$sourceLanguage->getLangId()] != "") && ($data["description_desc_".$sourceLanguage->getLangId()] == ""))
+                    {
+                        $response = $translator->translate($data["description_brief_desc_".$sourceLanguage->getLangId()], "en", "de");
+
+                        if($response->getCode() == TranslatorResponseStatusCode::STATUS_200)
+                        {
+                            $briefDescription = $response->getTranslation();
+                            //$translated = true;
+                        }
+
+                    }
+                    else if($description == ""  && ($data["description_brief_desc_".$sourceLanguage->getLangId()] == "") && ($data["description_desc_".$sourceLanguage->getLangId()] != ""))
+                    {
+                        $response = $translator->translate($data["description_desc_".$sourceLanguage->getLangId()], "en", "de");
+
+                        if($response->getCode() == TranslatorResponseStatusCode::STATUS_200)
+                        {
+                            $description = $response->getTranslation();
+                            $translated = true;
+                        }
+                    }
+                    else if($briefDescription == "" && $description == ""  && ($data["description_brief_desc_".$sourceLanguage->getLangId()] != "") && ($data["description_desc_".$sourceLanguage->getLangId()] != ""))
+                    {
+                        $response = $translator->multipleTranslations(array($data["description_desc_".$sourceLanguage->getLangId()], $data["description_brief_desc_".$sourceLanguage->getLangId()]), "en", "de");
+
+                        if($response[0]->getCode() == TranslatorResponseStatusCode::STATUS_200)
+                        {
+                            $description = $response[0]->getTranslation();
+                            $translated = true;
+                        }
+
+                        if($response[1]->getCode() == TranslatorResponseStatusCode::STATUS_200)
+                        {
+                            $briefDescription = $response[1]->getTranslation();
+                            //$translated = true;
+                        }
+                    }
                 }
+                //Son las descripciones de lenguajes que no son el target (DE) o que no necesitan traducción
+                    $odl = new ownershipDescriptionLang();
+                    $odl->setOdlIdLang($currentLanguage)
+                        ->setOdlDescription($description)
+                        ->setOdlBriefDescription($briefDescription)
+                        ->setOdlOwnership($ownership)
+                        ->setOdlAutomaticTranslation($translated);
+
+                    $em->persist($odl);
             }
 
             if (strpos($item, 'keywords') !== false) {
