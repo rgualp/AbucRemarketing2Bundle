@@ -482,7 +482,7 @@
                 {%if errors["description_desc_"~language.lang_id] is defined %}<label class="error">{{errors["description_desc_"~language.lang_id]|trim(':')}}</label>{%endif%}
                 <textarea class="textarea span12 textarea-description-{{ language.lang_code | lower }}" name="description_desc_{{language.lang_id}}">{%if post["description_desc_"~language.lang_id] is defined %}{{post["description_desc_"~language.lang_id]}}{%endif%}</textarea>
                     {% if data["description_translated_"~language.lang_id] is defined and data["description_translated_"~language.lang_id]%}
-                        <br/><em>Traducido automáticamente por Google Translate</em>
+                        <br/><em><small>Traducido automáticamente por Google Translate</small></em>
                     {% endif %}
                 {% endfor %}
             </div>
