@@ -34,7 +34,7 @@ class TranslationCommand extends ContainerAwareCommand {
         $output->writeln('Translating '.count($untranslatedAccommodations).' accommodations');
         $targetLanguage = $em->getRepository('mycpBundle:lang')->findOneBy(array("lang_code" => "DE"));
         foreach($untranslatedAccommodations as $untranslatedOwnership) {
-            $output->writeln('Translating ' . $untranslatedOwnership->getOwnMcpCode());
+            $output->writeln('Analizing ' . $untranslatedOwnership->getOwnMcpCode());
             $sourceDescription = $em->getRepository("mycpBundle:ownershipDescriptionLang")->getDescriptionsByAccommodation($untranslatedOwnership, "en");
 
             $translatedDescription = $em->getRepository("mycpBundle:ownershipDescriptionLang")->getDescriptionsByAccommodation($untranslatedOwnership, "de");
@@ -49,6 +49,7 @@ class TranslationCommand extends ContainerAwareCommand {
 
             if ($sourceDescription != null) {
                 if ($briefDescription == "" && $description == "" && $sourceDescription->getOdlDescription() != "" && $sourceDescription->getOdlBriefDescription() != "") {
+                    $output->writeln('Full translating ' . $untranslatedOwnership->getOwnMcpCode());
                     $response = $translatorService->multipleTranslations(array($sourceDescription->getOdlDescription(), $sourceDescription->getOdlBriefDescription()), "en", "de");
 
                     if ($response[0]->getCode() == TranslatorResponseStatusCode::STATUS_200) {
@@ -61,6 +62,7 @@ class TranslationCommand extends ContainerAwareCommand {
                         //$translated = true;
                     }
                 } else if ($briefDescription == "" && $sourceDescription->getOdlBriefDescription() != "") {
+                    $output->writeln('Translating brief description of ' . $untranslatedOwnership->getOwnMcpCode());
                     $response = $translatorService->translate($sourceDescription->getOdlBriefDescription(), "en", "de");
 
                     if ($response->getCode() == TranslatorResponseStatusCode::STATUS_200) {
@@ -68,6 +70,7 @@ class TranslationCommand extends ContainerAwareCommand {
                         //$translated = true;
                     }
                 } else if ($description == "" && $sourceDescription->getOdlDescription() != "") {
+                    $output->writeln('Translating description of ' . $untranslatedOwnership->getOwnMcpCode());
                     $response = $translatorService->translate($sourceDescription->getOdlDescription(), "en", "de");
 
                     if ($response->getCode() == TranslatorResponseStatusCode::STATUS_200) {
