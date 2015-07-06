@@ -65,28 +65,33 @@ function viewReport()
 
     var location = "";
     var filter_province = ($('#filter_province').val() !== undefined) ?   $('#filter_province').val() : "";
-    if(filter_province!='')
+    if(filter_province!=''){
         location += filter_province;
-    //parameters = parameters.replace('_location', filter_province);
-    else
+        parameters = parameters.replace('_location', filter_province);
+    }
+    else {
         location += "-1";
+        parameters = parameters.replace('_location', 'all');
+    }
     var filter_municipality = ($('#filter_municipality').val() !== undefined) ?   $('#filter_municipality').val() : "";
-    if(filter_municipality!='')
+    if(filter_municipality!='') {
         location += "/" + filter_municipality;
-    //parameters = parameters.replace('_location', filter_municipality);
+        parameters = parameters.replace('_location', filter_municipality);
+    }
 
     var filter_destination = ($('#filter_destination').val() !== undefined) ?   $('#filter_destination').val() : "";
-    if(filter_destination!='')
+    if(filter_destination!='') {
         location += "/" + filter_destination;
-    //parameters = parameters.replace('_location', filter_destination);
-
-    parameters = parameters.replace('_location', location);
+        parameters = parameters.replace('_location', filter_destination);
+    }
     console.log(parameters);
     reportUrl = reportUrl + parameters;
+    console.log(reportUrl);
 
-
+    var pLocation = $('#hdParamText').val();
+    pLocation = pLocation.replace('_location', location);
     var report = $('#ddlReport').val();
-    exportUrl = exportUrl + '/' + report  + parameters  ;
+    exportUrl = exportUrl + '/' + report  + pLocation  ;
     console.log(exportUrl);
 
 
