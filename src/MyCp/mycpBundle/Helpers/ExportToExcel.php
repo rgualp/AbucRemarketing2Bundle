@@ -46,18 +46,6 @@ class ExportToExcel extends Controller {
         return $this->export($fileName);
     }
 
-    public function exportOwnershipGeneralStats(Request $request, $reportId,  $fileName = "resumen_propiedades.xlsx") {
-//        $excel = $this->configExcel("Reporte resumen de propiedades", "Reporte resumen de propiedades de MyCasaParticular", "reportes");
-//
-//        $data = $this->dataForRpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo, $timer);
-//
-//        if (count($data) > 0)
-//            $excel = $this->createSheetForRpDailyInPlaceClients($excel, $date, $reportId, $date, $data);
-//
-//        $this->save($excel, $fileName);
-//        return $this->export($fileName);
-    }
-
     private function dataForRpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo, $timer) {
         $results = array();
 
@@ -110,7 +98,7 @@ class ExportToExcel extends Controller {
         $sheet->setCellValue('a2', 'Fecha: '.$date);
         $now = new \DateTime();
         $sheet->setCellValue('c2', 'Generado: '.$now->format('d/m/Y H:s'));
-       // $sheet->setCellValue('a3', "(*) Los datos fueron calculados teniendo en cuenta el rango comprendido entre 30 días antes y 30 días después de la fecha seleccionada.");
+        // $sheet->setCellValue('a3', "(*) Los datos fueron calculados teniendo en cuenta el rango comprendido entre 30 días antes y 30 días después de la fecha seleccionada.");
 
         $sheet->setCellValue('a5', 'Cliente');
         $sheet->setCellValue('b5', 'País');
@@ -136,6 +124,117 @@ class ExportToExcel extends Controller {
         $sheet->fromArray($data, ' ', 'A6');
 
         $this->setColumnAutoSize("a", "k", $sheet);
+
+        return $excel;
+    }
+
+
+    public function exportOwnershipGeneralStats(Request $request, $reportId, $provinceId = "", $municipalityId = "",  $fileName = "resumen_propiedades.xlsx") {
+        $excel = $this->configExcel("Reporte resumen de propiedades", "Reporte resumen de propiedades de MyCasaParticular", "reportes");
+
+        $location = "Cuba";
+        $sheetName = "Cuba";
+        $province = null;
+        $municipality = null;
+
+        if($provinceId != -1 && $provinceId != "")
+        {
+            $province =  $this->em->getRepository("mycpBundle:province")->find($provinceId);
+            $location = $province->getProvName();
+            $sheetName = $province->getProvName();
+        }
+
+        if($municipalityId != -1 && $municipalityId != "")
+        {
+            $municipality =  $this->em->getRepository("mycpBundle:municipality")->find($municipalityId);
+            $location = $municipality->getMunName();
+            $sheetName = $municipality->getMunName();
+        }
+
+        $data = $this->dataForRpAccommodationSummaryStat($province, $municipality);
+
+        if (count($data["data"]) > 0)
+            $excel = $this->createSheetForRpAccommodationSummaryStat($excel, $sheetName, $reportId, $location, $data);
+
+        $this->save($excel, $fileName);
+        return $this->export($fileName);
+    }
+
+    private function dataForRpAccommodationSummaryStat($province, $municipality) {
+        $results = array();
+
+        $reportContent = $this->em->getRepository('mycpBundle:ownershipStat')->getBulb(null, (($municipality != null)? null : $province), $municipality);
+
+        $nomParent = "";
+        $nomTitle = array();
+        $index = 1;
+
+        foreach ($reportContent as $content) {
+            $data = array();
+
+            if($content[0]->getStatNomenclator()->getNomParent() != $nomParent )
+            {
+                $nomParent = $content[0]->getStatNomenclator()->getNomParent();
+
+                $data[0] = "Por ". $nomParent;
+                $data[1] = "";
+                array_push($results, $data);
+                array_push($nomTitle, $index);
+                $index ++;
+            }
+
+            $data[0] = $content[0]->getStatNomenclator();
+            $data[1] = $content["stat_value"];
+
+            $index ++;
+            array_push($results, $data);
+        }
+
+        return array("data" => $results, "nomTitles" => $nomTitle);
+    }
+
+    private function createSheetForRpAccommodationSummaryStat($excel, $sheetName, $reportId, $location, $data) {
+
+        $report = $this->em->getRepository("mycpBundle:report")->find($reportId);
+        $sheet = $this->createSheet($excel, $sheetName);
+        $sheet->setCellValue('a1', "Reporte: ".$report->getReportName());
+        $sheet->setCellValue('a2', 'Alcance: '.$location);
+        $now = new \DateTime();
+        $sheet->setCellValue('b2', 'Generado: '.$now->format('d/m/Y H:s'));
+
+        $sheet->setCellValue('a4', 'Categoría');
+        $sheet->setCellValue('b4', 'Valor');
+
+        //dump($data["nomTitles"]);die;
+
+        $sheet = $this->styleHeader("a4:b4", $sheet);
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+
+        $styleSubTitles = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 12
+            ),
+        );
+        foreach($data["nomTitles"] as $titleIndex)
+        {
+            $sheet->getStyle("a".($titleIndex + 4))->applyFromArray($styleSubTitles);
+        }
+
+        $sheet
+            ->getStyle("a5:a".(count($data["data"])+4))
+            ->getNumberFormat()
+            ->setFormatCode( \PHPExcel_Style_NumberFormat::FORMAT_TEXT );
+
+        $sheet->fromArray($data["data"], ' ', 'A5');
+
+        $this->setColumnAutoSize("a", "b", $sheet);
 
         return $excel;
     }

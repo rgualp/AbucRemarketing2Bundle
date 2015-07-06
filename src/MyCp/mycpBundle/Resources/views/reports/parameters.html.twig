@@ -4,17 +4,14 @@
 {% for parameter in parameters %}
   <div class="row-fluid">
  {% if parameter.parameterType.nomName == constant("\\MyCp\\mycpBundle\\Helpers\\ReportParameterHelper::DATE_NOMENCLATOR_NAME") %}
-      <div class="span12">
      <input type="text" name="dateParam" id="dateParam" class="datepicker input-block-level" value="{{ "today" | date("d/m/Y") }}" style="width: 100%" placeholder="{{ parameter.parameterName | capitalize }}"/>
-     </div>
+
  {% set textParams = textParams ~ "/_date" %}
  {% elseif  parameter.parameterType.nomName == constant("\\MyCp\\mycpBundle\\Helpers\\ReportParameterHelper::DATE_RANGE_NOMENCLATOR_NAME")%}
-      <div class="span6">
+
      <input type="text" name="dateRangeFrom" id="dateRangeFrom" class="datepicker input-block-level" value="{{ "today" | date("d/m/Y") }}" style="width: 45%" placeholder="{{ parameter.parameterName | capitalize }}"/> -
-     </div>
-      <div class="span6">
-          <input type="text" name="dateRangeTo" id="dateRangeTo" class="datepicker input-block-level" value="{{ "+1 day" | date("d/m/Y") }}" style="width: 45%" placeholder="{{ parameter.parameterName | capitalize }}"/>
-      </div>
+     <input type="text" name="dateRangeTo" id="dateRangeTo" class="datepicker input-block-level" value="{{ "+1 day" | date("d/m/Y") }}" style="width: 45%" placeholder="{{ parameter.parameterName | capitalize }}"/>
+
      {% set textParams = textParams ~ "/_dateFrom/_dateTo" %}
  {% elseif  parameter.parameterType.nomName == constant("\\MyCp\\mycpBundle\\Helpers\\ReportParameterHelper::LOCATION_NOMENCLATOR_NAME")%}
      <div class="span6">

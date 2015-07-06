@@ -94,12 +94,10 @@ class BackendReportController extends Controller
         ));
     }
 
-    public function ownershipGeneralStatsExcelAction(Request $request, $location, $report)
+    public function ownershipGeneralStatsExcelAction(Request $request, $report, $province, $municipality)
     {
         $exporter = $this->get("mycp.service.export_to_excel");
-        return $exporter->exportOwnershipGeneralStats($request, $report);
-
-
+        return $exporter->exportOwnershipGeneralStats($request, $report, $province, $municipality);
     }
 
     public function ownershipVsReservationsStatsAction(Request $request)

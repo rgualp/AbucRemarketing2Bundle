@@ -63,23 +63,31 @@ function viewReport()
     var dateRangeTo = ($('#dateRangeTo').val() !== undefined) ?   dateToYMD($('#dateRangeTo').val()) : "";
     parameters = parameters.replace('_dateTo', dateParam);
 
+    var location = "";
     var filter_province = ($('#filter_province').val() !== undefined) ?   $('#filter_province').val() : "";
     if(filter_province!='')
-    parameters = parameters.replace('_location', filter_province);
+        location += filter_province;
+    //parameters = parameters.replace('_location', filter_province);
     else
-    parameters = parameters.replace('_location', 'all');
+        location += "-1";
     var filter_municipality = ($('#filter_municipality').val() !== undefined) ?   $('#filter_municipality').val() : "";
     if(filter_municipality!='')
-    parameters = parameters.replace('_location', filter_municipality);
+        location += "/" + filter_municipality;
+    //parameters = parameters.replace('_location', filter_municipality);
 
     var filter_destination = ($('#filter_destination').val() !== undefined) ?   $('#filter_destination').val() : "";
     if(filter_destination!='')
-    parameters = parameters.replace('_location', filter_destination);
+        location += "/" + filter_destination;
+    //parameters = parameters.replace('_location', filter_destination);
+
+    parameters = parameters.replace('_location', location);
     console.log(parameters);
     reportUrl = reportUrl + parameters;
 
+
     var report = $('#ddlReport').val();
-    exportUrl = exportUrl + parameters + '/' + report;
+    exportUrl = exportUrl + '/' + report  + parameters  ;
+    console.log(exportUrl);
 
 
     $("#bExcel").attr('href', exportUrl);
