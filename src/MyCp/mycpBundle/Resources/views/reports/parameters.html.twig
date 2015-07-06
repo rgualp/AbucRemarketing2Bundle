@@ -1,58 +1,61 @@
 {% set textParams = "" %}
+{% if parameters %}
+<label>Filtrar por:</label>
 {% for parameter in parameters %}
   <div class="row-fluid">
-      <label>{{ parameter.parameterName | capitalize }}:</label>
  {% if parameter.parameterType.nomName == constant("\\MyCp\\mycpBundle\\Helpers\\ReportParameterHelper::DATE_NOMENCLATOR_NAME") %}
-     <input type="text" name="dateParam" id="dateParam" class="datepicker input-block-level" value="{{ "today" | date("d/m/Y") }}" style="width: 200px"/>
-     {% set textParams = textParams ~ "/_date" %}
+      <div class="span12">
+     <input type="text" name="dateParam" id="dateParam" class="datepicker input-block-level" value="{{ "today" | date("d/m/Y") }}" style="width: 100%" placeholder="{{ parameter.parameterName | capitalize }}"/>
+     </div>
+ {% set textParams = textParams ~ "/_date" %}
  {% elseif  parameter.parameterType.nomName == constant("\\MyCp\\mycpBundle\\Helpers\\ReportParameterHelper::DATE_RANGE_NOMENCLATOR_NAME")%}
-     <input type="text" name="dateRangeFrom" id="dateRangeFrom" class="datepicker input-block-level" value="{{ "today" | date("d/m/Y") }}" style="width: 200px"/> -
-     <input type="text" name="dateRangeTo" id="dateRangeTo" class="datepicker input-block-level" value="{{ "+1 day" | date("d/m/Y") }}" style="width: 200px"/>
+      <div class="span6">
+     <input type="text" name="dateRangeFrom" id="dateRangeFrom" class="datepicker input-block-level" value="{{ "today" | date("d/m/Y") }}" style="width: 45%" placeholder="{{ parameter.parameterName | capitalize }}"/> -
+     </div>
+      <div class="span6">
+          <input type="text" name="dateRangeTo" id="dateRangeTo" class="datepicker input-block-level" value="{{ "+1 day" | date("d/m/Y") }}" style="width: 45%" placeholder="{{ parameter.parameterName | capitalize }}"/>
+      </div>
      {% set textParams = textParams ~ "/_dateFrom/_dateTo" %}
  {% elseif  parameter.parameterType.nomName == constant("\\MyCp\\mycpBundle\\Helpers\\ReportParameterHelper::LOCATION_NOMENCLATOR_NAME")%}
-     <div class="span3">
-         <label>Provincia:</label>
+     <div class="span6">
          <select class="input-block-level" name="filter_province" id="filter_province">
+             <option value="" selected disabled>Provincia</option>
          {{ render(controller('mycpBundle:Public:get_provinces', {'post': {'ownership_address_province':''}})) }}
          </select>
      </div>
-     <div class="span3">
-         <label>Municipio:</label>
+     <div class="span6">
          <select class="input-block-level" name="filter_municipality" id="filter_municipality">
+             <option value="" selected disabled>Municipio</option>
          {{ render(controller('mycpBundle:Public:get_mun', {'post': {'ownership_address_municipality':''}})) }}
          </select>
      </div>
      {% set textParams = textParams ~ "/_location" %}
  {% elseif  parameter.parameterType.nomName == constant("\\MyCp\\mycpBundle\\Helpers\\ReportParameterHelper::LOCATION_FULL_NOMENCLATOR_NAME")%}
      <div class="row-fluid">
-         <div class="span3">
-             <label>Provincia:</label>
+         <div class="span4">
              <select class="input-block-level" name="filter_province" id="filter_province">
+                 <option value="" selected disabled>Provincia</option>
                  {{ render(controller('mycpBundle:Public:get_provinces', {'post': {'ownership_address_province':''}})) }}
              </select>
          </div>
-         <div class="span3">
-             <label>Municipio:</label>
+         <div class="span4">
              <select class="input-block-level" name="filter_municipality" id="filter_municipality">
+                 <option value="" selected disabled>Municipio</option>
               {{ render(controller('mycpBundle:Public:get_mun', {'post': {'ownership_address_municipality':''}})) }}
-
              </select>
          </div>
-         <div class="span3">
-             <label>Destino:</label>
+         <div class="span4">
              <select class="input-block-level" name="filter_destination" id="filter_destination">
+                 <option value="" selected disabled>Destino</option>
                  {{ render(controller('mycpBundle:Public:getDestinations', {'post': {'ownership_destination':''}})) }}
              </select>
          </div>
-
      </div>
-
      {% set textParams = textParams ~ "/_location" %}
-
  {% endif %}
   </div>
 {% endfor %}
-
+{% endif %}
 <input type="hidden" id="hdReportUrl" value="{{ path(report.reportRouteName) }}"/>
 <input type="hidden" id="hdReportExportUrl" value="{{ path(report.reportExcelExportRouteName) }}"/>
 <input type="hidden" id="hdParamText" value="{{ textParams }}"/>

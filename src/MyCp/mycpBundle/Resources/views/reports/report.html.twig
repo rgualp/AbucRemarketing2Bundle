@@ -16,7 +16,7 @@
         <div class="row-fluid">
             <div class="span6">
                 <label>Categoría:</label>
-                <select class="input-block-level" id="ddlCategory" name="ddlCategory">
+                <select class="input-block-level" id="ddlCategory" name="ddlCategory" placeholder="Categoría">
                     <option></option>
                     {% for category in categories %}
                         <option value="{{ category.categoryId }}">{{ category.categoryName }}</option>
@@ -30,11 +30,11 @@
             </div>
             </div>
         <div class="row-fluid">
-            <div class="span9">
                 <div id="divParameters">
                 </div>
             </div>
-            <div class="span3">
+            <div class="row-fluid">
+            <div class="pull-right span3">
                 <label id="lblLoadingReport">&nbsp;</label>
                 <div class="row-fluid">
                     <div class="span4">
