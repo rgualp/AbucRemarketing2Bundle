@@ -1,0 +1,13 @@
+{% set nom_parent='' %}
+<option value=""></option>
+{% for nom in nomenclators %}
+    {% if nom.nomParent!=nom_parent  %}
+        {% if nom_parent != "" %}
+        </optgroup>
+            {% endif %}
+        {% set nom_parent=nom.nomParent%}
+        <optgroup label="{{ nom.nomParent }}">
+    {% endif %}
+    <option{% if(selected is defined and selected == nom.nomId) %} selected="TRUE" {% endif %}
+            value="{{ nom.nomId }}"> {{ nom.nomName }}</option>
+{% endfor %}

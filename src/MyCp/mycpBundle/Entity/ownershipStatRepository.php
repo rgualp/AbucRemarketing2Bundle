@@ -10,7 +10,6 @@ use Doctrine\ORM\EntityRepository;
  */
 class ownershipStatRepository extends EntityRepository
 {
-
     public function getBulb($nomenclatorStatParent=null,$province=null,$municipality=null ){
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
@@ -39,6 +38,7 @@ class ownershipStatRepository extends EntityRepository
             ->setParameter('nomStat',$nomenclatorStatParent);}
         return $qb->getQuery()->getResult();
     }
+
     public function getData($nomenclatorStat, $municipality = null)
     {
         $em = $this->getEntityManager();
@@ -55,6 +55,7 @@ class ownershipStatRepository extends EntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
     public function getDataForProvince($nomenclatorStat, $province)
     {
         $em = $this->getEntityManager();
@@ -89,6 +90,7 @@ class ownershipStatRepository extends EntityRepository
         $em->persist($stat);
         $em->flush();
     }
+
     public function insertOrUpdateObj(ownershipStat $stat)
     {   $em = $this->getEntityManager();
         $statDb = $em->getRepository("mycpBundle:ownershipStat")->findOneBy(array("stat_municipality" => $stat->getStatMunicipality(), "stat_nomenclator" => $stat->getStatNomenclator()));
@@ -104,11 +106,12 @@ class ownershipStatRepository extends EntityRepository
        // $em->flush();
     }
 
-   function getMunicipalities(){
+    function getMunicipalities(){
        $em = $this->getEntityManager();
        $municipalities = $em->getRepository('mycpBundle:municipality')->findAll();
        return $municipalities;
    }
+
     public function getOwnershipTotalsByStatus($municipalities=null)
     {
         $em = $this->getEntityManager();
@@ -133,6 +136,7 @@ class ownershipStatRepository extends EntityRepository
         return $result;
 
     }
+
     public function getOwnershipTotalsByType($municipalities=null)
     {  // $types=['Casa particular','Propiedad completa', 'Apartamento', 'Penthouse','Villa con piscina'];
 
@@ -155,9 +159,8 @@ class ownershipStatRepository extends EntityRepository
             }
         }
         return $result;
-
-
     }
+
     public function getOwnershipTotalsByCategory($municipalities=null)
     {   $em = $this->getEntityManager();
         if(!$municipalities)
@@ -178,9 +181,8 @@ class ownershipStatRepository extends EntityRepository
             }
         }
         return $result;
-
-
     }
+
     public function getOwnershipTotalsBySummary($municipalities=nulls)
     { //total, selection, reserva_inmediata
         $em = $this->getEntityManager();
@@ -218,6 +220,7 @@ class ownershipStatRepository extends EntityRepository
 
 
     }
+
     public function getOwnershipTotalsByLanguage($municipalities=null)
     {   $em = $this->getEntityManager();
         if(!$municipalities)
@@ -273,8 +276,6 @@ class ownershipStatRepository extends EntityRepository
 
     }
 
-
-
     public function getOwnershipTotalsByRoomsNumber($municipalities=null)
     {   $em = $this->getEntityManager();
         if(!$municipalities)
@@ -311,5 +312,37 @@ class ownershipStatRepository extends EntityRepository
         return $result;
 
 
+    }
+
+    public function getOwnershipReportListContent($nomenclator, $province=null, $municipality=null)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select("o")
+           ->from("mycpBundle:ownership", "o")
+           ->join("o.own_address_province", "prov");
+
+        if($municipality==null) {
+            if($province!=null){
+                $qb->where('o.own_address_province = :province')->setParameter('province',$province->getProvId());
+            }
+        }
+        else{
+            $qb->where("o.own_address_municipality = :municipalityId")
+                ->setParameter("municipalityId", $municipality->getMunId());
+        }
+
+        $qb->orderBy("prov.prov_name", "ASC")
+           ->addOrderBy("o.own_mcp_code", "ASC");
+
+        $qb = $this->addNomenclatorWheres($qb, $nomenclator);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    private function addNomenclatorWheres($queryBuilder, $nomenclator)
+    {
+        return $queryBuilder;
     }
 }

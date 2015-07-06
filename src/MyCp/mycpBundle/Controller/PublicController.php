@@ -181,4 +181,24 @@ class PublicController extends Controller
         $currencies=$em->getRepository('mycpBundle:currency')->findBy(array(), array("curr_name" => "ASC"));
         return $this->render('mycpBundle:utils:currency.html.twig',array('selected'=>$selected,'currencies'=>$currencies));
     }
+
+    public function getNomenclatorStatsAction($post,Request $request)
+    {
+        $selected = '';
+        if($post && isset($post['nomenclator']))
+        {
+            $selected = $post['nomenclator'];
+        }
+        if(isset($post['filter_nomenclator']))
+        {
+            $selected=$post['filter_nomenclator'];
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $nomenclatorStats = $em->getRepository('mycpBundle:nomenclatorStat')->getChildsNomenclators();
+
+        return $this->render('mycpBundle:utils:listNomenclator.html.twig', array('nomenclators' => $nomenclatorStats
+        ,'selected'=>$selected));
+    }
 }

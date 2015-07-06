@@ -18,6 +18,10 @@ mycp_reports_ownership_general_stats_excel:
     pattern:  /ownership/general-stats-excel/{report}/{province}/{municipality}
     defaults: { _controller: mycpBundle:BackendReport:ownershipGeneralStatsExcel, report:'',province:'',municipality:''}
 
+mycp_reports_ownership_general_stats_links:
+    pattern:  /ownership/general-stats-link/{nomenclator}/{province}/{municipality}
+    defaults: { _controller: mycpBundle:BackendReport:ownershipGeneralStatsLink, province:'',municipality:''}
+
 mycp_reports_ownership_vsReservations_stats:
     pattern:  /ownership/vsReservation/{location_full}
     defaults: { _controller: mycpBundle:BackendReport:ownershipVsReservationsStats,location_full:''}

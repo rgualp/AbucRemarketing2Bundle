@@ -63,34 +63,54 @@ class BackendReportController extends Controller
     }
 
    public function ownershipGeneralStatsAction(Request $request)
-    {
-//        dump($request); die;
+   {
        $em = $this->getDoctrine()->getManager();
-        $province = $request->get("filter_province");
-        $mun = $request->get("filter_municipality");
+       $provinceId = $request->get("filter_province");
+       $munId = $request->get("filter_municipality");
+       $province = null;
+       $municipality = null;
         $errorText = "";
-    //    $content = array();
+
         $location='el país';
-        if(($province == null || $province == "null")&&($mun == null || $mun == "null")){
+        if(($provinceId == null || $provinceId == "null")&&($munId == null || $munId == "null")){
             $resp=$em->getRepository('mycpBundle:ownershipStat')->getBulb();
         }
-       else if($mun == null || $mun == "null"){
-           $province = $em->getRepository('mycpBundle:province')->find($province);
+       else if($munId == null || $munId == "null"){
+           $province = $em->getRepository('mycpBundle:province')->find($provinceId);
            $resp=$em->getRepository('mycpBundle:ownershipStat')->getBulb(null, $province,null);
            $location=$province->getProvName();
         }
        else{
-            $municipality = $em->getRepository('mycpBundle:municipality')->find($mun);
+            $municipality = $em->getRepository('mycpBundle:municipality')->find($munId);
+           $province = $municipality->getMunProvId();
             $resp=$em->getRepository('mycpBundle:ownershipStat')->getBulb(null, null, $municipality);
             $location=$municipality->getMunName();
 
         }
-//       dump($resp);die;
 
         return $this->render('mycpBundle:reports:ownershipGeneralStats.html.twig', array(
             'content' => $resp,
             'location' => $location,
-            'errorText' => $errorText
+            'errorText' => $errorText,
+            'province' => $province,
+            'municipality' => $municipality
+        ));
+    }
+
+    public function ownershipGeneralStatsLinkAction(Request $request, $nomenclator, $province, $municipality)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $nomenclator = $em->getRepository('mycpBundle:nomenclatorStat')->find($nomenclator);
+        $province = $em->getRepository('mycpBundle:province')->find($province);
+        $municipality = $em->getRepository('mycpBundle:municipality')->find($municipality);
+
+        $reportListContent = $em->getRepository('mycpBundle:ownershipStat')->getOwnershipReportListContent($nomenclator, $province, $municipality);
+
+        return $this->render('mycpBundle:reports:ownershipReportList.html.twig', array(
+            'content' => $reportListContent,
+            'nomenclator' => $nomenclator,
+            'province' => $province,
+            'municipality' => $municipality
         ));
     }
 

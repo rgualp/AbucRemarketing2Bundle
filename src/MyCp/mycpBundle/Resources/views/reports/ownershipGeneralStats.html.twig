@@ -10,7 +10,7 @@
     {% endif %}
     <div class="row-fluid rowValue">
         <div class="span6 nomValue">{{ stat[0].statNomenclator }}</div>
-        <div class="span6 statValue" style="text-align: right"><a target="_blank" href="#">{{ stat['stat_value'] }}</a></div>
+        <div class="span6 statValue" style="text-align: right"><a target="_blank" {% if stat['stat_value'] > 0 %}href="{{ path("mycp_reports_ownership_general_stats_links", {"nomenclator": stat[0].statNomenclator.nomId, "municipality": ((municipality != null)?municipality.munId: -1), "province": ((province != null) ? province.provId : -1)}) }}"{% endif %}>{{ stat['stat_value'] }}</a></div>
         </div>
 {% endfor %}
 
