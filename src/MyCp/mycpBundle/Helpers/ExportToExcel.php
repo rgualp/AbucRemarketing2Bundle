@@ -298,7 +298,7 @@ class ExportToExcel extends Controller {
         $sheet = $this->createSheet($excel, $sheetName);
         $sheet->setCellValue('a1', "Listado de Alojamientos");
         $sheet->setCellValue('a2', 'Alcance: '.$location);
-        $sheet->setCellValue('b2', 'Filtro: '.$nomenclator->getNomFullName()." (".count($data).")");
+        $sheet->setCellValue('b2', 'Filtro: '.$nomenclator->getNomFullName());
         $now = new \DateTime();
         $sheet->setCellValue('c2', 'Generado: '.$now->format('d/m/Y H:s'));
         $sheet->setCellValue('b3', 'Total: '.count($data)." alojamientos");
