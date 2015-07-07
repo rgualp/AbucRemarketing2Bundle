@@ -13,11 +13,12 @@
 {% for message in app.session.flashbag.get('message_error_local') %}
 <div class="alert alert-error">{{ message }}</div>
 {% endfor %}
+    <form id="filter" method="post" action="">
         <div class="well well-small">
         <div class="row-fluid">
             <div class="span4">
-                <label>Nomenclador:</label>
-                <select class="input-block-level" id="ddlNomenclator" name="ddlNomenclator">
+                <label id="lblNomenclator" class="">Nomenclador:</label>
+                <select class="input-block-level" id="filter_nomenclator" name="filter_nomenclator">
                     {{ render(controller('mycpBundle:Public:getNomenclatorStats', {'post': {'nomenclator': (nomenclator != null)? nomenclator.nomId: ''}})) }}
                 </select>
             </div>
@@ -40,7 +41,7 @@
                 <label id="lblLoadingReport">&nbsp;</label>
                 <div class="row-fluid">
                     <div class="span4">
-                        <a rel="tooltip" id="bUpdateReport" title="Actualizar"  class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
+                        <a rel="tooltip" id="bUpdateReport" href="javascript:submit();" title="Actualizar"  class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
                     </div>
                     <div class="span4">
                         <a rel="tooltip" id="bExportExcel" href="#" target="_blank" title="Descargar Excel"  class="tooltip_msg btn btn-block btn-info"><i class="icon-download-alt icon-white"></i></a>
@@ -52,6 +53,7 @@
             </div>
         </div>
     </div>
+    </form>
 <div class="row-fluid" id="reportContent">
 {% if content %}
     <table class="table table-striped table-hover">
@@ -110,6 +112,37 @@
             }
         });
     });
+
 </script>
+    <script>
+        function submit()
+        {
+            filter_nomenclator = $('#filter_nomenclator').val();
+            if (filter_nomenclator == '')
+            {
+                $("#lblNomenclator").addClass("error");
+                $("#filter_nomenclator").addClass("errorControl");
+            }
+            else {
+                $("#lblNomenclator").removeClass("error");
+                $("#filter_nomenclator").removeClass("errorControl");
+                
+                filter_province = $('#filter_province').val();
+                if (filter_province == '')
+                    filter_province = '-1';
+                filter_municipality = $('#filter_municipality').val();
+                if (filter_municipality == '')
+                    filter_municipality = '-1';
+
+                url_submit = "{{ path("mycp_reports_ownership_general_stats_links", {"nomenclator": "_nomenclator", "province": "_province", "municipality": "_municipality"}) }}";
+
+                url_submit = url_submit.replace("_nomenclator", filter_nomenclator);
+                url_submit = url_submit.replace("_province", filter_province);
+                url_submit = url_submit.replace("_municipality", filter_municipality);
+                $('#filter').attr('action', url_submit);
+                $('#filter').submit();
+            }
+        }
+    </script>
 <script type="text/javascript" src="{{ asset('bundles/mycp/js/report.js') }}"></script>
 {% endblock %}
