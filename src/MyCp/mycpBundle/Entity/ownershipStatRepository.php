@@ -288,7 +288,7 @@ class ownershipStatRepository extends EntityRepository
         foreach($municipalities as $municipality){
             $ownsRest= $ownershipRepository->findBy(array('own_address_municipality'=>$municipality));
             foreach($nomenRooms as $ownCat){
-                if(($ownCat->getNomName()!='+5')) {
+                if(($ownCat->getNomName()!='más 5')) {
                     $owns = $ownershipRepository->findBy(array('own_address_municipality' => $municipality, 'own_rooms_total' => (int)$ownCat->getNomName()));
                     $ownsRest=array_diff($ownsRest,$owns);
 
@@ -343,6 +343,47 @@ class ownershipStatRepository extends EntityRepository
 
     private function addNomenclatorWheres($queryBuilder, $nomenclator)
     {
+        if($nomenclator->getNomParent() != null) {
+            switch ($nomenclator->getNomParent()->getNomName()){
+                case "Estados": $queryBuilder->join("o.own_status", "st")->andWhere("st.status_name = :value")->setParameter("value", $nomenclator->getNomName()); break;
+                case "Tipos": $queryBuilder->andWhere("o.own_type = :value")->setParameter("value", $nomenclator->getNomName()); break;
+                case "Categorías": $queryBuilder->andWhere("o.own_category = :value")->setParameter("value", $nomenclator->getNomName()); break;
+                case "Total de Habitaciones":
+                {
+                    if($nomenclator->getNomName() != "más 5")
+                        $queryBuilder->andWhere("o.own_rooms_total = :value")->setParameter("value", $nomenclator->getNomName());
+                    else
+                        $queryBuilder->andWhere("o.own_rooms_total > 5");
+                    break;
+                }
+                case "Idiomas": $queryBuilder = $this->addLanguageNomenclatorWhere($nomenclator->getNomName(), $queryBuilder); break;
+                case "Resúmen": $queryBuilder = $this->addSummaryNomenclatorWhere($nomenclator->getNomName(), $queryBuilder); break;
+            }
+        }
+        return $queryBuilder;
+    }
+
+    private function addLanguageNomenclatorWhere($nomenclatorName, $queryBuilder)
+    {
+        switch($nomenclatorName)
+        {
+            case "Inglés": $queryBuilder->andWhere("o.own_langs LIKE '1___'"); break;
+            case "Francés": $queryBuilder->andWhere("o.own_langs LIKE '_1__'"); break;
+            case "Alemán": $queryBuilder->andWhere("o.own_langs LIKE '__1_'"); break;
+            case "Italiano": $queryBuilder->andWhere("o.own_langs LIKE '___1'"); break;
+        }
+
+        return $queryBuilder;
+    }
+
+    private function addSummaryNomenclatorWhere($nomenclatorName, $queryBuilder)
+    {
+        switch($nomenclatorName)
+        {
+            case "Casa Selección": $queryBuilder->andWhere("o.own_selection = 1"); break;
+            case "Reserva Inmediata": $queryBuilder->andWhere("o.own_inmediate_booking = 1"); break;
+        }
+
         return $queryBuilder;
     }
 }
