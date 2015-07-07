@@ -44,7 +44,11 @@
                         <a rel="tooltip" id="bUpdateReport" href="javascript:submit();" title="Actualizar"  class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
                     </div>
                     <div class="span4">
-                        <a rel="tooltip" id="bExportExcel" href="#" target="_blank" title="Descargar Excel"  class="tooltip_msg btn btn-block btn-info"><i class="icon-download-alt icon-white"></i></a>
+                        {% if content %}
+                            <a rel="tooltip" id="bExportExcel" href="#" target="_blank" title="Descargar Excel"  class="tooltip_msg btn btn-block btn-info"><i class="icon-download-alt icon-white"></i></a>
+                        {% else %}
+                            <a rel="tooltip" href="#" title="Descargar Excel"  class="tooltip_msg btn btn-block btn-info" disabled="disabled"><i class="icon-download-alt icon-white"></i></a>
+                        {% endif %}
                     </div>
                     <div class="span4">
                         <a rel="tooltip" title="Cancelar" href="{{ path('mycp_reports')}}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
@@ -78,71 +82,14 @@
 {% block javascripts %}
 <script type="text/javascript" src="{{ asset('bundles/mycp/js/common_list.js') }}"></script>
 <script>
-    url = "{{ path('mycp_get_mun_by_prov', { 'country_code': '-1' }) }}";
-    url=url.replace('/-1','');
+    urlGetMun = "{{ path('mycp_get_mun_by_prov', { 'country_code': '-1' }) }}";
+    urlGetMun=urlGetMun.replace('/-1','');
     url_destination = "{{ path('mycp_get_destination_by_mun') }}";
-    $('#filter_province').change(function(){
-        code = $('#filter_province').val();
-        if(code!='')
-        {
-            $('#filter_municipality').html('<option value="">Cargando...</option>');
-
-
-            $.ajax({
-                type:"POST",
-                url:url + '/' + code,
-                success:function (msg) {
-
-                    $('#filter_municipality').html(msg);
-                }
-            });
-        }
-    });
-    $('#filter_municipality').change(function() {
-
-        $('#filter_destination').html('<option value="">Cargando...</option>');
-        mun = $('#filter_municipality').val();
-        prov = $('#filter_province').val();
-        $.ajax({
-            type: "POST",
-            url: url_destination + '/' + mun + '/' + prov,
-            success: function(msg) {
-
-                $('#filter_destination').html(msg);
-            }
-        });
-    });
-
+    urlExcel = "{{ path("mycp_reports_ownership_general_list_excel", {"nomenclator": "_nomenclator", "province": "_province", "municipality": "_municipality"}) }}";
+    urlFilter = "{{ path("mycp_reports_ownership_general_stats_links", {"nomenclator": "_nomenclator", "province": "_province", "municipality": "_municipality"}) }}";
 </script>
     <script>
-        function submit()
-        {
-            filter_nomenclator = $('#filter_nomenclator').val();
-            if (filter_nomenclator == '')
-            {
-                $("#lblNomenclator").addClass("error");
-                $("#filter_nomenclator").addClass("errorControl");
-            }
-            else {
-                $("#lblNomenclator").removeClass("error");
-                $("#filter_nomenclator").removeClass("errorControl");
-                
-                filter_province = $('#filter_province').val();
-                if (filter_province == '')
-                    filter_province = '-1';
-                filter_municipality = $('#filter_municipality').val();
-                if (filter_municipality == '')
-                    filter_municipality = '-1';
 
-                url_submit = "{{ path("mycp_reports_ownership_general_stats_links", {"nomenclator": "_nomenclator", "province": "_province", "municipality": "_municipality"}) }}";
-
-                url_submit = url_submit.replace("_nomenclator", filter_nomenclator);
-                url_submit = url_submit.replace("_province", filter_province);
-                url_submit = url_submit.replace("_municipality", filter_municipality);
-                $('#filter').attr('action', url_submit);
-                $('#filter').submit();
-            }
-        }
     </script>
-<script type="text/javascript" src="{{ asset('bundles/mycp/js/report.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/mycp/js/reportList.js') }}"></script>
 {% endblock %}

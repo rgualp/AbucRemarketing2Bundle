@@ -38,3 +38,7 @@ mycp_get_report_parameters:
     pattern:  /get-parameters
     defaults: { _controller: mycpBundle:BackendReport:getParametersCallback}
 
+mycp_reports_ownership_general_list_excel:
+    pattern:  /ownership/general-list-excel/{nomenclator}/{province}/{municipality}
+    defaults: { _controller: mycpBundle:BackendReport:ownershipGeneralListExcel, nomenclator:'',province:'',municipality:''}
+

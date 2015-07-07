@@ -148,4 +148,10 @@ class BackendReportController extends Controller
         $content =  $this->renderView('mycpBundle:reports:parameters.html.twig', array('report' => $report, 'parameters' => $parameters));
         return new Response($content, 200);
     }
+
+    public function ownershipGeneralListExcelAction($nomenclator, $municipality, $province)
+    {
+        $exporter = $this->get("mycp.service.export_to_excel");
+        return $exporter->exportOwnershipGeneralList($nomenclator, $province, $municipality);
+    }
 }

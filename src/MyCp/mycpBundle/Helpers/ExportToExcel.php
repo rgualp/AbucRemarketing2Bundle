@@ -129,7 +129,7 @@ class ExportToExcel extends Controller {
     }
 
 
-    public function exportOwnershipGeneralStats(Request $request, $reportId, $provinceId = "", $municipalityId = "",  $fileName = "resumen_propiedades.xlsx") {
+    public function exportOwnershipGeneralStats(Request $request, $reportId, $provinceId = "", $municipalityId = "",  $fileName = "resumenAlojamientos.xlsx") {
         $excel = $this->configExcel("Reporte resumen de propiedades", "Reporte resumen de propiedades de MyCasaParticular", "reportes");
 
         $location = "Cuba";
@@ -238,6 +238,92 @@ class ExportToExcel extends Controller {
 
         return $excel;
     }
+
+    public function exportOwnershipGeneralList($nomenclatorId, $provinceId, $municipalityId, $fileName="listaAlojamientos.xlsx"){
+
+        $excel = $this->configExcel("Reporte resumen de propiedades (lista)", "Reporte resumen de propiedades (lista) de MyCasaParticular", "reportes");
+
+        $location = "Cuba";
+        $sheetName = "Cuba";
+        $province = null;
+        $municipality = null;
+        $nomenclator = null;
+
+        if($provinceId != -1 && $provinceId != "")
+        {
+            $province =  $this->em->getRepository("mycpBundle:province")->find($provinceId);
+            $location = $province->getProvName();
+            $sheetName = $province->getProvName();
+        }
+
+        if($municipalityId != -1 && $municipalityId != "")
+        {
+            $municipality =  $this->em->getRepository("mycpBundle:municipality")->find($municipalityId);
+            $location = $municipality->getMunName();
+            $sheetName = $municipality->getMunName();
+        }
+        if($nomenclatorId != -1 && $nomenclatorId != "")
+        {
+            $nomenclator = $this->em->getRepository("mycpBundle:nomenclatorStat")->find($nomenclatorId);
+        }
+
+        $data = $this->dataForRpAccommodationList($nomenclator,$province, $municipality);
+
+        if (count($data) > 0)
+            $excel = $this->createSheetForRpAccommodationList($excel, $sheetName, $nomenclator, $location, $data);
+
+        $this->save($excel, $fileName);
+        return $this->export($fileName);
+    }
+
+    private function dataForRpAccommodationList($nomenclator,$province, $municipality) {
+        $results = array();
+
+        $reportContent = $this->em->getRepository('mycpBundle:ownershipStat')->getOwnershipReportListContent($nomenclator,$province, $municipality);
+
+        foreach ($reportContent as $content) {
+            $data = array();
+
+            $data[0] = $content->getOwnMcpCode();
+            $data[1] = $content->getOwnName();
+            $data[2] = $content->getOwnStatus()->getStatusName();
+            array_push($results, $data);
+        }
+
+        return $results;
+    }
+
+    private function createSheetForRpAccommodationList($excel, $sheetName, $nomenclator, $location, $data) {
+
+        $sheet = $this->createSheet($excel, $sheetName);
+        $sheet->setCellValue('a1', "Listado de Alojamientos");
+        $sheet->setCellValue('a2', 'Alcance: '.$location);
+        $sheet->setCellValue('b2', 'Filtro: '.$nomenclator->getNomFullName()." (".count($data).")");
+        $now = new \DateTime();
+        $sheet->setCellValue('c2', 'Generado: '.$now->format('d/m/Y H:s'));
+        $sheet->setCellValue('b3', 'Total: '.count($data)." alojamientos");
+
+        $sheet->setCellValue('a5', 'Código');
+        $sheet->setCellValue('b5', 'Alojamiento');
+        $sheet->setCellValue('c5', 'Estado');
+
+        $sheet = $this->styleHeader("a5:c5", $sheet);
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+
+
+        $sheet->fromArray($data, ' ', 'A6');
+
+        $this->setColumnAutoSize("a", "c", $sheet);
+
+        return $excel;
+    }
+
 
     /*
      * Crea un fichero excel con los check-in que ocurrirán en la fecha introducida

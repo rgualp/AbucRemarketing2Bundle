@@ -193,4 +193,11 @@ class nomenclatorStat
         return $this->nom_name;
     }
 
+    public function getNomFullName(){
+        if($this->getNomParent() == null)
+            return $this->getNomName();
+        else
+            return $this->getNomParent()->getNomFullName()." - ".$this->getNomName();
+    }
+
 }
