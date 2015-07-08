@@ -23,9 +23,9 @@ class Version20150522234538 extends AbstractMigration
             $this->addSql('ALTER TABLE report ADD CONSTRAINT FK_C42F778462C80BC FOREIGN KEY (report_category) REFERENCES nomenclator (nom_id)');
             }
         if(!$this->connection->getSchemaManager()->tablesExist(array('reportParameter'))) {
-            $this->addSql('CREATE TABLE reportParameter (parameter_id INT AUTO_INCREMENT NOT NULL, parameter_type INT DEFAULT NULL, parameter_report INT DEFAULT NULL, parameter_name VARCHAR(255) NOT NULL, INDEX IDX_86C6CFAE23D0542C (parameter_type), INDEX IDX_86C6CFAE20517D75 (parameter_report), PRIMARY KEY(parameter_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
-            $this->addSql('ALTER TABLE reportParameter ADD CONSTRAINT FK_86C6CFAE23D0542C FOREIGN KEY (parameter_type) REFERENCES nomenclator (nom_id)');
-            $this->addSql('ALTER TABLE reportParameter ADD CONSTRAINT FK_86C6CFAE20517D75 FOREIGN KEY (parameter_report) REFERENCES report (report_id)');
+            $this->addSql('CREATE TABLE reportparameter (parameter_id INT AUTO_INCREMENT NOT NULL, parameter_type INT DEFAULT NULL, parameter_report INT DEFAULT NULL, parameter_name VARCHAR(255) NOT NULL, INDEX IDX_86C6CFAE23D0542C (parameter_type), INDEX IDX_86C6CFAE20517D75 (parameter_report), PRIMARY KEY(parameter_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
+            $this->addSql('ALTER TABLE reportparameter ADD CONSTRAINT FK_86C6CFAE23D0542C FOREIGN KEY (parameter_type) REFERENCES nomenclator (nom_id)');
+            $this->addSql('ALTER TABLE reportparameter ADD CONSTRAINT FK_86C6CFAE20517D75 FOREIGN KEY (parameter_report) REFERENCES report (report_id)');
         }
     }
 
@@ -37,8 +37,8 @@ class Version20150522234538 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE reportParameter DROP FOREIGN KEY FK_86C6CFAE20517D75');
+        $this->addSql('ALTER TABLE reportparameter DROP FOREIGN KEY FK_86C6CFAE20517D75');
         $this->addSql('DROP TABLE report');
-        $this->addSql('DROP TABLE reportParameter');
+        $this->addSql('DROP TABLE reportparameter');
     }
 }

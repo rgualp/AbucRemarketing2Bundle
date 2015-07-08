@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * nomenclatorStat
  *
- * @ORM\Table()
+ * @ORM\Table(name="nomenclatorstat")
  * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\nomenclatorStatRepository")
  *
  */

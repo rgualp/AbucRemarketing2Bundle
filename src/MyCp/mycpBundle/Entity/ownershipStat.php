@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ownershipStat
  *
- * @ORM\Table()
+ * @ORM\Table(name="ownersipstat")
  * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\ownershipStatRepository")
  *
  */

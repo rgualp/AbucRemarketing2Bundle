@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * reportParameter
  *
- * @ORM\Table()
+ * @ORM\Table(name="reportparameter")
  * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\reportParameterRepository")
  */
 class reportParameter
