@@ -1,5 +1,5 @@
 {% if ownership.ownComment %}<a class="tooltip_msg no_link" rel="tooltip" title="{{ownership.ownComment}}">{% endif %}
-{% if ownership.ownStatus is defined%}
+{% if ownership.ownStatus is defined and ownership.ownStatus != null%}
             {% if ownership.ownStatus.statusId==constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')%}<span class="label label-success">Activo</span>
             {% else %} <span class="label label-important">{{ ownership.ownStatus.getStatusName }}</span>{% endif %}
             {%else%}

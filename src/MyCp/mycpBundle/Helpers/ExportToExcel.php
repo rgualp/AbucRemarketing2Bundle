@@ -176,14 +176,14 @@ class ExportToExcel extends Controller {
             {
                 $nomParent = $content[0]->getStatNomenclator()->getNomParent();
 
-                $data[0] = "Por ". $nomParent;
+                $data[0] = "Por ". $nomParent->getNomName();
                 $data[1] = "";
                 array_push($results, $data);
                 array_push($nomTitle, $index);
                 $index ++;
             }
 
-            $data[0] = $content[0]->getStatNomenclator();
+            $data[0] = $content[0]->getStatNomenclator()->getNomName();
             $data[1] = $content["stat_value"];
 
             $index ++;
@@ -298,7 +298,8 @@ class ExportToExcel extends Controller {
         $sheet = $this->createSheet($excel, $sheetName);
         $sheet->setCellValue('a1', "Listado de Alojamientos");
         $sheet->setCellValue('a2', 'Alcance: '.$location);
-        $sheet->setCellValue('b2', 'Filtro: '.$nomenclator->getNomFullName());
+        $filter = $nomenclator->getNomFullName();
+        $sheet->setCellValue('b2', 'Filtro: '.$filter);
         $now = new \DateTime();
         $sheet->setCellValue('c2', 'Generado: '.$now->format('d/m/Y H:s'));
         $sheet->setCellValue('b3', 'Total: '.count($data)." alojamientos");
