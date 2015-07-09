@@ -286,7 +286,7 @@ class ExportToExcel extends Controller {
 
             $data[0] = $content->getOwnMcpCode();
             $data[1] = $content->getOwnName();
-            $data[2] = $content->getOwnStatus()->getStatusName();
+            $data[2] = ($content->getOwnStatus() != null) ? $content->getOwnStatus()->getStatusName() : "Sin estado";
             array_push($results, $data);
         }
 
