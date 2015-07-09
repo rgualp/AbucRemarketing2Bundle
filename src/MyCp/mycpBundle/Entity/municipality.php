@@ -39,7 +39,7 @@ class municipality
     private $mun_name;
 
     /**
-     * @ORM\OneToMany(targetEntity="ownershipStat", mappedBy="nom_parent")
+     * @ORM\OneToMany(targetEntity="ownershipStat", mappedBy="stat_municipality")
      */
     private $statMunicipalities;
 

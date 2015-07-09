@@ -42,7 +42,7 @@ class nomenclatorStat
     private $children;
 
     /**
-     * @ORM\OneToMany(targetEntity="ownershipStat", mappedBy="$stat_nomenclator")
+     * @ORM\OneToMany(targetEntity="ownershipStat", mappedBy="stat_nomenclator")
      */
     private $ownershipStats;
 
