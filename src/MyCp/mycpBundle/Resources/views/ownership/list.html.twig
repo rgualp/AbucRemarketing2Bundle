@@ -248,7 +248,7 @@
                                             <td>{% include 'mycpBundle:utils:ownership_array_labels.html.twig' with {'ownership':ownership}%}</td>
                                             <td style="text-align: center"><a href="{{ path('mycp_list_photos_ownership',{'id_ownership':ownership.own_id}) }}" title="Esta propiedad tiene {{ ownership.photos_count }} fotografías">{{ ownership.photos_count }}</a></td>
                                             <td style="text-align: right">
-                                                {% if is_granted('ROLE_CLIENT_STAFF')%}
+                                                {% if is_granted('ROLE_CLIENT_STAFF') and ownership.own_mcp_code != null and ownership.own_mcp_code != ""%}
                                                     <a class="btn btn-mini btn-success" title="Descargar fotos - {{ownership.own_name}}" href="{{path("mycp_download_zip_photo", {"idOwnership": ownership.own_id, "ownMycpCode": ownership.own_mcp_code})}}"><i class="icon-download-alt"></i></a>
                                                 {%endif%}
                                                 <a class="btn btn-mini" href="{{ path('mycp_edit_ownership',{'id_ownership':ownership.own_id}) }}" title="Editar - {{ownership.own_name}}"><i class="icon-edit"></i></a>

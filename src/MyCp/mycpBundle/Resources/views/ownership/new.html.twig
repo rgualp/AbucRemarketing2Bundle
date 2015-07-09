@@ -47,7 +47,7 @@
         </button>
         <ul class="dropdown-menu pull-right" role="menu">
             <li><a href="{{ path('mycp_list_photos_ownership',{'id_ownership':post['ownership_id']}) }}">Ver fotos</a></li>
-            {% if is_granted('ROLE_CLIENT_STAFF')%}
+            {% if is_granted('ROLE_CLIENT_STAFF')  and post['ownership_mcp_code'] != null and post['ownership_mcp_code'] != ""%}
             <li><a href="{{path("mycp_download_zip_photo", {"idOwnership": post['ownership_id'], "ownMycpCode": post['ownership_mcp_code']})}}"><i class="icon-download-alt"></i> Descargar Fotos</a></li>
             {%endif%}
             {%if (post['ownership_email_1'] is defined and post['ownership_email_1'] != "") or (post['ownership_email_2'] is defined and post['ownership_email_2'] != "")%}

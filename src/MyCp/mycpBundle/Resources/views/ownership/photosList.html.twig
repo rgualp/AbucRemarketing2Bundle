@@ -35,7 +35,7 @@
 {%endif%}
 <br/><br/>
     <div class="row-fluid">
-        {% if is_granted('ROLE_CLIENT_STAFF')%}
+        {% if is_granted('ROLE_CLIENT_STAFF') and ownership.ownMcpCode != null and ownership.ownMcpCode != ""%}
             <a class="btn btn-success pull-right" title="Descargar fotos - {{ownership.ownName}}" href="{{path("mycp_download_zip_photo", {"idOwnership": ownership.ownId, "ownMycpCode": ownership.ownMcpCode})}}"><i class="icon-download-alt"></i> Descargar Fotos</a>
         {%endif%}
     </div>
