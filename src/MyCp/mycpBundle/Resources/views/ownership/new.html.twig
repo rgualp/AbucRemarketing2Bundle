@@ -39,13 +39,14 @@
             <li><a style="cursor: hand" onclick="javascript:submit_button({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_AND_EXIT')}})">Guardar e ir al listado</a></li>
         </ul>
         </div>
-        {% if(post['ownership_id'] is defined) %}
+
     <div class="btn-group dropup">
         <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
            Acciones <span class="caret"></span>
             <span class="sr-only"></span>
         </button>
         <ul class="dropdown-menu pull-right" role="menu">
+            {% if(post['ownership_id'] is defined) %}
             <li><a href="{{ path('mycp_list_photos_ownership',{'id_ownership':post['ownership_id']}) }}">Ver fotos</a></li>
             {% if is_granted('ROLE_CLIENT_STAFF')  and post['ownership_mcp_code'] != null and post['ownership_mcp_code'] != ""%}
             <li><a href="{{path("mycp_download_zip_photo", {"idOwnership": post['ownership_id'], "ownMycpCode": post['ownership_mcp_code']})}}"><i class="icon-download-alt"></i> Descargar Fotos</a></li>
@@ -54,9 +55,17 @@
             <li class="divider"></li>
             <li><a style="cursor: hand" onclick="send_message();">Enviar Correo de Instrucciones</a></li>
             {%endif%}
+            {%endif%}
+            {% if data['edit_ownership'] is defined %}
+            {% if(post['ownership_id'] is defined) %}
+                <li class="divider"></li>
+            {%endif%}
+                <li><a href="{{ path('mycp_edit_ownership', {"id_ownership": data['edit_ownership']}) }}">Eliminar últimos cambios</a></li>
+            {% endif %}
         </ul>
         </div>
-        {%endif%}
+
+
     <a class="btn" href="{{ path('mycp_list_ownerships') }}">Cancelar</a>
     </div>
     </div>

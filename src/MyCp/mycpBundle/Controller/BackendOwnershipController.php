@@ -676,6 +676,7 @@ class BackendOwnershipController extends Controller {
         $current_ownership_id = -1;
 
         if ($request->getMethod() == 'POST') {
+            $edit_ownership = ((array_key_exists('edit_ownership', $post))) ? $post["edit_ownership"] : -1;
             if ($request->request->get('new_room') == 1) {
                 $count_rooms = $request->request->get('count_rooms') + 1;
                 $data['new_room'] = TRUE;
