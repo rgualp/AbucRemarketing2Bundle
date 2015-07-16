@@ -1,6 +1,7 @@
 <?php
 namespace MyCp\mycpBundle\Helpers;
 use MyCp\mycpBundle\Entity\log;
+use MyCp\mycpBundle\Entity\offerLog;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\HttpFoundation\Request;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
@@ -29,6 +30,24 @@ class Logs
         $log->setLogDate(new \DateTime(date('Y-m-d')));
         $log->setLogModule($id_module);
         $log->setLogTime(strftime("%I:%M %p"));
+        $this->em->persist($log);
+        $this->em->flush();
+    }
+
+    public function saveNewOfferLog($newReservation, $fromReservation, $isForChangeDates)
+    {
+        $log = new offerLog();
+        $log->setLogDate(new \DateTime(date('Y-m-d')));
+        $log->setLogFromReservation($fromReservation);
+        $log->setLogOfferReservation($newReservation);
+
+        $reason = null;
+        if($isForChangeDates)
+            $reason = $this->em->getRepository("mycpBundle:nomenclatorStat")->findOneBy(array("nom_name" => "Modificación de fechas"));
+        else
+            $reason = $this->em->getRepository("mycpBundle:nomenclatorStat")->findOneBy(array("nom_name" => "Ofrecer nuevo alojamiento"));
+
+        $log->setLogReason($reason);
         $this->em->persist($log);
         $this->em->flush();
     }

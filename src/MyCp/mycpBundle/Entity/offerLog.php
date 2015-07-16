@@ -128,7 +128,7 @@ class offerLog
     /**
      * Set log_date
      *
-     * @param DateTime $value
+     * @param \DateTime $value
      * @return this
      */
     public function setLogDate($value)

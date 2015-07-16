@@ -99,6 +99,7 @@ class BackendReservationController extends Controller {
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log->saveLog('Create new offer '.$general_reservation->getCASId(),  BackendModuleName::MODULE_RESERVATION);
+                $service_log->saveNewOfferLog($general_reservation, $gen_res, false);
 
                 return $this->redirect($this->generateUrl('mycp_details_reservation', array('id_reservation' => $general_reservation->getGenResId())));
 
@@ -239,6 +240,7 @@ class BackendReservationController extends Controller {
 
                 $service_log = $this->get('log');
                 $service_log->saveLog('Nueva oferta para ' . $reservation->getCASId(), BackendModuleName::MODULE_RESERVATION);
+                $service_log->saveNewOfferLog($reservation, $newGeneralReservation, true);
 
                 //Enviar correo al cliente con el texto escrito y el voucher como adjunto
                 try {
