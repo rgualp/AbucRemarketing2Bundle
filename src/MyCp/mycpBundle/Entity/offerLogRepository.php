@@ -14,5 +14,4 @@ class offerLogRepository extends EntityRepository
 {
 
 
-
 }
