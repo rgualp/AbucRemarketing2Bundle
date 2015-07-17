@@ -198,6 +198,11 @@
             <a href="#booking" data-toggle="tab">Bookings</a>
         </li>
         {% endif %}
+        {% if reservation.genResStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED') or reservation.genResStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED')  %}
+            <li>
+                <a href="#logs" data-toggle="tab">Logs</a>
+            </li>
+        {% endif %}
     </ul>
 <div class="tab-content" id="myTabContent" style="margin-bottom: 3%">
     <div id="reservas" class="tab-pane fade active in">
@@ -245,6 +250,11 @@
 
     </div>
     {% endif %}
+    {% if reservation.genResStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_RESERVED') or reservation.genResStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED')  %}
+        <div id="logs" class="tab-pane fade" data-url="{{ path("mycp_reservation_logs_callback") }}" data-has-content = "false">
+
+        </div>
+    {% endif %}
     </div>
 {{ render(controller('mycpBundle:BackendMessage:messageControl', {'userTourist': user[0]})) }}
 </div>
@@ -263,6 +273,10 @@
 
         $('#tabs a[href="#booking"]').click(function () {
             loadBookings();
+        });
+
+        $('#tabs a[href="#logs"]').click(function () {
+            loadLogs();
         });
 
         function send_message()
@@ -290,6 +304,26 @@
                             $("#booking").attr("data-has-content", "true");
                         });
             }
+            return false;
+        }
+
+        function loadLogs()
+        {
+            var logsHasContent = $("#logs").attr("data-has-content");
+
+            //if(logsHasContent == "false") {
+                var reservation = {{ id_reservation }};
+                var url = $("#logs").attr("data-url");
+                $("#logs").html("Cargando....");
+                $.post(url, {
+                            reservation: reservation
+                        },
+                        function (data) {
+                            $("#logs").html(data);
+                            $('#tabs a[href="#logs"]').tab('show');
+                            $("#logs").attr("data-has-content", "true");
+                        });
+            //}
             return false;
         }
     </script>

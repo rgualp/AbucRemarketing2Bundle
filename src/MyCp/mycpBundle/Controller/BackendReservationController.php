@@ -240,7 +240,7 @@ class BackendReservationController extends Controller {
 
                 $service_log = $this->get('log');
                 $service_log->saveLog('Nueva oferta para ' . $reservation->getCASId(), BackendModuleName::MODULE_RESERVATION);
-                $service_log->saveNewOfferLog($reservation, $newGeneralReservation, true);
+                $service_log->saveNewOfferLog($newGeneralReservation, $reservation, true);
 
                 //Enviar correo al cliente con el texto escrito y el voucher como adjunto
                 try {
@@ -794,6 +794,18 @@ class BackendReservationController extends Controller {
         $bookings = $em->getRepository("mycpBundle:generalReservation")->getAllBookings(null, null, null, null, $reservationId, null, null);
 
         $content = $this->renderView("mycpBundle:utils:bookings.html.twig", array("bookings" => $bookings));
+
+        return new Response($content, 200);
+    }
+
+    public function getLogsCallbackAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $reservationId = $request->get("reservation");
+
+        $logs = $em->getRepository("mycpBundle:offerLog")->getLogs($reservationId);
+
+        $content = $this->renderView("mycpBundle:utils:offerLogs.html.twig", array("logs" => $logs));
 
         return new Response($content, 200);
     }

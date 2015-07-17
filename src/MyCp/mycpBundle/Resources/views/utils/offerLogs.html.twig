@@ -1,0 +1,23 @@
+{% if logs %}
+<table class="table table-hover table-striped" style="font-size: 12px">
+    <thead>
+    <tr>
+        <th>Modifica a</th>
+        <th>Motivo</th>
+        <th>Fecha</th>
+    </tr>
+    </thead>
+    <tbody>
+{% for log in logs %}
+    <tr>
+
+        <td><a href="{{ path('mycp_details_reservation',{'id_reservation':log.getLogFromReservation.genResId}) }}">{{ log.getLogFromReservation.getCASId}}</a></td>
+        <td>{{ log.logReason.nomName }}</td>
+        <td>{{ log.logDate|date("d/m/Y H:i") }}</td>
+    </tr>
+{% endfor %}
+</tbody>
+</table>
+{% else %}
+    <p> <div class="alert alert-block">No hay logs asociados a esta reservación.</div></p>
+{% endif %}

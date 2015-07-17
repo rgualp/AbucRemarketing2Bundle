@@ -37,7 +37,7 @@ class Logs
     public function saveNewOfferLog($newReservation, $fromReservation, $isForChangeDates)
     {
         $log = new offerLog();
-        $log->setLogDate(new \DateTime(date('Y-m-d')));
+        $log->setLogDate(new \DateTime());
         $log->setLogFromReservation($fromReservation);
         $log->setLogOfferReservation($newReservation);
 

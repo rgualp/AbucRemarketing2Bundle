@@ -74,3 +74,7 @@ mycp_new_offer_to_client:
 mycp_reservation_bookings_callback:
     pattern:  /reservation-bookings-callback/
     defaults: { _controller: mycpBundle:BackendReservation:getBookingsCallback }
+
+mycp_reservation_logs_callback:
+    pattern:  /reservation-logs-callback/
+    defaults: { _controller: mycpBundle:BackendReservation:getLogsCallback }
