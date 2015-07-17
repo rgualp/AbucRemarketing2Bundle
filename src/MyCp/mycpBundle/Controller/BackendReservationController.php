@@ -617,6 +617,7 @@ class BackendReservationController extends Controller {
         }
 
         $bookings = $em->getRepository("mycpBundle:generalReservation")->getAllBookings(null, null, null, null, $id_reservation, null, null);
+        $logs = $em->getRepository("mycpBundle:offerLog")->getLogs($id_reservation);
 
         return $this->render('mycpBundle:reservation:reservationDetailsPartial.html.twig', array(
                     'nights' => $total_nights,
@@ -625,7 +626,8 @@ class BackendReservationController extends Controller {
                     'reservations' => $ownership_reservations,
                     'rooms' => $rooms,
                     'id_reservation' => $id_reservation,
-                    'bookings' => $bookings
+                    'bookings' => $bookings,
+                    'logs' => $logs
         ));
     }
 

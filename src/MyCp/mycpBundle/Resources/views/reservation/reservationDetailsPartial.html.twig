@@ -160,4 +160,10 @@
     <hr style="margin-top: 0px"/>
     {% include 'mycpBundle:utils:bookings.html.twig' with {'bookings': bookings}%}
     {% endif %}
+
+    {% if logs %}
+        <h5>Logs</h5>
+        <hr style="margin-top: 0px"/>
+        {% include 'mycpBundle:utils:offerLogs.html.twig' with {'logs': logs}%}
+    {% endif %}
 </div>
