@@ -286,12 +286,11 @@ class ownershipStatRepository extends EntityRepository
         $nomenRooms=$nomenclatorRepository->findBy(array('nom_parent'=>$nomenRoom));
         $result = array();
         foreach($municipalities as $municipality){
-            $ownsRest= $ownershipRepository->findBy(array('own_address_municipality'=>$municipality));
+            $ownsRest= $ownershipRepository->getByRoomsTotalAndMunicipality($municipality);
             foreach($nomenRooms as $ownCat){
                 if(($ownCat->getNomName()!='más 5')) {
-                    $owns = $ownershipRepository->findBy(array('own_address_municipality' => $municipality, 'own_rooms_total' => (int)$ownCat->getNomName()));
+                    $owns = $ownershipRepository->getByRoomsTotalAndMunicipality($municipality,(int)$ownCat->getNomName());
                     $ownsRest=array_diff($ownsRest,$owns);
-
 
                 $ownStat=new ownershipStat();
                 $ownStat->setStatMunicipality($municipality);
@@ -357,7 +356,7 @@ class ownershipStatRepository extends EntityRepository
                     break;
                 }
                 case "Idiomas": $queryBuilder = $this->addLanguageNomenclatorWhere($nomenclator->getNomName(), $queryBuilder); break;
-                case "Resúmen": $queryBuilder = $this->addSummaryNomenclatorWhere($nomenclator->getNomName(), $queryBuilder); break;
+                //case "Resúmen": $queryBuilder = $this->addSummaryNomenclatorWhere($nomenclator->getNomName(), $queryBuilder); break;
             }
         }
         return $queryBuilder;

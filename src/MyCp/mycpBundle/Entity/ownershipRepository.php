@@ -4,6 +4,7 @@ namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\QueryBuilder;
 use MyCp\mycpBundle\Entity\ownership;
 use MyCp\mycpBundle\Entity\ownershipDescriptionLang;
 use MyCp\mycpBundle\Entity\ownershipGeneralLang;
@@ -1956,6 +1957,27 @@ class ownershipRepository extends EntityRepository {
                                         "roomsTotal" => count($rooms),
                                         "status" => ownershipStatus::STATUS_ACTIVE))
                   ->getResult();
+    }
+
+
+    public function getByRoomsTotalAndMunicipality($municipality, $roomsTotal = null)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb->select('ol')
+            ->from("mycpBundle:ownership", "ol")
+            ->where('ol.own_address_municipality = :municipality')
+            ->andWhere('ol.own_rooms_total > 0')
+            ->setParameter("municipality", $municipality)
+        ;
+
+        if($roomsTotal != null)
+        {
+            $qb->andWhere('ol.own_rooms_total = :roomsTotal')
+                ->setParameter("roomsTotal", $roomsTotal);
+        }
+
+        return $qb->getQuery()->getResult();
     }
 
 }
