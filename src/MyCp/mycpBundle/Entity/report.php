@@ -55,6 +55,13 @@ class report
     private $parameters;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="published", type="boolean")
+     */
+    private $published;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -205,6 +212,27 @@ class report
     public function setParameters(ArrayCollection $parameters)
     {
          $this->parameters = $parameters;
+        return $this;
+    }
+
+    /**
+     * Get published
+     *
+     * @return boolean
+     */
+    public function getPublished()
+    {
+        return $this->published;
+    }
+
+    /**
+     * Set published
+     * @param boolean $value
+     * @return $this
+     */
+    public function setPublished($value)
+    {
+        $this->published = $value;
         return $this;
     }
 

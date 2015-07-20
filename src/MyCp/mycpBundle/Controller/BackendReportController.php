@@ -134,7 +134,7 @@ class BackendReportController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $category = $request->get("category");
-        $reports = $em->getRepository('mycpBundle:report')->findBy(array('report_category'=>$category));
+        $reports = $em->getRepository('mycpBundle:report')->findBy(array('report_category'=>$category, "published"=> true));
         $reportContent =  $this->renderView('mycpBundle:utils:listReports.html.twig', array('reports' => $reports));
         return new Response($reportContent, 200);
     }

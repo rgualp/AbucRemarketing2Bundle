@@ -24,7 +24,8 @@ class reportRepository extends EntityRepository
         category.nom_id as categoryId,
         (select min(nom.nom_lang_description) from mycpBundle:nomenclatorLang nom where nom.nom_lang_id_nomenclator = category.nom_id AND nom.nom_lang_id_lang = :spanishId) as categoryName
         FROM mycpBundle:report r
-        JOIN r.report_category category";
+        JOIN r.report_category category
+        WHERE r.published = 1";
 
         $query = $em->createQuery($queryString);
         return $query->setParameter('spanishId', $spanish->getLangId())->getResult();
