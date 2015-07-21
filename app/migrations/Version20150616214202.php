@@ -31,6 +31,6 @@ class Version20150616214202 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE nomenclatorstat DROP FOREIGN KEY FK_6C46155BD41FF18');
-        $this->addSql('DROP TABLE nomenclatorStat');
+        $this->addSql('DROP TABLE nomenclatorstat');
     }
 }

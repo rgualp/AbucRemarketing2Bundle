@@ -38,9 +38,16 @@ class ownershipReservationStat
     /**
      * @var date
      *
-     * @ORM\Column(name="stat_date", type="date")
+     * @ORM\Column(name="stat_date_from", type="date")
      */
-    private $stat_date;
+    private $stat_date_from;
+
+    /**
+     * @var date
+     *
+     * @ORM\Column(name="stat_date_to", type="date")
+     */
+    private $stat_date_to;
 
     /**
      * @var string
@@ -128,23 +135,44 @@ class ownershipReservationStat
     }
 
     /**
-     * Get stat_date
+     * Get stat_date_from
      *
      * @return string
      */
-    public function getStatDate()
+    public function getStatDateFrom()
     {
-        return $this->stat_date;
+        return $this->stat_date_from;
     }
 
     /**
-     * Set stat_date
+     * Set stat_date_from
      * @param $value
      * @return $this
      */
-    public function setStatDate($value)
+    public function setStatDateFrom($value)
     {
-        $this->stat_date = $value;
+        $this->stat_date_from = $value;
+        return $this;
+    }
+
+    /**
+     * Get stat_date_to
+     *
+     * @return string
+     */
+    public function getStatDateTo()
+    {
+        return $this->stat_date_to;
+    }
+
+    /**
+     * Set stat_date_to
+     * @param $value
+     * @return $this
+     */
+    public function setStatDateTo($value)
+    {
+        $this->stat_date_to = $value;
         return $this;
     }
 
