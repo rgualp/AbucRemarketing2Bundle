@@ -772,26 +772,26 @@ class BackendOwnershipController extends Controller {
                     }
 
 //Verificando que no existan otras propiedades con el mismo nombre
-                    if (!array_key_exists('edit_ownership', $post)) {
+                        if (!array_key_exists('edit_ownership', $post)) {
 
-                        $similar_names = $em->getRepository('mycpBundle:ownership')->findBy(array('own_name' => $post['ownership_name']));
-                        if (count($similar_names) > 0) {
-                            $errors['ownership_name'] = 'Ya existe una propiedad con este nombre. Por favor, introduzca un nombre similar o diferente.';
-                            $data["count_errors"]+=1;
-                        }
-                    } else {
-                        $own = $em->getRepository('mycpBundle:ownership')->find($post['edit_ownership']);
+                            $similar_names = $em->getRepository('mycpBundle:ownership')->findBy(array('own_name' => $post['ownership_name']));
+                            if (count($similar_names) > 0) {
+                                $errors['ownership_name'] = 'Ya existe una propiedad con este nombre. Por favor, introduzca un nombre similar o diferente.';
+                                $data["count_errors"] += 1;
+                            }
+                        } else {
+                            $own = $em->getRepository('mycpBundle:ownership')->find($post['edit_ownership']);
 
-                        if (isset($own)) {
-                            if ($own->getOwnName() != trim($post['ownership_name'])) {
-                                $similar_names = $em->getRepository('mycpBundle:ownership')->findBy(array('own_name' => trim($post['ownership_name'])));
-                                if (count($similar_names) > 0) {
-                                    $errors['ownership_name'] = 'Ya existe una propiedad con este nombre. Por favor, introduzca un nombre similar o diferente.';
-                                    $data["count_errors"]+=1;
+                            if (isset($own)) {
+                                if ($own->getOwnName() != trim($post['ownership_name'])) {
+                                    $similar_names = $em->getRepository('mycpBundle:ownership')->findBy(array('own_name' => trim($post['ownership_name'])));
+                                    if (count($similar_names) > 0) {
+                                        $errors['ownership_name'] = 'Ya existe una propiedad con este nombre. Por favor, introduzca un nombre similar o diferente.';
+                                        $data["count_errors"] += 1;
+                                    }
                                 }
                             }
                         }
-                    }
 
 //Verificando que no existan otras propiedades con el mismo código
 

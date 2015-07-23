@@ -121,7 +121,7 @@
                     <div class="row-fluid">
                         <div class="span6">
                             <label>Nombre de la casa (*)</label>
-                            <label class="error {% if errors['ownership_name'] is not defined %}hidden{% endif %}" id="errorName">Este campo no puede estar vacío.</label>
+                            {% if errors['ownership_name'] is defined %} <label class="error" id="errorName">{{errors['ownership_name']|trim(':')}}</label>{% endif %}
                             <input value="{% if(post['ownership_name'] is defined) %}{{post['ownership_name']}}{% endif %}" class="input-block-level" type="text" name="ownership_name"/>
                         </div>
                         <div class="span3">
