@@ -211,43 +211,51 @@ class ownershipRepository extends EntityRepository {
 
         $maximum_guest_total = 0;
         for ($e = 1; $e <= $data['count_rooms']; $e++) {
-            $room = new room();
-            $room->setRoomType($data['room_type_' . $e]);
-            $room->setRoomBeds($data['room_beds_number_' . $e]);
-            //$room->setRoomPriceUpFrom($data['room_price_up_from_' . $e]);
-            $room->setRoomPriceUpTo($data['room_price_up_to_' . $e]);
-            //$room->setRoomPriceDownFrom($data['room_price_down_from_' . $e]);
-            $room->setRoomPriceDownTo($data['room_price_down_to_' . $e]);
+            $doOperations = ($data['room_type_' . $e] != "" && $data['room_beds_number_' . $e] != ""
+                && $data['room_price_up_to_' . $e] != "" && $data['room_price_down_to_' . $e] != ""
+                && $data['room_climate_' . $e] != "" && $data['room_audiovisual_' . $e] != "" && $data['room_bathroom_' . $e] != ""
+                && $data['room_windows_' . $e] != "" && $data['room_balcony_' . $e] != ""
+            );
 
-            if (isset($data['room_price_special_' . $e]))
-                $room->setRoomPriceSpecial($data['room_price_special_' . $e]);
+            if ($doOperations) {
+                $room = new room();
+                $room->setRoomType($data['room_type_' . $e]);
+                $room->setRoomBeds($data['room_beds_number_' . $e]);
+                //$room->setRoomPriceUpFrom($data['room_price_up_from_' . $e]);
+                $room->setRoomPriceUpTo($data['room_price_up_to_' . $e]);
+                //$room->setRoomPriceDownFrom($data['room_price_down_from_' . $e]);
+                $room->setRoomPriceDownTo($data['room_price_down_to_' . $e]);
 
-            $room->setRoomClimate($data['room_climate_' . $e]);
-            $room->setRoomAudiovisual($data['room_audiovisual_' . $e]);
-            $room->setRoomSmoker($data['room_smoker_' . $e]);
-            $room->setRoomSafe($data['room_safe_box_' . $e]);
-            $room->setRoomBaby($data['room_baby_' . $e]);
-            $room->setRoomBathroom($data['room_bathroom_' . $e]);
-            $room->setRoomStereo($data['room_stereo_' . $e]);
-            $room->setRoomWindows($data['room_windows_' . $e]);
-            $room->setRoomBalcony($data['room_balcony_' . $e]);
-            $room->setRoomTerrace($data['room_terrace_' . $e]);
-            $room->setRoomYard($data['room_yard_' . $e]);
-            $room->setRoomOwnership($ownership);
-            $room->setRoomNum($e);
-            $room->setRoomActive(true);
-            $em->persist($room);
+                if (isset($data['room_price_special_' . $e]))
+                    $room->setRoomPriceSpecial($data['room_price_special_' . $e]);
 
-            if ($ownership->getOwnMinimumPrice() == 0 || $room->getRoomPriceDownTo() < $ownership->getOwnMinimumPrice())
-                $ownership->setOwnMinimumPrice($room->getRoomPriceDownTo());
+                $room->setRoomClimate($data['room_climate_' . $e]);
+                $room->setRoomAudiovisual($data['room_audiovisual_' . $e]);
+                $room->setRoomSmoker($data['room_smoker_' . $e]);
+                $room->setRoomSafe($data['room_safe_box_' . $e]);
+                $room->setRoomBaby($data['room_baby_' . $e]);
+                $room->setRoomBathroom($data['room_bathroom_' . $e]);
+                $room->setRoomStereo($data['room_stereo_' . $e]);
+                $room->setRoomWindows($data['room_windows_' . $e]);
+                $room->setRoomBalcony($data['room_balcony_' . $e]);
+                $room->setRoomTerrace($data['room_terrace_' . $e]);
+                $room->setRoomYard($data['room_yard_' . $e]);
+                $room->setRoomOwnership($ownership);
+                $room->setRoomNum($e);
+                $room->setRoomActive(true);
+                $em->persist($room);
 
-            if ($ownership->getOwnMaximumPrice() == 0 || $room->getRoomPriceUpTo() > $ownership->getOwnMaximumPrice())
-                $ownership->setOwnMaximumPrice($room->getRoomPriceUpTo());
+                if ($ownership->getOwnMinimumPrice() == 0 || $room->getRoomPriceDownTo() < $ownership->getOwnMinimumPrice())
+                    $ownership->setOwnMinimumPrice($room->getRoomPriceDownTo());
 
-            if ($ownership->getOwnMaximumPrice() == 0 || $room->getRoomPriceSpecial() > $ownership->getOwnMaximumPrice())
-                $ownership->setOwnMaximumPrice($room->getRoomPriceSpecial());
+                if ($ownership->getOwnMaximumPrice() == 0 || $room->getRoomPriceUpTo() > $ownership->getOwnMaximumPrice())
+                    $ownership->setOwnMaximumPrice($room->getRoomPriceUpTo());
 
-            $maximum_guest_total += $room->getMaximumNumberGuests();
+                if ($ownership->getOwnMaximumPrice() == 0 || $room->getRoomPriceSpecial() > $ownership->getOwnMaximumPrice())
+                    $ownership->setOwnMaximumPrice($room->getRoomPriceSpecial());
+
+                $maximum_guest_total += $room->getMaximumNumberGuests();
+            }
         }
 
         $ownership->setOwnMaximumNumberGuests($maximum_guest_total);
@@ -427,7 +435,6 @@ class ownershipRepository extends EntityRepository {
                    $translated = ($description == $odl->getOdlDescription()) ? $odl->getOdlAutomaticTranslation(): false;
                 }
 
-
                 $odl->setOdlIdLang($currentLanguage)
                     ->setOdlDescription($description)
                     ->setOdlBriefDescription($briefDescription)
@@ -454,66 +461,78 @@ class ownershipRepository extends EntityRepository {
         $roomsActiveTotal = 0;
         for ($e = 1; $e <= $data['count_rooms']; $e++) {
 
-            if (array_key_exists('room_id_' . $e, $data))
-                $room = $em->getRepository('mycpBundle:room')->find($data['room_id_' . $e]);
-            else {
-                $room = new room();
-                $room->setRoomActive(true);
-            }
+            $doOperations = ($data['room_type_' . $e] != "" && $data['room_beds_number_' . $e] != ""
+                && $data['room_price_up_to_' . $e] != "" && $data['room_price_down_to_' . $e] != ""
+                && $data['room_climate_' . $e] != "" && $data['room_audiovisual_' . $e] != "" && $data['room_bathroom_' . $e] != ""
+                && $data['room_windows_' . $e] != "" && $data['room_balcony_' . $e] != ""
+            );
 
-            if (isset($old_rooms[$e - 1])) {
-                $metadata = $em->getClassMetadata(get_class($room));
-                $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
-                //$room->setRoomId($old_rooms[$e - 1]->getRoomId());
-            }
+            //if ($doOperations) {
+                if (array_key_exists('room_id_' . $e, $data))
+                    $room = $em->getRepository('mycpBundle:room')->find($data['room_id_' . $e]);
+                else {
+                    $room = new room();
+                    $room->setRoomActive(true);
+                }
 
-            if ($room->getRoomActive())
-                $roomsActiveTotal++;
+                if (isset($old_rooms[$e - 1])) {
+                    $metadata = $em->getClassMetadata(get_class($room));
+                    $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
+                    //$room->setRoomId($old_rooms[$e - 1]->getRoomId());
+                }
 
-            $room->setRoomType($data['room_type_' . $e]);
-            $room->setRoomBeds($data['room_beds_number_' . $e]);
-            //$room->setRoomPriceUpFrom($data['room_price_up_from_' . $e]);
-            $room->setRoomPriceUpTo($data['room_price_up_to_' . $e]);
-            //$room->setRoomPriceDownFrom($data['room_price_down_from_' . $e]);
-            $room->setRoomPriceDownTo($data['room_price_down_to_' . $e]);
+                if ($room->getRoomActive())
+                    $roomsActiveTotal++;
 
-            if (isset($data['room_price_special_' . $e]))
-                $room->setRoomPriceSpecial($data['room_price_special_' . $e]);
+                $room->setRoomType($data['room_type_' . $e]);
+                $room->setRoomBeds($data['room_beds_number_' . $e]);
+                //$room->setRoomPriceUpFrom($data['room_price_up_from_' . $e]);
+                $room->setRoomPriceUpTo($data['room_price_up_to_' . $e]);
+                //$room->setRoomPriceDownFrom($data['room_price_down_from_' . $e]);
+                $room->setRoomPriceDownTo($data['room_price_down_to_' . $e]);
 
-            $room->setRoomClimate($data['room_climate_' . $e]);
-            $room->setRoomAudiovisual($data['room_audiovisual_' . $e]);
-            $room->setRoomSmoker($data['room_smoker_' . $e]);
-            $room->setRoomSafe($data['room_safe_box_' . $e]);
-            $room->setRoomBaby($data['room_baby_' . $e]);
-            $room->setRoomBathroom($data['room_bathroom_' . $e]);
-            $room->setRoomStereo($data['room_stereo_' . $e]);
-            $room->setRoomWindows($data['room_windows_' . $e]);
-            $room->setRoomBalcony($data['room_balcony_' . $e]);
-            $room->setRoomTerrace($data['room_terrace_' . $e]);
-            $room->setRoomYard($data['room_yard_' . $e]);
-            $room->setRoomOwnership($ownership);
-            $room->setRoomNum($e);
-            $em->persist($room);
+                if (isset($data['room_price_special_' . $e]))
+                    $room->setRoomPriceSpecial($data['room_price_special_' . $e]);
 
-            if (($ownership->getOwnMinimumPrice() == 0 ||
-                    $room->getRoomPriceDownTo() < $ownership->getOwnMinimumPrice()) && $room->getRoomActive())
-                $ownership->setOwnMinimumPrice($room->getRoomPriceDownTo());
+                $room->setRoomClimate($data['room_climate_' . $e]);
+                $room->setRoomAudiovisual($data['room_audiovisual_' . $e]);
+                $room->setRoomSmoker($data['room_smoker_' . $e]);
+                $room->setRoomSafe($data['room_safe_box_' . $e]);
+                $room->setRoomBaby($data['room_baby_' . $e]);
+                $room->setRoomBathroom($data['room_bathroom_' . $e]);
+                $room->setRoomStereo($data['room_stereo_' . $e]);
+                $room->setRoomWindows($data['room_windows_' . $e]);
+                $room->setRoomBalcony($data['room_balcony_' . $e]);
+                $room->setRoomTerrace($data['room_terrace_' . $e]);
+                $room->setRoomYard($data['room_yard_' . $e]);
+                $room->setRoomOwnership($ownership);
+                $room->setRoomNum($e);
+                $em->persist($room);
 
-            if (($ownership->getOwnMaximumPrice() == 0 ||
-                    $room->getRoomPriceUpTo() > $ownership->getOwnMaximumPrice()) && $room->getRoomActive())
-                $ownership->setOwnMaximumPrice($room->getRoomPriceUpTo());
+                if (($ownership->getOwnMinimumPrice() == 0 ||
+                        $room->getRoomPriceDownTo() < $ownership->getOwnMinimumPrice()) && $room->getRoomActive()
+                )
+                    $ownership->setOwnMinimumPrice($room->getRoomPriceDownTo());
 
-            if (($ownership->getOwnMaximumPrice() == 0 ||
-                    $room->getRoomPriceSpecial() > $ownership->getOwnMaximumPrice()) && $room->getRoomActive())
-                $ownership->setOwnMaximumPrice($room->getRoomPriceSpecial());
+                if (($ownership->getOwnMaximumPrice() == 0 ||
+                        $room->getRoomPriceUpTo() > $ownership->getOwnMaximumPrice()) && $room->getRoomActive()
+                )
+                    $ownership->setOwnMaximumPrice($room->getRoomPriceUpTo());
 
-            if ($room->getRoomActive()) {
-                $maximum_guest_total += $room->getMaximumNumberGuests();
-            }
-            $ownership->setOwnMaximumNumberGuests($maximum_guest_total);
+                if (($ownership->getOwnMaximumPrice() == 0 ||
+                        $room->getRoomPriceSpecial() > $ownership->getOwnMaximumPrice()) && $room->getRoomActive()
+                )
+                    $ownership->setOwnMaximumPrice($room->getRoomPriceSpecial());
+
+                if ($room->getRoomActive()) {
+                    $maximum_guest_total += $room->getMaximumNumberGuests();
+                }
+                $ownership->setOwnMaximumNumberGuests($maximum_guest_total);
+           // }
         }
 
         $ownership->setOwnRoomsTotal($roomsActiveTotal);
+
         $em->persist($ownership);
 
         //save client casa

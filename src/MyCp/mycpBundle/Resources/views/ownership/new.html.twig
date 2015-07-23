@@ -272,7 +272,7 @@
                     <div class="row-fluid">
                         <div class="span12">
                             <a href="javascript:add_room()" class="btn"><i class="icon-plus"></i> Adicionar habitación</a>
-                            <input style="display: none;" name="count_rooms" value="{{count_rooms}}"/>
+                            <input style="display: none;" name="count_rooms" id="count_rooms" value="{{count_rooms}}"/>
                             <input id="new_room" type="hidden" name="new_room" value=""/>
                         </div>
                     </div>
@@ -284,11 +284,11 @@
                             <label><span class="label label-info">Habitación # {{i}}</span>
                             <input type="hidden" name="room_active_{{ i }}" value="{%if post['room_active_'~i] is defined%}{{post['room_active_'~i]}}{% else %}0{% endif %}"/>
                             {%if post['room_active_'~i] is defined%}
-                              {%if post['room_active_'~i]%}
-                              <span class="label label-success">Activa</span>
-                            {%else%}
-                              <span class="label label-warning">Inactiva</span>
-                            {%endif%}
+                                  {%if post['room_active_'~i]%}
+                                  <span class="label label-success">Activa</span>
+                                {%else%}
+                                  <span class="label label-warning">Inactiva</span>
+                                {%endif%}
                               {%endif%}
                               {%if post['room_ical_url_'~i] is defined%}
                               <input type="hidden" name="room_ical_url_{{ i }}" value="{{post['room_ical_url_'~i]}}"/>
