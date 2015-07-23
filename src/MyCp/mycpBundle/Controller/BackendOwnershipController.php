@@ -531,6 +531,11 @@ class BackendOwnershipController extends Controller {
             $post['room_yard_' . $a] = $rooms[$a - 1]->getRoomYard();
             $post['room_id_' . $a] = $rooms[$a - 1]->getRoomId();
             $post['room_ical_url_' . $a] = $rooms[$a - 1]->getICalUrl($this);
+            $post['room_can_active_' . $a] = ($rooms[$a - 1]->getRoomType() != "" && $rooms[$a - 1]->getRoomBeds() != ""
+                && $rooms[$a - 1]->getRoomPriceUpTo() != "" && $rooms[$a - 1]->getRoomPriceDownTo() != ""
+                && $rooms[$a - 1]->getRoomClimate() != "" && $rooms[$a - 1]->getRoomAudiovisual() != "" && $rooms[$a - 1]->getRoomBathroom() != ""
+                && $rooms[$a - 1]->getRoomWindows() != "" && $rooms[$a - 1]->getRoomBalcony() != ""
+            );
 
             $reservation = new ownershipReservation();
 
