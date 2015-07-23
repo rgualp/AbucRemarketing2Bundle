@@ -232,39 +232,39 @@ class BackendOwnershipController extends Controller {
     public function activeRoomAction($id_room, $activate) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-
         $em = $this->getDoctrine()->getManager();
 
-        $ro = $em->getRepository('mycpBundle:room')->find($id_room);
-        $id_ownership = $ro->getRoomOwnership()->getOwnId();
+            $ro = $em->getRepository('mycpBundle:room')->find($id_room);
+            $id_ownership = $ro->getRoomOwnership()->getOwnId();
 
-        $ro->setRoomActive($activate);
-        $em->persist($ro);
-        $em->flush();
+            $ro->setRoomActive($activate);
+            $em->persist($ro);
+            $em->flush();
 
-        $own = $ro->getRoomOwnership();
-        $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $own->getOwnId()));
-        $count = count($rooms);
-        $count_active = 0;
-        $maximum_guests = 0;
-        foreach ($rooms as $room) {
-            if (!$room->getRoomActive())
-                $count--;
-            else {
-                $count_active++;
-                $maximum_guests += $room->getMaximumNumberGuests();
+            $own = $ro->getRoomOwnership();
+            $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $own->getOwnId()));
+            $count = count($rooms);
+            $count_active = 0;
+            $maximum_guests = 0;
+            foreach ($rooms as $room) {
+                if (!$room->getRoomActive())
+                    $count--;
+                else {
+                    $count_active++;
+                    $maximum_guests += $room->getMaximumNumberGuests();
+                }
             }
-        }
 
-        $own->setOwnMaximumNumberGuests($maximum_guests);
-        $own->setOwnRoomsTotal($count_active);
-        if ($count <= 0) {
-            $status = $em->getRepository('mycpBundle:ownershipstatus')->find(ownershipStatus::STATUS_INACTIVE);
-            $own->setOwnStatus($status);
-            $em->persist($own);
-        }
+            $own->setOwnMaximumNumberGuests($maximum_guests);
+            $own->setOwnRoomsTotal($count_active);
+            if ($count <= 0) {
+                $status = $em->getRepository('mycpBundle:ownershipstatus')->find(ownershipStatus::STATUS_INACTIVE);
+                $own->setOwnStatus($status);
+                $em->persist($own);
+            }
 
-        $em->flush();
+            $em->flush();
+
         return $this->redirect($this->generateUrl('mycp_edit_ownership', array('id_ownership' => $id_ownership)));
     }
 
@@ -531,6 +531,11 @@ class BackendOwnershipController extends Controller {
             $post['room_yard_' . $a] = $rooms[$a - 1]->getRoomYard();
             $post['room_id_' . $a] = $rooms[$a - 1]->getRoomId();
             $post['room_ical_url_' . $a] = $rooms[$a - 1]->getICalUrl($this);
+            $post['room_can_active_' . $a] = ($rooms[$a - 1]->getRoomType() != "" && $rooms[$a - 1]->getRoomBeds() != ""
+                && $rooms[$a - 1]->getRoomPriceUpTo() != "" && $rooms[$a - 1]->getRoomPriceDownTo() != ""
+                && $rooms[$a - 1]->getRoomClimate() != "" && $rooms[$a - 1]->getRoomAudiovisual() != "" && $rooms[$a - 1]->getRoomBathroom() != ""
+                && $rooms[$a - 1]->getRoomWindows() != "" && $rooms[$a - 1]->getRoomBalcony() != ""
+            );
 
             $reservation = new ownershipReservation();
 
@@ -719,11 +724,17 @@ class BackendOwnershipController extends Controller {
                                 $data['count_errors'] += count($errors[$array_keys[$count]]);
                             }
                         }
+
                         if (strpos($array_keys[$count], 'room_') !== false &&
                             $array_keys[$count] != 'new_room'
                         ) {
-                            $errors[$array_keys[$count]] = $errors_validation = $this->get('validator')->validateValue($item, $not_blank_validator);
-                            $data['count_errors'] += count($errors[$array_keys[$count]]);
+                            $roomId = explode("_",$array_keys[$count]);
+                            $num = $roomId[count($roomId) - 1];
+
+                            if($post["room_active_".$num] == 1) {
+                                $errors[$array_keys[$count]] = $errors_validation = $this->get('validator')->validateValue($item, $not_blank_validator);
+                                $data['count_errors'] += count($errors[$array_keys[$count]]);
+                            }
                         }
                     }
                     else
@@ -766,26 +777,26 @@ class BackendOwnershipController extends Controller {
                     }
 
 //Verificando que no existan otras propiedades con el mismo nombre
-                    if (!array_key_exists('edit_ownership', $post)) {
+                        if (!array_key_exists('edit_ownership', $post)) {
 
-                        $similar_names = $em->getRepository('mycpBundle:ownership')->findBy(array('own_name' => $post['ownership_name']));
-                        if (count($similar_names) > 0) {
-                            $errors['ownership_name'] = 'Ya existe una propiedad con este nombre. Por favor, introduzca un nombre similar o diferente.';
-                            $data["count_errors"]+=1;
-                        }
-                    } else {
-                        $own = $em->getRepository('mycpBundle:ownership')->find($post['edit_ownership']);
+                            $similar_names = $em->getRepository('mycpBundle:ownership')->findBy(array('own_name' => $post['ownership_name']));
+                            if (count($similar_names) > 0) {
+                                $errors['ownership_name'] = 'Ya existe una propiedad con este nombre. Por favor, introduzca un nombre similar o diferente.';
+                                $data["count_errors"] += 1;
+                            }
+                        } else {
+                            $own = $em->getRepository('mycpBundle:ownership')->find($post['edit_ownership']);
 
-                        if (isset($own)) {
-                            if ($own->getOwnName() != $post['ownership_name']) {
-                                $similar_names = $em->getRepository('mycpBundle:ownership')->findBy(array('own_name' => $post['ownership_name']));
-                                if (count($similar_names) > 0) {
-                                    $errors['ownership_name'] = 'Ya existe una propiedad con este nombre. Por favor, introduzca un nombre similar o diferente.';
-                                    $data["count_errors"]+=1;
+                            if (isset($own)) {
+                                if ($own->getOwnName() != trim($post['ownership_name'])) {
+                                    $similar_names = $em->getRepository('mycpBundle:ownership')->findBy(array('own_name' => trim($post['ownership_name'])));
+                                    if (count($similar_names) > 0) {
+                                        $errors['ownership_name'] = 'Ya existe una propiedad con este nombre. Por favor, introduzca un nombre similar o diferente.';
+                                        $data["count_errors"] += 1;
+                                    }
                                 }
                             }
                         }
-                    }
 
 //Verificando que no existan otras propiedades con el mismo código
 

@@ -121,7 +121,7 @@
                     <div class="row-fluid">
                         <div class="span6">
                             <label>Nombre de la casa (*)</label>
-                            <label class="error {% if errors['ownership_name'] is not defined %}hidden{% endif %}" id="errorName">Este campo no puede estar vacío.</label>
+                            {% if errors['ownership_name'] is defined %} <label class="error" id="errorName">{{errors['ownership_name']|trim(':')}}</label>{% endif %}
                             <input value="{% if(post['ownership_name'] is defined) %}{{post['ownership_name']}}{% endif %}" class="input-block-level" type="text" name="ownership_name"/>
                         </div>
                         <div class="span3">
@@ -272,7 +272,7 @@
                     <div class="row-fluid">
                         <div class="span12">
                             <a href="javascript:add_room()" class="btn"><i class="icon-plus"></i> Adicionar habitación</a>
-                            <input style="display: none;" name="count_rooms" value="{{count_rooms}}"/>
+                            <input style="display: none;" name="count_rooms" id="count_rooms" value="{{count_rooms}}"/>
                             <input id="new_room" type="hidden" name="new_room" value=""/>
                         </div>
                     </div>
@@ -284,11 +284,11 @@
                             <label><span class="label label-info">Habitación # {{i}}</span>
                             <input type="hidden" name="room_active_{{ i }}" value="{%if post['room_active_'~i] is defined%}{{post['room_active_'~i]}}{% else %}0{% endif %}"/>
                             {%if post['room_active_'~i] is defined%}
-                              {%if post['room_active_'~i]%}
-                              <span class="label label-success">Activa</span>
-                            {%else%}
-                              <span class="label label-warning">Inactiva</span>
-                            {%endif%}
+                                  {%if post['room_active_'~i]%}
+                                  <span class="label label-success">Activa</span>
+                                {%else%}
+                                  <span class="label label-warning">Inactiva</span>
+                                {%endif%}
                               {%endif%}
                               {%if post['room_ical_url_'~i] is defined%}
                               <input type="hidden" name="room_ical_url_{{ i }}" value="{{post['room_ical_url_'~i]}}"/>
@@ -297,86 +297,86 @@
                             </label>
                             <label>Tipo de habitación (*)</label>
                             {% if errors['room_type_'~i] is defined %}<label class="error">{{errors['room_type_'~i]|trim(':')}}</label>{%endif%}
-                            <select name="room_type_{{i}}" class="input-block-level">
+                            <select name="room_type_{{i}}" id="room_type_{{i}}" class="input-block-level">
                                 {{ render(controller('mycpBundle:BackendOwnership:get_room_type_list', {'post':post,'id':i})) }}
                             </select>
                             <label>No. de camas (*)</label>
                             {% if errors['room_beds_number_'~i] is defined %}<label class="error">{{errors['room_beds_number_'~i]|trim(':')}}</label>{%endif%}
-                            <select class="input-block-level" name="room_beds_number_{{ i }}">
+                            <select class="input-block-level" name="room_beds_number_{{ i }}" id="room_beds_number_{{ i }}">
                                 {{ render(controller('mycpBundle:BackendOwnership:get_range_max_5', {'post':post,'id':i})) }}
                             </select>
                             <label>Precio (Temporada baja) (*)</label>
                             {% if errors['room_price_down_to_'~i] is defined %}<label class="error">{{errors['room_price_down_to_'~i]|trim(':')}}</label>{%endif%}
-                            <input value="{% if(post['room_price_down_to_'~i] is defined) %}{{post['room_price_down_to_'~i]}}{% endif %}" class="input-block-level" placeholder="Precio único" type="text" name="room_price_down_to_{{ i }}"/>
+                            <input value="{% if(post['room_price_down_to_'~i] is defined) %}{{post['room_price_down_to_'~i]}}{% endif %}" class="input-block-level" placeholder="Precio único" type="text" name="room_price_down_to_{{ i }}" id="room_price_down_to_{{ i }}"/>
                             <label>Precio (Temporada alta) (*)</label>
                             {% if errors['room_price_up_to_'~i] is defined %}<label class="error">{{errors['room_price_up_to_'~i]|trim(':')}}</label>{%endif%}
-                            <input value="{% if(post['room_price_up_to_'~i] is defined) %}{{post['room_price_up_to_'~i]}}{% endif %}" class="input-block-level" placeholder="Precio único" type="text" name="room_price_up_to_{{ i }}"/>
+                            <input value="{% if(post['room_price_up_to_'~i] is defined) %}{{post['room_price_up_to_'~i]}}{% endif %}" class="input-block-level" placeholder="Precio único" type="text" name="room_price_up_to_{{ i }}" id="room_price_up_to_{{ i }}"/>
 
                             <label>Precio (Temporada especial)</label>
                             {% if errors['room_price_special_'~i] is defined %}<label class="error">{{errors['room_price_special_'~i]|trim(':')}}</label>{%endif%}
-                            <input disabled='disabled' value="{% if(post['room_price_special_'~i] is defined) %}{{post['room_price_special_'~i]}}{% endif %}" class="input-block-level special_season_price" placeholder="Precio único" type="text" name="room_price_special_{{ i }}"/>
+                            <input disabled='disabled' value="{% if(post['room_price_special_'~i] is defined) %}{{post['room_price_special_'~i]}}{% endif %}" class="input-block-level special_season_price" placeholder="Precio único" type="text" name="room_price_special_{{ i }}" id="room_price_special_{{ i }}"/>
 
 
                             <label>Climatización (*)</label>
                             {% if errors['room_climate_'~i] is defined %}<label class="error">{{errors['room_climate_'~i]|trim(':')}}</label>{%endif%}
-                            <select class="input-block-level" name="room_climate_{{ i }}">
+                            <select class="input-block-level" name="room_climate_{{ i }}" id="room_climate_{{ i }}">
                                 {{ render(controller('mycpBundle:BackendOwnership:get_climate_list', {'post':post,'id':i})) }}
                             </select>
                             <label>Audiovisuales (*)</label>
                             {% if errors['room_audiovisual_'~i] is defined %}<label class="error">{{errors['room_audiovisual_'~i]|trim(':')}}</label>{%endif%}
-                            <select class="input-block-level" name="room_audiovisual_{{ i }}">
+                            <select class="input-block-level" name="room_audiovisual_{{ i }}" id="room_audiovisual_{{ i }}">
                                 {{ render(controller('mycpBundle:BackendOwnership:get_audiovisual_list', {'post':post,'id':i})) }}
                             </select>
                             <label>Fumador (*)</label>
                             {% if errors['room_smoker_'~i] is defined %}<label class="error">{{errors['room_smoker_'~i]|trim(':')}}</label>{%endif%}
-                            <select class="input-block-level" name="room_smoker_{{ i }}">
+                            <select class="input-block-level" name="room_smoker_{{ i }}" id="room_smoker_{{ i }}">
                                 {{ render(controller('mycpBundle:BackendOwnership:get_smoker_list', {'post':post,'id':i})) }}
                             </select>
                             <label>Caja fuerte (*)</label>
                             {% if errors['room_safe_box_'~i] is defined %}<label class="error">{{errors['room_safe_box_'~i]|trim(':')}}</label>{%endif%}
-                            <select class="input-block-level"name="room_safe_box_{{ i }}">
+                            <select class="input-block-level" name="room_safe_box_{{ i }}" id="room_safe_box_{{ i }}">
                                 {{ render(controller('mycpBundle:BackendOwnership:get_safe_box_list', {'post':post,'id':i})) }}
                             </select>
                             <label>Facilidades para bebés (*)</label>
                             {% if errors['room_baby_'~i] is defined %}<label class="error">{{errors['room_baby_'~i]|trim(':')}}</label>{%endif%}
-                            <select class="input-block-level" name="room_baby_{{ i }}">
+                            <select class="input-block-level" name="room_baby_{{ i }}" id="room_baby_{{ i }}">
                                 {{ render(controller('mycpBundle:BackendOwnership:get_baby_list', {'post':post,'id':i})) }}
                             </select>
                             <label>Tipo de baño (*)</label>
                             {% if errors['room_bathroom_'~i] is defined %}<label class="error">{{errors['room_bathroom_'~i]|trim(':')}}</label>{%endif%}
-                            <select class="input-block-level" name="room_bathroom_{{ i }}">
+                            <select class="input-block-level" name="room_bathroom_{{ i }}" id="room_bathroom_{{ i }}">
                                 {{ render(controller('mycpBundle:BackendOwnership:get_bathroom_list', {'post':post,'id':i})) }}
                             </select>
                             <label>Estereo (*)</label>
                             {% if errors['room_stereo_'~i] is defined %}<label class="error">{{errors['room_stereo_'~i]|trim(':')}}</label>{%endif%}
-                            <select class="input-block-level" name="room_stereo_{{ i }}">
+                            <select class="input-block-level" name="room_stereo_{{ i }}" id="room_stereo_{{ i }}">
                                 {{ render(controller('mycpBundle:BackendOwnership:get_stereo_list', {'post':post,'id':i})) }}
                             </select>
                             <label>Ventana (*)</label>
                             {% if errors['room_windows_'~i] is defined %}<label class="error">{{errors['room_windows_'~i]|trim(':')}}</label>{%endif%}
-                            <select class="input-block-level" name="room_windows_{{ i }}">
+                            <select class="input-block-level" name="room_windows_{{ i }}" id="room_windows_{{ i }}">
                                 {{ render(controller('mycpBundle:BackendOwnership:get_windows_list', {'post':post,'id':i})) }}
                             </select>
                             <label>Balcón (*)</label>
                             {% if errors['room_balcony_'~i] is defined %}<label class="error">{{errors['room_balcony_'~i]|trim(':')}}</label>{%endif%}
-                            <select class="input-block-level" name="room_balcony_{{ i }}">
+                            <select class="input-block-level" name="room_balcony_{{ i }}" id="room_balcony_{{ i }}">
                                 {{ render(controller('mycpBundle:BackendOwnership:get_balcony_list', {'post':post,'id':i})) }}
                             </select>
                             <label>Terraza (*)</label>
                             {% if errors['room_terrace_'~i] is defined %}<label class="error">{{errors['room_terrace_'~i]|trim(':')}}</label>{%endif%}
-                            <select class="input-block-level" name="room_terrace_{{ i }}">
+                            <select class="input-block-level" name="room_terrace_{{ i }}" id="room_terrace_{{ i }}">
                                 {{ render(controller('mycpBundle:BackendOwnership:get_terrace_list', {'post':post,'id':i})) }}
                             </select>
                             <label>Patio (*)</label>
                             {% if errors['room_yard_'~i] is defined %}<label class="error">{{errors['room_yard_'~i]|trim(':')}}</label>{%endif%}
-                            <select class="input-block-level" name="room_yard_{{ i }}">
+                            <select class="input-block-level" name="room_yard_{{ i }}" id="room_yard_{{ i }}">
                                 {{ render(controller('mycpBundle:BackendOwnership:get_yard_list', {'post':post,'id':i})) }}
                             </select>
 
                             {% if post['room_id_'~i] is defined %}
                             {% if (post['room_active_'~i] is defined) %}
                                 {% if post['room_active_'~i] == 0 %}
-                                <a class="btn btn-success" href="{{ path('mycp_active_room', { 'id_room': post['room_id_'~i], 'activate':1 }) }}">Activar</a>
+                                <a class="btn btn-success" href="{{ path('mycp_active_room', { 'id_room': post['room_id_'~i], 'activate':1 }) }}" {% if  post['room_can_active_'~i] is defined and not post['room_can_active_'~i]%}disabled="disabled"{% endif %}>Activar</a>
                                 {% else %}
                                 <a class="btn btn-warning" href="{{ path('mycp_active_room', { 'id_room': post['room_id_'~i], 'activate':0 }) }}">Desactivar</a>
                                 {% endif %}
