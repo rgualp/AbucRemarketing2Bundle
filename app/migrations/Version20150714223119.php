@@ -18,10 +18,12 @@ class Version20150714223119 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('CREATE TABLE offerlog (nom_id INT AUTO_INCREMENT NOT NULL, log_offer_reservation INT DEFAULT NULL, log_from_reservation INT DEFAULT NULL, log_reason INT DEFAULT NULL, log_date DATETIME NOT NULL, INDEX IDX_BAB8D91BF5BBDD2 (log_offer_reservation), INDEX IDX_BAB8D91B61B86484 (log_from_reservation), INDEX IDX_BAB8D91B2E42DBAE (log_reason), PRIMARY KEY(nom_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
-        $this->addSql('ALTER TABLE offerlog ADD CONSTRAINT FK_BAB8D91BF5BBDD2 FOREIGN KEY (log_offer_reservation) REFERENCES generalreservation (gen_res_id)');
-        $this->addSql('ALTER TABLE offerlog ADD CONSTRAINT FK_BAB8D91B61B86484 FOREIGN KEY (log_from_reservation) REFERENCES generalreservation (gen_res_id)');
-        $this->addSql('ALTER TABLE offerlog ADD CONSTRAINT FK_BAB8D91B2E42DBAE FOREIGN KEY (log_reason) REFERENCES nomenclatorstat (nom_id)');
+        if (!$this->connection->getSchemaManager()->tablesExist(array('offerlog'))) {
+            $this->addSql('CREATE TABLE offerlog (nom_id INT AUTO_INCREMENT NOT NULL, log_offer_reservation INT DEFAULT NULL, log_from_reservation INT DEFAULT NULL, log_reason INT DEFAULT NULL, log_date DATETIME NOT NULL, INDEX IDX_BAB8D91BF5BBDD2 (log_offer_reservation), INDEX IDX_BAB8D91B61B86484 (log_from_reservation), INDEX IDX_BAB8D91B2E42DBAE (log_reason), PRIMARY KEY(nom_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
+            $this->addSql('ALTER TABLE offerlog ADD CONSTRAINT FK_BAB8D91BF5BBDD2 FOREIGN KEY (log_offer_reservation) REFERENCES generalreservation (gen_res_id)');
+            $this->addSql('ALTER TABLE offerlog ADD CONSTRAINT FK_BAB8D91B61B86484 FOREIGN KEY (log_from_reservation) REFERENCES generalreservation (gen_res_id)');
+            $this->addSql('ALTER TABLE offerlog ADD CONSTRAINT FK_BAB8D91B2E42DBAE FOREIGN KEY (log_reason) REFERENCES nomenclatorstat (nom_id)');
+        }
         /*$this->addSql('ALTER TABLE nomenclatorstat DROP FOREIGN KEY FK_6C46155BD41FF18');
         $this->addSql('DROP INDEX idx_6c46155bd41ff18 ON nomenclatorstat');
         $this->addSql('CREATE INDEX IDX_A6F6CE6BBD41FF18 ON nomenclatorstat (nom_parent)');
