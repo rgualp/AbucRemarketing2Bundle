@@ -19,7 +19,7 @@ class Version20150720183130 extends AbstractMigration
 
         $this->addSql("set @nomParent = (SELECT min(nom_id) FROM nomenclatorstat WHERE nom_name LIKE 'Alojamientos' AND nom_parent IS NULL)");
         $this->addSql("set @nomSummary = (SELECT min(nom_id) FROM nomenclatorstat WHERE nom_name LIKE 'Resúmen' AND nom_parent = @nomParent)");
-        $this->addSql("delete from ownershipStat WHERE stat_nomenclator = @nomSummary");
+        $this->addSql("delete from ownershipstat WHERE stat_nomenclator = @nomSummary");
 
     }
 
