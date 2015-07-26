@@ -5,10 +5,10 @@ namespace MyCp\mycpBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 
 /**
- * ownershipRepositoryStatRepository
+ * ownershipReservationStatRepository
  *
  */
-class ownershipRepositoryStatRepository extends EntityRepository
+class ownershipReservationStatRepository extends EntityRepository
 {
     public function getBulb($nomenclatorStatParent=null,$province=null,$municipality=null, $destination = null, $dateFrom = null, $dateTo = null ){
         $em = $this->getEntityManager();
@@ -95,18 +95,19 @@ class ownershipRepositoryStatRepository extends EntityRepository
         return $qb->getQuery()->getResult();
     }
 */
-    public function insertOrUpdate($nomenclator, $ownership, $date, $value)
+    public function insertOrUpdate($nomenclator, $ownership, $date_from, $date_to, $value)
     {
         $em = $this->getEntityManager();
         $stat = $em->getRepository("mycpBundle:ownershipReservationStat")->findOneBy(array("stat_accommodation" => $ownership->getOwnId(),
-            "stat_nomenclator" => $nomenclator->getNomId(), "stat_date" => \date("Y-m-d", $date)));
+            "stat_nomenclator" => $nomenclator->getNomId(), "stat_date_from" => $date_from, "stat_date_to" => $date_to));
 
         if($stat === null)
         {
             $stat = new ownershipReservationStat();
             $stat->setStatNomenclator($nomenclator);
             $stat->setStatOwnership($ownership);
-            $stat->setStatDate($date);
+            $stat->setStatDateFrom($date_from);
+            $stat->setStatDateTo($date_to);
         }
 
         $stat->setStatValue($value);
@@ -118,7 +119,7 @@ class ownershipRepositoryStatRepository extends EntityRepository
     public function insertOrUpdateObj(ownershipReservationStat $stat)
     {   $em = $this->getEntityManager();
         $statDb = $em->getRepository("mycpBundle:ownershipReservationStat")->findOneBy(array("stat_accommodation" => $stat->getStatAccommodation(),
-            "stat_nomenclator" => $stat->getStatNomenclator(), "stat_date_from" => \date("Y-m-d", $stat->getStatDateFrom()), "stat_date_to" => \date("Y-m-d", $stat->getStatDateTo())));
+            "stat_nomenclator" => $stat->getStatNomenclator(), "stat_date_from" => $stat->getStatDateFrom(), "stat_date_to" => $stat->getStatDateTo()));
 
         if($statDb === null)
             $statDb = new ownershipReservationStat();
@@ -140,11 +141,10 @@ class ownershipRepositoryStatRepository extends EntityRepository
        return $municipalities;
    }
 
-    public function getTotalReservations($ownerships=null)
+    public function getTotalReservations($ownership, $timer)
     {
         $em = $this->getEntityManager();
-        if(!$ownerships)
-        $genResRepository=$em->getRepository("mycpBundle:generalReservation");
+        $resRepository=$em->getRepository("mycpBundle:ownershipReservation");
         $nomenclatorRepository=$em->getRepository("mycpBundle:nomenclatorStat");
         $nomReservations=$nomenclatorRepository->findOneBy(array('nom_name'=>'Solicitudes'));
         $nomReceived=$nomenclatorRepository->findOneBy(array('nom_name'=>'Recibidas', "nom_parent" => $nomReservations));
@@ -152,18 +152,116 @@ class ownershipRepositoryStatRepository extends EntityRepository
         $nomAvailable=$nomenclatorRepository->findOneBy(array('nom_name'=>'Marcadas como disponibles', "nom_parent" => $nomReservations));
         $nomReserved=$nomenclatorRepository->findOneBy(array('nom_name'=>'Reservadas', "nom_parent" => $nomReservations));
         $nomOutdated=$nomenclatorRepository->findOneBy(array('nom_name'=>'Vencidas', "nom_parent" => $nomReservations));
-        $result = array();
-        foreach($ownerships as $ownership){
-            $reservations=  $genResRepository->findBy(array('gen_res_own_id'=>$ownership));
 
-            foreach($reservations as $reservation) {
-                $stat = new ownershipReservationStat();
-                $stat->setStatAccommodation($ownership);
-                $stat->setStatNomenclator($nomReceived);
-                $stat->setStatValue(1);
-                $result[] = $stat;
+        $nomRent=$nomenclatorRepository->findOneBy(array('nom_name'=>'Hospedaje'));
+        $nomGuests=$nomenclatorRepository->findOneBy(array('nom_name'=>'Huéspedes recibidos', "nom_parent" => $nomRent));
+        $nomNights=$nomenclatorRepository->findOneBy(array('nom_name'=>'Noches reservadas', "nom_parent" => $nomRent));
+        $nomRooms=$nomenclatorRepository->findOneBy(array('nom_name'=>'Habitaciones reservadas', "nom_parent" => $nomRent));
+        $result = array();
+        //foreach($ownerships as $ownership){
+        $reservations=  $resRepository->getAllReservations($ownership);
+        $generalReservationId = (count($reservations) > 0) ? $reservations[0] : 0;
+
+        foreach($reservations as $reservation) {
+            //Total e habitaciones reservadas
+
+            //Huespedes recibidos
+            $stat = new ownershipReservationStat();
+            $stat->setStatAccommodation($ownership)
+                ->setStatNomenclator($nomGuests)
+                ->setStatValue($reservation->getOwnResCountAdults() + $reservation->getOwnResCountChildrens())
+                ->setStatDateFrom($reservation->getOwnResReservationFromDate())
+                ->setStatDateTo($reservation->getOwnResReservationToDate());
+            $result[] = $stat;
+
+            //Noches reservadas
+            $stat = new ownershipReservationStat();
+            $stat->setStatAccommodation($ownership)
+                ->setStatNomenclator($nomNights)
+                ->setStatDateFrom($reservation->getOwnResReservationFromDate())
+                ->setStatDateTo($reservation->getOwnResReservationToDate());
+
+            if($reservation->getOwnResNights() != null || $reservation->getOwnResNights() > 0)
+                $stat->setStatValue($reservation->getOwnResNights());
+            else
+            {
+                $nightsTotal = $timer->nights($reservation->getOwnResReservationFromDate()->getTimestamp(), $reservation->getOwnResReservationToDate()->getTimestamp());
+                $stat->setStatValue($nightsTotal);
+            }
+            $result[] = $stat;
+
+
+            //Total de reservaciones recibidas por estados
+            $stat = new ownershipReservationStat();
+            $stat->setStatAccommodation($ownership)
+                ->setStatNomenclator($nomReceived)
+                ->setStatValue(1)
+                ->setStatDateFrom($reservation->getOwnResReservationFromDate())
+                ->setStatDateTo($reservation->getOwnResReservationToDate());
+            $result[] = $stat;
+
+            switch($reservation->getOwnResStatus())
+            {
+                case ownershipReservation::STATUS_NOT_AVAILABLE:{
+                    $stat = new ownershipReservationStat();
+                    $stat->setStatAccommodation($ownership)
+                        ->setStatNomenclator($nomNonAvailable)
+                        ->setStatValue(1)
+                        ->setStatDateFrom($reservation->getOwnResReservationFromDate())
+                        ->setStatDateTo($reservation->getOwnResReservationToDate());
+                    $result[] = $stat;
+                    break;
+                }
+                case ownershipReservation::STATUS_RESERVED:{
+                    $stat = new ownershipReservationStat();
+                    $stat->setStatAccommodation($ownership)
+                        ->setStatNomenclator($nomReserved)
+                        ->setStatValue(1)
+                        ->setStatDateFrom($reservation->getOwnResReservationFromDate())
+                        ->setStatDateTo($reservation->getOwnResReservationToDate());
+                    $result[] = $stat;
+
+                    $stat = new ownershipReservationStat();
+                    $stat->setStatAccommodation($ownership)
+                        ->setStatNomenclator($nomAvailable)
+                        ->setStatValue(1)
+                        ->setStatDateFrom($reservation->getOwnResReservationFromDate())
+                        ->setStatDateTo($reservation->getOwnResReservationToDate());
+                    $result[] = $stat;
+                    break;
+                }
+                case ownershipReservation::STATUS_OUTDATED:{
+                    $stat = new ownershipReservationStat();
+                    $stat->setStatAccommodation($ownership)
+                        ->setStatNomenclator($nomOutdated)
+                        ->setStatValue(1)
+                        ->setStatDateFrom($reservation->getOwnResReservationFromDate())
+                        ->setStatDateTo($reservation->getOwnResReservationToDate());
+                    $result[] = $stat;
+
+                    $stat = new ownershipReservationStat();
+                    $stat->setStatAccommodation($ownership)
+                        ->setStatNomenclator($nomAvailable)
+                        ->setStatValue(1)
+                        ->setStatDateFrom($reservation->getOwnResReservationFromDate())
+                        ->setStatDateTo($reservation->getOwnResReservationToDate());
+                    $result[] = $stat;
+                    break;
+                }
+                case ownershipReservation::STATUS_AVAILABLE:
+                case ownershipReservation::STATUS_AVAILABLE2:{
+                    $stat = new ownershipReservationStat();
+                    $stat->setStatAccommodation($ownership)
+                        ->setStatNomenclator($nomAvailable)
+                        ->setStatValue(1)
+                        ->setStatDateFrom($reservation->getOwnResReservationFromDate())
+                        ->setStatDateTo($reservation->getOwnResReservationToDate());
+                    $result[] = $stat;
+                    break;
+                }
             }
         }
+        //}
         return $result;
 
     }
