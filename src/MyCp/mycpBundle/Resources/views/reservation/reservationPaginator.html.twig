@@ -1,0 +1,43 @@
+<ul class="paginator">
+    {% if current_page > 1 %}
+        <li  class="first"><a href="{{ path('mycp_list_reservations', {'page': 1, 'items_per_page':items_per_page,'filter_date_reserve':filter_date_reserve_twig,'filter_offer_number':filter_offer_number,'filter_reference':filter_reference,'filter_date_from':filter_date_from_twig,'filter_date_to':filter_date_to_twig,'filter_booking_number': filter_booking_number, 'filter_status':filter_status,'sort_by':sort_by}) }}">Primera</a></li>
+        <li  class="left"><a href="{{ path('mycp_list_reservations', {'page': current_page - 1, 'items_per_page':items_per_page,'filter_date_reserve':filter_date_reserve_twig,'filter_offer_number':filter_offer_number,'filter_reference':filter_reference,'filter_date_from':filter_date_from_twig,'filter_date_to':filter_date_to_twig,'filter_booking_number': filter_booking_number, 'filter_status':filter_status,'sort_by':sort_by}) }}">«</a></li>
+    {% else %}
+        <li class="first_disabled">Primera</li>
+        <li class="left_disabled">«</li>
+    {% endif %}
+
+    {% if current_page == 1 %}
+        {% for page in 1..3 %}
+            {% if page == current_page %}
+                <li class="current">{{ page }}</li>
+            {% else %}
+                <li><a href="{{ path('mycp_list_reservations', {'page': page, 'items_per_page':items_per_page,'filter_date_reserve':filter_date_reserve_twig,'filter_offer_number':filter_offer_number,'filter_reference':filter_reference,'filter_date_from':filter_date_from_twig,'filter_date_to':filter_date_to_twig,'filter_booking_number': filter_booking_number, 'filter_status':filter_status,'sort_by':sort_by}) }}">{{ page }}</a></li>
+            {% endif %}
+        {% endfor %}
+    {% elseif current_page < last_page_number %}
+        {% for page in (current_page - 1)..(current_page + 1) %}
+            {% if page == current_page %}
+                <li class="current">{{ page }}</li>
+            {% else %}
+                <li><a href="{{ path('mycp_list_reservations', {'page': page, 'items_per_page':items_per_page,'filter_date_reserve':filter_date_reserve_twig,'filter_offer_number':filter_offer_number,'filter_reference':filter_reference,'filter_date_from':filter_date_from_twig,'filter_date_to':filter_date_to_twig,'filter_booking_number': filter_booking_number, 'filter_status':filter_status,'sort_by':sort_by}) }}">{{ page }}</a></li>
+            {% endif %}
+        {% endfor %}
+     {% else %}
+         {% for page in (current_page - 2)..current_page %}
+             {% if page == current_page %}
+                 <li class="current">{{ page }}</li>
+             {% else %}
+                 <li><a href="{{ path('mycp_list_reservations', {'page': page, 'items_per_page':items_per_page,'filter_date_reserve':filter_date_reserve_twig,'filter_offer_number':filter_offer_number,'filter_reference':filter_reference,'filter_date_from':filter_date_from_twig,'filter_date_to':filter_date_to_twig,'filter_booking_number': filter_booking_number, 'filter_status':filter_status,'sort_by':sort_by}) }}">{{ page }}</a></li>
+             {% endif %}
+         {% endfor %}
+    {% endif %}
+
+    {% if current_page < last_page_number %}
+        <li class="right"><a href="{{ path('mycp_list_reservations', {'page': current_page + 1, 'items_per_page':items_per_page,'filter_date_reserve':filter_date_reserve_twig,'filter_offer_number':filter_offer_number,'filter_reference':filter_reference,'filter_date_from':filter_date_from_twig,'filter_date_to':filter_date_to_twig,'filter_booking_number': filter_booking_number, 'filter_status':filter_status,'sort_by':sort_by}) }}">»</a></li>
+        <li class="last"><a href="{{ path('mycp_list_reservations', {'page': last_page_number, 'items_per_page':items_per_page,'filter_date_reserve':filter_date_reserve_twig,'filter_offer_number':filter_offer_number,'filter_reference':filter_reference,'filter_date_from':filter_date_from_twig,'filter_date_to':filter_date_to_twig,'filter_booking_number': filter_booking_number, 'filter_status':filter_status,'sort_by':sort_by}) }}">Última</a></li>
+    {% else %}
+        <li class="right_disabled">»</li>
+        <li class="last_disabled">Última</li>
+    {% endif %}
+</ul>

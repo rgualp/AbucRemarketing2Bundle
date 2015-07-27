@@ -320,7 +320,7 @@ class BackendReservationController extends Controller {
         $paginator->setItemsPerPage($items_per_page);
 
         $reservations = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
-                                ->getAll($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status))->getResult();
+                                ->getAll($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $items_per_page, $page))->getResult();
         $filter_date_reserve_twig = str_replace('/', '_', $filter_date_reserve);
         $filter_date_from_twig = str_replace('/', '_', $filter_date_from);
         $filter_date_to_twig = str_replace('/', '_', $filter_date_to);
@@ -329,16 +329,18 @@ class BackendReservationController extends Controller {
         $total_nights = array();
         $service_time = $this->get('time');
         foreach ($reservations as $res) {
-            $owns_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $res[0]['gen_res_id']));
+            $owns_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $res[0]["gen_res_id"]));
             $temp_total_nights = generalReservation::getTotalPayedNights($owns_res, $service_time);
             array_push($total_nights, $temp_total_nights);
         }
+
+        $totalItems = $em->getRepository("mycpBundle:generalReservation")->getTotalReservations();
         return $this->render('mycpBundle:reservation:list.html.twig', array(
                     'total_nights' => $total_nights,
                     'reservations' => $reservations,
                     'items_per_page' => $items_per_page,
                     'current_page' => $page,
-                    'total_items' => $paginator->getTotalItems(),
+                    'total_items' => $totalItems,
                     'filter_date_reserve' => $filter_date_reserve,
                     'filter_offer_number' => $filter_offer_number,
                     'filter_booking_number' => $filter_booking_number,
@@ -349,7 +351,8 @@ class BackendReservationController extends Controller {
                     'filter_date_reserve_twig' => $filter_date_reserve_twig,
                     'filter_date_from_twig' => $filter_date_from_twig,
                     'filter_date_to_twig' => $filter_date_to_twig,
-                    'filter_status' => $filter_status
+                    'filter_status' => $filter_status,
+                    'last_page_number' => ceil($totalItems / $items_per_page)
         ));
     }
 
