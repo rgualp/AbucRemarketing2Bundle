@@ -70,7 +70,7 @@
             <div class="alert">
                 <div class="row-fluid">
                     <div class="pull-left">
-                        Mostrando del {{items_per_page * current_page - items_per_page}} al {% if items_per_page * current_page >  total_items%}{{total_items }}{% else %}{{ items_per_page * current_page }}{% endif %} de {{total_items}} registros
+                        Mostrando del {{items_per_page * current_page - items_per_page + 1}} al {% if items_per_page * current_page >  total_items%}{{total_items }}{% else %}{{ items_per_page * current_page }}{% endif %} de {{total_items}} registros
                     </div>
                     <div class="pull-right">
                         Mostrar:
@@ -101,18 +101,7 @@
                 </div>
                 <div class="span6">
                     <div class="paginator-cont">
-
-
-                        {{ simple_paginator_render('mycp_list_reservations',null,{
-                'container_class': 'paginator',
-                'previousPageText': '«',
-                'nextPageText': '»',
-                'currentClass': 'current',
-                'firstPageText': 'Primera',
-                'lastPageText': 'Última',
-                'route_params': {'items_per_page':items_per_page,'filter_date_reserve':filter_date_reserve_twig,'filter_offer_number':filter_offer_number,'filter_reference':filter_reference,'filter_date_from':filter_date_from_twig,'filter_date_to':filter_date_to_twig,'filter_booking_number': filter_booking_number, 'filter_status':filter_status,'sort_by':sort_by}
-                }) }}
-
+                        {% include "mycpBundle:reservation:reservationPaginator.html.twig" %}
                     </div>
                 </div>
 
@@ -190,8 +179,9 @@
                     <div class="lblLoading hidden" style="width: 100px; display: inline">Cargando...</div>
                 </div>
 
-                <div class="paginator-cont span9">
-                    {{ simple_paginator_render('mycp_list_reservations',null,{
+                <div class="paginator-cont span6">
+                    {% include "mycpBundle:reservation:reservationPaginator.html.twig" %}
+                    {#{ simple_paginator_render('mycp_list_reservations',null,{
                 'container_class': 'paginator',
                 'previousPageText': '«',
                 'nextPageText': '»',
@@ -199,7 +189,7 @@
                 'firstPageText': 'Primera',
                 'lastPageText': 'Última',
                 'route_params': {'items_per_page':items_per_page,'filter_date_reserve':filter_date_reserve_twig,'filter_offer_number':filter_offer_number,'filter_reference':filter_reference,'filter_date_from':filter_date_from_twig,'filter_date_to':filter_date_to_twig,'filter_booking_number': filter_booking_number, 'filter_status':filter_status,'sort_by':sort_by}
-                }) }}
+                }) }#}
                 </div>
             </div>
             {% else %}

@@ -2,6 +2,7 @@
 
 namespace MyCp\mycpBundle\Entity;
 
+use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\EntityRepository;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
 use MyCp\mycpBundle\Helpers\OrderByHelper;
@@ -14,7 +15,7 @@ use MyCp\mycpBundle\Helpers\OrderByHelper;
  */
 class generalReservationRepository extends EntityRepository {
 
-    function getAll($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status) {
+    function getAll($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $items_per_page=null, $page=null) {
         $gaQuery = "SELECT gre,
         (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id),
         (SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id),
@@ -33,7 +34,7 @@ class generalReservationRepository extends EntityRepository {
         if($filter_status != "" && $filter_status != "-1" && $filter_status != "null")
             $gaQuery .= "AND gre.gen_res_status = :filter_status ";
 
-        return $this->getByQuery($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, -1, $gaQuery);
+        return $this->getByQuery($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, -1, $gaQuery,$items_per_page, $page);
     }
 
     function getByUserCasa($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $user_casa_id, $filter_status) {
@@ -59,7 +60,7 @@ class generalReservationRepository extends EntityRepository {
         return $this->getByQuery($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $user_casa_id, $gaQuery);
     }
 
-    function getByQuery($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $user_casa_id, $queryStr) {
+    function getByQuery($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $user_casa_id, $queryStr,$items_per_page, $page) {
         $filter_offer_number = strtolower($filter_offer_number);
         $filter_booking_number = strtolower($filter_booking_number);
         $filter_offer_number = str_replace('cas.', '', $filter_offer_number);
@@ -124,7 +125,7 @@ class generalReservationRepository extends EntityRepository {
             $query->setParameter ('filter_status',$filter_status);
 
 
-        $array_genres = $query->getArrayResult();
+        $array_genres = ($items_per_page != null && $page != null) ? $query->setMaxResults($items_per_page)->setFirstResult(($page - 1) * $items_per_page)->getArrayResult() : $query->getArrayResult();
 
         $query = $em->createQuery("SELECT ownres,genres,booking FROM mycpBundle:ownershipReservation ownres
         JOIN ownres.own_res_gen_res_id genres JOIN ownres.own_res_reservation_booking booking
@@ -157,6 +158,15 @@ class generalReservationRepository extends EntityRepository {
             $array_intersection = $array_genres;
         }
         return $array_intersection;
+    }
+
+    function getTotalReservations()
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb->select("count(gen)")
+           ->from("mycpBundle:generalReservation", "gen");
+        return $qb->getQuery()->getSingleScalarResult();
     }
 
     function getUsers($filter_user_name, $filter_user_email, $filter_user_city, $filter_user_country, $sort_by, $ownId = null) {
