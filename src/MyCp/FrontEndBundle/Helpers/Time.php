@@ -65,5 +65,14 @@ class Time {
 
         return $dateAdded->format($dateStringFormat);
     }
+
+    public static function addObj($timeStringToAdd, $date)
+    {
+        $dateAddedTimeStamp = $date->getTimestamp();
+        $dateAddedTimeStamp = strtotime($timeStringToAdd, $dateAddedTimeStamp);
+        $date->setTimestamp($dateAddedTimeStamp);
+
+        return $date;
+    }
 }
 

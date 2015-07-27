@@ -16,8 +16,9 @@ class UpdateOwnershipReservationStatsCommand extends ContainerAwareCommand {
         $this->setName('mycp_task:stats:update-ownership-reservation')
                 ->setDefinition(array())
                 ->setDescription('Update ownership-reservation stats table')
+                ->addArgument("date", InputArgument::OPTIONAL,"Starting date for get reservations", (new \DateTime())->format("Y-m-d"))
                 ->setHelp(<<<EOT
-                Command <info>mycp_task:stats:update-ownership</info> Update ownership-reservation stats table.
+                Command <info>mycp_task:stats:update-ownership-reservation</info> Update ownership-reservation stats table.
 EOT
         );
     }
@@ -25,15 +26,24 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output) {
         $container = $this->getContainer();
         $em = $container->get('doctrine')->getManager();
-        $repository = $em->getRepository("mycpBundle:ownershipReservationStat");
-        $ownerships=$em->getRepository("mycpBundle:ownership")->findAll();
-        $output->writeln("Updating received reservations stats...");
-        $stats=$repository->getTotalReservations($ownerships);
-        foreach($stats as $stat){
-            $repository->insertOrUpdateObj($stat);
-        }
+        $timer = $container->get('Time');
+        $argDate = $input->getArgument("date");
+        $date = $timer->add("-4 day", $argDate, "Y-m-d");
 
-        $em->flush();
+        $repository = $em->getRepository("mycpBundle:ownershipReservationStat");
+        $ownerships=$em->getRepository("mycpBundle:ownership")->getWithReservations($date);
+        $output->writeln("Updating received reservations stats...");
+
+        foreach($ownerships as $ownership) {
+            $stats = $repository->calculateStats($ownership, $date, $timer);
+            $output->writeln($ownership->getOwnMcpCode()." inserting ".count($stats). " reservation statistics.");
+
+            foreach ($stats as $stat) {
+                $repository->insertOrUpdateObj($stat);
+            }
+
+            $em->flush();
+        }
         $output->writeln("End of process");
     }
 

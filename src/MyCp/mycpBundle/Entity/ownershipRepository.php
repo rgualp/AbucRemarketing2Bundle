@@ -1999,4 +1999,15 @@ class ownershipRepository extends EntityRepository {
         return $qb->getQuery()->getResult();
     }
 
+    public function getWithReservations($date){
+        $em = $this->getEntityManager();
+
+        $queryString = "SELECT ow FROM mycpBundle:ownership ow
+                        WHERE (SELECT count(gen) FROM mycpBundle:generalreservation gen WHERE gen.gen_res_date >= :date AND ow.own_id = gen.gen_res_own_id) > 0";
+
+        return $em->createQuery($queryString)
+            ->setParameter("date", $date)
+            ->getResult();
+    }
+
 }

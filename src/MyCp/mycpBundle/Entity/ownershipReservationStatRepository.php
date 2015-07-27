@@ -129,10 +129,11 @@ class ownershipReservationStatRepository extends EntityRepository
         $statDb->setStatDateFrom($stat->getStatDateFrom());
         $statDb->setStatDateTo($stat->getStatDateTo());
 
-        $statDb->setStatValue($stat->getStatValue());
+        $value = ($statDb->getStatValue() == null)? 0: (float)$statDb->getStatValue();
+        $statDb->setStatValue($value + (float)$stat->getStatValue());
 
         $em->persist($statDb);
-       // $em->flush();
+        $em->flush();
     }
 
     function getMunicipalities(){
@@ -141,7 +142,7 @@ class ownershipReservationStatRepository extends EntityRepository
        return $municipalities;
    }
 
-    public function getTotalReservations($ownership, $timer)
+    public function calculateStats($ownership, $date, $timer)
     {
         $em = $this->getEntityManager();
         $resRepository=$em->getRepository("mycpBundle:ownershipReservation");
@@ -158,39 +159,9 @@ class ownershipReservationStatRepository extends EntityRepository
         $nomNights=$nomenclatorRepository->findOneBy(array('nom_name'=>'Noches reservadas', "nom_parent" => $nomRent));
         $nomRooms=$nomenclatorRepository->findOneBy(array('nom_name'=>'Habitaciones reservadas', "nom_parent" => $nomRent));
         $result = array();
-        //foreach($ownerships as $ownership){
-        $reservations=  $resRepository->getAllReservations($ownership);
-        $generalReservationId = (count($reservations) > 0) ? $reservations[0] : 0;
+        $reservations=  $resRepository->getAllReservations($ownership, $date);
 
         foreach($reservations as $reservation) {
-            //Total e habitaciones reservadas
-
-            //Huespedes recibidos
-            $stat = new ownershipReservationStat();
-            $stat->setStatAccommodation($ownership)
-                ->setStatNomenclator($nomGuests)
-                ->setStatValue($reservation->getOwnResCountAdults() + $reservation->getOwnResCountChildrens())
-                ->setStatDateFrom($reservation->getOwnResReservationFromDate())
-                ->setStatDateTo($reservation->getOwnResReservationToDate());
-            $result[] = $stat;
-
-            //Noches reservadas
-            $stat = new ownershipReservationStat();
-            $stat->setStatAccommodation($ownership)
-                ->setStatNomenclator($nomNights)
-                ->setStatDateFrom($reservation->getOwnResReservationFromDate())
-                ->setStatDateTo($reservation->getOwnResReservationToDate());
-
-            if($reservation->getOwnResNights() != null || $reservation->getOwnResNights() > 0)
-                $stat->setStatValue($reservation->getOwnResNights());
-            else
-            {
-                $nightsTotal = $timer->nights($reservation->getOwnResReservationFromDate()->getTimestamp(), $reservation->getOwnResReservationToDate()->getTimestamp());
-                $stat->setStatValue($nightsTotal);
-            }
-            $result[] = $stat;
-
-
             //Total de reservaciones recibidas por estados
             $stat = new ownershipReservationStat();
             $stat->setStatAccommodation($ownership)
@@ -228,6 +199,44 @@ class ownershipReservationStatRepository extends EntityRepository
                         ->setStatDateFrom($reservation->getOwnResReservationFromDate())
                         ->setStatDateTo($reservation->getOwnResReservationToDate());
                     $result[] = $stat;
+
+                    //Total e habitaciones reservadas
+                    $countRooms = count($em->getRepository("mycpBundle:ownershipReservation")->findBy(array("own_res_gen_res_id" => $reservation->getOwnResGenResId()->getGenResId())));
+                    $stat = new ownershipReservationStat();
+                    $stat->setStatAccommodation($ownership)
+                        ->setStatNomenclator($nomRooms)
+                        ->setStatValue($countRooms)
+                        ->setStatDateFrom($reservation->getOwnResReservationFromDate())
+                        ->setStatDateTo($reservation->getOwnResReservationToDate());
+                    $result[] = $stat;
+
+                    //Huespedes recibidos
+                    $stat = new ownershipReservationStat();
+                    $stat->setStatAccommodation($ownership)
+                        ->setStatNomenclator($nomGuests)
+                        ->setStatValue($reservation->getOwnResCountAdults() + $reservation->getOwnResCountChildrens())
+                        ->setStatDateFrom($reservation->getOwnResReservationFromDate())
+                        ->setStatDateTo($reservation->getOwnResReservationToDate());
+                    $result[] = $stat;
+
+                    //Noches reservadas
+                    $stat = new ownershipReservationStat();
+                    $stat->setStatAccommodation($ownership)
+                        ->setStatNomenclator($nomNights)
+                        ->setStatDateFrom($reservation->getOwnResReservationFromDate())
+                        ->setStatDateTo($reservation->getOwnResReservationToDate());
+
+                    if($reservation->getOwnResNights() != null || $reservation->getOwnResNights() > 0)
+                        $stat->setStatValue($reservation->getOwnResNights());
+                    else
+                    {
+                        $nightsTotal = $timer->nights($reservation->getOwnResReservationFromDate()->getTimestamp(), $reservation->getOwnResReservationToDate()->getTimestamp());
+                        $stat->setStatValue($nightsTotal);
+                    }
+                    $result[] = $stat;
+
+                    $result = $this->calculateIncomes($ownership,$reservation, $result);
+
                     break;
                 }
                 case ownershipReservation::STATUS_OUTDATED:{
@@ -261,9 +270,20 @@ class ownershipReservationStatRepository extends EntityRepository
                 }
             }
         }
-        //}
         return $result;
 
+    }
+
+    /**
+     * Calculate daily incomes
+     * @param $ownership
+     * @param $reservation
+     * @param $result
+     * @return mixed
+     */
+    function calculateIncomes($ownership,$reservation, $result){
+
+        return $result;
     }
 
     public function getOwnershipTotalsByType($municipalities=null)
