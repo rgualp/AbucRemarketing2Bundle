@@ -281,8 +281,9 @@ class ownershipReservationStatRepository extends EntityRepository
      * @param $result
      * @return mixed
      */
-    function calculateIncomes($ownership,$reservation, $result){
+    function calculateIncomes($ownership,$reservation, $nomenclator, $result){
 
+        
         return $result;
     }
 
