@@ -66,6 +66,9 @@
                     </table>
                     <br/>
 {% for own in own_res %}
+    {% if loop.index0 > 0 %}
+    <div style="page-break-after: always"></div>
+    {% endif %}
                     <hr class="hr-grey-wide"/>
                     <table style="width: 100%">
                         <tr>
@@ -84,7 +87,7 @@
                         <tr style="border-top:none;">
                             <td style="border-top:none; width:30%"><b>{{"ACCOMMODATION_NAME"|trans({}, "messages", user_locale)}}:</b></td>
                             <td style="border-top:none; width:40%">{{ own.name }}</td>
-                            <td rowspan="5" style="border-top:none;">
+                            <td rowspan="5" style="border-top:none;width:30%">
                                 <div class="thumbnail" style="padding: 12px; margin-left: 12px;">
                                     <img src='http://maps.googleapis.com/maps/api/staticmap?center={{own.geo_x}},{{own.geo_y}}&zoom=15&size=200x200&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{own.geo_x}},{{own.geo_y}}&a.jpg'/>
                                 </div>
