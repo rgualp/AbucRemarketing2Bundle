@@ -453,17 +453,29 @@ class BackendTestEmailTemplateController extends Controller {
         return $texts[0];
     }
 
-    public function sendVoucherAction($mail, Request $request) {
-        if ($request->getMethod() == 'POST') {
+    public function sendVoucherAction($reservation, $mail, Request $request) {
             $em = $this->getDoctrine()->getEntityManager();
             $generalReservation = $em
                     ->getRepository('mycpBundle:generalReservation')
-                    ->findOneBy(array('gen_res_status' => generalReservation::STATUS_RESERVED));
+                    ->find($reservation);
             $bookingService = $this->get('front_end.services.booking');
             $service_email = $this->get('mycp.service.email_manager');
             \MyCp\mycpBundle\Helpers\VoucherHelper::sendVoucher($em, $bookingService, $service_email, $this, $generalReservation->getGenResId(), $mail, true);
-        }
         return $this->redirect($this->generateUrl('mycp_test_home'));
+    }
+
+    public function viewVoucherAction($reservation, Request $request) {
+        try {
+            $em = $this->getDoctrine()->getEntityManager();
+            $bookingService = $this->get('front_end.services.booking');
+            $bookings_ids = $em->getRepository('mycpBundle:generalReservation')->getBookings($reservation);
+            $idBooking = $bookings_ids[0]["booking_id"];
+            return $bookingService->getPrintableBookingConfirmationResponse($idBooking);
+        }
+        catch(\Exception $e) {
+            $this->get('session')->getFlashBag()->add('message_error_main', $e->getMessage());
+            return $this->redirect($this->generateUrl('mycp_test_home'));
+        }
     }
 
 }

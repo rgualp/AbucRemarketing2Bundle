@@ -24,7 +24,14 @@
     </thead>
     <tr>
         <td>Enviar voucher</td>
-        <td style="text-align: right"><button class="btn btn-primary bAction" data-url="{{path("mycp_test_send_voucher_rt")}}">Test</button></td>
+        <td style="text-align: right">
+            <div class="row-fluid">
+            <b>CAS.: </b>
+            <input type="text" name="tReservationVoucher" id="tReservationVoucher" style="width:50px"/>
+            <button class="btn btn-info bViewVoucher" data-url="{{path("mycp_test_view_voucher_rt")}}">Ver</button>
+            <button class="btn btn-warning bSendVoucher" data-url="{{path("mycp_test_send_voucher_rt")}}">Enviar</button>
+                </div>
+        </td>
     </tr>
     <tr>
         <td>Consulta de disponibilidad</td>
@@ -205,6 +212,25 @@
         url=url+'/'+reservation;
         /*$('#form').attr('action',url);
         $('#form').submit();*/
+        window.location = url;
+    });
+
+    $(".bViewVoucher").click(function(){
+        url = $(this).attr("data-url");
+        reservation = $("#tReservationVoucher").val();
+        url=url+'/'+reservation;
+        /*$('#form').attr('action',url);
+         $('#form').submit();*/
+        window.location = url;
+    });
+
+    $(".bSendVoucher").click(function(){
+        url = $(this).attr("data-url");
+        reservation = $("#tReservationVoucher").val();
+        mail = $("#tEmail").val();
+        url=url+'/'+reservation+'/'+mail;
+        /*$('#form').attr('action',url);
+         $('#form').submit();*/
         window.location = url;
     });
 </script>

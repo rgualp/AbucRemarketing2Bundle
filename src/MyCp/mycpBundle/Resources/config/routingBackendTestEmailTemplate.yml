@@ -75,5 +75,9 @@ mycp_test_accommodation_notification_rt:
     defaults: { _controller: mycpBundle:BackendTestEmailTemplate:accommodationNotification}
 
 mycp_test_send_voucher_rt:
-    pattern:  /send-voucher/{mail}
-    defaults: { _controller: mycpBundle:BackendTestEmailTemplate:sendVoucher, mail:null}
+    pattern:  /send-voucher/{reservation}/{mail}
+    defaults: { _controller: mycpBundle:BackendTestEmailTemplate:sendVoucher, reservation: null, mail:null}
+
+mycp_test_view_voucher_rt:
+    pattern:  /view-voucher/{reservation}
+    defaults: { _controller: mycpBundle:BackendTestEmailTemplate:viewVoucher, reservation: null}
