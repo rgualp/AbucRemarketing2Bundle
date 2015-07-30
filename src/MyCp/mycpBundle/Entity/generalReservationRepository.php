@@ -60,7 +60,7 @@ class generalReservationRepository extends EntityRepository {
         return $this->getByQuery($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $user_casa_id, $gaQuery);
     }
 
-    function getByQuery($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $user_casa_id, $queryStr,$items_per_page, $page) {
+    function getByQuery($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $user_casa_id, $queryStr,$items_per_page = null, $page = null) {
         $filter_offer_number = strtolower($filter_offer_number);
         $filter_booking_number = strtolower($filter_booking_number);
         $filter_offer_number = str_replace('cas.', '', $filter_offer_number);
