@@ -1359,4 +1359,69 @@ class BackendOwnershipController extends Controller {
         return new Response($response);
     }
 
+    public function deletePhotoOwnerCallbackAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $idOwnership = $request->get("idOwnership");
+        $ownership = $em->getRepository("mycpBundle:ownership")->find($idOwnership);
+        $photoDir = $this->container->getParameter("user.dir.photos");
+        $fileName = $ownership->getOwnOwnerPhoto()->getPhoName();
+        FileIO::deleteFile($photoDir.$fileName);
+        $ownership->setOwnOwnerPhoto(null);
+        $em->persist($ownership);
+        $em->flush();
+        $ownershipPhotoName = "no_photo.gif";
+        $hasPhoto = false;
+        $view = $this->renderView("mycpBundle:utils:ownershipPhotoOwner.html.twig", array('photo' => $ownershipPhotoName, 'idOwnership' => $idOwnership, 'hasPhoto' => $hasPhoto));
+        return new Response($view);
+    }
+    public function getOwnerPhotoAction($ownershipId, $ownershipPhoto = null, $fromPhotoList = false)
+    {
+        $photoDir = $this->container->getParameter("user.dir.photos");
+        if($ownershipPhoto == null && $fromPhotoList)
+        {
+            $em = $this->getDoctrine()->getManager();
+            $ownership = $em->getRepository("mycpBundle:ownership")->find($ownershipId);
+            $ownershipPhoto = $ownership->getOwnOwnerPhoto()->getPhoName();
+        }
+        if($ownershipPhoto == null || $ownershipPhoto == "")
+        {
+            $ownershipPhoto = "no_photo.gif";
+        }
+        else if(!file_exists($photoDir.$ownershipPhoto)){
+            $ownershipPhoto = "no_photo.gif";
+        }
+        $hasPhoto = ( $ownershipPhoto != "no_photo.gif");
+        return $this->render('mycpBundle:utils:ownershipPhotoOwner.html.twig', array('photo' => $ownershipPhoto, 'idOwnership' => $ownershipId, 'hasPhoto' => $hasPhoto));
+    }
+    public function savePhotoOwnerAction($idOwnership, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $ownership = $em->getRepository("mycpBundle:ownership")->find($idOwnership);
+        $photoDir = $this->container->getParameter("user.dir.photos");
+        try{
+            if ($request->getMethod() == 'POST') {
+                $file = $request->files->get('own_ownership_photo');
+                if(isset($file)) {
+                    $em->getRepository("mycpBundle:ownership")->saveOwnerPhoto($em, $ownership, $photoDir, $request);
+                    $em->flush();
+                    $message = 'Se ha almacenado la foto del propietario satisfactoriamente';
+                    $this->get('session')->getFlashBag()->add('message_ok', $message);
+                }
+                else
+                {
+                    $message = 'Por favor, seleccione una foto.';
+                    $this->get('session')->getFlashBag()->add('message_error_local_owner', $message);
+                    $this->get('session')->getFlashBag()->add('hasError', true);
+                }
+            }
+        }
+        catch(\Exception $e)
+        {
+            $message = 'Ha ocurrido un error. '.$e->getMessage();
+            $this->get('session')->getFlashBag()->add('message_error_local', $message);
+        }
+        return $this->redirect($this->generateUrl("mycp_list_photos_ownership", array("id_ownership" => $idOwnership)));
+    }
+
 }
