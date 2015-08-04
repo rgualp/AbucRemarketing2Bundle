@@ -155,24 +155,15 @@
                 <input type="text" class="input-block-level" value="{{ price_own_res }}" name="service_room_price_{{reservation_rooms.getOwnResId}}"/>
             </td>
             <td>{{ reservation_rooms.getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent }}%</td>
-            <td>
-                {%if reservation_rooms.getOwnResNightPrice != 0%}
-
-                    {#{{reservation_rooms.ownResNights * reservation_rooms.getOwnResNightPrice}} CUC
-                    {%if reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE') and reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}
-                        {%set total_price = total_price + (reservation_rooms.ownResNights * reservation_rooms.getOwnResNightPrice)%}
-                    {%endif%}#}
-
-                {{nights[loop.index0] * reservation_rooms.getOwnResNightPrice}} CUC
-                {%if reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE') and reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}
-                    {%set total_price = total_price + (nights[loop.index0] * reservation_rooms.getOwnResNightPrice)%}
-                {%endif%}
-                {%else%}
-                {{reservation_rooms.getOwnResTotalInSite}}CUC</td>
+            <td nowrap="nowrap">
+                {{reservation_rooms.getOwnResTotalInSite}}CUC
+                {% if reservation_rooms.getTripleRoomCharged %}
+                    <span class="badge badge-important" title="Este precio tiene incluido 10 CUC adicionales por noche pues la habitación es triple y tiene 3 o más huéspedes">!</span>
+                {% endif %}</td>
                 {%if reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE') and reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}
                 {%set total_price = total_price + reservation_rooms.getOwnResTotalInSite%}
                 {%endif%}
-            {%endif%}
+
             <td>
             <select style="width: 100px" class="input-block-level" name="service_own_res_status_{{reservation_rooms.getOwnResId}}">
                 {% if post['service_own_res_status_'~reservation_rooms.getOwnResId] is defined %}
