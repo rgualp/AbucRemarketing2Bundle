@@ -187,11 +187,13 @@ class GeneralReservationService extends Controller
                 else
                     $ownership_reservation->setOwnResNightPrice(0);
 
+
                 $ownership_reservation->setOwnResCountAdults($post['service_room_count_adults_' . $ownership_reservation->getOwnResId()]);
                 $ownership_reservation->setOwnResCountChildrens($post['service_room_count_childrens_' . $ownership_reservation->getOwnResId()]);
                 $ownership_reservation->setOwnResStatus($post['service_own_res_status_' . $ownership_reservation->getOwnResId()]);
 
                 $partialTotalPrice = ReservationHelper::getTotalPrice($this->em, $this->timer, $ownership_reservation, $this->tripleRoomCharge);
+
                 $totalPrice+=$partialTotalPrice;
                 $ownership_reservation->setOwnResTotalInSite($partialTotalPrice);
 
@@ -202,6 +204,8 @@ class GeneralReservationService extends Controller
                 if ($post['service_own_res_status_' . $ownership_reservation->getOwnResId()] == ownershipReservation::STATUS_RESERVED) {
                     $this->updateICal($ownership_reservation->getOwnResSelectedRoomId());
                 }
+
+                $this->em->persist($ownership_reservation);
             }
 
             $reservation->setGenResTotalInSite($totalPrice);
