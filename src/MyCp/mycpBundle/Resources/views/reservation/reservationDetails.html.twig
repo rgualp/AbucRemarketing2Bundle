@@ -131,13 +131,24 @@
             </td>
             <td>{{nights[loop.index0]}}{#{reservation_rooms.ownResNights}#}</td>
             <td nowrap=nowrap>
+                {% set idDestination = (reservation_rooms.getOwnResGenResId.getGenResOwnId.getOwnDestination != null) ? reservation_rooms.getOwnResGenResId.getGenResOwnId.getOwnDestination.getDesId : null %}
+                {% set minSeason = reservation_rooms.getOwnResReservationFromDate | season(reservation_rooms.getOwnResReservationFromDate, reservation_rooms.getOwnResReservationToDate, idDestination) %}
+                {% set maxSeason = reservation_rooms.getOwnResReservationFromDate | season(reservation_rooms.getOwnResReservationToDate, reservation_rooms.getOwnResReservationToDate, idDestination) %}
                 {%if rooms[flag]%}
-                    Baja: {{ rooms[flag].getRoomPriceDownTo }} CUC <br/>
+                    {% if minSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_LOW') or  maxSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_LOW') %} <span class="badge" title="Se ha utilizado este precio para el cálculo final">{% endif %}
+                    Baja: {{ rooms[flag].getRoomPriceDownTo }} CUC
+                    {% if minSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_LOW') or  maxSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_LOW') %}</span>{% endif %}
+                    <br/>
+
+                    {% if minSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_HIGH') or  maxSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_HIGH') %} <span class="badge" title="Se ha utilizado este precio para el cálculo final">{% endif %}
                     Alta: {{ rooms[flag].getRoomPriceUpTo }} CUC
+                    {% if minSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_HIGH') or  maxSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_HIGH') %} </span>{% endif %}
                     {%if rooms[flag].getRoomPriceSpecial is defined and rooms[flag].getRoomPriceSpecial != "" and rooms[flag].getRoomPriceSpecial != 0%}
                     <br/>
+                    {% if minSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_SPECIAL') or  maxSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_SPECIAL') %} <span class="badge" title="Se ha utilizado este precio para el cálculo final">{% endif %}
                     Especial: {{ rooms[flag].getRoomPriceSpecial }} CUC
-                    {%endif%}
+                    {% if minSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_SPECIAL') or  maxSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_SPECIAL') %} </span>{% endif %}
+                {%endif%}
                 {%endif%}
             </td>
             <td style="width: 7%">

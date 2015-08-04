@@ -136,6 +136,9 @@ services:
         class: MyCp\mycpBundle\Twig\Extension\mycpExtension
         tags:
             - { name: twig.extension }
+        arguments:
+            em: "@doctrine.orm.entity_manager"
+            timer: "@Time"
     log:
         class: MyCp\mycpBundle\Helpers\Logs
         tags:

@@ -7,12 +7,12 @@ use MyCp\mycpBundle\Entity\season;
 use MyCp\mycpBundle\Entity\ownershipReservation;
 
 class mycpExtension extends \Twig_Extension {
-    /* private $session;
-      private $entity_manager; */
+    private $em;
+    private $timer;
 
-    public function __construct(/* $session, $entity_manager */) {
-        /* $this->session = $session;
-          $this->entity_manager = $entity_manager; */
+    public function __construct($em, $timer ) {
+        $this->em = $em;
+        $this->timer = $timer;
     }
 
     public function getName() {
@@ -25,6 +25,7 @@ class mycpExtension extends \Twig_Extension {
             new \Twig_SimpleFilter('seasonType', array($this, 'seasonType')),
             new \Twig_SimpleFilter('ownershipReservationStatusType', array($this, 'ownershipReservationStatusType')),
             new \Twig_SimpleFilter('mailListFunction', array($this, 'mailListFunction')),
+            new \Twig_SimpleFilter('season', array($this, 'season')),
         );
     }
 
@@ -83,6 +84,12 @@ class mycpExtension extends \Twig_Extension {
     }
     public function mailListFunction($function) {
         return \MyCp\mycpBundle\Entity\mailList::getMailFunctionName($function);
+    }
+
+    public function season($date, $minDate, $maxDate, $idDestination)
+    {
+        $seasons = $this->em->getRepository("mycpBundle:season")->getSeasons($minDate, $maxDate, $idDestination);
+        return $this->timer->seasonTypeByDate($seasons, $date->getTimestamp());
     }
 
 }
