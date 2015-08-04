@@ -40,11 +40,8 @@ Por este medio le confirmamos la reservación ({{ reservations[0].getOwnResGenRe
 <b>Fecha de arribo: </b> {{ reservation.getOwnResReservationFromDate|date('d/m/Y') }}
 <br/>
 <b>Noches: </b> {{ nights[reservation.getOwnResId] }}
-{%if reservation.getOwnResNightPrice != 0%}
-    {% set subtotal = (nights[reservation.getOwnResId] * reservation.getOwnResNightPrice) - ( nights[reservation.getOwnResId] * reservation.getOwnResNightPrice * reservation.getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100 )  %}
-{%else%}
-    {% set subtotal = reservation.ownResTotalInSite - ( reservation.ownResTotalInSite * reservation.getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100 )  %}
-{%endif%}
+{% set subtotal = reservation.ownResTotalInSite - ( reservation.ownResTotalInSite * reservation.getOwnResGenResId.getGenResOwnId.getOwnCommissionPercent / 100 )  %}
+
 {% set total_price = total_price + subtotal %}
 <br/>
 <br/>
