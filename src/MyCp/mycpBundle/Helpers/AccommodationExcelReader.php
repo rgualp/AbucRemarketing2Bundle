@@ -275,7 +275,9 @@ class AccommodationExcelReader extends ExcelReader {
 
     private function addDescription ($langCode, $shortDescriptionText, $descriptionText, $ownership)
     {
-        if($shortDescriptionText != "" && $descriptionText) {
+        //if($shortDescriptionText != "" && $descriptionText) {
+        $shortDescriptionText = ($shortDescriptionText != "") ? $shortDescriptionText : "" ;
+        $descriptionText = ($descriptionText) ? $descriptionText : "" ;
             $description = new ownershipDescriptionLang();
             $description->setOdlOwnership($ownership);
             $description->setOdlBriefDescription($shortDescriptionText);
@@ -283,7 +285,7 @@ class AccommodationExcelReader extends ExcelReader {
             $description->setOdlIdLang($this->languages[$langCode]);
 
             $this->descriptions->add($description);
-        }
+       // }
 
     }
 

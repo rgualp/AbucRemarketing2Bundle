@@ -498,10 +498,12 @@ class BackendOwnershipController extends Controller {
         $post['water_piscina'] = $ownership->getOwnWaterPiscina();
 
         foreach ($ownershipDescriptionLangs as $ownershipDescriptionLang) {
-            $post['description_id_' . $ownershipDescriptionLang->getOdlIdLang()->getLangId()] = $ownershipDescriptionLang->getOdlId();
-            $post['description_desc_' . $ownershipDescriptionLang->getOdlIdLang()->getLangId()] = $ownershipDescriptionLang->getOdlDescription();
-            $post['description_brief_desc_' . $ownershipDescriptionLang->getOdlIdLang()->getLangId()] = $ownershipDescriptionLang->getOdlBriefDescription();
-            $data["description_translated_". $ownershipDescriptionLang->getOdlIdLang()->getLangId()] = $ownershipDescriptionLang->getOdlAutomaticTranslation();
+            if(!array_key_exists('description_id_' . $ownershipDescriptionLang->getOdlIdLang()->getLangId(), $post)) {
+                $post['description_id_' . $ownershipDescriptionLang->getOdlIdLang()->getLangId()] = $ownershipDescriptionLang->getOdlId();
+                $post['description_desc_' . $ownershipDescriptionLang->getOdlIdLang()->getLangId()] = $ownershipDescriptionLang->getOdlDescription();
+                $post['description_brief_desc_' . $ownershipDescriptionLang->getOdlIdLang()->getLangId()] = $ownershipDescriptionLang->getOdlBriefDescription();
+                $data["description_translated_" . $ownershipDescriptionLang->getOdlIdLang()->getLangId()] = $ownershipDescriptionLang->getOdlAutomaticTranslation();
+            }
         }
 
         foreach ($ownershipKeywordsLangs as $ownershipKeywordsLang) {
