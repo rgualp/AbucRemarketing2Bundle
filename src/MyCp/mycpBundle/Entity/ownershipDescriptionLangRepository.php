@@ -26,7 +26,9 @@ class ownershipDescriptionLangRepository extends EntityRepository {
             ->where("own.own_id = :ownId")
             ->setParameter("ownId", $ownership->getOwnId())
             ->andWhere("lang.lang_code = :langCode")
-            ->setParameter("langCode", strtoupper($langCode));
+            ->setParameter("langCode", strtoupper($langCode))
+            ->setFirstResult(0)
+            ->setMaxResults(1);
 
         return $qb->getQuery()->getOneOrNullResult();
     }
