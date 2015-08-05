@@ -86,12 +86,10 @@
     <div id="tab-desc" class="tab-pane active">
         <div class="row">
             <div class="col-sm-7">
-                <h1 class="h-size-4" style="margin-top: 0">{{ownership.ownname}}</h1>
                 {% if automaticTranslation %}
-                    <br/>
-                    <span class="pull-right"><img src="{{ asset("bundles/frontend/img/icons/icono_google_translator.png") }}" title="{{ "AUTOMATIC_TRANSLATED" | trans }}" alt="{{ "AUTOMATIC_TRANSLATED" | trans }}"/></span>
-
+                    <p style="text-align: right"><img src="{{ asset("bundles/frontend/img/icons/icono_google_translator.png") }}" title="{{ "AUTOMATIC_TRANSLATED" | trans }}" alt="{{ "AUTOMATIC_TRANSLATED" | trans }}"/></p>
                 {% endif %}
+                <h1 class="h-size-4" style="margin-top: 0">{{ownership.ownname}}</h1>
                 <p>
                     {{description| raw }}
                 </p>
