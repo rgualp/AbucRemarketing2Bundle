@@ -191,14 +191,14 @@
                                                                       <div class="row">
                                                                           <div class="col-sm-7">
                                                                               <h1 class="h-size-4" style="margin-top: 0">{{ownership.ownname}}</h1>
+                                                                              {% if automaticTranslation %}
+                                                                                  <br/>
+                                                                                  <span class="pull-right"><img src="{{ asset("bundles/frontend/img/icons/icono_google_translator.png") }}" title="{{ "AUTOMATIC_TRANSLATED" | trans }}" alt="{{ "AUTOMATIC_TRANSLATED" | trans }}"/></span>
+
+                                                                              {% endif %}
                                                                               <p>
                     {{description| raw }}
                                                                                   </p>
-                                                                              {% if automaticTranslation %}
-                                                                                  <br/>
-                                                                                  <br/>
-                                                                                  <em>{{ "AUTOMATIC_TRANSLATED" | trans }}</em>
-                                                                              {% endif %}
                                                                               </div>
                                                                               <div class="col-sm-5">
                                                                                   <ul class="span4 price">
