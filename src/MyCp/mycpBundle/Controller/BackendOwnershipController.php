@@ -1384,7 +1384,7 @@ class BackendOwnershipController extends Controller {
         {
             $em = $this->getDoctrine()->getManager();
             $ownership = $em->getRepository("mycpBundle:ownership")->find($ownershipId);
-            $ownershipPhoto = $ownership->getOwnOwnerPhoto()->getPhoName();
+            $ownershipPhoto = ($ownership->getOwnOwnerPhoto() != null) ? $ownership->getOwnOwnerPhoto()->getPhoName() : null;
         }
         if($ownershipPhoto == null || $ownershipPhoto == "")
         {
