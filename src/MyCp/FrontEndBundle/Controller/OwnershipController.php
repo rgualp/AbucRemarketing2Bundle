@@ -258,6 +258,7 @@ class OwnershipController extends Controller {
         $locale = $this->get('translator')->getLocale();
         //$own_name = Utils::urlNormalize($ownership->getOwnName());
         $ownership_array = $em->getRepository('mycpBundle:ownership')->getDetailsByCode($mycp_code, strtoupper($locale), true);
+
         if ($ownership_array && count($ownership_array) > 0) {
             $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $ownership_array['own_id'], 'room_active' => true));
             $own_photos = $em->getRepository('mycpBundle:ownership')->getPhotosAndDescription($ownership_array['own_id'], $locale);

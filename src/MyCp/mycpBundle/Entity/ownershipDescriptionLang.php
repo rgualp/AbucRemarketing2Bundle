@@ -54,6 +54,13 @@ class ownershipDescriptionLang
      */
     private $odl_automatic_translation;
 
+    function __construct()
+    {
+        $this->odl_automatic_translation = 0;
+        $this->odl_brief_description = "";
+        $this->odl_description = "";
+    }
+
     /**
      * Get odl_id
      *
