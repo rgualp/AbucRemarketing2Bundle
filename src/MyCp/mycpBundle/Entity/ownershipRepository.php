@@ -416,8 +416,16 @@ class ownershipRepository extends EntityRepository {
                 $translated = false;
                 $odl = $em->getRepository('mycpBundle:ownershipDescriptionLang')->getDescriptionsByAccommodation($ownership, $currentLanguage->getLangCode());
 
+                if($odl == null)
+                    $odl = new ownershipDescriptionLang();
+
                 if($currentLanguage->getLangId() == $targetLanguage->getLangId()) {
                     $storedSourceDescription = $em->getRepository('mycpBundle:ownershipDescriptionLang')->getDescriptionsByAccommodation($ownership, "EN");
+
+                    if($storedSourceDescription == null)
+                        $storedSourceDescription = new ownershipDescriptionLang();
+
+
 
                     $translatedArray = $this->doTranslationsInEditMode("en", "de", $translator, array("briefDescription" => $briefDescription, "description" => $description),
                         array("briefDescription" => $data["description_brief_desc_".$sourceLanguage->getLangId()],
@@ -1909,7 +1917,7 @@ class ownershipRepository extends EntityRepository {
                         (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = '$locale') as brief_description,
                         (SELECT min(dd.odl_description) FROM mycpBundle:ownershipDescriptionLang dd JOIN dd.odl_id_lang dl WHERE dd.odl_ownership = o.own_id AND dl.lang_code = '$locale') as description,
                         (SELECT min(auto.odl_automatic_translation) FROM mycpBundle:ownershipDescriptionLang auto JOIN auto.odl_id_lang lauto WHERE auto.odl_ownership = o.own_id AND lauto.lang_code = '$locale') as autotomaticTranslation,
-                        (SELECT kl.okl_keywords FROM mycpBundle:ownershipKeywordLang kl JOIN kl.okl_id_lang lang WHERE kl.okl_ownership = o.own_id AND lang.lang_code = '$locale') as keywords,
+                        (SELECT min(kl.okl_keywords) FROM mycpBundle:ownershipKeywordLang kl JOIN kl.okl_id_lang lang WHERE kl.okl_ownership = o.own_id AND lang.lang_code = '$locale') as keywords,
                         (SELECT count(o1.own_id) from mycpBundle:ownership o1 where o1.own_id = o.own_id AND o1.own_langs LIKE '1___') as english,
                         (SELECT count(o2.own_id) from mycpBundle:ownership o2 where o2.own_id = o.own_id AND o2.own_langs LIKE '_1__') as french,
                         (SELECT count(o3.own_id) from mycpBundle:ownership o3 where o3.own_id = o.own_id AND o3.own_langs LIKE '__1_') as german,
