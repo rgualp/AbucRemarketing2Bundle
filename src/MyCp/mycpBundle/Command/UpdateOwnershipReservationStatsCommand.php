@@ -17,6 +17,7 @@ class UpdateOwnershipReservationStatsCommand extends ContainerAwareCommand {
                 ->setDefinition(array())
                 ->setDescription('Update ownership-reservation stats table')
                 ->addArgument("date", InputArgument::OPTIONAL,"Starting date for get reservations", (new \DateTime())->format("Y-m-d"))
+                ->addOption("all", null,InputOption::VALUE_NONE, "If set, analyse all reservations in database no matter if a date is pass as argument")
                 ->setHelp(<<<EOT
                 Command <info>mycp_task:stats:update-ownership-reservation</info> Update ownership-reservation stats table.
 EOT
@@ -27,12 +28,27 @@ EOT
         $container = $this->getContainer();
         $em = $container->get('doctrine')->getManager();
         $timer = $container->get('Time');
-        $argDate = $input->getArgument("date");
-        $date = $timer->add("-4 day", $argDate, "Y-m-d");
-
         $repository = $em->getRepository("mycpBundle:ownershipReservationStat");
+
+        if ($input->getOption('all')) {
+            $date = null;
+        }
+        else{
+            $argDate = $input->getArgument("date");
+            if ($argDate != null || $argDate != "")
+                $date = $timer->add("-4 day", $argDate, "Y-m-d");
+            else
+                $date = $timer->add("-4 day", new \DateTime(), "Y-m-d");
+
+
+        }
+
         $ownerships=$em->getRepository("mycpBundle:ownership")->getWithReservations($date);
-        $output->writeln("Updating received reservations stats...");
+
+        if($date == null)
+            $output->writeln("Updating all reservations statistics");
+        else
+            $output->writeln("Updating received reservations stats from ". $date);
 
         foreach($ownerships as $ownership) {
             $stats = $repository->calculateStats($ownership, $date, $timer);

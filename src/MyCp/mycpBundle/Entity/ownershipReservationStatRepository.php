@@ -110,6 +110,7 @@ class ownershipReservationStatRepository extends EntityRepository
             $stat->setStatDateTo($date_to);
         }
 
+        $value = (float)$stat->getStatValue() + $value;
         $stat->setStatValue($value);
 
         $em->persist($stat);
@@ -158,6 +159,10 @@ class ownershipReservationStatRepository extends EntityRepository
         $nomGuests=$nomenclatorRepository->findOneBy(array('nom_name'=>'Huéspedes recibidos', "nom_parent" => $nomRent));
         $nomNights=$nomenclatorRepository->findOneBy(array('nom_name'=>'Noches reservadas', "nom_parent" => $nomRent));
         $nomRooms=$nomenclatorRepository->findOneBy(array('nom_name'=>'Habitaciones reservadas', "nom_parent" => $nomRent));
+
+        $nomComment=$nomenclatorRepository->findOneBy(array('nom_name'=>'$nomRoot'));
+        $nomCommentsTotal=$nomenclatorRepository->findOneBy(array('nom_name'=>'Total', "nom_parent" => $nomComment));
+
         $result = array();
         $reservations=  $resRepository->getAllReservations($ownership, $date);
 
@@ -200,7 +205,7 @@ class ownershipReservationStatRepository extends EntityRepository
                         ->setStatDateTo($reservation->getOwnResReservationToDate());
                     $result[] = $stat;
 
-                    //Total e habitaciones reservadas
+                    //Total de habitaciones reservadas
                     $countRooms = count($em->getRepository("mycpBundle:ownershipReservation")->findBy(array("own_res_gen_res_id" => $reservation->getOwnResGenResId()->getGenResId())));
                     $stat = new ownershipReservationStat();
                     $stat->setStatAccommodation($ownership)
@@ -235,7 +240,8 @@ class ownershipReservationStatRepository extends EntityRepository
                     }
                     $result[] = $stat;
 
-                    $result = $this->calculateIncomes($ownership,$reservation, $result);
+                    //Ingresos
+                    $result = $this->calculateIncomes($ownership,$reservation,$result);
 
                     break;
                 }
@@ -270,8 +276,29 @@ class ownershipReservationStatRepository extends EntityRepository
                 }
             }
         }
+
+        $result = $this->calculateCommentsStats($ownership,$nomCommentsTotal, $result, $date);
         return $result;
 
+    }
+
+    function calculateCommentsStats($ownership, $nomenclator, $result, $date = null)
+    {
+        $em = $this->getEntityManager();
+        $comments = $em->getRepository("mycpBundle:comment")->getCommentsByAccommodation($ownership, $date);
+
+        foreach($comments as $comment) {
+            //Total de comentarios recibidos por fecha
+            $stat = new ownershipReservationStat();
+            $stat->setStatAccommodation($ownership)
+                ->setStatNomenclator($nomenclator)
+                ->setStatValue(1)
+                ->setStatDateFrom($comment->getComDate())
+                ->setStatDateTo($comment->getComDate());
+            $result[] = $stat;
+        }
+
+        return $result;
     }
 
     /**
@@ -281,7 +308,7 @@ class ownershipReservationStatRepository extends EntityRepository
      * @param $result
      * @return mixed
      */
-    function calculateIncomes($ownership,$reservation, $nomenclator, $result){
+    function calculateIncomes($ownership,$reservation, $result, $nomenclator= null){
 
         
         return $result;
