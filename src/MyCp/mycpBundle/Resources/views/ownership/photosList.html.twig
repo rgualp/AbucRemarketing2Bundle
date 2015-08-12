@@ -157,12 +157,12 @@
             stop: function(event, ui) {
                 $(".load-div").removeClass("hidden");
                 var result = $('#sortable').sortable('toArray');
-                url = "{{ path('mycp_set_img_order_utils', { 'ids': '-1' }) }}";
+                url = "{{ path('mycp_set_img_order_utils', {'ids': '-1' }) }}";
                 url=url.replace('/-1','');
 
                 $.ajax({
                     type:"POST",
-                    url:url + '/' + idOwnership + '/' + result,
+                    url:url + '/' + result,
                     success:function (msg) {
                         $(".load-div").addClass("hidden");
                     }
