@@ -51,6 +51,12 @@ class NightsCounterCommand extends ContainerAwareCommand {
                     $output->writeln('Updating ownershipReservation: ' . $reservation->getOwnResId());
                     $nights = $timer->nights($reservation->getOwnResReservationFromDate()->getTimestamp(), $reservation->getOwnResReservationToDate()->getTimestamp());
                     $reservation->setOwnResNights($nights);
+
+                    if($reservation->getOwnResNightPrice() != null && $reservation->getOwnResNightPrice() > 0)
+                    {
+                        $reservation->setOwnResTotalInSite($nights * $reservation->getOwnResNightPrice());
+                    }
+
                     $em->persist($reservation);
                 }
             }
