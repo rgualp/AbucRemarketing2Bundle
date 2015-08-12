@@ -160,8 +160,13 @@ class ownershipReservationStatRepository extends EntityRepository
         $nomNights=$nomenclatorRepository->findOneBy(array('nom_name'=>'Noches reservadas', "nom_parent" => $nomRent));
         $nomRooms=$nomenclatorRepository->findOneBy(array('nom_name'=>'Habitaciones reservadas', "nom_parent" => $nomRent));
 
-        $nomComment=$nomenclatorRepository->findOneBy(array('nom_name'=>'$nomRoot'));
+        $nomComment=$nomenclatorRepository->findOneBy(array('nom_name'=>'Comentarios'));
         $nomCommentsTotal=$nomenclatorRepository->findOneBy(array('nom_name'=>'Total', "nom_parent" => $nomComment));
+
+        $nomIncomes=$nomenclatorRepository->findOneBy(array('nom_name'=>'Ingresos'));
+        $nomPossibleIncomesTotal=$nomenclatorRepository->findOneBy(array('nom_name'=>'Posibles inglesos totales', "nom_parent" => $nomIncomes));
+        $nomAccommodationRealIncomes=$nomenclatorRepository->findOneBy(array('nom_name'=>'Ingresos reales (Casa)', "nom_parent" => $nomIncomes));
+        $nomMyCPRealIncomes=$nomenclatorRepository->findOneBy(array('nom_name'=>'Ingresos reales (MyCP)', "nom_parent" => $nomIncomes));
 
         $result = array();
         $reservations=  $resRepository->getAllReservations($ownership, $date);
@@ -172,6 +177,15 @@ class ownershipReservationStatRepository extends EntityRepository
             $stat->setStatAccommodation($ownership)
                 ->setStatNomenclator($nomReceived)
                 ->setStatValue(1)
+                ->setStatDateFrom($reservation->getOwnResReservationFromDate())
+                ->setStatDateTo($reservation->getOwnResReservationToDate());
+            $result[] = $stat;
+
+            //Ingresos posibles: Ingresos totales (Casa + MyCP) si se hubieran confirmado todas las Solicitudes recibidas para esta casa.
+            $stat = new ownershipReservationStat();
+            $stat->setStatAccommodation($ownership)
+                ->setStatNomenclator($nomPossibleIncomesTotal)
+                ->setStatValue($reservation->getOwnResTotalInSite())
                 ->setStatDateFrom($reservation->getOwnResReservationFromDate())
                 ->setStatDateTo($reservation->getOwnResReservationToDate());
             $result[] = $stat;
@@ -240,8 +254,24 @@ class ownershipReservationStatRepository extends EntityRepository
                     }
                     $result[] = $stat;
 
-                    //Ingresos
-                    $result = $this->calculateIncomes($ownership,$reservation,$result);
+                    //Ingresos Reales Casa
+                    $mycpCommission = $ownership->getOwnCommissionPercent() * $reservation->getOwnResTotalInSite() / 100;
+                    $stat = new ownershipReservationStat();
+                    $stat->setStatAccommodation($ownership)
+                        ->setStatNomenclator($nomAccommodationRealIncomes)
+                        ->setStatValue($reservation->getOwnResTotalInSite() - $mycpCommission)
+                        ->setStatDateFrom($reservation->getOwnResReservationFromDate())
+                        ->setStatDateTo($reservation->getOwnResReservationToDate());
+                    $result[] = $stat;
+
+                    //Ingresos Reales MyCP
+                    $stat = new ownershipReservationStat();
+                    $stat->setStatAccommodation($ownership)
+                        ->setStatNomenclator($nomMyCPRealIncomes)
+                        ->setStatValue( $mycpCommission)
+                        ->setStatDateFrom($reservation->getOwnResReservationFromDate())
+                        ->setStatDateTo($reservation->getOwnResReservationToDate());
+                    $result[] = $stat;
 
                     break;
                 }

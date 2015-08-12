@@ -52,9 +52,10 @@ EOT
 
         foreach($ownerships as $ownership) {
             $stats = $repository->calculateStats($ownership, $date, $timer);
-            $output->writeln($ownership->getOwnMcpCode()." inserting ".count($stats). " reservation statistics.");
+            $output->writeln($ownership->getOwnMcpCode()." inserting about ".count($stats). " reservation statistics.");
 
             foreach ($stats as $stat) {
+                $output->writeln($stat->getStatNomenclator()->getNomName());
                 $repository->insertOrUpdateObj($stat);
             }
 
