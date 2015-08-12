@@ -2,6 +2,7 @@
 
 namespace MyCp\mycpBundle\Command;
 
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -42,13 +43,19 @@ class NightsCounterCommand extends ContainerAwareCommand {
         $pageSize = 10;
         $totalReservations = $em->getRepository("mycpBundle:ownershipReservation")->getOwnReservationsForNightsCounterTotal();
 
+        ProgressBar::setFormatDefinition('minimal', 'Progress: %percent%%');
+        ProgressBar::setFormatDefinition('minimal_nomax', '%percent%%');
+
+        $progressBar = new ProgressBar($output, $totalReservations);
+        $progressBar->setFormat('minimal');
+
         $output->writeln('Reservations total: '.$totalReservations);
+        $i = 0;
         while($startIndex < $totalReservations) {
             $output->writeln('Index: '.$startIndex);
             $reservations = $em->getRepository("mycpBundle:ownershipReservation")->getOwnReservationsByPagesForNightsCounter($startIndex, $pageSize);
             foreach ($reservations as $reservation) {
-                if($reservation->getOwnResNights() == 0 || $reservation->setOwnResNights() == null) {
-                    $output->writeln('Updating ownershipReservation: ' . $reservation->getOwnResId());
+                //if($reservation->getOwnResNights() == 0 || $reservation->setOwnResNights() == null) {
                     $nights = $timer->nights($reservation->getOwnResReservationFromDate()->getTimestamp(), $reservation->getOwnResReservationToDate()->getTimestamp());
                     $reservation->setOwnResNights($nights);
 
@@ -58,11 +65,16 @@ class NightsCounterCommand extends ContainerAwareCommand {
                     }
 
                     $em->persist($reservation);
-                }
+                //}
+
+                if($i++ < $totalReservations)
+                    $progressBar->advance();
             }
             $em->flush();
             $startIndex += $pageSize;
         }
+
+        $progressBar->finish();
     }
 
     private function updateGeneralReservation(OutputInterface $output)

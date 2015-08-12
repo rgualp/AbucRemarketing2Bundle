@@ -2,6 +2,7 @@
 
 namespace MyCp\mycpBundle\Command;
 
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -52,14 +53,23 @@ EOT
 
         foreach($ownerships as $ownership) {
             $stats = $repository->calculateStats($ownership, $date, $timer);
+            ProgressBar::setFormatDefinition('minimal', 'Progress: %percent%%');
+            ProgressBar::setFormatDefinition('minimal_nomax', '%percent%%');
+
+            $progress = new ProgressBar($output, count($stats));
+            $progress->setFormat('minimal');
+
             $output->writeln($ownership->getOwnMcpCode()." inserting about ".count($stats). " reservation statistics.");
 
+            $i = 0;
             foreach ($stats as $stat) {
-                $output->writeln($stat->getStatNomenclator()->getNomName());
                 $repository->insertOrUpdateObj($stat);
+                if($i++ < count($stats))
+                    $progress->advance();
             }
 
             $em->flush();
+            $progress->finish();
         }
         $output->writeln("End of process");
     }
