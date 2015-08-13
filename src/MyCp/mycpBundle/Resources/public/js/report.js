@@ -54,14 +54,15 @@ function viewReport()
     var exportUrl = $('#hdReportExportUrl').val();
     var parameters = $('#hdParamText').val();
 
-    var dateParam = ($('#dateParam').val() !== undefined) ? dateToYMD($('#dateParam').val()) : "";
-    parameters = parameters.replace('_date', dateParam);
-
     var dateRangeFrom = ($('#dateRangeFrom').val() !== undefined) ?  dateToYMD($('#dateRangeFrom').val()) : "";
-    parameters = parameters.replace('_dateFrom', dateParam);
+    console.log($('#dateRangeFrom').val());
+    parameters = parameters.replace('_dateFrom', dateRangeFrom);
 
     var dateRangeTo = ($('#dateRangeTo').val() !== undefined) ?   dateToYMD($('#dateRangeTo').val()) : "";
-    parameters = parameters.replace('_dateTo', dateParam);
+    parameters = parameters.replace('_dateTo', dateRangeTo);
+
+    var dateParam = ($('#dateParam').val() !== undefined) ? dateToYMD($('#dateParam').val()) : "";
+    parameters = parameters.replace('_date', dateParam);
 
     var location = "";
     var filter_province = ($('#filter_province').val() !== undefined) ?   $('#filter_province').val() : "";

@@ -4,3 +4,6 @@
 #reportContent .statValue a:hover{color:#20679B;}
 #reportContent .nomValue{padding-left: 8px;color: #666;}
 #reportContent .rowValue {border-bottom: 1px solid #68A432; padding-top: 8px;}
+
+#reportContent .reportReservation h4.title {color: #174b70; font-weight: bold; font-size: 14px; background-color: #F5F5F5;border:none; padding: 0; margin:0;}
+#reportContent .reportReservation .title {color: #174b70; font-weight: bold; font-size: 14px; background-color: #F5F5F5;}

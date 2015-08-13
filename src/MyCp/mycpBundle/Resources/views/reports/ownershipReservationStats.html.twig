@@ -1,0 +1,38 @@
+<h3>Reservaciones en {{ location }}</h3>
+<div class="reportReservation">
+    <div class="accordion" id="accordion_report">
+        <div class="accordion-group">
+            <div class="accordion-heading title">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_report" href="#contact_total">
+                    <h4 class="title">Generales</h4>
+                </a>
+            </div>
+            <div id="contact_total" class="accordion-body in">
+                <div class="accordion-inner">
+                    <div>
+                        {% render(controller("mycpBundle:BackendReport:ownershipVsReservationsStatsTotal", {"filter_province": (province != null) ? province.provId : null,
+                        "filter_municipality": (municipality != null) ? municipality.munId: null,
+                        "filter_destination": (destination != null) ? destination.desId: null, "dateFrom": dateFrom, "dateTo": dateTo})) %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% for accommodation in content %}
+        <div class="accordion-group">
+            <div class="accordion-heading title">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_report" href="#contact_accommodation_{{ content[loop.index0].statAccommodation.ownId }}">
+                    <h4 class="title">{{ content[loop.index0].statAccommodation.ownMcpCode }} - {{ content[loop.index0].statAccommodation.ownName }}</h4>
+                </a>
+            </div>
+            <div id="contact_accommodation_{{ content[loop.index0].statAccommodation.ownId }}" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+
+    </div>
+</div>

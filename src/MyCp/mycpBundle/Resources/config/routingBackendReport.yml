@@ -23,12 +23,12 @@ mycp_reports_ownership_general_stats_links:
     defaults: { _controller: mycpBundle:BackendReport:ownershipGeneralStatsLink, province:'',municipality:''}
 
 mycp_reports_ownership_vsReservations_stats:
-    pattern:  /ownership/vsReservation/{location_full}
-    defaults: { _controller: mycpBundle:BackendReport:ownershipVsReservationsStats,location_full:''}
+    pattern:  /ownership/vsReservation/{location_full}/{from_date}/{to_date}
+    defaults: { _controller: mycpBundle:BackendReport:ownershipVsReservationsStats,location_full:'',from_date:'',to_date:''}
 
 mycp_reports_ownership_vsReservations_stats_excel:
-    pattern:  ownership/vsReservation/{location_full}/{report}
-    defaults: { _controller: mycpBundle:BackendReport:ownershipVsReservationsStatsExcel,location_full:'', report:''}
+    pattern:  ownership/vsReservation/{location_full}/{from_date}/{to_date}/{report}
+    defaults: { _controller: mycpBundle:BackendReport:ownershipVsReservationsStatsExcel,location_full:'',from_date:'',to_date:'', report:''}
 
 mycp_get_report_by_category:
     pattern:  /get-by-category
@@ -41,4 +41,8 @@ mycp_get_report_parameters:
 mycp_reports_ownership_general_list_excel:
     pattern:  /ownership/general-list-excel/{nomenclator}/{province}/{municipality}
     defaults: { _controller: mycpBundle:BackendReport:ownershipGeneralListExcel, nomenclator:'',province:'',municipality:''}
+
+mycp_reports_ownership_vsReservations_stats_total:
+    pattern:  /ownership/vsReservation-total/{filter_province}/{filter_municipality}/{filter_destination}/{from_date}/{to_date}
+    defaults: { _controller: mycpBundle:BackendReport:ownershipVsReservationsStatsTotal,filter_province:'',filter_municipality:'',filter_destination:'',from_date:'',to_date:''}
 

@@ -122,10 +122,94 @@ class BackendReportController extends Controller
 
     public function ownershipVsReservationsStatsAction(Request $request)
     {
-      //to do
+        $em = $this->getDoctrine()->getManager();
+        $provinceId = $request->get("filter_province");
+        $munId = $request->get("filter_municipality");
+        $desId = $request->get("filter_destination");
+        $dateFrom = $request->get("dateRangeFrom");
+        $dateTo = $request->get("dateRangeTo");
+        $province = null;
+        $municipality = null;
+        $destination = null;
+        $errorText = "";
+
+        $location='el país';
+        if(($provinceId == null || $provinceId == "null")&&($munId == null || $munId == "null")){
+            $resp=$em->getRepository('mycpBundle:ownershipReservationStat')->getAccommodations(null, null,null, null, $dateFrom, $dateTo);
+        }
+        else if($desId != null && $desId != "null"){
+            $destination = $em->getRepository('mycpBundle:destination')->find($desId);
+            $resp=$em->getRepository('mycpBundle:ownershipReservationStat')->getAccommodations(null, null,null, $destination, $dateFrom, $dateTo);
+            $location=$destination->getDesName();
+        }
+        else if($munId == null || $munId == "null"){
+            $province = $em->getRepository('mycpBundle:province')->find($provinceId);
+            $resp=$em->getRepository('mycpBundle:ownershipReservationStat')->getAccommodations(null, $province,null, null, $dateFrom, $dateTo);
+            $location=$province->getProvName();
+        }
+        else{
+            $municipality = $em->getRepository('mycpBundle:municipality')->find($munId);
+            $province = $municipality->getMunProvId();
+            $resp=$em->getRepository('mycpBundle:ownershipReservationStat')->getAccommodations(null, null, $municipality, null, $dateFrom, $dateTo);
+            $location=$municipality->getMunName();
+
+        }
+
+        return $this->render('mycpBundle:reports:ownershipReservationStats.html.twig', array(
+            'content' => $resp,
+            'location' => $location,
+            'errorText' => $errorText,
+            'province' => $province,
+            'municipality' => $municipality,
+            'destination' => $destination,
+            'dateFrom' => $dateFrom,
+            'dateTo' => $dateTo
+        ));
     }
 
-    public function ownershipVsReservationsStatsExcelAction($location_full, $report)
+    public function ownershipVsReservationsStatsTotalAction($filter_province, $filter_municipality, $filter_destination, $dateFrom, $dateTo, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $province = null;
+        $municipality = null;
+        $destination = null;
+        $errorText = "";
+
+        $location='el país';
+        if(($filter_province == null || $filter_province == "null")&&($filter_municipality == null || $filter_municipality == "null")){
+            $resp=$em->getRepository('mycpBundle:ownershipReservationStat')->getBulb(null, null,null, null, $dateFrom, $dateTo);
+        }
+        else if($filter_destination != null && $filter_destination != "null"){
+            $destination = $em->getRepository('mycpBundle:destination')->find($filter_destination);
+            $resp=$em->getRepository('mycpBundle:ownershipReservationStat')->getBulb(null, null,null, $destination, $dateFrom, $dateTo);
+            $location=$destination->getDesName();
+        }
+        else if($filter_municipality == null || $filter_municipality == "null"){
+            $province = $em->getRepository('mycpBundle:province')->find($filter_province);
+            $resp=$em->getRepository('mycpBundle:ownershipReservationStat')->getBulb(null, $province,null, null, $dateFrom, $dateTo);
+            $location=$province->getProvName();
+        }
+        else{
+            $municipality = $em->getRepository('mycpBundle:municipality')->find($filter_municipality);
+            $province = $municipality->getMunProvId();
+            $resp=$em->getRepository('mycpBundle:ownershipReservationStat')->getBulb(null, null, $municipality, null, $dateFrom, $dateTo);
+            $location=$municipality->getMunName();
+
+        }
+
+        $content = $this->renderView('mycpBundle:reports:ownershipReservationStatsTotal.html.twig', array(
+            'content' => $resp,
+            'location' => $location,
+            'errorText' => $errorText,
+            'province' => $province,
+            'municipality' => $municipality,
+            'destination' => $destination,
+        ));
+
+        return new Response($content, 200);
+    }
+
+    public function ownershipVsReservationsStatsExcelAction($location_full, $from_date, $to_date, $report)
     {
        //to do
     }

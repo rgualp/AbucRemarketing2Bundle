@@ -10,9 +10,62 @@ use Doctrine\ORM\EntityRepository;
  */
 class ownershipReservationStatRepository extends EntityRepository
 {
+    public function getAccommodations($nomenclatorStatParent=null,$province=null,$municipality=null, $destination = null, $dateFrom = null, $dateTo = null ){
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $hasLocation = false;
+
+        if($destination == null) {
+            if ($municipality == null) {
+                $qb->select('os', 'o')->groupBy('os.stat_accommodation');
+                if ($province != null) {
+                    $municipalities = $em->getRepository('mycpBundle:municipality')->findBy(array('mun_prov_id' => $province));
+                    $qb->where('o.own_address_municipality in (:mun)')->setParameter('mun', (array)$municipalities);
+                    $hasLocation = true;
+                }
+            } else {
+                $qb->select('os', 'o');
+                $qb->where("o.own_address_municipality = :municipalityId")
+                    ->setParameter("municipalityId", $municipality->getMunId());
+                $hasLocation = true;
+            }
+        }
+        else
+        {
+            $qb->select('os', 'o');
+            $qb->where("o.own_destination = :destination")
+                ->setParameter("destination", $destination->getDesId());
+            $hasLocation = true;
+        }
+
+        if($dateFrom != null)
+        {
+            if(!$hasLocation)
+                $qb->where("os.stat_date_from >= :dateFrom")
+                    ->setParameter("dateFrom", $dateFrom);
+            else
+                $qb->andWhere("os.stat_date_from >= :dateFrom")
+                    ->setParameter("dateFrom", $dateFrom);
+        }
+
+        if($dateTo != null)
+        {
+            $qb->andWhere("os.stat_date_to <= :dateTo")
+                ->setParameter("dateTo", $dateTo);
+        }
+
+            $qb->from("mycpBundle:ownershipReservationStat", "os")
+            ->join("os.stat_accommodation", "o")
+            ->orderBy("o.own_address_province", "ASC")
+            ->addOrderBy("o.own_automatic_mcp_code");
+
+        return $qb->getQuery()->getResult();
+    }
+
     public function getBulb($nomenclatorStatParent=null,$province=null,$municipality=null, $destination = null, $dateFrom = null, $dateTo = null ){
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
+        $hasLocation = false;
         if($destination == null) {
             if ($municipality == null) {
                 $qb->select('os', 'sn', 'np', 'SUM(os.stat_value) AS stat_value', 'o');
@@ -20,42 +73,50 @@ class ownershipReservationStatRepository extends EntityRepository
                 if ($province != null) {
                     $municipalities = $em->getRepository('mycpBundle:municipality')->findBy(array('mun_prov_id' => $province));
                     $qb->where('o.own_address_municipality in (:mun)')->setParameter('mun', (array)$municipalities);
+                    $hasLocation = true;
                 }
             } else {
-                $qb->select('os', 'sn', 'np', 'os.stat_value AS stat_value', 'o');
+                $qb->select('os', 'sn', 'np', 'SUM(os.stat_value) AS stat_value', 'o');
                 $qb->where("o.own_address_municipality = :municipalityId")
                     ->setParameter("municipalityId", $municipality->getMunId());
-
+                $hasLocation = true;
             }
         }
         else
         {
-            $qb->select('os','sn', 'np','os.stat_value AS stat_value', 'o');
+            $qb->select('os','sn', 'np','SUM(os.stat_value) AS stat_value', 'o');
             $qb->where("o.own_destination = :destination")
                 ->setParameter("destination", $destination->getDesId());
+            $hasLocation = true;
         }
 
         if($dateFrom != null)
         {
-            $qb->where("os.stat_date >= :dateFrom")
-                ->setParameter("dateFrom", \date('Y-m-d', $dateFrom));
+            if(!$hasLocation)
+                $qb->where("os.stat_date_from >= :dateFrom")
+                    ->setParameter("dateFrom", $dateFrom);
+            else
+                $qb->andWhere("os.stat_date_from >= :dateFrom")
+                    ->setParameter("dateFrom", $dateFrom);
         }
 
         if($dateTo != null)
         {
-            $qb->where("os.stat_date <= :dateTo")
-                ->setParameter("dateTo", \date('Y-m-d', $dateTo));
+            $qb->andWhere("os.stat_date_to <= :dateTo")
+                ->setParameter("dateTo", $dateTo);
         }
 
-            $qb->from("mycpBundle:ownershipReservationStat", "os")
+        $qb->from("mycpBundle:ownershipReservationStat", "os")
             ->join("os.stat_nomenclator", "sn")
             ->join("sn.nom_parent", "np")
             ->join("os.stat_accommodation", "o");
-           $qb->orderBy('np.nom_id', 'ASC');
-           $qb->addOrderBy('sn.nom_id', 'ASC');
-            if($nomenclatorStatParent!=null){
-                $qb->where('sn.nom_parent = :nomStat')
-            ->setParameter('nomStat',$nomenclatorStatParent);}
+        $qb->orderBy('np.nom_id', 'ASC');
+        $qb->addOrderBy('sn.nom_id', 'ASC');
+
+        if($nomenclatorStatParent!=null){
+            $qb->where('sn.nom_parent = :nomStat')
+                ->setParameter('nomStat',$nomenclatorStatParent);}
+
         return $qb->getQuery()->getResult();
     }
 
