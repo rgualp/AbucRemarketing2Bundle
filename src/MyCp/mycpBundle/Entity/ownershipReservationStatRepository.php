@@ -62,7 +62,7 @@ class ownershipReservationStatRepository extends EntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function getBulb($nomenclatorStatParent=null,$province=null,$municipality=null, $destination = null, $dateFrom = null, $dateTo = null ){
+    public function getBulb($nomenclatorStatParent=null,$province=null,$municipality=null, $destination = null, $dateFrom = null, $dateTo = null, $ownership = null ){
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
         $hasLocation = false;
@@ -104,6 +104,12 @@ class ownershipReservationStatRepository extends EntityRepository
         {
             $qb->andWhere("os.stat_date_to <= :dateTo")
                 ->setParameter("dateTo", $dateTo);
+        }
+
+        if($ownership != null)
+        {
+            $qb->andWhere("os.stat_accommodation = :ownership")
+                ->setParameter("ownership", $ownership);
         }
 
         $qb->from("mycpBundle:ownershipReservationStat", "os")

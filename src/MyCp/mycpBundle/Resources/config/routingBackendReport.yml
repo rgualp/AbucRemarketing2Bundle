@@ -46,3 +46,7 @@ mycp_reports_ownership_vsReservations_stats_total:
     pattern:  /ownership/vsReservation-total/{filter_province}/{filter_municipality}/{filter_destination}/{from_date}/{to_date}
     defaults: { _controller: mycpBundle:BackendReport:ownershipVsReservationsStatsTotal,filter_province:'',filter_municipality:'',filter_destination:'',from_date:'',to_date:''}
 
+mycp_reports_ownership_vsReservations_stats_accommodation:
+    pattern:  /ownership/vsReservation-accommodation
+    defaults: { _controller: mycpBundle:BackendReport:ownershipVsReservationsStatsAccommodation}
+

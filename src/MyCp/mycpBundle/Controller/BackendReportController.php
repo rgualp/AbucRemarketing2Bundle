@@ -168,8 +168,56 @@ class BackendReportController extends Controller
     }
 
     public function ownershipVsReservationsStatsTotalAction($filter_province, $filter_municipality, $filter_destination, $dateFrom, $dateTo, Request $request)
+{
+    $em = $this->getDoctrine()->getManager();
+    $province = null;
+    $municipality = null;
+    $destination = null;
+    $errorText = "";
+
+    $location='el país';
+    if(($filter_province == null || $filter_province == "null")&&($filter_municipality == null || $filter_municipality == "null")){
+        $resp=$em->getRepository('mycpBundle:ownershipReservationStat')->getBulb(null, null,null, null, $dateFrom, $dateTo);
+    }
+    else if($filter_destination != null && $filter_destination != "null"){
+        $destination = $em->getRepository('mycpBundle:destination')->find($filter_destination);
+        $resp=$em->getRepository('mycpBundle:ownershipReservationStat')->getBulb(null, null,null, $destination, $dateFrom, $dateTo);
+        $location=$destination->getDesName();
+    }
+    else if($filter_municipality == null || $filter_municipality == "null"){
+        $province = $em->getRepository('mycpBundle:province')->find($filter_province);
+        $resp=$em->getRepository('mycpBundle:ownershipReservationStat')->getBulb(null, $province,null, null, $dateFrom, $dateTo);
+        $location=$province->getProvName();
+    }
+    else{
+        $municipality = $em->getRepository('mycpBundle:municipality')->find($filter_municipality);
+        $province = $municipality->getMunProvId();
+        $resp=$em->getRepository('mycpBundle:ownershipReservationStat')->getBulb(null, null, $municipality, null, $dateFrom, $dateTo);
+        $location=$municipality->getMunName();
+
+    }
+
+    $content = $this->renderView('mycpBundle:reports:ownershipReservationStatsTotal.html.twig', array(
+        'content' => $resp,
+        'location' => $location,
+        'errorText' => $errorText,
+        'province' => $province,
+        'municipality' => $municipality,
+        'destination' => $destination,
+    ));
+
+    return new Response($content, 200);
+}
+
+    public function ownershipVsReservationsStatsAccommodationAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+        $filter_province = $request->get("filter_province");
+        $filter_municipality = $request->get("filter_municipality");
+        $filter_destination = $request->get("filter_destination");
+        $dateFrom = $request->get("dateFrom");
+        $dateTo = $request->get("dateTo");
+        $ownership = $request->get("ownership");
         $province = null;
         $municipality = null;
         $destination = null;
@@ -177,22 +225,22 @@ class BackendReportController extends Controller
 
         $location='el país';
         if(($filter_province == null || $filter_province == "null")&&($filter_municipality == null || $filter_municipality == "null")){
-            $resp=$em->getRepository('mycpBundle:ownershipReservationStat')->getBulb(null, null,null, null, $dateFrom, $dateTo);
+            $resp=$em->getRepository('mycpBundle:ownershipReservationStat')->getBulb(null, null,null, null, $dateFrom, $dateTo, $ownership);
         }
         else if($filter_destination != null && $filter_destination != "null"){
             $destination = $em->getRepository('mycpBundle:destination')->find($filter_destination);
-            $resp=$em->getRepository('mycpBundle:ownershipReservationStat')->getBulb(null, null,null, $destination, $dateFrom, $dateTo);
+            $resp=$em->getRepository('mycpBundle:ownershipReservationStat')->getBulb(null, null,null, $destination, $dateFrom, $dateTo, $ownership);
             $location=$destination->getDesName();
         }
         else if($filter_municipality == null || $filter_municipality == "null"){
             $province = $em->getRepository('mycpBundle:province')->find($filter_province);
-            $resp=$em->getRepository('mycpBundle:ownershipReservationStat')->getBulb(null, $province,null, null, $dateFrom, $dateTo);
+            $resp=$em->getRepository('mycpBundle:ownershipReservationStat')->getBulb(null, $province,null, null, $dateFrom, $dateTo, $ownership);
             $location=$province->getProvName();
         }
         else{
             $municipality = $em->getRepository('mycpBundle:municipality')->find($filter_municipality);
             $province = $municipality->getMunProvId();
-            $resp=$em->getRepository('mycpBundle:ownershipReservationStat')->getBulb(null, null, $municipality, null, $dateFrom, $dateTo);
+            $resp=$em->getRepository('mycpBundle:ownershipReservationStat')->getBulb(null, null, $municipality, null, $dateFrom, $dateTo, $ownership);
             $location=$municipality->getMunName();
 
         }
@@ -204,6 +252,8 @@ class BackendReportController extends Controller
             'province' => $province,
             'municipality' => $municipality,
             'destination' => $destination,
+            'dateFrom' => $dateFrom,
+            'dateTo' => $dateTo
         ));
 
         return new Response($content, 200);

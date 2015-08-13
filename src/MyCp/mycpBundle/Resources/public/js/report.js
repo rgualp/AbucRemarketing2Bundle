@@ -55,7 +55,6 @@ function viewReport()
     var parameters = $('#hdParamText').val();
 
     var dateRangeFrom = ($('#dateRangeFrom').val() !== undefined) ?  dateToYMD($('#dateRangeFrom').val()) : "";
-    console.log($('#dateRangeFrom').val());
     parameters = parameters.replace('_dateFrom', dateRangeFrom);
 
     var dateRangeTo = ($('#dateRangeTo').val() !== undefined) ?   dateToYMD($('#dateRangeTo').val()) : "";
@@ -85,15 +84,12 @@ function viewReport()
         location += "/" + filter_destination;
         parameters = parameters.replace('_location', filter_destination);
     }
-    console.log(parameters);
     reportUrl = reportUrl + parameters;
-    console.log(reportUrl);
 
     var pLocation = $('#hdParamText').val();
     pLocation = pLocation.replace('_location', location);
     var report = $('#ddlReport').val();
     exportUrl = exportUrl + '/' + report  + pLocation  ;
-    console.log(exportUrl);
 
 
     $("#bExcel").attr('href', exportUrl);
