@@ -1,4 +1,5 @@
 <h3>Reservaciones en {{ location }}</h3>
+{% if content | length %}
 <div class="reportReservation">
     <div class="accordion" id="accordion_report">
         <div class="accordion-group">
@@ -18,13 +19,13 @@
             </div>
         </div>
         {% for accommodation in content %}
-        <div class="accordion-group">
+        <div class="accordion-group accordion-tab">
             <div class="accordion-heading title">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_report" href="#contact_accommodation_{{ content[loop.index0].statAccommodation.ownId }}">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_report" href="#contact_accommodation_{{ content[loop.index0].statAccommodation.ownId }}" data-id="{{ content[loop.index0].statAccommodation.ownId }}">
                     <h4 class="title">{{ content[loop.index0].statAccommodation.ownMcpCode }} - {{ content[loop.index0].statAccommodation.ownName }}</h4>
                 </a>
             </div>
-            <div id="contact_accommodation_{{ content[loop.index0].statAccommodation.ownId }}" class="accordion-body collapse">
+            <div id="contact_accommodation_{{ content[loop.index0].statAccommodation.ownId }}" class="accordion-body collapse" data-has-content = false>
                 <div class="accordion-inner">
                     <div>
                     </div>
@@ -36,3 +37,18 @@
 
     </div>
 </div>
+{% else %}
+    <p> <div class="alert alert-block">No hay datos almacenados para este reporte.</div></p>
+{% endif %}
+
+<script>
+    $(".accordion-tab").on('show.bs.collapse', function(e){
+        var id = $(this).attr("data-id");
+        var hasContent = $("#contact_accommodation_" + id).attr("data-has-content");
+
+        //colocar la url para traer las estadisticas de cada casa
+        //Revisar cómo se están sumando las estadisticas
+        //Exportar a Excel
+
+    });
+</script>
