@@ -50,6 +50,41 @@ class userHistoryRepository extends EntityRepository
             $em->persist($element);
             $em->flush();
         }
+
+        //Delete old histories
+        $qb = $em->createQueryBuilder()
+            ->select("h")
+            ->from("mycpBundle:userHistory", "h")
+            ->orderBy("h.user_history_visit_date");
+        if ($user_ids["user_id"] != null) {
+            $qb->where("h.user_history_user = :user")
+                ->setParameter("user", $user_ids['user_id']);
+        }
+        else if ($user_ids["session_id"] != null) {
+            $qb->where("h.user_history_session_id = :session")
+                ->setParameter("session", $user_ids["session_id"]);
+        }
+
+        if($is_ownership){
+            $qb->andWhere("h.user_history_ownership is not null");
+        }
+        else
+        {
+            $qb->andWhere("h.user_history_destination is not null");
+        }
+
+        $histories = $qb->getQuery()->getResult();
+        if(count($histories) > 10)
+        {
+            $toDelete = count($histories) - 10;
+
+            for($i = 0; $i < $toDelete; $i++)
+            {
+                $em->remove($histories[$i]);
+            }
+            $em->flush();
+        }
+
     }
 
     public function getFromHistory($user_ids, $element_id, $is_ownership = true) {
