@@ -259,7 +259,7 @@ class BackendReportController extends Controller
         return new Response($content, 200);
     }
 
-    public function ownershipVsReservationsStatsExcelAction($location_full, $from_date, $to_date, $report)
+    public function ownershipVsReservationsStatsExcelAction($report, $from_date, $to_date, $location_full)
     {
        //to do
     }

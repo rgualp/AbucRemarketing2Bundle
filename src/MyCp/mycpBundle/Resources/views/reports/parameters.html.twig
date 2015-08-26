@@ -8,10 +8,8 @@
 
  {% set textParams = textParams ~ "/_date" %}
  {% elseif  parameter.parameterType.nomName == constant("\\MyCp\\mycpBundle\\Helpers\\ReportParameterHelper::DATE_RANGE_NOMENCLATOR_NAME")%}
-
-     <input type="text" name="dateRangeFrom" id="dateRangeFrom" class="datepicker input-block-level" value="{{ "today" | date("d/m/Y") }}" style="width: 45%" placeholder="{{ parameter.parameterName | capitalize }}"/> -
-     <input type="text" name="dateRangeTo" id="dateRangeTo" class="datepicker input-block-level" value="{{ "+1 day" | date("d/m/Y") }}" style="width: 45%" placeholder="{{ parameter.parameterName | capitalize }}"/>
-
+        <input type="text" name="dateRangeFrom" id="dateRangeFrom" class="datepicker input-block-level" value="{{ "today" | date("d/m/Y") }}" style="width: 45%" placeholder="{{ parameter.parameterName | capitalize }}"/> -
+        <input type="text" name="dateRangeTo" id="dateRangeTo" class="datepicker input-block-level" value="{{ "+1 day" | date("d/m/Y") }}" style="width: 45%" placeholder="{{ parameter.parameterName | capitalize }}"/>
      {% set textParams = textParams ~ "/_dateFrom/_dateTo" %}
  {% elseif  parameter.parameterType.nomName == constant("\\MyCp\\mycpBundle\\Helpers\\ReportParameterHelper::LOCATION_NOMENCLATOR_NAME")%}
      <div class="span6">
@@ -28,7 +26,7 @@
      </div>
      {% set textParams = textParams ~ "/_location" %}
  {% elseif  parameter.parameterType.nomName == constant("\\MyCp\\mycpBundle\\Helpers\\ReportParameterHelper::LOCATION_FULL_NOMENCLATOR_NAME")%}
-     <div class="row-fluid">
+
          <div class="span4">
              <select class="input-block-level" name="filter_province" id="filter_province">
                  <option value="" selected disabled>Provincia</option>
@@ -47,7 +45,6 @@
                  {{ render(controller('mycpBundle:Public:getDestinations', {'post': {'ownership_destination':''}})) }}
              </select>
          </div>
-     </div>
      {% set textParams = textParams ~ "/_location" %}
  {% endif %}
   </div>

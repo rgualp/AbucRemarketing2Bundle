@@ -27,7 +27,7 @@
             </div>
             <div id="accommodation_{{ content[loop.index0].statAccommodation.ownId }}" class="accordion-body collapse">
                 <div class="accordion-inner">
-                    <div id="content_accommodation_{{ content[loop.index0].statAccommodation.ownId }}" data-has-content = false data-url="{{ path("mycp_reports_ownership_vsReservations_stats_accommodation",
+                    <div id="content_accommodation_{{ content[loop.index0].statAccommodation.ownId }}" data-has-content ="false" data-url="{{ path("mycp_reports_ownership_vsReservations_stats_accommodation",
                     {'ownership': content[loop.index0].statAccommodation.ownId, 'filter_province': province, 'filter_municipality': municipality, 'filter_destination': destination, 'from_date': dateFrom, 'to_date': dateTo}) }}">
                     </div>
                 </div>
@@ -38,25 +38,28 @@
 
     </div>
 </div>
+    <input type="hidden" id="hProvince" value="{{ (province != null) ? province.provId: null }}"/>
+    <input type="hidden" id="hMunicipality" value="{{ (municipality != null) ? municipality.munId: null }}"/>
+    <input type="hidden" id="hDestination" value="{{ (destination != null) ? destination.desId: null }}"/>
+    <input type="hidden" id="hDateFrom" value="{{ dateFrom }}"/>
+    <input type="hidden" id="hDateTo" value="{{ dateTo }}"/>
 {% else %}
     <p> <div class="alert alert-block">No hay datos almacenados para este reporte.</div></p>
 {% endif %}
-<script>
-    var filter_province = "{{ province }}";
-    var filter_municipality = "{{ municipality }}";
-    var filter_destination = "{{ destination }}";
-    var dateFrom = "{{ dateFrom }}";
-    var dateTo = "{{ dateTo }}";
-</script>
 
 <script>
     $(".accordion-tab").on('show.bs.collapse', function(e){
         var id = $(this).attr("data-id");
         var hasContent = $("#content_accommodation_" + id).attr("data-has-content");
         var url = $("#content_accommodation_" + id).attr("data-url");
+        var filter_province = $("#hProvince").val();
+        var filter_municipality = $("#hMunicipality").val();;
+        var filter_destination = $("#hDestination").val();;
+        var dateFrom = $("#hDateFrom").val();;
+        var dateTo = $("#hDateTo").val();;
 
 
-        if(!hasContent) {
+        if(hasContent === "false") {
             $("#content_accommodation_" + id).html("Cargando...");
 
             $.post(
@@ -71,10 +74,9 @@
                     },
                     function (data) {
                         $('#content_accommodation_' + id).html(data);
-                        $("#content_accommodation_" + id).attr("data-has-content", true);
+                        $("#content_accommodation_" + id).attr("data-has-content", "true");
                     });
 
-            //colocar la url para traer las estadisticas de cada casa
             //Revisar cómo se están sumando las estadisticas
             //Exportar a Excel
         }

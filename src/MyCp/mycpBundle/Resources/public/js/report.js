@@ -88,6 +88,8 @@ function viewReport()
 
     var pLocation = $('#hdParamText').val();
     pLocation = pLocation.replace('_location', location);
+    pLocation = pLocation.replace('_dateFrom', dateRangeFrom);
+    pLocation = pLocation.replace('_dateTo', dateRangeTo);
     var report = $('#ddlReport').val();
     exportUrl = exportUrl + '/' + report  + pLocation  ;
 
