@@ -259,9 +259,10 @@ class BackendReportController extends Controller
         return new Response($content, 200);
     }
 
-    public function ownershipVsReservationsStatsExcelAction($report, $from_date, $to_date, $location_full)
+    public function ownershipVsReservationsStatsExcelAction(Request $request,$report, $from_date, $to_date, $province, $municipality, $destination)
     {
-       //to do
+        $exporter = $this->get("mycp.service.export_to_excel");
+        return $exporter->exportOwnershipVsReservationsStats($request, $report, $from_date, $to_date, $province, $municipality, $destination);
     }
 
     public function getByCategoryCallbackAction(Request $request)

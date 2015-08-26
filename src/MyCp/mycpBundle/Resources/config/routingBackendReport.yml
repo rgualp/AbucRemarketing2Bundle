@@ -27,8 +27,8 @@ mycp_reports_ownership_vsReservations_stats:
     defaults: { _controller: mycpBundle:BackendReport:ownershipVsReservationsStats,location_full:'',from_date:'',to_date:''}
 
 mycp_reports_ownership_vsReservations_stats_excel:
-    pattern:  ownership/vsReservation-excel/{report}/{from_date}/{to_date}/{location_full}
-    defaults: { _controller: mycpBundle:BackendReport:ownershipVsReservationsStatsExcel, report:'',from_date:'',to_date:'',location_full:''}
+    pattern:  ownership/vsReservation-excel/{report}/{from_date}/{to_date}/{province}/{municipality}/{destination}
+    defaults: { _controller: mycpBundle:BackendReport:ownershipVsReservationsStatsExcel, report:'',from_date:'',to_date:'',province:'',municipality:'',destination:''}
 
 mycp_get_report_by_category:
     pattern:  /get-by-category

@@ -686,6 +686,144 @@ class ExportToExcel extends Controller {
         $writer->save($this->excelDirectoryPath . $fileName);
     }
 
+    public function exportOwnershipVsReservationsStats(Request $request, $reportId, $dateFrom, $dateTo, $provinceId = "", $municipalityId = "", $destinationId = "",  $fileName = "resumenAlojamientosReservas.xlsx") {
+        $excel = $this->configExcel("Reporte resumen de propiedades vs reservaciones", "Reporte resumen de propiedades vs reservaciones de MyCasaParticular", "reportes");
+
+        $location = "Cuba";
+        $sheetName = "Cuba";
+        $province = null;
+        $municipality = null;
+        $destination = null;
+
+        if($provinceId != -1 && $provinceId != "")
+        {
+            $province =  $this->em->getRepository("mycpBundle:province")->find($provinceId);
+            $location = $province->getProvName();
+            $sheetName = $province->getProvName();
+        }
+
+        if($municipalityId != -1 && $municipalityId != "")
+        {
+            $municipality =  $this->em->getRepository("mycpBundle:municipality")->find($municipalityId);
+            $location = $municipality->getMunName();
+            $sheetName = $municipality->getMunName();
+        }
+
+        if($destinationId != -1 && $destinationId != "")
+        {
+            $destination =  $this->em->getRepository("mycpBundle:destination")->find($destinationId);
+            $location = $destination->getDesName();
+            $sheetName = $destination->getDesName();
+        }
+
+        $data = $this->dataForAccommodationReservationSummaryStat($province, $municipality, $destination, $dateFrom, $dateTo );
+
+        if (count($data["data"]) > 0)
+            $excel = $this->createSheetForAccommodationReservationSummaryStat($excel, $sheetName, $reportId, $location, $data);
+
+        $date =  new \DateTime();
+        $date = $date->format("Ymd");
+        $fileName = "resumenAlojamientosReservas_".$date.".xlsx";
+        $this->save($excel, $fileName);
+        return $this->export($fileName);
+    }
+
+    private function dataForAccommodationReservationSummaryStat($province, $municipality, $destination, $dateFrom, $dateTo) {
+        $results = array();
+
+        $accommodations = $this->em->getRepository('mycpBundle:ownershipReservationStat')->getAccommodations(null, $province,$municipality, $destination, $dateFrom, $dateTo);
+
+        $data = array();
+        $nomTitle = array();
+        $index = 1;
+
+        foreach($accommodations as $accommodation) {
+            $nomParent = "";
+            $ownership = $accommodation->getStatAccommodation();
+
+            if($index > 1)
+            {
+                $data[0] = "";
+                $data[1] = "";
+                array_push($results, $data);
+                $index++;
+            }
+
+            $data[0] = $ownership->getOwnMcpCode(). " - ". $ownership->getOwnName();
+            $data[1] = "";
+            array_push($results, $data);
+            array_push($nomTitle, $index);
+            $index++;
+
+            $reportContent = $this->em->getRepository('mycpBundle:ownershipReservationStat')->getBulb(null, $province,$municipality, $destination, $dateFrom, $dateTo, $ownership->getOwnId());
+            foreach ($reportContent as $content) {
+                if ($content[0]->getStatNomenclator()->getNomParent() != $nomParent) {
+                    $nomParent = $content[0]->getStatNomenclator()->getNomParent();
+
+                    $data[0] = "Por " . $nomParent->getNomName();
+                    $data[1] = "";
+                    array_push($results, $data);
+                    array_push($nomTitle, $index);
+                    $index++;
+                }
+
+                $data[0] = $content[0]->getStatNomenclator()->getNomName();
+                $data[1] = $content["stat_value"];
+
+                $index++;
+                array_push($results, $data);
+            }
+        }
+
+        return array("data" => $results, "nomTitles" => $nomTitle);
+    }
+
+    private function createSheetForAccommodationReservationSummaryStat($excel, $sheetName, $reportId, $location, $data) {
+
+        $report = $this->em->getRepository("mycpBundle:report")->find($reportId);
+        $sheet = $this->createSheet($excel, $sheetName);
+        $sheet->setCellValue('a1', "Reporte: ".$report->getReportName());
+        $sheet->setCellValue('a2', 'Alcance: '.$location);
+        $now = new \DateTime();
+        $sheet->setCellValue('b2', 'Generado: '.$now->format('d/m/Y H:s'));
+
+        $sheet->setCellValue('a4', 'Categoría');
+        $sheet->setCellValue('b4', 'Valor');
+
+        //dump($data["nomTitles"]);die;
+
+        $sheet = $this->styleHeader("a4:b4", $sheet);
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+
+        $styleSubTitles = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 12
+            ),
+        );
+        foreach($data["nomTitles"] as $titleIndex)
+        {
+            $sheet->getStyle("a".($titleIndex + 4))->applyFromArray($styleSubTitles);
+        }
+
+        $sheet
+            ->getStyle("a5:a".(count($data["data"])+4))
+            ->getNumberFormat()
+            ->setFormatCode( \PHPExcel_Style_NumberFormat::FORMAT_TEXT );
+
+        $sheet->fromArray($data["data"], ' ', 'A5');
+
+        $this->setColumnAutoSize("a", "b", $sheet);
+
+        return $excel;
+    }
+
 }
 
 ?>
