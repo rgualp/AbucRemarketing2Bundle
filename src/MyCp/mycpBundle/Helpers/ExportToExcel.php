@@ -732,22 +732,47 @@ class ExportToExcel extends Controller {
         $results = array();
 
         $accommodations = $this->em->getRepository('mycpBundle:ownershipReservationStat')->getAccommodations(null, $province,$municipality, $destination, $dateFrom, $dateTo);
+        $generalData = $this->em->getRepository('mycpBundle:ownershipReservationStat')->getBulb(null, $province,$municipality, $destination, $dateFrom, $dateTo);
 
         $data = array();
         $nomTitle = array();
+        $currencyCell = array();
         $index = 1;
+
+        $data[0] = "Generales";
+        $data[1] = "";
+        array_push($results, $data);
+        array_push($nomTitle, $index);
+        $index++;
+        $nomParent = "";
+
+        foreach ($generalData as $content) {
+            if ($content[0]->getStatNomenclator()->getNomParent() != $nomParent) {
+                $nomParent = $content[0]->getStatNomenclator()->getNomParent();
+                $data[0] = "Por " . $nomParent->getNomName();
+                $data[1] = "";
+                array_push($results, $data);
+                array_push($nomTitle, $index);
+                $index++;
+            }
+
+            $data[0] = $content[0]->getStatNomenclator()->getNomName();
+            $data[1] = $content["stat_value"];
+            if($nomParent == "Ingresos")
+                array_push($currencyCell, $index);
+
+            $index++;
+            array_push($results, $data);
+        }
 
         foreach($accommodations as $accommodation) {
             $nomParent = "";
             $ownership = $accommodation->getStatAccommodation();
 
-            if($index > 1)
-            {
-                $data[0] = "";
-                $data[1] = "";
-                array_push($results, $data);
-                $index++;
-            }
+            $data[0] = "";
+            $data[1] = "";
+            array_push($results, $data);
+            $index++;
 
             $data[0] = $ownership->getOwnMcpCode(). " - ". $ownership->getOwnName();
             $data[1] = "";
@@ -770,12 +795,15 @@ class ExportToExcel extends Controller {
                 $data[0] = $content[0]->getStatNomenclator()->getNomName();
                 $data[1] = $content["stat_value"];
 
+                if($nomParent == "Ingresos")
+                    array_push($currencyCell, $index);
+
                 $index++;
                 array_push($results, $data);
             }
         }
 
-        return array("data" => $results, "nomTitles" => $nomTitle);
+        return array("data" => $results, "nomTitles" => $nomTitle, "currencyCells" => $currencyCell);
     }
 
     private function createSheetForAccommodationReservationSummaryStat($excel, $sheetName, $reportId, $location, $data) {
@@ -816,6 +844,12 @@ class ExportToExcel extends Controller {
             ->getStyle("a5:a".(count($data["data"])+4))
             ->getNumberFormat()
             ->setFormatCode( \PHPExcel_Style_NumberFormat::FORMAT_TEXT );
+
+        foreach($data["currencyCells"] as $titleIndex)
+        {
+            $sheet->getStyle("b".($titleIndex + 4))->getNumberFormat()
+                ->setFormatCode( \PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE );
+        }
 
         $sheet->fromArray($data["data"], ' ', 'A5');
 
