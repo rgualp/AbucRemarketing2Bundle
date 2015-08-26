@@ -86,12 +86,13 @@ function viewReport()
     }
     reportUrl = reportUrl + parameters;
 
-    var pLocation = $('#hdParamText').val();
-    pLocation = pLocation.replace('_location', location);
-    pLocation = pLocation.replace('_dateFrom', dateRangeFrom);
-    pLocation = pLocation.replace('_dateTo', dateRangeTo);
+    var exportParameters = $('#hdParamText').val();
+    exportParameters = exportParameters.replace('_location', location);
+    exportParameters = exportParameters.replace('_dateFrom', dateRangeFrom);
+    exportParameters = exportParameters.replace('_dateTo', dateRangeTo);
+    exportParameters = exportParameters.replace('_date', dateParam);
     var report = $('#ddlReport').val();
-    exportUrl = exportUrl + '/' + report  + pLocation  ;
+    exportUrl = exportUrl + '/' + report  + exportParameters  ;
 
 
     $("#bExcel").attr('href', exportUrl);

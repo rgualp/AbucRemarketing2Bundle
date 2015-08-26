@@ -48,7 +48,7 @@ class BackendReportController extends Controller
         ));
     }
 
-    public function dailyInPlaceClientsExcelAction($date, $report)
+    public function dailyInPlaceClientsExcelAction($report, $date)
     {
         $em = $this->getDoctrine()->getManager();
         if($date != null && $date != "null" && $report != null && $report != "null")
@@ -56,6 +56,8 @@ class BackendReportController extends Controller
             $timer = $this->get('time');
             $dateRangeFrom = $timer->add("-30 days",$date, "Y-m-d");
             $dateRangeTo = $timer->add("+30 days",$date, "Y-m-d");
+
+
 
             $exporter = $this->get("mycp.service.export_to_excel");
             return $exporter->exportRpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo, $report,$timer);

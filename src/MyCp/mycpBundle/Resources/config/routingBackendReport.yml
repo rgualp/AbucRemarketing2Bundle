@@ -7,7 +7,7 @@ mycp_reports_daily_in_place_clients:
     defaults: { _controller: mycpBundle:BackendReport:dailyInPlaceClients,date:''}
 
 mycp_reports_daily_in_place_clients_excel:
-    pattern:  /clients/excel-daily-in-place/{date}/{report}
+    pattern:  /clients/excel-daily-in-place/{report}/{date}
     defaults: { _controller: mycpBundle:BackendReport:dailyInPlaceClientsExcel,date:'', report:''}
 
 mycp_reports_ownership_general_stats:

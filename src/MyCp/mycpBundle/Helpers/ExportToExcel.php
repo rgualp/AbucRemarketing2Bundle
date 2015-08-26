@@ -34,7 +34,7 @@ class ExportToExcel extends Controller {
         $this->excelDirectoryPath = $excelDirectoryPath;
     }
 
-    public function exportRpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo, $reportId, $timer, $fileName = "clientes_en_dia.xlsx") {
+    public function exportRpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo, $reportId, $timer, $fileName = "clientes_en_dia") {
         $excel = $this->configExcel("Reporte de clientes en un dia", "Reporte de clientes en un dia de MyCasaParticular", "reportes");
 
         $data = $this->dataForRpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo, $timer);
@@ -42,6 +42,7 @@ class ExportToExcel extends Controller {
         if (count($data) > 0)
             $excel = $this->createSheetForRpDailyInPlaceClients($excel, $date, $reportId, $date, $data);
 
+        $fileName = $this->getFileName($fileName);
         $this->save($excel, $fileName);
         return $this->export($fileName);
     }
@@ -129,7 +130,7 @@ class ExportToExcel extends Controller {
     }
 
 
-    public function exportOwnershipGeneralStats(Request $request, $reportId, $provinceId = "", $municipalityId = "",  $fileName = "resumenAlojamientos.xlsx") {
+    public function exportOwnershipGeneralStats(Request $request, $reportId, $provinceId = "", $municipalityId = "",  $fileName = "resumenAlojamientos") {
         $excel = $this->configExcel("Reporte resumen de propiedades", "Reporte resumen de propiedades de MyCasaParticular", "reportes");
 
         $location = "Cuba";
@@ -156,6 +157,7 @@ class ExportToExcel extends Controller {
         if (count($data["data"]) > 0)
             $excel = $this->createSheetForRpAccommodationSummaryStat($excel, $sheetName, $reportId, $location, $data);
 
+        $fileName = $this->getFileName($fileName);
         $this->save($excel, $fileName);
         return $this->export($fileName);
     }
@@ -239,7 +241,7 @@ class ExportToExcel extends Controller {
         return $excel;
     }
 
-    public function exportOwnershipGeneralList($nomenclatorId, $provinceId, $municipalityId, $fileName="listaAlojamientos.xlsx"){
+    public function exportOwnershipGeneralList($nomenclatorId, $provinceId, $municipalityId, $fileName="listaAlojamientos"){
 
         $excel = $this->configExcel("Reporte resumen de propiedades (lista)", "Reporte resumen de propiedades (lista) de MyCasaParticular", "reportes");
 
@@ -272,6 +274,7 @@ class ExportToExcel extends Controller {
         if (count($data) > 0)
             $excel = $this->createSheetForRpAccommodationList($excel, $sheetName, $nomenclator, $location, $data);
 
+        $fileName = $this->getFileName($fileName);
         $this->save($excel, $fileName);
         return $this->export($fileName);
     }
@@ -439,7 +442,7 @@ class ExportToExcel extends Controller {
         return $results;
     }
 
-    public function exportAccommodationsDirectory($fileName = "directorio.xlsx") {
+    public function exportAccommodationsDirectory($fileName = "directorio") {
         $excel = $this->configExcel("Directorio de alojamientos", "Directorio de alojamientos de MyCasaParticular", "alojamientos");
 
         $provinces = $this->em->getRepository("mycpBundle:province")->findBy(array(), array("prov_code" => "ASC"));
@@ -451,6 +454,7 @@ class ExportToExcel extends Controller {
             if (count($data) > 0)
                 $excel = $this->createSheetForAccommodationsDirectory($excel, $prov->getProvCode(), $data);
         }
+        $fileName = $this->getFileName($fileName);
         $this->save($excel, $fileName);
         return $this->export($fileName);
     }
@@ -524,7 +528,7 @@ class ExportToExcel extends Controller {
         return $excel;
     }
 
-    public function generateToAirBnb($ownsIdArray, $fileName = "airBnbDirectorio.xlsx") {
+    public function generateToAirBnb($ownsIdArray, $fileName = "airBnbDirectorio") {
         if (count($ownsIdArray)) {
             $excel = $this->configExcel("Directorio de alojamientos", "Directorio de alojamientos de MyCasaParticular", "alojamientos");
             $data = $this->dataAirBnb($ownsIdArray);
@@ -532,12 +536,14 @@ class ExportToExcel extends Controller {
             if (count($data) > 0)
                 $excel = $this->createSheetAirBnb($excel, "Listado", $data);
 
+            $fileName = $this->getFileName($fileName);
             $this->save($excel, $fileName);
             return $fileName;
         }
     }
 
-    public function exportToAirBnb($fileName = "airBnbDirectorio.xlsx") {
+    public function exportToAirBnb($fileName = "airBnbDirectorio") {
+        $fileName = $this->getFileName($fileName);
         return $this->export($fileName);
     }
 
@@ -686,7 +692,7 @@ class ExportToExcel extends Controller {
         $writer->save($this->excelDirectoryPath . $fileName);
     }
 
-    public function exportOwnershipVsReservationsStats(Request $request, $reportId, $dateFrom, $dateTo, $provinceId = "", $municipalityId = "", $destinationId = "",  $fileName = "resumenAlojamientosReservas.xlsx") {
+    public function exportOwnershipVsReservationsStats(Request $request, $reportId, $dateFrom, $dateTo, $provinceId = "", $municipalityId = "", $destinationId = "", $fileName= "resumenAlojamientosReservas") {
         $excel = $this->configExcel("Reporte resumen de propiedades vs reservaciones", "Reporte resumen de propiedades vs reservaciones de MyCasaParticular", "reportes");
 
         $location = "Cuba";
@@ -721,9 +727,7 @@ class ExportToExcel extends Controller {
         if (count($data["data"]) > 0)
             $excel = $this->createSheetForAccommodationReservationSummaryStat($excel, $sheetName, $reportId, $location, $data);
 
-        $date =  new \DateTime();
-        $date = $date->format("Ymd");
-        $fileName = "resumenAlojamientosReservas_".$date.".xlsx";
+        $fileName = $this->getFileName($fileName);
         $this->save($excel, $fileName);
         return $this->export($fileName);
     }
@@ -856,6 +860,14 @@ class ExportToExcel extends Controller {
         $this->setColumnAutoSize("a", "b", $sheet);
 
         return $excel;
+    }
+
+    private function getFileName($preffixName)
+    {
+        $date =  new \DateTime();
+        $date = $date->format("Ymd");
+        return $preffixName."_".$date.".xlsx";
+
     }
 
 }
