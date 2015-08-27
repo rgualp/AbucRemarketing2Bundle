@@ -53,4 +53,9 @@ class DeleteLogsCommand extends ContainerAwareCommand {
         return 0;
     }
 
+    public function getLogsFilesList()
+    {
+
+    }
+
 }

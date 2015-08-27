@@ -156,4 +156,11 @@ class Logs
         }
     }
 
+    public function getLogFiles()
+    {
+        return FileIO::getFilesInDirectory($this->logsFilePath);
+    }
+
+
+
 }

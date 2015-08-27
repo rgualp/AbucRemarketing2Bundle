@@ -69,6 +69,13 @@
         <button data='{{ path('mycp_delete_logs') }}' class="btn btn-block btn-danger delete"><i class="icon-remove icon-white"></i> Limpiar informes de logs</button>
     </div>
 </div>
+ {% if logFiles %}
+     <h4>Ficheros</h4>
+
+     {% for file in logFiles %}
+         <a href="#" target="_blank">{{ file }}</a>
+     {% endfor %}
+ {% endif %}
 <link href="{{ asset('bundles/mycp/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
 <script src="{{ asset('bundles/mycp/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
 <script type="text/javascript" src="{{ asset('bundles/mycp/js/bootstrap-datepicker.es.js') }}" charset="UTF-8"></script>

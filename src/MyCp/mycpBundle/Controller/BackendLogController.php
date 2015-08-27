@@ -12,11 +12,13 @@ class BackendLogController extends Controller
     function list_logsAction(Request $request)
     {
         $service_security= $this->get('Secure');
+        $logger= $this->get('log');
         $service_security->verifyAccess();
         $logs=array();
         $msg_count_logs=0;
         $msg_session=0;
         $post = $request->request->getIterator()->getArrayCopy();
+        $logsFiles = $logger->getLogFiles();
         if($request->getMethod()=='POST')
         {
             $post['submit']=1;
@@ -38,7 +40,7 @@ class BackendLogController extends Controller
         }
         if(!isset($post['role']))
             $post['role']='';
-        return $this->render('mycpBundle:log:list.html.twig',array('post'=>$post,'logs'=>$logs,'count_logs'=>$msg_count_logs,'msg_session'=>$msg_session));
+        return $this->render('mycpBundle:log:list.html.twig',array('post'=>$post,'logs'=>$logs,'count_logs'=>$msg_count_logs,'msg_session'=>$msg_session, 'logFiles' => $logsFiles));
     }
 
     function get_rolesAction($selected,Request $request)

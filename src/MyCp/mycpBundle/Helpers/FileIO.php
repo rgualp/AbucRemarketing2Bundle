@@ -46,6 +46,22 @@ class FileIO  {
         return $preffixName."_".$date.$fileExtension;
 
     }
+
+    public static function getFilesInDirectory($dir)
+    {
+        $files = array();
+
+        if (is_dir($dir)) {
+            if ($dh = opendir($dir)) {
+                while (($file = readdir($dh)) !== false) {
+                    if($file != "." && $file != "..")
+                        array_push($files, $file);
+                }
+                closedir($dh);
+            }
+        }
+        return $files;
+    }
 }
 
 ?>
