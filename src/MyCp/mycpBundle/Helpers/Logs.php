@@ -12,12 +12,14 @@ class Logs
     private $em;
     private $container;
     private $security_context;
+    private $logsFilePath;
 
-    public function __construct($entity_manager, $container, $security_context)
+    public function __construct($entity_manager, $container, $security_context, $logsFilePath)
     {
         $this->em = $entity_manager;
         $this->container = $container;
         $this->security_context = $security_context;
+        $this->logsFilePath = $logsFilePath;
 
     }
 
@@ -128,6 +130,30 @@ class Logs
 
         $this->saveLog('Login',$module_number);
 
+    }
+
+    public function exportAndDeleteLogs($logsCollection)
+    {
+        if(count($logsCollection)) {
+            FileIO::createDirectoryIfNotExist($this->logsFilePath);
+            $fileName = FileIO::getDatedFileName("logs", ".txt");
+            $date = new \DateTime();
+
+            $content= "-----------------------------------------------------". "\r\n\r\n";
+            $content .= "Logs". "\r\n";
+            $content .= "Período: ".$logsCollection[0]->getLogDate()->format("d/m/Y"). " - ". $logsCollection[count($logsCollection) - 1]->getLogDate()->format("d/m/Y") . "\r\n";
+            $content .= "Generado: ". $date->format("d/m/Y H:i:s"). "\r\n\r\n";
+            $content.= "-----------------------------------------------------". "\r\n\r\n\r\n\r\n";
+            $fp = fopen($this->logsFilePath . $fileName, "wb");
+            foreach ($logsCollection as $log) {
+                $content .= "-" . $log->getLogDescription() . (($log->getLogDescription() != "Login") ? " in module " : " into ") . "(" . BackendModuleName::getModuleName($log->getLogModule()) . ") by " . $log->getlogUser()->getUserName() . " in date " . $log->getLogDate()->format("d/m/Y") . " on time " . $log->getLogTime() . "\r\n";
+                $this->em->remove($log);
+            }
+
+            fwrite($fp, $content);
+            fclose($fp);
+            $this->em->flush();
+        }
     }
 
 }

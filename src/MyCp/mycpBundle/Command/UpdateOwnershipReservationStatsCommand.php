@@ -38,10 +38,10 @@ EOT
             $argDate = $input->getArgument("date");
             if ($argDate != null || $argDate != "")
                 $date = $timer->add("-4 day", $argDate, "Y-m-d");
-            else
-                $date = $timer->add("-4 day", new \DateTime(), "Y-m-d");
-
-
+            else {
+                $date = new \DateTime();
+                $date = $timer->add("-4 day", $date->format("Y-m-d"), "Y-m-d");
+            }
         }
 
         $ownerships=$em->getRepository("mycpBundle:ownership")->getWithReservations($date);

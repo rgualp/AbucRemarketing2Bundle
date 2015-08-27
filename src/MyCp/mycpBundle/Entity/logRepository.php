@@ -67,4 +67,17 @@ class logRepository extends EntityRepository
         return $query->getResult();
     }
 
+    function getOldLogs($date)
+    {
+        $em=$this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb->select('log')
+            ->from("mycpBundle:log", "log")
+            ->where('log.log_date <= :date')
+            ->setParameter("date", $date)
+            ->orderBy("log.log_date", "DESC");
+
+        return $qb->getQuery()->getResult();
+    }
+
 }

@@ -38,6 +38,14 @@ class FileIO  {
         if (is_dir($dirName))
             rmdir($dirName);
     }
+
+    public static function getDatedFileName($preffixName, $fileExtension)
+    {
+        $date =  new \DateTime();
+        $date = $date->format("Ymd");
+        return $preffixName."_".$date.$fileExtension;
+
+    }
 }
 
 ?>
