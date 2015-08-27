@@ -291,4 +291,5 @@ class BackendReportController extends Controller
         $exporter = $this->get("mycp.service.export_to_excel");
         return $exporter->exportOwnershipGeneralList($nomenclator, $province, $municipality);
     }
+
 }

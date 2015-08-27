@@ -587,33 +587,6 @@ class ownershipReservationStatRepository extends EntityRepository
 
     }
 
-    public function getOwnershipReportListContent($nomenclator, $province=null, $municipality=null)
-    {
-        $em = $this->getEntityManager();
-        $qb = $em->createQueryBuilder();
-
-        $qb->select("o")
-           ->from("mycpBundle:ownership", "o")
-           ->join("o.own_address_province", "prov");
-
-        if($municipality==null) {
-            if($province!=null){
-                $qb->where('o.own_address_province = :province')->setParameter('province',$province->getProvId());
-            }
-        }
-        else{
-            $qb->where("o.own_address_municipality = :municipalityId")
-                ->setParameter("municipalityId", $municipality->getMunId());
-        }
-
-        $qb->orderBy("prov.prov_name", "ASC")
-           ->addOrderBy("o.own_mcp_code", "ASC");
-
-        $qb = $this->addNomenclatorWheres($qb, $nomenclator);
-
-        return $qb->getQuery()->getResult();
-    }
-
     private function addNomenclatorWheres($queryBuilder, $nomenclator)
     {
         if($nomenclator->getNomParent() != null) {
