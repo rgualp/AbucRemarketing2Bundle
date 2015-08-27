@@ -15,16 +15,22 @@ class ownershipReservationStatRepository extends EntityRepository
         $qb = $em->createQueryBuilder();
         $hasLocation = false;
 
+        $qb->select('os', 'o')
+            ->from("mycpBundle:ownershipReservationStat", "os")
+            ->join("os.stat_accommodation", "o")
+            ->orderBy("o.own_address_province", "ASC")
+            ->addOrderBy("o.own_automatic_mcp_code")
+            ->groupBy('os.stat_accommodation');
+
         if($destination == null) {
             if ($municipality == null) {
-                $qb->select('os', 'o')->groupBy('os.stat_accommodation');
                 if ($province != null) {
                     $municipalities = $em->getRepository('mycpBundle:municipality')->findBy(array('mun_prov_id' => $province));
-                    $qb->where('o.own_address_municipality in (:mun)')->setParameter('mun', (array)$municipalities);
+                    $qb->where('o.own_address_municipality in (:mun)')
+                        ->setParameter('mun', (array)$municipalities);
                     $hasLocation = true;
                 }
-            } else {
-                $qb->select('os', 'o');
+            } else{
                 $qb->where("o.own_address_municipality = :municipalityId")
                     ->setParameter("municipalityId", $municipality->getMunId());
                 $hasLocation = true;
@@ -32,7 +38,6 @@ class ownershipReservationStatRepository extends EntityRepository
         }
         else
         {
-            $qb->select('os', 'o');
             $qb->where("o.own_destination = :destination")
                 ->setParameter("destination", $destination->getDesId());
             $hasLocation = true;
@@ -54,11 +59,6 @@ class ownershipReservationStatRepository extends EntityRepository
                 ->setParameter("dateTo", $dateTo);
         }
 
-            $qb->from("mycpBundle:ownershipReservationStat", "os")
-            ->join("os.stat_accommodation", "o")
-            ->orderBy("o.own_address_province", "ASC")
-            ->addOrderBy("o.own_automatic_mcp_code");
-
         return $qb->getQuery()->getResult();
     }
 
@@ -69,13 +69,13 @@ class ownershipReservationStatRepository extends EntityRepository
         if($destination == null) {
             if ($municipality == null) {
                 $qb->select('os', 'sn', 'np', 'SUM(os.stat_value) AS stat_value', 'o');
-                $qb->groupBy('sn.nom_id');
+
                 if ($province != null) {
                     $municipalities = $em->getRepository('mycpBundle:municipality')->findBy(array('mun_prov_id' => $province));
                     $qb->where('o.own_address_municipality in (:mun)')->setParameter('mun', (array)$municipalities);
                     $hasLocation = true;
                 }
-            } else {
+            } else{
                 $qb->select('os', 'sn', 'np', 'SUM(os.stat_value) AS stat_value', 'o');
                 $qb->where("o.own_address_municipality = :municipalityId")
                     ->setParameter("municipalityId", $municipality->getMunId());
@@ -112,7 +112,7 @@ class ownershipReservationStatRepository extends EntityRepository
                 ->setParameter("ownership", $ownership);
         }
 
-        $qb->from("mycpBundle:ownershipReservationStat", "os")
+        $qb->from("mycpBundle:ownershipReservationStat", "os")->groupBy('sn.nom_id')
             ->join("os.stat_nomenclator", "sn")
             ->join("sn.nom_parent", "np")
             ->join("os.stat_accommodation", "o");

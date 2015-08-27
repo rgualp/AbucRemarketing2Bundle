@@ -139,7 +139,7 @@ class BackendReportController extends Controller
         if(($provinceId == null || $provinceId == "null")&&($munId == null || $munId == "null")){
             $resp=$em->getRepository('mycpBundle:ownershipReservationStat')->getAccommodations(null, null,null, null, $dateFrom, $dateTo);
         }
-        else if($desId != null && $desId != "null"){
+        else if($desId != null && $desId != "null" && $desId > 0){
             $destination = $em->getRepository('mycpBundle:destination')->find($desId);
             $resp=$em->getRepository('mycpBundle:ownershipReservationStat')->getAccommodations(null, null,null, $destination, $dateFrom, $dateTo);
             $location=$destination->getDesName();
