@@ -426,7 +426,7 @@ class BackendReservationController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $payment = $em->getRepository('mycpBundle:payment')->findOneBy(array("booking" => $id_booking));
         $user = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $payment->getBooking()->getBookingUserId()));
-        $reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking, 'own_res_status' => ownershipReservation::STATUS_RESERVED));
+        $reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_reservation_booking' => $id_booking, 'own_res_status' => ownershipReservation::STATUS_RESERVED), array('own_res_gen_res_id' => 'ASC'));
         return $this->render('mycpBundle:reservation:bookingDetails.html.twig', array(
                     'user' => $user,
                     'reservations' => $reservations,

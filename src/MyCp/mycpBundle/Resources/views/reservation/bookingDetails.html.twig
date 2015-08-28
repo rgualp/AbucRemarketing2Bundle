@@ -44,20 +44,26 @@
         </tr>
 
         </thead>
+        {% set generalReservation = 0 %}
+        {% set cucPayment = 0 %}
         {% for reservation in reservations %}
-        <tr>
-            <td>{{ payment.booking.bookingId }}</td>
-            <td><a href="{{ path("mycp_details_reservation", {"id_reservation": reservation.getOwnResGenResId.getGenResId}) }}">{{ reservation.getOwnResGenResId.getCASId }}</a></td>
-            <td><a href="{{ path("mycp_edit_ownership", {"id_ownership": reservation.getOwnResGenResId.getGenResOwnId.getOwnId }) }}">{{ reservation.getOwnResGenResId.getGenResOwnId.getOwnMcpCode }}</a></td>
-            <td>{{ reservation.getOwnResGenResId.getGenResOwnId.getOwnName }}</td>
-            <td>{{ reservation.getOwnResRoomType}}</td>
-            <td>{{ reservation.getOwnResReservationFromDate|date("d/m/Y")}}</td>
-            <td>{{ reservation.getOwnResReservationToDate|date("d/m/Y")}}</td>
-        </tr>
+            {% if generalReservation != reservation.getOwnResGenResId.getGenResId %}
+                {% set generalReservation = reservation.getOwnResGenResId.getGenResId %}
+                    <tr>
+                        <td>{{ payment.booking.bookingId }}</td>
+                        <td><a href="{{ path("mycp_details_reservation", {"id_reservation": reservation.getOwnResGenResId.getGenResId}) }}">{{ reservation.getOwnResGenResId.getCASId }}</a></td>
+                        <td><a href="{{ path("mycp_edit_ownership", {"id_ownership": reservation.getOwnResGenResId.getGenResOwnId.getOwnId }) }}">{{ reservation.getOwnResGenResId.getGenResOwnId.getOwnMcpCode }}</a></td>
+                        <td>{{ reservation.getOwnResGenResId.getGenResOwnId.getOwnName }}</td>
+                        <td>{{ reservation.getOwnResRoomType}}</td>
+                        <td>{{ reservation.getOwnResReservationFromDate|date("d/m/Y")}}</td>
+                        <td>{{ reservation.getOwnResReservationToDate|date("d/m/Y")}}</td>
+                    </tr>
+        {% endif %}
+            {% set cucPayment = cucPayment +  reservation.ownResTotalInSite * (reservation.getOwnResGenResId.genResOwnId.ownCommissionPercent) / 100%}
         {% endfor %}
         <tr>
             <td colspan="6" style="text-align: right"><b>TOTAL PREPAGADO</b></td>
-            <td>{{payment.currency.currCode}} {{payment.payedAmount}}</td>
+            <td>{{payment.currency.currCode}} {{payment.payedAmount}} | CUC {{ ceil_round(cucPayment + 10) }} </td>
         </tr>
     </table>
 </div>
