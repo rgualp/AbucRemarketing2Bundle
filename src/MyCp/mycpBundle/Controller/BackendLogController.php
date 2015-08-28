@@ -90,4 +90,24 @@ class BackendLogController extends Controller
 
         return $this->redirect($this->generateUrl('mycp_list_logs'));
     }
+
+    function downloadFileAction($fileName){
+        $logger= $this->get('log');
+        $filePath = $logger->getFilesPath();
+
+        $file_info = finfo_open(FILEINFO_MIME_TYPE);
+        $mime_type = finfo_file($file_info, $filePath.$fileName);
+        finfo_close($file_info);
+
+        $response = new Response();
+        $response->headers->set('Cache-Control', 'private');
+        $response->headers->set('Content-type', $mime_type);
+        $response->headers->set('Content-Disposition', 'attachment; filename="' . $fileName . '"');
+        $response->headers->set('Content-length', filesize($filePath.$fileName));
+        $response->sendHeaders();
+
+        $response->setContent(readfile($filePath.$fileName));
+
+        return $response;
+    }
 }

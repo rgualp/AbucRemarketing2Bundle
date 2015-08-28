@@ -73,7 +73,7 @@
      <h4>Ficheros</h4>
 
      {% for file in logFiles %}
-         <a href="#" target="_blank">{{ file }}</a>
+         <a href="{{ path("mycp_logs_download_file", {"fileName": file}) }}" target="_blank">{{ file }}</a>
      {% endfor %}
  {% endif %}
 <link href="{{ asset('bundles/mycp/css/datepicker.css') }}" rel="stylesheet" type="text/css" />

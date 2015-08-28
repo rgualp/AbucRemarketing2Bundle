@@ -161,6 +161,9 @@ class Logs
         return FileIO::getFilesInDirectory($this->logsFilePath);
     }
 
-
+    public function getFilesPath()
+    {
+        return $this->logsFilePath;
+    }
 
 }

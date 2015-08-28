@@ -9,3 +9,7 @@ mycp_delete_logs:
 mycp_get_users_logs:
     pattern:  /get_users/{selected}/{role}
     defaults: { _controller: mycpBundle:BackendLog:get_users}
+
+mycp_logs_download_file:
+    pattern:  /download-file/{fileName}
+    defaults: { _controller: mycpBundle:BackendLog:downloadFile}
