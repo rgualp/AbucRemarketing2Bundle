@@ -16,6 +16,7 @@ use MyCp\mycpBundle\Entity\ownershipKeywordLang;
 use MyCp\mycpBundle\Entity\ownershipStatus;
 use Doctrine\Common\Collections\ArrayCollection;
 use MyCp\mycpBundle\Entity\room;
+use Symfony\Component\HttpFoundation\Response;
 
 class FileIO  {
 
@@ -61,6 +62,24 @@ class FileIO  {
             }
         }
         return $files;
+    }
+
+    public static function download($filePath, $fileName)
+    {
+        $file_info = finfo_open(FILEINFO_MIME_TYPE);
+        $mime_type = finfo_file($file_info, $filePath.$fileName);
+        finfo_close($file_info);
+
+        $response = new Response();
+        $response->headers->set('Cache-Control', 'private');
+        $response->headers->set('Content-type', $mime_type);
+        $response->headers->set('Content-Disposition', 'attachment; filename="' . $fileName . '"');
+        $response->headers->set('Content-length', filesize($filePath.$fileName));
+        $response->sendHeaders();
+
+        $response->setContent(readfile($filePath.$fileName));
+
+        return $response;
     }
 }
 

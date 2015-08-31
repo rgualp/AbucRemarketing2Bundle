@@ -262,6 +262,11 @@ class BackendUnavailabilityDetailsController extends Controller {
         return $this->redirect($this->generateUrl('mycp_list_room_details_unavailabilityDetails', array('id_room' => $room->getRoomId(), 'num_room' => $num_room)));
     }
 
+    function downloadFileAction($fileName){
+        $filePath = $this->container->getParameter("configuration.dir.udetails");
+        return FileIO::download($filePath, $fileName);
+    }
+
     private function updateICal($room) {
         try {
             $calendarService = $this->get('mycp.service.calendar');

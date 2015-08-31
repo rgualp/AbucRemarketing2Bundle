@@ -34,3 +34,7 @@ mycp_list_files_unavailabilityDetails:
     pattern:  /files
     defaults: { _controller: mycpBundle:BackendUnavailabilityDetails:files}
 
+mycp_unavailabilityDetails_download_file:
+    pattern:  /download-file/{fileName}
+    defaults: { _controller: mycpBundle:BackendUnavailabilityDetails:downloadFile}
+
