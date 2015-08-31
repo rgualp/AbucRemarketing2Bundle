@@ -673,23 +673,31 @@ class ExportToExcel extends Controller {
     }
 
     private function export($fileName) {
-        $content = file_get_contents($this->excelDirectoryPath . $fileName);
+        return $this->exportToDirectory($fileName, $this->excelDirectoryPath);
+    }
+
+    private function exportToDirectory($fileName, $directory) {
+        $content = file_get_contents($directory . $fileName);
         return new Response(
-                $content, 200, array(
-            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8',
-            'Content-Disposition' => 'attachment; filename="' . $fileName . '"'
-                )
+            $content, 200, array(
+                'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8',
+                'Content-Disposition' => 'attachment; filename="' . $fileName . '"'
+            )
         );
     }
 
     private function save($excel, $fileName) {
-        FileIO::createDirectoryIfNotExist($this->excelDirectoryPath);
-        FileIO::deleteFile($this->excelDirectoryPath . $fileName);
+        $this->saveToDirectory($excel, $fileName, $this->excelDirectoryPath);
+    }
+
+    private function saveToDirectory($excel, $fileName, $directoryPath) {
+        FileIO::createDirectoryIfNotExist($directoryPath);
+        FileIO::deleteFile($directoryPath . $fileName);
 
         $excel->setActiveSheetIndex(0);
 
         $writer = new \PHPExcel_Writer_Excel2007($excel);
-        $writer->save($this->excelDirectoryPath . $fileName);
+        $writer->save($directoryPath . $fileName);
     }
 
     public function exportOwnershipVsReservationsStats(Request $request, $reportId, $dateFrom, $dateTo, $provinceId = "", $municipalityId = "", $destinationId = "", $fileName= "resumenAlojamientosReservas") {
@@ -858,6 +866,83 @@ class ExportToExcel extends Controller {
         $sheet->fromArray($data["data"], ' ', 'A5');
 
         $this->setColumnAutoSize("a", "b", $sheet);
+
+        return $excel;
+    }
+
+
+    public function exportAndDeleteUDetails($uDetailsCollection, $uDetailsDirectory)
+    {
+        if(count($uDetailsCollection)) {
+            $excel = $this->configExcel("Detalles de no disponibilidad", "Detalles de no disponibilidad - MyCasaParticular", "reportes");
+            FileIO::createDirectoryIfNotExist($uDetailsDirectory);
+            $data = $this->dataForUDetails($uDetailsCollection);
+
+            if (count($data) > 0)
+                $excel = $this->createSheetForUDetails($excel, "Disponibilidad", $data);
+
+            $fileName = FileIO::getDatedFileName("disponibilidad", ".xlsx");
+            $this->saveToDirectory($excel, $fileName, $uDetailsDirectory);
+            return $this->exportToDirectory($fileName, $uDetailsDirectory);
+
+        }
+    }
+
+    private function dataForUDetails($uDetailsCollection) {
+        $results = array();
+        $data = array();
+
+        foreach ($uDetailsCollection as $uDetails) {
+            $data[0] = $uDetails->getRoom()->getRoomOwnership()->getOwnMcpCode();
+            $data[1] = $uDetails->getRoom()->getRoomNum();
+            $data[2] = $uDetails->getUdFromDate()->format("d/m/Y");
+            $data[3] = $uDetails->getUdToDate()->format("d/m/Y");
+            $data[4] = $uDetails->getUdReason();
+            array_push($results, $data);
+
+            $this->em->remove($uDetails);
+        }
+
+        $this->em->flush();
+        return $results;
+    }
+
+    private function createSheetForUDetails($excel, $sheetName, $data) {
+
+        $sheet = $this->createSheet($excel, $sheetName);
+        $sheet->setCellValue('a1', "Detalles de No Disponibilidad");
+        $now = new \DateTime();
+        $sheet->setCellValue('a2', 'Generado: '.$now->format('d/m/Y H:s'));
+
+        $sheet->setCellValue('a4', 'Propiedad');
+        $sheet->setCellValue('b4', 'No. Habitación');
+        $sheet->setCellValue('c4', 'Desde');
+        $sheet->setCellValue('d4', 'Hasta');
+        $sheet->setCellValue('e4', 'Motivo');
+
+        $sheet = $this->styleHeader("a4:e4", $sheet);
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+
+        /*$sheet
+            ->getStyle("a5:a".(count($data["data"])+4))
+            ->getNumberFormat()
+            ->setFormatCode( \PHPExcel_Style_NumberFormat::FORMAT_TEXT );
+
+        foreach($data["currencyCells"] as $titleIndex)
+        {
+            $sheet->getStyle("b".($titleIndex + 4))->getNumberFormat()
+                ->setFormatCode( \PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE );
+        }*/
+
+        $sheet->fromArray($data, ' ', 'A5');
+
+        $this->setColumnAutoSize("a", "e", $sheet);
 
         return $excel;
     }

@@ -1,0 +1,50 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li class="active">Disponibilidad</li>
+</ul>
+{% endblock %}
+{% block content %}
+<h2>Disponibilidad</h2>
+<hr/>
+    <ul class="nav nav-tabs" id="myTab">
+        <li class=""><a href="{{ path("mycp_list_unavailabilityDetails") }}">Propiedades</a></li>
+        <li class="active"><a data-toggle="tab" href="#accommodations">Ficheros</a></li>
+    </ul>
+<div class="tab-content" id="myTabContent">
+<div id="accommodations" class="tab-pane fade active in">
+{% for message in app.session.flashbag.get('message_error_local') %}
+<div class="alert alert-error">{{ message }}</div>
+{% endfor %}
+{% if files %}
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th>Fichero</th>
+        <th style="text-align: center">Descargar</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for file in files %}
+    <tr>
+        <td>{{ file }}</td>
+        <td style="text-align: center">
+            <a class="btn btn-mini btn-success" href="#">
+                <i class="icon-edit"></i>
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+    {% else %}
+    <p> <div class="alert alert-block">No hay ficheros disponibles.</div></p>
+    {% endif %}
+</div>
+</div>
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('bundles/mycp/js/common_list.js') }}"></script>
+{% endblock %}

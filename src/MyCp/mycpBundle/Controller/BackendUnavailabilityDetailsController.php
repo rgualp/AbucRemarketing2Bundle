@@ -2,6 +2,7 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use MyCp\mycpBundle\Helpers\FileIO;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -321,6 +322,17 @@ class BackendUnavailabilityDetailsController extends Controller {
 
 
         return new Response(json_encode($response), 200);
+    }
+
+    public function filesAction()
+    {
+        $uDetailsDirectory = $this->container->getParameter("configuration.dir.udetails");
+
+        $files = FileIO::getFilesInDirectory($uDetailsDirectory);
+
+        return $this->render('mycpBundle:unavailabilityDetails:files.html.twig', array(
+            'files' => $files
+        ));
     }
 
 }

@@ -87,4 +87,16 @@ class unavailabilityDetailsRepository extends EntityRepository {
         return $em->createQuery($query_string)->getResult();
     }
 
+    public function getOldDetails($date){
+        $em=$this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb->select('ud')
+            ->from("mycpBundle:unavailabilityDetails", "ud")
+            ->where('ud.ud_to_date <= :date')
+            ->setParameter("date", $date)
+            ->orderBy("ud.ud_to_date", "DESC");
+
+        return $qb->getQuery()->getResult();
+    }
+
 }

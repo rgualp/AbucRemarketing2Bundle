@@ -30,3 +30,7 @@ mycp_create_event_callback:
     pattern:   /create-event/callback
     defaults: { _controller: mycpBundle:BackendUnavailabilityDetails:createEventCallback}
 
+mycp_list_files_unavailabilityDetails:
+    pattern:  /files
+    defaults: { _controller: mycpBundle:BackendUnavailabilityDetails:files}
+

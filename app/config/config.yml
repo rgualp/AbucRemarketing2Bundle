@@ -111,6 +111,7 @@ parameters:
     configuration.dir.vouchers: %kernel.root_dir%/../tmp/vouchers/
     configuration.dir.excels: %kernel.root_dir%/../tmp/excels/
     configuration.dir.logs: %kernel.root_dir%/../tmp/logs/
+    configuration.dir.udetails: %kernel.root_dir%/../tmp/uDetails/
     configuration.dir.accommodation.batch.process.excels: %kernel.root_dir%/../tmp/excels/batchProcess/
     configuration.dir.downloaded.excels: %kernel.root_dir%/../web/excels/
     configuration.dir.ical: %kernel.root_dir%/../web/calendars/

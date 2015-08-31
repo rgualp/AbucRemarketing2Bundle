@@ -9,6 +9,12 @@
 {% block content %}
 <h2>Disponibilidad</h2>
 <hr/>
+    <ul class="nav nav-tabs" id="myTab">
+        <li class="active"><a data-toggle="tab" href="#accommodations">Propiedades</a></li>
+        <li class=""><a href="{{ path('mycp_list_files_unavailabilityDetails') }}">Ficheros</a></li>
+    </ul>
+<div class="tab-content" id="myTabContent">
+<div id="accommodations" class="tab-pane fade active in">
 {% for message in app.session.flashbag.get('message_error_local') %}
 <div class="alert alert-error">{{ message }}</div>
 {% endfor %}
@@ -150,6 +156,8 @@
     {% else %}
     <p> <div class="alert alert-block">No hay Propiedades disponibles.</div></p>
     {% endif %}
+</div>
+</div>
 <script type="text/javascript">
     url = "{{ path('mycp_get_mun_by_prov', { 'country_code': '-1' }) }}";
     url=url.replace('/-1','');
