@@ -26,7 +26,7 @@ use MyCp\mycpBundle\Service\TranslatorResponseStatusCode;
  */
 class ownershipRepository extends EntityRepository {
 
-    function insert($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller, $dir, $translator) {
+    function insert($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller, $translator, $container) {
         $active_top_20 = 0;
         if (isset($data['top_20']))
             $active_top_20 = 1;
@@ -264,7 +264,7 @@ class ownershipRepository extends EntityRepository {
         //save client casa
         if ($new_user && $status->getStatusId() == ownershipStatus::STATUS_ACTIVE) {
             $file = $request->files->get('user_photo');
-            $em->getRepository('mycpBundle:userCasa')->createUser($ownership, $file, $dir, $factory, $send_creation_mail, $controller);
+            $em->getRepository('mycpBundle:userCasa')->createUser($ownership, $file, $factory, $send_creation_mail, $controller, $container);
         }
 
         //save owner photo
@@ -275,7 +275,7 @@ class ownershipRepository extends EntityRepository {
         return $ownership;
     }
 
-    function edit($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller, $dir, $translator) {
+    function edit($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller, $translator, $container) {
         $id_ownership = $data['edit_ownership'];
 
         $active_top_20 = 0;
@@ -546,7 +546,7 @@ class ownershipRepository extends EntityRepository {
         //save client casa
         if ($new_user && $status->getStatusId() == ownershipStatus::STATUS_ACTIVE) {
             $file = $request->files->get('user_photo');
-            $em->getRepository('mycpBundle:userCasa')->createUser($ownership, $file, $dir, $factory, $send_creation_mail, $controller);
+            $em->getRepository('mycpBundle:userCasa')->createUser($ownership, $file, $factory, $send_creation_mail, $controller,$container);
         }
 
         //If the status of the accommodation change from active to inactive, then the userCasa account associated must be set to disabled

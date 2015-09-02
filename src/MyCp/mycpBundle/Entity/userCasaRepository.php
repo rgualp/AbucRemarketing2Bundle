@@ -40,7 +40,7 @@ class userCasaRepository extends EntityRepository {
         return $query->getResult();
     }
 
-    function createUser($ownership, $file, $container, $factory, $send_creation_mail, $controller) {
+    function createUser($ownership, $file, $factory, $send_creation_mail, $controller, $container) {
         $em = $this->getEntityManager();
         $dir_file = $container->getParameter('user.dir.photos');
         $photoSize = $container->getParameter('user.photo.size');

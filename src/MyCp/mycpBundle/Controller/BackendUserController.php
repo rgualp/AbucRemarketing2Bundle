@@ -142,7 +142,7 @@ class BackendUserController extends Controller {
 
                     $send_notification_email = (isset($post['user_send_mail']) && !empty($post['user_send_mail']));
 
-                    $em->getRepository('mycpBundle:userCasa')->createUser($ownership, $file, $this->container, $factory, $send_notification_email, $this);
+                    $em->getRepository('mycpBundle:userCasa')->createUser($ownership, $file, $factory, $send_notification_email, $this, $this->container);
                     $message = 'Usuario añadido satisfactoriamente.';
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
 

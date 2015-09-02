@@ -956,7 +956,7 @@ class BackendOwnershipController extends Controller {
                             $service_log->saveLog('Edit entity ' . $post['ownership_mcp_code'], BackendModuleName::MODULE_OWNERSHIP);
                         }
 
-                        $ownership = $em->getRepository('mycpBundle:ownership')->edit($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this, $this->container->getParameter('user.dir.photos'), $translator);
+                        $ownership = $em->getRepository('mycpBundle:ownership')->edit($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this, $translator,$this->container );
                         $current_ownership_id = $ownership->getOwnId();
 
                         //Enviar correo a los propietarios
@@ -977,7 +977,7 @@ class BackendOwnershipController extends Controller {
                         $message = 'La propiedad '.$ownership->getOwnMcpCode().'(Código automático: '.$ownership->getOwnMcpCodeGenerated().') ha sido actualizada satisfactoriamente.';
                     } else {
 
-                        $ownership = $em->getRepository('mycpBundle:ownership')->insert($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this, $this->container->getParameter('user.dir.photos'),$translator);
+                        $ownership = $em->getRepository('mycpBundle:ownership')->insert($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this,$translator, $this->container);
                         $current_ownership_id = $ownership->getOwnId();
 
                         $message = 'La propiedad '.$ownership->getOwnMcpCode().'(Código automático: '.$ownership->getOwnMcpCodeGenerated().') ha sido añadida satisfactoriamente.';
