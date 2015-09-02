@@ -19,7 +19,9 @@
 </ul>
 <div class="form-actions">
     <button class="btn btn-primary" type="submit">Guardar</button>
+    {% if edit_detail is defined %}
     <a class="btn btn-danger" href="{{ path("mycp_delete_unavailabilityDetails",{"num_room":num_room, "id_detail": edit_detail}) }}">Eliminar</a>
+    {% endif %}
     <a class="btn" href="{{path('mycp_list_room_details_unavailabilityDetails',{'id_room':id_room, 'num_room':num_room})}}">Cancelar</a>
 </div>
 </form>
