@@ -2731,6 +2731,14 @@
                  <source>AUTOMATIC_TRANSLATED</source>
                  <target>Traducido automáticamente utilizando Google Translator</target>
             </trans-unit>
+            <trans-unit id="693">
+                 <source>SENDER_NAME</source>
+                 <target>Su nombre</target>
+            </trans-unit>
+            <trans-unit id="694">
+                 <source>SENDER_EMAIL</source>
+                 <target>Su correo</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

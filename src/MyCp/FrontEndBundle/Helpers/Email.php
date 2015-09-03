@@ -20,14 +20,14 @@ class Email {
     // <editor-fold defaultstate="collapsed" desc="Recommend Mails">
     public function recommend2Friend($email_from, $name_from, $email_to) {
         $body = $this->container->get('templating')->render("FrontEndBundle:mails:recommend2FriendMailBody.html.twig", array('from' => $name_from));
-        $this->sendEmail($body, $email_from, $name_from, $email_to, $this->container->get('templating')->render("FrontEndBundle:mails:recommend2FriendMailTemplate.html.twig", array('from' => $name_from)));
+        $this->sendEmail("MyCasaParticular", $email_from, $name_from, $email_to, $body);
     }
 
     public function recommendProperty2Friend($email_from, $name_from, $email_to, $property) {
         /* remove after domain optimization. */
         $photo = $this->em->getRepository('mycpBundle:ownership')->getOwnershipPhoto($property->getOwnId());
         $body = $this->container->get('templating')->render("FrontEndBundle:mails:recommendProperty2FriendMailBody.html.twig", array('from' => $name_from));
-        $this->sendEmail($body, $email_from, $name_from, $email_to, $this->container->get('templating')->render("FrontEndBundle:mails:recommendProperty2FriendMailTemplate.html.twig", array('from' => $name_from, 'property' => $property, 'photo' => $photo)));
+        $this->sendEmail("MyCasaParticular", $email_from, $name_from, $email_to, $this->container->get('templating')->render("FrontEndBundle:mails:recommendProperty2FriendMailTemplate.html.twig", array('from' => $name_from, 'property' => $property, 'photo' => $photo)));
     }
 
     public function recommendDestiny2Friend($email_from, $name_from, $email_to, $destiny) {
@@ -38,7 +38,7 @@ class Email {
         } else {
             $photo = "no_photo.png";
         }
-        $this->sendEmail("", $email_from, $name_from, $email_to, $this->container->get('templating')->render("FrontEndBundle:mails:recommendDestiny2FriendMailTemplate.html.twig", array('from' => $name_from, 'destiny' => $destiny, 'photo' => $photo)));
+        $this->sendEmail("MyCasaParticular", $email_from, $name_from, $email_to, $this->container->get('templating')->render("FrontEndBundle:mails:recommendDestiny2FriendMailTemplate.html.twig", array('from' => $name_from, 'destiny' => $destiny, 'photo' => $photo)));
     }
 
 // </editor-fold>

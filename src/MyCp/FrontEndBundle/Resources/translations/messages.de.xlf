@@ -2216,15 +2216,15 @@
                 </trans-unit>
                 <trans-unit id="564">
                     <source>DO_YOU_WISH_TO_RECOMEND_THIS_ACCOMODATTION</source>
-                    <target>empfiehlt Dir eine Unterkunft von MyCasaParticular</target>
+                    <target>empfiehlt Ihnen die Unterkunft in MyCasaParticular</target>
                 </trans-unit>
                 <trans-unit id="565">
                     <source>DO_YOU_WISH_TO_RECOMEND_THIS_DESTINATION</source>
-                    <target>Möchtest du, dass wir dir ein Reiseziel in MyCasaParticular empfehlen?</target>
+                    <target>empfiehlt, dieses Schicksal zu MyCasaParticular</target>
                 </trans-unit>
                 <trans-unit id="566">
                     <source>DO_YOU_WISH_TO_RECOMEND_TO_VISIT</source>
-                    <target>Möchtest du, dass wir den Besuch von empfehlen?</target>
+                    <target>empfiehlt, die Sie besuchen</target>
                 </trans-unit>
                 <trans-unit id="567">
                     <source>ENABLE_ACCOUNT</source>
@@ -2728,6 +2728,14 @@
             <trans-unit id="692">
                  <source>AUTOMATIC_TRANSLATED</source>
                  <target>By Google Translator übersetzt Automatische</target>
+            </trans-unit>
+            <trans-unit id="693">
+                 <source>SENDER_NAME</source>
+                 <target>Ihr Name</target>
+            </trans-unit>
+            <trans-unit id="694">
+                 <source>SENDER_EMAIL</source>
+                 <target>Ihre E-Mail</target>
             </trans-unit>
         </body>
     </file>

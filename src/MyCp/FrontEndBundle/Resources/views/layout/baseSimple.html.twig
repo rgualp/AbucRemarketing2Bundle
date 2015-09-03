@@ -38,22 +38,14 @@
     {% endblock %}
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {#% stylesheets '@FrontEndBundle/Resources/public/css/*' filter='yui_css' %#}
     <link href="{{ asset('bundles/frontend/css/custom.css') }}" rel="stylesheet" media="screen">
-    {#% endstylesheets %#}
     {% if ownership.category is defined and  ownership.category == 'Económica'%}
-        {#% stylesheets '@FrontEndBundle/Resources/public/css/*' filter='yui_css' %#}
         <link href="{{ asset('bundles/frontend/css/economic_house.css') }}" rel="stylesheet" media="screen">
-        {#% endstylesheets %#}
     {% endif %}
     {% if ownership.category is defined and  ownership.category == 'Premium'%}
-        {#% stylesheets '@FrontEndBundle/Resources/public/css/*' filter='yui_css' %#}
         <link href="{{ asset('bundles/frontend/css/premium_house.css') }}" rel="stylesheet" media="screen">
-        {#% endstylesheets %#}
     {% endif %}
-    {#% javascripts '@FrontEndBundle/Resources/public/js/*' filter='yui_js' %#}
     <script src="{{ asset('bundles/frontend/js/jquery.js') }}"></script>
-    {#% endjavascripts %#}
     <link rel="shortcut icon" href="{{ asset('bundles/frontend/img/map_small.png') }}" />
 
     <!-- Apple Touch Icon -->
@@ -179,12 +171,10 @@
 </footer>
 
 </body>
-{#% javascripts '@FrontEndBundle/Resources/public/js/*' filter='yui_js' %#}
 <script src="{{ asset('bundles/frontend/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/respond.min.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/jail.min.js') }}"></script>
 <script src="{{ asset('bundles/frontend/js/custom.min.js') }}"></script>
-{#% endjavascripts %#}
 <script type="text/javascript">
     topmenucont = $('#top-menu-cont');
     topmenu = $("#top-menu").offset().top;
