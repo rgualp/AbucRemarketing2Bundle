@@ -96,6 +96,7 @@ function viewReport()
 
 
     $("#bExcel").attr('href', exportUrl);
+    
     $("#bViewReport").attr("disabled", "disabled");
     $("#bExcel").attr("disabled", "disabled");
 
