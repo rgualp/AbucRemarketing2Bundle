@@ -157,7 +157,7 @@
                     <td>{{reservation[3]+reservation[5]}}</td>
                     <td>{{reservation[0].gen_res_from_date|date("d/m/Y")}}</td>
                     <td>{{total_nights[loop.index0]}}</td>
-                    <td>{{ reservation[0].gen_res_total_in_site }} CUC {{reservation[0].gen_res_status}}</td>
+                    <td>{{ reservation[0].gen_res_total_in_site }} CUC</td>
                     <td>
                         {{ render(controller('mycpBundle:BackendReservation:getGeneralReservationStatusName', {'status': reservation[0].gen_res_status, 'wrap': false, 'showInDiv': true})) }}
                     </td>

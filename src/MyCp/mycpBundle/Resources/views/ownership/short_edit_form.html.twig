@@ -150,16 +150,12 @@
                 <select class="input-block-level" name="room_beds_number_{{ i }}" disabled="disabled">
                     {{ render(controller('mycpBundle:BackendOwnership:get_range_max_5', {'post':post,'id':i})) }}
                 </select>
-                <label>Rango precio (Temporada alta) (*)</label>
-                {% if errors['room_price_up_from_'~i] is defined %}<label class="error">{{errors['room_price_up_from_'~i]|trim(':')}}</label>{%endif%}
-                <input value="{% if(post['room_price_up_from_'~i] is defined) %}{{post['room_price_up_from_'~i]}}{% endif %}" class="input-block-level" placeholder="Desde" type="text" name="room_price_up_from_{{ i }}" disabled="disabled"/>
+                <label>Precio (Temporada alta) (*)</label>
                 {% if errors['room_price_up_to_'~i] is defined %}<label class="error">{{errors['room_price_up_to_'~i]|trim(':')}}</label>{%endif%}
-                <input value="{% if(post['room_price_up_to_'~i] is defined) %}{{post['room_price_up_to_'~i]}}{% endif %}" class="input-block-level" placeholder="Hasta" type="text" name="room_price_up_to_{{ i }}" disabled="disabled"/>
-                <label>Rango precio (Temporada baja) (*)</label>
-                {% if errors['room_price_down_from_'~i] is defined %}<label class="error">{{errors['room_price_down_from_'~i]|trim(':')}}</label>{%endif%}
-                <input value="{% if(post['room_price_down_from_'~i] is defined) %}{{post['room_price_down_from_'~i]}}{% endif %}" class="input-block-level" placeholder="Desde" type="text" name="room_price_down_from_{{ i }}" disabled="disabled"/>
+                <input value="{% if(post['room_price_up_to_'~i] is defined) %}{{post['room_price_up_to_'~i]}}{% endif %}" class="input-block-level" placeholder="Precio" type="text" name="room_price_up_to_{{ i }}" disabled="disabled"/>
+                <label>Precio (Temporada baja) (*)</label>
                 {% if errors['room_price_down_to_'~i] is defined %}<label class="error">{{errors['room_price_down_to_'~i]|trim(':')}}</label>{%endif%}
-                <input value="{% if(post['room_price_down_to_'~i] is defined) %}{{post['room_price_down_to_'~i]}}{% endif %}" class="input-block-level" placeholder="Hasta" type="text" name="room_price_down_to_{{ i }}" disabled="disabled"/>
+                <input value="{% if(post['room_price_down_to_'~i] is defined) %}{{post['room_price_down_to_'~i]}}{% endif %}" class="input-block-level" placeholder="Precio" type="text" name="room_price_down_to_{{ i }}" disabled="disabled"/>
                 <label>Climatización (*)</label>
                 {% if errors['room_climate_'~i] is defined %}<label class="error">{{errors['room_climate_'~i]|trim(':')}}</label>{%endif%}
                 <select class="input-block-level" name="room_climate_{{ i }}" disabled="disabled">

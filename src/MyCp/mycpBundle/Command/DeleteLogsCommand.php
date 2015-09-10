@@ -33,20 +33,25 @@ class DeleteLogsCommand extends ContainerAwareCommand {
         $date = new \DateTime();
         $date = $timer->add("-3 month", $date->format("Y-m-d") , "Y-m-d");
 
-        $logs = $em->getRepository('mycpBundle:log')->getOldLogs($date);
-
+        $logs = $em->getRepository('mycpBundle:log')->getOldLogs($date, 3000);
         if (empty($logs)) {
             $output->writeln('No logs found for export and delete.');
             return 0;
         }
 
-        $output->writeln('Exporting and deleting: ' . count($logs));
+        $iteration = 1;
 
-        try{
-            $logger->exportAndDeleteLogs($logs);
-        } catch (\Exception $e) {
-            $message = "An error has ocurred " . PHP_EOL . $e->getMessage();
-            $output->writeln($message);
+        while(count($logs) > 0) {
+
+            $output->writeln('Iteration '.$iteration.'. Exporting and deleting: ' . count($logs));
+
+            try {
+                $logger->exportAndDeleteLogs($logs);
+            } catch (\Exception $e) {
+                $message = "An error has ocurred " . PHP_EOL . $e->getMessage();
+                $output->writeln($message);
+            }
+            $logs = $em->getRepository('mycpBundle:log')->getOldLogs($date, 3000);
         }
 
         $output->writeln('Operation completed!!!');
