@@ -369,20 +369,23 @@ class ownershipReservationRepository extends EntityRepository {
         return $query->setParameter('start', $startParam)->setParameter('end', $endParam)->setParameter('roomId', $roomId)->getResult();
     }
 
-    public function getAllReservations($ownership, $date = null)
+    public function getAllReservations($olders, $date = null, $startIndex = 0, $maxResults = 500)
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
         $qb->select("res")
             ->from("mycpBundle:ownershipReservation", "res")
             ->join("res.own_res_gen_res_id", "gen")
-            ->where("gen.gen_res_own_id = :idOwnership")
-            ->setParameter('idOwnership',$ownership->getOwnId())
-            ->orderBy('res.own_res_gen_res_id', 'ASC');
+            ->orderBy('res.own_res_gen_res_id', 'ASC')
+            ->setFirstResult($startIndex)
+            ->setMaxResults($maxResults);
 
         if($date != null)
         {
-            $qb->andWhere("gen.gen_res_date >= :date")->setParameter('date',$date);
+            if($olders)
+              $qb->andWhere("gen.gen_res_date <= :date")->setParameter('date',$date);
+            else
+                $qb->andWhere("gen.gen_res_date >= :date")->setParameter('date',$date);
         }
 
         return $qb->getQuery()->getResult();

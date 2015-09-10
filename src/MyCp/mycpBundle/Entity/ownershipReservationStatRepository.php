@@ -210,35 +210,29 @@ class ownershipReservationStatRepository extends EntityRepository
        return $municipalities;
    }
 
-    public function calculateStats($ownership, $date, $timer)
+    public function calculateStats($nomenclators, $date, $timer, $olders, $startIndex = 0, $maxResults = 500)
     {
         $em = $this->getEntityManager();
         $resRepository=$em->getRepository("mycpBundle:ownershipReservation");
-        $nomenclatorRepository=$em->getRepository("mycpBundle:nomenclatorStat");
-        $nomReservations=$nomenclatorRepository->findOneBy(array('nom_name'=>'Solicitudes'));
-        $nomReceived=$nomenclatorRepository->findOneBy(array('nom_name'=>'Recibidas', "nom_parent" => $nomReservations));
-        $nomNonAvailable=$nomenclatorRepository->findOneBy(array('nom_name'=>'No disponibles', "nom_parent" => $nomReservations));
-        $nomAvailable=$nomenclatorRepository->findOneBy(array('nom_name'=>'Marcadas como disponibles', "nom_parent" => $nomReservations));
-        $nomReserved=$nomenclatorRepository->findOneBy(array('nom_name'=>'Reservadas', "nom_parent" => $nomReservations));
-        $nomOutdated=$nomenclatorRepository->findOneBy(array('nom_name'=>'Vencidas', "nom_parent" => $nomReservations));
+        $nomReceived = $nomenclators['received'];
+        $nomNonAvailable = $nomenclators['nonAvailable'];
+        $nomAvailable = $nomenclators['available'];
+        $nomReserved = $nomenclators['reserved'];
+        $nomOutdated = $nomenclators['outdated'];
+        $nomGuests = $nomenclators['guests'];
+        $nomNights = $nomenclators['nights'];
+        $nomRooms = $nomenclators['rooms'];
+        $nomCommentsTotal = $nomenclators['commentsTotal'];
+        $nomPossibleIncomesTotal = $nomenclators['possibleIncomes'];
+        $nomAccommodationRealIncomes = $nomenclators['accommodationIncomes'];
+        $nomMyCPRealIncomes = $nomenclators['mycpIncomes'];
 
-        $nomRent=$nomenclatorRepository->findOneBy(array('nom_name'=>'Hospedaje'));
-        $nomGuests=$nomenclatorRepository->findOneBy(array('nom_name'=>'Huéspedes recibidos', "nom_parent" => $nomRent));
-        $nomNights=$nomenclatorRepository->findOneBy(array('nom_name'=>'Noches reservadas', "nom_parent" => $nomRent));
-        $nomRooms=$nomenclatorRepository->findOneBy(array('nom_name'=>'Habitaciones reservadas', "nom_parent" => $nomRent));
-
-        $nomComment=$nomenclatorRepository->findOneBy(array('nom_name'=>'Comentarios'));
-        $nomCommentsTotal=$nomenclatorRepository->findOneBy(array('nom_name'=>'Total', "nom_parent" => $nomComment));
-
-        $nomIncomes=$nomenclatorRepository->findOneBy(array('nom_name'=>'Ingresos'));
-        $nomPossibleIncomesTotal=$nomenclatorRepository->findOneBy(array('nom_name'=>'Posibles inglesos totales', "nom_parent" => $nomIncomes));
-        $nomAccommodationRealIncomes=$nomenclatorRepository->findOneBy(array('nom_name'=>'Ingresos reales (Casa)', "nom_parent" => $nomIncomes));
-        $nomMyCPRealIncomes=$nomenclatorRepository->findOneBy(array('nom_name'=>'Ingresos reales (MyCP)', "nom_parent" => $nomIncomes));
 
         $result = array();
-        $reservations=  $resRepository->getAllReservations($ownership, $date);
+        $reservations=  $resRepository->getAllReservations($olders, $date, $startIndex, $maxResults);
 
         foreach($reservations as $reservation) {
+            $ownership = $reservation->getOwnResGenResId()->getGenResOwnId();
             //Total de reservaciones recibidas por estados
             $stat = new ownershipReservationStat();
             $stat->setStatAccommodation($ownership)
@@ -287,11 +281,11 @@ class ownershipReservationStatRepository extends EntityRepository
                     $result[] = $stat;
 
                     //Total de habitaciones reservadas
-                    $countRooms = count($em->getRepository("mycpBundle:ownershipReservation")->findBy(array("own_res_gen_res_id" => $reservation->getOwnResGenResId()->getGenResId())));
+                    //$countRooms = count($em->getRepository("mycpBundle:ownershipReservation")->findBy(array("own_res_gen_res_id" => $reservation->getOwnResGenResId()->getGenResId())));
                     $stat = new ownershipReservationStat();
                     $stat->setStatAccommodation($ownership)
                         ->setStatNomenclator($nomRooms)
-                        ->setStatValue($countRooms)
+                        ->setStatValue(1)
                         ->setStatDateFrom($reservation->getOwnResReservationFromDate())
                         ->setStatDateTo($reservation->getOwnResReservationToDate());
                     $result[] = $stat;
@@ -373,19 +367,19 @@ class ownershipReservationStatRepository extends EntityRepository
                 }
             }
         }
-
-        $result = $this->calculateCommentsStats($ownership,$nomCommentsTotal, $result, $date);
         return $result;
 
     }
 
-    function calculateCommentsStats($ownership, $nomenclator, $result, $date = null)
+    function calculateCommentsStats($nomenclator,$olders, $date = null, $startIndex = 0, $maxResults = 500)
     {
         $em = $this->getEntityManager();
-        $comments = $em->getRepository("mycpBundle:comment")->getCommentsByAccommodation($ownership, $date);
+        $result = array();
+        $comments = $em->getRepository("mycpBundle:comment")->getCommentsByAccommodation($olders,$date, $startIndex, $maxResults);
 
         foreach($comments as $comment) {
             //Total de comentarios recibidos por fecha
+            $ownership = $comment->getComOwnership();
             $stat = new ownershipReservationStat();
             $stat->setStatAccommodation($ownership)
                 ->setStatNomenclator($nomenclator)

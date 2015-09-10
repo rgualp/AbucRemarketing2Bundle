@@ -246,18 +246,21 @@ class commentRepository extends EntityRepository {
         }
     }
 
-    function getCommentsByAccommodation($ownership, $date = null)
+    function getCommentsByAccommodation($olders, $date = null, $startIndex = 0, $maxResults = 500)
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
         $qb->select("comment")
             ->from("mycpBundle:comment", "comment")
-            ->where("comment.com_ownership = :idOwnership")
-            ->setParameter('idOwnership',$ownership->getOwnId());
+            ->setFirstResult($startIndex)
+            ->setMaxResults($maxResults);
 
         if($date != null)
         {
-            $qb->andWhere("comment.com_date >= :date")->setParameter('date',$date);
+            if($olders)
+                $qb->andWhere("comment.com_date <= :date")->setParameter('date',$date);
+            else
+                $qb->andWhere("comment.com_date >= :date")->setParameter('date',$date);
         }
 
         return $qb->getQuery()->getResult();
