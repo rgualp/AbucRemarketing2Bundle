@@ -12,7 +12,7 @@ mycp_list_rooms_unavailabilityDetails:
 
 mycp_list_room_details_unavailabilityDetails:
     pattern:  /room/details/{id_room}/{num_room}/{items_per_page}
-    defaults: { _controller: mycpBundle:BackendUnavailabilityDetails:room_details , items_per_page:10}
+    defaults: { _controller: mycpBundle:BackendUnavailabilityDetails:room_details , items_per_page:50}
 
 mycp_delete_unavailabilityDetails:
     pattern:  /room/detail/delete/{num_room}/{id_detail}
