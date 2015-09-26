@@ -81,3 +81,7 @@ mycp_test_send_voucher_rt:
 mycp_test_view_voucher_rt:
     pattern:  /view-voucher/{reservation}
     defaults: { _controller: mycpBundle:BackendTestEmailTemplate:viewVoucher, reservation: null}
+
+mycp_test_send_directory_rt:
+    pattern:  /send-directory/{mail}
+    defaults: { _controller: mycpBundle:BackendTestEmailTemplate:sendDirectory, mail:null}

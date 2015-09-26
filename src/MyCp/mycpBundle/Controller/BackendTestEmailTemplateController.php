@@ -2,7 +2,10 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use MyCp\mycpBundle\Command\AccommodationNotificationCommand;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use MyCp\mycpBundle\Entity\generalReservation;
@@ -476,6 +479,17 @@ class BackendTestEmailTemplateController extends Controller {
             $this->get('session')->getFlashBag()->add('message_error_main', $e->getMessage());
             return $this->redirect($this->generateUrl('mycp_test_home'));
         }
+    }
+
+    public function sendDirectoryAction($mail, Request $request) {
+
+        $command = new AccommodationNotificationCommand();
+        $command->setContainer($this->container);
+        $input = new ArrayInput(array('email' => $mail));
+        $output = new NullOutput();
+        $resultCode = $command->run($input, $output);
+
+        return $this->redirect($this->generateUrl('mycp_test_home'));
     }
 
 }

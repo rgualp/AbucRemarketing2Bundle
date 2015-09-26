@@ -45,7 +45,9 @@
     </tr>
     <tr>
         <td><a href="{{path("mycp_test_accommodation_notification_rt")}}">Comando: Notificación de últimos alojamientos añadidos</a></td>
-        <td></td>
+        <td>
+            <button class="btn btn-warning bSendDirectory" data-url="{{path("mycp_test_send_directory_rt")}}">Enviar</button>
+        </td>
     </tr>
 </table><hr/>
 
@@ -229,6 +231,15 @@
         reservation = $("#tReservationVoucher").val();
         mail = $("#tEmail").val();
         url=url+'/'+reservation+'/'+mail;
+        /*$('#form').attr('action',url);
+         $('#form').submit();*/
+        window.location = url;
+    });
+
+    $(".bSendDirectory").click(function(){
+        url = $(this).attr("data-url");
+        mail = $("#tEmail").val();
+        url=url+'/'+mail;
         /*$('#form').attr('action',url);
          $('#form').submit();*/
         window.location = url;
