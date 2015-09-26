@@ -978,8 +978,9 @@ class ownershipRepository extends EntityRepository {
         return $results;
     }
 
-    function getByProvince($idProvince) {
+    function getByProvince($idProvince, $status = null) {
         $em = $this->getEntityManager();
+        $whereByStatus = ($status != null) ? " AND o.own_status = :status" : "";
         $query_string = "SELECT o.own_id as ownId,
                          o.own_mcp_code_generated as generatedCode,
                          o.own_name as name,
@@ -1007,11 +1008,14 @@ class ownershipRepository extends EntityRepository {
                          JOIN o.own_address_province prov
                          JOIN o.own_address_municipality mun
                          JOIN o.own_status s
-                         WHERE o.own_address_province=$idProvince ORDER BY o.own_mcp_code ASC";
+                         WHERE o.own_address_province=$idProvince $whereByStatus ORDER BY o.own_mcp_code ASC";
 
-        $results = $em->createQuery($query_string)->getResult();
+        $queryObj = $em->createQuery($query_string);
 
-        return $results;
+        if($status != null)
+            $queryObj->setParameter("status", $status);
+
+        return $queryObj->getResult();
     }
 
     function getByCodesArray($ownsCodesArray) {

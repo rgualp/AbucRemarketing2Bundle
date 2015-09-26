@@ -8,6 +8,10 @@
     </style>
 </head>
 <body style="font-family: Arial; font-size: 15px">
+Hola:
+Desde MyCasaParticular.com le enviamos el directorio de casas activas actualizado. El fichero se encuentra adjunto a este mensaje.
+{% if ownerships %}
+ También, a continuación le informamos acerca de los últimos alojamientos agregados al sitio.<br/>
 <h3>Últimos alojamientos añadidos</h3>
 <table>
     <tr>
@@ -55,5 +59,8 @@
     </tr>
     {%endfor%}
 </table>
+{% endif %}
+<br/>
+Saludos.
 </body>
 </html>

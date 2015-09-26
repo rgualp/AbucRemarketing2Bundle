@@ -462,10 +462,31 @@ class ExportToExcel extends Controller {
         return $this->export($fileName);
     }
 
-    private function dataForAccommodationsDirectory($excel,$idProvince) {
+    public function getAccommodationsDirectoryByStatus($status, $fileName = "directorioActivas", $exportFile = false) {
+        $excel = $this->configExcel("Directorio de alojamientos activos", "Directorio de alojamientos activos de MyCasaParticular", "alojamientos activos");
+
+        $provinces = $this->em->getRepository("mycpBundle:province")->findBy(array(), array("prov_code" => "ASC"));
+
+        foreach ($provinces as $prov) {
+            //Hacer una hoja por cada provincia
+            $data = $this->dataForAccommodationsDirectory($excel,$prov->getProvId(), $status);
+
+            if (count($data) > 0)
+                $excel = $this->createSheetForAccommodationsDirectory($excel, $prov->getProvCode(), $data);
+        }
+        $fileName = $this->getFileName($fileName);
+        $this->save($excel, $fileName);
+
+        if($exportFile)
+            return $this->export($fileName);
+
+        return $this->excelDirectoryPath.$fileName;
+    }
+
+    private function dataForAccommodationsDirectory($excel,$idProvince, $status = null) {
         $results = array();
 
-        $ownerships = $this->em->getRepository("mycpBundle:ownership")->getByProvince($idProvince);
+        $ownerships = $this->em->getRepository("mycpBundle:ownership")->getByProvince($idProvince, $status);
 
         foreach ($ownerships as $own) {
             $data = array();
