@@ -982,10 +982,13 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $query_string = "SELECT o.own_id as ownId,
                          o.own_mcp_code_generated as generatedCode,
+                         o.own_name as name,
                          o.own_mcp_code as mycpCode,
                          o.own_rooms_total as totalRooms,
                          o.own_homeowner_1 as owner1,
                          o.own_homeowner_2 as owner2,
+                         o.own_email_1 as email1,
+                         o.own_email_2 as email2,
                          prov.prov_phone_code as provCode,
                          o.own_phone_number as phone,
                          o.own_mobile_number as mobile,

@@ -471,24 +471,26 @@ class ExportToExcel extends Controller {
             $data = array();
 
             $data[0] = $own["mycpCode"];
-            $data[1] = $own["generatedCode"];
+            $data[1] = $own["name"];
             $data[2] = $own["totalRooms"];
             $data[3] = $own["owner1"].(($own["owner2"] != "")? " / ". $own["owner2"] : "");
-            $data[4] = (($own["phone"] != "")?"(+53) ".$own["provCode"]. " ".$own["phone"] : "").(($own["mobile"] != "" && $own["phone"] != "") ? " / ": "").(($own["mobile"] != "") ? $own["mobile"]: "");
-            $data[5] = "Calle ". $own["street"]." No.".$own["number"].(($own["between1"] != "" && $own["between2"] != "") ? " entre ".$own["between1"]." y ".$own["between2"] : "");
-            $data[6] = $own["municipality"];
-            $data[7] = $own["status"];
+            $data[4] = "Calle ". $own["street"]." No.".$own["number"].(($own["between1"] != "" && $own["between2"] != "") ? " entre ".$own["between1"]." y ".$own["between2"] : "");
+            $data[5] = (($own["phone"] != "")?"(+53) ".$own["provCode"]. " ".$own["phone"] : "").(($own["mobile"] != "" && $own["phone"] != "") ? " / ": "").(($own["mobile"] != "") ? $own["mobile"]: "");
+            $data[6] = $own["email1"].(($own["email2"] != "")? " / ". $own["email2"] : "");
 
             if($own["lowDown"] != $own["highDown"])
-                $data[8] = $own["lowDown"]." - ".$own["highDown"]." CUC";
+                $data[7] = $own["lowDown"]." - ".$own["highDown"]." CUC";
             else
-                $data[8] = $own["highDown"]." CUC";
+                $data[7] = $own["highDown"]." CUC";
 
 
             if($own["lowUp"] != $own["highUp"])
-                $data[9] = $own["lowUp"]." - ".$own["highUp"]." CUC";
+                $data[8] = $own["lowUp"]." - ".$own["highUp"]." CUC";
             else
-                $data[9] = $own["highUp"]." CUC";
+                $data[8] = $own["highUp"]." CUC";
+
+            $data[9] = $own["status"];
+            $data[10] = $own["municipality"];
 
             array_push($results, $data);
         }
@@ -498,35 +500,37 @@ class ExportToExcel extends Controller {
 
     private function createSheetForAccommodationsDirectory($excel, $sheetName, $data) {
         $sheet = $this->createSheet($excel, $sheetName);
-        $sheet->setCellValue('a1', 'Propiedad');
-        $sheet->setCellValue('b1', 'Codigo Automatico');
+        $sheet->setCellValue('a1', 'Código');
+        $sheet->setCellValue('b1', 'Casa');
         $sheet->setCellValue('c1', 'Habitaciones');
         $sheet->setCellValue('d1', 'Propietario(s)');
-        $sheet->setCellValue('e1', 'Teléfono(s)');
-        $sheet->setCellValue('f1', 'Dirección');
-        $sheet->setCellValue('g1', 'Municipio');
-        $sheet->setCellValue('h1', 'Estado');
-        $sheet->setCellValue('i1', 'Temporada Baja');
-        $sheet->setCellValue('j1', 'Temporada Alta');
+        $sheet->setCellValue('e1', 'Dirección');
+        $sheet->setCellValue('f1', 'Teléfono(s)');
+        $sheet->setCellValue('g1', 'Correo(s)');
+        $sheet->setCellValue('h1', 'Temporada Baja');
+        $sheet->setCellValue('i1', 'Temporada Alta');
+        $sheet->setCellValue('j1', 'Estado');
+        $sheet->setCellValue('k1', 'Municipio');
 
-        $sheet = $this->styleHeader("a1:j1", $sheet);
+
+        $sheet = $this->styleHeader("a1:k1", $sheet);
 
         $sheet->fromArray($data, ' ', 'A2');
 
-        $this->setColumnAutoSize("a", "j", $sheet);
+        $this->setColumnAutoSize("a", "k", $sheet);
 
-        /*for($i = 0; $i < count($data); $i++)
+        for($i = 0; $i < count($data); $i++)
         {
-            if($data[$i][1] === "" || $data[$i][0] !== $data[$i][1])
+            if($data[$i][9] != "Activo")
             {
                 $style = array(
                     'font' => array(
                         'color' => array('rgb' => 'FF0000'),
                     ),
                 );
-                $sheet->getStyle("A".($i + 2).":J".($i + 2))->applyFromArray($style);
+                $sheet->getStyle("A".($i + 2).":K".($i + 2))->applyFromArray($style);
             }
-        }*/
+        }
 
         $sheet->setAutoFilter($sheet->calculateWorksheetDimension());
 
