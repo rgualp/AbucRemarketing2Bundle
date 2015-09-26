@@ -9,6 +9,7 @@
 namespace MyCp\mycpBundle\Helpers;
 
 use Doctrine\ORM\EntityManager;
+use MyCp\mycpBundle\Entity\room;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -78,10 +79,10 @@ class ExportToExcel extends Controller {
             $data[8] = $itinerary;
 
             $arrival = \DateTime::createFromFormat('Y-m-d', $content["arrivalDate"]);
-            $data[9] = $arrival->format('d/m/Y');
+            $data[9] = date('d/m/Y',$arrival->getTimestamp()); //$arrival->format('d/m/Y');
 
             $leaving = \DateTime::createFromFormat('Y-m-d', $content["leavingDate"]);
-            $data[10] = $leaving->format('d/m/Y');
+            $data[10] = date('d/m/Y',$leaving->getTimestamp());//$leaving->format('d/m/Y');
 
             array_push($results, $data);
         }
@@ -123,8 +124,9 @@ class ExportToExcel extends Controller {
         $sheet->getStyle("a1")->applyFromArray($style);
 
         $sheet->fromArray($data, ' ', 'A6');
-
         $this->setColumnAutoSize("a", "k", $sheet);
+        $sheet->getStyle('j6:k'.(count($data) + 5))->getNumberFormat()->setFormatCode(\PHPExcel_Style_NumberFormat::FORMAT_DATE_DDMMYYYY);
+        $sheet->setAutoFilter("A5:K".(count($data) + 5));
 
         return $excel;
     }
@@ -235,7 +237,7 @@ class ExportToExcel extends Controller {
             ->setFormatCode( \PHPExcel_Style_NumberFormat::FORMAT_TEXT );
 
         $sheet->fromArray($data["data"], ' ', 'A5');
-
+        //$sheet->setAutoFilter("A4:B".(count($data) + 5));
         $this->setColumnAutoSize("a", "b", $sheet);
 
         return $excel;
@@ -324,6 +326,7 @@ class ExportToExcel extends Controller {
         $sheet->fromArray($data, ' ', 'A6');
 
         $this->setColumnAutoSize("a", "c", $sheet);
+        $sheet->setAutoFilter("A5:C".(count($data) + 5));
 
         return $excel;
     }
@@ -375,7 +378,7 @@ class ExportToExcel extends Controller {
         $sheet = $this->styleHeader("a1:m1", $sheet);
 
         $sheet->fromArray($data, ' ', 'A2');
-
+        $sheet->setAutoFilter($sheet->calculateWorksheetDimension());
         $this->setColumnAutoSize("a", "m", $sheet);
         return $excel;
     }
@@ -512,7 +515,7 @@ class ExportToExcel extends Controller {
 
         $this->setColumnAutoSize("a", "j", $sheet);
 
-        for($i = 0; $i < count($data); $i++)
+        /*for($i = 0; $i < count($data); $i++)
         {
             if($data[$i][1] === "" || $data[$i][0] !== $data[$i][1])
             {
@@ -523,7 +526,9 @@ class ExportToExcel extends Controller {
                 );
                 $sheet->getStyle("A".($i + 2).":J".($i + 2))->applyFromArray($style);
             }
-        }
+        }*/
+
+        $sheet->setAutoFilter($sheet->calculateWorksheetDimension());
 
         return $excel;
     }
@@ -617,6 +622,7 @@ class ExportToExcel extends Controller {
         $sheet->fromArray($data, ' ', 'A2');
 
         $this->setColumnAutoSize("a", "l", $sheet);
+        $sheet->setAutoFilter($sheet->calculateWorksheetDimension());
         return $excel;
     }
 
@@ -943,6 +949,7 @@ class ExportToExcel extends Controller {
         $sheet->fromArray($data, ' ', 'A5');
 
         $this->setColumnAutoSize("a", "e", $sheet);
+        //$sheet->setAutoFilter("A4:e6");
 
         return $excel;
     }
