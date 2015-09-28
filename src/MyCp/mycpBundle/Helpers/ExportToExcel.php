@@ -457,7 +457,7 @@ class ExportToExcel extends Controller {
 
             if (count($data) > 0) {
                 $index++;
-                $sheetName = ($prov->getProvCode() != null  && $prov->getProvCode() != "") ? $prov->getProvCode() : "Hoja".$index;
+                $sheetName = ($prov!= null && $prov->getProvCode() != null  && $prov->getProvCode() != "") ? $prov->getProvCode() : (($prov!= null && $prov->getProvName() != null  && $prov->getProvName() != "") ? $prov->getProvName() : "Hoja".$index);
                 $excel = $this->createSheetForAccommodationsDirectory($excel, $sheetName, $data);
             }
         }
@@ -478,7 +478,7 @@ class ExportToExcel extends Controller {
 
             if (count($data) > 0) {
                 $index++;
-                $sheetName = ($prov->getProvCode() != null && $prov->getProvCode() != "") ? $prov->getProvCode() : "Hoja" . $index;
+                $sheetName = ($prov!= null && $prov->getProvCode() != null && $prov->getProvCode() != "") ? $prov->getProvCode() : (($prov!= null && $prov->getProvName() != null  && $prov->getProvName() != "") ? $prov->getProvName() : "Hoja".$index);
                 $excel = $this->createSheetForAccommodationsDirectory($excel, $sheetName, $data);
             }
         }
