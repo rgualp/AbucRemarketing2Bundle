@@ -450,12 +450,16 @@ class ExportToExcel extends Controller {
 
         $provinces = $this->em->getRepository("mycpBundle:province")->findBy(array(), array("prov_code" => "ASC"));
 
+        $index = 0;
         foreach ($provinces as $prov) {
             //Hacer una hoja por cada provincia
             $data = $this->dataForAccommodationsDirectory($excel,$prov->getProvId());
 
-            if (count($data) > 0)
-                $excel = $this->createSheetForAccommodationsDirectory($excel, $prov->getProvCode(), $data);
+            if (count($data) > 0) {
+                $index++;
+                $sheetName = ($prov->getProvCode() != null  && $prov->getProvCode() != "") ? $prov->getProvCode() : "Hoja".$index;
+                $excel = $this->createSheetForAccommodationsDirectory($excel, $sheetName, $data);
+            }
         }
         $fileName = $this->getFileName($fileName);
         $this->save($excel, $fileName);
@@ -467,12 +471,16 @@ class ExportToExcel extends Controller {
 
         $provinces = $this->em->getRepository("mycpBundle:province")->findBy(array(), array("prov_code" => "ASC"));
 
+        $index = 0;
         foreach ($provinces as $prov) {
             //Hacer una hoja por cada provincia
             $data = $this->dataForAccommodationsDirectory($excel,$prov->getProvId(), $status);
 
-            if (count($data) > 0)
-                $excel = $this->createSheetForAccommodationsDirectory($excel, $prov->getProvCode(), $data);
+            if (count($data) > 0) {
+                $index++;
+                $sheetName = ($prov->getProvCode() != null && $prov->getProvCode() != "") ? $prov->getProvCode() : "Hoja" . $index;
+                $excel = $this->createSheetForAccommodationsDirectory($excel, $sheetName, $data);
+            }
         }
         $fileName = $this->getFileName($fileName);
         $this->save($excel, $fileName);
@@ -670,6 +678,7 @@ class ExportToExcel extends Controller {
     private function createSheet($excel, $sheetName) {
         $sheet = new \PHPExcel_Worksheet($excel, $sheetName);
         $excel->addSheet($sheet, -1);
+        //$sheet = $excel->createSheet(-1);
         $sheet->setTitle($sheetName);
         return $sheet;
     }
