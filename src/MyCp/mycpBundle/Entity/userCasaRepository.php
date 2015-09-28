@@ -189,7 +189,7 @@ class userCasaRepository extends EntityRepository {
     function getOneByOwnCode($own_code)
     {
         $em = $this->getEntityManager();
-        $query_string = "SELECT uc
+        $query_string = "SELECT MIN(uc)
                   FROM mycpBundle:userCasa uc
                   JOIN uc.user_casa_ownership o
                   WHERE o.own_mcp_code = '$own_code'";
