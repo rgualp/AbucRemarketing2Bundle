@@ -23,9 +23,9 @@ class userCasaRepository extends EntityRepository {
     function getByUser($user_id)
     {
         $em = $this->getEntityManager();
-        $query = $em->createQuery("SELECT min(uc) FROM mycpBundle:userCasa uc join uc.user_casa_user us
+        $query = $em->createQuery("SELECT uc FROM mycpBundle:userCasa uc join uc.user_casa_user us
         Where us.user_id = :user_id");
-        $query->setParameter(':user_id', $user_id);
+        $query->setParameter(':user_id', $user_id)->setMaxResults(1);
         return $query->getSingleResult();
     }
 
@@ -189,23 +189,23 @@ class userCasaRepository extends EntityRepository {
     function getOneByOwnCode($own_code)
     {
         $em = $this->getEntityManager();
-        $query_string = "SELECT MIN(uc)
+        $query_string = "SELECT uc
                   FROM mycpBundle:userCasa uc
                   JOIN uc.user_casa_ownership o
                   WHERE o.own_mcp_code = '$own_code'";
 
-        $query = $em->createQuery($query_string);
+        $query = $em->createQuery($query_string)->setMaxResults(1);
         return $query->getOneOrNullResult();
     }
 
     function getOneByToken($token)
     {
         $em = $this->getEntityManager();
-        $query_string = "SELECT MIN(uc)
+        $query_string = "SELECT uc
                   FROM mycpBundle:userCasa uc
                   WHERE uc.user_casa_secret_token = '$token'";
 
-        $query = $em->createQuery($query_string);
+        $query = $em->createQuery($query_string)->setMaxResults(1);
         return $query->getOneOrNullResult();
     }
 
