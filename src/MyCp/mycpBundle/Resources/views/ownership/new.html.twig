@@ -660,7 +660,7 @@
     <h3 class="title">Foto del propietario(a)</h3>
     <div class="photoOwnerContainer">
         <div class="photoOwnerContainer">
-            {{ render(controller("mycpBundle:BackendOwnership:getOwnerPhoto", {'ownershipPhoto': data['ownership_owner'], 'ownershipId': data['id_ownership']})) }}
+            {{ render(controller("mycpBundle:BackendOwnership:getOwnerPhoto", {'ownershipPhoto': data['ownership_owner'], 'ownershipId': (data['id_ownership'] is defined) ? data['id_ownership'] : null})) }}
         </div>
     </div>
 </div>
