@@ -21,6 +21,9 @@ class BackendTestEmailTemplateController extends Controller {
     public function lastChanceToBookAction($langCode) {
         return $this->getLastChanceToBookBody($langCode);
     }
+    public function newsletterMailAction($langCode) {
+        return $this->getNewsletterMailBody($langCode);
+    }
 
     public function lastChanceToBookSendAction($langCode, $newMethod, $mail, Request $request) {
         if ($request->getMethod() == 'POST') {
@@ -77,6 +80,63 @@ class BackendTestEmailTemplateController extends Controller {
         }
 
         return $this->render('FrontEndBundle:mails:last_reminder_available.html.twig', array(
+                    'user' => $user,
+                    'reservations' => $ownershipReservations,
+                    'photos' => $arrayPhotos,
+                    'nights' => $arrayNights,
+                    'user_locale' => $langCode,
+                    'initial_payment' => $initialPayment,
+                    'generalReservationId' => $generalReservation->getGenResId(),
+                    'user_currency' => ($userTourist != null) ? $userTourist->getUserTouristCurrency() : null
+        ));
+    }
+    private function getNewsletterMailBody($langCode) {
+        $em = $this->getDoctrine()->getEntityManager();
+        $service_time = $this->get('time');
+        $generalReservation = $em
+                ->getRepository('mycpBundle:generalReservation')
+                ->findOneBy(array('gen_res_status' => generalReservation::STATUS_AVAILABLE));
+
+        $user = $generalReservation->getGenResUserId();
+        $userTourist = $em->getRepository("mycpBundle:userTourist")->findOneBy(array("user_tourist_user" => $user->getUserId()));
+
+        $ownershipReservations = $em
+                ->getRepository('mycpBundle:generalReservation')
+                ->getOwnershipReservations($generalReservation);
+
+        $arrayPhotos = array();
+        $arrayNights = array();
+
+        $initialPayment = 0;
+
+        foreach ($ownershipReservations as $ownershipReservation) {
+            $photos = $em
+                    ->getRepository('mycpBundle:ownership')
+                    ->getPhotos(
+                    // TODO: This line is very strange. Why take the ownId of the genRes of the ownRes?!
+                    $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnId()
+            );
+
+            if (!empty($photos)) {
+                array_push($arrayPhotos, $photos);
+            }
+
+            $nights = $service_time
+                    ->nights(
+                    $ownershipReservation->getOwnResReservationFromDate()->getTimestamp(), $ownershipReservation->getOwnResReservationToDate()->getTimestamp()
+            );
+
+            array_push($arrayNights, $nights);
+
+            $comission = $ownershipReservation->getOwnResGenResId()->getGenResOwnId()->getOwnCommissionPercent() / 100;
+            //Initial down payment
+            if ($ownershipReservation->getOwnResNightPrice() > 0)
+                $initialPayment += $ownershipReservation->getOwnResNightPrice() * $nights * $comission;
+            else
+                $initialPayment += $ownershipReservation->getOwnResTotalInSite() * $comission;
+        }
+
+        return $this->render('FrontEndBundle:mails:boletin.html.twig', array(
                     'user' => $user,
                     'reservations' => $ownershipReservations,
                     'photos' => $arrayPhotos,

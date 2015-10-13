@@ -43,7 +43,9 @@
         "leezy/pheanstalk-bundle": "2.*",
         "abuc/remarketing-bundle": "dev-master",
         "PHPOffice/PHPExcel": "dev-master",
-        "sabre/vobject": "~3.4"
+        "sabre/vobject": "~3.4",
+        "friendsofsymfony/rest-bundle": "^1.7",
+        "jms/serializer-bundle": "^1.0"
     },
     "scripts": {
         "post-install-cmd": [

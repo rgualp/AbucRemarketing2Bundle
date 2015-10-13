@@ -2737,6 +2737,342 @@
                  <source>SENDER_EMAIL</source>
                  <target>Ihre E-Mail</target>
             </trans-unit>
-        </body>
+            <trans-unit id="695">
+                <source>PACKAGETOUR</source>
+                <target>Reisepakete</target>
+            </trans-unit>
+            <trans-unit id="696">
+                <source>TITLEPACKAGE</source>
+                <target>Knowing Cuba, live Cuba!</target>
+            </trans-unit>
+            <trans-unit id="697">
+                <source>TITLEPACKAGE2</source>
+                <target>In wenigen Tagen Cuba erleben</target>
+            </trans-unit>
+            <trans-unit id="698">
+                <source>DETAILS_PACKAGE</source>
+                <target>Details package tour</target>
+            </trans-unit>
+            <trans-unit id="699">
+                <source>DETAILS_PACKAGE_TITLE_1</source>
+                <target>Cuba Clásica Casa</target>
+            </trans-unit>
+            <trans-unit id="700">
+                <source>DETAILS_PACKAGE_TITLE_2</source>
+                <target>¿Quiere usted conocer Cuba en una semana?</target>
+            </trans-unit>
+            <trans-unit id="701">
+                <source>DETAILS_PACKAGE_ITINERARY</source>
+                <target>Route</target>
+            </trans-unit>
+            <trans-unit id="702">
+                <source>DETAILS_PACKAGE_ITINERARY_DAY</source>
+                <target>Tag</target>
+            </trans-unit>
+            <trans-unit id="703">
+                <source>DETAILS_PACKAGE_ADD_HAB</source>
+                <target>Zimmer hinzufügen</target>
+            </trans-unit>
+            <trans-unit id="704">
+                <source>DETAILS_PACKAGE_ADULTS</source>
+                <target>Erwachsener</target>
+            </trans-unit>
+            <trans-unit id="705">
+                <source>DETAILS_PACKAGE_CHILD</source>
+                <target>Kind</target>
+            </trans-unit>
+            <trans-unit id="706">
+                <source>DETAILS_PACKAGE_RESERV</source>
+                <target>Make a reservation, </target>
+            </trans-unit>
+            <trans-unit id="707">
+                <source>DETAILS_PACKAGE_SERVICE</source>
+                <target>Inklusivleistungen:</target>
+            </trans-unit>
+            <trans-unit id="708">
+                <source>DETAILS_PACKAGE_NO_SERVICE</source>
+                <target>Leistungen nicht eingeschlossen</target>
+            </trans-unit>
+            <trans-unit id="709">
+                <source>DETAILS_PACKAGE_ROOM</source>
+                <target>Zimmer</target>
+            </trans-unit>
+            <trans-unit id="710">
+                <source>DETAILS_PACKAGE_ROOMSIMPLE</source>
+                <target>Einzelzimmer</target>
+            </trans-unit>
+            <trans-unit id="711">
+                <source>DETAILS_PACKAGE_ROOMDOBLE</source>
+                <target>Doppelzimmer</target>
+            </trans-unit>
+            <trans-unit id="712">
+                <source>DETAILS_PACKAGE_DAY</source>
+                <target>nacht</target>
+            </trans-unit>
+            <trans-unit id="713">
+                <source>DETAILS_PACKAGE_AND</source>
+                <target>und</target>
+            </trans-unit>
+            <trans-unit id="714">
+                <source>DETAILS_PACKAGE_SOLIC</source>
+                <target>Solicitante</target>
+            </trans-unit>
+            <trans-unit id="715">
+                <source>DETAILS_PACKAGE_ADD</source>
+                <target>Dazutun</target>
+            </trans-unit>
+            <trans-unit id="716">
+                <source>DETAILS_PACKAGE_SUBMIT</source>
+                <target>Senden</target>
+            </trans-unit>
+            <trans-unit id="717">
+                <source>DETAILS_PACKAGE_FORM_TITLE</source>
+                <target>Teilnehmer-Registrierung </target>
+            </trans-unit>
+            <trans-unit id="718">
+                <source>DETAILS_PACKAGE_FORM_PNAME</source>
+                <target>Vorname</target>
+            </trans-unit>
+            <trans-unit id="719">
+                <source>DETAILS_PACKAGE_FORM_SAPELS</source>
+                <target>Name</target>
+            </trans-unit>
+            <trans-unit id="720">
+                <source>DETAILS_PACKAGE_FORM_EMAIL</source>
+                <target>Email</target>
+            </trans-unit>
+            <trans-unit id="721">
+                <source>DETAILS_PACKAGE_FORM_FNAC</source>
+                <target>Geburtsdatum</target>
+            </trans-unit>
+            <trans-unit id="722">
+                <source>DETAILS_PACKAGE_FORM_CALLE</source>
+                <target>Strasse</target>
+            </trans-unit>
+            <trans-unit id="723">
+                <source>DETAILS_PACKAGE_FORM_CP</source>
+                <target>Postleitzahl</target>
+            </trans-unit>
+            <trans-unit id="724">
+                <source>DETAILS_PACKAGE_FORM_CITY</source>
+                <target>Städte</target>
+            </trans-unit>
+            <trans-unit id="725">
+                <source>DETAILS_PACKAGE_FORM_COUNTRY</source>
+                <target>Land</target>
+            </trans-unit>
+            <trans-unit id="726">
+                <source>DETAILS_PACKAGE_FORM_PHONE</source>
+                <target>Telefonnummer</target>
+            </trans-unit>
+            <trans-unit id="727">
+                <source>DETAILS_PACKAGE_RESERVE</source>
+                <target>Ihre Bestellung wurde erfolgreich registriert.</target>
+            </trans-unit>
+            <trans-unit id="728">
+                <source>DETAILS_PACKAGE_RESERVE2</source>
+                <target>Sie werden innert 24 Stunden eine Bestgaetigung per Email erhalten.</target>
+            </trans-unit>
+            <trans-unit id="729">
+                <source>DETAILS_PACKAGE_DETAILS_RESERVE</source>
+                <target>Detalles de su reserva</target>
+            </trans-unit>
+            <trans-unit id="730">
+                <source>DETAILS_PACKAGE_DETAILS</source>
+                <target>Hatten Sie auch schon das Gefühl, Ihre Ferienzeit sei zu knapp, um alles zu erleben, was Sie möchten? Wer die Highlights seines Reiselands nicht kennt, kann auch nicht das Beste aus seinen Ferien herausholen. Dabei kann es mit dem richtigen Reisepaket so einfach sein...Entdecken Sie die beliebtesten Reiseziele der Insel, Mietwagen-Optionen, Salsa, Rum, Zigarren und natürlich die Gastfreundschaft kubanischer Familien in ihren Häusern. Lernen Sie das Land und seine Leute richtig kennen – und Sie werden noch viel mehr erleben. Denn Kuba bedeutet Lebensfreude pur!</target>
+            </trans-unit>
+            <trans-unit id="731">
+                <source>DETAILS_PACKAGE_PRICECHECK</source>
+                <target>Preis prüfen</target>
+            </trans-unit>
+            <trans-unit id="732">
+                <source>DETAILS_PACKAGE_PEOPLE</source>
+                <target>Menschen</target>
+            </trans-unit>
+            <trans-unit id="733">
+                <source>DETAILS_PACKAGE_SR</source>
+                <target>Herr</target>
+            </trans-unit>
+            <trans-unit id="734">
+                <source>DETAILS_PACKAGE_SRA</source>
+                <target>Frau</target>
+            </trans-unit>
+            <trans-unit id="735">
+                <source>DETAILS_PACKAGE_MSG</source>
+                <target>Por favor verifique que la cantidad de inscripciones debe ser igual a la cantidad de personas reservadas.</target>
+            </trans-unit>
+            <trans-unit id="736">
+                <source>DETAILS_PACKAGE_BTN_MOD</source>
+                <target>Modificar</target>
+            </trans-unit>
+            <trans-unit id="737">
+                <source>DETAILS_PACKAGE_MSG2</source>
+                <target>Por favor verifique que la cantidad de personas a reservar no supere el límite de personas dadas por el paquete.</target>
+            </trans-unit>
+            <trans-unit id="738">
+                <source>DETAILS_PACKAGE_MSG3</source>
+                <target>Para su estancia, debe de adicionar al menos una habitación y seleccionar un adulto o niño.</target>
+            </trans-unit>
+            <trans-unit id="739">
+                <source>VOUCHER_RES_DETAILS</source>
+                <target>Detalles de su reserva</target>
+            </trans-unit>
+            <trans-unit id="740">
+                <source>VOUCHER_PEOPLE_QTY</source>
+                <target>Cantidad de personas</target>
+            </trans-unit>
+            <trans-unit id="741">
+                <source>VOUCHER_ROOMS_QTY</source>
+                <target>Cantidad de habitaciones</target>
+            </trans-unit>
+            <trans-unit id="742">
+                <source>VOUCHER_PAYMENT_DATA</source>
+                <target>Datos para el pago</target>
+            </trans-unit>
+            <trans-unit id="743">
+                <source>PQT_RESERVATION_CLIENT_MAIL_1</source>
+                <target>Danke, dass Sie MyCasaParticular ausgewehlt haben.</target>
+            </trans-unit>
+            <trans-unit id="744">
+                <source>PQT_RESERVATION_CLIENT_MAIL_2</source>
+                <target>Wir legen Ihnen die Details Ihrer Buchung. Überprüfen Sie bitte das.</target>
+            </trans-unit>
+            <trans-unit id="745">
+                <source>PQT_RESERVATION_CLIENT_MAIL_3</source>
+                <target>Während der nächsten 24 Stunden werden wir Sie bestätigen die Dienste und dann schicken wir Ihnen einen Gutschein mit dem alle Informationen.</target>
+            </trans-unit>
+            <trans-unit id="746">
+                <source>PQT_RESERVATION_CLIENT_MAIL_4</source>
+                <target>Grettings,</target>
+            </trans-unit>
+            <trans-unit id="747">
+                <source>PQT_RESERVATION_CLIENT_MAIL_5</source>
+                <target>Mycasaparticular Team.</target>
+            </trans-unit>
+            <trans-unit id="748">
+                <source>PQT_RESERVATION_CLIENT_MAIL_6</source>
+                <target>... Und dann für mehr gehen ... </target>
+            </trans-unit>
+            <trans-unit id="749">
+                <source>PQT_RESERVATION_CLIENT_MAIL_7</source>
+                <target>Hosting in jeder Ecke der Insel. </target>
+            </trans-unit>
+            <trans-unit id="750">
+                <source>PQT_RESERVATION_CLIENT_MAIL_8</source>
+                <target>Übernachten, wo Kuba kuba ist!</target>
+            </trans-unit>
+            <trans-unit id="751">
+                <source>PQT_RESERVATION_CLIENT_MAIL_SUBJECT</source>
+                <target>AUFTRAGSBESTÄTIGUNG</target>
+            </trans-unit>
+        <trans-unit id="752">
+            <source>FOOTER_EMAIL_PACKAGE</source>
+            <target><![CDATA[Fügen Sie service@mycasaparticular.com zu Ihrem Adressbuch oder Ihrer Liste sicherer Absender hinzu, um sicherzustellen, dass Sie auch weiterhin E-Mails von uns erhalten können. <br/><br/>Unsere Datenschutzrichtlinie <a href="%policieslink%"> lesen Sie hier. </a><br/><br/>Die Preise können sich vor der Zahlung ändern. Die Preise beinhalten keine Bearbeitungsgebühren. Alle Unterkünfte sind auf Verfügbarkeit zu überprüfen. Lesen Sie unsere <a href="%termlink%">Nutzungsbedingungen</a> für weitere Details. <br/><br/>MyCasaParticular.com ist ein Service der ABUC media network GmbH, Handelsregisternummer CH-270.4.002.844-1 in Basel, Schweiz.]]></target>
+        </trans-unit>
+            <trans-unit id="753">
+                <source>PQT_RESERVATION_ER_MAIL_SUBJECT</source>
+                <target>New package booked!</target>
+            </trans-unit>
+            <trans-unit id="754">
+                <source>PQT_RESERVATION_COMPANION</source>
+                <target>Begleitet</target>
+            </trans-unit>
+            <trans-unit id="755">
+                <source>PACKAGE_TOUR_TITLE</source>
+                <target>Pauschalreisen</target>
+            </trans-unit>
+            <trans-unit id="756">
+                <source>PACKAGE_TOUR_SUBTITLE</source>
+                <target>Verpassen Sie nichts von der wunderbaren Vielfalt, die Kuba zu bieten hat!</target>
+            </trans-unit>
+            <trans-unit id="757">
+                <source>PACKAGE_RESTRICT_ALERT</source>
+                <target>Dieser Service ist nur für Personen mit Wohnsitz in der Schweiz oder in Deutschland bestimmt.</target>
+            </trans-unit>
+             <trans-unit id="758">
+                <source>NEWSLETTER_HEAD_1</source>
+                <target>What you cannot forget!</target>
+            </trans-unit>
+            <trans-unit id="759">
+                <source>NEWSLETTER_PARR_1</source>
+                <target>First of all, make sure that you are travelling with all the documents you need for the trip, your camera and your bathing suit.</target>
+            </trans-unit>
+            <trans-unit id="760">
+                <source>NEWSLETTER_SUBHEAD_1</source>
+                <target>You cannot come to Cuba without a bathing suit!!</target>
+            </trans-unit>
+            <trans-unit id="761">
+                <source>NEWSLETTER_PARR_2</source>
+                <target>In general the weather in Cuba is hot and humid most of the time, so bring cool and light clothing items. Perhaps in Cuba you need a light jacket because you will often find air-conditioned places. Cubans are used to that, but it might bother tourists.</target>
+            </trans-unit>
+            <trans-unit id="762">
+                <source>NEWSLETTER_PARR_3</source>
+                <target>The sun in Cuba is particularly strong, so a (+50) sun-protection lotion will be essential. On the other hand, if you are planning to visit some rural areas, near the coast or where there is abundant vegetation, it will be very useful to bring insect repellents.</target>
+                </trans-unit>
+            <trans-unit id="763">
+                <source>NEWSLETTER_PARR_4</source>
+                <target>Say good bye to your regular contacts and let them know you will be away some days on vacation. When you come to Cuba, you should be aware of the fact you will be off line for a few days. Internet service in Cuba is expensive and not fast at all, so you’d better postpone all your internet stuff for your return.</target>
+                </trans-unit>
+            <trans-unit id="764">
+                <source>NEWSLETTER_HEAD_2</source>
+                <target>Be Alert</target>
+                </trans-unit>
+            <trans-unit id="765">
+                <source>NEWSLETTER_PARR_5</source>
+                <target>Probably, one of the first things you experience in Cuba will be an encounter with some tourist hustlers, who are known in Cuba as “Jineteros”. Those people (Men and women) will make you believe they have the best deals on restaurants, transportation, accommodation, and tours, etc. Day after day, their main occupation is to persuade foreigners to accept their offers and most of the time those who are persuaded have ended up being swindled.</target>
+                </trans-unit>
+            <trans-unit id="766">
+                <source>NEWSLETTER_PARR_6</source>
+                <target>The best thing to do in these cases is not to pay attention to these offers because they are not really more economical. Prices for foreigners in Cuba are pretty standardized. The cases of services and items that are significantly more economical are because they are illegal. Do not contribute with the increase of these non-desirable events in our country.</target>
+                </trans-unit>
+            <trans-unit id="767">
+                <source>NEWSLETTER_HEAD_3</source>
+                <target>Help us to develop a responsible tourism.</target>
+                </trans-unit>
+            <trans-unit id="768">
+                <source>NEWSLETTER_PARR_7</source>
+                <target>Refuse any of these offers from the very beginning and avoid any conversation with them, otherwise they will go on insisting by appealing to numberless arguments.</target>
+                </trans-unit>
+            <trans-unit id="769">
+                <source>NEWSLETTER_PARR_8</source>
+                <target>Trust the choices you have made via the internet, or the ones you made after having read the experiences of other travellers, or after having consulted Cuba travel guides.</target>
+                </trans-unit>
+            <trans-unit id="770">
+                <source>NEWSLETTER_HEAD_4</source>
+                <target>Do not risk the peace and quietness of your trip.</target>
+                </trans-unit>
+            <trans-unit id="771">
+                <source>NEWSLETTER_PARR_9</source>
+                <target>One more thing you should be aware of is money exchange. Never do that in the street. There are many state-run places called “Cadeca” (Exchange bureaus) where you can change your currency into CUC (Cuban Convertible Currency), or you can also do it at any bank.</target>
+                </trans-unit>
+            <trans-unit id="772">
+                <source>NEWSLETTER_PARR_10</source>
+                <target>And finally, one last important warning that has to do with water. The weather in Cuba is very humid. So it is important that you keep your body hydrated, but drink preferably bottled water, which is the safest thing to do in order to take care of your health.</target>
+                </trans-unit>
+            <trans-unit id="773">
+                <source>NEWSLETTER_INTRO_TEXT</source>
+                <target>It was a good thing you made your reservation via mycasaparticular.com. We are sending you an attachment with the confirmation of your reservation. Without a doubt, it will be very useful to print it out.</target>
+                </trans-unit>
+            <trans-unit id="774">
+                <source>NEWSLETTER_INTRO_TEXT1</source>
+                <target>Enjoy your stay fully</target>
+                </trans-unit>
+            <trans-unit id="775">
+                <source>NEWSLETTER_INTRO_TEXT2</source>
+                <target>We will be in charge of your accommodation</target>
+                </trans-unit>
+              <trans-unit id="776">
+                <source>NEWSLETTER_LINK_TEXT</source>
+                <target>Check your booking history</target>
+                </trans-unit>
+              <trans-unit id="777">
+                <source>NEWSLETTER_LINK_TEXT1</source>
+                <target>The best destinations in Cuba</target>
+                </trans-unit>
+              <trans-unit id="778">
+                <source>NEWSLETTER_LINK_BTN1</source>
+                <target>Pick up another destinies</target>
+                </trans-unit>
+    </body>
     </file>
 </xliff>
