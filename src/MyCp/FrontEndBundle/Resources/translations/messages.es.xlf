@@ -3071,11 +3071,11 @@
                 </trans-unit>
               <trans-unit id="777">
                 <source>NEWSLETTER_LINK_TEXT1</source>
-                <target>Los mejores destinos Cuba</target>
+                <target>Los destinos más populares de Cuba</target>
                 </trans-unit>
               <trans-unit id="778">
                 <source>NEWSLETTER_LINK_BTN1</source>
-                <target>Decídase por otros destinos</target>
+                <target>¿Qué otro lugar de Cuba le gustaría visitar?</target>
                 </trans-unit>
         </body>
     </file>
