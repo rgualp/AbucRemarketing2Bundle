@@ -25,7 +25,7 @@ class Version20151014200119 extends AbstractMigration
                     ((select max(role_id) from role where role_name = 'ROLE_CLIENT_STAFF_RESERVATION_TEAM'), (select max(perm_id) from permission where perm_route = 'mycp_list_reservations_checkin')),
                     ((select max(role_id) from role where role_name = 'ROLE_CLIENT_STAFF_RESERVATION_TEAM_AND_ACCOMODATIONS'), (select max(perm_id) from permission where perm_route = 'mycp_list_reservations_checkin')),
                     ((select max(role_id) from role where role_name = 'ROLE_CLIENT_STAFF_HOUSES_RESERVATIONS'), (select max(perm_id) from permission where perm_route = 'mycp_list_reservations_checkin')),
-                    ((select max(role_id) from role where role_name = 'ROLE_CLIENT_STAFF_HOUSES_RESERVATIONS_COMMENTS'), (select max(perm_id) from permission where perm_route = 'mycp_list_reservations_checkin')))");
+                    ((select max(role_id) from role where role_name = 'ROLE_CLIENT_STAFF_HOUSES_RESERVATIONS_COMMENTS'), (select max(perm_id) from permission where perm_route = 'mycp_list_reservations_checkin'))");
     }
 
     /**

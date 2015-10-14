@@ -12,6 +12,8 @@ class BackendReportController extends Controller
 {
     function reportsAction()
     {
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
         $existingCategories = $em->getRepository("mycpBundle:report")->getExistingReportCategories();
 
