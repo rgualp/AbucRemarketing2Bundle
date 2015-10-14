@@ -81,6 +81,12 @@ class Secure {
                 exit();
             }
         }
+        else
+        {
+            $templating = $this->container->get('templating');
+            echo $templating->render('mycpBundle:utils:access_denied.html.twig');
+            exit();
+        }
     }
 
     public function getEncodedUserString(user $user) {
