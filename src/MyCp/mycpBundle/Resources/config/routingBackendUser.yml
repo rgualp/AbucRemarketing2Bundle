@@ -52,3 +52,7 @@ mycp_change_status_user:
 mycp_get_user_photo:
     pattern:  /user-photo/{userId}
     defaults: { _controller: mycpBundle:BackendUser:getUserPhotoPath}
+
+mycp_edit_user:
+    pattern:  /edit/user/{idUser}
+    defaults: { _controller: mycpBundle:BackendUser:editUser }

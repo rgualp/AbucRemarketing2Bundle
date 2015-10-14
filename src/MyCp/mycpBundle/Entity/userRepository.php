@@ -150,7 +150,7 @@ class userRepository extends EntityRepository {
         $user->setUserUserName($post['user_user_name']);
         $user->setUserLastName($post['user_last_name']);
         $user->setUserPhone($post['user_phone']);
-        if($post['user_role']){
+        if(array_key_exists("user_role", $post) && $post['user_role']){
             $userRole = $em->getRepository('mycpBundle:role')->findOneBy(array('role_id'=>$post['user_role']));
             $user->setUserRole($userRole->getRoleName());
             $user->setUserSubrole($userRole);
@@ -188,6 +188,8 @@ class userRepository extends EntityRepository {
         $em->persist($user);
         $em->flush();
     }
+
+
 
     public function getAll($filter_user_name, $filter_role, $filter_city, $filter_country, $filter_name, $filter_last_name, $filter_email) {
         $string_role = '';

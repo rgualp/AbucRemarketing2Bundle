@@ -740,4 +740,59 @@ class BackendUserController extends Controller {
         return new Response("<img  class='img-polaroid' title='".$user->getUserCompleteName()."' src='".$dir.$fileName."'/>");
     }
 
+    public function editUserAction($idUser, Request $request){
+        /*$service_security = $this->get('Secure');
+        $service_security->verifyAccess();*/
+        $em = $this->getDoctrine()->getEntityManager();
+        $countries = $em->getRepository('mycpBundle:country')->findAll();
+        $data['countries'] = $countries;
+        $data['error'] = "";
+        $count_errors = 0;
+
+        $data['edit'] = true;
+        $user= $em->getRepository('mycpBundle:user')->findOneBy(array('user_id'=>$idUser));
+//        dump($user); die;
+
+        //$data['user_role'] = $user->getUserRole();
+        $request_form = $request->get('mycp_mycpbundle_client_stafftype');
+        $data['password'] = $request_form['user_password']['Clave:'];
+        $form = $this->createForm(new clientStaffType($data));
+
+        if ($request->getMethod() == 'POST') {
+            $post = $request->request->get('mycp_mycpbundle_client_stafftype');
+            if ($post['user_email'] != "" && !Utils::validateEmail($post['user_email'])) {
+                $data['error'] = 'Correo no válido';
+                $count_errors++;
+            }
+
+            $form->handleRequest($request);
+            if ($form->isValid() && $count_errors == 0) {
+                $factory = $this->get('security.encoder_factory');
+                $em->getRepository('mycpBundle:user')->editUserStaff($idUser, $request, $this->container, $factory);
+                $message = 'Usuario actualizado satisfactoriamente.';
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
+                $service_log = $this->get('log');
+                $service_log->saveLog('Edit entity for user ' . $request_form['user_name'], BackendModuleName::MODULE_USER);
+                return $this->redirect($this->generateUrl('mycp_backend_front'));
+            }
+        } else {
+
+            $user = $em->getRepository('mycpBundle:user')->find($idUser);
+            $data_user['user_name'] = $user->getUserName();
+            $data_user['user_address'] = $user->getUserAddress();
+            $data_user['user_email'] = $user->getUserEmail();
+            $data_user['user_user_name'] = $user->getUserUserName();
+            $data_user['user_last_name'] = $user->getUserLastName();
+            $data_user['user_phone'] = $user->getUserPhone();
+            $data_user['user_city'] = $user->getUserCity();
+            $data_user['user_country'] = $user->getUserCountry()->getCoId();
+            // $data_user['user_role'] = $user->getUserRole();
+            $userRole = $em->getRepository('mycpBundle:role')->findOneBy(array('role_name'=>$user->getUserRole()));
+            $data_user['user_role'] = $userRole;
+            $form->setData($data_user);
+        }
+        return $this->render('mycpBundle:user:newUser.html.twig', array('form' => $form->createView(), 'data' => $data, 'id_role' => '', 'edit_user' => $idUser, 'message_error' => $data["error"]));
+
+    }
+
 }
