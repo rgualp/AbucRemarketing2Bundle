@@ -961,6 +961,8 @@ class BackendReservationController extends Controller {
     }
 
     public function checkinAction(Request $request) {
+        $service_security = $this->get('Secure');
+        $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
         $filter_date_from = $request->get('filter_date_from');
         $sort_by = $request->get('sort_by');
