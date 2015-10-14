@@ -211,6 +211,11 @@
         <td><button class="btn btn-primary bAction" data-url="{{path("mycp_test_newsletter_send", {'langCode':'en', 'newMethod':0})}}">Método 1</button>
             <button class="btn btn-success bAction" data-url="{{path("mycp_test_newsletter_send", {'langCode':'en', 'newMethod':1})}}">Método 2</button></td>
     </tr>
+    <tr>
+        <td><a href="{{path("mycp_test_newsletter", {'langCode':'de'})}}">Alemán</a></td>
+        <td><button class="btn btn-primary bAction" data-url="{{path("mycp_test_newsletter_send", {'langCode':'de', 'newMethod':0})}}">Método 1</button>
+            <button class="btn btn-success bAction" data-url="{{path("mycp_test_newsletter_send", {'langCode':'de', 'newMethod':1})}}">Método 2</button></td>
+    </tr>
     </table>
 {% endblock %}
 {% block javascripts %}
