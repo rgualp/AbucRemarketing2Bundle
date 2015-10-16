@@ -35,7 +35,7 @@ security:
                 #7dsa7ydasdy872187yegwhqeg9yw91hjsaa00
                 lifetime: 86400
                 always_remember_me: true
-                path: /
+                path: /backend
                 domain: ~
             logout:
                 path:   /backend/logout
