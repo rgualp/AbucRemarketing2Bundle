@@ -49,7 +49,7 @@ class clientCasaType extends AbstractType {
         $builder->add('address', 'text', array('label' => 'Dirección particular:', 'attr' => array('class' => 'address readonly'),
             'constraints' => array(new NotBlank())));
         $builder->add('user_enabled', 'checkbox', array('label' => 'Usuario activo:', 'attr' => array('class' => 'user_enabled', 'disabled' => 'disabled')));
-        /* if(isset($this->data['edit']) && $this->data['password']=='')
+         if(isset($this->data['edit']) && $this->data['password']=='')
           {
           $builder->add('user_password','repeated',array(
           'first_name' => 'Clave:',
@@ -65,7 +65,7 @@ class clientCasaType extends AbstractType {
           'type' => 'password',
           'constraints'=>array(new NotBlank(),new Length(array('min'=>6)))
           ));
-          } */
+          }
     }
 
     public function getName() {

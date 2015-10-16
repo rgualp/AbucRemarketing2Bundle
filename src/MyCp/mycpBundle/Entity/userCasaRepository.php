@@ -125,11 +125,11 @@ class userCasaRepository extends EntityRepository {
 
          $user_enabled = (isset($post['mycp_mycpbundle_client_casatype']['user_enabled']));
          $user_casa->getUserCasaUser()->setUserEnabled($user_enabled);
-         /*if ($post['mycp_mycpbundle_client_casatype']['user_password']['Clave:'] != '') {
+         if ($post['mycp_mycpbundle_client_casatype']['user_password']['Clave:'] != '') {
              $encoder = $factory->getEncoder($user_casa->getUserCasaUser());
              $password = $encoder->encodePassword($post['mycp_mycpbundle_client_casatype']['user_password']['Clave:'], $user_casa->getUserCasaUser()->getSalt());
              $user_casa->getUserCasaUser()->setUserPassword($password);
-         }*/
+         }
          $file = $request->files->get('mycp_mycpbundle_client_casatype');
          if (isset($file['photo'])) {
              $photo_user = $user_casa->getUserCasaUser()->getUserPhoto();

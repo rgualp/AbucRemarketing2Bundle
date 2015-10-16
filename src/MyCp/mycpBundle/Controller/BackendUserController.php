@@ -179,6 +179,7 @@ class BackendUserController extends Controller {
         $count_errors = 0;
 
         $request_form = $request->get('mycp_mycpbundle_client_casatype');
+        $data['password'] = $request_form['user_password']['Clave:'];
         $form = $this->createForm(new clientCasaType($data));
         if ($request->getMethod() == 'POST') {
 
