@@ -25,6 +25,7 @@ class BackendUserController extends Controller {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getEntityManager();
+        $role = $em->getRepository("mycpBundle:role")->find($id_role);
         $countries = $em->getRepository('mycpBundle:country')->findAll();
         $data['countries'] = $countries;
         $data['error'] = "";
@@ -60,7 +61,7 @@ class BackendUserController extends Controller {
                     $data['error'] = 'Debe llenar el formulario correctamente.';
             }
         }
-        return $this->render('mycpBundle:user:newUserStaff.html.twig', array('form' => $form->createView(), 'data' => $data, 'id_role' => $id_role, 'message_error' => $data["error"]));
+        return $this->render('mycpBundle:user:newUserStaff.html.twig', array('form' => $form->createView(), 'data' => $data, 'id_role' => $id_role, 'message_error' => $data["error"], "role" => $role));
     }
 
     function edit_user_staffAction($id_user, Request $request) {

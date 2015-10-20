@@ -176,6 +176,13 @@
             new_url=new_url.replace('/-1','');
             $(location).attr('href',new_url+'/'+id_role);
         }
+        else
+        {
+            new_url='{{ path('mycp_new_user_staff',{'id_role':'-1'}) }}';
+            new_url=new_url.replace('/-1','');
+            $(location).attr('href',new_url+'/'+id_role);
+        }
+
     }
 
     function go_to_new_rol()
