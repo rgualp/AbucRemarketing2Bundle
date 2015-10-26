@@ -210,7 +210,9 @@ class generalReservationRepository extends EntityRepository {
             us.user_city,
             us.user_email,
             cou.co_name,
-            (SELECT count(g) FROM mycpBundle:generalReservation g WHERE g.gen_res_user_id = us.user_id $countReservations) as total_reserves
+            (SELECT count(g) FROM mycpBundle:generalReservation g WHERE g.gen_res_user_id = us.user_id $countReservations) as total_reserves,
+            (SELECT min(lang.lang_name) FROM mycpBundle:userTourist ut JOIN ut.user_tourist_language lang WHERE ut.user_tourist_user = us.user_id) as langName,
+            (SELECT min(curr.curr_code) FROM mycpBundle:userTourist ut1 JOIN ut1.user_tourist_currency curr WHERE ut1.user_tourist_user = us.user_id) as currName
             FROM mycpBundle:generalReservation gre
             JOIN gre.gen_res_own_id own
             JOIN gre.gen_res_user_id us

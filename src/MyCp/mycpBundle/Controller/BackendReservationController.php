@@ -473,7 +473,7 @@ class BackendReservationController extends Controller {
         $service_log = $this->get('log');
         $service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
 
-        $currencies = array();
+        /*$currencies = array();
         $languages = array();
         foreach ($reservations as $reservation) {
             $user_tourist = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $reservation['user_id']));
@@ -482,11 +482,11 @@ class BackendReservationController extends Controller {
 
             if ($user_tourist[0]->getUserTouristLanguage())
                 array_push($languages, $user_tourist[0]->getUserTouristLanguage()->getLangName());
-        }
+        }*/
 
         return $this->render('mycpBundle:reservation:list_client.html.twig', array(
-                    'languages' => $languages,
-                    'currencies' => $currencies,
+                    //'languages' => $languages,
+                    //'currencies' => $currencies,
                     'reservations' => $reservations,
                     'items_per_page' => $items_per_page,
                     'current_page' => $page,
@@ -502,9 +502,9 @@ class BackendReservationController extends Controller {
     public function details_client_reservationAction($id_client, Request $request) {
 
         //$service_security= $this->get('Secure');
-        //$service_security->verifyAccess();
+       // $service_security->verifyAccess();
         //$service_log= $this->get('log');
-        //$service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
+       // $service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
 
         $service_time = $this->get('time');
 
@@ -514,7 +514,6 @@ class BackendReservationController extends Controller {
         $userTourist = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $id_client));
         $reservations = $em->getRepository('mycpBundle:generalReservation')->getByUser($id_client);
         $price = 0;
-        //$total_nights = array();
 
         if ($request->getMethod() == 'POST') {
 
@@ -550,15 +549,7 @@ class BackendReservationController extends Controller {
             /*$this->get('session')->getFlashBag()->add('message_ok', $message);*/
             return $this->redirect($this->generateUrl('mycp_details_client_reservation', array('id_client' => $id_client)));
         }
-
-        /*foreach ($reservations as $reservation) {
-            $owns_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $reservation[0]['gen_res_id']));
-            $temp_total_nights = generalReservation::getTotalPayedNights($owns_res, $service_time);
-
-            array_push($total_nights, $temp_total_nights);
-        }*/
         return $this->render('mycpBundle:reservation:reservationDetailsClient.html.twig', array(
-                    //'total_nights' => $total_nights,
                     'reservations' => $reservations,
                     'client' => $client,
                     'errors' => '',
