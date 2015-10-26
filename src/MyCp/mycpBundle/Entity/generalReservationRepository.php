@@ -291,11 +291,12 @@ class generalReservationRepository extends EntityRepository {
             $whereOwn = " AND ow.own_id= $ownId ";
         }
 
-        $queryString = "SELECT gre,
+        $queryString = "SELECT gre.gen_res_date,gre.gen_res_id,gre.gen_res_total_in_site,gre.gen_res_status,
             (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id) AS rooms,
             (SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id) AS adults,
             (SELECT SUM(owres3.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id) AS childrens,
-            ow
+            (SELECT SUM(DATE_DIFF(owres5.own_res_reservation_to_date, owres5.own_res_reservation_from_date)) FROM mycpBundle:ownershipReservation owres5 WHERE owres5.own_res_gen_res_id = gre.gen_res_id) as totalNights,
+            ow.own_mcp_code, ow.own_id
             FROM mycpBundle:generalReservation gre
             JOIN gre.gen_res_own_id ow
             JOIN gre.gen_res_user_id us

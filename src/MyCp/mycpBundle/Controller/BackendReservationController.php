@@ -514,7 +514,7 @@ class BackendReservationController extends Controller {
         $userTourist = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $id_client));
         $reservations = $em->getRepository('mycpBundle:generalReservation')->getByUser($id_client);
         $price = 0;
-        $total_nights = array();
+        //$total_nights = array();
 
         if ($request->getMethod() == 'POST') {
 
@@ -551,14 +551,14 @@ class BackendReservationController extends Controller {
             return $this->redirect($this->generateUrl('mycp_details_client_reservation', array('id_client' => $id_client)));
         }
 
-        foreach ($reservations as $reservation) {
+        /*foreach ($reservations as $reservation) {
             $owns_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $reservation[0]['gen_res_id']));
             $temp_total_nights = generalReservation::getTotalPayedNights($owns_res, $service_time);
 
             array_push($total_nights, $temp_total_nights);
-        }
+        }*/
         return $this->render('mycpBundle:reservation:reservationDetailsClient.html.twig', array(
-                    'total_nights' => $total_nights,
+                    //'total_nights' => $total_nights,
                     'reservations' => $reservations,
                     'client' => $client,
                     'errors' => '',
