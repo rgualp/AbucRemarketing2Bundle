@@ -159,7 +159,7 @@
                     <td>{{total_nights[loop.index0]}}</td>
                     <td>{{ reservation[0].gen_res_total_in_site }} CUC</td>
                     <td>
-                        {{ render(controller('mycpBundle:BackendReservation:getGeneralReservationStatusName', {'status': reservation[0].gen_res_status, 'wrap': false, 'showInDiv': true})) }}
+                        {% include 'mycpBundle:utils:general_reservation_status_name.html.twig' with {'status': reservation[0].gen_res_status,'wrap': false, 'showInDiv': true} %}
                     </td>
                     <td style="text-align: right">
                         <a class="btn btn-mini" href="{{ path('mycp_details_readonly_reservation',{'id_reservation':reservation[0].gen_res_id}) }}">Detalles</a>

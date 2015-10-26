@@ -33,7 +33,8 @@
 {% block content %}
 <h2>
     Reserva {{reservation.getCASId}} ({{ reservation.getGenResOwnId.getOwnMcpCode }} {{ reservation.getGenResOwnId.getOwnName }})
-    {{ render(controller('mycpBundle:BackendReservation:getGeneralReservationStatusName', {'status': reservation.genresstatus, 'showInDiv': false})) }}</h2>
+    {% include 'mycpBundle:utils:general_reservation_status_name.html.twig' with {'status': reservation.genresstatus, 'showInDiv': false} %}
+</h2>
 <hr/>
 {% if errors %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
 <form id="form_edit_reserve" action="{{ path('mycp_details_reservation', { 'id_reservation' : id_reservation } ) }}" method="POST">

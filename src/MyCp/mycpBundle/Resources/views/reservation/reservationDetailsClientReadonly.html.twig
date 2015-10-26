@@ -69,7 +69,7 @@
                     <td>{{total_nights[loop.index0]}}</td>
                     <td>{{reservation[0]['gen_res_total_in_site']}} CUC</td>
                     <td>
-                        {{ render(controller('mycpBundle:BackendReservation:getGeneralReservationStatusName', {'status': reservation[0].gen_res_status, 'wrap': false, 'showInDiv': true})) }}
+                        {% include 'mycpBundle:utils:general_reservation_status_name.html.twig' with {'status': reservation[0].gen_res_status, 'wrap': false, 'showInDiv': true} %}
                     </td>
                     <td style="text-align: right">
                         <button data_res_id="{{reservation[0].gen_res_id}}" data_name_id="{{reservation[0].gen_res_id}}tab" data_name="{{reservation[0].gen_res_id | getCASId}}" type="button" class="reserve_details btn btn-mini" href="">Detalles</button>

@@ -87,10 +87,11 @@
                         {% if sort_by=='' %}
                            {% set sort_by=0 %}
                         {% endif %}
+                        <a class="{% if items_per_page == 50 %}selected{% endif %}" href="{{ path('mycp_list_reservations',{'items_per_page':50,'filter_date_reserve':filter_date_reserve_twig,'filter_offer_number':filter_offer_number,'filter_reference':filter_reference,'filter_date_from':filter_date_from_twig,'filter_date_to':filter_date_to_twig,'sort_by':sort_by,'filter_booking_number': filter_booking_number, 'filter_status':filter_status})}}">50</a>
                         <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_reservations',{'items_per_page':100,'filter_date_reserve':filter_date_reserve_twig,'filter_offer_number':filter_offer_number,'filter_reference':filter_reference,'filter_date_from':filter_date_from_twig,'filter_date_to':filter_date_to_twig,'sort_by':sort_by,'filter_booking_number': filter_booking_number, 'filter_status':filter_status})}}">100</a>
                         <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_reservations',{'items_per_page':300,'filter_date_reserve':filter_date_reserve_twig,'filter_offer_number':filter_offer_number,'filter_reference':filter_reference,'filter_date_from':filter_date_from_twig,'filter_date_to':filter_date_to_twig,'filter_booking_number': filter_booking_number, 'filter_status':filter_status,'sort_by':sort_by})}}">300</a>
                         <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_reservations',{'items_per_page':500,'filter_date_reserve':filter_date_reserve_twig,'filter_offer_number':filter_offer_number,'filter_reference':filter_reference,'filter_date_from':filter_date_from_twig,'filter_date_to':filter_date_to_twig,'filter_booking_number': filter_booking_number, 'filter_status':filter_status,'sort_by':sort_by})}}">500</a>
-                        <input class="hidden" name="items_per_page" value="100">
+                        <input class="hidden" name="items_per_page" value="50">
                     </div>
                 </div>
             </div>
@@ -148,25 +149,25 @@
                 {%set partially_cancelled = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_CANCELLED')%}
 
                 {% for reservation in reservations %}
-                <tr class="{% if reservation[0].gen_res_status==available %}warning{%endif%}{% if reservation[0].gen_res_status==reserved %}error{%endif%}{% if reservation[0].gen_res_status==not_available or reservation[0].gen_res_status==cancelled or reservation[0].gen_res_status==partially_cancelled%}info{%endif%}">
+                <tr class="{% if reservation.gen_res_status==available %}warning{%endif%}{% if reservation.gen_res_status==reserved %}error{%endif%}{% if reservation.gen_res_status==not_available or reservation.gen_res_status==cancelled or reservation.gen_res_status==partially_cancelled%}info{%endif%}">
                     <td>
-                        {% if reservation[0].gen_res_status==pending %}
-                        <input type="checkbox" name="check_reservations" class="ch_reservation" data-reservation-id="{{reservation[0].gen_res_id}}"/>
+                        {% if reservation.gen_res_status==pending %}
+                        <input type="checkbox" name="check_reservations" class="ch_reservation" data-reservation-id="{{reservation.gen_res_id}}"/>
                         {%endif%}
                     </td>
-                    <td>{{reservation[0].gen_res_date |date("d/m/Y")}}</td>
-                    <td>{{reservation[0].gen_res_id | getCASId}}</td>
-                    <td>{{reservation[0].gen_res_own_id.own_mcp_code}}</td>
+                    <td>{{reservation.gen_res_date |date("d/m/Y")}}</td>
+                    <td>{{reservation.gen_res_id | getCASId}}</td>
+                    <td>{{reservation.own_mcp_code}}</td>
                     <td>{{reservation[1]}}</td>
                     <td>{{reservation[3]+reservation[5]}}</td>
                     <td>{{reservation[7]|date("d/m/Y")}}</td>
-                    <td>{{total_nights[loop.index0]}}{#{reservation[0].gen_res_nights}#}</td>
-                    <td>{{ reservation[0].gen_res_total_in_site }} CUC</td>
+                    <td>{{reservation[9]}}</td>
+                    <td>{{ reservation.gen_res_total_in_site }} CUC</td>
                     <td>
-                        {{ render(controller('mycpBundle:BackendReservation:getGeneralReservationStatusName', {'status': reservation[0].gen_res_status, 'wrap': false, 'showInDiv': true})) }}
+                        {% include 'mycpBundle:utils:general_reservation_status_name.html.twig' with {'status': reservation.gen_res_status,'wrap': false, 'showInDiv': true} %}
                     </td>
                     <td style="text-align: right">
-                        <a class="btn btn-mini" href="{{ path('mycp_details_reservation',{'id_reservation':reservation[0].gen_res_id}) }}">Detalles</a>
+                        <a class="btn btn-mini" href="{{ path('mycp_details_reservation',{'id_reservation':reservation.gen_res_id}) }}">Detalles</a>
                     </td>
                 </tr>
                 {% set flag = flag + 1%}

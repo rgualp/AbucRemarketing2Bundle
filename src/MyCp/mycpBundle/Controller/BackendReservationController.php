@@ -326,17 +326,17 @@ class BackendReservationController extends Controller {
         $filter_date_to_twig = str_replace('/', '_', $filter_date_to);
         $service_log = $this->get('log');
         $service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
-        $total_nights = array();
+        /*$total_nights = array();
         $service_time = $this->get('time');
         foreach ($reservations as $res) {
             $owns_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $res[0]["gen_res_id"]));
             $temp_total_nights = generalReservation::getTotalPayedNights($owns_res, $service_time);
             array_push($total_nights, $temp_total_nights);
-        }
+        }*/
 
         $totalItems = $em->getRepository("mycpBundle:generalReservation")->getTotalReservations();
         return $this->render('mycpBundle:reservation:list.html.twig', array(
-                    'total_nights' => $total_nights,
+                    //'total_nights' => $total_nights,
                     'reservations' => $reservations,
                     'items_per_page' => $items_per_page,
                     'current_page' => $page,
