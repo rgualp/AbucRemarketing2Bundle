@@ -125,7 +125,7 @@
                     <td>{{ reservation['user_user_name'] }} {{ reservation['user_last_name'] }}</td>
                     <td>{{ reservation['user_email'] }}</td>
                     <td>{{ reservation['co_name'] }}</td>
-                    <td>{{ languages[flag]}}</td>
+                    <td>{{ reservation.langName}}</td>
                     <td>{{ reservation['total_reserves'] }}</td>
                     <td style="text-align: right">
                         <a class="btn btn-mini" href="{{ path('mycp_details_readonly_client_reservation',{'id_client':reservation['user_id']}) }}">Detalles</a>
