@@ -150,19 +150,19 @@
                 {%set partially_cancelled = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_CANCELLED')%}
 
                 {% for reservation in reservations %}
-                <tr class="{% if reservation[0].gen_res_status==available %}warning{%endif%}{% if reservation[0].gen_res_status==reserved %}error{%endif%}{% if reservation[0].gen_res_status==not_available or reservation[0].gen_res_status==cancelled or reservation[0].gen_res_status==partially_cancelled%}info{%endif%}">
-                    <td>{{reservation[0].gen_res_date |date("d/m/Y")}}</td>
-                    <td>{{reservation[0].gen_res_id | getCASId}}</td>
+                <tr class="{% if reservation.gen_res_status==available %}warning{%endif%}{% if reservation.gen_res_status==reserved %}error{%endif%}{% if reservation.gen_res_status==not_available or reservation.gen_res_status==cancelled or reservation.gen_res_status==partially_cancelled%}info{%endif%}">
+                    <td>{{reservation.gen_res_date |date("d/m/Y")}}</td>
+                    <td>{{reservation.gen_res_id | getCASId}}</td>
                     <td>{{reservation[1]}}</td>
                     <td>{{reservation[3]+reservation[5]}}</td>
-                    <td>{{reservation[0].gen_res_from_date|date("d/m/Y")}}</td>
-                    <td>{{total_nights[loop.index0]}}</td>
-                    <td>{{ reservation[0].gen_res_total_in_site }} CUC</td>
+                    <td>{{reservation.gen_res_from_date|date("d/m/Y")}}</td>
+                    <td>{{reservation[9]}}</td>
+                    <td>{{ reservation.gen_res_total_in_site }} CUC</td>
                     <td>
-                        {% include 'mycpBundle:utils:general_reservation_status_name.html.twig' with {'status': reservation[0].gen_res_status,'wrap': false, 'showInDiv': true} %}
+                        {% include 'mycpBundle:utils:general_reservation_status_name.html.twig' with {'status': reservation.gen_res_status,'wrap': false, 'showInDiv': true} %}
                     </td>
                     <td style="text-align: right">
-                        <a class="btn btn-mini" href="{{ path('mycp_details_readonly_reservation',{'id_reservation':reservation[0].gen_res_id}) }}">Detalles</a>
+                        <a class="btn btn-mini" href="{{ path('mycp_details_readonly_reservation',{'id_reservation':reservation.gen_res_id}) }}">Detalles</a>
                     </td>
                 </tr>
                 {% set flag = flag + 1%}

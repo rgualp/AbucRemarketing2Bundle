@@ -473,20 +473,7 @@ class BackendReservationController extends Controller {
         $service_log = $this->get('log');
         $service_log->saveLog('Visit', BackendModuleName::MODULE_RESERVATION);
 
-        /*$currencies = array();
-        $languages = array();
-        foreach ($reservations as $reservation) {
-            $user_tourist = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $reservation['user_id']));
-            if ($user_tourist[0]->getUserTouristCurrency())
-                array_push($currencies, $user_tourist[0]->getUserTouristCurrency()->getCurrCode());
-
-            if ($user_tourist[0]->getUserTouristLanguage())
-                array_push($languages, $user_tourist[0]->getUserTouristLanguage()->getLangName());
-        }*/
-
         return $this->render('mycpBundle:reservation:list_client.html.twig', array(
-                    //'languages' => $languages,
-                    //'currencies' => $currencies,
                     'reservations' => $reservations,
                     'items_per_page' => $items_per_page,
                     'current_page' => $page,

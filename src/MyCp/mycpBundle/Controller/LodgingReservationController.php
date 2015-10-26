@@ -84,19 +84,19 @@ class LodgingReservationController extends Controller {
         $filter_date_to_twig = str_replace('/', '_', $filter_date_to);
         $service_log = $this->get('log');
         $service_log->saveLog('Visit', BackendModuleName::MODULE_LODGING_RESERVATION);
-        $total_nights = array();
+       /* $total_nights = array();
         $service_time = $this->get('time');
         foreach ($reservations as $res) {
-            $owns_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $res[0]['gen_res_id']));
+            $owns_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $res['gen_res_id']));
             $temp_total_nights = 0;
             foreach ($owns_res as $own) {
                 $nights = $service_time->nights($own->getOwnResReservationFromDate()->getTimestamp(), $own->getOwnResReservationToDate()->getTimestamp());
                 $temp_total_nights+=$nights;
             }
             array_push($total_nights, $temp_total_nights);
-        }
+        }*/
         return $this->render('mycpBundle:reservation:list_readonly.html.twig', array(
-                    'total_nights' => $total_nights,
+                    //'total_nights' => $total_nights,
                     'reservations' => $reservations,
                     'items_per_page' => $items_per_page,
                     'current_page' => $page,
@@ -238,7 +238,7 @@ class LodgingReservationController extends Controller {
 
         foreach ($reservations as $reservation) {
             $temp_total_nights = 0;
-            $owns_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $reservation[0]['gen_res_id']));
+            $owns_res = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $reservation['gen_res_id']));
 
             foreach ($owns_res as $own) {
                 $nights = $service_time->nights($own->getOwnResReservationFromDate()->getTimestamp(), $own->getOwnResReservationToDate()->getTimestamp());
