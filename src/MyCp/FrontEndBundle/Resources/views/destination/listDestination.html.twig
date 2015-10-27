@@ -5,8 +5,13 @@
 {% endblock %}
 
 {% block include_javascripts_and_css %}
-<script src="{{ asset('bundles/frontend/js/jquery.royalslider.min.js') }}"></script>
-<script src="{{ asset('bundles/frontend/js/destinations.min.js') }}"></script>
+    {% javascripts
+    '@FrontEndBundle/Resources/public/js/jquery.royalslider.min.js'
+    '@FrontEndBundle/Resources/public/js/destinations.min.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 <script type="text/javascript">
     jQuery(document).ready(function($) {
         $('#full-width-slider').royalSlider({

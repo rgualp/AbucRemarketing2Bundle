@@ -37,6 +37,11 @@ link_destination=link_destination.replace('/-1','');
 var accommodations_url="{{path('frontend_search_ownership')}}";
 
 </script>
-<script type="text/javascript" src="{{ asset("bundles/frontend/js/map.min.js") }}"></script>
+{% javascripts
+'@FrontEndBundle/Resources/public/js/map.min.js'
+filter='?uglifyjs2'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
 
 <div id="signal_tooltip" style="left: -500px;position: absolute; top: 0;background-color: #1A1A1A; border-radius: 4px; color: #fff; font-size: 12px; padding: 2px 6px"></div>

@@ -55,10 +55,20 @@
 </div>
 {% endblock %}
 {% block javascripts %}
-<script type="text/javascript" src="{{ asset('bundles/mycp/js/common_list.js') }}"></script>
+    {% javascripts
+    '@mycpBundle/Resources/public/js/common_list.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 <script>
     var loadReportsUrl = "{{ path('mycp_get_report_by_category') }}";
     var loadParametersUrl = "{{ path('mycp_get_report_parameters') }}";
 </script>
-<script type="text/javascript" src="{{ asset('bundles/mycp/js/report.js') }}"></script>
+    {% javascripts
+    '@mycpBundle/Resources/public/js/report.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}

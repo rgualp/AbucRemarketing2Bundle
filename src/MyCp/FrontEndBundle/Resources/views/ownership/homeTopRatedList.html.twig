@@ -40,7 +40,12 @@
     {%endfor%}
 </div>
 </div>
-<script src="{{ asset('bundles/frontend/js/jail.min.js') }}"></script>
+{% javascripts
+'@FrontEndBundle/Resources/public/js/jail.min.js'
+filter='?uglifyjs2'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
 <script type="text/javascript">
         $(function(){
             $('img.lazy').jail();

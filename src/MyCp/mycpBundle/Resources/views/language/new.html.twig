@@ -49,5 +49,10 @@
     </div>
     {% endif %}
 </div>
-<script src="{{ asset('bundles/mycp/js/bootstrap-fileinput.js') }}" type="text/javascript"></script>
+   {% javascripts
+    '@mycpBundle/Resources/public/js/bootstrap-fileinput.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}

@@ -91,5 +91,10 @@
     <script>
 
     </script>
-<script type="text/javascript" src="{{ asset('bundles/mycp/js/reportList.js') }}"></script>
+    {% javascripts
+    '@mycpBundle/Resources/public/js/reportList.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}

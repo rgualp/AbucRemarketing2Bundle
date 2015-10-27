@@ -50,4 +50,9 @@
 
 <div class="divider-hor-2"></div>
 {% endif %}
-<script src="{{ asset('bundles/frontend/js/ownership.min.js') }}"></script>
+{% javascripts
+'@FrontEndBundle/Resources/public/js/ownership.min.js'
+filter='?uglifyjs2'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}

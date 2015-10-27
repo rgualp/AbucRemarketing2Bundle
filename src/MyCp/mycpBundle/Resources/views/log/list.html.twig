@@ -1,5 +1,8 @@
 {% extends 'mycpBundle:layout:backend.html.twig' %}
 {% block title %}Administración{% endblock %}
+{% block another_in_head %}
+    <link href="{{ asset('bundles/mycp/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
 {% block top_body %}
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
@@ -76,51 +79,57 @@
          <a href="{{ path("mycp_logs_download_file", {"fileName": file}) }}" target="_blank">{{ file }}</a>
      {% endfor %}
  {% endif %}
-<link href="{{ asset('bundles/mycp/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
-<script src="{{ asset('bundles/mycp/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
-<script type="text/javascript" src="{{ asset('bundles/mycp/js/bootstrap-datepicker.es.js') }}" charset="UTF-8"></script>
-<script type="text/javascript">
-    url = "{{ path('mycp_get_users_logs',{ 'selected':'-1', 'role':'-1'}) }}";
-    url=url.replace('/-1','');
-    url=url.replace('/-1','');
 
-            $('#role').change(function(){
-                role = $('#role').val();
-                array_role=role.split('_')
-                selected = $('#user').val();
-                if(selected=='')
-                    selected='null';
-                if(role!='')
-                {
-                    $('#user').html('<option value="">Cargando...</option>');
-                    $.ajax({
-                        type:"POST",
-                        url:url+'/'+ selected + '/'+ role,
-                        success:function (msg) {
-                            $('#user').html(msg);
-                        }
-                    });
-                }
-            });
-
-    $('#user').change(function(){
-        role_user=$('#user option:selected').attr('class');
-        $("#role option[value="+ role_user +"]").attr("selected",true);
-    });
-
-    $('.datepicker').datepicker({
-        format: 'dd/mm/yyyy',
-        todayBtn: 'linked',
-        language: 'es'
-    });
-
-    function action_submit()
-    {
-        $('#form_logs').submit();
-    }
-</script>
 {% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea eliminar los elementos?','confirmation_action_label':'Eliminar'}%}
 {% endblock %}
 {% block javascripts %}
-<script type="text/javascript" src="{{ asset('bundles/mycp/js/common_list.js') }}"></script>
+    {% javascripts
+    '@mycpBundle/Resources/public/js/common_list.js'
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script type="text/javascript">
+        url = "{{ path('mycp_get_users_logs',{ 'selected':'-1', 'role':'-1'}) }}";
+        url=url.replace('/-1','');
+        url=url.replace('/-1','');
+
+        $('#role').change(function(){
+            role = $('#role').val();
+            array_role=role.split('_')
+            selected = $('#user').val();
+            if(selected=='')
+                selected='null';
+            if(role!='')
+            {
+                $('#user').html('<option value="">Cargando...</option>');
+                $.ajax({
+                    type:"POST",
+                    url:url+'/'+ selected + '/'+ role,
+                    success:function (msg) {
+                        $('#user').html(msg);
+                    }
+                });
+            }
+        });
+
+        $('#user').change(function(){
+            role_user=$('#user option:selected').attr('class');
+            $("#role option[value="+ role_user +"]").attr("selected",true);
+        });
+
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            todayBtn: 'linked',
+            language: 'es'
+        });
+
+        function action_submit()
+        {
+            $('#form_logs').submit();
+        }
+    </script>
 {% endblock %}

@@ -1,8 +1,13 @@
-<script src="{{ asset('bundles/frontend/js/bootstrap-datepicker.js') }}"></script>
-<script src="{{ asset('bundles/frontend/js/bootstrap-datepicker.es.js') }}"></script>
-<script src="{{ asset('bundles/frontend/js/bootstrap-datepicker.de.js') }}"></script>
-<script src="{{ asset('bundles/frontend/js/typeahead.min.js') }}"></script>
-<script src="{{ asset('bundles/frontend/js/ownership.min.js') }}"></script>
+{% javascripts
+'@FrontEndBundle/Resources/public/js/bootstrap-datepicker.js'
+'@FrontEndBundle/Resources/public/js/bootstrap-datepicker.es.js'
+'@FrontEndBundle/Resources/public/js/bootstrap-datepicker.de.js'
+'@FrontEndBundle/Resources/public/js/typeahead.min.js'
+'@FrontEndBundle/Resources/public/js/ownership.min.js'
+filter='?uglifyjs2'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
 
 <div class="orange-shadow-cont text-center vertical-searcher">
                 <span style="color: #ffffff; margin-bottom: 5px; display: block">{{"ACCOMMODATION_SEARCH_TITLE" | trans | title}}</span>

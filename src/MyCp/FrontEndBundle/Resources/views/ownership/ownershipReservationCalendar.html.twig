@@ -98,7 +98,17 @@
     var today_date="{{"now"|date("d/m/Y") }}";
 </script>
 {%if fromBackend%}
-<script src="{{ asset('bundles/mycp/js/ownership.calendar.backend.js') }}"></script>
+    {% javascripts
+    '@mycpBundle/Resources/public/js/ownership.calendar.backend.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {%else%}
-<script src="{{ asset('bundles/frontend/js/ownership.calendar.js') }}"></script>
+    {% javascripts
+    '@FrontEndBundle/Resources/public/js/ownership.calendar.js'
+    filter='?uglifyjs2'
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {%endif%}

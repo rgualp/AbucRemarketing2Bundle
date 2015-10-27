@@ -13,5 +13,9 @@
         <div class="span6 statValue" style="text-align: right"><a target="_blank" {% if stat['stat_value'] > 0 %}href="{{ path("mycp_reports_ownership_general_stats_links", {"nomenclator": stat[0].statNomenclator.nomId, "municipality": ((municipality != null)?municipality.munId: -1), "province": ((province != null) ? province.provId : -1)}) }}"{% endif %}>{{ stat['stat_value'] }}</a></div>
         </div>
 {% endfor %}
-
-<link href="{{ asset('bundles/mycp/css/report.css') }}" rel="stylesheet" type="text/css" />
+{% stylesheets
+        '@mycpBundle/Resources/public/css/report.css'
+        filter='?uglifycss'
+        %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}

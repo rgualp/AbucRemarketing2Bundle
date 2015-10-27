@@ -38,14 +38,35 @@
     {% endblock %}
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="{{ asset('bundles/frontend/css/custom.css') }}" rel="stylesheet" media="screen">
+    {% stylesheets
+    '@FrontEndBundle/Resources/public/css/custom.css'
+    filter='?uglifycss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
     {% if ownership.category is defined and  ownership.category == 'Económica'%}
-        <link href="{{ asset('bundles/frontend/css/economic_house.css') }}" rel="stylesheet" media="screen">
+        {% stylesheets
+        '@FrontEndBundle/Resources/public/css/economic_house.css'
+        filter='?uglifycss'
+        %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
     {% endif %}
     {% if ownership.category is defined and  ownership.category == 'Premium'%}
-        <link href="{{ asset('bundles/frontend/css/premium_house.css') }}" rel="stylesheet" media="screen">
+        {% stylesheets
+        '@FrontEndBundle/Resources/public/css/premium_house.css'
+        filter='?uglifycss'
+        %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
     {% endif %}
-    <script src="{{ asset('bundles/frontend/js/jquery.js') }}"></script>
+
+    {% javascripts
+    '@FrontEndBundle/Resources/public/js/jquery.js'
+    filter='?uglifyjs2'
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
     <link rel="shortcut icon" href="{{ asset('bundles/frontend/img/map_small.png') }}" />
 
     <!-- Apple Touch Icon -->
@@ -171,10 +192,15 @@
 </footer>
 
 </body>
-<script src="{{ asset('bundles/frontend/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('bundles/frontend/js/respond.min.js') }}"></script>
-<script src="{{ asset('bundles/frontend/js/jail.min.js') }}"></script>
-<script src="{{ asset('bundles/frontend/js/custom.min.js') }}"></script>
+{% javascripts
+'@FrontEndBundle/Resources/public/js/bootstrap.min.js'
+'@FrontEndBundle/Resources/public/js/respond.min.js'
+'@FrontEndBundle/Resources/public/js/jail.min.js'
+'@FrontEndBundle/Resources/public/js/custom.min.js'
+filter='?uglifyjs2'
+%}
+    <script src="{{ asset_url }}"></script>
+{% endjavascripts %}
 <script type="text/javascript">
     topmenucont = $('#top-menu-cont');
     topmenu = $("#top-menu").offset().top;

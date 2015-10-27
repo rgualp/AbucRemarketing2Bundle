@@ -214,11 +214,16 @@
     });
 </script>
 <script src="{{ global_google_maps_api_url_with_key }}" type="text/javascript"></script>
-<script src="{{ asset('bundles/frontend/js/jquery.ui.map.js') }}"></script>
-<script src="{{ asset('bundles/frontend/js/jquery.ui.map.infobox.js') }}"></script>
-<script src="{{ asset('bundles/frontend/js/jquery.ui.map.markerclusterer.js') }}"></script>
-<script src="{{ asset('bundles/frontend/js/destinations.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('bundles/frontend/js/jquery.royalslider.min.js') }}"></script>
+    {% javascripts
+    '@FrontEndBundle/Resources/public/js/jquery.ui.map.js'
+    '@FrontEndBundle/Resources/public/js/jquery.ui.map.infobox.js'
+    '@FrontEndBundle/Resources/public/js/jquery.ui.map.markerclusterer.js'
+    '@FrontEndBundle/Resources/public/js/destinations.min.js'
+    '@FrontEndBundle/Resources/public/js/jquery.royalslider.min.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 <script type="text/javascript">
     jQuery(document).ready(function($) {
         $('#full-width-slider').royalSlider({

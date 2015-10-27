@@ -4,7 +4,12 @@
         <title>{% block title %}{{"WELCOMEPAGE_TITLE" | trans}}{% endblock %} *** MyCasaParticular</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="{{ asset('bundles/frontend/js/jquery.js') }}"></script>
+        {% javascripts
+        '@FrontEndBundle/Resources/public/js/jquery.js'
+        filter='?uglifyjs2'
+        %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
     </head>
     <body>
         {% block content %}

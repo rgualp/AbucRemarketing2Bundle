@@ -30,3 +30,7 @@ parameters:
     #MyCP tranlatos google api key
     translator_google_api_key: 'AIzaSyCmDojZzlVMZkNntKwDZeAS9VBoPJVYBFQ'
 
+    nodejs_path: "/usr/bin/node"
+    uglifyjs_path: "/usr/bin/uglifyjs"
+    uglifycss_path: "/usr/bin/uglifycss"
+

@@ -301,9 +301,20 @@
          <p> <div class="alert alert-block">No hay Propiedades disponibles.</div></p>
     {% endif %}
 </div>
-    <link href="{{ asset('bundles/mycp/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
-    <script src="{{ asset('bundles/mycp/js/bootstrap-datepicker.js') }}" type="text/javascript"></script>
-    <script type="text/javascript" src="{{ asset('bundles/mycp/js/bootstrap-datepicker.es.js') }}" charset="UTF-8"></script>
+    {% stylesheets
+    '@mycpBundle/Resources/public/css/datepicker.css'
+    filter='?uglifycss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
+    {% javascripts
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 
 <script type="text/javascript">
     url = "{{ path('mycp_get_mun_by_prov', { 'country_code': '-1' }) }}";
@@ -389,10 +400,19 @@
         $('#filter').submit();
     }
 </script>
-
-                                            <script src="{{ asset('bundles/mycp/js/bootstrap-typeahead.js') }}" type="text/javascript"></script>
+    {% javascripts
+    '@mycpBundle/Resources/public/js/bootstrap-typeahead.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea eliminar el elemento?','confirmation_action_label':'Eliminar'}%}
 {% endblock %}
 {% block javascripts %}
-                                            <script type="text/javascript" src="{{ asset('bundles/mycp/js/common_list.js') }}"></script>
+    {% javascripts
+    '@mycpBundle/Resources/public/js/common_list.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}

@@ -70,7 +70,12 @@
         $('.sfgen input').addClass('input-block-level')
         $('.sfgen select').addClass('input-block-level')
     </script>
-    <script src="{{ asset('bundles/mycp/js/bootstrap-fileinput.js') }}" type="text/javascript"></script>
+    {% javascripts
+    '@mycpBundle/Resources/public/js/bootstrap-fileinput.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
     {% if edit_user is not defined %}
     <script type="text/javascript">
         array_own={};

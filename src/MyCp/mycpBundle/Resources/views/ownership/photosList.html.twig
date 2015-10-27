@@ -145,10 +145,15 @@
     </div>
 </div>
 
-<script src="{{ asset('bundles/mycp/js/jquery.ui/jquery.ui.core.js') }}" type="text/javascript"></script>
-<script src="{{ asset('bundles/mycp/js/jquery.ui/jquery.ui.widget.js') }}" type="text/javascript"></script>
-<script src="{{ asset('bundles/mycp/js/jquery.ui/jquery.ui.mouse.js') }}" type="text/javascript"></script>
-<script src="{{ asset('bundles/mycp/js/jquery.ui/jquery.ui.sortable.js') }}" type="text/javascript"></script>
+{% javascripts
+'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.core.js'
+'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.widget.js'
+'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.mouse.js'
+'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.sortable.js'
+filter='?uglifyjs2'
+%}
+    <script src="{{ asset_url }}"></script>
+{% endjavascripts %}
 <script>
     var idOwnership = {{ id_ownership }}
     $(function() {
@@ -205,5 +210,10 @@
 {% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Desea realizar esta acción?','confirmation_action_label':'Eliminar'}%}
 {% endblock %}
 {% block javascripts %}
-<script type="text/javascript" src="{{ asset('bundles/mycp/js/common_list.js') }}"></script>
+    {% javascripts
+    '@mycpBundle/Resources/public/js/common_list.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}

@@ -22,4 +22,9 @@
 {% endfor %}
         </div>
 
-<link href="{{ asset('bundles/mycp/css/report.css') }}" rel="stylesheet" type="text/css" />
+{% stylesheets
+'@mycpBundle/Resources/public/css/report.css'
+filter='?uglifycss'
+%}
+<link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}

@@ -266,16 +266,28 @@
         </div>
 
 
-    <script src="{{ asset('bundles/mycp/js/wysihtml5-0.3.0.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
         var url_css_color="{{ asset('bundles/mycp/css/wysiwyg-color.css') }}";
     </script>
-    <script src="{{ asset('bundles/mycp/js/bootstrap-wysihtml5.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('bundles/frontend/js/bootstrap-datepicker.js') }}"></script>
-    <script src="{{ asset('bundles/frontend/js/bootstrap-datepicker.es.js') }}"></script>
-    <link href="{{ asset('bundles/mycp/css/bootstrap-wysihtml5.css') }}" rel="stylesheet" type="text/css" />
-    <script src="{{ asset('bundles/mycp/js/bootstrap-combobox.js') }}"></script>
-    <link href="{{ asset('bundles/mycp/css/bootstrap-combobox.css') }}" rel="stylesheet" type="text/css" />
+
+    {% stylesheets
+'@mycpBundle/Resources/public/css/bootstrap-wysihtml5.css'
+'@mycpBundle/Resources/public/css/bootstrap-combobox.css'
+filter='?uglifycss'
+%}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
+    {% javascripts
+'@mycpBundle/Resources/public/js/wysihtml5-0.3.0.min.js'
+'@mycpBundle/Resources/public/js/bootstrap-wysihtml5.js'
+'@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
+'@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
+'@mycpBundle/Resources/public/js/bootstrap-combobox.js'
+filter='?uglifyjs2'
+%}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 
     <script type="text/javascript">
         var today_date = "{{"now"|date("d/m/Y") }}";
@@ -388,9 +400,14 @@
 
                 });
     </script>
-    <script src="{{ asset('bundles/mycp/js/ownership.calendar.backend.js') }}"></script>
-    <script src="{{ asset('bundles/mycp/vendors/select2/js/select2.min.js') }}"></script>
-    <script src="{{ asset('bundles/mycp/vendors/select2/js/i18n/es.js') }}"></script>
+    {% javascripts
+        '@mycpBundle/Resources/public/js/ownership.calendar.backend.js'
+        '@mycpBundle/Resources/public/vendors/select2/js/select2.min.js'
+        '@mycpBundle/Resources/public/vendors/select2/js/i18n/es.js'
+        filter='?uglifyjs2'
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
     <script type="text/javascript">
         $(document).on('ready', function(){
             $('.select').select2();

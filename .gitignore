@@ -1,3 +1,7 @@
+/web/.htaccess
+/web/calendars
+/web/js
+/web/css
 # Bootstrap
 app/bootstrap*
 

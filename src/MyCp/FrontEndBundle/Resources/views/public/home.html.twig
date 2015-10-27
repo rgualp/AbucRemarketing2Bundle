@@ -4,7 +4,12 @@
 {%set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_HOMEPAGE')%}
 
 {% block include_javascripts_and_css %}
-<script src="{{ asset('bundles/frontend/js/jquery.royalslider.min.js') }}"></script>
+    {% javascripts
+    '@FrontEndBundle/Resources/public/js/jquery.royalslider.min.js'
+    filter='?uglifyjs2'
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 <script type="text/javascript">
     jQuery(document).ready(function($) {
         $('#full-width-slider').royalSlider({
