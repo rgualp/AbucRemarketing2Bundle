@@ -761,4 +761,17 @@ class destinationRepository extends EntityRepository {
         return $em->createQuery($query_string)->getResult();
     }
 
+    function getActiveForMap()
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQueryBuilder()
+            ->select("d.des_id as id", "d.des_cat_location_x as locationX", "d.des_cat_location_y as locationY", "d.des_name as name", "cat.des_cat_id as catId")
+            ->from("mycpBundle:destination", "d")
+            ->leftJoin("d.des_categories", "cat")
+            ->where("d.des_active= 1")
+            ->orderBy("d.des_id");
+
+        return $query->getQuery()->getResult();
+    }
+
 }

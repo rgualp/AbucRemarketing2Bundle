@@ -21,12 +21,10 @@
 {% set signal_pos='' %}
 {% set destinations='' %}
 {% for des_map in destinations_map %}
-{% if des_map.getDesCatLocationX %}
-{% for des_map_cat in des_map.getDesCategories %}
-{% set categories = categories~"'cat"~des_map_cat.getDesCatId~"'," %}
-{% set destinations = destinations~"'"~des_map.getDesName|lower|replace(' ','-')~"'," %}
-{% set signal_pos = signal_pos~"["~des_map.getDesCatLocationX~","~des_map.getDesCatLocationY~"]," %}
-{% endfor %}
+{% if des_map.locationX %}
+{% set categories = categories~"'cat"~des_map.catId~"'," %}
+{% set destinations = destinations~"'"~des_map.name|lower|replace(' ','-')~"'," %}
+{% set signal_pos = signal_pos~"["~des_map.locationX~","~des_map.locationY~"]," %}
 {% endif %}
 {% endfor %}
 var poly_signal_positions=[{{ signal_pos|slice(0,(signal_pos|length)-1)|raw }}];
