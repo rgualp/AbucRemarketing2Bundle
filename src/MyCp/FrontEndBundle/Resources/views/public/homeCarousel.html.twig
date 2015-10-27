@@ -53,13 +53,13 @@
             <div id="lastAdded" class="tab-pane" data-url="{{ path("frontend_carrousel_last_added_callback") }}" data-has-content="false">
                {{ "LOADING_MESSAGE" | trans }}
             </div>
-            <div id="economic" class="tab-pane" data-url="" data-has-content="false">
+            <div id="economic" class="tab-pane" data-url="{{ path("frontend_carrousel_bycategory_callback") }}" data-has-content="false">
                 {{ "LOADING_MESSAGE" | trans }}
             </div>
-            <div id="medium" class="tab-pane" data-url="" data-has-content="false">
+            <div id="medium" class="tab-pane" data-url="{{ path("frontend_carrousel_bycategory_callback") }}" data-has-content="false">
                 {{ "LOADING_MESSAGE" | trans }}
             </div>
-            <div id="premium" class="tab-pane" data-url="" data-has-content="false">
+            <div id="premium" class="tab-pane" data-url="{{ path("frontend_carrousel_bycategory_callback") }}" data-has-content="false">
                 {{ "LOADING_MESSAGE" | trans }}
             </div>
         </div>
@@ -71,15 +71,15 @@
     });
 
     $('#homeCarrousel a[href="#economic"]').click(function () {
-        loadAccommodationsByCategory("Económica", "economic");
+        loadAccommodationsByCategory("Económica", "economic", "economy");
     });
 
     $('#homeCarrousel a[href="#medium"]').click(function () {
-        loadAccommodationsByCategory("Rango medio", "medium");
+        loadAccommodationsByCategory("Rango medio", "medium", "mid_range");
     });
 
     $('#homeCarrousel a[href="#premium"]').click(function () {
-        loadAccommodationsByCategory("Premium", "premium");
+        loadAccommodationsByCategory("Premium", "premium", "premium");
     });
 
 
@@ -93,28 +93,37 @@
                     function (data) {
                         $("#lastAdded").html(data);
                         $('#homeCarrousel a[href="#lastAdded"]').tab('show');
-                        $("#lastAdded").attr("data-has-content", "true")
+                        $("#lastAdded").attr("data-has-content", "true");
+                        manage_favorities(".favorite_off_action");
+                        manage_favorities(".favorite_on_action");
                     });
         }
 
         return false;
     }
 
-    function loadAccommodationsByCategory(category, id)
+    function loadAccommodationsByCategory(category, id, realCategory)
     {
-        alert(category);
-        /*var userId = $("#userId").val();
-        var url = $("#comment").attr("data-url");
-        $("#comment").html("Cargando....");
-        $.post(url, {
-                    userId: userId
-                },
-                function (data) {
-                    $("#comment").html(data);
-                    $('#tabs a[href="#comment"]').tab('show');
-                });
+        var hasContent = $("#" + id).attr("data-has-content");
 
-        return false;*/
+        if(hasContent == "false") {
+            var url = $("#" + id).attr("data-url");
+            $.post(url,
+                    {
+                        'category': category,
+                        'elementId': id,
+                        'realCategory': realCategory
+                    },
+                    function (data) {
+                        $("#" + id).html(data);
+                        $('#homeCarrousel a[href="#' + id+ '"]').tab('show');
+                        $("#" + id).attr("data-has-content", "true");
+                        manage_favorities(".favorite_off_action");
+                        manage_favorities(".favorite_on_action");
+                    });
+        }
+
+        return false;
     }
 
 </script>

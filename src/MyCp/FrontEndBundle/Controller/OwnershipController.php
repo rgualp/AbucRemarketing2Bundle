@@ -1565,8 +1565,29 @@ class OwnershipController extends Controller {
         $response = $this->renderView('FrontEndBundle:public:homeCarrouselAccommodationsList.html.twig', array(
             'list' => $last_added,
             'list_preffix' => "lastAdded",
-            "moreUrl" => "frontend_last_added_ownership",
+            "moreUrl" => $this->generateUrl("frontend_last_added_ownership"),
             "sliderId" => "th-last-carousel"
+        ));
+
+        return new Response($response, 200);
+    }
+
+    public function getCarrouselByCategoryCallbackAction()
+    {
+        $request = $this->getRequest();
+        $em = $this->getDoctrine()->getManager();
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
+        $category = $request->get("category");
+        $elementId = $request->get("elementId");
+        $realCategory = $request->get("realCategory");
+
+        $list= $em->getRepository('mycpBundle:ownership')->getByCategory($category, 12,null, $user_ids['user_id'], $user_ids['session_id']);
+
+        $response = $this->renderView('FrontEndBundle:public:homeCarrouselAccommodationsList.html.twig', array(
+            'list' => $list,
+            'list_preffix' => $elementId,
+            "moreUrl" => $this->generateUrl("frontend_category_ownership", array("category" => $realCategory)),
+            "sliderId" => "th-".$elementId."-carousel"
         ));
 
         return new Response($response, 200);
