@@ -20,12 +20,12 @@
 <div class="body">
 <header>
     <img src="{{ asset('bundles/mycp/images/logo.jpg')}}"/>
-    <div class="pull-right span10">
+    <div class="pull-right span9">
         <div class="row-fluid">
-        <div class="span10">
+        <div class="span8">
         {% block lodging_accommodation_name %}{% endblock %}
         </div>
-        <ul class="span2 nav nav-pills">
+        <ul class="span4 nav nav-pills">
         {% if app.user.getUserUserName is defined %}
         <li class="dropdown pull-right">
             <a data-toggle="dropdown" class="dropdown-toggle" role="button" id="drop2" href="#">{{app.user.getUserUserName}} {{app.user.getUserLastName}} <b class="caret"></b></a>
