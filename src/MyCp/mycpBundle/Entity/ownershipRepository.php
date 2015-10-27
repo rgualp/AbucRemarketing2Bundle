@@ -909,7 +909,8 @@ class ownershipRepository extends EntityRepository {
 
     /**
      * Muestra todas las casas que son top20, para mostrar en la portada
-     * @param varchar $lang_code
+     * @param $locale
+     * @param $category
      */
     function top20($locale = "ES", $category = null) {
         $em = $this->getEntityManager();
@@ -933,16 +934,16 @@ class ownershipRepository extends EntityRepository {
 
         $query_string .= " ORDER BY o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC";
 
-        $results = $em->createQuery($query_string)->getResult();
+        return $em->createQuery($query_string);
 
-        for ($i = 0; $i < count($results); $i++) {
+        /*for ($i = 0; $i < count($results); $i++) {
             if ($results[$i]['photo'] == null)
                 $results[$i]['photo'] = "no_photo.png";
             else if (!file_exists(realpath("uploads/ownershipImages/" . $results[$i]['photo']))) {
                 $results[$i]['photo'] = "no_photo.png";
             }
         }
-        return $results;
+        return $results;*/
     }
 
     function getNotSendedToReservationTeam() {

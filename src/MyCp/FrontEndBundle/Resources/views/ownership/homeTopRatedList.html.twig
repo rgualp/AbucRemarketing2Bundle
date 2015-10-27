@@ -6,8 +6,8 @@
     <div class="col-sm-3">
             <a target="_blank" rel="tooltip" href="{{ path('frontend_details_ownership',{'own_name':ownership['own_name']  | urlNormalize}) }}" title="{{"MORE_INFO_PREFFIX" | trans}} {{ownership['own_name']}}">
             <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if ownership['comments_total'] > 0%}+{%endif%}{{ownership['comments_total']}}&nbsp;&nbsp;&nbsp;">
-                <img alt="{{ ownership['own_name'] }}" class="lazy" data-src="{{ asset("uploads/ownershipImages/thumbnails/" ~ ownership['photo'])}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
-                <noscript><img class="nolazy" src="{{ asset("uploads/ownershipImages/thumbnails/" ~ ownership['photo'])}}"></noscript>
+                <img alt="{{ ownership['own_name'] }}" class="lazy" data-src="{{ (ownership['photo'] != "") ? asset("uploads/ownershipImages/thumbnails/" ~ ownership['photo']) : asset("uploads/ownershipImages/thumbnails/no_photo.png")}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
+                <noscript><img class="nolazy" src="{{ (ownership['photo'] != "") ? asset("uploads/ownershipImages/thumbnails/" ~ ownership['photo']) : asset("uploads/ownershipImages/thumbnails/no_photo.png")}}"></noscript>
             </div>
             <h2 class="h-blue">{{ ownership['own_name']| title }} <small>({{ownership['prov_name']}})</small></h2>
             </a>
