@@ -106,19 +106,19 @@ class PublicController extends Controller {
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
 
         $popular_destinations_list = $em->getRepository('mycpBundle:destination')->getPopularDestinations(12, $user_ids['user_id'], $user_ids['session_id']);
-        $last_added = $em->getRepository('mycpBundle:ownership')->lastAdded(12, $user_ids['user_id'], $user_ids['session_id']);
+        /*$last_added = $em->getRepository('mycpBundle:ownership')->lastAdded(12, $user_ids['user_id'], $user_ids['session_id']);
         $offers_list = array();
         $economic_own_list = $em->getRepository('mycpBundle:ownership')->getByCategory('Económica', 12,null, $user_ids['user_id'], $user_ids['session_id']);
         $medium_own_list = $em->getRepository('mycpBundle:ownership')->getByCategory('Rango medio', 12,null, $user_ids['user_id'], $user_ids['session_id']);
-        $premium_own_list = $em->getRepository('mycpBundle:ownership')->getByCategory('Premium', 12,null, $user_ids['user_id'], $user_ids['session_id']);
+        $premium_own_list = $em->getRepository('mycpBundle:ownership')->getByCategory('Premium', 12,null, $user_ids['user_id'], $user_ids['session_id']);*/
 
         return $this->render('FrontEndBundle:public:homeCarousel.html.twig', array(
                     'popular_places' => $popular_destinations_list,
-                    'last_added' => $last_added,
-                    'offers' => $offers_list,
-                    'economic_own_list' => $economic_own_list,
-                    'medium_own_list' => $medium_own_list,
-                    'premium_own_list' => $premium_own_list
+                    //'last_added' => $last_added,
+                    //'offers' => $offers_list,
+                    //'economic_own_list' => $economic_own_list,
+                    //'medium_own_list' => $medium_own_list,
+                    //'premium_own_list' => $premium_own_list
         ));
     }
 
