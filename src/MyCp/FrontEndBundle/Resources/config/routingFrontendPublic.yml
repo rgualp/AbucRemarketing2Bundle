@@ -2,6 +2,10 @@ frontend_public_login:
     locales:  { en: "/login/", es: "/login/", de: "/login/" }
     defaults: { _controller: FrontEndBundle:Public:login }
 
-frontend_public_top_nav:
+frontend_public_top_nav_control:
     locales:  { en: "/topNav/{route}/{routeParams}", es: "/topNav/{route}/{routeParams}", de: "/topNav/{route}/{routeParams}" }
     defaults: { _controller: FrontEndBundle:Public:topNav, route: frontend_welcome, routeParams: null  }
+
+frontend_metatags_control:
+    pattern:  /metatags
+    defaults: { _controller: FrontEndBundle:Public:getMetaTags}
