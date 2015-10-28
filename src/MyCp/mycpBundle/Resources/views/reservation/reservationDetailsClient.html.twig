@@ -62,19 +62,19 @@
                 {% for reservation in reservations %}
                 <tr>
                     <td>{{ flag }}</td>
-                    <td>{{ reservation[0]['gen_res_date']|date("d/m/Y") }}</td>
-                    <td><a href="{{ path("mycp_details_reservation", {"id_reservation": reservation[0].gen_res_id}) }}">{{reservation[0].gen_res_id | getCASId}}</a></td>
-                    <td><a href="{{ path("mycp_edit_ownership", {"id_ownership": reservation[0]['gen_res_own_id']['own_id']}) }}">{{reservation[0]['gen_res_own_id']['own_mcp_code']}}</a></td>
-                    <td>{{reservation['rooms']}}</td>
-                    <td>{{reservation['adults']}}</td>
-                    <td>{{reservation['childrens']}}</td>
-                    <td>{{total_nights[loop.index0]}}{#{reservation[0].gen_res_nights}#}</td>
-                    <td>{{reservation[0]['gen_res_total_in_site']}} CUC</td>
+                    <td>{{ reservation.gen_res_date|date("d/m/Y") }}</td>
+                    <td><a href="{{ path("mycp_details_reservation", {"id_reservation": reservation.gen_res_id}) }}">{{reservation.gen_res_id | getCASId}}</a></td>
+                    <td><a href="{{ path("mycp_edit_ownership", {"id_ownership": reservation.own_id}) }}">{{reservation.own_mcp_code}}</a></td>
+                    <td>{{reservation.rooms}}</td>
+                    <td>{{reservation.adults}}</td>
+                    <td>{{reservation.childrens}}</td>
+                    <td>{{reservation.totalNights}}</td>
+                    <td>{{reservation.gen_res_total_in_site}} CUC</td>
                     <td>
-                        {{ render(controller('mycpBundle:BackendReservation:getGeneralReservationStatusName', {'status': reservation[0].gen_res_status, 'wrap': false, 'showInDiv': true})) }}
+                        {% include 'mycpBundle:utils:general_reservation_status_name.html.twig' with {'status': reservation.gen_res_status, 'wrap': false, 'showInDiv': true} %}
                     </td>
                     <td style="text-align: right">
-                        <button data_res_id="{{reservation[0].gen_res_id}}" data_name_id="{{reservation[0].gen_res_id}}tab" data_name="{{reservation[0].gen_res_id | getCASId}}" type="button" class="reserve_details btn btn-mini" href="">Ver</button>
+                        <button data_res_id="{{reservation.gen_res_id}}" data_name_id="{{reservation.gen_res_id}}tab" data_name="{{reservation.gen_res_id | getCASId}}" type="button" class="reserve_details btn btn-mini" href="">Ver</button>
                     </td>
                 </tr>
                 {% set flag = flag + 1 %}

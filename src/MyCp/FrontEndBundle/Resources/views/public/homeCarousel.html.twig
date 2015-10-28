@@ -1,13 +1,13 @@
 <div class="tabbable carousel-bottom">
-        <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#tab1">{{"POPULAR_DESTINATIONS_HOME_TABS" | trans}}</a></li>
-            <li><a data-toggle="tab" href="#tab2">{{"LAST_ADDED_HOME_TABS" | trans}}</a></li>
-            <li><a data-toggle="tab" href="#tab3">{{"ECONOMIC_HOME_TABS" | trans}}</a></li>
-            <li><a data-toggle="tab" href="#tab4">{{"MIDRANGE_HOME_TABS" | trans}}</a></li>
-            <li><a data-toggle="tab" href="#tab5">{{"PREMIUM_HOME_TABS" | trans}}</a></li>
+        <ul class="nav nav-tabs" id="homeCarrousel">
+            <li class="active"><a data-toggle="tab" href="#popularDestinations">{{"POPULAR_DESTINATIONS_HOME_TABS" | trans}}</a></li>
+            <li><a data-toggle="tab" href="#lastAdded">{{"LAST_ADDED_HOME_TABS" | trans}}</a></li>
+            <li><a data-toggle="tab" href="#economic">{{"ECONOMIC_HOME_TABS" | trans}}</a></li>
+            <li><a data-toggle="tab" href="#medium">{{"MIDRANGE_HOME_TABS" | trans}}</a></li>
+            <li><a data-toggle="tab" href="#premium">{{"PREMIUM_HOME_TABS" | trans}}</a></li>
         </ul>
         <div class="tab-content">
-            <div id="tab1" class="tab-pane active">
+            <div id="popularDestinations" class="tab-pane active">
                 <div class="carousel slide" id="th-destination-carousel">
                     <div class="carousel-inner thumbs-houses">
                         {% set flag_item = 0 %}
@@ -50,190 +50,80 @@
                     {%endif%}
                 </div>
             </div>
-            <div id="tab2" class="tab-pane">
-                <div class="carousel slide" id="th-last-carousel">
-                    <div class="carousel-inner thumbs-houses">
-                        {% set flag_item = 0 %}
-                        {% for i in 1..3 %}
-                            <div class="item {% if i == 1 %}active{% endif %}">
-                                <div class="row">
-                                    {% for e in 1..4%}
-                                        {% if last_added[flag_item] is defined %}
-                                            {{ include('FrontEndBundle:ownership:homeItemOwnership.html.twig',{
-                                            'own_id': last_added[flag_item]['own_id'],
-                                            'own_name': last_added[flag_item]['own_name'],
-                                            'own_comments': last_added[flag_item]['comments_total'],
-                                            'own_rating': last_added[flag_item]['rating'],
-                                            'own_province': last_added[flag_item]['prov_name'],
-                                            'own_minimum_price': last_added[flag_item]['minimum_price'],
-                                            'is_in_favorite': last_added[flag_item]['is_in_favorites'],
-                                            'photo': last_added[flag_item]['photo'],
-                                            'category': last_added[flag_item]['category'],
-                                            'list_preffix': 'last_added_owns'}) }}
-                                            {% set flag_item = flag_item + 1 %}
-                                        {% endif %}
-                                    {% endfor %}
-                                </div>
-                                <div class="row text-right">
-                                    <a href="{{path("frontend_last_added_ownership")}}">
-                                        <small>{{'RESERVATION_CONFIRM_DESTINATION_MORE' | trans | lower}} <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-medium icon-more"/></small>
-                                    </a>
-                                </div>
-                            </div>
-                        {% else %}
-                            <div class="item active">
-                                <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                    {%if last_added | length  > 4%}
-                        <a data-slide="prev" href="#th-last-carousel" class="left carousel-control">
-                            <span class="icon-prev"></span>
-                        </a>
-                        <a data-slide="next" href="#th-last-carousel" class="right carousel-control">
-                            <span class="icon-next"></span>
-                        </a>
-                    {%endif%}
-                </div>
+            <div id="lastAdded" class="tab-pane" data-url="{{ path("frontend_carrousel_last_added_callback") }}" data-has-content="false">
+               {{ "LOADING_MESSAGE" | trans }}
             </div>
-            <div id="tab3" class="tab-pane">
-                <div class="carousel slide" id="th-economics-carousel">
-                    <div class="carousel-inner thumbs-houses">
-                        {% set flag_item = 0 %}
-                        {% for i in 1..3 %}
-                            <div class="item {% if i == 1 %}active{% endif %}">
-                                <div class="row">
-                                    {% for e in 1..4%}
-                                        {% if economic_own_list[flag_item] is defined %}
-                                            {{ include('FrontEndBundle:ownership:homeItemOwnership.html.twig',{
-                                            'own_id': economic_own_list[flag_item]['own_id'],
-                                            'own_name': economic_own_list[flag_item]['own_name'],
-                                            'own_comments': economic_own_list[flag_item]['comments_total'],
-                                            'own_rating': economic_own_list[flag_item]['rating'],
-                                            'own_province': economic_own_list[flag_item]['prov_name'],
-                                            'own_minimum_price': economic_own_list[flag_item]['minimum_price'],
-                                            'is_in_favorite': economic_own_list[flag_item]['is_in_favorites'],
-                                            'photo': economic_own_list[flag_item]['photo'],
-                                            'category': economic_own_list[flag_item]['category'],
-                                            'list_preffix': 'last_added_owns'}) }}
-                                            {% set flag_item = flag_item + 1 %}
-                                        {% endif %}
-                                    {% endfor %}
-                                </div>
-                                <div class="row text-right">
-                                    <a href="{{path("frontend_category_ownership",{'category':'economy'})}}">
-                                        <small>{{'RESERVATION_CONFIRM_DESTINATION_MORE' | trans | lower}} <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-medium icon-more"/></small>
-                                    </a>
-                                </div>
-                            </div>
-                        {% else %}
-                            <div class="item active">
-                                <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                    {%if economic_own_list | length  > 4%}
-                        <a data-slide="prev" href="#th-economics-carousel" class="left carousel-control">
-                            <span class="icon-prev"></span>
-                        </a>
-                        <a data-slide="next" href="#th-economics-carousel" class="right carousel-control">
-                            <span class="icon-next"></span>
-                        </a>
-                    {%endif%}
-                </div>
+            <div id="economic" class="tab-pane" data-url="{{ path("frontend_carrousel_bycategory_callback") }}" data-has-content="false">
+                {{ "LOADING_MESSAGE" | trans }}
             </div>
-            <div id="tab4" class="tab-pane">
-                <div class="carousel slide" id="th-medium-carousel">
-                    <div class="carousel-inner thumbs-houses">
-                        {% set flag_item = 0 %}
-                        {% for i in 1..3 %}
-                            <div class="item {% if i == 1 %}active{% endif %}">
-                                <div class="row">
-                                    {% for e in 1..4%}
-                                        {% if medium_own_list[flag_item] is defined %}
-                                            {{ include('FrontEndBundle:ownership:homeItemOwnership.html.twig',{
-                                            'own_id': medium_own_list[flag_item]['own_id'],
-                                            'own_name':  medium_own_list[flag_item]['own_name'],
-                                            'own_comments':  medium_own_list[flag_item]['comments_total'],
-                                            'own_rating':  medium_own_list[flag_item]['rating'],
-                                            'own_province':  medium_own_list[flag_item]['prov_name'],
-                                            'own_minimum_price':  medium_own_list[flag_item]['minimum_price'],
-                                            'is_in_favorite':  medium_own_list[flag_item]['is_in_favorites'],
-                                            'photo':  medium_own_list[flag_item]['photo'],
-                                            'category':  medium_own_list[flag_item]['category'],
-                                            'list_preffix': 'last_added_owns'}) }}
-                                            {% set flag_item = flag_item + 1 %}
-                                        {% endif %}
-                                    {% endfor %}
-                                </div>
-                                <div class="row text-right">
-                                    <a href="{{path("frontend_category_ownership",{'category':'mid_range'})}}">
-                                        <small>{{'RESERVATION_CONFIRM_DESTINATION_MORE' | trans | lower}} <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-medium icon-more"/></small>
-                                    </a>
-                                </div>
-                            </div>
-                        {% else %}
-                            <div class="item active">
-                                <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                    {%if medium_own_list  | length  > 4%}
-                        <a data-slide="prev" href="#th-medium-carousel" class="left carousel-control">
-                            <span class="icon-prev"></span>
-                        </a>
-                        <a data-slide="next" href="#th-medium-carousel" class="right carousel-control">
-                            <span class="icon-next"></span>
-                        </a>
-                    {%endif%}
-                </div>
+            <div id="medium" class="tab-pane" data-url="{{ path("frontend_carrousel_bycategory_callback") }}" data-has-content="false">
+                {{ "LOADING_MESSAGE" | trans }}
             </div>
-            <div id="tab5" class="tab-pane">
-                <div class="carousel slide" id="th-premium-carousel">
-                    <div class="carousel-inner thumbs-houses">
-                        {% set flag_item = 0 %}
-                        {% for i in 1..3 %}
-                            <div class="item {% if i == 1 %}active{% endif %}">
-                                <div class="row">
-                                    {% for e in 1..4%}
-                                        {% if premium_own_list[flag_item] is defined %}
-                                            {{ include('FrontEndBundle:ownership:homeItemOwnership.html.twig',{
-                                            'own_id': premium_own_list[flag_item]['own_id'],
-                                            'own_name': premium_own_list[flag_item]['own_name'],
-                                            'own_comments': premium_own_list[flag_item]['comments_total'],
-                                            'own_rating': premium_own_list[flag_item]['rating'],
-                                            'own_province': premium_own_list[flag_item]['prov_name'],
-                                            'own_minimum_price': premium_own_list[flag_item]['minimum_price'],
-                                            'is_in_favorite': premium_own_list[flag_item]['is_in_favorites'],
-                                            'photo': premium_own_list[flag_item]['photo'],
-                                            'category': premium_own_list[flag_item]['category'],
-                                            'list_preffix': 'last_added_owns'}) }}
-                                            {% set flag_item = flag_item + 1 %}
-                                        {% endif %}
-                                    {% endfor %}
-                                </div>
-                                <div class="row text-right">
-                                    <a href="{{path("frontend_category_ownership",{'category':'premium'})}}">
-                                        <small>{{'RESERVATION_CONFIRM_DESTINATION_MORE' | trans | lower}} <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-medium icon-more"/></small>
-                                    </a>
-                                </div>
-                            </div>
-                        {% else %}
-                            <div class="item active">
-                                <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
-                            </div>
-                        {% endfor %}
-
-                    </div>
-                    {%if premium_own_list | length  > 4%}
-                        <a data-slide="prev" href="#th-premium-carousel" class="left carousel-control">
-                            <span class="icon-prev"></span>
-                        </a>
-                        <a data-slide="next" href="#th-premium-carousel" class="right carousel-control">
-                            <span class="icon-next"></span>
-                        </a>
-                    {%endif%}
-                </div>
+            <div id="premium" class="tab-pane" data-url="{{ path("frontend_carrousel_bycategory_callback") }}" data-has-content="false">
+                {{ "LOADING_MESSAGE" | trans }}
             </div>
         </div>
     </div>
+
+<script type="text/javascript">
+    $('#homeCarrousel a[href="#lastAdded"]').click(function () {
+        loadLastAdded();
+    });
+
+    $('#homeCarrousel a[href="#economic"]').click(function () {
+        loadAccommodationsByCategory("Económica", "economic", "economy");
+    });
+
+    $('#homeCarrousel a[href="#medium"]').click(function () {
+        loadAccommodationsByCategory("Rango medio", "medium", "mid_range");
+    });
+
+    $('#homeCarrousel a[href="#premium"]').click(function () {
+        loadAccommodationsByCategory("Premium", "premium", "premium");
+    });
+
+
+    function loadLastAdded()
+    {
+        var hasContent = $("#lastAdded").attr("data-has-content");
+
+        if(hasContent == "false") {
+            var url = $("#lastAdded").attr("data-url");
+            $.post(url, null,
+                    function (data) {
+                        $("#lastAdded").html(data);
+                        $('#homeCarrousel a[href="#lastAdded"]').tab('show');
+                        $("#lastAdded").attr("data-has-content", "true");
+                        manage_favorities(".favorite_off_action");
+                        manage_favorities(".favorite_on_action");
+                    });
+        }
+
+        return false;
+    }
+
+    function loadAccommodationsByCategory(category, id, realCategory)
+    {
+        var hasContent = $("#" + id).attr("data-has-content");
+
+        if(hasContent == "false") {
+            var url = $("#" + id).attr("data-url");
+            $.post(url,
+                    {
+                        'category': category,
+                        'elementId': id,
+                        'realCategory': realCategory
+                    },
+                    function (data) {
+                        $("#" + id).html(data);
+                        $('#homeCarrousel a[href="#' + id+ '"]').tab('show');
+                        $("#" + id).attr("data-has-content", "true");
+                        manage_favorities(".favorite_off_action");
+                        manage_favorities(".favorite_on_action");
+                    });
+        }
+
+        return false;
+    }
+
+</script>

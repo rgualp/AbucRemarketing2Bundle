@@ -73,5 +73,12 @@ frontend_top_rated_change_category_callback_ownership:
     pattern:  /top-rated-change-category-callback/
     defaults: { _controller: FrontEndBundle:Ownership:topRatedChangeCategoryCallback }
 
+frontend_carrousel_last_added_callback:
+    pattern:  /carrousel-last-added/
+    defaults: { _controller: FrontEndBundle:Ownership:getCarrouselLastAddedCallback }
+
+frontend_carrousel_bycategory_callback:
+    pattern:  /carrousel-bycategory/
+    defaults: { _controller: FrontEndBundle:Ownership:getCarrouselByCategoryCallback }
 
 

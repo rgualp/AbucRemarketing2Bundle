@@ -1,0 +1,44 @@
+<div class="carousel slide" id="{{ sliderId }}">
+<div class="carousel-inner thumbs-houses">
+    {% set flag_item = 0 %}
+    {% for i in 1..3 %}
+        <div class="item {% if i == 1 %}active{% endif %}">
+            <div class="row">
+                {% for e in 1..4%}
+                    {% if list[flag_item] is defined %}
+                        {{ include('FrontEndBundle:ownership:homeItemOwnership.html.twig',{
+                        'own_id': list[flag_item]['own_id'],
+                        'own_name': list[flag_item]['own_name'],
+                        'own_comments': list[flag_item]['comments_total'],
+                        'own_rating': list[flag_item]['rating'],
+                        'own_province': list[flag_item]['prov_name'],
+                        'own_minimum_price': list[flag_item]['minimum_price'],
+                        'is_in_favorite': list[flag_item]['is_in_favorites'],
+                        'photo': list[flag_item]['photo'],
+                        'category': list[flag_item]['category'],
+                        'list_preffix': list_preffix}) }}
+                        {% set flag_item = flag_item + 1 %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="row text-right">
+                <a href="{{moreUrl}}">
+                    <small>{{'RESERVATION_CONFIRM_DESTINATION_MORE' | trans | lower}} <img src="{{ asset('bundles/frontend/img/icons/pixel.gif') }}" class="icon-medium icon-more"/></small>
+                </a>
+            </div>
+        </div>
+    {% else %}
+        <div class="item active">
+            <div class="alert alert-info" style="margin: 0;">{{"EMPTY_LIST" | trans}}</div>
+        </div>
+    {% endfor %}
+</div>
+{%if list | length  > 4%}
+    <a data-slide="prev" href="#{{ sliderId }}" class="left carousel-control">
+        <span class="icon-prev"></span>
+    </a>
+    <a data-slide="next" href="#{{ sliderId }}" class="right carousel-control">
+        <span class="icon-next"></span>
+    </a>
+{%endif%}
+</div>

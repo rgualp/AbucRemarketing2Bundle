@@ -39,7 +39,7 @@
     {%set start_date = reservation.genResFromDate |date("d/m/Y")%}
     {%set end_date = reservation.genResToDate |date("d/m/Y")%}
     <h2>Nueva Oferta - Reserva {{reservation.getCASId}}
-    {{ render(controller('mycpBundle:BackendReservation:getGeneralReservationStatusName', {'status': reservation.genresstatus, 'showInDiv': false})) }}
+        {% include 'mycpBundle:utils:general_reservation_status_name.html.twig' with {'status': reservation.genresstatus,'showInDiv': false} %}
     </h2>
     <hr/>
     {% for message in app.session.flashbag.get('message_error_local') %}

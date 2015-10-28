@@ -131,8 +131,8 @@
                     <td>{{ reservation['user_email'] }}</td>
                     <td>{{ reservation['user_city'] }}</td>
                     <td>{{ reservation['co_name'] }}</td>
-                    <td>{{ languages[flag]}}</td>
-                    <td>{{ currencies[flag]}}</td>
+                    <td>{{ reservation.langName}}</td>
+                    <td>{{ reservation.currName}}</td>
                     <td>{{ reservation['total_reserves'] }}</td>
                     <td style="text-align: right">
                         <a title="Nueva oferta" class="btn btn-mini btn-info" href="{{path('mycp_new_offer_to_client', {'idClient': reservation['user_id']})}}"><i class="icon-asterisk icon-white"></i> Oferta</a>
