@@ -17,8 +17,6 @@ class PublicController extends Controller {
     public function getMetaTagsAction($section = metaTag::SECTION_GENERAL, $onlyDescription = false)
     {
         $em = $this->getDoctrine()->getManager();
-        //$lang=$em->getRepository('mycpBundle:lang')->findOneBy(array('lang_code'=>$this->getRequest()->getLocale()));
-        //$metas=$em->getRepository('mycpBundle:metaLang')->findOneBy(array('meta_lang_lang'=>$lang));
         $lang_code = $this->getRequest()->getLocale();
         $metas=$em->getRepository('mycpBundle:metaTag')->getMetas($section, $lang_code);
 

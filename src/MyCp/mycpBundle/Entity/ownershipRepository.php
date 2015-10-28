@@ -11,6 +11,7 @@ use MyCp\mycpBundle\Entity\ownershipGeneralLang;
 use MyCp\mycpBundle\Entity\ownershipKeywordLang;
 use MyCp\mycpBundle\Entity\room;
 use MyCp\mycpBundle\Entity\userCasa;
+use MyCp\mycpBundle\Helpers\OwnershipStatuses;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
 use MyCp\mycpBundle\Entity\ownershipStatus;
 use MyCp\mycpBundle\Helpers\Dates;
@@ -1811,29 +1812,40 @@ class ownershipRepository extends EntityRepository {
     }
 
     public function autocompleteTextList() {
-        //$term = $request->get('term');
         $em = $this->getEntityManager();
-        $provinces = $em->getRepository('mycpBundle:province')->getProvinces();
-        $municipalities = $em->getRepository('mycpBundle:municipality')->getMunicipalities();
-        $ownerships = $em->getRepository('mycpBundle:ownership')->getPublicOwnerships();
+        $provinces = $em->createQueryBuilder()
+                        ->select("p.prov_name")
+                        ->from("mycpBundle:province", "p")
+                        ->orderBy("p.prov_name", "ASC");
 
+        $municipalities = $em->createQueryBuilder()
+            ->select("m.mun_name")
+            ->from("mycpBundle:municipality", "m")
+            ->orderBy("m.mun_name", "ASC");
+
+        $ownerships = $em->createQueryBuilder()
+            ->select("o.own_name as name", "o.own_mcp_code as code")
+            ->from("mycpBundle:ownership", "o")
+            ->where("o.own_status= :status")
+            ->orderBy("o.own_name", "ASC")
+            ->setParameter("status", OwnershipStatuses::ACTIVE);
 
         $result = array();
         foreach ($provinces as $prov) {
-            $result[] = $prov->getProvName();
+            $result[] = $prov;
         }
 
         foreach ($municipalities as $mun) {
-            if (!array_search($mun->getMunName(), $result))
-                $result[] = $mun->getMunName();
+            if (!array_search($mun, $result))
+                $result[] = $mun;
         }
 
         foreach ($ownerships as $own) {
-            if (!array_search($own->getOwnName(), $result))
-                $result[] = $own->getOwnName();
+            if (!array_search($own["name"], $result))
+                $result[] = $own["name"];
 
-            if (!array_search($own->getOwnMcpCode(), $result))
-                $result[] = $own->getOwnMcpCode();
+            if (!array_search($own["code"], $result))
+                $result[] = $own["code"];
         }
 
         return json_encode($result);

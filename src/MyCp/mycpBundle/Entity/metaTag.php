@@ -16,24 +16,24 @@ class metaTag
      * All allowed sections
      */
     const SECTION_GENERAL = 1;
-    const SECTION_HOMEPAGE = 2;
-    const SECTION_DESTINATIONS = 3;
-    const SECTION_ACCOMMODATIONS = 4;
-    const SECTION_MYCASATRIP = 5;
-    const SECTION_FAVORITES = 6;
-    const SECTION_HOW_IT_WORKS = 7;
-    const SECTION_ACCOMMODATIONS_LISTS = 8;
-    const SECTION_LAST_ADDED = 9;
-    const SECTION_ECONOMICS_LIST = 10;
-    const SECTION_MIDRANGE_LIST = 11;
-    const SECTION_PREMIUM_LIST = 12;
-    const SECTION_MOST_VISITED_CITIES = 13;
-    const SECTION_WHO_WE_ARE = 14;
-    const SECTION_CONTACT_US = 15;
-    const SECTION_FAQS = 16;
-    const SECTION_LEGAL_TERM = 17;
-    const SECTION_SECURITY_AND_PRIVACY = 18;
-    const SECTION_SITEMAP = 19;
+    const SECTION_HOMEPAGE = 1;//2;
+    const SECTION_DESTINATIONS = 1;//3;
+    const SECTION_ACCOMMODATIONS = 1;//4;
+    const SECTION_MYCASATRIP = 1;//5;
+    const SECTION_FAVORITES = 1;//6;
+    const SECTION_HOW_IT_WORKS = 1;//7;
+    const SECTION_ACCOMMODATIONS_LISTS = 1;//8;
+    const SECTION_LAST_ADDED = 1;//9;
+    const SECTION_ECONOMICS_LIST = 1;//10;
+    const SECTION_MIDRANGE_LIST = 1;//11;
+    const SECTION_PREMIUM_LIST = 1;//12;
+    const SECTION_MOST_VISITED_CITIES = 1;//13;
+    const SECTION_WHO_WE_ARE = 1;//14;
+    const SECTION_CONTACT_US = 1;//15;
+    const SECTION_FAQS = 1;//16;
+    const SECTION_LEGAL_TERM = 1;//17;
+    const SECTION_SECURITY_AND_PRIVACY = 1;//18;
+    const SECTION_SITEMAP = 1;//19;
 
 
     /**

@@ -32,13 +32,18 @@ class metaTagRepository extends EntityRepository {
 
     function getMetas($section_id, $lang_code) {
         $em = $this->getEntityManager();
-        $meta = $em->createQuery("SELECT m
-            FROM mycpBundle:metaTag m
-            WHERE m.meta_section = $section_id")->getOneOrNullResult();
-        return $this->getMetasRecursive($em, $meta, $lang_code);
+        return $em->createQuery("SELECT ml
+            FROM mycpBundle:metaLang ml
+            JOIN ml.meta_lang_lang lang
+            JOIN ml.meta_tag m
+            WHERE m.meta_section = :meta_section
+              AND lang.lang_code = :lang_code")
+            ->setParameter('meta_section', $section_id)
+            ->setParameter('lang_code', $lang_code)
+            ->getOneOrNullResult();
     }
 
-    private function getMetasRecursive($entity_manager, $meta, $lang_code) {
+    /*private function getMetasRecursive($entity_manager, $meta, $lang_code) {
         if ($meta != null) {
             $query = $entity_manager->createQuery("SELECT ml
             FROM mycpBundle:metaLang ml
@@ -58,7 +63,7 @@ class metaTagRepository extends EntityRepository {
         }
         else
             return null;
-    }
+    }*/
 
 }
 
