@@ -24,4 +24,19 @@ class destinationCategoryLangRepository extends EntityRepository
         else
             return $query->getArrayResult();
     }
+
+
+    function getForMap($locale)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQueryBuilder()
+            ->select("desCatLang", "cat")
+            ->from("mycpBundle:destinationCategoryLang", "desCatLang")
+            ->join("desCatLang.des_cat_id_cat", "cat")
+            ->join("desCatLang.des_cat_id_lang", "lang")
+            ->where("lang.lang_code = :langCode")
+            ->setParameter("langCode", $locale);
+
+        return $query->getQuery()->getResult();
+    }
 }

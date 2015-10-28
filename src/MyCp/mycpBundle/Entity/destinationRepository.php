@@ -3,6 +3,7 @@
 namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use MyCp\mycpBundle\Entity\destination;
 use MyCp\mycpBundle\Entity\destinationLang;
 use MyCp\mycpBundle\Entity\destinationLocation;
@@ -764,6 +765,16 @@ class destinationRepository extends EntityRepository {
     function getActiveForMap()
     {
         $em = $this->getEntityManager();
+
+        /*$sql = "
+        SELECT d.des_id as id, d.des_cat_location_x as locationX, d.des_cat_location_y as locationY,
+          d.des_name as name, cat.cat_id_cat as catId FROM destination d JOIN mmdestinationcategory cat ON cat.cat_id_des = d.des_id";
+
+        $stmt = $em->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll();*/
+
         $query = $em->createQueryBuilder()
             ->select("d.des_id as id", "d.des_cat_location_x as locationX", "d.des_cat_location_y as locationY", "d.des_name as name", "cat.des_cat_id as catId")
             ->from("mycpBundle:destination", "d")

@@ -12,9 +12,8 @@ class DestinationController extends Controller {
     {
         $em = $this->getDoctrine()->getManager();
         $locale=$this->get('translator')->getLocale();
-        $lang= $em->getRepository('mycpBundle:lang')->findBy(array('lang_code'=>$locale));
         $destinations=$em->getRepository('mycpBundle:destination')->getActiveForMap();
-        $categories_lang = $em->getRepository('mycpBundle:destinationCategoryLang')->findBy(array('des_cat_id_lang'=>$lang[0]->getLangId()));
+        $categories_lang = $em->getRepository('mycpBundle:destinationCategoryLang')->getForMap($locale);
 
         return $this->render('FrontEndBundle:public:map.html.twig',array(
             'destinations_map'=>$destinations,

@@ -1814,30 +1814,30 @@ class ownershipRepository extends EntityRepository {
     public function autocompleteTextList() {
         $em = $this->getEntityManager();
         $provinces = $em->createQueryBuilder()
-                        ->select("p.prov_name")
+                        ->select("p.prov_name as name")
                         ->from("mycpBundle:province", "p")
-                        ->orderBy("p.prov_name", "ASC");
+                        ->orderBy("p.prov_name", "ASC")->getQuery()->getResult();
 
         $municipalities = $em->createQueryBuilder()
-            ->select("m.mun_name")
+            ->select("m.mun_name as name")
             ->from("mycpBundle:municipality", "m")
-            ->orderBy("m.mun_name", "ASC");
+            ->orderBy("m.mun_name", "ASC")->getQuery()->getResult();
 
         $ownerships = $em->createQueryBuilder()
             ->select("o.own_name as name", "o.own_mcp_code as code")
             ->from("mycpBundle:ownership", "o")
             ->where("o.own_status= :status")
             ->orderBy("o.own_name", "ASC")
-            ->setParameter("status", OwnershipStatuses::ACTIVE);
+            ->setParameter("status", OwnershipStatuses::ACTIVE)->getQuery()->getResult();
 
         $result = array();
         foreach ($provinces as $prov) {
-            $result[] = $prov;
+            $result[] = $prov["name"];
         }
 
         foreach ($municipalities as $mun) {
-            if (!array_search($mun, $result))
-                $result[] = $mun;
+            if (!array_search($mun["name"], $result))
+                $result[] = $mun["name"];
         }
 
         foreach ($ownerships as $own) {
