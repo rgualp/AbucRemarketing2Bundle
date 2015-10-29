@@ -1,5 +1,13 @@
 {% extends 'mycpBundle:layout:backend.html.twig' %}
 {% block title %}Administración{% endblock %}
+{% block another_in_head %}
+    {% stylesheets
+    '@mycpBundle/Resources/public/css/datepicker.css'
+    filter='?uglifycss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
 {% block top_body %}
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
@@ -261,72 +269,66 @@
     </div>
 {{ render(controller('mycpBundle:BackendMessage:messageControl', {'userTourist': user[0]})) }}
 </div>
+{% endblock %}
+    {% block javascripts %}
+        {% javascripts
+        '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
+        '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
+        filter='?uglifyjs2'
+        %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
 
-    {% stylesheets
-    '@mycpBundle/Resources/public/css/datepicker.css'
-    filter='?uglifycss'
-    %}
-    <link rel="stylesheet" href="{{ asset_url }}" />
-    {% endstylesheets %}
+        <script type="text/javascript">
 
-    {% javascripts
-    '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
-    '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
-    filter='?uglifyjs2'
-    %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+            $('.datepicker_textbox').datepicker({
+                language: 'es',
+                format:'dd/mm/yyyy'
+            }).on('changeDate', function(ev){
+                $('.datepicker').hide();
+            });
 
-    <script type="text/javascript">
+            $('#tabs a[href="#booking"]').click(function () {
+                loadBookings();
+            });
 
-        $('.datepicker_textbox').datepicker({
-            language: 'es',
-            format:'dd/mm/yyyy'
-        }).on('changeDate', function(ev){
-                    $('.datepicker').hide();
-                });
+            $('#tabs a[href="#logs"]').click(function () {
+                loadLogs();
+            });
 
-        $('#tabs a[href="#booking"]').click(function () {
-            loadBookings();
-        });
-
-        $('#tabs a[href="#logs"]').click(function () {
-            loadLogs();
-        });
-
-        function send_message()
-        {
-            url_submit="{{path('mycp_send_reservation',{'id_reservation':id_reservation})}}";
-            form=$('#form_edit_reserve');
-            form.attr('action',url_submit);
-            form.submit();
-        }
-
-        function loadBookings()
-        {
-            var bookingHasContent = $("#booking").attr("data-has-content");
-
-            if(bookingHasContent == "false") {
-                var reservation = {{ id_reservation }};
-                var url = $("#booking").attr("data-url");
-                $("#booking").html("Cargando....");
-                $.post(url, {
-                            reservation: reservation
-                        },
-                        function (data) {
-                            $("#booking").html(data);
-                            $('#tabs a[href="#booking"]').tab('show');
-                            $("#booking").attr("data-has-content", "true");
-                        });
+            function send_message()
+            {
+                url_submit="{{path('mycp_send_reservation',{'id_reservation':id_reservation})}}";
+                form=$('#form_edit_reserve');
+                form.attr('action',url_submit);
+                form.submit();
             }
-            return false;
-        }
 
-        function loadLogs()
-        {
-            var logsHasContent = $("#logs").attr("data-has-content");
+            function loadBookings()
+            {
+                var bookingHasContent = $("#booking").attr("data-has-content");
 
-            //if(logsHasContent == "false") {
+                if(bookingHasContent == "false") {
+                    var reservation = {{ id_reservation }};
+                    var url = $("#booking").attr("data-url");
+                    $("#booking").html("Cargando....");
+                    $.post(url, {
+                                reservation: reservation
+                            },
+                            function (data) {
+                                $("#booking").html(data);
+                                $('#tabs a[href="#booking"]').tab('show');
+                                $("#booking").attr("data-has-content", "true");
+                            });
+                }
+                return false;
+            }
+
+            function loadLogs()
+            {
+                var logsHasContent = $("#logs").attr("data-has-content");
+
+                //if(logsHasContent == "false") {
                 var reservation = {{ id_reservation }};
                 var url = $("#logs").attr("data-url");
                 $("#logs").html("Cargando....");
@@ -338,8 +340,8 @@
                             $('#tabs a[href="#logs"]').tab('show');
                             $("#logs").attr("data-has-content", "true");
                         });
-            //}
-            return false;
-        }
-    </script>
-{% endblock %}
+                //}
+                return false;
+            }
+        </script>
+    {% endblock %}

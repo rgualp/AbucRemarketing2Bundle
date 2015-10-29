@@ -36,10 +36,12 @@
     {%if errors["description_"~language.lang_id] is defined %}<label class="error">{{errors["description_"~language.lang_id]|trim(':')}}</label>{%endif%}
     <input type="text" class="span12 textarea" name="description_{{language.lang_id}}" value="{%if post["description_"~language.lang_id] is defined %}{{post["description_"~language.lang_id]}}{%endif%}"/>
     {% endfor %}
-    {% javascripts
-    '@mycpBundle/Resources/public/js/bootstrap-fileinput.js'
-    filter='?uglifyjs2'
-    %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
 {% endblock %}
+    {% block javascripts %}
+        {% javascripts
+        '@mycpBundle/Resources/public/js/bootstrap-fileinput.js'
+        filter='?uglifyjs2'
+        %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    {% endblock %}

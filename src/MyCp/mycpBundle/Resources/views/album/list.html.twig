@@ -109,29 +109,6 @@
     {% else %}
     <p> <div class="alert alert-block">No hay Álbumes disponibles.</div></p>
     {% endif %}
-<script type="text/javascript">
-    function submit_filters(ev)
-    {
-        if(ev.keyCode==13)
-        {
-            action_submit();
-        }
-    }
-
-    function action_submit()
-    {
-        items_per_page={{items_per_page}};
-        filter_name=$('#filter_name').val();
-        if(filter_name=='')filter_name='null';
-        filter_active=$('#filter_active').val();
-        filter_category=$('#category').val();
-        if(filter_category=='')filter_category='null';
-        url_submit=$('#filter').attr('action');
-        url_submit=url_submit+'/'+items_per_page+'/'+filter_name+'/'+filter_active+'/'+filter_category;
-        $('#filter').attr('action',url_submit);
-        $('#filter').submit();
-    }
-</script>
 {% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea eliminar el elemento?','confirmation_action_label':'Eliminar'}%}
 {% endblock %}
 {% block javascripts %}
@@ -141,4 +118,27 @@
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
+    <script type="text/javascript">
+        function submit_filters(ev)
+        {
+            if(ev.keyCode==13)
+            {
+                action_submit();
+            }
+        }
+
+        function action_submit()
+        {
+            items_per_page={{items_per_page}};
+            filter_name=$('#filter_name').val();
+            if(filter_name=='')filter_name='null';
+            filter_active=$('#filter_active').val();
+            filter_category=$('#category').val();
+            if(filter_category=='')filter_category='null';
+            url_submit=$('#filter').attr('action');
+            url_submit=url_submit+'/'+items_per_page+'/'+filter_name+'/'+filter_active+'/'+filter_category;
+            $('#filter').attr('action',url_submit);
+            $('#filter').submit();
+        }
+    </script>
 {% endblock %}

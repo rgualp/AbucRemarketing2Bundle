@@ -38,10 +38,13 @@
         {{form_rest(form)}}
     </div>
 </div>
-    {% javascripts
-    '@mycpBundle/Resources/public/js/bootstrap-fileinput.js'
-    filter='?uglifyjs2'
-    %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+
 {% endblock %}
+    {% block javascripts %}
+        {% javascripts
+        '@mycpBundle/Resources/public/js/bootstrap-fileinput.js'
+        filter='?uglifyjs2'
+        %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    {% endblock %}

@@ -1,5 +1,13 @@
 {% extends 'mycpBundle:layout:lodging.html.twig' %}
 {% block title %}Administración{% endblock %}
+{% block another_in_head %}
+    {% stylesheets
+    '@mycpBundle/Resources/public/css/datepicker.css'
+    filter='?uglifycss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
 {% block top_body %}
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_lodging_front')}}">Administración</a> <span class="divider">/</span></li>
@@ -19,18 +27,25 @@
     {% if edit_detail is defined %} <a class="btn btn-danger" href="{{path('mycp_lodging_delete_unavailabilityDetails', {'id_detail':edit_detail})}}">Eliminar</a> {% endif %}
 </div>
 </form>
-{% stylesheets
-'@mycpBundle/Resources/public/css/datepicker.css'
-filter='?uglifycss'
-%}
-    <link rel="stylesheet" href="{{ asset_url }}" />
-    {% endstylesheets %}
 
+{% endblock %}
+{% block content %}
+<h2>Habitaciones '{{ownership.ownName}}'</h2><br/>
+<h5>Hab. #{{num_room}} - {{room.roomType}}</h5>
+<hr/>
+<h4>{% if edit_detail is defined %}Editar {% else %}Adicionar {% endif %} no disponibilidad</h4>
+<hr/>
+<form class="sfgen" {{form_enctype(form)}} method="POST" action="{% if edit_detail is defined %}{{path('mycp_lodging_edit_unavailabilityDetails',{'id_detail':edit_detail})}}{% else %}{{path('mycp_lodging_new_unavailabilityDetails',{'id_room':id_room})}}{% endif %}" novalidate="true">
+{{form_widget(form)}}
+
+{% endblock %}
+
+    {% block javascripts %}
     {% javascripts
-'@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
-'@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
-filter='?uglifyjs2'
-%}
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
+    filter='?uglifyjs2'
+    %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
     <script>
@@ -46,21 +61,11 @@ filter='?uglifyjs2'
             datepicker_to.setDate(date);
         });
 
-    var datepicker_to = $('.datepicker-to').datepicker({
-        format:'dd/mm/yyyy',
-        todayBtn:'linked',
-        autoclose: true,
-        language: 'es'
-    }).data('datepicker');
+        var datepicker_to = $('.datepicker-to').datepicker({
+            format:'dd/mm/yyyy',
+            todayBtn:'linked',
+            autoclose: true,
+            language: 'es'
+        }).data('datepicker');
     </script>
-{% endblock %}
-{% block content %}
-<h2>Habitaciones '{{ownership.ownName}}'</h2><br/>
-<h5>Hab. #{{num_room}} - {{room.roomType}}</h5>
-<hr/>
-<h4>{% if edit_detail is defined %}Editar {% else %}Adicionar {% endif %} no disponibilidad</h4>
-<hr/>
-<form class="sfgen" {{form_enctype(form)}} method="POST" action="{% if edit_detail is defined %}{{path('mycp_lodging_edit_unavailabilityDetails',{'id_detail':edit_detail})}}{% else %}{{path('mycp_lodging_new_unavailabilityDetails',{'id_room':id_room})}}{% endif %}" novalidate="true">
-{{form_widget(form)}}
-
 {% endblock %}

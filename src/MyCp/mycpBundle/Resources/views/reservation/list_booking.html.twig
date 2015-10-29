@@ -1,5 +1,13 @@
 {% extends 'mycpBundle:layout:backend.html.twig' %}
 {% block title %}Administración{% endblock %}
+{% block another_in_head %}
+    {% stylesheets
+    '@mycpBundle/Resources/public/css/datepicker.css'
+    filter='?uglifycss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
 {%set number = (filter_booking_number == "") ? "null" : filter_booking_number%}
 {%set date = (filter_date_booking == "") ? "null" : filter_date_booking | replace("/", "_")%}
 {%set user = (filter_user_booking == "") ? "null" : filter_user_booking%}
@@ -161,26 +169,12 @@
         </div>
 
     </div>
-
-    {% stylesheets
-    '@mycpBundle/Resources/public/css/datepicker.css'
-    filter='?uglifycss'
-    %}
-    <link rel="stylesheet" href="{{ asset_url }}" />
-    {% endstylesheets %}
-
-    {% javascripts
-    '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
-    '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
-    filter='?uglifyjs2'
-    %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-
 {% endblock %}
 {% block javascripts %}
     {% javascripts
     '@mycpBundle/Resources/public/js/common_list.js'
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
     filter='?uglifyjs2'
     %}
     <script src="{{ asset_url }}"></script>

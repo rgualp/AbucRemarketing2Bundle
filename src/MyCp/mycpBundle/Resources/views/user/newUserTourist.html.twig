@@ -65,6 +65,9 @@
     </div>
     {{form_rest(form)}}
     {{form_errors(form)}}
+
+{% endblock %}
+{% block javascripts %}
     <script type="text/javascript">
         $('.sfgen input').addClass('input-block-level')
         $('.sfgen select').addClass('input-block-level')
@@ -78,7 +81,7 @@
     {% if edit_user is defined%}
         <hr/>
         {% if tourist is defined and tourist != null %}
-        {{ render(controller('mycpBundle:BackendMessage:messageControl', {'userTourist': tourist, 'showSubject' : true})) }}
+            {{ render(controller('mycpBundle:BackendMessage:messageControl', {'userTourist': tourist, 'showSubject' : true})) }}
         {% endif %}
     {%endif%}
 

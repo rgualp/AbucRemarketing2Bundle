@@ -144,66 +144,6 @@
         </form>
     </div>
 </div>
-
-{% javascripts
-'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.core.js'
-'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.widget.js'
-'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.mouse.js'
-'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.sortable.js'
-filter='?uglifyjs2'
-%}
-    <script src="{{ asset_url }}"></script>
-{% endjavascripts %}
-<script>
-    var idOwnership = {{ id_ownership }}
-    $(function() {
-
-        $( "#sortable" ).sortable({
-            stop: function(event, ui) {
-                $(".load-div").removeClass("hidden");
-                var result = $('#sortable').sortable('toArray');
-                url = "{{ path('mycp_set_img_order_utils', {'ids': '-1' }) }}";
-                url=url.replace('/-1','');
-
-                $.ajax({
-                    type:"POST",
-                    url:url + '/' + result,
-                    success:function (msg) {
-                        $(".load-div").addClass("hidden");
-                    }
-                });
-            }
-
-        });
-        $( "#sortable" ).disableSelection();
-
-
-    });
-
-    function deleteSelected()
-    {
-        $(".load-div").removeClass("hidden");
-        var checkValues = $('input[name=check_photo]:checked').map(function() {
-        return $(this).attr('data-id');
-    }).get();
-
-    if(checkValues.length == 0)
-    {
-        alert("Seleccione alguno de los elementos");
-        return;
-    }
-
-     var url = $(".btn-action-photo").attr("data-url");
-     $.post(url, {
-        'photos_ids': checkValues
-    }, function(data) {
-        if(data != "ERROR")
-            window.location = data;
-        else
-            alert(data);
-    });
-    }
-</script>
 {% else %}
 <p> <div class="alert alert-block">No hay fotografías disponibles.</div></p>
 {% endif %}
@@ -216,4 +156,66 @@ filter='?uglifyjs2'
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
+
+{% if photos %}
+    {% javascripts
+    '@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.core.js'
+    '@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.widget.js'
+    '@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.mouse.js'
+    '@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.sortable.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script>
+        var idOwnership = {{ id_ownership }}
+                $(function() {
+
+                    $( "#sortable" ).sortable({
+                        stop: function(event, ui) {
+                            $(".load-div").removeClass("hidden");
+                            var result = $('#sortable').sortable('toArray');
+                            url = "{{ path('mycp_set_img_order_utils', {'ids': '-1' }) }}";
+                            url=url.replace('/-1','');
+
+                            $.ajax({
+                                type:"POST",
+                                url:url + '/' + result,
+                                success:function (msg) {
+                                    $(".load-div").addClass("hidden");
+                                }
+                            });
+                        }
+
+                    });
+                    $( "#sortable" ).disableSelection();
+
+
+                });
+
+        function deleteSelected()
+        {
+            $(".load-div").removeClass("hidden");
+            var checkValues = $('input[name=check_photo]:checked').map(function() {
+                return $(this).attr('data-id');
+            }).get();
+
+            if(checkValues.length == 0)
+            {
+                alert("Seleccione alguno de los elementos");
+                return;
+            }
+
+            var url = $(".btn-action-photo").attr("data-url");
+            $.post(url, {
+                'photos_ids': checkValues
+            }, function(data) {
+                if(data != "ERROR")
+                    window.location = data;
+                else
+                    alert(data);
+            });
+        }
+    </script>
+{% endif %}
 {% endblock %}

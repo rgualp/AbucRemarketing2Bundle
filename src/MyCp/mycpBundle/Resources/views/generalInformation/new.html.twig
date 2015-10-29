@@ -1,5 +1,13 @@
 {% extends 'mycpBundle:layout:backend.html.twig' %}
 {% block title %}Administración{% endblock %}
+{% block another_in_head %}
+    {% stylesheets
+    '@mycpBundle/Resources/public/css/bootstrap-wysihtml5.css'
+    filter='?uglifycss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
 {% block top_body %}
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
@@ -59,16 +67,11 @@
     </div>
     <br/>
     {% endfor %}
+    {% endblock %}
+    {% block javascripts %}
     <script type="text/javascript">
         var url_css_color="{{ asset('bundles/mycp/css/wysiwyg-color.css') }}";
     </script>
-
-    {% stylesheets
-    '@mycpBundle/Resources/public/css/bootstrap-wysihtml5.css'
-    filter='?uglifycss'
-    %}
-    <link rel="stylesheet" href="{{ asset_url }}" />
-    {% endstylesheets %}
 
     {% javascripts
     '@mycpBundle/Resources/public/js/wysihtml5-0.3.0.min.js'
@@ -80,4 +83,4 @@
     <script>
         $('.textarea').wysihtml5();
     </script>
-    {% endblock %}
+{% endblock %}

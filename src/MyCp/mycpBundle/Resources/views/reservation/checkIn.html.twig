@@ -2,6 +2,14 @@
 {% if filter_date_from ==''%}{% set filter_date_from='null'%}{%endif%}
 {% if sort_by ==''%}{% set sort_by='null'%}{%endif%}
 {% block title %}Administración{% endblock %}
+{% block another_in_head %}
+    {% stylesheets
+    '@mycpBundle/Resources/public/css/datepicker.css'
+    filter='?uglifycss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
 {% block top_body %}
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
@@ -103,29 +111,17 @@
         </div>
 
     </div>
-    {% stylesheets
-    '@mycpBundle/Resources/public/css/datepicker.css'
-    filter='?uglifycss'
-    %}
-    <link rel="stylesheet" href="{{ asset_url }}" />
-    {% endstylesheets %}
-
-    {% javascripts
-    '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
-    '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
-    filter='?uglifyjs2'
-    %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-
 {% endblock %}
 {% block javascripts %}
     {% javascripts
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
     '@mycpBundle/Resources/public/js/common_list.js'
     filter='?uglifyjs2'
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
+
 <script type="text/javascript">
     $('.datepicker').datepicker({
         format: 'dd/mm/yyyy',

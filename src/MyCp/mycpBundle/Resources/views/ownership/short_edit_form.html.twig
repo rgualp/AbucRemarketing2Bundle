@@ -216,68 +216,67 @@
     </div>
 </div>
 </div>
-
-
-
-{% if data['new_room'] is defined%}
-    <script type="text/javascript">
-        $('#myTab a[href="#habitaciones"]').tab('show');
-    </script>
-{%endif%}
+{% endblock %}
+{% block javascripts %}
+    {% if data['new_room'] is defined%}
+        <script type="text/javascript">
+            $('#myTab a[href="#habitaciones"]').tab('show');
+        </script>
+    {%endif%}
     {% javascripts
     '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
     '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
     '@mycpBundle/Resources/public/js/bootstrap-typeahead.js'
     filter='?uglifyjs2'
     %}
-        <script src="{{ asset_url }}"></script>
+    <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 
-<script type="text/javascript">
-    url = "{{ path('mycp_get_mun_by_prov', { 'country_code': '-1'}) }}";
-    url=url.replace('/-1','');
-    function open_mail_modal()
-    {
-        $('#mailModal').modal('show');
+    <script type="text/javascript">
+        url = "{{ path('mycp_get_mun_by_prov', { 'country_code': '-1'}) }}";
+        url=url.replace('/-1','');
+        function open_mail_modal()
+        {
+            $('#mailModal').modal('show');
 
-    }
-    $('.textarea').wysihtml5();
-    $('.datepicker').datepicker({
-        format: 'dd/mm/yyyy',
-        todayBtn: 'linked',
-        autoclose: true,
-        language: 'es'
-    });
-    $('#ownership_address_province').change(function(){
-
-        code_prov=$('#ownership_address_province option:selected').attr('class');
-        $('#province_code').html('(+53) '+code_prov);
-        $('#ownership_phone_code').val('(+53) '+code_prov);
-
-        $('#ownership_address_municipality').html('<option value="">Cargando...</option>');
-        code = $('#ownership_address_province').val();
-        $.ajax({
-            type:"POST",
-            url:url + '/' + code,
-            success:function (msg) {
-
-                $('#ownership_address_municipality').html(msg);
-            }
+        }
+        $('.textarea').wysihtml5();
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            todayBtn: 'linked',
+            autoclose: true,
+            language: 'es'
         });
-    });
+        $('#ownership_address_province').change(function(){
 
-    function submit_button()
-    {
-        $("#save_reset_input").val(1);
-        $("#form_ownership").submit();
-    }
+            code_prov=$('#ownership_address_province option:selected').attr('class');
+            $('#province_code').html('(+53) '+code_prov);
+            $('#ownership_phone_code').val('(+53) '+code_prov);
 
-    function send_email()
-    {
-        $("#mailModalForm").submit();
-    }
+            $('#ownership_address_municipality').html('<option value="">Cargando...</option>');
+            code = $('#ownership_address_province').val();
+            $.ajax({
+                type:"POST",
+                url:url + '/' + code,
+                success:function (msg) {
 
-</script>
+                    $('#ownership_address_municipality').html(msg);
+                }
+            });
+        });
+
+        function submit_button()
+        {
+            $("#save_reset_input").val(1);
+            $("#form_ownership").submit();
+        }
+
+        function send_email()
+        {
+            $("#mailModalForm").submit();
+        }
+
+    </script>
 
     <script type="text/javascript">
         var url_css_color="{{ asset('bundles/mycp/css/wysiwyg-color.css') }}";
@@ -298,7 +297,7 @@
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
-<script>
-    $('.textarea').wysihtml5();
-</script>
+    <script>
+        $('.textarea').wysihtml5();
+    </script>
 {% endblock %}

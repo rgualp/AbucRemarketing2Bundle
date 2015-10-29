@@ -53,115 +53,7 @@
                 </div>
             </div>
         </div>
-            {% javascripts
-'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.core.js'
-'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.widget.js'
-'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.mouse.js'
-'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.sortable.js'
-'@mycpBundle/Resources/public/js/moment.min.js'
-'@mycpBundle/Resources/public/js/fullcalendar.min.js'
-'@mycpBundle/Resources/public/js/fullcalendar-lang-all.js'
-filter='?uglifyjs2'
-%}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
 
-            <script>
-                $(document).ready(function() {
-                    $('#calendar').fullCalendar({
-                        header: {
-                            left: 'prev,next today',
-                            center: 'title',
-                            right: 'month,agendaWeek'
-                        },
-                        defaultDate: '{{ "today" | date("Y-m-d") }}',
-                        editable: true,
-                        selectable: true,
-                        lang: 'es',
-                        eventLimit: false, // allow "more" link when too many events
-                        events: {
-                            url: '{{ path('mycp_get_unavailability_details_json', {'idRoom': id_room}) }}',
-                            error: function() {
-                                $('#modal-warning').show();
-                            }
-                        },
-                        loading: function(bool) {
-                            if (bool)
-                            {
-                                $('#loading').show();
-
-                            }
-                            else
-                            {
-                                $('#loading').hide();
-
-
-                            }
-                        },
-                        selectHelper: true,
-                        select: function(start, end) {
-                            $('#calendar').fullCalendar('loading', true);
-                            var reason = prompt('Escriba una razón');
-                            var eventData;
-                            if (reason) {
-                                var url = '{{ path("mycp_create_event_callback") }}';
-                                $.post(
-                                        url,
-                                        {
-                                            'idRoom':{{ id_room}},
-                                            'start' : start.format('DD/MM/YYYY'),
-                                            'end': end.format('DD/MM/YYYY'),
-                                            'reason': reason
-                                        },
-                                        function(data)
-                                        {
-                                            var response = jQuery.parseJSON(data);
-
-                                            if(response.errorMessage !== "")
-                                            {
-                                                alert(response.errorMessage);
-                                            }
-                                            else {
-                                                eventData = {
-                                                    id: response.eventId,
-                                                    title: response.title,
-                                                    start: start,
-                                                    end: end,
-                                                    color: "#468847",
-                                                    url: response.url
-                                                };
-
-                                                $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
-                                            }
-                                        });
-                            }
-                            $('#calendar').fullCalendar('unselect');
-                            $('#calendar').fullCalendar('loading', false);
-                        },
-                        eventRender: function(event, element) {
-                            $(element).tooltip({title: event.title});
-                        }/*,
-                         eventDrop: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
-                         if (event.id.match("^1-") && confirm("¿Desea mover la no disponibilidad?")){
-                         alert("yes");
-                         }
-
-                         },
-
-                         eventResize: function (event, dayDelta, minuteDelta, revertFunc) {
-
-                         if (confirm("¿Desea modificar el rango de fechas de la no disponibilidad?")) {
-                         UpdateEvent(event.id, event.start, event.end);
-                         }
-                         else {
-                         revertFunc();
-                         }
-                         }*/
-                    });
-
-                });
-
-            </script>
     </div>
     <div id="listView" class="tab-pane fade active">
             <div class="alert">
@@ -220,19 +112,123 @@ filter='?uglifyjs2'
                 'route_params': {'id_room':id_room, 'num_room': num_room,'items_per_page':items_per_page}
                 }) }}
             </div>
-             {% javascripts
-'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.core.js'
-'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.widget.js'
-'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.mouse.js'
-'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.sortable.js'
-filter='?uglifyjs2'
-%}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
     </div>
 </div>
         {% else %}
             <p> <div class="alert alert-block">No hay detalles de disponibilidad almacenados.</div></p>
         {% endif %}
 
+{% endblock %}
+{% block javascripts %}
+    {% if details %}
+        {% javascripts
+        '@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.core.js'
+        '@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.widget.js'
+        '@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.mouse.js'
+        '@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.sortable.js'
+        '@mycpBundle/Resources/public/js/moment.min.js'
+        '@mycpBundle/Resources/public/js/fullcalendar.min.js'
+        '@mycpBundle/Resources/public/js/fullcalendar-lang-all.js'
+        filter='?uglifyjs2'
+        %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+        <script>
+            $(document).ready(function() {
+                $('#calendar').fullCalendar({
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,agendaWeek'
+                    },
+                    defaultDate: '{{ "today" | date("Y-m-d") }}',
+                    editable: true,
+                    selectable: true,
+                    lang: 'es',
+                    eventLimit: false, // allow "more" link when too many events
+                    events: {
+                        url: '{{ path('mycp_get_unavailability_details_json', {'idRoom': id_room}) }}',
+                        error: function() {
+                            $('#modal-warning').show();
+                        }
+                    },
+                    loading: function(bool) {
+                        if (bool)
+                        {
+                            $('#loading').show();
+
+                        }
+                        else
+                        {
+                            $('#loading').hide();
+
+
+                        }
+                    },
+                    selectHelper: true,
+                    select: function(start, end) {
+                        $('#calendar').fullCalendar('loading', true);
+                        var reason = prompt('Escriba una razón');
+                        var eventData;
+                        if (reason) {
+                            var url = '{{ path("mycp_create_event_callback") }}';
+                            $.post(
+                                    url,
+                                    {
+                                        'idRoom':{{ id_room}},
+                                        'start' : start.format('DD/MM/YYYY'),
+                                        'end': end.format('DD/MM/YYYY'),
+                                        'reason': reason
+                                    },
+                                    function(data)
+                                    {
+                                        var response = jQuery.parseJSON(data);
+
+                                        if(response.errorMessage !== "")
+                                        {
+                                            alert(response.errorMessage);
+                                        }
+                                        else {
+                                            eventData = {
+                                                id: response.eventId,
+                                                title: response.title,
+                                                start: start,
+                                                end: end,
+                                                color: "#468847",
+                                                url: response.url
+                                            };
+
+                                            $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                                        }
+                                    });
+                        }
+                        $('#calendar').fullCalendar('unselect');
+                        $('#calendar').fullCalendar('loading', false);
+                    },
+                    eventRender: function(event, element) {
+                        $(element).tooltip({title: event.title});
+                    }/*,
+                     eventDrop: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
+                     if (event.id.match("^1-") && confirm("¿Desea mover la no disponibilidad?")){
+                     alert("yes");
+                     }
+
+                     },
+
+                     eventResize: function (event, dayDelta, minuteDelta, revertFunc) {
+
+                     if (confirm("¿Desea modificar el rango de fechas de la no disponibilidad?")) {
+                     UpdateEvent(event.id, event.start, event.end);
+                     }
+                     else {
+                     revertFunc();
+                     }
+                     }*/
+                });
+
+            });
+
+        </script>
+    {% endif %}
 {% endblock %}
