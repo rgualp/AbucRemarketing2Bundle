@@ -73,5 +73,15 @@
             }
         }
     </script>
+    <script>
+
+        $("#btnSelect").click(function (){
+            var url = $("#hClientData").val();
+            url = url + "/" + $("#ddlUsersEmail").val();
+
+            window.location = url;
+        });
+
+    </script>
 
 {% endblock %}
