@@ -28,8 +28,8 @@ class userHistoryRepository extends EntityRepository
         if ($user_ids["user_id"] != null)
             $user = $em->getRepository('mycpBundle:user')->find($user_ids["user_id"]);
 
-        $array_element = $this->getFromHistory($user_ids, $element_id,$is_ownership);
-        $element = (count($array_element) >= 1) ? $array_element[0] : null;
+        $element = $this->getFromHistory($user_ids, $element_id,$is_ownership);
+        //$element = (count($array_element) >= 1) ? $array_element[0] : null;
         if($element == null)
         {
             $history = new userHistory();
@@ -101,7 +101,7 @@ class userHistoryRepository extends EntityRepository
             $where .= ($where != "") ? (($is_ownership) ? " AND h.user_history_ownership = $element_id" : " AND h.user_history_destination = $element_id") : "";
 
             if ($where != "")
-                return $em->createQuery($query_string . $where . " ORDER BY h.user_history_visit_date DESC")->getResult();
+                return $em->createQuery($query_string . $where . " ORDER BY h.user_history_visit_date DESC")->getOneOrNullResult();
             else
                 return null;
         } catch (Exception $e) {
@@ -139,34 +139,41 @@ class userHistoryRepository extends EntityRepository
     public function getListEntity($user_ids, $is_ownership = true, $max_results = null, $exclude_id_element = null) {
         try {
             $em = $this->getEntityManager();
-            $query_string = "SELECT h FROM mycpBundle:userHistory h ";
-            $where = "";
+
+            $qb = $em->createQueryBuilder();
+            $qb->from("mycpBundle:userHistory", "h")
+               ->orderBy("h.user_history_visit_date", "DESC");
 
             if ($user_ids["user_id"] != null)
-                $where.= " WHERE h.user_history_user = ".$user_ids['user_id'];
+                $qb->where("h.user_history_user = :user")
+                   ->setParameter("user", $user_ids['user_id']);
             else if ($user_ids["session_id"] != null)
-                $where .= " WHERE h.user_history_session_id = '".$user_ids["session_id"]."'";
+                $qb->where("h.user_history_session_id = :session")
+                    ->setParameter("session", $user_ids['session_id']);
 
-            $where .= ($where != "") ? (($is_ownership) ? " AND h.user_history_ownership IS NOT NULL " : " AND h.user_history_destination IS NOT NULL ") : "";
+            if($is_ownership){
+                $qb->andWhere("h.user_history_ownership IS NOT NULL")
+                   ->join("h.user_history_ownership", "own")
+                   ->select("own.own_name as ownName", "own.own_minimum_price as ownMinimumPrice", "own.own_type as ownType", "own.own_id as ownId");
 
-            if($exclude_id_element != null)
-            {
-                $where .= ($where != "") ? (($is_ownership) ? " AND h.user_history_ownership != $exclude_id_element " : " AND h.user_history_destination != $exclude_id_element ") : "";
+                if($exclude_id_element != null)
+                    $qb->andWhere("h.user_history_ownership != :excludeElement")
+                       ->setParameter("excludeElement", $exclude_id_element);
+            }
+            else {
+                $qb->andWhere("h.user_history_destination IS NOT NULL")
+                    ->join("h.user_history_destination", "des")
+                    ->select("h", "des");
+
+                if($exclude_id_element != null)
+                    $qb->andWhere("h.user_history_destination != :excludeElement")
+                        ->setParameter("excludeElement", $exclude_id_element);
             }
 
-            if ($where != "")
-            {
-                $query_results = ($max_results != null) ? $em->createQuery($query_string . $where . " ORDER BY h.user_history_visit_date DESC ")->setMaxResults($max_results)->getResult() : $em->createQuery($query_string . $where . " ORDER BY h.user_history_visit_date DESC ")->getResult();
-                $results = array();
+            if($max_results != null)
+              $qb->setMaxResults($max_results);
 
-                foreach ($query_results as $history) {
-                    $results[] = ($is_ownership) ? $history->getUserHistoryOwnership() : $history->getUserHistoryDestination();
-                }
-
-                return $results;
-            }
-            else
-                return null;
+           return $qb->getQuery()->getResult();
         } catch (Exception $e) {
             return null;
         }

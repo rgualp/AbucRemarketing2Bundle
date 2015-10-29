@@ -1757,6 +1757,17 @@ class ownershipRepository extends EntityRepository {
         return $photos;
     }
 
+    function getPhotosArrayFromArray($own_list, $keyName) {
+        $photos = array();
+
+        if (is_array($own_list)) {
+            foreach ($own_list as $own) {
+                $photos[$own[$keyName]] = $this->getOwnershipPhoto($own[$keyName]);
+            }
+        }
+        return $photos;
+    }
+
     function getOwnershipPhoto($own_id) {
         $em = $this->getEntityManager();
         $query_string = "SELECT op FROM mycpBundle:ownershipPhoto op

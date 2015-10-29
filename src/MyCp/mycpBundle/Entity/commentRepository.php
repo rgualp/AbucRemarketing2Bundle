@@ -50,18 +50,18 @@ class commentRepository extends EntityRepository {
 
     function getByOwnership($ownsership_id, $just_public = 1) {
         $em = $this->getEntityManager();
-        $just_public_query = ($just_public) ? " AND c.com_public=1 " : "";
-        $query_string = "SELECT c.com_rate,
-                         c.com_date,c.com_comments,
-                         u.user_user_name,
-                         u.user_last_name
-                         FROM mycpBundle:comment c
-                         JOIN c.com_user u
-                         WHERE  c.com_ownership = :ownership_id" .
-                $just_public_query .
-                "ORDER BY c.com_date DESC";
+        $qb = $em->createQueryBuilder();
+        $qb->select("c.com_rate", "c.com_date", "c.com_comments", "u.user_user_name", "u.user_last_name")
+            ->from("mycpBundle:comment", "c")
+            ->join("c.com_user", "u")
+            ->where("c.com_ownership = :idAccommodation")
+            ->orderBy("c.com_date", "DESC")
+            ->setParameter("idAccommodation", $ownsership_id);
 
-        return $em->createQuery($query_string)->setParameter('ownership_id', $ownsership_id)->getResult();
+        if($just_public)
+            $qb->andWhere("c.com_public = 1");
+
+        return $qb->getQuery();
     }
 
     function getRecommendations($ownsership_id) {

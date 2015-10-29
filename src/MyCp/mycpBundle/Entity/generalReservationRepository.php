@@ -592,4 +592,16 @@ class generalReservationRepository extends EntityRepository {
         return $em->createQuery($query_string)
             ->setFirstResult($startIndex)->setMaxResults($pageSize)->getResult();
     }
+
+    function getReservationsByIdAccommodation($idAccommodation)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb->select("owres")
+            ->from("mycpBundle:ownershipReservation", "owres")
+            ->join("owres.own_res_gen_res_id", "gres")
+            ->where("gres.gen_res_own_id = :idAccommodation")
+            ->setParameter("idAccommodation", $idAccommodation);
+        return $qb->getQuery()->getResult();
+    }
 }

@@ -342,17 +342,10 @@ class OwnershipController extends Controller {
             $languages .= ", " . $lang;
 
         $owner_id = $ownership_array['own_id'];
-        $general_reservations = $em->getRepository('mycpBundle:generalReservation')->findBy(array('gen_res_own_id' => $owner_id));
-        $reservations = array();
-        foreach ($general_reservations as $gen_res) {
-            $own_reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $gen_res->getGenResId()));
-            foreach ($own_reservations as $own_res) {
-                array_push($reservations, $own_res);
-            }
-        }
+        $reservations = $em->getRepository('mycpBundle:generalReservation')->getReservationsByIdAccommodation($owner_id);
 
-        $similar_houses = $em->getRepository('mycpBundle:ownership')->getByCategory($ownership_array['category'], null, $owner_id, $user_ids["user_id"], $user_ids["session_id"]);
-        $total_similar_houses = count($similar_houses);
+       // $similar_houses = $em->getRepository('mycpBundle:ownership')->getByCategory($ownership_array['category'], null, $owner_id, $user_ids["user_id"], $user_ids["session_id"]);
+       // $total_similar_houses = count($similar_houses);
 
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 5;
@@ -530,8 +523,8 @@ class OwnershipController extends Controller {
                     'description' => $ownership_array['description'],
                     'brief_description' => $brief_description,
                     'automaticTranslation' => $ownership_array['autotomaticTranslation'],
-                    'similar_houses' => array_slice($similar_houses, 0, 5),
-                    'total_similar_houses' => $total_similar_houses,
+                    //'similar_houses' => array_slice($similar_houses, 0, 5),
+                    //'total_similar_houses' => $total_similar_houses,
                     'comments' => $comments,
                     'friends' => $friends,
                     'show_comments_and_friends' => count($total_comments) + count($friends),
@@ -1533,7 +1526,7 @@ class OwnershipController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
         $history_owns = $em->getRepository('mycpBundle:userHistory')->getListEntity($user_ids, true, 10, $exclude_ownership_id);
-        $history_owns_photos = $em->getRepository('mycpBundle:ownership')->getPhotosArray($history_owns);
+        $history_owns_photos = $em->getRepository('mycpBundle:ownership')->getPhotosArrayFromArray($history_owns, "ownId");
 
         return $this->render('FrontEndBundle:ownership:historyOwnership.html.twig', array(
                     'history_list' => $history_owns,
