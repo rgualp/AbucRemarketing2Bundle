@@ -156,94 +156,92 @@
 'route_params': {'items_per_page':items_per_page,'filter_name':filter_name,'filter_active':filter_active,'filter_province':filter_province,'filter_municipality':filter_municipality,'sort_by':sort_by}
 }) }}
 </div>
-<script>
-    $(function() {
-        $( "#sortable" ).sortable({
-            stop: function(event, ui) {
-
-                var result = $('#sortable').sortable('toArray');
-                //alert(result);
-                url = "{{ path('mycp_set_order_destination', { 'ids': '-1' }) }}";
-                url=url.replace('/-1','');
-                $.ajax({
-                    type:"POST",
-                    url:url + '/' + result,
-                    success:function (msg) {
-                    }
-                });
-            }
-
-        });
-        $( "#sortable" ).disableSelection();
-    });
-</script>
-{% javascripts
-'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.core.js'
-'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.widget.js'
-'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.mouse.js'
-'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.sortable.js'
-filter='?uglifyjs2'
-%}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
 {% else %}
        <p> <div class="alert alert-block">No hay Destinos disponibles.</div></p>
 {% endif %}
-<script type="text/javascript">
 
-            url = "{{ path('mycp_get_mun_by_prov', { 'country_code': '-1' }) }}";
-            url=url.replace('/-1','');
-            $('#filter_province').change(function(){
-                code = $('#filter_province').val();
-                if(code!='')
-                {
-                    $('#filter_municipality').html('<option value="">Cargando...</option>');
-
-
-                    $.ajax({
-                        type:"POST",
-                        url:url + '/' + code,
-                        success:function (msg) {
-
-                            $('#filter_municipality').html(msg);
-                        }
-                    });
-                }
-            });
-
-    function submit_filters(e)
-    {
-        if(e.keyCode==13)
-        {
-            action_submit();
-        }
-    }
-
-    function action_submit()
-    {
-        items_per_page={{items_per_page}};
-        filter_name=$('#filter_name').val();
-        if(filter_name=='')filter_name='null';
-        filter_active=$('#filter_active').val();
-        filter_province=$('#filter_province').val();
-        if(filter_province=='')filter_province='null';
-        filter_municipality=$('#filter_municipality').val();
-        if(filter_municipality=='')filter_municipality='null';
-        sort_by=$('#sort_by').val();
-        if(sort_by=='')sort_by='null';
-        url_submit=$('#filter').attr('action');
-        url_submit=url_submit+'/'+items_per_page+'/'+filter_name+'/'+filter_active+'/'+filter_province+'/'+filter_municipality+'/'+sort_by;
-        $('#filter').attr('action',url_submit);
-        $('#filter').submit();
-    }
-</script>
 {% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea eliminar el elemento?','confirmation_action_label':'Eliminar'}%}
 {% endblock %}
 {% block javascripts %}
     {% javascripts
+    '@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.core.js'
+    '@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.widget.js'
+    '@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.mouse.js'
+    '@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.sortable.js'
     '@mycpBundle/Resources/public/js/common_list.js'
     filter='?uglifyjs2'
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
+    {% if destinations %}
+    <script>
+        $(function() {
+            $( "#sortable" ).sortable({
+                stop: function(event, ui) {
+
+                    var result = $('#sortable').sortable('toArray');
+                    //alert(result);
+                    url = "{{ path('mycp_set_order_destination', { 'ids': '-1' }) }}";
+                    url=url.replace('/-1','');
+                    $.ajax({
+                        type:"POST",
+                        url:url + '/' + result,
+                        success:function (msg) {
+                        }
+                    });
+                }
+
+            });
+            $( "#sortable" ).disableSelection();
+        });
+    </script>
+    {% endif %}
+    <script type="text/javascript">
+
+        url = "{{ path('mycp_get_mun_by_prov', { 'country_code': '-1' }) }}";
+        url=url.replace('/-1','');
+        $('#filter_province').change(function(){
+            code = $('#filter_province').val();
+            if(code!='')
+            {
+                $('#filter_municipality').html('<option value="">Cargando...</option>');
+
+
+                $.ajax({
+                    type:"POST",
+                    url:url + '/' + code,
+                    success:function (msg) {
+
+                        $('#filter_municipality').html(msg);
+                    }
+                });
+            }
+        });
+
+        function submit_filters(e)
+        {
+            if(e.keyCode==13)
+            {
+                action_submit();
+            }
+        }
+
+        function action_submit()
+        {
+            items_per_page={{items_per_page}};
+            filter_name=$('#filter_name').val();
+            if(filter_name=='')filter_name='null';
+            filter_active=$('#filter_active').val();
+            filter_province=$('#filter_province').val();
+            if(filter_province=='')filter_province='null';
+            filter_municipality=$('#filter_municipality').val();
+            if(filter_municipality=='')filter_municipality='null';
+            sort_by=$('#sort_by').val();
+            if(sort_by=='')sort_by='null';
+            url_submit=$('#filter').attr('action');
+            url_submit=url_submit+'/'+items_per_page+'/'+filter_name+'/'+filter_active+'/'+filter_province+'/'+filter_municipality+'/'+sort_by;
+            $('#filter').attr('action',url_submit);
+            $('#filter').submit();
+        }
+    </script>
 {% endblock %}

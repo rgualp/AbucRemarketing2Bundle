@@ -53,14 +53,17 @@
     </div>
     {{form_rest(form)}}
     {{form_errors(form)}}
-    <script type="text/javascript">
-        $('.sfgen input').addClass('input-block-level')
-        $('.sfgen select').addClass('input-block-level')
-    </script>
-    {% javascripts
-    '@mycpBundle/Resources/public/js/bootstrap-fileinput.js'
-    filter='?uglifyjs2'
-    %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+
 {% endblock %}
+    {% block javascripts %}
+        <script type="text/javascript">
+            $('.sfgen input').addClass('input-block-level')
+            $('.sfgen select').addClass('input-block-level')
+        </script>
+        {% javascripts
+        '@mycpBundle/Resources/public/js/bootstrap-fileinput.js'
+        filter='?uglifyjs2'
+        %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    {% endblock %}

@@ -1,5 +1,13 @@
 {% extends 'mycpBundle:layout:backend.html.twig' %}
 {% block title %}Administración{% endblock %}
+{% block another_in_head %}
+    {% stylesheets
+    '@mycpBundle/Resources/public/css/datepicker.css'
+    filter='?uglifycss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
 {% block top_body %}
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
@@ -39,13 +47,8 @@
             {{form_row(form.season_reason)}}
         </div>
         {{form_rest(form)}}
-    {% stylesheets
-    '@mycpBundle/Resources/public/css/datepicker.css'
-    filter='?uglifycss'
-    %}
-    <link rel="stylesheet" href="{{ asset_url }}" />
-    {% endstylesheets %}
-
+{% endblock %}
+    {% block javascripts %}
     {% javascripts
     '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
     '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
@@ -67,33 +70,33 @@
             datepicker_to.setDate(date);
         });
 
-    var datepicker_to = $('.datepicker-to').datepicker({
-        format:'dd/mm/yyyy',
-        todayBtn:'linked',
-        autoclose: true,
-        language: 'es'
-    }).data('datepicker');
+        var datepicker_to = $('.datepicker-to').datepicker({
+            format:'dd/mm/yyyy',
+            todayBtn:'linked',
+            autoclose: true,
+            language: 'es'
+        }).data('datepicker');
 
-    var selected_type = $(".dd_season_types").val();
-    if(selected_type == {{constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_SPECIAL')}})
+        var selected_type = $(".dd_season_types").val();
+        if(selected_type == {{constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_SPECIAL')}})
         {
             $(".dd_season_destination").removeAttr('disabled');
             $(".ta_season_reason").removeAttr('disabled');
         }
 
-    $(".dd_season_types").change(function (){
-        var selected = $(this).val();
+        $(".dd_season_types").change(function (){
+            var selected = $(this).val();
 
-        if(selected == {{constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_SPECIAL')}})
-        {
-            $(".dd_season_destination").removeAttr('disabled');
-            $(".ta_season_reason").removeAttr('disabled');
-        }
-        else
-        {
-            $(".dd_season_destination").attr('disabled','disabled');
-            $(".ta_season_reason").attr('disabled','disabled');
-        }
-    });
+            if(selected == {{constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_SPECIAL')}})
+            {
+                $(".dd_season_destination").removeAttr('disabled');
+                $(".ta_season_reason").removeAttr('disabled');
+            }
+            else
+            {
+                $(".dd_season_destination").attr('disabled','disabled');
+                $(".ta_season_reason").attr('disabled','disabled');
+            }
+        });
     </script>
 {% endblock %}

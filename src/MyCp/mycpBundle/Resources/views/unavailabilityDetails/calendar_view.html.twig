@@ -77,6 +77,8 @@
             <a href="#" class="btn btn-danger" data-dismiss="modal">Cerrar</a>
         </div>
     </div>
+{% endblock content %}
+{% block javascripts %}
 
     {% javascripts
     '@mycpBundle/Resources/public/js/moment.min.js'
@@ -94,23 +96,23 @@
         $(document).ready(function() {
 
             $('.datepicker-from').datepicker({
-            format:'dd/mm/yyyy',
-            todayBtn:'linked',
-            language:'es',
-            autoclose: true
-        }).on('changeDate', function(ev){
-            var date = new Date(ev.date);
-            date.setDate(date.getDate() + 1);
-            datepicker_to.setStartDate(date);
-            datepicker_to.setDate(date);
-        });
+                format:'dd/mm/yyyy',
+                todayBtn:'linked',
+                language:'es',
+                autoclose: true
+            }).on('changeDate', function(ev){
+                var date = new Date(ev.date);
+                date.setDate(date.getDate() + 1);
+                datepicker_to.setStartDate(date);
+                datepicker_to.setDate(date);
+            });
 
-    var datepicker_to = $('.datepicker-to').datepicker({
-        format:'dd/mm/yyyy',
-        todayBtn:'linked',
-        autoclose: true,
-        language: 'es'
-    }).data('datepicker');
+            var datepicker_to = $('.datepicker-to').datepicker({
+                format:'dd/mm/yyyy',
+                todayBtn:'linked',
+                autoclose: true,
+                language: 'es'
+            }).data('datepicker');
 
             $('#calendar').fullCalendar({
                 header: {
@@ -146,4 +148,4 @@
         });
 
     </script>
-{% endblock content %}
+{% endblock %}

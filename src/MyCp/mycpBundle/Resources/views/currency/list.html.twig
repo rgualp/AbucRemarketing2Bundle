@@ -101,17 +101,6 @@
         <button class="btn" data-dismiss="modal" aria-hidden="true">Cerrar</button>
     </div>
 </div>
-<script type="text/javascript">
-    $('#currency_change').on('show', function () {
-        $.ajax({
-            type:"POST",
-            url:"{{ path('mycp_get_currency_change') }}",
-            success:function (msg) {
-                $('#currency_change_body').html(msg);
-            }
-        });
-    })
-</script>
 {% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea eliminar el elemento?','confirmation_action_label':'Eliminar'}%}
 {% endblock %}
 {% block javascripts %}
@@ -121,4 +110,15 @@
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
+    <script type="text/javascript">
+        $('#currency_change').on('show', function () {
+            $.ajax({
+                type:"POST",
+                url:"{{ path('mycp_get_currency_change') }}",
+                success:function (msg) {
+                    $('#currency_change_body').html(msg);
+                }
+            });
+        })
+    </script>
 {% endblock %}

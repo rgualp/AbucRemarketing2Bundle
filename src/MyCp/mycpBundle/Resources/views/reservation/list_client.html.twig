@@ -1,5 +1,13 @@
 {% extends 'mycpBundle:layout:backend.html.twig' %}
 {% block title %}Administración{% endblock %}
+{% block another_in_head %}
+    {% stylesheets
+    '@mycpBundle/Resources/public/css/datepicker.css'
+    filter='?uglifycss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
 {% block top_body %}
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
@@ -162,63 +170,51 @@
         </div>
 
     </div>
-    {% stylesheets
-    '@mycpBundle/Resources/public/css/datepicker.css'
-    filter='?uglifycss'
-    %}
-    <link rel="stylesheet" href="{{ asset_url }}" />
-    {% endstylesheets %}
-
+{% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea eliminar el elemento?','confirmation_action_label':'Eliminar'}%}
+{% endblock %}
+{% block javascripts %}
     {% javascripts
+    '@mycpBundle/Resources/public/js/common_list.js'
     '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
     '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
     filter='?uglifyjs2'
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
-<script>
-    $('.datepicker').datepicker({
-        format: 'dd/mm/yyyy',
-        todayBtn: 'linked',
-        language: 'es'
-    });
+    <script>
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            todayBtn: 'linked',
+            language: 'es'
+        });
 
-    function submit_filters(ev)
-    {
-        if(ev.keyCode==13)
+        function submit_filters(ev)
         {
-            action_submit();
+            if(ev.keyCode==13)
+            {
+                action_submit();
+            }
         }
-    }
 
-    function action_submit()
-    {
-        items_per_page={{items_per_page}};
-        filter_user_name=$('#filter_user_name').val();
-        if(filter_user_name=='')filter_user_name='null';
-        filter_user_email=$('#filter_user_email').val();
-        if(filter_user_email=='')filter_user_email='null';
-        filter_user_city=$('#filter_user_city').val();
-        if(filter_user_city=='')filter_user_city='null';
-        filter_user_country=$('#filter_user_country').val();
-        if(filter_user_country=='')filter_user_country='null';
-        sort_by=$('#sort_by').val();
-        if(sort_by=='')sort_by='null';
+        function action_submit()
+        {
+            items_per_page={{items_per_page}};
+            filter_user_name=$('#filter_user_name').val();
+            if(filter_user_name=='')filter_user_name='null';
+            filter_user_email=$('#filter_user_email').val();
+            if(filter_user_email=='')filter_user_email='null';
+            filter_user_city=$('#filter_user_city').val();
+            if(filter_user_city=='')filter_user_city='null';
+            filter_user_country=$('#filter_user_country').val();
+            if(filter_user_country=='')filter_user_country='null';
+            sort_by=$('#sort_by').val();
+            if(sort_by=='')sort_by='null';
 
-        url_submit=$('#filter').attr('action');
-        url_submit=url_submit+'/'+items_per_page+'/'+filter_user_name+'/'+filter_user_email+'/'+filter_user_city+'/'+filter_user_country+'/'+sort_by;
-        $('#filter').attr('action',url_submit);
-        $('#filter').submit();
-    }
+            url_submit=$('#filter').attr('action');
+            url_submit=url_submit+'/'+items_per_page+'/'+filter_user_name+'/'+filter_user_email+'/'+filter_user_city+'/'+filter_user_country+'/'+sort_by;
+            $('#filter').attr('action',url_submit);
+            $('#filter').submit();
+        }
 
-</script>
-{% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea eliminar el elemento?','confirmation_action_label':'Eliminar'}%}
-{% endblock %}
-{% block javascripts %}
-    {% javascripts
-    '@mycpBundle/Resources/public/js/common_list.js'
-    filter='?uglifyjs2'
-    %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+    </script>
 {% endblock %}

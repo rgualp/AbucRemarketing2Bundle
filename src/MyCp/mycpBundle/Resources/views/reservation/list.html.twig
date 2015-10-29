@@ -1,5 +1,13 @@
 {% extends 'mycpBundle:layout:backend.html.twig' %}
 {% block title %}Administración{% endblock %}
+{% block another_in_head %}
+    {% stylesheets
+    '@mycpBundle/Resources/public/css/datepicker.css'
+    filter='?uglifycss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
 {% block top_body %}
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
@@ -199,102 +207,91 @@
         </div>
 
     </div>
-    {% stylesheets
-    '@mycpBundle/Resources/public/css/datepicker.css'
-    filter='?uglifycss'
-    %}
-    <link rel="stylesheet" href="{{ asset_url }}" />
-    {% endstylesheets %}
 
+{% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea eliminar el elemento?','confirmation_action_label':'Eliminar'}%}
+{% endblock %}
+{% block javascripts %}
     {% javascripts
+    '@mycpBundle/Resources/public/js/common_list.js'
     '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
     '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
     filter='?uglifyjs2'
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
-<script>
-    $('.datepicker').datepicker({
-        format: 'dd/mm/yyyy',
-        todayBtn: 'linked',
-        language: 'es'
-    });
+    <script>
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            todayBtn: 'linked',
+            language: 'es'
+        });
 
-    function sendReservation()
-    {
-        $(".lblLoading").removeClass("hidden");
-        var checkValues = $('input[name=check_reservations]:checked').map(function() {
-        return $(this).attr('data-reservation-id');
-    }).get();
-
-    if(checkValues.length == 0)
-    {
-        alert("Seleccione alguno de los elementos");
-        return;
-    }
-
-     var url = $(".btn-action-reservation").attr("data-url");
-     $.post(url, {
-        'reservations_ids': checkValues
-    }, function(data) {
-        if(data != "ERROR")
+        function sendReservation()
         {
-            window.location = data;
-        }
-        else {
-            alert(data);
-            $(".lblLoading").addClass("hidden");
-        }
-    });
-    }
+            $(".lblLoading").removeClass("hidden");
+            var checkValues = $('input[name=check_reservations]:checked').map(function() {
+                return $(this).attr('data-reservation-id');
+            }).get();
 
-    function submit_filters(ev)
-    {
-        if(ev.keyCode==13)
+            if(checkValues.length == 0)
+            {
+                alert("Seleccione alguno de los elementos");
+                return;
+            }
+
+            var url = $(".btn-action-reservation").attr("data-url");
+            $.post(url, {
+                'reservations_ids': checkValues
+            }, function(data) {
+                if(data != "ERROR")
+                {
+                    window.location = data;
+                }
+                else {
+                    alert(data);
+                    $(".lblLoading").addClass("hidden");
+                }
+            });
+        }
+
+        function submit_filters(ev)
         {
-            action_submit();
+            if(ev.keyCode==13)
+            {
+                action_submit();
+            }
         }
-    }
 
-    function action_submit()
-    {
-        items_per_page={{items_per_page}};
-        filter_date_reserve=$('#filter_date_reserve').val();
-        if(filter_date_reserve=='')filter_date_reserve='null';
-        filter_offer_number=$('#filter_offer_number').val();
-        if(filter_offer_number=='')filter_offer_number='null';
-        filter_booking_number=$('#filter_booking_number').val();
-        if(filter_booking_number=='')filter_booking_number='null';
-        filter_status=$('#filter_status').val();
-        if(filter_status=='')filter_status='null';
-        filter_reference=$('#filter_reference').val();
-        if(filter_reference=='')filter_reference='null';
-        filter_date_from=$('#filter_date_from').val();
-        if(filter_date_from=='')filter_date_from='null';
-        filter_date_to=$('#filter_date_to').val();
-        if(filter_date_to=='')filter_date_to='null';
-        sort_by=$('#sort_by').val();
-        if(sort_by=='')sort_by='null';
-        filter_date_from=filter_date_from.replace('/',"_");
-        filter_date_from=filter_date_from.replace('/',"_");
-        filter_date_to=filter_date_to.replace('/',"_");
-        filter_date_to=filter_date_to.replace('/',"_");
-        filter_date_reserve=filter_date_reserve.replace('/',"_");
-        filter_date_reserve=filter_date_reserve.replace('/',"_");
-        url_submit=$('#filter').attr('action');
-        url_submit=url_submit+'/'+items_per_page+'/'+filter_date_reserve+'/'+filter_offer_number+'/'+filter_reference+'/'+filter_date_from+'/'+filter_date_to+'/'+sort_by+'/'+filter_booking_number+'/'+filter_status;
-        $('#filter').attr('action',url_submit);
-        $('#filter').submit();
-    }
+        function action_submit()
+        {
+            items_per_page={{items_per_page}};
+            filter_date_reserve=$('#filter_date_reserve').val();
+            if(filter_date_reserve=='')filter_date_reserve='null';
+            filter_offer_number=$('#filter_offer_number').val();
+            if(filter_offer_number=='')filter_offer_number='null';
+            filter_booking_number=$('#filter_booking_number').val();
+            if(filter_booking_number=='')filter_booking_number='null';
+            filter_status=$('#filter_status').val();
+            if(filter_status=='')filter_status='null';
+            filter_reference=$('#filter_reference').val();
+            if(filter_reference=='')filter_reference='null';
+            filter_date_from=$('#filter_date_from').val();
+            if(filter_date_from=='')filter_date_from='null';
+            filter_date_to=$('#filter_date_to').val();
+            if(filter_date_to=='')filter_date_to='null';
+            sort_by=$('#sort_by').val();
+            if(sort_by=='')sort_by='null';
+            filter_date_from=filter_date_from.replace('/',"_");
+            filter_date_from=filter_date_from.replace('/',"_");
+            filter_date_to=filter_date_to.replace('/',"_");
+            filter_date_to=filter_date_to.replace('/',"_");
+            filter_date_reserve=filter_date_reserve.replace('/',"_");
+            filter_date_reserve=filter_date_reserve.replace('/',"_");
+            url_submit=$('#filter').attr('action');
+            url_submit=url_submit+'/'+items_per_page+'/'+filter_date_reserve+'/'+filter_offer_number+'/'+filter_reference+'/'+filter_date_from+'/'+filter_date_to+'/'+sort_by+'/'+filter_booking_number+'/'+filter_status;
+            $('#filter').attr('action',url_submit);
+            $('#filter').submit();
+        }
 
-</script>
-{% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea eliminar el elemento?','confirmation_action_label':'Eliminar'}%}
-{% endblock %}
-{% block javascripts %}
-    {% javascripts
-    '@mycpBundle/Resources/public/js/common_list.js'
-    filter='?uglifyjs2'
-    %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+    </script>
 {% endblock %}

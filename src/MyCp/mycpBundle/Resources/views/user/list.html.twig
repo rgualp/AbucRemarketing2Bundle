@@ -142,105 +142,6 @@
     {% else %}
     <p> <div class="alert alert-block">No hay Usuarios disponibles.</div></p>
     {% endif %}
-<script type="text/javascript">
-    url_new_role="{{ path('mycp_new_role' ,{'id_role':'-1'}) }}";
-    url_new_role=url_new_role.replace('/-1','');
-    url_delete_role="{{ path('mycp_delete_role' ,{'id_role':'-1'}) }}";
-    url_delete_role=url_delete_role.replace('/-1','');
-    function go_to_form()
-    {
-        form=$('#roles').val();
-        id_role=$('#roles option:selected').attr('class');
-        //alert(id_role);
-        if(form.indexOf('ROLE_CLIENT_CASA')===0)
-        {
-            new_url='{{ path('mycp_new_user_casa',{'id_role':'-1'}) }}';
-            new_url=new_url.replace('/-1','');
-            $(location).attr('href',new_url+'/'+id_role);
-        }
-        if(form.indexOf('ROLE_CLIENT_TOURIST')===0)
-        {
-            new_url='{{ path('mycp_new_user_tourist',{'id_role':'-1'}) }}';
-            new_url=new_url.replace('/-1','');
-            $(location).attr('href',new_url+'/'+id_role);
-        }
-        if(form.indexOf('ROLE_CLIENT_PARTNER')===0)
-        {
-            new_url='{{ path('mycp_new_user_partner',{'id_role':'-1'}) }}';
-            new_url=new_url.replace('/-1','');
-            $(location).attr('href',new_url+'/'+id_role);
-        }
-        if(form.indexOf('ROLE_CLIENT_STAFF')===0)
-        {
-            new_url='{{ path('mycp_new_user_staff',{'id_role':'-1'}) }}';
-            new_url=new_url.replace('/-1','');
-            $(location).attr('href',new_url+'/'+id_role);
-        }
-        else
-        {
-            new_url='{{ path('mycp_new_user_staff',{'id_role':'-1'}) }}';
-            new_url=new_url.replace('/-1','');
-            $(location).attr('href',new_url+'/'+id_role);
-        }
-
-    }
-
-    function go_to_new_rol()
-    {
-        id_role=$('#subroles option:selected').attr('class');
-        if(id_role)
-            $(location).attr('href',url_new_role+'/'+id_role);
-    }
-
-    function go_to_delete_rol()
-    {
-        id_role=$('#subroles option:selected').attr('class');
-        if(id_role)
-            $(location).attr('href',url_delete_role+'/'+id_role);
-    }
-    function submit_filters(ev)
-    {
-        if(ev.keyCode==13)
-        {
-            action_submit();
-        }
-    }
-
-    function action_submit()
-    {
-        //items_per_page: 100,filter_user_name:'',filter_role:'',filter_city:'',filter_country:'',filter_name:'',filter_last_name:'',filter_email:'',sort_by:'0'}
-        items_per_page={{items_per_page}};
-
-        filter_user_name=$('#filter_user_name').val();
-        if(filter_user_name=='')filter_user_name='null';
-
-        filter_role=$('#filter_role').val();
-        filter_role=filter_role.toLowerCase();
-        if(filter_role=='')filter_role='null';
-
-        filter_city=$('#filter_city').val();
-        if(filter_city=='')filter_city='null';
-
-        filter_country=$('#filter_country').val();
-        if(filter_country=='')filter_country='null';
-
-        filter_name=$('#filter_name').val();
-        if(filter_name=='')filter_name='null';
-
-        filter_last_name=$('#filter_last_name').val();
-        if(filter_last_name=='')filter_last_name='null';
-
-        filter_email=$('#filter_email').val();
-        if(filter_email=='')filter_email='null';
-
-        url_submit=$('#filter').attr('action');
-
-        url_submit=url_submit+'/'+items_per_page+'/'+filter_user_name+'/'+filter_role+'/'+filter_city+'/'+filter_country+'/'+filter_name+'/'+filter_last_name+'/'+filter_email;
-        $('#filter').attr('action',url_submit);
-        $('#filter').submit();
-    }
-
-</script>
 {% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea eliminar el elemento?','confirmation_action_label':'Eliminar'}%}
 {% endblock %}
 {% block javascripts %}
@@ -250,4 +151,103 @@
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
+    <script type="text/javascript">
+        url_new_role="{{ path('mycp_new_role' ,{'id_role':'-1'}) }}";
+        url_new_role=url_new_role.replace('/-1','');
+        url_delete_role="{{ path('mycp_delete_role' ,{'id_role':'-1'}) }}";
+        url_delete_role=url_delete_role.replace('/-1','');
+        function go_to_form()
+        {
+            form=$('#roles').val();
+            id_role=$('#roles option:selected').attr('class');
+            //alert(id_role);
+            if(form.indexOf('ROLE_CLIENT_CASA')===0)
+            {
+                new_url='{{ path('mycp_new_user_casa',{'id_role':'-1'}) }}';
+                new_url=new_url.replace('/-1','');
+                $(location).attr('href',new_url+'/'+id_role);
+            }
+            if(form.indexOf('ROLE_CLIENT_TOURIST')===0)
+            {
+                new_url='{{ path('mycp_new_user_tourist',{'id_role':'-1'}) }}';
+                new_url=new_url.replace('/-1','');
+                $(location).attr('href',new_url+'/'+id_role);
+            }
+            if(form.indexOf('ROLE_CLIENT_PARTNER')===0)
+            {
+                new_url='{{ path('mycp_new_user_partner',{'id_role':'-1'}) }}';
+                new_url=new_url.replace('/-1','');
+                $(location).attr('href',new_url+'/'+id_role);
+            }
+            if(form.indexOf('ROLE_CLIENT_STAFF')===0)
+            {
+                new_url='{{ path('mycp_new_user_staff',{'id_role':'-1'}) }}';
+                new_url=new_url.replace('/-1','');
+                $(location).attr('href',new_url+'/'+id_role);
+            }
+            else
+            {
+                new_url='{{ path('mycp_new_user_staff',{'id_role':'-1'}) }}';
+                new_url=new_url.replace('/-1','');
+                $(location).attr('href',new_url+'/'+id_role);
+            }
+
+        }
+
+        function go_to_new_rol()
+        {
+            id_role=$('#subroles option:selected').attr('class');
+            if(id_role)
+                $(location).attr('href',url_new_role+'/'+id_role);
+        }
+
+        function go_to_delete_rol()
+        {
+            id_role=$('#subroles option:selected').attr('class');
+            if(id_role)
+                $(location).attr('href',url_delete_role+'/'+id_role);
+        }
+        function submit_filters(ev)
+        {
+            if(ev.keyCode==13)
+            {
+                action_submit();
+            }
+        }
+
+        function action_submit()
+        {
+            //items_per_page: 100,filter_user_name:'',filter_role:'',filter_city:'',filter_country:'',filter_name:'',filter_last_name:'',filter_email:'',sort_by:'0'}
+            items_per_page={{items_per_page}};
+
+            filter_user_name=$('#filter_user_name').val();
+            if(filter_user_name=='')filter_user_name='null';
+
+            filter_role=$('#filter_role').val();
+            filter_role=filter_role.toLowerCase();
+            if(filter_role=='')filter_role='null';
+
+            filter_city=$('#filter_city').val();
+            if(filter_city=='')filter_city='null';
+
+            filter_country=$('#filter_country').val();
+            if(filter_country=='')filter_country='null';
+
+            filter_name=$('#filter_name').val();
+            if(filter_name=='')filter_name='null';
+
+            filter_last_name=$('#filter_last_name').val();
+            if(filter_last_name=='')filter_last_name='null';
+
+            filter_email=$('#filter_email').val();
+            if(filter_email=='')filter_email='null';
+
+            url_submit=$('#filter').attr('action');
+
+            url_submit=url_submit+'/'+items_per_page+'/'+filter_user_name+'/'+filter_role+'/'+filter_city+'/'+filter_country+'/'+filter_name+'/'+filter_last_name+'/'+filter_email;
+            $('#filter').attr('action',url_submit);
+            $('#filter').submit();
+        }
+
+    </script>
 {% endblock %}

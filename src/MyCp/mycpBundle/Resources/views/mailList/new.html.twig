@@ -32,17 +32,19 @@
         {{form_rest(form)}}
     </div>
 </div>
+{% endblock %}
+{% block javascripts %}
     {% javascripts
     '@mycpBundle/Resources/public/js/bootstrap-fileinput.js'
     filter='?uglifyjs2'
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
-{%if edit is defined%}
-<script>
-    $(document).ready(function() {
-        $(".functionList").attr("disabled", "disabled");
-    });
-</script>
-{%endif%}
+    {%if edit is defined%}
+        <script>
+            $(document).ready(function() {
+                $(".functionList").attr("disabled", "disabled");
+            });
+        </script>
+    {%endif%}
 {% endblock %}

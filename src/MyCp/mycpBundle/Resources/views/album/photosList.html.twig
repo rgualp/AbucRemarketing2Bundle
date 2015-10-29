@@ -78,36 +78,40 @@
 'route_params': {'id_album':id_album,'items_per_page':items_per_page}
 }) }}
 </div>
-{% javascripts
-'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.core.js'
-'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.widget.js'
-'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.mouse.js'
-'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.sortable.js'
-filter='?uglifyjs2'
-%}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-<script>
-    $(function() {
-        $( "#sortable" ).sortable({
-            stop: function(event, ui) {
-                var result = $('#sortable').sortable('toArray');
-                url = "{{ path('mycp_set_img_order_utils', { 'ids': '-1' }) }}";
-                url=url.replace('/-1','');
-
-                $.ajax({
-                    type:"POST",
-                    url:url + '/' + result,
-                    success:function (msg) {
-                    }
-                });
-            }
-
-        });
-        $( "#sortable" ).disableSelection();
-    });
-</script>
 {% else %}
 <p> <div class="alert alert-block">No hay Fotografías disponibles.</div></p>
 {% endif %}
+{% endblock %}
+{% block javascripts %}
+    {% if photos %}
+    {% javascripts
+    '@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.core.js'
+    '@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.widget.js'
+    '@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.mouse.js'
+    '@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.sortable.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script>
+        $(function() {
+            $( "#sortable" ).sortable({
+                stop: function(event, ui) {
+                    var result = $('#sortable').sortable('toArray');
+                    url = "{{ path('mycp_set_img_order_utils', { 'ids': '-1' }) }}";
+                    url=url.replace('/-1','');
+
+                    $.ajax({
+                        type:"POST",
+                        url:url + '/' + result,
+                        success:function (msg) {
+                        }
+                    });
+                }
+
+            });
+            $( "#sortable" ).disableSelection();
+        });
+    </script>
+    {% endif %}
 {% endblock %}

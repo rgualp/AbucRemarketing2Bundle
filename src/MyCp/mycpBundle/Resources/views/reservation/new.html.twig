@@ -1,5 +1,13 @@
 {% extends 'mycpBundle:layout:backend.html.twig' %}
 {% block title %}Administración{% endblock %}
+{% block another_in_head %}
+    {% stylesheets
+    '@mycpBundle/Resources/public/css/datepicker.css'
+    filter='?uglifycss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
 {% block top_body %}
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
@@ -66,41 +74,36 @@
         </div>
     </div>
     {{ form_rest(form) }}
-    {% stylesheets
-    '@mycpBundle/Resources/public/css/datepicker.css'
-    filter='?uglifycss'
-    %}
-    <link rel="stylesheet" href="{{ asset_url }}" />
-    {% endstylesheets %}
+{% endblock %}
+    {% block javascripts %}
+        {% javascripts
+        '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
+        '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
+        filter='?uglifyjs2'
+        %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+        <script>
+            $('.datepicker').datepicker({
+                format:'dd/mm/yyyy',
+                todayBtn:'linked',
+                language:'es'
+            });
 
-    {% javascripts
-    '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
-    '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
-    filter='?uglifyjs2'
-    %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-    <script>
-        $('.datepicker').datepicker({
-            format:'dd/mm/yyyy',
-            todayBtn:'linked',
-            language:'es'
-        });
-
-        url = "{{ path('mycp_get_rooms_by_ownership', { 'id_ownership': ''}) }}",
-                $('.reservation_ownership').change(function () {
-                    code = $('.reservation_ownership').val();
-                    if(code!='')
-                    {
-                    $('.selected_room').html('<option value="">Cargando...</option>');
-                    $.ajax({
-                        type:"POST",
-                        url:url + '/' + code,
-                        success:function (msg) {
-                            $('.selected_room').html(msg);
+            url = "{{ path('mycp_get_rooms_by_ownership', { 'id_ownership': ''}) }}",
+                    $('.reservation_ownership').change(function () {
+                        code = $('.reservation_ownership').val();
+                        if(code!='')
+                        {
+                            $('.selected_room').html('<option value="">Cargando...</option>');
+                            $.ajax({
+                                type:"POST",
+                                url:url + '/' + code,
+                                success:function (msg) {
+                                    $('.selected_room').html(msg);
+                                }
+                            });
                         }
                     });
-                    }
-                });
-    </script>
-{% endblock %}
+        </script>
+    {% endblock %}

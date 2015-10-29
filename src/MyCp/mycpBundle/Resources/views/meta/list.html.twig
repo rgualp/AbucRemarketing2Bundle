@@ -34,16 +34,6 @@
     </li>
     {% endfor %}
 </ul>
-{% javascripts
-'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.core.js'
-'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.widget.js'
-'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.mouse.js'
-'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.sortable.js'
-filter='?uglifyjs2'
-%}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-
 {% else %}
        <p> <div class="alert alert-block">No hay Meta Tags disponibles.</div></p>
 {% endif %}
@@ -56,4 +46,36 @@ filter='?uglifyjs2'
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
+{% if metas %}
+    {% javascripts
+    '@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.core.js'
+    '@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.widget.js'
+    '@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.mouse.js'
+    '@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.sortable.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script>
+        $(function() {
+            $( "#sortable" ).sortable({
+                stop: function(event, ui) {
+
+                    var result = $('#sortable').sortable('toArray');
+                    //alert(result);
+                    url = "{{ path('mycp_set_order_destination', { 'ids': '-1' }) }}";
+                    url=url.replace('/-1','');
+                    $.ajax({
+                        type:"POST",
+                        url:url + '/' + result,
+                        success:function (msg) {
+                        }
+                    });
+                }
+
+            });
+            $( "#sortable" ).disableSelection();
+        });
+    </script>
+{% endif %}
 {% endblock %}

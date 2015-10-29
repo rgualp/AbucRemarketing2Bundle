@@ -1,5 +1,13 @@
 {% extends 'mycpBundle:layout:backend.html.twig' %}
 {% block title %}Administración{% endblock %}
+{% block another_in_head %}
+    {% stylesheets
+    '@mycpBundle/Resources/public/css/datepicker.css'
+    filter='?uglifycss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
 {% block top_body %}
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
@@ -301,118 +309,102 @@
          <p> <div class="alert alert-block">No hay Propiedades disponibles.</div></p>
     {% endif %}
 </div>
-    {% stylesheets
-    '@mycpBundle/Resources/public/css/datepicker.css'
-    filter='?uglifycss'
-    %}
-    <link rel="stylesheet" href="{{ asset_url }}" />
-    {% endstylesheets %}
 
+{% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea eliminar el elemento?','confirmation_action_label':'Eliminar'}%}
+{% endblock %}
+{% block javascripts %}
     {% javascripts
     '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
     '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
-    filter='?uglifyjs2'
-    %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-
-<script type="text/javascript">
-    url = "{{ path('mycp_get_mun_by_prov', { 'country_code': '-1' }) }}";
-    url = url.replace('/-1', '');
-    $('.datepicker').datepicker({
-        format: 'dd-mm-yyyy',
-        todayBtn: 'linked',
-        autoclose: true,
-        language: 'es'
-    });
-    $('#filter_province').change(function() {
-        code = $('#filter_province').val();
-        if (code != '')
-        {
-            $('#filter_municipality').html('<option value="">Cargando...</option>');
-
-
-            $.ajax({
-                type: "POST",
-                url: url + '/' + code,
-                success: function(msg) {
-
-                    $('#filter_municipality').html(msg);
-                }
-            });
-        }
-    });
-
-    function submit_filters(ev)
-    {
-        if (ev.keyCode == 13)
-        {
-            action_submit();
-        }
-    }
-    filter_code = $('#filter_code').val();
-    function action_submit()
-    {
-
-        items_per_page ={{items_per_page}} ;
-                filter_code = $('#filter_code').val();
-        if (filter_code == '')
-            filter_code = 'null';
-        filter_province = $('#filter_province').val();
-        if (filter_province == '')
-            filter_province = 'null';
-        filter_municipality = $('#filter_municipality').val();
-        if (filter_municipality == '')
-            filter_municipality = 'null';
-        filter_destination = $('#filter_destination').val();
-        if (filter_destination == '')
-            filter_destination = 'null';
-        filter_type = $('#filter_type').val();
-        if (filter_type == '')
-            filter_type = 'null';
-        filter_category = $('#filter_category').val();
-        if (filter_category == '')
-            filter_category = 'null';
-
-        filter_name = $('#filter_name').val();
-        if (filter_name == '')
-            filter_name = 'null';
-        filter_saler = $('#filter_saler').val();
-        if (filter_saler == '')
-            filter_saler = 'null';
-        filter_visit_date = $('#filter_visit_date').val();
-        //filter_visit_date = filter_visit_date.replace()('/','-');
-        if (filter_visit_date == '')
-            filter_visit_date = 'null';
-        filter_active = $('#filter_active').val();
-        if (filter_active == '')
-            filter_active = 'null';
-        filter_other = $('#filter_other').val();
-        if (filter_other == '')
-            filter_other = 'null';
-        filter_commission = $('#filter_commission').val();
-        if (filter_commission == '')
-            filter_commission = 'null';
-
-        url_submit = $('#filter').attr('action');
-        url_submit = url_submit + '/' + items_per_page + '/' + filter_code + '/' + filter_active + '/' + filter_category + '/' + filter_province + '/' + filter_municipality + '/' + filter_destination + '/' + filter_type + '/' + filter_name + '/' + filter_saler + '/' + filter_visit_date + '/' + filter_other + '/' + filter_commission;
-        $('#filter').attr('action', url_submit);
-        $('#filter').submit();
-    }
-</script>
-    {% javascripts
+    '@mycpBundle/Resources/public/js/common_list.js'
     '@mycpBundle/Resources/public/js/bootstrap-typeahead.js'
     filter='?uglifyjs2'
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
-{% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea eliminar el elemento?','confirmation_action_label':'Eliminar'}%}
-{% endblock %}
-{% block javascripts %}
-    {% javascripts
-    '@mycpBundle/Resources/public/js/common_list.js'
-    filter='?uglifyjs2'
-    %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+
+    <script type="text/javascript">
+        url = "{{ path('mycp_get_mun_by_prov', { 'country_code': '-1' }) }}";
+        url = url.replace('/-1', '');
+        $('.datepicker').datepicker({
+            format: 'dd-mm-yyyy',
+            todayBtn: 'linked',
+            autoclose: true,
+            language: 'es'
+        });
+        $('#filter_province').change(function() {
+            code = $('#filter_province').val();
+            if (code != '')
+            {
+                $('#filter_municipality').html('<option value="">Cargando...</option>');
+
+
+                $.ajax({
+                    type: "POST",
+                    url: url + '/' + code,
+                    success: function(msg) {
+
+                        $('#filter_municipality').html(msg);
+                    }
+                });
+            }
+        });
+
+        function submit_filters(ev)
+        {
+            if (ev.keyCode == 13)
+            {
+                action_submit();
+            }
+        }
+        filter_code = $('#filter_code').val();
+        function action_submit()
+        {
+
+            items_per_page ={{items_per_page}} ;
+            filter_code = $('#filter_code').val();
+            if (filter_code == '')
+                filter_code = 'null';
+            filter_province = $('#filter_province').val();
+            if (filter_province == '')
+                filter_province = 'null';
+            filter_municipality = $('#filter_municipality').val();
+            if (filter_municipality == '')
+                filter_municipality = 'null';
+            filter_destination = $('#filter_destination').val();
+            if (filter_destination == '')
+                filter_destination = 'null';
+            filter_type = $('#filter_type').val();
+            if (filter_type == '')
+                filter_type = 'null';
+            filter_category = $('#filter_category').val();
+            if (filter_category == '')
+                filter_category = 'null';
+
+            filter_name = $('#filter_name').val();
+            if (filter_name == '')
+                filter_name = 'null';
+            filter_saler = $('#filter_saler').val();
+            if (filter_saler == '')
+                filter_saler = 'null';
+            filter_visit_date = $('#filter_visit_date').val();
+            //filter_visit_date = filter_visit_date.replace()('/','-');
+            if (filter_visit_date == '')
+                filter_visit_date = 'null';
+            filter_active = $('#filter_active').val();
+            if (filter_active == '')
+                filter_active = 'null';
+            filter_other = $('#filter_other').val();
+            if (filter_other == '')
+                filter_other = 'null';
+            filter_commission = $('#filter_commission').val();
+            if (filter_commission == '')
+                filter_commission = 'null';
+
+            url_submit = $('#filter').attr('action');
+            url_submit = url_submit + '/' + items_per_page + '/' + filter_code + '/' + filter_active + '/' + filter_category + '/' + filter_province + '/' + filter_municipality + '/' + filter_destination + '/' + filter_type + '/' + filter_name + '/' + filter_saler + '/' + filter_visit_date + '/' + filter_other + '/' + filter_commission;
+            $('#filter').attr('action', url_submit);
+            $('#filter').submit();
+        }
+    </script>
 {% endblock %}

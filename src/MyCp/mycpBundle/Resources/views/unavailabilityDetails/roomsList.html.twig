@@ -75,16 +75,18 @@
 'route_params': {'id_ownership':id_ownership,'items_per_page':items_per_page}
 }) }}
 </div>
-{% javascripts
-'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.core.js'
-'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.widget.js'
-'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.mouse.js'
-'@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.sortable.js'
-filter='?uglifyjs2'
-%}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
 {% else %}
 <p> <div class="alert alert-block">No hay habitaciones disponibles.</div></p>
 {% endif %}
+{% endblock %}
+{% block javascripts %}
+    {% javascripts
+    '@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.core.js'
+    '@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.widget.js'
+    '@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.mouse.js'
+    '@mycpBundle/Resources/public/js/jquery.ui/jquery.ui.sortable.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}
