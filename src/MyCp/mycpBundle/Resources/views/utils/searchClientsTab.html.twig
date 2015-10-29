@@ -12,14 +12,3 @@
     <input id="hClientData" type="hidden" value="{{ path("mycp_new_offer_to_client") }}"
 </div>
 <div></div>
-
-<script>
-
-$("#btnSelect").click(function (){
-    var url = $("#hClientData").val();
-    url = url + "/" + $("#ddlUsersEmail").val();
-
-    window.location = url;
-});
-
-</script>
