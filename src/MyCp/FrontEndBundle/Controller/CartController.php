@@ -406,7 +406,10 @@ class CartController extends Controller {
         //Enviando mail al reservation team
         foreach($generalReservations as $genResId)
         {
-            \MyCp\FrontEndBundle\Helpers\ReservationHelper::sendingEmailToReservationTeam($genResId, $em, $this, $service_email, $service_time, $request, 'reservation@mycasaparticular.com', 'no.reply@mycasaparticular.com');
+            \MyCp\FrontEndBundle\Helpers\ReservationHelper::sendingEmailToReservationTeam($genResId, $em, $this, $service_email, $service_time, $request, 'reservation@mycasaparticular.com', 'no-reply@mycasaparticular.com');
+
+            //Enviando correo a solicitud@mycasaparticular.com
+            \MyCp\FrontEndBundle\Helpers\ReservationHelper::sendingEmailToReservationTeam($genResId, $em, $this, $service_email, $service_time, $request, 'solicitud@mycasaparticular.com', 'no-reply@mycasaparticular.com');
         }
 
         /*$user_tourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array('user_tourist_user' => $user->getUserId()));

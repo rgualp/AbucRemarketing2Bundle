@@ -450,6 +450,14 @@ class BookingService extends Controller
                     $bodyRes
                 );
 
+                $emailService->sendEmail(
+                    'Confirmación de pago',
+                    'no-reply@mycasaparticular.com',
+                    'MyCasaParticular.com',
+                    'confirmacion@mycasaparticular.com',
+                    $bodyRes
+                );
+
                 $logger->info('Successfully sent email to reservation team. Booking ID: ' . $bookingId);
             } catch (\Exception $e) {
                 $logger->error('EMAIL: Could not send Email to reservation team. Booking ID: ' . $bookingId);
