@@ -50,3 +50,6 @@ mycp_reports_ownership_vsReservations_stats_accommodation:
     pattern:  /ownership/vsReservation-accommodation
     defaults: { _controller: mycpBundle:BackendReport:ownershipVsReservationsStatsAccommodation}
 
+mycp_reports_ownership_sales_summary:
+    pattern:  /ownership/sales-summary
+    defaults: { _controller: mycpBundle:BackendReport:ownershipSalesReport}

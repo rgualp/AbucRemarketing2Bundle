@@ -294,4 +294,39 @@ class BackendReportController extends Controller
         return $exporter->exportOwnershipGeneralList($nomenclator, $province, $municipality);
     }
 
+    public function ownershipSalesReportAction(Request $request){
+        $conn=$this->get('doctrine.dbal.default_connection');
+                $query="SELECT
+  own.own_mcp_code as codigo,
+  own.own_name as nombre,
+  own.own_homeowner_1 as propietario1,
+  own.own_homeowner_2 as propietario2,
+  own.own_email_1 as correo1,
+  own.own_email_2 as correo2,
+  own.own_phone_number AS telefono,
+  own.own_phone_code as codigo_telefono,
+  own.own_mobile_number as celular,
+  own.own_address_street as calle,
+  own.own_address_number as numero,
+  own.own_address_between_street_1 as entre,
+  own.own_address_between_street_2 as y,
+  municipality.mun_name as municipio,
+  province.prov_name as provincia,
+  own.own_saler as gestor,
+  (SELECT COUNT(ownershipreservation.own_res_id) FROM ownershipreservation INNER JOIN generalreservation ON generalreservation.gen_res_id = ownershipreservation.own_res_gen_res_id WHERE generalreservation.gen_res_own_id=own.own_id) AS solicitudes,
+  (SELECT COUNT(ownershipreservation.own_res_id) FROM ownershipreservation INNER JOIN generalreservation ON generalreservation.gen_res_id = ownershipreservation.own_res_gen_res_id WHERE generalreservation.gen_res_own_id=own.own_id AND ownershipreservation.own_res_status=5) AS reservas,
+  (SELECT SUM(ownershipreservation.own_res_total_in_site) FROM ownershipreservation INNER JOIN generalreservation ON generalreservation.gen_res_id = ownershipreservation.own_res_gen_res_id WHERE generalreservation.gen_res_own_id=own.own_id AND ownershipreservation.own_res_status=5) AS ingresos
+FROM ownership own
+  INNER JOIN municipality ON municipality.mun_id = own.own_address_municipality
+  INNER JOIN province ON province.prov_id = municipality.mun_prov_id
+ORDER BY own.own_mcp_code ASC
+;";
+
+        $stmt=$conn->prepare($query);
+        $stmt->execute();
+       $result=$stmt->fetchAll();
+        $exporter = $this->get("mycp.service.export_to_excel");
+        return $exporter->createExcelForSalesReports($result);
+    }
+
 }

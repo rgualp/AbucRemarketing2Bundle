@@ -996,6 +996,50 @@ class ExportToExcel extends Controller {
 
     }
 
+    public function createExcelForSalesReports($data){
+        $excel = $this->configExcel("Reporte de ventas", "Reporte resumen de propiedades y sus reservaciones de MyCasaParticular", "reportes");
+        $sheet = $this->createSheet($excel, 'Reporte');
+        $sheet->setCellValue('a1', "Resumen de propiedades con reservas");
+        $now = new \DateTime();
+        $sheet->setCellValue('a2', 'Generado: '.$now->format('d/m/Y H:s'));
+
+        $sheet->setCellValue('a4', 'Código');
+        $sheet->setCellValue('b4', 'Nombre');
+        $sheet->setCellValue('c4', 'Propietario1');
+        $sheet->setCellValue('d4', 'Propietario2');
+        $sheet->setCellValue('e4', 'Correo1');
+        $sheet->setCellValue('f4', 'Correo2');
+        $sheet->setCellValue('g4', 'Telefono');
+        $sheet->setCellValue('h4', 'Código teleseleccion');
+        $sheet->setCellValue('i4', 'Celular');
+        $sheet->setCellValue('j4', 'Calle');
+        $sheet->setCellValue('k4', 'No');
+        $sheet->setCellValue('l4', 'Entre');
+        $sheet->setCellValue('m4', 'Y');
+        $sheet->setCellValue('n4', 'Municipio');
+        $sheet->setCellValue('o4', 'Provincia');
+        $sheet->setCellValue('p4', 'Gestor');
+        $sheet->setCellValue('q4', 'Solicitudes');
+        $sheet->setCellValue('r4', 'Reservas');
+        $sheet->setCellValue('s4', 'Ingresos');
+
+        $sheet = $this->styleHeader("a4:s4", $sheet);
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+
+        $sheet->fromArray($data, ' ', 'A5');
+
+        $this->setColumnAutoSize("a", "s", $sheet);
+        $fileName = $this->getFileName('Reporte Sales');
+        $this->save($excel, $fileName);
+        return $this->export($fileName);
+    }
+
 }
 
 ?>

@@ -110,6 +110,9 @@
                 <div class="accordion-inner">
                     <a href="{{ path('mycp_reports') }}"><i class="icon-folder-open"></i> Reportes</a>
                 </div>
+                <div class="accordion-inner">
+                    <a href="{{ path('mycp_reports_ownership_sales_summary') }}"><i class="icon-shopping-cart"></i> {{ "backend.menu.statistics.reports.sales" | trans }}</a>
+                </div>
             </div>
         </div>
         {% if is_granted('ROLE_CLIENT_STAFF')%}
