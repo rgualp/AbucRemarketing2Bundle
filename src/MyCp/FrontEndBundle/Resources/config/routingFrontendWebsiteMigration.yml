@@ -271,3 +271,11 @@ frontend_website_migration_locale_index:
   requirements:
       locale:  en|es|ge
       something: .*
+
+frontend_website_migration_login_php:
+  pattern: /login/index.php
+  defaults: { _controller: FrontEndBundle:WebsiteMigration:permanentRedirect, redirectTo: frontend_welcome}
+
+frontend_website_migration_index_php:
+  pattern: /index.php
+  defaults: { _controller: FrontEndBundle:WebsiteMigration:permanentRedirect, redirectTo: frontend_welcome}
