@@ -17,6 +17,10 @@ monolog:
             type:         fingers_crossed
             action_level: error
             handler:      errors
+        mail:
+            type:         fingers_crossed
+            action_level: critical
+            handler:      buffered
         nested:
             type:  stream
             path:  "%kernel.logs_dir%/%kernel.environment%.log"
@@ -25,6 +29,15 @@ monolog:
             type:  stream
             path:  "%kernel.logs_dir%/errors_%kernel.environment%.log"
             level: error
+        buffered:
+            type: buffer
+            handler: swift
+        swift:
+            type: swift_mailer
+            from_email: errors@mycasaparticular.com
+            to_email: [ander@mycasaparticular.com]
+            subject: An Error Occurred!
+            level: debug
         console:
             type:  console
 
