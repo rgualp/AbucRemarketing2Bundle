@@ -1039,6 +1039,79 @@ class ExportToExcel extends Controller {
         $this->save($excel, $fileName);
         return $this->export($fileName);
     }
+    public function createExcelForSalesReportsCommand(){
+        $conn=$this->get('doctrine.dbal.default_connection');
+        $query="SELECT
+  own.own_mcp_code as codigo,
+  own.own_name as nombre,
+  own.own_homeowner_1 as propietario1,
+  own.own_homeowner_2 as propietario2,
+  own.own_email_1 as correo1,
+  own.own_email_2 as correo2,
+  own.own_phone_number AS telefono,
+  own.own_phone_code as codigo_telefono,
+  own.own_mobile_number as celular,
+  own.own_address_street as calle,
+  own.own_address_number as numero,
+  own.own_address_between_street_1 as entre,
+  own.own_address_between_street_2 as y,
+  municipality.mun_name as municipio,
+  province.prov_name as provincia,
+  own.own_saler as gestor,
+  (SELECT COUNT(ownershipreservation.own_res_id) FROM ownershipreservation INNER JOIN generalreservation ON generalreservation.gen_res_id = ownershipreservation.own_res_gen_res_id WHERE generalreservation.gen_res_own_id=own.own_id) AS solicitudes,
+  (SELECT COUNT(ownershipreservation.own_res_id) FROM ownershipreservation INNER JOIN generalreservation ON generalreservation.gen_res_id = ownershipreservation.own_res_gen_res_id WHERE generalreservation.gen_res_own_id=own.own_id AND ownershipreservation.own_res_status=5) AS reservas,
+  (SELECT SUM(ownershipreservation.own_res_total_in_site) FROM ownershipreservation INNER JOIN generalreservation ON generalreservation.gen_res_id = ownershipreservation.own_res_gen_res_id WHERE generalreservation.gen_res_own_id=own.own_id AND ownershipreservation.own_res_status=5) AS ingresos
+FROM ownership own
+  INNER JOIN municipality ON municipality.mun_id = own.own_address_municipality
+  INNER JOIN province ON province.prov_id = municipality.mun_prov_id
+ORDER BY own.own_mcp_code ASC
+;";
+
+        $stmt=$conn->prepare($query);
+        $stmt->execute();
+        $result=$stmt->fetchAll();
+        $excel = $this->configExcel("Reporte de ventas", "Reporte resumen de propiedades y sus reservaciones de MyCasaParticular", "reportes");
+        $sheet = $this->createSheet($excel, 'Reporte');
+        $sheet->setCellValue('a1', "Resumen de propiedades con reservas");
+        $now = new \DateTime();
+        $sheet->setCellValue('a2', 'Generado: '.$now->format('d/m/Y H:s'));
+
+        $sheet->setCellValue('a4', 'Código');
+        $sheet->setCellValue('b4', 'Nombre');
+        $sheet->setCellValue('c4', 'Propietario1');
+        $sheet->setCellValue('d4', 'Propietario2');
+        $sheet->setCellValue('e4', 'Correo1');
+        $sheet->setCellValue('f4', 'Correo2');
+        $sheet->setCellValue('g4', 'Telefono');
+        $sheet->setCellValue('h4', 'Código teleseleccion');
+        $sheet->setCellValue('i4', 'Celular');
+        $sheet->setCellValue('j4', 'Calle');
+        $sheet->setCellValue('k4', 'No');
+        $sheet->setCellValue('l4', 'Entre');
+        $sheet->setCellValue('m4', 'Y');
+        $sheet->setCellValue('n4', 'Municipio');
+        $sheet->setCellValue('o4', 'Provincia');
+        $sheet->setCellValue('p4', 'Gestor');
+        $sheet->setCellValue('q4', 'Solicitudes');
+        $sheet->setCellValue('r4', 'Reservas');
+        $sheet->setCellValue('s4', 'Ingresos');
+
+        $sheet = $this->styleHeader("a4:s4", $sheet);
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+
+        $sheet->fromArray($result, ' ', 'A5');
+
+        $this->setColumnAutoSize("a", "s", $sheet);
+        $fileName = $this->getFileName('Reporte Sales');
+        $this->save($excel, $fileName);
+        return $this->excelDirectoryPath.$fileName;
+    }
 
 }
 
