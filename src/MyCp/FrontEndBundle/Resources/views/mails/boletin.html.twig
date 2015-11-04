@@ -19,111 +19,123 @@
     <a style="background-color: lightgrey; color: #fff; padding: 7px 9px; text-decoration: none;" href="{{ path('frontend_mycasatrip_favorites_destinations',relative=true ) }}">{{ 'NEWSLETTER_LINK_BTN1'|trans({}, "messages", user_locale) }}</a>
     <p>{{ 'NEWSLETTER_LINK_TEXT1'|trans({}, "messages", user_locale) }}</p>
     <hr style="color: #cccccc; background-color: #cccccc; height: 1px; border: medium none; margin: 15px 0;"/>
-    <div class="col-md-12">
-        <img width="100%" style="display:block;" border="0" src="{{asset('bundles/frontend/img/newsletter/playa.png', absolute=true)}}">
-    </div>
-    <div style="width: 91%; margin-left: 9%; margin-top:15px; ">
-        <div style="width: 100%">
-        <div style="width:25%; float: left; ">
-            <img width="100%" style="display:block;" border="0" src="{{asset('bundles/frontend/img/newsletter/1.png', absolute=true)}}">
-        </div>
-        <div style="width:73%; float: left; margin-left: 2%;">
+    <img width="100%" style="display:block;" border="0" src="{{asset('bundles/frontend/img/newsletter/playa.png', absolute=true)}}">
+
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top: 15px;">
+    <tr>
+        {% for i in 1..100 %}
+        <td width="1%"></td>
+        {% endfor %}
+    </tr>
+    <tr>
+        <td colspan="10"></td>
+        <td colspan="25">
+            <img style="display:block;" border="0" src="{{asset('bundles/frontend/img/newsletter/1.png', absolute=true)}}">
+        </td>
+        <td colspan="65">
             <h3 style="color: #4d779d;">{{ 'NEWSLETTER_HEAD_1'|trans({}, "messages", user_locale) }}</h3>
             <p>{{ 'NEWSLETTER_PARR_1'|trans({}, "messages", user_locale) }}</p>
             <h5>{{ 'NEWSLETTER_SUBHEAD_1'|trans({}, "messages", user_locale) }}</h5>
-        </div>
-        </div>
-    </div>
-    <div style="width: 100%; float: left;">
-        <div style="width: 50%; float: left;">
-            <div style="width: 41%; float: left;">
-                <img width="100%" style="display:block; margin-top:20px;" border="0" src="{{asset('bundles/frontend/img/newsletter/2.png', absolute=true)}}">
 
-            </div>
-            <div style="width: 59%; float: left;">
-                <p>
-                <p>{{ 'NEWSLETTER_PARR_2'|trans({}, "messages", user_locale) }}</p>
-                </p>
-            </div>
-        </div>
-        <div style="width: 41%; margin-left: 9%; float: left;">
-            <p>
-            <p>{{ 'NEWSLETTER_PARR_3'|trans({}, "messages", user_locale) }}</p>
-            </p>
-        </div>
-    </div><div style="width: 100%; float: left;">
-    <div style="width: 50%; float: left;">
-        <div style="width: 41%; float: left;">
+        </td>
+    </tr>
+    <tr>
+        <td colspan="15">
+            <img style="display:block; margin-top:20px;" border="0" src="{{asset('bundles/frontend/img/newsletter/2.png', absolute=true)}}">
+        </td>
+        <td colspan="40" style="padding-top: 15px;">
+            <p>{{ 'NEWSLETTER_PARR_2'|trans({}, "messages", user_locale) }}</p>
+        </td>
+        <td colspan="5"></td>
+        <td colspan="40">
+            <p style="margin-left: 25px;">{{ 'NEWSLETTER_PARR_3'|trans({}, "messages", user_locale) }}</p>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="15">
             <img width="" style="display:block; margin-left: 10px; margin-top: 15px;" border="0" src="{{asset('bundles/frontend/img/newsletter/4.png', absolute=true)}}">
 
-        </div>
-        <div style="width: 59%; float: left;">
+        </td>
+        <td colspan="40"  style="padding-top: 15px;">
             <p>{{ 'NEWSLETTER_PARR_4'|trans({}, "messages", user_locale) }}</p>
-        </div>
-    </div>
-    <div style="width: 41%; margin-left:9%; float: left;">
-        <img width="" style="display:block;" border="0" src="{{asset('bundles/frontend/img/newsletter/3.png', absolute=true)}}">
-
-    </div>
-</div>
-
-    <div style="width: 100%; float: left;">
-        <hr style="color: #cccccc; background-color: #cccccc; height: 1px; border: medium none;"/>
-        <div style="width: 20%; float: left;">
-            <img width="100%" style="display:block;" border="0" src="{{asset('bundles/frontend/img/newsletter/5.png', absolute=true)}}">
-        </div>
-        <div style="width: 80%; float: left;">
+        </td>
+        <td colspan="5"></td>
+       <td colspan="40">
+           <img width="" style="display:block;" border="0" src="{{asset('bundles/frontend/img/newsletter/3.png', absolute=true)}}">
+       </td>
+    </tr>
+    <tr>
+        <td colspan="100">
+    <hr style="color: #cccccc; background-color: #cccccc; height: 1px; border: medium none;"/>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="20">
+            <img style="display:block;" border="0" src="{{asset('bundles/frontend/img/newsletter/5.png', absolute=true)}}">
+        </td>
+        <td colspan="80" style="padding-top: 15px;">
             <h3 style="margin-left: 30px; color: #f69e16;"> {{ 'NEWSLETTER_HEAD_2'|trans({}, "messages", user_locale) }}</h3>
             <p>
                 {{ 'NEWSLETTER_PARR_5'|trans({}, "messages", user_locale) }}
             </p>
-        </div>
-    </div>
-    <div style="width: 100%; float: left;">
-        <div style="width: 55%; float: left;">
+        </td>
+    </tr>
+    <tr>
+        <td colspan="55" style="padding-top: 15px;">
             <p>
                 {{ 'NEWSLETTER_PARR_6'|trans({}, "messages", user_locale) }}
             </p>
-        </div>
-        <div style="width: 45%; float: left;">
+        </td>
+        <td colspan="45">
             <img width="100%" style="display:block;" border="0" src="{{asset('bundles/frontend/img/newsletter/6.png', absolute=true)}}">
-        </div>
-    </div>
-    <div style="width: 83%; float: left; margin-left: 8.5%">
-        <h3 style="color: #4d779d;">{{ 'NEWSLETTER_HEAD_3'|trans({}, "messages", user_locale) }}</h3>
-        <div style="width: 48%; float: left; margin-right: 2%;">
-            <img width="" style="display:block; margin-bottom: 40px;" border="0" src="{{asset('bundles/frontend/img/newsletter/7.png', absolute=true)}}">
-            <div>
-                <p>{{ 'NEWSLETTER_PARR_7'|trans({}, "messages", user_locale) }}</p>
-            </div>
-        </div>
-        <div style="width: 48%; float: left; margin-left: 2%">
-            <img width="" style="display:block;" border="0" src="{{asset('bundles/frontend/img/newsletter/8.png', absolute=true)}}">
-            <div>
-                <p>
-                    {{ 'NEWSLETTER_PARR_8'|trans({}, "messages", user_locale) }}
-                </p>
-            </div>
-        </div>
-    </div>
-    <div style="width: 83%; float: left; margin-left: 8.5%">
-        <h3 style="color: #4d779d;">{{ 'NEWSLETTER_HEAD_4'|trans({}, "messages", user_locale) }}</h3>
-        <div style="width: 48%; float: left; margin-right: 2%;">
-            <img width="" style="display:block;" border="0" src="{{asset('bundles/frontend/img/newsletter/9.png', absolute=true)}}">
-            <div>
-                <p>{{ 'NEWSLETTER_PARR_9'|trans({}, "messages", user_locale) }}</p>
-            </div>
-        </div>
-        <div style="width: 48%; float: left; margin-left: 2%;">
-            <img width="" style="display:block; margin-bottom: 61px;" border="0" src="{{asset('bundles/frontend/img/newsletter/10.png', absolute=true)}}">
-            <div>
-                <p>
-                <p>{{ 'NEWSLETTER_PARR_10'|trans({}, "messages", user_locale) }}</p>
-                </p>
-            </div>
-        </div>
-    </div>
-    {#<div style="width: 100%; float: left;">#}
-    {#<h4 style="font-size: 16px; font-weight: normal; font-style: italic">{{"THANKS_RESERVATION_TEAM"|trans({}, "messages", user_locale)}}</h4>#}
-    {#</div>#}
-        {% endblock %}
+        </td>
+    </tr>
+        <tr>
+            <td colspan="8"></td>
+            <td colspan="84" style="padding-top: 15px;">
+                <h3 style="color: #4d779d;">{{ 'NEWSLETTER_HEAD_3'|trans({}, "messages", user_locale) }}</h3>
+            </td>
+            <td colspan="8"></td>
+        </tr>
+        <tr>
+            <td colspan="8"></td>
+            <td colspan="40">
+                <img width="" style="display:block; margin-bottom: 40px;" border="0" src="{{asset('bundles/frontend/img/newsletter/7.png', absolute=true)}}">
+                <div>
+                    <p>{{ 'NEWSLETTER_PARR_7'|trans({}, "messages", user_locale) }}</p>
+                </div>
+            </td>
+            <td colspan="4"></td>
+            <td colspan="40">
+                <img width="" style="display:block; margin-bottom: 30px;" border="0" src="{{asset('bundles/frontend/img/newsletter/8.png', absolute=true)}}">
+
+                    <p>
+                        {{ 'NEWSLETTER_PARR_8'|trans({}, "messages", user_locale) }}
+                    </p>
+            </td>
+            <td colspan="8"></td>
+        </tr>
+        <tr>
+            <td colspan="8"></td>
+            <td colspan="84" style="padding-top: 15px;">  <h3 style="color: #4d779d;">{{ 'NEWSLETTER_HEAD_4'|trans({}, "messages", user_locale) }}</h3></td>
+            <td colspan="8"></td>
+        </tr>
+        <tr>
+            <td colspan="8"></td>
+            <td colspan="40">
+                <img width="" style="display:block;" border="0" src="{{asset('bundles/frontend/img/newsletter/9.png', absolute=true)}}">
+
+                    <p>{{ 'NEWSLETTER_PARR_9'|trans({}, "messages", user_locale) }}</p>
+            </td>
+            <td colspan="4"></td>
+            <td colspan="40">
+                <img width="" style="display:block; margin-bottom: 61px;" border="0" src="{{asset('bundles/frontend/img/newsletter/10.png', absolute=true)}}">
+
+                    <p>{{ 'NEWSLETTER_PARR_10'|trans({}, "messages", user_locale) }}</p>
+
+            </td>
+            <td colspan="8"></td>
+        </tr>
+
+</table>
+ {% endblock %}
