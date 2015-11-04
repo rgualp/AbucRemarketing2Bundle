@@ -899,7 +899,7 @@
                 <target>Add to Favorites</target>
             </trans-unit>
             <trans-unit id="234">
-                <source>Económica</source>
+                <source>EconÃ³mica</source>
                 <target>Economic</target>
             </trans-unit>
             <trans-unit id="235">
@@ -947,19 +947,19 @@
                 <target>Air Conditioning</target>
             </trans-unit>
             <trans-unit id="246">
-                <source>Habitación individual</source>
+                <source>Habitaci?n individual</source>
                 <target>Single Room</target>
             </trans-unit>
             <trans-unit id="247">
-                <source>Habitación doble</source>
+                <source>Habitaci?n doble</source>
                 <target>Double Room</target>
             </trans-unit>
             <trans-unit id="248">
-                <source>Habitación doble (Dos camas)</source>
+                <source>Habitaci?n doble (Dos camas)</source>
                 <target>Double Room(Two Beds)</target>
             </trans-unit>
             <trans-unit id="249">
-                <source>Habitación Triple</source>
+                <source>Habitaci?n Triple</source>
                 <target>Triple Room</target>
             </trans-unit>
             <trans-unit id="250">
@@ -2569,7 +2569,7 @@
             </trans-unit>
              <trans-unit id="652">
                 <source>EMAIL_USER_ACTIVATION_BODY_TEXT_2</source>
-                <target>If the link doesn’t work, please copy the URL below, and paste it on your browser.</target>
+                <target>If the link doesn?t work, please copy the URL below, and paste it on your browser.</target>
             </trans-unit>
             <trans-unit id="653">
                 <source>COMMENT_TO_PUBLIC</source>
@@ -2673,7 +2673,7 @@
             </trans-unit>
             <trans-unit id="678">
                 <source>USER_FEEDBACK_TEXT2</source>
-                <target>If it doesn’t cause you trouble, we hope you could help us to improve our services, or that you could help other travelers to feedback from your experiences, by giving us your suggestions, comments or opinions. This will truly help us!</target>
+                <target>If it doesn?t cause you trouble, we hope you could help us to improve our services, or that you could help other travelers to feedback from your experiences, by giving us your suggestions, comments or opinions. This will truly help us!</target>
             </trans-unit>
             <trans-unit id="679">
                 <source>COMMENT</source>
@@ -2757,7 +2757,7 @@
             </trans-unit>
             <trans-unit id="699">
                 <source>DETAILS_PACKAGE_TITLE_1</source>
-                <target>Cuba Clásica Casa</target>
+                <target>Cuba Cl?sica Casa</target>
             </trans-unit>
             <trans-unit id="700">
                 <source>DETAILS_PACKAGE_TITLE_2</source>
@@ -2881,7 +2881,7 @@
             </trans-unit>
             <trans-unit id="730">
                 <source>DETAILS_PACKAGE_DETAILS</source>
-                <target>Have you ever felt your time wasn´t enough to knowing everything that you wanted? Getting the most from vacation days could be difficult if we don´t know the chances of our travel destination. However, it could turn so simple as choosing the right travel package. The most popular destinations of the Caribbean Island, car rent options, the hospitality of the Cuban families in private homes, salsa, rum, cigars. From Cuba where the happiness of living is true.</target>
+                <target>Have you ever felt your time wasn?t enough to knowing everything that you wanted? Getting the most from vacation days could be difficult if we don?t know the chances of our travel destination. However, it could turn so simple as choosing the right travel package. The most popular destinations of the Caribbean Island, car rent options, the hospitality of the Cuban families in private homes, salsa, rum, cigars. From Cuba where the happiness of living is true.</target>
             </trans-unit>
             <trans-unit id="731">
                 <source>DETAILS_PACKAGE_PRICECHECK</source>
@@ -2909,7 +2909,7 @@
             </trans-unit>
             <trans-unit id="737">
                 <source>DETAILS_PACKAGE_MSG2</source>
-                <target>Please, check the amount of people to reserve don´t be more than the limit given for the package.</target>
+                <target>Please, check the amount of people to reserve don?t be more than the limit given for the package.</target>
             </trans-unit>
             <trans-unit id="738">
                 <source>DETAILS_PACKAGE_MSG3</source>
@@ -2937,11 +2937,11 @@
             </trans-unit>
             <trans-unit id="744">
                 <source>PQT_RESERVATION_CLIENT_MAIL_2</source>
-                <target>Wir legen Ihnen die Details Ihrer Buchung. Überprüfen Sie bitte das.</target>
+                <target>Wir legen Ihnen die Details Ihrer Buchung. ?berpr?fen Sie bitte das.</target>
             </trans-unit>
             <trans-unit id="745">
                 <source>PQT_RESERVATION_CLIENT_MAIL_3</source>
-                <target>Während der nächsten 24 Stunden werden wir Sie bestätigen die Dienste und dann schicken wir Ihnen einen Gutschein mit dem alle Informationen.</target>
+                <target>W?hrend der n?chsten 24 Stunden werden wir Sie best?tigen die Dienste und dann schicken wir Ihnen einen Gutschein mit dem alle Informationen.</target>
             </trans-unit>
             <trans-unit id="746">
                 <source>PQT_RESERVATION_CLIENT_MAIL_4</source>
@@ -2953,7 +2953,7 @@
             </trans-unit>
             <trans-unit id="748">
                 <source>PQT_RESERVATION_CLIENT_MAIL_6</source>
-                <target>... Und dann für mehr gehen ... </target>
+                <target>... Und dann f?r mehr gehen ... </target>
             </trans-unit>
             <trans-unit id="749">
                 <source>PQT_RESERVATION_CLIENT_MAIL_7</source>
@@ -2961,7 +2961,7 @@
             </trans-unit>
             <trans-unit id="750">
                 <source>PQT_RESERVATION_CLIENT_MAIL_8</source>
-                <target>Übernachten, wo Kuba kuba ist!</target>
+                <target>?bernachten, wo Kuba kuba ist!</target>
             </trans-unit>
             <trans-unit id="751">
                 <source>PQT_RESERVATION_CLIENT_MAIL_SUBJECT</source>
@@ -3013,7 +3013,7 @@
                 </trans-unit>
             <trans-unit id="763">
                 <source>NEWSLETTER_PARR_4</source>
-                <target>Say good bye to your regular contacts and let them know you will be away some days on vacation. When you come to Cuba, you should be aware of the fact you will be off line for a few days. Internet service in Cuba is expensive and not fast at all, so you’d better postpone all your internet stuff for your return.</target>
+                <target>Say good bye to your regular contacts and let them know you will be away some days on vacation. When you come to Cuba, you should be aware of the fact you will be off line for a few days. Internet service in Cuba is expensive and not fast at all, so you?d better postpone all your internet stuff for your return.</target>
                 </trans-unit>
             <trans-unit id="764">
                 <source>NEWSLETTER_HEAD_2</source>
@@ -3021,7 +3021,7 @@
                 </trans-unit>
             <trans-unit id="765">
                 <source>NEWSLETTER_PARR_5</source>
-                <target>Probably, one of the first things you experience in Cuba will be an encounter with some tourist hustlers, who are known in Cuba as “Jineteros”. Those people (Men and women) will make you believe they have the best deals on restaurants, transportation, accommodation, and tours, etc. Day after day, their main occupation is to persuade foreigners to accept their offers and most of the time those who are persuaded have ended up being swindled.</target>
+                <target>Probably, one of the first things you experience in Cuba will be an encounter with some tourist hustlers, who are known in Cuba as ?Jineteros?. Those people (Men and women) will make you believe they have the best deals on restaurants, transportation, accommodation, and tours, etc. Day after day, their main occupation is to persuade foreigners to accept their offers and most of the time those who are persuaded have ended up being swindled.</target>
                 </trans-unit>
             <trans-unit id="766">
                 <source>NEWSLETTER_PARR_6</source>
@@ -3045,7 +3045,7 @@
                 </trans-unit>
             <trans-unit id="771">
                 <source>NEWSLETTER_PARR_9</source>
-                <target>One more thing you should be aware of is money exchange. Never do that in the street. There are many state-run places called “Cadeca” (Exchange bureaus) where you can change your currency into CUC (Cuban Convertible Currency), or you can also do it at any bank.</target>
+                <target>One more thing you should be aware of is money exchange. Never do that in the street. There are many state-run places called ?Cadeca? (Exchange bureaus) where you can change your currency into CUC (Cuban Convertible Currency), or you can also do it at any bank.</target>
                 </trans-unit>
             <trans-unit id="772">
                 <source>NEWSLETTER_PARR_10</source>
