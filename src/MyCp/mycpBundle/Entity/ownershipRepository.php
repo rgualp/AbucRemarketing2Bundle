@@ -81,7 +81,7 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnLangs($langs_string);
         $ownership->setOwnName($data['ownership_name']);
         $ownership->setOwnLicenceNumber($data['ownership_licence_number']);
-        $ownership->setOwnMcpCode($data['ownership_mcp_code']);
+        //$ownership->setOwnMcpCode($data['ownership_mcp_code']);
         $ownership->setOwnAddressStreet($data['ownership_address_street']);
         $ownership->setOwnAddressNumber($data['ownership_address_number']);
         $ownership->setOwnAddressBetweenStreet1($data['ownership_address_between_street_1']);
@@ -336,7 +336,7 @@ class ownershipRepository extends EntityRepository {
         $ownership->setOwnLangs($langs_string);
         $ownership->setOwnName($data['ownership_name']);
         $ownership->setOwnLicenceNumber($data['ownership_licence_number']);
-        $ownership->setOwnMcpCode($data['ownership_mcp_code']);
+        //$ownership->setOwnMcpCode($data['ownership_mcp_code']);
         $ownership->setOwnAddressStreet($data['ownership_address_street']);
         $ownership->setOwnAddressNumber($data['ownership_address_number']);
         $ownership->setOwnAddressBetweenStreet1($data['ownership_address_between_street_1']);
