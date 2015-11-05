@@ -4,14 +4,12 @@
     {% stylesheets
     '@mycpBundle/Resources/public/css/bootstrap-wysihtml5.css'
     '@mycpBundle/Resources/public/css/bootstrap-combobox.css'
+    '@mycpBundle/Resources/public/vendors/select2/css/select2.min.css'
+    '@mycpBundle/Resources/public/css/datepicker.css'
     filter='?uglifycss'
     %}
     <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
-{% endblock %}
-{% block another_in_head %}
-    {{ parent() }}
-    <link href="{{ asset('bundles/mycp/vendors/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
 {% endblock %}
 {% block top_body %}
     <ul class="breadcrumb">
@@ -30,21 +28,10 @@
         <li class="active">Nueva Oferta</li>
         <li class="pull-right"><a href="{{ path('mycp_details_reservation',{'id_reservation':reservation.genResId}) }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
     </ul>
-    <script type="text/javascript">
-        $('#btn_submit').click(function(){
-            if($('.calendar-results').css('display')=='block'){
-                $('#form_submit').submit();
 
-            }
-            else
-            {
-
-            }
-        });
-    </script>
 {% endblock %}
 {% block content %}
-    <link href="{{ asset('bundles/mycp/css/datepicker.css') }}" rel="stylesheet" type="text/css" />
+
     {%set start_date = reservation.genResFromDate |date("d/m/Y")%}
     {%set end_date = reservation.genResToDate |date("d/m/Y")%}
     <h2>Nueva Oferta - Reserva {{reservation.getCASId}}
@@ -293,9 +280,22 @@
     {% endjavascripts %}
 
     <script type="text/javascript">
+        $('#btn_submit').click(function(){
+            if($('.calendar-results').css('display')=='block'){
+                $('#form_submit').submit();
+
+            }
+            else
+            {
+
+            }
+        });
+    </script>
+
+    <script type="text/javascript">
         var today_date = "{{"now"|date("d/m/Y") }}";
-        var start_date = "{{ start_date }}";
-        var end_date = "{{ end_date }}";
+        var start_date = "{{ reservation.genResFromDate |date("d/m/Y") }}";
+        var end_date = "{{ reservation.genResToDate |date("d/m/Y") }}";
         var reservation_own_id = {{ reservation.genResOwnId.ownId }};
         var originalTotalPrice = {{reservation.getGenResTotalInSite}};
         var checkTotalPrice = true;

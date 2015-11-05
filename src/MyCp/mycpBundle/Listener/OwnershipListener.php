@@ -53,6 +53,9 @@ class OwnershipListener {
         else
             $newGeneratedCode =  $province->getProvOwnCode().$entity->getOwnAutomaticMcpCode();
 
-        $entity->setOwnMcpCodeGenerated($newGeneratedCode);
+        //if($entity->getOwnMcpCode() == null || $entity->getOwnMcpCode() == "") {
+            $entity->setOwnMcpCode($newGeneratedCode);
+            $entity->setOwnMcpCodeGenerated($newGeneratedCode);
+        //}
     }
 } 

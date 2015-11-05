@@ -8,7 +8,7 @@
             <td rowspan="3"  style="width: 100px"><a title="Editar" href="{{ path("mycp_edit_user_tourist", {'id_user': user.userId}) }}">{{ render(controller('mycpBundle:BackendUser:getUserPhotoPath', {'userId': user.userId})) }}</a></td>
             <td><b>Nombre:</b> <a title="Editar" href="{{ path("mycp_edit_user_tourist", {'id_user': user.userId}) }}">{{user.getUserUserName}} {{user.getUserLastName}}</a></td>
             <td><b>Correo:</b> <a href="mailto:{{ user.getUserEmail | lower }}">{{user.getUserEmail | lower}}</a></td>
-            <td colspan="2"><b>País:</b> {{user.getUserCountry.getCoName}}
+            <td colspan="2"><b>País:</b> {{ user.getUserCountry}}
                 {%if user.getUserCity != null%}(Ciudad: {{user.getUserCity}}){%endif%}
             </td>
         </tr>
