@@ -6,6 +6,8 @@
     {% stylesheets
     '@mycpBundle/Resources/public/css/datepicker.css'
     '@mycpBundle/Resources/public/vendors/select2/css/select2.min.css'
+    '@mycpBundle/Resources/public/css/bootstrap-wysihtml5.css'
+    '@mycpBundle/Resources/public/css/bootstrap-combobox.css'
     filter='?uglifycss'
     %}
     <link rel="stylesheet" href="{{ asset_url }}" />
@@ -48,6 +50,7 @@
 </form>
 {% endif %}
 {% endblock %}
+
 {% block javascripts %}
     {% javascripts
     '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
@@ -55,10 +58,16 @@
     '@mycpBundle/Resources/public/js/common_list.js'
     '@mycpBundle/Resources/public/vendors/select2/js/select2.min.js'
     '@mycpBundle/Resources/public/vendors/select2/js/i18n/es.js'
+    '@mycpBundle/Resources/public/js/wysihtml5-0.3.0.min.js'
+    '@mycpBundle/Resources/public/js/bootstrap-wysihtml5.js'
+    '@mycpBundle/Resources/public/js/bootstrap-combobox.js'
+    '@mycpBundle/Resources/public/js/ownership.calendar.backend.js'
     filter='?uglifyjs2'
     %}
     <script src="{{ asset_url }}"></script>
+
     {% endjavascripts %}
+
     <script type="text/javascript">
         $(document).on('ready', function(){
             $('.select').select2();
@@ -82,6 +91,114 @@
             window.location = url;
         });
 
+    </script>
+    <script type="text/javascript">
+        var today_date = "{{"now"|date("d/m/Y") }}";
+        var start_date = "{{ (start_date is not defined) ? "today" | date("d/m/Y") : start_date }}";
+        var end_date = "{{ (end_date is not defined) ? "+2 days" | date("d/m/Y") : end_date }}";
+        var checkTotalPrice = false;
+        var originalTotalPrice = 0;
+
+        $("#btn_dates").click(function(){
+            $('#form_dates').submit();
+        });
+
+        function create_date_in(date_text) {
+            var date = date_text.split('/');
+            new_date = date[2] + '-' + date[1] + '-' + date[0];
+            return new_date;
+        }
+
+        function refresh_calendar(from, to , own_id)
+        {
+            $('.calendar-results').css({display: 'none'});
+            element = $("#body_calendar");
+            element.attr('class', 'container_loading');
+            element.html('<div>&nbsp;</div>');
+            $('#rooms_selected').css({display: 'none'});
+            $('#all_data_numbers').css({display: 'none'});
+
+            fields_dates=$('.form-control')
+            btn_refresh=$('#button_refresh_calendar')
+            fields_dates.attr('disabled','true');
+
+            $.ajax({
+                url: "{{ path('frontend_get_reservation_calendar_ownership_callback') }}",
+                data: {from: from, to: to, own_id: own_id, backend: true}
+
+            }).done(function(resp) {
+                element.removeAttr('class');
+                element.html(resp);
+                from = from.replace('/', '&');
+                from = from.replace('/', '&');
+                to = to.replace('/', '&');
+                to = to.replace('/', '&');
+                $('#data_reservation').attr('from_date', from);
+                $('#data_reservation').attr('to_date', to);
+                fields_dates.removeAttr('disabled');
+            });
+
+        }
+
+        $('input#filter_date_to,#ownership').change(function() {
+            from = $('#filter_date_from').val();
+            to = $('#filter_date_to').val();
+            own = $('#ownership').val();
+            refresh_calendar(from, to, own);
+            $('#data_ownership').val(own);
+
+        });
+
+        from = $('#filter_date_from').val();
+        to = $('#filter_date_to').val();
+        own = $('#ownership').val();
+        refresh_calendar(from, to,own);
+
+
+        function datePickersStarUp(){
+            $('#filter_date_from').datepicker({
+                format:'dd/mm/yyyy',
+                todayBtn:'linked',
+                autoclose: true,
+                startDate: new Date(),
+                date: start_date,
+                language: $('#filter_date_from').attr('data-localization')
+            }).on('changeDate', function(ev){
+                var startDate = new Date(ev.date);
+                startDate.setDate(startDate.getDate() + 1);
+                $('#filter_date_to').datepicker("setStartDate", startDate);
+                var date = new Date(ev.date);
+                date.setDate(date.getDate() + 2);
+                $('#filter_date_to').datepicker("setDate", date);
+                $('.datepicker').hide();
+
+                own = $('#ownership').val();
+                refresh_calendar(ev.date.getDate() + '/' + (ev.date.getMonth() + 1) + '/' + ev.date.getFullYear(),date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear(),own);
+
+            });
+
+            var filter_date_to =$('#filter_date_to').datepicker({
+                format:'dd/mm/yyyy',
+                todayBtn:false,
+                autoclose: true,
+                startDate: '+2d',
+                date: end_date,
+                language: $('#filter_date_to').attr('data-localization')
+            }).data('datepicker');
+        }
+        datePickersStarUp();
+        own = $('#ownership').val();
+        $('#data_ownership').val(own);
+    </script>
+    <script type="text/javascript">
+        $('.textarea').wysihtml5();
+        $('.datepicker_textbox').datepicker({
+            language: 'es',
+            format:'dd/mm/yyyy'
+        }).on('changeDate', function(ev){
+            $('.datepicker').hide();
+
+        });
     </script>
 
 {% endblock %}
