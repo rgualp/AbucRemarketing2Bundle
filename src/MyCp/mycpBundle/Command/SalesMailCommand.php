@@ -50,8 +50,8 @@ class SalesMailCommand extends ContainerAwareCommand
                 $output->writeln('Successfully sent sales report email to address '.$emailArg);
             }
             else{
-                    $emailService->sendEmail('ingrid@mycasaparticular.com', $subject,  $body, 'no-responder@mycasaparticular.com', $directoryFile);
-                    $output->writeln('Successfully sent sales report email to address ingrid@mycasaparticular.com');
+                    $emailService->sendEmail('ingrids@mycasaparticular.com', $subject,  $body, 'no-responder@mycasaparticular.com', $directoryFile);
+                    $output->writeln('Successfully sent sales report email to address ingrids@mycasaparticular.com');
 
             }
 
