@@ -442,13 +442,13 @@ class BookingService extends Controller
             );
 
             try {
-                $emailService->sendEmail(
+               /* $emailService->sendEmail(
                     'Confirmación de pago',
                     'no-reply@mycasaparticular.com',
                     'MyCasaParticular.com',
                     'reservation@mycasaparticular.com',
                     $bodyRes
-                );
+                );*/
 
                 $emailService->sendEmail(
                     'Confirmación de pago',

@@ -57,7 +57,7 @@ class AccommodationNotificationCommand extends ContainerAwareCommand {
             $subject = "Directorio de casas actualizado y últimos alojamientos agregados";
 
             if ($emailArg != null || $emailArg != "") {
-                $emailService->sendEmail($emailArg, $subject,  $body, 'no-responder@mycasaparticular.com', $directoryFile);
+                $emailService->sendEmail($emailArg, $subject,  $body, 'no-reply@mycasaparticular.com', $directoryFile);
                 $output->writeln('Successfully sent notification email to address '.$emailArg);
             }
             else{
@@ -65,12 +65,12 @@ class AccommodationNotificationCommand extends ContainerAwareCommand {
 
                 foreach ($usersToSend as $mailListUser) {
                     $mailAddress = $mailListUser->getMailListUser()->getUserEmail();
-                    $emailService->sendEmail($mailAddress, $subject,  $body, 'no-responder@mycasaparticular.com', $directoryFile);
+                    $emailService->sendEmail($mailAddress, $subject,  $body, 'no-reply@mycasaparticular.com', $directoryFile);
                     $output->writeln('Successfully sent notification email to address ' . $mailAddress);
                 }
 
                 if (count($usersToSend) == 0) {
-                    $emailService->sendEmail('reservation@mycasaparticular.com', $subject,  $body, 'no-responder@mycasaparticular.com', $directoryFile);
+                    $emailService->sendEmail('reservation@mycasaparticular.com', $subject,  $body, 'no-reply@mycasaparticular.com', $directoryFile);
                     $output->writeln('Successfully sent notification email to address reservation@mycasaparticular.com');
                 }
             }
