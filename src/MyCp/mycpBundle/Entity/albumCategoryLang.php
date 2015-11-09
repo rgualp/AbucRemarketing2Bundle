@@ -22,7 +22,7 @@ class albumCategoryLang
     private $album_cat_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="lang",inversedBy="albumCatLang")
+     * @ORM\ManyToOne(targetEntity="lang",inversedBy="")
      * @ORM\JoinColumn(name="album_cat_id_lang",referencedColumnName="lang_id")
      */
     private $album_cat_id_lang;

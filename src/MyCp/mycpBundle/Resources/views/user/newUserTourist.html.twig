@@ -26,7 +26,7 @@
         <a title="Nueva oferta" class="btn btn-info" href="{{path('mycp_new_offer_to_client', {'idClient': edit_user})}}"><i class="icon-asterisk icon-white"></i> Oferta</a>
     {% endif %}
     {% if tourist is defined and tourist != null %}
-        <a class="btn btn-danger" onclick="sendMessage()">Enviar</a>
+        <a class="btn btn-primary" onclick="sendMessage()">Enviar</a>
     {% endif %}
 </div>
 </form>

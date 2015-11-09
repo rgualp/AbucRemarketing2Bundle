@@ -93,8 +93,8 @@
                     </div>
         <div class="row-fluid">
                     <div class="span4"  style="margin-top: 10px">
-                                        <input type="button" class="btn btn-mini btn-info btn-action-public"  onclick="actionSelected(true);" value="Publicar seleccionadas" data-url="{{path("mycp_public_selected_callback_comment")}}"/>
-                                        <input type="button" class="btn btn-mini btn-warning btn-action-delete"  onclick="actionSelected(false);" value="Eliminar seleccionadas" data-url="{{path("mycp_delete_selected_callback_comment")}}"/>
+                                        <input type="button" class="btn btn-mini btn-success btn-action-public"  onclick="actionSelected(true);" value="Publicar seleccionadas" data-url="{{path("mycp_public_selected_callback_comment")}}"/>
+                                        <input type="button" class="btn btn-mini btn-danger btn-action-delete"  onclick="actionSelected(false);" value="Eliminar seleccionadas" data-url="{{path("mycp_delete_selected_callback_comment")}}"/>
                                     </div>
                                     <div class="span5">
     {% if filter_keyword ==''%}{% set filter_keyword='null'%}{%endif%}

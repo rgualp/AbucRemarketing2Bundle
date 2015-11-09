@@ -25,7 +25,7 @@
 <h2>{% if edit_currency is defined %}Editar {% else %}Adicionar {% endif %}moneda</h2>
 <hr/>
 <form class="sfgen" {{form_enctype(form)}} method="POST" action="{% if edit_currency is defined %}{{path('mycp_edit_currency',{'id_currency':edit_currency})}}{% else %}{{path('mycp_new_currency')}}{% endif %}" novalidate="true">
-{% if errors | length > 0 %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
+{% if errors is defined and errors | length > 0 %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
     {{form_row(form.curr_name)}}
     {{form_row(form.curr_code)}}
     {{form_row(form.curr_symbol)}}
