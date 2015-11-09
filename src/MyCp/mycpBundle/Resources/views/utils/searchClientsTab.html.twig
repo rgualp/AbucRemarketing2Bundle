@@ -5,10 +5,10 @@
             <option value="{{ user.userId}}">{{ user.userUserName | capitalize }} {{ user.userLastName | capitalize }} ({{ user.userEmail | lower }})</option>
         {% endfor %}
     </select>
-    <button id="btnSelect" class="btn btn-primary">Seleccionar</button>
+    <button id="btnSelect" class="btn btn-success">Seleccionar</button>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <a class="btn btn-success" href="{{ path("mycp_new_user_tourist") }}">Nuevo cliente</a>
 
-    <input id="hClientData" type="hidden" value="{{ path("mycp_new_offer_to_client") }}"
+    <input id="hClientData" type="hidden" value="{{ path("mycp_new_offer_to_client") }}"/>
 </div>
 <div></div>

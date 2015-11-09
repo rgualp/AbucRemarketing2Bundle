@@ -36,7 +36,7 @@
 <br/><br/>
     <div class="row-fluid">
         {% if is_granted('ROLE_CLIENT_STAFF') and ownership.ownMcpCode != null and ownership.ownMcpCode != ""%}
-            <a class="btn btn-success pull-right" title="Descargar fotos - {{ownership.ownName}}" href="{{path("mycp_download_zip_photo", {"idOwnership": ownership.ownId, "ownMycpCode": ownership.ownMcpCode})}}"><i class="icon-download-alt"></i> Descargar Fotos</a>
+            <a class="btn btn-info pull-right" title="Descargar fotos - {{ownership.ownName}}" href="{{path("mycp_download_zip_photo", {"idOwnership": ownership.ownId, "ownMycpCode": ownership.ownMcpCode})}}"><i class="icon-download-alt"></i> Descargar Fotos</a>
         {%endif%}
     </div>
 
@@ -101,11 +101,11 @@
                         <div class="span3 actions" style="margin-top: 0">
                             <div class="row-fluid" style="padding: 0; margin-bottom: 40px;">
                                 {% if is_granted('ROLE_CLIENT_STAFF')%}
-                                    <a class="btn btn-mini btn-success" style="margin: 0" href="{{ path('mycp_download_single_zip_photo',{'idPhoto':item.getOwnPhoPhoto.getPhoId,'ownMcpCode': ownership.ownMcpCode}) }}" title="Descargar esta foto"><i class="icon-download-alt"></i> Descargar</a>
+                                    <a class="btn btn-mini btn-info" style="margin: 0" href="{{ path('mycp_download_single_zip_photo',{'idPhoto':item.getOwnPhoPhoto.getPhoId,'ownMcpCode': ownership.ownMcpCode}) }}" title="Descargar esta foto"><i class="icon-download-alt"></i></a>
                                 {%endif%}
-                                <a class="btn btn-mini" href="{{ path('mycp_edit_photos_ownership',{'id_photo':item.getOwnPhoPhoto.getPhoId,'id_ownership':id_ownership}) }}" title="Editar"><i class="icon-edit"></i> Editar</a>
+                                <a class="btn btn-mini btn-success" href="{{ path('mycp_edit_photos_ownership',{'id_photo':item.getOwnPhoPhoto.getPhoId,'id_ownership':id_ownership}) }}" title="Editar"><i class="icon-edit"></i></a>
                             </div>
-                            <a class="btn btn-mini btn-danger delete" href="{{ path('mycp_delete_photos_ownership',{'id_ownership':id_ownership,'id_photo':item.getOwnPhoPhoto.getPhoId}) }}" title="Eliminar"><i class="icon-trash"></i> Eliminar</a>
+                            <a class="btn btn-mini btn-danger delete" href="{{ path('mycp_delete_photos_ownership',{'id_ownership':id_ownership,'id_photo':item.getOwnPhoPhoto.getPhoId}) }}" title="Eliminar"><i class="icon-trash"></i></a>
                         </div>
                     </div>
                 </li>
@@ -139,7 +139,7 @@
             {{ render(controller("mycpBundle:BackendOwnership:getOwnerPhoto", {'ownershipPhoto': null, 'ownershipId': id_ownership, 'fromPhotoList': true})) }}
         </div>
             <div class="row-fluid">
-                <button type="submit" class="btn btn-primary pull-right">Guardar</button>
+                <button type="submit" class="btn btn-success pull-right">Guardar</button>
             </div>
         </form>
     </div>
@@ -216,6 +216,28 @@
                     alert(data);
             });
         }
+    </script>
+    <script>
+        var idOwnership = {{ id_ownership }};
+
+        $('#deletePhotoOwner').click(function () {
+            deletePhotoOwner();
+        });
+
+        function deletePhotoOwner() {
+            var url = $("#deletePhotoOwner").attr("data-url");
+            $("#loadingImg").removeClass("hidden");
+
+            $.post(url, {
+                        idOwnership: idOwnership
+                    },
+                    function (data) {
+                        $(".photoOwnerContainer").html(data);
+                        $("#loadingImg").addClass("hidden");
+                    });
+            return false;
+        }
+
     </script>
 {% endif %}
 {% endblock %}

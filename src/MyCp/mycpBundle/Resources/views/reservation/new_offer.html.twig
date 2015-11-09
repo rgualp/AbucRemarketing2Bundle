@@ -155,7 +155,7 @@
     <textarea name="message_body" style="width:95%"></textarea>
     <div class="row-fluid" style="text-align: right">
         {%if bookings and reservation.genresStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED')%}
-        <button class="btn btn-primary" id="btn_dates">Guardar</button>
+        <button class="btn btn-success" id="btn_dates">Guardar</button>
         {%endif%}
         <a class="btn" href="{{ path('mycp_details_reservation',{'id_reservation':reservation.genResId}) }}">Cancelar</a>
     </div>
@@ -252,7 +252,7 @@
     <textarea name="message_body" style="width:95%"></textarea>
             <div class="row-fluid" style="text-align: right">
         {%if bookings and reservation.genresStatus == constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_CANCELLED')%}
-        <button class="btn btn-primary" id="btn_submit" disabled="disabled">Guardar</button>
+        <button class="btn btn-success" id="btn_submit" disabled="disabled">Guardar</button>
         {%endif%}
         <a class="btn" href="{{ path('mycp_details_reservation',{'id_reservation':reservation.genResId}) }}">Cancelar</a>
         </div>

@@ -41,7 +41,7 @@
 <form id="form_submit" action="{{ path("mycp_new_offer_to_client", {"idClient": client.userId}) }}" method="POST">
     {{ render(controller('mycpBundle:BackendReservation:searchAccommodations')) }}
     <div class="row-fluid" style="text-align: right">
-        <button class="btn btn-primary btn_submit" id="btn_submit" disabled="disabled" onclick="javascript:submit_button({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_AND_EXIT')}})">Guardar</button>
+        <button class="btn btn-success btn_submit" id="btn_submit" disabled="disabled" onclick="javascript:submit_button({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_AND_EXIT')}})">Guardar</button>
         <button class="btn btn-warning btn_submit" id="btn_submit" disabled="disabled" onclick="javascript:submit_button({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_OFFER_AND_VIEW')}})">Guardar y ver oferta</button>
         <button class="btn btn-danger btn_submit" id="btn_sendSubmit" disabled="disabled" onclick="javascript:submit_button({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_OFFER_AND_SEND')}})">Guardar y enviar</button>
         <a class="btn" href="{{ path('mycp_list_reservations') }}">Cancelar</a>

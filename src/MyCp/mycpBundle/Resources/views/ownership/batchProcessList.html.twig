@@ -23,35 +23,35 @@
 {% endfor %}
     <form method="POST" action="{{ path("mycp_batch_process_insert_ownership") }}" enctype="multipart/form-data">
         <div class="row-fluid">
-            <div class="span3">
+            <div class="span2">
                 <label>Provincia (*)</label>
                 {% if errors['batch_province'] is defined %}<label class="error">{{errors['batch_province']}}</label>{%endif%}
                 <select class="input-block-level" name="batch_province" id="batch_province"/>
                 {{ render(controller('mycpBundle:Public:get_provinces', {'post': post})) }}
                 </select>
             </div>
-            <div class="span3">
+            <div class="span2">
                 <label>Municipio (*)</label>
                 {% if errors['batch_municipality'] is defined %}<label class="error">{{errors['batch_municipality']}}</label>{%endif%}
                 <select class="input-block-level" type="text" name="batch_municipality" id="batch_municipality">
                     {{ render(controller('mycpBundle:Public:get_mun_by_prov', {'post':post})) }}
                 </select>
             </div>
-            <div class="span3">
+            <div class="span2">
                 <label>Destino (*)</label>
                 {% if errors['batch_destiny'] is defined %}<label class="error">{{errors['batch_destiny']}}</label>{%endif%}
                 <select class="input-block-level" type="text" name="batch_destiny" id="batch_destiny">
                     {{ render(controller('mycpBundle:Public:getDestinationByMun', {'post':post})) }}
                 </select>
             </div>
-            <div class="span3">
+            <div class="span4">
                 <label>Seleccionar Excel (*)</label>
                 {% if errors['batch_file'] is defined %}<label class="error">{{errors['batch_file']}}</label>{%endif%}
             <input id="file_excel" class="input-block-level" name="file_excel" type="file" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
             </div>
             </div>
         <div  class="row-fluid" style="text-align: right">
-            <input id="btn_process"class="btn btn-info" name="btn_process" type="submit" value="Procesar"/>
+            <input id="btn_process"class="btn btn-success" name="btn_process" type="submit" value="Procesar"/>
         </div>
     </form>
 

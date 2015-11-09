@@ -75,7 +75,7 @@
             <th>Álbum</th>
             <th>Categoría</th>
             <th>Estado</th>
-            <th>Fotografías</th>
+            <th style="text-align:center">Fotografías</th>
             <th style="text-align: right">Acciones</th>
         </tr>
         </thead>
@@ -85,7 +85,7 @@
             <td>{{album.getAlbumName}}</td>
             <td>{{data[album.getAlbumId~'_category'][0].getAlbumCatDescription}}</td>
             <td>{% if album.getAlbumActive==0%}<span class="label label-important">No activo</span>{% else %} <span class="label label-success">Activo</span>{% endif %}</td>
-            <td><a href="{{ path('mycp_list_photos_album',{'id_album':album.getAlbumId}) }}">({{ photo_count[album.getAlbumId~'_photo_count'] }}) Fotografías</a></td>
+            <td style="text-align:center"><a href="{{ path('mycp_list_photos_album',{'id_album':album.getAlbumId}) }}">{{ photo_count[album.getAlbumId~'_photo_count'] }}</a></td>
             <td style="text-align: right">
                 <a class="btn btn-mini" href="{{ path('mycp_edit_album',{'id_album':album.getAlbumId}) }}">Editar</a>
                 <button data='{{ path('mycp_delete_album',{'id_album':album.getAlbumId}) }}' class="btn btn-mini btn-danger delete">Eliminar</button>

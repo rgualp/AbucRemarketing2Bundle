@@ -32,7 +32,7 @@
     <li class="pull-right"><a href="{{ path('mycp_list_destination') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 <div class="form-actions">
-    <button class="btn btn-primary" type="submit">Guardar</button>
+    <button class="btn btn-success" type="submit">Guardar</button>
     <a class="btn" href="{{ path('mycp_list_destination') }}">Cancelar</a>
 </div>
 </form>
@@ -84,8 +84,8 @@
     <div class="span6">
         <label>Municipio:</label>
         <select class="input-block-level" name="ownership_address_municipality" id="ownership_address_municipality"/>
-        {{ render(controller('mycpBundle:Public:get_mun', {'post': {'ownership_address_municipality':data['ownership_address_municipality'],
-                                                                    'ownership_address_province' : data['ownership_address_province']}})) }}
+        {{ render(controller('mycpBundle:Public:get_mun', {'post': {'ownership_address_municipality': (data | length) ? data['ownership_address_municipality'] : null,
+                                                                    'ownership_address_province' : (data | length) ? data['ownership_address_province'] : null}})) }}
         </select>
     </div>
     </div>

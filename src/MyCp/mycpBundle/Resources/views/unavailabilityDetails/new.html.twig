@@ -26,7 +26,7 @@
     <li class="pull-right"><a href="{{ path('mycp_list_rooms_unavailabilityDetails',{'id_ownership': ownership.ownid}) }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 <div class="form-actions">
-    <button class="btn btn-primary" type="submit">Guardar</button>
+    <button class="btn btn-success" type="submit">Guardar</button>
     {% if edit_detail is defined %}
     <a class="btn btn-danger" href="{{ path("mycp_delete_unavailabilityDetails",{"num_room":num_room, "id_detail": edit_detail}) }}">Eliminar</a>
     {% endif %}

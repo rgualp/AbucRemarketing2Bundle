@@ -16,7 +16,7 @@
             </form>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" type="button" onclick="send_email();">Enviar</button>
+            <button class="btn btn-success" type="button" onclick="send_email();">Enviar</button>
             <a href="#" class="btn btn-danger" data-dismiss="modal">Cerrar</a>
         </div>
 
@@ -35,9 +35,9 @@
 
     </ul>
     <div class="form-actions">
-        <button class="btn btn-primary" type="submit">Guardar</button>
+        <button class="btn btn-success" type="submit">Guardar</button>
         <a class="btn" href="{{ path('mycp_lodging_front') }}">Cancelar</a>
-        <button  onclick="open_mail_modal();" class="btn btn-success" type="button">Solicitar cambio</button>
+        <button  onclick="open_mail_modal();" class="btn btn-primary" type="button">Solicitar cambio</button>
     </div>
     </form>
 {% endblock %}

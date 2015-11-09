@@ -3,11 +3,11 @@
             {% if ownership.status_id==constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')%}<span class="label label-success">Activo</span>
             {% else %} <span class="label label-important">{{ ownership.status_name }}</span>{% endif %}
             {%else%}
-                                                            <span class="label label-warning">Sin estado</span>
+                                                            <span class="label">Sin estado</span>
             {% endif %}
         {% if ownership.own_comment %}</a>{% endif %}
         {%if ownership.own_top_20%}
-                                                        <br/><span class="label label-important">Top 20</span>
+                                                        <br/><span class="label label-warning">Top 20</span>
         {%endif%}
         {%if ownership.own_selection%}
                                                         <br/><span class="label label-info">Casa Selección</span>

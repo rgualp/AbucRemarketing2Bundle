@@ -16,7 +16,7 @@
     <li class="pull-right"><a href="{{ path('mycp_list_users') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 <div class="form-actions">
-    <button class="btn btn-primary" onclick="javascript:submit_button({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_AND_EXIT')}})">Guardar</button>
+    <button class="btn btn-success" onclick="javascript:submit_button({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_AND_EXIT')}})">Guardar</button>
     {% if edit_user is not defined %}
         <button class="btn btn-info" onclick="javascript:submit_button({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_USER_AND_NEW_OFFER')}})">Guardar y nueva oferta</button>
     {% endif %}

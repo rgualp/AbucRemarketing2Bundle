@@ -58,7 +58,7 @@
         <td><a href="{{path('mycp_list_mail_list_user',{'mailList': item.mailListId})}}" title="Ver listado de usuarios asociados">{{ item.mailListName }}</a></td>
         <td>{{ item.mailListFunction | mailListFunction }}</td>
         <td style="text-align: right">
-            <a class="btn btn-mini btn-primary" href="{{path('mycp_list_mail_list_user',{'mailList': item.mailListId})}}">Usuarios</a>
+            <a class="btn btn-mini btn-success" href="{{path('mycp_list_mail_list_user',{'mailList': item.mailListId})}}">Usuarios</a>
             <a class="btn btn-mini" href="{{path('mycp_edit_mail_list',{'listId': item.mailListId})}}">Editar</a>
             <button data='{{path('mycp_delete_mail_list',{'listId': item.mailListId})}}' class="btn btn-mini btn-danger delete">Eliminar</button>
 

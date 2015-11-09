@@ -24,7 +24,7 @@
     <li class="pull-right"><a href="{{ path('mycp_list_reservations_user') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 <div class="form-actions">
-    <!--a class="btn btn-primary" href="javascript:submit()">Guardar</a>
+    <!--a class="btn btn-success" href="javascript:submit()">Guardar</a>
     <button class="btn" type="reset">Cancelar</button-->
     &nbsp;&nbsp;&nbsp;
     <a title="Nueva oferta" class="btn btn-info" href="{{path('mycp_new_offer_to_client', {'idClient': client.userId})}}"><i class="icon-asterisk icon-white"></i> Oferta</a>
@@ -106,7 +106,7 @@
             <p>Los precios de las reservaciones deben ser solo números mayores que 0.</p>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Aceptar</button>
+            <button class="btn btn-success" data-dismiss="modal" aria-hidden="true">Aceptar</button>
         </div>
     </div>
 {% endblock %}

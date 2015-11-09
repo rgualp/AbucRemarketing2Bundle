@@ -28,7 +28,7 @@
         <ul class="span4 nav nav-pills">
         {% if app.user.getUserUserName is defined %}
         <li class="dropdown pull-right">
-            <a data-toggle="dropdown" class="dropdown-toggle" role="button" id="drop2" href="#">{{app.user.getUserUserName}} {{app.user.getUserLastName}} <b class="caret"></b></a>
+            <a data-toggle="dropdown" class="dropdown-toggle" role="button" id="drop2" href="#">{{app.user.getUserUserName}} {{app.user.getUserLastName}} <b class="icon-cog" style="color: #0088cc"></b> <b class="caret"></b></a>
             <ul aria-labelledby="drop2" role="menu" class="dropdown-menu user_menu">
                 {% block user_context_menu %}
                 {% set user_auth = app.user %}

@@ -37,8 +37,8 @@
 <div class="form-actions">
 <div class="btn-toolbar" role="toolbar">
     <div class="btn-group dropup">
-        <button type="button" class="btn btn-primary" onclick="javascript:submit_button({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE')}})">Guardar</button>
-        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+        <button type="button" class="btn btn-success" onclick="javascript:submit_button({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE')}})">Guardar</button>
+        <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
             <span class="caret"></span>
             <span class="sr-only"></span>
         </button>
@@ -48,9 +48,9 @@
             <li><a style="cursor: hand" onclick="javascript:submit_button({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_AND_EXIT')}})">Guardar e ir al listado</a></li>
         </ul>
         </div>
-
+    {% if(data['edit_ownership'] is defined or post['ownership_id'] is defined) or (post['ownership_email_1'] is defined and post['ownership_email_1'] != "") or (post['ownership_email_2'] is defined and post['ownership_email_2'] != "") %}
     <div class="btn-group dropup">
-        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
            Acciones <span class="caret"></span>
             <span class="sr-only"></span>
         </button>
@@ -73,7 +73,7 @@
             {% endif %}
         </ul>
         </div>
-
+{% endif %}
 
     <a class="btn" href="{{ path('mycp_list_ownerships') }}">Cancelar</a>
     </div>
@@ -89,10 +89,10 @@
     {% if data['status_id'] is defined and data['status_id']%}
     {% if data['status_id']== constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE')%}<span class="label label-success vertical_middle" title="Estado Activo">Activo</span>{% else %} <span class="label label-important vertical_middle" title="Estado {{ data['status_name'] }}">{{ data['status_name'] }}</span>{% endif %}
     {%else%}
-    <span class="label label-warning vertical_middle" title="Sin estado">Sin estado</span>
+    <span class="label vertical_middle" title="Sin estado">Sin estado</span>
     {% endif %}
     {%if data['top_20'] is defined and  data['top_20']%}
-    <span class="label label-important vertical_middle" title="Top 20">Top 20</span>
+    <span class="label label-warning vertical_middle" title="Top 20">Top 20</span>
     {%endif%}
     {%if data['selection'] is defined and  data['selection']%}
     <span class="label label-info vertical_middle" title="Casa Selección">Casa Selección</span>
@@ -947,5 +947,27 @@
             form.attr('action', url_submit);
             form.submit();
         }
+    </script>
+    <script>
+        var idOwnership = {{ idOwnership }};
+
+        $('#deletePhotoOwner').click(function () {
+            deletePhotoOwner();
+        });
+
+        function deletePhotoOwner() {
+            var url = $("#deletePhotoOwner").attr("data-url");
+            $("#loadingImg").removeClass("hidden");
+
+            $.post(url, {
+                        idOwnership: idOwnership
+                    },
+                    function (data) {
+                        $(".photoOwnerContainer").html(data);
+                        $("#loadingImg").addClass("hidden");
+                    });
+            return false;
+        }
+
     </script>
 {% endblock %}
