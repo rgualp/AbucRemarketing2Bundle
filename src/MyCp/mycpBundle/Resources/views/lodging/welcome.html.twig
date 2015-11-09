@@ -6,14 +6,16 @@
 </ul>
 {% endblock %}
 {% block content %}
-<h1>Bienvenido usuario {% if app.user.getUserName is defined %}{{app.user.getUserName}}{% endif %}</h1>
+<h1 style="margin: 0 0 10px 0;">Bienvenido(a), {% if app.user.getUserUserName is defined %}{{app.user.getUserUserName}}{% else %}{{app.user.getUserName}}{% endif %}</h1>
 <div class="row-fluid">
-    <div class="span2">
+    <div class="span2 text-center">
         {% if photo %}
         <img src="{{ asset('uploads/userImages/')}}{{photo.getPhoName}}" class="img-polaroid span12"/>
         {% else %}
         <img src="{{ asset('bundles/frontend/img/user_no_photo.gif')}}" class="img-polaroid span12" />
         {% endif %}
+        <br/>
+        <a href="{{ path('mycp_lodging_edit_user')}}">Cambiar Foto</a>
     </div>
     <div class="span10">
         <div class="alert alert-block">Visite las secciones que se encuentran en el menú de la izquierda para realizar las tareas administrativas correspondiente a su rol.</div>

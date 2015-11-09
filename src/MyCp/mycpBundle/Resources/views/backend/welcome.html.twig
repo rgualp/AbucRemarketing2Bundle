@@ -6,12 +6,12 @@
 </ul>
 {% endblock %}
 {% block content %}
-<h1>Bienvenido usuario {% if app.user.getUserName is defined %}{{app.user.getUserName}}{% endif %}</h1>
+<h1 style="margin: 0 0 10px 0;">Bienvenido(a), {% if app.user.getUserUserName is defined %}{{app.user.getUserUserName}}{% else %}{{app.user.getUserName}}{% endif %}</h1>
 <div class="row-fluid">
-    <div class="span1">
-        {{ render(controller('mycpBundle:BackendUser:getUserPhotoPath', {'userId': app.user.userId})) }}
+    <div class="span2 text-center">
+        {{ render(controller('mycpBundle:BackendUser:getUserPhotoPath', {'userId': app.user.userId, 'changePhotoLink': true})) }}
     </div>
-    <div class="span11">
+    <div class="span10">
         <div class="alert alert-block">
             Visite las secciones que se encuentran en el menú de la izquierda para realizar las tareas administrativas correspondiente a su rol.</div>
     </div>

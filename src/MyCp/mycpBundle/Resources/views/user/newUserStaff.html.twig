@@ -4,7 +4,7 @@
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
     <li><a href="{{ path('mycp_list_users') }}">Usuarios</a> <span class="divider">/</span></li>
-    <li class="active">{%if(edit_user is defined)%}Editar usuario{%else%}Adicionar usuario{%endif%} {{ role.roleName | upper }}</li>
+    <li class="active">{%if(edit_user is defined)%}Editar usuario{%else%}Adicionar usuario{%endif%} {% if role is defined %} {{ role.roleName | upper }} {% endif %}</li>
     <li class="pull-right"><a href="{{ path('mycp_list_users') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 {% endblock %}
@@ -12,7 +12,7 @@
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
     <li><a href="{{ path('mycp_list_users') }}">Usuarios</a> <span class="divider">/</span></li>
-    <li class="active">{%if(edit_user is defined)%}Editar usuario{%else%}Adicionar usuario{%endif%} {{ role.roleName | upper }}</li>
+    <li class="active">{%if(edit_user is defined)%}Editar usuario{%else%}Adicionar usuario{%endif%} {% if role is defined %} {{ role.roleName | upper }} {% endif %}</li>
     <li class="pull-right"><a href="{{ path('mycp_list_users') }}"><i class="icon-hand-left"></i> Volver atrás</a></li>
 </ul>
 <div class="form-actions">
@@ -22,7 +22,7 @@
 </form>
 {% endblock %}
 {% block content %}
-<h2>{%if(edit_user is defined)%}Editar usuario{%else%}Adicionar usuario{%endif%} {{ role.roleName | upper }}</h2>
+<h2>{%if(edit_user is defined)%}Editar usuario{%else%}Adicionar usuario{%endif%} {% if role is defined %} {{ role.roleName | upper }} {% endif %}</h2>
 <hr/>
 {% if message_error is defined and message_error %}<label class="alert alert-error">{{message_error}}</label>{%endif%}
 <form class="sfgen" {{form_enctype(form)}} method="POST" action="{%if(edit_user is defined)%}{{path('mycp_edit_user_staff',{'id_user':edit_user})}}{%else%}{{path('mycp_new_user_staff',{'id_role':id_role})}}{%endif%}" enctype="multipart/form-data" novalidate="true">

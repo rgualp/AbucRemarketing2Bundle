@@ -726,7 +726,7 @@ class BackendUserController extends Controller {
         return $this->redirect($this->generateUrl('mycp_list_ownerships'));
     }
 
-    public function getUserPhotoPathAction($userId)
+    public function getUserPhotoPathAction($userId, $changePhotoLink = false)
     {
         $em = $this->getDoctrine()->getEntityManager();
         $user = $em->getRepository('mycpBundle:user')->find($userId);
@@ -739,7 +739,11 @@ class BackendUserController extends Controller {
 
         $dir = $this->container->get('templating.helper.assets')->getUrl("uploads/userImages/");
 
-        return new Response("<img  class='img-polaroid' title='".$user->getUserCompleteName()."' src='".$dir.$fileName."'/>");
+        //return new Response("<img  class='img-polaroid' title='".$user->getUserCompleteName()."' src='".$dir.$fileName."'/>");
+        return $this->render('mycpBundle:utils:userPhoto.html.twig', array(
+            'photoFullPath' => $dir.$fileName,
+            'changePhotoLink' => $changePhotoLink
+        ));
     }
 
     public function editUserAction($idUser, Request $request){
