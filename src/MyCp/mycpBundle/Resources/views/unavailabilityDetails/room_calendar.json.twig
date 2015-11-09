@@ -8,7 +8,7 @@
 "url": "{{ path('mycp_edit_unavailabilityDetails', {"id_detail":actualDetailId, "num_room": actualDetail.getRoom.getRoomNum} ) }}",
 "start": "{{ actualDetail.getUdFromDate | date("Y-m-d")}}",
 "end": "{{ actualDetail.getUdToDate | date_modify("+1 day")| date("Y-m-d")}}",
-"color":"#468847",
+"color":"#f89406",
 "allDay":"true"
 }
 {% set it = it + 1 %}
@@ -22,7 +22,7 @@
     "url": "{{ path("mycp_details_reservation", {"id_reservation": actualReservation.gen_res_id}) }}",
     "start": "{{ actualReservation.own_res_reservation_from_date | date("Y-m-d") }}",
     "end": "{{ actualReservation.own_res_reservation_to_date | date("Y-m-d") }}T23:59:00",
-    "color": {%if actualReservation.own_res_status == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}"#3a87ad"{%else%}"#b94a48"{%endif%},
+    "color": {%if actualReservation.own_res_status == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}"#b94a48"{%else%}"#3a87ad"{%endif%},
     "allDay":"true"
     }
     {% set it = it + 1 %}
