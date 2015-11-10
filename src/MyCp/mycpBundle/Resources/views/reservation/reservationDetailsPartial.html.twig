@@ -46,7 +46,7 @@
             {% set total_rooms = 0 %}
 
             {% for reservation_rooms in reservations%}
-            {%if reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE') and reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}
+            {%if rooms[flag] != null and reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_NOT_AVAILABLE') and reservation_rooms.ownResStatus != constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}
             {% set total_adults = total_adults +  reservation_rooms.getOwnResCountAdults %}
             {% set total_childrens = total_childrens +  reservation_rooms.getOwnResCountChildrens %}
             {#% set total_nights = total_nights +  reservation_rooms.ownResNights %}

@@ -221,6 +221,7 @@ class LodgingReservationController extends Controller {
         $user = $this->get('security.context')->getToken()->getUser();
         $userCasa = $em->getRepository('mycpBundle:userCasa')->getByUser($user->getUserId());
         $reservations = $em->getRepository('mycpBundle:generalReservation')->getByUser($id_client, $userCasa->getUserCasaOwnership()->getOwnId());
+        $userTourist = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $id_client));
         $price = 0;
         $total_nights = array();
 
@@ -238,7 +239,8 @@ class LodgingReservationController extends Controller {
                     'total_nights' => $total_nights,
                     'reservations' => $reservations,
                     'client' => $client,
-                    'errors' => ''
+                    'errors' => '',
+                    'tourist' => $userTourist[0]
         ));
     }
 

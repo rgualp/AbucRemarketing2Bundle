@@ -41,7 +41,7 @@
     {{include('mycpBundle:utils:clientInfoTab.html.twig', {"user":client})}}
 
     <div id="tabReservas">
-    <ul class="nav nav-tabs reserves">
+    <ul class="nav nav-tabs reserves" id="tabRes">
         <li id="li_res" class="active">
             <a href="#res" data-toggle="tab">Reservas</a>
         </li>
@@ -246,7 +246,7 @@
                     visibles[count]=tab_name;
                     count++;
                     $("#tabReservas .active").removeClass("active");
-                    new_tab='<li id="tab'+res_id+'li" class="active"><a href="#'+tab_name_id+'" data-toggle="tab">Reserva '+tab_name+'</a></li>';
+                    new_tab='<li id="tab'+res_id+'li" class="active"><a href="#'+tab_name_id+'" data-toggle="tab"><button onclick="javascript:close_tab('+res_id+')" class="close closeTab" type="button" style="font-size: 16px; margin-left: 5px;">x</button> Reserva '+tab_name+'</a></li>';
                     new_cont=document.createElement("div");
                     new_cont.setAttribute("class","tab-pane active");
                     new_cont.setAttribute("id",tab_name_id);
@@ -277,10 +277,12 @@
                     }
                 }
 
-                $('#res').attr('class',$('#res').attr('class')+' active');
-                $('#li_res').attr('class','active');
+                //$('#res').attr('class',$('#res').attr('class')+' active');
+                //$('#res').addClass('active');
+                //$('#li_res').attr('class','active');
                 $('#tab'+id_tab+'li').remove();
                 $('#'+id_tab+'tab').remove();
+                $('#tabRes a:first').tab('show');
 
             }
 
