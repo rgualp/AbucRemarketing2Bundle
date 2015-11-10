@@ -51,10 +51,10 @@
         <div class="span3" style="margin-top: 10px" >
             <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path("mycp_list_readonly_comments")}}">
                     <div class="row-fluid">
-                        <div class="span4" style="margin-top: 4px; font-size: 12px">
+                        <div class="span3" style="margin-top: 4px; font-size: 12px">
                             Organizar:
                         </div>
-                        <div class="span8">
+                        <div class="span9">
                             <select name="sort_by" id="sort_by" onchange="javascript:action_submit()" class="input-block-level pull-right">
                                 {{ render(controller('mycpBundle:BackendUtils:orderBy', {'sortBy': sort_by, 'elementToOrder': constant('\\MyCp\\mycpBundle\\Helpers\\ElementToOrder::COMMENT_LODGING_MODULE')})) }}
                             </select>
@@ -74,11 +74,11 @@
                             {% for i in 1 .. 5 %}{% if i <= comment.getComRate %}<img src="{{ asset('bundles/frontend/img/star_on.png')}}"/>{% else %}<img src="{{ asset('bundles/frontend/img/star_off.png')}}"/>{% endif %} {% endfor %}
                         </div>
                     </div>
-                    <div class="span10" style="font-size: 12px;">
-                        <b style="margin-right: 10px">{{comment.comDate | date('d/m/Y')}}</b>
+                    <div class="span10" style="font-size: 16px;">
+                        <b style="margin-right: 10px; color: #f06b12">{{comment.comDate | date('d/m/Y')}}</b>
                         {% if comment.getComPublic==0%}<span class="label label-important">No publicado</span>{% else %} <span class="label label-success">Publicado</span>{% endif %}
-                        <br />
-                        <p style="text-align: justify">{{ comment.getComComments }}</p>
+                        <br /><br />
+                        <p style="margin-right: 10%; line_height: 24px">{{ comment.getComComments }}</p>
 
                     </div>
                 </div>
