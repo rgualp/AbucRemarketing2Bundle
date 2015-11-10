@@ -27,16 +27,25 @@
 <hr/>
 {% if data['error'] is defined %}<div class="alert alert-error">{{data['error']}}</div>{%endif%}
 <form class="sfgen"  method="POST" action="{{ path('mycp_lodging_update_user',{'id_user':edit_user}) }}" novalidate="true" enctype="multipart/form-data">
-    {% if edit_user is defined%}
-        {{ render(controller('mycpBundle:BackendUser:getUserPhotoPath', {'userId': edit_user})) }}
-    {% endif %}
+
     <div class="row-fluid">
-        <div class="span3"><div><label for="user_photo" class="required">Foto del Propietario:</label><input type="file" id="user_photo" name="user_photo" required="required" title="Seleccionar fichero..." accept="image/*" /></div></div>
+        <div class="span3 text-center">
+            {% if edit_user is defined%}
+                {{ render(controller('mycpBundle:BackendUser:getUserPhotoPath', {'userId': edit_user})) }}
+            {% endif %}
+            <br/><br/>
+            <input type="file" id="user_photo" name="user_photo" required="required" title="Cambiar foto" accept="image/*" />
+        </div>
+        <div class="span9">
+            <label for="user_password" class="required">Nueva Clave:</label>
+            <input type="password" id="user_password" name="user_password" required="required" placeholder="Mantener la anterior" />
+
+            <label for="user_repeat_password" class="required">Repetir Nueva Clave:</label>
+            <input type="password" id="user_repeat_password" name="user_repeat_password" required="required" placeholder="Mantener la anterior"/>
+
+        </div>
     </div>
-    <div class="row-fluid">
-        <div class="span4"><label for="user_password" class="required">Nueva Clave:</label>    <input type="password" id="user_password" name="user_password" required="required" placeholder="Mantener la anterior" /></div>
-        <div class="span4"><label for="user_repeat_password" class="required">Repetir Nueva Clave:</label>    <input type="password" id="user_repeat_password" name="user_repeat_password" required="required" placeholder="Mantener la anterior"/></div>
-    </div>
+
 {% endblock %}
 {% block javascripts %}
     <script type="text/javascript">
