@@ -1,5 +1,13 @@
 {% extends 'mycpBundle:layout:lodging.html.twig' %}
 {% block title %}Administración{% endblock %}
+{% block another_in_head %}
+    {% stylesheets
+    '@mycpBundle/Resources/public/css/zabuto/zabuto_calendar.min.css'
+    filter='?uglifycss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
 {% block top_body %}
 <ul class="breadcrumb">
     <li class="active">Administración</li>
@@ -18,8 +26,50 @@
         <a href="{{ path('mycp_lodging_edit_user')}}">Cambiar Foto</a>
     </div>
     <div class="span10">
-        <div class="alert alert-block">Visite las secciones que se encuentran en el menú de la izquierda para realizar las tareas administrativas correspondiente a su rol.</div>
+        <h3>Disponibilidad</h3><br/>
+        <div class="row-fluid">
+            <div id="my-calendar" class="span4"></div>
+        </div>
     </div>
 </div>
         <br/>
+{% endblock %}
+{% block javascripts %}
+    {% javascripts
+    '@mycpBundle/Resources/public/js/zabuto/html5shiv.js'
+    '@mycpBundle/Resources/public/js/zabuto/respond.min.js'
+    '@mycpBundle/Resources/public/js/zabuto/zabuto_calendar.min.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script type="text/javascript">
+        var eventData = [
+            {"date":"2015-11-01","badge":false,"title":"Example 1"/*, "classname":"purple-event"*/},
+            {"date":"2015-11-02","badge":false,"title":"Example 2"/*, "classname":"purple-event"*/}
+        ];
+        $(document).ready(function () {
+            $("#my-calendar").zabuto_calendar({
+                language: "es",
+                show_previous: false,
+                show_next: false,
+                cell_border: true,
+                weekstartson: 0,
+                data: eventData, /* ajax: {
+                 url: "show_data.php"
+                 }*/
+                legend: [
+                    {type: "block", label: "No disponible", classname: "purple"},
+                    {type: "block", label: "Reservada MyCP", classname: "purple"},
+                    {type: "block", label: "Cancelada", classname: "purple"}
+                    /*{type: "spacer"},
+                    {type: "text", label: "Bad"},
+                    {type: "list", list: ["grade-1", "grade-2", "grade-3", "grade-4"]},
+                    {type: "text", label: "Good"}*/
+                ]
+            });
+        });
+    </script>
+
 {% endblock %}
