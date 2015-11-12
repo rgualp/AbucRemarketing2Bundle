@@ -1,0 +1,29 @@
+<h4>
+    Próximas reservaciones confirmadas
+    <a class="btn btn-success pull-right" style="font-size: 1.3em" href="{{ path("mycp_list_readonly_reservations") }}">+</a>
+</h4>
+<hr/>
+{% if list %}
+<div class="row-fluid">
+    <div class="span3">
+        <b>Llegada</b>
+    </div>
+    <div class="span3 text-center"><b>Habitaciones</b></div>
+    <div class="span3 text-center"><b>Adultos</b></div>
+    <div class="span3 text-center"><b>Niños</b></div>
+</div>
+{% for item in list %}
+<div class="row-fluid">
+    <div class="span3">
+      {{ item.arrivalDate | date("d/m/Y") }}
+    </div>
+    <div class="span3 text-center">{{ item.rooms }}</div>
+    <div class="span3 text-center">{{ (item.adults) ? item.adults : " - " }}</div>
+    <div class="span3 text-center">{{ (item.kids) ? item.kids: " - " }}</div>
+</div>
+{% endfor %}
+{% else %}
+    <div class="alert alert-block">
+        No se encontró información para esta sección
+    </div>
+{% endif %}

@@ -1,0 +1,27 @@
+<h4>
+    Últimos clientes
+    <a class="btn btn-success pull-right" style="font-size: 1.3em" href="{{ path("mycp_list_readonly_reservations_user") }}">+</a>
+</h4>
+<hr/>
+{% if list %}
+<div class="row-fluid">
+    <div class="span4">
+        <b>Cliente</b>
+    </div>
+    <div class="span4"><b>Correo</b></div>
+    <div class="span4"><b>País</b></div>
+</div>
+{% for item in list %}
+<div class="row-fluid">
+    <div class="span4">
+      <a href="{{ path("mycp_details_readonly_client_reservation", {"id_client": item.user_id}) }}">{{ item.user_user_name }} {{ item.user_last_name }}</a>
+    </div>
+    <div class="span4"><a href="mailto:{{ item.user_email }}" title="Enviar correo">{{ item.user_email }}</a></div>
+    <div class="span4">{{ item.co_name }}</div>
+</div>
+{% endfor %}
+{% else %}
+    <div class="alert alert-block">
+        No se encontró información para esta sección
+    </div>
+{% endif %}

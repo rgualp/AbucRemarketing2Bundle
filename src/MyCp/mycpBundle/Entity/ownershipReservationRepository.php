@@ -401,4 +401,47 @@ class ownershipReservationRepository extends EntityRepository {
         return $qb->getQuery()->getResult();
     }
 
+    public function getNextReservations($ownId, $maxResults)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $today = new DateTime();
+        $qb->select("min(res.own_res_reservation_from_date) as arrivalDate",
+            "count(res) as rooms, sum(res.own_res_count_adults) as adults", "sum(res.own_res_count_childrens) as kids")
+            ->from("mycpBundle:ownershipReservation", "res")
+            ->join("res.own_res_gen_res_id", "gen")
+            ->orderBy('res.own_res_reservation_from_date', 'DESC')
+            ->where("gen.gen_res_own_id = :ownId")
+            ->andWhere("res.own_res_status = :status")
+            ->andWhere("res.own_res_reservation_from_date >= :date")
+            ->groupBy("res.own_res_gen_res_id")
+            ->setMaxResults($maxResults)
+            ->setParameter("ownId", $ownId)
+            ->setParameter("date", $today->format('Y-m-d'))
+            ->setParameter("status", ownershipReservation::STATUS_RESERVED);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getLastClients($ownId, $maxResults)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $today = new DateTime();
+        $qb->select("client.user_user_name", "client.user_last_name", "client.user_email", "co.co_name", "client.user_id")
+            ->from("mycpBundle:generalReservation", "res")
+            ->join("res.gen_res_user_id", "client")
+            ->join("client.user_country", "co")
+            ->orderBy('res.gen_res_from_date', 'DESC')
+            ->where("res.gen_res_own_id = :ownId")
+            ->andWhere("res.gen_res_status = :status")
+            ->andWhere("res.gen_res_from_date < :date")
+            ->setMaxResults($maxResults)
+            ->setParameter("ownId", $ownId)
+            ->setParameter("date", $today->format('Y-m-d'))
+            ->setParameter("status", generalReservation::STATUS_RESERVED);
+
+        return $qb->getQuery()->getResult();
+    }
+
 }
