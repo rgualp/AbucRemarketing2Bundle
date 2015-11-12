@@ -1,0 +1,39 @@
+<h4>
+    Disponibilidad
+    <a class="btn btn-success pull-right" href="{{ path("mycp_lodging_unavailabilityDetails_calendar") }}">Ver más</a>
+</h4>
+<hr/>
+{% for room in rooms %}
+{% if loop.index0 % 3 == 0 %}
+    <div class="row-fluid">
+{% endif %}
+    <div class="span4">
+    <h5 style="color: #f89406">Hab. #{{ room.room_num }} ({{ room.room_type }})</h5>
+    <div class="roomMiniCalendar" data-id="{{ room.room_id }}"></div>
+    </div>
+{% if loop.index0 % 3 == 2 or loop.index == rooms | length %}
+    </div>
+{% endif %}
+{% endfor %}
+<div class="zabuto_calendar">
+    <div id="zabuto_calendar_no7_legend" class="legend">
+<span class="legend-block">
+<ul class="legend">
+    <li class="event-styled badge badge-warning"></li>
+    <span>No disponible</span>
+</ul>
+</span>
+<span class="legend-block">
+<ul class="legend">
+    <li class="event-styled badge badge-info"></li>
+    <span>Reservada MyCP</span>
+</ul>
+</span>
+<span class="legend-block">
+<ul class="legend">
+    <li class="event-styled badge badge-important"></li>
+    <span>Cancelada</span>
+</ul>
+</span>
+    </div>
+</div>

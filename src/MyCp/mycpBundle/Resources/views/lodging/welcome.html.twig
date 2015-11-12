@@ -26,10 +26,7 @@
         <a href="{{ path('mycp_lodging_edit_user')}}">Cambiar Foto</a>
     </div>
     <div class="span10">
-        <h3>Disponibilidad</h3><br/>
-        <div class="row-fluid">
-            <div id="my-calendar" class="span4"></div>
-        </div>
+        {{ render(controller('mycpBundle:Lodging:getRoomsMiniCalendar')) }}
     </div>
 </div>
         <br/>
@@ -46,29 +43,38 @@
 
     <script type="text/javascript">
         var eventData = [
-            {"date":"2015-11-01","badge":false,"title":"Example 1"/*, "classname":"purple-event"*/},
-            {"date":"2015-11-02","badge":false,"title":"Example 2"/*, "classname":"purple-event"*/}
+            {"date":"2015-11-01","badge":false,"title":"Example 1", "classname":"orangeTag"},
+            {"date":"2015-11-02","badge":false,"title":"Example 2", "classname":"blueTag"},
+            {"date":"2015-11-10","badge":false,"title":"Example 2", "classname":"redTag"}
         ];
         $(document).ready(function () {
-            $("#my-calendar").zabuto_calendar({
+            var urlAvailability = "{{ path('mycp_lodging_rooms_minicalendar_json_callback') }}";
+            urlAvailability = urlAvailability.replace('/-1', '');
+            $( ".roomMiniCalendar" ).each(function() {
+                var idRoom = $(this).data("id");
+                $( this ).zabuto_calendar({
+                    language: "es",
+                    show_previous: false,
+                    show_next: false,
+                    cell_border: true,
+                    weekstartson: 0,
+                    /*data: eventData,*/
+                    ajax: {
+                        url: urlAvailability + '/' + idRoom
+                    }
+                });
+            });
+            /*$(".roomMiniCalendar").zabuto_calendar({
                 language: "es",
                 show_previous: false,
                 show_next: false,
                 cell_border: true,
                 weekstartson: 0,
-                data: eventData, /* ajax: {
-                 url: "show_data.php"
-                 }*/
-                legend: [
-                    {type: "block", label: "No disponible", classname: "purple"},
-                    {type: "block", label: "Reservada MyCP", classname: "purple"},
-                    {type: "block", label: "Cancelada", classname: "purple"}
-                    /*{type: "spacer"},
-                    {type: "text", label: "Bad"},
-                    {type: "list", list: ["grade-1", "grade-2", "grade-3", "grade-4"]},
-                    {type: "text", label: "Good"}*/
-                ]
-            });
+                /*data: eventData,*/
+                 /*ajax: {
+                 url: urlAvailability + '/' + $(this).data("id")
+                 }
+            });*/
         });
     </script>
 

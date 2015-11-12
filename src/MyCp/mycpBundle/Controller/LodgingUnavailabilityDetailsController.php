@@ -41,6 +41,28 @@ class LodgingUnavailabilityDetailsController extends Controller {
         return $this->render('mycpBundle:unavailabilityDetails:ud_as_event.json.twig', array("details" => $unDet, "reservations" => $reser, "detailCount" => $unDetCounter, 'reservationCount' => $reservationCounter, 'now' => $now));
     }
 
+    public function getRoomMiniCalendarJSONAction($idRoom,Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->get('security.context')->getToken()->getUser();
+        $now = new \DateTime();
+        $year = $request->get('year');
+        $month = $request->get('month');
+
+        $startParam = $year.'-'.$month.'-'.'01';
+        $endParam = date("Y-m-t", strtotime($startParam));
+
+        $unDet = $em->getRepository('mycpBundle:unavailabilityDetails')->getAllNotDeletedByDateAndRoom($idRoom, $startParam, $endParam);
+        $reser = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReservedByRoomAndDate($idRoom, $startParam, $endParam);
+
+
+        $unDetCounter = count($unDet);
+        $reservationCounter = count($reser);
+
+
+
+        return $this->render('mycpBundle:unavailabilityDetails:roomMiniCalendar.json.twig', array("details" => $unDet, "reservations" => $reser, "detailCount" => $unDetCounter, 'reservationCount' => $reservationCounter, 'now' => $now));
+    }
+
     public function get_calendarAction($edit_detail, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();

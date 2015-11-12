@@ -30,4 +30,18 @@ class LodgingController extends Controller
          ));
     }
 
+    public function getRoomsMiniCalendarAction()
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $user_id=$user->getUserId();
+        $em=$this->getDoctrine()->getManager();
+        $userCasa = $em->getRepository('mycpBundle:userCasa')->getByUser($user_id);
+
+        $rooms = $em->getRepository("mycpBundle:ownership")->getRoomsIdByOwnership($userCasa->getUserCasaOwnership()->getOwnId());
+
+        return $this->render('mycpBundle:utils:roomMiniCalendar.html.twig', array(
+            'rooms' => $rooms
+        ));
+    }
+
 }

@@ -18,3 +18,7 @@ mycp_lodging_delete_unavailabilityDetails:
 mycp_lodging_unavailabilityDetails_calendar:
     pattern:   /calendar/{edit_detail}
     defaults: { _controller: mycpBundle:LodgingUnavailabilityDetails:get_calendar, edit_detail:null}
+
+mycp_lodging_rooms_minicalendar_json_callback:
+    pattern:   /mini-calendar-event/json/{idRoom}
+    defaults: { _controller: mycpBundle:LodgingUnavailabilityDetails:getRoomMiniCalendarJSON, idRoom:-1}

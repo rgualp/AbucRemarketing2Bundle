@@ -2087,4 +2087,17 @@ class ownershipRepository extends EntityRepository {
         die(dump($result->e));
         return $result->getResult();
     }
+
+    public function getRoomsIdByOwnership($idOwnership)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb->select('r.room_id', 'r.room_num', 'r.room_type')
+            ->from("mycpBundle:room", "r")
+            ->where('r.room_ownership = :ownership')
+            ->setParameter("ownership", $idOwnership)
+            ->orderBy("r.room_num", "ASC");
+
+        return $qb->getQuery()->getResult();
+    }
 }
