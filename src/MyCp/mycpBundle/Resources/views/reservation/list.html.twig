@@ -157,7 +157,7 @@
                 {%set partially_cancelled = constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_PARTIAL_CANCELLED')%}
 
                 {% for reservation in reservations %}
-                <tr class="{% if reservation.gen_res_status==available %}warning{%endif%}{% if reservation.gen_res_status==reserved %}error{%endif%}{% if reservation.gen_res_status==not_available or reservation.gen_res_status==cancelled or reservation.gen_res_status==partially_cancelled%}info{%endif%}">
+                <tr class="{% if reservation.gen_res_status==available %}success{%endif%}{% if reservation.gen_res_status==reserved %}info{%endif%}{% if reservation.gen_res_status==not_available%}warning{% endif %} {% if reservation.gen_res_status==cancelled or reservation.gen_res_status==partially_cancelled%}error{%endif%}">
                     <td>
                         {% if reservation.gen_res_status==pending %}
                         <input type="checkbox" name="check_reservations" class="ch_reservation" data-reservation-id="{{reservation.gen_res_id}}"/>

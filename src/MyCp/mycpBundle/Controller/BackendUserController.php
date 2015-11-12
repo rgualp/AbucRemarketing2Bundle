@@ -742,7 +742,8 @@ class BackendUserController extends Controller {
         //return new Response("<img  class='img-polaroid' title='".$user->getUserCompleteName()."' src='".$dir.$fileName."'/>");
         return $this->render('mycpBundle:utils:userPhoto.html.twig', array(
             'photoFullPath' => $dir.$fileName,
-            'changePhotoLink' => $changePhotoLink
+            'changePhotoLink' => $changePhotoLink,
+            'userCompleteName' => $user->getUserCompleteName()
         ));
     }
 
