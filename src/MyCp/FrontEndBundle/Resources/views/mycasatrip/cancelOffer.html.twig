@@ -27,7 +27,7 @@
     {% for res in reservations %}
 <div class="row no-margin">
     <div class="col-sm-3">
-        <div data-text="&nbsp;&nbsp;&nbsp;{{res.ownResStatus | ownershipReservationStatusType | trans}}&nbsp;&nbsp;&nbsp;" class="thumbnail has-ribbon-orange has-ribbon has-ribbon-left">
+        <div data-text="&nbsp;&nbsp;&nbsp;{{res.ownResStatus | ownershipReservationStatusType | trans}}&nbsp;&nbsp;&nbsp;" class="thumbnail has-ribbon has-ribbon-left">
             {% if photos[loop.index0][0].getPhoName is defined %}
                 <a href="{{ path('frontend_details_ownership',{'own_name':generalReservation.genResOwnId.ownName  | urlNormalize}) }}">
                     <img class="lazy" data-src="{{ asset('uploads/ownershipImages/thumbnails/'~ photos[loop.index0][0]) }}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
