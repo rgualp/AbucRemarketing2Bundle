@@ -2,6 +2,7 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use MyCp\mycpBundle\Form\changePasswordUserType;
 use MyCp\mycpBundle\Form\restorePasswordUserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,7 +32,7 @@ class BackendController extends Controller {
     {
         $em = $this->getDoctrine()->getManager();
         $errors = array();
-        $form = $this->createForm(new restorePasswordUserType($this->get('translator')));
+        $form = $this->createForm(new restorePasswordUserType());
         if ($request->getMethod() == 'POST') {
             $post = $request->get('mycp_mycpbundle_restore_password_usertype');
             $form->handleRequest($request);
@@ -68,9 +69,9 @@ class BackendController extends Controller {
     public function changePasswordAction($string, Request $request) {
         $em = $this->getDoctrine()->getManager();
         $errors = array();
-        $form = $this->createForm(new changePasswordUserType($this->get('translator')));
+        $form = $this->createForm(new changePasswordUserType());
         if ($request->getMethod() == 'POST') {
-            $post = $request->get('mycp_frontendbundle_change_password_usertype');
+            $post = $request->get('mycp_mycpbundle_change_password_usertype');
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $service_security = $this->get('Secure');
@@ -90,23 +91,22 @@ class BackendController extends Controller {
                         $em->persist($user);
                         $em->flush();
 
-                        $message = $this->get('translator')->trans('EMAIL_PASS_CHANGED');
+                        $message = "Su contraseña ha sido cambiada satisfactoriamente.";
                         //mailing
                         $service_email = $this->get('Email');
-                        $service_email->sendTemplatedEmail(
-                            $message, 'noreply@mycasaparticular.com', $user->getUserEmail(), $message);
+                        $service_email->sendEmail($message, 'no_reply@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $message);
 
-                        $this->get('session')->getFlashBag()->add('message_global_success', $message);
-                        return $this->redirect($this->generateUrl('frontend_login'));
+                        $this->get('session')->getFlashBag()->add('message_ok', $message);
+                        return $this->redirect($this->generateUrl('backend_login'));
                     }
                 } else {
-                    throw $this->createNotFoundException($this->get('translator')->trans("USER_PASSWORD_CHANGE_ERROR"));
+                    $message = "Imposible cambiar contraseña, los parámetros no son correctos.";
+                    $this->get('session')->getFlashBag()->add('message_error', $message);
                 }
             }
         }
-        //var_dump($form->createView()->getChildren());
-        //exit();
-        return $this->render('FrontEndBundle:user:changePasswordUser.html.twig', array(
+
+        return $this->render('mycpBundle:user:changePasswordUser.html.twig', array(
             'string' => $string,
             'form' => $form->createView(),
             'errors' => $errors
