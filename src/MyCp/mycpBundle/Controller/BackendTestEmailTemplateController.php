@@ -25,6 +25,13 @@ class BackendTestEmailTemplateController extends Controller {
         return $this->getNewsletterMailBody($langCode);
     }
 
+    public function newsletterMailSendAction($langCode, $newMethod, $mail, Request $request) {
+        if ($request->getMethod() == 'POST') {
+            $body = $this->getNewsletterMailBody($langCode);
+            return $this->sendEmail($newMethod, $mail, $body, "Testings: Última oportunidad de reservar");
+        }
+    }
+
     public function lastChanceToBookSendAction($langCode, $newMethod, $mail, Request $request) {
         if ($request->getMethod() == 'POST') {
             $body = $this->getLastChanceToBookBody($langCode);

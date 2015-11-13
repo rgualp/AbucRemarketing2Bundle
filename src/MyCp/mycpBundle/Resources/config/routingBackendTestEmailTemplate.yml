@@ -9,6 +9,7 @@ mycp_test_lastChanceToBook:
 mycp_test_lastChanceToBook_send:
     pattern:  /last-chance-to-book-send/{langCode}/{newMethod}/{mail}
     defaults: { _controller: mycpBundle:BackendTestEmailTemplate:lastChanceToBookSend, mail:null}
+    
 mycp_test_newsletter:
     pattern:  /newsletter-mail/{langCode}
     defaults: { _controller: mycpBundle:BackendTestEmailTemplate:newsletterMail}
