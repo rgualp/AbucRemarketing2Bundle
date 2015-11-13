@@ -155,3 +155,11 @@ mycp_backend_message:
 mycp_backend_report:
     resource: "@mycpBundle/Resources/config/routingBackendReport.yml"
     prefix:   backend/reports/
+
+mycp_forget_password:
+    pattern:  /backend/olvido-contrasenna/
+    defaults: { _controller: mycpBundle:Backend:forgotPassword}
+
+mycp_change_password_user:
+    pattern:  /backend/cambiar-contrasenna/{string}
+    defaults: { _controller: mycpBundle:Backend:changePassword }

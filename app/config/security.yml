@@ -85,6 +85,8 @@ security:
 
     access_control:
         - { path: ^/backend/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/backend/olvido-contrasenna, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/backend/cambiar-contrasenna, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backend/mycp_cf, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backend, roles: IS_AUTHENTICATED_REMEMBERED}
        # - { path: ^/alojamiento/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }

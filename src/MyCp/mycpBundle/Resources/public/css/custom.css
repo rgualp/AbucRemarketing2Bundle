@@ -127,5 +127,6 @@ label.permission{margin-left: 15px;}
 .orangeTag{background-color: #f89406; color: #fff; font-weight: bold;}
 .blueTag{background-color: #3a87ad; color: #fff; font-weight: bold;}
 .redTag{background-color: #b94a48; color: #fff; font-weight: bold;}
+.forgotLink, .forgotLink a{font-size: 16px; color: #666;}
 
 

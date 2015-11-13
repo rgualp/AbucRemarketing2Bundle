@@ -18,12 +18,15 @@
         {% for message in app.session.flashbag.get('message_ok') %}
         <div class="alert alert-info">{{ message }}</div>
         {% endfor %}
+        {% for message in app.session.flashbag.get('message_error') %}
+            <div class="alert alert-error">{{ message }}</div>
+        {% endfor %}
         {% if error %}
         <div class="alert alert-error">{{ error.message }}</div>
         {% endif %}
 <form class="form-horizontal" action="{{ path( urlLogin ) }}" method="post" id="login">
     <div class="control-group">
-        <label class="control-label" for="inputUsername">Usuario</label>
+        <label class="control-label" for="inputUsername">Usuario / Código de la Casa</label>
         <div class="controls">
             <input type="text" class="span9" id="inputUsername" placeholder="Usuario" name="_username" value="{{ last_username }}"/>
         </div>
@@ -42,11 +45,15 @@
     <div class="control-group">
         <div class="controls">
             <button type="submit" class="btn btn-success">Autenticarse</button>
+            <div style="margin-top: 6%;">
+                <a class="forgotLink" href="{{ path("mycp_forget_password") }}">¿Olvidó su contraseña?</a>
+            </div>
         </div>
     </div>
 
 
 </form>
+
         </div>
 </div>
 

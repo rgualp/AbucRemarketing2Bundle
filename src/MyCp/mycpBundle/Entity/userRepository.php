@@ -321,4 +321,18 @@ class userRepository extends EntityRepository {
         return $query->getResult();
     }
 
+    public function getUserBackendByEmail($email)
+    {
+        $em = $this->getEntityManager();
+        return $em->createQueryBuilder()
+            ->select("u")
+            ->from("mycpBundle:user", "u")
+            ->where("u.user_role != :userTouristRole")
+            ->andWhere("u.user_email = :email")
+            ->setParameter("email", $email)
+            ->setParameter("userTouristRole", "ROLE_CLIENT_TOURIST")
+            ->setMaxResults(1)
+            ->getQuery()->getOneOrNullResult();
+    }
+
 }
