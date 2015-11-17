@@ -38,7 +38,7 @@ class BackendController extends Controller {
             $form->handleRequest($request);
             if ($form->isValid()) {
 
-                $user_db = $em->getRepository('mycpBundle:user')->getUserBackendByEmail($post['user_email']);
+                $user_db = $em->getRepository('mycpBundle:user')->getUserBackendByEmailAndUserName($post['user_email'], $post['user_name']);
                 if ($user_db) {
                     $service_security = $this->get('Secure');
                     $encode_string = $service_security->getEncodedUserString($user_db);

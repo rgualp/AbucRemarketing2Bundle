@@ -321,7 +321,7 @@ class userRepository extends EntityRepository {
         return $query->getResult();
     }
 
-    public function getUserBackendByEmail($email)
+    public function getUserBackendByEmailAndUserName($email, $userName)
     {
         $em = $this->getEntityManager();
         return $em->createQueryBuilder()
@@ -329,6 +329,8 @@ class userRepository extends EntityRepository {
             ->from("mycpBundle:user", "u")
             ->where("u.user_role != :userTouristRole")
             ->andWhere("u.user_email = :email")
+            ->andWhere("u.user_name = :userName")
+            ->setParameter("userName", $userName)
             ->setParameter("email", $email)
             ->setParameter("userTouristRole", "ROLE_CLIENT_TOURIST")
             ->setMaxResults(1)
