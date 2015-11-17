@@ -15,7 +15,7 @@ class restorePasswordUserType extends AbstractType
     {
         $builder
             ->add('user_name','text',array(
-                'label'=> "Usuario",
+                'label'=> "Usuario / Código de la Casa",
                 'attr'=>array('class'=>'form-control'),
                 'constraints'=>array(new NotBlank())
             ))
