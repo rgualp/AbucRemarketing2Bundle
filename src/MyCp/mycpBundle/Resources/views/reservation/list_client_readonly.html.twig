@@ -130,8 +130,8 @@
                 {% set flag=0 %}
                 {% for reservation in reservations %}
                 <tr>
-                    <td>{{ reservation['user_user_name'] }} {{ reservation['user_last_name'] }}</td>
-                    <td>{{ reservation['user_email'] }}</td>
+                    <td><a href="{{ path("mycp_details_readonly_client_reservation", {"id_client": reservation['user_id']}) }}">{{ reservation['user_user_name'] }} {{ reservation['user_last_name'] }}</a></td>
+                    <td><a href="mailto:{{ reservation['user_email'] | lower }}">{{ reservation['user_email'] | lower }}</a></td>
                     <td>{{ reservation['co_name'] }}</td>
                     <td>{{ reservation.langName}}</td>
                     <td>{{ reservation['total_reserves'] }}</td>

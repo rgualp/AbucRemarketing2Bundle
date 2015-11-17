@@ -27,8 +27,8 @@
         </ul>
         <table class="table table-striped" style="font-size: 12px">
             <tr>
-                <td><b>Nombre:</b> {{ reservation.getGenResUserId.getUserUserName }} {{ reservation.getGenResUserId.getUserLastName }}</td>
-                <td><b>Correo:</b> {{ reservation.getGenResUserId.getUserEmail }}</td>
+                <td><b>Nombre:</b> <a href="{{ path("mycp_details_readonly_client_reservation", {"id_client": reservation.getGenResUserId.userId}) }}">{{ reservation.getGenResUserId.getUserUserName }} {{ reservation.getGenResUserId.getUserLastName }}</a></td>
+                <td><b>Correo:</b> <a href="mailto:{{ reservation.getGenResUserId.getUserEmail | lower }}">{{ reservation.getGenResUserId.getUserEmail | lower }}</a></td>
                 <td><b>Ciudad:</b> {%if reservation.getGenResUserId.getUserCity != null%}{{ reservation.getGenResUserId.getUserCity }}{%else%}-{%endif%}</td>
             </tr>
             <tr>

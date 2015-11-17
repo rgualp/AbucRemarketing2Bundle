@@ -33,7 +33,7 @@
     <table class="table table-striped" style="font-size: 16px;">
         <tr>
             <td rowspan="3"  style="width: 100px">{{ render(controller('mycpBundle:BackendUser:getUserPhotoPath', {'userId': client.userId})) }}</td>
-            <td><b>Correo:</b> <a title="Enviar correo al cliente" href="mailto:{{client.getUserEmail}}">{{client.getUserEmail}}</a></td>
+            <td><b>Correo:</b> <a title="Enviar correo al cliente" href="mailto:{{client.getUserEmail | lower}}">{{client.getUserEmail | lower}}</a></td>
             <td><b>País:</b> {{client.getUserCountry.getCoName}}</td>
         </tr>
         <tr>

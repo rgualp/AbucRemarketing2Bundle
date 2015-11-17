@@ -288,6 +288,14 @@
                 $('.datepicker').hide();
             });
 
+            $('#tabs a[href="#client_messages"]').click(function () {
+                loadMessages();
+            });
+
+            $('#tabs a[href="#comment"]').click(function () {
+                loadComments();
+            });
+
             $('#tabs a[href="#booking"]').click(function () {
                 loadBookings();
             });
@@ -341,6 +349,38 @@
                             $("#logs").attr("data-has-content", "true");
                         });
                 //}
+                return false;
+            }
+
+            function loadMessages()
+            {
+                var userId = $("#userId").val();
+                var url = $("#client_messages").attr("data-url");
+                $("#client_messages").html("Cargando....");
+                $.post(url, {
+                            userId: userId
+                        },
+                        function (data) {
+                            $("#client_messages").html(data);
+                            $('#tabs a[href="#client_messages"]').tab('show');
+                        });
+
+                return false;
+            }
+
+            function loadComments()
+            {
+                var userId = $("#userId").val();
+                var url = $("#comment").attr("data-url");
+                $("#comment").html("Cargando....");
+                $.post(url, {
+                            userId: userId
+                        },
+                        function (data) {
+                            $("#comment").html(data);
+                            $('#tabs a[href="#comment"]').tab('show');
+                        });
+
                 return false;
             }
         </script>
