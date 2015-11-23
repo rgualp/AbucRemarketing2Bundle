@@ -2101,7 +2101,7 @@
             </trans-unit>
             <trans-unit id="535">
                 <source>SKRILL_PAY_WITH_SKRILL</source>
-                <target>Page con Skrill</target>
+                <target>Pague con Skrill</target>
             </trans-unit>
             <trans-unit id="536">
                 <source>SKRILL_RETURN_TO_MYCP</source>
