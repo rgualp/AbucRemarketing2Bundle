@@ -690,13 +690,13 @@ class BackendOwnershipController extends Controller {
             if ($request->request->get('new_room') == 1) {
                 $count_rooms = $request->request->get('count_rooms') + 1;
                 $data['new_room'] = TRUE;
-                if (isset($data['ownership_visit_date']))
+                if (isset($data['ownership_visit_date']) && $post['ownership_visit_date'] != "")
                     $data['ownership_visit_date'] = \MyCp\mycpBundle\Helpers\Dates::createFromString($post['ownership_visit_date'], '/', 1);
-                if (isset($data['ownership_creation_date']))
+                if (isset($data['ownership_creation_date']) && $post['ownership_creation_date'] != "")
                     $data['ownership_creation_date'] = \MyCp\mycpBundle\Helpers\Dates::createFromString($post['ownership_creation_date'], '/', 1);
-                if (isset($data['ownership_last_update']))
+                if (isset($data['ownership_last_update']) && $post['ownership_last_update'] != "")
                     $data['ownership_last_update'] = \MyCp\mycpBundle\Helpers\Dates::createFromString($post['ownership_last_update'], '/', 1);
-                if (isset($data['ownership_publish_date']))
+                if (isset($data['ownership_publish_date']) && $post['ownership_publish_date'] != "")
                     $data['ownership_publish_date'] = \MyCp\mycpBundle\Helpers\Dates::createFromString($post['ownership_publish_date'], '/', 1);
             } else {
 

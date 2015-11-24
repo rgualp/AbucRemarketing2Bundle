@@ -82,6 +82,10 @@ class SearchUtils {
                 $departure = \DateTime::createFromFormat('d-m-Y', $leavingDate);
                 if($departure == null)
                     $departure = \DateTime::createFromFormat('Y-m-d', $leavingDate);
+
+                if(!is_object($departure))
+                    $departure = date_create($departure);
+
                 $query_reservation->setParameter('leaving_date', $departure->format("Y-m-d"));
             }
 
