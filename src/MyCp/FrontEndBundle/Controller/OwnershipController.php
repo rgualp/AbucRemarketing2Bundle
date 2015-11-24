@@ -149,7 +149,7 @@ class OwnershipController extends Controller {
 
                     $array_numbers_check = array();
                     $cont_numbers = 1;
-                    foreach ($array_dates as $date) {
+                    foreach ((array)$array_dates as $date) {
 
                         if ($date >= $reservationStartDate && $date <= $reservationEndDate && $reservation->getOwnResStatus() == ownershipReservation::STATUS_RESERVED) {
                             array_push($array_numbers_check, $cont_numbers);
