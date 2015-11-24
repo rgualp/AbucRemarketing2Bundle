@@ -216,7 +216,7 @@ class LodgingReservationController extends Controller {
 
         $service_time = $this->get('time');
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $client = $em->getRepository('mycpBundle:user')->find($id_client);
         $user = $this->get('security.context')->getToken()->getUser();
         $userCasa = $em->getRepository('mycpBundle:userCasa')->getByUser($user->getUserId());
@@ -245,7 +245,7 @@ class LodgingReservationController extends Controller {
     }
 
     public function detailsReservationPartialAction($id_reservation) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $reservation = $em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
         $ownership_reservations = $em->getRepository('mycpBundle:ownershipReservation')->findBy(array('own_res_gen_res_id' => $id_reservation));
 

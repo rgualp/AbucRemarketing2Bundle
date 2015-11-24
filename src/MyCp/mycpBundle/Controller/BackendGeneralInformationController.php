@@ -18,7 +18,7 @@ class BackendGeneralInformationController extends Controller
     {
         $service_security= $this->get('Secure');
         $service_security->verifyAccess();
-        $em=$this->getDoctrine()->getEntityManager();
+        $em=$this->getDoctrine()->getManager();
         $informations=$em->getRepository('mycpBundle:informationLang')->getInformations();
         $categories = $em->getRepository('mycpBundle:information')->categoryNames($informations, "ES");
         $service_log= $this->get('log');
@@ -32,7 +32,7 @@ class BackendGeneralInformationController extends Controller
         $service_security->verifyAccess();
         $errors=array();
         $post = $request->request->getIterator()->getArrayCopy();
-        $em=$this->getDoctrine()->getEntityManager();
+        $em=$this->getDoctrine()->getManager();
         $languages=$em->getRepository('mycpBundle:lang')->findAll();
         $information_types = $em->getRepository('mycpBundle:nomenclator')->getByCategory('information');
 
@@ -95,7 +95,7 @@ class BackendGeneralInformationController extends Controller
     {
         $service_security= $this->get('Secure');
         $service_security->verifyAccess();
-        $em=$this->getDoctrine()->getEntityManager();
+        $em=$this->getDoctrine()->getManager();
         $languages=$em->getRepository('mycpBundle:lang')->findAll();
         $post=array();
         $information = $em->getRepository('mycpBundle:information')->find($id_information);
@@ -116,7 +116,7 @@ class BackendGeneralInformationController extends Controller
         $service_security= $this->get('Secure');
         $service_security->verifyAccess();
 
-        $em=$this->getDoctrine()->getEntityManager();
+        $em=$this->getDoctrine()->getManager();
         $information=$em->getRepository('mycpBundle:information')->find($id_information);
         $informations_lang=$em->getRepository('mycpBundle:informationLang')->findBy(array('info_lang_info'=>$id_information));
 

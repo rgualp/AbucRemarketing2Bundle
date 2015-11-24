@@ -14,7 +14,7 @@ class BackendUtilsController extends Controller
     {
         $ids=str_replace(' ','',$ids);
         $ids_array= explode(",", $ids);
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $order=1;
         foreach($ids_array as $id)
         {

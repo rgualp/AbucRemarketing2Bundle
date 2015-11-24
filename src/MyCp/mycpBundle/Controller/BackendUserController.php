@@ -67,7 +67,7 @@ class BackendUserController extends Controller {
     function edit_user_staffAction($id_user, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $countries = $em->getRepository('mycpBundle:country')->findAll();
         $data['countries'] = $countries;
         $data['error'] = "";
@@ -121,7 +121,7 @@ class BackendUserController extends Controller {
     function new_user_casaAction($id_role, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $ownerships = $em->getRepository('mycpBundle:userCasa')->getAccommodationsWithoutUser();
         $data['ownerships'] = $ownerships;
 
@@ -162,7 +162,7 @@ class BackendUserController extends Controller {
     function edit_user_casaAction($id_user, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $ownerships = $em->getRepository('mycpBundle:ownership')->findAll();
         $data['ownerships'] = $ownerships;
         $data['edit'] = true;
@@ -230,7 +230,7 @@ class BackendUserController extends Controller {
     function new_user_touristAction($id_role, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $countries = $em->getRepository('mycpBundle:country')->findAll();
         $currencies = $em->getRepository('mycpBundle:currency')->findAll();
         $langs = $em->getRepository('mycpBundle:lang')->findAll();
@@ -287,7 +287,7 @@ class BackendUserController extends Controller {
     function edit_user_touristAction($id_user, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $countries = $em->getRepository('mycpBundle:country')->findAll();
         $currencies = $em->getRepository('mycpBundle:currency')->findAll();
         $langs = $em->getRepository('mycpBundle:lang')->findAll();
@@ -348,7 +348,7 @@ class BackendUserController extends Controller {
     function new_user_partnerAction($id_role, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $countries = $em->getRepository('mycpBundle:country')->findAll();
         $currencies = $em->getRepository('mycpBundle:currency')->findAll();
         $langs = $em->getRepository('mycpBundle:lang')->findAll();
@@ -389,7 +389,7 @@ class BackendUserController extends Controller {
     function edit_user_partnerAction($id_user, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $countries = $em->getRepository('mycpBundle:country')->findAll();
         $currencies = $em->getRepository('mycpBundle:currency')->findAll();
         $langs = $em->getRepository('mycpBundle:lang')->findAll();
@@ -471,7 +471,7 @@ class BackendUserController extends Controller {
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $users = $paginator->paginate($em->getRepository('mycpBundle:user')->getAll($filter_user_name, $filter_role, $filter_city, $filter_country, $filter_name, $filter_last_name, $filter_email))->getResult();
@@ -571,7 +571,7 @@ class BackendUserController extends Controller {
     function new_roleAction($id_role, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $permissions = $em->getRepository('mycpBundle:rolePermission')->getByRole($id_role);
         $role = $em->getRepository('mycpBundle:role')->find($id_role);
         $role_parent = $em->getRepository('mycpBundle:role')->find($role->getRoleParent());
@@ -650,7 +650,7 @@ class BackendUserController extends Controller {
     }
 
     function delete_roleAction($id_role, Request $request) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $role = $em->getRepository('mycpBundle:role')->find($id_role);
         $users = $em->getRepository('mycpBundle:user')->findBy(array('user_subrole' => $id_role));
         if ($role->getRoleFixed() == 1) {
@@ -681,20 +681,20 @@ class BackendUserController extends Controller {
 
     function get_all_rolesAction($selected) {
         $selected = strtoupper($selected);
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $roles = $em->getRepository('mycpBundle:role')->findAll();
         return $this->render('mycpBundle:utils:roles.html.twig', array('roles' => $roles, 'selected' => $selected));
     }
 
     function getUsersCasaAction($exclude_own_id = null) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $users_casa = $em->getRepository('mycpBundle:userCasa')->getUsers($exclude_own_id);
 
         return $this->render('mycpBundle:utils:users_casa.html.twig', array('users' => $users_casa));
     }
 
     function get_all_usersAction($post) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $users = $em->getRepository('mycpBundle:user')->findAll();
         $selected = '';
         if (isset($post['selected'])) {
@@ -705,14 +705,14 @@ class BackendUserController extends Controller {
 
     function get_roles_staffAction() {
         $selected = '';
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $roles = $em->getRepository('mycpBundle:role')->getStaffRoles();
         return $this->render('mycpBundle:utils:roles.html.twig', array('roles' => $roles, 'selected' => $selected));
     }
 
     function changeStatusAction($userId) {
         try {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $em->getRepository('mycpBundle:user')->changeStatus($userId);
 
             $message = 'Se ha modificado satisfactoriamente el estado del usuario casa asociado.';
@@ -728,7 +728,7 @@ class BackendUserController extends Controller {
 
     public function getUserPhotoPathAction($userId, $changePhotoLink = false)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('mycpBundle:user')->find($userId);
         $dir = $this->container->getParameter('user.dir.photos');
 
@@ -750,7 +750,7 @@ class BackendUserController extends Controller {
     public function editUserAction($idUser, Request $request){
         /*$service_security = $this->get('Secure');
         $service_security->verifyAccess();*/
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $countries = $em->getRepository('mycpBundle:country')->findAll();
         $data['countries'] = $countries;
         $data['error'] = "";

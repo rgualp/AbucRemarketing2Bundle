@@ -200,7 +200,7 @@ class PublicController extends Controller {
 
     public function siteMapAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $urls = array();
         $hostname = $this->getRequest()->getHost();
 

@@ -37,7 +37,7 @@ class LodgingUserController extends Controller
         if (isset ($data['error']))
             return $this->render('mycpBundle:user:user_casa_short_form.html.twig',array('edit_user'=>$id_user, 'data'=>$data));
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $factory = $this->get('security.encoder_factory');
 
         $em->getRepository('mycpBundle:user')->shortEdit($id_user,$request,$this->container,$factory);

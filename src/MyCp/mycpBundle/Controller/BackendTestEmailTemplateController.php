@@ -40,7 +40,7 @@ class BackendTestEmailTemplateController extends Controller {
     }
 
     private function getLastChanceToBookBody($langCode) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $service_time = $this->get('time');
 
         $generalReservation = $em
@@ -98,7 +98,7 @@ class BackendTestEmailTemplateController extends Controller {
         ));
     }
     private function getNewsletterMailBody($langCode) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $service_time = $this->get('time');
         $generalReservation = $em
                 ->getRepository('mycpBundle:generalReservation')
@@ -169,7 +169,7 @@ class BackendTestEmailTemplateController extends Controller {
     }
 
     private function getAccommodationStillAvailableBody($langCode) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $service_time = $this->get('time');
 
         $generalReservation = $em
@@ -239,7 +239,7 @@ class BackendTestEmailTemplateController extends Controller {
     }
 
     private function getNotAvailableBody($langCode) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $service_time = $this->get('time');
 
         $generalReservation = $em
@@ -311,7 +311,7 @@ class BackendTestEmailTemplateController extends Controller {
     }
 
     private function getActivateAccountBody($langCode) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('mycpBundle:user')->findOneBy(array('user_enabled' => true));
         $activationUrl = $this->getActivationUrl($user, $langCode);
         $userName = $user->getUserCompleteName();
@@ -335,7 +335,7 @@ class BackendTestEmailTemplateController extends Controller {
     }
 
     private function getActivateAccountReminderBody($langCode) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('mycpBundle:user')->findOneBy(array('user_enabled' => true));
         $activationUrl = $this->getActivationUrl($user, $langCode);
         $userName = $user->getUserCompleteName();
@@ -359,7 +359,7 @@ class BackendTestEmailTemplateController extends Controller {
     }
 
     public function getActivateAccountLastReminderBody($langCode) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('mycpBundle:user')->findOneBy(array('user_enabled' => true));
         $activationUrl = $this->getActivationUrl($user, $langCode);
         $userName = $user->getUserCompleteName();
@@ -409,7 +409,7 @@ class BackendTestEmailTemplateController extends Controller {
     }
 
     public function getCartFullReminderBody($langCode) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $userTourist = $em->getRepository('mycpBundle:userTourist')->findOneBy(array());
         $userName = $userTourist->getUserTouristUser()->getUserCompleteName();
         $cartItems = $em->getRepository('mycpBundle:cart')->testValues($userTourist->getUserTouristUser());
@@ -459,7 +459,7 @@ class BackendTestEmailTemplateController extends Controller {
     }
 
     public function getFeedbackReminderBody($langCode) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $service_time = $this->get('time');
 
 
@@ -506,7 +506,7 @@ class BackendTestEmailTemplateController extends Controller {
     }
 
     public function accommodationNotificationAction() {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $ownerships = $em->getRepository('mycpBundle:ownership')->getNotSendedToReservationTeam();
 
         return $this->render('FrontEndBundle:mails:rt_accommodation_notification.html.twig', array(
@@ -515,7 +515,7 @@ class BackendTestEmailTemplateController extends Controller {
     }
 
     public function checkAvailableAction($casId, Request $request) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $service_time = $this->get('time');
 
         $texts = ReservationHelper::sendingEmailToReservationTeamBody($casId, $em, $this, $service_time, $request);
@@ -524,7 +524,7 @@ class BackendTestEmailTemplateController extends Controller {
     }
 
     public function sendVoucherAction($reservation, $mail, Request $request) {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $generalReservation = $em
                     ->getRepository('mycpBundle:generalReservation')
                     ->find($reservation);
@@ -537,7 +537,7 @@ class BackendTestEmailTemplateController extends Controller {
 
     public function viewVoucherAction($reservation, Request $request) {
         try {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $bookingService = $this->get('front_end.services.booking');
             $bookings_ids = $em->getRepository('mycpBundle:generalReservation')->getBookings($reservation);
             $idBooking = $bookings_ids[0]["booking_id"];

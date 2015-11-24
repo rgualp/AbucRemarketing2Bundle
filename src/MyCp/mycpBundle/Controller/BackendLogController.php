@@ -32,7 +32,7 @@ class BackendLogController extends Controller
             else
             if($post['user']!='' or $post['module']!='' or $post['from_date']!='' or $post['to_date']!='')
             {
-                $em = $this->getDoctrine()->getEntityManager();
+                $em = $this->getDoctrine()->getManager();
                 $logs=$em->getRepository('mycpBundle:log')->getLogs($post);
                 $msg_count_logs=count($logs);
             }
@@ -46,7 +46,7 @@ class BackendLogController extends Controller
 
     function get_rolesAction($selected,Request $request)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $roles=$em->getRepository('mycpBundle:role')->findAll();
         if(isset($selected['role']))
             $selected=$selected['role'];
@@ -63,7 +63,7 @@ class BackendLogController extends Controller
     function get_usersAction($selected,$role,Request $request)
     {
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $params=array();
         if($role!='')
         {
@@ -78,7 +78,7 @@ class BackendLogController extends Controller
 
     function delete_logsAction()
     {
-        $em=$this->getDoctrine()->getEntityManager();
+        $em=$this->getDoctrine()->getManager();
         $logs=$em->getRepository('mycpBundle:log')->findAll();
         foreach($logs as $log)
         {

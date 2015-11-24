@@ -17,7 +17,7 @@ class OwnershipListener {
     public function prePersist(ownership $entity, LifecycleEventArgs $args)
     {
         //$entity = $args->getEntity();
-        $em = $args->getEntityManager();
+        $em = $args->getManager();
         $this->generateAutomaticCode($em, $entity, $entity->getOwnAddressProvince());
     }
 

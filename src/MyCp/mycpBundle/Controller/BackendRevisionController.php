@@ -2,25 +2,14 @@
 
 namespace MyCp\mycpBundle\Controller;
 
-use MyCp\mycpBundle\Helpers\FileIO;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use MyCp\mycpBundle\Entity\albumCategory;
-use MyCp\mycpBundle\Entity\albumCategoryLang;
-use MyCp\mycpBundle\Entity\album;
-use MyCp\mycpBundle\Entity\albumPhoto;
-use MyCp\mycpBundle\Entity\photo;
-use MyCp\mycpBundle\Entity\photoLang;
-use MyCp\mycpBundle\Form\categoryType;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
 
 class BackendRevisionController extends Controller {
 
     public function listAction($items_per_page, Request $request)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-
         $page = 1;
         $filter_active = $request->get('filter_active');
 
@@ -62,7 +51,7 @@ class BackendRevisionController extends Controller {
         if (isset($_GET['page']))
             $page = $_GET['page'];
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $ownerships = $paginator->paginate($em->getRepository('mycpBundle:ownership')->getAll(

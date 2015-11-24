@@ -24,7 +24,7 @@ EOT
 
     protected function execute(InputInterface $input, OutputInterface $output) {
         $container = $this->getContainer();
-        $em = $container->get('doctrine')->getEntityManager();
+        $em = $container->get('doctrine')->getManager();
         $ownerships = $em->getRepository("mycpBundle:ownership")->findAll();
         $output->writeln("Updating own_rooms_total value...");
         

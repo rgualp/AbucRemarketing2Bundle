@@ -33,7 +33,7 @@ class LodgingCommentController extends Controller
         if(isset($_GET['page']))$page=$_GET['page'];
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $user = $this->get('security.context')->getToken()->getUser();
 

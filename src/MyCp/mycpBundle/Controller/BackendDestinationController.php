@@ -22,7 +22,7 @@ class BackendDestinationController extends Controller
     function new_categoryAction(Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $languages = $em->getRepository('mycpBundle:lang')->findAll();
         $form = $this->createForm(new categoryType(array('languages' => $languages,'des_photo'=>true)));
 
@@ -75,7 +75,7 @@ class BackendDestinationController extends Controller
     function edit_categoryAction($id_category, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $languages = $em->getRepository('mycpBundle:lang')->findAll();
         $dest_cat_lang = $em->getRepository('mycpBundle:destinationCategoryLang')->findBy(array('des_cat_id_cat'=>$id_category));
         if ($request->getMethod() == 'POST') {
@@ -138,7 +138,7 @@ class BackendDestinationController extends Controller
     function delete_categoryAction($id_category) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $category = $em->getRepository('mycpBundle:destinationCategory')->find($id_category);
         $category_langs = $em->getRepository('mycpBundle:destinationCategoryLang')->findby(array('des_cat_id_cat' => $category));
         $destinations= $em->getRepository('mycpBundle:destination')->findAll();
@@ -178,7 +178,7 @@ class BackendDestinationController extends Controller
     function list_categoryAction($items_per_page, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $languages = $em->getRepository('mycpBundle:lang')->findAll();
 
         $paginator = $this->get('ideup.simple_paginator');
@@ -202,7 +202,7 @@ class BackendDestinationController extends Controller
 
         $errors = array();
         $post = $request->request->getIterator()->getArrayCopy();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         if ($request->getMethod() == 'POST') {
             $not_blank_validator = new NotBlank();
@@ -293,7 +293,7 @@ class BackendDestinationController extends Controller
         if(isset($_GET['page']))$page=$_GET['page'];
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $destinations= $paginator->paginate($em->getRepository('mycpBundle:destination')->getAll($filter_name,$filter_active,$filter_province, $filter_municipality,$sort_by))->getResult();
 
         $service_log= $this->get('log');
@@ -317,7 +317,7 @@ class BackendDestinationController extends Controller
         $service_security= $this->get('Secure');
         $service_security->verifyAccess();
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $dir=$this->container->getParameter('destination.dir.photos');
         $dir_thumbs=$this->container->getParameter('destination.dir.thumbnails');
         $destinationLangs=$em->getRepository('mycpBundle:destinationLang')->findBy(array('des_lang_destination'=>$id_destination));
@@ -391,7 +391,7 @@ class BackendDestinationController extends Controller
         $service_security->verifyAccess();
 
         $errors = array();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $destination=$em->getRepository('mycpBundle:destination')->find($id_destination);
         $languages = $em->getRepository('mycpBundle:lang')->getAll();
         $destinationsLang=$em->getRepository('mycpBundle:destinationLang')->findBy(array('des_lang_destination'=>$id_destination));
@@ -451,7 +451,7 @@ class BackendDestinationController extends Controller
         $data=array();
         $page=1;
         if(isset($_GET['page']))$page=$_GET['page'];
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $data['languages']= $em->getRepository('mycpBundle:lang')->getAll();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
@@ -481,7 +481,7 @@ class BackendDestinationController extends Controller
         $service_security->verifyAccess();*/
         $page=1;
         if(isset($_GET['page']))$page=$_GET['page'];
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $ownerships=$paginator->paginate($em->getRepository('mycpBundle:destination')->getAccommodations($id_destination))->getResult();
@@ -502,7 +502,7 @@ class BackendDestinationController extends Controller
         $data=array();
         $errors=array();
         $post='';
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $data['languages']= $em->getRepository('mycpBundle:lang')->getAll();
         $dir=$this->container->getParameter('destination.dir.photos');
         $dir_thumbs=$this->container->getParameter('destination.dir.thumbnails');
@@ -652,7 +652,7 @@ class BackendDestinationController extends Controller
          $service_security->verifyAccess();
          $dir=$this->container->getParameter('destination.dir.photos');
          $dir_thumbnails=$this->container->getParameter('destination.dir.thumbnails');
-         $em = $this->getDoctrine()->getEntityManager();
+         $em = $this->getDoctrine()->getManager();
          $data['languages']= $em->getRepository('mycpBundle:lang')->getAll();
          $destination= $em->getRepository('mycpBundle:destination')->find($id_destination);
          $photo=$em->getRepository('mycpBundle:photo')->find($id_photo);
@@ -678,7 +678,7 @@ class BackendDestinationController extends Controller
     public function get_all_municipalityAction($data)
     {
         //var_dump($data);
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $municipalities = $em->getRepository('mycpBundle:municipality')->findAll();
         return $this->render('mycpBundle:utils:municipality.html.twig',array('municipalities'=>$municipalities,'data'=>$data));
     }
@@ -688,7 +688,7 @@ class BackendDestinationController extends Controller
         $service_security= $this->get('Secure');
         $service_security->verifyAccess();
         $post='';
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $errors=array();
         $photo_langs= $em->getRepository('mycpBundle:photoLang')->findBy(array('pho_lang_id_photo'=>$id_photo));
         $data=array();
@@ -747,7 +747,7 @@ class BackendDestinationController extends Controller
     {
         $ids=str_replace(' ','',$ids);
         $ids_array= explode(",", $ids);
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $order=1;
         foreach($ids_array as $id)
         {

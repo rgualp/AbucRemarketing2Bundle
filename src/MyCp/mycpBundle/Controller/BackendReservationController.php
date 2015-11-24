@@ -464,7 +464,7 @@ class BackendReservationController extends Controller {
         if (isset($_GET['page']))
             $page = $_GET['page'];
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $reservations = $paginator->paginate($em->getRepository('mycpBundle:generalReservation')
@@ -496,7 +496,7 @@ class BackendReservationController extends Controller {
         $service_time = $this->get('time');
 
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $client = $em->getRepository('mycpBundle:user')->find($id_client);
         $userTourist = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $id_client));
         $reservations = $em->getRepository('mycpBundle:generalReservation')->getByUser($id_client);
@@ -548,7 +548,7 @@ class BackendReservationController extends Controller {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $data = array();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $role = $em->getRepository('mycpBundle:role')->findBy(array('role_name' => 'ROLE_CLIENT_TOURIST'));
         $post = $request->get('mycp_mycpbundle_reservationtype');
         $ownerships = $em->getRepository('mycpBundle:ownership')->findAll();
@@ -578,7 +578,7 @@ class BackendReservationController extends Controller {
     }
 
     public function details_reservation_partialAction($id_reservation) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $reservation = $em->getRepository('mycpBundle:generalReservation')->find($id_reservation);
         $ownership_reservations = $em->getRepository('mycpBundle:ownershipReservation')->getByIdObj($id_reservation);
 
@@ -698,7 +698,7 @@ class BackendReservationController extends Controller {
     public function edit_reservationAction($id_reservation, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $reservation = $em->getRepository('mycpBundle:ownershipReservation')->getById($id_reservation);
 
         $user_id = $reservation[0]['own_res_gen_res_id']['gen_res_user_id']['user_id'];
@@ -771,7 +771,7 @@ class BackendReservationController extends Controller {
 
     public function getBookingsCallbackAction(Request $request)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $reservationId = $request->get("reservation");
 
         $bookings = $em->getRepository("mycpBundle:generalReservation")->getAllBookings(null, null, null, null, $reservationId, null, null);
@@ -783,7 +783,7 @@ class BackendReservationController extends Controller {
 
     public function getLogsCallbackAction(Request $request)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $reservationId = $request->get("reservation");
 
         $logs = $em->getRepository("mycpBundle:offerLog")->getLogs($reservationId);
@@ -794,7 +794,7 @@ class BackendReservationController extends Controller {
     }
 
     public function get_ownershipsAction($data) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $ownerships = $em->getRepository('mycpBundle:ownership')->findAll();
         return $this->render('mycpBundle:utils:ownerships.html.twig', array('ownerships' => $ownerships, 'data' => $data));
     }
@@ -843,13 +843,13 @@ class BackendReservationController extends Controller {
     }
 
     public function get_rooms_by_ownershipAction($id_ownership, $selected_room) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $id_ownership, "room_active" => true));
         return $this->render('mycpBundle:utils:rooms.html.twig', array('rooms' => $rooms, 'selected_room' => $selected_room));
     }
 
     public function delete_reservationAction($id_reservation) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $reservation = $em->getRepository('mycpBundle:ownershipReservation')->find($id_reservation);
         $ownership = $em->getRepository('mycpBundle:ownership')->find($reservation->getOwnResOwnId());
         $em->remove($reservation->getOwnResGenResId());

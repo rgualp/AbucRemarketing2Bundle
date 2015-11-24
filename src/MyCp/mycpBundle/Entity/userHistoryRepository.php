@@ -215,7 +215,7 @@ class userHistoryRepository extends EntityRepository
         }
         $em->flush();
         /*$em = $this->getEntityManager();
-        $query = $em->createQuery("UPDATE mycpBundle:userHistory h
+        $qgetManagerteQuery("UPDATE mycpBundle:userHistory h
                                    SET h.user_history_user= $user_id,
                                        h.user_history_session_id = NULL
                                    WHERE h.user_history_session_id='$session_id'");

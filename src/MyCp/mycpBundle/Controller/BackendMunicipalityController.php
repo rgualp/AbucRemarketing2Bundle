@@ -17,7 +17,7 @@ class BackendMunicipalityController extends Controller {
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $municipalities = $paginator->paginate($em->getRepository('mycpBundle:municipality')->getAll())->getResult();
@@ -36,7 +36,7 @@ class BackendMunicipalityController extends Controller {
     public function newAction(Request $request) {
         $service_security= $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $municipality = new municipality();
         $provinces = $em->getRepository('mycpBundle:province')->findAll();
         $data['provinces'] = $provinces;
@@ -64,7 +64,7 @@ class BackendMunicipalityController extends Controller {
     public function editAction($id_municipality, Request $request) {
         $service_security= $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $municipality = $em->getRepository('mycpBundle:municipality')->find($id_municipality);
         $municipality->setMunProvId($municipality->getMunProvId()->getProvId());
         $data = array();
@@ -94,7 +94,7 @@ class BackendMunicipalityController extends Controller {
     {
         $service_security= $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $municipality=$em->getRepository('mycpBundle:municipality')->find($id_municipality);
         $accommodations_total = count($em->getRepository('mycpBundle:ownership')->findBy(array('own_address_municipality'=> $municipality->getMunId())));
         $destinations_total = count($em->getRepository('mycpBundle:destinationLocation')->findBy(array('des_loc_municipality'=> $municipality->getMunId())));
@@ -125,7 +125,7 @@ class BackendMunicipalityController extends Controller {
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $accommodations = $paginator->paginate($em->getRepository('mycpBundle:municipality')->getAccommodations($id_municipality))->getResult();
@@ -151,7 +151,7 @@ class BackendMunicipalityController extends Controller {
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $destinations = $paginator->paginate($em->getRepository('mycpBundle:municipality')->getDestinations($id_municipality))->getResult();

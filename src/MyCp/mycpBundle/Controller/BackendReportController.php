@@ -14,7 +14,7 @@ class BackendReportController extends Controller
     {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $existingCategories = $em->getRepository("mycpBundle:report")->getExistingReportCategories();
 
         return $this->render('mycpBundle:reports:report.html.twig', array(
@@ -52,7 +52,6 @@ class BackendReportController extends Controller
 
     public function dailyInPlaceClientsExcelAction($report, $date)
     {
-        $em = $this->getDoctrine()->getManager();
         if($date != null && $date != "null" && $report != null && $report != "null")
         {
             $timer = $this->get('time');
@@ -64,6 +63,7 @@ class BackendReportController extends Controller
             $exporter = $this->get("mycp.service.export_to_excel");
             return $exporter->exportRpDailyInPlaceClients($date, $dateRangeFrom, $dateRangeTo, $report,$timer);
         }
+        return null;
     }
 
    public function ownershipGeneralStatsAction(Request $request)
@@ -101,7 +101,7 @@ class BackendReportController extends Controller
         ));
     }
 
-    public function ownershipGeneralStatsLinkAction(Request $request, $nomenclator, $province, $municipality)
+    public function ownershipGeneralStatsLinkAction($nomenclator, $province, $municipality)
     {
         $em = $this->getDoctrine()->getManager();
         $nomenclator = $em->getRepository('mycpBundle:nomenclatorStat')->find($nomenclator);
@@ -171,7 +171,7 @@ class BackendReportController extends Controller
         ));
     }
 
-    public function ownershipVsReservationsStatsTotalAction($filter_province, $filter_municipality, $filter_destination, $dateFrom, $dateTo, Request $request)
+    public function ownershipVsReservationsStatsTotalAction($filter_province, $filter_municipality, $filter_destination, $dateFrom, $dateTo)
 {
     $em = $this->getDoctrine()->getManager();
     $province = null;
@@ -294,7 +294,7 @@ class BackendReportController extends Controller
         return $exporter->exportOwnershipGeneralList($nomenclator, $province, $municipality);
     }
 
-    public function ownershipSalesReportAction(Request $request){
+    public function ownershipSalesReportAction(){
         $conn=$this->get('doctrine.dbal.default_connection');
                 $query="SELECT
   own.own_mcp_code as codigo,

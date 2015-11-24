@@ -18,7 +18,7 @@ class BackendCurrencyController extends Controller {
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $currencies = $paginator->paginate($em->getRepository('mycpBundle:currency')->findAll())->getResult();
@@ -39,7 +39,7 @@ class BackendCurrencyController extends Controller {
         $service_security->verifyAccess();
         $message = '';
         $errors = array();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $currency = $em->getRepository('mycpBundle:currency')->find($id_currency);
         $form = $this->createForm(new currencyType, $currency);
         if ($request->getMethod() == 'POST') {
@@ -94,7 +94,7 @@ class BackendCurrencyController extends Controller {
             $post_form = $request->get('mycp_mycpbundle_currencytype');
             $form->handleRequest($request);
             if ($form->isValid()) {
-                $em = $this->getDoctrine()->getEntityManager();
+                $em = $this->getDoctrine()->getManager();
                 if ($currency->getCurrDefault() || $currency->getCurrSitePriceIn()) {
                     $db_curr = $em->getRepository('mycpBundle:currency')->findAll();
                     foreach ($db_curr as $curr) {
@@ -124,7 +124,7 @@ class BackendCurrencyController extends Controller {
     public function delete_currencyAction($id_currency) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $currency = $em->getRepository('mycpBundle:currency')->find($id_currency);
         $user = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_currency' => $currency));
         if ($user) {
@@ -160,7 +160,7 @@ class BackendCurrencyController extends Controller {
     }
 
     public function get_currency_changeAction() {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $currencies = $em->getRepository('mycpBundle:currency')->findAll();
         //$url='http://127.0.0.1/cambio.xml';
         $url = 'http://themoneyconverter.com/rss-feed/USD/rss.xml';

@@ -104,7 +104,7 @@ class BackendMailListController extends Controller {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $list = $em->getRepository('mycpBundle:mailList')->find($listId);
 
         $users = $em->getRepository('mycpBundle:mailListUser')->findBy(array('mail_list' => $listId));
@@ -189,7 +189,7 @@ class BackendMailListController extends Controller {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $listUser = $em->getRepository('mycpBundle:mailListUser')->find($mailListUserId);
         $mailListId = $listUser->getMailList()->getMailListId();
 

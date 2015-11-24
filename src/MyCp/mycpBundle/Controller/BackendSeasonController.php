@@ -17,7 +17,7 @@ class BackendSeasonController extends Controller {
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $seasons = $paginator->paginate($em->getRepository('mycpBundle:season')->getAll())->getResult();
@@ -36,7 +36,7 @@ class BackendSeasonController extends Controller {
     public function newAction(Request $request) {
         $service_security= $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $season = new season();
         $destinations = $em->getRepository('mycpBundle:destination')->findAll();
         $data['destinations'] = $destinations;
@@ -83,7 +83,7 @@ class BackendSeasonController extends Controller {
     public function editAction($id_season, Request $request) {
         $service_security= $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $season = $em->getRepository('mycpBundle:season')->find($id_season);
 
         $current_destination = $season->getSeasonDestination();
@@ -141,7 +141,7 @@ class BackendSeasonController extends Controller {
     {
         $service_security= $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $season=$em->getRepository('mycpBundle:season')->find($id_season);
 
         $season_start=$season->getSeasonStartDate();

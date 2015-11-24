@@ -7,7 +7,7 @@ use \Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class PdfController extends Controller {
 
     public function pdfAction() {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $response = $this->renderView('mycpBundle:pdf:document.html.twig');
 

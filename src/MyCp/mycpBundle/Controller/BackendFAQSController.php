@@ -19,7 +19,7 @@ class BackendFAQSController extends Controller
     {
         $service_security= $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $languages=$em->getRepository('mycpBundle:lang')->findAll();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
@@ -39,7 +39,7 @@ class BackendFAQSController extends Controller
     {
         $service_security= $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $languages=$em->getRepository('mycpBundle:lang')->findAll();
         $form = $this->createForm(new categoryType(array('languages'=>$languages)));
 
@@ -78,7 +78,7 @@ class BackendFAQSController extends Controller
     {
         $service_security= $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
 
         $languages=$em->getRepository('mycpBundle:lang')->findAll();
@@ -132,7 +132,7 @@ class BackendFAQSController extends Controller
         $service_security->verifyAccess();
         $errors = array();
         $post = $request->request->getIterator()->getArrayCopy();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $faqs=$em->getRepository('mycpBundle:faq')->findAll();
         $array_faqs=array();
         foreach($faqs as $faq)
@@ -220,7 +220,7 @@ class BackendFAQSController extends Controller
         }
         if($filter_name=='null') $filter_name='';
         if(isset($_GET['page']))$page=$_GET['page'];
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $faqs= $paginator->paginate($em->getRepository('mycpBundle:faq')->getAll($filter_name,$filter_active,$filter_category,$sort_by))->getResult();
@@ -250,7 +250,7 @@ class BackendFAQSController extends Controller
         $service_security= $this->get('Secure');
         $service_security->verifyAccess();
         $errors = array();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $faq=$em->getRepository('mycpBundle:faq')->find($id_faq);
         $languages = $em->getRepository('mycpBundle:lang')->getAll();
         $faqsLang=$em->getRepository('mycpBundle:faqLang')->findBy(array('faq_lang_faq'=>$id_faq));
@@ -278,7 +278,7 @@ class BackendFAQSController extends Controller
     {
         $service_security= $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $faqsLang=$em->getRepository('mycpBundle:faqLang')->findBy(array('faq_lang_faq'=>$id_faq));
         $old_entity=$faqsLang[0]->getFaqLangQuestion();
         foreach($faqsLang as $faqLang)
@@ -312,7 +312,7 @@ class BackendFAQSController extends Controller
     {
         $ids=str_replace(' ','',$ids);
         $ids_array= explode(",", $ids);
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $order=1;
         foreach($ids_array as $id)
         {
@@ -330,7 +330,7 @@ class BackendFAQSController extends Controller
     {
         $service_security= $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $category=$em->getRepository('mycpBundle:faqCategory')->find($id_category);
         $categoryLangs=$em->getRepository('mycpBundle:faqCategoryLang')->findby(array('faq_cat_id_cat'=>$category));
         $faqs=$em->getRepository('mycpBundle:faq')->findby(array('faq_category'=>$id_category));
@@ -364,7 +364,7 @@ class BackendFAQSController extends Controller
 
     function get_all_categoriesAction($data)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $categories=$em->getRepository('mycpBundle:faqCategoryLang')->getCategories();
         return $this->render('mycpBundle:utils:category_faq.html.twig',array('categories'=>$categories,'data'=>$data));
     }

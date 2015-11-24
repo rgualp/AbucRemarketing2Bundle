@@ -24,7 +24,7 @@ EOT
 
     protected function execute(InputInterface $input, OutputInterface $output) {
         $container = $this->getContainer();
-        $em = $container->get('doctrine')->getEntityManager();
+        $em = $container->get('doctrine')->getManager();
         $reservations = $em->getRepository("mycpBundle:generalReservation")->findAll();
         $output->writeln("1. Testing shallSendOutFeedbackReminderEmail...");
 

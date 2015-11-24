@@ -20,7 +20,7 @@ class BackendAlbumController extends Controller {
     function list_categoryAction($items_per_page, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $languages = $em->getRepository('mycpBundle:lang')->findAll();
 
         $paginator = $this->get('ideup.simple_paginator');
@@ -40,7 +40,7 @@ class BackendAlbumController extends Controller {
     function new_categoryAction(Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $languages = $em->getRepository('mycpBundle:lang')->findAll();
         $form = $this->createForm(new categoryType(array('languages' => $languages)));
 
@@ -76,7 +76,7 @@ class BackendAlbumController extends Controller {
     function edit_categoryAction($id_category, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $languages = $em->getRepository('mycpBundle:lang')->findAll();
         $album_cat_lang = $em->getRepository('mycpBundle:albumCategoryLang')->findBy(array('album_cat_id_cat' => $id_category));
@@ -118,7 +118,7 @@ class BackendAlbumController extends Controller {
     function delete_categoryAction($id_category) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $category = $em->getRepository('mycpBundle:albumCategory')->find($id_category);
         $category_langs = $em->getRepository('mycpBundle:albumCategoryLang')->findby(array('album_cat_id_cat' => $category));
         $albums = $em->getRepository('mycpBundle:album')->findby(array('album_category' => $id_category));
@@ -182,7 +182,7 @@ class BackendAlbumController extends Controller {
           $em->flush();
           exit(); */
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $page = 1;
         $filter_active = $request->get('filter_active');
@@ -226,7 +226,7 @@ class BackendAlbumController extends Controller {
     }
 
     function get_all_categoriesAction($data) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $categories = $em->getRepository('mycpBundle:albumCategoryLang')->getCategories();
         return $this->render('mycpBundle:utils:category.html.twig', array('categories' => $categories, 'data' => $data));
     }
@@ -236,7 +236,7 @@ class BackendAlbumController extends Controller {
         $service_security->verifyAccess();
         $errors = array();
         $post = $request->request->getIterator()->getArrayCopy();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         if ($request->getMethod() == 'POST') {
             $not_blank_validator = new NotBlank();
@@ -287,7 +287,7 @@ class BackendAlbumController extends Controller {
     public function delete_albumAction($id_album) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $dir = $this->container->getParameter('album.dir.photos');
         $dir_thumbs = $this->container->getParameter('album.dir.thumbnails');
         $albumPhotos = $em->getRepository('mycpBundle:albumPhoto')->findBy(array('alb_pho_album' => $id_album));
@@ -329,7 +329,7 @@ class BackendAlbumController extends Controller {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $errors = array();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $album = $em->getRepository('mycpBundle:album')->find($id_album);
         $languages = $em->getRepository('mycpBundle:lang')->getAll();
         $albumsLang = $em->getRepository('mycpBundle:albumLang')->findBy(array('album_lang_album' => $id_album));
@@ -360,7 +360,7 @@ class BackendAlbumController extends Controller {
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $data['languages'] = $em->getRepository('mycpBundle:lang')->getAll();
@@ -388,7 +388,7 @@ class BackendAlbumController extends Controller {
         $data = array();
         $errors = array();
         $post = '';
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $data['languages'] = $em->getRepository('mycpBundle:lang')->getAll();
         $dir = $this->container->getParameter('album.dir.photos');
         $dir_thumbs = $this->container->getParameter('album.dir.thumbnails');
@@ -478,7 +478,7 @@ class BackendAlbumController extends Controller {
         $service_security->verifyAccess();
         $dir = $this->container->getParameter('album.dir.photos');
         $dir_thumbs = $this->container->getParameter('album.dir.thumbnails');
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $album = $em->getRepository('mycpBundle:album')->find($id_album);
         $data['languages'] = $em->getRepository('mycpBundle:lang')->getAll();
         $photo = $em->getRepository('mycpBundle:photo')->find($id_photo);
@@ -505,7 +505,7 @@ class BackendAlbumController extends Controller {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $post = '';
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $errors = array();
         $album = $em->getRepository('mycpBundle:album')->find($id_album);
         $photo_langs = $em->getRepository('mycpBundle:photoLang')->findBy(array('pho_lang_id_photo' => $id_photo));

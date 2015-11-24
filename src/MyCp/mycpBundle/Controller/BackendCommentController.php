@@ -37,7 +37,7 @@ class BackendCommentController extends Controller {
             $page = $_GET['page'];
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $comments = $paginator->paginate($em->getRepository('mycpBundle:comment')->getAll($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by))->getResult();
         //var_dump($destinations[0]->getDesLocMunicipality()->getMunName()); exit();
 
@@ -66,7 +66,7 @@ class BackendCommentController extends Controller {
             $post_form = $request->get('mycp_mycpbundle_currencytype');
             $form->handleRequest($request);
             if ($form->isValid()) {
-                $em = $this->getDoctrine()->getEntityManager();
+                $em = $this->getDoctrine()->getManager();
                 $em->persist($comment);
                 $em->flush();
                 $message = 'Comentario añadido satisfactoriamente.';
@@ -91,7 +91,7 @@ class BackendCommentController extends Controller {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $message = '';
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $comment = $em->getRepository('mycpBundle:comment')->find($id_comment);
         $form = $this->createForm(new commentType, $comment);
         if ($request->getMethod() == 'POST') {
@@ -121,7 +121,7 @@ class BackendCommentController extends Controller {
     public function delete_commentAction($id_comment, $return_url) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $comment = $em->getRepository('mycpBundle:comment')->find($id_comment);
 
         $user_comment = $comment->getComUser()->getUserName();
@@ -141,7 +141,7 @@ class BackendCommentController extends Controller {
     }
 
     public function get_comments_by_ownershipAction($id_own) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $comments = $em->getRepository('mycpBundle:comment')->findBy(array('com_ownership' => $id_own), array('com_public' => 'ASC', 'com_date' => "DESC"));
         return $this->render('mycpBundle:utils:comments.html.twig', array('comments' => $comments));
     }
@@ -156,7 +156,7 @@ class BackendCommentController extends Controller {
     public function publicAction($id_comment, $return_url, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $comment = $em->getRepository('mycpBundle:comment')->find($id_comment);
 
         $comment->setComPublic(true);
@@ -201,7 +201,7 @@ class BackendCommentController extends Controller {
             $page = $_GET['page'];
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $comments = $paginator->paginate($em->getRepository('mycpBundle:comment')->getLastAdded($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by))->getResult();
         //var_dump($destinations[0]->getDesLocMunicipality()->getMunName()); exit();
 

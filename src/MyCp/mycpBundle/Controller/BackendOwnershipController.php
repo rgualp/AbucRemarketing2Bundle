@@ -33,7 +33,7 @@ class BackendOwnershipController extends Controller {
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $data['languages'] = $em->getRepository('mycpBundle:lang')->getAll();
@@ -61,7 +61,7 @@ class BackendOwnershipController extends Controller {
         $data = array();
         $post = '';
         $errors = array();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $data['languages'] = $em->getRepository('mycpBundle:lang')->getAll();
         $dir = $this->container->getParameter('ownership.dir.photos');
         $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
@@ -178,7 +178,7 @@ class BackendOwnershipController extends Controller {
         if (isset($_GET['page']))
             $page = $_GET['page'];
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $ownerships = $paginator->paginate($em->getRepository('mycpBundle:ownership')->getAll(
@@ -216,7 +216,7 @@ class BackendOwnershipController extends Controller {
     public function delete_photoAction($id_ownership, $id_photo) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $em->getRepository("mycpBundle:ownershipPhoto")->deleteOwnPhoto($id_photo, $this->container);
         $em->getRepository("mycpBundle:ownershipPhoto")->checkOwnershipToInactivate($id_ownership);
         $message = 'El fichero se ha eliminado satisfactoriamente.';
@@ -355,7 +355,7 @@ class BackendOwnershipController extends Controller {
         if (isset($_GET['page']))
             $page = $_GET['page'];
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $batchList = $paginator->paginate($em->getRepository('mycpBundle:batchProcess')->getAllByType(batchType::BATCH_TYPE_ACCOMMODATION,
@@ -380,7 +380,7 @@ class BackendOwnershipController extends Controller {
     {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $batchProcess = $em->getRepository("mycpBundle:batchProcess")->find($batchId);
 
         $service_log = $this->get('log');
@@ -395,7 +395,7 @@ class BackendOwnershipController extends Controller {
     public function edit_ownershipAction($id_ownership, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $ownership = new ownership();
         $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
         $languages = $em->getRepository('mycpBundle:lang')->getAll();
@@ -575,7 +575,7 @@ class BackendOwnershipController extends Controller {
 
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
         $old_code = $ownership->getOwnMcpCode();
@@ -670,7 +670,7 @@ class BackendOwnershipController extends Controller {
 
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $translator = $this->get("mycp.translator.service");
         $count_rooms = 1;
         $post = $request->request->getIterator()->getArrayCopy();
@@ -682,6 +682,7 @@ class BackendOwnershipController extends Controller {
         $data['status_id'] = 0;
         $data['ownership_mcp_code'] = '(Automático)';
         $data['ownership_owner'] = "no_photo.gif";
+        $data['id_ownership'] = "-1";
         $current_ownership_id = -1;
 
         if ($request->getMethod() == 'POST') {
@@ -1071,7 +1072,7 @@ class BackendOwnershipController extends Controller {
     public function edit_photoAction($id_photo, $id_ownership, Request $request) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
         $post = '';
         $errors = array();
@@ -1263,7 +1264,7 @@ class BackendOwnershipController extends Controller {
     }
 
     public function get_languagesAction($data) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $languages = $em->getRepository('mycpBundle:lang')->findAll();
         return $this->render('mycpBundle:utils:ownership_languages.html.twig', array('languages' => $languages, 'data' => $data));
     }
@@ -1301,20 +1302,20 @@ class BackendOwnershipController extends Controller {
     }
 
     public function get_ownerships_namesAction() {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $ownerships = $em->getRepository('mycpBundle:ownership')->findAll();
         return $this->render('mycpBundle:utils:ownership_names.html.twig', array('ownerships' => $ownerships));
     }
 
     public function get_salers_namesAction() {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $salers = $em->getRepository('mycpBundle:ownership')->getSalersNames();
         return $this->render('mycpBundle:utils:saler_names.html.twig', array('salers' => $salers));
     }
 
     public function get_statusAction($post) {
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $selected = '';
         if (!is_array($post))
             $selected = $post;
@@ -1329,7 +1330,7 @@ class BackendOwnershipController extends Controller {
     }
 
     public function publishAction($idOwnership) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $ownership = $em->getRepository("mycpBundle:ownership")->find($idOwnership);
 
         $em->getRepository("mycpBundle:ownership")->publish($ownership);

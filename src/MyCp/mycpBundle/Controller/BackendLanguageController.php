@@ -23,7 +23,7 @@ class BackendLanguageController extends Controller
         $service_security->verifyAccess();
         $page=1;
         if(isset($_GET['page']))$page=$_GET['page'];
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $languages=$paginator->paginate($em->getRepository('mycpBundle:lang')->findAll())->getResult();
@@ -43,7 +43,7 @@ class BackendLanguageController extends Controller
     {
         $service_security= $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $lang=$em->getRepository('mycpBundle:lang')->find($id_language);
         $lang_flag=$em->getRepository('mycpBundle:langFlag')->findBy(array('lang_flag_lang_id'=>$id_language));
        // var_dump($lang_flag[0]->getLangFlagPhoto());
@@ -119,7 +119,7 @@ class BackendLanguageController extends Controller
                     $fileName = uniqid('flag-').'-photo.jpg';
                     $file->move($dir, $fileName);
 
-                    $em = $this->getDoctrine()->getEntityManager();
+                    $em = $this->getDoctrine()->getManager();
                     $photo= new photo();
                     $photo->setPhoName($fileName);
                     $lang_flag= new langFlag();
@@ -149,7 +149,7 @@ class BackendLanguageController extends Controller
     {
         $service_security= $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $language=$em->getRepository('mycpBundle:lang')->find($id_language);
         //delete relations
         $lang_flag=$em->getRepository('mycpBundle:langFlag')->findBy(array('lang_flag_lang_id'=>$id_language));

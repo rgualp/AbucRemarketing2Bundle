@@ -57,7 +57,7 @@ class MycpCFController extends Controller {
     }
 
     private function mycpConfirmUpdateReservations() {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $reservations = $em->getRepository('mycpBundle:generalReservation')->getNotSyncs();
         foreach ($reservations as $_res) {
@@ -94,7 +94,7 @@ class MycpCFController extends Controller {
 
     // <editor-fold defaultstate="collapsed" desc="Aux Methods">
     private function _getReservations() {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $reservations = $em->getRepository('mycpBundle:generalReservation')->getNotSyncs();
 
         $_reserv_data = array();
@@ -114,7 +114,7 @@ class MycpCFController extends Controller {
     }
 
     private function _getResRoomDetails() {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $room_details = $em->getRepository('mycpBundle:ownershipReservation')->getNotSyncs();
 
         $rooms_details_data = array();
@@ -148,7 +148,7 @@ class MycpCFController extends Controller {
     }
 
     private function _getCurrencyExchange() {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $currencies = $em->getRepository('mycpBundle:currency')->findAll();
         foreach ($currencies as $currency) {
             $currency_data[strtoupper($currency->getCurrCode())] = $currency->getCurrCucChange();
@@ -166,7 +166,7 @@ class MycpCFController extends Controller {
     private function _commitReservations(Request $request) {
         $json_reservations = $request->get('content');
         $res_data = json_decode(utf8_encode($json_reservations));
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $reservations = $res_data->re;
         $email_res_data = array();
@@ -221,7 +221,7 @@ class MycpCFController extends Controller {
 //-----------------------------------------------------------------------------
     // <editor-fold defaultstate="collapsed" desc="Houses - UnAvailabilities Methods">
     private function _updateHouses() {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         //loading not synchronozed houses
         $houses_data = array();
@@ -291,7 +291,7 @@ class MycpCFController extends Controller {
 
 //-----------------------------------------------------------------------------
     private function _confirmUpdateHouses() {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $houses = $em->getRepository('mycpBundle:ownership')->getNotSynchronized();
         foreach ($houses as $house) {
@@ -326,7 +326,7 @@ class MycpCFController extends Controller {
 
 //-----------------------------------------------------------------------------
     private function _commitHouses(Request $request) {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $json_houses = $request->get('content');
         $houses_mod_data = json_decode(utf8_encode($json_houses));
 
@@ -436,7 +436,7 @@ class MycpCFController extends Controller {
 //-----------------------------------------------------------------------------
     // <editor-fold defaultstate="collapsed" desc="Users Methods">
     private function _updateUsers() {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $users = $em->getRepository('mycpBundle:user')->findBy(array('user_role' => 'ROLE_CLIENT_STAFF'));
 
         $users_data = array();

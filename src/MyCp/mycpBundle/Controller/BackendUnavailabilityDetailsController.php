@@ -42,7 +42,7 @@ class BackendUnavailabilityDetailsController extends Controller {
         if (isset($_GET['page']))
             $page = $_GET['page'];
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $ownerships = $paginator->paginate($em->getRepository('mycpBundle:ownership')->getAll(
@@ -74,7 +74,7 @@ class BackendUnavailabilityDetailsController extends Controller {
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $rooms = $paginator->paginate($em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $id_ownership, "room_active" => true)))->getResult();
@@ -113,7 +113,7 @@ class BackendUnavailabilityDetailsController extends Controller {
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $details = $paginator->paginate($em->getRepository('mycpBundle:unavailabilityDetails')->getRoomDetails($id_room))->getResult();
@@ -135,7 +135,7 @@ class BackendUnavailabilityDetailsController extends Controller {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $room = $em->getRepository('mycpBundle:room')->find($id_room);
         $ownership = $room->getRoomOwnership();
 
@@ -198,7 +198,7 @@ class BackendUnavailabilityDetailsController extends Controller {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $uDetails = $em->getRepository('mycpBundle:unavailabilityDetails')->find($id_detail);
         $room = $uDetails->getRoom();
         $ownership = $room->getRoomOwnership();
@@ -242,7 +242,7 @@ class BackendUnavailabilityDetailsController extends Controller {
     public function deleteAction($id_detail, $num_room) {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $uDetails = $em->getRepository('mycpBundle:unavailabilityDetails')->find($id_detail);
         $room = $uDetails->getRoom();
 
@@ -281,7 +281,7 @@ class BackendUnavailabilityDetailsController extends Controller {
         /*$service_security = $this->get('Secure');
         $service_security->verifyAccess();*/
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $idRoom = $request->get("idRoom");
         $start = $request->get("start");
         $end = $request->get("end");
