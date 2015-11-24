@@ -798,8 +798,6 @@
             });
         }
 
-
-
         function submit_button(operation)
         {
             $("#save_operation").val(operation);
@@ -949,24 +947,26 @@
         }
     </script>
     <script>
-        var idOwnership = {{ data['id_ownership'] }};
+        if($('#deletePhotoOwner').length) {
+            var idOwnership = {{ data['id_ownership'] }};
 
-        $('#deletePhotoOwner').click(function () {
-            deletePhotoOwner();
-        });
+            $('#deletePhotoOwner').click(function () {
+                deletePhotoOwner();
+            });
 
-        function deletePhotoOwner() {
-            var url = $("#deletePhotoOwner").attr("data-url");
-            $("#loadingImg").removeClass("hidden");
+            function deletePhotoOwner() {
+                var url = $("#deletePhotoOwner").attr("data-url");
+                $("#loadingImg").removeClass("hidden");
 
-            $.post(url, {
-                        idOwnership: idOwnership
-                    },
-                    function (data) {
-                        $(".photoOwnerContainer").html(data);
-                        $("#loadingImg").addClass("hidden");
-                    });
-            return false;
+                $.post(url, {
+                            idOwnership: idOwnership
+                        },
+                        function (data) {
+                            $(".photoOwnerContainer").html(data);
+                            $("#loadingImg").addClass("hidden");
+                        });
+                return false;
+            }
         }
 
     </script>
