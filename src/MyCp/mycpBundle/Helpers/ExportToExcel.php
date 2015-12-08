@@ -1019,9 +1019,10 @@ class ExportToExcel extends Controller {
         $sheet->setCellValue('n4', 'Municipio');
         $sheet->setCellValue('o4', 'Provincia');
         $sheet->setCellValue('p4', 'Gestor');
-        $sheet->setCellValue('q4', 'Solicitudes');
-        $sheet->setCellValue('r4', 'Reservas');
-        $sheet->setCellValue('s4', 'Ingresos');
+        $sheet->setCellValue('p4', 'Creada');
+        $sheet->setCellValue('r4', 'Solicitudes');
+        $sheet->setCellValue('s4', 'Reservas');
+        $sheet->setCellValue('t4', 'Ingresos');
 
         $sheet = $this->styleHeader("a4:s4", $sheet);
         $style = array(
@@ -1058,6 +1059,7 @@ class ExportToExcel extends Controller {
   municipality.mun_name as municipio,
   province.prov_name as provincia,
   own.own_saler as gestor,
+  own.own_creation_date as creada,
   (SELECT COUNT(ownershipreservation.own_res_id) FROM ownershipreservation INNER JOIN generalreservation ON generalreservation.gen_res_id = ownershipreservation.own_res_gen_res_id WHERE generalreservation.gen_res_own_id=own.own_id) AS solicitudes,
   (SELECT COUNT(ownershipreservation.own_res_id) FROM ownershipreservation INNER JOIN generalreservation ON generalreservation.gen_res_id = ownershipreservation.own_res_gen_res_id WHERE generalreservation.gen_res_own_id=own.own_id AND ownershipreservation.own_res_status=5) AS reservas,
   (SELECT SUM(ownershipreservation.own_res_total_in_site) FROM ownershipreservation INNER JOIN generalreservation ON generalreservation.gen_res_id = ownershipreservation.own_res_gen_res_id WHERE generalreservation.gen_res_own_id=own.own_id AND ownershipreservation.own_res_status=5) AS ingresos
@@ -1092,9 +1094,10 @@ ORDER BY own.own_mcp_code ASC
         $sheet->setCellValue('n4', 'Municipio');
         $sheet->setCellValue('o4', 'Provincia');
         $sheet->setCellValue('p4', 'Gestor');
-        $sheet->setCellValue('q4', 'Solicitudes');
-        $sheet->setCellValue('r4', 'Reservas');
-        $sheet->setCellValue('s4', 'Ingresos');
+        $sheet->setCellValue('p4', 'Creada');
+        $sheet->setCellValue('r4', 'Solicitudes');
+        $sheet->setCellValue('s4', 'Reservas');
+        $sheet->setCellValue('t4', 'Ingresos');
 
         $sheet = $this->styleHeader("a4:s4", $sheet);
         $style = array(
