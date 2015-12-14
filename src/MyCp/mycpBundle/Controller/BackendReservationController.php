@@ -663,8 +663,10 @@ class BackendReservationController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $generalReservation = $em->getRepository("mycpBundle:generalReservation")->find($id_reservation);
         $custom_message = $this->getRequest()->get('message_to_client');
-        if($custom_message !== "")
+
+        if($custom_message != "" && isset($custom_message))
         {
+            dump($custom_message); die;
             $from = $this->getUser();
             $to = $generalReservation->getGenResUserId();
             $subject = "Reservación ".$generalReservation->getCASId();

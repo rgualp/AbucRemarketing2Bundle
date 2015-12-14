@@ -22,16 +22,18 @@ class messageRepository extends EntityRepository
      */
     public function insert(user $fromUser, user $toUser, $subject, $messageBody)
     {
-        $em = $this->getEntityManager();
+        if($messageBody != "") {
+            $em = $this->getEntityManager();
 
-        $message = new message();
-        $message->setMessageBody($messageBody);
-        $message->setMessageDate(new \DateTime());
-        $message->setMessageSendTo($toUser);
-        $message->setMessageSender($fromUser);
-        $message->setMessageSubject($subject);
+            $message = new message();
+            $message->setMessageBody($messageBody);
+            $message->setMessageDate(new \DateTime());
+            $message->setMessageSendTo($toUser);
+            $message->setMessageSender($fromUser);
+            $message->setMessageSubject($subject);
 
-        $em->persist($message);
-        $em->flush();
+            $em->persist($message);
+            $em->flush();
+        }
     }
 }
