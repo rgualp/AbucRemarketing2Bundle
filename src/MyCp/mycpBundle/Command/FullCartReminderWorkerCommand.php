@@ -63,30 +63,32 @@ class FullCartReminderWorkerCommand extends Worker {
         $userId = $data->getUserId();
         $sessionId = $data->getSessionId();
 
-        $output->writeln('Processing Full Cart Reminder for User ID ' . $userId);
+        if(!is_null($userId) || $sessionId != "") {
+            $output->writeln('Processing Full Cart Reminder for User ID ' . $userId);
 
-        $isCartFullToSendReminder = $this->em->getRepository('mycpBundle:cart')->isFullCartForReminder($userId, $sessionId);
+            $isCartFullToSendReminder = $this->em->getRepository('mycpBundle:cart')->isFullCartForReminder($userId, $sessionId);
 
-        if ($isCartFullToSendReminder) {
-            $user = null;
-            if ($userId != null)
-                $user = $this->emailManager->getUserById($userId);
-            else
-                $user = $this->em->getRepository('mycpBundle:cart')->getUserFromCart($userId, $sessionId);
+            if ($isCartFullToSendReminder) {
+                $user = null;
+                if ($userId != null)
+                    $user = $this->emailManager->getUserById($userId);
+                else
+                    $user = $this->em->getRepository('mycpBundle:cart')->getUserFromCart($userId, $sessionId);
 
-            if (empty($user) or $user == null) {
-                // the user does not exist anymore
-                return true;
+                if (empty($user) or $user == null) {
+                    // the user does not exist anymore
+                    return true;
+                }
+
+                $this->emailManager->setLocaleByUser($user);
+                $userId = $user->getUserId();
+
+                $output->writeln('Send Full Cart Reminder Email to User ID ' . $userId);
+                $this->sendReminderEmail($user, $output);
             }
 
-            $this->emailManager->setLocaleByUser($user);
-            $userId = $user->getUserId();
-
-            $output->writeln('Send Full Cart Reminder Email to User ID ' . $userId);
-            $this->sendReminderEmail($user, $output);
+            $output->writeln('Successfully finished Full Cart Reminder for User ID ' . ($userId != null) ? $userId : $sessionId);
         }
-
-        $output->writeln('Successfully finished Full Cart Reminder for User ID ' . ($userId != null) ? $userId : $sessionId);
         return true;
     }
 
