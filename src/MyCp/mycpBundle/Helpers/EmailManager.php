@@ -261,9 +261,14 @@ class EmailManager
      */
     public function getUserLocale(user $user)
     {
-        $userTourist = $this->getTouristByUser($user);
-        $userLocale = strtolower($userTourist->getUserTouristLanguage()->getLangCode());
-        return $userLocale;
+        try {
+            $userTourist = $this->getTouristByUser($user);
+            $userLocale = strtolower($userTourist->getUserTouristLanguage()->getLangCode());
+            return $userLocale;
+        }
+        catch(\Exception $e){
+            return "de";
+        }
     }
 
     /**
