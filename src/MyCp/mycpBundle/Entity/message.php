@@ -33,7 +33,7 @@ class message
     /**
      * @var string
      *
-     * @ORM\Column(name="mesage_body", type="text")
+     * @ORM\Column(name="mesage_body", type="text", nullable=true)
      */
     private $message_body;
 

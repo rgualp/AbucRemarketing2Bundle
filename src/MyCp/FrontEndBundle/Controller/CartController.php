@@ -115,11 +115,12 @@ class CartController extends Controller {
 
                 $em->persist($cart);
                 $em->flush();
-
-                // inform listeners that a reservation was sent out
-            $dispatcher = $this->get('event_dispatcher');
-            $eventData = new \MyCp\mycpBundle\JobData\UserJobData($user_ids["user_id"], $user_ids["session_id"]);
-            $dispatcher->dispatch('mycp.event.cart.full', new JobEvent($eventData));
+                if ($user_ids["user_id"] != null || $user_ids["session_id"] != null) {
+                    // inform listeners that a reservation was sent out
+                    $dispatcher = $this->get('event_dispatcher');
+                    $eventData = new \MyCp\mycpBundle\JobData\UserJobData($user_ids["user_id"], $user_ids["session_id"]);
+                    $dispatcher->dispatch('mycp.event.cart.full', new JobEvent($eventData));
+                }
             }
         }
         if($showError)
