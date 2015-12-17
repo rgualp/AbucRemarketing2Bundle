@@ -626,6 +626,9 @@ class BackendReservationController extends Controller {
         if ($request->getMethod() == 'POST') {
             try {
                 $errors = $reservationService->updateReservationFromRequest($post, $reservation, $ownership_reservations);
+
+                $calendarService = $this->get("mycp.service.calendar");
+                $calendarService->createICalForAccommodation($reservation->getGenResOwnId()->getOwnId());
                 if(count($errors) == 0) {
                     $message = 'Reserva actualizada satisfactoriamente.';
                     $this->get('session')->getFlashBag()->add('message_ok', $message);

@@ -159,6 +159,7 @@ class unavailabilityDetails {
 
     public function setSyncSt($ud_sync_st) {
         $this->ud_sync_st = $ud_sync_st;
+        return $this;
     }
 
     public function getRoom() {

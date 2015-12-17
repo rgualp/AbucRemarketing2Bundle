@@ -9,8 +9,10 @@ use MyCp\FrontEndBundle\Helpers\Time;
 use MyCp\mycpBundle\Entity\booking;
 use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\ownershipReservation;
+use MyCp\mycpBundle\Entity\unavailabilityDetails;
 use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
+use MyCp\mycpBundle\Helpers\SyncStatuses;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class GeneralReservationService extends Controller
@@ -206,6 +208,20 @@ class GeneralReservationService extends Controller
                 }
 
                 $this->em->persist($ownership_reservation);
+
+                //Crear una no disponibilidad si la reservacion se marca como No Disponible
+                if($ownership_reservation->getOwnResStatus() == ownershipReservation::STATUS_NOT_AVAILABLE){
+                    $uDetails = new unavailabilityDetails();
+                    $room = $this->em->getRepository("mycpBundle:room")->find($ownership_reservation->getOwnResSelectedRoomId());
+                    $uDetails->setRoom($room)
+                        ->setUdSyncSt(SyncStatuses::ADDED)
+                        ->setUdFromDate($ownership_reservation->getOwnResReservationFromDate())
+                        ->setUdToDate($ownership_reservation->getOwnResReservationToDate())
+                        ->setUdReason("Generada automaticamente por ser no disponible la reserva CAS.".$ownership_reservation->getOwnResGenResId()->getGenResId());
+
+                    $this->em->persist($uDetails);
+                }
+
             }
 
             $reservation->setGenResTotalInSite($totalPrice);
