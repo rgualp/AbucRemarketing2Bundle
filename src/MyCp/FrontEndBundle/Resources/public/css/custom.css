@@ -12,6 +12,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 .prov-map ul{padding-left: 0; list-style: none}
 .prov-map ul li{cursor: pointer}
 .prov-map ul li:hover,.prov-map ul li.focus{color: #f4961c; }
+.badge.badge-warning{background-color:#f4961c!important}
 .breadcrumb span{margin: 0 12px}
 .lazy-cont .lazy{ background: url("../img/loading.gif") no-repeat center}
 .breadcrumb-top{border-top: solid #98CD34 7px; background-color:#F3F3F3; font-size:13px; color: #BCBCBC; border-bottom: solid 1px #ffffff}

@@ -18,7 +18,7 @@
         <input class="hidden real_price_room" value="{{ room.getRoomPriceUpFrom }}">
 
         {% set available = 1 %}
-        <tr {% if reservations[room.getRoomId] is defined %} style="color: #ff0008!important;" {% set available = 0 %} {% endif %}>
+        <tr {% if reservations[room.getRoomId] is defined %} style="color: #f4961c!important;" {% set available = 0 %} {% endif %}>
             <td style="width: 100px">{{'RESERVATION_ROOM' | trans}} # {{cont}}</td>
             <td style="width: 200px">{{ room.getRoomType | trans}}</td>
             {% set cont_days = 1 %}
@@ -79,7 +79,7 @@
                 </select>
             </td>
         {% else %}
-            <div style="text-align: center" class="badge badge-danger btn-block">{{"NOT_AVAILABLE"|trans}}</div>
+            <div style="text-align: center" class="badge badge-warning btn-block">{{"NOT_AVAILABLE"|trans}}</div>
             </td>
             {% endif %}
 
