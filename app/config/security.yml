@@ -112,3 +112,6 @@ security:
         - { path: '^/[a-z]{2}/perfil', roles: [ROLE_CLIENT_TOURIST] }
         - { path: '^/[a-z]{2}/profile', roles: [ROLE_CLIENT_TOURIST] }
         - { path: '^/[a-z]{2}/profil', roles: [ROLE_CLIENT_TOURIST] }
+        - { path: '^/[a-z]{2}/user/change-password', roles: [ROLE_CLIENT_TOURIST] }
+        - { path: '^/[a-z]{2}/usuario/cambiar-clave', roles: [ROLE_CLIENT_TOURIST] }
+        - { path: '^/[a-z]{2}/benutzer/passwort-aendern', roles: [ROLE_CLIENT_TOURIST] }
