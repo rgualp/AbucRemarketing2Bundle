@@ -99,4 +99,18 @@ class unavailabilityDetailsRepository extends EntityRepository {
         return $qb->getQuery()->getResult();
     }
 
+    public function existByDateAndRoom($idRoom, $start, $end){
+        $em = $this->getEntityManager();
+        $start = $start->format('Y-m-d');
+        $end = $end->format('Y-m-d');
+        $query_string = "SELECT count(o)
+                        FROM mycpBundle:unavailabilityDetails o JOIN o.room ro
+                        WHERE o.ud_sync_st<>" . SyncStatuses::DELETED .
+            " AND o.ud_from_date <= '$start' AND o.ud_to_date >= '$end'" .
+            " AND ro.room_id = $idRoom" .
+            " ORDER BY o.ud_from_date DESC";
+
+        return $em->createQuery($query_string)->getSingleScalarResult();
+    }
+
 }

@@ -382,6 +382,19 @@ class generalReservationRepository extends EntityRepository {
             foreach ($reservations as $res) {
                 $res->setOwnResStatus(ownershipReservation::STATUS_NOT_AVAILABLE);
                 $em->persist($res);
+
+                //Creando una no disponibilidad para cada reserva marcada como No Disponible si aun no hay no disponibilidades almacenadas en este rango de fecha
+                if($em->getRepository("mycpBundle:unavailabilityDetails")->existByDateAndRoom($res->getOwnResSelectedRoomId(),$res->getOwnResReservationFromDate(),$res->getOwnResReservationToDate()) == 0) {
+                    $uDetails = new unavailabilityDetails();
+                    $room = $em->getRepository("mycpBundle:room")->find($res->getOwnResSelectedRoomId());
+                    $uDetails->setRoom($room)
+                        ->setUdSyncSt(SyncStatuses::ADDED)
+                        ->setUdFromDate($res->getOwnResReservationFromDate())
+                        ->setUdToDate($res->getOwnResReservationToDate())
+                        ->setUdReason("Generada automaticamente por ser no disponible la reserva CAS." . $res->getOwnResGenResId()->getGenResId());
+
+                    $em->persist($uDetails);
+                }
             }
         }
         $em->flush();
