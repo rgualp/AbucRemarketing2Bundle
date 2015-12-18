@@ -109,8 +109,8 @@ mycp_revision:
     resource: "@mycpBundle/Resources/config/routingBackendRevision.yml"
     prefix:   backend/revision/
 
-mycp_check:
-  pattern: /check
+#mycp_check:
+#  pattern: /check
 
 
 mycp_logout:
