@@ -41,6 +41,7 @@ class MycpCFController extends Controller {
             case MyCPOperations::UPDATE_USERS:
                 $_data = $this->_updateUsers();
                 break;
+            default: $_data = array("message" => "Select a valid option");
         }
 
         return new Response(json_encode($_data));
