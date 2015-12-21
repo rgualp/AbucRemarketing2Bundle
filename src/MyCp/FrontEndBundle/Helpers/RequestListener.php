@@ -26,6 +26,7 @@ class RequestListener {
         $attr=$this->container->get('request')->attributes->all();
         $lang="";
 
+
         if(isset($attr['_route']) && $attr['_route']!='frontend_payment_skrill_status' && $attr['_route']!='mycp_sitemap' && $attr['_route']!='_wdt' && $attr['_route']!='_internal'
             && !strpos($attr['_route'], '_callback') && !strpos($attr['_route'], '_control'))
         {
@@ -83,6 +84,12 @@ class RequestListener {
                         $this->container->get('session')->set("curr_acronym", $curr_by_default->getCurrCode());
                     }
                 }
+        }
+
+        if(empty($_COOKIE))
+        {
+            echo '<div>Cookies are not enabled in your browser. Please, check if cookies are enabled or try to open another window of your browser.</div>';
+            die;
         }
 
     }
