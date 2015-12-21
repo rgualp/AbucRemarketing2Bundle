@@ -237,14 +237,18 @@ class OwnershipController extends Controller {
             return new Response('not found', 404);
         }
 
-        $em = $this->getDoctrine()->getManager();
-        $ownership = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code' => $own_code));
-        if ($ownership && $ownership->getOwnStatus()->getStatusId() == \MyCp\mycpBundle\Entity\ownershipStatus::STATUS_ACTIVE) {
-            $own_name = Utils::urlNormalize($ownership->getOwnName());
-            return $this->redirect($this->generateUrl('frontend_details_ownership', array('own_name' => $own_name)));
+        if($own_code != "welcome") {
+            $em = $this->getDoctrine()->getManager();
+            $ownership = $em->getRepository('mycpBundle:ownership')->findOneBy(array('own_mcp_code' => $own_code));
+            if ($ownership && $ownership->getOwnStatus()->getStatusId() == \MyCp\mycpBundle\Entity\ownershipStatus::STATUS_ACTIVE) {
+                $own_name = Utils::urlNormalize($ownership->getOwnName());
+                return $this->redirect($this->generateUrl('frontend_details_ownership', array('own_name' => $own_name)));
+            }
+            else
+                throw $this->createNotFoundException();
         }
         else
-            throw $this->createNotFoundException();
+            return $this->redirect($this->generateUrl('frontend_welcome', array('_locale' => "en")));
     }
 
     public function simpleAction($mycp_code) {

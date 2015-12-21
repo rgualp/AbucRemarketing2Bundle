@@ -48,9 +48,9 @@ frontend_login:
 frontend_logout:
     pattern: /user/logout
 
-mycp_welcome_main:
-    pattern:  /welcome/
-    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: frontend_welcome, _locale: en }
+#mycp_welcome_main:
+#    pattern:  /welcome/
+#    defaults: { _controller: FrameworkBundle:Redirect:redirect, route: frontend_welcome, _locale: en }
 
 mycp_main:
     pattern:  /
