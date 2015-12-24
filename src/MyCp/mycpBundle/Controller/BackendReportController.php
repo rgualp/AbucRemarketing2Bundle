@@ -326,11 +326,12 @@ class BackendReportController extends Controller
   own.own_comments_total as reviews,
   own.own_category as categoria,
   (SELECT COUNT(ownershipphoto.own_pho_id) FROM ownershipphoto INNER JOIN ownership ON ownership.own_id = ownershipphoto.own_pho_own_id WHERE ownershipphoto.own_pho_own_id=own.own_id) AS fotos,
-  (SELECT COUNT(usercasa.user_casa_id) FROM usercasa INNER JOIN ownership ON ownership.own_id = usercasa.user_casa_ownership WHERE usercasa.user_casa_ownership=own.own_id) AS modulo_casa
-
+  (SELECT COUNT(usercasa.user_casa_id) FROM usercasa INNER JOIN ownership ON ownership.own_id = usercasa.user_casa_ownership WHERE usercasa.user_casa_ownership=own.own_id) AS modulo_casa,
+  ownershipstatus.status_name as estado
 FROM ownership own
   INNER JOIN municipality ON municipality.mun_id = own.own_address_municipality
   INNER JOIN province ON province.prov_id = municipality.mun_prov_id
+  INNER JOIN ownershipstatus ON ownershipstatus.status_id = own.own_status
 ORDER BY own.own_mcp_code ASC
 ;";
 
