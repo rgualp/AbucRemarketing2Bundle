@@ -1033,8 +1033,9 @@ class ExportToExcel extends Controller {
         $sheet->setCellValue('ab4', 'Categoría');
         $sheet->setCellValue('ac4', 'fotos');
         $sheet->setCellValue('ad4', 'Módulo casa');
+        $sheet->setCellValue('ae4', 'Estado');
 
-        $sheet = $this->styleHeader("a4:ad4", $sheet);
+        $sheet = $this->styleHeader("a4:ae4", $sheet);
         $style = array(
             'font' => array(
                 'bold' => true,
@@ -1045,7 +1046,7 @@ class ExportToExcel extends Controller {
 
         $sheet->fromArray($data, ' ', 'A5');
 
-        $this->setColumnAutoSize("a", "ad", $sheet);
+        $this->setColumnAutoSize("a", "ae", $sheet);
         $fileName = $this->getFileName('Reporte Sales');
         $this->save($excel, $fileName);
         return $this->export($fileName);
@@ -1082,11 +1083,12 @@ class ExportToExcel extends Controller {
   own.own_comments_total as reviews,
   own.own_category as categoria,
   (SELECT COUNT(ownershipphoto.own_pho_id) FROM ownershipphoto INNER JOIN ownership ON ownership.own_id = ownershipphoto.own_pho_own_id WHERE ownershipphoto.own_pho_own_id=own.own_id) AS fotos,
-  (SELECT COUNT(usercasa.user_casa_id) FROM usercasa INNER JOIN ownership ON ownership.own_id = usercasa.user_casa_ownership WHERE usercasa.user_casa_ownership=own.own_id) AS modulo_casa
-
+   (SELECT COUNT(usercasa.user_casa_id) FROM usercasa INNER JOIN ownership ON ownership.own_id = usercasa.user_casa_ownership WHERE usercasa.user_casa_ownership=own.own_id) AS modulo_casa,
+  ownershipstatus.status_name as estado
 FROM ownership own
   INNER JOIN municipality ON municipality.mun_id = own.own_address_municipality
   INNER JOIN province ON province.prov_id = municipality.mun_prov_id
+  INNER JOIN ownershipstatus ON ownershipstatus.status_id = own.own_status
 ORDER BY own.own_mcp_code ASC
 ;
 ";
@@ -1130,8 +1132,9 @@ ORDER BY own.own_mcp_code ASC
         $sheet->setCellValue('ab4', 'Categoría');
         $sheet->setCellValue('ac4', 'fotos');
         $sheet->setCellValue('ad4', 'Módulo casa');
+        $sheet->setCellValue('ae4', 'Estado');
 
-        $sheet = $this->styleHeader("a4:ad4", $sheet);
+        $sheet = $this->styleHeader("a4:ae4", $sheet);
         $style = array(
             'font' => array(
                 'bold' => true,
@@ -1142,7 +1145,7 @@ ORDER BY own.own_mcp_code ASC
 
         $sheet->fromArray($result, ' ', 'A5');
 
-        $this->setColumnAutoSize("a", "ad", $sheet);
+        $this->setColumnAutoSize("a", "ae", $sheet);
         $fileName = $this->getFileName('Reporte Sales');
         $this->save($excel, $fileName);
         return $this->excelDirectoryPath.$fileName;
