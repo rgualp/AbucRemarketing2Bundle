@@ -45,7 +45,8 @@
         "PHPOffice/PHPExcel": "dev-master",
         "sabre/vobject": "~3.4",
         "friendsofsymfony/rest-bundle": "^1.7",
-        "jms/serializer-bundle": "^1.0"
+        "jms/serializer-bundle": "^1.0",
+        "php-imap/php-imap": "^2.0"
     },
     "scripts": {
         "post-install-cmd": [

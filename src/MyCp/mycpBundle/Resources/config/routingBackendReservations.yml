@@ -78,3 +78,11 @@ mycp_reservation_bookings_callback:
 mycp_reservation_logs_callback:
     pattern:  /reservation-logs-callback/
     defaults: { _controller: mycpBundle:BackendReservation:getLogsCallback }
+
+mycp_reservation_sync_payment:
+    pattern:  /sync_payment/{sinceDate}
+    defaults: { _controller: mycpBundle:BackendReservation:syncPayment, sinceDate:null }
+
+mycp_reservation_sync_booking_list:
+    pattern:  /sync_bookings/{sinceDate}
+    defaults: { _controller: mycpBundle:BackendReservation:syncBookings, sinceDate:'' }

@@ -62,3 +62,7 @@ services:
    mycp_accommodation_batchProcess:
        class: MyCp\mycpBundle\Helpers\AccommodationExcelReader
        arguments: [ @doctrine.orm.entity_manager, @service_container, "%configuration.dir.accommodation.batch.process.excels%" ]
+
+   mycp_sync_payment:
+       class: MyCp\mycpBundle\Service\PaymentSyncService
+       arguments: [@doctrine.orm.entity_manager,@logger, @front_end.services.booking,"%mailServer%", "%syncEmail%", "%syncEmailPassword%"]

@@ -1,0 +1,142 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block another_in_head %}
+    {% stylesheets
+    '@mycpBundle/Resources/public/css/datepicker.css'
+    filter='?uglifycss'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+{%set date = (filter_date == "") ? "null" : filter_date%}
+
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li class="active">Sincronizar Pagos</li>
+</ul>
+{% endblock %}
+{% block content %}
+<h2>Reservas</h2>
+<hr/>
+    <a class="btn btn-info" href="{{path('mycp_reservation_sync_payment')}}"><i class="icon-refresh"></i> Sincronizar Todos</a>&nbsp;
+    <br/><br/>
+<ul class="nav nav-tabs" id="myTab">
+    <li class=""><a href="{{ path('mycp_list_reservations')}}">Reservas</a></li>
+    <li class=""><a href="{{ path('mycp_list_reservations_user') }}">Clientes</a></li>
+    <li class="active"><a data-toggle="tab" href="#booking">Booking</a></li>
+    <li class=""><a href="{{ path('mycp_list_reservations_checkin') }}">Check-in</a></li>
+</ul>
+    <div class="tab-content" id="myTabContent">
+        <div id="reservas" class="tab-pane fade active in">
+
+            {% for message in app.session.flashbag.get('message_error_local') %}
+            <div class="alert alert-error">{{ message }}</div>
+            {% endfor %}
+            <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_reservation_sync_booking_list')}}">
+                <div class="well well-small">
+                    <div class="row-fluid">
+                        <div class="span4"><label>Desde:</label>
+                            <input id="filter_date" name="filter_date" type="text" class="datepicker input-block-level" value="{{ filter_date }}"/>
+                        </div>
+                        <div class="span3">
+                            <label>&nbsp;</label>
+                            <div class="row-fluid">
+                                <div class="span6">
+                                    <a rel="tooltip" title="Filtrar listado" href="javascript:action_submit();" class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
+                                </div>
+                                <div class="span6">
+                                    <a rel="tooltip" title="Resetear filtrado " href="{{ path('mycp_reservation_sync_booking_list') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            {% if bookings %}
+            <div class="alert">
+                <div class="row-fluid">
+                       {{bookings | length}} registros
+                </div>
+            </div>
+            </form>
+            <table class="table table-hover table-striped" style="font-size: 12px">
+                <thead>
+                <tr>
+                    <th>ID Booking</th>
+                    <th>Fecha Booking</th>
+                    <th>Prepago</th>
+                    <th>Moneda</th>
+                    <th>Usuario</th>
+                    <th>País</th>
+                    <th title="Esta fecha indica la fecha mínima de llegada del cliente. Si un booking tiene asociada más de una reservación, entonces esta fecha es la primera fecha de entrada del cliente">Fecha Llegada</th>
+                    <th style="text-align: right">Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% set flag=0 %}
+                {% for booking in bookings %}
+                <tr>
+
+                    <td>{{ booking.booking_id}}</td>
+                    <td>{{ booking.created|date("d/m/Y") }}</td>
+                    <td>{{ booking.payed_amount }} {{ booking.curr_code }}</td>
+                    <td>{{ booking.curr_code }}</td>
+                    <td>{{ booking.booking_user_dates }}</td>
+                    <td>{{ booking.country }}</td>
+                    <td title="Esta fecha indica la fecha mínima de llegada del cliente. Si un booking tiene asociada más de una reservación, entonces esta fecha es la primera fecha de entrada del cliente">{%if booking.arrivalDate != null%}{{ booking.arrivalDate | date("d/m/Y") }}{%else%} - {%endif%}</td>
+                    <td style="text-align: right">
+                        <a class="btn btn-mini" href="{{ path('mycp_details_reservations_booking',{'id_booking':booking.booking_id}) }}">Detalles</a>
+                    </td>
+                </tr>
+                {% set flag = flag + 1%}
+                {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p> <div class="alert alert-block">No hay pagos para sincronizar</div></p>
+            {% endif %}
+        </div>
+
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {% javascripts
+    '@mycpBundle/Resources/public/js/common_list.js'
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.js'
+    '@mycpBundle/Resources/public/js/bootstrap-datepicker.es.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+<script type="text/javascript">
+    $('.datepicker').datepicker({
+        format: 'dd/mm/yyyy',
+        todayBtn: 'linked',
+        language: 'es'
+
+    });
+
+    function submit_filters(ev)
+    {
+        if(ev.keyCode==13)
+        {
+            action_submit();
+        }
+    }
+
+    function action_submit()
+    {
+        filter_date=$('#filter_date').val();
+        filter_date=filter_date.replace('/',"_");
+        filter_date=filter_date.replace('/',"_");
+        if(filter_date=='')filter_date='null';
+
+        url_submit=$('#filter').attr('action');
+        url_submit=url_submit+'/'+filter_date;
+        $('#filter').attr('action',url_submit);
+        $('#filter').submit();
+    }
+
+</script>
+{% endblock %}

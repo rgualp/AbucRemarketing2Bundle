@@ -1084,5 +1084,38 @@ class BackendReservationController extends Controller {
         return $this->render('mycpBundle:utils:offerAccommodationControl.html.twig', array(
             'ownerships' => $ownerships));
     }
+
+    public function syncPaymentAction($sinceDate=null)
+    {
+        $syncronizer = $this->get("mycp_sync_payment");
+
+        if($sinceDate != null)
+            $sinceDate = strToTime ( $sinceDate );
+
+        $syncronizer->syncronize($sinceDate);
+
+        return $this->redirect($this->generateUrl("mycp_list_reservations"));
+    }
+
+    public function syncBookingsAction($sinceDate)
+    {
+        $syncronizer = $this->get("mycp_sync_payment");
+        $sinceDateArg = null;
+
+        if($sinceDate != null) {
+            $dateArgs = split("_", $sinceDate);
+            $sinceDateArg = $dateArgs[2].'-'.$dateArgs[1].'-'.$dateArgs[0];
+            $sinceDateArg = strToTime($sinceDateArg);
+        }
+
+        $bookings = $syncronizer->getAllToSync($sinceDateArg);
+
+        $sinceDate = str_replace('_', '/', $sinceDate);
+
+        return $this->render('mycpBundle:reservation:syncBooking.html.twig', array(
+            "bookings" => $bookings,
+            'filter_date' => $sinceDate
+        ));
+    }
 }
 

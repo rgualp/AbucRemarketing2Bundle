@@ -34,3 +34,7 @@ parameters:
     uglifyjs_path: "/usr/bin/uglifyjs"
     uglifycss_path: "/usr/bin/uglifycss"
 
+    mailServer: "{imap.mail.hostpoint.ch:993/imap/ssl}INBOX"
+    syncEmail: "pago@mycasaparticular.com"
+    syncEmailPassword: "jC8Innjq"
+
