@@ -19,8 +19,7 @@
 {% block content %}
 <h2>Reservas</h2>
 <hr/>
-    <a class="btn btn-info" href="{{path('mycp_reservation_sync_payment')}}"><i class="icon-refresh"></i> Sincronizar Todos</a>&nbsp;
-    <br/><br/>
+
 <ul class="nav nav-tabs" id="myTab">
     <li class=""><a href="{{ path('mycp_list_reservations')}}">Reservas</a></li>
     <li class=""><a href="{{ path('mycp_list_reservations_user') }}">Clientes</a></li>
@@ -60,12 +59,16 @@
                 </div>
             </div>
             </form>
+            <div class="row-fluid">
+            <a class="btn btn-info btn-mini btn-action-sync" onclick="syncPayments();"data-url="{{path("mycp_reservation_sync_payment")}}"><i class="icon-refresh"></i> Sincronizar seleccionados</a>&nbsp;
+                <div class="lblLoading hidden" style="width: 100px; display: inline">Cargando...</div>
+        <br/><br/>
+                </div>
             <table class="table table-hover table-striped" style="font-size: 12px">
                 <thead>
                 <tr>
                     <th>ID Booking</th>
                     <th>Prepago</th>
-                    <th>Moneda</th>
                     <th>Usuario</th>
                     <th style="text-align: right">Sincronizar</th>
                 </tr>
@@ -77,10 +80,9 @@
 
                     <td>{{ booking.bookingId}}</td>
                     <td>{{ booking.bookingPrepay }} {{ booking.getBookingCurrency.getCurrCode }}</td>
-                    <td>{{ booking.getBookingCurrency.getCurrCode }}</td>
                     <td>{{ booking.bookingUserDates }}</td>
                    <td style="text-align: right">
-                        <input type="checkbox" class="checkPayment" data-booking="{{ booking.bookingId }}"/>
+                        <input type="checkbox" name="checkPayment" class="checkPayment" data-booking="{{ booking.bookingId }}"/>
                     </td>
                 </tr>
                 {% set flag = flag + 1%}
@@ -130,6 +132,35 @@
         url_submit=url_submit+'/'+filter_date;
         $('#filter').attr('action',url_submit);
         $('#filter').submit();
+    }
+
+    function syncPayments()
+    {
+        $(".lblLoading").removeClass("hidden");
+        var checkValues = $('input[name=checkPayment]:checked').map(function() {
+            return $(this).attr('data-booking');
+        }).get();
+
+
+        if(checkValues.length == 0)
+        {
+            alert("Seleccione alguno de los elementos");
+            return;
+        }
+
+        var url = $(".btn-action-sync").attr("data-url");
+        $.post(url, {
+            'bookings_ids': checkValues
+        }, function(data) {
+            if(data != "ERROR")
+            {
+                window.location = data;
+            }
+            else {
+                alert(data);
+                $(".lblLoading").addClass("hidden");
+            }
+        });
     }
 
 </script>

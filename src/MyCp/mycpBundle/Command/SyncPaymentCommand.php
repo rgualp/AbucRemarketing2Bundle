@@ -28,29 +28,39 @@ class SyncPaymentCommand extends ContainerAwareCommand {
         $bookingService = $container->get('front_end.services.booking');
         $em = $container->get('doctrine')->getManager();
 
-        $mailbox = new Mailbox('{imap.mail.hostpoint.ch:993/imap/ssl}INBOX', 'pago@mycasaparticular.com', 'jC8Innjq', __DIR__);
+        //$mailbox = new Mailbox('{pop.mail.hostpoint.ch:110/pop3}INBOX', 'pago@mycasaparticular.com', 'jC8Innjq', __DIR__);
+        $mail = imap_open('{pop.mail.hostpoint.ch:110/pop3}INBOX',
+            'pago@mycasaparticular.com', 'jC8Innjq');
 
+
+        $output->writeln(imap_num_recent ($mail));
 
         $date = date ( "d F Y", strToTime ( "2015-12-22" ) );
         //date ( "d M Y", strToTime ( "-7 days" ) );
         // dump($date); die;
 
         // if($sinceDate != null)
-        $mailsIds = $mailbox->searchMailBox('SINCE "'.$date.'"');
+        $mailsIds = imap_search($mail, 'ALL');
         /*else
             $mailsIds = $mailbox->searchMailBox('ALL');*/
 
 
-        if(!$mailsIds) {
+       if(!$mailsIds) {
             $output->writeln('No hay correos');
         }
 
-
-
         foreach($mailsIds as $mailId){
-            $mail = $mailbox->getMail($mailId);
+            $head = imap_rfc822_parse_headers(imap_fetchheader($mail, $mailId, FT_UID));
+            $date = date('Y-m-d H:i:s', isset($head->date) ? strtotime(preg_replace('/\(.*?\)/', '', $head->date)) : time());
+            $subject = $head->subject;
+            $fromAddress = strtolower($head->from[0]->mailbox . '@' . $head->from[0]->host);
 
-            if($mail->fromAddress == "no_reply@skrill.com"){
+            $output->writeln($date);
+
+            $output->writeln($subject);
+            $output->writeln($fromAddress);
+
+            /*if($mail->fromAddress == "no_reply@skrill.com"){
                 $id = intval(preg_replace('/[^0-9]+/', '', $mail->subject), 10);
                 $output->writeln('Booking '. $id);
 
@@ -72,16 +82,17 @@ class SyncPaymentCommand extends ContainerAwareCommand {
                     $em->flush();
 
                     $bookingService->postProcessBookingPayment($payment);
+                    break;
                 }
                 else{
                     $output->writeln('Missing data');
                 }
 
-            }
+            }*/
 
 
             /**/
-        }
+       }
         $output->writeln('Operation completed!!!');
         return 0;
     }

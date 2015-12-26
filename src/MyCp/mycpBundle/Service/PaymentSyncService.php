@@ -74,23 +74,25 @@ class PaymentSyncService extends Controller{
     public function getAllToSync($sinceDate = null)
     {
         $bookings = array();
+        $mail = imap_open($this->mailServer, $this->syncEmail, $this->emailPassword);
 
-        $mailbox = new PhpImap\Mailbox($this->mailServer, $this->syncEmail, $this->emailPassword, __DIR__);
-
-        $date = date ( "d F Y", $sinceDate );
+        /*$date = date ( "d F Y", $sinceDate );
 
         if($sinceDate != null)
             $mailsIds = $mailbox->searchMailBox('SINCE "'.$date.'"');
         else
-            $mailsIds = $mailbox->searchMailBox('ALL');
-
+            $mailsIds = $mailbox->searchMailBox('ALL');*/
+        $mailsIds = imap_search($mail, 'ALL');
 
 
         foreach($mailsIds as $mailId){
-            $mail = $mailbox->getMail($mailId);
+            $head = imap_rfc822_parse_headers(imap_fetchheader($mail, $mailId, FT_UID));
+            $date = date('Y-m-d H:i:s', isset($head->date) ? strtotime(preg_replace('/\(.*?\)/', '', $head->date)) : time());
+            $subject = $head->subject;
+            $fromAddress = strtolower($head->from[0]->mailbox . '@' . $head->from[0]->host);
 
-            if($mail->fromAddress == "no_reply@skrill.com") {
-                $id = intval(preg_replace('/[^0-9]+/', '', $mail->subject), 10);
+            if($fromAddress == "no_reply@skrill.com") {
+                $id = intval(preg_replace('/[^0-9]+/', '', $subject), 10);
 
                 $booking = $this->em->getRepository("mycpBundle:booking")->find($id);
                 $payment = $this->em->getRepository("mycpBundle:payment")->findOneBy(array("booking" => $id));
@@ -103,6 +105,32 @@ class PaymentSyncService extends Controller{
         }
 
         return $bookings;
+    }
+
+    public function syncronizeBookings($bookingsList)
+    {
+        foreach ($bookingsList as $bookId) {
+            $booking = $this->em->getRepository("mycpBundle:booking")->find($bookId);
+            $payment = $this->em->getRepository("mycpBundle:payment")->findOneBy(array("booking" => $bookId));
+
+            if ($payment == null && $booking != null) {
+                $payment = new payment();
+                $payment->setBooking($booking)
+                    ->setCreated(new \DateTime())
+                    ->setCurrency($booking->getBookingCurrency())
+                    ->setCurrentCucChangeRate($booking->getBookingCurrency()->getCurrCucChange())
+                    ->setModified(new \DateTime())
+                    ->setPayedAmount($booking->getBookingPrepay())
+                    ->setStatus(PaymentHelper::STATUS_SUCCESS);
+
+                $this->em->persist($payment);
+
+                $this->em->flush();
+
+                $this->bookingService->postProcessBookingPayment($payment);
+            }
+
+        }
     }
 
 

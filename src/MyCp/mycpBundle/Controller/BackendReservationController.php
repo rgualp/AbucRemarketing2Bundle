@@ -1085,16 +1085,21 @@ class BackendReservationController extends Controller {
             'ownerships' => $ownerships));
     }
 
-    public function syncPaymentAction($sinceDate=null)
+    public function syncPaymentAction()
     {
-        $syncronizer = $this->get("mycp_sync_payment");
+        $request = $this->getRequest();
+        $bookings_ids = $request->request->get('bookings_ids');
+        $response = null;
 
-        if($sinceDate != null)
-            $sinceDate = strToTime ( $sinceDate );
-
-        $syncronizer->syncronize($sinceDate);
-
-        return $this->redirect($this->generateUrl("mycp_list_reservations"));
+        try {
+            $syncronizer = $this->get("mycp_sync_payment");
+            $syncronizer->syncronizeBookings($bookings_ids);
+            $response = $this->generateUrl("mycp_list_reservations");
+        }
+        catch (\Exception $e) {
+            $response = $e->getTraceAsString();
+        }
+        return new Response($response);
     }
 
     public function syncBookingsAction($sinceDate)
