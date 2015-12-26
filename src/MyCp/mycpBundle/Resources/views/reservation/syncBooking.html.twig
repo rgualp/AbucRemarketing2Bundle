@@ -148,9 +148,11 @@
             return;
         }
 
+        /**/
+
         var url = $(".btn-action-sync").attr("data-url");
         $.post(url, {
-            'bookings_ids': checkValues
+            'bookings_ids':  checkValues
         }, function(data) {
             if(data != "ERROR")
             {

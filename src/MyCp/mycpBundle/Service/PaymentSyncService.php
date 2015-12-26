@@ -30,7 +30,7 @@ class PaymentSyncService extends Controller{
         $this->bookingService = $bookingService;
     }
 
-    public function syncronize($sinceDate = null)
+    /*public function syncronize($sinceDate = null)
     {
         $mailbox = new PhpImap\Mailbox($this->mailServer, $this->syncEmail, $this->emailPassword, __DIR__);
 
@@ -69,7 +69,7 @@ class PaymentSyncService extends Controller{
                 }
             }
         }
-    }
+    }*/
 
     public function getAllToSync($sinceDate = null)
     {
