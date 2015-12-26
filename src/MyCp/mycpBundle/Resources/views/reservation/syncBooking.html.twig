@@ -66,7 +66,8 @@
                     <th>ID Booking</th>
                     <th>Prepago</th>
                     <th>Moneda</th>
-                    <th>Usuario</th><th style="text-align: right">Acciones</th>
+                    <th>Usuario</th>
+                    <th style="text-align: right">Sincronizar</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -79,7 +80,7 @@
                     <td>{{ booking.getBookingCurrency.getCurrCode }}</td>
                     <td>{{ booking.bookingUserDates }}</td>
                    <td style="text-align: right">
-                        <a class="btn btn-mini" href="{{ path('mycp_details_reservations_booking',{'id_booking':booking.bookingId}) }}">Detalles</a>
+                        <input type="checkbox" class="checkPayment" data-booking="{{ booking.bookingId }}"/>
                     </td>
                 </tr>
                 {% set flag = flag + 1%}
