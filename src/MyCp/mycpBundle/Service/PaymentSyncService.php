@@ -8,10 +8,10 @@ use MyCp\FrontEndBundle\Helpers\PaymentHelper;
 use MyCp\mycpBundle\Entity\payment;
 use MyCp\mycpBundle\Entity\skrillPayment;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
-use PhpImap;
+//use PhpImap;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use PhpImap\IncomingMail;
-use PhpImap\IncomingMailAttachment;
+/*use PhpImap\IncomingMail;
+use PhpImap\IncomingMailAttachment;*/
 
 class PaymentSyncService extends Controller{
     private $em;
