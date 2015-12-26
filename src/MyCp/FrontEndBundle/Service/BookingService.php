@@ -437,6 +437,15 @@ class BookingService extends Controller
                 $pdfFilePath
             );
 
+            $emailService->sendEmail(
+                $subject,
+                'reservation1@mycasaparticular.com',
+                $subject . ' - MyCasaParticular.com',
+                "luiseduardo@hds.li",
+                $body,
+                $pdfFilePath
+            );
+
             $logger->info('Successfully sent email to user ' . $userEmail . ', PDF path : ' .
                 (isset($pdfFilePath) ? $pdfFilePath : '<empty>'));
         } catch (\Exception $e) {
