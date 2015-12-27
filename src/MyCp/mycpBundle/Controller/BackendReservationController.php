@@ -1089,12 +1089,13 @@ class BackendReservationController extends Controller {
     {
         $request = $this->getRequest();
         $bookings_ids = $request->request->get('bookings_ids');
+
         $response = null;
 
         try {
             $syncronizer = $this->get("mycp_sync_payment");
             $syncronizer->syncronizeBookings($bookings_ids);
-            $response = $this->generateUrl("mycp_reservation_sync_payment");
+            $response = $this->generateUrl("mycp_reservation_sync_booking_list");
         }
         catch (\Exception $e) {
             $response = $e->getTraceAsString();
