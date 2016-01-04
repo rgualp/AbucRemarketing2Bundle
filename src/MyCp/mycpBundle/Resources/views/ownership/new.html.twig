@@ -48,13 +48,14 @@
             <li><a style="cursor: hand" onclick="javascript:submit_button({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_AND_EXIT')}})">Guardar e ir al listado</a></li>
         </ul>
         </div>
-    {% if(data['edit_ownership'] is defined or post['ownership_id'] is defined) or (post['ownership_email_1'] is defined and post['ownership_email_1'] != "") or (post['ownership_email_2'] is defined and post['ownership_email_2'] != "") %}
+
     <div class="btn-group dropup">
         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
            Acciones <span class="caret"></span>
             <span class="sr-only"></span>
         </button>
         <ul class="dropdown-menu pull-right" role="menu">
+            {% if(data['edit_ownership'] is defined or post['ownership_id'] is defined) or (post['ownership_email_1'] is defined and post['ownership_email_1'] != "") or (post['ownership_email_2'] is defined and post['ownership_email_2'] != "") %}
             {% if(post['ownership_id'] is defined) %}
             <li><a href="{{ path('mycp_list_photos_ownership',{'id_ownership':post['ownership_id']}) }}">Ver fotos</a></li>
             {% if is_granted('ROLE_CLIENT_STAFF')  and data['ownership_mcp_code'] != null and data['ownership_mcp_code'] != ""%}
@@ -71,9 +72,12 @@
             {%endif%}
                 <li><a href="{{ path('mycp_edit_ownership', {"id_ownership": data['edit_ownership']}) }}">Eliminar últimos cambios</a></li>
             {% endif %}
+            <li class="divider"></li>
+            {% endif %}
+            <li><a href="{{ path('mycp_new_ownership') }}">Insertar nueva propiedad</a></li>
         </ul>
         </div>
-{% endif %}
+
 
     <a class="btn" href="{{ path('mycp_list_ownerships') }}">Cancelar</a>
     </div>
@@ -98,10 +102,13 @@
     <span class="label label-info vertical_middle" title="Casa Selección">Casa Selección</span>
     {%endif%}
     {%if data['inmediate_booking'] is defined and  data['inmediate_booking']%}
-    <span class="label label-info1 vertical_middle" title="Reserva Inmediata">Reserva Inmediata</span>
+    <span class="label label-info vertical_middle" title="Reserva Inmediata">Reserva Inmediata</span>
     {%endif%}
     {%if data['not_recommendable'] is defined and data['not_recommendable']%}
     <span class="label label-warning vertical_middle" title="No recomendables">No recomendable</span>
+    {%endif%}
+    {%if data['cubacoupon'] is defined and  data['cubacoupon']%}
+        <span class="label label-info vertical_middle" title="Trabaja con CubaCoupon">CubaCoupon</span>
     {%endif%}
 
     {% else %} Adicionar propiedad {% endif %}</h2>
@@ -548,6 +555,10 @@
     <input type="checkbox" {% if (post['not_recommendable'] is defined and (post['not_recommendable'] ==1)) %} checked="TRUE" {% endif %} name="not_recommendable"> Habilitar como NO RECOMENDABLE en su destino
 </label><br/>
 {%endif%}
+<h3 class="title">CubaCoupon</h3>
+<label class="checkbox">
+    <input type="checkbox" {% if post['cubacoupon'] is defined and (post['cubacoupon'] ==1) %} checked="TRUE" {% endif %} name="cubacoupon"> Trabaja con CubaCoupon
+</label><br/>
 <h3 class="title">Publicado</h3>
 {%if errors["status"] is defined %}<label class="error">{{errors["status"]|trim(':')}}</label>{%endif%}
 <select name="status" class="input-block-level" id="status">

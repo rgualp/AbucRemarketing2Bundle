@@ -29,125 +29,97 @@ use MyCp\mycpBundle\Service\TranslatorResponseStatusCode;
 class ownershipRepository extends EntityRepository {
 
     function insert($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller, $translator, $container) {
-        $active_top_20 = 0;
-        if (isset($data['top_20']))
-            $active_top_20 = 1;
-
-        $active_not_recommendable = 0;
-        if (isset($data['not_recommendable']))
-            $active_not_recommendable = 1;
-
-        $active_selection = 0;
-        if (isset($data['selection']))
-            $active_selection = 1;
-
-        $active_inmediate_booking = 0;
-        if (isset($data['inmediate_booking']))
-            $active_inmediate_booking = 1;
-
-        $water_jacuzee = 0;
-        if (isset($data['water_jacuzee']))
-            $water_jacuzee = 1;
-
-        $water_sauna = 0;
-        if (isset($data['water_sauna']))
-            $water_sauna = 1;
-
-        $water_pool = 0;
-        if (isset($data['water_piscina']))
-            $water_pool = 1;
+        $active_top_20 = (isset($data['top_20'])) ? 1 : 0;
+        $active_not_recommendable = (isset($data['not_recommendable'])) ? 1 : 0;
+        $active_selection = (isset($data['selection'])) ? 1 : 0;
+        $active_inmediate_booking = (isset($data['inmediate_booking'])) ? 1 : 0;
+        $water_jacuzee = (isset($data['water_jacuzee'])) ? 1 : 0;
+        $water_sauna = (isset($data['water_sauna'])) ? 1 : 0;
+        $water_pool = (isset($data['water_piscina'])) ? 1 : 0;
+        $cubacoupon = (isset($data['cubacoupon'])) ? 1 : 0;
 
         //languages
-        $ownership_english_lang = 0;
-        if (isset($data['ownership_english_lang']))
-            $ownership_english_lang = 1;
-
-        $ownership_french_lang = 0;
-        if (isset($data['ownership_french_lang']))
-            $ownership_french_lang = 1;
-
-        $ownership_german_lang = 0;
-        if (isset($data['ownership_german_lang']))
-            $ownership_german_lang = 1;
-
-        $ownership_italian_lang = 0;
-        if (isset($data['ownership_italian_lang']))
-            $ownership_italian_lang = 1;
+        $ownership_english_lang = (isset($data['ownership_english_lang'])) ? 1 : 0;
+        $ownership_french_lang = (isset($data['ownership_french_lang'])) ? 1 : 0;
+        $ownership_german_lang = (isset($data['ownership_german_lang'])) ? 1 : 0;
+        $ownership_italian_lang = (isset($data['ownership_italian_lang'])) ? 1 : 0;
 
         $langs_string = $ownership_english_lang . $ownership_french_lang . $ownership_german_lang . $ownership_italian_lang;
 
         $em = $this->getEntityManager();
         $ownership = new ownership();
-        $ownership->setOwnLangs($langs_string);
-        $ownership->setOwnName($data['ownership_name']);
-        $ownership->setOwnLicenceNumber($data['ownership_licence_number']);
-        //$ownership->setOwnMcpCode($data['ownership_mcp_code']);
-        $ownership->setOwnAddressStreet($data['ownership_address_street']);
-        $ownership->setOwnAddressNumber($data['ownership_address_number']);
-        $ownership->setOwnAddressBetweenStreet1($data['ownership_address_between_street_1']);
-        $ownership->setOwnAddressBetweenStreet2($data['ownership_address_between_street_2']);
+        $ownership->setOwnLangs($langs_string)
+            ->setOwnName($data['ownership_name'])
+            ->setOwnLicenceNumber($data['ownership_licence_number'])
+            //->setOwnMcpCode($data['ownership_mcp_code']);
+            ->setOwnAddressStreet($data['ownership_address_street'])
+            ->setOwnAddressNumber($data['ownership_address_number'])
+            ->setOwnAddressBetweenStreet1($data['ownership_address_between_street_1'])
+            ->setOwnAddressBetweenStreet2($data['ownership_address_between_street_2']);
+
         $prov = $em->getRepository('mycpBundle:province')->find($data['ownership_address_province']);
-        $ownership->setOwnAddressProvince($prov);
-        $ownership->setOwnAddressMunicipality($em->getRepository('mycpBundle:municipality')->find($data['ownership_address_municipality']));
+        $ownership->setOwnAddressProvince($prov)
+            ->setOwnAddressMunicipality($em->getRepository('mycpBundle:municipality')->find($data['ownership_address_municipality']));
 
         if ($data['ownership_destination'] != 0) {
             $destination = $em->getRepository('mycpBundle:destination')->find($data['ownership_destination']);
             $ownership->setOwnDestination($destination);
         }
 
-        $ownership->setOwnMobileNumber($data['ownership_mobile_number']);
-        $ownership->setOwnHomeowner1($data['ownership_homeowner_1']);
-        $ownership->setOwnHomeowner2($data['ownership_homeowner_2']);
-        $ownership->setOwnPhoneCode('(+53) ' . $prov->getProvPhoneCode());
-        $ownership->setOwnPhoneNumber($data['ownership_phone_number']);
-        $ownership->setOwnEmail1($data['ownership_email_1']);
-        $ownership->setOwnEmail2($data['ownership_email_2']);
-        $ownership->setOwnCategory($data['ownership_category']);
-        $ownership->setOwnType($data['ownership_type']);
-        $ownership->setOwnFacilitiesBreakfast($data['facilities_breakfast']);
-        $ownership->setOwnFacilitiesBreakfastPrice($data['facilities_breakfast_price']);
-        $ownership->setOwnFacilitiesDinner($data['facilities_dinner']);
-        $ownership->setOwnFacilitiesDinnerPriceFrom($data['facilities_dinner_price_from']);
-        $ownership->setOwnFacilitiesDinnerPriceTo($data['facilities_dinner_price_to']);
-        $ownership->setOwnFacilitiesParking($data['facilities_parking']);
-        $ownership->setOwnFacilitiesParkingPrice($data['facilities_parking_price']);
-        $ownership->setOwnFacilitiesNotes($data['facilities_notes']);
-        $ownership->setOwnDescriptionBicycleParking($data['description_bicycle_parking']);
-        $ownership->setOwnDescriptionPets($data['description_pets']);
-        $ownership->setOwnDescriptionLaundry($data['description_laundry']);
-        $ownership->setOwnDescriptionInternet($data['description_internet']);
-        $ownership->setOwnGeolocateX($data['geolocate_x']);
-        $ownership->setOwnGeolocateY($data['geolocate_y']);
-        $ownership->setOwnTop20($active_top_20);
-        $ownership->setOwnSelection($active_selection);
-        $ownership->setOwnInmediateBooking($active_inmediate_booking);
-        $ownership->setOwnNotRecommendable($active_not_recommendable);
+        $ownership->setOwnMobileNumber($data['ownership_mobile_number'])
+            ->setOwnHomeowner1($data['ownership_homeowner_1'])
+            ->setOwnHomeowner2($data['ownership_homeowner_2'])
+            ->setOwnPhoneCode('(+53) ' . $prov->getProvPhoneCode())
+            ->setOwnPhoneNumber($data['ownership_phone_number'])
+            ->setOwnEmail1($data['ownership_email_1'])
+            ->setOwnEmail2($data['ownership_email_2'])
+            ->setOwnCategory($data['ownership_category'])
+            ->setOwnType($data['ownership_type'])
+            ->setOwnFacilitiesBreakfast($data['facilities_breakfast'])
+            ->setOwnFacilitiesBreakfastPrice($data['facilities_breakfast_price'])
+            ->setOwnFacilitiesDinner($data['facilities_dinner'])
+            ->setOwnFacilitiesDinnerPriceFrom($data['facilities_dinner_price_from'])
+            ->setOwnFacilitiesDinnerPriceTo($data['facilities_dinner_price_to'])
+            ->setOwnFacilitiesParking($data['facilities_parking'])
+            ->setOwnFacilitiesParkingPrice($data['facilities_parking_price'])
+            ->setOwnFacilitiesNotes($data['facilities_notes'])
+            ->setOwnDescriptionBicycleParking($data['description_bicycle_parking'])
+            ->setOwnDescriptionPets($data['description_pets'])
+            ->setOwnDescriptionLaundry($data['description_laundry'])
+            ->setOwnDescriptionInternet($data['description_internet'])
+            ->setOwnGeolocateX($data['geolocate_x'])
+            ->setOwnGeolocateY($data['geolocate_y'])
+            ->setOwnTop20($active_top_20)
+            ->setOwnSelection($active_selection)
+            ->setOwnInmediateBooking($active_inmediate_booking)
+            ->setOwnNotRecommendable($active_not_recommendable)
+            ->setOwnCubaCoupon($cubacoupon);
+
         $status = $em->getRepository('mycpBundle:ownershipStatus')->find($data['status']);
 
         if (!isset($status))
             $status = $em->getRepository('mycpBundle:ownershipStatus')->find(ownershipStatus::STATUS_IN_PROCESS);
 
-        $ownership->setOwnStatus($status);
-        $ownership->setOwnRoomsTotal($data['count_rooms']);
-        $ownership->setOwnComment($data['comment']);
-        $ownership->setOwnCommissionPercent($data['ownership_percent_commission']);
-        $ownership->setOwnSaler($data['ownership_saler']);
-        $ownership->setOwnVisitDate(Dates::createFromString($data['ownership_visit_date']));
-        $ownership->setOwnLastUpdate(new \DateTime());
-        $ownership->setOwnCreationDate(new \DateTime());
+        $ownership->setOwnStatus($status)
+            ->setOwnRoomsTotal($data['count_rooms'])
+            ->setOwnComment($data['comment'])
+            ->setOwnCommissionPercent($data['ownership_percent_commission'])
+            ->setOwnSaler($data['ownership_saler'])
+            ->setOwnVisitDate(Dates::createFromString($data['ownership_visit_date']))
+            ->setOwnLastUpdate(new \DateTime())
+            ->setOwnCreationDate(new \DateTime());
         //var_dump($data);
         //exit();
 
-        $ownership->setOwnCommentsTotal(0);
-        $ownership->setOwnMaximumNumberGuests(0);
-        $ownership->setOwnRating(0);
-        $ownership->setOwnMaximumPrice(0);
-        $ownership->setOwnMinimumPrice(0);
-        $ownership->setOwnRoomsTotal(0);
-
-        $ownership->setOwnWaterJacuzee($water_jacuzee);
-        $ownership->setOwnWaterSauna($water_sauna);
-        $ownership->setOwnWaterPiscina($water_pool);
+        $ownership->setOwnCommentsTotal(0)
+            ->setOwnMaximumNumberGuests(0)
+            ->setOwnRating(0)
+            ->setOwnMaximumPrice(0)
+            ->setOwnMinimumPrice(0)
+            ->setOwnRoomsTotal(0)
+            ->setOwnWaterJacuzee($water_jacuzee)
+            ->setOwnWaterSauna($water_sauna)
+            ->setOwnWaterPiscina($water_pool);
 
         /*Si el estado es activo directamente, publicar la casa*/
         if($status->getStatusId() == ownershipStatus::STATUS_ACTIVE)
@@ -280,50 +252,20 @@ class ownershipRepository extends EntityRepository {
     function edit($data, $request, $dir, $factory, $new_user, $send_creation_mail, $controller, $translator, $container) {
         $id_ownership = $data['edit_ownership'];
 
-        $active_top_20 = 0;
-        if (isset($data['top_20']))
-            $active_top_20 = 1;
-
-        $water_jacuzee = 0;
-        if (isset($data['water_jacuzee']))
-            $water_jacuzee = 1;
-
-        $water_sauna = 0;
-        if (isset($data['water_sauna']))
-            $water_sauna = 1;
-
-        $water_pool = 0;
-        if (isset($data['water_piscina']))
-            $water_pool = 1;
-
-        $active_not_recommendable = 0;
-        if (isset($data['not_recommendable']))
-            $active_not_recommendable = 1;
-
-        $active_selection = 0;
-        if (isset($data['selection']))
-            $active_selection = 1;
-
-        $active_inmediate_booking = 0;
-        if (isset($data['inmediate_booking']))
-            $active_inmediate_booking = 1;
+        $active_top_20 = (isset($data['top_20'])) ? 1 : 0;
+        $active_not_recommendable = (isset($data['not_recommendable'])) ? 1 : 0;
+        $active_selection = (isset($data['selection'])) ? 1 : 0;
+        $active_inmediate_booking = (isset($data['inmediate_booking'])) ? 1 : 0;
+        $water_jacuzee = (isset($data['water_jacuzee'])) ? 1 : 0;
+        $water_sauna = (isset($data['water_sauna'])) ? 1 : 0;
+        $water_pool = (isset($data['water_piscina'])) ? 1 : 0;
+        $cubacoupon = (isset($data['cubacoupon'])) ? 1 : 0;
 
         //languages
-        $ownership_english_lang = 0;
-        if (isset($data['ownership_english_lang']))
-            $ownership_english_lang = 1;
-
-        $ownership_french_lang = 0;
-        if (isset($data['ownership_french_lang']))
-            $ownership_french_lang = 1;
-
-        $ownership_german_lang = 0;
-        if (isset($data['ownership_german_lang']))
-            $ownership_german_lang = 1;
-
-        $ownership_italian_lang = 0;
-        if (isset($data['ownership_italian_lang']))
-            $ownership_italian_lang = 1;
+        $ownership_english_lang = (isset($data['ownership_english_lang'])) ? 1 : 0;
+        $ownership_french_lang = (isset($data['ownership_french_lang'])) ? 1 : 0;
+        $ownership_german_lang = (isset($data['ownership_german_lang'])) ? 1 : 0;
+        $ownership_italian_lang = (isset($data['ownership_italian_lang'])) ? 1 : 0;
 
         $langs_string = $ownership_english_lang .
                 $ownership_french_lang . $ownership_german_lang .
@@ -333,44 +275,46 @@ class ownershipRepository extends EntityRepository {
         $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
         $old_status = $ownership->getOwnStatus();
 
-        $ownership->setOwnLangs($langs_string);
-        $ownership->setOwnName($data['ownership_name']);
-        $ownership->setOwnLicenceNumber($data['ownership_licence_number']);
-        //$ownership->setOwnMcpCode($data['ownership_mcp_code']);
-        $ownership->setOwnAddressStreet($data['ownership_address_street']);
-        $ownership->setOwnAddressNumber($data['ownership_address_number']);
-        $ownership->setOwnAddressBetweenStreet1($data['ownership_address_between_street_1']);
-        $ownership->setOwnAddressBetweenStreet2($data['ownership_address_between_street_2']);
+        $ownership->setOwnLangs($langs_string)
+            ->setOwnName($data['ownership_name'])
+            ->setOwnLicenceNumber($data['ownership_licence_number'])
+        //  ->setOwnMcpCode($data['ownership_mcp_code'])
+            ->setOwnAddressStreet($data['ownership_address_street'])
+            ->setOwnAddressNumber($data['ownership_address_number'])
+            ->setOwnAddressBetweenStreet1($data['ownership_address_between_street_1'])
+            ->setOwnAddressBetweenStreet2($data['ownership_address_between_street_2']);
+
         $prov = $em->getRepository('mycpBundle:province')->find($data['ownership_address_province']);
-        $ownership->setOwnAddressProvince($prov);
-        $ownership->setOwnAddressMunicipality($em->getRepository('mycpBundle:municipality')->find($data['ownership_address_municipality']));
-        $ownership->setOwnMobileNumber($data['ownership_mobile_number']);
-        $ownership->setOwnHomeowner1($data['ownership_homeowner_1']);
-        $ownership->setOwnHomeowner2($data['ownership_homeowner_2']);
-        $ownership->setOwnPhoneCode('(+53) ' . $prov->getProvPhoneCode());
-        $ownership->setOwnPhoneNumber($data['ownership_phone_number']);
-        $ownership->setOwnEmail1($data['ownership_email_1']);
-        $ownership->setOwnEmail2($data['ownership_email_2']);
-        $ownership->setOwnCategory($data['ownership_category']);
-        $ownership->setOwnType($data['ownership_type']);
-        $ownership->setOwnFacilitiesBreakfast($data['facilities_breakfast']);
-        $ownership->setOwnFacilitiesBreakfastPrice($data['facilities_breakfast_price']);
-        $ownership->setOwnFacilitiesDinner($data['facilities_dinner']);
-        $ownership->setOwnFacilitiesDinnerPriceFrom($data['facilities_dinner_price_from']);
-        $ownership->setOwnFacilitiesDinnerPriceTo($data['facilities_dinner_price_to']);
-        $ownership->setOwnFacilitiesParking($data['facilities_parking']);
-        $ownership->setOwnFacilitiesParkingPrice($data['facilities_parking_price']);
-        $ownership->setOwnFacilitiesNotes($data['facilities_notes']);
-        $ownership->setOwnDescriptionBicycleParking($data['description_bicycle_parking']);
-        $ownership->setOwnDescriptionPets($data['description_pets']);
-        $ownership->setOwnDescriptionLaundry($data['description_laundry']);
-        $ownership->setOwnDescriptionInternet($data['description_internet']);
-        $ownership->setOwnGeolocateX($data['geolocate_x']);
-        $ownership->setOwnGeolocateY($data['geolocate_y']);
-        $ownership->setOwnTop20($active_top_20);
-        $ownership->setOwnSelection($active_selection);
-        $ownership->setOwnInmediateBooking($active_inmediate_booking);
-        $ownership->setOwnNotRecommendable($active_not_recommendable);
+        $ownership->setOwnAddressProvince($prov)
+            ->setOwnAddressMunicipality($em->getRepository('mycpBundle:municipality')->find($data['ownership_address_municipality']))
+            ->setOwnMobileNumber($data['ownership_mobile_number'])
+            ->setOwnHomeowner1($data['ownership_homeowner_1'])
+            ->setOwnHomeowner2($data['ownership_homeowner_2'])
+            ->setOwnPhoneCode('(+53) ' . $prov->getProvPhoneCode())
+            ->setOwnPhoneNumber($data['ownership_phone_number'])
+            ->setOwnEmail1($data['ownership_email_1'])
+            ->setOwnEmail2($data['ownership_email_2'])
+            ->setOwnCategory($data['ownership_category'])
+            ->setOwnType($data['ownership_type'])
+            ->setOwnFacilitiesBreakfast($data['facilities_breakfast'])
+            ->setOwnFacilitiesBreakfastPrice($data['facilities_breakfast_price'])
+            ->setOwnFacilitiesDinner($data['facilities_dinner'])
+            ->setOwnFacilitiesDinnerPriceFrom($data['facilities_dinner_price_from'])
+            ->setOwnFacilitiesDinnerPriceTo($data['facilities_dinner_price_to'])
+            ->setOwnFacilitiesParking($data['facilities_parking'])
+            ->setOwnFacilitiesParkingPrice($data['facilities_parking_price'])
+            ->setOwnFacilitiesNotes($data['facilities_notes'])
+            ->setOwnDescriptionBicycleParking($data['description_bicycle_parking'])
+            ->setOwnDescriptionPets($data['description_pets'])
+            ->setOwnDescriptionLaundry($data['description_laundry'])
+            ->setOwnDescriptionInternet($data['description_internet'])
+            ->setOwnGeolocateX($data['geolocate_x'])
+            ->setOwnGeolocateY($data['geolocate_y'])
+            ->setOwnTop20($active_top_20)
+            ->setOwnSelection($active_selection)
+            ->setOwnInmediateBooking($active_inmediate_booking)
+            ->setOwnNotRecommendable($active_not_recommendable)
+            ->setOwnCubaCoupon($cubacoupon);
 
         if ($data['ownership_destination'] != 0) {
             $destination = $em->getRepository('mycpBundle:destination')->find($data['ownership_destination']);
@@ -380,24 +324,24 @@ class ownershipRepository extends EntityRepository {
         $status = $em->getRepository('mycpBundle:ownershipStatus')->find($data['status']);
         if (!isset($status))
             $status = $em->getRepository('mycpBundle:ownershipStatus')->find(ownershipStatus::STATUS_IN_PROCESS);
-        $ownership->setOwnStatus($status);
-        $ownership->setOwnComment($data['comment']);
+        $ownership->setOwnStatus($status)
+            ->setOwnComment($data['comment']);
+
         $old_rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $data['edit_ownership']));
-        $ownership->setOwnCommissionPercent($data['ownership_percent_commission']);
-        $ownership->setOwnLastUpdate(new \DateTime());
-        $ownership->setOwnSaler($data['ownership_saler']);
+        $ownership->setOwnCommissionPercent($data['ownership_percent_commission'])
+            ->setOwnLastUpdate(new \DateTime())
+            ->setOwnSaler($data['ownership_saler']);
 
         if (isset($data['ownership_visit_date']))
             $ownership->setOwnVisitDate(Dates::createFromString($data['ownership_visit_date']));
 
-        $ownership->setOwnWaterJacuzee($water_jacuzee);
-        $ownership->setOwnWaterSauna($water_sauna);
-        $ownership->setOwnWaterPiscina($water_pool);
-
-        $ownership->setOwnMaximumNumberGuests(0);
-        $ownership->setOwnMaximumPrice(0);
-        $ownership->setOwnMinimumPrice(0);
-        $ownership->setOwnRoomsTotal(0);
+        $ownership->setOwnWaterJacuzee($water_jacuzee)
+            ->setOwnWaterSauna($water_sauna)
+            ->setOwnWaterPiscina($water_pool)
+            ->setOwnMaximumNumberGuests(0)
+            ->setOwnMaximumPrice(0)
+            ->setOwnMinimumPrice(0)
+            ->setOwnRoomsTotal(0);
         $em->persist($ownership);
 
         $query = $em->createQuery("DELETE

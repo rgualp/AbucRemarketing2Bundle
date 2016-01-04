@@ -468,6 +468,13 @@ class ownership {
     private $own_mcp_code_generated;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="own_cubacoupon", type="boolean")
+     */
+    private $own_cubacoupon;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -477,6 +484,7 @@ class ownership {
         $this->ownershipKeywordOwnership = new ArrayCollection();
         $this->own_sync_st = SyncStatuses::ADDED;
         $this->own_sended_to_team = false;
+        $this->own_cubacoupon = false;
         //$this->own_creation_date = new \DateTime();
     }
 
@@ -1870,4 +1878,24 @@ class ownership {
         return $this->own_mcp_code_generated;
     }
 
+    /**
+     * Set own_cubacoupon
+     *
+     * @param boolean $ownCubaCoupon
+     * @return ownership
+     */
+    public function setOwnCubaCoupon($ownCubaCoupon) {
+        $this->own_cubacoupon = $ownCubaCoupon;
+        return $this;
+    }
+
+    /**
+     * Get own_cubacoupon
+     *
+     * @return boolean
+     */
+    public function getOwnCubaCoupon() {
+
+        return $this->own_cubacoupon;
+    }
 }

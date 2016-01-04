@@ -482,6 +482,8 @@ class BackendOwnershipController extends Controller {
         $data['inmediate_booking'] = $ownership->getOwnInmediateBooking();
         $data['country_code'] = $ownership->getOwnAddressProvince()->getProvId();
         $data['municipality_code'] = $ownership->getOwnAddressMunicipality()->getMunId();
+        $post['cubacoupon'] = $ownership->getOwnCubaCoupon();
+        $data['cubacoupon'] = $ownership->getOwnCubaCoupon();
 
         $post['status'] = ($ownership->getOwnStatus() != null) ? $ownership->getOwnStatus()->getStatusId() : null;
         $data['status_id'] = $post['status'];
