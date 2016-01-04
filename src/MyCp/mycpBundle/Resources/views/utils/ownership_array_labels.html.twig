@@ -13,9 +13,13 @@
                                                         <br/><span class="label label-info">Casa Selección</span>
         {%endif%}
         {%if ownership.own_inmediate_booking%}
-                                                        <br/><span class="label label-info1">Reserva Inmediata</span>
+                                                        <br/><span class="label label-info">Reserva Inmediata</span>
         {%endif%}
         {%if ownership.own_not_recommendable%}
-                                                        <br/><span class="label label-warning">No recomendable</span>
+                                                        <br/><span class="label label-important">No recomendable</span>
         {%endif%}
+        {%if ownership.own_cubacoupon%}
+            <br/><span class="label label-info">CubaCoupon</span>
+        {%endif%}
+
 

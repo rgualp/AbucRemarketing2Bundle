@@ -667,6 +667,8 @@ class ownershipRepository extends EntityRepository {
                 break;
             case FilterHelper::ACCOMMODATION_INMEDIATE_BOOKING: $condition .= "AND ow.own_inmediate_booking = 1 ";
                 break;
+            case FilterHelper::ACCOMMODATION_CUBACOUPON: $condition .= "AND ow.own_cubacoupon = 1 ";
+                break;
             case FilterHelper::ACCOMMODATION_WITH_ERRORS_PHONE:
                 $condition .= "AND (ow.own_phone_number LIKE '%-%' OR ow.own_phone_number LIKE '%(%' OR ow.own_phone_number LIKE '%)%' OR ow.own_phone_number LIKE '%+53%') ";
                 break;
@@ -722,6 +724,7 @@ class ownershipRepository extends EntityRepository {
         prov.prov_name,
         ow.own_comment,
         ow.own_id,
+        ow.own_cubacoupon,
         (SELECT count(room) FROM mycpBundle:room room WHERE room.room_ownership = ow.own_id AND room.room_active = 1) as own_rooms_total,
         (SELECT min(d.des_name) FROM mycpBundle:destination d WHERE d.des_id = ow.own_destination) as des_name,
         (SELECT min(s.status_id) FROM mycpBundle:ownershipStatus s WHERE s.status_id = ow.own_status) as status_id,
