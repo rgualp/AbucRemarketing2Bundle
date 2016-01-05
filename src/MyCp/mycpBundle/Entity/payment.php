@@ -69,6 +69,13 @@ class payment
      */
     private $current_cuc_change_rate;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="processed", type="boolean")
+     */
+    private $processed = false;
+
 
     /**
      * Get id
@@ -239,5 +246,28 @@ class payment
     public function getCurrentCucChangeRate()
     {
         return $this->current_cuc_change_rate;
+    }
+
+    /**
+     * Set processed
+     *
+     * @param boolean $processed
+     * @return payment
+     */
+    public function setProcessed($processed)
+    {
+        $this->processed = $processed;
+
+        return $this;
+    }
+
+    /**
+     * Get processed
+     *
+     * @return boolean
+     */
+    public function getProcessed()
+    {
+        return $this->processed;
     }
 }

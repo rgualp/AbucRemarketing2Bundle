@@ -66,3 +66,9 @@ services:
    mycp_sync_payment:
        class: MyCp\mycpBundle\Service\PaymentSyncService
        arguments: [@doctrine.orm.entity_manager,@logger, @front_end.services.booking,"%mailServer%", "%syncEmail%", "%syncEmailPassword%"]
+
+   mycp.job.postpayment.listener:
+       class: Abuc\RemarketingBundle\Event\DefaultEventListener
+       arguments: [@abuc_remarketing.job.manager, "mycp.job.postpayment.reminder", "1 hour"]
+       tags:
+           - { name: kernel.event_listener, event: mycp.event.postpayment,  method: onEvent }
