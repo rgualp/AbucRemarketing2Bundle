@@ -73,6 +73,8 @@ class ZipService {
                     $photoFile = realpath($this->originalDirectoryPath . $ownPhoto->getOwnPhoPhoto()->getPhoName());
                 else if (file_exists(realpath($this->photoDirectoryPath . $ownPhoto->getOwnPhoPhoto()->getPhoName())))
                     $photoFile = realpath($this->photoDirectoryPath . $ownPhoto->getOwnPhoPhoto()->getPhoName());
+                else
+                    $photoFile = "";
 
                 if ($photoFile != "") {
                     $zip->addFromString($ownPhoto->getOwnPhoPhoto()->getPhoName(), file_get_contents($photoFile));
