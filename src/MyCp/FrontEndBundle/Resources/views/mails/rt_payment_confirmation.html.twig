@@ -28,7 +28,7 @@ Fecha: {{ "now"|date("D, d M Y H:m:s O") }}
 <b>Casa:</b> {{ reservations[0].getOwnResGenResId.getGenResOwnId.getOwnMcpCode }}
 <br/>
 <br/>
-<h3>Habitaciones</h3>
+<h3>Habitaciones (Total: {{ reservations| length }} habitacion(es) )</h3>
 {% set total_price = 0 %}
 {% set total_payed = 0 %}
 {% for reservation in reservations %}
