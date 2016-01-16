@@ -3073,6 +3073,10 @@
                 <source>NEWSLETTER_LINK_BTN1</source>
                 <target>Welchen Ort in Kuba möchten Sie bereisen?</target>
                 </trans-unit>
+            <trans-unit id="925">
+            <source>children.ages</source>
+            <target>Children ages</target>
+            </trans-unit>
     </body>
     </file>
 </xliff>

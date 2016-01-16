@@ -3077,6 +3077,10 @@
                 <source>NEWSLETTER_LINK_BTN1</source>
                 <target>¿Qué otro lugar de Cuba le gustaría visitar?</target>
                 </trans-unit>
+            <trans-unit id="925">
+            <source>children.ages</source>
+            <target>Edad de los niños</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

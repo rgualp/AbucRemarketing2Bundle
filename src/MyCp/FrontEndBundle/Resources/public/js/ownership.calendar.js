@@ -21,10 +21,22 @@ function total_price(curr,percent)
     $('.kids').each(function() {
         count_kids=count_kids+'&'+(this.innerHTML);});
 
+    count_kids_age1='';
+    $('.kidsAge1').each(function() {
+        count_kids_age1=count_kids_age1+'&'+(this.innerHTML);});
+
+    count_kids_age2='';
+    $('.kidsAge2').each(function() {
+        count_kids_age2=count_kids_age2+'&'+(this.innerHTML);});
+
+    count_kids_age3='';
+    $('.kidsAge3').each(function() {
+        count_kids_age3=count_kids_age3+'&'+(this.innerHTML);});
+
     from_date=$('#data_reservation').attr('from_date');
     to_date=$('#data_reservation').attr('to_date');
 
-    string_url=from_date+'/'+to_date+'/'+ids_rooms+'/'+count_guests+'/'+count_kids;
+    string_url=from_date+'/'+to_date+'/'+ids_rooms+'/'+count_guests+'/'+count_kids +'/'+count_kids_age1 +'/'+count_kids_age2 +'/'+count_kids_age3;
     $('#data_reservation').val(string_url);
     $('#total_price').html( normalize_prices(total_price_var) );
     $('#subtotal_price').html(normalize_prices(total_price_var));
@@ -44,6 +56,60 @@ function reservations_in_details()
     total_price_var=0;
     $('.guest_number').change(function(){
         if($('#tr_'+$(this).attr('data')).html()){
+
+            //Mostrar varios combos para seleccionar la edad
+            var children =  parseInt($('#combo_kids_'+$(this).attr('data')).val());
+
+            /*$("#childrenImg1_"+$(this).attr('data')).css({display: 'none'});
+            $("#childrenAge1_"+$(this).attr('data')).css({display: 'none'});
+
+            $("#childrenImg2_"+$(this).attr('data')).css({display: 'none'});
+            $("#childrenAge2_"+$(this).attr('data')).css({display: 'none'});
+
+            $("#childrenImg3_"+$(this).attr('data')).css({display: 'none'});
+            $("#childrenAge3_"+$(this).attr('data')).css({display: 'none'});
+
+            if(children != 0)
+                $("#childreAgeTh").css({display: 'block'});
+
+            switch (children){
+                case 1:{
+                    $("#childrenImg1_"+$(this).attr('data')).css({display: 'block'});
+                    $("#childrenAge1_"+$(this).attr('data')).css({display: 'block'});
+                    break;
+                }
+                case 2:{
+                    $("#childrenImg1_"+$(this).attr('data')).css({display: 'block'});
+                    $("#childrenAge1_"+$(this).attr('data')).css({display: 'block'});
+
+                    $("#childrenImg2_"+$(this).attr('data')).css({display: 'block'});
+                    $("#childrenAge2_"+$(this).attr('data')).css({display: 'block'});
+                    break;
+                }
+                case 3:{
+                    $("#childrenImg1_"+$(this).attr('data')).css({display: 'block'});
+                    $("#childrenAge1_"+$(this).attr('data')).css({display: 'block'});
+
+                    $("#childrenImg2_"+$(this).attr('data')).css({display: 'block'});
+                    $("#childrenAge2_"+$(this).attr('data')).css({display: 'block'});
+
+                    $("#childrenImg3_"+$(this).attr('data')).css({display: 'block'});
+                    $("#childrenAge3_"+$(this).attr('data')).css({display: 'block'});
+                    break;
+                }
+                default:{
+                    $("#childrenImg1_"+$(this).attr('data')).css({display: 'none'});
+                    $("#childrenAge1_"+$(this).attr('data')).css({display: 'none'});
+
+                    $("#childrenImg2_"+$(this).attr('data')).css({display: 'none'});
+                    $("#childrenAge2_"+$(this).attr('data')).css({display: 'none'});
+
+                    $("#childrenImg3_"+$(this).attr('data')).css({display: 'none'});
+                    $("#childrenAge3_"+$(this).attr('data')).css({display: 'none'});
+                    break;
+                }
+            }*/
+
             if(eval($('#combo_guest_'+$(this).attr('data')).val())+eval($('#combo_kids_'+$(this).attr('data')).val())==0)
             {
                 $('#tr_'+$(this).attr('data')).remove();
@@ -102,6 +168,9 @@ function reservations_in_details()
                 '<td>1</td>' +
                 '<td class="guest" id="guest_'+$(this).attr('data')+'">'+$('#combo_guest_'+$(this).attr('data')).val()+'</td>'+
                 '<td class="kids" id="kids_'+$(this).attr('data')+'">'+$('#combo_kids_'+$(this).attr('data')).val()+'</td>'+
+                '<td class="kidsAge1" id="kidsage1_'+$(this).attr('data')+'" style="display:none">'+$('#combo_kidsage_1_'+$(this).attr('data')).val()+'</td>'+
+                '<td class="kidsAge2" id="kidsage2_'+$(this).attr('data')+'" style="display:none">'+$('#combo_kidsage_2_'+$(this).attr('data')).val()+'</td>'+
+                '<td class="kidsAge3" id="kidsage3_'+$(this).attr('data')+'" style="display:none">'+$('#combo_kidsage_3_'+$(this).attr('data')).val()+'</td>'+
                 '<td class="price-room" id="price_'+$(this).attr('data')+'">'+value+'</td>');
 
             total_price($(this).attr('data_curr'),$(this).attr('percent_charge'));
