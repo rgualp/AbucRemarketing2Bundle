@@ -37,3 +37,5 @@ app/config/parameters.yml
 default/*
 
 nbproject/*
+# Emails
+app/emails/*

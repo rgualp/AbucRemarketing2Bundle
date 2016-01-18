@@ -30,6 +30,8 @@ security:
                 check_path: /backend/login_check
                 login_path: /backend/login
                 remember_me: true
+                default_target_path: /backend/
+                use_referer: true
             remember_me:
                 key: %secret%
                 #7dsa7ydasdy872187yegwhqeg9yw91hjsaa00
