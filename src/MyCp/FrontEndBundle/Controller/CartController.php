@@ -48,6 +48,8 @@ class CartController extends Controller {
         $count_kidsAge_2 = $data[6];
         $count_kidsAge_3 = $data[7];
 
+        //dump($data); die;
+
         $array_ids_rooms = explode('&', $ids_rooms);
         array_shift($array_ids_rooms);
         $array_count_guests = explode('&', $count_guests);
@@ -377,11 +379,7 @@ class CartController extends Controller {
                     $general_reservation->setGenResTotalInSite($total_price);
                     $em->persist($general_reservation);
 
-                    $arrayKidsAge = array(
-                        "FirstKidAge" => array(),
-                        "SecondKidAge" => array(),
-                        "ThirdKidsAge" => array()
-                    );
+                    $arrayKidsAge = array();
 
                     $flag_1 = 0;
                     foreach ($resByOwn as $item) {
@@ -394,16 +392,9 @@ class CartController extends Controller {
                         $nightsCount = $service_time->nights($ownership_reservation->getOwnResReservationFromDate()->getTimestamp(), $ownership_reservation->getOwnResReservationToDate()->getTimestamp());
                         array_push($nigths, $nightsCount);
 
-                        if(count($item->getChildrenAges()))
+                        if($item->getChildrenAges() != null)
                         {
-                            if(isset($item->getChildrenAges()["FirstKidAge"]))
-                                $arrayKidsAge["FirstKidAge"][] = $item->getChildrenAges()["FirstKidAge"];
-
-                            if(isset($item->getChildrenAges()["SecondKidAge"]))
-                                $arrayKidsAge["SecondKidAge"][] = $item->getChildrenAges()["SecondKidAge"];
-
-                            if(isset($item->getChildrenAges()["ThirdKidAge"]))
-                                $arrayKidsAge["ThirdKidAge"][] = $item->getChildrenAges()["ThirdKidAge"];
+                            $arrayKidsAge[$item->getCartRoom()->getRoomNum()] = $item->getChildrenAges();
                         }
 
                         $em->persist($ownership_reservation);
@@ -411,6 +402,12 @@ class CartController extends Controller {
                         array_push($own_ids, $ownership_reservation->getOwnResId());
                         $flag_1++;
                     }
+
+                    //dump($arrayKidsAge); die;
+
+                    $general_reservation->setChildrenAges($arrayKidsAge);
+                    $em->flush();
+
                     //update generalReservation dates
                     $em->getRepository("mycpBundle:generalReservation")->updateDates($general_reservation);
                     array_push($generalReservations, $general_reservation->getGenResId());
