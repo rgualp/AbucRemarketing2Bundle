@@ -7,10 +7,13 @@ use MyCp\mycpBundle\Form\restorePasswordUserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class BackendController extends Controller {
 
-    public function backend_frontAction() {
+    public function backend_frontAction(Request $request) {
+        if(!$this->getUser() instanceof UserInterface)
+            return $this->redirect($this->generateUrl('backend_login'));
         if ($this->get('security.context')->isGranted('ROLE_CLIENT_TOURIST')) {
             $this->get('security.context')->setToken(null);
             //$this->get('request')->getSession()->invalidate();
