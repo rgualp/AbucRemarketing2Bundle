@@ -16,7 +16,7 @@ mycp_comments:
 
 mycp_lodging_comments:
     resource: "@mycpBundle/Resources/config/routingLodgingComment.yml"
-    prefix:   backend/alojamiento/comentarios/
+    prefix:   casa/comentarios/
 
 mycp_general_informations:
     resource: "@mycpBundle/Resources/config/routingBackendGeneralInformation.yml"
@@ -28,7 +28,7 @@ mycp_reservations:
 
 mycp_lodging_reservations:
     resource: "@mycpBundle/Resources/config/routingLodgingReservations.yml"
-    prefix:   backend/alojamiento/reservaciones/
+    prefix:   casa/reservaciones/
 
 mycp_faqs:
     resource: "@mycpBundle/Resources/config/routingBackendFAQs.yml"
@@ -44,7 +44,7 @@ mycp_ownership:
 
 mycp_lodging_ownership:
     resource: "@mycpBundle/Resources/config/routingLodgingOwnership.yml"
-    prefix:   backend/alojamiento/propiedad/
+    prefix:   casa/propiedad/
 
 mycp_user:
     resource: "@mycpBundle/Resources/config/routingBackendUser.yml"
@@ -55,7 +55,7 @@ mycp_rbac:
 
 mycp_lodging_user:
     resource: "@mycpBundle/Resources/config/routingLodgingUser.yml"
-    prefix:   backend/alojamiento/usuario/
+    prefix:   casa/usuario/
 
 mycp_currency:
     resource: "@mycpBundle/Resources/config/routingBackendCurrency.yml"
@@ -79,7 +79,7 @@ mycp_unavailabilityDetails:
 
 mycp_lodging_unavailabilityDetails:
     resource: "@mycpBundle/Resources/config/routingLodgingUnavaibilityDetails.yml"
-    prefix:   backend/alojamiento/unavailability_details/
+    prefix:   casa/unavailability_details/
 
 mycp_edit_metatags:
     pattern:  backend/metatags/
@@ -137,7 +137,7 @@ mycp_backend_front:
     defaults: { _controller: mycpBundle:Backend:backend_front}
 
 mycp_lodging_front:
-    pattern:  /backend/alojamiento/
+    pattern:  /casa/
     defaults: { _controller: mycpBundle:Lodging:lodging_front}
 
 mycp_backend_metatags:

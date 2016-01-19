@@ -10,6 +10,13 @@ backend_login:
     defaults: { _controller: mycpBundle:Public:login, urlLogin: 'backend_login_check'}
 backend_logout:
     pattern: /backend/logout
+casa_login_check:
+    pattern:  /casa/login_check
+casa_login:
+    pattern:  /casa/login/
+    defaults: { _controller: mycpBundle:Public:login, urlLogin: 'casa_login_check'}
+casa_logout:
+    pattern: /casa/logout
 
 #lodging_login_check:
 #    pattern:  /alojamiento/login_check
