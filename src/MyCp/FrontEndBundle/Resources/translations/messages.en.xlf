@@ -3661,7 +3661,7 @@
                </trans-unit>
             <trans-unit id="925">
             <source>children.ages</source>
-            <target>Children ages</target>
+            <target>Age of children</target>
             </trans-unit>
         </body>
     </file>

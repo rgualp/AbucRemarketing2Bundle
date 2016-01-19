@@ -2789,7 +2789,7 @@
             </trans-unit>
             <trans-unit id="707">
                 <source>DETAILS_PACKAGE_SERVICE</source>
-                <target>Servicios incluidos:</target>
+                <target>Servicios incluidos en el precio del paquete:</target>
             </trans-unit>
             <trans-unit id="708">
                 <source>DETAILS_PACKAGE_NO_SERVICE</source>
@@ -2809,7 +2809,7 @@
             </trans-unit>
             <trans-unit id="712">
                 <source>DETAILS_PACKAGE_DAY</source>
-                <target>días</target>
+                <target>Días</target>
             </trans-unit>
             <trans-unit id="713">
                 <source>DETAILS_PACKAGE_AND</source>
@@ -2931,7 +2931,7 @@
             </trans-unit>
             <trans-unit id="742">
                 <source>VOUCHER_PAYMENT_DATA</source>
-                <target>Datos para el pago</target>
+                <target>Cuenta de Pago</target>
             </trans-unit>
             <trans-unit id="743">
                 <source>PQT_RESERVATION_CLIENT_MAIL_1</source>
@@ -3083,7 +3083,7 @@
               </trans-unit>
               <trans-unit id="780">
               <source>backend.welcome.user</source>
-              <target>Bienvenido usuario</target>
+              <target>Bienvenido(a)</target>
               </trans-unit>
               <trans-unit id="781">
               <source>backend.welcome.text</source>
@@ -3603,11 +3603,11 @@
                </trans-unit>
                <trans-unit id="910">
                <source>backend.package.bookings.adults_plural</source>
-               <target>{1} adulto|]1,Inf] adultos</target>
+               <target>{1} adulto|[2,Inf] adultos</target>
                </trans-unit>
                <trans-unit id="911">
                <source>backend.package.bookings.child_plural</source>
-               <target>{1} niño|]1,Inf] niños</target>
+               <target>{1} niño|[2,Inf] niños</target>
                </trans-unit>
                <trans-unit id="912">
                <source>backend.package.bookings.client</source>
@@ -3661,6 +3661,46 @@
                <source>backend.menu.statistics.reports.sales</source>
                <target>Reporte de ventas</target>
                </trans-unit>
+               <trans-unit id="925">
+               <source>package.services.note</source>
+               <target>Los servicios que no se mencionan no se consideran incluidos en el precio del paquete.</target>
+               </trans-unit>
+               <trans-unit id="926">
+               <source>package.payment.data</source>
+               <target>Usted recibirá la factura con los detalles del pago vía e-mail. El monto total deberá ser pagado en los 30 días siguiente. Para reservas de última hora la cantidad se pagará de inmediato. Los documentos de viaje (vales) con todos los precios pagados se le enviarán vía e-mail.</target>
+               </trans-unit>
+               <trans-unit id="927">
+               <source>package.max</source>
+               <target>Max.</target>
+               </trans-unit>
+               <trans-unit id="928">
+               <source>package.pers</source>
+               <target>Personas</target>
+               </trans-unit>
+				 <trans-unit id="929">
+              <source>backend.package.accommodation_price</source>
+              <target>Precio habitación</target>
+              </trans-unit>
+              <trans-unit id="930">
+                <source>package.for</source>
+                <target>Por persona</target>
+                </trans-unit>
+                <trans-unit id="931">
+              <source>package.max</source>
+              <target>máximo</target>
+              </trans-unit>
+              <trans-unit id="932">
+                <source>package.payment.iban</source>
+                <target>IBAN</target>
+                </trans-unit>
+              <trans-unit id="933">
+                <source>package.payment.swift</source>
+                <target>BIC/SWIFT</target>
+                </trans-unit>
+            <trans-unit id="934">
+            <source>children.ages</source>
+            <target>Edad de los niños</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -544,7 +544,7 @@
             </trans-unit>
             <trans-unit id="145">
                 <source>BYNIGHTS_PRICES</source>
-                <target>Pro Nacht</target>
+                <target>Pro Nächte</target>
             </trans-unit>
             <trans-unit id="146">
                 <source>ARRIVAL_RESERVATION</source>
@@ -1932,7 +1932,7 @@
             </trans-unit>
             <trans-unit id="492">
                 <source>NIGHTS</source>
-                <target>Nacht</target>
+                <target>Nächte</target>
             </trans-unit>
             <trans-unit id="493">
                 <source>PENDING</source>
@@ -2751,7 +2751,7 @@
             </trans-unit>
             <trans-unit id="698">
                 <source>DETAILS_PACKAGE</source>
-                <target>Details package tour</target>
+                <target>Reiseprogramm</target>
             </trans-unit>
             <trans-unit id="699">
                 <source>DETAILS_PACKAGE_TITLE_1</source>
@@ -2763,7 +2763,7 @@
             </trans-unit>
             <trans-unit id="701">
                 <source>DETAILS_PACKAGE_ITINERARY</source>
-                <target>Route</target>
+                <target>REISEBESCHREIBUNG</target>
             </trans-unit>
             <trans-unit id="702">
                 <source>DETAILS_PACKAGE_ITINERARY_DAY</source>
@@ -2783,11 +2783,11 @@
             </trans-unit>
             <trans-unit id="706">
                 <source>DETAILS_PACKAGE_RESERV</source>
-                <target>Make a reservation, </target>
+                <target>Jetzt Reservieren, </target>
             </trans-unit>
             <trans-unit id="707">
                 <source>DETAILS_PACKAGE_SERVICE</source>
-                <target>Inklusivleistungen:</target>
+                <target>DIESE LEISTUNGEN SIND IM REISEPREIS INBEGRIFFEN:</target>
             </trans-unit>
             <trans-unit id="708">
                 <source>DETAILS_PACKAGE_NO_SERVICE</source>
@@ -2807,7 +2807,7 @@
             </trans-unit>
             <trans-unit id="712">
                 <source>DETAILS_PACKAGE_DAY</source>
-                <target>nacht</target>
+                <target>Tage</target>
             </trans-unit>
             <trans-unit id="713">
                 <source>DETAILS_PACKAGE_AND</source>
@@ -2815,7 +2815,7 @@
             </trans-unit>
             <trans-unit id="714">
                 <source>DETAILS_PACKAGE_SOLIC</source>
-                <target>Solicitante</target>
+                <target>Reiseteilnehmer</target>
             </trans-unit>
             <trans-unit id="715">
                 <source>DETAILS_PACKAGE_ADD</source>
@@ -2871,11 +2871,11 @@
             </trans-unit>
             <trans-unit id="728">
                 <source>DETAILS_PACKAGE_RESERVE2</source>
-                <target>Sie werden innert 24 Stunden eine Bestgaetigung per Email erhalten.</target>
+                <target>Sie werden innert 24 Stunden eine Bestätigung per Email erhalten.</target>
             </trans-unit>
             <trans-unit id="729">
                 <source>DETAILS_PACKAGE_DETAILS_RESERVE</source>
-                <target>Detalles de su reserva</target>
+                <target>Details Ihrer Reservierung</target>
             </trans-unit>
             <trans-unit id="730">
                 <source>DETAILS_PACKAGE_DETAILS</source>
@@ -2899,35 +2899,35 @@
             </trans-unit>
             <trans-unit id="735">
                 <source>DETAILS_PACKAGE_MSG</source>
-                <target>Por favor verifique que la cantidad de inscripciones debe ser igual a la cantidad de personas reservadas.</target>
+                <target>Überprüfen sie bitte, die Anzahl der Einträge sollte gleich der Anzahl der reservierten Personen sein.</target>
             </trans-unit>
             <trans-unit id="736">
                 <source>DETAILS_PACKAGE_BTN_MOD</source>
-                <target>Modificar</target>
+                <target>Änderung</target>
             </trans-unit>
             <trans-unit id="737">
                 <source>DETAILS_PACKAGE_MSG2</source>
-                <target>Por favor verifique que la cantidad de personas a reservar no supere el límite de personas dadas por el paquete.</target>
+                <target>Überprüfen Sie bitte, dass die Anzahl der zu reservierenden Personen den angegebenen Grenzwert der zu reservierenden Personen nicht überschreitet, welche im zu buchenden Paket angegeben sind.</target>
             </trans-unit>
             <trans-unit id="738">
                 <source>DETAILS_PACKAGE_MSG3</source>
-                <target>Para su estancia, debe de adicionar al menos una habitación y seleccionar un adulto o niño.</target>
+                <target>Für Ihren Aufenthalt, müssen Sie mindestens ein Zimmer hinzufügen und können wählen, ein Erwachsener oder ein Kind.</target>
             </trans-unit>
             <trans-unit id="739">
                 <source>VOUCHER_RES_DETAILS</source>
-                <target>Detalles de su reserva</target>
+                <target>Details Ihrer Reservierung</target>
             </trans-unit>
             <trans-unit id="740">
                 <source>VOUCHER_PEOPLE_QTY</source>
-                <target>Cantidad de personas</target>
+                <target>Anzahl der Personen</target>
             </trans-unit>
             <trans-unit id="741">
                 <source>VOUCHER_ROOMS_QTY</source>
-                <target>Cantidad de habitaciones</target>
+                <target>Anzahl der Zimmer</target>
             </trans-unit>
             <trans-unit id="742">
                 <source>VOUCHER_PAYMENT_DATA</source>
-                <target>Datos para el pago</target>
+                <target>Zahlungsart Rechnung</target>
             </trans-unit>
             <trans-unit id="743">
                 <source>PQT_RESERVATION_CLIENT_MAIL_1</source>
@@ -2971,7 +2971,7 @@
         </trans-unit>
             <trans-unit id="753">
                 <source>PQT_RESERVATION_ER_MAIL_SUBJECT</source>
-                <target>New package booked!</target>
+                <target>Neu Reservierung eines Paketes</target>
             </trans-unit>
             <trans-unit id="754">
                 <source>PQT_RESERVATION_COMPANION</source>
@@ -2987,7 +2987,7 @@
             </trans-unit>
             <trans-unit id="757">
                 <source>PACKAGE_RESTRICT_ALERT</source>
-                <target>Dieser Service ist nur für Personen mit Wohnsitz in der Schweiz oder in Deutschland bestimmt.</target>
+                <target>Dieser Service ist nur für Personen mit Wohnsitz in der Schweiz, Deutschland, Österreich und Lichtenstein bestimmt.</target>
             </trans-unit>
              <trans-unit id="758">
                 <source>NEWSLETTER_HEAD_1</source>
@@ -3079,7 +3079,7 @@
               </trans-unit>
               <trans-unit id="780">
               <source>backend.welcome.user</source>
-              <target>Bienvenido usuario</target>
+              <target>Bienvenido(a)</target>
               </trans-unit>
               <trans-unit id="781">
               <source>backend.welcome.text</source>
@@ -3267,7 +3267,7 @@
               </trans-unit>
               <trans-unit id="827">
               <source>backend.package.nights</source>
-              <target>Nights</target>
+              <target>Nächte</target>
               </trans-unit>
               <trans-unit id="828">
               <source>backend.package.destination</source>
@@ -3531,7 +3531,7 @@
                </trans-unit>
                <trans-unit id="893">
                <source>backend.package.bookings.nights</source>
-               <target>Noches</target>
+               <target>Nächte</target>
                </trans-unit>
                <trans-unit id="894">
                <source>backend.package.bookings.price</source>
@@ -3599,11 +3599,11 @@
                </trans-unit>
                <trans-unit id="910">
                <source>backend.package.bookings.adults_plural</source>
-               <target>{1} adulto|]1,Inf] adultos</target>
+               <target>{1} adulto|[2,Inf] adultos</target>
                </trans-unit>
                <trans-unit id="911">
                <source>backend.package.bookings.child_plural</source>
-               <target>{1} niño|]1,Inf] niños</target>
+               <target>{1} niño|[2,Inf] niños</target>
                </trans-unit>
                <trans-unit id="912">
                <source>backend.package.bookings.client</source>
@@ -3657,6 +3657,46 @@
                <source>backend.menu.statistics.reports.sales</source>
                <target>Sales report</target>
                </trans-unit>
+               <trans-unit id="925">
+               <source>package.services.note</source>
+               <target>Nicht genannten Leistungen sind nicht im Paketpreis enthalten.</target>
+               </trans-unit>
+               <trans-unit id="926">
+               <source>package.payment.data</source>
+               <target>Sie erhalten die Rechnung mit den Zahlungsangaben per E-Mail. Der Gesamtbetrag ist 30 Tage nach Erhalt fällig. Bei kurzfristigen Buchungen ist der Betrag sofort fällig. Die Reiseunterlagen (Vouchers) erhalten Sie nach Eingang des gesamten Reisepreises per E-Mail.</target>
+               </trans-unit>
+                <trans-unit id="927">
+               <source>package.max</source>
+               <target>Max.</target>
+               </trans-unit>
+               <trans-unit id="928">
+               <source>package.pers</source>
+               <target>Personen</target>
+               </trans-unit>
+				<trans-unit id="929">
+              <source>backend.package.accommodation_price</source>
+              <target>Room price</target>
+              </trans-unit>
+              <trans-unit id="930">
+              <source>package.for</source>
+              <target>Pro Person</target>
+              </trans-unit>
+              <trans-unit id="931">
+                <source>package.max</source>
+                <target>maximal</target>
+                </trans-unit>
+              <trans-unit id="932">
+                <source>package.payment.iban</source>
+                <target>IBAN</target>
+                </trans-unit>
+              <trans-unit id="933">
+                <source>package.payment.swift</source>
+                <target>BIC/SWIFT</target>
+                </trans-unit>
+                <trans-unit id="934">
+                <source>children.ages</source>
+                <target>Alter der Kinder</target>
+                </trans-unit>
     </body>
     </file>
 </xliff>

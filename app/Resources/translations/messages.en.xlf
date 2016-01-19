@@ -2765,7 +2765,7 @@
             </trans-unit>
             <trans-unit id="701">
                 <source>DETAILS_PACKAGE_ITINERARY</source>
-                <target>Itinerary</target>
+                <target>Route</target>
             </trans-unit>
             <trans-unit id="702">
                 <source>DETAILS_PACKAGE_ITINERARY_DAY</source>
@@ -2789,7 +2789,7 @@
             </trans-unit>
             <trans-unit id="707">
                 <source>DETAILS_PACKAGE_SERVICE</source>
-                <target>Included services:</target>
+                <target>Services included in tour price:</target>
             </trans-unit>
             <trans-unit id="708">
                 <source>DETAILS_PACKAGE_NO_SERVICE</source>
@@ -2809,7 +2809,7 @@
             </trans-unit>
             <trans-unit id="712">
                 <source>DETAILS_PACKAGE_DAY</source>
-                <target>days</target>
+                <target>Days</target>
             </trans-unit>
             <trans-unit id="713">
                 <source>DETAILS_PACKAGE_AND</source>
@@ -2817,7 +2817,7 @@
             </trans-unit>
             <trans-unit id="714">
                 <source>DETAILS_PACKAGE_SOLIC</source>
-                <target>Solicitante</target>
+                <target>Travellers</target>
             </trans-unit>
             <trans-unit id="715">
                 <source>DETAILS_PACKAGE_ADD</source>
@@ -2929,7 +2929,7 @@
             </trans-unit>
             <trans-unit id="742">
                 <source>VOUCHER_PAYMENT_DATA</source>
-                <target>Datos para el pago</target>
+                <target>Payment Account</target>
             </trans-unit>
             <trans-unit id="743">
                 <source>PQT_RESERVATION_CLIENT_MAIL_1</source>
@@ -3081,7 +3081,7 @@
               </trans-unit>
               <trans-unit id="780">
               <source>backend.welcome.user</source>
-              <target>Welcome user</target>
+              <target>Welcome</target>
               </trans-unit>
               <trans-unit id="781">
               <source>backend.welcome.text</source>
@@ -3601,11 +3601,11 @@
                </trans-unit>
                <trans-unit id="910">
                <source>backend.package.bookings.adults_plural</source>
-               <target>{1} adult|]1,Inf] adults</target>
+               <target>{1} adult|[2,Inf] adults</target>
                </trans-unit>
                <trans-unit id="911">
                <source>backend.package.bookings.child_plural</source>
-               <target>{1} kid|]1,Inf] kids</target>
+               <target>{1} kid|[2,Inf] kids</target>
                </trans-unit>
                <trans-unit id="912">
                <source>backend.package.bookings.client</source>
@@ -3659,6 +3659,46 @@
                <source>backend.menu.statistics.reports.sales</source>
                <target>Sales report</target>
                </trans-unit>
+               <trans-unit id="925">
+               <source>package.services.note</source>
+               <target>The services not mentioned are not include in the package price.</target>
+               </trans-unit>
+               <trans-unit id="926">
+               <source>package.payment.data</source>
+               <target>You will receive the invoice with the payment details via email. The total amount must be paid within the 30 days next. For late bookings the amount be paid immediately. The travel documents (vouchers) with all the prices paid will be sent via e-mail.</target>
+               </trans-unit>
+               <trans-unit id="927">
+              <source>package.max</source>
+              <target>Max.</target>
+              </trans-unit>
+               <trans-unit id="928">
+               <source>package.pers</source>
+               <target>Pax</target>
+               </trans-unit>
+				<trans-unit id="929">
+              <source>backend.package.accommodation_price</source>
+              <target>Room price</target>
+              </trans-unit>
+              <trans-unit id="930">
+              <source>package.for</source>
+              <target>For Pax</target>
+              </trans-unit>
+              <trans-unit id="931">
+              <source>package.max</source>
+              <target>maximum</target>
+              </trans-unit>
+              <trans-unit id="932">
+                <source>package.payment.iban</source>
+                <target>IBAN</target>
+                </trans-unit>
+              <trans-unit id="933">
+                <source>package.payment.swift</source>
+                <target>BIC/SWIFT</target>
+                </trans-unit>
+                <trans-unit id="934">
+                <source>children.ages</source>
+                <target>Age of children</target>
+                </trans-unit>
         </body>
     </file>
 </xliff>
