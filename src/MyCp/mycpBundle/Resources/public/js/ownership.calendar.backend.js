@@ -83,6 +83,7 @@ function reservationsBody()
             }
             else
             {
+
                 value=0;
                 persons=parseInt($('#combo_kids_'+$(this).attr('data')).val()) + parseInt($('#combo_guest_'+$(this).attr('data')).val());
 

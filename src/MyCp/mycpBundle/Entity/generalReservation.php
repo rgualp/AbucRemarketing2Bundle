@@ -152,6 +152,13 @@ class generalReservation {
     private $gen_res_nights;
 
     /**
+     * @var array
+     *
+     * @ORM\Column(name="childrenAges", type="array", nullable=true)
+     */
+    private $childrenAges;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -566,5 +573,25 @@ class generalReservation {
     public function getCASId() {
         return \MyCp\FrontEndBundle\Helpers\ReservationHelper::getCASId($this->gen_res_id);
     }
+
+    /**
+     * @return array
+     */
+    public function getChildrenAges()
+    {
+        return $this->childrenAges;
+    }
+
+    /**
+     * @param array $childrenAges
+     * @return this
+     */
+    public function setChildrenAges($childrenAges)
+    {
+        $this->childrenAges = $childrenAges;
+        return $this;
+    }
+
+
 
 }

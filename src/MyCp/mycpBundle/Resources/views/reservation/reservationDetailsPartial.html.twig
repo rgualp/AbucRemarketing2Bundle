@@ -146,12 +146,28 @@
             {% endif %}
     </tr>
     <tr>
+        {% if reservations[0].getOwnResGenResId.getChildrenAges != null %}
+            <td>
+                <b>Edad de los niños</b>
+            </td>
+            <td colspan="7">
+                {% for roomNumber, ages in reservations[0].getOwnResGenResId.getChildrenAges %}
+                    {% if loop.index0 > 0 %} <br/> {% endif %}  <b>Habitación # {{ roomNumber }}</b>: {% for age in ages %}{% if loop.index0 > 0 %}, {% endif %}{{ age }} años {% endfor %}
+                {% endfor %}
+            </td>
+            <td style="text-align: right; border:none; margin-top: 0; padding-top: 0; font-style: italic">
+                {% if user[0].getUserTouristCurrency.getCurrCucChange is defined %}
+                    <b>1 CUC = {{user[0].getUserTouristCurrency.getCurrCucChange }} {{ user[0].getUserTouristCurrency.getCurrCode|upper }}</b>
+                {%endif%}
+            </td>
+        {% else %}
             <td colspan="9" style="text-align: right; border:none; margin-top: 0; padding-top: 0; font-style: italic">
                 {% if user[0].getUserTouristCurrency.getCurrCucChange is defined %}
                     <b>1 CUC = {{user[0].getUserTouristCurrency.getCurrCucChange }} {{ user[0].getUserTouristCurrency.getCurrCode|upper }}</b>
                 {%endif%}
             </td>
-        </tr>
+        {% endif %}
+    </tr>
 </table>
 
     {% if bookings %}

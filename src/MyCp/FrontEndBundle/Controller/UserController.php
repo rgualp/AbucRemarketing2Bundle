@@ -16,6 +16,7 @@ use MyCp\mycpBundle\Entity\photo;
 use MyCp\mycpBundle\Helpers\Operations;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class UserController extends Controller {
 
@@ -206,7 +207,13 @@ class UserController extends Controller {
                                 $message, 'noreply@mycasaparticular.com', $user->getUserEmail(), $message);
 
                         $this->get('session')->getFlashBag()->add('message_global_success', $message);
-                        return $this->redirect($this->generateUrl('frontend_login'));
+//                        return $this->redirect($this->generateUrl('frontend_login'));
+                        //authenticate the user
+                        $providerKey = 'user'; //the name of the firewall
+                        $token = new UsernamePasswordToken($user, $password, $providerKey, $user->getRoles());
+                        $this->get("security.context")->setToken($token);
+                        $this->get('session')->set('_security_user', serialize($token));
+                        return $this->redirect($this->generateUrl("frontend_welcome"));
                     }
                 } else {
                     throw $this->createNotFoundException($this->get('translator')->trans("USER_PASSWORD_CHANGE_ERROR"));

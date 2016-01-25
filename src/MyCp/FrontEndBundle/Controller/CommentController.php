@@ -3,15 +3,15 @@
 namespace MyCp\FrontEndBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 
 class CommentController extends Controller {
 
 
-    public function insertAction($ownid) {
+    public function insertAction($ownid, Request $request) {
 
-        $request = $this->getRequest();
         $session = $request->getSession();
 
         if($session->get('comments_cant') == null)
@@ -41,6 +41,16 @@ class CommentController extends Controller {
 
         $friends = array();
         $own_obj = $em->getRepository('mycpBundle:ownership')->find($ownid);
+        $body = $this->render('FrontEndBundle:mails:commentNotification.html.twig', array(
+            'host_user_name' => $own_obj->getOwnHomeowner1(),
+            'user_name' => $user->getUserName().' '.$user->getUserLastName(),
+            'comment' => $request->request->get('com_comments')
+        ));
+
+        $service_email = $this->get('Email');
+        $service_email->sendTemplatedEmail('Nuevos comentarios recibidos', 'noreply@mycasaparticular.com', $own_obj->getOwnEmail1(), $body->getContent());
+
+
         $ownership = array('ownname'=> $own_obj->getOwnName(),
                             'rating' => $own_obj->getOwnRating(),
                             'comments_total' => $own_obj->getOwnCommentsTotal());

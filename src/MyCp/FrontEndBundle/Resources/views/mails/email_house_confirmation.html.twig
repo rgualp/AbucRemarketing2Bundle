@@ -28,7 +28,7 @@ Por este medio le confirmamos la reservación ({{ reservations[0].getOwnResGenRe
 <b>Idioma:</b> {{ user_tourist[0].getUserTouristLanguage.getLangName }}
 <br/>
 <br/>
-<h3>Habitaciones</h3>
+<h3>Habitaciones  (Total: {{ reservations| length }} habitacion(es) )</h3>
 {% set total_price = 0 %}
 {% for reservation in reservations %}
 <b>Habitación: </b> {{ reservation.getOwnResRoomType }}

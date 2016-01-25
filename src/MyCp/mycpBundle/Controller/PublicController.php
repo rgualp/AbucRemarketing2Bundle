@@ -14,10 +14,17 @@ use MyCp\mycpBundle\Entity\user;
 class PublicController extends Controller
 {
 
-    public function loginAction($urlLogin)
+    public function loginAction($urlLogin, Request $request)
     {
-
-        $request = $this->getRequest();
+//  die(dump($request));
+        if($urlLogin=='backend_login_check'){
+            $host=$request->getHost();
+            $var=explode('admin.',$host);
+            $var1=explode('mycasaparticular.com',$host);
+            if(count($var)==1&& count($var1)>1){
+                return $this->redirect($request->getScheme().'://admin.'.$request->getHost().$request->getBaseUrl());
+            }
+        }
         $session = $request->getSession();
 
         if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {

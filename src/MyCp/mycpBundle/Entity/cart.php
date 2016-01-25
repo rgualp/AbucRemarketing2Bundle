@@ -77,6 +77,13 @@ class cart {
     private $cart_created_date;
 
     /**
+     * @var array
+     *
+     * @ORM\Column(name="childrenAges", type="array", nullable=true)
+     */
+    private $childrenAges;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -319,5 +326,25 @@ class cart {
         );
         return $prices;
     }
+
+    /**
+     * @return array
+     */
+    public function getChildrenAges()
+    {
+        return $this->childrenAges;
+    }
+
+    /**
+     * @param array $childrenAges
+     * @return array
+     */
+    public function setChildrenAges($childrenAges)
+    {
+        $this->childrenAges = $childrenAges;
+        return $this;
+    }
+
+
 
 }

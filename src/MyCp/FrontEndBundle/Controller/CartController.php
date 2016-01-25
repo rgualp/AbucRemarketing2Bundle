@@ -44,12 +44,27 @@ class CartController extends Controller {
         $ids_rooms = $data[2];
         $count_guests = $data[3];
         $count_kids = $data[4];
+        $count_kidsAge_1 = $data[5];
+        $count_kidsAge_2 = $data[6];
+        $count_kidsAge_3 = $data[7];
+
+        //dump($data); die;
+
         $array_ids_rooms = explode('&', $ids_rooms);
         array_shift($array_ids_rooms);
         $array_count_guests = explode('&', $count_guests);
         array_shift($array_count_guests);
         $array_count_kids = explode('&', $count_kids);
         array_shift($array_count_kids);
+
+        $array_count_kidsAge_1 = explode('&', $count_kidsAge_1);
+        array_shift($array_count_kidsAge_1);
+
+        $array_count_kidsAge_2 = explode('&', $count_kidsAge_2);
+        array_shift($array_count_kidsAge_2);
+
+        $array_count_kidsAge_3 = explode('&', $count_kidsAge_3);
+        array_shift($array_count_kidsAge_3);
 
         $reservation_date_from = $from_date;
         $reservation_date_from = explode('&', $reservation_date_from);
@@ -105,6 +120,20 @@ class CartController extends Controller {
                     $cart->setCartCountChildren($array_count_kids[$a]);
                 else
                     $cart->setCartCountChildren(0);
+
+                $kidsAge = array();
+
+                if(isset($array_count_kidsAge_1[$a]) && $array_count_kidsAge_1[$a] != -1)
+                    $kidsAge["FirstKidAge"] = $array_count_kidsAge_1[$a];
+
+                if(isset($array_count_kidsAge_2[$a]) && $array_count_kidsAge_2[$a] != -1)
+                    $kidsAge["SecondKidAge"] = $array_count_kidsAge_2[$a];
+
+                if(isset($array_count_kidsAge_3[$a]) && $array_count_kidsAge_3[$a] != -1)
+                    $kidsAge["ThirdKidAge"] = $array_count_kidsAge_3[$a];
+
+                if(count($kidsAge))
+                    $cart->setChildrenAges($kidsAge);
 
                 $cart->setCartCreatedDate(new \DateTime());
                 if ($user_ids["user_id"] != null) {
@@ -329,6 +358,7 @@ class CartController extends Controller {
                     $general_reservation->setGenResSaved(0);
                     $general_reservation->setGenResOwnId($ownership);
 
+
                     $total_price = 0;
                     $partial_total_price = array();
                     $destination_id = ($ownership->getOwnDestination() != null) ? $ownership->getOwnDestination()->getDesId() : null;
@@ -349,6 +379,8 @@ class CartController extends Controller {
                     $general_reservation->setGenResTotalInSite($total_price);
                     $em->persist($general_reservation);
 
+                    $arrayKidsAge = array();
+
                     $flag_1 = 0;
                     foreach ($resByOwn as $item) {
                         $ownership_reservation = $item->createReservation($general_reservation, $partial_total_price[$flag_1]);
@@ -360,11 +392,22 @@ class CartController extends Controller {
                         $nightsCount = $service_time->nights($ownership_reservation->getOwnResReservationFromDate()->getTimestamp(), $ownership_reservation->getOwnResReservationToDate()->getTimestamp());
                         array_push($nigths, $nightsCount);
 
+                        if($item->getChildrenAges() != null)
+                        {
+                            $arrayKidsAge[$item->getCartRoom()->getRoomNum()] = $item->getChildrenAges();
+                        }
+
                         $em->persist($ownership_reservation);
                         $em->flush();
                         array_push($own_ids, $ownership_reservation->getOwnResId());
                         $flag_1++;
                     }
+
+                    //dump($arrayKidsAge); die;
+
+                    $general_reservation->setChildrenAges($arrayKidsAge);
+                    $em->flush();
+
                     //update generalReservation dates
                     $em->getRepository("mycpBundle:generalReservation")->updateDates($general_reservation);
                     array_push($generalReservations, $general_reservation->getGenResId());

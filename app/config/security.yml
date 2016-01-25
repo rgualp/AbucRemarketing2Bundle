@@ -30,6 +30,8 @@ security:
                 check_path: /backend/login_check
                 login_path: /backend/login
                 remember_me: true
+                default_target_path: /backend/
+                use_referer: false
             remember_me:
                 key: %secret%
                 #7dsa7ydasdy872187yegwhqeg9yw91hjsaa00
@@ -40,6 +42,27 @@ security:
             logout:
                 path:   /backend/logout
                 target: /backend/
+                invalidate_session: false
+            anonymous: ~
+        modulo_casa:
+            pattern:    ^/casa
+            provider: backend
+            form_login:
+                check_path: /casa/login_check
+                login_path: /casa/login
+                remember_me: true
+                default_target_path: /casa/
+                use_referer: false
+            remember_me:
+                key: %secret%
+                #7dsa7ydasdy872187yegwhqeg9yw91hjsaa00
+                lifetime: 86400
+                always_remember_me: true
+                path: /casa
+                domain: ~
+            logout:
+                path:   /casa/logout
+                target: /casa/
                 invalidate_session: false
             anonymous: ~
 
@@ -87,8 +110,12 @@ security:
         - { path: ^/backend/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backend/olvido-contrasenna, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backend/cambiar-contrasenna, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/casa/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/casa/olvido-contrasenna, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/casa/cambiar-contrasenna, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backend/mycp_cf, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backend, roles: IS_AUTHENTICATED_REMEMBERED}
+        - { path: ^/casa, roles: IS_AUTHENTICATED_REMEMBERED}
        # - { path: ^/alojamiento/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/alojamiento/mycp_cf, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/alojamiento, roles: IS_AUTHENTICATED_REMEMBERED}

@@ -3659,6 +3659,10 @@
                <source>backend.menu.statistics.reports.sales</source>
                <target>Sales report</target>
                </trans-unit>
+            <trans-unit id="925">
+            <source>children.ages</source>
+            <target>Age of children</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
