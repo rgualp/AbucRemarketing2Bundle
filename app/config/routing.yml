@@ -4,7 +4,7 @@ frontend_website_migration:
     resource: "@FrontEndBundle/Resources/config/routingFrontendWebsiteMigration.yml"
 backend_subdomain:
     path: /
-    host: "admin.mirror.mycasaparticular.com"
+    host: "admin.mycasaparticular.com"
     defaults: { _controller: mycpBundle:Backend:backend_front }
 backend_login_check:
     pattern:  /backend/login_check
