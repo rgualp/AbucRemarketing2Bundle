@@ -23,6 +23,8 @@ class CreateAccountsCommand extends ContainerAwareCommand
         $this
             ->setName('mycp_task:create_accounts')
             ->setDefinition(array())
+            ->addOption('usercasa-inactive', null, InputOption::VALUE_NONE, 'Only email for users usercasa inactives')
+            ->addOption('ownership-only', null, InputOption::VALUE_NONE, 'See total ownership without usercasa')
             ->setDescription('Create accounts');
 
     }
@@ -33,54 +35,91 @@ class CreateAccountsCommand extends ContainerAwareCommand
         $em = $container->get('doctrine')->getManager();
         $cont_error= 0;
         $data_users= array();
+        $usercasa_inactive= $input->getOption('usercasa-inactive');
+        $ownership_only= $input->getOption('ownership-only');
 
-        $output->writeln('<info>Extracting  ownership</info>');
+        if($ownership_only){
+            $sql= 'select o from mycpBundle:ownership o ';
+            $sql.= 'LEFT OUTER JOIN ';
+            $sql.= 'mycpBundle:userCasa uc ';
+            $sql.= 'WITH o.own_id = uc.user_casa_ownership ';
+            $sql.= 'WHERE uc.user_casa_ownership IS NULL ';//Condicionar que no existe en la tabla "userCasa"
+            $sql.= "AND (o.own_email_1 !='' OR o.own_email_2 !='') ";//Asegurar que tiene email
+            $sql.= "AND o.own_status = 1";//Status 1=Activo
 
-        $sql= 'select o from mycpBundle:ownership o ';
-        $sql.= 'LEFT OUTER JOIN ';
-        $sql.= 'mycpBundle:userCasa uc ';
-        $sql.= 'WITH o.own_id = uc.user_casa_ownership ';
-        $sql.= 'WHERE uc.user_casa_ownership IS NULL ';//Condicionar que no existe en la tabla "userCasa"
-        $sql.= "AND (o.own_email_1 !='' OR o.own_email_2 !='') ";//Asegurar que tiene email
-        $sql.= "AND o.own_status = 1";//Status 1=Activo
+            $q = $em->createQuery($sql);
+            $results= $q->execute();
+            $total= count($results);
+            $output->writeln('<info>Faltan  '.$total.' ownerships</info>');
 
-        $q = $em->createQuery($sql);
-        $results= $q->execute();
-        $total= count($results);
+            return;
+        }
 
-        $output->writeln('<info>Extract '.$total.' ownerships</info>');
-        $output->writeln('<info>Creating users...</info>');
-        foreach ($results as $ownership) {
-            /***See***/
-            $email = $ownership->getOwnEmail1();
-            if (empty($email))
-                $email = $ownership->getOwnEmail2();
-            $output->writeln('<info>Creating: '.$email.'</info>');
-            /***See END***/
+        if(!$usercasa_inactive){
 
-            /***Creando userCasa***/
-            try{
-                $user_casa= $this->createUser($ownership, $em);
-                $data_users[]= array($user_casa, $ownership);
-                $em->flush();
-            } catch (\Exception $e) {
-                $cont_error++;
-                $error= $e->getMessage();
-                $output->writeln('<error>Error with user: '.$email.'->'.$error.'</error>');
+            $output->writeln('<info>Extracting  ownership</info>');
+
+            $sql= 'select o from mycpBundle:ownership o ';
+            $sql.= 'LEFT OUTER JOIN ';
+            $sql.= 'mycpBundle:userCasa uc ';
+            $sql.= 'WITH o.own_id = uc.user_casa_ownership ';
+            $sql.= 'WHERE uc.user_casa_ownership IS NULL ';//Condicionar que no existe en la tabla "userCasa"
+            $sql.= "AND (o.own_email_1 !='' OR o.own_email_2 !='') ";//Asegurar que tiene email
+            $sql.= "AND o.own_status = 1";//Status 1=Activo
+
+            $q = $em->createQuery($sql);
+            $results= $q->execute();
+            $total= count($results);
+
+            $output->writeln('<info>Extract '.$total.' ownerships</info>');
+            $output->writeln('<info>Creating users...</info>');
+            foreach ($results as $ownership) {
+                /***See***/
+                $email = trim($ownership->getOwnEmail1());
+                if (empty($email))
+                    $email = trim($ownership->getOwnEmail2());
+                $output->writeln('<info>Creating: '.$email.'</info>');
+                /***See END***/
+
+                /***Creando userCasa***/
+                try{
+                    $user_casa= $this->createUser($ownership, $em);
+                    $data_users[]= array($user_casa, $ownership);
+                    $em->flush();
+                } catch (\Exception $e) {
+                    $cont_error++;
+                    $error= $e->getMessage();
+                    $output->writeln('<error>Error with user: '.$email.'->'.$error.'</error>');
+                }
+                /***Creando userCasa END***/
             }
-            /***Creando userCasa END***/
+
+            if($cont_error>0){
+                $output->writeln('<error>'.$cont_error.' usuarios dejados de crear</error>');
+            }
+        }else{
+            $sql= 'select uc from mycpBundle:userCasa uc ';
+            $sql.= 'INNER JOIN ';
+            $sql.= 'mycpBundle:user u ';
+            $sql.= 'WHERE u.user_enabled IS NULL';
+
+            $q = $em->createQuery($sql);
+            $results= $q->execute();
+            $total= count($results);
+            $index= 1;
+            $output->writeln('<info>'.$total.' usuarios para enviarles correo.</info>');
+            foreach ($results as $user_casa) {
+//                $output->writeln('<info>'.$index++.'</info>');
+                $ownership= $user_casa->getUserCasaOwnership();
+                $data_users[]= array($user_casa, $ownership);
+            }
         }
 
         /*** Send emails ***/
         $this->sendEmails($data_users);
         /*** Send emails ***/
 
-        if($cont_error>0){
-            $output->writeln('<error>'.$cont_error.' usuarios dejados de crear</error>');
-        }
-
         $output->writeln('<info>Finish</info>');
-
     }
 
     protected function createUser($ownership, $em) {
@@ -94,9 +133,9 @@ class CreateAccountsCommand extends ContainerAwareCommand
         $address = $ownership->getOwnAddressStreet() . " #" . $ownership->getOwnAddressNumber() . ", " . $ownership->getOwnAddressMunicipality()->getMunName() . ", " . $ownership->getOwnAddressProvince()->getProvName();
         $phone = '(+53) ' . $ownership->getOwnAddressProvince()->getProvPhoneCode() . ' ' . $ownership->getOwnPhoneNumber();
 
-        $email = $ownership->getOwnEmail1();
+        $email = trim($ownership->getOwnEmail1());
         if (empty($email))
-            $email = $ownership->getOwnEmail2();
+            $email = trim($ownership->getOwnEmail2());
 
         $user->setUserAddress($address);
         $user->setUserCity($ownership->getOwnAddressMunicipality()->getMunName());
