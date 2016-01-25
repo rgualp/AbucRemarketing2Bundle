@@ -155,13 +155,19 @@
 {% for message in app.session.flashbag.get('message_global_success') %}
     <div class="container">
         <br/>
-        <div class="alert alert-info" style="margin-bottom: 10px">{{ message }}</div>
+        <div class="alert alert-info" style="margin-bottom: 10px">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+        </div>
     </div>
 {% endfor %}
 {% for message in app.session.flashbag.get('message_global_error') %}
     <div class="container">
         <br/>
-        <div class="alert alert-danger" style="margin-bottom: 10px">{{ message }}</div>
+        <div class="alert alert-danger" style="margin-bottom: 10px">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+        </div>
     </div>
 {% endfor %}
 {% block body %}
@@ -295,4 +301,6 @@ filter='?uglifyjs2'
         <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/1016854742/?value=0&amp;guid=ON&amp;script=0"/>
     </div>
 </noscript>
+{% block javascripts %}
+{% endblock javascripts %}
 </html>
