@@ -218,13 +218,20 @@
                     <li><a title="My Casa Particular - {{"SECURITY_AND_PRIVACITY" | trans}}" href="{{path('frontend_security_privacity')}}">{{"SECURITY_AND_PRIVACITY" | trans}}</a></li>
                 </ul>
             </div>
-            <div class="col-xs-3">
+            <div class="col-xs-2">
                 <h3>{{"OUR_SERVICES" | trans}}</h3>
                 <ul>
                     <li><a title="My Casa Particular - {{"SITE_MAP" | trans}}"  href="{{ path ('frontend_sitemap_information')}}">{{"SITE_MAP" | trans}}</a></li>
                 </ul>
             </div>
-            <div class="col-xs-3 text-right">
+            <div class="col-xs-2">
+                <h3 style="margin-bottom: 5px;">{{"HOUSE_QUESTION" | trans}}</h3>
+                <ul>
+                    <li style="font-size: 13px; margin-bottom: 5px;">{{ 'MYCASA_RENTA_APP'|trans }}</li>
+                    <li><a href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid" target="_blank"><img width="120px" src="{{ asset('bundles/frontend/img/google-play.png') }}"></a> </li>
+                </ul>
+            </div>
+            <div class="col-xs-2 text-right">
                 <img id="firm" src="{{ asset('bundles/frontend/img/seal_'~app.session.get('app_lang_code')|lower)}}.png" width="" title="MyCasaParticular.com">
             </div>
         </div>
