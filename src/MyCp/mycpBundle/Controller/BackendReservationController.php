@@ -669,7 +669,7 @@ class BackendReservationController extends Controller {
 
         if($custom_message != "" && isset($custom_message))
         {
-            dump($custom_message); die;
+           // dump($custom_message); die;
             $from = $this->getUser();
             $to = $generalReservation->getGenResUserId();
             $subject = "Reservación ".$generalReservation->getCASId();

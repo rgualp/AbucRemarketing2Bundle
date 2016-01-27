@@ -3081,6 +3081,15 @@
             <source>children.ages</source>
             <target>Edad de los niños</target>
             </trans-unit>
+            <trans-unit id="926">
+            <source>HOUSE_QUESTION</source>
+            <target>¿Tienes una casa?</target>
+            </trans-unit>
+            <trans-unit id="927">
+            <source>MYCASA_RENTA_APP</source>
+            <target>MYCASA RENTA APP</target>
+            </trans-unit>
+
         </body>
     </file>
 </xliff>

@@ -20,7 +20,7 @@ class PublicController extends Controller
         if($urlLogin=='backend_login_check'){
             $host=$request->getHost();
             $var=explode('admin.',$host);
-            $var1=explode('mycasaparticular.com',$host);
+            $var1=explode('www.mycasaparticular.com',$host);
             if(count($var)==1&& count($var1)>1){
                 return $this->redirect($request->getScheme().'://admin.mycasaparticular.com'.$request->getBaseUrl());
             }
