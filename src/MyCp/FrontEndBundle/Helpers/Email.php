@@ -108,6 +108,7 @@ class Email {
         $locale = $this->container->get('translator');
         $subject = $locale->trans('REQUEST_STATUS_CHANGED', array(), "messages", $user_locale);
 
+
         $this->sendEmail(
                 $subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $body
         );
