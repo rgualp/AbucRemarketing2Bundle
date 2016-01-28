@@ -18,74 +18,86 @@ use Symfony\Component\Debug\Exception\FatalErrorException;
 
 class CreateAccountsCommand extends ContainerAwareCommand
 {
+    private $em;
+
+    private $container;
+
+    private $service_email;
+
     protected function configure()
     {
         $this
             ->setName('mycp_task:create_accounts')
             ->setDefinition(array())
-            ->addOption('usercasa-inactive', null, InputOption::VALUE_NONE, 'Only email for users usercasa inactives')
-            ->addOption('ownership-only', null, InputOption::VALUE_NONE, 'See total ownership without usercasa')
+            ->addOption('see-ownership-only', null, InputOption::VALUE_NONE, 'See total ownership without usercasa')
+            ->addOption('see-usercasa-disabled', null, InputOption::VALUE_NONE, 'See total userCasa disabled')
+            ->addOption('create-usercasa', null, InputOption::VALUE_NONE, 'Create userCasa to users ownership')
+            ->addOption('create-usercasa-send-email', null, InputOption::VALUE_NONE, 'Create userCasa to users ownership and send email')
+            ->addOption('send-email-usercasa-disabled', null, InputOption::VALUE_NONE, 'Send email to userCasa disabled')
             ->setDescription('Create accounts');
 
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $container = $this->getContainer();
-        $em = $container->get('doctrine')->getManager();
+        $this->loadConfig();
+        $see_ownership_only= $input->getOption('see-ownership-only');
+        $see_usercasa_disabled= $input->getOption('see-usercasa-disabled');
+        $create_usercasa= $input->getOption('create-usercasa');
+        $create_usercasa_send_email= $input->getOption('create-usercasa-send-email');
+        $send_email_usercasa_disabled= $input->getOption('send-email-usercasa-disabled');
         $cont_error= 0;
-        $data_users= array();
-        $usercasa_inactive= $input->getOption('usercasa-inactive');
-        $ownership_only= $input->getOption('ownership-only');
 
-        if($ownership_only){
-            $sql= 'select o from mycpBundle:ownership o ';
-            $sql.= 'LEFT OUTER JOIN ';
-            $sql.= 'mycpBundle:userCasa uc ';
-            $sql.= 'WITH o.own_id = uc.user_casa_ownership ';
-            $sql.= 'WHERE uc.user_casa_ownership IS NULL ';//Condicionar que no existe en la tabla "userCasa"
-            $sql.= "AND (o.own_email_1 !='' OR o.own_email_2 !='') ";//Asegurar que tiene email
-            $sql.= "AND o.own_status = 1";//Status 1=Activo
-
-            $q = $em->createQuery($sql);
-            $results= $q->execute();
+        if($see_ownership_only){
+            $results= $this->getOwnershipsNoUserCasa();
             $total= count($results);
-            $output->writeln('<info>Faltan  '.$total.' ownerships</info>');
-
+            $output->writeln('<info>Existen  '.$total.' ownerships que no son userCasa que tienen email y estan activos.</info>');
             return;
         }
 
-        if(!$usercasa_inactive){
-
-            $output->writeln('<info>Extracting  ownership</info>');
-
-            $sql= 'select o from mycpBundle:ownership o ';
-            $sql.= 'LEFT OUTER JOIN ';
-            $sql.= 'mycpBundle:userCasa uc ';
-            $sql.= 'WITH o.own_id = uc.user_casa_ownership ';
-            $sql.= 'WHERE uc.user_casa_ownership IS NULL ';//Condicionar que no existe en la tabla "userCasa"
-            $sql.= "AND (o.own_email_1 !='' OR o.own_email_2 !='') ";//Asegurar que tiene email
-            $sql.= "AND o.own_status = 1";//Status 1=Activo
-
-            $q = $em->createQuery($sql);
-            $results= $q->execute();
+        if($see_usercasa_disabled){
+            $results= $this->getUserCasaDisabled();
             $total= count($results);
+            $output->writeln('<info>Existen  '.$total.' userCasa que no estan habilitados.</info>');
 
+            /***Test***/
+            //Comprobar que los estados son distintos de 1 (enabled, es decir, que sean 0 o NULL)
+            $out= '';
+            foreach ($results as $user_casa) {
+                $out.= $user_casa->getUserCasaUser()->getUserEnabled().'-';
+            }
+            $output->writeln('<info>'.$out.'</info>');
+            /***Test End***/
+            return;
+        }
+
+        if($create_usercasa || $create_usercasa_send_email){
+            $output->writeln('<info>Extracting  ownership</info>');
+            $results= $this->getOwnershipsNoUserCasa();
+            $total= count($results);
             $output->writeln('<info>Extract '.$total.' ownerships</info>');
             $output->writeln('<info>Creating users...</info>');
+            $index=1;
             foreach ($results as $ownership) {
                 /***See***/
                 $email = trim($ownership->getOwnEmail1());
                 if (empty($email))
                     $email = trim($ownership->getOwnEmail2());
-                $output->writeln('<info>Creating: '.$email.'</info>');
+                $output->writeln('<info>'.$index++.' Creating userCasa: '.$email.'</info>');
                 /***See END***/
 
                 /***Creando userCasa***/
                 try{
-                    $user_casa= $this->createUser($ownership, $em);
-                    $data_users[]= array($user_casa, $ownership);
-                    $em->flush();
+                    $user_casa= $this->createUser($ownership);
+                    $this->em->flush();
+                    /***Email***/
+                    if($create_usercasa_send_email){
+                        $output->writeln('<info>Preparing to send "'.$email.'"...</info>');
+                        $this->service_email->sendCreateUserCasaMailCommand($user_casa, $ownership);
+                        $output->writeln('<info>Queued</info>');
+                    }
+                    /***Email End***/
+
                 } catch (\Exception $e) {
                     $cont_error++;
                     $error= $e->getMessage();
@@ -94,41 +106,43 @@ class CreateAccountsCommand extends ContainerAwareCommand
                 /***Creando userCasa END***/
             }
 
-            if($cont_error>0){
-                $output->writeln('<error>'.$cont_error.' usuarios dejados de crear</error>');
-            }
-        }else{
-            $sql= 'select uc from mycpBundle:userCasa uc ';
-            $sql.= 'INNER JOIN ';
-            $sql.= 'mycpBundle:user u ';
-            $sql.= 'WHERE u.user_enabled IS NULL';
+        }
 
-            $q = $em->createQuery($sql);
-            $results= $q->execute();
+        if($send_email_usercasa_disabled){
+            $output->writeln('<info>Extracting  usersCasa...</info>');
+            $results= $this->getUserCasaDisabled();
             $total= count($results);
-            $index= 1;
-            $output->writeln('<info>'.$total.' usuarios para enviarles correo.</info>');
+            $output->writeln('<info>Extract '.$total.' usersCasa</info>');
+
+            $index=1;
             foreach ($results as $user_casa) {
-//                $output->writeln('<info>'.$index++.'</info>');
+                $email= $user_casa->getUserCasaUser()->getUserEmail();
+                $output->writeln('<info>'.$index++.': Preparing "'.$email.'"...</info>');
                 $ownership= $user_casa->getUserCasaOwnership();
-                $data_users[]= array($user_casa, $ownership);
+                try{
+                    $this->service_email->sendCreateUserCasaMailCommand($user_casa, $ownership);
+                    $output->writeln('<info>Queued</info>');
+                }catch (\Exception $e) {
+                    $cont_error++;
+                    $error= $e->getMessage();
+                    $output->writeln('<error>Error with user: '.$email.'->'.$error.'</error>');
+                }
             }
         }
 
-        /*** Send emails ***/
-        $this->sendEmails($data_users);
-        /*** Send emails ***/
-
-        $output->writeln('<info>Finish</info>');
+        if($cont_error>0){
+            $output->writeln('<error>'.$cont_error.' usuarios con problemas</error>');
+        }
+        $output->writeln('<info>Finish (Waiting send emails)...</info>');
     }
 
-    protected function createUser($ownership, $em) {
+    protected function createUser($ownership) {
         $container = $this->getContainer();
         $factory = $container->get('security.encoder_factory');
 
         $user = new user();
-        $country = $em->getRepository('mycpBundle:country')->findBy(array('co_name' => 'Cuba'));
-        $subrole = $em->getRepository('mycpBundle:role')->findOneBy(array('role_name' => 'ROLE_CLIENT_CASA'));
+        $country = $this->em->getRepository('mycpBundle:country')->findBy(array('co_name' => 'Cuba'));
+        $subrole = $this->em->getRepository('mycpBundle:role')->findOneBy(array('role_name' => 'ROLE_CLIENT_CASA'));
 
         $address = $ownership->getOwnAddressStreet() . " #" . $ownership->getOwnAddressNumber() . ", " . $ownership->getOwnAddressMunicipality()->getMunName() . ", " . $ownership->getOwnAddressProvince()->getProvName();
         $phone = '(+53) ' . $ownership->getOwnAddressProvince()->getProvPhoneCode() . ' ' . $ownership->getOwnPhoneNumber();
@@ -167,41 +181,53 @@ class CreateAccountsCommand extends ContainerAwareCommand
         $secret_token = str_replace('?', '5', $secret_token);
         $user_casa->setUserCasaSecretToken($secret_token);
 
-        $em->persist($user);
-        $em->persist($user_casa);
+        $this->em->persist($user);
+        $this->em->persist($user_casa);
 
         return $user_casa;
     }
 
-    protected function sendEmails($data_users){
-        $container= $this->getContainer();
-        $templating = $container->get('templating');
-        $message = \Swift_Message::newInstance();
-        $replacements=array();
+    protected function getOwnershipsNoUserCasa(){
+        $sql= 'select o from mycpBundle:ownership o ';
+        $sql.= 'LEFT OUTER JOIN ';
+        $sql.= 'mycpBundle:userCasa uc ';
+        $sql.= 'WITH o.own_id = uc.user_casa_ownership ';
+        $sql.= 'WHERE uc.user_casa_ownership IS NULL ';//Condicionar que no existe en la tabla "userCasa"
+        $sql.= "AND (o.own_email_1 !='' OR o.own_email_2 !='') ";//Asegurar que tiene email
+        $sql.= "AND o.own_status = 1";//Status 1=Activo
+        /***test***/
+        //AR001,AR002,AR003,AR004
+        $sql.= "AND o.own_mcp_code in ('AR001','AR002','AR003','AR004') ";
+        /***test END***/
 
-        foreach($data_users as list($user_casa, $ownership)){
-            $user = $user_casa->getUserCasaUser();
-            $user_fullname= trim($user->getUserUserName() . ' ' . $user->getUserLastName());
-            $email_to= $user->getUserEmail();
+        $q = $this->em->createQuery(trim($sql));
+        $results= $q->execute();
+        return $results;
 
-            $replacements[$email_to]=array(
-                '{user_name}'=>$user->getUserName(),
-                '{user_full_name}'=>$user_fullname,
-                '{own_name}'=>$ownership->getOwnName(),
-                '{own_mycp_code}'=>$ownership->getOwnMcpCode(),
-                '{secret_token}'=>$user_casa->getUserCasaSecretToken()
-            );
+    }
 
+    protected function getUserCasaDisabled(){
+        $sql= 'select uc from mycpBundle:userCasa uc ';
+        $sql.= 'INNER JOIN ';
+        $sql.= 'mycpBundle:user u ';
+        $sql.= 'WITH u = uc.user_casa_user ';
+        $sql.= 'INNER JOIN ';
+        $sql.= 'mycpBundle:ownership o ';
+        $sql.= 'WITH o = uc.user_casa_ownership ';
+        $sql.= 'WHERE u.user_enabled <> 1 ';
+        /***test***/
+        //AR001,AR002,AR003,AR004
+        $sql.= "AND o.own_mcp_code in ('AR001','AR002','AR003','AR004') ";
+        /***test END***/
 
-            $message->addTo($email_to);
-        }
-        $message->setFrom('casa@mycasaparticular.com', 'MyCasaParticular.com');
-        $message->setSubject("Creación de cuenta de usuario");
-        $template= 'FrontEndBundle:mails:createUserCasaMailBodyCommand.html.twig';
-        $message->setBody($templating->renderResponse($template), 'text/html');
-        $decorator= new \Swift_Plugins_DecoratorPlugin($replacements);
-        $mailer= $container->get('mailer');
-        $mailer->registerPlugin($decorator);
-        $mailer->send($message);
+        $q = $this->em->createQuery(trim($sql));
+        $results= $q->execute();
+        return $results;
+    }
+
+    protected function loadConfig(){
+        $this->container = $this->getContainer();
+        $this->em = $this->container->get('doctrine')->getManager();
+        $this->service_email = $this->container->get('Email');
     }
 }

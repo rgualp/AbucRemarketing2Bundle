@@ -1,16 +1,16 @@
-{% extends 'FrontEndBundle:layout:baseMailTemplate.html.twig' %}
+{% extends 'FrontEndBundle:layout:baseMailTemplate2.html.twig' %}
 
 {% block content %}
     <h4 style="font-family: Arial; font-size: 20px">Bienvenido a MyCasaParticular</h4>
     <p style="font-family: Arial; font-size: 14px">
-        Estimado Sr(a). {user_full_name}:
+        Estimado Sr(a). {{ user_full_name }}:
         <br/>
-        Le informamos que hemos creado un acceso para que Ud. pueda administrar su alojamiento, {own_name},
+        Le informamos que hemos creado un acceso para que Ud. pueda administrar su alojamiento, {{ own_name }},
         publicado en MyCasaParticular.com.
         <br/>
-        Su nombre de usuario se corresponde con el código de su casa en nuestro sitio: {user_name}. Por favor,
+        Su nombre de usuario se corresponde con el código de su casa en nuestro sitio: {{ user_name }}. Por favor,
         active su cuenta a través del siguiente enlace: <a
-                href="{{ url('frontend_userCasa_activateAccount',{'token':'{secret_token}','locale':'es','_locale':'es'}) }}">Activar</a>
+                href="{{ url('frontend_userCasa_activateAccount',{'token':secret_token,'locale':'es','_locale':'es'}) }}">Activar</a>
         <br/>
         Con esta cuenta usted podrá acceder al módulo de administración web disponible en este <a
                 href="{{ url('casa_login') }}">enlace</a>. En este módulo de
