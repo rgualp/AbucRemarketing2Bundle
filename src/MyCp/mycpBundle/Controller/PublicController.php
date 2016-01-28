@@ -17,14 +17,14 @@ class PublicController extends Controller
     public function loginAction($urlLogin, Request $request)
     {
 //  die(dump($request));
-        if($urlLogin=='backend_login_check'){
-            $host=$request->getHost();
-            $var=explode('admin.',$host);
-            $var1=explode('www.mycasaparticular.com',$host);
-            if(count($var)==1&& count($var1)>1){
-                return $this->redirect($request->getScheme().'://admin.mycasaparticular.com'.$request->getBaseUrl());
-            }
-        }
+//        if($urlLogin=='backend_login_check'){
+//            $host=$request->getHost();
+//            $var=explode('admin.',$host);
+//            $var1=explode('www.mycasaparticular.com',$host);
+//            if(count($var)==1&& count($var1)>1){
+//                return $this->redirect($request->getScheme().'://admin.mycasaparticular.com'.$request->getBaseUrl());
+//            }
+//        }
         $session = $request->getSession();
 
         if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
