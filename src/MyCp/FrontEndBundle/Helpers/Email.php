@@ -108,6 +108,7 @@ class Email {
         $locale = $this->container->get('translator');
         $subject = $locale->trans('REQUEST_STATUS_CHANGED', array(), "messages", $user_locale);
 
+
         $this->sendEmail(
                 $subject, 'reservation@mycasaparticular.com', 'MyCasaParticular.com', $user->getUserEmail(), $body
         );
@@ -148,6 +149,27 @@ class Email {
         $this->sendEmail(
                 "Creación de cuenta de usuario", 'casa@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content
         );
+    }
+
+    public function sendCreateUserCasaMailCommand($user_casa, $ownership) {
+        $user = $user_casa->getUserCasaUser();
+        $user_fullname= trim($user->getUserUserName() . ' ' . $user->getUserLastName());
+        $email_to= $user->getUserEmail();
+
+        $templating = $this->container->get('templating');
+
+        if (!isset($email_to) || $email_to == "")
+            throw new \InvalidArgumentException("The email to can not be empty");
+
+        $data= array();
+        $data['user_name']= $user->getUserName();
+        $data['user_full_name']= $user_fullname;
+        $data['own_name']= $ownership->getOwnName();
+        $data['own_mycp_code']= $ownership->getOwnMcpCode();
+        $data['secret_token']= $user_casa->getUserCasaSecretToken();
+
+        $content = $templating->render('FrontEndBundle:mails:createUserCasaMailBodyCommand.html.twig', $data);
+        $this->sendEmail("Creación de cuenta de usuario", 'no_responder@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content);
     }
 
 }
