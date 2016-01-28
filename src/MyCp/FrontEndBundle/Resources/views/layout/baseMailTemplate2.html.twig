@@ -38,7 +38,9 @@
                             <tr>
                                 <td colspan="2" style="font-size: 11px; line-height: 18px; font-family: arial">
                                     <hr style="color: #cccccc; background-color: #cccccc; height: 1px; border: medium none;"/>
-                                    {{ 'FOOTER_EMAIL'| trans({'%policieslink%': url('frontend_security_privacity'), '%termlink%': url('frontend_legal_terms'), 'reservation@mycasaparticular.com':'casa@mycasaparticular.com'}) |raw }}
+                                    {% set policiesLink = mail_base_url ~ "/security-privacy-email/"~ user_locale|lower ~ '/' ~ user_locale|lower%}
+                                    {% set termlink = mail_base_url ~ "/legal-terms-email/"~ user_locale|lower ~ '/' ~ user_locale|lower%}
+                                    {{ 'FOOTER_EMAIL'| trans({'%policieslink%': policiesLink, '%termlink%': termlink, 'reservation@mycasaparticular.com':'casa@mycasaparticular.com'}) |raw }}
                                 </td>
                             </tr>
                         </table>
