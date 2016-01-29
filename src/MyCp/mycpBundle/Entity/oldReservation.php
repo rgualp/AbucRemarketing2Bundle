@@ -24,6 +24,13 @@ class oldReservation
     private $id;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="ref_id", type="string")
+     */
+    private $ref_id;
+
+    /**
      * @var DateTime
      *
      * @ORM\Column(name="creation_date", type="date", nullable=true)
@@ -191,6 +198,20 @@ class oldReservation
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRefId()
+    {
+        return $this->ref_id;
+    }
+
+    public function setRefId($ref_id)
+    {
+        $this->ref_id = $ref_id;
+        return $this;
     }
 
 
