@@ -167,9 +167,12 @@ class Email {
         $data['own_name']= $ownership->getOwnName();
         $data['own_mycp_code']= $ownership->getOwnMcpCode();
         $data['secret_token']= $user_casa->getUserCasaSecretToken();
+        $data['user_locale']= 'es';
 
         $content = $templating->render('FrontEndBundle:mails:createUserCasaMailBodyCommand.html.twig', $data);
-        $this->sendEmail("Creación de cuenta de usuario", 'no_responder@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content);
+//        $email_to= 'arieskienmendoza@gmail.com';
+        $subject= 'MyCasaParticular.com brinda nuevas oportunidades para sus clientes';
+        $this->sendEmail($subject, 'no_responder@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content);
     }
 
 }
