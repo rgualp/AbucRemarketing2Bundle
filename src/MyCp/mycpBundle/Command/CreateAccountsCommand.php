@@ -34,6 +34,7 @@ class CreateAccountsCommand extends ContainerAwareCommand
             ->addOption('create-usercasa', null, InputOption::VALUE_NONE, 'Create userCasa to users ownership')
             ->addOption('create-usercasa-send-email', null, InputOption::VALUE_NONE, 'Create userCasa to users ownership and send email')
             ->addOption('send-email-usercasa-disabled', null, InputOption::VALUE_NONE, 'Send email to userCasa disabled')
+            ->addOption('send-email-usercasa-disabled-apologies', null, InputOption::VALUE_NONE, 'Send email to userCasa disabled apologies')
             ->setDescription('Create accounts');
 
     }
@@ -46,6 +47,7 @@ class CreateAccountsCommand extends ContainerAwareCommand
         $create_usercasa= $input->getOption('create-usercasa');
         $create_usercasa_send_email= $input->getOption('create-usercasa-send-email');
         $send_email_usercasa_disabled= $input->getOption('send-email-usercasa-disabled');
+        $send_email_usercasa_disabled_apologies= $input->getOption('send-email-usercasa-disabled-apologies');
         $cont_error= 0;
 
         if($see_ownership_only){
@@ -121,6 +123,28 @@ class CreateAccountsCommand extends ContainerAwareCommand
                 $ownership= $user_casa->getUserCasaOwnership();
                 try{
                     $this->service_email->sendCreateUserCasaMailCommand($user_casa, $ownership);
+                    $output->writeln('<info>Queued</info>');
+                }catch (\Exception $e) {
+                    $cont_error++;
+                    $error= $e->getMessage();
+                    $output->writeln('<error>Error with user: '.$email.'->'.$error.'</error>');
+                }
+            }
+        }
+
+        if($send_email_usercasa_disabled_apologies){
+            $output->writeln('<info>Extracting  usersCasa...</info>');
+            $results= $this->getUserCasaDisabled();
+            $total= count($results);
+            $output->writeln('<info>Extract '.$total.' usersCasa</info>');
+
+            $index=1;
+            foreach ($results as $user_casa) {
+                $email= $user_casa->getUserCasaUser()->getUserEmail();
+                $output->writeln('<info>'.$index++.': Preparing "'.$email.'"...</info>');
+                $ownership= $user_casa->getUserCasaOwnership();
+                try{
+                    $this->service_email->sendCreateUserCasaMailApologiesCommand($user_casa, $ownership);
                     $output->writeln('<info>Queued</info>');
                 }catch (\Exception $e) {
                     $cont_error++;
