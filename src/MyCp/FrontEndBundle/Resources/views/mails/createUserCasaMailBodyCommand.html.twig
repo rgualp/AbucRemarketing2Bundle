@@ -8,8 +8,8 @@
         MyCasaParticular.com. El objetivo de estas novedades es mejorar la gestión de reservas y, con esto, optimizar la
         visibilidad de su alojamiento en nuestro portal web.</p>
     <p>A partir de ahora, nuestros usuarios podrán administrar de manera individual los datos fundamentales de su
-        hospedaje, el estado de las reservas recibidas a través de nuestra página web, así como actualizar la
-        disponibilidad de sus habitaciones para la renta.</p>
+        hospedaje, el estado de las reservas recibidas a través de nuestra página web, así como actualizar la NO
+        Disponibilidad de sus habitaciones para la renta.</p>
     <p>PRIMERO necesitará activar su cuenta a través de la siguiente dirección electrónica: </p>
         {% set activateLink = url('frontend_userCasa_activateAccount',{'token':secret_token,'locale':'es','_locale':'es'}) %}
         <a href="{{ activateLink|replace({'//es': '/es'}) }}">{{ activateLink|replace({'//es': '/es'}) }}</a></p>
@@ -20,9 +20,9 @@
         {% set casaLoginLink = url('casa_login') %}
     <p><a href="{{ casaLoginLink|replace({'//casa': '/casa'}) }}">{{ casaLoginLink|replace({'//casa': '/casa'}) }}</a><br>
     <p>O puede descargar la aplicación móvil MyCasa Renta para dispositivos Android, que le permitirá, desde Internet o
-        a través de una zona wifi, indicar y modificar las fechas en que su alojamiento estará disponible para nuevos
-        clientes turistas:</p>
-    <p><a href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid">https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid</a><br>
+        a través de una zona wifi, indicar y modificar las fechas en que su alojamiento NO estará disponible para nuevas
+        reservas:</p>
+    <p><a href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid"> https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid</a><br>
         Para consultar sus dudas, por favor, escríbanos a casa@mycasaparticular.com. Nuestra central de reservas también
         estará a su disposición a través del teléfono 7867 1111</p>
     <p>Saludos Cordiales,
