@@ -55,10 +55,12 @@ class GetStatisticsFromEmailCommand extends ContainerAwareCommand {
             $date = date('Y-m-d H:i:s', isset($head->date) ? strtotime(preg_replace('/\(.*?\)/', '', $head->date)) : time());
             $message = imap_fetchbody($connection,$mail, "1", FT_UID);
 
-            preg_match('#MyCasaParticular Reservas([\w-\s]+)#i', $head->subject, $matchesReservation);
+            preg_match('#MyCasaParticular Reservas([-\w]*)#i', $head->subject, $matchesReservation);
             preg_match('#Confirmaci([\s\S]+)n de pago. MyCasaParticular.com#i', $head->subject, $matchesPayment);
 
-            if(($isReservationEmail && count($matchesReservation)) || (count($matchesPayment) && !$isReservationEmail))
+            $output->writeln($matchesReservation);
+
+            if(count($matchesReservation) || count($matchesPayment))
                 $this->processMessageBody($message, $date, $isReservationEmail, $output, $messageRefId);
         }
     }
