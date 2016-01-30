@@ -193,6 +193,13 @@ class oldReservation
     private $accommodation_cellphone;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="reservation_code", type="string", nullable=true)
+     */
+    private $reservation_code;
+
+    /**
      * @return int
      */
     public function getId()
@@ -568,6 +575,23 @@ class oldReservation
         $this->tourist_postal_code = $tourist_postal_code;
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getReservationCode()
+    {
+        return $this->reservation_code;
+    }
+
+    /**
+     * @param string $reservation_code
+     */
+    public function setReservationCode($reservation_code)
+    {
+        $this->reservation_code = $reservation_code;
+    }
+
 
 
 }

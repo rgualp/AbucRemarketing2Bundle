@@ -33,7 +33,7 @@ class GetStatisticsFromEmailCommand extends ContainerAwareCommand {
         try {
             $server = "{imap.mail.hostpoint.ch}INBOX.Emails_".$year;
             $connection = imap_open($server,'reservation@mycasaparticular.com', 'kkappukkon300');
-            $this->processEmail($connection, 'SUBJECT "MyCasaParticular Reservas" FROM "no.reply@mycasaparticular.com"', true, $output, $year);
+            $this->processEmail($connection, 'FROM "no.reply@mycasaparticular.com"', true, $output, $year); //SUBJECT "MyCasaParticular Reservas"
             $this->processEmail($connection, 'FROM "no-reply@mycasaparticular.com"', false, $output, $year); //SUBJECT "Confirmación de pago. MyCasaParticular.com"
             $output->writeln('Operation completed!!!');
             return 0;
@@ -55,10 +55,11 @@ class GetStatisticsFromEmailCommand extends ContainerAwareCommand {
             $date = date('Y-m-d H:i:s', isset($head->date) ? strtotime(preg_replace('/\(.*?\)/', '', $head->date)) : time());
             $message = imap_fetchbody($connection,$mail, "1", FT_UID);
 
-            preg_match('#Confirmaci([\s\S]+)n de pago. MyCasaParticular.com#i', $head->subject, $matches);
+            preg_match('#MyCasaParticular Reservas([\w-\s]+)#i', $head->subject, $matchesReservation);
+            preg_match('#Confirmaci([\s\S]+)n de pago. MyCasaParticular.com#i', $head->subject, $matchesPayment);
 
-            if($isReservationEmail || count($matches))
-            $this->processMessageBody($message, $date, $isReservationEmail, $output, $messageRefId);
+            if(($isReservationEmail && count($matchesReservation)) || (count($matchesPayment) && !$isReservationEmail))
+                $this->processMessageBody($message, $date, $isReservationEmail, $output, $messageRefId);
         }
     }
 
@@ -83,7 +84,16 @@ class GetStatisticsFromEmailCommand extends ContainerAwareCommand {
 
             preg_match('#<strong>Referencia: ([\w\d]*)</strong><br /><br />#i', $reservationSection, $matches);
             $accommodation_code = (count($matches)) ? $matches[1] : "";
+
+            if($accommodation_code == "")
+            {
+                preg_match('#<strong>Referencia de reserva: ([\w\d]*)</strong><br /><br />#i', $reservationSection, $matches);
+                $accommodation_code = (count($matches)) ? $matches[1] : "";
+            }
             //$output->writeln($accommodation_code);
+
+            preg_match('#<strong>ID reserva: ([\w\d\.]*)</strong><br /><br />#i', $reservationSection, $matches);
+            $reservation_code = (count($matches)) ? $matches[1] : "";
 
             preg_match('#<li><strong>Nombre: </strong>([\w\d]*)</li>#i', $reservationSection, $matches);
             $tourist_name = (count($matches)) ? $matches[1] : "";
@@ -196,7 +206,8 @@ class GetStatisticsFromEmailCommand extends ContainerAwareCommand {
                     ->setTouristName($tourist_name)
                     ->setTouristPhone($tourist_phone)
                     ->setTouristPostalCode($tourist_code_postal)
-                    ->setCreationDate($this->createDate($sentDate, "Y-m-d H:i:s"));
+                    ->setCreationDate($this->createDate($sentDate, "Y-m-d H:i:s"))
+                    ->setReservationCode($reservation_code);
 
                 $em->persist($item);
                 $em->flush();
