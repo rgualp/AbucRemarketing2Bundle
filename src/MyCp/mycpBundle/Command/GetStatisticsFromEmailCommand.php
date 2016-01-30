@@ -58,10 +58,13 @@ class GetStatisticsFromEmailCommand extends ContainerAwareCommand {
             preg_match('#MyCasaParticular Reservas([-\w]*)#i', $head->subject, $matchesReservation);
             preg_match('#Confirmaci([\s\S]+)n de pago. MyCasaParticular.com#i', $head->subject, $matchesPayment);
 
-            $output->writeln($matchesReservation);
-
-            if(count($matchesReservation) || count($matchesPayment))
+            if(count($matchesReservation) || count($matchesPayment)){
                 $this->processMessageBody($message, $date, $isReservationEmail, $output, $messageRefId);
+            }
+            else{
+                $output->writeln($head->subject);
+            }
+
         }
     }
 
@@ -146,7 +149,7 @@ class GetStatisticsFromEmailCommand extends ContainerAwareCommand {
             //$output->writeln($kids);
 
             preg_match('#<li><strong>Fecha de Arribo: </strong>(.+)</li>#i', $reservationSection, $matches);
-            $arrival_date = (count($matches)) ? $this->createDate($matches[1], "d/m/Y") : null;
+            $arrival_date = (count($matches)) ? $matches[1] : "";
             //$output->writeln($arrival_date);
 
             preg_match('#<li><strong>Noches: </strong>(.+)</li>#i', $reservationSection, $matches);
@@ -208,7 +211,7 @@ class GetStatisticsFromEmailCommand extends ContainerAwareCommand {
                     ->setTouristName($tourist_name)
                     ->setTouristPhone($tourist_phone)
                     ->setTouristPostalCode($tourist_code_postal)
-                    ->setCreationDate($this->createDate($sentDate, "Y-m-d H:i:s"))
+                    ->setCreationDate($sentDate)
                     ->setReservationCode($reservation_code);
 
                 $em->persist($item);
@@ -263,7 +266,7 @@ class GetStatisticsFromEmailCommand extends ContainerAwareCommand {
             //$output->writeln($kids);
 
             preg_match('#<strong>Fecha de arrivo:</strong> ([\d/]+)</td>#i', $messageBody, $matches);
-            $arrival_date = (count($matches)) ? $this->createDate($matches[1], "d/m/Y") : null;
+            $arrival_date = (count($matches)) ? $matches[1] : "";
             //$output->writeln($arrival_date);
 
             preg_match('#<strong>Noches:</strong> ([\d]+)</td>#i', $messageBody, $matches);
@@ -303,7 +306,7 @@ class GetStatisticsFromEmailCommand extends ContainerAwareCommand {
                     ->setTouristCountry($client_country)
                     ->setTouristEmail($client_email)
                     ->setTouristFullName($client_name)
-                    ->setCreationDate($this->createDate($sentDate, "Y-m-d H:i:s"));
+                    ->setCreationDate($sentDate);
 
                 $em->persist($item);
                 $em->flush();

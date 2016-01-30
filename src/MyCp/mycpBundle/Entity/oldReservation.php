@@ -31,9 +31,9 @@ class oldReservation
     private $ref_id;
 
     /**
-     * @var \DateTime
+     * @var string
      *
-     * @ORM\Column(name="creation_date", type="date", nullable=true)
+     * @ORM\Column(name="creation_date", type="string", nullable=true)
      */
     private $creation_date;
 
@@ -130,9 +130,9 @@ class oldReservation
     private $children;
 
     /**
-     * @var \DateTime
+     * @var string
      *
-     * @ORM\Column(name="arrival_date", type="date", nullable=true)
+     * @ORM\Column(name="arrival_date", type="string", nullable=true)
      */
     private $arrival_date;
 
@@ -349,7 +349,7 @@ class oldReservation
     }
 
     /**
-     * @return \DateTime
+     * @return string
      */
     public function getArrivalDate()
     {
@@ -357,7 +357,7 @@ class oldReservation
     }
 
     /**
-     * @param \DateTime $arrival_date
+     * @param string $arrival_date
      * @return $this
      */
     public function setArrivalDate($arrival_date)
@@ -395,7 +395,7 @@ class oldReservation
     }
 
     /**
-     * @return \DateTime
+     * @return string
      */
     public function getCreationDate()
     {
