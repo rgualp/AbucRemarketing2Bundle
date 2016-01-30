@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * oldPayment
  *
  * @ORM\Table(name="old_payment")
- * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\oldPaymentRepository")
+ * @ORM\Entity
  *
  */
 class oldPayment

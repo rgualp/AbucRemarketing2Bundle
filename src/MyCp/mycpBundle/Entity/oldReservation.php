@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * oldReservation
  *
  * @ORM\Table(name="old_reservation")
- * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\oldReservationRepository")
+ * @ORM\Entity
  *
  */
 class oldReservation
@@ -31,7 +31,7 @@ class oldReservation
     private $ref_id;
 
     /**
-     * @var DateTime
+     * @var \DateTime
      *
      * @ORM\Column(name="creation_date", type="date", nullable=true)
      */
@@ -130,7 +130,7 @@ class oldReservation
     private $children;
 
     /**
-     * @var DateTime
+     * @var \DateTime
      *
      * @ORM\Column(name="arrival_date", type="date", nullable=true)
      */
@@ -342,7 +342,7 @@ class oldReservation
     }
 
     /**
-     * @return DateTime
+     * @return \DateTime
      */
     public function getArrivalDate()
     {
@@ -350,7 +350,7 @@ class oldReservation
     }
 
     /**
-     * @param DateTime $arrival_date
+     * @param \DateTime $arrival_date
      * @return $this
      */
     public function setArrivalDate($arrival_date)
@@ -388,7 +388,7 @@ class oldReservation
     }
 
     /**
-     * @return DateTime
+     * @return \DateTime
      */
     public function getCreationDate()
     {
