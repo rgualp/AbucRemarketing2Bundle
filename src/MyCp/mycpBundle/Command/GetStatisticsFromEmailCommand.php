@@ -72,10 +72,10 @@ class GetStatisticsFromEmailCommand extends ContainerAwareCommand {
 
     private function processMessageBody($messageBody, $sentDate, $isReservationEmail, OutputInterface $output, $messageRefId)
     {
-        $container = $this->getContainer();
+        /*$container = $this->getContainer();
         $em = $container->get('doctrine')->getManager();
         $this->emailsKeys = array();
-        $this->getEmailsIds($isReservationEmail, $output);
+        $this->getEmailsIds($isReservationEmail, $output);*/
 
         if($isReservationEmail)
             $this->createOldReservation($messageBody, $sentDate, $output, $messageRefId);
@@ -86,8 +86,10 @@ class GetStatisticsFromEmailCommand extends ContainerAwareCommand {
     private function createOldReservation($messageBody, $sentDate, OutputInterface $output, $messageRefId)
     {
         try {
-            //$existInDataBase = $em->getRepository("mycpBundle:oldReservation")->findOneBy(array("ref_id" => $messageRefId));
-            $existInDataBase = array_key_exists($messageRefId, $this->emailsKeys);
+            $container = $this->getContainer();
+            $em = $container->get('doctrine')->getManager();
+            $existInDataBase = $em->getRepository("mycpBundle:oldReservation")->findOneBy(array("ref_id" => $messageRefId));
+            //$existInDataBase = array_key_exists($messageRefId, $this->emailsKeys);
 
             if ($existInDataBase == null) {
             $output->writeln("Reservas: " .$messageRefId);
@@ -95,9 +97,6 @@ class GetStatisticsFromEmailCommand extends ContainerAwareCommand {
 
             $reservationSection = $bodySplitted[0];
             $accommodationSection = $bodySplitted[1];
-
-            $container = $this->getContainer();
-            $em = $container->get('doctrine')->getManager();
 
             preg_match('#<strong>Referencia: ([\w\d]*)</strong><br /><br />#i', $reservationSection, $matches);
             $accommodation_code = (count($matches)) ? $matches[1] : "";
@@ -227,7 +226,7 @@ class GetStatisticsFromEmailCommand extends ContainerAwareCommand {
                 $em->persist($item);
                 $em->flush();
 
-                $this->emailsKeys[] = $messageRefId;
+                //$this->emailsKeys[$messageRefId] = true;
             }
             else
                 $output->writeln("Reservas: " .$messageRefId. " existe");
@@ -242,14 +241,14 @@ class GetStatisticsFromEmailCommand extends ContainerAwareCommand {
     private function createOldPayment($messageBody, $sentDate, OutputInterface $output, $messageRefId)
     {
         try{
-            //$existInDataBase = $em->getRepository("mycpBundle:oldPayment")->findOneBy(array("ref_id" => $messageRefId));
-
-            $existInDataBase = array_key_exists($messageRefId, $this->emailsKeys);
+            $container = $this->getContainer();
+            $em = $container->get('doctrine')->getManager();
+            $existInDataBase = $em->getRepository("mycpBundle:oldPayment")->findOneBy(array("ref_id" => $messageRefId));
+            //$existInDataBase = array_key_exists($messageRefId, $this->emailsKeys);
 
             if ($existInDataBase == null) {
                 $output->writeln("Pagos: " .$messageRefId);
-            $container = $this->getContainer();
-            $em = $container->get('doctrine')->getManager();
+
 
             //$output->writeln($sentDate);
 
@@ -329,7 +328,7 @@ class GetStatisticsFromEmailCommand extends ContainerAwareCommand {
                 $em->persist($item);
                 $em->flush();
 
-                $this->emailsKeys[] = $messageRefId;
+                //$this->emailsKeys[$messageRefId] = true;
             }
             else
                 $output->writeln("Pagos: " .$messageRefId. " existe");
