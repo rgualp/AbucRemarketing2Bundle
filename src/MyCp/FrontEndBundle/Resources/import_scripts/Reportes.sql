@@ -123,3 +123,5 @@ from ownershipreservation owres
   join `destination` d on o.`own_destination` = d.des_id
 GROUP BY Year(genRes.gen_res_date), Month(genRes.gen_res_date), o.`own_destination`
 ORDER BY Year(genRes.gen_res_date), Month(genRes.gen_res_date), TOTAL DESC;
+
+/*Mejores 10 casas por destino, segun el ranking*/
