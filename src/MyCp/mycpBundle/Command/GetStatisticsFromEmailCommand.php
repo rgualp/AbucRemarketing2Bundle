@@ -2,6 +2,7 @@
 
 namespace MyCp\mycpBundle\Command;
 
+use DoctrineExtensions\Versionable\Exception;
 use MyCp\mycpBundle\Entity\oldPayment;
 use MyCp\mycpBundle\Entity\oldReservation;
 use PhpImap\Mailbox;
@@ -35,6 +36,7 @@ class GetStatisticsFromEmailCommand extends ContainerAwareCommand {
         try {
             $server = "{imap.mail.hostpoint.ch}INBOX.Emails_".$year;
             $connection = imap_open($server,'reservation@mycasaparticular.com', 'kkappukkon300');
+
             $this->processEmail($connection, 'FROM "no.reply@mycasaparticular.com"', true, $output, $year); //SUBJECT "MyCasaParticular Reservas"
             $this->processEmail($connection, 'FROM "no-reply@mycasaparticular.com"', false, $output, $year); //SUBJECT "Confirmación de pago. MyCasaParticular.com"
             $output->writeln('Operation completed!!!');
@@ -51,20 +53,23 @@ class GetStatisticsFromEmailCommand extends ContainerAwareCommand {
     {
         $mails   = imap_search($connection, $searchPattern, SE_UID);
         foreach($mails as $mail){
-            $head = imap_rfc822_parse_headers(imap_fetchheader($connection, $mail, FT_UID));
-            $messageRefId = $year."-".$mail;
+            try{
+                $head = imap_rfc822_parse_headers(imap_fetchheader($connection, $mail, FT_UID));
+                $messageRefId = $year . "-" . $mail;
+                $date = date('Y-m-d H:i:s', isset($head->date) ? strtotime(preg_replace('/\(.*?\)/', '', $head->date)) : time());
+                $message = imap_fetchbody($connection, $mail, "1", FT_UID);
 
-            $date = date('Y-m-d H:i:s', isset($head->date) ? strtotime(preg_replace('/\(.*?\)/', '', $head->date)) : time());
-            $message = imap_fetchbody($connection,$mail, "1", FT_UID);
+                preg_match('#MyCasaParticular Reservas([-\w]*)#i', $head->subject, $matchesReservation);
+                preg_match('#Confirmaci([\s\S]+)n de pago. MyCasaParticular.com#i', $head->subject, $matchesPayment);
 
-            preg_match('#MyCasaParticular Reservas([-\w]*)#i', $head->subject, $matchesReservation);
-            preg_match('#Confirmaci([\s\S]+)n de pago. MyCasaParticular.com#i', $head->subject, $matchesPayment);
-
-            if(count($matchesReservation) || count($matchesPayment)){
-                $this->processMessageBody($message, $date, $isReservationEmail, $output, $messageRefId);
+                if (count($matchesReservation) || count($matchesPayment)) {
+                    $this->processMessageBody($message, $date, $isReservationEmail, $output, $messageRefId);
+                } else {
+                    $output->writeln($head->subject);
+                }
             }
-            else{
-                $output->writeln($head->subject);
+            catch (Exception $e){
+                continue;
             }
 
         }
@@ -234,7 +239,7 @@ class GetStatisticsFromEmailCommand extends ContainerAwareCommand {
         catch(\Exception $e)
         {
             $output->writeln($messageBody);
-            exit;
+            //exit;
         }
     }
 
