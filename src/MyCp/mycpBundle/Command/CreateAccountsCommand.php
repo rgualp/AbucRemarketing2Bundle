@@ -221,7 +221,7 @@ class CreateAccountsCommand extends ContainerAwareCommand
         $sql.= "AND o.own_status = 1";//Status 1=Activo
         /***test***/
         //AR001,AR002,AR003,AR004
-        //$sql.= "AND o.own_mcp_code in ('AR001','AR002','AR003','AR004') ";
+        $sql.= "AND o.own_mcp_code in ('AR001','AR002','AR003','AR004') ";
         /***test END***/
 
         $q = $this->em->createQuery(trim($sql));
@@ -241,7 +241,7 @@ class CreateAccountsCommand extends ContainerAwareCommand
         $sql.= 'WHERE u.user_enabled <> 1 ';
         /***test***/
         //AR001,AR002,AR003,AR004
-        //$sql.= "AND o.own_mcp_code in ('AR001','AR002','AR003','AR004') ";
+        $sql.= "AND o.own_mcp_code in ('AR001','AR002','AR003','AR004') ";
         /***test END***/
 
         $q = $this->em->createQuery(trim($sql));
