@@ -2,6 +2,7 @@
 
 namespace MyCp\mycpBundle\Command;
 
+use MyCp\FrontEndBundle\Helpers\PaymentHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,6 +16,7 @@ class TestingCommand extends ContainerAwareCommand {
     protected function configure() {
         $this->setName('mycp:testings')
                 ->setDefinition(array())
+                ->addArgument("bookingID", InputArgument::REQUIRED)
                 ->setDescription('Tests some functionalities')
                 ->setHelp(<<<EOT
                 Command <info>mycp_task:testings</info> do some tests.
@@ -24,6 +26,16 @@ EOT
 
     protected function execute(InputInterface $input, OutputInterface $output) {
         $container = $this->getContainer();
+        $em = $container->get('doctrine')->getManager();
+        $service = $container->get('front_end.services.booking');
+
+        $bookingId = $input->getArgument("bookingID");
+
+        $booking = $em->getRepository("mycpBundle:booking")->find($bookingId);
+
+        $service->postProcessBookingPayment($booking, PaymentHelper::STATUS_PENDING);
+
+       /* $container = $this->getContainer();
         $em = $container->get('doctrine')->getManager();
         $reservations = $em->getRepository("mycpBundle:generalReservation")->findAll();
         $output->writeln("1. Testing shallSendOutFeedbackReminderEmail...");
@@ -37,7 +49,6 @@ EOT
             $outString = "Reservation " . $res->getCASId();
             $outString .= ": Usuario - ".$userId;
             $outString .= ", Casa - ".$ownershipId;
-            //$outString .= ", Fecha - ".$date;
             $outString .= ", Estado - ".$res->getGenResStatus();
             $outString .= ", Resultado - ".($result ? "SI" : "NO");
 
@@ -55,12 +66,11 @@ EOT
             $outString = "Reservation " . $res->getCASId();
             $outString .= ": Usuario - ".$userId;
             $outString .= ", Previas - ".$payedReservations;
-            //$outString .= ", Fecha - ".$date;
             $outString .= ", Estado - ".$res->getGenResStatus();
             $outString .= ", Resultado - ".($result ? "SI" : "NO");
 
             $output->writeln($outString);
-        }
+        }*/
 
 
 

@@ -4,7 +4,9 @@ namespace MyCp\FrontEndBundle\Controller;
 
 use MyCp\FrontEndBundle\Helpers\Utils;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Security\Core\SecurityContext;
 use MyCp\mycpBundle\Entity\metaTag;
 
@@ -432,5 +434,14 @@ class PublicController extends Controller {
             'hostname' => $hostname
         ));
 
+    }
+
+    public function appRentaDownloadAction(){
+
+        //variable
+        $pathToFile = $this->container->getParameter("configuration.dir.additionalsFiles");
+        $response = new BinaryFileResponse($pathToFile.'MyCasaRenta.apk');
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT,'MyCasaRenta.apk');
+        return $response;
     }
 }

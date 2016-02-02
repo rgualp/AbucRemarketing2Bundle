@@ -9,3 +9,7 @@ frontend_public_top_nav_control:
 frontend_metatags_control:
     pattern:  /metatags
     defaults: { _controller: FrontEndBundle:Public:getMetaTags}
+
+frontend_download_apprenta:
+    locales:  { en: "/apprenta", es: "/apprenta", de: "/apprenta" }
+    defaults: { _controller: FrontEndBundle:Public:appRentaDownload }
