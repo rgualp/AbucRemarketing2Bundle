@@ -96,7 +96,7 @@ class UserCasaController extends Controller {
 
                     $message = $this->get('translator')->trans("USER_ACTIVATE_ACCOUNT_SUCCESS");
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
-                    return $this->redirect($this->generateUrl('backend_login'));
+                    return $this->redirect($this->generateUrl('casa_login'));
                 }
             }
 
