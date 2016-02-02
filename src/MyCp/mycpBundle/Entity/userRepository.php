@@ -114,6 +114,7 @@ class userRepository extends EntityRepository {
         $user->setUserRole('ROLE_CLIENT_STAFF');
         $user->setUserSubrole($role);
         $user->setUserUserName($form_post['user_user_name']);
+        $user->setLocked($form_post['locked']);
         //$user->setUserCreationDate(new \DateTime());
         $encoder = $factory->getEncoder($user);
         $password = $encoder->encodePassword($form_post['user_password']['Clave:'], $user->getSalt());
@@ -150,6 +151,7 @@ class userRepository extends EntityRepository {
         $user->setUserUserName($post['user_user_name']);
         $user->setUserLastName($post['user_last_name']);
         $user->setUserPhone($post['user_phone']);
+        $user->setLocked($post['locked']);
         if(array_key_exists("user_role", $post) && $post['user_role']){
             $userRole = $em->getRepository('mycpBundle:role')->findOneBy(array('role_id'=>$post['user_role']));
             $user->setUserRole($userRole->getRoleName());

@@ -26,15 +26,25 @@ class CreateAccountsCommand extends ContainerAwareCommand
 
     protected function configure()
     {
+        /*
+         * Ojo: send-email-usercasa-disabled ya se ejecuto, si se ejecuta de nuevo envia nuevamente los emails a todos.
+         * El flujo ahora deberia ser solo de
+         * see-ownership-only (Ver total de ownership que no tienen usercasa)
+         * y luego
+         * create-usercasa-send-email (Crear userCasa a usuarios ownership y enviarles el email)
+         * Test:
+         * see-usercasa-disabled debe retornar lo que dio see-ownership-only la primera vez + la cantidad de gente que se le enviaron email (create-usercasa-send-email)
+         *
+         * */
         $this
             ->setName('mycp_task:create_accounts')
             ->setDefinition(array())
-            ->addOption('see-ownership-only', null, InputOption::VALUE_NONE, 'See total ownership without usercasa')
-            ->addOption('see-usercasa-disabled', null, InputOption::VALUE_NONE, 'See total userCasa disabled')
-            ->addOption('create-usercasa', null, InputOption::VALUE_NONE, 'Create userCasa to users ownership')
-            ->addOption('create-usercasa-send-email', null, InputOption::VALUE_NONE, 'Create userCasa to users ownership and send email')
-            ->addOption('send-email-usercasa-disabled', null, InputOption::VALUE_NONE, 'Send email to userCasa disabled')
-            ->addOption('send-email-usercasa-disabled-apologies', null, InputOption::VALUE_NONE, 'Send email to userCasa disabled apologies')
+            ->addOption('see-ownership-only', null, InputOption::VALUE_NONE, 'Ver total de ownership que no tienen usercasa')
+            ->addOption('see-usercasa-disabled', null, InputOption::VALUE_NONE, 'Ver total de userCasa que estan disabled')
+            ->addOption('create-usercasa', null, InputOption::VALUE_NONE, 'Crear userCasa a usuarios ownership')
+            ->addOption('create-usercasa-send-email', null, InputOption::VALUE_NONE, 'Crear userCasa a usuarios ownership y enviarles el email')
+            ->addOption('send-email-usercasa-disabled', null, InputOption::VALUE_NONE, 'Enviar email a usuarios userCasa disabled')
+            ->addOption('send-email-usercasa-disabled-apologies', null, InputOption::VALUE_NONE, 'Enviar email a usuarios userCasa disabled disculpandonos')
             ->setDescription('Create accounts');
 
     }
@@ -221,7 +231,7 @@ class CreateAccountsCommand extends ContainerAwareCommand
         $sql.= "AND o.own_status = 1";//Status 1=Activo
         /***test***/
         //AR001,AR002,AR003,AR004
-        //$sql.= "AND o.own_mcp_code in ('AR001','AR002','AR003','AR004') ";
+//        $sql.= "AND o.own_mcp_code in ('AR001','AR002','AR003','AR004') ";
         /***test END***/
 
         $q = $this->em->createQuery(trim($sql));
@@ -241,7 +251,7 @@ class CreateAccountsCommand extends ContainerAwareCommand
         $sql.= 'WHERE u.user_enabled <> 1 ';
         /***test***/
         //AR001,AR002,AR003,AR004
-        //$sql.= "AND o.own_mcp_code in ('AR001','AR002','AR003','AR004') ";
+//        $sql.= "AND o.own_mcp_code in ('AR001','AR002','AR003','AR004') ";
         /***test END***/
 
         $q = $this->em->createQuery(trim($sql));

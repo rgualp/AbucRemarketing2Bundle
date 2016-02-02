@@ -69,16 +69,17 @@ class BackendCommentController extends Controller {
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($comment);
                 $em->flush();
-                $body = $this->render('FrontEndBundle:mails:commentNotification.html.twig', array(
-                    'host_user_name' => $comment->getComOwnership()->getOwnHomeowner1(),
-                    'user_name' => $comment->getComUser()->getUserName().' '.$comment->getComUser()->getUserLastName(),
-                    'comment' => $comment->getComComments()
-                ));
+                if($comment->getComOwnership()->getOwnEmail1()!=null) {
+                    $body = $this->render('FrontEndBundle:mails:commentNotification.html.twig', array(
+                        'host_user_name' => $comment->getComOwnership()->getOwnHomeowner1(),
+                        'user_name' => $comment->getComUser()->getUserName() . ' ' . $comment->getComUser()->getUserLastName(),
+                        'comment' => $comment->getComComments()
+                    ));
 
-                $service_email = $this->get('Email');
-                $service_email->sendTemplatedEmail('Nuevos comentarios recibidos', 'noreply@mycasaparticular.com', $comment->getComOwnership()->getOwnEmail1(), $body->getContent());
+                    $service_email = $this->get('Email');
+                    $service_email->sendTemplatedEmail('Nuevos comentarios recibidos', 'noreply@mycasaparticular.com', $comment->getComOwnership()->getOwnEmail1(), $body->getContent());
 
-
+                }
                 $message = 'Comentario añadido satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 

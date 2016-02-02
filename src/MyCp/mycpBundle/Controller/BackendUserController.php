@@ -110,6 +110,7 @@ class BackendUserController extends Controller {
             $data_user['user_phone'] = $user->getUserPhone();
             $data_user['user_city'] = $user->getUserCity();
             $data_user['user_country'] = $user->getUserCountry()->getCoId();
+            $data_user['locked'] = $user->getLocked();
            // $data_user['user_role'] = $user->getUserRole();
             $userRole = $em->getRepository('mycpBundle:role')->findOneBy(array('role_name'=>$user->getUserRole()));
             $data_user['user_role'] = $userRole;
@@ -207,8 +208,8 @@ class BackendUserController extends Controller {
             }
         }
         else {
-            $user_casa = $em->getRepository('mycpBundle:userCasa')->findBy(array('user_casa_user' => $id_user));
-            $user_casa = $user_casa[0];
+            $user_casa = $em->getRepository('mycpBundle:userCasa')->findOneBy(array('user_casa_user' => $id_user));
+//            $user_casa = $user_casa[0];
             $data_user['user_name'] = $user_casa->getUserCasaUser()->getUserName();
             $data_user['address'] = $user_casa->getUserCasaUser()->getUserAddress();
             $data_user['email'] = $user_casa->getUserCasaUser()->getUserEmail();
@@ -219,6 +220,7 @@ class BackendUserController extends Controller {
             $data_user['phone'] = "";
             $data_user['user_id'] = $user_casa->getUserCasaUser()->getUserId();
             $data_user['user_enabled'] = $user_casa->getUserCasaUser()->getUserEnabled();
+            $data_user['locked'] = $user_casa->getUserCasaUser()->getLocked();
 
             $form->setData($data_user);
         }
@@ -340,6 +342,7 @@ class BackendUserController extends Controller {
             $data_user['country'] = ($user_tourist != null) ? (($user_tourist->getUserTouristUser()->getUserCountry() != null) ? $user_tourist->getUserTouristUser()->getUserCountry()->getCoId() : null) : (($user->getUserCountry() != null) ? $user->getUserCountry()->getCoId() : null);
             $data_user['currency'] = ($user_tourist != null) ? $user_tourist->getUserTouristCurrency()->getCurrId() : null;
             $data_user['language'] = ($user_tourist != null) ? $user_tourist->getUserTouristLanguage()->getLangId() : null;
+            $data_user['locked'] = ($user_tourist != null) ? $user_tourist->getUserTouristUser()->getLocked() : null;
             $form->setData($data_user);
         }
         return $this->render('mycpBundle:user:newUserTourist.html.twig', array('form' => $form->createView(), 'data' => $data, 'id_role' => '', 'edit_user' => $id_user, 'tourist'=> $user_tourist));

@@ -41,15 +41,16 @@ class CommentController extends Controller {
 
         $friends = array();
         $own_obj = $em->getRepository('mycpBundle:ownership')->find($ownid);
-        $body = $this->render('FrontEndBundle:mails:commentNotification.html.twig', array(
-            'host_user_name' => $own_obj->getOwnHomeowner1(),
-            'user_name' => $user->getUserName().' '.$user->getUserLastName(),
-            'comment' => $request->request->get('com_comments')
-        ));
+        if($own_obj->getOwnEmail1()!=null) {
+            $body = $this->render('FrontEndBundle:mails:commentNotification.html.twig', array(
+                'host_user_name' => $own_obj->getOwnHomeowner1(),
+                'user_name' => $user->getUserName() . ' ' . $user->getUserLastName(),
+                'comment' => $request->request->get('com_comments')
+            ));
 
-        $service_email = $this->get('Email');
-        $service_email->sendTemplatedEmail('Nuevos comentarios recibidos', 'noreply@mycasaparticular.com', $own_obj->getOwnEmail1(), $body->getContent());
-
+            $service_email = $this->get('Email');
+            $service_email->sendTemplatedEmail('Nuevos comentarios recibidos', 'noreply@mycasaparticular.com', $own_obj->getOwnEmail1(), $body->getContent());
+        }
 
         $ownership = array('ownname'=> $own_obj->getOwnName(),
                             'rating' => $own_obj->getOwnRating(),

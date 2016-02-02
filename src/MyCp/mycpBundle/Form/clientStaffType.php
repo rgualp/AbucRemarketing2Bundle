@@ -99,6 +99,9 @@ class clientStaffType extends AbstractType
                 ));
             }
         }
+        $builder->add('locked','checkbox',array(
+            'label'=>'Usuario bloqueado'
+        ));
 
     }
 
