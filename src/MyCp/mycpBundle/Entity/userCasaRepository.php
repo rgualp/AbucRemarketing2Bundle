@@ -122,7 +122,9 @@ class userCasaRepository extends EntityRepository {
          $user_casa->getUserCasaUser()->setUserLastName($post['mycp_mycpbundle_client_casatype']['last_name']);
          $user_casa->getUserCasaUser()->setUserEmail($post['mycp_mycpbundle_client_casatype']['email']);
          $user_casa->getUserCasaUser()->setUserPhone($post['mycp_mycpbundle_client_casatype']['phone']);
-         $user_casa->getUserCasaUser()->setLocked($post['mycp_mycpbundle_client_casatype']['locked']);
+
+         $user_locked = (isset($post['mycp_mycpbundle_client_casatype']['locked']));
+         $user_casa->getUserCasaUser()->setLocked($user_locked);
 
          $user_enabled = (isset($post['mycp_mycpbundle_client_casatype']['user_enabled']));
          $user_casa->getUserCasaUser()->setUserEnabled($user_enabled);
