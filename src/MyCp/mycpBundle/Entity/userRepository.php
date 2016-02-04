@@ -115,6 +115,7 @@ class userRepository extends EntityRepository {
         $user->setUserSubrole($role);
         $user->setUserUserName($form_post['user_user_name']);
         $user->setLocked($form_post['locked']);
+        $user->setUserEnabled(true);
         //$user->setUserCreationDate(new \DateTime());
         $encoder = $factory->getEncoder($user);
         $password = $encoder->encodePassword($form_post['user_password']['Clave:'], $user->getSalt());
