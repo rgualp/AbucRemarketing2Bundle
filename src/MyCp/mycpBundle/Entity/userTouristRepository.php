@@ -92,6 +92,7 @@ class userTouristRepository extends EntityRepository
         $user_tourist->getUserTouristUser()->setUserCountry($country);
         $user_tourist->setUserTouristCurrency($currency);
         $user_tourist->setUserTouristLanguage($language);
+        $user_tourist->getUserTouristUser()->setLocked($post['locked']);
 
         if ($post['user_password']['Clave:'] != '') {
             $encoder = $factory->getEncoder($user_tourist->getUserTouristUser());

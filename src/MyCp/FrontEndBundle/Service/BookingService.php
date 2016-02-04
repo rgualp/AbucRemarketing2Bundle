@@ -336,6 +336,7 @@ class BookingService extends Controller
         $userId = $user->getUserId();
         $userTourist = $this->getUserTourist($userId, $bookingId);
         $ownershipReservations = $this->getOwnershipReservations($bookingId);
+        $rooms = $this->getRoomsFromReservations($ownershipReservations);
 
         $arrayPhotos = array();
         $arrayNights = array();
@@ -446,7 +447,8 @@ class BookingService extends Controller
                     'user_tourist' => array($userTourist),
                     'reservations' => $owns,
                     'nights' => $arrayNightsByOwnershipReservation,
-                    'payment_pending' => $paymentPending
+                    'payment_pending' => $paymentPending,
+                    'rooms' => $rooms
                 )
             );
 
@@ -482,7 +484,8 @@ class BookingService extends Controller
                     'user' => $user,
                     'user_tourist' => array($userTourist),
                     'reservations' => $owns,
-                    'nights' => $arrayNightsByOwnershipReservation
+                    'nights' => $arrayNightsByOwnershipReservation,
+                    'rooms' => $rooms
                 )
             );
 
@@ -705,6 +708,20 @@ class BookingService extends Controller
         }
 
         return $payment;
+    }
+
+    private function getRoomsFromReservations($ownershipReservations)
+    {
+        $rooms = array();
+
+        foreach($ownershipReservations as $reservation)
+        {
+            $room = $this->em->getRepository('mycpBundle:room')->find($reservation->getOwnResSelectedRoomId());
+
+            $rooms[$reservation->getOwnResId()] = $room;
+        }
+
+        return $rooms;
     }
 
 }

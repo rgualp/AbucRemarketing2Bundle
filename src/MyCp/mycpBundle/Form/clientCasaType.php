@@ -66,6 +66,9 @@ class clientCasaType extends AbstractType {
           'constraints'=>array(new NotBlank(),new Length(array('min'=>6)))
           ));
           }
+        $builder->add('locked','checkbox',array(
+            'label'=>'Usuario bloqueado'
+        ));
     }
 
     public function getName() {

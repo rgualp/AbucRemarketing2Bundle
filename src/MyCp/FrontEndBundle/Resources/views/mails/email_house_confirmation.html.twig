@@ -31,7 +31,7 @@ Por este medio le confirmamos la reservación ({{ reservations[0].getOwnResGenRe
 <h3>Habitaciones  (Total: {{ reservations| length }} habitacion(es) )</h3>
 {% set total_price = 0 %}
 {% for reservation in reservations %}
-<b>Habitación: </b> {{ reservation.getOwnResRoomType }}
+<b>Habitación: </b> Habitación #{{ rooms[reservation.getOwnResId()].getRoomNum() }} - {{ reservation.getOwnResRoomType }}
 <br/>
 <b>Adultos: </b> {{ reservation.getOwnResCountAdults }}
 <br/>
