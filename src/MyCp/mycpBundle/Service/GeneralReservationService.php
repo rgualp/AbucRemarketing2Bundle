@@ -209,17 +209,21 @@ class GeneralReservationService extends Controller
 
                 $this->em->persist($ownership_reservation);
 
-                //Crear una no disponibilidad si la reservacion se marca como No Disponible
-                if($ownership_reservation->getOwnResStatus() == ownershipReservation::STATUS_NOT_AVAILABLE && $this->em->getRepository("mycpBundle:unavailabilityDetails")->existByDateAndRoom($ownership_reservation->getOwnResSelectedRoomId(),$ownership_reservation->getOwnResReservationFromDate(),$ownership_reservation->getOwnResReservationToDate()) == 0){
-                    $uDetails = new unavailabilityDetails();
-                    $room = $this->em->getRepository("mycpBundle:room")->find($ownership_reservation->getOwnResSelectedRoomId());
-                    $uDetails->setRoom($room)
-                        ->setUdSyncSt(SyncStatuses::ADDED)
-                        ->setUdFromDate($ownership_reservation->getOwnResReservationFromDate())
-                        ->setUdToDate($ownership_reservation->getOwnResReservationToDate())
-                        ->setUdReason("Generada automaticamente por ser no disponible la reserva CAS.".$ownership_reservation->getOwnResGenResId()->getGenResId());
+                $createUnavailabilityDetails = (isset($post['updateCalendar_'. $ownership_reservation->getOwnResId()]) && !empty($post['updateCalendar_'. $ownership_reservation->getOwnResId()]));
 
-                    $this->em->persist($uDetails);
+                if($createUnavailabilityDetails) {
+                    //Crear una no disponibilidad si la reservacion se marca como No Disponible
+                    if ($ownership_reservation->getOwnResStatus() == ownershipReservation::STATUS_NOT_AVAILABLE && $this->em->getRepository("mycpBundle:unavailabilityDetails")->existByDateAndRoom($ownership_reservation->getOwnResSelectedRoomId(), $ownership_reservation->getOwnResReservationFromDate(), $ownership_reservation->getOwnResReservationToDate()) == 0) {
+                        $uDetails = new unavailabilityDetails();
+                        $room = $this->em->getRepository("mycpBundle:room")->find($ownership_reservation->getOwnResSelectedRoomId());
+                        $uDetails->setRoom($room)
+                            ->setUdSyncSt(SyncStatuses::ADDED)
+                            ->setUdFromDate($ownership_reservation->getOwnResReservationFromDate())
+                            ->setUdToDate($ownership_reservation->getOwnResReservationToDate())
+                            ->setUdReason("Generada automaticamente por ser no disponible la reserva CAS." . $ownership_reservation->getOwnResGenResId()->getGenResId());
+
+                        $this->em->persist($uDetails);
+                    }
                 }
 
             }

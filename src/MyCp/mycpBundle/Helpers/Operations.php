@@ -19,6 +19,7 @@ class Operations {
     const SAVE_OFFER_AND_SEND = 6;
     const SAVE_OFFER_AND_VIEW = 7;
     const SAVE = 8;
+    const SAVE_AND_UPDATE_CALENDAR = 9;
 
 
 }

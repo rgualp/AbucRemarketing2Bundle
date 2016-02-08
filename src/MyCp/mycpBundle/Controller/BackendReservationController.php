@@ -873,10 +873,11 @@ class BackendReservationController extends Controller {
         $request = $this->getRequest();
         $em = $this->getDoctrine()->getManager();
         $reservations_ids = $request->request->get('reservations_ids');
+        $save_option = $request->request->get('save_option');
         $response = null;
 
         //Modificar el estado
-        $em->getRepository('mycpBundle:generalReservation')->setAsNotAvailable($reservations_ids);
+        $em->getRepository('mycpBundle:generalReservation')->setAsNotAvailable($reservations_ids, $save_option);
 
         //Enviar por correo a los clientes
         $service_email = $this->get('Email');
@@ -891,7 +892,8 @@ class BackendReservationController extends Controller {
                 $dispatcher->dispatch('mycp.event.reservation.sent_out', new JobEvent($eventData));
             }
 
-            $message = 'Se han modificado ' . count($reservations_ids) . ' reservaciones como No Disponibles y se ha notificado a los clientes respectivos. Ambas operaciones fueron satisfactorias.';
+            $message = ($save_option == Operations::SAVE_AND_UPDATE_CALENDAR) ? 'Se han modificado ' . count($reservations_ids) . ' reservaciones como No Disponibles, se almacenaron las No Disponibilidades y se ha notificado a los clientes respectivos. Todas las operaciones fueron satisfactorias.' :
+                'Se han modificado ' . count($reservations_ids) . ' reservaciones como No Disponibles y se ha notificado a los clientes respectivos. Ambas operaciones fueron satisfactorias.';
             $this->get('session')->getFlashBag()->add('message_ok', $message);
 
             $response = $this->generateUrl('mycp_list_reservations');
