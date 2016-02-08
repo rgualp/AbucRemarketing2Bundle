@@ -523,6 +523,201 @@ class BookingService extends Controller
         }
     }
 
+    public function processPaymentEmailsTesting(booking $booking, $paymentPending)
+    {
+        $bookingId = $booking->getBookingId();
+        $user = $this->getUserFromBooking($booking);
+        $userId = $user->getUserId();
+        $userTourist = $this->getUserTourist($userId, $bookingId);
+        $ownershipReservations = $this->getOwnershipReservations($bookingId);
+        $rooms = $this->getRoomsFromReservations($ownershipReservations);
+
+        $arrayPhotos = array();
+        $arrayNights = array();
+        $arrayNightsByOwnershipReservation = array();
+        $arrayHouses = array();
+        $arrayHousesIds = array();
+        $arrayOwnershipReservationByHouse = array();
+        $timeService = $this->get('time');
+
+        $cont = 0;
+
+        foreach ($ownershipReservations as $own) {
+            $rootOwn = $own->getOwnResGenResId()->getGenResOwnId();
+            $rootOwnId = $rootOwn->getOwnId();
+
+            $photos = $this->em
+                ->getRepository('mycpBundle:ownership')
+                ->getPhotos($rootOwnId);
+
+            array_push($arrayPhotos, $photos);
+            $array_dates = $timeService->datesBetween(
+                $own->getOwnResReservationFromDate()->getTimestamp(),
+                $own->getOwnResReservationToDate()->getTimestamp()
+            );
+            array_push($arrayNights, count($array_dates) - 1);
+            $arrayNightsByOwnershipReservation[$own->getOwnResId()] = count($array_dates) - 1;
+
+            $insert = true;
+            foreach ($arrayHousesIds as $item) {
+                if ($rootOwnId == $item) {
+                    $insert = false;
+                }
+            }
+
+            if ($insert) {
+                array_push($arrayHousesIds, $rootOwnId);
+                array_push($arrayHouses, $rootOwn);
+            }
+
+            if (isset($arrayOwnershipReservationByHouse[$rootOwnId])) {
+                $temp_array = $arrayOwnershipReservationByHouse[$rootOwnId];
+            } else {
+                $temp_array = array();
+            }
+
+            array_push($temp_array, $own);
+            $arrayOwnershipReservationByHouse[$rootOwnId] = $temp_array;
+            $cont++;
+        }
+
+        $logger = $this->get('logger');
+        $emailService = $this->get('Email');
+        //$userEmail = trim($user->getUserEmail());
+
+        /*$pdfFilePath = $this->createBookingVoucherIfNotExisting($bookingId);
+
+        // Send email to customer
+
+
+        $userLocale = strtolower($userTourist->getUserTouristLanguage()->getLangCode());
+        $body = $this->render('FrontEndBundle:mails:email_offer_available.html.twig', array(
+            'booking' => $bookingId,
+            'user' => $user,
+            'reservations' => $ownershipReservations,
+            'photos' => $arrayPhotos,
+            'nights' => $arrayNights,
+            'user_locale' => $userLocale,
+            'user_currency' => ($userTourist != null) ? $userTourist->getUserTouristCurrency() : null,
+            'reservationStatus' => (count($ownershipReservations) > 0) ? $ownershipReservations[0]->getOwnResGenResId()->getGenResStatus() : generalReservation::STATUS_NONE
+        ));
+
+        $locale = $this->get('translator');
+        $subject = $locale->trans('PAYMENT_CONFIRMATION', array(), "messages", $userLocale);
+
+        try {
+            $emailService->sendEmail(
+                $subject,
+                'reservation1@mycasaparticular.com',
+                $subject . ' - MyCasaParticular.com',
+                $userEmail,
+                $body,
+                $pdfFilePath
+            );
+
+            $emailService->sendEmail(
+                $subject,
+                'reservation1@mycasaparticular.com',
+                $subject . ' - MyCasaParticular.com',
+                "luiseduardo@hds.li",
+                $body,
+                $pdfFilePath
+            );
+
+            $logger->info('Successfully sent email to user ' . $userEmail . ', PDF path : ' .
+                (isset($pdfFilePath) ? $pdfFilePath : '<empty>'));
+        } catch (\Exception $e) {
+            $logger->error(sprintf(
+                'EMAIL: Could not send Email to User. Booking ID: %s, Email: %s',
+                $bookingId, $userEmail));
+            $logger->error($e->getMessage());
+        }*/
+
+        // send email to reservation team
+        foreach ($arrayOwnershipReservationByHouse as $owns) {
+            $bodyRes = $this->render(
+                'FrontEndBundle:mails:rt_payment_confirmation.html.twig',
+                array(
+                    'user' => $user,
+                    'user_tourist' => array($userTourist),
+                    'reservations' => $owns,
+                    'nights' => $arrayNightsByOwnershipReservation,
+                    'payment_pending' => $paymentPending,
+                    'rooms' => $rooms
+                )
+            );
+
+            try {
+                /* $emailService->sendEmail(
+                     'Confirmación de pago',
+                     'no-reply@mycasaparticular.com',
+                     'MyCasaParticular.com',
+                     'reservation@mycasaparticular.com',
+                     $bodyRes
+                 );*/
+
+                $emailService->sendEmail(
+                    'Confirmación de pago',
+                    'no-reply@mycasaparticular.com',
+                    'MyCasaParticular.com',
+                    'confirmacion@mycasaparticular.com',
+                    $bodyRes
+                );
+
+                $logger->info('Successfully sent email to reservation team. Booking ID: ' . $bookingId);
+            } catch (\Exception $e) {
+                $logger->error('EMAIL: Could not send Email to reservation team. Booking ID: ' . $bookingId);
+                $logger->error($e->getMessage());
+            }
+        }
+
+        // send email to accommodation owner
+        foreach ($arrayOwnershipReservationByHouse as $owns) {
+            $bodyOwner = $this->render(
+                'FrontEndBundle:mails:email_house_confirmation.html.twig',
+                array(
+                    'user' => $user,
+                    'user_tourist' => array($userTourist),
+                    'reservations' => $owns,
+                    'nights' => $arrayNightsByOwnershipReservation,
+                    'rooms' => $rooms
+                )
+            );
+
+            $ownerEmail = $owns[0]->getOwnResGenResId()->getGenResOwnId()->getOwnEmail1();
+            $ownerEmail = trim($ownerEmail);
+
+            if (empty($ownerEmail)) {
+                $logger->warning('EMAIL: Could not send Email to Casa Owner as the Email address is empty. Booking ID: ' .
+                    $bookingId . '. General Reservation ID: ' .
+                    $owns[0]->getOwnResGenResId()->getGenResId() . '.');
+            } else {
+                try {
+                    $emailService->sendEmail(
+                        'Confirmación de reserva',
+                        'no-reply@mycasaparticular.com',
+                        'MyCasaParticular.com',
+                        $ownerEmail,
+                        $bodyOwner
+                    );
+
+                    $logger->info('Successfully sent email to Casa Owner. Booking ID: ' .
+                        $bookingId . ', Email: ' . $ownerEmail);
+                } catch (\Exception $e) {
+                    $logger->error('EMAIL: Could not send Email to Casa Owner. Booking ID: ' .
+                        $bookingId . '. General Reservation ID: ' .
+                        $owns[0]->getOwnResGenResId()->getGenResId() . '. Email: ' . $ownerEmail);
+                    $logger->error($e->getMessage());
+                }
+            }
+
+            //Suscripción al evento para feedback
+            $dispatcher = $this->get('event_dispatcher');
+            $eventData = new \MyCp\mycpBundle\JobData\GeneralReservationJobData($owns[0]->getOwnResGenResId());
+            $dispatcher->dispatch('mycp.event.feedback', new FixedDateJobEvent($owns[0]->getOwnResGenResId()->getGenResToDate(),$eventData));
+        }
+    }
+
     /**
      * Updates the statuses of the ownership and general reservations
      * according to the corresponding payment status.

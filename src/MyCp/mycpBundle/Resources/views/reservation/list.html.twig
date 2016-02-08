@@ -106,8 +106,17 @@
             </div>
             <div class="row-fluid">
                 <div class="span3"  style="margin-top: 10px">
-                    <input type="button" class="btn-mini btn-warning btn-action-reservation"  onclick="sendReservation();" value="Enviar como No Disponibles" data-url="{{path("mycp_set_not_available_reservation_callback")}}"/>
-                    <div class="lblLoading hidden" style="width: 100px; display: inline">Cargando...</div>
+                    <div class="btn-group dropdown btn-action-reservation" data-url="{{path("mycp_set_not_available_reservation_callback")}}" style="display:inline-table">
+                        <button type="button" class="btn-mini btn-warning" onclick="javascript:sendReservation({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE')}})">Enviar como No Disponibles</button>
+                        <button type="button" class="btn-mini btn-warning dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                            <span class="sr-only"></span>
+                        </button>
+                        <ul class="dropdown-menu pull-right" role="menu">
+                            <li><a style="cursor: hand" onclick="javascript:sendReservation({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_AND_UPDATE_CALENDAR')}})">Actualizar calendario</a></li>
+                          </ul>
+                    </div>
+                    <div class="lblLoading hidden" style="width: 100px; display: inline-table">Cargando...</div>
                 </div>
                 <div class="span6">
                     <div class="paginator-cont">
@@ -185,8 +194,17 @@
             </table>
             <div class="row-fluid">
                 <div class="span3"  style="margin-top: 10px">
-                    <input type="button" class="btn-mini btn-warning btn-action-reservation"  onclick="sendReservation();" value="Enviar como No Disponibles" data-url="{{path("mycp_set_not_available_reservation_callback")}}"/>
-                    <div class="lblLoading hidden" style="width: 100px; display: inline">Cargando...</div>
+                    <div class="btn-group dropup btn-action-reservation" data-url="{{path("mycp_set_not_available_reservation_callback")}}" style="display:inline-table">
+                        <button type="button" class="btn-mini btn-warning" onclick="javascript:sendReservation({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE')}})">Enviar como No Disponibles</button>
+                        <button type="button" class="btn-mini btn-warning dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                            <span class="sr-only"></span>
+                        </button>
+                        <ul class="dropdown-menu pull-right" role="menu">
+                            <li><a style="cursor: hand" onclick="javascript:sendReservation({{constant('\\MyCp\\mycpBundle\\Helpers\\Operations::SAVE_AND_UPDATE_CALENDAR')}})">Actualizar calendario</a></li>
+                        </ul>
+                    </div>
+                    <div class="lblLoading hidden" style="width: 100px; display: inline-table">Cargando...</div>
                 </div>
 
                 <div class="paginator-cont span6">
@@ -227,7 +245,7 @@
             language: 'es'
         });
 
-        function sendReservation()
+        function sendReservation(option)
         {
             $(".lblLoading").removeClass("hidden");
             var checkValues = $('input[name=check_reservations]:checked').map(function() {
@@ -242,7 +260,9 @@
 
             var url = $(".btn-action-reservation").attr("data-url");
             $.post(url, {
-                'reservations_ids': checkValues
+                'reservations_ids': checkValues,
+                'save_option': option
+
             }, function(data) {
                 if(data != "ERROR")
                 {

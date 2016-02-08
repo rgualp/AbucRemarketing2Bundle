@@ -4,6 +4,7 @@ namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\EntityRepository;
+use MyCp\mycpBundle\Helpers\Operations;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
 use MyCp\mycpBundle\Helpers\OrderByHelper;
 
@@ -368,7 +369,7 @@ class generalReservationRepository extends EntityRepository {
         return $userTourist != null ? $userTourist->getUserTouristCurrency()->getCurrCode() : "usd";
     }
 
-    public function setAsNotAvailable($reservations_ids) {
+    public function setAsNotAvailable($reservations_ids, $save_option = Operations::SAVE) {
         $em = $this->getEntityManager();
         foreach ($reservations_ids as $res_id) {
             $genRes = $em->getRepository('mycpBundle:generalReservation')->find($res_id);
@@ -383,17 +384,19 @@ class generalReservationRepository extends EntityRepository {
                 $res->setOwnResStatus(ownershipReservation::STATUS_NOT_AVAILABLE);
                 $em->persist($res);
 
-                //Creando una no disponibilidad para cada reserva marcada como No Disponible si aun no hay no disponibilidades almacenadas en este rango de fecha
-                if($em->getRepository("mycpBundle:unavailabilityDetails")->existByDateAndRoom($res->getOwnResSelectedRoomId(),$res->getOwnResReservationFromDate(),$res->getOwnResReservationToDate()) == 0) {
-                    $uDetails = new unavailabilityDetails();
-                    $room = $em->getRepository("mycpBundle:room")->find($res->getOwnResSelectedRoomId());
-                    $uDetails->setRoom($room)
-                        ->setUdSyncSt(SyncStatuses::ADDED)
-                        ->setUdFromDate($res->getOwnResReservationFromDate())
-                        ->setUdToDate($res->getOwnResReservationToDate())
-                        ->setUdReason("Generada automaticamente por ser no disponible la reserva CAS." . $res->getOwnResGenResId()->getGenResId());
+                if($save_option == Operations::SAVE_AND_UPDATE_CALENDAR) {
+                    //Creando una no disponibilidad para cada reserva marcada como No Disponible si aun no hay no disponibilidades almacenadas en este rango de fecha
+                    if ($em->getRepository("mycpBundle:unavailabilityDetails")->existByDateAndRoom($res->getOwnResSelectedRoomId(), $res->getOwnResReservationFromDate(), $res->getOwnResReservationToDate()) == 0) {
+                        $uDetails = new unavailabilityDetails();
+                        $room = $em->getRepository("mycpBundle:room")->find($res->getOwnResSelectedRoomId());
+                        $uDetails->setRoom($room)
+                            ->setUdSyncSt(SyncStatuses::ADDED)
+                            ->setUdFromDate($res->getOwnResReservationFromDate())
+                            ->setUdToDate($res->getOwnResReservationToDate())
+                            ->setUdReason("Generada automaticamente por ser no disponible la reserva CAS." . $res->getOwnResGenResId()->getGenResId());
 
-                    $em->persist($uDetails);
+                        $em->persist($uDetails);
+                    }
                 }
             }
         }

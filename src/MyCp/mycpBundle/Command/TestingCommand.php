@@ -33,7 +33,7 @@ EOT
 
         $booking = $em->getRepository("mycpBundle:booking")->find($bookingId);
 
-        $service->postProcessBookingPayment($booking, PaymentHelper::STATUS_PENDING);
+        $service->processPaymentEmailsTesting($booking, PaymentHelper::STATUS_PENDING);
 
        /* $container = $this->getContainer();
         $em = $container->get('doctrine')->getManager();
