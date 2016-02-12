@@ -215,7 +215,6 @@ class Email {
 
         $templating = $this->container->get('templating');
         $content = $templating->render('FrontEndBundle:mails:infoCasaRentaCommand.html.twig', $data);
-        $email_to= 'arieskienmendoza@gmail.com';
         $subject= 'Como usar MyCasa Renta';
         $this->sendEmail($subject, 'no_responder@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content);
     }

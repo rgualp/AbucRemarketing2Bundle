@@ -87,8 +87,7 @@ class InfoCasaRentaCommand extends ContainerAwareCommand
         $sql.= 'mycpBundle:ownership o ';
         $sql.= 'WITH o = uc.user_casa_ownership ';
         /***test***/
-        //AR001,AR002,AR003,AR004
-        $sql.= "AND o.own_mcp_code in ('AR001','AR002','AR003','AR004') ";
+        $sql.= "AND o.own_mcp_code = 'MYCP001'";//test email Ander...
         /***test END***/
 
         $q = $this->em->createQuery(trim($sql));
