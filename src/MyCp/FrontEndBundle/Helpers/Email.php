@@ -199,4 +199,24 @@ class Email {
         $this->sendEmail($subject, 'no_responder@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content);
     }
 
+    public function sendInfoCasaRentaCommand($user_casa) {
+        $user = $user_casa->getUserCasaUser();
+        $user_fullname= trim($user->getUserUserName() . ' ' . $user->getUserLastName());
+        $email_to= $user->getUserEmail();
+
+        if (!isset($email_to) || $email_to == "")
+            throw new \InvalidArgumentException("The email to can not be empty");
+
+        $data= array();
+        $data['user_name']= $user->getUserName();
+        $data['user_full_name']= $user_fullname;
+        $data['secret_token']= $user_casa->getUserCasaSecretToken();
+        $data['user_locale']= 'es';
+
+        $templating = $this->container->get('templating');
+        $content = $templating->render('FrontEndBundle:mails:infoCasaRentaCommand.html.twig', $data);
+        $subject= 'Como usar MyCasa Renta';
+        $this->sendEmail($subject, 'no_responder@mycasaparticular.com', 'MyCasaParticular.com', $email_to, $content);
+    }
+
 }
