@@ -259,9 +259,14 @@
             }
 
             var url = $(".btn-action-reservation").attr("data-url");
+            /*var existPageParameter = {{(app.request.query.all | length > 0)}};
+            alert(existPageParameter);*/
+            //var currentPage = existPageParameter ? {##}{ app.request.query.get('page')}} : "0";
+            //alert(currentPage);
             $.post(url, {
                 'reservations_ids': checkValues,
-                'save_option': option
+                'save_option': option,
+                'page': 0
 
             }, function(data) {
                 if(data != "ERROR")

@@ -874,6 +874,7 @@ class BackendReservationController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $reservations_ids = $request->request->get('reservations_ids');
         $save_option = $request->request->get('save_option');
+        $page = $request->request->get('page');
         $response = null;
 
         //Modificar el estado
@@ -896,7 +897,7 @@ class BackendReservationController extends Controller {
                 'Se han modificado ' . count($reservations_ids) . ' reservaciones como No Disponibles y se ha notificado a los clientes respectivos. Ambas operaciones fueron satisfactorias.';
             $this->get('session')->getFlashBag()->add('message_ok', $message);
 
-            $response = $this->generateUrl('mycp_list_reservations');
+            $response = ($page != "" && $page != "0") ? $this->generateUrl('mycp_list_reservations', array("page" => $page)) : $this->generateUrl('mycp_list_reservations');
         } catch (\Exception $e) {
             $message = 'Los correos no pudieron ser enviados.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);

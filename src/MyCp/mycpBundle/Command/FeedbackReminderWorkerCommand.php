@@ -147,6 +147,11 @@ class FeedbackReminderWorkerCommand extends Worker {
         $this->securityService = $this->getService('Secure');
         $this->timer = $this->getService('Time');
         $this->em = $this->getService('doctrine.orm.entity_manager');
+
+        //if ($this->em->getConnection()->ping() === false) {
+        //    $this->em->getConnection()->close();
+        //    $this->em->getConnection()->connect();
+       // }
     }
 
 }
