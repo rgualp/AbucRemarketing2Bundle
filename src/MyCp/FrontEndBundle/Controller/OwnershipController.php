@@ -937,7 +937,7 @@ class OwnershipController extends Controller {
                 $search_departure_date = $departure_date;
             else if($search_arrival_date != null)
             {
-                $arrivalDateTime = \DateTime::createFromFormat("d-m-Y",$search_arrival_date);
+                $arrivalDateTime = \DateTime::createFromFormat("Y-m-d",$search_arrival_date);
                 $search_departure_date = date_add($arrivalDateTime, date_interval_create_from_date_string("2 days"))->format('d-m-Y');
             }
             else
