@@ -403,8 +403,8 @@
 
             function changeReservationStatus(reservationId){
 
-                var selectedReservation = $("#service_own_res_status_" + reservationId).val();
-                var unavailabilityStatus = {{ constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_NOT_AVAILABLE') }};
+               /* var selectedReservation = $("#service_own_res_status_" + reservationId).val();
+                var unavailabilityStatus = {#{ constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_NOT_AVAILABLE') }#};
 
                 if(selectedReservation == unavailabilityStatus){
                     $("#updateCalendar_" + reservationId).removeClass("hidden");
@@ -413,7 +413,7 @@
                 else {
                     $("#updateCalendar_" + reservationId).addClass("hidden");
                     $("#updateCalendarText_" + reservationId).addClass("hidden");
-                }
+                }*/
             }
         </script>
     {% endblock %}
