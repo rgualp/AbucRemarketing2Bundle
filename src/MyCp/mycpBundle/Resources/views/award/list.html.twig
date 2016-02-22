@@ -30,7 +30,6 @@
     </div>
 </div>
 <div class="paginator-cont span11">
-    {% if filter_name ==''%}{% set filter_name='null'%}{%endif%}
     {{ simple_paginator_render('mycp_list_awards',null,{
 'container_class': 'paginator',
 'previousPageText': '«',
@@ -54,7 +53,7 @@
         {% for item in list %}
         <tr>
             <td>{{item.name}}</td>
-            <td>{item.rankingValue}}</td>
+            <td>{{ item.rankingValue}}</td>
             <td><a>{{ item.awardAccommodations | length }}</a></td>
             <td style="text-align: right">
                 <a class="btn btn-mini" href="{{ path('mycp_edit_award',{'id':item.id}) }}">Editar</a>
@@ -65,7 +64,6 @@
         </tbody>
     </table>
 <div class="paginator-cont span11">
-{% if filter_name ==''%}{% set filter_name='null'%}{%endif%}
 {{ simple_paginator_render('mycp_list_awards',null,{
 'container_class': 'paginator',
 'previousPageText': '«',

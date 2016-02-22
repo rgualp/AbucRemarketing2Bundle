@@ -3,6 +3,7 @@
 
 namespace MyCp\mycpBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -40,7 +41,7 @@ class award
     /**
      * @var string
      *
-     * @ORM\Column(name="icon_or_class_nam", type="string", length=255, nullable=true)
+     * @ORM\Column(name="icon_or_class_name", type="string", length=255, nullable=true)
      */
     private $icon_or_class_name;
 

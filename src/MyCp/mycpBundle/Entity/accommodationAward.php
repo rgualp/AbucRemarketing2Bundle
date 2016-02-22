@@ -29,11 +29,11 @@ class accommodationAward
     private $accommodation;
 
     /**
-     * @var date
+     * @var year
      *
-     * @ORM\Column(name="date", type="date")
+     * @ORM\Column(name="year", type="integer")
      */
-    private $date;
+    private $year;
 
     /**
      * @return mixed
@@ -72,20 +72,20 @@ class accommodationAward
     }
 
     /**
-     * @return date
+     * @return year
      */
-    public function getDate()
+    public function getYear()
     {
-        return $this->date;
+        return $this->year;
     }
 
     /**
-     * @param date $date
+     * @param integer $year
      * @return this
      */
-    public function setDate($date)
+    public function setYear($year)
     {
-        $this->date = $date;
+        $this->year = $year;
         return $this;
     }
 
