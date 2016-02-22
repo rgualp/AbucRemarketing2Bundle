@@ -99,4 +99,45 @@ class BackendAwardController extends Controller {
         return $this->redirect($this->generateUrl('mycp_list_awards'));
     }
 
+    function removeAccommodationAwardAction($award_id, $accommodation_id) {
+        //$service_security = $this->get('Secure');
+        //$service_security->verifyAccess();
+        $em = $this->getDoctrine()->getManager();
+        $accommodationAward = $em->getRepository('mycpBundle:accommodationAward')->findOneBy(array("award" => $award_id, "accommodation" => $accommodation_id));
+
+        if ($accommodationAward)
+            $em->remove($accommodationAward);
+        $em->flush();
+        $message = 'Premio removido satisfactoriamente.';
+        $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+        $service_log = $this->get('log');
+        $service_log->saveLog('Remove award, ' . $award_id. '-'.$accommodation_id, BackendModuleName::MODULE_ALBUM);
+
+        return $this->redirect($this->generateUrl('mycp_accommodation_award_list', array("id" => $award_id)));
+    }
+
+    function accommodationsAction($id, $items_per_page) {
+        //$service_security = $this->get('Secure');
+        //$service_security->verifyAccess();
+        $em = $this->getDoctrine()->getManager();
+        $accommodationsAward = $em->getRepository('mycpBundle:accommodationAward')->findBy(array("award" => $id), array("year" => "DESC"));
+        $award = $em->getRepository('mycpBundle:award')->find($id);
+
+        $paginator = $this->get('ideup.simple_paginator');
+        $paginator->setItemsPerPage($items_per_page);
+        $accommodationsAward = $paginator->paginate($accommodationsAward)->getResult();
+        $page = 1;
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+
+
+        return $this->render('mycpBundle:award:accommodations.html.twig', array(
+            'award' => $award, 'list' => $accommodationsAward,
+            'items_per_page' => $items_per_page,
+            'total_items' => $paginator->getTotalItems(),
+            'current_page' => $page,
+        ));
+    }
+
 }

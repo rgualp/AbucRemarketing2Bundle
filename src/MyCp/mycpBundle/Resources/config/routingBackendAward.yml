@@ -14,3 +14,11 @@ mycp_delete_award:
     pattern:  /delete/{id}
     defaults: { _controller: mycpBundle:BackendAward:delete }
 
+mycp_accommodation_award_list:
+    pattern:  /accommodations/{id}
+    defaults: { _controller: mycpBundle:BackendAward:accommodations, items_per_page: 100 }
+
+mycp_remove_accommodation_award:
+    pattern:  /remove/{award_id}/{accommodation_id}
+    defaults: { _controller: mycpBundle:BackendAward:removeAccommodationAward }
+
