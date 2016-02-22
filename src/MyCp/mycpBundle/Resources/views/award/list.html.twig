@@ -1,0 +1,91 @@
+{% extends 'mycpBundle:layout:backend.html.twig' %}
+{% block title %}Administración{% endblock %}
+{% block top_body %}
+<ul class="breadcrumb">
+    <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
+    <li class="active">Premios</li>
+</ul>
+{% endblock %}
+{% block content %}
+<h2>Premios</h2>
+<hr/>
+    <a class="btn" href="{{ path('mycp_new_award') }}"><i class="icon-plus"></i> Adicionar premio</a>&nbsp;
+<br/><br/>
+{% for message in app.session.flashbag.get('message_error_local') %}
+<div class="alert alert-error">{{ message }}</div>
+{% endfor %}
+{% if list %}
+<div class="alert">
+    <div class="row-fluid">
+        <div class="pull-left">
+            Mostrando del {{items_per_page * current_page - items_per_page}} al {% if items_per_page * current_page >  total_items%}{{total_items }}{% else %}{{ items_per_page * current_page }}{% endif %} de {{total_items}} registros
+        </div>
+        <div class="pull-right">
+            Mostrar:
+            <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_awards',{'items_per_page':100})}}">100</a>
+            <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_awards',{'items_per_page':300})}}">300</a>
+            <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_awards',{'items_per_page':500})}}">500</a>
+            <input class="hidden" name="items_per_page" value="100">
+        </div>
+    </div>
+</div>
+<div class="paginator-cont span11">
+    {% if filter_name ==''%}{% set filter_name='null'%}{%endif%}
+    {{ simple_paginator_render('mycp_list_awards',null,{
+'container_class': 'paginator',
+'previousPageText': '«',
+'nextPageText': '»',
+'currentClass': 'current',
+'firstPageText': 'Primera',
+'lastPageText': 'Última',
+'route_params': {'items_per_page':items_per_page}
+}) }}
+</div>
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th>Premio</th>
+            <th>Valor ranking</th>
+            <th>Alojamientos</th>
+            <th style="text-align: right">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in list %}
+        <tr>
+            <td>{{item.name}}</td>
+            <td>{item.rankingValue}}</td>
+            <td><a>{{ item.awardAccommodations | length }}</a></td>
+            <td style="text-align: right">
+                <a class="btn btn-mini" href="{{ path('mycp_edit_award',{'id':item.id}) }}">Editar</a>
+                <button data='{{ path('mycp_delete_award',{'id':item.id}) }}' class="btn btn-mini btn-danger delete">Eliminar</button>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+<div class="paginator-cont span11">
+{% if filter_name ==''%}{% set filter_name='null'%}{%endif%}
+{{ simple_paginator_render('mycp_list_awards',null,{
+'container_class': 'paginator',
+'previousPageText': '«',
+'nextPageText': '»',
+'currentClass': 'current',
+'firstPageText': 'Primera',
+'lastPageText': 'Última',
+'route_params': {'items_per_page':items_per_page}
+}) }}
+</div>
+    {% else %}
+    <p> <div class="alert alert-block">No hay premios disponibles.</div></p>
+    {% endif %}
+{% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea eliminar el elemento?','confirmation_action_label':'Eliminar'}%}
+{% endblock %}
+{% block javascripts %}
+    {% javascripts
+    '@mycpBundle/Resources/public/js/common_list.js'
+    filter='?uglifyjs2'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

@@ -6,17 +6,17 @@ namespace MyCp\mycpBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * accommodation_award
+ * accommodationAward
  *
- * @ORM\Table()
+ * @ORM\Table(name="accommodation_award")
  * @ORM\Entity
  *
  */
-class accommodation_award
+class accommodationAward
 {
     /**
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="award",inversedBy="")
+     * @ORM\ManyToOne(targetEntity="award",inversedBy="awardAccommodations")
      * @ORM\JoinColumn(name="award",referencedColumnName="id")
      */
     private $award;

@@ -45,6 +45,15 @@ class award
     private $icon_or_class_name;
 
     /**
+     * @ORM\OneToMany(targetEntity="accommodationAward", mappedBy="award")
+     */
+    private $awardAccommodations;
+
+    public function __construct() {
+        $this->awardAccommodations = new ArrayCollection();
+    }
+
+    /**
      * @return int
      */
     public function getId()
@@ -103,6 +112,24 @@ class award
     public function setRankingValue($ranking_value)
     {
         $this->ranking_value = $ranking_value;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAwardAccommodations()
+    {
+        return $this->awardAccommodations;
+    }
+
+    /**
+     * @param mixed $awardAccommodations
+     * @return this
+     */
+    public function setAwardAccommodations($awardAccommodations)
+    {
+        $this->awardAccommodations = $awardAccommodations;
         return $this;
     }
 
