@@ -23,7 +23,7 @@ class accommodationAward
 
     /**
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="ownership",inversedBy="")
+     * @ORM\ManyToOne(targetEntity="ownership",inversedBy="awards")
      * @ORM\JoinColumn(name="accommodation",referencedColumnName="own_id")
      */
     private $accommodation;

@@ -12,6 +12,7 @@ use MyCp\mycpBundle\Entity\ownershipGeneralLang;
 use MyCp\mycpBundle\Entity\ownershipKeywordLang;
 use MyCp\mycpBundle\Entity\room;
 use MyCp\mycpBundle\Entity\userCasa;
+use MyCp\mycpBundle\Helpers\OrderByHelper;
 use MyCp\mycpBundle\Helpers\OwnershipStatuses;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
 use MyCp\mycpBundle\Entity\ownershipStatus;
@@ -2044,6 +2045,30 @@ class ownershipRepository extends EntityRepository {
             ->where('r.room_ownership = :ownership')
             ->setParameter("ownership", $idOwnership)
             ->orderBy("r.room_num", "ASC");
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getAccommodationsForSetAward($awardId, $destinationId = 0, $orderByOption = OrderByHelper::AWARD_ACCOMMODATION_RANKING)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb->select('o', 'a.year')
+            ->addSelect("CASE WHEN (aw.id = :awardId) THEN 1 ELSE 0 END")
+            ->from("mycpBundle:ownership", "o")
+            ->leftJoin("o.awards", "a")
+            ->leftJoin("a.award", "aw")
+            ->setParameter("awardId", $awardId);
+
+        if($destinationId != 0)
+            $qb->andWhere("o.own_destination = :destinationId")
+                ->setParameter("destinationId", $destinationId);
+
+        switch($orderByOption)
+        {
+            case OrderByHelper::AWARD_ACCOMMODATION_RANKING: $qb->orderBy("o.own_ranking", "DESC"); break;
+            case OrderByHelper::AWARD_ACCOMMODATION_CODE: $qb->orderBy("o.own_mcp_code", "ASC"); break;
+        }
 
         return $qb->getQuery()->getResult();
     }

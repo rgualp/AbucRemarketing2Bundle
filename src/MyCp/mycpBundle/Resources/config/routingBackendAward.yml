@@ -22,3 +22,7 @@ mycp_remove_accommodation_award:
     pattern:  /remove/{award_id}/{accommodation_id}
     defaults: { _controller: mycpBundle:BackendAward:removeAccommodationAward }
 
+mycp_set_award_accommodation:
+    pattern:  /set-award/{id}
+    defaults: { _controller: mycpBundle:BackendAward:setAward, items_per_page: 100 }
+

@@ -475,6 +475,11 @@ class ownership {
     private $own_cubacoupon;
 
     /**
+     * @ORM\OneToMany(targetEntity="accommodationAward", mappedBy="accommodation")
+     */
+    private $awards;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -485,6 +490,7 @@ class ownership {
         $this->own_sync_st = SyncStatuses::ADDED;
         $this->own_sended_to_team = false;
         $this->own_cubacoupon = false;
+        $this->awards = new ArrayCollection();
         //$this->own_creation_date = new \DateTime();
     }
 
@@ -1898,4 +1904,42 @@ class ownership {
 
         return $this->own_cubacoupon;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getAwards()
+    {
+        return $this->awards;
+    }
+
+    /**
+     * @param mixed $awards
+     * @return this
+     */
+    public function setAwards($awards)
+    {
+        $this->awards = $awards;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOwnershipKeywordOwnership()
+    {
+        return $this->ownershipKeywordOwnership;
+    }
+
+    /**
+     * @param mixed $ownershipKeywordOwnership
+     * @return this
+     */
+    public function setOwnershipKeywordOwnership($ownershipKeywordOwnership)
+    {
+        $this->ownershipKeywordOwnership = $ownershipKeywordOwnership;
+        return $this;
+    }
+
+
 }

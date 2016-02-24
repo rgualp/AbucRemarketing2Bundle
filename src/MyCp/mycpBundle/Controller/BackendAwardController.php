@@ -140,4 +140,29 @@ class BackendAwardController extends Controller {
         ));
     }
 
+    function setAwardAction($id, $items_per_page)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $award = $em->getRepository('mycpBundle:award')->find($id);
+
+        $paginator = $this->get('ideup.simple_paginator');
+        $paginator->setItemsPerPage($items_per_page);
+        $accommodationsAward = $em->getRepository("mycpBundle:ownership")->getAccommodationsForSetAward($id);
+        $accommodationsAward = $paginator->paginate($accommodationsAward)->getResult();
+        $page = 1;
+        if (isset($_GET['page']))
+            $page = $_GET['page'];
+
+        $sort_by=  OrderByHelper::AWARD_ACCOMMODATION_RANKING;
+
+
+        return $this->render('mycpBundle:award:accommodationsForAward.html.twig', array(
+            'award' => $award, 'list' => $accommodationsAward,
+            'items_per_page' => $items_per_page,
+            'total_items' => $paginator->getTotalItems(),
+            'current_page' => $page,
+            'sort_by' => $sort_by
+        ));
+    }
+
 }

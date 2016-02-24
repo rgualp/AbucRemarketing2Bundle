@@ -19,6 +19,7 @@ class ElementToOrder
     const DESTINATION = 7;
     const FAQ = 8;
     const SEARCHER = 9;
+    const AWARD_ACCOMMODATION = 10;
 }
 
 class OrderByHelper {
@@ -68,6 +69,9 @@ class OrderByHelper {
     const SEARCHER_Z_A = 96;
     const SEARCHER_RESERVATIONS_HIGH_LOW = 97;
     const SEARCHER_RESERVATIONS_LOW_HIGH = 98;
+
+    const AWARD_ACCOMMODATION_CODE = 99;
+    const AWARD_ACCOMMODATION_RANKING = 100;
 
     public static function getOrdersFor($elementToOrder)
     {
@@ -129,6 +133,9 @@ class OrderByHelper {
                              array(self::SEARCHER_Z_A, "Z_A_ORDER_BY"),
                              array(self::SEARCHER_RESERVATIONS_HIGH_LOW, "RESERVATIONS_HIGH_LOW_ORDERBY"),
                              array(self::SEARCHER_RESERVATIONS_LOW_HIGH, "RESERVATIONS_LOW_HIGH_ORDERBY"));
+            case ElementToOrder::AWARD_ACCOMMODATION:
+                return array(array(self::AWARD_ACCOMMODATION_CODE, "Código del alojamiento"),
+                    array(self::AWARD_ACCOMMODATION_RANKING, "Mayor Ranking"));
         }
     }
 

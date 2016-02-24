@@ -56,6 +56,7 @@
             <td>{{ item.rankingValue}}</td>
             <td><a href="{{ path("mycp_accommodation_award_list", {"id": item.id}) }}">{{ item.awardAccommodations | length }}</a></td>
             <td style="text-align: right">
+                <a class="btn btn-mini btn-info" href="{{ path('mycp_set_award_accommodation',{'id':item.id}) }}">Premiar</a>
                 <a class="btn btn-mini" href="{{ path('mycp_edit_award',{'id':item.id}) }}">Editar</a>
                 <button data='{{ path('mycp_delete_award',{'id':item.id}) }}' class="btn btn-mini btn-danger delete">Eliminar</button>
             </td>
