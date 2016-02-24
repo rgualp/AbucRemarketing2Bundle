@@ -2049,7 +2049,7 @@ class ownershipRepository extends EntityRepository {
         return $qb->getQuery()->getResult();
     }
 
-    public function getAccommodationsForSetAward($awardId, $destinationId = 0, $orderByOption = OrderByHelper::AWARD_ACCOMMODATION_RANKING)
+    public function getAccommodationsForSetAward($awardId, $orderByOption = OrderByHelper::AWARD_ACCOMMODATION_RANKING, $filter_code="", $filter_name="", $filter_province="", $filter_municipality="", $filter_destination="" )
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
@@ -2058,11 +2058,29 @@ class ownershipRepository extends EntityRepository {
             ->from("mycpBundle:ownership", "o")
             ->leftJoin("o.awards", "a")
             ->leftJoin("a.award", "aw")
-            ->setParameter("awardId", $awardId);
+            ->setParameter("awardId", $awardId)
+            ->where("o.own_status = :status")
+            ->setParameter("status", OwnershipStatuses::ACTIVE);
 
-        if($destinationId != 0)
+        if($filter_code != "" && $filter_code != "null")
+            $qb->andWhere("o.own_mcp_code LIKE :accommodationCode")
+                ->setParameter("accommodationCode", '%'.$filter_code.'%');
+
+        if($filter_name != "" && $filter_name != "null")
+            $qb->andWhere("o.own_name LIKE :accommodationName")
+                ->setParameter("accommodationName", '%'.$filter_name.'%');
+
+        if($filter_province != "" && $filter_province != "null")
+            $qb->andWhere("o.own_address_province = :province")
+                ->setParameter("province", $filter_province);
+
+        if($filter_municipality != "" && $filter_municipality != "null")
+            $qb->andWhere("o.own_address_municipality = :municipality")
+                ->setParameter("municipality", $filter_municipality);
+
+        if($filter_destination != "" && $filter_destination != "null")
             $qb->andWhere("o.own_destination = :destinationId")
-                ->setParameter("destinationId", $destinationId);
+                ->setParameter("destinationId", $filter_destination);
 
         switch($orderByOption)
         {

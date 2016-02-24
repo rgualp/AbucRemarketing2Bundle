@@ -140,28 +140,45 @@ class BackendAwardController extends Controller {
         ));
     }
 
-    function setAwardAction($id, $items_per_page)
+    function setAwardAction($id, $items_per_page, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+
+        $filter_active=$request->get('filter_active');
+        $filter_name=$request->get('filter_name');
+        $sort_by=$request->get('sort_by');
+        $filter_province=$request->get('filter_province');
+        $filter_municipality=$request->get('filter_municipality');
+        $filter_code=$request->get('filter_code');
+        $filter_destination=$request->get('filter_destination');
+
+        if($sort_by=='null')  $sort_by=  OrderByHelper::AWARD_ACCOMMODATION_RANKING;
+
         $award = $em->getRepository('mycpBundle:award')->find($id);
 
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
-        $accommodationsAward = $em->getRepository("mycpBundle:ownership")->getAccommodationsForSetAward($id);
+        $accommodationsAward = $em->getRepository("mycpBundle:ownership")->getAccommodationsForSetAward($id, $sort_by, $filter_code, $filter_name, $filter_active, $filter_province, $filter_municipality, $filter_destination);
         $accommodationsAward = $paginator->paginate($accommodationsAward)->getResult();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
 
-        $sort_by=  OrderByHelper::AWARD_ACCOMMODATION_RANKING;
-
+        if($filter_code=='null') $filter_code='';
+        if($filter_name=='null') $filter_name='';
 
         return $this->render('mycpBundle:award:accommodationsForAward.html.twig', array(
             'award' => $award, 'list' => $accommodationsAward,
             'items_per_page' => $items_per_page,
             'total_items' => $paginator->getTotalItems(),
             'current_page' => $page,
-            'sort_by' => $sort_by
+            'sort_by' => $sort_by,
+            'filter_active' => $filter_active,
+            'filter_name' => $filter_name,
+            'filter_code' => $filter_code,
+            'filter_province' => $filter_province,
+            'filter_destination' => $filter_destination,
+            'filter_municipality' => $filter_municipality
         ));
     }
 
