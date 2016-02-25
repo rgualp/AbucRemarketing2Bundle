@@ -17,9 +17,11 @@ class awardType extends AbstractType
         $builder
             ->add('name',null,array('label'=>'Nombre:','attr'=>array('class'=>'input-block-level')))
             ->add('ranking_value',null,array('label'=>'Valor ranking:','attr'=>array('class'=>'input-block-level')))
-            ->add('icon_or_class_name',null,array('label'=>'Nombre de icono o clase CSS:','attr'=>array('class'=>'input-block-level')));
-           // ->add('photo','file',array('label'=>'Ícono del premio:','mapped'=>false,
-           // 'attr'=>array('title'=>"Seleccionar fichero...",'accept'=>'image/*')));
+           // ->add('icon_or_class_name',null,array('label'=>'Nombre de icono o clase CSS:','attr'=>array('class'=>'input-block-level')));
+            ->add('icon_or_class_name','file',array('label'=>'Ícono del premio:','mapped'=>false,
+            'attr'=>array('title'=>"Seleccionar fichero...",'accept'=>'image/*')))
+            ->add('second_icon_or_class_name','file',array('label'=>'Ícono del premio (pequeño):','mapped'=>false,
+                'attr'=>array('title'=>"Seleccionar fichero...",'accept'=>'image/*')));
 
     }
 

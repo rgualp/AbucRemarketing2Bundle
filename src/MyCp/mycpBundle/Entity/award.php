@@ -46,6 +46,13 @@ class award
     private $icon_or_class_name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="second_icon_or_class_name", type="string", length=255, nullable=true)
+     */
+    private $second_icon_or_class_name;
+
+    /**
      * @ORM\OneToMany(targetEntity="accommodationAward", mappedBy="award")
      */
     private $awardAccommodations;
@@ -131,6 +138,24 @@ class award
     public function setAwardAccommodations($awardAccommodations)
     {
         $this->awardAccommodations = $awardAccommodations;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSecondIconOrClassName()
+    {
+        return $this->second_icon_or_class_name;
+    }
+
+    /**
+     * @param string $second_icon_or_class_name
+     * @return this
+     */
+    public function setSecondIconOrClassName($second_icon_or_class_name)
+    {
+        $this->second_icon_or_class_name = $second_icon_or_class_name;
         return $this;
     }
 
