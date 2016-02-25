@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * accommodationAward
  *
  * @ORM\Table(name="accommodation_award")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\accommodationAwardRepository")
  *
  */
 class accommodationAward
@@ -29,8 +29,7 @@ class accommodationAward
     private $accommodation;
 
     /**
-     * @var year
-     *
+     * @ORM\Id
      * @ORM\Column(name="year", type="integer")
      */
     private $year;

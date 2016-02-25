@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use MyCp\mycpBundle\Entity\award;
 use MyCp\mycpBundle\Form\awardType;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
+use Symfony\Component\HttpFoundation\Response;
 
 class BackendAwardController extends Controller {
 
@@ -99,7 +100,7 @@ class BackendAwardController extends Controller {
         return $this->redirect($this->generateUrl('mycp_list_awards'));
     }
 
-    function removeAccommodationAwardAction($award_id, $accommodation_id) {
+    function removeAccommodationAwardAction($award_id, $accommodation_id, Request $request) {
         //$service_security = $this->get('Secure');
         //$service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
@@ -121,7 +122,7 @@ class BackendAwardController extends Controller {
         //$service_security = $this->get('Secure');
         //$service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
-        $accommodationsAward = $em->getRepository('mycpBundle:accommodationAward')->findBy(array("award" => $id), array("year" => "DESC"));
+        $accommodationsAward = $em->getRepository('mycpBundle:accommodationAward')->getAccommodationsAward($id);
         $award = $em->getRepository('mycpBundle:award')->find($id);
 
         $paginator = $this->get('ideup.simple_paginator');
@@ -144,13 +145,13 @@ class BackendAwardController extends Controller {
     {
         $em = $this->getDoctrine()->getManager();
 
-        $filter_active=$request->get('filter_active');
         $filter_name=$request->get('filter_name');
         $sort_by=$request->get('sort_by');
         $filter_province=$request->get('filter_province');
         $filter_municipality=$request->get('filter_municipality');
         $filter_code=$request->get('filter_code');
         $filter_destination=$request->get('filter_destination');
+        $filter_year=$request->get('filter_year');
 
         if($sort_by=='null')  $sort_by=  OrderByHelper::AWARD_ACCOMMODATION_RANKING;
 
@@ -158,7 +159,7 @@ class BackendAwardController extends Controller {
 
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
-        $accommodationsAward = $em->getRepository("mycpBundle:ownership")->getAccommodationsForSetAward($id, $sort_by, $filter_code, $filter_name, $filter_active, $filter_province, $filter_municipality, $filter_destination);
+        $accommodationsAward = $em->getRepository("mycpBundle:accommodationAward")->getAccommodationsForSetAward($id, $sort_by, $filter_code, $filter_name, $filter_province, $filter_municipality, $filter_destination, $filter_year);
         $accommodationsAward = $paginator->paginate($accommodationsAward)->getResult();
         $page = 1;
         if (isset($_GET['page']))
@@ -173,13 +174,44 @@ class BackendAwardController extends Controller {
             'total_items' => $paginator->getTotalItems(),
             'current_page' => $page,
             'sort_by' => $sort_by,
-            'filter_active' => $filter_active,
             'filter_name' => $filter_name,
             'filter_code' => $filter_code,
             'filter_province' => $filter_province,
             'filter_destination' => $filter_destination,
-            'filter_municipality' => $filter_municipality
+            'filter_municipality' => $filter_municipality,
+            'filter_year' => $filter_year
         ));
+    }
+
+    public function setAwardCallbackAction() {
+        $request = $this->getRequest();
+        $em = $this->getDoctrine()->getManager();
+        $accommodations_ids = $request->request->get('accommodations_ids');
+        $award_id = $request->request->get('award_id');
+        $items_per_page = $request->request->get('items_per_page');
+        $filter_code = $request->request->get('filter_code');
+        $filter_province = $request->request->get('filter_province');
+        $filter_municipality = $request->request->get('filter_municipality');
+        $filter_destination = $request->request->get('filter_destination');
+        $filter_name = $request->request->get('filter_name');
+        $sort_by = $request->request->get('sort_by');
+        $filter_year = $request->request->get('filter_year');
+        $year = $request->request->get('year');
+
+        $response = null;
+
+        //Premiar
+        $em->getRepository('mycpBundle:accommodationAward')->setAccommodationAward($accommodations_ids, $award_id, $year);
+
+        $message = 'Se han premiado ' . count($accommodations_ids) . ' alojamientos exitosamente';
+        $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+        $response = $this->generateUrl('mycp_set_award_accommodation', array("id" => $award_id,
+        "filter_code" => $filter_code, "filter_destination" => $filter_destination, "filter_municipality" => $filter_municipality,
+        "filter_name" => $filter_name, "filter_province" => $filter_province, "items_per_page" => $items_per_page, "sort_by" => $sort_by,
+        "filter_year" => $filter_year));
+
+        return new Response($response);
     }
 
 }

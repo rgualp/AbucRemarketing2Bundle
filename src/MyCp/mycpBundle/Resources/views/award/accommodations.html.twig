@@ -10,7 +10,7 @@
 {% block content %}
 <h2>Alojamientos premiados - {{ award.name }}</h2>
 <hr/>
-    <a class="btn" ><i class="icon-asterisk"></i> Premiar</a>&nbsp;
+    <a class="btn btn-info" href="{{ path("mycp_set_award_accommodation", {"id": award.id}) }}"><i class="icon-asterisk icon-white"></i> Premiar</a>&nbsp;
 <br/><br/>
 {% if list %}
 <div class="alert">
@@ -41,7 +41,7 @@
     <table class="table table-striped table-hover">
         <thead>
         <tr>
-            <th>Casa</th>
+            <th>Alojamiento</th>
             <th>Año</th>
             <th style="text-align: right">Acciones</th>
         </tr>
@@ -49,10 +49,10 @@
         <tbody>
         {% for item in list %}
         <tr>
-            <td>{{item.accommodation.ownMcpCode}} - {{ item.accommodation.ownName }}</td>
+            <td><a href="{{ path("mycp_edit_ownership", {"id_ownership": item.accommodation.ownId}) }}">{{item.accommodation.ownMcpCode}} - {{ item.accommodation.ownName }}</a></td>
             <td>{{ item.year}}</td>
             <td style="text-align: right">
-                <a class="btn btn-mini" href="{{ path('mycp_remove_accommodation_award',{'accommodation_id':item.accommodation.ownId, 'award_id':item.award.id}) }}">Remover premio</a>
+                <a class="btn btn-mini btn-danger" href="{{ path('mycp_remove_accommodation_award',{'accommodation_id':item.accommodation.ownId, 'award_id':item.award.id}) }}">Remover premio</a>
             </td>
         </tr>
         {% endfor %}
@@ -72,7 +72,7 @@
     {% else %}
     <p> <div class="alert alert-block">No hay alojamientos premiados disponibles.</div></p>
     {% endif %}
-{% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea remover el premio del alojamiento seleccionado?','confirmation_action_label':'Eliminar'}%}
+{% include 'mycpBundle:utils:confirmation_window.html.twig' with {'message':'¿Confirma que desea remover el premio del alojamiento seleccionado?','confirmation_action_label':'Remover premio'}%}
 {% endblock %}
 {% block javascripts %}
     {% javascripts

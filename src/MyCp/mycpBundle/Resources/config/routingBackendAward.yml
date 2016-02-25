@@ -23,6 +23,9 @@ mycp_remove_accommodation_award:
     defaults: { _controller: mycpBundle:BackendAward:removeAccommodationAward }
 
 mycp_set_award_accommodation:
-    pattern:  /set-award/{id}/{items_per_page}/{filter_code}/{filter_name}/{filter_active}/{filter_province}/{filter_municipality}/{filter_destination}/{sort_by}
-    defaults: { _controller: mycpBundle:BackendAward:setAward, items_per_page: 100,filter_code:'',filter_name:'',filter_active:'',filter_province:'',filter_municipality:'',filter_destination:'',sort_by:'100' }
+    pattern:  /set-award/{id}/{items_per_page}/{filter_code}/{filter_name}/{filter_province}/{filter_municipality}/{filter_destination}/{sort_by}/{filter_year}
+    defaults: { _controller: mycpBundle:BackendAward:setAward, items_per_page: 100,filter_code:'',filter_name:'',filter_province:'',filter_municipality:'',filter_destination:'',sort_by:'100',filter_year:'' }
 
+mycp_set_award_callback:
+    pattern:  /set-award-callback/
+    defaults: { _controller: mycpBundle:BackendAward:setAwardCallback }
