@@ -29,3 +29,7 @@ mycp_set_award_accommodation:
 mycp_set_award_callback:
     pattern:  /set-award-callback/
     defaults: { _controller: mycpBundle:BackendAward:setAwardCallback }
+
+mycp_remove_accommodation_award_callback:
+    pattern:  /remove-callback
+    defaults: { _controller: mycpBundle:BackendAward:removeAccommodationAwardCallback }

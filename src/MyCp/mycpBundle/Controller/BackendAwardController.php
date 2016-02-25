@@ -214,4 +214,41 @@ class BackendAwardController extends Controller {
         return new Response($response);
     }
 
+    function removeAccommodationAwardCallbackAction()
+    {
+        $request = $this->getRequest();
+        $em = $this->getDoctrine()->getManager();
+        $accommodation_id = $request->request->get('accommodation_id');
+        $award_id = $request->request->get('award_id');
+        $items_per_page = $request->request->get('items_per_page');
+        $filter_code = $request->request->get('filter_code');
+        $filter_province = $request->request->get('filter_province');
+        $filter_municipality = $request->request->get('filter_municipality');
+        $filter_destination = $request->request->get('filter_destination');
+        $filter_name = $request->request->get('filter_name');
+        $sort_by = $request->request->get('sort_by');
+        $filter_year = $request->request->get('filter_year');
+
+        $response = null;
+
+        $accommodationAward = $em->getRepository('mycpBundle:accommodationAward')->findOneBy(array("award" => $award_id, "accommodation" => $accommodation_id));
+
+        if ($accommodationAward)
+            $em->remove($accommodationAward);
+        $em->flush();
+        $message = 'Premio removido satisfactoriamente.';
+        $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+        $service_log = $this->get('log');
+        $service_log->saveLog('Remove award, ' . $award_id. '-'.$accommodation_id, BackendModuleName::MODULE_ALBUM);
+
+        $response = $this->generateUrl('mycp_set_award_accommodation', array("id" => $award_id,
+            "filter_code" => $filter_code, "filter_destination" => $filter_destination, "filter_municipality" => $filter_municipality,
+            "filter_name" => $filter_name, "filter_province" => $filter_province, "items_per_page" => $items_per_page, "sort_by" => $sort_by,
+            "filter_year" => $filter_year));
+
+        return new Response($response);
+
+    }
+
 }

@@ -148,7 +148,8 @@
             <td>{% if item[1] == 1 %}{{ item.year}}{% else %} - {% endif %}</td>
             <td style="text-align: right">
                 {% if item[1] == 1 %}
-                <a class="btn btn-mini btn-danger" href="{{ path('mycp_remove_accommodation_award',{'accommodation_id':item[0].ownId, 'award_id':award.id}) }}">Remover premio</a>
+                    <a class="btn btn-mini btn-danger" onclick='javascript:remove_award("{{ item[0].ownId }}");'>Remover premio</a>
+                    <span  class="lblLoadingRemoving_{{ item[0].ownId }} hidden" data-url="{{ path("mycp_remove_accommodation_award_callback") }}">Procesando...</span>
                 {% endif %}
             </td>
         </tr>
@@ -310,6 +311,59 @@
                 else {
                     alert(data);
                     $(".lblLoading").addClass("hidden");
+                }
+            });
+        }
+
+        function remove_award(accommodation_id)
+        {
+            $(".lblLoadingRemoving_" + accommodation_id).removeClass("hidden");
+            items_per_page ={{items_per_page}} ;
+            filter_code = $('#filter_code').val();
+            if (filter_code == '')
+                filter_code = 'null';
+            filter_province = $('#filter_province').val();
+            if (filter_province == '')
+                filter_province = 'null';
+            filter_municipality = $('#filter_municipality').val();
+            if (filter_municipality == '')
+                filter_municipality = 'null';
+            filter_destination = $('#filter_destination').val();
+            if (filter_destination == '')
+                filter_destination = 'null';
+
+            filter_name = $('#filter_name').val();
+            if (filter_name == '')
+                filter_name = 'null';
+
+            sort_by=$('#sort_by').val();
+            if(sort_by=='')sort_by='null';
+
+            filter_year = $('#filter_year').val();
+            if (filter_year == '')
+                filter_year = 'null';
+
+            var url = $(".lblLoadingRemoving_" + accommodation_id).attr("data-url");
+            $.post(url, {
+                'accommodation_id': accommodation_id,
+                'award_id': {{ award.id }},
+                'items_per_page': items_per_page,
+                'filter_code': filter_code,
+                'filter_province': filter_province,
+                'filter_municipality': filter_municipality,
+                'filter_destination': filter_destination,
+                'filter_name': filter_name,
+                'sort_by': sort_by,
+                'filter_year': filter_year
+
+            }, function(data) {
+                if(data != "ERROR")
+                {
+                    window.location = data;
+                }
+                else {
+                    alert(data);
+                    $(".lblLoadingRemoving_" + accommodation_id).addClass("hidden");
                 }
             });
         }
