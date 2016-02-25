@@ -118,11 +118,12 @@ class BackendAwardController extends Controller {
         return $this->redirect($this->generateUrl('mycp_accommodation_award_list', array("id" => $award_id)));
     }
 
-    function accommodationsAction($id, $items_per_page) {
+    function accommodationsAction($id, $items_per_page, Request $request) {
         //$service_security = $this->get('Secure');
         //$service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
-        $accommodationsAward = $em->getRepository('mycpBundle:accommodationAward')->getAccommodationsAward($id);
+        $filter_year=$request->get('filter_year');
+        $accommodationsAward = $em->getRepository('mycpBundle:accommodationAward')->getAccommodationsAward($id, $filter_year);
         $award = $em->getRepository('mycpBundle:award')->find($id);
 
         $paginator = $this->get('ideup.simple_paginator');
@@ -138,6 +139,7 @@ class BackendAwardController extends Controller {
             'items_per_page' => $items_per_page,
             'total_items' => $paginator->getTotalItems(),
             'current_page' => $page,
+            'filter_year' => $filter_year
         ));
     }
 

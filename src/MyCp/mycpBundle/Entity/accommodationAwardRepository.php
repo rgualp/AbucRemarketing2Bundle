@@ -33,7 +33,7 @@ class accommodationAwardRepository extends EntityRepository
         $em->flush();
     }
 
-    public function getAccommodationsAward($awardId)
+    public function getAccommodationsAward($awardId, $filter_year = "")
     {
         $em = $this->getEntityManager();
 
@@ -46,6 +46,12 @@ class accommodationAwardRepository extends EntityRepository
             ->addOrderBy("a.own_mcp_code", "ASC")
             ->where("aw.id = :awardId")
             ->setParameter("awardId", $awardId);
+
+        if($filter_year != "null" && $filter_year != "")
+        {
+            $qb->andWhere("ac.year = :filter_year")
+               ->setParameter("filter_year", $filter_year);
+        }
 
         return $qb->getQuery()->getResult();
     }
