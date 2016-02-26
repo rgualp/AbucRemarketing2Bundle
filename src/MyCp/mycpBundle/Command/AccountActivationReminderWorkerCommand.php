@@ -99,6 +99,7 @@ class AccountActivationReminderWorkerCommand extends Worker
         $emailSubject = $this->translatorService->trans('EMAIL_ACCOUNT_REGISTERED_SUBJECT_REMINDER');
         $userLocale = $this->emailManager->getUserLocale($user);
         $activationUrl = $this->getActivationUrl($user, $userLocale);
+        $activationUrl = str_replace(".com//", ".com/", $activationUrl);
 
         $emailBody = $this->emailManager->getViewContent(
             'FrontEndBundle:mails:enableAccountReminder.html.twig',
