@@ -19,14 +19,18 @@ class accommodationAwardRepository extends EntityRepository
     public function setAccommodationAward($accommodations_ids, $award_id, $year) {
         $em = $this->getEntityManager();
         foreach ($accommodations_ids as $accommodation_id) {
-            $accommodation = $em->getRepository('mycpBundle:ownership')->find($accommodation_id);
-            $award = $em->getRepository('mycpBundle:award')->find($award_id);
+            $existAwardAccommodation = $em->getRepository("mycpBundle:accommodationAward")->findOneBy(array("year" => $year, "accommodation" => $accommodation_id, "award" => $award_id));
 
-            $awardAccommodation = new accommodationAward();
-            $awardAccommodation->setAccommodation($accommodation)
-                ->setAward($award)
-                ->setYear($year);
-            $em->persist($awardAccommodation);
+            if($existAwardAccommodation == null) {
+                $accommodation = $em->getRepository('mycpBundle:ownership')->find($accommodation_id);
+                $award = $em->getRepository('mycpBundle:award')->find($award_id);
+
+                $awardAccommodation = new accommodationAward();
+                $awardAccommodation->setAccommodation($accommodation)
+                    ->setAward($award)
+                    ->setYear($year);
+                $em->persist($awardAccommodation);
+            }
 
         }
 

@@ -480,6 +480,11 @@ class ownership {
     private $awards;
 
     /**
+     * @ORM\OneToMany(targetEntity="ownershipPhoto", mappedBy="own_pho_own")
+     */
+    private $photos;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -491,6 +496,7 @@ class ownership {
         $this->own_sended_to_team = false;
         $this->own_cubacoupon = false;
         $this->awards = new ArrayCollection();
+        $this->photos = new ArrayCollection();
         //$this->own_creation_date = new \DateTime();
     }
 

@@ -53,7 +53,7 @@ class PublicController extends Controller {
         $slide_folder = rand(1, 1);
 
         $paginator = $this->get('ideup.simple_paginator');
-        $items_per_page = 4 * ($session->get("top_rated_show_rows") != null ? $session->get("top_rated_show_rows") : 2);
+        $items_per_page = 3 * ($session->get("top_rated_show_rows") != null ? $session->get("top_rated_show_rows") : 2);
         $paginator->setItemsPerPage($items_per_page);
         $own_top20_list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->top20($glogal_locale))->getResult();
         $statistics = $em->getRepository("mycpBundle:ownership")->top20Statistics();

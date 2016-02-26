@@ -41,7 +41,7 @@
 <h2>{% if edit_award is defined %}Editar premio ({{award.name}}){% else %} Adicionar premio {% endif %}</h2>
         <hr/>
 {% if errors is defined %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
-<form action="{% if edit_award is defined %}{{ path('mycp_edit_award', {'id': edit_award})}}{% else %}{{ path('mycp_new_award')}}{% endif %}" method="POST" novalidate="true" class="sfgen" enctype="multipart/form-data">
+<form action="{% if edit_award is defined %}{{ path('mycp_edit_award', {'id': edit_award})}}{% else %}{{ path('mycp_new_award')}}{% endif %}" method="POST" class="sfgen" enctype="multipart/form-data">
 {% if edit_award is defined %}<input style="display: none;" name="edit_award" value="{{edit_award}}"> {% endif %}
     <div >
     {% if edit_award is defined and award.iconOrClassName %}

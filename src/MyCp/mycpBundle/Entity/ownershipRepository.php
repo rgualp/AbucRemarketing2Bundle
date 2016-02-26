@@ -861,9 +861,11 @@ class ownershipRepository extends EntityRepository {
      * Muestra todas las casas que son top20, para mostrar en la portada
      * @param $locale
      * @param $category
+     * @return mixed
      */
     function top20($locale = "ES", $category = null) {
         $em = $this->getEntityManager();
+
         $query_string = "SELECT o.own_id as own_id,
                          o.own_name as own_name,
                          prov.prov_name as prov_name,
@@ -872,14 +874,17 @@ class ownershipRepository extends EntityRepository {
                             AND (p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
                             where op1.own_pho_own = o.own_id) or p.pho_order is null) as photo,
                          (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = '$locale') as description,
-                         (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations
+                         (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations,
+                         (SELECT min(a.second_icon_or_class_name) FROM mycpBundle:accommodationAward aw JOIN aw.award a WHERE aw.accommodation = o.own_id ORDER BY aw.year DESC, a.ranking_value DESC) as award,
+                         (SELECT min(r.room_price_down_to) FROM mycpBundle:room r WHERE r.room_ownership = o.own_id order by r.room_price_down_to ASC) as minPrice
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
                          WHERE o.own_top_20=1
-                           AND o.own_status = " . ownershipStatus::STATUS_ACTIVE;
+                         AND o.own_status = " . ownershipStatus::STATUS_ACTIVE;
 
         if ($category != null) {
             $query_string .= " AND LOWER(o.own_category) = '$category'";
+
         }
 
         $query_string .= " ORDER BY o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC";
