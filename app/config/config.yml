@@ -122,6 +122,7 @@ parameters:
     configuration.dir.additionalsFiles: %kernel.root_dir%/../web/files/
     configuration.default.currency.code: EUR
     configuration.default.language.code: EN
+    award.dir.photos: %kernel.root_dir%/../web/uploads/awards/
 
 doctrine_migrations:
     dir_name: %kernel.root_dir%/migrations
