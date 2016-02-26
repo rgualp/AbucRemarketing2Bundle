@@ -108,7 +108,7 @@ class AccountActivationReminderWorkerCommand extends Worker
         );
 
         $output->writeln("Send email to $userEmail, subject '$emailSubject' for User ID $userId");
-        $this->emailManager->sendTemplatedEmail($userEmail, $emailSubject, $emailBody);
+        $this->emailManager->sendEmail($userEmail, $emailSubject, $emailBody);
     }
 
     /**

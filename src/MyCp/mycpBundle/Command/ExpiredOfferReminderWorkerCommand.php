@@ -110,7 +110,7 @@ class ExpiredOfferReminderWorkerCommand extends Worker
         $emailBody = $this->renderEmailBody($user, $generalReservation);
 
         $this->output->writeln("Send email to $userEmail, subject '$emailSubject' for User ID $userId");
-        $this->emailManager->sendTemplatedEmail($userEmail, $emailSubject, $emailBody, 'reservation@mycasaparticular.com');
+        $this->emailManager->sendEmail($userEmail, $emailSubject, $emailBody, 'reservation@mycasaparticular.com');
     }
 
     /**
