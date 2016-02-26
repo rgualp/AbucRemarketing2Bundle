@@ -40,8 +40,7 @@ class BackendAwardController extends Controller {
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
-                $em->persist($award);
-                $em->flush();
+                $this->processAwardPost($award, $em, $request);
                 $message = 'Premio añadido satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
@@ -62,11 +61,11 @@ class BackendAwardController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $award = $em->getRepository('mycpBundle:award')->find(array('id' => $id));
         $form = $this->createForm(new awardType(), $award);
+
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
-                $em->persist($award);
-                $em->flush();
+                $this->processAwardPost($award, $em, $request);
                 $message = 'Premio actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
@@ -78,24 +77,62 @@ class BackendAwardController extends Controller {
         }
 
         return $this->render('mycpBundle:award:new.html.twig', array(
-                    'form' => $form->createView(), 'edit_award' => $id, 'name_award' => $award->getName()
+                    'form' => $form->createView(), 'edit_award' => $id, 'award' => $award
         ));
+    }
+
+    private function processAwardPost(award $award, $em, Request $request)
+    {
+        $dir = $this->container->getParameter('award.dir.photos');
+        $file = $request->files->get('mycp_mycpbundle_awardtype');
+        if (isset($file['icon_or_class_name'])) {
+            $fileName = uniqid('award-') . '-photo.jpg';
+            $file['icon_or_class_name']->move($dir, $fileName);
+            $award->setIconOrClassName($fileName);
+        }
+
+        if (isset($file['second_icon_or_class_name'])) {
+            $fileName = uniqid('award-') . '-photo.jpg';
+            $file['second_icon_or_class_name']->move($dir, $fileName);
+            $award->setSecondIconOrClassName($fileName);
+        }
+
+
+        $em->persist($award);
+        $em->flush();
     }
 
     function deleteAction($id) {
         //$service_security = $this->get('Secure');
         //$service_security->verifyAccess();
+
         $em = $this->getDoctrine()->getManager();
+        $dir = $this->container->getParameter('award.dir.photos');
         $award = $em->getRepository('mycpBundle:award')->find($id);
 
-        if ($award)
-            $em->remove($award);
-        $em->flush();
-        $message = 'Premio eliminado satisfactoriamente.';
-        $this->get('session')->getFlashBag()->add('message_ok', $message);
+        if(count($award->getAwardAccommodations()) == 0) {
+            if ($award->getIconOrClassName()) {
+                @unlink($dir . $award->getIconOrClassName());
+            }
 
-        $service_log = $this->get('log');
-        $service_log->saveLog('Delete award, ' . $id, BackendModuleName::MODULE_ALBUM);
+            if ($award->getSecondIconOrClassName()) {
+                @unlink($dir . $award->getSecondIconOrClassName());
+            }
+
+
+            if ($award)
+                $em->remove($award);
+            $em->flush();
+            $message = 'Premio eliminado satisfactoriamente.';
+            $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+            $service_log = $this->get('log');
+            $service_log->saveLog('Delete award, ' . $id, BackendModuleName::MODULE_ALBUM);
+        }
+        else{
+            $message = 'El premio no puede ser eliminado porque esta otorgado en '.count($award->getAwardAccommodations()). " alojamientos";
+            $this->get('session')->getFlashBag()->add('message_error_main', $message);
+        }
 
         return $this->redirect($this->generateUrl('mycp_list_awards'));
     }

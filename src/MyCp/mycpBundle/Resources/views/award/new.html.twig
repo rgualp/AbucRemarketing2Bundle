@@ -38,11 +38,19 @@
 </form>
 {% endblock %}
 {% block content %}
-<h2>{% if edit_award is defined %}Editar premio ({{name_award}}){% else %} Adicionar premio {% endif %}</h2>
+<h2>{% if edit_award is defined %}Editar premio ({{award.name}}){% else %} Adicionar premio {% endif %}</h2>
         <hr/>
 {% if errors is defined %}<label class="alert alert-error">Debe llenar el formulario correctamente.</label>{%endif%}
-<form action="{% if edit_award is defined %}{{ path('mycp_edit_award', {'id': edit_award})}}{% else %}{{ path('mycp_new_award')}}{% endif %}" method="POST" novalidate="true" class="sfgen">
+<form action="{% if edit_award is defined %}{{ path('mycp_edit_award', {'id': edit_award})}}{% else %}{{ path('mycp_new_award')}}{% endif %}" method="POST" novalidate="true" class="sfgen" enctype="multipart/form-data">
 {% if edit_award is defined %}<input style="display: none;" name="edit_award" value="{{edit_award}}"> {% endif %}
+    <div >
+    {% if edit_award is defined and award.iconOrClassName %}
+        <img src="{{ asset("uploads/awards/") ~ award.iconOrClassName }}" style="vertical-align: bottom; border: 0;"/>
+    {% endif %}
+    {% if edit_award is defined and award.secondIconOrClassName %}
+        <img src="{{ asset("uploads/awards/") ~ award.secondIconOrClassName }}" style="vertical-align: bottom; border: 0;"/>
+    {% endif %}
+    </div>
     {{form_widget(form)}}
 {% endblock %}
     {% block javascripts %}
