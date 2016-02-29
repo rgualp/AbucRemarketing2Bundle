@@ -1,10 +1,10 @@
 <div class="carousel slide" id="{{ sliderId }}">
 <div class="carousel-inner thumbs-houses">
     {% set flag_item = 0 %}
-    {% for i in 1..3 %}
+    {% for i in 1..4 %}
         <div class="item {% if i == 1 %}active{% endif %}">
             <div class="row">
-                {% for e in 1..4%}
+                {% for e in 1..3%}
                     {% if list[flag_item] is defined %}
                         {{ include('FrontEndBundle:ownership:homeItemOwnership.html.twig',{
                         'own_id': list[flag_item]['own_id'],
