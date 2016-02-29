@@ -1,13 +1,41 @@
 
-<a target="_blank" rel="tooltip" href="{{ path('frontend_details_ownership',{'own_name':ownership['own_name']  | urlNormalize}) }}" title="{{"MORE_INFO_PREFFIX" | trans}} {{ownership['own_name']}}">
-<div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if ownership['comments_total'] > 0%}+{%endif%}{{ownership['comments_total']}}&nbsp;&nbsp;&nbsp;">
-    <img alt="{{ ownership['own_name'] }}" class="lazy" data-src="{{ (ownership['photo'] != "") ? asset("uploads/ownershipImages/thumbnails/" ~ ownership['photo']) : asset("uploads/ownershipImages/thumbnails/no_photo.png")}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
-    <noscript><img class="nolazy" src="{{ (ownership['photo'] != "") ? asset("uploads/ownershipImages/thumbnails/" ~ ownership['photo']) : asset("uploads/ownershipImages/thumbnails/no_photo.png")}}"></noscript>
+
+<div class="thumbnail" style="position:relative" rel="tooltip" title="{{"MORE_INFO_PREFFIX" | trans}} {{ownership['own_name']}}">
+    <div>
+        {% if ownership.award %}
+            <img src="{{ asset("uploads/awards/" ~ ownership.award) }}" style="width: 64px; height: 63px;position: relative; z-index: 1;box-shadow: 5px 5px 10px #686765;border-radius:100px"/>
+        {% endif %}
+        <h1 class="h-blue pull-right" style="font-size: 25px"><small style="display: inline-block">{{ "FROM" | trans }}:</small> {{ ownership.minPrice | price }}</h1>
+    </div>
+    <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':ownership['own_name']  | urlNormalize}) }}">
+    <img alt="{{ ownership['own_name'] }}"
+         class="lazy"
+         data-src="{{ (ownership['photo'] != "") ? asset("uploads/ownershipImages/thumbnails/" ~ ownership['photo']) : asset("uploads/ownershipImages/thumbnails/no_photo.png")}}"
+         src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"
+         {% if ownership.award %}style="position: relative; top:-15px"{% endif %}   />
+     </a>
+    <noscript>
+        <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':ownership['own_name']  | urlNormalize}) }}">
+        <img
+                class="nolazy"
+                src="{{ (ownership['photo'] != "") ? asset("uploads/ownershipImages/thumbnails/" ~ ownership['photo']) : asset("uploads/ownershipImages/thumbnails/no_photo.png")}}"
+                {% if ownership.award %}style="position: relative; top:-15px"{% endif %}>
+    </a>
+    </noscript>
 </div>
-<h2 class="h-blue">{{ ownership['own_name']| title }} <small>({{ownership['prov_name']}})</small></h2>
-</a>
-<h5>
-    {%if ownership['description'] != null%}
-        {{ownership['description'] | striptags | slice(0,120) }} <a href="{{ path('frontend_details_ownership',{'own_name':ownership['own_name']  | urlNormalize}) }}">(...{{"RESERVATION_CONFIRM_DESTINATION_MORE" | trans | capitalize}})</a>
-    {%endif%}
-</h5>
+<div class="row">
+    <a target="_blank"  href="{{ path('frontend_details_ownership',{'own_name':ownership['own_name']  | urlNormalize}) }}">
+    <div class="col-sm-10 h-blue">
+        {{ ownership['own_name']| title }}
+    </div>
+    </a>
+    <div class="col-sm-1" style="margin-top: 20px;">
+        {{ include('FrontEndBundle:favorite:itemFavorite.html.twig',
+        {'is_in_favorite': ownership.is_in_favorites,
+        'favorite_type': 'ownership',
+        'element_id':ownership.own_id,
+        'list_preffix' : "top20",
+        'include_text': false
+        }) }}
+    </div>
+</div>

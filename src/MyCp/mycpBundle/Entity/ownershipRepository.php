@@ -863,7 +863,7 @@ class ownershipRepository extends EntityRepository {
      * @param $category
      * @return mixed
      */
-    function top20($locale = "ES", $category = null) {
+    function top20($locale = "ES", $category = null, $user_id = null, $session_id = null) {
         $em = $this->getEntityManager();
 
         $query_string = "SELECT o.own_id as own_id,
@@ -876,7 +876,8 @@ class ownershipRepository extends EntityRepository {
                          (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = '$locale') as description,
                          (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations,
                          (SELECT min(a.second_icon_or_class_name) FROM mycpBundle:accommodationAward aw JOIN aw.award a WHERE aw.accommodation = o.own_id ORDER BY aw.year DESC, a.ranking_value DESC) as award,
-                         (SELECT min(r.room_price_down_to) FROM mycpBundle:room r WHERE r.room_ownership = o.own_id order by r.room_price_down_to ASC) as minPrice
+                         (SELECT min(r.room_price_down_to) FROM mycpBundle:room r WHERE r.room_ownership = o.own_id order by r.room_price_down_to ASC) as minPrice,
+                         (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
                          WHERE o.own_top_20=1
