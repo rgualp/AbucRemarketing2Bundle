@@ -437,9 +437,21 @@ class PublicController extends Controller {
     }
 
     public function appRentaDownloadAction(){
-
         //variable
         $pathToFile = $this->container->getParameter("configuration.dir.additionalsFiles");
+
+        $pathToCont = $pathToFile."download_cont.txt";
+        $file = fopen($pathToCont,"a");
+        fclose($file);
+        //fputs($ar,1);
+        if (is_writeable($pathToCont)){
+            $arrayFile=file($pathToCont);
+            $arrayFile[0] = (count($arrayFile) <= 0) ? (1) : (++$arrayFile[0]);
+            $file=fopen($pathToCont,"w");
+            fwrite($file,$arrayFile[0]);
+            fclose($file);
+        }
+
         $response = new BinaryFileResponse($pathToFile.'MyCasaRenta.apk');
         $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT,'MyCasaRenta.apk');
         return $response;
