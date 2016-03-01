@@ -11,10 +11,10 @@
                 <div class="carousel slide" id="th-destination-carousel">
                     <div class="carousel-inner thumbs-houses">
                         {% set flag_item = 0 %}
-                        {% for i in 1..3 %}
+                        {% for i in 1..4 %}
                             <div class="item {% if i == 1 %}active{% endif %}">
                                 <div class="row">
-                                    {% for e in 1..4%}
+                                    {% for e in 1..3%}
                                         {% if popular_places[flag_item] is defined %}
                                             {{ include('FrontEndBundle:destination:homeItemDestination.html.twig',{'destination_id': popular_places[flag_item]['des_id'],
                                             'destination_name':popular_places[flag_item]['des_name'],
@@ -40,7 +40,7 @@
                         {% endfor %}
 
                     </div>
-                    {%if popular_places | length > 4%}
+                    {%if popular_places | length > 3%}
                         <a data-slide="prev" href="#th-destination-carousel" class="left carousel-control">
                             <span class="icon-prev"></span>
                         </a>

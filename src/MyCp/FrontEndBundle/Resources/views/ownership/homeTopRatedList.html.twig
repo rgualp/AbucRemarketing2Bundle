@@ -4,7 +4,14 @@
     {%for ownership in own_top20_list%}
     {% if cont <3 %}
     <div class="col-sm-4">
-        {{ include('FrontEndBundle:ownership:accommodation_small_control.html.twig') }}
+        {{ include('FrontEndBundle:ownership:accommodation_small_control.html.twig',{
+        'id': ownership.own_id,
+        'name': ownership.own_name,
+        'award': ownership.award,
+        'minPrice': ownership.minPrice,
+        'is_in_favorite': ownership.is_in_favorites,
+        'photo': ownership.photo,
+        'list_preffix': "top20"}) }}
         </div>
     {% set cont=cont+1 %}
     {% else %}
@@ -12,7 +19,14 @@
 </div>
 <div class="row" style="margin-top: 25px">
     <div class="col-sm-4">
-        {{ include('FrontEndBundle:ownership:accommodation_small_control.html.twig') }}
+        {{ include('FrontEndBundle:ownership:accommodation_small_control.html.twig',{
+        'id': ownership.own_id,
+        'name': ownership.own_name,
+        'award': ownership.award,
+        'minPrice': ownership.minPrice,
+        'is_in_favorite': ownership.is_in_favorites,
+        'photo': ownership.photo,
+        'list_preffix': "top20"}) }}
     </div>
  
     {% endif %}

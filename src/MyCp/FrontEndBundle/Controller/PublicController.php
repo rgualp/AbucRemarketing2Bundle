@@ -55,7 +55,8 @@ class PublicController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $items_per_page = 3 * ($session->get("top_rated_show_rows") != null ? $session->get("top_rated_show_rows") : 2);
         $paginator->setItemsPerPage($items_per_page);
-        $own_top20_list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->top20($glogal_locale))->getResult();
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
+        $own_top20_list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->top20($glogal_locale, null, $user_ids["user_id"], $user_ids["session_id"]))->getResult();
         $statistics = $em->getRepository("mycpBundle:ownership")->top20Statistics();
 
         $response = $this->render('FrontEndBundle:public:home.html.twig', array(
