@@ -5,6 +5,7 @@ namespace MyCp\mycpBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 use MyCp\mycpBundle\Entity\album;
 use MyCp\mycpBundle\Entity\albumLang;
+use MyCp\mycpBundle\Helpers\BackendModuleName;
 use MyCp\mycpBundle\Helpers\OrderByHelper;
 use MyCp\mycpBundle\Helpers\OwnershipStatuses;
 
@@ -16,14 +17,21 @@ use MyCp\mycpBundle\Helpers\OwnershipStatuses;
  */
 class accommodationAwardRepository extends EntityRepository
 {
-    public function setAccommodationAward($accommodations_ids, $award_id, $year) {
+    public function setAccommodationAward($accommodations_ids, $award_id, $year, $service_log) {
         $em = $this->getEntityManager();
+        $logMessage = "";
+        $logMessage2 = "";
         foreach ($accommodations_ids as $accommodation_id) {
             $existAwardAccommodation = $em->getRepository("mycpBundle:accommodationAward")->findOneBy(array("year" => $year, "accommodation" => $accommodation_id, "award" => $award_id));
 
             if($existAwardAccommodation == null) {
                 $accommodation = $em->getRepository('mycpBundle:ownership')->find($accommodation_id);
                 $award = $em->getRepository('mycpBundle:award')->find($award_id);
+
+                if($logMessage == "")
+                    $logMessage = "Otorgando premio ".$award->getName()." - ".$year. " a ".count($accommodations_ids). " alojamientos: ";
+
+                $logMessage2 .= ($logMessage2 == "") ? $accommodation->getOwnMcpCode() : ", ".$accommodation->getOwnMcpCode();
 
                 $awardAccommodation = new accommodationAward();
                 $awardAccommodation->setAccommodation($accommodation)
@@ -33,6 +41,8 @@ class accommodationAwardRepository extends EntityRepository
             }
 
         }
+
+        $service_log->saveLog($logMessage.$logMessage2,  BackendModuleName::MODULE_AWARD);
 
         $em->flush();
     }

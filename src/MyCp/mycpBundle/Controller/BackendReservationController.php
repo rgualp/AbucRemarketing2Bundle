@@ -875,6 +875,8 @@ class BackendReservationController extends Controller {
         $reservations_ids = $request->request->get('reservations_ids');
         $save_option = $request->request->get('save_option');
         $page = $request->request->get('page');
+        $service_log= $this->get('log');
+        $logMessage = "";
         $response = null;
 
         //Modificar el estado
@@ -886,6 +888,7 @@ class BackendReservationController extends Controller {
         try {
             foreach ($reservations_ids as $genResId) {
                 $service_email->sendReservation($genResId, null, false);
+                $logMessage = ($logMessage == "") ? $logMessage."CAS.".$genResId : $logMessage.", CAS.".$genResId;
 
                 // inform listeners that a reservation was sent out
                 $dispatcher = $this->get('event_dispatcher');
@@ -893,6 +896,7 @@ class BackendReservationController extends Controller {
                 $dispatcher->dispatch('mycp.event.reservation.sent_out', new JobEvent($eventData));
             }
 
+            $service_log->saveLog("Se han colocado ".count($reservations_ids)." reservas como no disponibles: ".$logMessage,  BackendModuleName::MODULE_RESERVATION);
             $message = ($save_option == Operations::SAVE_AND_UPDATE_CALENDAR) ? 'Se han modificado ' . count($reservations_ids) . ' reservaciones como No Disponibles, se almacenaron las No Disponibilidades y se ha notificado a los clientes respectivos. Todas las operaciones fueron satisfactorias.' :
                 'Se han modificado ' . count($reservations_ids) . ' reservaciones como No Disponibles y se ha notificado a los clientes respectivos. Ambas operaciones fueron satisfactorias.';
             $this->get('session')->getFlashBag()->add('message_ok', $message);

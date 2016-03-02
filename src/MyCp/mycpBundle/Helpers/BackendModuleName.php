@@ -33,6 +33,7 @@ class BackendModuleName {
     const MODULE_BATCH_PROCESS = 20;
     const MODULE_CLIENT_MESSAGES = 21;
     const MODULE_CLIENT_COMMENTS = 22;
+    const MODULE_AWARD = 23;
 
     public static function getModuleName($module_number)
     {
@@ -59,6 +60,7 @@ class BackendModuleName {
             case BackendModuleName::MODULE_BATCH_PROCESS: return "Batch Process";
             case BackendModuleName::MODULE_CLIENT_MESSAGES: return "Messages to Clients";
             case BackendModuleName::MODULE_CLIENT_COMMENTS: return "Comments of Clients";
+            case BackendModuleName::MODULE_AWARD: return "Awards";
 
             default: return "MyCP";
         }

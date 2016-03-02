@@ -45,7 +45,7 @@ class BackendAwardController extends Controller {
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
-                $service_log->saveLog('Create award, ' . $award->getName(), BackendModuleName::MODULE_ALBUM);
+                $service_log->saveLog('Create award, ' . $award->getName(), BackendModuleName::MODULE_AWARD);
 
                 return $this->redirect($this->generateUrl('mycp_list_awards'));
             }
@@ -70,7 +70,7 @@ class BackendAwardController extends Controller {
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
-                $service_log->saveLog('Edit award, ' . $award->getName(), BackendModuleName::MODULE_ALBUM);
+                $service_log->saveLog('Edit award, ' . $award->getName(), BackendModuleName::MODULE_AWARD);
 
                 return $this->redirect($this->generateUrl('mycp_list_awards'));
             }
@@ -127,7 +127,7 @@ class BackendAwardController extends Controller {
             $this->get('session')->getFlashBag()->add('message_ok', $message);
 
             $service_log = $this->get('log');
-            $service_log->saveLog('Delete award, ' . $id, BackendModuleName::MODULE_ALBUM);
+            $service_log->saveLog('Delete award, ' . $id, BackendModuleName::MODULE_AWARD);
         }
         else{
             $message = 'El premio no puede ser eliminado porque esta otorgado en '.count($award->getAwardAccommodations()). " alojamientos";
@@ -150,7 +150,7 @@ class BackendAwardController extends Controller {
         $this->get('session')->getFlashBag()->add('message_ok', $message);
 
         $service_log = $this->get('log');
-        $service_log->saveLog('Remove award, ' . $award_id. '-'.$accommodation_id, BackendModuleName::MODULE_ALBUM);
+        $service_log->saveLog('Remove award, ' . $award_id. '-'.$accommodation_id, BackendModuleName::MODULE_AWARD);
 
         return $this->redirect($this->generateUrl('mycp_accommodation_award_list', array("id" => $award_id)));
     }
@@ -237,10 +237,12 @@ class BackendAwardController extends Controller {
         $filter_year = $request->request->get('filter_year');
         $year = $request->request->get('year');
 
+
         $response = null;
 
+        $service_log = $this->get('log');
         //Premiar
-        $em->getRepository('mycpBundle:accommodationAward')->setAccommodationAward($accommodations_ids, $award_id, $year);
+        $em->getRepository('mycpBundle:accommodationAward')->setAccommodationAward($accommodations_ids, $award_id, $year, $service_log);
 
         $message = 'Se han premiado ' . count($accommodations_ids) . ' alojamientos exitosamente';
         $this->get('session')->getFlashBag()->add('message_ok', $message);
@@ -279,7 +281,7 @@ class BackendAwardController extends Controller {
         $this->get('session')->getFlashBag()->add('message_ok', $message);
 
         $service_log = $this->get('log');
-        $service_log->saveLog('Remove award, ' . $award_id. '-'.$accommodation_id, BackendModuleName::MODULE_ALBUM);
+        $service_log->saveLog('Remove award, ' . $award_id. '-'.$accommodation_id, BackendModuleName::MODULE_AWARD);
 
         $response = $this->generateUrl('mycp_set_award_accommodation', array("id" => $award_id,
             "filter_code" => $filter_code, "filter_destination" => $filter_destination, "filter_municipality" => $filter_municipality,

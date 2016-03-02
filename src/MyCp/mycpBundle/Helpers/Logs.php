@@ -119,6 +119,9 @@ class Logs
                     case 'client comments':
                         $module_number=BackendModuleName::MODULE_CLIENT_COMMENTS;
                         break;
+                    case 'awards':
+                        $module_number=BackendModuleName::MODULE_AWARD;
+                        break;
                 }
             }
             else
