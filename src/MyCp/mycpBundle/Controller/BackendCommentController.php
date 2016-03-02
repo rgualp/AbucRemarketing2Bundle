@@ -76,9 +76,8 @@ class BackendCommentController extends Controller {
                         'comment' => $comment->getComComments()
                     ));
 
-                    $service_email = $this->get('Email');
-                    $service_email->sendTemplatedEmail('Nuevos comentarios recibidos', 'noreply@mycasaparticular.com', $comment->getComOwnership()->getOwnEmail1(), $body->getContent());
-
+                    $service_email = $this->get('mycp.service.email_manager');
+                    $service_email->sendEmail($comment->getComOwnership()->getOwnEmail1(),'Nuevos comentarios recibidos', $body->getContent());
                 }
                 $message = 'Comentario añadido satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);

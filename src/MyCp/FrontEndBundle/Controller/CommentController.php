@@ -25,8 +25,22 @@ class CommentController extends Controller {
         $data['com_rating'] = $request->request->get('com_rating');
         $data['com_comments'] = $request->request->get('com_comments');
 
-        if($session->get('comments_cant') == 1)
+        $own_obj = $em->getRepository('mycpBundle:ownership')->find($ownid);
+
+        if($session->get('comments_cant') == 1) {
             $em->getRepository('mycpBundle:comment')->insert($data, $user);
+
+            if($own_obj->getOwnEmail1()!=null) {
+                $body = $this->render('FrontEndBundle:mails:commentNotification.html.twig', array(
+                    'host_user_name' => $own_obj->getOwnHomeowner1(),
+                    'user_name' => $user->getUserName() . ' ' . $user->getUserLastName(),
+                    'comment' => $request->request->get('com_comments')
+                ));
+
+                $service_email = $this->get('mycp.service.email_manager');
+                $service_email->sendEmail($own_obj->getOwnEmail1(),'Nuevos comentarios recibidos', $body->getContent());
+            }
+        }
 
         if($session->get('comments_cant') == 2)
             $session->remove('comments_cant');
@@ -40,17 +54,6 @@ class CommentController extends Controller {
              $page = $_GET['page'];
 
         $friends = array();
-        $own_obj = $em->getRepository('mycpBundle:ownership')->find($ownid);
-        if($own_obj->getOwnEmail1()!=null) {
-            $body = $this->render('FrontEndBundle:mails:commentNotification.html.twig', array(
-                'host_user_name' => $own_obj->getOwnHomeowner1(),
-                'user_name' => $user->getUserName() . ' ' . $user->getUserLastName(),
-                'comment' => $request->request->get('com_comments')
-            ));
-
-            $service_email = $this->get('Email');
-            $service_email->sendTemplatedEmail('Nuevos comentarios recibidos', 'noreply@mycasaparticular.com', $own_obj->getOwnEmail1(), $body->getContent());
-        }
 
         $ownership = array('ownname'=> $own_obj->getOwnName(),
                             'rating' => $own_obj->getOwnRating(),

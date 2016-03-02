@@ -2,6 +2,7 @@
 
 namespace MyCp\mycpBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -147,6 +148,16 @@ class user implements AdvancedUserInterface,  \Serializable
      * @ORM\Column(name="user_activation_date", type="datetime", nullable=true)
      */
     private $user_activation_date;
+
+    /**
+     * @ORM\OneToMany(targetEntity="comment", mappedBy="com_user")
+     */
+    private $comments;
+
+    public function __construct() {
+        $this->comments = new ArrayCollection();
+    }
+
 
 
     public function getSalt(){
@@ -593,7 +604,8 @@ class user implements AdvancedUserInterface,  \Serializable
 
     public function __toString()
     {
-        return $this->user_name;
+        $country = ($this->getUserCountry() != null) ? " (".$this->getUserCountry()->getCoName(). ")" : "";
+        return (($this->getUserCompleteName() != "") ? $this->getUserCompleteName() : $this->getUserName()).$country;
     }
 
 
@@ -674,4 +686,24 @@ class user implements AdvancedUserInterface,  \Serializable
     {
         return $this->user_enabled;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param mixed $comments
+     * @return mixed
+     */
+    public function setComments($comments)
+    {
+        $this->comments = $comments;
+        return $this;
+    }
+
+
 }
