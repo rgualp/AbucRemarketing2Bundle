@@ -3699,6 +3699,22 @@
                 <source>children.ages</source>
                 <target>Age of children</target>
                 </trans-unit>
+                            <trans-unit id="935">
+                            <source>PRICE_HIGHER</source>
+                            <target>Higher Price</target>
+                            </trans-unit>
+                            <trans-unit id="936">
+                            <source>PRICE_LOWER</source>
+                            <target>LowePrice</target>
+                            </trans-unit>
+                            <trans-unit id="937">
+                            <source>COMMENT_ASC</source>
+                            <target>Top comments</target>
+                            </trans-unit>
+                            <trans-unit id="938">
+                            <source>BOOKS_ASC</source>
+                            <target>Toop booked</target>
+                            </trans-unit>
         </body>
     </file>
 </xliff>

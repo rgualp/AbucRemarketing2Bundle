@@ -821,8 +821,8 @@ class ownershipRepository extends EntityRepository {
 
         if ($where != '')
             $query_string .= $where;
+         $order = SearchUtils::getOrder($order_by);
 
-        $order = SearchUtils::getOrder($order_by);
         $query_string .= $order;
 
         //var_dump($query_string);

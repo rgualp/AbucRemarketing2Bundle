@@ -15,8 +15,8 @@ frontend_category_ownership:
     defaults: { _controller: FrontEndBundle:Ownership:category }
 
 frontend_search_ownership:
-    locales:  { en: "/accommodations/{text}/{arrival}/{departure}/{guests}/{rooms}", es: "/alojamientos/{text}/{arrival}/{departure}/{guests}/{rooms}", de: "/unterkuenfte/{text}/{arrival}/{departure}/{guests}/{rooms}" }
-    defaults: { _controller: FrontEndBundle:Ownership:search,text:'null',arrival:'null',departure:'null',guests:1,rooms:1 }
+    locales:  { en: "/accommodations/{text}/{arrival}/{departure}/{guests}/{rooms}/{order_price}/{order_comments}/{order_books}", es: "/alojamientos/{text}/{arrival}/{departure}/{guests}/{rooms}/{order_price}/{order_comments}/{order_books}", de: "/unterkuenfte/{text}/{arrival}/{departure}/{guests}/{rooms}/{order_price}/{order_comments}/{order_books}" }
+    defaults: { _controller: FrontEndBundle:Ownership:search,text:'null',arrival:'null',departure:'null',guests:1,rooms:1,order_price:'null', order_comments: 'null', order_books:'null'}
 
 frontend_order_search_results_ownership_callback:
     pattern:  /order-results/

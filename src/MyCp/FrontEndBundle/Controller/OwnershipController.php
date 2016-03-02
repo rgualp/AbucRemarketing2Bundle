@@ -610,7 +610,7 @@ class OwnershipController extends Controller {
         ));
     }
 
-    public function searchAction(Request $request, $text = null, $arriving_date = null, $departure_date = null, $guests = 1, $rooms = 1) {
+    public function searchAction(Request $request, $text = null, $arriving_date = null, $departure_date = null, $guests = 1, $rooms = 1,$order_price='null', $order_comments='null', $order_books='null') {
 
         $em = $this->getDoctrine()->getManager();
         $session = $this->getRequest()->getSession();
@@ -717,8 +717,8 @@ class OwnershipController extends Controller {
             $own_ids .= "," . $own['own_id'];
         $session->set('own_ids', $own_ids);
 
-        if ($session->get('search_view_results') == null || $session->get('search_view_results') == '')
-            $session->set('search_view_results', 'LIST');
+//        if ($session->get('search_view_results') == null || $session->get('search_view_results') == '')
+            $session->set('search_view_results', 'PHOTOS');
 
         $categories_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsCategories();
         $types_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsTypes();
@@ -726,7 +726,7 @@ class OwnershipController extends Controller {
         $statistics_own_list = $em->getRepository('mycpBundle:ownership')->getSearchStatistics();
 
         if ($check_filters != null)
-            return $this->render('FrontEndBundle:ownership:searchOwnership.html.twig', array(
+            return $this->render('FrontEndBundle:ownership:searchOwnershipv2.html.twig', array(
                         'search_text' => $search_text,
                         'search_guests' => $search_guests,
                         'search_arrival_date' => $arrival,
@@ -747,7 +747,7 @@ class OwnershipController extends Controller {
                         'show_paginator' => true
             ));
         else
-            return $this->render('FrontEndBundle:ownership:searchOwnership.html.twig', array(
+            return $this->render('FrontEndBundle:ownership:searchOwnershipv2.html.twig', array(
                         'search_text' => $search_text,
                         'search_guests' => $search_guests,
                         'search_arrival_date' => $arrival,
@@ -775,7 +775,7 @@ class OwnershipController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         if ($session->get('search_view_results') == null)
-            $session->set('search_view_results', 'LIST');
+            $session->set('search_view_results', 'PHOTOS');
 
         if ($request->getMethod() == 'POST') {
             $order = $request->request->get('order');
@@ -910,12 +910,11 @@ class OwnershipController extends Controller {
         $request = $this->getRequest();
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
-
         if ($session->get('search_order') == null || $session->get('search_order') == '')
             $session->set('search_order', OrderByHelper::DEFAULT_ORDER_BY);
 
         if ($session->get('search_view_results') == null || $session->get('search_view_results') == '')
-            $session->set('search_view_results', 'LIST');
+            $session->set('search_view_results', 'PHOTOS');
 
 
         if ($request->getMethod() == 'POST') {
@@ -957,8 +956,29 @@ class OwnershipController extends Controller {
 
             $session->set("filter_array", $check_filters);
             $session->set("filter_room", $room_filter);
+            $orderPrice=$request->request->get('order_price');
+            $orderComments=$request->request->get('order_comments');
+            $orderBooks=$request->request->get('order_books');
+            $orderBy='';
+            if($orderPrice!=''||$orderComments!=''||$orderBooks!='')
+            {
+                $orderBy=' ORDER BY';
+                if($orderPrice!='')
+                   $orderBy.= ' o.own_minimum_price '.$orderPrice;
+                if($orderComments!=''){
+                    if($orderPrice!='')
+                        $orderBy.=',';
+                        $orderBy.= ' o.own_comments_total '.$orderComments;
+                }
+                if($orderBooks!=''){
+                    if($orderPrice!=''||$orderComments!='')
+                        $orderBy.=',';
+                    $orderBy.= ' count_reservations '.$orderBooks;
+                }
+             $orderBy.=', o.own_ranking DESC';
 
-            $results_list = $em->getRepository('mycpBundle:ownership')->search($this, $session->get('search_text'), $session->get('search_arrival_date'), $session->get('search_departure_date'), $session->get('search_guests'), $session->get('search_rooms'), $session->get('search_order'), $room_filter, $check_filters);
+            }
+            $results_list = $em->getRepository('mycpBundle:ownership')->search($this, $session->get('search_text'), $session->get('search_arrival_date'), $session->get('search_departure_date'), $session->get('search_guests'), $session->get('search_rooms'),$orderBy!=''?$orderBy:$session->get('search_order'), $room_filter, $check_filters);
 
             $own_ids = "0";
             foreach ($results_list as $own)
@@ -966,7 +986,7 @@ class OwnershipController extends Controller {
             $session->set('own_ids', $own_ids);
 
             $paginator = $this->get('ideup.simple_paginator');
-            $items_per_page = 15;
+            $items_per_page = 20;
             $paginator->setItemsPerPage($items_per_page);
             $list = $paginator->paginate($results_list)->getResult();
             $page = 1;
@@ -983,7 +1003,7 @@ class OwnershipController extends Controller {
                     'show_paginator' => true
                 ));
             else if ($session->get('search_view_results') != null && $session->get('search_view_results') == 'PHOTOS')
-                $response = $this->renderView('FrontEndBundle:ownership:searchMosaicOwnership.html.twig', array(
+                $response = $this->renderView('FrontEndBundle:ownership:searchMosaicOwnershipv2.html.twig', array(
                     'list' => $list,
                     'items_per_page' => $items_per_page,
                     'total_items' => $paginator->getTotalItems(),
@@ -1011,7 +1031,8 @@ class OwnershipController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         if ($session->get('search_view_results') == null || $session->get('search_view_results') == '')
-            $session->set('search_view_results', 'LIST');
+//            $session->set('search_view_results', 'LIST');
+            $session->set('search_view_results', 'PHOTOS');
 
         $check_filters = array();
         $check_filters['own_reservation_type'] = $request->request->get('own_reservation_type');
@@ -1057,8 +1078,30 @@ class OwnershipController extends Controller {
         $session->set("filter_room", $room_filter);
 
         $paginator = $this->get('ideup.simple_paginator');
-        $items_per_page = 15;
+        $items_per_page = 20;
         $paginator->setItemsPerPage($items_per_page);
+        $orderPrice=$request->request->get('order_price');
+        $orderComments=$request->request->get('order_comments');
+        $orderBooks=$request->request->get('order_books');
+        $orderBy='';
+        if($orderPrice!=''||$orderComments!=''||$orderBooks!='')
+        {
+            $orderBy=' ORDER BY';
+            if($orderPrice!='')
+                $orderBy.= ' o.own_minimum_price '.$orderPrice;
+            if($orderComments!=''){
+                if($orderPrice!='')
+                    $orderBy.=',';
+                $orderBy.= ' o.own_comments_total '.$orderComments;
+            }
+            if($orderBooks!=''){
+                if($orderPrice!=''||$orderComments!='')
+                    $orderBy.=',';
+                $orderBy.= ' count_reservations '.$orderBooks;
+            }
+            $orderBy.=', o.own_ranking DESC';
+
+        }
         $list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->search($this, $session->get('search_text'), $session->get('search_arrival_date'), $session->get('search_departure_date'), $session->get('search_guests'), $session->get('search_rooms'), $session->get('search_order'), $room_filter, $check_filters))->getResult();
         $page = 1;
         if (isset($_GET['page']))
@@ -1081,7 +1124,7 @@ class OwnershipController extends Controller {
                 'show_paginator' => true
             ));
         else if ($view != null && $view == 'PHOTOS')
-            $response = $this->renderView('FrontEndBundle:ownership:searchMosaicOwnership.html.twig', array(
+            $response = $this->renderView('FrontEndBundle:ownership:searchMosaicOwnershipv2.html.twig', array(
                 'list' => $list,
                 'items_per_page' => $items_per_page,
                 'total_items' => $paginator->getTotalItems(),
@@ -1295,7 +1338,7 @@ class OwnershipController extends Controller {
 
         $list = $em->getRepository('mycpBundle:ownership')->search($this, null, null, null, '1', '1', $session->get('search_order'));
         $paginator = $this->get('ideup.simple_paginator');
-        $items_per_page = 15;
+        $items_per_page = 20;
         $paginator->setItemsPerPage($items_per_page);
         $search_results_list = $paginator->paginate($list)->getResult();
         $page = 1;
@@ -1320,7 +1363,7 @@ class OwnershipController extends Controller {
         $prices_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsPrices($own_ids);
         $statistics_own_list = $em->getRepository('mycpBundle:ownership')->getSearchStatistics();
 
-        return $this->render('FrontEndBundle:ownership:searchOwnership.html.twig', array(
+        return $this->render('FrontEndBundle:ownership:searchOwnershipv2.html.twig', array(
                     'search_text' => null,
                     'search_guests' => '1',
                     'search_arrival_date' => null,
@@ -1352,7 +1395,7 @@ class OwnershipController extends Controller {
 
         $list = $em->getRepository('mycpBundle:ownership')->search($this, null, null, null, '1', '1', $session->get('search_order'), false, $filters);
         $paginator = $this->get('ideup.simple_paginator');
-        $items_per_page = 15;
+        $items_per_page = 20;
         $paginator->setItemsPerPage($items_per_page);
         $search_results_list = $paginator->paginate($list)->getResult();
         $page = 1;
@@ -1405,7 +1448,7 @@ class OwnershipController extends Controller {
         $check_filters['own_others_pets'] = false;
         $check_filters['own_others_internet'] = false;
 
-        return $this->render('FrontEndBundle:ownership:searchOwnership.html.twig', array(
+        return $this->render('FrontEndBundle:ownership:searchOwnershipv2.html.twig', array(
                     'search_text' => null,
                     'search_guests' => '1',
                     'search_arrival_date' => null,

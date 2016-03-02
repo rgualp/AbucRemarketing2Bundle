@@ -429,9 +429,12 @@ public static function getFilterWhere($filters) {
     }
 
     public static function getOrder($order_by) {
-        switch($order_by)
+        if(!is_int($order_by))
+            return $order_by;
+      switch($order_by)
         {
             case OrderByHelper::DEFAULT_ORDER_BY:
+                return '';
             case OrderByHelper::SEARCHER_BEST_VALUED:
                 return "  ORDER BY o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC ";
             case OrderByHelper::SEARCHER_A_Z:
@@ -448,7 +451,8 @@ public static function getFilterWhere($filters) {
                 return "  ORDER BY count_reservations ASC, o.own_ranking DESC, o.own_comments_total DESC ";
             case OrderByHelper::SEARCHER_WORST_VALUED:
                 return "  ORDER BY o.own_ranking ASC, o.own_comments_total ASC, count_reservations DESC ";
-
+            default:
+                return $order_by;
 
         }
         

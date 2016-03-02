@@ -3701,6 +3701,22 @@
             <source>children.ages</source>
             <target>Edad de los niños</target>
             </trans-unit>
+            <trans-unit id="935">
+            <source>PRICE_HIGHER</source>
+            <target>Mayor Precio</target>
+            </trans-unit>
+            <trans-unit id="936">
+            <source>PRICE_LOWER</source>
+            <target>Menor Precio</target>
+            </trans-unit>
+            <trans-unit id="937">
+            <source>COMMENT_ASC</source>
+            <target>Más comentadas</target>
+            </trans-unit>
+            <trans-unit id="938">
+            <source>BOOKS_ASC</source>
+            <target>Más reservadas</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
