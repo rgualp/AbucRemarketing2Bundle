@@ -56,7 +56,7 @@ filter='?uglifyjs2'
           </div>
           <div class="col-sm-2 p-5"> <button id="commentsOrder" type="button" data-toggle="button" class="btn btn-white">{{ 'COMMENT_ASC'|trans }}</button></div>
           <div class="col-sm-2 p-5"> <button id="booksOrder" type="button" data-toggle="button" class="btn btn-white">{{ 'BOOKS_ASC'|trans }}</button></div>
-          <div class="col-sm-3 p-5 pull-right">
+          <div class="col-sm-4 p-5 pull-right">
 
           {%if is_within_search_results%}
               <button id="button_research" class="btn btn-primary btn-large pull-right" data-url="{{ path('frontend_research_ownership_callback') }}">{{"SEARCH" | trans|capitalize}}</button>
