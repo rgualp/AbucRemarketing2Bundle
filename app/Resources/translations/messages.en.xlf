@@ -3715,6 +3715,14 @@
                             <source>BOOKS_ASC</source>
                             <target>Toop booked</target>
                             </trans-unit>
+                  <trans-unit id="939">
+            <source>SHOW_RESULTS</source>
+            <target>Show results</target>
+            </trans-unit>
+            <trans-unit id="940">
+            <source>MORE_FILTERS</source>
+            <target>More filters</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

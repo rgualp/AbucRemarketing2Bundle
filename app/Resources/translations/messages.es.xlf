@@ -3717,6 +3717,14 @@
             <source>BOOKS_ASC</source>
             <target>Más reservadas</target>
             </trans-unit>
+            <trans-unit id="939">
+            <source>SHOW_RESULTS</source>
+            <target>Mostrar resultados</target>
+            </trans-unit>
+            <trans-unit id="940">
+            <source>MORE_FILTERS</source>
+            <target>Más filtros</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
