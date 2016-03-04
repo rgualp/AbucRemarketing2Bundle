@@ -3721,6 +3721,36 @@
              <source>MORE_FILTERS</source>
              <target>More filters</target>
              </trans-unit>
+                        <trans-unit id="941">
+                            <source>HOW_IT_WORKS_QUESTION</source>
+                            <target>Wie es funktioniert?</target>
+                        </trans-unit>
+                      <trans-unit id="942">
+                                    <source>MYCASA_RENTA_PARR1</source>
+                                    <target>Una aplicación móvil que facilita al propietario la gestión  en sus hospedajes mediante un calendario que refleja los días no disponibles en sus alojamientos y actualiza la disponibilidad de sus habitaciones directamente en nuestro sitio.</target>
+                                </trans-unit>
+                      <trans-unit id="943">
+                                    <source>MYCASA_RENTA_PARR2</source>
+                                   <target><![CDATA[Conéctese a internet desde su móvil con sistema operativo Android 2.2 o superior y descargue la aplicación desde esta dirección: <a href="https://mycasaparticular.com/es/apprenta" target="_blank">https://mycasaparticular.com/es/apprenta</a> o directamente desde <a href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid" target="_blank">Google Play</a>. Una vez descargada, instale su aplicación.]]></target>
+                                </trans-unit>
+                         <trans-unit id="944">
+                                    <source>MYCASA_RENTA_PARR3</source>
+                                    <target>   Para comenzar a utilizar MyCasa Renta necesitará activar su cuenta de acceso. Las instrucciones para la activación le han sido enviadas por nuestro equipo vía correo electrónico. Si usted no ha recibido aún esta información especifcándole los detalles de la creación de su cuenta de acceso, puede solicitarla a través de info@mycasaparticular.com.</target>
+                                </trans-unit>
+                        <trans-unit id="945">
+                                    <source>MYCASA_RENTA_PARR4</source>
+                                    <target>Una vez que se encuentre instalada la aplicación móvil en su teléfono y se haya concluido satisfactoriamente el proceso de activación de la cuenta, usted podrá comenzar a utilizar MyCasa Renta. En la pantalla de bienvenida de la App, deberá pulsar el botón Ingresar.
+                                             Para comenzar a usar MyCasa Renta deberá autenticarse utilizando como Usuario el Código de su casa, recibido en el correo de creación de la cuenta de acceso. Como contraseña utilice la establecida por usted en el formulario de activación.</target>
+                                </trans-unit>
+                         <trans-unit id="946">
+                                    <source>MYCASA_RENTA_PARR5</source>
+                                    <target>La aplicación consiste en un calendario interactivo, para modifcar el estado de las diferentes habitaciones de su propiedad. Cada una de las habitaciones mostrará las fechas registradas como No Disponibles en el momento de la autenticación.
+                                            La primera vez que utilice la aplicación deberá tener acceso a Internet para que sea posible sincronizar los datos de su alojamiento con los guardados en nuestro sistema.</target>
+                                </trans-unit>
+                              <trans-unit id="947">
+                                    <source>MYCASA_RENTA_STEP</source>
+                                    <target>Step</target>
+                                </trans-unit>
     </body>
     </file>
 </xliff>

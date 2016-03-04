@@ -1,0 +1,132 @@
+{% extends 'FrontEndBundle:layout:base.html.twig' %}
+{%set section = constant('\\MyCp\\mycpBundle\\Entity\\metaTag::SECTION_MYCASARENTA')%}
+{% block title %}
+    {{"MYCASARENTA" | trans}}
+{% endblock %}
+
+{% set main_tab = 4 %}
+{% block content_nav_top_body %}
+    {{(("MyCasa Renta" | upper) ~ "_CONTENT") | trans}}
+{% endblock %}
+{% block breadcrumbs %}
+    <a href="{{ path('frontend_welcome') }}" title="{{"HOMEPAGE_TITLE" | trans}}">{{"HOME_MAIN_MENU" | trans}}</a>
+    <span>››</span>
+    <a href="#" class="active"  title="{{"MyCasa Renta"|trans}}">{{"MyCasa Renta"|trans}}</a>
+{% endblock %}
+{% block include_javascripts_and_css %}
+    <style>
+        p{
+            font-family: "Myriad Pro";
+            font-size: 18px;
+        }
+        h1,h2,h3,h4,h5{
+            font-family: "CaeciliaRoman";
+            font-weight: 100;
+        }
+        .img-responsive{
+            max-width: 100%;
+        }
+        .btn-green, .btn-green:hover, .btn-green:focus{
+            background-color: #a1cb37;
+            color: white;
+            font-size: 16px;
+            padding: 15px 20px;
+            box-shadow: none;
+            border-radius: 10px;
+            margin-right: 25px;
+        }
+        p>a, p>a:hover{
+            color:#095075;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+
+    <div class="container">
+        <div class="row" style="margin-top: 50px;">
+            <div class="col-sm-12">
+             <div class="row">
+                 <div class="col-sm-3">
+                     <img src="{{ asset('bundles/frontend/img/mycasarenta/logo1.png') }}" class="img-responsive">
+                 </div>
+                 <div class="col-sm-9">
+                     <p style="margin-top: 50px;">{{ 'MYCASA_RENTA_PARR1'|trans }}</p>
+                 </div>
+             </div>
+            </div>
+        </div>
+        <div class="row" style="text-align: center; margin-top: 50px;">
+            <h2 style="color: #7bb151; font-size: 36px; font-family: CaeciliaRoman;">{{ 'HOW_IT_WORKS_QUESTION'|trans }}</h2>
+        </div>
+        <div class="row" style="margin-top:50px; ">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <img src="{{ asset('bundles/frontend/img/mycasarenta/11.png') }}" class="img-responsive">
+                    </div>
+                    <div class="col-sm-9">
+                        <img src="{{ asset('bundles/frontend/img/mycasarenta/paso1-logo.png') }}">
+                        <h2 style="color: #095075;">{{ 'MYCASA_RENTA_STEP'|trans }} 1</h2>
+                        <p>{{ 'MYCASA_RENTA_PARR2'|trans|raw }}
+                            </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 50px;" >
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-9">
+                        <img src="{{ asset('bundles/frontend/img/mycasarenta/paso2-logo.png') }}">
+                        <h2 style="color: #095075;">{{ 'MYCASA_RENTA_STEP'|trans }} 2</h2>
+                        <p>{{ 'MYCASA_RENTA_PARR3'|trans|raw }}
+                         </p>
+                    </div>
+                    <div class="col-sm-3">
+                        <img src="{{ asset('bundles/frontend/img/mycasarenta/10.png') }}" class="img-responsive">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 50px;">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <img src="{{ asset('bundles/frontend/img/mycasarenta/2.png') }}" class="img-responsive">
+                    </div>
+                    <div class="col-sm-9">
+                        <img src="{{ asset('bundles/frontend/img/mycasarenta/paso3-logo.png') }}">
+                        <h2 style="color: #095075;">{{ 'MYCASA_RENTA_STEP'|trans }} 3</h2>
+                        <p>{{ 'MYCASA_RENTA_PARR4'|trans }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 50px;" >
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-9">
+                        <img src="{{ asset('bundles/frontend/img/mycasarenta/paso4-logo.png') }}">
+                        <h2 style="color: #095075;">{{ 'MYCASA_RENTA_STEP'|trans }} 4</h2>
+                        <p>{{ 'MYCASA_RENTA_PARR5'|trans }}</p>
+                    </div>
+                    <div class="col-sm-3">
+                        <img src="{{ asset('bundles/frontend/img/mycasarenta/7.png') }}" class="img-responsive">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 50px; text-align: center; margin-bottom: 50px;">
+            <a href="{{ path('frontend_download_apprenta') }}" class="btn btn-green"><i class="fa fa-download"></i> Descargar la aplicación</a>
+            <a href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid" target="_blank" style="margin-left: 25px;"><img src="{{ asset('bundles/frontend/img/google-play.png') }}"></a>
+        </div>
+    </div>
+
+
+    {% block include_javascripts %}
+
+    {% endblock %}
+{% endblock %}
