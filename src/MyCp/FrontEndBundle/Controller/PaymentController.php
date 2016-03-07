@@ -397,7 +397,7 @@ class PaymentController extends Controller
             'confirmation_note' => $translator->trans('SKRILL_CONFIRMATION_NOTE'),
             'pay_from_email' => $user->getUserEmail(),
             'logo_url' => $logoUrl,
-            'first_name' => $user->getUserName(),
+            'first_name' => $user->getName(),
             'last_name' => $user->getUserLastName(),
             'address' => $user->getUserAddress(),
             'postal_code' => $userTourist->getUserTouristPostalCode(),

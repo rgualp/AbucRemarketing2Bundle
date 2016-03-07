@@ -102,7 +102,7 @@ class BackendUserController extends Controller {
         } else {
 
             $user = $em->getRepository('mycpBundle:user')->find($id_user);
-            $data_user['user_name'] = $user->getUserName();
+            $data_user['user_name'] = $user->getName();
             $data_user['user_address'] = $user->getUserAddress();
             $data_user['user_email'] = $user->getUserEmail();
             $data_user['user_user_name'] = $user->getUserUserName();
@@ -210,7 +210,7 @@ class BackendUserController extends Controller {
         else {
             $user_casa = $em->getRepository('mycpBundle:userCasa')->findOneBy(array('user_casa_user' => $id_user));
 //            $user_casa = $user_casa[0];
-            $data_user['user_name'] = $user_casa->getUserCasaUser()->getUserName();
+            $data_user['user_name'] = $user_casa->getUserCasaUser()->getName();
             $data_user['address'] = $user_casa->getUserCasaUser()->getUserAddress();
             $data_user['email'] = $user_casa->getUserCasaUser()->getUserEmail();
             $data_user['name'] = $user_casa->getUserCasaUser()->getUserUserName();
@@ -332,7 +332,7 @@ class BackendUserController extends Controller {
                 $user_tourist = $em->getRepository('mycpBundle:userTourist')->createDefaultTourist($defaultLangCode, $defaultCurrencyCode, $user);
             }
 
-            $data_user['user_name'] = ($user_tourist != null) ? $user_tourist->getUserTouristUser()->getUserName() : $user->getUserName();
+            $data_user['user_name'] = ($user_tourist != null) ? $user_tourist->getUserTouristUser()->getName() : $user->getName();
             $data_user['address'] = ($user_tourist != null) ? $user_tourist->getUserTouristUser()->getUserAddress() : $user->getUserAddress();
             $data_user['email'] = ($user_tourist != null) ? $user_tourist->getUserTouristUser()->getUserEmail() : $user->getUserEmail();
             $data_user['name'] = ($user_tourist != null) ? $user_tourist->getUserTouristUser()->getUserUserName() : $user->getUserUserName();
@@ -426,7 +426,7 @@ class BackendUserController extends Controller {
         } else {
             $user_partner = $em->getRepository('mycpBundle:userPartner')->findBy(array('user_partner_user' => $id_user));
             $user_partner = $user_partner[0];
-            $data_user['user_name'] = $user_partner->getUserPartnerUser()->getUserName();
+            $data_user['user_name'] = $user_partner->getUserPartnerUser()->getName();
             $data_user['address'] = $user_partner->getUserPartnerUser()->getUserAddress();
             $data_user['email'] = $user_partner->getUserPartnerUser()->getUserEmail();
             $data_user['company_name'] = $user_partner->getUserPartnerCompanyName();
@@ -547,7 +547,7 @@ class BackendUserController extends Controller {
             if ($user_partner)
                 $em->remove($user_partner[0]);
 
-            $user_name = $user->getUserName();
+            $user_name = $user->getName();
             $photo = $user->getUserPhoto();
             if ($photo) {
                 @unlink($dir . $photo->getPhoName());
@@ -788,7 +788,7 @@ class BackendUserController extends Controller {
         } else {
 
             $user = $em->getRepository('mycpBundle:user')->find($idUser);
-            $data_user['user_name'] = $user->getUserName();
+            $data_user['user_name'] = $user->getName();
             $data_user['user_address'] = $user->getUserAddress();
             $data_user['user_email'] = $user->getUserEmail();
             $data_user['user_user_name'] = $user->getUserUserName();

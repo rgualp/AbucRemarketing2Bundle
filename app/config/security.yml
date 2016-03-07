@@ -7,6 +7,9 @@ security:
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
+        chain_for_backend:
+            chain:
+                providers: [backend, frontend]
         frontend:
             entity: { class: mycpBundle:user, property: user_email }
         backend:
@@ -25,7 +28,7 @@ security:
 
         backend:
             pattern:    ^/backend
-            provider: backend
+            provider: chain_for_backend
             form_login:
                 check_path: /backend/login_check
                 login_path: /backend/login
@@ -43,10 +46,12 @@ security:
                 path:   /backend/logout
                 target: /backend/
                 invalidate_session: false
+                delete_cookies:
+                    REMEMBERME: { path: ~, domain: ~}
             anonymous: ~
         modulo_casa:
             pattern:    ^/casa
-            provider: backend
+            provider: chain_for_backend
             form_login:
                 check_path: /casa/login_check
                 login_path: /casa/login
@@ -64,6 +69,8 @@ security:
                 path:   /casa/logout
                 target: /casa/
                 invalidate_session: false
+                delete_cookies:
+                    REMEMBERME: { path: ~, domain: ~}
             anonymous: ~
 
         #lodging:
@@ -95,7 +102,7 @@ security:
                 login_path: frontend_login
                 remember_me: true
             remember_me:
-                key: %secret%
+                key: '%secret%'
                 #7dsa7ydasdy872187yegwhqeg9yw91hjsaa00
                 lifetime: 86400
                 path: /
@@ -104,6 +111,8 @@ security:
                 path:   /logout
                 target: /
                 invalidate_session: false
+                delete_cookies:
+                    REMEMBERME: { path: /, domain: ~}
             anonymous: ~
 
     access_control:

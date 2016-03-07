@@ -443,7 +443,7 @@ class MycpCFController extends Controller {
         $users_data = array();
         foreach ($users as $i => $user) {
             $users_data[$i]["fn"] = $user->getUserUserName() . " " . $user->getUserLastName();
-            $users_data[$i]["un"] = $user->getUserName();
+            $users_data[$i]["un"] = $user->getName();
             $users_data[$i]["ps"] = $user->getUserPassword();
         }
         return $users_data;

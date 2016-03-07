@@ -72,7 +72,7 @@ class BackendCommentController extends Controller {
                 if($comment->getComOwnership()->getOwnEmail1()!=null) {
                     $body = $this->render('FrontEndBundle:mails:commentNotification.html.twig', array(
                         'host_user_name' => $comment->getComOwnership()->getOwnHomeowner1(),
-                        'user_name' => $comment->getComUser()->getUserName() . ' ' . $comment->getComUser()->getUserLastName(),
+                        'user_name' => $comment->getComUser()->getName() . ' ' . $comment->getComUser()->getUserLastName(),
                         'comment' => $comment->getComComments()
                     ));
 
@@ -134,7 +134,7 @@ class BackendCommentController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $comment = $em->getRepository('mycpBundle:comment')->find($id_comment);
 
-        $user_comment = $comment->getComUser()->getUserName();
+        $user_comment = $comment->getComUser()->getName();
         $own_comment = $comment->getComOwnership()->getOwnMcpCode();
         $em->remove($comment);
         $em->flush();
