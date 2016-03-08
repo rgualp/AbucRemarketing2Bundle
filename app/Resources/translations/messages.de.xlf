@@ -3727,29 +3727,35 @@
                         </trans-unit>
                       <trans-unit id="942">
                                     <source>MYCASA_RENTA_PARR1</source>
-                                    <target>Una aplicación móvil que facilita al propietario la gestión  en sus hospedajes mediante un calendario que refleja los días no disponibles en sus alojamientos y actualiza la disponibilidad de sus habitaciones directamente en nuestro sitio.</target>
+                                    <target>Eine Handy Anwendung die es dem Eigentümer erleichtert, seine Unterkünfte  mittels eines Kalenders zu verwalten, in dem die nicht verfügbaren Tage in seinen Unterkünften wiedergespiegelt werden und die Verfügbarkeit der Zimmer, direkt auf unserer Website aktualisiert werden können.</target>
                                 </trans-unit>
                       <trans-unit id="943">
                                     <source>MYCASA_RENTA_PARR2</source>
-                                   <target><![CDATA[Conéctese a internet desde su móvil con sistema operativo Android 2.2 o superior y descargue la aplicación desde esta dirección: <a href="https://mycasaparticular.com/es/apprenta" target="_blank">https://mycasaparticular.com/es/apprenta</a> o directamente desde <a href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid" target="_blank">Google Play</a>. Una vez descargada, instale su aplicación.]]></target>
+                                   <target><![CDATA[Verbinden Sie Ihr Handy mit dem Internet, mit einem Betriebssystem Android 2.2 oder höher und laden Sie die Anwendung von dieser Webadresse: <a href="https://mycasaparticular.com/de/apprenta" target="_blank">https://mycasaparticular.com/de/apprenta</a> oder direkt bei <a href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid" target="_blank">Google Play</a> herunter. Einmal heruntergeladen, installieren Sie die Anwendung.]]></target>
                                 </trans-unit>
                          <trans-unit id="944">
                                     <source>MYCASA_RENTA_PARR3</source>
-                                    <target>   Para comenzar a utilizar MyCasa Renta necesitará activar su cuenta de acceso. Las instrucciones para la activación le han sido enviadas por nuestro equipo vía correo electrónico. Si usted no ha recibido aún esta información especifcándole los detalles de la creación de su cuenta de acceso, puede solicitarla a través de info@mycasaparticular.com.</target>
+                                    <target>Um MyCasa Renta anzuwenden, müssen Sie Ihr Zugriffskonto aktivieren. Die Anweisungen für die Aktivierung, wurde Ihnen per E-Mail von uns gesendet. Wenn Sie diese Informationen, mit den spezifischen Details, der Erstellung Ihres Zugriffskontos noch nicht erhalten haben sollten, können Sie diese über folgende Website info@mycasaparticular.com beantragen.</target>
                                 </trans-unit>
                         <trans-unit id="945">
                                     <source>MYCASA_RENTA_PARR4</source>
-                                    <target>Una vez que se encuentre instalada la aplicación móvil en su teléfono y se haya concluido satisfactoriamente el proceso de activación de la cuenta, usted podrá comenzar a utilizar MyCasa Renta. En la pantalla de bienvenida de la App, deberá pulsar el botón Ingresar.
-                                             Para comenzar a usar MyCasa Renta deberá autenticarse utilizando como Usuario el Código de su casa, recibido en el correo de creación de la cuenta de acceso. Como contraseña utilice la establecida por usted en el formulario de activación.</target>
+                                    <target>Wenn die App nun auf Ihrem Handy installiert ist und das Verfahren der Aktivierung des Zugriffskontos erfolgreich abgeschlossen wurde, können Sie nun beginnen MyCasa Renta zu nutzen. Auf dem Begrüßungsbildschirm der App, drücken Sie auf  die Enter Taste.
+                                            Um MyCasa Renta zu starten, sollte Sie sich authentifizieren, dazu nutzen Sie den Benutzercode Ihres Hauses, den Sie bei der Erstellung Ihres Zugriffskontos per E-Mail bekommen haben. Als Passwort, verwenden Sie jenes welches von Ihnen bei der Aktivierung im Formular angegeben wurde.
+                                    </target>
                                 </trans-unit>
                          <trans-unit id="946">
                                     <source>MYCASA_RENTA_PARR5</source>
-                                    <target>La aplicación consiste en un calendario interactivo, para modifcar el estado de las diferentes habitaciones de su propiedad. Cada una de las habitaciones mostrará las fechas registradas como No Disponibles en el momento de la autenticación.
-                                            La primera vez que utilice la aplicación deberá tener acceso a Internet para que sea posible sincronizar los datos de su alojamiento con los guardados en nuestro sistema.</target>
+                                    <target>Die Anwendung besteht aus einem interaktiven Kalender, der dazu dient, den Status der verschiedenen Zimmer Ihres Hauses zu ändern. Jedes der Zimmer, zeigt die eingetragenen Termine als nicht verfügbar an, im Moment der  Authentifizierung.
+                                            Das erste Mal, wenn Sie die App nutzen, sollten Sie Zugang zum Internet haben, um die Daten Ihrer Unterkunft, mit denen, in unserem System gespeicherten Daten zu synchronisieren.
+                                    </target>
                                 </trans-unit>
                               <trans-unit id="947">
                                     <source>MYCASA_RENTA_STEP</source>
-                                    <target>Step</target>
+                                    <target>Schritt</target>
+                                </trans-unit>
+                               <trans-unit id="948">
+                                    <source>DOWNLOAD_APP</source>
+                                    <target>Anwendung Herunterladen</target>
                                 </trans-unit>
     </body>
     </file>

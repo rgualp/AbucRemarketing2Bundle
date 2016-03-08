@@ -3755,7 +3755,10 @@
                             <source>MYCASA_RENTA_STEP</source>
                             <target>Paso</target>
                         </trans-unit>
-
+                               <trans-unit id="948">
+                                    <source>DOWNLOAD_APP</source>
+                                    <target>Descargar la aplicación</target>
+                                </trans-unit>
         </body>
     </file>
 </xliff>
