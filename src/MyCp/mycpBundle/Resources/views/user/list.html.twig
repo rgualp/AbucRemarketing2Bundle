@@ -117,7 +117,7 @@
     <tr>
         <td>{{user.getUserUserName}}</td>
         <td>{{user.getUserLastName}}</td>
-        <td>{{user.getUserName}}</td>
+        <td>{{user.getName}}</td>
         <td>{% if user.getUserSubrole.getRoleName is defined %}{{user.getUserSubrole.getRoleName}}{%else%}{{user.getUserRole}}{%endif%}</td>
         <td>{{user.getUserCity}}</td>
         <td>{% if user.getUserCountry %}{{user.getUserCountry.getCoName}}{% else %}-{% endif %}</td>

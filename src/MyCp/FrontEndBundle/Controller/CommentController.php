@@ -31,7 +31,7 @@ class CommentController extends Controller {
             if($own_obj->getOwnEmail1()!=null) {
                 $body = $this->render('FrontEndBundle:mails:commentNotification.html.twig', array(
                     'host_user_name' => $own_obj->getOwnHomeowner1(),
-                    'user_name' => $user->getUserName() . ' ' . $user->getUserLastName(),
+                    'user_name' => $user->getName() . ' ' . $user->getUserLastName(),
                     'comment' => $request->request->get('com_comments')
                 ));
 

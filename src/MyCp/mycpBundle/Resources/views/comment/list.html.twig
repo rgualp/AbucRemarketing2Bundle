@@ -139,7 +139,7 @@
             {%endif%}
                                             </td>
                                             <td nowrap="nowrap">
-                                                <label class="name">{{ comment.getComUser.getUserName }}</label>
+                                                <label class="name">{{ comment.getComUser.getName }}</label>
                                                 <div class="rating_star" style="text-wrap: avoid">
             {% for i in 1 .. 5 %}{% if i <= comment.getComRate %}<img src="{{ asset('bundles/frontend/img/star_on.png')}}"/>{% else %}<img src="{{ asset('bundles/frontend/img/star_off.png')}}"/>{% endif %} {% endfor %}
                                                     </div>

@@ -72,3 +72,7 @@ services:
        arguments: [@abuc_remarketing.job.manager, "mycp.job.postpayment.reminder", "1 hour"]
        tags:
            - { name: kernel.event_listener, event: mycp.event.postpayment,  method: onEvent }
+# <service id="security.rememberme.token.provider.in_memory" class="%security.rememberme.token.provider.in_memory.class%" public="false" />
+   mycp.security.rememberme.token.provider:
+       class: MyCp\mycpBundle\Security\Core\Authentication\RememberMe\MyCpBackendTokenProvider
+       public: false

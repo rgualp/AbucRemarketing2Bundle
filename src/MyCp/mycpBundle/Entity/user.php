@@ -163,11 +163,32 @@ class user implements AdvancedUserInterface,  \Serializable
     public function getSalt(){
         return '222';
     }
-
-    public function unserialize($data)
+    public function serialize()
     {
-        $this->user_id = unserialize($data);
+        return serialize(array(
+            $this->user_id,
+            $this->user_user_name,
+            $this->user_email, //Add email
+            $this->user_password,
+            $this->user_enabled,
+        ));
     }
+
+    public function unserialize($serialized)
+    {
+        list(
+            $this->user_id,
+            $this->user_user_name,
+            $this->user_email, //Add email
+            $this->user_password,
+            $this->user_enabled,
+            ) = unserialize($serialized);
+
+    }
+//    public function unserialize($data)
+//    {
+//        $this->user_id = unserialize($data);
+//    }
 
     public function eraseCredentials(){
 
@@ -177,17 +198,21 @@ class user implements AdvancedUserInterface,  \Serializable
         return array($this->user_role);
     }
 
-    public function serialize()
-    {
-        return serialize($this->user_id);
-    }
+//    public function serialize()
+//    {
+//        return serialize($this->user_id);
+//    }
 
     public function getPassword()
     {
         return $this->user_password;
     }
+    public function getUsername()
+    {
+        return $this->user_email;
+    }
 
-    public function getUserName()
+    public function getName()
     {
         return $this->user_name;
     }
@@ -605,7 +630,7 @@ class user implements AdvancedUserInterface,  \Serializable
     public function __toString()
     {
         $country = ($this->getUserCountry() != null) ? " (".$this->getUserCountry()->getCoName(). ")" : "";
-        return (($this->getUserCompleteName() != "") ? $this->getUserCompleteName() : $this->getUserName()).$country;
+        return (($this->getUserCompleteName() != "") ? $this->getUserCompleteName() : $this->getUserUserName()).$country;
     }
 
 

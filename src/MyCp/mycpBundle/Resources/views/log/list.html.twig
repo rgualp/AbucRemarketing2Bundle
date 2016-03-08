@@ -63,7 +63,7 @@
 
 <div class="row-fluid">
     <div class="span12">
-        <textarea class="input-block-level" style="height: 300px; font-size: 12px">{% if logs %}Logs{{'\n'}}-----------------------------------------------------{{'\n'}}{%endif%}{% for log in logs %}- {{log.getLogDescription}}{% if log.getLogDescription != 'Login'%} in module {% else %} into {% endif %}({{log.getLogModule | moduleName }}) by {{log.getlogUser.getUserName}} in date {{ log.getLogDate|date("d/m/Y") }} on time {{ log.getLogTime }}{{'\n'}}{% endfor %}</textarea>
+        <textarea class="input-block-level" style="height: 300px; font-size: 12px">{% if logs %}Logs{{'\n'}}-----------------------------------------------------{{'\n'}}{%endif%}{% for log in logs %}- {{log.getLogDescription}}{% if log.getLogDescription != 'Login'%} in module {% else %} into {% endif %}({{log.getLogModule | moduleName }}) by {{log.getlogUser.getName}} in date {{ log.getLogDate|date("d/m/Y") }} on time {{ log.getLogTime }}{{'\n'}}{% endfor %}</textarea>
     </div>
 </div>
 <div class="row-fluid">

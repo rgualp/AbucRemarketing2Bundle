@@ -3713,6 +3713,50 @@
                                             <source>BOOKS_ASC</source>
                                             <target>Toop booked</target>
                                             </trans-unit>
+                   <trans-unit id="939">
+             <source>SHOW_RESULTS</source>
+             <target>Show results</target>
+             </trans-unit>
+             <trans-unit id="940">
+             <source>MORE_FILTERS</source>
+             <target>More filters</target>
+             </trans-unit>
+                        <trans-unit id="941">
+                            <source>HOW_IT_WORKS_QUESTION</source>
+                            <target>Wie es funktioniert?</target>
+                        </trans-unit>
+                      <trans-unit id="942">
+                                    <source>MYCASA_RENTA_PARR1</source>
+                                    <target>Eine Handy Anwendung die es dem Eigentümer erleichtert, seine Unterkünfte  mittels eines Kalenders zu verwalten, in dem die nicht verfügbaren Tage in seinen Unterkünften wiedergespiegelt werden und die Verfügbarkeit der Zimmer, direkt auf unserer Website aktualisiert werden können.</target>
+                                </trans-unit>
+                      <trans-unit id="943">
+                                    <source>MYCASA_RENTA_PARR2</source>
+                                   <target><![CDATA[Verbinden Sie Ihr Handy mit dem Internet, mit einem Betriebssystem Android 2.2 oder höher und laden Sie die Anwendung von dieser Webadresse: <a href="https://mycasaparticular.com/de/apprenta" target="_blank">https://mycasaparticular.com/de/apprenta</a> oder direkt bei <a href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid" target="_blank">Google Play</a> herunter. Einmal heruntergeladen, installieren Sie die Anwendung.]]></target>
+                                </trans-unit>
+                         <trans-unit id="944">
+                                    <source>MYCASA_RENTA_PARR3</source>
+                                    <target>Um MyCasa Renta anzuwenden, müssen Sie Ihr Zugriffskonto aktivieren. Die Anweisungen für die Aktivierung, wurde Ihnen per E-Mail von uns gesendet. Wenn Sie diese Informationen, mit den spezifischen Details, der Erstellung Ihres Zugriffskontos noch nicht erhalten haben sollten, können Sie diese über folgende Website info@mycasaparticular.com beantragen.</target>
+                                </trans-unit>
+                        <trans-unit id="945">
+                                    <source>MYCASA_RENTA_PARR4</source>
+                                    <target>Wenn die App nun auf Ihrem Handy installiert ist und das Verfahren der Aktivierung des Zugriffskontos erfolgreich abgeschlossen wurde, können Sie nun beginnen MyCasa Renta zu nutzen. Auf dem Begrüßungsbildschirm der App, drücken Sie auf  die Enter Taste.
+                                            Um MyCasa Renta zu starten, sollte Sie sich authentifizieren, dazu nutzen Sie den Benutzercode Ihres Hauses, den Sie bei der Erstellung Ihres Zugriffskontos per E-Mail bekommen haben. Als Passwort, verwenden Sie jenes welches von Ihnen bei der Aktivierung im Formular angegeben wurde.
+                                    </target>
+                                </trans-unit>
+                         <trans-unit id="946">
+                                    <source>MYCASA_RENTA_PARR5</source>
+                                    <target>Die Anwendung besteht aus einem interaktiven Kalender, der dazu dient, den Status der verschiedenen Zimmer Ihres Hauses zu ändern. Jedes der Zimmer, zeigt die eingetragenen Termine als nicht verfügbar an, im Moment der  Authentifizierung.
+                                            Das erste Mal, wenn Sie die App nutzen, sollten Sie Zugang zum Internet haben, um die Daten Ihrer Unterkunft, mit denen, in unserem System gespeicherten Daten zu synchronisieren.
+                                    </target>
+                                </trans-unit>
+                              <trans-unit id="947">
+                                    <source>MYCASA_RENTA_STEP</source>
+                                    <target>Schritt</target>
+                                </trans-unit>
+                               <trans-unit id="948">
+                                    <source>DOWNLOAD_APP</source>
+                                    <target>Anwendung Herunterladen</target>
+                                </trans-unit>
     </body>
     </file>
 </xliff>

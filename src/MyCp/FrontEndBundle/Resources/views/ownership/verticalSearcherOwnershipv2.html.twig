@@ -56,14 +56,14 @@ filter='?uglifyjs2'
           </div>
           <div class="col-sm-2 p-5"> <button id="commentsOrder" type="button" data-toggle="button" class="btn btn-white">{{ 'COMMENT_ASC'|trans }}</button></div>
           <div class="col-sm-2 p-5"> <button id="booksOrder" type="button" data-toggle="button" class="btn btn-white">{{ 'BOOKS_ASC'|trans }}</button></div>
-          <div class="col-sm-3 p-5 pull-right">
+          <div class="col-sm-4 p-5 pull-right">
 
           {%if is_within_search_results%}
               <button id="button_research" class="btn btn-primary btn-large pull-right" data-url="{{ path('frontend_research_ownership_callback') }}">{{"SEARCH" | trans|capitalize}}</button>
           {%else%}
               <button id="btn_search" class="btn btn-primary btn-large pull-right" data-url="{{ path('frontend_search_ownership',{'text':'_text', 'arrival':'_arrival','departure':'_departure','guests':'_guests','rooms':'_rooms','order_price':'_order_price', 'order_comments':'_order_comments', 'order_books':'_order_books' })}}" onclick="search()">{{"SEARCH" | trans|capitalize}}</button>
           {%endif%}
-              <a class="btn btn-white btn-large pull-right" data-toggle="collapse" href="#collapseFilters" style="margin-right: 10px;">Más filtros</a>
+              <a class="btn btn-white btn-large pull-right" data-toggle="collapse" href="#collapseFilters" style="margin-right: 10px;">{{ 'MORE_FILTERS'|trans }}</a>
           </div>
       </div>
    </div>
