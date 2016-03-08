@@ -37,51 +37,14 @@ class CommentControllerTest extends WebTestCase
     {
         $client = $this->login("frontend");
 
-        /*$request = array();
+        $request = array();
         $request["com_ownership_id"] = 3;
         $request["com_rating"] = 5;
         $request["com_comments"] = "This comment is inserted by a functional test";
 
-        $crawler = $client->request('GET', '/en/insert-comment/3', $request);*/
-        $crawler = $client->request('GET', '/en/lodging-where-cuba-cuba-is/');
+        $crawler = $client->request('GET', '/en/insert-comment/3', $request);
+        //$crawler = $client->request('GET', '/en/lodging-where-cuba-cuba-is/');
 
         $this->assertTrue($client->getResponse()->isSuccessful());
-
-
-        /*$this->client->enableProfiler();
-        $mailCollector = $this->client->getProfile()->getCollector('swiftmailer');
-        // Check that an email was sent
-        $this->assertEquals(1, $mailCollector->getMessageCount(), sprintf(
-            'Se han enviado %s correos',
-            $mailCollector->getMessageCount()
-        ));*/
-
-        /*$collectedMessages = $mailCollector->getMessages();
-        $message = $collectedMessages[0];
-
-        var_dump($message->getBody());*/
-
-        // Asserting email data
-        /*$this->assertInstanceOf('Swift_Message', $message);
-        $this->assertEquals('Hello Email', $message->getSubject());
-        $this->assertEquals('send@example.com', key($message->getFrom()));
-        $this->assertEquals('recipient@example.com', key($message->getTo()));
-        $this->assertEquals(
-            'You should see me from the profiler!',
-            $message->getBody()
-        );*/
-
-        /*if ($profile = $client->getProfile()) {
-            // check the number of requests
-            $this->assertLessThan(
-                3,
-                $profile->getCollector('db')->getQueryCount(),
-                sprintf(
-                    'La cantidad de consultas a base de datos es menor que 3 (token %s)',
-                    $profile->getToken()
-                )
-            );
-
-        }*/
     }
 }

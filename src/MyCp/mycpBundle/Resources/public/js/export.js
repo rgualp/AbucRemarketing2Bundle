@@ -30,9 +30,10 @@ function exportList()
     $.post(url,{'codes':idsString},
     function(data)
     {
-        if(data === "OK")
+        if(data !== "")
         {
-            $("#downloadToAirBnb").removeAttr("disabled");
+            //$("#downloadToAirBnb").removeAttr("disabled");
+            window.location = data;
         }
         selectAll();
         enabledTable();

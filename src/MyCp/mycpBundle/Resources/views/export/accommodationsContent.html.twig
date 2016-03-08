@@ -9,7 +9,7 @@
                     </td>
                     <td class="data_column">
                         <div class="data_ex">
-                            <a title="Editar" href="{{path("mycp_edit_ownership", {"id_ownership": own.ownId})}}" target="_blank">{{own.ownMcpCode}} - {{own.ownName}}</a>
+                            <a {% if own.ownStatus.getStatusId != constant('\\MyCp\\mycpBundle\\Entity\\ownershipStatus::STATUS_ACTIVE') %} class="inactive" {% endif %} title="Editar" href="{{path("mycp_edit_ownership", {"id_ownership": own.ownId})}}" target="_blank">{{own.ownMcpCode}} - {{own.ownName}} ({{ own.ownStatus.getStatusName }})</a>
                         </div>
                     </td>
             </tbody>
