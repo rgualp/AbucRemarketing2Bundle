@@ -11,13 +11,6 @@ class CommentController extends Controller {
 
 
     public function insertAction($ownid, Request $request) {
-
-        $session = $request->getSession();
-
-        if($session->get('comments_cant') == null)
-            $session->set('comments_cant', 1);
-        else $session->set('comments_cant', 2);
-
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $data = array();
@@ -27,7 +20,12 @@ class CommentController extends Controller {
 
         $own_obj = $em->getRepository('mycpBundle:ownership')->find($ownid);
 
-        if($session->get('comments_cant') == 1) {
+        $existComment = $em->getRepository('mycpBundle:comment')->findOneBy(array("com_ownership" => $ownid,
+            "com_user" => $user->getUserId(),
+            "com_rate" => $data['com_rating'],
+            "com_comments" => $data['com_comments']));
+
+        if($existComment == null) {
             $em->getRepository('mycpBundle:comment')->insert($data, $user);
 
             if($own_obj->getOwnEmail1()!=null) {
@@ -41,9 +39,6 @@ class CommentController extends Controller {
                 $service_email->sendEmail($own_obj->getOwnEmail1(),'Nuevos comentarios recibidos', $body->getContent());
             }
         }
-
-        if($session->get('comments_cant') == 2)
-            $session->remove('comments_cant');
 
          $paginator = $this->get('ideup.simple_paginator');
          $items_per_page = 5;
