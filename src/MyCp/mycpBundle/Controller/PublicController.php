@@ -57,7 +57,7 @@ class PublicController extends Controller
         $municipalities = array();
 
         if($post && isset($post['ownership_address_province']))
-            $municipalities = $em->getRepository('mycpBundle:municipality')->findBy(array('mun_prov_id'=>$post['ownership_address_province']));
+            $municipalities = $em->getRepository('mycpBundle:municipality')->findBy(array('mun_prov_id'=>$post['ownership_address_province']), array("mun_name" => "ASC"));
         /*else
             $municipalities = $em->getRepository ('mycpBundle:municipality')->findAll();*/
         return $this->render('mycpBundle:utils:list_municipality.html.twig', array('municipalities' => $municipalities,'selected'=>$selected));
@@ -66,7 +66,7 @@ class PublicController extends Controller
     public function get_mun_by_prov_callbackAction($country_code,Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $municipalities = $em->getRepository('mycpBundle:municipality')->findBy(array('mun_prov_id'=>$country_code));
+        $municipalities = $em->getRepository('mycpBundle:municipality')->findBy(array('mun_prov_id'=>$country_code), array("mun_name" => "ASC"));
         return $this->render('mycpBundle:utils:list_municipality.html.twig', array('municipalities' => $municipalities));
     }
 
@@ -85,9 +85,9 @@ class PublicController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         if(isset($post['ownership_address_province']))
-            $municipalities = $em->getRepository('mycpBundle:municipality')->findBy(array('mun_prov_id' => $post['ownership_address_province']));
+            $municipalities = $em->getRepository('mycpBundle:municipality')->findBy(array('mun_prov_id' => $post['ownership_address_province']), array("mun_name" => "ASC"));
         else
-            $municipalities = $em->getRepository('mycpBundle:municipality')->findAll();
+            $municipalities = $em->getRepository('mycpBundle:municipality')->findBy(array(), array("mun_name" => "ASC"));
         return $this->render('mycpBundle:utils:list_municipality.html.twig', array('municipalities' => $municipalities
                 ,'selected'=>$selected));
     }
@@ -96,14 +96,14 @@ class PublicController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $country = $em->getRepository('mycpBundle:country')->find($country_code);
-        $cities = $em->getRepository('mycpBundle:city')->findBy(array('cit_co_code'=>$country->getCoCode()));
+        $cities = $em->getRepository('mycpBundle:city')->findBy(array('cit_co_code'=>$country->getCoCode()), array("cit_name" => "ASC"));
         return $this->render('mycpBundle:utils:list_municipality.html.twig', array('municipalities' => $cities));
     }
 
     public function get_provincesAction($post)
     {
         $em = $this->getDoctrine()->getManager();
-        $provinces=$em->getRepository('mycpBundle:province')->findAll();
+        $provinces=$em->getRepository('mycpBundle:province')->findBy(array(), array("prov_name" => "ASC"));
         $selected='';
         if($post && isset($post['ownership_address_province']))
             $selected=$post['ownership_address_province'];
@@ -114,7 +114,7 @@ class PublicController extends Controller
     {
 
         $em = $this->getDoctrine()->getManager();
-        $countries=$em->getRepository('mycpBundle:country')->findAll();
+        $countries=$em->getRepository('mycpBundle:country')->findBy(array(), array("co_name" => "ASC"));
         return $this->render('mycpBundle:utils:country.html.twig',array('selected'=>$selected,'countries'=>$countries));
     }
 
