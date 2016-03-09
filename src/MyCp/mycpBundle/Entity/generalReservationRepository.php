@@ -26,10 +26,8 @@ class generalReservationRepository extends EntityRepository {
         FROM mycpBundle:generalReservation gre
         JOIN gre.gen_res_own_id own
         WHERE gre.gen_res_date LIKE :filter_date_reserve
-        AND gre.gen_res_from_date LIKE :filter_date_from
         AND gre.gen_res_id LIKE :filter_offer_number
-        AND own.own_mcp_code LIKE :filter_reference
-        AND gre.gen_res_to_date LIKE :filter_date_to ";
+        AND own.own_mcp_code LIKE :filter_reference ";
 
         if($filter_status != "" && $filter_status != "-1" && $filter_status != "null")
             $gaQuery .= "AND gre.gen_res_status = :filter_status ";
@@ -48,11 +46,11 @@ class generalReservationRepository extends EntityRepository {
         JOIN gre.gen_res_own_id own
         JOIN mycpBundle:userCasa uca with uca.user_casa_ownership = own.own_id
         WHERE gre.gen_res_date LIKE :filter_date_reserve
-        AND gre.gen_res_from_date LIKE :filter_date_from
         AND gre.gen_res_id LIKE :filter_offer_number
         AND own.own_mcp_code LIKE :filter_reference
-        AND gre.gen_res_to_date LIKE :filter_date_to
         AND uca.user_casa_id = :user_casa_id ";
+
+
 
         if($filter_status != "" && $filter_status != "-1" && $filter_status != "null")
             $gaQuery .= "AND gre.gen_res_status = :filter_status ";
@@ -99,31 +97,37 @@ class generalReservationRepository extends EntityRepository {
                 break;
         }
         $em = $this->getEntityManager();
+
+        if($filter_date_from != "" && $filter_date_from != "null" && $filter_date_to != "" && $filter_date_to != "null")
+            $queryStr .= " AND gre.gen_res_from_date >= '$filter_date_from' AND gre.gen_res_to_date <= '$filter_date_to'";
+        else if($filter_date_from != "" && $filter_date_from != "null" && ($filter_date_to == "" || $filter_date_to == "null"))
+            $queryStr .= " AND gre.gen_res_from_date >= '$filter_date_from'";
+        else if(($filter_date_from == "" || $filter_date_from == "null") && $filter_date_to != "" && $filter_date_to != "null")
+            $queryStr .= " AND gre.gen_res_to_date <= '$filter_date_to'";
+
         $queryStr = $queryStr . $string_order;
         $query = $em->createQuery($queryStr);
 
         if ($user_casa_id == -1) {
             $query->setParameters(array(
                 'filter_date_reserve' => "%" . $filter_date_reserve . "%",
-                'filter_date_from' => "%" . $filter_date_from . "%",
                 'filter_offer_number' => "%" . $filter_offer_number . "%",
                 'filter_reference' => "%" . $filter_reference . "%",
-                'filter_date_to' => "%" . $filter_date_to . "%",
             ));
         } else {
             $query->setParameters(array(
                 'filter_date_reserve' => "%" . $filter_date_reserve . "%",
-                'filter_date_from' => "%" . $filter_date_from . "%",
                 'filter_offer_number' => "%" . $filter_offer_number . "%",
                 'filter_reference' => "%" . $filter_reference . "%",
-                'filter_date_to' => "%" . $filter_date_to . "%",
                 'user_casa_id' => $user_casa_id,
             ));
         }
 
-        if($filter_status != "" && $filter_status != "-1" && $filter_status != "null")
-            $query->setParameter ('filter_status',$filter_status);
 
+
+        if($filter_status != "" && $filter_status != "-1" && $filter_status != "null") {
+            $query->setParameter('filter_status', $filter_status);
+        }
 
         $array_genres = ($items_per_page != null && $page != null) ? $query->setMaxResults($items_per_page)->setFirstResult(($page - 1) * $items_per_page)->getArrayResult() : $query->getArrayResult();
 

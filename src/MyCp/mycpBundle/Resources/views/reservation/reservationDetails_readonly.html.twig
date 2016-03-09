@@ -80,7 +80,7 @@
     {%endif%}
         {% set partial_price = 0 %}
         <tr>
-            <td>{{ reservation_rooms.getOwnResRoomType }}</td>
+            <td>Hab #{{rooms[loop.index0].getRoomNum}} - {{ reservation_rooms.getOwnResRoomType }}</td>
             <td>{{ reservation_rooms.getOwnResCountAdults }}</td>
             <td>{{ reservation_rooms.getOwnResCountChildrens }}</td>
             <td>{{reservation_rooms.getOwnResReservationFromDate | date("d/m/Y")}}</td>
