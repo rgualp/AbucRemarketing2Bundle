@@ -2059,5 +2059,35 @@ class ownershipRepository extends EntityRepository {
         return $qb->getQuery()->getResult();
     }
 
+    function getByIdsForExport($ownsIdsArray) {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT o.own_id as ownId,
+                         o.own_mcp_code as mycpCode,
+                         o.own_name as name,
+                         o.own_homeowner_1 as owner1,
+                         o.own_homeowner_2 as owner2,
+                         o.own_address_street as street,
+                         o.own_address_number as number,
+                         o.own_address_between_street_1 as between1,
+                         o.own_address_between_street_2 as between2,
+                         prov.prov_name as province,
+                         mun.mun_name as municipality,
+                         st.status_name as status,
+                         o.own_phone_number as phone,
+                         o.own_mobile_number as mobile,
+                         prov.prov_phone_code as phoneCode
+                         FROM mycpBundle:ownership o
+                         JOIN o.own_address_province prov
+                         JOIN o.own_address_municipality mun
+                         JOIN o.own_status st
+                         WHERE o.own_id IN ($ownsIdsArray)
+                         ORDER BY LENGTH(o.own_mcp_code) ASC, o.own_mcp_code ASC";
+
+        $results = $em->createQuery($query_string)
+            ->getResult();
+
+        return $results;
+    }
+
 
 }

@@ -102,4 +102,21 @@ class BackendExportController extends Controller {
         return $response;
     }
 
+    function dirGenerateAction(Request $request)
+    {
+        $ownToExport = $request->get('codes');
+        $exporter = $this->get("mycp.service.export_to_excel");
+        $exporter->generateDirectoryFragment($ownToExport);
+
+
+        return new Response($this->generateUrl("mycp_download_info_dir"), 200);
+
+    }
+
+    function dirDownloadAction()
+    {
+        $exporter = $this->get("mycp.service.export_to_excel");
+        return $exporter->exportDirectoryFragment();
+    }
+
 }

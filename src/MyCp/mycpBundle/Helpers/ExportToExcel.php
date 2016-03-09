@@ -659,6 +659,72 @@ class ExportToExcel extends Controller {
         return $excel;
     }
 
+    public function exportDirectoryFragment($fileName = "listado") {
+        $fileName = $this->getFileName($fileName);
+        return $this->export($fileName);
+    }
+
+    public function generateDirectoryFragment($ownsIdArray, $fileName = "listado") {
+        if (count($ownsIdArray)) {
+            $excel = $this->configExcel("Directorio de alojamientos", "Directorio de alojamientos de MyCasaParticular", "alojamientos");
+            $data = $this->dataDirectoryFragment($ownsIdArray);
+
+            if (count($data) > 0)
+                $excel = $this->createSheetDirectoryFragment($excel, "Listado", $data);
+
+            $fileName = $this->getFileName($fileName);
+            $this->save($excel, $fileName);
+            return $fileName;
+        }
+    }
+
+    private function dataDirectoryFragment($ownsCodesArray) {
+        $results = array();
+
+        $ownerships = $this->em->getRepository("mycpBundle:ownership")->getByIdsForExport($ownsCodesArray);
+
+        foreach ($ownerships as $own) {
+            $data = array();
+
+            $data[0] = $own["mycpCode"];
+            $data[1] = $own["name"];
+            $data[2] = $own["owner1"];
+            if ($own["owner2"] != "")
+                $data[2] .= " / " . $own["owner2"];
+            $data[3] = "Calle " . $own["street"] . " No. " . $own["number"] . " entre " . $own["between1"] . " y " . $own["between2"];
+            $data[4] = $own["municipality"];
+            $data[5] = $own["province"];
+            $data[6] = "(+53) ".$own["phoneCode"]." ".$own["phone"];
+            $data[7] = $own["mobile"];
+            $data[8] = $own["status"];
+
+            array_push($results, $data);
+        }
+
+        return $results;
+    }
+
+    private function createSheetDirectoryFragment($excel, $sheetName, $data) {
+        $sheet = $this->createSheet($excel, $sheetName);
+        $sheet->setCellValue('a1', 'Código');
+        $sheet->setCellValue('b1', 'Nombre');
+        $sheet->setCellValue('c1', 'Propietario (s)');
+        $sheet->setCellValue('d1', 'Dirección');
+        $sheet->setCellValue('e1', 'Municipio');
+        $sheet->setCellValue('f1', 'Provincia');
+        $sheet->setCellValue('g1', 'Teléfono');
+        $sheet->setCellValue('h1', 'Celular');
+        $sheet->setCellValue('i1', 'Estado');
+
+        $sheet = $this->styleHeader("a1:i1", $sheet);
+
+        $sheet->fromArray($data, ' ', 'A2');
+
+        $this->setColumnAutoSize("a", "i", $sheet);
+        $sheet->setAutoFilter($sheet->calculateWorksheetDimension());
+        return $excel;
+    }
+
     private function configExcel($title, $description, $category) {
         $excel = new \PHPExcel();
 

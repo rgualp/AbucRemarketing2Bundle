@@ -29,3 +29,11 @@ mycp_export_accommodation_list:
 mycp_download_single_zip_photo:
     pattern:  /zip-download/single-photo/{idPhoto}/{ownMcpCode}
     defaults: { _controller: mycpBundle:BackendExport:zipDownloadSinglePhoto}
+
+mycp_generate_info_dir:
+    pattern:  /dir-generate
+    defaults: { _controller: mycpBundle:BackendExport:dirGenerate}
+
+mycp_download_info_dir:
+    pattern:  /dir-download
+    defaults: { _controller: mycpBundle:BackendExport:dirDownload}
