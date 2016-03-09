@@ -1,9 +1,17 @@
 [
 {% set it = 0 %}
-{% for actualDetail in details %}
-    {% set start_date = actualDetail.getUdFromDate | date("Y-m-d") %}
-    {% set end_date = actualDetail.getUdToDate | date("Y-m-d") %}
-    {% for date in range(start_date|date('U'), end_date|date('U'), 86400 ) %}
+{% for actualReservation in reservations %}
+    {% if it != 0 %},{% endif %}{
+    "title": {%if actualReservation.status == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}"Cancelada"{% else %}"Reservada"{% endif %},
+    "date": "{{ actualReservation.date | date("Y-m-d") }}",
+    "classname": {%if actualReservation.status == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}"redTag"{%else%}"blueTag"{%endif%},
+    "badge":false
+    }
+    {% set it = it + 1 %}
+{% endfor %}
+{% if detailCount > 0 and reservationCount > 0%},{% endif %}
+{% set it = 0 %}
+{% for date in details %}
         {% if it != 0 %},{% endif %}
         {
         "title": "No disponible",
@@ -12,22 +20,5 @@
         "badge":false
         }
         {% set it = it + 1 %}
-    {% endfor %}
-{% endfor %}
-
-{% if detailCount > 0 and reservationCount > 0%},{% endif %}
-{% set it = 0 %}
-{% for actualReservation in reservations %}
-    {% set start_date = actualReservation.own_res_reservation_from_date | date("Y-m-d") %}
-    {% set end_date = actualReservation.own_res_reservation_to_date | date_modify("-1 day") | date("Y-m-d") %}
-    {% for date in range(start_date|date('U'), end_date|date('U'), 86400 ) %}
-    {% if it != 0 %},{% endif %}{
-        "title": {%if actualReservation.own_res_status == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}"Cancelada"{% else %}"Reservada"{% endif %},
-        "date": "{{ date | date("Y-m-d") }}",
-        "classname": {%if actualReservation.own_res_status == constant('\\MyCp\\mycpBundle\\Entity\\ownershipReservation::STATUS_CANCELLED')%}"redTag"{%else%}"blueTag"{%endif%},
-        "badge":false
-    }
-        {% set it = it + 1 %}
-    {% endfor %}
 {% endfor %}
 ]
