@@ -96,6 +96,8 @@ doctrine:
                 auto_mapping: true
             remarketing:
                 connection: remarketing
+                mappings:
+                    AbucRemarketingBundle: ~
 
 # Swiftmailer Configuration
 swiftmailer:
