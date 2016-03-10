@@ -70,14 +70,13 @@
                         Mostrar:
                         {% if filter_user_name ==''%}{% set filter_user_name='null'%}{%endif%}
                         {% if filter_user_email ==''%}{% set filter_user_email='null'%}{%endif%}
-                        {% if filter_user_city ==''%}{% set filter_user_city='null'%}{%endif%}
                         {% if filter_user_country ==''%}{% set filter_user_country='null'%}{%endif%}
                         {% if sort_by=='' %}
                             {% set sort_by=0 %}
                         {% endif %}
-                        <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_readonly_reservations_user',{'items_per_page':100,'filter_user_name':filter_user_name,'filter_user_email':filter_user_email,'filter_user_city':filter_user_city,'filter_user_country':filter_user_country,'sort_by':sort_by})}}">100</a>
-                        <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_readonly_reservations_user',{'items_per_page':300,'filter_user_name':filter_user_name,'filter_user_email':filter_user_email,'filter_user_city':filter_user_city,'filter_user_country':filter_user_country,'sort_by':sort_by})}}">300</a>
-                        <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_readonly_reservations_user',{'items_per_page':500,'filter_user_name':filter_user_name,'filter_user_email':filter_user_email,'filter_user_city':filter_user_city,'filter_user_country':filter_user_country,'sort_by':sort_by})}}">500</a>
+                        <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_readonly_reservations_user',{'items_per_page':100,'filter_user_name':filter_user_name,'filter_user_email':filter_user_email,'filter_user_country':filter_user_country,'sort_by':sort_by})}}">100</a>
+                        <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_readonly_reservations_user',{'items_per_page':300,'filter_user_name':filter_user_name,'filter_user_email':filter_user_email,'filter_user_country':filter_user_country,'sort_by':sort_by})}}">300</a>
+                        <a class="{% if items_per_page == 500 %}selected{% endif %}" href="{{ path('mycp_list_readonly_reservations_user',{'items_per_page':500,'filter_user_name':filter_user_name,'filter_user_email':filter_user_email,'filter_user_country':filter_user_country,'sort_by':sort_by})}}">500</a>
                         <input class="hidden" name="items_per_page" value="100">
                     </div>
                 </div>
@@ -94,7 +93,7 @@
                 'currentClass': 'current',
                 'firstPageText': 'Primera',
                 'lastPageText': 'Última',
-                'route_params': {'items_per_page':items_per_page,'filter_user_name':filter_user_name,'filter_user_email':filter_user_email,'filter_user_city':filter_user_city,'filter_user_country':filter_user_country,'sort_by':sort_by}
+                'route_params': {'items_per_page':items_per_page,'filter_user_name':filter_user_name,'filter_user_email':filter_user_email,'filter_user_country':filter_user_country,'sort_by':sort_by}
                 }) }}
 
                     </div>
@@ -152,7 +151,7 @@
                 'currentClass': 'current',
                 'firstPageText': 'Primera',
                 'lastPageText': 'Última',
-                'route_params': {'items_per_page':items_per_page,'filter_user_name':filter_user_name,'filter_user_email':filter_user_email,'filter_user_city':filter_user_city,'filter_user_country':filter_user_country,'sort_by':sort_by}
+                'route_params': {'items_per_page':items_per_page,'filter_user_name':filter_user_name,'filter_user_email':filter_user_email,'filter_user_country':filter_user_country,'sort_by':sort_by}
                 }) }}
                 </div>
             </div>
@@ -195,15 +194,13 @@
             if(filter_user_name=='')filter_user_name='null';
             filter_user_email=$('#filter_user_email').val();
             if(filter_user_email=='')filter_user_email='null';
-            filter_user_city=$('#filter_user_city').val();
-            if(filter_user_city=='')filter_user_city='null';
             filter_user_country=$('#filter_user_country').val();
             if(filter_user_country=='')filter_user_country='null';
             sort_by=$('#sort_by').val();
             if(sort_by=='')sort_by='null';
 
             url_submit=$('#filter').attr('action');
-            url_submit=url_submit+'/'+items_per_page+'/'+filter_user_name+'/'+filter_user_email+'/'+filter_user_city+'/'+filter_user_country+'/'+sort_by;
+            url_submit=url_submit+'/'+items_per_page+'/'+filter_user_name+'/'+filter_user_email+'/'+filter_user_country+'/'+sort_by;
             $('#filter').attr('action',url_submit);
             $('#filter').submit();
         }

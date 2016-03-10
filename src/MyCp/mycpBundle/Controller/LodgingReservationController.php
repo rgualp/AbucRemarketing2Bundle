@@ -144,11 +144,10 @@ class LodgingReservationController extends Controller {
         $page = 1;
         $filter_user_name = $request->get('filter_user_name');
         $filter_user_email = $request->get('filter_user_email');
-        $filter_user_city = $request->get('filter_user_city');
         $filter_user_country = $request->get('filter_user_country');
 
         $sort_by = $request->get('sort_by');
-        if ($request->getMethod() == 'POST' && ($sort_by == "" || $sort_by == "null" || $sort_by == "0") && $filter_user_name == 'null' && $filter_user_email == 'null' && $filter_user_city == 'null' &&
+        if ($request->getMethod() == 'POST' && ($sort_by == "" || $sort_by == "null" || $sort_by == "0") && $filter_user_name == 'null' && $filter_user_email == 'null' &&
                 $filter_user_country == 'null') {
             $message = 'Debe llenar al menos un campo para filtrar o seleccionar un criterio de ordenación.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
@@ -158,8 +157,6 @@ class LodgingReservationController extends Controller {
             $filter_user_name = '';
         if ($filter_user_email == 'null')
             $filter_user_email = '';
-        if ($filter_user_city == 'null')
-            $filter_user_city = '';
         if ($filter_user_country == 'null')
             $filter_user_country = '';
         if ($sort_by == 'null')
@@ -175,10 +172,10 @@ class LodgingReservationController extends Controller {
         $user = $this->get('security.context')->getToken()->getUser();
 
         if ($user->getUserRole() != 'ROLE_CLIENT_CASA')
-            $reser = $em->getRepository('mycpBundle:generalReservation')->getUsers($filter_user_name, $filter_user_email, $filter_user_city, $filter_user_country, $sort_by);
+            $reser = $em->getRepository('mycpBundle:generalReservation')->getUsers($filter_user_name, $filter_user_email, '', $filter_user_country, $sort_by);
         else {
             $userCasa = $em->getRepository('mycpBundle:userCasa')->getByUser($user->getUserId());
-            $reser = $em->getRepository('mycpBundle:generalReservation')->getUsers($filter_user_name, $filter_user_email, $filter_user_city, $filter_user_country, $sort_by, $userCasa->getUserCasaOwnership()->getOwnId());
+            $reser = $em->getRepository('mycpBundle:generalReservation')->getUsers($filter_user_name, $filter_user_email, '', $filter_user_country, $sort_by, $userCasa->getUserCasaOwnership()->getOwnId());
         }
 
         $reservations = $paginator->paginate($reser)->getResult();
@@ -201,7 +198,6 @@ class LodgingReservationController extends Controller {
                     'total_items' => $paginator->getTotalItems(),
                     'filter_user_name' => $filter_user_name,
                     'filter_user_email' => $filter_user_email,
-                    'filter_user_city' => $filter_user_city,
                     'filter_user_country' => $filter_user_country,
                     'sort_by' => $sort_by
         ));

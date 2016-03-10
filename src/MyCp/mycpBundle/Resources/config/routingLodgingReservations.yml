@@ -7,8 +7,8 @@ mycp_details_readonly_reservation:
     defaults: { _controller: mycpBundle:LodgingReservation:details_reservation, from_calendar: 0 }
 
 mycp_list_readonly_reservations_user:
-    pattern:  /users/list/{items_per_page}/{filter_user_name}/{filter_user_email}/{filter_user_city}/{filter_user_country}/{sort_by}
-    defaults: { _controller: mycpBundle:LodgingReservation:listReservationsByUser,items_per_page:100,filter_user_name:'',filter_user_email:'',filter_user_city:'',filter_user_country:'',sort_by:0}
+    pattern:  /users/list/{items_per_page}/{filter_user_name}/{filter_user_email}/{filter_user_country}/{sort_by}
+    defaults: { _controller: mycpBundle:LodgingReservation:listReservationsByUser,items_per_page:100,filter_user_name:'',filter_user_email:'',filter_user_country:'',sort_by:0}
 
 mycp_details_readonly_reservation_partial:
     pattern:  /details_partial/{id_reservation}
