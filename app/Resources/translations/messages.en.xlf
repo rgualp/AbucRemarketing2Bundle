@@ -3756,6 +3756,10 @@
                                     <source>DOWNLOAD_APP</source>
                                     <target>DOWNLOAD APPLICATION</target>
                                 </trans-unit>
+            <trans-unit id="949">
+                <source>Bad credentials.</source>
+                <target>Invalid username or password</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

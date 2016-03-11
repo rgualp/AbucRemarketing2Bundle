@@ -3759,6 +3759,10 @@
                                     <source>DOWNLOAD_APP</source>
                                     <target>Descargar la aplicación</target>
                                 </trans-unit>
+            <trans-unit id="949" resname="Bad credentials.">
+                <source>Bad credentials.</source>
+                <target>Nombre de usuario o Contraseña inválido</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
