@@ -94,10 +94,10 @@ doctrine:
             default:
                 connection: default
                 auto_mapping: true
-            remarketing:
-                connection: remarketing
-                mappings:
-                    AbucRemarketingBundle: ~
+            #remarketing:
+            #    connection: remarketing
+            #    mappings:
+            #        AbucRemarketingBundle: ~
 
 # Swiftmailer Configuration
 swiftmailer:

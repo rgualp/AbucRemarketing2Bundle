@@ -36,6 +36,11 @@ Por este medio le confirmamos la reservación ({{ reservations[0].getOwnResGenRe
 <b>Adultos: </b> {{ reservation.getOwnResCountAdults }}
 <br/>
 <b>Niños: </b> {{ reservation.getOwnResCountChildrens }}
+    {% if reservation.getOwnResGenResId.getChildrenAges != null %}
+        {% for roomNumber, ages in reservation.getOwnResGenResId.getChildrenAges %}
+            {% if roomNumber == rooms[reservation.getOwnResId()].getRoomNum() %}  (Edades: {% for age in ages %}{% if loop.index0 > 0 %}, {% endif %}{{ age }} años {% endfor %}) {% endif %}
+        {% endfor %}
+    {% endif %}
 <br/>
 <b>Fecha de arribo: </b> {{ reservation.getOwnResReservationFromDate|date('d/m/Y') }}
 <br/>
