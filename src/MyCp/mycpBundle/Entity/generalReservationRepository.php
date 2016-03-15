@@ -26,13 +26,7 @@ class generalReservationRepository extends EntityRepository {
         u.user_user_name, u.user_last_name, u.user_email
         FROM mycpBundle:generalReservation gre
         JOIN gre.gen_res_own_id own
-        JOIN gre.gen_res_user_id u
-        WHERE gre.gen_res_date LIKE :filter_date_reserve
-        AND gre.gen_res_id LIKE :filter_offer_number
-        AND own.own_mcp_code LIKE :filter_reference ";
-
-        if($filter_status != "" && $filter_status != "-1" && $filter_status != "null")
-            $gaQuery .= "AND gre.gen_res_status = :filter_status ";
+        JOIN gre.gen_res_user_id u ";
 
         return $this->getByQuery($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, -1, $gaQuery,$items_per_page, $page);
     }
@@ -48,16 +42,7 @@ class generalReservationRepository extends EntityRepository {
         FROM mycpBundle:generalReservation gre
         JOIN gre.gen_res_own_id own
         JOIN mycpBundle:userCasa uca with uca.user_casa_ownership = own.own_id
-        JOIN gre.gen_res_user_id u
-        WHERE gre.gen_res_date LIKE :filter_date_reserve
-        AND gre.gen_res_id LIKE :filter_offer_number
-        AND own.own_mcp_code LIKE :filter_reference
-        AND uca.user_casa_id = :user_casa_id ";
-
-
-
-        if($filter_status != "" && $filter_status != "-1" && $filter_status != "null")
-            $gaQuery .= "AND gre.gen_res_status = :filter_status ";
+        JOIN gre.gen_res_user_id u ";
 
         return $this->getByQuery($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $user_casa_id, $gaQuery);
     }
@@ -68,6 +53,10 @@ class generalReservationRepository extends EntityRepository {
         $filter_offer_number = str_replace('cas.', '', $filter_offer_number);
         $filter_offer_number = str_replace('cas', '', $filter_offer_number);
         $filter_offer_number = str_replace('.', '', $filter_offer_number);
+        $filter_offer_number = str_replace(' ', '', $filter_offer_number);
+        $array_offer_number = explode('-', $filter_offer_number);
+
+
         $array_date_reserve = explode('/', $filter_date_reserve);
         $array_date_from = explode('/', $filter_date_from);
         $array_date_to = explode('/', $filter_date_to);
@@ -105,32 +94,38 @@ class generalReservationRepository extends EntityRepository {
         }
         $em = $this->getEntityManager();
 
-        if($filter_date_from != "" && $filter_date_from != "null" && $filter_date_to != "" && $filter_date_to != "null")
-            $queryStr .= " AND gre.gen_res_from_date >= '$filter_date_from' AND gre.gen_res_to_date <= '$filter_date_to'";
-        else if($filter_date_from != "" && $filter_date_from != "null" && ($filter_date_to == "" || $filter_date_to == "null"))
-            $queryStr .= " AND gre.gen_res_from_date >= '$filter_date_from'";
-        else if(($filter_date_from == "" || $filter_date_from == "null") && $filter_date_to != "" && $filter_date_to != "null")
-            $queryStr .= " AND gre.gen_res_to_date <= '$filter_date_to'";
-
-        $queryStr = $queryStr . $string_order;
-        $query = $em->createQuery($queryStr);
-
-        if ($user_casa_id == -1) {
-            $query->setParameters(array(
-                'filter_date_reserve' => "%" . $filter_date_reserve . "%",
-                'filter_offer_number' => "%" . $filter_offer_number . "%",
-                'filter_reference' => "%" . $filter_reference . "%",
-            ));
-        } else {
-            $query->setParameters(array(
-                'filter_date_reserve' => "%" . $filter_date_reserve . "%",
-                'filter_offer_number' => "%" . $filter_offer_number . "%",
-                'filter_reference' => "%" . $filter_reference . "%",
-                'user_casa_id' => $user_casa_id,
-            ));
+        $where = "";
+        if(count($array_offer_number) > 1) {
+            if($array_offer_number[0] < $array_offer_number[1])
+                $where .= (($where != "") ? " AND ": " WHERE "). " gre.gen_res_id >= $array_offer_number[0] AND gre.gen_res_id <= $array_offer_number[1] ";
+            else
+                $where .= (($where != "") ? " AND ": " WHERE "). " gre.gen_res_id >= $array_offer_number[1] AND gre.gen_res_id <= $array_offer_number[0] ";
         }
+        else if($filter_offer_number != "" and $filter_offer_number != "null")
+            $where .= (($where != "") ? " AND ": " WHERE "). " gre.gen_res_id = $filter_offer_number";
 
+        if($filter_date_from != "" && $filter_date_from != "null" && $filter_date_to != "" && $filter_date_to != "null")
+            $where .= (($where != "") ? " AND ": " WHERE "). " gre.gen_res_from_date >= '$filter_date_from' AND gre.gen_res_to_date <= '$filter_date_to'";
+        else if($filter_date_from != "" && $filter_date_from != "null" && ($filter_date_to == "" || $filter_date_to == "null"))
+            $where .= (($where != "") ? " AND ": " WHERE "). " gre.gen_res_from_date >= '$filter_date_from'";
+        else if(($filter_date_from == "" || $filter_date_from == "null") && $filter_date_to != "" && $filter_date_to != "null")
+            $where .= (($where != "") ? " AND ": " WHERE "). " gre.gen_res_to_date <= '$filter_date_to'";
 
+        if($filter_date_reserve != "" && $filter_date_reserve != "null")
+            $where .= (($where != "") ? " AND ": " WHERE "). " gre.gen_res_date >= '$filter_date_reserve'";
+
+        if($filter_reference != "" && $filter_reference != "null")
+            $where .= (($where != "") ? " AND ": " WHERE "). " own.own_mcp_code LIKE '%$filter_reference%'";
+
+        if($filter_status != "" && $filter_status != "-1" && $filter_status != "null")
+            $where .= (($where != "") ? " AND ": " WHERE "). " gre.gen_res_status = $filter_status ";
+
+        if ($user_casa_id != -1)
+            $where .= (($where != "") ? " AND ": " WHERE "). " uca.user_casa_id = $user_casa_id ";
+
+        $queryStr = $queryStr. $where . $string_order;
+        //var_dump($queryStr); die;
+        $query = $em->createQuery($queryStr);
 
         if($filter_status != "" && $filter_status != "-1" && $filter_status != "null") {
             $query->setParameter('filter_status', $filter_status);
