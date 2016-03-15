@@ -88,7 +88,7 @@ class unavailabilityDetailsRepository extends EntityRepository {
                 (o.ud_to_date >= '$start' AND o.ud_to_date <= '$end') OR
                 (o.ud_from_date <= '$end' AND o.ud_from_date >= '$start'))" .
             " AND ro.room_id = $idRoom" .
-            " ORDER BY o.ud_from_date DESC";
+            " ORDER BY o.ud_from_date ASC";
 
         return $em->createQuery($query_string)->getResult();
     }

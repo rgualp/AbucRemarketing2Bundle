@@ -151,34 +151,46 @@ class BackendUnavailabilityDetailsController extends Controller {
                 if ($date_from > $date_to) {
                     $this->get('session')->getFlashBag()->add('message_error_main', "La fecha Desde tiene que ser menor o igual que la fecha Hasta");
                 } else {
-                    $dExist = $em->getRepository('mycpBundle:unavailabilityDetails')->findBy(array(
-                        "ud_from_date" => $date_from,
-                        "ud_to_date" => $date_to,
-                        "room" => $id_room
-                    ));
+                    $unavailabilities = $em->getRepository('mycpBundle:unavailabilityDetails')->getAllNotDeletedByDateAndRoom($id_room, $date_from->format('Y-m-d'), $date_to->format('Y-m-d'));
+                    $reservations = $em->getRepository('mycpBundle:ownershipReservation')->getReservationReservedByRoomAndDate($id_room, $date_from->format('Y-m-d'), $date_to->format('Y-m-d'));
+                    $selectedRange = ['start'=>$date_from, 'end'=>$date_to];
 
-                    if (count($dExist) == 0) {
-                        $uDetails->setUdFromDate($date_from)
-                                ->setUdToDate($date_to)
+                    $newUnavailabilities = [];
+                    if(count($unavailabilities) == 0 && count($reservations) == 0){
+                        $newUnavailabilities[] = ['from'=>$date_from, 'to'=>$date_to];
+                    }
+                    else{
+                        $newUnavailabilities = $this->createUnavailabilities($reservations, $unavailabilities, $selectedRange);
+                    }
+
+                    /*var_dump($newUnavailabilities);
+                    die;*/
+
+                    if(count($newUnavailabilities) == 0){
+                        $message = 'Ya existe no disponibilidad ó reservas que completan el rango de fechas '.$date_from->format("d/m/Y")." al ".$date_to->format("d/m/Y");
+                        $this->get('session')->getFlashBag()->add('message_ok', $message);
+                    }
+                    else{
+                        foreach ($newUnavailabilities as $unavailabilityIter) {
+                            //$uDetails
+                            $unavailability = new unavailabilityDetails();
+                            $unavailability->setUdFromDate($unavailabilityIter['from'])
+                                ->setUdToDate($unavailabilityIter['to'])
                                 ->setUdReason($post_form['ud_reason'])
                                 ->setRoom($room);
-                        $em->persist($uDetails);
-                        $em->flush();
-
-                        //Update iCal of selected room
-                        $message = $this->updateICal($room);
-
-                        $message = 'Detalle de no disponibilidad añadido satisfactoriamente. ' . $message;
-                        $this->get('session')->getFlashBag()->add('message_ok', $message);
-
-                        $service_log = $this->get('log');
-                        $service_log->saveLog('Create unavailable detaile from ' . $post_form['ud_from_date'] . ' to ' . $post_form['ud_to_date'], BackendModuleName::MODULE_UNAVAILABILITY_DETAILS);
+                            $em->persist($unavailability);
+                            $em->flush();
+                        }
                     }
-                    else
-                    {
-                        $message = 'Ya existe no disponibilidad para las fechas '.$date_from->format("d/m/Y")." al ".$date_to->format("d/m/Y");
-                        $this->get('session')->getFlashBag()->add('message_ok', $message);
-                    }
+
+                    //Update iCal of selected room
+                    $message = $this->updateICal($room);
+
+                    $message = 'Detalle de no disponibilidad añadido satisfactoriamente. ' . $message;
+                    $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+                    $service_log = $this->get('log');
+                    $service_log->saveLog('Create unavailable detaile from ' . $post_form['ud_from_date'] . ' to ' . $post_form['ud_to_date'], BackendModuleName::MODULE_UNAVAILABILITY_DETAILS);
 
                     return $this->redirect($this->generateUrl('mycp_list_room_details_unavailabilityDetails', array('id_room' => $id_room, 'num_room' => $num_room)));
                 }
@@ -340,4 +352,62 @@ class BackendUnavailabilityDetailsController extends Controller {
         ));
     }
 
+    public function createUnavailabilities($reservations, $unavailabilities, $selectedRange){
+        $newUnavailabilities = [];
+        $newUnavailability = [];
+
+        $cursorDate = $selectedRange['start'];
+        while($cursorDate <= $selectedRange['end']){
+            if($this->isInRanges($reservations, $cursorDate) || $this->isInRanges($unavailabilities, $cursorDate)){
+                if(count($newUnavailability) > 0){
+                    $newUnavailabilities[] = $newUnavailability;
+                    $newUnavailability = [];
+                }
+            }
+            else{
+                if(count($newUnavailability) <= 0){
+                    $newUnavailability['from'] = clone $cursorDate;
+                }
+                $newUnavailability['to'] = clone $cursorDate;
+            }
+
+            $cursorDate->modify('+1 day');
+            $cursorDate = new \DateTime($cursorDate->format('Y-m-d'));
+        }
+        if(count($newUnavailability) > 0){
+            $newUnavailabilities[] = $newUnavailability;
+        }
+
+        return $newUnavailabilities;
+    }
+
+    public function isInRanges($ranges, $date){
+        foreach ($ranges as $key => $obj) {
+            $range = [];
+            if(is_array($obj)){ //entonces son las reservaciones
+                $range['from'] = $obj['own_res_reservation_from_date'];
+                $range['to'] = clone $obj['own_res_reservation_to_date'];
+                $range['to']->modify('-1 day');
+            }
+            else{//entonces son las no disponibilidades
+                $range['from'] = $obj->getUdFromDate();
+                $range['to'] = $obj->getUdToDate();
+            }
+
+            if($this->isInRange($range, $date)){
+                return true;
+            }
+            else if($date < $range['from']){
+                return false;
+            }
+            else if($date > $range['to']){
+                unset($ranges[$key]);
+            }
+        }
+        return false;
+    }
+
+    public function isInRange($range, $date){
+        return ($date >= $range['from'] && $date <= $range['to']);
+    }
 }
