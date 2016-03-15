@@ -30,15 +30,23 @@ ID Reserva: {{reservations[0].getOwnResGenResId.getCASId}}
 </ul>
 <h4>Datos de reserva ({{reservations|length}} {% if reservations|length == 1%}Habitación{% else %}Habitaciones{% endif %})</h4>
 {% for reservation in reservations %}
+    {% set outerRoomNumber = roomNums[loop.index0] %}
 <ul>
     <li><b>Habitación:</b> Hab #{{roomNums[loop.index0]}} {{reservation.getOwnResRoomType}}</li>
     <li><b>Adultos:</b> {{reservation.getOwnResCountAdults}}</li>
-    <li><b>Niños:</b> {{reservation.getOwnResCountChildrens}}</li>
+    <li><b>Niños:</b> {{reservation.getOwnResCountChildrens}}
+        {% if reservation.getOwnResGenResId.getChildrenAges != null %}
+            {% for roomNumber, ages in reservation.getOwnResGenResId.getChildrenAges %}
+                {% if roomNumber == outerRoomNumber %}  (Edades: {% for age in ages %}{% if loop.index0 > 0 %}, {% endif %}{{ age }} años {% endfor %}) {% endif %}
+            {% endfor %}
+        {% endif %}
+    </li>
     <li><b>Fecha de arribo:</b> {{reservation.getOwnResReservationFromDate|date("d/m/Y")}}</li>
     <li><b>Fecha de salida:</b> {{reservation.getOwnResReservationToDate|date("d/m/Y")}}</li>
     <li><b>Noches:</b> {{nigths[loop.index0]}}</li>
 </ul>
 {% endfor %}
+<br/>
 <h4>Datos de la casa</h4>
 <ul>
     <li><b>Nombre:</b> {{reservations[0].getOwnResGenResId.getGenResOwnId.getOwnName}}</li>
