@@ -15,8 +15,8 @@ class CommentController extends Controller {
         $user = $this->getUser();
         $data = array();
         $data['com_ownership_id'] = $ownid;
-        $data['com_rating'] = $request->request->get('com_rating');
-        $data['com_comments'] = $request->request->get('com_comments');
+        $data['com_rating'] = $request->get('com_rating');
+        $data['com_comments'] = $request->get('com_comments');
 
         $own_obj = $em->getRepository('mycpBundle:ownership')->find($ownid);
 
@@ -32,7 +32,7 @@ class CommentController extends Controller {
                 $body = $this->render('FrontEndBundle:mails:commentNotification.html.twig', array(
                     'host_user_name' => $own_obj->getOwnHomeowner1(),
                     'user_name' => $user->getName() . ' ' . $user->getUserLastName(),
-                    'comment' => $request->request->get('com_comments')
+                    'comment' => $request->get('com_comments')
                 ));
 
                 $service_email = $this->get('mycp.service.email_manager');
