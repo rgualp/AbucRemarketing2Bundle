@@ -35,13 +35,13 @@
             <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_list_reservations')}}">
                 <div class="well well-small">
                     <div class="row-fluid">
-                        <div class="span3"><label>ID Reserva:</label>
+                        <div class="span3"><label>Reserva (Código o Rango):</label>
                             <input id="filter_offer_number" name="filter_offer_number" type="text" class="input-block-level" value="{{filter_offer_number}}"/>
                         </div>
-                        <div class="span3"><label>ID Casa:</label>
+                        <div class="span3"><label>Alojamiento:</label>
                             <input id="filter_reference" name="filter_reference" type="text" class="input-block-level" value="{{filter_reference}}"/>
                         </div>
-                        <div class="span3"><label>ID Booking:</label>
+                        <div class="span3"><label>Booking:</label>
                             <input id="filter_booking_number" name="filter_booking_number" type="text" class="input-block-level" value="{{ filter_booking_number }}"/>
                         </div>
                         <div class="span3"><label>Estado reserva:</label>
@@ -144,8 +144,9 @@
                 <tr>
                     <th></th>
                     <th>Fecha</th>
-                    <th>Reservation ID</th>
-                    <th>ID Casa</th>
+                    <th>Cliente</th>
+                    <th>Reservación</th>
+                    <th>Alojamiento</th>
                     <th>Habit.</th>
                     <th>Huésp.</th>
                     <th>Llegada</th>
@@ -174,6 +175,7 @@
                         {%endif%}
                     </td>
                     <td>{{reservation.gen_res_date |date("d/m/Y")}}</td>
+                    <td>{{reservation.user_user_name}} {{reservation.user_last_name}}<br/><a href="{{ reservation.user_email }}">{{ reservation.user_email }}</a></td>
                     <td>{{reservation.gen_res_id | getCASId}}</td>
                     <td>{{reservation.own_mcp_code}}</td>
                     <td>{{reservation[1]}}</td>

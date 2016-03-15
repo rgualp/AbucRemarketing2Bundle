@@ -22,9 +22,11 @@ class generalReservationRepository extends EntityRepository {
         (SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id),
         (SELECT SUM(owres3.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id),
         (SELECT MIN(owres4.own_res_reservation_from_date) FROM mycpBundle:ownershipReservation owres4 WHERE owres4.own_res_gen_res_id = gre.gen_res_id),
-        (SELECT SUM(DATE_DIFF(owres5.own_res_reservation_to_date, owres5.own_res_reservation_from_date)) FROM mycpBundle:ownershipReservation owres5 WHERE owres5.own_res_gen_res_id = gre.gen_res_id)
+        (SELECT SUM(DATE_DIFF(owres5.own_res_reservation_to_date, owres5.own_res_reservation_from_date)) FROM mycpBundle:ownershipReservation owres5 WHERE owres5.own_res_gen_res_id = gre.gen_res_id),
+        u.user_user_name, u.user_last_name, u.user_email
         FROM mycpBundle:generalReservation gre
         JOIN gre.gen_res_own_id own
+        JOIN gre.gen_res_user_id u
         WHERE gre.gen_res_date LIKE :filter_date_reserve
         AND gre.gen_res_id LIKE :filter_offer_number
         AND own.own_mcp_code LIKE :filter_reference ";
