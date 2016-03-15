@@ -26,15 +26,29 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output) {
         $container = $this->getContainer();
         $em = $container->get('doctrine')->getManager();
-        $user = $em->getRepository("mycpBundle:user")->find(2086);
 
-        $activationUrl = $this->getActivationUrl($user, "es");
-
-        $activationUrl = str_replace(".com//", ".com/", $activationUrl);
-
-        $output->writeln($activationUrl);
+        $this->testingPostPaymentProcess($em, $output);
 
         $output->writeln("End of testings");
+    }
+
+    private function testingPostPaymentProcess($em,OutputInterface $output)
+    {
+        $container = $this->getContainer();
+        $bookingService = $container->get("front_end.services.booking");
+
+        $booking = $em->getRepository("mycpBundle:booking")->find(1360);
+
+        $bookingService->processPaymentEmails($booking, PaymentHelper::STATUS_PENDING);
+
+    }
+
+    private function testingActivationUrl($em,OutputInterface $output)
+    {
+        $user = $em->getRepository("mycpBundle:user")->find(2086);
+        $activationUrl = $this->getActivationUrl($user, "es");
+        $activationUrl = str_replace(".com//", ".com/", $activationUrl);
+        $output->writeln($activationUrl);
     }
 
     private function getActivationUrl($user, $userLocale)

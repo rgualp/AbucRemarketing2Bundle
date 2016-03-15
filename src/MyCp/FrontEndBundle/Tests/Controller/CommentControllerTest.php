@@ -13,7 +13,30 @@ class CommentControllerTest extends WebTestCase
     private $container = null;
     private $em = null;
 
-    public function login($provider)
+    public function setUp()
+    {
+        $this->client = static::createClient();
+    }
+
+    private function logIn()
+    {
+        $session = $this->client->getContainer()->get('session');
+
+        $firewall = 'frontend';
+
+        $user = $this->client->getContainer()->get('doctrine')->getManager()->getRepository('mycpBundle:user')
+            ->find(2696);
+
+        $token = new UsernamePasswordToken($user, null, $firewall, array('ROLE_CLIENT_TOURIST'));
+
+        $session->set('_security_'.$firewall, serialize($token));
+        $session->save();
+        $cookie = new Cookie($session->getName(), $session->getId());
+
+        $this->client->getCookieJar()->set($cookie);
+    }
+
+    /*public function login($provider)
     {
         $client = static::createClient();
         $container = static::$kernel->getContainer();
@@ -30,21 +53,21 @@ class CommentControllerTest extends WebTestCase
          * array('ROLE_CLIENT_TOURIST')
          * */
 
-        return $client;
-    }
+        /*return $client;
+    }*/
 
     public function testInsert()
     {
-        $client = $this->login("frontend");
+        $this->logIn();
 
         $request = array();
         $request["com_ownership_id"] = 3;
         $request["com_rating"] = 5;
         $request["com_comments"] = "This comment is inserted by a functional test";
 
-        $crawler = $client->request('GET', '/en/insert-comment/3', $request);
+        $crawler = $this->client->request('GET', '/en/insert-comment/3/', $request);
         //$crawler = $client->request('GET', '/en/lodging-where-cuba-cuba-is/');
 
-        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
     }
 }
