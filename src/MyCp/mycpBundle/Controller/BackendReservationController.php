@@ -1160,12 +1160,15 @@ class BackendReservationController extends Controller {
         if ($sort_by == 'null')
             $sort_by = '';
 
+        $date = new \DateTime();
+        $date = date_modify($date, "-30 days");
+
         $em = $this->getDoctrine()->getManager();
         $reservations = $em->getRepository('mycpBundle:generalReservation')
-            ->getReservationsToExport($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status);
+            ->getReservationsToExport($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $date);
 
         $exporter = $this->get("mycp.service.export_to_excel");
-        return $exporter->exportReservations($reservations);
+        return $exporter->exportReservations($reservations, $date);
     }
 }
 

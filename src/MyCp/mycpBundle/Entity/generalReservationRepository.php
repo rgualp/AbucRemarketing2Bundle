@@ -628,7 +628,7 @@ class generalReservationRepository extends EntityRepository {
         return $qb->getQuery()->getResult();
     }
 
-    function getReservationsToExport($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status)
+    function getReservationsToExport($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $date)
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
@@ -639,10 +639,15 @@ class generalReservationRepository extends EntityRepository {
             ->join("own.own_address_province", "prov")
             ->join("gres.gen_res_user_id", "user");
 
+
+        $date = $date->format("Y-m-d");
+        $qb->where("gres.gen_res_date >= :filter_date")
+            ->setParameter("filter_date", $date);
+
         if($filter_date_reserve != "" && $filter_date_reserve != "null"){
             $filter_date_reserve = Dates::createForQuery($filter_date_reserve, "d/m/Y");
 
-            $qb->where("gres.gen_res_date >= :filter_date_reserve")
+            $qb->andWhere("gres.gen_res_date >= :filter_date_reserve")
                ->setParameter("filter_date_reserve", $filter_date_reserve);
         }
 
@@ -650,7 +655,7 @@ class generalReservationRepository extends EntityRepository {
             $filter_date_from = Dates::createForQuery($filter_date_from, "d/m/Y");
             $filter_date_to = Dates::createForQuery($filter_date_to, "d/m/Y");
 
-            $qb->where("gres.gen_res_date >= :filter_date_from")
+            $qb->andWhere("gres.gen_res_date >= :filter_date_from")
                 ->andWhere("gres.gen_res_to_date <= :filter_date_to")
                 ->setParameter("filter_date_from", $filter_date_from)
                 ->setParameter("filter_date_to", $filter_date_to);
@@ -658,13 +663,13 @@ class generalReservationRepository extends EntityRepository {
         else if($filter_date_from != "" && $filter_date_from != "null" && ($filter_date_to == "" || $filter_date_to == "null")) {
             $filter_date_from = Dates::createForQuery($filter_date_from, "d/m/Y");
 
-            $qb->where("gres.gen_res_date >= :filter_date_from")
+            $qb->andWhere("gres.gen_res_date >= :filter_date_from")
                 ->setParameter("filter_date_from", $filter_date_from);
         }
         else if(($filter_date_from == "" || $filter_date_from == "null") && $filter_date_to != "" && $filter_date_to != "null"){
             $filter_date_to = Dates::createForQuery($filter_date_to, "d/m/Y");
 
-            $qb->where("gres.gen_res_to_date <= :filter_date_to")
+            $qb->andWhere("gres.gen_res_to_date <= :filter_date_to")
                 ->setParameter("filter_date_to", $filter_date_to);
         }
 
@@ -679,20 +684,20 @@ class generalReservationRepository extends EntityRepository {
             if(count($array_offer_number) > 1) {
                 if($array_offer_number[0] < $array_offer_number[1])
                 {
-                    $qb->where("gres.gen_res_id >= :filter_offer_number1")
+                    $qb->andWhere("gres.gen_res_id >= :filter_offer_number1")
                         ->andWhere("gres.gen_res_id <= :filter_offer_number2")
                         ->setParameter("filter_offer_number1", $array_offer_number[0])
                         ->setParameter("filter_offer_number2", $array_offer_number[1]);
                 }
                 else{
-                    $qb->where("gres.gen_res_id >= :filter_offer_number1")
+                    $qb->andWhere("gres.gen_res_id >= :filter_offer_number1")
                         ->andWhere("gres.gen_res_id <= :filter_offer_number2")
                         ->setParameter("filter_offer_number1", $array_offer_number[1])
                         ->setParameter("filter_offer_number2", $array_offer_number[0]);
                 }
             }
             else if($filter_offer_number != "" and $filter_offer_number != "null"){
-                $qb->where("gres.gen_res_id = :filter_offer_number")
+                $qb->andWhere("gres.gen_res_id = :filter_offer_number")
                     ->setParameter("filter_offer_number", $filter_offer_number);
             }
         }
@@ -700,19 +705,19 @@ class generalReservationRepository extends EntityRepository {
         if($filter_booking_number != "" and $filter_booking_number != "null"){
             $filter_booking_number = strtolower($filter_booking_number);
 
-            $qb->where("owres.own_res_reservation_booking = :filter_booking")
+            $qb->andWhere("owres.own_res_reservation_booking = :filter_booking")
                 ->setParameter("filter_booking", $filter_booking_number);
         }
 
         if($filter_reference != "" && $filter_reference != "null"){
             $filter_reference = strtolower($filter_reference);
 
-            $qb->where("own.own_mcp_code LIKE ':filter_mcp_code'")
+            $qb->andWhere("own.own_mcp_code LIKE ':filter_mcp_code'")
                 ->setParameter("filter_mcp_code", "%".$filter_reference."%");
         }
 
         if($filter_status != "" && $filter_status != "-1" && $filter_status != "null"){
-            $qb->where("gres.gen_res_status = ':filter_status'")
+            $qb->andWhere("gres.gen_res_status = ':filter_status'")
                 ->setParameter("filter_status", "%".$filter_status."%");
         }
 

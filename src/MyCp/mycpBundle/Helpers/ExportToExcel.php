@@ -1221,14 +1221,14 @@ ORDER BY own.own_mcp_code ASC
     }
 
 
-    public function exportReservations($reservations, $fileName = "reservaciones") {
+    public function exportReservations($reservations, $startingDate, $fileName = "reservaciones") {
         if(count($reservations) > 0) {
             $excel = $this->configExcel("Listado de reservaciones", "Listado de reservaciones de MyCasaParticular", "reservaciones");
 
             $data = $this->dataForReservations($excel, $reservations);
 
             if (count($data) > 0)
-                $excel = $this->createSheetForReservations($excel, "Reservaciones", $data);
+                $excel = $this->createSheetForReservations($excel, "Reservaciones", $data, $startingDate);
 
             $fileName = $this->getFileName($fileName);
             $this->save($excel, $fileName);
@@ -1313,33 +1313,43 @@ ORDER BY own.own_mcp_code ASC
         return $results;
     }
 
-    private function createSheetForReservations($excel, $sheetName, $data) {
+    private function createSheetForReservations($excel, $sheetName, $data, $startingDate) {
         $sheet = $this->createSheet($excel, $sheetName);
 
         $sheet->setCellValue('a1', "Listado de reservas");
+        $sheet->mergeCells("A1:Q1");
         $now = new \DateTime();
-        $sheet->setCellValue('a2', 'Generado: '.$now->format('d/m/Y H:s'));
+        $sheet->setCellValue('a2', 'Reporte generado con las reservas creadas a partir del: '.$startingDate->format('d/m/Y'));
+        $sheet->mergeCells("A2:Q2");
+        $sheet->setCellValue('a3', 'Fecha de creación: '.$now->format('d/m/Y H:s'));
+        $sheet->mergeCells("A3:Q3");
 
-        $sheet->setCellValue('a4', 'Fecha Reserva');
-        $sheet->setCellValue('b4', 'Código Reserva');
-        $sheet->setCellValue('c4', 'Estado Reserva');
-        $sheet->setCellValue('d4', 'Precio Total');
-        $sheet->setCellValue('e4', 'Cliente');
-        $sheet->setCellValue('f4', 'Código Alojamiento');
-        $sheet->setCellValue('g4', 'Nombre Alojamiento');
-        $sheet->setCellValue('h4', 'Propietario(s)');
-        $sheet->setCellValue('i4', 'Teléfono)');
-        $sheet->setCellValue('j4', 'Móvil');
-        $sheet->setCellValue('k4', 'Comisión MyCP');
-        $sheet->setCellValue('l4', 'Tipo Habitación');
-        $sheet->setCellValue('m4', 'Adultos');
-        $sheet->setCellValue('n4', 'Niños');
-        $sheet->setCellValue('o4', 'Precio');
-        $sheet->setCellValue('p4', 'Fecha Llegada');
-        $sheet->setCellValue('q4', 'Noches');
+        $sheet->setCellValue('a5', 'Fecha Reserva');
+        $sheet->setCellValue('b5', 'Código Reserva');
+        $sheet->setCellValue('c5', 'Estado Reserva');
+        $sheet->setCellValue('d5', 'Precio Total');
+        $sheet->setCellValue('e5', 'Cliente');
+        $sheet->setCellValue('f5', 'Código Alojamiento');
+        $sheet->setCellValue('g5', 'Nombre Alojamiento');
+        $sheet->setCellValue('h5', 'Propietario(s)');
+        $sheet->setCellValue('i5', 'Teléfono)');
+        $sheet->setCellValue('j5', 'Móvil');
+        $sheet->setCellValue('k5', 'Comisión MyCP');
+        $sheet->setCellValue('l5', 'Tipo Habitación');
+        $sheet->setCellValue('m5', 'Adultos');
+        $sheet->setCellValue('n5', 'Niños');
+        $sheet->setCellValue('o5', 'Precio');
+        $sheet->setCellValue('p5', 'Fecha Llegada');
+        $sheet->setCellValue('q5', 'Noches');
 
+        $centerStyle = array(
+            'alignment' => array(
+                'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            )
+        );
+        $sheet->getStyle("A1:Q1")->applyFromArray($centerStyle);
 
-        $sheet = $this->styleHeader("a4:q4", $sheet);
+        $sheet = $this->styleHeader("A5:Q5", $sheet);
 
         $style = array(
             'font' => array(
@@ -1349,12 +1359,12 @@ ORDER BY own.own_mcp_code ASC
         );
         $sheet->getStyle("a1")->applyFromArray($style);
 
-        $sheet->fromArray($data, ' ', 'A5');
+        $sheet->fromArray($data, ' ', 'A6');
 
         $this->setColumnAutoSize("a", "q", $sheet);
 
         //$sheet->setAutoFilter($sheet->calculateWorksheetDimension());
-        $sheet->setAutoFilter("A4:Q".(count($data)+4));
+        $sheet->setAutoFilter("A5:Q".(count($data)+5));
 
         return $excel;
     }
