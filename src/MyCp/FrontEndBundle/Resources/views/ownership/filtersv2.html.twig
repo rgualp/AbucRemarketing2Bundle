@@ -151,6 +151,11 @@
             </div>
             <div class="checkbox">
                 <label>
+                    <input class="action_remove_filter_up" type="checkbox" id="room_others_pets" {%if check_filters is defined and check_filters['own_others_pets']%} checked="checked" {%endif%} {%if not( own_statistics['own_services_pets'] > 0 or (check_filters is defined and check_filters['own_others_pets']))%} disabled="disabled" {%endif%}/> {{"PETS_OTHERS_FILTER" | trans}} ({{own_statistics['own_services_pets']}})
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
                     <input class="action_remove_filter_up" type="checkbox" id="room_audiovisuals" {%if check_filters is defined and check_filters['room_audiovisuals']%} checked="checked" {%endif%} {%if not(own_statistics['room_audio_visuals'] > 0 or (check_filters is defined and check_filters['room_audiovisuals']))%} disabled="disabled" {%endif%}/> {{"AUDIOVISUALS_FILTER" | trans}} ({{own_statistics['room_audio_visuals']}})
                 </label>
             </div>
@@ -183,6 +188,41 @@
             <div class="checkbox">
                 <label>
                     <input class="action_remove_filter_up" type="checkbox" id="room_courtyard" {%if check_filters is defined and check_filters['room_courtyard']%} checked="checked" {%endif%} {%if not(own_statistics['room_yard'] > 0 or (check_filters is defined and check_filters['room_courtyard']))%} disabled="disabled" {%endif%}/> {{"COURTYARD_FILTER" | trans}} ({{own_statistics['room_yard']}})
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input class="action_remove_filter_up" type="checkbox" id="room_others_internet" {%if check_filters is defined and check_filters['own_others_internet']%} checked="checked" {%endif%} {%if not( own_statistics['own_service_internet_email'] > 0 or (check_filters is defined and check_filters['own_others_internet']))%} disabled="disabled" {%endif%}/> {{"INTERNET_OTHERS_FILTER" | trans}} ({{own_statistics['own_service_internet_email']}})
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input class="action_remove_filter_up" type="checkbox" name="others_included" value="JACUZZY" {%if service_jacuzzy%} checked="checked" {%endif%} {%if not( own_statistics['own_water_jacuzzi'] > 0 or service_jacuzzy)%} disabled="disabled" {%endif%}/>{{"JACUZZI_BATROOM_FILTER" | trans}} ({{own_statistics['own_water_jacuzzi']}})
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input class="action_remove_filter_up" type="checkbox" name="others_included" value="POOL" {%if service_pool%} checked="checked" {%endif%} {%if not(own_statistics['own_water_pool'] > 0 or service_pool)%} disabled="disabled" {%endif%}/>{{"POOL_OTHERS_FILTER" | trans}} ({{own_statistics['own_water_pool']}})
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input class="action_remove_filter_up" type="checkbox" name="others_not_included" value="BREAKFAST" {%if service_breakfast%} checked="checked" {%endif%} {%if not( own_statistics['own_services_breakfast'] > 0 or service_breakfast)%} disabled="disabled" {%endif%}/>{{"BREAKFAST_FILTER" | trans}} ({{own_statistics['own_services_breakfast']}})
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input class="action_remove_filter_up" type="checkbox" name="others_not_included" value="DINNER" {%if service_dinner%} checked="checked" {%endif%} {%if not(own_statistics['own_services_dinner'] > 0 or service_dinner)%} disabled="disabled" {%endif%}/>{{"DINNER_OTHERS_FILTER" | trans}} ({{own_statistics['own_services_dinner']}})
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input class="action_remove_filter_up" type="checkbox" name="others_not_included" value="LAUNDRY" {%if service_laundry%} checked="checked" {%endif%} {%if not(own_statistics['own_services_laundry'] > 0 or service_laundry)%} disabled="disabled" {%endif%}/>{{"LAUNDRY_OTHERS_FILTER" | trans}} ({{own_statistics['own_services_laundry']}})
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input class="action_remove_filter_up" type="checkbox" name="others_not_included" value="PARKING" {%if service_parking%} checked="checked" {%endif%} {%if not(own_statistics['own_services_parking'] > 0 or service_parking)%} disabled="disabled" {%endif%}/>{{"PARKING_THERS_FILTER" | trans}} ({{own_statistics['own_services_parking']}})
                 </label>
             </div>
         </div>
