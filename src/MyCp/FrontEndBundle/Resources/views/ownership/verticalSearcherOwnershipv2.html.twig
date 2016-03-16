@@ -63,7 +63,7 @@ filter='?uglifyjs2'
           {%else%}
               <button id="btn_search" class="btn btn-primary btn-large pull-right" data-url="{{ path('frontend_search_ownership',{'text':'_text', 'arrival':'_arrival','departure':'_departure','guests':'_guests','rooms':'_rooms','order_price':'_order_price', 'order_comments':'_order_comments', 'order_books':'_order_books' })}}" onclick="search()">{{"SEARCH" | trans|capitalize}}</button>
           {%endif%}
-              <a class="btn btn-white btn-large pull-right" data-toggle="collapse" href="#collapseFilters" style="margin-right: 10px;">{{ 'MORE_FILTERS'|trans }}</a>
+              <a id="more_filters" class="btn btn-white btn-large pull-right collapsed" data-toggle="collapse" href="#collapseFilters" style="margin-right: 10px;">{{ 'MORE_FILTERS'|trans }}</a>
           </div>
       </div>
    </div>
@@ -81,4 +81,15 @@ filter='?uglifyjs2'
         local: {{ autocomplete_text_list |raw}},
         limit: 4
     });
+    $('#more_filters').on('click',function(){
+        if($('#more_filters').hasClass('collapsed')){
+            $('#button_research').addClass('hide');
+            $('#more_filters').removeClass('collapsed');
+        }
+        else{
+            $('#button_research').removeClass('hide');
+            $('#more_filters').addClass('collapsed');
+        }
+    });
+
 </script>
