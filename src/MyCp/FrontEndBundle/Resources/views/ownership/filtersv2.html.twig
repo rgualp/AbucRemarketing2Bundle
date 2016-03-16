@@ -308,7 +308,7 @@
 <div class="row">
     <div class="col-sm-12 pull-right">
     <a data-toggle="collapse" data-target="#collapseFilters" href="#" class="btn btn-gray pull-right" id="filters-submit" style="background-color: #5f5f5f; color: #fff; border-radius: 3px; border: 1px solid #a4a4a4; ">{{ 'SHOW_RESULTS'|trans }}</a>
-    <a data-toggle="collapse" data-target="#collapseFilters" href="#" class="btn btn-white pull-right" style="margin-right: 10px;background-color: #f4f4f4; border-radius: 3px; border: 1px solid #a4a4a4;">{{ 'CANCEL'|trans }}</a>
+    <a data-toggle="collapse" data-target="#collapseFilters" href="#" class="btn btn-white pull-right" id="cancel-filters" style="margin-right: 10px;background-color: #f4f4f4; border-radius: 3px; border: 1px solid #a4a4a4;">{{ 'CANCEL'|trans }}</a>
 
     </div>
 </div>
@@ -413,4 +413,8 @@
 ////        grid_num: 5
 //    });
 $("#priceFilter").slider({});
+$('#cancel-filters').on('click',function(){
+    $('#button_research').removeClass('hide');
+    $('#more_filters').addClass('collapsed');
+});
 </script>
