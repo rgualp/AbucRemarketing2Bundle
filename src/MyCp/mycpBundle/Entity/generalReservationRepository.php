@@ -4,6 +4,7 @@ namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\EntityRepository;
+use MyCp\mycpBundle\Helpers\Dates;
 use MyCp\mycpBundle\Helpers\Operations;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
 use MyCp\mycpBundle\Helpers\OrderByHelper;
@@ -77,7 +78,7 @@ class generalReservationRepository extends EntityRepository {
                 $string_order = "ORDER BY gre.gen_res_date DESC, gre.gen_res_id DESC";
                 break;
             case OrderByHelper::RESERVATION_ACCOMMODATION_CODE:
-                $string_order = "ORDER BY own.own_mcp_code ASC, gre.gen_res_id DESC";
+                $string_order = "ORDER BY LENGTH(own.own_mcp_code) ASC, own.own_mcp_code ASC, gre.gen_res_id DESC";
                 break;
             case OrderByHelper::RESERVATION_DATE_ARRIVE:
                 $string_order = "ORDER BY gre.gen_res_from_date DESC, gre.gen_res_id DESC";
@@ -624,6 +625,133 @@ class generalReservationRepository extends EntityRepository {
             ->join("owres.own_res_gen_res_id", "gres")
             ->where("gres.gen_res_own_id = :idAccommodation")
             ->setParameter("idAccommodation", $idAccommodation);
+        return $qb->getQuery()->getResult();
+    }
+
+    function getReservationsToExport($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb->select("owres")
+            ->from("mycpBundle:ownershipReservation", "owres")
+            ->join("owres.own_res_gen_res_id", "gres")
+            ->join("gres.gen_res_own_id", "own")
+            ->join("own.own_address_province", "prov")
+            ->join("gres.gen_res_user_id", "user");
+
+        if($filter_date_reserve != "" && $filter_date_reserve != "null"){
+            $filter_date_reserve = Dates::createForQuery($filter_date_reserve, "d/m/Y");
+
+            $qb->where("gres.gen_res_date >= :filter_date_reserve")
+               ->setParameter("filter_date_reserve", $filter_date_reserve);
+        }
+
+        if($filter_date_from != "" && $filter_date_from != "null" && $filter_date_to != "" && $filter_date_to != "null") {
+            $filter_date_from = Dates::createForQuery($filter_date_from, "d/m/Y");
+            $filter_date_to = Dates::createForQuery($filter_date_to, "d/m/Y");
+
+            $qb->where("gres.gen_res_date >= :filter_date_from")
+                ->andWhere("gres.gen_res_to_date <= :filter_date_to")
+                ->setParameter("filter_date_from", $filter_date_from)
+                ->setParameter("filter_date_to", $filter_date_to);
+        }
+        else if($filter_date_from != "" && $filter_date_from != "null" && ($filter_date_to == "" || $filter_date_to == "null")) {
+            $filter_date_from = Dates::createForQuery($filter_date_from, "d/m/Y");
+
+            $qb->where("gres.gen_res_date >= :filter_date_from")
+                ->setParameter("filter_date_from", $filter_date_from);
+        }
+        else if(($filter_date_from == "" || $filter_date_from == "null") && $filter_date_to != "" && $filter_date_to != "null"){
+            $filter_date_to = Dates::createForQuery($filter_date_to, "d/m/Y");
+
+            $qb->where("gres.gen_res_to_date <= :filter_date_to")
+                ->setParameter("filter_date_to", $filter_date_to);
+        }
+
+        if($filter_offer_number != "" && $filter_offer_number != "null"){
+            $filter_offer_number = strtolower($filter_offer_number);
+            $filter_offer_number = str_replace('cas.', '', $filter_offer_number);
+            $filter_offer_number = str_replace('cas', '', $filter_offer_number);
+            $filter_offer_number = str_replace('.', '', $filter_offer_number);
+            $filter_offer_number = str_replace(' ', '', $filter_offer_number);
+            $array_offer_number = explode('-', $filter_offer_number);
+
+            if(count($array_offer_number) > 1) {
+                if($array_offer_number[0] < $array_offer_number[1])
+                {
+                    $qb->where("gres.gen_res_id >= :filter_offer_number1")
+                        ->andWhere("gres.gen_res_id <= :filter_offer_number2")
+                        ->setParameter("filter_offer_number1", $array_offer_number[0])
+                        ->setParameter("filter_offer_number2", $array_offer_number[1]);
+                }
+                else{
+                    $qb->where("gres.gen_res_id >= :filter_offer_number1")
+                        ->andWhere("gres.gen_res_id <= :filter_offer_number2")
+                        ->setParameter("filter_offer_number1", $array_offer_number[1])
+                        ->setParameter("filter_offer_number2", $array_offer_number[0]);
+                }
+            }
+            else if($filter_offer_number != "" and $filter_offer_number != "null"){
+                $qb->where("gres.gen_res_id = :filter_offer_number")
+                    ->setParameter("filter_offer_number", $filter_offer_number);
+            }
+        }
+
+        if($filter_booking_number != "" and $filter_booking_number != "null"){
+            $filter_booking_number = strtolower($filter_booking_number);
+
+            $qb->where("owres.own_res_reservation_booking = :filter_booking")
+                ->setParameter("filter_booking", $filter_booking_number);
+        }
+
+        if($filter_reference != "" && $filter_reference != "null"){
+            $filter_reference = strtolower($filter_reference);
+
+            $qb->where("own.own_mcp_code LIKE ':filter_mcp_code'")
+                ->setParameter("filter_mcp_code", "%".$filter_reference."%");
+        }
+
+        if($filter_status != "" && $filter_status != "-1" && $filter_status != "null"){
+            $qb->where("gres.gen_res_status = ':filter_status'")
+                ->setParameter("filter_status", "%".$filter_status."%");
+        }
+
+        switch ($sort_by) {
+            case OrderByHelper::DEFAULT_ORDER_BY:
+            case OrderByHelper::RESERVATION_NUMBER:
+                $qb->orderBy("gres.gen_res_id", "DESC");
+                break;
+            case OrderByHelper::RESERVATION_DATE:
+                $qb->orderBy("gres.gen_res_date", "DESC")
+                    ->addOrderBy("gres.gen_res_id", "DESC");
+                break;
+            case OrderByHelper::RESERVATION_ACCOMMODATION_CODE:
+                $qb->orderBy("LENGTH(own.own_mcp_code)", "ASC")
+                    ->addOrderBy("own.own_mcp_code", "ASC")
+                    ->addOrderBy("gres.gen_res_id", "DESC");
+                break;
+            case OrderByHelper::RESERVATION_DATE_ARRIVE:
+                $qb->orderBy("gres.gen_res_from_date", "DESC")
+                    ->addOrderBy("gres.gen_res_id", "DESC");
+                break;
+            case OrderByHelper::RESERVATION_STATUS:
+                $qb->orderBy("gres.gen_res_status", "ASC")
+                    ->addOrderBy("gres.gen_res_id", "DESC");
+                break;
+            case OrderByHelper::RESERVATION_PRICE_TOTAL:
+                $qb->orderBy("gres.gen_res_total_in_site", "DESC")
+                    ->addOrderBy("gres.gen_res_id", "DESC");
+                break;
+            case OrderByHelper::RESERVATION_CLIENT:
+                $qb->orderBy("gres.gen_res_date", "DESC")
+                    ->addOrderBy("u.user_user_name", "ASC")
+                    ->addOrderBy("u.user_last_name", "ASC")
+                    ->addOrderBy("u.user_email", "ASC")
+                    ->addOrderBy("gres.gen_res_id", "DESC");
+                   // ->addOrderBy("gres.gen_res_from_date", "DESC");
+                break;
+        }
+
         return $qb->getQuery()->getResult();
     }
 }

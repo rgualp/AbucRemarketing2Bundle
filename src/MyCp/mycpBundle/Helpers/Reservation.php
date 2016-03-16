@@ -10,6 +10,7 @@ namespace MyCp\mycpBundle\Helpers;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\Common\Collections\ArrayCollection;
+use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\ownershipReservation;
 
 class Reservation  {

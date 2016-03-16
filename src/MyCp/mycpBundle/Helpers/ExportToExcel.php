@@ -9,7 +9,10 @@
 namespace MyCp\mycpBundle\Helpers;
 
 use Doctrine\ORM\EntityManager;
+use MyCp\FrontEndBundle\Helpers\Time;
+use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\room;
+use MyCp\mycpBundle\Entity\season;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -1215,6 +1218,145 @@ ORDER BY own.own_mcp_code ASC
         $fileName = $this->getFileName('Reporte Sales');
         $this->save($excel, $fileName);
         return $this->excelDirectoryPath.$fileName;
+    }
+
+
+    public function exportReservations($reservations, $fileName = "reservaciones") {
+        if(count($reservations) > 0) {
+            $excel = $this->configExcel("Listado de reservaciones", "Listado de reservaciones de MyCasaParticular", "reservaciones");
+
+            $data = $this->dataForReservations($excel, $reservations);
+
+            if (count($data) > 0)
+                $excel = $this->createSheetForReservations($excel, "Reservaciones", $data);
+
+            $fileName = $this->getFileName($fileName);
+            $this->save($excel, $fileName);
+
+            return $this->export($fileName);
+        }
+    }
+
+    private function dataForReservations($excel,$reservations) {
+        $results = array();
+        $currentReservation = "";
+
+        foreach ($reservations as $reservation) {
+            $data = array();
+
+            $generalReservation = $reservation->getOwnResGenResId();
+
+            //Fecha Reserva
+            $data[0] = ($currentReservation != $generalReservation->getGenResId()) ? $generalReservation->getGenResDate()->format("d/m/Y"): "";
+            //Código Reserva
+            $data[1] = ($currentReservation != $generalReservation->getGenResId()) ? $generalReservation->getCASId(): "";
+            //Estado Reserva
+            $data[2] = ($currentReservation != $generalReservation->getGenResId()) ? generalReservation::getStatusName($generalReservation->getGenResStatus()) : "";
+            //Precio Total
+            $data[3] = ($currentReservation != $generalReservation->getGenResId()) ? $generalReservation->getGenResTotalInSite(). " CUC": "";
+            //Cliente
+            $data[4] = ($currentReservation != $generalReservation->getGenResId()) ? $generalReservation->getGenResUserId()->getUserCompleteName(): "";
+
+            $accommodation = $generalReservation->getGenResOwnId();
+
+            //Código alojamiento
+            $data[5] = ($currentReservation != $generalReservation->getGenResId()) ? $accommodation->getOwnMcpCode(): "";
+            //Nombre alojamiento
+            $data[6] = ($currentReservation != $generalReservation->getGenResId()) ? $accommodation->getOwnName(): "";
+            //Propietarios
+            $homeOwners = $accommodation->getOwnHomeowner1().(($accommodation->getOwnHomeowner2() != "")? " / ". $accommodation->getOwnHomeowner2() : "");
+            $data[7] = ($currentReservation != $generalReservation->getGenResId()) ? $homeOwners: "";
+            //Telefono
+            $phone = ($accommodation->getOwnPhoneNumber() != "")?"(+53) ".$accommodation->getOwnAddressProvince()->getProvPhoneCode(). " ".$accommodation->getOwnPhoneNumber() : "";
+            $data[8] = ($currentReservation != $generalReservation->getGenResId()) ? $phone: "";
+            //Movil
+            $data[9] = ($currentReservation != $generalReservation->getGenResId()) ? $accommodation->getOwnMobileNumber(): "";
+            //Comisión MyCP
+            $data[10] = ($currentReservation != $generalReservation->getGenResId()) ? $accommodation->getOwnCommissionPercent()."%": "";
+
+            //Tipo de habitación
+            $data[11] = $reservation->getOwnResRoomType();
+            //Adultos
+            $data[12] = $reservation->getOwnResCountAdults();
+            //Niños
+            $data[13] = $reservation->getOwnResCountChildrens();
+            //Precio Habitación
+            $roomPrice = 0;
+
+            if($reservation->getOwnResNightPrice() != null)
+                $roomPrice = $reservation->getOwnResNightPrice();
+            else {
+                $idDestination = ($accommodation->getOwnDestination() != null) ? $accommodation->getOwnDestination()->getDesId() : null;
+                $minSeason = Time::season($this->em, $reservation->getOwnResReservationFromDate(), $reservation->getOwnResReservationFromDate(), $reservation->getOwnResReservationToDate(), $idDestination);
+                $maxSeason = Time::season($this->em, $reservation->getOwnResReservationToDate(), $reservation->getOwnResReservationFromDate(), $reservation->getOwnResReservationToDate(), $idDestination);
+
+                if ($minSeason == season::SEASON_TYPE_HIGH || $maxSeason == season::SEASON_TYPE_HIGH)
+                    $roomPrice = $reservation->getPriceBySeason(season::SEASON_TYPE_HIGH);
+                elseif($minSeason == season::SEASON_TYPE_SPECIAL || $maxSeason == season::SEASON_TYPE_SPECIAL)
+                    $roomPrice = $reservation->getPriceBySeason(season::SEASON_TYPE_SPECIAL);
+                else
+                    $roomPrice = $reservation->getPriceBySeason(season::SEASON_TYPE_LOW);
+            }
+            $data[14] = $roomPrice." CUC";
+
+            //Fecha de llegada
+            $data[15] = $reservation->getOwnResReservationFromDate()->format("d/m/Y");
+            //Noches
+            $data[16] = Time::nights($reservation->getOwnResReservationFromDate()->format("Y-m-d"), $reservation->getOwnResReservationToDate()->format("Y-m-d"), "Y-m-d");
+
+            array_push($results, $data);
+
+            if($currentReservation != $reservation->getOwnResGenResId()->getGenResId())
+                $currentReservation = $reservation->getOwnResGenResId()->getGenResId();
+        }
+
+        return $results;
+    }
+
+    private function createSheetForReservations($excel, $sheetName, $data) {
+        $sheet = $this->createSheet($excel, $sheetName);
+
+        $sheet->setCellValue('a1', "Listado de reservas");
+        $now = new \DateTime();
+        $sheet->setCellValue('a2', 'Generado: '.$now->format('d/m/Y H:s'));
+
+        $sheet->setCellValue('a4', 'Fecha Reserva');
+        $sheet->setCellValue('b4', 'Código Reserva');
+        $sheet->setCellValue('c4', 'Estado Reserva');
+        $sheet->setCellValue('d4', 'Precio Total');
+        $sheet->setCellValue('e4', 'Cliente');
+        $sheet->setCellValue('f4', 'Código Alojamiento');
+        $sheet->setCellValue('g4', 'Nombre Alojamiento');
+        $sheet->setCellValue('h4', 'Propietario(s)');
+        $sheet->setCellValue('i4', 'Teléfono)');
+        $sheet->setCellValue('j4', 'Móvil');
+        $sheet->setCellValue('k4', 'Comisión MyCP');
+        $sheet->setCellValue('l4', 'Tipo Habitación');
+        $sheet->setCellValue('m4', 'Adultos');
+        $sheet->setCellValue('n4', 'Niños');
+        $sheet->setCellValue('o4', 'Precio');
+        $sheet->setCellValue('p4', 'Fecha Llegada');
+        $sheet->setCellValue('q4', 'Noches');
+
+
+        $sheet = $this->styleHeader("a4:q4", $sheet);
+
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+
+        $sheet->fromArray($data, ' ', 'A5');
+
+        $this->setColumnAutoSize("a", "q", $sheet);
+
+        //$sheet->setAutoFilter($sheet->calculateWorksheetDimension());
+        $sheet->setAutoFilter("A4:Q".(count($data)+4));
+
+        return $excel;
     }
 
 }
