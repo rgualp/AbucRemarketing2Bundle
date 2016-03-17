@@ -273,6 +273,14 @@
                     <input class="action_remove_filter_up" type="checkbox" name="others_languages" value="___1" {%if check_filters is defined and check_filters['own_others_languages'] == '___1'%} checked="checked" {%endif%} {%if not( own_statistics['own_lang_italian'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '___1'))%} disabled="disabled" {%endif%}/>{{"LANG_ITALIAN" | trans}} ({{own_statistics['own_lang_italian']}})
                 </label>
             </div>
+            <span class="h-dark-grey-2">Premios</span>
+            {%for award in awards%}
+                <div class="checkbox">
+                    <label>
+                        <input class="action_remove_filter_up" type="checkbox" data-aux-text="{{"BEDS_ROOMS" | trans}}" data-aux-text="{{"BEDS_ROOMS" | trans}}" />{{ award.name }}
+                    </label>
+                </div>
+            {%endfor%}
         </div>
         <div class="col-sm-4">
             <span class="h-dark-grey-2">{{"SELECT_BATHROOM_TYPE_OPTION" | trans}}</span>
