@@ -11,25 +11,34 @@ class CommentController extends Controller {
 
 
     public function insertAction($ownid, Request $request) {
-
-        $session = $request->getSession();
-
-        if($session->get('comments_cant') == null)
-            $session->set('comments_cant', 1);
-        else $session->set('comments_cant', 2);
-
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $data = array();
         $data['com_ownership_id'] = $ownid;
-        $data['com_rating'] = $request->request->get('com_rating');
-        $data['com_comments'] = $request->request->get('com_comments');
+        $data['com_rating'] = $request->get('com_rating');
+        $data['com_comments'] = $request->get('com_comments');
 
-        if($session->get('comments_cant') == 1)
+        $own_obj = $em->getRepository('mycpBundle:ownership')->find($ownid);
+
+        $existComment = $em->getRepository('mycpBundle:comment')->findOneBy(array("com_ownership" => $ownid,
+            "com_user" => $user->getUserId(),
+            "com_rate" => $data['com_rating'],
+            "com_comments" => $data['com_comments']));
+
+        if($existComment == null) {
             $em->getRepository('mycpBundle:comment')->insert($data, $user);
 
-        if($session->get('comments_cant') == 2)
-            $session->remove('comments_cant');
+            if($own_obj->getOwnEmail1()!=null) {
+                $body = $this->render('FrontEndBundle:mails:commentNotification.html.twig', array(
+                    'host_user_name' => $own_obj->getOwnHomeowner1(),
+                    'user_name' => $user->getName() . ' ' . $user->getUserLastName(),
+                    'comment' => $request->get('com_comments')
+                ));
+
+                $service_email = $this->get('mycp.service.email_manager');
+                $service_email->sendEmail($own_obj->getOwnEmail1(),'Nuevos comentarios recibidos', $body->getContent());
+            }
+        }
 
          $paginator = $this->get('ideup.simple_paginator');
          $items_per_page = 5;
@@ -40,17 +49,6 @@ class CommentController extends Controller {
              $page = $_GET['page'];
 
         $friends = array();
-        $own_obj = $em->getRepository('mycpBundle:ownership')->find($ownid);
-        if($own_obj->getOwnEmail1()!=null) {
-            $body = $this->render('FrontEndBundle:mails:commentNotification.html.twig', array(
-                'host_user_name' => $own_obj->getOwnHomeowner1(),
-                'user_name' => $user->getUserName() . ' ' . $user->getUserLastName(),
-                'comment' => $request->request->get('com_comments')
-            ));
-
-            $service_email = $this->get('Email');
-            $service_email->sendTemplatedEmail('Nuevos comentarios recibidos', 'noreply@mycasaparticular.com', $own_obj->getOwnEmail1(), $body->getContent());
-        }
 
         $ownership = array('ownname'=> $own_obj->getOwnName(),
                             'rating' => $own_obj->getOwnRating(),

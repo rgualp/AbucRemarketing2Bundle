@@ -19,6 +19,7 @@ class ElementToOrder
     const DESTINATION = 7;
     const FAQ = 8;
     const SEARCHER = 9;
+    const AWARD_ACCOMMODATION = 10;
 }
 
 class OrderByHelper {
@@ -35,6 +36,7 @@ class OrderByHelper {
     const RESERVATION_PRICE_TOTAL = 24;
     const RESERVATION_ACCOMMODATION_CODE = 25;
     const RESERVATION_STATUS = 26;
+    const RESERVATION_CLIENT = 27;
 
     const CLIENT_NAME = 31;
     const CLIENT_CITY = 32;
@@ -69,6 +71,9 @@ class OrderByHelper {
     const SEARCHER_RESERVATIONS_HIGH_LOW = 97;
     const SEARCHER_RESERVATIONS_LOW_HIGH = 98;
 
+    const AWARD_ACCOMMODATION_CODE = 99;
+    const AWARD_ACCOMMODATION_RANKING = 100;
+
     public static function getOrdersFor($elementToOrder)
     {
         switch($elementToOrder)
@@ -85,12 +90,16 @@ class OrderByHelper {
                              array(self::CLIENT_EMAIL, "Correo del cliente"),
                              array(self::CLIENT_COUNTRY, "País del cliente"));
             case ElementToOrder::RESERVATION:
-                return array(array(self::RESERVATION_NUMBER, "Número de reserva"),
-                             array(self::RESERVATION_DATE, "Fecha reserva"),
-                             array(self::RESERVATION_DATE_ARRIVE, "Fecha llegada"),
-                             array(self::RESERVATION_PRICE_TOTAL, "Precio total"),
-                             array(self::RESERVATION_STATUS, "Estado de reserva"),
-                             array(self::RESERVATION_ACCOMMODATION_CODE, "Código de la propiedad"));
+                return array(
+                    array(self::RESERVATION_CLIENT, "Cliente"),
+                    array(self::RESERVATION_NUMBER, "Número de reserva"),
+                    array(self::RESERVATION_DATE, "Fecha reserva"),
+                    array(self::RESERVATION_DATE_ARRIVE, "Fecha llegada"),
+                    array(self::RESERVATION_PRICE_TOTAL, "Precio total"),
+                    array(self::RESERVATION_STATUS, "Estado de reserva"),
+                    array(self::RESERVATION_ACCOMMODATION_CODE, "Código de la propiedad")
+
+                );
             case ElementToOrder::RESERVATION_LODGING_MODULE:
                 return array(array(self::RESERVATION_NUMBER, "Número de reserva"),
                              array(self::RESERVATION_DATE, "Fecha reserva"),
@@ -129,6 +138,9 @@ class OrderByHelper {
                              array(self::SEARCHER_Z_A, "Z_A_ORDER_BY"),
                              array(self::SEARCHER_RESERVATIONS_HIGH_LOW, "RESERVATIONS_HIGH_LOW_ORDERBY"),
                              array(self::SEARCHER_RESERVATIONS_LOW_HIGH, "RESERVATIONS_LOW_HIGH_ORDERBY"));
+            case ElementToOrder::AWARD_ACCOMMODATION:
+                return array(array(self::AWARD_ACCOMMODATION_CODE, "Código del alojamiento"),
+                    array(self::AWARD_ACCOMMODATION_RANKING, "Mayor Ranking"));
         }
     }
 

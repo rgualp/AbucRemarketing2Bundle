@@ -35,13 +35,13 @@
             <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_list_reservations')}}">
                 <div class="well well-small">
                     <div class="row-fluid">
-                        <div class="span3"><label>ID Reserva:</label>
+                        <div class="span3"><label>Reserva (Ej. CAS.001 o CAS.001-CAS.010):</label>
                             <input id="filter_offer_number" name="filter_offer_number" type="text" class="input-block-level" value="{{filter_offer_number}}"/>
                         </div>
-                        <div class="span3"><label>ID Casa:</label>
+                        <div class="span3"><label>Alojamiento:</label>
                             <input id="filter_reference" name="filter_reference" type="text" class="input-block-level" value="{{filter_reference}}"/>
                         </div>
-                        <div class="span3"><label>ID Booking:</label>
+                        <div class="span3"><label>Booking:</label>
                             <input id="filter_booking_number" name="filter_booking_number" type="text" class="input-block-level" value="{{ filter_booking_number }}"/>
                         </div>
                         <div class="span3"><label>Estado reserva:</label>
@@ -62,13 +62,29 @@
                             <input id="filter_date_to" name="filter_date_to" type="text" class="datepicker input-block-level" value="{{filter_date_to}}"/>
                         </div>
                         <div class="span2">
+                            {% if filter_date_reserve ==''%}{% set filter_date_reserve='null'%}{%endif%}
+                            {% if filter_offer_number ==''%}{% set filter_offer_number='null'%}{%endif%}
+                            {% if filter_reference ==''%}{% set filter_reference='null'%}{%endif%}
+                            {% if filter_date_from ==''%}{% set filter_date_from='null'%}{%endif%}
+                            {% if filter_date_to ==''%}{% set filter_date_to='null'%}{%endif%}
+                            {% if filter_date_reserve_twig ==''%}{% set filter_date_reserve_twig='null'%}{%endif%}
+                            {% if filter_date_from_twig ==''%}{% set filter_date_from_twig='null'%}{%endif%}
+                            {% if filter_date_to_twig ==''%}{% set filter_date_to_twig='null'%}{%endif%}
+                            {% if filter_booking_number ==''%}{% set filter_booking_number='null'%}{%endif%}
+                            {% if filter_status ==''%}{% set filter_status='null'%}{%endif%}
+                            {% if sort_by=='' %}
+                                {% set sort_by=0 %}
+                            {% endif %}
                             <label>&nbsp;</label>
                             <div class="row-fluid">
-                                <div class="span6">
+                                <div class="span4">
                                     <a rel="tooltip" title="Filtrar listado" href="javascript:action_submit();" class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
                                 </div>
-                                <div class="span6">
+                                <div class="span4">
                                     <a rel="tooltip" title="Resetear filtrado " href="{{ path('mycp_list_reservations') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
+                                </div>
+                                <div class="span4">
+                                    <a rel="tooltip" title="Descargar listado" href="{{ path('mycp_export_list_reservations',{'filter_date_reserve':filter_date_reserve_twig,'filter_offer_number':filter_offer_number,'filter_reference':filter_reference,'filter_date_from':filter_date_from_twig,'filter_date_to':filter_date_to_twig,'sort_by':sort_by,'filter_booking_number': filter_booking_number, 'filter_status':filter_status})}}" class="tooltip_msg btn btn-block btn-info"><i class="icon-download-alt icon-white"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -83,19 +99,6 @@
                     </div>
                     <div class="pull-right">
                         Mostrar:
-                        {% if filter_date_reserve ==''%}{% set filter_date_reserve='null'%}{%endif%}
-                        {% if filter_offer_number ==''%}{% set filter_offer_number='null'%}{%endif%}
-                        {% if filter_reference ==''%}{% set filter_reference='null'%}{%endif%}
-                        {% if filter_date_from ==''%}{% set filter_date_from='null'%}{%endif%}
-                        {% if filter_date_to ==''%}{% set filter_date_to='null'%}{%endif%}
-                        {% if filter_date_reserve_twig ==''%}{% set filter_date_reserve_twig='null'%}{%endif%}
-                        {% if filter_date_from_twig ==''%}{% set filter_date_from_twig='null'%}{%endif%}
-                        {% if filter_date_to_twig ==''%}{% set filter_date_to_twig='null'%}{%endif%}
-                        {% if filter_booking_number ==''%}{% set filter_booking_number='null'%}{%endif%}
-                        {% if filter_status ==''%}{% set filter_status='null'%}{%endif%}
-                        {% if sort_by=='' %}
-                           {% set sort_by=0 %}
-                        {% endif %}
                         <a class="{% if items_per_page == 50 %}selected{% endif %}" href="{{ path('mycp_list_reservations',{'items_per_page':50,'filter_date_reserve':filter_date_reserve_twig,'filter_offer_number':filter_offer_number,'filter_reference':filter_reference,'filter_date_from':filter_date_from_twig,'filter_date_to':filter_date_to_twig,'sort_by':sort_by,'filter_booking_number': filter_booking_number, 'filter_status':filter_status})}}">50</a>
                         <a class="{% if items_per_page == 100 %}selected{% endif %}" href="{{ path('mycp_list_reservations',{'items_per_page':100,'filter_date_reserve':filter_date_reserve_twig,'filter_offer_number':filter_offer_number,'filter_reference':filter_reference,'filter_date_from':filter_date_from_twig,'filter_date_to':filter_date_to_twig,'sort_by':sort_by,'filter_booking_number': filter_booking_number, 'filter_status':filter_status})}}">100</a>
                         <a class="{% if items_per_page == 300 %}selected{% endif %}" href="{{ path('mycp_list_reservations',{'items_per_page':300,'filter_date_reserve':filter_date_reserve_twig,'filter_offer_number':filter_offer_number,'filter_reference':filter_reference,'filter_date_from':filter_date_from_twig,'filter_date_to':filter_date_to_twig,'filter_booking_number': filter_booking_number, 'filter_status':filter_status,'sort_by':sort_by})}}">300</a>
@@ -144,8 +147,9 @@
                 <tr>
                     <th></th>
                     <th>Fecha</th>
-                    <th>Reservation ID</th>
-                    <th>ID Casa</th>
+                    <th>Cliente</th>
+                    <th>Reservación</th>
+                    <th>Alojamiento</th>
                     <th>Habit.</th>
                     <th>Huésp.</th>
                     <th>Llegada</th>
@@ -174,6 +178,7 @@
                         {%endif%}
                     </td>
                     <td>{{reservation.gen_res_date |date("d/m/Y")}}</td>
+                    <td>{{reservation.user_user_name}} {{reservation.user_last_name}}<br/><a href="{{ reservation.user_email }}">{{ reservation.user_email }}</a></td>
                     <td>{{reservation.gen_res_id | getCASId}}</td>
                     <td>{{reservation.own_mcp_code}}</td>
                     <td>{{reservation[1]}}</td>

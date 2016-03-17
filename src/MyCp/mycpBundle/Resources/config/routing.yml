@@ -163,3 +163,7 @@ mycp_forget_password:
 mycp_change_password_user:
     pattern:  /backend/cambiar-contrasenna/{string}
     defaults: { _controller: mycpBundle:Backend:changePassword }
+
+mycp_backend_award:
+    resource: "@mycpBundle/Resources/config/routingBackendAward.yml"
+    prefix:   backend/awards/

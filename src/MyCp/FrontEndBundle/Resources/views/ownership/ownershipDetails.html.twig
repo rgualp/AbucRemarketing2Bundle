@@ -44,14 +44,25 @@
 {% block body %}
     <div class="bg-solid-ligth-blue" style="margin-top: -16px">
         <div class="container">
-            <h1 class="caecilia-roman h-size-3">
-                {{ ownership.owntype  | trans }} {{ "IN" | trans }} {{ ownership.ownAddressProvince }}
-                : {{ ownership.ownname }} ({{ ownership.mycpcode }}).
-                {% if rooms is defined and rooms | length %}
-                    {{ rooms | length }} {% if rooms | length == 1 %} {{ "ROOM_SINGULAR" | trans }} {% else %} {{ "ROOM_PLURAL" | trans }} {% endif %}.
+            <div class="row">
+                <div {% if ownership.award %}class="col-lg-10"{% endif %}>
+                    <h1 class="caecilia-roman h-size-3">
+                        {{ ownership.owntype  | trans }} {{ "IN" | trans }} {{ ownership.ownAddressProvince }}
+                        : {{ ownership.ownname }} ({{ ownership.mycpcode }}).
+                        {% if rooms is defined and rooms | length %}
+                            {{ rooms | length }} {% if rooms | length == 1 %} {{ "ROOM_SINGULAR" | trans }} {% else %} {{ "ROOM_PLURAL" | trans }} {% endif %}.
+                        {% endif %}
+                        {{ "FROM_PRICES" | trans }} {{ ownership.ownminimumprice | price }} {{ "NIGHT_PER_ROOM" | trans }}
+                    </h1>
+                </div>
+                {% if ownership.award %}
+                <div class="col-lg-1">
+                        <img src="{{ asset("uploads/awards/") ~ ownership.award }}" style="margin-top: 5px;"/>
+                </div>
                 {% endif %}
-                {{ "FROM_PRICES" | trans }} {{ ownership.ownminimumprice | price }} {{ "NIGHT_PER_ROOM" | trans }}
-            </h1>
+            </div>
+
+
             <!--label class="place">
     {{ ownership.owntype | trans }}
     {% if (ownership.ownAddressStreet != null and ownership.ownAddressStreet != '') or (ownership.ownAddressNumber != null and ownership.ownAddressNumber != '') %}

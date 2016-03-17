@@ -1,0 +1,45 @@
+
+
+<div class="thumbnail" style="position:relative" rel="tooltip" title="{{"MORE_INFO_PREFFIX" | trans}} {{name}}">
+    <div>
+        {% if award %}
+            <img src="{{ asset("uploads/awards/" ~ award) }}" style="width: 64px; height: 63px;position: relative; z-index: 1;box-shadow: 5px 5px 10px #686765;border-radius:100px"/>
+        {% endif %}
+        <h1 class="h-blue pull-right" style="font-size: 25px"><small style="display: inline-block">{{ "FROM" | trans }}:</small> {{ minPrice | price }}</h1>
+    </div>
+    <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':name  | urlNormalize}) }}">
+    {% if notLazyLoad is defined and notLazyLoad %}
+        <img alt="{{ name }}" class="lazy" src="{{ asset("uploads/ownershipImages/thumbnails/" ~ photo)}}"/>
+    {% else %}
+    <img alt="{{ name }}"
+         class="lazy"
+         data-src="{{ (photo != "") ? asset("uploads/ownershipImages/thumbnails/" ~ photo) : asset("uploads/ownershipImages/thumbnails/no_photo.png")}}"
+         src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"
+         {% if award %}style="position: relative; top:-15px"{% endif %}   />
+     </a>
+    <noscript>
+        <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':name  | urlNormalize}) }}">
+        <img
+                class="nolazy"
+                src="{{ (photo != "") ? asset("uploads/ownershipImages/thumbnails/" ~ photo) : asset("uploads/ownershipImages/thumbnails/no_photo.png")}}"
+                {% if award %}style="position: relative; top:-15px"{% endif %}>
+    </a>
+        {% endif %}
+    </noscript>
+</div>
+<div class="row">
+    <a target="_blank"  href="{{ path('frontend_details_ownership',{'own_name':name  | urlNormalize}) }}">
+    <div class="col-sm-10 h-blue">
+        {{ name| title }}
+    </div>
+    </a>
+    <div class="col-sm-1" style="margin-top: 20px;">
+        {{ include('FrontEndBundle:favorite:itemFavorite.html.twig',
+        {'is_in_favorite': is_in_favorite,
+        'favorite_type': 'ownership',
+        'element_id':id,
+        'list_preffix' : list_preffix,
+        'include_text': false
+        }) }}
+    </div>
+</div>

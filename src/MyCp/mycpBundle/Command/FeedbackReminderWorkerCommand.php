@@ -135,7 +135,7 @@ class FeedbackReminderWorkerCommand extends Worker {
             ));
 
         $output->writeln("Send email to $userEmail, subject '$emailSubject'");
-        $this->emailManager->sendTemplatedEmail($userEmail, $emailSubject, $emailBody);
+        $this->emailManager->sendEmail($userEmail, $emailSubject, $emailBody);
     }
 
     /**

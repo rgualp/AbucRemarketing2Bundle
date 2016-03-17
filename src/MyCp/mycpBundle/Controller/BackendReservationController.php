@@ -875,6 +875,8 @@ class BackendReservationController extends Controller {
         $reservations_ids = $request->request->get('reservations_ids');
         $save_option = $request->request->get('save_option');
         $page = $request->request->get('page');
+        $service_log= $this->get('log');
+        $logMessage = "";
         $response = null;
 
         //Modificar el estado
@@ -886,6 +888,7 @@ class BackendReservationController extends Controller {
         try {
             foreach ($reservations_ids as $genResId) {
                 $service_email->sendReservation($genResId, null, false);
+                $logMessage = ($logMessage == "") ? $logMessage."CAS.".$genResId : $logMessage.", CAS.".$genResId;
 
                 // inform listeners that a reservation was sent out
                 $dispatcher = $this->get('event_dispatcher');
@@ -893,6 +896,7 @@ class BackendReservationController extends Controller {
                 $dispatcher->dispatch('mycp.event.reservation.sent_out', new JobEvent($eventData));
             }
 
+            $service_log->saveLog("Se han colocado ".count($reservations_ids)." reservas como no disponibles: ".$logMessage,  BackendModuleName::MODULE_RESERVATION);
             $message = ($save_option == Operations::SAVE_AND_UPDATE_CALENDAR) ? 'Se han modificado ' . count($reservations_ids) . ' reservaciones como No Disponibles, se almacenaron las No Disponibilidades y se ha notificado a los clientes respectivos. Todas las operaciones fueron satisfactorias.' :
                 'Se han modificado ' . count($reservations_ids) . ' reservaciones como No Disponibles y se ha notificado a los clientes respectivos. Ambas operaciones fueron satisfactorias.';
             $this->get('session')->getFlashBag()->add('message_ok', $message);
@@ -1125,6 +1129,46 @@ class BackendReservationController extends Controller {
             "bookings" => $bookings,
             'filter_date' => $sinceDate
         ));
+    }
+
+    public function exportReservationsAction(Request $request) {
+        //$service_security = $this->get('Secure');
+        //$service_security->verifyAccess();
+        $filter_date_reserve = $request->get('filter_date_reserve');
+        $filter_offer_number = $request->get('filter_offer_number');
+        $filter_reference = $request->get('filter_reference');
+        $filter_date_from = $request->get('filter_date_from');
+        $filter_date_to = $request->get('filter_date_to');
+        $filter_booking_number = $request->get('filter_booking_number');
+        $filter_status = $request->get('filter_status');
+        $sort_by = $request->get('sort_by');
+
+        if ($filter_date_reserve == 'null')
+            $filter_date_reserve = '';
+        if ($filter_offer_number == 'null')
+            $filter_offer_number = '';
+        if ($filter_booking_number == 'null')
+            $filter_booking_number = '';
+        if ($filter_reference == 'null')
+            $filter_reference = '';
+        if ($filter_date_from == 'null')
+            $filter_date_from = '';
+        if ($filter_date_to == 'null')
+            $filter_date_to = '';
+        if ($filter_status == 'null')
+            $filter_status = '';
+        if ($sort_by == 'null')
+            $sort_by = '';
+
+        $date = new \DateTime();
+        $date = date_modify($date, "-30 days");
+
+        $em = $this->getDoctrine()->getManager();
+        $reservations = $em->getRepository('mycpBundle:generalReservation')
+            ->getReservationsToExport($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $date);
+
+        $exporter = $this->get("mycp.service.export_to_excel");
+        return $exporter->exportReservations($reservations, $date);
     }
 }
 

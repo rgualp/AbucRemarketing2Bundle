@@ -23,16 +23,18 @@ class comment
     private $com_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="user")
+     * @ORM\ManyToOne(targetEntity="user", inversedBy="comments")
      * @ORM\JoinColumn(name="com_user", referencedColumnName="user_id", nullable=true)
+     * @ORM\OrderBy({"user_user_name" = "ASC", "user_last_name" = "ASC"})
      * @Assert\NotBlank()
      */
     private $com_user;
     
     
     /**
-     * @ORM\ManyToOne(targetEntity="ownership")
+     * @ORM\ManyToOne(targetEntity="ownership", inversedBy="comments")
      * @ORM\JoinColumn(name="com_ownership", referencedColumnName="own_id")
+     * @ORM\OrderBy({"own_mcp_code" = "ASC", "own_name" = "ASC"})
      * @Assert\NotBlank()
      */
     private $com_ownership;

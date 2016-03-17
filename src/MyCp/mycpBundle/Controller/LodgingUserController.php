@@ -41,7 +41,7 @@ class LodgingUserController extends Controller
         $factory = $this->get('security.encoder_factory');
 
         $em->getRepository('mycpBundle:user')->shortEdit($id_user,$request,$this->container,$factory);
-        $user_name = $em->getRepository('mycpBundle:user')->findOneBy(array('user_id' => $id_user))->getUserName();
+        $user_name = $em->getRepository('mycpBundle:user')->findOneBy(array('user_id' => $id_user))->getName();
         $message='Usuario actualizado satisfactoriamente.';
         $this->get('session')->getFlashBag()->add('message_ok',$message);
         $service_log= $this->get('log');

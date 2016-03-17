@@ -471,7 +471,7 @@ class destinationRepository extends EntityRepository {
         if($province != null && $province != "")
             $where .= (($where != "") ? " OR " : " WHERE "). " l.des_loc_province = " . $province;
 
-        $query_string.= $where . " ORDER BY d.des_order";
+        $query_string.= $where . " ORDER BY d.des_name, d.des_order";
 
         return $em->createQuery($query_string)->getResult();
     }

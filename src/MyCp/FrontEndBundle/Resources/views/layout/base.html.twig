@@ -41,6 +41,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% stylesheets
     '@FrontEndBundle/Resources/public/css/custom.css'
+    '@FrontEndBundle/Resources/public/css/plugins/font-awesome/css/font-awesome.min.css'
     filter='?uglifycss'
     %}
         <link rel="stylesheet" href="{{ asset_url }}" />
@@ -126,7 +127,7 @@
 
     </div>
 </div>
-<div id="top-menu-cont" style="height: {% if is_home is defined %}52px;{% else %}{% if reservation_confirm is defined %}76px{% else %}95px{% endif %}{% endif %}">
+<div id="top-menu-cont" style="height: {% block nav_heigth %}{% if is_home is defined %}52px;{% else %}{% if reservation_confirm is defined %}76px{% else %}95px{% endif %}{% endif %}{% endblock %}">
     <nav id="top-menu" role="navigation" class="navbar navbar-inverse bg-gradient-blue" style="{% if is_home is defined %}border-bottom: solid #98CD34 7px;{% endif %}">
         <div class="navbar-header">
             <button data-target=".navbar-ex1-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
@@ -227,8 +228,8 @@
             <div class="col-xs-2">
                 <h3 style="margin-bottom: 5px;">{{"HOUSE_QUESTION" | trans}}</h3>
                 <ul>
-                    <li style="font-size: 13px; margin-bottom: 5px;">{{ 'MYCASA_RENTA_APP'|trans }}</li>
-                    <li><a href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid" target="_blank"><img width="120px" src="{{ asset('bundles/frontend/img/google-play.png') }}"></a> </li>
+                    <li style="font-size: 13px; margin-bottom: 5px;"><a href="{{ path('frontend_mycasarenta_index') }}" >{{ 'MYCASA_RENTA_APP'|trans }}</a></li>
+                    {#<li><a href="https://play.google.com/store/apps/details?id=hds.aplications.com.homedroid" target="_blank"><img width="120px" src="{{ asset('bundles/frontend/img/google-play.png') }}"></a> </li>#}
                 </ul>
             </div>
             <div class="col-xs-2 text-right">

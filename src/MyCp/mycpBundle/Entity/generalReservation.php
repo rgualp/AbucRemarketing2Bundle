@@ -593,5 +593,19 @@ class generalReservation {
     }
 
 
+    public static function getStatusName($status)
+    {
+        switch($status){
+            case self::STATUS_AVAILABLE: return "Disponible";
+            case self::STATUS_CANCELLED: return "Cancelada";
+            case self::STATUS_NONE:
+            case self::STATUS_PENDING: return "Pendiente";
+            case self::STATUS_NOT_AVAILABLE: return "No Disponible";
+            case self::STATUS_OUTDATED: return "Vencida";
+            case self::STATUS_PARTIAL_AVAILABLE: return "Parcialmente Disponible";
+            case self::STATUS_PARTIAL_CANCELLED: return "Parcialmente Cancelada";
+            case self::STATUS_RESERVED: return "Reservada";
+        }
+    }
 
 }

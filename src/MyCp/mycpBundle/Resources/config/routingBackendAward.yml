@@ -1,0 +1,35 @@
+mycp_list_awards:
+    pattern:  /list
+    defaults: { _controller: mycpBundle:BackendAward:list, items_per_page: 100}
+
+mycp_new_award:
+    pattern:  /new
+    defaults: { _controller: mycpBundle:BackendAward:new }
+
+mycp_edit_award:
+    pattern:  /edit/{id}
+    defaults: { _controller: mycpBundle:BackendAward:edit }
+
+mycp_delete_award:
+    pattern:  /delete/{id}
+    defaults: { _controller: mycpBundle:BackendAward:delete }
+
+mycp_accommodation_award_list:
+    pattern:  /accommodations/{id}/{items_per_page}/{filter_year}
+    defaults: { _controller: mycpBundle:BackendAward:accommodations, items_per_page: 100,filter_year:'' }
+
+mycp_remove_accommodation_award:
+    pattern:  /remove/{award_id}/{accommodation_id}
+    defaults: { _controller: mycpBundle:BackendAward:removeAccommodationAward }
+
+mycp_set_award_accommodation:
+    pattern:  /set-award/{id}/{items_per_page}/{filter_code}/{filter_name}/{filter_province}/{filter_municipality}/{filter_destination}/{sort_by}/{filter_year}
+    defaults: { _controller: mycpBundle:BackendAward:setAward, items_per_page: 100,filter_code:'',filter_name:'',filter_province:'',filter_municipality:'',filter_destination:'',sort_by:'100',filter_year:'' }
+
+mycp_set_award_callback:
+    pattern:  /set-award-callback/
+    defaults: { _controller: mycpBundle:BackendAward:setAwardCallback }
+
+mycp_remove_accommodation_award_callback:
+    pattern:  /remove-callback
+    defaults: { _controller: mycpBundle:BackendAward:removeAccommodationAwardCallback }

@@ -1,22 +1,22 @@
 <div class="carousel slide" id="{{ sliderId }}">
 <div class="carousel-inner thumbs-houses">
     {% set flag_item = 0 %}
-    {% for i in 1..3 %}
+    {% for i in 1..4 %}
         <div class="item {% if i == 1 %}active{% endif %}">
             <div class="row">
-                {% for e in 1..4%}
+                {% for e in 1..3%}
                     {% if list[flag_item] is defined %}
-                        {{ include('FrontEndBundle:ownership:homeItemOwnership.html.twig',{
-                        'own_id': list[flag_item]['own_id'],
-                        'own_name': list[flag_item]['own_name'],
-                        'own_comments': list[flag_item]['comments_total'],
-                        'own_rating': list[flag_item]['rating'],
-                        'own_province': list[flag_item]['prov_name'],
-                        'own_minimum_price': list[flag_item]['minimum_price'],
+                <div class="col-sm-4">
+                        {{ include('FrontEndBundle:ownership:accommodation_small_control.html.twig',{
+                        'id': list[flag_item]['own_id'],
+                        'name': list[flag_item]['own_name'],
+                        'award': list[flag_item]['award'],
+                        'minPrice': list[flag_item]['minimum_price'],
                         'is_in_favorite': list[flag_item]['is_in_favorites'],
                         'photo': list[flag_item]['photo'],
-                        'category': list[flag_item]['category'],
-                        'list_preffix': list_preffix}) }}
+                        'list_preffix': list_preffix,
+                        'notLazyLoad': true}) }}
+                    </div>
                         {% set flag_item = flag_item + 1 %}
                     {% endif %}
                 {% endfor %}

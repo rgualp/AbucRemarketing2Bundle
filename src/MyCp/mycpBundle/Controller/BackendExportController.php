@@ -59,7 +59,8 @@ class BackendExportController extends Controller {
             $exporter = $this->get("mycp.service.export_to_excel");
             $exporter->generateToAirBnb($ownToExport);
 
-            return new Response("OK", 200);
+
+            return new Response($this->generateUrl("mycp_download_info_airbnb"), 200);
 
     }
 
@@ -77,7 +78,7 @@ class BackendExportController extends Controller {
         if ($method == 'POST') {
             $repo = $this->getDoctrine()->getManager()->getRepository('mycpBundle:ownership');
 
-            $ownerships = $repo->findBy(array("own_status" => \MyCp\mycpBundle\Entity\ownershipStatus::STATUS_ACTIVE), array("own_mcp_code" => "ASC"));
+            $ownerships = $repo->findBy(array(), array("own_mcp_code" => "ASC"));
 
             $result = $this->renderView('mycpBundle:export:accommodationsContent.html.twig', array('ownerships' => $ownerships));
 
@@ -99,6 +100,23 @@ class BackendExportController extends Controller {
         }
 
         return $response;
+    }
+
+    function dirGenerateAction(Request $request)
+    {
+        $ownToExport = $request->get('codes');
+        $exporter = $this->get("mycp.service.export_to_excel");
+        $exporter->generateDirectoryFragment($ownToExport);
+
+
+        return new Response($this->generateUrl("mycp_download_info_dir"), 200);
+
+    }
+
+    function dirDownloadAction()
+    {
+        $exporter = $this->get("mycp.service.export_to_excel");
+        return $exporter->exportDirectoryFragment();
     }
 
 }

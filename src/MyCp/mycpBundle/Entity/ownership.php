@@ -475,6 +475,21 @@ class ownership {
     private $own_cubacoupon;
 
     /**
+     * @ORM\OneToMany(targetEntity="accommodationAward", mappedBy="accommodation")
+     */
+    private $awards;
+
+    /**
+     * @ORM\OneToMany(targetEntity="ownershipPhoto", mappedBy="own_pho_own")
+     */
+    private $photos;
+
+    /**
+     * @ORM\OneToMany(targetEntity="comment", mappedBy="com_ownership")
+     */
+    private $comments;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -485,6 +500,9 @@ class ownership {
         $this->own_sync_st = SyncStatuses::ADDED;
         $this->own_sended_to_team = false;
         $this->own_cubacoupon = false;
+        $this->awards = new ArrayCollection();
+        $this->photos = new ArrayCollection();
+        $this->comments = new ArrayCollection();
         //$this->own_creation_date = new \DateTime();
     }
 
@@ -1487,7 +1505,7 @@ class ownership {
      * @return string
      */
     public function __toString() {
-        return $this->getOwnName();
+        return $this->getOwnMcpCode()." - ".$this->getOwnName();
     }
 
     /**
@@ -1898,4 +1916,78 @@ class ownership {
 
         return $this->own_cubacoupon;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getAwards()
+    {
+        return $this->awards;
+    }
+
+    /**
+     * @param mixed $awards
+     * @return this
+     */
+    public function setAwards($awards)
+    {
+        $this->awards = $awards;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOwnershipKeywordOwnership()
+    {
+        return $this->ownershipKeywordOwnership;
+    }
+
+    /**
+     * @param mixed $ownershipKeywordOwnership
+     * @return this
+     */
+    public function setOwnershipKeywordOwnership($ownershipKeywordOwnership)
+    {
+        $this->ownershipKeywordOwnership = $ownershipKeywordOwnership;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param mixed $comments
+     * @return mixed
+     */
+    public function setComments($comments)
+    {
+        $this->comments = $comments;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPhotos()
+    {
+        return $this->photos;
+    }
+
+    /**
+     * @param mixed $photos
+     * @return mixed
+     */
+    public function setPhotos($photos)
+    {
+        $this->photos = $photos;
+        return $this;
+    }
+
+
 }

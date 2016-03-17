@@ -16,7 +16,6 @@ class TestingCommand extends ContainerAwareCommand {
     protected function configure() {
         $this->setName('mycp:testings')
                 ->setDefinition(array())
-                ->addArgument("bookingID", InputArgument::REQUIRED)
                 ->setDescription('Tests some functionalities')
                 ->setHelp(<<<EOT
                 Command <info>mycp_task:testings</info> do some tests.
@@ -27,54 +26,40 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output) {
         $container = $this->getContainer();
         $em = $container->get('doctrine')->getManager();
-        $service = $container->get('front_end.services.booking');
 
-        $bookingId = $input->getArgument("bookingID");
-
-        $booking = $em->getRepository("mycpBundle:booking")->find($bookingId);
-
-        $service->processPaymentEmailsTesting($booking, PaymentHelper::STATUS_PENDING);
-
-       /* $container = $this->getContainer();
-        $em = $container->get('doctrine')->getManager();
-        $reservations = $em->getRepository("mycpBundle:generalReservation")->findAll();
-        $output->writeln("1. Testing shallSendOutFeedbackReminderEmail...");
-
-        foreach ($reservations as $res) {
-            $result = $em->getRepository("mycpBundle:generalReservation")->shallSendOutFeedbackReminderEmail($res);
-            $userId = $res->getGenResUserId()->getUserId();
-            $ownershipId = $res->getGenResOwnId()->getOwnId();
-            $date = $res->getGenResFromDate();
-
-            $outString = "Reservation " . $res->getCASId();
-            $outString .= ": Usuario - ".$userId;
-            $outString .= ", Casa - ".$ownershipId;
-            $outString .= ", Estado - ".$res->getGenResStatus();
-            $outString .= ", Resultado - ".($result ? "SI" : "NO");
-
-            $output->writeln($outString);
-        }
-
-        $output->writeln("2. Testing shallSendOutReminderEmail...");
-
-        foreach ($reservations as $res) {
-            $result = $em->getRepository("mycpBundle:generalReservation")->shallSendOutReminderEmail($res);
-            $userId = $res->getGenResUserId()->getUserId();
-
-            $payedReservations = count($em->getRepository("mycpBundle:generalReservation")->getPayedReservations($userId));
-
-            $outString = "Reservation " . $res->getCASId();
-            $outString .= ": Usuario - ".$userId;
-            $outString .= ", Previas - ".$payedReservations;
-            $outString .= ", Estado - ".$res->getGenResStatus();
-            $outString .= ", Resultado - ".($result ? "SI" : "NO");
-
-            $output->writeln($outString);
-        }*/
-
-
+        $this->testingPostPaymentProcess($em, $output);
 
         $output->writeln("End of testings");
+    }
+
+    private function testingPostPaymentProcess($em,OutputInterface $output)
+    {
+        $container = $this->getContainer();
+        $bookingService = $container->get("front_end.services.booking");
+
+        $booking = $em->getRepository("mycpBundle:booking")->find(1360);
+
+        $bookingService->processPaymentEmails($booking, PaymentHelper::STATUS_PENDING);
+
+    }
+
+    private function testingActivationUrl($em,OutputInterface $output)
+    {
+        $user = $em->getRepository("mycpBundle:user")->find(2086);
+        $activationUrl = $this->getActivationUrl($user, "es");
+        $activationUrl = str_replace(".com//", ".com/", $activationUrl);
+        $output->writeln($activationUrl);
+    }
+
+    private function getActivationUrl($user, $userLocale)
+    {
+        $encodedString = $this->getContainer()->get("Secure")->getEncodedUserString($user);
+        $enableUrl = $this->getContainer()->get("router")->generate('frontend_enable_user', array(
+            'string' => $encodedString,
+            'locale' => $userLocale,
+            '_locale' => $userLocale
+        ), true);
+        return $enableUrl;
     }
 
 }

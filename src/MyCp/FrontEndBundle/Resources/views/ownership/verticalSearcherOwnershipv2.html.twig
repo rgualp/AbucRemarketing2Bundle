@@ -1,0 +1,103 @@
+{% javascripts
+'@FrontEndBundle/Resources/public/js/bootstrap-datepicker.js'
+'@FrontEndBundle/Resources/public/js/bootstrap-datepicker.es.js'
+'@FrontEndBundle/Resources/public/js/bootstrap-datepicker.de.js'
+'@FrontEndBundle/Resources/public/js/typeahead.min.js'
+filter='?uglifyjs2'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+<div class="filters-container">
+    <div class="row">
+        <div class="col-sm-12">
+        <div class="col-sm-4 p-5"><input type="text" class="form-control" {%if app.session.get('search_text') != null and app.session.get('search_text') != 'null'%}value="{{app.session.get('search_text')}}"{%endif%} placeholder="{{"PLACE_WATERMARK" | trans}}" id="input_text" autocomplete="off" data-highlighter="null" data-items="5" data-provide="typeahead"/></div>
+        <div class="col-sm-2 p-5"><div rel="tooltip" title="{{'ARRIVAL_WATERMARK' | trans}}" class="input-group" style="padding: 0">
+                <input class="form-control" type="text" value="{{(app.session.get('search_arrival_date') != null) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now" |date("d/m/Y"))}}" placeholder="{{"ARRIVAL_WATERMARK" | trans}}" id="input_arrival_date" data-localization='{{locale}}'>
+                <span class="input-group-addon show_calendar"><span class="icon-calendar"></span></span>
+            </div></div>
+        <div class="col-sm-2 p-5">                <div rel="tooltip" title="{{'DEPARTURE_WATERMARK' | trans}}" class="input-group" style="padding: 0">
+                <input class="form-control" type="text" value="{{(app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : ("+2 days" |date("d/m/Y"))}}" placeholder="{{"DEPARTURE_WATERMARK" | trans}}" id="input_departure_date" data-localization='{{locale}}'>
+                <span class="input-group-addon show_calendar"><span class="icon-calendar"></span></span>
+            </div></div>
+        <div class="col-sm-2 p-5">  <select class="form-control bs-select" id="input_guests">
+                <option value="1" {%if app.session.get('search_guests') != null and app.session.get('search_guests') == "1" %} selected {%endif%}>{{"GUEST_WATERMARK" | trans}}</option>
+                <option value="2" {%if app.session.get('search_guests') != null and app.session.get('search_guests') == "2" %} selected {%endif%}>2 {{"GUESTS" | trans}}</option>
+                <option value="3" {%if app.session.get('search_guests') != null and app.session.get('search_guests') == "3" %} selected {%endif%}>3 {{"GUESTS" | trans}}</option>
+                <option value="4" {%if app.session.get('search_guests') != null and app.session.get('search_guests') == "4" %} selected {%endif%}>4 {{"GUESTS" | trans}}</option>
+                <option value="5" {%if app.session.get('search_guests') != null and app.session.get('search_guests') == "5" %} selected {%endif%}>5 {{"GUESTS" | trans}}</option>
+                <option value="6" {%if app.session.get('search_guests') != null and app.session.get('search_guests') == "6" %} selected {%endif%}>6 {{"GUESTS" | trans}}</option>
+                <option value="7" {%if app.session.get('search_guests') != null and app.session.get('search_guests') == "7" %} selected {%endif%}>7 {{"GUESTS" | trans}}</option>
+                <option value="8" {%if app.session.get('search_guests') != null and app.session.get('search_guests') == "8" %} selected {%endif%}>8 {{"GUESTS" | trans}}</option>
+                <option value="9" {%if app.session.get('search_guests') != null and app.session.get('search_guests') == "9" %} selected {%endif%}>9 {{"GUESTS" | trans}}</option>
+                <option value="10" {%if app.session.get('search_guests') != null and app.session.get('search_guests') == "10" %} selected {%endif%}>10 {{"GUESTS" | trans}}</option>
+                <option value="+10" {%if app.session.get('search_guests') != null and app.session.get('search_guests') == "+10" %} selected {%endif%}>+10 {{"GUESTS" | trans}}</option>
+            </select></div>
+        <div class="col-sm-2 p-5">                            <select class="form-control bs-select" id="input_room">
+                <option value="1" {%if app.session.get('search_rooms') != null and app.session.get('search_rooms') == "1" %} selected {%endif%}>{{"ROOM_WATERMARK" | trans }}</option>
+                <option value="2" {%if app.session.get('search_rooms') != null and app.session.get('search_rooms') == "2" %} selected {%endif%}>2 {{"ROOM_PLURAL" | trans | capitalize}}</option>
+                <option value="3" {%if app.session.get('search_rooms') != null and app.session.get('search_rooms') == "3" %} selected {%endif%}>3 {{"ROOM_PLURAL" | trans | capitalize}}</option>
+                <option value="4" {%if app.session.get('search_rooms') != null and app.session.get('search_rooms') == "4" %} selected {%endif%}>4 {{"ROOM_PLURAL" | trans | capitalize}}</option>
+                <option value="5" {%if app.session.get('search_rooms') != null and app.session.get('search_rooms') == "5" %} selected {%endif%}>5 {{"ROOM_PLURAL" | trans | capitalize}}</option>
+                <option value="+5" {%if app.session.get('search_rooms') != null and app.session.get('search_rooms') == "+5" %} selected {%endif%}>+5 {{"ROOM_PLURAL" | trans | capitalize}}</option>
+            </select></div>
+        </div>
+    </div>
+   <div class="row">
+      <div class="col-sm-12">
+          {#<div class="col-sm-4 p-5">#}
+          {#<div class="btn-group" data-toggle="buttons">#}
+              {#<label class="btn btn-white"><input type="radio" name="priceOrder" value="DESC" class="toggle"> {{ 'PRICE_HIGHER'|trans }} </label>#}
+              {#<label class="btn btn-white"><input type="radio" name="priceOrder" value="ASC" class="toggle"> {{ 'PRICE_LOWER'|trans }} </label>#}
+              {#&#123;&#35;<button class="btn btn-white active">{{ 'PRICE_HIGHER'|trans }}</button>&#35;&#125;#}
+              {#&#123;&#35;<button class="btn btn-white">{{ 'PRICE_LOWER'|trans }}</button>&#35;&#125;#}
+          {#</div>#}
+          {#</div>#}
+          {#<div class="col-sm-2 p-5"> <button id="commentsOrder" type="button" data-toggle="button" class="btn btn-white">{{ 'COMMENT_ASC'|trans }}</button></div>#}
+          {#<div class="col-sm-2 p-5"> <button id="booksOrder" type="button" data-toggle="button" class="btn btn-white">{{ 'BOOKS_ASC'|trans }}</button></div>#}
+          <div class="col-sm-8 p-5">
+              {%for category in owns_categories%}
+                  <div class="checkbox checkbox-searcher col-sm-4">
+                      <label>
+                          <input class="action_remove_filter_up" type="checkbox" name="own_category" value="{{category[0]}}" {%if check_filters is defined and category[0] in check_filters['own_category']%} checked="checked" {%endif%} {%if category[1] == '0'%} disabled="disabled" {%endif%}/>  {{category[0] | trans}} ({{category[1]}})
+                      </label>
+                  </div>
+              {%endfor%}
+              </div>
+          <div class="col-sm-4 p-5 pull-right">
+
+          {%if is_within_search_results%}
+              <button id="button_research" class="btn btn-primary btn-large pull-right" data-url="{{ path('frontend_research_ownership_callback') }}">{{"SEARCH" | trans|capitalize}}</button>
+          {%else%}
+              <button id="btn_search" class="btn btn-primary btn-large pull-right" data-url="{{ path('frontend_search_ownership',{'text':'_text', 'arrival':'_arrival','departure':'_departure','guests':'_guests','rooms':'_rooms','order_price':'_order_price', 'order_comments':'_order_comments', 'order_books':'_order_books' })}}" onclick="search()">{{"SEARCH" | trans|capitalize}}</button>
+          {%endif%}
+              <a id="more_filters" class="btn btn-white btn-large pull-right collapsed" data-toggle="collapse" href="#collapseFilters" style="margin-right: 10px;">{{ 'MORE_FILTERS'|trans }}</a>
+          </div>
+      </div>
+   </div>
+
+            </div>
+
+<script type="text/javascript">
+    var today_date="{{"now"|date("d/m/Y") }}";
+    var start_date="{{ (app.session.get('search_arrival_date') != null) ? (app.session.get('search_arrival_date')|date("d/m/Y")) : ("now"|date("d/m/Y")) }}";
+    var end_date="{{(app.session.get('search_departure_date') != null) ? (app.session.get('search_departure_date')|date("d/m/Y")) : "+2 days" |date("d/m/Y")}}";
+    
+    $.fn.typeahead &&
+    $('[data-provide="typeahead"]').typeahead({
+        name: "states",
+        local: {{ autocomplete_text_list |raw}},
+        limit: 4
+    });
+    $('#more_filters').on('click',function(){
+        if($('#more_filters').hasClass('collapsed')){
+            $('#button_research').addClass('hide');
+            $('#more_filters').removeClass('collapsed');
+        }
+        else{
+            $('#button_research').removeClass('hide');
+            $('#more_filters').addClass('collapsed');
+        }
+    });
+
+</script>

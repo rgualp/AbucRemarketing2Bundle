@@ -15,74 +15,76 @@ function start() {
     $('.action_remove_filter_up').change(function() {
         remove_filter_up($(this));
     });
-    $('#own_reservation_type').change(function() {
+    //$('#own_reservation_type').change(function() {
+    //    filter_by_others(false);
+    //});
+    //$('input[name=own_category]').change(function() {
+    //    filter_by_others(false);
+    //});
+    //$('input[name=own_type]').change(function() {
+    //    filter_by_others(false);
+    //});
+    //$('input[name=own_price]').change(function() {
+    //    filter_by_others(false);
+    //});
+    //$('input[name=room_total]').change(function() {
+    //    filter_by_others(false);
+    //});
+    //$('input[name=room_type]').change(function() {
+    //    filter_by_others(false);
+    //});
+    //$('input[name=room_bathroom]').change(function() {
+    //    filter_by_others(false);
+    //});
+    //$('#room_airconditioner').change(function() {
+    //    filter_by_others(false);
+    //});
+    //$('#room_audiovisuals').change(function() {
+    //    filter_by_others(false);
+    //});
+    //$('#room_kids').change(function() {
+    //    filter_by_others(false);
+    //});
+    //$('#room_smoker').change(function() {
+    //    filter_by_others(false);
+    //});
+    //$('#room_safe').change(function() {
+    //    filter_by_others(false);
+    //});
+    //$('#room_balcony').change(function() {
+    //    filter_by_others(false);
+    //});
+    //$('#room_terraza').change(function() {
+    //    filter_by_others(false);
+    //});
+    //$('#room_courtyard').change(function() {
+    //    filter_by_others(false);
+    //});
+    //
+    //$('input[name=room_beds_total]').change(function() {
+    //    filter_by_others(false);
+    //});
+    //$('input[name=room_windows_total]').change(function() {
+    //    filter_by_others(false);
+    //});
+    //$('input[name=others_languages]').change(function() {
+    //    filter_by_others(false);
+    //});
+    //$('input[name=others_included]').change(function() {
+    //    filter_by_others(false);
+    //});
+    //$('input[name=others_not_included]').change(function() {
+    //    filter_by_others(false);
+    //});
+    //$('#room_others_pets').change(function() {
+    //    filter_by_others(false);
+    //});
+    //$('#room_others_internet').change(function() {
+    //    filter_by_others(false);
+    //});
+    $('#filters-submit').click(function () {
         filter_by_others(false);
     });
-    $('input[name=own_category]').change(function() {
-        filter_by_others(false);
-    });
-    $('input[name=own_type]').change(function() {
-        filter_by_others(false);
-    });
-    $('input[name=own_price]').change(function() {
-        filter_by_others(false);
-    });
-    $('input[name=room_total]').change(function() {
-        filter_by_others(false);
-    });
-    $('input[name=room_type]').change(function() {
-        filter_by_others(false);
-    });
-    $('input[name=room_bathroom]').change(function() {
-        filter_by_others(false);
-    });
-    $('#room_airconditioner').change(function() {
-        filter_by_others(false);
-    });
-    $('#room_audiovisuals').change(function() {
-        filter_by_others(false);
-    });
-    $('#room_kids').change(function() {
-        filter_by_others(false);
-    });
-    $('#room_smoker').change(function() {
-        filter_by_others(false);
-    });
-    $('#room_safe').change(function() {
-        filter_by_others(false);
-    });
-    $('#room_balcony').change(function() {
-        filter_by_others(false);
-    });
-    $('#room_terraza').change(function() {
-        filter_by_others(false);
-    });
-    $('#room_courtyard').change(function() {
-        filter_by_others(false);
-    });
-
-    $('input[name=room_beds_total]').change(function() {
-        filter_by_others(false);
-    });
-    $('input[name=room_windows_total]').change(function() {
-        filter_by_others(false);
-    });
-    $('input[name=others_languages]').change(function() {
-        filter_by_others(false);
-    });
-    $('input[name=others_included]').change(function() {
-        filter_by_others(false);
-    });
-    $('input[name=others_not_included]').change(function() {
-        filter_by_others(false);
-    });
-    $('#room_others_pets').change(function() {
-        filter_by_others(false);
-    });
-    $('#room_others_internet').change(function() {
-        filter_by_others(false);
-    });
-
     initialize_map();
     datePickersStarUp();
     $('#btn_insert_comment').click(insert_comment);
@@ -247,7 +249,12 @@ function search() {
         url = url.toString().replace('_rooms', rooms);
     else
         url = url.toString().replace('_rooms', '1');
-
+    //'order_price':'_order_price', 'order_comments':'_order_comments', 'order_books':'_order_books'
+    var order_price=$(input[type='radio', name='priceOrder']).val();
+    if (order_price != "")
+        url = url.toString().replace('_order_price', order_price);
+    else
+        url = url.toString().replace('_order_price', '');
     window.location = url;
 }
 
@@ -413,8 +420,23 @@ function research()
     var guests = $('#input_guests').val();
     var rooms = $('#input_room').val();
     var text = $('#input_text').val();
-
+    var order_price=$(':input[type="radio"][name="priceOrder"]:checked').val();
+    var order_comments='';
+    if($('#commentsOrder').hasClass('active'))
+        order_comments='ASC';
+    var order_books='';
+    if($('#booksOrder').hasClass('active'))
+        order_books='ASC';
     var result = $('#div_result');
+    var own_category_items=[];
+    $('input[name=own_category]:checked').each(function() {
+        own_category_items.push($(this).val());
+        if (document.getElementById("fu_own_category_" + $(this).val()) == null)
+        {
+            innerHtml = $("#filter_upper").html();
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_category_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='own_category'><i class='icon-remove-sign'></i> " + $(this).parent().text() + "</a> ");
+        }
+    });
 
     arrival = (arrival != $('#input_arrival_date').attr('placeholder')) ? create_date(arrival) : null;
     departure = (departure != $('#input_departure_date').attr('placeholder')) ? create_date(departure) : null;
@@ -425,21 +447,26 @@ function research()
         'departure': departure,
         'guests': guests,
         'rooms': rooms,
-        'text': text
+        'text': text,
+        'order_price': order_price,
+        'order_comments': order_comments,
+        'order_books': order_books,
+        'own_category': (own_category_items.length > 0) ? own_category_items : null
     }, function(data) {
         result.html(data);
         manage_favorities(".favorite_off_action");
         manage_favorities(".favorite_on_action");
-
         $(".filter_upper_item").each(function() {
             var control_id = $(this).attr("data-control-id");
             var control_name = $(this).attr("data-control-name");
             var item_value = $(this).attr("data-value");
 
-            if (control_id !== "")
+            if (control_id =='#priceFilter')
+                $(control_id).val('');
+            else if (control_id !== "")
                 $(this).getElementById(control_id).checked = false;
 
-            if (control_name != "" && item_value != "")
+            if (control_name != "" && item_value != ""&& control_name != "own_category")
             {
                 $('input[name=' + control_name + ']').each(function() {
                     if ($(this).val() == item_value)
@@ -471,19 +498,17 @@ function load_upper_filters()
     var room_windows_total_items = [];
     var others_languages_items = [];
     var others_included_items = [];
+    var own_awards = [];
     var others_not_included_items = [];
-
+    var order_price=$(':input[type="radio"][name="priceOrder"]:checked').val();
+    var order_comments='';
+    if($('#commentsOrder').hasClass('active'))
+        order_comments='ASC';
+    var order_books='';
+    if($('#booksOrder').hasClass('active'))
+        order_books='ASC';
+    var result = $('#div_result');
     var innerHtml = $("#filter_upper").html();
-
-    $('input[name=own_type]:checked').each(function() {
-        own_type_items.push($(this).val());
-        if (document.getElementById("fu_own_type_" + $(this).val()) == null)
-        {
-            innerHtml = $("#filter_upper").html();
-            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_type_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='own_type'><i class='icon-remove-sign'></i>" + $(this).parent().text() + "</a> ");
-        }
-
-    });
 
     $('input[name=own_category]:checked').each(function() {
         own_category_items.push($(this).val());
@@ -493,7 +518,38 @@ function load_upper_filters()
             $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_category_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='own_category'><i class='icon-remove-sign'></i> " + $(this).parent().text() + "</a> ");
         }
     });
+    $('input[name=own_awards]:checked').each(function() {
+        own_awards.push($(this).val());
+        if (document.getElementById("fu_own_awards_" + $(this).val()) == null)
+        {
+            innerHtml = $("#filter_upper").html();
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_awards_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='own_awards'><i class='icon-remove-sign'></i> " + $(this).parent().text() + "</a> ");
+        }
+    });
 
+    //$('input[name=own_price]:checked').each(function() {
+    //    own_price_items.push($(this).val());
+    //    own_price_from_items.push($(this).val());
+    //    own_price_to_items.push(parseInt($(this).val()) + 25);
+    //
+    //    if (document.getElementById("fu_own_price_" + $(this).val()) == null)
+    //    {
+    //        innerHtml = $("#filter_upper").html();
+    //        $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_price_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='own_price'><i class='icon-remove-sign'></i>" + $(this).parent().text() + "</a> ");
+    //    }
+    //});
+    var rangePrice=$('#priceFilter').val();
+    if(rangePrice!=''){
+        var res = rangePrice.split(",");
+    own_price_items.push(parseInt(res[0]));
+    own_price_from_items.push(parseInt(res[0]));
+    own_price_to_items.push(parseInt(res[1]));
+    if (document.getElementById("fu_own_price_" + rangePrice) == null)
+    {
+        innerHtml = $("#filter_upper").html();
+        $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_price_" + rangePrice + "' data-control-id='#priceFilter' data-value='" + rangePrice + "' data-control-name='own_price'><i class='icon-remove-sign'></i>$(" + rangePrice + ")</a> ");
+    }
+    }
     $('input[name=own_price]:checked').each(function() {
         own_price_items.push($(this).val());
         own_price_from_items.push($(this).val());
@@ -660,6 +716,7 @@ function load_upper_filters()
     var checked_filters = {
         //"own_reservation_type": (own_reservation_type != null && own_reservation_type != "" && own_reservation_type != "-1" && own_reservation_type != -1) ? own_reservation_type : null,
         "own_category": (own_category_items.length > 0) ? own_category_items : null,
+        "own_award": (own_awards.length > 0) ? own_awards: null,
         "own_type": (own_type_items.length > 0) ? own_type_items : null,
         "own_price": (own_price_items.length > 0) ? own_price_items : null,
         "own_price_from": (own_price_from_items.length > 0) ? own_price_from_items : null,
@@ -681,13 +738,20 @@ function load_upper_filters()
         "own_others_included": (others_included_items.length > 0) ? others_included_items : null,
         "own_others_not_included": (others_not_included_items.length > 0) ? others_not_included_items : null,
         "own_others_pets": room_others_pets,
-        "own_others_internet": room_others_internet
+        "own_others_internet": room_others_internet,
+        "order_price": order_price,
+        "order_comments": order_comments,
+        "order_books": order_books
+
+
     };
     return checked_filters;
 }
 
 function filter_by_others(refreshStatistics)
 {
+    $('#button_research').removeClass('hide');
+    $('#more_filters').addClass('collapsed');
     var checked_filters = load_upper_filters();
     show_loading();
 
@@ -714,20 +778,23 @@ function filter_by_others(refreshStatistics)
 function filter_upper(element)
 {
     var control_id = element.attr("data-control-id");
-    var control_name = element.attr("data-control-name");
-    var item_value = element.attr("data-value");
-
-    if (control_id !== "")
-        document.getElementById(control_id).checked = false;
-
-    if (control_name != "" && item_value != "")
-    {
-        $('input[name=' + control_name + ']').each(function() {
-            if ($(this).val() == item_value)
-                $(this).removeAttr("checked");
-        });
+    if(control_id=='#priceFilter'){
+       $('#priceFilter').val('');
     }
+    else {
+        var control_name = element.attr("data-control-name");
+        var item_value = element.attr("data-value");
 
+        if (control_id !== "")
+            document.getElementById(control_id).checked = false;
+
+        if (control_name != "" && item_value != "") {
+            $('input[name=' + control_name + ']').each(function () {
+                if ($(this).val() == item_value)
+                    $(this).removeAttr("checked");
+            });
+        }
+    }
     //alert($("#filter_upper").html());
     /*if ($("#filter_upper").html())
      $("#filter_upper").css("display", "none");*/
@@ -823,7 +890,7 @@ function initialize_map() {
     {
         var center = new google.maps.LatLng(22.01300, -79.26635);//La Habana 23.09725, -82.37548
         var options = {
-            'zoom': 4,
+            'zoom': 6,
             'center': center,
             'mapTypeId': google.maps.MapTypeId.ROADMAP
         };

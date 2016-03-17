@@ -12,6 +12,7 @@ use MyCp\mycpBundle\Entity\ownershipGeneralLang;
 use MyCp\mycpBundle\Entity\ownershipKeywordLang;
 use MyCp\mycpBundle\Entity\room;
 use MyCp\mycpBundle\Entity\userCasa;
+use MyCp\mycpBundle\Helpers\OrderByHelper;
 use MyCp\mycpBundle\Helpers\OwnershipStatuses;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
 use MyCp\mycpBundle\Entity\ownershipStatus;
@@ -787,7 +788,6 @@ class ownershipRepository extends EntityRepository {
      * @return array of MyCp\mycpBundle\Entity\ownership
      */
     function search($controller, $text = null, $arrivalDate = null, $leavingDate = null, $guest_total = 1, $rooms_total = 1, $order_by = 'BEST_VALUED', $room_filter = false, $filters = null) {
-
         $em = $this->getEntityManager();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($controller);
         $user_id = $user_ids['user_id'];
@@ -796,7 +796,6 @@ class ownershipRepository extends EntityRepository {
         $reservations_where = SearchUtils::createDatesWhere($em, $arrivalDate, $leavingDate);
 
         $query_string = SearchUtils::getBasicQuery($room_filter, $user_id, $session_id);
-
         $parameters = array();
 
         $parameters[] = array('session_id', $session_id);
@@ -820,14 +819,12 @@ class ownershipRepository extends EntityRepository {
 
         if ($where != '')
             $query_string .= $where;
+         $order = SearchUtils::getOrder($order_by);
 
-        $order = SearchUtils::getOrder($order_by);
         $query_string .= $order;
-
-        //var_dump($query_string);
-
+//        die(dump($query_string));
         $query = $em->createQuery($query_string);
-
+//        die(dump($query));
         if ($user_id != null)
             $query->setParameter('user_id', $user_id);
 
@@ -860,9 +857,13 @@ class ownershipRepository extends EntityRepository {
      * Muestra todas las casas que son top20, para mostrar en la portada
      * @param $locale
      * @param $category
+     * @param $user_id
+     * @param session_id
+     * @return mixed
      */
-    function top20($locale = "ES", $category = null) {
+    function top20($locale = "ES", $category = null, $user_id = null, $session_id = null) {
         $em = $this->getEntityManager();
+
         $query_string = "SELECT o.own_id as own_id,
                          o.own_name as own_name,
                          prov.prov_name as prov_name,
@@ -871,14 +872,18 @@ class ownershipRepository extends EntityRepository {
                             AND (p.pho_order = (select min(p1.pho_order) from  mycpBundle:ownershipPhoto op1 JOIN op1.own_pho_photo p1
                             where op1.own_pho_own = o.own_id) or p.pho_order is null) as photo,
                          (SELECT min(d.odl_brief_description) FROM mycpBundle:ownershipDescriptionLang d JOIN d.odl_id_lang l WHERE d.odl_ownership = o.own_id AND l.lang_code = '$locale') as description,
-                         (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations
+                         (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations,
+                         (SELECT min(a.second_icon_or_class_name) FROM mycpBundle:accommodationAward aw JOIN aw.award a WHERE aw.accommodation = o.own_id ORDER BY aw.year DESC, a.ranking_value DESC) as award,
+                         o.own_minimum_price as minPrice,
+                         (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
                          WHERE o.own_top_20=1
-                           AND o.own_status = " . ownershipStatus::STATUS_ACTIVE;
+                         AND o.own_status = " . ownershipStatus::STATUS_ACTIVE;
 
         if ($category != null) {
             $query_string .= " AND LOWER(o.own_category) = '$category'";
+
         }
 
         $query_string .= " ORDER BY o.own_ranking DESC, o.own_comments_total DESC, count_reservations DESC";
@@ -1844,7 +1849,8 @@ class ownershipRepository extends EntityRepository {
                             (SELECT count(fav) FROM mycpBundle:favorite fav WHERE " . (($user_id != null) ? " fav.favorite_user = $user_id " : " fav.favorite_user is null") . " AND " . (($session_id != null) ? " fav.favorite_session_id = '$session_id' " : " fav.favorite_session_id is null") . " AND fav.favorite_ownership=o.own_id) as is_in_favorites,
                             (SELECT count(r) FROM mycpBundle:room r WHERE r.room_ownership=o.own_id AND r.room_active = 1) as rooms_count,
                             (SELECT count(res) FROm mycpBundle:ownershipReservation res JOIN res.own_res_gen_res_id gen WHERE gen.gen_res_own_id = o.own_id AND res.own_res_status = " . ownershipReservation::STATUS_RESERVED . ") as count_reservations,
-                            (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments
+                            (SELECT count(com) FROM mycpBundle:comment com WHERE com.com_ownership = o.own_id)  as comments,
+                            (SELECT min(a.second_icon_or_class_name) FROM mycpBundle:accommodationAward aw JOIN aw.award a WHERE aw.accommodation = o.own_id ORDER BY aw.year DESC, a.ranking_value DESC) as award
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
                          JOIN o.own_address_municipality mun ";
@@ -1900,7 +1906,8 @@ class ownershipRepository extends EntityRepository {
                         (SELECT count(o1.own_id) from mycpBundle:ownership o1 where o1.own_id = o.own_id AND o1.own_langs LIKE '1___') as english,
                         (SELECT count(o2.own_id) from mycpBundle:ownership o2 where o2.own_id = o.own_id AND o2.own_langs LIKE '_1__') as french,
                         (SELECT count(o3.own_id) from mycpBundle:ownership o3 where o3.own_id = o.own_id AND o3.own_langs LIKE '__1_') as german,
-                        (SELECT count(o4.own_id) from mycpBundle:ownership o4 where o4.own_id = o.own_id AND o4.own_langs LIKE '___1') as italian
+                        (SELECT count(o4.own_id) from mycpBundle:ownership o4 where o4.own_id = o.own_id AND o4.own_langs LIKE '___1') as italian,
+                        (SELECT min(a.icon_or_class_name) FROM mycpBundle:accommodationAward aw JOIN aw.award a WHERE aw.accommodation = o.own_id ORDER BY aw.year DESC, a.ranking_value DESC) as award
                          FROM mycpBundle:ownership o
                          JOIN o.own_address_province prov
                          JOIN o.own_address_municipality mun  ";
@@ -2047,4 +2054,36 @@ class ownershipRepository extends EntityRepository {
 
         return $qb->getQuery()->getResult();
     }
+
+    function getByIdsForExport($ownsIdsArray) {
+        $em = $this->getEntityManager();
+        $query_string = "SELECT o.own_id as ownId,
+                         o.own_mcp_code as mycpCode,
+                         o.own_name as name,
+                         o.own_homeowner_1 as owner1,
+                         o.own_homeowner_2 as owner2,
+                         o.own_address_street as street,
+                         o.own_address_number as number,
+                         o.own_address_between_street_1 as between1,
+                         o.own_address_between_street_2 as between2,
+                         prov.prov_name as province,
+                         mun.mun_name as municipality,
+                         st.status_name as status,
+                         o.own_phone_number as phone,
+                         o.own_mobile_number as mobile,
+                         prov.prov_phone_code as phoneCode
+                         FROM mycpBundle:ownership o
+                         JOIN o.own_address_province prov
+                         JOIN o.own_address_municipality mun
+                         JOIN o.own_status st
+                         WHERE o.own_id IN ($ownsIdsArray)
+                         ORDER BY LENGTH(o.own_mcp_code) ASC, o.own_mcp_code ASC";
+
+        $results = $em->createQuery($query_string)
+            ->getResult();
+
+        return $results;
+    }
+
+
 }

@@ -14,7 +14,7 @@
 </ul>
 {% endblock %}
 {% block content %}
-<h1 style="margin: 0 0 10px 0;">Bienvenido(a), {% if app.user.getUserUserName is defined %}{{app.user.getUserUserName}}{% else %}{{app.user.getUserName}}{% endif %}</h1>
+<h1 style="margin: 0 0 10px 0;">Bienvenido(a), {% if app.user.getUserUserName is defined %}{{app.user.getUserUserName}}{% else %}{{app.user.getName}}{% endif %}</h1>
 <div class="row-fluid">
     <div class="span2 text-center">
         {% if photo %}

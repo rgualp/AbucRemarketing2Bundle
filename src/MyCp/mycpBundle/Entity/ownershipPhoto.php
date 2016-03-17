@@ -28,7 +28,7 @@ class ownershipPhoto
     private $own_pho_photo;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ownership",inversedBy="")
+     * @ORM\ManyToOne(targetEntity="ownership",inversedBy="photos")
      * @ORM\JoinColumn(name="own_pho_own_id",referencedColumnName="own_id")
      */
     private $own_pho_own;

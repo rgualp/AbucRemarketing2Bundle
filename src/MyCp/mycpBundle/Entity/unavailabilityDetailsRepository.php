@@ -57,7 +57,9 @@ class unavailabilityDetailsRepository extends EntityRepository {
         $query_string = "SELECT o
                         FROM mycpBundle:unavailabilityDetails o
                         WHERE o.ud_sync_st<>" . SyncStatuses::DELETED .
-                        " AND o.ud_from_date >= '$start' AND o.ud_to_date <= '$end'" .
+            " AND ((o.ud_from_date >= '$start' AND o.ud_to_date <= '$end') OR
+                (o.ud_to_date >= '$start' AND o.ud_to_date <= '$end') OR
+                (o.ud_from_date <= '$end' AND o.ud_from_date >= '$start'))" .
                         " ORDER BY o.ud_from_date DESC";
 
         return $em->createQuery($query_string)->getResult();
@@ -68,7 +70,9 @@ class unavailabilityDetailsRepository extends EntityRepository {
         $query_string = "SELECT o
                         FROM mycpBundle:unavailabilityDetails o JOIN o.room ro JOIN ro.room_ownership own
                         WHERE o.ud_sync_st<>" . SyncStatuses::DELETED .
-            " AND o.ud_from_date >= '$start' AND o.ud_to_date <= '$end'" .
+            " AND ((o.ud_from_date >= '$start' AND o.ud_to_date <= '$end') OR
+                (o.ud_to_date >= '$start' AND o.ud_to_date <= '$end') OR
+                (o.ud_from_date <= '$end' AND o.ud_from_date >= '$start'))" .
             " AND own.own_id = $ownership" .
             " ORDER BY o.ud_from_date DESC";
 
@@ -80,9 +84,11 @@ class unavailabilityDetailsRepository extends EntityRepository {
         $query_string = "SELECT o
                         FROM mycpBundle:unavailabilityDetails o JOIN o.room ro
                         WHERE o.ud_sync_st<>" . SyncStatuses::DELETED .
-            " AND o.ud_from_date >= '$start' AND o.ud_to_date <= '$end'" .
+            " AND ((o.ud_from_date >= '$start' AND o.ud_to_date <= '$end') OR
+                (o.ud_to_date >= '$start' AND o.ud_to_date <= '$end') OR
+                (o.ud_from_date <= '$end' AND o.ud_from_date >= '$start'))" .
             " AND ro.room_id = $idRoom" .
-            " ORDER BY o.ud_from_date DESC";
+            " ORDER BY o.ud_from_date ASC";
 
         return $em->createQuery($query_string)->getResult();
     }

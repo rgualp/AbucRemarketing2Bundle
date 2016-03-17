@@ -2,39 +2,32 @@
     <div class="row">
     {%set cont=0%}
     {%for ownership in own_top20_list%}
-    {% if cont <4 %}
-    <div class="col-sm-3">
-            <a target="_blank" rel="tooltip" href="{{ path('frontend_details_ownership',{'own_name':ownership['own_name']  | urlNormalize}) }}" title="{{"MORE_INFO_PREFFIX" | trans}} {{ownership['own_name']}}">
-            <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if ownership['comments_total'] > 0%}+{%endif%}{{ownership['comments_total']}}&nbsp;&nbsp;&nbsp;">
-                <img alt="{{ ownership['own_name'] }}" class="lazy" data-src="{{ (ownership['photo'] != "") ? asset("uploads/ownershipImages/thumbnails/" ~ ownership['photo']) : asset("uploads/ownershipImages/thumbnails/no_photo.png")}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
-                <noscript><img class="nolazy" src="{{ (ownership['photo'] != "") ? asset("uploads/ownershipImages/thumbnails/" ~ ownership['photo']) : asset("uploads/ownershipImages/thumbnails/no_photo.png")}}"></noscript>
-            </div>
-            <h2 class="h-blue">{{ ownership['own_name']| title }} <small>({{ownership['prov_name']}})</small></h2>
-            </a>
-            <h5>
-                {%if ownership['description'] != null%}
-                    {{ownership['description'] | striptags | slice(0,120) }} <a href="{{ path('frontend_details_ownership',{'own_name':ownership['own_name']  | urlNormalize}) }}">(...{{"RESERVATION_CONFIRM_DESTINATION_MORE" | trans | capitalize}})</a>
-                {%endif%}
-            </h5>
+    {% if cont <3 %}
+    <div class="col-sm-4">
+        {{ include('FrontEndBundle:ownership:accommodation_small_control.html.twig',{
+        'id': ownership.own_id,
+        'name': ownership.own_name,
+        'award': ownership.award,
+        'minPrice': ownership.minPrice,
+        'is_in_favorite': ownership.is_in_favorites,
+        'photo': ownership.photo,
+        'list_preffix': "top20"}) }}
         </div>
     {% set cont=cont+1 %}
     {% else %}
     {% set cont=1 %}
 </div>
 <div class="row" style="margin-top: 25px">
-    <div class="col-sm-3">
-            <a target="_blank" rel="tooltip" href="{{ path('frontend_details_ownership',{'own_name':ownership['own_name']  | urlNormalize}) }}" title="{{"MORE_INFO_PREFFIX" | trans}} {{ownership['own_name']}}">
-            <div class="thumbnail has-ribbon has-ribbon-right" data-text="&nbsp;&nbsp;&nbsp;{%if ownership['comments_total'] > 0%}+{%endif%}{{ownership['comments_total']}}&nbsp;&nbsp;&nbsp;">
-                <img alt="{{ ownership['own_name'] }}" src="{{ asset("uploads/ownershipImages/thumbnails/" ~ ownership['photo'])}}">
-            </div>
-            <h1 class="h-blue">{{ ownership['own_name']| title }} <small>({{ownership['prov_name']}})</small></h1>
-            <h5>
-                {%if ownership['description'] != null%}
-                    {{ownership['description'] | striptags | slice(0,120) }} <a href="{{ path('frontend_details_ownership',{'own_name':ownership['own_name']  | urlNormalize}) }}">(...{{"RESERVATION_CONFIRM_DESTINATION_MORE" | trans | capitalize}})</a>
-                {%endif%}
-            </h5>
-            </a>
-        </div>
+    <div class="col-sm-4">
+        {{ include('FrontEndBundle:ownership:accommodation_small_control.html.twig',{
+        'id': ownership.own_id,
+        'name': ownership.own_name,
+        'award': ownership.award,
+        'minPrice': ownership.minPrice,
+        'is_in_favorite': ownership.is_in_favorites,
+        'photo': ownership.photo,
+        'list_preffix': "top20"}) }}
+    </div>
  
     {% endif %}
     {%endfor%}

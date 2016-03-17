@@ -2,6 +2,7 @@
 
 namespace MyCp\mycpBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -148,15 +149,46 @@ class user implements AdvancedUserInterface,  \Serializable
      */
     private $user_activation_date;
 
+    /**
+     * @ORM\OneToMany(targetEntity="comment", mappedBy="com_user")
+     */
+    private $comments;
+
+    public function __construct() {
+        $this->comments = new ArrayCollection();
+    }
+
+
 
     public function getSalt(){
         return '222';
     }
-
-    public function unserialize($data)
+    public function serialize()
     {
-        $this->user_id = unserialize($data);
+        return serialize(array(
+            $this->user_id,
+            $this->user_user_name,
+            $this->user_email, //Add email
+            $this->user_password,
+            $this->user_enabled,
+        ));
     }
+
+    public function unserialize($serialized)
+    {
+        list(
+            $this->user_id,
+            $this->user_user_name,
+            $this->user_email, //Add email
+            $this->user_password,
+            $this->user_enabled,
+            ) = unserialize($serialized);
+
+    }
+//    public function unserialize($data)
+//    {
+//        $this->user_id = unserialize($data);
+//    }
 
     public function eraseCredentials(){
 
@@ -166,17 +198,21 @@ class user implements AdvancedUserInterface,  \Serializable
         return array($this->user_role);
     }
 
-    public function serialize()
-    {
-        return serialize($this->user_id);
-    }
+//    public function serialize()
+//    {
+//        return serialize($this->user_id);
+//    }
 
     public function getPassword()
     {
         return $this->user_password;
     }
+    public function getUsername()
+    {
+        return $this->user_email;
+    }
 
-    public function getUserName()
+    public function getName()
     {
         return $this->user_name;
     }
@@ -593,7 +629,8 @@ class user implements AdvancedUserInterface,  \Serializable
 
     public function __toString()
     {
-        return $this->user_name;
+        $country = ($this->getUserCountry() != null) ? " (".$this->getUserCountry()->getCoName(). ")" : "";
+        return (($this->getUserCompleteName() != "") ? $this->getUserCompleteName() : $this->getUserUserName()).$country;
     }
 
 
@@ -674,4 +711,24 @@ class user implements AdvancedUserInterface,  \Serializable
     {
         return $this->user_enabled;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param mixed $comments
+     * @return mixed
+     */
+    public function setComments($comments)
+    {
+        $this->comments = $comments;
+        return $this;
+    }
+
+
 }

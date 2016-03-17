@@ -10,7 +10,7 @@
 {% block content %}
 <h2>Descargas</h2>
 <hr/>
-<h5>Listado para AirBnb</h5>
+<h5>Listado de alojamientos</h5>
 <div>
     <div id="selected_cont" data-url="{{path("mycp_export_accommodation_list")}}">
         <div class="disable_table_cont"></div>
@@ -30,13 +30,15 @@
                 )
             </div>
 
-             <a disabled="disabled" class="btn btn-info exportButton" href="{{path("mycp_download_info_airbnb")}}" id="downloadToAirBnb">Descargar listado</a>
-             <button class="btn btn-success exportButton" data-url="{{path("mycp_generate_info_airbnb")}}" id="generateToAirBnb">Generar</button>
+             <button type="button" class="btn btn-info exportButton" id="exportDirButton" data-url="{{path("mycp_generate_info_dir")}}">Descargar listado</button>
+
+            <button type="button"  id="generateToAirBnb" class="btn btn-success exportButton" data-url="{{path("mycp_generate_info_airbnb")}}">Descargar AirBnb</button>
+
+
              <button id="del_cont" class="btn btn-danger exportButton">Borrar del listado</button>
 
 
             <div class="clear"></div>
-        </div>
     </div>
 
     <div class="clear"></div>

@@ -58,9 +58,41 @@ class LodgingUnavailabilityDetailsController extends Controller {
         $unDetCounter = count($unDet);
         $reservationCounter = count($reser);
 
+        $reservations = array();
+        foreach($reser as $reservation) {
+            $start = $reservation["own_res_reservation_from_date"];
+            $end = $reservation["own_res_reservation_to_date"];
+            $interval = new \DateInterval("P1D");
 
+            $range = new \DatePeriod($start, $interval, $end);
 
-        return $this->render('mycpBundle:unavailabilityDetails:roomMiniCalendar.json.twig', array("details" => $unDet, "reservations" => $reser, "detailCount" => $unDetCounter, 'reservationCount' => $reservationCounter, 'now' => $now));
+            foreach ($range as $date) {
+                $reservations[] = array(
+                    "date" => $date->format("Y-m-d"),
+                    'status' => $reservation["own_res_status"]
+                );
+            }
+        }
+
+        $uDetails = array();
+        foreach($unDet as $uDetail) {
+            $start = $uDetail->getUdFromDate();
+            $end = date_modify($uDetail->getUdToDate(), "+1 day");
+            $interval = new \DateInterval("P1D");
+
+            $range = new \DatePeriod($start, $interval, $end);
+
+            foreach ($range as $date) {
+                $uDetails[] = $date->format("Y-m-d");
+            }
+        }
+
+        return $this->render('mycpBundle:unavailabilityDetails:roomMiniCalendar.json.twig',
+            array("details" => $uDetails,
+                "reservations" => $reservations,
+                "detailCount" => $unDetCounter,
+                'reservationCount' => $reservationCounter,
+                'now' => $now));
     }
 
     public function get_calendarAction($edit_detail, Request $request) {

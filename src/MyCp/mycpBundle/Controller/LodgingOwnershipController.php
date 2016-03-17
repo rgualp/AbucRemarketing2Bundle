@@ -250,7 +250,7 @@ class LodgingOwnershipController extends Controller
             $em = $this->getDoctrine()->getManager();
             $user_casa = $em->getRepository('mycpBundle:userCasa')->getByUser($user->getUserId());
             $ownership = $user_casa->getUserCasaOwnership();
-            $owner_name = $user_casa->getUserCasaUser()->getUserName() . " " . $user_casa->getUserCasaUser()->getUserLastName();
+            $owner_name = $user_casa->getUserCasaUser()->getName() . " " . $user_casa->getUserCasaUser()->getUserLastName();
             $owner_phone = $ownership->getOwnPhoneCode() . " " . $ownership->getOwnPhoneNumber();
             $owner_mobile = $ownership->getOwnMobileNumber();
             $owner_email = $ownership->getOwnEmail1();

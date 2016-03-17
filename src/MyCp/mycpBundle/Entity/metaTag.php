@@ -29,6 +29,7 @@ class metaTag
     const SECTION_PREMIUM_LIST = 1;//12;
     const SECTION_MOST_VISITED_CITIES = 1;//13;
     const SECTION_WHO_WE_ARE = 1;//14;
+    const SECTION_MYCASARENTA = 1;//14;
     const SECTION_CONTACT_US = 1;//15;
     const SECTION_FAQS = 1;//16;
     const SECTION_LEGAL_TERM = 1;//17;

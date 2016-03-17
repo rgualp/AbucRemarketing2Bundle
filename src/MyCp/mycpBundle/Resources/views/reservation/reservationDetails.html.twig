@@ -142,7 +142,7 @@
             <td nowrap=nowrap>
                 {% set idDestination = (reservation_rooms.getOwnResGenResId.getGenResOwnId.getOwnDestination != null) ? reservation_rooms.getOwnResGenResId.getGenResOwnId.getOwnDestination.getDesId : null %}
                 {% set minSeason = reservation_rooms.getOwnResReservationFromDate | season(reservation_rooms.getOwnResReservationFromDate, reservation_rooms.getOwnResReservationToDate, idDestination) %}
-                {% set maxSeason = reservation_rooms.getOwnResReservationFromDate | season(reservation_rooms.getOwnResReservationToDate, reservation_rooms.getOwnResReservationToDate, idDestination) %}
+                {% set maxSeason = reservation_rooms.getOwnResReservationToDate | season(reservation_rooms.getOwnResReservationFromDate, reservation_rooms.getOwnResReservationToDate, idDestination) %}
                 {%if rooms[flag]%}
                     {% if minSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_LOW') or  maxSeason == constant('\\MyCp\\mycpBundle\\Entity\\season::SEASON_TYPE_LOW') %} <span class="badge badge-warning" style="color: #000" title="Se ha utilizado este precio para el cálculo final">{% endif %}
                     Baja: {{ rooms[flag].getRoomPriceDownTo }} CUC

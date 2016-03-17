@@ -7,13 +7,42 @@ function init()
     $('#invert_selection_cont').click(invertSelection);
     $('#del_cont').click(deleteFromList);
     $('.data_ex').click(selectOption);
-    $("#generateToAirBnb").click(exportList);
+    $("#generateToAirBnb").click(exportAirBnbList);
+    $("#exportDirButton").click(exportDirList);
 
     search();
 
 }
 
-function exportList()
+function exportDirList()
+{
+    var url = $("#exportDirButton").attr('data-url');
+
+    disabledTable();
+    $("#downloadToAirBnb").attr("disabled", "disabled");
+
+    var searchIDs = $("#selected_cont input:checkbox:checked").map(function(){
+        return $(this).val();
+    }).get();
+    var idsString ="0";
+    for(var i= 0; i< searchIDs.length; i++)
+        idsString += "," + searchIDs[i];
+
+    $.post(url,{'codes':idsString},
+        function(data)
+        {
+            if(data !== "")
+            {
+                //$("#downloadToAirBnb").removeAttr("disabled");
+                window.location = data;
+            }
+            selectAll();
+            enabledTable();
+        });
+    return false;
+}
+
+function exportAirBnbList()
 {
     var url = $("#generateToAirBnb").attr('data-url');
 
@@ -30,9 +59,10 @@ function exportList()
     $.post(url,{'codes':idsString},
     function(data)
     {
-        if(data === "OK")
+        if(data !== "")
         {
-            $("#downloadToAirBnb").removeAttr("disabled");
+            //$("#downloadToAirBnb").removeAttr("disabled");
+            window.location = data;
         }
         selectAll();
         enabledTable();
