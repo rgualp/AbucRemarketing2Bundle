@@ -1130,5 +1130,45 @@ class BackendReservationController extends Controller {
             'filter_date' => $sinceDate
         ));
     }
+
+    public function exportReservationsAction(Request $request) {
+        //$service_security = $this->get('Secure');
+        //$service_security->verifyAccess();
+        $filter_date_reserve = $request->get('filter_date_reserve');
+        $filter_offer_number = $request->get('filter_offer_number');
+        $filter_reference = $request->get('filter_reference');
+        $filter_date_from = $request->get('filter_date_from');
+        $filter_date_to = $request->get('filter_date_to');
+        $filter_booking_number = $request->get('filter_booking_number');
+        $filter_status = $request->get('filter_status');
+        $sort_by = $request->get('sort_by');
+
+        if ($filter_date_reserve == 'null')
+            $filter_date_reserve = '';
+        if ($filter_offer_number == 'null')
+            $filter_offer_number = '';
+        if ($filter_booking_number == 'null')
+            $filter_booking_number = '';
+        if ($filter_reference == 'null')
+            $filter_reference = '';
+        if ($filter_date_from == 'null')
+            $filter_date_from = '';
+        if ($filter_date_to == 'null')
+            $filter_date_to = '';
+        if ($filter_status == 'null')
+            $filter_status = '';
+        if ($sort_by == 'null')
+            $sort_by = '';
+
+        $date = new \DateTime();
+        $date = date_modify($date, "-30 days");
+
+        $em = $this->getDoctrine()->getManager();
+        $reservations = $em->getRepository('mycpBundle:generalReservation')
+            ->getReservationsToExport($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $date);
+
+        $exporter = $this->get("mycp.service.export_to_excel");
+        return $exporter->exportReservations($reservations, $date);
+    }
 }
 

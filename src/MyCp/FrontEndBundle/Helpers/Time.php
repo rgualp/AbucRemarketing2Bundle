@@ -74,5 +74,11 @@ class Time {
 
         return $date;
     }
+
+    public static function season($em, $date, $minDate, $maxDate, $idDestination)
+    {
+        $seasons = $em->getRepository("mycpBundle:season")->getSeasons($minDate, $maxDate, $idDestination);
+        return self::seasonTypeByDate($seasons, $date->getTimestamp());
+    }
 }
 

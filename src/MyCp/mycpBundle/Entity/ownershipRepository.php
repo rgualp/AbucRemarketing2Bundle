@@ -825,10 +825,9 @@ class ownershipRepository extends EntityRepository {
 
         $query_string .= $order;
 
-        //var_dump($query_string);
 
         $query = $em->createQuery($query_string);
-
+//        die(dump($query));
         if ($user_id != null)
             $query->setParameter('user_id', $user_id);
 
