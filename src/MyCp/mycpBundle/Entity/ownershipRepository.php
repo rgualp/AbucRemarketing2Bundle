@@ -788,7 +788,6 @@ class ownershipRepository extends EntityRepository {
      * @return array of MyCp\mycpBundle\Entity\ownership
      */
     function search($controller, $text = null, $arrivalDate = null, $leavingDate = null, $guest_total = 1, $rooms_total = 1, $order_by = 'BEST_VALUED', $room_filter = false, $filters = null) {
-
         $em = $this->getEntityManager();
         $user_ids = $em->getRepository('mycpBundle:user')->getIds($controller);
         $user_id = $user_ids['user_id'];
@@ -797,7 +796,6 @@ class ownershipRepository extends EntityRepository {
         $reservations_where = SearchUtils::createDatesWhere($em, $arrivalDate, $leavingDate);
 
         $query_string = SearchUtils::getBasicQuery($room_filter, $user_id, $session_id);
-
         $parameters = array();
 
         $parameters[] = array('session_id', $session_id);
@@ -824,8 +822,7 @@ class ownershipRepository extends EntityRepository {
          $order = SearchUtils::getOrder($order_by);
 
         $query_string .= $order;
-
-
+//        die(dump($query_string));
         $query = $em->createQuery($query_string);
 //        die(dump($query));
         if ($user_id != null)

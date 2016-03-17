@@ -1,0 +1,137 @@
+.filters-container{
+    background-color: #e2e2e2;
+    padding: 10px 20px;
+    border-bottom: 4px solid #bfbfbf;
+}
+.form-control{
+    box-shadow: none;
+    padding: 4px 10px;
+    font-size: 14px;
+    transition: none;
+    border-radius: 2px;
+}
+.input-group-addon{
+    padding: 5px 10px;
+    border-radius: 2px;
+}
+.p-0{
+    padding: 0;
+}
+.p-5{
+    padding: 5px;
+}
+.btn{
+    box-shadow: none;
+    border-radius: 2px;
+    text-shadow: none;
+    color:  #555555;
+}
+.btn-white{
+    background-color: #f4f4f4;
+    color: #555555;
+}
+.btn-white.active{
+    background-color: #bfbfbf;
+    box-shadow: none;
+}
+.btn-group, .btn-group-vertical {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+}
+.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+.btn-group > .btn:first-child {
+    margin-left: 0;
+}
+
+.float-e-margins .btn {
+    margin-bottom: 5px;
+}
+
+.btn-group-vertical > .btn, .btn-group > .btn {
+    float: left;
+    position: relative;
+}
+.btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
+    border-radius: 0;
+}
+.btn-group .btn + .btn, .btn-group .btn + .btn-group, .btn-group .btn-group + .btn, .btn-group .btn-group + .btn-group {
+    margin-left: -1px;
+}
+.btn-group > .btn:last-child:not(:first-child), .btn-group > .dropdown-toggle:not(:first-child) {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+.btn-primary {
+    background-color: #84b231;
+    border-color: rgba(0, 0, 0, 0.25);
+    color: white;
+}
+.btn-large {
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+    padding: 5px 15px;
+}
+.h-blue {
+    font-size: 16px;
+}
+.houses-list h1{
+    margin: 0;
+}
+.houses-list span {
+    color: #6d6c6c;
+}
+.thumbnail {
+    position: relative;
+}
+.thumbnail-over {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding-top: 15px;
+    background-color: rgba(255, 255, 255, 0.75);
+
+}
+.irs-from, .irs-to, .irs-single {
+    background: #027ed4 none repeat scroll 0 0;
+    border-radius: 4px;
+    font-size: 12px;
+    padding: 2px 5px;
+
+}
+.irs-from::after, .irs-to::after, .irs-single::after {
+
+    border-color: #027ed4 transparent transparent;
+}
+.irs-min, .irs-max {
+    font-size: 12px;
+}
+.loading-signal {
+    left: 50%;
+    padding: 5px;
+    position: absolute;
+    top: 50%;
+    z-index: 101;
+}
+.layer-loading {
+    background-color: #ffffff;
+    height: 98%;
+    opacity: 0.6;
+    position: absolute;
+    width: 98%;
+    z-index: 100;
+}
+[data-toggle="buttons"] > .btn input[type="checkbox"], [data-toggle="buttons"] > .btn input[type="radio"], [data-toggle="buttons"] > .btn-group > .btn input[type="checkbox"], [data-toggle="buttons"] > .btn-group > .btn input[type="radio"] {
+    clip: rect(0px, 0px, 0px, 0px);
+    pointer-events: none;
+    position: absolute;
+}
+.breadcrumb-top {
+    border-bottom: none;
+}
+.checkbox-searcher{
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+}

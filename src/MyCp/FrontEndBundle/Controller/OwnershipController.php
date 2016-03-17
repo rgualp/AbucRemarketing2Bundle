@@ -616,8 +616,7 @@ class OwnershipController extends Controller {
         $session = $this->getRequest()->getSession();
 
         if ($session->get('search_order') == null || $session->get('search_order') == '')
-            $session->set('search_order', OrderByHelper::DEFAULT_ORDER_BY);
-
+            $session->set('search_order', OrderByHelper::SEARCHER_BEST_VALUED);
         $rooms = ($rooms == "undefined") ? 1 : $rooms;
 
         $session->set('search_arrival_date', null);
@@ -650,8 +649,7 @@ class OwnershipController extends Controller {
 
         $session->set("filter_array", $check_filters);
         $session->set("filter_room", $room_filter);
-
-        $list = $em->getRepository('mycpBundle:ownership')->search($this, $search_text, $arrival, $departure, $search_guests, $search_rooms, $session->get('search_order'), $room_filter, $check_filters);
+         $list = $em->getRepository('mycpBundle:ownership')->search($this, $search_text, $arrival, $departure, $search_guests, $search_rooms, $session->get('search_order'), $room_filter, $check_filters);
 
         // <editor-fold defaultstate="collapsed" desc="Inside code was inserted into search method in ownershipRepository">
         //Marlon
@@ -913,7 +911,7 @@ class OwnershipController extends Controller {
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
         if ($session->get('search_order') == null || $session->get('search_order') == '')
-            $session->set('search_order', OrderByHelper::DEFAULT_ORDER_BY);
+            $session->set('search_order', OrderByHelper::SEARCHER_BEST_VALUED);
 
         if ($session->get('search_view_results') == null || $session->get('search_view_results') == '')
             $session->set('search_view_results', 'PHOTOS');
@@ -960,26 +958,26 @@ class OwnershipController extends Controller {
             $orderPrice=$request->request->get('order_price');
             $orderComments=$request->request->get('order_comments');
             $orderBooks=$request->request->get('order_books');
-            $orderBy='';
-            if($orderPrice!=''||$orderComments!=''||$orderBooks!='')
-            {
-                $orderBy=' ORDER BY';
-                if($orderPrice!='')
-                   $orderBy.= ' o.own_minimum_price '.$orderPrice;
-                if($orderComments!=''){
-                    if($orderPrice!='')
-                        $orderBy.=',';
-                        $orderBy.= ' o.own_comments_total '.$orderComments;
-                }
-                if($orderBooks!=''){
-                    if($orderPrice!=''||$orderComments!='')
-                        $orderBy.=',';
-                    $orderBy.= ' count_reservations '.$orderBooks;
-                }
-             $orderBy.=', o.own_ranking DESC';
-
-            }
-            $results_list = $em->getRepository('mycpBundle:ownership')->search($this, $session->get('search_text'), $session->get('search_arrival_date'), $session->get('search_departure_date'), $session->get('search_guests'), $session->get('search_rooms'),$orderBy!=''?$orderBy:$session->get('search_order'), $room_filter, $check_filters);
+//            $orderBy='';
+//            if($orderPrice!=''||$orderComments!=''||$orderBooks!='')
+//            {
+//                $orderBy=' ORDER BY';
+//                if($orderPrice!='')
+//                   $orderBy.= ' o.own_minimum_price '.$orderPrice;
+//                if($orderComments!=''){
+//                    if($orderPrice!='')
+//                        $orderBy.=',';
+//                        $orderBy.= ' o.own_comments_total '.$orderComments;
+//                }
+//                if($orderBooks!=''){
+//                    if($orderPrice!=''||$orderComments!='')
+//                        $orderBy.=',';
+//                    $orderBy.= ' count_reservations '.$orderBooks;
+//                }
+//             $orderBy.=', o.own_ranking DESC';
+//
+//            }
+            $results_list = $em->getRepository('mycpBundle:ownership')->search($this, $session->get('search_text'), $session->get('search_arrival_date'), $session->get('search_departure_date'), $session->get('search_guests'), $session->get('search_rooms'),$session->get('search_order'), $room_filter, $check_filters);
 
             $own_ids = "0";
             foreach ($results_list as $own)
@@ -1037,6 +1035,7 @@ class OwnershipController extends Controller {
 
         $check_filters = array();
         $check_filters['own_reservation_type'] = $request->request->get('own_reservation_type');
+        $check_filters['own_award'] = $request->request->get('own_award');
         $check_filters['own_category'] = $request->request->get('own_category');
         $check_filters['own_type'] = $request->request->get('own_type');
         $check_filters['own_price'] = $request->request->get('own_price');
@@ -1084,26 +1083,26 @@ class OwnershipController extends Controller {
         $orderPrice=$request->request->get('order_price');
         $orderComments=$request->request->get('order_comments');
         $orderBooks=$request->request->get('order_books');
-        $orderBy='';
-        if($orderPrice!=''||$orderComments!=''||$orderBooks!='')
-        {
-            $orderBy=' ORDER BY';
-            if($orderPrice!='')
-                $orderBy.= ' o.own_minimum_price '.$orderPrice;
-            if($orderComments!=''){
-                if($orderPrice!='')
-                    $orderBy.=',';
-                $orderBy.= ' o.own_comments_total '.$orderComments;
-            }
-            if($orderBooks!=''){
-                if($orderPrice!=''||$orderComments!='')
-                    $orderBy.=',';
-                $orderBy.= ' count_reservations '.$orderBooks;
-            }
-            $orderBy.=', o.own_ranking DESC';
-
-        }
-        $list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->search($this, $session->get('search_text'), $session->get('search_arrival_date'), $session->get('search_departure_date'), $session->get('search_guests'), $session->get('search_rooms'), $session->get('search_order'), $room_filter, $check_filters))->getResult();
+//        $orderBy='';
+//        if($orderPrice!=''||$orderComments!=''||$orderBooks!='')
+//        {
+//            $orderBy=' ORDER BY';
+//            if($orderPrice!='')
+//                $orderBy.= ' o.own_minimum_price '.$orderPrice;
+//            if($orderComments!=''){
+//                if($orderPrice!='')
+//                    $orderBy.=',';
+//                $orderBy.= ' o.own_comments_total '.$orderComments;
+//            }
+//            if($orderBooks!=''){
+//                if($orderPrice!=''||$orderComments!='')
+//                    $orderBy.=',';
+//                $orderBy.= ' count_reservations '.$orderBooks;
+//            }
+//            $orderBy.=', o.own_ranking DESC';
+//
+//        }
+        $list = $paginator->paginate($em->getRepository('mycpBundle:ownership')->search($this, $session->get('search_text'), $session->get('search_arrival_date'), $session->get('search_departure_date'), $session->get('search_guests'), $session->get('search_rooms'), $session->get('search_order')?$session->get('search_order'):null, $room_filter, $check_filters))->getResult();
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
@@ -1158,6 +1157,7 @@ class OwnershipController extends Controller {
 
         //$check_filters['own_reservation_type'] = $request->request->get('own_reservation_type');
         $check_filters['own_category'] = $request->request->get('own_category');
+        $check_filters['own_award'] = $request->request->get('own_award');
         $check_filters['own_type'] = $request->request->get('own_type');
         $check_filters['own_price'] = $request->request->get('own_price');
         $check_filters['own_price_from'] = $request->request->get('own_price_from');
@@ -1425,6 +1425,7 @@ class OwnershipController extends Controller {
 
         $check_filters = array();
         $check_filters['own_reservation_type'] = null;
+        $check_filters['own_award'] = null;
         $check_filters['own_category'] = null;
         $check_filters['own_type'] = array($type);
         $check_filters['own_price'] = null;

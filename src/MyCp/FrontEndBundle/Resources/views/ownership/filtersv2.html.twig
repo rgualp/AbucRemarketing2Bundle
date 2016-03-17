@@ -273,11 +273,11 @@
                     <input class="action_remove_filter_up" type="checkbox" name="others_languages" value="___1" {%if check_filters is defined and check_filters['own_others_languages'] == '___1'%} checked="checked" {%endif%} {%if not( own_statistics['own_lang_italian'] > 0 or (check_filters is defined and check_filters['own_others_languages'] == '___1'))%} disabled="disabled" {%endif%}/>{{"LANG_ITALIAN" | trans}} ({{own_statistics['own_lang_italian']}})
                 </label>
             </div>
-            <span class="h-dark-grey-2">Premios</span>
+            <span class="h-dark-grey-2">{{ 'OWN_PRIZES'|trans }}</span>
             {%for award in awards%}
                 <div class="checkbox">
                     <label>
-                        <input class="action_remove_filter_up" type="checkbox" data-aux-text="{{"BEDS_ROOMS" | trans}}" data-aux-text="{{"BEDS_ROOMS" | trans}}" />{{ award.name }}
+                        <input class="action_remove_filter_up" type="checkbox" name="own_awards" value="{{ award.id }}" {%if check_filters is defined and check_filters['own_award'] == award.id %} checked="checked"{% endif %} data-aux-text="{{"BEDS_ROOMS" | trans}}" data-aux-text="{{"BEDS_ROOMS" | trans}}" />{{ award.name }}
                     </label>
                 </div>
             {%endfor%}
