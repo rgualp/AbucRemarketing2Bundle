@@ -259,6 +259,14 @@
             <input class="action_remove_filter_up" type="checkbox" data-aux-text="{{"BEDS_ROOMS" | trans}}" name="room_beds_total" value="+6" {%if check_filters is defined and '+6' in check_filters['own_beds_total']%} checked="checked" {%endif%} {%if own_statistics['room_total_beds_+5'] == 0%} disabled="disabled" {%endif%}/> + 5 ({{own_statistics['room_total_beds_+5']}})
         </label>
     </div>
+        <span class="h-dark-grey-2">Premios</span>
+        {%for award in awards%}
+            <div class="checkbox">
+                <label>
+                    <input class="action_remove_filter_up" type="checkbox" data-aux-text="{{"BEDS_ROOMS" | trans}}" data-aux-text="{{"BEDS_ROOMS" | trans}}" />{{ award.name }}
+                </label>
+            </div>
+        {%endfor%}
     </div>
         <div class="col-sm-3">
             <span class="h-dark-grey-2">{{"SELECT_OTHER_LANGUAGE_OPTION" | trans}}</span>

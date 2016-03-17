@@ -724,7 +724,7 @@ class OwnershipController extends Controller {
         $types_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsTypes();
         $prices_own_list = $em->getRepository('mycpBundle:ownership')->getOwnsPrices();
         $statistics_own_list = $em->getRepository('mycpBundle:ownership')->getSearchStatistics();
-
+        $awards = $em->getRepository('mycpBundle:award')->findAll();
         if ($check_filters != null)
             return $this->render('FrontEndBundle:ownership:searchOwnershipv2.html.twig', array(
                         'search_text' => $search_text,
@@ -744,7 +744,8 @@ class OwnershipController extends Controller {
                         'total_items' => $paginator->getTotalItems(),
                         'current_page' => $page,
                         'check_filters' => $check_filters,
-                        'show_paginator' => true
+                        'show_paginator' => true,
+                        'awards'=>$awards
             ));
         else
             return $this->render('FrontEndBundle:ownership:searchOwnershipv2.html.twig', array(
