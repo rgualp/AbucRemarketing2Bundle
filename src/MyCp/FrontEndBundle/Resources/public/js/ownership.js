@@ -428,6 +428,15 @@ function research()
     if($('#booksOrder').hasClass('active'))
         order_books='ASC';
     var result = $('#div_result');
+    var own_category_items=[];
+    $('input[name=own_category]:checked').each(function() {
+        own_category_items.push($(this).val());
+        if (document.getElementById("fu_own_category_" + $(this).val()) == null)
+        {
+            innerHtml = $("#filter_upper").html();
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_category_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='own_category'><i class='icon-remove-sign'></i> " + $(this).parent().text() + "</a> ");
+        }
+    });
 
     arrival = (arrival != $('#input_arrival_date').attr('placeholder')) ? create_date(arrival) : null;
     departure = (departure != $('#input_departure_date').attr('placeholder')) ? create_date(departure) : null;
@@ -441,12 +450,12 @@ function research()
         'text': text,
         'order_price': order_price,
         'order_comments': order_comments,
-        'order_books': order_books
+        'order_books': order_books,
+        'own_category': (own_category_items.length > 0) ? own_category_items : null
     }, function(data) {
         result.html(data);
         manage_favorities(".favorite_off_action");
         manage_favorities(".favorite_on_action");
-
         $(".filter_upper_item").each(function() {
             var control_id = $(this).attr("data-control-id");
             var control_name = $(this).attr("data-control-name");
@@ -457,7 +466,7 @@ function research()
             else if (control_id !== "")
                 $(this).getElementById(control_id).checked = false;
 
-            if (control_name != "" && item_value != "")
+            if (control_name != "" && item_value != ""&& control_name != "own_category")
             {
                 $('input[name=' + control_name + ']').each(function() {
                     if ($(this).val() == item_value)
@@ -499,16 +508,6 @@ function load_upper_filters()
         order_books='ASC';
     var result = $('#div_result');
     var innerHtml = $("#filter_upper").html();
-
-    $('input[name=own_type]:checked').each(function() {
-        own_type_items.push($(this).val());
-        if (document.getElementById("fu_own_type_" + $(this).val()) == null)
-        {
-            innerHtml = $("#filter_upper").html();
-            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_type_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='own_type'><i class='icon-remove-sign'></i>" + $(this).parent().text() + "</a> ");
-        }
-
-    });
 
     $('input[name=own_category]:checked').each(function() {
         own_category_items.push($(this).val());

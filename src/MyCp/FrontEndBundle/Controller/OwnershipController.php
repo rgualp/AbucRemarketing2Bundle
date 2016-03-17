@@ -952,10 +952,9 @@ class OwnershipController extends Controller {
             $session->set('search_departure_date', $search_departure_date);
             $session->set('search_guests', $search_guests);
             $session->set('search_rooms', $search_rooms);
-
             $check_filters = $session->get("filter_array");
+            $check_filters['own_category'] = $request->request->get('own_category');
             $room_filter = $session->get("filter_room");
-
             $session->set("filter_array", $check_filters);
             $session->set("filter_room", $room_filter);
             $orderPrice=$request->request->get('order_price');

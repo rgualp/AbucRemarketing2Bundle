@@ -45,16 +45,25 @@ filter='?uglifyjs2'
     </div>
    <div class="row">
       <div class="col-sm-12">
-          <div class="col-sm-4 p-5">
-          <div class="btn-group" data-toggle="buttons">
-              <label class="btn btn-white"><input type="radio" name="priceOrder" value="DESC" class="toggle"> {{ 'PRICE_HIGHER'|trans }} </label>
-              <label class="btn btn-white"><input type="radio" name="priceOrder" value="ASC" class="toggle"> {{ 'PRICE_LOWER'|trans }} </label>
-              {#<button class="btn btn-white active">{{ 'PRICE_HIGHER'|trans }}</button>#}
-              {#<button class="btn btn-white">{{ 'PRICE_LOWER'|trans }}</button>#}
-          </div>
-          </div>
-          <div class="col-sm-2 p-5"> <button id="commentsOrder" type="button" data-toggle="button" class="btn btn-white">{{ 'COMMENT_ASC'|trans }}</button></div>
-          <div class="col-sm-2 p-5"> <button id="booksOrder" type="button" data-toggle="button" class="btn btn-white">{{ 'BOOKS_ASC'|trans }}</button></div>
+          {#<div class="col-sm-4 p-5">#}
+          {#<div class="btn-group" data-toggle="buttons">#}
+              {#<label class="btn btn-white"><input type="radio" name="priceOrder" value="DESC" class="toggle"> {{ 'PRICE_HIGHER'|trans }} </label>#}
+              {#<label class="btn btn-white"><input type="radio" name="priceOrder" value="ASC" class="toggle"> {{ 'PRICE_LOWER'|trans }} </label>#}
+              {#&#123;&#35;<button class="btn btn-white active">{{ 'PRICE_HIGHER'|trans }}</button>&#35;&#125;#}
+              {#&#123;&#35;<button class="btn btn-white">{{ 'PRICE_LOWER'|trans }}</button>&#35;&#125;#}
+          {#</div>#}
+          {#</div>#}
+          {#<div class="col-sm-2 p-5"> <button id="commentsOrder" type="button" data-toggle="button" class="btn btn-white">{{ 'COMMENT_ASC'|trans }}</button></div>#}
+          {#<div class="col-sm-2 p-5"> <button id="booksOrder" type="button" data-toggle="button" class="btn btn-white">{{ 'BOOKS_ASC'|trans }}</button></div>#}
+          <div class="col-sm-8 p-5">
+              {%for category in owns_categories%}
+                  <div class="checkbox checkbox-searcher col-sm-4">
+                      <label>
+                          <input class="action_remove_filter_up" type="checkbox" name="own_category" value="{{category[0]}}" {%if check_filters is defined and category[0] in check_filters['own_category']%} checked="checked" {%endif%} {%if category[1] == '0'%} disabled="disabled" {%endif%}/>  {{category[0] | trans}} ({{category[1]}})
+                      </label>
+                  </div>
+              {%endfor%}
+              </div>
           <div class="col-sm-4 p-5 pull-right">
 
           {%if is_within_search_results%}
