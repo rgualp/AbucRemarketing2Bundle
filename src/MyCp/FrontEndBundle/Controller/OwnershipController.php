@@ -765,7 +765,8 @@ class OwnershipController extends Controller {
                         'items_per_page' => $items_per_page,
                         'total_items' => $paginator->getTotalItems(),
                         'current_page' => $page,
-                        'show_paginator' => true
+                        'show_paginator' => true,
+                        'awards'=>$awards
             ));
     }
 
