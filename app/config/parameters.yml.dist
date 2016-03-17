@@ -7,12 +7,12 @@ parameters:
     database_password: ~
 
     #Database connection for remarketing
-    database_driver_remarketing:   pdo_mysql
-    database_host_remarketing:     127.0.0.1
-    database_port_remarketing:     ~
-    database_name_remarketing:     symfony
-    database_user_remarketing:     root
-    database_password_remarketing: ~
+     #database_driver_remarketing:   pdo_mysql
+     #database_host_remarketing:     127.0.0.1
+     #database_port_remarketing:     ~
+     #database_name_remarketing:     symfony
+     #database_user_remarketing:     root
+     #database_password_remarketing: ~
 
     mailer_transport:  smtp
     mailer_host:       127.0.0.1
