@@ -83,7 +83,6 @@ function start() {
     //    filter_by_others(false);
     //});
     $('#filters-submit').click(function () {
-        //alert($('#priceFilter').val());
         filter_by_others(false);
     });
     initialize_map();
