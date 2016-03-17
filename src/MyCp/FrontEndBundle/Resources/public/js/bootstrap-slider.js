@@ -44,7 +44,6 @@
 
 		this.tooltip = this.picker.find('.tooltip');
 		this.tooltipInner = this.tooltip.find('div.tooltip-inner');
-		console.log(this.element);
 		this.orientation = this.element.data('slider-orientation')||options.orientation;
 		switch(this.orientation) {
 			case 'vertical':
