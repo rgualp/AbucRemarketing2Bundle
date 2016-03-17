@@ -90,7 +90,9 @@ class DestinationController extends Controller {
 
         $view = $session->get('search_view_results_destination');
         $paginator = $this->get('ideup.simple_paginator');
-        $items_per_page = ($view != null) ? ($view != 'PHOTOS' ? 5 : 9) : 5;;
+//        $items_per_page = ($view != null) ? ($view != 'PHOTOS' ? 5 : 9) : 5;;
+        $items_per_page = 6;
+        $view = 'PHOTOS';
         $paginator->setItemsPerPage($items_per_page);
         $list = $em->getRepository('mycpBundle:destination')->getAccommodationsNear($destination->getDesId(), null,null, $users_id['user_id'], $users_id['session_id']);
         $owns_nearby = $paginator->paginate($list)->getResult();
@@ -227,7 +229,9 @@ class DestinationController extends Controller {
 
         $paginator = $this->get('ideup.simple_paginator');
         //$items_per_page = $session->get("destination_details_show_rows");
-        $items_per_page = ($view != null) ? ($view != 'PHOTOS' ? 5 : 6) : 5;
+//        $items_per_page = ($view != null) ? ($view != 'PHOTOS' ? 5 : 6) : 5;
+        $items_per_page = 6;
+        $view = 'PHOTOS';
         $paginator->setItemsPerPage($items_per_page);
         $owns_nearby = $paginator->paginate($em->getRepository('mycpBundle:destination')->getAccommodationsNear($destination_id, null,null, $users_id['user_id'], $users_id['session_id']))->getResult();
 
