@@ -49,8 +49,10 @@
         <span class="h-dark-grey-2">{{"SELECT_OWNERSHIP_PRICES_OPTION" | trans}}</span>
         {% set count=owns_prices|length-1 %}
         <div class="row" style="margin-top: 20px; padding-left: 15px;">
-        <b style="margin-right: 7px;">${{ owns_prices[0][0] }}</b> <input id="priceFilter" type="text" class="span2" style="width: 100%;" value="" data-slider-min="0" data-slider-max="{{ owns_prices[count][1] }}" data-slider-step="1" data-slider-value="[{{ owns_prices[0][0] }},{{ owns_prices[count][1]}}]"/> <b style="margin-left: 7px;">${{ owns_prices[count][1] }}</b>
+        <b style="margin-right: 7px;">${% if check_filters| length >0 %} {% if check_filters.own_price_from[0] is defined %} {{ check_filters.own_price_from[0] }} {% else %} {{ owns_prices[0][0] }} {% endif %}{% endif %}</b>
+            <input id="priceFilter" type="text" class="span2" style="width: 100%;" value="" data-slider-min="0" data-slider-max="{{ owns_prices[count][1] }}" data-slider-step="1" data-slider-value="[{{ owns_prices[0][0] }},{% if check_filters| length >0 %} {% if check_filters.own_price_to[0] is defined %} {{ check_filters.own_price_to[0] }} {% else %} {{ owns_prices[count][1]}} {% endif %}{% endif %}]"/> <b style="margin-left: 7px;">${% if check_filters| length >0 %} {% if check_filters.own_price_to[0] is defined %} {{ check_filters.own_price_to[0] }} {% else %} {{ owns_prices[count][1] }} {% endif %}{% endif %}</b>
         </div>
+
         {#<div id="ionrange_prices" style="margin-top: 20px; position: relative;"></div>#}
         {#<span class="h-dark-grey-2">{{"SELECT_OWNERSHIP_PRICES_OPTION" | trans}}</span>#}
         {#{%for price in owns_prices%}#}

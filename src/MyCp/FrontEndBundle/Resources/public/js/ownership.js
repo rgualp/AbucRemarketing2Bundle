@@ -750,6 +750,8 @@ function load_upper_filters()
 
 function filter_by_others(refreshStatistics)
 {
+    $('#button_research').removeClass('hide');
+    $('#more_filters').addClass('collapsed');
     var checked_filters = load_upper_filters();
     show_loading();
 
@@ -888,7 +890,7 @@ function initialize_map() {
     {
         var center = new google.maps.LatLng(22.01300, -79.26635);//La Habana 23.09725, -82.37548
         var options = {
-            'zoom': 4,
+            'zoom': 6,
             'center': center,
             'mapTypeId': google.maps.MapTypeId.ROADMAP
         };
