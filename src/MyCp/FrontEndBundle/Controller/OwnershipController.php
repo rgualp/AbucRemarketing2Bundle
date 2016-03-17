@@ -1035,6 +1035,7 @@ class OwnershipController extends Controller {
 
         $check_filters = array();
         $check_filters['own_reservation_type'] = $request->request->get('own_reservation_type');
+        $check_filters['own_award'] = $request->request->get('own_award');
         $check_filters['own_category'] = $request->request->get('own_category');
         $check_filters['own_type'] = $request->request->get('own_type');
         $check_filters['own_price'] = $request->request->get('own_price');
@@ -1156,6 +1157,7 @@ class OwnershipController extends Controller {
 
         //$check_filters['own_reservation_type'] = $request->request->get('own_reservation_type');
         $check_filters['own_category'] = $request->request->get('own_category');
+        $check_filters['own_award'] = $request->request->get('own_award');
         $check_filters['own_type'] = $request->request->get('own_type');
         $check_filters['own_price'] = $request->request->get('own_price');
         $check_filters['own_price_from'] = $request->request->get('own_price_from');
@@ -1423,6 +1425,7 @@ class OwnershipController extends Controller {
 
         $check_filters = array();
         $check_filters['own_reservation_type'] = null;
+        $check_filters['own_award'] = null;
         $check_filters['own_category'] = null;
         $check_filters['own_type'] = array($type);
         $check_filters['own_price'] = null;

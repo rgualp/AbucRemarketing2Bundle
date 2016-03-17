@@ -3762,6 +3762,11 @@
             <trans-unit id="949" resname="Bad credentials.">
                 <source>Bad credentials.</source>
                 <target>Nombre de usuario o Contraseña inválido</target>
+                </trans-unit>
+
+                 <trans-unit id="950" resname="OWN_PRIZES">
+                <source>OWN_PRIZES</source>
+                <target>Premios</target>
             </trans-unit>
         </body>
     </file>
