@@ -430,8 +430,6 @@ public static function getFilterWhere($filters) {
     }
 
     public static function getOrder($order_by) {
-        if(!is_int($order_by))
-            return $order_by;
       switch($order_by)
         {
             case OrderByHelper::DEFAULT_ORDER_BY:
