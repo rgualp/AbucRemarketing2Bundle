@@ -138,6 +138,6 @@
 .ownerships_mosaic div.thumbnail{
     height: 250px;
 }
-.ownerships_mosaic div.thumbnail div.thumbnail > a > img {
+.ownerships_mosaic div.thumbnail > a > img {
     height: 100%;
 }
