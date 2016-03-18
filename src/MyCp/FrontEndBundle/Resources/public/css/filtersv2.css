@@ -141,3 +141,13 @@
 .ownerships_mosaic div.thumbnail > a > img {
     height: 100%;
 }
+@media (min-width:1400px) {
+    .ownerships_mosaic div.thumbnail{
+        height: 320px;
+    }
+}
+@media (min-width:2000px) {
+    .ownerships_mosaic div.thumbnail{
+        height: 400px;
+    }
+}
