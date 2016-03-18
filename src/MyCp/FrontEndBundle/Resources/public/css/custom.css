@@ -90,4 +90,14 @@ hr.upper-bottom{ margin:15px 0 0; border-color:#bbb;}
     max-width: 200px;
     margin: 0 auto;
 }
+.count-info .label {
+    border-radius: 50%;
+    color: #FFFFFF;
+    line-height: 12px;
+    padding: 2px 7px;
+    position: relative;
+    right: 69px;
+    top: -10px;
+    background-color: #F4981D;
+}
 .icon-facebook{background: url("../img/icons/facebook.png"); width: 22px; height: 22px;vertical-align: middle;}

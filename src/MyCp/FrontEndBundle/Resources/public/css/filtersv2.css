@@ -135,3 +135,9 @@
     margin-top: 5px !important;
     margin-bottom: 5px !important;
 }
+.ownerships_mosaic div.thumbnail{
+    height: 250px;
+}
+.ownerships_mosaic div.thumbnail > a > img {
+    height: 100%;
+}

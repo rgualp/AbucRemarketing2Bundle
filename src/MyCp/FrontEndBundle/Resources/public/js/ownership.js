@@ -571,6 +571,14 @@ function load_upper_filters()
             $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_room_total_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='room_total'><i class='icon-remove-sign'></i>" + $(this).attr('data-aux-text') + ' ' + $(this).parent().text() + "</a> ");
         }
     });
+    $('input[name=own_type]:checked').each(function() {
+        own_type_items.push($(this).val());
+        if (document.getElementById("fu_own_type_" + $(this).val()) == null)
+        {
+            innerHtml = $("#filter_upper").html();
+            $("#filter_upper").html(innerHtml + "<a class='btn btn-default filter_upper_item' id='fu_own_type_" + $(this).val() + "' data-control-id='' data-value='" + $(this).val() + "' data-control-name='own_type'><i class='icon-remove-sign'></i>" + $(this).parent().text() + "</a> ");
+        }
+    });
 
     $('input[name=room_type]:checked').each(function() {
         room_type_items.push($(this).val());
