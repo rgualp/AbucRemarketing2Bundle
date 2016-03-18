@@ -125,6 +125,8 @@
     </div>
         <div class="span3">
             <span class="lblLoading hidden">Premiando alojamientos...</span>
+
+            <span class="lblMessageError hidden error"></span>
         </div>
         <div class="span4">&nbsp;</div>
        </div>
@@ -244,13 +246,16 @@
 
         function set_award()
         {
+            $(".lblMessageError").addClass("hidden");
             var checkValues = $('input[name=check_to_award]:checked').map(function() {
                 return $(this).attr('data-id');
             }).get();
 
             if(checkValues.length == 0)
             {
-                alert("Seleccione al menos un alojamiento");
+                //alert("Seleccione al menos un alojamiento");
+                $(".lblMessageError").html("Seleccione al menos un alojamiento");
+                $(".lblMessageError").removeClass("hidden");
                 return;
             }
 
@@ -258,7 +263,9 @@
 
             if(award_year == "")
             {
-                alert("Seleccione el año");
+                //alert("Seleccione el año");
+                $(".lblMessageError").html("Seleccione el año");
+                $(".lblMessageError").removeClass("hidden");
                 return;
             }
 
