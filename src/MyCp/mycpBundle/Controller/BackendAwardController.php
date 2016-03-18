@@ -2,6 +2,7 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use MyCp\mycpBundle\Helpers\FormMode;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use MyCp\mycpBundle\Entity\award;
@@ -35,7 +36,7 @@ class BackendAwardController extends Controller {
         //$service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
         $award = new award();
-        $form = $this->createForm(new awardType(), $award);
+        $form = $this->createForm(new awardType(true), $award);
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
@@ -60,12 +61,13 @@ class BackendAwardController extends Controller {
         //$service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
         $award = $em->getRepository('mycpBundle:award')->find(array('id' => $id));
-        $form = $this->createForm(new awardType(), $award);
+        $priceFileNames = array("big" => ($award != null) ? $award->getIconOrClassName() : "", "small" => ($award != null) ? $award->getSecondIconOrClassName(): "");
+        $form = $this->createForm(new awardType(false), $award);
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
-                $this->processAwardPost($award, $em, $request);
+                $this->processAwardPost($award, $em, $request, $priceFileNames);
                 $message = 'Premio actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
@@ -81,7 +83,7 @@ class BackendAwardController extends Controller {
         ));
     }
 
-    private function processAwardPost(award $award, $em, Request $request)
+    private function processAwardPost(award $award, $em, Request $request, $priceFileNames = null)
     {
         $dir = $this->container->getParameter('award.dir.photos');
         $file = $request->files->get('mycp_mycpbundle_awardtype');
@@ -90,11 +92,17 @@ class BackendAwardController extends Controller {
             $file['icon_or_class_name']->move($dir, $fileName);
             $award->setIconOrClassName($fileName);
         }
+        else if($priceFileNames != null){
+            $award->setIconOrClassName($priceFileNames["big"]);
+        }
 
         if (isset($file['second_icon_or_class_name'])) {
             $fileName = uniqid('award-') . '-photo.jpg';
             $file['second_icon_or_class_name']->move($dir, $fileName);
             $award->setSecondIconOrClassName($fileName);
+        }
+        else if($priceFileNames != null){
+            $award->setSecondIconOrClassName($priceFileNames["small"]);
         }
 
 
