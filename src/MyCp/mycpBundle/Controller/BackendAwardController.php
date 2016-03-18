@@ -168,7 +168,17 @@ class BackendAwardController extends Controller {
         //$service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
         $filter_year=$request->get('filter_year');
-        $accommodationsAward = $em->getRepository('mycpBundle:accommodationAward')->getAccommodationsAward($id, $filter_year);
+        $filter_code=$request->get('filter_code');
+        $filter_name=$request->get('filter_name');
+
+        if ($filter_year == 'null')
+            $filter_year = '';
+        if ($filter_code == 'null')
+            $filter_code = '';
+        if ($filter_name == 'null')
+            $filter_name = '';
+
+        $accommodationsAward = $em->getRepository('mycpBundle:accommodationAward')->getAccommodationsAward($id, $filter_year, $filter_code, $filter_name);
         $award = $em->getRepository('mycpBundle:award')->find($id);
 
         $paginator = $this->get('ideup.simple_paginator');
@@ -184,7 +194,9 @@ class BackendAwardController extends Controller {
             'items_per_page' => $items_per_page,
             'total_items' => $paginator->getTotalItems(),
             'current_page' => $page,
-            'filter_year' => $filter_year
+            'filter_year' => $filter_year,
+            'filter_code' => $filter_code,
+            'filter_name' => $filter_name
         ));
     }
 

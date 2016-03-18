@@ -35,7 +35,7 @@
             <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_list_reservations')}}">
                 <div class="well well-small">
                     <div class="row-fluid">
-                        <div class="span3"><label>Reserva (<small>Ej. CAS.001 o CAS.001-CAS.010</small>):</label>
+                        <div class="span3"><label>Reserva (*):</label>
                             <input id="filter_offer_number" name="filter_offer_number" type="text" class="input-block-level" value="{{filter_offer_number}}"/>
                         </div>
                         <div class="span3"><label>Alojamiento:</label>
@@ -88,6 +88,9 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="row-fluid">
+                        <em>(*) Ej. CAS.001 o CAS.001-CAS.010</em>
                     </div>
                 </div>
 
