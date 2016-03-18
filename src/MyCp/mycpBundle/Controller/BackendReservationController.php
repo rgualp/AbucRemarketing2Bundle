@@ -1170,7 +1170,7 @@ class BackendReservationController extends Controller {
                 $sort_by = '';
 
             $date = new \DateTime();
-            $date = date_modify($date, "-10 days");
+            $date = date_modify($date, "-5 days");
 
             $em = $this->getDoctrine()->getManager();
             $reservations = $em->getRepository('mycpBundle:generalReservation')
