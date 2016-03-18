@@ -78,9 +78,15 @@ class PublicController extends Controller {
     public function topNavAction($route, $routeParams = null)
     {
         $routeParams = empty($routeParams) ? array() : $routeParams;
+
+        $em = $this->getDoctrine()->getManager();
+        $user_ids = $em->getRepository('mycpBundle:user')->getIds($this);
+
+        $countItems = $em->getRepository('mycpBundle:favorite')->getTotal($user_ids['user_id'],$user_ids['session_id']);
         $response = $this->render('FrontEndBundle:layout:topNav.html.twig', array(
                 'route' => $route,
-                'routeParams' => $routeParams
+                'routeParams' => $routeParams,
+                'count_fav'=>$countItems
             ));
 
 
