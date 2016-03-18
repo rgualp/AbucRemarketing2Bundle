@@ -41,11 +41,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% stylesheets
     '@FrontEndBundle/Resources/public/css/custom.css'
-    '@FrontEndBundle/Resources/public/css/plugins/font-awesome/css/font-awesome.min.css'
     filter='?uglifycss'
     %}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/frontend/css/plugins/font-awesome/css/font-awesome.min.css') }}">
     {% if ownership.category is defined and  ownership.category == 'Económica'%}
         {% stylesheets
         '@FrontEndBundle/Resources/public/css/economic_house.css'
