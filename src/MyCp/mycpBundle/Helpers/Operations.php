@@ -24,4 +24,9 @@ class Operations {
 
 }
 
+class FormMode{
+    const FORM_MODE_INSERT = 1;
+    const FORM_MODE_EDIT = 2;
+}
+
 ?>
