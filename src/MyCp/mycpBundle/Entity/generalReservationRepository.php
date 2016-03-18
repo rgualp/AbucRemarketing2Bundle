@@ -749,9 +749,9 @@ class generalReservationRepository extends EntityRepository {
                 break;
             case OrderByHelper::RESERVATION_CLIENT:
                 $qb->orderBy("gres.gen_res_date", "DESC")
-                    ->addOrderBy("u.user_user_name", "ASC")
-                    ->addOrderBy("u.user_last_name", "ASC")
-                    ->addOrderBy("u.user_email", "ASC")
+                    ->addOrderBy("user.user_user_name", "ASC")
+                    ->addOrderBy("user.user_last_name", "ASC")
+                    ->addOrderBy("user.user_email", "ASC")
                     ->addOrderBy("gres.gen_res_id", "DESC");
                    // ->addOrderBy("gres.gen_res_from_date", "DESC");
                 break;
