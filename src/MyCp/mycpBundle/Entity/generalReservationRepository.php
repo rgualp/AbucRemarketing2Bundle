@@ -641,36 +641,29 @@ class generalReservationRepository extends EntityRepository {
 
 
         $date = $date->format("Y-m-d");
-        $qb->where("gres.gen_res_date >= :filter_date")
-            ->setParameter("filter_date", $date);
+        $qb->where("gres.gen_res_date >= '$date'");
 
         if($filter_date_reserve != "" && $filter_date_reserve != "null"){
             $filter_date_reserve = Dates::createForQuery($filter_date_reserve, "d/m/Y");
-
-            $qb->andWhere("gres.gen_res_date >= :filter_date_reserve")
-               ->setParameter("filter_date_reserve", $filter_date_reserve);
+            $qb->andWhere("gres.gen_res_date >= '$filter_date_reserve'");
         }
 
         if($filter_date_from != "" && $filter_date_from != "null" && $filter_date_to != "" && $filter_date_to != "null") {
             $filter_date_from = Dates::createForQuery($filter_date_from, "d/m/Y");
             $filter_date_to = Dates::createForQuery($filter_date_to, "d/m/Y");
 
-            $qb->andWhere("gres.gen_res_date >= :filter_date_from")
-                ->andWhere("gres.gen_res_to_date <= :filter_date_to")
-                ->setParameter("filter_date_from", $filter_date_from)
-                ->setParameter("filter_date_to", $filter_date_to);
+            $qb->andWhere("gres.gen_res_date >= '$filter_date_from'")
+                ->andWhere("gres.gen_res_to_date <= '$filter_date_to'");
         }
         else if($filter_date_from != "" && $filter_date_from != "null" && ($filter_date_to == "" || $filter_date_to == "null")) {
             $filter_date_from = Dates::createForQuery($filter_date_from, "d/m/Y");
 
-            $qb->andWhere("gres.gen_res_date >= :filter_date_from")
-                ->setParameter("filter_date_from", $filter_date_from);
+            $qb->andWhere("gres.gen_res_date >= '$filter_date_from'");
         }
         else if(($filter_date_from == "" || $filter_date_from == "null") && $filter_date_to != "" && $filter_date_to != "null"){
             $filter_date_to = Dates::createForQuery($filter_date_to, "d/m/Y");
 
-            $qb->andWhere("gres.gen_res_to_date <= :filter_date_to")
-                ->setParameter("filter_date_to", $filter_date_to);
+            $qb->andWhere("gres.gen_res_to_date <= '$filter_date_to'");
         }
 
         if($filter_offer_number != "" && $filter_offer_number != "null"){
