@@ -33,7 +33,7 @@ assetic:
     use_controller: false
 
 swiftmailer:
-    delivery_address: 'yanet.moralesr@gmail.com'
+    #delivery_address: 'yanet.moralesr@gmail.com'
     transport: "%mailer_transport%"
     host:      "%mailer_host%"
     port:      "%mailer_port%"
