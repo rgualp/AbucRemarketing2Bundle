@@ -1176,8 +1176,15 @@ class BackendReservationController extends Controller {
             $reservations = $em->getRepository('mycpBundle:generalReservation')
                 ->getReservationsToExport($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, $date);
 
-            $exporter = $this->get("mycp.service.export_to_excel");
-            return $exporter->exportReservations($reservations, $date);
+            if(count($reservations)) {
+                $exporter = $this->get("mycp.service.export_to_excel");
+                return $exporter->exportReservations($reservations, $date);
+            }
+            else{
+                $message = 'No hay datos para llenar el Excel a descargar.';
+                $this->get('session')->getFlashBag()->add('message_ok', $message);
+                return $this->redirect($this->generateUrl("mycp_list_reservations"));
+            }
         }
         catch(\Exception $e){
             $message = 'Ha ocurrido un error. Por favor, introduzca correctamente los valores para filtrar.';
