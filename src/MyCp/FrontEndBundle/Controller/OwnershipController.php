@@ -4,9 +4,11 @@ namespace MyCp\FrontEndBundle\Controller;
 
 use MyCp\mycpBundle\Entity\ownership;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use MyCp\FrontEndBundle\Helpers\Utils;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\season;
@@ -1634,6 +1636,26 @@ class OwnershipController extends Controller {
         ));
 
         return new Response($response, 200);
+    }
+
+    public function getThumbnailForSearcherAction($photo){
+        $filePath = "";
+
+        if (file_exists(realpath("uploads/ownershipImages/originals/" . $photo)))
+            $filePath = realpath("uploads/ownershipImages/originals/" . $photo);
+        else if(file_exists(realpath("uploads/ownershipImages/" . $photo)))
+            $filePath = realpath("uploads/ownershipImages/" . $photo);
+        else $filePath = realpath("uploads/ownershipImages/no_photo.png");
+
+        var_dump(\Config::get('assets.images')); die;
+
+        $file = new \Symfony\Component\HttpFoundation\File\File($filePath);
+
+        $response = new BinaryFileResponse($filePath);
+        $response->headers->set('Content-Type', 'image/' . $file->getMimeType());
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_INLINE);
+
+        return $response;
     }
 
 }

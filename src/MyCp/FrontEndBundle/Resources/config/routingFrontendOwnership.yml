@@ -81,4 +81,9 @@ frontend_carrousel_bycategory_callback:
     pattern:  /carrousel-bycategory/
     defaults: { _controller: FrontEndBundle:Ownership:getCarrouselByCategoryCallback }
 
+frontend_photo_thumbnail:
+    pattern:  /thumbnail/{photo}
+    defaults: { _controller: FrontEndBundle:Ownership:getThumbnailForSearcher }
+
+
 

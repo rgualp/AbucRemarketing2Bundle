@@ -137,6 +137,11 @@
 }
 .ownerships_mosaic div.thumbnail{
     height: 250px;
+    text-align: center;
+}
+.ownerships_mosaic div.thumbnail > a > img.taller {
+    height: 100%;
+    width: auto;
 }
 .ownerships_mosaic div.thumbnail > a > img {
     height: 100%;
@@ -144,10 +149,12 @@
 @media (min-width:1400px) {
     .ownerships_mosaic div.thumbnail{
         height: 320px;
+        text-align: center;
     }
 }
 @media (min-width:2000px) {
     .ownerships_mosaic div.thumbnail{
         height: 400px;
+        text-align: center;
     }
 }

@@ -7,8 +7,8 @@
     <div class="col-sm-6">
         <div class="thumbnail">
             <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
-                <img alt="{{ ownership.own_name }}" class="lazy" data-src="{{ asset("uploads/ownershipImages/thumbnails/" ~  ownership.photo)}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
-                <noscript><img class="nolazy" src="{{ asset("uploads/ownershipImages/thumbnails/" ~  ownership.photo)}}"></noscript>
+                <img alt="{{ ownership.own_name }}" class="lazy accommodationPhoto" data-src="{{ asset("uploads/ownershipImages/" ~  ownership.photo)}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
+                <noscript><img class="nolazy accommodationPhoto" src="{{ asset("uploads/ownershipImages/" ~  ownership.photo)}}"></noscript>
             </a>
             <div class="thumbnail-over col-sm-12" style="text-align: right;">
             <p>
@@ -80,7 +80,7 @@
   <div class="col-sm-6">
         <div class="thumbnail">
             <a href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
-                <img src="{{ asset("uploads/ownershipImages/thumbnails/" ~ ownership.photo)}}">
+                <img class="accommodationPhoto" src="{{ asset("uploads/ownershipImages/" ~ ownership.photo)}}">
             </a>
             <div class="thumbnail-over col-sm-12" style="text-align: right;">
                 <p>
@@ -180,6 +180,15 @@ filter='?uglifyjs2'
 <script type="text/javascript">
         $(function(){
             $('img.lazy').jail();
+
+            $('.accommodationPhoto').each(function(){
+                var imageHeight = parseInt($(this).height());
+                var imageWidth = parseInt($(this).width());
+                if (imageHeight > imageWidth) {
+                    $(this).addClass('taller');
+                }
+            });
+
         });
 </script>
 
