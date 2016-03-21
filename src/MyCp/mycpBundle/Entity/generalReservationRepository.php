@@ -706,8 +706,8 @@ class generalReservationRepository extends EntityRepository {
         }
 
         if($filter_status != "" && $filter_status != "-1" && $filter_status != "null"){
-            $qb->andWhere("gres.gen_res_status = ':filter_status'")
-                ->setParameter("filter_status", "%".$filter_status."%");
+            $qb->andWhere("gres.gen_res_status = :filter_status")
+                ->setParameter("filter_status", $filter_status);
         }
 
         switch ($sort_by) {
