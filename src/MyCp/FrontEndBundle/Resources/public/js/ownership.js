@@ -11,6 +11,14 @@ function start() {
     //Buscador que esta encima de los filtros
     $('#button_research').click(research);
 
+    $(window).keydown(function(event){
+        if (event.keyCode == 13){
+            research();
+        }
+    });
+
+
+
     //Filtros
     $('.action_remove_filter_up').change(function() {
         remove_filter_up($(this));
@@ -896,7 +904,10 @@ function initialize_map() {
 
     if (document.getElementById("map") != null)
     {
+        //create empty LatLngBounds object
+        var latlngbounds = new google.maps.LatLngBounds();
         var center = new google.maps.LatLng(22.01300, -79.26635);//La Habana 23.09725, -82.37548
+        latlngbounds.extend(center);
         var options = {
             'zoom': 6,
             'center': center,
@@ -904,7 +915,6 @@ function initialize_map() {
         };
 
         var map = new google.maps.Map(document.getElementById("map"), options);
-
         var markers = [];
         $.getJSON(json_url, function(data) {
             if (data) {
@@ -937,6 +947,11 @@ function initialize_map() {
                         content: "<tr><td class='map_image' style='background-image:url(" + data[i].image + ")'></td><td style='padding-left:4px; line-height:12px;' valign='top'>" + data[i].title + "<br/><b>" + data[i].content + "</b></td></tr>",
 
                     });
+                    if(i==0){
+                        latlngbounds.extend(latlng);
+                        map.fitBounds(latlngbounds);
+                    }
+
                     google.maps.event.addListener(marker_bullet, 'mouseover', (function(marker_bullet, i)
                     {
                         return function()
@@ -974,14 +989,17 @@ function initialize_map() {
                     })(marker_bullet, i));
                     markers.push(marker_bullet);
                 }
-
-
-
                 var mcOptions = {
                     gridSize: 50,
-                    maxZoom: 15
+                    maxZoom: 15,
+                    averageCenter:true
                 };
+
+                map.fitBounds(latlngbounds);
                 var markerCluster = new MarkerClusterer(map, markers, mcOptions);
+                var lat_long=getCenterPosition(markerCluster.markers_);
+                var latlng_new = new google.maps.LatLng(lat_long.latitudeMid,lat_long.longitudeMid);
+                map.setCenter(latlng_new);
             }
         });
     }
@@ -1198,7 +1216,24 @@ function initialize_map() {
 });
     }
 }
-
+function getCenterPosition(tempdata){
+    var latitudearray = [];
+    var longitudearray = [];
+    var i;
+    for(i=0; i<tempdata.length;i++){
+        latitudearray.push(tempdata[i].position.lat());
+        longitudearray.push(tempdata[i].position.lng());
+    }
+    latitudearray.sort(function (a, b) { return a-b; });
+    longitudearray.sort(function (a, b) { return a-b; });
+    var latdifferenece = latitudearray[latitudearray.length-1] - latitudearray[0];
+    var temp = (latdifferenece / 2).toFixed(4) ;
+    var latitudeMid = parseFloat(latitudearray[0]) + parseFloat(temp);
+    var longidifferenece = longitudearray[longitudearray.length-1] - longitudearray[0];
+    temp = (longidifferenece / 2).toFixed(4) ;
+    var longitudeMid = parseFloat(longitudearray[0]) + parseFloat(temp);
+    return new Object({latitudeMid:latitudeMid,longitudeMid:longitudeMid});
+}
 function showMarkerInfo(div_element)
 {
     var id_marker = div_element.attr('data-id');
