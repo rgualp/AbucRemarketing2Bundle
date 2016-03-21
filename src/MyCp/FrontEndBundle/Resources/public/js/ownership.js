@@ -909,18 +909,32 @@ function initialize_map() {
         $.getJSON(json_url, function(data) {
             if (data) {
                 for (i = 0; i < data.length; i++) {
+                    var html ='<div class="host-event-control text-left p-relative"><div class="host-event" style="width: 360px"></div></div>';
                     var latlng = new google.maps.LatLng(data[i].latitude, data[i].longitude);
                     var marker_bullet = new google.maps.Marker({
                         id: data[i].id,
                         map: map,
                         position: latlng,
                         title: data[i].title,
-                        icon: icon_small
+                        icon: icon_small,
+                        infoWindow: {
+                            content: html
+                        },
 
                     });
+                    google.maps.event.addListener(marker_bullet, 'click', (function(marker_bullet, i)
+                    {
+                        return function()
+                        {
+                            var url = data[i].url;
+                            window.open(url, '_blank');
+                            return false;
+                        };
+                    })(marker_bullet, i));
                     markers.push(marker_bullet);
-
                 }
+
+
 
                 var mcOptions = {
                     gridSize: 50,
