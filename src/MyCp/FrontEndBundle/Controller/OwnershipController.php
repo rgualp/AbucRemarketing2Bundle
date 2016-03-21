@@ -4,9 +4,11 @@ namespace MyCp\FrontEndBundle\Controller;
 
 use MyCp\mycpBundle\Entity\ownership;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use MyCp\FrontEndBundle\Helpers\Utils;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\season;
@@ -1634,6 +1636,16 @@ class OwnershipController extends Controller {
         ));
 
         return new Response($response, 200);
+    }
+
+    public function getThumbnailForSearcherAction($photo, $title){
+        list($width, $height) = getimagesize(realpath("uploads/ownershipImages/" . $photo));
+
+        return $this->render('FrontEndBundle:ownership:searchImage.html.twig', array(
+            'title' => $title,
+            'photo' => $photo,
+            'taller' => ($height > $width)
+        ));
     }
 
 }
