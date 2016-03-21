@@ -1638,24 +1638,14 @@ class OwnershipController extends Controller {
         return new Response($response, 200);
     }
 
-    public function getThumbnailForSearcherAction($photo){
-        $filePath = "";
+    public function getThumbnailForSearcherAction($photo, $title){
+        list($width, $height) = getimagesize(realpath("uploads/ownershipImages/" . $photo));
 
-        if (file_exists(realpath("uploads/ownershipImages/originals/" . $photo)))
-            $filePath = realpath("uploads/ownershipImages/originals/" . $photo);
-        else if(file_exists(realpath("uploads/ownershipImages/" . $photo)))
-            $filePath = realpath("uploads/ownershipImages/" . $photo);
-        else $filePath = realpath("uploads/ownershipImages/no_photo.png");
-
-        var_dump(\Config::get('assets.images')); die;
-
-        $file = new \Symfony\Component\HttpFoundation\File\File($filePath);
-
-        $response = new BinaryFileResponse($filePath);
-        $response->headers->set('Content-Type', 'image/' . $file->getMimeType());
-        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_INLINE);
-
-        return $response;
+        return $this->render('FrontEndBundle:ownership:searchImage.html.twig', array(
+            'title' => $title,
+            'photo' => $photo,
+            'taller' => ($height > $width)
+        ));
     }
 
 }

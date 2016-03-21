@@ -7,8 +7,7 @@
     <div class="col-sm-6">
         <div class="thumbnail">
             <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
-                <img alt="{{ ownership.own_name }}" class="lazy accommodationPhoto" data-src="{{ asset("uploads/ownershipImages/" ~  ownership.photo)}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
-                <noscript><img class="nolazy accommodationPhoto" src="{{ asset("uploads/ownershipImages/" ~  ownership.photo)}}"></noscript>
+                {{ render(controller( 'FrontEndBundle:Ownership:getThumbnailForSearcher', { 'photo': ownership.photo, 'title': ownership.own_name} )) }}
             </a>
             <div class="thumbnail-over col-sm-12" style="text-align: right;">
             <p>
@@ -80,7 +79,7 @@
   <div class="col-sm-6">
         <div class="thumbnail">
             <a href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
-                <img class="accommodationPhoto" src="{{ asset("uploads/ownershipImages/" ~ ownership.photo)}}">
+                {{ render(controller( 'FrontEndBundle:Ownership:getThumbnailForSearcher', { 'photo': ownership.photo, 'title': ownership.own_name} )) }}
             </a>
             <div class="thumbnail-over col-sm-12" style="text-align: right;">
                 <p>
@@ -181,13 +180,14 @@ filter='?uglifyjs2'
         $(function(){
             $('img.lazy').jail();
 
-            $('.accommodationPhoto').each(function(){
+            /*$('.accommodationPhoto').each(function(){
                 var imageHeight = parseInt($(this).height());
                 var imageWidth = parseInt($(this).width());
                 if (imageHeight > imageWidth) {
                     $(this).addClass('taller');
                 }
-            });
+            });*/
+
 
         });
 </script>
