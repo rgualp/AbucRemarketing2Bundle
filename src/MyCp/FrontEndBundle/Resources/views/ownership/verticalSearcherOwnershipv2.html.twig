@@ -93,6 +93,21 @@ filter='?uglifyjs2'
         if($('#more_filters').hasClass('collapsed')){
             $('#button_research').addClass('hide');
             $('#more_filters').removeClass('collapsed');
+
+
+
+
+            var full_height = $(window).height() - ($("#search-container").offset().top + $(".filters-container").height() + 20);
+            var scroll_h = full_height - 100;
+
+            $('#collapseFilters .thumbnail').css("height",full_height+"px");
+
+            $('#collapseFilters .thumbnail .content-filter').slimScroll({
+                height: scroll_h+'px',
+                start: 'top'
+            });
+
+
         }
         else{
             $('#button_research').removeClass('hide');
