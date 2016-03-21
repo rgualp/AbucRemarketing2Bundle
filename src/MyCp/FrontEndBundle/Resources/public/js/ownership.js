@@ -11,6 +11,14 @@ function start() {
     //Buscador que esta encima de los filtros
     $('#button_research').click(research);
 
+    $(window).keydown(function(event){
+        if (event.keyCode == 13){
+            research();
+        }
+    });
+
+
+
     //Filtros
     $('.action_remove_filter_up').change(function() {
         remove_filter_up($(this));
