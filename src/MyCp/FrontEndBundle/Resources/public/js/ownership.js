@@ -908,8 +908,25 @@ function initialize_map() {
         var markers = [];
         $.getJSON(json_url, function(data) {
             if (data) {
+                var myOptions_own = {
+                    disableAutoPan: false,
+                    maxWidth: 0,
+                    pixelOffset: new google.maps.Size(-140, 0),
+                    zIndex: null,
+                    boxStyle: {
+                        opacity: 0.85,
+                        width: "280px"
+                    },
+                    closeBoxMargin: "10px 2px 2px 2px",
+                    closeBoxURL: "http://www.google.com/intl/en_us/mapfiles/close.gif",
+                    infoBoxClearance: new google.maps.Size(1, 1),
+                    isHidden: false,
+                    pane: "floatPane",
+                    enableEventPropagation: false
+                };
+                var ib_own = new InfoBox(myOptions_own);
+
                 for (i = 0; i < data.length; i++) {
-                    var html ='<div class="host-event-control text-left p-relative"><div class="host-event" style="width: 360px"></div></div>';
                     var latlng = new google.maps.LatLng(data[i].latitude, data[i].longitude);
                     var marker_bullet = new google.maps.Marker({
                         id: data[i].id,
@@ -917,11 +934,35 @@ function initialize_map() {
                         position: latlng,
                         title: data[i].title,
                         icon: icon_small,
-                        infoWindow: {
-                            content: html
-                        },
+                        content: "<tr><td class='map_image' style='background-image:url(" + data[i].image + ")'></td><td style='padding-left:4px; line-height:12px;' valign='top'>" + data[i].title + "<br/><b>" + data[i].content + "</b></td></tr>",
 
                     });
+                    google.maps.event.addListener(marker_bullet, 'mouseover', (function(marker_bullet, i)
+                    {
+                        return function()
+                        {
+                            var boxText = document.createElement("div");
+                            boxText.style.cssText = "border: 1px solid #ccc; margin-top: 8px; background: #fff; padding: 5px; font-size:11px";
+                            boxText.innerHTML = "<div class='row'>" +
+                                "<div class='map_image col-sm-4' style='background-image:url(" + data[i].image + ");height: 60px !important; margin: 0 10px;width: 65px !important;'></div>" +
+                                "<div class='col-sm-8' style='line-height:12px;text-align: left'>" + data[i].title + "<br/>" +
+                                "<b>" + data[i].content + "</b>" +
+                                "</div>" +
+                                "</div>";
+
+                            ib_own.setContent(boxText);
+                            ib_own.open(map, marker_bullet);
+                        };
+                    })(marker_bullet, i));
+
+                    google.maps.event.addListener(marker_bullet, 'mouseout', (function(marker_bullet, i)
+                    {
+                        return function()
+                        {
+                            ib_own.close();
+                            $('.elementList[data-id="' + data[i].id + '"]').removeClass("markerActive");
+                        };
+                    })(marker_bullet, i));
                     google.maps.event.addListener(marker_bullet, 'click', (function(marker_bullet, i)
                     {
                         return function()
