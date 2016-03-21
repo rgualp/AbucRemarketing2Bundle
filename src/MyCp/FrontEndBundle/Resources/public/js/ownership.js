@@ -986,12 +986,12 @@ function initialize_map() {
                     maxZoom: 15,
                     averageCenter:true
                 };
-
+                map.setCenter(latlngbounds.getCenter());
                 map.fitBounds(latlngbounds);
                 var markerCluster = new MarkerClusterer(map, markers, mcOptions);
-                var lat_long=getCenterPosition(markerCluster.markers_);
+               /* var lat_long=getCenterPosition(markerCluster.markers_);
                 var latlng_new = new google.maps.LatLng(lat_long.latitudeMid,lat_long.longitudeMid);
-                map.setCenter(latlng_new);
+                map.setCenter(latlng_new);*/
             }
         });
     }
