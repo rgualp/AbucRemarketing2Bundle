@@ -128,10 +128,6 @@ class generalReservationRepository extends EntityRepository {
         //var_dump($queryStr); die;
         $query = $em->createQuery($queryStr);
 
-        if($filter_status != "" && $filter_status != "-1" && $filter_status != "null") {
-            $query->setParameter('filter_status', $filter_status);
-        }
-
         $array_genres = ($items_per_page != null && $page != null) ? $query->setMaxResults($items_per_page)->setFirstResult(($page - 1) * $items_per_page)->getArrayResult() : $query->getArrayResult();
 
         $query = $em->createQuery("SELECT ownres,genres,booking FROM mycpBundle:ownershipReservation ownres
