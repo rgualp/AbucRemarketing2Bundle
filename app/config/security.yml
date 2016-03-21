@@ -36,11 +36,10 @@ security:
                 default_target_path: /backend/
                 use_referer: false
             remember_me:
-                key: %secret%
+                key: '%secret%'
                 #7dsa7ydasdy872187yegwhqeg9yw91hjsaa00
                 lifetime: 86400
-                always_remember_me: true
-                path: /backend
+                path: /
                 domain: ~
             logout:
                 path:   /backend/logout
@@ -59,11 +58,10 @@ security:
                 default_target_path: /casa/
                 use_referer: false
             remember_me:
-                key: %secret%
+                key: '%secret%'
                 #7dsa7ydasdy872187yegwhqeg9yw91hjsaa00
                 lifetime: 86400
-                always_remember_me: true
-                path: /casa
+                path: /
                 domain: ~
             logout:
                 path:   /casa/logout
