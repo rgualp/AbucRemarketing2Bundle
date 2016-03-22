@@ -287,6 +287,55 @@ class generalReservationRepository extends EntityRepository {
                         ))
                         ->getArrayResult();
     }
+    function getAllBookingsReport($filter_booking_number, $filter_date_booking_from, $filter_user_booking, $filter_date_booking_to, $filter_reservation, $filter_ownership, $filter_currency) {
+        $em = $this->getEntityManager();
+
+        $filter_date_booking_from_array = explode('_', $filter_date_booking_from);
+        if (count($filter_date_booking_from_array) > 1) {
+            $filter_date_booking_from = $filter_date_booking_from_array[2] . '-' . $filter_date_booking_from_array[1] . '-' . $filter_date_booking_from_array[0];
+        }
+        $filter_date_booking_to_array = explode('_', $filter_date_booking_to);
+        if (count($filter_date_booking_to_array) > 1) {
+            $filter_date_booking_to = $filter_date_booking_to_array[2] . '-' . $filter_date_booking_to_array[1] . '-' . $filter_date_booking_to_array[0];
+        }
+
+
+
+        $where = "";
+       if($filter_reservation != "")
+            $where .= " AND (SELECT min(ow2.own_res_gen_res_id) FROM mycpBundle:ownershipReservation ow2 WHERE ow2.own_res_reservation_booking = booking.booking_id) = '$filter_reservation' ";
+
+        if($filter_ownership != "")
+            $where .= " AND (SELECT min(own.own_mcp_code) FROM mycpBundle:ownershipReservation ow3 JOIN ow3.own_res_gen_res_id gres3 JOIN gres3.gen_res_own_id own WHERE ow3.own_res_reservation_booking = booking.booking_id) = '$filter_ownership' ";
+       $dateWhere="";
+        if($filter_date_booking_from!="")
+       $dateWhere=" AND payment.created >='$filter_date_booking_from'";
+       if($filter_date_booking_to!="")
+       $dateWhere=" AND payment.created <='$filter_date_booking_to'";
+        $query = $em->createQuery("SELECT payment.created,
+        payment.payed_amount,
+        booking.booking_id,
+        curr.curr_code,
+        booking.booking_user_dates,
+        (SELECT min(co.co_name) FROM mycpBundle:user user JOIN user.user_country co WHERE user.user_id = booking.booking_user_id) as country,
+        (SELECT min(ow.own_res_reservation_from_date) FROM mycpBundle:ownershipReservation ow WHERE ow.own_res_reservation_booking = booking.booking_id) as arrivalDate,
+        (SELECT min(ow1.own_res_id) FROM mycpBundle:ownershipReservation ow1 WHERE ow1.own_res_reservation_booking = booking.booking_id) as reservationCode,
+        (SELECT min(own.own_mcp_code) FROM mycpBundle:ownershipReservation ow2 JOIN ow2.own_res_gen_res_id gr JOIN gr.gen_res_own_id own WHERE ow2.own_res_reservation_booking = booking.booking_id) as ownCode
+        FROM mycpBundle:payment payment JOIN payment.booking booking
+        JOIN payment.currency curr
+        WHERE booking.booking_id LIKE :filter_booking_number
+        AND booking.booking_user_dates LIKE :filter_user_booking
+        ANd curr.curr_id LIKE :filter_currency
+        $dateWhere
+        $where
+        ORDER BY payment.id DESC");
+        return $query->setParameters(array(
+                            'filter_booking_number' => "%" . $filter_booking_number . "%",
+                            'filter_user_booking' => "%" . $filter_user_booking . "%",
+                            'filter_currency' => "%" . $filter_currency . "%",
+                        ))
+                        ->getArrayResult();
+    }
 
     function getByUser($id_user, $ownId = null) {
         $em = $this->getEntityManager();

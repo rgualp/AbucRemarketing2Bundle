@@ -1,0 +1,16 @@
+{% if errorText %}
+<p> <div class="alert alert-error">{{ errorText }}</div></p>
+{% else %}
+{% if content %}
+<div class="alert">
+    <div class="row-fluid">
+        <div class="pull-left">
+            Resultado: <a href="{{ path('mycp_report_reservations_booking',{'filter_date_booking_from':dateFrom|date('d_m_Y'),'filter_date_booking_to':dateTo|date('d_m_Y')}) }}">{{ content }} bookings</a>
+
+        </div>
+    </div>
+</div>
+    {% else %}
+        <p> <div class="alert alert-block">No hay datos almacenados para este reporte.</div></p>
+{% endif %}
+{% endif %}
