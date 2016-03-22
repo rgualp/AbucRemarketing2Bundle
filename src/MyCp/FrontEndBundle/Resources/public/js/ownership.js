@@ -905,9 +905,9 @@ function initialize_map() {
     if (document.getElementById("map") != null)
     {
         //create empty LatLngBounds object
-        var latlngbounds = new google.maps.LatLngBounds();
+        //var latlngbounds = new google.maps.LatLngBounds();
         var center = new google.maps.LatLng(22.01300, -79.26635);//La Habana 23.09725, -82.37548
-        latlngbounds.extend(center);
+        //latlngbounds.extend(center);
         var options = {
             'zoom': 6,
             'center': center,
@@ -935,9 +935,10 @@ function initialize_map() {
                     enableEventPropagation: false
                 };
                 var ib_own = new InfoBox(myOptions_own);
-
+                var latlng_pos=[];
                 for (i = 0; i < data.length; i++) {
                     var latlng = new google.maps.LatLng(data[i].latitude, data[i].longitude);
+                    latlng_pos[j]=latlng;
                     var marker_bullet = new google.maps.Marker({
                         id: data[i].id,
                         map: map,
@@ -947,10 +948,10 @@ function initialize_map() {
                         content: "<tr><td class='map_image' style='background-image:url(" + data[i].image + ")'></td><td style='padding-left:4px; line-height:12px;' valign='top'>" + data[i].title + "<br/><b>" + data[i].content + "</b></td></tr>",
 
                     });
-                    if(i==0){
+                  /*  if(i==0){
                         latlngbounds.extend(latlng);
                         map.fitBounds(latlngbounds);
-                    }
+                    }*/
 
                     google.maps.event.addListener(marker_bullet, 'mouseover', (function(marker_bullet, i)
                     {
@@ -994,9 +995,17 @@ function initialize_map() {
                     maxZoom: 15,
                     averageCenter:true
                 };
-                map.setCenter(latlngbounds.getCenter());
-                map.fitBounds(latlngbounds);
+              /*  map.setCenter(latlngbounds.getCenter());
+                map.fitBounds(latlngbounds);*/
                 var markerCluster = new MarkerClusterer(map, markers, mcOptions);
+                // map: an instance of google.maps.Map object
+                // latlng: an array of google.maps.LatLng objects
+                var latlngbounds = new google.maps.LatLngBounds( );
+                for ( var i = 0; i < latlng_pos.length; i++ ) {
+                    latlngbounds.extend( latlng_pos[ i ] );
+                }
+                map.fitBounds( latlngbounds );
+
                /* var lat_long=getCenterPosition(markerCluster.markers_);
                 var latlng_new = new google.maps.LatLng(lat_long.latitudeMid,lat_long.longitudeMid);
                 map.setCenter(latlng_new);*/
