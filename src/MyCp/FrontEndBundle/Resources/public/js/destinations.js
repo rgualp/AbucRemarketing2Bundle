@@ -104,7 +104,7 @@ function initialize_map()
                 width: "280px"
             },
             closeBoxMargin: "10px 2px 2px 2px",
-            closeBoxURL: "http://www.google.com/intl/en_us/mapfiles/close.gif",
+            closeBoxURL: "https://www.google.com/intl/en_us/mapfiles/close.gif",
             infoBoxClearance: new google.maps.Size(1, 1),
             isHidden: false,
             pane: "floatPane",
