@@ -181,7 +181,10 @@
                         {%endif%}
                     </td>
                     <td>{{reservation.gen_res_date |date("d/m/Y")}}</td>
-                    <td>{{reservation.user_user_name}} {{reservation.user_last_name}}<br/><a href="{{ reservation.user_email }}">{{ reservation.user_email }}</a></td>
+                    <td>{{reservation.user_user_name}} {{reservation.user_last_name}}
+                        {#<br/>#}
+                        {#<a href="{{ reservation.user_email }}">{{ reservation.user_email }}</a>#}
+                    </td>
                     <td>{{reservation.gen_res_id | getCASId}}</td>
                     <td>{{reservation.own_mcp_code}}</td>
                     <td>{{reservation[1]}}</td>
