@@ -5,7 +5,7 @@
     {%for ownership in list%}
     {% if cont <2 %}
     <div class="col-sm-6">
-        <div class="thumbnail">
+        <div class="thumbnail elementList" data-id="{{ ownership.own_id }}">
             <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
                 {{ render(controller( 'FrontEndBundle:Ownership:getThumbnailForSearcher', { 'photo': ownership.photo, 'title': ownership.own_name} )) }}
             </a>
@@ -77,7 +77,7 @@
 </div>
 <div class="row">
   <div class="col-sm-6">
-        <div class="thumbnail">
+        <div class="thumbnail elementList" data-id="{{ ownership.own_id }}">
             <a href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
                 {{ render(controller( 'FrontEndBundle:Ownership:getThumbnailForSearcher', { 'photo': ownership.photo, 'title': ownership.own_name} )) }}
             </a>

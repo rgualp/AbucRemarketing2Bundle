@@ -995,6 +995,13 @@ function initialize_map() {
                 };
                 var markerCluster = new MarkerClusterer(map, markers, mcOptions);
                 map.setCenter( latlng_pos);
+                $('.elementList').mouseover(function() {
+                    showMarkerInfoGeneric($(this),map,markers);
+                });
+
+                $('.elementList').mouseout(function() {
+                    hideMarkerInfoGeneric($(this),map,markers);
+                });
             }
         });
     }
@@ -1251,9 +1258,34 @@ function hideMarkerInfo(div_element)
             break;
         }
     }
-
+}
+function showMarkerInfoGeneric(div_element,map,markers)
+{
+    var id_marker = div_element.attr('data-id');
+    $('.elementList[data-id="' + id_marker + '"]').addClass("markerActive");
+    for (var i = 0; i < markers.length; i++) {
+        if (map.getBounds().contains(markers[i].getPosition()) && markers[i].get("id") == id_marker) {
+            google.maps.event.trigger(markers[i], "mouseover");
+            map.setCenter(markers[i].getPosition());
+            map.setZoom(15);
+            break;
+        }
+    }
 }
 
+function hideMarkerInfoGeneric(div_element,map,markers)
+{
+    var id_marker = div_element.attr('data-id');
+    $('.elementList[data-id="' + id_marker + '"]').removeClass("markerActive");
+
+    for (var i = 0; i < markers.length; i++) {
+        if (map.getBounds().contains(markers[i].getPosition()) && markers[i].get("id") == id_marker) {
+            google.maps.event.trigger(markers[i], "mouseout");
+            map.setZoom(10);
+            break;
+        }
+    }
+}
 function showOwnershipsByIds(ids_array)
 {
     var url = $('#big_map').attr('data-resized-url');
