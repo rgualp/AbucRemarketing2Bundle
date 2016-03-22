@@ -1213,7 +1213,8 @@ class OwnershipController extends Controller {
                     'content' => $this->get('translator')->trans('FROM_PRICES') . ($session->get("curr_symbol") != null ? " " . $session->get('curr_symbol') . " " : " $ ") . $prize . " " . strtolower($this->get('translator')->trans("BYNIGHTS_PRICES")),
                     'image' => $this->container->get('templating.helper.assets')->getUrl('uploads/ownershipImages/thumbnails/' . $em->getRepository('mycpBundle:ownership')->getOwnershipPhoto($own->getOwnId())), //$this->get_ownership_photo($own->getOwnId()),
                     'id' => $own->getOwnId(),
-                    'url'=>$this->generateUrl('frontend_details_ownership', array('own_name' => $own->getOwnName())));
+                    'url'=>$this->generateUrl('frontend_details_ownership', array('own_name' => $own->getOwnName())),
+                    'destination'=>($own->getOwnDestination() != null) ? array('geolocate_x'=>$own->getOwnDestination()->getDesGeolocateX(),'geolocate_y'=>$own->getOwnDestination()->getDesGeolocateY()) : null);
             }
         }
 
