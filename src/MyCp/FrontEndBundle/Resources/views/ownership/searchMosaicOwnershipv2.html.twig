@@ -5,7 +5,7 @@
     {%for ownership in list%}
     {% if cont <2 %}
     <div class="col-sm-6">
-        <div class="thumbnail">
+        <div class="thumbnail elementList" data-id="{{ ownership.own_id }}">
             <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
                 <img alt="{{ ownership.own_name }}" class="lazy" data-src="{{ asset("uploads/ownershipImages/thumbnails/" ~  ownership.photo)}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
                 <noscript><img class="nolazy" src="{{ asset("uploads/ownershipImages/thumbnails/" ~  ownership.photo)}}"></noscript>
@@ -78,7 +78,7 @@
 </div>
 <div class="row">
   <div class="col-sm-6">
-        <div class="thumbnail">
+        <div class="thumbnail elementList" data-id="{{ ownership.own_id }}">
             <a href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
                 <img src="{{ asset("uploads/ownershipImages/thumbnails/" ~ ownership.photo)}}">
             </a>
