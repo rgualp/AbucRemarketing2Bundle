@@ -534,7 +534,7 @@ ORDER BY own.own_mcp_code ASC
         $em = $this->getDoctrine()->getManager();
         $client = $em->getRepository('mycpBundle:user')->find($id_client);
         $userTourist = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $id_client));
-        $reservations = $em->getRepository('mycpBundle:generalReservation')->getUserReservationsFiltered($id_client, $filter_date_from, $filter_date_to, $filter_reservation_status, $filter_province, $filter_destination, $filter_nights);
+        $reservations = $em->getRepository('mycpBundle:generalReservation')->getUserReservationsFiltered($id_client, $dateFrom->format('Y-m-d'), $dateTo->format('Y-m-d'), $filter_reservation_status, $filter_province, $filter_destination, $filter_nights);
         $price = 0;
         return $this->render('mycpBundle:reports:reservationDetailsClient.html.twig', array(
             'reservations' => $reservations,
@@ -576,7 +576,7 @@ ORDER BY own.own_mcp_code ASC
         $em = $this->getDoctrine()->getManager();
         $client = $em->getRepository('mycpBundle:user')->find($id_client);
         $userTourist = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $id_client));
-        $reservations = $em->getRepository('mycpBundle:generalReservation')->getUserReservationsFiltered($id_client, $filter_date_from, $filter_date_to, $filter_reservation_status, $filter_province, $filter_destination, $filter_nights);
+        $reservations = $em->getRepository('mycpBundle:generalReservation')->getUserReservationsFiltered($id_client, $dateFrom->format('Y-m-d'), $dateTo->format('Y-m-d'),$filter_reservation_status, $filter_province, $filter_destination, $filter_nights);
         $price = 0;
         $dataArr=array();
          foreach ($reservations as $content) {

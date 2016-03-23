@@ -67,8 +67,7 @@ class generalReservationRepository extends EntityRepository {
          WHERE u.user_id=:user_id
          $where
          ";
-
-        $query = $em->createQuery($gaQuery);
+         $query = $em->createQuery($gaQuery);
 
         $query->setParameters(array(
             'user_id' => $user_id

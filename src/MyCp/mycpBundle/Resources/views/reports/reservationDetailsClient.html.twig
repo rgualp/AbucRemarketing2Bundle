@@ -81,7 +81,7 @@
                                     <a rel="tooltip" title="Exportar a excel" href="{{ path('mycp_report_reservations_client_details_to_excel', url_params) }}" class="tooltip_msg btn btn-block btn-info"><i class="icon-download-alt icon-white"></i></a>
                                 </div>
                                 <div class="span4">
-                                    <a rel="tooltip" title="Resetear filtrado " href="{{ path('mycp_report_reservations_booking') }}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
+                                    <a rel="tooltip" title="Resetear filtrado " href="{{path('mycp_report_reservations_client_details',{'id_client': clientid})}}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -110,7 +110,7 @@
                     <th>Noches</th>
                     <th>Precio</th>
                     <th>Estado</th>
-                    <th style="text-align: right">Acciones</th>
+                    <th>Destino</th>
                 </tr>
                 </thead>
                 {% set flag=1 %}
