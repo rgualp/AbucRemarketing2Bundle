@@ -31,6 +31,53 @@ class generalReservationRepository extends EntityRepository {
 
         return $this->getByQuery($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, -1, $gaQuery,$items_per_page, $page);
     }
+    function getUserReservationsFiltered($user_id, $filter_date_from, $filter_date_to, $filter_status, $filter_province, $filter_destination, $filter_nights) {
+        $em=$this->getEntityManager();
+        $where="";
+        if($filter_date_from!=''){
+            $where.=" AND gre.gen_res_date >= '$filter_date_from'";
+        }
+        if($filter_date_to!=''){
+            $where.=" AND gre.gen_res_date <= '$filter_date_to'";
+        }
+        if($filter_status!=''){
+            $where.=" AND gre.gen_res_status = $filter_status ";
+        }
+        if($filter_province!=''){
+            $where.=" AND own.own_address_province = $filter_province ";
+        }
+        if($filter_destination!=''){
+            $where.=" AND own.own_destination = $filter_destination ";
+        }
+        if($filter_nights!=''){
+            $where.=" HAVING totalNights = $filter_nights ";
+        }
+        $gaQuery = "SELECT gre.gen_res_date, gre.gen_res_id, own.own_mcp_code, own.own_id, gre.gen_res_total_in_site,gre.gen_res_status,gre.gen_res_from_date,
+        (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id) AS rooms,
+        (SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id) as adults,
+        (SELECT SUM(owres3.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id) as childrens,
+        (SELECT MIN(owres4.own_res_reservation_from_date) FROM mycpBundle:ownershipReservation owres4 WHERE owres4.own_res_gen_res_id = gre.gen_res_id) as dateFrom,
+        (SELECT MIN(owres5.own_res_reservation_to_date) FROM mycpBundle:ownershipReservation owres5 WHERE owres5.own_res_gen_res_id = gre.gen_res_id) as dateTo,
+        (SELECT SUM(DATE_DIFF(owres6.own_res_reservation_to_date, owres6.own_res_reservation_from_date)) FROM mycpBundle:ownershipReservation owres6 WHERE owres6.own_res_gen_res_id = gre.gen_res_id) AS totalNights,
+        u.user_user_name, u.user_last_name, u.user_email, des.des_name
+        FROM mycpBundle:generalReservation gre
+        JOIN gre.gen_res_own_id own
+        JOIN own.own_destination des
+        JOIN gre.gen_res_user_id u
+         WHERE u.user_id=:user_id
+         $where
+         ";
+
+        $query = $em->createQuery($gaQuery);
+
+        $query->setParameters(array(
+            'user_id' => $user_id
+        ));
+
+        $array_genres = $query->getArrayResult();
+        return $array_genres;
+
+     }
 
     function getByUserCasa($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $user_casa_id, $filter_status) {
         $gaQuery = "SELECT gre.gen_res_date, gre.gen_res_id, own.own_mcp_code, gre.gen_res_total_in_site,gre.gen_res_status,gre.gen_res_from_date,

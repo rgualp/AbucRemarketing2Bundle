@@ -123,6 +123,7 @@ class reportRepository extends EntityRepository
         $em=$this->getEntityManager();
         $qb="SELECT user.user_name,
         user.user_last_name,
+        user.user_id,
        (SELECT COUNT(owr1.own_res_id) FROM mycpBundle:ownershipReservation owr1 JOIN owr1.own_res_gen_res_id generalreservation WHERE generalreservation.gen_res_user_id=user.user_id AND generalreservation.gen_res_date BETWEEN :datefrom AND :dateto) AS solicitudes,
        (SELECT COUNT(owr2.own_res_id) FROM mycpBundle:ownershipReservation owr2 JOIN owr2.own_res_gen_res_id generalreservation2 WHERE generalreservation2.gen_res_user_id=user.user_id AND owr2.own_res_status=1 AND generalreservation2.gen_res_date BETWEEN :datefrom AND :dateto) AS disponibles,
        (SELECT COUNT(owr3.own_res_id) FROM mycpBundle:ownershipReservation owr3 JOIN owr3.own_res_gen_res_id generalreservation3 WHERE generalreservation3.gen_res_user_id=user.user_id AND owr3.own_res_status=3 AND generalreservation3.gen_res_date BETWEEN :datefrom AND :dateto) AS no_disponibles,

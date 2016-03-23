@@ -71,3 +71,9 @@ mycp_report_reservations_booking:
 mycp_report_reservations_booking_to_excel:
     pattern:  /booking/excel/{filter_date_booking_from}/{filter_date_booking_to}/{filter_booking_number}/{filter_user_booking}/{filter_currency}/{filter_reservation}/{filter_ownership}
     defaults: { _controller: mycpBundle:BackendReport:list_reservations_booking_to_excel, filter_date_booking_from:'',filter_date_booking_to: '', filter_booking_number:'',filter_user_booking:'', filter_reservation:'', filter_ownership:'', filter_currency:''}
+mycp_report_reservations_client_details:
+    pattern:  /reservations/client/{id_client}/{filter_date_from}/{filter_date_to}/{filter_reservation_status}/{filter_province}/{filter_destination}/{filter_nights}
+    defaults: { _controller: mycpBundle:BackendReport:details_client_reservation, filter_date_from:'',filter_date_to: '', filter_reservation_status:'',filter_province:'', filter_destination:'', filter_nights:''}
+mycp_report_reservations_client_details_to_excel:
+    pattern:  /reservations/client_excel/{id_client}/{filter_date_from}/{filter_date_to}/{filter_reservation_status}/{filter_province}/{filter_destination}/{filter_nights}
+    defaults: { _controller: mycpBundle:BackendReport:details_client_reservation_to_excel, filter_date_from:'',filter_date_to: '', filter_reservation_status:'',filter_province:'', filter_destination:'', filter_nights:''}

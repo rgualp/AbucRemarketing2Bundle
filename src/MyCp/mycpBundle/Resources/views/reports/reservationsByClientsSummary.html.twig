@@ -24,7 +24,7 @@
         {% for cont in content %}
             <tr>
                 <td>
-                    {{ cont.user_name~' '~cont.user_last_name }}
+                 <a href="{{ path('mycp_report_reservations_client_details',{'id_client': cont.user_id, 'filter_date_from':dateFrom|date('d-m-Y'),'filter_date_to':dateTo|date('d-m-Y') }) }}">   {{ cont.user_name~' '~cont.user_last_name }}</a>
                  </td>
                 <td>
                     {{ cont.solicitudes }}

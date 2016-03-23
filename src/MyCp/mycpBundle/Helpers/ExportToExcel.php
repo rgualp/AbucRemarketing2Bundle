@@ -870,6 +870,15 @@ class ExportToExcel extends Controller {
         $this->save($excel, $fileName);
         return $this->export($fileName);
     }
+    public function exportdetails_client_reservation_to_excelReport($data, $dateFrom, $dateTo,$client, $fileName= "filtroReservasCliente") {
+        $excel = $this->configExcel("Reporte reservas de cliente", "Reporte de Reservas de cliente de MyCasaParticular", "reportes");
+        if (count($data) > 0)
+            $excel = $this->createSheetForClientReservationsReport($excel, 'Reservas', $data,$client, $dateFrom, $dateTo);
+
+        $fileName = $this->getFileName($fileName);
+        $this->save($excel, $fileName);
+        return $this->export($fileName);
+    }
     private function dataForReservationsByClientReport($dateFrom, $dateTo){
         $results = array();
         $reportContent = $this->em->getRepository("mycpBundle:report")->reservationsByClientsSummary($dateFrom, $dateTo);
@@ -950,6 +959,42 @@ class ExportToExcel extends Controller {
         $sheet->fromArray($data, ' ', 'A6');
         $this->setColumnAutoSize("a", "h", $sheet);
         $sheet->setAutoFilter("A5:H".(count($data) + 5));
+
+        return $excel;
+    }
+    private function createSheetForClientReservationsReport($excel,$sheetName, $data,$client, $dateFrom, $dateTo){
+        $sheet = $this->createSheet($excel, $sheetName);
+        $sheet->setCellValue('a1', "Reporte: Listado de Reservas");
+        $sheet->setCellValue('b1', "Cliente: ".$client->getName().' '.$client->getUserLastName());
+        $now = new \DateTime();
+        $sheet->setCellValue('a2', 'Rango: '.$dateFrom->format('d/m/Y').'-'.$dateTo->format('d/m/Y'));
+
+        $sheet->setCellValue('b2', 'Generado: '.$now->format('d/m/Y H:s'));
+
+        $sheet->setCellValue('a5', 'Fecha Reserva');
+        $sheet->setCellValue('b5', 'Cód. Reserva');
+        $sheet->setCellValue('c5', 'Propiedad');
+        $sheet->setCellValue('d5', 'Habitaciones');
+        $sheet->setCellValue('e5', 'Adultos');
+        $sheet->setCellValue('f5', 'Niños');
+        $sheet->setCellValue('g5', 'Noches');
+        $sheet->setCellValue('h5', 'Precio');
+        $sheet->setCellValue('i5', 'Destino');
+        $sheet->setCellValue('j5', 'Estado Reserva');
+
+        $sheet = $this->styleHeader("a5:j5", $sheet);
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+        $sheet->getStyle("b1")->applyFromArray($style);
+
+        $sheet->fromArray($data, ' ', 'A6');
+        $this->setColumnAutoSize("a", "j", $sheet);
+        $sheet->setAutoFilter("A5:J".(count($data) + 5));
 
         return $excel;
     }
