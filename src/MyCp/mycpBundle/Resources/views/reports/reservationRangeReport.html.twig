@@ -15,13 +15,22 @@
     </tr>
     </thead>
     <tbody>
+    {% set total = 0 %}
+    {% set nights = 0 %}
     {% for item in list %}
+        {% set total = total + item.total %}
+        {% set nights = nights + item.nights %}
     <tr>
         <td>{{ item.status | generalReservationStatusType }}</td>
         <td>{{ item.total }}</td>
         <td>{{ item.nights }}</td>
     </tr>
     {% endfor %}
+    <tr>
+        <td>TOTAL</td>
+        <td>{{ total }}</td>
+        <td>{{ nights }}</td>
+    </tr>
     </tbody>
 </table>
     {% else %}
