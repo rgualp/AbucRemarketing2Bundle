@@ -4,10 +4,12 @@ namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\EntityRepository;
+use MyCp\FrontEndBundle\Helpers\Time;
 use MyCp\mycpBundle\Helpers\Dates;
 use MyCp\mycpBundle\Helpers\Operations;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
 use MyCp\mycpBundle\Helpers\OrderByHelper;
+use MyCp\mycpBundle\Entity\generalReservation;
 
 /**
  * ownershipReservationRepository
@@ -31,6 +33,52 @@ class generalReservationRepository extends EntityRepository {
 
         return $this->getByQuery($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $filter_status, -1, $gaQuery,$items_per_page, $page);
     }
+    function getUserReservationsFiltered($user_id, $filter_date_from, $filter_date_to, $filter_status, $filter_province, $filter_destination, $filter_nights) {
+        $em=$this->getEntityManager();
+        $where="";
+        if($filter_date_from!=''){
+            $where.=" AND gre.gen_res_date >= '$filter_date_from'";
+        }
+        if($filter_date_to!=''){
+            $where.=" AND gre.gen_res_date <= '$filter_date_to'";
+        }
+        if($filter_status!=''){
+            $where.=" AND gre.gen_res_status = $filter_status ";
+        }
+        if($filter_province!=''){
+            $where.=" AND own.own_address_province = $filter_province ";
+        }
+        if($filter_destination!=''){
+            $where.=" AND own.own_destination = $filter_destination ";
+        }
+        if($filter_nights!=''){
+            $where.=" HAVING totalNights = $filter_nights ";
+        }
+        $gaQuery = "SELECT gre.gen_res_date, gre.gen_res_id, own.own_mcp_code, own.own_id, gre.gen_res_total_in_site,gre.gen_res_status,gre.gen_res_from_date,
+        (SELECT count(owres) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gre.gen_res_id) AS rooms,
+        (SELECT SUM(owres2.own_res_count_adults) FROM mycpBundle:ownershipReservation owres2 WHERE owres2.own_res_gen_res_id = gre.gen_res_id) as adults,
+        (SELECT SUM(owres3.own_res_count_childrens) FROM mycpBundle:ownershipReservation owres3 WHERE owres3.own_res_gen_res_id = gre.gen_res_id) as childrens,
+        (SELECT MIN(owres4.own_res_reservation_from_date) FROM mycpBundle:ownershipReservation owres4 WHERE owres4.own_res_gen_res_id = gre.gen_res_id) as dateFrom,
+        (SELECT MIN(owres5.own_res_reservation_to_date) FROM mycpBundle:ownershipReservation owres5 WHERE owres5.own_res_gen_res_id = gre.gen_res_id) as dateTo,
+        (SELECT SUM(DATE_DIFF(owres6.own_res_reservation_to_date, owres6.own_res_reservation_from_date)) FROM mycpBundle:ownershipReservation owres6 WHERE owres6.own_res_gen_res_id = gre.gen_res_id) AS totalNights,
+        u.user_user_name, u.user_last_name, u.user_email, des.des_name
+        FROM mycpBundle:generalReservation gre
+        JOIN gre.gen_res_own_id own
+        JOIN own.own_destination des
+        JOIN gre.gen_res_user_id u
+         WHERE u.user_id=:user_id
+         $where
+         ";
+         $query = $em->createQuery($gaQuery);
+
+        $query->setParameters(array(
+            'user_id' => $user_id
+        ));
+
+        $array_genres = $query->getArrayResult();
+        return $array_genres;
+
+     }
 
     function getByUserCasa($filter_date_reserve, $filter_offer_number, $filter_reference, $filter_date_from, $filter_date_to, $sort_by, $filter_booking_number, $user_casa_id, $filter_status) {
         $gaQuery = "SELECT gre.gen_res_date, gre.gen_res_id, own.own_mcp_code, gre.gen_res_total_in_site,gre.gen_res_status,gre.gen_res_from_date,
@@ -283,6 +331,55 @@ class generalReservationRepository extends EntityRepository {
                             'filter_booking_number' => "%" . $filter_booking_number . "%",
                             'filter_user_booking' => "%" . $filter_user_booking . "%",
                             'filter_date_booking' => "%" . $filter_date_booking . "%",
+                            'filter_currency' => "%" . $filter_currency . "%",
+                        ))
+                        ->getArrayResult();
+    }
+    function getAllBookingsReport($filter_booking_number, $filter_date_booking_from, $filter_user_booking, $filter_date_booking_to, $filter_reservation, $filter_ownership, $filter_currency) {
+        $em = $this->getEntityManager();
+
+        $filter_date_booking_from_array = explode('_', $filter_date_booking_from);
+        if (count($filter_date_booking_from_array) > 1) {
+            $filter_date_booking_from = $filter_date_booking_from_array[2] . '-' . $filter_date_booking_from_array[1] . '-' . $filter_date_booking_from_array[0];
+        }
+        $filter_date_booking_to_array = explode('_', $filter_date_booking_to);
+        if (count($filter_date_booking_to_array) > 1) {
+            $filter_date_booking_to = $filter_date_booking_to_array[2] . '-' . $filter_date_booking_to_array[1] . '-' . $filter_date_booking_to_array[0];
+        }
+
+
+
+        $where = "";
+       if($filter_reservation != "")
+            $where .= " AND (SELECT min(ow2.own_res_gen_res_id) FROM mycpBundle:ownershipReservation ow2 WHERE ow2.own_res_reservation_booking = booking.booking_id) = '$filter_reservation' ";
+
+        if($filter_ownership != "")
+            $where .= " AND (SELECT min(own.own_mcp_code) FROM mycpBundle:ownershipReservation ow3 JOIN ow3.own_res_gen_res_id gres3 JOIN gres3.gen_res_own_id own WHERE ow3.own_res_reservation_booking = booking.booking_id) = '$filter_ownership' ";
+       $dateWhere="";
+        if($filter_date_booking_from!="")
+       $dateWhere=" AND payment.created >='$filter_date_booking_from'";
+       if($filter_date_booking_to!="")
+       $dateWhere=" AND payment.created <='$filter_date_booking_to'";
+        $query = $em->createQuery("SELECT payment.created,
+        payment.payed_amount,
+        booking.booking_id,
+        curr.curr_code,
+        booking.booking_user_dates,
+        (SELECT min(co.co_name) FROM mycpBundle:user user JOIN user.user_country co WHERE user.user_id = booking.booking_user_id) as country,
+        (SELECT min(ow.own_res_reservation_from_date) FROM mycpBundle:ownershipReservation ow WHERE ow.own_res_reservation_booking = booking.booking_id) as arrivalDate,
+        (SELECT min(ow1.own_res_id) FROM mycpBundle:ownershipReservation ow1 WHERE ow1.own_res_reservation_booking = booking.booking_id) as reservationCode,
+        (SELECT min(own.own_mcp_code) FROM mycpBundle:ownershipReservation ow2 JOIN ow2.own_res_gen_res_id gr JOIN gr.gen_res_own_id own WHERE ow2.own_res_reservation_booking = booking.booking_id) as ownCode
+        FROM mycpBundle:payment payment JOIN payment.booking booking
+        JOIN payment.currency curr
+        WHERE booking.booking_id LIKE :filter_booking_number
+        AND booking.booking_user_dates LIKE :filter_user_booking
+        ANd curr.curr_id LIKE :filter_currency
+        $dateWhere
+        $where
+        ORDER BY payment.id DESC");
+        return $query->setParameters(array(
+                            'filter_booking_number' => "%" . $filter_booking_number . "%",
+                            'filter_user_booking' => "%" . $filter_user_booking . "%",
                             'filter_currency' => "%" . $filter_currency . "%",
                         ))
                         ->getArrayResult();
@@ -748,4 +845,37 @@ class generalReservationRepository extends EntityRepository {
 
         return $qb->getQuery()->getResult();
     }
+
+    function getReservationRangeReportContent($filter_date_from=null, $filter_date_to=null)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb->select("gres.gen_res_status as status", "count(gres) as total", "SUM(DATE_DIFF(gres.gen_res_to_date, gres.gen_res_from_date) - 1) as nights")
+            ->from("mycpBundle:generalReservation", "gres")
+            ->where("gres.gen_res_status != ".generalReservation::STATUS_AVAILABLE)
+            ->groupBy("gres.gen_res_status");
+
+        $qbAvailable = $em->createQueryBuilder();
+        $qbAvailable->select("1 as status", "count(gres) as total", "SUM(DATE_DIFF(gres.gen_res_to_date, gres.gen_res_from_date) - 1) as nights")
+            ->from("mycpBundle:generalReservation", "gres")
+            ->where("gres.gen_res_status = ".generalReservation::STATUS_AVAILABLE." or gres.gen_res_status = ".generalReservation::STATUS_OUTDATED." or gres.gen_res_status = ".generalReservation::STATUS_RESERVED);
+
+        if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "")
+        {
+            $qb->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date <= '$filter_date_to'");
+            $qbAvailable->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date <= '$filter_date_to'");
+        }
+        else if($filter_date_from != null && $filter_date_from != "" && ($filter_date_to == null || $filter_date_to == "")){
+            $qb->andWhere("gres.gen_res_date >= '$filter_date_from'");
+            $qbAvailable->andWhere("gres.gen_res_date >= '$filter_date_from'");
+        }
+        else if($filter_date_to != null && $filter_date_to != "" && ($filter_date_from == null || $filter_date_from == "")){
+            $qb->andWhere("res.gen_res_date <= '$filter_date_to'");
+            $qbAvailable->andWhere("res.gen_res_date <= '$filter_date_to'");
+        }
+
+        return array_merge($qbAvailable->getQuery()->getResult(), $qb->getQuery()->getResult());
+    }
+
+
 }

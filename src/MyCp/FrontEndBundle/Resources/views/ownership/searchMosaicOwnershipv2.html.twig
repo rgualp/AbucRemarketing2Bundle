@@ -7,13 +7,35 @@
     <div class="col-sm-6">
         <div class="thumbnail elementList" data-id="{{ ownership.own_id }}">
             <a target="_blank" href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
-                <img alt="{{ ownership.own_name }}" class="lazy" data-src="{{ asset("uploads/ownershipImages/thumbnails/" ~  ownership.photo)}}" src="{{ asset('bundles/frontend/img/nophoto-transp.gif') }}"/>
-                <noscript><img class="nolazy" src="{{ asset("uploads/ownershipImages/thumbnails/" ~  ownership.photo)}}"></noscript>
+                {{ render(controller( 'FrontEndBundle:Ownership:getThumbnailForSearcher', { 'photo': ownership.photo, 'title': ownership.own_name} )) }}
             </a>
             <div class="thumbnail-over col-sm-12" style="text-align: right;">
-            <p>
-                {{"FROM_PRICES" | trans | capitalize}}: <span class="h-blue h-blue-2" style="font-size: 30px; color: #0088dd; font-weight: bold;"> {{ownership.minimum_price | price }}</span>
-            </p>
+                <div class="efect-blur" style="
+                        background-blend-mode: lighten;
+                        background-color: rgba(255, 255, 255, 0.8);
+                        background-image: url('{{ asset('/uploads/ownershipImages/'~ownership.photo) }}');
+                        background-position: center top;
+                        background-repeat: no-repeat;
+                        background-size: 100% auto;
+                        -webkit-filter: blur(3px);
+                        filter: url('http://jordanhollinger.com/media/blur.svg#blur');
+                        filter: blur(3px);
+                        left: 0;
+                        overflow: hidden;
+                        padding-top: 15px;
+                        position: absolute;
+                        top: 0;
+                        width: 100%;
+                        height: 100%;
+                        display: block;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        ">
+                </div>
+                <p style="position: relative;">
+                    {{"FROM_PRICES" | trans | capitalize}}: <span class="h-blue h-blue-2" style="font-size: 30px; color: #0088dd; font-weight: bold;"> {{ownership.minimum_price | price }}</span>
+                </p>
             </div>
         </div>
         <div class="row">
@@ -80,7 +102,7 @@
   <div class="col-sm-6">
         <div class="thumbnail elementList" data-id="{{ ownership.own_id }}">
             <a href="{{ path('frontend_details_ownership',{'own_name':ownership.own_name  | urlNormalize}) }}">
-                <img src="{{ asset("uploads/ownershipImages/thumbnails/" ~ ownership.photo)}}">
+                {{ render(controller( 'FrontEndBundle:Ownership:getThumbnailForSearcher', { 'photo': ownership.photo, 'title': ownership.own_name} )) }}
             </a>
             <div class="thumbnail-over col-sm-12" style="text-align: right;">
                 <p>
@@ -180,6 +202,21 @@ filter='?uglifyjs2'
 <script type="text/javascript">
         $(function(){
             $('img.lazy').jail();
+
+            $(".elementList").each(function(e){
+                var h = $(this).height();
+                if ($(this).find('img.lazy').hasClass('taller'))
+                    $(this).find('.efect-blur').css('background-size','auto '+h+"px");
+            });
+            /*$('.accommodationPhoto').each(function(){
+                var imageHeight = parseInt($(this).height());
+                var imageWidth = parseInt($(this).width());
+                if (imageHeight > imageWidth) {
+                    $(this).addClass('taller');
+                }
+            });*/
+
+
         });
 </script>
 
