@@ -639,7 +639,7 @@ public function reservationRangeAction(Request $request)
     public function reservationRangeExcelAction(Request $request,$report, $from_date, $to_date)
     {
         $exporter = $this->get("mycp.service.export_to_excel");
-        return $exporter->exportOwnershipVsReservationsStats($request, $report, $from_date, $to_date);
+        return $exporter->exportReservationRange($request, $report, $from_date, $to_date);
     }
 
 }

@@ -1518,6 +1518,74 @@ ORDER BY own.own_mcp_code ASC
         return $excel;
     }
 
+
+    public function exportReservationRange(Request $request, $reportId, $dateFrom, $dateTo, $fileName= "resumenReservaciones") {
+        $excel = $this->configExcel("Reporte resumen de reservaciones", "Reporte resumen de reservaciones de MyCasaParticular", "reportes");
+
+        $range = "Desde ". $dateFrom." al ".$dateTo;
+        $sheetName = "General";
+
+        $data = $this->dataForReservationRange($dateFrom, $dateTo);
+
+        if (count($data) > 0)
+            $excel = $this->createSheetForReservationRange($excel, $sheetName, $reportId, $range, $data);
+
+        $fileName = $this->getFileName($fileName);
+        $this->save($excel, $fileName);
+        return $this->export($fileName);
+    }
+
+    private function dataForReservationRange($dateFrom, $dateTo) {
+        $results = array();
+        $list = $this->em->getRepository('mycpBundle:generalReservation')->getReservationRangeReportContent($dateFrom, $dateTo);
+
+        foreach ($list as $item) {
+            $data = array();
+
+            $data[0] = generalReservation::getStatusName($item["status"]);
+            $data[1] = $item["total"];
+            $data[2] = $item["nights"];
+            array_push($results, $data);
+        }
+
+
+        return $results;
+    }
+
+    private function createSheetForReservationRange($excel, $sheetName, $reportId, $range, $data) {
+
+        $report = $this->em->getRepository("mycpBundle:report")->find($reportId);
+        $sheet = $this->createSheet($excel, $sheetName);
+        $sheet->setCellValue('a1', "Reporte: ".$report->getReportName());
+        $sheet->setCellValue('a2', 'Rango: '.$range);
+        $now = new \DateTime();
+        $sheet->setCellValue('b2', 'Generado: '.$now->format('d/m/Y H:s'));
+
+        $sheet->setCellValue('a4', 'Estado');
+        $sheet->setCellValue('b4', 'Total');
+        $sheet->setCellValue('c4', 'Noches');
+
+        $sheet = $this->styleHeader("a4:c4", $sheet);
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+
+        $sheet
+            ->getStyle("a5:a".(count($data)+4))
+            ->getNumberFormat()
+            ->setFormatCode( \PHPExcel_Style_NumberFormat::FORMAT_TEXT );
+
+        $sheet->fromArray($data, ' ', 'A5');
+
+        $this->setColumnAutoSize("a", "c", $sheet);
+
+        return $excel;
+    }
+
 }
 
 ?>
