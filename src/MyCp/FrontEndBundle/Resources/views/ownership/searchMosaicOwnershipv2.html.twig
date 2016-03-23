@@ -16,6 +16,9 @@
                         background-image: url('{{ asset('/uploads/ownershipImages/'~ownership.photo) }}');
                         background-position: center top;
                         background-repeat: no-repeat;
+                        background-size: 100% auto;
+                        -webkit-filter: blur(10px);
+                        filter: url('http://jordanhollinger.com/media/blur.svg#blur');
                         filter: blur(3px);
                         left: 0;
                         overflow: hidden;
@@ -202,7 +205,8 @@ filter='?uglifyjs2'
 
             $(".elementList").each(function(e){
                 var h = $(this).height();
-                $(this).find('.efect-blur').css('background-size','auto '+h+"px");
+                if ($(this).find('img.lazy').hasClass('taller'))
+                    $(this).find('.efect-blur').css('background-size','auto '+h+"px");
             });
             /*$('.accommodationPhoto').each(function(){
                 var imageHeight = parseInt($(this).height());
