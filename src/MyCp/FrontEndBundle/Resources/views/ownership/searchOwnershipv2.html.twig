@@ -112,9 +112,12 @@ var h=$(window).height()-55-$('.filters-container').height();
 var h1=h+$('.filters-container').height();
 
 $('#map').css('height',h1+'px');
+
 $('#div_result').slimScroll({
     height: h+'px',
     start: 'top'
+}).bind('slimscrolling', function(e, pos){
+    $(window).scroll();
 });
         </script>
     {% endblock %}
