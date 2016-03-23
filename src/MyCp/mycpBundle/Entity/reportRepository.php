@@ -118,4 +118,37 @@ class reportRepository extends EntityRepository
 
         return $query->getResult();
     }
+
+    function reservationsByClientsSummary($dateRangeFrom, $dateRangeTo){
+        $em=$this->getEntityManager();
+        $qb="SELECT user.user_name,
+        user.user_last_name,
+        user.user_id,
+       (SELECT COUNT(owr1.own_res_id) FROM mycpBundle:ownershipReservation owr1 JOIN owr1.own_res_gen_res_id generalreservation WHERE generalreservation.gen_res_user_id=user.user_id AND generalreservation.gen_res_date BETWEEN :datefrom AND :dateto) AS solicitudes,
+       (SELECT COUNT(owr2.own_res_id) FROM mycpBundle:ownershipReservation owr2 JOIN owr2.own_res_gen_res_id generalreservation2 WHERE generalreservation2.gen_res_user_id=user.user_id AND owr2.own_res_status=1 AND generalreservation2.gen_res_date BETWEEN :datefrom AND :dateto) AS disponibles,
+       (SELECT COUNT(owr3.own_res_id) FROM mycpBundle:ownershipReservation owr3 JOIN owr3.own_res_gen_res_id generalreservation3 WHERE generalreservation3.gen_res_user_id=user.user_id AND owr3.own_res_status=3 AND generalreservation3.gen_res_date BETWEEN :datefrom AND :dateto) AS no_disponibles,
+       (SELECT COUNT(owr4.own_res_id) FROM mycpBundle:ownershipReservation owr4 JOIN owr4.own_res_gen_res_id generalreservation4 WHERE generalreservation4.gen_res_user_id=user.user_id AND owr4.own_res_status=0 AND generalreservation4.gen_res_date BETWEEN :datefrom AND :dateto) AS pendientes,
+       (SELECT COUNT(owr5.own_res_id) FROM mycpBundle:ownershipReservation owr5 JOIN owr5.own_res_gen_res_id generalreservation5 WHERE generalreservation5.gen_res_user_id=user.user_id AND owr5.own_res_status=5 AND generalreservation5.gen_res_date BETWEEN :datefrom AND :dateto) AS reservas
+       FROM mycpBundle:user user WHERE user.user_role='ROLE_CLIENT_TOURIST'
+       HAVING solicitudes>0
+       ORDER BY user.user_name ASC";
+        $query = $em->createQuery($qb)
+            ->setParameters(array(
+                'datefrom' => $dateRangeFrom,
+                'dateto' => $dateRangeTo
+            ));
+        $content = $query->getArrayResult();
+       return $content;
+    }
+    function bookingsSummary($dateRangeFrom, $dateRangeTo){
+        $em=$this->getEntityManager();
+        $qb="SELECT COUNT(owr1.own_res_id) FROM mycpBundle:ownershipReservation owr1 JOIN owr1.own_res_gen_res_id generalreservation JOIN owr1.own_res_reservation_booking booking WHERE generalreservation.gen_res_date BETWEEN :datefrom AND :dateto";
+        $query = $em->createQuery($qb)
+            ->setParameters(array(
+                'datefrom' => $dateRangeFrom,
+                'dateto' => $dateRangeTo
+            ));
+        $content = $query->getSingleResult();
+        return $content;
+    }
 }
