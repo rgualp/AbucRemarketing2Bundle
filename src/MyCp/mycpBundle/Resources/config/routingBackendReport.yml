@@ -53,3 +53,11 @@ mycp_reports_ownership_vsReservations_stats_accommodation:
 mycp_reports_ownership_sales_summary:
     pattern:  /ownership/sales-summary
     defaults: { _controller: mycpBundle:BackendReport:ownershipSalesReport}
+
+mycp_reports_reservations_byrange:
+    pattern:  /reservations/range/{from_date}/{to_date}
+    defaults: { _controller: mycpBundle:BackendReport:reservationRange,from_date:'',to_date:''}
+
+mycp_reports_reservations_byrange_excel:
+    pattern:  /reservations/range-excel/{report}/{from_date}/{to_date}
+    defaults: { _controller: mycpBundle:BackendReport:reservationRangeExcel, report:'',from_date:'',to_date:''}

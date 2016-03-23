@@ -342,4 +342,25 @@ ORDER BY own.own_mcp_code ASC
         return $exporter->createExcelForSalesReports($result);
     }
 
+    public function reservationRangeAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $dateFrom = $request->get("dateRangeFrom");
+        $dateTo = $request->get("dateRangeTo");
+
+        $list = $em->getRepository("mycpBundle:generalReservation")->getReservationRangeReportContent($dateFrom, $dateTo);
+
+        return $this->render('mycpBundle:reports:reservationRangeReport.html.twig', array(
+            'list' => $list,
+            'dateFrom' => $dateFrom,
+            'dateTo' => $dateTo
+        ));
+    }
+
+    public function reservationRangeExcelAction(Request $request,$report, $from_date, $to_date)
+    {
+        $exporter = $this->get("mycp.service.export_to_excel");
+        return $exporter->exportOwnershipVsReservationsStats($request, $report, $from_date, $to_date);
+    }
+
 }

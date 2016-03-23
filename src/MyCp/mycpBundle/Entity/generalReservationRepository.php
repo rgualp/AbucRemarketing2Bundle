@@ -4,10 +4,12 @@ namespace MyCp\mycpBundle\Entity;
 
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\EntityRepository;
+use MyCp\FrontEndBundle\Helpers\Time;
 use MyCp\mycpBundle\Helpers\Dates;
 use MyCp\mycpBundle\Helpers\Operations;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
 use MyCp\mycpBundle\Helpers\OrderByHelper;
+use MyCp\mycpBundle\Entity\generalReservation;
 
 /**
  * ownershipReservationRepository
@@ -748,4 +750,37 @@ class generalReservationRepository extends EntityRepository {
 
         return $qb->getQuery()->getResult();
     }
+
+    function getReservationRangeReportContent($filter_date_from=null, $filter_date_to=null)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb->select("gres.gen_res_status as status", "count(gres) as total", "SUM(DATE_DIFF(gres.gen_res_to_date, gres.gen_res_from_date) - 1) as nights")
+            ->from("mycpBundle:generalReservation", "gres")
+            ->where("gres.gen_res_status != ".generalReservation::STATUS_AVAILABLE)
+            ->groupBy("gres.gen_res_status");
+
+        $qbAvailable = $em->createQueryBuilder();
+        $qbAvailable->select("1 as status", "count(gres) as total", "SUM(DATE_DIFF(gres.gen_res_to_date, gres.gen_res_from_date) - 1) as nights")
+            ->from("mycpBundle:generalReservation", "gres")
+            ->where("gres.gen_res_status = ".generalReservation::STATUS_AVAILABLE." or gres.gen_res_status = ".generalReservation::STATUS_OUTDATED." or gres.gen_res_status = ".generalReservation::STATUS_RESERVED);
+
+        if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "")
+        {
+            $qb->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date <= '$filter_date_to'");
+            $qbAvailable->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date <= '$filter_date_to'");
+        }
+        else if($filter_date_from != null && $filter_date_from != "" && ($filter_date_to == null || $filter_date_to == "")){
+            $qb->andWhere("gres.gen_res_date >= '$filter_date_from'");
+            $qbAvailable->andWhere("gres.gen_res_date >= '$filter_date_from'");
+        }
+        else if($filter_date_to != null && $filter_date_to != "" && ($filter_date_from == null || $filter_date_from == "")){
+            $qb->andWhere("res.gen_res_date <= '$filter_date_to'");
+            $qbAvailable->andWhere("res.gen_res_date <= '$filter_date_to'");
+        }
+
+        return array_merge($qbAvailable->getQuery()->getResult(), $qb->getQuery()->getResult());
+    }
+
+
 }
