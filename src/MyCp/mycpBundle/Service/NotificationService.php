@@ -33,15 +33,15 @@ class NotificationService extends Controller
     public function sendNotification(generalReservation $reservation)
     {
         $accommodation = $reservation->getGenResOwnId();
-        // http://sms.lvps92-51-151-239.dedicated.hosteurope.de
-        //$url= 'http://notification.dev/app_dev.php/api/reservation/add';
+        // http://sms.lvps92-51-151-239.dedicated.hosteurope.de/api/reservation/add'
+        //http://notification.dev/app_dev.php/api/reservation/add
 
         if($accommodation->getOwnMobileNumber() != null  && $accommodation->getOwnMobileNumber() != "") {
             $email = $accommodation->getOwnEmail1();
             $email = ($email == null || $email == "") ? $accommodation->getOwnEmail2(): "";
 
             $owner = $accommodation->getOwnHomeowner1();
-            $owner = ($owner == null || $owner == "") ? $accommodation->getOwnHomeowner2(): "";
+            $owner = ($owner == null || $owner == "") ? $accommodation->getOwnHomeowner2(): $owner;
 
             $data['reservation_formtype'] = array(
                 'code' => $reservation->getCASId(),//Obligatorio
@@ -52,7 +52,8 @@ class NotificationService extends Controller
                 'reservation_created' => $reservation->getGenResDate(),//Obligatorio, Fecha que se realizo la reserva
             );
 
-            $curl = curl_init($this->serviceNotificationUrl);
+			$url= $this->serviceNotificationUrl.'/api/reservation/add';
+            $curl = curl_init($url);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
             curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
@@ -60,6 +61,12 @@ class NotificationService extends Controller
             $info = curl_getinfo($curl);
             curl_close($curl);
             $code = $info['http_code'];
+//			if($code== 201){
+//				echo 'OK';
+//			} else{
+//				echo $code;
+//				dump($response);
+//			}
         }
     }
 }
