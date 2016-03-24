@@ -138,7 +138,7 @@ class generalReservationRepository extends EntityRepository {
                 $string_order = "ORDER BY gre.gen_res_total_in_site DESC, gre.gen_res_id DESC";
                 break;
             case OrderByHelper::RESERVATION_CLIENT:
-                $string_order = "ORDER BY gre.gen_res_date DESC, u.user_user_name ASC, u.user_last_name ASC, u.user_email ASC, gre.gen_res_from_date DESC";
+                $string_order = "ORDER BY gre.gen_res_date DESC, u.user_user_name ASC, u.user_last_name ASC, u.user_email ASC, gre.gen_res_id ASC";
                 break;
         }
         $em = $this->getEntityManager();
@@ -838,8 +838,7 @@ class generalReservationRepository extends EntityRepository {
                     ->addOrderBy("user.user_user_name", "ASC")
                     ->addOrderBy("user.user_last_name", "ASC")
                     ->addOrderBy("user.user_email", "ASC")
-                    ->addOrderBy("gres.gen_res_from_date", "DESC");
-            //$string_order = "ORDER BY gre.gen_res_date DESC, u.user_user_name ASC, u.user_last_name ASC, u.user_email ASC, gre.gen_res_from_date DESC";
+                    ->addOrderBy("gres.gen_res_id", "ASC");
                 break;
         }
 
