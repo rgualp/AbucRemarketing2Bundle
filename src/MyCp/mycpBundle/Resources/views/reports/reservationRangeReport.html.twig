@@ -21,9 +21,9 @@
         {% set total = total + item.total %}
         {% set nights = nights + item.nights %}
     <tr>
-        <td>{{ item.status | generalReservationStatusType }}</td>
-        <td>{{ item.total }}</td>
-        <td>{{ item.nights }}</td>
+        <td><a href="{{ path("mycp_reports_reservations_byrange_details", {"reservation_status": item.status, "from_date":dateFrom, "to_date": dateTo}) }}">{{ item.status | generalReservationStatusType }}</a></td>
+        <td><a href="{{ path("mycp_reports_reservations_byrange_details", {"reservation_status": item.status, "from_date":dateFrom, "to_date": dateTo}) }}">{{ item.total }}</a></td>
+        <td><a href="{{ path("mycp_reports_reservations_byrange_details", {"reservation_status": item.status, "from_date":dateFrom, "to_date": dateTo}) }}">{{ item.nights }}</a></td>
     </tr>
     {% endfor %}
     <tr>
