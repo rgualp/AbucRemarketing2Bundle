@@ -115,7 +115,8 @@ $('#map').css('height',h1+'px');
 
 $('#div_result').slimScroll({
     height: h+'px',
-    start: 'top'
+    start: 'top',
+    allowPageScroll: true
 }).bind('slimscrolling', function(e, pos){
     $(window).scroll();
 });
