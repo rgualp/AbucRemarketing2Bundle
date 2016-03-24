@@ -621,7 +621,7 @@ ORDER BY own.own_mcp_code ASC
 
     }
 
-public function reservationRangeAction(Request $request)
+    public function reservationRangeAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $dateFrom = $request->get("dateRangeFrom");
@@ -640,6 +640,21 @@ public function reservationRangeAction(Request $request)
     {
         $exporter = $this->get("mycp.service.export_to_excel");
         return $exporter->exportReservationRange($request, $report, $from_date, $to_date);
+    }
+
+    public function reservationRangeDetailsAction($reservation_status,$from_date, $to_date)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $list = $em->getRepository("mycpBundle:generalReservation")->getReservationRangeDetailReportContent($reservation_status,$from_date, $to_date);
+
+        return $this->render('mycpBundle:reports:reservationRangeDetailsReport.html.twig', array(
+            'list' => $list,
+            'dateFrom' => $from_date,
+            'dateTo' => $to_date,
+            'reservationStatus' => $reservation_status,
+            'filter_nights' => 0
+        ));
     }
 
 }

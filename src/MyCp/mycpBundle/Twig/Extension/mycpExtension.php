@@ -33,6 +33,7 @@ class mycpExtension extends \Twig_Extension {
 
     public function getFunctions() {
         return array(
+            'nights' => new \Twig_Function_Method($this, 'nights'),
         );
     }
 
@@ -72,6 +73,11 @@ class mycpExtension extends \Twig_Extension {
     {
         $seasons = $this->em->getRepository("mycpBundle:season")->getSeasons($minDate, $maxDate, $idDestination);
         return $this->timer->seasonTypeByDate($seasons, $date->getTimestamp());
+    }
+
+    public function nights($minDate, $maxDate)
+    {
+        return $this->timer->nights($minDate, $maxDate);
     }
 
 }
