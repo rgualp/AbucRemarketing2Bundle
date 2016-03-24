@@ -412,6 +412,9 @@ class CartController extends Controller {
                     $em->getRepository("mycpBundle:generalReservation")->updateDates($general_reservation);
                     array_push($generalReservations, $general_reservation->getGenResId());
 
+                    //Enviar al propietario la notificacion de una nueva reserva creada
+                    $notificationService = $this->get('mycp.notification.service');
+                    $notificationService->sendNotification($general_reservation);
                 }
             }
         } else {

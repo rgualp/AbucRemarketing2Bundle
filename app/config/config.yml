@@ -237,6 +237,14 @@ services:
             logger: "@log"
             translatorApiKey: "%translator_google_api_key%"
 
+    general_reservation.listener:
+        class: MyCp\mycpBundle\Listener\generalReservationListener
+        arguments:
+            service_container: "@service_container"
+        tags:
+            - { name: doctrine.orm.entity_listener }
+            - { name: doctrine.orm.entity_listener, entity_manager: generalReservation }
+
 
 avalanche_imagine:
     web_root:     %kernel.root_dir%/../web
