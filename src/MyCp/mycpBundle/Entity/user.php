@@ -154,10 +154,6 @@ class user implements AdvancedUserInterface,  \Serializable
      */
     private $comments;
 
-    /**
-     * @ORM\OneToMany(targetEntity="generalReservation", mappedBy="modifiedBy")
-     */
-    private $modified_reservations;
 
 
     public function __construct() {
@@ -737,19 +733,19 @@ class user implements AdvancedUserInterface,  \Serializable
     /**
      * @return mixed
      */
-    public function getModifiedReservations()
+   /* public function getModifiedReservations()
     {
         return $this->modified_reservations;
-    }
+    }*/
 
     /**
      * @param mixed $modified_reservations
      * @return mixed
      */
-    public function setModifiedReservations($modified_reservations)
+    /*public function setModifiedReservations($modified_reservations)
     {
         $this->modified_reservations = $modified_reservations;
         return $this;
-    }
+    }*/
 
 }
