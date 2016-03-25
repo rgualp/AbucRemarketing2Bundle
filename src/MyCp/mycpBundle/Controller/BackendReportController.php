@@ -653,6 +653,8 @@ ORDER BY own.own_mcp_code ASC
         $filter_destination = $request->get("filter_destination");
         $filter_nights = $request->get("filter_nights");
         $reservation_status = $request->get("reservation_status");
+        $list = array();
+        $message = "";
 
         if ($filter_date_from == 'null')
             $filter_date_from = '';
@@ -669,7 +671,15 @@ ORDER BY own.own_mcp_code ASC
         if ($filter_user == 'null')
             $filter_user = '';
 
-        $list = $em->getRepository("mycpBundle:generalReservation")->getReservationRangeDetailReportContent($reservation_status,$filter_date_from, $filter_date_to,$filter_nights, $filter_province, $filter_destination, $filter_user);
+        if($filter_date_from == "" && $filter_destination == "" && $filter_date_to == "" && $filter_province == "" && $filter_nights == "" && $filter_user == "")
+        {
+            $message = 'Debe llenar al menos un campo para filtrar.';
+        }
+        else{
+            $list = $em->getRepository("mycpBundle:generalReservation")->getReservationRangeDetailReportContent($reservation_status,$filter_date_from, $filter_date_to,$filter_nights, $filter_province, $filter_destination, $filter_user);
+        }
+
+
 
         return $this->render('mycpBundle:reports:reservationRangeDetailsReport.html.twig', array(
             'list' => $list,
@@ -679,7 +689,8 @@ ORDER BY own.own_mcp_code ASC
             'filter_nights' => $filter_nights,
             "filter_province" => $filter_province,
             "filter_destination" => $filter_destination,
-            "filter_user" => $filter_user
+            "filter_user" => $filter_user,
+            "message" =>$message
         ));
     }
 
