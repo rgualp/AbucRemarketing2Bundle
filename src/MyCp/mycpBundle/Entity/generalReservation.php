@@ -13,7 +13,6 @@ use MyCp\mycpBundle\Helpers\SyncStatuses;
  *
  * @ORM\Table(name="generalreservation")
  * @ORM\Entity(repositoryClass="MyCp\mycpBundle\Entity\generalReservationRepository")
- * @ORM\EntityListeners({"MyCp\mycpBundle\Listener\generalReservationListener"})
  */
 class generalReservation {
     /**
