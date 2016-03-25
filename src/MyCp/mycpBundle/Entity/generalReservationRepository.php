@@ -2,8 +2,10 @@
 
 namespace MyCp\mycpBundle\Entity;
 
+use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\AST\Join;
 use MyCp\FrontEndBundle\Helpers\Time;
 use MyCp\mycpBundle\Helpers\Dates;
 use MyCp\mycpBundle\Helpers\Operations;
@@ -895,21 +897,21 @@ class generalReservationRepository extends EntityRepository {
         return array_merge($qbAvailable->getQuery()->getResult(), $qb->getQuery()->getResult());
     }
 
-    function getReservationRangeDetailReportContent($reservationStatus, $filter_date_from=null, $filter_date_to=null)
+    function getReservationRangeDetailReportContent($reservationStatus, $filter_date_from=null, $filter_date_to=null, $filter_nights = null, $filter_province = null, $filter_destination = null, $filter_user = null)
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
-        $qb->select("gres")
+        $qb->select("gres", "team.user_user_name as userName", "team.user_last_name as userLastName")
             ->addSelect("(SELECT SUM(DATE_DIFF(owres.own_res_reservation_to_date,owres.own_res_reservation_from_date)) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gres.gen_res_id GROUP BY owres.own_res_gen_res_id) as nights")
             ->from("mycpBundle:generalReservation", "gres")
             ->join("gres.gen_res_user_id", "client")
             ->join("gres.gen_res_own_id", "accommodation")
-            ->leftJoin("gres.modifiedBy", "modifiedBy")
+            ->leftJoin("mycpBundle:user", "team", \Doctrine\ORM\Query\Expr\Join::WITH, "gres.modifiedBy=team.user_id")
             ->orderBy("gres.gen_res_id", "ASC");
 
         if($reservationStatus == generalReservation::STATUS_AVAILABLE)
             $qb->where("gres.gen_res_status = ".generalReservation::STATUS_AVAILABLE." or gres.gen_res_status = ".generalReservation::STATUS_RESERVED." or gres.gen_res_status = ".generalReservation::STATUS_OUTDATED);
-        else
+        else if($reservationStatus != "" && $reservationStatus != null)
             $qb->where("gres.gen_res_status = ".$reservationStatus);
 
         if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "")
@@ -921,6 +923,26 @@ class generalReservationRepository extends EntityRepository {
         }
         else if($filter_date_to != null && $filter_date_to != "" && ($filter_date_from == null || $filter_date_from == "")){
             $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
+        }
+
+        if($filter_province != null && $filter_province != "")
+        {
+            $qb->andWhere("accommodation.own_address_province = $filter_province");
+        }
+
+        if($filter_destination != null && $filter_destination != "")
+        {
+            $qb->andWhere("accommodation.own_destination = $filter_destination");
+        }
+
+        if($filter_user != null && $filter_user != "")
+        {
+            $qb->andWhere("team.user_id = $filter_user");
+        }
+
+        if($filter_nights != null && $filter_nights != "")
+        {
+            $qb->andWhere("(SELECT SUM(DATE_DIFF(owres1.own_res_reservation_to_date,owres1.own_res_reservation_from_date)) FROM mycpBundle:ownershipReservation owres1 WHERE owres1.own_res_gen_res_id = gres.gen_res_id GROUP BY owres1.own_res_gen_res_id) = $filter_nights");
         }
 
         return $qb->getQuery()->getResult();
