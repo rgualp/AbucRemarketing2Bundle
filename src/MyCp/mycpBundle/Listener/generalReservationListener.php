@@ -25,8 +25,11 @@ class generalReservationListener {
     public function preUpdate(generalReservation $entity, PreUpdateEventArgs $args)
     {
         $loggedUser = $this->service_container->get('security.context')->getToken()->getUser();
-        $entity->setModified(new \DateTime())
-            ->setModifiedBy($loggedUser->getUserId());
+
+        if($loggedUser != null && isset($loggedUser)) {
+            $entity->setModified(new \DateTime())
+                ->setModifiedBy($loggedUser->getUserId());
+        }
     }
 
 } 
