@@ -1586,6 +1586,77 @@ ORDER BY own.own_mcp_code ASC
         return $excel;
     }
 
+    public function exportReservationRangeDetails($list, $filter_string, $fileName= "reporteDetallesReservacionesPeriodo") {
+        $excel = $this->configExcel("Resumen de reservaciones por período", "Resumen de reservaciones por período de MyCasaParticular", "reportes");
+
+        $sheetName = "General";
+
+        $data = $this->dataForReservationRangeDetails($list);
+
+        if (count($data) > 0)
+            $excel = $this->createSheetForReservationRangeDetails($excel, $sheetName, $data, $filter_string);
+
+        $fileName = $this->getFileName($fileName);
+        $this->save($excel, $fileName);
+        return $this->export($fileName);
+    }
+
+    private function dataForReservationRangeDetails($list) {
+        $results = array();
+
+        foreach ($list as $item) {
+            $data = array();
+
+            $data[0] = $item[0]->getCASId();
+            $data[1] = $item[0]->getGenResDate()->format("d/m/Y");
+            $data[2] = $item[0]->getGenResOwnId()->getOwnMcpCode();
+            $data[3] = $item[0]->getGenResUserId()->getUserUserName()." ".$item[0]->getGenResUserId()->getUserLastName();
+            $data[4] = ($item[0]->getModifiedBy() != null && $item[0]->getModifiedBy() != "") ? $item["userName"]." ".$item["userLastName"] : " - ";
+            $data[5] = $item["nights"];
+            array_push($results, $data);
+        }
+
+
+        return $results;
+    }
+
+    private function createSheetForReservationRangeDetails($excel, $sheetName, $data, $filter_string) {
+
+        $sheet = $this->createSheet($excel, $sheetName);
+        $sheet->setCellValue('a1', "Reporte: Resumen de reservaciones por período (Detalles)");
+        $sheet->mergeCells("A1:F1");
+        $now = new \DateTime();
+        $sheet->setCellValue('a2', 'Generado: '.$now->format('d/m/Y H:s'));
+        $sheet->setCellValue('b2', 'Filtro: '.$filter_string);
+        $sheet->mergeCells("B2:F2");
+
+        $sheet->setCellValue('a4', 'Código Reserva');
+        $sheet->setCellValue('b4', 'Fecha');
+        $sheet->setCellValue('c4', 'Alojamiento');
+        $sheet->setCellValue('d4', 'Turista');
+        $sheet->setCellValue('e4', 'Usuario que atendió la reserva');
+        $sheet->setCellValue('f4', 'Noches');
+
+        $sheet = $this->styleHeader("a4:f4", $sheet);
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+
+        $sheet
+            ->getStyle("a5:a".(count($data)+4))
+            ->getNumberFormat()
+            ->setFormatCode( \PHPExcel_Style_NumberFormat::FORMAT_TEXT );
+
+        $sheet->fromArray($data, ' ', 'A5');
+
+        $this->setColumnAutoSize("a", "f", $sheet);
+
+        return $excel;
+    }
 }
 
 ?>

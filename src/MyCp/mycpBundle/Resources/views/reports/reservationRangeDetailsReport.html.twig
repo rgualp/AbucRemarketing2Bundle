@@ -29,8 +29,8 @@
 {% block content %}
 <h2>Estado: {% if reservationStatus != "" and reservationStatus != null and reservationStatus != "null"  %} {{reservationStatus | generalReservationStatusType}}{% else %} Todos {% endif %}</h2>
 <hr/>
-    {%set filter_date_from = (dateFrom == "") ? "null" : dateFrom | date('d/m/Y')%}
-    {%set filter_date_to = (dateTo == "") ? "null" : dateTo | date('d/m/Y')%}
+    {%set filter_date_from = (dateFrom == "") ? "" : dateFrom | date('d/m/Y')%}
+    {%set filter_date_to = (dateTo == "") ? "" : dateTo | date('d/m/Y')%}
   <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_reports_reservations_byrange_details')}}">
         <div class="well well-small">
                     <div class="row-fluid">
@@ -77,7 +77,7 @@
                                 </div>
                                 <div class="span4">
                                     {% set url_params = app.request.get('_route_params')  %}
-                                    <a rel="tooltip" title="Exportar a excel" href="{{ path('mycp_reports_reservations_byrange_details', url_params) }}" class="tooltip_msg btn btn-block btn-info"><i class="icon-download-alt icon-white"></i></a>
+                                    <a rel="tooltip" title="Exportar a excel" href="{{ path('mycp_reports_reservations_byrange_details_excel', url_params) }}" class="tooltip_msg btn btn-block btn-info"><i class="icon-download-alt icon-white"></i></a>
                                 </div>
                                 <div class="span4">
                                     <a rel="tooltip" title="Resetear filtrado " href="{{path('mycp_reports_reservations_byrange_details')}}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>

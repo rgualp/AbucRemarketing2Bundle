@@ -27,8 +27,10 @@ class generalReservationListener {
         $token = $this->service_container->get('security.context')->getToken();
         if($token != null) {
             $loggedUser = $token->getUser();
-            $entity->setModified(new \DateTime())
-                ->setModifiedBy($loggedUser->getUserId());
+            $entity->setModified(new \DateTime());
+
+            if($loggedUser != null)
+                $entity->setModifiedBy($loggedUser->getUserId());
         }
     }
 
