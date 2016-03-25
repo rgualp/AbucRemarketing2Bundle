@@ -26,7 +26,7 @@ class generalReservationListener {
     {
         $loggedUser = $this->service_container->get('security.context')->getToken()->getUser();
         $entity->setModified(new \DateTime())
-            ->setModifiedBy($loggedUser);
+            ->setModifiedBy($loggedUser->getUserId());
     }
 
 } 
