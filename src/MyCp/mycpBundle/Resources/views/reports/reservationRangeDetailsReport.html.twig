@@ -27,7 +27,7 @@
 </ul>
 {% endblock %}
 {% block content %}
-<h2>Estado: {% if reservationStatus != "" and reservationStatus != null and reservationStatus != "null"  %} ? {{reservationStatus | generalReservationStatusType}}{% else %} Todos {% endif %}</h2>
+<h2>Estado: {% if reservationStatus != "" and reservationStatus != null and reservationStatus != "null"  %} {{reservationStatus | generalReservationStatusType}}{% else %} Todos {% endif %}</h2>
 <hr/>
     {%set filter_date_from = (dateFrom == "") ? "null" : dateFrom | date('d/m/Y')%}
     {%set filter_date_to = (dateTo == "") ? "null" : dateTo | date('d/m/Y')%}
@@ -126,7 +126,13 @@
     </div>
         </div>
     {% else %}
-        <p> <div class="alert alert-block">No hay datos almacenados para este reporte.</div></p>
+        <p> <div class="alert alert-block">
+        {% if message != "" %}
+        {{ message }}
+        {% else %}
+        No hay datos almacenados para este reporte.
+        {% endif %}
+    </div></p>
     {% endif %}
 
 {% endblock %}
