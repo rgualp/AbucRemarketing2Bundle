@@ -16,7 +16,7 @@ use MyCp\mycpBundle\Helpers\SyncStatuses;
  */
 class generalReservation {
     /**
-     * All allowed statuses
+     * All allowed statuses adding text
      */
 
     const STATUS_NONE = -1;
