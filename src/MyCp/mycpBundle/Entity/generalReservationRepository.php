@@ -854,7 +854,7 @@ class generalReservationRepository extends EntityRepository {
             gres1.gen_res_status != ".generalReservation::STATUS_AVAILABLE." AND gres1.gen_res_status = gres.gen_res_status";
         $subSelectAvailable = "SELECT SUM(DATE_DIFF(owres.own_res_reservation_to_date,owres.own_res_reservation_from_date))
             FROM mycpBundle:ownershipReservation owres JOIN owres.own_res_gen_res_id gres1 WHERE
-            (gres1.gen_res_status = ".generalReservation::STATUS_AVAILABLE." or gres1.gen_res_status = ".generalReservation::STATUS_OUTDATED." or gres1.gen_res_status = ".generalReservation::STATUS_RESERVED.")  AND gres1.gen_res_status = gres.gen_res_status";
+            (gres1.gen_res_status = ".generalReservation::STATUS_AVAILABLE." or gres1.gen_res_status = ".generalReservation::STATUS_OUTDATED." or gres1.gen_res_status = ".generalReservation::STATUS_RESERVED.")";
 
         $qb->select("gres.gen_res_status as status", "count(gres) as total")
             ->from("mycpBundle:generalReservation", "gres")
@@ -891,8 +891,6 @@ class generalReservationRepository extends EntityRepository {
 
         $qb->addSelect("(".$subSelect.") as nights");
         $qbAvailable->addSelect("(".$subSelectAvailable.") as nights");
-
-
 
         return array_merge($qbAvailable->getQuery()->getResult(), $qb->getQuery()->getResult());
     }

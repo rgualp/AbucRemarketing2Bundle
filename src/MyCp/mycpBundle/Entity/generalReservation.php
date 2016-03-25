@@ -120,8 +120,9 @@ class generalReservation {
     private $gen_res_own_id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="user",inversedBy="")
-     * @ORM\JoinColumn(name="modified_by",referencedColumnName="user_id",nullable=true)
+     * @var integer
+     *
+     * @ORM\Column(name="modified_by", type="integer", nullable=true)
      */
     private $modifiedBy;
 
