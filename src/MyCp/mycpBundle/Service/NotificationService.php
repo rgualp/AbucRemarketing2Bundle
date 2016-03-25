@@ -38,7 +38,7 @@ class NotificationService extends Controller
 
         if($accommodation->getOwnMobileNumber() != null  && $accommodation->getOwnMobileNumber() != "") {
             $email = $accommodation->getOwnEmail1();
-            $email = ($email == null || $email == "") ? $accommodation->getOwnEmail2(): "";
+            $email = ($email == null || $email == "") ? $accommodation->getOwnEmail2(): $email;
 
             $owner = $accommodation->getOwnHomeowner1();
             $owner = ($owner == null || $owner == "") ? $accommodation->getOwnHomeowner2(): $owner;

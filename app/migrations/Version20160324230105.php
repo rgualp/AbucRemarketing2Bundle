@@ -19,8 +19,10 @@ class Version20160324230105 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('UPDATE generalreservation SET modified_by = NULL ');
+        $this->addSql('ALTER TABLE generalreservation DROP FOREIGN KEY FK_52BC9BBC25F94802');
+        $this->addSql('DROP INDEX IDX_52BC9BBC25F94802 ON generalreservation');
 
-        $this->addSql("
+        /*$this->addSql("
             DROP PROCEDURE IF EXISTS tmp_drop_foreign_key;
             DELIMITER $$
 
@@ -43,9 +45,9 @@ class Version20160324230105 extends AbstractMigration
             DELIMITER ;
             CALL tmp_drop_foreign_key('generalreservation', 'FK_52BC9BBC25F94802');
             DROP PROCEDURE tmp_drop_foreign_key;
-            ");
+            ");*/
 
-        $this->addSql('DROP INDEX IDX_52BC9BBC25F94802 ON generalreservation');
+
 
     }
 
