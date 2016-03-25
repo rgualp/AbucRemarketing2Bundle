@@ -208,4 +208,13 @@ class PublicController extends Controller
         return $this->render('mycpBundle:utils:listNomenclator.html.twig', array('nomenclators' => $nomenclatorStats
         ,'selected'=>$selected));
     }
+
+    public function getStaffUserAction($user)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $users = null;
+        $users = $em->getRepository('mycpBundle:user')->getUsersStaff();
+
+        return $this->render('mycpBundle:utils:users.html.twig', array('users' => $users,'selected'=>$user));
+    }
 }

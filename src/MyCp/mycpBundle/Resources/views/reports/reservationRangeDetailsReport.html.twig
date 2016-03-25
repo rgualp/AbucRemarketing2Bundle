@@ -9,8 +9,7 @@
     <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
 {% endblock %}
-{%set dateFrom = (dateFrom == "") ? "null" : dateFrom | date('d/m/Y')%}
-{%set dateTo = (dateTo == "") ? "null" : dateTo | date('d/m/Y')%}
+
 {% block top_body %}
 <ul class="breadcrumb">
     <li><a href="{{path('mycp_backend_front')}}">Administración</a> <span class="divider">/</span></li>
@@ -28,9 +27,11 @@
 </ul>
 {% endblock %}
 {% block content %}
-<h2>Estado: {{reservationStatus | generalReservationStatusType}}</h2>
+<h2>Estado: {% if reservationStatus != "" and reservationStatus != null and reservationStatus != "null"  %} ? {{reservationStatus | generalReservationStatusType}}{% else %} Todos {% endif %}</h2>
 <hr/>
-  <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_reports_reservations_byrange_details',{'reservation_status': reservationStatus})}}">
+    {%set filter_date_from = (dateFrom == "") ? "null" : dateFrom | date('d/m/Y')%}
+    {%set filter_date_to = (dateTo == "") ? "null" : dateTo | date('d/m/Y')%}
+  <form onkeypress="javascript:submit_filters(event);" id="filter" method="post" action="{{path('mycp_reports_reservations_byrange_details')}}">
         <div class="well well-small">
                     <div class="row-fluid">
                         <div class="span3"><label>Estado de la reserva:</label>
@@ -39,20 +40,54 @@
                             {{ render(controller('mycpBundle:BackendReservation:get_general_reservation_status', {'post': {'selected':reservationStatus}})) }}
                             </select>
                              </div>
-                        <div class="span3"><label>Fecha Reserva(desde):</label>
-                            <input id="filter_date_from" name="filter_date_from" type="text" class="datepicker input-block-level" value="{{ dateFrom }}"/>
+                        <div class="span3"><label>Fecha Desde:</label>
+                            <input id="filter_date_from" name="filter_date_from" type="text" class="datepicker input-block-level" value="{{ filter_date_from }}"/>
                         </div>
-                        <div class="span3"><label>Fecha Reserva(hasta):</label>
-                            <input id="filter_date_to" name="filter_date_to" type="text" class="datepicker input-block-level" value="{{ dateTo }}"/>
+                        <div class="span3"><label>Fecha Hasta:</label>
+                            <input id="filter_date_to" name="filter_date_to" type="text" class="datepicker input-block-level" value="{{ filter_date_to }}"/>
                         </div>
                         <div class="span3"><label>Noches:</label>
-                            <input id="filter_nights" name="filter_nights" type="text" class="input-block-level" value="{{ filter_nights }}"/>
+                            <input id="filter_nights" name="filter_nights" type="number" class="input-block-level" value="{{ filter_nights }}"/>
                         </div>
-
                     </div>
-
+                    <div class="row-fluid">
+                        <div class="span3">
+                            <label>Provincia:</label>
+                            <select class="input-block-level" name="filter_province" id="filter_province">
+                                {{ render(controller('mycpBundle:Public:get_provinces', {'post': {'ownership_address_province':filter_province}})) }}
+                            </select>
+                        </div>
+                        <div class="span3">
+                            <label>Destino:</label>
+                            <select class="input-block-level" name="filter_destination" id="filter_destination">
+                                {{ render(controller('mycpBundle:Public:getDestinations', {'post': {'ownership_destination':filter_destination}})) }}
+                            </select>
+                        </div>
+                        <div class="span3">
+                            <label>Usuario:</label>
+                            <select class="input-block-level" name="filter_user" id="filter_user">
+                                {{ render(controller('mycpBundle:Public:getStaffUser', {'user':filter_user})) }}
+                            </select>
+                        </div>
+                        <div class="span3">
+                            <label>&nbsp;</label>
+                            <div class="row-fluid">
+                                <div class="span4">
+                                    <a rel="tooltip" title="Filtrar listado" href="javascript:action_submit();" class="tooltip_msg btn btn-block btn-success"><i class="icon-filter icon-white"></i></a>
+                                </div>
+                                <div class="span4">
+                                    {% set url_params = app.request.get('_route_params')  %}
+                                    <a rel="tooltip" title="Exportar a excel" href="{{ path('mycp_reports_reservations_byrange_details', url_params) }}" class="tooltip_msg btn btn-block btn-info"><i class="icon-download-alt icon-white"></i></a>
+                                </div>
+                                <div class="span4">
+                                    <a rel="tooltip" title="Resetear filtrado " href="{{path('mycp_reports_reservations_byrange_details')}}" class="tooltip_msg btn btn-block btn-danger"><i class="icon-remove icon-white"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
   </form>
+    {% if list %}
     <div id="tabReservas">
     <div class="tab-content tabs_cont">
         <div class="tab-pane active" id="res">
@@ -77,7 +112,7 @@
                     <td>{{ reservation[0].genResDate|date("d/m/Y") }}</td>
                     <td><a href="{{ path("mycp_edit_ownership", {"id_ownership": reservation[0].genResOwnId.ownId}) }}">{{reservation[0].genResOwnId.ownMcpCode}}</a></td>
                     <td>{{reservation[0].genResUserId.userUserName}} {{reservation[0].genResUserId.userLastName}}</td>
-                    <td>{% if reservation[0].modifiedBy != null %}{{reservation[0].modifiedBy.userUserName}} {{reservation[0].modifiedBy.userLastName}}{% else %}-{% endif %}</td>
+                    <td>{% if reservation[0].modifiedBy != null %}{{reservation["userName"]}} {{reservation["userLastName"]}}{% else %}-{% endif %}</td>
                     <td>{{ reservation["nights"] }}</td>
                 </tr>
                 {% endfor %}
@@ -90,7 +125,9 @@
 
     </div>
         </div>
-
+    {% else %}
+        <p> <div class="alert alert-block">No hay datos almacenados para este reporte.</div></p>
+    {% endif %}
 
 {% endblock %}
     {% block javascripts %}
@@ -128,12 +165,26 @@
         {
             filter_date_from=$('#filter_date_from').val();
             filter_date_to=$('#filter_date_to').val();
-            filter_date_from=filter_date_from.replace('/',"-");
+            /*filter_date_from=filter_date_from.replace('/',"-");
             filter_date_from=filter_date_from.replace('/',"-");
             filter_date_to=filter_date_to.replace('/',"-");
             filter_date_to=filter_date_to.replace('/',"-");
             if(filter_date_from=='')filter_date_from='null';
+            if(filter_date_to=='')filter_date_to='null';*/
+
+            if(filter_date_from=='')filter_date_from='null';
+            else {
+                filter_date_from = filter_date_from.split("/");
+                filter_date_from = filter_date_from[2]+"-"+filter_date_from[1]+"-"+filter_date_from[0];
+            }
+
             if(filter_date_to=='')filter_date_to='null';
+            else {
+                filter_date_to = filter_date_to.split("/");
+                filter_date_to = filter_date_to[2]+"-"+filter_date_to[1]+"-"+filter_date_to[0];
+            }
+
+
             filter_reservation_status=$('#filter_status').val();
             if(filter_reservation_status=='')filter_reservation_status='null';
             filter_nights=$('#filter_nights').val();
@@ -145,101 +196,14 @@
             filter_destination=$('#filter_destination').val();
             if(filter_destination=='')filter_destination='null';
 
+            filter_user=$('#filter_user').val();
+            if(filter_user=='')filter_user='null';
+
             url_submit=$('#filter').attr('action');
-            url_submit=url_submit+'/'+filter_date_from+'/'+filter_date_to+'/'+filter_reservation_status+'/'+filter_province+'/'+filter_destination+'/'+filter_nights;
+            url_submit=url_submit+'/'+filter_reservation_status+'/'+filter_date_from+'/'+filter_date_to+'/'+filter_nights+'/'+filter_province+'/'+filter_destination +'/'+filter_user;
             $('#filter').attr('action',url_submit);
             $('#filter').submit();
         }
 
     </script>
-
-        <script type="text/javascript">
-
-            count=0;
-            visibles=[];
-
-            $('.reserve_details').click(function(){
-                flag_insert=1;
-
-                $('.reserves li').each(function(index,value) {
-                    //alert(valor);
-                });
-                tab_name=$(this).attr('data_name');
-                tab_name_id=$(this).attr('data_name_id');
-                res_id=$(this).attr('data_res_id');
-
-                for(a=0; a < visibles.length; a++)
-                {
-                    if(visibles[a]==tab_name)
-                    {
-                        flag_insert=0;
-                    }
-                }
-
-                if(flag_insert==1)
-                {
-                    visibles[count]=tab_name;
-                    count++;
-                    $("#tabReservas .active").removeClass("active");
-                    new_tab='<li id="tab'+res_id+'li" class="active"><a href="#'+tab_name_id+'" data-toggle="tab"><button onclick="javascript:close_tab('+res_id+')" class="close closeTab" type="button" style="font-size: 16px; margin-left: 5px;">x</button> Reserva '+tab_name+'</a></li>';
-                    new_cont=document.createElement("div");
-                    new_cont.setAttribute("class","tab-pane active");
-                    new_cont.setAttribute("id",tab_name_id);
-                    $(".reserve_details").attr('disabled','disabled');
-                    new_cont.innerHTML='<p style="font-size: 12px;">Cargando...<br/><br/></p>';
-                    url = "{{ path('mycp_details_reservation_partial', { 'id_reservation': '-1' }) }}"
-                    url=url.replace('/-1','');
-                    $.ajax({
-                        url:url + '/' + res_id
-                    }).done(function(resp) {
-                        $(".reserve_details").removeAttr('disabled');
-                        new_cont.innerHTML=resp;
-                    });
-                    $('.reserves').html($('.reserves').html() + new_tab);
-                    $('.tabs_cont').append(new_cont);
-                }
-            })
-
-            function close_tab( id_tab )
-            {
-
-                for(a=0; a < visibles.length; a++)
-                {
-                    if(visibles[a]=="CAS."+id_tab)
-                    {
-                        delete visibles[a];
-                        break;
-                    }
-                }
-
-                //$('#res').attr('class',$('#res').attr('class')+' active');
-                //$('#res').addClass('active');
-                //$('#li_res').attr('class','active');
-                $('#tab'+id_tab+'li').remove();
-                $('#'+id_tab+'tab').remove();
-                $('#tabRes a:first').tab('show');
-
-            }
-
-            function submit()
-            {
-                errors=0;
-                $('.price_offer').each(function(index,value) {
-                    if(!$.isNumeric($(value).val()) || $(value).val()==0 )
-                    {
-                        errors++;
-                    }
-                });
-                if(errors > 0)
-                {
-                    $('#modal_error').modal('show');
-                }
-                else
-                {
-                    $('#form').submit();
-                }
-
-            }
-
-        </script>
     {% endblock %}

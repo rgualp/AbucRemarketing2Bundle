@@ -24,9 +24,9 @@ class generalReservationListener {
 
     public function preUpdate(generalReservation $entity, PreUpdateEventArgs $args)
     {
-        $loggedUser = $this->service_container->get('security.context')->getToken()->getUser();
-
-        if($loggedUser != null && isset($loggedUser)) {
+        $securityContext = $this->service_container->get('security.authorization_checker');
+        if($securityContext->isGranted("IS_AUTHENTICATED_REMEMBERED")) {
+            $loggedUser = $this->service_container->get('security.context')->getToken()->getUser();
             $entity->setModified(new \DateTime())
                 ->setModifiedBy($loggedUser->getUserId());
         }

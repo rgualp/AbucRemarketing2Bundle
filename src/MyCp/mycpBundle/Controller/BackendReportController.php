@@ -642,18 +642,44 @@ ORDER BY own.own_mcp_code ASC
         return $exporter->exportReservationRange($request, $report, $from_date, $to_date);
     }
 
-    public function reservationRangeDetailsAction($reservation_status,$from_date, $to_date)
+    public function reservationRangeDetailsAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $list = $em->getRepository("mycpBundle:generalReservation")->getReservationRangeDetailReportContent($reservation_status,$from_date, $to_date);
+        $filter_user = $request->get('filter_user');
+        $filter_date_from = $request->get('from_date');
+        $filter_date_to = $request->get('to_date');
+        $filter_province = $request->get('filter_province');
+        $filter_destination = $request->get("filter_destination");
+        $filter_nights = $request->get("filter_nights");
+        $reservation_status = $request->get("reservation_status");
+
+        if ($filter_date_from == 'null')
+            $filter_date_from = '';
+        if ($filter_date_to == 'null')
+            $filter_date_to = '';
+        if ($reservation_status == 'null')
+            $reservation_status = '';
+        if ($filter_province == 'null')
+            $filter_province = '';
+        if ($filter_destination == 'null')
+            $filter_destination = '';
+        if ($filter_nights == 'null')
+            $filter_nights = '';
+        if ($filter_user == 'null')
+            $filter_user = '';
+
+        $list = $em->getRepository("mycpBundle:generalReservation")->getReservationRangeDetailReportContent($reservation_status,$filter_date_from, $filter_date_to,$filter_nights, $filter_province, $filter_destination, $filter_user);
 
         return $this->render('mycpBundle:reports:reservationRangeDetailsReport.html.twig', array(
             'list' => $list,
-            'dateFrom' => $from_date,
-            'dateTo' => $to_date,
+            'dateFrom' => $filter_date_from,
+            'dateTo' => $filter_date_to,
             'reservationStatus' => $reservation_status,
-            'filter_nights' => 0
+            'filter_nights' => $filter_nights,
+            "filter_province" => $filter_province,
+            "filter_destination" => $filter_destination,
+            "filter_user" => $filter_user
         ));
     }
 
