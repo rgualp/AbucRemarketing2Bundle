@@ -28,6 +28,7 @@ class mycpExtension extends \Twig_Extension {
             new \Twig_SimpleFilter('generalReservationStatusType', array($this, 'generalReservationStatusType')),
             new \Twig_SimpleFilter('mailListFunction', array($this, 'mailListFunction')),
             new \Twig_SimpleFilter('season', array($this, 'season')),
+            new \Twig_SimpleFilter('user', array($this, 'user')),
         );
     }
 
@@ -78,6 +79,12 @@ class mycpExtension extends \Twig_Extension {
     public function nights($minDate, $maxDate)
     {
         return $this->timer->nights($minDate, $maxDate);
+    }
+
+    public function user($userId)
+    {
+        $user = $this->em->getRepository("mycpBundle:user")->find($userId);
+        return ($user != null) ? $user->getUserCompleteName() : "Usuario no registrado o eliminado";
     }
 
 }
