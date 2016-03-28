@@ -108,6 +108,7 @@
                     <th>Adultos</th>
                     <th>Niños</th>
                     <th>Noches</th>
+                    <th>Fecha entrada</th>
                     <th>Precio</th>
                     <th>Estado</th>
                     <th>Destino</th>
@@ -125,6 +126,7 @@
                     <td>{{reservation.adults}}</td>
                     <td>{{reservation.childrens}}</td>
                     <td>{{reservation.totalNights}}</td>
+                    <td>{{reservation.gen_res_from_date |date("d/m/Y")}} </td>
                     <td>{{reservation.gen_res_total_in_site}} CUC</td>
                     <td>
                         {% include 'mycpBundle:utils:general_reservation_status_name.html.twig' with {'status': reservation.gen_res_status, 'wrap': false, 'showInDiv': true} %}
