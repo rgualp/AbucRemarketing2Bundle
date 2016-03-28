@@ -17,14 +17,15 @@
             <th>Disponibles</th>
             <th>No disponibles</th>
             <th>Pendientes</th>
-            <th>Reservaciones</th>
+            <th>Reservadas</th>
+            <th>Vencidas</th>
         </tr>
         </thead>
         <tbody>
         {% for cont in content %}
             <tr>
                 <td>
-                 <a href="{{ path('mycp_report_reservations_client_details',{'id_client': cont.user_id, 'filter_date_from':dateFrom|date('d-m-Y'),'filter_date_to':dateTo|date('d-m-Y') }) }}">   {{ cont.user_name~' '~cont.user_last_name }}</a>
+                 <a target="_blank" href="{{ path('mycp_report_reservations_client_details',{'id_client': cont.user_id, 'filter_date_from':dateFrom|date('d-m-Y'),'filter_date_to':dateTo|date('d-m-Y') }) }}">   {{ cont.user_name~' '~cont.user_last_name }}</a>
                  </td>
                 <td>
                     {{ cont.solicitudes }}
@@ -40,6 +41,9 @@
                 </td>
                 <td>
                     {{ cont.reservas }}
+                </td>
+                <td>
+                    {{ cont.vencidas }}
                 </td>
             </tr>
         {% endfor %}

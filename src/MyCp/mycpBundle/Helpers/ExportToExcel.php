@@ -893,6 +893,7 @@ class ExportToExcel extends Controller {
             $data[3] = $content["no_disponibles"];
             $data[4] = $content["pendientes"];
             $data[5] = $content["reservas"];
+            $data[6] = $content["vencidas"];
             array_push($dataArr, $data);
         }
         return $dataArr;
@@ -914,8 +915,9 @@ class ExportToExcel extends Controller {
         $sheet->setCellValue('d5', 'No Disponibles');
         $sheet->setCellValue('e5', 'Pendientes');
         $sheet->setCellValue('f5', 'Reservaciones');
+        $sheet->setCellValue('g5', 'Vencidas');
 
-        $sheet = $this->styleHeader("a5:f5", $sheet);
+        $sheet = $this->styleHeader("a5:g5", $sheet);
         $style = array(
             'font' => array(
                 'bold' => true,
@@ -925,8 +927,8 @@ class ExportToExcel extends Controller {
         $sheet->getStyle("a1")->applyFromArray($style);
 
         $sheet->fromArray($data, ' ', 'A6');
-        $this->setColumnAutoSize("a", "f", $sheet);
-        $sheet->setAutoFilter("A5:F".(count($data) + 5));
+        $this->setColumnAutoSize("a", "g", $sheet);
+        $sheet->setAutoFilter("A5:G".(count($data) + 5));
 
         return $excel;
     }
@@ -978,11 +980,12 @@ class ExportToExcel extends Controller {
         $sheet->setCellValue('e5', 'Adultos');
         $sheet->setCellValue('f5', 'Niños');
         $sheet->setCellValue('g5', 'Noches');
-        $sheet->setCellValue('h5', 'Precio');
-        $sheet->setCellValue('i5', 'Destino');
-        $sheet->setCellValue('j5', 'Estado Reserva');
+        $sheet->setCellValue('h5', 'Fecha de entrada');
+        $sheet->setCellValue('i5', 'Precio');
+        $sheet->setCellValue('j5', 'Destino');
+        $sheet->setCellValue('k5', 'Estado Reserva');
 
-        $sheet = $this->styleHeader("a5:j5", $sheet);
+        $sheet = $this->styleHeader("a5:k5", $sheet);
         $style = array(
             'font' => array(
                 'bold' => true,
@@ -993,8 +996,8 @@ class ExportToExcel extends Controller {
         $sheet->getStyle("b1")->applyFromArray($style);
 
         $sheet->fromArray($data, ' ', 'A6');
-        $this->setColumnAutoSize("a", "j", $sheet);
-        $sheet->setAutoFilter("A5:J".(count($data) + 5));
+        $this->setColumnAutoSize("a", "k", $sheet);
+        $sheet->setAutoFilter("A5:K".(count($data) + 5));
 
         return $excel;
     }
