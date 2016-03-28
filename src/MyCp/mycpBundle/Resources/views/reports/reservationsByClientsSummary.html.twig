@@ -17,7 +17,8 @@
             <th>Disponibles</th>
             <th>No disponibles</th>
             <th>Pendientes</th>
-            <th>Reservaciones</th>
+            <th>Reservadas</th>
+            <th>Vencidas</th>
         </tr>
         </thead>
         <tbody>
@@ -40,6 +41,9 @@
                 </td>
                 <td>
                     {{ cont.reservas }}
+                </td>
+                <td>
+                    {{ cont.vencidas }}
                 </td>
             </tr>
         {% endfor %}
