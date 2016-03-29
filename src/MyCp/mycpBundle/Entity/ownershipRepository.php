@@ -718,7 +718,6 @@ class ownershipRepository extends EntityRepository {
             $condition .= " AND ow.own_commission_percent = :filter_commission ";
         }
 
-
         $em = $this->getEntityManager();
         $query = $em->createQuery("SELECT
         ow.own_not_recommendable,
