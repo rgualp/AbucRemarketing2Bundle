@@ -23,6 +23,7 @@ use MyCp\mycpBundle\Entity\ownershipStatus;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
 use MyCp\mycpBundle\Helpers\UserMails;
 use MyCp\mycpBundle\Helpers\Operations;
+use Symfony\Component\Validator\Constraints\RegexValidator;
 
 class BackendOwnershipController extends Controller {
 
@@ -843,6 +844,12 @@ class BackendOwnershipController extends Controller {
 
                 if ($post['ownership_email_2'] != "" && !\MyCp\FrontEndBundle\Helpers\Utils::validateEmail($post['ownership_email_2'])) {
                     $errors['ownership_email_2_email'] = $emailConstraint->message;
+                    $data['count_errors']++;
+                    $count++;
+                }
+
+                if ($post['ownership_mobile_number'] != "" && !\MyCp\FrontEndBundle\Helpers\Utils::isMobileNumberValid($post['ownership_mobile_number'])) {
+                    $errors['ownership_mobile_number'] = "Debe introducir un número celular que comience con 5 y que tenga 8 dígitos";
                     $data['count_errors']++;
                     $count++;
                 }
