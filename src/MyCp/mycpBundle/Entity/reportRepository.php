@@ -128,7 +128,8 @@ class reportRepository extends EntityRepository
        (SELECT COUNT(generalreservation2.gen_res_id) FROM mycpBundle:generalReservation generalreservation2 WHERE generalreservation2.gen_res_user_id=user.user_id AND generalreservation2.gen_res_status=1 AND generalreservation2.gen_res_date BETWEEN :datefrom AND :dateto) AS disponibles,
        (SELECT COUNT(generalreservation3.gen_res_id) FROM mycpBundle:generalReservation generalreservation3 WHERE generalreservation3.gen_res_user_id=user.user_id AND generalreservation3.gen_res_status=3 AND generalreservation3.gen_res_date BETWEEN :datefrom AND :dateto) AS no_disponibles,
        (SELECT COUNT(generalreservation4.gen_res_id) FROM mycpBundle:generalReservation generalreservation4 WHERE generalreservation4.gen_res_user_id=user.user_id AND generalreservation4.gen_res_status=0 AND generalreservation4.gen_res_date BETWEEN :datefrom AND :dateto) AS pendientes,
-       (SELECT COUNT(generalreservation5.gen_res_id) FROM mycpBundle:generalReservation generalreservation5 WHERE generalreservation5.gen_res_user_id=user.user_id AND generalreservation5.gen_res_status=2 AND generalreservation5.gen_res_date BETWEEN :datefrom AND :dateto) AS reservas
+       (SELECT COUNT(generalreservation5.gen_res_id) FROM mycpBundle:generalReservation generalreservation5 WHERE generalreservation5.gen_res_user_id=user.user_id AND generalreservation5.gen_res_status=2 AND generalreservation5.gen_res_date BETWEEN :datefrom AND :dateto) AS reservas,
+       (SELECT COUNT(generalreservation6.gen_res_id) FROM mycpBundle:generalReservation generalreservation6 WHERE generalreservation6.gen_res_user_id=user.user_id AND generalreservation6.gen_res_status=8 AND generalreservation6.gen_res_date BETWEEN :datefrom AND :dateto) AS vencidas
        FROM mycpBundle:user user WHERE user.user_role='ROLE_CLIENT_TOURIST'
        HAVING solicitudes>0
        ORDER BY user.user_name ASC";

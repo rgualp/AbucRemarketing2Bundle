@@ -590,8 +590,9 @@ ORDER BY own.own_mcp_code ASC
             $data[4] = $content["adults"];
             $data[5] = $content["childrens"];
             $data[6] = $content["totalNights"];
-            $data[7] = $content["gen_res_total_in_site"].' CUC';
-            $data[8] = $content["des_name"];
+            $data[7] = $content["gen_res_from_date"]->format('d/m/Y');
+            $data[8] = $content["gen_res_total_in_site"].' CUC';
+            $data[9] = $content["des_name"];
              $estado='';
              switch($content["gen_res_status"]){
                  case generalReservation::STATUS_AVAILABLE: $estado='Disponible';
@@ -613,7 +614,7 @@ ORDER BY own.own_mcp_code ASC
                  case generalReservation::STATUS_OUTDATED: $estado='Vencida';
                      break;
              }
-            $data[9] = $estado;
+            $data[10] = $estado;
             array_push($dataArr, $data);
         }
         $exporter = $this->get("mycp.service.export_to_excel");
