@@ -676,6 +676,12 @@ class ownershipRepository extends EntityRepository {
             case FilterHelper::ACCOMMODATION_WITH_ERRORS_ADDRESS:
                 $condition .= "AND (ow.own_address_street LIKE '%avenida%' OR ow.own_address_street LIKE '%ave%' OR ow.own_address_street LIKE '%calle%' OR ow.own_address_street LIKE '%calzada%' OR ow.own_address_street LIKE '%carretera%' OR (ow.own_address_between_street_1 is not null AND ow.own_address_between_street_1 <> '' AND ow.own_address_between_street_2 IS NOT NULL AND ow.own_address_between_street_2 <> '' AND ow.own_address_between_street_1 = ow.own_address_between_street_2)) ";
                 break;
+            case FilterHelper::ACCOMMODATION_ERROR_GEOLOCALIZATION:
+                $condition .= "AND ow.own_comment IS NOT NULL AND ow.own_comment != '' AND ow.own_comment LIKE '%Localizada automaticamente%' ";
+                break;
+            case FilterHelper::ACCOMMODATION_WITH_ERRORS_MOBILE:
+                $condition .= "AND ow.own_mobile_number IS NOT NULL AND ow.own_mobile_number != '' AND ow.own_mobile_number NOT LIKE '5_______' ";
+                break;
         }
 
         if ($filter_active != 'null' && $filter_active != '') {
