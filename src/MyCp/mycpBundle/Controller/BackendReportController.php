@@ -776,7 +776,7 @@ ORDER BY own.own_mcp_code ASC
     public function reservationUserExcelAction(Request $request,$report, $from_date, $to_date)
     {
         $exporter = $this->get("mycp.service.export_to_excel");
-        return $exporter->exportReservationRange($request, $report, $from_date, $to_date);
+        return $exporter->exportReservationUser($request, $report, $from_date, $to_date);
     }
 
 }
