@@ -385,7 +385,7 @@ ORDER BY own.own_mcp_code ASC
             $dateTo=\DateTime::createFromFormat('Y-m-d', $dateRangeTo);
 //            $content = $em->getRepository("mycpBundle:report")->bookingsSummary($dateFrom, $dateTo);
             $bookings = $em->getRepository('mycpBundle:generalReservation')
-                ->getAllBookingsReport('', $dateFrom->format('d_m_Y'), '', $dateTo->format('d_m_Y'), '', '', '');
+                ->getAllBookingsReport('', $dateFrom->format('Y-m-d'), '', $dateTo->format('Y-m-d'), '', '', '');
 
         }
         return $this->render('mycpBundle:reports:bookinsSummary.html.twig', array(
@@ -412,8 +412,9 @@ ORDER BY own.own_mcp_code ASC
         $filter_reservation = $request->get("filter_reservation");
         $filter_ownership = $request->get("filter_ownership");
         $filter_currency = $request->get("filter_currency");
-
-        if ($request->getMethod() == 'POST' && $filter_booking_number == 'null' && $filter_date_booking_from == 'null' &&$filter_date_booking_to == 'null' && $filter_user_booking == 'null' && $filter_reservation == 'null' && $filter_ownership == 'null' && $filter_currency == 'null') {
+        $dateFrom=\DateTime::createFromFormat('d_m_Y',$filter_date_booking_from);
+        $dateTo=\DateTime::createFromFormat('d_m_Y', $filter_date_booking_to);
+         if ($request->getMethod() == 'POST' && $filter_booking_number == 'null' && $filter_date_booking_from == 'null' &&$filter_date_booking_to == 'null' && $filter_user_booking == 'null' && $filter_reservation == 'null' && $filter_ownership == 'null' && $filter_currency == 'null') {
             $message = 'Debe llenar al menos un campo para filtrar.';
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
             return $this->redirect($this->generateUrl('mycp_report_reservations_booking'));
@@ -436,7 +437,7 @@ ORDER BY own.own_mcp_code ASC
             $filter_ownership = '';
         $em = $this->getDoctrine()->getManager();
         $bookings = $em->getRepository('mycpBundle:generalReservation')
-            ->getAllBookingsReport($filter_booking_number, $filter_date_booking_from, $filter_user_booking, $filter_date_booking_to, $filter_reservation, $filter_ownership, $filter_currency);
+            ->getAllBookingsReport($filter_booking_number, $dateFrom->format('Y-m-d'), $filter_user_booking, $dateTo->format('Y-m-d'), $filter_reservation, $filter_ownership, $filter_currency);
         $filter_date_booking_from = str_replace('_', '/', $filter_date_booking_from);
         $filter_date_booking_to = str_replace('_', '/', $filter_date_booking_to);
 
@@ -589,8 +590,9 @@ ORDER BY own.own_mcp_code ASC
             $data[4] = $content["adults"];
             $data[5] = $content["childrens"];
             $data[6] = $content["totalNights"];
-            $data[7] = $content["gen_res_total_in_site"].' CUC';
-            $data[8] = $content["des_name"];
+            $data[7] = $content["gen_res_from_date"]->format('d/m/Y');
+            $data[8] = $content["gen_res_total_in_site"].' CUC';
+            $data[9] = $content["des_name"];
              $estado='';
              switch($content["gen_res_status"]){
                  case generalReservation::STATUS_AVAILABLE: $estado='Disponible';
@@ -612,7 +614,7 @@ ORDER BY own.own_mcp_code ASC
                  case generalReservation::STATUS_OUTDATED: $estado='Vencida';
                      break;
              }
-            $data[9] = $estado;
+            $data[10] = $estado;
             array_push($dataArr, $data);
         }
         $exporter = $this->get("mycp.service.export_to_excel");

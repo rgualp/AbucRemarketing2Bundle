@@ -340,14 +340,14 @@ class generalReservationRepository extends EntityRepository {
     function getAllBookingsReport($filter_booking_number, $filter_date_booking_from, $filter_user_booking, $filter_date_booking_to, $filter_reservation, $filter_ownership, $filter_currency) {
         $em = $this->getEntityManager();
 
-        $filter_date_booking_from_array = explode('_', $filter_date_booking_from);
-        if (count($filter_date_booking_from_array) > 1) {
-            $filter_date_booking_from = $filter_date_booking_from_array[2] . '-' . $filter_date_booking_from_array[1] . '-' . $filter_date_booking_from_array[0];
-        }
-        $filter_date_booking_to_array = explode('_', $filter_date_booking_to);
-        if (count($filter_date_booking_to_array) > 1) {
-            $filter_date_booking_to = $filter_date_booking_to_array[2] . '-' . $filter_date_booking_to_array[1] . '-' . $filter_date_booking_to_array[0];
-        }
+//        $filter_date_booking_from_array = explode('_', $filter_date_booking_from);
+//        if (count($filter_date_booking_from_array) > 1) {
+//            $filter_date_booking_from = $filter_date_booking_from_array[2] . '-' . $filter_date_booking_from_array[1] . '-' . $filter_date_booking_from_array[0];
+//        }
+//        $filter_date_booking_to_array = explode('_', $filter_date_booking_to);
+//        if (count($filter_date_booking_to_array) > 1) {
+//            $filter_date_booking_to = $filter_date_booking_to_array[2] . '-' . $filter_date_booking_to_array[1] . '-' . $filter_date_booking_to_array[0];
+//        }
 
 
 
@@ -358,10 +358,10 @@ class generalReservationRepository extends EntityRepository {
         if($filter_ownership != "")
             $where .= " AND (SELECT min(own.own_mcp_code) FROM mycpBundle:ownershipReservation ow3 JOIN ow3.own_res_gen_res_id gres3 JOIN gres3.gen_res_own_id own WHERE ow3.own_res_reservation_booking = booking.booking_id) = '$filter_ownership' ";
        $dateWhere="";
-        if($filter_date_booking_from!="")
+       if($filter_date_booking_from!="")
        $dateWhere=" AND payment.created >='$filter_date_booking_from'";
        if($filter_date_booking_to!="")
-       $dateWhere=" AND payment.created <='$filter_date_booking_to'";
+       $dateWhere.=" AND payment.created <='$filter_date_booking_to'";
         $query = $em->createQuery("SELECT payment.created,
         payment.payed_amount,
         booking.booking_id,
