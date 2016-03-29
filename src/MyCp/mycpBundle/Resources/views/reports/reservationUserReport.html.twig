@@ -1,0 +1,45 @@
+{% if list %}
+    <div class="alert">
+        <div class="row-fluid">
+            <div class="pull-left">
+                Resultado: {{ list | length }} elementos
+            </div>
+        </div>
+    </div>
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th>Usuario</th>
+        <th>Reservas Disponibles</th>
+        <th>Reservas No Disponibles</th>
+        <th>Operaciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% set total_available = 0 %}
+    {% set total_unavailable = 0 %}
+    {% set total_logs = 0 %}
+    {% for item in list %}
+        {% set total_available = total_available + item.available %}
+        {% set total_unavailable = total_unavailable + item.non_available %}
+        {% set total_logs = total_logs + item.logs %}
+    <tr>
+        <td>{{ item.name }} {{ item.lastName }}</td>
+        <td><a href="{{ path("mycp_reports_reservations_byrange_details", {"reservation_status": constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_AVAILABLE'),"from_date":dateFrom, "to_date": dateTo, "filter_nights": "null", "filter_province": "null", "filter_destination": "null",  "filter_user": item.user_id}) }}">{{ item.available }}</a></td>
+        <td><a href="{{ path("mycp_reports_reservations_byrange_details", {"reservation_status": constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_NOT_AVAILABLE'),"from_date":dateFrom, "to_date": dateTo, "filter_nights": "null", "filter_province": "null", "filter_destination": "null",  "filter_user": item.user_id}) }}">{{ item.non_available }}</a></td>
+        <td>{{ item.logs }}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <td>TOTAL</td>
+        <td>{{ total_available }}</td>
+        <td>{{ total_unavailable }}</td>
+        <td>{{ total_logs }}</td>
+    </tr>
+    </tbody>
+</table>
+    {% else %}
+    <p> <div class="alert alert-block">No hay datos almacenados para este reporte.</div></p>
+    {% endif %}
+
+

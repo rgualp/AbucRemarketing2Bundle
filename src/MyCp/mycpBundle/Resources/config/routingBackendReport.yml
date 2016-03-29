@@ -93,3 +93,11 @@ mycp_reports_reservations_byrange_details:
 mycp_reports_reservations_byrange_details_excel:
     pattern:  /reservations/range-details-excel/{reservation_status}/{from_date}/{to_date}/{filter_nights}/{filter_province}/{filter_destination}/{filter_user}
     defaults: { _controller: mycpBundle:BackendReport:reservationRangeDetailsExcel,reservation_status:'',from_date:'',to_date:'',filter_nights:'',filter_province:'',filter_destination:'',filter_user:''}
+
+mycp_reports_reservations_byuser:
+    pattern:  /reservations/user/{from_date}/{to_date}
+    defaults: { _controller: mycpBundle:BackendReport:reservationUser,from_date:'',to_date:''}
+
+mycp_reports_reservations_byuser_excel:
+    pattern:  /reservations/user-excel/{report}/{from_date}/{to_date}
+    defaults: { _controller: mycpBundle:BackendReport:reservationUserExcel, report:'',from_date:'',to_date:''}

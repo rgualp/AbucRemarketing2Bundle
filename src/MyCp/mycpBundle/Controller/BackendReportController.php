@@ -758,4 +758,25 @@ ORDER BY own.own_mcp_code ASC
 
     }
 
+    public function reservationUserAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $dateFrom = $request->get("dateRangeFrom");
+        $dateTo = $request->get("dateRangeTo");
+
+        $list = $em->getRepository("mycpBundle:generalReservation")->getReservationUserReportContent($dateFrom, $dateTo);
+
+        return $this->render('mycpBundle:reports:reservationUserReport.html.twig', array(
+            'list' => $list,
+            'dateFrom' => $dateFrom,
+            'dateTo' => $dateTo
+        ));
+    }
+
+    public function reservationUserExcelAction(Request $request,$report, $from_date, $to_date)
+    {
+        $exporter = $this->get("mycp.service.export_to_excel");
+        return $exporter->exportReservationRange($request, $report, $from_date, $to_date);
+    }
+
 }

@@ -948,6 +948,47 @@ class generalReservationRepository extends EntityRepository {
         return $qb->getQuery()->getResult();
     }
 
+    function getReservationUserReportContent($filter_date_from=null, $filter_date_to=null)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $subSelect = "select count(l.log_id) from mycpBundle:log l where l.log_user = team.user_id";
+
+        /*$qb->select("team.user_user_name as name", "team.user_last_name as lastName, team.user_id",
+            "SUM(IF(gres.gen_res_status=". generalReservation::STATUS_AVAILABLE ."or gres.gen_res_status=".generalReservation::STATUS_RESERVED." or gres.gen_res_status =".generalReservation::STATUS_OUTDATED.", 1, 0)) as available",
+            "SUM(IF(gres.gen_res_status =".generalReservation::STATUS_NOT_AVAILABLE.", 1, 0)) as non_available")
+            ->from("mycpBundle:generalReservation", "gres")
+            ->join("mycpBundle:user", "team", \Doctrine\ORM\Query\Expr\Join::WITH, "gres.modifiedBy=team.user_id")
+            ->groupBy("gres.modified_by");*/
+
+        $qb->select("team.user_user_name as name", "team.user_last_name as lastName, team.user_id",
+            "SUM(CASE WHEN gres.gen_res_status=". generalReservation::STATUS_AVAILABLE ."or gres.gen_res_status=".generalReservation::STATUS_RESERVED." or gres.gen_res_status =".generalReservation::STATUS_OUTDATED." THEN 1 ELSE 0 END) as available",
+            "SUM(CASE WHEN gres.gen_res_status =".generalReservation::STATUS_NOT_AVAILABLE." THEN 1 ELSE 0 END) as non_available")
+            ->from("mycpBundle:generalReservation", "gres")
+            ->join("mycpBundle:user", "team", \Doctrine\ORM\Query\Expr\Join::WITH, "gres.modifiedBy=team.user_id")
+            ->groupBy("gres.modifiedBy");
+
+        if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "")
+        {
+            $qb->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date <= '$filter_date_to'");
+
+            $subSelect .= " AND l.log_date >= '$filter_date_from' AND l.log_date <= '$filter_date_to'";
+        }
+        else if($filter_date_from != null && $filter_date_from != "" && ($filter_date_to == null || $filter_date_to == "")){
+            $qb->andWhere("gres.gen_res_date >= '$filter_date_from'");
+
+            $subSelect .= " AND l.log_date >= '$filter_date_from'";
+        }
+        else if($filter_date_to != null && $filter_date_to != "" && ($filter_date_from == null || $filter_date_from == "")){
+            $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
+
+            $subSelect .= " AND l.log_date <= '$filter_date_to'";
+        }
+
+        $qb->addSelect("(".$subSelect.") as logs");
+        return $qb->getQuery()->getResult();
+    }
+
 
 
 }
