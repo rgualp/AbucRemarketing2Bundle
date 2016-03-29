@@ -50,13 +50,13 @@ class ownershipRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $ownership = new ownership();
         $ownership->setOwnLangs($langs_string)
-            ->setOwnName($data['ownership_name'])
-            ->setOwnLicenceNumber($data['ownership_licence_number'])
+            ->setOwnName(trim($data['ownership_name']))
+            ->setOwnLicenceNumber(trim($data['ownership_licence_number']))
             //->setOwnMcpCode($data['ownership_mcp_code']);
-            ->setOwnAddressStreet($data['ownership_address_street'])
-            ->setOwnAddressNumber($data['ownership_address_number'])
-            ->setOwnAddressBetweenStreet1($data['ownership_address_between_street_1'])
-            ->setOwnAddressBetweenStreet2($data['ownership_address_between_street_2']);
+            ->setOwnAddressStreet(trim($data['ownership_address_street']))
+            ->setOwnAddressNumber(trim($data['ownership_address_number']))
+            ->setOwnAddressBetweenStreet1(trim($data['ownership_address_between_street_1']))
+            ->setOwnAddressBetweenStreet2(trim($data['ownership_address_between_street_2']));
 
         $prov = $em->getRepository('mycpBundle:province')->find($data['ownership_address_province']);
         $ownership->setOwnAddressProvince($prov)
@@ -67,13 +67,13 @@ class ownershipRepository extends EntityRepository {
             $ownership->setOwnDestination($destination);
         }
 
-        $ownership->setOwnMobileNumber($data['ownership_mobile_number'])
-            ->setOwnHomeowner1($data['ownership_homeowner_1'])
-            ->setOwnHomeowner2($data['ownership_homeowner_2'])
+        $ownership->setOwnMobileNumber(trim($data['ownership_mobile_number']))
+            ->setOwnHomeowner1(trim($data['ownership_homeowner_1']))
+            ->setOwnHomeowner2(trim($data['ownership_homeowner_2']))
             ->setOwnPhoneCode('(+53) ' . $prov->getProvPhoneCode())
-            ->setOwnPhoneNumber($data['ownership_phone_number'])
-            ->setOwnEmail1($data['ownership_email_1'])
-            ->setOwnEmail2($data['ownership_email_2'])
+            ->setOwnPhoneNumber(trim($data['ownership_phone_number']))
+            ->setOwnEmail1(trim($data['ownership_email_1']))
+            ->setOwnEmail2(trim($data['ownership_email_2']))
             ->setOwnCategory($data['ownership_category'])
             ->setOwnType($data['ownership_type'])
             ->setOwnFacilitiesBreakfast($data['facilities_breakfast'])
@@ -83,7 +83,7 @@ class ownershipRepository extends EntityRepository {
             ->setOwnFacilitiesDinnerPriceTo($data['facilities_dinner_price_to'])
             ->setOwnFacilitiesParking($data['facilities_parking'])
             ->setOwnFacilitiesParkingPrice($data['facilities_parking_price'])
-            ->setOwnFacilitiesNotes($data['facilities_notes'])
+            ->setOwnFacilitiesNotes(trim($data['facilities_notes']))
             ->setOwnDescriptionBicycleParking($data['description_bicycle_parking'])
             ->setOwnDescriptionPets($data['description_pets'])
             ->setOwnDescriptionLaundry($data['description_laundry'])
@@ -103,7 +103,7 @@ class ownershipRepository extends EntityRepository {
 
         $ownership->setOwnStatus($status)
             ->setOwnRoomsTotal($data['count_rooms'])
-            ->setOwnComment($data['comment'])
+            ->setOwnComment(trim($data['comment']))
             ->setOwnCommissionPercent($data['ownership_percent_commission'])
             ->setOwnSaler($data['ownership_saler'])
             ->setOwnVisitDate(Dates::createFromString($data['ownership_visit_date']))
@@ -277,24 +277,24 @@ class ownershipRepository extends EntityRepository {
         $old_status = $ownership->getOwnStatus();
 
         $ownership->setOwnLangs($langs_string)
-            ->setOwnName($data['ownership_name'])
-            ->setOwnLicenceNumber($data['ownership_licence_number'])
+            ->setOwnName(trim($data['ownership_name']))
+            ->setOwnLicenceNumber(trim($data['ownership_licence_number']))
         //  ->setOwnMcpCode($data['ownership_mcp_code'])
-            ->setOwnAddressStreet($data['ownership_address_street'])
-            ->setOwnAddressNumber($data['ownership_address_number'])
-            ->setOwnAddressBetweenStreet1($data['ownership_address_between_street_1'])
-            ->setOwnAddressBetweenStreet2($data['ownership_address_between_street_2']);
+            ->setOwnAddressStreet(trim($data['ownership_address_street']))
+            ->setOwnAddressNumber(trim($data['ownership_address_number']))
+            ->setOwnAddressBetweenStreet1(trim($data['ownership_address_between_street_1']))
+            ->setOwnAddressBetweenStreet2(trim($data['ownership_address_between_street_2']));
 
         $prov = $em->getRepository('mycpBundle:province')->find($data['ownership_address_province']);
         $ownership->setOwnAddressProvince($prov)
             ->setOwnAddressMunicipality($em->getRepository('mycpBundle:municipality')->find($data['ownership_address_municipality']))
-            ->setOwnMobileNumber($data['ownership_mobile_number'])
-            ->setOwnHomeowner1($data['ownership_homeowner_1'])
-            ->setOwnHomeowner2($data['ownership_homeowner_2'])
+            ->setOwnMobileNumber(trim($data['ownership_mobile_number']))
+            ->setOwnHomeowner1(trim($data['ownership_homeowner_1']))
+            ->setOwnHomeowner2(trim($data['ownership_homeowner_2']))
             ->setOwnPhoneCode('(+53) ' . $prov->getProvPhoneCode())
-            ->setOwnPhoneNumber($data['ownership_phone_number'])
-            ->setOwnEmail1($data['ownership_email_1'])
-            ->setOwnEmail2($data['ownership_email_2'])
+            ->setOwnPhoneNumber(trim($data['ownership_phone_number']))
+            ->setOwnEmail1(trim($data['ownership_email_1']))
+            ->setOwnEmail2(trim($data['ownership_email_2']))
             ->setOwnCategory($data['ownership_category'])
             ->setOwnType($data['ownership_type'])
             ->setOwnFacilitiesBreakfast($data['facilities_breakfast'])
@@ -304,7 +304,7 @@ class ownershipRepository extends EntityRepository {
             ->setOwnFacilitiesDinnerPriceTo($data['facilities_dinner_price_to'])
             ->setOwnFacilitiesParking($data['facilities_parking'])
             ->setOwnFacilitiesParkingPrice($data['facilities_parking_price'])
-            ->setOwnFacilitiesNotes($data['facilities_notes'])
+            ->setOwnFacilitiesNotes(trim($data['facilities_notes']))
             ->setOwnDescriptionBicycleParking($data['description_bicycle_parking'])
             ->setOwnDescriptionPets($data['description_pets'])
             ->setOwnDescriptionLaundry($data['description_laundry'])
@@ -326,7 +326,7 @@ class ownershipRepository extends EntityRepository {
         if (!isset($status))
             $status = $em->getRepository('mycpBundle:ownershipStatus')->find(ownershipStatus::STATUS_IN_PROCESS);
         $ownership->setOwnStatus($status)
-            ->setOwnComment($data['comment']);
+            ->setOwnComment(trim($data['comment']));
 
         $old_rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $data['edit_ownership']));
         $ownership->setOwnCommissionPercent($data['ownership_percent_commission'])

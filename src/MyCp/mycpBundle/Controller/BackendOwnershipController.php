@@ -848,7 +848,7 @@ class BackendOwnershipController extends Controller {
                     $count++;
                 }
 
-                if ($post['ownership_mobile_number'] != "" && !\MyCp\FrontEndBundle\Helpers\Utils::isMobileNumberValid($post['ownership_mobile_number'])) {
+                if ($post['ownership_mobile_number'] != "" && !\MyCp\FrontEndBundle\Helpers\Utils::isMobileNumberValid(trim($post['ownership_mobile_number']))) {
                     $errors['ownership_mobile_number'] = "Debe introducir un número celular que comience con 5 y que tenga 8 dígitos";
                     $data['count_errors']++;
                     $count++;
