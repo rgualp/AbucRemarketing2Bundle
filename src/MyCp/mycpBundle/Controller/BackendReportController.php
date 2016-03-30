@@ -711,37 +711,37 @@ ORDER BY own.own_mcp_code ASC
 
         if ($filter_date_from == 'null')
             $filter_date_from = '';
-        else
+        else if($filter_date_from != "")
             $filter_string .= (($filter_string == "") ? "" : ", ")."Desde: ".$filter_date_from;
         if ($filter_date_to == 'null')
             $filter_date_to = '';
-        else
+        else if($filter_date_to != "")
             $filter_string .= (($filter_string == "") ? "" : ", ")."Hasta: ".$filter_date_to;
         if ($reservation_status == 'null')
             $reservation_status = '';
-        else
+        else if($reservation_status != "")
             $filter_string .= (($filter_string == "") ? "" : ", ")."Estado: ".generalReservation::getStatusName($reservation_status);
         if ($filter_province == 'null')
             $filter_province = '';
-        else{
+        else if($filter_province != ""){
             $province = $em->getRepository("mycpBundle:province")->find($filter_province);
             $filter_string .= (($filter_string == "") ? "" : ", ")."Provincia: ".$province->getProvName();
         }
 
         if ($filter_destination == 'null')
             $filter_destination = '';
-        else{
+        else if($filter_destination != ""){
             $destination = $em->getRepository("mycpBundle:destination")->find($filter_destination);
             $filter_string .= (($filter_string == "") ? "" : ", ")."Destino: ".$destination->getDesName();
         }
         if ($filter_nights == 'null')
             $filter_nights = '';
-        else
+        else if($filter_nights != "")
             $filter_string .= (($filter_string == "") ? "" : ", ")."Noches: ".$filter_nights;
 
         if ($filter_user == 'null')
             $filter_user = '';
-        else{
+        else if($filter_user != ""){
             $user = $em->getRepository("mycpBundle:user")->find($filter_user);
             $filter_string .= (($filter_string == "") ? "" : ", ")."Usuario: ".$user->getUserCompleteName();
         }
@@ -756,6 +756,27 @@ ORDER BY own.own_mcp_code ASC
             return $exporter->exportReservationRangeDetails($list, $filter_string);
         }
 
+    }
+
+    public function reservationUserAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $dateFrom = $request->get("dateRangeFrom");
+        $dateTo = $request->get("dateRangeTo");
+
+        $list = $em->getRepository("mycpBundle:generalReservation")->getReservationUserReportContent($dateFrom, $dateTo);
+
+        return $this->render('mycpBundle:reports:reservationUserReport.html.twig', array(
+            'list' => $list,
+            'dateFrom' => $dateFrom,
+            'dateTo' => $dateTo
+        ));
+    }
+
+    public function reservationUserExcelAction(Request $request,$report, $from_date, $to_date)
+    {
+        $exporter = $this->get("mycp.service.export_to_excel");
+        return $exporter->exportReservationUser($request, $report, $from_date, $to_date);
     }
 
 }

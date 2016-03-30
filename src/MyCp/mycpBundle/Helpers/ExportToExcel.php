@@ -1521,7 +1521,6 @@ ORDER BY own.own_mcp_code ASC
         return $excel;
     }
 
-
     public function exportReservationRange(Request $request, $reportId, $dateFrom, $dateTo, $fileName= "resumenReservaciones") {
         $excel = $this->configExcel("Reporte resumen de reservaciones", "Reporte resumen de reservaciones de MyCasaParticular", "reportes");
 
@@ -1657,6 +1656,92 @@ ORDER BY own.own_mcp_code ASC
         $sheet->fromArray($data, ' ', 'A5');
 
         $this->setColumnAutoSize("a", "f", $sheet);
+
+        return $excel;
+    }
+
+    public function exportReservationUser(Request $request, $reportId, $dateFrom, $dateTo, $fileName= "resumenReservacionesUsuario") {
+        $excel = $this->configExcel("Reporte resumen de reservaciones por usuario", "Reporte resumen de reservaciones por usuario de MyCasaParticular", "reportes");
+
+        $range = "Desde ". $dateFrom." al ".$dateTo;
+        $sheetName = "General";
+
+        $data = $this->dataForReservationUser($dateFrom, $dateTo);
+
+        if (count($data) > 0)
+            $excel = $this->createSheetForReservationUser($excel, $sheetName, $reportId, $range, $data);
+
+        $fileName = $this->getFileName($fileName);
+        $this->save($excel, $fileName);
+        return $this->export($fileName);
+    }
+
+    private function dataForReservationUser($dateFrom, $dateTo) {
+        $results = array();
+        $list = $this->em->getRepository('mycpBundle:generalReservation')->getReservationUserReportContent($dateFrom, $dateTo);
+
+        $total_available = 0;
+        $total_notAvailable = 0;
+        $total_logs = 0;
+
+        foreach ($list as $item) {
+            $data = array();
+
+            $total_available += $item["available"];
+            $total_notAvailable += $item["non_available"];
+            $total_logs += $item["logs"];
+
+            $data[0] = $item["name"] . " " . $item["lastName"];
+            $data[1] = $item["available"];
+            $data[2] = $item["non_available"];
+            $data[3] = $item["logs"];
+
+            array_push($results, $data);
+        }
+
+        $data = array();
+        $data[0] = "TOTAL";
+        $data[1] = $total_available;
+        $data[2] = $total_notAvailable;
+        $data[3] = $total_logs;
+        array_push($results, $data);
+
+
+
+        return $results;
+    }
+
+    private function createSheetForReservationUser($excel, $sheetName, $reportId, $range, $data) {
+
+        $report = $this->em->getRepository("mycpBundle:report")->find($reportId);
+        $sheet = $this->createSheet($excel, $sheetName);
+        $sheet->setCellValue('a1', "Reporte: ".$report->getReportName());
+        $sheet->setCellValue('a2', 'Rango: '.$range);
+        $now = new \DateTime();
+        $sheet->setCellValue('b2', 'Generado: '.$now->format('d/m/Y H:s'));
+
+        $sheet->setCellValue('a4', 'Usuario');
+        $sheet->setCellValue('b4', 'Reservas Disponibles');
+        $sheet->setCellValue('c4', 'Reservas No Disponibles');
+        $sheet->setCellValue('d4', 'Operaciones');
+
+        $sheet = $this->styleHeader("a4:d4", $sheet);
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+
+        $sheet
+            ->getStyle("a5:a".(count($data)+4))
+            ->getNumberFormat()
+            ->setFormatCode( \PHPExcel_Style_NumberFormat::FORMAT_TEXT );
+
+        $sheet->fromArray($data, ' ', 'A5');
+
+        $this->setColumnAutoSize("a", "d", $sheet);
 
         return $excel;
     }

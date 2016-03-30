@@ -174,51 +174,74 @@ class generalReservationRepository extends EntityRepository {
         if ($user_casa_id != -1)
             $where .= (($where != "") ? " AND ": " WHERE "). " uca.user_casa_id = $user_casa_id ";
 
+        if ($filter_booking_number != '' && $filter_booking_number != "-1" && $filter_booking_number != "null")
+        {
+            $where .= (($where != "") ? " AND ": " WHERE "). " (SELECT COUNT(owres6)  FROM mycpBundle:ownershipReservation owres6 WHERE gre.gen_res_id = owres6.own_res_gen_res_id AND owres6.own_res_reservation_booking = $filter_booking_number) > 0 ";
+        }
+
         $queryStr = $queryStr. $where . $string_order;
-        //var_dump($queryStr); die;
         $query = $em->createQuery($queryStr);
 
-        $array_genres = ($items_per_page != null && $page != null) ? $query->setMaxResults($items_per_page)->setFirstResult(($page - 1) * $items_per_page)->getArrayResult() : $query->getArrayResult();
-
-        $query = $em->createQuery("SELECT ownres,genres,booking FROM mycpBundle:ownershipReservation ownres
-        JOIN ownres.own_res_gen_res_id genres JOIN ownres.own_res_reservation_booking booking
-        WHERE booking.booking_id LIKE :filter_booking_number");
-        $array_intersection = array();
-        $flag = 0;
-        if ($filter_booking_number != '') {
-            $array_ownres = $query->setParameter('filter_booking_number', "%" . $filter_booking_number . "%")->getArrayResult();
-            foreach ($array_genres as $gen) {
-                foreach ($array_ownres as $res) {
-                    if ($gen[0]['gen_res_id'] == $res['own_res_gen_res_id']['gen_res_id']) {
-                        if ($flag == 0) {
-                            $flag++;
-                            array_push($array_intersection, $gen);
-                        } else {
-                            $flag_2 = 1;
-                            foreach ($array_intersection as $item) {
-                                if ($item[0]['gen_res_id'] == $gen[0]['gen_res_id']) {
-                                    $flag_2 = 0;
-                                }
-                            }
-                            if ($flag_2 == 1)
-                                array_push($array_intersection, $gen);
-                        }
-                    }
-                }
-            }
-        }
-        else {
-            $array_intersection = $array_genres;
-        }
-        return $array_intersection;
+        return ($items_per_page != null && $page != null) ? $query->setMaxResults($items_per_page)->setFirstResult(($page - 1) * $items_per_page)->getArrayResult() : $query->getArrayResult();
     }
 
-    function getTotalReservations()
+    function getTotalReservations($filter_date_reserve = "", $filter_offer_number = "", $filter_reference = "", $filter_date_from = "", $filter_date_to = "", $filter_booking_number = "", $filter_status = "")
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
-        $qb->select("count(gen)")
-           ->from("mycpBundle:generalReservation", "gen");
+        $qb->select("count(gre)")
+            ->from("mycpBundle:generalReservation", "gre")
+            ->join("gre.gen_res_own_id", "own")
+            ->join("gre.gen_res_user_id", "u");
+
+
+        $filter_offer_number = strtolower($filter_offer_number);
+        $filter_booking_number = strtolower($filter_booking_number);
+        $filter_offer_number = str_replace('cas.', '', $filter_offer_number);
+        $filter_offer_number = str_replace('cas', '', $filter_offer_number);
+        $filter_offer_number = str_replace('.', '', $filter_offer_number);
+        $filter_offer_number = str_replace(' ', '', $filter_offer_number);
+        $array_offer_number = explode('-', $filter_offer_number);
+
+
+        $array_date_reserve = explode('/', $filter_date_reserve);
+        $array_date_from = explode('/', $filter_date_from);
+        $array_date_to = explode('/', $filter_date_to);
+        if (count($array_date_reserve) > 1)
+            $filter_date_reserve = $array_date_reserve[2] . '-' . $array_date_reserve[1] . '-' . $array_date_reserve[0];
+        if (count($array_date_from) > 1)
+            $filter_date_from = $array_date_from[2] . '-' . $array_date_from[1] . '-' . $array_date_from[0];
+        if (count($array_date_to) > 1)
+            $filter_date_to = $array_date_to[2] . '-' . $array_date_to[1] . '-' . $array_date_to[0];
+
+        if(count($array_offer_number) > 1) {
+            if($array_offer_number[0] < $array_offer_number[1])
+                $qb->andWhere(" gre.gen_res_id >= $array_offer_number[0] AND gre.gen_res_id <= $array_offer_number[1] ") ;
+            else
+                $qb->andWhere(" gre.gen_res_id >= $array_offer_number[1] AND gre.gen_res_id <= $array_offer_number[0] ");
+        }
+        else if($filter_offer_number != "" and $filter_offer_number != "null")
+            $qb->andWhere(" gre.gen_res_id = $filter_offer_number");
+
+        if($filter_date_from != "" && $filter_date_from != "null" && $filter_date_to != "" && $filter_date_to != "null")
+            $qb->andWhere(" gre.gen_res_from_date >= '$filter_date_from' AND gre.gen_res_to_date <= '$filter_date_to'");
+        else if($filter_date_from != "" && $filter_date_from != "null" && ($filter_date_to == "" || $filter_date_to == "null"))
+            $qb->andWhere(" gre.gen_res_from_date >= '$filter_date_from'");
+        else if(($filter_date_from == "" || $filter_date_from == "null") && $filter_date_to != "" && $filter_date_to != "null")
+            $qb->andWhere(" gre.gen_res_to_date <= '$filter_date_to'");
+
+        if($filter_date_reserve != "" && $filter_date_reserve != "null")
+            $qb->andWhere(" gre.gen_res_date >= '$filter_date_reserve'");
+
+        if($filter_reference != "" && $filter_reference != "null")
+            $qb->andWhere(" own.own_mcp_code LIKE '%$filter_reference%'");
+
+        if($filter_status != "" && $filter_status != "-1" && $filter_status != "null")
+            $qb->andWhere(" gre.gen_res_status = $filter_status ");
+
+        if($filter_booking_number != "" && $filter_booking_number != "-1" && $filter_booking_number != "null")
+            $qb->andWhere("(SELECT COUNT(owres)  FROM mycpBundle:ownershipReservation owres WHERE gre.gen_res_id = owres.own_res_gen_res_id AND owres.own_res_reservation_booking = $filter_booking_number) > 0");
+
         return $qb->getQuery()->getSingleScalarResult();
     }
 
@@ -945,6 +968,47 @@ class generalReservationRepository extends EntityRepository {
             $qb->andWhere("(SELECT SUM(DATE_DIFF(owres1.own_res_reservation_to_date,owres1.own_res_reservation_from_date)) FROM mycpBundle:ownershipReservation owres1 WHERE owres1.own_res_gen_res_id = gres.gen_res_id GROUP BY owres1.own_res_gen_res_id) = $filter_nights");
         }
 
+        return $qb->getQuery()->getResult();
+    }
+
+    function getReservationUserReportContent($filter_date_from=null, $filter_date_to=null)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $subSelect = "select count(l.log_id) from mycpBundle:log l where l.log_user = team.user_id";
+
+        /*$qb->select("team.user_user_name as name", "team.user_last_name as lastName, team.user_id",
+            "SUM(IF(gres.gen_res_status=". generalReservation::STATUS_AVAILABLE ."or gres.gen_res_status=".generalReservation::STATUS_RESERVED." or gres.gen_res_status =".generalReservation::STATUS_OUTDATED.", 1, 0)) as available",
+            "SUM(IF(gres.gen_res_status =".generalReservation::STATUS_NOT_AVAILABLE.", 1, 0)) as non_available")
+            ->from("mycpBundle:generalReservation", "gres")
+            ->join("mycpBundle:user", "team", \Doctrine\ORM\Query\Expr\Join::WITH, "gres.modifiedBy=team.user_id")
+            ->groupBy("gres.modified_by");*/
+
+        $qb->select("team.user_user_name as name", "team.user_last_name as lastName, team.user_id",
+            "SUM(CASE WHEN gres.gen_res_status=". generalReservation::STATUS_AVAILABLE ."or gres.gen_res_status=".generalReservation::STATUS_RESERVED." or gres.gen_res_status =".generalReservation::STATUS_OUTDATED." THEN 1 ELSE 0 END) as available",
+            "SUM(CASE WHEN gres.gen_res_status =".generalReservation::STATUS_NOT_AVAILABLE." THEN 1 ELSE 0 END) as non_available")
+            ->from("mycpBundle:generalReservation", "gres")
+            ->join("mycpBundle:user", "team", \Doctrine\ORM\Query\Expr\Join::WITH, "gres.modifiedBy=team.user_id")
+            ->groupBy("gres.modifiedBy");
+
+        if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "")
+        {
+            $qb->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date <= '$filter_date_to'");
+
+            $subSelect .= " AND l.log_date >= '$filter_date_from' AND l.log_date <= '$filter_date_to'";
+        }
+        else if($filter_date_from != null && $filter_date_from != "" && ($filter_date_to == null || $filter_date_to == "")){
+            $qb->andWhere("gres.gen_res_date >= '$filter_date_from'");
+
+            $subSelect .= " AND l.log_date >= '$filter_date_from'";
+        }
+        else if($filter_date_to != null && $filter_date_to != "" && ($filter_date_from == null || $filter_date_from == "")){
+            $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
+
+            $subSelect .= " AND l.log_date <= '$filter_date_to'";
+        }
+
+        $qb->addSelect("(".$subSelect.") as logs");
         return $qb->getQuery()->getResult();
     }
 
