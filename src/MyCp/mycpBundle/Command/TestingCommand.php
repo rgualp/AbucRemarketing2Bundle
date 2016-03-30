@@ -26,14 +26,17 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output) {
         $container = $this->getContainer();
         $em = $container->get('doctrine')->getManager();
+        $this->testingSMSNotifications($em, $output, $container);
 
-        $securityContext = $container->get('security.authorization_checker');
-        //$user = $container->get('security.context')->getToken()->getUser();
-        $output->writeln(($container->get('security.context')->getToken() != null)? "si user": "no user");
+        $output->writeln("End of testings");
+    }
 
-        //$output->writeln($securityContext->isGranted("IS_AUTHENTICATED_REMEMBERED"));
-
-            $output->writeln("End of testings");
+    private function testingSMSNotifications($em,OutputInterface $output, $container)
+    {
+        $notificationService = $container->get("mycp.notification.service");
+        $reservation = $em->getRepository("mycpBundle:generalReservation")->find(69210);
+        $notificationService->sendConfirmPaymentSMSNotification($reservation, true);
+        $notificationService->sendCheckinSMSNotification($reservation, true);
     }
 
     private function testingPostPaymentProcess($em,OutputInterface $output)

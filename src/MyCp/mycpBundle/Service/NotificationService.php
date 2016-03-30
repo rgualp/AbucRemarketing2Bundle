@@ -35,11 +35,11 @@ class NotificationService extends Controller
         $this->time =$time;
     }
 
-    public function sendConfirmPaymentSMSNotification(generalReservation $reservation)
+    public function sendConfirmPaymentSMSNotification(generalReservation $reservation, $isTesting = false)
     {
         $accommodation = $reservation->getGenResOwnId();
         if($accommodation->getOwnMobileNumber() != null  && $accommodation->getOwnMobileNumber() != "") {
-            $mobileNumber = $accommodation->getOwnMobileNumber();
+            $mobileNumber = ($isTesting) ? "52540669" : $accommodation->getOwnMobileNumber();
             $touristName = $reservation->getGenResUserId()->getUserCompleteName();
             $message = "Mycasaparticular confirma reserva del cliente ".$touristName.", revise su correo o contáctenos al 78673574";
             $subType = "RESERVATION_PAID";
@@ -49,11 +49,11 @@ class NotificationService extends Controller
         }
     }
 
-    public function sendCheckinSMSNotification(generalReservation $reservation)
+    public function sendCheckinSMSNotification(generalReservation $reservation, $isTesting = false)
     {
         $accommodation = $reservation->getGenResOwnId();
         if($accommodation->getOwnMobileNumber() != null  && $accommodation->getOwnMobileNumber() != "") {
-            $mobileNumber = $accommodation->getOwnMobileNumber();
+            $mobileNumber = ($isTesting) ? "52540669" : $accommodation->getOwnMobileNumber();
             $touristName = $reservation->getGenResUserId()->getUserCompleteName();
 
             $reservations = $this->em->getRepository('mycpBundle:ownershipReservation')->findBy(array("own_res_gen_res_id" => $reservation->getGenResId()), array("own_res_reservation_from_date" => "ASC"));
@@ -99,7 +99,7 @@ class NotificationService extends Controller
                 ->setSubType($subtype)
                 ->setDescription($description)
                 ->setNotificationType($notificationType)
-                ->setNotificationStatus($notificationStatus);
+                ->setStatus($notificationStatus);
 
             $this->em->persist($notification);
             $this->em->flush();
