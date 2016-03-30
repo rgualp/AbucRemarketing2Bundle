@@ -52,6 +52,20 @@ class CheckInCommand extends ContainerAwareCommand {
         $logger = $container->get('logger');
         $excelFilePath = $excelService->createCheckinExcel($date, false);
 
+        try{
+            foreach($checkIns as $check)
+            {
+                $reservation = $em->getRepository("mycpBundle:generalReservation")->find($check[0]["gen_res_id"]);
+                $notificationService->sendCheckinSMSNotification($reservation);
+            }
+            $output->writeln('Successfully sent SMS notifications to homeowners.');
+        }
+        catch (\Exception $e) {
+            $message = "Could not send SMS" . PHP_EOL . $e->getMessage();
+            $logger->warning($message);
+            $output->writeln($message);
+        }
+
         try {
             $emailService->sendEmail('reservation@mycasaparticular.com',"Check-in $date","",null,$excelFilePath);
             $output->writeln('Successfully sent notification email to address reservation@mycasaparticular.com');
@@ -62,18 +76,7 @@ class CheckInCommand extends ContainerAwareCommand {
             $output->writeln($message);
         }
 
-        try{
-            foreach($checkIns as $check)
-            {
-                $notificationService->sendCheckinSMSNotification($check[0]);
-            }
-            $output->writeln('Successfully sent SMS notifications to homeowners.');
-        }
-        catch (\Exception $e) {
-        $message = "Could not send SMS" . PHP_EOL . $e->getMessage();
-        $logger->warning($message);
-        $output->writeln($message);
-        }
+
 
         $output->writeln('Operation completed!!!');
         return 0;

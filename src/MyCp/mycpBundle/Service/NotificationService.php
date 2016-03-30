@@ -35,7 +35,7 @@ class NotificationService extends Controller
         $this->time =$time;
     }
 
-    public function sendConfirmPaymentSMSNotification(generalReservation $reservation, $isTesting = false)
+    public function sendConfirmPaymentSMSNotification($reservation, $isTesting = false)
     {
         $accommodation = $reservation->getGenResOwnId();
         if($accommodation->getOwnMobileNumber() != null  && $accommodation->getOwnMobileNumber() != "") {
@@ -49,7 +49,7 @@ class NotificationService extends Controller
         }
     }
 
-    public function sendCheckinSMSNotification(generalReservation $reservation, $isTesting = false)
+    public function sendCheckinSMSNotification($reservation, $isTesting = false)
     {
         $accommodation = $reservation->getGenResOwnId();
         if($accommodation->getOwnMobileNumber() != null  && $accommodation->getOwnMobileNumber() != "") {
