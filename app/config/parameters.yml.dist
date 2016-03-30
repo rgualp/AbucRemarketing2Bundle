@@ -47,4 +47,5 @@ parameters:
     syncEmailPassword: "jC8Innjq"
 
     notification_service_url: "http://sms.lvps92-51-151-239.dedicated.hosteurope.de"
+    notification_service_api_key: "123456"
 

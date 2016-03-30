@@ -58,6 +58,34 @@ class notification
     private $status;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="code",  type="string", length=255)
+     */
+    private $code;
+
+    /**
+     * @var text
+     *
+     * @ORM\Column(name="response",  type="text", nullable=true)
+     */
+    private $response;
+
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="created", type="datetime")
+     */
+    private $created;
+
+    /**
+     * @var text
+     *
+     * @ORM\Column(name="description",  type="text", nullable=true)
+     */
+    private $description;
+
+    /**
      * @return int
      */
     public function getId()
@@ -152,6 +180,78 @@ class notification
     public function setNotificationType($notificationType)
     {
         $this->notificationType = $notificationType;
+        return $this;
+    }
+
+    /**
+     * @return datetime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * @param datetime $created
+     * @return mixed
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * @param string $code
+     * @return mixed
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+        return $this;
+    }
+
+    /**
+     * @return text
+     */
+    public function getResponse()
+    {
+        return $this->response;
+    }
+
+    /**
+     * @param text $response
+     * @return mixed
+     */
+    public function setResponse($response)
+    {
+        $this->response = $response;
+        return $this;
+    }
+
+    /**
+     * @return text
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param text $description
+     * @return mixed
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
         return $this;
     }
 
