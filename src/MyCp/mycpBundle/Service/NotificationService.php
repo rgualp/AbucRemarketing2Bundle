@@ -13,6 +13,7 @@ use MyCp\mycpBundle\Entity\notification;
 use MyCp\mycpBundle\Entity\ownership;
 use MyCp\mycpBundle\Entity\ownershipDescriptionLang;
 use MyCp\mycpBundle\Entity\ownershipReservation;
+use MyCp\mycpBundle\Entity\reservationNotification;
 use MyCp\mycpBundle\Entity\user;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -45,7 +46,8 @@ class NotificationService extends Controller
             $subType = "RESERVATION_PAID";
             $description = $reservation->getCASId();
 
-            $this->sendSMSNotification($mobileNumber, $message, $subType, $description);
+            $status = $this->sendSMSNotification($mobileNumber, $message, $subType, $description);
+            $this->createReservationNotification($reservation,$subType, $status);
         }
     }
 
@@ -64,7 +66,8 @@ class NotificationService extends Controller
             $subType = "CHECKIN";
             $description = $reservation->getCASId();
 
-            $this->sendSMSNotification($mobileNumber, $message, $subType, $description);
+            $status = $this->sendSMSNotification($mobileNumber, $message, $subType, $description);
+            $this->createReservationNotification($reservation,$subType, $status);
         }
     }
 
@@ -86,6 +89,8 @@ class NotificationService extends Controller
         $info = curl_getinfo($curl);
         curl_close($curl);
         $code = $info['http_code'];
+
+
         if($code!= 201){
             $notificationType = $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_category" => "notificationType", "nom_name" => "sms_nt"));
             $notificationStatus = $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_category" => "notificationStatus", "nom_name" => "failed_ns"));
@@ -103,6 +108,31 @@ class NotificationService extends Controller
 
             $this->em->persist($notification);
             $this->em->flush();
+
+            return $notificationStatus;
+        }
+
+        return $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_category" => "notificationStatus", "nom_name" => "pending_ns"));
+    }
+
+    private function createReservationNotification(generalReservation $reservation, $subType, $notificationStatus)
+    {
+        try {
+            $notificationType = $this->em->getRepository("mycpBundle:nomenclator")->findOneBy(array("nom_category" => "notificationType", "nom_name" => "sms_nt"));
+
+            $reservationNotification = new reservationNotification();
+            $reservationNotification->setReservation($reservation)
+                ->setCreated(new \DateTime)
+                ->setSubType($subType)
+                ->setNotificationType($notificationType)
+                ->setStatus($notificationStatus);
+
+            $this->em->persist($reservationNotification);
+            $this->em->flush();
+        }
+        catch(\Exception $e)
+        {
+            echo $e->getMessage();
         }
     }
 }

@@ -61,7 +61,7 @@ class reservationNotification
     /**
      * @var datetime
      *
-     * @ORM\Column(name="sended", type="datetime")
+     * @ORM\Column(name="sended", type="datetime", nullable=true)
      */
     private $sended;
 
