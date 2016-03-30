@@ -876,48 +876,32 @@ class generalReservationRepository extends EntityRepository {
         $qb = $em->createQueryBuilder();
         $subSelect = "SELECT SUM(DATE_DIFF(owres.own_res_reservation_to_date,owres.own_res_reservation_from_date))
             FROM mycpBundle:ownershipReservation owres JOIN owres.own_res_gen_res_id gres1 WHERE
-            gres1.gen_res_status != ".generalReservation::STATUS_AVAILABLE." AND gres1.gen_res_status = gres.gen_res_status";
-        $subSelectAvailable = "SELECT SUM(DATE_DIFF(owres.own_res_reservation_to_date,owres.own_res_reservation_from_date))
-            FROM mycpBundle:ownershipReservation owres JOIN owres.own_res_gen_res_id gres1 WHERE
-            (gres1.gen_res_status = ".generalReservation::STATUS_AVAILABLE." or gres1.gen_res_status = ".generalReservation::STATUS_OUTDATED." or gres1.gen_res_status = ".generalReservation::STATUS_RESERVED.")";
+             gres1.gen_res_status = gres.gen_res_status";
 
         $qb->select("gres.gen_res_status as status", "count(gres) as total")
             ->from("mycpBundle:generalReservation", "gres")
-            ->where("gres.gen_res_status != ".generalReservation::STATUS_AVAILABLE)
             ->groupBy("gres.gen_res_status");
-
-        $qbAvailable = $em->createQueryBuilder();
-        $qbAvailable->select("1 as status", "count(gres) as total")
-            ->from("mycpBundle:generalReservation", "gres")
-            ->where("gres.gen_res_status = ".generalReservation::STATUS_AVAILABLE." or gres.gen_res_status = ".generalReservation::STATUS_OUTDATED." or gres.gen_res_status = ".generalReservation::STATUS_RESERVED);
 
         if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "")
         {
             $qb->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date <= '$filter_date_to'");
-            $qbAvailable->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date <= '$filter_date_to'");
 
             $subSelect .= " AND gres1.gen_res_date >= '$filter_date_from' AND gres1.gen_res_date <= '$filter_date_to'";
-            $subSelectAvailable .= " AND gres1.gen_res_date >= '$filter_date_from' AND gres1.gen_res_date <= '$filter_date_to'";
         }
         else if($filter_date_from != null && $filter_date_from != "" && ($filter_date_to == null || $filter_date_to == "")){
             $qb->andWhere("gres.gen_res_date >= '$filter_date_from'");
-            $qbAvailable->andWhere("gres.gen_res_date >= '$filter_date_from'");
 
             $subSelect .= " AND gres1.gen_res_date >= '$filter_date_from'";
-            $subSelectAvailable .= " AND gres1.gen_res_date >= '$filter_date_from'";
         }
         else if($filter_date_to != null && $filter_date_to != "" && ($filter_date_from == null || $filter_date_from == "")){
             $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
-            $qbAvailable->andWhere("gres.gen_res_date <= '$filter_date_to'");
 
             $subSelect .= " AND gres1.gen_res_date <= '$filter_date_to'";
-            $subSelectAvailable .= " AND gres1.gen_res_date <= '$filter_date_to'";
         }
 
         $qb->addSelect("(".$subSelect.") as nights");
-        $qbAvailable->addSelect("(".$subSelectAvailable.") as nights");
 
-        return array_merge($qbAvailable->getQuery()->getResult(), $qb->getQuery()->getResult());
+        return $qb->getQuery()->getResult();
     }
 
     function getReservationRangeDetailReportContent($reservationStatus, $filter_date_from=null, $filter_date_to=null, $filter_nights = null, $filter_province = null, $filter_destination = null, $filter_user = null)
@@ -930,12 +914,8 @@ class generalReservationRepository extends EntityRepository {
             ->join("gres.gen_res_user_id", "client")
             ->join("gres.gen_res_own_id", "accommodation")
             ->leftJoin("mycpBundle:user", "team", \Doctrine\ORM\Query\Expr\Join::WITH, "gres.modifiedBy=team.user_id")
+            ->where("gres.gen_res_status = ".$reservationStatus)
             ->orderBy("gres.gen_res_id", "ASC");
-
-        if($reservationStatus == generalReservation::STATUS_AVAILABLE)
-            $qb->where("gres.gen_res_status = ".generalReservation::STATUS_AVAILABLE." or gres.gen_res_status = ".generalReservation::STATUS_RESERVED." or gres.gen_res_status = ".generalReservation::STATUS_OUTDATED);
-        else if($reservationStatus != "" && $reservationStatus != null)
-            $qb->where("gres.gen_res_status = ".$reservationStatus);
 
         if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "")
         {
@@ -985,7 +965,7 @@ class generalReservationRepository extends EntityRepository {
             ->groupBy("gres.modified_by");*/
 
         $qb->select("team.user_user_name as name", "team.user_last_name as lastName, team.user_id",
-            "SUM(CASE WHEN gres.gen_res_status=". generalReservation::STATUS_AVAILABLE ."or gres.gen_res_status=".generalReservation::STATUS_RESERVED." or gres.gen_res_status =".generalReservation::STATUS_OUTDATED." THEN 1 ELSE 0 END) as available",
+            "SUM(CASE WHEN gres.gen_res_status=". generalReservation::STATUS_AVAILABLE ."or gres.gen_res_status=".generalReservation::STATUS_RESERVED." or gres.gen_res_status =".generalReservation::STATUS_OUTDATED." or gres.gen_res_status =".generalReservation::STATUS_CANCELLED." THEN 1 ELSE 0 END) as available",
             "SUM(CASE WHEN gres.gen_res_status =".generalReservation::STATUS_NOT_AVAILABLE." THEN 1 ELSE 0 END) as non_available")
             ->from("mycpBundle:generalReservation", "gres")
             ->join("mycpBundle:user", "team", \Doctrine\ORM\Query\Expr\Join::WITH, "gres.modifiedBy=team.user_id")
@@ -1011,6 +991,58 @@ class generalReservationRepository extends EntityRepository {
         $qb->addSelect("(".$subSelect.") as logs");
         return $qb->getQuery()->getResult();
     }
+
+    function getReservationUserDetailReportContent($reservationStatus, $filter_date_from=null, $filter_date_to=null, $filter_nights = null, $filter_province = null, $filter_destination = null, $filter_user = null)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb->select("gres", "team.user_user_name as userName", "team.user_last_name as userLastName")
+            ->addSelect("(SELECT SUM(DATE_DIFF(owres.own_res_reservation_to_date,owres.own_res_reservation_from_date)) FROM mycpBundle:ownershipReservation owres WHERE owres.own_res_gen_res_id = gres.gen_res_id GROUP BY owres.own_res_gen_res_id) as nights")
+            ->from("mycpBundle:generalReservation", "gres")
+            ->join("gres.gen_res_user_id", "client")
+            ->join("gres.gen_res_own_id", "accommodation")
+            ->leftJoin("mycpBundle:user", "team", \Doctrine\ORM\Query\Expr\Join::WITH, "gres.modifiedBy=team.user_id")
+            ->orderBy("gres.gen_res_id", "ASC");
+
+        if($reservationStatus != generalReservation::STATUS_AVAILABLE)
+            $qb->where("gres.gen_res_status = ".$reservationStatus);
+        else
+            $qb->where("gres.gen_res_status = ".generalReservation::STATUS_AVAILABLE." or gres.gen_res_status =".generalReservation::STATUS_CANCELLED." or gres.gen_res_status =".generalReservation::STATUS_OUTDATED." or gres.gen_res_status = ".generalReservation::STATUS_RESERVED);
+
+        if($filter_date_from != null && $filter_date_from != "" && $filter_date_to != null && $filter_date_to != "")
+        {
+            $qb->andWhere("gres.gen_res_date >= '$filter_date_from' AND gres.gen_res_date <= '$filter_date_to'");
+        }
+        else if($filter_date_from != null && $filter_date_from != "" && ($filter_date_to == null || $filter_date_to == "")){
+            $qb->andWhere("gres.gen_res_date >= '$filter_date_from'");
+        }
+        else if($filter_date_to != null && $filter_date_to != "" && ($filter_date_from == null || $filter_date_from == "")){
+            $qb->andWhere("gres.gen_res_date <= '$filter_date_to'");
+        }
+
+        if($filter_province != null && $filter_province != "")
+        {
+            $qb->andWhere("accommodation.own_address_province = $filter_province");
+        }
+
+        if($filter_destination != null && $filter_destination != "")
+        {
+            $qb->andWhere("accommodation.own_destination = $filter_destination");
+        }
+
+        if($filter_user != null && $filter_user != "")
+        {
+            $qb->andWhere("team.user_id = $filter_user");
+        }
+
+        if($filter_nights != null && $filter_nights != "")
+        {
+            $qb->andWhere("(SELECT SUM(DATE_DIFF(owres1.own_res_reservation_to_date,owres1.own_res_reservation_from_date)) FROM mycpBundle:ownershipReservation owres1 WHERE owres1.own_res_gen_res_id = gres.gen_res_id GROUP BY owres1.own_res_gen_res_id) = $filter_nights");
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
 
 
 
