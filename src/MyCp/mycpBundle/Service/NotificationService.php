@@ -62,7 +62,7 @@ class NotificationService extends Controller
             $nights = $reservation->getTotalStayedNights($reservations, $this->time);
             $payAtService = $reservation->getGenResTotalInSite() - $reservation->getGenResTotalInSite() * $accommodation->getOwnCommissionPercent()/100;
 
-            $message = "MyCasaParticular informa, cliente ".$touristName." arriba el ".$reservations[0]->getOwnResReservationFromDate()->format("d-m-Y")." por ".$nights." noches pagará ".$payAtService." CUC.";
+            $message = "MyCasaParticular le recuerda, cliente ".$touristName." arriba el ".$reservations[0]->getOwnResReservationFromDate()->format("d-m-Y")." por ".$nights." noches pagará ".$payAtService." CUC.";
             $subType = "CHECKIN";
             $description = $reservation->getCASId();
 
