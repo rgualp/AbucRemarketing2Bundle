@@ -35,7 +35,9 @@ class CheckInCommand extends ContainerAwareCommand {
         $date->setTimestamp($startTimeStamp);
         $date = $date->format("d/m/Y");
 
-        $existsCheckIns = count($em->getRepository("mycpBundle:generalReservation")->getCheckins($date));
+        $checkIns = $em->getRepository("mycpBundle:generalReservation")->getCheckins($date);
+
+        $existsCheckIns = count($checkIns);
 
         if ($existsCheckIns == 0) {
             $output->writeln("No check-in  for $date found for send.");
@@ -46,17 +48,35 @@ class CheckInCommand extends ContainerAwareCommand {
 
         $emailService = $container->get('mycp.service.email_manager');
         $excelService = $container->get('mycp.service.export_to_excel');
+        $notificationService = $container->get('mycp.notification.service');
         $logger = $container->get('logger');
         $excelFilePath = $excelService->createCheckinExcel($date, false);
+
+        try{
+            foreach($checkIns as $check)
+            {
+                $reservation = $em->getRepository("mycpBundle:generalReservation")->find($check[0]["gen_res_id"]);
+                $notificationService->sendCheckinSMSNotification($reservation);
+            }
+            $output->writeln('Successfully sent SMS notifications to homeowners.');
+        }
+        catch (\Exception $e) {
+            $message = "Could not send SMS" . PHP_EOL . $e->getMessage();
+            $logger->warning($message);
+            $output->writeln($message);
+        }
 
         try {
             $emailService->sendEmail('reservation@mycasaparticular.com',"Check-in $date","",null,$excelFilePath);
             $output->writeln('Successfully sent notification email to address reservation@mycasaparticular.com');
+
         } catch (\Exception $e) {
             $message = "Could not send Email" . PHP_EOL . $e->getMessage();
             $logger->warning($message);
             $output->writeln($message);
         }
+
+
 
         $output->writeln('Operation completed!!!');
         return 0;

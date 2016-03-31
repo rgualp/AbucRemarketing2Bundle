@@ -1625,7 +1625,7 @@ ORDER BY own.own_mcp_code ASC
     private function createSheetForReservationRangeDetails($excel, $sheetName, $data, $filter_string) {
 
         $sheet = $this->createSheet($excel, $sheetName);
-        $sheet->setCellValue('a1', "Reporte: Resumen de reservaciones por período (Detalles)");
+        $sheet->setCellValue('a1', "Reporte: Resumen de reservaciones (Detalles)");
         $sheet->mergeCells("A1:F1");
         $now = new \DateTime();
         $sheet->setCellValue('a2', 'Generado: '.$now->format('d/m/Y H:s'));

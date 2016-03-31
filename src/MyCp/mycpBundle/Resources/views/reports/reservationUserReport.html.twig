@@ -25,8 +25,8 @@
         {% set total_logs = total_logs + item.logs %}
     <tr>
         <td>{{ item.name }} {{ item.lastName }}</td>
-        <td><a href="{{ path("mycp_reports_reservations_byrange_details", {"reservation_status": constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_AVAILABLE'),"from_date":dateFrom, "to_date": dateTo, "filter_nights": "null", "filter_province": "null", "filter_destination": "null",  "filter_user": item.user_id}) }}">{{ item.available }}</a></td>
-        <td><a href="{{ path("mycp_reports_reservations_byrange_details", {"reservation_status": constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_NOT_AVAILABLE'),"from_date":dateFrom, "to_date": dateTo, "filter_nights": "null", "filter_province": "null", "filter_destination": "null",  "filter_user": item.user_id}) }}">{{ item.non_available }}</a></td>
+        <td><a target="_blank" href="{{ path("mycp_reports_reservations_byuser_details", {"reservation_status": constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_AVAILABLE'),"from_date":dateFrom, "to_date": dateTo, "filter_nights": "null", "filter_province": "null", "filter_destination": "null",  "filter_user": item.user_id}) }}">{{ item.available }}</a></td>
+        <td><a target="_blank" href="{{ path("mycp_reports_reservations_byuser_details", {"reservation_status": constant('\\MyCp\\mycpBundle\\Entity\\generalReservation::STATUS_NOT_AVAILABLE'),"from_date":dateFrom, "to_date": dateTo, "filter_nights": "null", "filter_province": "null", "filter_destination": "null",  "filter_user": item.user_id}) }}">{{ item.non_available }}</a></td>
         <td>{{ item.logs }}</td>
     </tr>
     {% endfor %}
