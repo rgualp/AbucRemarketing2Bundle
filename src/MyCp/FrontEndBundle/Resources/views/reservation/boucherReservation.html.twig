@@ -89,7 +89,7 @@
                             <td style="border-top:none; width:40%">{{ own.name }}</td>
                             <td rowspan="5" style="border-top:none;width:30%">
                                 <div class="thumbnail" style="padding: 12px; margin-left: 12px;">
-                                    <img src='http://maps.googleapis.com/maps/api/staticmap?center={{own.geo_x}},{{own.geo_y}}&zoom=15&size=200x200&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{own.geo_x}},{{own.geo_y}}&a.jpg'/>
+                                    <img src='https://maps.googleapis.com/maps/api/staticmap?center={{own.geo_x}},{{own.geo_y}}&zoom=15&size=200x200&sensor=false&markers=icon:{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/frontend/img/map_marker.png') }}%7C{{own.geo_x}},{{own.geo_y}}&a.jpg'/>
                                 </div>
                             </td>
                         </tr>
