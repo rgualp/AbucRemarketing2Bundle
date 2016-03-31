@@ -2,8 +2,10 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use MyCp\mycpBundle\Entity\log;
 use MyCp\mycpBundle\Entity\metaLang;
 use MyCp\mycpBundle\Form\metaType;
+use MyCp\mycpBundle\Helpers\DataBaseTables;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
@@ -18,7 +20,7 @@ class BackendMetaController extends Controller {
         $metas = $em->getRepository('mycpBundle:metaTag')->getAll();
 
         $service_log = $this->get('log');
-        $service_log->saveLog('Visit', BackendModuleName::MODULE_METATAGS);
+        $service_log->saveLog('Visita', BackendModuleName::MODULE_METATAGS, log::OPERATION_VISIT, DataBaseTables::METATAGS);
 
         return $this->render('mycpBundle:meta:list.html.twig', array(
             'metas' => $metas
@@ -55,7 +57,7 @@ class BackendMetaController extends Controller {
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
-                $service_log->saveLog('Update metatag translations, ' . $meta_id, BackendModuleName::MODULE_METATAGS);
+                $service_log->saveLog($metaTag->getLogDescription(), BackendModuleName::MODULE_METATAGS, log::OPERATION_UPDATE, DataBaseTables::METATAGS);
 
                 return $this->redirect($this->generateUrl('mycp_list_metatags'));
             }

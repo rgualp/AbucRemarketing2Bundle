@@ -68,4 +68,11 @@ class BackendModuleName {
 
 }
 
+class DataBaseTables {
+
+    const USER = "user";
+    const METATAGS = "metatag";
+
+
+}
 ?>

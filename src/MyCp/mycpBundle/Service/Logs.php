@@ -2,6 +2,7 @@
 namespace MyCp\mycpBundle\Service;
 use MyCp\mycpBundle\Entity\log;
 use MyCp\mycpBundle\Entity\offerLog;
+use MyCp\mycpBundle\Helpers\DataBaseTables;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\HttpFoundation\Request;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
@@ -133,7 +134,7 @@ class Logs
             $module_number=BackendModuleName::NO_MODULE;
         }
 
-        $this->saveLog('Login',$module_number, log::OPERATION_LOGIN, "user");
+        $this->saveLog('Login',$module_number, log::OPERATION_LOGIN, DataBaseTables::USER);
 
     }
 

@@ -203,4 +203,12 @@ class metaTag
     {
         return $this->meta_children;
     }
+
+    /*Logs functions*/
+    public function getLogDescription()
+    {
+        return "Traducciones del metatag ".$this->getMetaTitle();
+    }
+
+
 }
