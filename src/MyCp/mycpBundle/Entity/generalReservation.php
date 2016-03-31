@@ -567,6 +567,7 @@ class generalReservation {
      * Returns the total nights the client wiil stay at the accommodation
      * @param list of ownershipReservations $ownershipReservations - this list must be ordered by the own_res_reservation_from_date
      * @param service $timeService - instance of the Time service
+     * @return integer
      */
     public function getTotalStayedNights($ownershipReservations, $timeService) {
         $fromDate = null;

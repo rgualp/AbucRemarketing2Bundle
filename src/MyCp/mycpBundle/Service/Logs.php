@@ -1,5 +1,5 @@
 <?php
-namespace MyCp\mycpBundle\Helpers;
+namespace MyCp\mycpBundle\Service;
 use MyCp\mycpBundle\Entity\log;
 use MyCp\mycpBundle\Entity\offerLog;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
@@ -23,7 +23,7 @@ class Logs
 
     }
 
-    public function saveLog($description,$id_module)
+    public function saveLog($description,$id_module, $operation, $dt_table)
     {
         $user = $this->security_context->getToken()->getUser();
         $log= new log();
@@ -31,7 +31,9 @@ class Logs
         $log->setLogDescription($description);
         $log->setLogDate(new \DateTime(date('Y-m-d')));
         $log->setLogModule($id_module);
-        $log->setLogTime(strftime("%I:%M %p"));
+        $log->setLogTime(strftime("%I:%M %p"))
+            ->setDbTable($dt_table)
+            ->setOperation($operation);
         $this->em->persist($log);
         $this->em->flush();
     }
@@ -131,7 +133,7 @@ class Logs
             $module_number=BackendModuleName::NO_MODULE;
         }
 
-        $this->saveLog('Login',$module_number);
+        $this->saveLog('Login',$module_number, log::OPERATION_LOGIN, "user");
 
     }
 
@@ -149,7 +151,7 @@ class Logs
             $content.= "-----------------------------------------------------". "\r\n\r\n\r\n\r\n";
             $fp = fopen($this->logsFilePath . $fileName, "wb");
             foreach ($logsCollection as $log) {
-                $content .= "-" . $log->getLogDescription() . (($log->getLogDescription() != "Login") ? " in module " : " into ") . "(" . BackendModuleName::getModuleName($log->getLogModule()) . ") by " . $log->getlogUser()->getUserName() . " in date " . $log->getLogDate()->format("d/m/Y") . " on time " . $log->getLogTime() . "\r\n";
+                $content .= "- Operación:". log::getOperationName($log->getOperation()) . ", " . $log->getLogDescription() . (($log->getLogDescription() != "Login" && $log->getOperation() == log::OPERATION_LOGIN) ? " en el módulo " : " en ") . "(" . BackendModuleName::getModuleName($log->getLogModule()) . ") por " . $log->getlogUser()->getUserName() . ", fecha " . $log->getLogDate()->format("d/m/Y") . ", hora " . $log->getLogTime() . "\r\n";
                 $this->em->remove($log);
             }
 

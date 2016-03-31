@@ -166,7 +166,7 @@ services:
             em: "@doctrine.orm.entity_manager"
             timer: "@Time"
     log:
-        class: MyCp\mycpBundle\Helpers\Logs
+        class: MyCp\mycpBundle\Service\Logs
         tags:
             - { name: kernel.event_listener, event: security.interactive_login }
         arguments:
