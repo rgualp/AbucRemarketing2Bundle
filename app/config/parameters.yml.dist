@@ -46,3 +46,6 @@ parameters:
     syncEmail: "pago@mycasaparticular.com"
     syncEmailPassword: "jC8Innjq"
 
+    notification_service_url: "http://sms.lvps92-51-151-239.dedicated.hosteurope.de"
+    notification_service_api_key: "d806da61a499037f1b7b6321ff8c5fbb"
+

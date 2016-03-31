@@ -1,0 +1,40 @@
+{% if list %}
+    <div class="alert">
+        <div class="row-fluid">
+            <div class="pull-left">
+                Resultado: {{ list | length }} elementos
+            </div>
+        </div>
+    </div>
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th>Estado</th>
+        <th>Total</th>
+        <th>Noches</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% set total = 0 %}
+    {% set nights = 0 %}
+    {% for item in list %}
+        {% set total = total + item.total %}
+        {% set nights = nights + item.nights %}
+    <tr>
+        <td><a target="_blank" href="{{ path("mycp_reports_reservations_byrange_details", {"reservation_status": item.status, "from_date":dateFrom, "to_date": dateTo}) }}">{{ item.status | generalReservationStatusType }}</a></td>
+        <td><a target="_blank" href="{{ path("mycp_reports_reservations_byrange_details", {"reservation_status": item.status, "from_date":dateFrom, "to_date": dateTo}) }}">{{ item.total }}</a></td>
+        <td><a target="_blank" href="{{ path("mycp_reports_reservations_byrange_details", {"reservation_status": item.status, "from_date":dateFrom, "to_date": dateTo}) }}">{{ item.nights }}</a></td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <td>TOTAL</td>
+        <td>{{ total }}</td>
+        <td>{{ nights }}</td>
+    </tr>
+    </tbody>
+</table>
+    {% else %}
+    <p> <div class="alert alert-block">No hay datos almacenados para este reporte.</div></p>
+    {% endif %}
+
+

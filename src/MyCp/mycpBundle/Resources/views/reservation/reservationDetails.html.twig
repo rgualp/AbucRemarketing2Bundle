@@ -285,6 +285,9 @@
     {% endif %}
     </div>
 {{ render(controller('mycpBundle:BackendMessage:messageControl', {'userTourist': user[0]})) }}
+{% if reservation.modified != null and reservation.modifiedBy != null %}
+    {% include 'mycpBundle:utils:modifiedControl.html.twig' with {'modified':reservation.modified,'modifiedBy':reservation.modifiedBy}%}
+{% endif %}
 </div>
 {% endblock %}
     {% block javascripts %}

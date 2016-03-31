@@ -4,6 +4,7 @@
     {% stylesheets
     '@mycpBundle/Resources/public/css/datepicker.css'
     '@mycpBundle/Resources/public/css/bootstrap-wysihtml5.css'
+    '@mycpBundle/Resources/public/css/validations.css'
     filter='?uglifycss'
     %}
     <link rel="stylesheet" href="{{ asset_url }}" />
@@ -523,7 +524,7 @@
                        {% endfor %}
         </div>
     </div>
-    <h3 class="title">Geolocalización (*)</h3>
+    <h3 id="geolocation_form" class="title">Geolocalización (*)</h3>
     <div class="row-fluid">
         <div class="span6">
             {%if errors["geolocate_x"] is defined %}<label class="error">{{errors["geolocate_x"]|trim(':')}}</label>{%endif%}
@@ -711,6 +712,8 @@
     '@mycpBundle/Resources/public/js/wysihtml5-0.3.0.min.js'
     '@mycpBundle/Resources/public/js/bootstrap-wysihtml5.js'
     '@mycpBundle/Resources/public/js/bootstrap-fileinput.js'
+    '@mycpBundle/Resources/public/js/jquery-validation-1.14.0/dist/jquery.validate.min.js'
+    '@mycpBundle/Resources/public/js/jquery-validation-1.14.0/dist/localization/messages_es.min.js'
     filter='?uglifyjs2'
     %}
         <script src="{{ asset_url }}"></script>
@@ -809,8 +812,43 @@
             });
         }
 
+/*locations validate*/
+        var form = $('#form_ownership');
+        var validatorForm = form.validate({
+            errorElement: 'span',
+            errorClass: 'has-error',
+            ignore: "",
+            //errorLabelContainer: $("#error-container-form-user"),
+            rules: {
+                'geolocate_x': {
+                    number: true,
+                    min: 19.797717,
+                    max: 23.362429
+                },
+                'geolocate_y': {
+                   number: true,
+                    min: -85.03418,
+                    max: -74.003906
+                }
+            },
+            invalidHandler: function (event, validator) {},
+            highlight: function (element, clsError) { // hightlight error inputs
+                element = $(element);
+                element.parent().addClass(clsError);
+            },
+            unhighlight: function (element, clsError) { // revert the change done by hightlight
+                element = $(element);
+                element.parent().removeClass(clsError);
+            }
+        });
+
         function submit_button(operation)
         {
+            if(!validatorForm.form()){
+                console.log('Existen campos invalidos');
+                $(window).scrollTop($('#geolocation_form').offset().top);
+                return false;
+            }
             $("#save_operation").val(operation);
             $("#form_ownership").submit();
         }
@@ -944,7 +982,6 @@
             else
                 $(".status-option-1").removeClass("hidden");
         }
-
     </script>
     <script>
         $('.textarea').wysihtml5();

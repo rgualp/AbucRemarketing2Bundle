@@ -13,6 +13,7 @@ use MyCp\FrontEndBundle\Helpers\Time;
 use MyCp\mycpBundle\Entity\generalReservation;
 use MyCp\mycpBundle\Entity\room;
 use MyCp\mycpBundle\Entity\season;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -848,7 +849,158 @@ class ExportToExcel extends Controller {
         $this->save($excel, $fileName);
         return $this->export($fileName);
     }
+    public function exportReservationsByClientReport(Request $request, $reportId, $dateFrom, $dateTo, $fileName= "resumenReservasxClientes") {
+        $excel = $this->configExcel("Reporte resumen de reservaciones por clientes", "Reporte resumen de reservaciones por clientes de MyCasaParticular", "reportes");
+        $dateFrom=\DateTime::createFromFormat('Y-m-d',$dateFrom);
+        $dateTo=\DateTime::createFromFormat('Y-m-d', $dateTo);
+        $data = $this->dataForReservationsByClientReport($dateFrom, $dateTo );
+        if (count($data) > 0)
+            $excel = $this->createSheetForReservationsByClientReport($excel, 'Resumen', $reportId, $data, $dateFrom, $dateTo);
 
+        $fileName = $this->getFileName($fileName);
+        $this->save($excel, $fileName);
+        return $this->export($fileName);
+    }
+    public function exportBookingDetailsReport($data, $dateFrom, $dateTo, $fileName= "resumenBookings") {
+        $excel = $this->configExcel("Reporte resumen de bookings", "Reporte resumen de Bookings de MyCasaParticular", "reportes");
+        if (count($data) > 0)
+            $excel = $this->createSheetForBookingDetailsReport($excel, 'Bookings', $data, $dateFrom, $dateTo);
+
+        $fileName = $this->getFileName($fileName);
+        $this->save($excel, $fileName);
+        return $this->export($fileName);
+    }
+    public function exportdetails_client_reservation_to_excelReport($data, $dateFrom, $dateTo,$client, $fileName= "filtroReservasCliente") {
+        $excel = $this->configExcel("Reporte reservas de cliente", "Reporte de Reservas de cliente de MyCasaParticular", "reportes");
+        if (count($data) > 0)
+            $excel = $this->createSheetForClientReservationsReport($excel, 'Reservas', $data,$client, $dateFrom, $dateTo);
+
+        $fileName = $this->getFileName($fileName);
+        $this->save($excel, $fileName);
+        return $this->export($fileName);
+    }
+    private function dataForReservationsByClientReport($dateFrom, $dateTo){
+        $results = array();
+        $reportContent = $this->em->getRepository("mycpBundle:report")->reservationsByClientsSummary($dateFrom, $dateTo);
+
+        $dataArr = array();
+        foreach ($reportContent as $content) {
+            $data = array();
+
+            $data[0] = $content["user_name"].' '.$content["user_last_name"];
+            $data[1] = $content["solicitudes"];
+            $data[2] = $content["disponibles"];
+            $data[3] = $content["no_disponibles"];
+            $data[4] = $content["pendientes"];
+            $data[5] = $content["reservas"];
+            $data[6] = $content["vencidas"];
+            array_push($dataArr, $data);
+        }
+        return $dataArr;
+
+
+    }
+    private function createSheetForReservationsByClientReport($excel,$sheetName,$reportId, $data, $dateFrom, $dateTo){
+        $report = $this->em->getRepository("mycpBundle:report")->find($reportId);
+        $sheet = $this->createSheet($excel, $sheetName);
+        $sheet->setCellValue('a1', "Reporte: ".$report->getReportName());
+        $now = new \DateTime();
+        $sheet->setCellValue('a2', 'Rango: '.$dateFrom->format('d/m/Y H:s').'-'.$dateTo->format('d/m/Y H:s'));
+
+        $sheet->setCellValue('b2', 'Generado: '.$now->format('d/m/Y H:s'));
+
+        $sheet->setCellValue('a5', 'Cliente');
+        $sheet->setCellValue('b5', 'Solicitudes');
+        $sheet->setCellValue('c5', 'Disponibles');
+        $sheet->setCellValue('d5', 'No Disponibles');
+        $sheet->setCellValue('e5', 'Pendientes');
+        $sheet->setCellValue('f5', 'Reservaciones');
+        $sheet->setCellValue('g5', 'Vencidas');
+
+        $sheet = $this->styleHeader("a5:g5", $sheet);
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+
+        $sheet->fromArray($data, ' ', 'A6');
+        $this->setColumnAutoSize("a", "g", $sheet);
+        $sheet->setAutoFilter("A5:G".(count($data) + 5));
+
+        return $excel;
+    }
+    private function createSheetForBookingDetailsReport($excel,$sheetName, $data, $dateFrom, $dateTo){
+        $sheet = $this->createSheet($excel, $sheetName);
+        $sheet->setCellValue('a1', "Reporte: Resumen de Bookings");
+        $now = new \DateTime();
+        $sheet->setCellValue('a2', 'Rango: '.$dateFrom.'-'.$dateTo);
+
+        $sheet->setCellValue('b2', 'Generado: '.$now->format('d/m/Y H:s'));
+
+        $sheet->setCellValue('a5', 'ID Booking');
+        $sheet->setCellValue('b5', 'FechaBooking');
+        $sheet->setCellValue('c5', 'Prepago');
+        $sheet->setCellValue('d5', 'Moneda');
+        $sheet->setCellValue('e5', 'Usuario');
+        $sheet->setCellValue('f5', 'País');
+        $sheet->setCellValue('g5', 'Cód. Reserva');
+        $sheet->setCellValue('h5', 'Cód. Casa');
+
+        $sheet = $this->styleHeader("a5:h5", $sheet);
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+
+        $sheet->fromArray($data, ' ', 'A6');
+        $this->setColumnAutoSize("a", "h", $sheet);
+        $sheet->setAutoFilter("A5:H".(count($data) + 5));
+
+        return $excel;
+    }
+    private function createSheetForClientReservationsReport($excel,$sheetName, $data,$client, $dateFrom, $dateTo){
+        $sheet = $this->createSheet($excel, $sheetName);
+        $sheet->setCellValue('a1', "Reporte: Listado de Reservas");
+        $sheet->setCellValue('b1', "Cliente: ".$client->getName().' '.$client->getUserLastName());
+        $now = new \DateTime();
+        $sheet->setCellValue('a2', 'Rango: '.$dateFrom->format('d/m/Y').'-'.$dateTo->format('d/m/Y'));
+
+        $sheet->setCellValue('b2', 'Generado: '.$now->format('d/m/Y H:s'));
+
+        $sheet->setCellValue('a5', 'Fecha Reserva');
+        $sheet->setCellValue('b5', 'Cód. Reserva');
+        $sheet->setCellValue('c5', 'Propiedad');
+        $sheet->setCellValue('d5', 'Habitaciones');
+        $sheet->setCellValue('e5', 'Adultos');
+        $sheet->setCellValue('f5', 'Niños');
+        $sheet->setCellValue('g5', 'Noches');
+        $sheet->setCellValue('h5', 'Fecha de entrada');
+        $sheet->setCellValue('i5', 'Precio');
+        $sheet->setCellValue('j5', 'Destino');
+        $sheet->setCellValue('k5', 'Estado Reserva');
+
+        $sheet = $this->styleHeader("a5:k5", $sheet);
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+        $sheet->getStyle("b1")->applyFromArray($style);
+
+        $sheet->fromArray($data, ' ', 'A6');
+        $this->setColumnAutoSize("a", "k", $sheet);
+        $sheet->setAutoFilter("A5:K".(count($data) + 5));
+
+        return $excel;
+    }
     private function dataForAccommodationReservationSummaryStat($province, $municipality, $destination, $dateFrom, $dateTo) {
         $results = array();
 
@@ -1369,6 +1521,230 @@ ORDER BY own.own_mcp_code ASC
         return $excel;
     }
 
+    public function exportReservationRange(Request $request, $reportId, $dateFrom, $dateTo, $fileName= "resumenReservaciones") {
+        $excel = $this->configExcel("Reporte resumen de reservaciones", "Reporte resumen de reservaciones de MyCasaParticular", "reportes");
+
+        $range = "Desde ". $dateFrom." al ".$dateTo;
+        $sheetName = "General";
+
+        $data = $this->dataForReservationRange($dateFrom, $dateTo);
+
+        if (count($data) > 0)
+            $excel = $this->createSheetForReservationRange($excel, $sheetName, $reportId, $range, $data);
+
+        $fileName = $this->getFileName($fileName);
+        $this->save($excel, $fileName);
+        return $this->export($fileName);
+    }
+
+    private function dataForReservationRange($dateFrom, $dateTo) {
+        $results = array();
+        $list = $this->em->getRepository('mycpBundle:generalReservation')->getReservationRangeReportContent($dateFrom, $dateTo);
+
+        foreach ($list as $item) {
+            $data = array();
+
+            $data[0] = generalReservation::getStatusName($item["status"]);
+            $data[1] = $item["total"];
+            $data[2] = $item["nights"];
+            array_push($results, $data);
+        }
+
+
+        return $results;
+    }
+
+    private function createSheetForReservationRange($excel, $sheetName, $reportId, $range, $data) {
+
+        $report = $this->em->getRepository("mycpBundle:report")->find($reportId);
+        $sheet = $this->createSheet($excel, $sheetName);
+        $sheet->setCellValue('a1', "Reporte: ".$report->getReportName());
+        $sheet->setCellValue('a2', 'Rango: '.$range);
+        $now = new \DateTime();
+        $sheet->setCellValue('b2', 'Generado: '.$now->format('d/m/Y H:s'));
+
+        $sheet->setCellValue('a4', 'Estado');
+        $sheet->setCellValue('b4', 'Total');
+        $sheet->setCellValue('c4', 'Noches');
+
+        $sheet = $this->styleHeader("a4:c4", $sheet);
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+
+        $sheet
+            ->getStyle("a5:a".(count($data)+4))
+            ->getNumberFormat()
+            ->setFormatCode( \PHPExcel_Style_NumberFormat::FORMAT_TEXT );
+
+        $sheet->fromArray($data, ' ', 'A5');
+
+        $this->setColumnAutoSize("a", "c", $sheet);
+
+        return $excel;
+    }
+
+    public function exportReservationRangeDetails($list, $filter_string, $fileName= "reporteDetallesReservacionesPeriodo") {
+        $excel = $this->configExcel("Resumen de reservaciones por período", "Resumen de reservaciones por período de MyCasaParticular", "reportes");
+
+        $sheetName = "General";
+
+        $data = $this->dataForReservationRangeDetails($list);
+
+        if (count($data) > 0)
+            $excel = $this->createSheetForReservationRangeDetails($excel, $sheetName, $data, $filter_string);
+
+        $fileName = $this->getFileName($fileName);
+        $this->save($excel, $fileName);
+        return $this->export($fileName);
+    }
+
+    private function dataForReservationRangeDetails($list) {
+        $results = array();
+
+        foreach ($list as $item) {
+            $data = array();
+
+            $data[0] = $item[0]->getCASId();
+            $data[1] = $item[0]->getGenResDate()->format("d/m/Y");
+            $data[2] = $item[0]->getGenResOwnId()->getOwnMcpCode();
+            $data[3] = $item[0]->getGenResUserId()->getUserUserName()." ".$item[0]->getGenResUserId()->getUserLastName();
+            $data[4] = ($item[0]->getModifiedBy() != null && $item[0]->getModifiedBy() != "") ? $item["userName"]." ".$item["userLastName"] : " - ";
+            $data[5] = $item["nights"];
+            array_push($results, $data);
+        }
+
+
+        return $results;
+    }
+
+    private function createSheetForReservationRangeDetails($excel, $sheetName, $data, $filter_string) {
+
+        $sheet = $this->createSheet($excel, $sheetName);
+        $sheet->setCellValue('a1', "Reporte: Resumen de reservaciones (Detalles)");
+        $sheet->mergeCells("A1:F1");
+        $now = new \DateTime();
+        $sheet->setCellValue('a2', 'Generado: '.$now->format('d/m/Y H:s'));
+        $sheet->setCellValue('b2', 'Filtro: '.$filter_string);
+        $sheet->mergeCells("B2:F2");
+
+        $sheet->setCellValue('a4', 'Código Reserva');
+        $sheet->setCellValue('b4', 'Fecha');
+        $sheet->setCellValue('c4', 'Alojamiento');
+        $sheet->setCellValue('d4', 'Turista');
+        $sheet->setCellValue('e4', 'Usuario que atendió la reserva');
+        $sheet->setCellValue('f4', 'Noches');
+
+        $sheet = $this->styleHeader("a4:f4", $sheet);
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+
+        $sheet
+            ->getStyle("a5:a".(count($data)+4))
+            ->getNumberFormat()
+            ->setFormatCode( \PHPExcel_Style_NumberFormat::FORMAT_TEXT );
+
+        $sheet->fromArray($data, ' ', 'A5');
+
+        $this->setColumnAutoSize("a", "f", $sheet);
+
+        return $excel;
+    }
+
+    public function exportReservationUser(Request $request, $reportId, $dateFrom, $dateTo, $fileName= "resumenReservacionesUsuario") {
+        $excel = $this->configExcel("Reporte resumen de reservaciones por usuario", "Reporte resumen de reservaciones por usuario de MyCasaParticular", "reportes");
+
+        $range = "Desde ". $dateFrom." al ".$dateTo;
+        $sheetName = "General";
+
+        $data = $this->dataForReservationUser($dateFrom, $dateTo);
+
+        if (count($data) > 0)
+            $excel = $this->createSheetForReservationUser($excel, $sheetName, $reportId, $range, $data);
+
+        $fileName = $this->getFileName($fileName);
+        $this->save($excel, $fileName);
+        return $this->export($fileName);
+    }
+
+    private function dataForReservationUser($dateFrom, $dateTo) {
+        $results = array();
+        $list = $this->em->getRepository('mycpBundle:generalReservation')->getReservationUserReportContent($dateFrom, $dateTo);
+
+        $total_available = 0;
+        $total_notAvailable = 0;
+        $total_logs = 0;
+
+        foreach ($list as $item) {
+            $data = array();
+
+            $total_available += $item["available"];
+            $total_notAvailable += $item["non_available"];
+            $total_logs += $item["logs"];
+
+            $data[0] = $item["name"] . " " . $item["lastName"];
+            $data[1] = $item["available"];
+            $data[2] = $item["non_available"];
+            $data[3] = $item["logs"];
+
+            array_push($results, $data);
+        }
+
+        $data = array();
+        $data[0] = "TOTAL";
+        $data[1] = $total_available;
+        $data[2] = $total_notAvailable;
+        $data[3] = $total_logs;
+        array_push($results, $data);
+
+
+
+        return $results;
+    }
+
+    private function createSheetForReservationUser($excel, $sheetName, $reportId, $range, $data) {
+
+        $report = $this->em->getRepository("mycpBundle:report")->find($reportId);
+        $sheet = $this->createSheet($excel, $sheetName);
+        $sheet->setCellValue('a1', "Reporte: ".$report->getReportName());
+        $sheet->setCellValue('a2', 'Rango: '.$range);
+        $now = new \DateTime();
+        $sheet->setCellValue('b2', 'Generado: '.$now->format('d/m/Y H:s'));
+
+        $sheet->setCellValue('a4', 'Usuario');
+        $sheet->setCellValue('b4', 'Reservas Disponibles');
+        $sheet->setCellValue('c4', 'Reservas No Disponibles');
+        $sheet->setCellValue('d4', 'Operaciones');
+
+        $sheet = $this->styleHeader("a4:d4", $sheet);
+        $style = array(
+            'font' => array(
+                'bold' => true,
+                'size' => 14
+            ),
+        );
+        $sheet->getStyle("a1")->applyFromArray($style);
+
+        $sheet
+            ->getStyle("a5:a".(count($data)+4))
+            ->getNumberFormat()
+            ->setFormatCode( \PHPExcel_Style_NumberFormat::FORMAT_TEXT );
+
+        $sheet->fromArray($data, ' ', 'A5');
+
+        $this->setColumnAutoSize("a", "d", $sheet);
+
+        return $excel;
+    }
 }
 
 ?>

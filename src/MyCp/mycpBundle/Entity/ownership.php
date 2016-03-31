@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use MyCp\mycpBundle\Helpers\SyncStatuses;
 use \DateTime as DateTime;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * ownership
@@ -97,6 +98,7 @@ class ownership {
      * @var string
      *
      * @ORM\Column(name="own_mobile_number", type="string", length=255, nullable=true)
+     * @Assert\Regex("/^5[0-9]{7}$/")
      */
     private $own_mobile_number;
 

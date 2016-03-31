@@ -16,7 +16,7 @@ use MyCp\mycpBundle\Helpers\SyncStatuses;
  */
 class generalReservation {
     /**
-     * All allowed statuses
+     * All allowed statuses adding text
      */
 
     const STATUS_NONE = -1;
@@ -117,6 +117,20 @@ class generalReservation {
      * @ORM\JoinColumn(name="gen_res_own_id",referencedColumnName="own_id")
      */
     private $gen_res_own_id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="modified_by", type="integer", nullable=true)
+     */
+    private $modifiedBy;
+
+    /**
+     * @var DateTime
+     *
+     * @ORM\Column(name="modified", type="datetime",nullable=true)
+     */
+    private $modified;
 
     /**
      * @var integer
@@ -607,5 +621,43 @@ class generalReservation {
             case self::STATUS_RESERVED: return "Reservada";
         }
     }
+
+    /**
+     * @return DateTime
+     */
+    public function getModified()
+    {
+        return $this->modified;
+    }
+
+    /**
+     * @param DateTime $modified
+     * @return mixed
+     */
+    public function setModified($modified)
+    {
+        $this->modified = $modified;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getModifiedBy()
+    {
+        return $this->modifiedBy;
+    }
+
+    /**
+     * @param mixed $modifiedBy
+     * @return mixed
+     */
+    public function setModifiedBy($modifiedBy)
+    {
+        $this->modifiedBy = $modifiedBy;
+        return $this;
+    }
+
+
 
 }

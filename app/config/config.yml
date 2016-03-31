@@ -229,6 +229,7 @@ services:
             tripleRoomCharge: "%configuration.triple.room.charge%"
             calendarService: "@mycp.service.calendar"
             logger: "@log"
+            container: "@service_container"
 
     mycp.translator.service:
         class: MyCp\mycpBundle\Service\TranslatorService

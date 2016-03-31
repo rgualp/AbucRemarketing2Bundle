@@ -5,6 +5,7 @@ namespace MyCp\mycpBundle\Twig\Extension;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
 use MyCp\mycpBundle\Entity\season;
 use MyCp\mycpBundle\Entity\ownershipReservation;
+use MyCp\mycpBundle\Entity\generalReservation;
 
 class mycpExtension extends \Twig_Extension {
     private $em;
@@ -24,13 +25,16 @@ class mycpExtension extends \Twig_Extension {
             new \Twig_SimpleFilter('moduleName', array($this, 'moduleName')),
             new \Twig_SimpleFilter('seasonType', array($this, 'seasonType')),
             new \Twig_SimpleFilter('ownershipReservationStatusType', array($this, 'ownershipReservationStatusType')),
+            new \Twig_SimpleFilter('generalReservationStatusType', array($this, 'generalReservationStatusType')),
             new \Twig_SimpleFilter('mailListFunction', array($this, 'mailListFunction')),
             new \Twig_SimpleFilter('season', array($this, 'season')),
+            new \Twig_SimpleFilter('user', array($this, 'user')),
         );
     }
 
     public function getFunctions() {
         return array(
+            'nights' => new \Twig_Function_Method($this, 'nights'),
         );
     }
 
@@ -57,6 +61,11 @@ class mycpExtension extends \Twig_Extension {
             default: return "PENDING";
         }
     }
+
+    public function generalReservationStatusType($status) {
+        return generalReservation::getStatusName($status);
+    }
+
     public function mailListFunction($function) {
         return \MyCp\mycpBundle\Entity\mailList::getMailFunctionName($function);
     }
@@ -65,6 +74,17 @@ class mycpExtension extends \Twig_Extension {
     {
         $seasons = $this->em->getRepository("mycpBundle:season")->getSeasons($minDate, $maxDate, $idDestination);
         return $this->timer->seasonTypeByDate($seasons, $date->getTimestamp());
+    }
+
+    public function nights($minDate, $maxDate)
+    {
+        return $this->timer->nights($minDate, $maxDate);
+    }
+
+    public function user($userId)
+    {
+        $user = $this->em->getRepository("mycpBundle:user")->find($userId);
+        return ($user != null) ? $user->getUserCompleteName() : "Usuario no registrado o eliminado";
     }
 
 }

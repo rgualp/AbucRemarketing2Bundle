@@ -26,10 +26,17 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output) {
         $container = $this->getContainer();
         $em = $container->get('doctrine')->getManager();
-
-        $this->testingPostPaymentProcess($em, $output);
+        $this->testingSMSNotifications($em, $output, $container);
 
         $output->writeln("End of testings");
+    }
+
+    private function testingSMSNotifications($em,OutputInterface $output, $container)
+    {
+        $notificationService = $container->get("mycp.notification.service");
+        $reservation = $em->getRepository("mycpBundle:generalReservation")->find(69210);
+        $notificationService->sendConfirmPaymentSMSNotification($reservation, true);
+        $notificationService->sendCheckinSMSNotification($reservation, true);
     }
 
     private function testingPostPaymentProcess($em,OutputInterface $output)

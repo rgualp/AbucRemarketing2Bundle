@@ -2,7 +2,9 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use MyCp\mycpBundle\Entity\generalReservation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -340,6 +342,553 @@ ORDER BY own.own_mcp_code ASC
        $result=$stmt->fetchAll();
         $exporter = $this->get("mycp.service.export_to_excel");
         return $exporter->createExcelForSalesReports($result);
+    }
+
+
+    public function reservationsByClientReportAction(Request $request, $from_date, $to_date){
+        $em = $this->getDoctrine()->getManager();
+        $dateRangeFrom = $request->get("dateRangeFrom");
+        $dateRangeTo = $request->get("dateRangeTo");
+        $errorText = "";
+        $content = array();
+
+        if($dateRangeFrom == null || $dateRangeFrom == ""||$dateRangeTo == null || $dateRangeTo == "")
+        {
+            $errorText = "Seleccione un rango de fechas para generar el reporte";
+        }
+        else{
+            $dateFrom=\DateTime::createFromFormat('Y-m-d',$dateRangeFrom);
+            $dateTo=\DateTime::createFromFormat('Y-m-d', $dateRangeTo);
+            $content = $em->getRepository("mycpBundle:report")->reservationsByClientsSummary($dateFrom, $dateTo);
+        }
+
+        return $this->render('mycpBundle:reports:reservationsByClientsSummary.html.twig', array(
+            'content' => $content,
+            'errorText' => $errorText,
+            'dateTo' => $dateRangeTo,
+            'dateFrom' => $dateRangeFrom
+        ));
+    }
+    public function bookingSummaryReportAction(Request $request, $from_date, $to_date){
+        $em = $this->getDoctrine()->getManager();
+        $dateRangeFrom = $request->get("dateRangeFrom");
+        $dateRangeTo = $request->get("dateRangeTo");
+        $errorText = "";
+        $content = array();
+
+        if($dateRangeFrom == null || $dateRangeFrom == ""||$dateRangeTo == null || $dateRangeTo == "")
+        {
+            $errorText = "Seleccione un rango de fechas para generar el reporte";
+        }
+        else{
+            $dateFrom=\DateTime::createFromFormat('Y-m-d',$dateRangeFrom);
+            $dateTo=\DateTime::createFromFormat('Y-m-d', $dateRangeTo);
+//            $content = $em->getRepository("mycpBundle:report")->bookingsSummary($dateFrom, $dateTo);
+            $bookings = $em->getRepository('mycpBundle:generalReservation')
+                ->getAllBookingsReport('', $dateFrom->format('Y-m-d'), '', $dateTo->format('Y-m-d'), '', '', '');
+
+        }
+        return $this->render('mycpBundle:reports:bookinsSummary.html.twig', array(
+            'content' => count($bookings),
+            'errorText' => $errorText,
+            'dateTo' => $dateRangeTo,
+            'dateFrom' => $dateRangeFrom
+        ));
+    }
+    public function reservationsByClientReportExcelAction(Request $request,$report, $from_date, $to_date){
+        $exporter = $this->get("mycp.service.export_to_excel");
+        return $exporter->exportReservationsByClientReport($request, $report, $from_date, $to_date);
+    }
+    public function bookingsSummaryReportExcelAction(Request $request,$report, $from_date, $to_date){
+        $exporter = $this->get("mycp.service.export_to_excel");
+        return $exporter->exportReservationsByClientReport($request, $report, $from_date, $to_date);
+    }
+
+    public function list_reservations_bookingAction(Request $request) {
+        $filter_booking_number = $request->get('filter_booking_number');
+        $filter_date_booking_from = $request->get('filter_date_booking_from');
+        $filter_date_booking_to = $request->get('filter_date_booking_to');
+        $filter_user_booking = $request->get('filter_user_booking');
+        $filter_reservation = $request->get("filter_reservation");
+        $filter_ownership = $request->get("filter_ownership");
+        $filter_currency = $request->get("filter_currency");
+        $dateFrom=\DateTime::createFromFormat('d_m_Y',$filter_date_booking_from);
+        $dateTo=\DateTime::createFromFormat('d_m_Y', $filter_date_booking_to);
+         if ($request->getMethod() == 'POST' && $filter_booking_number == 'null' && $filter_date_booking_from == 'null' &&$filter_date_booking_to == 'null' && $filter_user_booking == 'null' && $filter_reservation == 'null' && $filter_ownership == 'null' && $filter_currency == 'null') {
+            $message = 'Debe llenar al menos un campo para filtrar.';
+            $this->get('session')->getFlashBag()->add('message_error_local', $message);
+            return $this->redirect($this->generateUrl('mycp_report_reservations_booking'));
+        }
+
+        if ($filter_booking_number == 'null')
+            $filter_booking_number = '';
+        if ($filter_date_booking_from == 'null')
+            $filter_date_booking_from = '';
+        if ($filter_date_booking_to == 'null')
+            $filter_date_booking_to = '';
+        if ($filter_user_booking == 'null')
+            $filter_user_booking = '';
+        if ($filter_reservation == 'null')
+            $filter_reservation = '';
+        if ($filter_currency == 'null')
+            $filter_currency = '';
+
+        if ($filter_ownership == 'null')
+            $filter_ownership = '';
+        $em = $this->getDoctrine()->getManager();
+        $bookings = $em->getRepository('mycpBundle:generalReservation')
+            ->getAllBookingsReport($filter_booking_number, $dateFrom->format('Y-m-d'), $filter_user_booking, $dateTo->format('Y-m-d'), $filter_reservation, $filter_ownership, $filter_currency);
+        $filter_date_booking_from = str_replace('_', '/', $filter_date_booking_from);
+        $filter_date_booking_to = str_replace('_', '/', $filter_date_booking_to);
+
+       return $this->render('mycpBundle:reports:list_booking.html.twig', array(
+            "bookings" => $bookings,
+            'filter_booking_number' => $filter_booking_number,
+            'filter_date_booking_from' => $filter_date_booking_from,
+            'filter_date_booking_to' => $filter_date_booking_to,
+            'filter_user_booking' => $filter_user_booking,
+            'filter_reservation' => $filter_reservation,
+            'filter_ownership' => $filter_ownership,
+            'filter_currency' => $filter_currency,
+            'total_items' => count($bookings),
+        ));
+    }
+    public function list_reservations_booking_to_excelAction(Request $request) {
+        $filter_booking_number = $request->get('filter_booking_number');
+        $filter_date_booking_from = $request->get('filter_date_booking_from');
+        $filter_date_booking_to = $request->get('filter_date_booking_to');
+        $filter_user_booking = $request->get('filter_user_booking');
+        $filter_reservation = $request->get("filter_reservation");
+        $filter_ownership = $request->get("filter_ownership");
+        $filter_currency = $request->get("filter_currency");
+
+        if ($request->getMethod() == 'POST' && $filter_booking_number == 'null' && $filter_date_booking_from == 'null' &&$filter_date_booking_to == 'null' && $filter_user_booking == 'null' && $filter_reservation == 'null' && $filter_ownership == 'null' && $filter_currency == 'null') {
+            $message = 'Debe llenar al menos un campo para filtrar.';
+            $this->get('session')->getFlashBag()->add('message_error_local', $message);
+            return $this->redirect($this->generateUrl('mycp_report_reservations_booking'));
+        }
+
+        if ($filter_booking_number == 'null')
+            $filter_booking_number = '';
+        if ($filter_date_booking_from == 'null')
+            $filter_date_booking_from = '';
+        if ($filter_date_booking_to == 'null')
+            $filter_date_booking_to = '';
+        if ($filter_user_booking == 'null')
+            $filter_user_booking = '';
+        if ($filter_reservation == 'null')
+            $filter_reservation = '';
+        if ($filter_currency == 'null')
+            $filter_currency = '';
+
+        if ($filter_ownership == 'null')
+            $filter_ownership = '';
+        $em = $this->getDoctrine()->getManager();
+        $bookings = $em->getRepository('mycpBundle:generalReservation')
+            ->getAllBookingsReport($filter_booking_number, $filter_date_booking_from, $filter_user_booking, $filter_date_booking_to, $filter_reservation, $filter_ownership, $filter_currency);
+        $dataArr=array();
+        foreach ($bookings as $content) {
+            $data = array();
+
+            $data[0] = $content["booking_id"];
+            $data[1] = $content["created"]->format('d/m/Y');
+            $data[2] = $content["payed_amount"].' '.$content['curr_code'];
+            $data[3] = $content["curr_code"];
+            $data[4] = $content["booking_user_dates"];
+            $data[5] = $content["country"];
+            $data[6] = $content["reservationCode"];
+            $data[7] = $content["ownCode"];
+            array_push($dataArr, $data);
+        }
+        $filter_date_booking_from = str_replace('_', '/', $filter_date_booking_from);
+        $filter_date_booking_to = str_replace('_', '/', $filter_date_booking_to);
+        $exporter = $this->get("mycp.service.export_to_excel");
+        return $exporter->exportBookingDetailsReport($dataArr, $filter_date_booking_from, $filter_date_booking_from);
+
+    }
+
+    public function details_client_reservationAction($id_client,Request $request) {
+
+//        {filter_date_from}/{filter_date_to}/{filter_reservation_status}/{filter_province}/{filter_destination}/{filter_nights}
+        $filter_date_from = $request->get('filter_date_from');
+        $filter_date_to = $request->get('filter_date_to');
+        $filter_reservation_status = $request->get('filter_reservation_status');
+        $filter_province = $request->get('filter_province');
+        $filter_destination = $request->get("filter_destination");
+        $filter_nights = $request->get("filter_nights");
+        $service_time = $this->get('time');
+
+        if ($filter_date_from == 'null')
+            $filter_date_from = '';
+        if ($filter_date_to == 'null')
+            $filter_date_to = '';
+        if ($filter_reservation_status == 'null')
+            $filter_reservation_status = '';
+        if ($filter_province == 'null')
+            $filter_province = '';
+        if ($filter_destination == 'null')
+            $filter_destination = '';
+        if ($filter_nights == 'null')
+            $filter_nights = '';
+        $dateFrom=\DateTime::createFromFormat('d-m-Y',$filter_date_from);
+        $dateTo=\DateTime::createFromFormat('d-m-Y', $filter_date_to);
+        $em = $this->getDoctrine()->getManager();
+        $client = $em->getRepository('mycpBundle:user')->find($id_client);
+        $userTourist = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $id_client));
+        $reservations = $em->getRepository('mycpBundle:generalReservation')->getUserReservationsFiltered($id_client, $dateFrom->format('Y-m-d'), $dateTo->format('Y-m-d'), $filter_reservation_status, $filter_province, $filter_destination, $filter_nights);
+        $price = 0;
+        return $this->render('mycpBundle:reports:reservationDetailsClient.html.twig', array(
+            'reservations' => $reservations,
+            'client' => $client,
+            'errors' => '',
+            'filter_date_from'=>$dateFrom,
+            'filter_date_to'=>$dateTo,
+            'filter_reservation_status'=>$filter_reservation_status,
+            'filter_province'=>$filter_province,
+            'filter_destination'=>$filter_destination,
+            'filter_nights'=>$filter_nights,
+            'tourist' => $userTourist[0]
+        ));
+    }
+    public function details_client_reservation_to_excelAction($id_client, Request $request) {
+
+        $filter_date_from = $request->get('filter_date_from');
+        $filter_date_to = $request->get('filter_date_to');
+        $filter_reservation_status = $request->get('filter_reservation_status');
+        $filter_province = $request->get('filter_province');
+        $filter_destination = $request->get("filter_destination");
+        $filter_nights = $request->get("filter_nights");
+        $service_time = $this->get('time');
+
+        if ($filter_date_from == 'null')
+            $filter_date_from = '';
+        if ($filter_date_to == 'null')
+            $filter_date_to = '';
+        if ($filter_reservation_status == 'null')
+            $filter_reservation_status = '';
+        if ($filter_province == 'null')
+            $filter_province = '';
+        if ($filter_destination == 'null')
+            $filter_destination = '';
+        if ($filter_nights == 'null')
+            $filter_nights = '';
+        $dateFrom=\DateTime::createFromFormat('d-m-Y',$filter_date_from);
+        $dateTo=\DateTime::createFromFormat('d-m-Y', $filter_date_to);
+        $em = $this->getDoctrine()->getManager();
+        $client = $em->getRepository('mycpBundle:user')->find($id_client);
+        $userTourist = $em->getRepository('mycpBundle:userTourist')->findBy(array('user_tourist_user' => $id_client));
+        $reservations = $em->getRepository('mycpBundle:generalReservation')->getUserReservationsFiltered($id_client, $dateFrom->format('Y-m-d'), $dateTo->format('Y-m-d'),$filter_reservation_status, $filter_province, $filter_destination, $filter_nights);
+        $price = 0;
+        $dataArr=array();
+         foreach ($reservations as $content) {
+            $data = array();
+
+            $data[0] = $content["gen_res_date"]->format('d/m/Y');
+            $data[1] = "CAS.".$content["gen_res_id"];
+            $data[2] = $content["own_mcp_code"];
+            $data[3] = $content["rooms"];
+            $data[4] = $content["adults"];
+            $data[5] = $content["childrens"];
+            $data[6] = $content["totalNights"];
+            $data[7] = $content["gen_res_from_date"]->format('d/m/Y');
+            $data[8] = $content["gen_res_total_in_site"].' CUC';
+            $data[9] = $content["des_name"];
+             $estado='';
+             switch($content["gen_res_status"]){
+                 case generalReservation::STATUS_AVAILABLE: $estado='Disponible';
+                     break;
+                 case generalReservation::STATUS_CANCELLED: $estado='Cancelada';
+                     break;
+                 case generalReservation::STATUS_PARTIAL_CANCELLED: $estado='Parcialmente Cancelada';
+                     break;
+                 case generalReservation::STATUS_NOT_AVAILABLE: $estado='No disponible';
+                     break;
+                 case generalReservation::STATUS_PENDING: $estado='Pendiente';
+                     break;
+                 case generalReservation::STATUS_RESERVED: $estado='Reservada';
+                     break;
+                 case generalReservation::STATUS_PARTIAL_RESERVED: $estado='Parcialmente Reservada';
+                     break;
+                 case generalReservation::STATUS_PARTIAL_RESERVED: $estado='Parcialmente Reservada';
+                     break;
+                 case generalReservation::STATUS_OUTDATED: $estado='Vencida';
+                     break;
+             }
+            $data[10] = $estado;
+            array_push($dataArr, $data);
+        }
+        $exporter = $this->get("mycp.service.export_to_excel");
+        return $exporter->exportdetails_client_reservation_to_excelReport($dataArr, $dateFrom, $dateTo, $client);
+
+
+    }
+
+    public function reservationRangeAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $dateFrom = $request->get("dateRangeFrom");
+        $dateTo = $request->get("dateRangeTo");
+
+        $list = $em->getRepository("mycpBundle:generalReservation")->getReservationRangeReportContent($dateFrom, $dateTo);
+
+        return $this->render('mycpBundle:reports:reservationRangeReport.html.twig', array(
+            'list' => $list,
+            'dateFrom' => $dateFrom,
+            'dateTo' => $dateTo
+        ));
+    }
+
+    public function reservationRangeExcelAction(Request $request,$report, $from_date, $to_date)
+    {
+        $exporter = $this->get("mycp.service.export_to_excel");
+        return $exporter->exportReservationRange($request, $report, $from_date, $to_date);
+    }
+
+    public function reservationRangeDetailsAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $filter_user = $request->get('filter_user');
+        $filter_date_from = $request->get('from_date');
+        $filter_date_to = $request->get('to_date');
+        $filter_province = $request->get('filter_province');
+        $filter_destination = $request->get("filter_destination");
+        $filter_nights = $request->get("filter_nights");
+        $reservation_status = $request->get("reservation_status");
+        $list = array();
+        $message = "";
+
+        if ($filter_date_from == 'null')
+            $filter_date_from = '';
+        if ($filter_date_to == 'null')
+            $filter_date_to = '';
+        if ($reservation_status == 'null')
+            $reservation_status = '';
+        if ($filter_province == 'null')
+            $filter_province = '';
+        if ($filter_destination == 'null')
+            $filter_destination = '';
+        if ($filter_nights == 'null')
+            $filter_nights = '';
+        if ($filter_user == 'null')
+            $filter_user = '';
+
+        if($filter_date_from == "" && $filter_destination == "" && $filter_date_to == "" && $filter_province == "" && $filter_nights == "" && $filter_user == "")
+        {
+            $message = 'Debe llenar al menos un campo para filtrar.';
+        }
+        else{
+            $list = $em->getRepository("mycpBundle:generalReservation")->getReservationRangeDetailReportContent($reservation_status,$filter_date_from, $filter_date_to,$filter_nights, $filter_province, $filter_destination, $filter_user);
+        }
+
+
+
+        return $this->render('mycpBundle:reports:reservationRangeDetailsReport.html.twig', array(
+            'list' => $list,
+            'dateFrom' => $filter_date_from,
+            'dateTo' => $filter_date_to,
+            'reservationStatus' => $reservation_status,
+            'filter_nights' => $filter_nights,
+            "filter_province" => $filter_province,
+            "filter_destination" => $filter_destination,
+            "filter_user" => $filter_user,
+            "message" =>$message
+        ));
+    }
+
+    public function reservationRangeDetailsExcelAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $filter_user = $request->get('filter_user');
+        $filter_date_from = $request->get('from_date');
+        $filter_date_to = $request->get('to_date');
+        $filter_province = $request->get('filter_province');
+        $filter_destination = $request->get("filter_destination");
+        $filter_nights = $request->get("filter_nights");
+        $reservation_status = $request->get("reservation_status");
+        $filter_string = "";
+
+        if ($filter_date_from == 'null')
+            $filter_date_from = '';
+        else if($filter_date_from != "")
+            $filter_string .= (($filter_string == "") ? "" : ", ")."Desde: ".$filter_date_from;
+        if ($filter_date_to == 'null')
+            $filter_date_to = '';
+        else if($filter_date_to != "")
+            $filter_string .= (($filter_string == "") ? "" : ", ")."Hasta: ".$filter_date_to;
+        if ($reservation_status == 'null')
+            $reservation_status = '';
+        else if($reservation_status != "")
+            $filter_string .= (($filter_string == "") ? "" : ", ")."Estado: ".generalReservation::getStatusName($reservation_status);
+        if ($filter_province == 'null')
+            $filter_province = '';
+        else if($filter_province != ""){
+            $province = $em->getRepository("mycpBundle:province")->find($filter_province);
+            $filter_string .= (($filter_string == "") ? "" : ", ")."Provincia: ".$province->getProvName();
+        }
+
+        if ($filter_destination == 'null')
+            $filter_destination = '';
+        else if($filter_destination != ""){
+            $destination = $em->getRepository("mycpBundle:destination")->find($filter_destination);
+            $filter_string .= (($filter_string == "") ? "" : ", ")."Destino: ".$destination->getDesName();
+        }
+        if ($filter_nights == 'null')
+            $filter_nights = '';
+        else if($filter_nights != "")
+            $filter_string .= (($filter_string == "") ? "" : ", ")."Noches: ".$filter_nights;
+
+        if ($filter_user == 'null')
+            $filter_user = '';
+        else if($filter_user != ""){
+            $user = $em->getRepository("mycpBundle:user")->find($filter_user);
+            $filter_string .= (($filter_string == "") ? "" : ", ")."Usuario: ".$user->getUserCompleteName();
+        }
+
+        if($filter_date_from == "" && $filter_destination == "" && $filter_date_to == "" && $filter_province == "" && $filter_nights == "" && $filter_user == "")
+        {
+            return $this->redirect($this->generateUrl("mycp_reports_reservations_byrange_details"));
+        }
+        else{
+            $list = $em->getRepository("mycpBundle:generalReservation")->getReservationRangeDetailReportContent($reservation_status,$filter_date_from, $filter_date_to,$filter_nights, $filter_province, $filter_destination, $filter_user);
+            $exporter = $this->get("mycp.service.export_to_excel");
+            return $exporter->exportReservationRangeDetails($list, $filter_string);
+        }
+
+    }
+
+    public function reservationUserAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $dateFrom = $request->get("dateRangeFrom");
+        $dateTo = $request->get("dateRangeTo");
+
+        $list = $em->getRepository("mycpBundle:generalReservation")->getReservationUserReportContent($dateFrom, $dateTo);
+
+        return $this->render('mycpBundle:reports:reservationUserReport.html.twig', array(
+            'list' => $list,
+            'dateFrom' => $dateFrom,
+            'dateTo' => $dateTo
+        ));
+    }
+
+    public function reservationUserExcelAction(Request $request,$report, $from_date, $to_date)
+    {
+        $exporter = $this->get("mycp.service.export_to_excel");
+        return $exporter->exportReservationUser($request, $report, $from_date, $to_date);
+    }
+
+    public function reservationUserDetailsAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $filter_user = $request->get('filter_user');
+        $filter_date_from = $request->get('from_date');
+        $filter_date_to = $request->get('to_date');
+        $filter_province = $request->get('filter_province');
+        $filter_destination = $request->get("filter_destination");
+        $filter_nights = $request->get("filter_nights");
+        $reservation_status = $request->get("reservation_status");
+        $list = array();
+        $message = "";
+
+        if ($filter_date_from == 'null')
+            $filter_date_from = '';
+        if ($filter_date_to == 'null')
+            $filter_date_to = '';
+        if ($reservation_status == 'null')
+            $reservation_status = '';
+        if ($filter_province == 'null')
+            $filter_province = '';
+        if ($filter_destination == 'null')
+            $filter_destination = '';
+        if ($filter_nights == 'null')
+            $filter_nights = '';
+        if ($filter_user == 'null')
+            $filter_user = '';
+
+        if($filter_date_from == "" && $filter_destination == "" && $filter_date_to == "" && $filter_province == "" && $filter_nights == "" && $filter_user == "")
+        {
+            $message = 'Debe llenar al menos un campo para filtrar.';
+        }
+        else{
+            $list = $em->getRepository("mycpBundle:generalReservation")->getReservationUserDetailReportContent($reservation_status,$filter_date_from, $filter_date_to,$filter_nights, $filter_province, $filter_destination, $filter_user);
+        }
+
+        return $this->render('mycpBundle:reports:reservationUserDetailsReport.html.twig', array(
+            'list' => $list,
+            'dateFrom' => $filter_date_from,
+            'dateTo' => $filter_date_to,
+            'reservationStatus' => $reservation_status,
+            'filter_nights' => $filter_nights,
+            "filter_province" => $filter_province,
+            "filter_destination" => $filter_destination,
+            "filter_user" => $filter_user,
+            "message" =>$message
+        ));
+    }
+
+    public function reservationUserDetailsExcelAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $filter_user = $request->get('filter_user');
+        $filter_date_from = $request->get('from_date');
+        $filter_date_to = $request->get('to_date');
+        $filter_province = $request->get('filter_province');
+        $filter_destination = $request->get("filter_destination");
+        $filter_nights = $request->get("filter_nights");
+        $reservation_status = $request->get("reservation_status");
+        $filter_string = "";
+
+        if ($filter_date_from == 'null')
+            $filter_date_from = '';
+        else if($filter_date_from != "")
+            $filter_string .= (($filter_string == "") ? "" : ", ")."Desde: ".$filter_date_from;
+        if ($filter_date_to == 'null')
+            $filter_date_to = '';
+        else if($filter_date_to != "")
+            $filter_string .= (($filter_string == "") ? "" : ", ")."Hasta: ".$filter_date_to;
+        if ($reservation_status == 'null')
+            $reservation_status = '';
+        else if($reservation_status != "")
+            $filter_string .= (($filter_string == "") ? "" : ", ")."Estado: ".generalReservation::getStatusName($reservation_status);
+        if ($filter_province == 'null')
+            $filter_province = '';
+        else if($filter_province != ""){
+            $province = $em->getRepository("mycpBundle:province")->find($filter_province);
+            $filter_string .= (($filter_string == "") ? "" : ", ")."Provincia: ".$province->getProvName();
+        }
+
+        if ($filter_destination == 'null')
+            $filter_destination = '';
+        else if($filter_destination != ""){
+            $destination = $em->getRepository("mycpBundle:destination")->find($filter_destination);
+            $filter_string .= (($filter_string == "") ? "" : ", ")."Destino: ".$destination->getDesName();
+        }
+        if ($filter_nights == 'null')
+            $filter_nights = '';
+        else if($filter_nights != "")
+            $filter_string .= (($filter_string == "") ? "" : ", ")."Noches: ".$filter_nights;
+
+        if ($filter_user == 'null')
+            $filter_user = '';
+        else if($filter_user != ""){
+            $user = $em->getRepository("mycpBundle:user")->find($filter_user);
+            $filter_string .= (($filter_string == "") ? "" : ", ")."Usuario: ".$user->getUserCompleteName();
+        }
+
+        if($filter_date_from == "" && $filter_destination == "" && $filter_date_to == "" && $filter_province == "" && $filter_nights == "" && $filter_user == "")
+        {
+            return $this->redirect($this->generateUrl("mycp_reports_reservations_byuser_details"));
+        }
+        else{
+            $list = $em->getRepository("mycpBundle:generalReservation")->getReservationUserDetailReportContent($reservation_status,$filter_date_from, $filter_date_to,$filter_nights, $filter_province, $filter_destination, $filter_user);
+            $exporter = $this->get("mycp.service.export_to_excel");
+            return $exporter->exportReservationRangeDetails($list, $filter_string);
+        }
+
     }
 
 }

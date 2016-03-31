@@ -53,3 +53,59 @@ mycp_reports_ownership_vsReservations_stats_accommodation:
 mycp_reports_ownership_sales_summary:
     pattern:  /ownership/sales-summary
     defaults: { _controller: mycpBundle:BackendReport:ownershipSalesReport}
+mycp_reports_reservations_byclient_summary:
+    pattern:  /reservations/summary/{from_date}/{to_date}
+    defaults: { _controller: mycpBundle:BackendReport:reservationsByClientReport ,from_date:'',to_date:''}
+mycp_reports_reservations_byclient_summary_excel:
+    pattern:  /reservations/summary_to_excel/{report}/{from_date}/{to_date}
+    defaults: { _controller: mycpBundle:BackendReport:reservationsByClientReportExcel, report: '' ,from_date:'',to_date:''}
+mycp_reports_bookings_summary:
+    pattern:  /bookings/summary/{from_date}/{to_date}
+    defaults: { _controller: mycpBundle:BackendReport:bookingSummaryReport ,from_date:'',to_date:''}
+mycp_reports_bookings_summary_excel:
+    pattern:  /bookings/summary_to_excel/{report}/{from_date}/{to_date}
+    defaults: { _controller: mycpBundle:BackendReport:bookingsSummaryReportExcel, report: '' ,from_date:'',to_date:''}
+mycp_report_reservations_booking:
+    pattern:  /booking/list/{filter_date_booking_from}/{filter_date_booking_to}/{filter_booking_number}/{filter_user_booking}/{filter_currency}/{filter_reservation}/{filter_ownership}
+    defaults: { _controller: mycpBundle:BackendReport:list_reservations_booking, filter_date_booking_from:'',filter_date_booking_to: '', filter_booking_number:'',filter_user_booking:'', filter_reservation:'', filter_ownership:'', filter_currency:''}
+mycp_report_reservations_booking_to_excel:
+    pattern:  /booking/excel/{filter_date_booking_from}/{filter_date_booking_to}/{filter_booking_number}/{filter_user_booking}/{filter_currency}/{filter_reservation}/{filter_ownership}
+    defaults: { _controller: mycpBundle:BackendReport:list_reservations_booking_to_excel, filter_date_booking_from:'',filter_date_booking_to: '', filter_booking_number:'',filter_user_booking:'', filter_reservation:'', filter_ownership:'', filter_currency:''}
+mycp_report_reservations_client_details:
+    pattern:  /reservations/client/{id_client}/{filter_date_from}/{filter_date_to}/{filter_reservation_status}/{filter_province}/{filter_destination}/{filter_nights}
+    defaults: { _controller: mycpBundle:BackendReport:details_client_reservation, filter_date_from:'',filter_date_to: '', filter_reservation_status:'',filter_province:'', filter_destination:'', filter_nights:''}
+mycp_report_reservations_client_details_to_excel:
+    pattern:  /reservations/client_excel/{id_client}/{filter_date_from}/{filter_date_to}/{filter_reservation_status}/{filter_province}/{filter_destination}/{filter_nights}
+    defaults: { _controller: mycpBundle:BackendReport:details_client_reservation_to_excel, filter_date_from:'',filter_date_to: '', filter_reservation_status:'',filter_province:'', filter_destination:'', filter_nights:''}
+
+mycp_reports_reservations_byrange:
+    pattern:  /reservations/range/{from_date}/{to_date}
+    defaults: { _controller: mycpBundle:BackendReport:reservationRange,from_date:'',to_date:''}
+
+mycp_reports_reservations_byrange_excel:
+    pattern:  /reservations/range-excel/{report}/{from_date}/{to_date}
+    defaults: { _controller: mycpBundle:BackendReport:reservationRangeExcel, report:'',from_date:'',to_date:''}
+
+mycp_reports_reservations_byrange_details:
+    pattern:  /reservations/range-details/{reservation_status}/{from_date}/{to_date}/{filter_nights}/{filter_province}/{filter_destination}/{filter_user}
+    defaults: { _controller: mycpBundle:BackendReport:reservationRangeDetails,reservation_status:'',from_date:'',to_date:'',filter_nights:'',filter_province:'',filter_destination:'',filter_user:''}
+
+mycp_reports_reservations_byrange_details_excel:
+    pattern:  /reservations/range-details-excel/{reservation_status}/{from_date}/{to_date}/{filter_nights}/{filter_province}/{filter_destination}/{filter_user}
+    defaults: { _controller: mycpBundle:BackendReport:reservationRangeDetailsExcel,reservation_status:'',from_date:'',to_date:'',filter_nights:'',filter_province:'',filter_destination:'',filter_user:''}
+
+mycp_reports_reservations_byuser:
+    pattern:  /reservations/user/{from_date}/{to_date}
+    defaults: { _controller: mycpBundle:BackendReport:reservationUser,from_date:'',to_date:''}
+
+mycp_reports_reservations_byuser_excel:
+    pattern:  /reservations/user-excel/{report}/{from_date}/{to_date}
+    defaults: { _controller: mycpBundle:BackendReport:reservationUserExcel, report:'',from_date:'',to_date:''}
+
+mycp_reports_reservations_byuser_details:
+    pattern:  /reservations/user-details/{reservation_status}/{from_date}/{to_date}/{filter_nights}/{filter_province}/{filter_destination}/{filter_user}
+    defaults: { _controller: mycpBundle:BackendReport:reservationUserDetails,reservation_status:'',from_date:'',to_date:'',filter_nights:'',filter_province:'',filter_destination:'',filter_user:''}
+
+mycp_reports_reservations_byuser_details_excel:
+    pattern:  /reservations/user-details-excel/{reservation_status}/{from_date}/{to_date}/{filter_nights}/{filter_province}/{filter_destination}/{filter_user}
+    defaults: { _controller: mycpBundle:BackendReport:reservationUserDetailsExcel,reservation_status:'',from_date:'',to_date:'',filter_nights:'',filter_province:'',filter_destination:'',filter_user:''}

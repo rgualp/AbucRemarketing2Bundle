@@ -43,6 +43,11 @@ class Utils {
        return \Swift_Validate::email($text);
     }
 
+    public static function isMobileNumberValid($value){
+
+        return preg_match("/^5[0-9]{7}$/", $value);
+    }
+
     public static function getTextFromNormalized($text)
     {
         $furl=str_replace("-", " ", $text);

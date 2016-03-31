@@ -76,3 +76,7 @@ services:
    mycp.security.rememberme.token.provider:
        class: MyCp\mycpBundle\Security\Core\Authentication\RememberMe\MyCpBackendTokenProvider
        public: false
+
+   mycp.notification.service:
+       class: MyCp\mycpBundle\Service\NotificationService
+       arguments: [@doctrine.orm.entity_manager,"%notification_service_url%", "%notification_service_api_key%", @Time]

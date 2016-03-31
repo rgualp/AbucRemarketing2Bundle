@@ -30,13 +30,16 @@ class GeneralReservationService extends Controller
 
     private $logger;
 
-    public function __construct(ObjectManager $em, Time $timer, $tripleRoomCharge, $calendarService, $logger)
+    protected $container;
+
+    public function __construct(ObjectManager $em, Time $timer, $tripleRoomCharge, $calendarService, $logger, $container)
     {
         $this->em = $em;
         $this->timer = $timer;
         $this->tripleRoomCharge = $tripleRoomCharge;
         $this->calendarService = $calendarService;
         $this->logger = $logger;
+        $this->container = $container;
     }
 
     public function createAvailableOfferFromRequest($request, user $user)
@@ -94,6 +97,8 @@ class GeneralReservationService extends Controller
         $general_reservation->setGenResToDate(new \DateTime(date("Y-m-d H:i:s", $end_timestamp)));
         $general_reservation->setGenResSaved(0);
         $general_reservation->setGenResOwnId($ownership);
+        $general_reservation->setModified(new \DateTime());
+        $general_reservation->setModifiedBy($this->getLoggedUserId());
         $this->em->persist($general_reservation);
 
         $total_price = 0;
@@ -231,6 +236,8 @@ class GeneralReservationService extends Controller
             $reservation->setGenResTotalInSite($totalPrice);
             $reservation->setGenResSaved(1);
             $reservation->setGenResNights($nights);
+            $reservation->setModified(new \DateTime());
+            $reservation->setModifiedBy($this->getLoggedUserId());
             if ($reservation->getGenResStatus() != generalReservation::STATUS_RESERVED) {
                 if ($non_available_total > 0 && $non_available_total == $details_total) {
                     $reservation->setGenResStatus(generalReservation::STATUS_NOT_AVAILABLE);
@@ -333,5 +340,11 @@ class GeneralReservationService extends Controller
             var_dump( "Ha ocurrido un error mientras se actualizaba el fichero .ics de la habitación. Error: " . $e->getMessage());
             exit;
         }
+    }
+
+    private function getLoggedUserId(){
+        $user = $this->container->get('security.context')->getToken()->getUser();
+
+        return ($user != null) ? $user->getUserId(): null;
     }
 }
