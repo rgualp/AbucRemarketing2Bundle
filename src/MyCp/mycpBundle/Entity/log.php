@@ -22,6 +22,7 @@ class log
     const OPERATION_VISIT = 4;
     const OPERATION_LOGIN = 5;
     const OPERATION_LOGOUT = 6;
+    const OPERATION_NONE = 7;
 
     /**
      * Contains all possible statuses
@@ -34,7 +35,8 @@ class log
         self::OPERATION_DELETE,
         self::OPERATION_VISIT,
         self::OPERATION_LOGIN,
-        self::OPERATION_LOGOUT
+        self::OPERATION_LOGOUT,
+        self::OPERATION_NONE
     );
 
     /**

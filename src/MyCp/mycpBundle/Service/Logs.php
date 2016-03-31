@@ -23,7 +23,7 @@ class Logs
 
     }
 
-    public function saveLog($description,$id_module, $operation, $dt_table)
+    public function saveLog($description,$id_module, $operation = log::OPERATION_NONE, $dt_table = "")
     {
         $user = $this->security_context->getToken()->getUser();
         $log= new log();
