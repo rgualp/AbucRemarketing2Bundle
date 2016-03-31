@@ -410,7 +410,7 @@ class BackendDestinationController extends Controller
         $data['cat_location_prov_y']=$destination->getDesCatLocationProvY();
         $data['id_destination']=$id_destination;
         $data['ownership_address_province']= ($destinationsLocation[0]->getDesLocProvince() != null) ? $destinationsLocation[0]->getDesLocProvince()->getProvId() : 0;
-        //if($data['ownership_address_municipality']==$destinationsLocation[0]->getDesLocMunicipality())
+        //if($data['ownership_address_municipality']==$destinationsLocation[1]->getDesLocMunicipality())
         $data['ownership_address_municipality']= ($destinationsLocation[0]->getDesLocMunicipality() != null) ? $destinationsLocation[0]->getDesLocMunicipality()->getMunId() : 0;
 
         if($destination->getDesActive()==1)
