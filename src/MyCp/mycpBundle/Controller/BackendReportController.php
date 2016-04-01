@@ -359,7 +359,7 @@ ORDER BY own.own_mcp_code ASC
         else{
             $dateFrom=\DateTime::createFromFormat('Y-m-d',$dateRangeFrom);
             $dateTo=\DateTime::createFromFormat('Y-m-d', $dateRangeTo);
-            $content = $em->getRepository("mycpBundle:report")->reservationsByClientsSummary($dateFrom, $dateTo);
+            $content = $em->getRepository("mycpBundle:report")->reservationsByClientsSummary($dateRangeFrom, $dateRangeTo);
         }
 
         return $this->render('mycpBundle:reports:reservationsByClientsSummary.html.twig', array(
