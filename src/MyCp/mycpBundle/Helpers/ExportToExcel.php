@@ -853,7 +853,7 @@ class ExportToExcel extends Controller {
         $excel = $this->configExcel("Reporte resumen de reservaciones por clientes", "Reporte resumen de reservaciones por clientes de MyCasaParticular", "reportes");
         $dateFrom=\DateTime::createFromFormat('Y-m-d',$dateFrom);
         $dateTo=\DateTime::createFromFormat('Y-m-d', $dateTo);
-        $data = $this->dataForReservationsByClientReport($dateFrom, $dateTo );
+        $data = $this->dataForReservationsByClientReport($dateFrom->format('Y-m-d'), $dateTo->format('Y-m-d') );
         if (count($data) > 0)
             $excel = $this->createSheetForReservationsByClientReport($excel, 'Resumen', $reportId, $data, $dateFrom, $dateTo);
 
@@ -905,7 +905,7 @@ class ExportToExcel extends Controller {
         $sheet = $this->createSheet($excel, $sheetName);
         $sheet->setCellValue('a1', "Reporte: ".$report->getReportName());
         $now = new \DateTime();
-        $sheet->setCellValue('a2', 'Rango: '.$dateFrom->format('d/m/Y H:s').'-'.$dateTo->format('d/m/Y H:s'));
+        $sheet->setCellValue('a2', 'Rango: '.$dateFrom->format('d/m/Y').'-'.$dateTo->format('d/m/Y'));
 
         $sheet->setCellValue('b2', 'Generado: '.$now->format('d/m/Y H:s'));
 
