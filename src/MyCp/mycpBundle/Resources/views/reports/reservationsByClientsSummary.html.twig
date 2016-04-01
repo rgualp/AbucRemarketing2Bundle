@@ -19,10 +19,26 @@
             <th>Pendientes</th>
             <th>Reservadas</th>
             <th>Vencidas</th>
+            <th>Canceladas</th>
         </tr>
         </thead>
         <tbody>
+        {% set sol=0%}
+        {% set disp=0%}
+        {% set no_disp=0%}
+        {% set pend=0%}
+        {% set reserv=0%}
+        {% set venc=0%}
+        {% set cancel=0%}
+
         {% for cont in content %}
+            {% set sol=sol+cont.solicitudes %}
+            {% set disp=disp+cont.disponibles %}
+            {% set no_disp=no_disp+cont.no_disponibles %}
+            {% set pend=pend+cont.pendientes %}
+            {% set reserv=reserv+cont.reservas %}
+            {% set venc=venc+cont.vencidas %}
+            {% set cancel=cancel+cont.canceladas %}
             <tr>
                 <td>
                  <a target="_blank" href="{{ path('mycp_report_reservations_client_details',{'id_client': cont.user_id, 'filter_date_from':dateFrom|date('d-m-Y'),'filter_date_to':dateTo|date('d-m-Y') }) }}">   {{ cont.user_name~' '~cont.user_last_name }}</a>
@@ -45,8 +61,36 @@
                 <td>
                     {{ cont.vencidas }}
                 </td>
+                <td>
+                    {{ cont.canceladas }}
+                </td>
             </tr>
         {% endfor %}
+        <td>
+          <b> Total</b>
+        </td>
+        <td>
+            <b>{{ sol }}</b>
+        </td>
+        <td>
+            <b>{{ disp }}</b>
+        </td>
+        <td>
+           <b> {{ no_disp}}</b>
+        </td>
+        <td>
+            <b>{{ pend}}</b>
+        </td>
+        <td>
+           <b>{{ reserv }}</b>
+        </td>
+        <td>
+            <b>{{venc }}</b>
+        </td>
+        <td>
+            <b>{{ cancel }}</b>
+        </td>
+        </tr>
         </tbody>
     </table>
     <hr/>
