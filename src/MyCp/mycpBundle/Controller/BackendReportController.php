@@ -400,9 +400,29 @@ ORDER BY own.own_mcp_code ASC
         return $exporter->exportReservationsByClientReport($request, $report, $from_date, $to_date);
     }
     public function bookingsSummaryReportExcelAction(Request $request,$report, $from_date, $to_date){
+        $em = $this->getDoctrine()->getManager();
+        $dateFrom=\DateTime::createFromFormat('Y-m-d',$from_date);
+        $dateTo=\DateTime::createFromFormat('Y-m-d', $to_date);
+        $bookings = $em->getRepository('mycpBundle:generalReservation')
+            ->getAllBookingsReport('', $dateFrom->format('Y-m-d'), '', $dateTo->format('Y-m-d'), '', '', '');
+        $dataArr=array();
+        foreach ($bookings as $content) {
+            $data = array();
+
+            $data[0] = $content["booking_id"];
+            $data[1] = $content["created"]->format('d/m/Y');
+            $data[2] = $content["payed_amount"].' '.$content['curr_code'];
+            $data[3] = $content["curr_code"];
+            $data[4] = $content["booking_user_dates"];
+            $data[5] = $content["country"];
+            $data[6] = $content["reservationCode"];
+            $data[7] = $content["ownCode"];
+            array_push($dataArr, $data);
+        }
         $exporter = $this->get("mycp.service.export_to_excel");
-        return $exporter->exportReservationsByClientReport($request, $report, $from_date, $to_date);
-    }
+        return $exporter->exportBookingDetailsReport($dataArr, $dateFrom->format('Y-m-d'), $dateTo->format('Y-m-d'));
+
+      }
 
     public function list_reservations_bookingAction(Request $request) {
         $filter_booking_number = $request->get('filter_booking_number');
@@ -484,8 +504,10 @@ ORDER BY own.own_mcp_code ASC
         if ($filter_ownership == 'null')
             $filter_ownership = '';
         $em = $this->getDoctrine()->getManager();
+        $dateFrom=\DateTime::createFromFormat('d_m_Y',$filter_date_booking_from);
+        $dateTo=\DateTime::createFromFormat('d_m_Y', $filter_date_booking_to);
         $bookings = $em->getRepository('mycpBundle:generalReservation')
-            ->getAllBookingsReport($filter_booking_number, $filter_date_booking_from, $filter_user_booking, $filter_date_booking_to, $filter_reservation, $filter_ownership, $filter_currency);
+            ->getAllBookingsReport($filter_booking_number, $dateFrom->format('Y-m-d'), $filter_user_booking, $dateTo->format('Y-m-d'), $filter_reservation, $filter_ownership, $filter_currency);
         $dataArr=array();
         foreach ($bookings as $content) {
             $data = array();
