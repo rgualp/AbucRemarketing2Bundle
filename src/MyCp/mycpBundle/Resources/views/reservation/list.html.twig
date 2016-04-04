@@ -126,7 +126,9 @@
                 </div>
                 <div class="span6">
                     <div class="paginator-cont">
+                        {% if total_items > items_per_page %}
                         {% include "mycpBundle:reservation:reservationPaginator.html.twig" %}
+                        {% endif %}
                     </div>
                 </div>
 
@@ -219,7 +221,9 @@
                 </div>
 
                 <div class="paginator-cont span6">
+                    {% if total_items > items_per_page %}
                     {% include "mycpBundle:reservation:reservationPaginator.html.twig" %}
+                    {% endif %}
                     {#{ simple_paginator_render('mycp_list_reservations',null,{
                 'container_class': 'paginator',
                 'previousPageText': '«',
