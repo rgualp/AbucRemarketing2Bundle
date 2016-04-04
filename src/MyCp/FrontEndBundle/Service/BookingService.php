@@ -486,7 +486,8 @@ class BookingService extends Controller
                     'user_tourist' => array($userTourist),
                     'reservations' => $owns,
                     'nights' => $arrayNightsByOwnershipReservation,
-                    'rooms' => $rooms
+                    'rooms' => $rooms,
+                    'booking' => $bookingId
                 )
             );
 
