@@ -448,7 +448,8 @@ class BookingService extends Controller
                     'reservations' => $owns,
                     'nights' => $arrayNightsByOwnershipReservation,
                     'payment_pending' => $paymentPending,
-                    'rooms' => $rooms
+                    'rooms' => $rooms,
+                    'booking' => $bookingId
                 )
             );
 
@@ -626,7 +627,7 @@ class BookingService extends Controller
     {
         $ownershipReservations = $this->em
             ->getRepository('mycpBundle:ownershipReservation')
-            ->findBy(array('own_res_reservation_booking' => $bookingId));
+            ->findBy(array('own_res_reservation_booking' => $bookingId), array("own_res_gen_res_id" => "ASC"));
         return $ownershipReservations;
     }
 
