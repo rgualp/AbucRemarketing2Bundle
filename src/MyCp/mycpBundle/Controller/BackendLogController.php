@@ -23,24 +23,18 @@ class BackendLogController extends Controller
         if($request->getMethod()=='POST')
         {
             $post['submit']=1;
-            if(!isset($post['user']) OR isset($post['user']) && $post['user']=='')
-            {
-                $message='Debe seleccionar un usuario.';
-                $this->get('session')->getFlashBag()->add('message_error_local',$message);
-                $msg_session=1;
-            }
-            else
-            if($post['user']!='' or $post['module']!='' or $post['from_date']!='' or $post['to_date']!='')
+            if($post['user']!='' || $post['module']!='' || $post['from_date']!='' || $post['to_date']!='' || $post['role'] != "")
             {
                 $em = $this->getDoctrine()->getManager();
                 $logs=$em->getRepository('mycpBundle:log')->getLogs($post);
                 $msg_count_logs=count($logs);
             }
-
-
+            else{
+                $message='Por favor, seleccione un criterio para filtrar.';
+                $this->get('session')->getFlashBag()->add('message_error_local',$message);
+            }
         }
-        if(!isset($post['role']))
-            $post['role']='';
+
         return $this->render('mycpBundle:log:list.html.twig',array('post'=>$post,'logs'=>$logs,'count_logs'=>$msg_count_logs,'msg_session'=>$msg_session, 'logFiles' => $logsFiles));
     }
 
@@ -55,8 +49,7 @@ class BackendLogController extends Controller
 
     function get_modulesAction($selected,Request $request)
     {
-        if(isset($selected['module']))
-            $selected=$selected['module'];
+        $selected= (isset($selected['module']) && $selected['module'] != null && $selected['module'] != "") ? $selected['module'] : "-1";
         return $this->render('mycpBundle:utils:modules.html.twig',array('selected'=>$selected));
     }
 

@@ -27,9 +27,7 @@
         </div>
         <div class="span2">
             <label>Usuario:</label>
-            <select class="input-block-level" name="user" id="user"/>
-            {{ render(controller('mycpBundle:BackendLog:get_users', {'selected': post,'role': post['role']})) }}
-            </select>
+            <input class="input-block-level" name="user" id="user" value="{% if post['user'] is defined and post['user'] != null %}{{ post['user'] }}{% endif %}"/>
         </div>
         <div class="span2">
             <label>Módulo:</label>
@@ -96,30 +94,6 @@
         url = "{{ path('mycp_get_users_logs',{ 'selected':'-1', 'role':'-1'}) }}";
         url=url.replace('/-1','');
         url=url.replace('/-1','');
-
-        $('#role').change(function(){
-            role = $('#role').val();
-            array_role=role.split('_')
-            selected = $('#user').val();
-            if(selected=='')
-                selected='null';
-            if(role!='')
-            {
-                $('#user').html('<option value="">Cargando...</option>');
-                $.ajax({
-                    type:"POST",
-                    url:url+'/'+ selected + '/'+ role,
-                    success:function (msg) {
-                        $('#user').html(msg);
-                    }
-                });
-            }
-        });
-
-        $('#user').change(function(){
-            role_user=$('#user option:selected').attr('class');
-            $("#role option[value="+ role_user +"]").attr("selected",true);
-        });
 
         $('.datepicker').datepicker({
             format: 'dd/mm/yyyy',
