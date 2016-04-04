@@ -701,15 +701,13 @@ class generalReservationRepository extends EntityRepository {
                 $queryStr .= " ORDER BY gre.gen_res_date ASC, own.own_mcp_code ASC "; break;
         }
 
-        $array_date_from = explode('/', $checkinDate);
-        if (count($array_date_from) > 1)
-            $checkinDate = $array_date_from[2] . '-' . $array_date_from[1] . '-' . $array_date_from[0];
+        $checkinDate = Dates::createForQuery($checkinDate, "d/m/Y");
 
         $em = $this->getEntityManager();
         $query = $em->createQuery($queryStr);
 
         $query->setParameters(array(
-            'filter_date_from' => "%" . $checkinDate . "%",
+            'filter_date_from' => "%".$checkinDate."%",
             'reservationStatus' => ownershipReservation::STATUS_RESERVED,
             'generalReservationReservedStatus' => generalReservation::STATUS_RESERVED,
             'generalReservationPartialReservedStatus' => generalReservation::STATUS_PARTIAL_RESERVED
