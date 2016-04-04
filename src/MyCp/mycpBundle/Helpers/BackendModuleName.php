@@ -72,6 +72,7 @@ class DataBaseTables {
 
     const USER = "user";
     const METATAGS = "metatag";
+    const MUNICIPALITY = "municipality";
 
 
 }
