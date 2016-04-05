@@ -81,6 +81,9 @@ class DataBaseTables {
     const ROOM = "room";
     const BATCH_PROCESS = "batchProcess";
     const UNAVAILABILITY_DETAILS = "unavailabilityDetails";
+    const ALBUM_CATEGORY = "albumCategory";
+    const ALBUM = "album";
+    const ALBUM_PHOTO = "albumPhoto";
 
 }
 ?>
