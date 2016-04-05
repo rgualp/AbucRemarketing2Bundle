@@ -5,6 +5,7 @@ namespace MyCp\mycpBundle\Controller;
 use MyCp\mycpBundle\Entity\batchType;
 use MyCp\mycpBundle\Entity\ownershipReservation;
 use MyCp\mycpBundle\Entity\room;
+use MyCp\mycpBundle\Helpers\DataBaseTables;
 use MyCp\mycpBundle\Helpers\FileIO;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -112,7 +113,7 @@ class BackendOwnershipController extends Controller {
                         $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                         $service_log = $this->get('log');
-                        $service_log->saveLog('Create photo, entity ' . $ownership->getOwnName(), BackendModuleName::MODULE_OWNERSHIP);
+                        $service_log->saveLog($ownership->getLogDescription().' (Fotos)', BackendModuleName::MODULE_OWNERSHIP, log::OPERATION_INSERT, DataBaseTables::OWNERSHIP_PHOTO);
 
                         switch ($request->get('save_operation')) {
                             case Operations::SAVE_AND_EXIT:
@@ -141,9 +142,7 @@ class BackendOwnershipController extends Controller {
         $service_security->verifyAccess();
         $page = 1;
         $filter_active = $request->get('filter_active');
-
         $filter_province = $request->get('filter_province');
-
         $filter_destination = $request->get('filter_destination');
         $filter_name = $request->get('filter_name');
         $filter_municipality = $request->get('filter_municipality');
@@ -191,8 +190,8 @@ class BackendOwnershipController extends Controller {
           $data[$ownership->getOwnId() . '_photo_count'] = count($photos);
           } */
 
-        $service_log = $this->get('log');
-        $service_log->saveLog('Visit', BackendModuleName::MODULE_OWNERSHIP);
+//        $service_log = $this->get('log');
+//        $service_log->saveLog('Visit', BackendModuleName::MODULE_OWNERSHIP);
         return $this->render('mycpBundle:ownership:list.html.twig', array(
                     'ownerships' => $ownerships,
                     //'photo_count' => $data,
@@ -225,7 +224,7 @@ class BackendOwnershipController extends Controller {
         $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
 
         $service_log = $this->get('log');
-        $service_log->saveLog('Delete photo, entity ' . $ownership->getOwnName(), BackendModuleName::MODULE_OWNERSHIP);
+        $service_log->saveLog($ownership->getLogDescription().' (Fotos)', BackendModuleName::MODULE_OWNERSHIP, log::OPERATION_DELETE, DataBaseTables::OWNERSHIP_PHOTO);
 
         return $this->redirect($this->generateUrl('mycp_list_photos_ownership', array('id_ownership' => $id_ownership)));
     }
@@ -234,39 +233,42 @@ class BackendOwnershipController extends Controller {
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
+        $service_log = $this->get('log');
 
-            $ro = $em->getRepository('mycpBundle:room')->find($id_room);
-            $id_ownership = $ro->getRoomOwnership()->getOwnId();
+        $ro = $em->getRepository('mycpBundle:room')->find($id_room);
+        $own = $ro->getRoomOwnership();
 
-            $ro->setRoomActive($activate);
-            $em->persist($ro);
-            $em->flush();
+        $ro->setRoomActive($activate);
+        $em->persist($ro);
+        $em->flush();
 
-            $own = $ro->getRoomOwnership();
-            $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $own->getOwnId()));
-            $count = count($rooms);
-            $count_active = 0;
-            $maximum_guests = 0;
-            foreach ($rooms as $room) {
-                if (!$room->getRoomActive())
-                    $count--;
-                else {
-                    $count_active++;
-                    $maximum_guests += $room->getMaximumNumberGuests();
-                }
+        $service_log->saveLog($own->getLogDescription().' (Activar / Desactivar '.$ro->getLogDescription().')', BackendModuleName::MODULE_OWNERSHIP, log::OPERATION_UPDATE, DataBaseTables::ROOM);
+
+        $rooms = $em->getRepository('mycpBundle:room')->findBy(array('room_ownership' => $own->getOwnId()));
+        $count = count($rooms);
+        $count_active = 0;
+        $maximum_guests = 0;
+        foreach ($rooms as $room) {
+            if (!$room->getRoomActive())
+                $count--;
+            else {
+                $count_active++;
+                $maximum_guests += $room->getMaximumNumberGuests();
             }
+        }
 
-            $own->setOwnMaximumNumberGuests($maximum_guests);
-            $own->setOwnRoomsTotal($count_active);
-            if ($count <= 0) {
-                $status = $em->getRepository('mycpBundle:ownershipstatus')->find(ownershipStatus::STATUS_INACTIVE);
-                $own->setOwnStatus($status);
-                $em->persist($own);
-            }
+        $own->setOwnMaximumNumberGuests($maximum_guests);
+        $own->setOwnRoomsTotal($count_active);
+        if ($count <= 0) {
+            $status = $em->getRepository('mycpBundle:ownershipstatus')->find(ownershipStatus::STATUS_INACTIVE);
+            $own->setOwnStatus($status);
+            $em->persist($own);
+            $service_log->saveLog($own->getLogDescription()." (Estado Inactivo por desactivar todas las habitaciones)", BackendModuleName::MODULE_OWNERSHIP, log::OPERATION_UPDATE, DataBaseTables::OWNERSHIP);
+        }
 
-            $em->flush();
+        $em->flush();
 
-        return $this->redirect($this->generateUrl('mycp_edit_ownership', array('id_ownership' => $id_ownership)));
+        return $this->redirect($this->generateUrl('mycp_edit_ownership', array('id_ownership' => $own->getOwnId())));
     }
 
     public function batchInsertAction(Request $request)
@@ -320,7 +322,7 @@ class BackendOwnershipController extends Controller {
                    $file->move($dir, $fileName);
 
                    $service_log = $this->get('log');
-                   $service_log->saveLog('Process batch process', BackendModuleName::MODULE_BATCH_PROCESS);
+                   $service_log->saveLog("Inserción de alojamientos por lotes", BackendModuleName::MODULE_BATCH_PROCESS, log::OPERATION_INSERT, DataBaseTables::OWNERSHIP);
 
                    //Crear el servicio e importar
                    $batchService = $this->get('mycp_accommodation_batchProcess');
@@ -362,8 +364,8 @@ class BackendOwnershipController extends Controller {
         $batchList = $paginator->paginate($em->getRepository('mycpBundle:batchProcess')->getAllByType(batchType::BATCH_TYPE_ACCOMMODATION,
             $filter_status, $filter_start_date))->getResult();
 
-        $service_log = $this->get('log');
-        $service_log->saveLog('Visit', BackendModuleName::MODULE_BATCH_PROCESS);
+//        $service_log = $this->get('log');
+//        $service_log->saveLog('Visit', BackendModuleName::MODULE_BATCH_PROCESS);
 
         return $this->render('mycpBundle:ownership:batchProcessList.html.twig', array(
             'batchList' => $batchList,
@@ -385,11 +387,10 @@ class BackendOwnershipController extends Controller {
         $batchProcess = $em->getRepository("mycpBundle:batchProcess")->find($batchId);
 
         $service_log = $this->get('log');
-        $service_log->saveLog('View batch process '.$batchId, BackendModuleName::MODULE_BATCH_PROCESS);
+        $service_log->saveLog($batchProcess->getLogDescription(), BackendModuleName::MODULE_BATCH_PROCESS, log::OPERATION_VISIT, DataBaseTables::BATCH_PROCESS);
 
         return $this->render('mycpBundle:ownership:batchView.html.twig', array(
             'batchProcess' => $batchProcess
-
         ));
     }
 
@@ -581,6 +582,7 @@ class BackendOwnershipController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $ownership = $em->getRepository('mycpBundle:ownership')->find($id_ownership);
+        $logDescription = $ownership->getLogDescription();
         $old_code = $ownership->getOwnMcpCode();
 
         $generalReservations = $em->getRepository('mycpBundle:generalReservation')->findBy(array('gen_res_own_id' => $id_ownership));
@@ -646,7 +648,8 @@ class BackendOwnershipController extends Controller {
             $this->get('session')->getFlashBag()->add('message_ok', $message);
 
             $service_log = $this->get('log');
-            $service_log->saveLog('Delete entity ' . $old_code, BackendModuleName::MODULE_OWNERSHIP);
+            $service_log->saveLog($logDescription, BackendModuleName::MODULE_OWNERSHIP, log::OPERATION_DELETE, DataBaseTables::OWNERSHIP);
+
         } else {
             $status = $em->getRepository('mycpBundle:ownershipStatus')->find(ownershipStatus::STATUS_INACTIVE);
             $ownership->setOwnStatus($status);
@@ -657,7 +660,7 @@ class BackendOwnershipController extends Controller {
             $this->get('session')->getFlashBag()->add('message_ok', $message);
 
             $service_log = $this->get('log');
-            $service_log->saveLog('Update entity status to INACTIVE. Property code ' . $old_code, BackendModuleName::MODULE_OWNERSHIP);
+            $service_log->saveLog($logDescription.' (El alojamiento tiene reservas y no puede ser eliminado. Estado Inactivo)', BackendModuleName::MODULE_OWNERSHIP, log::OPERATION_UPDATE, DataBaseTables::OWNERSHIP);
         }
 
         $userscasa = $em->getRepository('mycpBundle:userCasa')->findBy(array('user_casa_ownership' => $id_ownership));
@@ -893,7 +896,7 @@ class BackendOwnershipController extends Controller {
                         $any_edit = false;
 
                         if ($old_status != $new_status) {
-                            $service_log->saveLog('Edit entity (Change status. From ' . (($db_ownership->getOwnStatus() != null) ? $db_ownership->getOwnStatus()->getStatusId() : 'Sin Estado') . ' to ' . $new_status_db . ' ) ' . $db_ownership->getOwnMcpCode(), BackendModuleName::MODULE_OWNERSHIP);
+                            $service_log->saveLog($db_ownership->getLogDescription().' (Cambio de estado. De '.(($db_ownership->getOwnStatus() != null) ? $db_ownership->getOwnStatus()->getStatusId() : 'Sin Estado').' a '.$new_status_db.')', BackendModuleName::MODULE_OWNERSHIP, log::OPERATION_UPDATE, DataBaseTables::OWNERSHIP);
                             $any_edit = true;
                         }
 
@@ -915,22 +918,22 @@ class BackendOwnershipController extends Controller {
                                 }
 
                                 if ($db_price_up_to != $post_price_up_to) {
-                                    $string_rooms_change_price.=' Room ' . $flag . ' changed price (High season) from ' . $db_price_up_to . ' to ' . $post_price_up_to . '.';
+                                    $string_rooms_change_price.=' Habitación ' . $flag . ' cambios en precios (Temporada Alta) desde ' . $db_price_up_to . ' a ' . $post_price_up_to . '.';
                                 }
 
                                 if ($db_price_down_to != $post_price_down_to) {
-                                    $string_rooms_change_price.=' Room ' . $flag . ' changed price (Low season) from ' . $db_price_down_to . ' to ' . $post_price_down_to . '.';
+                                    $string_rooms_change_price.=' Habitación ' . $flag . ' cambios en precios (Temporada Baja) desde ' . $db_price_down_to . ' a ' . $post_price_down_to . '.';
                                 }
 
                                 if (isset($post['room_price_special_' . $flag]) && $db_price_special != $post_price_special) {
-                                    $string_rooms_change_price.=' Room ' . $flag . ' changed price (Special season) from ' . $db_price_special . ' to ' . $post_price_special . '.';
+                                    $string_rooms_change_price.=' Habitación ' . $flag . ' cambios en precios (Temporada Especial) desde ' . $db_price_special . ' a ' . $post_price_special . '.';
                                 }
 
                                 $flag++;
                             }
 
                         if ($string_rooms_change_price != '') {
-                            $service_log->saveLog('Edit entity. ' . $string_rooms_change_price /*. ' ' . $post['ownership_mcp_code']*/, BackendModuleName::MODULE_OWNERSHIP);
+                            $service_log->saveLog($db_ownership->getLogDescription().' ('.$string_rooms_change_price.')', BackendModuleName::MODULE_OWNERSHIP, log::OPERATION_UPDATE, DataBaseTables::OWNERSHIP);
                             $any_edit = true;
                         }
 
@@ -948,8 +951,10 @@ class BackendOwnershipController extends Controller {
 
                         if ($old_address_street != $new_address_street || $old_number != $new_number || $old_between_street_1 != $new_between_street_1 || $old_between_street_2 != $new_between_street_2) {
                             $any_edit = true;
-                            $service_log->saveLog('Edit entity. Change address from ' . $old_address_street . ' street #' . $old_number . ' between ' . $old_between_street_1 . ' and ' . $old_between_street_2 .
-                                    ' to ' . $new_address_street . ' street #' . $new_number . ' between ' . $new_between_street_1 . ' and ' . $new_between_street_2, BackendModuleName::MODULE_OWNERSHIP);
+                            $service_log->saveLog($db_ownership->getLogDescription().' (Cambio dirección)', BackendModuleName::MODULE_OWNERSHIP, log::OPERATION_UPDATE, DataBaseTables::OWNERSHIP);
+
+                            //$service_log->saveLog('Edit entity. Change address from ' . $old_address_street . ' street #' . $old_number . ' between ' . $old_between_street_1 . ' and ' . $old_between_street_2 .
+                            //        ' to ' . $new_address_street . ' street #' . $new_number . ' between ' . $new_between_street_1 . ' and ' . $new_between_street_2, BackendModuleName::MODULE_OWNERSHIP);
                         }
 
                         $old_phone_number = $db_ownership->getOwnPhoneNumber();
@@ -960,12 +965,13 @@ class BackendOwnershipController extends Controller {
 
                         if ($old_phone_number != $new_phone_number OR $old_phone_code != $new_phone_code) {
                             $any_edit = true;
-                            $service_log->saveLog('Edit entity. Change phone number from ' . $old_phone_code . ' ' . $old_phone_number . ' to '
-                                    . $new_phone_code . ' ' . $new_phone_number, BackendModuleName::MODULE_OWNERSHIP);
+                            $service_log->saveLog($db_ownership->getLogDescription().' (Cambio en el número de teléfono)', BackendModuleName::MODULE_OWNERSHIP, log::OPERATION_UPDATE, DataBaseTables::OWNERSHIP);
+                            //$service_log->saveLog('Edit entity. Change phone number from ' . $old_phone_code . ' ' . $old_phone_number . ' to '
+                            //        . $new_phone_code . ' ' . $new_phone_number, BackendModuleName::MODULE_OWNERSHIP);
                         }
 
                         if ($any_edit == false) {
-                            $service_log->saveLog('Edit entity ' . $own->getOwnMcpCode(), BackendModuleName::MODULE_OWNERSHIP);
+                            $service_log->saveLog($db_ownership->getLogDescription(), BackendModuleName::MODULE_OWNERSHIP, log::OPERATION_UPDATE, DataBaseTables::OWNERSHIP);
                         }
 
                         $ownership = $em->getRepository('mycpBundle:ownership')->edit($post, $request, $dir, $factory, (isset($post['user_create']) && !empty($post['user_create'])), (isset($post['user_send_mail']) && !empty($post['user_send_mail'])), $this, $translator,$this->container );
@@ -1000,7 +1006,7 @@ class BackendOwnershipController extends Controller {
 
                         $message = 'La propiedad '.$ownership->getOwnMcpCode().' ha sido añadida satisfactoriamente.';
                         $service_log = $this->get('log');
-                        $service_log->saveLog('Create entity ' . $ownership->getOwnMcpCode(), BackendModuleName::MODULE_OWNERSHIP);
+                        $service_log->saveLog($ownership->getLogDescription(), BackendModuleName::MODULE_OWNERSHIP, log::OPERATION_INSERT, DataBaseTables::OWNERSHIP);
 
                         //Enviar correo a los propietarios
                         if ($post['status'] == ownershipStatus::STATUS_ACTIVE)
@@ -1116,7 +1122,7 @@ class BackendOwnershipController extends Controller {
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
-                $service_log->saveLog('Edit photo, entity ' . $ownership->getOwnName(), BackendModuleName::MODULE_OWNERSHIP);
+                $service_log->saveLog($ownership->getLogDescription(), BackendModuleName::MODULE_OWNERSHIP, log::OPERATION_UPDATE, DataBaseTables::OWNERSHIP_PHOTO);
 
                 return $this->redirect($this->generateUrl('mycp_list_photos_ownership', array('id_ownership' => $id_ownership)));
             }
@@ -1352,6 +1358,9 @@ class BackendOwnershipController extends Controller {
         $message = 'Propiedad publicada satisfactoriamente.';
         $this->get('session')->getFlashBag()->add('message_ok', $message);
 
+        $service_log = $this->get('log');
+        $service_log->saveLog($ownership->getLogDescription()." (Alojamiento publicado)", BackendModuleName::MODULE_OWNERSHIP, log::OPERATION_UPDATE, DataBaseTables::OWNERSHIP);
+
         return $this->redirect($this->generateUrl('mycp_list_photos_ownership', array("id_ownership" => $idOwnership)));
     }
 
@@ -1362,15 +1371,19 @@ class BackendOwnershipController extends Controller {
         $photos_ids = $request->request->get('photos_ids');
 
         try {
-        foreach($photos_ids as $photoId)
-            $em->getRepository("mycpBundle:ownershipPhoto")->deleteOwnPhoto($photoId, $this->container);
+            foreach($photos_ids as $photoId){
+                $em->getRepository("mycpBundle:ownershipPhoto")->deleteOwnPhoto($photoId, $this->container);}
 
-        $em->getRepository("mycpBundle:ownershipPhoto")->checkOwnershipToInactivate($idOwnership);
+            $em->getRepository("mycpBundle:ownershipPhoto")->checkOwnershipToInactivate($idOwnership);
+            $ownership = $em->getRepository("mycpBundle:ownership")->find($idOwnership);
 
-        $message = 'Fotografías eliminadas satisfactoriamente.';
-        $this->get('session')->getFlashBag()->add('message_ok', $message);
+            $message = 'Fotografías eliminadas satisfactoriamente.';
+            $this->get('session')->getFlashBag()->add('message_ok', $message);
 
-        $response = $this->generateUrl('mycp_list_photos_ownership', array("id_ownership" => $idOwnership));
+            $service_log = $this->get('log');
+            $service_log->saveLog($ownership->getLogDescription()." (".count($photos_ids)." fotos eliminadas)", BackendModuleName::MODULE_OWNERSHIP, log::OPERATION_DELETE, DataBaseTables::OWNERSHIP_PHOTO);
+
+            $response = $this->generateUrl('mycp_list_photos_ownership', array("id_ownership" => $idOwnership));
         } catch (\Exception $e) {
             $message = 'Las fotografías no pudieron ser eliminadas. '.$e->getMessage();
             $this->get('session')->getFlashBag()->add('message_error_local', $message);
@@ -1390,6 +1403,10 @@ class BackendOwnershipController extends Controller {
         $ownership->setOwnOwnerPhoto(null);
         $em->persist($ownership);
         $em->flush();
+
+        $service_log = $this->get('log');
+        $service_log->saveLog($ownership->getLogDescription()." (Foto del propietario eliminada)", BackendModuleName::MODULE_OWNERSHIP, log::OPERATION_DELETE, DataBaseTables::OWNERSHIP_PHOTO);
+
         $ownershipPhotoName = "no_photo.gif";
         $hasPhoto = false;
         $view = $this->renderView("mycpBundle:utils:ownershipPhotoOwner.html.twig", array('photo' => $ownershipPhotoName, 'idOwnership' => $idOwnership, 'hasPhoto' => $hasPhoto));
@@ -1427,6 +1444,10 @@ class BackendOwnershipController extends Controller {
                     $em->flush();
                     $message = 'Se ha almacenado la foto del propietario satisfactoriamente';
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+                    $service_log = $this->get('log');
+                    $service_log->saveLog($ownership->getLogDescription()." (Foto del propietario guardada)", BackendModuleName::MODULE_OWNERSHIP, log::OPERATION_INSERT, DataBaseTables::OWNERSHIP_PHOTO);
+
                 }
                 else
                 {

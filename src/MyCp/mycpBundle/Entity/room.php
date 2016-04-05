@@ -769,4 +769,10 @@ class room {
         return $url;
     }
 
+    /*Logs functions*/
+    public function getLogDescription()
+    {
+        return "Habitación #".$this->getRoomNum();
+    }
+
 }

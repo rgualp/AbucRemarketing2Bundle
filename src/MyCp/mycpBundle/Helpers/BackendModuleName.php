@@ -76,6 +76,10 @@ class DataBaseTables {
     const DESTINATION = "destination";
     const DESTINATION_CATEGORY = "destinationCategory";
     const DESTINATION_PHOTO = "destinationPhoto";
+    const OWNERSHIP = "ownership";
+    const OWNERSHIP_PHOTO = "ownershipPhoto";
+    const ROOM = "room";
+    const BATCH_PROCESS = "batchProcess";
 
 }
 ?>

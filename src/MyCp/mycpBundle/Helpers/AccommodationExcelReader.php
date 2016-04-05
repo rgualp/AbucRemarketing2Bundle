@@ -10,6 +10,7 @@ namespace MyCp\mycpBundle\Helpers;
 
 use Doctrine\ORM\EntityManager;
 use MyCp\mycpBundle\Entity\batchType;
+use MyCp\mycpBundle\Entity\log;
 use MyCp\mycpBundle\Entity\ownership;
 use MyCp\mycpBundle\Entity\ownershipDescriptionLang;
 use MyCp\mycpBundle\Entity\ownershipKeywordLang;
@@ -26,9 +27,10 @@ class AccommodationExcelReader extends ExcelReader {
 
     private $batchProcessStatus;
     private $languages;
+    
 
-    public function __construct(EntityManager $em, $container, $excelDirectoryPath) {
-        parent::__construct($em, $container, $excelDirectoryPath);
+    public function __construct(EntityManager $em, $container, $excelDirectoryPath, $log) {
+        parent::__construct($em, $container, $excelDirectoryPath, $log);
 
         $this->rooms = new ArrayCollection();
         $this->descriptions = new ArrayCollection();
@@ -104,7 +106,6 @@ class AccommodationExcelReader extends ExcelReader {
                     if($cell->getStyle()->getNumberFormat()->getFormatCode() == \PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE || $cell->getStyle()->getNumberFormat()->getFormatCode() == \PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00)
                         $ownership->setOwnCommissionPercent($commission * 100);
                 }
-
 
                 //Add rooms to collection
                 for ($roomNumber = 1; $roomNumber <= 6; $roomNumber++) {
@@ -190,6 +191,8 @@ class AccommodationExcelReader extends ExcelReader {
                 $this->em->persist($ownership);
                 $this->saveCollections();
                 $this->em->flush();
+
+                $this->log->saveLog($ownership->getLogDescription()." (Proceso por lotes)", BackendModuleName::MODULE_OWNERSHIP, log::OPERATION_INSERT, DataBaseTables::OWNERSHIP);
 
                 //Add CountElement in
                 $this->addSavedElement();

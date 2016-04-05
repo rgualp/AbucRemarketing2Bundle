@@ -24,11 +24,13 @@ abstract class ExcelReader extends BatchProcessManager{
      * @var string
      */
     protected $excelDirectoryPath;
+    protected $log;
 
-    public function __construct(EntityManager $em, $container, $excelDirectoryPath) {
+    public function __construct(EntityManager $em, $container, $excelDirectoryPath, $log) {
         parent::__construct($em);
         $this->container = $container;
         $this->excelDirectoryPath = $excelDirectoryPath;
+        $this->log = $log;
 
         FileIO::createDirectoryIfNotExist($this->excelDirectoryPath);
     }
