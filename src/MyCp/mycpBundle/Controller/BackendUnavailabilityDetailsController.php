@@ -2,6 +2,8 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use MyCp\mycpBundle\Entity\log;
+use MyCp\mycpBundle\Helpers\DataBaseTables;
 use MyCp\mycpBundle\Helpers\FileIO;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,8 +51,8 @@ class BackendUnavailabilityDetailsController extends Controller {
                                 $filter_code, $filter_active, $filter_category, $filter_province, $filter_municipality, $filter_destination, $filter_type, $filter_name
                 ))->getResult();
 
-        $service_log = $this->get('log');
-        $service_log->saveLog('Visit', BackendModuleName::MODULE_UNAVAILABILITY_DETAILS);
+//        $service_log = $this->get('log');
+//        $service_log->saveLog('Visit', BackendModuleName::MODULE_UNAVAILABILITY_DETAILS);
 
         return $this->render('mycpBundle:unavailabilityDetails:list.html.twig', array(
                     'ownerships' => $ownerships,
@@ -163,14 +165,12 @@ class BackendUnavailabilityDetailsController extends Controller {
                         $newUnavailabilities = $this->createUnavailabilities($reservations, $unavailabilities, $selectedRange);
                     }
 
-                    /*var_dump($newUnavailabilities);
-                    die;*/
-
                     if(count($newUnavailabilities) == 0){
                         $message = 'Ya existe no disponibilidad ó reservas que completan el rango de fechas '.$date_from->format("d/m/Y")." al ".$date_to->format("d/m/Y");
                         $this->get('session')->getFlashBag()->add('message_ok', $message);
                     }
                     else{
+                        $service_log = $this->get('log');
                         foreach ($newUnavailabilities as $unavailabilityIter) {
                             //$uDetails
                             $unavailability = new unavailabilityDetails();
@@ -180,6 +180,8 @@ class BackendUnavailabilityDetailsController extends Controller {
                                 ->setRoom($room);
                             $em->persist($unavailability);
                             $em->flush();
+
+                            $service_log->saveLog($unavailability->getLogDescription(), BackendModuleName::MODULE_UNAVAILABILITY_DETAILS, log::OPERATION_INSERT, DataBaseTables::UNAVAILABILITY_DETAILS);
                         }
                     }
 
@@ -188,9 +190,6 @@ class BackendUnavailabilityDetailsController extends Controller {
 
                     $message = 'Detalle de no disponibilidad añadido satisfactoriamente. ' . $message;
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
-
-                    $service_log = $this->get('log');
-                    $service_log->saveLog('Create unavailable detaile from ' . $post_form['ud_from_date'] . ' to ' . $post_form['ud_to_date'], BackendModuleName::MODULE_UNAVAILABILITY_DETAILS);
 
                     return $this->redirect($this->generateUrl('mycp_list_room_details_unavailabilityDetails', array('id_room' => $id_room, 'num_room' => $num_room)));
                 }
@@ -235,7 +234,7 @@ class BackendUnavailabilityDetailsController extends Controller {
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
-                $service_log->saveLog('Update unavailable detaile from ' . $post_form['ud_from_date'] . ' to ' . $post_form['ud_to_date'], BackendModuleName::MODULE_UNAVAILABILITY_DETAILS);
+                $service_log->saveLog($uDetails->getLogDescription(), BackendModuleName::MODULE_UNAVAILABILITY_DETAILS, log::OPERATION_UPDATE, DataBaseTables::UNAVAILABILITY_DETAILS);
 
                 return $this->redirect($this->generateUrl('mycp_list_room_details_unavailabilityDetails', array('id_room' => $room->getRoomId(), 'num_room' => $num_room)));
             }
@@ -269,7 +268,7 @@ class BackendUnavailabilityDetailsController extends Controller {
         $this->get('session')->getFlashBag()->add('message_ok', $message);
 
         $service_log = $this->get('log');
-        $service_log->saveLog('Delete unavailable detail from ' . $uDetails->getUdFromDate()->format('d/M/Y') . ' to ' . $uDetails->getUdToDate()->format('d/M/Y'), BackendModuleName::MODULE_UNAVAILABILITY_DETAILS);
+        $service_log->saveLog($uDetails->getLogDescription(), BackendModuleName::MODULE_UNAVAILABILITY_DETAILS, log::OPERATION_DELETE, DataBaseTables::UNAVAILABILITY_DETAILS);
 
         return $this->redirect($this->generateUrl('mycp_list_room_details_unavailabilityDetails', array('id_room' => $room->getRoomId(), 'num_room' => $num_room)));
     }
@@ -328,7 +327,7 @@ class BackendUnavailabilityDetailsController extends Controller {
         $message = $this->updateICal($room);
 
         $service_log = $this->get('log');
-        $service_log->saveLog('Create unavailable detaile from ' . $date_from->format("d/m/Y") . ' to ' . $date_to->format("d/m/Y"), BackendModuleName::MODULE_UNAVAILABILITY_DETAILS);
+        $service_log->saveLog($uDetails->getLogDescription(), BackendModuleName::MODULE_UNAVAILABILITY_DETAILS, log::OPERATION_INSERT, DataBaseTables::UNAVAILABILITY_DETAILS);
 
         $response = array(
             "errorMessage" => $errorMessage,
