@@ -38,6 +38,19 @@ class destinationCategory
     private $des_icon_prov_map;
 
     /**
+     * @ORM\OneToMany(targetEntity="destinationCategoryLang",mappedBy="des_cat_id_cat")
+     */
+    private $translations;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
      * Get des_cat_id
      *
      * @return integer
@@ -93,5 +106,29 @@ class destinationCategory
     public function getDesIconProvMap()
     {
         return $this->des_icon_prov_map;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTranslations()
+    {
+        return $this->translations;
+    }
+
+    /**
+     * @param mixed $translations
+     * @return mixed
+     */
+    public function setTranslations($translations)
+    {
+        $this->translations = $translations;
+        return $this;
+    }
+
+    /*Logs functions*/
+    public function getLogDescription()
+    {
+        return (count($this->translations) > 0) ? "Categoría de destino ".$this->translations[0]->getDesCatName(). " y sus traducciones." : "Categoría de destino con id ".$this->getDesCatId()." y sus traducciones.";
     }
 }

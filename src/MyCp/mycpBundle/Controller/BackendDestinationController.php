@@ -4,6 +4,7 @@ namespace MyCp\mycpBundle\Controller;
 
 use MyCp\mycpBundle\Entity\destinationCategory;
 use MyCp\mycpBundle\Entity\destinationCategoryLang;
+use MyCp\mycpBundle\Helpers\DataBaseTables;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -62,7 +63,7 @@ class BackendDestinationController extends Controller
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
-                $service_log->saveLog('Create category, ' . $post['lang' . $languages[0]->getLangId()], BackendModuleName::MODULE_DESTINATION);
+                $service_log->saveLog($category->getLogDescription(), BackendModuleName::MODULE_DESTINATION, log::OPERATION_INSERT, DataBaseTables::DESTINATION_CATEGORY);
 
                 return $this->redirect($this->generateUrl('mycp_list_category_destination'));
             }
@@ -123,7 +124,7 @@ class BackendDestinationController extends Controller
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
-                $service_log->saveLog('Edit category, ' . $post['lang' . $languages[0]->getLangId()], BackendModuleName::MODULE_DESTINATION);
+                $service_log->saveLog($category->getLogDescription(), BackendModuleName::MODULE_DESTINATION, log::OPERATION_UPDATE, DataBaseTables::DESTINATION_CATEGORY);
 
                 return $this->redirect($this->generateUrl('mycp_list_category_destination'));
             }
@@ -140,6 +141,7 @@ class BackendDestinationController extends Controller
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
         $category = $em->getRepository('mycpBundle:destinationCategory')->find($id_category);
+        $logDescription = $category->getLogDescription();
         $category_langs = $em->getRepository('mycpBundle:destinationCategoryLang')->findby(array('des_cat_id_cat' => $category));
         $destinations= $em->getRepository('mycpBundle:destination')->findAll();
         foreach($destinations as $destination)
@@ -170,7 +172,8 @@ class BackendDestinationController extends Controller
         $this->get('session')->getFlashBag()->add('message_ok', $message);
 
         $service_log = $this->get('log');
-        $service_log->saveLog('Delete category, ' . $old_cat_lang, BackendModuleName::MODULE_DESTINATION);
+        $service_log->saveLog($logDescription, BackendModuleName::MODULE_DESTINATION, log::OPERATION_DELETE, DataBaseTables::DESTINATION_CATEGORY);
+
 
         return $this->redirect($this->generateUrl('mycp_list_category_destination'));
     }
@@ -179,7 +182,6 @@ class BackendDestinationController extends Controller
         $service_security = $this->get('Secure');
         $service_security->verifyAccess();
         $em = $this->getDoctrine()->getManager();
-        $languages = $em->getRepository('mycpBundle:lang')->findAll();
 
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
@@ -187,6 +189,10 @@ class BackendDestinationController extends Controller
         $page = 1;
         if (isset($_GET['page']))
             $page = $_GET['page'];
+
+//        $service_log = $this->get('log');
+//        $service_log->saveLog('Visita', BackendModuleName::MODULE_DESTINATION, log::OPERATION_VISIT, DataBaseTables::DESTINATION_CATEGORY);
+
         return $this->render('mycpBundle:destination:categoryList.html.twig', array(
             'categories' => $categories,
             'items_per_page' => $items_per_page,
@@ -240,7 +246,7 @@ class BackendDestinationController extends Controller
                     $message='Destino actualizado satisfactoriamente.';
 
                     $service_log= $this->get('log');
-                    $service_log->saveLog('Edit entity '.$post['name'],BackendModuleName::MODULE_DESTINATION);
+                    $service_log->saveLog('Destino '.$post['name'], BackendModuleName::MODULE_DESTINATION, log::OPERATION_UPDATE, DataBaseTables::DESTINATION);
                 }
                 else
                 {
@@ -248,7 +254,7 @@ class BackendDestinationController extends Controller
                     $message='Destino añadido satisfactoriamente.';
 
                     $service_log= $this->get('log');
-                    $service_log->saveLog('Create entity '.$post['name'],BackendModuleName::MODULE_DESTINATION);
+                    $service_log->saveLog('Destino '.$post['name'], BackendModuleName::MODULE_DESTINATION, log::OPERATION_INSERT, DataBaseTables::DESTINATION);
                 }
 
                 $this->get('session')->getFlashBag()->add('message_ok',$message);
@@ -296,8 +302,8 @@ class BackendDestinationController extends Controller
         $em = $this->getDoctrine()->getManager();
         $destinations= $paginator->paginate($em->getRepository('mycpBundle:destination')->getAll($filter_name,$filter_active,$filter_province, $filter_municipality,$sort_by))->getResult();
 
-        $service_log= $this->get('log');
-        $service_log->saveLog('Visit module',BackendModuleName::MODULE_DESTINATION);
+//        $service_log= $this->get('log');
+//        $service_log->saveLog('Visit module',BackendModuleName::MODULE_DESTINATION);
 
         return $this->render('mycpBundle:destination:list.html.twig', array(
             'destinations' => $destinations,
@@ -372,7 +378,7 @@ class BackendDestinationController extends Controller
         }
 
         $destination=$em->getRepository('mycpBundle:destination')->find($id_destination);
-        $name_destination=$destination->getDesName();
+        $logDescription =$destination->getLogDescription();
         if($destination)
             $em->remove($destination);
         $em->flush();
@@ -380,7 +386,7 @@ class BackendDestinationController extends Controller
         $this->get('session')->getFlashBag()->add('message_ok',$message);
 
         $service_log= $this->get('log');
-        $service_log->saveLog('Delete entity '.$name_destination,BackendModuleName::MODULE_DESTINATION);
+        $service_log->saveLog($logDescription, BackendModuleName::MODULE_DESTINATION, log::OPERATION_DELETE, DataBaseTables::DESTINATION);
 
         return $this->redirect($this->generateUrl('mycp_list_destination'));
     }
@@ -486,6 +492,10 @@ class BackendDestinationController extends Controller
         $paginator->setItemsPerPage($items_per_page);
         $ownerships=$paginator->paginate($em->getRepository('mycpBundle:destination')->getAccommodations($id_destination))->getResult();
         $destination=$em->getRepository('mycpBundle:destination')->find($id_destination);
+
+        $service_log= $this->get('log');
+        $service_log->saveLog($destination->getLogDescription().' (Listado de alojamientos)', BackendModuleName::MODULE_DESTINATION, log::OPERATION_VISIT, DataBaseTables::DESTINATION);
+
         return $this->render('mycpBundle:destination:accommodationsList.html.twig',array(
             'ownerships'=>$ownerships,
             'destination'=>$destination,
@@ -574,13 +584,11 @@ class BackendDestinationController extends Controller
                     $em->flush();
 
                     $service_log= $this->get('log');
-                    $service_log->saveLog('Create photo, entity '.$destination->getDesName(),BackendModuleName::MODULE_DESTINATION);
+                    $service_log->saveLog($destination->getLogDescription().' (Fotos)', BackendModuleName::MODULE_DESTINATION, log::OPERATION_INSERT, DataBaseTables::DESTINATION_PHOTO);
 
                     $message='Ficheros subidos satisfactoriamente.';
                     $this->get('session')->getFlashBag()->add('message_ok',$message);
                     return $this->redirect($this->generateUrl('mycp_list_photos_destination',array('id_destination'=>$id_destination)));
-
-
 
 
              /*   if( $file->getClientMimeType()!='image/jpeg' && $file->getClientMimeType()!='image/gif' && $file->getClientMimeType()!='image/png')
@@ -670,7 +678,7 @@ class BackendDestinationController extends Controller
          $this->get('session')->getFlashBag()->add('message_ok',$message);
 
          $service_log= $this->get('log');
-         $service_log->saveLog('Delete photo, entity '.$destination->getDesName(),BackendModuleName::MODULE_DESTINATION);
+         $service_log->saveLog($destination->getLogDescription().' (Fotos)', BackendModuleName::MODULE_DESTINATION, log::OPERATION_DELETE, DataBaseTables::DESTINATION_PHOTO);
 
          return $this->redirect($this->generateUrl('mycp_list_photos_destination',array('id_destination'=>$id_destination)));
      }
@@ -726,10 +734,9 @@ class BackendDestinationController extends Controller
                 $destination= $em->getRepository('mycpBundle:destination')->find($id_destination);
 
                 $service_log= $this->get('log');
-                $service_log->saveLog('Edit photo, entity '.$destination->getDesName(),BackendModuleName::MODULE_DESTINATION);
+                $service_log->saveLog($destination->getLogDescription().' (Fotos)', BackendModuleName::MODULE_DESTINATION, log::OPERATION_UPDATE, DataBaseTables::DESTINATION_PHOTO);
 
                 return $this->redirect($this->generateUrl('mycp_list_photos_destination',array('id_destination'=>$id_destination)));
-
             }
         }
         $photo= $em->getRepository('mycpBundle:photo')->find($id_photo);

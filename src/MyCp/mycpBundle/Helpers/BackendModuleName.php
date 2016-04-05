@@ -73,7 +73,9 @@ class DataBaseTables {
     const USER = "user";
     const METATAGS = "metatag";
     const MUNICIPALITY = "municipality";
-
+    const DESTINATION = "destination";
+    const DESTINATION_CATEGORY = "destinationCategory";
+    const DESTINATION_PHOTO = "destinationPhoto";
 
 }
 ?>

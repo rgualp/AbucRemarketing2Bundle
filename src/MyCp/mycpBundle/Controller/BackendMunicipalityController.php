@@ -24,8 +24,8 @@ class BackendMunicipalityController extends Controller {
         $paginator->setItemsPerPage($items_per_page);
         $municipalities = $paginator->paginate($em->getRepository('mycpBundle:municipality')->getAll())->getResult();
 
-        $service_log = $this->get('log');
-        $service_log->saveLog('Visita', BackendModuleName::MODULE_MUNICIPALITY, log::OPERATION_VISIT, DataBaseTables::MUNICIPALITY);
+//        $service_log = $this->get('log');
+//        $service_log->saveLog('Visita', BackendModuleName::MODULE_MUNICIPALITY, log::OPERATION_VISIT, DataBaseTables::MUNICIPALITY);
 
         return $this->render('mycpBundle:municipality:list.html.twig', array(
                     'municipalities' => $municipalities,
