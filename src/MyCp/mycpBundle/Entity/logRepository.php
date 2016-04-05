@@ -27,7 +27,8 @@ class logRepository extends EntityRepository
         $qb->select('log')
             ->from("mycpBundle:log", "log")
             ->leftJoin("log.log_user", "user")
-            ->orderBy("log.log_date", "DESC");
+            ->orderBy("log.log_date", "DESC")
+            ->addOrderBy("log.log_time", "DESC");
 
         if($user!='')
             $qb->andWhere("user.user_user_name LIKE '$user'")
