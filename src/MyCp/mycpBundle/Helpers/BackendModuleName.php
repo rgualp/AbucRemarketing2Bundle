@@ -91,6 +91,9 @@ class DataBaseTables {
     const INFORMATION_LANG = "informationLang";
     const COMMENT = "comment";
     const AWARD = "award";
+    const CLIENT_COMMENT = "clientComment";
+    const MESSAGE = "message";
+    const GENERAL_RESERVATION = "generalReservation";
 
 
 }

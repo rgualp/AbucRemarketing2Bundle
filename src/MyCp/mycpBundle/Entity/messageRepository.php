@@ -19,6 +19,7 @@ class messageRepository extends EntityRepository
      * @param user $toUser
      * @param $subject
      * @param $messageBody
+     * @return mixed
      */
     public function insert(user $fromUser, user $toUser, $subject, $messageBody)
     {
@@ -34,6 +35,9 @@ class messageRepository extends EntityRepository
 
             $em->persist($message);
             $em->flush();
+
+            return $message;
         }
+        return null;
     }
 }

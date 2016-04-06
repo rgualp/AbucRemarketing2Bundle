@@ -659,6 +659,9 @@ class generalReservation {
         return $this;
     }
 
-
-
+    /*Logs functions*/
+    public function getLogDescription()
+    {
+        return "Reserva ".$this->getCASId();
+    }
 }

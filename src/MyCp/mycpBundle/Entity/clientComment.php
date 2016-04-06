@@ -155,4 +155,10 @@ class clientComment
     {
         return $this->comment_date;
     }
+
+    /*Logs functions*/
+    public function getLogDescription()
+    {
+        return "Comentario sobre el cliente ".$this->getCommentClientUser()->getUserCompleteName();
+    }
 }
