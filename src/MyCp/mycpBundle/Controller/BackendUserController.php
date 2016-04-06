@@ -2,6 +2,8 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use MyCp\mycpBundle\Entity\log;
+use MyCp\mycpBundle\Helpers\DataBaseTables;
 use MyCp\mycpBundle\Helpers\Operations;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,12 +50,12 @@ class BackendUserController extends Controller {
             $form->handleRequest($request);
             if ($form->isValid() && $count_errors == 0) {
                 $factory = $this->get('security.encoder_factory');
-                $em->getRepository('mycpBundle:user')->insertUserStaff($id_role, $request, $this->container, $factory);
+                $user = $em->getRepository('mycpBundle:user')->insertUserStaff($id_role, $request, $this->container, $factory);
                 $message = 'Usuario añadido satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
-                $service_log->saveLog('Create entity for user ' . $post['mycp_mycpbundle_client_stafftype']['user_name'], BackendModuleName::MODULE_USER);
+                $service_log->saveLog($user->getLogDescription()." (Usuario Staff)", BackendModuleName::MODULE_USER, log::OPERATION_INSERT, DataBaseTables::USER);
 
                 return $this->redirect($this->generateUrl('mycp_list_users'));
             } else {
@@ -92,11 +94,11 @@ class BackendUserController extends Controller {
             $form->handleRequest($request);
             if ($form->isValid() && $count_errors == 0) {
                 $factory = $this->get('security.encoder_factory');
-                $em->getRepository('mycpBundle:user')->editUserStaff($id_user, $request, $this->container, $factory);
+                $user = $em->getRepository('mycpBundle:user')->editUserStaff($id_user, $request, $this->container, $factory);
                 $message = 'Usuario actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
                 $service_log = $this->get('log');
-                $service_log->saveLog('Edit entity for user ' . $request_form['user_name'], BackendModuleName::MODULE_USER);
+                $service_log->saveLog($user->getLogDescription()." (Usuario Staff)", BackendModuleName::MODULE_USER, log::OPERATION_UPDATE, DataBaseTables::USER);
                 return $this->redirect($this->generateUrl('mycp_list_users'));
             }
         } else {
@@ -144,12 +146,12 @@ class BackendUserController extends Controller {
 
                     $send_notification_email = (isset($post['user_send_mail']) && !empty($post['user_send_mail']));
 
-                    $em->getRepository('mycpBundle:userCasa')->createUser($ownership, $file, $factory, $send_notification_email, $this, $this->container);
+                    $user_casa = $em->getRepository('mycpBundle:userCasa')->createUser($ownership, $file, $factory, $send_notification_email, $this, $this->container);
                     $message = 'Usuario añadido satisfactoriamente.';
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                     $service_log = $this->get('log');
-                    $service_log->saveLog('Create entity for user ' . $post['mycp_mycpbundle_client_casatype']['user_name'], BackendModuleName::MODULE_USER);
+                    $service_log->saveLog($user_casa->getUserCasaUser()->getLogDescription()." (Usuario Casa)", BackendModuleName::MODULE_USER, log::OPERATION_INSERT, DataBaseTables::USER);
 
                     return $this->redirect($this->generateUrl('mycp_list_users'));
                 }
@@ -184,7 +186,6 @@ class BackendUserController extends Controller {
         $data['password'] = $request_form['user_password']['Clave:'];
         $form = $this->createForm(new clientCasaType($data));
         if ($request->getMethod() == 'POST') {
-
             $form->handleRequest($request);
 
             if (!Utils::validateEmail($request_form['email'])) {
@@ -195,11 +196,11 @@ class BackendUserController extends Controller {
 
             if ($form->isValid() && $count_errors == 0) {
                 $factory = $this->get('security.encoder_factory');
-                $em->getRepository('mycpBundle:userCasa')->edit($id_user, $request, $this->container, $factory);
+                $user_casa = $em->getRepository('mycpBundle:userCasa')->edit($id_user, $request, $this->container, $factory);
                 $message = 'Usuario actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
                 $service_log = $this->get('log');
-                $service_log->saveLog('Edit entity for user ' . $request_form['user_name'], BackendModuleName::MODULE_USER);
+                $service_log->saveLog($user_casa->getUserCasaUser()->getLogDescription()." (Usuario Casa)", BackendModuleName::MODULE_USER, log::OPERATION_UPDATE, DataBaseTables::USER);
                 $user = $this->get('security.context')->getToken()->getUser();
                 if ($user->getUserRole() == 'ROLE_CLIENT_STAFF')
                     return $this->redirect($this->generateUrl('mycp_list_users'));
@@ -269,7 +270,7 @@ class BackendUserController extends Controller {
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
-                $service_log->saveLog('Create entity for user ' . $post['user_name'], BackendModuleName::MODULE_USER);
+                $service_log->saveLog($userTourist->getUserTouristUser()->getLogDescription()." (Usuario Turista)", BackendModuleName::MODULE_USER, log::OPERATION_INSERT, DataBaseTables::USER);
 
                 switch($operation)
                 {
@@ -312,11 +313,11 @@ class BackendUserController extends Controller {
             $form->handleRequest($request);
             if ($form->isValid() && $count_errors == 0) {
                 $factory = $this->get('security.encoder_factory');
-                $em->getRepository('mycpBundle:userTourist')->edit($id_user, $request, $this->container, $factory);
+                $userTourist = $em->getRepository('mycpBundle:userTourist')->edit($id_user, $request, $this->container, $factory);
                 $message = 'Usuario actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
                 $service_log = $this->get('log');
-                $service_log->saveLog('Edit entity for user ' . $request_form['user_name'], BackendModuleName::MODULE_USER);
+                $service_log->saveLog($userTourist->getUserTouristUser()->getLogDescription()." (Usuario Turista)", BackendModuleName::MODULE_USER, log::OPERATION_UPDATE, DataBaseTables::USER);
                 return $this->redirect($this->generateUrl('mycp_list_users'));
             }
         } else {
@@ -375,11 +376,11 @@ class BackendUserController extends Controller {
             $form->handleRequest($request);
             if ($form->isValid() && $count_errors == 0) {
                 $factory = $this->get('security.encoder_factory');
-                $em->getRepository('mycpBundle:userPartner')->insert($id_role, $request, $this->container, $factory);
+                $userPartner = $em->getRepository('mycpBundle:userPartner')->insert($id_role, $request, $this->container, $factory);
                 $message = 'Usuario añadido satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
                 $service_log = $this->get('log');
-                $service_log->saveLog('Create entity for user ' . $post['user_name'], BackendModuleName::MODULE_USER);
+                $service_log->saveLog($userPartner->getUserPartnerUser()->getLogDescription()." (Usuario Partner)", BackendModuleName::MODULE_USER, log::OPERATION_INSERT, DataBaseTables::USER);
                 return $this->redirect($this->generateUrl('mycp_list_users'));
             } else {
                 if ($data['error'] == "")
@@ -416,11 +417,11 @@ class BackendUserController extends Controller {
             $form->handleRequest($request);
             if ($form->isValid() && $count_errors == 0) {
                 $factory = $this->get('security.encoder_factory');
-                $em->getRepository('mycpBundle:userPartner')->edit($id_user, $request, $this->container, $factory);
+                $userPartner = $em->getRepository('mycpBundle:userPartner')->edit($id_user, $request, $this->container, $factory);
                 $message = 'Usuario actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
                 $service_log = $this->get('log');
-                $service_log->saveLog('Edit entity for user ' . $request_form['user_name'], BackendModuleName::MODULE_USER);
+                $service_log->saveLog($userPartner->getUserPartnerUser()->getLogDescription()." (Usuario Partner)", BackendModuleName::MODULE_USER, log::OPERATION_UPDATE, DataBaseTables::USER);
                 return $this->redirect($this->generateUrl('mycp_list_users'));
             }
         } else {
@@ -478,8 +479,8 @@ class BackendUserController extends Controller {
         $paginator = $this->get('ideup.simple_paginator');
         $paginator->setItemsPerPage($items_per_page);
         $users = $paginator->paginate($em->getRepository('mycpBundle:user')->getAll($filter_user_name, $filter_role, $filter_city, $filter_country, $filter_name, $filter_last_name, $filter_email))->getResult();
-        $service_log = $this->get('log');
-        $service_log->saveLog('Visit', BackendModuleName::MODULE_USER);
+//        $service_log = $this->get('log');
+//        $service_log->saveLog('Visit', BackendModuleName::MODULE_USER);
 
         return $this->render('mycpBundle:user:list.html.twig', array(
                     'users' => $users,
@@ -547,7 +548,7 @@ class BackendUserController extends Controller {
             if ($user_partner)
                 $em->remove($user_partner[0]);
 
-            $user_name = $user->getName();
+            $logDescription = $user->getLogDescription();
             $photo = $user->getUserPhoto();
             if ($photo) {
                 @unlink($dir . $photo->getPhoName());
@@ -562,7 +563,7 @@ class BackendUserController extends Controller {
             $this->get('session')->getFlashBag()->add('message_ok', $message);
 
             $service_log = $this->get('log');
-            $service_log->saveLog('Delete entity for user ' . $user_name, BackendModuleName::MODULE_USER);
+            $service_log->saveLog($logDescription, BackendModuleName::MODULE_USER, log::OPERATION_DELETE, DataBaseTables::USER);
             return $this->redirect($this->generateUrl('mycp_list_users'));
         } else {
             $message = 'No se puede eliminar este usuario, está autenticado actualmente.';
@@ -625,6 +626,10 @@ class BackendUserController extends Controller {
                     $em->flush();
                     $message = 'Rol añadido satisfactoriamente.';
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+                    $service_log = $this->get('log');
+                    $service_log->saveLog($role_new->getLogDescription(), BackendModuleName::MODULE_USER, log::OPERATION_INSERT, DataBaseTables::ROLE);
+
                     return $this->redirect($this->generateUrl('mycp_list_users'));
                 } else {
                     $data['error'] = 'Ya existe un rol llamado ' . $role_name . '.';
@@ -679,6 +684,10 @@ class BackendUserController extends Controller {
 
         $message = 'Rol eliminado satisfactoriamente.';
         $this->get('session')->getFlashBag()->add('message_ok', $message);
+
+        $service_log = $this->get('log');
+        $service_log->saveLog($role->getLogDescription(), BackendModuleName::MODULE_USER, log::OPERATION_DELETE, DataBaseTables::ROLE);
+
         return $this->redirect($this->generateUrl('mycp_list_users'));
     }
 
@@ -778,11 +787,11 @@ class BackendUserController extends Controller {
             $form->handleRequest($request);
             if ($form->isValid() && $count_errors == 0) {
                 $factory = $this->get('security.encoder_factory');
-                $em->getRepository('mycpBundle:user')->editUserStaff($idUser, $request, $this->container, $factory);
+                $user = $em->getRepository('mycpBundle:user')->editUserStaff($idUser, $request, $this->container, $factory);
                 $message = 'Usuario actualizado satisfactoriamente.';
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
                 $service_log = $this->get('log');
-                $service_log->saveLog('Edit entity for user ' . $request_form['user_name'], BackendModuleName::MODULE_USER);
+                $service_log->saveLog($user->getLogDescription(), BackendModuleName::MODULE_USER, log::OPERATION_UPDATE, DataBaseTables::USER);
                 return $this->redirect($this->generateUrl('mycp_backend_front'));
             }
         } else {

@@ -107,6 +107,8 @@ class userCasaRepository extends EntityRepository {
             $user = $user_casa->getUserCasaUser();
             \MyCp\mycpBundle\Helpers\UserMails::sendCreateUserCasaMail($controller, $user->getUserEmail(), $user->getUserName(), $user->getUserUserName() . ' ' . $user->getUserLastName(), $user_casa->getUserCasaSecretToken(), $ownership->getOwnName(), $ownership->getOwnMcpCode());
         }
+
+        return $user_casa;
     }
 
     function edit($id_user, $request, $container, $factory) {
@@ -155,6 +157,7 @@ class userCasaRepository extends EntityRepository {
          }
          $em->persist($user_casa);
          $em->flush();
+        return $user_casa;
      }
 
     function getOwnersPhotos($ownership_id) {

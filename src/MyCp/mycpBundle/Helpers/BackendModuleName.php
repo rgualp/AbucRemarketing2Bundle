@@ -94,7 +94,7 @@ class DataBaseTables {
     const CLIENT_COMMENT = "clientComment";
     const MESSAGE = "message";
     const GENERAL_RESERVATION = "generalReservation";
-
+    const ROLE = "role";
 
 }
 ?>

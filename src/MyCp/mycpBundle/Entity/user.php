@@ -748,4 +748,10 @@ class user implements AdvancedUserInterface,  \Serializable
         return $this;
     }*/
 
+    /*Logs functions*/
+    public function getLogDescription()
+    {
+        return "Usuario ".$this->getUserCompleteName();
+    }
+
 }

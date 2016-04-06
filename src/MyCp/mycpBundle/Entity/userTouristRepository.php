@@ -92,7 +92,7 @@ class userTouristRepository extends EntityRepository
         $user_tourist->getUserTouristUser()->setUserCountry($country);
         $user_tourist->setUserTouristCurrency($currency);
         $user_tourist->setUserTouristLanguage($language);
-        $user_tourist->getUserTouristUser()->setLocked($post['locked']);
+        $user_tourist->getUserTouristUser()->setLocked((array_key_exists("locked", $post) && $post['locked']) ? $post['locked']: false);
 
         if ($post['user_password']['Clave:'] != '') {
             $encoder = $factory->getEncoder($user_tourist->getUserTouristUser());
@@ -122,6 +122,7 @@ class userTouristRepository extends EntityRepository
         }
         $em->persist($user_tourist);
         $em->flush();
+        return $user_tourist;
     }
 
     /**
