@@ -87,6 +87,8 @@ class DataBaseTables {
     const FAQ_CATEGORY = "faqCategory";
     const FAQ_LANG = "faqLang";
     const FAQ = "faq";
+    const INFORMATION = "information";
+    const INFORMATION_LANG = "informationLang";
 
 
 }

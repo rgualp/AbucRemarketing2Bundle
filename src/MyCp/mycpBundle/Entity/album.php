@@ -51,9 +51,6 @@ class album
      */
     private $album_category;
 
-
-    
-
     /**
      * Get album_id
      *

@@ -2,6 +2,8 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use MyCp\mycpBundle\Entity\log;
+use MyCp\mycpBundle\Helpers\DataBaseTables;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,8 +23,8 @@ class BackendGeneralInformationController extends Controller
         $em=$this->getDoctrine()->getManager();
         $informations=$em->getRepository('mycpBundle:informationLang')->getInformations();
         $categories = $em->getRepository('mycpBundle:information')->categoryNames($informations, "ES");
-        $service_log= $this->get('log');
-        $service_log->saveLog('Visit',  BackendModuleName::MODULE_GENERAL_INFORMATION);
+//        $service_log= $this->get('log');
+//        $service_log->saveLog('Visit',  BackendModuleName::MODULE_GENERAL_INFORMATION);
         return $this->render('mycpBundle:generalInformation:list.html.twig',array('informations'=>$informations, "categories"=>$categories));
     }
 
@@ -49,11 +51,6 @@ class BackendGeneralInformationController extends Controller
 
             $count=$count_errors= 0;
             foreach ($post as $item) {
-                /*if($array_keys[$count]=='information_type' && $item == "-1"){
-                    //crear un objeto para validar
-                }
-                else*/
-
                 if($array_keys[$count]!='edit_information' and strpos($array_keys[$count], 'info_name_')!==0 and strpos($array_keys[$count], 'info_content_')!==0)
                 {
                     $errors[$array_keys[$count]] = $errors_validation=$this->get('validator')->validateValue($item, $not_blank_validator);
@@ -66,19 +63,19 @@ class BackendGeneralInformationController extends Controller
             {
                 if(isset($post['edit_information']))
                 {
-                    $em->getRepository('mycpBundle:information')->edit($post);
+                    $information = $em->getRepository('mycpBundle:information')->edit($post);
                     $message='Información actualizada satisfactoriamente.';
                     $this->get('session')->getFlashBag()->add('message_ok',$message);
                     $service_log= $this->get('log');
-                    $service_log->saveLog('Edit entity, '.$post['info_name_'.$languages[0]->getLangId()],BackendModuleName::MODULE_GENERAL_INFORMATION);
+                    $service_log->saveLog($information->getLogDescription(), BackendModuleName::MODULE_GENERAL_INFORMATION, log::OPERATION_UPDATE, DataBaseTables::INFORMATION);
                 }
                 else
                 {
-                    $em->getRepository('mycpBundle:information')->insert($post);
+                    $information = $em->getRepository('mycpBundle:information')->insert($post);
                     $message='Información añadida satisfactoriamente.';
                     $this->get('session')->getFlashBag()->add('message_ok',$message);
                     $service_log= $this->get('log');
-                    $service_log->saveLog('Create entity, '.$post['info_name_'.$languages[0]->getLangId()],BackendModuleName::MODULE_GENERAL_INFORMATION);
+                    $service_log->saveLog($information->getLogDescription(), BackendModuleName::MODULE_GENERAL_INFORMATION, log::OPERATION_INSERT, DataBaseTables::INFORMATION);
                 }
                 return $this->redirect($this->generateUrl('mycp_list_informations'));
             }
@@ -130,12 +127,13 @@ class BackendGeneralInformationController extends Controller
             }
             else
             {
+                $logDescription = $information->getLogDescription();
                 foreach($informations_lang as $information_lang)
                     $em->remove($information_lang);
                 $em->remove($information);
                 $em->flush();
                 $service_log= $this->get('log');
-                $service_log->saveLog('Delete entity, '.$informations_lang[0]->getInfoLangName(),BackendModuleName::MODULE_GENERAL_INFORMATION);
+                $service_log->saveLog($logDescription, BackendModuleName::MODULE_GENERAL_INFORMATION, log::OPERATION_DELETE, DataBaseTables::INFORMATION);
             }
 
         }
