@@ -2,6 +2,7 @@
 
 namespace MyCp\mycpBundle\Controller;
 
+use MyCp\mycpBundle\Helpers\DataBaseTables;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,8 +42,8 @@ class BackendCommentController extends Controller {
         $comments = $paginator->paginate($em->getRepository('mycpBundle:comment')->getAll($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by))->getResult();
         //var_dump($destinations[0]->getDesLocMunicipality()->getMunName()); exit();
 
-        $service_log = $this->get('log');
-        $service_log->saveLog('Visit module', BackendModuleName::MODULE_COMMENT);
+//        $service_log = $this->get('log');
+//        $service_log->saveLog('Visit module', BackendModuleName::MODULE_COMMENT);
         return $this->render('mycpBundle:comment:list.html.twig', array(
                     'comments' => $comments,
                     'items_per_page' => $items_per_page,
@@ -89,7 +90,7 @@ class BackendCommentController extends Controller {
                 $em->flush();
 
                 $service_log = $this->get('log');
-                $service_log->saveLog('Create entity ', BackendModuleName::MODULE_COMMENT);
+                $service_log->saveLog($comment->getLogDescription(), BackendModuleName::MODULE_COMMENT, log::OPERATION_INSERT, DataBaseTables::COMMENT);
 
                 return $this->redirect($this->generateUrl('mycp_list_comments'));
             }
@@ -116,7 +117,7 @@ class BackendCommentController extends Controller {
                 $this->get('session')->getFlashBag()->add('message_ok', $message);
 
                 $service_log = $this->get('log');
-                $service_log->saveLog('Edit entity ', BackendModuleName::MODULE_COMMENT);
+                $service_log->saveLog($comment->getLogDescription(), BackendModuleName::MODULE_COMMENT, log::OPERATION_UPDATE, DataBaseTables::COMMENT);
 
                 if ($return_url == '' || $return_url == 'null' || $return_url == null)
                     return $this->redirect($this->generateUrl('mycp_list_comments'));
@@ -134,15 +135,15 @@ class BackendCommentController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $comment = $em->getRepository('mycpBundle:comment')->find($id_comment);
 
-        $user_comment = $comment->getComUser()->getName();
-        $own_comment = $comment->getComOwnership()->getOwnMcpCode();
+//        $user_comment = $comment->getComUser()->getName();
+//        $own_comment = $comment->getComOwnership()->getOwnMcpCode();
         $em->remove($comment);
         $em->flush();
         $message = 'El comentario se ha eliminado satisfactoriamente.';
         $this->get('session')->getFlashBag()->add('message_ok', $message);
 
         $service_log = $this->get('log');
-        $service_log->saveLog('Delete entity ', BackendModuleName::MODULE_COMMENT);
+        $service_log->saveLog($comment->getLogDescription(), BackendModuleName::MODULE_COMMENT, log::OPERATION_DELETE, DataBaseTables::COMMENT);
 
         if ($return_url == '' || $return_url == 'null' || $return_url == null)
             return $this->redirect($this->generateUrl('mycp_list_comments'));
@@ -179,7 +180,7 @@ class BackendCommentController extends Controller {
         $this->get('session')->getFlashBag()->add('message_ok', $message);
 
         $service_log = $this->get('log');
-        $service_log->saveLog('Edit entity ' . $id_comment, BackendModuleName::MODULE_COMMENT);
+        $service_log->saveLog($comment->getLogDescription()." (Publicado)", BackendModuleName::MODULE_COMMENT, log::OPERATION_UPDATE, DataBaseTables::COMMENT);
 
         if ($return_url == '' || $return_url == 'null' || $return_url == null)
             return $this->redirect($this->generateUrl('mycp_list_comments'));
@@ -215,8 +216,8 @@ class BackendCommentController extends Controller {
         $comments = $paginator->paginate($em->getRepository('mycpBundle:comment')->getLastAdded($filter_ownership, $filter_user, $filter_keyword, $filter_rate, $sort_by))->getResult();
         //var_dump($destinations[0]->getDesLocMunicipality()->getMunName()); exit();
 
-        $service_log = $this->get('log');
-        $service_log->saveLog('Visit module', BackendModuleName::MODULE_COMMENT);
+//        $service_log = $this->get('log');
+//        $service_log->saveLog('Visit module', BackendModuleName::MODULE_COMMENT);
         return $this->render('mycpBundle:comment:list.html.twig', array(
                     'comments' => $comments,
                     'items_per_page' => $items_per_page,
@@ -247,7 +248,7 @@ class BackendCommentController extends Controller {
             $this->get('session')->getFlashBag()->add('message_ok', $message);
 
             $service_log = $this->get('log');
-            $service_log->saveLog('Public '.count($ids).' comments', BackendModuleName::MODULE_COMMENT);
+            $service_log->saveLog("Publicados ".count($ids).' comentarios', BackendModuleName::MODULE_COMMENT, log::OPERATION_UPDATE, DataBaseTables::COMMENT);
 
             $response = $this->generateUrl($returnUrl);
             //return $this->redirect($this->generateUrl($returnUrl));
@@ -274,7 +275,7 @@ class BackendCommentController extends Controller {
             $this->get('session')->getFlashBag()->add('message_ok', $message);
 
             $service_log = $this->get('log');
-            $service_log->saveLog('Delete '.count($ids).' comments', BackendModuleName::MODULE_COMMENT);
+            $service_log->saveLog("Eliminados ".count($ids).' comentarios', BackendModuleName::MODULE_COMMENT, log::OPERATION_DELETE, DataBaseTables::COMMENT);
 
             $response = $this->generateUrl($returnUrl);
             //return $this->redirect($this->generateUrl($returnUrl));

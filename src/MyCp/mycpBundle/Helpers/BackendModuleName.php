@@ -89,6 +89,7 @@ class DataBaseTables {
     const FAQ = "faq";
     const INFORMATION = "information";
     const INFORMATION_LANG = "informationLang";
+    const COMMENT = "comment";
 
 
 }

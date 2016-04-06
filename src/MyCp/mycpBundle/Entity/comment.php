@@ -218,4 +218,10 @@ class comment
     {
         return $this->com_ownership;
     }
+
+    /*Logs functions*/
+    public function getLogDescription()
+    {
+        return "Comentario realizado ".$this->getComDate()->format("d/m/Y")." en alojamiento ".$this->getComOwnership()->getOwnMcpCode()." por ".$this->getComUser()->getUserCompleteName();
+    }
 }
