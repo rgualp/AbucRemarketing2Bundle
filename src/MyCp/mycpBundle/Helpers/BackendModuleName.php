@@ -84,6 +84,10 @@ class DataBaseTables {
     const ALBUM_CATEGORY = "albumCategory";
     const ALBUM = "album";
     const ALBUM_PHOTO = "albumPhoto";
+    const FAQ_CATEGORY = "faqCategory";
+    const FAQ_LANG = "faqLang";
+    const FAQ = "faq";
+
 
 }
 ?>
