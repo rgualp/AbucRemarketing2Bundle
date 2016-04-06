@@ -88,5 +88,10 @@ class accommodationAward
         return $this;
     }
 
+    /*Logs functions*/
+    public function getLogDescription()
+    {
+        return "Premio ".$this->getAward()->getName()." - Alojamiento ".$this->getAccommodation()->getOwnMcpCode();
+    }
 
 }

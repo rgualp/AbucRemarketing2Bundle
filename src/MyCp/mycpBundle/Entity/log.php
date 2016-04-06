@@ -23,6 +23,7 @@ class log
     const OPERATION_LOGIN = 5;
     const OPERATION_LOGOUT = 6;
     const OPERATION_NONE = 7;
+    const OPERATION_REMOVE = 8;
 
     /**
      * Contains all possible statuses
@@ -36,7 +37,8 @@ class log
         self::OPERATION_VISIT,
         self::OPERATION_LOGIN,
         self::OPERATION_LOGOUT,
-        self::OPERATION_NONE
+        self::OPERATION_NONE,
+        self::OPERATION_REMOVE
     );
 
     /**
@@ -266,6 +268,7 @@ class log
             case self::OPERATION_LOGOUT: return "Cerrar sesión";
             case self::OPERATION_UPDATE: return "Actualizar";
             case self::OPERATION_VISIT: return "Visita";
+            case self::OPERATION_REMOVE: return "Remover";
             default: return "(No especificada)";
         }
     }

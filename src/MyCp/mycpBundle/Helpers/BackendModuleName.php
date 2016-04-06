@@ -90,6 +90,7 @@ class DataBaseTables {
     const INFORMATION = "information";
     const INFORMATION_LANG = "informationLang";
     const COMMENT = "comment";
+    const AWARD = "award";
 
 
 }
