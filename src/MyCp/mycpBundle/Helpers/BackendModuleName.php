@@ -95,6 +95,8 @@ class DataBaseTables {
     const MESSAGE = "message";
     const GENERAL_RESERVATION = "generalReservation";
     const ROLE = "role";
+    const CURRENCY = "currency";
+
 
 }
 ?>
