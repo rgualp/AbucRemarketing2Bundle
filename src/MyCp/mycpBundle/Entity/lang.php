@@ -227,4 +227,10 @@ class lang
     {
         return $this->destinationsLang;
     }
+
+    /*Logs functions*/
+    public function getLogDescription()
+    {
+        return "Lenguaje ".$this->getLangCode();
+    }
 }

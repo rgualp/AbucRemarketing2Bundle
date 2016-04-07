@@ -96,6 +96,7 @@ class DataBaseTables {
     const GENERAL_RESERVATION = "generalReservation";
     const ROLE = "role";
     const CURRENCY = "currency";
+    const LANGUAGE = "lang";
 
 
 }
