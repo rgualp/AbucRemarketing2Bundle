@@ -98,6 +98,7 @@ class DataBaseTables {
     const CURRENCY = "currency";
     const LANGUAGE = "lang";
     const SEASON = "season";
-
+    const MAIL_LIST = "mailList";
+    const MAIL_LIST_USER = "mailListUser";
 }
 ?>
