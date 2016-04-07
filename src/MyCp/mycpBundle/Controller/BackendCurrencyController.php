@@ -68,10 +68,13 @@ class BackendCurrencyController extends Controller {
                 if (!$currency->getCurrSitePriceIn()) {
                     $price_in_count = count($em->getRepository("mycpBundle:currency")->findBy(array('curr_site_price_in' => true)));
 
-                    if ($price_in_count == 0)
-                        $errors['curr_site_price_in'] = 'Primero tiene que marcar la moneda en la que están almacenados los precios en la base de datos y la asociación quedará eliminada automáticamente';
+                    if ($price_in_count == 0) {
+                        $message = 'Primero tiene que marcar la moneda en la que están almacenados los precios en la base de datos y la asociación quedará eliminada automáticamente';
+                        $errors['curr_site_price_in'] = $message;
+                        $this->get('session')->getFlashBag()->add('message_error_local', $message);
+                    }
                 }
-                else {
+                //else {
 
                     $message = 'Moneda actualizada satisfactoriamente.';
                     $this->get('session')->getFlashBag()->add('message_ok', $message);
@@ -79,7 +82,7 @@ class BackendCurrencyController extends Controller {
                     $service_log = $this->get('log');
                     $service_log->saveLog($currency->getLogDescription(), BackendModuleName::MODULE_CURRENCY, log::OPERATION_UPDATE, DataBaseTables::CURRENCY);
                     return $this->redirect($this->generateUrl('mycp_list_currencies'));
-                }
+                //}
             }
         }
 
