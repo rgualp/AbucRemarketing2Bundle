@@ -91,4 +91,10 @@ class rolePermission
     public function __toString(){
         return $this->getRpPermission()->getPermDescription();
     }
+
+    /*Logs functions*/
+    public function getLogDescription()
+    {
+        return "Rol ".$this->getRpRole()->getRoleName()." - Permiso ".$this->getRpPermission()->getPermDescription();
+    }
 }
