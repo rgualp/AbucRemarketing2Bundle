@@ -97,7 +97,7 @@ class DataBaseTables {
     const ROLE = "role";
     const CURRENCY = "currency";
     const LANGUAGE = "lang";
-
+    const SEASON = "season";
 
 }
 ?>
