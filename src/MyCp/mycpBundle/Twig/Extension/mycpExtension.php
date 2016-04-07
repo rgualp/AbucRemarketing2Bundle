@@ -2,6 +2,7 @@
 
 namespace MyCp\mycpBundle\Twig\Extension;
 
+use MyCp\mycpBundle\Entity\log;
 use MyCp\mycpBundle\Helpers\BackendModuleName;
 use MyCp\mycpBundle\Entity\season;
 use MyCp\mycpBundle\Entity\ownershipReservation;
@@ -29,6 +30,7 @@ class mycpExtension extends \Twig_Extension {
             new \Twig_SimpleFilter('mailListFunction', array($this, 'mailListFunction')),
             new \Twig_SimpleFilter('season', array($this, 'season')),
             new \Twig_SimpleFilter('user', array($this, 'user')),
+            new \Twig_SimpleFilter('logOperationName', array($this, 'logOperationName')),
         );
     }
 
@@ -36,6 +38,10 @@ class mycpExtension extends \Twig_Extension {
         return array(
             'nights' => new \Twig_Function_Method($this, 'nights'),
         );
+    }
+
+    public function logOperationName($logOperationName) {
+        return log::getOperationName($logOperationName);
     }
 
     public function moduleName($module_number) {

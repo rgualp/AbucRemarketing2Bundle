@@ -49,7 +49,7 @@ class BackendModuleName {
             case BackendModuleName::MODULE_USER: return "Usuarios";
             case BackendModuleName::MODULE_GENERAL_INFORMATION: return "Información General";
             case BackendModuleName::MODULE_COMMENT: return "Comentarios";
-            case BackendModuleName::MODULE_UNAVAILABILITY_DETAILS: return "Detalles de no Disponibilidad";
+            case BackendModuleName::MODULE_UNAVAILABILITY_DETAILS: return "Disponibilidad";
             case BackendModuleName::MODULE_METATAGS: return "Meta Tags";
             case BackendModuleName::MODULE_MUNICIPALITY: return "Municipios";
             case BackendModuleName::MODULE_SEASON: return "Temporadas";
